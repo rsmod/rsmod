@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info" packages="gg.rsmod">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%d{HH:mm:ss.SSS} %-5level] %-20.20c{1} | %msg%n"/>
+        </Console>
+        <File name="File" fileName="error.log" append="false">
+            <PatternLayout pattern="[%d{ISO8601} %-5level] %logger{36} - %msg%n"/>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Root level="debug">
+            <AppenderRef level="error" ref="File"/>
+            <AppenderRef level="all" ref="Console"/>
+        </Root>
+    </Loggers>
+</Configuration>
