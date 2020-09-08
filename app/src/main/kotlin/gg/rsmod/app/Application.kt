@@ -10,6 +10,7 @@ import gg.rsmod.game.cache.CacheModule
 import gg.rsmod.game.cache.GameCache
 import gg.rsmod.game.config.ConfigModule
 import gg.rsmod.game.config.GameConfig
+import gg.rsmod.game.event.EventBus
 import gg.rsmod.game.module.KotlinModuleLoader
 import gg.rsmod.game.plugin.kotlin.KotlinPluginLoader
 import gg.rsmod.game.service.GameServiceList
@@ -44,10 +45,12 @@ class Application {
             NetworkModule(scope),
             *modules.toTypedArray()
         )
+        val eventBus: EventBus = injector.getInstance()
+
         val cache: GameCache = injector.getInstance()
         cache.init()
 
-        val pluginLoader = KotlinPluginLoader(injector)
+        val pluginLoader = KotlinPluginLoader(injector, eventBus)
         val plugins = pluginLoader.load()
         println("Loaded ${plugins.size} plugin(s)")
 
