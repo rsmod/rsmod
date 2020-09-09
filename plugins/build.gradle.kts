@@ -1,6 +1,5 @@
 subprojects {
     group = "gg.rsmod.plugins"
-    version = "186.0-SNAPSHOT"
 }
 
 allprojects {

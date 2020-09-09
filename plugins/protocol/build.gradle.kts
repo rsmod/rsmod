@@ -1,3 +1,5 @@
+version = "186.0-SNAPSHOT"
+
 dependencies {
     implementation(project(":util"))
     implementation(project(":cache"))
