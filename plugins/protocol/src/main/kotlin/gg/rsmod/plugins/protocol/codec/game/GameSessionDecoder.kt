@@ -36,7 +36,7 @@ class GameSessionDecoder(
     }
 
     private fun ByteBuf.readOpcode(out: MutableList<Any>) {
-        opcode = (readUnsignedByte().toInt() - isaacRandom.opcodeModifier) and 0xFF
+        opcode = readModifiedOpcode()
 
         val structure = structures[opcode]
         if (structure == null) {
@@ -84,6 +84,10 @@ class GameSessionDecoder(
         } finally {
             stage = PacketDecodeStage.Opcode
         }
+    }
+
+    private fun ByteBuf.readModifiedOpcode(): Int {
+        return (readUnsignedByte().toInt() - isaacRandom.opcodeModifier) and 0xFF
     }
 
     companion object {
