@@ -25,19 +25,16 @@ class Player(
 
     fun login(eventBus: EventBus) {
         eventBus.publish(LoginEvent(this, LoginEvent.Stage.Priority))
-        eventBus.publish(LoginEvent(this, LoginEvent.Stage.Continue))
+        eventBus.publish(LoginEvent(this, LoginEvent.Stage.Normal))
+        eventBus.publish(LoginEvent(this, LoginEvent.Stage.Delayed))
     }
 
     fun write(packet: ServerPacket) {
-        messageListeners.forEach { listener ->
-            listener.write(packet)
-        }
+        messageListeners.forEach { it.write(packet) }
     }
 
     fun flush() {
-        messageListeners.forEach { listener ->
-            listener.flush()
-        }
+        messageListeners.forEach { it.flush() }
     }
 }
 

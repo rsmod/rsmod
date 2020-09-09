@@ -10,6 +10,7 @@ class LoginEvent(
 
     sealed class Stage {
         object Priority : Stage()
-        object Continue : Stage()
+        object Normal : Stage()
+        object Delayed : Stage()
     }
 }
