@@ -2,7 +2,7 @@ import org.gradle.api.JavaVersion
 
 object ProjectVersions {
     const val RSMOD_VERSION = "0.0.1-SNAPSHOT"
-    const val GUTHIX_BYTEBUF_VERSION = "9efb226d7a"
+    const val GUTHIX_BYTEBUF_VERSION = "0.1.0"
 }
 
 object JvmVersions {
