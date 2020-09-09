@@ -12,4 +12,4 @@ class PlayerEntity(
     val privilege: Int
 ) : Entity()
 
-object NpcEntity : Entity()
+class NpcEntity : Entity()
