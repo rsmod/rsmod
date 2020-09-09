@@ -28,12 +28,7 @@ class GameSessionEncoder(
         }
 
         val opcode = (structure.opcode + isaacRandom.opcodeModifier) and 0xFF
-        val length = when (structure.length) {
-            PacketLength.Short -> 0xFFFF
-            else -> 0xFF
-        }
-
-        val buf = ctx.alloc().buffer(length)
+        val buf = ctx.alloc().buffer()
 
         structure.write(msg, buf)
 
