@@ -3,11 +3,13 @@ package gg.rsmod.plugins.protocol.structure.server
 import gg.rsmod.cache.util.Xtea
 import gg.rsmod.game.model.domain.repo.XteaRepository
 import gg.rsmod.game.message.PacketLength
+import gg.rsmod.game.model.map.Region
 import gg.rsmod.plugins.protocol.DesktopPacketStructure
 import gg.rsmod.plugins.protocol.packet.server.RebuildNormal
 import io.guthix.buffer.toBitMode
 import io.guthix.buffer.writeShortAdd
 import io.guthix.buffer.writeShortAddLE
+import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
 
 val desktopPackets: DesktopPacketStructure by inject()
@@ -34,11 +36,11 @@ serverPackets.register<RebuildNormal> {
     }
 }
 
-fun writeXteas(zoneX: Int, zoneY: Int, xteas: XteaRepository): ByteArray {
-    val lx = (zoneX - (104 shr 4)) shr 3
-    val rx = (zoneX + (104 shr 4)) shr 3
-    val ly = (zoneY - (104 shr 4)) shr 3
-    val ry = (zoneY + (104 shr 4)) shr 3
+fun writeXteas(zoneX: Int, zoneY: Int, xteas: XteaRepository): ByteBuf {
+    val lx = (zoneX - (Region.SIZE shr 4)) shr 3
+    val rx = (zoneX + (Region.SIZE shr 4)) shr 3
+    val ly = (zoneY - (Region.SIZE shr 4)) shr 3
+    val ry = (zoneY + (Region.SIZE shr 4)) shr 3
 
     var emptySurroundings = false
     if ((zoneX / 8 == 48 || zoneX / 8 == 49) && zoneY / 8 == 48
@@ -62,6 +64,5 @@ fun writeXteas(zoneX: Int, zoneY: Int, xteas: XteaRepository): ByteArray {
         }
     }
     buf.setShort(0, regionCount)
-
-    return ByteArray(buf.readableBytes()).apply { buf.readBytes(this) }
+    return buf
 }
