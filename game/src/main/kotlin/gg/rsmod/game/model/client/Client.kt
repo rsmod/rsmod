@@ -23,13 +23,13 @@ data class ClientSettings(
 }
 
 data class ClientMachine(
-        val operatingSystem: OperatingSystem,
-        val is64Bit: Boolean,
-        val osVersion: Int,
-        val javaVendor: JavaVendor,
-        val javaVersion: JavaVersion,
-        val maxMemory: Int,
-        val cpuCount: Int
+    val operatingSystem: OperatingSystem,
+    val is64Bit: Boolean,
+    val osVersion: Int,
+    val javaVendor: JavaVendor,
+    val javaVersion: JavaVersion,
+    val maxMemory: Int,
+    val cpuCount: Int
 )
 
 sealed class OperatingSystem {
