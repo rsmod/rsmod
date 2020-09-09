@@ -28,7 +28,7 @@ data class HandshakeHandlerMap(
         val handler = builder.build()
         val opcode = builder.opcode
         if (handlers.containsKey(opcode)) {
-            error("Handshake with opcode {$opcode}.")
+            error("Handshake with opcode already defined (opcode=$opcode).")
         }
         handlers[opcode] = handler
     }
