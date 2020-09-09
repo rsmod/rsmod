@@ -64,7 +64,7 @@ class LoginDecoder(
         val opcode = buf.readUnsignedByte().toInt()
         val connection = handshakeConnectionType(opcode)
         if (!connection.isValid) {
-            logger.error { "Invalid connection type (type=$connection, channel=${channel()})" }
+            logger.error { "Invalid connection type (opcode=$opcode, type=$connection, channel=${channel()})" }
             channel().writeErrResponse(ResponseType.COULD_NOT_COMPLETE_LOGIN)
             return
         }
