@@ -3,7 +3,7 @@ package gg.rsmod.plugins.protocol.codec.login
 import com.github.michaelbull.logging.InlineLogger
 import gg.rsmod.cache.util.Xtea
 import gg.rsmod.game.config.RsaConfig
-import gg.rsmod.game.model.*
+import gg.rsmod.game.model.client.*
 import gg.rsmod.plugins.protocol.codec.ResponseType
 import gg.rsmod.plugins.protocol.codec.writeErrResponse
 import io.guthix.buffer.readString0CP1252

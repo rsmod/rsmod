@@ -4,8 +4,9 @@ import com.github.michaelbull.logging.InlineLogger
 import com.google.inject.Inject
 import gg.rsmod.game.event.EventBus
 import gg.rsmod.game.event.impl.LoginEvent
-import gg.rsmod.game.model.entity.Player
-import gg.rsmod.game.model.Client
+import gg.rsmod.game.model.mob.Player
+import gg.rsmod.game.model.client.Client
+import gg.rsmod.game.model.client.PlayerEntity
 import gg.rsmod.game.model.domain.repo.XteaRepository
 import gg.rsmod.plugins.protocol.DesktopPacketStructure
 import gg.rsmod.plugins.protocol.Device
@@ -46,6 +47,10 @@ class LoginDispatcher @Inject constructor(
 
         val player = Player(
             loginName = request.username,
+            entity = PlayerEntity(
+                username = request.username,
+                privilege = 0
+            ),
             messageListeners = listOf(
                 ChannelMessageListener(channel)
             )

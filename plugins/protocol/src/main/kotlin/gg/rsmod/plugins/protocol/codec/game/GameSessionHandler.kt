@@ -2,7 +2,7 @@ package gg.rsmod.plugins.protocol.codec.game
 
 import com.github.michaelbull.logging.InlineLogger
 import gg.rsmod.game.message.ClientPacket
-import gg.rsmod.game.model.Client
+import gg.rsmod.game.model.client.Client
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.ChannelInboundHandlerAdapter
 

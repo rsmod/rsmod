@@ -1,7 +1,7 @@
 package gg.rsmod.game.event.impl
 
 import gg.rsmod.game.event.Event
-import gg.rsmod.game.model.entity.Player
+import gg.rsmod.game.model.mob.Player
 
 class LoginEvent(
     val player: Player,
