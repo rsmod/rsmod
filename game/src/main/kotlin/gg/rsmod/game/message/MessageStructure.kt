@@ -37,9 +37,9 @@ class ServerPacketBuilder<T : ServerPacket> {
 
     fun build(): ServerPacketStructure<T> {
         if(opcode == UNINITIALIZED_OPCODE) {
-            error("Server packet structure opcode has not set.")
+            error("Server packet structure opcode has not been set.")
         } else if (!::packetWriter.isInitialized) {
-            error("Server packet structure writer has not set.")
+            error("Server packet structure writer has not been set.")
         }
         return ServerPacketStructure(
             opcode = opcode,
@@ -64,11 +64,11 @@ class ClientPacketBuilder<T : ClientPacket> {
 
     fun build(): List<ClientPacketStructure<T>> {
         if (opcodes.isEmpty()) {
-            error("Client packet structure opcode has not set.")
+            error("Client packet structure opcode has not been set.")
         } else if (!::packetReader.isInitialized) {
-            error("Client packet structure reader has not set.")
+            error("Client packet structure reader has not been set.")
         }
-        val length = length ?: error("Client packet structure length has not set.")
+        val length = length ?: error("Client packet structure length has not been set.")
         return opcodes.map { opcode ->
             ClientPacketStructure(
                 opcode = opcode,
