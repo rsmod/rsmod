@@ -3,7 +3,6 @@ package gg.rsmod.game.message
 import io.netty.buffer.ByteBuf
 
 private const val UNINITIALIZED_OPCODE = -1
-private const val UNINITIALIZED_LENGTH = -1
 
 private typealias PacketWriter<T> = T.(ByteBuf) -> Unit
 private typealias PacketReader<T> = ByteBuf.() -> T
@@ -57,18 +56,19 @@ class ClientPacketBuilder<T : ClientPacket> {
 
     var opcodes = mutableSetOf<Int>()
 
-    var length = UNINITIALIZED_LENGTH
+    var length: Int? = null
 
     fun read(reader: PacketReader<T>) {
         this.packetReader = reader
     }
 
     fun build(): List<ClientPacketStructure<T>> {
-        when {
-            opcodes.isEmpty() -> error("Client packet structure opcode has not set.")
-            length == UNINITIALIZED_LENGTH -> error("Client packet structure length has not set.")
-            !::packetReader.isInitialized -> error("Client packet structure reader has not set.")
+        if (opcodes.isEmpty()) {
+            error("Client packet structure opcode has not set.")
+        } else if (!::packetReader.isInitialized) {
+            error("Client packet structure reader has not set.")
         }
+        val length = length ?: error("Client packet structure length has not set.")
         return opcodes.map { opcode ->
             ClientPacketStructure(
                 opcode = opcode,
