@@ -29,13 +29,13 @@ class GameSessionDecoder(
         out: MutableList<Any>
     ) {
         when (stage) {
-            PacketDecodeStage.Opcode -> buf.readOpcode()
+            PacketDecodeStage.Opcode -> buf.readOpcode(out)
             PacketDecodeStage.Length -> buf.readLength(out)
             PacketDecodeStage.Payload -> buf.readPayload(out)
         }
     }
 
-    private fun ByteBuf.readOpcode() {
+    private fun ByteBuf.readOpcode(out: MutableList<Any>) {
         opcode = (readUnsignedByte().toInt() - isaacRandom.opcodeModifier) and 0xFF
 
         val structure = structures[opcode]
@@ -45,10 +45,12 @@ class GameSessionDecoder(
         }
 
         length = structure.length
-        stage = when {
-            length == 0 -> PacketDecodeStage.Opcode
-            length > 0 -> PacketDecodeStage.Payload
-            else -> PacketDecodeStage.Length
+        when {
+            length == 0 -> {
+                readPayload(out)
+            }
+            length < 0 -> stage = PacketDecodeStage.Length
+            else -> stage = PacketDecodeStage.Payload
         }
     }
 
