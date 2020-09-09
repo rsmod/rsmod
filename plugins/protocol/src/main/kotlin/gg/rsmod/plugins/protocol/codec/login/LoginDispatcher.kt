@@ -2,6 +2,8 @@ package gg.rsmod.plugins.protocol.codec.login
 
 import com.github.michaelbull.logging.InlineLogger
 import com.google.inject.Inject
+import gg.rsmod.game.event.EventBus
+import gg.rsmod.game.event.impl.LoginEvent
 import gg.rsmod.game.model.entity.Player
 import gg.rsmod.game.model.Client
 import gg.rsmod.game.model.domain.repo.XteaRepository
@@ -19,8 +21,9 @@ import gg.rsmod.util.IsaacRandom
 private val logger = InlineLogger()
 
 class LoginDispatcher @Inject constructor(
-    private val desktopStructures: DesktopPacketStructure,
-    private val xteas: XteaRepository
+    private val eventBus: EventBus,
+    private val xteas: XteaRepository,
+    private val desktopStructures: DesktopPacketStructure
 ) {
 
     fun add(request: LoginRequest) {
@@ -106,5 +109,8 @@ class LoginDispatcher @Inject constructor(
 
         player.write(rebuildNormal)
         player.flush()
+
+        eventBus.publish(LoginEvent(player, LoginEvent.Stage.Priority))
+        eventBus.publish(LoginEvent(player, LoginEvent.Stage.Continue))
     }
 }
