@@ -43,15 +43,15 @@ data class LoginSecureBlock(
 }
 
 data class LoginRequest(
-        val channel: Channel,
-        val username: String,
-        val password: String?,
-        val reconnecting: Boolean,
-        val uuid: ByteArray,
-        val authCode: Int?,
-        val xtea: IntArray,
-        val settings: ClientSettings,
-        val machine: ClientMachine
+    val channel: Channel,
+    val username: String,
+    val password: String?,
+    val reconnecting: Boolean,
+    val uuid: ByteArray,
+    val authCode: Int?,
+    val xtea: IntArray,
+    val settings: ClientSettings,
+    val machine: ClientMachine
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
