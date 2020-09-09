@@ -115,7 +115,6 @@ class LoginDispatcher @Inject constructor(
         player.write(rebuildNormal)
         player.flush()
 
-        eventBus.publish(LoginEvent(player, LoginEvent.Stage.Priority))
-        eventBus.publish(LoginEvent(player, LoginEvent.Stage.Continue))
+        player.login(eventBus)
     }
 }

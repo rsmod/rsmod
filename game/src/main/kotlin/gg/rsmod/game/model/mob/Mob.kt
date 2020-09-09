@@ -1,5 +1,7 @@
 package gg.rsmod.game.model.mob
 
+import gg.rsmod.game.event.EventBus
+import gg.rsmod.game.event.impl.LoginEvent
 import gg.rsmod.game.message.MessageListener
 import gg.rsmod.game.message.ServerPacket
 import gg.rsmod.game.model.client.NpcEntity
@@ -20,6 +22,11 @@ class Player(
     var coords: Coordinates
         get() = entity.coords
         set(value) { entity.coords = value }
+
+    fun login(eventBus: EventBus) {
+        eventBus.publish(LoginEvent(this, LoginEvent.Stage.Priority))
+        eventBus.publish(LoginEvent(this, LoginEvent.Stage.Continue))
+    }
 
     fun write(packet: ServerPacket) {
         messageListeners.forEach { listener ->
