@@ -16,7 +16,8 @@ class ServerPacketStructure<T : ServerPacket>(
 class ClientPacketStructure<T : ClientPacket>(
     val opcode: Int,
     val length: Int,
-    val read: PacketReader<T>
+    val read: PacketReader<T>?,
+    val suppress: Boolean
 )
 
 @DslMarker
@@ -52,11 +53,20 @@ class ServerPacketBuilder<T : ServerPacket> {
 @BuilderDslMarker
 class ClientPacketBuilder<T : ClientPacket> {
 
-    private lateinit var packetReader: PacketReader<T>
+    private var packetReader: PacketReader<T>? = null
 
-    var opcodes = mutableSetOf<Int>()
+    private var opcodes = mutableSetOf<Int>()
 
     var length: Int? = null
+
+    var suppress = false
+
+    var opcode: Int = 0
+        set(value) { opcodes.add(value) }
+
+    fun opcodes(init: OpcodeBuilder.() -> Unit) {
+        OpcodeBuilder(opcodes).apply(init)
+    }
 
     fun read(reader: PacketReader<T>) {
         this.packetReader = reader
@@ -65,7 +75,7 @@ class ClientPacketBuilder<T : ClientPacket> {
     fun build(): List<ClientPacketStructure<T>> {
         if (opcodes.isEmpty()) {
             error("Client packet structure opcode has not been set.")
-        } else if (!::packetReader.isInitialized) {
+        } else if (packetReader == null && !suppress) {
             error("Client packet structure reader has not been set.")
         }
         val length = length ?: error("Client packet structure length has not been set.")
@@ -73,8 +83,15 @@ class ClientPacketBuilder<T : ClientPacket> {
             ClientPacketStructure(
                 opcode = opcode,
                 length = length,
-                read = packetReader
+                read = packetReader,
+                suppress = suppress
             )
         }
     }
+}
+
+@BuilderDslMarker
+class OpcodeBuilder(private val opcodes: MutableSet<Int>) {
+    var opcode: Int = 0
+        set(value) { opcodes.add(value) }
 }
