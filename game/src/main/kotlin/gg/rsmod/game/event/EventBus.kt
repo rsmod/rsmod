@@ -6,7 +6,9 @@ import kotlin.reflect.KClass
 private typealias EventMap =
     MutableMap<KClass<out Event>, MutableList<EventAction<*>>>
 
-class EventBus(val events: EventMap) : Map<KClass<out Event>, List<EventAction<*>>> by events {
+class EventBus(
+    val events: EventMap
+) : Map<KClass<out Event>, List<EventAction<*>>> by events {
 
     @Inject
     constructor() : this(mutableMapOf())
