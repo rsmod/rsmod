@@ -27,11 +27,10 @@ class GameSessionEncoder(
             return
         }
 
-        val opcode = (structure.opcode + isaacRandom.opcodeModifier) and 0xFF
         val buf = ctx.alloc().buffer()
+        val opcode = modifyOpcode(structure.opcode)
 
         structure.write(msg, buf)
-
         out.writeByte(opcode)
         if (structure.length == PacketLength.Byte) {
             out.writeByte(buf.writerIndex())
@@ -39,5 +38,9 @@ class GameSessionEncoder(
             out.writeShort(buf.writerIndex())
         }
         out.writeBytes(buf)
+    }
+
+    private fun modifyOpcode(opcode: Int): Int {
+        return (opcode + isaacRandom.opcodeModifier()) and 0xFF
     }
 }

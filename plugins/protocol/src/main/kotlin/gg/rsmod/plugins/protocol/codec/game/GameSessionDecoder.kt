@@ -37,7 +37,6 @@ class GameSessionDecoder(
 
     private fun ByteBuf.readOpcode(out: MutableList<Any>) {
         opcode = readModifiedOpcode()
-
         val structure = structures[opcode]
         if (structure == null) {
             logger.error { "Structure for packet not defined (opcode=$opcode)" }
@@ -45,13 +44,11 @@ class GameSessionDecoder(
         }
 
         length = structure.length
-        when {
-            length == 0 -> {
-                readPayload(out)
-            }
-            length < 0 -> stage = PacketDecodeStage.Length
-            else -> stage = PacketDecodeStage.Payload
+        if (length == 0) {
+            readPayload(out)
+            return
         }
+        stage = if (length < 0) PacketDecodeStage.Length else PacketDecodeStage.Payload
     }
 
     private fun ByteBuf.readLength(out: MutableList<Any>) {
@@ -87,7 +84,7 @@ class GameSessionDecoder(
     }
 
     private fun ByteBuf.readModifiedOpcode(): Int {
-        return (readUnsignedByte().toInt() - isaacRandom.opcodeModifier) and 0xFF
+        return (readUnsignedByte().toInt() - isaacRandom.opcodeModifier()) and 0xFF
     }
 
     companion object {

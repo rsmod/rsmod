@@ -317,10 +317,14 @@ class IsaacRandom {
         return rsl[count]
     }
 
-    val opcodeModifier: Int
-        get() = if (this === ZERO) 0 else nextInt()
+    fun opcodeModifier(): Int = if (this === ZERO) 0 else nextInt()
 
     companion object {
+
+        /**
+         * A constant, uninitialized [IsaacRandom] instance.
+         */
+        val ZERO = IsaacRandom()
 
         /**
          * The golden ratio.
@@ -341,11 +345,6 @@ class IsaacRandom {
          * A mask for pseudorandom lookup.
          */
         private const val MASK = SIZE - 1 shl 2
-
-        /**
-         * A constant, uninitialized [IsaacRandom] instance.
-         */
-        val ZERO = IsaacRandom()
     }
 
 }
