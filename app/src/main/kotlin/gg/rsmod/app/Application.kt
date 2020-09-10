@@ -6,6 +6,7 @@ import com.google.inject.Injector
 import com.google.inject.Scopes
 import dev.misfitlabs.kotlinguice4.getInstance
 import gg.rsmod.game.GameModule
+import gg.rsmod.game.action.ActionMap
 import gg.rsmod.game.cache.CacheModule
 import gg.rsmod.game.cache.GameCache
 import gg.rsmod.game.config.ConfigModule
@@ -14,8 +15,8 @@ import gg.rsmod.game.event.EventBus
 import gg.rsmod.game.module.KotlinModuleLoader
 import gg.rsmod.game.plugin.kotlin.KotlinPluginLoader
 import gg.rsmod.game.service.GameServiceList
-import gg.rsmod.net.channel.ClientChannelInitializer
 import gg.rsmod.net.NetworkModule
+import gg.rsmod.net.channel.ClientChannelInitializer
 import gg.rsmod.net.handshake.HandshakeDecoder
 import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel.nio.NioEventLoopGroup
@@ -46,11 +47,12 @@ class Application {
             *modules.toTypedArray()
         )
         val eventBus: EventBus = injector.getInstance()
+        val actions: ActionMap = injector.getInstance()
 
         val cache: GameCache = injector.getInstance()
         cache.init()
 
-        val pluginLoader = KotlinPluginLoader(injector, eventBus)
+        val pluginLoader = KotlinPluginLoader(injector, eventBus, actions)
         val plugins = pluginLoader.load()
         println("Loaded ${plugins.size} plugin(s)")
 
