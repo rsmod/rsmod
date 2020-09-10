@@ -85,6 +85,7 @@ class GameSessionDecoder(
                 }
             }
         } finally {
+            readAttempts = 0
             stage = PacketDecodeStage.Opcode
         }
     }
