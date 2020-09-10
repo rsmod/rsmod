@@ -1,6 +1,7 @@
 package gg.rsmod.plugins.protocol.codec.game
 
 import com.github.michaelbull.logging.InlineLogger
+import gg.rsmod.game.action.ActionHandlerMap
 import gg.rsmod.game.message.ClientPacketStructureMap
 import gg.rsmod.util.IsaacRandom
 import io.netty.buffer.ByteBuf
@@ -18,6 +19,7 @@ sealed class PacketDecodeStage {
 class GameSessionDecoder(
     private val isaacRandom: IsaacRandom,
     private val structures: ClientPacketStructureMap,
+    private val handlers: ActionHandlerMap,
     private var stage: PacketDecodeStage = PacketDecodeStage.Opcode,
     private var opcode: Int = -1,
     private var length: Int = 0
@@ -52,14 +54,7 @@ class GameSessionDecoder(
     }
 
     private fun ByteBuf.readLength(out: MutableList<Any>) {
-        if (length == SHORT_VARIABLE_LENGTH && readableBytes() < Short.SIZE_BYTES) {
-            return
-        }
-        length = when (length) {
-            BYTE_VARIABLE_LENGTH -> readUnsignedByte().toInt()
-            else -> readUnsignedShort()
-        }
-
+        length = readBytesRequired() ?: return
         if (length == 0) {
             readPayload(out)
         } else {
@@ -74,10 +69,19 @@ class GameSessionDecoder(
         }
         try {
             val structure = structures.getValue(opcode)
-
-            val payload = readBytes(length)
-            val packet = structure.read(payload)
-            // TODO: add packet handler to out list
+            val read = structure.read
+            if (read == null || structure.suppress) {
+                skipBytes(length)
+            } else {
+                val payload = readBytes(length)
+                val packet = read(payload)
+                val handler = handlers[packet]
+                if (handler != null) {
+                    out.add(handler)
+                } else {
+                    logger.error { "Handler for action not defined (action=$packet)" }
+                }
+            }
         } finally {
             stage = PacketDecodeStage.Opcode
         }
@@ -85,6 +89,12 @@ class GameSessionDecoder(
 
     private fun ByteBuf.readModifiedOpcode(): Int {
         return (readUnsignedByte().toInt() - isaacRandom.opcodeModifier()) and 0xFF
+    }
+
+    private fun ByteBuf.readBytesRequired(): Int? = when (length) {
+        BYTE_VARIABLE_LENGTH -> if (readableBytes() < Byte.SIZE_BYTES) null else readUnsignedByte().toInt()
+        SHORT_VARIABLE_LENGTH -> if (readableBytes() < Short.SIZE_BYTES) null else readUnsignedShort()
+        else -> error("Unsupported packet length (length=$length)")
     }
 
     companion object {

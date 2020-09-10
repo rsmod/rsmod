@@ -1,13 +1,13 @@
 package gg.rsmod.game.model.client
 
-import gg.rsmod.game.message.ClientPacket
+import gg.rsmod.game.action.ActionHandler
 import gg.rsmod.game.model.mob.Player
 
 class Client(
     val player: Player,
     val machine: ClientMachine,
     var settings: ClientSettings,
-    val incomingMessages: MutableList<ClientPacket> = mutableListOf()
+    val pendingHandlers: MutableList<ActionHandler<*>> = mutableListOf()
 )
 
 data class ClientSettings(

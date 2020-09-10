@@ -1,7 +1,7 @@
 package gg.rsmod.plugins.protocol.codec.game
 
 import com.github.michaelbull.logging.InlineLogger
-import gg.rsmod.game.message.ClientPacket
+import gg.rsmod.game.action.ActionHandler
 import gg.rsmod.game.model.client.Client
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.ChannelInboundHandlerAdapter
@@ -23,17 +23,17 @@ class GameSessionHandler(
     }
 
     override fun channelRead(ctx: ChannelHandlerContext, msg: Any) {
-        if (msg !is ClientPacket) {
+        if (msg !is ActionHandler<*>) {
             logger.error { "Invalid message type (message=$msg)" }
             return
         }
-        while (client.incomingMessages.size > MAX_CLIENT_MESSAGES) {
-            client.incomingMessages.removeAt(0)
+        while (client.pendingHandlers.size > MAX_ACTION_HANDLERS_PER) {
+            client.pendingHandlers.removeAt(0)
         }
-        client.incomingMessages.add(msg)
+        client.pendingHandlers.add(msg)
     }
 
     companion object {
-        private const val MAX_CLIENT_MESSAGES = 25
+        private const val MAX_ACTION_HANDLERS_PER = 25
     }
 }

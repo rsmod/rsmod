@@ -2,8 +2,8 @@ package gg.rsmod.plugins.protocol.codec.login
 
 import com.github.michaelbull.logging.InlineLogger
 import com.google.inject.Inject
+import gg.rsmod.game.action.ActionHandlerMap
 import gg.rsmod.game.event.EventBus
-import gg.rsmod.game.event.impl.LoginEvent
 import gg.rsmod.game.model.mob.Player
 import gg.rsmod.game.model.client.Client
 import gg.rsmod.game.model.client.PlayerEntity
@@ -24,6 +24,7 @@ private val logger = InlineLogger()
 class LoginDispatcher @Inject constructor(
     private val eventBus: EventBus,
     private val xteas: XteaRepository,
+    private val actionHandlers: ActionHandlerMap,
     private val desktopStructures: DesktopPacketStructure
 ) {
 
@@ -74,7 +75,7 @@ class LoginDispatcher @Inject constructor(
         val encodeIsaac = IsaacRandom()
         encodeIsaac.init(IntArray(xtea.size) { xtea[it] + 50 })
 
-        val decoder = GameSessionDecoder(decodeIsaac, structures.client)
+        val decoder = GameSessionDecoder(decodeIsaac, structures.client, actionHandlers)
         val encoder = GameSessionEncoder(encodeIsaac, structures.server)
         val handler = GameSessionHandler(client)
 
