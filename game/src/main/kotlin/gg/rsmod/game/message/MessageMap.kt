@@ -52,7 +52,7 @@ class ClientPacketStructureMap(
         val builder = ClientPacketBuilder<T>().apply(init)
         val structureList = builder.build()
 
-        logger.debug { "Register client packet structure (length=${structureList[0].length}, opcodes=${structureList.map { it.opcode }})" }
+        logger.debug { "Register client packet structure (opcodes=${structureList.map { it.opcode }}, length=${structureList[0].length})" }
         structureList.forEach { structure ->
             if (structures.containsKey(structure.opcode)) {
                 error("Client packet opcode already has a structure (opcode=${structure.opcode}).")
