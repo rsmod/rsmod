@@ -5,7 +5,12 @@ charset = utf-8
 end_of_line = lf
 trim_trailing_whitespace = true
 insert_final_newline = true
+max_line_length = 120
 
 [*.{kt, kts, gradle}]
 indent_style = space
 indent_size = 4
+
+[*.{yaml,yml}]
+indent_style = space
+indent_size = 2
