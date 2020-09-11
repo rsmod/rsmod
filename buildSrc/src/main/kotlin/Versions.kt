@@ -24,7 +24,7 @@ object DependencyInjectionVersions {
 }
 
 object JacksonVersions {
-    const val JACKSON = "2.5.0"
+    const val JACKSON = "2.11.2"
 }
 
 object NetVersions {
