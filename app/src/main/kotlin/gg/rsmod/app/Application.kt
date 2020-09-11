@@ -40,7 +40,7 @@ class Application {
         val modules = moduleScripts.flatMap { it.modules }
 
         val injector = Guice.createInjector(
-            ConfigModule(),
+            ConfigModule(scope),
             CacheModule(scope),
             GameModule(scope),
             NetworkModule(scope),
@@ -54,12 +54,15 @@ class Application {
 
         val pluginLoader = KotlinPluginLoader(injector, eventBus, actions)
         val plugins = pluginLoader.load()
-        println("Loaded ${plugins.size} plugin(s)")
 
         val services: GameServiceList = injector.getInstance()
         services.forEach { it.start() }
 
         bind(injector)
+
+        val gameConfig: GameConfig = injector.getInstance()
+        logger.info { "Loaded ${plugins.size} plugin(s)" }
+        logger.info { "Loaded game with configuration: $gameConfig" }
     }
 
     private fun bind(injector: Injector) {
