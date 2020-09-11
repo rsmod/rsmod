@@ -3,18 +3,19 @@ package gg.rsmod.plugins.protocol.codec.login
 import com.github.michaelbull.logging.InlineLogger
 import com.google.inject.Inject
 import gg.rsmod.game.action.ActionHandlerMap
+import gg.rsmod.game.config.RsaConfig
 import gg.rsmod.game.event.EventBus
-import gg.rsmod.game.model.mob.Player
 import gg.rsmod.game.model.client.Client
 import gg.rsmod.game.model.client.PlayerEntity
 import gg.rsmod.game.model.domain.repo.XteaRepository
+import gg.rsmod.game.model.mob.Player
 import gg.rsmod.plugins.protocol.DesktopPacketStructure
 import gg.rsmod.plugins.protocol.Device
 import gg.rsmod.plugins.protocol.codec.HandshakeConstants
-import gg.rsmod.plugins.protocol.codec.game.GameSessionEncoder
-import gg.rsmod.plugins.protocol.codec.game.GameSessionHandler
 import gg.rsmod.plugins.protocol.codec.game.ChannelMessageListener
 import gg.rsmod.plugins.protocol.codec.game.GameSessionDecoder
+import gg.rsmod.plugins.protocol.codec.game.GameSessionEncoder
+import gg.rsmod.plugins.protocol.codec.game.GameSessionHandler
 import gg.rsmod.plugins.protocol.packet.server.InitializeGpi
 import gg.rsmod.plugins.protocol.packet.server.RebuildNormal
 import gg.rsmod.util.IsaacRandom
@@ -22,6 +23,7 @@ import gg.rsmod.util.IsaacRandom
 private val logger = InlineLogger()
 
 class LoginDispatcher @Inject constructor(
+    private val rsaConfig: RsaConfig,
     private val eventBus: EventBus,
     private val xteas: XteaRepository,
     private val actionHandlers: ActionHandlerMap,
@@ -69,11 +71,13 @@ class LoginDispatcher @Inject constructor(
             else -> TODO()
         }
 
-        val decodeIsaac = IsaacRandom()
-        decodeIsaac.init(xtea)
+        val decodeIsaac = if (!rsaConfig.isEnabled) IsaacRandom.ZERO else IsaacRandom()
+        val encodeIsaac = if (!rsaConfig.isEnabled) IsaacRandom.ZERO else IsaacRandom()
 
-        val encodeIsaac = IsaacRandom()
-        encodeIsaac.init(IntArray(xtea.size) { xtea[it] + 50 })
+        if (rsaConfig.isEnabled) {
+            decodeIsaac.init(xtea)
+            encodeIsaac.init(IntArray(xtea.size) { xtea[it] + 50 })
+        }
 
         val decoder = GameSessionDecoder(decodeIsaac, structures.client, actionHandlers)
         val encoder = GameSessionEncoder(encodeIsaac, structures.server)
