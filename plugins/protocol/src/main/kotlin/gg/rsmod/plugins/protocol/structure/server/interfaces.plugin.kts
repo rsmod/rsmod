@@ -6,16 +6,16 @@ import gg.rsmod.plugins.protocol.packet.server.IfOpenTop
 import io.guthix.buffer.writeIntIME
 
 val desktopPackets: DesktopPacketStructure by inject()
-val serverPackets = desktopPackets.server
+val packets = desktopPackets.server
 
-serverPackets.register<IfOpenTop> {
+packets.register<IfOpenTop> {
     opcode = 46
     write {
         it.writeShort(interfaceId)
     }
 }
 
-serverPackets.register<IfOpenSub> {
+packets.register<IfOpenSub> {
     opcode = 40
     write {
         it.writeShort(interfaceId)

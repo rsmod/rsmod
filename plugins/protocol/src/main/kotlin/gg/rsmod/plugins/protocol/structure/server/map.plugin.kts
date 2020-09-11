@@ -1,8 +1,8 @@
 package gg.rsmod.plugins.protocol.structure.server
 
 import gg.rsmod.cache.util.Xtea
-import gg.rsmod.game.model.domain.repo.XteaRepository
 import gg.rsmod.game.message.PacketLength
+import gg.rsmod.game.model.domain.repo.XteaRepository
 import gg.rsmod.game.model.map.Region
 import gg.rsmod.plugins.protocol.DesktopPacketStructure
 import gg.rsmod.plugins.protocol.packet.server.RebuildNormal
@@ -13,9 +13,9 @@ import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
 
 val desktopPackets: DesktopPacketStructure by inject()
-val serverPackets = desktopPackets.server
+val packets = desktopPackets.server
 
-serverPackets.register<RebuildNormal> {
+packets.register<RebuildNormal> {
     opcode = 8
     length = PacketLength.Short
     write {
