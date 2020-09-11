@@ -1,6 +1,10 @@
 dependencies {
     /* security dependencies */
     implementation("org.bouncycastle:bcprov-jdk15on:${SecurityVersions.BOUNCYCASTLE}")
+
+    /* jackson dependencies */
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:${JacksonVersions.JACKSON}")
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${JacksonVersions.JACKSON}")
 }
 
 tasks.create<JavaExec>("createRsa") {
