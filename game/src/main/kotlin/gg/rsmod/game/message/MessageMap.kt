@@ -11,7 +11,7 @@ private typealias ClientPacketStructures = MutableMap<Int, ClientPacketStructure
 
 class ServerPacketStructureMap(
     val structures: ServerPacketStructures
-) : ServerPacketStructures by structures {
+) : Map<KClass<out ServerPacket>, ServerPacketStructure<*>> by structures {
 
     @Inject
     constructor() : this(mutableMapOf())
@@ -41,7 +41,7 @@ class ServerPacketStructureMap(
 
 class ClientPacketStructureMap(
     private val structures: ClientPacketStructures
-) : ClientPacketStructures by structures {
+) : Map<Int, ClientPacketStructure<*>> by structures {
 
     @Inject
     constructor() : this(mutableMapOf())
