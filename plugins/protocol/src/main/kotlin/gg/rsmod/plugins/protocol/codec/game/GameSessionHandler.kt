@@ -13,9 +13,9 @@ class GameSessionHandler(
     private val client: Client
 ) : ChannelInboundHandlerAdapter() {
 
-    override fun channelRegistered(ctx: ChannelHandlerContext) {
+    override fun handlerAdded(ctx: ChannelHandlerContext) {
         logger.debug { "Channel registered (username=${client.player.username}, channel=${ctx.channel()})" }
-        super.channelRegistered(ctx)
+        super.handlerAdded(ctx)
     }
 
     override fun channelUnregistered(ctx: ChannelHandlerContext) {

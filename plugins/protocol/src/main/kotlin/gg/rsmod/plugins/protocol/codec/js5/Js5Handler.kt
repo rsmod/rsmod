@@ -12,9 +12,9 @@ class Js5Handler @Inject constructor(
     private val dispatcher: Js5Dispatcher
 ) : ChannelInboundHandlerAdapter() {
 
-    override fun channelRegistered(ctx: ChannelHandlerContext) {
+    override fun handlerAdded(ctx: ChannelHandlerContext) {
         logger.debug { "Channel registered (channel=${ctx.channel()})" }
-        super.channelRegistered(ctx)
+        super.handlerAdded(ctx)
     }
 
     override fun channelUnregistered(ctx: ChannelHandlerContext) {
