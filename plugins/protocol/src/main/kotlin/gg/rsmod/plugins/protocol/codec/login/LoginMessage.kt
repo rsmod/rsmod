@@ -86,7 +86,6 @@ data class LoginRequest(
         result = 31 * result + machine.hashCode()
         return result
     }
-
 }
 
 sealed class LoginResponse(val type: LoginResponseType)
