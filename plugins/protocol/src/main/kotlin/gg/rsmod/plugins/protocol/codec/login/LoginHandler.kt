@@ -2,6 +2,7 @@ package gg.rsmod.plugins.protocol.codec.login
 
 import com.github.michaelbull.logging.InlineLogger
 import com.google.inject.Inject
+import gg.rsmod.plugins.protocol.codec.exceptionCaught
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.ChannelInboundHandlerAdapter
 
@@ -17,5 +18,9 @@ class LoginHandler @Inject constructor(
             return
         }
         dispatcher.add(msg)
+    }
+
+    override fun exceptionCaught(ctx: ChannelHandlerContext, cause: Throwable) {
+        ctx.exceptionCaught(cause)
     }
 }

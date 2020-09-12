@@ -3,6 +3,7 @@ package gg.rsmod.plugins.protocol.codec.game
 import com.github.michaelbull.logging.InlineLogger
 import gg.rsmod.game.action.ActionHandler
 import gg.rsmod.game.model.client.Client
+import gg.rsmod.plugins.protocol.codec.exceptionCaught
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.ChannelInboundHandlerAdapter
 
@@ -31,6 +32,10 @@ class GameSessionHandler(
             client.pendingHandlers.removeAt(0)
         }
         client.pendingHandlers.add(msg)
+    }
+
+    override fun exceptionCaught(ctx: ChannelHandlerContext, cause: Throwable) {
+        ctx.exceptionCaught(cause)
     }
 
     companion object {

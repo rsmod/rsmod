@@ -2,6 +2,7 @@ package gg.rsmod.plugins.protocol.codec.js5
 
 import com.github.michaelbull.logging.InlineLogger
 import com.google.inject.Inject
+import gg.rsmod.plugins.protocol.codec.exceptionCaught
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.ChannelInboundHandlerAdapter
 
@@ -28,5 +29,9 @@ class Js5Handler @Inject constructor(
         }
         logger.trace { "Add JS5 request (request=$msg, channel=${ctx.channel()})" }
         dispatcher.add(ctx.channel(), msg)
+    }
+
+    override fun exceptionCaught(ctx: ChannelHandlerContext, cause: Throwable) {
+        ctx.exceptionCaught(cause)
     }
 }
