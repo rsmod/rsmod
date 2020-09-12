@@ -2,6 +2,8 @@ package gg.rsmod.plugins.protocol.codec.login
 
 import gg.rsmod.game.model.client.ClientMachine
 import gg.rsmod.game.model.client.ClientSettings
+import gg.rsmod.plugins.protocol.packet.server.PlayerInfo
+import gg.rsmod.util.IsaacRandom
 import io.netty.channel.Channel
 
 /**
@@ -84,7 +86,10 @@ data class LoginRequest(
         result = 31 * result + machine.hashCode()
         return result
     }
+
 }
+
+sealed class LoginResponse(val type: LoginResponseType)
 
 /**
  * Represents a server-response to a successful log in request.
@@ -95,7 +100,25 @@ data class LoginRequest(
  * @param privilege the privilege level of the player associated
  * with the channel.
  */
-data class LoginResponse(
+data class LoginNormalResponse(
+    val playerIndex: Int,
     val privilege: Int,
-    val playerIndex: Int
-)
+    val moderator: Boolean,
+    val rememberDevice: Boolean,
+    val members: Boolean,
+    val encodeIsaac: IsaacRandom
+) : LoginResponse(LoginResponseType.NORMAL)
+
+data class LoginReconnectResponse(
+    val gpi: PlayerInfo
+) : LoginResponse(LoginResponseType.RECONNECT)
+
+data class LoginTransferResponse(
+    val secondsLeft: Int
+) : LoginResponse(LoginResponseType.PROFILE_TRANSFER)
+
+class LoginRestartResponse : LoginResponse(LoginResponseType.RESTART_DECODER)
+
+data class LoginErrorResponse(
+    val errors: List<String>
+) : LoginResponse(LoginResponseType.CUSTOM_ERROR)

@@ -6,7 +6,6 @@ import gg.rsmod.game.model.domain.repo.XteaRepository
 import gg.rsmod.game.model.map.Region
 import gg.rsmod.plugins.protocol.DesktopPacketStructure
 import gg.rsmod.plugins.protocol.packet.server.RebuildNormal
-import io.guthix.buffer.toBitMode
 import io.guthix.buffer.writeShortAdd
 import io.guthix.buffer.writeShortAddLE
 import io.netty.buffer.ByteBuf
@@ -20,16 +19,7 @@ packets.register<RebuildNormal> {
     length = PacketLength.Short
     write {
         val xtea = writeXteas(zoneX, zoneY, xteas)
-        val buf = if (gpi != null) {
-            val bitBuf = it.toBitMode()
-            bitBuf.writeBits(gpi.playerCoordsAs30Bits, 30)
-            gpi.otherPlayerCoords.forEach { coords ->
-                bitBuf.writeBits(coords, 18)
-            }
-            bitBuf.toByteMode()
-        } else {
-            it
-        }
+        val buf = gpi?.write(it) ?: it
         buf.writeShortAdd(zoneY)
         buf.writeShortAddLE(zoneX)
         buf.writeBytes(xtea)
