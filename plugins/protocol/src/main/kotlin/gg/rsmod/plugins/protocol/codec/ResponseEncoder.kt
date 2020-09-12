@@ -21,12 +21,15 @@ fun Channel.writeAcceptedResponse() {
 
 enum class ResponseType(val id: Int) {
     ACCEPTED(id = 0),
+    ERROR_CONNECTING(id = -2),
     BAD_CREDENTIALS(id = 3),
     JS5_OUT_OF_DATE(id = 6),
     WORLD_FULL(id = 9),
     BAD_SESSION_ID(id = 10),
     COULD_NOT_COMPLETE_LOGIN(id = 13),
-    ACCOUNT_LOCKED(id = 18);
+    TOO_MANY_ATTEMPTS(id = 16),
+    ACCOUNT_LOCKED(id = 18),
+    MACHINE_INFO_HEADER(id = 68);
 }
 
 @ChannelHandler.Sharable

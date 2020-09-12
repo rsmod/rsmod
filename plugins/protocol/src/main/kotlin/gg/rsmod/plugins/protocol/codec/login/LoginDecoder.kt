@@ -69,7 +69,7 @@ class LoginDecoder(
         val connection = handshakeConnectionType(opcode)
         if (!connection.isValid) {
             logger.error { "Invalid connection type (opcode=$opcode, type=$connection, channel=${channel()})" }
-            channel().writeErrResponse(ResponseType.COULD_NOT_COMPLETE_LOGIN)
+            channel().writeErrResponse(ResponseType.ERROR_CONNECTING)
             return
         }
         stage = LoginStage.Header
@@ -83,7 +83,7 @@ class LoginDecoder(
         payloadLength = buf.readUnsignedShort()
         if (payloadLength == 0) {
             logger.error { "Invalid payload length - must be greater than 0" }
-            channel().writeErrResponse(ResponseType.COULD_NOT_COMPLETE_LOGIN)
+            channel().writeErrResponse(ResponseType.JS5_OUT_OF_DATE)
             return
         }
         channel().clearReadAttempts()
@@ -112,7 +112,7 @@ class LoginDecoder(
         val constant = buf.readInt()
         if (constant != 1) {
             logger.debug { "Invalid constant value (constant=$constant, channel=${channel()})" }
-            channel().writeErrResponse(ResponseType.BAD_SESSION_ID)
+            channel().writeErrResponse(ResponseType.JS5_OUT_OF_DATE)
             return
         }
 
@@ -195,9 +195,11 @@ class LoginDecoder(
         val xtea = secureBlock.xtea
 
         val username = buf.readStringCP1252()
+        // TODO: sanitize username
+        // on username too long, "invalid credentials"
         if (username.isBlank()) {
             logger.error { "Invalid blank username input (channel=${channel()})" }
-            channel().writeErrResponse(ResponseType.BAD_CREDENTIALS)
+            channel().writeErrResponse(ResponseType.TOO_MANY_ATTEMPTS)
             return
         }
 
@@ -211,7 +213,7 @@ class LoginDecoder(
         val machineInfoHeader = buf.readUnsignedByte().toInt()
         if (machineInfoHeader != MACHINE_INFO_HEADER_VALUE) {
             logger.error { "Invalid machine info header (username=$username, channel=${channel()})" }
-            channel().writeErrResponse(ResponseType.BAD_SESSION_ID)
+            channel().writeErrResponse(ResponseType.MACHINE_INFO_HEADER)
             return
         }
 
