@@ -19,6 +19,10 @@ class Player(
     val username: String
         get() = entity.username
 
+    var index: Int
+        get() = entity.index
+        set(value) { entity.index = value }
+
     var coords: Coordinates
         get() = entity.coords
         set(value) { entity.coords = value }
@@ -40,4 +44,13 @@ class Player(
 
 class Npc(
     val entity: NpcEntity
-) : Mob()
+) : Mob() {
+
+    var index: Int
+        get() = entity.index
+        set(value) { entity.index = value }
+
+    var coords: Coordinates
+        get() = entity.coords
+        set(value) { entity.coords = value }
+}
