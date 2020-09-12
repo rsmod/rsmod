@@ -346,5 +346,4 @@ class IsaacRandom {
          */
         private const val MASK = SIZE - 1 shl 2
     }
-
 }

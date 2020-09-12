@@ -37,7 +37,7 @@ class ServerPacketBuilder<T : ServerPacket> {
     }
 
     fun build(): ServerPacketStructure<T> {
-        if(opcode == UNINITIALIZED_OPCODE) {
+        if (opcode == UNINITIALIZED_OPCODE) {
             error("Server packet structure opcode has not been set.")
         } else if (!::packetWriter.isInitialized) {
             error("Server packet structure writer has not been set.")

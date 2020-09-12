@@ -1,7 +1,6 @@
 package gg.rsmod.game.module
 
 import com.google.inject.Scope
-import dev.misfitlabs.kotlinguice4.KotlinModule
 import io.github.classgraph.ClassGraph
 
 class KotlinModuleLoader(

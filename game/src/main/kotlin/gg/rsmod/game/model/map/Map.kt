@@ -15,7 +15,7 @@ inline class Coordinates(private val packed: Int) {
         get() = (y and 0x3FFF) or ((x and 0x3FFF) shl 14) or ((plane and 0x3) shl 28)
 
     constructor(x: Int, y: Int, plane: Int = 0) :
-            this((x and 0x7FFF) or ((y and 0x7FFF) shl 15) or (plane shl 30))
+        this((x and 0x7FFF) or ((y and 0x7FFF) shl 15) or (plane shl 30))
 
     fun translate(xOffset: Int, yOffset: Int, planeOffset: Int): Coordinates =
         Coordinates(x + xOffset, y + yOffset, plane + planeOffset)
@@ -49,7 +49,7 @@ inline class ZoneKey(private val packed: Int) {
         get() = (packed shr 30)
 
     constructor(x: Int, y: Int, plane: Int = 0) :
-            this((x and 0x7FFF) or ((y and 0x7FFF) shl 15) or (plane shl 30))
+        this((x and 0x7FFF) or ((y and 0x7FFF) shl 15) or (plane shl 30))
 
     fun toZone() = Zone(Coordinates(x shl 3, y shl 3, plane))
 }

@@ -1,6 +1,5 @@
 package gg.rsmod.util
 
-import com.github.michaelbull.logging.InlineLogger
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.bouncycastle.util.io.pem.PemObject
 import org.bouncycastle.util.io.pem.PemWriter

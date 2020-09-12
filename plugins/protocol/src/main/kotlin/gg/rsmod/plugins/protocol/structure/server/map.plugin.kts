@@ -43,8 +43,7 @@ fun writeXteas(zoneX: Int, zoneY: Int, xteas: XteaRepository): ByteBuf {
     val ry = (zoneY + (Region.SIZE shr 4)) shr 3
 
     var emptySurroundings = false
-    if ((zoneX / 8 == 48 || zoneX / 8 == 49) && zoneY / 8 == 48
-        || zoneX / 8 == 48 && zoneY / 8 == 148) {
+    if ((zoneX / 8 == 48 || zoneX / 8 == 49) && zoneY / 8 == 48 || zoneX / 8 == 48 && zoneY / 8 == 148) {
         emptySurroundings = true
     }
 

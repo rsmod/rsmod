@@ -36,7 +36,10 @@ class Js5Decoder(
     private fun Channel.readHandshake(buf: ByteBuf) {
         val clientRevision = buf.readInt()
         if (clientRevision < revision) {
-            logger.info { "Handshake revision out-of-date (clientRevision=$clientRevision, serverRevision=$revision, channel=$this)" }
+            logger.info {
+                "Handshake revision out-of-date " +
+                    "(clientRevision=$clientRevision, serverRevision=$revision, channel=$this)"
+            }
             writeErrResponse(ResponseType.JS5_OUT_OF_DATE)
             return
         }
@@ -54,8 +57,8 @@ class Js5Decoder(
             NORMAL_FILE_REQUEST -> buf.readFileRequest(out, urgent = false)
             URGENT_FILE_REQUEST -> buf.readFileRequest(out, urgent = true)
             CLIENT_INIT_GAME,
-                CLIENT_LOAD_SCREEN,
-                CLIENT_INIT_OPCODE -> buf.skipBytes(3)
+            CLIENT_LOAD_SCREEN,
+            CLIENT_INIT_OPCODE -> buf.skipBytes(3)
             else -> {
                 logger.error { "Unhandled file request (opcode=$opcode, channel=$this)" }
                 buf.skipBytes(buf.readableBytes())

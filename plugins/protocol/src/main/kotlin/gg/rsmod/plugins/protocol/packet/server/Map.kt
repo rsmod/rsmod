@@ -1,7 +1,7 @@
 package gg.rsmod.plugins.protocol.packet.server
 
-import gg.rsmod.game.model.domain.repo.XteaRepository
 import gg.rsmod.game.message.ServerPacket
+import gg.rsmod.game.model.domain.repo.XteaRepository
 
 data class RebuildNormal(
     val gpi: InitializeGpi?,

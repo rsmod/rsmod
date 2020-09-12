@@ -3,7 +3,11 @@ package gg.rsmod.plugins.protocol.codec.login
 import com.github.michaelbull.logging.InlineLogger
 import gg.rsmod.cache.util.Xtea
 import gg.rsmod.game.config.RsaConfig
-import gg.rsmod.game.model.client.*
+import gg.rsmod.game.model.client.ClientMachine
+import gg.rsmod.game.model.client.ClientSettings
+import gg.rsmod.game.model.client.JavaVendor
+import gg.rsmod.game.model.client.JavaVersion
+import gg.rsmod.game.model.client.OperatingSystem
 import gg.rsmod.plugins.protocol.codec.ResponseType
 import gg.rsmod.plugins.protocol.codec.writeErrResponse
 import io.guthix.buffer.readString0CP1252
@@ -97,7 +101,10 @@ class LoginDecoder(
 
         val clientRevision = buf.readInt()
         if (clientRevision != revision) {
-            logger.debug { "Client revision mismatch (clientRevision=$clientRevision, serverRevision=$revision, channel=${channel()})" }
+            logger.debug {
+                "Client revision mismatch " +
+                    "(clientRevision=$clientRevision, serverRevision=$revision, channel=${channel()})"
+            }
             channel().writeErrResponse(ResponseType.JS5_OUT_OF_DATE)
             return
         }
@@ -219,7 +226,10 @@ class LoginDecoder(
             val received = crcs[i]
             val expected = cacheCrcs[i]
             if (received > 0 && received != expected) {
-                logger.debug { "Cache crc out-of-date (archive=$i, clientCrc=$received, serverCrc=$expected, username=$username, channel=${channel()})" }
+                logger.debug {
+                    "Cache crc out-of-date " +
+                        "(archive=$i, client=$received, server=$expected, username=$username, channel=${channel()})"
+                }
                 channel().writeErrResponse(ResponseType.JS5_OUT_OF_DATE)
                 return
             }
@@ -303,10 +313,12 @@ class LoginDecoder(
     private fun Channel.incrementReadAttempts() {
         readAttempts++
         if (readAttempts >= MAX_READ_ATTEMPTS) {
-            logger.debug { "Read attempt limit reached... dropping connection (channel=$this)" }
+            logger.debug {
+                "Read attempt limit reached... dropping connection (channel=$this)"
+            }
             writeErrResponse(ResponseType.COULD_NOT_COMPLETE_LOGIN)
         } else {
-            logger.debug { "Increment read attempts (attempts=${readAttempts}, channel=$this)" }
+            logger.debug { "Increment read attempts (attempts=$readAttempts, channel=$this)" }
         }
     }
 

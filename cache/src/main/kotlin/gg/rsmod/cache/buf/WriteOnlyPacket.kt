@@ -312,7 +312,7 @@ internal class WriteOnlyPacket(private val buffer: ByteArray) {
      * [setBitMode] must be enabled before calling this function.
      */
     fun pbits(value: Int, numBits: Int) {
-        if(bitPosition == DISABLED_BIT_POSITION) {
+        if (bitPosition == DISABLED_BIT_POSITION) {
             error("Bit mode must be enabled")
         } else if (numBits !in 1..Int.SIZE_BITS) {
             error("Number of bits must be between [1-32]")
@@ -327,7 +327,7 @@ internal class WriteOnlyPacket(private val buffer: ByteArray) {
         var spaceRequired = bytePosition - position + 1
         spaceRequired += (numberOfBits + 7) shr 3
 
-        if(writableBytes < spaceRequired) {
+        if (writableBytes < spaceRequired) {
             error("Not enough writable bytes to continue (required=$spaceRequired, left=$writableBytes)")
         }
 

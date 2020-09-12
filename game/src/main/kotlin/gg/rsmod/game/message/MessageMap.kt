@@ -26,7 +26,10 @@ class ServerPacketStructureMap(
             error("Server packet type already has a structure (packet=${T::class.simpleName}).")
         }
 
-        logger.debug { "Register server packet structure (packet=${T::class.simpleName}, opcode=${structure.opcode}, length=${structure.length})" }
+        logger.debug {
+            "Register server packet structure " +
+                "(packet=${T::class.simpleName}, opcode=${structure.opcode}, length=${structure.length})"
+        }
         structures[T::class] = structure
     }
 
@@ -52,7 +55,10 @@ class ClientPacketStructureMap(
         val builder = ClientPacketBuilder<T>().apply(init)
         val structureList = builder.build()
 
-        logger.debug { "Register client packet structure (opcodes=${structureList.map { it.opcode }}, length=${structureList[0].length})" }
+        logger.debug {
+            "Register client packet structure " +
+                "(opcodes=${structureList.map { it.opcode }}, length=${structureList[0].length})"
+        }
         structureList.forEach { structure ->
             if (structures.containsKey(structure.opcode)) {
                 error("Client packet opcode already has a structure (opcode=${structure.opcode}).")

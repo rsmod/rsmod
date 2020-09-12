@@ -1,7 +1,8 @@
 package gg.rsmod.plugins.protocol
 
 import com.google.inject.Inject
-import gg.rsmod.game.message.*
+import gg.rsmod.game.message.ClientPacketStructureMap
+import gg.rsmod.game.message.ServerPacketStructureMap
 
 sealed class Device {
     object Ios : Device()
