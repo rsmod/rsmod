@@ -5,6 +5,8 @@ import dev.misfitlabs.kotlinguice4.KotlinModule
 import gg.rsmod.game.action.ActionHandlerMap
 import gg.rsmod.game.action.ActionMap
 import gg.rsmod.game.event.EventBus
+import gg.rsmod.game.model.mob.NpcList
+import gg.rsmod.game.model.mob.PlayerList
 import gg.rsmod.game.service.GameServiceList
 
 class GameModule(private val scope: Scope) : KotlinModule() {
@@ -20,6 +22,12 @@ class GameModule(private val scope: Scope) : KotlinModule() {
             .`in`(scope)
 
         bind<ActionMap>()
+            .`in`(scope)
+
+        bind<PlayerList>()
+            .`in`(scope)
+
+        bind<NpcList>()
             .`in`(scope)
     }
 }
