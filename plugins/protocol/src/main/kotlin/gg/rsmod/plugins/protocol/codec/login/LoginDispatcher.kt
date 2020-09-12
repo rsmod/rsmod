@@ -48,7 +48,7 @@ class LoginDispatcher @Inject constructor(
         val player = Player(
             loginName = username,
             entity = PlayerEntity(
-                username = request.username,
+                username = username,
                 privilege = 0
             ),
             messageListeners = listOf(

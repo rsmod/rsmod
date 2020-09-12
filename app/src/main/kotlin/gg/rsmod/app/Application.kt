@@ -58,11 +58,11 @@ class Application {
         val services: GameServiceList = injector.getInstance()
         services.forEach { it.start() }
 
-        bind(injector)
-
         val gameConfig: GameConfig = injector.getInstance()
         logger.info { "Loaded ${plugins.size} plugin(s)" }
         logger.info { "Loaded game with configuration: $gameConfig" }
+
+        bind(injector)
     }
 
     private fun bind(injector: Injector) {

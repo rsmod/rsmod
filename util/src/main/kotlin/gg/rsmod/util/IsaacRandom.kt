@@ -320,7 +320,6 @@ class IsaacRandom {
     fun opcodeModifier(): Int = if (this === ZERO) 0 else nextInt()
 
     companion object {
-
         /**
          * A constant, uninitialized [IsaacRandom] instance.
          */
