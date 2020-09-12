@@ -27,8 +27,8 @@ class ServerPacketStructureMap(
         }
 
         logger.debug {
-            "Register server packet structure " +
-                "(packet=${T::class.simpleName}, opcode=${structure.opcode}, length=${structure.length})"
+            "Register server packet structure (packet=${T::class.simpleName}, " +
+                "opcode=${structure.opcode}, length=${structure.length::class.simpleName})"
         }
         structures[T::class] = structure
     }
