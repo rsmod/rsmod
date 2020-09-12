@@ -9,6 +9,8 @@ val handshakes: HandshakeHandlerMap by inject()
 val dispatcher: Js5Dispatcher by inject()
 val gameConfig: GameConfig by inject()
 
+dispatcher.cacheResponses()
+
 handshakes.register {
     opcode = HandshakeConstants.INIT_JS5REMOTE_CONNECTION
     decoder {

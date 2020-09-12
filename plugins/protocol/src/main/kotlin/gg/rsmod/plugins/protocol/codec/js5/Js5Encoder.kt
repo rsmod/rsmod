@@ -17,6 +17,8 @@ object Js5Encoder : MessageToByteEncoder<Js5Response>() {
         logger.trace { "Encode JS5 response (message=$msg, channel=${ctx.channel()})" }
         out.writeByte(msg.archive)
         out.writeShort(msg.group)
+        out.writeByte(msg.compressionType)
+        out.writeInt(msg.compressedLength)
         msg.data.forEach { byte ->
             if (out.writerIndex() % BLOCK_LENGTH == 0) {
                 /* Notify the client that we're done writing a single block */

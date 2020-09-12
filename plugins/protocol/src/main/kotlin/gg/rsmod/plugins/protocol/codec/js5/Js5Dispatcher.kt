@@ -3,22 +3,31 @@ package gg.rsmod.plugins.protocol.codec.js5
 import com.github.michaelbull.logging.InlineLogger
 import com.google.inject.Inject
 import gg.rsmod.game.cache.GameCache
-import io.netty.buffer.Unpooled
+import io.guthix.js5.container.Js5Store
 import io.netty.channel.Channel
-import net.runelite.cache.fs.Container
-import net.runelite.cache.fs.jagex.CompressionType
-import net.runelite.cache.fs.jagex.DiskStorage
 
 private val logger = InlineLogger()
 
-class Js5Dispatcher @Inject constructor(
-    private val cache: GameCache
+class Js5Dispatcher(
+    private val cache: GameCache,
+    private val responses: MutableMap<Js5Request, Js5Response>
 ) {
-    /*
-     * TODO:
-     *  - cache response data for every valid request since OSRS cache is relatively small
-     *  - replace runelite cache lib
-     */
+
+    @Inject
+    constructor(cache: GameCache) : this(cache, mutableMapOf())
+
+    fun cacheResponses() {
+        cacheResponse(Js5Store.MASTER_INDEX, Js5Store.MASTER_INDEX)
+        for (i in 0 until cache.archiveCount) {
+            cacheResponse(Js5Store.MASTER_INDEX, i)
+        }
+        for (i in 0 until cache.archiveCount) {
+            val groups = cache.groups(i)
+            groups.forEach { group ->
+                cacheResponse(i, group)
+            }
+        }
+    }
 
     fun add(channel: Channel, request: Js5Request) {
         val response = request.response()
@@ -26,51 +35,35 @@ class Js5Dispatcher @Inject constructor(
         channel.writeAndFlush(response)
     }
 
-    fun combinedArchiveIndexData(archive: Int, group: Int): Js5Response {
-        val buf = Unpooled.buffer(cache.archiveCount * (Int.SIZE_BYTES * 2))
-
-        cache.store.indexes.forEach { index ->
-            buf.writeInt(index.crc)
-            buf.writeInt(index.revision)
+    private fun Js5Request.response(): Js5Response {
+        if (responses.isEmpty()) {
+            error("::cacheResponses should be called on server startup.")
         }
+        val cachedRequest = Js5Request(archive, group, urgent = false)
+        return responses[cachedRequest] ?: error("Js5 request was not cached on startup (request=$this)")
+    }
 
-        val container = Container(CompressionType.NONE, -1)
-        container.compress(buf.array().copyOf(buf.readableBytes()), null)
-        buf.release()
+    private fun response(archive: Int, group: Int): Js5Response {
+        val data = cache.read(archive, group)
 
-        val data = container.data
+        val compressionType = data.readUnsignedByte().toInt()
+        val compressedLength = data.readInt()
+        val array = ByteArray(data.writerIndex() - Byte.SIZE_BYTES - Int.SIZE_BYTES)
+        data.readBytes(array)
+
         return Js5Response(
             archive = archive,
             group = group,
-            data = data
+            compressionType = compressionType,
+            compressedLength = compressedLength,
+            data = array
         )
     }
 
-    fun groupIndexData(archive: Int, group: Int): Js5Response {
-        val storage = cache.store.storage as DiskStorage
-        val data = storage.readIndex(group)
-        return Js5Response(
-            archive = archive,
-            group = group,
-            data = data
-        )
-    }
-
-    fun groupData(archive: Int, group: Int): Js5Response {
-        val cacheArchive = cache.store.findIndex(archive)
-        val cacheGroup = cacheArchive.getArchive(group)
-
-        val data = cache.store.storage.loadArchive(cacheGroup)
-        return Js5Response(
-            archive = archive,
-            group = group,
-            data = data
-        )
-    }
-
-    private fun Js5Request.response(): Js5Response = when {
-        archive == 255 && group == 255 -> combinedArchiveIndexData(archive, group)
-        archive == 255 -> groupIndexData(archive, group)
-        else -> groupData(archive, group)
+    private fun cacheResponse(archive: Int, group: Int) {
+        val request = Js5Request(archive, group, urgent = false)
+        val response = response(archive, group)
+        logger.debug { "Cache Js5 request (request=$request, response=$response)" }
+        responses[request] = response
     }
 }

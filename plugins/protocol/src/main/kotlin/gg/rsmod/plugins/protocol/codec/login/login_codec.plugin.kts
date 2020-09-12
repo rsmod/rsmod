@@ -21,7 +21,7 @@ handshakes.register {
             LoginDecoder(
                 revision = gameConfig.revision,
                 rsaConfig = rsaConfig,
-                cacheCrcs = cache.store.indexes.map { it.crc }.toIntArray()
+                cacheCrcs = cache.archiveCrcs
             )
         }
     }

@@ -55,7 +55,13 @@ inline class Js5Request(private val packed: Int) {
     }
 }
 
-data class Js5Response(val archive: Int, val group: Int, val data: ByteArray) {
+data class Js5Response(
+    val archive: Int,
+    val group: Int,
+    val compressionType: Int,
+    val compressedLength: Int,
+    val data: ByteArray
+) {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -63,6 +69,8 @@ data class Js5Response(val archive: Int, val group: Int, val data: ByteArray) {
 
         other as Js5Response
 
+        if (compressionType != other.compressionType) return false
+        if (compressedLength != other.compressedLength) return false
         if (archive != other.archive) return false
         if (group != other.group) return false
         if (!data.contentEquals(other.data)) return false
@@ -71,7 +79,9 @@ data class Js5Response(val archive: Int, val group: Int, val data: ByteArray) {
     }
 
     override fun hashCode(): Int {
-        var result = archive
+        var result = compressionType
+        result = 31 * result + compressedLength
+        result = 31 * result + archive
         result = 31 * result + group
         result = 31 * result + data.contentHashCode()
         return result
@@ -80,6 +90,8 @@ data class Js5Response(val archive: Int, val group: Int, val data: ByteArray) {
     override fun toString(): String = MoreObjects.toStringHelper(this)
         .add("archive", archive)
         .add("group", group)
-        .add("length", data.size)
+        .add("compression", compressionType)
+        .add("compressedLength", compressedLength)
+        .add("rawLength", data.size)
         .toString()
 }

@@ -18,5 +18,5 @@ dependencies {
     /* jackson dependencies */
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:${JacksonVersions.JACKSON}")
 
-    implementation("com.github.runelite.runelite:cache:runelite-parent-1.5.2.1")
+    api("io.guthix:jagex-store-5:${ProjectVersions.JS5_STORE}")
 }
