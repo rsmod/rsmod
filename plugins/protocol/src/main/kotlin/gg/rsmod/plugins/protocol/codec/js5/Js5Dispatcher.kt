@@ -63,7 +63,7 @@ class Js5Dispatcher(
     private fun cacheResponse(archive: Int, group: Int) {
         val request = Js5Request(archive, group, urgent = false)
         val response = response(archive, group)
-        logger.debug { "Cache Js5 request (request=$request, response=$response)" }
+        logger.trace { "Cache Js5 request (request=$request, response=$response)" }
         responses[request] = response
     }
 }
