@@ -48,6 +48,7 @@ data class LoginRequest(
     val channel: Channel,
     val username: String,
     val password: String?,
+    val email: Boolean,
     val reconnecting: Boolean,
     val uuid: ByteArray,
     val authCode: Int?,
@@ -64,6 +65,7 @@ data class LoginRequest(
         if (channel != other.channel) return false
         if (username != other.username) return false
         if (password != other.password) return false
+        if (email != other.email) return false
         if (reconnecting != other.reconnecting) return false
         if (!uuid.contentEquals(other.uuid)) return false
         if (authCode != other.authCode) return false
@@ -78,6 +80,7 @@ data class LoginRequest(
         var result = channel.hashCode()
         result = 31 * result + username.hashCode()
         result = 31 * result + (password?.hashCode() ?: 0)
+        result = 31 * result + email.hashCode()
         result = 31 * result + reconnecting.hashCode()
         result = 31 * result + uuid.contentHashCode()
         result = 31 * result + (authCode ?: 0)

@@ -195,11 +195,22 @@ class LoginDecoder(
         val xtea = secureBlock.xtea
 
         val username = buf.readStringCP1252()
-        // TODO: sanitize username
-        // on username too long, "invalid credentials"
         if (username.isBlank()) {
             logger.error { "Invalid blank username input (channel=${channel()})" }
             channel().writeErrResponse(ResponseType.TOO_MANY_ATTEMPTS)
+            return
+        }
+
+        val emailLogin = username.contains("@")
+        if (emailLogin && username.length !in VALID_EMAIL_LENGTH) {
+            logger.error { "Invalid email (email=$username, channel=${channel()})" }
+            channel().writeErrResponse(ResponseType.INVALID_CREDENTIALS)
+            return
+        }
+
+        if (!emailLogin && (username.length !in VALID_USERNAME_LENGTH || username.invalidUsername)) {
+            logger.error { "Invalid username (username=$username, channel=${channel()})" }
+            channel().writeErrResponse(ResponseType.INVALID_CREDENTIALS)
             return
         }
 
@@ -241,6 +252,7 @@ class LoginDecoder(
             channel = channel(),
             username = username,
             password = password,
+            email = emailLogin,
             reconnecting = connectionType.isReconnection,
             uuid = uuid,
             authCode = authCode,
@@ -334,6 +346,9 @@ class LoginDecoder(
         writeAndFlush(alloc().buffer(Long.SIZE_BYTES).writeLong(seed))
     }
 
+    private val String.invalidUsername: Boolean
+        get() = INVALID_USERNAME_REGEX.containsMatchIn(this)
+
     private val ConnectionType.isValid: Boolean
         get() = this == ConnectionType.Login || this == ConnectionType.Reconnect
 
@@ -350,6 +365,16 @@ class LoginDecoder(
          * The reconnection handshake id.
          */
         private const val RECONNECT_OPCODE = 18
+
+        /**
+         * The username input length range allowed.
+         */
+        private val VALID_USERNAME_LENGTH = 1..12
+
+        /**
+         * The email input length range allowed.
+         */
+        private val VALID_EMAIL_LENGTH = 1..32
 
         /**
          * The maximum amount of times that a step in the login process
@@ -374,6 +399,11 @@ class LoginDecoder(
          * The machine info block sends this hardcoded value at the start.
          */
         private const val MACHINE_INFO_HEADER_VALUE = 8
+
+        /**
+         * A [Regex] containing the inverse pattern allowed for username logins.
+         */
+        private val INVALID_USERNAME_REGEX = Regex("[^a-zA-Z\\d]")
 
         /**
          * Get the [ConnectionType] based on [opcode].
