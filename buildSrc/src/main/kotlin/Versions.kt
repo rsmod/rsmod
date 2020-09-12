@@ -1,15 +1,15 @@
 import org.gradle.api.JavaVersion
 
 object ProjectVersions {
-    const val RSMOD_VERSION = "0.0.1-SNAPSHOT"
-    const val GUTHIX_BYTEBUF_VERSION = "0.1.0"
+    const val RSMOD = "0.0.1-SNAPSHOT"
+    const val GUTHIX_BYTEBUF = "0.1.0"
 }
 
 object JvmVersions {
-    const val JVM_VERSION = "11"
-    val JAVA_VERSION = JavaVersion.VERSION_11
-    const val KOTLIN_VERSION = "1.4.10"
-    const val COROUTINE_VERSION = "1.1.0"
+    val JAVA = JavaVersion.VERSION_11
+    const val JVM = "11"
+    const val KOTLIN = "1.4.10"
+    const val COROUTINE = "1.1.0"
     const val KOTLINTER = "3.0.2"
 }
 

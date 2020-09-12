@@ -5,7 +5,7 @@ dependencies {
     implementation(project(":cache"))
     implementation(project(":net"))
     implementation("io.netty:netty-all:${NetVersions.NETTY}")
-    api("io.guthix:jagex-bytebuf:${ProjectVersions.GUTHIX_BYTEBUF_VERSION}")
+    api("io.guthix:jagex-bytebuf:${ProjectVersions.GUTHIX_BYTEBUF}")
 
     implementation("com.github.runelite.runelite:cache:runelite-parent-1.5.2.1")
 }

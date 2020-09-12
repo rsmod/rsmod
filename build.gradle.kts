@@ -3,13 +3,13 @@ import org.jmailen.gradle.kotlinter.KotlinterExtension
 import org.jmailen.gradle.kotlinter.KotlinterPlugin
 
 plugins {
-    kotlin("jvm") version JvmVersions.KOTLIN_VERSION
+    kotlin("jvm") version JvmVersions.KOTLIN
     id("org.jmailen.kotlinter") version JvmVersions.KOTLINTER apply false
 }
 
 allprojects {
     group = "gg.rsmod"
-    version = ProjectVersions.RSMOD_VERSION
+    version = ProjectVersions.RSMOD
 
     apply {
         plugin("org.jetbrains.kotlin.jvm")
@@ -39,17 +39,17 @@ allprojects {
     }
 
     java {
-        sourceCompatibility = JvmVersions.JAVA_VERSION
-        targetCompatibility = JvmVersions.JAVA_VERSION
+        sourceCompatibility = JvmVersions.JAVA
+        targetCompatibility = JvmVersions.JAVA
     }
 
     tasks {
         compileKotlin {
-            kotlinOptions.jvmTarget = JvmVersions.JVM_VERSION
+            kotlinOptions.jvmTarget = JvmVersions.JVM
             kotlinOptions.freeCompilerArgs = listOf("-XXLanguage:+InlineClasses")
         }
         compileTestKotlin {
-            kotlinOptions.jvmTarget = JvmVersions.JVM_VERSION
+            kotlinOptions.jvmTarget = JvmVersions.JVM
         }
     }
 
