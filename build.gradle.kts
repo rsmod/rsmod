@@ -1,5 +1,11 @@
+
+import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
+import org.jmailen.gradle.kotlinter.KotlinterExtension
+import org.jmailen.gradle.kotlinter.KotlinterPlugin
+
 plugins {
     kotlin("jvm") version JvmVersions.KOTLIN_VERSION
+    id("org.jmailen.kotlinter") version JvmVersions.KOTLINTER apply false
 }
 
 allprojects {
@@ -12,8 +18,9 @@ allprojects {
 
     repositories {
         mavenCentral()
-        maven(uri("https://dl.bintray.com/michaelbull/maven"))
-        maven(uri("https://jitpack.io"))
+        maven("https://dl.bintray.com/michaelbull/maven")
+        maven("https://jitpack.io")
+        maven("https://plugins.gradle.org/m2/")
     }
 
     dependencies {
@@ -45,5 +52,16 @@ allprojects {
         compileTestKotlin {
             kotlinOptions.jvmTarget = JvmVersions.JVM_VERSION
         }
+    }
+
+    plugins.withType<KotlinterPlugin> {
+        configure<KotlinterExtension> {
+            /* https://github.com/pinterest/ktlint/issues/764 */
+            disabledRules = arrayOf("parameter-list-wrapping")
+        }
+    }
+
+    plugins.withType<KotlinPluginWrapper> {
+        apply(plugin = "org.jmailen.kotlinter")
     }
 }

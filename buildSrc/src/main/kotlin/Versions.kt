@@ -10,6 +10,7 @@ object JvmVersions {
     val JAVA_VERSION = JavaVersion.VERSION_11
     const val KOTLIN_VERSION = "1.3.72"
     const val COROUTINE_VERSION = "1.1.0"
+    const val KOTLINTER = "3.0.2"
 }
 
 object LoggerVersions {
