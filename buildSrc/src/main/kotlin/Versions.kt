@@ -8,7 +8,7 @@ object ProjectVersions {
 object JvmVersions {
     const val JVM_VERSION = "11"
     val JAVA_VERSION = JavaVersion.VERSION_11
-    const val KOTLIN_VERSION = "1.3.72"
+    const val KOTLIN_VERSION = "1.4.10"
     const val COROUTINE_VERSION = "1.1.0"
     const val KOTLINTER = "3.0.2"
 }

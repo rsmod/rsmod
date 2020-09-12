@@ -1,4 +1,3 @@
-
 import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
 import org.jmailen.gradle.kotlinter.KotlinterExtension
 import org.jmailen.gradle.kotlinter.KotlinterPlugin
