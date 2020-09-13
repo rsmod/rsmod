@@ -8,7 +8,7 @@ class DispatcherModule(
 ) : KotlinModule() {
 
     override fun configure() {
-        bind<GameDispatcher>()
+        bind<GameJobDispatcher>()
             .`in`(scope)
     }
 }

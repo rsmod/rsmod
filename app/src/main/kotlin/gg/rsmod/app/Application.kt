@@ -13,7 +13,7 @@ import gg.rsmod.game.config.ConfigModule
 import gg.rsmod.game.config.GameConfig
 import gg.rsmod.game.coroutine.CoroutineModule
 import gg.rsmod.game.dispatch.DispatcherModule
-import gg.rsmod.game.dispatch.GameDispatcher
+import gg.rsmod.game.dispatch.GameJobDispatcher
 import gg.rsmod.game.event.EventBus
 import gg.rsmod.game.plugin.kotlin.KotlinModuleLoader
 import gg.rsmod.game.plugin.kotlin.KotlinPluginLoader
@@ -63,8 +63,8 @@ class Application {
         val services: GameServiceList = injector.getInstance()
         services.forEach { it.start() }
 
-        val gameDispatcher: GameDispatcher = injector.getInstance()
-        gameDispatcher.start()
+        val gameJobDispatcher: GameJobDispatcher = injector.getInstance()
+        gameJobDispatcher.start()
 
         bind(injector)
 

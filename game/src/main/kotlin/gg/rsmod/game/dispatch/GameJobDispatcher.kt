@@ -19,7 +19,7 @@ private class GameDispatchJob(
     val singleExecute: Boolean
 )
 
-class GameDispatcher @Inject constructor(
+class GameJobDispatcher @Inject constructor(
     private val config: InternalConfig,
     private val coroutineScope: GameCoroutineScope
 ) {
