@@ -15,7 +15,7 @@ private object DispatcherInactive : DispatcherState()
 private object DispatcherActive : DispatcherState()
 
 private class GameDispatchJob(
-    val block: suspend CoroutineScope.() -> Unit,
+    val block: () -> Unit,
     val singleExecute: Boolean
 )
 
@@ -36,13 +36,13 @@ class GameJobDispatcher @Inject constructor(
         coroutineScope.start(delay.toLong())
     }
 
-    fun schedule(block: suspend CoroutineScope.() -> Unit) {
+    fun schedule(block: () -> Unit) {
         val job = GameDispatchJob(block = block, singleExecute = false)
         logger.debug { "Schedule continuous dispatcher job (totalJobs=${jobs.size})" }
         jobs.add(job)
     }
 
-    fun execute(block: suspend CoroutineScope.() -> Unit) {
+    fun execute(block: () -> Unit) {
         val job = GameDispatchJob(block = block, singleExecute = true)
         logger.debug { "Schedule one-time dispatcher job (totalJobs=${jobs.size})" }
         jobs.add(job)
@@ -51,7 +51,7 @@ class GameJobDispatcher @Inject constructor(
     private fun CoroutineScope.start(delay: Long) = launch {
         while (true) {
             jobs.forEach { job ->
-                job.block(this)
+                job.block()
             }
             jobs.removeIf { it.singleExecute }
             delay(delay)
