@@ -1,4 +1,4 @@
-package gg.rsmod.plugins.mapxtea
+package gg.rsmod.plugins.core.xtea
 
 import com.google.inject.Scope
 import dev.misfitlabs.kotlinguice4.KotlinModule

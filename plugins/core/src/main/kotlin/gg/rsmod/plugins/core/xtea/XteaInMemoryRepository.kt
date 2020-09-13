@@ -1,4 +1,4 @@
-package gg.rsmod.plugins.mapxtea
+package gg.rsmod.plugins.core.xtea
 
 import gg.rsmod.game.model.domain.repo.XteaRepository
 
