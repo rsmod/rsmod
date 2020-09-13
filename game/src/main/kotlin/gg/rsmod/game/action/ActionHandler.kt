@@ -1,5 +1,6 @@
 package gg.rsmod.game.action
 
+import com.github.michaelbull.logging.InlineLogger
 import com.google.inject.Inject
 import gg.rsmod.game.model.client.Client
 import gg.rsmod.game.model.mob.Player
@@ -22,10 +23,15 @@ class ActionHandlerMap(
         }
         val builder = ActionHandlerBuilder<T>().apply(init)
         val handler = builder.handler ?: error("Action handler has not been set.")
+        logger.debug { "Register action handler (action=${T::class.simpleName}, handler=${handler.javaClass.simpleName})" }
         handlers[T::class] = handler
     }
 
     inline operator fun <reified T : Action> get(action: T) = handlers[action::class]
+
+    companion object {
+        val logger = InlineLogger()
+    }
 }
 
 @DslMarker
