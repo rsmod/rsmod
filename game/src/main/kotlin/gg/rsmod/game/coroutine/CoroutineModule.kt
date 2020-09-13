@@ -26,6 +26,8 @@ class CoroutineModule(
         bind<CoroutineDispatcher>()
             .annotatedWith(Names.named("ioCoroutineDispatcher"))
             .toProvider<IoDispatcherProvider>()
+        bind<IoCoroutineScope>()
+            .`in`(scope)
     }
 }
 
