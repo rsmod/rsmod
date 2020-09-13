@@ -1,4 +1,4 @@
-package gg.rsmod.game.module
+package gg.rsmod.game.plugin.kotlin
 
 import com.google.inject.Scope
 import io.github.classgraph.ClassGraph
