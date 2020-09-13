@@ -33,6 +33,10 @@ class ConfigModule(
         bind<RsaConfig>()
             .toProvider<RsaConfigProvider>()
             .`in`(scope)
+
+        bind<InternalConfig>()
+            .toProvider<InternalConfigProvider>()
+            .`in`(scope)
     }
 }
 
@@ -89,5 +93,32 @@ class RsaConfigProvider @Inject constructor(
         val exponent = privateKey.privateExponent
         val modulus = privateKey.modulus
         return RsaConfig(exponent, modulus)
+    }
+}
+
+class InternalConfigProvider @Inject constructor(
+    private val mapper: ObjectMapper,
+    private val config: GameConfig
+) : Provider<InternalConfig> {
+
+    override fun get(): InternalConfig {
+        val configFile = config.internalConfig
+        if (!Files.exists(configFile)) {
+            return DEFAULT_CONFIG
+        }
+        val config = ConfigMap(mapper).load(configFile)
+        val gameTickDelay = config["game-tick-delay"] ?: DEFAULT_CONFIG.gameTickDelay
+        val loginsPerCycle = config["logins-per-cycle"] ?: DEFAULT_CONFIG.loginsPerCycle
+        return InternalConfig(
+            gameTickDelay = gameTickDelay,
+            loginsPerCycle = loginsPerCycle
+        )
+    }
+
+    companion object {
+        private val DEFAULT_CONFIG = InternalConfig(
+            gameTickDelay = 600,
+            loginsPerCycle = 25
+        )
     }
 }
