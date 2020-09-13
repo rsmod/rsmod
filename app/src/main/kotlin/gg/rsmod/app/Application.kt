@@ -11,6 +11,9 @@ import gg.rsmod.game.cache.CacheModule
 import gg.rsmod.game.cache.GameCache
 import gg.rsmod.game.config.ConfigModule
 import gg.rsmod.game.config.GameConfig
+import gg.rsmod.game.coroutine.CoroutineModule
+import gg.rsmod.game.dispatch.DispatcherModule
+import gg.rsmod.game.dispatch.GameDispatcher
 import gg.rsmod.game.event.EventBus
 import gg.rsmod.game.module.KotlinModuleLoader
 import gg.rsmod.game.plugin.kotlin.KotlinPluginLoader
@@ -40,6 +43,8 @@ class Application {
         val modules = moduleScripts.flatMap { it.modules }
 
         val injector = Guice.createInjector(
+            CoroutineModule(scope),
+            DispatcherModule(scope),
             ConfigModule(scope),
             CacheModule(scope),
             GameModule(scope),
@@ -50,7 +55,7 @@ class Application {
         val actions: ActionMap = injector.getInstance()
 
         val cache: GameCache = injector.getInstance()
-        cache.init()
+        cache.start()
 
         val pluginLoader = KotlinPluginLoader(injector, eventBus, actions)
         val plugins = pluginLoader.load()
@@ -58,11 +63,15 @@ class Application {
         val services: GameServiceList = injector.getInstance()
         services.forEach { it.start() }
 
+        val gameDispatcher: GameDispatcher = injector.getInstance()
+        gameDispatcher.start()
+
+        bind(injector)
+
         val gameConfig: GameConfig = injector.getInstance()
         logger.info { "Loaded ${plugins.size} plugin(s)" }
         logger.info { "Loaded game with configuration: $gameConfig" }
-
-        bind(injector)
+        logger.info { "Game listening to connections on port ${gameConfig.port}" }
     }
 
     private fun bind(injector: Injector) {
@@ -80,6 +89,5 @@ class Application {
         if (!bind.isSuccess) {
             error("Could not bind game port.")
         }
-        logger.info { "Game listening to connections from port ${config.port}" }
     }
 }

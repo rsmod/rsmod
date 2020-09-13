@@ -17,7 +17,7 @@ class GameCache(
     val archiveCrcs: IntArray
         get() = crcs.toIntArray()
 
-    fun init() {
+    fun start() {
         val validator = cache.generateValidator(
             includeWhirlpool = false,
             includeSizes = false
