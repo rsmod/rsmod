@@ -10,6 +10,10 @@ import kotlinx.coroutines.launch
 
 private val logger = InlineLogger()
 
+private sealed class DispatcherState
+private object DispatcherInactive : DispatcherState()
+private object DispatcherActive : DispatcherState()
+
 private class GameDispatchJob(
     val block: suspend CoroutineScope.() -> Unit,
     val singleExecute: Boolean
@@ -19,9 +23,15 @@ class GameDispatcher @Inject constructor(
     private val config: InternalConfig,
     private val coroutineScope: GameCoroutineScope
 ) {
+    private var state: DispatcherState = DispatcherInactive
+
     private val jobs = mutableListOf<GameDispatchJob>()
 
     fun start() {
+        if (state != DispatcherInactive) {
+            error("::start has already been called.")
+        }
+        state = DispatcherActive
         val delay = config.gameTickDelay
         coroutineScope.start(delay.toLong())
     }
