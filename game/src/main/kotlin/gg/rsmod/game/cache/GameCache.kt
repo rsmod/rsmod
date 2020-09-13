@@ -4,6 +4,7 @@ import io.guthix.js5.Js5Cache
 import io.guthix.js5.container.Js5Container
 import io.guthix.js5.container.Js5Store
 import io.guthix.js5.container.heap.Js5HeapStore
+import io.netty.buffer.ByteBuf
 
 class GameCache(
     private val store: Js5HeapStore,
@@ -33,7 +34,7 @@ class GameCache(
         crcs.addAll(archiveCrcs)
     }
 
-    fun read(archive: Int, group: Int) = store.read(archive, group).retain()
+    fun read(archive: Int, group: Int): ByteBuf = store.read(archive, group).retain()
 
     fun groups(archive: Int): List<Int> = cache.readArchive(archive).groupSettings.map { it.key }
 }
