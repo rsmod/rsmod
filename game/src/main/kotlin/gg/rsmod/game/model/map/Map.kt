@@ -14,6 +14,9 @@ inline class Coordinates(private val packed: Int) {
     val packed30Bits: Int
         get() = (y and 0x3FFF) or ((x and 0x3FFF) shl 14) or ((plane and 0x3) shl 28)
 
+    val packed18Bits: Int
+        get() = (y shr 13) or ((x shr 13) shl 8) or ((plane and 0x3) shl 16)
+
     constructor(x: Int, y: Int, plane: Int = 0) :
         this((x and 0x7FFF) or ((y and 0x7FFF) shl 15) or (plane shl 30))
 
