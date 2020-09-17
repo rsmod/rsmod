@@ -38,21 +38,19 @@ class GameJobDispatcher @Inject constructor(
 
     fun schedule(block: () -> Unit) {
         val job = GameDispatchJob(block = block, singleExecute = false)
-        logger.debug { "Schedule continuous dispatcher job (totalJobs=${jobs.size})" }
         jobs.add(job)
+        logger.debug { "Schedule continuous dispatcher job (totalJobs=${jobs.size})" }
     }
 
     fun execute(block: () -> Unit) {
         val job = GameDispatchJob(block = block, singleExecute = true)
-        logger.debug { "Schedule one-time dispatcher job (totalJobs=${jobs.size})" }
         jobs.add(job)
+        logger.debug { "Schedule one-time dispatcher job (totalJobs=${jobs.size})" }
     }
 
     private fun CoroutineScope.start(delay: Long) = launch {
         while (true) {
-            jobs.forEach { job ->
-                job.block()
-            }
+            jobs.forEach { it.block() }
             jobs.removeIf { it.singleExecute }
             delay(delay)
         }
