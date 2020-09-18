@@ -14,13 +14,7 @@ data class ClientSettings(
     val width: Int,
     val height: Int,
     val flags: Int
-) {
-    val inResizableMode: Boolean
-        get() = (flags shr 1) == 1
-
-    val inLowMemoryMode: Boolean
-        get() = (flags shr 2) == 1
-}
+)
 
 data class ClientMachine(
     val operatingSystem: OperatingSystem,
