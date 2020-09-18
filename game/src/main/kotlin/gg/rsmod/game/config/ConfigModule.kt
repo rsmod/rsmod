@@ -5,10 +5,7 @@ import com.google.inject.Inject
 import com.google.inject.Provider
 import com.google.inject.Scope
 import dev.misfitlabs.kotlinguice4.KotlinModule
-import gg.rsmod.util.ConfigMap
-import gg.rsmod.util.ObjectMapperProvider
-import org.bouncycastle.jce.provider.BouncyCastleProvider
-import org.bouncycastle.util.io.pem.PemReader
+import gg.rsmod.util.config.ConfigMap
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -16,16 +13,14 @@ import java.security.KeyFactory
 import java.security.Security
 import java.security.interfaces.RSAPrivateKey
 import java.security.spec.PKCS8EncodedKeySpec
+import org.bouncycastle.jce.provider.BouncyCastleProvider
+import org.bouncycastle.util.io.pem.PemReader
 
 class ConfigModule(
     private val scope: Scope
 ) : KotlinModule() {
 
     override fun configure() {
-        bind<ObjectMapper>()
-            .toProvider<ObjectMapperProvider>()
-            .`in`(scope)
-
         bind<GameConfig>()
             .toProvider<GameConfigProvider>()
             .`in`(scope)
