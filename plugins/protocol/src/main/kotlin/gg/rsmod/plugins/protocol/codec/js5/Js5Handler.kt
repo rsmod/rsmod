@@ -13,12 +13,12 @@ class Js5Handler @Inject constructor(
 ) : ChannelInboundHandlerAdapter() {
 
     override fun handlerAdded(ctx: ChannelHandlerContext) {
-        logger.debug { "Channel registered (channel=${ctx.channel()})" }
+        logger.trace { "Channel registered (channel=${ctx.channel()})" }
         super.handlerAdded(ctx)
     }
 
     override fun channelUnregistered(ctx: ChannelHandlerContext) {
-        logger.debug { "Channel unregistered (channel=${ctx.channel()})" }
+        logger.trace { "Channel unregistered (channel=${ctx.channel()})" }
         super.channelUnregistered(ctx)
     }
 
