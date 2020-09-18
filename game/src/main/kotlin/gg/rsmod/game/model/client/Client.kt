@@ -7,6 +7,8 @@ class Client(
     val player: Player,
     val machine: ClientMachine,
     var settings: ClientSettings,
+    val encryptedPass: String,
+    val loginXteas: IntArray,
     val pendingHandlers: MutableList<ActionHandler<*>> = mutableListOf()
 )
 

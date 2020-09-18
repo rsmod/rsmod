@@ -3,7 +3,7 @@ package gg.rsmod.game.model.attr
 interface AttributeFlag
 
 class AttributeKey<T>(
-    private val persistenceKey: String? = null,
+    val persistenceKey: String? = null,
     private val flags: MutableSet<AttributeFlag> = mutableSetOf()
 ) {
 
