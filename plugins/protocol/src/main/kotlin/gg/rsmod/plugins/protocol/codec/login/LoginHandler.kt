@@ -1,15 +1,15 @@
 package gg.rsmod.plugins.protocol.codec.login
 
 import com.github.michaelbull.logging.InlineLogger
-import com.google.inject.Inject
+import gg.rsmod.plugins.protocol.codec.account.AccountDispatcher
 import gg.rsmod.plugins.protocol.codec.exceptionCaught
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.ChannelInboundHandlerAdapter
 
 private val logger = InlineLogger()
 
-class LoginHandler @Inject constructor(
-    private val dispatcher: LoginDispatcher
+class LoginHandler(
+    private val dispatcher: AccountDispatcher
 ) : ChannelInboundHandlerAdapter() {
 
     override fun channelRead(ctx: ChannelHandlerContext, msg: Any) {
@@ -17,7 +17,7 @@ class LoginHandler @Inject constructor(
             logger.error { "Invalid message type (message=$msg)" }
             return
         }
-        dispatcher.add(msg)
+        dispatcher.queue(msg)
     }
 
     override fun exceptionCaught(ctx: ChannelHandlerContext, cause: Throwable) {

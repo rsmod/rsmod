@@ -8,6 +8,7 @@ import gg.rsmod.game.model.client.ClientSettings
 import gg.rsmod.game.model.client.JavaVendor
 import gg.rsmod.game.model.client.JavaVersion
 import gg.rsmod.game.model.client.OperatingSystem
+import gg.rsmod.plugins.protocol.Device
 import gg.rsmod.plugins.protocol.codec.ResponseType
 import gg.rsmod.plugins.protocol.codec.writeErrResponse
 import io.guthix.buffer.readString0CP1252
@@ -192,7 +193,7 @@ class LoginDecoder(
     ) {
         val password = secureBlock.password
         val authCode = secureBlock.authCode
-        val xtea = secureBlock.xtea
+        val xteas = secureBlock.xtea
 
         val username = buf.readStringCP1252()
         if (username.isBlank()) {
@@ -248,15 +249,19 @@ class LoginDecoder(
             }
         }
 
+        // TODO: get device based on param in login process
+        val device = Device.Desktop
+
         val request = LoginRequest(
             channel = channel(),
             username = username,
             password = password,
+            device = device,
             email = emailLogin,
-            reconnecting = connectionType.isReconnection,
+            reconnect = connectionType.isReconnection,
             uuid = uuid,
             authCode = authCode,
-            xtea = xtea,
+            xteas = xteas,
             settings = settings,
             machine = machine
         )

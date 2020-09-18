@@ -1,17 +1,30 @@
 package gg.rsmod.plugins.core.serializer
 
+import com.google.inject.Inject
 import gg.rsmod.game.model.client.Client
 import gg.rsmod.game.model.client.PlayerEntity
 import gg.rsmod.game.model.domain.PlayerId
 import gg.rsmod.game.model.domain.serializer.ClientData
 import gg.rsmod.game.model.domain.serializer.ClientDataMapper
 import gg.rsmod.game.model.domain.serializer.ClientDeserializeRequest
+import gg.rsmod.game.model.domain.serializer.ClientDeserializeResponse
 import gg.rsmod.game.model.mob.Player
+import gg.rsmod.util.security.PasswordEncryption
 import kotlin.reflect.KClass
 
-class DefaultClientMapper : ClientDataMapper<DefaultClientData> {
+class DefaultClientMapper @Inject constructor(
+    private val encryption: PasswordEncryption
+) : ClientDataMapper<DefaultClientData> {
 
-    override fun deserialize(request: ClientDeserializeRequest, data: DefaultClientData): Client {
+    override fun deserialize(request: ClientDeserializeRequest, data: DefaultClientData): ClientDeserializeResponse {
+        val password = request.plaintTextPass
+        if (password == null) {
+            if (!request.loginXteas.contentEquals(data.loginXteas)) {
+                return ClientDeserializeResponse.BadCredentials
+            }
+        } else if (!encryption.verify(password, data.encryptedPass)) {
+            return ClientDeserializeResponse.BadCredentials
+        }
         val entity = PlayerEntity(
             username = data.displayName,
             privilege = data.privilege
@@ -22,13 +35,14 @@ class DefaultClientMapper : ClientDataMapper<DefaultClientData> {
             entity = entity,
             messageListeners = listOf(request.messageListener)
         )
-        return Client(
+        val client = Client(
             player = player,
             machine = request.machine,
             settings = request.settings,
             encryptedPass = data.encryptedPass,
             loginXteas = data.loginXteas
         )
+        return ClientDeserializeResponse.Success(client)
     }
 
     override fun serialize(client: Client): DefaultClientData {
@@ -41,6 +55,28 @@ class DefaultClientMapper : ClientDataMapper<DefaultClientData> {
             loginXteas = client.loginXteas,
             coords = intArrayOf(entity.coords.x, entity.coords.y, entity.coords.plane),
             privilege = entity.privilege
+        )
+    }
+
+    override fun newClient(request: ClientDeserializeRequest): Client {
+        val password = request.plaintTextPass ?: error("New client must have an input password.")
+        val entity = PlayerEntity(
+            username = request.loginName,
+            privilege = 0
+        )
+        val player = Player(
+            id = PlayerId(request.loginName),
+            loginName = request.loginName,
+            entity = entity,
+            messageListeners = listOf(request.messageListener)
+        )
+        val encryptedPass = encryption.encrypt(password)
+        return Client(
+            player = player,
+            machine = request.machine,
+            settings = request.settings,
+            encryptedPass = encryptedPass,
+            loginXteas = request.loginXteas
         )
     }
 

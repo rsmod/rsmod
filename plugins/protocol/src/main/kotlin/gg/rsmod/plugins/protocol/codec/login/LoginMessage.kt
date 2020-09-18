@@ -2,6 +2,7 @@ package gg.rsmod.plugins.protocol.codec.login
 
 import gg.rsmod.game.model.client.ClientMachine
 import gg.rsmod.game.model.client.ClientSettings
+import gg.rsmod.plugins.protocol.Device
 import gg.rsmod.plugins.protocol.packet.server.PlayerInfo
 import gg.rsmod.util.IsaacRandom
 import io.netty.channel.Channel
@@ -48,14 +49,16 @@ data class LoginRequest(
     val channel: Channel,
     val username: String,
     val password: String?,
+    val device: Device,
     val email: Boolean,
-    val reconnecting: Boolean,
+    val reconnect: Boolean,
     val uuid: ByteArray,
     val authCode: Int?,
-    val xtea: IntArray,
+    val xteas: IntArray,
     val settings: ClientSettings,
     val machine: ClientMachine
 ) {
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -65,11 +68,12 @@ data class LoginRequest(
         if (channel != other.channel) return false
         if (username != other.username) return false
         if (password != other.password) return false
+        if (device != other.device) return false
         if (email != other.email) return false
-        if (reconnecting != other.reconnecting) return false
+        if (reconnect != other.reconnect) return false
         if (!uuid.contentEquals(other.uuid)) return false
         if (authCode != other.authCode) return false
-        if (!xtea.contentEquals(other.xtea)) return false
+        if (!xteas.contentEquals(other.xteas)) return false
         if (settings != other.settings) return false
         if (machine != other.machine) return false
 
@@ -80,47 +84,40 @@ data class LoginRequest(
         var result = channel.hashCode()
         result = 31 * result + username.hashCode()
         result = 31 * result + (password?.hashCode() ?: 0)
+        result = 31 * result + device.hashCode()
         result = 31 * result + email.hashCode()
-        result = 31 * result + reconnecting.hashCode()
+        result = 31 * result + reconnect.hashCode()
         result = 31 * result + uuid.contentHashCode()
         result = 31 * result + (authCode ?: 0)
-        result = 31 * result + xtea.contentHashCode()
+        result = 31 * result + xteas.contentHashCode()
         result = 31 * result + settings.hashCode()
         result = 31 * result + machine.hashCode()
         return result
     }
 }
 
-sealed class LoginResponse(val type: LoginResponseType)
+sealed class LoginResponse(val type: LoginResponseType) {
 
-/**
- * Represents a server-response to a successful log in request.
- *
- * @param playerIndex the player index for the channel attempting
- * to log in. This value should start from 1 and not 0.
- *
- * @param privilege the privilege level of the player associated
- * with the channel.
- */
-data class LoginNormalResponse(
-    val playerIndex: Int,
-    val privilege: Int,
-    val moderator: Boolean,
-    val rememberDevice: Boolean,
-    val members: Boolean,
-    val encodeIsaac: IsaacRandom
-) : LoginResponse(LoginResponseType.NORMAL)
+    data class Normal(
+        val playerIndex: Int,
+        val privilege: Int,
+        val moderator: Boolean,
+        val rememberDevice: Boolean,
+        val members: Boolean,
+        val encodeIsaac: IsaacRandom
+    ) : LoginResponse(LoginResponseType.NORMAL)
 
-data class LoginReconnectResponse(
-    val gpi: PlayerInfo
-) : LoginResponse(LoginResponseType.RECONNECT)
+    data class Reconnect(
+        val gpi: PlayerInfo
+    ) : LoginResponse(LoginResponseType.RECONNECT)
 
-data class LoginTransferResponse(
-    val secondsLeft: Int
-) : LoginResponse(LoginResponseType.PROFILE_TRANSFER)
+    data class Transfer(
+        val secondsLeft: Int
+    ) : LoginResponse(LoginResponseType.PROFILE_TRANSFER)
 
-class LoginRestartResponse : LoginResponse(LoginResponseType.RESTART_DECODER)
+    class Restart : LoginResponse(LoginResponseType.RESTART_DECODER)
 
-data class LoginErrorResponse(
-    val errors: List<String>
-) : LoginResponse(LoginResponseType.CUSTOM_ERROR)
+    data class Error(
+        val errors: List<String>
+    ) : LoginResponse(LoginResponseType.CUSTOM_ERROR)
+}

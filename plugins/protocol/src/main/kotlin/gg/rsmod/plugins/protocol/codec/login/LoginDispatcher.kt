@@ -3,131 +3,160 @@ package gg.rsmod.plugins.protocol.codec.login
 import com.github.michaelbull.logging.InlineLogger
 import com.google.inject.Inject
 import gg.rsmod.game.action.ActionHandlerMap
-import gg.rsmod.game.config.RsaConfig
 import gg.rsmod.game.event.EventBus
 import gg.rsmod.game.model.client.Client
-import gg.rsmod.game.model.client.PlayerEntity
 import gg.rsmod.game.model.domain.repo.XteaRepository
 import gg.rsmod.game.model.mob.Player
+import gg.rsmod.game.model.mob.PlayerList
 import gg.rsmod.plugins.protocol.DesktopPacketStructure
 import gg.rsmod.plugins.protocol.Device
 import gg.rsmod.plugins.protocol.codec.HandshakeConstants
-import gg.rsmod.plugins.protocol.codec.game.ChannelMessageListener
+import gg.rsmod.plugins.protocol.codec.ResponseType
+import gg.rsmod.plugins.protocol.codec.account.Account
 import gg.rsmod.plugins.protocol.codec.game.GameSessionDecoder
 import gg.rsmod.plugins.protocol.codec.game.GameSessionEncoder
 import gg.rsmod.plugins.protocol.codec.game.GameSessionHandler
+import gg.rsmod.plugins.protocol.codec.writeErrResponse
 import gg.rsmod.plugins.protocol.packet.server.PlayerInfo
 import gg.rsmod.plugins.protocol.packet.server.RebuildNormal
 import gg.rsmod.util.IsaacRandom
+import io.netty.channel.Channel
+import io.netty.channel.ChannelPipeline
 
 private val logger = InlineLogger()
 
 class LoginDispatcher @Inject constructor(
-    private val rsaConfig: RsaConfig,
+    private val playerList: PlayerList,
     private val eventBus: EventBus,
     private val xteas: XteaRepository,
     private val actionHandlers: ActionHandlerMap,
     private val desktopStructures: DesktopPacketStructure
 ) {
 
-    fun add(request: LoginRequest) {
-        logger.info { "Add login request: $request" }
-        registerGameSession(request)
+    fun login(account: Account) {
+        val channel = account.channel
+        val client = account.client
+        val device = account.device
+        val decodeIsaac = account.decodeIsaac
+        val encodeIsaac = account.encodeIsaac
+
+        val online = playerList.any { it?.id?.value == client.player.id.value }
+        if (online) {
+            channel.writeErrResponse(ResponseType.ACCOUNT_ONLINE)
+            return
+        }
+
+        val registered = playerList.register(client.player)
+        if (!registered) {
+            channel.writeErrResponse(ResponseType.WORLD_FULL)
+            return
+        }
+        client.register(channel, device, decodeIsaac, encodeIsaac)
     }
 
-    private fun registerGameSession(request: LoginRequest) {
-        val channel = request.channel
-        val machine = request.machine
-        val settings = request.settings
-        val xtea = request.xtea
-        val username = request.username
+    private fun Client.register(
+        channel: Channel,
+        device: Device,
+        decodeIsaac: IsaacRandom,
+        encodeIsaac: IsaacRandom
+    ) {
+        val gpi = player.gpi()
+        val reconnect = false
+        writeResponse(channel, encodeIsaac, reconnect, gpi)
+        channel.pipeline().applyGameCodec(
+            this,
+            device,
+            decodeIsaac,
+            encodeIsaac
+        )
+        player.login(reconnect, gpi)
+    }
 
-        val decodeIsaac = if (!rsaConfig.isEnabled) IsaacRandom.ZERO else IsaacRandom()
-        val encodeIsaac = if (!rsaConfig.isEnabled) IsaacRandom.ZERO else IsaacRandom()
-
-        val player = Player(
-            loginName = username,
-            entity = PlayerEntity(
-                username = username,
-                privilege = 0
-            ),
-            messageListeners = listOf(
-                ChannelMessageListener(channel)
+    private fun Client.writeResponse(
+        channel: Channel,
+        encodeIsaac: IsaacRandom,
+        reconnect: Boolean,
+        gpi: PlayerInfo
+    ) {
+        val response = if (reconnect) {
+            LoginResponse.Reconnect(gpi)
+        } else {
+            LoginResponse.Normal(
+                playerIndex = player.index,
+                privilege = player.entity.privilege,
+                moderator = true,
+                rememberDevice = false,
+                encodeIsaac = encodeIsaac,
+                members = true
             )
-        )
-        val client = Client(
-            player = player,
-            machine = machine,
-            settings = settings
-        )
+        }
+        channel.write(response)
+        channel.flush()
+    }
 
-        val device = Device.Desktop
+    private fun ChannelPipeline.applyGameCodec(
+        client: Client,
+        device: Device,
+        decodeIsaac: IsaacRandom,
+        encodeIsaac: IsaacRandom
+    ) {
         val structures = when (device) {
             Device.Desktop -> desktopStructures
             else -> TODO()
         }
-
-        if (rsaConfig.isEnabled) {
-            decodeIsaac.init(xtea)
-            encodeIsaac.init(IntArray(xtea.size) { xtea[it] + 50 })
-        }
-
         val decoder = GameSessionDecoder(decodeIsaac, structures.client, actionHandlers)
         val encoder = GameSessionEncoder(encodeIsaac, structures.server)
         val handler = GameSessionHandler(client)
 
-        val gpi = PlayerInfo(
-            playerCoordsAs30Bits = player.coords.packed30Bits,
-            otherPlayerCoords = IntArray(2046)
-        )
+        remove(HandshakeConstants.RESPONSE_PIPELINE)
 
-        val response: LoginResponse = LoginNormalResponse(
-            playerIndex = 1,
-            privilege = 0,
-            moderator = true,
-            rememberDevice = true,
-            encodeIsaac = encodeIsaac,
-            members = true
-        )
-        channel.write(response)
-        channel.flush()
-
-        channel.pipeline().remove(
-            HandshakeConstants.RESPONSE_PIPELINE
-        )
-
-        channel.pipeline().replace(
+        replace(
             HandshakeConstants.DECODER_PIPELINE,
             HandshakeConstants.DECODER_PIPELINE,
             decoder
         )
-
-        channel.pipeline().replace(
+        replace(
             HandshakeConstants.ENCODER_PIPELINE,
             HandshakeConstants.ENCODER_PIPELINE,
             encoder
         )
-
-        channel.pipeline().replace(
+        replace(
             HandshakeConstants.ADAPTER_PIPELINE,
             HandshakeConstants.ADAPTER_PIPELINE,
             handler
         )
-
-        when (response) {
-            is LoginNormalResponse -> {
-                val rebuildNormal = RebuildNormal(
-                    gpi = gpi,
-                    zoneX = player.coords.x shr 3,
-                    zoneY = player.coords.y shr 3,
-                    xteas = xteas
-                )
-                player.write(rebuildNormal)
-                player.flush()
-                player.login(eventBus)
-            }
-            is LoginReconnectResponse -> player.login(eventBus)
-            else -> logger.error { "Unhandled login connection type (type=$response)" }
-        }
     }
+
+    private fun Player.login(reconnect: Boolean, gpi: PlayerInfo) {
+        if (!reconnect) {
+            val rebuildNormal = RebuildNormal(
+                gpi = gpi,
+                zoneX = coords.x shr 3,
+                zoneY = coords.y shr 3,
+                xteas = xteas
+            )
+            write(rebuildNormal)
+            flush()
+        }
+        login(eventBus)
+    }
+
+    private fun PlayerList.playerCoords(excludeIndex: Int): IntArray {
+        var index = 0
+        val coordinates = IntArray(capacity - 1)
+        for (i in indices) {
+            if (i == excludeIndex) {
+                continue
+            }
+            val player = this[i]
+            val coords = player?.coords?.packed18Bits ?: 0
+            coordinates[index++] = coords
+        }
+        return coordinates
+    }
+
+    private fun Player.gpi() = PlayerInfo(
+        playerCoordsAs30Bits = coords.packed30Bits,
+        otherPlayerCoords = playerList.playerCoords(index)
+    )
 }

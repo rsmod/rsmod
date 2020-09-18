@@ -26,11 +26,10 @@ class GameSessionEncoder(
             logger.error { "Structure for packet not defined (packet=$msg)" }
             return
         }
-
         val buf = ctx.alloc().buffer()
-        val opcode = modifyOpcode(structure.opcode)
-
         structure.write(msg, buf)
+
+        val opcode = modifyOpcode(structure.opcode)
         out.writeByte(opcode)
         if (structure.length == PacketLength.Byte) {
             out.writeByte(buf.writerIndex())

@@ -32,14 +32,14 @@ object LoginEncoder : MessageToByteEncoder<LoginResponse>() {
     }
 
     private fun ByteBuf.writeResponse(channel: Channel, response: LoginResponse): Unit = when (response) {
-        is LoginNormalResponse -> writeResponse(channel, response)
-        is LoginReconnectResponse -> writeResponse(response)
-        is LoginTransferResponse -> writeResponse(response)
-        is LoginRestartResponse -> { /* empty */ }
-        is LoginErrorResponse -> writeResponse(response)
+        is LoginResponse.Normal -> writeResponse(channel, response)
+        is LoginResponse.Reconnect -> writeResponse(response)
+        is LoginResponse.Transfer -> writeResponse(response)
+        is LoginResponse.Restart -> { /* empty */ }
+        is LoginResponse.Error -> writeResponse(response)
     }
 
-    private fun ByteBuf.writeResponse(channel: Channel, response: LoginNormalResponse) {
+    private fun ByteBuf.writeResponse(channel: Channel, response: LoginResponse.Normal) {
         val start = writerIndex() + Byte.SIZE_BYTES
         writeByte(0)
         writeBoolean(response.rememberDevice)
@@ -57,7 +57,7 @@ object LoginEncoder : MessageToByteEncoder<LoginResponse>() {
         setByte(start, length)
     }
 
-    private fun ByteBuf.writeResponse(response: LoginReconnectResponse) {
+    private fun ByteBuf.writeResponse(response: LoginResponse.Reconnect) {
         val gpi = response.gpi
         val start = writerIndex() + Short.SIZE_BYTES
         writeShort(0)
@@ -67,12 +67,12 @@ object LoginEncoder : MessageToByteEncoder<LoginResponse>() {
         setShort(start, length)
     }
 
-    private fun ByteBuf.writeResponse(response: LoginTransferResponse) {
+    private fun ByteBuf.writeResponse(response: LoginResponse.Transfer) {
         val seconds = min(255, max(0, response.secondsLeft - PROFILE_TRANSFER_TIME_BUFFER))
         writeByte(seconds)
     }
 
-    private fun ByteBuf.writeResponse(response: LoginErrorResponse) {
+    private fun ByteBuf.writeResponse(response: LoginResponse.Error) {
         val errors = response.errors
         val messages = errors.subList(0, MAX_CUSTOM_ERROR_LINES)
         val length = messages.sumBy { it.length }

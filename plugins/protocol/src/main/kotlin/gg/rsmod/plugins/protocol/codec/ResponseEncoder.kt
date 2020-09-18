@@ -23,6 +23,7 @@ enum class ResponseType(val id: Int) {
     ACCEPTED(id = 0),
     ERROR_CONNECTING(id = -2),
     INVALID_CREDENTIALS(id = 3),
+    ACCOUNT_ONLINE(id = 5),
     JS5_OUT_OF_DATE(id = 6),
     WORLD_FULL(id = 9),
     BAD_SESSION_ID(id = 10),
