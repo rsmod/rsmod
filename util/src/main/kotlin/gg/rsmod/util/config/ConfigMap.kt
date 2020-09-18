@@ -1,4 +1,4 @@
-package gg.rsmod.util
+package gg.rsmod.util.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
