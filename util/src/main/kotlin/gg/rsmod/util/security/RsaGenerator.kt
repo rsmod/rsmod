@@ -1,4 +1,4 @@
-package gg.rsmod.util
+package gg.rsmod.util.security
 
 import java.math.BigInteger
 import java.nio.file.Files

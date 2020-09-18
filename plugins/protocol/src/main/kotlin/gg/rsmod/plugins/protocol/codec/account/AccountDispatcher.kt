@@ -28,7 +28,7 @@ import gg.rsmod.plugins.protocol.codec.login.LoginResponse
 import gg.rsmod.plugins.protocol.codec.writeErrResponse
 import gg.rsmod.plugins.protocol.packet.server.PlayerInfo
 import gg.rsmod.plugins.protocol.packet.server.RebuildNormal
-import gg.rsmod.util.IsaacRandom
+import gg.rsmod.util.security.IsaacRandom
 import io.netty.channel.Channel
 import io.netty.channel.ChannelPipeline
 import java.util.concurrent.ConcurrentLinkedQueue

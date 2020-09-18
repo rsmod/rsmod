@@ -1,7 +1,7 @@
 package gg.rsmod.plugins.protocol.codec.login
 
 import com.github.michaelbull.logging.InlineLogger
-import gg.rsmod.util.IsaacRandom
+import gg.rsmod.util.security.IsaacRandom
 import io.guthix.buffer.writeStringCP1252
 import io.netty.buffer.ByteBuf
 import io.netty.channel.Channel

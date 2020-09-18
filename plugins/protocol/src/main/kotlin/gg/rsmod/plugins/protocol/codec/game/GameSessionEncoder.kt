@@ -4,7 +4,7 @@ import com.github.michaelbull.logging.InlineLogger
 import gg.rsmod.game.message.PacketLength
 import gg.rsmod.game.message.ServerPacket
 import gg.rsmod.game.message.ServerPacketStructureMap
-import gg.rsmod.util.IsaacRandom
+import gg.rsmod.util.security.IsaacRandom
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.MessageToByteEncoder

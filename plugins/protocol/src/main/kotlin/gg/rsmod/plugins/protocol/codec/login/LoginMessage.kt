@@ -4,7 +4,7 @@ import gg.rsmod.game.model.client.ClientMachine
 import gg.rsmod.game.model.client.ClientSettings
 import gg.rsmod.plugins.protocol.Device
 import gg.rsmod.plugins.protocol.packet.server.PlayerInfo
-import gg.rsmod.util.IsaacRandom
+import gg.rsmod.util.security.IsaacRandom
 import io.netty.channel.Channel
 
 /**
