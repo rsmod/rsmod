@@ -33,5 +33,6 @@ data class RsaConfig(
 
 data class InternalConfig(
     val gameTickDelay: Int,
-    val loginsPerCycle: Int
+    val loginsPerCycle: Int,
+    val logoutsPerCycle: Int
 )

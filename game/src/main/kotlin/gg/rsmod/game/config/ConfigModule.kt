@@ -104,16 +104,19 @@ class InternalConfigProvider @Inject constructor(
         val config = ConfigMap(mapper).load(configFile)
         val gameTickDelay = config["game-tick-delay"] ?: DEFAULT_CONFIG.gameTickDelay
         val loginsPerCycle = config["logins-per-cycle"] ?: DEFAULT_CONFIG.loginsPerCycle
+        val logoutsPerCycle = config["logouts-per-cycle"] ?: DEFAULT_CONFIG.logoutsPerCycle
         return InternalConfig(
             gameTickDelay = gameTickDelay,
-            loginsPerCycle = loginsPerCycle
+            loginsPerCycle = loginsPerCycle,
+            logoutsPerCycle = logoutsPerCycle
         )
     }
 
     companion object {
         private val DEFAULT_CONFIG = InternalConfig(
             gameTickDelay = 600,
-            loginsPerCycle = 25
+            loginsPerCycle = 25,
+            logoutsPerCycle = 10
         )
     }
 }
