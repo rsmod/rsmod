@@ -43,6 +43,7 @@ class Application {
         val modules = moduleScripts.flatMap { it.modules }
 
         val injector = Guice.createInjector(
+            ApplicationModule(scope),
             CoroutineModule(scope),
             DispatcherModule(scope),
             ConfigModule(scope),
