@@ -1,8 +1,5 @@
 package gg.rsmod.util
 
-import org.bouncycastle.jce.provider.BouncyCastleProvider
-import org.bouncycastle.util.io.pem.PemObject
-import org.bouncycastle.util.io.pem.PemWriter
 import java.math.BigInteger
 import java.nio.file.Files
 import java.nio.file.Path
@@ -11,6 +8,9 @@ import java.security.KeyPairGenerator
 import java.security.Security
 import java.security.interfaces.RSAPrivateKey
 import java.security.interfaces.RSAPublicKey
+import org.bouncycastle.jce.provider.BouncyCastleProvider
+import org.bouncycastle.util.io.pem.PemObject
+import org.bouncycastle.util.io.pem.PemWriter
 
 object RsaGenerator {
 
