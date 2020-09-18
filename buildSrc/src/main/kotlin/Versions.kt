@@ -43,4 +43,5 @@ object ReflectionVersions {
 
 object SecurityVersions {
     const val BOUNCYCASTLE = "1.54"
+    const val BCRYPT = "0.4"
 }

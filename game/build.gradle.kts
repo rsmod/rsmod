@@ -18,5 +18,6 @@ dependencies {
     /* jackson dependencies */
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:${JacksonVersions.JACKSON}")
 
+    /* api dependencies */
     api("io.guthix:jagex-store-5:${ProjectVersions.JS5_STORE}")
 }
