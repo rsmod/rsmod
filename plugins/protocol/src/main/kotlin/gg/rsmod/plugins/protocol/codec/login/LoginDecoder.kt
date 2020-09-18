@@ -403,7 +403,7 @@ class LoginDecoder(
         /**
          * A [Regex] containing the inverse pattern allowed for username logins.
          */
-        private val INVALID_USERNAME_REGEX = Regex("[^a-zA-Z\\d]")
+        private val INVALID_USERNAME_REGEX = Regex("[^a-zA-Z\\d ]")
 
         /**
          * Get the [ConnectionType] based on [opcode].
