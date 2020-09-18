@@ -3,6 +3,7 @@ package gg.rsmod.plugins.protocol.codec.game
 import com.github.michaelbull.logging.InlineLogger
 import gg.rsmod.game.action.ActionHandler
 import gg.rsmod.game.model.client.Client
+import gg.rsmod.plugins.protocol.codec.account.AccountDispatcher
 import gg.rsmod.plugins.protocol.codec.exceptionCaught
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.ChannelInboundHandlerAdapter
@@ -10,16 +11,18 @@ import io.netty.channel.ChannelInboundHandlerAdapter
 private val logger = InlineLogger()
 
 class GameSessionHandler(
-    private val client: Client
+    private val client: Client,
+    private val dispatcher: AccountDispatcher
 ) : ChannelInboundHandlerAdapter() {
 
     override fun handlerAdded(ctx: ChannelHandlerContext) {
-        logger.debug { "Channel registered (username=${client.player.username}, channel=${ctx.channel()})" }
+        logger.trace { "Channel registered (username=${client.player.username}, channel=${ctx.channel()})" }
         super.handlerAdded(ctx)
     }
 
     override fun channelUnregistered(ctx: ChannelHandlerContext) {
-        logger.debug { "Channel unregistered (username=${client.player.username}, channel=${ctx.channel()})" }
+        logger.trace { "Channel unregistered (username=${client.player.username}, channel=${ctx.channel()})" }
+        dispatcher.unregister(client)
         super.channelUnregistered(ctx)
     }
 
