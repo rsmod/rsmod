@@ -66,8 +66,6 @@ class AccountDispatcher @Inject constructor(
     }
 
     fun unregister(client: Client) {
-        // TODO: back-off strategy to keep trying to serialize
-        // if failure occurs
         ioCoroutineScope.launch {
             serializer.serialize(client)
             unregisterQueue.add(client)
