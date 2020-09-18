@@ -27,6 +27,7 @@ sealed class LoginStage {
     object Handshake : LoginStage()
     object Header : LoginStage()
     object Payload : LoginStage()
+    override fun toString(): String = javaClass.simpleName
 }
 
 sealed class ConnectionType {
@@ -34,6 +35,7 @@ sealed class ConnectionType {
     object Initial : ConnectionType()
     object Login : ConnectionType()
     object Reconnect : ConnectionType()
+    override fun toString(): String = javaClass.simpleName
 }
 
 class LoginDecoder(
@@ -337,12 +339,12 @@ class LoginDecoder(
             }
             writeErrResponse(ResponseType.COULD_NOT_COMPLETE_LOGIN)
         } else {
-            logger.debug { "Increment read attempts (attempts=$readAttempts, channel=$this)" }
+            logger.trace { "Increment read attempts (attempts=$readAttempts, channel=$this)" }
         }
     }
 
     private fun Channel.clearReadAttempts() {
-        logger.debug { "Clear read attempts (channel=$this)" }
+        logger.trace { "Clear read attempts (channel=$this)" }
         readAttempts = 0
     }
 

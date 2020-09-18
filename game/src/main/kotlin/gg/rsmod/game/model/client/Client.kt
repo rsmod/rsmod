@@ -33,6 +33,7 @@ sealed class OperatingSystem {
     object Mac : OperatingSystem()
     object Linux : OperatingSystem()
     object Other : OperatingSystem()
+    override fun toString(): String = javaClass.simpleName
 }
 
 sealed class JavaVendor {
@@ -41,6 +42,7 @@ sealed class JavaVendor {
     object Apple : JavaVendor()
     object Other : JavaVendor()
     object Oracle : JavaVendor()
+    override fun toString(): String = javaClass.simpleName
 }
 
 data class JavaVersion(

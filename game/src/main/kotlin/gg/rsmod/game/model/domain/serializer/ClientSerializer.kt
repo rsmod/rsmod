@@ -5,6 +5,18 @@ import gg.rsmod.game.model.client.Client
 import gg.rsmod.game.model.client.ClientMachine
 import gg.rsmod.game.model.client.ClientSettings
 
+interface ClientSerializer {
+    fun deserialize(request: ClientDeserializeRequest): ClientDeserializeResponse
+    fun serialize(client: Client)
+}
+
+sealed class ClientDeserializeResponse {
+    class Success(val client: Client) : ClientDeserializeResponse()
+    object BadCredentials : ClientDeserializeResponse()
+    object ReadError : ClientDeserializeResponse()
+    override fun toString(): String = javaClass.simpleName
+}
+
 data class ClientDeserializeRequest(
     val loginName: String,
     val plaintTextPass: String?,
@@ -39,15 +51,4 @@ data class ClientDeserializeRequest(
         result = 31 * result + messageListener.hashCode()
         return result
     }
-}
-
-sealed class ClientDeserializeResponse {
-    class Success(val client: Client) : ClientDeserializeResponse()
-    object BadCredentials : ClientDeserializeResponse()
-    object ReadError : ClientDeserializeResponse()
-}
-
-interface ClientSerializer {
-    fun deserialize(request: ClientDeserializeRequest): ClientDeserializeResponse
-    fun serialize(client: Client)
 }
