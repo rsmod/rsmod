@@ -23,7 +23,9 @@ class ActionHandlerMap(
         }
         val builder = ActionHandlerBuilder<T>().apply(init)
         val handler = builder.handler ?: error("Action handler has not been set.")
-        logger.debug { "Register action handler (action=${T::class.simpleName}, handler=${handler.javaClass.simpleName})" }
+        logger.debug {
+            "Register action handler (action=${T::class.simpleName}, handler=${handler.javaClass.simpleName})"
+        }
         handlers[T::class] = handler
     }
 
