@@ -6,14 +6,16 @@ import gg.rsmod.game.message.MessageListener
 import gg.rsmod.game.message.ServerPacket
 import gg.rsmod.game.model.client.NpcEntity
 import gg.rsmod.game.model.client.PlayerEntity
+import gg.rsmod.game.model.domain.PlayerId
 import gg.rsmod.game.model.map.Coordinates
 
 sealed class Mob
 
 class Player(
-    private val messageListeners: List<MessageListener>,
+    val id: PlayerId,
     val loginName: String,
-    val entity: PlayerEntity
+    val entity: PlayerEntity,
+    private val messageListeners: List<MessageListener>
 ) : Mob() {
 
     val username: String
