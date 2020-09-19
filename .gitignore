@@ -4,6 +4,7 @@
 # IntelliJ
 .idea/
 build/
+out/
 *.iml
 *.ipr
 *.iws
