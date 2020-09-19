@@ -236,20 +236,8 @@ class LoginDecoder(
         buf.skipBytes(Byte.SIZE_BYTES)
         buf.skipBytes(Int.SIZE_BYTES)
 
+        // TODO: verify integrity, values are now scrambled
         val crcs = IntArray(cacheCrcs.size) { buf.readInt() }
-
-        for (i in crcs.indices) {
-            val received = crcs[i]
-            val expected = cacheCrcs[i]
-            if (received > 0 && received != expected) {
-                logger.debug {
-                    "Cache crc out-of-date " +
-                        "(archive=$i, client=$received, server=$expected, username=$username, channel=${channel()})"
-                }
-                channel().writeErrResponse(ResponseType.JS5_OUT_OF_DATE)
-                return
-            }
-        }
 
         // TODO: get device based on param in login process
         val device = Device.Desktop

@@ -9,19 +9,19 @@ val desktopPackets: DesktopPacketStructure by inject()
 val packets = desktopPackets.client
 
 packets.register<EventMouseMove> {
-    opcode = 4
+    opcode = 23
     length = -1
     suppress = true
 }
 
 packets.register<EventMouseClick> {
-    opcode = 19
+    opcode = 66
     length = 6
     suppress = true
 }
 
 packets.register<EventAppletFocus> {
-    opcode = 92
+    opcode = 26
     length = 1
     suppress = true
 }

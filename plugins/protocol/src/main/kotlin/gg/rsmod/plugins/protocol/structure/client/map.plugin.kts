@@ -7,7 +7,7 @@ val desktopPackets: DesktopPacketStructure by inject()
 val packets = desktopPackets.client
 
 packets.register<MapBuildComplete> {
-    opcode = 47
+    opcode = 72
     length = 0
     suppress = true
 }

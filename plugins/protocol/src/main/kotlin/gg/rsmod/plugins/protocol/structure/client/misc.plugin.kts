@@ -9,19 +9,19 @@ val desktopPackets: DesktopPacketStructure by inject()
 val packets = desktopPackets.client
 
 packets.register<UnknownClientPacket> {
-    opcode = 85
+    opcode = 41
     length = -1
     suppress = true
 }
 
 packets.register<NoTimeout> {
-    opcode = 61
+    opcode = 0
     length = 0
     suppress = true
 }
 
 packets.register<WindowStatus> {
-    opcode = 1
+    opcode = 10
     length = 5
     suppress = true
 }

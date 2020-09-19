@@ -8,3 +8,4 @@
 * Cache module
 * Choose packet map based on device connection
 * Back-off strategy for client data serialization
+* Verify CRC sent from client matches server cache. The CRCs sent on log-in are now scrambled and have value modifiers.
