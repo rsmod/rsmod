@@ -70,7 +70,7 @@ class HandshakeHandlerBuilder(
         this.responseHandler = response
     }
 
-    fun build(): HandshakeHandler {
+    internal fun build(): HandshakeHandler {
         if (opcode == UNINITIALISED_OPCODE) {
             error("Handshake opcode has not been set.")
         }
@@ -88,7 +88,7 @@ class HandshakeClientHandlerBuilder<T : ChannelHandler>(
     var name: String? = null
 ) {
 
-    fun build(): ClientChannelHandler<T> {
+    internal fun build(): ClientChannelHandler<T> {
         val handler = this.provider ?: error("Handshake handler provider has not been set.")
         val name = this.name ?: error("Handshake handler name has not been set.")
         return ClientChannelHandler(handler, name)
