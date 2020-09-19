@@ -3,7 +3,6 @@ package gg.rsmod.plugins.protocol.structure.server
 import gg.rsmod.plugins.protocol.DesktopPacketStructure
 import gg.rsmod.plugins.protocol.packet.server.IfOpenSub
 import gg.rsmod.plugins.protocol.packet.server.IfOpenTop
-import io.guthix.buffer.writeIntIME
 
 val desktopPackets: DesktopPacketStructure by inject()
 val packets = desktopPackets.server
@@ -20,6 +19,6 @@ packets.register<IfOpenSub> {
     write {
         it.writeShort(interfaceId)
         it.writeByte(type)
-        it.writeIntIME(targetComponent)
+        it.writeIntLE(targetComponent)
     }
 }
