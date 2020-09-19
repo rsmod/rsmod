@@ -2,7 +2,7 @@ package gg.rsmod.game.model.mob
 
 import com.google.inject.Inject
 
-private const val MAX_PLAYER_COUNT = 2048
+private const val MAX_PLAYER_COUNT = 2047
 private const val MAX_NPC_COUNT = 32767
 
 private const val INVALID_INDEX = -1
