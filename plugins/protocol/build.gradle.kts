@@ -1,4 +1,4 @@
-version = "186.0-SNAPSHOT"
+version = ProjectVersions.PROTOCOL
 
 dependencies {
     implementation(project(":util"))
