@@ -13,5 +13,7 @@
             <AppenderRef level="error" ref="File"/>
             <AppenderRef level="all" ref="Console"/>
         </Root>
+        <Logger name="io.guthix.js5" level="warn" additivity="false">
+        </Logger>
     </Loggers>
 </Configuration>
