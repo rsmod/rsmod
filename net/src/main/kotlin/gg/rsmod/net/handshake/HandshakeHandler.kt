@@ -1,5 +1,7 @@
 package gg.rsmod.net.handshake
 
+import com.github.michaelbull.logging.InlineLogger
+import com.google.common.base.MoreObjects
 import com.google.inject.Inject
 import gg.rsmod.net.channel.ClientChannelHandler
 import io.netty.channel.ChannelHandler
@@ -7,6 +9,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter
 import io.netty.handler.codec.ByteToMessageDecoder
 import io.netty.handler.codec.MessageToByteEncoder
 
+private val logger = InlineLogger()
 private const val UNINITIALISED_OPCODE = -1
 
 data class HandshakeHandler(
@@ -14,7 +17,16 @@ data class HandshakeHandler(
     val encoder: ClientChannelHandler<MessageToByteEncoder<*>>,
     val adapter: ClientChannelHandler<ChannelInboundHandlerAdapter>,
     val response: ClientChannelHandler<MessageToByteEncoder<*>>
-)
+) {
+
+    override fun toString(): String = MoreObjects
+        .toStringHelper(this)
+        .add("decoder", decoder.name)
+        .add("encoder", encoder.name)
+        .add("adapter", adapter.name)
+        .add("response", response.name)
+        .toString()
+}
 
 data class HandshakeHandlerMap(
     private val handlers: MutableMap<Int, HandshakeHandler>
@@ -30,6 +42,7 @@ data class HandshakeHandlerMap(
         if (handlers.containsKey(opcode)) {
             error("Handshake with opcode already defined (opcode=$opcode).")
         }
+        logger.debug { "Register handshake handler (opcode=$opcode, handler=$handler)" }
         handlers[opcode] = handler
     }
 }
