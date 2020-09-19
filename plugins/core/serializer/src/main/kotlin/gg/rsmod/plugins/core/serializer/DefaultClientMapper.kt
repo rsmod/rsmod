@@ -1,6 +1,7 @@
 package gg.rsmod.plugins.core.serializer
 
 import com.google.inject.Inject
+import gg.rsmod.game.config.GameConfig
 import gg.rsmod.game.model.client.Client
 import gg.rsmod.game.model.client.PlayerEntity
 import gg.rsmod.game.model.domain.PlayerId
@@ -8,11 +9,13 @@ import gg.rsmod.game.model.domain.serializer.ClientData
 import gg.rsmod.game.model.domain.serializer.ClientDataMapper
 import gg.rsmod.game.model.domain.serializer.ClientDeserializeRequest
 import gg.rsmod.game.model.domain.serializer.ClientDeserializeResponse
+import gg.rsmod.game.model.map.Coordinates
 import gg.rsmod.game.model.mob.Player
 import gg.rsmod.util.security.PasswordEncryption
 import kotlin.reflect.KClass
 
 class DefaultClientMapper @Inject constructor(
+    private val config: GameConfig,
     private val encryption: PasswordEncryption
 ) : ClientDataMapper<DefaultClientData> {
 
@@ -42,6 +45,11 @@ class DefaultClientMapper @Inject constructor(
             encryptedPass = data.encryptedPass,
             loginXteas = data.loginXteas
         )
+        entity.coords = when (data.coords.size) {
+            2 -> Coordinates(data.coords[0], data.coords[1])
+            3 -> Coordinates(data.coords[0], data.coords[1], data.coords[2])
+            else -> error("Invalid coordinate values: ${data.coords}.")
+        }
         return ClientDeserializeResponse.Success(client)
     }
 
@@ -71,6 +79,7 @@ class DefaultClientMapper @Inject constructor(
             messageListeners = listOf(request.messageListener)
         )
         val encryptedPass = encryption.encrypt(password)
+        entity.coords = config.home
         return Client(
             player = player,
             machine = request.machine,
