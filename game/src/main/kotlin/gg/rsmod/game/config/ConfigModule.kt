@@ -5,6 +5,7 @@ import com.google.inject.Inject
 import com.google.inject.Provider
 import com.google.inject.Scope
 import dev.misfitlabs.kotlinguice4.KotlinModule
+import gg.rsmod.game.model.map.Coordinates
 import gg.rsmod.util.config.ConfigMap
 import java.nio.file.Files
 import java.nio.file.Path
@@ -44,10 +45,12 @@ class GameConfigProvider @Inject constructor(
         val dataPath: Path = config.dataPath()
         val revision: Int = config["revision"] ?: error("Game config revision required.")
         val port: Int = config["port"] ?: DEFAULT_PORT
+        val home: List<Int> = config["home"] ?: DEFAULT_HOME
         return GameConfig(
             revision = revision,
             port = port,
-            dataPath = dataPath
+            dataPath = dataPath,
+            home = home.coordinates()
         )
     }
 
@@ -56,10 +59,17 @@ class GameConfigProvider @Inject constructor(
         return Paths.get(path)
     }
 
+    private fun List<Int>.coordinates() = when (size) {
+        2 -> Coordinates(this[0], this[1])
+        3 -> Coordinates(this[0], this[1], this[2])
+        else -> error("Invalid array size for coordinates: $this")
+    }
+
     companion object {
         private val CONFIG_PATH = Paths.get(".", "app", "config.yml")
         private val DEFAULT_DATA_PATH = Paths.get(".", "app", "data")
         private const val DEFAULT_PORT = 43594
+        private val DEFAULT_HOME = listOf(3200, 3200)
     }
 }
 
