@@ -1,5 +1,7 @@
 package gg.rsmod.game.model.map
 
+import com.google.common.base.MoreObjects
+
 inline class Coordinates(private val packed: Int) {
 
     val x: Int
@@ -28,6 +30,13 @@ inline class Coordinates(private val packed: Int) {
     fun translateY(offset: Int) = translate(0, offset, 0)
 
     fun translatePlane(offset: Int) = translate(0, 0, offset)
+
+    override fun toString(): String = MoreObjects
+        .toStringHelper(this)
+        .add("x", x)
+        .add("y", y)
+        .add("plane", plane)
+        .toString()
 
     companion object {
         val ZERO = Coordinates(0)

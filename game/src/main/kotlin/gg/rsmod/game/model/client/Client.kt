@@ -1,5 +1,6 @@
 package gg.rsmod.game.model.client
 
+import com.google.common.base.MoreObjects
 import gg.rsmod.game.action.ActionHandler
 import gg.rsmod.game.model.mob.Player
 
@@ -10,7 +11,15 @@ class Client(
     val encryptedPass: String,
     val loginXteas: IntArray,
     val pendingHandlers: MutableList<ActionHandler<*>> = mutableListOf()
-)
+) {
+
+    override fun toString(): String = MoreObjects
+        .toStringHelper(this)
+        .add("player", player)
+        .add("machine", machine)
+        .add("settings", settings)
+        .toString()
+}
 
 data class ClientSettings(
     val width: Int,

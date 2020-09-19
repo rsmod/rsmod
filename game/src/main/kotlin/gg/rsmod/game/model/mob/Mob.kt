@@ -1,5 +1,6 @@
 package gg.rsmod.game.model.mob
 
+import com.google.common.base.MoreObjects
 import gg.rsmod.game.event.EventBus
 import gg.rsmod.game.event.impl.LoginEvent
 import gg.rsmod.game.message.MessageListener
@@ -42,6 +43,15 @@ class Player(
     fun flush() {
         messageListeners.forEach { it.flush() }
     }
+
+    override fun toString(): String = MoreObjects
+        .toStringHelper(this)
+        .add("loginName", loginName)
+        .add("displayName", username)
+        .add("id", id)
+        .add("index", index)
+        .add("coords", coords)
+        .toString()
 }
 
 class Npc(
