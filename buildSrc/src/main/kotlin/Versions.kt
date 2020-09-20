@@ -12,7 +12,7 @@ object JvmVersions {
     const val JVM = "11"
     const val KOTLIN = "1.4.10"
     const val COROUTINE = "1.1.0"
-    const val KOTLINTER = "3.0.2"
+    const val KOTLINTER = "3.2.0"
 }
 
 object LoggerVersions {
