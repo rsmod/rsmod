@@ -5,6 +5,7 @@ import gg.rsmod.game.action.ActionHandlerMap
 import gg.rsmod.game.message.ClientPacketStructureMap
 import gg.rsmod.util.security.IsaacRandom
 import io.netty.buffer.ByteBuf
+import io.netty.channel.Channel
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.ByteToMessageDecoder
 
@@ -31,16 +32,18 @@ class GameSessionDecoder(
         out: MutableList<Any>
     ) {
         when (stage) {
-            PacketDecodeStage.Opcode -> buf.readOpcode(out)
+            PacketDecodeStage.Opcode -> buf.readOpcode(ctx.channel(), out)
             PacketDecodeStage.Length -> buf.readLength(out)
             PacketDecodeStage.Payload -> buf.readPayload(out)
         }
     }
 
-    private fun ByteBuf.readOpcode(out: MutableList<Any>) {
+    private fun ByteBuf.readOpcode(channel: Channel, out: MutableList<Any>) {
         opcode = readModifiedOpcode()
         val structure = structures[opcode]
         if (structure == null) {
+            skipBytes(readableBytes())
+            channel.close()
             logger.error { "Structure for packet not defined (opcode=$opcode)" }
             return
         }
