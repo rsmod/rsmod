@@ -17,7 +17,6 @@ import gg.rsmod.game.dispatch.DispatcherModule
 import gg.rsmod.game.event.EventBus
 import gg.rsmod.game.plugin.kotlin.KotlinModuleLoader
 import gg.rsmod.game.plugin.kotlin.KotlinPluginLoader
-import gg.rsmod.game.service.GameServiceList
 import gg.rsmod.net.NetworkModule
 import gg.rsmod.net.channel.ClientChannelInitializer
 import gg.rsmod.net.handshake.HandshakeDecoder
@@ -60,9 +59,6 @@ class Application {
 
         val pluginLoader = KotlinPluginLoader(injector, eventBus, actions)
         val plugins = pluginLoader.load()
-
-        val services: GameServiceList = injector.getInstance()
-        services.forEach { it.start() }
 
         val game: Game = injector.getInstance()
         game.start()

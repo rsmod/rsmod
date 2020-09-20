@@ -7,15 +7,11 @@ import gg.rsmod.game.action.ActionMap
 import gg.rsmod.game.event.EventBus
 import gg.rsmod.game.model.mob.NpcList
 import gg.rsmod.game.model.mob.PlayerList
-import gg.rsmod.game.service.GameServiceList
 
 class GameModule(private val scope: Scope) : KotlinModule() {
 
     override fun configure() {
         bind<Game>()
-            .`in`(scope)
-
-        bind<GameServiceList>()
             .`in`(scope)
 
         bind<EventBus>()
