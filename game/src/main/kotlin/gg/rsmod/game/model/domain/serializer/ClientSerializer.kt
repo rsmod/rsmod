@@ -21,6 +21,7 @@ data class ClientDeserializeRequest(
     val loginName: String,
     val plaintTextPass: String?,
     val loginXteas: IntArray,
+    val reconnectXteas: IntArray?,
     val settings: ClientSettings,
     val machine: ClientMachine,
     val messageListener: MessageListener
@@ -35,6 +36,10 @@ data class ClientDeserializeRequest(
         if (loginName != other.loginName) return false
         if (plaintTextPass != other.plaintTextPass) return false
         if (!loginXteas.contentEquals(other.loginXteas)) return false
+        if (reconnectXteas != null) {
+            if (other.reconnectXteas == null) return false
+            if (!reconnectXteas.contentEquals(other.reconnectXteas)) return false
+        } else if (other.reconnectXteas != null) return false
         if (settings != other.settings) return false
         if (machine != other.machine) return false
         if (messageListener != other.messageListener) return false
@@ -46,6 +51,7 @@ data class ClientDeserializeRequest(
         var result = loginName.hashCode()
         result = 31 * result + (plaintTextPass?.hashCode() ?: 0)
         result = 31 * result + loginXteas.contentHashCode()
+        result = 31 * result + (reconnectXteas?.contentHashCode() ?: 0)
         result = 31 * result + settings.hashCode()
         result = 31 * result + machine.hashCode()
         result = 31 * result + messageListener.hashCode()

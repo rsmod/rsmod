@@ -15,15 +15,17 @@ import io.netty.channel.Channel
  *
  * @param authCode the auth code used to attempt log in.
  *
- * @param xtea the XTEA key received from the client, if the request is
+ * @param xteas the XTEA key received from the client, if the request is
  * a reconnection, the key sent will be the one from the last successful
  * log in.
  */
 data class LoginSecureBlock(
     val password: String?,
     val authCode: Int?,
-    val xtea: IntArray
+    val xteas: IntArray,
+    val reconnectXteas: IntArray?
 ) {
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -32,7 +34,11 @@ data class LoginSecureBlock(
 
         if (password != other.password) return false
         if (authCode != other.authCode) return false
-        if (!xtea.contentEquals(other.xtea)) return false
+        if (!xteas.contentEquals(other.xteas)) return false
+        if (reconnectXteas != null) {
+            if (other.reconnectXteas == null) return false
+            if (!reconnectXteas.contentEquals(other.reconnectXteas)) return false
+        } else if (other.reconnectXteas != null) return false
 
         return true
     }
@@ -40,7 +46,8 @@ data class LoginSecureBlock(
     override fun hashCode(): Int {
         var result = password?.hashCode() ?: 0
         result = 31 * result + (authCode ?: 0)
-        result = 31 * result + xtea.contentHashCode()
+        result = 31 * result + xteas.contentHashCode()
+        result = 31 * result + (reconnectXteas?.contentHashCode() ?: 0)
         return result
     }
 }
@@ -55,6 +62,7 @@ data class LoginRequest(
     val uuid: ByteArray,
     val authCode: Int?,
     val xteas: IntArray,
+    val reconnectXteas: IntArray?,
     val settings: ClientSettings,
     val machine: ClientMachine
 ) {
@@ -74,6 +82,10 @@ data class LoginRequest(
         if (!uuid.contentEquals(other.uuid)) return false
         if (authCode != other.authCode) return false
         if (!xteas.contentEquals(other.xteas)) return false
+        if (reconnectXteas != null) {
+            if (other.reconnectXteas == null) return false
+            if (!reconnectXteas.contentEquals(other.reconnectXteas)) return false
+        } else if (other.reconnectXteas != null) return false
         if (settings != other.settings) return false
         if (machine != other.machine) return false
 
@@ -90,6 +102,7 @@ data class LoginRequest(
         result = 31 * result + uuid.contentHashCode()
         result = 31 * result + (authCode ?: 0)
         result = 31 * result + xteas.contentHashCode()
+        result = 31 * result + (reconnectXteas?.contentHashCode() ?: 0)
         result = 31 * result + settings.hashCode()
         result = 31 * result + machine.hashCode()
         return result

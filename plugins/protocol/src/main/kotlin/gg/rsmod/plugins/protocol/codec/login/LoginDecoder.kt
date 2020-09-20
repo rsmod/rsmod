@@ -75,6 +75,7 @@ class LoginDecoder(
             channel().writeErrResponse(ResponseType.ERROR_CONNECTING)
             return
         }
+        connectionType = connection
         stage = LoginStage.Header
     }
 
@@ -140,7 +141,7 @@ class LoginDecoder(
             return
         }
 
-        val deciphered = Xtea.decipher(rawPayload, secureBlock.xtea)
+        val deciphered = Xtea.decipher(rawPayload, secureBlock.xteas)
         val xteaBuf = Unpooled.wrappedBuffer(deciphered)
 
         readXteaBlock(secureBlock, xteaBuf, out)
@@ -153,7 +154,7 @@ class LoginDecoder(
             return null
         }
 
-        val xtea = IntArray(4) { buf.readInt() }
+        val xteas = IntArray(4) { buf.readInt() }
         val seed = buf.readLong()
 
         if (seed != serverSeed) {
@@ -163,8 +164,10 @@ class LoginDecoder(
 
         val authCode: Int?
         val password: String?
+        var reconnectXteas: IntArray? = null
 
         if (connectionType == ConnectionType.Reconnect) {
+            reconnectXteas = IntArray(4) { buf.readInt() }
             authCode = -1
             password = null
         } else {
@@ -184,7 +187,8 @@ class LoginDecoder(
         return LoginSecureBlock(
             password = password,
             authCode = authCode,
-            xtea = xtea
+            xteas = xteas,
+            reconnectXteas = reconnectXteas
         )
     }
 
@@ -195,7 +199,8 @@ class LoginDecoder(
     ) {
         val password = secureBlock.password
         val authCode = secureBlock.authCode
-        val xteas = secureBlock.xtea
+        val xteas = secureBlock.xteas
+        val reconnectXteas = secureBlock.reconnectXteas
 
         val username = buf.readStringCP1252()
         if (username.isBlank()) {
@@ -252,6 +257,7 @@ class LoginDecoder(
             uuid = uuid,
             authCode = authCode,
             xteas = xteas,
+            reconnectXteas = reconnectXteas,
             settings = settings,
             machine = machine
         )

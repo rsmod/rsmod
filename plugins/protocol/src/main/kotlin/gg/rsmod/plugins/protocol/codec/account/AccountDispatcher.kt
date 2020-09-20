@@ -94,6 +94,7 @@ class AccountDispatcher @Inject constructor(
             loginName = request.username,
             plaintTextPass = request.password,
             loginXteas = request.xteas,
+            reconnectXteas = request.reconnectXteas,
             settings = request.settings,
             machine = request.machine,
             messageListener = ChannelMessageListener(channel)

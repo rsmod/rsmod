@@ -22,7 +22,8 @@ class DefaultClientMapper @Inject constructor(
     override fun deserialize(request: ClientDeserializeRequest, data: DefaultClientData): ClientDeserializeResponse {
         val password = request.plaintTextPass
         if (password == null) {
-            if (!request.loginXteas.contentEquals(data.loginXteas)) {
+            val reconnectXteas = request.reconnectXteas
+            if (reconnectXteas == null || !reconnectXteas.contentEquals(data.loginXteas)) {
                 return ClientDeserializeResponse.BadCredentials
             }
         } else if (!encryption.verify(password, data.encryptedPass)) {
@@ -43,7 +44,7 @@ class DefaultClientMapper @Inject constructor(
             machine = request.machine,
             settings = request.settings,
             encryptedPass = data.encryptedPass,
-            loginXteas = data.loginXteas
+            loginXteas = request.loginXteas
         )
         entity.coords = when (data.coords.size) {
             2 -> Coordinates(data.coords[0], data.coords[1])
