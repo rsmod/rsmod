@@ -35,7 +35,10 @@ class YamlClientSerializer<T : ClientData> @Inject constructor(
                 val data = objectMapper.readValue(reader, dataMapper.type().java)
                 dataMapper.deserialize(request, data)
             } catch (t: Throwable) {
-                logger.error(t) { "Error when trying to deserialize client (name=${request.loginName}, file=${path.toAbsolutePath()})" }
+                logger.error(t) {
+                    "Error when trying to deserialize client " +
+                        "(name=${request.loginName}, file=${path.toAbsolutePath()})"
+                }
                 ClientDeserializeResponse.ReadError
             }
         }
