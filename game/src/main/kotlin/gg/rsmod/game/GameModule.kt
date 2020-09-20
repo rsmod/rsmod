@@ -12,6 +12,9 @@ import gg.rsmod.game.service.GameServiceList
 class GameModule(private val scope: Scope) : KotlinModule() {
 
     override fun configure() {
+        bind<Game>()
+            .`in`(scope)
+
         bind<GameServiceList>()
             .`in`(scope)
 

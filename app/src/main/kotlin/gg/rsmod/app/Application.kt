@@ -5,6 +5,7 @@ import com.google.inject.Guice
 import com.google.inject.Injector
 import com.google.inject.Scopes
 import dev.misfitlabs.kotlinguice4.getInstance
+import gg.rsmod.game.Game
 import gg.rsmod.game.GameModule
 import gg.rsmod.game.action.ActionMap
 import gg.rsmod.game.cache.CacheModule
@@ -13,7 +14,6 @@ import gg.rsmod.game.config.ConfigModule
 import gg.rsmod.game.config.GameConfig
 import gg.rsmod.game.coroutine.CoroutineModule
 import gg.rsmod.game.dispatch.DispatcherModule
-import gg.rsmod.game.dispatch.GameJobDispatcher
 import gg.rsmod.game.event.EventBus
 import gg.rsmod.game.plugin.kotlin.KotlinModuleLoader
 import gg.rsmod.game.plugin.kotlin.KotlinPluginLoader
@@ -64,8 +64,8 @@ class Application {
         val services: GameServiceList = injector.getInstance()
         services.forEach { it.start() }
 
-        val gameJobDispatcher: GameJobDispatcher = injector.getInstance()
-        gameJobDispatcher.start()
+        val game: Game = injector.getInstance()
+        game.start()
 
         bind(injector)
 
