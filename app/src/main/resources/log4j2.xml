@@ -15,5 +15,7 @@
         </Root>
         <Logger name="io.guthix.js5" level="warn" additivity="false">
         </Logger>
+        <Logger name="io.netty" level="warn" additivity="false">
+        </Logger>
     </Loggers>
 </Configuration>
