@@ -29,7 +29,7 @@ class GameJobDispatcher private constructor(
         logger.debug { "Schedule one-time dispatcher job (totalJobs=${jobs.size})" }
     }
 
-    internal fun executeJobs() {
+    internal fun executeAll() {
         jobs.forEach { it.block() }
         jobs.removeIf { it.singleExecute }
     }

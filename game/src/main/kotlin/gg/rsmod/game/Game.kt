@@ -33,7 +33,7 @@ class Game @Inject constructor(
 
     private fun CoroutineScope.start(delay: Long) = launch {
         while (state != GameState.ShutDown) {
-            jobDispatcher.executeJobs()
+            jobDispatcher.executeAll()
             delay(delay)
         }
     }
