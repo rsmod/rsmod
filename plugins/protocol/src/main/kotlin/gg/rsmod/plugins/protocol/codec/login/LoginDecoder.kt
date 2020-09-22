@@ -346,15 +346,6 @@ class LoginDecoder(
         writeAndFlush(alloc().buffer(Long.SIZE_BYTES).writeLong(seed))
     }
 
-    private val String.invalidUsername: Boolean
-        get() = INVALID_USERNAME_REGEX.containsMatchIn(this)
-
-    private val ConnectionType.isValid: Boolean
-        get() = this == ConnectionType.Login || this == ConnectionType.Reconnect
-
-    private val ConnectionType.isReconnection: Boolean
-        get() = this == ConnectionType.Reconnect
-
     companion object {
         /**
          * The login handshake id.
@@ -443,5 +434,14 @@ class LoginDecoder(
                 2 -> Device.Android
                 else -> Device.Desktop
             }
+
+        private val String.invalidUsername: Boolean
+            get() = INVALID_USERNAME_REGEX.containsMatchIn(this)
+
+        private val ConnectionType.isValid: Boolean
+            get() = this == ConnectionType.Login || this == ConnectionType.Reconnect
+
+        private val ConnectionType.isReconnection: Boolean
+            get() = this == ConnectionType.Reconnect
     }
 }
