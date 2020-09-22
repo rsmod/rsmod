@@ -7,6 +7,14 @@ import gg.rsmod.plugins.protocol.packet.server.PlayerInfo
 import gg.rsmod.util.security.IsaacRandom
 import io.netty.channel.Channel
 
+enum class LoginResponseType(val opcode: Int) {
+    NORMAL(opcode = 2),
+    RECONNECT(opcode = 15),
+    PROFILE_TRANSFER(opcode = 21),
+    RESTART_DECODER(opcode = 23),
+    CUSTOM_ERROR(opcode = 29)
+}
+
 /**
  * Responsible for holding sensitive data during the log in process.
  *
