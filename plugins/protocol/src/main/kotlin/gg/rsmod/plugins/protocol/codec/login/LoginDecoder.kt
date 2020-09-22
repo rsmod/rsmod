@@ -45,6 +45,7 @@ class LoginDecoder(
     private val serverSeed: Long = ThreadLocalRandom.current().nextLong(),
     private var stage: LoginStage = LoginStage.Handshake,
     private var connectionType: ConnectionType = ConnectionType.Initial,
+    private var device: Device = Device.Desktop,
     private var readAttempts: Int = 0,
     private var payloadLength: Int = 0
 ) : ByteToMessageDecoder() {
@@ -120,7 +121,8 @@ class LoginDecoder(
             return
         }
 
-        buf.skipBytes(Byte.SIZE_BYTES)
+        val deviceOpcode = buf.readUnsignedByte().toInt()
+        device = deviceOpcode.device
 
         val secureBuf = if (rsaConfig.isEnabled) {
             val length = buf.readUnsignedShort()
@@ -243,9 +245,6 @@ class LoginDecoder(
 
         // TODO: verify integrity, values are now scrambled
         val crcs = IntArray(cacheCrcs.size) { buf.readInt() }
-
-        // TODO: get device based on param in login process
-        val device = Device.Desktop
 
         val request = LoginRequest(
             channel = channel(),
@@ -436,6 +435,13 @@ class LoginDecoder(
                 3 -> JavaVendor.Apple
                 5 -> JavaVendor.Oracle
                 else -> JavaVendor.Other
+            }
+
+        private val Int.device: Device
+            get() = when (this) {
+                1 -> Device.Ios
+                2 -> Device.Android
+                else -> Device.Desktop
             }
     }
 }
