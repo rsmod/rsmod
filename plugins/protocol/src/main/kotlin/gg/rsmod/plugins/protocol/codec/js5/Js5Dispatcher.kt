@@ -27,6 +27,7 @@ class Js5Dispatcher(
                 cacheResponse(i, group)
             }
         }
+        logger.debug { "Cached JS5 request responses (total=${responses.size})" }
     }
 
     fun add(channel: Channel, request: Js5Request) {
