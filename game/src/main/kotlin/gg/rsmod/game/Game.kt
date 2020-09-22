@@ -14,7 +14,7 @@ sealed class GameState {
     object ShutDown : GameState()
 }
 
-class Game @Inject constructor(
+class Game @Inject private constructor(
     private val internalConfig: InternalConfig,
     private val coroutineScope: GameCoroutineScope,
     private val jobDispatcher: GameJobDispatcher
