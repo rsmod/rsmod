@@ -17,7 +17,7 @@ class LoginHandler(
             logger.error { "Invalid message type (message=$msg)" }
             return
         }
-        dispatcher.queue(msg)
+        dispatcher.register(msg)
     }
 
     override fun exceptionCaught(ctx: ChannelHandlerContext, cause: Throwable) {

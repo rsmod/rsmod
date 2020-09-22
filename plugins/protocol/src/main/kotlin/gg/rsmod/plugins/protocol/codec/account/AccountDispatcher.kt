@@ -58,7 +58,7 @@ class AccountDispatcher @Inject constructor(
         logger.debug { "Ready to dispatch incoming login requests" }
     }
 
-    fun queue(request: LoginRequest) {
+    fun register(request: LoginRequest) {
         ioCoroutineScope.launch {
             val account = request(request) ?: return@launch
             registerQueue.add(account)
