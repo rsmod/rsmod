@@ -22,7 +22,8 @@ handshakes.register {
         name = HandshakeConstants.DECODER_PIPELINE
         provider = {
             LoginDecoder(
-                revision = gameConfig.revision,
+                majorRevision = gameConfig.majorRevision,
+                minorRevision = gameConfig.minorRevision,
                 rsaConfig = rsaConfig,
                 cacheCrcs = cache.archiveCrcs
             )

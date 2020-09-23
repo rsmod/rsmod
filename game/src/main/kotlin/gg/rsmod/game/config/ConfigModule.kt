@@ -43,11 +43,30 @@ class GameConfigProvider @Inject constructor(
     override fun get(): GameConfig {
         val config = ConfigMap(mapper).load(CONFIG_PATH)
         val dataPath: Path = config.dataPath()
-        val revision: Int = config["revision"] ?: error("Game config revision required.")
         val port: Int = config["port"] ?: DEFAULT_PORT
         val home: List<Int> = config["home"] ?: DEFAULT_HOME
+
+        val revision: Number = config["revision"] ?: error("Game config revision required.")
+        val majorRevision: Int
+        val minorRevision: Int
+
+        if (revision is Double) {
+            val split = revision.toString().split(".")
+            if (split.size == 1) {
+                majorRevision = revision.toInt()
+                minorRevision = DEFAULT_MINOR_REVISION
+            } else {
+                majorRevision = split[0].toInt()
+                minorRevision = split[1].toInt()
+            }
+        } else {
+            majorRevision = revision as Int
+            minorRevision = DEFAULT_MINOR_REVISION
+        }
+
         return GameConfig(
-            revision = revision,
+            majorRevision = majorRevision,
+            minorRevision = minorRevision,
             port = port,
             dataPath = dataPath,
             home = home.coordinates()
@@ -69,6 +88,7 @@ class GameConfigProvider @Inject constructor(
         private val CONFIG_PATH = Paths.get(".", "app", "config.yml")
         private val DEFAULT_DATA_PATH = Paths.get(".", "app", "data")
         private const val DEFAULT_PORT = 43594
+        private const val DEFAULT_MINOR_REVISION = 1
         private val DEFAULT_HOME = listOf(3200, 3200)
     }
 }

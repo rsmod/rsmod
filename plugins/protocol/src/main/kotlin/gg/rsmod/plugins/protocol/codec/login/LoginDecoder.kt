@@ -39,7 +39,8 @@ sealed class ConnectionType {
 }
 
 class LoginDecoder(
-    private val revision: Int,
+    private val majorRevision: Int,
+    private val minorRevision: Int,
     private val rsaConfig: RsaConfig,
     private val cacheCrcs: IntArray,
     private val serverSeed: Long = ThreadLocalRandom.current().nextLong(),
@@ -104,19 +105,13 @@ class LoginDecoder(
             return
         }
 
-        val clientRevision = buf.readInt()
-        if (clientRevision != revision) {
+        val clientMajor = buf.readInt()
+        val clientMinor = buf.readInt()
+        if (clientMajor != majorRevision || clientMinor != minorRevision) {
             logger.debug {
                 "Client revision mismatch " +
-                    "(clientRevision=$clientRevision, serverRevision=$revision, channel=${channel()})"
+                    "(clientRevision=$clientMajor.$clientMinor, serverRevision=$majorRevision.$minorRevision, channel=${channel()})"
             }
-            channel().writeErrResponse(ResponseType.JS5_OUT_OF_DATE)
-            return
-        }
-
-        val constant = buf.readInt()
-        if (constant != 1) {
-            logger.debug { "Invalid constant value (constant=$constant, channel=${channel()})" }
             channel().writeErrResponse(ResponseType.JS5_OUT_OF_DATE)
             return
         }

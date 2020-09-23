@@ -15,7 +15,7 @@ handshakes.register {
     opcode = HandshakeConstants.INIT_JS5REMOTE_CONNECTION
     decoder {
         name = HandshakeConstants.DECODER_PIPELINE
-        provider = { Js5Decoder(gameConfig.revision) }
+        provider = { Js5Decoder(gameConfig.majorRevision) }
     }
     encoder {
         name = HandshakeConstants.ENCODER_PIPELINE
