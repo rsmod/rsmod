@@ -42,9 +42,9 @@ class GameSessionDecoder(
         opcode = readModifiedOpcode()
         val structure = structures[opcode]
         if (structure == null) {
+            logger.error { "Structure for packet not defined (opcode=$opcode, channel=$channel)" }
             skipBytes(readableBytes())
             channel.close()
-            logger.error { "Structure for packet not defined (opcode=$opcode)" }
             return
         }
 
