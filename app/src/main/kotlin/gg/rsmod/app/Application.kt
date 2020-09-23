@@ -67,7 +67,7 @@ class Application {
 
         val gameConfig: GameConfig = injector.getInstance()
         logger.info { "Loaded ${plugins.size} plugin(s)" }
-        logger.info { "Loaded game with configuration: $gameConfig" }
+        logger.debug { "Loaded game with configuration: $gameConfig" }
         logger.info { "Game listening to connections on port ${gameConfig.port}" }
     }
 
