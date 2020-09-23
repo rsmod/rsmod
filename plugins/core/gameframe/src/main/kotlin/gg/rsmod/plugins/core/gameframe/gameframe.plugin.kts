@@ -19,7 +19,7 @@ fun Player.sendGameframe() {
     write(IfOpenSub(160, ((548 shl 16) or 11), 1))
     write(IfOpenSub(320, ((548 shl 16) or 70), 1))
     write(IfOpenSub(629, ((548 shl 16) or 71), 1))
-    write(IfOpenSub(399, ((548 shl 16) or 33), 1))
+    write(IfOpenSub(399, ((629 shl 16) or 33), 1))
     write(IfOpenSub(149, ((548 shl 16) or 72), 1))
     write(IfOpenSub(387, ((548 shl 16) or 73), 1))
     write(IfOpenSub(541, ((548 shl 16) or 74), 1))
