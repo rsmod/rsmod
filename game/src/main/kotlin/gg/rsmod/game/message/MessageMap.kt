@@ -1,7 +1,6 @@
 package gg.rsmod.game.message
 
 import com.github.michaelbull.logging.InlineLogger
-import com.google.inject.Inject
 import kotlin.reflect.KClass
 
 private val logger = InlineLogger()
@@ -10,11 +9,8 @@ private typealias ServerPacketStructures = MutableMap<KClass<out ServerPacket>, 
 private typealias ClientPacketStructures = MutableMap<Int, ClientPacketStructure<*>>
 
 class ServerPacketStructureMap(
-    val structures: ServerPacketStructures
+    val structures: ServerPacketStructures = mutableMapOf()
 ) : Map<KClass<out ServerPacket>, ServerPacketStructure<*>> by structures {
-
-    @Inject
-    constructor() : this(mutableMapOf())
 
     inline fun <reified T : ServerPacket> register(
         init: ServerPacketBuilder<T>.() -> Unit
@@ -43,11 +39,8 @@ class ServerPacketStructureMap(
 }
 
 class ClientPacketStructureMap(
-    private val structures: ClientPacketStructures
+    private val structures: ClientPacketStructures = mutableMapOf()
 ) : Map<Int, ClientPacketStructure<*>> by structures {
-
-    @Inject
-    constructor() : this(mutableMapOf())
 
     fun <T : ClientPacket> register(
         init: ClientPacketBuilder<T>.() -> Unit

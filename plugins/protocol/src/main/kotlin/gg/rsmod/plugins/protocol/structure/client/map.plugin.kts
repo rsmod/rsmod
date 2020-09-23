@@ -1,7 +1,7 @@
 package gg.rsmod.plugins.protocol.structure.client
 
-import gg.rsmod.plugins.protocol.DesktopPacketStructure
 import gg.rsmod.plugins.protocol.packet.client.MapBuildComplete
+import gg.rsmod.plugins.protocol.structure.DesktopPacketStructure
 
 val desktopPackets: DesktopPacketStructure by inject()
 val packets = desktopPackets.client

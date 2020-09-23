@@ -4,8 +4,8 @@ import gg.rsmod.cache.util.Xtea
 import gg.rsmod.game.message.PacketLength
 import gg.rsmod.game.model.domain.repo.XteaRepository
 import gg.rsmod.game.model.map.Region
-import gg.rsmod.plugins.protocol.DesktopPacketStructure
 import gg.rsmod.plugins.protocol.packet.server.RebuildNormal
+import gg.rsmod.plugins.protocol.structure.DesktopPacketStructure
 import io.guthix.buffer.writeShortAdd
 import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled

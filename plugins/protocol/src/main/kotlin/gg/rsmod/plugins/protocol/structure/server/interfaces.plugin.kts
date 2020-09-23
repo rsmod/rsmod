@@ -1,8 +1,8 @@
 package gg.rsmod.plugins.protocol.structure.server
 
-import gg.rsmod.plugins.protocol.DesktopPacketStructure
 import gg.rsmod.plugins.protocol.packet.server.IfOpenSub
 import gg.rsmod.plugins.protocol.packet.server.IfOpenTop
+import gg.rsmod.plugins.protocol.structure.DesktopPacketStructure
 import io.guthix.buffer.writeByteNeg
 import io.guthix.buffer.writeIntIME
 

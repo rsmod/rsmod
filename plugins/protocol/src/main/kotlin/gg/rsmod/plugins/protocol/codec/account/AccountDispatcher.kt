@@ -15,7 +15,6 @@ import gg.rsmod.game.model.domain.serializer.ClientDeserializeResponse
 import gg.rsmod.game.model.domain.serializer.ClientSerializer
 import gg.rsmod.game.model.mob.Player
 import gg.rsmod.game.model.mob.PlayerList
-import gg.rsmod.plugins.protocol.DesktopPacketStructure
 import gg.rsmod.plugins.protocol.Device
 import gg.rsmod.plugins.protocol.codec.HandshakeConstants
 import gg.rsmod.plugins.protocol.codec.ResponseType
@@ -28,6 +27,9 @@ import gg.rsmod.plugins.protocol.codec.login.LoginResponse
 import gg.rsmod.plugins.protocol.codec.writeErrResponse
 import gg.rsmod.plugins.protocol.packet.server.PlayerInfo
 import gg.rsmod.plugins.protocol.packet.server.RebuildNormal
+import gg.rsmod.plugins.protocol.structure.AndroidPacketStructure
+import gg.rsmod.plugins.protocol.structure.DesktopPacketStructure
+import gg.rsmod.plugins.protocol.structure.IosPacketStructure
 import gg.rsmod.util.security.IsaacRandom
 import io.netty.channel.Channel
 import io.netty.channel.ChannelPipeline
@@ -45,6 +47,8 @@ class AccountDispatcher @Inject constructor(
     private val playerList: PlayerList,
     private val actionHandlers: ActionHandlerMap,
     private val desktopStructures: DesktopPacketStructure,
+    private val iosStructures: IosPacketStructure,
+    private val androidStructures: AndroidPacketStructure,
     private val xteas: XteaRepository,
     private val eventBus: EventBus
 ) {
@@ -198,7 +202,8 @@ class AccountDispatcher @Inject constructor(
     ) {
         val structures = when (device) {
             Device.Desktop -> desktopStructures
-            else -> TODO()
+            Device.Ios -> iosStructures
+            Device.Android -> androidStructures
         }
         val decoder = GameSessionDecoder(decodeIsaac, structures.client, actionHandlers)
         val encoder = GameSessionEncoder(encodeIsaac, structures.server)
