@@ -232,8 +232,7 @@ class AccountDispatcher @Inject constructor(
         if (!reconnect) {
             val rebuildNormal = RebuildNormal(
                 gpi = gpi,
-                zoneX = coords.x shr 3,
-                zoneY = coords.y shr 3,
+                zone = coords.zone(),
                 xteas = xteas
             )
             write(rebuildNormal)

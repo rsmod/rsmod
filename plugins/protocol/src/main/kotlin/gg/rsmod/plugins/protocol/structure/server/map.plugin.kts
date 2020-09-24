@@ -3,7 +3,8 @@ package gg.rsmod.plugins.protocol.structure.server
 import gg.rsmod.cache.util.Xtea
 import gg.rsmod.game.message.PacketLength
 import gg.rsmod.game.model.domain.repo.XteaRepository
-import gg.rsmod.game.model.map.Region
+import gg.rsmod.game.model.map.Zone
+import gg.rsmod.plugins.api.visibleMapSquares
 import gg.rsmod.plugins.protocol.packet.server.RebuildNormal
 import gg.rsmod.plugins.protocol.structure.DesktopPacketStructure
 import io.guthix.buffer.writeShortAdd
@@ -17,22 +18,20 @@ packets.register<RebuildNormal> {
     opcode = 60
     length = PacketLength.Short
     write {
-        val xtea = writeXteas(zoneX, zoneY, xteas)
+        val xtea = writeXteas(zone, xteas)
         val buf = gpi?.write(it) ?: it
-        buf.writeShortLE(zoneY)
-        buf.writeShortAdd(zoneX)
+        buf.writeShortLE(zone.y)
+        buf.writeShortAdd(zone.x)
         buf.writeBytes(xtea)
     }
 }
 
-fun writeXteas(zoneX: Int, zoneY: Int, xteasRepository: XteaRepository): ByteBuf {
-    val lx = (zoneX - (Region.SIZE shr 4)) shr 3
-    val rx = (zoneX + (Region.SIZE shr 4)) shr 3
-    val ly = (zoneY - (Region.SIZE shr 4)) shr 3
-    val ry = (zoneY + (Region.SIZE shr 4)) shr 3
+fun writeXteas(zone: Zone, xteasRepository: XteaRepository): ByteBuf {
+    val mapSquare = zone.mapSquare()
+    val mapSquares = mapSquare.visibleMapSquares()
 
     var emptySurroundings = false
-    if ((zoneX / 8 == 48 || zoneX / 8 == 49) && zoneY / 8 == 48 || zoneX / 8 == 48 && zoneY / 8 == 148) {
+    if ((zone.x / 8 == 48 || zone.x / 8 == 49) && zone.y / 8 == 48 || zone.x / 8 == 48 && zone.y / 8 == 148) {
         emptySurroundings = true
     }
 
@@ -40,15 +39,13 @@ fun writeXteas(zoneX: Int, zoneY: Int, xteasRepository: XteaRepository): ByteBuf
     buf.writeShort(0)
 
     var regionCount = 0
-    for (x in lx..rx) {
-        for (y in ly..ry) {
-            val validRegion = y != 49 && y != 149 && y != 147 && x != 50 && (x != 49 || y != 47)
-            if (!emptySurroundings || validRegion) {
-                val region = (x shl 8) or y
-                val xteas = xteasRepository[region] ?: Xtea.EMPTY_KEY_SET
-                xteas.forEach { buf.writeInt(it) }
-                regionCount++
-            }
+    mapSquares.forEach { visible ->
+        val validRegion = visible.y != 49 && visible.y != 149 && visible.y != 147 && visible.x != 50 && (visible.x != 49 || visible.y != 47)
+        if (!emptySurroundings || validRegion) {
+            val region = (visible.x shl 8) or visible.y
+            val xteas = xteasRepository[region] ?: Xtea.EMPTY_KEY_SET
+            xteas.forEach { buf.writeInt(it) }
+            regionCount++
         }
     }
     buf.setShort(0, regionCount)

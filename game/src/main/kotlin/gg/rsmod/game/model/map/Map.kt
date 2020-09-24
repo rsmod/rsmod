@@ -19,17 +19,36 @@ inline class Coordinates(private val packed: Int) {
     val packed18Bits: Int
         get() = (y shr 13) or ((x shr 13) shl 8) or ((plane and 0x3) shl 16)
 
-    constructor(x: Int, y: Int, plane: Int = 0) :
-        this((x and 0x7FFF) or ((y and 0x7FFF) shl 15) or (plane shl 30))
+    constructor(x: Int, y: Int, plane: Int = 0) : this(
+        (x and 0x7FFF) or ((y and 0x7FFF) shl 15) or (plane shl 30)
+    )
 
-    fun translate(xOffset: Int, yOffset: Int, planeOffset: Int): Coordinates =
-        Coordinates(x + xOffset, y + yOffset, plane + planeOffset)
+    fun translate(xOffset: Int, yOffset: Int, planeOffset: Int) = Coordinates(
+        x = x + xOffset,
+        y = y + yOffset,
+        plane = plane + planeOffset
+    )
 
     fun translateX(offset: Int) = translate(offset, 0, 0)
 
     fun translateY(offset: Int) = translate(0, offset, 0)
 
     fun translatePlane(offset: Int) = translate(0, 0, offset)
+
+    fun zone() = Zone(
+        x = x / Zone.SIZE,
+        y = y / Zone.SIZE
+    )
+
+    fun mapSquare() = MapSquare(
+        x = x / MapSquare.SIZE,
+        y = y / MapSquare.SIZE
+    )
+
+    fun scene() = Scene(
+        x = x / Scene.SIZE,
+        y = y / Scene.SIZE
+    )
 
     override fun toString(): String = MoreObjects
         .toStringHelper(this)
@@ -43,36 +62,154 @@ inline class Coordinates(private val packed: Int) {
     }
 }
 
-inline class Zone(private val swCoords: Coordinates) {
+inline class Zone(private val packed: Int) {
+
+    val x: Int
+        get() = packed and 0x7FFF
+
+    val y: Int
+        get() = (packed shr 15) and 0x7FFF
+
+    val plane: Int
+        get() = (packed shr 30)
+
+    constructor(x: Int, y: Int, plane: Int = 0) : this(
+        (x and 0x7FFF) or ((y and 0x7FFF) shl 15) or (plane shl 30)
+    )
+
+    fun translate(xOffset: Int, yOffset: Int, planeOffset: Int) = Zone(
+        x = x + xOffset,
+        y = y + yOffset,
+        plane = plane + planeOffset
+    )
+
+    fun translateX(offset: Int) = translate(offset, 0, 0)
+
+    fun translateY(offset: Int) = translate(0, offset, 0)
+
+    fun translatePlane(offset: Int) = translate(0, 0, offset)
+
+    fun coords() = Coordinates(
+        x = x * SIZE,
+        y = y * SIZE,
+        plane = plane
+    )
+
+    fun mapSquare() = MapSquare(
+        x = (x / (MapSquare.SIZE / SIZE)),
+        y = (y / (MapSquare.SIZE / SIZE))
+    )
+
+    fun scene() = Scene(
+        x = (x / (Scene.SIZE / SIZE)),
+        y = (y / (Scene.SIZE / SIZE))
+    )
+
+    override fun toString(): String = MoreObjects
+        .toStringHelper(this)
+        .add("x", x)
+        .add("y", y)
+        .add("plane", plane)
+        .toString()
+
     companion object {
         const val SIZE = 8
     }
 }
 
-inline class ZoneKey(private val packed: Int) {
+inline class MapSquare(private val packed: Int) {
 
-    private val x: Int
-        get() = packed and 0x7FFF
+    val x: Int
+        get() = packed and 0xFFFF
 
-    private val y: Int
-        get() = (packed shr 15) and 0x7FFF
+    val y: Int
+        get() = (packed shr 16) and 0xFFFF
 
-    private val plane: Int
-        get() = (packed shr 30)
+    constructor(x: Int, y: Int) : this(
+        (x and 0xFFFF) or ((y and 0xFFFF) shl 16)
+    )
 
-    constructor(x: Int, y: Int, plane: Int = 0) :
-        this((x and 0x7FFF) or ((y and 0x7FFF) shl 15) or (plane shl 30))
+    fun translate(xOffset: Int, yOffset: Int) = MapSquare(
+        x = x + xOffset,
+        y = y + yOffset
+    )
 
-    fun toZone() = Zone(Coordinates(x shl 3, y shl 3, plane))
-}
+    fun translateX(offset: Int) = translate(offset, 0)
 
-inline class MapSquare(private val swCoords: Coordinates) {
+    fun translateY(offset: Int) = translate(0, offset)
+
+    fun coords(plane: Int) = Coordinates(
+        x = x * SIZE,
+        y = y * SIZE,
+        plane = plane
+    )
+
+    fun zone(plane: Int) = Zone(
+        x = x * (SIZE / Zone.SIZE),
+        y = y * (SIZE / Zone.SIZE),
+        plane = plane
+    )
+
+    fun scene() = Scene(
+        x = (x / (Scene.SIZE / SIZE)),
+        y = (y / (Scene.SIZE / SIZE))
+    )
+
+    override fun toString(): String = MoreObjects
+        .toStringHelper(this)
+        .add("x", x)
+        .add("y", y)
+        .toString()
+
     companion object {
         const val SIZE = 64
     }
 }
 
-inline class Region(private val swCoords: Coordinates) {
+inline class Scene(private val packed: Int) {
+
+    val x: Int
+        get() = packed and 0xFFFF
+
+    val y: Int
+        get() = (packed shr 16) and 0xFFFF
+
+    constructor(x: Int, y: Int) : this(
+        (x and 0xFFFF) or ((y and 0xFFFF) shl 16)
+    )
+
+    fun translate(xOffset: Int, yOffset: Int) = Scene(
+        x = x + xOffset,
+        y = y + yOffset
+    )
+
+    fun translateX(offset: Int) = translate(offset, 0)
+
+    fun translateY(offset: Int) = translate(0, offset)
+
+    fun coords(plane: Int) = Coordinates(
+        x = x * SIZE,
+        y = y * SIZE,
+        plane = plane
+    )
+
+    fun zone(plane: Int) = Zone(
+        x = x * (SIZE / Zone.SIZE),
+        y = y * (SIZE / Zone.SIZE),
+        plane = plane
+    )
+
+    fun mapSquare() = MapSquare(
+        x = x * (SIZE / MapSquare.SIZE),
+        y = y * (SIZE / MapSquare.SIZE),
+    )
+
+    override fun toString(): String = MoreObjects
+        .toStringHelper(this)
+        .add("x", x)
+        .add("y", y)
+        .toString()
+
     companion object {
         const val SIZE = 104
     }
