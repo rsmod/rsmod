@@ -30,6 +30,8 @@ class Player(
         get() = entity.coords
         set(value) { entity.coords = value }
 
+    var rebuiltCoords = Coordinates.ZERO
+
     fun login(eventBus: EventBus) {
         eventBus.publish(LoginEvent(this, LoginEvent.Stage.Priority))
         eventBus.publish(LoginEvent(this, LoginEvent.Stage.Normal))
