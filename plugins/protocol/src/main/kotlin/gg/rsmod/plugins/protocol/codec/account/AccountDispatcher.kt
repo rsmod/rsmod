@@ -15,6 +15,8 @@ import gg.rsmod.game.model.domain.serializer.ClientDeserializeResponse
 import gg.rsmod.game.model.domain.serializer.ClientSerializer
 import gg.rsmod.game.model.mob.Player
 import gg.rsmod.game.model.mob.PlayerList
+import gg.rsmod.plugins.api.refreshViewport
+import gg.rsmod.plugins.api.viewport
 import gg.rsmod.plugins.protocol.Device
 import gg.rsmod.plugins.protocol.codec.HandshakeConstants
 import gg.rsmod.plugins.protocol.codec.ResponseType
@@ -229,15 +231,18 @@ class AccountDispatcher @Inject constructor(
     }
 
     private fun Player.login(reconnect: Boolean, gpi: PlayerInfo) {
+        val viewport = coords.mapSquare().viewport()
         if (!reconnect) {
             val rebuildNormal = RebuildNormal(
                 gpi = gpi,
                 zone = coords.zone(),
+                viewport = viewport,
                 xteas = xteas
             )
             write(rebuildNormal)
             flush()
         }
+        refreshViewport(viewport)
         login(eventBus)
     }
 

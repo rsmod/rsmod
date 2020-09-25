@@ -9,6 +9,7 @@ import gg.rsmod.game.model.client.NpcEntity
 import gg.rsmod.game.model.client.PlayerEntity
 import gg.rsmod.game.model.domain.PlayerId
 import gg.rsmod.game.model.map.Coordinates
+import gg.rsmod.game.model.map.MapSquare
 
 sealed class Mob
 
@@ -30,7 +31,7 @@ class Player(
         get() = entity.coords
         set(value) { entity.coords = value }
 
-    var rebuiltCoords = Coordinates.ZERO
+    val viewport = mutableListOf<MapSquare>()
 
     fun login(eventBus: EventBus) {
         eventBus.publish(LoginEvent(this, LoginEvent.Stage.Priority))

@@ -3,8 +3,8 @@ package gg.rsmod.plugins.protocol.structure.server
 import gg.rsmod.cache.util.Xtea
 import gg.rsmod.game.message.PacketLength
 import gg.rsmod.game.model.domain.repo.XteaRepository
+import gg.rsmod.game.model.map.MapSquare
 import gg.rsmod.game.model.map.Zone
-import gg.rsmod.plugins.api.visibleMapSquares
 import gg.rsmod.plugins.protocol.packet.server.RebuildNormal
 import gg.rsmod.plugins.protocol.structure.DesktopPacketStructure
 import io.guthix.buffer.writeShortAdd
@@ -18,7 +18,7 @@ packets.register<RebuildNormal> {
     opcode = 60
     length = PacketLength.Short
     write {
-        val xtea = writeXteas(zone, xteas)
+        val xtea = writeXteas(zone, viewport, xteas)
         val buf = gpi?.write(it) ?: it
         buf.writeShortLE(zone.y)
         buf.writeShortAdd(zone.x)
@@ -26,10 +26,7 @@ packets.register<RebuildNormal> {
     }
 }
 
-fun writeXteas(zone: Zone, xteasRepository: XteaRepository): ByteBuf {
-    val mapSquare = zone.mapSquare()
-    val mapSquares = mapSquare.visibleMapSquares()
-
+fun writeXteas(zone: Zone, viewport: List<MapSquare>, xteasRepository: XteaRepository): ByteBuf {
     var emptySurroundings = false
     if ((zone.x / 8 == 48 || zone.x / 8 == 49) && zone.y / 8 == 48 || zone.x / 8 == 48 && zone.y / 8 == 148) {
         emptySurroundings = true
@@ -39,10 +36,10 @@ fun writeXteas(zone: Zone, xteasRepository: XteaRepository): ByteBuf {
     buf.writeShort(0)
 
     var regionCount = 0
-    mapSquares.forEach { visible ->
-        val validRegion = visible.y != 49 && visible.y != 149 && visible.y != 147 && visible.x != 50 && (visible.x != 49 || visible.y != 47)
+    viewport.forEach { mapSquare ->
+        val validRegion = mapSquare.y != 49 && mapSquare.y != 149 && mapSquare.y != 147 && mapSquare.x != 50 && (mapSquare.x != 49 || mapSquare.y != 47)
         if (!emptySurroundings || validRegion) {
-            val region = (visible.x shl 8) or visible.y
+            val region = (mapSquare.x shl 8) or mapSquare.y
             val xteas = xteasRepository[region] ?: Xtea.EMPTY_KEY_SET
             xteas.forEach { buf.writeInt(it) }
             regionCount++
