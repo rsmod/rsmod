@@ -7,7 +7,7 @@ import gg.rsmod.game.model.map.Zone
 
 data class RebuildNormal(
     val gpi: PlayerInfo?,
-    val zone: Zone,
+    val playerZone: Zone,
     val viewport: List<MapSquare>,
     val xteas: XteaRepository
 ) : ServerPacket

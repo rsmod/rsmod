@@ -18,10 +18,10 @@ packets.register<RebuildNormal> {
     opcode = 60
     length = PacketLength.Short
     write {
-        val xtea = writeXteas(zone, viewport, xteas)
+        val xtea = writeXteas(playerZone, viewport, xteas)
         val buf = gpi?.write(it) ?: it
-        buf.writeShortLE(zone.y)
-        buf.writeShortAdd(zone.x)
+        buf.writeShortLE(playerZone.y)
+        buf.writeShortAdd(playerZone.x)
         buf.writeBytes(xtea)
     }
 }
