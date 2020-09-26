@@ -3,10 +3,9 @@ package gg.rsmod.plugins.core.update.player
 import com.google.inject.Inject
 import gg.rsmod.game.model.domain.repo.XteaRepository
 import gg.rsmod.game.model.map.MapIsolation
+import gg.rsmod.game.model.map.viewport
 import gg.rsmod.game.model.mob.PlayerList
 import gg.rsmod.game.model.mob.update.UpdateTask
-import gg.rsmod.plugins.api.map.viewport
-import gg.rsmod.plugins.api.mob.refreshViewport
 import gg.rsmod.plugins.protocol.packet.server.RebuildNormal
 
 class PlayerMovementTask @Inject constructor(
@@ -33,7 +32,7 @@ class PlayerMovementTask @Inject constructor(
                     xteas = xteasRepository
                 )
                 player.write(rebuildNormal)
-                player.refreshViewport(newViewport)
+                player.viewport.refresh(newViewport)
             }
         }
     }

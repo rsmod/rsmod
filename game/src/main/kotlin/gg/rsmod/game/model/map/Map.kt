@@ -217,3 +217,37 @@ inline class Scene(private val packed: Int) {
         const val SIZE = 104
     }
 }
+
+data class Viewport(
+    private val maps: MutableList<MapSquare> = mutableListOf()
+) : List<MapSquare> by maps {
+
+    fun refresh(newMaps: List<MapSquare>) {
+        maps.clear()
+        maps.addAll(newMaps)
+    }
+}
+
+fun Zone.viewport(isolation: MapIsolation): List<MapSquare> {
+    val lx = (x - 6) / Zone.SIZE
+    val ly = (y - 6) / Zone.SIZE
+    val rx = (x + 6) / Zone.SIZE
+    val ry = (y + 6) / Zone.SIZE
+
+    val viewport = mutableListOf<MapSquare>()
+    for (mx in lx..rx) {
+        for (my in ly..ry) {
+            val mapSquare = MapSquare(mx, my)
+            viewport.add(mapSquare)
+        }
+    }
+
+    val isolatedMap = isolation[mapSquare().id]
+    if (isolatedMap != null) {
+        viewport.removeIf { it.id in isolatedMap.hidden }
+    }
+
+    return viewport
+}
+
+

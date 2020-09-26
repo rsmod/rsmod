@@ -14,10 +14,9 @@ import gg.rsmod.game.model.domain.serializer.ClientDeserializeRequest
 import gg.rsmod.game.model.domain.serializer.ClientDeserializeResponse
 import gg.rsmod.game.model.domain.serializer.ClientSerializer
 import gg.rsmod.game.model.map.MapIsolation
+import gg.rsmod.game.model.map.viewport
 import gg.rsmod.game.model.mob.Player
 import gg.rsmod.game.model.mob.PlayerList
-import gg.rsmod.plugins.api.map.viewport
-import gg.rsmod.plugins.api.mob.refreshViewport
 import gg.rsmod.plugins.protocol.Device
 import gg.rsmod.plugins.protocol.codec.HandshakeConstants
 import gg.rsmod.plugins.protocol.codec.ResponseType
@@ -233,18 +232,18 @@ class AccountDispatcher @Inject constructor(
     }
 
     private fun Player.login(reconnect: Boolean, gpi: PlayerInfo) {
-        val viewport = coords.zone().viewport(mapIsolation)
+        val newViewport = coords.zone().viewport(mapIsolation)
         if (!reconnect) {
             val rebuildNormal = RebuildNormal(
                 gpi = gpi,
                 playerZone = coords.zone(),
-                viewport = viewport,
+                viewport = newViewport,
                 xteas = xteas
             )
             write(rebuildNormal)
             flush()
         }
-        refreshViewport(viewport)
+        viewport.refresh(newViewport)
         login(eventBus)
     }
 
