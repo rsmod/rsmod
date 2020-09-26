@@ -1,8 +1,12 @@
 package gg.rsmod.game.model.client
 
+import com.github.michaelbull.logging.InlineLogger
 import com.google.common.base.MoreObjects
+import com.google.inject.Inject
 import gg.rsmod.game.action.ActionHandler
 import gg.rsmod.game.model.mob.Player
+
+private val logger = InlineLogger()
 
 class Client(
     val player: Player,
@@ -19,6 +23,32 @@ class Client(
         .add("machine", machine)
         .add("settings", settings)
         .toString()
+}
+
+class ClientList(
+    private val active: MutableList<Client> = mutableListOf()
+) : List<Client> by active {
+
+    @Inject
+    constructor() : this(mutableListOf())
+
+    fun register(client: Client) {
+        if (active.any { it.player.id == client.player.id }) {
+            logger.error { "Client is already registered (player=${client.player})" }
+            return
+        }
+        logger.debug { "Registered to client list (player=${client.player})" }
+        active.add(client)
+    }
+
+    fun remove(client: Client) {
+        if (active.none { it.player.id == client.player.id }) {
+            logger.error { "Client is not registered (player=${client.player})" }
+            return
+        }
+        logger.debug { "Remove from client list (player=${client.player})" }
+        active.remove(client)
+    }
 }
 
 data class ClientSettings(
