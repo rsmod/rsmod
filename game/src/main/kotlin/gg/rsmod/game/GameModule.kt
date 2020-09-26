@@ -5,6 +5,7 @@ import dev.misfitlabs.kotlinguice4.KotlinModule
 import gg.rsmod.game.action.ActionHandlerMap
 import gg.rsmod.game.action.ActionMap
 import gg.rsmod.game.event.EventBus
+import gg.rsmod.game.model.map.MapIsolation
 import gg.rsmod.game.model.mob.NpcList
 import gg.rsmod.game.model.mob.PlayerList
 
@@ -27,6 +28,9 @@ class GameModule(private val scope: Scope) : KotlinModule() {
             .`in`(scope)
 
         bind<NpcList>()
+            .`in`(scope)
+
+        bind<MapIsolation>()
             .`in`(scope)
     }
 }
