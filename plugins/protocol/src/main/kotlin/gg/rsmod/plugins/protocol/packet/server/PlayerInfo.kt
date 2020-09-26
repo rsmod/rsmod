@@ -1,5 +1,6 @@
 package gg.rsmod.plugins.protocol.packet.server
 
+import gg.rsmod.game.message.ServerPacket
 import io.guthix.buffer.toBitMode
 import io.netty.buffer.ByteBuf
 
@@ -16,3 +17,7 @@ class PlayerInfo(
         return bitBuf.toByteMode()
     }
 }
+
+class PlayerUpdate(
+    val buffer: ByteBuf
+) : ServerPacket
