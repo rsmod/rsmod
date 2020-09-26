@@ -1,4 +1,4 @@
-package gg.rsmod.plugins.api
+package gg.rsmod.plugins.api.mob
 
 import gg.rsmod.game.model.map.MapSquare
 import gg.rsmod.game.model.mob.Player

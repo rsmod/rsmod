@@ -17,7 +17,7 @@ import gg.rsmod.game.model.map.MapIsolation
 import gg.rsmod.game.model.mob.Player
 import gg.rsmod.game.model.mob.PlayerList
 import gg.rsmod.plugins.api.map.viewport
-import gg.rsmod.plugins.api.refreshViewport
+import gg.rsmod.plugins.api.mob.refreshViewport
 import gg.rsmod.plugins.protocol.Device
 import gg.rsmod.plugins.protocol.codec.HandshakeConstants
 import gg.rsmod.plugins.protocol.codec.ResponseType
