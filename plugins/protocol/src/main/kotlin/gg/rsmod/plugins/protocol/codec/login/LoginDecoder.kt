@@ -171,7 +171,11 @@ class LoginDecoder(
         } else {
             val authType = buf.readByte().toInt()
             authCode = when (authType) {
-                0, 2 -> {
+                2 -> {
+                    buf.skipBytes(Int.SIZE_BYTES)
+                    -1
+                }
+                3, 1 -> {
                     val auth = buf.readUnsignedMedium()
                     buf.skipBytes(Byte.SIZE_BYTES)
                     auth
