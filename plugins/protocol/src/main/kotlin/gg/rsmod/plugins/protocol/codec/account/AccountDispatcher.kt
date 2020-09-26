@@ -13,10 +13,11 @@ import gg.rsmod.game.model.domain.repo.XteaRepository
 import gg.rsmod.game.model.domain.serializer.ClientDeserializeRequest
 import gg.rsmod.game.model.domain.serializer.ClientDeserializeResponse
 import gg.rsmod.game.model.domain.serializer.ClientSerializer
+import gg.rsmod.game.model.map.MapIsolation
 import gg.rsmod.game.model.mob.Player
 import gg.rsmod.game.model.mob.PlayerList
+import gg.rsmod.plugins.api.map.viewport
 import gg.rsmod.plugins.api.refreshViewport
-import gg.rsmod.plugins.api.viewport
 import gg.rsmod.plugins.protocol.Device
 import gg.rsmod.plugins.protocol.codec.HandshakeConstants
 import gg.rsmod.plugins.protocol.codec.ResponseType
@@ -52,7 +53,8 @@ class AccountDispatcher @Inject constructor(
     private val iosStructures: IosPacketStructure,
     private val androidStructures: AndroidPacketStructure,
     private val xteas: XteaRepository,
-    private val eventBus: EventBus
+    private val eventBus: EventBus,
+    private val mapIsolation: MapIsolation
 ) {
 
     private val registerQueue = ConcurrentLinkedQueue<Account>()
@@ -231,12 +233,12 @@ class AccountDispatcher @Inject constructor(
     }
 
     private fun Player.login(reconnect: Boolean, gpi: PlayerInfo) {
-        val viewport = coords.mapSquare().viewport()
+        val viewport = coords.zone().viewport(mapIsolation)
         if (!reconnect) {
             val rebuildNormal = RebuildNormal(
                 gpi = gpi,
                 playerZone = coords.zone(),
-                viewport = viewport,
+                viewport = viewport.toList(),
                 xteas = xteas
             )
             write(rebuildNormal)
