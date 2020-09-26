@@ -117,16 +117,16 @@ inline class Zone(private val packed: Int) {
     }
 }
 
-inline class MapSquare(private val packed: Int) {
+inline class MapSquare(val id: Int) {
 
     val x: Int
-        get() = packed and 0xFFFF
+        get() = id shr 8
 
     val y: Int
-        get() = (packed shr 16) and 0xFFFF
+        get() = id and 0xFF
 
     constructor(x: Int, y: Int) : this(
-        (x and 0xFFFF) or ((y and 0xFFFF) shl 16)
+        id = (x shl 8) or y
     )
 
     fun translate(xOffset: Int, yOffset: Int) = MapSquare(
@@ -157,12 +157,15 @@ inline class MapSquare(private val packed: Int) {
 
     override fun toString(): String = MoreObjects
         .toStringHelper(this)
+        .add("id", id)
         .add("x", x)
         .add("y", y)
         .toString()
 
     companion object {
         const val SIZE = 64
+
+        val ZERO = MapSquare(0)
     }
 }
 
