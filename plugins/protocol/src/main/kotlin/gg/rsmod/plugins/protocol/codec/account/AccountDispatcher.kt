@@ -238,7 +238,7 @@ class AccountDispatcher @Inject constructor(
             val rebuildNormal = RebuildNormal(
                 gpi = gpi,
                 playerZone = coords.zone(),
-                viewport = viewport.toList(),
+                viewport = viewport,
                 xteas = xteas
             )
             write(rebuildNormal)
