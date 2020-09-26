@@ -109,8 +109,9 @@ class LoginDecoder(
         val clientMinor = buf.readInt()
         if (clientMajor != majorRevision || clientMinor != minorRevision) {
             logger.debug {
-                "Client revision mismatch " +
-                    "(clientRevision=$clientMajor.$clientMinor, serverRevision=$majorRevision.$minorRevision, channel=${channel()})"
+                val clientRev = "$clientMajor.$clientMinor"
+                val serverRev = "$majorRevision.$minorRevision"
+                "Client revision mismatch (clientRevision=$clientRev, serverRevision=$serverRev, channel=${channel()})"
             }
             channel().writeErrResponse(ResponseType.JS5_OUT_OF_DATE)
             return
