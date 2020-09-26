@@ -8,6 +8,7 @@ import gg.rsmod.game.event.EventBus
 import gg.rsmod.game.model.map.MapIsolation
 import gg.rsmod.game.model.mob.NpcList
 import gg.rsmod.game.model.mob.PlayerList
+import gg.rsmod.game.model.mob.update.UpdateTaskList
 
 class GameModule(private val scope: Scope) : KotlinModule() {
 
@@ -28,6 +29,9 @@ class GameModule(private val scope: Scope) : KotlinModule() {
             .`in`(scope)
 
         bind<NpcList>()
+            .`in`(scope)
+
+        bind<UpdateTaskList>()
             .`in`(scope)
 
         bind<MapIsolation>()

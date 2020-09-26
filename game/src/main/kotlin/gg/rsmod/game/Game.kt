@@ -5,6 +5,7 @@ import gg.rsmod.game.config.InternalConfig
 import gg.rsmod.game.coroutine.GameCoroutineScope
 import gg.rsmod.game.dispatch.GameJobDispatcher
 import gg.rsmod.game.model.mob.PlayerList
+import gg.rsmod.game.model.mob.update.UpdateTaskList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -19,6 +20,7 @@ class Game @Inject private constructor(
     private val internalConfig: InternalConfig,
     private val coroutineScope: GameCoroutineScope,
     private val jobDispatcher: GameJobDispatcher,
+    private val updateTaskList: UpdateTaskList,
     private val playerList: PlayerList
 ) {
 
@@ -36,6 +38,7 @@ class Game @Inject private constructor(
     private fun CoroutineScope.start(delay: Long) = launch {
         while (state != GameState.ShutDown) {
             jobDispatcher.executeAll()
+            updateTaskList.forEach { it.execute() }
             playerList.forEach { it?.flush() }
             delay(delay)
         }
