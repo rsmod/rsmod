@@ -2,6 +2,7 @@ package gg.rsmod.plugins.protocol.codec.game
 
 import com.github.michaelbull.logging.InlineLogger
 import gg.rsmod.game.action.ActionHandlerMap
+import gg.rsmod.game.action.ActionMessage
 import gg.rsmod.game.message.ClientPacketStructureMap
 import gg.rsmod.util.security.IsaacRandom
 import io.netty.buffer.ByteBuf
@@ -79,7 +80,8 @@ class GameSessionDecoder(
                 val packet = read(payload)
                 val handler = handlers[packet]
                 if (handler != null) {
-                    out.add(handler)
+                    val message = ActionMessage(packet, handler)
+                    out.add(message)
                 } else {
                     logger.error { "Handler for action not defined (action=$packet)" }
                 }

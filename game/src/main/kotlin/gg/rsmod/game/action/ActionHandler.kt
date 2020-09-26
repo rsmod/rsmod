@@ -6,6 +6,11 @@ import gg.rsmod.game.model.client.Client
 import gg.rsmod.game.model.mob.Player
 import kotlin.reflect.KClass
 
+data class ActionMessage(
+    val action: Action,
+    val handler: ActionHandler<Action>
+)
+
 interface ActionHandler<T : Action> {
     fun handle(client: Client, player: Player, action: T)
 }
@@ -29,7 +34,8 @@ class ActionHandlerMap(
         handlers[T::class] = handler
     }
 
-    inline operator fun <reified T : Action> get(action: T) = handlers[action::class]
+    @Suppress("UNCHECKED_CAST")
+    inline operator fun <reified T : Action> get(action: T) = handlers[action::class] as? ActionHandler<T>
 
     companion object {
         val logger = InlineLogger()

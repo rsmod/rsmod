@@ -9,6 +9,7 @@ import gg.rsmod.game.coroutine.IoCoroutineScope
 import gg.rsmod.game.dispatch.GameJobDispatcher
 import gg.rsmod.game.event.EventBus
 import gg.rsmod.game.model.client.Client
+import gg.rsmod.game.model.client.ClientList
 import gg.rsmod.game.model.domain.repo.XteaRepository
 import gg.rsmod.game.model.domain.serializer.ClientDeserializeRequest
 import gg.rsmod.game.model.domain.serializer.ClientDeserializeResponse
@@ -47,6 +48,7 @@ class AccountDispatcher @Inject constructor(
     private val gameJobDispatcher: GameJobDispatcher,
     private val serializer: ClientSerializer,
     private val playerList: PlayerList,
+    private val clientList: ClientList,
     private val actionHandlers: ActionHandlerMap,
     private val desktopStructures: DesktopPacketStructure,
     private val iosStructures: IosPacketStructure,
@@ -210,7 +212,7 @@ class AccountDispatcher @Inject constructor(
         }
         val decoder = GameSessionDecoder(decodeIsaac, structures.client, actionHandlers)
         val encoder = GameSessionEncoder(encodeIsaac, structures.server)
-        val handler = GameSessionHandler(client, this@AccountDispatcher)
+        val handler = GameSessionHandler(clientList, client, this@AccountDispatcher)
 
         remove(HandshakeConstants.RESPONSE_PIPELINE)
 

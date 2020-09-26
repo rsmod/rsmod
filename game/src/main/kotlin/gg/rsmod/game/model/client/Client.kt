@@ -3,7 +3,7 @@ package gg.rsmod.game.model.client
 import com.github.michaelbull.logging.InlineLogger
 import com.google.common.base.MoreObjects
 import com.google.inject.Inject
-import gg.rsmod.game.action.ActionHandler
+import gg.rsmod.game.action.ActionMessage
 import gg.rsmod.game.model.mob.Player
 
 private val logger = InlineLogger()
@@ -14,8 +14,16 @@ class Client(
     var settings: ClientSettings,
     val encryptedPass: String,
     val loginXteas: IntArray,
-    val pendingHandlers: MutableList<ActionHandler<*>> = mutableListOf()
+    val pendingActions: MutableList<ActionMessage> = mutableListOf()
 ) {
+
+    fun pollActions() {
+        pendingActions.forEach {
+            val action = it.action
+            val handler = it.handler
+            handler.handle(this, player, action)
+        }
+    }
 
     override fun toString(): String = MoreObjects
         .toStringHelper(this)
