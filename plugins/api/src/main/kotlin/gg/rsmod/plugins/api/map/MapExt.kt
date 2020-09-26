@@ -18,9 +18,9 @@ fun Zone.viewport(isolation: MapIsolation): List<MapSquare> {
         }
     }
 
-    val hiddenMaps = isolation[mapSquare().id]
-    if (hiddenMaps != null) {
-        viewport.removeIf { it.id in hiddenMaps }
+    val isolatedMap = isolation[mapSquare().id]
+    if (isolatedMap != null) {
+        viewport.removeIf { it.id in isolatedMap.hidden }
     }
 
     return viewport

@@ -7,7 +7,7 @@ private val logger = InlineLogger()
 
 data class IsolatedMap(
     val hidden: Set<Int>
-) : Set<Int> by hidden
+)
 
 class MapIsolation(
     private val maps: MutableMap<Int, IsolatedMap>
