@@ -13,7 +13,6 @@ class PlayerPostCycleTask @Inject constructor(
             if (player == null) {
                 return@forEach
             }
-
         }
     }
 }

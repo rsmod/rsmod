@@ -249,5 +249,3 @@ fun Zone.viewport(isolation: MapIsolation): List<MapSquare> {
 
     return viewport
 }
-
-
