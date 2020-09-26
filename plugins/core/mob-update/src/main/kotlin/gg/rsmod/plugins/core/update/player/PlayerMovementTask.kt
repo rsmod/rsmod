@@ -22,8 +22,8 @@ class PlayerMovementTask @Inject constructor(
             val coords = player.coords
             val viewport = player.viewport
             val mapSquare = coords.mapSquare()
-            val requireRebuild = !viewport.contains(mapSquare)
-            if (requireRebuild) {
+            val rebuild = !viewport.contains(mapSquare)
+            if (rebuild) {
                 val newViewport = coords.zone().viewport(mapIsolation)
                 val rebuildNormal = RebuildNormal(
                     gpi = null,
