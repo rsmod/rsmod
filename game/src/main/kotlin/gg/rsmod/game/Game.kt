@@ -18,7 +18,7 @@ sealed class GameState {
 }
 
 class Game @Inject private constructor(
-    private val internalConfig: InternalConfig,
+    private val config: InternalConfig,
     private val coroutineScope: GameCoroutineScope,
     private val jobDispatcher: GameJobDispatcher,
     private val updateTaskList: UpdateTaskList,
@@ -32,14 +32,14 @@ class Game @Inject private constructor(
         if (state != GameState.Inactive) {
             error("::start has already been called.")
         }
-        val delay = internalConfig.gameTickDelay
+        val delay = config.gameTickDelay
         state = GameState.Active
         coroutineScope.start(delay.toLong())
     }
 
     private fun CoroutineScope.start(delay: Long) = launch {
         while (state != GameState.ShutDown) {
-            clientList.forEach { it.pollActions() }
+            clientList.forEach { it.pollActions(config.actionsPerCycle) }
             jobDispatcher.executeAll()
             updateTaskList.forEach { it.execute() }
             playerList.forEach { it?.flush() }

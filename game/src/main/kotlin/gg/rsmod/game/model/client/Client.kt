@@ -5,6 +5,7 @@ import com.google.common.base.MoreObjects
 import com.google.inject.Inject
 import gg.rsmod.game.action.ActionMessage
 import gg.rsmod.game.model.mob.Player
+import java.util.*
 
 private val logger = InlineLogger()
 
@@ -14,11 +15,12 @@ class Client(
     var settings: ClientSettings,
     val encryptedPass: String,
     val loginXteas: IntArray,
-    val pendingActions: MutableList<ActionMessage> = mutableListOf()
+    val pendingActions: LinkedList<ActionMessage> = LinkedList()
 ) {
 
-    fun pollActions() {
-        pendingActions.forEach {
+    fun pollActions(actionLimit: Int) {
+        for (i in 0 until actionLimit) {
+            val it = pendingActions.poll() ?: break
             val action = it.action
             val handler = it.handler
             handler.handle(this, player, action)

@@ -131,14 +131,17 @@ class InternalConfigProvider @Inject constructor(
         if (!Files.exists(configFile)) {
             return DEFAULT_CONFIG
         }
+        val default = DEFAULT_CONFIG
         val config = ConfigMap(mapper).load(configFile)
-        val gameTickDelay = config["game-tick-delay"] ?: DEFAULT_CONFIG.gameTickDelay
-        val loginsPerCycle = config["logins-per-cycle"] ?: DEFAULT_CONFIG.loginsPerCycle
-        val logoutsPerCycle = config["logouts-per-cycle"] ?: DEFAULT_CONFIG.logoutsPerCycle
+        val gameTickDelay = config["game-tick-delay"] ?: default.gameTickDelay
+        val loginsPerCycle = config["logins-per-cycle"] ?: default.loginsPerCycle
+        val logoutsPerCycle = config["logouts-per-cycle"] ?: default.logoutsPerCycle
+        val actionsPerCycle = config["actions-per-cycle"] ?: default.actionsPerCycle
         return InternalConfig(
             gameTickDelay = gameTickDelay,
             loginsPerCycle = loginsPerCycle,
-            logoutsPerCycle = logoutsPerCycle
+            logoutsPerCycle = logoutsPerCycle,
+            actionsPerCycle = actionsPerCycle
         )
     }
 
@@ -146,7 +149,8 @@ class InternalConfigProvider @Inject constructor(
         private val DEFAULT_CONFIG = InternalConfig(
             gameTickDelay = 600,
             loginsPerCycle = 25,
-            logoutsPerCycle = 10
+            logoutsPerCycle = 10,
+            actionsPerCycle = 25
         )
     }
 }

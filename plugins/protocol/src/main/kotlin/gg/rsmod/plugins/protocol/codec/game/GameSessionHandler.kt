@@ -36,7 +36,7 @@ class GameSessionHandler(
             return
         }
         while (client.pendingActions.size > PENDING_ACTION_CAPACITY) {
-            client.pendingActions.removeAt(0)
+            client.pendingActions.poll()
         }
         client.pendingActions.add(msg)
     }
@@ -46,6 +46,6 @@ class GameSessionHandler(
     }
 
     companion object {
-        private const val PENDING_ACTION_CAPACITY = 25
+        private const val PENDING_ACTION_CAPACITY = 250
     }
 }
