@@ -5,7 +5,7 @@ import com.google.common.base.MoreObjects
 import com.google.inject.Inject
 import gg.rsmod.game.action.ActionMessage
 import gg.rsmod.game.model.mob.Player
-import java.util.*
+import java.util.LinkedList
 
 private val logger = InlineLogger()
 
