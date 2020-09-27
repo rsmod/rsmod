@@ -72,7 +72,7 @@ class ClientPacketBuilder<T : ClientPacket> {
         this.packetReader = reader
     }
 
-    internal fun build(): List<ClientPacketStructure<T>> {
+    fun build(): List<ClientPacketStructure<T>> {
         if (opcodes.isEmpty()) {
             error("Client packet structure opcode has not been set.")
         } else if (packetReader == null && !suppress) {

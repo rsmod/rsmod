@@ -3,8 +3,6 @@ package gg.rsmod.game.message
 import com.github.michaelbull.logging.InlineLogger
 import kotlin.reflect.KClass
 
-private val logger = InlineLogger()
-
 private typealias ServerPacketStructures = MutableMap<KClass<out ServerPacket>, ServerPacketStructure<*>>
 private typealias ClientPacketStructures = MutableMap<Int, ClientPacketStructure<*>>
 
@@ -39,18 +37,20 @@ class ServerPacketStructureMap(
 }
 
 class ClientPacketStructureMap(
-    private val structures: ClientPacketStructures = mutableMapOf()
+    val structures: ClientPacketStructures = mutableMapOf()
 ) : Map<Int, ClientPacketStructure<*>> by structures {
 
-    fun <T : ClientPacket> register(
+    inline fun <reified T : ClientPacket> register(
         init: ClientPacketBuilder<T>.() -> Unit
     ) {
         val builder = ClientPacketBuilder<T>().apply(init)
         val structureList = builder.build()
 
         logger.debug {
+            val reference = structureList.first()
+            val packet = T::class.simpleName
             "Register client packet structure " +
-                "(opcodes=${structureList.map { it.opcode }}, length=${structureList[0].length})"
+                "(packet=$packet, opcodes=${structureList.map { it.opcode }}, length=${reference.length})"
         }
         structureList.forEach { structure ->
             if (structures.containsKey(structure.opcode)) {
@@ -59,5 +59,9 @@ class ClientPacketStructureMap(
 
             structures[structure.opcode] = structure
         }
+    }
+
+    companion object {
+        val logger = InlineLogger()
     }
 }
