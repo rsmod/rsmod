@@ -11,17 +11,14 @@ val packets = desktopPackets.client
 packets.register<UnknownClientPacket> {
     opcode = 41
     length = -1
-    suppress = true
 }
 
 packets.register<NoTimeout> {
     opcode = 0
     length = 0
-    suppress = true
 }
 
 packets.register<WindowStatus> {
     opcode = 10
     length = 5
-    suppress = true
 }

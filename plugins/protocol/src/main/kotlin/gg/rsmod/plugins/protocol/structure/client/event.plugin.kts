@@ -11,17 +11,14 @@ val packets = desktopPackets.client
 packets.register<EventMouseMove> {
     opcode = 23
     length = -1
-    suppress = true
 }
 
 packets.register<EventMouseClick> {
     opcode = 66
     length = 6
-    suppress = true
 }
 
 packets.register<EventAppletFocus> {
     opcode = 26
     length = 1
-    suppress = true
 }

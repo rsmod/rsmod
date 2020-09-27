@@ -16,9 +16,12 @@ class ServerPacketStructure<T : ServerPacket>(
 class ClientPacketStructure<T : ClientPacket>(
     val opcode: Int,
     val length: Int,
-    val read: PacketReader<T>?,
+    val read: PacketReader<T>?
+) {
+
     val suppress: Boolean
-)
+        get() = read == null
+}
 
 @DslMarker
 private annotation class BuilderDslMarker
@@ -59,8 +62,6 @@ class ClientPacketBuilder<T : ClientPacket> {
 
     var length: Int? = null
 
-    var suppress = false
-
     var opcode: Int = 0
         set(value) { opcodes.add(value) }
 
@@ -75,16 +76,13 @@ class ClientPacketBuilder<T : ClientPacket> {
     fun build(): List<ClientPacketStructure<T>> {
         if (opcodes.isEmpty()) {
             error("Client packet structure opcode has not been set.")
-        } else if (packetReader == null && !suppress) {
-            error("Client packet structure reader has not been set.")
         }
         val length = length ?: error("Client packet structure length has not been set.")
         return opcodes.map { opcode ->
             ClientPacketStructure(
                 opcode = opcode,
                 length = length,
-                read = packetReader,
-                suppress = suppress
+                read = packetReader
             )
         }
     }
