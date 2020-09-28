@@ -3,12 +3,9 @@ package gg.rsmod.game.event
 import com.google.inject.Inject
 import kotlin.reflect.KClass
 
-private typealias EventMap =
-    MutableMap<KClass<out Event>, MutableList<EventAction<*>>>
+private typealias EventMap = MutableMap<KClass<out Event>, MutableList<EventAction<*>>>
 
-class EventBus(
-    val events: EventMap
-) : Map<KClass<out Event>, List<EventAction<*>>> by events {
+class EventBus(val events: EventMap) : Map<KClass<out Event>, List<EventAction<*>>> by events {
 
     @Inject
     constructor() : this(mutableMapOf())
@@ -30,9 +27,7 @@ class EventBus(
 private annotation class BuilderDslMarker
 
 @BuilderDslMarker
-class EventActionBuilder<T : Event>(
-    private val events: MutableList<EventAction<*>>
-) {
+class EventActionBuilder<T : Event>(private val events: MutableList<EventAction<*>>) {
 
     private var where: (T).() -> Boolean = { true }
 
