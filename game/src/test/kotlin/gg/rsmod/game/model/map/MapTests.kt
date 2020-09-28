@@ -23,8 +23,8 @@ class MapTests {
 
     @ParameterizedTest
     @ArgumentsSource(TranslationProvider::class)
-    fun `translate coordinates`(offX: Int, offY: Int, offPlane: Int) {
-        val coords = Coordinates(3200, 3200, 0)
+    fun `translate coordinates`(x: Int, y: Int, plane: Int, offX: Int, offY: Int, offPlane: Int) {
+        val coords = Coordinates(x, y, plane)
         val translation = coords.translate(offX, offY, offPlane)
         Assertions.assertEquals(coords.x + offX, translation.x)
         Assertions.assertEquals(coords.y + offY, translation.y)
@@ -59,20 +59,20 @@ private object TranslationProvider : ArgumentsProvider {
 
     override fun provideArguments(context: ExtensionContext): Stream<out Arguments> {
         return Stream.of(
-            Arguments.of(0, 0, 0),
-            Arguments.of(1, 0, 0),
-            Arguments.of(2, 0, 0),
-            Arguments.of(0, 1, 0),
-            Arguments.of(0, 2, 0),
-            Arguments.of(0, 0, 1),
-            Arguments.of(0, 0, 2),
-            Arguments.of(1, 1, 1),
-            Arguments.of(1, 2, 1),
-            Arguments.of(1, 3, 1),
-            Arguments.of(2, 1, 1),
-            Arguments.of(3, 1, 1),
-            Arguments.of(1, 1, 2),
-            Arguments.of(1, 1, 3)
+            Arguments.of(3200, 3200, 0, 0, 0, 0),
+            Arguments.of(3200, 3200, 0, 1, 0, 0),
+            Arguments.of(3200, 3200, 0, 2, 0, 0),
+            Arguments.of(3200, 3200, 0, 0, 1, 0),
+            Arguments.of(3200, 3200, 0, 0, 2, 0),
+            Arguments.of(3200, 3200, 0, 0, 0, 1),
+            Arguments.of(3200, 3200, 0, 0, 0, 2),
+            Arguments.of(3200, 3200, 0, 1, 1, 1),
+            Arguments.of(3200, 3200, 0, 1, 2, 1),
+            Arguments.of(3200, 3200, 0, 1, 3, 1),
+            Arguments.of(3200, 3200, 0, 2, 1, 1),
+            Arguments.of(3200, 3200, 0, 3, 1, 1),
+            Arguments.of(3200, 3200, 0, 1, 1, 2),
+            Arguments.of(3200, 3200, 0, 1, 1, 3)
         )
     }
 }
