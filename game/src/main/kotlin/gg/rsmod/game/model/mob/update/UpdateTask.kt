@@ -6,6 +6,7 @@ import com.google.inject.Inject
 private val logger = InlineLogger()
 
 interface UpdateTask {
+
     fun execute()
 }
 

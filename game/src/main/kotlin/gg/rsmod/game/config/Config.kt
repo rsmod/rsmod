@@ -12,6 +12,7 @@ data class GameConfig(
     val dataPath: Path,
     val home: Coordinates
 ) {
+
     val cachePath: Path
         get() = dataPath.resolve(Paths.get("cache", "packed"))
 
@@ -26,6 +27,7 @@ data class RsaConfig(
     val exponent: BigInteger,
     val modulus: BigInteger
 ) {
+
     val isEnabled: Boolean
         get() = this !== DISABLED_RSA
 

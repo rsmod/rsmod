@@ -6,7 +6,9 @@ import gg.rsmod.game.model.client.ClientMachine
 import gg.rsmod.game.model.client.ClientSettings
 
 interface ClientSerializer {
+
     fun deserialize(request: ClientDeserializeRequest): ClientDeserializeResponse
+
     fun serialize(client: Client)
 }
 

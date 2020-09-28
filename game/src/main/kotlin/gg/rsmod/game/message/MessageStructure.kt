@@ -96,6 +96,7 @@ class ClientPacketBuilder<T : ClientPacket> {
 
 @BuilderDslMarker
 class OpcodeBuilder(private val opcodes: MutableSet<Int>) {
+
     var opcode: Int = 0
         set(value) { opcodes.add(value) }
 }

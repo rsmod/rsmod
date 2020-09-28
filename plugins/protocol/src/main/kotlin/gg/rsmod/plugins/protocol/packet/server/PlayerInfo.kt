@@ -8,6 +8,7 @@ class PlayerInfo(
     val playerCoordsAs30Bits: Int,
     val otherPlayerCoords: IntArray
 ) {
+
     fun write(buf: ByteBuf): ByteBuf {
         val bitBuf = buf.toBitMode()
         bitBuf.writeBits(playerCoordsAs30Bits, 30)

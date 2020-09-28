@@ -3,9 +3,7 @@ package gg.rsmod.game.plugin.kotlin
 import com.google.inject.Scope
 import io.github.classgraph.ClassGraph
 
-class KotlinModuleLoader(
-    private val scope: Scope
-) {
+class KotlinModuleLoader(private val scope: Scope) {
 
     fun load(): List<KotlinGameModule> {
         val modules = mutableListOf<KotlinGameModule>()

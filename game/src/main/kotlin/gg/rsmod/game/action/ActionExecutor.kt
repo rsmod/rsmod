@@ -7,6 +7,7 @@ typealias ActionExecutor<T> = (T).() -> Unit
 class ActionMap(
     private val actions: MutableMap<ActionType, ActionExecutorMap>
 ) {
+
     @Inject
     constructor() : this(mutableMapOf())
 

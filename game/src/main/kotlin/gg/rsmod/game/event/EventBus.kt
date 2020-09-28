@@ -33,6 +33,7 @@ private annotation class BuilderDslMarker
 class EventActionBuilder<T : Event>(
     private val events: MutableList<EventAction<*>>
 ) {
+
     private var where: (T).() -> Boolean = { true }
 
     fun where(where: (T).() -> Boolean): EventActionBuilder<T> {
