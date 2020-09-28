@@ -23,7 +23,7 @@ inline class Coordinates(private val packed: Int) {
         (x and 0x7FFF) or ((y and 0x7FFF) shl 15) or (plane shl 30)
     )
 
-    fun translate(xOffset: Int, yOffset: Int, planeOffset: Int) = Coordinates(
+    fun translate(xOffset: Int, yOffset: Int, planeOffset: Int = 0) = Coordinates(
         x = x + xOffset,
         y = y + yOffset,
         plane = plane + planeOffset
@@ -77,7 +77,7 @@ inline class Zone(private val packed: Int) {
         (x and 0x7FFF) or ((y and 0x7FFF) shl 15) or (plane shl 30)
     )
 
-    fun translate(xOffset: Int, yOffset: Int, planeOffset: Int) = Zone(
+    fun translate(xOffset: Int, yOffset: Int, planeOffset: Int = 0) = Zone(
         x = x + xOffset,
         y = y + yOffset,
         plane = plane + planeOffset
