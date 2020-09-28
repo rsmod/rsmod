@@ -1,8 +1,5 @@
-package gg.rsmod.game.model.model
+package gg.rsmod.game.model.mob
 
-import gg.rsmod.game.model.mob.Mob
-import gg.rsmod.game.model.mob.NpcList
-import gg.rsmod.game.model.mob.PlayerList
 import java.util.stream.Stream
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.TestInstance
