@@ -1,6 +1,7 @@
 package gg.rsmod.plugins.protocol.structure
 
 import com.google.inject.Inject
+import com.google.inject.Injector
 import gg.rsmod.game.message.ClientPacketStructureMap
 import gg.rsmod.game.message.ServerPacketStructureMap
 
@@ -15,9 +16,9 @@ class DesktopPacketStructure(
 ) : PacketStructureCodec(server, client) {
 
     @Inject
-    constructor() : this(
+    constructor(injector: Injector) : this(
         ServerPacketStructureMap(),
-        ClientPacketStructureMap()
+        ClientPacketStructureMap(injector)
     )
 }
 
@@ -27,9 +28,9 @@ class IosPacketStructure(
 ) : PacketStructureCodec(server, client) {
 
     @Inject
-    constructor() : this(
+    constructor(injector: Injector) : this(
         ServerPacketStructureMap(),
-        ClientPacketStructureMap()
+        ClientPacketStructureMap(injector)
     )
 }
 
@@ -39,8 +40,8 @@ class AndroidPacketStructure(
 ) : PacketStructureCodec(server, client) {
 
     @Inject
-    constructor() : this(
+    constructor(injector: Injector) : this(
         ServerPacketStructureMap(),
-        ClientPacketStructureMap()
+        ClientPacketStructureMap(injector)
     )
 }

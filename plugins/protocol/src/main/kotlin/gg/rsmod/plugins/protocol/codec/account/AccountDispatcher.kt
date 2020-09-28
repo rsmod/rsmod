@@ -2,7 +2,6 @@ package gg.rsmod.plugins.protocol.codec.account
 
 import com.github.michaelbull.logging.InlineLogger
 import com.google.inject.Inject
-import gg.rsmod.game.action.ActionHandlerMap
 import gg.rsmod.game.config.InternalConfig
 import gg.rsmod.game.config.RsaConfig
 import gg.rsmod.game.coroutine.IoCoroutineScope
@@ -49,7 +48,6 @@ class AccountDispatcher @Inject constructor(
     private val serializer: ClientSerializer,
     private val playerList: PlayerList,
     private val clientList: ClientList,
-    private val actionHandlers: ActionHandlerMap,
     private val desktopStructures: DesktopPacketStructure,
     private val iosStructures: IosPacketStructure,
     private val androidStructures: AndroidPacketStructure,
@@ -210,7 +208,7 @@ class AccountDispatcher @Inject constructor(
             Device.Ios -> iosStructures
             Device.Android -> androidStructures
         }
-        val decoder = GameSessionDecoder(decodeIsaac, structures.client, actionHandlers)
+        val decoder = GameSessionDecoder(decodeIsaac, structures.client)
         val encoder = GameSessionEncoder(encodeIsaac, structures.server)
         val handler = GameSessionHandler(clientList, client, this@AccountDispatcher)
 

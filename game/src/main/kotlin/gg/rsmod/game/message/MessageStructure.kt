@@ -1,6 +1,10 @@
 package gg.rsmod.game.message
 
+import com.google.inject.Injector
+import gg.rsmod.game.action.Action
+import gg.rsmod.game.action.ActionHandler
 import io.netty.buffer.ByteBuf
+import kotlin.reflect.KClass
 
 private const val UNINITIALIZED_OPCODE = -1
 
@@ -16,12 +20,9 @@ class ServerPacketStructure<T : ServerPacket>(
 class ClientPacketStructure<T : ClientPacket>(
     val opcode: Int,
     val length: Int,
-    val read: PacketReader<T>?
-) {
-
-    val suppress: Boolean
-        get() = read == null
-}
+    val read: PacketReader<T>?,
+    val handler: ActionHandler<in Action>?
+)
 
 @DslMarker
 private annotation class BuilderDslMarker
@@ -62,6 +63,8 @@ class ClientPacketBuilder<T : ClientPacket> {
 
     var length: Int? = null
 
+    var handler: KClass<out ActionHandler<T>>? = null
+
     var opcode: Int = 0
         set(value) { opcodes.add(value) }
 
@@ -73,16 +76,19 @@ class ClientPacketBuilder<T : ClientPacket> {
         this.packetReader = reader
     }
 
-    fun build(): List<ClientPacketStructure<T>> {
+    @Suppress("UNCHECKED_CAST")
+    fun build(injector: Injector): List<ClientPacketStructure<T>> {
         if (opcodes.isEmpty()) {
             error("Client packet structure opcode has not been set.")
         }
         val length = length ?: error("Client packet structure length has not been set.")
+        val handler = handler?.javaObjectType?.let { injector.getInstance(it) }
         return opcodes.map { opcode ->
             ClientPacketStructure(
                 opcode = opcode,
                 length = length,
-                read = packetReader
+                read = packetReader,
+                handler = handler as? ActionHandler<Action>
             )
         }
     }

@@ -1,7 +1,6 @@
 package gg.rsmod.plugins.protocol.codec.game
 
 import com.github.michaelbull.logging.InlineLogger
-import gg.rsmod.game.action.ActionHandlerMap
 import gg.rsmod.game.action.ActionMessage
 import gg.rsmod.game.message.ClientPacketStructureMap
 import gg.rsmod.util.security.IsaacRandom
@@ -21,7 +20,6 @@ sealed class PacketDecodeStage {
 class GameSessionDecoder(
     private val isaacRandom: IsaacRandom,
     private val structures: ClientPacketStructureMap,
-    private val handlers: ActionHandlerMap,
     private var stage: PacketDecodeStage = PacketDecodeStage.Opcode,
     private var opcode: Int = -1,
     private var length: Int = 0
@@ -73,18 +71,14 @@ class GameSessionDecoder(
         try {
             val structure = structures.getValue(opcode)
             val read = structure.read
-            if (read == null || structure.suppress) {
+            val handler = structure.handler
+            if (read == null || handler == null) {
                 skipBytes(length)
             } else {
                 val payload = readBytes(length)
                 val packet = read(payload)
-                val handler = handlers[packet]
-                if (handler != null) {
-                    val message = ActionMessage(packet, handler)
-                    out.add(message)
-                } else {
-                    logger.error { "Handler for action not defined (action=$packet)" }
-                }
+                val message = ActionMessage(packet, handler)
+                out.add(message)
             }
         } finally {
             stage = PacketDecodeStage.Opcode

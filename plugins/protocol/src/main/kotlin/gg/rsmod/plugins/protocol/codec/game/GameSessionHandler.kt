@@ -31,7 +31,7 @@ class GameSessionHandler(
     }
 
     override fun channelRead(ctx: ChannelHandlerContext, msg: Any) {
-        if (msg !is ActionMessage) {
+        if (msg !is ActionMessage<*>) {
             logger.error { "Invalid message type (message=$msg)" }
             return
         }

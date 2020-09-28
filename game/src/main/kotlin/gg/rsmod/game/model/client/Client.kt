@@ -3,6 +3,7 @@ package gg.rsmod.game.model.client
 import com.github.michaelbull.logging.InlineLogger
 import com.google.common.base.MoreObjects
 import com.google.inject.Inject
+import gg.rsmod.game.action.Action
 import gg.rsmod.game.action.ActionMessage
 import gg.rsmod.game.model.mob.Player
 import java.util.LinkedList
@@ -15,14 +16,14 @@ class Client(
     var settings: ClientSettings,
     val encryptedPass: String,
     val loginXteas: IntArray,
-    val pendingActions: LinkedList<ActionMessage> = LinkedList()
+    val pendingActions: LinkedList<ActionMessage<out Action>> = LinkedList()
 ) {
 
     fun pollActions(actionLimit: Int) {
         for (i in 0 until actionLimit) {
-            val it = pendingActions.poll() ?: break
-            val action = it.action
-            val handler = it.handler
+            val message = pendingActions.poll() ?: break
+            val handler = message.handler
+            val action = message.action
             handler.handle(this, player, action)
         }
     }
