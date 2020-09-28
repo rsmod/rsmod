@@ -11,7 +11,7 @@ inline class Coordinates(private val packed: Int) {
         get() = (packed shr 15) and 0x7FFF
 
     val plane: Int
-        get() = (packed shr 30)
+        get() = (packed shr 30) and 0x3
 
     val packed30Bits: Int
         get() = (y and 0x3FFF) or ((x and 0x3FFF) shl 14) or ((plane and 0x3) shl 28)
@@ -71,7 +71,7 @@ inline class Zone(private val packed: Int) {
         get() = (packed shr 15) and 0x7FFF
 
     val plane: Int
-        get() = (packed shr 30)
+        get() = (packed shr 30) and 0x3
 
     constructor(x: Int, y: Int, plane: Int = 0) : this(
         (x and 0x7FFF) or ((y and 0x7FFF) shl 15) or (plane shl 30)
