@@ -1,7 +1,7 @@
 package gg.rsmod.plugins.protocol.codec.game
 
 import com.github.michaelbull.logging.InlineLogger
-import gg.rsmod.game.action.ActionMessage
+import gg.rsmod.game.message.ClientPacketMessage
 import gg.rsmod.game.message.ClientPacketStructureMap
 import gg.rsmod.util.security.IsaacRandom
 import io.netty.buffer.ByteBuf
@@ -77,7 +77,7 @@ class GameSessionDecoder(
             } else {
                 val payload = readBytes(length)
                 val packet = read(payload)
-                val message = ActionMessage(packet, handler)
+                val message = ClientPacketMessage(packet, handler)
                 out.add(message)
             }
         } finally {

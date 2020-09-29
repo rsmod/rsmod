@@ -1,7 +1,7 @@
 package gg.rsmod.plugins.protocol.codec.game
 
 import com.github.michaelbull.logging.InlineLogger
-import gg.rsmod.game.action.ActionMessage
+import gg.rsmod.game.message.ClientPacketMessage
 import gg.rsmod.game.model.client.Client
 import gg.rsmod.game.model.client.ClientList
 import gg.rsmod.plugins.protocol.codec.account.AccountDispatcher
@@ -31,14 +31,14 @@ class GameSessionHandler(
     }
 
     override fun channelRead(ctx: ChannelHandlerContext, msg: Any) {
-        if (msg !is ActionMessage<*>) {
+        if (msg !is ClientPacketMessage<*>) {
             logger.error { "Invalid message type (message=$msg)" }
             return
         }
-        while (client.pendingActions.size > PENDING_ACTION_CAPACITY) {
-            client.pendingActions.poll()
+        while (client.pendingPackets.size > PENDING_ACTION_CAPACITY) {
+            client.pendingPackets.poll()
         }
-        client.pendingActions.add(msg)
+        client.pendingPackets.add(msg)
     }
 
     override fun exceptionCaught(ctx: ChannelHandlerContext, cause: Throwable) {
