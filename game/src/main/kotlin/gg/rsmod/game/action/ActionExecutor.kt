@@ -1,53 +1,56 @@
 package gg.rsmod.game.action
 
 import com.google.inject.Inject
+import kotlin.reflect.KClass
 
 typealias ActionExecutor<T> = (T).() -> Unit
 
-class ActionMap(
-    private val actions: MutableMap<ActionType, ActionExecutorMap>
-) : Map<ActionType, ActionExecutorMap> by actions {
-
+class ActionBus(
+    val mappedExecutors: MutableMap<KClass<out Action>, ActionExecutorMap>,
+    val singleExecutors: MutableMap<KClass<out Action>, ActionExecutor<*>>
+) {
     @Inject
-    constructor() : this(mutableMapOf())
+    constructor() : this(mutableMapOf(), mutableMapOf())
 
-    fun <T : Action> register(
-        type: ActionType,
-        id: Long,
-        executor: ActionExecutor<T>
-    ): Boolean {
-        val executors = actions.getOrPut(type) { ActionExecutorMap() }
+    inline fun <reified T : Action> register(id: Long, noinline executor: ActionExecutor<T>): Boolean {
+        val executors = mappedExecutors.getOrPut(T::class) { ActionExecutorMap() }
         return executors.register(id, executor)
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun <T : Action> publish(
-        action: T,
-        id: Int,
-        type: ActionType
-    ) {
-        publish(action, id.toLong(), type)
+    inline fun <reified T : Action> publish(action: T, id: Long) {
+        val executors = mappedExecutors[T::class] ?: return
+        val executor = executors[id] as? ActionExecutor<T> ?: return
+        executor(action)
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun <T : Action> publish(
-        action: T,
-        id: Long,
-        type: ActionType
-    ) {
-        val executors = actions[type] ?: return
-        val executor = executors[id] as? ActionExecutor<T> ?: return
-        executor(action)
+    inline fun <reified T : Action> publish(action: T, id: Int) = publish(action, id.toLong())
+
+    inline fun <reified T : Action> register(noinline executor: ActionExecutor<T>): Boolean {
+        if (singleExecutors.containsKey(T::class)) {
+            return false
+        }
+        singleExecutors[T::class] = executor
+        return true
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    inline fun <reified T : Action> publish(action: T) {
+        val executors = singleExecutors[T::class] as? List<ActionExecutor<T>> ?: return
+        executors.forEach { executor ->
+            executor.invoke(action)
+        }
     }
 }
 
 class ActionExecutorMap(
-    private val executors: MutableMap<Long, ActionExecutor<*>> = mutableMapOf()
+    val executors: MutableMap<Long, ActionExecutor<*>> = mutableMapOf()
 ) : Map<Long, ActionExecutor<*>> by executors {
 
-    internal fun <T : Action> register(
+    inline fun <reified T : Action> register(
         id: Long,
-        executor: ActionExecutor<T>
+        noinline executor: ActionExecutor<T>
     ): Boolean {
         if (executors.containsKey(id)) {
             return false

@@ -2,7 +2,7 @@ package gg.rsmod.game
 
 import com.google.inject.Scope
 import dev.misfitlabs.kotlinguice4.KotlinModule
-import gg.rsmod.game.action.ActionMap
+import gg.rsmod.game.action.ActionBus
 import gg.rsmod.game.event.EventBus
 import gg.rsmod.game.model.client.ClientList
 import gg.rsmod.game.model.map.MapIsolation
@@ -19,7 +19,7 @@ class GameModule(private val scope: Scope) : KotlinModule() {
         bind<EventBus>()
             .`in`(scope)
 
-        bind<ActionMap>()
+        bind<ActionBus>()
             .`in`(scope)
 
         bind<PlayerList>()

@@ -1,14 +1,14 @@
 package gg.rsmod.game.plugin.kotlin
 
 import com.google.inject.Injector
-import gg.rsmod.game.action.ActionMap
+import gg.rsmod.game.action.ActionBus
 import gg.rsmod.game.event.EventBus
 import io.github.classgraph.ClassGraph
 
 class KotlinPluginLoader(
     private val injector: Injector,
     private val eventBus: EventBus,
-    private val actions: ActionMap
+    private val actions: ActionBus
 ) {
 
     fun load(): List<KotlinPlugin> {
@@ -20,7 +20,7 @@ class KotlinPluginLoader(
                 val constructor = loadedClass.getConstructor(
                     Injector::class.java,
                     EventBus::class.java,
-                    ActionMap::class.java
+                    ActionBus::class.java
                 )
                 val instance = constructor.newInstance(
                     injector,

@@ -7,7 +7,7 @@ import com.google.inject.Scopes
 import dev.misfitlabs.kotlinguice4.getInstance
 import gg.rsmod.game.Game
 import gg.rsmod.game.GameModule
-import gg.rsmod.game.action.ActionMap
+import gg.rsmod.game.action.ActionBus
 import gg.rsmod.game.cache.CacheModule
 import gg.rsmod.game.cache.GameCache
 import gg.rsmod.game.config.ConfigModule
@@ -52,7 +52,7 @@ class Application {
             *modules.toTypedArray()
         )
         val eventBus: EventBus = injector.getInstance()
-        val actions: ActionMap = injector.getInstance()
+        val actions: ActionBus = injector.getInstance()
 
         val cache: GameCache = injector.getInstance()
         cache.start()
