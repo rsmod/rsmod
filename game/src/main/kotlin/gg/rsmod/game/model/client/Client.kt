@@ -3,8 +3,8 @@ package gg.rsmod.game.model.client
 import com.github.michaelbull.logging.InlineLogger
 import com.google.common.base.MoreObjects
 import com.google.inject.Inject
-import gg.rsmod.game.action.Action
 import gg.rsmod.game.action.ActionMessage
+import gg.rsmod.game.message.ClientPacket
 import gg.rsmod.game.model.mob.Player
 import java.util.LinkedList
 
@@ -23,8 +23,8 @@ class Client(
         for (i in 0 until actionLimit) {
             val message = pendingActions.poll() ?: break
             val handler = message.handler
-            val action = message.packet
-            handler.handle(this, player, action)
+            val packet = message.packet
+            handler.handle(this, player, packet)
         }
     }
 
