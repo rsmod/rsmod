@@ -10,5 +10,5 @@ data class ActionMessage<T : Action>(
 
 interface ActionHandler<T : Action> {
 
-    fun handle(client: Client, player: Player, action: T)
+    fun handle(client: Client, player: Player, packet: T)
 }
