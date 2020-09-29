@@ -1,5 +1,11 @@
+val rootPluginDir = projectDir
+val rootPluginBuildDir = buildDir
+
 subprojects {
     group = "gg.rsmod.plugins"
+
+    val relative = projectDir.relativeTo(rootPluginDir)
+    buildDir = rootPluginBuildDir.resolve(relative)
 }
 
 allprojects {
