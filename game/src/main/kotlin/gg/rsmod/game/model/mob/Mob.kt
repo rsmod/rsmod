@@ -17,8 +17,9 @@ class Player(
     val id: PlayerId,
     val loginName: String,
     val entity: PlayerEntity,
-    private val messageListeners: List<MessageListener>,
-    val viewport: Viewport = Viewport()
+    val viewport: Viewport = Viewport(),
+    var running: Boolean = false,
+    private val messageListeners: List<ServerPacketListener> = mutableListOf()
 ) : Mob() {
 
     val username: String

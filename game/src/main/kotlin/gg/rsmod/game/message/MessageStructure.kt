@@ -1,8 +1,6 @@
 package gg.rsmod.game.message
 
 import com.google.inject.Injector
-import gg.rsmod.game.action.Action
-import gg.rsmod.game.action.ActionHandler
 import io.netty.buffer.ByteBuf
 import kotlin.reflect.KClass
 
@@ -21,7 +19,7 @@ class ClientPacketStructure<T : ClientPacket>(
     val opcode: Int,
     val length: Int,
     val read: PacketReader<T>?,
-    val handler: ActionHandler<in Action>?
+    val handler: ClientPacketHandler<ClientPacket>?
 )
 
 @DslMarker
@@ -63,7 +61,7 @@ class ClientPacketBuilder<T : ClientPacket> {
 
     var length: Int? = null
 
-    var handler: KClass<out ActionHandler<T>>? = null
+    var handler: KClass<out ClientPacketHandler<T>>? = null
 
     var opcode: Int = 0
         set(value) { opcodes.add(value) }
@@ -88,7 +86,7 @@ class ClientPacketBuilder<T : ClientPacket> {
                 opcode = opcode,
                 length = length,
                 read = packetReader,
-                handler = handler as? ActionHandler<Action>
+                handler = handler as? ClientPacketHandler<ClientPacket>
             )
         }
     }

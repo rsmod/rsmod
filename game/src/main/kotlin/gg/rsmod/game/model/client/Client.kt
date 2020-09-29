@@ -16,14 +16,14 @@ class Client(
     var settings: ClientSettings,
     val encryptedPass: String,
     val loginXteas: IntArray,
-    val pendingActions: LinkedList<ActionMessage<out Action>> = LinkedList()
+    val pendingActions: LinkedList<ActionMessage<out ClientPacket>> = LinkedList()
 ) {
 
     fun pollActions(actionLimit: Int) {
         for (i in 0 until actionLimit) {
             val message = pendingActions.poll() ?: break
             val handler = message.handler
-            val action = message.action
+            val action = message.packet
             handler.handle(this, player, action)
         }
     }
