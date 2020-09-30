@@ -1,4 +1,4 @@
-version = "1.0.0-SNAPSHOT"
+version = ProjectVersions.PROTOCOL
 
 dependencies {
     api(project(":plugins:core:protocol"))

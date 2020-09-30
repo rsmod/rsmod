@@ -6,7 +6,7 @@ import gg.rsmod.game.model.map.MapIsolation
 import gg.rsmod.game.model.map.viewport
 import gg.rsmod.game.model.mob.PlayerList
 import gg.rsmod.game.model.mob.update.UpdateTask
-import gg.rsmod.plugins.protocol.packet.server.RebuildNormal
+import gg.rsmod.plugins.core.protocol.packet.server.RebuildNormal
 
 class PlayerMovementTask @Inject constructor(
     private val playerList: PlayerList,

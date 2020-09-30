@@ -3,7 +3,5 @@ subprojects {
 
     dependencies {
         implementation(project(":util"))
-        implementation(project(":plugins:api"))
-        implementation(project(":plugins:protocol"))
     }
 }
