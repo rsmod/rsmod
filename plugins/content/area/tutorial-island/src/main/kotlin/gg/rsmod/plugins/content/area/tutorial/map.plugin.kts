@@ -1,4 +1,4 @@
-package gg.rsmod.plugins.area.tutorial
+package gg.rsmod.plugins.content.area.tutorial
 
 import gg.rsmod.game.model.map.MapIsolation
 import gg.rsmod.game.model.map.MapSquare
