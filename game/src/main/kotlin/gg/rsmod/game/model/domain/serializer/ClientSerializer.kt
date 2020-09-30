@@ -1,5 +1,7 @@
 package gg.rsmod.game.model.domain.serializer
 
+import gg.rsmod.game.action.ActionBus
+import gg.rsmod.game.event.EventBus
 import gg.rsmod.game.message.ServerPacketListener
 import gg.rsmod.game.model.client.Client
 import gg.rsmod.game.model.client.ClientMachine
@@ -26,7 +28,9 @@ data class ClientDeserializeRequest(
     val reconnectXteas: IntArray?,
     val settings: ClientSettings,
     val machine: ClientMachine,
-    val messageListener: ServerPacketListener
+    val messageListener: ServerPacketListener,
+    val eventBus: EventBus,
+    val actionBus: ActionBus
 ) {
 
     override fun equals(other: Any?): Boolean {
@@ -45,6 +49,8 @@ data class ClientDeserializeRequest(
         if (settings != other.settings) return false
         if (machine != other.machine) return false
         if (messageListener != other.messageListener) return false
+        if (eventBus != other.eventBus) return false
+        if (actionBus != other.actionBus) return false
 
         return true
     }
@@ -57,6 +63,8 @@ data class ClientDeserializeRequest(
         result = 31 * result + settings.hashCode()
         result = 31 * result + machine.hashCode()
         result = 31 * result + messageListener.hashCode()
+        result = 31 * result + eventBus.hashCode()
+        result = 31 * result + actionBus.hashCode()
         return result
     }
 }

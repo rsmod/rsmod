@@ -1,6 +1,7 @@
 package gg.rsmod.game.model.mob
 
 import com.google.common.base.MoreObjects
+import gg.rsmod.game.action.ActionBus
 import gg.rsmod.game.event.EventBus
 import gg.rsmod.game.event.impl.LoginEvent
 import gg.rsmod.game.message.ServerPacket
@@ -11,17 +12,20 @@ import gg.rsmod.game.model.domain.PlayerId
 import gg.rsmod.game.model.map.Coordinates
 import gg.rsmod.game.model.map.Viewport
 import gg.rsmod.game.model.step.StepQueue
+import gg.rsmod.game.model.step.StepSpeed
 
 sealed class Mob(
-    val steps: StepQueue = StepQueue()
+    val steps: StepQueue = StepQueue(),
+    var speed: StepSpeed = StepSpeed.Normal
 )
 
 class Player(
     val id: PlayerId,
     val loginName: String,
     val entity: PlayerEntity,
+    val eventBus: EventBus,
+    val actionBus: ActionBus,
     val viewport: Viewport = Viewport(),
-    var running: Boolean = false,
     private val messageListeners: List<ServerPacketListener> = mutableListOf()
 ) : Mob() {
 
@@ -36,7 +40,7 @@ class Player(
         get() = entity.coords
         set(value) { entity.coords = value }
 
-    fun login(eventBus: EventBus) {
+    fun login() {
         eventBus.publish(LoginEvent(this, LoginEvent.Stage.Priority))
         eventBus.publish(LoginEvent(this, LoginEvent.Stage.Normal))
         eventBus.publish(LoginEvent(this, LoginEvent.Stage.Delayed))

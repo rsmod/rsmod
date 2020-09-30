@@ -2,6 +2,7 @@ package gg.rsmod.plugins.core.protocol.codec.account
 
 import com.github.michaelbull.logging.InlineLogger
 import com.google.inject.Inject
+import gg.rsmod.game.action.ActionBus
 import gg.rsmod.game.config.InternalConfig
 import gg.rsmod.game.config.RsaConfig
 import gg.rsmod.game.coroutine.IoCoroutineScope
@@ -53,6 +54,7 @@ class AccountDispatcher @Inject constructor(
     private val androidStructures: AndroidPacketStructure,
     private val xteas: XteaRepository,
     private val eventBus: EventBus,
+    private val actionBus: ActionBus,
     private val mapIsolation: MapIsolation
 ) {
 
@@ -104,6 +106,8 @@ class AccountDispatcher @Inject constructor(
             reconnectXteas = request.reconnectXteas,
             settings = request.settings,
             machine = request.machine,
+            eventBus = eventBus,
+            actionBus = actionBus,
             messageListener = ChannelMessageListener(channel)
         )
         val deserialize = serializer.deserialize(clientRequest)
@@ -244,7 +248,7 @@ class AccountDispatcher @Inject constructor(
             flush()
         }
         viewport.refresh(newViewport)
-        login(eventBus)
+        login()
     }
 
     private fun PlayerList.playerCoords(excludeIndex: Int): IntArray {
