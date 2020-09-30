@@ -7,7 +7,7 @@ import gg.rsmod.game.message.ClientPacketHandler
 import gg.rsmod.game.model.client.Client
 import gg.rsmod.game.model.map.Coordinates
 import gg.rsmod.game.model.mob.Player
-import gg.rsmod.plugins.core.protocol.action.MapMove
+import gg.rsmod.plugins.core.protocol.packet.MapMove
 
 data class MoveGameClick(
     val x: Int,

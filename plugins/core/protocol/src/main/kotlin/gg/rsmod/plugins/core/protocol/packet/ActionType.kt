@@ -1,4 +1,4 @@
-package gg.rsmod.plugins.core.protocol.action
+package gg.rsmod.plugins.core.protocol.packet
 
 import gg.rsmod.game.action.Action
 import gg.rsmod.game.model.map.Coordinates
