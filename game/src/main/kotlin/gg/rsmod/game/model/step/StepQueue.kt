@@ -5,9 +5,8 @@ import java.util.LinkedList
 import java.util.Queue
 
 sealed class StepSpeed {
-    object ForceWalk : StepSpeed()
-    object ForceRun : StepSpeed()
-    object Normal : StepSpeed()
+    object Walk : StepSpeed()
+    object Run : StepSpeed()
 }
 
 class StepQueue internal constructor(

@@ -16,7 +16,7 @@ import gg.rsmod.game.model.step.StepSpeed
 
 sealed class Mob(
     val steps: StepQueue = StepQueue(),
-    var speed: StepSpeed = StepSpeed.Normal
+    var speed: StepSpeed = StepSpeed.Walk
 )
 
 class Player(

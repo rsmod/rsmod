@@ -21,7 +21,7 @@ class GameClickHandler @Inject constructor(
 
     override fun handle(client: Client, player: Player, packet: MoveGameClick) {
         val destination = Coordinates(packet.x, packet.y)
-        val action = MapMove(player, destination)
+        val action = MapMove(player, destination, player.speed)
         actions.publish(action)
     }
 }
