@@ -19,7 +19,7 @@ class ActionBus(
 
     @Suppress("UNCHECKED_CAST")
     inline fun <reified T : Action> publish(action: T, id: Long) {
-        val executors = mappedExecutors[T::class] ?: return
+        val executors = mappedExecutors[action::class] ?: return
         val executor = executors[id] as? ActionExecutor<T> ?: return
         executor(action)
     }
@@ -37,10 +37,8 @@ class ActionBus(
 
     @Suppress("UNCHECKED_CAST")
     inline fun <reified T : Action> publish(action: T) {
-        val executors = singleExecutors[T::class] as? List<ActionExecutor<T>> ?: return
-        executors.forEach { executor ->
-            executor.invoke(action)
-        }
+        val executor = singleExecutors[action::class] as? ActionExecutor<T> ?: return
+        executor(action)
     }
 }
 
