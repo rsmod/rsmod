@@ -10,8 +10,11 @@ import gg.rsmod.game.model.client.PlayerEntity
 import gg.rsmod.game.model.domain.PlayerId
 import gg.rsmod.game.model.map.Coordinates
 import gg.rsmod.game.model.map.Viewport
+import gg.rsmod.game.model.step.StepQueue
 
-sealed class Mob
+sealed class Mob(
+    val steps: StepQueue = StepQueue()
+)
 
 class Player(
     val id: PlayerId,
