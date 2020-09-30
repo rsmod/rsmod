@@ -5,3 +5,4 @@ import gg.rsmod.game.message.ClientPacket
 class EventMouseMove : ClientPacket
 class EventMouseClick : ClientPacket
 class EventAppletFocus : ClientPacket
+class WindowStatus : ClientPacket

@@ -3,7 +3,7 @@ package gg.rsmod.plugins.core.protocol.codec.login
 import gg.rsmod.game.model.client.ClientMachine
 import gg.rsmod.game.model.client.ClientSettings
 import gg.rsmod.plugins.core.protocol.Device
-import gg.rsmod.plugins.core.protocol.packet.server.PlayerInfo
+import gg.rsmod.plugins.core.protocol.packet.server.InitialPlayerInfo
 import gg.rsmod.util.security.IsaacRandom
 import io.netty.channel.Channel
 
@@ -128,7 +128,7 @@ sealed class LoginResponse(val type: LoginResponseType) {
     ) : LoginResponse(LoginResponseType.NORMAL)
 
     data class Reconnect(
-        val gpi: PlayerInfo
+        val gpi: InitialPlayerInfo
     ) : LoginResponse(LoginResponseType.RECONNECT)
 
     data class Transfer(

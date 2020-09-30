@@ -4,7 +4,7 @@ import gg.rsmod.game.message.ServerPacket
 import io.guthix.buffer.toBitMode
 import io.netty.buffer.ByteBuf
 
-class PlayerInfo(
+class InitialPlayerInfo(
     val playerCoordsAs30Bits: Int,
     val otherPlayerCoords: IntArray
 ) {
@@ -19,6 +19,6 @@ class PlayerInfo(
     }
 }
 
-class PlayerUpdate(
+class PlayerInfo(
     val buffer: ByteBuf
 ) : ServerPacket

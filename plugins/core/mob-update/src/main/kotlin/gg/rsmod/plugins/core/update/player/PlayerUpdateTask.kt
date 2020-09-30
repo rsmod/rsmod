@@ -3,7 +3,7 @@ package gg.rsmod.plugins.core.update.player
 import com.google.inject.Inject
 import gg.rsmod.game.model.mob.PlayerList
 import gg.rsmod.game.model.mob.update.UpdateTask
-import gg.rsmod.plugins.core.protocol.packet.server.PlayerUpdate
+import gg.rsmod.plugins.core.protocol.packet.server.PlayerInfo
 import io.guthix.buffer.toBitMode
 import io.netty.buffer.Unpooled
 
@@ -28,7 +28,7 @@ class PlayerUpdateTask @Inject constructor(
                 bitBuf.writeBits(0, 2)
             }
 
-            val gpi = PlayerUpdate(buf)
+            val gpi = PlayerInfo(buf)
             player.write(gpi)
         }
     }

@@ -27,7 +27,7 @@ import gg.rsmod.plugins.core.protocol.codec.game.GameSessionHandler
 import gg.rsmod.plugins.core.protocol.codec.login.LoginRequest
 import gg.rsmod.plugins.core.protocol.codec.login.LoginResponse
 import gg.rsmod.plugins.core.protocol.codec.writeErrResponse
-import gg.rsmod.plugins.core.protocol.packet.server.PlayerInfo
+import gg.rsmod.plugins.core.protocol.packet.server.InitialPlayerInfo
 import gg.rsmod.plugins.core.protocol.packet.server.RebuildNormal
 import gg.rsmod.plugins.core.protocol.structure.AndroidPacketStructure
 import gg.rsmod.plugins.core.protocol.structure.DesktopPacketStructure
@@ -179,7 +179,7 @@ class AccountDispatcher @Inject constructor(
         channel: Channel,
         encodeIsaac: IsaacRandom,
         reconnect: Boolean,
-        gpi: PlayerInfo
+        gpi: InitialPlayerInfo
     ) {
         val response = if (reconnect) {
             LoginResponse.Reconnect(gpi)
@@ -231,7 +231,7 @@ class AccountDispatcher @Inject constructor(
         )
     }
 
-    private fun Player.login(reconnect: Boolean, gpi: PlayerInfo) {
+    private fun Player.login(reconnect: Boolean, gpi: InitialPlayerInfo) {
         val newViewport = coords.zone().viewport(mapIsolation)
         if (!reconnect) {
             val rebuildNormal = RebuildNormal(
@@ -261,7 +261,7 @@ class AccountDispatcher @Inject constructor(
         return coordinates
     }
 
-    private fun Player.gpi() = PlayerInfo(
+    private fun Player.gpi() = InitialPlayerInfo(
         playerCoordsAs30Bits = coords.packed30Bits,
         otherPlayerCoords = playerList.playerCoords(index)
     )
