@@ -56,9 +56,9 @@ allprojects {
     plugins.withType<KotlinterPlugin> {
         configure<KotlinterExtension> {
             disabledRules = arrayOf(
+                "filename",
                 /* https://github.com/pinterest/ktlint/issues/764 */
                 "parameter-list-wrapping",
-
                 /* https://github.com/pinterest/ktlint/issues/527 */
                 "import-ordering"
             )
