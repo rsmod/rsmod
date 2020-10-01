@@ -4,7 +4,7 @@ import gg.rsmod.game.model.domain.repo.XteaRepository
 
 class XteaInMemoryRepository : XteaRepository {
 
-    private val keys = mutableMapOf(
+    private val keys = mapOf(
         12593 to intArrayOf(379171354, -1403510972, 1758621950, 406280958),
         12594 to intArrayOf(1571084498, -870324768, 508828051, 1172793559),
         12850 to intArrayOf(-1277378597, -633535097, -1589229309, 964213147),
