@@ -33,6 +33,7 @@ import gg.rsmod.plugins.core.protocol.packet.server.RebuildNormal
 import gg.rsmod.plugins.core.protocol.structure.AndroidPacketStructure
 import gg.rsmod.plugins.core.protocol.structure.DesktopPacketStructure
 import gg.rsmod.plugins.core.protocol.structure.IosPacketStructure
+import gg.rsmod.plugins.core.protocol.structure.PacketStructureCodec
 import gg.rsmod.util.security.IsaacRandom
 import io.netty.channel.Channel
 import io.netty.channel.ChannelPipeline
@@ -207,11 +208,7 @@ class AccountDispatcher @Inject constructor(
         decodeIsaac: IsaacRandom,
         encodeIsaac: IsaacRandom
     ) {
-        val structures = when (device) {
-            Device.Desktop -> desktopStructures
-            Device.Ios -> iosStructures
-            Device.Android -> androidStructures
-        }
+        val structures = device.packetStructures()
         val decoder = GameSessionDecoder(decodeIsaac, structures.client)
         val encoder = GameSessionEncoder(encodeIsaac, structures.server)
         val handler = GameSessionHandler(clientList, client, this@AccountDispatcher)
@@ -269,4 +266,10 @@ class AccountDispatcher @Inject constructor(
         playerCoordsAs30Bits = coords.packed30Bits,
         otherPlayerCoords = playerList.playerCoords(index)
     )
+
+    private fun Device.packetStructures(): PacketStructureCodec = when (this) {
+        Device.Desktop -> desktopStructures
+        Device.Ios -> iosStructures
+        Device.Android -> androidStructures
+    }
 }
