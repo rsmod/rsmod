@@ -49,7 +49,7 @@ class PlayerMovementTask @Inject constructor(
             val runDirection = steps.poll()
             runDirection?.let {
                 translateX += it.x
-                translateY =+ it.y
+                translateY += it.y
             }
         }
         coords = coords.translate(translateX, translateY)
