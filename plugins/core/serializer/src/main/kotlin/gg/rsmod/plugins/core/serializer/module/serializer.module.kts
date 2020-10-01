@@ -1,4 +1,4 @@
-package gg.rsmod.plugins.core.serializer
+package gg.rsmod.plugins.core.serializer.module
 
 register {
     -DefaultSerializerModule(scope)
