@@ -247,7 +247,7 @@ class AccountDispatcher @Inject constructor(
             write(rebuildNormal)
             flush()
         }
-        viewport.refresh(newViewport)
+        viewport.refresh(coords.plane, newViewport)
         login()
     }
 

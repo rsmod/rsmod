@@ -219,13 +219,17 @@ inline class Scene(private val packed: Int) {
 }
 
 data class Viewport(
+    private var plane: Int = 0,
     private val maps: MutableList<MapSquare> = mutableListOf()
 ) : List<MapSquare> by maps {
 
-    fun refresh(newMaps: List<MapSquare>) {
+    fun refresh(newPlane: Int, newMaps: List<MapSquare>) {
+        plane = newPlane
         maps.clear()
         maps.addAll(newMaps)
     }
+
+    fun plane() = plane
 }
 
 fun Zone.viewport(isolation: MapIsolation): List<MapSquare> {

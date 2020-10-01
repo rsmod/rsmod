@@ -26,7 +26,7 @@ class PlayerMovementTask @Inject constructor(
             val coords = player.coords
             val viewport = player.viewport
             val mapSquare = coords.mapSquare()
-            val rebuild = !viewport.contains(mapSquare)
+            val rebuild = !viewport.contains(mapSquare) || coords.plane != viewport.plane()
             if (rebuild) {
                 val newViewport = coords.zone().viewport(mapIsolation)
                 val rebuildNormal = RebuildNormal(
@@ -36,7 +36,7 @@ class PlayerMovementTask @Inject constructor(
                     xteas = xteasRepository
                 )
                 player.write(rebuildNormal)
-                player.viewport.refresh(newViewport)
+                player.viewport.refresh(coords.plane, newViewport)
             }
         }
     }
