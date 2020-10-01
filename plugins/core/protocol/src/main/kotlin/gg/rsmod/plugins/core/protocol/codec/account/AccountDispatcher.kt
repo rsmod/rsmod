@@ -69,7 +69,7 @@ class AccountDispatcher @Inject constructor(
 
     fun register(request: LoginRequest) {
         ioCoroutineScope.launch {
-            val account = request(request) ?: return@launch
+            val account = deserialize(request) ?: return@launch
             registerQueue.add(account)
         }
     }
@@ -95,7 +95,7 @@ class AccountDispatcher @Inject constructor(
         }
     }
 
-    private fun request(request: LoginRequest): Account? {
+    private fun deserialize(request: LoginRequest): Account? {
         val channel = request.channel
         val xteas = request.xteas
 
