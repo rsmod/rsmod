@@ -38,7 +38,7 @@ class Js5Decoder(
         if (clientRevision < revision) {
             logger.info {
                 "Handshake revision out-of-date " +
-                    "(clientRevision=$clientRevision, serverRevision=$revision, channel=$this)"
+                    "(clientMajor=$clientRevision, serverMajor=$revision, channel=$this)"
             }
             writeErrResponse(ResponseType.JS5_OUT_OF_DATE)
             return
