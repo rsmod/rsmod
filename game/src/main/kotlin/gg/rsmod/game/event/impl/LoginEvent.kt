@@ -5,12 +5,12 @@ import gg.rsmod.game.model.mob.Player
 
 class LoginEvent(
     val player: Player,
-    val stage: Stage
+    val priority: Priority
 ) : Event {
 
-    sealed class Stage {
-        object Priority : Stage()
-        object Normal : Stage()
-        object Delayed : Stage()
+    sealed class Priority {
+        object High : Priority()
+        object Normal : Priority()
+        object Low : Priority()
     }
 }

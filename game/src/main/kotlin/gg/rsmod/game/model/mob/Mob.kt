@@ -41,9 +41,9 @@ class Player(
         set(value) { entity.coords = value }
 
     fun login() {
-        eventBus.publish(LoginEvent(this, LoginEvent.Stage.Priority))
-        eventBus.publish(LoginEvent(this, LoginEvent.Stage.Normal))
-        eventBus.publish(LoginEvent(this, LoginEvent.Stage.Delayed))
+        eventBus.publish(LoginEvent(this, LoginEvent.Priority.High))
+        eventBus.publish(LoginEvent(this, LoginEvent.Priority.Normal))
+        eventBus.publish(LoginEvent(this, LoginEvent.Priority.Low))
     }
 
     fun write(packet: ServerPacket) {

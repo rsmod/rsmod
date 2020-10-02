@@ -1,12 +1,11 @@
 package gg.rsmod.plugins.core.gameframe
 
-import gg.rsmod.game.event.impl.LoginEvent
 import gg.rsmod.game.model.mob.Player
-import gg.rsmod.plugins.api.onLogin
+import gg.rsmod.plugins.api.onEarlyLogin
 import gg.rsmod.plugins.core.protocol.packet.server.IfOpenSub
 import gg.rsmod.plugins.core.protocol.packet.server.IfOpenTop
 
-onLogin(LoginEvent.Stage.Priority) {
+onEarlyLogin {
     player.sendGameframe()
 }
 
