@@ -1,4 +1,4 @@
-package gg.rsmod.plugins.core.gameframe
+package gg.rsmod.plugins.content.gameframe
 
 import gg.rsmod.game.model.mob.Player
 import gg.rsmod.plugins.api.onEarlyLogin
