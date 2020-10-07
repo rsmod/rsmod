@@ -8,15 +8,19 @@ import gg.rsmod.game.message.ServerPacket
 import gg.rsmod.game.message.ServerPacketListener
 import gg.rsmod.game.model.client.NpcEntity
 import gg.rsmod.game.model.client.PlayerEntity
+import gg.rsmod.game.model.domain.Direction
 import gg.rsmod.game.model.domain.PlayerId
 import gg.rsmod.game.model.map.Coordinates
 import gg.rsmod.game.model.map.Viewport
 import gg.rsmod.game.model.step.StepQueue
 import gg.rsmod.game.model.step.StepSpeed
+import java.util.ArrayDeque
+import java.util.Queue
 
 sealed class Mob(
     val steps: StepQueue = StepQueue(),
-    var speed: StepSpeed = StepSpeed.Walk
+    var speed: StepSpeed = StepSpeed.Walk,
+    val movement: Queue<Direction> = ArrayDeque()
 )
 
 class Player(
