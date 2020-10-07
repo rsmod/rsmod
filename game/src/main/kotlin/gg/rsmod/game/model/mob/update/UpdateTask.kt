@@ -7,7 +7,7 @@ private val logger = InlineLogger()
 
 interface UpdateTask {
 
-    fun execute()
+    suspend fun execute()
 }
 
 class UpdateTaskList(
