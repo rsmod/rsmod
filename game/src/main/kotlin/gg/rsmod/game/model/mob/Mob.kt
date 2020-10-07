@@ -12,8 +12,10 @@ import gg.rsmod.game.model.domain.Direction
 import gg.rsmod.game.model.domain.PlayerId
 import gg.rsmod.game.model.map.Coordinates
 import gg.rsmod.game.model.map.Viewport
+import gg.rsmod.game.model.snapshot.Snapshot
 import gg.rsmod.game.model.step.StepQueue
 import gg.rsmod.game.model.step.StepSpeed
+import java.time.LocalDateTime
 import java.util.ArrayDeque
 import java.util.Queue
 
@@ -30,6 +32,7 @@ class Player(
     val eventBus: EventBus,
     val actionBus: ActionBus,
     val viewport: Viewport = Viewport(),
+    var snapshot: Snapshot = Snapshot.INITIAL,
     private val messageListeners: List<ServerPacketListener> = mutableListOf()
 ) : Mob() {
 
@@ -57,6 +60,11 @@ class Player(
     fun flush() {
         messageListeners.forEach { it.flush() }
     }
+
+    fun snapshot() = Snapshot(
+        timestamp = LocalDateTime.now(),
+        coords = coords
+    )
 
     override fun toString(): String = MoreObjects
         .toStringHelper(this)
