@@ -6,7 +6,7 @@ import gg.rsmod.game.coroutine.GameCoroutineScope
 import gg.rsmod.game.dispatch.GameJobDispatcher
 import gg.rsmod.game.model.client.ClientList
 import gg.rsmod.game.model.mob.PlayerList
-import gg.rsmod.game.model.mob.update.UpdateTaskList
+import gg.rsmod.game.update.UpdateTaskList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

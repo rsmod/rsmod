@@ -8,7 +8,7 @@ import gg.rsmod.game.model.client.ClientList
 import gg.rsmod.game.model.map.MapIsolation
 import gg.rsmod.game.model.mob.NpcList
 import gg.rsmod.game.model.mob.PlayerList
-import gg.rsmod.game.model.mob.update.UpdateTaskList
+import gg.rsmod.game.update.UpdateTaskList
 
 class GameModule(private val scope: Scope) : KotlinModule() {
 

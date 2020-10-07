@@ -1,4 +1,4 @@
-package gg.rsmod.game.model.mob.update
+package gg.rsmod.game.update
 
 import com.github.michaelbull.logging.InlineLogger
 import com.google.inject.Inject
