@@ -1,4 +1,4 @@
-package gg.rsmod.app
+package gg.rsmod
 
 import com.github.michaelbull.logging.InlineLogger
 import com.google.inject.Guice
@@ -28,11 +28,11 @@ import java.net.InetSocketAddress
 private val logger = InlineLogger()
 
 fun main() {
-    val app = Application()
-    app.startup()
+    val server = Server()
+    server.startup()
 }
 
-class Application {
+class Server {
 
     fun startup() {
         val scope = Scopes.SINGLETON
@@ -42,7 +42,7 @@ class Application {
         val modules = moduleScripts.flatMap { it.modules }
 
         val injector = Guice.createInjector(
-            ApplicationModule(scope),
+            ServerModule(scope),
             CoroutineModule(scope),
             DispatcherModule(scope),
             ConfigModule(scope),

@@ -85,8 +85,8 @@ class GameConfigProvider @Inject constructor(
     }
 
     companion object {
-        private val CONFIG_PATH = Paths.get(".", "app", "config.yml")
-        private val DEFAULT_DATA_PATH = Paths.get(".", "app", "data")
+        private val CONFIG_PATH = Paths.get(".", "all", "config.yml")
+        private val DEFAULT_DATA_PATH = Paths.get(".", "all", "data")
         private const val DEFAULT_PORT = 43594
         private const val DEFAULT_MINOR_REVISION = 1
         private val DEFAULT_HOME = listOf(3200, 3200)

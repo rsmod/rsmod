@@ -1,4 +1,4 @@
-package gg.rsmod.app
+package gg.rsmod
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.inject.Scope
@@ -7,7 +7,7 @@ import gg.rsmod.util.config.ObjectMapperProvider
 import gg.rsmod.util.security.BCryptEncryption
 import gg.rsmod.util.security.PasswordEncryption
 
-class ApplicationModule(
+class ServerModule(
     private val scope: Scope
 ) : KotlinModule() {
 

@@ -8,7 +8,7 @@ include("net")
 include("game")
 include("plugins")
 includePlugins(project(":plugins").projectDir.toPath())
-include("app")
+include("all")
 
 fun includePlugins(pluginPath: Path) {
     Files.walk(pluginPath).forEach {
