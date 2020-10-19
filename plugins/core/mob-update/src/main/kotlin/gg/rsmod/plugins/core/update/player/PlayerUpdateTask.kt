@@ -150,8 +150,8 @@ class PlayerUpdateTask @Inject constructor(
             }
             val globalPlayer = if (index >= playerList.capacity) null else playerList[index]
             if (globalPlayer != null) {
-                val capacityReached = added + previouslyAdded >= MAX_PLAYER_ADDITIONS_PER_CYCLE
-                        || localCount >= MAX_LOCAL_PLAYERS
+                val capacityReached = added + previouslyAdded >= MAX_PLAYER_ADDITIONS_PER_CYCLE ||
+                    localCount >= MAX_LOCAL_PLAYERS
                 if (player.canView(globalPlayer) && !capacityReached) {
                     bitBuf.writePlayerAddition(globalPlayer, record)
                     maskBuf.writeNewPlayerMasks(globalPlayer)
