@@ -19,7 +19,7 @@ fun Player.updateAppearance() {
     entity.updates.add(mask)
 }
 
-fun Player.faceDirection(direction: Direction = faceDirection) {
+fun Player.faceDirection(direction: Direction) {
     faceDirection = direction
     val mask = DirectionMask.of(this)
     entity.updates.add(mask)

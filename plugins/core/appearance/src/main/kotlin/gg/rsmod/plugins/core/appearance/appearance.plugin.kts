@@ -10,5 +10,5 @@ onEarlyLogin {
         player.appearance = AppearanceConstants.DEFAULT_APPEARANCE
     }
     player.updateAppearance()
-    player.faceDirection()
+    player.faceDirection(player.faceDirection)
 }
