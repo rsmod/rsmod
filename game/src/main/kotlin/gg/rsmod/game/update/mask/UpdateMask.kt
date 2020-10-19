@@ -9,7 +9,7 @@ interface UpdateMask
 
 class UpdateMaskSet(
     private val masks: MutableSet<UpdateMask> = mutableSetOf()
-): Set<UpdateMask> by masks {
+) : Set<UpdateMask> by masks {
 
     fun <T : UpdateMask> add(mask: T) {
         masks.removeIf { it::class == mask::class }

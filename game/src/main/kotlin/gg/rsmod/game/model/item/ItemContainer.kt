@@ -28,7 +28,7 @@ class ItemContainer private constructor(
 
 class ItemContainerMap(
     private val containers: MutableMap<ContainerKey, ItemContainer> = mutableMapOf()
-): Map<ContainerKey, ItemContainer> by containers {
+) : Map<ContainerKey, ItemContainer> by containers {
 
     fun register(
         key: ContainerKey,
