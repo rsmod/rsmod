@@ -1,5 +1,6 @@
 package gg.rsmod.plugins.api.update
 
+import gg.rsmod.game.model.domain.Direction
 import gg.rsmod.game.model.domain.translate
 import gg.rsmod.game.model.mob.Player
 import gg.rsmod.plugins.api.model.appearance.Body
@@ -34,9 +35,9 @@ fun AppearanceMask.Companion.of(player: Player): AppearanceMask {
     )
 }
 
-fun DirectionMask.Companion.of(player: Player): DirectionMask {
+fun DirectionMask.Companion.of(player: Player, face: Direction): DirectionMask {
     val coordinates = player.coords
-    val translation = coordinates.translate(player.faceDirection)
+    val translation = coordinates.translate(face)
     val atan = atan2(coordinates.x.toFloat() - translation.x, coordinates.y.toFloat() - translation.y)
     val degrees = (atan * 325.949).toInt() and 0x7FF
     return DirectionMask(degrees)
