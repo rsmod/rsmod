@@ -85,16 +85,16 @@ class AccountDispatcher @Inject constructor(
     }
 
     private fun gameCycle() {
-        for (i in 0 until internalConfig.logoutsPerCycle) {
-            val client = unregisterQueue.poll() ?: break
-            logger.debug { "Unregister player from game (player=${client.player})" }
-            logout(client)
-        }
-
         for (i in 0 until internalConfig.loginsPerCycle) {
             val account = registerQueue.poll() ?: break
             logger.debug { "Register account to game (account=$account)" }
             login(account)
+        }
+
+        for (i in 0 until internalConfig.logoutsPerCycle) {
+            val client = unregisterQueue.poll() ?: break
+            logger.debug { "Unregister player from game (player=${client.player})" }
+            logout(client)
         }
     }
 
