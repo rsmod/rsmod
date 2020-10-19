@@ -38,8 +38,8 @@ class Player(
     val entity: PlayerEntity,
     val eventBus: EventBus,
     val actionBus: ActionBus,
-    val viewport: Viewport = Viewport(),
     var snapshot: Snapshot = Snapshot.INITIAL,
+    var viewport: Viewport = Viewport.ZERO,
     var appearance: Appearance = Appearance.ZERO,
     val equipment: ItemContainer = ItemContainer(EQUIPMENT_CAPACITY),
     private val messageListeners: List<ServerPacketListener> = mutableListOf()

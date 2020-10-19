@@ -17,6 +17,7 @@ import gg.rsmod.game.model.domain.serializer.ClientDeserializeRequest
 import gg.rsmod.game.model.domain.serializer.ClientDeserializeResponse
 import gg.rsmod.game.model.domain.serializer.ClientSerializer
 import gg.rsmod.game.model.map.MapIsolation
+import gg.rsmod.game.model.map.Viewport
 import gg.rsmod.game.model.map.viewport
 import gg.rsmod.game.model.mob.Player
 import gg.rsmod.game.model.mob.PlayerList
@@ -255,7 +256,7 @@ class AccountDispatcher @Inject constructor(
             write(rebuildNormal)
             flush()
         }
-        viewport.refresh(coords.plane, newViewport)
+        viewport = Viewport(coords.plane, newViewport)
         login()
     }
 

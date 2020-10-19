@@ -4,6 +4,7 @@ import com.google.inject.Inject
 import gg.rsmod.game.model.domain.Direction
 import gg.rsmod.game.model.domain.repo.XteaRepository
 import gg.rsmod.game.model.map.MapIsolation
+import gg.rsmod.game.model.map.Viewport
 import gg.rsmod.game.model.map.viewport
 import gg.rsmod.game.model.mob.Player
 import gg.rsmod.game.model.mob.PlayerList
@@ -29,7 +30,7 @@ class PlayerMovementTask @Inject constructor(
             val coords = player.coords
             val viewport = player.viewport
             val mapSquare = coords.mapSquare()
-            val rebuild = !viewport.contains(mapSquare) || coords.plane != viewport.plane()
+            val rebuild = !viewport.contains(mapSquare) || coords.plane != viewport.plane
             if (rebuild) {
                 val newViewport = coords.zone().viewport(mapIsolation)
                 val rebuildNormal = RebuildNormal(
@@ -39,7 +40,7 @@ class PlayerMovementTask @Inject constructor(
                     xteas = xteasRepository
                 )
                 player.write(rebuildNormal)
-                player.viewport.refresh(coords.plane, newViewport)
+                player.viewport = Viewport(coords.plane, newViewport)
             }
         }
     }
