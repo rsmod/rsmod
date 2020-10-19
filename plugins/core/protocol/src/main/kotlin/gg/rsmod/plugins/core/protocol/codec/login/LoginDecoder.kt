@@ -53,7 +53,9 @@ class LoginDecoder(
 
     override fun handlerAdded(ctx: ChannelHandlerContext) {
         logger.debug { "Handler added (seed=$serverSeed, channel=${ctx.channel()})" }
+        ctx.channel().writeRawResponse(ResponseType.ACCEPTED)
         ctx.channel().writeLoginSeed(serverSeed)
+        ctx.channel().flush()
     }
 
     override fun decode(
@@ -341,9 +343,12 @@ class LoginDecoder(
         readAttempts = 0
     }
 
+    private fun Channel.writeRawResponse(response: ResponseType) {
+        write(alloc().buffer(Byte.SIZE_BYTES).writeByte(response.id))
+    }
+
     private fun Channel.writeLoginSeed(seed: Long) {
-        writeAndFlush(alloc().buffer(Byte.SIZE_BYTES).writeByte(0))
-        writeAndFlush(alloc().buffer(Long.SIZE_BYTES).writeLong(seed))
+        write(alloc().buffer(Long.SIZE_BYTES).writeLong(seed))
     }
 
     companion object {
