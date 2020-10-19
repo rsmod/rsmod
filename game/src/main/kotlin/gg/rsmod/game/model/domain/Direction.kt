@@ -18,6 +18,8 @@ sealed class Direction(val x: Int = NEUTRAL_UNIT, val y: Int = NEUTRAL_UNIT) {
     object NorthWest : Direction(x = NEGATIVE_UNIT, y = POSITIVE_UNIT)
 }
 
+fun Coordinates.translate(direction: Direction) = translate(direction.x, direction.y)
+
 fun Coordinates.rayCast(destination: Coordinates): List<Direction> {
     var diffX = x - destination.x
     var diffY = y - destination.y

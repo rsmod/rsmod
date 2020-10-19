@@ -30,8 +30,6 @@ inline class Coordinates(private val packed: Int) {
         plane = plane + planeOffset
     )
 
-    fun translate(direction: Direction) = translate(direction.x, direction.y)
-
     fun translateX(offset: Int) = translate(offset, 0, 0)
 
     fun translateY(offset: Int) = translate(0, offset, 0)

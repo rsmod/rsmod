@@ -1,5 +1,6 @@
 package gg.rsmod.plugins.api.update
 
+import gg.rsmod.game.model.domain.translate
 import gg.rsmod.game.model.mob.Player
 import gg.rsmod.plugins.api.model.appearance.Body
 import gg.rsmod.plugins.api.model.appearance.Equipment
