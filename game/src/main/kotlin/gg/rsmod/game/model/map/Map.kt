@@ -1,7 +1,6 @@
 package gg.rsmod.game.model.map
 
 import com.google.common.base.MoreObjects
-import gg.rsmod.game.model.domain.Direction
 
 inline class Coordinates(private val packed: Int) {
 
