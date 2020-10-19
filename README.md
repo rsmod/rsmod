@@ -1,7 +1,6 @@
 **Ignore List**
 -
 * Cache Module
-* App Module
 
 **TODO List**
 -
