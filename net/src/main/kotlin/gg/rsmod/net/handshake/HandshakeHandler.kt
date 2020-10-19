@@ -42,7 +42,7 @@ data class HandshakeHandlerMap(
         if (handlers.containsKey(opcode)) {
             error("Handshake with opcode already defined (opcode=$opcode).")
         }
-        logger.debug { "Register handshake handler (opcode=$opcode, handler=$handler)" }
+        logger.debug { "Register handshake handler (opcode=$opcode)" }
         handlers[opcode] = handler
     }
 }
