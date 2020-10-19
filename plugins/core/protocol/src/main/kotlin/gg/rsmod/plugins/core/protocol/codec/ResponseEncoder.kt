@@ -25,7 +25,7 @@ enum class ResponseType(val id: Int) {
     INVALID_CREDENTIALS(id = 3),
     ACCOUNT_ONLINE(id = 5),
     JS5_OUT_OF_DATE(id = 6),
-    WORLD_FULL(id = 9),
+    WORLD_FULL(id = 7),
     BAD_SESSION_ID(id = 10),
     COULD_NOT_COMPLETE_LOGIN(id = 13),
     TOO_MANY_ATTEMPTS(id = 16),
