@@ -28,7 +28,7 @@ class GameModuleBuilder(
     private val modules: MutableList<KotlinModule> = mutableListOf()
 ) {
     operator fun KotlinModule.unaryMinus() {
-        logger.debug { "Append module to builder (module=$this)" }
+        logger.debug { "Append module to builder (module=${this::class.simpleName})" }
         modules.add(this)
     }
 }
