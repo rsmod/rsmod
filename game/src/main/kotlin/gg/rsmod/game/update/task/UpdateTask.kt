@@ -1,4 +1,4 @@
-package gg.rsmod.game.update
+package gg.rsmod.game.update.task
 
 import com.github.michaelbull.logging.InlineLogger
 import com.google.inject.Inject
@@ -23,13 +23,13 @@ class UpdateTaskList(
 }
 
 @DslMarker
-private annotation class TaskDslMarker
+private annotation class TaskBuilderDslMarker
 
-@TaskDslMarker
+@TaskBuilderDslMarker
 class UpdateTaskBuilder(private val tasks: MutableList<UpdateTask>) {
 
     operator fun <T : UpdateTask> T.unaryMinus() {
         tasks.add(this)
-        logger.debug { "Append update task to list (task=${this.javaClass.simpleName}, totalTasks=${tasks.size})" }
+        logger.debug { "Append update task to list (task=${this::class.simpleName})" }
     }
 }

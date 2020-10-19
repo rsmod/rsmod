@@ -6,6 +6,7 @@ import gg.rsmod.game.message.ServerPacketListener
 import gg.rsmod.game.model.client.Client
 import gg.rsmod.game.model.client.ClientMachine
 import gg.rsmod.game.model.client.ClientSettings
+import io.netty.buffer.ByteBufAllocator
 
 interface ClientSerializer {
 
@@ -29,6 +30,7 @@ data class ClientDeserializeRequest(
     val settings: ClientSettings,
     val machine: ClientMachine,
     val messageListener: ServerPacketListener,
+    val bufAllocator: ByteBufAllocator,
     val eventBus: EventBus,
     val actionBus: ActionBus
 ) {
@@ -49,6 +51,7 @@ data class ClientDeserializeRequest(
         if (settings != other.settings) return false
         if (machine != other.machine) return false
         if (messageListener != other.messageListener) return false
+        if (bufAllocator != other.bufAllocator) return false
         if (eventBus != other.eventBus) return false
         if (actionBus != other.actionBus) return false
 
@@ -63,6 +66,7 @@ data class ClientDeserializeRequest(
         result = 31 * result + settings.hashCode()
         result = 31 * result + machine.hashCode()
         result = 31 * result + messageListener.hashCode()
+        result = 31 * result + bufAllocator.hashCode()
         result = 31 * result + eventBus.hashCode()
         result = 31 * result + actionBus.hashCode()
         return result

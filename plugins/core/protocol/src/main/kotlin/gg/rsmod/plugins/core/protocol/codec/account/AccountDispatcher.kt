@@ -8,6 +8,8 @@ import gg.rsmod.game.config.RsaConfig
 import gg.rsmod.game.coroutine.IoCoroutineScope
 import gg.rsmod.game.dispatch.GameJobDispatcher
 import gg.rsmod.game.event.EventBus
+import gg.rsmod.game.event.impl.ClientRegister
+import gg.rsmod.game.event.impl.ClientUnregister
 import gg.rsmod.game.model.client.Client
 import gg.rsmod.game.model.client.ClientList
 import gg.rsmod.game.model.domain.repo.XteaRepository
@@ -86,7 +88,7 @@ class AccountDispatcher @Inject constructor(
         for (i in 0 until internalConfig.logoutsPerCycle) {
             val client = unregisterQueue.poll() ?: break
             logger.debug { "Unregister player from game (player=${client.player})" }
-            playerList.remove(client.player)
+            logout(client)
         }
 
         for (i in 0 until internalConfig.loginsPerCycle) {
@@ -109,7 +111,8 @@ class AccountDispatcher @Inject constructor(
             machine = request.machine,
             eventBus = eventBus,
             actionBus = actionBus,
-            messageListener = ChannelMessageListener(channel)
+            messageListener = ChannelMessageListener(channel),
+            bufAllocator = channel.alloc()
         )
         val deserialize = serializer.deserialize(clientRequest)
         logger.debug { "Deserialized login request (request=$request, response=$deserialize)" }
@@ -159,7 +162,15 @@ class AccountDispatcher @Inject constructor(
             channel.writeErrResponse(ResponseType.WORLD_FULL)
             return
         }
+        clientList.register(client)
+        eventBus.publish(ClientRegister(client))
         client.register(channel, device, decodeIsaac, encodeIsaac)
+    }
+
+    private fun logout(client: Client) {
+        clientList.remove(client)
+        playerList.remove(client.player)
+        eventBus.publish(ClientUnregister(client))
     }
 
     private fun Client.register(
@@ -211,7 +222,7 @@ class AccountDispatcher @Inject constructor(
         val structures = device.packetStructures()
         val decoder = GameSessionDecoder(decodeIsaac, structures.client)
         val encoder = GameSessionEncoder(encodeIsaac, structures.server)
-        val handler = GameSessionHandler(clientList, client, this@AccountDispatcher)
+        val handler = GameSessionHandler(client, this@AccountDispatcher)
 
         remove(HandshakeConstants.RESPONSE_PIPELINE)
 

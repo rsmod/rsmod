@@ -1,6 +1,7 @@
 package gg.rsmod.game.model.map
 
 import com.google.common.base.MoreObjects
+import gg.rsmod.game.model.domain.Direction
 
 inline class Coordinates(private val packed: Int) {
 
@@ -28,6 +29,8 @@ inline class Coordinates(private val packed: Int) {
         y = y + yOffset,
         plane = plane + planeOffset
     )
+
+    fun translate(direction: Direction) = translate(direction.x, direction.y)
 
     fun translateX(offset: Int) = translate(offset, 0, 0)
 

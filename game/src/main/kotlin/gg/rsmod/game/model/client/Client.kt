@@ -6,6 +6,8 @@ import com.google.inject.Inject
 import gg.rsmod.game.message.ClientPacket
 import gg.rsmod.game.message.ClientPacketMessage
 import gg.rsmod.game.model.mob.Player
+import gg.rsmod.game.update.record.UpdateRecord
+import io.netty.buffer.ByteBufAllocator
 import java.util.LinkedList
 
 private val logger = InlineLogger()
@@ -16,6 +18,8 @@ class Client(
     var settings: ClientSettings,
     val encryptedPass: String,
     val loginXteas: IntArray,
+    val bufAllocator: ByteBufAllocator,
+    val updateRecords: MutableList<UpdateRecord> = mutableListOf(),
     val pendingPackets: LinkedList<ClientPacketMessage<out ClientPacket>> = LinkedList()
 ) {
 
@@ -37,7 +41,7 @@ class Client(
 }
 
 class ClientList(
-    private val active: MutableList<Client> = mutableListOf()
+    private val active: MutableList<Client>
 ) : List<Client> by active {
 
     @Inject
@@ -48,7 +52,6 @@ class ClientList(
             logger.error { "Client is already registered (player=${client.player})" }
             return
         }
-        logger.debug { "Registered to client list (player=${client.player})" }
         active.add(client)
     }
 
@@ -57,7 +60,6 @@ class ClientList(
             logger.error { "Client is not registered (player=${client.player})" }
             return
         }
-        logger.debug { "Remove from client list (player=${client.player})" }
         active.remove(client)
     }
 }

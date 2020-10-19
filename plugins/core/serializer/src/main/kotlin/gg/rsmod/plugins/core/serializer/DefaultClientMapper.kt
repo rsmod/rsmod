@@ -46,7 +46,8 @@ class DefaultClientMapper @Inject constructor(
             machine = request.machine,
             settings = request.settings,
             encryptedPass = data.encryptedPass,
-            loginXteas = request.loginXteas
+            loginXteas = request.loginXteas,
+            bufAllocator = request.bufAllocator
         )
         entity.coords = when (data.coords.size) {
             2 -> Coordinates(data.coords[0], data.coords[1])
@@ -90,7 +91,8 @@ class DefaultClientMapper @Inject constructor(
             machine = request.machine,
             settings = request.settings,
             encryptedPass = encryptedPass,
-            loginXteas = request.loginXteas
+            loginXteas = request.loginXteas,
+            bufAllocator = request.bufAllocator
         )
     }
 

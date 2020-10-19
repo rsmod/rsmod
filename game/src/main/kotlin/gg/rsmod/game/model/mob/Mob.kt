@@ -6,10 +6,12 @@ import gg.rsmod.game.event.EventBus
 import gg.rsmod.game.event.impl.LoginEvent
 import gg.rsmod.game.message.ServerPacket
 import gg.rsmod.game.message.ServerPacketListener
+import gg.rsmod.game.model.appearance.Appearance
 import gg.rsmod.game.model.client.NpcEntity
 import gg.rsmod.game.model.client.PlayerEntity
 import gg.rsmod.game.model.domain.Direction
 import gg.rsmod.game.model.domain.PlayerId
+import gg.rsmod.game.model.item.ItemContainer
 import gg.rsmod.game.model.map.Coordinates
 import gg.rsmod.game.model.map.Viewport
 import gg.rsmod.game.model.snapshot.Snapshot
@@ -19,10 +21,15 @@ import java.time.LocalDateTime
 import java.util.ArrayDeque
 import java.util.Queue
 
+private val DEFAULT_DIRECTION = Direction.South
+private const val EQUIPMENT_CAPACITY = 12
+
 sealed class Mob(
     val steps: StepQueue = StepQueue(),
     var speed: StepSpeed = StepSpeed.Walk,
-    val movement: Queue<Direction> = ArrayDeque()
+    val movement: Queue<Direction> = ArrayDeque(),
+    var faceDirection: Direction = DEFAULT_DIRECTION,
+    var appendTeleport: Boolean = false
 )
 
 class Player(
@@ -33,6 +40,8 @@ class Player(
     val actionBus: ActionBus,
     val viewport: Viewport = Viewport(),
     var snapshot: Snapshot = Snapshot.INITIAL,
+    var appearance: Appearance = Appearance.ZERO,
+    val equipment: ItemContainer = ItemContainer(EQUIPMENT_CAPACITY),
     private val messageListeners: List<ServerPacketListener> = mutableListOf()
 ) : Mob() {
 
