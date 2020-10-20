@@ -11,6 +11,9 @@ import gg.rsmod.game.model.client.OperatingSystem
 import gg.rsmod.plugins.core.protocol.Device
 import gg.rsmod.plugins.core.protocol.codec.ResponseType
 import gg.rsmod.plugins.core.protocol.codec.writeErrResponse
+import gg.rsmod.plugins.core.protocol.packet.login.AuthCode
+import gg.rsmod.plugins.core.protocol.packet.login.CacheChecksum
+import gg.rsmod.plugins.core.protocol.packet.login.LoginPacketMap
 import io.guthix.buffer.readString0CP1252
 import io.guthix.buffer.readStringCP1252
 import io.netty.buffer.ByteBuf
@@ -43,6 +46,7 @@ class LoginDecoder(
     private val minorRevision: Int,
     private val rsaConfig: RsaConfig,
     private val cacheCrcs: IntArray,
+    private val loginPackets: LoginPacketMap,
     private val serverSeed: Long = ThreadLocalRandom.current().nextLong(),
     private var stage: LoginStage = LoginStage.Handshake,
     private var connectionType: ConnectionType = ConnectionType.Initial,
@@ -162,35 +166,24 @@ class LoginDecoder(
             return null
         }
 
-        val authCode: Int?
+        val authCode: AuthCode?
         val password: String?
         var reconnectXteas: IntArray? = null
 
         if (connectionType == ConnectionType.Reconnect) {
             reconnectXteas = IntArray(4) { buf.readInt() }
-            authCode = -1
+            authCode = null
             password = null
         } else {
-            val authType = buf.readByte().toInt()
-            authCode = when (authType) {
-                2 -> {
-                    buf.skipBytes(Int.SIZE_BYTES)
-                    -1
-                }
-                3, 1 -> {
-                    val auth = buf.readUnsignedMedium()
-                    buf.skipBytes(Byte.SIZE_BYTES)
-                    auth
-                }
-                else -> buf.readInt()
-            }
+            val handler = loginPackets.getValue<AuthCode>()
+            authCode = handler.read(buf)
             buf.skipBytes(Byte.SIZE_BYTES)
             password = buf.readStringCP1252()
         }
 
         return LoginSecureBlock(
             password = password,
-            authCode = authCode,
+            authCode = authCode?.code,
             xteas = xteas,
             reconnectXteas = reconnectXteas
         )
@@ -245,8 +238,22 @@ class LoginDecoder(
         buf.skipBytes(Byte.SIZE_BYTES)
         buf.skipBytes(Int.SIZE_BYTES)
 
-        // TODO: verify integrity, values are now scrambled
-        val crcs = IntArray(cacheCrcs.size) { buf.readInt() }
+        val checksumHandler = loginPackets.getValue<CacheChecksum>()
+        val checksum = checksumHandler.read(buf)
+        val crcs = checksum.crcs
+
+        for (i in crcs.indices) {
+            val received = crcs[i]
+            val expected = cacheCrcs[i]
+            if (received > 0 && received != expected) {
+                logger.debug {
+                    "Cache crc out-of-date " +
+                        "(archive=$i, clientCrc=$received, serverCrc=$expected, username=$username, channel=${channel()})"
+                }
+                channel().writeErrResponse(ResponseType.JS5_OUT_OF_DATE)
+                return
+            }
+        }
 
         val request = LoginRequest(
             channel = channel(),

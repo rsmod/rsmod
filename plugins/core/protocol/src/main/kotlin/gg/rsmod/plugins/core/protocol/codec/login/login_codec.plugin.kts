@@ -7,9 +7,11 @@ import gg.rsmod.net.handshake.HandshakeHandlerMap
 import gg.rsmod.plugins.core.protocol.codec.HandshakeConstants
 import gg.rsmod.plugins.core.protocol.codec.ResponseEncoder
 import gg.rsmod.plugins.core.protocol.codec.account.AccountDispatcher
+import gg.rsmod.plugins.core.protocol.packet.login.LoginPacketMap
 
 val dispatcher: AccountDispatcher by inject()
 val handshakes: HandshakeHandlerMap by inject()
+val loginPackets: LoginPacketMap by inject()
 val gameConfig: GameConfig by inject()
 val rsaConfig: RsaConfig by inject()
 val cache: GameCache by inject()
@@ -25,7 +27,8 @@ handshakes.register {
                 majorRevision = gameConfig.majorRevision,
                 minorRevision = gameConfig.minorRevision,
                 rsaConfig = rsaConfig,
-                cacheCrcs = cache.archiveCrcs
+                cacheCrcs = cache.archiveCrcs,
+                loginPackets = loginPackets
             )
         }
     }

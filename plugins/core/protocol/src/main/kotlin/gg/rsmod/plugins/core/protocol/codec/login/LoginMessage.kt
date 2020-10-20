@@ -118,6 +118,7 @@ data class LoginRequest(
 }
 
 sealed class LoginResponse(val type: LoginResponseType) {
+
     data class Normal(
         val playerIndex: Int,
         val privilege: Int,
