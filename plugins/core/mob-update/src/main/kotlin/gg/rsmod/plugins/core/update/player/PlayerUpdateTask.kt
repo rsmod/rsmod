@@ -175,7 +175,7 @@ class PlayerUpdateTask @Inject constructor(
             updates.add(AppearanceMask.of(other))
         }
         if (!updates.contains(DirectionMask::class)) {
-            updates.add(DirectionMask.of(other))
+            updates.add(DirectionMask.of(other, other.faceDirection))
         }
         writeMaskUpdate(updates)
     }
