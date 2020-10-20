@@ -35,6 +35,8 @@ fun main() {
 class Server {
 
     fun startup() {
+        logger.info { "Starting up server - please wait" }
+
         val scope = Scopes.SINGLETON
 
         val moduleLoader = KotlinModuleLoader(scope)
@@ -51,6 +53,9 @@ class Server {
             NetworkModule(scope),
             *modules.toTypedArray()
         )
+        val gameConfig: GameConfig = injector.getInstance()
+        logger.info { "Launching ${gameConfig.name}..." }
+
         val eventBus: EventBus = injector.getInstance()
         val actions: ActionBus = injector.getInstance()
 
@@ -65,7 +70,6 @@ class Server {
 
         bind(injector)
 
-        val gameConfig: GameConfig = injector.getInstance()
         logger.info { "Loaded ${plugins.size} plugin(s)" }
         logger.debug { "Loaded game with configuration: $gameConfig" }
         logger.info { "Game listening to connections on port ${gameConfig.port}" }
