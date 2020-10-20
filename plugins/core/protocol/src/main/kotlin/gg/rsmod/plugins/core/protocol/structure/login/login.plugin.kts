@@ -6,7 +6,6 @@ import gg.rsmod.plugins.core.protocol.packet.login.CacheChecksum
 import gg.rsmod.plugins.core.protocol.packet.login.LoginPacketMap
 import io.guthix.buffer.readIntIME
 import io.guthix.buffer.readIntME
-import io.netty.buffer.ByteBuf
 
 val packets: LoginPacketMap by inject()
 val cache: GameCache by inject()

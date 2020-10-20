@@ -2,7 +2,7 @@ package gg.rsmod.plugins.core.protocol.packet.login
 
 sealed class LoginPacket
 
-data class AuthCode(val code: Int): LoginPacket()
+data class AuthCode(val code: Int) : LoginPacket()
 
 data class CacheChecksum(val crcs: IntArray) : LoginPacket() {
 
