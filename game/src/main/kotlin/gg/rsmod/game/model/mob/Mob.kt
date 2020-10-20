@@ -14,6 +14,9 @@ import gg.rsmod.game.model.domain.PlayerId
 import gg.rsmod.game.model.item.ItemContainer
 import gg.rsmod.game.model.map.Coordinates
 import gg.rsmod.game.model.map.Viewport
+import gg.rsmod.game.model.queue.GameQueue
+import gg.rsmod.game.model.queue.GameQueueStack
+import gg.rsmod.game.model.queue.QueueType
 import gg.rsmod.game.model.snapshot.Snapshot
 import gg.rsmod.game.model.step.StepQueue
 import gg.rsmod.game.model.step.StepSpeed
@@ -29,8 +32,16 @@ sealed class Mob(
     var speed: StepSpeed = StepSpeed.Walk,
     val movement: Queue<Direction> = ArrayDeque(),
     var faceDirection: Direction = DEFAULT_DIRECTION,
-    var appendTeleport: Boolean = false
-)
+    var appendTeleport: Boolean = false,
+    internal val queueStack: GameQueueStack = GameQueueStack()
+) {
+
+    fun weakQueue(block: suspend GameQueue.() -> Unit) = queueStack.queue(QueueType.Weak, block)
+
+    fun normalQueue(block: suspend GameQueue.() -> Unit) = queueStack.queue(QueueType.Normal, block)
+
+    fun strongQueue(block: suspend GameQueue.() -> Unit) = queueStack.queue(QueueType.Strong, block)
+}
 
 class Player(
     val id: PlayerId,

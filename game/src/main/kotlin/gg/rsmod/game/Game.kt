@@ -59,6 +59,7 @@ class Game @Inject private constructor(
 
     private suspend fun gameLogic() {
         clientList.forEach { it.pollActions(config.actionsPerCycle) }
+        playerList.forEach { it?.queueStack?.cycle() }
         jobDispatcher.executeAll()
         updateTaskList.forEach { it.execute() }
         playerList.forEach { it?.flush() }
