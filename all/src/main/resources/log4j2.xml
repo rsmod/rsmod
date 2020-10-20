@@ -2,10 +2,10 @@
 <Configuration status="info" packages="gg.rsmod">
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="[%-5p] %d{MMM dd, yyyy H:mm:ss a} [%t] %C{1}::%M (L:%L)%n  %msg%n"/>
+            <PatternLayout pattern="[%p] %d{MMM dd, yyyy H:mm:ss a} [%t] %C{1} %M%n %msg%n"/>
         </Console>
         <File name="File" fileName="error.log" append="false">
-            <PatternLayout pattern="[%-5p] %d{MMM dd, yyyy H:mm:ss a} [%t] %C{1}::%M (L:%L)%n  %msg%n"/>
+            <PatternLayout pattern="[%p] %d{MMM dd, yyyy H:mm:ss a} [%t] %C{1} %M%n %msg%n"/>
         </File>
     </Appenders>
     <Loggers>
