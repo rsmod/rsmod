@@ -41,6 +41,10 @@ sealed class Mob(
     fun normalQueue(block: suspend GameQueue.() -> Unit) = queueStack.queue(QueueType.Normal, block)
 
     fun strongQueue(block: suspend GameQueue.() -> Unit) = queueStack.queue(QueueType.Strong, block)
+
+    fun clearQueues() {
+        queueStack.clear()
+    }
 }
 
 class Player(

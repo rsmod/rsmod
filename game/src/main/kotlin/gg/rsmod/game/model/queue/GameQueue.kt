@@ -93,6 +93,11 @@ class GameQueueStack internal constructor(
         currPriority = QueueType.Weak
     }
 
+    internal fun clear() {
+        resetQueue()
+        contextQueue.clear()
+    }
+
     private fun overtakeQueues(priority: QueueType): Boolean {
         if (priority == currPriority) {
             return true
@@ -105,9 +110,8 @@ class GameQueueStack internal constructor(
              * If priority of current queue is lower than given priority,
              * clear the current queue as well as pending queues.
              */
-            currentQueue = null
+            clear()
             currPriority = priority
-            contextQueue.clear()
         }
         return true
     }
