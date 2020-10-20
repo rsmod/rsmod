@@ -42,6 +42,7 @@ class GameConfigProvider @Inject constructor(
 
     override fun get(): GameConfig {
         val config = ConfigMap(mapper).load(CONFIG_PATH)
+        val name: String = config["server-name"] ?: DEFAULT_SERVER_NAME
         val dataPath: Path = config.dataPath()
         val port: Int = config["port"] ?: DEFAULT_PORT
         val home: List<Int> = config["home"] ?: DEFAULT_HOME
@@ -65,6 +66,7 @@ class GameConfigProvider @Inject constructor(
         }
 
         return GameConfig(
+            name = name,
             majorRevision = majorRevision,
             minorRevision = minorRevision,
             port = port,
@@ -87,6 +89,7 @@ class GameConfigProvider @Inject constructor(
     companion object {
         private val CONFIG_PATH = Paths.get(".", "all", "config.yml")
         private val DEFAULT_DATA_PATH = Paths.get(".", "all", "data")
+        private const val DEFAULT_SERVER_NAME = "RS Mod"
         private const val DEFAULT_PORT = 43594
         private const val DEFAULT_MINOR_REVISION = 1
         private val DEFAULT_HOME = listOf(3200, 3200)

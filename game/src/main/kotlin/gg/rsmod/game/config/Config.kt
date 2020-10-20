@@ -6,6 +6,7 @@ import java.nio.file.Path
 import java.nio.file.Paths
 
 data class GameConfig(
+    val name: String,
     val majorRevision: Int,
     val minorRevision: Int,
     val port: Int,
