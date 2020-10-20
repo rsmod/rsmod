@@ -2,11 +2,11 @@ package gg.rsmod.game.coroutine
 
 import com.google.inject.Inject
 import com.google.inject.Provider
+import java.util.concurrent.Executor
+import javax.inject.Named
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.asCoroutineDispatcher
-import java.util.concurrent.Executor
-import javax.inject.Named
 
 class GameCoroutineScope @Inject constructor(
     @Named("gameCoroutineDispatcher") override val coroutineContext: CoroutineDispatcher
