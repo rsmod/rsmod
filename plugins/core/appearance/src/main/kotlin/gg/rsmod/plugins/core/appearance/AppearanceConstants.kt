@@ -30,6 +30,7 @@ object AppearanceConstants {
         skullIcon = DEFAULT_SKULL_ICON,
         overheadPrayer = DEFAULT_OVERHEAD_PRAYER,
         npcTransform = DEFAULT_NPC_TRANSFORM,
+        invisible = false,
         body = DEFAULT_BODY.toList(),
         colors = DEFAULT_COLORS.toList(),
         bas = DEFAULT_BASE_ANIMATION_SET.toList()

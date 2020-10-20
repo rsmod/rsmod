@@ -5,6 +5,7 @@ data class Appearance(
     val skullIcon: Int,
     val overheadPrayer: Int,
     val npcTransform: Int,
+    val invisible: Boolean,
     val body: List<Int>,
     val colors: List<Int>,
     val bas: List<Int>
@@ -17,6 +18,7 @@ data class Appearance(
             skullIcon = 0,
             overheadPrayer = 0,
             npcTransform = 0,
+            invisible = false,
             body = emptyList(),
             colors = emptyList(),
             bas = emptyList()
