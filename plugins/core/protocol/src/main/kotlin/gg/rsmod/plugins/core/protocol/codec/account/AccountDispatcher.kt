@@ -1,6 +1,12 @@
 package gg.rsmod.plugins.core.protocol.codec.account
 
 import com.github.michaelbull.logging.InlineLogger
+import com.github.michaelbull.retry.RetryFailure
+import com.github.michaelbull.retry.RetryInstruction
+import com.github.michaelbull.retry.policy.binaryExponentialBackoff
+import com.github.michaelbull.retry.policy.limitAttempts
+import com.github.michaelbull.retry.policy.plus
+import com.github.michaelbull.retry.retry
 import com.google.inject.Inject
 import gg.rsmod.game.action.ActionBus
 import gg.rsmod.game.config.InternalConfig
@@ -45,6 +51,10 @@ import kotlinx.coroutines.launch
 
 private val logger = InlineLogger()
 
+private const val SERIALIZE_ATTEMPTS = 5
+private const val BACKOFF_BASE = 100L
+private const val BACKOFF_MAX = 10000L
+
 class AccountDispatcher @Inject constructor(
     private val rsaConfig: RsaConfig,
     private val internalConfig: InternalConfig,
@@ -80,8 +90,10 @@ class AccountDispatcher @Inject constructor(
 
     fun unregister(client: Client) {
         ioCoroutineScope.launch {
-            serializer.serialize(client)
-            unregisterQueue.add(client)
+            retry(serializePolicy()) {
+                serializer.serialize(client)
+                unregisterQueue.add(client)
+            }
         }
     }
 
@@ -226,7 +238,6 @@ class AccountDispatcher @Inject constructor(
         val handler = GameSessionHandler(client, this@AccountDispatcher)
 
         remove(HandshakeConstants.RESPONSE_PIPELINE)
-
         replace(
             HandshakeConstants.DECODER_PIPELINE,
             HandshakeConstants.DECODER_PIPELINE,
@@ -283,5 +294,9 @@ class AccountDispatcher @Inject constructor(
         Device.Desktop -> desktopStructures
         Device.Ios -> iosStructures
         Device.Android -> androidStructures
+    }
+
+    private fun serializePolicy(): suspend RetryFailure<Throwable>.() -> RetryInstruction {
+        return limitAttempts(SERIALIZE_ATTEMPTS) + binaryExponentialBackoff(BACKOFF_BASE, BACKOFF_MAX)
     }
 }

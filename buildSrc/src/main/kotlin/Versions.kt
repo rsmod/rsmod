@@ -5,6 +5,7 @@ object ProjectVersions {
     const val PROTOCOL = "191.0-SNAPSHOT"
     const val GUTHIX_BYTEBUF = "0.1.1"
     const val JS5_STORE = "0.4.0"
+    const val KOTLIN_RETRY = "1.0.6"
 }
 
 object JvmVersions {
