@@ -4,6 +4,8 @@ import gg.rsmod.game.model.mob.Player
 import gg.rsmod.plugins.api.onEarlyLogin
 import gg.rsmod.plugins.core.protocol.packet.server.IfOpenSub
 import gg.rsmod.plugins.core.protocol.packet.server.IfOpenTop
+import gg.rsmod.plugins.core.protocol.packet.server.RunClientScript
+import gg.rsmod.plugins.core.protocol.packet.server.SmallVarpPacket
 
 onEarlyLogin {
     player.sendGameframe()
@@ -31,5 +33,8 @@ fun Player.sendGameframe() {
     write(IfOpenSub(239, ((548 shl 16) or 82), 1))
     write(IfOpenSub(7, ((548 shl 16) or 76), 1))
     write(IfOpenSub(593, ((548 shl 16) or 69), 1))
-    flush()
+    write(RunClientScript(1105, 1))
+    write(RunClientScript(423, username))
+    write(SmallVarpPacket(1055, 0))
+    write(SmallVarpPacket(1737, Short.MAX_VALUE.toInt()))
 }
