@@ -10,9 +10,8 @@ import io.guthix.buffer.readIntME
 val packets: LoginPacketMap by inject()
 val cache: GameCache by inject()
 
-packets.register<AuthCode> {
-    val type = readByte().toInt()
-    val code = when (type) {
+packets.register {
+    val code = when (readByte().toInt()) {
         2 -> {
             skipBytes(Int.SIZE_BYTES)
             -1
@@ -27,7 +26,7 @@ packets.register<AuthCode> {
     AuthCode(code)
 }
 
-packets.register<CacheChecksum> {
+packets.register {
     val crcs = IntArray(cache.archiveCount)
     crcs[19] = readIntIME()
     crcs[14] = readIntIME()
