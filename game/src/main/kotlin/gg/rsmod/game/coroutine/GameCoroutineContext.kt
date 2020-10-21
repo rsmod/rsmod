@@ -1,6 +1,7 @@
 package gg.rsmod.game.coroutine
 
 import com.github.michaelbull.logging.InlineLogger
+import java.util.concurrent.CancellationException
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
@@ -26,7 +27,7 @@ internal object GameCoroutineContinuation : Continuation<Unit> {
 
     override fun resumeWith(result: Result<Unit>) {
         val error = result.exceptionOrNull()
-        if (error != null) {
+        if (error != null && error !is CancellationException) {
             logger.error(error) {}
         }
     }

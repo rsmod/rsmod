@@ -6,6 +6,7 @@ import java.util.LinkedList
 import java.util.Queue
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.suspendCoroutine
+import kotlinx.coroutines.suspendCancellableCoroutine
 
 internal sealed class QueueType {
     object Weak : QueueType()
@@ -28,6 +29,12 @@ class GameQueue internal constructor(
 
     suspend fun delay(predicate: () -> Boolean): Unit = suspendCoroutine {
         it.suspend(condition = PredicateCondition(predicate))
+    }
+
+    suspend fun cancel(): Nothing = suspendCancellableCoroutine {
+        resumeCondition = null
+        coroutineContext = null
+        it.cancel()
     }
 
     internal fun cycle() {
