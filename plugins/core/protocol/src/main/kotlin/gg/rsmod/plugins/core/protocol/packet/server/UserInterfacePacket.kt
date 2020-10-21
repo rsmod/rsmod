@@ -11,3 +11,8 @@ data class IfOpenSub(
     val targetComponent: Int,
     val type: Int
 ) : ServerPacket
+
+class RunClientScript(
+    val id: Int,
+    vararg val args: Any
+) : ServerPacket
