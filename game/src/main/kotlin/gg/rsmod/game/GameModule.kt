@@ -8,12 +8,16 @@ import gg.rsmod.game.model.client.ClientList
 import gg.rsmod.game.model.map.MapIsolation
 import gg.rsmod.game.model.mob.NpcList
 import gg.rsmod.game.model.mob.PlayerList
+import gg.rsmod.game.model.world.World
 import gg.rsmod.game.update.task.UpdateTaskList
 
 class GameModule(private val scope: Scope) : KotlinModule() {
 
     override fun configure() {
         bind<Game>()
+            .`in`(scope)
+
+        bind<World>()
             .`in`(scope)
 
         bind<EventBus>()

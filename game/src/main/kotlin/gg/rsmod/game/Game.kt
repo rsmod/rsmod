@@ -7,6 +7,7 @@ import gg.rsmod.game.coroutine.GameCoroutineScope
 import gg.rsmod.game.dispatch.GameJobDispatcher
 import gg.rsmod.game.model.client.ClientList
 import gg.rsmod.game.model.mob.PlayerList
+import gg.rsmod.game.model.world.World
 import gg.rsmod.game.update.task.UpdateTaskList
 import java.util.concurrent.TimeUnit
 import kotlin.system.measureNanoTime
@@ -29,7 +30,8 @@ class Game @Inject private constructor(
     private val jobDispatcher: GameJobDispatcher,
     private val updateTaskList: UpdateTaskList,
     private val playerList: PlayerList,
-    private val clientList: ClientList
+    private val clientList: ClientList,
+    private val world: World
 ) {
 
     var state: GameState = GameState.Inactive
@@ -63,6 +65,7 @@ class Game @Inject private constructor(
     private suspend fun gameLogic() {
         clientList.forEach { it.pollActions(config.actionsPerCycle) }
         playerList.forEach { it?.queueStack?.cycle() }
+        world.queueList.cycle()
         jobDispatcher.executeAll()
         updateTaskList.forEach { it.execute() }
         playerList.forEach { it?.flush() }
