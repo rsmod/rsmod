@@ -3,6 +3,7 @@ package gg.rsmod.game.model.queue
 import gg.rsmod.game.coroutine.GameCoroutineContext
 import gg.rsmod.game.coroutine.launchCoroutine
 import java.util.LinkedList
+import java.util.Queue
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.suspendCoroutine
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -56,11 +57,11 @@ class GameQueue internal constructor(
 class GameQueueStack internal constructor(
     private var currentQueue: GameQueue? = null,
     private var currPriority: QueueType = QueueType.Weak,
-    private val contextQueue: LinkedList<GameQueueContext> = LinkedList()
+    private val pendingQueue: LinkedList<GameQueueContext> = LinkedList()
 ) {
 
     val size: Int
-        get() = contextQueue.size + (if (currentQueue != null) 1 else 0)
+        get() = pendingQueue.size + (if (currentQueue != null) 1 else 0)
 
     internal fun queue(type: QueueType, block: suspend GameQueue.() -> Unit) {
         if (!overtakeQueues(type)) {
@@ -72,14 +73,14 @@ class GameQueueStack internal constructor(
              * be proven with strong queues, but not sure about other
              * priority types.
              */
-            contextQueue.removeLast()
+            pendingQueue.removeLast()
         }
-        val ctx = GameQueueContext(type, block)
-        contextQueue.add(ctx)
+        val ctx = GameQueueContext(block)
+        pendingQueue.add(ctx)
     }
 
     internal suspend fun cycle() {
-        pollContext()
+        pollPending()
         pollQueue()
     }
 
@@ -89,12 +90,12 @@ class GameQueueStack internal constructor(
         if (queue.idle) {
             resetQueue()
             /* immediately poll next queue */
-            pollContext()
+            pollPending()
             pollQueue()
         }
     }
 
-    private suspend fun pollContext() {
+    private suspend fun pollPending() {
         if (currentQueue != null) {
             /*
              * Wait until pending queue has finished before
@@ -102,7 +103,7 @@ class GameQueueStack internal constructor(
              */
             return
         }
-        val ctx = contextQueue.poll() ?: return
+        val ctx = pendingQueue.poll() ?: return
         val queue = queue(ctx)
         currentQueue = queue
     }
@@ -114,7 +115,7 @@ class GameQueueStack internal constructor(
 
     internal fun clear() {
         resetQueue()
-        contextQueue.clear()
+        pendingQueue.clear()
     }
 
     private fun overtakeQueues(priority: QueueType): Boolean {
@@ -149,8 +150,45 @@ class GameQueueStack internal constructor(
     }
 }
 
+class GameQueueList internal constructor(
+    private val queues: MutableList<GameQueue> = mutableListOf(),
+    private val pending: Queue<GameQueueContext> = LinkedList()
+) : List<GameQueue> by queues {
+
+    internal fun queue(block: suspend GameQueue.() -> Unit) {
+        val context = GameQueueContext(block)
+        pending.add(context)
+    }
+
+    internal suspend fun cycle() {
+        addPending()
+        cycleQueues()
+    }
+
+    private fun cycleQueues() {
+        queues.forEach { it.cycle() }
+        queues.removeIf { it.idle }
+    }
+
+    private suspend fun addPending() {
+        pending.forEach { ctx ->
+            val queue = queue(ctx)
+            if (!queue.idle) {
+                queues.add(queue)
+            }
+        }
+        pending.clear()
+    }
+
+    private suspend fun queue(ctx: GameQueueContext): GameQueue {
+        val queue = GameQueue()
+        val block = suspend { ctx.block(queue) }
+        block.launchCoroutine()
+        return queue
+    }
+}
+
 internal data class GameQueueContext(
-    val priority: QueueType,
     val block: suspend GameQueue.() -> Unit
 )
 
