@@ -3,10 +3,11 @@ package gg.rsmod.game.model.queue
 import gg.rsmod.game.coroutine.GameCoroutineContext
 import gg.rsmod.game.coroutine.launchCoroutine
 import java.util.LinkedList
-import java.util.Queue
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.suspendCoroutine
 import kotlinx.coroutines.suspendCancellableCoroutine
+
+private const val MAX_ACTIVE_QUEUES = 2
 
 internal sealed class QueueType {
     object Weak : QueueType()
@@ -55,12 +56,23 @@ class GameQueue internal constructor(
 class GameQueueStack internal constructor(
     private var currentQueue: GameQueue? = null,
     private var currPriority: QueueType = QueueType.Weak,
-    private val contextQueue: Queue<GameQueueContext> = LinkedList()
+    private val contextQueue: LinkedList<GameQueueContext> = LinkedList()
 ) {
+
+    val size: Int
+        get() = contextQueue.size + (if (currentQueue != null) 1 else 0)
 
     internal fun queue(type: QueueType, block: suspend GameQueue.() -> Unit) {
         if (!overtakeQueues(type)) {
             return
+        }
+        if (size >= MAX_ACTIVE_QUEUES) {
+            /*
+             * Can only stack up to two queues at a time. This can
+             * be proven with strong queues, but not sure about other
+             * priority types.
+             */
+            contextQueue.removeLast()
         }
         val ctx = GameQueueContext(type, block)
         contextQueue.add(ctx)
