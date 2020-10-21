@@ -1,5 +1,6 @@
 package gg.rsmod.game
 
+import com.github.michaelbull.logging.InlineLogger
 import com.google.inject.Inject
 import gg.rsmod.game.config.InternalConfig
 import gg.rsmod.game.coroutine.GameCoroutineScope
@@ -13,6 +14,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+private val logger = InlineLogger()
 private val nanosInMilliseconds = TimeUnit.MILLISECONDS.toNanos(1L)
 
 sealed class GameState {
@@ -50,6 +52,7 @@ class Game @Inject private constructor(
             if (elapsedMillis > delay) {
                 val elapsedCycleCount = elapsedMillis / delay
                 val upcomingCycleDelay = (elapsedCycleCount + 1) * delay
+                logger.error { "Cycle took too long (elapsed=$elapsedMillis)" }
                 delay(upcomingCycleDelay - elapsedMillis)
                 continue
             }
