@@ -1,7 +1,6 @@
 package gg.rsmod.game.update.mask
 
 import com.github.michaelbull.logging.InlineLogger
-import com.google.inject.Inject
 import io.netty.buffer.ByteBuf
 import kotlin.reflect.KClass
 
@@ -37,22 +36,19 @@ class UpdateMaskSet(
     }
 }
 
-data class UpdateMaskHandler<T : UpdateMask>(
+data class UpdateMaskPacket<T : UpdateMask>(
     val mask: Int,
     val write: T.(ByteBuf) -> Unit
 )
 
-class UpdateMaskHandlerMap(
-    val handlers: MutableMap<KClass<out UpdateMask>, UpdateMaskHandler<*>>
-) : Map<KClass<out UpdateMask>, UpdateMaskHandler<*>> by handlers {
-
-    @Inject
-    constructor() : this(mutableMapOf())
+class UpdateMaskPacketMap(
+    val handlers: MutableMap<KClass<out UpdateMask>, UpdateMaskPacket<*>> = mutableMapOf()
+) : Map<KClass<out UpdateMask>, UpdateMaskPacket<*>> by handlers {
 
     inline fun <reified T : UpdateMask> register(
-        init: UpdateMaskHandlerBuilder<T>.() -> Unit
+        init: UpdateMaskPacketBuilder<T>.() -> Unit
     ) {
-        val builder = UpdateMaskHandlerBuilder<T>().apply(init)
+        val builder = UpdateMaskPacketBuilder<T>().apply(init)
         val handler = builder.build()
         if (handlers.containsKey(T::class)) {
             error("Update mask handler already exists (type=${T::class.simpleName})")
@@ -64,13 +60,13 @@ class UpdateMaskHandlerMap(
     }
 
     @Suppress("UNCHECKED_CAST")
-    operator fun <T : UpdateMask> get(mask: T): UpdateMaskHandler<T>? {
-        return handlers[mask::class] as? UpdateMaskHandler<T>
+    operator fun <T : UpdateMask> get(mask: T): UpdateMaskPacket<T>? {
+        return handlers[mask::class] as? UpdateMaskPacket<T>
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun <T : UpdateMask> getValue(mask: T): UpdateMaskHandler<T> {
-        return handlers.getValue(mask::class) as UpdateMaskHandler<T>
+    fun <T : UpdateMask> getValue(mask: T): UpdateMaskPacket<T> {
+        return handlers.getValue(mask::class) as UpdateMaskPacket<T>
     }
 
     companion object {
@@ -87,7 +83,7 @@ class UpdateMaskHandlerMap(
 private annotation class BuilderDslMarker
 
 @BuilderDslMarker
-class UpdateMaskHandlerBuilder<T : UpdateMask>(
+class UpdateMaskPacketBuilder<T : UpdateMask>(
     var mask: Int = 0,
     private var writer: (T.(ByteBuf) -> Unit)? = null
 ) {
@@ -96,9 +92,9 @@ class UpdateMaskHandlerBuilder<T : UpdateMask>(
         this.writer = writer
     }
 
-    fun build(): UpdateMaskHandler<T> {
+    fun build(): UpdateMaskPacket<T> {
         val mask = if (mask == 0) error("Handler mask has not been set.") else mask
         val writer = writer ?: error("Handler writer has not been set.")
-        return UpdateMaskHandler(mask, writer)
+        return UpdateMaskPacket(mask, writer)
     }
 }

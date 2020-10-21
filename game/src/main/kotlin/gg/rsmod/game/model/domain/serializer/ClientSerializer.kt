@@ -4,6 +4,7 @@ import gg.rsmod.game.action.ActionBus
 import gg.rsmod.game.event.EventBus
 import gg.rsmod.game.message.ServerPacketListener
 import gg.rsmod.game.model.client.Client
+import gg.rsmod.game.model.client.ClientDevice
 import gg.rsmod.game.model.client.ClientMachine
 import gg.rsmod.game.model.client.ClientSettings
 import io.netty.buffer.ByteBufAllocator
@@ -24,6 +25,7 @@ sealed class ClientDeserializeResponse {
 
 data class ClientDeserializeRequest(
     val loginName: String,
+    val device: ClientDevice,
     val plaintTextPass: String?,
     val loginXteas: IntArray,
     val reconnectXteas: IntArray?,
@@ -42,6 +44,7 @@ data class ClientDeserializeRequest(
         other as ClientDeserializeRequest
 
         if (loginName != other.loginName) return false
+        if (device != other.device) return false
         if (plaintTextPass != other.plaintTextPass) return false
         if (!loginXteas.contentEquals(other.loginXteas)) return false
         if (reconnectXteas != null) {
@@ -60,6 +63,7 @@ data class ClientDeserializeRequest(
 
     override fun hashCode(): Int {
         var result = loginName.hashCode()
+        result = 31 * result + device.hashCode()
         result = 31 * result + (plaintTextPass?.hashCode() ?: 0)
         result = 31 * result + loginXteas.contentHashCode()
         result = 31 * result + (reconnectXteas?.contentHashCode() ?: 0)

@@ -1,6 +1,8 @@
 package gg.rsmod.plugins.core.protocol
 
-sealed class Device {
+import gg.rsmod.game.model.client.ClientDevice
+
+sealed class Device : ClientDevice {
     object Ios : Device()
     object Android : Device()
     object Desktop : Device()

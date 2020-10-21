@@ -5,17 +5,20 @@ import com.google.common.primitives.Ints.min
 import com.google.inject.Inject
 import gg.rsmod.game.coroutine.IoCoroutineScope
 import gg.rsmod.game.model.client.Client
+import gg.rsmod.game.model.client.ClientDevice
 import gg.rsmod.game.model.client.ClientList
 import gg.rsmod.game.model.map.Coordinates
 import gg.rsmod.game.model.mob.Player
 import gg.rsmod.game.model.mob.PlayerList
 import gg.rsmod.game.update.mask.UpdateMask
-import gg.rsmod.game.update.mask.UpdateMaskHandlerMap
+import gg.rsmod.game.update.mask.UpdateMaskPacketMap
 import gg.rsmod.game.update.record.UpdateRecord
 import gg.rsmod.game.update.task.UpdateTask
 import gg.rsmod.plugins.api.model.map.isWithinDistance
 import gg.rsmod.plugins.api.update.of
+import gg.rsmod.plugins.core.protocol.Device
 import gg.rsmod.plugins.core.protocol.packet.server.PlayerInfo
+import gg.rsmod.plugins.core.protocol.structure.DevicePacketStructureMap
 import gg.rsmod.plugins.core.protocol.update.AppearanceMask
 import gg.rsmod.plugins.core.protocol.update.BitMask
 import gg.rsmod.plugins.core.protocol.update.DirectionMask
@@ -39,7 +42,7 @@ class PlayerUpdateTask @Inject constructor(
     private val clientList: ClientList,
     private val playerList: PlayerList,
     private val ioCoroutine: IoCoroutineScope,
-    private val maskHandlers: UpdateMaskHandlerMap
+    private val devicePackets: DevicePacketStructureMap
 ) : UpdateTask {
 
     internal fun initClient(client: Client) {
@@ -65,7 +68,8 @@ class PlayerUpdateTask @Inject constructor(
     private fun Client.gpiBuffer(): ByteBuf {
         val buf = bufAllocator.buffer()
         val maskBuf = bufAllocator.buffer()
-        buf.getPlayerInfo(player, updateRecords, maskBuf)
+        val maskPackets = device.maskPackets
+        buf.getPlayerInfo(player, updateRecords, maskBuf, maskPackets)
         buf.writeBytes(maskBuf)
         return buf
     }
@@ -73,20 +77,22 @@ class PlayerUpdateTask @Inject constructor(
     private fun ByteBuf.getPlayerInfo(
         player: Player,
         records: MutableList<UpdateRecord>,
-        maskBuf: ByteBuf
+        maskBuf: ByteBuf,
+        maskPackets: UpdateMaskPacketMap
     ) {
         var local = 0
         var added = 0
-        local += records.writeLocalPlayerInfo(toBitMode(), player, maskBuf, UpdateGroup.Active)
-        local += records.writeLocalPlayerInfo(toBitMode(), player, maskBuf, UpdateGroup.Inactive)
-        added += records.writeWorldPlayerInfo(toBitMode(), player, maskBuf, UpdateGroup.Inactive, local, added)
-        added += records.writeWorldPlayerInfo(toBitMode(), player, maskBuf, UpdateGroup.Active, local, added)
+        local += records.localPlayerInfo(toBitMode(), player, maskBuf, maskPackets, UpdateGroup.Active)
+        local += records.localPlayerInfo(toBitMode(), player, maskBuf, maskPackets, UpdateGroup.Inactive)
+        added += records.worldPlayerInfo(toBitMode(), player, maskBuf, maskPackets, UpdateGroup.Inactive, local, added)
+        added += records.worldPlayerInfo(toBitMode(), player, maskBuf, maskPackets, UpdateGroup.Active, local, added)
     }
 
-    private fun List<UpdateRecord>.writeLocalPlayerInfo(
+    private fun List<UpdateRecord>.localPlayerInfo(
         bitBuf: BitBuf,
         player: Player,
         maskBuf: ByteBuf,
+        maskPackets: UpdateMaskPacketMap,
         group: UpdateGroup
     ): Int {
         var skipCount = 0
@@ -112,7 +118,7 @@ class PlayerUpdateTask @Inject constructor(
             val maskUpdate = localPlayer.isMaskUpdateRequired()
             val moveUpdate = localPlayer.isMoving()
             if (maskUpdate) {
-                maskBuf.writeMaskUpdate(localPlayer.entity.updates)
+                maskBuf.writeMaskUpdate(localPlayer.entity.updates, maskPackets)
             }
             when {
                 moveUpdate -> bitBuf.writeLocalMovement(localPlayer, maskUpdate)
@@ -127,10 +133,11 @@ class PlayerUpdateTask @Inject constructor(
         return localPlayers
     }
 
-    private fun List<UpdateRecord>.writeWorldPlayerInfo(
+    private fun List<UpdateRecord>.worldPlayerInfo(
         bitBuf: BitBuf,
         player: Player,
         maskBuf: ByteBuf,
+        maskPackets: UpdateMaskPacketMap,
         group: UpdateGroup,
         localCount: Int,
         previouslyAdded: Int
@@ -154,7 +161,7 @@ class PlayerUpdateTask @Inject constructor(
                     localCount >= MAX_LOCAL_PLAYERS
                 if (player.canView(globalPlayer) && !capacityReached) {
                     bitBuf.writePlayerAddition(globalPlayer, record)
-                    maskBuf.writeNewPlayerMasks(globalPlayer)
+                    maskBuf.writeNewPlayerMasks(globalPlayer, maskPackets)
                     record.flag = (record.flag or 0x2)
                     record.local = true
                     record.coordinates = globalPlayer.coords.packed18Bits
@@ -169,7 +176,10 @@ class PlayerUpdateTask @Inject constructor(
         return added
     }
 
-    private fun ByteBuf.writeNewPlayerMasks(other: Player) {
+    private fun ByteBuf.writeNewPlayerMasks(
+        other: Player,
+        handlers: UpdateMaskPacketMap
+    ) {
         val updates = other.entity.updates
         if (!updates.contains(AppearanceMask::class)) {
             updates.add(AppearanceMask.of(other))
@@ -177,18 +187,21 @@ class PlayerUpdateTask @Inject constructor(
         if (!updates.contains(DirectionMask::class)) {
             updates.add(DirectionMask.of(other, other.faceDirection))
         }
-        writeMaskUpdate(updates)
+        writeMaskUpdate(updates, handlers)
     }
 
-    private fun ByteBuf.writeMaskUpdate(masks: Set<UpdateMask>) {
+    private fun ByteBuf.writeMaskUpdate(
+        masks: Set<UpdateMask>,
+        handlers: UpdateMaskPacketMap
+    ) {
         var bitmask = 0
         masks.forEach {
-            val handler = maskHandlers.getValue(it)
+            val handler = handlers.getValue(it)
             bitmask = bitmask or handler.mask
         }
-        writeMaskBit(bitmask)
+        writeMaskBit(bitmask, handlers)
         masks.forEach {
-            val handler = maskHandlers.getValue(it)
+            val handler = handlers.getValue(it)
             handler.write(it, this)
         }
     }
@@ -361,9 +374,12 @@ class PlayerUpdateTask @Inject constructor(
         return count
     }
 
-    private fun ByteBuf.writeMaskBit(bitmask: Int) {
+    private fun ByteBuf.writeMaskBit(
+        bitmask: Int,
+        handlers: UpdateMaskPacketMap
+    ) {
         val mask = BitMask(bitmask)
-        val handler = maskHandlers.getValue(mask)
+        val handler = handlers.getValue(mask)
         handler.write(mask, this)
     }
 
@@ -424,5 +440,13 @@ class PlayerUpdateTask @Inject constructor(
         get() = when (this) {
             UpdateGroup.Active -> 0
             UpdateGroup.Inactive -> 1
+        }
+
+    private val ClientDevice.maskPackets: UpdateMaskPacketMap
+        get() = when (this) {
+            Device.Desktop -> devicePackets.update(Device.Desktop)
+            Device.Ios -> devicePackets.update(Device.Ios)
+            Device.Android -> devicePackets.update(Device.Android)
+            else -> error("Invalid client device (type=${this::class.simpleName})")
         }
 }

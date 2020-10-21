@@ -1,14 +1,15 @@
 package gg.rsmod.plugins.core.protocol.structure.client
 
+import gg.rsmod.plugins.core.protocol.Device
 import gg.rsmod.plugins.core.protocol.packet.client.GameClickHandler
 import gg.rsmod.plugins.core.protocol.packet.client.MoveGameClick
-import gg.rsmod.plugins.core.protocol.structure.DesktopPacketStructure
+import gg.rsmod.plugins.core.protocol.structure.DevicePacketStructureMap
 import io.guthix.buffer.readUnsignedShortAddLE
 
-val desktopPackets: DesktopPacketStructure by inject()
-val packets = desktopPackets.client
+val structures: DevicePacketStructureMap by inject()
+val desktop = structures.client(Device.Desktop)
 
-packets.register<MoveGameClick> {
+desktop.register<MoveGameClick> {
     opcode = 98
     length = -1
     handler = GameClickHandler::class

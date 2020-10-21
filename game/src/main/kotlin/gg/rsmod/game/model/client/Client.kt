@@ -14,6 +14,7 @@ private val logger = InlineLogger()
 
 class Client(
     val player: Player,
+    val device: ClientDevice,
     val machine: ClientMachine,
     var settings: ClientSettings,
     val encryptedPass: String,
@@ -64,22 +65,6 @@ class ClientList(
     }
 }
 
-data class ClientSettings(
-    val width: Int,
-    val height: Int,
-    val flags: Int
-)
-
-data class ClientMachine(
-    val operatingSystem: OperatingSystem,
-    val is64Bit: Boolean,
-    val osVersion: Int,
-    val javaVendor: JavaVendor,
-    val javaVersion: JavaVersion,
-    val maxMemory: Int,
-    val cpuCount: Int
-)
-
 sealed class OperatingSystem {
     object Windows : OperatingSystem()
     object Mac : OperatingSystem()
@@ -96,6 +81,24 @@ sealed class JavaVendor {
     object Oracle : JavaVendor()
     override fun toString(): String = javaClass.simpleName
 }
+
+interface ClientDevice
+
+data class ClientSettings(
+    val width: Int,
+    val height: Int,
+    val flags: Int
+)
+
+data class ClientMachine(
+    val operatingSystem: OperatingSystem,
+    val is64Bit: Boolean,
+    val osVersion: Int,
+    val javaVendor: JavaVendor,
+    val javaVersion: JavaVersion,
+    val maxMemory: Int,
+    val cpuCount: Int
+)
 
 data class JavaVersion(
     val major: Int,

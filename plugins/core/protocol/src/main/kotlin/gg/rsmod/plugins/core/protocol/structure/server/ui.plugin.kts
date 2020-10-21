@@ -1,25 +1,26 @@
 package gg.rsmod.plugins.core.protocol.structure.server
 
 import gg.rsmod.game.message.PacketLength
+import gg.rsmod.plugins.core.protocol.Device
 import gg.rsmod.plugins.core.protocol.packet.server.IfOpenSub
 import gg.rsmod.plugins.core.protocol.packet.server.IfOpenTop
 import gg.rsmod.plugins.core.protocol.packet.server.RunClientScript
-import gg.rsmod.plugins.core.protocol.structure.DesktopPacketStructure
+import gg.rsmod.plugins.core.protocol.structure.DevicePacketStructureMap
 import io.guthix.buffer.writeByteNeg
 import io.guthix.buffer.writeIntIME
 import io.guthix.buffer.writeStringCP1252
 
-val desktopPackets: DesktopPacketStructure by inject()
-val packets = desktopPackets.server
+val structures: DevicePacketStructureMap by inject()
+val desktop = structures.server(Device.Desktop)
 
-packets.register<IfOpenTop> {
+desktop.register<IfOpenTop> {
     opcode = 48
     write {
         it.writeShortLE(interfaceId)
     }
 }
 
-packets.register<IfOpenSub> {
+desktop.register<IfOpenSub> {
     opcode = 16
     write {
         it.writeByteNeg(type)
@@ -28,7 +29,7 @@ packets.register<IfOpenSub> {
     }
 }
 
-packets.register<RunClientScript> {
+desktop.register<RunClientScript> {
     opcode = 43
     length = PacketLength.Short
     write {

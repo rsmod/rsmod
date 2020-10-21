@@ -39,10 +39,7 @@ import gg.rsmod.plugins.core.protocol.codec.login.LoginResponse
 import gg.rsmod.plugins.core.protocol.codec.writeErrResponse
 import gg.rsmod.plugins.core.protocol.packet.server.InitialPlayerInfo
 import gg.rsmod.plugins.core.protocol.packet.server.RebuildNormal
-import gg.rsmod.plugins.core.protocol.structure.AndroidPacketStructure
-import gg.rsmod.plugins.core.protocol.structure.DesktopPacketStructure
-import gg.rsmod.plugins.core.protocol.structure.IosPacketStructure
-import gg.rsmod.plugins.core.protocol.structure.PacketStructureCodec
+import gg.rsmod.plugins.core.protocol.structure.DevicePacketStructureMap
 import gg.rsmod.util.security.IsaacRandom
 import io.netty.channel.Channel
 import io.netty.channel.ChannelPipeline
@@ -63,9 +60,7 @@ class AccountDispatcher @Inject constructor(
     private val serializer: ClientSerializer,
     private val playerList: PlayerList,
     private val clientList: ClientList,
-    private val desktopStructures: DesktopPacketStructure,
-    private val iosStructures: IosPacketStructure,
-    private val androidStructures: AndroidPacketStructure,
+    private val deviceStructures: DevicePacketStructureMap,
     private val xteas: XteaRepository,
     private val eventBus: EventBus,
     private val actionBus: ActionBus,
@@ -117,6 +112,7 @@ class AccountDispatcher @Inject constructor(
 
         val clientRequest = ClientDeserializeRequest(
             loginName = request.username,
+            device = request.device,
             plaintTextPass = request.password,
             loginXteas = request.xteas,
             reconnectXteas = request.reconnectXteas,
@@ -290,11 +286,7 @@ class AccountDispatcher @Inject constructor(
         otherPlayerCoords = playerList.playerCoords(index)
     )
 
-    private fun Device.packetStructures(): PacketStructureCodec = when (this) {
-        Device.Desktop -> desktopStructures
-        Device.Ios -> iosStructures
-        Device.Android -> androidStructures
-    }
+    private fun Device.packetStructures() = deviceStructures.getCodec(this)
 
     private fun serializePolicy(): suspend RetryFailure<Throwable>.() -> RetryInstruction {
         return limitAttempts(SERIALIZE_ATTEMPTS) + binaryExponentialBackoff(BACKOFF_BASE, BACKOFF_MAX)

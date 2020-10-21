@@ -4,16 +4,17 @@ import gg.rsmod.cache.util.Xtea
 import gg.rsmod.game.message.PacketLength
 import gg.rsmod.game.model.domain.repo.XteaRepository
 import gg.rsmod.game.model.map.MapSquare
+import gg.rsmod.plugins.core.protocol.Device
 import gg.rsmod.plugins.core.protocol.packet.server.RebuildNormal
-import gg.rsmod.plugins.core.protocol.structure.DesktopPacketStructure
+import gg.rsmod.plugins.core.protocol.structure.DevicePacketStructureMap
 import io.guthix.buffer.writeShortAdd
 import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
 
-val desktopPackets: DesktopPacketStructure by inject()
-val packets = desktopPackets.server
+val structures: DevicePacketStructureMap by inject()
+val desktop = structures.server(Device.Desktop)
 
-packets.register<RebuildNormal> {
+desktop.register<RebuildNormal> {
     opcode = 60
     length = PacketLength.Short
     write {

@@ -1,13 +1,15 @@
 package gg.rsmod.plugins.core.protocol.update
 
-import gg.rsmod.game.update.mask.UpdateMaskHandlerMap
+import gg.rsmod.plugins.core.protocol.Device
+import gg.rsmod.plugins.core.protocol.structure.DevicePacketStructureMap
 import io.guthix.buffer.writeByteNeg
 import io.guthix.buffer.writeBytesReversed
 import io.guthix.buffer.writeStringCP1252
 
-val handlers: UpdateMaskHandlerMap by inject()
+val structures: DevicePacketStructureMap by inject()
+val desktop = structures.update(Device.Desktop)
 
-handlers.register<BitMask> {
+desktop.register<BitMask> {
     mask = 0x80
     write {
         if (packed >= 0xFF) {
@@ -20,14 +22,14 @@ handlers.register<BitMask> {
     }
 }
 
-handlers.register<DirectionMask> {
+desktop.register<DirectionMask> {
     mask = 0x2
     write {
         it.writeShortLE(angle)
     }
 }
 
-handlers.register<AppearanceMask> {
+desktop.register<AppearanceMask> {
     mask = 0x1
     write {
         val appBuf = it.alloc().buffer()

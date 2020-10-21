@@ -8,13 +8,7 @@ class PacketStructureModule(
 ) : KotlinModule() {
 
     override fun configure() {
-        bind<DesktopPacketStructure>()
-            .`in`(scope)
-
-        bind<IosPacketStructure>()
-            .`in`(scope)
-
-        bind<AndroidPacketStructure>()
+        bind<DevicePacketStructureMap>()
             .`in`(scope)
     }
 }

@@ -43,6 +43,7 @@ class DefaultClientMapper @Inject constructor(
         )
         val client = Client(
             player = player,
+            device = request.device,
             machine = request.machine,
             settings = request.settings,
             encryptedPass = data.encryptedPass,
@@ -88,6 +89,7 @@ class DefaultClientMapper @Inject constructor(
         entity.coords = config.home
         return Client(
             player = player,
+            device = request.device,
             machine = request.machine,
             settings = request.settings,
             encryptedPass = encryptedPass,

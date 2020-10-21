@@ -1,13 +1,14 @@
 package gg.rsmod.plugins.core.protocol.structure.server
 
+import gg.rsmod.plugins.core.protocol.Device
 import gg.rsmod.plugins.core.protocol.packet.server.SmallVarpPacket
-import gg.rsmod.plugins.core.protocol.structure.DesktopPacketStructure
+import gg.rsmod.plugins.core.protocol.structure.DevicePacketStructureMap
 import io.guthix.buffer.writeByteSub
 
-val desktopPackets: DesktopPacketStructure by inject()
-val packets = desktopPackets.server
+val structures: DevicePacketStructureMap by inject()
+val desktop = structures.server(Device.Desktop)
 
-packets.register<SmallVarpPacket> {
+desktop.register<SmallVarpPacket> {
     opcode = 24
     write {
         it.writeByteSub(value)

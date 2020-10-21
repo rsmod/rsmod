@@ -4,44 +4,46 @@ import com.google.inject.Inject
 import com.google.inject.Injector
 import gg.rsmod.game.message.ClientPacketStructureMap
 import gg.rsmod.game.message.ServerPacketStructureMap
+import gg.rsmod.game.update.mask.UpdateMaskPacketMap
+import gg.rsmod.plugins.core.protocol.Device
 
-sealed class PacketStructureCodec(
+class PacketStructureCodec(
     val server: ServerPacketStructureMap,
-    val client: ClientPacketStructureMap
+    val client: ClientPacketStructureMap,
+    val update: UpdateMaskPacketMap
 )
 
-class DesktopPacketStructure(
-    server: ServerPacketStructureMap,
-    client: ClientPacketStructureMap
-) : PacketStructureCodec(server, client) {
+class DevicePacketStructureMap(
+    private val desktop: PacketStructureCodec,
+    private val ios: PacketStructureCodec,
+    private val android: PacketStructureCodec
+) {
 
     @Inject
     constructor(injector: Injector) : this(
-        ServerPacketStructureMap(),
-        ClientPacketStructureMap(injector)
+        desktop = codec(injector),
+        ios = codec(injector),
+        android = codec(injector)
     )
-}
 
-class IosPacketStructure(
-    server: ServerPacketStructureMap,
-    client: ClientPacketStructureMap
-) : PacketStructureCodec(server, client) {
+    fun client(device: Device) = getCodec(device).client
 
-    @Inject
-    constructor(injector: Injector) : this(
-        ServerPacketStructureMap(),
-        ClientPacketStructureMap(injector)
-    )
-}
+    fun server(device: Device) = getCodec(device).server
 
-class AndroidPacketStructure(
-    server: ServerPacketStructureMap,
-    client: ClientPacketStructureMap
-) : PacketStructureCodec(server, client) {
+    fun update(device: Device) = getCodec(device).update
 
-    @Inject
-    constructor(injector: Injector) : this(
-        ServerPacketStructureMap(),
-        ClientPacketStructureMap(injector)
-    )
+    fun getCodec(device: Device): PacketStructureCodec = when (device) {
+        Device.Desktop -> desktop
+        Device.Ios -> ios
+        Device.Android -> android
+    }
+
+    companion object {
+
+        private fun codec(injector: Injector) = PacketStructureCodec(
+            ServerPacketStructureMap(),
+            ClientPacketStructureMap(injector),
+            UpdateMaskPacketMap()
+        )
+    }
 }

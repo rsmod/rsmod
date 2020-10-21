@@ -1,12 +1,13 @@
 package gg.rsmod.plugins.core.protocol.structure.client
 
+import gg.rsmod.plugins.core.protocol.Device
 import gg.rsmod.plugins.core.protocol.packet.client.MapBuildComplete
-import gg.rsmod.plugins.core.protocol.structure.DesktopPacketStructure
+import gg.rsmod.plugins.core.protocol.structure.DevicePacketStructureMap
 
-val desktopPackets: DesktopPacketStructure by inject()
-val packets = desktopPackets.client
+val structures: DevicePacketStructureMap by inject()
+val desktop = structures.client(Device.Desktop)
 
-packets.register<MapBuildComplete> {
+desktop.register<MapBuildComplete> {
     opcode = 72
     length = 0
 }
