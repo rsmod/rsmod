@@ -52,7 +52,7 @@ class Game @Inject private constructor(
             if (elapsedMillis > delay) {
                 val elapsedCycleCount = elapsedMillis / delay
                 val upcomingCycleDelay = (elapsedCycleCount + 1) * delay
-                logger.error { "Cycle took too long (elapsed=$elapsedMillis)" }
+                logger.error { "Cycle took too long (elapsed=$elapsedMillis ms)" }
                 delay(upcomingCycleDelay - elapsedMillis)
                 continue
             }
