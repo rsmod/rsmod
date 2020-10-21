@@ -1,4 +1,4 @@
-package gg.rsmod.plugins.core.appearance
+package gg.rsmod.plugins.content.appearance
 
 import gg.rsmod.game.model.appearance.Appearance
 import gg.rsmod.plugins.api.model.mob.player.faceDirection
