@@ -1,6 +1,6 @@
 package gg.rsmod.plugins.content.appearance
 
-import gg.rsmod.game.model.appearance.Appearance
+import gg.rsmod.game.model.domain.Appearance
 import gg.rsmod.plugins.api.model.appearance.Gender
 
 object AppearanceConstants {

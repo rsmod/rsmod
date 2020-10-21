@@ -6,7 +6,7 @@ import gg.rsmod.game.event.EventBus
 import gg.rsmod.game.event.impl.LoginEvent
 import gg.rsmod.game.message.ServerPacket
 import gg.rsmod.game.message.ServerPacketListener
-import gg.rsmod.game.model.appearance.Appearance
+import gg.rsmod.game.model.domain.Appearance
 import gg.rsmod.game.model.client.NpcEntity
 import gg.rsmod.game.model.client.PlayerEntity
 import gg.rsmod.game.model.domain.Direction

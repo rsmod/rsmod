@@ -1,6 +1,6 @@
 package gg.rsmod.plugins.content.appearance
 
-import gg.rsmod.game.model.appearance.Appearance
+import gg.rsmod.game.model.domain.Appearance
 import gg.rsmod.plugins.api.model.mob.player.faceDirection
 import gg.rsmod.plugins.api.model.mob.player.updateAppearance
 import gg.rsmod.plugins.api.onEarlyLogin

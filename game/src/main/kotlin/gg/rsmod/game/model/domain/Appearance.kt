@@ -1,4 +1,4 @@
-package gg.rsmod.game.model.appearance
+package gg.rsmod.game.model.domain
 
 data class Appearance(
     val gender: Int,
