@@ -5,7 +5,9 @@ import com.google.inject.Inject
 import gg.rsmod.game.config.InternalConfig
 import gg.rsmod.game.coroutine.GameCoroutineScope
 import gg.rsmod.game.dispatch.GameJobDispatcher
+import gg.rsmod.game.event.impl.PlayerTimerEvent
 import gg.rsmod.game.model.client.ClientList
+import gg.rsmod.game.model.mob.Player
 import gg.rsmod.game.model.mob.PlayerList
 import gg.rsmod.game.model.world.World
 import gg.rsmod.game.update.task.UpdateTaskList
@@ -65,6 +67,7 @@ class Game @Inject private constructor(
     private suspend fun gameLogic() {
         clientList.forEach { it.pollActions(config.actionsPerCycle) }
         playerList.forEach { it?.queueStack?.cycle() }
+        playerList.forEach { it?.timerCycle() }
         world.queueList.cycle()
         jobDispatcher.executeAll()
         updateTaskList.forEach { it.execute() }
@@ -80,5 +83,27 @@ class Game @Inject private constructor(
             excessCycleNanos -= excessMillis * nanosInMilliseconds
         }
         return elapsedMillis
+    }
+}
+
+private fun Player.timerCycle() {
+    if (timers.isEmpty()) {
+        return
+    }
+    val iterator = timers.iterator()
+    while (iterator.hasNext()) {
+        val entry = iterator.next()
+        val key = entry.key
+        val cycles = entry.value
+        if (cycles > 0) {
+            timers.decrement(key)
+            continue
+        }
+        val event = PlayerTimerEvent(this, key)
+        eventBus.publish(event)
+        /* if the timer was not re-set after event we remove it */
+        if (timers.isNotActive(key)) {
+            iterator.remove()
+        }
     }
 }

@@ -6,9 +6,9 @@ import gg.rsmod.game.event.EventBus
 import gg.rsmod.game.event.impl.LoginEvent
 import gg.rsmod.game.message.ServerPacket
 import gg.rsmod.game.message.ServerPacketListener
-import gg.rsmod.game.model.domain.Appearance
 import gg.rsmod.game.model.client.NpcEntity
 import gg.rsmod.game.model.client.PlayerEntity
+import gg.rsmod.game.model.domain.Appearance
 import gg.rsmod.game.model.domain.Direction
 import gg.rsmod.game.model.domain.PlayerId
 import gg.rsmod.game.model.item.ItemContainer
@@ -20,6 +20,7 @@ import gg.rsmod.game.model.queue.QueueType
 import gg.rsmod.game.model.snapshot.Snapshot
 import gg.rsmod.game.model.step.StepQueue
 import gg.rsmod.game.model.step.StepSpeed
+import gg.rsmod.game.timer.TimerMap
 import java.time.LocalDateTime
 import java.util.ArrayDeque
 import java.util.Queue
@@ -33,6 +34,7 @@ sealed class Mob(
     val movement: Queue<Direction> = ArrayDeque(),
     var faceDirection: Direction = DEFAULT_DIRECTION,
     var appendTeleport: Boolean = false,
+    val timers: TimerMap = TimerMap(),
     internal val queueStack: GameQueueStack = GameQueueStack()
 ) {
 
