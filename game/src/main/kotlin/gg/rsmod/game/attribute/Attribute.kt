@@ -1,16 +1,9 @@
 package gg.rsmod.game.attribute
 
-interface AttributeFlag
-
+@Suppress("UNUSED")
 class AttributeKey<T>(
-    val persistenceKey: String? = null,
-    private val flags: MutableSet<AttributeFlag> = mutableSetOf()
+    val persistenceKey: String? = null
 ) {
-
-    fun flag(flag: AttributeFlag): AttributeKey<T> {
-        flags.add(flag)
-        return this
-    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

@@ -1,8 +1,8 @@
 package gg.rsmod.game.model.attribute
 
-import gg.rsmod.game.attribute.AttributeFlag
 import gg.rsmod.game.attribute.AttributeKey
 import gg.rsmod.game.attribute.AttributeMap
+import java.util.stream.Stream
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -11,7 +11,6 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.ArgumentsProvider
 import org.junit.jupiter.params.provider.ArgumentsSource
-import java.util.stream.Stream
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class AttributeMapTests {
@@ -31,26 +30,6 @@ class AttributeMapTests {
     @ArgumentsSource(AttributeDoubleValueProvider::class)
     fun `attribute keys with same persistence key should overwrite`(value1: Int, value2: Int) {
         val key1 = AttributeKey<Int>("test_key")
-        val key2 = AttributeKey<Int>("test_key")
-
-        val map = AttributeMap()
-
-        map[key1] = value1
-        Assertions.assertNotNull(map[key1])
-        Assertions.assertNotNull(map[key2])
-        Assertions.assertEquals(map[key1], map[key2])
-        Assertions.assertEquals(1, map.size)
-
-        map[key2] = value2
-        Assertions.assertEquals(value2, map[key1])
-        Assertions.assertEquals(1, map.size)
-    }
-
-    @ParameterizedTest
-    @ArgumentsSource(AttributeDoubleValueProvider::class)
-    fun `attribute keys with same persistence key and different flags should overwrite`(value1: Int, value2: Int) {
-        val flag = object : AttributeFlag {}
-        val key1 = AttributeKey<Int>("test_key").flag(flag)
         val key2 = AttributeKey<Int>("test_key")
 
         val map = AttributeMap()
