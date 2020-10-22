@@ -17,6 +17,7 @@ internal sealed class QueueType {
 }
 
 class GameQueue internal constructor(
+    internal var launched: Boolean = false,
     private var coroutineContext: GameCoroutineContext? = null,
     private var resumeCondition: GameQueueCondition? = null
 ) {
@@ -68,54 +69,61 @@ class GameQueueStack internal constructor(
             return
         }
         if (size >= MAX_ACTIVE_QUEUES) {
-            /*
-             * Can only stack up to two queues at a time. This can
-             * be proven with strong queues, but not sure about other
-             * priority types.
-             */
             pendingQueue.removeLast()
         }
         val ctx = GameQueueContext(block)
         pendingQueue.add(ctx)
     }
 
-    internal suspend fun cycle() {
-        pollPending()
-        pollQueue()
+    internal fun clear() {
+        currentQueue = null
+        currPriority = QueueType.Weak
+        pendingQueue.clear()
     }
 
-    private suspend fun pollQueue() {
-        val queue = currentQueue ?: return
-        queue.cycle()
-        if (queue.idle) {
-            resetQueue()
-            /* immediately poll next queue */
-            pollPending()
-            pollQueue()
-        }
+    internal suspend fun cycle() {
+        pollPending()
+        cycleCurrent()
     }
 
     private suspend fun pollPending() {
         if (currentQueue != null) {
-            /*
-             * Wait until pending queue has finished before
-             * attempting to launch a new one.
-             */
+            /* don't override the current queue */
             return
         }
-        val ctx = pendingQueue.poll() ?: return
-        val queue = queue(ctx)
-        currentQueue = queue
+        if (pendingQueue.isEmpty()) {
+            /* make sure there's a pending queue to begin with */
+            return
+        }
+        currentQueue = launchPending()
     }
 
-    private fun resetQueue() {
+    private fun cycleCurrent() {
+        val queue = currentQueue ?: return
+        /* don't resume queue on same tick that its logic-block is invoked */
+        if (queue.launched) {
+            queue.cycle()
+        }
+        queue.launched = true
+        if (queue.idle) {
+            discardCurrent()
+        }
+    }
+
+    private fun discardCurrent() {
         currentQueue = null
-        currPriority = QueueType.Weak
+        /* only reset priority if no other queue is pending */
+        if (pendingQueue.isEmpty()) {
+            currPriority = QueueType.Weak
+        }
     }
 
-    internal fun clear() {
-        resetQueue()
-        pendingQueue.clear()
+    private suspend fun launchPending(): GameQueue {
+        val ctx = pendingQueue.poll()
+        val queue = GameQueue()
+        val block = suspend { ctx.block(queue) }
+        block.launchCoroutine()
+        return queue
     }
 
     private fun overtakeQueues(priority: QueueType): Boolean {
@@ -126,21 +134,10 @@ class GameQueueStack internal constructor(
             return false
         }
         if (priority != currPriority) {
-            /*
-             * If priority of current queue is lower than given priority,
-             * clear the current queue as well as pending queues.
-             */
             clear()
             currPriority = priority
         }
         return true
-    }
-
-    private suspend fun queue(ctx: GameQueueContext): GameQueue {
-        val queue = GameQueue()
-        val block = suspend { ctx.block(queue) }
-        block.launchCoroutine()
-        return queue
     }
 
     private fun QueueType.overtake(other: QueueType): Boolean = when (this) {
@@ -200,7 +197,7 @@ internal interface GameQueueCondition {
 internal class WaitCycleCondition(private var delay: Int) : GameQueueCondition {
 
     override fun resume(): Boolean {
-        return delay-- <= 0
+        return --delay <= 0
     }
 }
 
