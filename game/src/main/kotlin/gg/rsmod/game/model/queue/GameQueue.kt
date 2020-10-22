@@ -171,13 +171,13 @@ class GameQueueList internal constructor(
     }
 
     private suspend fun addPending() {
-        pending.forEach { ctx ->
+        while (pending.isNotEmpty()) {
+            val ctx = pending.poll() ?: break
             val queue = queue(ctx)
             if (!queue.idle) {
                 queues.add(queue)
             }
         }
-        pending.clear()
     }
 
     private suspend fun queue(ctx: GameQueueContext): GameQueue {
