@@ -1,4 +1,4 @@
-package gg.rsmod.game.model.queue
+package gg.rsmod.game.queue
 
 import gg.rsmod.game.coroutine.GameCoroutineContext
 import gg.rsmod.game.coroutine.launchCoroutine
