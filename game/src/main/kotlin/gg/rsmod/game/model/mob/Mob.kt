@@ -2,6 +2,7 @@ package gg.rsmod.game.model.mob
 
 import com.google.common.base.MoreObjects
 import gg.rsmod.game.action.ActionBus
+import gg.rsmod.game.attribute.AttributeMap
 import gg.rsmod.game.event.EventBus
 import gg.rsmod.game.event.impl.LoginEvent
 import gg.rsmod.game.message.ServerPacket
@@ -35,6 +36,7 @@ sealed class Mob(
     var faceDirection: Direction = DEFAULT_DIRECTION,
     var appendTeleport: Boolean = false,
     val timers: TimerMap = TimerMap(),
+    val attribs: AttributeMap = AttributeMap(),
     internal val queueStack: GameQueueStack = GameQueueStack()
 ) {
 
