@@ -1,8 +1,5 @@
-**Ignore List**
--
-* Cache Module
+# RS Mod
+A RuneScape game-server emulator
 
-**TODO List**
--
-* Cache module
-* Mocking support for tests (i.e MobListTests)
+# Contributing
+Pull requests are welcome on [GitHub][github]
