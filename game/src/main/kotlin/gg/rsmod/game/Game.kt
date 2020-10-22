@@ -18,7 +18,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 private val logger = InlineLogger()
-private val nanosInMilliseconds = TimeUnit.MILLISECONDS.toNanos(1L)
 
 sealed class GameState {
     object Inactive : GameState()
@@ -51,8 +50,9 @@ class Game @Inject private constructor(
 
     private fun CoroutineScope.start(delay: Long) = launch {
         while (state != GameState.ShutDown) {
-            val elapsedNanos = measureNanoTime { gameLogic() }
-            val elapsedMillis = trimElapsedTime(elapsedNanos)
+            val elapsedNanos = measureNanoTime { gameLogic() } + excessCycleNanos
+            val elapsedMillis = TimeUnit.NANOSECONDS.toMillis(elapsedNanos)
+            excessCycleNanos = elapsedNanos - TimeUnit.MILLISECONDS.toNanos(elapsedMillis)
             if (elapsedMillis > delay) {
                 val elapsedCycleCount = elapsedMillis / delay
                 val upcomingCycleDelay = (elapsedCycleCount + 1) * delay
@@ -72,17 +72,6 @@ class Game @Inject private constructor(
         jobDispatcher.executeAll()
         updateTaskList.forEach { it.execute() }
         playerList.forEach { it?.flush() }
-    }
-
-    private fun trimElapsedTime(elapsedNanos: Long): Int {
-        var elapsedMillis = (elapsedNanos / nanosInMilliseconds).toInt()
-        excessCycleNanos += elapsedNanos - (elapsedMillis * nanosInMilliseconds)
-        if (excessCycleNanos >= nanosInMilliseconds) {
-            val excessMillis = (excessCycleNanos / nanosInMilliseconds).toInt()
-            elapsedMillis += excessMillis
-            excessCycleNanos -= excessMillis * nanosInMilliseconds
-        }
-        return elapsedMillis
     }
 }
 
