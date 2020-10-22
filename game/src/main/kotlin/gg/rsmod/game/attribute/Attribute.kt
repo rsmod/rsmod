@@ -30,15 +30,25 @@ class AttributeMap(
     val size: Int
         get() = attributes.size
 
-    fun contains(key: AttributeKey<*>): Boolean {
-        return attributes.contains(key)
-    }
-
     fun isEmpty(): Boolean = attributes.isEmpty()
 
     fun isNotEmpty(): Boolean = attributes.isNotEmpty()
 
-    operator fun set(key: AttributeKey<*>, value: Any?) {
+    fun contains(key: AttributeKey<*>): Boolean {
+        return attributes.contains(key)
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    fun <T> remove(key: AttributeKey<T>): T? {
+        return attributes.remove(key) as? T
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    fun <T> getValue(key: AttributeKey<T>): T {
+        return attributes[key] as T
+    }
+
+    operator fun <T> set(key: AttributeKey<T>, value: T?) {
         if (value != null) {
             attributes[key] = value
         } else {
@@ -51,5 +61,7 @@ class AttributeMap(
         return attributes[key] as? T
     }
 
-    override fun iterator(): Iterator<Map.Entry<AttributeKey<*>, Any>> = attributes.iterator()
+    override fun iterator(): Iterator<Map.Entry<AttributeKey<*>, Any>> {
+        return attributes.iterator()
+    }
 }
