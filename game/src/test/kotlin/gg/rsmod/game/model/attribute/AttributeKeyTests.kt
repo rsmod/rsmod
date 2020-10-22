@@ -1,6 +1,6 @@
 package gg.rsmod.game.model.attribute
 
-import gg.rsmod.game.model.attribute.AttributeKey
+import gg.rsmod.game.attribute.AttributeKey
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance

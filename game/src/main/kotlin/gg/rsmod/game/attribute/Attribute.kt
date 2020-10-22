@@ -1,4 +1,4 @@
-package gg.rsmod.game.model.attribute
+package gg.rsmod.game.attribute
 
 interface AttributeFlag
 
