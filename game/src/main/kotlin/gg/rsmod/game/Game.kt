@@ -52,15 +52,17 @@ class Game @Inject private constructor(
         while (state != GameState.ShutDown) {
             val elapsedNanos = measureNanoTime { gameLogic() } + excessCycleNanos
             val elapsedMillis = TimeUnit.NANOSECONDS.toMillis(elapsedNanos)
-            excessCycleNanos = elapsedNanos - TimeUnit.MILLISECONDS.toNanos(elapsedMillis)
-            if (elapsedMillis > delay) {
+            val overdue = elapsedMillis > delay
+            val sleepTime = if (overdue) {
                 val elapsedCycleCount = elapsedMillis / delay
                 val upcomingCycleDelay = (elapsedCycleCount + 1) * delay
-                logger.error { "Cycle took too long (elapsed=$elapsedMillis ms)" }
-                delay(upcomingCycleDelay - elapsedMillis)
-                continue
+                upcomingCycleDelay - elapsedMillis
+            } else {
+                delay - elapsedMillis
             }
-            delay(delay - elapsedMillis)
+            if (overdue) logger.error { "Cycle took too long (elapsed=${elapsedMillis}ms, sleep=${sleepTime}ms)" }
+            excessCycleNanos = elapsedNanos - TimeUnit.MILLISECONDS.toNanos(elapsedMillis)
+            delay(sleepTime)
         }
     }
 
