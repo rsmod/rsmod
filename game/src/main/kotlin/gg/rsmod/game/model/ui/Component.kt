@@ -32,7 +32,7 @@ data class ComponentProperty(
 
     fun add(event: DynamicComponentEvent): Boolean {
         val range = event.range
-        val occupied = sub.any { range.within(it.range) }
+        val occupied = sub.any { it.range.within(range) }
         if (occupied) {
             return false
         }
