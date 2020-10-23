@@ -113,11 +113,13 @@ fun Player.setComponentEvents(
 
     /* try to add property within bit range */
     val added = property.add(event)
-    if (added) {
-        write(IfSetEvents(component.packed, range, packed))
-    } else {
-        warn { "Component property could not be set - range already occupied (properties=$property)" }
+    if (!added) {
+        /* find the property that is occupying the one or more of the given bits */
+        val occupiedBy = property.firstOrNull { it.range.within(range) }
+        warn { "Component property bit-range already occupied (occupiedBy=$occupiedBy)" }
+        return
     }
+    write(IfSetEvents(component.packed, range, packed))
 }
 
 fun Player.getComponentEvents(component: Component, range: IntRange): List<InterfaceEvent> {
