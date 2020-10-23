@@ -96,6 +96,10 @@ class Player(
         coords = coords
     )
 
+    fun warn(message: () -> String) {
+        logger.warn { "$username: ${message()}" }
+    }
+
     override fun toString(): String = MoreObjects
         .toStringHelper(this)
         .add("loginName", loginName)
