@@ -50,7 +50,6 @@ fun Player.openModal(
     val event = OpenModal(this, parent, modal)
     ui.modals[parent] = modal
     eventBus.publish(event)
-    println("open sub: parent=${parent.interfaceId}:${parent.child}, interface=${modal.id}")
     write(IfOpenSub(modal.id, parent.packed, clickMode.id))
 }
 
@@ -66,7 +65,6 @@ fun Player.closeModal(modal: UserInterface) {
     components.forEach(ui.properties::remove)
     ui.modals.remove(parent)
     eventBus.publish(event)
-    println("close sub: parent=${parent.interfaceId}:${parent.child}, interface=${modal.id}")
     write(IfCloseSub(parent.packed))
 }
 
