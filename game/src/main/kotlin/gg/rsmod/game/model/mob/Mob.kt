@@ -1,5 +1,6 @@
 package gg.rsmod.game.model.mob
 
+import com.github.michaelbull.logging.InlineLogger
 import com.google.common.base.MoreObjects
 import gg.rsmod.game.action.ActionBus
 import gg.rsmod.game.attribute.AttributeMap
@@ -21,11 +22,13 @@ import gg.rsmod.game.queue.QueueType
 import gg.rsmod.game.model.snapshot.Snapshot
 import gg.rsmod.game.model.step.StepQueue
 import gg.rsmod.game.model.step.StepSpeed
+import gg.rsmod.game.model.ui.InterfaceList
 import gg.rsmod.game.timer.TimerMap
 import java.time.LocalDateTime
 import java.util.ArrayDeque
 import java.util.Queue
 
+private val logger = InlineLogger()
 private val DEFAULT_DIRECTION = Direction.South
 private const val EQUIPMENT_CAPACITY = 12
 
@@ -46,9 +49,7 @@ sealed class Mob(
 
     fun strongQueue(block: suspend GameQueue.() -> Unit) = queueStack.queue(QueueType.Strong, block)
 
-    fun clearQueues() {
-        queueStack.clear()
-    }
+    fun clearQueues() = queueStack.clear()
 }
 
 class Player(
@@ -61,6 +62,7 @@ class Player(
     var viewport: Viewport = Viewport.ZERO,
     var appearance: Appearance = Appearance.ZERO,
     val equipment: ItemContainer = ItemContainer(EQUIPMENT_CAPACITY),
+    val ui: InterfaceList = InterfaceList(),
     private val messageListeners: List<ServerPacketListener> = mutableListOf()
 ) : Mob() {
 
