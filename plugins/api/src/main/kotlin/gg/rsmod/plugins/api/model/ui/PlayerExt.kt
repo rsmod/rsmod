@@ -91,7 +91,7 @@ fun Player.closeOverlay(overlay: UserInterface) {
     }
     val parent = entry.key
     val event = CloseOverlay(this, parent, overlay)
-    val components = ui.components(overlay)
+    val components = ui.propertyComponents(overlay)
     components.forEach(ui.properties::remove)
     ui.overlays.remove(parent)
     eventBus.publish(event)
@@ -131,7 +131,11 @@ private fun IntRange.within(other: IntRange): Boolean {
     return first >= other.first && last <= other.last
 }
 
-private fun InterfaceList.components(userInterface: UserInterface): Set<Component> {
+/**
+ * Creates a set of [Component]s that belong to [userInterface] and have active
+ * [ComponentProperty]s. Properties are set with [setComponentEvents].
+ */
+private fun InterfaceList.propertyComponents(userInterface: UserInterface): Set<Component> {
     return properties.filterKeys { it.interfaceId == userInterface.id }.keys
 }
 
