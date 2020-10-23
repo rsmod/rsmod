@@ -30,7 +30,7 @@ enum class InterfaceEvent(internal val bit: Int) {
     TARGET(21);
 
     val flag: Int
-        get() = bit shl 1
+        get() = 1 shl bit
 
     companion object {
 

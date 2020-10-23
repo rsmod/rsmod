@@ -114,7 +114,7 @@ fun Player.setComponentEvents(
     /* try to add property within bit range */
     val added = property.add(event)
     if (!added) {
-        /* find the property that is occupying the one or more of the given bits */
+        /* find the property that is occupying one or more of the given bits */
         val occupiedBy = property.firstOrNull { it.range.within(range) }
         warn { "Component property bit-range already occupied (occupiedBy=$occupiedBy)" }
         return
