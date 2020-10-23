@@ -2,12 +2,16 @@ package gg.rsmod.plugins.core.protocol.structure.server
 
 import gg.rsmod.game.message.PacketLength
 import gg.rsmod.plugins.core.protocol.Device
+import gg.rsmod.plugins.core.protocol.packet.server.IfCloseSub
 import gg.rsmod.plugins.core.protocol.packet.server.IfOpenSub
 import gg.rsmod.plugins.core.protocol.packet.server.IfOpenTop
+import gg.rsmod.plugins.core.protocol.packet.server.IfSetEvents
 import gg.rsmod.plugins.core.protocol.packet.server.RunClientScript
 import gg.rsmod.plugins.core.protocol.structure.DevicePacketStructureMap
 import io.guthix.buffer.writeByteNeg
 import io.guthix.buffer.writeIntIME
+import io.guthix.buffer.writeIntME
+import io.guthix.buffer.writeShortAdd
 import io.guthix.buffer.writeStringCP1252
 
 val structures: DevicePacketStructureMap by inject()
@@ -23,9 +27,26 @@ desktop.register<IfOpenTop> {
 desktop.register<IfOpenSub> {
     opcode = 16
     write {
-        it.writeByteNeg(type)
+        it.writeByteNeg(clickMode)
         it.writeIntIME(targetComponent)
         it.writeShortLE(interfaceId)
+    }
+}
+
+desktop.register<IfCloseSub> {
+    opcode = 0
+    write {
+        it.writeInt(component)
+    }
+}
+
+desktop.register<IfSetEvents> {
+    opcode = 66
+    write {
+        it.writeIntME(component)
+        it.writeShortAdd(dynamic.first)
+        it.writeInt(event)
+        it.writeShortAdd(dynamic.last)
     }
 }
 

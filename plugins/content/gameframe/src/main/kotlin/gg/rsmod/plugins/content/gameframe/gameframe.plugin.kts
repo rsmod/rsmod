@@ -1,9 +1,11 @@
 package gg.rsmod.plugins.content.gameframe
 
 import gg.rsmod.game.model.mob.Player
+import gg.rsmod.game.model.ui.Component
+import gg.rsmod.game.model.ui.UserInterface
+import gg.rsmod.plugins.api.model.ui.openOverlay
+import gg.rsmod.plugins.api.model.ui.openTopLevel
 import gg.rsmod.plugins.api.onEarlyLogin
-import gg.rsmod.plugins.core.protocol.packet.server.IfOpenSub
-import gg.rsmod.plugins.core.protocol.packet.server.IfOpenTop
 import gg.rsmod.plugins.core.protocol.packet.server.RunClientScript
 import gg.rsmod.plugins.core.protocol.packet.server.SmallVarpPacket
 
@@ -12,27 +14,27 @@ onEarlyLogin {
 }
 
 fun Player.sendGameframe() {
-    write(IfOpenTop(548))
-    write(IfOpenSub(162, ((548 shl 16) or 27), 1))
-    write(IfOpenSub(651, ((548 shl 16) or 16), 1))
-    write(IfOpenSub(163, ((548 shl 16) or 20), 1))
-    write(IfOpenSub(90, ((548 shl 16) or 15), 1))
-    write(IfOpenSub(160, ((548 shl 16) or 11), 1))
-    write(IfOpenSub(320, ((548 shl 16) or 70), 1))
-    write(IfOpenSub(629, ((548 shl 16) or 71), 1))
-    write(IfOpenSub(399, ((629 shl 16) or 33), 1))
-    write(IfOpenSub(149, ((548 shl 16) or 72), 1))
-    write(IfOpenSub(387, ((548 shl 16) or 73), 1))
-    write(IfOpenSub(541, ((548 shl 16) or 74), 1))
-    write(IfOpenSub(218, ((548 shl 16) or 75), 1))
-    write(IfOpenSub(429, ((548 shl 16) or 78), 1))
-    write(IfOpenSub(109, ((548 shl 16) or 77), 1))
-    write(IfOpenSub(182, ((548 shl 16) or 79), 1))
-    write(IfOpenSub(261, ((548 shl 16) or 80), 1))
-    write(IfOpenSub(216, ((548 shl 16) or 81), 1))
-    write(IfOpenSub(239, ((548 shl 16) or 82), 1))
-    write(IfOpenSub(7, ((548 shl 16) or 76), 1))
-    write(IfOpenSub(593, ((548 shl 16) or 69), 1))
+    openTopLevel(UserInterface(548))
+    openOverlay(UserInterface(162), Component(548, 27))
+    openOverlay(UserInterface(651), Component(548, 16))
+    openOverlay(UserInterface(163), Component(548, 20))
+    openOverlay(UserInterface(90), Component(548, 15))
+    openOverlay(UserInterface(160), Component(548, 11))
+    openOverlay(UserInterface(320), Component(548, 70))
+    openOverlay(UserInterface(629), Component(548, 71))
+    openOverlay(UserInterface(399), Component(629, 33))
+    openOverlay(UserInterface(149), Component(548, 72))
+    openOverlay(UserInterface(387), Component(548, 73))
+    openOverlay(UserInterface(541), Component(548, 74))
+    openOverlay(UserInterface(218), Component(548, 75))
+    openOverlay(UserInterface(429), Component(548, 78))
+    openOverlay(UserInterface(109), Component(548, 77))
+    openOverlay(UserInterface(182), Component(548, 79))
+    openOverlay(UserInterface(261), Component(548, 80))
+    openOverlay(UserInterface(216), Component(548, 81))
+    openOverlay(UserInterface(239), Component(548, 82))
+    openOverlay(UserInterface(7), Component(548, 76))
+    openOverlay(UserInterface(593), Component(548, 69))
     write(RunClientScript(1105, 1))
     write(RunClientScript(423, username))
     write(SmallVarpPacket(1055, 0))

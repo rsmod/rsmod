@@ -9,7 +9,17 @@ data class IfOpenTop(
 data class IfOpenSub(
     val interfaceId: Int,
     val targetComponent: Int,
-    val type: Int
+    val clickMode: Int
+) : ServerPacket
+
+data class IfCloseSub(
+    val component: Int
+) : ServerPacket
+
+data class IfSetEvents(
+    val component: Int,
+    val dynamic: IntRange,
+    val event: Int
 ) : ServerPacket
 
 class RunClientScript(
