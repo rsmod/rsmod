@@ -198,6 +198,7 @@ class AccountDispatcher @Inject constructor(
             encodeIsaac
         )
         player.login(reconnect, gpi)
+        channel.flush()
     }
 
     private fun Client.writeResponse(
@@ -218,8 +219,7 @@ class AccountDispatcher @Inject constructor(
                 members = true
             )
         }
-        channel.write(response)
-        channel.flush()
+        channel.writeAndFlush(response)
     }
 
     private fun ChannelPipeline.applyGameCodec(
