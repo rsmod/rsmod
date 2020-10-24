@@ -66,7 +66,7 @@ class IsolatedMapBuilder {
 class HiddenMapBuilder(private val hidden: MutableSet<Int>) {
 
     operator fun MapSquare.unaryMinus() {
-        hidden.add(id)
         logger.debug { "Append hidden map (map=$this)" }
+        hidden.add(id)
     }
 }

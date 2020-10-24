@@ -4,6 +4,8 @@ import com.github.michaelbull.logging.InlineLogger
 import io.netty.buffer.ByteBuf
 import kotlin.reflect.KClass
 
+private val logger = InlineLogger()
+
 interface UpdateMask
 
 class UpdateMaskSet(
@@ -42,7 +44,8 @@ data class UpdateMaskPacket<T : UpdateMask>(
 )
 
 class UpdateMaskPacketMap(
-    val handlers: MutableMap<KClass<out UpdateMask>, UpdateMaskPacket<*>> = mutableMapOf()
+    val handlers: MutableMap<KClass<out UpdateMask>, UpdateMaskPacket<*>> = mutableMapOf(),
+    val order: MutableList<KClass<out UpdateMask>> = mutableListOf()
 ) : Map<KClass<out UpdateMask>, UpdateMaskPacket<*>> by handlers {
 
     inline fun <reified T : UpdateMask> register(
@@ -57,6 +60,10 @@ class UpdateMaskPacketMap(
         }
         logger.debug { "Register update mask handler (type=${T::class.simpleName}, mask=${handler.mask.formatMask()})" }
         handlers[T::class] = handler
+    }
+
+    fun order(init: UpdateMaskOrderBuilder.() -> Unit) {
+        UpdateMaskOrderBuilder(order).apply(init)
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -96,5 +103,14 @@ class UpdateMaskPacketBuilder<T : UpdateMask>(
         val mask = if (mask == 0) error("Handler mask has not been set.") else mask
         val writer = writer ?: error("Handler writer has not been set.")
         return UpdateMaskPacket(mask, writer)
+    }
+}
+
+@BuilderDslMarker
+class UpdateMaskOrderBuilder(private val order: MutableList<KClass<out UpdateMask>>) {
+
+    operator fun KClass<out UpdateMask>.unaryMinus() {
+        logger.debug { "Append update mask order (type=${this.simpleName})" }
+        order.add(this)
     }
 }

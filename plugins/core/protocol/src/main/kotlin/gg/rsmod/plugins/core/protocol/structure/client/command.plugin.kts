@@ -10,7 +10,7 @@ val structures: DevicePacketStructureMap by inject()
 val desktop = structures.client(Device.Desktop)
 
 desktop.register<ClientCheat> {
-    opcode = 40
+    opcode = 57
     length = -1
     handler = ClientCheatHandler::class
     read {

@@ -20,38 +20,38 @@ val desktop = structures.server(Device.Desktop)
 desktop.register<IfOpenTop> {
     opcode = 48
     write {
-        it.writeShortLE(interfaceId)
+        it.writeShort(interfaceId)
     }
 }
 
 desktop.register<IfOpenSub> {
-    opcode = 16
+    opcode = 65
     write {
+        it.writeIntME(targetComponent)
+        it.writeShort(interfaceId)
         it.writeByteNeg(clickMode)
-        it.writeIntIME(targetComponent)
-        it.writeShortLE(interfaceId)
     }
 }
 
 desktop.register<IfCloseSub> {
-    opcode = 0
+    opcode = 55
     write {
         it.writeInt(component)
     }
 }
 
 desktop.register<IfSetEvents> {
-    opcode = 66
+    opcode = 54
     write {
-        it.writeIntME(component)
-        it.writeShortAdd(dynamic.first)
         it.writeInt(event)
-        it.writeShortAdd(dynamic.last)
+        it.writeShort(dynamic.last)
+        it.writeShortLE(dynamic.first)
+        it.writeInt(component)
     }
 }
 
 desktop.register<RunClientScript> {
-    opcode = 43
+    opcode = 80
     length = PacketLength.Short
     write {
         val types = CharArray(args.size) { i -> if (args[i] is String) 's' else 'i' }

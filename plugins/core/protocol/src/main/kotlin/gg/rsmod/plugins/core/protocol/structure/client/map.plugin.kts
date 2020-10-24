@@ -8,6 +8,6 @@ val structures: DevicePacketStructureMap by inject()
 val desktop = structures.client(Device.Desktop)
 
 desktop.register<MapBuildComplete> {
-    opcode = 72
+    opcode = 88
     length = 0
 }

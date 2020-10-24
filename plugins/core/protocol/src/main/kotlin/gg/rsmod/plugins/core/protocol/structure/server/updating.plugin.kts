@@ -9,7 +9,7 @@ val structures: DevicePacketStructureMap by inject()
 val desktop = structures.server(Device.Desktop)
 
 desktop.register<PlayerInfo> {
-    opcode = 82
+    opcode = 40
     length = PacketLength.Short
     write {
         it.writeBytes(buffer)

@@ -195,14 +195,15 @@ class PlayerUpdateTask @Inject constructor(
         handlers: UpdateMaskPacketMap
     ) {
         var bitmask = 0
-        masks.forEach {
-            val handler = handlers.getValue(it)
+        masks.forEach { mask ->
+            val handler = handlers.getValue(mask)
             bitmask = bitmask or handler.mask
         }
         writeMaskBit(bitmask, handlers)
-        masks.forEach {
-            val handler = handlers.getValue(it)
-            handler.write(it, this)
+        handlers.order.forEach { ordered ->
+            val mask = masks.firstOrNull { it::class == ordered } ?: return@forEach
+            val handler = handlers.getValue(mask)
+            handler.write(mask, this)
         }
     }
 

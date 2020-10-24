@@ -29,7 +29,7 @@ private annotation class TaskBuilderDslMarker
 class UpdateTaskBuilder(private val tasks: MutableList<UpdateTask>) {
 
     operator fun <T : UpdateTask> T.unaryMinus() {
-        tasks.add(this)
         logger.debug { "Append update task to list (task=${this::class.simpleName})" }
+        tasks.add(this)
     }
 }

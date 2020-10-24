@@ -10,13 +10,13 @@ val structures: DevicePacketStructureMap by inject()
 val desktop = structures.client(Device.Desktop)
 
 desktop.register<MoveGameClick> {
-    opcode = 98
+    opcode = 29
     length = -1
     handler = GameClickHandler::class
     read {
-        val type = readUnsignedByte().toInt()
         val x = readUnsignedShortAddLE()
-        val y = readUnsignedShort()
+        val type = readUnsignedByte().toInt()
+        val y = readUnsignedShortLE()
         MoveGameClick(x, y, type)
     }
 }

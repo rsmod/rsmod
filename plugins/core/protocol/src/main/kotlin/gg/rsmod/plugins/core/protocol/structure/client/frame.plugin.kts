@@ -12,26 +12,26 @@ val structures: DevicePacketStructureMap by inject()
 val desktop = structures.client(Device.Desktop)
 
 desktop.register<EventMouseMove> {
-    opcode = 23
+    opcode = 83
     length = -1
 }
 
 desktop.register<EventMouseClick> {
-    opcode = 66
+    opcode = 82
     length = 6
 }
 
 desktop.register<EventMouseIdle> {
-    opcode = 12
+    opcode = 40
     length = 0
 }
 
 desktop.register<EventAppletFocus> {
-    opcode = 26
+    opcode = 68
     length = 1
 }
 
 desktop.register<EventKeyboard> {
-    opcode = 96
+    opcode = 53
     length = -2
 }

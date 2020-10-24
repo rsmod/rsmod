@@ -8,6 +8,7 @@ import gg.rsmod.plugins.core.protocol.Device
 import gg.rsmod.plugins.core.protocol.packet.server.RebuildNormal
 import gg.rsmod.plugins.core.protocol.structure.DevicePacketStructureMap
 import io.guthix.buffer.writeShortAdd
+import io.guthix.buffer.writeShortAddLE
 import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
 
@@ -15,13 +16,13 @@ val structures: DevicePacketStructureMap by inject()
 val desktop = structures.server(Device.Desktop)
 
 desktop.register<RebuildNormal> {
-    opcode = 60
+    opcode = 16
     length = PacketLength.Short
     write {
         val xteas = writeXteas(viewport, xteas)
         val buf = gpi?.write(it) ?: it
-        buf.writeShortLE(playerZone.x)
-        buf.writeShortAdd(playerZone.y)
+        buf.writeShortAddLE(playerZone.x)
+        buf.writeShortAddLE(playerZone.y)
         buf.writeBytes(xteas)
     }
 }

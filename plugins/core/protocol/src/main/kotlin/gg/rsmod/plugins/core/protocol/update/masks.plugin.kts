@@ -4,18 +4,24 @@ import gg.rsmod.plugins.core.protocol.Device
 import gg.rsmod.plugins.core.protocol.structure.DevicePacketStructureMap
 import io.guthix.buffer.writeByteNeg
 import io.guthix.buffer.writeBytesReversed
+import io.guthix.buffer.writeBytesReversedAdd
 import io.guthix.buffer.writeStringCP1252
 
 val structures: DevicePacketStructureMap by inject()
 val desktop = structures.update(Device.Desktop)
 
+desktop.order {
+    -DirectionMask::class
+    -AppearanceMask::class
+}
+
 desktop.register<BitMask> {
-    mask = 0x80
+    mask = 0x10
     write {
         if (packed >= 0xFF) {
-            val mask = packed or mask
-            it.writeByte(mask and 0xFF)
-            it.writeByte(mask shr 8)
+            val bitmask = packed or mask
+            it.writeByte(bitmask and 0xFF)
+            it.writeByte(bitmask shr 8)
         } else {
             it.writeByte(packed and 0xFF)
         }
@@ -23,14 +29,14 @@ desktop.register<BitMask> {
 }
 
 desktop.register<DirectionMask> {
-    mask = 0x2
+    mask = 0x20
     write {
         it.writeShortLE(angle)
     }
 }
 
 desktop.register<AppearanceMask> {
-    mask = 0x1
+    mask = 0x4
     write {
         val appBuf = it.alloc().buffer()
         appBuf.writeByte(gender)
@@ -58,6 +64,6 @@ desktop.register<AppearanceMask> {
         appBuf.writeBoolean(invisible)
 
         it.writeByteNeg(appBuf.writerIndex())
-        it.writeBytesReversed(appBuf)
+        it.writeBytesReversedAdd(appBuf)
     }
 }

@@ -123,6 +123,8 @@ class LoginDecoder(
             return
         }
 
+        buf.skipBytes(Byte.SIZE_BYTES)
+
         val deviceOpcode = buf.readUnsignedByte().toInt()
         device = deviceOpcode.device
 
