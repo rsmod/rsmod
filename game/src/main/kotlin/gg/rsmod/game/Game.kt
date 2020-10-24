@@ -4,21 +4,18 @@ import com.github.michaelbull.logging.InlineLogger
 import com.google.inject.Inject
 import gg.rsmod.game.config.InternalConfig
 import gg.rsmod.game.coroutine.GameCoroutineScope
-import gg.rsmod.game.coroutine.IoCoroutineScope
 import gg.rsmod.game.dispatch.GameJobDispatcher
 import gg.rsmod.game.event.impl.PlayerTimerEvent
 import gg.rsmod.game.model.client.ClientList
 import gg.rsmod.game.model.mob.Player
 import gg.rsmod.game.model.mob.PlayerList
 import gg.rsmod.game.model.world.World
-import gg.rsmod.game.task.StartupTaskList
 import gg.rsmod.game.update.task.UpdateTaskList
 import java.util.concurrent.TimeUnit
 import kotlin.system.measureNanoTime
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 private val logger = InlineLogger()
 
@@ -31,8 +28,6 @@ sealed class GameState {
 class Game @Inject private constructor(
     private val config: InternalConfig,
     private val coroutineScope: GameCoroutineScope,
-    private val ioCoroutineScope: IoCoroutineScope,
-    private val startupTasks: StartupTaskList,
     private val jobDispatcher: GameJobDispatcher,
     private val updateTaskList: UpdateTaskList,
     private val playerList: PlayerList,
@@ -50,7 +45,6 @@ class Game @Inject private constructor(
         }
         val delay = config.gameTickDelay
         state = GameState.Active
-        startupTasks.start()
         coroutineScope.start(delay.toLong())
     }
 
@@ -80,18 +74,6 @@ class Game @Inject private constructor(
         jobDispatcher.executeAll()
         updateTaskList.forEach { it.execute() }
         playerList.forEach { it?.flush() }
-    }
-
-    private fun StartupTaskList.start() = runBlocking {
-        logger.debug { "Executing non-blocking start up tasks (size=${nonBlocking.size})" }
-        val ioJob = ioCoroutineScope.launch {
-            nonBlocking.forEach {
-                launch { it.block() }
-            }
-        }
-        ioJob.join()
-        logger.debug { "Executing blocking start up tasks (size=${blocking.size})" }
-        blocking.forEach { it.block() }
     }
 }
 

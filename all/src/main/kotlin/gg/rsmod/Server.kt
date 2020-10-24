@@ -13,10 +13,14 @@ import gg.rsmod.game.cache.GameCache
 import gg.rsmod.game.config.ConfigModule
 import gg.rsmod.game.config.GameConfig
 import gg.rsmod.game.coroutine.CoroutineModule
+import gg.rsmod.game.coroutine.IoCoroutineScope
 import gg.rsmod.game.dispatch.DispatcherModule
 import gg.rsmod.game.event.EventBus
 import gg.rsmod.game.plugin.kotlin.KotlinModuleLoader
 import gg.rsmod.game.plugin.kotlin.KotlinPluginLoader
+import gg.rsmod.game.task.StartupTaskList
+import gg.rsmod.game.task.launchBlocking
+import gg.rsmod.game.task.launchNonBlocking
 import gg.rsmod.net.NetworkModule
 import gg.rsmod.net.channel.ClientChannelInitializer
 import gg.rsmod.net.handshake.HandshakeDecoder
@@ -35,7 +39,7 @@ fun main() {
 class Server {
 
     fun startup() {
-        logger.info { "Starting up server - please wait" }
+        logger.info { "Starting up server - please wait..." }
 
         val scope = Scopes.SINGLETON
 
@@ -54,7 +58,7 @@ class Server {
             *modules.toTypedArray()
         )
         val gameConfig: GameConfig = injector.getInstance()
-        logger.info { "Launching ${gameConfig.name}..." }
+        logger.info { "Launching ${gameConfig.name}" }
 
         val eventBus: EventBus = injector.getInstance()
         val actions: ActionBus = injector.getInstance()
@@ -64,6 +68,11 @@ class Server {
 
         val pluginLoader = KotlinPluginLoader(injector, eventBus, actions)
         val plugins = pluginLoader.load()
+
+        val ioCoroutineScope: IoCoroutineScope = injector.getInstance()
+        val startupTasks: StartupTaskList = injector.getInstance()
+        startupTasks.launchNonBlocking(ioCoroutineScope)
+        startupTasks.launchBlocking()
 
         val game: Game = injector.getInstance()
         game.start()
