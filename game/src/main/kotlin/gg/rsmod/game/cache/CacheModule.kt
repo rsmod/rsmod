@@ -24,7 +24,7 @@ private class GameCacheProvider @Inject constructor(
 ) : Provider<GameCache> {
 
     override fun get(): GameCache {
-        val path = gameConfig.cachePath
+        val path = gameConfig.cachePath.resolve(PACKED_FOLDER)
         if (!Files.isDirectory(path)) {
             error("Cache directory does not exist: ${path.toAbsolutePath()}")
         }
@@ -32,5 +32,9 @@ private class GameCacheProvider @Inject constructor(
         val heapStore = Js5HeapStore.open(diskStore)
         val cache = Js5Cache(heapStore)
         return GameCache(heapStore, cache)
+    }
+
+    companion object {
+        private const val PACKED_FOLDER = "packed"
     }
 }

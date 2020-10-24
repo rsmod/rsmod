@@ -15,7 +15,7 @@ data class GameConfig(
 ) {
 
     val cachePath: Path
-        get() = dataPath.resolve(Paths.get("cache", "packed"))
+        get() = dataPath.resolve(Paths.get("cache"))
 
     val rsaPath: Path
         get() = dataPath.resolve(Paths.get("rsa", "key.pem"))
