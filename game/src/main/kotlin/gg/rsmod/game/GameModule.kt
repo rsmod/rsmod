@@ -9,6 +9,7 @@ import gg.rsmod.game.model.map.MapIsolation
 import gg.rsmod.game.model.mob.NpcList
 import gg.rsmod.game.model.mob.PlayerList
 import gg.rsmod.game.model.world.World
+import gg.rsmod.game.task.StartupTaskList
 import gg.rsmod.game.update.task.UpdateTaskList
 
 class GameModule(private val scope: Scope) : KotlinModule() {
@@ -24,6 +25,9 @@ class GameModule(private val scope: Scope) : KotlinModule() {
             .`in`(scope)
 
         bind<ActionBus>()
+            .`in`(scope)
+
+        bind<StartupTaskList>()
             .`in`(scope)
 
         bind<PlayerList>()
