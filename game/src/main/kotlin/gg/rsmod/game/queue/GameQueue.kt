@@ -38,9 +38,9 @@ class GameQueue internal constructor(
 
     suspend fun <T : Event> delay(
         type: KClass<T>,
-        predicate: (T).() -> Boolean = { true }
+        pred: (T).() -> Boolean = { true }
     ): T = suspendCoroutine {
-        it.suspend(condition = ValueCondition(type.java, predicate))
+        it.suspend(condition = ValueCondition(type.java, pred))
     }
 
     suspend fun cancel(): Nothing = suspendCancellableCoroutine {
@@ -212,9 +212,7 @@ class GameQueueList internal constructor(
     }
 }
 
-internal data class GameQueueContext(
-    val block: suspend GameQueue.() -> Unit
-)
+internal data class GameQueueContext(val block: suspend GameQueue.() -> Unit)
 
 internal interface GameQueueCondition<T> {
 
