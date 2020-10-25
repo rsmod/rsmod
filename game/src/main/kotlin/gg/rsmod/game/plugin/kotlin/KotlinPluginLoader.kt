@@ -3,7 +3,7 @@ package gg.rsmod.game.plugin.kotlin
 import com.google.inject.Injector
 import gg.rsmod.game.action.ActionBus
 import gg.rsmod.game.event.EventBus
-import gg.rsmod.game.model.cmd.CommandMap
+import gg.rsmod.game.cmd.CommandMap
 import io.github.classgraph.ClassGraph
 
 class KotlinPluginLoader(

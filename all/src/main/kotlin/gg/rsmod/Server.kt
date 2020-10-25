@@ -16,7 +16,7 @@ import gg.rsmod.game.coroutine.CoroutineModule
 import gg.rsmod.game.coroutine.IoCoroutineScope
 import gg.rsmod.game.dispatch.DispatcherModule
 import gg.rsmod.game.event.EventBus
-import gg.rsmod.game.model.cmd.CommandMap
+import gg.rsmod.game.cmd.CommandMap
 import gg.rsmod.game.plugin.kotlin.KotlinModuleLoader
 import gg.rsmod.game.plugin.kotlin.KotlinPluginLoader
 import gg.rsmod.game.task.StartupTaskList

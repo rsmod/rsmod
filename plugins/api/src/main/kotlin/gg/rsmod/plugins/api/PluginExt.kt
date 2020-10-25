@@ -7,7 +7,7 @@ import gg.rsmod.game.event.impl.LoginEvent
 import gg.rsmod.game.event.impl.OpenModal
 import gg.rsmod.game.event.impl.OpenOverlay
 import gg.rsmod.game.event.impl.OpenTopLevel
-import gg.rsmod.game.model.cmd.CommandBuilder
+import gg.rsmod.game.cmd.CommandBuilder
 import gg.rsmod.game.model.ui.UserInterface
 import gg.rsmod.game.plugin.Plugin
 

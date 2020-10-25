@@ -7,7 +7,7 @@ import gg.rsmod.game.action.ActionBus
 import gg.rsmod.game.action.ActionExecutor
 import gg.rsmod.game.event.Event
 import gg.rsmod.game.event.EventBus
-import gg.rsmod.game.model.cmd.CommandMap
+import gg.rsmod.game.cmd.CommandMap
 import kotlin.properties.ObservableProperty
 
 open class Plugin(

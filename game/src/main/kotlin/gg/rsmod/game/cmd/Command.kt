@@ -1,4 +1,4 @@
-package gg.rsmod.game.model.cmd
+package gg.rsmod.game.cmd
 
 import com.github.michaelbull.logging.InlineLogger
 import com.google.inject.Inject

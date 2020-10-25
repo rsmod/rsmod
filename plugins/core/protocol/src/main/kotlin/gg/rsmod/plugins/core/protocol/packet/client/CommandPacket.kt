@@ -4,8 +4,8 @@ import com.google.inject.Inject
 import gg.rsmod.game.message.ClientPacket
 import gg.rsmod.game.message.ClientPacketHandler
 import gg.rsmod.game.model.client.Client
-import gg.rsmod.game.model.cmd.CommandArgs
-import gg.rsmod.game.model.cmd.CommandMap
+import gg.rsmod.game.cmd.CommandArgs
+import gg.rsmod.game.cmd.CommandMap
 import gg.rsmod.game.model.mob.Player
 
 data class ClientCheat(
