@@ -16,6 +16,7 @@ import gg.rsmod.game.coroutine.CoroutineModule
 import gg.rsmod.game.coroutine.IoCoroutineScope
 import gg.rsmod.game.dispatch.DispatcherModule
 import gg.rsmod.game.event.EventBus
+import gg.rsmod.game.model.cmd.CommandMap
 import gg.rsmod.game.plugin.kotlin.KotlinModuleLoader
 import gg.rsmod.game.plugin.kotlin.KotlinPluginLoader
 import gg.rsmod.game.task.StartupTaskList
@@ -60,13 +61,14 @@ class Server {
         val gameConfig: GameConfig = injector.getInstance()
         logger.info { "Launching ${gameConfig.name}" }
 
-        val eventBus: EventBus = injector.getInstance()
-        val actions: ActionBus = injector.getInstance()
-
         val cache: GameCache = injector.getInstance()
         cache.start()
 
-        val pluginLoader = KotlinPluginLoader(injector, eventBus, actions)
+        val eventBus: EventBus = injector.getInstance()
+        val actions: ActionBus = injector.getInstance()
+        val commands: CommandMap = injector.getInstance()
+        
+        val pluginLoader = KotlinPluginLoader(injector, eventBus, actions, commands)
         val plugins = pluginLoader.load()
 
         val ioCoroutineScope: IoCoroutineScope = injector.getInstance()

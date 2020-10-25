@@ -1,11 +1,11 @@
 package gg.rsmod.plugins.core.protocol.packet.client
 
 import com.google.inject.Inject
-import gg.rsmod.game.event.EventBus
-import gg.rsmod.game.event.impl.CommandEvent
 import gg.rsmod.game.message.ClientPacket
 import gg.rsmod.game.message.ClientPacketHandler
 import gg.rsmod.game.model.client.Client
+import gg.rsmod.game.model.cmd.CommandArgs
+import gg.rsmod.game.model.cmd.CommandMap
 import gg.rsmod.game.model.mob.Player
 
 data class ClientCheat(
@@ -13,18 +13,22 @@ data class ClientCheat(
 ) : ClientPacket
 
 class ClientCheatHandler @Inject constructor(
-    private val eventBus: EventBus
+    private val commands: CommandMap
 ) : ClientPacketHandler<ClientCheat> {
 
     override fun handle(client: Client, player: Player, packet: ClientCheat) {
-        val input = packet.input
-        if (input.isBlank()) {
+        val message = packet.input
+        if (message.isBlank()) {
             return
         }
-        val split = input.split(" ")
-        val command = split[0]
+        val split = message.split(" ")
+        val input = split[0].toLowerCase()
         val args = if (split.size == 1) emptyList() else split.subList(1, split.size)
-        val event = CommandEvent(player, command, args)
-        eventBus.publish(event)
+        val cmd = commands[input]
+        if (cmd != null && player.eligibleRank(cmd.rank)) {
+            val cmdArgs = CommandArgs(args)
+            val invoke = cmd.execute
+            invoke(player, cmdArgs)
+        }
     }
 }

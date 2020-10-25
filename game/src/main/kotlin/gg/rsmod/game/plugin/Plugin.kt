@@ -7,12 +7,14 @@ import gg.rsmod.game.action.ActionBus
 import gg.rsmod.game.action.ActionExecutor
 import gg.rsmod.game.event.Event
 import gg.rsmod.game.event.EventBus
+import gg.rsmod.game.model.cmd.CommandMap
 import kotlin.properties.ObservableProperty
 
 open class Plugin(
     val injector: Injector,
     val eventBus: EventBus,
-    val actions: ActionBus
+    val actions: ActionBus,
+    val commands: CommandMap
 ) {
 
     inline fun <reified T : Event> onEvent() = eventBus.subscribe<T>()

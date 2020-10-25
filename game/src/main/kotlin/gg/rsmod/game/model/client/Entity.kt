@@ -11,7 +11,7 @@ sealed class Entity(
 
 class PlayerEntity(
     val username: String,
-    val privilege: Int
+    val rank: Int
 ) : Entity()
 
 class NpcEntity : Entity()

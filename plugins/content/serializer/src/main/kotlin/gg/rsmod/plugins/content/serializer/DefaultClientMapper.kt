@@ -31,7 +31,7 @@ class DefaultClientMapper @Inject constructor(
         }
         val entity = PlayerEntity(
             username = data.displayName,
-            privilege = data.privilege
+            rank = data.rank
         )
         val player = Player(
             id = PlayerId(data.loginName),
@@ -67,7 +67,7 @@ class DefaultClientMapper @Inject constructor(
             encryptedPass = client.encryptedPass,
             loginXteas = client.loginXteas,
             coords = intArrayOf(entity.coords.x, entity.coords.y, entity.coords.plane),
-            privilege = entity.privilege
+            rank = entity.rank
         )
     }
 
@@ -75,7 +75,7 @@ class DefaultClientMapper @Inject constructor(
         val password = request.plaintTextPass ?: error("New client must have an input password.")
         val entity = PlayerEntity(
             username = request.loginName,
-            privilege = 0
+            rank = 0
         )
         val player = Player(
             id = PlayerId(request.loginName),
@@ -109,7 +109,7 @@ data class DefaultClientData(
     val encryptedPass: String,
     val loginXteas: IntArray,
     val coords: IntArray,
-    val privilege: Int
+    val rank: Int
 ) : ClientData {
 
     override fun equals(other: Any?): Boolean {
@@ -123,7 +123,7 @@ data class DefaultClientData(
         if (encryptedPass != other.encryptedPass) return false
         if (!loginXteas.contentEquals(other.loginXteas)) return false
         if (!coords.contentEquals(other.coords)) return false
-        if (privilege != other.privilege) return false
+        if (rank != other.rank) return false
 
         return true
     }
@@ -134,7 +134,7 @@ data class DefaultClientData(
         result = 31 * result + encryptedPass.hashCode()
         result = 31 * result + loginXteas.contentHashCode()
         result = 31 * result + coords.contentHashCode()
-        result = 31 * result + privilege
+        result = 31 * result + rank
         return result
     }
 }

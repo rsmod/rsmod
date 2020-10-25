@@ -84,6 +84,10 @@ class Player(
         eventBus.publish(LoginEvent(this, LoginEvent.Priority.Low))
     }
 
+    fun eligibleRank(rank: Int): Boolean {
+        return entity.rank >= rank
+    }
+
     fun write(packet: ServerPacket) {
         messageListeners.forEach { it.write(packet) }
     }

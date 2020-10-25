@@ -5,6 +5,7 @@ import dev.misfitlabs.kotlinguice4.KotlinModule
 import gg.rsmod.game.action.ActionBus
 import gg.rsmod.game.event.EventBus
 import gg.rsmod.game.model.client.ClientList
+import gg.rsmod.game.model.cmd.CommandMap
 import gg.rsmod.game.model.map.MapIsolation
 import gg.rsmod.game.model.mob.NpcList
 import gg.rsmod.game.model.mob.PlayerList
@@ -28,6 +29,9 @@ class GameModule(private val scope: Scope) : KotlinModule() {
             .`in`(scope)
 
         bind<StartupTaskList>()
+            .`in`(scope)
+
+        bind<CommandMap>()
             .`in`(scope)
 
         bind<PlayerList>()
