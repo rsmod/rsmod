@@ -2,10 +2,12 @@ package gg.rsmod.game.queue
 
 import gg.rsmod.game.coroutine.GameCoroutineContext
 import gg.rsmod.game.coroutine.launchCoroutine
+import gg.rsmod.game.event.Event
 import java.util.LinkedList
 import java.util.Queue
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.suspendCoroutine
+import kotlin.reflect.KClass
 import kotlinx.coroutines.suspendCancellableCoroutine
 
 private const val MAX_ACTIVE_QUEUES = 2
@@ -18,20 +20,27 @@ internal sealed class QueueType {
 
 class GameQueue internal constructor(
     internal var launched: Boolean = false,
-    private var coroutineContext: GameCoroutineContext? = null,
-    private var resumeCondition: GameQueueCondition? = null
+    private var coroutineContext: GameCoroutineContext<Any>? = null,
+    private var resumeCondition: GameQueueCondition<Any>? = null
 ) {
 
     val idle: Boolean
         get() = resumeCondition == null
 
-    suspend fun delay(ticks: Int = 1): Unit = suspendCoroutine {
+    suspend fun delay(ticks: Int = 1): Boolean = suspendCoroutine {
         check(ticks > 0) { "Delay ticks must be greater than 0." }
         it.suspend(condition = WaitCycleCondition(ticks))
     }
 
-    suspend fun delay(predicate: () -> Boolean): Unit = suspendCoroutine {
+    suspend fun delay(predicate: () -> Boolean): Boolean = suspendCoroutine {
         it.suspend(condition = PredicateCondition(predicate))
+    }
+
+    suspend fun <T : Event> delay(
+        type: KClass<T>,
+        predicate: (T).() -> Boolean = { true }
+    ): T = suspendCoroutine {
+        it.suspend(condition = ValueCondition(type.java, predicate))
     }
 
     suspend fun cancel(): Nothing = suspendCancellableCoroutine {
@@ -42,16 +51,30 @@ class GameQueue internal constructor(
 
     internal fun cycle() {
         val condition = resumeCondition ?: return
-        if (condition.resume()) {
-            resumeCondition = null
-            coroutineContext?.resume()
+        val value = condition.resume() ?: return
+        resumeCondition = null
+        coroutineContext?.resume(value)
+    }
+
+    internal fun <T> submit(value: T) {
+        val condition = resumeCondition ?: return
+        val finalValue = value ?: return
+        if (condition is ValueCondition<Any>) {
+            /* only accept types that match the current value condition type */
+            val matchType = condition.type == finalValue::class.java
+            /* only accept values that fulfill the predicate */
+            val matchPredicate = condition.predicate(finalValue)
+            if (matchType && matchPredicate) {
+                condition.value = finalValue
+            }
         }
     }
 
-    private fun Continuation<Unit>.suspend(condition: GameQueueCondition) {
+    @Suppress("UNCHECKED_CAST")
+    private fun <T> Continuation<T>.suspend(condition: GameQueueCondition<T>) {
         val coroutine = GameCoroutineContext(this)
-        resumeCondition = condition
-        coroutineContext = coroutine
+        resumeCondition = condition as GameQueueCondition<Any>
+        coroutineContext = coroutine as GameCoroutineContext<Any>
     }
 }
 
@@ -140,6 +163,10 @@ class GameQueueStack internal constructor(
         return true
     }
 
+    fun <T> submit(value: T) {
+        currentQueue?.submit(value)
+    }
+
     private fun QueueType.overtake(other: QueueType): Boolean = when (this) {
         QueueType.Normal -> other == QueueType.Weak
         QueueType.Strong -> true
@@ -189,21 +216,32 @@ internal data class GameQueueContext(
     val block: suspend GameQueue.() -> Unit
 )
 
-internal interface GameQueueCondition {
+internal interface GameQueueCondition<T> {
 
-    fun resume(): Boolean
+    fun resume(): T?
 }
 
-internal class WaitCycleCondition(private var delay: Int) : GameQueueCondition {
+internal class WaitCycleCondition(private var delay: Int) : GameQueueCondition<Boolean> {
 
-    override fun resume(): Boolean {
-        return --delay <= 0
+    override fun resume(): Boolean? {
+        return if (--delay <= 0) true else null
     }
 }
 
-internal class PredicateCondition(private val predicate: () -> Boolean) : GameQueueCondition {
+internal class PredicateCondition(private val predicate: () -> Boolean) : GameQueueCondition<Boolean> {
 
-    override fun resume(): Boolean {
-        return predicate()
+    override fun resume(): Boolean? {
+        return if (predicate()) true else null
+    }
+}
+
+internal class ValueCondition<T>(
+    val type: Class<T>,
+    val predicate: (T).() -> Boolean,
+    var value: T? = null
+) : GameQueueCondition<T> {
+
+    override fun resume(): T? {
+        return value
     }
 }

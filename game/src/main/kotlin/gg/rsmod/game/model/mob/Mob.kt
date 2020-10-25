@@ -4,6 +4,7 @@ import com.github.michaelbull.logging.InlineLogger
 import com.google.common.base.MoreObjects
 import gg.rsmod.game.action.ActionBus
 import gg.rsmod.game.attribute.AttributeMap
+import gg.rsmod.game.event.Event
 import gg.rsmod.game.event.EventBus
 import gg.rsmod.game.event.impl.LoginEvent
 import gg.rsmod.game.message.ServerPacket
@@ -40,7 +41,7 @@ sealed class Mob(
     var appendTeleport: Boolean = false,
     val timers: TimerMap = TimerMap(),
     val attribs: AttributeMap = AttributeMap(),
-    internal val queueStack: GameQueueStack = GameQueueStack()
+    val queueStack: GameQueueStack = GameQueueStack()
 ) {
 
     fun weakQueue(block: suspend GameQueue.() -> Unit) = queueStack.queue(QueueType.Weak, block)
@@ -98,6 +99,11 @@ class Player(
 
     fun warn(message: () -> String) {
         logger.warn { "$username: ${message()}" }
+    }
+
+    inline fun <reified T : Event> submitEvent(event: T) {
+        queueStack.submit(event)
+        eventBus.publish(event)
     }
 
     override fun toString(): String = MoreObjects

@@ -14,10 +14,10 @@ internal fun (suspend () -> Unit).launchCoroutine() {
     createCoroutine(GameCoroutineContinuation).resume(Unit)
 }
 
-internal class GameCoroutineContext(private val continuation: Continuation<Unit>) {
+internal class GameCoroutineContext<T>(private val continuation: Continuation<T>) {
 
-    fun resume() {
-        continuation.resume(Unit)
+    fun resume(value: T) {
+        continuation.resume(value)
     }
 }
 
