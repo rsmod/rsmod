@@ -109,6 +109,10 @@ class GameQueueStack internal constructor(
         cycleCurrent()
     }
 
+    fun <T> submit(value: T) {
+        currentQueue?.submit(value)
+    }
+
     private suspend fun pollPending() {
         if (currentQueue != null) {
             /* don't override the current queue */
@@ -161,10 +165,6 @@ class GameQueueStack internal constructor(
             currPriority = priority
         }
         return true
-    }
-
-    fun <T> submit(value: T) {
-        currentQueue?.submit(value)
     }
 
     private fun QueueType.overtake(other: QueueType): Boolean = when (this) {
