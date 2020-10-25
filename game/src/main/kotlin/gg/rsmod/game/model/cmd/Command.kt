@@ -25,10 +25,10 @@ class CommandMap(
         val builder = CommandBuilder().apply(init)
         val lowercase = name.toLowerCase()
         if (commands.containsKey(lowercase)) {
-            error("Command with name has already been registered (cmd=${name})")
+            error("Command with name has already been registered (cmd=$name)")
         }
         val cmd = builder.build()
-        logger.trace { "Register command (cmd=${name}, desc=${cmd.description})" }
+        logger.trace { "Register command (cmd=$name, desc=${cmd.description})" }
         commands[lowercase] = cmd
     }
 }

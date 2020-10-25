@@ -7,7 +7,6 @@ import gg.rsmod.game.model.map.MapSquare
 import gg.rsmod.plugins.core.protocol.Device
 import gg.rsmod.plugins.core.protocol.packet.server.RebuildNormal
 import gg.rsmod.plugins.core.protocol.structure.DevicePacketStructureMap
-import io.guthix.buffer.writeShortAdd
 import io.guthix.buffer.writeShortAddLE
 import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled

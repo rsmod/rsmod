@@ -3,7 +3,6 @@ package gg.rsmod.plugins.core.protocol.update
 import gg.rsmod.plugins.core.protocol.Device
 import gg.rsmod.plugins.core.protocol.structure.DevicePacketStructureMap
 import io.guthix.buffer.writeByteNeg
-import io.guthix.buffer.writeBytesReversed
 import io.guthix.buffer.writeBytesReversedAdd
 import io.guthix.buffer.writeStringCP1252
 

@@ -9,9 +9,7 @@ import gg.rsmod.plugins.core.protocol.packet.server.IfSetEvents
 import gg.rsmod.plugins.core.protocol.packet.server.RunClientScript
 import gg.rsmod.plugins.core.protocol.structure.DevicePacketStructureMap
 import io.guthix.buffer.writeByteNeg
-import io.guthix.buffer.writeIntIME
 import io.guthix.buffer.writeIntME
-import io.guthix.buffer.writeShortAdd
 import io.guthix.buffer.writeStringCP1252
 
 val structures: DevicePacketStructureMap by inject()

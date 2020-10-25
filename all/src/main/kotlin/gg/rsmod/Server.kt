@@ -67,7 +67,6 @@ class Server {
         val eventBus: EventBus = injector.getInstance()
         val actions: ActionBus = injector.getInstance()
         val commands: CommandMap = injector.getInstance()
-        
         val pluginLoader = KotlinPluginLoader(injector, eventBus, actions, commands)
         val plugins = pluginLoader.load()
 
