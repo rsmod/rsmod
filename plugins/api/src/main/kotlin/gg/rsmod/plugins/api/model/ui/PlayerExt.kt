@@ -24,7 +24,7 @@ fun Player.openTopLevel(userInterface: UserInterface) {
     }
     val event = OpenTopLevel(this, userInterface)
     ui.topLevel.add(userInterface)
-    eventBus.publish(event)
+    submitEvent(event)
     write(IfOpenTop(userInterface.id))
 }
 
@@ -35,7 +35,7 @@ fun Player.closeTopLevel(userInterface: UserInterface) {
     }
     val event = CloseTopLevel(this, userInterface)
     ui.topLevel.remove(userInterface)
-    eventBus.publish(event)
+    submitEvent(event)
 }
 
 fun Player.openModal(
@@ -49,7 +49,7 @@ fun Player.openModal(
     }
     val event = OpenModal(this, parent, modal)
     ui.modals[parent] = modal
-    eventBus.publish(event)
+    submitEvent(event)
     write(IfOpenSub(modal.id, parent.packed, clickMode.id))
 }
 
@@ -64,7 +64,7 @@ fun Player.closeModal(modal: UserInterface) {
     val components = ui.properties.filterKeys { it.interfaceId == modal.id }.keys
     components.forEach(ui.properties::remove)
     ui.modals.remove(parent)
-    eventBus.publish(event)
+    submitEvent(event)
     write(IfCloseSub(parent.packed))
 }
 
@@ -79,7 +79,7 @@ fun Player.openOverlay(
     }
     val event = OpenOverlay(this, parent, overlay)
     ui.overlays[parent] = overlay
-    eventBus.publish(event)
+    submitEvent(event)
     write(IfOpenSub(overlay.id, parent.packed, clickMode.id))
 }
 
@@ -94,7 +94,7 @@ fun Player.closeOverlay(overlay: UserInterface) {
     val components = ui.propertyComponents(overlay)
     components.forEach(ui.properties::remove)
     ui.overlays.remove(parent)
-    eventBus.publish(event)
+    submitEvent(event)
     write(IfCloseSub(parent.packed))
 }
 
