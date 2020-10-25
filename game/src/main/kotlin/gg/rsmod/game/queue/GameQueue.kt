@@ -40,7 +40,7 @@ class GameQueue internal constructor(
         type: KClass<T>,
         pred: (T).() -> Boolean = { true }
     ): T = suspendCoroutine {
-        it.suspend(condition = ValueCondition(type.java, pred))
+        it.suspend(condition = ValueCondition(type, pred))
     }
 
     suspend fun cancel(): Nothing = suspendCancellableCoroutine {
@@ -61,7 +61,7 @@ class GameQueue internal constructor(
         val finalValue = value ?: return
         if (condition is ValueCondition<Any>) {
             /* only accept types that match the current value condition type */
-            val matchType = condition.type == finalValue::class.java
+            val matchType = condition.type == finalValue::class
             /* only accept values that fulfill the predicate */
             val matchPredicate = condition.predicate(finalValue)
             if (matchType && matchPredicate) {
@@ -233,8 +233,8 @@ internal class PredicateCondition(private val predicate: () -> Boolean) : GameQu
     }
 }
 
-internal class ValueCondition<T>(
-    val type: Class<T>,
+internal class ValueCondition<T : Any>(
+    val type: KClass<T>,
     val predicate: (T).() -> Boolean,
     var value: T? = null
 ) : GameQueueCondition<T> {
