@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit
 import kotlin.system.measureNanoTime
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 private val logger = InlineLogger()
@@ -49,7 +50,7 @@ class Game @Inject private constructor(
     }
 
     private fun CoroutineScope.start(delay: Long) = launch {
-        while (state != GameState.ShutDown) {
+        while (state != GameState.ShutDown && isActive) {
             val elapsedNanos = measureNanoTime { gameLogic() } + excessCycleNanos
             val elapsedMillis = TimeUnit.NANOSECONDS.toMillis(elapsedNanos)
             val overdue = elapsedMillis > delay
