@@ -1,8 +1,7 @@
 package gg.rsmod.game.coroutine
 
-import com.github.michaelbull.logging.InlineLogger
 import gg.rsmod.game.event.Event
-import kotlinx.coroutines.suspendCancellableCoroutine
+import gg.rsmod.game.model.mob.Player
 import java.util.concurrent.CancellationException
 import kotlin.coroutines.AbstractCoroutineContextElement
 import kotlin.coroutines.Continuation
@@ -13,11 +12,14 @@ import kotlin.coroutines.intrinsics.suspendCoroutineUninterceptedOrReturn
 import kotlin.coroutines.resume
 import kotlin.coroutines.startCoroutine
 import kotlin.reflect.KClass
+import kotlinx.coroutines.suspendCancellableCoroutine
 
-private val logger = InlineLogger()
-
-internal val CoroutineContext.task: GameCoroutineTask
-    get() = get(GameCoroutineTask) ?: GameCoroutineTask()
+private val CoroutineContext.task: GameCoroutineTask
+    get() = get(GameCoroutineTask) ?: error(
+        "Game coroutine task has not been set. " +
+                "Construct one and call the suspend block with `withContext(${GameCoroutineTask::class.simpleName})`, " +
+                "or use the appropriate entity queue method (i.e ${Player::class.simpleName}::normalQueue)."
+    )
 
 suspend fun delay(ticks: Int = 1) {
     if (ticks <= 0) return
@@ -123,7 +125,7 @@ object DefaultGameCoroutineContinuation : Continuation<Unit> {
     override fun resumeWith(result: Result<Unit>) {
         val error = result.exceptionOrNull()
         if (error != null && error !is CancellationException) {
-            logger.error(error) {}
+            throw error
         }
     }
 }

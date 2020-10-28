@@ -1,11 +1,9 @@
 package gg.rsmod.game.queue
 
 import gg.rsmod.game.coroutine.GameCoroutineTask
-import gg.rsmod.game.coroutine.task
 import gg.rsmod.game.event.Event
 import java.util.LinkedList
 import java.util.Queue
-import kotlin.coroutines.coroutineContext
 import kotlinx.coroutines.withContext
 
 private const val MAX_ACTIVE_QUEUES = 2
@@ -50,7 +48,7 @@ class GameQueueStack(
         val queue = currQueue
         if (queue == null) {
             val ctx = pendQueue.poll() ?: return
-            val task = coroutineContext.task
+            val task = GameCoroutineTask()
             val block = suspend { withContext(task) { ctx.block() } }
             currQueue = GameQueue(task)
             task.launch(block)
@@ -118,7 +116,7 @@ class GameQueueList internal constructor(
     private suspend fun addPending() {
         while (pending.isNotEmpty()) {
             val ctx = pending.poll() ?: break
-            val task = coroutineContext.task
+            val task = GameCoroutineTask()
             val block = suspend { withContext(task) { ctx.block() } }
             val queue = GameQueue(task)
             task.launch(block)
