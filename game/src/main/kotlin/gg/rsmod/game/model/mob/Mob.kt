@@ -44,11 +44,11 @@ sealed class Mob(
     val queueStack: GameQueueStack = GameQueueStack()
 ) {
 
-    fun weakQueue(block: suspend GameQueue.() -> Unit) = queueStack.queue(QueueType.Weak, block)
+    fun weakQueue(block: suspend () -> Unit) = queueStack.queue(QueueType.Weak, block)
 
-    fun normalQueue(block: suspend GameQueue.() -> Unit) = queueStack.queue(QueueType.Normal, block)
+    fun normalQueue(block: suspend () -> Unit) = queueStack.queue(QueueType.Normal, block)
 
-    fun strongQueue(block: suspend GameQueue.() -> Unit) = queueStack.queue(QueueType.Strong, block)
+    fun strongQueue(block: suspend () -> Unit) = queueStack.queue(QueueType.Strong, block)
 
     fun clearQueues() = queueStack.clear()
 }
@@ -106,7 +106,7 @@ class Player(
     }
 
     inline fun <reified T : Event> submitEvent(event: T) {
-        queueStack.submit(event)
+        queueStack.submitEvent(event)
         eventBus.publish(event)
     }
 

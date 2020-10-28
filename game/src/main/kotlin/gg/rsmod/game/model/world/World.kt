@@ -11,5 +11,5 @@ class World(
     @Inject
     constructor() : this(GameQueueList())
 
-    fun queue(block: suspend GameQueue.() -> Unit) = queueList.queue(block)
+    fun queue(block: suspend () -> Unit) = queueList.queue(block)
 }
