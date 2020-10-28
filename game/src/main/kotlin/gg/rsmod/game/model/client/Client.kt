@@ -9,6 +9,7 @@ import gg.rsmod.game.model.mob.Player
 import gg.rsmod.game.update.record.UpdateRecord
 import io.netty.buffer.ByteBufAllocator
 import java.util.LinkedList
+import java.util.Queue
 
 private val logger = InlineLogger()
 
@@ -21,17 +22,8 @@ class Client(
     val loginXteas: IntArray,
     val bufAllocator: ByteBufAllocator,
     val updateRecords: MutableList<UpdateRecord> = mutableListOf(),
-    val pendingPackets: LinkedList<ClientPacketMessage<out ClientPacket>> = LinkedList()
+    val pendingPackets: Queue<ClientPacketMessage<out ClientPacket>> = LinkedList()
 ) {
-
-    fun pollActions(actionLimit: Int) {
-        for (i in 0 until actionLimit) {
-            val message = pendingPackets.poll() ?: break
-            val handler = message.handler
-            val packet = message.packet
-            handler.handle(this, player, packet)
-        }
-    }
 
     override fun toString(): String = MoreObjects
         .toStringHelper(this)

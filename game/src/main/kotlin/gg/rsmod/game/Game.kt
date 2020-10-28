@@ -6,6 +6,7 @@ import gg.rsmod.game.config.InternalConfig
 import gg.rsmod.game.coroutine.GameCoroutineScope
 import gg.rsmod.game.dispatch.GameJobDispatcher
 import gg.rsmod.game.event.impl.PlayerTimerEvent
+import gg.rsmod.game.model.client.Client
 import gg.rsmod.game.model.client.ClientList
 import gg.rsmod.game.model.mob.Player
 import gg.rsmod.game.model.mob.PlayerList
@@ -69,12 +70,46 @@ class Game @Inject private constructor(
 
     private suspend fun gameLogic() {
         clientList.forEach { it.pollActions(config.actionsPerCycle) }
-        playerList.forEach { it?.queueStack?.cycle() }
+        playerList.forEach { it?.queueCycle() }
         playerList.forEach { it?.timerCycle() }
         world.queueList.cycle()
         jobDispatcher.executeAll()
         updateTaskList.forEach { it.execute() }
         playerList.forEach { it?.flush() }
+    }
+}
+
+private fun Client.pollActions(iterations: Int) {
+    for (i in 0 until iterations) {
+        val message = pendingPackets.poll() ?: break
+        val handler = message.handler
+        val packet = message.packet
+        try {
+            handler.handle(this, player, packet)
+        } catch (t: Throwable) {
+            logger.error(t) {
+                "Action handler process error (packet=${packet::class.simpleName}, " +
+                        "handler=${handler::class.simpleName}, player=$player)"
+            }
+        }
+    }
+}
+
+private suspend fun Player.queueCycle() {
+    /* flag whether or not a new queue should be polled this cycle */
+    val pollQueue = queueStack.idle
+    try {
+        queueStack.processCurrent()
+    } catch (t: Throwable) {
+        queueStack.discardCurrent()
+        logger.error(t) { "Queue process error ($this)" }
+    }
+    if (pollQueue) {
+        try {
+            queueStack.pollPending()
+        } catch (t: Throwable) {
+            logger.error(t) { "Queue poll error ($this)" }
+        }
     }
 }
 
@@ -92,10 +127,15 @@ private fun Player.timerCycle() {
             continue
         }
         val event = PlayerTimerEvent(this, key)
-        eventBus.publish(event)
-        /* if the timer was not re-set after event we remove it */
-        if (timers.isNotActive(key)) {
+        try {
+            eventBus.publish(event)
+            /* if the timer was not re-set after event we remove it */
+            if (timers.isNotActive(key)) {
+                iterator.remove()
+            }
+        } catch (t: Throwable) {
             iterator.remove()
+            logger.error(t) { "Timer event error ($this)" }
         }
     }
 }

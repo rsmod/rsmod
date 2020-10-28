@@ -27,6 +27,9 @@ class GameQueueStack(
     val size: Int
         get() = pendQueue.size + (if (currQueue != null) 1 else 0)
 
+    val idle: Boolean
+        get() = currQueue == null
+
     internal fun queue(type: QueueType, block: suspend () -> Unit) {
         if (!overtakeQueues(type)) {
             return
@@ -44,27 +47,28 @@ class GameQueueStack(
         pendQueue.clear()
     }
 
-    internal suspend fun cycle() {
-        val queue = currQueue
-        if (queue == null) {
-            val ctx = pendQueue.poll() ?: return
-            val task = GameCoroutineTask()
-            val block = suspend { withContext(task) { ctx.block() } }
-            currQueue = GameQueue(task)
-            task.launch(block)
-            return
-        }
+    fun processCurrent() {
+        val queue = currQueue ?: return
         queue.task.cycle()
         if (queue.task.idle) {
             discardCurrent()
         }
     }
 
+    suspend fun pollPending() {
+        if (currQueue != null) return
+        val ctx = pendQueue.poll() ?: return
+        val task = GameCoroutineTask()
+        val block = suspend { withContext(task) { ctx.block() } }
+        task.launch(block)
+        currQueue = GameQueue(task)
+    }
+
     fun <T : Event> submitEvent(value: T) {
         currQueue?.task?.submit(value)
     }
 
-    private fun discardCurrent() {
+    fun discardCurrent() {
         currQueue = null
         /* only reset priority if no other queue is pending */
         if (pendQueue.isEmpty()) {
