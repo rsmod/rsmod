@@ -89,7 +89,7 @@ private fun Client.pollActions(iterations: Int) {
         } catch (t: Throwable) {
             logger.error(t) {
                 "Action handler process error (packet=${packet::class.simpleName}, " +
-                        "handler=${handler::class.simpleName}, player=$player)"
+                    "handler=${handler::class.simpleName}, player=$player)"
             }
         }
     }
