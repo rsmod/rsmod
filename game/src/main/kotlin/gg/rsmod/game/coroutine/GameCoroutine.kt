@@ -16,9 +16,10 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 
 private val CoroutineContext.task: GameCoroutineTask
     get() = get(GameCoroutineTask) ?: error(
-        "Game coroutine task has not been set. " +
-                "Construct one and call the suspend block with `withContext(${GameCoroutineTask::class.simpleName})`, " +
-                "or use the appropriate entity queue method (i.e ${Player::class.simpleName}::normalQueue)."
+        """Game coroutine task has not been set.
+        Construct one and call the suspend block with `withContext(${GameCoroutineTask::class.simpleName})`,
+        or use the appropriate entity queue method (i.e ${Player::class.simpleName}::normalQueue)
+        """
     )
 
 suspend fun delay(ticks: Int = 1) {
