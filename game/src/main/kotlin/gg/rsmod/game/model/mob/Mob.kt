@@ -17,7 +17,6 @@ import gg.rsmod.game.model.domain.PlayerId
 import gg.rsmod.game.model.item.ItemContainer
 import gg.rsmod.game.model.map.Coordinates
 import gg.rsmod.game.model.map.Viewport
-import gg.rsmod.game.queue.GameQueue
 import gg.rsmod.game.queue.GameQueueStack
 import gg.rsmod.game.queue.QueueType
 import gg.rsmod.game.model.snapshot.Snapshot
