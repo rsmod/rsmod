@@ -64,7 +64,7 @@ class GameCoroutine<T : Any>(
     fun submit(value: T) {
         if (state !is GameCoroutineDeferValueState) return
         if (state.type == value::class) {
-            state.value = value
+            state.set(value)
         }
     }
 }
@@ -153,11 +153,21 @@ class GameCoroutinePredicateState(private val predicate: () -> Boolean) : GameCo
     override fun get() {}
 }
 
-class GameCoroutineDeferValueState<T : Any>(val type: KClass<T>, var value: T? = null) : GameCoroutineState<T> {
+class GameCoroutineDeferValueState<T : Any>(
+    val type: KClass<T>,
+    var resume: Boolean = false
+) : GameCoroutineState<T> {
 
-    override fun resume(): Boolean {
-        return value != null
+    private lateinit var value: T
+
+    fun set(value: T) {
+        this.value = value
+        this.resume = true
     }
 
-    override fun get(): T = value ?: error("Value has not been set.")
+    override fun resume(): Boolean {
+        return resume
+    }
+
+    override fun get(): T = value
 }
