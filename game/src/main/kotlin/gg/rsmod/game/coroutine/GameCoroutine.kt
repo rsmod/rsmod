@@ -2,17 +2,17 @@ package gg.rsmod.game.coroutine
 
 import gg.rsmod.game.event.Event
 import gg.rsmod.game.model.mob.Player
-import java.util.concurrent.CancellationException
 import kotlin.coroutines.AbstractCoroutineContextElement
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
+import kotlin.coroutines.coroutineContext
 import kotlin.coroutines.intrinsics.COROUTINE_SUSPENDED
 import kotlin.coroutines.intrinsics.suspendCoroutineUninterceptedOrReturn
 import kotlin.coroutines.resume
 import kotlin.coroutines.startCoroutine
 import kotlin.reflect.KClass
-import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.CancellationException
 
 private val CoroutineContext.task: GameCoroutineTask
     get() = get(GameCoroutineTask) ?: error(
@@ -45,10 +45,7 @@ suspend fun <T : Event> delay(eventType: KClass<T>): T {
     }
 }
 
-suspend fun cancel(): Nothing = suspendCancellableCoroutine {
-    it.context.task.cancel()
-    it.cancel()
-}
+suspend fun stop(): Nothing = coroutineContext.task.cancel()
 
 class GameCoroutine<T : Any>(
     private val cont: Continuation<T>,
@@ -104,8 +101,9 @@ class GameCoroutineTask(
         }
     }
 
-    fun cancel() {
+    fun cancel(): Nothing {
         coroutine = null
+        throw CancellationException()
     }
 
     @Suppress("UNCHECKED_CAST")
