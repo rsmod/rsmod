@@ -1,5 +1,6 @@
 package gg.rsmod.game.coroutine
 
+import com.github.michaelbull.logging.InlineLogger
 import gg.rsmod.game.event.Event
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.util.concurrent.CancellationException
@@ -12,6 +13,8 @@ import kotlin.coroutines.intrinsics.suspendCoroutineUninterceptedOrReturn
 import kotlin.coroutines.resume
 import kotlin.coroutines.startCoroutine
 import kotlin.reflect.KClass
+
+private val logger = InlineLogger()
 
 internal val CoroutineContext.task: GameCoroutineTask
     get() = get(GameCoroutineTask) ?: GameCoroutineTask()
@@ -45,20 +48,23 @@ suspend fun cancel(): Nothing = suspendCancellableCoroutine {
 }
 
 class GameCoroutine<T : Any>(
-    private val continuation: Continuation<T>,
-    private val condition: GameCoroutineCondition<T>
+    private val cont: Continuation<T>,
+    private val state: GameCoroutineState<T>
 ) {
 
     fun resume(): Boolean {
-        val value = condition.get() ?: return false
-        continuation.resume(value)
+        if (!state.resume()) {
+            return false
+        }
+        val value = state.get()
+        cont.resume(value)
         return true
     }
 
     fun submit(value: T) {
-        if (condition !is GameCoroutineDeferredCondition) return
-        if (condition.type == value::class) {
-            condition.value = value
+        if (state !is GameCoroutineDeferValueState) return
+        if (state.type == value::class) {
+            state.value = value
         }
     }
 }
@@ -73,17 +79,17 @@ class GameCoroutineTask(
         get() = coroutine == null
 
     fun delay(ticks: Int, continuation: Continuation<Unit>) {
-        val condition = GameCoroutineTickCondition(ticks)
+        val condition = GameCoroutineTimedState(ticks)
         coroutine = GameCoroutine(continuation, condition)
     }
 
     fun delay(predicate: () -> Boolean, continuation: Continuation<Unit>) {
-        val condition = GameCoroutinePredicateCondition(predicate)
+        val condition = GameCoroutinePredicateState(predicate)
         coroutine = GameCoroutine(continuation, condition)
     }
 
     fun <T : Event> delay(eventType: KClass<T>, continuation: Continuation<T>) {
-        val condition = GameCoroutineDeferredCondition(eventType)
+        val condition = GameCoroutineDeferValueState(eventType)
         coroutine = GameCoroutine(continuation, condition)
     }
 
@@ -117,31 +123,41 @@ object DefaultGameCoroutineContinuation : Continuation<Unit> {
     override fun resumeWith(result: Result<Unit>) {
         val error = result.exceptionOrNull()
         if (error != null && error !is CancellationException) {
-            error.printStackTrace()
+            logger.error(error) {}
         }
     }
 }
 
-interface GameCoroutineCondition<T> {
+interface GameCoroutineState<T> {
 
-    fun get(): T?
+    fun resume(): Boolean
+
+    fun get(): T
 }
 
-class GameCoroutineTickCondition(private var ticks: Int) : GameCoroutineCondition<Unit> {
+class GameCoroutineTimedState(private var ticks: Int) : GameCoroutineState<Unit> {
 
-    override fun get(): Unit? {
-        return if (--ticks == 0) Unit else null
+    override fun resume(): Boolean {
+        return --ticks == 0
     }
+
+    override fun get() {}
 }
 
-class GameCoroutinePredicateCondition(private val predicate: () -> Boolean) : GameCoroutineCondition<Unit> {
+class GameCoroutinePredicateState(private val predicate: () -> Boolean) : GameCoroutineState<Unit> {
 
-    override fun get(): Unit? {
-        return if (predicate()) Unit else null
+    override fun resume(): Boolean {
+        return predicate()
     }
+
+    override fun get() {}
 }
 
-class GameCoroutineDeferredCondition<T : Any>(val type: KClass<T>, var value: T? = null) : GameCoroutineCondition<T> {
+class GameCoroutineDeferValueState<T : Any>(val type: KClass<T>, var value: T? = null) : GameCoroutineState<T> {
 
-    override fun get(): T? = value
+    override fun resume(): Boolean {
+        return value != null
+    }
+
+    override fun get(): T = value ?: error("Value has not been set.")
 }
