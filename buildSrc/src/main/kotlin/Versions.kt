@@ -12,31 +12,31 @@ object JvmVersions {
     val JAVA = JavaVersion.VERSION_11
     const val JVM = "11"
     const val KOTLIN = "1.4.10"
-    const val COROUTINE = "1.1.0"
+    const val COROUTINE = "1.4.0"
     const val KOTLINTER = "3.2.0"
 }
 
 object LoggerVersions {
-    const val SL4J = "1.7.25"
-    const val LOG4J = "2.11.2"
+    const val SL4J = "1.7.30"
+    const val LOG4J = "2.13.3"
     const val INLINE_LOGGER = "1.0.0"
 }
 
 object DependencyInjectionVersions {
-    const val GUICE = "4.2.2"
-    const val KOTLIN_GUICE = "1.4.0"
+    const val GUICE = "5.0.0-BETA-1"
+    const val KOTLIN_GUICE = "1.4.1"
 }
 
 object JacksonVersions {
-    const val JACKSON = "2.11.2"
+    const val JACKSON = "2.11.3"
 }
 
 object NetVersions {
-    const val NETTY = "4.1.51.Final"
+    const val NETTY = "4.1.53.Final"
 }
 
 object TestVersions {
-    const val JUNIT = "5.5.1"
+    const val JUNIT = "5.7.0"
 }
 
 object ReflectionVersions {
@@ -44,6 +44,6 @@ object ReflectionVersions {
 }
 
 object SecurityVersions {
-    const val BOUNCYCASTLE = "1.54"
+    const val BOUNCYCASTLE = "1.66"
     const val BCRYPT = "0.4"
 }
