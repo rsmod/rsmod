@@ -36,9 +36,9 @@ class DefaultClientMapper @Inject constructor(
         val player = Player(
             id = PlayerId(data.loginName),
             loginName = data.loginName,
-            entity = entity,
             eventBus = request.eventBus,
             actionBus = request.actionBus,
+            entity = entity,
             messageListeners = listOf(request.messageListener)
         )
         val client = Client(
@@ -80,9 +80,9 @@ class DefaultClientMapper @Inject constructor(
         val player = Player(
             id = PlayerId(request.loginName),
             loginName = request.loginName,
-            entity = entity,
             eventBus = request.eventBus,
             actionBus = request.actionBus,
+            entity = entity,
             messageListeners = listOf(request.messageListener)
         )
         val encryptedPass = encryption.encrypt(password)

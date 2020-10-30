@@ -4,11 +4,13 @@ import com.github.michaelbull.logging.InlineLogger
 import com.google.common.base.MoreObjects
 import gg.rsmod.game.action.ActionBus
 import gg.rsmod.game.attribute.AttributeMap
+import gg.rsmod.game.coroutine.delay
 import gg.rsmod.game.event.Event
 import gg.rsmod.game.event.EventBus
 import gg.rsmod.game.event.impl.LoginEvent
 import gg.rsmod.game.message.ServerPacket
 import gg.rsmod.game.message.ServerPacketListener
+import gg.rsmod.game.model.client.Entity
 import gg.rsmod.game.model.client.NpcEntity
 import gg.rsmod.game.model.client.PlayerEntity
 import gg.rsmod.game.model.domain.Appearance
@@ -43,6 +45,16 @@ sealed class Mob(
     val queueStack: GameQueueStack = GameQueueStack()
 ) {
 
+    abstract val entity: Entity
+
+    var index: Int
+        get() = entity.index
+        set(value) { entity.index = value }
+
+    var coords: Coordinates
+        get() = entity.coords
+        set(value) { entity.coords = value }
+
     fun weakQueue(block: suspend () -> Unit) = queueStack.queue(QueueType.Weak, block)
 
     fun normalQueue(block: suspend () -> Unit) = queueStack.queue(QueueType.Normal, block)
@@ -55,9 +67,9 @@ sealed class Mob(
 class Player(
     val id: PlayerId,
     val loginName: String,
-    val entity: PlayerEntity,
     val eventBus: EventBus,
     val actionBus: ActionBus,
+    override val entity: PlayerEntity,
     var snapshot: Snapshot = Snapshot.INITIAL,
     var viewport: Viewport = Viewport.ZERO,
     var appearance: Appearance = Appearance.ZERO,
@@ -68,14 +80,6 @@ class Player(
 
     val username: String
         get() = entity.username
-
-    var index: Int
-        get() = entity.index
-        set(value) { entity.index = value }
-
-    var coords: Coordinates
-        get() = entity.coords
-        set(value) { entity.coords = value }
 
     fun login() {
         eventBus.publish(LoginEvent(this, LoginEvent.Priority.High))
@@ -120,14 +124,5 @@ class Player(
 }
 
 class Npc(
-    val entity: NpcEntity
-) : Mob() {
-
-    var index: Int
-        get() = entity.index
-        set(value) { entity.index = value }
-
-    var coords: Coordinates
-        get() = entity.coords
-        set(value) { entity.coords = value }
-}
+    override val entity: NpcEntity
+) : Mob()
