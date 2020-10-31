@@ -1,8 +1,15 @@
 import org.gradle.api.JavaVersion
 
 object ProjectVersions {
-    const val RSMOD = "0.0.1-SNAPSHOT"
-    const val PROTOCOL = "191.0-SNAPSHOT"
+    /**
+     * Mix of rs mod API version and rs protocol revision.
+     *
+     * First  number: RS Mod - MAJOR version
+     * Second number: RS Protocol - MAJOR version
+     * Third  number: RS Mod - PATCH & MINOR version
+     */
+    const val RS_MOD_API = "0.192.0-SNAPSHOT"
+    const val RS_MOD = "0.0.1-SNAPSHOT"
     const val GUTHIX_BYTEBUF = "0.1.1"
     const val JS5_STORE = "0.4.0"
     const val KOTLIN_RETRY = "1.0.6"

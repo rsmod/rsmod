@@ -9,7 +9,7 @@ plugins {
 
 allprojects {
     group = "gg.rsmod"
-    version = ProjectVersions.RSMOD
+    version = ProjectVersions.RS_MOD
 
     apply {
         plugin("org.jetbrains.kotlin.jvm")
