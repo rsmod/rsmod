@@ -29,6 +29,7 @@ import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.nio.NioServerSocketChannel
 import java.net.InetSocketAddress
+import kotlinx.coroutines.runBlocking
 
 private val logger = InlineLogger()
 
@@ -39,7 +40,7 @@ fun main() {
 
 class Server {
 
-    fun startup() {
+    fun startup() = runBlocking {
         logger.info { "Starting up server - please wait..." }
 
         val scope = Scopes.SINGLETON
