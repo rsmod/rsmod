@@ -19,6 +19,8 @@ class DefaultClientMapper @Inject constructor(
     private val encryption: PasswordEncryption
 ) : ClientDataMapper<DefaultClientData> {
 
+    override val type = DefaultClientData::class
+
     override fun deserialize(request: ClientDeserializeRequest, data: DefaultClientData): ClientDeserializeResponse {
         val password = request.plaintTextPass
         if (password == null) {
@@ -96,10 +98,6 @@ class DefaultClientMapper @Inject constructor(
             loginXteas = request.loginXteas,
             bufAllocator = request.bufAllocator
         )
-    }
-
-    override fun type(): KClass<DefaultClientData> {
-        return DefaultClientData::class
     }
 }
 

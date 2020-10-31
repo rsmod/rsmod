@@ -32,7 +32,7 @@ class YamlClientSerializer<T : ClientData> @Inject constructor(
         }
         Files.newBufferedReader(path).use { reader ->
             return try {
-                val data = objectMapper.readValue(reader, dataMapper.type().java)
+                val data = objectMapper.readValue(reader, dataMapper.type.java)
                 dataMapper.deserialize(request, data)
             } catch (t: Throwable) {
                 logger.error(t) {
