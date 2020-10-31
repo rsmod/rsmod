@@ -77,7 +77,7 @@ object Xtea {
             }
 
             writeInt(dst, writePosition, v0)
-            writeInt(dst, writePosition + Int.SIZE_BYTES, v0)
+            writeInt(dst, writePosition + Int.SIZE_BYTES, v1)
 
             /* Move cursor for read and write buffers */
             readPosition += Int.SIZE_BYTES * 2
