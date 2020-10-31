@@ -2,7 +2,7 @@ package gg.rsmod.plugins.content.pathfinder.dummy
 
 import gg.rsmod.game.model.domain.rayCast
 import gg.rsmod.game.model.map.Coordinates
-import gg.rsmod.plugins.content.pathfinder.PathFinder
+import gg.rsmod.game.path.PathFinder
 
 class DummyPathFinder : PathFinder {
 

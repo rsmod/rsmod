@@ -1,4 +1,4 @@
-package gg.rsmod.plugins.content.pathfinder
+package gg.rsmod.game.path
 
 import gg.rsmod.game.model.map.Coordinates
 
