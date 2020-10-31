@@ -132,9 +132,9 @@ object Xtea {
 
     private fun readInt(src: ByteArray, position: Int): Int {
         return (readUnsignedByte(src, position) shl 24) or
-                (readUnsignedByte(src, position + 1) shl 16) or
-                (readUnsignedByte(src, position + 2) shl 8) or
-                readUnsignedByte(src, position + 3)
+            (readUnsignedByte(src, position + 1) shl 16) or
+            (readUnsignedByte(src, position + 2) shl 8) or
+            readUnsignedByte(src, position + 3)
     }
 
     private fun readUnsignedByte(src: ByteArray, position: Int): Int {
