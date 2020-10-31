@@ -12,7 +12,6 @@ import gg.rsmod.game.model.domain.serializer.ClientDeserializeResponse
 import gg.rsmod.game.model.map.Coordinates
 import gg.rsmod.game.model.mob.Player
 import gg.rsmod.util.security.PasswordEncryption
-import kotlin.reflect.KClass
 
 class DefaultClientMapper @Inject constructor(
     private val config: GameConfig,

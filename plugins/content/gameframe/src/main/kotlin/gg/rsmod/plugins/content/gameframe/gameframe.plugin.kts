@@ -6,8 +6,8 @@ import gg.rsmod.game.model.ui.UserInterface
 import gg.rsmod.plugins.api.model.ui.openOverlay
 import gg.rsmod.plugins.api.model.ui.openTopLevel
 import gg.rsmod.plugins.api.onEarlyLogin
-import gg.rsmod.plugins.core.protocol.packet.server.RunClientScript
-import gg.rsmod.plugins.core.protocol.packet.server.SmallVarpPacket
+import gg.rsmod.plugins.api.protocol.packet.server.RunClientScript
+import gg.rsmod.plugins.api.protocol.packet.server.SmallVarpPacket
 
 onEarlyLogin {
     player.sendGameframe()

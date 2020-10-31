@@ -1,6 +1,6 @@
 package gg.rsmod.plugins.content.pathfinder
 
-import gg.rsmod.plugins.core.protocol.packet.MapMove
+import gg.rsmod.plugins.api.protocol.packet.MapMove
 
 val pathfinder: PathFinder by inject()
 

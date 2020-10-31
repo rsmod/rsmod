@@ -12,10 +12,10 @@ import gg.rsmod.game.model.ui.ComponentProperty
 import gg.rsmod.game.model.ui.DynamicComponentEvent
 import gg.rsmod.game.model.ui.InterfaceList
 import gg.rsmod.game.model.ui.UserInterface
-import gg.rsmod.plugins.core.protocol.packet.server.IfCloseSub
-import gg.rsmod.plugins.core.protocol.packet.server.IfOpenSub
-import gg.rsmod.plugins.core.protocol.packet.server.IfOpenTop
-import gg.rsmod.plugins.core.protocol.packet.server.IfSetEvents
+import gg.rsmod.plugins.api.protocol.packet.server.IfCloseSub
+import gg.rsmod.plugins.api.protocol.packet.server.IfOpenSub
+import gg.rsmod.plugins.api.protocol.packet.server.IfOpenTop
+import gg.rsmod.plugins.api.protocol.packet.server.IfSetEvents
 
 fun Player.openTopLevel(userInterface: UserInterface) {
     if (ui.topLevel.contains(userInterface)) {
