@@ -3,6 +3,7 @@ package gg.rsmod.plugins.api.update.player.task
 import com.google.inject.Inject
 import gg.rsmod.game.model.domain.Direction
 import gg.rsmod.game.model.domain.repo.XteaRepository
+import gg.rsmod.game.model.map.Coordinates
 import gg.rsmod.game.model.map.MapIsolation
 import gg.rsmod.game.model.map.Viewport
 import gg.rsmod.game.model.map.viewport
@@ -46,16 +47,33 @@ class PlayerMovementTask @Inject constructor(
     }
 
     private fun Player.pollSteps() {
-        val directions = steps.pollSteps(speed)
-        val translateX = directions.sumBy { it.x }
-        val translateY = directions.sumBy { it.y }
-        movement.addAll(directions)
-        faceDirection = directions.last()
-        coords = coords.translate(translateX, translateY)
+        val coordinates = steps.pollSteps(speed)
+        val direction = directionBetween(
+            if (coordinates.size == 1) coords else coordinates[coordinates.lastIndex - 1],
+            coordinates.last()
+        )
+        movement.addAll(coordinates)
+        coords = coordinates.last()
+        faceDirection = direction
     }
 
-    private fun StepQueue.pollSteps(speed: StepSpeed): List<Direction> = when (speed) {
+    private fun StepQueue.pollSteps(speed: StepSpeed): List<Coordinates> = when (speed) {
         StepSpeed.Run -> listOfNotNull(poll(), poll())
         StepSpeed.Walk -> listOfNotNull(poll())
+    }
+
+    private fun directionBetween(start: Coordinates, end: Coordinates): Direction {
+        val diffX = end.x - start.x
+        val diffY = end.y - start.y
+        return when {
+            diffX > 0 && diffY > 0 -> Direction.NorthEast
+            diffX > 0 && diffY == 0 -> Direction.East
+            diffX > 0 && diffY < 0 -> Direction.SouthEast
+            diffX < 0 && diffY > 0 -> Direction.NorthWest
+            diffX < 0 && diffY == 0 -> Direction.West
+            diffX < 0 && diffY < 0 -> Direction.SouthWest
+            diffX == 0 && diffY > 0 -> Direction.North
+            else -> Direction.South
+        }
     }
 }

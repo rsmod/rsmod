@@ -1,6 +1,5 @@
 package gg.rsmod.plugins.content.pathfinder
 
-import gg.rsmod.game.model.domain.Direction
 import gg.rsmod.game.model.map.Coordinates
 
 interface PathFinder {
@@ -10,5 +9,5 @@ interface PathFinder {
         destination: Coordinates,
         destinationWidth: Int,
         destinationLength: Int
-    ): List<Direction>
+    ): List<Coordinates>
 }

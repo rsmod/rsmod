@@ -36,7 +36,7 @@ private val DEFAULT_DIRECTION = Direction.South
 sealed class Mob(
     val steps: StepQueue = StepQueue(),
     var speed: StepSpeed = StepSpeed.Walk,
-    val movement: Queue<Direction> = ArrayDeque(),
+    val movement: Queue<Coordinates> = ArrayDeque(),
     var faceDirection: Direction = DEFAULT_DIRECTION,
     var appendTeleport: Boolean = false,
     val timers: TimerMap = TimerMap(),

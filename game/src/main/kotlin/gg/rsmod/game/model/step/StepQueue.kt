@@ -1,6 +1,6 @@
 package gg.rsmod.game.model.step
 
-import gg.rsmod.game.model.domain.Direction
+import gg.rsmod.game.model.map.Coordinates
 import java.util.LinkedList
 import java.util.Queue
 
@@ -10,5 +10,5 @@ sealed class StepSpeed {
 }
 
 class StepQueue internal constructor(
-    private val steps: Queue<Direction> = LinkedList()
-) : Queue<Direction> by steps
+    private val steps: Queue<Coordinates> = LinkedList()
+) : Queue<Coordinates> by steps

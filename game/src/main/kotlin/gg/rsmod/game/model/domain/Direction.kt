@@ -20,7 +20,7 @@ sealed class Direction(val x: Int = NEUTRAL_UNIT, val y: Int = NEUTRAL_UNIT) {
 
 fun Coordinates.translate(direction: Direction) = translate(direction.x, direction.y)
 
-fun Coordinates.rayCast(destination: Coordinates): List<Direction> {
+fun Coordinates.rayCast(destination: Coordinates): List<Coordinates> {
     var diffX = x - destination.x
     var diffY = y - destination.y
 
@@ -29,46 +29,31 @@ fun Coordinates.rayCast(destination: Coordinates): List<Direction> {
         return emptyList()
     }
 
-    val directions = mutableListOf<Direction>()
+    val coordinates = mutableListOf<Coordinates>()
+    var prev: Coordinates = this
     repeat(steps) {
-        var north = false
-        var east = false
-        var south = false
-        var west = false
+        var translateX = 0
+        var translateY = 0
 
         if (diffX < 0) {
             diffX++
-            east = true
+            translateX = 1
         } else if (diffX > 0) {
             diffX--
-            west = true
+            translateX = -1
         }
 
         if (diffY < 0) {
             diffY++
-            north = true
+            translateY = 1
         } else if (diffY > 0) {
             diffY--
-            south = true
+            translateY = -1
         }
 
-        val direction: Direction = when {
-            north -> when {
-                east -> Direction.NorthEast
-                west -> Direction.NorthWest
-                else -> Direction.North
-            }
-            south -> when {
-                east -> Direction.SouthEast
-                west -> Direction.SouthWest
-                else -> Direction.South
-            }
-            east -> Direction.East
-            west -> Direction.West
-            else -> return@repeat
-        }
-
-        directions.add(direction)
+        val next = prev.translate(translateX, translateY)
+        coordinates.add(next)
+        prev = next
     }
-    return directions
+    return coordinates
 }

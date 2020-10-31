@@ -1,6 +1,5 @@
 package gg.rsmod.plugins.content.pathfinder.dummy
 
-import gg.rsmod.game.model.domain.Direction
 import gg.rsmod.game.model.domain.rayCast
 import gg.rsmod.game.model.map.Coordinates
 import gg.rsmod.plugins.content.pathfinder.PathFinder
@@ -12,7 +11,7 @@ class DummyPathFinder : PathFinder {
         destination: Coordinates,
         destinationWidth: Int,
         destinationLength: Int
-    ): List<Direction> {
+    ): List<Coordinates> {
         return start.rayCast(destination)
     }
 }
