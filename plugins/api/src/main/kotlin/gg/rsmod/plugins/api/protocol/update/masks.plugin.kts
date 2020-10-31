@@ -59,7 +59,7 @@ desktop.register<AppearanceMask> {
 
         appBuf.writeStringCP1252(username)
         appBuf.writeByte(combatLevel)
-        appBuf.writeShort(0)
+        appBuf.writeShort(0) /* unknown */
         appBuf.writeBoolean(invisible)
 
         it.writeByteNeg(appBuf.writerIndex())

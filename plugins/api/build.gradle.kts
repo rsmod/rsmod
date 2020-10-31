@@ -2,7 +2,6 @@ version = ProjectVersions.PROTOCOL
 
 dependencies {
     implementation(project(":util"))
-    implementation(project(":cache"))
     implementation(project(":net"))
     implementation("io.netty:netty-all:${NetVersions.NETTY}")
     implementation("com.michael-bull.kotlin-retry:kotlin-retry:${ProjectVersions.KOTLIN_RETRY}")

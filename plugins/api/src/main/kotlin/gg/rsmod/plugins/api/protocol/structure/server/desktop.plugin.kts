@@ -1,6 +1,6 @@
 package gg.rsmod.plugins.api.protocol.structure.server
 
-import gg.rsmod.cache.util.Xtea
+import gg.rsmod.util.security.Xtea
 import gg.rsmod.game.message.PacketLength
 import gg.rsmod.game.model.domain.repo.XteaRepository
 import gg.rsmod.game.model.item.Item

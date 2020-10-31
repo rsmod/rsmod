@@ -1,7 +1,7 @@
 package gg.rsmod.plugins.api.protocol.codec.login
 
 import com.github.michaelbull.logging.InlineLogger
-import gg.rsmod.cache.util.Xtea
+import gg.rsmod.util.security.Xtea
 import gg.rsmod.game.config.RsaConfig
 import gg.rsmod.game.model.client.ClientMachine
 import gg.rsmod.game.model.client.ClientSettings

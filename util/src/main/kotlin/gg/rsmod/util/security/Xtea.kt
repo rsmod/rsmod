@@ -1,8 +1,4 @@
-package gg.rsmod.cache.util
-
-import gg.rsmod.cache.buf.ReadOnlyPacket
-import gg.rsmod.cache.buf.ReadWritePacket
-import gg.rsmod.cache.buf.WriteOnlyPacket
+package gg.rsmod.util.security
 
 /**
  * An implementation of the XTEA cipher (https://en.wikipedia.org/wiki/XTEA).
@@ -52,8 +48,8 @@ object Xtea {
     }
 
     /**
-     * Encipher [data] in range [start] to [end] with the given [key].
-     * Note that this function will mutate [data] directly.
+     * Encipher [data] in range [start] to [end] with the given [key]
+     * and return a new block of data.
      */
     fun encipher(data: ByteArray, start: Int, end: Int, key: IntArray): ByteArray {
         /* The length of a single block, in bytes */
@@ -62,15 +58,15 @@ object Xtea {
         /* The total amount of blocks in our data */
         val numBlocks = (end - start) / blockLength
 
-        val writer = WriteOnlyPacket(numBlocks * (Int.SIZE_BYTES + Int.SIZE_BYTES))
+        /* The destination buffer */
+        val dst = ByteArray(numBlocks * (Int.SIZE_BYTES + Int.SIZE_BYTES))
 
-        val reader = ReadOnlyPacket.from(data)
-        reader.position = start
-
+        var writePosition = 0
+        var readPosition = start
         for (i in 0 until numBlocks) {
             /* Get the values from the current block in the data */
-            var v0 = reader.g4
-            var v1 = reader.g4
+            var v0 = readInt(data, readPosition)
+            var v1 = readInt(data, readPosition + Int.SIZE_BYTES)
 
             /* Encipher the values using the given keys */
             var sum = 0
@@ -80,17 +76,14 @@ object Xtea {
                 v1 += (v0 shl 4 xor v0.ushr(5)) + v0 xor sum + key[sum.ushr(11) and 3]
             }
 
-            /*
-             * Replace the values in the block. Make sure they're replacing
-             * the values in the starting pos of this block. Our current
-             * implementation using the ReadWritePacket will handle this
-             * for us.
-             */
-            writer.p4(v0)
-            writer.p4(v1)
-        }
+            writeInt(dst, writePosition, v0)
+            writeInt(dst, writePosition + Int.SIZE_BYTES, v0)
 
-        return writer.data
+            /* Move cursor for read and write buffers */
+            readPosition += Int.SIZE_BYTES * 2
+            writePosition += Int.SIZE_BYTES * 2
+        }
+        return dst
     }
 
     /**
@@ -104,17 +97,12 @@ object Xtea {
         /* The total amount of blocks in our data */
         val numBlocks = (end - start) / blockLength
 
-        /* Create a packet to read and write to a copy of the data */
-        val packet = ReadWritePacket.from(data)
-
-        /* Start reading and writing to the packet from the given start pos */
-        packet.setWriterPosition(start)
-        packet.setReaderPosition(start)
+        var position = start
 
         for (i in 0 until numBlocks) {
             /* Get the values from the current block in the data */
-            var y = packet.g4
-            var z = packet.g4
+            var y = readInt(data, position)
+            var z = readInt(data, position + Int.SIZE_BYTES)
 
             /* Decipher the values using the given keys */
             @Suppress("INTEGER_OVERFLOW")
@@ -126,14 +114,30 @@ object Xtea {
                 y -= (z.ushr(5) xor (z shl 4)) - -z xor sum + key[sum and 0x3]
             }
 
-            /*
-             * Replace the values in the block. Make sure they're replacing
-             * the values in the starting pos of this block. Our current
-             * implementation using the ReadWritePacket will handle this for us.
-             */
-            packet.p4(y)
-            packet.p4(z)
+            writeInt(data, position, y)
+            writeInt(data, position + Int.SIZE_BYTES, z)
+
+            /* Move cursor for read and write buffers */
+            position += Int.SIZE_BYTES * 2
         }
-        return packet.data
+        return data
+    }
+
+    private fun writeInt(dst: ByteArray, position: Int, value: Int) {
+        dst[position] = (value shr 24).toByte()
+        dst[position + 1] = (value shr 16).toByte()
+        dst[position + 2] = (value shr 8).toByte()
+        dst[position + 3] = value.toByte()
+    }
+
+    private fun readInt(src: ByteArray, position: Int): Int {
+        return (readUnsignedByte(src, position) shl 24) or
+                (readUnsignedByte(src, position + 1) shl 16) or
+                (readUnsignedByte(src, position + 2) shl 8) or
+                readUnsignedByte(src, position + 3)
+    }
+
+    private fun readUnsignedByte(src: ByteArray, position: Int): Int {
+        return src[position].toInt() and 0xFF
     }
 }

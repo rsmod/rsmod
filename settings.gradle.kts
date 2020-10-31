@@ -3,7 +3,6 @@ import java.nio.file.Path
 
 rootProject.name = "rsmod"
 include("util")
-include("cache")
 include("net")
 include("game")
 include("plugins")
