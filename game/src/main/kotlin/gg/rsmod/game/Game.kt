@@ -5,6 +5,7 @@ import com.google.inject.Inject
 import gg.rsmod.game.config.InternalConfig
 import gg.rsmod.game.coroutine.GameCoroutineScope
 import gg.rsmod.game.dispatch.GameJobDispatcher
+import gg.rsmod.game.event.impl.ItemContainerUpdate
 import gg.rsmod.game.event.impl.PlayerTimerEvent
 import gg.rsmod.game.model.client.Client
 import gg.rsmod.game.model.client.ClientList
@@ -39,7 +40,7 @@ class Game @Inject private constructor(
 
     var state: GameState = GameState.Inactive
 
-    var excessCycleNanos = 0L
+    private var excessCycleNanos = 0L
 
     fun start() {
         if (state != GameState.Inactive) {
@@ -70,8 +71,7 @@ class Game @Inject private constructor(
 
     private suspend fun gameLogic() {
         clientList.forEach { it.pollActions(config.actionsPerCycle) }
-        playerList.forEach { it?.queueCycle() }
-        playerList.forEach { it?.timerCycle() }
+        playerList.forEach { it?.cycle() }
         world.queueList.cycle()
         jobDispatcher.executeAll()
         updateTaskList.forEach { it.execute() }
@@ -93,6 +93,12 @@ private fun Client.pollActions(iterations: Int) {
             }
         }
     }
+}
+
+private suspend fun Player.cycle() {
+    queueCycle()
+    timerCycle()
+    containerCycle()
 }
 
 private suspend fun Player.queueCycle() {
@@ -126,8 +132,8 @@ private fun Player.timerCycle() {
             timers.decrement(key)
             continue
         }
-        val event = PlayerTimerEvent(this, key)
         try {
+            val event = PlayerTimerEvent(this, key)
             eventBus.publish(event)
             /* if the timer was not re-set after event we remove it */
             if (timers.isNotActive(key)) {
@@ -136,6 +142,22 @@ private fun Player.timerCycle() {
         } catch (t: Throwable) {
             iterator.remove()
             logger.error(t) { "Timer event error ($this)" }
+        }
+    }
+}
+
+private fun Player.containerCycle() {
+    containers.forEach { (key, container) ->
+        if (!container.update) {
+            return@forEach
+        }
+        try {
+            val event = ItemContainerUpdate(this, key, container)
+            eventBus.publish(event)
+        } catch (t: Throwable) {
+            logger.error(t) { "Container event error (key=$key, player=$this)" }
+        } finally {
+            container.update = false
         }
     }
 }

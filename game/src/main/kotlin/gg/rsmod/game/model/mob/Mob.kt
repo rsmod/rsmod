@@ -4,7 +4,6 @@ import com.github.michaelbull.logging.InlineLogger
 import com.google.common.base.MoreObjects
 import gg.rsmod.game.action.ActionBus
 import gg.rsmod.game.attribute.AttributeMap
-import gg.rsmod.game.coroutine.delay
 import gg.rsmod.game.event.Event
 import gg.rsmod.game.event.EventBus
 import gg.rsmod.game.event.impl.LoginEvent
@@ -17,6 +16,7 @@ import gg.rsmod.game.model.domain.Appearance
 import gg.rsmod.game.model.domain.Direction
 import gg.rsmod.game.model.domain.PlayerId
 import gg.rsmod.game.model.item.ItemContainer
+import gg.rsmod.game.model.item.ItemContainerMap
 import gg.rsmod.game.model.map.Coordinates
 import gg.rsmod.game.model.map.Viewport
 import gg.rsmod.game.queue.GameQueueStack
@@ -32,7 +32,6 @@ import java.util.Queue
 
 private val logger = InlineLogger()
 private val DEFAULT_DIRECTION = Direction.South
-private const val EQUIPMENT_CAPACITY = 12
 
 sealed class Mob(
     val steps: StepQueue = StepQueue(),
@@ -73,7 +72,10 @@ class Player(
     var snapshot: Snapshot = Snapshot.INITIAL,
     var viewport: Viewport = Viewport.ZERO,
     var appearance: Appearance = Appearance.ZERO,
-    val equipment: ItemContainer = ItemContainer(EQUIPMENT_CAPACITY),
+    val inventory: ItemContainer = ItemContainer(),
+    val equipment: ItemContainer = ItemContainer(),
+    val bank: ItemContainer = ItemContainer(),
+    val containers: ItemContainerMap = ItemContainerMap(),
     val ui: InterfaceList = InterfaceList(),
     private val messageListeners: List<ServerPacketListener> = mutableListOf()
 ) : Mob() {
