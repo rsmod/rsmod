@@ -29,6 +29,7 @@ import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.nio.NioServerSocketChannel
 import java.net.InetSocketAddress
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -114,8 +115,10 @@ private fun loadConfigTypes(
     ioCoroutineScope: IoCoroutineScope,
     loaders: ConfigTypeLoaderList
 ) = runBlocking {
+    val jobs = mutableListOf<Job>()
     loaders.forEach { loader ->
-        ioCoroutineScope.launch { loader.load() }
+        val job = ioCoroutineScope.launch { loader.load() }
+        jobs.add(job)
     }
-    joinAll()
+    joinAll(*jobs.toTypedArray())
 }
