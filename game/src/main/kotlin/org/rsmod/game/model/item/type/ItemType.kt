@@ -1,4 +1,4 @@
-package org.rsmod.game.model.item
+package org.rsmod.game.model.item.type
 
 import org.rsmod.game.cache.ConfigType
 import org.rsmod.game.cache.ConfigTypeList

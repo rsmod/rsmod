@@ -1,6 +1,4 @@
-package org.rsmod.plugins.api.cache.type.item
-
-import org.rsmod.game.model.item.ItemType
+package org.rsmod.game.model.item.type
 
 private const val DEFAULT_ID = -1
 private const val DEFAULT_NAME = "null"

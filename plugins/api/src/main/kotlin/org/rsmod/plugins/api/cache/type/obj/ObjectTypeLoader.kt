@@ -4,10 +4,11 @@ import com.github.michaelbull.logging.InlineLogger
 import com.google.inject.Inject
 import org.rsmod.game.cache.GameCache
 import org.rsmod.game.cache.ConfigTypeLoader
-import org.rsmod.game.model.obj.ObjectType
-import org.rsmod.game.model.obj.ObjectTypeList
+import org.rsmod.game.model.obj.type.ObjectType
+import org.rsmod.game.model.obj.type.ObjectTypeList
 import io.guthix.buffer.readStringCP1252
 import io.netty.buffer.ByteBuf
+import org.rsmod.game.model.obj.type.ObjectTypeBuilder
 
 private val logger = InlineLogger()
 private const val OBJ_ARCHIVE = 2

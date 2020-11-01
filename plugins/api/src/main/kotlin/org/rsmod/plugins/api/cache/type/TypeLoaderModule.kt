@@ -5,8 +5,8 @@ import com.google.inject.Provider
 import com.google.inject.Scope
 import dev.misfitlabs.kotlinguice4.KotlinModule
 import org.rsmod.game.cache.ConfigTypeLoaderList
-import org.rsmod.game.model.item.ItemTypeList
-import org.rsmod.game.model.obj.ObjectTypeList
+import org.rsmod.game.model.item.type.ItemTypeList
+import org.rsmod.game.model.obj.type.ObjectTypeList
 import org.rsmod.plugins.api.cache.type.item.ItemTypeLoader
 import org.rsmod.plugins.api.cache.type.obj.ObjectTypeLoader
 
