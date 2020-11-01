@@ -7,8 +7,8 @@ import com.google.inject.Scopes
 import dev.misfitlabs.kotlinguice4.getInstance
 import gg.rsmod.game.Game
 import gg.rsmod.game.GameModule
-import gg.rsmod.game.action.ActionBus
 import gg.rsmod.game.cache.CacheModule
+import gg.rsmod.game.cache.ConfigTypeLoaderMap
 import gg.rsmod.game.cache.GameCache
 import gg.rsmod.game.config.ConfigModule
 import gg.rsmod.game.config.GameConfig
@@ -16,7 +16,7 @@ import gg.rsmod.game.coroutine.CoroutineModule
 import gg.rsmod.game.coroutine.IoCoroutineScope
 import gg.rsmod.game.dispatch.DispatcherModule
 import gg.rsmod.game.event.EventBus
-import gg.rsmod.game.cmd.CommandMap
+import gg.rsmod.game.event.impl.ServerStartup
 import gg.rsmod.game.plugin.kotlin.KotlinModuleLoader
 import gg.rsmod.game.plugin.kotlin.KotlinPluginLoader
 import gg.rsmod.game.task.StartupTaskList
@@ -29,6 +29,8 @@ import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.nio.NioServerSocketChannel
 import java.net.InetSocketAddress
+import kotlinx.coroutines.joinAll
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 private val logger = InlineLogger()
@@ -65,13 +67,14 @@ class Server {
         val cache: GameCache = injector.getInstance()
         cache.start()
 
-        val eventBus: EventBus = injector.getInstance()
-        val actions: ActionBus = injector.getInstance()
-        val commands: CommandMap = injector.getInstance()
-        val pluginLoader = KotlinPluginLoader(injector, eventBus, actions, commands)
+        val ioCoroutineScope: IoCoroutineScope = injector.getInstance()
+
+        val typeLoaders: ConfigTypeLoaderMap = injector.getInstance()
+        loadConfigTypes(ioCoroutineScope, typeLoaders)
+
+        val pluginLoader: KotlinPluginLoader = injector.getInstance()
         val plugins = pluginLoader.load()
 
-        val ioCoroutineScope: IoCoroutineScope = injector.getInstance()
         val startupTasks: StartupTaskList = injector.getInstance()
         startupTasks.launchNonBlocking(ioCoroutineScope)
         startupTasks.launchBlocking()
@@ -84,6 +87,9 @@ class Server {
         logger.info { "Loaded ${plugins.size} plugin(s)" }
         logger.debug { "Loaded game with configuration: $gameConfig" }
         logger.info { "Game listening to connections on port ${gameConfig.port}" }
+
+        val eventBus: EventBus = injector.getInstance()
+        eventBus.publish(ServerStartup())
     }
 
     private fun bind(injector: Injector) {
@@ -102,4 +108,14 @@ class Server {
             error("Could not bind game port.")
         }
     }
+}
+
+private fun loadConfigTypes(
+    ioCoroutineScope: IoCoroutineScope,
+    loaders: ConfigTypeLoaderMap
+) = runBlocking {
+    loaders.values.forEach { loader ->
+        ioCoroutineScope.launch { loader.load() }
+    }
+    joinAll()
 }

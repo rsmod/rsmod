@@ -1,7 +1,7 @@
 package gg.rsmod.plugins.api.container
 
-import gg.rsmod.game.model.item.ItemContainerKey
-import gg.rsmod.game.model.item.ItemContainer
+import gg.rsmod.game.model.item.container.ItemContainerKey
+import gg.rsmod.game.model.item.container.ItemContainer
 import gg.rsmod.game.model.mob.Player
 import gg.rsmod.game.model.ui.Component
 

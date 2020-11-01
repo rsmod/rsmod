@@ -1,12 +1,13 @@
 package gg.rsmod.game.plugin.kotlin
 
+import com.google.inject.Inject
 import com.google.inject.Injector
 import gg.rsmod.game.action.ActionBus
 import gg.rsmod.game.event.EventBus
 import gg.rsmod.game.cmd.CommandMap
 import io.github.classgraph.ClassGraph
 
-class KotlinPluginLoader(
+class KotlinPluginLoader @Inject constructor(
     private val injector: Injector,
     private val eventBus: EventBus,
     private val actions: ActionBus,

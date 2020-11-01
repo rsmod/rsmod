@@ -1,4 +1,6 @@
-package gg.rsmod.game.model.item
+package gg.rsmod.game.model.item.container
+
+import gg.rsmod.game.model.item.Item
 
 open class ItemContainerKey
 

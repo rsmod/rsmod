@@ -15,8 +15,8 @@ import gg.rsmod.game.model.client.PlayerEntity
 import gg.rsmod.game.model.domain.Appearance
 import gg.rsmod.game.model.domain.Direction
 import gg.rsmod.game.model.domain.PlayerId
-import gg.rsmod.game.model.item.ItemContainer
-import gg.rsmod.game.model.item.ItemContainerMap
+import gg.rsmod.game.model.item.container.ItemContainer
+import gg.rsmod.game.model.item.container.ItemContainerMap
 import gg.rsmod.game.model.map.Coordinates
 import gg.rsmod.game.model.map.Viewport
 import gg.rsmod.game.queue.GameQueueStack

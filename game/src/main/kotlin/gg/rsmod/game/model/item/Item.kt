@@ -1,6 +1,10 @@
 package gg.rsmod.game.model.item
 
 class Item(
-    val id: Int,
+    val type: ItemType,
     val amount: Int
-)
+) {
+
+    val id: Int
+        get() = type.id
+}

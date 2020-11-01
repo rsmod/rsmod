@@ -36,5 +36,9 @@ class GameCache(
 
     fun read(archive: Int, group: Int): ByteBuf = store.read(archive, group).retain()
 
+    fun readGroups(archive: Int, group: Int): Map<Int, ByteBuf> {
+        return cache.readArchive(archive).readGroup(group).files.mapValues { it.value.data.retain() }
+    }
+
     fun groups(archive: Int): List<Int> = cache.readArchive(archive).groupSettings.map { it.key }
 }

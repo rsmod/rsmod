@@ -1,6 +1,6 @@
 package gg.rsmod.plugins.api.container
 
-import gg.rsmod.game.model.item.ItemContainer
+import gg.rsmod.game.model.item.container.ItemContainer
 import gg.rsmod.game.model.mob.Player
 import gg.rsmod.game.model.ui.Component
 import gg.rsmod.plugins.api.protocol.packet.server.UpdateInvFull
