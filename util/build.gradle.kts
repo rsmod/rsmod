@@ -11,7 +11,7 @@ dependencies {
 tasks.create<JavaExec>("createRsa") {
     classpath = sourceSets.main.get().runtimeClasspath
     description = "Creates RSA key pair"
-    main = "gg.rsmod.util.RsaGenerator"
+    main = "org.rsmod.util.RsaGenerator"
     args = listOf(
         "2048",
         "16",

@@ -8,7 +8,7 @@ plugins {
 }
 
 allprojects {
-    group = "gg.rsmod"
+    group = "org.rsmod"
     version = ProjectVersions.RS_MOD
 
     apply {

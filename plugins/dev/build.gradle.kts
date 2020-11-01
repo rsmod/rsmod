@@ -1,4 +1,4 @@
-group = "gg.rsmod.plugins.dev"
+group = "org.rsmod.plugins.dev"
 
 dependencies {
     implementation(project(":plugins:api"))

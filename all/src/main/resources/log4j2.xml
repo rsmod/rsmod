@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="info" packages="gg.rsmod">
+<Configuration status="info" packages="org.rsmod">
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="[%p] %d{MMM dd, yyyy H:mm:ss a} [%t] %C{1} %M%n %msg%n"/>

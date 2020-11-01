@@ -1,5 +1,5 @@
 subprojects {
-    group = "gg.rsmod.plugins.content"
+    group = "org.rsmod.plugins.content"
 
     dependencies {
         implementation(project(":plugins:api"))

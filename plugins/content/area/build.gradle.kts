@@ -1,3 +1,3 @@
 subprojects {
-    group = "gg.rsmod.plugins.content.area"
+    group = "org.rsmod.plugins.content.area"
 }
