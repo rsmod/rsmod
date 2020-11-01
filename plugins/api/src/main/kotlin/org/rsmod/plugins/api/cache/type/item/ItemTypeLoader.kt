@@ -1,4 +1,4 @@
-package org.rsmod.plugins.api.cache.config.item
+package org.rsmod.plugins.api.cache.type.item
 
 import com.github.michaelbull.logging.InlineLogger
 import com.google.inject.Inject

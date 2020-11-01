@@ -1,4 +1,4 @@
-package org.rsmod.plugins.api.cache.config.obj
+package org.rsmod.plugins.api.cache.type.obj
 
 import org.rsmod.game.model.obj.ObjectType
 
