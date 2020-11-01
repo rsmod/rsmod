@@ -8,7 +8,7 @@ import dev.misfitlabs.kotlinguice4.getInstance
 import gg.rsmod.game.Game
 import gg.rsmod.game.GameModule
 import gg.rsmod.game.cache.CacheModule
-import gg.rsmod.game.cache.ConfigTypeLoaderMap
+import gg.rsmod.game.cache.ConfigTypeLoaderList
 import gg.rsmod.game.cache.GameCache
 import gg.rsmod.game.config.ConfigModule
 import gg.rsmod.game.config.GameConfig
@@ -69,7 +69,7 @@ class Server {
 
         val ioCoroutineScope: IoCoroutineScope = injector.getInstance()
 
-        val typeLoaders: ConfigTypeLoaderMap = injector.getInstance()
+        val typeLoaders: ConfigTypeLoaderList = injector.getInstance()
         loadConfigTypes(ioCoroutineScope, typeLoaders)
 
         val pluginLoader: KotlinPluginLoader = injector.getInstance()
@@ -112,9 +112,9 @@ class Server {
 
 private fun loadConfigTypes(
     ioCoroutineScope: IoCoroutineScope,
-    loaders: ConfigTypeLoaderMap
+    loaders: ConfigTypeLoaderList
 ) = runBlocking {
-    loaders.values.forEach { loader ->
+    loaders.forEach { loader ->
         ioCoroutineScope.launch { loader.load() }
     }
     joinAll()

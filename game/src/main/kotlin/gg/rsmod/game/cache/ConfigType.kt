@@ -2,7 +2,6 @@ package gg.rsmod.game.cache
 
 import com.github.michaelbull.logging.InlineLogger
 import com.google.inject.Inject
-import kotlin.reflect.KClass
 
 private val logger = InlineLogger()
 
@@ -18,16 +17,13 @@ interface ConfigTypeLoader {
     fun save()
 }
 
-class ConfigTypeLoaderMap(
-    private val loaders: MutableMap<KClass<out ConfigType>, ConfigTypeLoader> = mutableMapOf()
-) : Map<KClass<out ConfigType>, ConfigTypeLoader> by loaders {
+class ConfigTypeLoaderList(
+    private val loaders: MutableList<ConfigTypeLoader> = mutableListOf()
+) : List<ConfigTypeLoader> by loaders {
 
-    fun <T : ConfigType> register(type: KClass<T>, loader: ConfigTypeLoader) {
-        if (loaders.containsKey(type)) {
-            error("Config type loader has already set registered (type=${type::simpleName})")
-        }
-        logger.debug { "Register config type loader (type=${type::simpleName})" }
-        loaders[type] = loader
+    fun register(loader: ConfigTypeLoader) {
+        logger.debug { "Register config type loader (type=${loader::class::simpleName})" }
+        loaders.add(loader)
     }
 }
 
