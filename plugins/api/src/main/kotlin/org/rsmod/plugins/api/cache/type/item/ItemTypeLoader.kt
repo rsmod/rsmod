@@ -27,10 +27,6 @@ class ItemTypeLoader @Inject constructor(
         logger.info { "Loaded ${types.size} item type files" }
     }
 
-    override fun save() {
-        TODO()
-    }
-
     private fun ByteBuf.type(id: Int): ItemType {
         val builder = ItemTypeBuilder().apply { this.id = id }
         while (isReadable) {

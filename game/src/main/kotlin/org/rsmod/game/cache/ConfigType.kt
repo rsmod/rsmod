@@ -13,8 +13,6 @@ interface ConfigType {
 interface ConfigTypeLoader {
 
     fun load()
-
-    fun save()
 }
 
 class ConfigTypeLoaderList(
