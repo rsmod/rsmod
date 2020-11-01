@@ -24,17 +24,11 @@ allprojects {
 
     dependencies {
         implementation(kotlin("stdlib-jdk8"))
-
-        /* dependency injection dependencies */
         implementation("com.google.inject:guice:${DependencyInjectionVersions.GUICE}")
         implementation("dev.misfitlabs.kotlinguice4:kotlin-guice:${DependencyInjectionVersions.KOTLIN_GUICE}")
-
-        /* logger dependencies */
         implementation("org.slf4j:slf4j-api:${LoggerVersions.SL4J}")
         implementation("org.apache.logging.log4j:log4j-slf4j-impl:${LoggerVersions.LOG4J}")
         implementation("com.michael-bull.kotlin-inline-logger:kotlin-inline-logger-jvm:${LoggerVersions.INLINE_LOGGER}")
-
-        /* test dependencies */
         testImplementation("org.junit.jupiter:junit-jupiter:${TestVersions.JUNIT}")
     }
 

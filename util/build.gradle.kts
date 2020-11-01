@@ -1,9 +1,6 @@
 dependencies {
-    /* security dependencies */
     implementation("org.bouncycastle:bcprov-jdk15on:${SecurityVersions.BOUNCYCASTLE}")
     implementation("org.mindrot:jbcrypt:${SecurityVersions.BCRYPT}")
-
-    /* jackson dependencies */
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:${JacksonVersions.JACKSON}")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${JacksonVersions.JACKSON}")
 }
