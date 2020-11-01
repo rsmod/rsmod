@@ -6,7 +6,7 @@ import gg.rsmod.game.config.InternalConfig
 import gg.rsmod.game.coroutine.GameCoroutineScope
 import gg.rsmod.game.dispatch.GameJobDispatcher
 import gg.rsmod.game.event.impl.ItemContainerUpdate
-import gg.rsmod.game.event.impl.PlayerTimerEvent
+import gg.rsmod.game.event.impl.PlayerTimerTrigger
 import gg.rsmod.game.model.client.Client
 import gg.rsmod.game.model.client.ClientList
 import gg.rsmod.game.model.mob.Player
@@ -133,7 +133,7 @@ private fun Player.timerCycle() {
             continue
         }
         try {
-            val event = PlayerTimerEvent(this, key)
+            val event = PlayerTimerTrigger(this, key)
             eventBus.publish(event)
             /* if the timer was not re-set after event we remove it */
             if (timers.isNotActive(key)) {

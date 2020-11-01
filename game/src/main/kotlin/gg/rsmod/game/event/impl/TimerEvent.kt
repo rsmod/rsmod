@@ -4,7 +4,7 @@ import gg.rsmod.game.event.Event
 import gg.rsmod.game.model.mob.Player
 import gg.rsmod.game.timer.TimerKey
 
-data class PlayerTimerEvent(
+data class PlayerTimerTrigger(
     val player: Player,
     val key: TimerKey
 ) : Event

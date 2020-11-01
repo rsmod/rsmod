@@ -1,7 +1,6 @@
 package gg.rsmod.game.model.domain
 
 import gg.rsmod.game.model.map.Coordinates
-import kotlin.math.abs
 
 private const val NEUTRAL_UNIT = 0
 private const val POSITIVE_UNIT = 1
