@@ -10,6 +10,8 @@ import io.guthix.buffer.readStringCP1252
 import io.netty.buffer.ByteBuf
 
 private val logger = InlineLogger()
+private const val OBJ_ARCHIVE = 2
+private const val OBJ_GROUP = 6
 
 class ObjectTypeLoader @Inject constructor(
     private val cache: GameCache,
@@ -17,7 +19,7 @@ class ObjectTypeLoader @Inject constructor(
 ) : ConfigTypeLoader {
 
     override fun load() {
-        val files = cache.readGroups(2, 6)
+        val files = cache.readGroups(OBJ_ARCHIVE, OBJ_GROUP)
         files.forEach { (file, data) ->
             val type = data.type(file)
             types.add(type)
