@@ -3,7 +3,6 @@ package org.rsmod.game.model.item.container.transaction
 import java.util.LinkedList
 import java.util.Queue
 import org.rsmod.game.model.item.Item
-import org.rsmod.game.model.item.container.ItemContainerStackMode
 import org.rsmod.game.model.item.container.ItemContainer
 
 private typealias ItemContainerQuery = (MutableList<Item?>).() -> Boolean
@@ -14,9 +13,6 @@ class ItemContainerTransaction(
     private val queries: Queue<ItemContainerQuery> = LinkedList(),
     private var autoCommit: Boolean = false
 ) {
-
-    internal val stackMode: ItemContainerStackMode
-        get() = beforeImage.stackMode
 
     fun commit(): Boolean {
         if (queries.isEmpty()) {

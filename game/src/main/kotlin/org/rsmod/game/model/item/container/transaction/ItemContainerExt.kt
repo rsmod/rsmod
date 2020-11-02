@@ -15,7 +15,7 @@ fun ItemContainer.transaction(
     block: ItemContainerTransactionEnv.() -> Unit
 ): Boolean {
     val transaction = ItemContainerTransaction(this, autoCommit = false)
-    val environment = ItemContainerTransactionEnv(transaction)
+    val environment = ItemContainerTransactionEnv(transaction, stackMode)
     block(environment)
     return transaction.commit()
 }

@@ -26,6 +26,7 @@ data class ItemContainerTransactionResult(
 
 class ItemContainerTransactionEnv(
     private val transaction: ItemContainerTransaction,
+    private val stackMode: ItemContainerStackMode,
     private var strict: Boolean = true
 ) {
 
@@ -38,7 +39,7 @@ class ItemContainerTransactionEnv(
     }
 
     fun add(item: Item, slot: Int = 0) {
-        val stack = stacks(item.type, transaction.stackMode)
+        val stack = stacks(item.type, stackMode)
         val strict = this.strict
         transaction.query {
             val add = if (stack) {
