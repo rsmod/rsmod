@@ -1,6 +1,7 @@
 package org.rsmod.game.model.item.container
 
 import org.rsmod.game.model.item.Item
+import org.rsmod.game.model.item.container.transaction.stacks
 
 open class ItemContainerKey
 
@@ -32,7 +33,7 @@ class ItemContainer private constructor(
     }
 
     fun amount(item: Item): Int {
-        return if (item.type.stacks) {
+        return if (stacks(item.type, stackMode)) {
             first { it?.id == item.id }?.amount ?: 0
         } else {
             foldRight(0) { it, amount ->
