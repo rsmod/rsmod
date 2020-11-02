@@ -11,6 +11,15 @@ operator fun ItemContainer.minusAssign(item: Item) {
     remove(item)
 }
 
+fun ItemContainer.transaction(
+    block: ItemContainerTransactionEnv.() -> Unit
+): Boolean {
+    val transaction = ItemContainerTransaction(this, autoCommit = false)
+    val environment = ItemContainerTransactionEnv(transaction)
+    block(environment)
+    return transaction.commit()
+}
+
 fun ItemContainer.add(item: Item, slot: Int = 0, strict: Boolean = true): ItemContainerTransactionResult {
     val transaction = ItemContainerTransaction(this)
     var queryResult: ItemContainerTransactionResult? = null

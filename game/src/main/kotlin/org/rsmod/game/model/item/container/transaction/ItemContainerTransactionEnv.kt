@@ -3,19 +3,8 @@ package org.rsmod.game.model.item.container.transaction
 import kotlin.math.min
 import org.rsmod.game.model.item.Item
 import org.rsmod.game.model.item.MAX_ITEM_STACK
-import org.rsmod.game.model.item.container.ItemContainer
 import org.rsmod.game.model.item.container.ItemContainerStackMode
 import org.rsmod.game.model.item.type.ItemType
-
-fun transaction(
-    container: ItemContainer,
-    block: ItemContainerTransactionEnv.() -> Unit
-): Boolean {
-    val transaction = ItemContainerTransaction(container, autoCommit = false)
-    val environment = ItemContainerTransactionEnv(transaction)
-    block(environment)
-    return transaction.commit()
-}
 
 data class ItemContainerTransactionResult(
     val requested: Int,
