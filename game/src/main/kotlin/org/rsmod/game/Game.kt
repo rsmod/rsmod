@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import org.rsmod.game.config.InternalConfig
 import org.rsmod.game.coroutine.GameCoroutineScope
 import org.rsmod.game.dispatch.GameJobDispatcher
+import org.rsmod.game.event.impl.ItemContainerInitialize
 import org.rsmod.game.event.impl.ItemContainerUpdate
 import org.rsmod.game.event.impl.PlayerTimerTrigger
 import org.rsmod.game.model.client.Client
@@ -148,15 +149,19 @@ private fun Player.timerCycle() {
 
 private fun Player.containerCycle() {
     containers.forEach { (key, container) ->
-        if (!container.update) {
-            return@forEach
-        }
+        val update = !container.initialized || container.update
+        if (!update) return@forEach
         try {
-            val event = ItemContainerUpdate(this, key, container)
+            val event = if (!container.initialized) {
+                ItemContainerInitialize(this, key, container)
+            } else {
+                ItemContainerUpdate(this, key, container)
+            }
             eventBus.publish(event)
         } catch (t: Throwable) {
             logger.error(t) { "Container event error (key=$key, player=$this)" }
         } finally {
+            container.initialized = true
             container.update = false
         }
     }

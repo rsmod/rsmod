@@ -32,16 +32,21 @@ internal fun Player.setContainer(
     loginUpdate: Boolean = false
 ) {
     containers[key] = container
-    container.grow(size)
+    container.ensureCapacity(size)
     if (loginUpdate) {
         container.update = true
     }
 }
 
-internal fun Player.updateDefaultContainer(key: ItemContainerKey, container: ItemContainer) {
+internal fun Player.initializeDefaultContainer(key: ItemContainerKey, container: ItemContainer) {
     when (key) {
         inventoryKey -> sendItemContainer(INVENTORY_ID, inventoryComponent, container)
         equipmentKey -> sendItemContainer(key = EQUIPMENT_ID, container = container)
         bankKey -> sendItemContainer(key = BANK_ID, container = bank)
     }
+}
+
+internal fun Player.updateDefaultContainer(key: ItemContainerKey, container: ItemContainer) {
+    // TODO: send partial update
+    initializeDefaultContainer(key, container)
 }
