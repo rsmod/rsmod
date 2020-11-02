@@ -7,6 +7,10 @@ operator fun ItemContainer.plusAssign(item: Item) {
     add(item)
 }
 
+operator fun ItemContainer.minusAssign(item: Item) {
+    remove(item)
+}
+
 fun ItemContainer.add(item: Item, slot: Int = 0, strict: Boolean = true): ItemContainerTransactionResult {
     val transaction = ItemContainerTransaction(this)
     var queryResult: ItemContainerTransactionResult? = null
@@ -36,8 +40,7 @@ fun ItemContainer.add(item: Item, slot: Int = 0, strict: Boolean = true): ItemCo
 }
 
 fun ItemContainer.remove(
-    id: Int,
-    amount: Int = 1,
+    item: Item,
     slot: Int = 0,
     strict: Boolean = true
 ): ItemContainerTransactionResult {
@@ -45,7 +48,7 @@ fun ItemContainer.remove(
     var queryResult: ItemContainerTransactionResult? = null
 
     transaction.query {
-        val remove = remove(id, amount, slot)
+        val remove = remove(item.id, item.amount, slot)
         /* cache transaction result from the single-query block */
         queryResult = remove
         remove.success || !strict && remove.partial
@@ -57,7 +60,7 @@ fun ItemContainer.remove(
     if (!success || result == null) {
         /* though transaction is discarded, roll back all queries */
         transaction.rollBack()
-        return emptyResult(amount)
+        return emptyResult(item.amount)
     }
     return result
 }

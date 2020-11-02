@@ -150,13 +150,12 @@ class ItemContainerTransactionTests {
     @Test
     fun removeStrictExact() {
         val container = inventory()
-        val item = 4151
-        val amount = 2
+        val item = item("abyssal_whip", 4151, 2)
 
-        container[1] = item("abyssal_whip", item)
-        container[4] = item("abyssal_whip", item)
+        container[1] = item("abyssal_whip", item.id)
+        container[4] = item("abyssal_whip", item.id)
 
-        val result = container.remove(item, amount, strict = true)
+        val result = container.remove(item, strict = true)
         Assertions.assertNull(container[1])
         Assertions.assertNull(container[4])
         Assertions.assertTrue(result.success)
@@ -165,13 +164,12 @@ class ItemContainerTransactionTests {
     @Test
     fun removeStrictTooMany() {
         val container = inventory()
-        val item = 4151
-        val amount = 2
+        val item = item("abyssal_whip", 4151, 3)
 
-        container[1] = item("abyssal_whip", item)
-        container[4] = item("abyssal_whip", item)
+        container[1] = item("abyssal_whip", item.id)
+        container[4] = item("abyssal_whip", item.id)
 
-        val result = container.remove(item, amount + 1, strict = true)
+        val result = container.remove(item, strict = true)
         Assertions.assertNotNull(container[1])
         Assertions.assertNotNull(container[4])
         Assertions.assertFalse(result.partial)
@@ -182,12 +180,11 @@ class ItemContainerTransactionTests {
     @Test
     fun removeStrictExactStackable() {
         val container = inventory()
-        val item = 995
-        val amount = 1000
+        val item = item("coins", 995, 1000)
 
-        container[2] = item("coins", item, amount)
+        container[2] = item("coins", item.id, item.amount)
 
-        val result = container.remove(item, amount, strict = true)
+        val result = container.remove(item, strict = true)
         Assertions.assertNull(container[2])
         Assertions.assertTrue(result.success)
     }
@@ -195,13 +192,12 @@ class ItemContainerTransactionTests {
     @Test
     fun removeStrictTooManyStackable() {
         val container = inventory()
-        val item = 995
-        val amount = 1000
+        val item = item("coins", 995, 1000)
 
-        container[2] = item("coins", item, amount)
+        container[2] = item("coins", item.id, item.amount - 1)
 
-        val result = container.remove(item, amount + 1, strict = true)
-        Assertions.assertEquals(amount, container[2]?.amount)
+        val result = container.remove(item, strict = true)
+        Assertions.assertEquals(item.amount - 1, container[2]?.amount)
         Assertions.assertFalse(result.partial)
         Assertions.assertTrue(result.failure)
     }
@@ -209,65 +205,61 @@ class ItemContainerTransactionTests {
     @Test
     fun removeLenientExact() {
         val container = inventory()
-        val item = 4151
-        val amount = 2
+        val item = item("abyssal_whip", 4151, 2)
 
-        container[1] = item("abyssal_whip", item)
-        container[4] = item("abyssal_whip", item)
+        container[1] = item("abyssal_whip", item.id)
+        container[4] = item("abyssal_whip", item.id)
 
-        val result = container.remove(item, amount, strict = false)
+        val result = container.remove(item, strict = false)
         Assertions.assertNull(container[1])
         Assertions.assertNull(container[4])
         Assertions.assertTrue(result.success)
-        Assertions.assertEquals(amount, result.completed)
+        Assertions.assertEquals(item.amount, result.completed)
     }
 
     @Test
     fun removeLenientTooMany() {
         val container = inventory()
-        val item = 4151
-        val amount = 2
+        val item = item("abyssal_whip", 4151, 3)
 
-        container[1] = item("abyssal_whip", item)
-        container[4] = item("abyssal_whip", item)
+        container[1] = item("abyssal_whip", item.id)
+        container[4] = item("abyssal_whip", item.id)
 
-        val result = container.remove(item, amount + 1, strict = false)
+        val result = container.remove(item, strict = false)
         Assertions.assertNull(container[1])
         Assertions.assertNull(container[4])
         Assertions.assertTrue(result.partial)
         Assertions.assertTrue(result.failure)
-        Assertions.assertEquals(amount, result.completed)
+        Assertions.assertEquals(2, result.completed)
     }
 
     @Test
     fun removeLenientExactStackable() {
         val container = inventory()
-        val item = 995
-        val amount = 1000
+        val item = item("coins", 995, 1000)
 
-        container[2] = item("coins", item, amount)
+        container[2] = item("coins", item.id, item.amount)
 
-        val result = container.remove(item, amount, strict = false)
+        val result = container.remove(item, strict = false)
         Assertions.assertNull(container[2])
         Assertions.assertTrue(result.partial)
         Assertions.assertTrue(result.success)
-        Assertions.assertEquals(amount, result.completed)
+        Assertions.assertEquals(item.amount, result.completed)
     }
 
     @Test
     fun removeLenientTooManyStackable() {
         val container = inventory()
-        val item = 995
-        val amount = 1000
+        val item = item("coins", 995, 1000)
 
-        container[2] = item("coins", item, amount)
+        container[2] = item("coins", item.id, item.amount - 1)
 
-        val result = container.remove(item, amount + 1, strict = false)
+        val result = container.remove(item, strict = false)
         Assertions.assertNull(container[2])
         Assertions.assertTrue(result.failure)
         Assertions.assertTrue(result.partial)
         Assertions.assertFalse(result.success)
-        Assertions.assertEquals(amount, result.completed)
+        Assertions.assertEquals(item.amount - 1, result.completed)
     }
 }
 
