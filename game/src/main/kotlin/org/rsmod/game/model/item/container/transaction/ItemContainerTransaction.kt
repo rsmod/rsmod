@@ -8,8 +8,8 @@ import org.rsmod.game.model.item.container.ItemContainer
 private typealias ItemContainerQuery = (MutableList<Item?>).() -> Boolean
 
 class ItemContainerTransaction(
-    private val beforeImage: ItemContainer,
-    private val items: MutableList<Item?> = beforeImage.toMutableList(),
+    private val image: ItemContainer,
+    private val items: MutableList<Item?> = image.toMutableList(),
     private val queries: Queue<ItemContainerQuery> = LinkedList(),
     private var autoCommit: Boolean = false
 ) {
@@ -29,7 +29,7 @@ class ItemContainerTransaction(
 
     fun rollBack() {
         items.clear()
-        items.addAll(beforeImage)
+        items.addAll(image)
         queries.clear()
     }
 
@@ -52,7 +52,7 @@ class ItemContainerTransaction(
 
     private fun applyChanges() {
         items.forEachIndexed { index, item ->
-            beforeImage[index] = item
+            image[index] = item
         }
     }
 }
