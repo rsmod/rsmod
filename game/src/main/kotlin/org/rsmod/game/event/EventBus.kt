@@ -11,12 +11,13 @@ class EventBus(val events: EventMap) : Map<KClass<out Event>, List<EventAction<*
     constructor() : this(mutableMapOf())
 
     @Suppress("UNCHECKED_CAST")
-    inline fun <reified T : Event> publish(event: T) {
-        val events = (events[T::class] as? List<EventAction<T>>) ?: return
+    inline fun <reified T : Event> publish(event: T): Boolean {
+        val events = (events[event::class] as? List<EventAction<T>>) ?: return false
         val filtered = events.filter { it.where(event) }
         filtered.forEach {
             it.then(event)
         }
+        return filtered.isNotEmpty()
     }
 
     inline fun <reified T : Event> subscribe(): EventActionBuilder<T> =
