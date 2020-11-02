@@ -8,9 +8,7 @@ class DummyPathFinder : PathFinder {
 
     override fun findPath(
         start: Coordinates,
-        destination: Coordinates,
-        destinationWidth: Int,
-        destinationLength: Int
+        destination: Coordinates
     ): List<Coordinates> {
         return start.rayCast(destination)
     }

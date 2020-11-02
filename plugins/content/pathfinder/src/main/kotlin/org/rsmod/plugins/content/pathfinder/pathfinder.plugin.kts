@@ -6,12 +6,10 @@ import org.rsmod.plugins.api.protocol.packet.MapMove
 val pathfinder: PathFinder by inject()
 
 onAction<MapMove> {
-    val directions = pathfinder.findPath(
+    val coordinates = pathfinder.findPath(
         start = player.coords,
-        destination = destination,
-        destinationWidth = 0,
-        destinationLength = 0
+        destination = destination
     )
     player.steps.clear()
-    player.steps.addAll(directions)
+    player.steps.addAll(coordinates)
 }
