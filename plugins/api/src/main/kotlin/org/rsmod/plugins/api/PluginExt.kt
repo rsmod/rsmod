@@ -10,8 +10,6 @@ import org.rsmod.game.event.impl.OpenTopLevel
 import org.rsmod.game.cmd.CommandBuilder
 import org.rsmod.game.model.ui.UserInterface
 import org.rsmod.game.plugin.Plugin
-import org.rsmod.plugins.api.protocol.packet.client.OperateObjectAction
-import org.rsmod.plugins.api.protocol.packet.client.OperateObjectOneAction
 
 fun Plugin.onEarlyLogin(block: LoginEvent.() -> Unit) {
     onEvent<LoginEvent>()
