@@ -70,9 +70,3 @@ fun Plugin.onCloseOverlay(overlay: UserInterface, block: CloseOverlay.() -> Unit
         .where { this.overlay == overlay }
         .then(block)
 }
-
-fun Plugin.onObject(id: Int, option: Int, block: OperateObjectAction.() -> Unit) {
-    when (option) {
-        OperateObjectAction.OPERATE_ONE_OPTION -> onAction<OperateObjectOneAction>(id, block)
-    }
-}
