@@ -393,7 +393,7 @@ class PlayerUpdateTask @Inject constructor(
     }
 
     private fun Player.isMoving(): Boolean {
-        return movement.isNotEmpty() || appendTeleport
+        return movement.isNotEmpty() || displace
     }
 
     private fun Player.isMaskUpdateRequired(): Boolean {

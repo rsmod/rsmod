@@ -15,7 +15,7 @@ class PlayerPostUpdateTask @Inject constructor(
             }
             player.entity.updates.clear()
             player.movement.clear()
-            player.appendTeleport = false
+            player.displace = false
             player.snapshot = player.snapshot()
         }
     }

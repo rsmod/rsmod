@@ -38,7 +38,7 @@ sealed class Mob(
     var speed: StepSpeed = StepSpeed.Walk,
     val movement: Queue<Coordinates> = ArrayDeque(),
     var faceDirection: Direction = DEFAULT_DIRECTION,
-    var appendTeleport: Boolean = false,
+    var displace: Boolean = false,
     val timers: TimerMap = TimerMap(),
     val attribs: AttributeMap = AttributeMap(),
     val queueStack: GameQueueStack = GameQueueStack()
@@ -53,6 +53,11 @@ sealed class Mob(
     var coords: Coordinates
         get() = entity.coords
         set(value) { entity.coords = value }
+
+    fun displace(coords: Coordinates) {
+        this.coords = coords
+        this.displace = true
+    }
 
     fun weakQueue(block: suspend () -> Unit) = queueStack.queue(QueueType.Weak, block)
 
