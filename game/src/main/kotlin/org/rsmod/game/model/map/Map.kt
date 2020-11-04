@@ -50,6 +50,12 @@ inline class Coordinates(private val packed: Int) {
         y = y / Scene.SIZE
     )
 
+    operator fun component1(): Int = x
+
+    operator fun component2(): Int = y
+
+    operator fun component3(): Int = plane
+
     override fun toString(): String = MoreObjects
         .toStringHelper(this)
         .add("x", x)

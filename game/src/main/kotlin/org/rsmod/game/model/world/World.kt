@@ -1,14 +1,16 @@
 package org.rsmod.game.model.world
 
 import com.google.inject.Inject
+import org.rsmod.game.collision.CollisionMap
+import org.rsmod.game.collision.GameObjectMap
 import org.rsmod.game.queue.GameQueueList
 
-class World(
-    internal val queueList: GameQueueList
+class World @Inject constructor(
+    val collisionMap: CollisionMap,
+    val objectMap: GameObjectMap
 ) {
 
-    @Inject
-    constructor() : this(GameQueueList())
+    internal val queueList = GameQueueList()
 
     fun queue(block: suspend () -> Unit) = queueList.queue(block)
 }

@@ -1,4 +1,4 @@
-package org.rsmod.plugins.content.xtea.loader
+package org.rsmod.plugins.api.cache.map.xtea.loader
 
 import org.rsmod.game.task.StartupTaskList
 

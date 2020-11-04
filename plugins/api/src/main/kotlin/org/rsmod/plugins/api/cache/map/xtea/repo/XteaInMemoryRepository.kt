@@ -1,4 +1,4 @@
-package org.rsmod.plugins.content.xtea.repo
+package org.rsmod.plugins.api.cache.map.xtea.repo
 
 import org.rsmod.game.model.domain.repo.XteaRepository
 

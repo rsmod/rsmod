@@ -4,6 +4,8 @@ import com.google.inject.Scope
 import dev.misfitlabs.kotlinguice4.KotlinModule
 import org.rsmod.game.action.ActionBus
 import org.rsmod.game.cmd.CommandMap
+import org.rsmod.game.collision.CollisionMap
+import org.rsmod.game.collision.GameObjectMap
 import org.rsmod.game.event.EventBus
 import org.rsmod.game.model.client.ClientList
 import org.rsmod.game.model.map.MapIsolation
@@ -47,6 +49,12 @@ class GameModule(private val scope: Scope) : KotlinModule() {
             .`in`(scope)
 
         bind<MapIsolation>()
+            .`in`(scope)
+
+        bind<CollisionMap>()
+            .`in`(scope)
+
+        bind<GameObjectMap>()
             .`in`(scope)
     }
 }

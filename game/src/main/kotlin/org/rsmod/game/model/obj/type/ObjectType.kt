@@ -12,6 +12,7 @@ data class ObjectType(
     val blockProjectile: Boolean,
     val interact: Boolean,
     val obstruct: Boolean,
+    val clipType: Int,
     val clipMask: Int,
     val varp: Int,
     val varbit: Int,

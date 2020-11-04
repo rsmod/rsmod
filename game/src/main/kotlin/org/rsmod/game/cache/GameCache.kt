@@ -4,6 +4,7 @@ import io.guthix.js5.Js5Cache
 import io.guthix.js5.container.Js5Container
 import io.guthix.js5.container.Js5Store
 import io.guthix.js5.container.heap.Js5HeapStore
+import io.guthix.js5.util.XTEA_ZERO_KEY
 import io.netty.buffer.ByteBuf
 
 class GameCache(
@@ -32,6 +33,13 @@ class GameCache(
 
         val archiveCrcs = validator.archiveValidators.map { it.crc }
         crcs.addAll(archiveCrcs)
+    }
+
+    fun read(archive: Int, group: String, xteas: IntArray = XTEA_ZERO_KEY): ByteBuf {
+        val cacheArchive = cache.readArchive(archive)
+        val cacheGroup = cacheArchive.readGroup(group, xteas)
+        val cacheFile = cacheGroup.files.values.first()
+        return cacheFile.data.retain()
     }
 
     fun read(archive: Int, group: Int): ByteBuf = store.read(archive, group).retain()

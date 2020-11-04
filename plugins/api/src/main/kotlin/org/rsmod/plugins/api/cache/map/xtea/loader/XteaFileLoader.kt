@@ -1,4 +1,4 @@
-package org.rsmod.plugins.content.xtea.loader
+package org.rsmod.plugins.api.cache.map.xtea.loader
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -6,15 +6,20 @@ import com.github.michaelbull.logging.InlineLogger
 import com.google.inject.Inject
 import java.nio.file.Files
 import org.rsmod.game.config.GameConfig
+import org.rsmod.game.event.Event
+import org.rsmod.game.event.EventBus
 import org.rsmod.game.model.domain.repo.XteaRepository
 
 private const val FILE = "xteas.json"
 private val logger = InlineLogger()
 
+class XteaLoadEvent : Event
+
 class XteaFileLoader @Inject constructor(
     private val config: GameConfig,
     private val mapper: ObjectMapper,
-    private val repository: XteaRepository
+    private val repository: XteaRepository,
+    private val eventBus: EventBus
 ) {
 
     fun load() {
@@ -22,8 +27,9 @@ class XteaFileLoader @Inject constructor(
         Files.newBufferedReader(file).use { reader ->
             val list = mapper.readValue(reader, Array<Xteas>::class.java)
             list.forEach { repository.insert(it.key, it.mapSquare) }
-            logger.debug { "Loaded ${list.size} xteas keys" }
+            logger.info { "Loaded ${list.size} XTEA keys" }
         }
+        eventBus.publish(XteaLoadEvent())
     }
 }
 

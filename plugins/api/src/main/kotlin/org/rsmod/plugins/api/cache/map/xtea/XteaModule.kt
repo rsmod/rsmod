@@ -1,10 +1,10 @@
-package org.rsmod.plugins.content.xtea
+package org.rsmod.plugins.api.cache.map.xtea
 
 import com.google.inject.Scope
 import dev.misfitlabs.kotlinguice4.KotlinModule
 import org.rsmod.game.model.domain.repo.XteaRepository
-import org.rsmod.plugins.content.xtea.loader.XteaFileLoader
-import org.rsmod.plugins.content.xtea.repo.XteaInMemoryRepository
+import org.rsmod.plugins.api.cache.map.xtea.loader.XteaFileLoader
+import org.rsmod.plugins.api.cache.map.xtea.repo.XteaInMemoryRepository
 
 class XteaModule(private val scope: Scope) : KotlinModule() {
 

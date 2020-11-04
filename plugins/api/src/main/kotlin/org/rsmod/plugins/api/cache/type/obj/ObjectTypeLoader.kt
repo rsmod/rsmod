@@ -58,13 +58,17 @@ class ObjectTypeLoader @Inject constructor(
             }
             14 -> width = buf.readUnsignedByte().toInt()
             15 -> length = buf.readUnsignedByte().toInt()
-            17 -> blockPath = false
+            17 -> {
+                clipType = 0
+                blockPath = false
+            }
             18 -> blockProjectile = false
             19 -> interact = buf.readBoolean()
             24 -> {
                 animation = buf.readUnsignedShort()
                 if (animation == 65535) animation = -1
             }
+            27 -> clipType = 1
             28 -> buf.readUnsignedByte()
             29 -> buf.readByte()
             in 30 until 35 -> {

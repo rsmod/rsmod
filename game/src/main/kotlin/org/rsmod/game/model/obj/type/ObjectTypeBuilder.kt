@@ -8,6 +8,7 @@ private const val DEFAULT_BLOCK_PATH = true
 private const val DEFAULT_BLOCK_PROJ = true
 private const val DEFAULT_INTERACT = false
 private const val DEFAULT_OBSTRUCT = false
+private const val DEFAULT_CLIP_TYPE = 2
 private const val DEFAULT_CLIP_MASK = 0
 private const val DEFAULT_VARP = -1
 private const val DEFAULT_VARBIT = -1
@@ -29,6 +30,7 @@ class ObjectTypeBuilder(
     var blockProjectile: Boolean = DEFAULT_BLOCK_PROJ,
     var interact: Boolean = DEFAULT_INTERACT,
     var obstruct: Boolean = DEFAULT_OBSTRUCT,
+    var clipType: Int = DEFAULT_CLIP_TYPE,
     var clipMask: Int = DEFAULT_CLIP_MASK,
     var varp: Int = DEFAULT_VARP,
     var varbit: Int = DEFAULT_VARBIT,
@@ -52,6 +54,7 @@ class ObjectTypeBuilder(
             blockProjectile = blockProjectile,
             interact = interact,
             obstruct = obstruct,
+            clipType = clipType,
             clipMask = clipMask,
             varp = varp,
             varbit = varbit,
