@@ -44,8 +44,8 @@ class GameCache(
         return cache.readArchive(archive).readGroup(group).files.mapValues { it.value.data.retain() }
     }
 
-    fun singleFile(archive: Js5Archive, group: String, xtea: IntArray = XTEA_ZERO_KEY): ByteBuf {
-        return archive.readGroup(group, xtea).files.values.first().data
+    fun file(archive: Js5Archive, group: String, file: Int, xtea: IntArray = XTEA_ZERO_KEY): ByteBuf {
+        return archive.readGroup(group, xtea).files.getValue(file).data.retain()
     }
 
     fun read(archive: Int, group: Int): ByteBuf = store.read(archive, group).retain()

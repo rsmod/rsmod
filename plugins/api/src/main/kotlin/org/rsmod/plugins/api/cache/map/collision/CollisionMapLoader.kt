@@ -15,6 +15,7 @@ import org.rsmod.game.model.obj.GameObject
 import org.rsmod.game.model.obj.type.ObjectTypeList
 
 private const val MAPS_ARCHIVE = 5
+private const val MAP_CONTENTS_FILE = 0
 private const val HIGHEST_PLANE = 4
 private const val BLOCKED_TILE_BIT = 0x1
 private const val BRIDGE_TILE_BIT = 0x2
@@ -37,8 +38,8 @@ class CollisionMapLoader @Inject constructor(
 
     private fun MapSquare.load(archive: Js5Archive, keys: IntArray) {
         val name = "${x}_$y"
-        val map = cache.singleFile(archive, "m$name")
-        val loc = cache.singleFile(archive, "l$name", keys)
+        val map = cache.file(archive, "m$name", MAP_CONTENTS_FILE)
+        val loc = cache.file(archive, "l$name", MAP_CONTENTS_FILE, keys)
         loadCollision(map, loc)
     }
 
@@ -48,21 +49,21 @@ class CollisionMapLoader @Inject constructor(
             for (x in 0 until MapSquare.SIZE) {
                 for (y in 0 until MapSquare.SIZE) {
                     while (map.isReadable) {
-                        val flag = map.readUnsignedByte().toInt()
-                        if (flag == 0) {
+                        val opcode = map.readUnsignedByte().toInt()
+                        if (opcode == 0) {
                             break
                         }
 
-                        if (flag == 1) {
+                        if (opcode == 1) {
                             map.readByte()
                             break
                         }
 
-                        if (flag <= 49) {
+                        if (opcode <= 49) {
                             map.readByte()
-                        } else if (flag <= 81) {
+                        } else if (opcode <= 81) {
                             val localCoords = Coordinates(x, y, plane)
-                            floorDecor[localCoords] = (flag - 81)
+                            floorDecor[localCoords] = (opcode - 81)
                         }
                     }
                 }
