@@ -36,19 +36,19 @@ class GameCache(
         crcs.addAll(archiveCrcs)
     }
 
-    fun read(archive: Int, group: Int): ByteBuf = store.read(archive, group).retain()
-
-    fun readGroups(archive: Int, group: Int): Map<Int, ByteBuf> {
-        return cache.readArchive(archive).readGroup(group).files.mapValues { it.value.data.retain() }
-    }
-
     fun archive(archive: Int): Js5Archive {
         return cache.readArchive(archive)
     }
 
-    fun groups(archive: Int): List<Int> = cache.readArchive(archive).groupSettings.map { it.key }
+    fun groups(archive: Int, group: Int): Map<Int, ByteBuf> {
+        return cache.readArchive(archive).readGroup(group).files.mapValues { it.value.data.retain() }
+    }
 
     fun singleFile(archive: Js5Archive, group: String, xtea: IntArray = XTEA_ZERO_KEY): ByteBuf {
         return archive.readGroup(group, xtea).files.values.first().data
     }
+
+    fun read(archive: Int, group: Int): ByteBuf = store.read(archive, group).retain()
+
+    fun groupIds(archive: Int): List<Int> = cache.readArchive(archive).groupSettings.map { it.key }
 }

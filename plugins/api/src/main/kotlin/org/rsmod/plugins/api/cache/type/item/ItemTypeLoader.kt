@@ -20,7 +20,7 @@ class ItemTypeLoader @Inject constructor(
 ) : ConfigTypeLoader {
 
     override fun load() {
-        val files = cache.readGroups(ITEM_ARCHIVE, ITEM_GROUP)
+        val files = cache.groups(ITEM_ARCHIVE, ITEM_GROUP)
         files.forEach { (file, data) ->
             val type = data.type(file)
             types.add(type)

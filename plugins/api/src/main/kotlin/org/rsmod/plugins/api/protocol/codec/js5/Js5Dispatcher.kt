@@ -22,7 +22,7 @@ class Js5Dispatcher(
             cacheResponse(Js5Store.MASTER_INDEX, i)
         }
         for (i in 0 until cache.archiveCount) {
-            val groups = cache.groups(i)
+            val groups = cache.groupIds(i)
             groups.forEach { group ->
                 cacheResponse(i, group)
             }
