@@ -2,7 +2,11 @@ package org.rsmod.game.model.domain.repo
 
 interface Repository<ID, T> {
 
-    fun findAll(): Collection<T>
+    fun entries(): Map<ID, T>
+
+    fun keys(): Collection<ID>
+
+    fun values(): Collection<T>
 
     fun findById(id: ID): T?
 

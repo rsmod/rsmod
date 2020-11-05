@@ -6,7 +6,11 @@ class XteaInMemoryRepository : XteaRepository {
 
     private val keys = mutableMapOf<Int, IntArray>()
 
-    override fun findAll(): Collection<IntArray> = keys.values
+    override fun entries(): Map<Int, IntArray> = keys
+
+    override fun keys(): Collection<Int> = keys.keys
+
+    override fun values(): Collection<IntArray> = keys.values
 
     override fun findById(id: Int): IntArray? = keys[id]
 

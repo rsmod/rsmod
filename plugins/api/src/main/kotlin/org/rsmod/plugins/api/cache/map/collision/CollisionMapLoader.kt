@@ -3,6 +3,7 @@ package org.rsmod.plugins.api.cache.map.collision
 import com.google.inject.Inject
 import io.guthix.buffer.readIncrSmallSmart
 import io.guthix.buffer.readUnsignedSmallSmart
+import io.guthix.js5.Js5Archive
 import io.netty.buffer.ByteBuf
 import org.rsmod.game.cache.GameCache
 import org.rsmod.game.collision.CollisionMap
@@ -27,14 +28,17 @@ class CollisionMapLoader @Inject constructor(
 ) {
 
     fun load() {
-        Coordinates(3200, 3200).mapSquare().load()
+        val archive = cache.archive(MAPS_ARCHIVE)
+        val xteas = xteas.entries()
+        xteas.forEach { (mapSquare, keys) ->
+            MapSquare(mapSquare).load(archive, keys)
+        }
     }
 
-    private fun MapSquare.load() {
-        val keys = xteas[id] ?: error("Map square does not have XTEA key available (mapSquare=$id)")
+    private fun MapSquare.load(archive: Js5Archive, keys: IntArray) {
         val name = "${x}_$y"
-        val map = cache.read(MAPS_ARCHIVE, "m$name")
-        val loc = cache.read(MAPS_ARCHIVE, "l$name", keys)
+        val map = cache.singleFile(archive, "m$name")
+        val loc = cache.singleFile(archive, "l$name", keys)
         loadCollision(map, loc)
     }
 
