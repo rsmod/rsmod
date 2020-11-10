@@ -20,7 +20,7 @@ class ConfigTypeLoaderList(
 ) : List<ConfigTypeLoader> by loaders {
 
     fun register(loader: ConfigTypeLoader) {
-        logger.debug { "Register config type loader (type=${loader::class::simpleName})" }
+        logger.debug { "Register config type loader (type=${loader.javaClass.simpleName})" }
         loaders.add(loader)
     }
 }
