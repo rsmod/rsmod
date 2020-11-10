@@ -6,24 +6,6 @@ import org.rsmod.game.model.item.MAX_ITEM_STACK
 import org.rsmod.game.model.item.container.ItemContainerStackMode
 import org.rsmod.game.model.item.type.ItemType
 
-data class ItemContainerTransactionResult(
-    val requested: Int,
-    val completed: Int
-) {
-
-    val left: Int
-        get() = completed - requested
-
-    val success: Boolean
-        get() = left == 0
-
-    val partial: Boolean
-        get() = completed > 0
-
-    val failure: Boolean
-        get() = !success
-}
-
 class ItemContainerTransactionEnv(
     private val transaction: ItemContainerTransaction,
     private val stackMode: ItemContainerStackMode,
