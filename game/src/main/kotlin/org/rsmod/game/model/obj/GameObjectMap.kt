@@ -1,8 +1,7 @@
-package org.rsmod.game.collision
+package org.rsmod.game.model.obj
 
 import com.google.inject.Inject
 import org.rsmod.game.model.map.Coordinates
-import org.rsmod.game.model.obj.GameObject
 
 private class GameObjectList(
     private val objects: MutableMap<Int, GameObject> = mutableMapOf()

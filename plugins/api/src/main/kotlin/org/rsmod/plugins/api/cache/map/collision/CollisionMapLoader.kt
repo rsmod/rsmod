@@ -7,7 +7,7 @@ import io.guthix.js5.Js5Archive
 import io.netty.buffer.ByteBuf
 import org.rsmod.game.cache.GameCache
 import org.rsmod.game.collision.CollisionMap
-import org.rsmod.game.collision.GameObjectMap
+import org.rsmod.game.model.obj.GameObjectMap
 import org.rsmod.game.model.domain.repo.XteaRepository
 import org.rsmod.game.model.map.Coordinates
 import org.rsmod.game.model.map.MapSquare
