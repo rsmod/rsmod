@@ -20,6 +20,7 @@ class ItemContainerTransaction(
             return true
         }
         val success = processQueries()
+        queries.clear()
         if (success) {
             applyChanges()
             return true
