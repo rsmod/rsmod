@@ -24,3 +24,7 @@ class GameCoroutineDispatcherProvider @Inject constructor(
 class GameExecutor(
     private val executor: Executor
 ) : Executor by executor
+
+class IoCoroutineScope @Inject constructor(
+    @Named("ioCoroutineDispatcher") override val coroutineContext: CoroutineDispatcher
+) : CoroutineScope by CoroutineScope(coroutineContext)
