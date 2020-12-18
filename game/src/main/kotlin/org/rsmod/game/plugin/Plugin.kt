@@ -30,10 +30,7 @@ open class Plugin(
     }
 
     inline fun <reified T : Action> onAction(noinline executor: ActionExecutor<T>) {
-        val registered = actions.register(executor)
-        if (!registered) {
-            error("Action type has already been registered (type=${T::class.simpleName})")
-        }
+        actions.register(executor)
     }
 
     inline fun <reified T> inject(): ObservableProperty<T> =
