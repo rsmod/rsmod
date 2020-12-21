@@ -7,14 +7,14 @@ import io.guthix.buffer.writeBytesReversedAdd
 import io.guthix.buffer.writeStringCP1252
 
 val structures: DevicePacketStructureMap by inject()
-val desktop = structures.update(Device.Desktop)
+val masks = structures.update(Device.Desktop)
 
-desktop.order {
+masks.order {
     -DirectionMask::class
     -AppearanceMask::class
 }
 
-desktop.register<BitMask> {
+masks.register<BitMask> {
     mask = 0x10
     write {
         if (packed >= 0xFF) {
@@ -27,14 +27,14 @@ desktop.register<BitMask> {
     }
 }
 
-desktop.register<DirectionMask> {
+masks.register<DirectionMask> {
     mask = 0x20
     write {
         it.writeShortLE(angle)
     }
 }
 
-desktop.register<AppearanceMask> {
+masks.register<AppearanceMask> {
     mask = 0x4
     write {
         val appBuf = it.alloc().buffer()
