@@ -5,8 +5,8 @@ import org.rsmod.game.model.map.Coordinates
 import org.rsmod.game.model.mob.Player
 import org.rsmod.game.model.step.StepSpeed
 import org.rsmod.plugins.api.protocol.packet.MapMove
-import org.rsmod.plugins.api.protocol.update.AppearanceMask
-import org.rsmod.plugins.api.protocol.update.DirectionMask
+import org.rsmod.plugins.api.protocol.packet.update.AppearanceMask
+import org.rsmod.plugins.api.protocol.packet.update.DirectionMask
 import org.rsmod.plugins.api.update.player.mask.of
 
 fun Player.moveTo(destination: Coordinates, speed: StepSpeed = this.speed) {

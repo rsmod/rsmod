@@ -6,8 +6,8 @@ import org.rsmod.game.model.domain.translate
 import org.rsmod.game.model.mob.Player
 import org.rsmod.plugins.api.model.appearance.Body
 import org.rsmod.plugins.api.model.appearance.Equipment
-import org.rsmod.plugins.api.protocol.update.AppearanceMask
-import org.rsmod.plugins.api.protocol.update.DirectionMask
+import org.rsmod.plugins.api.protocol.packet.update.AppearanceMask
+import org.rsmod.plugins.api.protocol.packet.update.DirectionMask
 
 private val EQUIPMENT_BODY_PART = mapOf(
     Equipment.CHEST to Body.CHEST,

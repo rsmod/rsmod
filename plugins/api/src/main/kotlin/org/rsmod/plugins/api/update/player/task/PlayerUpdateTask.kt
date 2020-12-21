@@ -18,9 +18,9 @@ import org.rsmod.plugins.api.model.map.isWithinDistance
 import org.rsmod.plugins.api.protocol.Device
 import org.rsmod.plugins.api.protocol.packet.server.PlayerInfo
 import org.rsmod.plugins.api.protocol.structure.DevicePacketStructureMap
-import org.rsmod.plugins.api.protocol.update.AppearanceMask
-import org.rsmod.plugins.api.protocol.update.BitMask
-import org.rsmod.plugins.api.protocol.update.DirectionMask
+import org.rsmod.plugins.api.protocol.packet.update.AppearanceMask
+import org.rsmod.plugins.api.protocol.packet.update.BitMask
+import org.rsmod.plugins.api.protocol.packet.update.DirectionMask
 import org.rsmod.plugins.api.update.player.mask.of
 import io.guthix.buffer.BitBuf
 import io.guthix.buffer.toBitMode

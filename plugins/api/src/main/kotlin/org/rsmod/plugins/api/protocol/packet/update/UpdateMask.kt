@@ -1,4 +1,4 @@
-package org.rsmod.plugins.api.protocol.update
+package org.rsmod.plugins.api.protocol.packet.update
 
 import org.rsmod.game.update.mask.UpdateMask
 
