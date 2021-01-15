@@ -8,8 +8,10 @@ import org.rsmod.game.event.impl.OpenModal
 import org.rsmod.game.event.impl.OpenOverlay
 import org.rsmod.game.event.impl.OpenTopLevel
 import org.rsmod.game.cmd.CommandBuilder
+import org.rsmod.game.model.obj.type.ObjectType
 import org.rsmod.game.model.ui.UserInterface
 import org.rsmod.game.plugin.Plugin
+import org.rsmod.plugins.api.protocol.packet.ObjectAction
 
 fun Plugin.onEarlyLogin(block: LoginEvent.() -> Unit) {
     onEvent<LoginEvent>()
@@ -67,4 +69,17 @@ fun Plugin.onCloseOverlay(overlay: UserInterface, block: CloseOverlay.() -> Unit
     onEvent<CloseOverlay>()
         .where { this.overlay == overlay }
         .then(block)
+}
+
+fun Plugin.onObject(obj: ObjectType, opt: String, block: ObjectAction.() -> Unit) {
+    val option = obj.options.indexOfFirst { it != null && it.equals(opt, ignoreCase = true) }
+    if (option == -1) error("Invalid object option (obj=${obj.name}, id=${obj.id}, option=$opt).")
+    when (option) {
+        0 -> onAction<ObjectAction.Operate1>(obj.id, block)
+        1 -> onAction<ObjectAction.Operate2>(obj.id, block)
+        2 -> onAction<ObjectAction.Operate3>(obj.id, block)
+        3 -> onAction<ObjectAction.Operate4>(obj.id, block)
+        4 -> onAction<ObjectAction.Operate5>(obj.id, block)
+        else -> error("Unhandled object option (obj=${obj.name}, id=${obj.id}, option=$option)")
+    }
 }
