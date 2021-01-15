@@ -227,13 +227,13 @@ class PlayerUpdateTask @Inject constructor(
         val lastCoords = local.snapshot.coords
         val diffX = currCoords.x - lastCoords.x
         val diffY = currCoords.y - lastCoords.y
-        val diffPlane = currCoords.plane - lastCoords.plane
+        val diffLevel = currCoords.level - lastCoords.level
         val largeChange = abs(diffX) > 15 && abs(diffY) > 15
         writeBoolean(true)
         writeBoolean(maskUpdate)
         writeBits(value = 3, amount = 2)
         writeBoolean(largeChange)
-        writeBits(value = diffPlane and 0x3, amount = 2)
+        writeBits(value = diffLevel and 0x3, amount = 2)
         if (largeChange) {
             writeBits(value = diffX and 0x3FFF, amount = 14)
             writeBits(value = diffY and 0x3FFF, amount = 14)
@@ -287,22 +287,22 @@ class PlayerUpdateTask @Inject constructor(
     private fun BitBuf.writeCoordinateMultiplier(oldMultiplier: Int, newMultiplier: Int) {
         val currMultiplierY = newMultiplier and 0xFF
         val currMultiplierX = (newMultiplier shr 8) and 0xFF
-        val currPlane = (newMultiplier shr 16) and 0x3
+        val currLevel = (newMultiplier shr 16) and 0x3
 
         val lastMultiplierY = oldMultiplier and 0xFF
         val lastMultiplierX = (oldMultiplier shr 8) and 0xFF
-        val lastPlane = (oldMultiplier shr 16) and 0x3
+        val lastLevel = (oldMultiplier shr 16) and 0x3
 
         val diffX = currMultiplierX - lastMultiplierX
         val diffY = currMultiplierY - lastMultiplierY
-        val diffPlane = currPlane - lastPlane
+        val diffLevel = currLevel - lastLevel
 
-        val planeChange = diffPlane != 0
+        val levelChange = diffLevel != 0
         val smallChange = abs(diffX) <= 1 && abs(diffY) <= 1
         when {
-            planeChange -> {
+            levelChange -> {
                 writeBits(value = 1, amount = 2)
-                writeBits(value = diffPlane, amount = 2)
+                writeBits(value = diffLevel, amount = 2)
             }
             smallChange -> {
                 val direction = when {
@@ -316,12 +316,12 @@ class PlayerUpdateTask @Inject constructor(
                     else -> 6
                 }
                 writeBits(value = 2, amount = 2)
-                writeBits(value = diffPlane, amount = 2)
+                writeBits(value = diffLevel, amount = 2)
                 writeBits(value = direction, amount = 3)
             }
             else -> {
                 writeBits(value = 3, amount = 2)
-                writeBits(value = diffPlane, amount = 2)
+                writeBits(value = diffLevel, amount = 2)
                 writeBits(value = diffX and 0xFF, amount = 8)
                 writeBits(value = diffY and 0xFF, amount = 8)
             }

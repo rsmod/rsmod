@@ -1,7 +1,7 @@
 package org.rsmod.plugins.api.model.obj
 
 /* credits: Joshua F */
-object ObjectSlot {
+object ObjectShape {
 
     const val WALL = 0
     const val WALL_CORNER_DIAG = 1
@@ -27,14 +27,14 @@ object ObjectSlot {
     const val ROOF_EDGE_CORNER_POINTED = 21
     const val GROUND_DECOR = 22
 
-    val WALL_SLOTS = arrayOf(
+    val WALL_SHAPES = arrayOf(
         WALL,
         WALL_CORNER_DIAG,
         UNFINISHED_WALL,
         WALL_CORNER
     )
 
-    val WALL_DECOR_SLOTS = arrayOf(
+    val WALL_DECOR_SHAPES = arrayOf(
         WALL_DECOR_STRAIGHT_XOFFSET,
         WALL_DECOR_STRAIGHT_ZOFFSET,
         WALL_DECOR_DIAGONAL_XOFFSET,
@@ -42,7 +42,7 @@ object ObjectSlot {
         INTERIOR_WALL_DECOR_DIAG
     )
 
-    val NORMAL_SLOTS = arrayOf(
+    val NORMAL_SHAPES = arrayOf(
         WALL_OPEN,
         ROOF_TOP_SIDE,
         ROOF_TOP_CORNER_FLAT,
@@ -58,7 +58,7 @@ object ObjectSlot {
         GROUND_DEFAULT
     )
 
-    val GROUND_DECOR_SLOTS = arrayOf(
+    val GROUND_DECOR_SHAPES = arrayOf(
         GROUND_DECOR
     )
 }

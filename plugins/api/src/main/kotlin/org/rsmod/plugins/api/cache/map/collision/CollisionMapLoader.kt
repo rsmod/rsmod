@@ -16,7 +16,7 @@ import org.rsmod.game.model.obj.type.ObjectTypeList
 
 private const val MAPS_ARCHIVE = 5
 private const val MAP_CONTENTS_FILE = 0
-private const val HIGHEST_PLANE = 4
+private const val HIGHEST_LEVEL = 4
 private const val BLOCKED_TILE_BIT = 0x1
 private const val BRIDGE_TILE_BIT = 0x2
 
@@ -45,7 +45,7 @@ class CollisionMapLoader @Inject constructor(
 
     private fun MapSquare.loadCollision(map: ByteBuf, loc: ByteBuf) {
         val floorDecor = mutableMapOf<Coordinates, Int>()
-        for (plane in 0 until HIGHEST_PLANE) {
+        for (level in 0 until HIGHEST_LEVEL) {
             for (x in 0 until MapSquare.SIZE) {
                 for (y in 0 until MapSquare.SIZE) {
                     while (map.isReadable) {
@@ -62,7 +62,7 @@ class CollisionMapLoader @Inject constructor(
                         if (opcode <= 49) {
                             map.readByte()
                         } else if (opcode <= 81) {
-                            val localCoords = Coordinates(x, y, plane)
+                            val localCoords = Coordinates(x, y, level)
                             floorDecor[localCoords] = (opcode - 81)
                         }
                     }
@@ -70,20 +70,20 @@ class CollisionMapLoader @Inject constructor(
             }
         }
 
-        for (plane in 0 until HIGHEST_PLANE) {
+        for (level in 0 until HIGHEST_LEVEL) {
             for (x in 0 until MapSquare.SIZE) {
                 for (y in 0 until MapSquare.SIZE) {
-                    val localCoords = Coordinates(x, y, plane)
+                    val localCoords = Coordinates(x, y, level)
                     val floor = floorDecor[localCoords] ?: 0
                     if ((floor and BLOCKED_TILE_BIT) != BLOCKED_TILE_BIT) {
                         continue
                     }
-                    var endPlane = plane
+                    var endLevel = level
                     if ((floor and BRIDGE_TILE_BIT) == BRIDGE_TILE_BIT) {
-                        endPlane--
+                        endLevel--
                     }
-                    if (endPlane >= 0) {
-                        val coords = coords(plane).translate(x, y)
+                    if (endLevel >= 0) {
+                        val coords = coords(level).translate(x, y)
                         collisionMap.addFloorDecor(coords)
                     }
                 }
@@ -110,20 +110,20 @@ class CollisionMapLoader @Inject constructor(
                 if (localX !in 0 until MapSquare.SIZE || localY !in 0 until MapSquare.SIZE) {
                     continue
                 }
-                val slot = attributes shr 2
+                val shape = attributes shr 2
                 val rotation = attributes and 0x3
-                var plane = (packed shr 12) and 0x3
+                var level = (packed shr 12) and 0x3
 
-                val localCoords = Coordinates(localX, localY, plane)
+                val localCoords = Coordinates(localX, localY, level)
                 val floor = floorDecor[localCoords] ?: 0
                 if ((floor and BRIDGE_TILE_BIT) == BRIDGE_TILE_BIT) {
-                    plane--
+                    level--
                 }
 
-                if (plane >= 0) {
+                if (level >= 0) {
                     val type = objTypes[objectId]
-                    val coords = coords(plane).translate(localX, localY)
-                    val obj = GameObject(type, coords, slot, rotation)
+                    val coords = coords(level).translate(localX, localY)
+                    val obj = GameObject(type, coords, shape, rotation)
                     collisionMap.addObject(obj)
                     objMap.addStatic(obj)
                 }

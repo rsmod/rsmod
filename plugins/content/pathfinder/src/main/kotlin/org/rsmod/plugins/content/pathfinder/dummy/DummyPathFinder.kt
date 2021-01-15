@@ -13,7 +13,7 @@ class DummyPathFinder : PathFinder {
         dest: Coordinates,
         size: Int,
         moveNear: Boolean,
-        objectSlot: Int?,
+        objectShape: Int?,
         validDirs: Int?
     ): Queue<Coordinates> {
         return start.rayCast(dest)

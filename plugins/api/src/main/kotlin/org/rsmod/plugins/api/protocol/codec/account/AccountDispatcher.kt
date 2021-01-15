@@ -263,7 +263,7 @@ class AccountDispatcher @Inject constructor(
             write(rebuildNormal)
             flush()
         }
-        viewport = Viewport(coords.plane, newViewport)
+        viewport = Viewport(coords.level, newViewport)
         login()
     }
 

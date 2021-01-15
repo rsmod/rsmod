@@ -29,7 +29,7 @@ class OperateObjectOneHandler @Inject constructor(
 
     override fun handle(client: Client, player: Player, packet: OperateObjectOne) {
         val (id, x, y) = packet
-        val coords = Coordinates(x, y, player.coords.plane)
+        val coords = Coordinates(x, y, player.coords.level)
         val objects = objectMap[coords].filter { it.id == id }
         val obj = objects.firstOrNull()
         if (obj == null) {

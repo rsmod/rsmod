@@ -3,7 +3,7 @@ package org.rsmod.plugins.api.cache.map.collision
 import org.rsmod.game.collision.CollisionMap
 import org.rsmod.game.model.map.Coordinates
 import org.rsmod.game.model.obj.GameObject
-import org.rsmod.plugins.api.model.obj.ObjectSlot
+import org.rsmod.plugins.api.model.obj.ObjectShape
 
 fun CollisionMap.addObject(obj: GameObject) {
     changeObject(obj, add = true)
@@ -19,16 +19,16 @@ internal fun CollisionMap.addFloorDecor(coords: Coordinates) {
 
 private fun CollisionMap.changeObject(obj: GameObject, add: Boolean) {
     val type = obj.type
-    val slot = obj.slot
+    val shape = obj.shape
     val coords = obj.coords
     val rotation = obj.rotation
     val clipType = type.clipType
     val blockPath = type.blockPath
     val blockProjectile = type.blockProjectile
 
-    if (slot in ObjectSlot.WALL_SLOTS && clipType != 0) {
-        changeWall(coords, rotation, slot, blockPath, blockProjectile, add)
-    } else if (slot in ObjectSlot.NORMAL_SLOTS && clipType != 0) {
+    if (shape in ObjectShape.WALL_SHAPES && clipType != 0) {
+        changeWall(coords, rotation, shape, blockPath, blockProjectile, add)
+    } else if (shape in ObjectShape.NORMAL_SHAPES && clipType != 0) {
         var width = type.width
         var length = type.length
         if (rotation == 1 || rotation == 3) {
@@ -36,7 +36,7 @@ private fun CollisionMap.changeObject(obj: GameObject, add: Boolean) {
             length = type.width
         }
         changeNormal(coords, width, length, blockPath, blockProjectile, add)
-    } else if (slot in ObjectSlot.GROUND_DECOR_SLOTS && clipType == 1) {
+    } else if (shape in ObjectShape.GROUND_DECOR_SHAPES && clipType == 1) {
         changeFloorDecor(coords, add)
     }
 }
@@ -65,12 +65,12 @@ private fun CollisionMap.changeNormal(
 private fun CollisionMap.changeWall(
     coords: Coordinates,
     rotation: Int,
-    slot: Int,
+    shape: Int,
     blockPath: Boolean,
     blockProjectile: Boolean,
     add: Boolean
 ) {
-    if (slot == 0) {
+    if (shape == 0) {
         when (rotation) {
             0 -> {
                 change(coords, CollisionFlag.FLAG_WALL_WEST, add)
@@ -121,7 +121,7 @@ private fun CollisionMap.changeWall(
                 }
             }
         }
-    } else if (slot == 1 || slot == 3) {
+    } else if (shape == 1 || shape == 3) {
         when (rotation) {
             0 -> {
                 change(coords, CollisionFlag.FLAG_WALL_NORTH_WEST, add)
@@ -172,7 +172,7 @@ private fun CollisionMap.changeWall(
                 }
             }
         }
-    } else if (slot == 2) {
+    } else if (shape == 2) {
         when (rotation) {
             0 -> {
                 change(coords, CollisionFlag.FLAG_WALL_WEST or CollisionFlag.FLAG_WALL_NORTH, add)

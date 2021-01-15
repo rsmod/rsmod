@@ -13,7 +13,7 @@ class GameObject(
     val id: Int
         get() = type.id
 
-    val slot: Int
+    val shape: Int
         get() = attributes shr 2
 
     val rotation: Int
@@ -22,13 +22,13 @@ class GameObject(
     constructor(
         type: ObjectType,
         coords: Coordinates,
-        slot: Int,
+        shape: Int,
         rotation: Int
-    ) : this(type, coords, (slot shl 2) or rotation)
+    ) : this(type, coords, (shape shl 2) or rotation)
 
     override fun toString(): String = MoreObjects.toStringHelper(this)
         .add("id", id)
-        .add("slot", slot)
+        .add("shape", shape)
         .add("rot", rotation)
         .add("coords", coords)
         .toString()

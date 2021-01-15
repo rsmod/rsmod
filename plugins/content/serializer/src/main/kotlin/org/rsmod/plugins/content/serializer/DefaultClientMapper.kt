@@ -67,7 +67,7 @@ class DefaultClientMapper @Inject constructor(
             displayName = player.username,
             encryptedPass = client.encryptedPass,
             loginXteas = client.loginXteas,
-            coords = intArrayOf(entity.coords.x, entity.coords.y, entity.coords.plane),
+            coords = intArrayOf(entity.coords.x, entity.coords.y, entity.coords.level),
             rank = entity.rank
         )
     }

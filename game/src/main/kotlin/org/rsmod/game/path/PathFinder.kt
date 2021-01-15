@@ -10,7 +10,7 @@ interface PathFinder {
         dest: Coordinates,
         size: Int,
         moveNear: Boolean = true,
-        objectSlot: Int? = null,
+        objectShape: Int? = null,
         validDirs: Int? = null
     ): Queue<Coordinates>
 }

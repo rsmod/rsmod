@@ -10,30 +10,30 @@ inline class Coordinates(private val packed: Int) {
     val y: Int
         get() = (packed shr 15) and 0x7FFF
 
-    val plane: Int
+    val level: Int
         get() = (packed shr 30) and 0x3
 
     val packed30Bits: Int
-        get() = (y and 0x3FFF) or ((x and 0x3FFF) shl 14) or ((plane and 0x3) shl 28)
+        get() = (y and 0x3FFF) or ((x and 0x3FFF) shl 14) or ((level and 0x3) shl 28)
 
     val packed18Bits: Int
-        get() = (y shr 13) or ((x shr 13) shl 8) or ((plane and 0x3) shl 16)
+        get() = (y shr 13) or ((x shr 13) shl 8) or ((level and 0x3) shl 16)
 
-    constructor(x: Int, y: Int, plane: Int = 0) : this(
-        (x and 0x7FFF) or ((y and 0x7FFF) shl 15) or (plane shl 30)
+    constructor(x: Int, y: Int, level: Int = 0) : this(
+        (x and 0x7FFF) or ((y and 0x7FFF) shl 15) or (level shl 30)
     )
 
-    fun translate(xOffset: Int, yOffset: Int, planeOffset: Int = 0) = Coordinates(
+    fun translate(xOffset: Int, yOffset: Int, levelOffset: Int = 0) = Coordinates(
         x = x + xOffset,
         y = y + yOffset,
-        plane = plane + planeOffset
+        level = level + levelOffset
     )
 
     fun translateX(offset: Int) = translate(offset, 0, 0)
 
     fun translateY(offset: Int) = translate(0, offset, 0)
 
-    fun translatePlane(offset: Int) = translate(0, 0, offset)
+    fun translateLevel(offset: Int) = translate(0, 0, offset)
 
     fun zone() = Zone(
         x = x / Zone.SIZE,
@@ -54,13 +54,13 @@ inline class Coordinates(private val packed: Int) {
 
     operator fun component2(): Int = y
 
-    operator fun component3(): Int = plane
+    operator fun component3(): Int = level
 
     override fun toString(): String = MoreObjects
         .toStringHelper(this)
         .add("x", x)
         .add("y", y)
-        .add("plane", plane)
+        .add("level", level)
         .toString()
 
     companion object {
@@ -76,29 +76,29 @@ inline class Zone(private val packed: Int) {
     val y: Int
         get() = (packed shr 15) and 0x7FFF
 
-    val plane: Int
+    val level: Int
         get() = (packed shr 30) and 0x3
 
-    constructor(x: Int, y: Int, plane: Int = 0) : this(
-        (x and 0x7FFF) or ((y and 0x7FFF) shl 15) or (plane shl 30)
+    constructor(x: Int, y: Int, level: Int = 0) : this(
+        (x and 0x7FFF) or ((y and 0x7FFF) shl 15) or (level shl 30)
     )
 
-    fun translate(xOffset: Int, yOffset: Int, planeOffset: Int = 0) = Zone(
+    fun translate(xOffset: Int, yOffset: Int, levelOffset: Int = 0) = Zone(
         x = x + xOffset,
         y = y + yOffset,
-        plane = plane + planeOffset
+        level = level + levelOffset
     )
 
     fun translateX(offset: Int) = translate(offset, 0, 0)
 
     fun translateY(offset: Int) = translate(0, offset, 0)
 
-    fun translatePlane(offset: Int) = translate(0, 0, offset)
+    fun translateLevel(offset: Int) = translate(0, 0, offset)
 
     fun coords() = Coordinates(
         x = x * SIZE,
         y = y * SIZE,
-        plane = plane
+        level = level
     )
 
     fun mapSquare() = MapSquare(
@@ -115,7 +115,7 @@ inline class Zone(private val packed: Int) {
         .toStringHelper(this)
         .add("x", x)
         .add("y", y)
-        .add("plane", plane)
+        .add("level", level)
         .toString()
 
     companion object {
@@ -144,16 +144,16 @@ inline class MapSquare(val id: Int) {
 
     fun translateY(offset: Int) = translate(0, offset)
 
-    fun coords(plane: Int) = Coordinates(
+    fun coords(level: Int) = Coordinates(
         x = x * SIZE,
         y = y * SIZE,
-        plane = plane
+        level = level
     )
 
-    fun zone(plane: Int) = Zone(
+    fun zone(level: Int) = Zone(
         x = x * (SIZE / Zone.SIZE),
         y = y * (SIZE / Zone.SIZE),
-        plane = plane
+        level = level
     )
 
     fun scene() = Scene(
@@ -196,16 +196,16 @@ inline class Scene(private val packed: Int) {
 
     fun translateY(offset: Int) = translate(0, offset)
 
-    fun coords(plane: Int) = Coordinates(
+    fun coords(level: Int) = Coordinates(
         x = x * SIZE,
         y = y * SIZE,
-        plane = plane
+        level = level
     )
 
-    fun zone(plane: Int) = Zone(
+    fun zone(level: Int) = Zone(
         x = x * (SIZE / Zone.SIZE),
         y = y * (SIZE / Zone.SIZE),
-        plane = plane
+        level = level
     )
 
     fun mapSquare() = MapSquare(
@@ -225,7 +225,7 @@ inline class Scene(private val packed: Int) {
 }
 
 data class Viewport(
-    val plane: Int = 0,
+    val level: Int = 0,
     private val maps: List<MapSquare>
 ) : List<MapSquare> by maps {
 

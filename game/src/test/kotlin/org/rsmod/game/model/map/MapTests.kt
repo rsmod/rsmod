@@ -14,21 +14,21 @@ class MapTests {
 
     @ParameterizedTest
     @ArgumentsSource(CoordinateProvider::class)
-    fun `create coordinates`(x: Int, y: Int, plane: Int) {
-        val coords = Coordinates(x, y, plane)
+    fun `create coordinates`(x: Int, y: Int, level: Int) {
+        val coords = Coordinates(x, y, level)
         Assertions.assertEquals(x, coords.x)
         Assertions.assertEquals(y, coords.y)
-        Assertions.assertEquals(plane, coords.plane)
+        Assertions.assertEquals(level, coords.level)
     }
 
     @ParameterizedTest
     @ArgumentsSource(TranslationProvider::class)
-    fun `translate coordinates`(x: Int, y: Int, plane: Int, offX: Int, offY: Int, offPlane: Int) {
-        val coords = Coordinates(x, y, plane)
-        val translation = coords.translate(offX, offY, offPlane)
+    fun `translate coordinates`(x: Int, y: Int, level: Int, offX: Int, offY: Int, offLevel: Int) {
+        val coords = Coordinates(x, y, level)
+        val translation = coords.translate(offX, offY, offLevel)
         Assertions.assertEquals(coords.x + offX, translation.x)
         Assertions.assertEquals(coords.y + offY, translation.y)
-        Assertions.assertEquals(coords.plane + offPlane, translation.plane)
+        Assertions.assertEquals(coords.level + offLevel, translation.level)
     }
 }
 

@@ -26,8 +26,8 @@ class GameObjectMap private constructor(
     }
 
     fun remove(obj: GameObject) {
-        val dynamicRemoved = dynamicSpawned.remove(obj.coords, obj.slot)
-        val objectRemoved = objects.remove(obj.coords, obj.slot)
+        val dynamicRemoved = dynamicSpawned.remove(obj.coords, obj.shape)
+        val objectRemoved = objects.remove(obj.coords, obj.shape)
 
         /* if object is removed and it's not a dynamic object, assume it's a static object */
         if (objectRemoved != null && dynamicRemoved == null) {
@@ -35,8 +35,8 @@ class GameObjectMap private constructor(
         }
     }
 
-    fun get(coords: Coordinates, slot: Int): GameObject? {
-        return objects[coords]?.values?.firstOrNull { it.slot == slot }
+    fun get(coords: Coordinates, shape: Int): GameObject? {
+        return objects[coords]?.values?.firstOrNull { it.shape == shape }
     }
 
     operator fun get(coords: Coordinates): Collection<GameObject> {
@@ -45,11 +45,11 @@ class GameObjectMap private constructor(
 
     private fun MutableMap<Coordinates, GameObjectList>.put(obj: GameObject) {
         val objects = getOrPut(obj.coords) { GameObjectList() }
-        objects[obj.slot] = obj
+        objects[obj.shape] = obj
     }
 
-    private fun MutableMap<Coordinates, GameObjectList>.remove(coords: Coordinates, slot: Int): GameObject? {
+    private fun MutableMap<Coordinates, GameObjectList>.remove(coords: Coordinates, shape: Int): GameObject? {
         val objects = this[coords] ?: return null
-        return objects.remove(slot)
+        return objects.remove(shape)
     }
 }

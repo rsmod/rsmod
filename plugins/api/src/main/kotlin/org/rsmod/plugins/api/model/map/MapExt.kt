@@ -11,5 +11,5 @@ fun Coordinates.isWithinDistance(other: Coordinates, radius: Int): Boolean {
     val y1 = other.y - radius
     val x2 = other.x + radius
     val y2 = other.y + radius
-    return plane == other.plane && inSquareRadius(x1, y1, x2, y2)
+    return level == other.level && inSquareRadius(x1, y1, x2, y2)
 }
