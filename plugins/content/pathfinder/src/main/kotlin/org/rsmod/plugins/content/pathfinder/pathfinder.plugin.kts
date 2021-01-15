@@ -8,7 +8,8 @@ val pathfinder: PathFinder by inject()
 onAction<MapMove> {
     val coordinates = pathfinder.findPath(
         start = player.coords,
-        destination = destination
+        dest = destination,
+        size = 1
     )
     player.steps.clear()
     player.steps.addAll(coordinates)

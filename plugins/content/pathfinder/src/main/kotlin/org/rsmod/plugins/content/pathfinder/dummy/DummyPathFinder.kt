@@ -1,5 +1,7 @@
 package org.rsmod.plugins.content.pathfinder.dummy
 
+import java.util.LinkedList
+import java.util.Queue
 import kotlin.math.abs
 import org.rsmod.game.model.map.Coordinates
 import org.rsmod.game.path.PathFinder
@@ -8,22 +10,26 @@ class DummyPathFinder : PathFinder {
 
     override fun findPath(
         start: Coordinates,
-        destination: Coordinates
-    ): List<Coordinates> {
-        return start.rayCast(destination)
+        dest: Coordinates,
+        size: Int,
+        moveNear: Boolean,
+        objectSlot: Int?,
+        validDirs: Int?
+    ): Queue<Coordinates> {
+        return start.rayCast(dest)
     }
 }
 
-private fun Coordinates.rayCast(destination: Coordinates): List<Coordinates> {
+private fun Coordinates.rayCast(destination: Coordinates): Queue<Coordinates> {
     var diffX = x - destination.x
     var diffY = y - destination.y
 
     val steps = abs(diffX).coerceAtLeast(abs(diffY))
     if (steps == 0) {
-        return emptyList()
+        return LinkedList()
     }
 
-    val coordinates = mutableListOf<Coordinates>()
+    val coordinates = LinkedList<Coordinates>()
     var prev: Coordinates = this
     repeat(steps) {
         var translateX = 0

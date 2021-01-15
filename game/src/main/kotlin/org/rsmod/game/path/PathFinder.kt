@@ -1,11 +1,16 @@
 package org.rsmod.game.path
 
+import java.util.Queue
 import org.rsmod.game.model.map.Coordinates
 
 interface PathFinder {
 
     fun findPath(
         start: Coordinates,
-        destination: Coordinates
-    ): List<Coordinates>
+        dest: Coordinates,
+        size: Int,
+        moveNear: Boolean = true,
+        objectSlot: Int? = null,
+        validDirs: Int? = null
+    ): Queue<Coordinates>
 }
