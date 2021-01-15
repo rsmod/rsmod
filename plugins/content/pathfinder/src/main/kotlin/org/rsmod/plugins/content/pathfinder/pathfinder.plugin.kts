@@ -20,7 +20,7 @@ onAction<MapMove> {
 onAction<ObjectClick> {
     val coordinates = pathfinder.findPath(
         start = player.coords,
-        dest = obj.coords,
+        dest = coords,
         size = 1
     )
     player.steps.clear()
@@ -34,6 +34,9 @@ onAction<ObjectClick> {
             }
             player.steps.clear()
         }
-        actions.publish(action, obj.id)
+        val published = actions.publish(action, type.id)
+        if (!published) {
+            player.warn { "Unhandled object action (id=${type.id}, ap=$approach)" }
+        }
     }
 }
