@@ -6,7 +6,6 @@ import java.time.LocalDateTime
 import java.util.ArrayDeque
 import java.util.Queue
 import org.rsmod.game.action.ActionBus
-import org.rsmod.game.attribute.AttributeMap
 import org.rsmod.game.event.Event
 import org.rsmod.game.event.EventBus
 import org.rsmod.game.event.impl.LoginEvent
@@ -30,7 +29,6 @@ import org.rsmod.game.model.ui.InterfaceList
 import org.rsmod.game.queue.GameQueueStack
 import org.rsmod.game.queue.QueueType
 import org.rsmod.game.timer.TimerMap
-import org.slf4j.Logger
 
 private val logger = InlineLogger()
 private val DEFAULT_DIRECTION = Direction.South
@@ -42,7 +40,6 @@ sealed class Mob(
     var faceDirection: Direction = DEFAULT_DIRECTION,
     var displace: Boolean = false,
     val timers: TimerMap = TimerMap(),
-    val attribs: AttributeMap = AttributeMap(),
     val queueStack: GameQueueStack = GameQueueStack()
 ) {
 
