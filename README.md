@@ -7,13 +7,13 @@ A RuneScape game-server emulator.
 * [Discord][discord]
 
 ## Contributing
-Pull requests are welcome on [GitHub](https://github.com/RSMod/rsmod).
+Pull requests are welcome on [GitHub](https://github.com/rsmod/rsmod).
 
 ## License
 RS Mod is available under the terms of the ISC license, which is similar to the 2-clause BSD license. The full copyright notice and terms are available in the [LICENSE][license] file.
 
 [isc]: https://opensource.org/licenses/ISC
-[license]: https://github.com/RSMod/rsmod/blob/master/LICENSE.md
+[license]: https://github.com/rsmod/rsmod/blob/master/LICENSE.md
 [discord]: https://discord.gg/UznZnZR
 [patch]: https://oldschool.runescape.wiki/w/Update:God_Wars_Instancing_and_Soul_Wars_Improvements
 [rev-badge]: https://img.shields.io/badge/revision-193-important
