@@ -19,17 +19,19 @@ import org.rsmod.plugins.api.protocol.structure.DevicePacketStructureMap
 import io.guthix.buffer.writeByteAdd
 import io.guthix.buffer.writeByteNeg
 import io.guthix.buffer.writeIntME
+import io.guthix.buffer.writeShortAdd
 import io.guthix.buffer.writeShortAddLE
 import io.guthix.buffer.writeStringCP1252
 import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
 import kotlin.math.min
+import org.rsmod.plugins.api.protocol.packet.server.LargeVarpPacket
 
 val structures: DevicePacketStructureMap by inject()
 val packets = structures.server(Device.Desktop)
 
 packets.register<UpdateInvFull> {
-    opcode = 34
+    opcode = 3
     length = PacketLength.Short
     write {
         it.writeInt(component)
@@ -40,52 +42,52 @@ packets.register<UpdateInvFull> {
 }
 
 packets.register<RebuildNormal> {
-    opcode = 16
+    opcode = 65
     length = PacketLength.Short
     write {
         val xteas = xteasBuffer(viewport, xteas)
         val buf = gpi?.write(it) ?: it
-        buf.writeShortAddLE(playerZone.x)
-        buf.writeShortAddLE(playerZone.y)
+        buf.writeShort(playerZone.x)
+        buf.writeShortAdd(playerZone.y)
         buf.writeBytes(xteas)
     }
 }
 
 packets.register<IfOpenTop> {
-    opcode = 48
+    opcode = 39
     write {
-        it.writeShort(interfaceId)
+        it.writeShortAddLE(interfaceId)
     }
 }
 
 packets.register<IfOpenSub> {
-    opcode = 65
+    opcode = 69
     write {
-        it.writeIntME(targetComponent)
-        it.writeShort(interfaceId)
-        it.writeByteNeg(clickMode)
+        it.writeIntLE(targetComponent)
+        it.writeByteAdd(clickMode)
+        it.writeShortLE(interfaceId)
     }
 }
 
 packets.register<IfCloseSub> {
-    opcode = 55
+    opcode = 21
     write {
         it.writeInt(component)
     }
 }
 
 packets.register<IfSetEvents> {
-    opcode = 54
+    opcode = 79
     write {
-        it.writeInt(event)
-        it.writeShort(dynamic.last)
-        it.writeShortLE(dynamic.first)
         it.writeInt(component)
+        it.writeShortLE(dynamic.last)
+        it.writeInt(event)
+        it.writeShortAdd(dynamic.first)
     }
 }
 
 packets.register<RunClientScript> {
-    opcode = 80
+    opcode = 50
     length = PacketLength.Short
     write {
         val types = CharArray(args.size) { i -> if (args[i] is String) 's' else 'i' }
@@ -103,7 +105,7 @@ packets.register<RunClientScript> {
 }
 
 packets.register<PlayerInfo> {
-    opcode = 40
+    opcode = 75
     length = PacketLength.Short
     write {
         it.writeBytes(buffer)
@@ -111,10 +113,18 @@ packets.register<PlayerInfo> {
 }
 
 packets.register<SmallVarpPacket> {
-    opcode = 44
+    opcode = 59
     write {
-        it.writeShort(id)
         it.writeByteAdd(value)
+        it.writeShortLE(id)
+    }
+}
+
+packets.register<LargeVarpPacket> {
+    opcode = 31
+    write {
+        it.writeIntME(value)
+        it.writeShort(id)
     }
 }
 
@@ -132,10 +142,10 @@ fun ByteBuf.writeItemContainer(items: List<Item?>) {
     items.forEach { item ->
         val id = (item?.id ?: -1) + 1
         val amount = (item?.amount ?: 0)
+        writeShortAdd(id)
         writeByteNeg(min(255, amount))
         if (amount >= 255) {
-            writeInt(item?.amount ?: 0)
+            writeIntLE(item?.amount ?: 0)
         }
-        writeShort(id)
     }
 }

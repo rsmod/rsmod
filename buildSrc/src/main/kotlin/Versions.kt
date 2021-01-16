@@ -8,7 +8,7 @@ object Versions {
      * Second number: RS Mod - PATCH & MINOR version
      * Third  number: RS Protocol - MAJOR version
      */
-    const val RS_MOD_API = "0.0.192-SNAPSHOT"
+    const val RS_MOD_API = "0.0.193-SNAPSHOT"
     const val RS_MOD = "0.0.1-SNAPSHOT"
     const val GUTHIX_BYTEBUF = "0.1.1"
     const val JS5_STORE = "0.4.0"

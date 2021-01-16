@@ -1,10 +1,11 @@
 package org.rsmod.plugins.api.protocol.structure.update
 
+import io.guthix.buffer.writeByteSub
 import org.rsmod.plugins.api.protocol.Device
 import org.rsmod.plugins.api.protocol.structure.DevicePacketStructureMap
-import io.guthix.buffer.writeByteNeg
-import io.guthix.buffer.writeBytesReversedAdd
+import io.guthix.buffer.writeShortAddLE
 import io.guthix.buffer.writeStringCP1252
+import io.netty.buffer.ByteBuf
 import org.rsmod.plugins.api.protocol.packet.update.AppearanceMask
 import org.rsmod.plugins.api.protocol.packet.update.BitMask
 import org.rsmod.plugins.api.protocol.packet.update.DirectionMask
@@ -18,7 +19,7 @@ masks.order {
 }
 
 masks.register<BitMask> {
-    mask = 0x10
+    mask = 0x40
     write {
         if (packed >= 0xFF) {
             val bitmask = packed or mask
@@ -31,9 +32,9 @@ masks.register<BitMask> {
 }
 
 masks.register<DirectionMask> {
-    mask = 0x20
+    mask = 0x8
     write {
-        it.writeShortLE(angle)
+        it.writeShortAddLE(angle)
     }
 }
 
@@ -65,7 +66,14 @@ masks.register<AppearanceMask> {
         appBuf.writeShort(0) /* unknown */
         appBuf.writeBoolean(invisible)
 
-        it.writeByteNeg(appBuf.writerIndex())
-        it.writeBytesReversedAdd(appBuf)
+        it.writeByteSub(appBuf.writerIndex())
+        it.writeBytesAdd(appBuf)
     }
+}
+
+fun ByteBuf.writeBytesAdd(src: ByteBuf): ByteBuf {
+    for (i in src.readerIndex() until src.writerIndex()) {
+        writeByte(src.getByte(i) + 128)
+    }
+    return this
 }

@@ -6,6 +6,7 @@ import org.rsmod.game.model.ui.UserInterface
 import org.rsmod.plugins.api.model.ui.openOverlay
 import org.rsmod.plugins.api.model.ui.openTopLevel
 import org.rsmod.plugins.api.onEarlyLogin
+import org.rsmod.plugins.api.protocol.packet.server.LargeVarpPacket
 import org.rsmod.plugins.api.protocol.packet.server.RunClientScript
 import org.rsmod.plugins.api.protocol.packet.server.SmallVarpPacket
 
@@ -36,7 +37,6 @@ fun Player.sendGameframe() {
     openOverlay(UserInterface(7), Component(548, 76))
     openOverlay(UserInterface(593), Component(548, 69))
     write(RunClientScript(1105, 1))
-    write(RunClientScript(423, username))
     write(SmallVarpPacket(1055, 0))
-    write(SmallVarpPacket(1737, Short.MAX_VALUE.toInt()))
+    write(LargeVarpPacket(1737, -1))
 }

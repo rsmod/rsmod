@@ -25,32 +25,32 @@ val structures: DevicePacketStructureMap by inject()
 val packets = structures.client(Device.Desktop)
 
 packets.register<EventMouseMove> {
-    opcode = 83
+    opcode = 63
     length = -1
 }
 
 packets.register<EventMouseClick> {
-    opcode = 82
+    opcode = 3
     length = 6
 }
 
 packets.register<EventMouseIdle> {
-    opcode = 40
+    opcode = 76
     length = 0
 }
 
 packets.register<EventAppletFocus> {
-    opcode = 68
+    opcode = 7
     length = 1
 }
 
 packets.register<EventKeyboard> {
-    opcode = 53
+    opcode = 1
     length = -2
 }
 
 packets.register<ClientCheat> {
-    opcode = 57
+    opcode = 102
     length = -1
     handler = ClientCheatHandler::class
     read {
@@ -60,46 +60,46 @@ packets.register<ClientCheat> {
 }
 
 packets.register<MapBuildComplete> {
-    opcode = 88
+    opcode = 8
     length = 0
 }
 
 packets.register<MoveGameClick> {
-    opcode = 29
+    opcode = 5
     length = -1
     handler = GameClickHandler::class
     read {
-        val x = readUnsignedShortAddLE()
+        val x = readUnsignedShortLE()
         val type = readUnsignedByte().toInt()
-        val y = readUnsignedShortLE()
+        val y = readUnsignedShortAddLE()
         MoveGameClick(x, y, type)
     }
 }
 
 packets.register<OperateObjectOne> {
-    opcode = 18
+    opcode = 66
     length = 7
     handler = OperateObjectOneHandler::class
     read {
-        val x = readUnsignedShortAdd()
-        val id = readUnsignedShortAddLE()
-        val y = readUnsignedShort()
+        val x = readUnsignedShortAddLE()
         val mode = readUnsignedByte().toInt()
+        val y = readUnsignedShort()
+        val id = readUnsignedShortAddLE()
         OperateObjectOne(id, x, y, mode)
     }
 }
 
 packets.register<ReflectionCheckReply> {
-    opcode = 94
+    opcode = 100
     length = -1
 }
 
 packets.register<NoTimeout> {
-    opcode = 16
+    opcode = 95
     length = 0
 }
 
 packets.register<WindowStatus> {
-    opcode = 41
+    opcode = 101
     length = 5
 }

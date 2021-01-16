@@ -6,3 +6,8 @@ data class SmallVarpPacket(
     val id: Int,
     val value: Int
 ) : ServerPacket
+
+data class LargeVarpPacket(
+    val id: Int,
+    val value: Int
+) : ServerPacket
