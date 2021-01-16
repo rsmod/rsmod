@@ -1,7 +1,6 @@
 package org.rsmod.plugins.api.protocol.packet.login
 
 import com.github.michaelbull.logging.InlineLogger
-import com.google.inject.Inject
 import io.netty.buffer.ByteBuf
 import kotlin.reflect.KClass
 
@@ -10,11 +9,8 @@ class LoginPacketHandler<T : LoginPacket>(
 )
 
 class LoginPacketMap(
-    val packets: MutableMap<KClass<out LoginPacket>, LoginPacketHandler<*>>
+    val packets: MutableMap<KClass<out LoginPacket>, LoginPacketHandler<*>> = mutableMapOf()
 ) {
-
-    @Inject
-    constructor() : this(mutableMapOf())
 
     inline fun <reified T : LoginPacket> register(noinline read: ByteBuf.() -> T) {
         if (packets.containsKey(T::class)) {

@@ -1,14 +1,12 @@
 package org.rsmod.game.event
 
-import com.google.inject.Inject
 import kotlin.reflect.KClass
 
 private typealias EventMap = MutableMap<KClass<out Event>, MutableList<EventAction<*>>>
 
-class EventBus(val events: EventMap) : Map<KClass<out Event>, List<EventAction<*>>> by events {
-
-    @Inject
-    constructor() : this(mutableMapOf())
+class EventBus(
+    val events: EventMap = mutableMapOf()
+) : Map<KClass<out Event>, List<EventAction<*>>> by events {
 
     @Suppress("UNCHECKED_CAST")
     inline fun <reified T : Event> publish(event: T): Boolean {

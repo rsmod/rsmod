@@ -1,7 +1,6 @@
 package org.rsmod.game.model.map
 
 import com.github.michaelbull.logging.InlineLogger
-import com.google.inject.Inject
 
 private val logger = InlineLogger()
 
@@ -10,11 +9,8 @@ data class IsolatedMap(
 )
 
 class MapIsolation(
-    private val maps: MutableMap<Int, IsolatedMap>
+    private val maps: MutableMap<Int, IsolatedMap> = mutableMapOf()
 ) : Map<Int, IsolatedMap> by maps {
-
-    @Inject
-    constructor() : this(mutableMapOf())
 
     fun register(init: IsolatedMapBuilder.() -> Unit) {
         val builder = IsolatedMapBuilder().apply(init)

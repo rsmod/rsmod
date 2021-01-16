@@ -2,7 +2,6 @@ package org.rsmod.net.handshake
 
 import com.github.michaelbull.logging.InlineLogger
 import com.google.common.base.MoreObjects
-import com.google.inject.Inject
 import io.netty.channel.ChannelHandler
 import io.netty.channel.ChannelInboundHandlerAdapter
 import io.netty.handler.codec.ByteToMessageDecoder
@@ -29,11 +28,8 @@ data class HandshakeHandler(
 }
 
 data class HandshakeHandlerMap(
-    private val handlers: MutableMap<Int, HandshakeHandler>
+    private val handlers: MutableMap<Int, HandshakeHandler> = mutableMapOf()
 ) : Map<Int, HandshakeHandler> by handlers {
-
-    @Inject
-    constructor() : this(mutableMapOf())
 
     fun register(init: HandshakeHandlerBuilder.() -> Unit) {
         val builder = HandshakeHandlerBuilder().apply(init)

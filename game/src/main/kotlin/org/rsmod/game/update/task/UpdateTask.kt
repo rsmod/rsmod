@@ -1,7 +1,6 @@
 package org.rsmod.game.update.task
 
 import com.github.michaelbull.logging.InlineLogger
-import com.google.inject.Inject
 
 private val logger = InlineLogger()
 
@@ -11,11 +10,8 @@ interface UpdateTask {
 }
 
 class UpdateTaskList(
-    private val tasks: MutableList<UpdateTask>
+    private val tasks: MutableList<UpdateTask> = mutableListOf()
 ) : List<UpdateTask> by tasks {
-
-    @Inject
-    constructor() : this(mutableListOf())
 
     fun register(init: UpdateTaskBuilder.() -> Unit) {
         UpdateTaskBuilder(tasks).apply(init)

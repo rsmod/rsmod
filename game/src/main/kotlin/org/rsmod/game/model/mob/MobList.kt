@@ -1,7 +1,5 @@
 package org.rsmod.game.model.mob
 
-import com.google.inject.Inject
-
 private const val MAX_PLAYER_COUNT = 2047
 private const val MAX_NPC_COUNT = 32767
 
@@ -21,11 +19,8 @@ private inline fun <reified T> List<T>.freeIndex(): Int {
 }
 
 class PlayerList(
-    private val players: MutableList<Player?>
+    private val players: MutableList<Player?> = createList(MAX_PLAYER_COUNT)
 ) : List<Player?> by players {
-
-    @Inject
-    constructor() : this(createList(MAX_PLAYER_COUNT))
 
     override val size: Int
         get() = players.count { it != null }
@@ -56,11 +51,8 @@ class PlayerList(
 }
 
 class NpcList(
-    private val npcs: MutableList<Npc?>
+    private val npcs: MutableList<Npc?> = createList(MAX_NPC_COUNT)
 ) : List<Npc?> by npcs {
-
-    @Inject
-    constructor() : this(createList(MAX_NPC_COUNT))
 
     override val size: Int
         get() = npcs.count { it != null }

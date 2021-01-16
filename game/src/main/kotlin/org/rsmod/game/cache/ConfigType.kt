@@ -1,7 +1,6 @@
 package org.rsmod.game.cache
 
 import com.github.michaelbull.logging.InlineLogger
-import com.google.inject.Inject
 
 private val logger = InlineLogger()
 
@@ -26,11 +25,8 @@ class ConfigTypeLoaderList(
 }
 
 open class ConfigTypeList<T : ConfigType>(
-    private val types: MutableList<T>
+    private val types: MutableList<T> = mutableListOf()
 ) : List<T> by types {
-
-    @Inject
-    constructor() : this(mutableListOf())
 
     fun add(type: T) {
         if (types.size > type.id) {

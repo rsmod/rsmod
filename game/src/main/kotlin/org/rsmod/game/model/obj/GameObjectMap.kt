@@ -1,6 +1,5 @@
 package org.rsmod.game.model.obj
 
-import com.google.inject.Inject
 import org.rsmod.game.model.map.Coordinates
 
 private class GameObjectList(
@@ -13,7 +12,8 @@ class GameObjectMap private constructor(
     private val staticRemoved: MutableMap<Coordinates, GameObjectList>
 ) {
 
-    @Inject
+    /* used for dependency injection */
+    @Suppress("UNUSED")
     constructor() : this(mutableMapOf(), mutableMapOf(), mutableMapOf())
 
     fun addStatic(obj: GameObject) {

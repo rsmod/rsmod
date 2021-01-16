@@ -1,16 +1,13 @@
 package org.rsmod.game.action
 
-import com.google.inject.Inject
 import kotlin.reflect.KClass
 
 typealias ActionExecutor<T> = (T).() -> Unit
 
 class ActionBus(
-    val mappedExecutors: MutableMap<KClass<out Action>, ActionExecutorMap>,
-    val listExecutors: MutableMap<KClass<out Action>, MutableList<ActionExecutor<*>>>
+    val mappedExecutors: MutableMap<KClass<out Action>, ActionExecutorMap> = mutableMapOf(),
+    val listExecutors: MutableMap<KClass<out Action>, MutableList<ActionExecutor<*>>> = mutableMapOf()
 ) {
-    @Inject
-    constructor() : this(mutableMapOf(), mutableMapOf())
 
     inline fun <reified T : Action> register(id: Long, noinline executor: ActionExecutor<T>): Boolean {
         val executors = mappedExecutors.getOrPut(T::class) { ActionExecutorMap() }

@@ -1,7 +1,6 @@
 package org.rsmod.game.dispatch
 
 import com.github.michaelbull.logging.InlineLogger
-import com.google.inject.Inject
 
 private val logger = InlineLogger()
 
@@ -14,7 +13,6 @@ class GameJobDispatcher private constructor(
     private val jobs: MutableList<GameDispatchJob>
 ) : List<GameDispatchJob> by jobs {
 
-    @Inject
     constructor() : this(mutableListOf())
 
     fun schedule(block: () -> Unit) {

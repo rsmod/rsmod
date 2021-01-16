@@ -2,7 +2,6 @@ package org.rsmod.game.model.client
 
 import com.github.michaelbull.logging.InlineLogger
 import com.google.common.base.MoreObjects
-import com.google.inject.Inject
 import io.netty.buffer.ByteBufAllocator
 import java.util.LinkedList
 import java.util.Queue
@@ -34,11 +33,8 @@ class Client(
 }
 
 class ClientList(
-    private val active: MutableList<Client>
+    private val active: MutableList<Client> = mutableListOf()
 ) : List<Client> by active {
-
-    @Inject
-    constructor() : this(mutableListOf())
 
     fun register(client: Client) {
         if (active.any { it.player.id == client.player.id }) {

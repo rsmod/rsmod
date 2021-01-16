@@ -1,7 +1,6 @@
 package org.rsmod.game.cmd
 
 import com.github.michaelbull.logging.InlineLogger
-import com.google.inject.Inject
 import org.rsmod.game.model.mob.Player
 
 private val logger = InlineLogger()
@@ -15,11 +14,8 @@ data class Command(
 )
 
 class CommandMap(
-    private val commands: MutableMap<String, Command>
+    private val commands: MutableMap<String, Command> = mutableMapOf()
 ) : Map<String, Command> by commands {
-
-    @Inject
-    constructor() : this(mutableMapOf())
 
     fun register(name: String, init: CommandBuilder.() -> Unit) {
         val builder = CommandBuilder().apply(init)

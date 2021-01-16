@@ -1,7 +1,6 @@
 package org.rsmod.game.task
 
 import com.github.michaelbull.logging.InlineLogger
-import com.google.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -15,7 +14,8 @@ class StartupTaskList internal constructor(
     internal val nonBlocking: MutableList<StartupTask>
 ) {
 
-    @Inject
+    /* used for dependency injection */
+    @Suppress("UNUSED")
     constructor() : this(mutableListOf(), mutableListOf())
 
     fun registerNonBlocking(block: () -> Unit) = nonBlocking.add(StartupTask(block))
