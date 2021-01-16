@@ -76,7 +76,7 @@ class GameSessionDecoder(
                 skipBytes(length)
             } else {
                 val payload = readBytes(length)
-                val packet = read(payload)
+                val packet = read(payload, opcode)
                 val message = ClientPacketMessage(packet, handler)
                 out.add(message)
             }

@@ -7,7 +7,7 @@ import kotlin.reflect.KClass
 private const val UNINITIALIZED_OPCODE = -1
 
 private typealias PacketWriter<T> = T.(ByteBuf) -> Unit
-private typealias PacketReader<T> = ByteBuf.() -> T
+private typealias PacketReader<T> = ByteBuf.(Int) -> T
 
 class ServerPacketStructure<T : ServerPacket>(
     val opcode: Int,
@@ -65,6 +65,10 @@ class ClientPacketBuilder<T : ClientPacket> {
 
     var opcode: Int = 0
         set(value) { opcodes.add(value) }
+
+    fun addOpcodes(opcodes: Collection<Int>) {
+        this.opcodes.addAll(opcodes)
+    }
 
     fun opcodes(init: OpcodeBuilder.() -> Unit) {
         OpcodeBuilder(opcodes).apply(init)
