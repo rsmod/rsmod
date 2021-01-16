@@ -18,7 +18,6 @@ import org.rsmod.plugins.api.protocol.packet.client.ReflectionCheckReply
 import org.rsmod.plugins.api.protocol.packet.client.WindowStatus
 import org.rsmod.plugins.api.protocol.structure.DevicePacketStructureMap
 import io.guthix.buffer.readStringCP1252
-import io.guthix.buffer.readUnsignedShortAdd
 import io.guthix.buffer.readUnsignedShortAddLE
 
 val structures: DevicePacketStructureMap by inject()

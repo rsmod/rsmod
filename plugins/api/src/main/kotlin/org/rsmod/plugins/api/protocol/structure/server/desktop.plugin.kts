@@ -10,6 +10,7 @@ import org.rsmod.plugins.api.protocol.packet.server.IfCloseSub
 import org.rsmod.plugins.api.protocol.packet.server.IfOpenSub
 import org.rsmod.plugins.api.protocol.packet.server.IfOpenTop
 import org.rsmod.plugins.api.protocol.packet.server.IfSetEvents
+import org.rsmod.plugins.api.protocol.packet.server.LargeVarpPacket
 import org.rsmod.plugins.api.protocol.packet.server.PlayerInfo
 import org.rsmod.plugins.api.protocol.packet.server.RebuildNormal
 import org.rsmod.plugins.api.protocol.packet.server.RunClientScript
@@ -25,7 +26,6 @@ import io.guthix.buffer.writeStringCP1252
 import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
 import kotlin.math.min
-import org.rsmod.plugins.api.protocol.packet.server.LargeVarpPacket
 
 val structures: DevicePacketStructureMap by inject()
 val packets = structures.server(Device.Desktop)
