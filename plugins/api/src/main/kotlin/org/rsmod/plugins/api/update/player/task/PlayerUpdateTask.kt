@@ -30,6 +30,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 private val logger = InlineLogger()
+private const val MAX_VIEW_DISTANCE = 15
 private const val MAX_PLAYER_ADDITIONS_PER_CYCLE = 40
 private const val MAX_LOCAL_PLAYERS = 255
 
@@ -401,7 +402,7 @@ class PlayerUpdateTask @Inject constructor(
     }
 
     private fun Coordinates.isWithinView(coords: Coordinates): Boolean {
-        return isWithinDistance(coords, 15)
+        return isWithinDistance(coords, MAX_VIEW_DISTANCE)
     }
 
     private fun Client.addPublicRecords() {

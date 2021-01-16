@@ -3,13 +3,13 @@ import org.jmailen.gradle.kotlinter.KotlinterExtension
 import org.jmailen.gradle.kotlinter.KotlinterPlugin
 
 plugins {
-    kotlin("jvm") version JvmVersions.KOTLIN
-    id("org.jmailen.kotlinter") version JvmVersions.KOTLINTER apply false
+    kotlin("jvm") version Versions.KOTLIN
+    id("org.jmailen.kotlinter") version Versions.KOTLINTER apply false
 }
 
 allprojects {
     group = "org.rsmod"
-    version = ProjectVersions.RS_MOD
+    version = Versions.RS_MOD
 
     apply {
         plugin("org.jetbrains.kotlin.jvm")
@@ -24,26 +24,26 @@ allprojects {
 
     dependencies {
         implementation(kotlin("stdlib-jdk8"))
-        implementation("com.google.inject:guice:${DependencyInjectionVersions.GUICE}")
-        implementation("dev.misfitlabs.kotlinguice4:kotlin-guice:${DependencyInjectionVersions.KOTLIN_GUICE}")
-        implementation("org.slf4j:slf4j-api:${LoggerVersions.SL4J}")
-        implementation("org.apache.logging.log4j:log4j-slf4j-impl:${LoggerVersions.LOG4J}")
-        implementation("com.michael-bull.kotlin-inline-logger:kotlin-inline-logger-jvm:${LoggerVersions.INLINE_LOGGER}")
-        testImplementation("org.junit.jupiter:junit-jupiter:${TestVersions.JUNIT}")
+        implementation("com.google.inject:guice:${Versions.GUICE}")
+        implementation("dev.misfitlabs.kotlinguice4:kotlin-guice:${Versions.KOTLIN_GUICE}")
+        implementation("org.slf4j:slf4j-api:${Versions.SL4J}")
+        implementation("org.apache.logging.log4j:log4j-slf4j-impl:${Versions.LOG4J}")
+        implementation("com.michael-bull.kotlin-inline-logger:kotlin-inline-logger-jvm:${Versions.INLINE_LOGGER}")
+        testImplementation("org.junit.jupiter:junit-jupiter:${Versions.JUNIT}")
     }
 
     java {
-        sourceCompatibility = JvmVersions.JAVA
-        targetCompatibility = JvmVersions.JAVA
+        sourceCompatibility = Versions.JAVA
+        targetCompatibility = Versions.JAVA
     }
 
     tasks {
         compileKotlin {
-            kotlinOptions.jvmTarget = JvmVersions.JVM
+            kotlinOptions.jvmTarget = Versions.JVM
             kotlinOptions.freeCompilerArgs = listOf("-XXLanguage:+InlineClasses")
         }
         compileTestKotlin {
-            kotlinOptions.jvmTarget = JvmVersions.JVM
+            kotlinOptions.jvmTarget = Versions.JVM
         }
     }
 

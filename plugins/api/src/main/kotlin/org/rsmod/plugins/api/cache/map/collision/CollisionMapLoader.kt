@@ -44,7 +44,7 @@ class CollisionMapLoader @Inject constructor(
     }
 
     private fun MapSquare.loadCollision(map: ByteBuf, loc: ByteBuf) {
-        val floorDecor = mutableMapOf<Coordinates, Int>()
+        val floorMask = mutableMapOf<Coordinates, Int>()
         for (level in 0 until HIGHEST_LEVEL) {
             for (x in 0 until MapSquare.SIZE) {
                 for (y in 0 until MapSquare.SIZE) {
@@ -63,7 +63,7 @@ class CollisionMapLoader @Inject constructor(
                             map.readByte()
                         } else if (opcode <= 81) {
                             val localCoords = Coordinates(x, y, level)
-                            floorDecor[localCoords] = (opcode - 81)
+                            floorMask[localCoords] = (opcode - 81)
                         }
                     }
                 }
@@ -74,7 +74,7 @@ class CollisionMapLoader @Inject constructor(
             for (x in 0 until MapSquare.SIZE) {
                 for (y in 0 until MapSquare.SIZE) {
                     val localCoords = Coordinates(x, y, level)
-                    val floor = floorDecor[localCoords] ?: 0
+                    val floor = floorMask[localCoords] ?: 0
                     if ((floor and BLOCKED_TILE_BIT) != BLOCKED_TILE_BIT) {
                         continue
                     }
@@ -115,7 +115,7 @@ class CollisionMapLoader @Inject constructor(
                 var level = (packed shr 12) and 0x3
 
                 val localCoords = Coordinates(localX, localY, level)
-                val floor = floorDecor[localCoords] ?: 0
+                val floor = floorMask[localCoords] ?: 0
                 if ((floor and BRIDGE_TILE_BIT) == BRIDGE_TILE_BIT) {
                     level--
                 }

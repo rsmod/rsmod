@@ -1,4 +1,4 @@
 dependencies {
     implementation(project(":util"))
-    implementation("io.netty:netty-all:${NetVersions.NETTY}")
+    implementation("io.netty:netty-all:${Versions.NETTY}")
 }

@@ -70,6 +70,7 @@ private data class RsaKey(
     val publicModulus: BigInteger,
     val privateKey: ByteArray
 ) {
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

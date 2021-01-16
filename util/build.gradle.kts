@@ -1,8 +1,8 @@
 dependencies {
-    implementation("org.bouncycastle:bcprov-jdk15on:${SecurityVersions.BOUNCYCASTLE}")
-    implementation("org.mindrot:jbcrypt:${SecurityVersions.BCRYPT}")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:${JacksonVersions.JACKSON}")
-    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${JacksonVersions.JACKSON}")
+    implementation("org.bouncycastle:bcprov-jdk15on:${Versions.BOUNCYCASTLE}")
+    implementation("org.mindrot:jbcrypt:${Versions.BCRYPT}")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:${Versions.JACKSON}")
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${Versions.JACKSON}")
 }
 
 tasks.create<JavaExec>("createRsa") {
