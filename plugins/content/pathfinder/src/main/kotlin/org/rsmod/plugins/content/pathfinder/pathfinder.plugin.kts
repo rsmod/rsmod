@@ -36,7 +36,7 @@ onAction<ObjectClick> {
         }
         val published = actions.publish(action, type.id)
         if (!published) {
-            player.warn { "Unhandled object action (id=${type.id}, ap=$approach)" }
+            player.warn { "Unhandled object action: $action" }
         }
     }
 }

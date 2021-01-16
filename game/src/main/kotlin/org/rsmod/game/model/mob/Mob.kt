@@ -10,6 +10,7 @@ import org.rsmod.game.attribute.AttributeMap
 import org.rsmod.game.event.Event
 import org.rsmod.game.event.EventBus
 import org.rsmod.game.event.impl.LoginEvent
+import org.rsmod.game.event.impl.LogoutEvent
 import org.rsmod.game.message.ServerPacket
 import org.rsmod.game.message.ServerPacketListener
 import org.rsmod.game.model.client.Entity
@@ -29,6 +30,7 @@ import org.rsmod.game.model.ui.InterfaceList
 import org.rsmod.game.queue.GameQueueStack
 import org.rsmod.game.queue.QueueType
 import org.rsmod.game.timer.TimerMap
+import org.slf4j.Logger
 
 private val logger = InlineLogger()
 private val DEFAULT_DIRECTION = Direction.South
@@ -94,6 +96,11 @@ class Player(
         eventBus.publish(LoginEvent(this, LoginEvent.Priority.Low))
     }
 
+    fun logout() {
+        eventBus.publish(LogoutEvent(this))
+        messageListeners.forEach { it.close() }
+    }
+
     fun eligibleRank(rank: Int): Boolean {
         return entity.rank >= rank
     }
@@ -111,8 +118,20 @@ class Player(
         coords = coords
     )
 
+    fun info(message: () -> String) {
+        logger.info { "$username: ${message()}" }
+    }
+
     fun warn(message: () -> String) {
         logger.warn { "$username: ${message()}" }
+    }
+
+    fun trace(message: () -> String) {
+        logger.trace { "$username: ${message()}" }
+    }
+
+    fun debug(message: () -> String) {
+        logger.debug { "$username: ${message()}" }
     }
 
     inline fun <reified T : Event> submitEvent(event: T) {

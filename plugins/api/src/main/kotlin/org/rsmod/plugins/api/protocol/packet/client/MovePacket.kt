@@ -9,7 +9,15 @@ import org.rsmod.game.model.map.Coordinates
 import org.rsmod.game.model.mob.Player
 import org.rsmod.plugins.api.protocol.packet.MapMove
 
+private const val TELE_TYPE = 2
+
 data class MoveGameClick(
+    val x: Int,
+    val y: Int,
+    val type: Int
+) : ClientPacket
+
+data class MoveMinimapClick(
     val x: Int,
     val y: Int,
     val type: Int
@@ -20,7 +28,28 @@ class GameClickHandler @Inject constructor(
 ) : ClientPacketHandler<MoveGameClick> {
 
     override fun handle(client: Client, player: Player, packet: MoveGameClick) {
-        val destination = Coordinates(packet.x, packet.y)
+        val (x, y, type) = packet
+        val destination = Coordinates(x, y)
+        if (type == TELE_TYPE) {
+            player.displace(destination)
+            return
+        }
+        val action = MapMove(player, destination, player.speed)
+        actions.publish(action)
+    }
+}
+
+class MinimapClickHandler @Inject constructor(
+    private val actions: ActionBus
+) : ClientPacketHandler<MoveMinimapClick> {
+
+    override fun handle(client: Client, player: Player, packet: MoveMinimapClick) {
+        val (x, y, type) = packet
+        val destination = Coordinates(x, y)
+        if (type == TELE_TYPE) {
+            player.displace(destination)
+            return
+        }
         val action = MapMove(player, destination, player.speed)
         actions.publish(action)
     }

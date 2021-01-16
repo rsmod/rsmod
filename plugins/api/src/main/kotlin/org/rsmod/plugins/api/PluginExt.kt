@@ -8,9 +8,12 @@ import org.rsmod.game.event.impl.OpenModal
 import org.rsmod.game.event.impl.OpenOverlay
 import org.rsmod.game.event.impl.OpenTopLevel
 import org.rsmod.game.cmd.CommandBuilder
+import org.rsmod.game.event.impl.LogoutEvent
 import org.rsmod.game.model.obj.type.ObjectType
+import org.rsmod.game.model.ui.Component
 import org.rsmod.game.model.ui.UserInterface
 import org.rsmod.game.plugin.Plugin
+import org.rsmod.plugins.api.protocol.packet.ButtonClick
 import org.rsmod.plugins.api.protocol.packet.ObjectAction
 
 fun Plugin.onEarlyLogin(block: LoginEvent.() -> Unit) {
@@ -29,6 +32,10 @@ fun Plugin.onPostLogin(block: LoginEvent.() -> Unit) {
     onEvent<LoginEvent>()
         .where { priority == LoginEvent.Priority.Low }
         .then(block)
+}
+
+fun Plugin.onLogout(block: LogoutEvent.() -> Unit) {
+    onEvent<LogoutEvent>().then(block)
 }
 
 fun Plugin.onCommand(cmd: String, block: CommandBuilder.() -> Unit) {
@@ -69,6 +76,10 @@ fun Plugin.onCloseOverlay(overlay: UserInterface, block: CloseOverlay.() -> Unit
     onEvent<CloseOverlay>()
         .where { this.overlay == overlay }
         .then(block)
+}
+
+fun Plugin.onButton(component: Component, block: ButtonClick.() -> Unit) {
+    onAction(component.packed, block)
 }
 
 fun Plugin.onObject(obj: ObjectType, opt: String, block: ObjectAction.() -> Unit) {

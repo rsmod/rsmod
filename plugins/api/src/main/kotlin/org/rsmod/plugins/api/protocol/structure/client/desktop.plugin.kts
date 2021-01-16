@@ -18,7 +18,12 @@ import org.rsmod.plugins.api.protocol.packet.client.ReflectionCheckReply
 import org.rsmod.plugins.api.protocol.packet.client.WindowStatus
 import org.rsmod.plugins.api.protocol.structure.DevicePacketStructureMap
 import io.guthix.buffer.readStringCP1252
+import io.guthix.buffer.readUnsignedByteAdd
 import io.guthix.buffer.readUnsignedShortAddLE
+import org.rsmod.plugins.api.protocol.packet.client.IfButton
+import org.rsmod.plugins.api.protocol.packet.client.IfButtonHandler
+import org.rsmod.plugins.api.protocol.packet.client.MinimapClickHandler
+import org.rsmod.plugins.api.protocol.packet.client.MoveMinimapClick
 
 val structures: DevicePacketStructureMap by inject()
 val packets = structures.client(Device.Desktop)
@@ -75,6 +80,18 @@ packets.register<MoveGameClick> {
     }
 }
 
+packets.register<MoveMinimapClick> {
+    opcode = 45
+    length = -1
+    handler = MinimapClickHandler::class
+    read {
+        val x = readUnsignedShortLE()
+        val type = readUnsignedByteAdd().toInt()
+        val y = readUnsignedShortAddLE()
+        MoveMinimapClick(x, y, type)
+    }
+}
+
 packets.register<OperateObjectOne> {
     opcode = 66
     length = 7
@@ -101,4 +118,18 @@ packets.register<NoTimeout> {
 packets.register<WindowStatus> {
     opcode = 101
     length = 5
+}
+
+packets.register<IfButton> {
+    val typeOpcodes = listOf(13, 59, 22, 90, 37, 62, 16, 25, 80, 4)
+    addOpcodes(typeOpcodes)
+    length = 8
+    handler = IfButtonHandler::class
+    read { opcode ->
+        val type = typeOpcodes.indexOf(opcode) + IfButton.TYPE_INDEX_OFFSET
+        val component = readInt()
+        val slot = readShort().toInt()
+        val item = readShort().toInt()
+        IfButton(type, component, slot, item)
+    }
 }

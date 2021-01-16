@@ -15,4 +15,8 @@ class ChannelMessageListener(
     override fun flush() {
         channel.flush()
     }
+
+    override fun close() {
+        channel.close()
+    }
 }

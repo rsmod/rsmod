@@ -3,7 +3,7 @@ package org.rsmod.game.event.impl
 import org.rsmod.game.event.Event
 import org.rsmod.game.model.mob.Player
 
-class LoginEvent(
+data class LoginEvent(
     val player: Player,
     val priority: Priority
 ) : Event {
@@ -14,3 +14,7 @@ class LoginEvent(
         object Low : Priority()
     }
 }
+
+data class LogoutEvent(
+    val player: Player
+) : Event

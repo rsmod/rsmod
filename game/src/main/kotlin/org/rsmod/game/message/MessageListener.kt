@@ -8,6 +8,8 @@ interface ServerPacketListener {
     fun write(packet: ServerPacket)
 
     fun flush()
+
+    fun close()
 }
 
 interface ClientPacketHandler<T : ClientPacket> {
