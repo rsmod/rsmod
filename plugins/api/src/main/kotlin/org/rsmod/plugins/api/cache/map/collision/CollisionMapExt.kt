@@ -27,7 +27,7 @@ private fun CollisionMap.changeObject(obj: GameObject, add: Boolean) {
     val blockProjectile = type.blockProjectile
 
     if (shape in ObjectShape.WALL_SHAPES && clipType != 0) {
-        changeWall(coords, rotation, shape, blockPath, blockProjectile, add)
+        changeWall(coords, rotation, shape, blockProjectile, add)
     } else if (shape in ObjectShape.NORMAL_SHAPES && clipType != 0) {
         var width = type.width
         var length = type.length
@@ -66,7 +66,6 @@ private fun CollisionMap.changeWall(
     coords: Coordinates,
     rotation: Int,
     shape: Int,
-    blockPath: Boolean,
     blockProjectile: Boolean,
     add: Boolean
 ) {
@@ -79,10 +78,6 @@ private fun CollisionMap.changeWall(
                     change(coords, CollisionFlag.FLAG_WALL_WEST_PROJECTILE_BLOCKER, add)
                     change(coords.translate(-1, 0), CollisionFlag.FLAG_WALL_EAST_PROJECTILE_BLOCKER, add)
                 }
-                if (blockPath) {
-                    change(coords, CollisionFlag.FLAG_WALL_WEST_ROUTE_BLOCKER, add)
-                    change(coords.translate(-1, 0), CollisionFlag.FLAG_WALL_EAST_ROUTE_BLOCKER, add)
-                }
             }
             1 -> {
                 change(coords, CollisionFlag.FLAG_WALL_NORTH, add)
@@ -90,10 +85,6 @@ private fun CollisionMap.changeWall(
                 if (blockProjectile) {
                     change(coords, CollisionFlag.FLAG_WALL_NORTH_PROJECTILE_BLOCKER, add)
                     change(coords.translate(0, 1), CollisionFlag.FLAG_WALL_SOUTH_PROJECTILE_BLOCKER, add)
-                }
-                if (blockPath) {
-                    change(coords, CollisionFlag.FLAG_WALL_NORTH_ROUTE_BLOCKER, add)
-                    change(coords.translate(0, 1), CollisionFlag.FLAG_WALL_SOUTH_ROUTE_BLOCKER, add)
                 }
             }
             2 -> {
@@ -103,10 +94,6 @@ private fun CollisionMap.changeWall(
                     change(coords, CollisionFlag.FLAG_WALL_EAST_PROJECTILE_BLOCKER, add)
                     change(coords.translate(1, 0), CollisionFlag.FLAG_WALL_WEST_PROJECTILE_BLOCKER, add)
                 }
-                if (blockPath) {
-                    change(coords, CollisionFlag.FLAG_WALL_EAST_ROUTE_BLOCKER, add)
-                    change(coords.translate(1, 0), CollisionFlag.FLAG_WALL_WEST_ROUTE_BLOCKER, add)
-                }
             }
             3 -> {
                 change(coords, CollisionFlag.FLAG_WALL_SOUTH, add)
@@ -114,10 +101,6 @@ private fun CollisionMap.changeWall(
                 if (blockProjectile) {
                     change(coords, CollisionFlag.FLAG_WALL_SOUTH_PROJECTILE_BLOCKER, add)
                     change(coords.translate(0, -1), CollisionFlag.FLAG_WALL_NORTH_PROJECTILE_BLOCKER, add)
-                }
-                if (blockPath) {
-                    change(coords, CollisionFlag.FLAG_WALL_SOUTH_ROUTE_BLOCKER, add)
-                    change(coords.translate(0, -1), CollisionFlag.FLAG_WALL_NORTH_ROUTE_BLOCKER, add)
                 }
             }
         }
@@ -130,10 +113,6 @@ private fun CollisionMap.changeWall(
                     change(coords, CollisionFlag.FLAG_WALL_NORTH_WEST_PROJECTILE_BLOCKER, add)
                     change(coords.translate(-1, 1), CollisionFlag.FLAG_WALL_SOUTH_EAST_PROJECTILE_BLOCKER, add)
                 }
-                if (blockPath) {
-                    change(coords, CollisionFlag.FLAG_WALL_NORTH_WEST_ROUTE_BLOCKER, add)
-                    change(coords.translate(-1, 1), CollisionFlag.FLAG_WALL_SOUTH_EAST_ROUTE_BLOCKER, add)
-                }
             }
             1 -> {
                 change(coords, CollisionFlag.FLAG_WALL_NORTH_EAST, add)
@@ -141,10 +120,6 @@ private fun CollisionMap.changeWall(
                 if (blockProjectile) {
                     change(coords, CollisionFlag.FLAG_WALL_NORTH_EAST_PROJECTILE_BLOCKER, add)
                     change(coords.translate(1, 1), CollisionFlag.FLAG_WALL_SOUTH_WEST_PROJECTILE_BLOCKER, add)
-                }
-                if (blockPath) {
-                    change(coords, CollisionFlag.FLAG_WALL_NORTH_EAST_ROUTE_BLOCKER, add)
-                    change(coords.translate(1, 1), CollisionFlag.FLAG_WALL_SOUTH_WEST_ROUTE_BLOCKER, add)
                 }
             }
             2 -> {
@@ -154,10 +129,6 @@ private fun CollisionMap.changeWall(
                     change(coords, CollisionFlag.FLAG_WALL_SOUTH_EAST_PROJECTILE_BLOCKER, add)
                     change(coords.translate(1, -1), CollisionFlag.FLAG_WALL_NORTH_WEST_PROJECTILE_BLOCKER, add)
                 }
-                if (blockPath) {
-                    change(coords, CollisionFlag.FLAG_WALL_SOUTH_EAST_ROUTE_BLOCKER, add)
-                    change(coords.translate(1, -1), CollisionFlag.FLAG_WALL_NORTH_WEST_ROUTE_BLOCKER, add)
-                }
             }
             3 -> {
                 change(coords, CollisionFlag.FLAG_WALL_SOUTH_WEST, add)
@@ -165,10 +136,6 @@ private fun CollisionMap.changeWall(
                 if (blockProjectile) {
                     change(coords, CollisionFlag.FLAG_WALL_SOUTH_WEST_PROJECTILE_BLOCKER, add)
                     change(coords.translate(-1, -1), CollisionFlag.FLAG_WALL_NORTH_EAST_PROJECTILE_BLOCKER, add)
-                }
-                if (blockPath) {
-                    change(coords, CollisionFlag.FLAG_WALL_SOUTH_WEST_ROUTE_BLOCKER, add)
-                    change(coords.translate(-1, -1), CollisionFlag.FLAG_WALL_NORTH_EAST_ROUTE_BLOCKER, add)
                 }
             }
         }
@@ -185,13 +152,6 @@ private fun CollisionMap.changeWall(
                     change(coords.translate(-1, 0), CollisionFlag.FLAG_WALL_EAST_PROJECTILE_BLOCKER, add)
                     change(coords.translate(0, 1), CollisionFlag.FLAG_WALL_SOUTH_PROJECTILE_BLOCKER, add)
                 }
-                if (blockPath) {
-                    val flag = CollisionFlag.FLAG_WALL_WEST_ROUTE_BLOCKER or
-                        CollisionFlag.FLAG_WALL_NORTH_ROUTE_BLOCKER
-                    change(coords, flag, add)
-                    change(coords.translate(-1, 0), CollisionFlag.FLAG_WALL_EAST_ROUTE_BLOCKER, add)
-                    change(coords.translate(0, 1), CollisionFlag.FLAG_WALL_SOUTH_ROUTE_BLOCKER, add)
-                }
             }
             1 -> {
                 change(coords, CollisionFlag.FLAG_WALL_NORTH or CollisionFlag.FLAG_WALL_EAST, add)
@@ -203,13 +163,6 @@ private fun CollisionMap.changeWall(
                     change(coords, flag, add)
                     change(coords.translate(0, 1), CollisionFlag.FLAG_WALL_SOUTH_PROJECTILE_BLOCKER, add)
                     change(coords.translate(1, 0), CollisionFlag.FLAG_WALL_WEST_PROJECTILE_BLOCKER, add)
-                }
-                if (blockPath) {
-                    val flag = CollisionFlag.FLAG_WALL_NORTH_ROUTE_BLOCKER or
-                        CollisionFlag.FLAG_WALL_EAST_ROUTE_BLOCKER
-                    change(coords, flag, add)
-                    change(coords.translate(0, 1), CollisionFlag.FLAG_WALL_SOUTH_ROUTE_BLOCKER, add)
-                    change(coords.translate(1, 0), CollisionFlag.FLAG_WALL_WEST_ROUTE_BLOCKER, add)
                 }
             }
             2 -> {
@@ -223,13 +176,6 @@ private fun CollisionMap.changeWall(
                     change(coords.translate(1, 0), CollisionFlag.FLAG_WALL_WEST_PROJECTILE_BLOCKER, add)
                     change(coords.translate(0, -1), CollisionFlag.FLAG_WALL_NORTH_PROJECTILE_BLOCKER, add)
                 }
-                if (blockPath) {
-                    val flag = CollisionFlag.FLAG_WALL_EAST_ROUTE_BLOCKER or
-                        CollisionFlag.FLAG_WALL_SOUTH_ROUTE_BLOCKER
-                    change(coords, flag, add)
-                    change(coords.translate(1, 0), CollisionFlag.FLAG_WALL_WEST_ROUTE_BLOCKER, add)
-                    change(coords.translate(0, -1), CollisionFlag.FLAG_WALL_NORTH_ROUTE_BLOCKER, add)
-                }
             }
             3 -> {
                 change(coords, CollisionFlag.FLAG_WALL_SOUTH or CollisionFlag.FLAG_WALL_WEST, add)
@@ -241,13 +187,6 @@ private fun CollisionMap.changeWall(
                     change(coords, flag, add)
                     change(coords.translate(0, -1), CollisionFlag.FLAG_WALL_NORTH_PROJECTILE_BLOCKER, add)
                     change(coords.translate(-1, 0), CollisionFlag.FLAG_WALL_EAST_PROJECTILE_BLOCKER, add)
-                }
-                if (blockPath) {
-                    val flag = CollisionFlag.FLAG_WALL_SOUTH_ROUTE_BLOCKER or
-                        CollisionFlag.FLAG_WALL_WEST_ROUTE_BLOCKER
-                    change(coords, flag, add)
-                    change(coords.translate(0, -1), CollisionFlag.FLAG_WALL_NORTH_ROUTE_BLOCKER, add)
-                    change(coords.translate(-1, 0), CollisionFlag.FLAG_WALL_EAST_ROUTE_BLOCKER, add)
                 }
             }
         }
