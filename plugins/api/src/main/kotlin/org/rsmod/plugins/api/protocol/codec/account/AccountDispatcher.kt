@@ -31,6 +31,7 @@ import org.rsmod.game.model.map.Viewport
 import org.rsmod.game.model.map.viewport
 import org.rsmod.game.model.mob.Player
 import org.rsmod.game.model.mob.PlayerList
+import org.rsmod.plugins.api.model.map.of
 import org.rsmod.plugins.api.protocol.Device
 import org.rsmod.plugins.api.protocol.codec.HandshakeConstants
 import org.rsmod.plugins.api.protocol.codec.ResponseType
@@ -263,7 +264,7 @@ class AccountDispatcher @Inject constructor(
             write(rebuildNormal)
             flush()
         }
-        viewport = Viewport(coords.level, newViewport)
+        viewport = Viewport.of(coords, newViewport)
         login()
     }
 

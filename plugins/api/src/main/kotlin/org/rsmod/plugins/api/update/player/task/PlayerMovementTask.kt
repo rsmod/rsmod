@@ -5,6 +5,7 @@ import org.rsmod.game.model.domain.Direction
 import org.rsmod.game.model.domain.repo.XteaRepository
 import org.rsmod.game.model.map.Coordinates
 import org.rsmod.game.model.map.MapIsolation
+import org.rsmod.game.model.map.Scene
 import org.rsmod.game.model.map.Viewport
 import org.rsmod.game.model.map.viewport
 import org.rsmod.game.model.mob.Player
@@ -12,6 +13,7 @@ import org.rsmod.game.model.mob.PlayerList
 import org.rsmod.game.model.step.StepQueue
 import org.rsmod.game.model.step.StepSpeed
 import org.rsmod.game.update.task.UpdateTask
+import org.rsmod.plugins.api.model.map.of
 import org.rsmod.plugins.api.protocol.packet.server.RebuildNormal
 
 class PlayerMovementTask @Inject constructor(
@@ -29,9 +31,7 @@ class PlayerMovementTask @Inject constructor(
                 player.pollSteps()
             }
             val coords = player.coords
-            val viewport = player.viewport
-            val mapSquare = coords.mapSquare()
-            val rebuild = !viewport.contains(mapSquare) || coords.level != viewport.level
+            val rebuild = player.shouldRebuildMap()
             if (rebuild) {
                 val newViewport = coords.zone().viewport(mapIsolation)
                 val rebuildNormal = RebuildNormal(
@@ -41,7 +41,7 @@ class PlayerMovementTask @Inject constructor(
                     xteas = xteasRepository
                 )
                 player.write(rebuildNormal)
-                player.viewport = Viewport(coords.level, newViewport)
+                player.viewport = Viewport.of(coords, newViewport)
             }
         }
     }
@@ -60,6 +60,12 @@ class PlayerMovementTask @Inject constructor(
     private fun StepQueue.pollSteps(speed: StepSpeed): List<Coordinates> = when (speed) {
         StepSpeed.Run -> listOfNotNull(poll(), poll())
         StepSpeed.Walk -> listOfNotNull(poll())
+    }
+
+    private fun Player.shouldRebuildMap(): Boolean {
+        val dx = coords.x - viewport.base.x
+        val dy = coords.y - viewport.base.y
+        return dx <= 15 || dx >= (Scene.SIZE - 15 - 1) || dy <= 15 || dy >= (Scene.SIZE - 15 - 1)
     }
 
     private fun directionBetween(start: Coordinates, end: Coordinates): Direction {

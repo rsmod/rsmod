@@ -225,13 +225,13 @@ inline class Scene(private val packed: Int) {
 }
 
 data class Viewport(
-    val level: Int = 0,
+    val base: Coordinates,
     private val maps: List<MapSquare>
 ) : List<MapSquare> by maps {
 
     companion object {
 
-        val ZERO = Viewport(0, emptyList())
+        val ZERO = Viewport(Coordinates.ZERO, emptyList())
     }
 }
 
