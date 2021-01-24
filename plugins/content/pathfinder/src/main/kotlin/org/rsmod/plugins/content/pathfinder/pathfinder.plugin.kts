@@ -12,7 +12,7 @@ import org.rsmod.plugins.api.protocol.packet.ObjectClick
 val scenes: SceneCollision by inject()
 
 onAction<MapMove> {
-    val pf = SmartPathFinder(searchMapSize = 144)
+    val pf = SmartPathFinder()
     val route = pf.findPath(
         scenes.get(player.coords, pf.searchMapSize),
         player.coords.x,
@@ -48,7 +48,7 @@ onAction<ObjectClick> {
     if (coordsList.isEmpty()) {
         if (route.failed) {
             player.message(GameMessage.CANNOT_REACH_THAT)
-        } else {
+        } else if (!route.alternative) {
             val published = actions.publish(action, type.id)
             if (!published) {
                 player.warn { "Unhandled object action: $action" }
@@ -81,9 +81,8 @@ onAction<ObjectClick> {
     }
 }
 
-fun accessBitMask(rot: Int, mask: Int): Int {
-    if (rot == 0) {
-        return mask
-    }
-    return ((mask shl rot) and 0xf) + (mask shr (4 - rot))
+fun accessBitMask(rot: Int, mask: Int): Int = if (rot == 0) {
+    mask
+} else {
+    ((mask shl rot) and 0xF) + (mask shr (4 - rot))
 }
