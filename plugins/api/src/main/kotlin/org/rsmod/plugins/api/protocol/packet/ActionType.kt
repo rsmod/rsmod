@@ -25,6 +25,8 @@ data class ButtonClick(
 data class ObjectClick(
     val player: Player,
     val type: ObjectType,
+    val shape: Int,
+    val rot: Int,
     val coords: Coordinates,
     val action: ObjectAction,
     val approach: Boolean
@@ -33,18 +35,31 @@ data class ObjectClick(
 sealed class ObjectAction(
     val player: Player,
     val type: ObjectType,
+    val shape: Int,
+    val rot: Int,
     val coords: Coordinates
 ) : Action {
 
-    class Option1(player: Player, type: ObjectType, coords: Coordinates) : ObjectAction(player, type, coords)
-    class Option2(player: Player, type: ObjectType, coords: Coordinates) : ObjectAction(player, type, coords)
-    class Option3(player: Player, type: ObjectType, coords: Coordinates) : ObjectAction(player, type, coords)
-    class Option4(player: Player, type: ObjectType, coords: Coordinates) : ObjectAction(player, type, coords)
-    class Option5(player: Player, type: ObjectType, coords: Coordinates) : ObjectAction(player, type, coords)
+    class Option1(player: Player, type: ObjectType, shape: Int, rot: Int, coords: Coordinates) :
+        ObjectAction(player, type, shape, rot, coords)
+
+    class Option2(player: Player, type: ObjectType, shape: Int, rot: Int, coords: Coordinates) :
+        ObjectAction(player, type, shape, rot, coords)
+
+    class Option3(player: Player, type: ObjectType, shape: Int, rot: Int, coords: Coordinates) :
+        ObjectAction(player, type, shape, rot, coords)
+
+    class Option4(player: Player, type: ObjectType, shape: Int, rot: Int, coords: Coordinates) :
+        ObjectAction(player, type, shape, rot, coords)
+
+    class Option5(player: Player, type: ObjectType, shape: Int, rot: Int, coords: Coordinates) :
+        ObjectAction(player, type, shape, rot, coords)
 
     override fun toString(): String = MoreObjects.toStringHelper(this)
         .add("player", player)
         .add("type", type)
+        .add("shape", shape)
+        .add("rot", rot)
         .add("coords", coords)
         .toString()
 }

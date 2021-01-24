@@ -61,9 +61,9 @@ class CollisionMapLoader @Inject constructor(
 
                         if (opcode <= 49) {
                             map.readByte()
-                        } else if (opcode <= 81) {
+                        } else if (opcode <= 89) {
                             val localCoords = Coordinates(x, y, level)
-                            floorMask[localCoords] = (opcode - 81)
+                            floorMask[localCoords] = (opcode - 49)
                         }
                     }
                 }
@@ -74,17 +74,19 @@ class CollisionMapLoader @Inject constructor(
             for (x in 0 until MapSquare.SIZE) {
                 for (y in 0 until MapSquare.SIZE) {
                     val localCoords = Coordinates(x, y, level)
-                    val floor = floorMask[localCoords] ?: 0
-                    if ((floor and BLOCKED_TILE_BIT) != BLOCKED_TILE_BIT) {
+                    val localMask = floorMask[localCoords] ?: 0
+                    if ((localMask and BLOCKED_TILE_BIT) != BLOCKED_TILE_BIT) {
                         continue
                     }
                     var endLevel = level
-                    if ((floor and BRIDGE_TILE_BIT) == BRIDGE_TILE_BIT) {
+                    val bridgeCoords = Coordinates(x, y, 1)
+                    val bridgeMask = floorMask[bridgeCoords] ?: 0
+                    if ((bridgeMask and BRIDGE_TILE_BIT) == BRIDGE_TILE_BIT) {
                         endLevel--
                     }
                     if (endLevel >= 0) {
                         val coords = coords(level).translate(x, y)
-                        collisionMap.addFloorDecor(coords)
+                        collisionMap.add(coords, CollisionFlag.FLAG_TILE)
                     }
                 }
             }
@@ -114,7 +116,7 @@ class CollisionMapLoader @Inject constructor(
                 val rotation = attributes and 0x3
                 var level = (packed shr 12) and 0x3
 
-                val localCoords = Coordinates(localX, localY, level)
+                val localCoords = Coordinates(localX, localY, 1)
                 val floor = floorMask[localCoords] ?: 0
                 if ((floor and BRIDGE_TILE_BIT) == BRIDGE_TILE_BIT) {
                     level--

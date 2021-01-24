@@ -1,42 +1,89 @@
 package org.rsmod.plugins.content.pathfinder
 
+import org.rsmod.game.collision.SceneCollision
 import org.rsmod.game.coroutine.delay
-import org.rsmod.game.path.PathFinder
+import org.rsmod.game.model.map.Coordinates
+import org.rsmod.pathfinder.SmartPathFinder
+import org.rsmod.plugins.api.model.mob.player.GameMessage
+import org.rsmod.plugins.api.model.mob.player.message
 import org.rsmod.plugins.api.protocol.packet.MapMove
 import org.rsmod.plugins.api.protocol.packet.ObjectClick
 
-val pathfinder: PathFinder by inject()
+val scenes: SceneCollision by inject()
 
 onAction<MapMove> {
-    val coordinates = pathfinder.findPath(
-        start = player.coords,
-        dest = destination,
-        size = 1
+    val pf = SmartPathFinder(searchMapSize = 144)
+    val route = pf.findPath(
+        scenes.get(player.coords, pf.searchMapSize),
+        player.coords.x,
+        player.coords.y,
+        destination.x,
+        destination.y
     )
+    val coordsList = route.map { Coordinates(it.x, it.y, player.coords.level) }
+    player.clearQueues()
     player.steps.clear()
-    player.steps.addAll(coordinates)
+    player.steps.addAll(coordsList)
 }
 
 onAction<ObjectClick> {
-    val coordinates = pathfinder.findPath(
-        start = player.coords,
-        dest = coords,
-        size = 1
+    val dest = coords
+    val pf = SmartPathFinder()
+    val route = pf.findPath(
+        clipFlags = scenes.get(player.coords, pf.searchMapSize),
+        srcX = player.coords.x,
+        srcY = player.coords.y,
+        destX = dest.x,
+        destY = dest.y,
+        destWidth = if (rot == 0 || rot == 2) type.width else type.length,
+        destHeight = if (rot == 0 || rot == 2) type.length else type.width,
+        objRot = rot,
+        objShape = shape,
+        accessBitMask = accessBitMask(rot, type.clipMask)
     )
+    val coordsList = route.map { Coordinates(it.x, it.y, player.coords.level) }
+    player.clearQueues()
     player.steps.clear()
-    player.steps.addAll(coordinates)
-    player.normalQueue {
-        if (coordinates.isNotEmpty()) {
-            if (approach) {
-                // TODO: delay with los check
-            } else {
-                delay { player.coords == coordinates.last() }
+    player.steps.addAll(coordsList)
+    if (coordsList.isEmpty()) {
+        if (route.failed) {
+            player.message(GameMessage.CANNOT_REACH_THAT)
+        } else {
+            val published = actions.publish(action, type.id)
+            if (!published) {
+                player.warn { "Unhandled object action: $action" }
             }
-            player.steps.clear()
+        }
+        return@onAction
+    }
+    val destCoords = coordsList.last()
+    player.normalQueue {
+        delay()
+        var reached = false
+        while (true) {
+            /*if (approach) {
+                // TODO: los check
+            }*/
+            if (player.coords == destCoords) {
+                reached = true
+                break
+            }
+            delay()
+        }
+        if (!reached) {
+            player.message(GameMessage.CANNOT_REACH_THAT)
+            return@normalQueue
         }
         val published = actions.publish(action, type.id)
         if (!published) {
             player.warn { "Unhandled object action: $action" }
         }
     }
+}
+
+fun accessBitMask(rot: Int, mask: Int): Int {
+    if (rot == 0) {
+        return mask
+    }
+    return ((mask shl rot) and 0xf) + (mask shr (4 - rot))
 }

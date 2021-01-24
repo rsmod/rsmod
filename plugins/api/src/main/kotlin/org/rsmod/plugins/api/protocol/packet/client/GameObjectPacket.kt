@@ -37,9 +37,11 @@ class OperateObjectOneHandler @Inject constructor(
             return
         }
         val type = objTypes[obj.id] // TODO replace with id based on player varp
+        val shape = obj.shape
+        val rot = obj.rotation
         val approach = objectApSet.contains(type.id)
-        val option = ObjectAction.Option1(player, type, coords)
-        val action = ObjectClick(player, type, coords, option, approach)
+        val option = ObjectAction.Option1(player, type, shape, rot, coords)
+        val action = ObjectClick(player, type, shape, rot, coords, option, approach)
         actionBus.publish(action)
     }
 }
