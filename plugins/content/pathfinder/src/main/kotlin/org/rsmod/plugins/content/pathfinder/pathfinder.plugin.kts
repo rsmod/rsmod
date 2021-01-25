@@ -1,6 +1,7 @@
 package org.rsmod.plugins.content.pathfinder
 
-import org.rsmod.game.collision.SceneCollision
+import org.rsmod.game.collision.CollisionMap
+import org.rsmod.game.collision.buildFlags
 import org.rsmod.game.coroutine.delay
 import org.rsmod.game.model.map.Coordinates
 import org.rsmod.pathfinder.SmartPathFinder
@@ -9,12 +10,12 @@ import org.rsmod.plugins.api.model.mob.player.message
 import org.rsmod.plugins.api.protocol.packet.MapMove
 import org.rsmod.plugins.api.protocol.packet.ObjectClick
 
-val scenes: SceneCollision by inject()
+val collision: CollisionMap by inject()
 
 onAction<MapMove> {
     val pf = SmartPathFinder()
     val route = pf.findPath(
-        scenes.get(player.coords, pf.searchMapSize),
+        collision.buildFlags(player.coords, pf.searchMapSize),
         player.coords.x,
         player.coords.y,
         destination.x,
@@ -30,7 +31,7 @@ onAction<ObjectClick> {
     val dest = coords
     val pf = SmartPathFinder()
     val route = pf.findPath(
-        clipFlags = scenes.get(player.coords, pf.searchMapSize),
+        clipFlags = collision.buildFlags(player.coords, pf.searchMapSize),
         srcX = player.coords.x,
         srcY = player.coords.y,
         destX = dest.x,

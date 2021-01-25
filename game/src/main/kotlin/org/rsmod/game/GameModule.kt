@@ -5,7 +5,6 @@ import dev.misfitlabs.kotlinguice4.KotlinModule
 import org.rsmod.game.action.ActionBus
 import org.rsmod.game.cmd.CommandMap
 import org.rsmod.game.collision.CollisionMap
-import org.rsmod.game.collision.SceneCollision
 import org.rsmod.game.model.obj.GameObjectMap
 import org.rsmod.game.event.EventBus
 import org.rsmod.game.model.client.ClientList
@@ -54,9 +53,6 @@ class GameModule(private val scope: Scope) : KotlinModule() {
             .`in`(scope)
 
         bind<CollisionMap>()
-            .`in`(scope)
-
-        bind<SceneCollision>()
             .`in`(scope)
 
         bind<GameObjectMap>()

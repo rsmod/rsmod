@@ -5,7 +5,7 @@ import org.rsmod.game.model.domain.Direction
 import org.rsmod.game.model.domain.repo.XteaRepository
 import org.rsmod.game.model.map.Coordinates
 import org.rsmod.game.model.map.MapIsolation
-import org.rsmod.game.model.map.Scene
+import org.rsmod.game.model.map.BuildArea
 import org.rsmod.game.model.map.Viewport
 import org.rsmod.game.model.map.viewport
 import org.rsmod.game.model.mob.Player
@@ -65,7 +65,7 @@ class PlayerMovementTask @Inject constructor(
     private fun Player.shouldRebuildMap(): Boolean {
         val dx = coords.x - viewport.base.x
         val dy = coords.y - viewport.base.y
-        return dx <= 15 || dx >= (Scene.SIZE - 15 - 1) || dy <= 15 || dy >= (Scene.SIZE - 15 - 1)
+        return dx <= 15 || dx >= (BuildArea.SIZE - 15 - 1) || dy <= 15 || dy >= (BuildArea.SIZE - 15 - 1)
     }
 
     private fun directionBetween(start: Coordinates, end: Coordinates): Direction {

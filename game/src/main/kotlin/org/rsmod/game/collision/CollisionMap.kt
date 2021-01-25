@@ -26,3 +26,21 @@ class CollisionMap(
         tiles[coordinates] = CollisionTile(flags)
     }
 }
+
+fun CollisionMap.buildFlags(center: Coordinates, size: Int): IntArray {
+    val halfSize = size / 2
+    val flags = IntArray(size * size)
+    val rangeX = center.x - halfSize until center.x + halfSize
+    val rangeY = center.y - halfSize until center.y + halfSize
+    for (y in rangeY) {
+        for (x in rangeX) {
+            val coords = Coordinates(x, y, center.level)
+            val flag = this[coords] ?: 0
+            val localX = x - (center.x - halfSize)
+            val localY = y - (center.y - halfSize)
+            val index = (localY * size) + localX
+            flags[index] = flag
+        }
+    }
+    return flags
+}

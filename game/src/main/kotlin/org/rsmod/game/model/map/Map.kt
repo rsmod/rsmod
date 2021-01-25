@@ -45,9 +45,9 @@ inline class Coordinates(private val packed: Int) {
         y = y / MapSquare.SIZE
     )
 
-    fun scene() = Scene(
-        x = x / Scene.SIZE,
-        y = y / Scene.SIZE
+    fun buildArea() = BuildArea(
+        x = x / BuildArea.SIZE,
+        y = y / BuildArea.SIZE
     )
 
     operator fun component1(): Int = x
@@ -106,9 +106,9 @@ inline class Zone(private val packed: Int) {
         y = (y / (MapSquare.SIZE / SIZE))
     )
 
-    fun scene() = Scene(
-        x = (x / (Scene.SIZE / SIZE)),
-        y = (y / (Scene.SIZE / SIZE))
+    fun buildArea() = BuildArea(
+        x = (x / (BuildArea.SIZE / SIZE)),
+        y = (y / (BuildArea.SIZE / SIZE))
     )
 
     override fun toString(): String = MoreObjects
@@ -156,9 +156,9 @@ inline class MapSquare(val id: Int) {
         level = level
     )
 
-    fun scene() = Scene(
-        x = (x / (Scene.SIZE / SIZE)),
-        y = (y / (Scene.SIZE / SIZE))
+    fun buildArea() = BuildArea(
+        x = (x / (BuildArea.SIZE / SIZE)),
+        y = (y / (BuildArea.SIZE / SIZE))
     )
 
     override fun toString(): String = MoreObjects
@@ -175,7 +175,7 @@ inline class MapSquare(val id: Int) {
     }
 }
 
-inline class Scene(private val packed: Int) {
+inline class BuildArea(private val packed: Int) {
 
     val x: Int
         get() = packed and 0xFFFF
@@ -187,7 +187,7 @@ inline class Scene(private val packed: Int) {
         (x and 0xFFFF) or ((y and 0xFFFF) shl 16)
     )
 
-    fun translate(xOffset: Int, yOffset: Int) = Scene(
+    fun translate(xOffset: Int, yOffset: Int) = BuildArea(
         x = x + xOffset,
         y = y + yOffset
     )
