@@ -13,6 +13,7 @@ import org.rsmod.game.model.map.Coordinates
 import org.rsmod.game.model.map.MapSquare
 import org.rsmod.game.model.obj.GameObject
 import org.rsmod.game.model.obj.type.ObjectTypeList
+import org.rsmod.pathfinder.flag.CollisionFlag
 
 private const val MAPS_ARCHIVE = 5
 private const val MAP_CONTENTS_FILE = 0
@@ -86,7 +87,7 @@ class CollisionMapLoader @Inject constructor(
                     }
                     if (endLevel >= 0) {
                         val coords = coords(level).translate(x, y)
-                        collisionMap.add(coords, CollisionFlag.FLAG_TILE)
+                        collisionMap.add(coords, CollisionFlag.FLOOR)
                     }
                 }
             }
