@@ -1,5 +1,6 @@
 package org.rsmod.plugins.api.model.map
 
+import org.rsmod.game.model.map.BuildArea
 import org.rsmod.game.model.map.Coordinates
 import org.rsmod.game.model.map.MapSquare
 import org.rsmod.game.model.map.Viewport
@@ -17,6 +18,7 @@ fun Coordinates.isWithinDistance(other: Coordinates, radius: Int): Boolean {
 }
 
 fun Viewport.Companion.of(center: Coordinates, maps: List<MapSquare>): Viewport {
-    val base = center.zone().translate(-6, -6).coords()
-    return Viewport(base, maps)
+    val halfSize = BuildArea.SIZE / 2
+    val baseCoords = center.translate(-halfSize, -halfSize)
+    return Viewport(baseCoords, maps)
 }

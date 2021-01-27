@@ -220,7 +220,14 @@ inline class BuildArea(private val packed: Int) {
         .toString()
 
     companion object {
+
         const val SIZE = 104
+
+        /**
+         * The amount of tiles a player can be near the edge of
+         * their current [BuildArea] before it must be rebuilt.
+         */
+        const val REBUILD_BOUNDARY = 16
     }
 }
 

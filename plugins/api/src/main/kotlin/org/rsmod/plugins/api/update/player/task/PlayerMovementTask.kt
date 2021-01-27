@@ -65,7 +65,8 @@ class PlayerMovementTask @Inject constructor(
     private fun Player.shouldRebuildMap(): Boolean {
         val dx = coords.x - viewport.base.x
         val dy = coords.y - viewport.base.y
-        return dx <= 15 || dx >= (BuildArea.SIZE - 15 - 1) || dy <= 15 || dy >= (BuildArea.SIZE - 15 - 1)
+        return dx < BuildArea.REBUILD_BOUNDARY || dx >= BuildArea.SIZE - BuildArea.REBUILD_BOUNDARY
+                || dy < BuildArea.REBUILD_BOUNDARY || dy >= BuildArea.SIZE - BuildArea.REBUILD_BOUNDARY
     }
 
     private fun directionBetween(start: Coordinates, end: Coordinates): Direction {
