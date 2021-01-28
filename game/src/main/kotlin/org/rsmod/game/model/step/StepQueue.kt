@@ -10,5 +10,6 @@ sealed class StepSpeed {
 }
 
 class StepQueue internal constructor(
-    private val steps: Queue<Coordinates> = LinkedList()
+    private val steps: Queue<Coordinates> = LinkedList(),
+    var noclip: Boolean = false
 ) : Queue<Coordinates> by steps

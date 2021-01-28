@@ -31,7 +31,9 @@ import org.rsmod.game.queue.QueueType
 import org.rsmod.game.timer.TimerMap
 
 private val logger = InlineLogger()
+
 private val DEFAULT_DIRECTION = Direction.South
+private const val DEFAULT_RUN_ENERGY = 100.0
 
 sealed class Mob(
     val steps: StepQueue = StepQueue(),
@@ -81,6 +83,7 @@ class Player(
     val bank: ItemContainer = ItemContainer(),
     val containers: ItemContainerMap = ItemContainerMap(),
     val ui: InterfaceList = InterfaceList(),
+    val runEnergy: Double = DEFAULT_RUN_ENERGY,
     private val messageListeners: List<ServerPacketListener> = mutableListOf()
 ) : Mob() {
 

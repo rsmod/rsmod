@@ -3,6 +3,7 @@ package org.rsmod.plugins.content.gameframe
 import org.rsmod.game.model.mob.Player
 import org.rsmod.game.model.ui.Component
 import org.rsmod.game.model.ui.UserInterface
+import org.rsmod.plugins.api.model.mob.player.sendRunEnergy
 import org.rsmod.plugins.api.model.ui.openOverlay
 import org.rsmod.plugins.api.model.ui.openTopLevel
 import org.rsmod.plugins.api.onEarlyLogin
@@ -12,6 +13,7 @@ import org.rsmod.plugins.api.protocol.packet.server.SmallVarpPacket
 
 onEarlyLogin {
     player.sendGameframe()
+    player.sendOrbs()
 }
 
 fun Player.sendGameframe() {
@@ -39,4 +41,8 @@ fun Player.sendGameframe() {
     write(RunClientScript(1105, 1))
     write(SmallVarpPacket(1055, 0))
     write(LargeVarpPacket(1737, -1))
+}
+
+fun Player.sendOrbs() {
+    sendRunEnergy()
 }

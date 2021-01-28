@@ -26,6 +26,8 @@ import io.guthix.buffer.writeStringCP1252
 import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
 import kotlin.math.min
+import org.rsmod.plugins.api.protocol.packet.server.SetMapFlag
+import org.rsmod.plugins.api.protocol.packet.server.UpdateRunEnergy
 
 val structures: DevicePacketStructureMap by inject()
 val packets = structures.server(Device.Desktop)
@@ -125,6 +127,21 @@ packets.register<LargeVarpPacket> {
     write {
         it.writeIntME(value)
         it.writeShort(id)
+    }
+}
+
+packets.register<UpdateRunEnergy> {
+    opcode = 61
+    write {
+        it.writeByte(energy)
+    }
+}
+
+packets.register<SetMapFlag> {
+    opcode = 47
+    write {
+        it.writeByte(x)
+        it.writeByte(y)
     }
 }
 

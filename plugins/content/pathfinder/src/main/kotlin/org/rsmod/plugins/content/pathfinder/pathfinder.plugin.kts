@@ -6,7 +6,9 @@ import org.rsmod.game.coroutine.delay
 import org.rsmod.game.model.map.Coordinates
 import org.rsmod.pathfinder.SmartPathFinder
 import org.rsmod.plugins.api.model.mob.player.GameMessage
-import org.rsmod.plugins.api.model.mob.player.message
+import org.rsmod.plugins.api.model.mob.player.clearMinimapFlag
+import org.rsmod.plugins.api.model.mob.player.sendMessage
+import org.rsmod.plugins.api.model.mob.player.sendMinimapFlag
 import org.rsmod.plugins.api.protocol.packet.MapMove
 import org.rsmod.plugins.api.protocol.packet.ObjectClick
 
@@ -25,17 +27,22 @@ onAction<MapMove> {
     player.clearQueues()
     player.steps.clear()
     player.steps.addAll(coordsList)
+    if (route.alternative && coordsList.isNotEmpty()) {
+        val dest = coordsList.last()
+        player.sendMinimapFlag(dest.x, dest.y)
+    } else if (route.failed) {
+        player.clearMinimapFlag()
+    }
 }
 
 onAction<ObjectClick> {
-    val dest = coords
     val pf = SmartPathFinder()
     val route = pf.findPath(
         clipFlags = collision.buildFlags(player.coords, pf.searchMapSize),
         srcX = player.coords.x,
         srcY = player.coords.y,
-        destX = dest.x,
-        destY = dest.y,
+        destX = coords.x,
+        destY = coords.y,
         destWidth = if (rot == 0 || rot == 2) type.width else type.length,
         destHeight = if (rot == 0 || rot == 2) type.length else type.width,
         objRot = rot,
@@ -47,8 +54,9 @@ onAction<ObjectClick> {
     player.steps.clear()
     player.steps.addAll(coordsList)
     if (coordsList.isEmpty()) {
+        player.clearMinimapFlag()
         if (route.failed) {
-            player.message(GameMessage.CANNOT_REACH_THAT)
+            player.sendMessage(GameMessage.CANNOT_REACH_THAT)
         } else if (!route.alternative) {
             val published = actions.publish(action, type.id)
             if (!published) {
@@ -58,6 +66,7 @@ onAction<ObjectClick> {
         return@onAction
     }
     val destCoords = coordsList.last()
+    player.sendMinimapFlag(destCoords.x, destCoords.y)
     player.normalQueue {
         delay()
         var reached = false
@@ -72,7 +81,7 @@ onAction<ObjectClick> {
             delay()
         }
         if (!reached) {
-            player.message(GameMessage.CANNOT_REACH_THAT)
+            player.sendMessage(GameMessage.CANNOT_REACH_THAT)
             return@normalQueue
         }
         val published = actions.publish(action, type.id)
