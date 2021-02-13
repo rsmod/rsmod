@@ -18,7 +18,7 @@ import org.rsmod.plugins.api.protocol.packet.client.ReflectionCheckReply
 import org.rsmod.plugins.api.protocol.packet.client.WindowStatus
 import org.rsmod.plugins.api.protocol.structure.DevicePacketStructureMap
 import io.guthix.buffer.readStringCP1252
-import io.guthix.buffer.readUnsignedByteAdd
+import io.guthix.buffer.readUnsignedByteSub
 import io.guthix.buffer.readUnsignedShortAddLE
 import org.rsmod.plugins.api.protocol.packet.client.IfButton
 import org.rsmod.plugins.api.protocol.packet.client.IfButtonHandler
@@ -74,7 +74,7 @@ packets.register<MoveGameClick> {
     handler = GameClickHandler::class
     read {
         val x = readUnsignedShortLE()
-        val type = readUnsignedByte().toInt()
+        val type = readUnsignedByteSub().toInt()
         val y = readUnsignedShortAddLE()
         MoveGameClick(x, y, type)
     }
@@ -86,7 +86,7 @@ packets.register<MoveMinimapClick> {
     handler = MinimapClickHandler::class
     read {
         val x = readUnsignedShortLE()
-        val type = readUnsignedByteAdd().toInt()
+        val type = readUnsignedByteSub().toInt()
         val y = readUnsignedShortAddLE()
         MoveMinimapClick(x, y, type)
     }

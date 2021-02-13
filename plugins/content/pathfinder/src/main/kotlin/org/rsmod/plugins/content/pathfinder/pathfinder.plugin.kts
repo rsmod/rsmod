@@ -4,34 +4,50 @@ import org.rsmod.game.collision.CollisionMap
 import org.rsmod.game.collision.buildFlags
 import org.rsmod.game.coroutine.delay
 import org.rsmod.game.model.map.Coordinates
+import org.rsmod.game.model.move.MovementSpeed
 import org.rsmod.pathfinder.SmartPathFinder
 import org.rsmod.plugins.api.model.mob.player.GameMessage
 import org.rsmod.plugins.api.model.mob.player.clearMinimapFlag
 import org.rsmod.plugins.api.model.mob.player.sendMessage
 import org.rsmod.plugins.api.model.mob.player.sendMinimapFlag
 import org.rsmod.plugins.api.protocol.packet.MapMove
+import org.rsmod.plugins.api.protocol.packet.MoveType
 import org.rsmod.plugins.api.protocol.packet.ObjectClick
 
 val collision: CollisionMap by inject()
 
 onAction<MapMove> {
-    val pf = SmartPathFinder()
-    val route = pf.findPath(
-        collision.buildFlags(player.coords, pf.searchMapSize),
-        player.coords.x,
-        player.coords.y,
-        destination.x,
-        destination.y
-    )
-    val coordsList = route.map { Coordinates(it.x, it.y, player.coords.level) }
-    player.clearQueues()
-    player.steps.clear()
-    player.steps.addAll(coordsList)
-    if (route.alternative && coordsList.isNotEmpty()) {
-        val dest = coordsList.last()
-        player.sendMinimapFlag(dest.x, dest.y)
-    } else if (route.failed) {
-        player.clearMinimapFlag()
+    val speed = when (type) {
+        MoveType.Displace -> {
+            player.displace(destination)
+            return@onAction
+        }
+        MoveType.ForceWalk -> MovementSpeed.Walk
+        MoveType.ForceRun -> MovementSpeed.Run
+        else -> null
+    }
+    if (player.movement.noclip || noclip) {
+        // TODO: noclip path
+    } else {
+        val pf = SmartPathFinder()
+        val route = pf.findPath(
+            collision.buildFlags(player.coords, pf.searchMapSize),
+            player.coords.x,
+            player.coords.y,
+            destination.x,
+            destination.y
+        )
+        val coordsList = route.map { Coordinates(it.x, it.y, player.coords.level) }
+        player.clearQueues()
+        player.movement.clear()
+        player.movement.speed = speed
+        player.movement.addAll(coordsList)
+        if (route.alternative && coordsList.isNotEmpty()) {
+            val dest = coordsList.last()
+            player.sendMinimapFlag(dest.x, dest.y)
+        } else if (route.failed) {
+            player.clearMinimapFlag()
+        }
     }
 }
 
@@ -51,8 +67,9 @@ onAction<ObjectClick> {
     )
     val coordsList = route.map { Coordinates(it.x, it.y, player.coords.level) }
     player.clearQueues()
-    player.steps.clear()
-    player.steps.addAll(coordsList)
+    player.movement.clear()
+    player.movement.speed = null
+    player.movement.addAll(coordsList)
     if (coordsList.isEmpty()) {
         player.clearMinimapFlag()
         if (route.failed) {

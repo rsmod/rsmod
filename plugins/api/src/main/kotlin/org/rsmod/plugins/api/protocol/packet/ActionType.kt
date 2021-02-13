@@ -5,13 +5,20 @@ import org.rsmod.game.action.Action
 import org.rsmod.game.model.map.Coordinates
 import org.rsmod.game.model.mob.Player
 import org.rsmod.game.model.obj.type.ObjectType
-import org.rsmod.game.model.step.StepSpeed
 import org.rsmod.game.model.ui.Component
+
+sealed class MoveType {
+    object Neutral : MoveType()
+    object ForceWalk : MoveType()
+    object ForceRun : MoveType()
+    object Displace : MoveType()
+}
 
 data class MapMove(
     val player: Player,
     val destination: Coordinates,
-    val speed: StepSpeed
+    val type: MoveType,
+    val noclip: Boolean = false
 ) : Action
 
 data class ButtonClick(

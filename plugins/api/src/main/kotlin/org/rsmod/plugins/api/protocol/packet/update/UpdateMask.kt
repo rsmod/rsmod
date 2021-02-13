@@ -8,6 +8,14 @@ inline class DirectionMask(val angle: Int) : UpdateMask {
     companion object
 }
 
+inline class MovementTempMask(val type: Int) : UpdateMask {
+    companion object
+}
+
+inline class MovementPermMask(val type: Int) : UpdateMask {
+    companion object
+}
+
 data class AppearanceMask(
     val gender: Int,
     val skull: Int,

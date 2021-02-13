@@ -8,6 +8,8 @@ import org.rsmod.plugins.api.model.appearance.Body
 import org.rsmod.plugins.api.model.appearance.Equipment
 import org.rsmod.plugins.api.protocol.packet.update.AppearanceMask
 import org.rsmod.plugins.api.protocol.packet.update.DirectionMask
+import org.rsmod.plugins.api.protocol.packet.update.MovementPermMask
+import org.rsmod.plugins.api.protocol.packet.update.MovementTempMask
 
 private val EQUIPMENT_BODY_PART = mapOf(
     Equipment.CHEST to Body.CHEST,
@@ -41,6 +43,14 @@ fun DirectionMask.Companion.of(player: Player, face: Direction): DirectionMask {
     val atan = atan2(coordinates.x.toFloat() - translation.x, coordinates.y.toFloat() - translation.y)
     val degrees = (atan * 325.949).toInt() and 0x7FF
     return DirectionMask(degrees)
+}
+
+fun MovementTempMask.Companion.of(type: Int): MovementTempMask {
+    return MovementTempMask(type)
+}
+
+fun MovementPermMask.Companion.of(type: Int): MovementPermMask {
+    return MovementPermMask(type)
 }
 
 private fun Player.looks(): ByteArray {

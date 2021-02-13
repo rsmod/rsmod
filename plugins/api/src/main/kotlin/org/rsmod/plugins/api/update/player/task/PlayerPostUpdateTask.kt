@@ -14,7 +14,7 @@ class PlayerPostUpdateTask @Inject constructor(
                 return@forEach
             }
             player.entity.updates.clear()
-            player.movement.clear()
+            player.movement.nextSteps.clear()
             player.displace = false
             player.snapshot = player.snapshot()
         }

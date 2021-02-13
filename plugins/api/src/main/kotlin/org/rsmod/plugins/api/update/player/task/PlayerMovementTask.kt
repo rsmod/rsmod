@@ -11,14 +11,18 @@ import org.rsmod.game.model.map.Viewport
 import org.rsmod.game.model.map.viewport
 import org.rsmod.game.model.mob.Player
 import org.rsmod.game.model.mob.PlayerList
-import org.rsmod.game.model.step.StepQueue
-import org.rsmod.game.model.step.StepSpeed
+import org.rsmod.game.model.move.MovementSpeed
+import org.rsmod.game.model.move.MovementQueue
+import org.rsmod.game.model.move.Step
 import org.rsmod.game.update.task.UpdateTask
 import org.rsmod.plugins.api.collision.canTraverse
 import org.rsmod.plugins.api.model.map.of
 import org.rsmod.plugins.api.model.mob.player.clearMinimapFlag
 import org.rsmod.plugins.api.model.mob.player.sendRunEnergy
 import org.rsmod.plugins.api.protocol.packet.server.RebuildNormal
+import org.rsmod.plugins.api.protocol.packet.update.MovementPermMask
+import org.rsmod.plugins.api.protocol.packet.update.MovementTempMask
+import org.rsmod.plugins.api.update.player.mask.of
 
 class PlayerMovementTask @Inject constructor(
     private val playerList: PlayerList,
@@ -32,9 +36,7 @@ class PlayerMovementTask @Inject constructor(
             if (player == null) {
                 return@forEach
             }
-            if (player.steps.isNotEmpty()) {
-                player.pollSteps()
-            }
+            player.processMovement()
             val coords = player.coords
             val rebuild = player.shouldRebuildMap()
             if (rebuild) {
@@ -51,40 +53,60 @@ class PlayerMovementTask @Inject constructor(
         }
     }
 
-    private fun Player.pollSteps() {
-        if (speed == StepSpeed.Run && runEnergy <= 0) {
-            speed = StepSpeed.Walk
-        }
-        val coordinates = steps.pollSteps(coords, speed)
-        if (coordinates.isEmpty()) {
-            clearMinimapFlag()
-            return
-        }
-        val direction = directionBetween(
-            if (coordinates.size < 2) coords else coordinates[coordinates.lastIndex - 1],
-            coordinates.last()
-        )
-        movement.addAll(coordinates)
-        coords = coordinates.last()
-        faceDirection = direction
-        if (coordinates.size > 1) {
-            drainRunEnergy()
+    private fun Player.processMovement() {
+        pollSteps()
+        if (displace) {
+            displace()
+        } else if (movement.nextSteps.isNotEmpty()) {
+            updateMovementSpeed()
         }
     }
 
-    private fun StepQueue.pollSteps(src: Coordinates, speed: StepSpeed): List<Coordinates> {
-        val steps = mutableListOf<Coordinates>()
+    private fun Player.pollSteps() {
+        if (movement.isEmpty()) return
+        if (speed() == MovementSpeed.Run && runEnergy <= 0) {
+            movement.speed = null
+            speed = MovementSpeed.Walk
+        }
+        movement.pollSteps(coords, speed())
+        val lastStep = movement.nextSteps.lastOrNull()
+        if (lastStep == null) {
+            clearMinimapFlag()
+            return
+        }
+        coords = lastStep.dest
+        faceDirection = lastStep.dir
+    }
+
+    private fun MovementQueue.pollSteps(src: Coordinates, speed: MovementSpeed) {
         var lastCoords = src
         for (i in 0 until speed.stepCount) {
-            val dest = poll()
+            val dest = poll() ?: break
             val dir = directionBetween(lastCoords, dest)
             if (!noclip && !collision.canTraverse(lastCoords, dir)) {
                 break
             }
-            steps.add(dest)
+            val step = Step(dest, dir)
+            nextSteps.add(step)
             lastCoords = dest
         }
-        return steps
+    }
+
+    private fun Player.updateMovementSpeed() {
+        val movementSpeed = if (movement.nextSteps.size <= 1) MovementSpeed.Walk else MovementSpeed.Run
+        if (movementSpeed != MovementSpeed.Walk) {
+            drainRunEnergy()
+        }
+        if (movementSpeed != lastSpeed) {
+            val mask = MovementPermMask.of(movementSpeed.stepCount)
+            entity.updates.add(mask)
+            lastSpeed = movementSpeed
+        }
+    }
+
+    private fun Player.displace() {
+        val mask = MovementTempMask.of(127)
+        entity.updates.add(mask)
     }
 
     private fun Player.drainRunEnergy() {
@@ -114,9 +136,13 @@ class PlayerMovementTask @Inject constructor(
         }
     }
 
-    private val StepSpeed.stepCount: Int
+    private fun Player.speed(): MovementSpeed {
+        return movement.speed ?: speed
+    }
+
+    private val MovementSpeed.stepCount: Int
         get() = when (this) {
-            StepSpeed.Run -> 2
-            StepSpeed.Walk -> 1
+            MovementSpeed.Run -> 2
+            MovementSpeed.Walk -> 1
         }
 }

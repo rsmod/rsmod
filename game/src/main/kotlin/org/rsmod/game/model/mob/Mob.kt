@@ -3,8 +3,6 @@ package org.rsmod.game.model.mob
 import com.github.michaelbull.logging.InlineLogger
 import com.google.common.base.MoreObjects
 import java.time.LocalDateTime
-import java.util.ArrayDeque
-import java.util.Queue
 import org.rsmod.game.action.ActionBus
 import org.rsmod.game.event.Event
 import org.rsmod.game.event.EventBus
@@ -23,8 +21,8 @@ import org.rsmod.game.model.item.container.ItemContainerMap
 import org.rsmod.game.model.map.Coordinates
 import org.rsmod.game.model.map.Viewport
 import org.rsmod.game.model.snapshot.Snapshot
-import org.rsmod.game.model.step.StepQueue
-import org.rsmod.game.model.step.StepSpeed
+import org.rsmod.game.model.move.MovementQueue
+import org.rsmod.game.model.move.MovementSpeed
 import org.rsmod.game.model.ui.InterfaceList
 import org.rsmod.game.queue.GameQueueStack
 import org.rsmod.game.queue.QueueType
@@ -36,9 +34,8 @@ private val DEFAULT_DIRECTION = Direction.South
 private const val DEFAULT_RUN_ENERGY = 100.0
 
 sealed class Mob(
-    val steps: StepQueue = StepQueue(),
-    var speed: StepSpeed = StepSpeed.Walk,
-    val movement: Queue<Coordinates> = ArrayDeque(),
+    val movement: MovementQueue = MovementQueue(),
+    var speed: MovementSpeed = MovementSpeed.Walk,
     var faceDirection: Direction = DEFAULT_DIRECTION,
     var displace: Boolean = false,
     val timers: TimerMap = TimerMap(),
@@ -55,11 +52,6 @@ sealed class Mob(
         get() = entity.coords
         set(value) { entity.coords = value }
 
-    fun displace(coords: Coordinates) {
-        this.coords = coords
-        this.displace = true
-    }
-
     fun weakQueue(block: suspend () -> Unit) = queueStack.queue(QueueType.Weak, block)
 
     fun normalQueue(block: suspend () -> Unit) = queueStack.queue(QueueType.Normal, block)
@@ -67,6 +59,11 @@ sealed class Mob(
     fun strongQueue(block: suspend () -> Unit) = queueStack.queue(QueueType.Strong, block)
 
     fun clearQueues() = queueStack.clear()
+
+    fun displace(coords: Coordinates) {
+        this.coords = coords
+        this.displace = true
+    }
 }
 
 class Player(
@@ -83,6 +80,7 @@ class Player(
     val bank: ItemContainer = ItemContainer(),
     val containers: ItemContainerMap = ItemContainerMap(),
     val ui: InterfaceList = InterfaceList(),
+    var lastSpeed: MovementSpeed? = null,
     val runEnergy: Double = DEFAULT_RUN_ENERGY,
     private val messageListeners: List<ServerPacketListener> = mutableListOf()
 ) : Mob() {

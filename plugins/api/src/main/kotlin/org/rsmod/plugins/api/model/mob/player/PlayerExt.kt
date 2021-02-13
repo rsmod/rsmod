@@ -3,8 +3,9 @@ package org.rsmod.plugins.api.model.mob.player
 import org.rsmod.game.model.domain.Direction
 import org.rsmod.game.model.map.Coordinates
 import org.rsmod.game.model.mob.Player
-import org.rsmod.game.model.step.StepSpeed
+import org.rsmod.game.model.move.MovementSpeed
 import org.rsmod.plugins.api.protocol.packet.MapMove
+import org.rsmod.plugins.api.protocol.packet.MoveType
 import org.rsmod.plugins.api.protocol.packet.server.SetMapFlag
 import org.rsmod.plugins.api.protocol.packet.server.UpdateRunEnergy
 import org.rsmod.plugins.api.protocol.packet.update.AppearanceMask
@@ -30,8 +31,12 @@ fun Player.clearMinimapFlag() {
     sendMinimapFlag(-1, -1)
 }
 
-fun Player.moveTo(destination: Coordinates, speed: StepSpeed = this.speed) {
-    val action = MapMove(this, destination, speed)
+fun Player.moveTo(destination: Coordinates, speed: MovementSpeed = this.speed, noclip: Boolean = false) {
+    val type = when (speed) {
+        MovementSpeed.Walk -> MoveType.ForceWalk
+        MovementSpeed.Run -> MoveType.ForceRun
+    }
+    val action = MapMove(this, destination, type, noclip)
     actionBus.publish(action)
 }
 

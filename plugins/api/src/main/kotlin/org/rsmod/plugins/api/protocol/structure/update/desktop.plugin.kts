@@ -1,5 +1,6 @@
 package org.rsmod.plugins.api.protocol.structure.update
 
+import io.guthix.buffer.writeByteNeg
 import io.guthix.buffer.writeByteSub
 import io.guthix.buffer.writeBytesAdd
 import org.rsmod.plugins.api.protocol.Device
@@ -9,12 +10,16 @@ import io.guthix.buffer.writeStringCP1252
 import org.rsmod.plugins.api.protocol.packet.update.AppearanceMask
 import org.rsmod.plugins.api.protocol.packet.update.BitMask
 import org.rsmod.plugins.api.protocol.packet.update.DirectionMask
+import org.rsmod.plugins.api.protocol.packet.update.MovementPermMask
+import org.rsmod.plugins.api.protocol.packet.update.MovementTempMask
 
 val structures: DevicePacketStructureMap by inject()
 val masks = structures.update(Device.Desktop)
 
 masks.order {
     -DirectionMask::class
+    -MovementPermMask::class
+    -MovementTempMask::class
     -AppearanceMask::class
 }
 
@@ -35,6 +40,20 @@ masks.register<DirectionMask> {
     mask = 0x8
     write {
         it.writeShortAddLE(angle)
+    }
+}
+
+masks.register<MovementPermMask> {
+    mask = 0x200
+    write {
+        it.writeByteNeg(type)
+    }
+}
+
+masks.register<MovementTempMask> {
+    mask = 0x800
+    write {
+        it.writeByteSub(type)
     }
 }
 

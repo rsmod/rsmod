@@ -28,11 +28,25 @@ import io.netty.buffer.ByteBuf
 import kotlin.math.abs
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import org.rsmod.game.model.domain.Direction
 
 private val logger = InlineLogger()
 private const val MAX_VIEW_DISTANCE = 15
 private const val MAX_PLAYER_ADDITIONS_PER_CYCLE = 40
 private const val MAX_LOCAL_PLAYERS = 255
+
+private val DIRECTION_ROT = mapOf(
+    Direction.SouthWest to 0,
+    Direction.South to 1,
+    Direction.SouthEast to 2,
+    Direction.West to 3,
+    Direction.East to 4,
+    Direction.NorthWest to 5,
+    Direction.North to 6,
+    Direction.NorthEast to 7
+)
+private val DIRECTION_DIFF_X = intArrayOf(-1, 0, 1, -1, 1, -1, 0, 1)
+private val DIRECTION_DIFF_Y = intArrayOf(-1, -1, -1, 0, 0, 1, 1, 1)
 
 private sealed class UpdateGroup {
     object Active : UpdateGroup()
@@ -51,11 +65,11 @@ class PlayerUpdateTask @Inject constructor(
     }
 
     override suspend fun execute() {
-        val gpi = ioCoroutine.launch(block = ::launchGpi)
+        val gpi = ioCoroutine.launch { launchGpi() }
         gpi.join()
     }
 
-    private fun launchGpi(scope: CoroutineScope) = scope.launch {
+    private fun CoroutineScope.launchGpi() = launch {
         clientList.forEach { client ->
             launch {
                 val buf = client.gpiBuffer()
@@ -67,12 +81,12 @@ class PlayerUpdateTask @Inject constructor(
     }
 
     private fun Client.gpiBuffer(): ByteBuf {
-        val buf = bufAllocator.buffer()
+        val mainBuf = bufAllocator.buffer()
         val maskBuf = bufAllocator.buffer()
-        val maskPackets = device.maskPackets
-        buf.getPlayerInfo(player, updateRecords, maskBuf, maskPackets)
-        buf.writeBytes(maskBuf)
-        return buf
+        val masks = device.maskPackets
+        mainBuf.getPlayerInfo(player, updateRecords, maskBuf, masks)
+        mainBuf.writeBytes(maskBuf)
+        return mainBuf
     }
 
     private fun ByteBuf.getPlayerInfo(
@@ -121,6 +135,9 @@ class PlayerUpdateTask @Inject constructor(
             if (maskUpdate) {
                 maskBuf.writeMaskUpdate(localPlayer.entity.updates, maskPackets)
             }
+            if (maskUpdate || moveUpdate) {
+                bitBuf.writeBoolean(true)
+            }
             when {
                 moveUpdate -> bitBuf.writeLocalMovement(localPlayer, maskUpdate)
                 maskUpdate -> bitBuf.writeMaskUpdateSignal()
@@ -156,7 +173,7 @@ class PlayerUpdateTask @Inject constructor(
                 record.flag = (record.flag or 0x2)
                 return@forEach
             }
-            val globalPlayer = if (index >= playerList.capacity) null else playerList[index]
+            val globalPlayer = if (index in playerList.indices) playerList[index] else null
             if (globalPlayer != null) {
                 val capacityReached = added + previouslyAdded >= MAX_PLAYER_ADDITIONS_PER_CYCLE ||
                     localCount >= MAX_LOCAL_PLAYERS
@@ -229,23 +246,53 @@ class PlayerUpdateTask @Inject constructor(
         val diffX = currCoords.x - lastCoords.x
         val diffY = currCoords.y - lastCoords.y
         val diffLevel = currCoords.level - lastCoords.level
-        val largeChange = abs(diffX) > 15 && abs(diffY) > 15
-        writeBoolean(true)
+        val largeChange = abs(diffX) > MAX_VIEW_DISTANCE && abs(diffY) > MAX_VIEW_DISTANCE
+        val teleport = largeChange || local.displace
+
         writeBoolean(maskUpdate)
-        writeBits(value = 3, amount = 2)
-        writeBoolean(largeChange)
-        writeBits(value = diffLevel and 0x3, amount = 2)
-        if (largeChange) {
-            writeBits(value = diffX and 0x3FFF, amount = 14)
-            writeBits(value = diffY and 0x3FFF, amount = 14)
+        if (teleport) {
+            writeBits(value = 3, amount = 2)
+            writeBoolean(largeChange)
+            writeBits(value = diffLevel and 0x3, amount = 2)
+            if (largeChange) {
+                writeBits(value = diffX and 0x3FFF, amount = 14)
+                writeBits(value = diffY and 0x3FFF, amount = 14)
+            } else {
+                writeBits(value = diffX and 0x1F, amount = 5)
+                writeBits(value = diffY and 0x1F, amount = 5)
+            }
         } else {
-            writeBits(value = diffX and 0x1F, amount = 5)
-            writeBits(value = diffY and 0x1F, amount = 5)
+            val steps = local.movement.nextSteps
+            val walkStep = steps.firstOrNull()
+            val runStep = if (steps.size > 1) steps[1] else null
+            val walkRot = DIRECTION_ROT[walkStep?.dir] ?: 0
+            val runRot = DIRECTION_ROT[runStep?.dir]
+            var dx = DIRECTION_DIFF_X[walkRot]
+            var dy = DIRECTION_DIFF_Y[walkRot]
+
+            var running = false
+            var direction = 0
+            if (runRot != null) {
+                dx += DIRECTION_DIFF_X[runRot]
+                dy += DIRECTION_DIFF_Y[runRot]
+                val runDir = runDir(dx, dy)
+                if (runDir != null) {
+                    direction = runDir
+                    running = true
+                }
+            }
+            if (!running) {
+                val walkDir = walkDir(dx, dy)
+                if (walkDir != null) {
+                    direction = walkDir
+                }
+            }
+            writeBits(value = if (running) 2 else 1, amount = 2)
+            writeBits(value = direction, amount = if (running) 4 else 3)
         }
     }
 
     private fun BitBuf.writeMaskUpdateSignal() {
-        writeBoolean(true)
         writeBits(value = 1, amount = 1)
         writeBits(value = 0, amount = 2)
     }
@@ -394,7 +441,7 @@ class PlayerUpdateTask @Inject constructor(
     }
 
     private fun Player.isMoving(): Boolean {
-        return movement.isNotEmpty() || displace
+        return movement.nextSteps.isNotEmpty() || displace
     }
 
     private fun Player.isMaskUpdateRequired(): Boolean {
@@ -436,6 +483,38 @@ class PlayerUpdateTask @Inject constructor(
             record.local = false
             record.reset = false
         }
+    }
+
+    private fun walkDir(dx: Int, dy: Int): Int? = when {
+        dx == -1 && dy == -1 -> 0
+        dx == 0 && dy == -1 -> 1
+        dx == 1 && dy == -1 -> 2
+        dx == -1 && dy == 0 -> 3
+        dx == 1 && dy == 0 -> 4
+        dx == -1 && dy == 1 -> 5
+        dx == 0 && dy == 1 -> 6
+        dx == 1 && dy == 1 -> 7
+        else -> null
+    }
+
+    private fun runDir(dx: Int, dy: Int): Int? = when {
+        dx == -2 && dy == -2 -> 0
+        dx == -1 && dy == -2 -> 1
+        dx == 0 && dy == -2 -> 2
+        dx == 1 && dy == -2 -> 3
+        dx == 2 && dy == -2 -> 4
+        dx == -2 && dy == -1 -> 5
+        dx == 2 && dy == -1 -> 6
+        dx == -2 && dy == 0 -> 7
+        dx == 2 && dy == 0 -> 8
+        dx == -2 && dy == 1 -> 9
+        dx == 2 && dy == 1 -> 10
+        dx == -2 && dy == 2 -> 11
+        dx == -1 && dy == 2 -> 12
+        dx == 0 && dy == 2 -> 13
+        dx == 1 && dy == 2 -> 14
+        dx == 2 && dy == 2 -> 15
+        else -> null
     }
 
     private val UpdateGroup.bit: Int
