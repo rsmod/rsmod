@@ -19,6 +19,7 @@ val collision: CollisionMap by inject()
 onAction<MapMove> {
     val speed = when (type) {
         MoveType.Displace -> {
+            player.stopMovement()
             player.displace(destination)
             return@onAction
         }
@@ -39,7 +40,7 @@ onAction<MapMove> {
         )
         val coordsList = route.map { Coordinates(it.x, it.y, player.coords.level) }
         player.clearQueues()
-        player.movement.clear()
+        player.stopMovement()
         player.movement.speed = speed
         player.movement.addAll(coordsList)
         if (route.alternative && coordsList.isNotEmpty()) {

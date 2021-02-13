@@ -64,6 +64,11 @@ sealed class Mob(
         this.coords = coords
         this.displace = true
     }
+
+    fun stopMovement() {
+        movement.clear()
+        movement.nextSteps.clear()
+    }
 }
 
 class Player(
@@ -81,7 +86,7 @@ class Player(
     val containers: ItemContainerMap = ItemContainerMap(),
     val ui: InterfaceList = InterfaceList(),
     var lastSpeed: MovementSpeed? = null,
-    val runEnergy: Double = DEFAULT_RUN_ENERGY,
+    var runEnergy: Double = DEFAULT_RUN_ENERGY,
     private val messageListeners: List<ServerPacketListener> = mutableListOf()
 ) : Mob() {
 
