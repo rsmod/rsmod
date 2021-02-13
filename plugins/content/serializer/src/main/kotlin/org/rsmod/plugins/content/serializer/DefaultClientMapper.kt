@@ -11,6 +11,7 @@ import org.rsmod.game.model.domain.serializer.ClientDeserializeRequest
 import org.rsmod.game.model.domain.serializer.ClientDeserializeResponse
 import org.rsmod.game.model.map.Coordinates
 import org.rsmod.game.model.mob.Player
+import org.rsmod.game.model.move.MovementSpeed
 import org.rsmod.util.security.PasswordEncryption
 
 class DefaultClientMapper @Inject constructor(
@@ -56,6 +57,8 @@ class DefaultClientMapper @Inject constructor(
             3 -> Coordinates(data.coords[0], data.coords[1], data.coords[2])
             else -> error("Invalid coordinate values: ${data.coords}.")
         }
+        player.speed = if (data.moveSpeed == 1) MovementSpeed.Run else MovementSpeed.Walk
+        player.runEnergy = data.runEnergy
         return ClientDeserializeResponse.Success(client)
     }
 
@@ -68,7 +71,9 @@ class DefaultClientMapper @Inject constructor(
             encryptedPass = client.encryptedPass,
             loginXteas = client.loginXteas,
             coords = intArrayOf(entity.coords.x, entity.coords.y, entity.coords.level),
-            rank = entity.rank
+            rank = entity.rank,
+            moveSpeed = if (player.speed == MovementSpeed.Run) 1 else 0,
+            runEnergy = player.runEnergy
         )
     }
 
@@ -106,7 +111,9 @@ data class DefaultClientData(
     val encryptedPass: String,
     val loginXteas: IntArray,
     val coords: IntArray,
-    val rank: Int
+    val rank: Int,
+    val runEnergy: Double,
+    val moveSpeed: Int
 ) : ClientData {
 
     override fun equals(other: Any?): Boolean {
@@ -121,6 +128,8 @@ data class DefaultClientData(
         if (!loginXteas.contentEquals(other.loginXteas)) return false
         if (!coords.contentEquals(other.coords)) return false
         if (rank != other.rank) return false
+        if (runEnergy != other.runEnergy) return false
+        if (moveSpeed != other.moveSpeed) return false
 
         return true
     }
@@ -132,6 +141,8 @@ data class DefaultClientData(
         result = 31 * result + loginXteas.contentHashCode()
         result = 31 * result + coords.contentHashCode()
         result = 31 * result + rank
+        result = 31 * result + runEnergy.hashCode()
+        result = 31 * result + moveSpeed.hashCode()
         return result
     }
 }
