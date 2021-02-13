@@ -10,7 +10,7 @@ dependencies {
 
     implementation("io.netty:netty-all:${Versions.NETTY}")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:${Versions.JACKSON}")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.COROUTINE}")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.KOTLIN}")
 }
 
 fun findPlugins(pluginProject: ProjectDependency): List<Project> {

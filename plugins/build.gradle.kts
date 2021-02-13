@@ -13,7 +13,7 @@ allprojects {
         implementation(kotlin("stdlib"))
         implementation(project(":game"))
         implementation("org.jetbrains.kotlin:kotlin-script-runtime:${Versions.KOTLIN}")
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.COROUTINE}")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.KOTLIN}")
         implementation("org.rsmod:pathfinder:${Versions.RS_MOD_PF}")
     }
 }

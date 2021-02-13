@@ -1,11 +1,11 @@
 package org.rsmod.plugins.api.protocol.structure.update
 
 import io.guthix.buffer.writeByteSub
+import io.guthix.buffer.writeBytesAdd
 import org.rsmod.plugins.api.protocol.Device
 import org.rsmod.plugins.api.protocol.structure.DevicePacketStructureMap
 import io.guthix.buffer.writeShortAddLE
 import io.guthix.buffer.writeStringCP1252
-import io.netty.buffer.ByteBuf
 import org.rsmod.plugins.api.protocol.packet.update.AppearanceMask
 import org.rsmod.plugins.api.protocol.packet.update.BitMask
 import org.rsmod.plugins.api.protocol.packet.update.DirectionMask
@@ -69,11 +69,4 @@ masks.register<AppearanceMask> {
         it.writeByteSub(appBuf.writerIndex())
         it.writeBytesAdd(appBuf)
     }
-}
-
-fun ByteBuf.writeBytesAdd(src: ByteBuf): ByteBuf {
-    for (i in src.readerIndex() until src.writerIndex()) {
-        writeByte(src.getByte(i) + 128)
-    }
-    return this
 }

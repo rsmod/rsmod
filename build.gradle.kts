@@ -24,6 +24,7 @@ allprojects {
 
     dependencies {
         implementation(kotlin("stdlib-jdk8"))
+        implementation("org.jetbrains.kotlin:kotlin-reflect:${Versions.KOTLIN}")
         implementation("com.google.inject:guice:${Versions.GUICE}")
         implementation("dev.misfitlabs.kotlinguice4:kotlin-guice:${Versions.KOTLIN_GUICE}")
         implementation("org.slf4j:slf4j-api:${Versions.SL4J}")
