@@ -4,7 +4,7 @@ import org.rsmod.game.update.mask.UpdateMask
 
 inline class BitMask(val packed: Int) : UpdateMask
 
-data class DirectionMask(val angle: Int) : UpdateMask {
+inline class DirectionMask(val angle: Int) : UpdateMask {
     companion object
 }
 
