@@ -88,14 +88,15 @@ class PlayerMovementTask @Inject constructor(
     }
 
     private fun Player.drainRunEnergy() {
+        // TODO: drain run energy
         sendRunEnergy()
     }
 
     private fun Player.shouldRebuildMap(): Boolean {
         val dx = coords.x - viewport.base.x
         val dy = coords.y - viewport.base.y
-        return dx < BuildArea.REBUILD_BOUNDARY || dx >= BuildArea.SIZE - BuildArea.REBUILD_BOUNDARY
-                || dy < BuildArea.REBUILD_BOUNDARY || dy >= BuildArea.SIZE - BuildArea.REBUILD_BOUNDARY
+        return dx < BuildArea.REBUILD_BOUNDARY || dx >= BuildArea.SIZE - BuildArea.REBUILD_BOUNDARY ||
+            dy < BuildArea.REBUILD_BOUNDARY || dy >= BuildArea.SIZE - BuildArea.REBUILD_BOUNDARY
     }
 
     private fun directionBetween(start: Coordinates, end: Coordinates): Direction {

@@ -1,7 +1,6 @@
 package org.rsmod.plugins.api.model.mob.player
 
 import org.rsmod.game.model.domain.Direction
-import org.rsmod.game.model.map.BuildArea
 import org.rsmod.game.model.map.Coordinates
 import org.rsmod.game.model.mob.Player
 import org.rsmod.game.model.step.StepSpeed

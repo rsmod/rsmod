@@ -21,17 +21,21 @@ fun CollisionMap.canTraverse(
         Direction.East -> strategy.canMove(flag, CollisionFlag.BLOCK_EAST)
         Direction.North -> strategy.canMove(flag, CollisionFlag.BLOCK_NORTH)
         Direction.South -> strategy.canMove(flag, CollisionFlag.BLOCK_SOUTH)
-        Direction.SouthWest -> strategy.canMove(flag, CollisionFlag.BLOCK_SOUTH_WEST)
-                && strategy.canMove(flag, CollisionFlag.BLOCK_WEST)
-                && strategy.canMove(flag, CollisionFlag.BLOCK_SOUTH)
-        Direction.SouthEast -> strategy.canMove(flag, CollisionFlag.BLOCK_SOUTH_EAST)
-                && strategy.canMove(flag, CollisionFlag.BLOCK_EAST)
-                && strategy.canMove(flag, CollisionFlag.BLOCK_SOUTH)
-        Direction.NorthWest -> strategy.canMove(flag, CollisionFlag.BLOCK_NORTH_WEST)
-                && strategy.canMove(flag, CollisionFlag.BLOCK_WEST)
-                && strategy.canMove(flag, CollisionFlag.BLOCK_NORTH)
-        Direction.NorthEast -> strategy.canMove(flag, CollisionFlag.BLOCK_NORTH_EAST)
-                && strategy.canMove(flag, CollisionFlag.BLOCK_EAST)
-                && strategy.canMove(flag, CollisionFlag.BLOCK_NORTH)
+        Direction.SouthWest ->
+            strategy.canMove(flag, CollisionFlag.BLOCK_SOUTH_WEST) &&
+                strategy.canMove(flag, CollisionFlag.BLOCK_WEST) &&
+                strategy.canMove(flag, CollisionFlag.BLOCK_SOUTH)
+        Direction.SouthEast ->
+            strategy.canMove(flag, CollisionFlag.BLOCK_SOUTH_EAST) &&
+                strategy.canMove(flag, CollisionFlag.BLOCK_EAST) &&
+                strategy.canMove(flag, CollisionFlag.BLOCK_SOUTH)
+        Direction.NorthWest ->
+            strategy.canMove(flag, CollisionFlag.BLOCK_NORTH_WEST) &&
+                strategy.canMove(flag, CollisionFlag.BLOCK_WEST) &&
+                strategy.canMove(flag, CollisionFlag.BLOCK_NORTH)
+        Direction.NorthEast ->
+            strategy.canMove(flag, CollisionFlag.BLOCK_NORTH_EAST) &&
+                strategy.canMove(flag, CollisionFlag.BLOCK_EAST) &&
+                strategy.canMove(flag, CollisionFlag.BLOCK_NORTH)
     }
 }
