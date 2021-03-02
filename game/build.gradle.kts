@@ -8,4 +8,5 @@ dependencies {
     implementation("org.bouncycastle:bcprov-jdk15on:${Versions.BOUNCYCASTLE}")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:${Versions.JACKSON}")
     implementation("io.guthix:jagex-store-5:${Versions.JS5_STORE}")
+    implementation("io.netty:netty-all:${Versions.NETTY}")
 }

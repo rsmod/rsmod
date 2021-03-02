@@ -1,4 +1,4 @@
-package org.rsmod.net.handshake
+package org.rsmod.game.net.handshake
 
 import com.github.michaelbull.logging.InlineLogger
 import com.google.inject.Inject

@@ -25,14 +25,14 @@ import org.rsmod.game.coroutine.IoCoroutineScope
 import org.rsmod.game.dispatch.DispatcherModule
 import org.rsmod.game.event.EventBus
 import org.rsmod.game.event.impl.ServerStartup
+import org.rsmod.game.net.NetworkModule
+import org.rsmod.game.net.channel.ClientChannelInitializer
+import org.rsmod.game.net.handshake.HandshakeDecoder
 import org.rsmod.game.plugin.kotlin.KotlinModuleLoader
 import org.rsmod.game.plugin.kotlin.KotlinPluginLoader
 import org.rsmod.game.task.StartupTaskList
 import org.rsmod.game.task.launchBlocking
 import org.rsmod.game.task.launchNonBlocking
-import org.rsmod.net.NetworkModule
-import org.rsmod.net.channel.ClientChannelInitializer
-import org.rsmod.net.handshake.HandshakeDecoder
 
 private val logger = InlineLogger()
 

@@ -1,7 +1,7 @@
 package org.rsmod.plugins.api.protocol.codec.js5
 
 import org.rsmod.game.config.GameConfig
-import org.rsmod.net.handshake.HandshakeHandlerMap
+import org.rsmod.game.net.handshake.HandshakeHandlerMap
 import org.rsmod.plugins.api.protocol.codec.HandshakeConstants
 import org.rsmod.plugins.api.protocol.codec.ResponseEncoder
 

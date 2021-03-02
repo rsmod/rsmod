@@ -1,4 +1,4 @@
-package org.rsmod.net.handshake
+package org.rsmod.game.net.handshake
 
 import com.github.michaelbull.logging.InlineLogger
 import com.google.common.base.MoreObjects
@@ -6,7 +6,7 @@ import io.netty.channel.ChannelHandler
 import io.netty.channel.ChannelInboundHandlerAdapter
 import io.netty.handler.codec.ByteToMessageDecoder
 import io.netty.handler.codec.MessageToByteEncoder
-import org.rsmod.net.channel.ClientChannelHandler
+import org.rsmod.game.net.channel.ClientChannelHandler
 
 private val logger = InlineLogger()
 private const val UNINITIALISED_OPCODE = -1

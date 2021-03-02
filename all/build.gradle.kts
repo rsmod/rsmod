@@ -1,7 +1,6 @@
 dependencies {
     implementation(kotlin("stdlib"))
     implementation(project(":util"))
-    implementation(project(":net"))
     implementation(project(":game"))
     implementation(project(":plugins"))
     findPlugins(project(":plugins")).forEach {

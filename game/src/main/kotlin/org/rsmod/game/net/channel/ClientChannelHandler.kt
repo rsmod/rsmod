@@ -1,4 +1,4 @@
-package org.rsmod.net.channel
+package org.rsmod.game.net.channel
 
 import io.netty.channel.ChannelHandler
 

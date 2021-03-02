@@ -2,7 +2,6 @@ version = Versions.RS_MOD_API
 
 dependencies {
     implementation(project(":util"))
-    implementation(project(":net"))
     implementation("io.netty:netty-all:${Versions.NETTY}")
     implementation("com.michael-bull.kotlin-retry:kotlin-retry:${Versions.KOTLIN_RETRY}")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:${Versions.JACKSON}")

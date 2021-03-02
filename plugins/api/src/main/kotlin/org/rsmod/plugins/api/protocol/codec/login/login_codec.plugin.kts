@@ -3,7 +3,7 @@ package org.rsmod.plugins.api.protocol.codec.login
 import org.rsmod.game.cache.GameCache
 import org.rsmod.game.config.GameConfig
 import org.rsmod.game.config.RsaConfig
-import org.rsmod.net.handshake.HandshakeHandlerMap
+import org.rsmod.game.net.handshake.HandshakeHandlerMap
 import org.rsmod.plugins.api.protocol.codec.HandshakeConstants
 import org.rsmod.plugins.api.protocol.codec.ResponseEncoder
 import org.rsmod.plugins.api.protocol.codec.account.AccountDispatcher
