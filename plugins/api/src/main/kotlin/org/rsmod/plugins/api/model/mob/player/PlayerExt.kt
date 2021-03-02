@@ -6,14 +6,15 @@ import org.rsmod.game.model.mob.Player
 import org.rsmod.game.model.move.MovementSpeed
 import org.rsmod.plugins.api.protocol.packet.MapMove
 import org.rsmod.plugins.api.protocol.packet.MoveType
+import org.rsmod.plugins.api.protocol.packet.server.MessageGame
 import org.rsmod.plugins.api.protocol.packet.server.MinimapFlagSet
 import org.rsmod.plugins.api.protocol.packet.server.UpdateRunEnergy
 import org.rsmod.plugins.api.protocol.packet.update.AppearanceMask
 import org.rsmod.plugins.api.protocol.packet.update.DirectionMask
 import org.rsmod.plugins.api.update.player.mask.of
 
-fun Player.sendMessage(message: String) {
-    // TODO
+fun Player.sendMessage(text: String, type: Int = MessageType.GAME, username: String? = null) {
+    write(MessageGame(type, text, username))
 }
 
 fun Player.sendRunEnergy(energy: Int = runEnergy.toInt()) {

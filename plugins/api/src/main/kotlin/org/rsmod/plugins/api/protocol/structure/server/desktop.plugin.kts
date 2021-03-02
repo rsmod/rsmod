@@ -22,10 +22,12 @@ import io.guthix.buffer.writeIntIME
 import io.guthix.buffer.writeIntME
 import io.guthix.buffer.writeShortAdd
 import io.guthix.buffer.writeShortAddLE
+import io.guthix.buffer.writeSmallSmart
 import io.guthix.buffer.writeStringCP1252
 import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
 import kotlin.math.min
+import org.rsmod.plugins.api.protocol.packet.server.MessageGame
 import org.rsmod.plugins.api.protocol.packet.server.MinimapFlagSet
 import org.rsmod.plugins.api.protocol.packet.server.UpdateRunEnergy
 
@@ -142,6 +144,19 @@ packets.register<MinimapFlagSet> {
     write {
         it.writeByte(x)
         it.writeByte(y)
+    }
+}
+
+packets.register<MessageGame> {
+    opcode = 39
+    length = PacketLength.Byte
+    write {
+        it.writeSmallSmart(type)
+        it.writeBoolean(username != null)
+        if (username != null) {
+            it.writeStringCP1252(username)
+        }
+        it.writeStringCP1252(text)
     }
 }
 
