@@ -17,6 +17,13 @@ fun Coordinates.isWithinDistance(other: Coordinates, radius: Int): Boolean {
     return level == other.level && inSquareRadius(x1, y1, x2, y2)
 }
 
+fun Coordinates.toInternalString(): String {
+    val square = mapSquare()
+    val base = square.coords(level)
+    val local = this - base
+    return "${level}_${square.x}_${square.y}_${local.x}_${local.y}"
+}
+
 fun Viewport.Companion.of(center: Coordinates, maps: List<MapSquare>): Viewport {
     val viewRadius = BuildArea.SIZE / BuildArea.REBUILD_BOUNDARY
     val baseZone = center.zone().translate(-viewRadius, -viewRadius)
