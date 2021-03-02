@@ -25,20 +25,29 @@ class ConfigTypeLoaderList(
 }
 
 open class ConfigTypeList<T : ConfigType>(
-    private val types: MutableList<T> = mutableListOf()
-) : List<T> by types {
+    private val types: MutableMap<Int, T> = mutableMapOf()
+) : Iterable<T> {
+
+    private var maxId = 0
+
+    val size: Int
+        get() = maxId
 
     fun add(type: T) {
-        if (types.size > type.id) {
+        if (types.containsKey(type.id)) {
             error("Config type at index has already been set (index=${type.id}, type=${type::class.simpleName}).")
         }
-        types.add(type)
+        maxId = maxId.coerceAtLeast(type.id)
+        types[type.id] = type
     }
 
-    operator fun set(index: Int, type: T) {
-        check(types.size >= index) {
-            "Config type with index does not exist (index=$index, type=${type::class.simpleName})."
-        }
-        types[index] = type
+    fun getOrNull(id: Int): T? {
+        return types[id]
+    }
+
+    operator fun get(id: Int): T = getOrNull(id) ?: error("Null config type (id=$id).")
+
+    override fun iterator(): Iterator<T> {
+        return types.values.iterator()
     }
 }
