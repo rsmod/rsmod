@@ -21,8 +21,7 @@ fun Player.sendRunEnergy(energy: Int = runEnergy.toInt()) {
 }
 
 fun Player.sendMinimapFlag(x: Int, y: Int) {
-    // TODO: why the translation? is the viewport#base wrong?
-    val base = viewport.base.zone().translate(0, 1).coords()
+    val base = viewport.base
     val lx = (x - base.x)
     val ly = (y - base.y)
     write(MinimapFlagSet(lx, ly))

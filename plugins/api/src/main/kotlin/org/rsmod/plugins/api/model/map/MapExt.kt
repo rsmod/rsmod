@@ -18,7 +18,8 @@ fun Coordinates.isWithinDistance(other: Coordinates, radius: Int): Boolean {
 }
 
 fun Viewport.Companion.of(center: Coordinates, maps: List<MapSquare>): Viewport {
-    val halfSize = BuildArea.SIZE / 2
-    val baseCoords = center.translate(-halfSize, -halfSize)
+    val viewRadius = BuildArea.SIZE / BuildArea.REBUILD_BOUNDARY
+    val baseZone = center.zone().translate(-viewRadius, -viewRadius)
+    val baseCoords = baseZone.coords()
     return Viewport(baseCoords, maps)
 }
