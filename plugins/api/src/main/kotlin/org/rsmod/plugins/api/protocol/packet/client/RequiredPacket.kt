@@ -4,3 +4,4 @@ import org.rsmod.game.message.ClientPacket
 
 class NoTimeout : ClientPacket
 class ReflectionCheckReply : ClientPacket
+class LoginTimings : ClientPacket

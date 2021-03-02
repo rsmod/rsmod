@@ -2,7 +2,7 @@ package org.rsmod.plugins.api.protocol.packet.server
 
 import org.rsmod.game.message.ServerPacket
 
-inline class SetMapFlag(private val packed: Int) : ServerPacket {
+inline class MinimapFlagSet(private val packed: Int) : ServerPacket {
 
     val x: Int
         get() = packed and 0xFFFF

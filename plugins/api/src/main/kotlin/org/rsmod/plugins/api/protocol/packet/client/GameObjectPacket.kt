@@ -13,21 +13,21 @@ import org.rsmod.game.model.obj.type.ObjectTypeList
 import org.rsmod.plugins.api.protocol.packet.ObjectAction
 import org.rsmod.plugins.api.protocol.packet.ObjectClick
 
-data class OperateObjectOne(
+data class OpLoc1(
     val id: Int,
     val x: Int,
     val y: Int,
     val mode: Int
 ) : ClientPacket
 
-class OperateObjectOneHandler @Inject constructor(
+class OpLoc1Handler @Inject constructor(
     private val actionBus: ActionBus,
     private val objTypes: ObjectTypeList,
     private val objectMap: GameObjectMap,
     private val objectApSet: GameObjectApSet
-) : ClientPacketHandler<OperateObjectOne> {
+) : ClientPacketHandler<OpLoc1> {
 
-    override fun handle(client: Client, player: Player, packet: OperateObjectOne) {
+    override fun handle(client: Client, player: Player, packet: OpLoc1) {
         val (id, x, y) = packet
         val coords = Coordinates(x, y, player.coords.level)
         val objects = objectMap[coords].filter { it.id == id }

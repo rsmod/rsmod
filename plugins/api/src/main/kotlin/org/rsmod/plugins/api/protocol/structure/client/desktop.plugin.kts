@@ -1,5 +1,6 @@
 package org.rsmod.plugins.api.protocol.structure.client
 
+import io.guthix.buffer.readShortAddLE
 import org.rsmod.plugins.api.protocol.Device
 import org.rsmod.plugins.api.protocol.packet.client.ClientCheat
 import org.rsmod.plugins.api.protocol.packet.client.ClientCheatHandler
@@ -12,16 +13,19 @@ import org.rsmod.plugins.api.protocol.packet.client.GameClickHandler
 import org.rsmod.plugins.api.protocol.packet.client.MapBuildComplete
 import org.rsmod.plugins.api.protocol.packet.client.MoveGameClick
 import org.rsmod.plugins.api.protocol.packet.client.NoTimeout
-import org.rsmod.plugins.api.protocol.packet.client.OperateObjectOne
-import org.rsmod.plugins.api.protocol.packet.client.OperateObjectOneHandler
+import org.rsmod.plugins.api.protocol.packet.client.OpLoc1
+import org.rsmod.plugins.api.protocol.packet.client.OpLoc1Handler
 import org.rsmod.plugins.api.protocol.packet.client.ReflectionCheckReply
 import org.rsmod.plugins.api.protocol.packet.client.WindowStatus
 import org.rsmod.plugins.api.protocol.structure.DevicePacketStructureMap
 import io.guthix.buffer.readStringCP1252
+import io.guthix.buffer.readUnsignedByteNeg
 import io.guthix.buffer.readUnsignedByteSub
+import io.guthix.buffer.readUnsignedShortAdd
 import io.guthix.buffer.readUnsignedShortAddLE
 import org.rsmod.plugins.api.protocol.packet.client.IfButton
 import org.rsmod.plugins.api.protocol.packet.client.IfButtonHandler
+import org.rsmod.plugins.api.protocol.packet.client.LoginTimings
 import org.rsmod.plugins.api.protocol.packet.client.MinimapClickHandler
 import org.rsmod.plugins.api.protocol.packet.client.MoveMinimapClick
 
@@ -29,32 +33,32 @@ val structures: DevicePacketStructureMap by inject()
 val packets = structures.client(Device.Desktop)
 
 packets.register<EventMouseMove> {
-    opcode = 63
+    opcode = 72
     length = -1
 }
 
 packets.register<EventMouseClick> {
-    opcode = 3
+    opcode = 47
     length = 6
 }
 
 packets.register<EventMouseIdle> {
-    opcode = 76
+    opcode = 69
     length = 0
 }
 
 packets.register<EventAppletFocus> {
-    opcode = 7
+    opcode = 5
     length = 1
 }
 
 packets.register<EventKeyboard> {
-    opcode = 1
+    opcode = 70
     length = -2
 }
 
 packets.register<ClientCheat> {
-    opcode = 102
+    opcode = 32
     length = -1
     handler = ClientCheatHandler::class
     read {
@@ -64,18 +68,18 @@ packets.register<ClientCheat> {
 }
 
 packets.register<MapBuildComplete> {
-    opcode = 8
+    opcode = 48
     length = 0
 }
 
 packets.register<MoveGameClick> {
-    opcode = 5
+    opcode = 34
     length = -1
     handler = GameClickHandler::class
     read {
-        val x = readUnsignedShortLE()
-        val type = readUnsignedByteSub().toInt()
+        val type = readUnsignedByteNeg().toInt()
         val y = readUnsignedShortAddLE()
+        val x = readUnsignedShort()
         MoveGameClick(x, y, type)
     }
 }
@@ -85,43 +89,43 @@ packets.register<MoveMinimapClick> {
     length = -1
     handler = MinimapClickHandler::class
     read {
-        val x = readUnsignedShortLE()
-        val type = readUnsignedByteSub().toInt()
+        val type = readUnsignedByteNeg().toInt()
         val y = readUnsignedShortAddLE()
+        val x = readUnsignedShort()
         MoveMinimapClick(x, y, type)
     }
 }
 
-packets.register<OperateObjectOne> {
-    opcode = 66
+packets.register<OpLoc1> {
+    opcode = 94
     length = 7
-    handler = OperateObjectOneHandler::class
+    handler = OpLoc1Handler::class
     read {
-        val x = readUnsignedShortAddLE()
+        val y = readUnsignedShortAdd()
+        val x = readUnsignedShortAdd()
         val mode = readUnsignedByte().toInt()
-        val y = readUnsignedShort()
-        val id = readUnsignedShortAddLE()
-        OperateObjectOne(id, x, y, mode)
+        val id = readUnsignedShort()
+        OpLoc1(id, x, y, mode)
     }
 }
 
 packets.register<ReflectionCheckReply> {
-    opcode = 100
+    opcode = 86
     length = -1
 }
 
 packets.register<NoTimeout> {
-    opcode = 95
+    opcode = 76
     length = 0
 }
 
 packets.register<WindowStatus> {
-    opcode = 101
+    opcode = 61
     length = 5
 }
 
 packets.register<IfButton> {
-    val typeOpcodes = listOf(13, 59, 22, 90, 37, 62, 16, 25, 80, 4)
+    val typeOpcodes = listOf(91, 12, 97, 19, 25, 21, 29, 59, 24, 71)
     addOpcodes(typeOpcodes)
     length = 8
     handler = IfButtonHandler::class
@@ -132,4 +136,9 @@ packets.register<IfButton> {
         val item = readShort().toInt()
         IfButton(type, component, slot, item)
     }
+}
+
+packets.register<LoginTimings> {
+    opcode = 99
+    length = -1
 }

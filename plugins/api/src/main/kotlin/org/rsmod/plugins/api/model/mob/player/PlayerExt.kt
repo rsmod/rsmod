@@ -6,7 +6,7 @@ import org.rsmod.game.model.mob.Player
 import org.rsmod.game.model.move.MovementSpeed
 import org.rsmod.plugins.api.protocol.packet.MapMove
 import org.rsmod.plugins.api.protocol.packet.MoveType
-import org.rsmod.plugins.api.protocol.packet.server.SetMapFlag
+import org.rsmod.plugins.api.protocol.packet.server.MinimapFlagSet
 import org.rsmod.plugins.api.protocol.packet.server.UpdateRunEnergy
 import org.rsmod.plugins.api.protocol.packet.update.AppearanceMask
 import org.rsmod.plugins.api.protocol.packet.update.DirectionMask
@@ -25,7 +25,7 @@ fun Player.sendMinimapFlag(x: Int, y: Int) {
     val base = viewport.base.zone().translate(0, 1).coords()
     val lx = (x - base.x)
     val ly = (y - base.y)
-    write(SetMapFlag(lx, ly))
+    write(MinimapFlagSet(lx, ly))
 }
 
 fun Player.clearMinimapFlag() = sendMinimapFlag(-1, -1)

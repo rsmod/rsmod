@@ -2,12 +2,12 @@ package org.rsmod.plugins.api.protocol.packet.server
 
 import org.rsmod.game.message.ServerPacket
 
-data class SmallVarpPacket(
+data class VarpSmall(
     val id: Int,
     val value: Int
 ) : ServerPacket
 
-data class LargeVarpPacket(
+data class VarpLarge(
     val id: Int,
     val value: Int
 ) : ServerPacket

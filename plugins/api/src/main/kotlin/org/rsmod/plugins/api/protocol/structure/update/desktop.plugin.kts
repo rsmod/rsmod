@@ -1,8 +1,10 @@
 package org.rsmod.plugins.api.protocol.structure.update
 
+import io.guthix.buffer.writeByteAdd
 import io.guthix.buffer.writeByteNeg
 import io.guthix.buffer.writeByteSub
 import io.guthix.buffer.writeBytesAdd
+import io.guthix.buffer.writeBytesReversed
 import org.rsmod.plugins.api.protocol.Device
 import org.rsmod.plugins.api.protocol.structure.DevicePacketStructureMap
 import io.guthix.buffer.writeShortAddLE
@@ -17,14 +19,14 @@ val structures: DevicePacketStructureMap by inject()
 val masks = structures.update(Device.Desktop)
 
 masks.order {
-    -DirectionMask::class
     -MovementPermMask::class
     -MovementTempMask::class
+    -DirectionMask::class
     -AppearanceMask::class
 }
 
 masks.register<BitMask> {
-    mask = 0x40
+    mask = 0x4
     write {
         if (packed >= 0xFF) {
             val bitmask = packed or mask
@@ -37,28 +39,28 @@ masks.register<BitMask> {
 }
 
 masks.register<DirectionMask> {
-    mask = 0x8
+    mask = 0x1
     write {
         it.writeShortAddLE(angle)
     }
 }
 
 masks.register<MovementPermMask> {
-    mask = 0x200
+    mask = 0x800
     write {
-        it.writeByteNeg(type)
+        it.writeByteAdd(type)
     }
 }
 
 masks.register<MovementTempMask> {
-    mask = 0x800
+    mask = 0x200
     write {
-        it.writeByteSub(type)
+        it.writeByteAdd(type)
     }
 }
 
 masks.register<AppearanceMask> {
-    mask = 0x4
+    mask = 0x2
     write {
         val appBuf = it.alloc().buffer()
         appBuf.writeByte(gender)
@@ -85,7 +87,7 @@ masks.register<AppearanceMask> {
         appBuf.writeShort(0) /* unknown */
         appBuf.writeBoolean(invisible)
 
-        it.writeByteSub(appBuf.writerIndex())
-        it.writeBytesAdd(appBuf)
+        it.writeByteAdd(appBuf.writerIndex())
+        it.writeBytesReversed(appBuf)
     }
 }
