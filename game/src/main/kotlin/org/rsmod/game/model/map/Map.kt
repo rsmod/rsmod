@@ -50,6 +50,14 @@ inline class Coordinates(private val packed: Int) {
         y = y / BuildArea.SIZE
     )
 
+    operator fun minus(other: Coordinates): Coordinates {
+        return translate(-other.x, -other.y)
+    }
+
+    operator fun plus(other: Coordinates): Coordinates {
+        return translate(other.x, other.y)
+    }
+
     operator fun component1(): Int = x
 
     operator fun component2(): Int = y
@@ -111,6 +119,14 @@ inline class Zone(private val packed: Int) {
         y = (y / (BuildArea.SIZE / SIZE))
     )
 
+    operator fun minus(other: Zone): Zone {
+        return translate(-other.x, -other.y)
+    }
+
+    operator fun plus(other: Zone): Zone {
+        return translate(other.x, other.y)
+    }
+
     override fun toString(): String = MoreObjects
         .toStringHelper(this)
         .add("x", x)
@@ -160,6 +176,14 @@ inline class MapSquare(val id: Int) {
         x = (x / (BuildArea.SIZE / SIZE)),
         y = (y / (BuildArea.SIZE / SIZE))
     )
+
+    operator fun minus(other: MapSquare): MapSquare {
+        return translate(-other.x, -other.y)
+    }
+
+    operator fun plus(other: MapSquare): MapSquare {
+        return translate(other.x, other.y)
+    }
 
     override fun toString(): String = MoreObjects
         .toStringHelper(this)
@@ -212,6 +236,14 @@ inline class BuildArea(private val packed: Int) {
         x = x * (SIZE / MapSquare.SIZE),
         y = y * (SIZE / MapSquare.SIZE),
     )
+
+    operator fun minus(other: BuildArea): BuildArea {
+        return translate(-other.x, -other.y)
+    }
+
+    operator fun plus(other: BuildArea): BuildArea {
+        return translate(other.x, other.y)
+    }
 
     override fun toString(): String = MoreObjects
         .toStringHelper(this)
