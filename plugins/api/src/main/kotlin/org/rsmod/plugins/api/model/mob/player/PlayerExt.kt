@@ -28,9 +28,7 @@ fun Player.sendMinimapFlag(x: Int, y: Int) {
     write(SetMapFlag(lx, ly))
 }
 
-fun Player.clearMinimapFlag() {
-    sendMinimapFlag(-1, -1)
-}
+fun Player.clearMinimapFlag() = sendMinimapFlag(-1, -1)
 
 fun Player.moveTo(destination: Coordinates, speed: MovementSpeed = this.speed, noclip: Boolean = false) {
     val type = when (speed) {

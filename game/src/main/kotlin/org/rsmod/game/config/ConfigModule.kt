@@ -87,6 +87,7 @@ class GameConfigProvider @Inject constructor(
     }
 
     companion object {
+
         private val CONFIG_PATH = Paths.get(".", "all", "config.yml")
         private val DEFAULT_DATA_PATH = Paths.get(".", "all", "data")
         private const val DEFAULT_SERVER_NAME = "RS Mod"
@@ -149,6 +150,7 @@ class InternalConfigProvider @Inject constructor(
     }
 
     companion object {
+
         private val DEFAULT_CONFIG = InternalConfig(
             gameTickDelay = 600,
             loginsPerCycle = 25,
