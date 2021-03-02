@@ -27,14 +27,14 @@ object ObjectShape {
     const val ROOF_EDGE_CORNER_POINTED = 21
     const val GROUND_DECOR = 22
 
-    val WALL_SHAPES = arrayOf(
+    val WALL_SHAPES = intArrayOf(
         WALL,
         WALL_CORNER_DIAG,
         UNFINISHED_WALL,
         WALL_CORNER
     )
 
-    val WALL_DECOR_SHAPES = arrayOf(
+    val WALL_DECOR_SHAPES = intArrayOf(
         WALL_DECOR_STRAIGHT_XOFFSET,
         WALL_DECOR_STRAIGHT_ZOFFSET,
         WALL_DECOR_DIAGONAL_XOFFSET,
@@ -42,7 +42,7 @@ object ObjectShape {
         INTERIOR_WALL_DECOR_DIAG
     )
 
-    val NORMAL_SHAPES = arrayOf(
+    val NORMAL_SHAPES = intArrayOf(
         WALL_OPEN,
         ROOF_TOP_SIDE,
         ROOF_TOP_CORNER_FLAT,
@@ -58,7 +58,7 @@ object ObjectShape {
         GROUND_DEFAULT
     )
 
-    val GROUND_DECOR_SHAPES = arrayOf(
+    val GROUND_DECOR_SHAPES = intArrayOf(
         GROUND_DECOR
     )
 }
