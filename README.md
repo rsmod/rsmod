@@ -15,7 +15,7 @@ RS Mod is available under the terms of the ISC license, which is similar to the 
 [isc]: https://opensource.org/licenses/ISC
 [license]: https://github.com/rsmod/rsmod/blob/master/LICENSE.md
 [discord]: https://discord.gg/UznZnZR
-[patch]: https://oldschool.runescape.wiki/w/Update:God_Wars_Instancing_and_Soul_Wars_Improvements
-[rev-badge]: https://img.shields.io/badge/revision-193-important
+[patch]: https://oldschool.runescape.wiki/w/Update:Getting_Ready_For_Steam_and_Poll_74_Changes
+[rev-badge]: https://img.shields.io/badge/revision-194-important
 [license-badge]: https://img.shields.io/badge/license-ISC-informational
 [discord-badge]: https://img.shields.io/discord/550024461626114053?color=%237289da&logo=discord
