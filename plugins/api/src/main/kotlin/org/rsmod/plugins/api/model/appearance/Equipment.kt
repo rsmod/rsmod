@@ -1,6 +1,7 @@
 package org.rsmod.plugins.api.model.appearance
 
 object Equipment {
+
     const val HELMET = 0
     const val CAPE = 1
     const val NECK = 2

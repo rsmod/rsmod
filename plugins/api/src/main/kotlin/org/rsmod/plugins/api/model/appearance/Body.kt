@@ -1,6 +1,7 @@
 package org.rsmod.plugins.api.model.appearance
 
 object Body {
+
     const val HAIR = 0
     const val BEARD = 1
     const val CHEST = 2
