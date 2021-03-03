@@ -15,7 +15,7 @@ import org.rsmod.game.model.ui.UserInterface
 import org.rsmod.plugins.api.protocol.packet.server.IfCloseSub
 import org.rsmod.plugins.api.protocol.packet.server.IfOpenSub
 import org.rsmod.plugins.api.protocol.packet.server.IfOpenTop
-import org.rsmod.plugins.api.protocol.packet.server.IfSetTargetParam
+import org.rsmod.plugins.api.protocol.packet.server.IfSetEvents
 
 fun Player.openTopLevel(userInterface: UserInterface) {
     if (ui.topLevel.contains(userInterface)) {
@@ -119,7 +119,7 @@ fun Player.setComponentEvents(
         warn { "Component property bit-range already occupied (occupiedBy=$occupiedBy)" }
         return
     }
-    write(IfSetTargetParam(component.packed, range, packed))
+    write(IfSetEvents(component.packed, range, packed))
 }
 
 fun Player.getComponentEvents(component: Component, range: IntRange): List<InterfaceEvent> {

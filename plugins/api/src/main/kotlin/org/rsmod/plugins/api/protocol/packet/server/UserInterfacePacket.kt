@@ -16,10 +16,10 @@ inline class IfCloseSub(
     val component: Int
 ) : ServerPacket
 
-data class IfSetTargetParam(
+data class IfSetEvents(
     val component: Int,
     val dynamic: IntRange,
-    val param: Int
+    val events: Int
 ) : ServerPacket
 
 class RunClientScript(

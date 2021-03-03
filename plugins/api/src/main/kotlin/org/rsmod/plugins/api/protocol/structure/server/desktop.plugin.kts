@@ -9,7 +9,7 @@ import org.rsmod.plugins.api.protocol.Device
 import org.rsmod.plugins.api.protocol.packet.server.IfCloseSub
 import org.rsmod.plugins.api.protocol.packet.server.IfOpenSub
 import org.rsmod.plugins.api.protocol.packet.server.IfOpenTop
-import org.rsmod.plugins.api.protocol.packet.server.IfSetTargetParam
+import org.rsmod.plugins.api.protocol.packet.server.IfSetEvents
 import org.rsmod.plugins.api.protocol.packet.server.VarpLarge
 import org.rsmod.plugins.api.protocol.packet.server.PlayerInfo
 import org.rsmod.plugins.api.protocol.packet.server.RebuildNormal
@@ -80,10 +80,10 @@ packets.register<IfCloseSub> {
     }
 }
 
-packets.register<IfSetTargetParam> {
+packets.register<IfSetEvents> {
     opcode = 68
     write {
-        it.writeIntLE(param)
+        it.writeIntLE(events)
         it.writeShortLE(dynamic.first)
         it.writeShort(dynamic.last)
         it.writeIntIME(component)
