@@ -98,7 +98,7 @@ onAction<ObjectClick> {
             }
             delay()
         }
-        if (!reached) {
+        if (!reached || route.alternative) {
             player.sendMessage(GameMessage.CANNOT_REACH_THAT)
             return@normalQueue
         }
