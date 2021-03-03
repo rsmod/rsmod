@@ -8,7 +8,7 @@ import org.rsmod.game.model.move.MovementSpeed
 import org.rsmod.game.model.stat.Stat
 import org.rsmod.game.model.stat.StatKey
 import org.rsmod.game.model.ui.Component
-import org.rsmod.plugins.api.model.stat.StatLevelEvent
+import org.rsmod.plugins.api.model.stat.StatLevelUp
 import org.rsmod.plugins.api.model.stat.Stats
 import org.rsmod.plugins.api.protocol.packet.MapMove
 import org.rsmod.plugins.api.protocol.packet.MoveType
@@ -60,7 +60,7 @@ fun Player.addXp(key: StatKey, xp: Double) {
             stat.currLevel = newLevel
         }
         /* publish level up event */
-        val event = StatLevelEvent(key, currLevel, newLevel, totalXp)
+        val event = StatLevelUp(key, currLevel, newLevel, totalXp)
         eventBus.publish(event)
     }
 
