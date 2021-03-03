@@ -18,6 +18,7 @@ import org.rsmod.plugins.api.protocol.packet.server.VarpSmall
 import org.rsmod.plugins.api.protocol.packet.server.UpdateInvFull
 import org.rsmod.plugins.api.protocol.structure.DevicePacketStructureMap
 import io.guthix.buffer.writeByteAdd
+import io.guthix.buffer.writeByteNeg
 import io.guthix.buffer.writeIntIME
 import io.guthix.buffer.writeIntME
 import io.guthix.buffer.writeShortAdd
@@ -30,6 +31,7 @@ import kotlin.math.min
 import org.rsmod.plugins.api.protocol.packet.server.MessageGame
 import org.rsmod.plugins.api.protocol.packet.server.MinimapFlagSet
 import org.rsmod.plugins.api.protocol.packet.server.UpdateRunEnergy
+import org.rsmod.plugins.api.protocol.packet.server.UpdateStat
 
 val structures: DevicePacketStructureMap by inject()
 val packets = structures.server(Device.Desktop)
@@ -136,6 +138,15 @@ packets.register<UpdateRunEnergy> {
     opcode = 52
     write {
         it.writeByte(energy)
+    }
+}
+
+packets.register<UpdateStat> {
+    opcode = 28
+    write {
+        it.writeIntLE(xp)
+        it.writeByteNeg(currLevel)
+        it.writeByte(skill)
     }
 }
 

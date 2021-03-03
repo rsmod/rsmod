@@ -12,6 +12,9 @@ import org.rsmod.game.model.domain.serializer.ClientDeserializeResponse
 import org.rsmod.game.model.map.Coordinates
 import org.rsmod.game.model.mob.Player
 import org.rsmod.game.model.move.MovementSpeed
+import org.rsmod.game.model.stat.Stat
+import org.rsmod.game.model.stat.StatKey
+import org.rsmod.game.model.stat.StatMap
 import org.rsmod.util.security.PasswordEncryption
 
 class DefaultClientMapper @Inject constructor(
@@ -59,6 +62,7 @@ class DefaultClientMapper @Inject constructor(
         }
         player.speed = if (data.moveSpeed == 1) MovementSpeed.Run else MovementSpeed.Walk
         player.runEnergy = data.runEnergy
+        player.stats.putAll(data.skills)
         return ClientDeserializeResponse.Success(client)
     }
 
@@ -73,7 +77,8 @@ class DefaultClientMapper @Inject constructor(
             coords = intArrayOf(entity.coords.x, entity.coords.y, entity.coords.level),
             rank = entity.rank,
             moveSpeed = if (player.speed == MovementSpeed.Run) 1 else 0,
-            runEnergy = player.runEnergy
+            runEnergy = player.runEnergy,
+            skills = player.stats.toIntKeyMap()
         )
     }
 
@@ -113,7 +118,8 @@ data class DefaultClientData(
     val coords: IntArray,
     val rank: Int,
     val runEnergy: Double,
-    val moveSpeed: Int
+    val moveSpeed: Int,
+    val skills: Map<Int, Stat>
 ) : ClientData {
 
     override fun equals(other: Any?): Boolean {
@@ -130,6 +136,7 @@ data class DefaultClientData(
         if (rank != other.rank) return false
         if (runEnergy != other.runEnergy) return false
         if (moveSpeed != other.moveSpeed) return false
+        if (skills != other.skills) return false
 
         return true
     }
@@ -142,7 +149,17 @@ data class DefaultClientData(
         result = 31 * result + coords.contentHashCode()
         result = 31 * result + rank
         result = 31 * result + runEnergy.hashCode()
-        result = 31 * result + moveSpeed.hashCode()
+        result = 31 * result + moveSpeed
+        result = 31 * result + skills.hashCode()
         return result
     }
+}
+
+private fun StatMap.toIntKeyMap(): Map<Int, Stat> {
+    return entries.associate { (key, value) -> key.id to value }
+}
+
+private fun StatMap.putAll(intKeyMap: Map<Int, Stat>) {
+    val map = intKeyMap.entries.associate { (key, value) -> StatKey(key) to value }
+    putAll(map)
 }

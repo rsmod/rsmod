@@ -23,6 +23,7 @@ import org.rsmod.game.model.map.Viewport
 import org.rsmod.game.model.snapshot.Snapshot
 import org.rsmod.game.model.move.MovementQueue
 import org.rsmod.game.model.move.MovementSpeed
+import org.rsmod.game.model.stat.StatMap
 import org.rsmod.game.model.ui.InterfaceList
 import org.rsmod.game.model.vars.VarMap
 import org.rsmod.game.queue.GameQueueStack
@@ -39,6 +40,7 @@ sealed class Mob(
     var speed: MovementSpeed = MovementSpeed.Walk,
     var faceDirection: Direction = DEFAULT_DIRECTION,
     var displace: Boolean = false,
+    val stats: StatMap = StatMap(),
     val vars: VarMap = VarMap(),
     val timers: TimerMap = TimerMap(),
     val queueStack: GameQueueStack = GameQueueStack()
