@@ -1,5 +1,6 @@
 package org.rsmod.plugins.api.cache.map.collision
 
+import com.github.michaelbull.logging.InlineLogger
 import com.google.inject.Inject
 import io.guthix.buffer.readIncrSmallSmart
 import io.guthix.buffer.readUnsignedSmallSmart
@@ -14,6 +15,8 @@ import org.rsmod.game.model.map.MapSquare
 import org.rsmod.game.model.obj.GameObject
 import org.rsmod.game.model.obj.type.ObjectTypeList
 import org.rsmod.pathfinder.flag.CollisionFlag
+
+private val logger = InlineLogger()
 
 private const val MAPS_ARCHIVE = 5
 private const val MAP_CONTENTS_FILE = 0
@@ -35,6 +38,7 @@ class CollisionMapLoader @Inject constructor(
         xteas.forEach { (mapSquare, keys) ->
             MapSquare(mapSquare).load(archive, keys)
         }
+        logger.info { "Loaded ${xteas.size} mapsquare collision data" }
     }
 
     private fun MapSquare.load(archive: Js5Archive, keys: IntArray) {
