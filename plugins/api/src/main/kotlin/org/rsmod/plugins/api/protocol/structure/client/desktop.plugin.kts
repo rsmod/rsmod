@@ -21,6 +21,7 @@ import io.guthix.buffer.readStringCP1252
 import io.guthix.buffer.readUnsignedByteNeg
 import io.guthix.buffer.readUnsignedShortAdd
 import io.guthix.buffer.readUnsignedShortAddLE
+import org.rsmod.plugins.api.protocol.packet.client.EventCameraPosition
 import org.rsmod.plugins.api.protocol.packet.client.IfButton
 import org.rsmod.plugins.api.protocol.packet.client.IfButtonHandler
 import org.rsmod.plugins.api.protocol.packet.client.LoginTimings
@@ -53,6 +54,11 @@ packets.register<EventAppletFocus> {
 packets.register<EventKeyboard> {
     opcode = 70
     length = -2
+}
+
+packets.register<EventCameraPosition> {
+    opcode = 37
+    length = 4
 }
 
 packets.register<ClientCheat> {

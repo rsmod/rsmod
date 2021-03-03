@@ -7,4 +7,5 @@ class EventMouseClick : ClientPacket
 class EventMouseIdle : ClientPacket
 class EventAppletFocus : ClientPacket
 class EventKeyboard : ClientPacket
+class EventCameraPosition : ClientPacket
 class WindowStatus : ClientPacket
