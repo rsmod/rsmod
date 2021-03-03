@@ -1,17 +1,20 @@
 package org.rsmod.plugins.api.model.mob.player
 
 import org.rsmod.game.model.domain.Direction
+import org.rsmod.game.model.item.container.ItemContainer
 import org.rsmod.game.model.map.Coordinates
 import org.rsmod.game.model.mob.Player
 import org.rsmod.game.model.move.MovementSpeed
 import org.rsmod.game.model.stat.Stat
 import org.rsmod.game.model.stat.StatKey
+import org.rsmod.game.model.ui.Component
 import org.rsmod.plugins.api.model.stat.StatLevelEvent
 import org.rsmod.plugins.api.model.stat.Stats
 import org.rsmod.plugins.api.protocol.packet.MapMove
 import org.rsmod.plugins.api.protocol.packet.MoveType
 import org.rsmod.plugins.api.protocol.packet.server.MessageGame
 import org.rsmod.plugins.api.protocol.packet.server.MinimapFlagSet
+import org.rsmod.plugins.api.protocol.packet.server.UpdateInvFull
 import org.rsmod.plugins.api.protocol.packet.server.UpdateRunEnergy
 import org.rsmod.plugins.api.protocol.packet.server.UpdateStat
 import org.rsmod.plugins.api.protocol.packet.update.AppearanceMask
@@ -83,4 +86,10 @@ fun Player.sendMinimapFlag(x: Int, y: Int) {
     val lx = (x - base.x)
     val ly = (y - base.y)
     write(MinimapFlagSet(lx, ly))
+}
+
+fun Player.sendItemContainer(key: Int? = null, component: Component? = null, container: ItemContainer) {
+    check(key != null || component == null) { "Container key and/or component must be set." }
+    val packet = UpdateInvFull(key ?: -1, component?.packed ?: -1, container)
+    write(packet)
 }
