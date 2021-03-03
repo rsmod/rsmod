@@ -1,6 +1,7 @@
 package org.rsmod.plugins.content.serializer
 
 import com.google.inject.Inject
+import org.rsmod.game.GameEnv
 import org.rsmod.game.config.GameConfig
 import org.rsmod.game.model.client.Client
 import org.rsmod.game.model.client.PlayerEntity
@@ -24,6 +25,13 @@ class DefaultClientMapper @Inject constructor(
 
     override val type = DefaultClientData::class
 
+    /**
+     * Check if client passwords should not be verified on [deserialize].
+     */
+    private fun skipPasswordCheck(): Boolean {
+        return config.env == GameEnv.Development
+    }
+
     override fun deserialize(request: ClientDeserializeRequest, data: DefaultClientData): ClientDeserializeResponse {
         val password = request.plaintTextPass
         if (password == null) {
@@ -31,7 +39,7 @@ class DefaultClientMapper @Inject constructor(
             if (reconnectXteas == null || !reconnectXteas.contentEquals(data.loginXteas)) {
                 return ClientDeserializeResponse.BadCredentials
             }
-        } else if (!encryption.verify(password, data.encryptedPass)) {
+        } else if (!skipPasswordCheck() && !encryption.verify(password, data.encryptedPass)) {
             return ClientDeserializeResponse.BadCredentials
         }
         val entity = PlayerEntity(
