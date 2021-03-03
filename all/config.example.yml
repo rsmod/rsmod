@@ -1,3 +1,4 @@
+env: "development"
 revision: 194
 home:
   - 3200

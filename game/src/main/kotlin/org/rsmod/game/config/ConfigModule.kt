@@ -16,6 +16,7 @@ import java.security.interfaces.RSAPrivateKey
 import java.security.spec.PKCS8EncodedKeySpec
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.bouncycastle.util.io.pem.PemReader
+import org.rsmod.game.GameEnv
 
 class ConfigModule(
     private val scope: Scope
@@ -43,9 +44,10 @@ class GameConfigProvider @Inject constructor(
     override fun get(): GameConfig {
         val config = ConfigMap(mapper).load(CONFIG_PATH)
         val name: String = config["server-name"] ?: DEFAULT_SERVER_NAME
-        val dataPath: Path = config.dataPath()
+        val dataPath: Path = config.dataPath("data-path")
         val port: Int = config["port"] ?: DEFAULT_PORT
         val home: List<Int> = config["home"] ?: DEFAULT_HOME
+        val envString: String = config["env"] ?: DEFAULT_ENV.toString()
 
         val revision: Number = config["revision"] ?: error("Game config revision required.")
         val majorRevision: Int
@@ -65,18 +67,26 @@ class GameConfigProvider @Inject constructor(
             minorRevision = DEFAULT_MINOR_REVISION
         }
 
+        val env = when {
+            envString.contains(TESTING_ENV_IDENTIFIER) -> GameEnv.Testing
+            envString.contains(DEVELOPMENT_ENV_IDENTIFIER) -> GameEnv.Development
+            envString.contains(PRODUCTION_ENV_IDENTIFIER) -> GameEnv.Production
+            else -> DEFAULT_ENV
+        }
+
         return GameConfig(
             name = name,
             majorRevision = majorRevision,
             minorRevision = minorRevision,
             port = port,
             dataPath = dataPath,
-            home = home.coordinates()
+            home = home.coordinates(),
+            env = env
         )
     }
 
-    private fun ConfigMap.dataPath(): Path {
-        val path: String = this["data-path"] ?: return DEFAULT_DATA_PATH
+    private fun ConfigMap.dataPath(key: String): Path {
+        val path: String = this[key] ?: return DEFAULT_DATA_PATH
         return Paths.get(path)
     }
 
@@ -94,6 +104,11 @@ class GameConfigProvider @Inject constructor(
         private const val DEFAULT_PORT = 43594
         private const val DEFAULT_MINOR_REVISION = 1
         private val DEFAULT_HOME = listOf(3200, 3200)
+        private val DEFAULT_ENV = GameEnv.Production
+
+        private const val TESTING_ENV_IDENTIFIER = "test"
+        private const val DEVELOPMENT_ENV_IDENTIFIER = "dev"
+        private const val PRODUCTION_ENV_IDENTIFIER = "prod"
     }
 }
 

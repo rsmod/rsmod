@@ -3,6 +3,7 @@ package org.rsmod.game.config
 import java.math.BigInteger
 import java.nio.file.Path
 import java.nio.file.Paths
+import org.rsmod.game.GameEnv
 import org.rsmod.game.model.map.Coordinates
 
 data class GameConfig(
@@ -11,7 +12,8 @@ data class GameConfig(
     val minorRevision: Int,
     val port: Int,
     val dataPath: Path,
-    val home: Coordinates
+    val home: Coordinates,
+    val env: GameEnv
 ) {
 
     val cachePath: Path
