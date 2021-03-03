@@ -2,9 +2,7 @@ package org.rsmod.plugins.api.protocol.packet.server
 
 import org.rsmod.game.message.ServerPacket
 
-inline class IfOpenTop(
-    val interfaceId: Int
-) : ServerPacket
+data class IfOpenTop(val interfaceId: Int) : ServerPacket
 
 data class IfOpenSub(
     val interfaceId: Int,
@@ -12,9 +10,7 @@ data class IfOpenSub(
     val clickMode: Int
 ) : ServerPacket
 
-inline class IfCloseSub(
-    val component: Int
-) : ServerPacket
+data class IfCloseSub(val component: Int) : ServerPacket
 
 data class IfSetEvents(
     val component: Int,
