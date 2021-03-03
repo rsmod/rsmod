@@ -1,19 +1,16 @@
 package org.rsmod.plugins.api.protocol.structure.update
 
 import io.guthix.buffer.writeByteAdd
-import io.guthix.buffer.writeByteNeg
-import io.guthix.buffer.writeByteSub
-import io.guthix.buffer.writeBytesAdd
 import io.guthix.buffer.writeBytesReversed
-import org.rsmod.plugins.api.protocol.Device
-import org.rsmod.plugins.api.protocol.structure.DevicePacketStructureMap
 import io.guthix.buffer.writeShortAddLE
 import io.guthix.buffer.writeStringCP1252
+import org.rsmod.plugins.api.protocol.Device
 import org.rsmod.plugins.api.protocol.packet.update.AppearanceMask
 import org.rsmod.plugins.api.protocol.packet.update.BitMask
 import org.rsmod.plugins.api.protocol.packet.update.DirectionMask
 import org.rsmod.plugins.api.protocol.packet.update.MovementPermMask
 import org.rsmod.plugins.api.protocol.packet.update.MovementTempMask
+import org.rsmod.plugins.api.protocol.structure.DevicePacketStructureMap
 
 val structures: DevicePacketStructureMap by inject()
 val masks = structures.update(Device.Desktop)

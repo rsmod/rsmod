@@ -1,6 +1,5 @@
 package org.rsmod.plugins.api.protocol.structure.client
 
-import io.guthix.buffer.readShortAddLE
 import org.rsmod.plugins.api.protocol.Device
 import org.rsmod.plugins.api.protocol.packet.client.ClientCheat
 import org.rsmod.plugins.api.protocol.packet.client.ClientCheatHandler
@@ -20,7 +19,6 @@ import org.rsmod.plugins.api.protocol.packet.client.WindowStatus
 import org.rsmod.plugins.api.protocol.structure.DevicePacketStructureMap
 import io.guthix.buffer.readStringCP1252
 import io.guthix.buffer.readUnsignedByteNeg
-import io.guthix.buffer.readUnsignedByteSub
 import io.guthix.buffer.readUnsignedShortAdd
 import io.guthix.buffer.readUnsignedShortAddLE
 import org.rsmod.plugins.api.protocol.packet.client.IfButton

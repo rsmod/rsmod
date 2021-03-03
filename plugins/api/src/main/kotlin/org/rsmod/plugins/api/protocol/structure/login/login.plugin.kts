@@ -2,7 +2,6 @@ package org.rsmod.plugins.api.protocol.structure.login
 
 import io.guthix.buffer.readIntIME
 import io.guthix.buffer.readIntME
-import io.guthix.buffer.readUnsignedIntIME
 import org.rsmod.game.cache.GameCache
 import org.rsmod.plugins.api.protocol.packet.login.AuthCode
 import org.rsmod.plugins.api.protocol.packet.login.CacheChecksum
