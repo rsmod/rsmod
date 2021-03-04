@@ -111,8 +111,10 @@ class ObjectTypeLoader @Inject constructor(
                 varp = buf.readUnsignedShort()
                 if (varp == 65535) varp = -1
 
-                var defaultTransform = if (instruction == 92) buf.readUnsignedShort() else -1
-                if (defaultTransform == 65535) defaultTransform = -1
+                if (instruction == 92) {
+                    defaultTransform = buf.readUnsignedShort()
+                    if (defaultTransform == 65535) defaultTransform = -1
+                }
 
                 val count = buf.readUnsignedByte().toInt()
                 transforms = Array(count + 2) { 0 }

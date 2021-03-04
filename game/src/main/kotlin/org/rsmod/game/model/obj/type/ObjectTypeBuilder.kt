@@ -14,6 +14,7 @@ private const val DEFAULT_VARP = -1
 private const val DEFAULT_VARBIT = -1
 private const val DEFAULT_ANIMATION = -1
 private const val DEFAULT_ROTATED = false
+private const val DEFAULT_TRANSFORM = -1
 private val DEFAULT_OPTIONS = emptyArray<String?>()
 private val DEFAULT_TRANSFORMS = emptyArray<Int>()
 
@@ -37,7 +38,8 @@ class ObjectTypeBuilder(
     var animation: Int = DEFAULT_ANIMATION,
     var rotated: Boolean = DEFAULT_ROTATED,
     var options: Array<String?> = DEFAULT_OPTIONS,
-    var transforms: Array<Int> = DEFAULT_TRANSFORMS
+    var transforms: Array<Int> = DEFAULT_TRANSFORMS,
+    var defaultTransform: Int = DEFAULT_TRANSFORM
 ) {
 
     val defaultOptions: Boolean
@@ -61,7 +63,8 @@ class ObjectTypeBuilder(
             animation = animation,
             rotated = rotated,
             options = options.toList(),
-            transforms = transforms.toList()
+            transforms = transforms.toList(),
+            defaultTransform = defaultTransform
         )
     }
 }

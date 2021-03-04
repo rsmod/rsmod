@@ -19,7 +19,8 @@ data class ObjectType(
     val animation: Int,
     val rotated: Boolean,
     val options: List<String?>,
-    val transforms: List<Int>
+    val transforms: List<Int>,
+    val defaultTransform: Int
 ) : ConfigType
 
 class ObjectTypeList : ConfigTypeList<ObjectType>()
