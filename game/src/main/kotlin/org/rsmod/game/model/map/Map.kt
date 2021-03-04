@@ -2,7 +2,7 @@ package org.rsmod.game.model.map
 
 import com.google.common.base.MoreObjects
 
-inline class Coordinates(private val packed: Int) {
+inline class Coordinates(val packed: Int) {
 
     val x: Int
         get() = packed and 0x7FFF
