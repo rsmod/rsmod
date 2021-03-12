@@ -10,5 +10,6 @@ data class Account(
     val client: Client,
     val device: Device,
     val decodeIsaac: IsaacRandom,
-    val encodeIsaac: IsaacRandom
+    val encodeIsaac: IsaacRandom,
+    val newAccount: Boolean
 )

@@ -7,10 +7,8 @@ import com.github.michaelbull.retry.policy.binaryExponentialBackoff
 import com.github.michaelbull.retry.policy.limitAttempts
 import com.github.michaelbull.retry.policy.plus
 import com.github.michaelbull.retry.retry
-import javax.inject.Inject
 import io.netty.channel.Channel
 import io.netty.channel.ChannelPipeline
-import java.util.concurrent.ConcurrentLinkedQueue
 import kotlinx.coroutines.launch
 import org.rsmod.game.action.ActionBus
 import org.rsmod.game.config.InternalConfig
@@ -18,6 +16,7 @@ import org.rsmod.game.config.RsaConfig
 import org.rsmod.game.coroutine.IoCoroutineScope
 import org.rsmod.game.dispatch.GameJobDispatcher
 import org.rsmod.game.event.EventBus
+import org.rsmod.game.event.impl.AccountCreation
 import org.rsmod.game.event.impl.ClientRegister
 import org.rsmod.game.event.impl.ClientUnregister
 import org.rsmod.game.model.client.Client
@@ -46,6 +45,8 @@ import org.rsmod.plugins.api.protocol.packet.server.InitialPlayerInfo
 import org.rsmod.plugins.api.protocol.packet.server.RebuildNormal
 import org.rsmod.plugins.api.protocol.structure.DevicePacketStructureMap
 import org.rsmod.util.security.IsaacRandom
+import java.util.concurrent.ConcurrentLinkedQueue
+import javax.inject.Inject
 
 private val logger = InlineLogger()
 
@@ -148,31 +149,29 @@ class AccountDispatcher @Inject constructor(
                     client = client,
                     device = request.device,
                     decodeIsaac = decodeIsaac,
-                    encodeIsaac = encodeIsaac
+                    encodeIsaac = encodeIsaac,
+                    newAccount = deserialize.newAccount
                 )
             }
         }
     }
 
     private fun login(account: Account) {
-        val channel = account.channel
-        val client = account.client
-        val device = account.device
-        val decodeIsaac = account.decodeIsaac
-        val encodeIsaac = account.encodeIsaac
-
+        val (channel, client, device, decodeIsaac, encodeIsaac, newAccount) = account
         val online = playerList.any { it?.id?.value == client.player.id.value }
         if (online) {
             channel.writeErrResponse(ResponseType.ACCOUNT_ONLINE)
             return
         }
-
         val registered = playerList.register(client.player)
         if (!registered) {
             channel.writeErrResponse(ResponseType.WORLD_FULL)
             return
         }
         clientList.register(client)
+        if (newAccount) {
+            eventBus.publish(AccountCreation(client))
+        }
         eventBus.publish(ClientRegister(client))
         client.register(channel, device, decodeIsaac, encodeIsaac)
     }

@@ -28,7 +28,7 @@ class YamlClientSerializer<T : ClientData> @Inject constructor(
         val path = request.loginName.savePath()
         if (!Files.exists(path)) {
             val client = dataMapper.newClient(request)
-            return ClientDeserializeResponse.Success(client)
+            return ClientDeserializeResponse.Success(client, newAccount = true)
         }
         Files.newBufferedReader(path).use { reader ->
             return try {

@@ -17,7 +17,7 @@ interface ClientSerializer {
 }
 
 sealed class ClientDeserializeResponse {
-    class Success(val client: Client) : ClientDeserializeResponse()
+    class Success(val client: Client, val newAccount: Boolean = false) : ClientDeserializeResponse()
     object BadCredentials : ClientDeserializeResponse()
     object ReadError : ClientDeserializeResponse()
     override fun toString(): String = javaClass.simpleName
