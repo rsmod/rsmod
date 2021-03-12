@@ -76,7 +76,7 @@ onAction<ObjectClick> {
         if (route.failed) {
             player.sendMessage(GameMessage.CANNOT_REACH_THAT)
         } else if (!route.alternative) {
-            val published = actions.publish(action, type.id)
+            val published = actionBus.publish(action, type.id)
             if (!published) {
                 player.warn { "Unhandled object action: $action" }
             }
@@ -102,7 +102,7 @@ onAction<ObjectClick> {
             player.sendMessage(GameMessage.CANNOT_REACH_THAT)
             return@normalQueue
         }
-        val published = actions.publish(action, type.id)
+        val published = actionBus.publish(action, type.id)
         if (!published) {
             player.warn { "Unhandled object action: $action" }
         }

@@ -2,8 +2,6 @@ package org.rsmod.game.collision
 
 import org.rsmod.game.model.map.Coordinates
 
-inline class CollisionTile(val flags: Int)
-
 class CollisionMap(
     private val tiles: MutableMap<Coordinates, CollisionTile> = mutableMapOf()
 ) {

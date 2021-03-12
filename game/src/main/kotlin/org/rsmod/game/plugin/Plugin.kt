@@ -13,7 +13,7 @@ import kotlin.properties.ObservableProperty
 open class Plugin(
     val injector: Injector,
     val eventBus: EventBus,
-    val actions: ActionBus,
+    val actionBus: ActionBus,
     val commands: CommandMap
 ) {
 
@@ -23,14 +23,14 @@ open class Plugin(
         onAction(id.toLong(), executor)
 
     inline fun <reified T : Action> onAction(id: Long, noinline executor: ActionExecutor<T>) {
-        val registered = actions.register(id, executor)
+        val registered = actionBus.register(id, executor)
         if (!registered) {
             error("Action with id has already been set (id=$id, type=${T::class.simpleName})")
         }
     }
 
     inline fun <reified T : Action> onAction(noinline executor: ActionExecutor<T>) {
-        actions.register(executor)
+        actionBus.register(executor)
     }
 
     inline fun <reified T> inject(): ObservableProperty<T> = InjectedProperty(injector.getInstance())

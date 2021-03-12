@@ -1,11 +1,11 @@
 package org.rsmod.game.event
 
+import org.rsmod.game.event.action.EventAction
+import org.rsmod.game.event.action.EventActionBuilder
 import kotlin.reflect.KClass
 
-private typealias EventMap = MutableMap<KClass<out Event>, MutableList<EventAction<*>>>
-
 class EventBus(
-    val events: EventMap = mutableMapOf()
+    val events: MutableMap<KClass<out Event>, MutableList<EventAction<*>>> = mutableMapOf()
 ) : Map<KClass<out Event>, List<EventAction<*>>> by events {
 
     @Suppress("UNCHECKED_CAST")
@@ -20,22 +20,4 @@ class EventBus(
 
     inline fun <reified T : Event> subscribe(): EventActionBuilder<T> =
         EventActionBuilder(events.computeIfAbsent(T::class) { mutableListOf() })
-}
-
-@DslMarker
-private annotation class BuilderDslMarker
-
-@BuilderDslMarker
-class EventActionBuilder<T : Event>(private val events: MutableList<EventAction<*>>) {
-
-    private var where: (T).() -> Boolean = { true }
-
-    fun where(where: (T).() -> Boolean): EventActionBuilder<T> {
-        this.where = where
-        return this
-    }
-
-    fun then(then: (T).() -> Unit) {
-        events.add(EventAction(where, then))
-    }
 }
