@@ -87,8 +87,8 @@ fun Plugin.onObject(obj: ObjectType, opt: String, block: ObjectAction.() -> Unit
     if (option == -1) {
         val ignoreCase = obj.options.firstOrNull { it != null && it.equals(opt, ignoreCase = true) }
         if (ignoreCase != null) {
-            val errorMessage = "Letter case error for object \"${obj.name}\" option"
-            val foundMessage = "Found \"$ignoreCase\" but was given \"$opt\""
+            val errorMessage = "Letter case option error for object \"${obj.name}\" (id=${obj.id})"
+            val foundMessage = "Found [\"$ignoreCase\"] but was given [\"$opt\"]"
             error("$errorMessage. $foundMessage.")
         }
         error("Option for object \"${obj.name}\" not found. (id=${obj.id}, option=$opt)")
