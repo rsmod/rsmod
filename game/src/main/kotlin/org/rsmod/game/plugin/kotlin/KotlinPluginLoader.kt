@@ -26,13 +26,17 @@ class KotlinPluginLoader @Inject constructor(
                     ActionBus::class.java,
                     CommandMap::class.java
                 )
-                val instance = constructor.newInstance(
-                    injector,
-                    eventBus,
-                    actions,
-                    commands
-                )
-                plugins.add(instance)
+                try {
+                    val instance = constructor.newInstance(
+                        injector,
+                        eventBus,
+                        actions,
+                        commands
+                    )
+                    plugins.add(instance)
+                } catch (t: Throwable) {
+                    throw t.cause ?: t
+                }
             }
         }
         return plugins
