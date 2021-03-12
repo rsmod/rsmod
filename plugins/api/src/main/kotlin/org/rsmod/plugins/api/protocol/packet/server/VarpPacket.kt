@@ -11,3 +11,5 @@ data class VarpLarge(
     val id: Int,
     val value: Int
 ) : ServerPacket
+
+object ResetClientVarCache : ServerPacket

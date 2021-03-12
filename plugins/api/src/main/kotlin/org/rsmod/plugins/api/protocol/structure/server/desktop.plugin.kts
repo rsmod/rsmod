@@ -25,6 +25,8 @@ import org.rsmod.plugins.api.protocol.packet.server.MessageGame
 import org.rsmod.plugins.api.protocol.packet.server.MinimapFlagSet
 import org.rsmod.plugins.api.protocol.packet.server.PlayerInfo
 import org.rsmod.plugins.api.protocol.packet.server.RebuildNormal
+import org.rsmod.plugins.api.protocol.packet.server.ResetAnims
+import org.rsmod.plugins.api.protocol.packet.server.ResetClientVarCache
 import org.rsmod.plugins.api.protocol.packet.server.RunClientScript
 import org.rsmod.plugins.api.protocol.packet.server.UpdateInvFull
 import org.rsmod.plugins.api.protocol.packet.server.UpdateInvPartial
@@ -143,6 +145,16 @@ packets.register<VarpLarge> {
         it.writeInt(value)
         it.writeShortLE(id)
     }
+}
+
+packets.register<ResetClientVarCache> {
+    opcode = 3
+    write { /* empty */ }
+}
+
+packets.register<ResetAnims> {
+    opcode = 51
+    write { /* empty */ }
 }
 
 packets.register<UpdateRunEnergy> {
