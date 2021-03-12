@@ -1,5 +1,6 @@
 package org.rsmod.plugins.api.model.mob.player
 
+@Suppress("UNUSED")
 object MessageType {
 
     const val GAME_MESSAGE = 0
@@ -29,5 +30,6 @@ object MessageType {
     const val SPAM = 105
     const val PLAYER_RELATED = 106
     const val TEN_SEC_TIMEOUT = 107
+    const val WELCOME = 108
     const val FILTERED = 109
 }

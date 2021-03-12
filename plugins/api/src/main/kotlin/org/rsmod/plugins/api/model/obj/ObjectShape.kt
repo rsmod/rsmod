@@ -1,6 +1,7 @@
 package org.rsmod.plugins.api.model.obj
 
 /* credits: Joshua F */
+@Suppress("UNUSED")
 object ObjectShape {
 
     const val WALL = 0
