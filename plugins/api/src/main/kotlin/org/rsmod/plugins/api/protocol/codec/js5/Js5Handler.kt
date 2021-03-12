@@ -1,7 +1,7 @@
 package org.rsmod.plugins.api.protocol.codec.js5
 
 import com.github.michaelbull.logging.InlineLogger
-import com.google.inject.Inject
+import javax.inject.Inject
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.ChannelInboundHandlerAdapter
 import org.rsmod.plugins.api.protocol.codec.exceptionCaught

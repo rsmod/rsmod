@@ -2,7 +2,7 @@ package org.rsmod.plugins.content.serializer.yaml
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.michaelbull.logging.InlineLogger
-import com.google.inject.Inject
+import javax.inject.Inject
 import java.nio.file.Files
 import java.nio.file.Path
 import org.rsmod.game.config.GameConfig

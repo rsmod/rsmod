@@ -1,6 +1,6 @@
 package org.rsmod.plugins.api.cache.type
 
-import com.google.inject.Inject
+import javax.inject.Inject
 import com.google.inject.Provider
 import com.google.inject.Scope
 import dev.misfitlabs.kotlinguice4.KotlinModule

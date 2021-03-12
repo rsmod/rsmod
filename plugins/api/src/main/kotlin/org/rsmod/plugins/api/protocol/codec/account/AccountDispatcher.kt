@@ -7,7 +7,7 @@ import com.github.michaelbull.retry.policy.binaryExponentialBackoff
 import com.github.michaelbull.retry.policy.limitAttempts
 import com.github.michaelbull.retry.policy.plus
 import com.github.michaelbull.retry.retry
-import com.google.inject.Inject
+import javax.inject.Inject
 import io.netty.channel.Channel
 import io.netty.channel.ChannelPipeline
 import java.util.concurrent.ConcurrentLinkedQueue

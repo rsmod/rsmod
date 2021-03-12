@@ -3,7 +3,7 @@ package org.rsmod.plugins.api.cache.map.xtea.loader
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.michaelbull.logging.InlineLogger
-import com.google.inject.Inject
+import javax.inject.Inject
 import java.nio.file.Files
 import org.rsmod.game.config.GameConfig
 import org.rsmod.game.event.Event

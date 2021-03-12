@@ -1,6 +1,6 @@
 package org.rsmod.game.coroutine
 
-import com.google.inject.Inject
+import javax.inject.Inject
 import com.google.inject.Provider
 import java.util.concurrent.Executor
 import javax.inject.Named

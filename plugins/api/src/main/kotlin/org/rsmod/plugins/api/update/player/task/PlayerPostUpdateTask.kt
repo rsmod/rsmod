@@ -1,6 +1,6 @@
 package org.rsmod.plugins.api.update.player.task
 
-import com.google.inject.Inject
+import javax.inject.Inject
 import org.rsmod.game.model.item.Item
 import org.rsmod.game.model.item.container.ItemContainerMap
 import org.rsmod.game.model.mob.Player

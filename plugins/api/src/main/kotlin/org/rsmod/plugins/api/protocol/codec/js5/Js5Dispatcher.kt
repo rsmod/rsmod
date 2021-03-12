@@ -1,7 +1,7 @@
 package org.rsmod.plugins.api.protocol.codec.js5
 
 import com.github.michaelbull.logging.InlineLogger
-import com.google.inject.Inject
+import javax.inject.Inject
 import org.rsmod.game.cache.GameCache
 import io.guthix.js5.container.Js5Store
 import io.netty.channel.Channel

@@ -2,7 +2,7 @@ package org.rsmod.plugins.api.update.player.task
 
 import com.github.michaelbull.logging.InlineLogger
 import com.google.common.primitives.Ints.min
-import com.google.inject.Inject
+import javax.inject.Inject
 import org.rsmod.game.coroutine.IoCoroutineScope
 import org.rsmod.game.model.client.Client
 import org.rsmod.game.model.client.ClientDevice

@@ -1,6 +1,6 @@
 package org.rsmod.game.plugin.kotlin
 
-import com.google.inject.Inject
+import javax.inject.Inject
 import com.google.inject.Injector
 import org.rsmod.game.action.ActionBus
 import org.rsmod.game.event.EventBus

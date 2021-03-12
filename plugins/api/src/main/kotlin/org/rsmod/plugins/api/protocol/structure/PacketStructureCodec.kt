@@ -1,6 +1,6 @@
 package org.rsmod.plugins.api.protocol.structure
 
-import com.google.inject.Inject
+import javax.inject.Inject
 import com.google.inject.Injector
 import org.rsmod.game.message.ClientPacketStructureMap
 import org.rsmod.game.message.ServerPacketStructureMap

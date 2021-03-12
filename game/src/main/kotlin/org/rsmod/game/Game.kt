@@ -1,7 +1,7 @@
 package org.rsmod.game
 
 import com.github.michaelbull.logging.InlineLogger
-import com.google.inject.Inject
+import javax.inject.Inject
 import java.util.concurrent.TimeUnit
 import kotlin.system.measureNanoTime
 import kotlinx.coroutines.CoroutineScope

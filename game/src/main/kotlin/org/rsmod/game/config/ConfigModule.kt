@@ -1,7 +1,7 @@
 package org.rsmod.game.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.google.inject.Inject
+import javax.inject.Inject
 import com.google.inject.Provider
 import com.google.inject.Scope
 import dev.misfitlabs.kotlinguice4.KotlinModule

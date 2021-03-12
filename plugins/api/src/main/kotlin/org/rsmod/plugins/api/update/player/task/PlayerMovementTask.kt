@@ -1,6 +1,6 @@
 package org.rsmod.plugins.api.update.player.task
 
-import com.google.inject.Inject
+import javax.inject.Inject
 import org.rsmod.game.collision.CollisionMap
 import org.rsmod.game.model.domain.Direction
 import org.rsmod.game.model.domain.repo.XteaRepository

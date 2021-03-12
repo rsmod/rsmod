@@ -1,6 +1,6 @@
 package org.rsmod.plugins.content.serializer
 
-import com.google.inject.Inject
+import javax.inject.Inject
 import org.rsmod.game.GameEnv
 import org.rsmod.game.config.GameConfig
 import org.rsmod.game.model.client.Client

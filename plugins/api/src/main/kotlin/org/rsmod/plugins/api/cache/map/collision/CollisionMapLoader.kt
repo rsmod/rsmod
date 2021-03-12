@@ -1,7 +1,7 @@
 package org.rsmod.plugins.api.cache.map.collision
 
 import com.github.michaelbull.logging.InlineLogger
-import com.google.inject.Inject
+import javax.inject.Inject
 import io.guthix.buffer.readIncrSmallSmart
 import io.guthix.buffer.readUnsignedSmallSmart
 import io.guthix.js5.Js5Archive

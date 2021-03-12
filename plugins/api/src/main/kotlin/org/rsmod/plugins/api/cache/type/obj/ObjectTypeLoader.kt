@@ -1,7 +1,7 @@
 package org.rsmod.plugins.api.cache.type.obj
 
 import com.github.michaelbull.logging.InlineLogger
-import com.google.inject.Inject
+import javax.inject.Inject
 import org.rsmod.game.cache.GameCache
 import org.rsmod.game.cache.ConfigTypeLoader
 import org.rsmod.game.model.obj.type.ObjectType
