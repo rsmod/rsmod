@@ -1,9 +1,9 @@
-package org.rsmod.plugins.api.model.stat
+package org.rsmod.game.event.impl
 
 import org.rsmod.game.event.Event
 import org.rsmod.game.model.stat.StatKey
 
-data class StatLevelUp(
+data class StatLevelEvent(
     val key: StatKey,
     val oldLevel: Int,
     val newLevel: Int,

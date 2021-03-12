@@ -3,13 +3,15 @@ package org.rsmod.plugins.content.gameframe
 import org.rsmod.game.model.mob.Player
 import org.rsmod.game.model.ui.Component
 import org.rsmod.game.model.ui.UserInterface
+import org.rsmod.game.model.vars.type.VarpTypeList
+import org.rsmod.plugins.api.model.mob.player.runClientScript
 import org.rsmod.plugins.api.model.mob.player.sendRunEnergy
+import org.rsmod.plugins.api.model.mob.player.setVarp
 import org.rsmod.plugins.api.model.ui.openOverlay
 import org.rsmod.plugins.api.model.ui.openTopLevel
 import org.rsmod.plugins.api.onEarlyLogin
-import org.rsmod.plugins.api.protocol.packet.server.VarpLarge
-import org.rsmod.plugins.api.protocol.packet.server.RunClientScript
-import org.rsmod.plugins.api.protocol.packet.server.VarpSmall
+
+val varps: VarpTypeList by inject()
 
 onEarlyLogin {
     player.sendGameframe()
@@ -38,9 +40,9 @@ fun Player.sendGameframe() {
     openOverlay(UserInterface(239), Component(548, 82))
     openOverlay(UserInterface(7), Component(548, 76))
     openOverlay(UserInterface(593), Component(548, 69))
-    write(RunClientScript(1105, 1))
-    write(VarpSmall(1055, 0))
-    write(VarpLarge(1737, -1))
+    setVarp(varps[1055], 0)
+    setVarp(varps[1737], -1)
+    runClientScript(1105, 1)
 }
 
 fun Player.sendOrbs() {

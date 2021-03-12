@@ -2,6 +2,7 @@ package org.rsmod.game.model.item.container.transaction
 
 import org.rsmod.game.model.item.Item
 import org.rsmod.game.model.item.container.ItemContainer
+import org.rsmod.game.model.item.container.stacks
 
 operator fun ItemContainer.plusAssign(item: Item) {
     add(item)
@@ -24,7 +25,7 @@ fun ItemContainer.add(item: Item, slot: Int = 0, strict: Boolean = true): ItemCo
     val transaction = ItemContainerTransaction(this)
     var queryResult: ItemContainerTransactionResult? = null
 
-    val stacks = stacks(item.type, stackMode)
+    val stacks = stackMode.stacks(item.type)
     transaction.query {
         val add = if (stacks) {
             addStack(item, slot)

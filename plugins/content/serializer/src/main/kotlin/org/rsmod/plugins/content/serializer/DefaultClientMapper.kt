@@ -16,6 +16,7 @@ import org.rsmod.game.model.move.MovementSpeed
 import org.rsmod.game.model.stat.Stat
 import org.rsmod.game.model.stat.StatKey
 import org.rsmod.game.model.stat.StatMap
+import org.rsmod.game.model.vars.VarpMap
 import org.rsmod.util.security.PasswordEncryption
 
 class DefaultClientMapper @Inject constructor(
@@ -71,6 +72,7 @@ class DefaultClientMapper @Inject constructor(
         player.speed = if (data.moveSpeed == 1) MovementSpeed.Run else MovementSpeed.Walk
         player.runEnergy = data.runEnergy
         player.stats.putAll(data.skills)
+        player.varpMap.putAll(data.varps)
         return ClientDeserializeResponse.Success(client)
     }
 
@@ -86,7 +88,8 @@ class DefaultClientMapper @Inject constructor(
             rank = entity.rank,
             moveSpeed = if (player.speed == MovementSpeed.Run) 1 else 0,
             runEnergy = player.runEnergy,
-            skills = player.stats.toIntKeyMap()
+            skills = player.stats.toIntKeyMap(),
+            varps = player.varpMap.toMap()
         )
     }
 
@@ -127,7 +130,8 @@ data class DefaultClientData(
     val rank: Int,
     val runEnergy: Double,
     val moveSpeed: Int,
-    val skills: Map<Int, Stat>
+    val skills: Map<Int, Stat>,
+    val varps: Map<Int, Int>
 ) : ClientData {
 
     override fun equals(other: Any?): Boolean {
@@ -145,6 +149,7 @@ data class DefaultClientData(
         if (runEnergy != other.runEnergy) return false
         if (moveSpeed != other.moveSpeed) return false
         if (skills != other.skills) return false
+        if (varps != other.varps) return false
 
         return true
     }
@@ -159,6 +164,7 @@ data class DefaultClientData(
         result = 31 * result + runEnergy.hashCode()
         result = 31 * result + moveSpeed
         result = 31 * result + skills.hashCode()
+        result = 31 * result + varps.hashCode()
         return result
     }
 }
@@ -170,4 +176,8 @@ private fun StatMap.toIntKeyMap(): Map<Int, Stat> {
 private fun StatMap.putAll(intKeyMap: Map<Int, Stat>) {
     val map = intKeyMap.entries.associate { (key, value) -> StatKey(key) to value }
     putAll(map)
+}
+
+private fun VarpMap.putAll(from: Map<Int, Int>) {
+    from.forEach { (key, value) -> this[key] = value }
 }

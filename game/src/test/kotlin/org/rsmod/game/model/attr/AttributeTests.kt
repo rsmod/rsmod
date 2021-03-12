@@ -1,13 +1,13 @@
-package org.rsmod.game.model.vars
+package org.rsmod.game.model.attr
 
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
-class VarMapAttributeTests {
+class AttributeTests {
 
-    private val vars = VarMap()
+    private val attr = AttributeMap()
 
     @Test
     fun verifyKeyHashCodeAndEquals() {
@@ -27,15 +27,15 @@ class VarMapAttributeTests {
         val key1 = AttributeKey.createPersistent<Any>("key")
         val key2 = AttributeKey.createPersistent<Any>("key")
         val value = 0
-        Assertions.assertNull(vars[key1])
-        Assertions.assertNull(vars[key2])
-        vars[key1] = value
-        Assertions.assertNotNull(vars[key1])
-        Assertions.assertNotNull(vars[key2])
+        Assertions.assertNull(attr[key1])
+        Assertions.assertNull(attr[key2])
+        attr[key1] = value
+        Assertions.assertNotNull(attr[key1])
+        Assertions.assertNotNull(attr[key2])
         Assertions.assertTrue(key1 == key2)
         Assertions.assertEquals(key1.hashCode(), key2.hashCode())
-        Assertions.assertEquals(value, vars[key1])
-        Assertions.assertEquals(value, vars[key2])
+        Assertions.assertEquals(value, attr[key1])
+        Assertions.assertEquals(value, attr[key2])
     }
 
     @Test
@@ -43,14 +43,14 @@ class VarMapAttributeTests {
         val key1 = AttributeKey.createPersistent<Any>("key1")
         val key2 = AttributeKey.createPersistent<Any>("key2")
         val value = 0
-        Assertions.assertNull(vars[key1])
-        Assertions.assertNull(vars[key2])
-        vars[key1] = value
-        Assertions.assertNotNull(vars[key1])
-        Assertions.assertNull(vars[key2])
+        Assertions.assertNull(attr[key1])
+        Assertions.assertNull(attr[key2])
+        attr[key1] = value
+        Assertions.assertNotNull(attr[key1])
+        Assertions.assertNull(attr[key2])
         Assertions.assertFalse(key1 == key2)
         Assertions.assertNotEquals(key1.hashCode(), key2.hashCode())
-        Assertions.assertEquals(value, vars[key1])
-        Assertions.assertNotEquals(value, vars[key2])
+        Assertions.assertEquals(value, attr[key1])
+        Assertions.assertNotEquals(value, attr[key2])
     }
 }

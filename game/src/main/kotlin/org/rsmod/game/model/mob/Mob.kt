@@ -10,6 +10,7 @@ import org.rsmod.game.event.impl.LoginEvent
 import org.rsmod.game.event.impl.LogoutEvent
 import org.rsmod.game.message.ServerPacket
 import org.rsmod.game.message.ServerPacketListener
+import org.rsmod.game.model.attr.AttributeMap
 import org.rsmod.game.model.client.Entity
 import org.rsmod.game.model.client.NpcEntity
 import org.rsmod.game.model.client.PlayerEntity
@@ -25,7 +26,7 @@ import org.rsmod.game.model.move.MovementQueue
 import org.rsmod.game.model.move.MovementSpeed
 import org.rsmod.game.model.stat.StatMap
 import org.rsmod.game.model.ui.InterfaceList
-import org.rsmod.game.model.vars.VarMap
+import org.rsmod.game.model.vars.VarpMap
 import org.rsmod.game.queue.GameQueueStack
 import org.rsmod.game.queue.QueueType
 import org.rsmod.game.timer.TimerMap
@@ -41,8 +42,8 @@ sealed class Mob(
     var faceDirection: Direction = DEFAULT_DIRECTION,
     var displace: Boolean = false,
     val stats: StatMap = StatMap(),
-    val vars: VarMap = VarMap(),
     val timers: TimerMap = TimerMap(),
+    val attribs: AttributeMap = AttributeMap(),
     val queueStack: GameQueueStack = GameQueueStack()
 ) {
 
@@ -89,6 +90,7 @@ class Player(
     val bank: ItemContainer = ItemContainer(),
     val containers: ItemContainerMap = ItemContainerMap(),
     val ui: InterfaceList = InterfaceList(),
+    val varpMap: VarpMap = VarpMap(),
     var lastSpeed: MovementSpeed? = null,
     var runEnergy: Double = DEFAULT_RUN_ENERGY,
     private val messageListeners: List<ServerPacketListener> = mutableListOf()
@@ -122,7 +124,10 @@ class Player(
 
     fun snapshot() = Snapshot(
         timestamp = LocalDateTime.now(),
-        coords = coords
+        coords = coords,
+        stats = stats.copy(),
+        varps = varpMap.copy(),
+        containers = containers.copyAutoUpdateOnly()
     )
 
     fun info(message: () -> String) {

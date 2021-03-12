@@ -1,21 +1,11 @@
 package org.rsmod.game.model.item.container
 
 import org.rsmod.game.model.item.Item
-import org.rsmod.game.model.item.container.transaction.stacks
-
-open class ItemContainerKey
-
-sealed class ItemContainerStackMode {
-    object Default : ItemContainerStackMode()
-    object Always : ItemContainerStackMode()
-    object Never : ItemContainerStackMode()
-}
 
 class ItemContainer private constructor(
     private val items: MutableList<Item?>,
     val stackMode: ItemContainerStackMode,
-    var initialized: Boolean = false,
-    var update: Boolean = false
+    var autoUpdate: Boolean = false
 ) : List<Item?> by items {
 
     constructor(
@@ -33,12 +23,18 @@ class ItemContainer private constructor(
     }
 
     fun amount(item: Item): Int {
-        return if (stacks(item.type, stackMode)) {
+        return if (stackMode.stacks(item.type)) {
             first { it?.id == item.id }?.amount ?: 0
         } else {
             foldRight(0) { it, amount ->
                 if (it?.id == item.id) amount + it.amount else amount
             }
+        }
+    }
+
+    fun clear() {
+        items.indices.forEach {
+            items[it] = null
         }
     }
 
@@ -61,26 +57,14 @@ class ItemContainer private constructor(
     operator fun set(slot: Int, item: Item?) {
         check(item == null || item.amount > 0) { "If you want to remove item set it to `null` instead." }
         items[slot] = item
-        update = true
-    }
-}
-
-class ItemContainerMap(
-    private val containers: MutableMap<ItemContainerKey, ItemContainer> = mutableMapOf()
-) : Map<ItemContainerKey, ItemContainer> by containers {
-
-    fun register(
-        key: ItemContainerKey,
-        capacity: Int,
-        stack: ItemContainerStackMode = ItemContainerStackMode.Default
-    ) {
-        if (containsKey(key)) {
-            error("Container key already registered (key=$key)")
-        }
-        containers[key] = ItemContainer(capacity, stack)
     }
 
-    operator fun set(key: ItemContainerKey, container: ItemContainer) {
-        containers[key] = container
+    /**
+     * Creates a deep-copy of this [ItemContainer].
+     */
+    fun copy(): ItemContainer {
+        val copyItems = mutableListOf<Item?>()
+        items.forEach { it?.let { copyItems.add(it.copy()) } }
+        return ItemContainer(copyItems, stackMode, autoUpdate)
     }
 }

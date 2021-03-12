@@ -1,12 +1,9 @@
-package org.rsmod.game.model.vars
+package org.rsmod.game.model.attr
 
 import com.google.common.base.MoreObjects
 
-sealed class VarKey<T>
-
-open class AttributeKey<T> private constructor(
-    val persistenceId: String?
-) : VarKey<T>() {
+@Suppress("UNUSED")
+open class AttributeKey<T> private constructor(val persistenceId: String?) {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -33,33 +30,6 @@ open class AttributeKey<T> private constructor(
 
         fun <T> createPersistent(uniqueId: String): AttributeKey<T> {
             return AttributeKey(uniqueId)
-        }
-    }
-}
-
-open class VarpKey<T> private constructor(val id: Int) : VarKey<T>() {
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-        other as VarpKey<*>
-        if (id != other.id) return false
-        return true
-    }
-
-    override fun hashCode(): Int {
-        return Integer.hashCode(id)
-    }
-
-    override fun toString(): String = MoreObjects.toStringHelper(this)
-        .add("id", id)
-        .add("hashCode", hashCode())
-        .toString()
-
-    companion object {
-
-        fun <T> create(id: Int): VarpKey<T> {
-            return VarpKey(id)
         }
     }
 }

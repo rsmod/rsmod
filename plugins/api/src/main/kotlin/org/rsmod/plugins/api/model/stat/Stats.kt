@@ -6,9 +6,6 @@ import org.rsmod.game.model.stat.StatKey
 
 object Stats {
 
-    const val MAX_EXP = 200_000_000
-    private const val MAX_STAT_LEVEL = 2000
-
     object Attack : StatKey(0)
     object Defence : StatKey(1)
     object Strength : StatKey(2)
@@ -33,7 +30,17 @@ object Stats {
     object Hunter : StatKey(21)
     object Construction : StatKey(22)
 
-    val KEYS = arrayOf(
+    private const val MAX_STAT_LEVEL = 2000
+
+    private val EXP_TABLE = IntArray(MAX_STAT_LEVEL).apply {
+        var points = 0
+        for (level in 1 until size) {
+            points += floor(level + 300 * 2.0.pow(level / 7.0)).toInt()
+            this[level] = points / 4
+        }
+    }
+
+    val keys = mutableListOf(
         Attack,
         Defence,
         Strength,
@@ -58,14 +65,6 @@ object Stats {
         Hunter,
         Construction
     )
-
-    private val EXP_TABLE = IntArray(MAX_STAT_LEVEL).apply {
-        var points = 0
-        for (level in 1 until size) {
-            points += floor(level + 300 * 2.0.pow(level / 7.0)).toInt()
-            this[level] = points / 4
-        }
-    }
 
     fun expForLevel(level: Int): Int {
         return EXP_TABLE[level - 1]

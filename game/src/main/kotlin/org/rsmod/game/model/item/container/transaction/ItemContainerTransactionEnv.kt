@@ -4,7 +4,7 @@ import kotlin.math.min
 import org.rsmod.game.model.item.Item
 import org.rsmod.game.model.item.MAX_ITEM_STACK
 import org.rsmod.game.model.item.container.ItemContainerStackMode
-import org.rsmod.game.model.item.type.ItemType
+import org.rsmod.game.model.item.container.stacks
 
 class ItemContainerTransactionEnv(
     private val transaction: ItemContainerTransaction,
@@ -21,7 +21,7 @@ class ItemContainerTransactionEnv(
     }
 
     fun add(item: Item, slot: Int = 0) {
-        val stack = stacks(item.type, stackMode)
+        val stack = stackMode.stacks(item.type)
         val strict = this.strict
         transaction.query {
             val add = if (stack) {
@@ -113,12 +113,6 @@ internal fun MutableList<Item?>.indexOfNull(startIndex: Int = 0): Int? {
         return i
     }
     return null
-}
-
-internal fun stacks(type: ItemType, mode: ItemContainerStackMode): Boolean = when (mode) {
-    ItemContainerStackMode.Never -> false
-    ItemContainerStackMode.Always -> true
-    ItemContainerStackMode.Default -> type.stacks
 }
 
 private fun result(requested: Int, completed: Int): ItemContainerTransactionResult {

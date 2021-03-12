@@ -5,7 +5,7 @@ import org.rsmod.game.model.item.type.ItemType
 
 internal const val MAX_ITEM_STACK = Int.MAX_VALUE
 
-class Item(
+data class Item(
     val type: ItemType,
     val amount: Int = 1
 ) {

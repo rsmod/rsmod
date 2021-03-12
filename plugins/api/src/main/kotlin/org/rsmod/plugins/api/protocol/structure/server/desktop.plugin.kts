@@ -1,22 +1,5 @@
 package org.rsmod.plugins.api.protocol.structure.server
 
-import org.rsmod.util.security.Xtea
-import org.rsmod.game.message.PacketLength
-import org.rsmod.game.model.domain.repo.XteaRepository
-import org.rsmod.game.model.item.Item
-import org.rsmod.game.model.map.MapSquare
-import org.rsmod.plugins.api.protocol.Device
-import org.rsmod.plugins.api.protocol.packet.server.IfCloseSub
-import org.rsmod.plugins.api.protocol.packet.server.IfOpenSub
-import org.rsmod.plugins.api.protocol.packet.server.IfOpenTop
-import org.rsmod.plugins.api.protocol.packet.server.IfSetEvents
-import org.rsmod.plugins.api.protocol.packet.server.VarpLarge
-import org.rsmod.plugins.api.protocol.packet.server.PlayerInfo
-import org.rsmod.plugins.api.protocol.packet.server.RebuildNormal
-import org.rsmod.plugins.api.protocol.packet.server.RunClientScript
-import org.rsmod.plugins.api.protocol.packet.server.VarpSmall
-import org.rsmod.plugins.api.protocol.packet.server.UpdateInvFull
-import org.rsmod.plugins.api.protocol.structure.DevicePacketStructureMap
 import io.guthix.buffer.writeByteAdd
 import io.guthix.buffer.writeByteNeg
 import io.guthix.buffer.writeIntIME
@@ -25,13 +8,31 @@ import io.guthix.buffer.writeShortAdd
 import io.guthix.buffer.writeShortAddLE
 import io.guthix.buffer.writeSmallSmart
 import io.guthix.buffer.writeStringCP1252
+import org.rsmod.util.security.Xtea
+import org.rsmod.game.message.PacketLength
+import org.rsmod.game.model.domain.repo.XteaRepository
+import org.rsmod.game.model.item.Item
+import org.rsmod.game.model.map.MapSquare
+import org.rsmod.plugins.api.protocol.Device
+import org.rsmod.plugins.api.protocol.structure.DevicePacketStructureMap
 import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
-import kotlin.math.min
+import org.rsmod.plugins.api.protocol.packet.server.IfCloseSub
+import org.rsmod.plugins.api.protocol.packet.server.IfOpenSub
+import org.rsmod.plugins.api.protocol.packet.server.IfOpenTop
+import org.rsmod.plugins.api.protocol.packet.server.IfSetEvents
 import org.rsmod.plugins.api.protocol.packet.server.MessageGame
 import org.rsmod.plugins.api.protocol.packet.server.MinimapFlagSet
+import org.rsmod.plugins.api.protocol.packet.server.PlayerInfo
+import org.rsmod.plugins.api.protocol.packet.server.RebuildNormal
+import org.rsmod.plugins.api.protocol.packet.server.RunClientScript
+import org.rsmod.plugins.api.protocol.packet.server.UpdateInvFull
+import org.rsmod.plugins.api.protocol.packet.server.UpdateInvPartial
 import org.rsmod.plugins.api.protocol.packet.server.UpdateRunEnergy
 import org.rsmod.plugins.api.protocol.packet.server.UpdateStat
+import org.rsmod.plugins.api.protocol.packet.server.VarpLarge
+import org.rsmod.plugins.api.protocol.packet.server.VarpSmall
+import kotlin.math.min
 
 val structures: DevicePacketStructureMap by inject()
 val packets = structures.server(Device.Desktop)
@@ -43,7 +44,17 @@ packets.register<UpdateInvFull> {
         it.writeInt(component)
         it.writeShort(key)
         it.writeShort(items.size)
-        it.writeItemContainer(items)
+        it.writeFullItemContainer(items)
+    }
+}
+
+packets.register<UpdateInvPartial> {
+    opcode = 35
+    length = PacketLength.Short
+    write {
+        it.writeInt(component)
+        it.writeShort(key)
+        it.writePartialItemContainer(updated)
     }
 }
 
@@ -181,7 +192,7 @@ fun xteasBuffer(viewport: List<MapSquare>, xteasRepository: XteaRepository): Byt
     return buf
 }
 
-fun ByteBuf.writeItemContainer(items: List<Item?>) {
+fun ByteBuf.writeFullItemContainer(items: List<Item?>) {
     items.forEach { item ->
         val id = (item?.id ?: -1) + 1
         val amount = (item?.amount ?: 0)
@@ -190,5 +201,20 @@ fun ByteBuf.writeItemContainer(items: List<Item?>) {
             writeIntME(item?.amount ?: 0)
         }
         writeShortAddLE(id)
+    }
+}
+
+fun ByteBuf.writePartialItemContainer(items: Map<Int, Item?>) {
+    items.forEach { (slot, item) ->
+        val id = (item?.id ?: -1) + 1
+        val amount = (item?.amount ?: 0)
+        writeSmallSmart(slot)
+        writeShort(id)
+        if (id != 0) {
+            writeByte(min(255, amount))
+            if (amount >= 255) {
+                writeInt(item?.amount ?: 0)
+            }
+        }
     }
 }

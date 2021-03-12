@@ -33,8 +33,7 @@ open class Plugin(
         actions.register(executor)
     }
 
-    inline fun <reified T> inject(): ObservableProperty<T> =
-        InjectedProperty(injector.getInstance())
+    inline fun <reified T> inject(): ObservableProperty<T> = InjectedProperty(injector.getInstance())
 
     class InjectedProperty<T>(value: T) : ObservableProperty<T>(value)
 }
