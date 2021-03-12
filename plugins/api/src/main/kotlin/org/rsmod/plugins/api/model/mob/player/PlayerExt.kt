@@ -10,6 +10,12 @@ import org.rsmod.game.model.stat.StatKey
 import org.rsmod.game.model.ui.Component
 import org.rsmod.game.model.vars.type.VarbitType
 import org.rsmod.game.model.vars.type.VarpType
+import org.rsmod.plugins.api.model.vars.getVarbit
+import org.rsmod.plugins.api.model.vars.getVarp
+import org.rsmod.plugins.api.model.vars.setVarbit
+import org.rsmod.plugins.api.model.vars.setVarp
+import org.rsmod.plugins.api.model.vars.toggleVarbit
+import org.rsmod.plugins.api.model.vars.toggleVarp
 import org.rsmod.plugins.api.protocol.packet.MapMove
 import org.rsmod.plugins.api.protocol.packet.MoveType
 import org.rsmod.plugins.api.protocol.packet.server.MessageGame
@@ -23,8 +29,6 @@ import org.rsmod.plugins.api.protocol.packet.server.VarpSmall
 import org.rsmod.plugins.api.protocol.packet.update.AppearanceMask
 import org.rsmod.plugins.api.protocol.packet.update.DirectionMask
 import org.rsmod.plugins.api.update.player.mask.of
-import org.rsmod.plugins.api.util.extractBitValue
-import org.rsmod.plugins.api.util.withBitValue
 
 fun Player.moveTo(destination: Coordinates, speed: MovementSpeed = this.speed, noclip: Boolean = false) {
     val type = when (speed) {
@@ -87,31 +91,26 @@ fun Player.runClientScript(id: Int, vararg args: Any) {
     write(RunClientScript(id, *args))
 }
 
-fun Player.getVarp(type: VarpType): Int {
-    return varpMap[type.id] ?: 0
-}
+fun Player.getVarp(type: VarpType): Int = varpMap.getVarp(type)
 
-fun Player.setVarp(type: VarpType, value: Int) {
-    varpMap[type.id] = value
+fun Player.setVarp(type: VarpType, value: Int) = varpMap.setVarp(type, value)
+
+fun Player.setVarp(type: VarpType, flag: Boolean, falseValue: Int = 0, trueValue: Int = 1) {
+    return varpMap.setVarp(type, flag, falseValue, trueValue)
 }
 
 fun Player.toggleVarp(type: VarpType, value1: Int = 0, value2: Int = 1) {
-    val newValue = if (getVarp(type) == value1) value2 else value1
-    setVarp(type, newValue)
+    return varpMap.toggleVarp(type, value1, value2)
 }
 
-fun Player.getVarbit(type: VarbitType): Int {
-    val varpValue = varpMap[type.varp] ?: 0
-    return varpValue.extractBitValue(type.lsb, type.msb)
-}
+fun Player.getVarbit(type: VarbitType): Int = varpMap.getVarbit(type)
 
-fun Player.setVarbit(type: VarbitType, value: Int) {
-    val curValue = varpMap[type.varp] ?: 0
-    val newValue = curValue.withBitValue(type.lsb, type.msb, value)
-    varpMap[type.varp] = newValue
+fun Player.setVarbit(type: VarbitType, value: Int) = varpMap.setVarbit(type, value)
+
+fun Player.setVarbit(type: VarbitType, flag: Boolean, falseValue: Int = 0, trueValue: Int = 1) {
+    return varpMap.setVarbit(type, flag, falseValue, trueValue)
 }
 
 fun Player.toggleVarbit(type: VarbitType, value1: Int = 0, value2: Int = 1) {
-    val newValue = if (getVarbit(type) == value1) value2 else value1
-    setVarbit(type, newValue)
+    return varpMap.toggleVarbit(type, value1, value2)
 }
