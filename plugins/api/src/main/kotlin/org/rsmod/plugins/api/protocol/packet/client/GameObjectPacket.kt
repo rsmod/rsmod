@@ -68,5 +68,5 @@ private fun ObjectType.varType(
         val transform = transforms[transformIndex]
         return objs[transform]
     }
-    return this
+    return objs[defaultTransform]
 }
