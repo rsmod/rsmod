@@ -83,14 +83,22 @@ fun Plugin.onButton(component: Component, block: ButtonClick.() -> Unit) {
 }
 
 fun Plugin.onObject(obj: ObjectType, opt: String, block: ObjectAction.() -> Unit) {
-    val option = obj.options.indexOfFirst { it != null && it.equals(opt, ignoreCase = true) }
-    if (option == -1) error("Invalid object option (obj=${obj.name}, id=${obj.id}, option=$opt).")
+    val option = obj.options.indexOfFirst { it != null && it.equals(opt, ignoreCase = false) }
+    if (option == -1) {
+        val ignoreCase = obj.options.firstOrNull { it != null && it.equals(opt, ignoreCase = true) }
+        if (ignoreCase != null) {
+            val errorMessage = "Letter case error for object \"${obj.name}\" option"
+            val foundMessage = "Found \"$ignoreCase\" but was given \"$opt\""
+            error("$errorMessage. $foundMessage.")
+        }
+        error("Option for object \"${obj.name}\" not found. (id=${obj.id}, option=$opt)")
+    }
     when (option) {
         0 -> onAction<ObjectAction.Option1>(obj.id, block)
         1 -> onAction<ObjectAction.Option2>(obj.id, block)
         2 -> onAction<ObjectAction.Option3>(obj.id, block)
         3 -> onAction<ObjectAction.Option4>(obj.id, block)
         4 -> onAction<ObjectAction.Option5>(obj.id, block)
-        else -> error("Unhandled object option (obj=${obj.name}, id=${obj.id}, option=$option)")
+        else -> error("Unhandled object option. (obj=${obj.name}, id=${obj.id}, option=$option)")
     }
 }
