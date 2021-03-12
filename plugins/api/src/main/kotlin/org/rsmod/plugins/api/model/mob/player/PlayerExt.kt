@@ -54,8 +54,12 @@ fun Player.clearMinimapFlag() {
     sendMinimapFlag(-1, -1)
 }
 
-fun Player.sendMessage(text: String, type: Int = MessageType.GAME, username: String? = null) {
+fun Player.sendMessage(text: String, type: Int = MessageType.GAME_MESSAGE, username: String? = null) {
     write(MessageGame(type, text, username))
+}
+
+fun Player.sendFilteredMessage(text: String, username: String? = null) {
+    sendMessage(text, MessageType.FILTERED, username)
 }
 
 fun Player.sendRunEnergy(energy: Int = runEnergy.toInt()) {
