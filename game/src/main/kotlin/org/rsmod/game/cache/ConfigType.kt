@@ -37,8 +37,7 @@ open class ConfigTypeList<T : ConfigType>(
         if (types.containsKey(type.id)) {
             error("Config type at index has already been set (index=${type.id}, type=${type::class.simpleName}).")
         }
-        maxId = maxId.coerceAtLeast(type.id)
-        types[type.id] = type
+        this[type.id] = type
     }
 
     fun getOrNull(id: Int): T? {
@@ -46,6 +45,11 @@ open class ConfigTypeList<T : ConfigType>(
     }
 
     operator fun get(id: Int): T = getOrNull(id) ?: error("Null config type (id=$id).")
+
+    operator fun set(id: Int, type: T) {
+        maxId = maxId.coerceAtLeast(id)
+        types[id] = type
+    }
 
     override fun iterator(): Iterator<T> {
         return types.values.iterator()
