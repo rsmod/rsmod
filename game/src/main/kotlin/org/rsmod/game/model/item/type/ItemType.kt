@@ -1,7 +1,7 @@
 package org.rsmod.game.model.item.type
 
-import org.rsmod.game.cache.ConfigType
-import org.rsmod.game.cache.ConfigTypeList
+import org.rsmod.game.cache.type.ConfigType
+import org.rsmod.game.cache.type.ConfigTypeList
 
 data class ItemType(
     override val id: Int,

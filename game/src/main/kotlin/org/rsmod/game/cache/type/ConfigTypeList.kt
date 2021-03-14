@@ -1,28 +1,4 @@
-package org.rsmod.game.cache
-
-import com.github.michaelbull.logging.InlineLogger
-
-private val logger = InlineLogger()
-
-interface ConfigType {
-
-    val id: Int
-}
-
-interface ConfigTypeLoader {
-
-    fun load()
-}
-
-class ConfigTypeLoaderList(
-    private val loaders: MutableList<ConfigTypeLoader> = mutableListOf()
-) : List<ConfigTypeLoader> by loaders {
-
-    fun register(loader: ConfigTypeLoader) {
-        logger.debug { "Register config type loader (type=${loader.javaClass.simpleName})" }
-        loaders.add(loader)
-    }
-}
+package org.rsmod.game.cache.type
 
 open class ConfigTypeList<T : ConfigType>(
     private val types: MutableMap<Int, T> = mutableMapOf()

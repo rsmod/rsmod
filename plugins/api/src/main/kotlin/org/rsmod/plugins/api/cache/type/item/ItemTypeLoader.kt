@@ -2,7 +2,7 @@ package org.rsmod.plugins.api.cache.type.item
 
 import com.github.michaelbull.logging.InlineLogger
 import javax.inject.Inject
-import org.rsmod.game.cache.ConfigTypeLoader
+import org.rsmod.game.cache.type.ConfigTypeLoader
 import org.rsmod.game.cache.GameCache
 import org.rsmod.game.model.item.type.ItemType
 import org.rsmod.game.model.item.type.ItemTypeList

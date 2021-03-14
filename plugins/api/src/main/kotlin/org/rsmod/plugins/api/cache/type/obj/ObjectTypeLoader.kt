@@ -3,7 +3,7 @@ package org.rsmod.plugins.api.cache.type.obj
 import com.github.michaelbull.logging.InlineLogger
 import javax.inject.Inject
 import org.rsmod.game.cache.GameCache
-import org.rsmod.game.cache.ConfigTypeLoader
+import org.rsmod.game.cache.type.ConfigTypeLoader
 import org.rsmod.game.model.obj.type.ObjectType
 import org.rsmod.game.model.obj.type.ObjectTypeList
 import io.guthix.buffer.readStringCP1252

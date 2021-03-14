@@ -4,7 +4,7 @@ import javax.inject.Inject
 import com.google.inject.Provider
 import com.google.inject.Scope
 import dev.misfitlabs.kotlinguice4.KotlinModule
-import org.rsmod.game.cache.ConfigTypeLoaderList
+import org.rsmod.game.cache.type.ConfigTypeLoaderList
 import org.rsmod.game.model.item.type.ItemTypeList
 import org.rsmod.game.model.obj.type.ObjectTypeList
 import org.rsmod.game.model.vars.type.VarbitTypeList

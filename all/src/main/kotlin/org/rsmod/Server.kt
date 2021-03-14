@@ -16,7 +16,7 @@ import kotlinx.coroutines.runBlocking
 import org.rsmod.game.Game
 import org.rsmod.game.GameModule
 import org.rsmod.game.cache.CacheModule
-import org.rsmod.game.cache.ConfigTypeLoaderList
+import org.rsmod.game.cache.type.ConfigTypeLoaderList
 import org.rsmod.game.cache.GameCache
 import org.rsmod.game.config.ConfigModule
 import org.rsmod.game.config.GameConfig

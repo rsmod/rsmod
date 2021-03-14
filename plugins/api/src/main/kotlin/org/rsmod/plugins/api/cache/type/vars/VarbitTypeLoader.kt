@@ -4,7 +4,7 @@ import com.github.michaelbull.logging.InlineLogger
 import javax.inject.Inject
 import io.netty.buffer.ByteBuf
 import java.io.IOException
-import org.rsmod.game.cache.ConfigTypeLoader
+import org.rsmod.game.cache.type.ConfigTypeLoader
 import org.rsmod.game.cache.GameCache
 import org.rsmod.game.model.vars.type.VarbitType
 import org.rsmod.game.model.vars.type.VarbitTypeBuilder
