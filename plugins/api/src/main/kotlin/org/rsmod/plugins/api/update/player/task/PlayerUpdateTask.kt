@@ -29,9 +29,9 @@ import kotlin.math.abs
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.rsmod.game.model.domain.Direction
+import org.rsmod.game.model.map.BuildArea
 
 private val logger = InlineLogger()
-private const val MAX_VIEW_DISTANCE = 15
 private const val MAX_PLAYER_ADDITIONS_PER_CYCLE = 40
 private const val MAX_LOCAL_PLAYERS = 255
 
@@ -246,7 +246,7 @@ class PlayerUpdateTask @Inject constructor(
         val diffX = currCoords.x - lastCoords.x
         val diffY = currCoords.y - lastCoords.y
         val diffLevel = currCoords.level - lastCoords.level
-        val largeChange = abs(diffX) > MAX_VIEW_DISTANCE || abs(diffY) > MAX_VIEW_DISTANCE
+        val largeChange = abs(diffX) >= BuildArea.REBUILD_BOUNDARY || abs(diffY) >= BuildArea.REBUILD_BOUNDARY
         val teleport = largeChange || local.displace
 
         writeBoolean(maskUpdate)
@@ -449,7 +449,7 @@ class PlayerUpdateTask @Inject constructor(
     }
 
     private fun Coordinates.isWithinView(coords: Coordinates): Boolean {
-        return isWithinDistance(coords, MAX_VIEW_DISTANCE)
+        return isWithinDistance(coords, BuildArea.REBUILD_BOUNDARY - 1)
     }
 
     private fun Client.addPublicRecords() {
