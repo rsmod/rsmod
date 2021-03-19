@@ -246,7 +246,7 @@ class PlayerUpdateTask @Inject constructor(
         val diffX = currCoords.x - lastCoords.x
         val diffY = currCoords.y - lastCoords.y
         val diffLevel = currCoords.level - lastCoords.level
-        val largeChange = abs(diffX) > MAX_VIEW_DISTANCE && abs(diffY) > MAX_VIEW_DISTANCE
+        val largeChange = abs(diffX) > MAX_VIEW_DISTANCE || abs(diffY) > MAX_VIEW_DISTANCE
         val teleport = largeChange || local.displace
 
         writeBoolean(maskUpdate)
