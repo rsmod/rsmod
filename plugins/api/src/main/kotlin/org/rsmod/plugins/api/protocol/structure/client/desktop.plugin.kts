@@ -1,5 +1,6 @@
 package org.rsmod.plugins.api.protocol.structure.client
 
+import io.guthix.buffer.readByteNeg
 import org.rsmod.plugins.api.protocol.Device
 import org.rsmod.plugins.api.protocol.packet.client.ClientCheat
 import org.rsmod.plugins.api.protocol.packet.client.ClientCheatHandler
@@ -18,7 +19,6 @@ import org.rsmod.plugins.api.protocol.packet.client.ReflectionCheckReply
 import org.rsmod.plugins.api.protocol.packet.client.WindowStatus
 import org.rsmod.plugins.api.protocol.structure.DevicePacketStructureMap
 import io.guthix.buffer.readStringCP1252
-import io.guthix.buffer.readUnsignedByteNeg
 import io.guthix.buffer.readUnsignedShortAdd
 import io.guthix.buffer.readUnsignedShortAddLE
 import org.rsmod.plugins.api.protocol.packet.client.EventCameraPosition
@@ -81,7 +81,7 @@ packets.register<MoveGameClick> {
     length = -1
     handler = GameClickHandler::class
     read {
-        val type = readUnsignedByteNeg().toInt()
+        val type = readByteNeg().toInt()
         val y = readUnsignedShortAddLE()
         val x = readUnsignedShort()
         MoveGameClick(x, y, type)
@@ -93,7 +93,7 @@ packets.register<MoveMinimapClick> {
     length = -1
     handler = MinimapClickHandler::class
     read {
-        val type = readUnsignedByteNeg().toInt()
+        val type = readByteNeg().toInt()
         val y = readUnsignedShortAddLE()
         val x = readUnsignedShort()
         MoveMinimapClick(x, y, type)
