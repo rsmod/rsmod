@@ -10,7 +10,7 @@ object Versions {
     const val RS_MOD = "0.0.1"
     const val RS_MOD_API = "193.0.0"
 
-    const val RS_MOD_PF = "1.0.12"
+    const val RS_MOD_PF = "1.1.1"
     const val GUTHIX_BYTEBUF = "0.1.3"
     const val JS5_STORE = "0.4.0"
     const val KOTLIN_RETRY = "1.0.8"
