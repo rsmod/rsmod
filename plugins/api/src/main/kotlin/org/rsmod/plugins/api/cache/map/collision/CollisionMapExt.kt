@@ -31,9 +31,9 @@ private fun CollisionMap.changeObject(obj: GameObject, add: Boolean) {
         changeWall(coords, rotation, shape, blockProjectile, add)
     } else if (shape in ObjectShape.NORMAL_SHAPES && clipType != 0) {
         var width = type.width
-        var length = type.length
+        var length = type.height
         if (rotation == 1 || rotation == 3) {
-            width = type.length
+            width = type.height
             length = type.width
         }
         changeNormal(coords, width, length, blockPath, blockProjectile, add)

@@ -75,8 +75,8 @@ onAction<ObjectClick> {
         srcY = player.coords.y,
         destX = coords.x,
         destY = coords.y,
-        destWidth = if (rot == 0 || rot == 2) type.width else type.length,
-        destHeight = if (rot == 0 || rot == 2) type.length else type.width,
+        destWidth = if (rot == 0 || rot == 2) type.width else type.height,
+        destHeight = if (rot == 0 || rot == 2) type.height else type.width,
         objRot = rot,
         objShape = shape,
         accessBitMask = accessBitMask(rot, type.clipMask)

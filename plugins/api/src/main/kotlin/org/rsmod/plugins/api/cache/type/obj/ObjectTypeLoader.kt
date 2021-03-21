@@ -57,7 +57,7 @@ class ObjectTypeLoader @Inject constructor(
                 }
             }
             14 -> width = buf.readUnsignedByte().toInt()
-            15 -> length = buf.readUnsignedByte().toInt()
+            15 -> height = buf.readUnsignedByte().toInt()
             17 -> {
                 clipType = 0
                 blockPath = false

@@ -2,7 +2,7 @@ package org.rsmod.game.model.obj.type
 
 private const val DEFAULT_ID = -1
 private const val DEFAULT_NAME = "null"
-private const val DEFAULT_LENGTH = 1
+private const val DEFAULT_HEIGHT = 1
 private const val DEFAULT_WIDTH = 1
 private const val DEFAULT_BLOCK_PATH = true
 private const val DEFAULT_BLOCK_PROJ = true
@@ -25,7 +25,7 @@ private annotation class BuilderDslMarker
 class ObjectTypeBuilder(
     var id: Int = DEFAULT_ID,
     var name: String = DEFAULT_NAME,
-    var length: Int = DEFAULT_LENGTH,
+    var height: Int = DEFAULT_HEIGHT,
     var width: Int = DEFAULT_WIDTH,
     var blockPath: Boolean = DEFAULT_BLOCK_PATH,
     var blockProjectile: Boolean = DEFAULT_BLOCK_PROJ,
@@ -50,7 +50,7 @@ class ObjectTypeBuilder(
         return ObjectType(
             id = id,
             name = name,
-            length = length,
+            height = height,
             width = width,
             blockPath = blockPath,
             blockProjectile = blockProjectile,

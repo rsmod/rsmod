@@ -7,7 +7,7 @@ data class ObjectType(
     override val id: Int,
     val name: String,
     val width: Int,
-    val length: Int,
+    val height: Int,
     val blockPath: Boolean,
     val blockProjectile: Boolean,
     val interact: Boolean,
