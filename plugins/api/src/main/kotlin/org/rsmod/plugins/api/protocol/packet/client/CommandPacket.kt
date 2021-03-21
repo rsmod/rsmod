@@ -5,6 +5,7 @@ import org.rsmod.game.message.ClientPacket
 import org.rsmod.game.message.ClientPacketHandler
 import org.rsmod.game.model.client.Client
 import org.rsmod.game.cmd.CommandArgs
+import org.rsmod.game.cmd.CommandBlock
 import org.rsmod.game.cmd.CommandMap
 import org.rsmod.game.model.mob.Player
 
@@ -27,8 +28,8 @@ class ClientCheatHandler @Inject constructor(
         val cmd = commands[input]
         if (cmd != null && player.eligibleRank(cmd.rank)) {
             val cmdArgs = CommandArgs(args)
-            val invoke = cmd.execute
-            invoke(player, cmdArgs)
+            val block = CommandBlock(player, cmdArgs)
+            cmd.execute(block)
         }
     }
 }
