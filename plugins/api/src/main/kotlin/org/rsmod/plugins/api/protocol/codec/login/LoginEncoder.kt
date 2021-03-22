@@ -48,7 +48,7 @@ object LoginEncoder : MessageToByteEncoder<LoginResponse>() {
         } else {
             writeInt(0)
         }
-        writeByte(response.rank)
+        writeByte(response.privilege)
         writeBoolean(response.moderator)
         writeShort(response.playerIndex)
         writeBoolean(response.members)

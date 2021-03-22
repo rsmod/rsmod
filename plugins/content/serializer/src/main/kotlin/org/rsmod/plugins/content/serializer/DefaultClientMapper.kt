@@ -45,7 +45,7 @@ class DefaultClientMapper @Inject constructor(
         }
         val entity = PlayerEntity(
             username = data.displayName,
-            rank = data.rank
+            privilege = data.privilege
         )
         val player = Player(
             id = PlayerId(data.loginName),
@@ -85,7 +85,7 @@ class DefaultClientMapper @Inject constructor(
             encryptedPass = client.encryptedPass,
             loginXteas = client.loginXteas,
             coords = intArrayOf(entity.coords.x, entity.coords.y, entity.coords.level),
-            rank = entity.rank,
+            privilege = entity.privilege,
             moveSpeed = if (player.speed == MovementSpeed.Run) 1 else 0,
             runEnergy = player.runEnergy,
             skills = player.stats.toIntKeyMap(),
@@ -97,7 +97,7 @@ class DefaultClientMapper @Inject constructor(
         val password = request.plaintTextPass ?: error("New client must have an input password.")
         val entity = PlayerEntity(
             username = request.loginName,
-            rank = 0
+            privilege = 0
         )
         val player = Player(
             id = PlayerId(request.loginName),
@@ -127,7 +127,7 @@ data class DefaultClientData(
     val encryptedPass: String,
     val loginXteas: IntArray,
     val coords: IntArray,
-    val rank: Int,
+    val privilege: Int,
     val runEnergy: Double,
     val moveSpeed: Int,
     val skills: Map<Int, Stat>,
@@ -145,7 +145,7 @@ data class DefaultClientData(
         if (encryptedPass != other.encryptedPass) return false
         if (!loginXteas.contentEquals(other.loginXteas)) return false
         if (!coords.contentEquals(other.coords)) return false
-        if (rank != other.rank) return false
+        if (privilege != other.privilege) return false
         if (runEnergy != other.runEnergy) return false
         if (moveSpeed != other.moveSpeed) return false
         if (skills != other.skills) return false
@@ -160,7 +160,7 @@ data class DefaultClientData(
         result = 31 * result + encryptedPass.hashCode()
         result = 31 * result + loginXteas.contentHashCode()
         result = 31 * result + coords.contentHashCode()
-        result = 31 * result + rank
+        result = 31 * result + privilege
         result = 31 * result + runEnergy.hashCode()
         result = 31 * result + moveSpeed
         result = 31 * result + skills.hashCode()

@@ -26,7 +26,7 @@ class ClientCheatHandler @Inject constructor(
         val input = split[0].toLowerCase()
         val args = if (split.size == 1) emptyList() else split.subList(1, split.size)
         val cmd = commands[input]
-        if (cmd != null && player.eligibleRank(cmd.rank)) {
+        if (cmd != null && player.hasPrivilege(cmd.rank)) {
             val cmdArgs = CommandArgs(args)
             val block = CommandBlock(player, cmdArgs)
             cmd.execute(block)

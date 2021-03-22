@@ -11,7 +11,13 @@ sealed class Entity(
 
 class PlayerEntity(
     val username: String,
-    val rank: Int
-) : Entity()
+    val privilege: Int
+) : Entity() {
+
+    fun copy() = PlayerEntity(
+        username,
+        privilege
+    )
+}
 
 class NpcEntity : Entity()

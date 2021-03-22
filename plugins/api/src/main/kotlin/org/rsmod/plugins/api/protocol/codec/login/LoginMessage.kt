@@ -121,7 +121,7 @@ sealed class LoginResponse(val type: LoginResponseType) {
 
     data class Normal(
         val playerIndex: Int,
-        val rank: Int,
+        val privilege: Int,
         val moderator: Boolean,
         val rememberDevice: Boolean,
         val members: Boolean,

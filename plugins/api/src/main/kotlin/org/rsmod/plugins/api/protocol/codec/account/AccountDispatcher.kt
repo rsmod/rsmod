@@ -212,7 +212,7 @@ class AccountDispatcher @Inject constructor(
         } else {
             LoginResponse.Normal(
                 playerIndex = player.index,
-                rank = player.entity.rank,
+                privilege = player.entity.privilege,
                 moderator = true,
                 rememberDevice = false,
                 encodeIsaac = encodeIsaac,

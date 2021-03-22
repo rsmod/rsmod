@@ -110,8 +110,8 @@ class Player(
         messageListeners.forEach { it.close() }
     }
 
-    fun eligibleRank(rank: Int): Boolean {
-        return entity.rank >= rank
+    fun hasPrivilege(privilege: Int): Boolean {
+        return entity.privilege >= privilege
     }
 
     fun write(packet: ServerPacket) {
