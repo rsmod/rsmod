@@ -27,6 +27,7 @@ import org.rsmod.game.model.move.MovementSpeed
 import org.rsmod.game.model.stat.StatMap
 import org.rsmod.game.model.ui.InterfaceList
 import org.rsmod.game.model.vars.VarpMap
+import org.rsmod.game.privilege.Privilege
 import org.rsmod.game.queue.GameQueueStack
 import org.rsmod.game.queue.QueueType
 import org.rsmod.game.timer.TimerMap
@@ -93,6 +94,7 @@ class Player(
     val varpMap: VarpMap = VarpMap(),
     var lastSpeed: MovementSpeed? = null,
     var runEnergy: Double = DEFAULT_RUN_ENERGY,
+    val privileges: MutableList<Privilege> = mutableListOf(),
     private val messageListeners: List<ServerPacketListener> = mutableListOf()
 ) : Mob() {
 
@@ -110,8 +112,17 @@ class Player(
         messageListeners.forEach { it.close() }
     }
 
-    fun hasPrivilege(privilege: Int): Boolean {
-        return entity.privilege >= privilege
+    fun addPrivilege(privilege: Privilege, primary: Boolean = true) {
+        if (primary) {
+            privileges.remove(privilege)
+            privileges.add(0, privilege)
+        } else if (!privileges.contains(privilege)) {
+            privileges.add(privilege)
+        }
+    }
+
+    fun hasPrivilege(privilege: Privilege): Boolean {
+        return privileges.contains(privilege)
     }
 
     fun write(packet: ServerPacket) {

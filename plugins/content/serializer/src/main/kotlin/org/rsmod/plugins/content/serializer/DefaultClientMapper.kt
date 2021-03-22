@@ -17,11 +17,14 @@ import org.rsmod.game.model.stat.Stat
 import org.rsmod.game.model.stat.StatKey
 import org.rsmod.game.model.stat.StatMap
 import org.rsmod.game.model.vars.VarpMap
+import org.rsmod.game.privilege.Privilege
+import org.rsmod.game.privilege.PrivilegeMap
 import org.rsmod.util.security.PasswordEncryption
 
 class DefaultClientMapper @Inject constructor(
     private val config: GameConfig,
-    private val encryption: PasswordEncryption
+    private val encryption: PasswordEncryption,
+    private val privilegeMap: PrivilegeMap
 ) : ClientDataMapper<DefaultClientData> {
 
     override val type = DefaultClientData::class
@@ -43,9 +46,10 @@ class DefaultClientMapper @Inject constructor(
         } else if (!skipPasswordCheck() && !encryption.verify(password, data.encryptedPass)) {
             return ClientDeserializeResponse.BadCredentials
         }
+        val privileges = data.privileges.toPrivilegeList()
         val entity = PlayerEntity(
             username = data.displayName,
-            privilege = data.privilege
+            privilege = privileges.firstOrNull()?.clientId ?: 0
         )
         val player = Player(
             id = PlayerId(data.loginName),
@@ -53,6 +57,7 @@ class DefaultClientMapper @Inject constructor(
             eventBus = request.eventBus,
             actionBus = request.actionBus,
             entity = entity,
+            privileges = privileges.toMutableList(),
             messageListeners = listOf(request.messageListener)
         )
         val client = Client(
@@ -85,7 +90,7 @@ class DefaultClientMapper @Inject constructor(
             encryptedPass = client.encryptedPass,
             loginXteas = client.loginXteas,
             coords = intArrayOf(entity.coords.x, entity.coords.y, entity.coords.level),
-            privilege = entity.privilege,
+            privileges = player.privileges.map { it.nameId },
             moveSpeed = if (player.speed == MovementSpeed.Run) 1 else 0,
             runEnergy = player.runEnergy,
             skills = player.stats.toIntKeyMap(),
@@ -119,6 +124,11 @@ class DefaultClientMapper @Inject constructor(
             bufAllocator = request.bufAllocator
         )
     }
+
+    private fun List<String>.toPrivilegeList(): List<Privilege> {
+        if (isEmpty()) return emptyList()
+        return mapNotNull { privilegeMap[it] }
+    }
 }
 
 data class DefaultClientData(
@@ -127,7 +137,7 @@ data class DefaultClientData(
     val encryptedPass: String,
     val loginXteas: IntArray,
     val coords: IntArray,
-    val privilege: Int,
+    val privileges: List<String>,
     val runEnergy: Double,
     val moveSpeed: Int,
     val skills: Map<Int, Stat>,
@@ -145,7 +155,7 @@ data class DefaultClientData(
         if (encryptedPass != other.encryptedPass) return false
         if (!loginXteas.contentEquals(other.loginXteas)) return false
         if (!coords.contentEquals(other.coords)) return false
-        if (privilege != other.privilege) return false
+        if (privileges != other.privileges) return false
         if (runEnergy != other.runEnergy) return false
         if (moveSpeed != other.moveSpeed) return false
         if (skills != other.skills) return false
@@ -160,7 +170,7 @@ data class DefaultClientData(
         result = 31 * result + encryptedPass.hashCode()
         result = 31 * result + loginXteas.contentHashCode()
         result = 31 * result + coords.contentHashCode()
-        result = 31 * result + privilege
+        result = 31 * result + privileges.hashCode()
         result = 31 * result + runEnergy.hashCode()
         result = 31 * result + moveSpeed
         result = 31 * result + skills.hashCode()

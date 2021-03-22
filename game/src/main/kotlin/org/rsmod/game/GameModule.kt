@@ -13,6 +13,7 @@ import org.rsmod.game.model.mob.NpcList
 import org.rsmod.game.model.mob.PlayerList
 import org.rsmod.game.model.obj.GameObjectApSet
 import org.rsmod.game.model.world.World
+import org.rsmod.game.privilege.PrivilegeMap
 import org.rsmod.game.task.StartupTaskList
 import org.rsmod.game.update.task.UpdateTaskList
 
@@ -59,6 +60,9 @@ class GameModule(private val scope: Scope) : KotlinModule() {
             .`in`(scope)
 
         bind<GameObjectApSet>()
+            .`in`(scope)
+
+        bind<PrivilegeMap>()
             .`in`(scope)
     }
 }

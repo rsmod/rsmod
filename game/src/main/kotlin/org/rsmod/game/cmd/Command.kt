@@ -1,10 +1,11 @@
 package org.rsmod.game.cmd
 
 import org.rsmod.game.model.mob.Player
+import org.rsmod.game.privilege.Privilege
 
 data class Command(
     val description: String,
-    val rank: Int,
+    val privileges: Set<Privilege>,
     val execute: (CommandBlock).() -> Unit
 )
 

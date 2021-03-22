@@ -8,6 +8,7 @@ import org.rsmod.game.cmd.CommandArgs
 import org.rsmod.game.cmd.CommandBlock
 import org.rsmod.game.cmd.CommandMap
 import org.rsmod.game.model.mob.Player
+import org.rsmod.game.privilege.Privilege
 
 data class ClientCheat(
     val input: String
@@ -25,11 +26,16 @@ class ClientCheatHandler @Inject constructor(
         val split = message.split(" ")
         val input = split[0].toLowerCase()
         val args = if (split.size == 1) emptyList() else split.subList(1, split.size)
-        val cmd = commands[input]
-        if (cmd != null && player.hasPrivilege(cmd.rank)) {
+        val cmd = commands[input] ?: return
+        if (player.hasAnyPrivilege(cmd.privileges)) {
             val cmdArgs = CommandArgs(args)
             val block = CommandBlock(player, cmdArgs)
             cmd.execute(block)
         }
+    }
+
+    private fun Player.hasAnyPrivilege(other: Collection<Privilege>): Boolean {
+        if (other.isEmpty()) return true
+        return privileges.intersect(other).isNotEmpty()
     }
 }
