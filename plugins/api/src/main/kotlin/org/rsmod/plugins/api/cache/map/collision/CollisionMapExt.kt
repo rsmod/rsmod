@@ -70,7 +70,7 @@ private fun CollisionMap.changeWall(
     blockProjectile: Boolean,
     add: Boolean
 ) {
-    if (shape == 0) {
+    if (shape == ObjectShape.WALL) {
         when (rotation) {
             0 -> {
                 change(coords, CollisionFlag.WALL_WEST, add)
@@ -105,7 +105,7 @@ private fun CollisionMap.changeWall(
                 }
             }
         }
-    } else if (shape == 1 || shape == 3) {
+    } else if (shape == ObjectShape.WALL_CORNER_DIAG || shape == ObjectShape.WALL_CORNER) {
         when (rotation) {
             0 -> {
                 change(coords, CollisionFlag.WALL_NORTH_WEST, add)
@@ -140,7 +140,7 @@ private fun CollisionMap.changeWall(
                 }
             }
         }
-    } else if (shape == 2) {
+    } else if (shape == ObjectShape.UNFINISHED_WALL) {
         when (rotation) {
             0 -> {
                 change(coords, CollisionFlag.WALL_WEST or CollisionFlag.WALL_NORTH, add)
