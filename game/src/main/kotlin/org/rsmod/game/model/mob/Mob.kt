@@ -125,6 +125,7 @@ class Player(
     fun snapshot() = Snapshot(
         timestamp = LocalDateTime.now(),
         coords = coords,
+        entity = entity.copy(),
         stats = stats.copy(),
         varps = varpMap.copy(),
         containers = containers.copyAutoUpdateOnly()
