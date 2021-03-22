@@ -2,6 +2,7 @@ package org.rsmod.plugins.api.update.player.task
 
 import javax.inject.Inject
 import org.rsmod.game.collision.CollisionMap
+import org.rsmod.game.model.client.PlayerEntity
 import org.rsmod.game.model.domain.Direction
 import org.rsmod.game.model.domain.repo.XteaRepository
 import org.rsmod.game.model.map.Coordinates
@@ -19,12 +20,13 @@ import org.rsmod.plugins.api.collision.canTraverse
 import org.rsmod.plugins.api.model.map.of
 import org.rsmod.plugins.api.model.mob.player.clearMinimapFlag
 import org.rsmod.plugins.api.model.mob.player.sendRunEnergy
+import org.rsmod.plugins.api.model.mob.player.updateAppearance
 import org.rsmod.plugins.api.protocol.packet.server.RebuildNormal
 import org.rsmod.plugins.api.protocol.packet.update.MovementPermMask
 import org.rsmod.plugins.api.protocol.packet.update.MovementTempMask
 import org.rsmod.plugins.api.update.player.mask.of
 
-class PlayerMovementTask @Inject constructor(
+class PlayerPreUpdateTask @Inject constructor(
     private val playerList: PlayerList,
     private val xteasRepository: XteaRepository,
     private val mapIsolation: MapIsolation,
@@ -36,20 +38,35 @@ class PlayerMovementTask @Inject constructor(
             if (player == null) {
                 return@forEach
             }
-            player.processMovement()
-            val coords = player.coords
-            val rebuild = player.shouldRebuildMap()
-            if (rebuild) {
-                val newViewport = coords.zone().viewport(mapIsolation)
-                val rebuildNormal = RebuildNormal(
-                    gpi = null,
-                    playerZone = coords.zone(),
-                    viewport = newViewport,
-                    xteas = xteasRepository
-                )
-                player.write(rebuildNormal)
-                player.viewport = Viewport.of(coords, newViewport)
-            }
+            player.entityUpdate()
+            player.movementUpdate()
+        }
+    }
+
+    private fun Player.entityUpdate(
+        oldEntity: PlayerEntity = snapshot.entity,
+        curEntity: PlayerEntity = entity
+    ) {
+        // TODO: other flags that require an appearance update
+        val appearanceUpdate = oldEntity.username != curEntity.username
+        if (appearanceUpdate) {
+            updateAppearance()
+        }
+    }
+
+    private fun Player.movementUpdate() {
+        processMovement()
+        val rebuild = shouldRebuildMap()
+        if (rebuild) {
+            val newViewport = coords.zone().viewport(mapIsolation)
+            val rebuildNormal = RebuildNormal(
+                gpi = null,
+                playerZone = coords.zone(),
+                viewport = newViewport,
+                xteas = xteasRepository
+            )
+            viewport = Viewport.of(coords, newViewport)
+            write(rebuildNormal)
         }
     }
 
