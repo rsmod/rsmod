@@ -18,6 +18,11 @@ class PlayerEntity(
         username,
         privilege
     )
+
+    companion object {
+
+        val ZERO = PlayerEntity("", 0)
+    }
 }
 
 class NpcEntity : Entity()

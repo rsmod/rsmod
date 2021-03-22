@@ -20,7 +20,7 @@ data class Snapshot(
 
         val INITIAL = Snapshot(
             timestamp = LocalDateTime.now(),
-            entity = PlayerEntity(username = "", privilege = 0),
+            entity = PlayerEntity.ZERO,
             coords = Coordinates.ZERO,
             stats = StatMap(),
             varps = VarpMap(),
