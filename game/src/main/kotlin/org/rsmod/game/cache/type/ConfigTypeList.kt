@@ -27,6 +27,14 @@ open class ConfigTypeList<T : ConfigType>(
         types[id] = type
     }
 
+    fun containsKey(key: Int): Boolean {
+        return types.containsKey(key)
+    }
+
+    fun containsValue(value: T): Boolean {
+        return types.containsValue(value)
+    }
+
     override fun iterator(): Iterator<T> {
         return types.values.iterator()
     }
