@@ -1,4 +1,4 @@
-package org.rsmod.util.config
+package org.rsmod.util.mapper
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.PropertyNamingStrategies

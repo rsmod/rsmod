@@ -33,6 +33,7 @@ import org.rsmod.game.plugin.kotlin.KotlinPluginLoader
 import org.rsmod.game.task.StartupTaskList
 import org.rsmod.game.task.launchBlocking
 import org.rsmod.game.task.launchNonBlocking
+import org.rsmod.util.mapper.ObjectMapperModule
 
 private val logger = InlineLogger()
 
@@ -54,6 +55,7 @@ class Server {
 
         val injector = Guice.createInjector(
             ServerModule(scope),
+            ObjectMapperModule(scope),
             CoroutineModule(scope),
             DispatcherModule(scope),
             ConfigModule(scope),
