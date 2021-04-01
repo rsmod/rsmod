@@ -31,13 +31,22 @@ data class ButtonClick(
 
 data class ObjectClick(
     val player: Player,
-    val type: ObjectType,
-    val shape: Int,
-    val rot: Int,
-    val coords: Coordinates,
     val action: ObjectAction,
     val approach: Boolean
-) : Action
+) : Action {
+
+    val type: ObjectType
+        get() = action.type
+
+    val shape: Int
+        get() = action.shape
+
+    val rot: Int
+        get() = action.rot
+
+    val coords: Coordinates
+        get() = action.coords
+}
 
 sealed class ObjectAction(
     val player: Player,
