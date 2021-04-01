@@ -20,18 +20,10 @@ class TypeLoaderModule(private val scope: Scope) : KotlinModule() {
         bind<ConfigTypeLoaderList>()
             .toProvider<ConfigTypeLoaderListProvider>()
             .`in`(scope)
-
-        bind<ObjectTypeList>()
-            .`in`(scope)
-
-        bind<ItemTypeList>()
-            .`in`(scope)
-
-        bind<VarpTypeList>()
-            .`in`(scope)
-
-        bind<VarbitTypeList>()
-            .`in`(scope)
+        bind<ObjectTypeList>().`in`(scope)
+        bind<ItemTypeList>().`in`(scope)
+        bind<VarpTypeList>().`in`(scope)
+        bind<VarbitTypeList>().`in`(scope)
     }
 }
 
