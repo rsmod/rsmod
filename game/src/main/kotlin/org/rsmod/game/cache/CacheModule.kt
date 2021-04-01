@@ -29,9 +29,8 @@ private class GameCacheProvider @Inject constructor(
             error("Cache directory does not exist: ${path.toAbsolutePath()}")
         }
         val diskStore = Js5DiskStore.open(path)
-        val heapStore = Js5HeapStore.open(diskStore)
-        val cache = Js5Cache(heapStore)
-        return GameCache(heapStore, cache)
+        val cache = Js5Cache(diskStore)
+        return GameCache(diskStore, cache)
     }
 
     companion object {
