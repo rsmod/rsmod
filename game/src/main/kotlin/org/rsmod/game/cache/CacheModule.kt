@@ -6,7 +6,6 @@ import com.google.inject.Scope
 import dev.misfitlabs.kotlinguice4.KotlinModule
 import io.guthix.js5.Js5Cache
 import io.guthix.js5.container.disk.Js5DiskStore
-import io.guthix.js5.container.heap.Js5HeapStore
 import java.nio.file.Files
 import org.rsmod.game.config.GameConfig
 
