@@ -25,6 +25,7 @@ import org.rsmod.game.coroutine.IoCoroutineScope
 import org.rsmod.game.dispatch.DispatcherModule
 import org.rsmod.game.event.EventBus
 import org.rsmod.game.event.impl.ServerStartup
+import org.rsmod.game.name.NamedTypeLoaderList
 import org.rsmod.game.net.NetworkModule
 import org.rsmod.game.net.channel.ClientChannelInitializer
 import org.rsmod.game.net.handshake.HandshakeDecoder
@@ -75,6 +76,9 @@ class Server {
         val typeLoaders: ConfigTypeLoaderList = injector.getInstance()
         loadConfigTypes(ioCoroutineScope, typeLoaders)
 
+        val nameLoaders: NamedTypeLoaderList = injector.getInstance()
+        loadNamedTypes(ioCoroutineScope, nameLoaders)
+
         val pluginLoader: KotlinPluginLoader = injector.getInstance()
         val plugins = pluginLoader.load()
 
@@ -116,6 +120,18 @@ class Server {
 private fun loadConfigTypes(
     ioCoroutineScope: IoCoroutineScope,
     loaders: ConfigTypeLoaderList
+) = runBlocking {
+    val jobs = mutableListOf<Job>()
+    loaders.forEach { loader ->
+        val job = ioCoroutineScope.launch { loader.load() }
+        jobs.add(job)
+    }
+    joinAll(*jobs.toTypedArray())
+}
+
+private fun loadNamedTypes(
+    ioCoroutineScope: IoCoroutineScope,
+    loaders: NamedTypeLoaderList
 ) = runBlocking {
     val jobs = mutableListOf<Job>()
     loaders.forEach { loader ->
