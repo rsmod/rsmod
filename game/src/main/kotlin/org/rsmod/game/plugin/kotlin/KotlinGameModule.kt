@@ -18,6 +18,11 @@ abstract class KotlinGameModule(val scope: Scope) {
     fun register(init: GameModuleBuilder.() -> Unit) {
         GameModuleBuilder(modules).apply(init)
     }
+
+    operator fun KotlinModule.unaryMinus() {
+        logger.debug { "Append module to builder (module=${this::class.simpleName})" }
+        modules.add(this)
+    }
 }
 
 @DslMarker
