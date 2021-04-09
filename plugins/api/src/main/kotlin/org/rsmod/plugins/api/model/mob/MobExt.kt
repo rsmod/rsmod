@@ -1,11 +1,10 @@
 package org.rsmod.plugins.api.model.mob
 
 import org.rsmod.game.model.domain.Direction
-import org.rsmod.game.model.domain.translate
 import org.rsmod.game.model.mob.Mob
+import org.rsmod.plugins.api.model.angle
 import org.rsmod.plugins.api.protocol.packet.update.DirectionMask
 import org.rsmod.plugins.api.update.of
-import kotlin.math.atan2
 
 private const val DEGREE_GRANULARITY = 2048
 
@@ -28,10 +27,7 @@ fun Mob.faceDirection(): Direction {
 }
 
 fun Mob.faceDirection(dir: Direction) {
-    val translation = coords.translate(dir)
-    val atan = atan2(coords.x.toFloat() - translation.x, coords.y.toFloat() - translation.y)
-    val degrees = (atan * 325.949).toInt() and 0x7FF
-    orientate(degrees)
+    orientate(dir.angle)
 }
 
 fun Mob.orientate(degrees: Int) {
