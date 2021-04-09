@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import java.io.File
 import java.io.InputStream
 
-interface ConfigLoader<T> {
+interface ConfigFileLoader<T> {
 
     val mapper: ObjectMapper
 

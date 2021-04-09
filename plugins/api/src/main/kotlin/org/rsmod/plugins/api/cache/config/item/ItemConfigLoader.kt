@@ -4,14 +4,14 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.convertValue
 import org.rsmod.game.model.item.type.ItemTypeBuilder
-import org.rsmod.plugins.api.cache.config.ConfigLoader
+import org.rsmod.plugins.api.cache.config.ConfigFileLoader
 
 private const val ID_KEY = "id"
 private const val INHERIT_KEY = "inherit"
 private const val PACK_KEY = "pack"
 private const val FILE_KEY = "data_file"
 
-class ItemConfigLoader(override val mapper: ObjectMapper) : ConfigLoader<ItemConfig> {
+class ItemConfigLoader(override val mapper: ObjectMapper) : ConfigFileLoader<ItemConfig> {
 
     override fun JsonNode.toConfigType(): ItemConfig {
         val builder = mapper.convertValue<ItemTypeBuilder>(this)
