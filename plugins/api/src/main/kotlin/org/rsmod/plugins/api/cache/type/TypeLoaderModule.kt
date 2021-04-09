@@ -6,10 +6,12 @@ import com.google.inject.Scope
 import dev.misfitlabs.kotlinguice4.KotlinModule
 import org.rsmod.game.cache.type.ConfigTypeLoaderList
 import org.rsmod.game.model.item.type.ItemTypeList
+import org.rsmod.game.model.npc.type.NpcTypeList
 import org.rsmod.game.model.obj.type.ObjectTypeList
 import org.rsmod.game.model.vars.type.VarbitTypeList
 import org.rsmod.game.model.vars.type.VarpTypeList
 import org.rsmod.plugins.api.cache.type.item.ItemTypeLoader
+import org.rsmod.plugins.api.cache.type.npc.NpcTypeLoader
 import org.rsmod.plugins.api.cache.type.obj.ObjectTypeLoader
 import org.rsmod.plugins.api.cache.type.vars.VarbitTypeLoader
 import org.rsmod.plugins.api.cache.type.vars.VarpTypeLoader
@@ -20,6 +22,7 @@ class TypeLoaderModule(private val scope: Scope) : KotlinModule() {
         bind<ConfigTypeLoaderList>()
             .toProvider<ConfigTypeLoaderListProvider>()
             .`in`(scope)
+        bind<NpcTypeList>().`in`(scope)
         bind<ObjectTypeList>().`in`(scope)
         bind<ItemTypeList>().`in`(scope)
         bind<VarpTypeList>().`in`(scope)
@@ -28,6 +31,7 @@ class TypeLoaderModule(private val scope: Scope) : KotlinModule() {
 }
 
 private class ConfigTypeLoaderListProvider @Inject constructor(
+    private val npcLoader: NpcTypeLoader,
     private val objectLoader: ObjectTypeLoader,
     private val itemLoader: ItemTypeLoader,
     private val varpLoader: VarpTypeLoader,
@@ -36,6 +40,7 @@ private class ConfigTypeLoaderListProvider @Inject constructor(
 
     override fun get(): ConfigTypeLoaderList {
         return ConfigTypeLoaderList().apply {
+            register(npcLoader)
             register(objectLoader)
             register(itemLoader)
             register(varpLoader)
