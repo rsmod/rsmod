@@ -13,7 +13,7 @@ import org.rsmod.plugins.api.protocol.packet.update.MovementTempMask
 import org.rsmod.plugins.api.protocol.structure.DevicePacketStructureMap
 
 val structures: DevicePacketStructureMap by inject()
-val masks = structures.update(Device.Desktop)
+val masks = structures.playerUpdate(Device.Desktop)
 
 masks.order {
     -MovementPermMask::class

@@ -22,3 +22,11 @@ class InitialPlayerInfo(
 class PlayerInfo(
     val buffer: ByteBuf
 ) : ServerPacket
+
+class NpcInfoSmallViewport(
+    val buffer: ByteBuf
+) : ServerPacket
+
+class NpcInfoLargeViewport(
+    val buffer: ByteBuf
+) : ServerPacket

@@ -1,22 +1,16 @@
 package org.rsmod.plugins.api.update.player.task
 
-import javax.inject.Inject
 import org.rsmod.game.collision.CollisionMap
 import org.rsmod.game.model.client.PlayerEntity
-import org.rsmod.game.model.domain.Direction
 import org.rsmod.game.model.domain.repo.XteaRepository
-import org.rsmod.game.model.map.Coordinates
-import org.rsmod.game.model.map.MapIsolation
 import org.rsmod.game.model.map.BuildArea
+import org.rsmod.game.model.map.MapIsolation
 import org.rsmod.game.model.map.Viewport
 import org.rsmod.game.model.map.viewport
 import org.rsmod.game.model.mob.Player
 import org.rsmod.game.model.mob.PlayerList
 import org.rsmod.game.model.move.MovementSpeed
-import org.rsmod.game.model.move.MovementQueue
-import org.rsmod.game.model.move.Step
 import org.rsmod.game.update.task.UpdateTask
-import org.rsmod.plugins.api.collision.canTraverse
 import org.rsmod.plugins.api.model.map.of
 import org.rsmod.plugins.api.model.mob.player.clearMinimapFlag
 import org.rsmod.plugins.api.model.mob.player.sendRunEnergy
@@ -25,6 +19,10 @@ import org.rsmod.plugins.api.protocol.packet.server.RebuildNormal
 import org.rsmod.plugins.api.protocol.packet.update.MovementPermMask
 import org.rsmod.plugins.api.protocol.packet.update.MovementTempMask
 import org.rsmod.plugins.api.update.player.mask.of
+import org.rsmod.plugins.api.update.pollSteps
+import org.rsmod.plugins.api.update.speed
+import org.rsmod.plugins.api.update.stepCount
+import javax.inject.Inject
 
 class PlayerPreUpdateTask @Inject constructor(
     private val playerList: PlayerList,
@@ -85,7 +83,7 @@ class PlayerPreUpdateTask @Inject constructor(
             movement.speed = null
             speed = MovementSpeed.Walk
         }
-        movement.pollSteps(coords, speed())
+        movement.pollSteps(coords, speed(), collision)
         val lastStep = movement.nextSteps.lastOrNull()
         if (lastStep == null) {
             clearMinimapFlag()
@@ -93,20 +91,6 @@ class PlayerPreUpdateTask @Inject constructor(
         }
         coords = lastStep.dest
         faceDirection = lastStep.dir
-    }
-
-    private fun MovementQueue.pollSteps(src: Coordinates, speed: MovementSpeed) {
-        var lastCoords = src
-        for (i in 0 until speed.stepCount) {
-            val dest = poll() ?: break
-            val dir = directionBetween(lastCoords, dest)
-            if (!noclip && !collision.canTraverse(lastCoords, dir)) {
-                break
-            }
-            val step = Step(dest, dir)
-            nextSteps.add(step)
-            lastCoords = dest
-        }
     }
 
     private fun Player.updateMovementSpeed() {
@@ -137,29 +121,4 @@ class PlayerPreUpdateTask @Inject constructor(
         return dx < BuildArea.REBUILD_BOUNDARY || dx >= BuildArea.SIZE - BuildArea.REBUILD_BOUNDARY ||
             dy < BuildArea.REBUILD_BOUNDARY || dy >= BuildArea.SIZE - BuildArea.REBUILD_BOUNDARY
     }
-
-    private fun directionBetween(start: Coordinates, end: Coordinates): Direction {
-        val diffX = end.x - start.x
-        val diffY = end.y - start.y
-        return when {
-            diffX > 0 && diffY > 0 -> Direction.NorthEast
-            diffX > 0 && diffY == 0 -> Direction.East
-            diffX > 0 && diffY < 0 -> Direction.SouthEast
-            diffX < 0 && diffY > 0 -> Direction.NorthWest
-            diffX < 0 && diffY == 0 -> Direction.West
-            diffX < 0 && diffY < 0 -> Direction.SouthWest
-            diffX == 0 && diffY > 0 -> Direction.North
-            else -> Direction.South
-        }
-    }
-
-    private fun Player.speed(): MovementSpeed {
-        return movement.speed ?: speed
-    }
-
-    private val MovementSpeed.stepCount: Int
-        get() = when (this) {
-            MovementSpeed.Run -> 2
-            MovementSpeed.Walk -> 1
-        }
 }

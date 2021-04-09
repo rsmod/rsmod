@@ -10,7 +10,8 @@ import org.rsmod.plugins.api.protocol.Device
 class PacketStructureCodec(
     val server: ServerPacketStructureMap,
     val client: ClientPacketStructureMap,
-    val update: UpdateMaskPacketMap
+    val playerUpdate: UpdateMaskPacketMap,
+    val npcUpdate: UpdateMaskPacketMap
 )
 
 class DevicePacketStructureMap(
@@ -30,7 +31,9 @@ class DevicePacketStructureMap(
 
     fun server(device: Device) = getCodec(device).server
 
-    fun update(device: Device) = getCodec(device).update
+    fun playerUpdate(device: Device) = getCodec(device).playerUpdate
+
+    fun npcUpdate(device: Device) = getCodec(device).npcUpdate
 
     fun getCodec(device: Device): PacketStructureCodec = when (device) {
         Device.Desktop -> desktop
@@ -43,6 +46,7 @@ class DevicePacketStructureMap(
         private fun codec(injector: Injector) = PacketStructureCodec(
             ServerPacketStructureMap(),
             ClientPacketStructureMap(injector),
+            UpdateMaskPacketMap(),
             UpdateMaskPacketMap()
         )
     }

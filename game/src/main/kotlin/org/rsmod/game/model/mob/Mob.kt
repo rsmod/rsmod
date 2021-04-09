@@ -24,6 +24,7 @@ import org.rsmod.game.model.map.Viewport
 import org.rsmod.game.model.snapshot.Snapshot
 import org.rsmod.game.model.move.MovementQueue
 import org.rsmod.game.model.move.MovementSpeed
+import org.rsmod.game.model.npc.type.NpcType
 import org.rsmod.game.model.stat.StatMap
 import org.rsmod.game.model.ui.InterfaceList
 import org.rsmod.game.model.vars.VarpMap
@@ -42,6 +43,7 @@ sealed class Mob(
     var speed: MovementSpeed = MovementSpeed.Walk,
     var faceDirection: Direction = DEFAULT_DIRECTION,
     var displace: Boolean = false,
+    var lastSpeed: MovementSpeed? = null,
     val stats: StatMap = StatMap(),
     val timers: TimerMap = TimerMap(),
     val attribs: AttributeMap = AttributeMap(),
@@ -92,7 +94,6 @@ class Player(
     val containers: ItemContainerMap = ItemContainerMap(),
     val ui: InterfaceList = InterfaceList(),
     val varpMap: VarpMap = VarpMap(),
-    var lastSpeed: MovementSpeed? = null,
     var runEnergy: Double = DEFAULT_RUN_ENERGY,
     val privileges: MutableList<Privilege> = mutableListOf(),
     private val messageListeners: List<ServerPacketListener> = mutableListOf()
@@ -174,5 +175,10 @@ class Player(
 }
 
 class Npc(
-    override val entity: NpcEntity
-) : Mob()
+    override val entity: NpcEntity,
+    var type: NpcType
+) : Mob() {
+
+    val id: Int
+        get() = type.id
+}

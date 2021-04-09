@@ -20,7 +20,8 @@ class Client(
     val encryptedPass: String,
     val loginXteas: IntArray,
     val bufAllocator: ByteBufAllocator,
-    val updateRecords: MutableList<UpdateRecord> = mutableListOf(),
+    val playerRecords: MutableList<UpdateRecord> = mutableListOf(),
+    val localNpcIndexes: MutableList<Int> = mutableListOf(),
     val pendingPackets: Queue<ClientPacketMessage<out ClientPacket>> = LinkedList()
 ) {
 

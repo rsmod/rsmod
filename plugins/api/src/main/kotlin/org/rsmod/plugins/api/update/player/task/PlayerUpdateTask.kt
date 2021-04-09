@@ -32,6 +32,7 @@ import org.rsmod.game.model.domain.Direction
 import org.rsmod.game.model.map.BuildArea
 
 private val logger = InlineLogger()
+
 private const val MAX_PLAYER_ADDITIONS_PER_CYCLE = 40
 private const val MAX_LOCAL_PLAYERS = 255
 
@@ -45,6 +46,7 @@ private val DIRECTION_ROT = mapOf(
     Direction.North to 6,
     Direction.NorthEast to 7
 )
+
 private val DIRECTION_DIFF_X = intArrayOf(-1, 0, 1, -1, 1, -1, 0, 1)
 private val DIRECTION_DIFF_Y = intArrayOf(-1, -1, -1, 0, 0, 1, 1, 1)
 
@@ -73,9 +75,9 @@ class PlayerUpdateTask @Inject constructor(
         clientList.forEach { client ->
             launch {
                 val buf = client.gpiBuffer()
-                val gpi = PlayerInfo(buf)
-                client.player.write(gpi)
-                client.updateRecords.forEach(::group)
+                val info = PlayerInfo(buf)
+                client.player.write(info)
+                client.playerRecords.forEach(::group)
             }
         }
     }
@@ -84,7 +86,7 @@ class PlayerUpdateTask @Inject constructor(
         val mainBuf = bufAllocator.buffer()
         val maskBuf = bufAllocator.buffer()
         val masks = device.maskPackets
-        mainBuf.getPlayerInfo(player, updateRecords, maskBuf, masks)
+        mainBuf.getPlayerInfo(player, playerRecords, maskBuf, masks)
         mainBuf.writeBytes(maskBuf)
         return mainBuf
     }
@@ -472,7 +474,7 @@ class PlayerUpdateTask @Inject constructor(
             local = local,
             coordinates = coordinates
         )
-        updateRecords.add(record)
+        playerRecords.add(record)
     }
 
     private fun group(record: UpdateRecord) {
@@ -525,9 +527,9 @@ class PlayerUpdateTask @Inject constructor(
 
     private val ClientDevice.maskPackets: UpdateMaskPacketMap
         get() = when (this) {
-            Device.Desktop -> devicePackets.update(Device.Desktop)
-            Device.Ios -> devicePackets.update(Device.Ios)
-            Device.Android -> devicePackets.update(Device.Android)
+            Device.Desktop -> devicePackets.playerUpdate(Device.Desktop)
+            Device.Ios -> devicePackets.playerUpdate(Device.Ios)
+            Device.Android -> devicePackets.playerUpdate(Device.Android)
             else -> error("Invalid client device (type=${this::class.simpleName})")
         }
 }

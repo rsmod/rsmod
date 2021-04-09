@@ -1,9 +1,6 @@
 package org.rsmod.game
 
 import com.github.michaelbull.logging.InlineLogger
-import javax.inject.Inject
-import java.util.concurrent.TimeUnit
-import kotlin.system.measureNanoTime
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -11,13 +8,21 @@ import kotlinx.coroutines.launch
 import org.rsmod.game.config.InternalConfig
 import org.rsmod.game.coroutine.GameCoroutineScope
 import org.rsmod.game.dispatch.GameJobDispatcher
+import org.rsmod.game.event.EventBus
+import org.rsmod.game.event.impl.NpcTimerTrigger
 import org.rsmod.game.event.impl.PlayerTimerTrigger
 import org.rsmod.game.model.client.Client
 import org.rsmod.game.model.client.ClientList
+import org.rsmod.game.model.mob.Mob
+import org.rsmod.game.model.mob.Npc
+import org.rsmod.game.model.mob.NpcList
 import org.rsmod.game.model.mob.Player
 import org.rsmod.game.model.mob.PlayerList
 import org.rsmod.game.model.world.World
 import org.rsmod.game.update.task.UpdateTaskList
+import java.util.concurrent.TimeUnit
+import javax.inject.Inject
+import kotlin.system.measureNanoTime
 
 private val logger = InlineLogger()
 
@@ -34,7 +39,9 @@ class Game @Inject private constructor(
     private val updateTaskList: UpdateTaskList,
     private val playerList: PlayerList,
     private val clientList: ClientList,
-    private val world: World
+    private val npcList: NpcList,
+    private val world: World,
+    private val eventBus: EventBus
 ) {
 
     var state: GameState = GameState.Inactive
@@ -71,6 +78,7 @@ class Game @Inject private constructor(
     private suspend fun gameLogic() {
         clientList.forEach { it.pollActions(config.actionsPerCycle) }
         playerList.forEach { it?.cycle() }
+        npcList.forEach { it?.cycle(eventBus) }
         world.queueList.cycle()
         jobDispatcher.executeAll()
         updateTaskList.forEach { it.execute() }
@@ -99,7 +107,12 @@ private suspend fun Player.cycle() {
     timerCycle()
 }
 
-private suspend fun Player.queueCycle() {
+private suspend fun Npc.cycle(eventBus: EventBus) {
+    queueCycle()
+    timerCycle(eventBus)
+}
+
+private suspend fun Mob.queueCycle() {
     /* flag whether or not a new queue should be polled this cycle */
     val pollQueue = queueStack.idle
     try {
@@ -118,9 +131,7 @@ private suspend fun Player.queueCycle() {
 }
 
 private fun Player.timerCycle() {
-    if (timers.isEmpty()) {
-        return
-    }
+    if (timers.isEmpty()) return
     val iterator = timers.iterator()
     while (iterator.hasNext()) {
         val entry = iterator.next()
@@ -132,6 +143,31 @@ private fun Player.timerCycle() {
         }
         try {
             val event = PlayerTimerTrigger(this, key)
+            eventBus.publish(event)
+            /* if the timer was not re-set after event we remove it */
+            if (timers.isNotActive(key)) {
+                iterator.remove()
+            }
+        } catch (t: Throwable) {
+            iterator.remove()
+            logger.error(t) { "Timer event error ($this)" }
+        }
+    }
+}
+
+private fun Npc.timerCycle(eventBus: EventBus) {
+    if (timers.isEmpty()) return
+    val iterator = timers.iterator()
+    while (iterator.hasNext()) {
+        val entry = iterator.next()
+        val key = entry.key
+        val cycles = entry.value
+        if (cycles > 0) {
+            timers.decrement(key)
+            continue
+        }
+        try {
+            val event = NpcTimerTrigger(this, key)
             eventBus.publish(event)
             /* if the timer was not re-set after event we remove it */
             if (timers.isNotActive(key)) {

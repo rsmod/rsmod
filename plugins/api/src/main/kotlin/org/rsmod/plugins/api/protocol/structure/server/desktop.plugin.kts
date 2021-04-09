@@ -23,6 +23,8 @@ import org.rsmod.plugins.api.protocol.packet.server.IfOpenTop
 import org.rsmod.plugins.api.protocol.packet.server.IfSetEvents
 import org.rsmod.plugins.api.protocol.packet.server.MessageGame
 import org.rsmod.plugins.api.protocol.packet.server.MinimapFlagSet
+import org.rsmod.plugins.api.protocol.packet.server.NpcInfoLargeViewport
+import org.rsmod.plugins.api.protocol.packet.server.NpcInfoSmallViewport
 import org.rsmod.plugins.api.protocol.packet.server.PlayerInfo
 import org.rsmod.plugins.api.protocol.packet.server.RebuildNormal
 import org.rsmod.plugins.api.protocol.packet.server.ResetAnims
@@ -125,6 +127,22 @@ packets.register<RunClientScript> {
 
 packets.register<PlayerInfo> {
     opcode = 66
+    length = PacketLength.Short
+    write {
+        it.writeBytes(buffer)
+    }
+}
+
+packets.register<NpcInfoSmallViewport> {
+    opcode = 59
+    length = PacketLength.Short
+    write {
+        it.writeBytes(buffer)
+    }
+}
+
+packets.register<NpcInfoLargeViewport> {
+    opcode = 5
     length = PacketLength.Short
     write {
         it.writeBytes(buffer)

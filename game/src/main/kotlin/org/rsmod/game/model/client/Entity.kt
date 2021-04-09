@@ -25,4 +25,7 @@ class PlayerEntity(
     }
 }
 
-class NpcEntity : Entity()
+class NpcEntity(
+    val invisible: Boolean = false,
+    val transform: Int = -1
+) : Entity()
