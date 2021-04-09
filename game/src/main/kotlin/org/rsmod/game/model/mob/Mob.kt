@@ -95,6 +95,7 @@ class Player(
     val varpMap: VarpMap = VarpMap(),
     var runEnergy: Double = DEFAULT_RUN_ENERGY,
     val privileges: MutableList<Privilege> = mutableListOf(),
+    var largeNpcViewport: Boolean = false,
     private val messageListeners: List<ServerPacketListener> = mutableListOf()
 ) : Mob() {
 

@@ -57,7 +57,7 @@ class NpcUpdateTask @Inject constructor(
     private fun CoroutineScope.launchGni() = launch {
         clientList.forEach { client ->
             launch {
-                val largeViewport = false // TODO: player large viewport flag
+                val largeViewport = client.player.largeNpcViewport
                 val buf = client.gniBuffer(largeViewport)
                 val info = viewportInfoPacket(buf, largeViewport)
                 client.player.write(info)
@@ -232,10 +232,6 @@ class NpcUpdateTask @Inject constructor(
 
     private fun Player.canView(npc: Npc, largeViewport: Boolean): Boolean {
         return !npc.entity.invisible && npc.coords.isWithinView(coords, largeViewport)
-    }
-
-    private fun Npc.isUpdateRequired(): Boolean {
-        return isMoving() || isMaskUpdateRequired()
     }
 
     private fun Npc.isMoving(): Boolean {
