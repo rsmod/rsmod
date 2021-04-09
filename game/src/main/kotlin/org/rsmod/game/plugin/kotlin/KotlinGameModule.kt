@@ -15,23 +15,6 @@ abstract class KotlinGameModule(val scope: Scope) {
 
     val modules: MutableList<KotlinModule> = mutableListOf()
 
-    fun register(init: GameModuleBuilder.() -> Unit) {
-        GameModuleBuilder(modules).apply(init)
-    }
-
-    operator fun KotlinModule.unaryMinus() {
-        logger.debug { "Append module to builder (module=${this::class.simpleName})" }
-        modules.add(this)
-    }
-}
-
-@DslMarker
-private annotation class BuilderDslMarker
-
-@BuilderDslMarker
-class GameModuleBuilder(
-    private val modules: MutableList<KotlinModule> = mutableListOf()
-) {
     operator fun KotlinModule.unaryMinus() {
         logger.debug { "Append module to builder (module=${this::class.simpleName})" }
         modules.add(this)
