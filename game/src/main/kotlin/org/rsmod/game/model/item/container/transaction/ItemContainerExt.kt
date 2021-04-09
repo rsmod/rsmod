@@ -3,7 +3,6 @@ package org.rsmod.game.model.item.container.transaction
 import org.rsmod.game.model.item.Item
 import org.rsmod.game.model.item.container.ItemContainer
 import org.rsmod.game.model.item.container.stacks
-import org.rsmod.game.model.item.type.ItemType
 
 operator fun ItemContainer.plusAssign(item: Item) {
     add(item)
@@ -20,24 +19,6 @@ fun ItemContainer.transaction(
     val environment = ItemContainerTransactionEnv(transaction, stackMode)
     block(environment)
     return transaction.commit()
-}
-
-fun ItemContainer.add(
-    type: ItemType,
-    amount: Int = 1,
-    slot: Int = 0,
-    strict: Boolean = true
-): ItemContainerTransactionResult {
-    return add(Item(type, amount), slot, strict)
-}
-
-fun ItemContainer.remove(
-    type: ItemType,
-    amount: Int = 1,
-    slot: Int = 0,
-    strict: Boolean = true
-): ItemContainerTransactionResult {
-    return remove(Item(type, amount), slot, strict)
 }
 
 fun ItemContainer.add(item: Item, slot: Int = 0, strict: Boolean = true): ItemContainerTransactionResult {
