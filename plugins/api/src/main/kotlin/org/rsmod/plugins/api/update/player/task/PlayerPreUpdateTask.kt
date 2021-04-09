@@ -11,6 +11,7 @@ import org.rsmod.game.model.mob.Player
 import org.rsmod.game.model.mob.PlayerList
 import org.rsmod.game.model.move.MovementSpeed
 import org.rsmod.game.update.task.UpdateTask
+import org.rsmod.plugins.api.model.angle
 import org.rsmod.plugins.api.model.map.of
 import org.rsmod.plugins.api.model.mob.player.clearMinimapFlag
 import org.rsmod.plugins.api.model.mob.player.sendRunEnergy
@@ -18,7 +19,7 @@ import org.rsmod.plugins.api.model.mob.player.updateAppearance
 import org.rsmod.plugins.api.protocol.packet.server.RebuildNormal
 import org.rsmod.plugins.api.protocol.packet.update.MovementPermMask
 import org.rsmod.plugins.api.protocol.packet.update.MovementTempMask
-import org.rsmod.plugins.api.update.player.mask.of
+import org.rsmod.plugins.api.update.of
 import org.rsmod.plugins.api.update.pollSteps
 import org.rsmod.plugins.api.update.speed
 import org.rsmod.plugins.api.update.stepCount
@@ -90,7 +91,7 @@ class PlayerPreUpdateTask @Inject constructor(
             return
         }
         coords = lastStep.dest
-        faceDirection = lastStep.dir
+        orientation = lastStep.dir.angle
     }
 
     private fun Player.updateMovementSpeed() {

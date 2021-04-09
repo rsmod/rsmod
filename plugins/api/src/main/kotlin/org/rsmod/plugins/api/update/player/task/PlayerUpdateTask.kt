@@ -2,11 +2,17 @@ package org.rsmod.plugins.api.update.player.task
 
 import com.github.michaelbull.logging.InlineLogger
 import com.google.common.primitives.Ints.min
-import javax.inject.Inject
+import io.guthix.buffer.BitBuf
+import io.guthix.buffer.toBitMode
+import io.netty.buffer.ByteBuf
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import org.rsmod.game.coroutine.IoCoroutineScope
 import org.rsmod.game.model.client.Client
 import org.rsmod.game.model.client.ClientDevice
 import org.rsmod.game.model.client.ClientList
+import org.rsmod.game.model.domain.Direction
+import org.rsmod.game.model.map.BuildArea
 import org.rsmod.game.model.map.Coordinates
 import org.rsmod.game.model.mob.Player
 import org.rsmod.game.model.mob.PlayerList
@@ -17,19 +23,14 @@ import org.rsmod.game.update.task.UpdateTask
 import org.rsmod.plugins.api.model.map.isWithinDistance
 import org.rsmod.plugins.api.protocol.Device
 import org.rsmod.plugins.api.protocol.packet.server.PlayerInfo
-import org.rsmod.plugins.api.protocol.structure.DevicePacketStructureMap
 import org.rsmod.plugins.api.protocol.packet.update.AppearanceMask
 import org.rsmod.plugins.api.protocol.packet.update.BitMask
 import org.rsmod.plugins.api.protocol.packet.update.DirectionMask
+import org.rsmod.plugins.api.protocol.structure.DevicePacketStructureMap
+import org.rsmod.plugins.api.update.of
 import org.rsmod.plugins.api.update.player.mask.of
-import io.guthix.buffer.BitBuf
-import io.guthix.buffer.toBitMode
-import io.netty.buffer.ByteBuf
+import javax.inject.Inject
 import kotlin.math.abs
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import org.rsmod.game.model.domain.Direction
-import org.rsmod.game.model.map.BuildArea
 
 private val logger = InlineLogger()
 
@@ -205,7 +206,7 @@ class PlayerUpdateTask @Inject constructor(
             updates.add(AppearanceMask.of(other))
         }
         if (!updates.contains(DirectionMask::class)) {
-            updates.add(DirectionMask.of(other, other.faceDirection))
+            updates.add(DirectionMask.of(other))
         }
         writeMaskUpdate(updates, handlers)
     }

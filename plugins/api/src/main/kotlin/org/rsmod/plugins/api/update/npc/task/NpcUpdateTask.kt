@@ -19,6 +19,7 @@ import org.rsmod.game.update.mask.UpdateMask
 import org.rsmod.game.update.mask.UpdateMaskPacketMap
 import org.rsmod.game.update.task.UpdateTask
 import org.rsmod.plugins.api.model.map.isWithinDistance
+import org.rsmod.plugins.api.model.mob.faceDirection
 import org.rsmod.plugins.api.protocol.Device
 import org.rsmod.plugins.api.protocol.packet.server.NpcInfoLargeViewport
 import org.rsmod.plugins.api.protocol.packet.server.NpcInfoSmallViewport
@@ -193,7 +194,7 @@ class NpcUpdateTask @Inject constructor(
         }
         val maskUpdate = npc.isMaskUpdateRequired()
         val npcId = if (npc.entity.transform != -1) npc.entity.transform else npc.id
-        val rotation = DIRECTION_ROT.getValue(npc.faceDirection)
+        val rotation = DIRECTION_ROT.getValue(npc.faceDirection())
         writeBits(value = npc.index, amount = 15)
         writeBits(value = diffX, amount = if (largeViewport) 8 else 5)
         writeBits(value = npcId, amount = 14)

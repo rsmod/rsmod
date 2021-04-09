@@ -1,15 +1,9 @@
 package org.rsmod.plugins.api.update.player.mask
 
-import kotlin.math.atan2
-import org.rsmod.game.model.domain.Direction
-import org.rsmod.game.model.domain.translate
 import org.rsmod.game.model.mob.Player
 import org.rsmod.plugins.api.model.appearance.Body
 import org.rsmod.plugins.api.model.appearance.Equipment
 import org.rsmod.plugins.api.protocol.packet.update.AppearanceMask
-import org.rsmod.plugins.api.protocol.packet.update.DirectionMask
-import org.rsmod.plugins.api.protocol.packet.update.MovementPermMask
-import org.rsmod.plugins.api.protocol.packet.update.MovementTempMask
 
 private val EQUIPMENT_BODY_PART = mapOf(
     Equipment.CHEST to Body.CHEST,
@@ -35,22 +29,6 @@ fun AppearanceMask.Companion.of(player: Player): AppearanceMask {
         combatLevel = 126,
         invisible = false
     )
-}
-
-fun DirectionMask.Companion.of(player: Player, face: Direction): DirectionMask {
-    val coordinates = player.coords
-    val translation = coordinates.translate(face)
-    val atan = atan2(coordinates.x.toFloat() - translation.x, coordinates.y.toFloat() - translation.y)
-    val degrees = (atan * 325.949).toInt() and 0x7FF
-    return DirectionMask(degrees)
-}
-
-fun MovementTempMask.Companion.of(type: Int): MovementTempMask {
-    return MovementTempMask(type)
-}
-
-fun MovementPermMask.Companion.of(type: Int): MovementPermMask {
-    return MovementPermMask(type)
 }
 
 private fun Player.looks(): ByteArray {

@@ -1,6 +1,5 @@
 package org.rsmod.plugins.api.model.mob.player
 
-import org.rsmod.game.model.domain.Direction
 import org.rsmod.game.model.item.container.ItemContainer
 import org.rsmod.game.model.map.Coordinates
 import org.rsmod.game.model.mob.Player
@@ -27,7 +26,6 @@ import org.rsmod.plugins.api.protocol.packet.server.UpdateStat
 import org.rsmod.plugins.api.protocol.packet.server.VarpLarge
 import org.rsmod.plugins.api.protocol.packet.server.VarpSmall
 import org.rsmod.plugins.api.protocol.packet.update.AppearanceMask
-import org.rsmod.plugins.api.protocol.packet.update.DirectionMask
 import org.rsmod.plugins.api.update.player.mask.of
 
 fun Player.moveTo(destination: Coordinates, speed: MovementSpeed = this.speed, noclip: Boolean = false) {
@@ -42,12 +40,6 @@ fun Player.moveTo(destination: Coordinates, speed: MovementSpeed = this.speed, n
 fun Player.updateAppearance() {
     val mask = AppearanceMask.of(this)
     entity.updates.add(mask)
-}
-
-fun Player.faceDirection(direction: Direction) {
-    val mask = DirectionMask.of(this, direction)
-    entity.updates.add(mask)
-    faceDirection = direction
 }
 
 fun Player.clearMinimapFlag() {

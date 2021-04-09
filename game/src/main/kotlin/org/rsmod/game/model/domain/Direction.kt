@@ -15,6 +15,8 @@ sealed class Direction(val x: Int = NEUTRAL_UNIT, val y: Int = NEUTRAL_UNIT) {
     object SouthEast : Direction(x = POSITIVE_UNIT, y = NEGATIVE_UNIT)
     object SouthWest : Direction(x = NEGATIVE_UNIT, y = NEGATIVE_UNIT)
     object NorthWest : Direction(x = NEGATIVE_UNIT, y = POSITIVE_UNIT)
+
+    override fun toString(): String = javaClass.simpleName
 }
 
 fun Coordinates.translate(direction: Direction) = translate(direction.x, direction.y)

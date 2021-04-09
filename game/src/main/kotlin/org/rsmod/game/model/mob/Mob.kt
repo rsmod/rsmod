@@ -2,7 +2,6 @@ package org.rsmod.game.model.mob
 
 import com.github.michaelbull.logging.InlineLogger
 import com.google.common.base.MoreObjects
-import java.time.LocalDateTime
 import org.rsmod.game.action.ActionBus
 import org.rsmod.game.event.Event
 import org.rsmod.game.event.EventBus
@@ -15,16 +14,15 @@ import org.rsmod.game.model.client.Entity
 import org.rsmod.game.model.client.NpcEntity
 import org.rsmod.game.model.client.PlayerEntity
 import org.rsmod.game.model.domain.Appearance
-import org.rsmod.game.model.domain.Direction
 import org.rsmod.game.model.domain.PlayerId
 import org.rsmod.game.model.item.container.ItemContainer
 import org.rsmod.game.model.item.container.ItemContainerMap
 import org.rsmod.game.model.map.Coordinates
 import org.rsmod.game.model.map.Viewport
-import org.rsmod.game.model.snapshot.Snapshot
 import org.rsmod.game.model.move.MovementQueue
 import org.rsmod.game.model.move.MovementSpeed
 import org.rsmod.game.model.npc.type.NpcType
+import org.rsmod.game.model.snapshot.Snapshot
 import org.rsmod.game.model.stat.StatMap
 import org.rsmod.game.model.ui.InterfaceList
 import org.rsmod.game.model.vars.VarpMap
@@ -32,16 +30,17 @@ import org.rsmod.game.privilege.Privilege
 import org.rsmod.game.queue.GameQueueStack
 import org.rsmod.game.queue.QueueType
 import org.rsmod.game.timer.TimerMap
+import java.time.LocalDateTime
 
 private val logger = InlineLogger()
 
-private val DEFAULT_DIRECTION = Direction.South
+private const val DEFAULT_ORIENTATION = 0
 private const val DEFAULT_RUN_ENERGY = 100.0
 
 sealed class Mob(
     val movement: MovementQueue = MovementQueue(),
     var speed: MovementSpeed = MovementSpeed.Walk,
-    var faceDirection: Direction = DEFAULT_DIRECTION,
+    var orientation: Int = DEFAULT_ORIENTATION,
     var displace: Boolean = false,
     var lastSpeed: MovementSpeed? = null,
     val stats: StatMap = StatMap(),

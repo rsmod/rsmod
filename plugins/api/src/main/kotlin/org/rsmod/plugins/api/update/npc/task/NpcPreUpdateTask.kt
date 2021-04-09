@@ -5,6 +5,7 @@ import org.rsmod.game.model.mob.Npc
 import org.rsmod.game.model.mob.NpcList
 import org.rsmod.game.model.move.MovementSpeed
 import org.rsmod.game.update.task.UpdateTask
+import org.rsmod.plugins.api.model.angle
 import org.rsmod.plugins.api.update.pollSteps
 import org.rsmod.plugins.api.update.speed
 import javax.inject.Inject
@@ -35,7 +36,7 @@ class NpcPreUpdateTask @Inject constructor(
         movement.pollSteps(coords, speed(), collision)
         val lastStep = movement.nextSteps.lastOrNull() ?: return
         coords = lastStep.dest
-        faceDirection = lastStep.dir
+        orientation = lastStep.dir.angle
     }
 
     private fun Npc.updateMovementSpeed() {
