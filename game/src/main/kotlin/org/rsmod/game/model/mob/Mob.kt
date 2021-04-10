@@ -175,8 +175,9 @@ class Player(
 }
 
 class Npc(
-    override val entity: NpcEntity,
-    var type: NpcType
+    override val entity: NpcEntity = NpcEntity(),
+    var type: NpcType,
+    var wanderRange: Int = 0
 ) : Mob() {
 
     val id: Int
