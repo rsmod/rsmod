@@ -81,10 +81,10 @@ class NpcUpdateTask @Inject constructor(
         largeViewport: Boolean
     ) {
         val indexes = client.localNpcIndexes
-        indexes.localNpcInfo(client.player, toBitMode(), maskBuf, maskPackets, largeViewport)
-        indexes.worldNpcInfo(client.player, toBitMode(), maskBuf, maskPackets, largeViewport)
+        val bitBuf = toBitMode()
+        indexes.localNpcInfo(client.player, bitBuf, maskBuf, maskPackets, largeViewport)
+        indexes.worldNpcInfo(client.player, bitBuf, maskBuf, maskPackets, largeViewport)
         if (maskBuf.writerIndex() > 0) {
-            val bitBuf = toBitMode()
             bitBuf.writeBits(value = 0x7FFF, amount = 15)
             bitBuf.toByteMode()
         }
