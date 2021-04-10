@@ -26,7 +26,7 @@ private class NamedConfigFileMapProvider : Provider<NamedConfigFileMap> {
 
         /* load config resource folder files */
         val url = CONFIG_RESOURCE_FOLDER.toResourceUrl() ?: return@apply
-        val files = File(url.path).listFiles() ?: throw IOException("")
+        val files = File(url.path).listFiles() ?: throw IOException("Error listing files for resource path: ${url.path}")
         files.forEach { loadDirectory(it.toPath()) }
     }
 }
