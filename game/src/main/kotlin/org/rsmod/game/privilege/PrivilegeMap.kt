@@ -1,8 +1,8 @@
 package org.rsmod.game.privilege
 
-import org.rsmod.game.name.TypeNamedMap
+import org.rsmod.game.name.NamedTypeMap
 
-class PrivilegeMap : TypeNamedMap<Privilege>() {
+class PrivilegeMap : NamedTypeMap<Privilege>() {
 
     fun register(privilege: Privilege) {
         this[privilege.nameId] = privilege
