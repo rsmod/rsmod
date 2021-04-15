@@ -1,11 +1,19 @@
 val rootPluginDir = projectDir
 val rootPluginBuildDir = buildDir
 
-subprojects {
-    group = "org.rsmod.plugins"
+val appDir = project(":all").projectDir
+val pluginConfigDir = appDir.resolve("plugins").resolve("resources")
 
+subprojects {
     val relative = projectDir.relativeTo(rootPluginDir)
     buildDir = rootPluginBuildDir.resolve(relative)
+    group = "org.rsmod.plugins"
+
+    sourceSets {
+        main {
+            output.resourcesDir = pluginConfigDir.resolve(relative)
+        }
+    }
 }
 
 allprojects {
