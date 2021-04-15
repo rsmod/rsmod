@@ -61,7 +61,7 @@ object RsaGenerator {
         val bitCount = args[0].toInt()
         val radix = args[1].toInt()
         val path = args[2]
-        create(bitCount, radix, Paths.get(path))
+        create(bitCount, radix, Path.of(path))
     }
 }
 

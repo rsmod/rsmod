@@ -11,7 +11,6 @@ import org.rsmod.game.model.map.Coordinates
 import org.rsmod.util.config.ConfigMap
 import java.nio.file.Files
 import java.nio.file.Path
-import java.nio.file.Paths
 import java.security.KeyFactory
 import java.security.Security
 import java.security.interfaces.RSAPrivateKey
@@ -105,9 +104,9 @@ class GameConfigProvider @Inject constructor(
 
     companion object {
 
-        private val CONFIG_PATH = Paths.get(".", "config.yml")
-        private val DEFAULT_DATA_PATH = Paths.get(".", "data")
-        private val DEFAULT_PLUGIN_PATH = Paths.get(".", "plugins")
+        private val CONFIG_PATH = Path.of(".", "config.yml")
+        private val DEFAULT_DATA_PATH = Path.of(".", "data")
+        private val DEFAULT_PLUGIN_PATH = Path.of(".", "plugins")
         private const val DEFAULT_SERVER_NAME = "RS Mod"
         private const val DEFAULT_PORT = 43594
         private const val DEFAULT_MINOR_REVISION = 1

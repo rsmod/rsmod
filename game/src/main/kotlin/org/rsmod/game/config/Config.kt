@@ -21,7 +21,7 @@ data class GameConfig(
         get() = dataPath.resolve("cache")
 
     val rsaPath: Path
-        get() = dataPath.resolve(Paths.get("rsa", "key.pem"))
+        get() = dataPath.resolve(Path.of("rsa", "key.pem"))
 
     val internalConfig: Path
         get() = dataPath.resolve("internal.yml")
