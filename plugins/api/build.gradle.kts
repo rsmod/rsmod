@@ -1,7 +1,7 @@
 version = "194.0.0"
 
 dependencies {
-    implementation(project(":util"))
+    implementation(projects.util)
     implementation(libs.nettyAll)
     implementation(libs.kotlinRetry)
     implementation(libs.jacksonKotlin)

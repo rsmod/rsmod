@@ -8,10 +8,10 @@ application {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation(project(":util"))
-    implementation(project(":game"))
-    implementation(project(":plugins"))
-    findPlugins(project(":plugins")).forEach {
+    implementation(projects.util)
+    implementation(projects.game)
+    implementation(projects.plugins)
+    findPlugins(projects.plugins).forEach {
         implementation(it)
     }
 

@@ -5,6 +5,7 @@ val appDir = project(":all").projectDir
 val pluginConfigDir = appDir.resolve("plugins").resolve("resources")
 
 val libsAlias = libs
+val projectsAlias = projects
 
 subprojects {
     val relative = projectDir.relativeTo(rootPluginDir)
@@ -19,7 +20,7 @@ subprojects {
 
     dependencies {
         implementation(kotlin("stdlib"))
-        implementation(project(":game"))
+        implementation(projectsAlias.game)
         implementation(libsAlias.kotlinScriptRuntime)
         implementation(libsAlias.kotlinCoroutinesCore)
         implementation(libsAlias.rsmodPathfinder)

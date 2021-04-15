@@ -1,6 +1,6 @@
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation(project(":util"))
+    implementation(projects.util)
     implementation(libs.kotlinCoroutinesCore)
     implementation(libs.classgraph)
     implementation(libs.kotlinScriptCommon)
