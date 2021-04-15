@@ -1,12 +1,21 @@
 import java.nio.file.Files
 import java.nio.file.Path
 
+enableFeaturePreview("VERSION_CATALOGS")
+
 rootProject.name = "rsmod"
 include("util")
 include("game")
 include("plugins")
 includePlugins(project(":plugins").projectDir.toPath())
 include("all")
+
+pluginManagement {
+    plugins {
+        kotlin("jvm") version "1.4.0"
+        id("org.jmailen.kotlinter") version "3.3.0"
+    }
+}
 
 fun includePlugins(pluginPath: Path) {
     Files.walk(pluginPath).forEach {

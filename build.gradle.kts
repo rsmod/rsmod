@@ -1,15 +1,18 @@
 import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jmailen.gradle.kotlinter.KotlinterExtension
 import org.jmailen.gradle.kotlinter.KotlinterPlugin
 
+val libsAlias = libs
+
 plugins {
-    kotlin("jvm") version Versions.KOTLIN
-    id("org.jmailen.kotlinter") version Versions.KOTLINTER apply false
+    kotlin("jvm")
+    id("org.jmailen.kotlinter") apply false
 }
 
 allprojects {
     group = "org.rsmod"
-    version = Versions.RS_MOD
+    version = "0.0.1"
 
     apply {
         plugin("org.jetbrains.kotlin.jvm")
@@ -24,26 +27,23 @@ allprojects {
 
     dependencies {
         implementation(kotlin("stdlib-jdk8"))
-        implementation("org.jetbrains.kotlin:kotlin-reflect:${Versions.KOTLIN}")
-        implementation("com.google.inject:guice:${Versions.GUICE}")
-        implementation("dev.misfitlabs.kotlinguice4:kotlin-guice:${Versions.KOTLIN_GUICE}")
-        implementation("org.apache.logging.log4j:log4j-slf4j-impl:${Versions.LOG4J}")
-        implementation("com.michael-bull.kotlin-inline-logger:kotlin-inline-logger-jvm:${Versions.INLINE_LOGGER}")
-        testImplementation("org.junit.jupiter:junit-jupiter:${Versions.JUNIT}")
+        implementation(libsAlias.kotlinReflect)
+        implementation(libsAlias.guice)
+        implementation(libsAlias.kotlinGuice)
+        implementation(libsAlias.slf4j)
+        implementation(libsAlias.inlineLogger)
+        testImplementation(libsAlias.junit)
+        testImplementation(libsAlias.junitEngine)
     }
 
-    java {
-        sourceCompatibility = Versions.JAVA
-        targetCompatibility = Versions.JAVA
+    tasks.withType<JavaCompile> {
+        options.release.set(11)
     }
 
-    tasks {
-        compileKotlin {
-            kotlinOptions.jvmTarget = Versions.JVM
-            kotlinOptions.freeCompilerArgs = listOf("-XXLanguage:+InlineClasses")
-        }
-        compileTestKotlin {
-            kotlinOptions.jvmTarget = Versions.JVM
+    tasks.withType<KotlinCompile> {
+        kotlinOptions {
+            jvmTarget = "11"
+            freeCompilerArgs = listOf("-XXLanguage:+InlineClasses")
         }
     }
 

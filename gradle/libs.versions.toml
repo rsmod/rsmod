@@ -1,0 +1,41 @@
+[versions]
+bouncy-castle = "1.68"
+bcrypt = "0.4"
+classgraph = "4.8.102"
+guice = "5.0.0-BETA-1"
+guthix-bytebuf = "0.1.4"
+inline-logger = "1.0.3"
+jackson = "2.12.1"
+js5Store = "0.4.0"
+junit = "5.7.1"
+jvm = "11"
+kotlin-version = "1.4.0"
+kotlin-guice = "1.4.1"
+kotlin-retry = "1.0.8"
+kotlinter = "3.3.0"
+log4j = "2.14.0"
+netty = "4.1.63.Final"
+rsmod-pathfinder = "1.1.2"
+
+[libraries]
+bouncyCastle = { module = "org.bouncycastle:bcprov-jdk15on", version.ref = "bouncy-castle" }
+bcrypt = { module = "org.mindrot:jbcrypt", version.ref = "bcrypt" }
+classgraph = { module = "io.github.classgraph:classgraph", version.ref = "classgraph" }
+guice = { module = "com.google.inject:guice", version.ref = "guice" }
+guthixBytebuf = { module = "io.guthix:jagex-bytebuf", version.ref = "guthix-bytebuf" }
+inlineLogger = { module = "com.michael-bull.kotlin-inline-logger:kotlin-inline-logger-jvm", version.ref = "inline-logger" }
+jacksonKotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
+jacksonYaml = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml", version.ref = "jackson" }
+js5Store = { module = "io.guthix:jagex-store-5", version.ref = "js5Store" }
+junit = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
+junitEngine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
+kotlinCoroutinesCore = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-version" }
+kotlinGuice = { module = "dev.misfitlabs.kotlinguice4:kotlin-guice", version.ref = "kotlin-guice" }
+kotlinReflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin-version" }
+kotlinRetry = { module = "com.michael-bull.kotlin-retry:kotlin-retry", version.ref = "kotlin-retry" }
+kotlinScriptCommon = { module = "org.jetbrains.kotlin:kotlin-scripting-common", version.ref = "kotlin-version" }
+kotlinScriptRuntime = { module = "org.jetbrains.kotlin:kotlin-script-runtime", version.ref = "kotlin-version" }
+nettyAll = { module = "io.netty:netty-all", version.ref = "netty" }
+nettyBuffer = { module = "io.netty:netty-buffer", version.ref = "netty" }
+rsmodPathfinder = { module = "org.rsmod:pathfinder", version.ref = "rsmod-pathfinder" }
+slf4j = { module = "org.apache.logging.log4j:log4j-slf4j-impl", version.ref = "log4j" }

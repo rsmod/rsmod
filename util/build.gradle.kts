@@ -1,8 +1,8 @@
 dependencies {
-    implementation("org.bouncycastle:bcprov-jdk15on:${Versions.BOUNCYCASTLE}")
-    implementation("org.mindrot:jbcrypt:${Versions.BCRYPT}")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:${Versions.JACKSON}")
-    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${Versions.JACKSON}")
+    implementation(libs.bcrypt)
+    implementation(libs.bouncyCastle)
+    implementation(libs.jacksonKotlin)
+    implementation(libs.jacksonYaml)
 }
 
 tasks.create<JavaExec>("createRsa") {

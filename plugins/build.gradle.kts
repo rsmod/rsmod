@@ -4,6 +4,8 @@ val rootPluginBuildDir = buildDir
 val appDir = project(":all").projectDir
 val pluginConfigDir = appDir.resolve("plugins").resolve("resources")
 
+val libsAlias = libs
+
 subprojects {
     val relative = projectDir.relativeTo(rootPluginDir)
     buildDir = rootPluginBuildDir.resolve(relative)
@@ -11,17 +13,15 @@ subprojects {
 
     sourceSets {
         main {
-            output.resourcesDir = pluginConfigDir.resolve(relative)
+            output.setResourcesDir(pluginConfigDir.resolve(relative))
         }
     }
-}
 
-allprojects {
     dependencies {
         implementation(kotlin("stdlib"))
         implementation(project(":game"))
-        implementation("org.jetbrains.kotlin:kotlin-script-runtime:${Versions.KOTLIN}")
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.KOTLIN}")
-        implementation("org.rsmod:pathfinder:${Versions.RS_MOD_PF}")
+        implementation(libsAlias.kotlinScriptRuntime)
+        implementation(libsAlias.kotlinCoroutinesCore)
+        implementation(libsAlias.rsmodPathfinder)
     }
 }
