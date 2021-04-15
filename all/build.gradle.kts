@@ -1,3 +1,11 @@
+plugins {
+    application
+}
+
+application {
+    mainClass.set("org.rsmod.Server")
+}
+
 dependencies {
     implementation(kotlin("stdlib"))
     implementation(project(":util"))
