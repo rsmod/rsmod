@@ -4,10 +4,10 @@ open class ConfigTypeList<T : ConfigType>(
     private val types: MutableMap<Int, T> = mutableMapOf()
 ) : Iterable<T> {
 
-    private var maxId = 0
+    private var maxId = -1
 
     val size: Int
-        get() = maxId
+        get() = maxId + 1
 
     fun add(type: T) {
         if (types.containsKey(type.id)) {
