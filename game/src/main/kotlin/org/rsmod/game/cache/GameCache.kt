@@ -10,8 +10,10 @@ import io.guthix.js5.container.disk.Js5DiskStore
 import io.guthix.js5.util.XTEA_ZERO_KEY
 import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
+import java.nio.file.Path
 
 class GameCache(
+    val directory: Path,
     private val store: Js5DiskStore,
     private val cache: Js5Cache,
     private val crcs: MutableList<Int> = mutableListOf()

@@ -1,13 +1,13 @@
 package org.rsmod.game.cache
 
-import javax.inject.Inject
 import com.google.inject.Provider
 import com.google.inject.Scope
 import dev.misfitlabs.kotlinguice4.KotlinModule
 import io.guthix.js5.Js5Cache
 import io.guthix.js5.container.disk.Js5DiskStore
-import java.nio.file.Files
 import org.rsmod.game.config.GameConfig
+import java.nio.file.Files
+import javax.inject.Inject
 
 class CacheModule(private val scope: Scope) : KotlinModule() {
 
@@ -29,7 +29,7 @@ private class GameCacheProvider @Inject constructor(
         }
         val diskStore = Js5DiskStore.open(path)
         val cache = Js5Cache(diskStore)
-        return GameCache(diskStore, cache)
+        return GameCache(path, diskStore, cache)
     }
 
     companion object {
