@@ -6,8 +6,6 @@ import io.netty.channel.Channel
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.ByteToMessageDecoder
 import org.rsmod.plugins.api.protocol.codec.ResponseType
-import org.rsmod.plugins.api.protocol.codec.writeAcceptedResponse
-import org.rsmod.plugins.api.protocol.codec.writeErrResponse
 
 private val logger = InlineLogger()
 
@@ -28,24 +26,24 @@ class Js5Decoder(
     ) {
         logger.trace { "Decode JS5 message (stage=$stage, channel=${ctx.channel()})" }
         when (stage) {
-            Js5Stage.Handshake -> ctx.channel().readHandshake(buf)
+            Js5Stage.Handshake -> ctx.channel().readHandshake(buf, out)
             Js5Stage.Request -> ctx.channel().readFileRequest(buf, out)
         }
     }
 
-    private fun Channel.readHandshake(buf: ByteBuf) {
+    private fun Channel.readHandshake(buf: ByteBuf, out: MutableList<Any>) {
         val clientRevision = buf.readInt()
         if (clientRevision < revision) {
             logger.info {
                 "Handshake revision out-of-date " +
                     "(clientMajor=$clientRevision, serverMajor=$revision, channel=$this)"
             }
-            writeErrResponse(ResponseType.JS5_OUT_OF_DATE)
+            out.add(ResponseType.JS5_OUT_OF_DATE)
             return
         }
         logger.trace { "Handshake accepted (channel=$this)" }
         stage = Js5Stage.Request
-        writeAcceptedResponse()
+        out.add(ResponseType.ACCEPTED)
     }
 
     private fun Channel.readFileRequest(

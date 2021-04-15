@@ -8,6 +8,7 @@ import com.github.michaelbull.retry.policy.limitAttempts
 import com.github.michaelbull.retry.policy.plus
 import com.github.michaelbull.retry.retry
 import io.netty.channel.Channel
+import io.netty.channel.ChannelFutureListener
 import io.netty.channel.ChannelPipeline
 import kotlinx.coroutines.launch
 import org.rsmod.game.action.ActionBus
@@ -40,7 +41,6 @@ import org.rsmod.plugins.api.protocol.codec.game.GameSessionEncoder
 import org.rsmod.plugins.api.protocol.codec.game.GameSessionHandler
 import org.rsmod.plugins.api.protocol.codec.login.LoginRequest
 import org.rsmod.plugins.api.protocol.codec.login.LoginResponse
-import org.rsmod.plugins.api.protocol.codec.writeErrResponse
 import org.rsmod.plugins.api.protocol.packet.server.InitialPlayerInfo
 import org.rsmod.plugins.api.protocol.packet.server.RebuildNormal
 import org.rsmod.plugins.api.protocol.structure.DevicePacketStructureMap
@@ -111,7 +111,6 @@ class AccountDispatcher @Inject constructor(
     private fun deserialize(request: LoginRequest): Account? {
         val channel = request.channel
         val xteas = request.xteas
-
         val clientRequest = ClientDeserializeRequest(
             loginName = request.username,
             device = request.device,
@@ -129,11 +128,13 @@ class AccountDispatcher @Inject constructor(
         logger.debug { "Deserialized login request (request=$request, response=$deserialize)" }
         when (deserialize) {
             is ClientDeserializeResponse.BadCredentials -> {
-                channel.writeErrResponse(ResponseType.INVALID_CREDENTIALS)
+                channel.writeAndFlush(ResponseType.INVALID_CREDENTIALS)
+                    .addListener(ChannelFutureListener.CLOSE)
                 return null
             }
             is ClientDeserializeResponse.ReadError -> {
-                channel.writeErrResponse(ResponseType.COULD_NOT_COMPLETE_LOGIN)
+                channel.writeAndFlush(ResponseType.COULD_NOT_COMPLETE_LOGIN)
+                    .addListener(ChannelFutureListener.CLOSE)
                 return null
             }
             is ClientDeserializeResponse.Success -> {
@@ -160,12 +161,12 @@ class AccountDispatcher @Inject constructor(
         val (channel, client, device, decodeIsaac, encodeIsaac, newAccount) = account
         val online = playerList.any { it?.id?.value == client.player.id.value }
         if (online) {
-            channel.writeErrResponse(ResponseType.ACCOUNT_ONLINE)
+            channel.writeAndFlush(ResponseType.ACCOUNT_ONLINE).addListener(ChannelFutureListener.CLOSE)
             return
         }
         val registered = playerList.register(client.player)
         if (!registered) {
-            channel.writeErrResponse(ResponseType.WORLD_FULL)
+            channel.writeAndFlush(ResponseType.WORLD_FULL).addListener(ChannelFutureListener.CLOSE)
             return
         }
         clientList.register(client)
@@ -174,6 +175,7 @@ class AccountDispatcher @Inject constructor(
         }
         eventBus.publish(ClientRegister(client))
         client.register(channel, device, decodeIsaac, encodeIsaac)
+        channel.flush()
     }
 
     private fun logout(client: Client) {
@@ -190,15 +192,15 @@ class AccountDispatcher @Inject constructor(
     ) {
         val gpi = player.gpi()
         val reconnect = false
+        if (!channel.isActive) return
         writeResponse(channel, encodeIsaac, reconnect, gpi)
-        channel.pipeline().applyGameCodec(
+        channel.pipeline().addGameCodec(
             this,
             device,
             decodeIsaac,
             encodeIsaac
         )
         player.login(reconnect, gpi)
-        channel.flush()
     }
 
     private fun Client.writeResponse(
@@ -220,9 +222,10 @@ class AccountDispatcher @Inject constructor(
             )
         }
         channel.writeAndFlush(response)
+            .addListener { channel.pipeline().removePreviousCodec() }
     }
 
-    private fun ChannelPipeline.applyGameCodec(
+    private fun ChannelPipeline.addGameCodec(
         client: Client,
         device: Device,
         decodeIsaac: IsaacRandom,
@@ -233,22 +236,16 @@ class AccountDispatcher @Inject constructor(
         val encoder = GameSessionEncoder(encodeIsaac, structures.server)
         val handler = GameSessionHandler(client, this@AccountDispatcher)
 
+        addLast("gameDecoder", decoder)
+        addLast("gameEncoder", encoder)
+        addLast("gameHandler", handler)
+    }
+
+    private fun ChannelPipeline.removePreviousCodec() {
         remove(HandshakeConstants.RESPONSE_PIPELINE)
-        replace(
-            HandshakeConstants.DECODER_PIPELINE,
-            HandshakeConstants.DECODER_PIPELINE,
-            decoder
-        )
-        replace(
-            HandshakeConstants.ENCODER_PIPELINE,
-            HandshakeConstants.ENCODER_PIPELINE,
-            encoder
-        )
-        replace(
-            HandshakeConstants.ADAPTER_PIPELINE,
-            HandshakeConstants.ADAPTER_PIPELINE,
-            handler
-        )
+        remove(HandshakeConstants.DECODER_PIPELINE)
+        remove(HandshakeConstants.ENCODER_PIPELINE)
+        remove(HandshakeConstants.ADAPTER_PIPELINE)
     }
 
     private fun Player.login(reconnect: Boolean, gpi: InitialPlayerInfo) {
@@ -261,7 +258,6 @@ class AccountDispatcher @Inject constructor(
                 xteas = xteas
             )
             write(rebuildNormal)
-            flush()
         }
         viewport = Viewport.of(coords, newViewport)
         login()

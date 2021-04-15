@@ -1,10 +1,11 @@
 package org.rsmod.plugins.api.protocol.codec.js5
 
 import com.github.michaelbull.logging.InlineLogger
-import javax.inject.Inject
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.ChannelInboundHandlerAdapter
+import org.rsmod.plugins.api.protocol.codec.ResponseType
 import org.rsmod.plugins.api.protocol.codec.exceptionCaught
+import javax.inject.Inject
 
 private val logger = InlineLogger()
 
@@ -23,12 +24,16 @@ class Js5Handler @Inject constructor(
     }
 
     override fun channelRead(ctx: ChannelHandlerContext, msg: Any) {
-        if (msg !is Js5Request) {
-            logger.error { "Invalid message type (message=$msg)" }
-            return
+        when (msg) {
+            is Js5Request -> {
+                logger.trace { "Add JS5 request (request=$msg, channel=${ctx.channel()})" }
+                dispatcher.add(ctx.channel(), msg)
+            }
+            is ResponseType -> ctx.channel().writeAndFlush(msg)
+            else -> {
+                logger.error { "Invalid message type (message=$msg)" }
+            }
         }
-        logger.trace { "Add JS5 request (request=$msg, channel=${ctx.channel()})" }
-        dispatcher.add(ctx.channel(), msg)
     }
 
     override fun exceptionCaught(ctx: ChannelHandlerContext, cause: Throwable) {

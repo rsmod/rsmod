@@ -1,11 +1,11 @@
 package org.rsmod.plugins.api.protocol.codec.login
 
+import io.netty.channel.Channel
 import org.rsmod.game.model.client.ClientMachine
 import org.rsmod.game.model.client.ClientSettings
 import org.rsmod.plugins.api.protocol.Device
 import org.rsmod.plugins.api.protocol.packet.server.InitialPlayerInfo
 import org.rsmod.util.security.IsaacRandom
-import io.netty.channel.Channel
 
 enum class LoginResponseType(val opcode: Int) {
     NORMAL(opcode = 2),

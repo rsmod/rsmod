@@ -1,7 +1,13 @@
 package org.rsmod.plugins.api.protocol.codec.login
 
 import com.github.michaelbull.logging.InlineLogger
-import org.rsmod.util.security.Xtea
+import io.guthix.buffer.readString0CP1252
+import io.guthix.buffer.readStringCP1252
+import io.netty.buffer.ByteBuf
+import io.netty.buffer.Unpooled
+import io.netty.channel.Channel
+import io.netty.channel.ChannelHandlerContext
+import io.netty.handler.codec.ByteToMessageDecoder
 import org.rsmod.game.config.RsaConfig
 import org.rsmod.game.model.client.ClientMachine
 import org.rsmod.game.model.client.ClientSettings
@@ -10,17 +16,10 @@ import org.rsmod.game.model.client.JavaVersion
 import org.rsmod.game.model.client.OperatingSystem
 import org.rsmod.plugins.api.protocol.Device
 import org.rsmod.plugins.api.protocol.codec.ResponseType
-import org.rsmod.plugins.api.protocol.codec.writeErrResponse
 import org.rsmod.plugins.api.protocol.packet.login.AuthCode
 import org.rsmod.plugins.api.protocol.packet.login.CacheChecksum
 import org.rsmod.plugins.api.protocol.packet.login.LoginPacketMap
-import io.guthix.buffer.readString0CP1252
-import io.guthix.buffer.readStringCP1252
-import io.netty.buffer.ByteBuf
-import io.netty.buffer.Unpooled
-import io.netty.channel.Channel
-import io.netty.channel.ChannelHandlerContext
-import io.netty.handler.codec.ByteToMessageDecoder
+import org.rsmod.util.security.Xtea
 import java.math.BigInteger
 import java.util.concurrent.ThreadLocalRandom
 
@@ -69,33 +68,33 @@ class LoginDecoder(
     ) {
         logger.debug { "Decode login request (stage=$stage, channel=${ctx.channel()})" }
         when (stage) {
-            LoginStage.Handshake -> ctx.readHandshake(buf)
-            LoginStage.Header -> ctx.readHeader(buf)
+            LoginStage.Handshake -> ctx.readHandshake(buf, out)
+            LoginStage.Header -> ctx.readHeader(buf, out)
             LoginStage.Payload -> ctx.readPayload(buf, out)
         }
     }
 
-    private fun ChannelHandlerContext.readHandshake(buf: ByteBuf) {
+    private fun ChannelHandlerContext.readHandshake(buf: ByteBuf, out: MutableList<Any>) {
         val opcode = buf.readUnsignedByte().toInt()
         val connection = handshakeConnectionType(opcode)
         if (!connection.isValid) {
             logger.error { "Invalid connection type (opcode=$opcode, type=$connection, channel=${channel()})" }
-            channel().writeErrResponse(ResponseType.ERROR_CONNECTING)
+            out.add(ResponseType.ERROR_CONNECTING)
             return
         }
         connectionType = connection
         stage = LoginStage.Header
     }
 
-    private fun ChannelHandlerContext.readHeader(buf: ByteBuf) {
+    private fun ChannelHandlerContext.readHeader(buf: ByteBuf, out: MutableList<Any>) {
         if (buf.readableBytes() < Short.SIZE_BYTES) {
-            channel().incrementReadAttempts()
+            channel().incrementReadAttempts(out)
             return
         }
         payloadLength = buf.readUnsignedShort()
         if (payloadLength == 0) {
             logger.error { "Invalid payload length - must be greater than 0" }
-            channel().writeErrResponse(ResponseType.JS5_OUT_OF_DATE)
+            out.add(ResponseType.JS5_OUT_OF_DATE)
             return
         }
         channel().clearReadAttempts()
@@ -107,7 +106,7 @@ class LoginDecoder(
         out: MutableList<Any>
     ) {
         if (buf.readableBytes() < payloadLength) {
-            channel().incrementReadAttempts()
+            channel().incrementReadAttempts(out)
             return
         }
 
@@ -119,7 +118,7 @@ class LoginDecoder(
                 val serverRev = "$majorRevision.$minorRevision"
                 "Client revision mismatch (clientRevision=$clientRev, serverRevision=$serverRev, channel=${channel()})"
             }
-            channel().writeErrResponse(ResponseType.JS5_OUT_OF_DATE)
+            out.add(ResponseType.JS5_OUT_OF_DATE)
             return
         }
 
@@ -143,7 +142,7 @@ class LoginDecoder(
 
         val secureBlock = readSecureBlock(secureBuf)
         if (secureBlock == null) {
-            channel().writeErrResponse(ResponseType.BAD_SESSION_ID)
+            out.add(ResponseType.BAD_SESSION_ID)
             return
         }
 
@@ -204,20 +203,20 @@ class LoginDecoder(
         val username = buf.readStringCP1252()
         if (username.isBlank()) {
             logger.error { "Invalid blank username input (channel=${channel()})" }
-            channel().writeErrResponse(ResponseType.TOO_MANY_ATTEMPTS)
+            out.add(ResponseType.TOO_MANY_ATTEMPTS)
             return
         }
 
         val emailLogin = username.contains("@")
         if (emailLogin && username.length !in VALID_EMAIL_LENGTH) {
             logger.error { "Invalid email (email=$username, channel=${channel()})" }
-            channel().writeErrResponse(ResponseType.INVALID_CREDENTIALS)
+            out.add(ResponseType.INVALID_CREDENTIALS)
             return
         }
 
         if (!emailLogin && (username.length !in VALID_USERNAME_LENGTH || username.invalidUsername)) {
             logger.error { "Invalid username (username=$username, channel=${channel()})" }
-            channel().writeErrResponse(ResponseType.INVALID_CREDENTIALS)
+            out.add(ResponseType.INVALID_CREDENTIALS)
             return
         }
 
@@ -231,7 +230,7 @@ class LoginDecoder(
         val machineInfoHeader = buf.readUnsignedByte().toInt()
         if (machineInfoHeader != MACHINE_INFO_HEADER_VALUE) {
             logger.error { "Invalid machine info header (username=$username, channel=${channel()})" }
-            channel().writeErrResponse(ResponseType.MACHINE_INFO_HEADER)
+            out.add(ResponseType.MACHINE_INFO_HEADER)
             return
         }
 
@@ -252,7 +251,7 @@ class LoginDecoder(
                     "Cache crc out-of-date (archive=$i, clientCrc=$received, " +
                         "serverCrc=$expected, username=$username, channel=${channel()})"
                 }
-                channel().writeErrResponse(ResponseType.JS5_OUT_OF_DATE)
+                out.add(ResponseType.JS5_OUT_OF_DATE)
                 return
             }
         }
@@ -335,13 +334,13 @@ class LoginDecoder(
         )
     }
 
-    private fun Channel.incrementReadAttempts() {
+    private fun Channel.incrementReadAttempts(out: MutableList<Any>) {
         readAttempts++
         if (readAttempts >= MAX_READ_ATTEMPTS) {
             logger.debug {
                 "Read attempt limit reached... dropping connection (channel=$this)"
             }
-            writeErrResponse(ResponseType.COULD_NOT_COMPLETE_LOGIN)
+            out.add(ResponseType.COULD_NOT_COMPLETE_LOGIN)
         } else {
             logger.trace { "Increment read attempts (attempts=$readAttempts, channel=$this)" }
         }
