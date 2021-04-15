@@ -1,10 +1,12 @@
 package org.rsmod.game.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import javax.inject.Inject
 import com.google.inject.Provider
 import com.google.inject.Scope
 import dev.misfitlabs.kotlinguice4.KotlinModule
+import org.bouncycastle.jce.provider.BouncyCastleProvider
+import org.bouncycastle.util.io.pem.PemReader
+import org.rsmod.game.GameEnv
 import org.rsmod.game.model.map.Coordinates
 import org.rsmod.util.config.ConfigMap
 import java.nio.file.Files
@@ -14,9 +16,7 @@ import java.security.KeyFactory
 import java.security.Security
 import java.security.interfaces.RSAPrivateKey
 import java.security.spec.PKCS8EncodedKeySpec
-import org.bouncycastle.jce.provider.BouncyCastleProvider
-import org.bouncycastle.util.io.pem.PemReader
-import org.rsmod.game.GameEnv
+import javax.inject.Inject
 
 class ConfigModule(
     private val scope: Scope
@@ -45,6 +45,7 @@ class GameConfigProvider @Inject constructor(
         val config = ConfigMap(mapper).load(CONFIG_PATH)
         val name: String = config["server-name"] ?: DEFAULT_SERVER_NAME
         val dataPath: Path = config.dataPath("data-path")
+        val pluginPath: Path = config.pluginPath("plugin-path")
         val port: Int = config["port"] ?: DEFAULT_PORT
         val home: List<Int> = config["home"] ?: DEFAULT_HOME
         val envString: String = config["env"] ?: DEFAULT_ENV.toString()
@@ -80,6 +81,7 @@ class GameConfigProvider @Inject constructor(
             minorRevision = minorRevision,
             port = port,
             dataPath = dataPath,
+            pluginPath = pluginPath,
             home = home.coordinates(),
             env = env
         )
@@ -87,7 +89,12 @@ class GameConfigProvider @Inject constructor(
 
     private fun ConfigMap.dataPath(key: String): Path {
         val path: String = this[key] ?: return DEFAULT_DATA_PATH
-        return Paths.get(path)
+        return Path.of(path)
+    }
+
+    private fun ConfigMap.pluginPath(key: String): Path {
+        val path: String = this[key] ?: return DEFAULT_PLUGIN_PATH
+        return Path.of(path)
     }
 
     private fun List<Int>.coordinates() = when (size) {
@@ -98,8 +105,9 @@ class GameConfigProvider @Inject constructor(
 
     companion object {
 
-        private val CONFIG_PATH = Paths.get(".", "all", "config.yml")
-        private val DEFAULT_DATA_PATH = Paths.get(".", "all", "data")
+        private val CONFIG_PATH = Paths.get(".", "config.yml")
+        private val DEFAULT_DATA_PATH = Paths.get(".", "data")
+        private val DEFAULT_PLUGIN_PATH = Paths.get(".", "plugins")
         private const val DEFAULT_SERVER_NAME = "RS Mod"
         private const val DEFAULT_PORT = 43594
         private const val DEFAULT_MINOR_REVISION = 1

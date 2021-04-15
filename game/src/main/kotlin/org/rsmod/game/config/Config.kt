@@ -1,10 +1,10 @@
 package org.rsmod.game.config
 
+import org.rsmod.game.GameEnv
+import org.rsmod.game.model.map.Coordinates
 import java.math.BigInteger
 import java.nio.file.Path
 import java.nio.file.Paths
-import org.rsmod.game.GameEnv
-import org.rsmod.game.model.map.Coordinates
 
 data class GameConfig(
     val name: String,
@@ -12,18 +12,22 @@ data class GameConfig(
     val minorRevision: Int,
     val port: Int,
     val dataPath: Path,
+    val pluginPath: Path,
     val home: Coordinates,
     val env: GameEnv
 ) {
 
     val cachePath: Path
-        get() = dataPath.resolve(Paths.get("cache"))
+        get() = dataPath.resolve("cache")
 
     val rsaPath: Path
         get() = dataPath.resolve(Paths.get("rsa", "key.pem"))
 
     val internalConfig: Path
         get() = dataPath.resolve("internal.yml")
+
+    val pluginConfigPath: Path
+        get() = pluginPath.resolve("resources")
 }
 
 data class RsaConfig(
