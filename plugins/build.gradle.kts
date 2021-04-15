@@ -31,20 +31,21 @@ tasks.register("install-plugins") {
     }
 }
 
-tasks.register("install-plugins-overwrite") {
+tasks.register("install-plugins-fresh") {
+    file(pluginConfigDir).deleteRecursively()
     subprojects.forEach { project ->
-        copyResources(project, overwriteFiles = true)
+        copyResources(project)
     }
 }
 
-fun copyResources(project: Project, overwriteFiles: Boolean = false) {
+fun copyResources(project: Project) {
     val relativePluginDir = project.projectDir.relativeTo(rootPluginDir)
     val pluginResourceFiles = project.sourceSets.main.get().resources.asFileTree
     if (pluginResourceFiles.isEmpty) return
     val configDirectory = pluginConfigDir.resolve(relativePluginDir)
     pluginResourceFiles.forEach { file ->
         val existingFile = configDirectory.resolve(file.name)
-        if (existingFile.exists() && !overwriteFiles) {
+        if (existingFile.exists()) {
             /* do not overwrite existing config files */
             return@forEach
         }
