@@ -2,8 +2,9 @@ package org.rsmod.plugins.api.cache.config
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
-import java.io.File
 import java.io.InputStream
+import java.nio.file.Files
+import java.nio.file.Path
 
 interface ConfigFileLoader<T> {
 
@@ -11,10 +12,10 @@ interface ConfigFileLoader<T> {
 
     fun JsonNode.toConfigType(): T
 
-    fun loadAll(files: Iterable<File>): Collection<T> {
+    fun loadAll(files: Iterable<Path>): Collection<T> {
         val configs = mutableListOf<T>()
         files.forEach { file ->
-            val fileConfigs = file.inputStream().use { load(it) }
+            val fileConfigs = Files.newInputStream(file).use { load(it) }
             configs.addAll(fileConfigs)
         }
         return configs

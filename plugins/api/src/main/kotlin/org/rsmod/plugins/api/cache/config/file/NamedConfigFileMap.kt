@@ -1,13 +1,12 @@
 package org.rsmod.plugins.api.cache.config.file
 
 import org.rsmod.game.name.NamedTypeMap
-import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
 
 class NamedConfigFileMap(
     private val extensions: MutableSet<String> = mutableSetOf()
-) : NamedTypeMap<MutableList<File>>() {
+) : NamedTypeMap<MutableList<Path>>() {
 
     fun loadDirectory(path: Path) {
         if (!Files.isDirectory(path)) {
@@ -34,7 +33,7 @@ class NamedConfigFileMap(
         val extension = fileName.toString().midExtension() ?: return
         if (!extensions.contains(extension)) return
         val files = getValue(extension)
-        files.add(toFile())
+        files.add(this)
     }
 
     private fun String.midExtension(): String? {

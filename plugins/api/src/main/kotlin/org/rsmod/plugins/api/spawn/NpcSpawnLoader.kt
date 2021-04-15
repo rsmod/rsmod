@@ -11,13 +11,14 @@ import org.rsmod.game.model.npc.type.NpcTypeList
 import org.rsmod.plugins.api.cache.config.ConfigFileLoader
 import org.rsmod.plugins.api.cache.config.file.DefaultExtensions
 import org.rsmod.plugins.api.cache.config.file.NamedConfigFileMap
+import org.rsmod.plugins.api.cache.name.npc.NpcNameMap
 import org.rsmod.plugins.api.model.mob.faceDirection
 import org.rsmod.plugins.api.util.toPlural
 import javax.inject.Inject
 
 private val logger = InlineLogger()
 
-private const val ID_KEY = "id"
+private const val NAME_KEY = "name"
 private const val COORDS_X_KEY = "x"
 private const val COORDS_Y_KEY = "y"
 private const val COORDS_LEVEL_KEY = "level"
@@ -42,6 +43,7 @@ class NpcSpawnLoader @Inject constructor(
     override val mapper: ObjectMapper,
     private val files: NamedConfigFileMap,
     private val types: NpcTypeList,
+    private val names: NpcNameMap,
     private val npcList: NpcList
 ) : ConfigFileLoader<NpcSpawnConfig> {
 
@@ -49,7 +51,7 @@ class NpcSpawnLoader @Inject constructor(
         val files = files.getValue(DefaultExtensions.NPC_SPAWNS)
         val spawns = loadAll(files)
         spawns.forEach(::spawn)
-        logger.info { "Loaded ${spawns.size} npc ${"spawn".toPlural(spawns.size)} from config files" }
+        logger.info { "Loaded ${spawns.size} npc ${"spawn".toPlural(spawns.size)}" }
     }
 
     fun spawn(config: NpcSpawnConfig) {
@@ -63,15 +65,16 @@ class NpcSpawnLoader @Inject constructor(
     }
 
     override fun JsonNode.toConfigType(): NpcSpawnConfig {
-        val id = this[ID_KEY].asInt()
+        val name = this[NAME_KEY].asText()
         val x = this[COORDS_X_KEY].asInt()
         val y = this[COORDS_Y_KEY].asInt()
         val level = if (has(COORDS_LEVEL_KEY)) this[COORDS_LEVEL_KEY].asInt() else 0
         val faceStr = if (has(FACE_DIR_KEY)) this[FACE_DIR_KEY].asText() else DEFAULT_FACE
         val wander = if (has(WANDER_RANGE_KEY)) this[WANDER_RANGE_KEY].asInt() else DEFAULT_WANDER
+        val type = names[name] ?: error("Invalid name for npc: $name")
         val face = FACE_DIRECTIONS[faceStr] ?: error("Invalid face direction key: $faceStr")
         return NpcSpawnConfig(
-            id = id,
+            id = type.id,
             x = x,
             y = y,
             level = level,

@@ -8,16 +8,14 @@ import dev.misfitlabs.kotlinguice4.getInstance
 import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.nio.NioServerSocketChannel
-import java.net.InetSocketAddress
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.joinAll
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import org.rsmod.game.Game
 import org.rsmod.game.GameModule
 import org.rsmod.game.cache.CacheModule
-import org.rsmod.game.cache.type.ConfigTypeLoaderList
 import org.rsmod.game.cache.GameCache
+import org.rsmod.game.cache.type.ConfigTypeLoaderList
 import org.rsmod.game.config.ConfigModule
 import org.rsmod.game.config.GameConfig
 import org.rsmod.game.coroutine.CoroutineModule
@@ -25,6 +23,7 @@ import org.rsmod.game.coroutine.IoCoroutineScope
 import org.rsmod.game.dispatch.DispatcherModule
 import org.rsmod.game.event.EventBus
 import org.rsmod.game.event.impl.ServerStartup
+import org.rsmod.game.name.NamedTypeLoaderList
 import org.rsmod.game.net.NetworkModule
 import org.rsmod.game.net.channel.ClientChannelInitializer
 import org.rsmod.game.net.handshake.HandshakeDecoder
@@ -34,13 +33,10 @@ import org.rsmod.game.task.StartupTaskList
 import org.rsmod.game.task.launchBlocking
 import org.rsmod.game.task.launchNonBlocking
 import org.rsmod.util.mapper.ObjectMapperModule
+import java.net.InetSocketAddress
+import java.nio.file.Path
 
 private val logger = InlineLogger()
-
-fun main() {
-    val server = Server()
-    server.startup()
-}
 
 class Server {
 
@@ -74,6 +70,10 @@ class Server {
 
         val typeLoaders: ConfigTypeLoaderList = injector.getInstance()
         loadConfigTypes(ioCoroutineScope, typeLoaders)
+
+        val typeNames: NamedTypeLoaderList = injector.getInstance()
+        val typeNamePath = cache.directory.parent.resolve("name")
+        loadTypeNames(typeNamePath, ioCoroutineScope, typeNames)
 
         val pluginLoader: KotlinPluginLoader = injector.getInstance()
         val plugins = pluginLoader.load()
@@ -111,16 +111,38 @@ class Server {
             error("Could not bind game port.")
         }
     }
+
+    companion object {
+
+        @JvmStatic
+        fun main(args: Array<String>) {
+            val server = Server()
+            server.startup()
+        }
+    }
 }
 
 private fun loadConfigTypes(
     ioCoroutineScope: IoCoroutineScope,
     loaders: ConfigTypeLoaderList
 ) = runBlocking {
-    val jobs = mutableListOf<Job>()
+    val jobs = mutableListOf<Deferred<Unit>>()
     loaders.forEach { loader ->
-        val job = ioCoroutineScope.launch { loader.load() }
+        val job = ioCoroutineScope.async { loader.load() }
         jobs.add(job)
     }
-    joinAll(*jobs.toTypedArray())
+    jobs.forEach { it.await() }
+}
+
+private fun loadTypeNames(
+    directory: Path,
+    ioCoroutineScope: IoCoroutineScope,
+    loaders: NamedTypeLoaderList
+) = runBlocking {
+    val jobs = mutableListOf<Deferred<Unit>>()
+    loaders.forEach { loader ->
+        val job = ioCoroutineScope.async { loader.load(directory) }
+        jobs.add(job)
+    }
+    jobs.forEach { it.await() }
 }

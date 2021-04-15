@@ -6,6 +6,7 @@ import io.guthix.buffer.writeStringCP1252
 import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
 import org.rsmod.game.cache.GameCache
+import org.rsmod.game.config.GameConfig
 import org.rsmod.game.model.item.type.ItemType
 import org.rsmod.game.model.item.type.ItemTypeList
 import org.rsmod.plugins.api.cache.config.file.DefaultExtensions
@@ -13,11 +14,10 @@ import org.rsmod.plugins.api.cache.config.file.NamedConfigFileMap
 import org.rsmod.plugins.api.cache.config.item.ItemConfig
 import org.rsmod.plugins.api.cache.config.item.ItemConfigLoader
 import org.rsmod.plugins.api.cache.config.toConfigMapper
-import org.rsmod.plugins.api.cache.toResourceUrl
 import org.rsmod.plugins.api.cache.writeParameters
 import org.rsmod.plugins.api.util.toPlural
-import java.io.File
 import java.io.FileNotFoundException
+import java.nio.file.Files
 import javax.inject.Inject
 
 private val logger = InlineLogger()
@@ -27,6 +27,7 @@ private const val ITEM_GROUP = 10
 
 class ItemTypePacker @Inject constructor(
     private val mapper: ObjectMapper,
+    private val config: GameConfig,
     private val cache: GameCache,
     private val files: NamedConfigFileMap,
     private val types: ItemTypeList
@@ -70,11 +71,11 @@ class ItemTypePacker @Inject constructor(
             }
             Unpooled.buffer().apply { type.writeTo(this) }
         } else {
-            val resource = dataFile.toResourceUrl()
-                ?: throw FileNotFoundException("File not found in resources: $dataFile")
-            val file = File(resource.path)
-            val input = file.inputStream()
-            Unpooled.wrappedBuffer(input.readAllBytes())
+            val file = config.pluginConfigPath.resolve(dataFile)
+            if (!Files.exists(file)) throw FileNotFoundException("File not found in resources: $dataFile")
+            Files.newInputStream(file).use { input ->
+                Unpooled.wrappedBuffer(input.readAllBytes())
+            }
         }
     }
 
