@@ -2,7 +2,12 @@ package org.rsmod.game.model.ui
 
 import com.google.common.base.MoreObjects
 
-inline class UserInterface(val id: Int)
+inline class UserInterface(val id: Int) {
+
+    fun child(child: Int): Component {
+        return Component(id, child)
+    }
+}
 
 inline class Component(val packed: Int) {
 
