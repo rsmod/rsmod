@@ -258,6 +258,7 @@ class AccountDispatcher @Inject constructor(
                 xteas = xteas
             )
             write(rebuildNormal)
+            flush()
         }
         viewport = Viewport.of(coords, newViewport)
         login()
