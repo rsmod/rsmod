@@ -19,6 +19,7 @@ import org.rsmod.plugins.api.protocol.packet.server.IfCloseSub
 import org.rsmod.plugins.api.protocol.packet.server.IfOpenSub
 import org.rsmod.plugins.api.protocol.packet.server.IfOpenTop
 import org.rsmod.plugins.api.protocol.packet.server.IfSetEvents
+import org.rsmod.plugins.api.protocol.packet.server.IfSetNpcHead
 import org.rsmod.plugins.api.protocol.packet.server.IfSetText
 import org.rsmod.plugins.api.protocol.packet.server.MessageGame
 import org.rsmod.plugins.api.protocol.packet.server.MinimapFlagSet
@@ -104,6 +105,14 @@ packets.register<IfSetText> {
     write {
         it.writeIntME(component)
         it.writeStringCP1252(text)
+    }
+}
+
+packets.register<IfSetNpcHead> {
+    opcode = 71
+    write {
+        it.writeShortAdd(npc)
+        it.writeIntME(component)
     }
 }
 

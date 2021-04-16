@@ -7,6 +7,7 @@ import org.rsmod.game.event.impl.OpenModal
 import org.rsmod.game.event.impl.OpenOverlay
 import org.rsmod.game.event.impl.OpenTopLevel
 import org.rsmod.game.model.mob.Player
+import org.rsmod.game.model.npc.type.NpcType
 import org.rsmod.game.model.ui.Component
 import org.rsmod.game.model.ui.ComponentProperty
 import org.rsmod.game.model.ui.DynamicComponentEvent
@@ -16,6 +17,7 @@ import org.rsmod.plugins.api.protocol.packet.server.IfCloseSub
 import org.rsmod.plugins.api.protocol.packet.server.IfOpenSub
 import org.rsmod.plugins.api.protocol.packet.server.IfOpenTop
 import org.rsmod.plugins.api.protocol.packet.server.IfSetEvents
+import org.rsmod.plugins.api.protocol.packet.server.IfSetNpcHead
 import org.rsmod.plugins.api.protocol.packet.server.IfSetText
 
 fun Player.openTopLevel(userInterface: UserInterface) {
@@ -123,6 +125,10 @@ fun Player.closeOverlay(target: Component) {
 
 fun Player.setComponentText(component: Component, text: String) {
     write(IfSetText(component.packed, text))
+}
+
+fun Player.setComponentNpc(component: Component, npc: NpcType) {
+    write(IfSetNpcHead(component.packed, npc.id))
 }
 
 fun Player.setComponentEvents(
