@@ -6,6 +6,7 @@ import org.rsmod.game.event.impl.CloseTopLevel
 import org.rsmod.game.event.impl.OpenModal
 import org.rsmod.game.event.impl.OpenOverlay
 import org.rsmod.game.event.impl.OpenTopLevel
+import org.rsmod.game.model.item.type.ItemType
 import org.rsmod.game.model.mob.Player
 import org.rsmod.game.model.npc.type.NpcType
 import org.rsmod.game.model.ui.Component
@@ -19,6 +20,7 @@ import org.rsmod.plugins.api.protocol.packet.server.IfOpenTop
 import org.rsmod.plugins.api.protocol.packet.server.IfSetAnim
 import org.rsmod.plugins.api.protocol.packet.server.IfSetEvents
 import org.rsmod.plugins.api.protocol.packet.server.IfSetNpcHead
+import org.rsmod.plugins.api.protocol.packet.server.IfSetObject
 import org.rsmod.plugins.api.protocol.packet.server.IfSetPlayerHead
 import org.rsmod.plugins.api.protocol.packet.server.IfSetText
 
@@ -135,6 +137,11 @@ fun Player.setComponentNpc(component: Component, npc: NpcType) {
 
 fun Player.setComponentPlayer(component: Component) {
     write(IfSetPlayerHead(component.packed))
+}
+
+fun Player.setComponentItem(component: Component, item: ItemType, amountOrZoom: Int = 1) {
+    /* pay no attention to packet name */
+    write(IfSetObject(component.packed, item.id, amountOrZoom))
 }
 
 fun Player.setComponentAnim(component: Component, anim: Int) {

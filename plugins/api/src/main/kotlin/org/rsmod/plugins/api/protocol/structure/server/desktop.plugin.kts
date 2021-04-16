@@ -21,6 +21,7 @@ import org.rsmod.plugins.api.protocol.packet.server.IfOpenTop
 import org.rsmod.plugins.api.protocol.packet.server.IfSetAnim
 import org.rsmod.plugins.api.protocol.packet.server.IfSetEvents
 import org.rsmod.plugins.api.protocol.packet.server.IfSetNpcHead
+import org.rsmod.plugins.api.protocol.packet.server.IfSetObject
 import org.rsmod.plugins.api.protocol.packet.server.IfSetPlayerHead
 import org.rsmod.plugins.api.protocol.packet.server.IfSetText
 import org.rsmod.plugins.api.protocol.packet.server.MessageGame
@@ -122,6 +123,15 @@ packets.register<IfSetPlayerHead> {
     opcode = 33
     write {
         it.writeIntME(component)
+    }
+}
+
+packets.register<IfSetObject> {
+    opcode = 29
+    write {
+        it.writeShortAddLE(item)
+        it.writeIntLE(amountOrZoom)
+        it.writeInt(component)
     }
 }
 
