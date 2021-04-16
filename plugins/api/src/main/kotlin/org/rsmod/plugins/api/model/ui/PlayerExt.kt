@@ -16,6 +16,7 @@ import org.rsmod.plugins.api.protocol.packet.server.IfCloseSub
 import org.rsmod.plugins.api.protocol.packet.server.IfOpenSub
 import org.rsmod.plugins.api.protocol.packet.server.IfOpenTop
 import org.rsmod.plugins.api.protocol.packet.server.IfSetEvents
+import org.rsmod.plugins.api.protocol.packet.server.IfSetText
 
 fun Player.openTopLevel(userInterface: UserInterface) {
     if (ui.topLevel.contains(userInterface)) {
@@ -96,6 +97,10 @@ fun Player.closeOverlay(overlay: UserInterface) {
     ui.overlays.remove(parent)
     submitEvent(event)
     write(IfCloseSub(parent.packed))
+}
+
+fun Player.setComponentText(component: Component, text: String) {
+    write(IfSetText(component.packed, text))
 }
 
 fun Player.setComponentEvents(
