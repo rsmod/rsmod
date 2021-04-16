@@ -50,7 +50,13 @@ class ConfigTypePacker @Inject constructor(
             loaders.forEach { it.load() }
 
             val packer: ConfigTypePacker = injector.getInstance()
-            packer.packAll()
+            if (args.isEmpty()) {
+                packer.packAll()
+                return
+            }
+            if (args.contains("-item")) packer.packItems()
+            if (args.contains("-obj")) packer.packObjs()
+            if (args.contains("-npc")) packer.packNpcs()
         }
     }
 }
