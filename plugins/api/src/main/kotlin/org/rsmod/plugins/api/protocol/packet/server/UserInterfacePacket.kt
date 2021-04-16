@@ -8,5 +8,6 @@ data class IfCloseSub(val component: Int) : ServerPacket
 data class IfSetText(val component: Int, val text: String) : ServerPacket
 data class IfSetEvents(val component: Int, val dynamic: IntRange, val events: Int) : ServerPacket
 data class IfSetNpcHead(val component: Int, val npc: Int) : ServerPacket
+data class IfSetAnim(val component: Int, val anim: Int) : ServerPacket
 
 class RunClientScript(val id: Int, vararg val args: Any) : ServerPacket

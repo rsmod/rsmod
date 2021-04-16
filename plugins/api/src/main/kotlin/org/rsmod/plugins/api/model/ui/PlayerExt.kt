@@ -16,6 +16,7 @@ import org.rsmod.game.model.ui.UserInterface
 import org.rsmod.plugins.api.protocol.packet.server.IfCloseSub
 import org.rsmod.plugins.api.protocol.packet.server.IfOpenSub
 import org.rsmod.plugins.api.protocol.packet.server.IfOpenTop
+import org.rsmod.plugins.api.protocol.packet.server.IfSetAnim
 import org.rsmod.plugins.api.protocol.packet.server.IfSetEvents
 import org.rsmod.plugins.api.protocol.packet.server.IfSetNpcHead
 import org.rsmod.plugins.api.protocol.packet.server.IfSetText
@@ -129,6 +130,10 @@ fun Player.setComponentText(component: Component, text: String) {
 
 fun Player.setComponentNpc(component: Component, npc: NpcType) {
     write(IfSetNpcHead(component.packed, npc.id))
+}
+
+fun Player.setComponentAnim(component: Component, anim: Int) {
+    write(IfSetAnim(component.packed, anim))
 }
 
 fun Player.setComponentEvents(

@@ -18,6 +18,7 @@ import org.rsmod.plugins.api.protocol.Device
 import org.rsmod.plugins.api.protocol.packet.server.IfCloseSub
 import org.rsmod.plugins.api.protocol.packet.server.IfOpenSub
 import org.rsmod.plugins.api.protocol.packet.server.IfOpenTop
+import org.rsmod.plugins.api.protocol.packet.server.IfSetAnim
 import org.rsmod.plugins.api.protocol.packet.server.IfSetEvents
 import org.rsmod.plugins.api.protocol.packet.server.IfSetNpcHead
 import org.rsmod.plugins.api.protocol.packet.server.IfSetText
@@ -113,6 +114,14 @@ packets.register<IfSetNpcHead> {
     write {
         it.writeShortAdd(npc)
         it.writeIntME(component)
+    }
+}
+
+packets.register<IfSetAnim> {
+    opcode = 14
+    write {
+        it.writeIntLE(component)
+        it.writeShortAdd(anim)
     }
 }
 
