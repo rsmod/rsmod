@@ -19,10 +19,10 @@ val playerPostUpdateTask: PlayerPostUpdateTask by inject()
 val tasks: UpdateTaskList by inject()
 
 tasks.register {
-    -npcPreUpdateTask
     -prePlayerUpdateTask
-    -npcUpdateTask
+    -npcPreUpdateTask
     -playerUpdateTask
-    -npcPostUpdateTask
+    -npcUpdateTask
     -playerPostUpdateTask
+    -npcPostUpdateTask
 }
