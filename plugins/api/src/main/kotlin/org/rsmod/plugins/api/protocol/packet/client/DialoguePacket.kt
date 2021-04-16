@@ -5,10 +5,13 @@ import org.rsmod.game.message.ClientPacketHandler
 import org.rsmod.game.model.client.Client
 import org.rsmod.game.model.item.type.ItemTypeList
 import org.rsmod.game.model.mob.Player
+import org.rsmod.game.model.ui.Component
+import org.rsmod.plugins.api.event.ContinueDialogue
 import org.rsmod.plugins.api.event.ItemSearchInput
 import javax.inject.Inject
 
 data class ResumePObjDialog(val item: Int) : ClientPacket
+data class ResumePauseButton(val component: Int, val slot: Int) : ClientPacket
 
 class ResumePObjDialogHandler @Inject constructor(
     private val types: ItemTypeList
@@ -17,6 +20,15 @@ class ResumePObjDialogHandler @Inject constructor(
     override fun handle(client: Client, player: Player, packet: ResumePObjDialog) {
         val type = types.getOrNull(packet.item) ?: return
         val event = ItemSearchInput(type)
+        player.submitEvent(event)
+    }
+}
+
+class ResumePauseButtonHandler : ClientPacketHandler<ResumePauseButton> {
+
+    override fun handle(client: Client, player: Player, packet: ResumePauseButton) {
+        val component = Component(packet.component)
+        val event = ContinueDialogue(component, packet.slot)
         player.submitEvent(event)
     }
 }

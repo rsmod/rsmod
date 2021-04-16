@@ -66,6 +66,8 @@ import org.rsmod.plugins.api.protocol.packet.client.OpNpc6Handler
 import org.rsmod.plugins.api.protocol.packet.client.ReflectionCheckReply
 import org.rsmod.plugins.api.protocol.packet.client.ResumePObjDialog
 import org.rsmod.plugins.api.protocol.packet.client.ResumePObjDialogHandler
+import org.rsmod.plugins.api.protocol.packet.client.ResumePauseButton
+import org.rsmod.plugins.api.protocol.packet.client.ResumePauseButtonHandler
 import org.rsmod.plugins.api.protocol.packet.client.WindowStatus
 import org.rsmod.plugins.api.protocol.structure.DevicePacketStructureMap
 
@@ -358,6 +360,17 @@ packets.register<ResumePObjDialog> {
     read {
         val item = readUnsignedShort()
         ResumePObjDialog(item)
+    }
+}
+
+packets.register<ResumePauseButton> {
+    opcode = 28
+    length = 6
+    handler = ResumePauseButtonHandler::class
+    read {
+        val component = readIntLE()
+        val slot = readUnsignedShortAddLE()
+        ResumePauseButton(component, slot)
     }
 }
 
