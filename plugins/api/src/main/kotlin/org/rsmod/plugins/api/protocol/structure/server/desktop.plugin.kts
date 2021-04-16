@@ -8,19 +8,18 @@ import io.guthix.buffer.writeShortAdd
 import io.guthix.buffer.writeShortAddLE
 import io.guthix.buffer.writeSmallSmart
 import io.guthix.buffer.writeStringCP1252
-import org.rsmod.util.security.Xtea
+import io.netty.buffer.ByteBuf
+import io.netty.buffer.Unpooled
 import org.rsmod.game.message.PacketLength
 import org.rsmod.game.model.domain.repo.XteaRepository
 import org.rsmod.game.model.item.Item
 import org.rsmod.game.model.map.MapSquare
 import org.rsmod.plugins.api.protocol.Device
-import org.rsmod.plugins.api.protocol.structure.DevicePacketStructureMap
-import io.netty.buffer.ByteBuf
-import io.netty.buffer.Unpooled
 import org.rsmod.plugins.api.protocol.packet.server.IfCloseSub
 import org.rsmod.plugins.api.protocol.packet.server.IfOpenSub
 import org.rsmod.plugins.api.protocol.packet.server.IfOpenTop
 import org.rsmod.plugins.api.protocol.packet.server.IfSetEvents
+import org.rsmod.plugins.api.protocol.packet.server.IfSetText
 import org.rsmod.plugins.api.protocol.packet.server.MessageGame
 import org.rsmod.plugins.api.protocol.packet.server.MinimapFlagSet
 import org.rsmod.plugins.api.protocol.packet.server.NpcInfoLargeViewport
@@ -36,6 +35,8 @@ import org.rsmod.plugins.api.protocol.packet.server.UpdateRunEnergy
 import org.rsmod.plugins.api.protocol.packet.server.UpdateStat
 import org.rsmod.plugins.api.protocol.packet.server.VarpLarge
 import org.rsmod.plugins.api.protocol.packet.server.VarpSmall
+import org.rsmod.plugins.api.protocol.structure.DevicePacketStructureMap
+import org.rsmod.util.security.Xtea
 import kotlin.math.min
 
 val structures: DevicePacketStructureMap by inject()
@@ -94,6 +95,15 @@ packets.register<IfCloseSub> {
     opcode = 76
     write {
         it.writeInt(component)
+    }
+}
+
+packets.register<IfSetText> {
+    opcode = 13
+    length = PacketLength.Short
+    write {
+        it.writeIntME(component)
+        it.writeStringCP1252(text)
     }
 }
 

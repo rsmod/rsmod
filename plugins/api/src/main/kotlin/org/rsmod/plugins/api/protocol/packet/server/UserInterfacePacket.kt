@@ -12,6 +12,8 @@ data class IfOpenSub(
 
 data class IfCloseSub(val component: Int) : ServerPacket
 
+data class IfSetText(val component: Int, val text: String) : ServerPacket
+
 data class IfSetEvents(
     val component: Int,
     val dynamic: IntRange,
