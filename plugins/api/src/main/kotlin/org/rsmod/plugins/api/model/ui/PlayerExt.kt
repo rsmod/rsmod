@@ -128,7 +128,7 @@ fun Player.setComponentText(component: Component, text: String) {
 fun Player.setComponentEvents(
     component: Component,
     range: IntRange,
-    events: Set<InterfaceEvent>
+    vararg events: InterfaceEvent
 ) {
     val packed = events.sumBy { it.flag }
     val event = DynamicComponentEvent(range, packed)
