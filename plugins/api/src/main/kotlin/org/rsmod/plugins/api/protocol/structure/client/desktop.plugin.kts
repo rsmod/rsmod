@@ -1,32 +1,44 @@
 package org.rsmod.plugins.api.protocol.structure.client
 
 import io.guthix.buffer.readByteNeg
+import io.guthix.buffer.readStringCP1252
+import io.guthix.buffer.readUnsignedByteNeg
+import io.guthix.buffer.readUnsignedByteSub
+import io.guthix.buffer.readUnsignedShortAdd
+import io.guthix.buffer.readUnsignedShortAddLE
 import org.rsmod.plugins.api.protocol.Device
 import org.rsmod.plugins.api.protocol.packet.client.ClientCheat
 import org.rsmod.plugins.api.protocol.packet.client.ClientCheatHandler
 import org.rsmod.plugins.api.protocol.packet.client.EventAppletFocus
+import org.rsmod.plugins.api.protocol.packet.client.EventCameraPosition
 import org.rsmod.plugins.api.protocol.packet.client.EventKeyboard
 import org.rsmod.plugins.api.protocol.packet.client.EventMouseClick
 import org.rsmod.plugins.api.protocol.packet.client.EventMouseIdle
 import org.rsmod.plugins.api.protocol.packet.client.EventMouseMove
 import org.rsmod.plugins.api.protocol.packet.client.GameClickHandler
-import org.rsmod.plugins.api.protocol.packet.client.MapBuildComplete
-import org.rsmod.plugins.api.protocol.packet.client.MoveGameClick
-import org.rsmod.plugins.api.protocol.packet.client.NoTimeout
-import org.rsmod.plugins.api.protocol.packet.client.OpLoc1
-import org.rsmod.plugins.api.protocol.packet.client.OpLoc1Handler
-import org.rsmod.plugins.api.protocol.packet.client.ReflectionCheckReply
-import org.rsmod.plugins.api.protocol.packet.client.WindowStatus
-import org.rsmod.plugins.api.protocol.structure.DevicePacketStructureMap
-import io.guthix.buffer.readStringCP1252
-import io.guthix.buffer.readUnsignedShortAdd
-import io.guthix.buffer.readUnsignedShortAddLE
-import org.rsmod.plugins.api.protocol.packet.client.EventCameraPosition
 import org.rsmod.plugins.api.protocol.packet.client.IfButton
 import org.rsmod.plugins.api.protocol.packet.client.IfButtonHandler
 import org.rsmod.plugins.api.protocol.packet.client.LoginTimings
+import org.rsmod.plugins.api.protocol.packet.client.MapBuildComplete
 import org.rsmod.plugins.api.protocol.packet.client.MinimapClickHandler
+import org.rsmod.plugins.api.protocol.packet.client.MoveGameClick
 import org.rsmod.plugins.api.protocol.packet.client.MoveMinimapClick
+import org.rsmod.plugins.api.protocol.packet.client.NoTimeout
+import org.rsmod.plugins.api.protocol.packet.client.OpLoc1
+import org.rsmod.plugins.api.protocol.packet.client.OpLoc1Handler
+import org.rsmod.plugins.api.protocol.packet.client.OpLoc2
+import org.rsmod.plugins.api.protocol.packet.client.OpLoc2Handler
+import org.rsmod.plugins.api.protocol.packet.client.OpLoc3
+import org.rsmod.plugins.api.protocol.packet.client.OpLoc3Handler
+import org.rsmod.plugins.api.protocol.packet.client.OpLoc4
+import org.rsmod.plugins.api.protocol.packet.client.OpLoc4Handler
+import org.rsmod.plugins.api.protocol.packet.client.OpLoc5
+import org.rsmod.plugins.api.protocol.packet.client.OpLoc5Handler
+import org.rsmod.plugins.api.protocol.packet.client.OpLoc6
+import org.rsmod.plugins.api.protocol.packet.client.OpLoc6Handler
+import org.rsmod.plugins.api.protocol.packet.client.ReflectionCheckReply
+import org.rsmod.plugins.api.protocol.packet.client.WindowStatus
+import org.rsmod.plugins.api.protocol.structure.DevicePacketStructureMap
 
 val structures: DevicePacketStructureMap by inject()
 val packets = structures.client(Device.Desktop)
@@ -110,6 +122,68 @@ packets.register<OpLoc1> {
         val mode = readUnsignedByte().toInt()
         val id = readUnsignedShort()
         OpLoc1(id, x, y, mode)
+    }
+}
+
+packets.register<OpLoc2> {
+    opcode = 78
+    length = 7
+    handler = OpLoc2Handler::class
+    read {
+        val y = readUnsignedShortAdd()
+        val mode = readUnsignedByteNeg().toInt()
+        val id = readUnsignedShortLE()
+        val x = readUnsignedShort()
+        OpLoc2(id, x, y, mode)
+    }
+}
+
+packets.register<OpLoc3> {
+    opcode = 89
+    length = 7
+    handler = OpLoc3Handler::class
+    read {
+        val mode = readUnsignedByte().toInt()
+        val id = readUnsignedShortLE()
+        val x = readUnsignedShortLE()
+        val y = readUnsignedShortAddLE()
+        OpLoc3(id, x, y, mode)
+    }
+}
+
+packets.register<OpLoc4> {
+    opcode = 17
+    length = 7
+    handler = OpLoc4Handler::class
+    read {
+        val y = readUnsignedShortAddLE()
+        val mode = readUnsignedByteSub().toInt()
+        val x = readUnsignedShortAddLE()
+        val id = readUnsignedShortAddLE()
+        OpLoc4(id, x, y, mode)
+    }
+}
+
+packets.register<OpLoc5> {
+    opcode = 80
+    length = 7
+    handler = OpLoc5Handler::class
+    read {
+        val x = readUnsignedShortLE()
+        val id = readUnsignedShortAddLE()
+        val mode = readUnsignedByteNeg().toInt()
+        val y = readUnsignedShortAdd()
+        OpLoc5(id, x, y, mode)
+    }
+}
+
+packets.register<OpLoc6> {
+    opcode = 62
+    length = 2
+    handler = OpLoc6Handler::class
+    read {
+        val id = readUnsignedShortAddLE()
+        OpLoc6(id)
     }
 }
 

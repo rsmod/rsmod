@@ -1,6 +1,5 @@
 package org.rsmod.plugins.api.protocol.packet.client
 
-import javax.inject.Inject
 import org.rsmod.game.action.ActionBus
 import org.rsmod.game.message.ClientPacket
 import org.rsmod.game.message.ClientPacketHandler
@@ -13,16 +12,18 @@ import org.rsmod.game.model.obj.GameObjectMap
 import org.rsmod.game.model.obj.type.ObjectType
 import org.rsmod.game.model.obj.type.ObjectTypeList
 import org.rsmod.game.model.vars.type.VarbitTypeList
+import org.rsmod.plugins.api.model.mob.player.sendMessage
 import org.rsmod.plugins.api.protocol.packet.ObjectAction
 import org.rsmod.plugins.api.protocol.packet.ObjectClick
 import org.rsmod.plugins.api.util.extractBitValue
+import javax.inject.Inject
 
-data class OpLoc1(
-    val id: Int,
-    val x: Int,
-    val y: Int,
-    val mode: Int
-) : ClientPacket
+data class OpLoc1(val id: Int, val x: Int, val y: Int, val mode: Int) : ClientPacket
+data class OpLoc2(val id: Int, val x: Int, val y: Int, val mode: Int) : ClientPacket
+data class OpLoc3(val id: Int, val x: Int, val y: Int, val mode: Int) : ClientPacket
+data class OpLoc4(val id: Int, val x: Int, val y: Int, val mode: Int) : ClientPacket
+data class OpLoc5(val id: Int, val x: Int, val y: Int, val mode: Int) : ClientPacket
+data class OpLoc6(val id: Int) : ClientPacket
 
 class OpLoc1Handler @Inject constructor(
     private val actionBus: ActionBus,
@@ -43,6 +44,90 @@ class OpLoc1Handler @Inject constructor(
     }
 }
 
+class OpLoc2Handler @Inject constructor(
+    private val actionBus: ActionBus,
+    private val objMap: GameObjectMap,
+    private val objApSet: GameObjectApSet,
+    private val objTypes: ObjectTypeList,
+    private val varbitTypes: VarbitTypeList
+) : ClientPacketHandler<OpLoc2> {
+
+    override fun handle(client: Client, player: Player, packet: OpLoc2) {
+        val coords = Coordinates(packet.x, packet.y, player.coords.level)
+        val obj = objMap.find(player, coords, packet.id) ?: return
+        val type = obj.type.varType(player, objTypes, varbitTypes)
+        val approach = objApSet.contains(type.id)
+        val option = ObjectAction.Option2(player, type, obj.shape, obj.rotation, coords)
+        val action = ObjectClick(player, option, approach)
+        actionBus.publish(action)
+    }
+}
+
+class OpLoc3Handler @Inject constructor(
+    private val actionBus: ActionBus,
+    private val objMap: GameObjectMap,
+    private val objApSet: GameObjectApSet,
+    private val objTypes: ObjectTypeList,
+    private val varbitTypes: VarbitTypeList
+) : ClientPacketHandler<OpLoc3> {
+
+    override fun handle(client: Client, player: Player, packet: OpLoc3) {
+        val coords = Coordinates(packet.x, packet.y, player.coords.level)
+        val obj = objMap.find(player, coords, packet.id) ?: return
+        val type = obj.type.varType(player, objTypes, varbitTypes)
+        val approach = objApSet.contains(type.id)
+        val option = ObjectAction.Option3(player, type, obj.shape, obj.rotation, coords)
+        val action = ObjectClick(player, option, approach)
+        actionBus.publish(action)
+    }
+}
+
+class OpLoc4Handler @Inject constructor(
+    private val actionBus: ActionBus,
+    private val objMap: GameObjectMap,
+    private val objApSet: GameObjectApSet,
+    private val objTypes: ObjectTypeList,
+    private val varbitTypes: VarbitTypeList
+) : ClientPacketHandler<OpLoc4> {
+
+    override fun handle(client: Client, player: Player, packet: OpLoc4) {
+        val coords = Coordinates(packet.x, packet.y, player.coords.level)
+        val obj = objMap.find(player, coords, packet.id) ?: return
+        val type = obj.type.varType(player, objTypes, varbitTypes)
+        val approach = objApSet.contains(type.id)
+        val option = ObjectAction.Option4(player, type, obj.shape, obj.rotation, coords)
+        val action = ObjectClick(player, option, approach)
+        actionBus.publish(action)
+    }
+}
+
+class OpLoc5Handler @Inject constructor(
+    private val actionBus: ActionBus,
+    private val objMap: GameObjectMap,
+    private val objApSet: GameObjectApSet,
+    private val objTypes: ObjectTypeList,
+    private val varbitTypes: VarbitTypeList
+) : ClientPacketHandler<OpLoc5> {
+
+    override fun handle(client: Client, player: Player, packet: OpLoc5) {
+        val coords = Coordinates(packet.x, packet.y, player.coords.level)
+        val obj = objMap.find(player, coords, packet.id) ?: return
+        val type = obj.type.varType(player, objTypes, varbitTypes)
+        val approach = objApSet.contains(type.id)
+        val option = ObjectAction.Option5(player, type, obj.shape, obj.rotation, coords)
+        val action = ObjectClick(player, option, approach)
+        actionBus.publish(action)
+    }
+}
+
+class OpLoc6Handler @Inject constructor() : ClientPacketHandler<OpLoc6> {
+
+    override fun handle(client: Client, player: Player, packet: OpLoc6) {
+        // TODO: examine object
+        player.sendMessage("Nothing interesting happens.")
+    }
+}
+
 private fun GameObjectMap.find(player: Player, coords: Coordinates, id: Int): GameObject? {
     val objects = this[coords].filter { it.id == id }
     val obj = objects.firstOrNull()
@@ -53,11 +138,7 @@ private fun GameObjectMap.find(player: Player, coords: Coordinates, id: Int): Ga
     return obj
 }
 
-private fun ObjectType.varType(
-    player: Player,
-    objs: ObjectTypeList,
-    varbits: VarbitTypeList
-): ObjectType {
+private fun ObjectType.varType(player: Player, objs: ObjectTypeList, varbits: VarbitTypeList): ObjectType {
     if (transforms.isEmpty()) return this
     val transformIndex = when {
         varp > 0 -> player.varpMap[varp] ?: 0
