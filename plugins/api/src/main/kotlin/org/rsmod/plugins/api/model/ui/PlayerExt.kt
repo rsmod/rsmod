@@ -19,6 +19,7 @@ import org.rsmod.plugins.api.protocol.packet.server.IfOpenTop
 import org.rsmod.plugins.api.protocol.packet.server.IfSetAnim
 import org.rsmod.plugins.api.protocol.packet.server.IfSetEvents
 import org.rsmod.plugins.api.protocol.packet.server.IfSetNpcHead
+import org.rsmod.plugins.api.protocol.packet.server.IfSetPlayerHead
 import org.rsmod.plugins.api.protocol.packet.server.IfSetText
 
 fun Player.openTopLevel(userInterface: UserInterface) {
@@ -130,6 +131,10 @@ fun Player.setComponentText(component: Component, text: String) {
 
 fun Player.setComponentNpc(component: Component, npc: NpcType) {
     write(IfSetNpcHead(component.packed, npc.id))
+}
+
+fun Player.setComponentPlayer(component: Component) {
+    write(IfSetPlayerHead(component.packed))
 }
 
 fun Player.setComponentAnim(component: Component, anim: Int) {
