@@ -2,6 +2,7 @@ package org.rsmod.plugins.api.protocol.structure.client
 
 import io.guthix.buffer.readByteNeg
 import io.guthix.buffer.readStringCP1252
+import io.guthix.buffer.readUnsignedByteAdd
 import io.guthix.buffer.readUnsignedByteNeg
 import io.guthix.buffer.readUnsignedByteSub
 import io.guthix.buffer.readUnsignedShortAdd
@@ -36,6 +37,18 @@ import org.rsmod.plugins.api.protocol.packet.client.OpLoc5
 import org.rsmod.plugins.api.protocol.packet.client.OpLoc5Handler
 import org.rsmod.plugins.api.protocol.packet.client.OpLoc6
 import org.rsmod.plugins.api.protocol.packet.client.OpLoc6Handler
+import org.rsmod.plugins.api.protocol.packet.client.OpNpc1
+import org.rsmod.plugins.api.protocol.packet.client.OpNpc1Handler
+import org.rsmod.plugins.api.protocol.packet.client.OpNpc2
+import org.rsmod.plugins.api.protocol.packet.client.OpNpc2Handler
+import org.rsmod.plugins.api.protocol.packet.client.OpNpc3
+import org.rsmod.plugins.api.protocol.packet.client.OpNpc3Handler
+import org.rsmod.plugins.api.protocol.packet.client.OpNpc4
+import org.rsmod.plugins.api.protocol.packet.client.OpNpc4Handler
+import org.rsmod.plugins.api.protocol.packet.client.OpNpc5
+import org.rsmod.plugins.api.protocol.packet.client.OpNpc5Handler
+import org.rsmod.plugins.api.protocol.packet.client.OpNpc6
+import org.rsmod.plugins.api.protocol.packet.client.OpNpc6Handler
 import org.rsmod.plugins.api.protocol.packet.client.ReflectionCheckReply
 import org.rsmod.plugins.api.protocol.packet.client.WindowStatus
 import org.rsmod.plugins.api.protocol.structure.DevicePacketStructureMap
@@ -184,6 +197,71 @@ packets.register<OpLoc6> {
     read {
         val id = readUnsignedShortAddLE()
         OpLoc6(id)
+    }
+}
+
+packets.register<OpNpc1> {
+    opcode = 7
+    length = 3
+    handler = OpNpc1Handler::class
+    read {
+        val mode = readUnsignedByteAdd().toInt()
+        val index = readUnsignedShortAdd()
+        OpNpc1(index, mode)
+    }
+}
+
+packets.register<OpNpc2> {
+    opcode = 40
+    length = 3
+    handler = OpNpc2Handler::class
+    read {
+        val mode = readUnsignedByteNeg().toInt()
+        val index = readUnsignedShort()
+        OpNpc2(index, mode)
+    }
+}
+
+packets.register<OpNpc3> {
+    opcode = 31
+    length = 3
+    handler = OpNpc3Handler::class
+    read {
+        val index = readUnsignedShortAdd()
+        val mode = readUnsignedByteAdd().toInt()
+        OpNpc3(index, mode)
+    }
+}
+
+packets.register<OpNpc4> {
+    opcode = 2
+    length = 3
+    handler = OpNpc4Handler::class
+    read {
+        val mode = readUnsignedByteNeg().toInt()
+        val index = readUnsignedShortAdd()
+        OpNpc4(index, mode)
+    }
+}
+
+packets.register<OpNpc5> {
+    opcode = 73
+    length = 3
+    handler = OpNpc5Handler::class
+    read {
+        val index = readUnsignedShortAddLE()
+        val mode = readUnsignedByteSub().toInt()
+        OpNpc5(index, mode)
+    }
+}
+
+packets.register<OpNpc6> {
+    opcode = 42
+    length = 2
+    handler = OpNpc6Handler::class
+    read {
+        val id = readUnsignedShort()
+        OpNpc6(id)
     }
 }
 

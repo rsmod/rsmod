@@ -1,19 +1,21 @@
 package org.rsmod.plugins.api
 
+import org.rsmod.game.cmd.CommandBuilder
 import org.rsmod.game.event.impl.CloseModal
 import org.rsmod.game.event.impl.CloseOverlay
 import org.rsmod.game.event.impl.CloseTopLevel
 import org.rsmod.game.event.impl.LoginEvent
+import org.rsmod.game.event.impl.LogoutEvent
 import org.rsmod.game.event.impl.OpenModal
 import org.rsmod.game.event.impl.OpenOverlay
 import org.rsmod.game.event.impl.OpenTopLevel
-import org.rsmod.game.cmd.CommandBuilder
-import org.rsmod.game.event.impl.LogoutEvent
+import org.rsmod.game.model.npc.type.NpcType
 import org.rsmod.game.model.obj.type.ObjectType
 import org.rsmod.game.model.ui.Component
 import org.rsmod.game.model.ui.UserInterface
 import org.rsmod.game.plugin.Plugin
 import org.rsmod.plugins.api.protocol.packet.ButtonClick
+import org.rsmod.plugins.api.protocol.packet.NpcAction
 import org.rsmod.plugins.api.protocol.packet.ObjectAction
 
 fun Plugin.onEarlyLogin(block: LoginEvent.() -> Unit) {
@@ -82,23 +84,38 @@ fun Plugin.onButton(component: Component, block: ButtonClick.() -> Unit) {
     onAction(component.packed, block)
 }
 
-fun Plugin.onObject(obj: ObjectType, opt: String, block: ObjectAction.() -> Unit) {
-    val option = obj.options.indexOfFirst { it != null && it.equals(opt, ignoreCase = false) }
+fun Plugin.onNpc(type: NpcType, opt: String, block: NpcAction.() -> Unit) {
+    when (val option = type.options.optionIndex(opt, type.name, type.id, "npc")) {
+        0 -> onAction<NpcAction.Option1>(type.id, block)
+        1 -> onAction<NpcAction.Option2>(type.id, block)
+        2 -> onAction<NpcAction.Option3>(type.id, block)
+        3 -> onAction<NpcAction.Option4>(type.id, block)
+        4 -> onAction<NpcAction.Option5>(type.id, block)
+        else -> error("Unhandled npc option. (npc=${type.name}, id=${type.id}, option=$option)")
+    }
+}
+
+fun Plugin.onObj(type: ObjectType, opt: String, block: ObjectAction.() -> Unit) {
+    when (val option = type.options.optionIndex(opt, type.name, type.id, "object")) {
+        0 -> onAction<ObjectAction.Option1>(type.id, block)
+        1 -> onAction<ObjectAction.Option2>(type.id, block)
+        2 -> onAction<ObjectAction.Option3>(type.id, block)
+        3 -> onAction<ObjectAction.Option4>(type.id, block)
+        4 -> onAction<ObjectAction.Option5>(type.id, block)
+        else -> error("Unhandled object option. (obj=${type.name}, id=${type.id}, option=$option)")
+    }
+}
+
+private fun Iterable<String?>.optionIndex(opt: String, name: String, id: Int, type: String): Int {
+    val option = indexOfFirst { it != null && it.equals(opt, ignoreCase = false) }
     if (option == -1) {
-        val ignoreCase = obj.options.firstOrNull { it != null && it.equals(opt, ignoreCase = true) }
+        val ignoreCase = firstOrNull { it != null && it.equals(opt, ignoreCase = true) }
         if (ignoreCase != null) {
-            val errorMessage = "Letter case option error for object \"${obj.name}\" (id=${obj.id})"
+            val errorMessage = "Letter case option error for $type \"$name\" (id=$id)"
             val foundMessage = "Found [\"$ignoreCase\"] but was given [\"$opt\"]"
             error("$errorMessage. $foundMessage.")
         }
-        error("Option for object \"${obj.name}\" not found. (id=${obj.id}, option=$opt)")
+        error("Option for $type \"$name\" not found. (id=$id, option=$opt)")
     }
-    when (option) {
-        0 -> onAction<ObjectAction.Option1>(obj.id, block)
-        1 -> onAction<ObjectAction.Option2>(obj.id, block)
-        2 -> onAction<ObjectAction.Option3>(obj.id, block)
-        3 -> onAction<ObjectAction.Option4>(obj.id, block)
-        4 -> onAction<ObjectAction.Option5>(obj.id, block)
-        else -> error("Unhandled object option. (obj=${obj.name}, id=${obj.id}, option=$option)")
-    }
+    return option
 }

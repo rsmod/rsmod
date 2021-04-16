@@ -13,10 +13,13 @@ import org.rsmod.game.model.obj.type.ObjectType
 import org.rsmod.game.model.obj.type.ObjectTypeList
 import org.rsmod.game.model.vars.type.VarbitTypeList
 import org.rsmod.plugins.api.model.mob.player.sendMessage
+import org.rsmod.plugins.api.protocol.packet.MoveType
 import org.rsmod.plugins.api.protocol.packet.ObjectAction
 import org.rsmod.plugins.api.protocol.packet.ObjectClick
 import org.rsmod.plugins.api.util.extractBitValue
 import javax.inject.Inject
+
+private const val FORCE_RUN_TYPE = 1
 
 data class OpLoc1(val id: Int, val x: Int, val y: Int, val mode: Int) : ClientPacket
 data class OpLoc2(val id: Int, val x: Int, val y: Int, val mode: Int) : ClientPacket
@@ -39,8 +42,8 @@ class OpLoc1Handler @Inject constructor(
         val type = obj.type.varType(player, objTypes, varbitTypes)
         val approach = objApSet.contains(type.id)
         val option = ObjectAction.Option1(player, type, obj.shape, obj.rotation, coords)
-        val action = ObjectClick(player, option, approach)
-        actionBus.publish(action)
+        val click = ObjectClick(player, packet.mode.moveType(), option, approach)
+        actionBus.publish(click)
     }
 }
 
@@ -58,8 +61,8 @@ class OpLoc2Handler @Inject constructor(
         val type = obj.type.varType(player, objTypes, varbitTypes)
         val approach = objApSet.contains(type.id)
         val option = ObjectAction.Option2(player, type, obj.shape, obj.rotation, coords)
-        val action = ObjectClick(player, option, approach)
-        actionBus.publish(action)
+        val click = ObjectClick(player, packet.mode.moveType(), option, approach)
+        actionBus.publish(click)
     }
 }
 
@@ -77,8 +80,8 @@ class OpLoc3Handler @Inject constructor(
         val type = obj.type.varType(player, objTypes, varbitTypes)
         val approach = objApSet.contains(type.id)
         val option = ObjectAction.Option3(player, type, obj.shape, obj.rotation, coords)
-        val action = ObjectClick(player, option, approach)
-        actionBus.publish(action)
+        val click = ObjectClick(player, packet.mode.moveType(), option, approach)
+        actionBus.publish(click)
     }
 }
 
@@ -96,8 +99,8 @@ class OpLoc4Handler @Inject constructor(
         val type = obj.type.varType(player, objTypes, varbitTypes)
         val approach = objApSet.contains(type.id)
         val option = ObjectAction.Option4(player, type, obj.shape, obj.rotation, coords)
-        val action = ObjectClick(player, option, approach)
-        actionBus.publish(action)
+        val click = ObjectClick(player, packet.mode.moveType(), option, approach)
+        actionBus.publish(click)
     }
 }
 
@@ -115,8 +118,8 @@ class OpLoc5Handler @Inject constructor(
         val type = obj.type.varType(player, objTypes, varbitTypes)
         val approach = objApSet.contains(type.id)
         val option = ObjectAction.Option5(player, type, obj.shape, obj.rotation, coords)
-        val action = ObjectClick(player, option, approach)
-        actionBus.publish(action)
+        val click = ObjectClick(player, packet.mode.moveType(), option, approach)
+        actionBus.publish(click)
     }
 }
 
@@ -153,4 +156,9 @@ private fun ObjectType.varType(player: Player, objs: ObjectTypeList, varbits: Va
         return objs[transform]
     }
     return objs[defaultTransform]
+}
+
+private fun Int.moveType(): MoveType = when (this) {
+    FORCE_RUN_TYPE -> MoveType.ForceRun
+    else -> MoveType.Neutral
 }
