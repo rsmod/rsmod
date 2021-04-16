@@ -9,12 +9,15 @@ import org.rsmod.game.event.impl.LogoutEvent
 import org.rsmod.game.event.impl.OpenModal
 import org.rsmod.game.event.impl.OpenOverlay
 import org.rsmod.game.event.impl.OpenTopLevel
+import org.rsmod.game.model.item.type.ItemType
 import org.rsmod.game.model.npc.type.NpcType
 import org.rsmod.game.model.obj.type.ObjectType
 import org.rsmod.game.model.ui.Component
 import org.rsmod.game.model.ui.UserInterface
 import org.rsmod.game.plugin.Plugin
+import org.rsmod.plugins.api.cache.type.item.equipmentOptions
 import org.rsmod.plugins.api.protocol.packet.ButtonClick
+import org.rsmod.plugins.api.protocol.packet.ItemAction
 import org.rsmod.plugins.api.protocol.packet.NpcAction
 import org.rsmod.plugins.api.protocol.packet.ObjectAction
 
@@ -82,6 +85,36 @@ fun Plugin.onCloseOverlay(overlay: UserInterface, block: CloseOverlay.() -> Unit
 
 fun Plugin.onButton(component: Component, block: ButtonClick.() -> Unit) {
     onAction(component.packed, block)
+}
+
+fun Plugin.onItem(type: ItemType, opt: String, block: ItemAction.() -> Unit) {
+    val invOption = type.inventoryOptions.optionIndex(opt, type.name, type.id, "item")
+    if (invOption != -1) {
+        when (invOption) {
+            0 -> onAction<ItemAction.Inventory1>(type.id, block)
+            1 -> onAction<ItemAction.Inventory2>(type.id, block)
+            2 -> onAction<ItemAction.Inventory3>(type.id, block)
+            3 -> onAction<ItemAction.Inventory4>(type.id, block)
+            4 -> onAction<ItemAction.Inventory5>(type.id, block)
+            else -> error("Unhandled item inventory option. (item=${type.name}, id=${type.id}, option=$invOption)")
+        }
+        return
+    }
+    val equipOption = type.equipmentOptions().optionIndex(opt, type.name, type.id, "item")
+    if (equipOption != -1) {
+        when (equipOption) {
+            0 -> onAction<ItemAction.Equipment1>(type.id, block)
+            1 -> onAction<ItemAction.Equipment2>(type.id, block)
+            2 -> onAction<ItemAction.Equipment3>(type.id, block)
+            3 -> onAction<ItemAction.Equipment4>(type.id, block)
+            4 -> onAction<ItemAction.Equipment5>(type.id, block)
+            5 -> onAction<ItemAction.Equipment6>(type.id, block)
+            6 -> onAction<ItemAction.Equipment7>(type.id, block)
+            7 -> onAction<ItemAction.Equipment8>(type.id, block)
+            else -> error("Unhandled item equipment option. (item=${type.name}, id=${type.id}, option=$equipOption)")
+        }
+        return
+    }
 }
 
 fun Plugin.onNpc(type: NpcType, opt: String, block: NpcAction.() -> Unit) {

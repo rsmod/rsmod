@@ -2,6 +2,7 @@ package org.rsmod.plugins.api.protocol.packet
 
 import com.google.common.base.MoreObjects
 import org.rsmod.game.action.Action
+import org.rsmod.game.model.item.type.ItemType
 import org.rsmod.game.model.map.Coordinates
 import org.rsmod.game.model.mob.Npc
 import org.rsmod.game.model.mob.Player
@@ -113,5 +114,32 @@ sealed class NpcAction(
         .add("player", player)
         .add("type", type)
         .add("npc", npc)
+        .toString()
+}
+
+sealed class ItemAction(
+    val player: Player,
+    val type: ItemType
+) : Action {
+
+    class Inventory1(player: Player, type: ItemType) : ItemAction(player, type)
+    class Inventory2(player: Player, type: ItemType) : ItemAction(player, type)
+    class Inventory3(player: Player, type: ItemType) : ItemAction(player, type)
+    class Inventory4(player: Player, type: ItemType) : ItemAction(player, type)
+    class Inventory5(player: Player, type: ItemType) : ItemAction(player, type)
+    class Inventory6(player: Player, type: ItemType) : ItemAction(player, type)
+
+    class Equipment1(player: Player, type: ItemType) : ItemAction(player, type)
+    class Equipment2(player: Player, type: ItemType) : ItemAction(player, type)
+    class Equipment3(player: Player, type: ItemType) : ItemAction(player, type)
+    class Equipment4(player: Player, type: ItemType) : ItemAction(player, type)
+    class Equipment5(player: Player, type: ItemType) : ItemAction(player, type)
+    class Equipment6(player: Player, type: ItemType) : ItemAction(player, type)
+    class Equipment7(player: Player, type: ItemType) : ItemAction(player, type)
+    class Equipment8(player: Player, type: ItemType) : ItemAction(player, type)
+
+    override fun toString(): String = MoreObjects.toStringHelper(this)
+        .add("player", player)
+        .add("type", type)
         .toString()
 }

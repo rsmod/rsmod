@@ -1,6 +1,8 @@
 package org.rsmod.plugins.api.protocol.structure.client
 
 import io.guthix.buffer.readByteNeg
+import io.guthix.buffer.readIntIME
+import io.guthix.buffer.readIntME
 import io.guthix.buffer.readStringCP1252
 import io.guthix.buffer.readUnsignedByteAdd
 import io.guthix.buffer.readUnsignedByteNeg
@@ -25,6 +27,18 @@ import org.rsmod.plugins.api.protocol.packet.client.MinimapClickHandler
 import org.rsmod.plugins.api.protocol.packet.client.MoveGameClick
 import org.rsmod.plugins.api.protocol.packet.client.MoveMinimapClick
 import org.rsmod.plugins.api.protocol.packet.client.NoTimeout
+import org.rsmod.plugins.api.protocol.packet.client.OpHeld1
+import org.rsmod.plugins.api.protocol.packet.client.OpHeld1Handler
+import org.rsmod.plugins.api.protocol.packet.client.OpHeld2
+import org.rsmod.plugins.api.protocol.packet.client.OpHeld2Handler
+import org.rsmod.plugins.api.protocol.packet.client.OpHeld3
+import org.rsmod.plugins.api.protocol.packet.client.OpHeld3Handler
+import org.rsmod.plugins.api.protocol.packet.client.OpHeld4
+import org.rsmod.plugins.api.protocol.packet.client.OpHeld4Handler
+import org.rsmod.plugins.api.protocol.packet.client.OpHeld5
+import org.rsmod.plugins.api.protocol.packet.client.OpHeld5Handler
+import org.rsmod.plugins.api.protocol.packet.client.OpHeld6
+import org.rsmod.plugins.api.protocol.packet.client.OpHeld6Handler
 import org.rsmod.plugins.api.protocol.packet.client.OpLoc1
 import org.rsmod.plugins.api.protocol.packet.client.OpLoc1Handler
 import org.rsmod.plugins.api.protocol.packet.client.OpLoc2
@@ -262,6 +276,76 @@ packets.register<OpNpc6> {
     read {
         val id = readUnsignedShort()
         OpNpc6(id)
+    }
+}
+
+packets.register<OpHeld1> {
+    opcode = 57
+    length = 8
+    handler = OpHeld1Handler::class
+    read {
+        val component = readIntLE()
+        val slot = readUnsignedShort()
+        val item = readUnsignedShort()
+        OpHeld1(item, component, slot)
+    }
+}
+
+packets.register<OpHeld2> {
+    opcode = 22
+    length = 8
+    handler = OpHeld2Handler::class
+    read {
+        val item = readUnsignedShortAddLE()
+        val slot = readUnsignedShortAddLE()
+        val component = readIntLE()
+        OpHeld2(item, component, slot)
+    }
+}
+
+packets.register<OpHeld3> {
+    opcode = 87
+    length = 8
+    handler = OpHeld3Handler::class
+    read {
+        val slot = readUnsignedShortAddLE()
+        val component = readInt()
+        val item = readUnsignedShortLE()
+        OpHeld3(item, component, slot)
+    }
+}
+
+packets.register<OpHeld4> {
+    opcode = 60
+    length = 8
+    handler = OpHeld4Handler::class
+    read {
+        val slot = readUnsignedShortAddLE()
+        val item = readUnsignedShortAdd()
+        val component = readIntIME()
+        OpHeld4(item, component, slot)
+    }
+}
+
+packets.register<OpHeld5> {
+    opcode = 67
+    length = 8
+    handler = OpHeld5Handler::class
+    read {
+        val component = readIntME()
+        val item = readUnsignedShort()
+        val slot = readUnsignedShortAddLE()
+        OpHeld5(item, component, slot)
+    }
+}
+
+packets.register<OpHeld6> {
+    opcode = 43
+    length = 2
+    handler = OpHeld6Handler::class
+    read {
+        val item = readUnsignedShortAdd()
+        OpHeld6(item)
     }
 }
 
