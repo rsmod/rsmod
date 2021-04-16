@@ -48,7 +48,7 @@ fun Player.closeTopLevel(userInterface: UserInterface) {
 fun Player.openModal(
     modal: UserInterface,
     parent: Component,
-    clickMode: InterfaceClickMode = InterfaceClickMode.Enabled
+    clickMode: InterfaceClickMode = InterfaceClickMode.Disabled
 ) {
     if (ui.modals.containsKey(parent)) {
         warn { "Interface list already contains modal for parent (modal=$modal, parent=$parent)" }
