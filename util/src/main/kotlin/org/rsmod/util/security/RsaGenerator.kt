@@ -3,7 +3,6 @@ package org.rsmod.util.security
 import java.math.BigInteger
 import java.nio.file.Files
 import java.nio.file.Path
-import java.nio.file.Paths
 import java.security.KeyPairGenerator
 import java.security.Security
 import java.security.interfaces.RSAPrivateKey
