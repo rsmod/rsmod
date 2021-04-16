@@ -60,13 +60,24 @@ fun Player.closeModal(modal: UserInterface) {
         warn { "Interface list does not contain modal (modal=$modal)" }
         return
     }
-    val parent = entry.key
-    val event = CloseModal(this, parent, modal)
+    closeModal(entry.key)
+}
+
+/**
+ * Close any modal opened in [target] component.
+ */
+fun Player.closeModal(target: Component) {
+    val modal = ui.modals[target]
+    if (modal == null) {
+        warn { "Interface list does not contain a modal in target component (target=$target)" }
+        return
+    }
+    val event = CloseModal(this, target, modal)
     val components = ui.properties.filterKeys { it.interfaceId == modal.id }.keys
     components.forEach(ui.properties::remove)
-    ui.modals.remove(parent)
+    ui.modals.remove(target)
     submitEvent(event)
-    write(IfCloseSub(parent.packed))
+    write(IfCloseSub(target.packed))
 }
 
 fun Player.openOverlay(
@@ -90,13 +101,24 @@ fun Player.closeOverlay(overlay: UserInterface) {
         warn { "Interface list does not contain overlay (overlay=$overlay)" }
         return
     }
-    val parent = entry.key
-    val event = CloseOverlay(this, parent, overlay)
+    closeOverlay(entry.key)
+}
+
+/**
+ * Close any overlay opened in [target] component.
+ */
+fun Player.closeOverlay(target: Component) {
+    val overlay = ui.overlays[target]
+    if (overlay == null) {
+        warn { "Interface list does not contain an overlay in target component (target=$target)" }
+        return
+    }
+    val event = CloseOverlay(this, target, overlay)
     val components = ui.propertyComponents(overlay)
     components.forEach(ui.properties::remove)
-    ui.overlays.remove(parent)
+    ui.overlays.remove(target)
     submitEvent(event)
-    write(IfCloseSub(parent.packed))
+    write(IfCloseSub(target.packed))
 }
 
 fun Player.setComponentText(component: Component, text: String) {
