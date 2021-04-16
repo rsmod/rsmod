@@ -150,7 +150,8 @@ class ObjectTypeBuilder(
             aBoolean3429 = aBoolean3429,
             anIntArray3428 = anIntArray3428.toList(),
             mapIconId = mapIconId,
-            parameters = parameters
+            intParameters = parameters.filter { it.value is Int }.mapValues { it.value as Int },
+            strParameters = parameters.filter { it.value is String }.mapValues { it.value as String }
         )
     }
 
@@ -203,6 +204,6 @@ class ObjectTypeBuilder(
             anIntArray3428 = other.anIntArray3428.toTypedArray()
         }
         if (mapIconId == DEFAULT_MINIMAP_ICON) mapIconId = other.mapIconId
-        if (parameters == DEFAULT_PARAMETERS) parameters = other.parameters
+        if (parameters == DEFAULT_PARAMETERS) parameters = other.intParameters + other.strParameters
     }
 }

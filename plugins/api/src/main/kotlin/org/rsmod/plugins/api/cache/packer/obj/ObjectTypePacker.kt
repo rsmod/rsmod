@@ -251,6 +251,7 @@ class ObjectTypePacker @Inject constructor(
         if (!aBoolean3429) {
             buf.writeByte(89)
         }
+        val parameters = intParameters + strParameters
         if (parameters.isNotEmpty()) {
             buf.writeByte(249)
             buf.writeParameters(parameters)

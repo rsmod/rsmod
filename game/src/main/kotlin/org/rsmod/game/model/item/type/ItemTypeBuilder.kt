@@ -107,7 +107,8 @@ class ItemTypeBuilder(
             noteValue = noteValue,
             placeholderLink = placeholderLink,
             placeholderValue = placeholderValue,
-            parameters = parameters,
+            intParameters = parameters.filter { it.value is Int }.mapValues { it.value as Int },
+            strParameters = parameters.filter { it.value is String }.mapValues { it.value as String },
             model = model,
             zoom2d = zoom2d,
             xan2d = xan2d,
@@ -193,6 +194,6 @@ class ItemTypeBuilder(
         if (boughtValue == DEFAULT_BOUGHT_VALUE) boughtValue = type.boughtValue
         if (countItem.contentEquals(DEFAULT_INT_ARRAY)) countItem = type.countItem.toIntArray()
         if (countCo.contentEquals(DEFAULT_INT_ARRAY)) countCo = type.countCo.toIntArray()
-        if (parameters == DEFAULT_PARAMETERS) parameters = type.parameters
+        if (parameters == DEFAULT_PARAMETERS) parameters = type.intParameters + type.strParameters
     }
 }

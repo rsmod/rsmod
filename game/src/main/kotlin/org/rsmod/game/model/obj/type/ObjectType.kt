@@ -49,5 +49,6 @@ data class ObjectType(
     val aBoolean3429: Boolean,
     val anIntArray3428: List<Int>,
     val mapIconId: Int,
-    val parameters: Map<Int, Any>
+    val intParameters: Map<Int, Int>,
+    val strParameters: Map<Int, String>
 ) : ConfigType

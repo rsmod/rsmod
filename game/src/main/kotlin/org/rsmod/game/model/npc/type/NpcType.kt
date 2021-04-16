@@ -36,5 +36,6 @@ data class NpcType(
     val contrast: Int,
     val ambient: Int,
     val aBoolean3532: Boolean,
-    val parameters: Map<Int, Any>
+    val intParameters: Map<Int, Int>,
+    val strParameters: Map<Int, String>
 ) : ConfigType

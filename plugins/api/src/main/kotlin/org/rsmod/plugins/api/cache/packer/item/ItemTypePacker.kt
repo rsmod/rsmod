@@ -253,6 +253,7 @@ class ItemTypePacker @Inject constructor(
             buf.writeByte(149)
             buf.writeShort(placeholderValue)
         }
+        val parameters = intParameters + strParameters
         if (parameters.isNotEmpty()) {
             buf.writeByte(249)
             buf.writeParameters(parameters)

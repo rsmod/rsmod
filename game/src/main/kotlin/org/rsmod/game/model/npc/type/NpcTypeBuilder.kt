@@ -108,7 +108,8 @@ class NpcTypeBuilder(
             contrast = contrast,
             ambient = ambient,
             aBoolean3532 = aBoolean3532,
-            parameters = parameters
+            intParameters = parameters.filter { it.value is Int }.mapValues { it.value as Int },
+            strParameters = parameters.filter { it.value is String }.mapValues { it.value as String }
         )
     }
 
@@ -145,6 +146,6 @@ class NpcTypeBuilder(
         if (resizeY == DEFAULT_RESIZE) resizeY = other.resizeY
         if (contrast == DEFAULT_CONTRAST) contrast = other.contrast
         if (ambient == DEFAULT_AMBIENT) ambient = other.ambient
-        if (parameters == DEFAULT_PARAMETERS) parameters = other.parameters
+        if (parameters == DEFAULT_PARAMETERS) parameters = other.intParameters + other.strParameters
     }
 }

@@ -202,6 +202,7 @@ class NpcTypePacker @Inject constructor(
         if (aBoolean3532) {
             buf.writeByte(111)
         }
+        val parameters = intParameters + strParameters
         if (parameters.isNotEmpty()) {
             buf.writeByte(249)
             buf.writeParameters(parameters)
