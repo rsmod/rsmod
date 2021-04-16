@@ -38,7 +38,7 @@ class ItemTypePacker @Inject constructor(
         val loader = ItemConfigLoader(mapper.toConfigMapper())
         val configs = loader.loadAll(files).filter { it.pack }
         pack(configs)
-        logger.info { "Packed ${types.size} item config ${"file".toPlural(types.size)} into game cache" }
+        logger.info { "Packed ${configs.size} item config ${"file".toPlural(configs.size)} into game cache" }
     }
 
     fun pack(configs: Iterable<ItemConfig>) {

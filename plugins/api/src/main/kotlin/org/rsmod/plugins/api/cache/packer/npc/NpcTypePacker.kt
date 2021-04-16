@@ -38,7 +38,7 @@ class NpcTypePacker @Inject constructor(
         val loader = NpcConfigLoader(mapper.toConfigMapper())
         val configs = loader.loadAll(files).filter { it.pack }
         pack(configs)
-        logger.info { "Packed ${types.size} npc config ${"file".toPlural(types.size)} into game cache" }
+        logger.info { "Packed ${configs.size} npc config ${"file".toPlural(configs.size)} into game cache" }
     }
 
     fun pack(configs: Iterable<NpcConfig>) {
