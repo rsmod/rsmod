@@ -64,6 +64,8 @@ import org.rsmod.plugins.api.protocol.packet.client.OpNpc5Handler
 import org.rsmod.plugins.api.protocol.packet.client.OpNpc6
 import org.rsmod.plugins.api.protocol.packet.client.OpNpc6Handler
 import org.rsmod.plugins.api.protocol.packet.client.ReflectionCheckReply
+import org.rsmod.plugins.api.protocol.packet.client.ResumePObjDialog
+import org.rsmod.plugins.api.protocol.packet.client.ResumePObjDialogHandler
 import org.rsmod.plugins.api.protocol.packet.client.WindowStatus
 import org.rsmod.plugins.api.protocol.structure.DevicePacketStructureMap
 
@@ -346,6 +348,16 @@ packets.register<OpHeld6> {
     read {
         val item = readUnsignedShortAdd()
         OpHeld6(item)
+    }
+}
+
+packets.register<ResumePObjDialog> {
+    opcode = 102
+    length = 2
+    handler = ResumePObjDialogHandler::class
+    read {
+        val item = readUnsignedShort()
+        ResumePObjDialog(item)
     }
 }
 
