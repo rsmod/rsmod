@@ -96,6 +96,7 @@ fun Plugin.onItem(type: ItemType, opt: String, block: ItemAction.() -> Unit) {
             2 -> onAction<ItemAction.Inventory3>(type.id, block)
             3 -> onAction<ItemAction.Inventory4>(type.id, block)
             4 -> onAction<ItemAction.Inventory5>(type.id, block)
+            5 -> onAction<ItemAction.Inventory6>(type.id, block)
             else -> error("Unhandled item inventory option. (item=${type.name}, id=${type.id}, option=$invOption)")
         }
         return
