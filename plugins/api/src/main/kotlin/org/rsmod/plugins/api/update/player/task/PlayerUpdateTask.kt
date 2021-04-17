@@ -436,7 +436,7 @@ class PlayerUpdateTask @Inject constructor(
     }
 
     private fun Player.canView(other: Player): Boolean {
-        return !other.appearance.invisible && other.coords.isWithinView(coords)
+        return !other.entity.appearance.invisible && other.coords.isWithinView(coords)
     }
 
     private fun Player.isUpdateRequired(): Boolean {

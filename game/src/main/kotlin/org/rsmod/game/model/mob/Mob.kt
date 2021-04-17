@@ -13,7 +13,6 @@ import org.rsmod.game.model.attr.AttributeMap
 import org.rsmod.game.model.client.Entity
 import org.rsmod.game.model.client.NpcEntity
 import org.rsmod.game.model.client.PlayerEntity
-import org.rsmod.game.model.domain.Appearance
 import org.rsmod.game.model.domain.PlayerId
 import org.rsmod.game.model.item.container.ItemContainer
 import org.rsmod.game.model.item.container.ItemContainerMap
@@ -86,7 +85,6 @@ class Player(
     override val entity: PlayerEntity,
     var snapshot: Snapshot = Snapshot.INITIAL,
     var viewport: Viewport = Viewport.ZERO,
-    var appearance: Appearance = Appearance.ZERO,
     val inventory: ItemContainer = ItemContainer(),
     val equipment: ItemContainer = ItemContainer(),
     val bank: ItemContainer = ItemContainer(),

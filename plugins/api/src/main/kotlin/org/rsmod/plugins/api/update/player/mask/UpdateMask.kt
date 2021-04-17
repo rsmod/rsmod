@@ -16,7 +16,7 @@ private val EQUIPMENT_BODY_PART = mapOf(
 )
 
 fun AppearanceMask.Companion.of(player: Player): AppearanceMask {
-    val appearance = player.appearance
+    val appearance = player.entity.appearance
     return AppearanceMask(
         gender = appearance.gender,
         skull = appearance.skullIcon,
@@ -42,7 +42,7 @@ private fun Player.looks(): ByteArray {
         } else {
             val bodyPart = EQUIPMENT_BODY_PART[i]
             if (bodyPart != null) {
-                val value = 0x100 or appearance.body[bodyPart]
+                val value = 0x100 or entity.appearance.body[bodyPart]
                 data[position++] = (value shr 8).toByte()
                 data[position++] = (value and 0xFF).toByte()
             } else {
