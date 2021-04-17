@@ -147,8 +147,8 @@ packets.register<IfSetEvents> {
     opcode = 68
     write {
         it.writeIntLE(events)
-        it.writeShortLE(dynamic.first)
-        it.writeShort(dynamic.last)
+        it.writeShortLE(dynamic.last)
+        it.writeShort(dynamic.first)
         it.writeIntIME(component)
     }
 }
