@@ -45,28 +45,28 @@ open class Plugin(
 
     inline fun <reified T> inject(): ObservableProperty<T> = InjectedProperty(injector.getInstance())
 
-    fun npcType(name: String): NpcType {
+    fun npc(name: String): NpcType {
         return npcNames[name] ?: error("Npc with name (or alias) \"$name\" not found.")
     }
 
-    fun itemType(name: String): ItemType {
+    fun item(name: String): ItemType {
         return itemNames[name] ?: error("Item with name (or alias) \"$name\" not found.")
     }
 
-    fun objType(name: String): ObjectType {
+    fun obj(name: String): ObjectType {
         return objNames[name] ?: error("Object with name (or alias) \"$name\" not found.")
     }
 
-    fun npcTypes(vararg names: String): Iterable<NpcType> {
-        return names.map { npcType(it) }
+    fun npcs(vararg names: String): Iterable<NpcType> {
+        return names.map { npc(it) }
     }
 
-    fun itemTypes(vararg names: String): Iterable<ItemType> {
-        return names.map { itemType(it) }
+    fun items(vararg names: String): Iterable<ItemType> {
+        return names.map { item(it) }
     }
 
-    fun objTypes(vararg names: String): Iterable<ObjectType> {
-        return names.map { objType(it) }
+    fun objs(vararg names: String): Iterable<ObjectType> {
+        return names.map { obj(it) }
     }
 
     class InjectedProperty<T>(value: T) : ObservableProperty<T>(value)
