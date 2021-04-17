@@ -47,17 +47,17 @@ fun Player.closeTopLevel(userInterface: UserInterface) {
 
 fun Player.openModal(
     modal: UserInterface,
-    parent: Component,
+    target: Component,
     clickMode: InterfaceClickMode = InterfaceClickMode.Disabled
 ) {
-    if (ui.modals.containsKey(parent)) {
-        warn { "Interface list already contains modal for parent (modal=$modal, parent=$parent)" }
+    if (ui.modals.containsKey(target)) {
+        warn { "Interface list already contains modal for target component (modal=$modal, target=$target)" }
         return
     }
-    val event = OpenModal(this, parent, modal)
-    ui.modals[parent] = modal
+    val event = OpenModal(this, target, modal)
+    ui.modals[target] = modal
     submitEvent(event)
-    write(IfOpenSub(modal.id, parent.packed, clickMode.id))
+    write(IfOpenSub(modal.id, target.packed, clickMode.id))
 }
 
 fun Player.closeModal(modal: UserInterface) {
@@ -88,17 +88,17 @@ fun Player.closeModal(target: Component) {
 
 fun Player.openOverlay(
     overlay: UserInterface,
-    parent: Component,
+    target: Component,
     clickMode: InterfaceClickMode = InterfaceClickMode.Enabled
 ) {
-    if (ui.overlays.contains(parent)) {
-        warn { "Interface list already contains overlay (modal=$parent)" }
+    if (ui.overlays.contains(target)) {
+        warn { "Interface list already contains overlay in target component (target=$target)" }
         return
     }
-    val event = OpenOverlay(this, parent, overlay)
-    ui.overlays[parent] = overlay
+    val event = OpenOverlay(this, target, overlay)
+    ui.overlays[target] = overlay
     submitEvent(event)
-    write(IfOpenSub(overlay.id, parent.packed, clickMode.id))
+    write(IfOpenSub(overlay.id, target.packed, clickMode.id))
 }
 
 fun Player.closeOverlay(overlay: UserInterface) {
