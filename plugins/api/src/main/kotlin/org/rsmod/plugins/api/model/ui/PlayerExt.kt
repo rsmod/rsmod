@@ -172,6 +172,10 @@ fun Player.setComponentEvents(
     write(IfSetEvents(component.packed, range, packed))
 }
 
+fun Player.setComponentEventsAll(component: Component, vararg events: InterfaceEvent) {
+    setComponentEvents(component, -1..-1, *events)
+}
+
 fun Player.getComponentEvents(component: Component, range: IntRange): List<InterfaceEvent> {
     val property = ui.properties[component] ?: return emptyList()
     val event = property.firstOrNull { range.within(it.range) } ?: return emptyList()
