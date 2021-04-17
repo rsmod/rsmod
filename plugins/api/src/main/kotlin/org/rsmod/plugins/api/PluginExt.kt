@@ -140,6 +140,21 @@ fun Plugin.onObj(type: ObjectType, opt: String, block: ObjectAction.() -> Unit) 
     }
 }
 
+fun Plugin.onItem(item: String, opt: String, block: ItemAction.() -> Unit) {
+    val type = item(item)
+    onItem(type, opt, block)
+}
+
+fun Plugin.onNpc(npc: String, opt: String, block: NpcAction.() -> Unit) {
+    val type = npc(npc)
+    onNpc(type, opt, block)
+}
+
+fun Plugin.onObj(obj: String, opt: String, block: ObjectAction.() -> Unit) {
+    val type = obj(obj)
+    onObj(type, opt, block)
+}
+
 private fun Iterable<String?>.optionIndex(opt: String, name: String, id: Int, type: String): Int {
     val option = indexOfFirst { it != null && it.equals(opt, ignoreCase = false) }
     if (option == -1) {
