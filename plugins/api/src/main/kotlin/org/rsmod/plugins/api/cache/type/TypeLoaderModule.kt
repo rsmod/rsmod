@@ -12,6 +12,8 @@ import org.rsmod.game.model.vars.type.VarpTypeList
 import org.rsmod.plugins.api.cache.type.item.ItemTypeLoader
 import org.rsmod.plugins.api.cache.type.npc.NpcTypeLoader
 import org.rsmod.plugins.api.cache.type.obj.ObjectTypeLoader
+import org.rsmod.plugins.api.cache.type.ui.ComponentTypeList
+import org.rsmod.plugins.api.cache.type.ui.ComponentTypeLoader
 import org.rsmod.plugins.api.cache.type.vars.VarbitTypeLoader
 import org.rsmod.plugins.api.cache.type.vars.VarpTypeLoader
 import javax.inject.Inject
@@ -27,6 +29,7 @@ class TypeLoaderModule(private val scope: Scope) : KotlinModule() {
         bind<ItemTypeList>().`in`(scope)
         bind<VarpTypeList>().`in`(scope)
         bind<VarbitTypeList>().`in`(scope)
+        bind<ComponentTypeList>().`in`(scope)
     }
 }
 
@@ -35,7 +38,8 @@ private class CacheTypeLoaderListProvider @Inject constructor(
     private val objectLoader: ObjectTypeLoader,
     private val itemLoader: ItemTypeLoader,
     private val varpLoader: VarpTypeLoader,
-    private val varbitLoader: VarbitTypeLoader
+    private val varbitLoader: VarbitTypeLoader,
+    private val componentLoader: ComponentTypeLoader
 ) : Provider<CacheTypeLoaderList> {
 
     override fun get(): CacheTypeLoaderList {
@@ -45,6 +49,7 @@ private class CacheTypeLoaderListProvider @Inject constructor(
             register(itemLoader)
             register(varpLoader)
             register(varbitLoader)
+            register(componentLoader)
         }
     }
 }
