@@ -1,6 +1,6 @@
 package org.rsmod.game.cache.type
 
-open class ConfigTypeList<T : ConfigType>(
+open class CacheTypeList<T : CacheType>(
     private val types: MutableMap<Int, T> = mutableMapOf()
 ) : Iterable<T> {
 

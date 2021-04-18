@@ -4,7 +4,7 @@ import com.github.michaelbull.logging.InlineLogger
 import io.guthix.buffer.readStringCP1252
 import io.netty.buffer.ByteBuf
 import org.rsmod.game.cache.GameCache
-import org.rsmod.game.cache.type.ConfigTypeLoader
+import org.rsmod.game.cache.type.CacheTypeLoader
 import org.rsmod.game.model.obj.type.ObjectType
 import org.rsmod.game.model.obj.type.ObjectTypeBuilder
 import org.rsmod.game.model.obj.type.ObjectTypeList
@@ -20,7 +20,7 @@ private const val OBJ_GROUP = 6
 class ObjectTypeLoader @Inject constructor(
     private val cache: GameCache,
     private val types: ObjectTypeList
-) : ConfigTypeLoader {
+) : CacheTypeLoader {
 
     override fun load() {
         val files = cache.groups(OBJ_ARCHIVE, OBJ_GROUP)

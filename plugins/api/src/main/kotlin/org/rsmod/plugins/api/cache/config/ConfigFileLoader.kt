@@ -10,7 +10,7 @@ interface ConfigFileLoader<T> {
 
     val mapper: ObjectMapper
 
-    fun JsonNode.toConfigType(): T
+    fun JsonNode.toType(): T
 
     fun loadAll(files: Iterable<Path>): Collection<T> {
         val configs = mutableListOf<T>()
@@ -23,6 +23,6 @@ interface ConfigFileLoader<T> {
 
     fun load(input: InputStream): Collection<T> {
         val nodes = input.use { mapper.readTree(input) }
-        return nodes.map { it.toConfigType() }
+        return nodes.map { it.toType() }
     }
 }

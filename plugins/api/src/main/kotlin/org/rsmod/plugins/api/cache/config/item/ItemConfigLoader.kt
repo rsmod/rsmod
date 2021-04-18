@@ -13,7 +13,7 @@ private const val FILE_KEY = "data_file"
 
 class ItemConfigLoader(override val mapper: ObjectMapper) : ConfigFileLoader<ItemConfig> {
 
-    override fun JsonNode.toConfigType(): ItemConfig {
+    override fun JsonNode.toType(): ItemConfig {
         val builder = mapper.convertValue<ItemTypeBuilder>(this)
         val id = this[ID_KEY].asInt()
         val inherit = if (has(INHERIT_KEY)) this[INHERIT_KEY].asInt() else id

@@ -6,7 +6,7 @@ import com.google.inject.Scopes
 import dev.misfitlabs.kotlinguice4.getInstance
 import org.rsmod.game.cache.CacheModule
 import org.rsmod.game.cache.GameCache
-import org.rsmod.game.cache.type.ConfigTypeLoaderList
+import org.rsmod.game.cache.type.CacheTypeLoaderList
 import org.rsmod.game.config.ConfigModule
 import org.rsmod.plugins.api.cache.name.item.ItemNameGenerator
 import org.rsmod.plugins.api.cache.name.item.ItemNameLoader
@@ -49,7 +49,7 @@ class NameGenerator @Inject constructor(
             )
             val injector = Guice.createInjector(*modules)
 
-            val loaders: ConfigTypeLoaderList = injector.getInstance()
+            val loaders: CacheTypeLoaderList = injector.getInstance()
             loaders.forEach { it.load() }
 
             val cache: GameCache = injector.getInstance()

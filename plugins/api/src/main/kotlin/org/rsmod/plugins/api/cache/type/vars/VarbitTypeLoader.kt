@@ -4,7 +4,7 @@ import com.github.michaelbull.logging.InlineLogger
 import javax.inject.Inject
 import io.netty.buffer.ByteBuf
 import java.io.IOException
-import org.rsmod.game.cache.type.ConfigTypeLoader
+import org.rsmod.game.cache.type.CacheTypeLoader
 import org.rsmod.game.cache.GameCache
 import org.rsmod.game.model.vars.type.VarbitType
 import org.rsmod.game.model.vars.type.VarbitTypeBuilder
@@ -17,7 +17,7 @@ private const val VARBIT_GROUP = 14
 class VarbitTypeLoader @Inject constructor(
     private val cache: GameCache,
     private val types: VarbitTypeList
-) : ConfigTypeLoader {
+) : CacheTypeLoader {
 
     override fun load() {
         val files = cache.groups(VARBIT_ARCHIVE, VARBIT_GROUP)

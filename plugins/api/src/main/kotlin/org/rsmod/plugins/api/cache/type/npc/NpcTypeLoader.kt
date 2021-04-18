@@ -4,7 +4,7 @@ import com.github.michaelbull.logging.InlineLogger
 import io.guthix.buffer.readStringCP1252
 import io.netty.buffer.ByteBuf
 import org.rsmod.game.cache.GameCache
-import org.rsmod.game.cache.type.ConfigTypeLoader
+import org.rsmod.game.cache.type.CacheTypeLoader
 import org.rsmod.game.model.npc.type.NpcType
 import org.rsmod.game.model.npc.type.NpcTypeBuilder
 import org.rsmod.game.model.npc.type.NpcTypeList
@@ -20,7 +20,7 @@ private const val NPC_GROUP = 9
 class NpcTypeLoader @Inject constructor(
     private val cache: GameCache,
     private val types: NpcTypeList
-) : ConfigTypeLoader {
+) : CacheTypeLoader {
 
     override fun load() {
         val files = cache.groups(NPC_ARCHIVE, NPC_GROUP)

@@ -4,7 +4,7 @@ import com.github.michaelbull.logging.InlineLogger
 import javax.inject.Inject
 import io.netty.buffer.ByteBuf
 import java.io.IOException
-import org.rsmod.game.cache.type.ConfigTypeLoader
+import org.rsmod.game.cache.type.CacheTypeLoader
 import org.rsmod.game.cache.GameCache
 import org.rsmod.game.model.vars.type.VarpType
 import org.rsmod.game.model.vars.type.VarpTypeBuilder
@@ -17,7 +17,7 @@ private const val VARP_GROUP = 16
 class VarpTypeLoader @Inject constructor(
     private val cache: GameCache,
     private val types: VarpTypeList
-) : ConfigTypeLoader {
+) : CacheTypeLoader {
 
     override fun load() {
         val files = cache.groups(VARP_ARCHIVE, VARP_GROUP)

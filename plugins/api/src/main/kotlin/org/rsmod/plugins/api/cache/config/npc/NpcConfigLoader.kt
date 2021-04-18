@@ -13,7 +13,7 @@ private const val FILE_KEY = "data_file"
 
 class NpcConfigLoader(override val mapper: ObjectMapper) : ConfigFileLoader<NpcConfig> {
 
-    override fun JsonNode.toConfigType(): NpcConfig {
+    override fun JsonNode.toType(): NpcConfig {
         val builder = mapper.convertValue<NpcTypeBuilder>(this)
         val id = this[ID_KEY].asInt()
         val inherit = if (has(INHERIT_KEY)) this[INHERIT_KEY].asInt() else id

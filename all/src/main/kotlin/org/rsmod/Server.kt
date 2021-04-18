@@ -15,7 +15,7 @@ import org.rsmod.game.Game
 import org.rsmod.game.GameModule
 import org.rsmod.game.cache.CacheModule
 import org.rsmod.game.cache.GameCache
-import org.rsmod.game.cache.type.ConfigTypeLoaderList
+import org.rsmod.game.cache.type.CacheTypeLoaderList
 import org.rsmod.game.config.ConfigModule
 import org.rsmod.game.config.GameConfig
 import org.rsmod.game.coroutine.CoroutineModule
@@ -68,8 +68,8 @@ class Server {
 
         val ioCoroutineScope: IoCoroutineScope = injector.getInstance()
 
-        val typeLoaders: ConfigTypeLoaderList = injector.getInstance()
-        loadConfigTypes(ioCoroutineScope, typeLoaders)
+        val typeLoaders: CacheTypeLoaderList = injector.getInstance()
+        loadCacheTypes(ioCoroutineScope, typeLoaders)
 
         val typeNames: NamedTypeLoaderList = injector.getInstance()
         val typeNamePath = cache.directory.parent.resolve("name")
@@ -122,9 +122,9 @@ class Server {
     }
 }
 
-private fun loadConfigTypes(
+private fun loadCacheTypes(
     ioCoroutineScope: IoCoroutineScope,
-    loaders: ConfigTypeLoaderList
+    loaders: CacheTypeLoaderList
 ) = runBlocking {
     val jobs = mutableListOf<Deferred<Unit>>()
     loaders.forEach { loader ->

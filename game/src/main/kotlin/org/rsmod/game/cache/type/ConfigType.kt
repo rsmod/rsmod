@@ -1,6 +1,6 @@
 package org.rsmod.game.cache.type
 
-interface ConfigType {
+interface ConfigType : CacheType {
 
-    val id: Int
+    override val id: Int
 }

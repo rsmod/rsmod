@@ -64,7 +64,7 @@ class NpcSpawnLoader @Inject constructor(
         npcList.register(npc)
     }
 
-    override fun JsonNode.toConfigType(): NpcSpawnConfig {
+    override fun JsonNode.toType(): NpcSpawnConfig {
         val name = this[NAME_KEY].asText()
         val x = this[COORDS_X_KEY].asInt()
         val y = this[COORDS_Y_KEY].asInt()
