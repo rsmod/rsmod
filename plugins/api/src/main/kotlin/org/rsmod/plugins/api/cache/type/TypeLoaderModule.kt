@@ -14,6 +14,7 @@ import org.rsmod.plugins.api.cache.type.npc.NpcTypeLoader
 import org.rsmod.plugins.api.cache.type.obj.ObjectTypeLoader
 import org.rsmod.plugins.api.cache.type.ui.ComponentTypeList
 import org.rsmod.plugins.api.cache.type.ui.ComponentTypeLoader
+import org.rsmod.plugins.api.cache.type.ui.InterfaceTypeList
 import org.rsmod.plugins.api.cache.type.vars.VarbitTypeLoader
 import org.rsmod.plugins.api.cache.type.vars.VarpTypeLoader
 import javax.inject.Inject
@@ -30,6 +31,7 @@ class TypeLoaderModule(private val scope: Scope) : KotlinModule() {
         bind<VarpTypeList>().`in`(scope)
         bind<VarbitTypeList>().`in`(scope)
         bind<ComponentTypeList>().`in`(scope)
+        bind<InterfaceTypeList>().`in`(scope)
     }
 }
 
