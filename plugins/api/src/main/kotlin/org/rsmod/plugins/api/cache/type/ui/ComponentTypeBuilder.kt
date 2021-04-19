@@ -1,5 +1,7 @@
 package org.rsmod.plugins.api.cache.type.ui
 
+import org.rsmod.game.model.ui.type.ComponentType
+
 private const val DEFAULT_ID = -1
 private const val DEFAULT_SCRIPT_HANDLING = false
 private const val DEFAULT_TYPE = -1

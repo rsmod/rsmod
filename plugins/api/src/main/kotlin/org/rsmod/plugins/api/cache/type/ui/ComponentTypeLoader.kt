@@ -6,6 +6,8 @@ import io.netty.buffer.ByteBuf
 import org.rsmod.game.cache.GameCache
 import org.rsmod.game.cache.type.CacheTypeLoader
 import org.rsmod.game.model.ui.Component
+import org.rsmod.game.model.ui.type.ComponentType
+import org.rsmod.game.model.ui.type.InterfaceType
 import javax.inject.Inject
 
 private val logger = InlineLogger()

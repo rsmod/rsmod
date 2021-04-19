@@ -1,4 +1,4 @@
-package org.rsmod.plugins.api.cache.type.ui
+package org.rsmod.game.model.ui.type
 
 import org.rsmod.game.cache.type.CacheType
 import org.rsmod.game.model.ui.Component
