@@ -64,6 +64,8 @@ import org.rsmod.plugins.api.protocol.packet.client.OpNpc5Handler
 import org.rsmod.plugins.api.protocol.packet.client.OpNpc6
 import org.rsmod.plugins.api.protocol.packet.client.OpNpc6Handler
 import org.rsmod.plugins.api.protocol.packet.client.ReflectionCheckReply
+import org.rsmod.plugins.api.protocol.packet.client.ResumePCountDialog
+import org.rsmod.plugins.api.protocol.packet.client.ResumePCountDialogHandler
 import org.rsmod.plugins.api.protocol.packet.client.ResumePObjDialog
 import org.rsmod.plugins.api.protocol.packet.client.ResumePObjDialogHandler
 import org.rsmod.plugins.api.protocol.packet.client.ResumePauseButton
@@ -360,6 +362,16 @@ packets.register<ResumePObjDialog> {
     read {
         val item = readUnsignedShort()
         ResumePObjDialog(item)
+    }
+}
+
+packets.register<ResumePCountDialog> {
+    opcode = 56
+    length = 4
+    handler = ResumePCountDialogHandler::class
+    read {
+        val amount = readInt()
+        ResumePCountDialog(amount)
     }
 }
 
