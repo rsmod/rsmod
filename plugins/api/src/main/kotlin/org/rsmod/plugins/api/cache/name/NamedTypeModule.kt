@@ -10,7 +10,6 @@ import org.rsmod.plugins.api.cache.name.npc.NpcNameLoader
 import org.rsmod.plugins.api.cache.name.npc.NpcNameMap
 import org.rsmod.plugins.api.cache.name.obj.ObjectNameLoader
 import org.rsmod.plugins.api.cache.name.obj.ObjectNameMap
-import org.rsmod.plugins.api.cache.name.ui.ComponentNameLoader
 import org.rsmod.plugins.api.cache.name.ui.ComponentNameMap
 import org.rsmod.plugins.api.cache.name.ui.UserInterfaceNameLoader
 import org.rsmod.plugins.api.cache.name.ui.UserInterfaceNameMap
@@ -40,7 +39,6 @@ private class NamedTypeLoaderListProvider @Inject constructor(
     private val itemList: ItemNameLoader,
     private val npcList: NpcNameLoader,
     private val objList: ObjectNameLoader,
-    private val compList: ComponentNameLoader,
     private val interfaceList: UserInterfaceNameLoader,
     private val varpList: VarpNameLoader,
     private val varbitList: VarbitNameLoader
@@ -50,7 +48,6 @@ private class NamedTypeLoaderListProvider @Inject constructor(
         register(itemList)
         register(npcList)
         register(objList)
-        register(compList)
         register(interfaceList)
         register(varpList)
         register(varbitList)

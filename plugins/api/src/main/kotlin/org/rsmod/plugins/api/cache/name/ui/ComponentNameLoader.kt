@@ -17,7 +17,8 @@ class ComponentNameLoader @Inject constructor(
     private val mapper: ObjectMapper,
     private val files: NamedConfigFileMap,
     private val names: ComponentNameMap,
-    private val types: ComponentTypeList
+    private val types: ComponentTypeList,
+    private val interfaces: UserInterfaceNameMap
 ) : NamedTypeLoader {
 
     override fun load(directory: Path) {
@@ -30,8 +31,9 @@ class ComponentNameLoader @Inject constructor(
         Files.newInputStream(file).use { input ->
             val nodes = mapper.readValue(input, Array<NamedComponent>::class.java)
             nodes.forEach { node ->
-                val (name, parent, child) = node
-                val component = Component(parent, child)
+                val (name, parentName, child) = node
+                val parent = interfaces[parentName] ?: error("Interface with name \"$parentName\" not found.")
+                val component = Component(parent.id, child)
                 val type = types.getOrNull(component.packed) ?: error(
                     "Component type does not exist " +
                         "(component=$parent:$child, file=${file.fileName}, path=${file.toAbsolutePath()})"
@@ -44,6 +46,6 @@ class ComponentNameLoader @Inject constructor(
 
 private data class NamedComponent(
     val name: String,
-    val parent: Int,
+    val parent: String,
     val child: Int
 )

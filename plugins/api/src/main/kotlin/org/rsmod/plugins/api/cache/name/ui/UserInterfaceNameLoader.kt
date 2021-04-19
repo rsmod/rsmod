@@ -16,13 +16,15 @@ class UserInterfaceNameLoader @Inject constructor(
     private val mapper: ObjectMapper,
     private val files: NamedConfigFileMap,
     private val names: UserInterfaceNameMap,
-    private val types: InterfaceTypeList
+    private val types: InterfaceTypeList,
+    private val componentLoader: ComponentNameLoader
 ) : NamedTypeLoader {
 
     override fun load(directory: Path) {
         val files = files.getValue(DefaultExtensions.INTERFACE_NAMES)
         files.forEach(::loadAliasFile)
         logger.info { "Loaded ${names.size} interface type name${if (names.size != 1) "s" else ""}" }
+        componentLoader.load(directory)
     }
 
     private fun loadAliasFile(file: Path): Int {
