@@ -2,9 +2,13 @@ package org.rsmod.plugins.content.combat.special
 
 import org.rsmod.game.event.impl.AccountCreation
 import org.rsmod.game.event.impl.ServerStartup
-import org.rsmod.game.model.vars.type.VarpTypeList
 
-val varps: VarpTypeList by inject()
-
-onEvent<ServerStartup>().then { varps.configureInternalVarps() }
+onEvent<ServerStartup>().then { setInternalVarps() }
 onEvent<AccountCreation>().then { player.setDefaultSpecialAttackVarps() }
+
+fun setInternalVarps() {
+    configureInternalVarps(
+        specialEnergy = varp("special_attack_energy"),
+        specialState = varp("special_attack_state")
+    )
+}
