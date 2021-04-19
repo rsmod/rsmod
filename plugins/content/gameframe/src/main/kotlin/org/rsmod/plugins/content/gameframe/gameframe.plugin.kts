@@ -1,50 +1,111 @@
 package org.rsmod.plugins.content.gameframe
 
-import org.rsmod.game.model.mob.Player
-import org.rsmod.game.model.ui.Component
-import org.rsmod.game.model.ui.UserInterface
-import org.rsmod.game.model.vars.type.VarpTypeList
-import org.rsmod.plugins.api.model.mob.player.runClientScript
-import org.rsmod.plugins.api.model.mob.player.sendRunEnergy
-import org.rsmod.plugins.api.model.mob.player.setVarp
-import org.rsmod.plugins.api.model.ui.openOverlay
-import org.rsmod.plugins.api.model.ui.openTopLevel
-import org.rsmod.plugins.api.onEarlyLogin
+import org.rsmod.plugins.api.model.ui.gameframe.GameframeFixed
+import org.rsmod.plugins.api.model.ui.gameframe.GameframeList
 
-val varps: VarpTypeList by inject()
+val frames: GameframeList by inject()
 
-onEarlyLogin {
-    player.sendGameframe()
-    player.sendOrbs()
-}
-
-fun Player.sendGameframe() {
-    openTopLevel(UserInterface(548))
-    openOverlay(UserInterface(162), Component(548, 27))
-    openOverlay(UserInterface(651), Component(548, 16))
-    openOverlay(UserInterface(163), Component(548, 20))
-    openOverlay(UserInterface(90), Component(548, 15))
-    openOverlay(UserInterface(160), Component(548, 11))
-    openOverlay(UserInterface(320), Component(548, 70))
-    openOverlay(UserInterface(629), Component(548, 71))
-    openOverlay(UserInterface(399), Component(629, 33))
-    openOverlay(UserInterface(149), Component(548, 72))
-    openOverlay(UserInterface(387), Component(548, 73))
-    openOverlay(UserInterface(541), Component(548, 74))
-    openOverlay(UserInterface(218), Component(548, 75))
-    openOverlay(UserInterface(429), Component(548, 78))
-    openOverlay(UserInterface(109), Component(548, 77))
-    openOverlay(UserInterface(182), Component(548, 79))
-    openOverlay(UserInterface(261), Component(548, 80))
-    openOverlay(UserInterface(216), Component(548, 81))
-    openOverlay(UserInterface(239), Component(548, 82))
-    openOverlay(UserInterface(7), Component(548, 76))
-    openOverlay(UserInterface(593), Component(548, 69))
-    setVarp(varps[1055], 0)
-    setVarp(varps[1737], -1)
-    runClientScript(1105, 1)
-}
-
-fun Player.sendOrbs() {
-    sendRunEnergy()
+frames.register {
+    type = GameframeFixed
+    topLevel = "gameframe_fixed"
+    component {
+        name = "chatbox"
+        inter = "chatbox"
+        target = "chatbox_fixed"
+    }
+    component {
+        name = "interface_651"
+        inter = "interface_651"
+        target = "interface_651_component"
+    }
+    component {
+        name = "chatbox_username"
+        inter = "chatbox_username"
+        target = "chatbox_username_fixed"
+    }
+    component {
+        name = "pvp_skull"
+        inter = "pvp_skull"
+        target = "pvp_skull_fixed"
+    }
+    component {
+        name = "frame_orbs"
+        inter = "frame_orbs"
+        target = "frame_orbs_fixed"
+    }
+    component {
+        name = "skill_tab"
+        inter = "skill_tab"
+        target = "skill_tab_fixed"
+    }
+    component {
+        name = "activity_tab"
+        inter = "activity_tab"
+        target = "activity_tab_fixed"
+    }
+    component {
+        name = "quest_tab"
+        inter = "quest_tab"
+        target = "quest_tab_fixed"
+    }
+    component {
+        name = "inventory_tab"
+        inter = "inventory_tab"
+        target = "inventory_tab_fixed"
+    }
+    component {
+        name = "equipment_tab"
+        inter = "equipment_tab"
+        target = "equipment_tab_fixed"
+    }
+    component {
+        name = "prayer_tab"
+        inter = "prayer_tab"
+        target = "prayer_tab_fixed"
+    }
+    component {
+        name = "magic_tab"
+        inter = "magic_tab"
+        target = "magic_tab_fixed"
+    }
+    component {
+        name = "community_tab"
+        inter = "community_tab"
+        target = "community_tab_fixed"
+    }
+    component {
+        name = "social_tab"
+        inter = "social_tab"
+        target = "social_tab_fixed"
+    }
+    component {
+        name = "logout_tab"
+        inter = "logout_tab"
+        target = "logout_tab_fixed"
+    }
+    component {
+        name = "settings_tab"
+        inter = "settings_tab"
+        target = "settings_tab_fixed"
+    }
+    component {
+        name = "emotes_tab"
+        inter = "emotes_tab"
+        target = "emotes_tab_fixed"
+    }
+    component {
+        name = "music_tab"
+        inter = "music_tab"
+        target = "music_tab_fixed"
+    }
+    component {
+        name = "clan_chat_tab"
+        inter = "clan_chat_tab"
+        target = "clan_chat_tab_fixed"
+    }
+    component {
+        name = "attack_tab"
+        inter = "attack_tab"
+        target = "attack_tab_fixed"
+    }
 }
