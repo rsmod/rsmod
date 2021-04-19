@@ -64,7 +64,7 @@ class ItemContainer private constructor(
      */
     fun copy(): ItemContainer {
         val copyItems = mutableListOf<Item?>()
-        items.forEach { it?.let { copyItems.add(it.copy()) } }
+        items.forEach { copyItems.add(it?.copy()) }
         return ItemContainer(copyItems, stackMode, autoUpdate)
     }
 }
