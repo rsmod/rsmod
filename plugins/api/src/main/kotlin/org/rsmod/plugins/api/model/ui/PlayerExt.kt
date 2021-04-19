@@ -14,6 +14,9 @@ import org.rsmod.game.model.ui.ComponentProperty
 import org.rsmod.game.model.ui.DynamicComponentEvent
 import org.rsmod.game.model.ui.InterfaceList
 import org.rsmod.game.model.ui.UserInterface
+import org.rsmod.game.model.ui.type.ComponentType
+import org.rsmod.game.model.ui.type.InterfaceType
+import org.rsmod.plugins.api.model.ui.gameframe.Gameframe
 import org.rsmod.plugins.api.protocol.packet.server.IfCloseSub
 import org.rsmod.plugins.api.protocol.packet.server.IfOpenSub
 import org.rsmod.plugins.api.protocol.packet.server.IfOpenTop
@@ -23,6 +26,13 @@ import org.rsmod.plugins.api.protocol.packet.server.IfSetNpcHead
 import org.rsmod.plugins.api.protocol.packet.server.IfSetObject
 import org.rsmod.plugins.api.protocol.packet.server.IfSetPlayerHead
 import org.rsmod.plugins.api.protocol.packet.server.IfSetText
+
+fun Player.openGameframe(frame: Gameframe) {
+    openTopLevel(frame.topLevel)
+    frame.components.values.forEach { component ->
+        openOverlay(component.inter, component.target)
+    }
+}
 
 fun Player.openTopLevel(userInterface: UserInterface) {
     if (ui.topLevel.contains(userInterface)) {
@@ -181,6 +191,78 @@ fun Player.getComponentEvents(component: Component, range: IntRange): List<Inter
     val event = property.firstOrNull { range.within(it.range) } ?: return emptyList()
     val types = InterfaceEvent.values
     return types.filter { (event.packed and it.flag) != 0 }
+}
+
+fun Player.openTopLevel(type: InterfaceType) {
+    return openTopLevel(type.toUserInterface())
+}
+
+fun Player.closeTopLevel(type: InterfaceType) {
+    return closeTopLevel(type.toUserInterface())
+}
+
+fun Player.openModal(
+    modalType: InterfaceType,
+    targetType: ComponentType,
+    clickMode: InterfaceClickMode = InterfaceClickMode.Disabled
+) {
+    return openModal(modalType.toUserInterface(), targetType.toComponent(), clickMode)
+}
+
+fun Player.closeModal(modalType: InterfaceType) {
+    return closeModal(modalType.toUserInterface())
+}
+
+fun Player.closeModal(targetType: ComponentType) {
+    return closeModal(targetType.toComponent())
+}
+
+fun Player.openOverlay(
+    overlayType: InterfaceType,
+    targetType: ComponentType,
+    clickMode: InterfaceClickMode = InterfaceClickMode.Enabled
+) {
+    return openOverlay(overlayType.toUserInterface(), targetType.toComponent(), clickMode)
+}
+
+fun Player.closeOverlay(overlayType: InterfaceType) {
+    return closeOverlay(overlayType.toUserInterface())
+}
+
+fun Player.closeOverlay(targetType: ComponentType) {
+    return closeOverlay(targetType.toComponent())
+}
+
+fun Player.setComponentText(type: ComponentType, text: String) {
+    return setComponentText(type.toComponent(), text)
+}
+
+fun Player.setComponentNpc(type: ComponentType, npc: NpcType) {
+    return setComponentNpc(type.toComponent(), npc)
+}
+
+fun Player.setComponentPlayer(type: ComponentType) {
+    return setComponentPlayer(type.toComponent())
+}
+
+fun Player.setComponentItem(type: ComponentType, item: ItemType, amountOrZoom: Int = 1) {
+    return setComponentItem(type.toComponent(), item, amountOrZoom)
+}
+
+fun Player.setComponentAnim(type: ComponentType, anim: Int) {
+    return setComponentAnim(type.toComponent(), anim)
+}
+
+fun Player.setComponentEvents(type: ComponentType, range: IntRange, vararg events: InterfaceEvent) {
+    return setComponentEvents(type.toComponent(), range, *events)
+}
+
+fun Player.setComponentEventsAll(type: ComponentType, vararg events: InterfaceEvent) {
+    return setComponentEventsAll(type.toComponent(), *events)
+}
+
+fun Player.getComponentEvents(type: ComponentType, range: IntRange): List<InterfaceEvent> {
+    return getComponentEvents(type.toComponent(), range)
 }
 
 private fun IntRange.within(other: IntRange): Boolean {
