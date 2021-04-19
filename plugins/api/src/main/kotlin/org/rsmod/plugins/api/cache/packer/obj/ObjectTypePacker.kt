@@ -9,11 +9,11 @@ import org.rsmod.game.cache.GameCache
 import org.rsmod.game.config.GameConfig
 import org.rsmod.game.model.obj.type.ObjectType
 import org.rsmod.game.model.obj.type.ObjectTypeList
-import org.rsmod.plugins.api.cache.config.file.DefaultExtensions
-import org.rsmod.plugins.api.cache.config.file.NamedConfigFileMap
-import org.rsmod.plugins.api.cache.config.obj.ObjectConfig
-import org.rsmod.plugins.api.cache.config.obj.ObjectConfigLoader
-import org.rsmod.plugins.api.cache.config.toConfigMapper
+import org.rsmod.plugins.api.config.file.DefaultExtensions
+import org.rsmod.plugins.api.config.file.NamedConfigFileMap
+import org.rsmod.plugins.api.config.obj.ObjectConfig
+import org.rsmod.plugins.api.config.obj.ObjectConfigLoader
+import org.rsmod.plugins.api.config.toConfigMapper
 import org.rsmod.plugins.api.cache.writeParameters
 import org.rsmod.plugins.api.util.toPlural
 import java.io.FileNotFoundException

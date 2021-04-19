@@ -8,9 +8,9 @@ import org.rsmod.game.model.map.Coordinates
 import org.rsmod.game.model.mob.Npc
 import org.rsmod.game.model.mob.NpcList
 import org.rsmod.game.model.npc.type.NpcTypeList
-import org.rsmod.plugins.api.cache.config.ConfigFileLoader
-import org.rsmod.plugins.api.cache.config.file.DefaultExtensions
-import org.rsmod.plugins.api.cache.config.file.NamedConfigFileMap
+import org.rsmod.plugins.api.config.ConfigFileLoader
+import org.rsmod.plugins.api.config.file.DefaultExtensions
+import org.rsmod.plugins.api.config.file.NamedConfigFileMap
 import org.rsmod.plugins.api.cache.name.npc.NpcNameMap
 import org.rsmod.plugins.api.model.mob.faceDirection
 import org.rsmod.plugins.api.util.toPlural

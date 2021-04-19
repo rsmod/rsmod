@@ -1,4 +1,4 @@
-package org.rsmod.plugins.api.cache.config.file
+package org.rsmod.plugins.api.config.file
 
 import org.rsmod.game.name.NamedTypeMap
 import java.nio.file.Files

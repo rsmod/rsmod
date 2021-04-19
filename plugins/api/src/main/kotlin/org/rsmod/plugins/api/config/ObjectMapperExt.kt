@@ -1,4 +1,4 @@
-package org.rsmod.plugins.api.cache.config
+package org.rsmod.plugins.api.config
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper

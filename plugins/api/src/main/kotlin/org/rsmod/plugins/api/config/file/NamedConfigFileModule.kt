@@ -1,4 +1,4 @@
-package org.rsmod.plugins.api.cache.config.file
+package org.rsmod.plugins.api.config.file
 
 import com.google.inject.Provider
 import com.google.inject.Scope

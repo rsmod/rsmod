@@ -1,10 +1,10 @@
-package org.rsmod.plugins.api.cache.config.obj
+package org.rsmod.plugins.api.config.obj
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.convertValue
 import org.rsmod.game.model.obj.type.ObjectTypeBuilder
-import org.rsmod.plugins.api.cache.config.ConfigFileLoader
+import org.rsmod.plugins.api.config.ConfigFileLoader
 
 private const val ID_KEY = "id"
 private const val INHERIT_KEY = "inherit"

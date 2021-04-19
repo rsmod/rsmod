@@ -7,7 +7,7 @@ import dev.misfitlabs.kotlinguice4.getInstance
 import org.rsmod.game.cache.CacheModule
 import org.rsmod.game.cache.type.CacheTypeLoaderList
 import org.rsmod.game.config.ConfigModule
-import org.rsmod.plugins.api.cache.config.file.NamedConfigFileModule
+import org.rsmod.plugins.api.config.file.NamedConfigFileModule
 import org.rsmod.plugins.api.cache.packer.item.ItemTypePacker
 import org.rsmod.plugins.api.cache.packer.npc.NpcTypePacker
 import org.rsmod.plugins.api.cache.packer.obj.ObjectTypePacker

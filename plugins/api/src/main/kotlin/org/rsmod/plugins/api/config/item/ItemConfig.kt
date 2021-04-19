@@ -1,4 +1,4 @@
-package org.rsmod.plugins.api.cache.config.item
+package org.rsmod.plugins.api.config.item
 
 import org.rsmod.game.model.item.type.ItemTypeBuilder
 

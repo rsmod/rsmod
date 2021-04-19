@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.michaelbull.logging.InlineLogger
 import org.rsmod.game.model.ui.Component
 import org.rsmod.game.name.NamedTypeLoader
-import org.rsmod.plugins.api.cache.config.file.DefaultExtensions
-import org.rsmod.plugins.api.cache.config.file.NamedConfigFileMap
+import org.rsmod.plugins.api.config.file.DefaultExtensions
+import org.rsmod.plugins.api.config.file.NamedConfigFileMap
 import org.rsmod.plugins.api.cache.type.ui.ComponentTypeList
 import java.nio.file.Files
 import java.nio.file.Path

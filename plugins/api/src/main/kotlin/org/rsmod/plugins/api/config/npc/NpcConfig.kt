@@ -1,4 +1,4 @@
-package org.rsmod.plugins.api.cache.config.npc
+package org.rsmod.plugins.api.config.npc
 
 import org.rsmod.game.model.npc.type.NpcTypeBuilder
 
