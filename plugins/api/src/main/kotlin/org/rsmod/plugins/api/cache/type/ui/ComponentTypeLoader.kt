@@ -5,6 +5,7 @@ import io.guthix.buffer.readStringCP1252
 import io.netty.buffer.ByteBuf
 import org.rsmod.game.cache.GameCache
 import org.rsmod.game.cache.type.CacheTypeLoader
+import org.rsmod.game.model.ui.Component
 import javax.inject.Inject
 
 private val logger = InlineLogger()
@@ -13,7 +14,8 @@ private const val COMPONENT_ARCHIVE = 3
 
 class ComponentTypeLoader @Inject constructor(
     private val cache: GameCache,
-    private val types: ComponentTypeList
+    private val components: ComponentTypeList,
+    private val interfaces: InterfaceTypeList
 ) : CacheTypeLoader {
 
     override fun load() {
@@ -21,13 +23,17 @@ class ComponentTypeLoader @Inject constructor(
         val groups = archive.groupSettings.keys
         groups.forEach { groupId ->
             val group = archive.readGroup(groupId)
+            val componentList = mutableListOf<Component>()
             group.files.forEach { (fileId, file) ->
-                val component = (groupId shl 16) or fileId
-                val type = file.data.type(component)
-                types[component] = type
+                val component = Component(groupId, fileId)
+                val type = file.data.type(component.packed)
+                components[component.packed] = type
+                componentList.add(component)
             }
+            val interfaceType = InterfaceType(groupId, componentList)
+            interfaces.add(interfaceType)
         }
-        logger.info { "Loaded ${groups.size} interface type files" }
+        logger.info { "Loaded ${interfaces.size} interface type files" }
     }
 
     private fun ByteBuf.type(id: Int): ComponentType {
