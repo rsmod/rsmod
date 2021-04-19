@@ -12,8 +12,8 @@ import org.rsmod.game.event.impl.OpenTopLevel
 import org.rsmod.game.model.item.type.ItemType
 import org.rsmod.game.model.npc.type.NpcType
 import org.rsmod.game.model.obj.type.ObjectType
-import org.rsmod.game.model.ui.Component
-import org.rsmod.game.model.ui.UserInterface
+import org.rsmod.game.model.ui.type.ComponentType
+import org.rsmod.game.model.ui.type.InterfaceType
 import org.rsmod.game.plugin.Plugin
 import org.rsmod.plugins.api.cache.type.item.equipmentOptions
 import org.rsmod.plugins.api.protocol.packet.ButtonClick
@@ -47,44 +47,44 @@ fun Plugin.onCommand(cmd: String, block: CommandBuilder.() -> Unit) {
     commands.register(cmd, block)
 }
 
-fun Plugin.onOpenTopLevel(top: UserInterface, block: OpenTopLevel.() -> Unit) {
+fun Plugin.onOpenTopLevel(top: InterfaceType, block: OpenTopLevel.() -> Unit) {
     onEvent<OpenTopLevel>()
-        .where { this.top == top }
+        .where { this.top == top.toUserInterface() }
         .then(block)
 }
 
-fun Plugin.onCloseTopLevel(top: UserInterface, block: CloseTopLevel.() -> Unit) {
+fun Plugin.onCloseTopLevel(top: InterfaceType, block: CloseTopLevel.() -> Unit) {
     onEvent<CloseTopLevel>()
-        .where { this.top == top }
+        .where { this.top == top.toUserInterface() }
         .then(block)
 }
 
-fun Plugin.onOpenModal(modal: UserInterface, block: OpenModal.() -> Unit) {
+fun Plugin.onOpenModal(modal: InterfaceType, block: OpenModal.() -> Unit) {
     onEvent<OpenModal>()
-        .where { this.modal == modal }
+        .where { this.modal == modal.toUserInterface() }
         .then(block)
 }
 
-fun Plugin.onCloseModal(modal: UserInterface, block: CloseModal.() -> Unit) {
+fun Plugin.onCloseModal(modal: InterfaceType, block: CloseModal.() -> Unit) {
     onEvent<CloseModal>()
-        .where { this.modal == modal }
+        .where { this.modal == modal.toUserInterface() }
         .then(block)
 }
 
-fun Plugin.onOpenOverlay(overlay: UserInterface, block: OpenOverlay.() -> Unit) {
+fun Plugin.onOpenOverlay(overlay: InterfaceType, block: OpenOverlay.() -> Unit) {
     onEvent<OpenOverlay>()
-        .where { this.overlay == overlay }
+        .where { this.overlay == overlay.toUserInterface() }
         .then(block)
 }
 
-fun Plugin.onCloseOverlay(overlay: UserInterface, block: CloseOverlay.() -> Unit) {
+fun Plugin.onCloseOverlay(overlay: InterfaceType, block: CloseOverlay.() -> Unit) {
     onEvent<CloseOverlay>()
-        .where { this.overlay == overlay }
+        .where { this.overlay == overlay.toUserInterface() }
         .then(block)
 }
 
-fun Plugin.onButton(component: Component, block: ButtonClick.() -> Unit) {
-    onAction(component.packed, block)
+fun Plugin.onButton(component: ComponentType, block: ButtonClick.() -> Unit) {
+    onAction(component.id, block)
 }
 
 fun Plugin.onItem(type: ItemType, opt: String, block: ItemAction.() -> Unit) {
