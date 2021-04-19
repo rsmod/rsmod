@@ -1,6 +1,5 @@
 package org.rsmod.plugins.content.serializer
 
-import javax.inject.Inject
 import org.rsmod.game.GameEnv
 import org.rsmod.game.config.GameConfig
 import org.rsmod.game.model.client.Client
@@ -10,6 +9,11 @@ import org.rsmod.game.model.domain.serializer.ClientData
 import org.rsmod.game.model.domain.serializer.ClientDataMapper
 import org.rsmod.game.model.domain.serializer.ClientDeserializeRequest
 import org.rsmod.game.model.domain.serializer.ClientDeserializeResponse
+import org.rsmod.game.model.item.Item
+import org.rsmod.game.model.item.container.ItemContainer
+import org.rsmod.game.model.item.container.ItemContainerKeyMap
+import org.rsmod.game.model.item.container.ItemContainerMap
+import org.rsmod.game.model.item.type.ItemTypeList
 import org.rsmod.game.model.map.Coordinates
 import org.rsmod.game.model.mob.Player
 import org.rsmod.game.model.move.MovementSpeed
@@ -20,11 +24,14 @@ import org.rsmod.game.model.vars.VarpMap
 import org.rsmod.game.privilege.Privilege
 import org.rsmod.game.privilege.PrivilegeMap
 import org.rsmod.util.security.PasswordEncryption
+import javax.inject.Inject
 
 class DefaultClientMapper @Inject constructor(
     private val config: GameConfig,
     private val encryption: PasswordEncryption,
-    private val privilegeMap: PrivilegeMap
+    private val privilegeMap: PrivilegeMap,
+    private val itemTypes: ItemTypeList,
+    private val containerKeys: ItemContainerKeyMap
 ) : ClientDataMapper<DefaultClientData> {
 
     override val type = DefaultClientData::class
@@ -78,6 +85,7 @@ class DefaultClientMapper @Inject constructor(
         player.runEnergy = data.runEnergy
         player.stats.putAll(data.skills)
         player.varpMap.putAll(data.varps)
+        player.containers.putAll(data.containers, containerKeys, itemTypes)
         return ClientDeserializeResponse.Success(client)
     }
 
@@ -94,7 +102,8 @@ class DefaultClientMapper @Inject constructor(
             moveSpeed = if (player.speed == MovementSpeed.Run) 1 else 0,
             runEnergy = player.runEnergy,
             skills = player.stats.toIntKeyMap(),
-            varps = player.varpMap.toMap()
+            varps = player.varpMap.toMap(),
+            containers = player.containers.toContainerMap()
         )
     }
 
@@ -141,6 +150,7 @@ data class DefaultClientData(
     val runEnergy: Double,
     val moveSpeed: Int,
     val skills: Map<Int, Stat>,
+    val containers: Map<String, List<ContainerItem>>,
     val varps: Map<Int, Int>
 ) : ClientData {
 
@@ -160,6 +170,7 @@ data class DefaultClientData(
         if (moveSpeed != other.moveSpeed) return false
         if (skills != other.skills) return false
         if (varps != other.varps) return false
+        if (containers != other.containers) return false
 
         return true
     }
@@ -175,9 +186,16 @@ data class DefaultClientData(
         result = 31 * result + moveSpeed
         result = 31 * result + skills.hashCode()
         result = 31 * result + varps.hashCode()
+        result = 31 * result + containers.hashCode()
         return result
     }
 }
+
+data class ContainerItem(
+    val slot: Int,
+    val id: Int,
+    val amount: Int
+)
 
 private fun StatMap.toIntKeyMap(): Map<Int, Stat> {
     return entries.associate { (key, value) -> key.id to value }
@@ -190,4 +208,37 @@ private fun StatMap.putAll(intKeyMap: Map<Int, Stat>) {
 
 private fun VarpMap.putAll(from: Map<Int, Int>) {
     from.forEach { (key, value) -> this[key] = value }
+}
+
+private fun ItemContainerMap.toContainerMap(): Map<String, List<ContainerItem>> = entries.associate { entry ->
+    val key = entry.key
+    val container = entry.value
+    key.name to container.toItemMap()
+}
+
+private fun ItemContainerMap.putAll(
+    from: Map<String, List<ContainerItem>>,
+    keys: ItemContainerKeyMap,
+    itemTypes: ItemTypeList
+) {
+    from.forEach { (keyName, items) ->
+        val key = keys[keyName] ?: error("Container key \"$keyName\" does not exist.")
+        val container = ItemContainer(key.capacity, key.stack)
+        items.forEach { item ->
+            val type = itemTypes[item.id]
+            container[item.slot] = Item(type, item.amount)
+        }
+        this[key] = container
+    }
+}
+
+private fun ItemContainer.toItemMap(): List<ContainerItem> {
+    val items = mutableListOf<ContainerItem>()
+    forEachIndexed { index, item ->
+        if (item != null) {
+            val containerItem = ContainerItem(index, item.id, item.amount)
+            items.add(containerItem)
+        }
+    }
+    return items
 }

@@ -52,7 +52,7 @@ private fun Player.removeContainers(
         val removed = !curContainers.containsKey(key)
         if (removed) {
             val packet = UpdateInvFull(
-                key = key.id ?: -1,
+                key = key.clientId ?: -1,
                 component = key.component?.packed ?: 0,
                 items = emptyList()
             )
@@ -75,7 +75,7 @@ private fun Player.updateContainers(
         val old = oldContainers[key]
         if (old == null) {
             val packet = UpdateInvFull(
-                key = key.id ?: -1,
+                key = key.clientId ?: -1,
                 component = key.component?.packed ?: -1,
                 items = cur
             )
@@ -105,13 +105,13 @@ private fun Player.updateContainers(
             val fullBytes = cur.size * INV_FULL_BYTES_PER_ITEM
             val packet = if (partialBytes < fullBytes) {
                 UpdateInvPartial(
-                    key = key.id ?: -1,
+                    key = key.clientId ?: -1,
                     component = key.component?.packed ?: -1,
                     updated = updated
                 )
             } else {
                 UpdateInvFull(
-                    key = key.id ?: -1,
+                    key = key.clientId ?: -1,
                     component = key.component?.packed ?: -1,
                     items = cur
                 )

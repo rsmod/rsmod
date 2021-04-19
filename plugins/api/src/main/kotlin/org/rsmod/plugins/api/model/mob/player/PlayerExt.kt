@@ -1,6 +1,7 @@
 package org.rsmod.plugins.api.model.mob.player
 
 import org.rsmod.game.model.item.container.ItemContainer
+import org.rsmod.game.model.item.container.ItemContainerKey
 import org.rsmod.game.model.map.Coordinates
 import org.rsmod.game.model.mob.Player
 import org.rsmod.game.model.move.MovementSpeed
@@ -109,4 +110,13 @@ fun Player.setVarbit(type: VarbitType, flag: Boolean, falseValue: Int = 0, trueV
 
 fun Player.toggleVarbit(type: VarbitType, value1: Int = 0, value2: Int = 1) {
     return varpMap.toggleVarbit(type, value1, value2)
+}
+
+fun Player.setContainer(key: ItemContainerKey, container: ItemContainer) {
+    container.ensureCapacity(key.capacity)
+    if (containers.containsKey(key)) {
+        val old = containers.getValue(key)
+        old.forEachIndexed { index, item -> container[index] = item }
+    }
+    containers[key] = container
 }

@@ -7,6 +7,7 @@ import org.rsmod.game.cmd.CommandMap
 import org.rsmod.game.collision.CollisionMap
 import org.rsmod.game.event.EventBus
 import org.rsmod.game.model.client.ClientList
+import org.rsmod.game.model.item.container.ItemContainerKeyMap
 import org.rsmod.game.model.map.MapIsolation
 import org.rsmod.game.model.mob.NpcList
 import org.rsmod.game.model.mob.PlayerList
@@ -35,5 +36,6 @@ class GameModule(private val scope: Scope) : KotlinModule() {
         bind<GameObjectMap>().`in`(scope)
         bind<GameObjectApSet>().`in`(scope)
         bind<PrivilegeMap>().`in`(scope)
+        bind<ItemContainerKeyMap>().`in`(scope)
     }
 }
