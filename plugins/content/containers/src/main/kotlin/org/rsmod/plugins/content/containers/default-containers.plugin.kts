@@ -6,7 +6,7 @@ import org.rsmod.game.model.item.container.ItemContainerKey
 import org.rsmod.game.model.item.container.ItemContainerKeyMap
 import org.rsmod.game.model.item.container.ItemContainerStackMode
 import org.rsmod.game.model.mob.Player
-import org.rsmod.plugins.api.model.mob.player.setContainer
+import org.rsmod.plugins.api.model.mob.player.addContainer
 
 val keys: ItemContainerKeyMap by inject()
 
@@ -41,9 +41,9 @@ onEvent<ServerStartup>()
     .then { registerContainerKeys() }
 
 fun Player.setDefaultContainers() {
-    setContainer(inventoryKey, inventory)
-    setContainer(equipmentKey, equipment)
-    setContainer(bankKey, bank)
+    addContainer(inventoryKey, inventory)
+    addContainer(equipmentKey, equipment)
+    addContainer(bankKey, bank)
 
     /* enable auto-updates for necessary containers */
     inventory.autoUpdate = true

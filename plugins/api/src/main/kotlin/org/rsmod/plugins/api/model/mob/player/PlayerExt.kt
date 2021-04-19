@@ -112,7 +112,7 @@ fun Player.toggleVarbit(type: VarbitType, value1: Int = 0, value2: Int = 1) {
     return varpMap.toggleVarbit(type, value1, value2)
 }
 
-fun Player.setContainer(key: ItemContainerKey, container: ItemContainer) {
+fun Player.addContainer(key: ItemContainerKey, container: ItemContainer) {
     container.ensureCapacity(key.capacity)
     if (containers.containsKey(key)) {
         val old = containers.getValue(key)
