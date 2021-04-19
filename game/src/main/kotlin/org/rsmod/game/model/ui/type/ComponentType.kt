@@ -1,6 +1,7 @@
 package org.rsmod.game.model.ui.type
 
 import org.rsmod.game.cache.type.CacheType
+import org.rsmod.game.model.ui.Component
 
 data class ComponentType(
     override val id: Int,
@@ -99,4 +100,9 @@ data class ComponentType(
     val varTransmitTrigger: List<Int>,
     val invTransmitTrigger: List<Int>,
     val statTransmitTrigger: List<Int>
-) : CacheType
+) : CacheType {
+
+    fun toComponent(): Component {
+        return Component(id)
+    }
+}

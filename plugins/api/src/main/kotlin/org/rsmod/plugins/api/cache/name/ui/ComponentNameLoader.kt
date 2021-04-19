@@ -26,8 +26,7 @@ class ComponentNameLoader @Inject constructor(
         logger.info { "Loaded ${names.size} component type name${if (names.size != 1) "s" else ""}" }
     }
 
-    private fun loadAliasFile(file: Path): Int {
-        var count = 0
+    private fun loadAliasFile(file: Path) {
         Files.newInputStream(file).use { input ->
             val nodes = mapper.readValue(input, Array<NamedComponent>::class.java)
             nodes.forEach { node ->
@@ -38,10 +37,8 @@ class ComponentNameLoader @Inject constructor(
                         "(component=$parent:$child, file=${file.fileName}, path=${file.toAbsolutePath()})"
                 )
                 names[name] = type
-                count++
             }
         }
-        return count
     }
 }
 

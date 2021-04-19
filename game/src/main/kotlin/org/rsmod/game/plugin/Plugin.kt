@@ -11,6 +11,10 @@ import org.rsmod.game.event.EventBus
 import org.rsmod.game.model.item.type.ItemType
 import org.rsmod.game.model.npc.type.NpcType
 import org.rsmod.game.model.obj.type.ObjectType
+import org.rsmod.game.model.ui.type.ComponentType
+import org.rsmod.game.model.ui.type.InterfaceType
+import org.rsmod.game.model.vars.type.VarbitType
+import org.rsmod.game.model.vars.type.VarpType
 import org.rsmod.game.name.NamedTypeMap
 import kotlin.properties.ObservableProperty
 
@@ -26,6 +30,14 @@ open class Plugin(
     private val itemNames: NamedTypeMap<ItemType> by inject()
 
     private val objNames: NamedTypeMap<ObjectType> by inject()
+
+    private val componentNames: NamedTypeMap<ComponentType> by inject()
+
+    private val interfaceNames: NamedTypeMap<InterfaceType> by inject()
+
+    private val varpNames: NamedTypeMap<VarpType> by inject()
+
+    private val varbitNames: NamedTypeMap<VarbitType> by inject()
 
     inline fun <reified T : Event> onEvent() = eventBus.subscribe<T>()
 
@@ -55,6 +67,22 @@ open class Plugin(
 
     fun obj(name: String): ObjectType {
         return objNames[name] ?: error("Object with name (or alias) \"$name\" not found.")
+    }
+
+    fun component(name: String): ComponentType {
+        return componentNames[name] ?: error("Component with alias \"$name\" not found.")
+    }
+
+    fun inter(name: String): InterfaceType {
+        return interfaceNames[name] ?: error("Interface with name \"$name\" not found.")
+    }
+
+    fun varp(name: String): VarpType {
+        return varpNames[name] ?: error("Varp with name \"$name\" not found.")
+    }
+
+    fun varbit(name: String): VarbitType {
+        return varbitNames[name] ?: error("Varbit with name \"$name\" not found.")
     }
 
     fun npcs(vararg names: String): Iterable<NpcType> {
