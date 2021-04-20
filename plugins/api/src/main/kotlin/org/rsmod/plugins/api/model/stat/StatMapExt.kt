@@ -71,3 +71,12 @@ val StatMap.hunter: Stat
 
 val StatMap.construction: Stat
     get() = getValue(Stats.Construction)
+
+fun StatMap.combatLevel(): Int {
+    val melee = attack.baseLevel() + strength.baseLevel()
+    val ranged = (ranged.baseLevel() * 3) / 2
+    val magic = (magic.baseLevel() * 3) / 2
+    val highest = melee.coerceAtLeast(ranged).coerceAtLeast(magic)
+    val defence = (defence.baseLevel() + hitpoints.baseLevel()) + (prayer.baseLevel() / 2)
+    return ((highest * 13) / 10 + defence) / 4
+}
