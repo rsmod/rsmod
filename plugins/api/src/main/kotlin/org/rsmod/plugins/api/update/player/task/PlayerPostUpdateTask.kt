@@ -1,6 +1,6 @@
 package org.rsmod.plugins.api.update.player.task
 
-import javax.inject.Inject
+import org.rsmod.game.event.impl.StatLevelUp
 import org.rsmod.game.model.item.Item
 import org.rsmod.game.model.item.container.ItemContainerMap
 import org.rsmod.game.model.mob.Player
@@ -10,9 +10,11 @@ import org.rsmod.game.model.stat.StatMap
 import org.rsmod.game.model.vars.VarpMap
 import org.rsmod.game.update.task.UpdateTask
 import org.rsmod.plugins.api.model.mob.player.sendVarp
+import org.rsmod.plugins.api.model.stat.baseLevel
 import org.rsmod.plugins.api.protocol.packet.server.UpdateInvFull
 import org.rsmod.plugins.api.protocol.packet.server.UpdateInvPartial
 import org.rsmod.plugins.api.protocol.packet.server.UpdateStat
+import javax.inject.Inject
 
 private const val INV_PARTIAL_BYTES_PER_ITEM = Short.SIZE_BYTES + Short.SIZE_BYTES + Byte.SIZE_BYTES
 private const val INV_FULL_BYTES_PER_ITEM = Short.SIZE_BYTES + Byte.SIZE_BYTES
@@ -136,6 +138,14 @@ private fun Player.updateStats(
                 xp = cur.experience.toInt()
             )
             write(packet)
+        }
+        if (updateXp) {
+            val oldBase = old.baseLevel()
+            val currBase = cur.baseLevel()
+            if (currBase > oldBase) {
+                val event = StatLevelUp(this, key, oldBase, currBase, cur.experience)
+                submitEvent(event)
+            }
         }
     }
 }
