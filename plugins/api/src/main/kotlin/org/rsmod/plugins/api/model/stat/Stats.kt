@@ -1,8 +1,8 @@
 package org.rsmod.plugins.api.model.stat
 
+import org.rsmod.game.model.stat.StatKey
 import kotlin.math.floor
 import kotlin.math.pow
-import org.rsmod.game.model.stat.StatKey
 
 object Stats {
 
@@ -71,7 +71,12 @@ object Stats {
     }
 
     fun levelForExp(xp: Int): Int {
-        return (1 until EXP_TABLE.size).firstOrNull { xp < it } ?: EXP_TABLE.last()
+        for (guess in 1 until EXP_TABLE.size) {
+            if (xp < EXP_TABLE[guess]) {
+                return guess
+            }
+        }
+        return MAX_STAT_LEVEL
     }
 
     fun levelForExp(xp: Double) = levelForExp(xp.toInt())
