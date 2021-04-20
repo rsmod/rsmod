@@ -22,7 +22,15 @@ data class MapMove(
     val destination: Coordinates,
     val type: MoveType,
     val noclip: Boolean = false
-) : Action
+) : Action {
+
+    override fun toString() = MoreObjects.toStringHelper(this)
+        .add("dest", destination)
+        .add("type", type)
+        .add("noclip", noclip)
+        .add("player", player)
+        .toString()
+}
 
 data class ButtonClick(
     val player: Player,
@@ -30,7 +38,16 @@ data class ButtonClick(
     val component: Component,
     val child: Int,
     val item: Int
-) : Action
+) : Action {
+
+    override fun toString() = MoreObjects.toStringHelper(this)
+        .add("component", component)
+        .add("slot", child)
+        .add("clickType", clickType)
+        .add("item", item)
+        .add("player", player)
+        .toString()
+}
 
 data class ObjectClick(
     val player: Player,
@@ -50,6 +67,16 @@ data class ObjectClick(
 
     val coords: Coordinates
         get() = action.coords
+
+    override fun toString() = MoreObjects.toStringHelper(this)
+        .add("coords", coords)
+        .add("shape", shape)
+        .add("rot", rot)
+        .add("type", type)
+        .add("moveType", moveType)
+        .add("approach", approach)
+        .add("player", player)
+        .toString()
 }
 
 sealed class ObjectAction(
@@ -76,11 +103,11 @@ sealed class ObjectAction(
         ObjectAction(player, type, shape, rot, coords)
 
     override fun toString(): String = MoreObjects.toStringHelper(this)
-        .add("player", player)
-        .add("type", type)
+        .add("coords", coords)
         .add("shape", shape)
         .add("rot", rot)
-        .add("coords", coords)
+        .add("type", type)
+        .add("player", player)
         .toString()
 }
 
@@ -96,6 +123,13 @@ data class NpcClick(
 
     val npc: Npc
         get() = action.npc
+
+    override fun toString() = MoreObjects.toStringHelper(this)
+        .add("npc", npc)
+        .add("moveType", moveType)
+        .add("approach", approach)
+        .add("player", player)
+        .toString()
 }
 
 sealed class NpcAction(
@@ -111,9 +145,9 @@ sealed class NpcAction(
     class Option5(player: Player, type: NpcType, npc: Npc) : NpcAction(player, type, npc)
 
     override fun toString(): String = MoreObjects.toStringHelper(this)
-        .add("player", player)
         .add("type", type)
         .add("npc", npc)
+        .add("player", player)
         .toString()
 }
 
@@ -139,7 +173,7 @@ sealed class ItemAction(
     class Equipment8(player: Player, type: ItemType) : ItemAction(player, type)
 
     override fun toString(): String = MoreObjects.toStringHelper(this)
-        .add("player", player)
         .add("type", type)
+        .add("player", player)
         .toString()
 }
