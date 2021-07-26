@@ -6,6 +6,8 @@ import org.rsmod.game.message.ClientPacketHandler
 import org.rsmod.game.model.client.Client
 import org.rsmod.game.model.item.type.ItemTypeList
 import org.rsmod.game.model.mob.Player
+import org.rsmod.plugins.api.model.appearance.Equipment
+import org.rsmod.plugins.api.model.mob.player.equipItem
 import org.rsmod.plugins.api.protocol.packet.ItemAction
 import javax.inject.Inject
 
@@ -37,6 +39,7 @@ class OpHeld2Handler @Inject constructor(
         val type = types.getOrNull(packet.item) ?: return
         val option = ItemAction.Inventory2(player, type)
         actionBus.publish(option, type.id)
+        player.equipItem(type, Equipment.WEAPON)
     }
 }
 
@@ -83,7 +86,7 @@ class OpHeld6Handler @Inject constructor(
 
     override fun handle(client: Client, player: Player, packet: OpHeld6) {
         val type = types.getOrNull(packet.item) ?: return
-        val option = ItemAction.Inventory6(player, type)
+        val option = ItemAction.ExamineAction(player, type)
         actionBus.publish(option)
     }
 }

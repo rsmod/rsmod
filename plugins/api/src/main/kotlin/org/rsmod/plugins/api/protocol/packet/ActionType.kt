@@ -7,6 +7,7 @@ import org.rsmod.game.model.map.Coordinates
 import org.rsmod.game.model.mob.Npc
 import org.rsmod.game.model.mob.Player
 import org.rsmod.game.model.npc.type.NpcType
+import org.rsmod.game.model.obj.GameObject
 import org.rsmod.game.model.obj.type.ObjectType
 import org.rsmod.game.model.ui.Component
 
@@ -56,57 +57,32 @@ data class ObjectClick(
     val approach: Boolean
 ) : Action {
 
-    val type: ObjectType
-        get() = action.type
-
-    val shape: Int
-        get() = action.shape
-
-    val rot: Int
-        get() = action.rot
-
-    val coords: Coordinates
-        get() = action.coords
+    val obj: GameObject
+        get() = action.obj
 
     override fun toString() = MoreObjects.toStringHelper(this)
-        .add("coords", coords)
-        .add("shape", shape)
-        .add("rot", rot)
-        .add("type", type)
+        .add("object", action.obj)
         .add("moveType", moveType)
         .add("approach", approach)
         .add("player", player)
         .toString()
+
+    data class ExamineAction(val player: Player, val type: ObjectType) : Action
 }
 
 sealed class ObjectAction(
     val player: Player,
-    val type: ObjectType,
-    val shape: Int,
-    val rot: Int,
-    val coords: Coordinates
+    val obj: GameObject
 ) : Action {
 
-    class Option1(player: Player, type: ObjectType, shape: Int, rot: Int, coords: Coordinates) :
-        ObjectAction(player, type, shape, rot, coords)
-
-    class Option2(player: Player, type: ObjectType, shape: Int, rot: Int, coords: Coordinates) :
-        ObjectAction(player, type, shape, rot, coords)
-
-    class Option3(player: Player, type: ObjectType, shape: Int, rot: Int, coords: Coordinates) :
-        ObjectAction(player, type, shape, rot, coords)
-
-    class Option4(player: Player, type: ObjectType, shape: Int, rot: Int, coords: Coordinates) :
-        ObjectAction(player, type, shape, rot, coords)
-
-    class Option5(player: Player, type: ObjectType, shape: Int, rot: Int, coords: Coordinates) :
-        ObjectAction(player, type, shape, rot, coords)
+    class Option1(player: Player, obj: GameObject) : ObjectAction(player, obj)
+    class Option2(player: Player, obj: GameObject) : ObjectAction(player, obj)
+    class Option3(player: Player, obj: GameObject) : ObjectAction(player, obj)
+    class Option4(player: Player, obj: GameObject) : ObjectAction(player, obj)
+    class Option5(player: Player, obj: GameObject) : ObjectAction(player, obj)
 
     override fun toString(): String = MoreObjects.toStringHelper(this)
-        .add("coords", coords)
-        .add("shape", shape)
-        .add("rot", rot)
-        .add("type", type)
+        .add("object", obj)
         .add("player", player)
         .toString()
 }
@@ -130,6 +106,8 @@ data class NpcClick(
         .add("approach", approach)
         .add("player", player)
         .toString()
+
+    data class ExamineAction(val player: Player, val type: NpcType) : Action
 }
 
 sealed class NpcAction(
@@ -161,7 +139,7 @@ sealed class ItemAction(
     class Inventory3(player: Player, type: ItemType) : ItemAction(player, type)
     class Inventory4(player: Player, type: ItemType) : ItemAction(player, type)
     class Inventory5(player: Player, type: ItemType) : ItemAction(player, type)
-    class Inventory6(player: Player, type: ItemType) : ItemAction(player, type)
+    class ExamineAction(player: Player, type: ItemType) : ItemAction(player, type)
 
     class Equipment1(player: Player, type: ItemType) : ItemAction(player, type)
     class Equipment2(player: Player, type: ItemType) : ItemAction(player, type)

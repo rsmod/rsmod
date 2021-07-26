@@ -9,7 +9,6 @@ import org.rsmod.game.model.mob.Player
 import org.rsmod.game.model.npc.type.NpcType
 import org.rsmod.game.model.npc.type.NpcTypeList
 import org.rsmod.game.model.vars.type.VarbitTypeList
-import org.rsmod.plugins.api.model.mob.player.sendMessage
 import org.rsmod.plugins.api.protocol.packet.MoveType
 import org.rsmod.plugins.api.protocol.packet.NpcAction
 import org.rsmod.plugins.api.protocol.packet.NpcClick
@@ -117,12 +116,14 @@ class OpNpc5Handler @Inject constructor(
 
 class OpNpc6Handler @Inject constructor(
     private val actionBus: ActionBus,
-    private val types: NpcTypeList
+    private val types: NpcTypeList,
+    private val varbits: VarbitTypeList
 ) : ClientPacketHandler<OpNpc6> {
 
     override fun handle(client: Client, player: Player, packet: OpNpc6) {
-        // TODO: examine npc
-        player.sendMessage("Nothing interesting happens.")
+        val type = types[packet.id].varType(player, types, varbits)
+        val click = NpcClick.ExamineAction(player, type)
+        actionBus.publish(click)
     }
 }
 

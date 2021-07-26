@@ -12,7 +12,6 @@ import org.rsmod.game.model.obj.GameObjectMap
 import org.rsmod.game.model.obj.type.ObjectType
 import org.rsmod.game.model.obj.type.ObjectTypeList
 import org.rsmod.game.model.vars.type.VarbitTypeList
-import org.rsmod.plugins.api.model.mob.player.sendMessage
 import org.rsmod.plugins.api.protocol.packet.MoveType
 import org.rsmod.plugins.api.protocol.packet.ObjectAction
 import org.rsmod.plugins.api.protocol.packet.ObjectClick
@@ -41,7 +40,7 @@ class OpLoc1Handler @Inject constructor(
         val obj = objMap.find(player, coords, packet.id) ?: return
         val type = obj.type.varType(player, objTypes, varbitTypes)
         val approach = objApSet.contains(type.id)
-        val option = ObjectAction.Option1(player, type, obj.shape, obj.rotation, coords)
+        val option = ObjectAction.Option1(player, obj)
         val click = ObjectClick(player, packet.mode.moveType(), option, approach)
         actionBus.publish(click)
     }
@@ -60,7 +59,7 @@ class OpLoc2Handler @Inject constructor(
         val obj = objMap.find(player, coords, packet.id) ?: return
         val type = obj.type.varType(player, objTypes, varbitTypes)
         val approach = objApSet.contains(type.id)
-        val option = ObjectAction.Option2(player, type, obj.shape, obj.rotation, coords)
+        val option = ObjectAction.Option2(player, obj)
         val click = ObjectClick(player, packet.mode.moveType(), option, approach)
         actionBus.publish(click)
     }
@@ -79,7 +78,7 @@ class OpLoc3Handler @Inject constructor(
         val obj = objMap.find(player, coords, packet.id) ?: return
         val type = obj.type.varType(player, objTypes, varbitTypes)
         val approach = objApSet.contains(type.id)
-        val option = ObjectAction.Option3(player, type, obj.shape, obj.rotation, coords)
+        val option = ObjectAction.Option3(player, obj)
         val click = ObjectClick(player, packet.mode.moveType(), option, approach)
         actionBus.publish(click)
     }
@@ -98,7 +97,7 @@ class OpLoc4Handler @Inject constructor(
         val obj = objMap.find(player, coords, packet.id) ?: return
         val type = obj.type.varType(player, objTypes, varbitTypes)
         val approach = objApSet.contains(type.id)
-        val option = ObjectAction.Option4(player, type, obj.shape, obj.rotation, coords)
+        val option = ObjectAction.Option4(player, obj)
         val click = ObjectClick(player, packet.mode.moveType(), option, approach)
         actionBus.publish(click)
     }
@@ -117,17 +116,22 @@ class OpLoc5Handler @Inject constructor(
         val obj = objMap.find(player, coords, packet.id) ?: return
         val type = obj.type.varType(player, objTypes, varbitTypes)
         val approach = objApSet.contains(type.id)
-        val option = ObjectAction.Option5(player, type, obj.shape, obj.rotation, coords)
+        val option = ObjectAction.Option5(player, obj)
         val click = ObjectClick(player, packet.mode.moveType(), option, approach)
         actionBus.publish(click)
     }
 }
 
-class OpLoc6Handler @Inject constructor() : ClientPacketHandler<OpLoc6> {
+class OpLoc6Handler @Inject constructor(
+    private val actionBus: ActionBus,
+    private val objTypes: ObjectTypeList,
+    private val varbitTypes: VarbitTypeList
+) : ClientPacketHandler<OpLoc6> {
 
     override fun handle(client: Client, player: Player, packet: OpLoc6) {
-        // TODO: examine object
-        player.sendMessage("Nothing interesting happens.")
+        val type = objTypes[packet.id].varType(player, objTypes, varbitTypes)
+        val click = ObjectClick.ExamineAction(player, type)
+        actionBus.publish(click)
     }
 }
 

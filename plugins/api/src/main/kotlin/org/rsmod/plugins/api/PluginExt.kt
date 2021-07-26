@@ -16,6 +16,7 @@ import org.rsmod.game.model.ui.type.ComponentType
 import org.rsmod.game.model.ui.type.InterfaceType
 import org.rsmod.game.plugin.Plugin
 import org.rsmod.plugins.api.cache.type.item.equipmentOptions
+import org.rsmod.plugins.api.event.EquipItem
 import org.rsmod.plugins.api.protocol.packet.ButtonClick
 import org.rsmod.plugins.api.protocol.packet.ItemAction
 import org.rsmod.plugins.api.protocol.packet.NpcAction
@@ -87,6 +88,12 @@ fun Plugin.onButton(component: ComponentType, block: ButtonClick.() -> Unit) {
     onAction(component.id, block)
 }
 
+fun Plugin.onEquip(slot: Int, block: EquipItem.() -> Unit) {
+    onEvent<EquipItem>()
+        .where { this.slot == slot }
+        .then(block)
+}
+
 fun Plugin.onItem(type: ItemType, opt: String, block: ItemAction.() -> Unit) {
     val invOption = type.inventoryOptions.optionIndex(opt, type.name, type.id, "item")
     if (invOption != -1) {
@@ -96,7 +103,7 @@ fun Plugin.onItem(type: ItemType, opt: String, block: ItemAction.() -> Unit) {
             2 -> onAction<ItemAction.Inventory3>(type.id, block)
             3 -> onAction<ItemAction.Inventory4>(type.id, block)
             4 -> onAction<ItemAction.Inventory5>(type.id, block)
-            5 -> onAction<ItemAction.Inventory6>(type.id, block)
+            5 -> onAction<ItemAction.ExamineAction>(type.id, block)
             else -> error("Unhandled item inventory option. (item=${type.name}, id=${type.id}, option=$invOption)")
         }
         return

@@ -18,6 +18,7 @@ import org.rsmod.game.model.item.container.ItemContainer
 import org.rsmod.game.model.item.container.ItemContainerMap
 import org.rsmod.game.model.map.Coordinates
 import org.rsmod.game.model.map.Viewport
+import org.rsmod.game.model.move.MoveRequest
 import org.rsmod.game.model.move.MovementQueue
 import org.rsmod.game.model.move.MovementSpeed
 import org.rsmod.game.model.npc.type.NpcType
@@ -42,6 +43,7 @@ sealed class Mob(
     var orientation: Int = DEFAULT_ORIENTATION,
     var displace: Boolean = false,
     var lastSpeed: MovementSpeed? = null,
+    var moveRequest: MoveRequest? = null,
     val stats: StatMap = StatMap(),
     val timers: TimerMap = TimerMap(),
     val attribs: AttributeMap = AttributeMap(),

@@ -15,7 +15,7 @@ kotlin-retry = "1.0.8"
 kotlinter = "3.3.0"
 log4j = "2.14.0"
 netty = "4.1.63.Final"
-rsmod-pathfinder = "1.1.2"
+rsmod-pathfinder = "1.2.4"
 
 [libraries]
 bouncyCastle = { module = "org.bouncycastle:bcprov-jdk15on", version.ref = "bouncy-castle" }
