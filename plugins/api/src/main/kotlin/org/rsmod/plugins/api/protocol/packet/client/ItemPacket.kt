@@ -6,7 +6,6 @@ import org.rsmod.game.message.ClientPacketHandler
 import org.rsmod.game.model.client.Client
 import org.rsmod.game.model.item.type.ItemTypeList
 import org.rsmod.game.model.mob.Player
-import org.rsmod.plugins.api.model.mob.player.sendMessage
 import org.rsmod.plugins.api.protocol.packet.ItemAction
 import javax.inject.Inject
 
@@ -77,10 +76,14 @@ class OpHeld5Handler @Inject constructor(
     }
 }
 
-class OpHeld6Handler @Inject constructor() : ClientPacketHandler<OpHeld6> {
+class OpHeld6Handler @Inject constructor(
+    private val actionBus: ActionBus,
+    private val types: ItemTypeList
+) : ClientPacketHandler<OpHeld6> {
 
     override fun handle(client: Client, player: Player, packet: OpHeld6) {
-        // TODO: examine item
-        player.sendMessage("Nothing interesting happens.")
+        val type = types.getOrNull(packet.item) ?: return
+        val option = ItemAction.Inventory6(player, type)
+        actionBus.publish(option)
     }
 }
