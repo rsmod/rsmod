@@ -246,7 +246,7 @@ class LoginDecoder(
         for (i in crcs.indices) {
             val received = crcs[i]
             val expected = cacheCrcs[i]
-            if (received > 0 && received != expected) {
+            if (received != 0 && received != expected) {
                 logger.debug {
                     "Cache crc out-of-date (archive=$i, clientCrc=$received, " +
                         "serverCrc=$expected, username=$username, channel=${channel()})"
