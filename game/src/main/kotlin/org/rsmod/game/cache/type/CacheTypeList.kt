@@ -20,7 +20,7 @@ open class CacheTypeList<T : CacheType>(
         return types[id]
     }
 
-    operator fun get(id: Int): T = getOrNull(id) ?: error("Null config type (id=$id).")
+    operator fun get(id: Int): T = getOrNull(id) ?: error("Config type does not exist (id=$id).")
 
     operator fun set(id: Int, type: T) {
         maxId = maxId.coerceAtLeast(id)
