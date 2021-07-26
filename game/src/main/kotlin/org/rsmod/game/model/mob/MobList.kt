@@ -25,6 +25,9 @@ class PlayerList(
     override val size: Int
         get() = players.count { it != null }
 
+    val indices: IntRange
+        get() = players.indices
+
     val capacity: Int
         get() = players.size
 
@@ -56,6 +59,9 @@ class NpcList(
 
     override val size: Int
         get() = npcs.count { it != null }
+
+    val indices: IntRange
+        get() = npcs.indices
 
     val capacity: Int
         get() = npcs.size
