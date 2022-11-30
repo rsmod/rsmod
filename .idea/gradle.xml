@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="delegatedBuild" value="false" />
+        <option name="testRunner" value="PLATFORM" />
+        <option name="distributionType" value="WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleHome" value="C:/Gradle/gradle-6.3" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/buffer" />
+            <option value="$PROJECT_DIR$/game" />
+            <option value="$PROJECT_DIR$/game/coroutines" />
+            <option value="$PROJECT_DIR$/game/plugins" />
+            <option value="$PROJECT_DIR$/game/testing" />
+            <option value="$PROJECT_DIR$/plugins" />
+            <option value="$PROJECT_DIR$/plugins/api" />
+            <option value="$PROJECT_DIR$/plugins/net" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>

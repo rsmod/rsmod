@@ -1,13 +1,12 @@
 package org.rsmod.game.net
 
+import com.google.inject.AbstractModule
 import com.google.inject.Scope
-import dev.misfitlabs.kotlinguice4.KotlinModule
-import org.rsmod.game.net.handshake.HandshakeHandlerMap
 
-class NetworkModule(private val scope: Scope) : KotlinModule() {
+public class NetworkModule(private val scope: Scope) : AbstractModule() {
 
     override fun configure() {
-        bind<HandshakeHandlerMap>()
-            .`in`(scope)
+        bind(NetworkBootstrapFactory::class.java).`in`(scope)
+        bind(NetworkChannelInitializer::class.java).`in`(scope)
     }
 }
