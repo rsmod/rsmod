@@ -1,4 +1,0 @@
----
-- name: inventory_container
-  parent: inventory_tab
-  child: 0

@@ -1,39 +1,45 @@
 import java.nio.file.Files
 import java.nio.file.Path
 
+rootProject.name = "rsmod"
+
 enableFeaturePreview("VERSION_CATALOGS")
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
-rootProject.name = "rsmod"
-include("util")
-include("game")
-include("plugins")
-includePlugins(project(":plugins").projectDir.toPath())
-include("all")
-
 pluginManagement {
     plugins {
-        kotlin("jvm") version "1.4.0"
-        id("org.jmailen.kotlinter") version "3.3.0"
+        kotlin("jvm") version "1.7.0"
     }
 }
 
-fun includePlugins(pluginPath: Path) {
+include(
+    "buffer",
+    "game",
+    "game:coroutines",
+    "game:plugins",
+    "game:testing",
+    "plugins",
+    "app"
+)
+
+includePlugins(project(":plugins"))
+
+fun includePlugins(pluginProject: ProjectDescriptor) {
+    val pluginPath = pluginProject.projectDir.toPath()
     Files.walk(pluginPath).forEach {
         if (!Files.isDirectory(it)) {
             return@forEach
         }
-        searchPlugin(pluginPath, it)
+        searchPlugin(pluginProject.name, pluginPath, it)
     }
 }
 
-fun searchPlugin(parent: Path, path: Path) {
-    val hasBuildFile = Files.exists(path.resolve("build.gradle.kts"))
+fun searchPlugin(parentName: String, pluginRoot: Path, currentPath: Path) {
+    val hasBuildFile = Files.exists(currentPath.resolve("build.gradle.kts"))
     if (!hasBuildFile) {
         return
     }
-    val relativePath = parent.relativize(path)
+    val relativePath = pluginRoot.relativize(currentPath)
     val pluginName = relativePath.toString().replace(File.separator, ":")
-
-    include("plugins:$pluginName")
+    include("$parentName:$pluginName")
 }

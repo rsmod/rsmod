@@ -1,51 +1,23 @@
 package org.rsmod.game.coroutine
 
-import com.google.common.util.concurrent.ThreadFactoryBuilder
-import com.google.inject.Provider
+import com.google.inject.AbstractModule
 import com.google.inject.Scope
 import com.google.inject.name.Names
-import dev.misfitlabs.kotlinguice4.KotlinModule
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import java.util.concurrent.Executors
 
-class CoroutineModule(
-    private val scope: Scope
-) : KotlinModule() {
+public class CoroutineModule(private val scope: Scope) : AbstractModule() {
 
     override fun configure() {
-        bind<GameExecutor>()
-            .toProvider<GameExecutorProvider>()
-            .`in`(scope)
-        bind<CoroutineDispatcher>()
-            .annotatedWith(Names.named("gameCoroutineDispatcher"))
-            .toProvider<GameCoroutineDispatcherProvider>()
-        bind<GameCoroutineScope>()
-            .`in`(scope)
-
-        bind<CoroutineDispatcher>()
+        bind(CoroutineDispatcher::class.java)
             .annotatedWith(Names.named("ioCoroutineDispatcher"))
-            .toProvider<IoDispatcherProvider>()
-        bind<IoCoroutineScope>()
+            .toInstance(Dispatchers.IO)
+        bind(CoroutineDispatcher::class.java)
+            .annotatedWith(Names.named("gameCoroutineDispatcher"))
+            .toProvider(GameCoroutineDispatcherProvider::class.java)
             .`in`(scope)
-    }
-}
 
-class GameExecutorProvider : Provider<GameExecutor> {
-
-    override fun get(): GameExecutor {
-        val factory = ThreadFactoryBuilder()
-            .setDaemon(false)
-            .setNameFormat("GameExecutor")
-            .build()
-        val executor = Executors.newSingleThreadExecutor(factory)
-        return GameExecutor(executor)
-    }
-}
-
-class IoDispatcherProvider : Provider<CoroutineDispatcher> {
-
-    override fun get(): CoroutineDispatcher {
-        return Dispatchers.IO
+        bind(IoCoroutineScope::class.java).`in`(scope)
+        bind(GameCoroutineScope::class.java).`in`(scope)
     }
 }
