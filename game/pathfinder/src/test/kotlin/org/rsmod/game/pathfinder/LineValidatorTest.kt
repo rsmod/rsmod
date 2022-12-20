@@ -53,19 +53,19 @@ class LineValidatorTest {
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments>? {
             return Stream.of(
                 Arguments.of(
-                    North,
+                    Direction.North,
                     CollisionFlag.WALL_SOUTH_PROJECTILE_BLOCKER
                 ),
                 Arguments.of(
-                    South,
+                    Direction.South,
                     CollisionFlag.WALL_NORTH_PROJECTILE_BLOCKER
                 ),
                 Arguments.of(
-                    East,
+                    Direction.East,
                     CollisionFlag.WALL_WEST_PROJECTILE_BLOCKER
                 ),
                 Arguments.of(
-                    West,
+                    Direction.West,
                     CollisionFlag.WALL_EAST_PROJECTILE_BLOCKER
                 )
             )

@@ -1,12 +1,17 @@
 package org.rsmod.game.pathfinder
 
-internal sealed class Direction(val offX: Int, val offY: Int)
+internal enum class Direction(val offX: Int, val offY: Int) {
+    South(0, -1),
+    North(0, 1),
+    West(-1, 0),
+    East(1, 0),
+    SouthWest(-1, -1),
+    NorthWest(-1, 1),
+    SouthEast(1, -1),
+    NorthEast(1, 1);
 
-internal object South : Direction(0, -1)
-internal object North : Direction(0, 1)
-internal object West : Direction(-1, 0)
-internal object East : Direction(1, 0)
-internal object NorthEast : Direction(1, 1)
-internal object SouthEast : Direction(1, -1)
-internal object NorthWest : Direction(-1, 1)
-internal object SouthWest : Direction(-1, -1)
+    companion object {
+        val values = enumValues<Direction>()
+    }
+}
+
