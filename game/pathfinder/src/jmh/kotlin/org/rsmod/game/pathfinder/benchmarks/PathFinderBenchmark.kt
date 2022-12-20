@@ -3,6 +3,10 @@ package org.rsmod.game.pathfinder.benchmarks
 
 import com.fasterxml.jackson.core.JsonFactory
 import com.fasterxml.jackson.databind.ObjectMapper
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.asCoroutineDispatcher
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.openjdk.jmh.annotations.Benchmark
 import org.openjdk.jmh.annotations.BenchmarkMode
 import org.openjdk.jmh.annotations.Fork
@@ -15,6 +19,7 @@ import org.openjdk.jmh.annotations.State
 import org.openjdk.jmh.annotations.Warmup
 import org.rsmod.game.pathfinder.PathFinder
 import org.rsmod.game.pathfinder.collision.CollisionFlagMap
+import java.util.concurrent.ForkJoinPool
 import java.util.concurrent.TimeUnit
 import kotlin.math.sqrt
 
@@ -22,8 +27,6 @@ open class GameClickShortPath : PathFinderBenchmark("short-path.json")
 open class GameClickMedPath : PathFinderBenchmark("med-path.json")
 open class GameClickLongPath : PathFinderBenchmark("long-path.json")
 open class GameClickAltPath : PathFinderBenchmark("outofbound-path.json")
-
-private val emptyPathParameters = PathFinderParameter()
 
 @State(Scope.Benchmark)
 @BenchmarkMode(Mode.AverageTime)
@@ -37,22 +40,27 @@ abstract class PathFinderBenchmark(
 ) {
 
     private lateinit var params: PathFinderParameter
-    private lateinit var noResetOnSearch: PathFinder
     private lateinit var resetOnSearch: PathFinder
+    private lateinit var scope: CoroutineScope
 
     @Setup
     fun setup() {
         val stream = PathFinderBenchmark::class.java.getResourceAsStream(parameterResourceName)
         val mapper = ObjectMapper(JsonFactory())
         params = stream.use { mapper.readValue(it, PathFinderParameter::class.java) }
-        noResetOnSearch = PathFinder(params.toCollisionFlags(), resetOnSearch = false)
         resetOnSearch = PathFinder(params.toCollisionFlags(), resetOnSearch = true)
+
+        val executor = ForkJoinPool(Runtime.getRuntime().availableProcessors())
+        val dispatcher = executor.asCoroutineDispatcher()
+        scope = CoroutineScope(dispatcher)
     }
 
     @Benchmark
     fun serverPathConstructOnIteration() {
         val (level, srcX, srcY, destX, destY) = params
+        val flags = params.toCollisionFlags()
         repeat(pathRequests) {
+            val noResetOnSearch = PathFinder(flags, resetOnSearch = false)
             noResetOnSearch.findPath(level = level, srcX = srcX, srcY = srcY, destX = destX, destY = destY)
         }
     }
@@ -63,6 +71,41 @@ abstract class PathFinderBenchmark(
         repeat(pathRequests) {
             resetOnSearch.findPath(level = level, srcX = srcX, srcY = srcY, destX = destX, destY = destY)
         }
+    }
+
+    @Benchmark
+    fun serverPathCoroutineDispatcherThreadLocal() = runBlocking {
+        val (level, srcX, srcY, destX, destY) = params
+        val flags = params.toCollisionFlags()
+        val threadLocal = ThreadLocal.withInitial { PathFinder(flags, resetOnSearch = true) }
+
+        fun CoroutineScope.findPath() = launch {
+            val pf = threadLocal.get()
+            pf.findPath(level = level, srcX = srcX, srcY = srcY, destX = destX, destY = destY)
+        }
+
+        launch(scope.coroutineContext) {
+            repeat(pathRequests) {
+                findPath()
+            }
+        }.join()
+    }
+
+    @Benchmark
+    fun serverPathCoroutineDispatcherConstruct() = runBlocking {
+        val (level, srcX, srcY, destX, destY) = params
+        val flags = params.toCollisionFlags()
+
+        fun CoroutineScope.findPath() = launch {
+            val pf = PathFinder(flags, resetOnSearch = false)
+            pf.findPath(level = level, srcX = srcX, srcY = srcY, destX = destX, destY = destY)
+        }
+
+        launch(scope.coroutineContext) {
+            repeat(pathRequests) {
+                findPath()
+            }
+        }.join()
     }
 }
 
