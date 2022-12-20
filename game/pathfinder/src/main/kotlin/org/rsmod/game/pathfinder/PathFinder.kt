@@ -708,8 +708,8 @@ public class PathFinder(
     }
 
     private fun reset() {
-        Arrays.setAll(directions) { 0 }
-        Arrays.setAll(distances) { DEFAULT_DISTANCE_VALUE }
+        Arrays.fill(directions, 0)
+        Arrays.fill(distances, DEFAULT_DISTANCE_VALUE)
         bufReaderIndex = 0
         bufWriterIndex = 0
     }
