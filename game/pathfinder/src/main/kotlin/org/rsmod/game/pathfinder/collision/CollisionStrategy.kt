@@ -7,25 +7,25 @@ public interface CollisionStrategy {
     public fun canMove(tileFlag: Int, blockFlag: Int): Boolean
 }
 
-public class NormalBlockFlagCollision : CollisionStrategy {
+public class NormalFlagCollision : CollisionStrategy {
 
     override fun canMove(tileFlag: Int, blockFlag: Int): Boolean {
         return (tileFlag and blockFlag) == 0
     }
 }
 
-public class RoofBoundFlagCollision : CollisionStrategy {
-
-    override fun canMove(tileFlag: Int, blockFlag: Int): Boolean {
-        return (tileFlag and blockFlag) == 0 && (tileFlag and CollisionFlag.ROOF) != 0
-    }
-}
-
-public class WaterBoundFlagCollision : CollisionStrategy {
+public class BlockedFlagCollision : CollisionStrategy {
 
     override fun canMove(tileFlag: Int, blockFlag: Int): Boolean {
         val flag = blockFlag and CollisionFlag.FLOOR.inv()
         return (tileFlag and flag) == 0 && (tileFlag and CollisionFlag.FLOOR) != 0
+    }
+}
+
+public class IndoorsFlagCollision : CollisionStrategy {
+
+    override fun canMove(tileFlag: Int, blockFlag: Int): Boolean {
+        return (tileFlag and blockFlag) == 0 && (tileFlag and CollisionFlag.ROOF) != 0
     }
 }
 
