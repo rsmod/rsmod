@@ -592,11 +592,9 @@ public class PathFinder(
             x = currLocalX + 1
             y = currLocalY - 1
             dirFlag = DirectionFlag.NORTH_WEST
-            if (currLocalX < relativeSearchSize && currLocalY > 0 && directions[x, y] == 0 &&
-                collision.canMove(
-                    flags[baseX, baseY, currLocalX + srcSize, y, level],
-                    CollisionFlag.BLOCK_SOUTH_EAST
-                )
+            if (
+                currLocalX < relativeSearchSize && currLocalY > 0 && directions[x, y] == 0 &&
+                collision.canMove(flags[baseX, baseY, currLocalX + srcSize, y, level], CollisionFlag.BLOCK_SOUTH_EAST)
             ) {
                 val clipFlag1 = CollisionFlag.BLOCK_NORTH_AND_SOUTH_WEST
                 val clipFlag2 = CollisionFlag.BLOCK_NORTH_EAST_AND_WEST
@@ -697,8 +695,7 @@ public class PathFinder(
                 }
             }
         }
-        return !(lowestCost == MAX_ALTERNATIVE_ROUTE_LOWEST_COST ||
-            localSrcX == currLocalX && localSrcY == currLocalY)
+        return !(lowestCost == MAX_ALTERNATIVE_ROUTE_LOWEST_COST || localSrcX == currLocalX && localSrcY == currLocalY)
     }
 
     private fun appendDirection(x: Int, y: Int, direction: Int, distance: Int) {
