@@ -35,6 +35,7 @@ allprojects {
         dependencies {
             testImplementation(libs.junitApi)
             testRuntimeOnly(libs.junitEngine)
+            testImplementation(libs.junitParams)
         }
     }
 

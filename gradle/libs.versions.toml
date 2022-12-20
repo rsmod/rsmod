@@ -19,6 +19,7 @@ guice = { module = "com.google.inject:guice", version.ref = "guice" }
 inlineLogger = { module = "com.michael-bull.kotlin-inline-logger:kotlin-inline-logger-jvm", version.ref = "inline-logger" }
 junitApi = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 junitEngine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
+junitParams = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit" }
 kotlinCoroutinesCore = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
 kotlinCoroutinesTest = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
