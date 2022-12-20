@@ -22,7 +22,7 @@ class StepValidatorTest {
     internal fun `validate unblocked direction (size 1)`(dir: Direction) {
         val src = RouteCoordinates(3200, 3200)
         val valid = validator.canTravel(
-            level = src.level, x = src.x, y = src.y, size = 1, offsetX = dir.offX, offsetY = dir.offY
+            level = src.level, x = src.x, y = src.y, offsetX = dir.offX, offsetY = dir.offY, size = 1
         )
         Assertions.assertTrue(valid)
     }
@@ -34,7 +34,7 @@ class StepValidatorTest {
         val dest = RouteCoordinates(src.x + dir.offX, src.y + dir.offY)
         flags[dest.x, dest.y, dest.level] = blockFlags
         val valid = validator.canTravel(
-            level = src.level, x = src.x, y = src.y, size = 1, offsetX = dir.offX, offsetY = dir.offY
+            level = src.level, x = src.x, y = src.y, offsetX = dir.offX, offsetY = dir.offY, size = 1
         )
         Assertions.assertFalse(valid)
     }
