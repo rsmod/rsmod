@@ -133,7 +133,7 @@ public class PathFinder(
                 return FAILED_ROUTE
             }
         }
-        val anchors = ArrayDeque<RouteCoordinates>(maxTurns)
+        val anchors = ArrayDeque<RouteCoordinates>(maxTurns + 1)
         var nextDir = directions[currLocalX, currLocalY]
         var currDir = -1
         for (i in directions.indices) {
