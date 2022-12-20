@@ -16,7 +16,6 @@ public class CollisionFlagMap(
 
     public operator fun get(x: Int, y: Int, level: Int): Int {
         val packed = asPackedCoords(x, y, level)
-        // TODO: is a defaultFlag param worth adding to constructor?
         return tiles[packed] ?: 0
     }
 
