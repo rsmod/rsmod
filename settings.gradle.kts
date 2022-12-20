@@ -16,6 +16,7 @@ include(
     "buffer",
     "game",
     "game:coroutines",
+    "game:pathfinder",
     "game:plugins",
     "game:testing",
     "plugins",

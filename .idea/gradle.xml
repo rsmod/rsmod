@@ -16,6 +16,7 @@
             <option value="$PROJECT_DIR$/buffer" />
             <option value="$PROJECT_DIR$/game" />
             <option value="$PROJECT_DIR$/game/coroutines" />
+            <option value="$PROJECT_DIR$/game/pathfinder" />
             <option value="$PROJECT_DIR$/game/plugins" />
             <option value="$PROJECT_DIR$/game/testing" />
             <option value="$PROJECT_DIR$/plugins" />
