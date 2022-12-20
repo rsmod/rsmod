@@ -3,5 +3,5 @@ plugins {
 }
 
 dependencies {
-    api("io.mockk:mockk:1.12.4")
+    api("io.mockk:mockk:1.13.2")
 }
