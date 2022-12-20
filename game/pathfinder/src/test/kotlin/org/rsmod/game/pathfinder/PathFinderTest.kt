@@ -189,20 +189,26 @@ class PathFinderTest {
 
             other as PathParameter
 
+            if (level != other.level) return false
             if (srcX != other.srcX) return false
             if (srcY != other.srcY) return false
             if (destX != other.destX) return false
             if (destY != other.destY) return false
+            if (expectedX != other.expectedX) return false
+            if (expectedY != other.expectedY) return false
             if (!flags.contentEquals(other.flags)) return false
 
             return true
         }
 
         override fun hashCode(): Int {
-            var result = srcX
+            var result = level
+            result = 31 * result + srcX
             result = 31 * result + srcY
             result = 31 * result + destX
             result = 31 * result + destY
+            result = 31 * result + expectedX
+            result = 31 * result + expectedY
             result = 31 * result + flags.contentHashCode()
             return result
         }
