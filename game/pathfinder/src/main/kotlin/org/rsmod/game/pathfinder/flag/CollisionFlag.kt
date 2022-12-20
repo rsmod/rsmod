@@ -1,5 +1,4 @@
 @file:Suppress("MemberVisibilityCanBePrivate", "unused")
-
 package org.rsmod.game.pathfinder.flag
 
 public object CollisionFlag {
