@@ -5,7 +5,7 @@ plugins {
     kotlin("jvm")
 }
 
-allprojects {
+subprojects {
     plugins.withType<JavaPlugin> {
         dependencies {
             implementation("org.jetbrains.kotlin:kotlin-script-runtime:1.7.0")
