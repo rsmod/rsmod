@@ -21,8 +21,8 @@ private const val MAX_ALTERNATIVE_ROUTE_DISTANCE_FROM_DESTINATION = 10
 private const val DEFAULT_USE_ROUTE_BLOCKER_FLAGS = false
 
 private const val DEFAULT_SRC_SIZE = 1
-private const val DEFAULT_DEST_WIDTH = 0
-private const val DEFAULT_DEST_HEIGHT = 0
+private const val DEFAULT_DEST_WIDTH = 1
+private const val DEFAULT_DEST_HEIGHT = 1
 private const val DEFAULT_MAX_TURNS = 25
 private const val DEFAULT_OBJ_ROT = 10
 private const val DEFAULT_OBJ_SHAPE = -1
