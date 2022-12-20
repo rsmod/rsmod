@@ -5,12 +5,12 @@ public class CollisionFlagMap(
 ) {
 
     public fun add(x: Int, y: Int, level: Int, mask: Int) {
-        val old = this[x, y, level] ?: 0
+        val old = this[x, y, level]
         this[x, y, level] = old or mask
     }
 
     public fun remove(x: Int, y: Int, level: Int, mask: Int) {
-        val old = this[x, y, level] ?: 0
+        val old = this[x, y, level]
         this[x, y, level] = old and mask.inv()
     }
 
