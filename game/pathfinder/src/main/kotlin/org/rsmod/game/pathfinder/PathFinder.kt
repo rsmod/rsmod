@@ -84,7 +84,7 @@ public class PathFinder(
         val localDestY = destY - baseY
         appendDirection(localSrcX, localSrcY, DEFAULT_SRC_DIRECTION_VALUE, 0)
         val pathFound: Boolean = if (useRouteBlockerFlags) {
-            false // TODO: implement
+            TODO("Implement. Used in rev 530+.")
         } else {
             when (srcSize) {
                 1 -> findPath1(
