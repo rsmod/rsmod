@@ -14,4 +14,3 @@ internal enum class Direction(val offX: Int, val offY: Int) {
         val values = enumValues<Direction>()
     }
 }
-
