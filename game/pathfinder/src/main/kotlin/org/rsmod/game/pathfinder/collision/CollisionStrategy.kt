@@ -29,6 +29,13 @@ public class IndoorsFlagCollision : CollisionStrategy {
     }
 }
 
+public class OutdoorsFlagCollision : CollisionStrategy {
+
+    override fun canMove(tileFlag: Int, blockFlag: Int): Boolean {
+        return (tileFlag and (blockFlag or CollisionFlag.ROOF)) == 0
+    }
+}
+
 public class LineOfSightBlockFlagCollision : CollisionStrategy {
 
     override fun canMove(tileFlag: Int, blockFlag: Int): Boolean {
