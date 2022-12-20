@@ -119,10 +119,10 @@ class PathFinderTest {
 
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> {
             return Stream.of(
-                Arguments.of(North),
-                Arguments.of(South),
-                Arguments.of(East),
-                Arguments.of(West)
+                Arguments.of(Direction.North),
+                Arguments.of(Direction.South),
+                Arguments.of(Direction.East),
+                Arguments.of(Direction.West)
             )
         }
     }
