@@ -3,6 +3,18 @@
 
 An efficient [BFS][bfs] pathfinder.
 
+## Installation
+
+```
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("org.rsmod:rsmod-pathfinder:1.0.0")
+}
+```
+
 ## Example
 
 ```kotlin
