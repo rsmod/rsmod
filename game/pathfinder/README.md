@@ -71,7 +71,6 @@ GameClickShortPath.serverPathCoroutineDispatcherThreadLocal         avgt    3   
 - **GameClickLongPath**: destination near upper limit of `PathFinder::searchMapSize` radius (~63 tiles).
 - **GameClickMedPath**: destination about half of `PathFinder::searchMapSize` radius (~32 tiles).
 - **GameClickShortPath**: destination near lower limit of `PathFinder::searchMapSize` radius (~8 tiles).
-- **clientPath**: simple zero-allocation third-party implementation.
 - **serverPathConstructOnIteration**: construct a new `PathFinder` for every iteration.
 - **serverPathResetOnIteration**: reset values on same `PathFinder` instance to re-use every iteration.
 - **serverPathCoroutineDispatcherConstruct**: similar to `serverPathConstructOnIteration`, but using coroutines for each iteration.
