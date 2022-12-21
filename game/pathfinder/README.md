@@ -100,3 +100,8 @@ This project is available under the terms of the ISC license, which is similar t
 [bfs]: https://en.wikipedia.org/wiki/Breadth-first_search
 [github]: https://github.com/rsmod/rsmod
 [benchmark]: https://github.com/rsmod/rsmod/tree/master/game/pathfinder/src/jmh/kotlin/org/rsmod/game/pathfinder/benchmarks
+
+## Acknowledgement
+**Kris#1337** *Discord ID: 202342920106409984*:
+Found and fixed several gameplay bugs with the pathfinder.
+Discovered the concept of ~~DumbPathFinder~~ does not exist.
