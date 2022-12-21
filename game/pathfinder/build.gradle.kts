@@ -1,4 +1,8 @@
+version = "1.0.0"
+
 plugins {
+    `maven-publish`
+    signing
     kotlin("jvm")
     id("me.champeau.gradle.jmh")
 }
@@ -12,4 +16,23 @@ dependencies {
 
 jmh {
     profilers = listOf("stack")
+}
+
+publishing {
+    publications.create<MavenPublication>("maven") {
+        from(components["java"])
+        pom {
+            packaging = "jar"
+            name.set("RS Mod Pathfinder")
+            description.set(
+                """
+                A custom BFS pathfinder implementation to emulate RS.
+                """.trimIndent()
+            )
+        }
+        signing {
+            useGpgCmd()
+            sign(publishing.publications["maven"])
+        }
+    }
 }

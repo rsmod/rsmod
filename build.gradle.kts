@@ -3,6 +3,9 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
 import org.jetbrains.kotlin.gradle.plugin.getKotlinPluginVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+val ossrhUsername: String? by ext
+val ossrhPassword: String? by ext
+
 /* https://youtrack.jetbrains.com/issue/KTIJ-19369 */
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
@@ -13,7 +16,7 @@ plugins {
 
 allprojects {
     group = "org.rsmod"
-    version = "0.0.1-SNAPSHOT"
+    version = "0.0.1"
 
     repositories {
         mavenCentral()
@@ -30,6 +33,7 @@ allprojects {
         configure<JavaPluginExtension> {
             sourceCompatibility = JavaVersion.VERSION_11
             targetCompatibility = JavaVersion.VERSION_11
+            withJavadocJar()
             withSourcesJar()
         }
 
@@ -73,6 +77,58 @@ allprojects {
     tasks.withType<Test> {
         jvmArgs = listOf("-ea")
         useJUnitPlatform()
+    }
+
+    plugins.withType<MavenPublishPlugin> {
+        configure<PublishingExtension> {
+            repositories {
+                maven {
+                    name = "rsmod"
+                    if (version.toString().endsWith("-SNAPSHOT")) {
+                        setUrl("https://oss.sonatype.org/content/repositories/snapshots")
+                    } else {
+                        setUrl("https://oss.sonatype.org/service/local/staging/deploy/maven2")
+                    }
+                    credentials {
+                        username = ossrhUsername
+                        password = ossrhPassword
+                    }
+                }
+            }
+
+            publications.withType<MavenPublication> {
+                artifactId = "rsmod-${project.name}"
+                pom {
+                    url.set("https://github.com/rsmod")
+                    inceptionYear.set("2022")
+
+                    organization {
+                        name.set("RS Mod")
+                        url.set("https://github.com/rsmod")
+                    }
+
+                    licenses {
+                        license {
+                            name.set("ISC License")
+                            url.set("https://opensource.org/licenses/isc-license.txt")
+                        }
+                    }
+
+                    scm {
+                        connection.set("scm:git:git://github.com/rsmod/rsmod.git")
+                        developerConnection.set("scm:git:git@github.com:github.com/rsmod/rsmod.git")
+                        url.set("https://github.com/rsmod/rsmod")
+                    }
+
+                    developers {
+                        developer {
+                            name.set("Tomm")
+                            url.set("https://github.com/Tomm0017")
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
