@@ -11,7 +11,7 @@ val ossrhPassword: String? by ext
 plugins {
     kotlin("jvm")
     alias(libs.plugins.kotlinter) apply false
-    alias(libs.plugins.jmh)
+    alias(libs.plugins.jmh) apply false
 }
 
 allprojects {
@@ -46,7 +46,6 @@ allprojects {
 
     plugins.withType<KotlinPluginWrapper> {
         apply(plugin = "org.jmailen.kotlinter")
-        apply(plugin = "me.champeau.gradle.jmh")
 
         dependencies {
             api("org.jetbrains.kotlin:kotlin-stdlib-common") { strictKotlinVersion() }

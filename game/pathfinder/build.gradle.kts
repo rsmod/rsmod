@@ -4,7 +4,7 @@ plugins {
     `maven-publish`
     signing
     kotlin("jvm")
-    id("me.champeau.gradle.jmh")
+    id("me.champeau.gradle.jmh") apply true
 }
 
 @Suppress("UnstableApiUsage")
