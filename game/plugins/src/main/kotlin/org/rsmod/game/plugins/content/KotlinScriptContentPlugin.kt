@@ -7,6 +7,4 @@ import kotlin.script.experimental.annotations.KotlinScript
     displayName = "Content Plugin",
     fileExtension = "content.kts"
 )
-public abstract class KotlinScriptContentPlugin(
-    injector: Injector
-) : ContentPlugin(injector)
+public abstract class KotlinScriptContentPlugin(injector: Injector) : ContentPlugin(injector)

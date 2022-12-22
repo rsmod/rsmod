@@ -1,10 +1,10 @@
-package org.rsmod.game.plugins
+package org.rsmod.game.plugins.content
 
-import com.google.inject.Inject
 import com.google.inject.Injector
 import io.github.classgraph.ClassGraph
+import javax.inject.Inject
 
-public class PluginLoader @Inject constructor(
+public class ContentPluginLoader @Inject constructor(
     private val injector: Injector
 ) {
 

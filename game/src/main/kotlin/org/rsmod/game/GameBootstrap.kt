@@ -2,7 +2,7 @@ package org.rsmod.game
 
 import com.google.common.util.concurrent.Service
 import com.google.common.util.concurrent.ServiceManager
-import com.google.inject.Inject
+import javax.inject.Inject
 
 public class GameBootstrap @Inject constructor(services: Set<Service>) {
 

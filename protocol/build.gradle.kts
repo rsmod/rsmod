@@ -5,7 +5,6 @@ plugins {
 @Suppress("UnstableApiUsage")
 dependencies {
     api(libs.nettyTransport)
-    api(libs.nettyHandler)
+    api(libs.nettyCodecCore)
     implementation(project(":crypto"))
-    implementation(project(":protocol"))
 }

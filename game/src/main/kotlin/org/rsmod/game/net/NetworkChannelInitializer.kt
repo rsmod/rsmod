@@ -1,8 +1,8 @@
 package org.rsmod.game.net
 
-import com.google.inject.Inject
 import io.netty.channel.ChannelInitializer
 import io.netty.channel.socket.SocketChannel
+import javax.inject.Inject
 
 private typealias InitChannelHandler = (SocketChannel) -> Unit
 

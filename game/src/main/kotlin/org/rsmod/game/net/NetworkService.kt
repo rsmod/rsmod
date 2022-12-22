@@ -1,8 +1,8 @@
 package org.rsmod.game.net
 
 import com.google.common.util.concurrent.AbstractService
-import com.google.inject.Inject
 import io.netty.channel.EventLoopGroup
+import javax.inject.Inject
 
 // TODO: replace with NetConfig data class
 private const val GAME_PORT = 43594
