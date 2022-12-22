@@ -1,9 +1,11 @@
 package org.rsmod.plugins.net
 
+import com.google.common.util.concurrent.Service
 import com.google.inject.AbstractModule
 import com.google.inject.PrivateModule
 import com.google.inject.TypeLiteral
 import com.google.inject.multibindings.Multibinder
+import org.rsmod.plugins.net.js5.Js5Service
 import org.rsmod.plugins.net.js5.downstream.Js5ClientOutOfDateCodec
 import org.rsmod.plugins.net.js5.downstream.Js5OkCodec
 import org.rsmod.plugins.net.js5.downstream.Js5RemoteDownstream
@@ -20,6 +22,8 @@ object NetworkModule : AbstractModule() {
     private val PACKET_CODEC_TYPE_LITERAL = object : TypeLiteral<PacketCodec<*>>() {}
 
     override fun configure() {
+        bindServices()
+
         bindProtocol(
             ServiceUpstream::class.java,
             InitJs5RemoteConnectionCodec::class.java,
@@ -36,6 +40,11 @@ object NetworkModule : AbstractModule() {
             Js5OkCodec::class.java,
             Js5ClientOutOfDateCodec::class.java
         )
+    }
+
+    private fun bindServices() {
+        val binder = Multibinder.newSetBinder(binder(), Service::class.java)
+        binder.addBinding().to(Js5Service::class.java)
     }
 
     private fun bindProtocol(

@@ -7,7 +7,9 @@ import io.netty.channel.EventLoopGroup
 import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.nio.NioServerSocketChannel
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 public class NetworkBootstrapFactory @Inject constructor(
     private val allocator: ByteBufAllocator
 ) {

@@ -4,6 +4,7 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.michaelbull.logging.InlineLogger
 import com.google.inject.Guice
 import com.google.inject.Injector
+import com.google.inject.util.Modules
 import org.rsmod.game.GameBootstrap
 import org.rsmod.game.GameModule
 import org.rsmod.game.plugins.content.ContentPluginLoader
@@ -19,9 +20,10 @@ public class AppCommand : CliktCommand(name = "app") {
 
     override fun run() {
         val modulePlugins = ModulePluginLoader.load(KotlinScriptModulePlugin::class.java)
-        val modules = modulePlugins.flatMap { it.modules }
+        val externalModules = modulePlugins.flatMap { it.modules }
         logger.info { "Loaded ${modulePlugins.size} module plugin${if (modulePlugins.size == 1) "" else "s"}." }
-        val injector = Guice.createInjector(GameModule(), *modules.toTypedArray())
+        val combined = Modules.combine(GameModule, *externalModules.toTypedArray())
+        val injector = Guice.createInjector(combined)
         loadContentPlugins(injector)
         startUpGame(injector)
     }

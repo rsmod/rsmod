@@ -3,9 +3,11 @@ package org.rsmod.game.net
 import io.netty.channel.ChannelInitializer
 import io.netty.channel.socket.SocketChannel
 import javax.inject.Inject
+import javax.inject.Singleton
 
 private typealias InitChannelHandler = (SocketChannel) -> Unit
 
+@Singleton
 public class NetworkChannelInitializer(
     private val listeners: MutableList<InitChannelHandler>
 ) : ChannelInitializer<SocketChannel>() {

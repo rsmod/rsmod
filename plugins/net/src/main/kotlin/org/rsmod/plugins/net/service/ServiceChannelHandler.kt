@@ -1,5 +1,6 @@
 package org.rsmod.plugins.net.service
 
+import com.github.michaelbull.logging.InlineLogger
 import io.netty.channel.ChannelFutureListener
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.SimpleChannelInboundHandler
@@ -8,12 +9,15 @@ import org.rsmod.plugins.net.js5.Js5ChannelHandler
 import org.rsmod.plugins.net.js5.downstream.Js5DownstreamResponse
 import org.rsmod.plugins.net.js5.downstream.Js5GroupResponseEncoder
 import org.rsmod.plugins.net.js5.downstream.Js5RemoteDownstream
+import org.rsmod.plugins.net.js5.downstream.XorDecoder
 import org.rsmod.plugins.net.js5.upstream.Js5RequestDecoder
 import org.rsmod.protocol.Protocol
 import org.rsmod.protocol.ProtocolDecoder
 import org.rsmod.protocol.ProtocolEncoder
 import javax.inject.Inject
 import javax.inject.Provider
+
+private val logger = InlineLogger()
 
 class ServiceChannelHandler @Inject constructor(
     @Js5RemoteDownstream private val js5RemoteDownstream: Protocol,
@@ -27,7 +31,7 @@ class ServiceChannelHandler @Inject constructor(
     override fun channelRead0(ctx: ChannelHandlerContext, msg: ServiceRequest) {
         when (msg) {
             is ServiceRequest.InitJs5RemoteConnection -> handleMessage(ctx, msg)
-            ServiceRequest.InitGameConnection -> TODO()
+            else -> logger.warn { "Unhandled service message: $msg" }
         }
     }
 
@@ -42,6 +46,7 @@ class ServiceChannelHandler @Inject constructor(
         }
 
         ctx.pipeline().addLast(
+            XorDecoder(),
             Js5RequestDecoder(),
             Js5GroupResponseEncoder,
             js5HandlerProvider.get()

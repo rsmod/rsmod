@@ -20,6 +20,7 @@ include(
     "game:pathfinder",
     "game:plugins",
     "game:testing",
+    "nonfree",
     "protocol",
     "plugins",
     "app"

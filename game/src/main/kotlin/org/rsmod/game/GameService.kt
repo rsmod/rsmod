@@ -10,11 +10,13 @@ import kotlinx.coroutines.launch
 import org.rsmod.game.coroutine.GameCoroutineScope
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import javax.inject.Singleton
 import kotlin.system.measureNanoTime
 
 private val logger = InlineLogger()
 private const val GAME_TICK_DELAY = 600
 
+@Singleton
 public class GameService @Inject private constructor(
     private val coroutineScope: GameCoroutineScope
 ) : AbstractIdleService() {

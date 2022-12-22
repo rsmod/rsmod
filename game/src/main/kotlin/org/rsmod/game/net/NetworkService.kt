@@ -3,10 +3,12 @@ package org.rsmod.game.net
 import com.google.common.util.concurrent.AbstractService
 import io.netty.channel.EventLoopGroup
 import javax.inject.Inject
+import javax.inject.Singleton
 
 // TODO: replace with NetConfig data class
 private const val GAME_PORT = 43594
 
+@Singleton
 public class NetworkService @Inject constructor(
     private val bootstrapFactory: NetworkBootstrapFactory,
     private val initHandler: NetworkChannelInitializer
@@ -25,7 +27,6 @@ public class NetworkService @Inject constructor(
             error("Could not bind to port $GAME_PORT.")
         }
         notifyStarted()
-        println("bound to port $GAME_PORT")
     }
 
     override fun doStop() {
