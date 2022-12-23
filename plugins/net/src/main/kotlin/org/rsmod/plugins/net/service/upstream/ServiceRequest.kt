@@ -1,4 +1,4 @@
-package org.rsmod.plugins.net.service
+package org.rsmod.plugins.net.service.upstream
 
 import org.openrs2.crypto.XteaKey
 import org.rsmod.protocol.packet.Packet

@@ -1,3 +1,5 @@
+version = "209.1.0"
+
 plugins {
     kotlin("jvm")
 }
@@ -8,5 +10,6 @@ dependencies {
     api(libs.nettyHandler)
     api(libs.openrs2Crypto)
     api(libs.openrs2Cache)
+    implementation(libs.kotlinCoroutinesCore)
     implementation(project(":protocol"))
 }

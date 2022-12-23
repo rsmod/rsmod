@@ -11,7 +11,6 @@ import org.openrs2.crypto.StreamCipher
 import org.openrs2.crypto.XteaKey
 import org.openrs2.crypto.rsa
 import org.openrs2.crypto.xteaDecrypt
-import org.rsmod.plugins.net.service.ServiceRequest
 import org.rsmod.protocol.packet.VariableShortLengthPacketCodec
 import javax.inject.Inject
 import javax.inject.Singleton

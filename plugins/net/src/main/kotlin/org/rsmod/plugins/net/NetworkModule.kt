@@ -9,9 +9,11 @@ import org.rsmod.plugins.net.js5.Js5Service
 import org.rsmod.plugins.net.js5.downstream.Js5ClientOutOfDateCodec
 import org.rsmod.plugins.net.js5.downstream.Js5OkCodec
 import org.rsmod.plugins.net.js5.downstream.Js5RemoteDownstream
-import org.rsmod.plugins.net.service.downstream.BadSessionIdCodec
-import org.rsmod.plugins.net.service.downstream.ClientOutOfDateCodec
-import org.rsmod.plugins.net.service.downstream.ClientProtocolOutOfDateCodec
+import org.rsmod.plugins.net.login.downstream.BadSessionIdCodec
+import org.rsmod.plugins.net.login.downstream.ClientOutOfDateCodec
+import org.rsmod.plugins.net.login.downstream.ClientProtocolOutOfDateCodec
+import org.rsmod.plugins.net.login.downstream.ConnectOkCodec
+import org.rsmod.plugins.net.login.downstream.LoginDownstream
 import org.rsmod.plugins.net.service.downstream.ExchangeSessionKeyCodec
 import org.rsmod.plugins.net.service.downstream.ServiceDownstream
 import org.rsmod.plugins.net.service.upstream.GameLoginCodec
@@ -37,16 +39,21 @@ object NetworkModule : AbstractModule() {
 
         bindProtocol(
             ServiceDownstream::class.java,
-            ExchangeSessionKeyCodec::class.java,
-            ClientOutOfDateCodec::class.java,
-            BadSessionIdCodec::class.java,
-            ClientProtocolOutOfDateCodec::class.java
+            ExchangeSessionKeyCodec::class.java
         )
 
         bindProtocol(
             Js5RemoteDownstream::class.java,
             Js5OkCodec::class.java,
             Js5ClientOutOfDateCodec::class.java
+        )
+
+        bindProtocol(
+            LoginDownstream::class.java,
+            ConnectOkCodec::class.java,
+            ClientOutOfDateCodec::class.java,
+            BadSessionIdCodec::class.java,
+            ClientProtocolOutOfDateCodec::class.java
         )
     }
 
