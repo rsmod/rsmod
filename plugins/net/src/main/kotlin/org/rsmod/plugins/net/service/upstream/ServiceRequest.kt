@@ -11,14 +11,14 @@ sealed class ServiceRequest : Packet {
     data class GameLogin(
         val buildMajor: Int,
         val buildMinor: Int,
-        val device: Int,
+        val clientType: Int,
+        val platform: Int,
         val encrypted: SecureBlock,
         val username: String,
         val clientInfo: ClientInfo,
         val randomDat: ByteArray,
         val siteSettings: String,
         val machineInfo: MachineInfo,
-        val confClientType: Int,
         val cacheCrc: IntArray
     ) : ServiceRequest() {
 
@@ -56,14 +56,14 @@ sealed class ServiceRequest : Packet {
 
             if (buildMajor != other.buildMajor) return false
             if (buildMinor != other.buildMinor) return false
-            if (device != other.device) return false
+            if (clientType != other.clientType) return false
+            if (platform != other.platform) return false
             if (encrypted != other.encrypted) return false
             if (username != other.username) return false
             if (clientInfo != other.clientInfo) return false
             if (!randomDat.contentEquals(other.randomDat)) return false
             if (siteSettings != other.siteSettings) return false
             if (machineInfo != other.machineInfo) return false
-            if (confClientType != other.confClientType) return false
             if (!cacheCrc.contentEquals(other.cacheCrc)) return false
 
             return true
@@ -72,14 +72,14 @@ sealed class ServiceRequest : Packet {
         override fun hashCode(): Int {
             var result = buildMajor
             result = 31 * result + buildMinor
-            result = 31 * result + device
+            result = 31 * result + clientType
+            result = 31 * result + platform
             result = 31 * result + encrypted.hashCode()
             result = 31 * result + username.hashCode()
             result = 31 * result + clientInfo.hashCode()
             result = 31 * result + randomDat.contentHashCode()
             result = 31 * result + siteSettings.hashCode()
             result = 31 * result + machineInfo.hashCode()
-            result = 31 * result + confClientType
             result = 31 * result + cacheCrc.contentHashCode()
             return result
         }

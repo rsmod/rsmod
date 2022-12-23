@@ -118,7 +118,7 @@ class ServiceChannelHandler @Inject constructor(
         ctx.write(response).addListener { future ->
             if (!future.isSuccess) return@addListener
             val decoder = ctx.pipeline().get(ProtocolDecoder::class.java)
-            when (device) {
+            when (platform) {
                 else -> {
                     encoder.protocol = gameDesktopDownstream
                     decoder.protocol = gameDesktopUpstream

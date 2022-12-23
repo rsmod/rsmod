@@ -29,8 +29,8 @@ class GameLoginCodec @Inject constructor(
     override fun decode(buf: ByteBuf, cipher: StreamCipher): ServiceRequest.GameLogin {
         val major = buf.readInt()
         val minor = buf.readInt()
-        buf.skipBytes(Byte.SIZE_BYTES)
-        val device = buf.readUnsignedByte().toInt()
+        val clientType = buf.readUnsignedByte().toInt()
+        val platform = buf.readUnsignedByte().toInt()
         buf.skipBytes(Byte.SIZE_BYTES)
 
         val encryptedLength = buf.readUnsignedShort()
@@ -115,7 +115,7 @@ class GameLoginCodec @Inject constructor(
                 cpuCount = cpuCount
             )
         }
-        val confClientType = buf.readUnsignedByte().toInt()
+        buf.skipBytes(Int.SIZE_BYTES) /* `clientType` - written twice for some reason */
         buf.skipBytes(Int.SIZE_BYTES)
         val cacheCrc = IntArray(CACHE_ARCHIVE_COUNT).apply {
             this[13] = buf.readIntAlt3()
@@ -143,14 +143,14 @@ class GameLoginCodec @Inject constructor(
         return ServiceRequest.GameLogin(
             buildMajor = major,
             buildMinor = minor,
-            device = device,
+            clientType = clientType,
+            platform = platform,
             encrypted = encrypted,
             username = username,
             clientInfo = clientInfo,
             siteSettings = siteSettings,
             randomDat = randomDat,
             machineInfo = machineInfo,
-            confClientType = confClientType,
             cacheCrc = cacheCrc
         )
     }
