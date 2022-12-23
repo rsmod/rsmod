@@ -2,7 +2,7 @@ package org.rsmod.protocol.packet
 
 import io.netty.buffer.ByteBuf
 import io.netty.buffer.ByteBufAllocator
-import org.rsmod.crypto.StreamCipher
+import org.openrs2.crypto.StreamCipher
 
 public abstract class PacketCodec<T : Packet>(
     public val type: Class<T>,

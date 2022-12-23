@@ -1,7 +1,7 @@
 package org.rsmod.protocol.packet
 
 import io.netty.buffer.ByteBuf
-import org.rsmod.crypto.StreamCipher
+import org.openrs2.crypto.StreamCipher
 
 public abstract class ZeroLengthPacketCodec<T : Packet>(
     private val packet: T,

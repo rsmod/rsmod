@@ -1,7 +1,7 @@
 package org.rsmod.plugins.net.service.upstream
 
 import io.netty.buffer.ByteBuf
-import org.rsmod.crypto.StreamCipher
+import org.openrs2.crypto.StreamCipher
 import org.rsmod.plugins.net.service.ServiceRequest
 import org.rsmod.protocol.packet.FixedLengthPacketCodec
 import javax.inject.Singleton

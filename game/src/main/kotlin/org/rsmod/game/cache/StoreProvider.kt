@@ -11,7 +11,7 @@ public class StoreProvider @Inject constructor(
 ) : Provider<Store> {
 
     override fun get(): Store {
-        // TODO: configurable cache path
-        return Store.open(Path.of("nonfree/share/cache"), alloc)
+        // TODO: configurable path
+        return Store.open(Path.of(".data/cache/packed"), alloc)
     }
 }

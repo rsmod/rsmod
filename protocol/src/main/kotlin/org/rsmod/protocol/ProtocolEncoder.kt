@@ -3,8 +3,8 @@ package org.rsmod.protocol
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.MessageToByteEncoder
-import org.rsmod.crypto.NopStreamCipher
-import org.rsmod.crypto.StreamCipher
+import org.openrs2.crypto.NopStreamCipher
+import org.openrs2.crypto.StreamCipher
 import org.rsmod.protocol.packet.Packet
 import org.rsmod.protocol.packet.PacketCodec
 

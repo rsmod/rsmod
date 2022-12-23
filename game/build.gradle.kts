@@ -9,6 +9,7 @@ dependencies {
     api(libs.openrs2Buffer)
     api(libs.openrs2Cache)
     implementation(project(":buffer"))
+    implementation(project(":config"))
     implementation(libs.guava)
     implementation(libs.kotlinCoroutinesCore)
 }

@@ -4,7 +4,7 @@ import org.rsmod.protocol.packet.ZeroLengthPacketCodec
 import javax.inject.Singleton
 
 @Singleton
-class Js5ClientOutOfDateCodec : ZeroLengthPacketCodec<Js5DownstreamResponse>(
-    packet = Js5DownstreamResponse.ClientOutOfDate,
+class Js5ClientOutOfDateCodec : ZeroLengthPacketCodec<Js5Response>(
+    packet = Js5Response.ClientOutOfDate,
     opcode = 6
 )

@@ -14,13 +14,12 @@ pluginManagement {
 
 include(
     "buffer",
-    "crypto",
+    "config",
     "game",
     "game:coroutines",
     "game:pathfinder",
     "game:plugins",
     "game:testing",
-    "nonfree",
     "protocol",
     "plugins",
     "app"

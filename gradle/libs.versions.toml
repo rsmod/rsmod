@@ -32,3 +32,4 @@ nettyHandler = { module = "io.netty:netty-handler", version.ref = "netty" }
 nettyTransport = { module = "io.netty:netty-transport", version.ref = "netty" }
 openrs2Buffer = { module = "org.openrs2:openrs2-buffer", version.ref = "openrs2" }
 openrs2Cache = { module = "org.openrs2:openrs2-cache", version.ref = "openrs2" }
+openrs2Crypto = { module = "org.openrs2:openrs2-crypto", version.ref = "openrs2" }
