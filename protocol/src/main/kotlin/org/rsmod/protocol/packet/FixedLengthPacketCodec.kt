@@ -16,7 +16,7 @@ public abstract class FixedLengthPacketCodec<T : Packet>(
     override fun offsetLength(buf: ByteBuf) { /* empty */ }
 
     override fun setLength(buf: ByteBuf, offsetLengthWriterIndex: Int, length: Int) {
-        check(length == this.length) {
+        require(length == this.length) {
             "Length for fixed-length packet does not match. (expected ${this.length}, received $length)"
         }
     }

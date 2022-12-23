@@ -22,7 +22,7 @@ public abstract class VariableShortLengthPacketCodec<T : Packet>(
     }
 
     override fun setLength(buf: ByteBuf, offsetLengthWriterIndex: Int, length: Int) {
-        check(length <= MAX_SHORT_LENGTH)
+        require(length <= MAX_SHORT_LENGTH)
         buf.setShort(offsetLengthWriterIndex, length)
     }
 }

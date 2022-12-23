@@ -37,7 +37,7 @@ class LoginConnectCodec @Inject constructor(
         val encryptedLength = buf.readUnsignedShort()
         val encryptedBuf = buf.readSlice(encryptedLength)
         val encrypted = encryptedBuf.rsa(key).use { secure ->
-            require(secure.readUnsignedByte().toInt() == 1) { "Invalid RSA header" }
+            check(secure.readUnsignedByte().toInt() == 1) { "Invalid RSA header" }
             val xtea = XteaKey(secure.readInt(), secure.readInt(), secure.readInt(), secure.readInt())
             val seed = secure.readLong()
             val authCode: Int?
