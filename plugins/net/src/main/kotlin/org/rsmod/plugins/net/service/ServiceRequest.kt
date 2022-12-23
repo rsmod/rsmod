@@ -8,7 +8,7 @@ sealed class ServiceRequest : Packet {
     data class InitJs5RemoteConnection(val build: Int) : ServiceRequest()
     object InitGameConnection : ServiceRequest()
 
-    data class LogIn(
+    data class GameLogin(
         val buildMajor: Int,
         val buildMinor: Int,
         val device: Int,
@@ -52,7 +52,7 @@ sealed class ServiceRequest : Packet {
             if (this === other) return true
             if (javaClass != other?.javaClass) return false
 
-            other as LogIn
+            other as GameLogin
 
             if (buildMajor != other.buildMajor) return false
             if (buildMinor != other.buildMinor) return false

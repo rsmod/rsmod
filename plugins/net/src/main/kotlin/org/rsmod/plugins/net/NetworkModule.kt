@@ -14,9 +14,9 @@ import org.rsmod.plugins.net.service.downstream.ClientOutOfDateCodec
 import org.rsmod.plugins.net.service.downstream.ClientProtocolOutOfDateCodec
 import org.rsmod.plugins.net.service.downstream.ExchangeSessionKeyCodec
 import org.rsmod.plugins.net.service.downstream.ServiceDownstream
+import org.rsmod.plugins.net.service.upstream.GameLoginCodec
 import org.rsmod.plugins.net.service.upstream.InitGameConnectionCodec
 import org.rsmod.plugins.net.service.upstream.InitJs5RemoteConnectionCodec
-import org.rsmod.plugins.net.service.upstream.LoginConnectCodec
 import org.rsmod.plugins.net.service.upstream.ServiceUpstream
 import org.rsmod.protocol.Protocol
 import org.rsmod.protocol.packet.PacketCodec
@@ -32,7 +32,7 @@ object NetworkModule : AbstractModule() {
             ServiceUpstream::class.java,
             InitJs5RemoteConnectionCodec::class.java,
             InitGameConnectionCodec::class.java,
-            LoginConnectCodec::class.java
+            GameLoginCodec::class.java
         )
 
         bindProtocol(

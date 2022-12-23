@@ -33,7 +33,7 @@ class ServiceChannelHandler @Inject constructor(
         when (msg) {
             ServiceRequest.InitGameConnection -> handleInitGameConnection(ctx)
             is ServiceRequest.InitJs5RemoteConnection -> handleInitJs5RemoteConnection(ctx, msg)
-            is ServiceRequest.LogIn -> handleLoginConnection(ctx, msg)
+            is ServiceRequest.GameLogin -> handleGameLogin(ctx, msg)
         }
     }
 
@@ -69,7 +69,7 @@ class ServiceChannelHandler @Inject constructor(
         }
     }
 
-    private fun handleLoginConnection(ctx: ChannelHandlerContext, msg: ServiceRequest.LogIn) = with(msg) {
+    private fun handleGameLogin(ctx: ChannelHandlerContext, msg: ServiceRequest.GameLogin) = with(msg) {
         if (buildMajor != 209 || buildMinor != 1) {
             // TODO: configurable build versions
             ctx.write(ServiceResponse.ClientOutOfDate).addListener(ChannelFutureListener.CLOSE)

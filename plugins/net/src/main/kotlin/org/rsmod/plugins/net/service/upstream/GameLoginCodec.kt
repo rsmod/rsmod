@@ -20,14 +20,14 @@ private const val CACHE_ARCHIVE_COUNT = 21
 private const val RANDOM_UUID_BYTE_LENGTH = 24
 
 @Singleton
-class LoginConnectCodec @Inject constructor(
+class GameLoginCodec @Inject constructor(
     private val key: RSAPrivateCrtKeyParameters
-) : VariableShortLengthPacketCodec<ServiceRequest.LogIn>(
-    type = ServiceRequest.LogIn::class.java,
+) : VariableShortLengthPacketCodec<ServiceRequest.GameLogin>(
+    type = ServiceRequest.GameLogin::class.java,
     opcode = 16
 ) {
 
-    override fun decode(buf: ByteBuf, cipher: StreamCipher): ServiceRequest.LogIn {
+    override fun decode(buf: ByteBuf, cipher: StreamCipher): ServiceRequest.GameLogin {
         val major = buf.readInt()
         val minor = buf.readInt()
         buf.skipBytes(Byte.SIZE_BYTES)
@@ -59,7 +59,7 @@ class LoginConnectCodec @Inject constructor(
             }
             secure.skipBytes(Byte.SIZE_BYTES)
             val password = secure.readString()
-            return@use ServiceRequest.LogIn.SecureBlock(xtea, seed, password, authCode)
+            return@use ServiceRequest.GameLogin.SecureBlock(xtea, seed, password, authCode)
         }
 
         buf.xteaDecrypt(buf.readerIndex(), buf.readableBytes(), encrypted.xtea)
@@ -69,7 +69,7 @@ class LoginConnectCodec @Inject constructor(
             val resizable = it.readUnsignedByte().toInt() shr 1 == 1
             val width = it.readUnsignedShort()
             val height = it.readUnsignedShort()
-            ServiceRequest.LogIn.ClientInfo(resizable, width, height)
+            ServiceRequest.GameLogin.ClientInfo(resizable, width, height)
         }
         val randomDat = ByteArray(RANDOM_UUID_BYTE_LENGTH) { buf.readByte() }
         val siteSettings = buf.readString()
@@ -103,7 +103,7 @@ class LoginConnectCodec @Inject constructor(
             it.readInt()
             it.readVersionedString()
             it.readVersionedString()
-            ServiceRequest.LogIn.MachineInfo(
+            ServiceRequest.GameLogin.MachineInfo(
                 version = version,
                 operatingSystem = operatingSystem,
                 is64Bit = is64Bit,
@@ -141,7 +141,7 @@ class LoginConnectCodec @Inject constructor(
             this[4] = buf.readInt()
             this[12] = buf.readIntLE()
         }
-        return ServiceRequest.LogIn(
+        return ServiceRequest.GameLogin(
             buildMajor = major,
             buildMinor = minor,
             device = device,
@@ -156,7 +156,7 @@ class LoginConnectCodec @Inject constructor(
         )
     }
 
-    override fun encode(packet: ServiceRequest.LogIn, buf: ByteBuf, cipher: StreamCipher) {
+    override fun encode(packet: ServiceRequest.GameLogin, buf: ByteBuf, cipher: StreamCipher) {
         TODO("Implement for testing purposes")
     }
 }
