@@ -1,5 +1,6 @@
 package org.rsmod.plugins.net.service
 
+import com.google.common.hash.Hashing
 import io.netty.channel.ChannelFutureListener
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.SimpleChannelInboundHandler
@@ -24,6 +25,8 @@ import org.rsmod.plugins.net.service.upstream.ServiceRequest
 import org.rsmod.protocol.Protocol
 import org.rsmod.protocol.ProtocolDecoder
 import org.rsmod.protocol.ProtocolEncoder
+import java.nio.charset.StandardCharsets
+import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -90,6 +93,7 @@ class ServiceChannelHandler @Inject constructor(
         }
     }
 
+    @Suppress("UnstableApiUsage")
     private fun handleGameLogin(ctx: ChannelHandlerContext, msg: ServiceRequest.GameLogin) = with(msg) {
         val encoder = ctx.pipeline().get(ProtocolEncoder::class.java)
         encoder.protocol = loginDownstream
@@ -107,13 +111,14 @@ class ServiceChannelHandler @Inject constructor(
             return
         }
         // TODO: dispatch profile load request
+        val accountHash = Hashing.sha256().hashString(username.lowercase(Locale.US), StandardCharsets.UTF_8)
         val response = LoginResponse.ConnectOk(
             rememberDevice = true,
             playerModLevel = 2,
             playerMember = true,
             playerMod = true,
             playerIndex = 1,
-            accountHash = 1L
+            accountHash = accountHash.asLong()
         )
         ctx.write(response).addListener { future ->
             if (!future.isSuccess) return@addListener
