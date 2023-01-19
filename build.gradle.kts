@@ -48,10 +48,10 @@ allprojects {
         apply(plugin = "org.jmailen.kotlinter")
 
         dependencies {
-            api("org.jetbrains.kotlin:kotlin-stdlib-common") { strictKotlinVersion() }
-            api("org.jetbrains.kotlin:kotlin-stdlib-jdk7") { strictKotlinVersion() }
-            api("org.jetbrains.kotlin:kotlin-stdlib-jdk8") { strictKotlinVersion() }
-            api("org.jetbrains.kotlin:kotlin-stdlib") { strictKotlinVersion() }
+            api("org.jetbrains.kotlin:kotlin-stdlib-common") { requireKotlinVersion() }
+            api("org.jetbrains.kotlin:kotlin-stdlib-jdk7") { requireKotlinVersion() }
+            api("org.jetbrains.kotlin:kotlin-stdlib-jdk8") { requireKotlinVersion() }
+            api("org.jetbrains.kotlin:kotlin-stdlib") { requireKotlinVersion() }
             implementation(libs.guice)
             implementation(libs.logback)
             implementation(libs.inlineLogger)
@@ -131,7 +131,7 @@ allprojects {
     }
 }
 
-fun ExternalModuleDependency.strictKotlinVersion(): ExternalModuleDependency {
-    version { strictly(project.getKotlinPluginVersion()) }
+fun ExternalModuleDependency.requireKotlinVersion(): ExternalModuleDependency {
+    version { require(project.getKotlinPluginVersion()) }
     return this
 }
