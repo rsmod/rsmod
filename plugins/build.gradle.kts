@@ -6,17 +6,17 @@ plugins {
 }
 
 subprojects {
-    plugins.withType<JavaPlugin> {
+    plugins.withType<KotlinPluginWrapper> {
+        kotlin {
+            explicitApi = ExplicitApiMode.Disabled
+        }
+
+        @Suppress("UnstableApiUsage")
         dependencies {
             implementation("org.jetbrains.kotlin:kotlin-script-runtime:1.7.0")
             implementation(project(":game"))
             implementation(project(":game:plugins"))
-        }
-    }
-
-    plugins.withType<KotlinPluginWrapper> {
-        kotlin {
-            explicitApi = ExplicitApiMode.Disabled
+            implementation(libs.guice)
         }
     }
 }

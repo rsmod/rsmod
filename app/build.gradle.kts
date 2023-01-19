@@ -2,9 +2,11 @@ plugins {
     kotlin("jvm")
 }
 
+@Suppress("UnstableApiUsage")
 dependencies {
     api(project(":game"))
     api(project(":game:plugins"))
+    implementation(libs.guice)
     findPlugins(projects.plugins).forEach {
         api(it)
     }

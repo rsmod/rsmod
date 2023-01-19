@@ -5,4 +5,5 @@ plugins {
 @Suppress("UnstableApiUsage")
 dependencies {
     api(libs.nettyBuffer)
+    implementation(libs.guice)
 }

@@ -9,4 +9,5 @@ dependencies {
     implementation(project(":buffer"))
     implementation(libs.guava)
     implementation(libs.kotlinCoroutinesCore)
+    implementation(libs.guice)
 }
