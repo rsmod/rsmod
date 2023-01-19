@@ -51,7 +51,7 @@ public class CollisionFlagMap(private val flags: Array<IntArray?> = arrayOfNulls
         private inline fun coordsToZoneLocalIndex(x: Int, y: Int): Int = (x and 0x7) or ((y and 0x7) shl 3)
 
         private inline fun coordsToZoneIndex(x: Int, y: Int, level: Int): Int {
-            return (x and 0x7FF) or ((y and 0x7FF) shl 11) or ((level and 0x3) shl 22)
+            return (x shr 3 and 0x7FF) or ((y shr 3 and 0x7FF) shl 11) or ((level and 0x3) shl 22)
         }
     }
 }
