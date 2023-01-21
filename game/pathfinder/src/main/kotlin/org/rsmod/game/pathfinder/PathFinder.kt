@@ -76,9 +76,9 @@ public class PathFinder(
          * Functionality relies on coordinates being within the
          * given boundaries.
          */
-        check(srcX in 0..0x7FFF && srcY in 0..0x7FFF)
-        check(destX in 0..0x7FFF && destY in 0..0x7FFF)
-        check(level in 0..0x3)
+        require(srcX in 0..0x7FFF && srcY in 0..0x7FFF)
+        require(destX in 0..0x7FFF && destY in 0..0x7FFF)
+        require(level in 0..0x3)
         if (resetOnSearch) reset()
         val baseX = srcX - (searchMapSize / 2)
         val baseY = srcY - (searchMapSize / 2)
