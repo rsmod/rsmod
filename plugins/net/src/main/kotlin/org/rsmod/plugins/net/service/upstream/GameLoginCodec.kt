@@ -115,7 +115,7 @@ class GameLoginCodec @Inject constructor(
                 cpuCount = cpuCount
             )
         }
-        buf.skipBytes(Int.SIZE_BYTES) /* `clientType` - written twice for some reason */
+        buf.skipBytes(Byte.SIZE_BYTES) /* `clientType` - written twice for some reason */
         buf.skipBytes(Int.SIZE_BYTES)
         val cacheCrc = IntArray(CACHE_ARCHIVE_COUNT).apply {
             this[13] = buf.readIntAlt3()
