@@ -16,10 +16,10 @@ packets.register<NoTimeout> {
 packets.register<WindowStatus> {
 	opcode = 51
 	length = 5
-	decode {
-		val mode = it.readByte().toInt()
-		val width = it.readUnsignedShort()
-		val height = it.readUnsignedShort()
+	decode { buf ->
+		val mode = buf.readByte().toInt()
+		val width = buf.readUnsignedShort()
+		val height = buf.readUnsignedShort()
 		return@decode WindowStatus(mode, width, height)
 	}
 }
