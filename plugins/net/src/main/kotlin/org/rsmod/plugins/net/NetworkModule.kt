@@ -14,6 +14,12 @@ import org.rsmod.plugins.net.login.downstream.ClientOutOfDateCodec
 import org.rsmod.plugins.net.login.downstream.ClientProtocolOutOfDateCodec
 import org.rsmod.plugins.net.login.downstream.ConnectOkCodec
 import org.rsmod.plugins.net.login.downstream.LoginDownstream
+import org.rsmod.plugins.net.rev.builder.downstream.DownstreamPacketMap
+import org.rsmod.plugins.net.rev.builder.login.LoginPacketDecoderMap
+import org.rsmod.plugins.net.rev.builder.upstream.UpstreamPacketMap
+import org.rsmod.plugins.net.rev.platform.GameDesktopDownstream
+import org.rsmod.plugins.net.rev.platform.GameDesktopUpstream
+import org.rsmod.plugins.net.rev.platform.GamePlatformPacketMaps
 import org.rsmod.plugins.net.service.downstream.ExchangeSessionKeyCodec
 import org.rsmod.plugins.net.service.downstream.ServiceDownstream
 import org.rsmod.plugins.net.service.upstream.GameLoginCodec
@@ -55,6 +61,16 @@ object NetworkModule : AbstractModule() {
             BadSessionIdCodec::class.java,
             ClientProtocolOutOfDateCodec::class.java
         )
+
+        bind(LoginPacketDecoderMap::class.java)
+
+        bind(DownstreamPacketMap::class.java)
+            .annotatedWith(GameDesktopDownstream::class.java)
+            .to(DownstreamPacketMap::class.java)
+        bind(UpstreamPacketMap::class.java)
+            .annotatedWith(GameDesktopUpstream::class.java)
+            .to(UpstreamPacketMap::class.java)
+        bind(GamePlatformPacketMaps::class.java)
     }
 
     private fun bindServices() {

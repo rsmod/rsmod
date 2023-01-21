@@ -10,8 +10,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.cancel
 import org.openrs2.crypto.secureRandom
-import org.rsmod.plugins.net.game.desktop.downstream.GameDesktopDownstream
-import org.rsmod.plugins.net.game.desktop.upstream.GameDesktopUpstream
 import org.rsmod.plugins.net.js5.Js5ChannelHandler
 import org.rsmod.plugins.net.js5.downstream.Js5GroupResponseEncoder
 import org.rsmod.plugins.net.js5.downstream.Js5RemoteDownstream
@@ -20,6 +18,7 @@ import org.rsmod.plugins.net.js5.downstream.XorDecoder
 import org.rsmod.plugins.net.js5.upstream.Js5RequestDecoder
 import org.rsmod.plugins.net.login.downstream.LoginDownstream
 import org.rsmod.plugins.net.login.downstream.LoginResponse
+import org.rsmod.plugins.net.rev.platform.GamePlatformPacketMaps
 import org.rsmod.plugins.net.service.downstream.ServiceResponse
 import org.rsmod.plugins.net.service.upstream.ServiceRequest
 import org.rsmod.protocol.Protocol
@@ -34,8 +33,7 @@ class ServiceChannelHandler @Inject constructor(
     private val js5HandlerProvider: Provider<Js5ChannelHandler>,
     @Js5RemoteDownstream private val js5RemoteDownstream: Protocol,
     @LoginDownstream private val loginDownstream: Protocol,
-    @GameDesktopDownstream private val gameDesktopDownstream: Protocol,
-    @GameDesktopUpstream private val gameDesktopUpstream: Protocol
+    private val gamePackets: GamePlatformPacketMaps
 ) : SimpleChannelInboundHandler<ServiceRequest>(ServiceRequest::class.java) {
 
     private lateinit var scope: CoroutineScope
@@ -125,8 +123,8 @@ class ServiceChannelHandler @Inject constructor(
             val decoder = ctx.pipeline().get(ProtocolDecoder::class.java)
             when (platform) {
                 else -> {
-                    encoder.protocol = gameDesktopDownstream
-                    decoder.protocol = gameDesktopUpstream
+                    encoder.protocol = gamePackets.desktopDownstream.getOrCreateProtocol()
+                    decoder.protocol = gamePackets.desktopUpstream.getOrCreateProtocol()
                 }
             }
         }

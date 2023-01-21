@@ -2,8 +2,6 @@ package org.rsmod.plugins.net.service.upstream
 
 import io.netty.buffer.ByteBuf
 import org.bouncycastle.crypto.params.RSAPrivateCrtKeyParameters
-import org.openrs2.buffer.readIntAlt3
-import org.openrs2.buffer.readIntAlt3Reverse
 import org.openrs2.buffer.readString
 import org.openrs2.buffer.readVersionedString
 import org.openrs2.buffer.use
@@ -11,16 +9,18 @@ import org.openrs2.crypto.StreamCipher
 import org.openrs2.crypto.XteaKey
 import org.openrs2.crypto.rsa
 import org.openrs2.crypto.xteaDecrypt
+import org.rsmod.plugins.net.login.upstream.LoginPacketRequest
+import org.rsmod.plugins.net.rev.builder.login.LoginPacketDecoderMap
 import org.rsmod.protocol.packet.VariableShortLengthPacketCodec
 import javax.inject.Inject
 import javax.inject.Singleton
 
-private const val CACHE_ARCHIVE_COUNT = 21
 private const val RANDOM_UUID_BYTE_LENGTH = 24
 
 @Singleton
 class GameLoginCodec @Inject constructor(
-    private val key: RSAPrivateCrtKeyParameters
+    private val key: RSAPrivateCrtKeyParameters,
+    private val decoders: LoginPacketDecoderMap
 ) : VariableShortLengthPacketCodec<ServiceRequest.GameLogin>(
     type = ServiceRequest.GameLogin::class.java,
     opcode = 16
@@ -39,26 +39,12 @@ class GameLoginCodec @Inject constructor(
             check(secure.readUnsignedByte().toInt() == 1) { "Invalid RSA header" }
             val xtea = XteaKey(secure.readInt(), secure.readInt(), secure.readInt(), secure.readInt())
             val seed = secure.readLong()
-            val authCode: Int?
-            when (secure.readUnsignedByte().toInt()) {
-                1, 3 -> {
-                    authCode = secure.readUnsignedMedium()
-                    secure.skipBytes(Byte.SIZE_BYTES)
-                }
-                0 -> {
-                    // TODO: remember device
-                    authCode = secure.readUnsignedMedium()
-                    secure.skipBytes(Byte.SIZE_BYTES)
-                }
-                2 -> {
-                    authCode = null
-                    secure.skipBytes(Int.SIZE_BYTES)
-                }
-                else -> authCode = null
-            }
+            val authDecoder = decoders[LoginPacketRequest.AuthCode::class.java]
+                ?: error("AuthCode packet decoder must be defined.")
+            val authCode = authDecoder.decode(secure)
             secure.skipBytes(Byte.SIZE_BYTES)
             val password = secure.readString()
-            return@use ServiceRequest.GameLogin.SecureBlock(xtea, seed, password, authCode)
+            return@use ServiceRequest.GameLogin.SecureBlock(xtea, seed, password, authCode.code)
         }
 
         buf.xteaDecrypt(buf.readerIndex(), buf.readableBytes(), encrypted.xtea)
@@ -117,29 +103,9 @@ class GameLoginCodec @Inject constructor(
         }
         buf.skipBytes(Byte.SIZE_BYTES) /* `clientType` - written twice for some reason */
         buf.skipBytes(Int.SIZE_BYTES)
-        val cacheCrc = IntArray(CACHE_ARCHIVE_COUNT).apply {
-            this[13] = buf.readIntAlt3()
-            this[2] = buf.readInt()
-            this[19] = buf.readIntAlt3Reverse()
-            this[8] = buf.readInt()
-            this[5] = buf.readIntAlt3()
-            buf.skipBytes(Int.SIZE_BYTES)
-            this[1] = buf.readIntLE()
-            this[15] = buf.readIntAlt3Reverse()
-            this[10] = buf.readInt()
-            this[0] = buf.readIntAlt3()
-            this[18] = buf.readIntLE()
-            this[6] = buf.readIntAlt3()
-            this[3] = buf.readIntAlt3Reverse()
-            this[11] = buf.readIntLE()
-            this[7] = buf.readIntAlt3Reverse()
-            this[9] = buf.readInt()
-            this[14] = buf.readIntLE()
-            this[17] = buf.readIntLE()
-            this[20] = buf.readIntAlt3Reverse()
-            this[4] = buf.readInt()
-            this[12] = buf.readIntLE()
-        }
+        val checksumDecoder = decoders[LoginPacketRequest.CacheChecksum::class.java]
+            ?: error("CacheChecksum packet decoder must be defined.")
+        val cacheChecksum = checksumDecoder.decode(buf)
         return ServiceRequest.GameLogin(
             buildMajor = major,
             buildMinor = minor,
@@ -151,11 +117,9 @@ class GameLoginCodec @Inject constructor(
             siteSettings = siteSettings,
             randomDat = randomDat,
             machineInfo = machineInfo,
-            cacheCrc = cacheCrc
+            cacheCrc = cacheChecksum.crcs
         )
     }
 
-    override fun encode(packet: ServiceRequest.GameLogin, buf: ByteBuf, cipher: StreamCipher) {
-        TODO("Implement for testing purposes")
-    }
+    override fun encode(packet: ServiceRequest.GameLogin, buf: ByteBuf, cipher: StreamCipher) { /* empty */ }
 }
