@@ -9,6 +9,7 @@ kotlin-coroutines = "1.6.3"
 kotlinter = "3.9.0"
 logback = "1.2.11"
 netty = "4.1.77.Final"
+openrs2 = "0.1.0-SNAPSHOT"
 
 [plugins]
 kotlinter = { id = "org.jmailen.kotlinter", version.ref = "kotlinter" }
@@ -29,3 +30,6 @@ nettyBuffer = { module = "io.netty:netty-buffer", version.ref = "netty" }
 nettyCodecCore = { module = "io.netty:netty-codec", version.ref = "netty" }
 nettyHandler = { module = "io.netty:netty-handler", version.ref = "netty" }
 nettyTransport = { module = "io.netty:netty-transport", version.ref = "netty" }
+openrs2Buffer = { module = "org.openrs2:openrs2-buffer", version.ref = "openrs2" }
+openrs2Cache = { module = "org.openrs2:openrs2-cache", version.ref = "openrs2" }
+openrs2Crypto = { module = "org.openrs2:openrs2-crypto", version.ref = "openrs2" }

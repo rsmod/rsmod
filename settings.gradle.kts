@@ -14,11 +14,13 @@ pluginManagement {
 
 include(
     "buffer",
+    "config",
     "game",
     "game:coroutines",
     "game:pathfinder",
     "game:plugins",
     "game:testing",
+    "protocol",
     "plugins",
     "app"
 )
