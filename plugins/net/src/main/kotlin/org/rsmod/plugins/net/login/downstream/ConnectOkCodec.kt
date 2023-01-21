@@ -13,7 +13,7 @@ class ConnectOkCodec : VariableByteLengthPacketCodec<LoginResponse.ConnectOk>(
 
     override fun decode(buf: ByteBuf, cipher: StreamCipher): LoginResponse.ConnectOk {
         val rememberDevice = buf.readBoolean()
-        val identifier = buf.readInt()
+        buf.readInt() // TODO: do something with client identifier
         val playerModLevel = buf.readByte().toInt()
         val playerMod = buf.readBoolean()
         val playerIndex = buf.readUnsignedShort()
