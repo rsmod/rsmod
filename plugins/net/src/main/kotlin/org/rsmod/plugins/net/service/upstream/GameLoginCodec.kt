@@ -9,6 +9,10 @@ import org.openrs2.crypto.StreamCipher
 import org.openrs2.crypto.XteaKey
 import org.openrs2.crypto.rsa
 import org.openrs2.crypto.xteaDecrypt
+import org.rsmod.plugins.net.game.client.ClientType
+import org.rsmod.plugins.net.game.client.JavaVendor
+import org.rsmod.plugins.net.game.client.OperatingSystem
+import org.rsmod.plugins.net.game.client.Platform
 import org.rsmod.plugins.net.login.upstream.LoginPacketRequest
 import org.rsmod.plugins.net.rev.builder.login.LoginPacketDecoderMap
 import org.rsmod.plugins.net.rev.platform.LoginPlatformPacketDecoders
@@ -30,8 +34,8 @@ class GameLoginCodec @Inject constructor(
     override fun decode(buf: ByteBuf, cipher: StreamCipher): ServiceRequest.GameLogin {
         val major = buf.readInt()
         val minor = buf.readInt()
-        val clientType = buf.readUnsignedByte().toInt()
-        val platform = buf.readUnsignedByte().toInt()
+        val clientType = clientTypeForOpcode(buf.readUnsignedByte().toInt())
+        val platform = platformForOpcode(buf.readUnsignedByte().toInt())
         buf.skipBytes(Byte.SIZE_BYTES)
 
         val encryptedLength = buf.readUnsignedShort()
@@ -63,10 +67,10 @@ class GameLoginCodec @Inject constructor(
 
         val machineInfo = buf.let {
             val version = it.readUnsignedByte().toInt()
-            val operatingSystem = it.readUnsignedByte().toInt()
+            val operatingSystem = operatingSystemForOpcode(it.readUnsignedByte().toInt())
             val is64Bit = it.readUnsignedByte().toInt() == 1
             val osVersion = it.readUnsignedShort()
-            val javaVendor = it.readUnsignedByte().toInt()
+            val javaVendor = javaVendorForOpcode(it.readUnsignedByte().toInt())
             val javaVersionMajor = it.readUnsignedByte().toInt()
             val javaVersionMinor = it.readUnsignedByte().toInt()
             val javaVersionPatch = it.readUnsignedByte().toInt()
@@ -124,7 +128,34 @@ class GameLoginCodec @Inject constructor(
 
     override fun encode(packet: ServiceRequest.GameLogin, buf: ByteBuf, cipher: StreamCipher) { /* empty */ }
 
-    private fun decoders(platform: Int): LoginPacketDecoderMap = when (platform) {
-        else -> decoders.desktop
+    private fun decoders(platform: Platform): LoginPacketDecoderMap = when (platform) {
+        Platform.Desktop -> decoders.desktop
+    }
+
+    private fun platformForOpcode(opcode: Int): Platform = when (opcode) {
+        0 -> Platform.Desktop
+        else -> error("Unhandled platform opcode conversion (opcode=$opcode).")
+    }
+
+    private fun javaVendorForOpcode(opcode: Int): JavaVendor = when (opcode) {
+        1 -> JavaVendor.Sun
+        2 -> JavaVendor.Microsoft
+        3 -> JavaVendor.Apple
+        5 -> JavaVendor.Oracle
+        else -> JavaVendor.Other
+    }
+
+    private fun operatingSystemForOpcode(opcode: Int): OperatingSystem = when (opcode) {
+        1 -> OperatingSystem.Windows
+        2 -> OperatingSystem.Mac
+        3 -> OperatingSystem.Linux
+        else -> OperatingSystem.Other
+    }
+
+    private fun clientTypeForOpcode(opcode: Int): ClientType = when (opcode) {
+        1 -> ClientType.RC
+        2 -> ClientType.WIP
+        3 -> ClientType.BuildLive
+        else -> ClientType.Live
     }
 }

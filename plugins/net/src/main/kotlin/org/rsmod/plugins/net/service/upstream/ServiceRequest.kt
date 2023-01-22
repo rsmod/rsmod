@@ -1,6 +1,10 @@
 package org.rsmod.plugins.net.service.upstream
 
 import org.openrs2.crypto.XteaKey
+import org.rsmod.plugins.net.game.client.ClientType
+import org.rsmod.plugins.net.game.client.JavaVendor
+import org.rsmod.plugins.net.game.client.OperatingSystem
+import org.rsmod.plugins.net.game.client.Platform
 import org.rsmod.protocol.packet.Packet
 
 sealed class ServiceRequest : Packet {
@@ -11,8 +15,8 @@ sealed class ServiceRequest : Packet {
     data class GameLogin(
         val buildMajor: Int,
         val buildMinor: Int,
-        val clientType: Int,
-        val platform: Int,
+        val clientType: ClientType,
+        val platform: Platform,
         val encrypted: SecureBlock,
         val username: String,
         val clientInfo: ClientInfo,
@@ -37,10 +41,10 @@ sealed class ServiceRequest : Packet {
 
         data class MachineInfo(
             val version: Int,
-            val operatingSystem: Int,
+            val operatingSystem: OperatingSystem,
             val is64Bit: Boolean,
             val osVersion: Int,
-            val javaVendor: Int,
+            val javaVendor: JavaVendor,
             val javaVersionMajor: Int,
             val javaVersionMinor: Int,
             val javaVersionPatch: Int,
@@ -64,16 +68,14 @@ sealed class ServiceRequest : Packet {
             if (!randomDat.contentEquals(other.randomDat)) return false
             if (siteSettings != other.siteSettings) return false
             if (machineInfo != other.machineInfo) return false
-            if (!cacheCrc.contentEquals(other.cacheCrc)) return false
-
-            return true
+            return cacheCrc.contentEquals(other.cacheCrc)
         }
 
         override fun hashCode(): Int {
             var result = buildMajor
             result = 31 * result + buildMinor
-            result = 31 * result + clientType
-            result = 31 * result + platform
+            result = 31 * result + clientType.hashCode()
+            result = 31 * result + platform.hashCode()
             result = 31 * result + encrypted.hashCode()
             result = 31 * result + username.hashCode()
             result = 31 * result + clientInfo.hashCode()
