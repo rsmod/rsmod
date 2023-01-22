@@ -19,11 +19,6 @@ class DownstreamPacketMap(
         structures[T::class.java] = structure
     }
 
-    @Suppress("UNCHECKED_CAST")
-    inline operator fun <reified T : DownstreamPacket> get(packet: T): DownstreamPacketStructure<T>? {
-        return structures[packet.javaClass] as? DownstreamPacketStructure<T>
-    }
-
     fun getOrCreateProtocol(): Protocol {
         val protocol = protocol ?: toProtocol()
         this.protocol = protocol

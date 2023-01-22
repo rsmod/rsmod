@@ -1,9 +1,7 @@
 package org.rsmod.plugins.net.rev.builder.login
 
 import io.netty.buffer.ByteBuf
-import javax.inject.Singleton
 
-@Singleton
 class LoginPacketDecoderMap(
     val decoders: MutableMap<Class<out LoginPacket>, LoginPacketDecoder<*>> = mutableMapOf()
 ) {

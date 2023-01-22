@@ -1,11 +1,12 @@
-package org.rsmod.plugins.net.rev.login
+package org.rsmod.plugins.net.rev.desktop
 
 import org.openrs2.buffer.readIntAlt3
 import org.openrs2.buffer.readIntAlt3Reverse
 import org.rsmod.plugins.net.login.upstream.LoginPacketRequest
-import org.rsmod.plugins.net.rev.builder.login.LoginPacketDecoderMap
+import org.rsmod.plugins.net.rev.platform.LoginPlatformPacketDecoders
 
-val decoders: LoginPacketDecoderMap by inject()
+val platforms: LoginPlatformPacketDecoders by inject()
+val decoders = platforms.desktop
 
 decoders.register<LoginPacketRequest.AuthCode> { buf ->
 	val code: Int?

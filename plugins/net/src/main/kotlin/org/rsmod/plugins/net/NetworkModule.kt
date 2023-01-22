@@ -20,6 +20,8 @@ import org.rsmod.plugins.net.rev.builder.upstream.UpstreamPacketMap
 import org.rsmod.plugins.net.rev.platform.GameDesktopDownstream
 import org.rsmod.plugins.net.rev.platform.GameDesktopUpstream
 import org.rsmod.plugins.net.rev.platform.GamePlatformPacketMaps
+import org.rsmod.plugins.net.rev.platform.LoginDesktopDecoder
+import org.rsmod.plugins.net.rev.platform.LoginPlatformPacketDecoders
 import org.rsmod.plugins.net.service.downstream.ExchangeSessionKeyCodec
 import org.rsmod.plugins.net.service.downstream.ServiceDownstream
 import org.rsmod.plugins.net.service.upstream.GameLoginCodec
@@ -63,6 +65,10 @@ object NetworkModule : AbstractModule() {
         )
 
         bind(LoginPacketDecoderMap::class.java)
+            .annotatedWith(LoginDesktopDecoder::class.java)
+            .to(LoginPacketDecoderMap::class.java)
+
+        bind(LoginPlatformPacketDecoders::class.java)
 
         bind(DownstreamPacketMap::class.java)
             .annotatedWith(GameDesktopDownstream::class.java)
@@ -70,6 +76,7 @@ object NetworkModule : AbstractModule() {
         bind(UpstreamPacketMap::class.java)
             .annotatedWith(GameDesktopUpstream::class.java)
             .to(UpstreamPacketMap::class.java)
+
         bind(GamePlatformPacketMaps::class.java)
     }
 

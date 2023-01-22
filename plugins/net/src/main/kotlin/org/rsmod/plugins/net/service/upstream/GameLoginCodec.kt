@@ -11,6 +11,7 @@ import org.openrs2.crypto.rsa
 import org.openrs2.crypto.xteaDecrypt
 import org.rsmod.plugins.net.login.upstream.LoginPacketRequest
 import org.rsmod.plugins.net.rev.builder.login.LoginPacketDecoderMap
+import org.rsmod.plugins.net.rev.platform.LoginPlatformPacketDecoders
 import org.rsmod.protocol.packet.VariableShortLengthPacketCodec
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -20,7 +21,7 @@ private const val RANDOM_UUID_BYTE_LENGTH = 24
 @Singleton
 class GameLoginCodec @Inject constructor(
     private val key: RSAPrivateCrtKeyParameters,
-    private val decoders: LoginPacketDecoderMap
+    private val decoders: LoginPlatformPacketDecoders
 ) : VariableShortLengthPacketCodec<ServiceRequest.GameLogin>(
     type = ServiceRequest.GameLogin::class.java,
     opcode = 16
@@ -39,7 +40,7 @@ class GameLoginCodec @Inject constructor(
             check(secure.readUnsignedByte().toInt() == 1) { "Invalid RSA header" }
             val xtea = XteaKey(secure.readInt(), secure.readInt(), secure.readInt(), secure.readInt())
             val seed = secure.readLong()
-            val authDecoder = decoders[LoginPacketRequest.AuthCode::class.java]
+            val authDecoder = decoders(platform)[LoginPacketRequest.AuthCode::class.java]
                 ?: error("AuthCode packet decoder must be defined.")
             val authCode = authDecoder.decode(secure)
             secure.skipBytes(Byte.SIZE_BYTES)
@@ -103,7 +104,7 @@ class GameLoginCodec @Inject constructor(
         }
         buf.skipBytes(Byte.SIZE_BYTES) /* `clientType` - written twice for some reason */
         buf.skipBytes(Int.SIZE_BYTES)
-        val checksumDecoder = decoders[LoginPacketRequest.CacheChecksum::class.java]
+        val checksumDecoder = decoders(platform)[LoginPacketRequest.CacheChecksum::class.java]
             ?: error("CacheChecksum packet decoder must be defined.")
         val cacheChecksum = checksumDecoder.decode(buf)
         return ServiceRequest.GameLogin(
@@ -122,4 +123,8 @@ class GameLoginCodec @Inject constructor(
     }
 
     override fun encode(packet: ServiceRequest.GameLogin, buf: ByteBuf, cipher: StreamCipher) { /* empty */ }
+
+    private fun decoders(platform: Int): LoginPacketDecoderMap = when (platform) {
+        else -> decoders.desktop
+    }
 }
