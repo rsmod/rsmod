@@ -4,8 +4,6 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="delegatedBuild" value="false" />
-        <option name="testRunner" value="PLATFORM" />
         <option name="distributionType" value="WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="gradleHome" value="C:/Gradle/gradle-6.3" />
@@ -19,11 +17,11 @@
             <option value="$PROJECT_DIR$/game/coroutines" />
             <option value="$PROJECT_DIR$/game/pathfinder" />
             <option value="$PROJECT_DIR$/game/plugins" />
+            <option value="$PROJECT_DIR$/game/protocol" />
             <option value="$PROJECT_DIR$/game/testing" />
             <option value="$PROJECT_DIR$/plugins" />
             <option value="$PROJECT_DIR$/plugins/api" />
             <option value="$PROJECT_DIR$/plugins/net" />
-            <option value="$PROJECT_DIR$/protocol" />
           </set>
         </option>
       </GradleProjectSettings>

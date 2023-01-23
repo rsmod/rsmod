@@ -19,8 +19,8 @@ include(
     "game:coroutines",
     "game:pathfinder",
     "game:plugins",
-    "game:testing",
-    "protocol",
+	"game:protocol",
+	"game:testing",
     "plugins",
     "app"
 )
