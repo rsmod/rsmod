@@ -22,6 +22,7 @@
             <option value="$PROJECT_DIR$/plugins" />
             <option value="$PROJECT_DIR$/plugins/api" />
             <option value="$PROJECT_DIR$/plugins/net" />
+            <option value="$PROJECT_DIR$/toml" />
           </set>
         </option>
       </GradleProjectSettings>

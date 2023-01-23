@@ -22,6 +22,7 @@ include(
 	"game:protocol",
 	"game:testing",
     "plugins",
+	"toml",
     "app"
 )
 

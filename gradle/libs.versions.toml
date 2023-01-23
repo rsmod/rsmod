@@ -3,6 +3,7 @@ clikt = "3.4.2"
 guava = "31.1-jre"
 guice = "5.1.0"
 inline-logger = "1.0.3"
+jackson = "2.14.1"
 jmh = "0.5.3"
 junit = "5.8.2"
 kotlin-coroutines = "1.6.3"
@@ -20,6 +21,9 @@ clikt = { module = "com.github.ajalt.clikt:clikt", version.ref = "clikt" }
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
 guice = { module = "com.google.inject:guice", version.ref = "guice" }
 inlineLogger = { module = "com.michael-bull.kotlin-inline-logger:kotlin-inline-logger-jvm", version.ref = "inline-logger" }
+jacksonDatabind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
+jacksonKotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
+jacksonToml = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-toml", version.ref = "jackson" }
 junitApi = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 junitEngine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
 junitParams = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit" }
