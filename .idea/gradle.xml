@@ -19,6 +19,7 @@
             <option value="$PROJECT_DIR$/game/plugins" />
             <option value="$PROJECT_DIR$/game/protocol" />
             <option value="$PROJECT_DIR$/game/testing" />
+            <option value="$PROJECT_DIR$/log" />
             <option value="$PROJECT_DIR$/plugins" />
             <option value="$PROJECT_DIR$/plugins/api" />
             <option value="$PROJECT_DIR$/plugins/net" />

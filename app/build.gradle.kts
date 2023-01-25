@@ -6,6 +6,7 @@ plugins {
 dependencies {
     api(project(":game"))
     api(project(":game:plugins"))
+	implementation(projects.log)
     implementation(libs.guice)
     findPlugins(projects.plugins).forEach {
         api(it)

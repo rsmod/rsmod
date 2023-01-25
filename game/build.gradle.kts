@@ -10,6 +10,7 @@ dependencies {
     api(libs.openrs2Cache)
     implementation(project(":buffer"))
     implementation(project(":config"))
+	implementation(projects.log)
     implementation(libs.guava)
     implementation(libs.kotlinCoroutinesCore)
     implementation(libs.guice)
