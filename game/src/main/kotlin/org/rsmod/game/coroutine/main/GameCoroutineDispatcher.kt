@@ -1,4 +1,4 @@
-package org.rsmod.game.coroutine.game
+package org.rsmod.game.coroutine.main
 
 import javax.inject.Qualifier
 

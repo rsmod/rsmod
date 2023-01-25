@@ -1,4 +1,4 @@
-package org.rsmod.game.coroutine.game
+package org.rsmod.game.coroutine.main
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder
 import kotlinx.coroutines.CoroutineDispatcher
