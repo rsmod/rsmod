@@ -1,12 +1,11 @@
-package org.rsmod.game.coroutine
+package org.rsmod.game.coroutine.io
 
-import com.google.inject.name.Named
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-public class GameCoroutineScope @Inject constructor(
-    @Named("gameCoroutineDispatcher") override val coroutineContext: CoroutineDispatcher
+public class IOCoroutineScope @Inject constructor(
+    @IOCoroutineDispatcher override val coroutineContext: CoroutineDispatcher
 ) : CoroutineScope by CoroutineScope(coroutineContext)
