@@ -3,11 +3,11 @@ package org.rsmod.game.coroutine
 import com.google.inject.AbstractModule
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import org.rsmod.game.coroutine.io.IOCoroutineDispatcher
+import org.rsmod.game.coroutine.io.IOCoroutineScope
 import org.rsmod.game.coroutine.main.GameCoroutineDispatcher
 import org.rsmod.game.coroutine.main.GameCoroutineDispatcherProvider
 import org.rsmod.game.coroutine.main.GameCoroutineScope
-import org.rsmod.game.coroutine.io.IOCoroutineDispatcher
-import org.rsmod.game.coroutine.io.IOCoroutineScope
 
 public object CoroutineModule : AbstractModule() {
 
