@@ -11,5 +11,5 @@ dependencies {
     api(libs.openrs2Crypto)
     api(libs.openrs2Cache)
     implementation(libs.kotlinCoroutinesCore)
-    implementation(project(":game:protocol"))
+    implementation(projects.game.protocol)
 }

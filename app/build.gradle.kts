@@ -4,8 +4,8 @@ plugins {
 
 @Suppress("UnstableApiUsage")
 dependencies {
-    api(project(":game"))
-    api(project(":game:plugins"))
+    api(projects.game)
+    api(projects.game.plugins)
 	implementation(projects.log)
     implementation(libs.guice)
     findPlugins(projects.plugins).forEach {
