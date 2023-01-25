@@ -5,5 +5,5 @@ plugins {
 @Suppress("UnstableApiUsage")
 dependencies {
     api(libs.openrs2Crypto)
-	implementation(projects.toml)
+    implementation(projects.toml)
 }

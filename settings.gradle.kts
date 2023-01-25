@@ -19,11 +19,11 @@ include(
     "game:coroutines",
     "game:pathfinder",
     "game:plugins",
-	"game:protocol",
-	"game:testing",
-	"log",
+    "game:protocol",
+    "game:testing",
+    "log",
     "plugins",
-	"toml",
+    "toml",
     "app"
 )
 

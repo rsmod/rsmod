@@ -8,9 +8,9 @@ val platforms: GamePlatformPacketMaps by inject()
 val packets = platforms.desktopDownstream
 
 packets.register<IfOpenTop> {
-	opcode = 10
-	length = 2
-	encode { packet, buf ->
-		buf.writeShortA(packet.interfaceId)
-	}
+    opcode = 10
+    length = 2
+    encode { packet, buf ->
+        buf.writeShortA(packet.interfaceId)
+    }
 }

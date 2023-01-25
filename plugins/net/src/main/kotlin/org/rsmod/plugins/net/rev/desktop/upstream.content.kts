@@ -8,18 +8,18 @@ val platforms: GamePlatformPacketMaps by inject()
 val packets = platforms.desktopUpstream
 
 packets.register<NoTimeout> {
-	opcode = 0
-	length = 0
-	decode { NoTimeout() }
+    opcode = 0
+    length = 0
+    decode { NoTimeout() }
 }
 
 packets.register<WindowStatus> {
-	opcode = 51
-	length = 5
-	decode { buf ->
-		val mode = buf.readByte().toInt()
-		val width = buf.readUnsignedShort()
-		val height = buf.readUnsignedShort()
-		return@decode WindowStatus(mode, width, height)
-	}
+    opcode = 51
+    length = 5
+    decode { buf ->
+        val mode = buf.readByte().toInt()
+        val width = buf.readUnsignedShort()
+        val height = buf.readUnsignedShort()
+        return@decode WindowStatus(mode, width, height)
+    }
 }
