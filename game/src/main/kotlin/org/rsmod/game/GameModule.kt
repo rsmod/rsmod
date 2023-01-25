@@ -6,10 +6,10 @@ import org.openrs2.cache.Cache
 import org.openrs2.cache.Js5MasterIndex
 import org.openrs2.cache.Store
 import org.rsmod.buffer.BufferModule
-import org.rsmod.config.ConfigModule
 import org.rsmod.game.cache.CacheProvider
 import org.rsmod.game.cache.Js5MasterIndexProvider
 import org.rsmod.game.cache.StoreProvider
+import org.rsmod.game.config.ConfigModule
 import org.rsmod.game.coroutine.CoroutineModule
 import org.rsmod.game.net.NetworkModule
 import org.rsmod.game.service.ServiceModule

@@ -10,6 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.cancel
 import org.openrs2.crypto.secureRandom
+import org.rsmod.game.config.GameConfig
 import org.rsmod.plugins.net.js5.Js5ChannelHandler
 import org.rsmod.plugins.net.js5.downstream.Js5GroupResponseEncoder
 import org.rsmod.plugins.net.js5.downstream.Js5RemoteDownstream
@@ -29,7 +30,10 @@ import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Provider
 
+private const val MACHINE_INFO_HEADER = 9
+
 class ServiceChannelHandler @Inject constructor(
+    private val config: GameConfig,
     private val js5HandlerProvider: Provider<Js5ChannelHandler>,
     @Js5RemoteDownstream private val js5RemoteDownstream: Protocol,
     @LoginDownstream private val loginDownstream: Protocol,
@@ -70,8 +74,7 @@ class ServiceChannelHandler @Inject constructor(
         val encoder = ctx.pipeline().get(ProtocolEncoder::class.java)
         encoder.protocol = js5RemoteDownstream
 
-        // TODO: configurable server js5 build
-        if (msg.build != 209) {
+        if (msg.build != config.build.major) {
             ctx.write(Js5Response.ClientOutOfDate).addListener(ChannelFutureListener.CLOSE)
             return
         }
@@ -96,15 +99,13 @@ class ServiceChannelHandler @Inject constructor(
         val encoder = ctx.pipeline().get(ProtocolEncoder::class.java)
         encoder.protocol = loginDownstream
 
-        if (buildMajor != 209 || buildMinor != 1) {
-            // TODO: configurable build versions
+        if (buildMajor != config.build.major || buildMinor != config.build.minor) {
             ctx.write(LoginResponse.ClientOutOfDate).addListener(ChannelFutureListener.CLOSE)
             return
         } else if (encrypted.seed != serverKey) {
             ctx.write(LoginResponse.BadSessionId).addListener(ChannelFutureListener.CLOSE)
             return
-        } else if (machineInfo.version != 9) {
-            // TODO: configurable machine info version
+        } else if (machineInfo.version != MACHINE_INFO_HEADER) {
             ctx.write(LoginResponse.ClientProtocolOutOfDate).addListener(ChannelFutureListener.CLOSE)
             return
         }

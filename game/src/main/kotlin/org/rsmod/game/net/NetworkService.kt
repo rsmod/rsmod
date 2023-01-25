@@ -5,7 +5,6 @@ import io.netty.channel.EventLoopGroup
 import javax.inject.Inject
 import javax.inject.Singleton
 
-// TODO: replace with NetConfig data class
 private const val GAME_PORT = 43594
 
 @Singleton

@@ -12,7 +12,6 @@ import javax.inject.Inject
 import javax.inject.Provider
 import javax.inject.Singleton
 
-// TODO: set via config file
 private const val TIMEOUT_SECS = 30L
 
 @Singleton

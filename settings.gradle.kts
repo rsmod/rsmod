@@ -14,7 +14,6 @@ pluginManagement {
 
 include(
     "buffer",
-    "config",
     "game",
     "game:coroutines",
     "game:pathfinder",
