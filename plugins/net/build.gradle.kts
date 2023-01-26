@@ -12,4 +12,5 @@ dependencies {
     api(libs.openrs2Cache)
     implementation(libs.kotlinCoroutinesCore)
     implementation(projects.game.protocol)
+    implementation(projects.plugins.api)
 }

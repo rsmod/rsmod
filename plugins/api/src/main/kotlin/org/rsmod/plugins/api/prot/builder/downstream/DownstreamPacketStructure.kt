@@ -1,4 +1,4 @@
-package org.rsmod.plugins.net.rev.builder.downstream
+package org.rsmod.plugins.api.prot.builder.downstream
 
 import io.netty.buffer.ByteBuf
 

@@ -1,4 +1,4 @@
-package org.rsmod.plugins.net.rev.builder.upstream
+package org.rsmod.plugins.api.prot.builder.upstream
 
 import org.rsmod.protocol.Protocol
 import org.rsmod.protocol.packet.PacketCodec

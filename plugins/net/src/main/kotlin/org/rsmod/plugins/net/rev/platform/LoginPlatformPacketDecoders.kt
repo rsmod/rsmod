@@ -1,6 +1,6 @@
 package org.rsmod.plugins.net.rev.platform
 
-import org.rsmod.plugins.net.rev.builder.login.LoginPacketDecoderMap
+import org.rsmod.plugins.api.prot.builder.login.LoginPacketDecoderMap
 import javax.inject.Inject
 import javax.inject.Singleton
 

@@ -1,21 +1,20 @@
-package org.rsmod.plugins.net.rev.builder.upstream
+package org.rsmod.plugins.api.prot.builder.downstream
 
 import io.netty.buffer.ByteBuf
 import org.openrs2.crypto.StreamCipher
 import org.rsmod.protocol.packet.VariableShortLengthPacketCodec
 
-class UpstreamVariableShortPacketCodec<T : UpstreamPacket>(
+class DownstreamVariableShortPacketCodec<T : DownstreamPacket>(
     type: Class<T>,
     opcode: Int,
-    private val decoder: (ByteBuf) -> UpstreamPacket
+    private val encoder: (T, ByteBuf) -> Unit
 ) : VariableShortLengthPacketCodec<T>(type, opcode) {
 
-    @Suppress("UNCHECKED_CAST")
     override fun decode(buf: ByteBuf, cipher: StreamCipher): T {
-        return decoder.invoke(buf) as T
+        throw NotImplementedError("Downstream packet cannot be decoded.")
     }
 
     override fun encode(packet: T, buf: ByteBuf, cipher: StreamCipher) {
-        throw NotImplementedError("Upstream packet cannot be encoded.")
+        encoder.invoke(packet, buf)
     }
 }

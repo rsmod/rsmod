@@ -1,6 +1,6 @@
 package org.rsmod.plugins.net.login.upstream
 
-import org.rsmod.plugins.net.rev.builder.login.LoginPacket
+import org.rsmod.plugins.api.prot.builder.login.LoginPacket
 
 sealed class LoginPacketRequest : LoginPacket {
 

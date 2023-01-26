@@ -1,7 +1,7 @@
 package org.rsmod.plugins.net.rev.desktop
 
 import org.openrs2.buffer.writeShortA
-import org.rsmod.plugins.net.game.downstream.IfOpenTop
+import org.rsmod.plugins.api.prot.downstream.IfOpenTop
 import org.rsmod.plugins.net.rev.platform.GamePlatformPacketMaps
 
 val platforms: GamePlatformPacketMaps by inject()

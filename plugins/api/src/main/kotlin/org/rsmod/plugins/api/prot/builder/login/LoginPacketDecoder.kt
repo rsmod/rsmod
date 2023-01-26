@@ -1,4 +1,4 @@
-package org.rsmod.plugins.net.rev.builder.login
+package org.rsmod.plugins.api.prot.builder.login
 
 import io.netty.buffer.ByteBuf
 

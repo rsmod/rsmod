@@ -1,7 +1,7 @@
 package org.rsmod.plugins.net.rev.platform
 
-import org.rsmod.plugins.net.rev.builder.downstream.DownstreamPacketMap
-import org.rsmod.plugins.net.rev.builder.upstream.UpstreamPacketMap
+import org.rsmod.plugins.api.prot.builder.downstream.DownstreamPacketMap
+import org.rsmod.plugins.api.prot.builder.upstream.UpstreamPacketMap
 import javax.inject.Inject
 import javax.inject.Singleton
 

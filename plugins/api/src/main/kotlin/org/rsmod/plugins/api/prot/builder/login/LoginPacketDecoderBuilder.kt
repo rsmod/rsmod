@@ -1,9 +1,9 @@
-package org.rsmod.plugins.net.rev.builder.login
+package org.rsmod.plugins.api.prot.builder.login
 
 import io.netty.buffer.ByteBuf
 
 @DslMarker
-annotation class PacketBuilderDsl
+private annotation class PacketBuilderDsl
 
 @PacketBuilderDsl
 class LoginPacketDecoderBuilder<T : LoginPacket> {

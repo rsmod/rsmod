@@ -1,9 +1,9 @@
-package org.rsmod.plugins.net.rev.builder.upstream
+package org.rsmod.plugins.api.prot.builder.upstream
 
 import io.netty.buffer.ByteBuf
 
 @DslMarker
-annotation class PacketBuilderDsl
+private annotation class PacketBuilderDsl
 
 @PacketBuilderDsl
 class UpstreamPacketBuilder<T : UpstreamPacket> {
