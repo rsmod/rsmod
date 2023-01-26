@@ -30,8 +30,6 @@ import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Provider
 
-private const val MACHINE_INFO_HEADER = 9
-
 class ServiceChannelHandler @Inject constructor(
     private val js5HandlerProvider: Provider<Js5ChannelHandler>,
     @Js5RemoteDownstream private val js5RemoteDownstream: Protocol,
@@ -104,7 +102,7 @@ class ServiceChannelHandler @Inject constructor(
         } else if (encrypted.seed != serverKey) {
             ctx.write(LoginResponse.BadSessionId).addListener(ChannelFutureListener.CLOSE)
             return
-        } else if (machineInfo.version != MACHINE_INFO_HEADER) {
+        } else if (machineInfo.version != Revision.MACHINE_INFO_HEADER) {
             ctx.write(LoginResponse.ClientProtocolOutOfDate).addListener(ChannelFutureListener.CLOSE)
             return
         }
