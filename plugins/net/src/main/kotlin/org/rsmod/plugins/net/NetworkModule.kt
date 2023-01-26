@@ -8,6 +8,7 @@ import com.google.inject.multibindings.Multibinder
 import org.rsmod.plugins.api.prot.builder.downstream.DownstreamPacketMap
 import org.rsmod.plugins.api.prot.builder.login.LoginPacketDecoderMap
 import org.rsmod.plugins.api.prot.builder.upstream.UpstreamPacketMap
+import org.rsmod.plugins.net.bootstrap.NetworkBootstrapFactory
 import org.rsmod.plugins.net.js5.Js5Service
 import org.rsmod.plugins.net.js5.downstream.Js5ClientOutOfDateCodec
 import org.rsmod.plugins.net.js5.downstream.Js5OkCodec
@@ -22,6 +23,7 @@ import org.rsmod.plugins.net.rev.platform.GameDesktopUpstream
 import org.rsmod.plugins.net.rev.platform.GamePlatformPacketMaps
 import org.rsmod.plugins.net.rev.platform.LoginDesktopDecoder
 import org.rsmod.plugins.net.rev.platform.LoginPlatformPacketDecoders
+import org.rsmod.plugins.net.service.ServiceChannelInitializer
 import org.rsmod.plugins.net.service.downstream.ExchangeSessionKeyCodec
 import org.rsmod.plugins.net.service.downstream.ServiceDownstream
 import org.rsmod.plugins.net.service.upstream.GameLoginCodec
@@ -78,10 +80,14 @@ object NetworkModule : AbstractModule() {
             .to(UpstreamPacketMap::class.java)
 
         bind(GamePlatformPacketMaps::class.java)
+
+        bind(NetworkBootstrapFactory::class.java)
+        bind(ServiceChannelInitializer::class.java)
     }
 
     private fun bindServices() {
         val binder = Multibinder.newSetBinder(binder(), Service::class.java)
+        binder.addBinding().to(NetworkService::class.java)
         binder.addBinding().to(Js5Service::class.java)
     }
 

@@ -22,7 +22,6 @@ public object ConfigModule : AbstractModule() {
             .`in`(Scopes.SINGLETON)
 
         Multibinder.newSetBinder(binder(), Module::class.java)
-            .addBinding()
-            .to(JacksonConfigModule::class.java)
+            .addBinding().to(JacksonConfigModule::class.java)
     }
 }

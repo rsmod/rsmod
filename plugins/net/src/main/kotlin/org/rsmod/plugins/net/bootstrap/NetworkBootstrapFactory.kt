@@ -1,4 +1,4 @@
-package org.rsmod.game.net
+package org.rsmod.plugins.net.bootstrap
 
 import io.netty.bootstrap.ServerBootstrap
 import io.netty.buffer.ByteBufAllocator
@@ -10,11 +10,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-public class NetworkBootstrapFactory @Inject constructor(
-    private val allocator: ByteBufAllocator
-) {
+class NetworkBootstrapFactory @Inject constructor(private val allocator: ByteBufAllocator) {
 
-    public fun createBootstrap(group: EventLoopGroup): ServerBootstrap {
+    fun createBootstrap(group: EventLoopGroup): ServerBootstrap {
         val channel = when (group) {
             is NioEventLoopGroup -> NioServerSocketChannel::class.java
             else -> error("Unhandled EventLoopGroup channel conversion. (${group.javaClass.simpleName})")
@@ -28,7 +26,7 @@ public class NetworkBootstrapFactory @Inject constructor(
             .childOption(ChannelOption.TCP_NODELAY, true)
     }
 
-    public fun createEventLoopGroup(): EventLoopGroup {
+    fun createEventLoopGroup(): EventLoopGroup {
         return NioEventLoopGroup()
     }
 }
