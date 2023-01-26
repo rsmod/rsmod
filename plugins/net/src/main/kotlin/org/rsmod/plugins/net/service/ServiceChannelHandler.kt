@@ -10,7 +10,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.cancel
 import org.openrs2.crypto.secureRandom
-import org.rsmod.game.config.GameConfig
 import org.rsmod.plugins.net.js5.Js5ChannelHandler
 import org.rsmod.plugins.net.js5.downstream.Js5GroupResponseEncoder
 import org.rsmod.plugins.net.js5.downstream.Js5RemoteDownstream
@@ -19,6 +18,7 @@ import org.rsmod.plugins.net.js5.downstream.XorDecoder
 import org.rsmod.plugins.net.js5.upstream.Js5RequestDecoder
 import org.rsmod.plugins.net.login.downstream.LoginDownstream
 import org.rsmod.plugins.net.login.downstream.LoginResponse
+import org.rsmod.plugins.net.rev.Revision
 import org.rsmod.plugins.net.rev.platform.GamePlatformPacketMaps
 import org.rsmod.plugins.net.service.downstream.ServiceResponse
 import org.rsmod.plugins.net.service.upstream.ServiceRequest
@@ -33,7 +33,6 @@ import javax.inject.Provider
 private const val MACHINE_INFO_HEADER = 9
 
 class ServiceChannelHandler @Inject constructor(
-    private val config: GameConfig,
     private val js5HandlerProvider: Provider<Js5ChannelHandler>,
     @Js5RemoteDownstream private val js5RemoteDownstream: Protocol,
     @LoginDownstream private val loginDownstream: Protocol,
@@ -74,7 +73,7 @@ class ServiceChannelHandler @Inject constructor(
         val encoder = ctx.pipeline().get(ProtocolEncoder::class.java)
         encoder.protocol = js5RemoteDownstream
 
-        if (msg.build != config.build.major) {
+        if (msg.build != Revision.MAJOR) {
             ctx.write(Js5Response.ClientOutOfDate).addListener(ChannelFutureListener.CLOSE)
             return
         }
@@ -99,7 +98,7 @@ class ServiceChannelHandler @Inject constructor(
         val encoder = ctx.pipeline().get(ProtocolEncoder::class.java)
         encoder.protocol = loginDownstream
 
-        if (buildMajor != config.build.major || buildMinor != config.build.minor) {
+        if (buildMajor != Revision.MAJOR || buildMinor != Revision.MINOR) {
             ctx.write(LoginResponse.ClientOutOfDate).addListener(ChannelFutureListener.CLOSE)
             return
         } else if (encrypted.seed != serverKey) {
