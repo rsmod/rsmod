@@ -43,6 +43,7 @@ public value class MapSquare(public val id: Int) {
     }
 
     public companion object {
+
         public const val SIZE: Int = 64
         public val ZERO: MapSquare = MapSquare(0)
     }

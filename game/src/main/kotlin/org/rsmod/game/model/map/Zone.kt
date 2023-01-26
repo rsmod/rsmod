@@ -51,6 +51,7 @@ public value class Zone(public val packed: Int) {
     }
 
     public companion object {
+
         public const val SIZE: Int = 8
     }
 }

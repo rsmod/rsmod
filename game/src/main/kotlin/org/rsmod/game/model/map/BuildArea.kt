@@ -48,6 +48,7 @@ public value class BuildArea(public val packed: Int) {
     }
 
     public companion object {
+
         public const val SIZE: Int = 104
     }
 }

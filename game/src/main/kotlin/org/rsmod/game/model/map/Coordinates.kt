@@ -50,6 +50,7 @@ public value class Coordinates(public val packed: Int) {
     }
 
     public companion object {
+
         public val ZERO: Coordinates = Coordinates(0)
     }
 }
