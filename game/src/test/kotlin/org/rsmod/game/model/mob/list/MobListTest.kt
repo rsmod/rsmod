@@ -30,10 +30,10 @@ class MobListTest {
 
     @Test
     fun `test size property`() {
-        val index = list.indexOfFirstNullOrNull()
         Assertions.assertEquals(0, list.size)
-        Assertions.assertNotNull(index)
 
+        val index = list.indexOfFirstNullOrNull()
+        Assertions.assertNotNull(index)
         list[index!!] = createPlayer()
         Assertions.assertEquals(1, list.size)
 
