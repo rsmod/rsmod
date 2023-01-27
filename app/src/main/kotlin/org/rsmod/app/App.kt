@@ -2,6 +2,7 @@ package org.rsmod.app
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.michaelbull.logging.InlineLogger
+import com.google.inject.AbstractModule
 import com.google.inject.Guice
 import com.google.inject.Injector
 import com.google.inject.util.Modules
@@ -19,18 +20,22 @@ public fun main(args: Array<String>): Unit = AppCommand().main(args)
 public class AppCommand : CliktCommand(name = "app") {
 
     override fun run() {
-        val modulePlugins = ModulePluginLoader.load(KotlinScriptModulePlugin::class.java)
-        val externalModules = modulePlugins.flatMap { it.modules }
-        logger.info { "Loaded ${modulePlugins.size} module plugin${if (modulePlugins.size == 1) "" else "s"}." }
-        val combined = Modules.combine(GameModule, *externalModules.toTypedArray())
+        val pluginModules = loadPluginModules()
+        val combined = Modules.combine(GameModule, *pluginModules.toTypedArray())
         val injector = Guice.createInjector(combined)
         loadContentPlugins(injector)
         startUpGame(injector)
     }
 
+    private fun loadPluginModules(): List<AbstractModule> {
+        val modulePlugins = ModulePluginLoader.load(KotlinScriptModulePlugin::class.java)
+        val modules = modulePlugins.flatMap { it.modules }
+        logger.info { "Loaded ${modules.size} module plugin${if (modules.size == 1) "" else "s"}." }
+        return modules
+    }
+
     private fun loadContentPlugins(injector: Injector) {
-        val loader = injector.getInstance(ContentPluginLoader::class.java)
-        val plugins = loader.load(KotlinScriptContentPlugin::class.java)
+        val plugins = ContentPluginLoader.load(KotlinScriptContentPlugin::class.java, injector)
         logger.info { "Loaded ${plugins.size} content plugin${if (plugins.size == 1) "" else "s"}." }
     }
 
