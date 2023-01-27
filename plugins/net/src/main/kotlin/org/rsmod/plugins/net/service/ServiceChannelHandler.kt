@@ -10,6 +10,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.cancel
 import org.openrs2.crypto.secureRandom
+import org.rsmod.game.events.EventBus
+import org.rsmod.plugins.api.event.PlayerSession
 import org.rsmod.plugins.net.game.client.Platform
 import org.rsmod.plugins.net.js5.Js5ChannelHandler
 import org.rsmod.plugins.net.js5.downstream.Js5GroupResponseEncoder
@@ -35,7 +37,8 @@ class ServiceChannelHandler @Inject constructor(
     private val js5HandlerProvider: Provider<Js5ChannelHandler>,
     @Js5RemoteDownstream private val js5RemoteDownstream: Protocol,
     @LoginDownstream private val loginDownstream: Protocol,
-    private val gamePackets: GamePlatformPacketMaps
+    private val gamePackets: GamePlatformPacketMaps,
+    private val events: EventBus
 ) : SimpleChannelInboundHandler<ServiceRequest>(ServiceRequest::class.java) {
 
     private lateinit var scope: CoroutineScope
@@ -125,6 +128,7 @@ class ServiceChannelHandler @Inject constructor(
                     decoder.protocol = gamePackets.desktopUpstream.getOrCreateProtocol()
                 }
             }
+            events += PlayerSession.Connected(ctx.channel())
         }
         return@with
     }
