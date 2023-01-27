@@ -14,7 +14,7 @@ public sealed class MobList<T : Mob>(
         get() = INDEX_PADDING until mobs.size
 
     override fun isEmpty(): Boolean {
-        return mobs.none { it != null }
+        return mobs.all { it == null }
     }
 
     public operator fun set(index: Int, mob: T?) {
