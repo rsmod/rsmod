@@ -18,7 +18,9 @@ public sealed class MobList<T : Mob>(
     }
 
     public operator fun set(index: Int, mob: T?) {
-        check(index in indices) { "Index out of bounds (index=$index, valid=$indices)." }
+        if (index !in indices) {
+            throw IndexOutOfBoundsException("Index out of bounds (index=$index, valid=$indices).")
+        }
         mobs[index] = mob
     }
 
