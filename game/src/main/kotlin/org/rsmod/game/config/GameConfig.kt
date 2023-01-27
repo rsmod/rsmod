@@ -9,7 +9,10 @@ public data class GameConfig(
 ) {
 
     val cachePath: Path
-        get() = dataPath.resolve("cache/packed")
+        get() = dataPath.resolve("cache")
+
+    val packedCachePath: Path
+        get() = cachePath.resolve("packed")
 
     val rsaPath: Path
         get() = dataPath.resolve("rsa/game.key")

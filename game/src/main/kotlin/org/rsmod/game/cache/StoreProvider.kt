@@ -12,6 +12,6 @@ public class StoreProvider @Inject constructor(
 ) : Provider<Store> {
 
     override fun get(): Store {
-        return Store.open(config.cachePath, alloc)
+        return Store.open(config.packedCachePath, alloc)
     }
 }

@@ -1,5 +1,6 @@
 package org.rsmod.plugins.net.login.downstream
 
+import org.openrs2.crypto.StreamCipher
 import org.rsmod.protocol.packet.Packet
 
 sealed class LoginResponse : Packet {
@@ -10,7 +11,8 @@ sealed class LoginResponse : Packet {
         val playerMod: Boolean,
         val playerIndex: Int,
         val playerMember: Boolean,
-        val accountHash: Long
+        val accountHash: Long,
+        val cipher: StreamCipher
     ) : LoginResponse()
 
     object ClientOutOfDate : LoginResponse()

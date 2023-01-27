@@ -25,13 +25,22 @@ class ConnectOkCodec : VariableByteLengthPacketCodec<LoginResponse.ConnectOk>(
             playerMod = playerMod,
             playerIndex = playerIndex,
             playerMember = playerMember,
-            accountHash = accountHash
+            accountHash = accountHash,
+            cipher = cipher
         )
     }
 
     override fun encode(packet: LoginResponse.ConnectOk, buf: ByteBuf, cipher: StreamCipher) {
         buf.writeBoolean(packet.rememberDevice)
-        buf.writeInt(0) // TODO: write device/client identifier
+        if (packet.rememberDevice) {
+            // TODO: write device/client identifier
+            for (i in 0 until 4) {
+                val scrambled = 0 + packet.cipher.nextInt()
+                buf.writeByte(scrambled)
+            }
+        } else {
+            buf.writeInt(0)
+        }
         buf.writeByte(packet.playerModLevel)
         buf.writeBoolean(packet.playerMod)
         buf.writeShort(packet.playerIndex)

@@ -9,6 +9,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.cancel
+import org.openrs2.crypto.IsaacRandom
 import org.openrs2.crypto.secureRandom
 import org.rsmod.game.events.EventBus
 import org.rsmod.plugins.api.event.PlayerSession
@@ -110,6 +111,8 @@ class ServiceChannelHandler @Inject constructor(
             return
         }
         // TODO: dispatch profile load request
+        val decodeCipher = IsaacRandom(encrypted.xtea.toIntArray())
+        val encodeCipher = IsaacRandom(encrypted.xtea.toIntArray().map { it + 50 }.toIntArray())
         val accountHash = Hashing.sha256().hashString(username.lowercase(Locale.US), StandardCharsets.UTF_8)
         val response = LoginResponse.ConnectOk(
             rememberDevice = true,
@@ -117,9 +120,10 @@ class ServiceChannelHandler @Inject constructor(
             playerMember = true,
             playerMod = true,
             playerIndex = 1,
-            accountHash = accountHash.asLong()
+            accountHash = accountHash.asLong(),
+            cipher = encodeCipher
         )
-        ctx.write(response).addListener { future ->
+        ctx.writeAndFlush(response).addListener { future ->
             if (!future.isSuccess) return@addListener
             val decoder = ctx.pipeline().get(ProtocolDecoder::class.java)
             when (platform) {
@@ -128,6 +132,9 @@ class ServiceChannelHandler @Inject constructor(
                     decoder.protocol = gamePackets.desktopUpstream.getOrCreateProtocol()
                 }
             }
+            encoder.cipher = encodeCipher
+            decoder.cipher = decodeCipher
+            // TODO: dispatch on game thread
             events += PlayerSession.Connected(ctx.channel())
         }
         return@with

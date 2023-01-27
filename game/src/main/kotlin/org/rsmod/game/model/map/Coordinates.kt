@@ -9,6 +9,12 @@ public value class Coordinates(public val packed: Int) {
 
     public val level: Int get() = (packed shr 30) and 0x3
 
+    public val packed30Bits: Int
+        get() = (y and 0x3FFF) or ((x and 0x3FFF) shl 14) or ((level and 0x3) shl 28)
+
+    public val packed18Bits: Int
+        get() = (y shr 13) or ((x shr 13) shl 8) or ((level and 0x3) shl 16)
+
     public constructor(x: Int, y: Int, level: Int = 0) : this(
         (x and 0x7FFF) or ((y and 0x7FFF) shl 15) or ((level and 0x3) shl 30)
     )

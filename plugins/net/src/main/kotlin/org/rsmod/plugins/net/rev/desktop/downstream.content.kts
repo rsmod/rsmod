@@ -1,5 +1,6 @@
 package org.rsmod.plugins.net.rev.desktop
 
+import org.openrs2.buffer.BitBuf
 import org.openrs2.buffer.writeByteS
 import org.openrs2.buffer.writeShortA
 import org.rsmod.plugins.api.prot.downstream.IfOpenSub
@@ -32,6 +33,10 @@ packets.register<RebuildNormal> {
     opcode = 16
     length = variableShortLength
     encode { packet, buf ->
+        /* log-in sends gpi initialization data along with REBUILD_NORMAL data */
+        packet.gpiInitialization?.let { gpi ->
+            BitBuf(buf).use { bitBuf -> gpi.encode(bitBuf) }
+        }
         buf.writeShortA(packet.zone.x)
         buf.writeShortLE(packet.zone.y)
         buf.writeShort(packet.xteaList.size / 4)

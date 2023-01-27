@@ -36,6 +36,21 @@ public value class Zone(public val packed: Int) {
         y = (y / (MapSquare.SIZE / SIZE))
     )
 
+    public fun toViewport(): List<MapSquare> {
+        val lx = (x - 6) / SIZE
+        val ly = (y - 6) / SIZE
+        val rx = (x + 6) / SIZE
+        val ry = (y + 6) / SIZE
+        val viewport = mutableListOf<MapSquare>()
+        for (mx in lx..rx) {
+            for (my in ly..ry) {
+                val mapSquare = MapSquare(mx, my)
+                viewport += mapSquare
+            }
+        }
+        return viewport
+    }
+
     public operator fun component1(): Int = x
 
     public operator fun component2(): Int = y
@@ -48,6 +63,10 @@ public value class Zone(public val packed: Int) {
 
     public operator fun plus(other: Zone): Zone {
         return translate(other.x, other.y)
+    }
+
+    public override fun toString(): String {
+        return "Zone(x=$x, y=$y, level=$level)"
     }
 
     public companion object {
