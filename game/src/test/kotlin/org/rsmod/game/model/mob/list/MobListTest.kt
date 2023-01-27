@@ -44,7 +44,7 @@ class MobListTest {
     @Test
     fun `test isEmpty returns true only if list contains a non-null element`() {
         Assertions.assertEquals(true, list.isEmpty())
-        /* make sure kotlin std isNotEmpty extension also work properly */
+        /* make sure kotlin std isNotEmpty extension also works properly */
         Assertions.assertEquals(false, list.isNotEmpty())
 
         list[1] = createPlayer()
