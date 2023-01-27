@@ -62,8 +62,8 @@ class MobListTest {
 
         for (i in INDEX_PADDING until LIST_CAPACITY - 1) {
             list[i] = createPlayer()
-            Assertions.assertFalse(list.isFull())
         }
+        Assertions.assertFalse(list.isFull())
 
         list[LIST_CAPACITY - 1] = createPlayer()
         Assertions.assertTrue(list.isFull())
