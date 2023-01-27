@@ -43,7 +43,7 @@ class MobListTest {
     }
 
     @Test
-    fun `test isEmpty returns true only if list contains a non-null element`() {
+    fun `test isEmpty returns false if list contains a non-null element`() {
         Assertions.assertTrue(list.isEmpty())
         /* make sure kotlin std isNotEmpty extension also works properly */
         Assertions.assertFalse(list.isNotEmpty())
