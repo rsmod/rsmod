@@ -18,7 +18,7 @@ public abstract class VariableByteLengthPacketCodec<T : Packet>(
     }
 
     override fun offsetLength(buf: ByteBuf) {
-        buf.writeByte(0)
+        buf.writeZero(1)
     }
 
     override fun setLength(buf: ByteBuf, offsetLengthWriterIndex: Int, length: Int) {
