@@ -57,8 +57,8 @@ class MobListTest {
         val index = list.indexOfFirstNullOrNull()
         Assertions.assertNotNull(index)
         Assertions.assertEquals(MobList.INDEX_PADDING, index)
-        list[index!!] = createPlayer()
 
+        list[index!!] = createPlayer()
         val nextIndex = list.indexOfFirstNullOrNull()
         Assertions.assertNotNull(nextIndex)
         Assertions.assertEquals(MobList.INDEX_PADDING + 1, nextIndex)
