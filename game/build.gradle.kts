@@ -12,4 +12,6 @@ dependencies {
     implementation(libs.guava)
     implementation(libs.kotlinCoroutinesCore)
     implementation(libs.guice)
+    implementation(libs.logback)
+    implementation(libs.inlineLogger)
 }

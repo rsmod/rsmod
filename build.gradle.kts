@@ -54,8 +54,6 @@ allprojects {
             api("org.jetbrains.kotlin:kotlin-stdlib-jdk7") { requireKotlinVersion() }
             api("org.jetbrains.kotlin:kotlin-stdlib-jdk8") { requireKotlinVersion() }
             api("org.jetbrains.kotlin:kotlin-stdlib") { requireKotlinVersion() }
-            implementation(libs.logback)
-            implementation(libs.inlineLogger)
         }
 
         kotlin {

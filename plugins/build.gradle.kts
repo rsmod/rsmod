@@ -11,10 +11,13 @@ subprojects {
             explicitApi = ExplicitApiMode.Disabled
         }
 
+        @Suppress("UnstableApiUsage")
         dependencies {
             implementation("org.jetbrains.kotlin:kotlin-script-runtime:1.7.0")
             implementation(projects.game)
             implementation(projects.game.plugins)
+            implementation(libs.logback)
+            implementation(libs.inlineLogger)
         }
     }
 }
