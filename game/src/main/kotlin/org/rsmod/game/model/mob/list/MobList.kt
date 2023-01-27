@@ -19,10 +19,11 @@ public sealed class MobList<T : Mob>(
     }
 
     public fun nextAvailableIndex(): Int? {
-        for (i in lastUsedIndex + 1 until capacity) {
+        val startIndex = lastUsedIndex + 1
+        for (i in startIndex until capacity) {
             if (this[i] == null) return i
         }
-        for (i in indexPadding until lastUsedIndex) {
+        for (i in indexPadding until startIndex) {
             if (this[i] == null) return i
         }
         return null
