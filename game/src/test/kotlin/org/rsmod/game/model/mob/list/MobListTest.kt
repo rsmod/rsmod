@@ -72,7 +72,7 @@ class MobListTest {
     @Test
     fun `test next available index is null when list is full`() {
         Assertions.assertFalse(list.isFull())
-        for (i in list.indices) {
+        for (i in INDEX_PADDING until list.size) {
             list[i] = createPlayer()
         }
         Assertions.assertNull(list.nextAvailableIndex())
