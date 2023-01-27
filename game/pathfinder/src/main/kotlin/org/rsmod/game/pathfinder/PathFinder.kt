@@ -1342,6 +1342,78 @@ public class PathFinder(
     }
 
     public companion object {
+
         private val FAILED_ROUTE = Route(emptyList(), alternative = false, success = false)
+
+        /**
+         * Calculates coordinates for [sourceX]/[sourceY] to move to interact with [targetX]/[targetY]
+         * We first determine the cardinal direction of the source relative to the target by comparing if
+         * the source lies to the left or right of diagonal \ and anti-diagonal / lines.
+         * \ <= North <= /
+         *  +------------+  >
+         *  |            |  East
+         *  +------------+  <
+         * / <= South <= \
+         * We then further bisect the area into three section relative to the south-west tile (zero):
+         * 1. Greater than zero: follow their diagonal until the target side is reached (clamped at the furthest most tile)
+         * 2. Less than zero: zero minus the size of the source
+         * 3. Equal to zero: move directly towards zero / the south-west coordinate
+         *
+         * <  \ 0 /   <   /
+         *     +---------+
+         *     |         |
+         *     +---------+
+         * This method is equivalent to returning the last coordinate in a sequence of steps towards south-west when moving
+         * ordinal then cardinally until entity side comes into contact with another.
+         */
+        public fun naiveDestination(
+            sourceX: Int,
+            sourceY: Int,
+            sourceWidth: Int,
+            sourceHeight: Int,
+            targetX: Int,
+            targetY: Int,
+            targetWidth: Int,
+            targetHeight: Int
+        ): RouteCoordinates {
+            val diagonal = (sourceX - targetX) + (sourceY - targetY)
+            val anti = (sourceX - targetX) - (sourceY - targetY)
+            val southWestClockwise = anti < 0
+            val northWestClockwise = diagonal >= (targetHeight - 1) - (sourceWidth - 1)
+            val northEastClockwise = anti > sourceWidth - sourceHeight
+            val southEastClockwise = diagonal <= (targetWidth - 1) - (sourceHeight - 1)
+
+            val target = RouteCoordinates(targetX, targetY)
+            if (southWestClockwise && !northWestClockwise) {
+                val offY = when { // West
+                    diagonal >= -sourceWidth -> (diagonal + sourceWidth).coerceAtMost(targetHeight - 1)
+                    anti > -sourceWidth -> -(sourceWidth + anti)
+                    else -> 0
+                }
+                return target.translate(-sourceWidth, offY)
+            } else if (northWestClockwise && !northEastClockwise) {
+                val offX = when { // North
+                    anti >= -targetHeight -> (anti + targetHeight).coerceAtMost(targetWidth - 1)
+                    diagonal < targetHeight -> (diagonal - targetHeight).coerceAtLeast(-(sourceWidth - 1))
+                    else -> 0
+                }
+                return target.translate(offX, targetHeight)
+            } else if (northEastClockwise && !southEastClockwise) {
+                val offY = when { // East
+                    anti <= targetWidth -> targetHeight - anti
+                    diagonal < targetWidth -> (diagonal - targetWidth).coerceAtLeast(-(sourceHeight - 1))
+                    else -> 0
+                }
+                return target.translate(targetWidth, offY)
+            } else {
+                check(southEastClockwise && !southWestClockwise)
+                val offX = when { // South
+                    diagonal > -sourceHeight -> (diagonal + sourceHeight).coerceAtMost(targetWidth - 1)
+                    anti < sourceHeight -> (anti - sourceHeight).coerceAtLeast(-(sourceHeight - 1))
+                    else -> 0
+                }
+                return target.translate(offX, -sourceHeight)
+            }
+        }
     }
 }

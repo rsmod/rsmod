@@ -322,6 +322,14 @@ public class StepValidator(private val flags: CollisionFlagMap) {
          * This method is equivalent to returning the last coordinate in a sequence of steps towards south-west when moving
          * ordinal then cardinally until entity side comes into contact with another.
          */
+        @Deprecated(
+            message = "Use PathFinder.naiveDestination instead.",
+            replaceWith = ReplaceWith(
+                "PathFinder.naiveDestination(" +
+                    "sourceX, sourceY, sourceWidth, sourceHeight, " +
+                    "targetX, targetY, targetWidth, targetHeight)"
+            )
+        )
         public fun naiveDestination(
             sourceX: Int,
             sourceY: Int,
@@ -332,44 +340,10 @@ public class StepValidator(private val flags: CollisionFlagMap) {
             targetWidth: Int,
             targetHeight: Int
         ): RouteCoordinates {
-            val diagonal = (sourceX - targetX) + (sourceY - targetY)
-            val anti = (sourceX - targetX) - (sourceY - targetY)
-            val southWestClockwise = anti < 0
-            val northWestClockwise = diagonal >= (targetHeight - 1) - (sourceWidth - 1)
-            val northEastClockwise = anti > sourceWidth - sourceHeight
-            val southEastClockwise = diagonal <= (targetWidth - 1) - (sourceHeight - 1)
-
-            val target = RouteCoordinates(targetX, targetY)
-            if (southWestClockwise && !northWestClockwise) {
-                val offY = when { // West
-                    diagonal >= -sourceWidth -> (diagonal + sourceWidth).coerceAtMost(targetHeight - 1)
-                    anti > -sourceWidth -> -(sourceWidth + anti)
-                    else -> 0
-                }
-                return target.translate(-sourceWidth, offY)
-            } else if (northWestClockwise && !northEastClockwise) {
-                val offX = when { // North
-                    anti >= -targetHeight -> (anti + targetHeight).coerceAtMost(targetWidth - 1)
-                    diagonal < targetHeight -> (diagonal - targetHeight).coerceAtLeast(-(sourceWidth - 1))
-                    else -> 0
-                }
-                return target.translate(offX, targetHeight)
-            } else if (northEastClockwise && !southEastClockwise) {
-                val offY = when { // East
-                    anti <= targetWidth -> targetHeight - anti
-                    diagonal < targetWidth -> (diagonal - targetWidth).coerceAtLeast(-(sourceHeight - 1))
-                    else -> 0
-                }
-                return target.translate(targetWidth, offY)
-            } else {
-                check(southEastClockwise && !southWestClockwise)
-                val offX = when { // South
-                    diagonal > -sourceHeight -> (diagonal + sourceHeight).coerceAtMost(targetWidth - 1)
-                    anti < sourceHeight -> (anti - sourceHeight).coerceAtLeast(-(sourceHeight - 1))
-                    else -> 0
-                }
-                return target.translate(offX, -sourceHeight)
-            }
+            return PathFinder.naiveDestination(
+                sourceX, sourceY, sourceWidth, sourceHeight,
+                targetX, targetY, targetWidth, targetHeight
+            )
         }
 
         private fun getDirection(xOff: Int, yOff: Int): Direction {
