@@ -2,6 +2,9 @@ package org.rsmod.plugins.api.prot.builder.downstream
 
 import io.netty.buffer.ByteBuf
 
+private const val VARIABLE_BYTE_LENGTH = -1
+private const val VARIABLE_SHORT_LENGTH = -2
+
 @DslMarker
 private annotation class PacketBuilderDsl
 
@@ -13,6 +16,12 @@ class DownstreamPacketBuilder<T : DownstreamPacket> {
     var opcode = -1
 
     var length = 0
+
+    val variableByteLength: Int
+        get() = VARIABLE_BYTE_LENGTH
+
+    val variableShortLength: Int
+        get() = VARIABLE_SHORT_LENGTH
 
     fun encode(encoder: (packet: T, buf: ByteBuf) -> Unit) {
         this.encoder = encoder

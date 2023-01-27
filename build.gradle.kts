@@ -1,6 +1,8 @@
 import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
 import org.jetbrains.kotlin.gradle.plugin.getKotlinPluginVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jmailen.gradle.kotlinter.KotlinterExtension
+import org.jmailen.gradle.kotlinter.KotlinterPlugin
 
 val ossrhUsername: String? by ext
 val ossrhPassword: String? by ext
@@ -57,6 +59,12 @@ allprojects {
 
         kotlin {
             explicitApi()
+        }
+    }
+
+    plugins.withType<KotlinterPlugin> {
+        configure<KotlinterExtension> {
+            disabledRules = arrayOf("filename")
         }
     }
 
