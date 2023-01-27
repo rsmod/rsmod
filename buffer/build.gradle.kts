@@ -3,6 +3,6 @@ plugins {
 }
 
 dependencies {
-    api(libs.nettyBuffer)
+    implementation(libs.nettyBuffer)
     implementation(libs.guice)
 }

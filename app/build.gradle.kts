@@ -3,14 +3,15 @@ plugins {
 }
 
 dependencies {
-    api(projects.game)
-    api(projects.game.plugins)
+    implementation(projects.game)
+    implementation(projects.game.plugins)
     implementation(projects.log)
     implementation(libs.guice)
     implementation(libs.logback)
     implementation(libs.inlineLogger)
+    implementation(libs.clikt)
     findPlugins(projects.plugins).forEach {
-        api(it)
+        implementation(it)
     }
 }
 

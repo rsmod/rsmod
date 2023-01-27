@@ -5,12 +5,13 @@ plugins {
 }
 
 dependencies {
-    api(libs.nettyTransport)
-    api(libs.nettyHandler)
-    api(libs.openrs2Crypto)
-    api(libs.openrs2Cache)
-    api(libs.openrs2Buffer)
-    implementation(libs.kotlinCoroutinesCore)
     implementation(projects.game.protocol)
     implementation(projects.plugins.api)
+    implementation(libs.nettyTransport)
+    implementation(libs.nettyHandler)
+    implementation(libs.openrs2Crypto)
+    implementation(libs.openrs2Cache)
+    implementation(libs.openrs2Buffer)
+    implementation(libs.kotlinCoroutinesCore)
+    implementation(libs.guava)
 }

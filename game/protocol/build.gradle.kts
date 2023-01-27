@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    api(libs.nettyTransport)
-    api(libs.nettyCodecCore)
-    api(libs.openrs2Crypto)
+    implementation(libs.nettyTransport)
+    implementation(libs.nettyCodecCore)
+    implementation(libs.openrs2Crypto)
 }

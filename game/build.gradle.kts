@@ -3,8 +3,8 @@ plugins {
 }
 
 dependencies {
-    api(libs.clikt)
-    api(libs.openrs2Cache)
+    implementation(libs.clikt)
+    implementation(libs.openrs2Cache)
     implementation(projects.buffer)
     implementation(projects.log)
     implementation(projects.toml)
