@@ -2,7 +2,6 @@ plugins {
     kotlin("jvm")
 }
 
-@Suppress("UnstableApiUsage")
 dependencies {
     implementation(libs.guice)
     implementation("org.jetbrains.kotlin:kotlin-scripting-common:1.7.0")

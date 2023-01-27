@@ -7,7 +7,6 @@ plugins {
     id("me.champeau.gradle.jmh") apply true
 }
 
-@Suppress("UnstableApiUsage")
 dependencies {
     jmh("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.0")
     jmh("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3")

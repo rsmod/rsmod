@@ -2,7 +2,6 @@ plugins {
     kotlin("jvm")
 }
 
-@Suppress("UnstableApiUsage")
 dependencies {
     api(libs.clikt)
     api(libs.openrs2Cache)

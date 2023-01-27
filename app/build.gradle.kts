@@ -2,7 +2,6 @@ plugins {
     kotlin("jvm")
 }
 
-@Suppress("UnstableApiUsage")
 dependencies {
     api(projects.game)
     api(projects.game.plugins)
