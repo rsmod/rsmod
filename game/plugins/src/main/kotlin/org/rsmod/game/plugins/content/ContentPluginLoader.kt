@@ -5,7 +5,7 @@ import io.github.classgraph.ClassGraph
 
 public object ContentPluginLoader {
 
-    public fun <T> load(type: Class<T>, injector: Injector, lenient: Boolean = false): List<T> {
+    public fun <T : ContentPlugin> load(type: Class<T>, injector: Injector, lenient: Boolean = false): List<T> {
         val plugins = mutableListOf<T>()
         ClassGraph().enableAllInfo().scan().use { scan ->
             val infoList = scan.getSubclasses(type).directOnly()
