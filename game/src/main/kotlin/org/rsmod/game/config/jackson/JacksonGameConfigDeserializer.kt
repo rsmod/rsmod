@@ -16,7 +16,7 @@ public object JacksonGameConfigDeserializer : StdDeserializer<GameConfig>(GameCo
 
     override fun deserialize(p: JsonParser, ctxt: DeserializationContext): GameConfig {
         val node = ctxt.readTree(p)
-        val name = node.get("name").asText() ?: DEFAULT_NAME
+        val name = node.get("name")?.asText() ?: DEFAULT_NAME
         val world = node.get("world")?.asInt() ?: DEFAULT_WORLD_ID
         val dataPath = node.get("data_path")?.asText() ?: DEFAULT_DATA_PATH
         return GameConfig(
