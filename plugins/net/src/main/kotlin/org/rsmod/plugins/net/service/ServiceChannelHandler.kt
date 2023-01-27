@@ -10,6 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.cancel
 import org.openrs2.crypto.secureRandom
+import org.rsmod.plugins.net.game.client.Platform
 import org.rsmod.plugins.net.js5.Js5ChannelHandler
 import org.rsmod.plugins.net.js5.downstream.Js5GroupResponseEncoder
 import org.rsmod.plugins.net.js5.downstream.Js5RemoteDownstream
@@ -119,7 +120,7 @@ class ServiceChannelHandler @Inject constructor(
             if (!future.isSuccess) return@addListener
             val decoder = ctx.pipeline().get(ProtocolDecoder::class.java)
             when (platform) {
-                else -> {
+                Platform.Desktop -> {
                     encoder.protocol = gamePackets.desktopDownstream.getOrCreateProtocol()
                     decoder.protocol = gamePackets.desktopUpstream.getOrCreateProtocol()
                 }
