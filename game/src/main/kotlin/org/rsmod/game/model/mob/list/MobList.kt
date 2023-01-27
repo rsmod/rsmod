@@ -3,7 +3,7 @@ package org.rsmod.game.model.mob.list
 import org.rsmod.game.model.mob.Mob
 
 public sealed class MobList<T : Mob>(
-    capacity: Int,
+    public val capacity: Int,
     private val mobs: MutableList<T?> = MutableList(capacity) { null }
 ) : List<T?> by mobs {
 
@@ -12,9 +12,6 @@ public sealed class MobList<T : Mob>(
 
     public val indices: IntRange
         get() = INDEX_PADDING until mobs.size
-
-    public val capacity: Int
-        get() = mobs.size
 
     override fun isEmpty(): Boolean {
         return mobs.none { it != null }
