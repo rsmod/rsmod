@@ -91,7 +91,6 @@ class ServiceChannelHandler @Inject constructor(
         }
     }
 
-    @Suppress("UnstableApiUsage")
     private fun handleGameLogin(ctx: ChannelHandlerContext, msg: ServiceRequest.GameLogin) = with(msg) {
         val encoder = ctx.pipeline().get(ProtocolEncoder::class.java)
         encoder.protocol = loginDownstream
