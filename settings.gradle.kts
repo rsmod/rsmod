@@ -20,6 +20,7 @@ include(
     "game:pathfinder",
     "game:plugins",
     "game:protocol",
+    "json",
     "log",
     "plugins",
     "toml",
