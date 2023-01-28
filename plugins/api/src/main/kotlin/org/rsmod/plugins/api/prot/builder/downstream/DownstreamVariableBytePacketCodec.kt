@@ -2,6 +2,7 @@ package org.rsmod.plugins.api.prot.builder.downstream
 
 import io.netty.buffer.ByteBuf
 import org.openrs2.crypto.StreamCipher
+import org.rsmod.protocol.packet.DownstreamPacket
 import org.rsmod.protocol.packet.VariableByteLengthPacketCodec
 
 class DownstreamVariableBytePacketCodec<T : DownstreamPacket>(

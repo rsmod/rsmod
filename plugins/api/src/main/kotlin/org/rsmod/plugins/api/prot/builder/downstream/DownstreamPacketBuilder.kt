@@ -1,6 +1,7 @@
 package org.rsmod.plugins.api.prot.builder.downstream
 
 import io.netty.buffer.ByteBuf
+import org.rsmod.protocol.packet.DownstreamPacket
 
 private const val VARIABLE_BYTE_LENGTH = -1
 private const val VARIABLE_SHORT_LENGTH = -2

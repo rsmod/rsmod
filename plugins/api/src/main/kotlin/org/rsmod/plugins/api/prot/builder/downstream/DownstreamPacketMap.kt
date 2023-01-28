@@ -2,6 +2,7 @@ package org.rsmod.plugins.api.prot.builder.downstream
 
 import io.netty.buffer.ByteBuf
 import org.rsmod.protocol.Protocol
+import org.rsmod.protocol.packet.DownstreamPacket
 import org.rsmod.protocol.packet.PacketCodec
 
 class DownstreamPacketMap(

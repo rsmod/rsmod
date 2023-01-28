@@ -2,6 +2,7 @@ package org.rsmod.plugins.api.prot.builder.upstream
 
 import org.rsmod.protocol.Protocol
 import org.rsmod.protocol.packet.PacketCodec
+import org.rsmod.protocol.packet.UpstreamPacket
 
 class UpstreamPacketMap(
     val structures: MutableMap<Class<out UpstreamPacket>, UpstreamPacketStructure<*>> = mutableMapOf()

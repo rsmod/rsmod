@@ -1,6 +1,7 @@
 package org.rsmod.plugins.api.prot.builder.upstream
 
 import io.netty.buffer.ByteBuf
+import org.rsmod.protocol.packet.UpstreamPacket
 
 @DslMarker
 private annotation class PacketBuilderDsl
