@@ -126,7 +126,8 @@ class ServiceChannelHandler @Inject constructor(
             ctx.write(LoginResponse.ClientProtocolOutOfDate).addListener(ChannelFutureListener.CLOSE)
             return
         }
-        // TODO: offload profile load request to a dispatcher
+        // TODO: add profile/account load request (launched in [scope])
+        // TODO: use load-request response to create player in game-thread dispatcher.
         val decodeCipher = IsaacRandom(encrypted.xtea.toIntArray())
         val encodeCipher = IsaacRandom(encrypted.xtea.toIntArray().map { it + 50 }.toIntArray())
         val accountHash = Hashing.sha256().hashString(username.lowercase(Locale.US), StandardCharsets.UTF_8)
