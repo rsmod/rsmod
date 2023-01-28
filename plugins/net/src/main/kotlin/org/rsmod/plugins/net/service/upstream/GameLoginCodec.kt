@@ -44,12 +44,13 @@ class GameLoginCodec @Inject constructor(
             check(secure.readUnsignedByte().toInt() == 1) { "Invalid RSA header" }
             val xtea = XteaKey(secure.readInt(), secure.readInt(), secure.readInt(), secure.readInt())
             val seed = secure.readLong()
-            val authDecoder = decoders(platform)[LoginPacketRequest.AuthCode::class.java]
-                ?: error("AuthCode packet decoder must be defined.")
-            val authCode = authDecoder.decode(secure)
+            val authDecoder = decoders(platform)[LoginPacketRequest.AuthType::class.java]
+                ?: error("Auth packet decoder must be defined.")
+            val authType = authDecoder.decode(secure)
+            val authCode = secure.readAuthCode(authType)
             secure.skipBytes(Byte.SIZE_BYTES)
             val password = secure.readString()
-            return@use ServiceRequest.GameLogin.SecureBlock(xtea, seed, password, authCode.code)
+            return@use ServiceRequest.GameLogin.SecureBlock(xtea, seed, password, authType, authCode)
         }
 
         buf.xteaDecrypt(buf.readerIndex(), buf.readableBytes(), encrypted.xtea)
@@ -157,5 +158,23 @@ class GameLoginCodec @Inject constructor(
         2 -> ClientType.WIP
         3 -> ClientType.BuildLive
         else -> ClientType.Live
+    }
+
+    private fun ByteBuf.readAuthCode(type: LoginPacketRequest.AuthType): Int? {
+        val code: Int?
+        when (type) {
+            LoginPacketRequest.AuthType.TwoFactorInputTrustDevice,
+            LoginPacketRequest.AuthType.TwoFactorInputDoNotTrustDevice -> {
+                code = readUnsignedMedium()
+                skipBytes(Byte.SIZE_BYTES)
+            }
+            LoginPacketRequest.AuthType.TwoFactorCheckDeviceLinkFound -> code = readInt()
+            LoginPacketRequest.AuthType.TwoFactorCheckDeviceLinkNotFound -> {
+                code = null
+                skipBytes(Int.SIZE_BYTES)
+            }
+            LoginPacketRequest.AuthType.Skip -> code = null
+        }
+        return code
     }
 }

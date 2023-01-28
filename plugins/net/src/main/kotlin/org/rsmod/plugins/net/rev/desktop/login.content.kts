@@ -8,25 +8,14 @@ import org.rsmod.plugins.net.rev.platform.LoginPlatformPacketDecoders
 val platforms: LoginPlatformPacketDecoders by inject()
 val decoders = platforms.desktop
 
-decoders.register<LoginPacketRequest.AuthCode> { buf ->
-    val code: Int?
+decoders.register<LoginPacketRequest.AuthType> { buf ->
     when (buf.readUnsignedByte().toInt()) {
-        1, 3 -> {
-            code = buf.readUnsignedMedium()
-            buf.skipBytes(Byte.SIZE_BYTES)
-        }
-        0 -> {
-            // TODO: remember device
-            code = buf.readUnsignedMedium()
-            buf.skipBytes(Byte.SIZE_BYTES)
-        }
-        2 -> {
-            code = null
-            buf.skipBytes(Int.SIZE_BYTES)
-        }
-        else -> code = null
+        0 -> LoginPacketRequest.AuthType.TwoFactorCheckDeviceLinkFound
+        1 -> LoginPacketRequest.AuthType.TwoFactorInputDoNotTrustDevice
+        2 -> LoginPacketRequest.AuthType.TwoFactorCheckDeviceLinkNotFound
+        3 -> LoginPacketRequest.AuthType.TwoFactorInputTrustDevice
+        else -> LoginPacketRequest.AuthType.Skip
     }
-    return@register LoginPacketRequest.AuthCode(code)
 }
 
 decoders.register<LoginPacketRequest.CacheChecksum> { buf ->

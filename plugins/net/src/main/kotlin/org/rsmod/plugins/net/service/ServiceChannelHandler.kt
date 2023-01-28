@@ -29,6 +29,7 @@ import org.rsmod.plugins.net.js5.downstream.XorDecoder
 import org.rsmod.plugins.net.js5.upstream.Js5RequestDecoder
 import org.rsmod.plugins.net.login.downstream.LoginDownstream
 import org.rsmod.plugins.net.login.downstream.LoginResponse
+import org.rsmod.plugins.net.login.upstream.LoginPacketRequest
 import org.rsmod.plugins.net.rev.Revision
 import org.rsmod.plugins.net.rev.platform.GamePlatformPacketMaps
 import org.rsmod.plugins.net.service.downstream.ServiceResponse
@@ -137,8 +138,14 @@ class ServiceChannelHandler @Inject constructor(
                 coords = Coordinates(3200, 3200)
             }
         )
+        val deviceLinkIdentifier = if (encrypted.authType == LoginPacketRequest.AuthType.TwoFactorInputTrustDevice) {
+            // TODO: use player_id or account_id as identifier
+            69
+        } else {
+            null
+        }
         val response = LoginResponse.ConnectOk(
-            rememberDevice = false,
+            deviceLinkIdentifier = deviceLinkIdentifier,
             playerModLevel = 2,
             playerMember = true,
             playerMod = true,

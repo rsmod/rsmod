@@ -4,7 +4,14 @@ import org.rsmod.plugins.api.prot.builder.login.LoginPacket
 
 sealed class LoginPacketRequest : LoginPacket {
 
-    data class AuthCode(val code: Int?) : LoginPacketRequest()
+    sealed class AuthType : LoginPacketRequest() {
+
+        object TwoFactorInputTrustDevice : AuthType()
+        object TwoFactorInputDoNotTrustDevice : AuthType()
+        object TwoFactorCheckDeviceLinkFound : AuthType()
+        object TwoFactorCheckDeviceLinkNotFound : AuthType()
+        object Skip : AuthType()
+    }
 
     data class CacheChecksum(val crcs: IntArray) : LoginPacketRequest() {
 

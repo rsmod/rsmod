@@ -12,15 +12,25 @@ class ConnectOkCodec : VariableByteLengthPacketCodec<LoginResponse.ConnectOk>(
 ) {
 
     override fun decode(buf: ByteBuf, cipher: StreamCipher): LoginResponse.ConnectOk {
-        val rememberDevice = buf.readBoolean()
-        buf.readInt() // TODO: do something with client identifier
+        val decodeDeviceIdentifier = buf.readBoolean()
+        val deviceIdentifier = if (decodeDeviceIdentifier) {
+            var identifier = 0
+            identifier = identifier or (((buf.readUnsignedByte() - cipher.nextInt()) and 0xFF) shl 24)
+            identifier = identifier or (((buf.readUnsignedByte() - cipher.nextInt()) and 0xFF) shl 16)
+            identifier = identifier or (((buf.readUnsignedByte() - cipher.nextInt()) and 0xFF) shl 8)
+            identifier = identifier or ((buf.readUnsignedByte() - cipher.nextInt()) and 0xFF)
+            identifier
+        } else {
+            buf.skipBytes(Int.SIZE_BYTES)
+            null
+        }
         val playerModLevel = buf.readByte().toInt()
         val playerMod = buf.readBoolean()
         val playerIndex = buf.readUnsignedShort()
         val playerMember = buf.readBoolean()
         val accountHash = buf.readLong()
         return LoginResponse.ConnectOk(
-            rememberDevice = rememberDevice,
+            deviceLinkIdentifier = deviceIdentifier,
             playerModLevel = playerModLevel,
             playerMod = playerMod,
             playerIndex = playerIndex,
@@ -31,12 +41,15 @@ class ConnectOkCodec : VariableByteLengthPacketCodec<LoginResponse.ConnectOk>(
     }
 
     override fun encode(packet: LoginResponse.ConnectOk, buf: ByteBuf, cipher: StreamCipher) {
-        buf.writeBoolean(packet.rememberDevice)
-        if (packet.rememberDevice) {
-            // TODO: write device/client identifier
-            for (i in 0 until 4) {
-                val scrambled = 0 + packet.cipher.nextInt()
-                buf.writeByte(scrambled)
+        buf.writeBoolean(packet.deviceLinkIdentifier != null)
+        if (packet.deviceLinkIdentifier != null) {
+            val identifier = IntArray(4)
+            identifier[0] = packet.deviceLinkIdentifier shr 24
+            identifier[1] = packet.deviceLinkIdentifier shr 16
+            identifier[2] = packet.deviceLinkIdentifier shr 8
+            identifier[3] = packet.deviceLinkIdentifier
+            for (byte in identifier) {
+                buf.writeByte(byte + packet.cipher.nextInt())
             }
         } else {
             buf.writeInt(0)

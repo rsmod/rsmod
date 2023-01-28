@@ -5,6 +5,7 @@ import org.rsmod.plugins.net.game.client.ClientType
 import org.rsmod.plugins.net.game.client.JavaVendor
 import org.rsmod.plugins.net.game.client.OperatingSystem
 import org.rsmod.plugins.net.game.client.Platform
+import org.rsmod.plugins.net.login.upstream.LoginPacketRequest
 import org.rsmod.protocol.packet.Packet
 
 sealed class ServiceRequest : Packet {
@@ -30,7 +31,8 @@ sealed class ServiceRequest : Packet {
             val xtea: XteaKey,
             val seed: Long,
             val password: String,
-            val authCode: Int?,
+            val authType: LoginPacketRequest.AuthType,
+            val authCode: Int?
         )
 
         data class ClientInfo(
