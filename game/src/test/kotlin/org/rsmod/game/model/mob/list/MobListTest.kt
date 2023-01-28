@@ -1,49 +1,53 @@
 package org.rsmod.game.model.mob.list
 
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.extension.ExtensionContext
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.ArgumentsProvider
+import org.junit.jupiter.params.provider.ArgumentsSource
 import org.rsmod.game.model.client.PlayerEntity
 import org.rsmod.game.model.mob.Player
-
-private const val LIST_CAPACITY = 2047
-private const val INDEX_PADDING = 0
+import java.util.stream.Stream
 
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 class MobListTest {
 
-    private val list = PlayerList(LIST_CAPACITY, INDEX_PADDING)
-
-    @Test
-    fun `test capacity property`() {
-        Assertions.assertEquals(LIST_CAPACITY, list.capacity)
+    @ParameterizedTest
+    @ArgumentsSource(ListProvider::class)
+    fun `test capacity property`(list: PlayerList, capacity: Int, indexPadding: Int) {
+        Assertions.assertEquals(capacity, list.capacity)
 
         /* adding an element should not alter capacity */
         list[1] = createPlayer()
-        Assertions.assertEquals(LIST_CAPACITY, list.capacity)
+        Assertions.assertEquals(capacity, list.capacity)
     }
 
-    @Test
-    fun `test indices property`() {
-        val expected = 0 until LIST_CAPACITY
+    @ParameterizedTest
+    @ArgumentsSource(ListProvider::class)
+    fun `test indices property`(list: PlayerList, capacity: Int, indexPadding: Int) {
+        val expected = 0 until capacity
         Assertions.assertEquals(expected, list.indices)
     }
 
-    @Test
-    fun `test size property`() {
-        Assertions.assertEquals(LIST_CAPACITY, list.size)
+    @ParameterizedTest
+    @ArgumentsSource(ListProvider::class)
+    fun `test size property`(list: PlayerList, capacity: Int, indexPadding: Int) {
+        Assertions.assertEquals(capacity, list.size)
 
         val index = list.nextAvailableIndex()
         Assertions.assertNotNull(index)
         list[index!!] = createPlayer()
-        Assertions.assertEquals(LIST_CAPACITY, list.size)
+        Assertions.assertEquals(capacity, list.size)
 
         list[index] = null
-        Assertions.assertEquals(LIST_CAPACITY, list.size)
+        Assertions.assertEquals(capacity, list.size)
     }
 
-    @Test
-    fun `test isEmpty returns false if list contains a non-null element`() {
+    @ParameterizedTest
+    @ArgumentsSource(ListProvider::class)
+    fun `test isEmpty returns false if list contains a non-null element`(list: PlayerList, capacity: Int, indexPadding: Int) {
         Assertions.assertTrue(list.isEmpty())
         /* make sure kotlin std isNotEmpty extension also works properly */
         Assertions.assertFalse(list.isNotEmpty())
@@ -53,33 +57,36 @@ class MobListTest {
         Assertions.assertTrue(list.isNotEmpty())
     }
 
-    @Test
-    fun `test isFull returns true only if list is full of non-null elements`() {
+    @ParameterizedTest
+    @ArgumentsSource(ListProvider::class)
+    fun `test isFull returns true only if list is full of non-null elements`(list: PlayerList, capacity: Int, indexPadding: Int) {
         Assertions.assertFalse(list.isFull())
 
         list[1] = createPlayer()
         Assertions.assertFalse(list.isFull())
 
-        for (i in INDEX_PADDING until LIST_CAPACITY - 1) {
+        for (i in indexPadding until capacity - 1) {
             list[i] = createPlayer()
         }
         Assertions.assertFalse(list.isFull())
 
-        list[LIST_CAPACITY - 1] = createPlayer()
+        list[capacity - 1] = createPlayer()
         Assertions.assertTrue(list.isFull())
     }
 
-    @Test
-    fun `test next available index is null when list is full`() {
+    @ParameterizedTest
+    @ArgumentsSource(ListProvider::class)
+    fun `test next available index is null when list is full`(list: PlayerList, capacity: Int, indexPadding: Int) {
         Assertions.assertFalse(list.isFull())
-        for (i in INDEX_PADDING until list.size) {
+        for (i in indexPadding until list.size) {
             list[i] = createPlayer()
         }
         Assertions.assertNull(list.nextAvailableIndex())
     }
 
-    @Test
-    fun `test available indexes OSRS emulation`() {
+    @ParameterizedTest
+    @ArgumentsSource(ListProvider::class)
+    fun `test available indexes OSRS emulation`(list: PlayerList, capacity: Int, indexPadding: Int) {
         val firstIndex = list.nextAvailableIndex()
         /* first ever available index should be 1 */
         Assertions.assertEquals(1, firstIndex)
@@ -112,13 +119,14 @@ class MobListTest {
          * After last index (capacity) has been used, the next available index
          * should start from initial index padding.
          */
-        list[LIST_CAPACITY - 1] = createPlayer()
+        list[capacity - 1] = createPlayer()
         val sixthIndex = list.nextAvailableIndex()
-        Assertions.assertEquals(INDEX_PADDING, sixthIndex)
+        Assertions.assertEquals(indexPadding, sixthIndex)
     }
 
-    @Test
-    fun `test element added to list matches pointer`() {
+    @ParameterizedTest
+    @ArgumentsSource(ListProvider::class)
+    fun `test element added to list matches pointer`(list: PlayerList, capacity: Int, indexPadding: Int) {
         val mob = createPlayer()
         val mob2 = createPlayer()
         list[1] = mob
@@ -127,4 +135,14 @@ class MobListTest {
     }
 
     private fun createPlayer(): Player = Player(PlayerEntity.ZERO)
+
+    private class ListProvider : ArgumentsProvider {
+
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> {
+            return Stream.of(
+                Arguments.of(PlayerList(2047, 0), 2047, 0),
+                Arguments.of(PlayerList(2047, 1), 2047, 1)
+            )
+        }
+    }
 }
