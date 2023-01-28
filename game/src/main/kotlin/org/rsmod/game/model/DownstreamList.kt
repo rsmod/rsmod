@@ -1,4 +1,4 @@
-package org.rsmod.game.model.client
+package org.rsmod.game.model
 
 import io.netty.channel.Channel
 import org.rsmod.protocol.packet.DownstreamPacket
