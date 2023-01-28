@@ -11,7 +11,6 @@ class GamePlatformPacketMaps @Inject constructor(
     @GameDesktopUpstream val desktopUpstream: UpstreamPacketMap
 ) {
 
-    /* TODO: subscribe on server boot-up event (AFTER all scripts have been initialized) */
     fun eagerInitialize() {
         desktopDownstream.getOrCreateProtocol()
         desktopUpstream.getOrCreateProtocol()
