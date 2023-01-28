@@ -38,17 +38,11 @@ object GameSession {
         return RebuildNormal(gpi, zone, xtea)
     }
 
-    private fun PlayerList.playerCoords(excludeIndex: Int): IntArray {
-        var index = 0
-        val coordinates = IntArray(capacity - 1)
-        for (i in indices) {
-            if (i == excludeIndex) {
-                continue
-            }
-            val player = this[i]
-            val coords = player?.coords?.packed18Bits ?: 0
-            coordinates[index++] = coords
+    private fun PlayerList.playerCoords(excludeIndex: Int): List<Int> = mapIndexedNotNull { index, player ->
+        if (index != excludeIndex) {
+            player?.coords?.packed18Bits ?: 0
+        } else {
+            null
         }
-        return coordinates
     }
 }
