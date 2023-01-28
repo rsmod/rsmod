@@ -58,5 +58,8 @@ public value class Coordinates(public val packed: Int) {
     public companion object {
 
         public val ZERO: Coordinates = Coordinates(0)
+
+        public const val MAX_XY: Int = (1 shl 15) - 1
+        public const val MAX_LEVEL: Int = (1 shl 2) - 1
     }
 }
