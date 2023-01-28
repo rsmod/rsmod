@@ -32,7 +32,7 @@ sealed class ServiceRequest : Packet {
             val seed: Long,
             val password: String,
             val authType: LoginPacketRequest.AuthType,
-            val authCode: Int?
+            val authSecret: Int?
         )
 
         data class ClientInfo(

@@ -47,10 +47,10 @@ class GameLoginCodec @Inject constructor(
             val authDecoder = decoders(platform)[LoginPacketRequest.AuthType::class.java]
                 ?: error("AuthType packet decoder must be defined.")
             val authType = authDecoder.decode(secure)
-            val authCode = secure.readAuthCode(authType)
+            val authSecret = secure.readAuthSecret(authType)
             secure.skipBytes(Byte.SIZE_BYTES)
             val password = secure.readString()
-            return@use ServiceRequest.GameLogin.SecureBlock(xtea, seed, password, authType, authCode)
+            return@use ServiceRequest.GameLogin.SecureBlock(xtea, seed, password, authType, authSecret)
         }
 
         buf.xteaDecrypt(buf.readerIndex(), buf.readableBytes(), encrypted.xtea)
@@ -160,21 +160,21 @@ class GameLoginCodec @Inject constructor(
         else -> ClientType.Live
     }
 
-    private fun ByteBuf.readAuthCode(type: LoginPacketRequest.AuthType): Int? {
-        val code: Int?
+    private fun ByteBuf.readAuthSecret(type: LoginPacketRequest.AuthType): Int? {
+        val secret: Int?
         when (type) {
             LoginPacketRequest.AuthType.TwoFactorInputTrustDevice,
             LoginPacketRequest.AuthType.TwoFactorInputDoNotTrustDevice -> {
-                code = readUnsignedMedium()
+                secret = readUnsignedMedium()
                 skipBytes(Byte.SIZE_BYTES)
             }
-            LoginPacketRequest.AuthType.TwoFactorCheckDeviceLinkFound -> code = readInt()
+            LoginPacketRequest.AuthType.TwoFactorCheckDeviceLinkFound -> secret = readInt()
             LoginPacketRequest.AuthType.TwoFactorCheckDeviceLinkNotFound -> {
-                code = null
+                secret = null
                 skipBytes(Int.SIZE_BYTES)
             }
-            LoginPacketRequest.AuthType.Skip -> code = null
+            LoginPacketRequest.AuthType.Skip -> secret = null
         }
-        return code
+        return secret
     }
 }
