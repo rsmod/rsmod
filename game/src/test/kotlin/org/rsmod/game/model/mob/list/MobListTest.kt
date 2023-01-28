@@ -47,7 +47,11 @@ class MobListTest {
 
     @ParameterizedTest
     @ArgumentsSource(ListProvider::class)
-    fun `test isEmpty returns false if list contains a non-null element`(list: PlayerList, capacity: Int, indexPadding: Int) {
+    fun `test isEmpty returns false if list contains a non-null element`(
+        list: PlayerList,
+        capacity: Int,
+        indexPadding: Int
+    ) {
         Assertions.assertTrue(list.isEmpty())
         /* make sure kotlin std isNotEmpty extension also works properly */
         Assertions.assertFalse(list.isNotEmpty())
@@ -59,7 +63,11 @@ class MobListTest {
 
     @ParameterizedTest
     @ArgumentsSource(ListProvider::class)
-    fun `test isFull returns true only if list is full of non-null elements`(list: PlayerList, capacity: Int, indexPadding: Int) {
+    fun `test isFull returns true only if list is full of non-null elements`(
+        list: PlayerList,
+        capacity: Int,
+        indexPadding: Int
+    ) {
         Assertions.assertFalse(list.isFull())
 
         list[1] = createPlayer()
