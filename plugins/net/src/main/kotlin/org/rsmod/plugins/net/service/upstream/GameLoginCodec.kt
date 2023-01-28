@@ -45,7 +45,7 @@ class GameLoginCodec @Inject constructor(
             val xtea = XteaKey(secure.readInt(), secure.readInt(), secure.readInt(), secure.readInt())
             val seed = secure.readLong()
             val authDecoder = decoders(platform)[LoginPacketRequest.AuthType::class.java]
-                ?: error("Auth packet decoder must be defined.")
+                ?: error("AuthType packet decoder must be defined.")
             val authType = authDecoder.decode(secure)
             val authCode = secure.readAuthCode(authType)
             secure.skipBytes(Byte.SIZE_BYTES)
