@@ -136,7 +136,7 @@ class MobListTest {
 
     private fun createPlayer(): Player = Player(PlayerEntity.ZERO)
 
-    private class ListProvider : ArgumentsProvider {
+    private object ListProvider : ArgumentsProvider {
 
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> {
             return Stream.of(
