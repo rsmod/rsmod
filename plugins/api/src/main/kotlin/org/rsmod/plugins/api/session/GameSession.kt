@@ -1,12 +1,10 @@
 package org.rsmod.plugins.api.session
 
 import org.openrs2.crypto.XteaKey
-import org.rsmod.game.client.Client
-import org.rsmod.game.client.ClientList
 import org.rsmod.game.model.map.Coordinates
 import org.rsmod.game.model.mob.list.PlayerList
 import org.rsmod.plugins.api.cache.map.xtea.XteaRepository
-import org.rsmod.plugins.api.event.PlayerSession
+import org.rsmod.plugins.api.event.ClientSession
 import org.rsmod.plugins.api.prot.GPIInitialization
 import org.rsmod.plugins.api.prot.downstream.IfOpenTop
 import org.rsmod.plugins.api.prot.downstream.RebuildNormal
@@ -14,17 +12,19 @@ import org.rsmod.plugins.api.prot.downstream.RebuildNormal
 object GameSession {
 
     fun connect(
-        session: PlayerSession.Connected,
-        clients: ClientList,
+        session: ClientSession.Connect,
         players: PlayerList,
         xteaRepository: XteaRepository
     ) {
-        val (channel, player) = session
+        val (player, channel) = session.client
         val rebuildNormal = createRebuildNormal(player.index, player.coords, players, xteaRepository)
-        clients += Client(player, channel)
         player.downstream += rebuildNormal
         player.downstream += IfOpenTop(161)
         player.downstream.flush(channel)
+    }
+
+    @Suppress("unused", "unused_parameter")
+    fun disconnect(session: ClientSession.Disconnect) {
     }
 
     private fun createRebuildNormal(

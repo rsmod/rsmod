@@ -11,12 +11,16 @@ import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.cancel
 import org.openrs2.crypto.IsaacRandom
 import org.openrs2.crypto.secureRandom
+import org.rsmod.game.client.Client
+import org.rsmod.game.client.ClientList
 import org.rsmod.game.events.EventBus
 import org.rsmod.game.model.client.PlayerEntity
 import org.rsmod.game.model.map.Coordinates
 import org.rsmod.game.model.mob.Player
-import org.rsmod.plugins.api.event.PlayerSession
+import org.rsmod.plugins.api.event.ClientSession
 import org.rsmod.plugins.net.game.client.Platform
+import org.rsmod.plugins.net.game.clientAttr
+import org.rsmod.plugins.net.game.setClientAttr
 import org.rsmod.plugins.net.js5.Js5ChannelHandler
 import org.rsmod.plugins.net.js5.downstream.Js5GroupResponseEncoder
 import org.rsmod.plugins.net.js5.downstream.Js5RemoteDownstream
@@ -42,7 +46,8 @@ class ServiceChannelHandler @Inject constructor(
     @Js5RemoteDownstream private val js5RemoteDownstream: Protocol,
     @LoginDownstream private val loginDownstream: Protocol,
     private val gamePackets: GamePlatformPacketMaps,
-    private val events: EventBus
+    private val events: EventBus,
+    private val clients: ClientList
 ) : SimpleChannelInboundHandler<ServiceRequest>(ServiceRequest::class.java) {
 
     private lateinit var scope: CoroutineScope
@@ -59,6 +64,14 @@ class ServiceChannelHandler @Inject constructor(
 
     override fun channelActive(ctx: ChannelHandlerContext) {
         ctx.read()
+    }
+
+    override fun channelInactive(ctx: ChannelHandlerContext) {
+        // TODO: offload client unregister to a game-thread-safe dispatcher
+        ctx.channel().clientAttr()?.let { client ->
+            clients -= client
+            events += ClientSession.Disconnect(client)
+        }
     }
 
     override fun channelRead0(ctx: ChannelHandlerContext, msg: ServiceRequest) {
@@ -113,7 +126,7 @@ class ServiceChannelHandler @Inject constructor(
             ctx.write(LoginResponse.ClientProtocolOutOfDate).addListener(ChannelFutureListener.CLOSE)
             return
         }
-        // TODO: dispatch profile load request
+        // TODO: offload profile load request to a dispatcher
         val decodeCipher = IsaacRandom(encrypted.xtea.toIntArray())
         val encodeCipher = IsaacRandom(encrypted.xtea.toIntArray().map { it + 50 }.toIntArray())
         val accountHash = Hashing.sha256().hashString(username.lowercase(Locale.US), StandardCharsets.UTF_8)
@@ -141,9 +154,12 @@ class ServiceChannelHandler @Inject constructor(
                     decoder.protocol = gamePackets.desktopUpstream.getOrCreateProtocol()
                 }
             }
+            val client = Client(player, ctx.channel())
+            ctx.channel().setClientAttr(client)
             encoder.cipher = encodeCipher
             decoder.cipher = decodeCipher
-            events += PlayerSession.Connected(ctx.channel(), player)
+            clients += client
+            events += ClientSession.Connect(client)
         }
         return@with
     }
