@@ -11,6 +11,7 @@ import org.rsmod.game.model.client.PlayerEntity
 import org.rsmod.game.model.mob.Player
 import java.util.stream.Stream
 
+@Suppress("UNUSED_PARAMETER")
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 class MobListTest {
 
