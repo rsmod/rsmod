@@ -12,6 +12,9 @@ import kotlinx.coroutines.cancel
 import org.openrs2.crypto.IsaacRandom
 import org.openrs2.crypto.secureRandom
 import org.rsmod.game.events.EventBus
+import org.rsmod.game.model.client.PlayerEntity
+import org.rsmod.game.model.map.Coordinates
+import org.rsmod.game.model.mob.Player
 import org.rsmod.plugins.api.event.PlayerSession
 import org.rsmod.plugins.net.game.client.Platform
 import org.rsmod.plugins.net.js5.Js5ChannelHandler
@@ -114,12 +117,18 @@ class ServiceChannelHandler @Inject constructor(
         val decodeCipher = IsaacRandom(encrypted.xtea.toIntArray())
         val encodeCipher = IsaacRandom(encrypted.xtea.toIntArray().map { it + 50 }.toIntArray())
         val accountHash = Hashing.sha256().hashString(username.lowercase(Locale.US), StandardCharsets.UTF_8)
+        val player = Player(
+            PlayerEntity().apply {
+                index = 1
+                coords = Coordinates(3200, 3200)
+            }
+        )
         val response = LoginResponse.ConnectOk(
-            rememberDevice = true,
+            rememberDevice = false,
             playerModLevel = 2,
             playerMember = true,
             playerMod = true,
-            playerIndex = 1,
+            playerIndex = player.index,
             accountHash = accountHash.asLong(),
             cipher = encodeCipher
         )
@@ -134,8 +143,7 @@ class ServiceChannelHandler @Inject constructor(
             }
             encoder.cipher = encodeCipher
             decoder.cipher = decodeCipher
-            // TODO: dispatch on game thread
-            events += PlayerSession.Connected(ctx.channel())
+            events += PlayerSession.Connected(ctx.channel(), player)
         }
         return@with
     }

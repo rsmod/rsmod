@@ -1,6 +1,8 @@
 package org.rsmod.plugins.api.session
 
 import org.openrs2.crypto.XteaKey
+import org.rsmod.game.client.Client
+import org.rsmod.game.client.ClientList
 import org.rsmod.game.model.map.Coordinates
 import org.rsmod.game.model.mob.list.PlayerList
 import org.rsmod.plugins.api.cache.map.xtea.XteaRepository
@@ -13,19 +15,25 @@ object GameSession {
 
     fun connect(
         session: PlayerSession.Connected,
+        clients: ClientList,
         players: PlayerList,
         xteaRepository: XteaRepository
     ) {
-        val channel = session.channel
-        val rebuildNormal = createRebuildNormal(players, xteaRepository)
-        channel.write(rebuildNormal)
-        channel.write(IfOpenTop(161))
-        channel.flush()
+        val (channel, player) = session
+        val rebuildNormal = createRebuildNormal(player.index, player.coords, players, xteaRepository)
+        clients += Client(player, channel)
+        player.downstream += rebuildNormal
+        player.downstream += IfOpenTop(161)
+        player.downstream.flush(channel)
     }
 
-    private fun createRebuildNormal(players: PlayerList, repository: XteaRepository): RebuildNormal {
-        val coords = Coordinates(3200, 3200)
-        val zone = coords.toZone()
+    private fun createRebuildNormal(
+        playerIndex: Int,
+        playerCoords: Coordinates,
+        players: PlayerList,
+        repository: XteaRepository
+    ): RebuildNormal {
+        val zone = playerCoords.toZone()
         val xtea = mutableListOf<Int>()
         zone.toViewport().forEach {
             val key = repository[it.id] ?: XteaKey.ZERO
@@ -34,7 +42,7 @@ object GameSession {
             xtea += key.k2
             xtea += key.k3
         }
-        val gpi = GPIInitialization(coords.packed30Bits, players.playerCoords(excludeIndex = 1))
+        val gpi = GPIInitialization(playerCoords.packed30Bits, players.playerCoords(excludeIndex = playerIndex))
         return RebuildNormal(gpi, zone, xtea)
     }
 
