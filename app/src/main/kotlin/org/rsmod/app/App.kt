@@ -16,8 +16,8 @@ import org.rsmod.game.events.EventBus
 import org.rsmod.game.plugins.content.ContentPluginLoader
 import org.rsmod.game.plugins.content.KotlinScriptContentPlugin
 import org.rsmod.game.plugins.module.KotlinScriptModulePlugin
-import org.rsmod.game.plugins.module.ModulePluginLoader
 import org.rsmod.game.plugins.module.ModuleBranch
+import org.rsmod.game.plugins.module.ModulePluginLoader
 
 private val logger = InlineLogger()
 
