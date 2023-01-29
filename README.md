@@ -1,5 +1,5 @@
 # RS Mod
-[![license][license-badge]][isc] [![chat][discord-badge]][discord]
+[![revision][rev-badge]][patch] [![license][license-badge]][isc] [![chat][discord-badge]][discord]
 
 A RuneScape game-server emulator.
 
@@ -15,5 +15,7 @@ RS Mod is available under the terms of the ISC license, which is similar to the 
 [isc]: https://opensource.org/licenses/ISC
 [license]: https://github.com/rsmod/rsmod/blob/master/LICENSE.md
 [discord]: https://discord.gg/UznZnZR
+[patch]: https://oldschool.runescape.wiki/w/Update:The_Garden_of_Death_%26_More
+[rev-badge]: https://img.shields.io/badge/revision-209-important
 [license-badge]: https://img.shields.io/badge/license-ISC-informational
 [discord-badge]: https://img.shields.io/discord/550024461626114053?color=%237289da&logo=discord
