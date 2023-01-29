@@ -55,6 +55,10 @@ public value class Coordinates(public val packed: Int) {
         return translate(other.x, other.y)
     }
 
+    public override fun toString(): String {
+        return "Coordinates(x=$x, y=$y, level=$level)"
+    }
+
     public companion object {
 
         public val ZERO: Coordinates = Coordinates(0)
