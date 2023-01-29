@@ -5,9 +5,6 @@ import com.google.inject.AbstractModule
 import com.google.inject.PrivateModule
 import com.google.inject.TypeLiteral
 import com.google.inject.multibindings.Multibinder
-import org.rsmod.plugins.api.prot.builder.downstream.DownstreamPacketMap
-import org.rsmod.plugins.api.prot.builder.login.LoginPacketDecoderMap
-import org.rsmod.plugins.api.prot.builder.upstream.UpstreamPacketMap
 import org.rsmod.plugins.net.bootstrap.NetworkBootstrapFactory
 import org.rsmod.plugins.net.js5.Js5Service
 import org.rsmod.plugins.net.js5.downstream.Js5ClientOutOfDateCodec
@@ -18,11 +15,6 @@ import org.rsmod.plugins.net.login.downstream.ClientOutOfDateCodec
 import org.rsmod.plugins.net.login.downstream.ClientProtocolOutOfDateCodec
 import org.rsmod.plugins.net.login.downstream.ConnectOkCodec
 import org.rsmod.plugins.net.login.downstream.LoginDownstream
-import org.rsmod.plugins.net.rev.platform.GameDesktopDownstream
-import org.rsmod.plugins.net.rev.platform.GameDesktopUpstream
-import org.rsmod.plugins.net.rev.platform.GamePlatformPacketMaps
-import org.rsmod.plugins.net.rev.platform.LoginDesktopDecoder
-import org.rsmod.plugins.net.rev.platform.LoginPlatformPacketDecoders
 import org.rsmod.plugins.net.service.ServiceChannelInitializer
 import org.rsmod.plugins.net.service.downstream.ExchangeSessionKeyCodec
 import org.rsmod.plugins.net.service.downstream.ServiceDownstream
@@ -65,21 +57,6 @@ object NetworkModule : AbstractModule() {
             BadSessionIdCodec::class.java,
             ClientProtocolOutOfDateCodec::class.java
         )
-
-        bind(LoginPacketDecoderMap::class.java)
-            .annotatedWith(LoginDesktopDecoder::class.java)
-            .to(LoginPacketDecoderMap::class.java)
-
-        bind(LoginPlatformPacketDecoders::class.java)
-
-        bind(DownstreamPacketMap::class.java)
-            .annotatedWith(GameDesktopDownstream::class.java)
-            .to(DownstreamPacketMap::class.java)
-        bind(UpstreamPacketMap::class.java)
-            .annotatedWith(GameDesktopUpstream::class.java)
-            .to(UpstreamPacketMap::class.java)
-
-        bind(GamePlatformPacketMaps::class.java)
 
         bind(NetworkBootstrapFactory::class.java)
         bind(ServiceChannelInitializer::class.java)

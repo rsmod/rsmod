@@ -5,9 +5,9 @@ import org.rsmod.game.model.map.Coordinates
 import org.rsmod.game.model.mob.list.PlayerList
 import org.rsmod.plugins.api.cache.map.xtea.XteaRepository
 import org.rsmod.plugins.api.event.ClientSession
-import org.rsmod.plugins.api.prot.GPIInitialization
-import org.rsmod.plugins.api.prot.downstream.IfOpenTop
-import org.rsmod.plugins.api.prot.downstream.RebuildNormal
+import org.rsmod.plugins.api.net.downstream.IfOpenTop
+import org.rsmod.plugins.api.net.downstream.RebuildNormal
+import org.rsmod.plugins.api.prot.info.GPIInitialization
 
 object GameSession {
 

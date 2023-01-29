@@ -21,6 +21,9 @@ import org.rsmod.game.store.player.PlayerCodec
 import org.rsmod.game.store.player.PlayerDataRequest
 import org.rsmod.game.store.player.PlayerDataResponse
 import org.rsmod.plugins.api.event.ClientSession
+import org.rsmod.plugins.api.net.login.LoginPacketRequest
+import org.rsmod.plugins.api.net.platform.GamePlatformPacketMaps
+import org.rsmod.plugins.api.prot.Revision
 import org.rsmod.plugins.net.game.client.Platform
 import org.rsmod.plugins.net.game.clientAttr
 import org.rsmod.plugins.net.game.setClientAttr
@@ -32,9 +35,6 @@ import org.rsmod.plugins.net.js5.downstream.XorDecoder
 import org.rsmod.plugins.net.js5.upstream.Js5RequestDecoder
 import org.rsmod.plugins.net.login.downstream.LoginDownstream
 import org.rsmod.plugins.net.login.downstream.LoginResponse
-import org.rsmod.plugins.net.login.upstream.LoginPacketRequest
-import org.rsmod.plugins.net.rev.Revision
-import org.rsmod.plugins.net.rev.platform.GamePlatformPacketMaps
 import org.rsmod.plugins.net.service.downstream.ServiceResponse
 import org.rsmod.plugins.net.service.upstream.ServiceRequest
 import org.rsmod.protocol.Protocol

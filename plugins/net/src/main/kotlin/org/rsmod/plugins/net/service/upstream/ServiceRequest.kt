@@ -1,11 +1,11 @@
 package org.rsmod.plugins.net.service.upstream
 
 import org.openrs2.crypto.XteaKey
+import org.rsmod.plugins.api.net.login.LoginPacketRequest
 import org.rsmod.plugins.net.game.client.ClientType
 import org.rsmod.plugins.net.game.client.JavaVendor
 import org.rsmod.plugins.net.game.client.OperatingSystem
 import org.rsmod.plugins.net.game.client.Platform
-import org.rsmod.plugins.net.login.upstream.LoginPacketRequest
 import org.rsmod.protocol.packet.Packet
 
 sealed class ServiceRequest : Packet {
