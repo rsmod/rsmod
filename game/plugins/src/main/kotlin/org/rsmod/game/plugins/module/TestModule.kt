@@ -1,4 +1,4 @@
-package org.rsmod.game.plugins.module.branch
+package org.rsmod.game.plugins.module
 
 import com.google.inject.AbstractModule
 

@@ -1,4 +1,4 @@
-package org.rsmod.game.plugins.module.branch
+package org.rsmod.game.plugins.module
 
 public sealed class ModuleBranch {
 

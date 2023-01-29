@@ -1,10 +1,6 @@
 package org.rsmod.game.plugins.module
 
 import com.google.inject.AbstractModule
-import org.rsmod.game.plugins.module.branch.DevModule
-import org.rsmod.game.plugins.module.branch.ModuleBranch
-import org.rsmod.game.plugins.module.branch.ProdModule
-import org.rsmod.game.plugins.module.branch.TestModule
 
 public open class ModulePlugin(
     public val modules: ModuleSet = ModuleSet(),
