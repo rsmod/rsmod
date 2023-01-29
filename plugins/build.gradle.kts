@@ -16,7 +16,6 @@ subprojects {
             implementation(projects.game)
             implementation(projects.game.events)
             implementation(projects.game.plugins)
-            implementation(projects.json)
             implementation(libs.logback)
             implementation(libs.inlineLogger)
         }
