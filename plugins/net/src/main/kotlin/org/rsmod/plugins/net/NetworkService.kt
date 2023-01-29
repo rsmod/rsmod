@@ -1,11 +1,14 @@
 package org.rsmod.plugins.net
 
+import com.github.michaelbull.logging.InlineLogger
 import com.google.common.util.concurrent.AbstractService
 import io.netty.channel.EventLoopGroup
 import org.rsmod.plugins.net.bootstrap.NetworkBootstrapFactory
 import org.rsmod.plugins.net.service.ServiceChannelInitializer
 import javax.inject.Inject
 import javax.inject.Singleton
+
+private val logger = InlineLogger()
 
 private const val PORT = 43594
 
@@ -27,6 +30,7 @@ class NetworkService @Inject constructor(
             notifyFailed(bind.cause())
             error("Could not bind to port $PORT.")
         }
+        logger.info { "Network service started - accepting connections from port $PORT." }
         notifyStarted()
     }
 
