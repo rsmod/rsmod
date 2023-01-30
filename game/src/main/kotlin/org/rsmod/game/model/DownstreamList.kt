@@ -1,7 +1,7 @@
 package org.rsmod.game.model
 
 import io.netty.channel.Channel
-import org.rsmod.protocol.packet.DownstreamPacket
+import org.rsmod.protocol.game.packet.DownstreamPacket
 
 public class DownstreamList(
     private val packets: MutableList<DownstreamPacket> = mutableListOf()

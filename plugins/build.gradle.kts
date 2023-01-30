@@ -8,6 +8,7 @@ plugins {
 subprojects {
     plugins.withType<KotlinPluginWrapper> {
         kotlin {
+            // TODO: set as strict
             explicitApi = ExplicitApiMode.Disabled
         }
 

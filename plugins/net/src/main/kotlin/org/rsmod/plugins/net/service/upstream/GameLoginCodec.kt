@@ -16,7 +16,7 @@ import org.rsmod.plugins.net.game.client.ClientType
 import org.rsmod.plugins.net.game.client.JavaVendor
 import org.rsmod.plugins.net.game.client.OperatingSystem
 import org.rsmod.plugins.net.game.client.Platform
-import org.rsmod.protocol.packet.VariableShortLengthPacketCodec
+import org.rsmod.protocol.game.packet.VariableShortLengthPacketCodec
 import javax.inject.Inject
 import javax.inject.Singleton
 

@@ -37,9 +37,9 @@ import org.rsmod.plugins.net.login.downstream.LoginDownstream
 import org.rsmod.plugins.net.login.downstream.LoginResponse
 import org.rsmod.plugins.net.service.downstream.ServiceResponse
 import org.rsmod.plugins.net.service.upstream.ServiceRequest
-import org.rsmod.protocol.Protocol
-import org.rsmod.protocol.ProtocolDecoder
-import org.rsmod.protocol.ProtocolEncoder
+import org.rsmod.protocol.game.Protocol
+import org.rsmod.protocol.game.ProtocolDecoder
+import org.rsmod.protocol.game.ProtocolEncoder
 import java.nio.charset.StandardCharsets
 import java.util.Locale
 import javax.inject.Inject

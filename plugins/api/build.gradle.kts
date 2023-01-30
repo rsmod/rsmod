@@ -5,10 +5,13 @@ plugins {
 }
 
 dependencies {
+    implementation(projects.cache)
     implementation(projects.game.protocol)
     implementation(projects.json)
+    implementation(projects.plugins.typesGenerated)
     implementation(libs.nettyBuffer)
     implementation(libs.nettyTransport)
+    implementation(libs.openrs2Cache)
     implementation(libs.openrs2Crypto)
     implementation(libs.openrs2Buffer)
 }

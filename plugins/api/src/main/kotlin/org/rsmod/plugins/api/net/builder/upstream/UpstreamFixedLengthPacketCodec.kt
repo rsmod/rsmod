@@ -2,8 +2,8 @@ package org.rsmod.plugins.api.net.builder.upstream
 
 import io.netty.buffer.ByteBuf
 import org.openrs2.crypto.StreamCipher
-import org.rsmod.protocol.packet.FixedLengthPacketCodec
-import org.rsmod.protocol.packet.UpstreamPacket
+import org.rsmod.protocol.game.packet.FixedLengthPacketCodec
+import org.rsmod.protocol.game.packet.UpstreamPacket
 
 class UpstreamFixedLengthPacketCodec<T : UpstreamPacket>(
     type: Class<T>,

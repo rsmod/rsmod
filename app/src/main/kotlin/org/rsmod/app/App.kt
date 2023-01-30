@@ -8,8 +8,8 @@ import com.google.inject.Injector
 import com.google.inject.util.Modules
 import org.rsmod.game.GameBootstrap
 import org.rsmod.game.GameModule
-import org.rsmod.game.config.ConfigModule
 import org.rsmod.game.config.GameConfig
+import org.rsmod.game.config.GameConfigModule
 import org.rsmod.game.env.GameEnv
 import org.rsmod.game.event.GameBootUp
 import org.rsmod.game.events.EventBus
@@ -39,7 +39,7 @@ public class AppCommand : CliktCommand(name = "app") {
     private fun preloadGameConfig(): GameConfig {
         // TODO: find a more ideal way to load game config
         // before the main injector is created.
-        val injector = Guice.createInjector(ConfigModule)
+        val injector = Guice.createInjector(GameConfigModule)
         return injector.getInstance(GameConfig::class.java)
     }
 

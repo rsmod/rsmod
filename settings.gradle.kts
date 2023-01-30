@@ -14,12 +14,14 @@ pluginManagement {
 
 include(
     "buffer",
+    "cache",
     "game",
     "game:coroutines",
     "game:events",
     "game:pathfinder",
     "game:plugins",
     "game:protocol",
+    "game:types",
     "json",
     "log",
     "plugins",
