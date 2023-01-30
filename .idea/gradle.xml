@@ -13,19 +13,23 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/buffer" />
+            <option value="$PROJECT_DIR$/cache" />
             <option value="$PROJECT_DIR$/game" />
             <option value="$PROJECT_DIR$/game/coroutines" />
             <option value="$PROJECT_DIR$/game/events" />
             <option value="$PROJECT_DIR$/game/pathfinder" />
             <option value="$PROJECT_DIR$/game/plugins" />
             <option value="$PROJECT_DIR$/game/protocol" />
+            <option value="$PROJECT_DIR$/game/types" />
             <option value="$PROJECT_DIR$/json" />
             <option value="$PROJECT_DIR$/log" />
             <option value="$PROJECT_DIR$/plugins" />
             <option value="$PROJECT_DIR$/plugins/api" />
             <option value="$PROJECT_DIR$/plugins/net" />
             <option value="$PROJECT_DIR$/plugins/store-dev" />
+            <option value="$PROJECT_DIR$/plugins/types-gen" />
             <option value="$PROJECT_DIR$/toml" />
+            <option value="$PROJECT_DIR$/types-generated" />
           </set>
         </option>
       </GradleProjectSettings>

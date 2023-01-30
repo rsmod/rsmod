@@ -6,7 +6,7 @@ import org.rsmod.game.config.GameConfig
 import javax.inject.Inject
 import javax.inject.Provider
 
-public class StoreProvider @Inject constructor(
+public class CacheStoreProvider @Inject constructor(
     private val alloc: ByteBufAllocator,
     private val config: GameConfig
 ) : Provider<Store> {

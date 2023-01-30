@@ -4,6 +4,7 @@ plugins {
 
 dependencies {
     implementation(projects.buffer)
+    implementation(projects.cache)
     implementation(projects.log)
     implementation(projects.toml)
     implementation(projects.game.events)
