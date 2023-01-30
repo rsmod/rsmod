@@ -2,16 +2,16 @@ package org.rsmod.game.cache
 
 import io.netty.buffer.ByteBufAllocator
 import org.openrs2.cache.Store
-import org.rsmod.game.config.GameConfig
+import java.nio.file.Path
 import javax.inject.Inject
 import javax.inject.Provider
 
-public class CacheStoreProvider @Inject constructor(
+public class StoreProvider @Inject constructor(
     private val alloc: ByteBufAllocator,
-    private val config: GameConfig
+    @CachePath private val path: Path
 ) : Provider<Store> {
 
     override fun get(): Store {
-        return Store.open(config.packedCachePath, alloc)
+        return Store.open(path, alloc)
     }
 }

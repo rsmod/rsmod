@@ -5,6 +5,7 @@ plugins {
 }
 
 dependencies {
+    implementation(projects.cache)
     implementation(projects.game.protocol)
     implementation(projects.json)
     implementation(libs.nettyBuffer)
