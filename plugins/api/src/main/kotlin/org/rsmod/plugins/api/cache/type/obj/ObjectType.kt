@@ -1,6 +1,6 @@
 package org.rsmod.plugins.api.cache.type.obj
 
-import org.rsmod.plugins.api.cache.ConfigType
+import org.rsmod.plugins.api.cache.type.ConfigType
 
 data class ObjectType(
     override val id: Int,

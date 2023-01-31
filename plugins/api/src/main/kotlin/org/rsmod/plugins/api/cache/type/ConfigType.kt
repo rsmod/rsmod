@@ -1,4 +1,4 @@
-package org.rsmod.plugins.api.cache
+package org.rsmod.plugins.api.cache.type
 
 interface ConfigType {
 
