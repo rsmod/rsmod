@@ -1,6 +1,6 @@
 package org.rsmod.game.types
 
-public class NamedTypes {
+public class NamedTypeMapHolder {
 
     public val interfaces: MutableMap<String, NamedInterface> = mutableMapOf()
     public val components: MutableMap<String, NamedComponent> = mutableMapOf()

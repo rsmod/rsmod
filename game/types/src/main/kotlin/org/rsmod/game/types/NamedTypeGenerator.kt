@@ -14,7 +14,7 @@ import javax.inject.Inject
 private val DEFAULT_OUTPUT_PATH = Path.of("types-generated/src/main/gen/org/rsmod/types/generated")
 private const val DEFAULT_PACKAGE = "org.rsmod.types.generated"
 
-public class NamedTypeGenerator @Inject constructor(private val names: NamedTypes) {
+public class NamedTypeGenerator @Inject constructor(private val names: NamedTypeMapHolder) {
 
     public fun writeFiles(path: Path = DEFAULT_OUTPUT_PATH, packageName: String = DEFAULT_PACKAGE) {
         val generators = mapOf(
@@ -30,23 +30,23 @@ public class NamedTypeGenerator @Inject constructor(private val names: NamedType
         }
     }
 
-    public fun generateInterfaces(names: NamedTypes, fileName: String, packageName: String): String {
+    public fun generateInterfaces(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
         return generate(fileName, packageName, NamedInterface::class.java, names.interfaces.mapValues { it.value.id })
     }
 
-    public fun generateComponents(names: NamedTypes, fileName: String, packageName: String): String {
+    public fun generateComponents(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
         return generate(fileName, packageName, NamedComponent::class.java, names.components.mapValues { it.value.id })
     }
 
-    public fun generateItems(names: NamedTypes, fileName: String, packageName: String): String {
+    public fun generateItems(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
         return generate(fileName, packageName, NamedItem::class.java, names.items.mapValues { it.value.id })
     }
 
-    public fun generateNpcs(names: NamedTypes, fileName: String, packageName: String): String {
+    public fun generateNpcs(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
         return generate(fileName, packageName, NamedNpc::class.java, names.npcs.mapValues { it.value.id })
     }
 
-    public fun generateObjs(names: NamedTypes, fileName: String, packageName: String): String {
+    public fun generateObjs(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
         return generate(fileName, packageName, NamedObject::class.java, names.objs.mapValues { it.value.id })
     }
 

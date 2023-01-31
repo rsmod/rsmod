@@ -3,7 +3,7 @@ package org.rsmod.plugins.types.gen
 import org.rsmod.game.types.NamedItem
 import org.rsmod.game.types.NamedNpc
 import org.rsmod.game.types.NamedObject
-import org.rsmod.game.types.NamedTypes
+import org.rsmod.game.types.NamedTypeMapHolder
 import org.rsmod.plugins.api.cache.type.item.ItemType
 import org.rsmod.plugins.api.cache.type.item.ItemTypeLoader
 import org.rsmod.plugins.api.cache.type.npc.NpcType
@@ -18,31 +18,34 @@ class CacheTypeNameLoader @Inject constructor(
     private val objs: ObjectTypeLoader
 ) {
 
-    fun loadAndPutAll(dest: NamedTypes) {
+    fun loadAndPutAll(dest: NamedTypeMapHolder) {
         dest.putItems(items.load())
         dest.putNpcs(npcs.load())
         dest.putObjs(objs.load())
     }
 
-    private fun NamedTypes.putItems(types: List<ItemType>) {
+    private fun NamedTypeMapHolder.putItems(types: List<ItemType>) {
         types.forEach {
             if (it.isPlaceholder || it.isNoted) return@forEach
             val sanitized = it.name.sanitize() ?: return@forEach
-            this[sanitized] = NamedItem(it.id)
+            val name = if (items.containsKey(sanitized)) sanitized + "_${it.id}" else sanitized
+            items[name] = NamedItem(it.id)
         }
     }
 
-    private fun NamedTypes.putNpcs(types: List<NpcType>) {
+    private fun NamedTypeMapHolder.putNpcs(types: List<NpcType>) {
         types.forEach {
             val sanitized = it.name.sanitize() ?: return@forEach
-            this[sanitized] = NamedNpc(it.id)
+            val name = if (npcs.containsKey(sanitized)) sanitized + "_${it.id}" else sanitized
+            npcs[name] = NamedNpc(it.id)
         }
     }
 
-    private fun NamedTypes.putObjs(types: List<ObjectType>) {
+    private fun NamedTypeMapHolder.putObjs(types: List<ObjectType>) {
         types.forEach {
             val sanitized = it.name.sanitize() ?: return@forEach
-            this[sanitized] = NamedObject(it.id)
+            val name = if (objs.containsKey(sanitized)) sanitized + "_${it.id}" else sanitized
+            objs[name] = NamedObject(it.id)
         }
     }
 
