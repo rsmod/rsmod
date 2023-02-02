@@ -1,4 +1,4 @@
-package org.rsmod.game.coroutine.main
+package org.rsmod.game.dispatcher.main
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope

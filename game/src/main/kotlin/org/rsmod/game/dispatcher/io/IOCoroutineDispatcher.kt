@@ -1,4 +1,4 @@
-package org.rsmod.game.coroutine.io
+package org.rsmod.game.dispatcher.io
 
 import javax.inject.Qualifier
 

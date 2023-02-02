@@ -8,7 +8,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import org.rsmod.game.client.ClientList
-import org.rsmod.game.coroutine.main.GameCoroutineScope
+import org.rsmod.game.dispatcher.main.GameCoroutineScope
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton

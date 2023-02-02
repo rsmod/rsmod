@@ -1,15 +1,15 @@
-package org.rsmod.game.coroutine
+package org.rsmod.game.dispatcher
 
 import com.google.inject.AbstractModule
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import org.rsmod.game.coroutine.io.IOCoroutineDispatcher
-import org.rsmod.game.coroutine.io.IOCoroutineScope
-import org.rsmod.game.coroutine.main.GameCoroutineDispatcher
-import org.rsmod.game.coroutine.main.GameCoroutineDispatcherProvider
-import org.rsmod.game.coroutine.main.GameCoroutineScope
+import org.rsmod.game.dispatcher.io.IOCoroutineDispatcher
+import org.rsmod.game.dispatcher.io.IOCoroutineScope
+import org.rsmod.game.dispatcher.main.GameCoroutineDispatcher
+import org.rsmod.game.dispatcher.main.GameCoroutineDispatcherProvider
+import org.rsmod.game.dispatcher.main.GameCoroutineScope
 
-public object CoroutineModule : AbstractModule() {
+public object CoroutineDispatcherModule : AbstractModule() {
 
     override fun configure() {
         bind(CoroutineDispatcher::class.java)
