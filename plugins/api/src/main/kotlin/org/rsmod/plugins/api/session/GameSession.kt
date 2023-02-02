@@ -43,7 +43,7 @@ public object GameSession {
             xtea += key.k2
             xtea += key.k3
         }
-        val gpi = GPIInitialization(playerCoords.packed30Bits, players.playerCoords(excludeIndex = playerIndex))
+        val gpi = GPIInitialization(playerCoords.packed, players.playerCoords(excludeIndex = playerIndex))
         return RebuildNormal(gpi, zone, xtea)
     }
 
