@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 private val logger = InlineLogger()
 
-class Js5ChannelHandler @Inject constructor(
+public class Js5ChannelHandler @Inject constructor(
     private val service: Js5Service
 ) : SimpleChannelInboundHandler<Js5Request>(Js5Request::class.java) {
 

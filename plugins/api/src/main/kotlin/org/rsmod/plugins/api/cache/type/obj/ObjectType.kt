@@ -2,7 +2,7 @@ package org.rsmod.plugins.api.cache.type.obj
 
 import org.rsmod.plugins.api.cache.type.ConfigType
 
-data class ObjectType(
+public data class ObjectType(
     override val id: Int,
     val name: String,
     val width: Int,

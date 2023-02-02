@@ -13,7 +13,7 @@ private val logger = InlineLogger()
 private const val PORT = 43594
 
 @Singleton
-class NetworkService @Inject constructor(
+public class NetworkService @Inject constructor(
     private val bootstrapFactory: NetworkBootstrapFactory,
     private val initHandler: ServiceChannelInitializer
 ) : AbstractService() {

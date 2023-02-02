@@ -15,7 +15,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class Js5Service @Inject constructor(
+public class Js5Service @Inject constructor(
     private val store: Store,
     private val masterIndex: Js5MasterIndex,
     private val alloc: ByteBufAllocator
@@ -52,7 +52,7 @@ class Js5Service @Inject constructor(
         }
     }
 
-    fun push(client: Js5Client, request: Js5Request.Group) {
+    public fun push(client: Js5Client, request: Js5Request.Group) {
         synchronized(lock) {
             client.push(request)
             if (client.isReady()) {
@@ -65,7 +65,7 @@ class Js5Service @Inject constructor(
         }
     }
 
-    fun readIfNotFull(client: Js5Client) {
+    public fun readIfNotFull(client: Js5Client) {
         synchronized(lock) {
             if (client.isNotFull()) {
                 client.ctx.read()
@@ -73,7 +73,7 @@ class Js5Service @Inject constructor(
         }
     }
 
-    fun notifyIfNotEmpty(client: Js5Client) {
+    public fun notifyIfNotEmpty(client: Js5Client) {
         synchronized(lock) {
             if (client.isNotEmpty()) {
                 lock.notifyAll()

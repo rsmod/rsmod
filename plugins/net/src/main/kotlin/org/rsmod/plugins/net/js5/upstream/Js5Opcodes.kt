@@ -1,12 +1,12 @@
 package org.rsmod.plugins.net.js5.upstream
 
-object Js5Opcodes {
+public object Js5Opcodes {
 
-    const val GROUP_PREFETCH = 0
-    const val GROUP_URGENT = 1
-    const val LOGGED_IN = 2
-    const val LOGGED_OUT = 3
-    const val REKEY = 4
-    const val CONNECTED = 6
-    const val DISCONNECT = 7
+    public const val GROUP_PREFETCH: Int = 0
+    public const val GROUP_URGENT: Int = 1
+    public const val LOGGED_IN: Int = 2
+    public const val LOGGED_OUT: Int = 3
+    public const val REKEY: Int = 4
+    public const val CONNECTED: Int = 6
+    public const val DISCONNECT: Int = 7
 }

@@ -5,7 +5,7 @@ import org.openrs2.crypto.StreamCipher
 import org.rsmod.protocol.game.packet.DownstreamPacket
 import org.rsmod.protocol.game.packet.VariableByteLengthPacketCodec
 
-class DownstreamVariableBytePacketCodec<T : DownstreamPacket>(
+public class DownstreamVariableBytePacketCodec<T : DownstreamPacket>(
     type: Class<T>,
     opcode: Int,
     private val encoder: (T, ByteBuf) -> Unit

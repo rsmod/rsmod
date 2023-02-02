@@ -6,8 +6,8 @@ import org.rsmod.types.Items
 import org.rsmod.types.Npcs
 import org.rsmod.types.Objs
 
-val interfaces = Interfaces
-val components = Components
-val items = Items
-val npcs = Npcs
-val objs = Objs
+public val interfaces: Interfaces = Interfaces
+public val components: Components = Components
+public val items: Items = Items
+public val npcs: Npcs = Npcs
+public val objs: Objs = Objs

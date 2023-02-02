@@ -8,8 +8,8 @@ import org.rsmod.plugins.api.net.downstream.IfOpenTop
 import org.rsmod.plugins.api.net.downstream.RebuildNormal
 import org.rsmod.plugins.api.net.platform.GamePlatformPacketMaps
 
-val platforms: GamePlatformPacketMaps by inject()
-val packets = platforms.desktopDownstream
+private val platforms: GamePlatformPacketMaps by inject()
+private val packets = platforms.desktopDownstream
 
 packets.register<IfOpenTop> {
     opcode = 10

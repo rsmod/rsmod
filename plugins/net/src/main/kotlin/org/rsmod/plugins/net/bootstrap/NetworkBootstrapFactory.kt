@@ -10,9 +10,11 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class NetworkBootstrapFactory @Inject constructor(private val allocator: ByteBufAllocator) {
+public class NetworkBootstrapFactory @Inject constructor(
+    private val allocator: ByteBufAllocator
+) {
 
-    fun createBootstrap(group: EventLoopGroup): ServerBootstrap {
+    public fun createBootstrap(group: EventLoopGroup): ServerBootstrap {
         val channel = when (group) {
             is NioEventLoopGroup -> NioServerSocketChannel::class.java
             else -> error("Unhandled EventLoopGroup channel conversion. (${group.javaClass.simpleName})")
@@ -26,7 +28,7 @@ class NetworkBootstrapFactory @Inject constructor(private val allocator: ByteBuf
             .childOption(ChannelOption.TCP_NODELAY, true)
     }
 
-    fun createEventLoopGroup(): EventLoopGroup {
+    public fun createEventLoopGroup(): EventLoopGroup {
         return NioEventLoopGroup()
     }
 }

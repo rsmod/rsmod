@@ -10,9 +10,9 @@ import javax.inject.Inject
 private const val CONFIG_ARCHIVE = 2
 private const val NPC_GROUP = 9
 
-class NpcTypeLoader @Inject constructor(private val cache: Cache) {
+public class NpcTypeLoader @Inject constructor(private val cache: Cache) {
 
-    fun load(): List<NpcType> {
+    public fun load(): List<NpcType> {
         val types = mutableListOf<NpcType>()
         val files = cache.list(CONFIG_ARCHIVE, NPC_GROUP)
         files.forEach { file ->

@@ -6,7 +6,7 @@ import org.rsmod.protocol.game.packet.VariableByteLengthPacketCodec
 import javax.inject.Singleton
 
 @Singleton
-class ConnectOkCodec : VariableByteLengthPacketCodec<LoginResponse.ConnectOk>(
+public class ConnectOkCodec : VariableByteLengthPacketCodec<LoginResponse.ConnectOk>(
     type = LoginResponse.ConnectOk::class.java,
     opcode = 2
 ) {

@@ -5,6 +5,6 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class LoginPlatformPacketDecoders @Inject constructor(
-    @LoginDesktopDecoder val desktop: LoginPacketDecoderMap
+public class LoginPlatformPacketDecoders @Inject constructor(
+    @LoginDesktopDecoder public val desktop: LoginPacketDecoderMap
 )

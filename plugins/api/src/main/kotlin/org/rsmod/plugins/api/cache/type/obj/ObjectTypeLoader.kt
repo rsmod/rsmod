@@ -10,9 +10,9 @@ import javax.inject.Inject
 private const val CONFIG_ARCHIVE = 2
 private const val OBJECT_GROUP = 6
 
-class ObjectTypeLoader @Inject constructor(private val cache: Cache) {
+public class ObjectTypeLoader @Inject constructor(private val cache: Cache) {
 
-    fun load(): List<ObjectType> {
+    public fun load(): List<ObjectType> {
         val types = mutableListOf<ObjectType>()
         val files = cache.list(CONFIG_ARCHIVE, OBJECT_GROUP)
         files.forEach { file ->

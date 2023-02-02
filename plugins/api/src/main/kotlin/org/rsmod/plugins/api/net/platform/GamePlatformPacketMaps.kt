@@ -6,12 +6,12 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class GamePlatformPacketMaps @Inject constructor(
-    @GameDesktopDownstream val desktopDownstream: DownstreamPacketMap,
-    @GameDesktopUpstream val desktopUpstream: UpstreamPacketMap
+public class GamePlatformPacketMaps @Inject constructor(
+    @GameDesktopDownstream public val desktopDownstream: DownstreamPacketMap,
+    @GameDesktopUpstream public val desktopUpstream: UpstreamPacketMap
 ) {
 
-    fun eagerInitialize() {
+    public fun eagerInitialize() {
         desktopDownstream.getOrCreateProtocol()
         desktopUpstream.getOrCreateProtocol()
     }

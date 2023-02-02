@@ -8,7 +8,7 @@ import org.rsmod.game.store.player.PlayerDataRequest
 import org.rsmod.game.store.player.PlayerDataResponse
 import javax.inject.Inject
 
-class DevPlayerDataMapper @Inject constructor(
+public class DevPlayerDataMapper @Inject constructor(
     private val config: GameConfig
 ) : PlayerDataMapper<DevPlayerData>(DevPlayerData::class.java) {
 

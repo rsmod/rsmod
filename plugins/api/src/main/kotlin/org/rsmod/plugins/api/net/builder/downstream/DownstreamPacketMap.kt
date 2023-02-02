@@ -5,13 +5,13 @@ import org.rsmod.protocol.game.Protocol
 import org.rsmod.protocol.game.packet.DownstreamPacket
 import org.rsmod.protocol.game.packet.PacketCodec
 
-class DownstreamPacketMap(
-    val structures: MutableMap<Class<out DownstreamPacket>, DownstreamPacketStructure<*>> = mutableMapOf()
+public class DownstreamPacketMap(
+    public val structures: MutableMap<Class<out DownstreamPacket>, DownstreamPacketStructure<*>> = mutableMapOf()
 ) {
 
     private var protocol: Protocol? = null
 
-    inline fun <reified T : DownstreamPacket> register(init: DownstreamPacketBuilder<T>.() -> Unit) {
+    public inline fun <reified T : DownstreamPacket> register(init: DownstreamPacketBuilder<T>.() -> Unit) {
         val builder = DownstreamPacketBuilder<T>().apply(init)
         val structure = builder.build()
         check(T::class.java !in structures.keys) {
@@ -20,7 +20,7 @@ class DownstreamPacketMap(
         structures[T::class.java] = structure
     }
 
-    fun getOrCreateProtocol(): Protocol {
+    public fun getOrCreateProtocol(): Protocol {
         val protocol = protocol ?: toProtocol()
         this.protocol = protocol
         return protocol

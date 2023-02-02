@@ -1,6 +1,6 @@
 package org.rsmod.plugins.api.cache.type
 
-interface ConfigType {
+public interface ConfigType {
 
-    val id: Int
+    public val id: Int
 }

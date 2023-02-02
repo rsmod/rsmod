@@ -10,25 +10,25 @@ private const val VARIABLE_SHORT_LENGTH = -2
 private annotation class PacketBuilderDsl
 
 @PacketBuilderDsl
-class DownstreamPacketBuilder<T : DownstreamPacket> {
+public class DownstreamPacketBuilder<T : DownstreamPacket> {
 
     private lateinit var encoder: (T, ByteBuf) -> Unit
 
-    var opcode = -1
+    public var opcode: Int = -1
 
-    var length = 0
+    public var length: Int = 0
 
-    val variableByteLength: Int
+    public val variableByteLength: Int
         get() = VARIABLE_BYTE_LENGTH
 
-    val variableShortLength: Int
+    public val variableShortLength: Int
         get() = VARIABLE_SHORT_LENGTH
 
-    fun encode(encoder: (packet: T, buf: ByteBuf) -> Unit) {
+    public fun encode(encoder: (packet: T, buf: ByteBuf) -> Unit) {
         this.encoder = encoder
     }
 
-    fun build(): DownstreamPacketStructure<T> {
+    public fun build(): DownstreamPacketStructure<T> {
         check(opcode != -1)
         check(::encoder.isInitialized)
         return DownstreamPacketStructure(opcode, length, encoder)

@@ -6,7 +6,7 @@ import org.rsmod.protocol.game.packet.FixedLengthPacketCodec
 import javax.inject.Singleton
 
 @Singleton
-class ExchangeSessionKeyCodec : FixedLengthPacketCodec<ServiceResponse.ExchangeSessionKey>(
+public class ExchangeSessionKeyCodec : FixedLengthPacketCodec<ServiceResponse.ExchangeSessionKey>(
     type = ServiceResponse.ExchangeSessionKey::class.java,
     opcode = 0,
     length = 8

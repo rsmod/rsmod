@@ -6,7 +6,7 @@ import org.rsmod.game.cache.CacheModule
 import org.rsmod.game.config.GameConfigModule
 import org.rsmod.toml.TomlModule
 
-object CacheTypeGeneratorModule : AbstractModule() {
+public object CacheTypeGeneratorModule : AbstractModule() {
 
     override fun configure() {
         install(BufferModule)

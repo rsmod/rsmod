@@ -5,7 +5,7 @@ import org.rsmod.json.JsonModule
 import org.rsmod.plugins.api.cache.map.xtea.XteaModule
 import org.rsmod.plugins.api.net.PacketModule
 
-object APIModule : AbstractModule() {
+public object APIModule : AbstractModule() {
 
     override fun configure() {
         install(JsonModule)

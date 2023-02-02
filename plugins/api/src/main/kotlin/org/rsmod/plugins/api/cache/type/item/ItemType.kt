@@ -2,7 +2,7 @@ package org.rsmod.plugins.api.cache.type.item
 
 import org.rsmod.plugins.api.cache.type.ConfigType
 
-data class ItemType(
+public data class ItemType(
     override val id: Int,
     val name: String,
     val stacks: Boolean,
@@ -58,9 +58,9 @@ data class ItemType(
     val wearPos3: Int
 ) : ConfigType {
 
-    val isNoted: Boolean get() = noteModel > 0
-    val canBeNoted: Boolean get() = noteModel == 0 && noteLink > 0
+    public val isNoted: Boolean get() = noteModel > 0
+    public val canBeNoted: Boolean get() = noteModel == 0 && noteLink > 0
 
-    val isPlaceholder: Boolean get() = placeholderModel > 0
-    val hasPlaceholder: Boolean get() = placeholderModel == 0 && placeholderLink > 0
+    public val isPlaceholder: Boolean get() = placeholderModel > 0
+    public val hasPlaceholder: Boolean get() = placeholderModel == 0 && placeholderLink > 0
 }

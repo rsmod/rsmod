@@ -6,7 +6,7 @@ import org.rsmod.protocol.game.packet.FixedLengthPacketCodec
 import javax.inject.Singleton
 
 @Singleton
-class InitJs5RemoteConnectionCodec : FixedLengthPacketCodec<ServiceRequest.InitJs5RemoteConnection>(
+public class InitJs5RemoteConnectionCodec : FixedLengthPacketCodec<ServiceRequest.InitJs5RemoteConnection>(
     type = ServiceRequest.InitJs5RemoteConnection::class.java,
     opcode = 15,
     length = 4

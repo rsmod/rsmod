@@ -1,22 +1,23 @@
 package org.rsmod.plugins.api.session
 
+import io.netty.channel.Channel
 import org.openrs2.crypto.XteaKey
 import org.rsmod.game.model.map.Coordinates
+import org.rsmod.game.model.mob.Player
 import org.rsmod.game.model.mob.list.PlayerList
 import org.rsmod.plugins.api.cache.map.xtea.XteaRepository
-import org.rsmod.plugins.api.event.ClientSession
 import org.rsmod.plugins.api.net.downstream.IfOpenTop
 import org.rsmod.plugins.api.net.downstream.RebuildNormal
 import org.rsmod.plugins.api.prot.info.GPIInitialization
 
-object GameSession {
+public object GameSession {
 
-    fun connect(
-        session: ClientSession.Connect,
+    public fun connect(
+        channel: Channel,
+        player: Player,
         players: PlayerList,
         xteaRepository: XteaRepository
     ) {
-        val (player, channel) = session.client
         val rebuildNormal = createRebuildNormal(player.index, player.coords, players, xteaRepository)
         player.downstream += rebuildNormal
         player.downstream += IfOpenTop(161)
@@ -24,7 +25,7 @@ object GameSession {
     }
 
     @Suppress("unused", "unused_parameter")
-    fun disconnect(session: ClientSession.Disconnect) {
+    public fun disconnect(channel: Channel, player: Player) {
     }
 
     private fun createRebuildNormal(

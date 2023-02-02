@@ -9,9 +9,9 @@ import org.rsmod.game.types.NamedTypeGenerator
 import org.rsmod.toml.Toml
 import java.nio.file.Path
 
-fun main(args: Array<String>): Unit = GenerateTypesCommand().main(args)
+public fun main(args: Array<String>): Unit = GenerateTypesCommand().main(args)
 
-class GenerateTypesCommand : CliktCommand("generate-types") {
+public class GenerateTypesCommand : CliktCommand("generate-types") {
 
     override fun run() {
         val injector = Guice.createInjector(CacheTypeGeneratorModule)
@@ -43,11 +43,11 @@ class GenerateTypesCommand : CliktCommand("generate-types") {
         )
     }
 
-    companion object {
+    public companion object {
 
-        const val OUTPUT_PACKAGE: String = "org.rsmod.types"
+        public const val OUTPUT_PACKAGE: String = "org.rsmod.types"
 
-        val CONST_FILES_OUTPUT_PATH: Path = Path.of(
+        public val CONST_FILES_OUTPUT_PATH: Path = Path.of(
             "plugins/types-generated/src/main/gen/${OUTPUT_PACKAGE.replace(".", "/")}"
         )
     }

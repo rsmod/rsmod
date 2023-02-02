@@ -49,61 +49,61 @@ private val DEFAULT_PARAMETERS = emptyMap<Int, Any>()
 private annotation class BuilderDslMarker
 
 @BuilderDslMarker
-class ObjectTypeBuilder(
-    var id: Int = DEFAULT_ID,
-    var name: String = DEFAULT_NAME,
-    var height: Int = DEFAULT_HEIGHT,
-    var width: Int = DEFAULT_WIDTH,
-    var blockPath: Boolean = DEFAULT_BLOCK_PATH,
-    var blockProjectile: Boolean = DEFAULT_BLOCK_PROJ,
-    var interactType: Int = DEFAULT_INTERACT_TYPE,
-    var obstruct: Boolean = DEFAULT_OBSTRUCT,
-    var clipType: Int = DEFAULT_CLIP_TYPE,
-    var clipMask: Int = DEFAULT_CLIP_MASK,
-    var varp: Int = DEFAULT_VARP,
-    var varbit: Int = DEFAULT_VARBIT,
-    var animation: Int = DEFAULT_ANIMATION,
-    var category: Int = DEFAULT_CATEGORY,
-    var rotated: Boolean = DEFAULT_ROTATED,
-    var options: Array<String?> = DEFAULT_OPTIONS,
-    var transforms: Array<Int> = DEFAULT_TRANSFORMS,
-    var defaultTransform: Int = DEFAULT_TRANSFORM,
-    var models: Array<Int> = DEFAULT_MODELS,
-    var modelTypes: Array<Int> = DEFAULT_MODEL_TYPES,
-    var contouredGround: Int = DEFAULT_CONTOURED_GROUND,
-    var nonFlatShading: Boolean = DEFAULT_NON_FLAT_SHADING,
-    var clippedModel: Boolean = DEFAULT_CLIPPED_MODEL,
-    var decorDisplacement: Int = DEFAULT_DECOR_DISPLACEMENT,
-    var ambient: Int = DEFAULT_AMBIENT,
-    var contrast: Int = DEFAULT_CONTRAST,
-    var recolorSrc: Array<Int> = DEFAULT_RECOLOR_SRC,
-    var recolorDest: Array<Int> = DEFAULT_RECOLOR_DEST,
-    var retextureSrc: Array<Int> = DEFAULT_RETEXTURE_SRC,
-    var retextureDest: Array<Int> = DEFAULT_RETEXTURE_DEST,
-    var clipped: Boolean = DEFAULT_CLIPPED,
-    var resizeX: Int = DEFAULT_MODEL_SIZE,
-    var resizeHeight: Int = DEFAULT_MODEL_SIZE,
-    var resizeY: Int = DEFAULT_MODEL_SIZE,
-    var mapSceneId: Int = DEFAULT_MAP_SCENE_ID,
-    var offsetX: Int = DEFAULT_OFFSET,
-    var offsetHeight: Int = DEFAULT_OFFSET,
-    var offsetY: Int = DEFAULT_OFFSET,
-    var hollow: Boolean = DEFAULT_HOLLOW_FLAG,
-    var supportItems: Int = DEFAULT_SUPPORT_ITEM,
-    var ambientSoundId: Int = DEFAULT_AMBIENT_SOUND,
-    var ambientSoundRadius: Int = DEFAULT_AMBIENT_UNKNOWN_VALUE,
-    var anInt3426: Int = DEFAULT_UNKNOWN_INT,
-    var anInt3427: Int = DEFAULT_UNKNOWN_INT,
-    var aBoolean3429: Boolean = DEFAULT_UNKNOWN_BOOL_TRUE,
-    var anIntArray3428: Array<Int> = DEFAULT_UNKNOWN_INT_ARRAY,
-    var mapIconId: Int = DEFAULT_MINIMAP_ICON,
-    var parameters: Map<Int, Any> = DEFAULT_PARAMETERS
+public class ObjectTypeBuilder(
+    public var id: Int = DEFAULT_ID,
+    public var name: String = DEFAULT_NAME,
+    public var height: Int = DEFAULT_HEIGHT,
+    public var width: Int = DEFAULT_WIDTH,
+    public var blockPath: Boolean = DEFAULT_BLOCK_PATH,
+    public var blockProjectile: Boolean = DEFAULT_BLOCK_PROJ,
+    public var interactType: Int = DEFAULT_INTERACT_TYPE,
+    public var obstruct: Boolean = DEFAULT_OBSTRUCT,
+    public var clipType: Int = DEFAULT_CLIP_TYPE,
+    public var clipMask: Int = DEFAULT_CLIP_MASK,
+    public var varp: Int = DEFAULT_VARP,
+    public var varbit: Int = DEFAULT_VARBIT,
+    public var animation: Int = DEFAULT_ANIMATION,
+    public var category: Int = DEFAULT_CATEGORY,
+    public var rotated: Boolean = DEFAULT_ROTATED,
+    public var options: Array<String?> = DEFAULT_OPTIONS,
+    public var transforms: Array<Int> = DEFAULT_TRANSFORMS,
+    public var defaultTransform: Int = DEFAULT_TRANSFORM,
+    public var models: Array<Int> = DEFAULT_MODELS,
+    public var modelTypes: Array<Int> = DEFAULT_MODEL_TYPES,
+    public var contouredGround: Int = DEFAULT_CONTOURED_GROUND,
+    public var nonFlatShading: Boolean = DEFAULT_NON_FLAT_SHADING,
+    public var clippedModel: Boolean = DEFAULT_CLIPPED_MODEL,
+    public var decorDisplacement: Int = DEFAULT_DECOR_DISPLACEMENT,
+    public var ambient: Int = DEFAULT_AMBIENT,
+    public var contrast: Int = DEFAULT_CONTRAST,
+    public var recolorSrc: Array<Int> = DEFAULT_RECOLOR_SRC,
+    public var recolorDest: Array<Int> = DEFAULT_RECOLOR_DEST,
+    public var retextureSrc: Array<Int> = DEFAULT_RETEXTURE_SRC,
+    public var retextureDest: Array<Int> = DEFAULT_RETEXTURE_DEST,
+    public var clipped: Boolean = DEFAULT_CLIPPED,
+    public var resizeX: Int = DEFAULT_MODEL_SIZE,
+    public var resizeHeight: Int = DEFAULT_MODEL_SIZE,
+    public var resizeY: Int = DEFAULT_MODEL_SIZE,
+    public var mapSceneId: Int = DEFAULT_MAP_SCENE_ID,
+    public var offsetX: Int = DEFAULT_OFFSET,
+    public var offsetHeight: Int = DEFAULT_OFFSET,
+    public var offsetY: Int = DEFAULT_OFFSET,
+    public var hollow: Boolean = DEFAULT_HOLLOW_FLAG,
+    public var supportItems: Int = DEFAULT_SUPPORT_ITEM,
+    public var ambientSoundId: Int = DEFAULT_AMBIENT_SOUND,
+    public var ambientSoundRadius: Int = DEFAULT_AMBIENT_UNKNOWN_VALUE,
+    public var anInt3426: Int = DEFAULT_UNKNOWN_INT,
+    public var anInt3427: Int = DEFAULT_UNKNOWN_INT,
+    public var aBoolean3429: Boolean = DEFAULT_UNKNOWN_BOOL_TRUE,
+    public var anIntArray3428: Array<Int> = DEFAULT_UNKNOWN_INT_ARRAY,
+    public var mapIconId: Int = DEFAULT_MINIMAP_ICON,
+    public var parameters: Map<Int, Any> = DEFAULT_PARAMETERS
 ) {
 
-    val defaultOptions: Boolean
+    public val defaultOptions: Boolean
         get() = options === DEFAULT_OPTIONS
 
-    fun build(): ObjectType {
+    public fun build(): ObjectType {
         check(id != DEFAULT_ID) { "Object type id has not been set." }
         return ObjectType(
             id = id,
@@ -158,7 +158,7 @@ class ObjectTypeBuilder(
         )
     }
 
-    operator fun plusAssign(other: ObjectType) {
+    public operator fun plusAssign(other: ObjectType) {
         if (id == DEFAULT_ID) id = other.id
         if (name == DEFAULT_NAME) name = other.name
         if (height == DEFAULT_HEIGHT) height = other.height

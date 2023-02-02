@@ -4,8 +4,8 @@ import org.rsmod.plugins.api.net.platform.GamePlatformPacketMaps
 import org.rsmod.plugins.api.net.upstream.NoTimeout
 import org.rsmod.plugins.api.net.upstream.WindowStatus
 
-val platforms: GamePlatformPacketMaps by inject()
-val packets = platforms.desktopUpstream
+private val platforms: GamePlatformPacketMaps by inject()
+private val packets = platforms.desktopUpstream
 
 packets.register<NoTimeout> {
     opcode = 0

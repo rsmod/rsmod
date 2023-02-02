@@ -5,13 +5,13 @@ import org.rsmod.plugins.net.js5.upstream.Js5Request
 
 private const val MAX_REQUESTS = 200
 
-class Js5Client(val ctx: ChannelHandlerContext) {
+public class Js5Client(public val ctx: ChannelHandlerContext) {
 
     private val urgent = ArrayDeque<Js5Request.Group>()
 
     private val prefetch = ArrayDeque<Js5Request.Group>()
 
-    fun push(request: Js5Request.Group) {
+    public fun push(request: Js5Request.Group) {
         if (request.urgent) {
             urgent += request
         } else {
@@ -19,11 +19,11 @@ class Js5Client(val ctx: ChannelHandlerContext) {
         }
     }
 
-    fun pop(): Js5Request.Group? = urgent.removeFirstOrNull() ?: prefetch.removeFirstOrNull()
+    public fun pop(): Js5Request.Group? = urgent.removeFirstOrNull() ?: prefetch.removeFirstOrNull()
 
-    fun isReady(): Boolean = ctx.channel().isWritable && isNotEmpty()
+    public fun isReady(): Boolean = ctx.channel().isWritable && isNotEmpty()
 
-    fun isNotEmpty(): Boolean = urgent.isNotEmpty() || prefetch.isNotEmpty()
+    public fun isNotEmpty(): Boolean = urgent.isNotEmpty() || prefetch.isNotEmpty()
 
-    fun isNotFull(): Boolean = urgent.size < MAX_REQUESTS && prefetch.size < MAX_REQUESTS
+    public fun isNotFull(): Boolean = urgent.size < MAX_REQUESTS && prefetch.size < MAX_REQUESTS
 }

@@ -10,12 +10,12 @@ import org.openrs2.crypto.XteaKey
 import org.openrs2.crypto.rsa
 import org.openrs2.crypto.xteaDecrypt
 import org.rsmod.plugins.api.net.builder.login.LoginPacketDecoderMap
+import org.rsmod.plugins.api.net.client.ClientType
+import org.rsmod.plugins.api.net.client.JavaVendor
+import org.rsmod.plugins.api.net.client.OperatingSystem
+import org.rsmod.plugins.api.net.client.Platform
 import org.rsmod.plugins.api.net.login.LoginPacketRequest
 import org.rsmod.plugins.api.net.platform.LoginPlatformPacketDecoders
-import org.rsmod.plugins.net.game.client.ClientType
-import org.rsmod.plugins.net.game.client.JavaVendor
-import org.rsmod.plugins.net.game.client.OperatingSystem
-import org.rsmod.plugins.net.game.client.Platform
 import org.rsmod.protocol.game.packet.VariableShortLengthPacketCodec
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -23,7 +23,7 @@ import javax.inject.Singleton
 private const val RANDOM_UUID_BYTE_LENGTH = 24
 
 @Singleton
-class GameLoginCodec @Inject constructor(
+public class GameLoginCodec @Inject constructor(
     private val key: RSAPrivateCrtKeyParameters,
     private val decoders: LoginPlatformPacketDecoders
 ) : VariableShortLengthPacketCodec<ServiceRequest.GameLogin>(

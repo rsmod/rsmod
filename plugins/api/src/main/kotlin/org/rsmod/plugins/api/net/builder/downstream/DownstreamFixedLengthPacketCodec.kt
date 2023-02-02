@@ -5,7 +5,7 @@ import org.openrs2.crypto.StreamCipher
 import org.rsmod.protocol.game.packet.DownstreamPacket
 import org.rsmod.protocol.game.packet.FixedLengthPacketCodec
 
-class DownstreamFixedLengthPacketCodec<T : DownstreamPacket>(
+public class DownstreamFixedLengthPacketCodec<T : DownstreamPacket>(
     type: Class<T>,
     opcode: Int,
     length: Int,

@@ -1,9 +1,9 @@
 package org.rsmod.plugins.api.prot
 
-object Revision {
+public object Revision {
 
-    const val MAJOR = 209
-    const val MINOR = 1
+    public const val MAJOR: Int = 209
+    public const val MINOR: Int = 1
 
-    const val MACHINE_INFO_HEADER = 9
+    public const val MACHINE_INFO_HEADER: Int = 9
 }

@@ -33,48 +33,48 @@ private val DEFAULT_PARAMETERS = emptyMap<Int, Any>()
 private annotation class BuilderDslMarker
 
 @BuilderDslMarker
-class NpcTypeBuilder(
-    var id: Int = DEFAULT_ID,
-    var name: String = DEFAULT_NAME,
-    var size: Int = DEFAULT_SIZE,
-    var level: Int = DEFAULT_LEVEL,
-    var category: Int = DEFAULT_CATEGORY,
-    var interact: Boolean = DEFAULT_INTERACT,
-    var minimapVisible: Boolean = DEFAULT_MINIMAP_VISIBLE,
-    var clickable: Boolean = DEFAULT_CLICKABLE,
-    var renderPriority: Boolean = DEFAULT_RENDER_PRIORITY,
-    var options: Array<String?> = DEFAULT_OPTIONS,
-    var readyAnim: Int = DEFAULT_ANIMATION,
-    var walkAnim: Int = DEFAULT_ANIMATION,
-    var walkLeftAnim: Int = DEFAULT_ANIMATION,
-    var walkRightAnim: Int = DEFAULT_ANIMATION,
-    var walkBackAnim: Int = DEFAULT_ANIMATION,
-    var turnLeftAnim: Int = DEFAULT_ANIMATION,
-    var turnRightAnim: Int = DEFAULT_ANIMATION,
-    var varp: Int = DEFAULT_VARP,
-    var varbit: Int = DEFAULT_VARBIT,
-    var transforms: Array<Int> = DEFAULT_TRANSFORMS,
-    var defaultTransform: Int = DEFAULT_TRANSFORM,
-    var rotation: Int = DEFAULT_ROTATION,
-    var headIcon: Int = DEFAULT_HEAD_ICON,
-    var models: Array<Int> = DEFAULT_MODELS,
-    var headModels: Array<Int> = DEFAULT_HEAD_MODELS,
-    var recolorSrc: Array<Int> = DEFAULT_RECOLOR_SRC,
-    var recolorDest: Array<Int> = DEFAULT_RECOLOR_DEST,
-    var retextureSrc: Array<Int> = DEFAULT_RETEXTURE_SRC,
-    var retextureDest: Array<Int> = DEFAULT_RETEXTURE_DEST,
-    var resizeX: Int = DEFAULT_RESIZE,
-    var resizeY: Int = DEFAULT_RESIZE,
-    var contrast: Int = DEFAULT_CONTRAST,
-    var ambient: Int = DEFAULT_AMBIENT,
-    var isPet: Boolean = false,
-    var parameters: Map<Int, Any> = DEFAULT_PARAMETERS
+public class NpcTypeBuilder(
+    public var id: Int = DEFAULT_ID,
+    public var name: String = DEFAULT_NAME,
+    public var size: Int = DEFAULT_SIZE,
+    public var level: Int = DEFAULT_LEVEL,
+    public var category: Int = DEFAULT_CATEGORY,
+    public var interact: Boolean = DEFAULT_INTERACT,
+    public var minimapVisible: Boolean = DEFAULT_MINIMAP_VISIBLE,
+    public var clickable: Boolean = DEFAULT_CLICKABLE,
+    public var renderPriority: Boolean = DEFAULT_RENDER_PRIORITY,
+    public var options: Array<String?> = DEFAULT_OPTIONS,
+    public var readyAnim: Int = DEFAULT_ANIMATION,
+    public var walkAnim: Int = DEFAULT_ANIMATION,
+    public var walkLeftAnim: Int = DEFAULT_ANIMATION,
+    public var walkRightAnim: Int = DEFAULT_ANIMATION,
+    public var walkBackAnim: Int = DEFAULT_ANIMATION,
+    public var turnLeftAnim: Int = DEFAULT_ANIMATION,
+    public var turnRightAnim: Int = DEFAULT_ANIMATION,
+    public var varp: Int = DEFAULT_VARP,
+    public var varbit: Int = DEFAULT_VARBIT,
+    public var transforms: Array<Int> = DEFAULT_TRANSFORMS,
+    public var defaultTransform: Int = DEFAULT_TRANSFORM,
+    public var rotation: Int = DEFAULT_ROTATION,
+    public var headIcon: Int = DEFAULT_HEAD_ICON,
+    public var models: Array<Int> = DEFAULT_MODELS,
+    public var headModels: Array<Int> = DEFAULT_HEAD_MODELS,
+    public var recolorSrc: Array<Int> = DEFAULT_RECOLOR_SRC,
+    public var recolorDest: Array<Int> = DEFAULT_RECOLOR_DEST,
+    public var retextureSrc: Array<Int> = DEFAULT_RETEXTURE_SRC,
+    public var retextureDest: Array<Int> = DEFAULT_RETEXTURE_DEST,
+    public var resizeX: Int = DEFAULT_RESIZE,
+    public var resizeY: Int = DEFAULT_RESIZE,
+    public var contrast: Int = DEFAULT_CONTRAST,
+    public var ambient: Int = DEFAULT_AMBIENT,
+    public var isPet: Boolean = false,
+    public var parameters: Map<Int, Any> = DEFAULT_PARAMETERS
 ) {
 
-    val defaultOptions: Boolean
+    public val defaultOptions: Boolean
         get() = options === DEFAULT_OPTIONS
 
-    fun build(): NpcType {
+    public fun build(): NpcType {
         check(id != DEFAULT_ID) { "Npc type id has not been set." }
         return NpcType(
             id = id,
@@ -116,7 +116,7 @@ class NpcTypeBuilder(
         )
     }
 
-    operator fun plusAssign(other: NpcType) {
+    public operator fun plusAssign(other: NpcType) {
         if (id == DEFAULT_ID) id = other.id
         if (name == DEFAULT_NAME) name = other.name
         if (size == DEFAULT_SIZE) size = other.size

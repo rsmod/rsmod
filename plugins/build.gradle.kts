@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode
 import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
 
 plugins {
@@ -7,11 +6,6 @@ plugins {
 
 subprojects {
     plugins.withType<KotlinPluginWrapper> {
-        kotlin {
-            // TODO: set as strict
-            explicitApi = ExplicitApiMode.Disabled
-        }
-
         dependencies {
             implementation("org.jetbrains.kotlin:kotlin-script-runtime:1.7.0")
             implementation(projects.game)

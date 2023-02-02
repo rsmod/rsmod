@@ -3,7 +3,7 @@ package org.rsmod.plugins.net.login.downstream
 import org.openrs2.crypto.StreamCipher
 import org.rsmod.protocol.game.packet.Packet
 
-sealed class LoginResponse : Packet {
+public sealed class LoginResponse : Packet {
 
     /**
      * @param deviceLinkIdentifier value stored in client's preference file along with bit-packed
@@ -14,7 +14,7 @@ sealed class LoginResponse : Packet {
      *
      * @param cipher the [StreamCipher] used to encode or decode [deviceLinkIdentifier].
      */
-    data class ConnectOk(
+    public data class ConnectOk(
         val deviceLinkIdentifier: Int?,
         val playerModLevel: Int,
         val playerMod: Boolean,
@@ -24,7 +24,7 @@ sealed class LoginResponse : Packet {
         val cipher: StreamCipher
     ) : LoginResponse()
 
-    object ClientOutOfDate : LoginResponse()
-    object BadSessionId : LoginResponse()
-    object ClientProtocolOutOfDate : LoginResponse()
+    public object ClientOutOfDate : LoginResponse()
+    public object BadSessionId : LoginResponse()
+    public object ClientProtocolOutOfDate : LoginResponse()
 }

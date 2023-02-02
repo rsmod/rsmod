@@ -5,8 +5,8 @@ import org.openrs2.buffer.readIntAlt3Reverse
 import org.rsmod.plugins.api.net.login.LoginPacketRequest
 import org.rsmod.plugins.api.net.platform.LoginPlatformPacketDecoders
 
-val platforms: LoginPlatformPacketDecoders by inject()
-val decoders = platforms.desktop
+private val platforms: LoginPlatformPacketDecoders by inject()
+private val decoders = platforms.desktop
 
 decoders.register<LoginPacketRequest.AuthType> { buf ->
     when (buf.readUnsignedByte().toInt()) {

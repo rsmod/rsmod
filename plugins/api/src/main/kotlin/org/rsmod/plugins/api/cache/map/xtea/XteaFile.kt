@@ -2,7 +2,7 @@ package org.rsmod.plugins.api.cache.map.xtea
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-internal data class FileXtea(
+internal data class XteaFile(
     @JsonProperty("mapsquare") val mapSquare: Int,
     val key: IntArray
 ) {
@@ -11,7 +11,7 @@ internal data class FileXtea(
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as FileXtea
+        other as XteaFile
 
         if (mapSquare != other.mapSquare) return false
         return key.contentEquals(other.key)

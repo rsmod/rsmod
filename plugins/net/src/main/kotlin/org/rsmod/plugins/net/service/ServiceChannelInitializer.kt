@@ -16,7 +16,7 @@ import javax.inject.Singleton
 private const val TIMEOUT_SECS = 30L
 
 @Singleton
-class ServiceChannelInitializer @Inject constructor(
+public class ServiceChannelInitializer @Inject constructor(
     private val handlerProvider: Provider<ServiceChannelHandler>,
     @ServiceUpstream private val serviceUpstream: Protocol,
     @ServiceDownstream private val serviceDownstream: Protocol

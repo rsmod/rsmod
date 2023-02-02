@@ -16,7 +16,7 @@ import javax.inject.Inject
 private const val RELATIVE_PATH = "dev/saves"
 private const val FILE_EXT = "json"
 
-class DevJsonPlayerCodec<T : PlayerCodecData> @Inject constructor(
+public class DevJsonPlayerCodec<T : PlayerCodecData> @Inject constructor(
     @Json private val jsonMapper: ObjectMapper,
     private val playerMapper: PlayerDataMapper<T>,
     private val config: GameConfig

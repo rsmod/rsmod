@@ -13,17 +13,17 @@ private val logger = InlineLogger()
 
 private const val FILE_NAME = "xteas.json"
 
-class XteaFileLoader @Inject constructor(
+public class XteaFileLoader @Inject constructor(
     @CachePath private val cachePath: Path,
     @Json private val mapper: ObjectMapper,
     private val repository: XteaRepository
 ) {
 
-    fun load() {
+    public fun load() {
         /* xtea file should be one path level above packed cache */
         val file = cachePath.parent.resolve(FILE_NAME)
         Files.newBufferedReader(file).use {
-            val fileXtea = mapper.readValue(it, Array<FileXtea>::class.java)
+            val fileXtea = mapper.readValue(it, Array<XteaFile>::class.java)
             fileXtea.forEach { xtea ->
                 repository[xtea.mapSquare] = XteaKey.fromIntArray(xtea.key)
             }

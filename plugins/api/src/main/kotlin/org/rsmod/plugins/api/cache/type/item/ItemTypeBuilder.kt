@@ -38,71 +38,71 @@ private val DEFAULT_PARAMETERS = emptyMap<Int, Any>()
 private annotation class BuilderDslMarker
 
 @BuilderDslMarker
-class ItemTypeBuilder(
-    var id: Int = DEFAULT_ID,
-    var name: String = DEFAULT_NAME,
-    var model: Int = DEFAULT_MODEL,
-    var zoom2d: Int = DEFAULT_ZOOM_2D,
-    var xan2d: Int = DEFAULT_XAN_2D,
-    var yan2d: Int = DEFAULT_YAN_2D,
-    var zan2d: Int = DEFAULT_ZAN_2D,
-    var xOff2d: Int = DEFAULT_X_OFF_2D,
-    var yOff2d: Int = DEFAULT_Y_OFF_2D,
-    var stacks: Boolean = DEFAULT_STACKS,
-    var cost: Int = DEFAULT_COST,
-    var members: Boolean = DEFAULT_MEMBERS,
-    var maleModelOffset: Int = DEFAULT_MODEL_OFFSET,
-    var femaleModelOffset: Int = DEFAULT_MODEL_OFFSET,
-    var maleModel0: Int = DEFAULT_MODEL,
-    var maleModel1: Int = DEFAULT_MODEL,
-    var maleModel2: Int = DEFAULT_MODEL,
-    var femaleModel0: Int = DEFAULT_MODEL,
-    var femaleModel1: Int = DEFAULT_MODEL,
-    var femaleModel2: Int = DEFAULT_MODEL,
-    var maleHeadModel0: Int = DEFAULT_MODEL,
-    var maleHeadModel1: Int = DEFAULT_MODEL,
-    var femaleHeadModel0: Int = DEFAULT_MODEL,
-    var femaleHeadModel1: Int = DEFAULT_MODEL,
-    var categories: Set<Int> = DEFAULT_CATEGORIES,
-    var groundOptions: Array<String?> = DEFAULT_GROUND_OPTIONS,
-    var inventoryOptions: Array<String?> = DEFAULT_INVENTORY_OPTIONS,
-    var recolorSrc: IntArray = DEFAULT_INT_ARRAY,
-    var recolorDest: IntArray = DEFAULT_INT_ARRAY,
-    var retextureSrc: IntArray = DEFAULT_INT_ARRAY,
-    var retextureDest: IntArray = DEFAULT_INT_ARRAY,
-    var dropOptionIndex: Int = DEFAULT_DROP_OPTION_INDEX,
-    var resizeX: Int = DEFAULT_RESIZE,
-    var resizeY: Int = DEFAULT_RESIZE,
-    var resizeZ: Int = DEFAULT_RESIZE,
-    var ambient: Int = DEFAULT_AMBIENT,
-    var contrast: Int = DEFAULT_CONTRAST,
-    var exchangeable: Boolean = DEFAULT_EXCHANGEABLE,
-    var teamCape: Int = DEFAULT_TEAM_CAPE,
-    var noteLink: Int = DEFAULT_NOTE_LINK,
-    var noteModel: Int = DEFAULT_NOTE_VALUE,
-    var placeholderLink: Int = DEFAULT_PLACEHOLDER_LINK,
-    var placeholderModel: Int = DEFAULT_PLACEHOLDER_VALUE,
-    var boughtLink: Int = DEFAULT_BOUGHT_LINK,
-    var boughtValue: Int = DEFAULT_BOUGHT_VALUE,
-    var countItem: IntArray = DEFAULT_INT_ARRAY,
-    var countCo: IntArray = DEFAULT_INT_ARRAY,
-    var parameters: Map<Int, Any> = DEFAULT_PARAMETERS,
-    var weight: Int = DEFAULT_WEIGHT,
-    var wearPos1: Int = DEFAULT_WEAR_POS,
-    var wearPos2: Int = DEFAULT_WEAR_POS,
-    var wearPos3: Int = DEFAULT_WEAR_POS
+public class ItemTypeBuilder(
+    public var id: Int = DEFAULT_ID,
+    public var name: String = DEFAULT_NAME,
+    public var model: Int = DEFAULT_MODEL,
+    public var zoom2d: Int = DEFAULT_ZOOM_2D,
+    public var xan2d: Int = DEFAULT_XAN_2D,
+    public var yan2d: Int = DEFAULT_YAN_2D,
+    public var zan2d: Int = DEFAULT_ZAN_2D,
+    public var xOff2d: Int = DEFAULT_X_OFF_2D,
+    public var yOff2d: Int = DEFAULT_Y_OFF_2D,
+    public var stacks: Boolean = DEFAULT_STACKS,
+    public var cost: Int = DEFAULT_COST,
+    public var members: Boolean = DEFAULT_MEMBERS,
+    public var maleModelOffset: Int = DEFAULT_MODEL_OFFSET,
+    public var femaleModelOffset: Int = DEFAULT_MODEL_OFFSET,
+    public var maleModel0: Int = DEFAULT_MODEL,
+    public var maleModel1: Int = DEFAULT_MODEL,
+    public var maleModel2: Int = DEFAULT_MODEL,
+    public var femaleModel0: Int = DEFAULT_MODEL,
+    public var femaleModel1: Int = DEFAULT_MODEL,
+    public var femaleModel2: Int = DEFAULT_MODEL,
+    public var maleHeadModel0: Int = DEFAULT_MODEL,
+    public var maleHeadModel1: Int = DEFAULT_MODEL,
+    public var femaleHeadModel0: Int = DEFAULT_MODEL,
+    public var femaleHeadModel1: Int = DEFAULT_MODEL,
+    public var categories: Set<Int> = DEFAULT_CATEGORIES,
+    public var groundOptions: Array<String?> = DEFAULT_GROUND_OPTIONS,
+    public var inventoryOptions: Array<String?> = DEFAULT_INVENTORY_OPTIONS,
+    public var recolorSrc: IntArray = DEFAULT_INT_ARRAY,
+    public var recolorDest: IntArray = DEFAULT_INT_ARRAY,
+    public var retextureSrc: IntArray = DEFAULT_INT_ARRAY,
+    public var retextureDest: IntArray = DEFAULT_INT_ARRAY,
+    public var dropOptionIndex: Int = DEFAULT_DROP_OPTION_INDEX,
+    public var resizeX: Int = DEFAULT_RESIZE,
+    public var resizeY: Int = DEFAULT_RESIZE,
+    public var resizeZ: Int = DEFAULT_RESIZE,
+    public var ambient: Int = DEFAULT_AMBIENT,
+    public var contrast: Int = DEFAULT_CONTRAST,
+    public var exchangeable: Boolean = DEFAULT_EXCHANGEABLE,
+    public var teamCape: Int = DEFAULT_TEAM_CAPE,
+    public var noteLink: Int = DEFAULT_NOTE_LINK,
+    public var noteModel: Int = DEFAULT_NOTE_VALUE,
+    public var placeholderLink: Int = DEFAULT_PLACEHOLDER_LINK,
+    public var placeholderModel: Int = DEFAULT_PLACEHOLDER_VALUE,
+    public var boughtLink: Int = DEFAULT_BOUGHT_LINK,
+    public var boughtValue: Int = DEFAULT_BOUGHT_VALUE,
+    public var countItem: IntArray = DEFAULT_INT_ARRAY,
+    public var countCo: IntArray = DEFAULT_INT_ARRAY,
+    public var parameters: Map<Int, Any> = DEFAULT_PARAMETERS,
+    public var weight: Int = DEFAULT_WEIGHT,
+    public var wearPos1: Int = DEFAULT_WEAR_POS,
+    public var wearPos2: Int = DEFAULT_WEAR_POS,
+    public var wearPos3: Int = DEFAULT_WEAR_POS
 ) {
 
-    val defaultGroundOps: Boolean
+    public val defaultGroundOps: Boolean
         get() = groundOptions === DEFAULT_GROUND_OPTIONS
 
-    val defaultInventoryOps: Boolean
+    public val defaultInventoryOps: Boolean
         get() = inventoryOptions === DEFAULT_INVENTORY_OPTIONS
 
-    val defaultCategories: Boolean
+    public val defaultCategories: Boolean
         get() = categories === DEFAULT_CATEGORIES
 
-    fun build(): ItemType {
+    public fun build(): ItemType {
         check(id != DEFAULT_ID) { "Item type id has not been set." }
         return ItemType(
             id = id,
@@ -161,7 +161,7 @@ class ItemTypeBuilder(
         )
     }
 
-    operator fun plusAssign(other: ItemType) {
+    public operator fun plusAssign(other: ItemType) {
         if (id == DEFAULT_ID) id = other.id
         if (name == DEFAULT_NAME) name = other.name
         if (model == DEFAULT_MODEL) model = other.model

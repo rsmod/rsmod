@@ -4,7 +4,7 @@ import org.rsmod.protocol.game.packet.ZeroLengthPacketCodec
 import javax.inject.Singleton
 
 @Singleton
-class BadSessionIdCodec : ZeroLengthPacketCodec<LoginResponse.BadSessionId>(
+public class BadSessionIdCodec : ZeroLengthPacketCodec<LoginResponse.BadSessionId>(
     packet = LoginResponse.BadSessionId,
     opcode = 10
 )

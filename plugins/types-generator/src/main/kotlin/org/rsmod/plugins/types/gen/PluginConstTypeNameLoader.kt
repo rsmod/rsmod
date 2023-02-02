@@ -15,9 +15,9 @@ import org.rsmod.types.Items
 import org.rsmod.types.Npcs
 import org.rsmod.types.Objs
 
-class PluginConstTypeNameLoader {
+public class PluginConstTypeNameLoader {
 
-    fun load(packageName: String): NamedTypeMapHolder {
+    public fun load(packageName: String): NamedTypeMapHolder {
         val names = NamedTypeMapHolder()
         GENERATED_CONSTANT_FILE.forEach { constantFile ->
             val reflections = Reflections(

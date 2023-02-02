@@ -8,7 +8,7 @@ import org.rsmod.game.store.player.PlayerDataMapper
 import org.rsmod.plugins.store.dev.data.DevJsonPlayerCodec
 import org.rsmod.plugins.store.dev.data.DevPlayerDataMapper
 
-object DevPlayerStoreModule : DevModule() {
+public object DevPlayerStoreModule : DevModule() {
 
     private val DATA_MAPPER_TYPE = object : TypeLiteral<PlayerDataMapper<*>>() {}
     private val JSON_CODEC_TYPE = object : TypeLiteral<DevJsonPlayerCodec<*>>() {}

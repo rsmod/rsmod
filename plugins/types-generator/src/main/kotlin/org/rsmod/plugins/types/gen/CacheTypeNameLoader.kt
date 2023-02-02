@@ -12,13 +12,13 @@ import org.rsmod.plugins.api.cache.type.obj.ObjectType
 import org.rsmod.plugins.api.cache.type.obj.ObjectTypeLoader
 import javax.inject.Inject
 
-class CacheTypeNameLoader @Inject constructor(
+public class CacheTypeNameLoader @Inject constructor(
     private val items: ItemTypeLoader,
     private val npcs: NpcTypeLoader,
     private val objs: ObjectTypeLoader
 ) {
 
-    fun load(): NamedTypeMapHolder {
+    public fun load(): NamedTypeMapHolder {
         val names = NamedTypeMapHolder()
         names.putItems(items.load())
         names.putNpcs(npcs.load())

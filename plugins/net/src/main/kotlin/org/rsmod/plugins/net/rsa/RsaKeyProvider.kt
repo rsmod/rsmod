@@ -7,7 +7,7 @@ import java.nio.file.Files
 import javax.inject.Inject
 import javax.inject.Provider
 
-class RsaKeyProvider @Inject constructor(
+public class RsaKeyProvider @Inject constructor(
     private val config: GameConfig
 ) : Provider<RSAPrivateCrtKeyParameters> {
 

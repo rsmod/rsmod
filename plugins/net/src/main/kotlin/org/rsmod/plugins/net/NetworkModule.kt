@@ -28,7 +28,7 @@ import org.rsmod.plugins.net.service.upstream.ServiceUpstream
 import org.rsmod.protocol.game.Protocol
 import org.rsmod.protocol.game.packet.PacketCodec
 
-object NetworkModule : AbstractModule() {
+public object NetworkModule : AbstractModule() {
 
     private val PACKET_CODEC_TYPE_LITERAL = object : TypeLiteral<PacketCodec<*>>() {}
 

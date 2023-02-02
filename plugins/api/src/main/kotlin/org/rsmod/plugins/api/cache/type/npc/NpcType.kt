@@ -2,7 +2,7 @@ package org.rsmod.plugins.api.cache.type.npc
 
 import org.rsmod.plugins.api.cache.type.ConfigType
 
-data class NpcType(
+public data class NpcType(
     override val id: Int,
     val name: String,
     val size: Int,

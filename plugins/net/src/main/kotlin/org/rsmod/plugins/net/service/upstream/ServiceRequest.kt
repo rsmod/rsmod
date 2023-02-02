@@ -1,19 +1,19 @@
 package org.rsmod.plugins.net.service.upstream
 
 import org.openrs2.crypto.XteaKey
+import org.rsmod.plugins.api.net.client.ClientType
+import org.rsmod.plugins.api.net.client.JavaVendor
+import org.rsmod.plugins.api.net.client.OperatingSystem
+import org.rsmod.plugins.api.net.client.Platform
 import org.rsmod.plugins.api.net.login.LoginPacketRequest
-import org.rsmod.plugins.net.game.client.ClientType
-import org.rsmod.plugins.net.game.client.JavaVendor
-import org.rsmod.plugins.net.game.client.OperatingSystem
-import org.rsmod.plugins.net.game.client.Platform
 import org.rsmod.protocol.game.packet.Packet
 
-sealed class ServiceRequest : Packet {
+public sealed class ServiceRequest : Packet {
 
-    data class InitJs5RemoteConnection(val build: Int) : ServiceRequest()
-    object InitGameConnection : ServiceRequest()
+    public data class InitJs5RemoteConnection(val build: Int) : ServiceRequest()
+    public object InitGameConnection : ServiceRequest()
 
-    data class GameLogin(
+    public data class GameLogin(
         val buildMajor: Int,
         val buildMinor: Int,
         val clientType: ClientType,
@@ -27,7 +27,7 @@ sealed class ServiceRequest : Packet {
         val cacheCrc: IntArray
     ) : ServiceRequest() {
 
-        data class SecureBlock(
+        public data class SecureBlock(
             val xtea: XteaKey,
             val seed: Long,
             val password: String,
@@ -35,13 +35,13 @@ sealed class ServiceRequest : Packet {
             val authSecret: Int?
         )
 
-        data class ClientInfo(
+        public data class ClientInfo(
             val resizable: Boolean,
             val width: Int,
             val height: Int
         )
 
-        data class MachineInfo(
+        public data class MachineInfo(
             val version: Int,
             val operatingSystem: OperatingSystem,
             val is64Bit: Boolean,

@@ -5,7 +5,7 @@ import org.openrs2.crypto.StreamCipher
 import org.rsmod.protocol.game.packet.UpstreamPacket
 import org.rsmod.protocol.game.packet.VariableShortLengthPacketCodec
 
-class UpstreamVariableShortPacketCodec<T : UpstreamPacket>(
+public class UpstreamVariableShortPacketCodec<T : UpstreamPacket>(
     type: Class<T>,
     opcode: Int,
     private val decoder: (ByteBuf) -> UpstreamPacket

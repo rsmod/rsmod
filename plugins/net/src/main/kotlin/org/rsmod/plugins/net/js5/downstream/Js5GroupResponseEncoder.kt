@@ -7,7 +7,7 @@ import io.netty.handler.codec.MessageToByteEncoder
 import kotlin.math.min
 
 @Sharable
-object Js5GroupResponseEncoder : MessageToByteEncoder<Js5GroupResponse>(Js5GroupResponse::class.java) {
+public object Js5GroupResponseEncoder : MessageToByteEncoder<Js5GroupResponse>(Js5GroupResponse::class.java) {
 
     override fun encode(ctx: ChannelHandlerContext, msg: Js5GroupResponse, out: ByteBuf) {
         val compression = msg.data.readUnsignedByte().toInt()

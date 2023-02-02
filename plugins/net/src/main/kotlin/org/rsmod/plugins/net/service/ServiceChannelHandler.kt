@@ -21,12 +21,11 @@ import org.rsmod.game.store.player.PlayerCodec
 import org.rsmod.game.store.player.PlayerDataRequest
 import org.rsmod.game.store.player.PlayerDataResponse
 import org.rsmod.plugins.api.event.ClientSession
+import org.rsmod.plugins.api.net.client.Platform
 import org.rsmod.plugins.api.net.login.LoginPacketRequest
 import org.rsmod.plugins.api.net.platform.GamePlatformPacketMaps
 import org.rsmod.plugins.api.prot.Revision
-import org.rsmod.plugins.net.game.client.Platform
-import org.rsmod.plugins.net.game.clientAttr
-import org.rsmod.plugins.net.game.setClientAttr
+import org.rsmod.plugins.net.clientAttr
 import org.rsmod.plugins.net.js5.Js5ChannelHandler
 import org.rsmod.plugins.net.js5.downstream.Js5GroupResponseEncoder
 import org.rsmod.plugins.net.js5.downstream.Js5RemoteDownstream
@@ -37,6 +36,7 @@ import org.rsmod.plugins.net.login.downstream.LoginDownstream
 import org.rsmod.plugins.net.login.downstream.LoginResponse
 import org.rsmod.plugins.net.service.downstream.ServiceResponse
 import org.rsmod.plugins.net.service.upstream.ServiceRequest
+import org.rsmod.plugins.net.setClientAttr
 import org.rsmod.protocol.game.Protocol
 import org.rsmod.protocol.game.ProtocolDecoder
 import org.rsmod.protocol.game.ProtocolEncoder
@@ -47,7 +47,7 @@ import javax.inject.Provider
 
 private val logger = InlineLogger()
 
-class ServiceChannelHandler @Inject constructor(
+public class ServiceChannelHandler @Inject constructor(
     @Js5RemoteDownstream private val js5RemoteDownstream: Protocol,
     @LoginDownstream private val loginDownstream: Protocol,
     private val playerCodec: PlayerCodec,
