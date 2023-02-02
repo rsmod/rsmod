@@ -1,6 +1,6 @@
 package org.rsmod.plugins.api.net.upstream
 
-import org.rsmod.protocol.packet.UpstreamPacket
+import org.rsmod.protocol.game.packet.UpstreamPacket
 
 class EventMouseMove : UpstreamPacket
 class EventMouseClick : UpstreamPacket

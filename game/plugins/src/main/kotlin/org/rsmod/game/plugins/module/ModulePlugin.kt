@@ -42,6 +42,6 @@ public open class ModulePlugin(
      * environment (_alpha_, _beta_, _etc_).
      */
     public fun install(module: TestModule) {
-        branchModules.install(module, ModuleBranch.Dev)
+        branchModules.install(module, ModuleBranch.Test)
     }
 }

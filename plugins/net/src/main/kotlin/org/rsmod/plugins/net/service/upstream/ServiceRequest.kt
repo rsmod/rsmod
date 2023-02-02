@@ -6,7 +6,7 @@ import org.rsmod.plugins.net.game.client.ClientType
 import org.rsmod.plugins.net.game.client.JavaVendor
 import org.rsmod.plugins.net.game.client.OperatingSystem
 import org.rsmod.plugins.net.game.client.Platform
-import org.rsmod.protocol.packet.Packet
+import org.rsmod.protocol.game.packet.Packet
 
 sealed class ServiceRequest : Packet {
 
