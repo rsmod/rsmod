@@ -22,6 +22,12 @@ public value class RouteCoordinates(public val packed: Int) {
         level = level + levelOffset
     )
 
+    public operator fun component1(): Int = x
+
+    public operator fun component2(): Int = y
+
+    public operator fun component3(): Int = level
+
     override fun toString(): String {
         return "RouteCoordinates(x=$x, y=$y, level=$level)"
     }
