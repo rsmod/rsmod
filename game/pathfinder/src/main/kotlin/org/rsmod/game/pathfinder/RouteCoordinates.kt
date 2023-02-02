@@ -3,17 +3,14 @@ package org.rsmod.game.pathfinder
 @JvmInline
 public value class RouteCoordinates(public val packed: Int) {
 
-    public val x: Int
-        get() = packed and 0x7FFF
+    public val x: Int get() = (packed shr 14) and 0x3FFF
 
-    public val y: Int
-        get() = (packed shr 15) and 0x7FFF
+    public val y: Int get() = packed and 0x3FFF
 
-    public val level: Int
-        get() = (packed shr 30) and 0x3
+    public val level: Int get() = (packed shr 28) and 0x3
 
     public constructor(x: Int, y: Int, level: Int = 0) : this(
-        (x and 0x7FFF) or ((y and 0x7FFF) shl 15) or ((level and 0x3) shl 30)
+        (y and 0x3FFF) or ((x and 0x3FFF) shl 14) or ((level and 0x3) shl 28)
     )
 
     public fun translate(xOffset: Int, yOffset: Int, levelOffset: Int = 0): RouteCoordinates = RouteCoordinates(
