@@ -7,35 +7,71 @@ public class NamedTypeMapHolder {
     public val items: MutableMap<String, NamedItem> = mutableMapOf()
     public val npcs: MutableMap<String, NamedNpc> = mutableMapOf()
     public val objs: MutableMap<String, NamedObject> = mutableMapOf()
+    public val anims: MutableMap<String, NamedAnimation> = mutableMapOf()
+    public val graphics: MutableMap<String, NamedGraphic> = mutableMapOf()
+    public val enums: MutableMap<String, NamedEnum> = mutableMapOf()
+    public val structs: MutableMap<String, NamedStruct> = mutableMapOf()
+    public val parameters: MutableMap<String, NamedParameter> = mutableMapOf()
+    public val inventories: MutableMap<String, NamedInventory> = mutableMapOf()
 
     // TODO: handle name key collision
 
-    public operator fun set(name: String, component: NamedComponent) {
-        components[name] = component
+    public operator fun set(name: String, value: NamedComponent) {
+        components[name] = value
     }
 
-    public operator fun set(name: String, uinterface: NamedInterface) {
-        interfaces[name] = uinterface
+    public operator fun set(name: String, value: NamedInterface) {
+        interfaces[name] = value
     }
 
-    public operator fun set(name: String, item: NamedItem) {
-        items[name] = item
+    public operator fun set(name: String, value: NamedItem) {
+        items[name] = value
     }
 
-    public operator fun set(name: String, npc: NamedNpc) {
-        npcs[name] = npc
+    public operator fun set(name: String, value: NamedNpc) {
+        npcs[name] = value
     }
 
-    public operator fun set(name: String, obj: NamedObject) {
-        objs[name] = obj
+    public operator fun set(name: String, value: NamedObject) {
+        objs[name] = value
+    }
+
+    public operator fun set(name: String, value: NamedAnimation) {
+        anims[name] = value
+    }
+
+    public operator fun set(name: String, value: NamedGraphic) {
+        graphics[name] = value
+    }
+
+    public operator fun set(name: String, value: NamedEnum) {
+        enums[name] = value
+    }
+
+    public operator fun set(name: String, value: NamedStruct) {
+        structs[name] = value
+    }
+
+    public operator fun set(name: String, value: NamedParameter) {
+        parameters[name] = value
+    }
+
+    public operator fun set(name: String, value: NamedInventory) {
+        inventories[name] = value
     }
 
     public operator fun plusAssign(rhs: NamedTypeMapHolder) {
-        interfaces.putAll(rhs.interfaces)
-        components.putAll(rhs.components)
-        items.putAll(rhs.items)
-        npcs.putAll(rhs.npcs)
-        objs.putAll(rhs.objs)
+        interfaces += rhs.interfaces
+        components += rhs.components
+        items += rhs.items
+        npcs += rhs.npcs
+        objs += rhs.objs
+        anims += rhs.anims
+        graphics += rhs.graphics
+        enums += rhs.enums
+        structs += rhs.structs
+        parameters += rhs.parameters
+        inventories += rhs.inventories
     }
 
     public operator fun plus(rhs: NamedTypeMapHolder): NamedTypeMapHolder {

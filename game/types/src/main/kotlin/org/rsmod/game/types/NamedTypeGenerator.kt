@@ -20,7 +20,13 @@ public class NamedTypeGenerator {
             "Components" to ::generateComponentsConst,
             "Items" to ::generateItemsConst,
             "Npcs" to ::generateNpcsConst,
-            "Objs" to ::generateObjsConst
+            "Objs" to ::generateObjsConst,
+            "Animations" to ::generateAnimsConst,
+            "Graphics" to ::generateGfxConst,
+            "Enums" to ::generateEnumsConst,
+            "Structs" to ::generateStructsConst,
+            "Params" to ::generateParamsConst,
+            "Invs" to ::generateInvsConst
         )
         generators.forEach { (typeName, generator) ->
             Files.writeString(outputPath.resolve("$typeName.kt"), generator(names, typeName, packageName))
@@ -38,6 +44,12 @@ public class NamedTypeGenerator {
         writeConfigMapFile(outputPath.resolve("items.rscm"), items.mapValues { it.value.id }, mapper)
         writeConfigMapFile(outputPath.resolve("npcs.rscm"), npcs.mapValues { it.value.id }, mapper)
         writeConfigMapFile(outputPath.resolve("objs.rscm"), objs.mapValues { it.value.id }, mapper)
+        writeConfigMapFile(outputPath.resolve("anims.rscm"), anims.mapValues { it.value.id }, mapper)
+        writeConfigMapFile(outputPath.resolve("graphics.rscm"), graphics.mapValues { it.value.id }, mapper)
+        writeConfigMapFile(outputPath.resolve("enums.rscm"), enums.mapValues { it.value.id }, mapper)
+        writeConfigMapFile(outputPath.resolve("structs.rscm"), structs.mapValues { it.value.id }, mapper)
+        writeConfigMapFile(outputPath.resolve("params.rscm"), parameters.mapValues { it.value.id }, mapper)
+        writeConfigMapFile(outputPath.resolve("invs.rscm"), inventories.mapValues { it.value.id }, mapper)
     }
 
     public fun writeConfigMapFile(output: Path, names: Map<String, Int>, mapper: ObjectMapper) {
@@ -69,6 +81,30 @@ public class NamedTypeGenerator {
 
     public fun generateObjsConst(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
         return generate(fileName, packageName, NamedObject::class.java, names.objs.mapValues { it.value.id })
+    }
+
+    public fun generateAnimsConst(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
+        return generate(fileName, packageName, NamedAnimation::class.java, names.anims.mapValues { it.value.id })
+    }
+
+    public fun generateGfxConst(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
+        return generate(fileName, packageName, NamedGraphic::class.java, names.graphics.mapValues { it.value.id })
+    }
+
+    public fun generateEnumsConst(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
+        return generate(fileName, packageName, NamedEnum::class.java, names.enums.mapValues { it.value.id })
+    }
+
+    public fun generateStructsConst(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
+        return generate(fileName, packageName, NamedStruct::class.java, names.structs.mapValues { it.value.id })
+    }
+
+    public fun generateParamsConst(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
+        return generate(fileName, packageName, NamedParameter::class.java, names.parameters.mapValues { it.value.id })
+    }
+
+    public fun generateInvsConst(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
+        return generate(fileName, packageName, NamedInventory::class.java, names.inventories.mapValues { it.value.id })
     }
 
     private fun <T> generate(
