@@ -41,8 +41,14 @@ public class NamedTypeGenerator {
     }
 
     public fun writeConfigMapFile(output: Path, names: Map<String, Int>, mapper: ObjectMapper) {
-        if (names.isEmpty()) return
-        Files.writeString(output, mapper.generateConfigMap(names))
+        /* if there are no names we don't have to bother mapping */
+        if (names.isEmpty()) {
+            /* if there is an old file with same name - delete it to keep names in sync */
+            if (Files.exists(output)) Files.delete(output)
+            return
+        }
+        val map = mapper.writeValueAsString(names).replace(" = ", ":")
+        Files.writeString(output, map)
     }
 
     public fun generateInterfacesConst(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
@@ -107,8 +113,4 @@ public class NamedTypeGenerator {
         .replace("import kotlin.Unit\n", "")
         .replace(": Unit {", " {")
         .replace("public ", "")
-
-    private fun ObjectMapper.generateConfigMap(names: Map<String, Int>): String {
-        return writeValueAsString(names).replace(" = ", ":")
-    }
 }
