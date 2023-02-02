@@ -8,7 +8,7 @@ public data class EnumType<K, V>(
     public val valType: EnumTypeIdentifier,
     public val default: V?,
     private val properties: MutableMap<K, V>
-) : ConfigType {
+) : ConfigType, Iterable<Map.Entry<K, V>> {
 
     public val size: Int get() = properties.size
     public val isEmpty: Boolean get() = properties.isEmpty()
@@ -18,5 +18,9 @@ public data class EnumType<K, V>(
 
     public operator fun get(key: K): V? {
         return properties[key] ?: default
+    }
+
+    override fun iterator(): Iterator<Map.Entry<K, V>> {
+        return properties.iterator()
     }
 }
