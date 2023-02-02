@@ -1,12 +1,13 @@
-package org.rsmod.game.config
+package org.rsmod.plugins.net.rsa
 
 import org.bouncycastle.crypto.params.RSAPrivateCrtKeyParameters
 import org.openrs2.crypto.Rsa
+import org.rsmod.game.config.GameConfig
 import java.nio.file.Files
 import javax.inject.Inject
 import javax.inject.Provider
 
-public class RsaKeyProvider @Inject constructor(
+class RsaKeyProvider @Inject constructor(
     private val config: GameConfig
 ) : Provider<RSAPrivateCrtKeyParameters> {
 

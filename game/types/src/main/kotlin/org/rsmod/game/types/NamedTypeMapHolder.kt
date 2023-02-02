@@ -29,4 +29,20 @@ public class NamedTypeMapHolder {
     public operator fun set(name: String, obj: NamedObject) {
         objs[name] = obj
     }
+
+    public operator fun plusAssign(rhs: NamedTypeMapHolder) {
+        interfaces.putAll(rhs.interfaces)
+        components.putAll(rhs.components)
+        items.putAll(rhs.items)
+        npcs.putAll(rhs.npcs)
+        objs.putAll(rhs.objs)
+    }
+
+    public operator fun plus(rhs: NamedTypeMapHolder): NamedTypeMapHolder {
+        val lhs = this
+        return NamedTypeMapHolder().apply {
+            this += lhs
+            this += rhs
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package org.rsmod.game.types
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.PropertySpec
@@ -9,44 +10,58 @@ import java.nio.file.Path
 import java.text.SimpleDateFormat
 import java.time.Instant
 import java.util.Date
-import javax.inject.Inject
 
-private val DEFAULT_OUTPUT_PATH = Path.of("types-generated/src/main/gen/org/rsmod/types/generated")
-private const val DEFAULT_PACKAGE = "org.rsmod.types.generated"
+public class NamedTypeGenerator {
 
-public class NamedTypeGenerator @Inject constructor(private val names: NamedTypeMapHolder) {
-
-    public fun writeFiles(path: Path = DEFAULT_OUTPUT_PATH, packageName: String = DEFAULT_PACKAGE) {
+    public fun writeConstFiles(names: NamedTypeMapHolder, outputPath: Path, packageName: String) {
+        if (!Files.exists(outputPath)) Files.createDirectories(outputPath)
         val generators = mapOf(
-            "Interfaces" to ::generateInterfaces,
-            "Components" to ::generateComponents,
-            "Items" to ::generateItems,
-            "Npcs" to ::generateNpcs,
-            "Objs" to ::generateObjs
+            "Interfaces" to ::generateInterfacesConst,
+            "Components" to ::generateComponentsConst,
+            "Items" to ::generateItemsConst,
+            "Npcs" to ::generateNpcsConst,
+            "Objs" to ::generateObjsConst
         )
-        if (!Files.exists(path)) Files.createDirectories(path)
         generators.forEach { (typeName, generator) ->
-            Files.writeString(path.resolve("$typeName.kt"), generator(names, typeName, packageName))
+            Files.writeString(outputPath.resolve("$typeName.kt"), generator(names, typeName, packageName))
         }
     }
 
-    public fun generateInterfaces(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
+    public fun writeConfigMapFiles(
+        names: NamedTypeMapHolder,
+        outputPath: Path,
+        mapper: ObjectMapper
+    ): Unit = with(names) {
+        if (!Files.exists(outputPath)) Files.createDirectories(outputPath)
+        writeConfigMapFile(outputPath.resolve("interfaces.rscm"), interfaces.mapValues { it.value.id }, mapper)
+        writeConfigMapFile(outputPath.resolve("components.rscm"), components.mapValues { it.value.id }, mapper)
+        writeConfigMapFile(outputPath.resolve("items.rscm"), items.mapValues { it.value.id }, mapper)
+        writeConfigMapFile(outputPath.resolve("npcs.rscm"), npcs.mapValues { it.value.id }, mapper)
+        writeConfigMapFile(outputPath.resolve("objs.rscm"), objs.mapValues { it.value.id }, mapper)
+    }
+
+    public fun writeConfigMapFile(output: Path, names: Map<String, Int>, mapper: ObjectMapper) {
+        if (names.isEmpty()) return
+        Files.writeString(output, mapper.generateConfigMap(names))
+    }
+
+    public fun generateInterfacesConst(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
         return generate(fileName, packageName, NamedInterface::class.java, names.interfaces.mapValues { it.value.id })
     }
 
-    public fun generateComponents(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
+    public fun generateComponentsConst(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
         return generate(fileName, packageName, NamedComponent::class.java, names.components.mapValues { it.value.id })
     }
 
-    public fun generateItems(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
+    public fun generateItemsConst(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
         return generate(fileName, packageName, NamedItem::class.java, names.items.mapValues { it.value.id })
     }
 
-    public fun generateNpcs(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
+    public fun generateNpcsConst(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
         return generate(fileName, packageName, NamedNpc::class.java, names.npcs.mapValues { it.value.id })
     }
 
-    public fun generateObjs(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
+    public fun generateObjsConst(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
         return generate(fileName, packageName, NamedObject::class.java, names.objs.mapValues { it.value.id })
     }
 
@@ -83,15 +98,17 @@ public class NamedTypeGenerator @Inject constructor(private val names: NamedType
             ).build()
     }
 
-    private fun FileSpec.removeDeadCode(): String {
-        return toString()
-            .replace("import kotlin.Boolean\n", "")
-            .replace("import kotlin.Byte\n", "")
-            .replace("import kotlin.ByteArray\n", "")
-            .replace("import kotlin.Int\n", "")
-            .replace("import kotlin.Short\n", "")
-            .replace("import kotlin.Unit\n", "")
-            .replace(": Unit {", " {")
-            .replace("public ", "")
+    private fun FileSpec.removeDeadCode(): String = toString()
+        .replace("import kotlin.Boolean\n", "")
+        .replace("import kotlin.Byte\n", "")
+        .replace("import kotlin.ByteArray\n", "")
+        .replace("import kotlin.Int\n", "")
+        .replace("import kotlin.Short\n", "")
+        .replace("import kotlin.Unit\n", "")
+        .replace(": Unit {", " {")
+        .replace("public ", "")
+
+    private fun ObjectMapper.generateConfigMap(names: Map<String, Int>): String {
+        return writeValueAsString(names).replace(" = ", ":")
     }
 }

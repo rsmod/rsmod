@@ -18,17 +18,19 @@ class CacheTypeNameLoader @Inject constructor(
     private val objs: ObjectTypeLoader
 ) {
 
-    fun loadAndPutAll(dest: NamedTypeMapHolder) {
-        dest.putItems(items.load())
-        dest.putNpcs(npcs.load())
-        dest.putObjs(objs.load())
+    fun load(): NamedTypeMapHolder {
+        val names = NamedTypeMapHolder()
+        names.putItems(items.load())
+        names.putNpcs(npcs.load())
+        names.putObjs(objs.load())
+        return names
     }
 
     private fun NamedTypeMapHolder.putItems(types: List<ItemType>) {
         types.forEach {
             if (it.isPlaceholder || it.isNoted) return@forEach
             val sanitized = it.name.sanitize() ?: return@forEach
-            val name = if (items.containsKey(sanitized)) sanitized + "_${it.id}" else sanitized
+            val name = sanitized + "_${it.id}"
             items[name] = NamedItem(it.id)
         }
     }
@@ -36,7 +38,7 @@ class CacheTypeNameLoader @Inject constructor(
     private fun NamedTypeMapHolder.putNpcs(types: List<NpcType>) {
         types.forEach {
             val sanitized = it.name.sanitize() ?: return@forEach
-            val name = if (npcs.containsKey(sanitized)) sanitized + "_${it.id}" else sanitized
+            val name = sanitized + "_${it.id}"
             npcs[name] = NamedNpc(it.id)
         }
     }
@@ -44,7 +46,7 @@ class CacheTypeNameLoader @Inject constructor(
     private fun NamedTypeMapHolder.putObjs(types: List<ObjectType>) {
         types.forEach {
             val sanitized = it.name.sanitize() ?: return@forEach
-            val name = if (objs.containsKey(sanitized)) sanitized + "_${it.id}" else sanitized
+            val name = sanitized + "_${it.id}"
             objs[name] = NamedObject(it.id)
         }
     }

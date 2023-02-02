@@ -7,7 +7,7 @@ import com.google.inject.multibindings.Multibinder
 import org.rsmod.buffer.BufferModule
 import org.rsmod.game.cache.CacheModule
 import org.rsmod.game.client.ClientModule
-import org.rsmod.game.config.ConfigModule
+import org.rsmod.game.config.GameConfigModule
 import org.rsmod.game.coroutine.CoroutineModule
 import org.rsmod.game.events.EventBus
 import org.rsmod.game.model.mob.list.PlayerList
@@ -18,7 +18,7 @@ public object GameModule : AbstractModule() {
         install(BufferModule)
         install(CacheModule)
         install(ClientModule)
-        install(ConfigModule)
+        install(GameConfigModule)
         install(CoroutineModule)
 
         bind(EventBus::class.java).`in`(Scopes.SINGLETON)

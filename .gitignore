@@ -5,7 +5,8 @@ build/
 !**/src/test/**/build/
 
 config.toml
-**/src/main/gen/
+.data
+**/src/main/gen
 
 ### IntelliJ IDEA ###
 .idea/modules.xml

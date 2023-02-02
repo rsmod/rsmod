@@ -8,6 +8,7 @@ plugins {
 subprojects {
     plugins.withType<KotlinPluginWrapper> {
         kotlin {
+            // TODO: set as strict
             explicitApi = ExplicitApiMode.Disabled
         }
 
@@ -16,7 +17,6 @@ subprojects {
             implementation(projects.game)
             implementation(projects.game.events)
             implementation(projects.game.plugins)
-            implementation(projects.typesGenerated)
             implementation(libs.logback)
             implementation(libs.inlineLogger)
         }

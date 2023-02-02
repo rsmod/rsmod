@@ -3,8 +3,10 @@ package org.rsmod.plugins.net
 import com.google.common.util.concurrent.Service
 import com.google.inject.AbstractModule
 import com.google.inject.PrivateModule
+import com.google.inject.Scopes
 import com.google.inject.TypeLiteral
 import com.google.inject.multibindings.Multibinder
+import org.bouncycastle.crypto.params.RSAPrivateCrtKeyParameters
 import org.rsmod.plugins.net.bootstrap.NetworkBootstrapFactory
 import org.rsmod.plugins.net.js5.Js5Service
 import org.rsmod.plugins.net.js5.downstream.Js5ClientOutOfDateCodec
@@ -15,6 +17,7 @@ import org.rsmod.plugins.net.login.downstream.ClientOutOfDateCodec
 import org.rsmod.plugins.net.login.downstream.ClientProtocolOutOfDateCodec
 import org.rsmod.plugins.net.login.downstream.ConnectOkCodec
 import org.rsmod.plugins.net.login.downstream.LoginDownstream
+import org.rsmod.plugins.net.rsa.RsaKeyProvider
 import org.rsmod.plugins.net.service.ServiceChannelInitializer
 import org.rsmod.plugins.net.service.downstream.ExchangeSessionKeyCodec
 import org.rsmod.plugins.net.service.downstream.ServiceDownstream
@@ -60,6 +63,10 @@ object NetworkModule : AbstractModule() {
 
         bind(NetworkBootstrapFactory::class.java)
         bind(ServiceChannelInitializer::class.java)
+
+        bind(RSAPrivateCrtKeyParameters::class.java)
+            .toProvider(RsaKeyProvider::class.java)
+            .`in`(Scopes.SINGLETON)
     }
 
     private fun bindServices() {

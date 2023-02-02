@@ -1,8 +1,10 @@
+
 import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
 import org.jetbrains.kotlin.gradle.plugin.getKotlinPluginVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jmailen.gradle.kotlinter.KotlinterExtension
 import org.jmailen.gradle.kotlinter.KotlinterPlugin
+import java.nio.file.Files
 
 val ossrhUsername: String? by ext
 val ossrhPassword: String? by ext
@@ -133,6 +135,30 @@ allprojects {
                     }
                 }
             }
+        }
+    }
+}
+
+tasks.register("install") {
+    description = "Install RS Mod"
+    dependsOn("createPlaceholderFiles")
+    dependsOn(":plugins:types-generator:generateTypeNames")
+}
+
+tasks.register("createPlaceholderFiles") {
+    doLast {
+        val typeFiles = listOf(
+            "Interfaces", "Components",
+            "Items", "Npcs", "Objs"
+        )
+        val outputProject = projects.plugins.typesGenerated.dependencyProject.buildFile.parentFile
+        val outputPath = outputProject.resolve("src/main/gen/org/rsmod/types").toPath()
+        if (!Files.isDirectory(outputPath)) Files.createDirectories(outputPath)
+        typeFiles.forEach { typeFile ->
+            val output = outputPath.resolve("$typeFile.kt")
+            if (Files.exists(output)) return@forEach
+            val string = "package org.rsmod.types\n\nobject $typeFile"
+            Files.writeString(output, string)
         }
     }
 }

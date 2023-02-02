@@ -25,11 +25,12 @@
             <option value="$PROJECT_DIR$/log" />
             <option value="$PROJECT_DIR$/plugins" />
             <option value="$PROJECT_DIR$/plugins/api" />
+            <option value="$PROJECT_DIR$/plugins/content" />
             <option value="$PROJECT_DIR$/plugins/net" />
             <option value="$PROJECT_DIR$/plugins/store-dev" />
-            <option value="$PROJECT_DIR$/plugins/types-gen" />
+            <option value="$PROJECT_DIR$/plugins/types-generated" />
+            <option value="$PROJECT_DIR$/plugins/types-generator" />
             <option value="$PROJECT_DIR$/toml" />
-            <option value="$PROJECT_DIR$/types-generated" />
           </set>
         </option>
       </GradleProjectSettings>

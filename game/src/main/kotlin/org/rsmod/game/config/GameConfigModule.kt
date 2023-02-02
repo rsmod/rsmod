@@ -4,13 +4,12 @@ import com.fasterxml.jackson.databind.Module
 import com.google.inject.AbstractModule
 import com.google.inject.Scopes
 import com.google.inject.multibindings.Multibinder
-import org.bouncycastle.crypto.params.RSAPrivateCrtKeyParameters
 import org.rsmod.game.cache.CachePath
 import org.rsmod.game.config.jackson.JacksonConfigModule
 import org.rsmod.toml.TomlModule
 import java.nio.file.Path
 
-public object ConfigModule : AbstractModule() {
+public object GameConfigModule : AbstractModule() {
 
     override fun configure() {
         install(TomlModule)
@@ -27,10 +26,6 @@ public object ConfigModule : AbstractModule() {
 
         bind(GameConfig::class.java)
             .toProvider(GameConfigProvider::class.java)
-            .`in`(Scopes.SINGLETON)
-
-        bind(RSAPrivateCrtKeyParameters::class.java)
-            .toProvider(RsaKeyProvider::class.java)
             .`in`(Scopes.SINGLETON)
 
         Multibinder.newSetBinder(binder(), Module::class.java)

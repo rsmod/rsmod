@@ -9,7 +9,9 @@ subprojects {
 
     plugins.withType<KotlinPluginWrapper> {
         dependencies {
+            implementation(projects.game.types)
             implementation(projects.plugins.api)
+            implementation(projects.plugins.typesGenerated)
         }
     }
 }

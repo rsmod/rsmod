@@ -26,7 +26,6 @@ include(
     "log",
     "plugins",
     "toml",
-    "types-generated",
     "app"
 )
 
