@@ -1,11 +1,11 @@
-package org.rsmod.protocol
+package org.rsmod.protocol.game
 
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.ByteToMessageDecoder
 import org.openrs2.crypto.NopStreamCipher
 import org.openrs2.crypto.StreamCipher
-import org.rsmod.protocol.packet.PacketCodec
+import org.rsmod.protocol.game.packet.PacketCodec
 
 private sealed class Stage {
     object ReadOpcode : Stage()

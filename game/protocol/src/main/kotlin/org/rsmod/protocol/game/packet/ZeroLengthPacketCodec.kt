@@ -1,4 +1,4 @@
-package org.rsmod.protocol.packet
+package org.rsmod.protocol.game.packet
 
 import io.netty.buffer.ByteBuf
 import org.openrs2.crypto.StreamCipher

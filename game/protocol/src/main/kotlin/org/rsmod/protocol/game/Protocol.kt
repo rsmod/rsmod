@@ -1,7 +1,7 @@
-package org.rsmod.protocol
+package org.rsmod.protocol.game
 
-import org.rsmod.protocol.packet.Packet
-import org.rsmod.protocol.packet.PacketCodec
+import org.rsmod.protocol.game.packet.Packet
+import org.rsmod.protocol.game.packet.PacketCodec
 import javax.inject.Inject
 
 public class Protocol @Inject constructor(codecs: Set<PacketCodec<*>>) {

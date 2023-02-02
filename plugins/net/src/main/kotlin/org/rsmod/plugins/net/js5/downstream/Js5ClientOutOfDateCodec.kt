@@ -1,6 +1,6 @@
 package org.rsmod.plugins.net.js5.downstream
 
-import org.rsmod.protocol.packet.ZeroLengthPacketCodec
+import org.rsmod.protocol.game.packet.ZeroLengthPacketCodec
 import javax.inject.Singleton
 
 @Singleton

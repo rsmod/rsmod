@@ -1,3 +1,3 @@
-package org.rsmod.protocol.packet
+package org.rsmod.protocol.game.packet
 
 public interface UpstreamPacket : Packet
