@@ -16,39 +16,28 @@ public class GenerateTypesCommand : CliktCommand("generate-types") {
     override fun run() {
         val injector = Guice.createInjector(CacheTypeGeneratorModule)
         val generator = injector.getInstance(NamedTypeGenerator::class.java)
-        val pluginConstLoader = injector.getInstance(PluginConstTypeNameLoader::class.java)
         val cacheLoader = injector.getInstance(CacheTypeNameLoader::class.java)
         val mapper = injector.getInstance(Key.get(ObjectMapper::class.java, Toml::class.java))
         val dataPath = injector.getInstance(Key.get(Path::class.java, DataPath::class.java))
         val cacheNames = cacheLoader.load()
-        val pluginNames = pluginConstLoader.load(OUTPUT_PACKAGE)
-        val configMapOutput = dataPath.resolve("names")
-
         generator.writeConstFiles(
-            names = cacheNames + pluginNames,
+            names = cacheNames,
             outputPath = CONST_FILES_OUTPUT_PATH,
-            packageName = OUTPUT_PACKAGE
+            packageName = CONST_FILES_PACKAGE
         )
-
         generator.writeConfigMapFiles(
             names = cacheNames,
-            outputPath = configMapOutput.resolve("cache"),
-            mapper = mapper
-        )
-
-        generator.writeConfigMapFiles(
-            names = pluginNames,
-            outputPath = configMapOutput.resolve("plugins"),
+            outputPath = dataPath.resolve("names/cache"),
             mapper = mapper
         )
     }
 
     public companion object {
 
-        public const val OUTPUT_PACKAGE: String = "org.rsmod.types"
+        public const val CONST_FILES_PACKAGE: String = "org.rsmod.types"
 
         public val CONST_FILES_OUTPUT_PATH: Path = Path.of(
-            "plugins/types-generated/src/main/gen/${OUTPUT_PACKAGE.replace(".", "/")}"
+            "plugins/types-generated/src/main/gen/${CONST_FILES_PACKAGE.replace(".", "/")}"
         )
     }
 }
