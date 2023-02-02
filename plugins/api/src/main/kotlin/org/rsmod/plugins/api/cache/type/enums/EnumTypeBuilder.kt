@@ -26,24 +26,30 @@ public class EnumTypeBuilder(
 ) {
 
     public fun build(): EnumType<Any, Any> {
-        val keyType = EnumTypeIdentifier.values.firstOrNull { it.char == keyType } ?: error("EnumTypeIdentifier not declared (key=$keyType).")
-        val valType = EnumTypeIdentifier.values.firstOrNull { it.char == valType } ?: error("EnumTypeIdentifier not declared (val=$valType).")
-        val properties = mutableMapOf<Any, Any>()
+        val keyType = EnumTypeIdentifier.values.firstOrNull { it.char == keyType }
+            ?: error("EnumTypeIdentifier not declared (key=$keyType).")
+        val valType = EnumTypeIdentifier.values.firstOrNull { it.char == valType }
+            ?: error("EnumTypeIdentifier not declared (val=$valType).")
 
-        check(keyType.isInt) { "Enums are restricted to Integer-based input/keys. (enum=$id, key=$keyType, val=$valType)" }
+        check(keyType.isInt) {
+            "Enums are restricted to Integer-based input/keys. (enum=$id, key=$keyType, val=$valType)"
+        }
 
         if (valType.isString && intValues.isNotEmpty()) {
             error("EnumType(key=$keyType, val=$valType) has string value type - yet contains integer properties.")
         } else if (valType.isInt && strValues.isNotEmpty()) {
             error("EnumType(key=$keyType, val=$valType) has integer value type - yet contains string properties.")
         }
+
         return when {
             valType.isString -> {
+                val properties = mutableMapOf<Any, Any>()
                 val default = valType.defaultStrProperty(defaultStr)
                 properties.putStrProperties(strValues, keyType, valType, (default ?: defaultStr ?: ""))
                 EnumType(id, keyType, valType, default, properties)
             }
             valType.isInt -> {
+                val properties = mutableMapOf<Any, Any>()
                 val default = valType.defaultIntProperty(defaultInt)
                 properties.putIntProperties(intValues, keyType, valType, default ?: defaultInt)
                 EnumType(id, keyType, valType, default, properties)
@@ -61,7 +67,8 @@ public class EnumTypeBuilder(
         val keyLiteral = keyType.literal as EnumTypeLiteral<Int, *>
         val valLiteral = valType.literal as EnumTypeLiteral<Int, *>
         values.forEach { (rawKey, rawValue) ->
-            val key = keyLiteral.decode(rawKey) ?: error("Could not decode `$rawKey` with key literal `${keyLiteral.javaClass.simpleName}`.")
+            val key = keyLiteral.decode(rawKey)
+                ?: error("Could not decode `$rawKey` with key literal `${keyLiteral.javaClass.simpleName}`.")
             val value = valLiteral.decode(rawValue)
             this[key] = value ?: default
         }
@@ -77,7 +84,8 @@ public class EnumTypeBuilder(
         val keyLiteral = keyType.literal as EnumTypeLiteral<Int, *>
         val valLiteral = valType.literal as EnumTypeLiteral<String, *>
         values.forEach { (rawKey, rawValue) ->
-            val key = keyLiteral.decode(rawKey) ?: error("Could not decode `$rawKey` with key literal `${keyLiteral.javaClass.simpleName}`.")
+            val key = keyLiteral.decode(rawKey)
+                ?: error("Could not decode `$rawKey` with key literal `${keyLiteral.javaClass.simpleName}`.")
             val value = valLiteral.decode(rawValue)
             this[key] = value ?: default
         }
