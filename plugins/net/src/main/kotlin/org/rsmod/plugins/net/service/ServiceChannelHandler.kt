@@ -130,7 +130,7 @@ public class ServiceChannelHandler @Inject constructor(
         } else if (encrypted.seed != serverKey) {
             ctx.write(LoginResponse.BadSessionId).addListener(ChannelFutureListener.CLOSE)
             return
-        } else if (machineInfo.version != Revision.MACHINE_INFO_HEADER) {
+        } else if (machineInfo.version != Revision.LOGIN_MACHINE_INFO_HEADER) {
             ctx.write(LoginResponse.ClientProtocolOutOfDate).addListener(ChannelFutureListener.CLOSE)
             return
         }
