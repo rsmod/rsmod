@@ -20,7 +20,7 @@ import org.rsmod.game.model.mob.list.PlayerList
 import org.rsmod.game.store.player.PlayerCodec
 import org.rsmod.game.store.player.PlayerDataRequest
 import org.rsmod.game.store.player.PlayerDataResponse
-import org.rsmod.plugins.api.event.ClientSession
+import org.rsmod.plugins.api.model.event.ClientSession
 import org.rsmod.plugins.api.net.client.Platform
 import org.rsmod.plugins.api.net.login.LoginPacketRequest
 import org.rsmod.plugins.api.net.platform.GamePlatformPacketMaps
