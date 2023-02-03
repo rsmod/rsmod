@@ -1,5 +1,3 @@
-version = "209.1.0"
-
 plugins {
     kotlin("jvm")
 }

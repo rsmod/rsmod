@@ -35,8 +35,8 @@ public class EnumTypeLoader @Inject constructor(private val cache: Cache) {
 
     private fun EnumTypeBuilder.decodeType(buf: ByteBuf, instruction: Int) {
         when (instruction) {
-            1 -> keyType = buf.readByte().toChar()
-            2 -> valType = buf.readByte().toChar()
+            1 -> keyType = buf.readByte().toInt().toChar()
+            2 -> valType = buf.readByte().toInt().toChar()
             3 -> defaultStr = buf.readString()
             4 -> defaultInt = buf.readInt()
             5 -> {

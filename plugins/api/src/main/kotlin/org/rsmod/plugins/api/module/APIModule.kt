@@ -1,4 +1,4 @@
-package org.rsmod.plugins.api
+package org.rsmod.plugins.api.module
 
 import com.google.inject.AbstractModule
 import org.rsmod.json.JsonModule
