@@ -26,7 +26,7 @@ public object JacksonGameConfigDeserializer : StdDeserializer<GameConfig>(GameCo
         val world = node.get("world")?.asInt() ?: DEFAULT_WORLD_ID
         val dataPath = node.get("data_path")?.asText() ?: DEFAULT_DATA_PATH
         val env = node.get("env")?.asText()?.toGameEnv() ?: DEFAULT_GAME_ENV
-        val spawn = node.get("spawn")?.toCoordinates() ?: DEFAULT_SPAWN
+        val spawn = node.get("spawn")?.toCoordinates(ctxt) ?: DEFAULT_SPAWN
         return GameConfig(
             name = name,
             world = world,
@@ -36,17 +36,14 @@ public object JacksonGameConfigDeserializer : StdDeserializer<GameConfig>(GameCo
         )
     }
 
+    private fun JsonNode.toCoordinates(ctxt: DeserializationContext): Coordinates? {
+        return ctxt.readTreeAsValue(this, Coordinates::class.java)
+    }
+
     private fun String.toGameEnv(): GameEnv = when (val name = lowercase()) {
         "live", "prod", "production" -> GameEnv.Prod
         "dev", "development" -> GameEnv.Dev
         "alpha", "beta", "test", "testing" -> GameEnv.Test
         else -> error("Invalid game-env value: $name")
-    }
-
-    private fun JsonNode.toCoordinates(): Coordinates {
-        val x = get("x")?.asInt() ?: error("spawn.x must be set.")
-        val y = get("y")?.asInt() ?: error("spawn.y must be set.")
-        val level = get("level")?.asInt() ?: 0
-        return Coordinates(x, y, level)
     }
 }

@@ -1,7 +1,6 @@
 package org.rsmod.plugins.store.dev.data
 
 import org.rsmod.game.config.GameConfig
-import org.rsmod.game.model.map.Coordinates
 import org.rsmod.game.model.mob.Player
 import org.rsmod.game.store.player.PlayerDataMapper
 import org.rsmod.game.store.player.PlayerDataRequest
@@ -16,7 +15,7 @@ public class DevPlayerDataMapper @Inject constructor(
         return DevPlayerData(
             username = player.username,
             displayName = player.displayName,
-            coords = intArrayOf(player.coords.x, player.coords.y, player.coords.level)
+            coords = player.coords
         )
     }
 
@@ -24,7 +23,7 @@ public class DevPlayerDataMapper @Inject constructor(
         val player = Player().apply {
             username = data.username
             displayName = data.displayName
-            coords = data.coords.toCoordinates()
+            coords = data.coords
         }
         return PlayerDataResponse.Success.ExistingPlayer(player)
     }
@@ -35,11 +34,5 @@ public class DevPlayerDataMapper @Inject constructor(
             displayName = req.username
             coords = config.spawn
         }
-    }
-
-    private fun IntArray.toCoordinates() = when (size) {
-        2 -> Coordinates(this[0], this[1])
-        3 -> Coordinates(this[0], this[1], this[2])
-        else -> error("Invalid coordinate values: ${contentToString()}.")
     }
 }
