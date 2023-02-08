@@ -1,4 +1,4 @@
-package org.rsmod.game.config.jackson
+package org.rsmod.game.jackson
 
 import com.fasterxml.jackson.databind.module.SimpleModule
 import org.rsmod.game.config.GameConfig
@@ -6,7 +6,7 @@ import org.rsmod.game.model.map.Coordinates
 import javax.inject.Singleton
 
 @Singleton
-public class JacksonConfigModule : SimpleModule() {
+public class JacksonSimpleGameModule : SimpleModule() {
 
     init {
         addDeserializer(GameConfig::class.java, JacksonGameConfigDeserializer)

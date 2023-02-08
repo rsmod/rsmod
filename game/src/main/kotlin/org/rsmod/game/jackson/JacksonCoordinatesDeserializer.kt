@@ -1,4 +1,4 @@
-package org.rsmod.game.config.jackson
+package org.rsmod.game.jackson
 
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext

@@ -16,6 +16,6 @@ public class ObjectMapperProvider @Inject constructor(
         return ObjectMapper(JsonFactory())
             .registerKotlinModule()
             .registerModules(jacksonModules)
-            .setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE)
+            .setPropertyNamingStrategy(PropertyNamingStrategies.LOWER_CAMEL_CASE)
     }
 }
