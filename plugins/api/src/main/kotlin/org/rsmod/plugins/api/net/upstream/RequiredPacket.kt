@@ -1,7 +1,7 @@
 package org.rsmod.plugins.api.net.upstream
 
-import org.rsmod.protocol.game.packet.UpstreamPacket
+import org.rsmod.protocol.game.packet.UpstreamDiscardPacket
 
-public object NoTimeout : UpstreamPacket
-public class ReflectionCheckReply : UpstreamPacket
-public class LoginTimings : UpstreamPacket
+public object NoTimeout : UpstreamDiscardPacket
+public object ReflectionCheckReply : UpstreamDiscardPacket
+public object MapBuildComplete : UpstreamDiscardPacket

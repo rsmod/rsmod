@@ -6,9 +6,9 @@ import org.rsmod.plugins.api.net.client.JavaVendor
 import org.rsmod.plugins.api.net.client.OperatingSystem
 import org.rsmod.plugins.api.net.client.Platform
 import org.rsmod.plugins.api.net.login.LoginPacketRequest
-import org.rsmod.protocol.game.packet.Packet
+import org.rsmod.protocol.game.packet.UpstreamPacket
 
-public sealed class ServiceRequest : Packet {
+public sealed class ServiceRequest : UpstreamPacket {
 
     public data class InitJs5RemoteConnection(val build: Int) : ServiceRequest()
     public object InitGameConnection : ServiceRequest()

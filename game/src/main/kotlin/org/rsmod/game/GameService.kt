@@ -9,6 +9,8 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import org.rsmod.game.client.ClientList
 import org.rsmod.game.dispatcher.main.GameCoroutineScope
+import org.rsmod.game.task.PlayerInfoTask
+import org.rsmod.game.task.UpstreamTask
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -21,6 +23,8 @@ private const val GAME_TICK_DELAY = 600
 @Singleton
 public class GameService @Inject private constructor(
     private val coroutineScope: GameCoroutineScope,
+    private val upstreamTask: UpstreamTask,
+    private val gpiTask: PlayerInfoTask,
     private val clients: ClientList
 ) : AbstractIdleService() {
 
@@ -54,7 +58,14 @@ public class GameService @Inject private constructor(
         }
     }
 
-    private suspend fun gameCycle() {
+    private fun gameCycle() {
+        clients.forEach { client ->
+            client.channel.read()
+            val upstream = client.player.upstream
+            upstreamTask.readAll(client.player, upstream)
+            upstream.clear()
+        }
+        gpiTask.execute()
         clients.forEach { client ->
             val downstream = client.player.downstream
             downstream.flush(client.channel)

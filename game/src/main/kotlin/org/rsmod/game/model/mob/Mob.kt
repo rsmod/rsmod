@@ -14,4 +14,8 @@ public sealed class Mob {
     public var coords: Coordinates
         get() = entity.coords
         set(value) { entity.coords = value }
+
+    public var prevCoords: Coordinates
+        get() = entity.prevCoords
+        set(value) { entity.prevCoords = value }
 }

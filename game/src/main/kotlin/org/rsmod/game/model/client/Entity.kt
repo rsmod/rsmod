@@ -4,5 +4,6 @@ import org.rsmod.game.model.map.Coordinates
 
 public sealed class Entity(
     public var index: Int = -1,
-    public var coords: Coordinates = Coordinates.ZERO
+    public var coords: Coordinates = Coordinates.ZERO,
+    public var prevCoords: Coordinates = Coordinates.ZERO
 )

@@ -40,6 +40,7 @@ import org.rsmod.plugins.net.setClientAttr
 import org.rsmod.protocol.game.Protocol
 import org.rsmod.protocol.game.ProtocolDecoder
 import org.rsmod.protocol.game.ProtocolEncoder
+import org.rsmod.protocol.game.packet.UpstreamPacket
 import java.nio.charset.StandardCharsets
 import java.util.Locale
 import javax.inject.Inject
@@ -56,7 +57,7 @@ public class ServiceChannelHandler @Inject constructor(
     private val events: EventBus,
     private val players: PlayerList,
     private val clients: ClientList
-) : SimpleChannelInboundHandler<ServiceRequest>(ServiceRequest::class.java) {
+) : SimpleChannelInboundHandler<UpstreamPacket>(UpstreamPacket::class.java) {
 
     private lateinit var scope: CoroutineScope
     private var serverKey = 0L
@@ -82,11 +83,12 @@ public class ServiceChannelHandler @Inject constructor(
         }
     }
 
-    override fun channelRead0(ctx: ChannelHandlerContext, msg: ServiceRequest) {
+    override fun channelRead0(ctx: ChannelHandlerContext, msg: UpstreamPacket) {
         when (msg) {
             ServiceRequest.InitGameConnection -> handleInitGameConnection(ctx)
             is ServiceRequest.InitJs5RemoteConnection -> handleInitJs5RemoteConnection(ctx, msg)
             is ServiceRequest.GameLogin -> handleGameLogin(ctx, msg)
+            else -> handleUpstreamPacket(ctx, msg)
         }
     }
 
@@ -122,6 +124,7 @@ public class ServiceChannelHandler @Inject constructor(
 
     private fun handleGameLogin(ctx: ChannelHandlerContext, msg: ServiceRequest.GameLogin) = with(msg) {
         val encoder = ctx.pipeline().get(ProtocolEncoder::class.java)
+        val decoder = ctx.pipeline().get(ProtocolDecoder::class.java)
         encoder.protocol = loginDownstream
 
         if (buildMajor != Revision.MAJOR || buildMinor != Revision.MINOR) {
@@ -144,10 +147,13 @@ public class ServiceChannelHandler @Inject constructor(
             when (val deserialize = playerCodec.deserialize(request)) {
                 PlayerDataResponse.InvalidCredentials -> {
                     // TODO: invalid credentials response
-                    ctx.write(LoginResponse.ClientProtocolOutOfDate)
+                    ctx.writeAndFlush(LoginResponse.ClientProtocolOutOfDate)
                         .addListener(ChannelFutureListener.CLOSE)
                 }
                 is PlayerDataResponse.Exception -> {
+                    // TODO: correct response
+                    ctx.writeAndFlush(LoginResponse.ClientProtocolOutOfDate)
+                        .addListener(ChannelFutureListener.CLOSE)
                     logger.error(deserialize.t) { "Exception thrown when deserializing player: $username" }
                 }
                 is PlayerDataResponse.Success -> {
@@ -156,6 +162,7 @@ public class ServiceChannelHandler @Inject constructor(
                     if (deserialize is PlayerDataResponse.Success.NewPlayer) {
                         launch { playerCodec.serialize(player) }
                     }
+                    // TODO: check if player already online
                     val decodeCipher = IsaacRandom(encrypted.xtea.toIntArray())
                     val encodeCipher = IsaacRandom(encrypted.xtea.toIntArray().map { it + 50 }.toIntArray())
                     val accountHash = Hashing.sha256().hashString(username.lowercase(Locale.US), StandardCharsets.UTF_8)
@@ -163,7 +170,8 @@ public class ServiceChannelHandler @Inject constructor(
                     val playerIndex = players.nextAvailableIndex()
                     if (playerIndex == null) {
                         // TODO: world full response
-                        ctx.write(LoginResponse.ClientProtocolOutOfDate).addListener(ChannelFutureListener.CLOSE)
+                        ctx.writeAndFlush(LoginResponse.ClientProtocolOutOfDate)
+                            .addListener(ChannelFutureListener.CLOSE)
                         return@launch
                     }
                     players[playerIndex] = player
@@ -184,7 +192,6 @@ public class ServiceChannelHandler @Inject constructor(
                     )
                     ctx.writeAndFlush(response).addListener { future ->
                         if (!future.isSuccess) return@addListener
-                        val decoder = ctx.pipeline().get(ProtocolDecoder::class.java)
                         when (platform) {
                             Platform.Desktop -> {
                                 encoder.protocol = gamePackets.desktopDownstream.getOrCreateProtocol()
@@ -202,6 +209,13 @@ public class ServiceChannelHandler @Inject constructor(
             }
         }
         return@with
+    }
+
+    private fun handleUpstreamPacket(ctx: ChannelHandlerContext, msg: UpstreamPacket) {
+        val client = ctx.channel().clientAttr() ?: return
+        // TODO: rate limit this
+        client.player.upstream += msg
+        ctx.read()
     }
 
     override fun channelReadComplete(ctx: ChannelHandlerContext) {

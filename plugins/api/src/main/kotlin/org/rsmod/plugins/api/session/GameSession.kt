@@ -30,6 +30,8 @@ public class GameSession @Inject constructor(
 
     @Suppress("unused", "unused_parameter")
     public fun disconnect(channel: Channel, player: Player) {
+        // TODO: move to a queue on game thread
+        players[player.index] = null
     }
 
     private fun createRebuildNormal(playerIndex: Int, playerCoords: Coordinates): RebuildNormal {
