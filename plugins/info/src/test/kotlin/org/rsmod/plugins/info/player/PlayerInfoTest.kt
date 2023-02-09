@@ -495,7 +495,7 @@ class PlayerInfoTest {
         info.add(otherIndexes[4], currCoords = coords(4800, 4800), prevCoords = coords(4800, 4800))
         Assertions.assertEquals(otherIndexes.size, info.playerCount - 1)
 
-        /* can skip every low-res player as none have changed */
+        /* can skip every low-res player as none have changed (aside from otherIndexes) */
         BitBuffer(buf).use { bitBuf ->
             val skipCount = info.lowResAvatarsToSkip(
                 bitBuf, index, false, client,
@@ -508,7 +508,7 @@ class PlayerInfoTest {
         Assertions.assertEquals(0, buf.position())
         info.putFully(buf, index)
         Assertions.assertEquals(10, buf.position())
-        /* all players except otherIndexes[3] have stayed inactive (0x1) */
+        /* all players except otherIndexes[3]/[4] have stayed inactive (0x1) */
         Assertions.assertEquals(0x1, client.activityFlags[index])
         Assertions.assertEquals(0x1, client.activityFlags[otherIndexes[0]])
         Assertions.assertEquals(0x1, client.activityFlags[otherIndexes[1]])
