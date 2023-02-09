@@ -21,7 +21,7 @@ public class GPITask @Inject constructor(
         singleBufferCapacity = 40_000
     )
 
-    override fun init(player: Player) {
+    public fun init(player: Player) {
         info.registerClient(player.index)
     }
 
