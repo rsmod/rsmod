@@ -15,6 +15,7 @@ plugins {
     kotlin("jvm")
     alias(libs.plugins.kotlinter) apply false
     alias(libs.plugins.jmh) apply false
+    alias(libs.plugins.versions)
 }
 
 allprojects {

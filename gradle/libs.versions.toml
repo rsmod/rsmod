@@ -12,10 +12,12 @@ kotlinter = "3.9.0"
 logback = "1.2.11"
 netty = "4.1.77.Final"
 openrs2 = "0.1.0-SNAPSHOT"
+manes-versions = "0.45.0"
 
 [plugins]
 kotlinter = { id = "org.jmailen.kotlinter", version.ref = "kotlinter" }
 jmh = { id = "me.champeau.gradle.jmh", version.ref = "jmh" }
+versions = { id = "com.github.ben-manes.versions", version.ref = "manes-versions" }
 
 [libraries]
 clikt = { module = "com.github.ajalt.clikt:clikt", version.ref = "clikt" }
