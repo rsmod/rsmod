@@ -7,27 +7,27 @@ import kotlin.math.min
 public class BitBuffer(
     private val buf: ByteBuffer
 ) : AutoCloseable {
-    private var position: Long = buf.position().toLong() shl LOG_BITS_PER_BYTE
+    private var position: Int = buf.position() shl LOG_BITS_PER_BYTE
         private set(value) {
             field = value
-            buf.position((position shr LOG_BITS_PER_BYTE).toInt())
+            buf.position((position shr LOG_BITS_PER_BYTE))
         }
 
-    private var limit: Long = buf.limit().toLong() shl LOG_BITS_PER_BYTE
+    private var limit: Int = buf.limit() shl LOG_BITS_PER_BYTE
         private set(value) {
             field = value
-            buf.limit((limit shr LOG_BITS_PER_BYTE).toInt())
+            buf.limit((limit shr LOG_BITS_PER_BYTE))
         }
 
-    public fun setBoolean(index: Long): Boolean {
+    public fun setBoolean(index: Int): Boolean {
         return setBits(index, 1) != 0
     }
 
-    public fun setBit(index: Long): Int {
+    public fun setBit(index: Int): Int {
         return setBits(index, 1)
     }
 
-    public fun setBits(index: Long, len: Int): Int {
+    public fun setBits(index: Int, len: Int): Int {
         require(len in 1..BITS_PER_INT)
 
         if (index < 0 || (index + len) > capacity()) {
@@ -37,8 +37,8 @@ public class BitBuffer(
         var value = 0
 
         var remaining = len
-        var byteIndex = (index shr LOG_BITS_PER_BYTE).toInt()
-        var bitIndex = (index and MASK_BITS_PER_BYTE.toLong()).toInt()
+        var byteIndex = index shr LOG_BITS_PER_BYTE
+        var bitIndex = index and MASK_BITS_PER_BYTE
 
         while (remaining > 0) {
             val n = min(BITS_PER_BYTE - bitIndex, remaining)
@@ -79,7 +79,7 @@ public class BitBuffer(
         return this
     }
 
-    public fun setBoolean(index: Long, value: Boolean): BitBuffer {
+    public fun setBoolean(index: Int, value: Boolean): BitBuffer {
         if (value) {
             setBits(index, 1, 1)
         } else {
@@ -89,13 +89,13 @@ public class BitBuffer(
         return this
     }
 
-    public fun setBit(index: Long, value: Int): BitBuffer {
+    public fun setBit(index: Int, value: Int): BitBuffer {
         setBits(index, 1, value)
 
         return this
     }
 
-    public fun setBits(index: Long, len: Int, value: Int): BitBuffer {
+    public fun setBits(index: Int, len: Int, value: Int): BitBuffer {
         require(len in 1..BITS_PER_INT)
 
         if (index < 0 || (index + len) > capacity()) {
@@ -103,8 +103,8 @@ public class BitBuffer(
         }
 
         var remaining = len
-        var byteIndex = (index shr LOG_BITS_PER_BYTE).toInt()
-        var bitIndex = (index and MASK_BITS_PER_BYTE.toLong()).toInt()
+        var byteIndex = index shr LOG_BITS_PER_BYTE
+        var bitIndex = index and MASK_BITS_PER_BYTE
 
         while (remaining > 0) {
             val n = min(BITS_PER_BYTE - bitIndex, remaining)
@@ -161,7 +161,7 @@ public class BitBuffer(
         }
     }
 
-    public fun readableBits(): Long {
+    public fun readableBits(): Int {
         return limit - position
     }
 
@@ -185,7 +185,7 @@ public class BitBuffer(
         return position < limit
     }
 
-    public fun isReadable(len: Long): Boolean {
+    public fun isReadable(len: Int): Boolean {
         require(len >= 0)
         return (position + len) <= limit
     }
@@ -194,16 +194,16 @@ public class BitBuffer(
         return position < capacity()
     }
 
-    public fun isWritable(len: Long): Boolean {
+    public fun isWritable(len: Int): Boolean {
         require(len >= 0)
         return (position + len) <= capacity()
     }
 
-    public fun position(): Long {
+    public fun position(): Int {
         return position
     }
 
-    public fun position(index: Long): BitBuffer {
+    public fun position(index: Int): BitBuffer {
         if (index < 0 || index > maxCapacity()) {
             throw IndexOutOfBoundsException()
         }
@@ -223,12 +223,12 @@ public class BitBuffer(
     }
 
     override fun close() {
-        val bits = (((position + MASK_BITS_PER_BYTE) and MASK_BITS_PER_BYTE.toLong().inv()) - position).toInt()
+        val bits = (((position + MASK_BITS_PER_BYTE) and MASK_BITS_PER_BYTE.inv()) - position)
         if (bits != 0) {
             putZero(bits)
         }
 
-        position = (position + MASK_BITS_PER_BYTE) and MASK_BITS_PER_BYTE.toLong().inv()
+        position = (position + MASK_BITS_PER_BYTE) and MASK_BITS_PER_BYTE.inv()
     }
 
     private companion object {
