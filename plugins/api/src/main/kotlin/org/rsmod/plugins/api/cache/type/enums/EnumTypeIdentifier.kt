@@ -44,8 +44,8 @@ public enum class EnumTypeIdentifier(
     Idk('K'),
     Integer('i'),
     Inv('v'),
-    // these are meant to be integer-representations of the item,
-    // but we only do typed items around here!
+
+    // meant to be integer-representations of the item, but we only do typed items around here!
     Item('o', EnumTypeNamedItem, org.rsmod.game.types.NamedItem::class.java),
     MapArea('`'),
     Model('m'),

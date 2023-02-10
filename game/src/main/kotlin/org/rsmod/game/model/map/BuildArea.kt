@@ -32,7 +32,7 @@ public value class BuildArea(public val packed: Int) {
 
     public fun toMapSquare(): MapSquare = MapSquare(
         x = x * (SIZE / MapSquare.SIZE),
-        y = y * (SIZE / MapSquare.SIZE),
+        y = y * (SIZE / MapSquare.SIZE)
     )
 
     public operator fun component1(): Int = x

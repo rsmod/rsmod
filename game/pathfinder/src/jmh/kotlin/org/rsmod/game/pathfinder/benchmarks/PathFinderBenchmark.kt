@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED")
+
 package org.rsmod.game.pathfinder.benchmarks
 
 import com.fasterxml.jackson.core.JsonFactory

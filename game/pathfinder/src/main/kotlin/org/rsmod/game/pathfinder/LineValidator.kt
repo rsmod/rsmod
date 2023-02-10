@@ -101,7 +101,7 @@ public class LineValidator(private val flags: CollisionFlagMap) {
         flagEast: Int,
         flagSouth: Int,
         flagNorth: Int,
-        los: Boolean,
+        los: Boolean
     ): Boolean {
         val startX = coordinate(srcX, destX, srcSize)
         val startY = coordinate(srcY, destY, srcSize)
