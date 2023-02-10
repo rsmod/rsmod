@@ -1,4 +1,3 @@
-
 import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
 import org.jetbrains.kotlin.gradle.plugin.getKotlinPluginVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -52,13 +51,6 @@ allprojects {
 
     plugins.withType<KotlinPluginWrapper> {
         apply(plugin = "org.jmailen.kotlinter")
-
-        dependencies {
-            api("org.jetbrains.kotlin:kotlin-stdlib-common") { requireKotlinVersion() }
-            api("org.jetbrains.kotlin:kotlin-stdlib-jdk7") { requireKotlinVersion() }
-            api("org.jetbrains.kotlin:kotlin-stdlib-jdk8") { requireKotlinVersion() }
-            api("org.jetbrains.kotlin:kotlin-stdlib") { requireKotlinVersion() }
-        }
 
         kotlin {
             explicitApi()
