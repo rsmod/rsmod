@@ -43,18 +43,24 @@ public object RectangleBoundaryUtils {
         if (x == destX - 1 && y >= destY && y <= north &&
             (flags[x, y, level] and CollisionFlag.WALL_EAST) == 0 &&
             (accessBitMask and AccessBitFlag.BLOCK_WEST) == 0
-        ) return true
+        ) {
+            return true
+        }
 
         if (x == east + 1 && y >= destY && y <= north &&
             (flags[x, y, level] and CollisionFlag.WALL_WEST) == 0 &&
             (accessBitMask and AccessBitFlag.BLOCK_EAST) == 0
-        ) return true
+        ) {
+            return true
+        }
 
         if (y + 1 == destY && x >= destX && x <= east &&
             (flags[x, y, level] and CollisionFlag.WALL_NORTH) == 0 &&
             (accessBitMask and AccessBitFlag.BLOCK_SOUTH) == 0
 
-        ) return true
+        ) {
+            return true
+        }
 
         return y == north + 1 && x >= destX && x <= east &&
             (flags[x, y, level] and CollisionFlag.WALL_SOUTH) == 0 &&

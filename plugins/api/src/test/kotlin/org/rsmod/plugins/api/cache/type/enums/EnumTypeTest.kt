@@ -77,8 +77,11 @@ class EnumTypeTest {
             this.defaultInt = defaultInt
             this.defaultStr = defaultStr
 
-            if (valueAsInt != null) intValues[keyAsInt] = valueAsInt
-            else if (valueAsStr != null) strValues[keyAsInt] = valueAsStr
+            if (valueAsInt != null) {
+                intValues[keyAsInt] = valueAsInt
+            } else if (valueAsStr != null) {
+                strValues[keyAsInt] = valueAsStr
+            }
         }.build()
 
         Assertions.assertTrue(enum.containsKey(key))

@@ -22,7 +22,7 @@ public class StepValidator(private val flags: CollisionFlagMap) {
         offsetY: Int,
         size: Int = 1,
         extraFlag: Int = 0,
-        collision: CollisionStrategy = CollisionStrategies.Normal,
+        collision: CollisionStrategy = CollisionStrategies.Normal
     ): Boolean {
         assert(offsetX in -1..1) { "Offset x must be in bounds of -1..1" }
         assert(offsetY in -1..1) { "Offset y must be in bounds of -1..1" }
@@ -246,7 +246,9 @@ public class StepValidator(private val flags: CollisionFlagMap) {
                         flags[x + size, y - 1, level],
                         CollisionFlag.BLOCK_SOUTH_EAST or extraFlag
                     )
-                ) return true
+                ) {
+                    return true
+                }
                 for (mid in 1 until size) {
                     if (
                         !collision.canMove(
@@ -341,8 +343,14 @@ public class StepValidator(private val flags: CollisionFlagMap) {
             targetHeight: Int
         ): RouteCoordinates {
             return PathFinder.naiveDestination(
-                sourceX, sourceY, sourceWidth, sourceHeight,
-                targetX, targetY, targetWidth, targetHeight
+                sourceX,
+                sourceY,
+                sourceWidth,
+                sourceHeight,
+                targetX,
+                targetY,
+                targetWidth,
+                targetHeight
             )
         }
 

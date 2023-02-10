@@ -56,110 +56,154 @@ private fun reachWall1(
         0 -> {
             when (rot) {
                 0 -> {
-                    if (x == destX - 1 && y == destY)
+                    if (x == destX - 1 && y == destY) {
                         return true
-                    if (x == destX && y == destY + 1 &&
-                        (flags[x, y, level] and CollisionFlag.BLOCK_NORTH) == 0
-                    ) return true
-                    if (x == destX && y == destY - 1 &&
-                        (flags[x, y, level] and CollisionFlag.BLOCK_SOUTH) == 0
-                    ) return true
+                    } else if (
+                        x == destX && y == destY + 1 && (flags[x, y, level] and CollisionFlag.BLOCK_NORTH) == 0
+                    ) {
+                        return true
+                    } else if (
+                        x == destX && y == destY - 1 && (flags[x, y, level] and CollisionFlag.BLOCK_SOUTH) == 0
+                    ) {
+                        return true
+                    }
                 }
                 1 -> {
-                    if (x == destX && y == destY + 1)
+                    if (x == destX && y == destY + 1) {
                         return true
-                    if (x == destX - 1 && y == destY &&
+                    } else if (
+                        x == destX - 1 && y == destY &&
                         (flags[x, y, level] and CollisionFlag.BLOCK_WEST) == 0
-                    ) return true
-                    if (x == destX + 1 && y == destY &&
+                    ) {
+                        return true
+                    } else if (
+                        x == destX + 1 && y == destY &&
                         (flags[x, y, level] and CollisionFlag.BLOCK_EAST) == 0
-                    ) return true
+                    ) {
+                        return true
+                    }
                 }
                 2 -> {
-                    if (x == destX + 1 && y == destY)
+                    if (x == destX + 1 && y == destY) {
                         return true
-                    if (x == destX && y == destY + 1 &&
+                    } else if (
+                        x == destX && y == destY + 1 &&
                         (flags[x, y, level] and CollisionFlag.BLOCK_NORTH) == 0
-                    ) return true
-                    if (x == destX && y == destY - 1 &&
+                    ) {
+                        return true
+                    } else if (
+                        x == destX && y == destY - 1 &&
                         (flags[x, y, level] and CollisionFlag.BLOCK_SOUTH) == 0
-                    ) return true
+                    ) {
+                        return true
+                    }
                 }
                 3 -> {
-                    if (x == destX && y == destY - 1)
+                    if (x == destX && y == destY - 1) {
                         return true
-                    if (x == destX - 1 && y == destY &&
+                    } else if (
+                        x == destX - 1 && y == destY &&
                         (flags[x, y, level] and CollisionFlag.BLOCK_WEST) == 0
-                    ) return true
-                    if (x == destX + 1 && y == destY &&
+                    ) {
+                        return true
+                    } else if (
+                        x == destX + 1 && y == destY &&
                         (flags[x, y, level] and CollisionFlag.BLOCK_EAST) == 0
-                    ) return true
+                    ) {
+                        return true
+                    }
                 }
             }
         }
         2 -> {
             when (rot) {
                 0 -> {
-                    if (x == destX - 1 && y == destY)
+                    if (x == destX - 1 && y == destY) {
                         return true
-                    if (x == destX && y == destY + 1)
+                    } else if (x == destX && y == destY + 1) {
                         return true
-                    if (x == destX + 1 && y == destY &&
+                    } else if (
+                        x == destX + 1 && y == destY &&
                         (flags[x, y, level] and CollisionFlag.BLOCK_EAST) == 0
-                    ) return true
-                    if (x == destX && y == destY - 1 &&
+                    ) {
+                        return true
+                    } else if (
+                        x == destX && y == destY - 1 &&
                         (flags[x, y, level] and CollisionFlag.BLOCK_SOUTH) == 0
-                    ) return true
+                    ) {
+                        return true
+                    }
                 }
                 1 -> {
-                    if (x == destX - 1 && y == destY &&
+                    if (
+                        x == destX - 1 && y == destY &&
                         (flags[x, y, level] and CollisionFlag.BLOCK_WEST) == 0
-                    ) return true
-                    if (x == destX && y == destY + 1)
+                    ) {
                         return true
-                    if (x == destX + 1 && y == destY)
+                    } else if (x == destX && y == destY + 1) {
                         return true
-                    if (x == destX && y == destY - 1 &&
+                    } else if (x == destX + 1 && y == destY) {
+                        return true
+                    } else if (
+                        x == destX && y == destY - 1 &&
                         (flags[x, y, level] and CollisionFlag.BLOCK_SOUTH) == 0
-                    ) return true
+                    ) {
+                        return true
+                    }
                 }
                 2 -> {
-                    if (x == destX - 1 && y == destY &&
+                    if (
+                        x == destX - 1 && y == destY &&
                         (flags[x, y, level] and CollisionFlag.BLOCK_WEST) == 0
-                    ) return true
-                    if (x == destX && y == destY + 1 &&
+                    ) {
+                        return true
+                    } else if (
+                        x == destX && y == destY + 1 &&
                         (flags[x, y, level] and CollisionFlag.BLOCK_NORTH) == 0
-                    ) return true
-                    if (x == destX + 1 && y == destY)
+                    ) {
                         return true
-                    if (x == destX && y == destY - 1)
+                    } else if (x == destX + 1 && y == destY) {
                         return true
+                    } else if (x == destX && y == destY - 1) {
+                        return true
+                    }
                 }
                 3 -> {
-                    if (x == destX - 1 && y == destY)
+                    if (x == destX - 1 && y == destY) {
                         return true
-                    if (x == destX && y == destY + 1 &&
+                    } else if (
+                        x == destX && y == destY + 1 &&
                         (flags[x, y, level] and CollisionFlag.BLOCK_NORTH) == 0
-                    ) return true
-                    if (x == destX + 1 && y == destY &&
-                        (flags[x, y, level] and CollisionFlag.BLOCK_EAST) == 0
-                    ) return true
-                    if (x == destX && y == destY - 1)
+                    ) {
                         return true
+                    } else if (
+                        x == destX + 1 && y == destY &&
+                        (flags[x, y, level] and CollisionFlag.BLOCK_EAST) == 0
+                    ) {
+                        return true
+                    } else if (x == destX && y == destY - 1) {
+                        return true
+                    }
                 }
             }
         }
         9 -> {
-            if (x == destX && y == destY + 1 &&
+            if (
+                x == destX && y == destY + 1 &&
                 (flags[x, y, level] and CollisionFlag.WALL_SOUTH) == 0
-            ) return true
-            if (x == destX && y == destY - 1 &&
+            ) {
+                return true
+            } else if (
+                x == destX && y == destY - 1 &&
                 (flags[x, y, level] and CollisionFlag.WALL_NORTH) == 0
-            ) return true
-            if (x == destX - 1 && y == destY &&
+            ) {
+                return true
+            } else if (
+                x == destX - 1 && y == destY &&
                 (flags[x, y, level] and CollisionFlag.WALL_EAST) == 0
-            ) return true
-
+            ) {
+                return true
+            }
             return x == destX + 1 && y == destY &&
                 (flags[x, y, level] and CollisionFlag.WALL_WEST) == 0
         }
@@ -184,110 +228,153 @@ private fun reachWallN(
         0 -> {
             when (rot) {
                 0 -> {
-                    if (x == destX - srcSize && y <= destY && north >= destY)
+                    if (x == destX - srcSize && y <= destY && north >= destY) {
                         return true
-                    if (destX in x..east && y == destY + 1 &&
+                    } else if (
+                        destX in x..east && y == destY + 1 &&
                         (flags[destX, y, level] and CollisionFlag.BLOCK_NORTH) == 0
-                    ) return true
-                    if (destX in x..east && y == destY - srcSize &&
+                    ) {
+                        return true
+                    } else if (destX in x..east && y == destY - srcSize &&
                         (flags[destX, north, level] and CollisionFlag.BLOCK_SOUTH) == 0
-                    ) return true
+                    ) {
+                        return true
+                    }
                 }
                 1 -> {
-                    if (destX in x..east && y == destY + 1)
+                    if (destX in x..east && y == destY + 1) {
                         return true
-                    if (x == destX - srcSize && y <= destY && north >= destY &&
+                    } else if (
+                        x == destX - srcSize && y <= destY && north >= destY &&
                         (flags[east, destY, level] and CollisionFlag.BLOCK_WEST) == 0
-                    ) return true
-                    if (x == destX + 1 && y <= destY && north >= destY &&
+                    ) {
+                        return true
+                    } else if (x == destX + 1 && y <= destY && north >= destY &&
                         (flags[x, destY, level] and CollisionFlag.BLOCK_EAST) == 0
-                    ) return true
+                    ) {
+                        return true
+                    }
                 }
                 2 -> {
-                    if (x == destX + 1 && y <= destY && north >= destY)
+                    if (x == destX + 1 && y <= destY && north >= destY) {
                         return true
-                    if (destX in x..east && y == destY + 1 &&
+                    } else if (
+                        destX in x..east && y == destY + 1 &&
                         (flags[destX, y, level] and CollisionFlag.BLOCK_NORTH) == 0
-                    ) return true
-                    if (destX in x..east && y == destY - srcSize &&
+                    ) {
+                        return true
+                    } else if (
+                        destX in x..east && y == destY - srcSize &&
                         (flags[destX, north, level] and CollisionFlag.BLOCK_SOUTH) == 0
-                    ) return true
+                    ) {
+                        return true
+                    }
                 }
                 3 -> {
-                    if (destX in x..east && y == destY - srcSize)
+                    if (destX in x..east && y == destY - srcSize) {
                         return true
-                    if (x == destX - srcSize && y <= destY && north >= destY &&
+                    } else if (
+                        x == destX - srcSize && y <= destY && north >= destY &&
                         (flags[east, destY, level] and CollisionFlag.BLOCK_WEST) == 0
-                    ) return true
-                    if (x == destX + 1 && y <= destY && north >= destY &&
+                    ) {
+                        return true
+                    } else if (
+                        x == destX + 1 && y <= destY && north >= destY &&
                         (flags[x, destY, level] and CollisionFlag.BLOCK_EAST) == 0
-                    ) return true
+                    ) {
+                        return true
+                    }
                 }
             }
         }
         2 -> {
             when (rot) {
                 0 -> {
-                    if (x == destX - srcSize && y <= destY && north >= destY)
+                    if (x == destX - srcSize && y <= destY && north >= destY) {
                         return true
-                    if (destX in x..east && y == destY + 1)
+                    } else if (destX in x..east && y == destY + 1) {
                         return true
-                    if (x == destX + 1 && y <= destY && north >= destY &&
+                    } else if (
+                        x == destX + 1 && y <= destY && north >= destY &&
                         (flags[x, destY, level] and CollisionFlag.BLOCK_EAST) == 0
-                    ) return true
-                    if (destX in x..east && y == destY - srcSize &&
+                    ) {
+                        return true
+                    } else if (destX in x..east && y == destY - srcSize &&
                         (flags[destX, north, level] and CollisionFlag.BLOCK_SOUTH) == 0
-                    ) return true
+                    ) {
+                        return true
+                    }
                 }
                 1 -> {
-                    if (x == destX - srcSize && y <= destY && north >= destY &&
+                    if (
+                        x == destX - srcSize && y <= destY && north >= destY &&
                         (flags[east, destY, level] and CollisionFlag.BLOCK_WEST) == 0
-                    ) return true
-                    if (destX in x..east && y == destY + 1)
+                    ) {
                         return true
-                    if (x == destX + 1 && y <= destY && north >= destY)
+                    } else if (destX in x..east && y == destY + 1) {
                         return true
-                    if (destX in x..east && y == destY - srcSize &&
+                    } else if (x == destX + 1 && y <= destY && north >= destY) {
+                        return true
+                    } else if (
+                        destX in x..east && y == destY - srcSize &&
                         (flags[destX, north, level] and CollisionFlag.BLOCK_SOUTH) == 0
-                    ) return true
+                    ) {
+                        return true
+                    }
                 }
                 2 -> {
-                    if (x == destX - srcSize && y <= destY && north >= destY &&
+                    if (
+                        x == destX - srcSize && y <= destY && north >= destY &&
                         (flags[east, destY, level] and CollisionFlag.BLOCK_WEST) == 0
-                    ) return true
-                    if (destX in x..east && y == destY + 1 &&
+                    ) {
+                        return true
+                    } else if (
+                        destX in x..east && y == destY + 1 &&
                         (flags[destX, y, level] and CollisionFlag.BLOCK_NORTH) == 0
-                    ) return true
-                    if (x == destX + 1 && y <= destY && north >= destY)
+                    ) {
                         return true
-                    if (destX in x..east && y == destY - srcSize)
+                    } else if (x == destX + 1 && y <= destY && north >= destY) {
                         return true
+                    } else if (destX in x..east && y == destY - srcSize) {
+                        return true
+                    }
                 }
                 3 -> {
-                    if (x == destX - srcSize && y <= destY && north >= destY)
+                    if (x == destX - srcSize && y <= destY && north >= destY) {
                         return true
-                    if (destX in x..east && y == destY + 1 &&
+                    } else if (
+                        destX in x..east && y == destY + 1 &&
                         (flags[destX, y, level] and CollisionFlag.BLOCK_NORTH) == 0
-                    ) return true
-                    if (x == destX + 1 && y <= destY && north >= destY &&
-                        (flags[x, destY, level] and CollisionFlag.BLOCK_EAST) == 0
-                    ) return true
-                    if (destX in x..east && y == destY - srcSize)
+                    ) {
                         return true
+                    } else if (
+                        x == destX + 1 && y <= destY && north >= destY &&
+                        (flags[x, destY, level] and CollisionFlag.BLOCK_EAST) == 0
+                    ) {
+                        return true
+                    } else if (destX in x..east && y == destY - srcSize) {
+                        return true
+                    }
                 }
             }
         }
         9 -> {
-            if (destX in x..east && y == destY + 1 &&
+            if (
+                destX in x..east && y == destY + 1 &&
                 (flags[destX, y, level] and CollisionFlag.BLOCK_NORTH) == 0
-            ) return true
-            if (destX in x..east && y == destY - srcSize &&
+            ) {
+                return true
+            } else if (
+                destX in x..east && y == destY - srcSize &&
                 (flags[destX, north, level] and CollisionFlag.BLOCK_SOUTH) == 0
-            ) return true
-            if (x == destX - srcSize && y <= destY && north >= destY &&
+            ) {
+                return true
+            } else if (
+                x == destX - srcSize && y <= destY && north >= destY &&
                 (flags[east, destY, level] and CollisionFlag.BLOCK_WEST) == 0
-            ) return true
-
+            ) {
+                return true
+            }
             return x == destX + 1 && y <= destY && north >= destY &&
                 (flags[x, destY, level] and CollisionFlag.BLOCK_EAST) == 0
         }

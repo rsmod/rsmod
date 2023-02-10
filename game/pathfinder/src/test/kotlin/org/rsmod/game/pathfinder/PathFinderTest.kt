@@ -26,7 +26,11 @@ class PathFinderTest {
         val src = RouteCoordinates(0, 0)
         val dest = RouteCoordinates(1, 0)
         val route = pathFinder.findPath(
-            level = src.level, srcX = src.x, srcY = src.y, destX = dest.x, destY = dest.y
+            level = src.level,
+            srcX = src.x,
+            srcY = src.y,
+            destX = dest.x,
+            destY = dest.y
         )
         Assertions.assertEquals(1, route.size)
         Assertions.assertEquals(dest.x, route.last().x)
@@ -39,7 +43,11 @@ class PathFinderTest {
         val dest = RouteCoordinates(1, 0)
         flags[dest.x, dest.y, dest.level] = CollisionFlag.FLOOR
         val route = pathFinder.findPath(
-            level = src.level, srcX = src.x, srcY = src.y, destX = dest.x, destY = dest.y
+            level = src.level,
+            srcX = src.x,
+            srcY = src.y,
+            destX = dest.x,
+            destY = dest.y
         )
         Assertions.assertTrue(route.failed)
         Assertions.assertTrue(route.isEmpty())
@@ -51,7 +59,11 @@ class PathFinderTest {
         val src = RouteCoordinates(3200, 3200)
         val dest = RouteCoordinates(src.x + dir.offX, src.y + dir.offY)
         val route = pathFinder.findPath(
-            level = src.level, srcX = src.x, srcY = src.y, destX = dest.x, destY = dest.y
+            level = src.level,
+            srcX = src.x,
+            srcY = src.y,
+            destX = dest.x,
+            destY = dest.y
         )
         Assertions.assertTrue(route.isNotEmpty())
         Assertions.assertEquals(dest.x, route.last().x)
@@ -65,7 +77,11 @@ class PathFinderTest {
         val dest = RouteCoordinates(src.x + dir.offX, src.y + dir.offY)
         flags[dest.x, dest.y, dest.level] = CollisionFlag.OBJECT
         val route = pathFinder.findPath(
-            level = src.level, srcX = src.x, srcY = src.y, destX = dest.x, destY = dest.y
+            level = src.level,
+            srcX = src.x,
+            srcY = src.y,
+            destX = dest.x,
+            destY = dest.y
         )
         Assertions.assertTrue(route.isEmpty())
     }
@@ -102,8 +118,11 @@ class PathFinderTest {
         val flags = params.toCollisionFlags()
         val pathFinder = PathFinder(flags)
         val route = pathFinder.findPath(
-            level = params.level, srcX = params.srcX, srcY = params.srcY,
-            destX = params.destX, destY = params.destY
+            level = params.level,
+            srcX = params.srcX,
+            srcY = params.srcY,
+            destX = params.destX,
+            destY = params.destY
         )
         Assertions.assertEquals(params.expectedX, route.last().x)
         Assertions.assertEquals(params.expectedY, route.last().y)

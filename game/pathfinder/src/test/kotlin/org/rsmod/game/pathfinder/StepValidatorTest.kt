@@ -24,7 +24,13 @@ class StepValidatorTest {
     internal fun `validate unblocked direction (size 1)`(dir: Direction) {
         val src = RouteCoordinates(3200, 3200)
         val valid = validator.canTravel(
-            level = src.level, x = src.x, y = src.y, offsetX = dir.offX, offsetY = dir.offY, size = 1, extraFlag = 0
+            level = src.level,
+            x = src.x,
+            y = src.y,
+            offsetX = dir.offX,
+            offsetY = dir.offY,
+            size = 1,
+            extraFlag = 0
         )
         Assertions.assertTrue(valid)
     }
@@ -36,7 +42,13 @@ class StepValidatorTest {
         val dest = RouteCoordinates(src.x + dir.offX, src.y + dir.offY)
         flags[dest.x, dest.y, dest.level] = blockFlags
         val valid = validator.canTravel(
-            level = src.level, x = src.x, y = src.y, offsetX = dir.offX, offsetY = dir.offY, size = 1, extraFlag = 0
+            level = src.level,
+            x = src.x,
+            y = src.y,
+            offsetX = dir.offX,
+            offsetY = dir.offY,
+            size = 1,
+            extraFlag = 0
         )
         Assertions.assertFalse(valid)
     }
@@ -72,7 +84,7 @@ class StepValidatorTest {
                     Arguments.of(Direction.SouthWest),
                     Arguments.of(Direction.NorthWest),
                     Arguments.of(Direction.SouthEast),
-                    Arguments.of(Direction.NorthEast),
+                    Arguments.of(Direction.NorthEast)
                 )
             }
         }
@@ -88,7 +100,7 @@ class StepValidatorTest {
                     Arguments.of(Direction.SouthWest, CollisionFlag.BLOCK_SOUTH_WEST),
                     Arguments.of(Direction.NorthWest, CollisionFlag.BLOCK_NORTH_WEST),
                     Arguments.of(Direction.SouthEast, CollisionFlag.BLOCK_SOUTH_EAST),
-                    Arguments.of(Direction.NorthEast, CollisionFlag.BLOCK_NORTH_EAST),
+                    Arguments.of(Direction.NorthEast, CollisionFlag.BLOCK_NORTH_EAST)
                 )
             }
         }
@@ -97,14 +109,14 @@ class StepValidatorTest {
 
             override fun provideArguments(context: ExtensionContext): Stream<out Arguments> {
                 return Stream.of(
-                    Arguments.of(Direction.South, CollisionFlag.BLOCK_PLAYERS),
-                    Arguments.of(Direction.North, CollisionFlag.BLOCK_NPCS),
-                    Arguments.of(Direction.West, CollisionFlag.BLOCK_PLAYERS),
-                    Arguments.of(Direction.East, CollisionFlag.BLOCK_NPCS),
-                    Arguments.of(Direction.SouthWest, CollisionFlag.BLOCK_PLAYERS),
-                    Arguments.of(Direction.NorthWest, CollisionFlag.BLOCK_NPCS),
-                    Arguments.of(Direction.SouthEast, CollisionFlag.BLOCK_PLAYERS),
-                    Arguments.of(Direction.NorthEast, CollisionFlag.BLOCK_NPCS),
+                    Arguments.of(Direction.South, BLOCK_PLAYERS),
+                    Arguments.of(Direction.North, BLOCK_NPCS),
+                    Arguments.of(Direction.West, BLOCK_PLAYERS),
+                    Arguments.of(Direction.East, BLOCK_NPCS),
+                    Arguments.of(Direction.SouthWest, BLOCK_PLAYERS),
+                    Arguments.of(Direction.NorthWest, BLOCK_NPCS),
+                    Arguments.of(Direction.SouthEast, BLOCK_PLAYERS),
+                    Arguments.of(Direction.NorthEast, BLOCK_NPCS)
                 )
             }
         }

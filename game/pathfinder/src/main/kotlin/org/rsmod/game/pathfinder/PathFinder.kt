@@ -1,4 +1,5 @@
 @file:Suppress("DuplicatedCode")
+
 package org.rsmod.game.pathfinder
 
 import org.rsmod.game.pathfinder.collision.CollisionFlagMap
@@ -250,7 +251,7 @@ public class PathFinder(
                     srcSize,
                     objRot,
                     objShape,
-                    accessBitMask,
+                    accessBitMask
                 )
             ) {
                 return true
@@ -396,7 +397,7 @@ public class PathFinder(
                     srcSize,
                     objRot,
                     objShape,
-                    accessBitMask,
+                    accessBitMask
                 )
             ) {
                 return true
@@ -542,7 +543,7 @@ public class PathFinder(
                     srcSize,
                     objRot,
                     objShape,
-                    accessBitMask,
+                    accessBitMask
                 )
             ) {
                 return true
@@ -751,7 +752,7 @@ public class PathFinder(
                     srcSize,
                     objRot,
                     objShape,
-                    accessBitMask,
+                    accessBitMask
                 )
             ) {
                 return true
@@ -897,7 +898,7 @@ public class PathFinder(
                     srcSize,
                     objRot,
                     objShape,
-                    accessBitMask,
+                    accessBitMask
                 )
             ) {
                 return true
@@ -1067,7 +1068,7 @@ public class PathFinder(
                     srcSize,
                     objRot,
                     objShape,
-                    accessBitMask,
+                    accessBitMask
                 )
             ) {
                 return true
@@ -1262,7 +1263,7 @@ public class PathFinder(
         localDestX: Int,
         localDestY: Int,
         width: Int,
-        length: Int,
+        length: Int
     ): Boolean {
         var lowestCost = MAX_ALTERNATIVE_ROUTE_LOWEST_COST
         var maxAlternativePath = MAX_ALTERNATIVE_ROUTE_SEEK_RANGE
