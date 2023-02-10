@@ -1,6 +1,10 @@
 package org.rsmod.plugins.info.player
 
 import org.rsmod.plugins.info.BitBuffer
+import org.rsmod.plugins.info.player.extended.ExtendedInfo
+import org.rsmod.plugins.info.player.extended.ExtendedMetadata
+import org.rsmod.plugins.info.player.model.Avatar
+import org.rsmod.plugins.info.player.model.InfoClient
 import java.nio.ByteBuffer
 import java.util.Arrays
 
@@ -39,17 +43,6 @@ public class PlayerInfo(public val playerCapacity: Int) {
 
     public fun clear() {
         playerCount = 0
-    }
-
-    // TODO: replace with generic method to set any/most ExtendedInfo data blocks
-    public fun setAppearance(playerIndex: Int, data: ByteArray, length: Int) {
-        require(length < ExtendedInfo.APPEARANCE_MAX_BYTE_SIZE)
-        val client = clients[playerIndex]
-        val extended = extendedInfo[client.ringBufIndex]
-        extended.appearance[0] = length.toByte()
-        for (i in 0 until length) {
-            extended.appearance[1 + i] = data[i]
-        }
     }
 
     public fun read(dest: ByteBuffer, playerIndex: Int) {
@@ -266,7 +259,7 @@ public class PlayerInfo(public val playerCapacity: Int) {
         }
     }
 
-    private fun extendedInfoLength(avatar: Avatar, ringBufIndex: Int): Int{
+    private fun extendedInfoLength(avatar: Avatar, ringBufIndex: Int): Int {
         val other = avatars[ringBufIndex]
         var flags = other.extendedInfoFlags.toInt()
         if (isNewLogin(other.prevCoords) || isNewLogin(avatar.prevCoords)) {
@@ -281,6 +274,17 @@ public class PlayerInfo(public val playerCapacity: Int) {
             length += data[0]
         }
         return length
+    }
+
+    // TODO: replace with generic method to set any/most ExtendedInfo data blocks
+    public fun setAppearance(playerIndex: Int, data: ByteArray, length: Int) {
+        require(length < ExtendedInfo.APPEARANCE_MAX_BYTE_SIZE)
+        val client = clients[playerIndex]
+        val extended = extendedInfo[client.ringBufIndex]
+        extended.appearance[0] = length.toByte()
+        for (i in 0 until length) {
+            extended.appearance[1 + i] = data[i]
+        }
     }
 
     override fun toString(): String {

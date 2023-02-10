@@ -1,4 +1,4 @@
-package org.rsmod.plugins.info.player
+package org.rsmod.plugins.info.player.extended
 
 public class ExtendedInfo {
 
@@ -44,6 +44,7 @@ public class ExtendedInfo {
         public const val NAME_PREFIX_BYTE_SIZE: Int = 72 /* arbitrary limit of 24 bytes per prefix string */
         public const val CHAT_MAX_BYTE_SIZE: Int = 7 + COMPRESSED_CHAT_MAX_BYTE_LENGTH
         public const val SAY_BYTE_SIZE: Int = 255 /* arbitrary limit */
+
         /* 2 byte header for hitmark and headbar count */
         public const val HIT_BYTE_SIZE: Int = 2 + (MAX_HIT_COUNT * PER_HIT_BYTE_LENGTH)
     }

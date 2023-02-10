@@ -1,4 +1,4 @@
-package org.rsmod.plugins.info.player
+package org.rsmod.plugins.info.player.extended
 
 public class ExtendedMetadata {
 

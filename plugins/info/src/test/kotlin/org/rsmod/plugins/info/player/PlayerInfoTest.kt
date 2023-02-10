@@ -11,6 +11,7 @@ import org.rsmod.plugins.info.BitBuffer
 import org.rsmod.plugins.info.player.PlayerInfo.Companion.MAX_PLAYER_CAPACITY
 import org.rsmod.plugins.info.player.PlayerInfo.Companion.getRunDirOpcode
 import org.rsmod.plugins.info.player.PlayerInfo.Companion.getWalkDirOpcode
+import org.rsmod.plugins.info.player.extended.ExtendedMetadata
 import java.nio.ByteBuffer
 import java.util.stream.Stream
 
@@ -498,8 +499,12 @@ class PlayerInfoTest {
         /* can skip every low-res player as none have changed (aside from otherIndexes) */
         BitBuffer(buf).use { bitBuf ->
             val skipCount = info.lowResAvatarsToSkip(
-                bitBuf, index, false, client,
-                info.avatars[index], ExtendedMetadata()
+                bitBuf,
+                index,
+                false,
+                client,
+                info.avatars[index],
+                ExtendedMetadata()
             )
             Assertions.assertEquals(MAX_PLAYER_CAPACITY - otherIndexes.size - 1, skipCount)
         }
