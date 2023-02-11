@@ -7,7 +7,9 @@ import kotlin.coroutines.cancellation.CancellationException
 import kotlin.coroutines.startCoroutine
 
 @Suppress("MemberVisibilityCanBePrivate")
-public class GameCoroutineScope(public var superviseCoroutines: Boolean = false) {
+public class GameCoroutineScope(
+    public var superviseCoroutines: Boolean = false
+) : AutoCloseable {
 
     private val children = mutableListOf<GameCoroutine>()
 
@@ -33,5 +35,9 @@ public class GameCoroutineScope(public var superviseCoroutines: Boolean = false)
         GameCoroutineSupervisedCompletion(this@GameCoroutineScope, this)
     } else {
         GameCoroutineSimpleCompletion
+    }
+
+    override fun close() {
+        children.forEach { it.cancel() }
     }
 }
