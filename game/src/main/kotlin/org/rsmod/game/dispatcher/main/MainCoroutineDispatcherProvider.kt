@@ -8,7 +8,7 @@ import javax.inject.Provider
 
 private const val EXECUTOR_NAME = "GameExecutor"
 
-public class GameCoroutineDispatcherProvider : Provider<CoroutineDispatcher> {
+public class MainCoroutineDispatcherProvider : Provider<CoroutineDispatcher> {
 
     override fun get(): CoroutineDispatcher {
         val factory = ThreadFactoryBuilder().setDaemon(false).setNameFormat(EXECUTOR_NAME).build()

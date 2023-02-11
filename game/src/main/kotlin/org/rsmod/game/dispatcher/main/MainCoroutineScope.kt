@@ -6,6 +6,6 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-public class GameCoroutineScope @Inject constructor(
-    @GameCoroutineDispatcher override val coroutineContext: CoroutineDispatcher
+public class MainCoroutineScope @Inject constructor(
+    @MainCoroutineDispatcher override val coroutineContext: CoroutineDispatcher
 ) : CoroutineScope by CoroutineScope(coroutineContext)
