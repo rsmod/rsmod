@@ -2,14 +2,13 @@ package org.rsmod.game.coroutines
 
 import org.rsmod.game.coroutines.complete.GameCoroutineSimpleCompletion
 import org.rsmod.game.coroutines.complete.GameCoroutineSupervisedCompletion
+import org.rsmod.game.coroutines.throwable.ScopeCancellationException
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.cancellation.CancellationException
 import kotlin.coroutines.startCoroutine
 
 @Suppress("MemberVisibilityCanBePrivate")
-public class GameCoroutineScope(
-    public var superviseCoroutines: Boolean = false
-) : AutoCloseable {
+public class GameCoroutineScope(public var superviseCoroutines: Boolean = false) {
 
     private val children = mutableListOf<GameCoroutine>()
 
@@ -26,8 +25,14 @@ public class GameCoroutineScope(
     }
 
     public fun supervisedResume(coroutine: GameCoroutine, result: Result<Unit>) {
-        result.exceptionOrNull()?.let { if (it !is CancellationException) throw it }
-        children -= coroutine
+        when (val exception = result.exceptionOrNull()) {
+            null -> children -= coroutine
+            !is CancellationException -> throw exception
+            !is ScopeCancellationException -> {
+                children -= coroutine
+                throw exception
+            }
+        }
     }
 
     private fun GameCoroutine.completion(): Continuation<Unit> = if (superviseCoroutines) {
@@ -38,8 +43,8 @@ public class GameCoroutineScope(
 
     public fun getSupervisedChildren(): List<GameCoroutine> = children
 
-    override fun close() {
-        val iterator = children.toList()
-        iterator.forEach { it.cancel() }
+    public fun cancel() {
+        children.forEach { it.cancel(ScopeCancellationException()) }
+        children.clear()
     }
 }

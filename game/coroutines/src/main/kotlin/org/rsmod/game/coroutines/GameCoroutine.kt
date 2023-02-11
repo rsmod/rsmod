@@ -34,8 +34,8 @@ public class GameCoroutine(public val debugName: String? = null) {
         throw CancellationException()
     }
 
-    public fun cancel() {
-        suspension?.continuation?.resumeWithException(CancellationException())
+    public fun cancel(exception: CancellationException = CancellationException()) {
+        suspension?.continuation?.resumeWithException(exception)
         suspension = null
     }
 

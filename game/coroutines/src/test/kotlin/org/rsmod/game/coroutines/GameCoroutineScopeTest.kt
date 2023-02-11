@@ -38,18 +38,19 @@ class GameCoroutineScopeTest {
     }
 
     @Test
-    fun testAutoClose() {
+    fun testCancel() {
         val coroutines = MutableList(10) { GameCoroutine() }
         val scope = GameCoroutineScope(superviseCoroutines = true)
-        scope.use {
-            coroutines.forEach { coroutine ->
-                it.launch(coroutine) {
-                    pause(ticks = 1)
-                }
+
+        coroutines.forEach { coroutine ->
+            scope.launch(coroutine) {
+                pause(ticks = 1)
             }
-            Assertions.assertTrue(coroutines.all { coroutine -> coroutine.isSuspended })
-            Assertions.assertEquals(coroutines.size, it.getSupervisedChildren().size)
         }
+        Assertions.assertTrue(coroutines.all { coroutine -> coroutine.isSuspended })
+        Assertions.assertEquals(coroutines.size, scope.getSupervisedChildren().size)
+
+        scope.cancel()
         Assertions.assertTrue(scope.getSupervisedChildren().isEmpty())
         Assertions.assertTrue(coroutines.all { it.isIdle })
     }
