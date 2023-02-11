@@ -25,6 +25,7 @@ public class GameCoroutineScope(private var superviseCoroutines: Boolean = false
     @Suppress("UNUSED_PARAMETER")
     public fun supervisedResume(coroutine: GameCoroutine, result: Result<Unit>) {
         result.exceptionOrNull()?.let { if (it !is CancellationException) throw it }
+        children -= coroutine
     }
 
     private fun GameCoroutine.completion(): Continuation<Unit> = if (superviseCoroutines) {
