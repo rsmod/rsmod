@@ -58,7 +58,7 @@ public class GameService @Inject private constructor(
         }
     }
 
-    private suspend fun gameCycle() {
+    private fun gameCycle() {
         clients.forEach { client ->
             client.channel.read()
             val upstream = client.player.upstream
