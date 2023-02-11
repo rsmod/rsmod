@@ -7,6 +7,7 @@ dependencies {
     implementation(projects.cache)
     implementation(projects.log)
     implementation(projects.toml)
+    implementation(projects.game.coroutines)
     implementation(projects.game.events)
     implementation(projects.game.protocol)
     implementation(libs.clikt)

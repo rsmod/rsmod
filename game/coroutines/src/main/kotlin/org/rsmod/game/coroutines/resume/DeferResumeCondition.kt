@@ -1,12 +1,12 @@
-package org.rsmod.game.coroutines.state
+package org.rsmod.game.coroutines.resume
 
 import kotlin.reflect.KClass
 
-internal class GameCoroutineDeferValueState<T : Any>(val type: KClass<T>) : GameCoroutineState<T> {
+public class DeferResumeCondition<T : Any>(public val type: KClass<T>) : ResumeCondition<T> {
 
     private var value: T? = null
 
-    fun set(value: T) {
+    public fun set(value: T) {
         this.value = value
     }
 
