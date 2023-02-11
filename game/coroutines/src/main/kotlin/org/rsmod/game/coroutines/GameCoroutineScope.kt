@@ -25,7 +25,6 @@ public class GameCoroutineScope(
         return coroutine
     }
 
-    @Suppress("UNUSED_PARAMETER")
     public fun supervisedResume(coroutine: GameCoroutine, result: Result<Unit>) {
         result.exceptionOrNull()?.let { if (it !is CancellationException) throw it }
         children -= coroutine
@@ -37,7 +36,10 @@ public class GameCoroutineScope(
         GameCoroutineSimpleCompletion
     }
 
+    public fun getSupervisedChildren(): List<GameCoroutine> = children
+
     override fun close() {
-        children.forEach { it.cancel() }
+        val iterator = children.toList()
+        iterator.forEach { it.cancel() }
     }
 }
