@@ -21,7 +21,7 @@ private const val GAME_TICK_DELAY = 600
 @Singleton
 public class GameService @Inject private constructor(
     private val mainCoroutineScope: MainCoroutineScope,
-    private val clients: ClientList,
+    private val clients: ClientList
 ) : AbstractIdleService() {
 
     private var excessCycleNanos = 0L
