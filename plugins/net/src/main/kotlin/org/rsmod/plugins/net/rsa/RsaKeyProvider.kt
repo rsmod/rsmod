@@ -11,11 +11,12 @@ public class RsaKeyProvider @Inject constructor(
     private val config: GameConfig
 ) : Provider<RSAPrivateCrtKeyParameters> {
 
-    override fun get(): RSAPrivateCrtKeyParameters = if (Files.exists(config.rsaPath)) {
-        Rsa.readPrivateKey(config.rsaPath)
+    override fun get(): RSAPrivateCrtKeyParameters = if (Files.exists(config.rsaFile)) {
+        Rsa.readPrivateKey(config.rsaFile)
     } else {
+        Files.createDirectories(config.rsaPath)
         val (_, private) = Rsa.generateKeyPair(Rsa.CLIENT_KEY_LENGTH)
-        Rsa.writePrivateKey(config.rsaPath, private)
+        Rsa.writePrivateKey(config.rsaFile, private)
         private
     }
 }
