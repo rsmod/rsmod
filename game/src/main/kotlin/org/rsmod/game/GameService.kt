@@ -8,7 +8,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import org.rsmod.game.client.ClientList
-import org.rsmod.game.dispatcher.main.GameCoroutineScope
+import org.rsmod.game.dispatcher.main.MainCoroutineScope
 import org.rsmod.game.task.PlayerInfoTask
 import org.rsmod.game.task.UpstreamTask
 import java.util.concurrent.TimeUnit
@@ -22,7 +22,7 @@ private const val GAME_TICK_DELAY = 600
 
 @Singleton
 public class GameService @Inject private constructor(
-    private val coroutineScope: GameCoroutineScope,
+    private val mainCoroutineScope: MainCoroutineScope,
     private val upstreamTask: UpstreamTask,
     private val gpiTask: PlayerInfoTask,
     private val clients: ClientList
@@ -31,12 +31,12 @@ public class GameService @Inject private constructor(
     private var excessCycleNanos = 0L
 
     override fun startUp() {
-        coroutineScope.start(GAME_TICK_DELAY)
+        mainCoroutineScope.start(GAME_TICK_DELAY)
     }
 
     override fun shutDown() {
         if (isRunning) {
-            coroutineScope.cancel()
+            mainCoroutineScope.cancel()
         }
     }
 

@@ -301,7 +301,7 @@ public class PlayerInfo(public val playerCapacity: Int) {
         val avatar = avatars[client.ringBufIndex]
         avatar.extendedInfoFlags = (avatar.extendedInfoFlags.toInt() or struct.mask).toShort()
         if (struct.isStatic) {
-
+            TODO()
         }
     }
 
