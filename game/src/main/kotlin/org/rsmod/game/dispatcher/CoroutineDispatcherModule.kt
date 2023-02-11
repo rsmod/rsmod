@@ -5,9 +5,9 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import org.rsmod.game.dispatcher.io.IOCoroutineDispatcher
 import org.rsmod.game.dispatcher.io.IOCoroutineScope
-import org.rsmod.game.dispatcher.main.GameCoroutineDispatcher
-import org.rsmod.game.dispatcher.main.GameCoroutineDispatcherProvider
-import org.rsmod.game.dispatcher.main.GameCoroutineScope
+import org.rsmod.game.dispatcher.main.MainCoroutineDispatcher
+import org.rsmod.game.dispatcher.main.MainCoroutineDispatcherProvider
+import org.rsmod.game.dispatcher.main.MainCoroutineScope
 
 public object CoroutineDispatcherModule : AbstractModule() {
 
@@ -16,10 +16,10 @@ public object CoroutineDispatcherModule : AbstractModule() {
             .annotatedWith(IOCoroutineDispatcher::class.java)
             .toInstance(Dispatchers.IO)
         bind(CoroutineDispatcher::class.java)
-            .annotatedWith(GameCoroutineDispatcher::class.java)
-            .toProvider(GameCoroutineDispatcherProvider::class.java)
+            .annotatedWith(MainCoroutineDispatcher::class.java)
+            .toProvider(MainCoroutineDispatcherProvider::class.java)
 
         bind(IOCoroutineScope::class.java)
-        bind(GameCoroutineScope::class.java)
+        bind(MainCoroutineScope::class.java)
     }
 }
