@@ -17,9 +17,9 @@ import org.rsmod.plugins.info.player.extended.ExtendedInfo
 import java.nio.ByteBuffer
 import java.util.concurrent.TimeUnit
 
-open class PlayerInfoSmall : PlayerInfoBenchmark(250)
+/*open class PlayerInfoSmall : PlayerInfoBenchmark(250)
 open class PlayerInfoMedium : PlayerInfoBenchmark(500)
-open class PlayerInfoLarge : PlayerInfoBenchmark(1000)
+open class PlayerInfoLarge : PlayerInfoBenchmark(1000)*/
 open class PlayerInfoMax : PlayerInfoBenchmark(2047)
 
 @State(Scope.Benchmark)

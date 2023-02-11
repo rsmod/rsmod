@@ -3,6 +3,9 @@ package org.rsmod.plugins.info.player
 import org.rsmod.plugins.info.BitBuffer
 import org.rsmod.plugins.info.player.extended.ExtendedInfo
 import org.rsmod.plugins.info.player.extended.ExtendedMetadata
+import org.rsmod.plugins.info.player.extended3.ExtendedInfoStructure
+import org.rsmod.plugins.info.player.extended3.ExtendedInfoStructureBuilder
+import org.rsmod.plugins.info.player.extended3.ExtendedInfoStructureMap
 import org.rsmod.plugins.info.player.model.Avatar
 import org.rsmod.plugins.info.player.model.InfoClient
 import java.nio.ByteBuffer
@@ -20,6 +23,8 @@ public class PlayerInfo(public val playerCapacity: Int) {
 
     /* ring buffer */
     public val avatars: Array<Avatar> = Array(playerCapacity) { Avatar() }
+
+    private val extended: ExtendedInfoStructureMap = ExtendedInfoStructureMap()
 
     /* ring buffer */
     public val extendedInfo: Array<ExtendedInfo> = Array(playerCapacity) { ExtendedInfo() }
@@ -287,6 +292,25 @@ public class PlayerInfo(public val playerCapacity: Int) {
         }
     }
 
+    public fun updateExtendedInfo(
+        playerIndex: Int,
+        info: org.rsmod.plugins.info.player.extended3.ExtendedInfo
+    ) {
+        val struct = extended[info] ?: error("Structure not defined for $info. Use `extended { ... }` builder.")
+        val client = clients[playerIndex]
+        val avatar = avatars[client.ringBufIndex]
+        avatar.extendedInfoFlags = (avatar.extendedInfoFlags.toInt() or struct.mask).toShort()
+        if (struct.isStatic) {
+
+        }
+    }
+
+    public fun extended(init: ExtendedInfoStructureBuilder.() -> Unit) {
+        val builder = ExtendedInfoStructureBuilder(order = extended.size).apply(init)
+        val struct = builder.build()
+        extended[struct.type] = struct
+    }
+
     override fun toString(): String {
         return "PlayerInfo(capacity=$playerCapacity, count=$playerCount)"
     }
@@ -448,6 +472,11 @@ public class PlayerInfo(public val playerCapacity: Int) {
             if (dx == 0 && dy == 2) return 13
             if (dx == 1 && dy == 2) return 14
             return if (dx == 2 && dy == 2) 15 else 0
+        }
+
+        @Suppress("NOTHING_TO_INLINE")
+        private inline infix fun Int.or(struct: ExtendedInfoStructure): Int {
+            return this or struct.mask
         }
     }
 }
