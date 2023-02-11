@@ -6,7 +6,8 @@ import kotlin.coroutines.Continuation
 import kotlin.coroutines.cancellation.CancellationException
 import kotlin.coroutines.startCoroutine
 
-public class GameCoroutineScope(private var superviseCoroutines: Boolean = false) {
+@Suppress("MemberVisibilityCanBePrivate")
+public class GameCoroutineScope(public var superviseCoroutines: Boolean = false) {
 
     private val children = mutableListOf<GameCoroutine>()
 
