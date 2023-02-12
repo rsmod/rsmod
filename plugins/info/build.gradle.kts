@@ -1,10 +1,8 @@
+version = "1.0.0"
+
 plugins {
     kotlin("jvm")
     id("me.champeau.gradle.jmh") apply true
-}
-
-dependencies {
-    implementation(libs.nettyBuffer)
 }
 
 jmh {

@@ -1,70 +1,95 @@
 package org.rsmod.plugins.info.player
 
 import org.rsmod.plugins.info.BitBuffer
-import org.rsmod.plugins.info.player.extended.ExtendedInfo
+import org.rsmod.plugins.info.player.extended.ExtendedBuffer
+import org.rsmod.plugins.info.player.extended.ExtendedInfoSizes.APPEARANCE_MAX_BYTE_SIZE
 import org.rsmod.plugins.info.player.extended.ExtendedMetadata
-import org.rsmod.plugins.info.player.extended3.ExtendedInfoStructure
-import org.rsmod.plugins.info.player.extended3.ExtendedInfoStructureBuilder
-import org.rsmod.plugins.info.player.extended3.ExtendedInfoStructureMap
 import org.rsmod.plugins.info.player.model.Avatar
 import org.rsmod.plugins.info.player.model.InfoClient
 import java.nio.ByteBuffer
 import java.util.Arrays
 
-public class PlayerInfo(public val playerCapacity: Int) {
+public class PlayerInfo(
+    public val playerCapacity: Int,
+    public val bufferByteLimitPerClient: Int = DEFAULT_BUFFER_BYTE_LIMIT
+) {
 
     init { require(playerCapacity <= MAX_PLAYER_CAPACITY) }
 
     /* current amount of online players to iterate */
     public var playerCount: Int = 0
 
+    private var appearanceFlag = 0
+
     /* mapped to player index */
     public val clients: Array<InfoClient> = Array(playerCapacity) { InfoClient(playerCapacity) }
+
+    /* mapped to player index */
+    public val appearance: Array<ExtendedBuffer> = Array(playerCapacity) {
+        /* + 1 byte from mask flag byte header */
+        ExtendedBuffer(ByteArray(APPEARANCE_CACHE_BYTES + 1))
+    }
 
     /* ring buffer */
     public val avatars: Array<Avatar> = Array(playerCapacity) { Avatar() }
 
-    private val extended: ExtendedInfoStructureMap = ExtendedInfoStructureMap()
-
     /* ring buffer */
-    public val extendedInfo: Array<ExtendedInfo> = Array(playerCapacity) { ExtendedInfo() }
+    public val extBuffers: Array<ExtendedBuffer> = Array(playerCapacity) { ExtendedBuffer() }
 
-    public fun registerClient(playerIndex: Int) {
+    public fun initialize(playerIndex: Int, appearanceFlag: Int, appearanceData: ByteArray) {
         val client = clients[playerIndex]
         client.viewDistance = DEFAULT_VIEW_DISTANCE.toByte()
         Arrays.fill(client.highRes, false)
         Arrays.fill(client.activityFlags, 0)
         client.highRes[playerIndex] = true
+        this.appearanceFlag = appearanceFlag
+        this.appearance[playerIndex].reset().putBytes(appearanceData)
+    }
+
+    public fun finalize(playerIndex: Int) {
+        appearance[playerIndex].reset()
     }
 
     public fun add(playerIndex: Int, currCoords: Int, prevCoords: Int) {
         val ringBufIndex = playerCount++
         clients[playerIndex].ringBufIndex = ringBufIndex
+
         val avatar = avatars[ringBufIndex]
+        avatar.extendedInfoLength = 0
+        avatar.extendedInfoFlags = 0
         avatar.playerIndex = playerIndex.toShort()
         avatar.currCoords = currCoords
         avatar.prevCoords = prevCoords
+
+        extBuffers[ringBufIndex].offset = 0
     }
 
     public fun clear() {
         playerCount = 0
     }
 
-    public fun read(dest: ByteBuffer, playerIndex: Int) {
+    public fun read(
+        dest: ByteBuffer,
+        playerIndex: Int,
+        extended: ExtendedMetadata = ExtendedMetadata()
+    ) {
         dest.clear()
-        putFully(dest, playerIndex)
+        putFully(dest, playerIndex, extended)
         dest.flip()
     }
 
-    public fun putFully(dest: ByteBuffer, playerIndex: Int) {
+    public fun putFully(
+        dest: ByteBuffer,
+        playerIndex: Int,
+        extended: ExtendedMetadata = ExtendedMetadata()
+    ) {
         val client = clients[playerIndex]
         val avatar = avatars[client.ringBufIndex]
-        val extended = ExtendedMetadata()
         BitBuffer(dest).use { putHighResAvatars(it, true, client, avatar, extended) }
         BitBuffer(dest).use { putHighResAvatars(it, false, client, avatar, extended) }
         BitBuffer(dest).use { putLowResAvatars(it, true, client, avatar, extended) }
         BitBuffer(dest).use { putLowResAvatars(it, false, client, avatar, extended) }
-        putExtendedInfo(dest, client, avatar, extended)
+        putExtendedInfo(dest, client, extended)
         shiftActivityFlags(client.activityFlags)
     }
 
@@ -75,6 +100,17 @@ public class PlayerInfo(public val playerCapacity: Int) {
         avatar: Avatar,
         extended: ExtendedMetadata
     ) {
+        /*
+         * We want to put all high-res appearance masks on first log in. This does mean
+         * that the only high-res player that will be force-sent said extended info would
+         * be our "local" client/player. This is because the only high-res avatar will
+         * be our local avatar on first their first gpi tick.
+         *
+         * With current `isNewLogin` logic - this may not always be the case (player is
+         * located in coords 0,0,0). We may change this condition to use a flag within
+         * [InfoClient] instead.
+         */
+        val loggedIn = isNewLogIn(avatar.prevCoords)
         var skipCount = 0
         for (i in 0 until playerCount) {
             val other = avatars[i]
@@ -87,13 +123,17 @@ public class PlayerInfo(public val playerCapacity: Int) {
                 client.activityFlags[index] = (client.activityFlags[index].toInt() or 0x2).toByte()
                 continue
             }
-            val extendedInfoFlags = other.extendedInfoFlags
-            val hasExtendedInfo = (extendedInfoFlags.toInt() != 0 || isNewLogin(other.prevCoords)) &&
-                extended.count < playerCapacity && !isFull(dest, extended.length)
+            val hasExtendedInfo = loggedIn || (other.extendedInfoFlags.toInt() != 0 &&
+                extended.count < playerCapacity && !isFull(dest, extended.length))
             if (hasExtendedInfo) {
                 val count = extended.count++
-                extended.length += extendedInfoLength(avatar, i)
-                client.extendedInfoRingBufIndexes[count] = i.toShort()
+                val length = if (loggedIn) {
+                    (APPEARANCE_CACHE_BYTES + 1).toShort()
+                } else {
+                    other.extendedInfoLength
+                }
+                extended.length += length
+                client.setExtendedInfoRingBufIndex(count, i, appearanceOnly = loggedIn)
             }
             val updateCoords = other.currCoords != other.prevCoords
             val updateHighRes = updateCoords || hasExtendedInfo
@@ -131,7 +171,8 @@ public class PlayerInfo(public val playerCapacity: Int) {
             val flaggedInactive = (client.activityFlags[index].toInt() and 0x1) != 0
             if (activeFlags == flaggedInactive) continue
             val loggedOut = isLoggedOut(other.currCoords, other.prevCoords)
-            val extendedInfo = other.extendedInfoFlags.toInt() != 0 || isNewLogin(other.prevCoords)
+            val loggedIn = isNewLogIn(other.prevCoords)
+            val extendedInfo = loggedIn || other.extendedInfoFlags.toInt() != 0
             val updateCoords = other.currCoords != other.prevCoords
             val updateHighRes = updateCoords || extendedInfo || loggedOut
             if (updateHighRes) break
@@ -189,10 +230,16 @@ public class PlayerInfo(public val playerCapacity: Int) {
             }
             dest.putBits(len = 13, value = (other.currCoords shr 14) and 0x3FFF)
             dest.putBits(len = 13, value = other.currCoords and 0x3FFF)
-            dest.putBit(1)
-            val extendedCount = extended.count++
-            extended.length += extendedInfoLength(avatar, i)
-            client.extendedInfoRingBufIndexes[extendedCount] = i.toShort()
+
+            // TODO: client caches appearance - should keep track of that
+            // to avoid re-sending appearance data unnecessarily.
+            val putAppearance = true
+            dest.putBoolean(putAppearance)
+            if (putAppearance) {
+                val extendedCount = extended.count++
+                extended.length += APPEARANCE_CACHE_BYTES + 1
+                client.setExtendedInfoRingBufIndex(extendedCount, i, appearanceOnly = true)
+            }
             client.highRes[index] = true
             client.activityFlags[index] = (client.activityFlags[index].toInt() or 0x2).toByte()
         }
@@ -234,81 +281,64 @@ public class PlayerInfo(public val playerCapacity: Int) {
         return skipCount
     }
 
-    // TODO: test for this (make sure correct app is being written, etc)
     public fun putExtendedInfo(
         dest: ByteBuffer,
         client: InfoClient,
-        avatar: Avatar,
         extended: ExtendedMetadata
     ) {
+        check(appearanceFlag != 0) { "Appearance flag must be set via `cacheAppearance` function." }
         for (i in 0 until extended.count) {
-            val ringBufIndex = client.extendedInfoRingBufIndexes[i].toInt()
-            val other = avatars[ringBufIndex]
-
-            // TODO: these flags should be defined in this api.
-            // then accessed by impl through a sealed class.
-            // info.setAvatarExtendedInfo(player.index, ExtendedInfo.Appearance, byteData)
-            // require(byteData.length <= flag.allocatedLength)
-            var flags = other.extendedInfoFlags.toInt()
-            if (isNewLogin(other.prevCoords) || isNewLogin(avatar.prevCoords)) flags = flags or 0x40
-
-            dest.put(flags.toByte())
-
-            if ((flags and 0x40) != 0) {
-                val data = extendedInfo[ringBufIndex].appearance
-                val rawLength = data[0]
-                for (dataIndex in 0 until rawLength) {
-                    dest.put(data[1 + dataIndex])
-                }
+            val appearanceOnly = client.isExtendedInfoRingBufIndexAppearanceOnly(i)
+            val ringBufIndex = client.getExtendedInfoRingBufIndex(i)
+            if (appearanceOnly) {
+                val other = avatars[ringBufIndex]
+                val buffer = appearance[other.playerIndex.toInt()]
+                check(buffer.offset > 0) { "Cached appearance not found for player." }
+                /*
+                 * Short appearance flag is not supported as of now. Can't recall
+                 * if appearance flag is ever that high a value. If it can be - we
+                 * will need to ask the implementation layer for the packed flags
+                 * "extended" bitmask (the flag they use to tell the client to
+                 * read the flags as a short instead of a byte).
+                 */
+                check(appearanceFlag < 0xFF) { "Short appearance flag not supported." }
+                dest.put((appearanceFlag and 0xFF).toByte())
+                dest.put(buffer.data, 0, buffer.offset)
+                continue
             }
+            val buffer = extBuffers[ringBufIndex]
+            check(dest.position() + buffer.offset < dest.limit()) {
+                "Dest limit reached: ${(dest.position())} + ${buffer.offset} >= ${dest.limit()}"
+            }
+            dest.put(buffer.data, 0, buffer.offset)
         }
     }
 
-    private fun extendedInfoLength(avatar: Avatar, ringBufIndex: Int): Int {
-        val other = avatars[ringBufIndex]
-        var flags = other.extendedInfoFlags.toInt()
-        if (isNewLogin(other.prevCoords) || isNewLogin(avatar.prevCoords)) {
-            flags = flags or 0x40
+    public fun setExtendedInfo(playerIndex: Int, maskFlags: Int, data: ByteArray) {
+        val ringBufIndex = clients[playerIndex].ringBufIndex
+        val buffer = extBuffers[ringBufIndex]
+        if (data.size >= buffer.data.size) {
+            throw ArrayIndexOutOfBoundsException(
+                "Extended info data too long. " +
+                    "(capacity=${buffer.data.size}, received=${data.size})"
+            )
         }
-        if (flags == 0) {
-            return 0
-        }
-        var length = Byte.SIZE_BYTES
-        if ((flags and 0x40) != 0) {
-            val data = extendedInfo[ringBufIndex].appearance
-            length += data[0]
-        }
-        return length
+        System.arraycopy(data, 0, buffer.data, 0, data.size)
+        buffer.offset = data.size
+
+        val avatar = avatars[ringBufIndex]
+        avatar.extendedInfoFlags = maskFlags.toShort()
+        avatar.extendedInfoLength = data.size.toShort()
     }
 
-    // TODO: replace with generic method to set any/most ExtendedInfo data blocks
-    public fun setAppearance(playerIndex: Int, data: ByteArray, length: Int) {
-        require(length < ExtendedInfo.APPEARANCE_MAX_BYTE_SIZE)
-        val client = clients[playerIndex]
-        val extended = extendedInfo[client.ringBufIndex]
-        extended.appearance[0] = length.toByte()
-        for (i in 0 until length) {
-            extended.appearance[1 + i] = data[i]
-        }
+    public fun cacheAppearance(playerIndex: Int, data: ByteArray) {
+        appearance[playerIndex].reset().putBytes(data)
     }
 
-    public fun updateExtendedInfo(
-        playerIndex: Int,
-        info: org.rsmod.plugins.info.player.extended3.ExtendedInfo
-    ) {
-        val struct = extended[info] ?: error("Structure not defined for $info. Use `extended { ... }` builder.")
-        val client = clients[playerIndex]
-        val avatar = avatars[client.ringBufIndex]
-        avatar.extendedInfoFlags = (avatar.extendedInfoFlags.toInt() or struct.mask).toShort()
-        if (struct.isStatic) {
-            TODO()
-        }
-    }
-
-    public fun extended(init: ExtendedInfoStructureBuilder.() -> Unit) {
-        val builder = ExtendedInfoStructureBuilder(order = extended.size).apply(init)
-        val struct = builder.build()
-        extended[struct.type] = struct
+    public fun isFull(buf: BitBuffer, extendedLength: Int): Boolean {
+        val safetyLimit = bufferByteLimitPerClient - SAFETY_BUFFER_BYTE_TRIM
+        val bytePos = buf.position() / Byte.SIZE_BITS
+        return bytePos + extendedLength >= safetyLimit
     }
 
     override fun toString(): String {
@@ -320,8 +350,12 @@ public class PlayerInfo(public val playerCapacity: Int) {
         public const val MAX_PLAYER_CAPACITY: Int = 2047
         public const val DEFAULT_VIEW_DISTANCE: Int = 15
 
-        private const val BUFFER_BYTE_LIMIT = 40_000
-        private const val BUFFER_BYTE_SAFETY_LIMIT = BUFFER_BYTE_LIMIT - 5000
+        private const val DEFAULT_BUFFER_BYTE_LIMIT: Int = 40_000
+        private const val SAFETY_BUFFER_BYTE_TRIM: Int = 5000
+
+        /* give some wiggle room just in case */
+        /* could always make these constants configurable */
+        public const val APPEARANCE_CACHE_BYTES: Int = APPEARANCE_MAX_BYTE_SIZE + 50
 
         private fun putHighResCoords(dest: BitBuffer, currCoords: Int, prevCoords: Int) {
             val currX = (currCoords shr 14) and 0x3FFF
@@ -425,17 +459,12 @@ public class PlayerInfo(public val playerCapacity: Int) {
             return (y shr 13) or ((x shr 13) shl 8) or ((level and 0x3) shl 16)
         }
 
-        public fun isNewLogin(prevCoords: Int): Boolean {
+        public fun isNewLogIn(prevCoords: Int): Boolean {
             return prevCoords == 0
         }
 
         public fun isLoggedOut(currCoords: Int, prevCoords: Int): Boolean {
             return currCoords == 0 && prevCoords == 0
-        }
-
-        public fun isFull(buf: BitBuffer, extendedLength: Int): Boolean {
-            val bytePos = buf.position() / Byte.SIZE_BITS
-            return bytePos + extendedLength >= BUFFER_BYTE_SAFETY_LIMIT
         }
 
         private fun shiftActivityFlags(flags: ByteArray) {
@@ -472,11 +501,6 @@ public class PlayerInfo(public val playerCapacity: Int) {
             if (dx == 0 && dy == 2) return 13
             if (dx == 1 && dy == 2) return 14
             return if (dx == 2 && dy == 2) 15 else 0
-        }
-
-        @Suppress("NOTHING_TO_INLINE")
-        private inline infix fun Int.or(struct: ExtendedInfoStructure): Int {
-            return this or struct.mask
         }
     }
 }

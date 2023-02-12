@@ -1,6 +1,7 @@
 package org.rsmod.plugins.info.player
 
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
@@ -11,6 +12,7 @@ import org.rsmod.plugins.info.BitBuffer
 import org.rsmod.plugins.info.player.PlayerInfo.Companion.MAX_PLAYER_CAPACITY
 import org.rsmod.plugins.info.player.PlayerInfo.Companion.getRunDirOpcode
 import org.rsmod.plugins.info.player.PlayerInfo.Companion.getWalkDirOpcode
+import org.rsmod.plugins.info.player.extended.ExtendedInfoSizes.TOTAL_BYTE_SIZE
 import org.rsmod.plugins.info.player.extended.ExtendedMetadata
 import java.nio.ByteBuffer
 import java.util.stream.Stream
@@ -20,6 +22,8 @@ class PlayerInfoTest {
 
     private val buffers = Array(MAX_PLAYER_CAPACITY) { ByteBuffer.allocate(40_000) }
 
+    private val appearanceData = ByteArray(152)
+
     @ParameterizedTest
     @ArgumentsSource(PlayerInfoCapacityVarProvider::class)
     fun putFullyWithOnlySelfUpdateCoordsLogIn(index: Int, info: PlayerInfo) {
@@ -27,7 +31,7 @@ class PlayerInfoTest {
         require(info.playerCount == 0)
         require(buf.position() == 0)
 
-        info.registerClient(index)
+        info.initialize(index, 0x40, appearanceData)
         Assertions.assertTrue(info.clients[index].highRes[index])
 
         info.add(index, currCoords = coords(3200, 3200), prevCoords = coords(0, 0))
@@ -35,7 +39,7 @@ class PlayerInfoTest {
 
         Assertions.assertEquals(0, buf.position())
         info.putFully(buf, index)
-        Assertions.assertEquals(6, buf.position())
+        Assertions.assertEquals(158, buf.position())
         BitBuffer(buf.flip()).use { bitBuf ->
             val updateHighRes = bitBuf.getBoolean()
             val hasExtendedInfo = bitBuf.getBoolean()
@@ -55,7 +59,7 @@ class PlayerInfoTest {
         require(info.playerCount == 0)
         require(buf.position() == 0)
 
-        info.registerClient(index)
+        info.initialize(index, 0x40, appearanceData)
         Assertions.assertTrue(info.clients[index].highRes[index])
 
         info.add(index, currCoords = coords(3200, 3200), prevCoords = coords(3200, 3200))
@@ -79,7 +83,7 @@ class PlayerInfoTest {
         require(info.playerCount == 0)
         require(buf.position() == 0)
 
-        info.registerClient(index)
+        info.initialize(index, 0x40, appearanceData)
         Assertions.assertTrue(info.clients[index].highRes[index])
 
         info.add(index, currCoords = coords(3200, 3200), prevCoords = coords(3200, 3201))
@@ -107,7 +111,7 @@ class PlayerInfoTest {
         require(info.playerCount == 0)
         require(buf.position() == 0)
 
-        info.registerClient(index)
+        info.initialize(index, 0x40, appearanceData)
         Assertions.assertTrue(info.clients[index].highRes[index])
 
         info.add(index, currCoords = coords(3202, 3200), prevCoords = coords(3200, 3200))
@@ -135,7 +139,7 @@ class PlayerInfoTest {
         require(info.playerCount == 0)
         require(buf.position() == 0)
 
-        info.registerClient(index)
+        info.initialize(index, 0x40, appearanceData)
         Assertions.assertTrue(info.clients[index].highRes[index])
 
         info.add(index, currCoords = coords(3210, 3210), prevCoords = coords(3203, 3205))
@@ -169,7 +173,7 @@ class PlayerInfoTest {
         require(info.playerCount == 0)
         require(buf.position() == 0)
 
-        info.registerClient(index)
+        info.initialize(index, 0x40, appearanceData)
         Assertions.assertTrue(info.clients[index].highRes[index])
 
         info.add(index, currCoords = coords(4800, 2600, 1), prevCoords = coords(3200, 3200, 0))
@@ -203,13 +207,13 @@ class PlayerInfoTest {
         require(info.playerCount == 0)
         require(buf.position() == 0)
 
-        info.registerClient(index)
+        info.initialize(index, 0x40, appearanceData)
         info.add(index, currCoords = coords(3200, 3200), prevCoords = coords(0, 0))
         Assertions.assertEquals(1, info.playerCount)
 
         Assertions.assertEquals(0, buf.position())
         info.putFully(buf, index)
-        Assertions.assertEquals(6, buf.position())
+        Assertions.assertEquals(158, buf.position())
         BitBuffer(buf.flip()).use { bitBuf ->
             val updateHighRes = bitBuf.getBoolean()
             val hasExtendedInfo = bitBuf.getBoolean()
@@ -226,7 +230,7 @@ class PlayerInfoTest {
             val leftOverBits = nextByteBitCount - highResBitCount
             /* skip leftover bits */
             bitBuf.position(bitBuf.position() + leftOverBits)
-            Assertions.assertEquals(nextByteBitCount, bitBuf.position().toInt())
+            Assertions.assertEquals(nextByteBitCount, bitBuf.position())
 
             val updateLowRes = bitBuf.getBoolean()
             val skipCountOpcode = bitBuf.getBits(2)
@@ -245,8 +249,8 @@ class PlayerInfoTest {
         require(info.playerCount == 0)
         require(buf.position() == 0)
 
-        info.registerClient(index)
-        info.registerClient(otherIndex)
+        info.initialize(index, 0x40, appearanceData)
+        info.initialize(otherIndex, 0x40, appearanceData)
         Assertions.assertTrue(info.clients[index].highRes[index])
         Assertions.assertFalse(info.clients[index].highRes[otherIndex])
 
@@ -256,7 +260,7 @@ class PlayerInfoTest {
 
         Assertions.assertEquals(0, buf.position())
         info.putFully(buf, index)
-        Assertions.assertEquals(8, buf.position())
+        Assertions.assertEquals(160, buf.position())
         BitBuffer(buf.flip()).use { bitBuf ->
             val updateHighRes = bitBuf.getBoolean()
             val skipCountOpcode = bitBuf.getBits(2)
@@ -269,7 +273,7 @@ class PlayerInfoTest {
             val leftOverBits = nextByteBitCount - highResBitCount
             /* skip leftover bits */
             bitBuf.position(bitBuf.position() + leftOverBits)
-            Assertions.assertEquals(nextByteBitCount, bitBuf.position().toInt())
+            Assertions.assertEquals(nextByteBitCount, bitBuf.position())
 
             val updateLowRes = bitBuf.getBoolean()
             val coordsDisplaceType = bitBuf.getBits(2)
@@ -294,8 +298,8 @@ class PlayerInfoTest {
         require(info.playerCount == 0)
         require(buf.position() == 0)
 
-        info.registerClient(index)
-        info.registerClient(otherIndex)
+        info.initialize(index, 0x40, appearanceData)
+        info.initialize(otherIndex, 0x40, appearanceData)
         Assertions.assertTrue(info.clients[index].highRes[index])
         Assertions.assertFalse(info.clients[index].highRes[otherIndex])
 
@@ -305,7 +309,7 @@ class PlayerInfoTest {
 
         Assertions.assertEquals(0, buf.position())
         info.putFully(buf, index)
-        Assertions.assertEquals(8, buf.position())
+        Assertions.assertEquals(160, buf.position())
         Assertions.assertTrue(info.clients[index].highRes[otherIndex])
 
         /* adding from low-res to high-res requires at least one full iteration beforehand */
@@ -340,8 +344,8 @@ class PlayerInfoTest {
         require(info.playerCount == 0)
         require(buf.position() == 0)
 
-        info.registerClient(index)
-        info.registerClient(otherIndex)
+        info.initialize(index, 0x40, appearanceData)
+        info.initialize(otherIndex, 0x40, appearanceData)
         val client = info.clients[index]
         Assertions.assertTrue(client.highRes[index])
         Assertions.assertEquals(0, client.activityFlags[index])
@@ -351,7 +355,7 @@ class PlayerInfoTest {
         Assertions.assertEquals(2, info.playerCount)
         Assertions.assertEquals(0, buf.position())
         info.putFully(buf, index)
-        Assertions.assertEquals(8, buf.position())
+        Assertions.assertEquals(160, buf.position())
         Assertions.assertEquals(0x1, client.activityFlags[index])
 
         /* adding from low-res to high-res requires at least one full iteration beforehand */
@@ -376,8 +380,8 @@ class PlayerInfoTest {
         require(info.playerCount == 0)
         require(buf.position() == 0)
 
-        info.registerClient(index)
-        otherIndexes.forEach { info.registerClient(it) }
+        info.initialize(index, 0x40, appearanceData)
+        otherIndexes.forEach { info.initialize(it, 0x40, appearanceData) }
 
         val client = info.clients[index]
         Assertions.assertTrue(client.highRes[index])
@@ -392,7 +396,7 @@ class PlayerInfoTest {
 
         Assertions.assertEquals(0, buf.position())
         info.putFully(buf, index)
-        Assertions.assertEquals(28, buf.position())
+        Assertions.assertEquals(788, buf.position())
         /* previous coords change for self - did not mark as inactive */
         Assertions.assertEquals(0, client.activityFlags[index])
 
@@ -430,8 +434,8 @@ class PlayerInfoTest {
         require(info.playerCount == 0)
         require(buf.position() == 0)
 
-        info.registerClient(index)
-        info.registerClient(otherIndex)
+        info.initialize(index, 0x40, appearanceData)
+        info.initialize(otherIndex, 0x40, appearanceData)
         val client = info.clients[index]
         Assertions.assertTrue(client.highRes[index])
         Assertions.assertEquals(0, client.activityFlags[index])
@@ -466,8 +470,8 @@ class PlayerInfoTest {
         require(info.playerCount == 0)
         require(buf.position() == 0)
 
-        info.registerClient(index)
-        otherIndexes.forEach { info.registerClient(it) }
+        info.initialize(index, 0x40, appearanceData)
+        otherIndexes.forEach { info.initialize(it, 0x40, appearanceData) }
 
         val client = info.clients[index]
         Assertions.assertTrue(client.highRes[index])
@@ -520,6 +524,228 @@ class PlayerInfoTest {
         Assertions.assertEquals(0, client.activityFlags[otherIndexes[2]])
         Assertions.assertEquals(0, client.activityFlags[otherIndexes[3]])
         Assertions.assertEquals(0x1, client.activityFlags[otherIndexes[4]])
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(PlayerInfoCapacityVarProvider::class)
+    fun testPutExtendedInfo(index: Int, info: PlayerInfo) {
+        val buf = buffers[index]
+
+        // mock data
+        val sequenceFlag = 0x8
+        val sequenceId = 4200
+        val sequenceDelay = 200
+        val spotanimFlag = 0x2000
+        val spotanimId = 2400
+        val spotanimDelay = 10
+        val spotanimHeight = 100
+        val spotanimAttribs = (spotanimHeight shl 16) or spotanimDelay
+
+        val flags = sequenceFlag or spotanimFlag
+
+        // in this case flags >= 0xFF so write as short
+        buf.put((flags and 0xFF).toByte())
+        buf.put((flags shr 8).toByte())
+
+        buf.putShort(sequenceId.toShort())
+        buf.put(sequenceDelay.toByte())
+
+        buf.putShort(spotanimId.toShort())
+        buf.putInt(spotanimAttribs)
+
+        val extended = ByteArray(buf.position())
+        buf.flip()
+        buf.get(extended, 0, extended.size)
+        buf.clear()
+
+        info.initialize(index, appearanceFlag = 0x40, appearanceData = appearanceData)
+        info.add(index, coords(3200, 3200), coords(3200, 3200))
+        info.setExtendedInfo(index, flags, extended)
+
+        Assertions.assertEquals(0, buf.position())
+        info.putFully(buf, index)
+        // 1 byte for high-res skip count
+        // 2 bytes for low-res skip count
+        Assertions.assertEquals(3 + extended.size, buf.position())
+
+        BitBuffer(buf.flip()).use { bitBuf ->
+            val updateHighRes = bitBuf.getBoolean()
+            val hasExtendedInfo = bitBuf.getBoolean()
+            val coordsDisplaceType = bitBuf.getBits(2)
+            Assertions.assertTrue(updateHighRes)
+            Assertions.assertTrue(hasExtendedInfo)
+            Assertions.assertEquals(0, coordsDisplaceType)
+
+            /* amount of bits read from high-res portion */
+            val highResBitCount = 4
+            val nextByteBitCount = 8
+            val leftOverBits = nextByteBitCount - highResBitCount
+            /* skip leftover bits */
+            bitBuf.position(bitBuf.position() + leftOverBits)
+            Assertions.assertEquals(nextByteBitCount, bitBuf.position())
+
+            val updateLowRes = bitBuf.getBoolean()
+            val lowResSkipCountOpcode = bitBuf.getBits(2)
+            val skipCount = bitBuf.getBits(11)
+            Assertions.assertFalse(updateLowRes)
+            Assertions.assertEquals(3, lowResSkipCountOpcode)
+            Assertions.assertEquals(MAX_PLAYER_CAPACITY - info.playerCount - 1, skipCount)
+        }
+
+        val flags1 = buf.get().toInt() and 0xFF
+        val flags2 = buf.get().toInt() and 0xFF
+        val extendedFlags = flags1 or (flags2 shl 8)
+        Assertions.assertEquals(flags, extendedFlags)
+
+        val bufSequenceId = buf.short.toInt() and 0xFFFF
+        val bufSequenceDelay = buf.get().toInt() and 0xFF
+        Assertions.assertEquals(sequenceId, bufSequenceId)
+        Assertions.assertEquals(sequenceDelay, bufSequenceDelay)
+
+        val bufSpotanimId = buf.short.toInt() and 0xFFFF
+        val bufSpotanimAttribs = buf.int
+        val bufSpotanimHeight = bufSpotanimAttribs shr 16
+        val bufSpotanimDelay = bufSpotanimAttribs and 0xFFFF
+        Assertions.assertEquals(spotanimId, bufSpotanimId)
+        Assertions.assertEquals(spotanimHeight, bufSpotanimHeight)
+        Assertions.assertEquals(spotanimDelay, bufSpotanimDelay)
+
+        Assertions.assertEquals(buf.position(), buf.limit())
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(PlayerInfoCapacityVarProvider::class)
+    fun testPutExtendedInfoAppearanceOnly(index: Int, info: PlayerInfo) {
+        val buf = buffers[index]
+        require(info.playerCount == 0)
+        require(buf.position() == 0)
+
+        // mock example appearance data
+        val displayName = "test-name"
+        val gender = 1.toByte()
+        val skull = 2.toByte()
+        val prayer = (-1).toByte()
+        val appLength = 47 + displayName.length + 1
+        buf.put(0.toByte())
+        buf.put(gender)
+        buf.put(skull)
+        buf.put(prayer)
+        repeat(12) { buf.putShort((0x100 + it).toShort()) }
+        repeat(5) { buf.put(it.toByte()) }
+        repeat(7) { buf.putShort((800 + it).toShort()) }
+        buf.put(displayName.toByteArray()).put(0)
+        buf.put(0, buf.position().toByte())
+
+        Assertions.assertEquals(appLength, buf.position())
+
+        val appearanceData = ByteArray(buf.position())
+        buf.flip()
+        buf.get(appearanceData, 0, appearanceData.size)
+        buf.clear()
+
+        val appearanceFlag = 0x40
+        info.initialize(index, appearanceFlag = appearanceFlag, appearanceData = appearanceData)
+        info.add(index, coords(3200, 3200), coords(0, 0))
+
+        Assertions.assertEquals(0, buf.position())
+        info.putFully(buf, index)
+        // 3 bytes for local high-res player
+        // 3 bytes for low-res skip count
+        Assertions.assertEquals(6 + appLength, buf.position())
+
+        BitBuffer(buf.flip()).use { bitBuf ->
+            val updateHighRes = bitBuf.getBoolean()
+            val hasExtendedInfo = bitBuf.getBoolean()
+            val coordsDisplaceType = bitBuf.getBits(2)
+            val isLargeTeleport = bitBuf.getBoolean()
+            // coordinate deltas should all be 0 on log-in
+            val deltaLevel = bitBuf.getBits(2)
+            val deltaX = bitBuf.getBits(5)
+            val deltaY = bitBuf.getBits(5)
+            Assertions.assertTrue(updateHighRes)
+            Assertions.assertTrue(hasExtendedInfo)
+            Assertions.assertEquals(3, coordsDisplaceType)
+            Assertions.assertFalse(isLargeTeleport)
+            Assertions.assertEquals(0, deltaLevel)
+            Assertions.assertEquals(0, deltaX)
+            Assertions.assertEquals(0, deltaY)
+
+            /* amount of bits read from high-res portion */
+            val highResBitCount = 17
+            val nextByteBitCount = 24
+            val leftOverBits = nextByteBitCount - highResBitCount
+            /* skip leftover bits */
+            bitBuf.position(bitBuf.position() + leftOverBits)
+            Assertions.assertEquals(nextByteBitCount, bitBuf.position())
+
+            val updateLowRes = bitBuf.getBoolean()
+            val skipCountOpcode = bitBuf.getBits(2)
+            val skipCount = bitBuf.getBits(11)
+            Assertions.assertFalse(updateLowRes)
+            Assertions.assertEquals(3, skipCountOpcode)
+            Assertions.assertEquals(MAX_PLAYER_CAPACITY - info.playerCount - 1, skipCount)
+        }
+
+        val extendedFlags = buf.get().toInt()
+        val extendedLength = buf.limit() - buf.position()
+        Assertions.assertEquals(appearanceFlag, extendedFlags)
+        Assertions.assertEquals(appearanceData.size, extendedLength)
+        for (i in 0 until extendedLength) {
+            Assertions.assertEquals(appearanceData[i], buf.get())
+        }
+        Assertions.assertEquals(buf.position(), buf.limit())
+    }
+
+    @Test
+    fun testFullCapacityBufferLimit() {
+        val info = PlayerInfo(2047)
+        val index = 1
+        val buf = buffers[index]
+        val client = info.clients[index]
+        val indexes = IntArray(info.playerCapacity) { it }
+        require(info.playerCount == 0)
+        require(buf.position() == 0)
+
+        indexes.forEach { info.initialize(it, 0x40, appearanceData) }
+        indexes.forEach { info.add(it, coords(4800, 4800), coords(4800, 4800)) }
+
+        Assertions.assertEquals(indexes.size, info.playerCount)
+        BitBuffer(buf).use { bitBuf ->
+            val skipCount = info.lowResAvatarsToSkip(
+                dest = bitBuf,
+                startIndex = index,
+                activeFlags = false,
+                client = client,
+                avatar = info.avatars[index],
+                extended = ExtendedMetadata()
+            )
+            Assertions.assertEquals(0, skipCount)
+        }
+
+        val extended = ExtendedMetadata()
+        Assertions.assertEquals(0, buf.position())
+        info.putFully(buf, index, extended)
+        Assertions.assertEquals(224, extended.count)
+        Assertions.assertEquals(35143, buf.position())
+    }
+
+    @Test
+    fun testSinglePlayerFullExtendedInfo() {
+        val info = PlayerInfo(2047)
+        val index = 5
+        val extended = ByteArray(TOTAL_BYTE_SIZE - 1)
+        val buf = buffers[index].clear()
+        val metadata = ExtendedMetadata()
+        require(info.playerCount == 0)
+        require(buf.position() == 0)
+        info.initialize(playerIndex = index, appearanceFlag = 0x40, appearanceData = appearanceData)
+        info.add(playerIndex = index, currCoords = coords(3200, 3200), prevCoords = coords(3200, 3200))
+        info.setExtendedInfo(playerIndex = index, maskFlags = 0x2000, data = extended)
+        info.putFully(buf, playerIndex = index, metadata)
+        Assertions.assertEquals(1, metadata.count)
+        Assertions.assertEquals(extended.size, metadata.length)
+        // 3 bytes for local high-res player portion
+        Assertions.assertEquals(extended.size + 3, buf.position())
     }
 
     private object PlayerInfoCapacityVarProvider : ArgumentsProvider {
