@@ -6,4 +6,4 @@ import org.rsmod.plugins.api.model.event.PlayerSession
 private val events: EventBus by inject()
 private val task: GPITask by inject()
 
-events.subscribe<PlayerSession.Initialize> { task.init(player) }
+events.subscribe<PlayerSession.Initialize> { task.initialize(player) }

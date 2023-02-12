@@ -1,6 +1,5 @@
 package org.rsmod.plugins.api.info
 
-import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
 import org.openrs2.buffer.setByteC
 import org.openrs2.buffer.writeString
@@ -21,34 +20,35 @@ public class GPITask @Inject constructor(
         singleBufferCapacity = 40_000
     )
 
-    public fun init(player: Player) {
-        info.registerClient(player.index)
+    public fun initialize(player: Player) {
+        info.initialize(player.index, 0x40, player.appearanceData())
     }
 
     override fun execute() {
-        players.forEach { player ->
-            player ?: return@forEach
-            val buf = buffers[player.index].clear()
-            info.add(player.index, player.coords.packed, player.prevCoords.packed)
-            val appearance = player.appearanceData()
-            buf.limit(appearance.readableBytes())
-            appearance.readBytes(buf)
-            info.setAppearance(player.index, buf.array(), buf.limit())
-        }
-        players.forEach { player ->
-            player ?: return@forEach
-            val buf = buffers[player.index].clear()
-            info.read(buf, player.index)
-            player.downstream += PlayerInfoPacket(buf.array(), buf.limit())
-        }
-        players.forEach { player ->
-            player ?: return@forEach
-            player.prevCoords = player.coords
-        }
-        info.clear()
+        info.prepare()
+        players.forEach { it?.prepareGpi() }
+        players.forEach { it?.executeGpi() }
+        players.forEach { it?.finalizeGpi() }
     }
 
-    private fun Player.appearanceData(): ByteBuf {
+    private fun Player.prepareGpi() {
+        info.add(index, coords.packed, prevCoords.packed)
+        //TODO: info.setExtendedInfo(index, updateMaskFlags, updateMaskData)
+    }
+
+    private fun Player.executeGpi() {
+        val buf = buffers[index].clear()
+        info.read(buf, index)
+        downstream += PlayerInfoPacket(buf.array(), buf.limit())
+    }
+
+    private fun Player.finalizeGpi() {
+        // should _not_ be handled in gpi task, but for testing purposes.
+        prevCoords = coords
+        // TODO: if (player.loggedOut) info.finalize(player.index)
+    }
+
+    private fun Player.appearanceData(): ByteArray {
         val buf = Unpooled.buffer()
         buf.writeZero(1)
         buf.writeByte(0)
@@ -77,7 +77,8 @@ public class GPITask @Inject constructor(
         }
         buf.writeByte(0)
         buf.setByteC(0, buf.readableBytes() - 1)
-        return buf
+        return ByteArray(buf.readableBytes())
+            .apply { buf.readBytes(this) }
     }
 
     private companion object {
