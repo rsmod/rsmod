@@ -20,9 +20,6 @@ import org.rsmod.plugins.info.player.extended.ExtendedMetadata
 import java.nio.ByteBuffer
 import java.util.concurrent.TimeUnit
 
-open class PlayerInfo250 : PlayerInfoBenchmark(250)
-open class PlayerInfo500 : PlayerInfoBenchmark(500)
-open class PlayerInfo1000 : PlayerInfoBenchmark(1000)
 open class PlayerInfo2047 : PlayerInfoBenchmark(2047)
 
 @State(Scope.Benchmark)
@@ -54,7 +51,7 @@ abstract class PlayerInfoBenchmark(private val playerCapacity: Int) {
         val index = 5
         val extended = ByteArray(TOTAL_BYTE_SIZE - 1)
         val buffer = buffers[index].clear()
-        info.clear()
+        info.prepare()
         info.add(playerIndex = index, currCoords = coords(3200, 3200), prevCoords = coords(3200, 3200))
         info.setExtendedInfo(playerIndex = index, maskFlags = 0x2000, data = extended)
         info.putFully(buffer, playerIndex = index)
@@ -63,7 +60,7 @@ abstract class PlayerInfoBenchmark(private val playerCapacity: Int) {
 
     @Benchmark
     fun maxPlayersWithNoUpdates(bh: Blackhole) {
-        info.clear()
+        info.prepare()
         for (i in 0 until playerCapacity) {
             info.add(playerIndex = i, currCoords = coords(3200, 3200), prevCoords = coords(3200, 3200))
         }
@@ -76,7 +73,7 @@ abstract class PlayerInfoBenchmark(private val playerCapacity: Int) {
 
     @Benchmark
     fun maxPlayersAddAllLowResToHighRes(bh: Blackhole) {
-        info.clear()
+        info.prepare()
         for (i in 0 until playerCapacity) {
             info.add(playerIndex = i, currCoords = coords(8400, 8400), prevCoords = coords(3200, 3200))
         }
@@ -89,7 +86,7 @@ abstract class PlayerInfoBenchmark(private val playerCapacity: Int) {
 
     @Benchmark
     fun maxPlayersWithLowResLargeTeleportChange(bh: Blackhole) {
-        info.clear()
+        info.prepare()
         for (i in 0 until playerCapacity) {
             info.add(playerIndex = i, currCoords = coords(8400, 8400), prevCoords = coords(3200, 3200))
         }
@@ -106,7 +103,7 @@ abstract class PlayerInfoBenchmark(private val playerCapacity: Int) {
 
     @Benchmark
     fun maxPlayersWithHighResLargeTeleportChange(bh: Blackhole) {
-        info.clear()
+        info.prepare()
         for (playerIndex in 0 until playerCapacity) {
             info.add(
                 playerIndex = playerIndex,
@@ -128,7 +125,7 @@ abstract class PlayerInfoBenchmark(private val playerCapacity: Int) {
     fun maxPlayersWith512BytesExtendedInfoEach(bh: Blackhole) {
         /* each byte is copied to personal buffer so can use this for all */
         val data = ByteArray(512)
-        info.clear()
+        info.prepare()
         for (playerIndex in 0 until playerCapacity) {
             info.add(
                 playerIndex = playerIndex,

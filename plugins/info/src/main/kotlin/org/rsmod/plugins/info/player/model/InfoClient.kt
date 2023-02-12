@@ -2,6 +2,7 @@ package org.rsmod.plugins.info.player.model
 
 public class InfoClient(playerCapacity: Int) {
 
+    public var logout: Boolean = false
     public var viewDistance: Byte = 15
     public var ringBufIndex: Int = 0
     public val highRes: BooleanArray = BooleanArray(playerCapacity)

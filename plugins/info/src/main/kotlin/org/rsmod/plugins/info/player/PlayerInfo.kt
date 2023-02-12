@@ -38,6 +38,7 @@ public class PlayerInfo(
 
     public fun initialize(playerIndex: Int, appearanceFlag: Int, appearanceData: ByteArray) {
         val client = clients[playerIndex]
+        client.logout = false
         client.viewDistance = DEFAULT_VIEW_DISTANCE.toByte()
         Arrays.fill(client.highRes, false)
         Arrays.fill(client.activityFlags, 0)
@@ -48,6 +49,7 @@ public class PlayerInfo(
 
     public fun finalize(playerIndex: Int) {
         appearance[playerIndex].reset()
+        clients[playerIndex].logout = true
     }
 
     public fun add(playerIndex: Int, currCoords: Int, prevCoords: Int) {
@@ -64,7 +66,7 @@ public class PlayerInfo(
         extBuffers[ringBufIndex].offset = 0
     }
 
-    public fun clear() {
+    public fun prepare() {
         playerCount = 0
     }
 
@@ -104,7 +106,7 @@ public class PlayerInfo(
          * We want to put all high-res appearance masks on first log in. This does mean
          * that the only high-res player that will be force-sent said extended info would
          * be our "local" client/player. This is because the only high-res avatar will
-         * be our local avatar on first their first gpi tick.
+         * be our local avatar on their first gpi tick.
          *
          * With current `isNewLogin` logic - this may not always be the case (player is
          * located in coords 0,0,0). We may change this condition to use a flag within
@@ -112,7 +114,7 @@ public class PlayerInfo(
          */
         val loggedIn = isNewLogIn(avatar.prevCoords)
         var skipCount = 0
-        for (i in 0 until playerCount) {
+        for (i in 0 until playerCapacity) {
             val other = avatars[i]
             val index = other.playerIndex.toInt()
             if (!client.highRes[index]) continue
@@ -135,12 +137,13 @@ public class PlayerInfo(
                 extended.length += length
                 client.setExtendedInfoRingBufIndex(count, i, appearanceOnly = loggedIn)
             }
+            val loggedOut = clients[index].logout
             val updateCoords = other.currCoords != other.prevCoords
-            val updateHighRes = updateCoords || hasExtendedInfo
+            val updateHighRes = updateCoords || hasExtendedInfo || loggedOut
             dest.putBoolean(updateHighRes)
             if (
                 !inViewDistance(avatar.currCoords, other.currCoords, client.viewDistance.toInt()) ||
-                isLoggedOut(other.currCoords, other.prevCoords)
+                loggedOut
             ) {
                 val otherCurrCoordsLow = toLowResCoords(other.currCoords)
                 val otherPrevCoordsLow = toLowResCoords(other.prevCoords)
@@ -170,7 +173,7 @@ public class PlayerInfo(
             if (!client.highRes[index]) continue
             val flaggedInactive = (client.activityFlags[index].toInt() and 0x1) != 0
             if (activeFlags == flaggedInactive) continue
-            val loggedOut = isLoggedOut(other.currCoords, other.prevCoords)
+            val loggedOut = clients[index].logout
             val loggedIn = isNewLogIn(other.prevCoords)
             val extendedInfo = loggedIn || other.extendedInfoFlags.toInt() != 0
             val updateCoords = other.currCoords != other.prevCoords
@@ -286,7 +289,7 @@ public class PlayerInfo(
         client: InfoClient,
         extended: ExtendedMetadata
     ) {
-        check(appearanceFlag != 0) { "Appearance flag must be set via `cacheAppearance` function." }
+        check(appearanceFlag != 0) { "Appearance flag must be set via `initialize` function." }
         for (i in 0 until extended.count) {
             val appearanceOnly = client.isExtendedInfoRingBufIndexAppearanceOnly(i)
             val ringBufIndex = client.getExtendedInfoRingBufIndex(i)

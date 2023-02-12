@@ -313,7 +313,7 @@ class PlayerInfoTest {
         Assertions.assertTrue(info.clients[index].highRes[otherIndex])
 
         /* adding from low-res to high-res requires at least one full iteration beforehand */
-        info.clear()
+        info.prepare()
         info.add(index, currCoords = coords(3200, 3200), prevCoords = coords(3200, 3200))
         info.add(otherIndex, currCoords = coords(4800, 5200), prevCoords = coords(3205, 3208))
 
@@ -359,7 +359,7 @@ class PlayerInfoTest {
         Assertions.assertEquals(0x1, client.activityFlags[index])
 
         /* adding from low-res to high-res requires at least one full iteration beforehand */
-        info.clear()
+        info.prepare()
         info.add(index, currCoords = coords(3200, 3200), prevCoords = coords(3200, 3200))
         info.add(otherIndex, currCoords = coords(3200, 3200), prevCoords = coords(3200, 3200))
         Assertions.assertEquals(2, info.playerCount)
@@ -401,7 +401,7 @@ class PlayerInfoTest {
         Assertions.assertEquals(0, client.activityFlags[index])
 
         /* adding from low-res to high-res requires at least one full iteration beforehand */
-        info.clear()
+        info.prepare()
         info.add(index, currCoords = coords(3200, 3200), prevCoords = coords(3200, 3200))
         info.add(otherIndexes[0], currCoords = coords(3200, 3200), prevCoords = coords(3200, 3200))
         info.add(otherIndexes[1], currCoords = coords(3200, 3200), prevCoords = coords(3200, 3200))
@@ -449,7 +449,7 @@ class PlayerInfoTest {
         Assertions.assertEquals(0x1, client.activityFlags[index])
 
         /* adding from low-res to high-res requires at least one full iteration beforehand */
-        info.clear()
+        info.prepare()
         info.add(index, currCoords = coords(3200, 3200), prevCoords = coords(3200, 3200))
         info.add(otherIndex, currCoords = coords(9000, 9000), prevCoords = coords(9000, 9000))
         Assertions.assertEquals(2, info.playerCount)
@@ -491,7 +491,7 @@ class PlayerInfoTest {
         Assertions.assertEquals(0, client.activityFlags[index])
 
         /* adding from low-res to high-res requires at least one full iteration beforehand */
-        info.clear()
+        info.prepare()
         info.add(index, currCoords = coords(3200, 3200), prevCoords = coords(3200, 3200))
         info.add(otherIndexes[0], currCoords = coords(4800, 4800), prevCoords = coords(4800, 4800))
         info.add(otherIndexes[1], currCoords = coords(4800, 4800), prevCoords = coords(4800, 4800))
