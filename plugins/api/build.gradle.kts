@@ -7,6 +7,7 @@ dependencies {
     implementation(projects.game.protocol)
     implementation(projects.game.types)
     implementation(projects.json)
+    implementation(projects.plugins.info)
     implementation(projects.plugins.typesGenerated)
     implementation(libs.nettyBuffer)
     implementation(libs.nettyTransport)

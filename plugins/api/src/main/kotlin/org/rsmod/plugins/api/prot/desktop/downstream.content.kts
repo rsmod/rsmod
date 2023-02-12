@@ -5,6 +5,7 @@ import org.openrs2.buffer.writeByteS
 import org.openrs2.buffer.writeShortA
 import org.rsmod.plugins.api.net.downstream.IfOpenSub
 import org.rsmod.plugins.api.net.downstream.IfOpenTop
+import org.rsmod.plugins.api.net.downstream.PlayerInfoPacket
 import org.rsmod.plugins.api.net.downstream.RebuildNormal
 import org.rsmod.plugins.api.net.platform.GamePlatformPacketMaps
 
@@ -43,5 +44,13 @@ packets.register<RebuildNormal> {
         packet.xteaList.forEach { key ->
             buf.writeInt(key)
         }
+    }
+}
+
+packets.register<PlayerInfoPacket> {
+    opcode = 26
+    length = variableShortLength
+    encode { packet, buf ->
+        buf.writeBytes(packet.data, 0, packet.length)
     }
 }

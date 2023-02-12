@@ -6,6 +6,7 @@ import io.netty.handler.codec.ByteToMessageDecoder
 import org.openrs2.crypto.NopStreamCipher
 import org.openrs2.crypto.StreamCipher
 import org.rsmod.protocol.game.packet.PacketCodec
+import org.rsmod.protocol.game.packet.UpstreamDiscardPacket
 
 private sealed class Stage {
     object ReadOpcode : Stage()
@@ -46,10 +47,12 @@ public class ProtocolDecoder(
             val payload = input.readSlice(length)
             val packet = decoder.decode(payload, cipher)
             check(!payload.isReadable) {
-                "Decoder did not fully read payload. " +
+                "Decoder (${decoder.javaClass.simpleName}) did not fully read payload. " +
                     "(read ${payload.readerIndex()} bytes, left with ${payload.readableBytes()})"
             }
-            out += packet
+            if (packet !is UpstreamDiscardPacket) {
+                out += packet
+            }
             stage = Stage.ReadOpcode
         }
     }
