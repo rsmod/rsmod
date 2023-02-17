@@ -11,4 +11,10 @@ public sealed class UpstreamEvent : Event {
         val x: Int,
         val y: Int
     ) : UpstreamEvent()
+
+    public data class ClientCheat(
+        val player: Player,
+        val text: String,
+        val args: List<String>
+    ) : UpstreamEvent()
 }

@@ -9,7 +9,8 @@ import org.rsmod.game.task.UpstreamTask
 internal object UpstreamHandlerModule : AbstractModule() {
 
     private val handlers = listOf(
-        MoveGameClickHandler::class.java
+        MoveGameClickHandler::class.java,
+        ClientCheatHandler::class.java
     )
 
     override fun configure() {
