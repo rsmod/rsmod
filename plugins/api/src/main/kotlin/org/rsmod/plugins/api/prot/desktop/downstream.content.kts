@@ -3,10 +3,13 @@ package org.rsmod.plugins.api.prot.desktop
 import org.openrs2.buffer.BitBuf
 import org.openrs2.buffer.writeByteS
 import org.openrs2.buffer.writeShortA
+import org.openrs2.buffer.writeShortLEA
 import org.rsmod.plugins.api.net.downstream.IfOpenSub
 import org.rsmod.plugins.api.net.downstream.IfOpenTop
 import org.rsmod.plugins.api.net.downstream.PlayerInfoPacket
 import org.rsmod.plugins.api.net.downstream.RebuildNormal
+import org.rsmod.plugins.api.net.downstream.VarpLarge
+import org.rsmod.plugins.api.net.downstream.VarpSmall
 import org.rsmod.plugins.api.net.platform.GamePlatformPacketMaps
 
 private val platforms: GamePlatformPacketMaps by inject()
@@ -52,5 +55,23 @@ packets.register<PlayerInfoPacket> {
     length = variableShortLength
     encode { packet, buf ->
         buf.writeBytes(packet.data, 0, packet.length)
+    }
+}
+
+packets.register<VarpSmall> {
+    opcode = 31
+    length = 3
+    encode { packet, buf ->
+        buf.writeByteS(packet.packed)
+        buf.writeShortA(packet.varp)
+    }
+}
+
+packets.register<VarpLarge> {
+    opcode = 76
+    length = 6
+    encode { packet, buf ->
+        buf.writeInt(packet.packed)
+        buf.writeShortLEA(packet.varp)
     }
 }
