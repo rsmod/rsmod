@@ -1,4 +1,4 @@
-package org.rsmod.plugins.info
+package org.rsmod.plugins.info.buffer
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
@@ -111,38 +111,38 @@ class BitBufferTest {
             buf.putInt(1234567890)
 
             BitBuffer(buf).use { bitBuf ->
-                assertEquals(1234567890, bitBuf.setBits(0, 32))
+                assertEquals(1234567890, bitBuf.getBits(0, 32))
 
-                assertEquals(0b0100100110010110, bitBuf.setBits(0, 16))
-                assertEquals(0b0000001011010010, bitBuf.setBits(16, 16))
+                assertEquals(0b0100100110010110, bitBuf.getBits(0, 16))
+                assertEquals(0b0000001011010010, bitBuf.getBits(16, 16))
 
-                assertEquals(0b01001001, bitBuf.setBits(0, 8))
-                assertEquals(0b10010110, bitBuf.setBits(8, 8))
-                assertEquals(0b00000010, bitBuf.setBits(16, 8))
-                assertEquals(0b11010010, bitBuf.setBits(24, 8))
+                assertEquals(0b01001001, bitBuf.getBits(0, 8))
+                assertEquals(0b10010110, bitBuf.getBits(8, 8))
+                assertEquals(0b00000010, bitBuf.getBits(16, 8))
+                assertEquals(0b11010010, bitBuf.getBits(24, 8))
 
-                assertEquals(0b10011001, bitBuf.setBits(4, 8))
+                assertEquals(0b10011001, bitBuf.getBits(4, 8))
 
-                assertEquals(0b100110010110, bitBuf.setBits(4, 12))
+                assertEquals(0b100110010110, bitBuf.getBits(4, 12))
 
-                assertEquals(0, bitBuf.setBits(0, 1))
-                assertEquals(0, bitBuf.setBit(0))
-                assertEquals(false, bitBuf.setBoolean(0))
+                assertEquals(0, bitBuf.getBits(0, 1))
+                assertEquals(0, bitBuf.getBit(0))
+                assertEquals(false, bitBuf.getBoolean(0))
 
-                assertEquals(1, bitBuf.setBits(1, 1))
-                assertEquals(1, bitBuf.setBit(1))
-                assertEquals(true, bitBuf.setBoolean(1))
+                assertEquals(1, bitBuf.getBits(1, 1))
+                assertEquals(1, bitBuf.getBit(1))
+                assertEquals(true, bitBuf.getBoolean(1))
 
                 assertThrows<IndexOutOfBoundsException> {
-                    bitBuf.setBits(-1, 1)
+                    bitBuf.getBits(-1, 1)
                 }
 
                 assertThrows<IndexOutOfBoundsException> {
-                    bitBuf.setBits(32, 1)
+                    bitBuf.getBits(32, 1)
                 }
 
                 assertThrows<IllegalArgumentException> {
-                    bitBuf.setBits(0, 0)
+                    bitBuf.getBits(0, 0)
                 }
 
                 assertThrows<IllegalArgumentException> {
@@ -531,6 +531,24 @@ class BitBufferTest {
                 assertThrows<IndexOutOfBoundsException> {
                     bitBuf.position(17)
                 }
+            }
+        }
+    }
+
+    @Test
+    fun testIsCapped() {
+        ByteBuffer.allocate(32).let { buf ->
+            BitBuffer(buf).use { bitBuf ->
+                assertTrue(bitBuf.isCapped(extendedByteLength = 16, safetyBuffer = 16))
+                assertFalse(bitBuf.isCapped(extendedByteLength = 15, safetyBuffer = 16))
+                assertFalse(bitBuf.isCapped(extendedByteLength = 31, safetyBuffer = 0))
+            }
+        }
+
+        ByteBuffer.allocate(40_000).let { buf ->
+            BitBuffer(buf).use { bitBuf ->
+                assertFalse(bitBuf.isCapped(extendedByteLength = 100, safetyBuffer = 2500))
+                assertTrue(bitBuf.isCapped(extendedByteLength = 39907, safetyBuffer = 2500))
             }
         }
     }

@@ -1,4 +1,4 @@
-package org.rsmod.plugins.info
+package org.rsmod.plugins.info.buffer
 
 import java.nio.ByteBuffer
 import kotlin.math.min
@@ -19,15 +19,15 @@ public class BitBuffer(
             buf.limit((limit shr LOG_BITS_PER_BYTE))
         }
 
-    public fun setBoolean(index: Int): Boolean {
-        return setBits(index, 1) != 0
+    public fun getBoolean(index: Int): Boolean {
+        return getBits(index, 1) != 0
     }
 
-    public fun setBit(index: Int): Int {
-        return setBits(index, 1)
+    public fun getBit(index: Int): Int {
+        return getBits(index, 1)
     }
 
-    public fun setBits(index: Int, len: Int): Int {
+    public fun getBits(index: Int, len: Int): Int {
         require(len in 1..BITS_PER_INT)
 
         if (index < 0 || (index + len) > capacity()) {
@@ -67,7 +67,7 @@ public class BitBuffer(
 
     public fun getBits(len: Int): Int {
         checkReadableBits(len)
-        val value = setBits(position, len)
+        val value = getBits(position, len)
         position += len
         return value
     }
@@ -99,7 +99,7 @@ public class BitBuffer(
         require(len in 1..BITS_PER_INT)
 
         if (index < 0 || (index + len) > capacity()) {
-            throw IndexOutOfBoundsException()
+            throw IndexOutOfBoundsException("Buffer overflow. (index=$index, len=$len, capacity=${capacity()})")
         }
 
         var remaining = len
@@ -218,7 +218,7 @@ public class BitBuffer(
     }
 
     public fun flip(): BitBuffer {
-        buf.flip()
+        position(0)
         return this
     }
 

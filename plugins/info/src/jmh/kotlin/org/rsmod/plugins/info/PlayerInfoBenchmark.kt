@@ -13,14 +13,11 @@ import org.openjdk.jmh.annotations.Setup
 import org.openjdk.jmh.annotations.State
 import org.openjdk.jmh.annotations.Warmup
 import org.openjdk.jmh.infra.Blackhole
-import org.rsmod.plugins.info.player.PlayerInfo
-import org.rsmod.plugins.info.player.extended.ExtendedInfoSizes.APPEARANCE_MAX_BYTE_SIZE
-import org.rsmod.plugins.info.player.extended.ExtendedInfoSizes.TOTAL_BYTE_SIZE
-import org.rsmod.plugins.info.player.extended.ExtendedMetadata
+import org.rsmod.plugins.info.PlayerInfo.Companion.CACHED_EXT_INFO_BUFFER_SIZE
 import java.nio.ByteBuffer
 import java.util.concurrent.TimeUnit
 
-open class PlayerInfo2047 : PlayerInfoBenchmark(2047)
+open class SimplePlayerInfoBenchmark : PlayerInfoBenchmark()
 
 @State(Scope.Benchmark)
 @BenchmarkMode(Mode.AverageTime)
@@ -28,127 +25,43 @@ open class PlayerInfo2047 : PlayerInfoBenchmark(2047)
 @Warmup(iterations = 1, time = 5)
 @Measurement(iterations = 1, time = 5)
 @Fork(value = 1, warmups = 0)
-abstract class PlayerInfoBenchmark(private val playerCapacity: Int) {
+abstract class PlayerInfoBenchmark {
 
     private lateinit var info: PlayerInfo
-    private lateinit var buffers: Array<ByteBuffer>
+    private lateinit var buf: ByteBuffer
+    private lateinit var staticExtInfo: ByteArray
 
     @Setup
     fun setup() {
-        /* allocate enough memory for a _ton_ of extended info data */
-        val bufferLimitPerClient = 1_250_000
-        info = PlayerInfo(playerCapacity, bufferLimitPerClient)
-        buffers = Array(info.playerCapacity) { ByteBuffer.allocate(bufferLimitPerClient) }
+        info = PlayerInfo()
+        buf = ByteBuffer.allocate(200_000)
+        staticExtInfo = ByteArray(CACHED_EXT_INFO_BUFFER_SIZE)
+    }
 
-        val appearanceData = ByteArray(APPEARANCE_MAX_BYTE_SIZE)
-        for (i in 0 until info.playerCapacity) {
-            info.initialize(i, 0x40, appearanceData)
+    @Benchmark
+    fun registerAndUpdateMaxPlayersNoExtInfo(bh: Blackhole) {
+        for (i in info.indices) {
+            info.register(i)
+        }
+        for (i in info.indices) {
+            bh.consume(info.put(buf, i))
+        }
+        for (i in info.indices) {
+            info.unregister(i)
         }
     }
 
     @Benchmark
-    fun singlePlayerWithFullExtendedInfo(bh: Blackhole) {
-        val index = 5
-        val extended = ByteArray(TOTAL_BYTE_SIZE - 1)
-        val buffer = buffers[index].clear()
-        info.prepare()
-        info.add(playerIndex = index, currCoords = coords(3200, 3200), prevCoords = coords(3200, 3200))
-        info.setExtendedInfo(playerIndex = index, maskFlags = 0x2000, data = extended)
-        info.putFully(buffer, playerIndex = index)
-        bh.consume(buffer)
-    }
-
-    @Benchmark
-    fun maxPlayersWithNoUpdates(bh: Blackhole) {
-        info.prepare()
-        for (i in 0 until playerCapacity) {
-            info.add(playerIndex = i, currCoords = coords(3200, 3200), prevCoords = coords(3200, 3200))
+    fun registerAndUpdateMaxPlayersWithMaxByteStaticExtInfo(bh: Blackhole) {
+        for (i in info.indices) {
+            info.register(i)
+            info.cacheStaticExtendedInfo(i, staticExtInfo)
         }
-        for (i in 0 until playerCapacity) {
-            val buffer = buffers[i].clear()
-            info.putFully(buffer, playerIndex = i)
-            bh.consume(buffer)
+        for (i in info.indices) {
+            bh.consume(info.put(buf, i))
         }
-    }
-
-    @Benchmark
-    fun maxPlayersAddAllLowResToHighRes(bh: Blackhole) {
-        info.prepare()
-        for (i in 0 until playerCapacity) {
-            info.add(playerIndex = i, currCoords = coords(8400, 8400), prevCoords = coords(3200, 3200))
-        }
-        for (i in 0 until playerCapacity) {
-            val buffer = buffers[i].clear()
-            info.putFully(buffer, playerIndex = i)
-            bh.consume(buffer)
-        }
-    }
-
-    @Benchmark
-    fun maxPlayersWithLowResLargeTeleportChange(bh: Blackhole) {
-        info.prepare()
-        for (i in 0 until playerCapacity) {
-            info.add(playerIndex = i, currCoords = coords(8400, 8400), prevCoords = coords(3200, 3200))
-        }
-        for (i in 0 until playerCapacity) {
-            val buffer = buffers[i].clear()
-            // Don't want to be within "view distance" of other avatars.
-            info.avatars[i].currCoords = coords(1400, 1400)
-            info.putFully(buffer, playerIndex = i)
-            // Now set it back so others can do same as above.
-            info.avatars[i].currCoords = coords(8400, 8400)
-            bh.consume(buffer)
-        }
-    }
-
-    @Benchmark
-    fun maxPlayersWithHighResLargeTeleportChange(bh: Blackhole) {
-        info.prepare()
-        for (playerIndex in 0 until playerCapacity) {
-            info.add(
-                playerIndex = playerIndex,
-                currCoords = coords(8400, 8400),
-                prevCoords = coords(3200, 3200)
-            )
-            for (otherIndex in 0 until playerCapacity) {
-                info.clients[playerIndex].highRes[otherIndex] = true
-            }
-        }
-        for (i in 0 until playerCapacity) {
-            val buffer = buffers[i].clear()
-            info.putFully(buffer, playerIndex = i)
-            bh.consume(buffer)
-        }
-    }
-
-    @Benchmark
-    fun maxPlayersWith512BytesExtendedInfoEach(bh: Blackhole) {
-        /* each byte is copied to personal buffer so can use this for all */
-        val data = ByteArray(512)
-        info.prepare()
-        for (playerIndex in 0 until playerCapacity) {
-            info.add(
-                playerIndex = playerIndex,
-                currCoords = coords(3200, 3200),
-                prevCoords = coords(3200, 3200)
-            )
-            info.setExtendedInfo(playerIndex = playerIndex, maskFlags = 0x2000, data = data)
-            for (otherIndex in 0 until playerCapacity) {
-                info.clients[playerIndex].highRes[otherIndex] = true
-            }
-        }
-        for (i in 0 until playerCapacity) {
-            val buffer = buffers[i].clear()
-            val extended = ExtendedMetadata()
-            info.putFully(buffer, playerIndex = i, extended)
-            bh.consume(buffer)
-        }
-    }
-
-    private companion object {
-
-        private fun coords(x: Int, y: Int, level: Int = 0): Int {
-            return (y and 0x3FFF) or ((x and 0x3FFF) shl 14) or ((level and 0x3) shl 28)
+        for (i in info.indices) {
+            info.unregister(i)
         }
     }
 }

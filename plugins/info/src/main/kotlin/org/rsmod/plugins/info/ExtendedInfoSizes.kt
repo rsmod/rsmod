@@ -1,4 +1,4 @@
-package org.rsmod.plugins.info.player.extended
+package org.rsmod.plugins.info
 
 public object ExtendedInfoSizes {
 
@@ -12,6 +12,7 @@ public object ExtendedInfoSizes {
     private const val COMPRESSED_CHAT_MAX_BYTE_LENGTH = 255
 
     public const val TEMP_MOVE_BYTE_SIZE: Int = 1
+    public const val PERM_MOVE_BYTE_SIZE: Int = 1
     public const val FACE_DIRECTION_BYTE_SIZE: Int = 2
     public const val FACE_TARGET_BYTE_SIZE: Int = 2
     public const val ANIM_BYTE_SIZE: Int = 3
@@ -33,6 +34,7 @@ public object ExtendedInfoSizes {
     public const val HIT_BYTE_SIZE: Int = 2 + (MAX_HIT_COUNT * PER_HIT_BYTE_LENGTH)
 
     public const val TOTAL_BYTE_SIZE: Int = TEMP_MOVE_BYTE_SIZE +
+        PERM_MOVE_BYTE_SIZE +
         FACE_DIRECTION_BYTE_SIZE +
         FACE_TARGET_BYTE_SIZE +
         ANIM_BYTE_SIZE +
