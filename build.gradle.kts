@@ -71,6 +71,8 @@ allprojects {
     tasks.withType<KotlinCompile> {
         kotlinOptions {
             jvmTarget = "11"
+            /* https://youtrack.jetbrains.com/issue/KT-52735/Ignore-scripts-in-source-roots-by-default */
+            freeCompilerArgs = listOf("-Xallow-any-scripts-in-source-roots")
         }
     }
 
