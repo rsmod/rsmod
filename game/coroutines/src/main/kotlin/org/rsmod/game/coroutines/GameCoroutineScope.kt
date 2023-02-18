@@ -25,13 +25,13 @@ public class GameCoroutineScope(public var superviseCoroutines: Boolean = false)
     }
 
     public fun supervisedResume(coroutine: GameCoroutine, result: Result<Unit>) {
-        when (val exception = result.exceptionOrNull()) {
-            null -> children -= coroutine
-            !is CancellationException -> throw exception
-            !is ScopeCancellationException -> {
-                children -= coroutine
-                throw exception
-            }
+        val exception = result.exceptionOrNull()
+        /* scope cancellation removes all children at the end */
+        if (exception !is ScopeCancellationException) {
+            children -= coroutine
+        }
+        if (exception != null && exception !is CancellationException) {
+            throw exception
         }
     }
 
