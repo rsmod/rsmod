@@ -273,6 +273,8 @@ public class PlayerInfo(public val playerLimit: Int = MAX_PLAYER_LIMIT) {
                     // high-res players into account. This is a limitation of the
                     // overall design (allows for the removal of player-owned
                     // "player indexes" arrays).
+                    // A possible workaround is to calculate the amount of highRes players
+                    // beforehand and feed it as an argument.
                     val possibleBytesLeft = (indices.last - i) * MAX_BYTES_PER_LOW_RES_PLAYER
                     if (
                         length != null && extendedBlock != null &&
