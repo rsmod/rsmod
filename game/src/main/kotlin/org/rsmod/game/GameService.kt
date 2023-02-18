@@ -73,6 +73,7 @@ public class GameService @Inject private constructor(
 
     private fun worldCycle() {
         worldCoroutineScope.advance()
+        players.forEachNotNull { player -> player.coroutineScope.advance() }
     }
 
     private fun clientInput() {
@@ -85,7 +86,6 @@ public class GameService @Inject private constructor(
     }
 
     private fun playerCycle() {
-        players.forEachNotNull { player -> player.coroutineScope.advance() }
     }
 
     private fun clientOutput() {
