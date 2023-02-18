@@ -74,7 +74,7 @@ public class GameCoroutine(public val debugName: String? = null) {
     }
 
     override fun toString(): String {
-        return "GameCoroutine(debugName=$debugName, continuation=$suspension)"
+        return "GameCoroutine(debugName=$debugName, suspension=$suspension)"
     }
 
     private companion object {
