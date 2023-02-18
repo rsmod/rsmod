@@ -59,16 +59,20 @@ class PlayerInfoTransmissionTest {
         val buf = ByteBuffer.allocate(DEFAULT_BUFFER_LIMIT)
         val index = DUMMY_INDEX
         val metadata = PlayerInfoMetadata()
+        val extInfo = mockExtendedInfo(buf, "SinglePlayer")
         info.register(index)
         info.updateCoords(index, HighResCoord(3200, 3200), HighResCoord(3200, 3200))
+        info.updateExtendedInfo(index, extInfo)
         info.put(buf, index, metadata)
-        assertEquals(3, buf.remaining())
+        assertEquals(3 + extInfo.size, buf.remaining())
         run getHighRes@{
             BitBuffer(buf).use { bitBuf ->
                 val readOpcode = bitBuf.getBits(1)
-                val skipOpcode = bitBuf.getBits(2)
-                assertEquals(READ_SKIP_COUNT_OPCODE, readOpcode)
-                assertEquals(READ_SKIP_COUNT_NO_BITS, skipOpcode)
+                val extended = bitBuf.getBoolean()
+                val displaceType = bitBuf.getBits(2)
+                assertEquals(READ_AVATAR_INFO_OPCODE, readOpcode)
+                assertTrue(extended)
+                assertEquals(0, displaceType)
             }
         }
         run getLowRes@{
@@ -80,6 +84,11 @@ class PlayerInfoTransmissionTest {
                 assertEquals(READ_SKIP_COUNT_11BITS, skipOpcode)
                 assertEquals(MAX_PLAYER_LIMIT - 2, skipCount)
             }
+        }
+        run getExtendedInfo@{
+            val remaining = ByteArray(buf.remaining())
+            buf.get(remaining)
+            assertArrayEquals(extInfo, remaining)
         }
         assertEquals(0, buf.remaining())
     }
