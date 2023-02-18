@@ -19,3 +19,7 @@ dependencies {
     implementation(libs.logback)
     implementation(libs.inlineLogger)
 }
+
+subprojects {
+    group = rootProject.group.toString() + ".game"
+}

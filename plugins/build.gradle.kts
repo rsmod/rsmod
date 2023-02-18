@@ -5,6 +5,8 @@ plugins {
 }
 
 subprojects {
+    group = rootProject.group.toString() + ".plugins"
+
     plugins.withType<KotlinPluginWrapper> {
         dependencies {
             implementation("org.jetbrains.kotlin:kotlin-script-runtime:1.7.0")

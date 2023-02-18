@@ -97,7 +97,7 @@ allprojects {
             }
 
             publications.withType<MavenPublication> {
-                artifactId = "rsmod-${project.name}"
+                artifactId = project.name
                 pom {
                     url.set("https://github.com/rsmod")
                     inceptionYear.set("2022")

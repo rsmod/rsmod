@@ -5,8 +5,6 @@ plugins {
 }
 
 subprojects {
-    group = "org.rsmod.plugins.content"
-
     plugins.withType<KotlinPluginWrapper> {
         dependencies {
             implementation(projects.game.types)

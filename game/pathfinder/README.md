@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.rsmod:rsmod-pathfinder:1.3.0")
+    implementation("org.rsmod.game:pathfinder:1.3.0")
 }
 ```
 
