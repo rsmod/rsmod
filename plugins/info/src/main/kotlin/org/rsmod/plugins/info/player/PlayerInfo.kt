@@ -1,20 +1,20 @@
-package org.rsmod.plugins.info
+package org.rsmod.plugins.info.player
 
-import org.rsmod.plugins.info.buffer.BitBuffer
-import org.rsmod.plugins.info.buffer.SimpleBuffer
-import org.rsmod.plugins.info.buffer.isCapped
-import org.rsmod.plugins.info.model.ExtendedInfoBlock
-import org.rsmod.plugins.info.model.PlayerInfoMetadata
-import org.rsmod.plugins.info.model.client.Avatar
-import org.rsmod.plugins.info.model.client.Client
-import org.rsmod.plugins.info.model.client.Client.Companion.extendedInfoBlockIndex
-import org.rsmod.plugins.info.model.client.Client.Companion.isInitDynamicExtInfoIndex
-import org.rsmod.plugins.info.model.client.Client.Companion.isInitStaticExtInfoIndex
-import org.rsmod.plugins.info.model.client.Client.Companion.trimExtendedInfoIndex
-import org.rsmod.plugins.info.model.client.clean
-import org.rsmod.plugins.info.model.client.isInvalid
-import org.rsmod.plugins.info.model.client.isValid
-import org.rsmod.plugins.info.model.coord.HighResCoord
+import org.rsmod.plugins.info.player.buffer.BitBuffer
+import org.rsmod.plugins.info.player.buffer.SimpleBuffer
+import org.rsmod.plugins.info.player.buffer.isCapped
+import org.rsmod.plugins.info.player.model.ExtendedInfoBlock
+import org.rsmod.plugins.info.player.model.PlayerInfoMetadata
+import org.rsmod.plugins.info.player.model.client.Avatar
+import org.rsmod.plugins.info.player.model.client.Client
+import org.rsmod.plugins.info.player.model.client.Client.Companion.extendedInfoBlockIndex
+import org.rsmod.plugins.info.player.model.client.Client.Companion.isInitDynamicExtInfoIndex
+import org.rsmod.plugins.info.player.model.client.Client.Companion.isInitStaticExtInfoIndex
+import org.rsmod.plugins.info.player.model.client.Client.Companion.trimExtendedInfoIndex
+import org.rsmod.plugins.info.player.model.client.clean
+import org.rsmod.plugins.info.player.model.client.isInvalid
+import org.rsmod.plugins.info.player.model.client.isValid
+import org.rsmod.plugins.info.player.model.coord.HighResCoord
 import java.nio.ByteBuffer
 
 private typealias AvatarGroup = Array<Avatar>
@@ -163,11 +163,11 @@ public class PlayerInfo(public val playerLimit: Int = MAX_PLAYER_LIMIT) {
         var skip = 0
         for (i in indices) {
             if (!isHighResolution[i]) continue
-            val inactive = (activity[i].toInt() and INACTIVE_FLAG) != 0
+            val inactive = (activity[i].toInt() and org.rsmod.plugins.info.player.PlayerInfo.INACTIVE_FLAG) != 0
             if (inactive == active) continue
             if (skip > 0) {
                 skip--
-                activity[i] = (activity[i].toInt() or ACTIVE_TO_INACTIVE_FLAG).toByte()
+                activity[i] = (activity[i].toInt() or org.rsmod.plugins.info.player.PlayerInfo.ACTIVE_TO_INACTIVE_FLAG).toByte()
                 metadata.highResolutionCount++
                 continue
             }
@@ -180,11 +180,15 @@ public class PlayerInfo(public val playerLimit: Int = MAX_PLAYER_LIMIT) {
             }
             if (other.extendedInfoLength != 0) {
                 val currLength = metadata.extendedInfoLength + other.extendedInfoLength
-                val skipCompletely = isCapped(currLength, CACHED_EXT_INFO_SAFETY_BUFFER)
+                val skipCompletely = isCapped(currLength,
+                    org.rsmod.plugins.info.player.PlayerInfo.CACHED_EXT_INFO_SAFETY_BUFFER
+                )
                 if (!skipCompletely) {
                     // TODO: turn on dynamic-extended-info-only mode in metadata
                     // to use later in putExtendedInfo
-                    val dynamicOnly = isCapped(currLength, HIGH_RES_SAFETY_BUFFER)
+                    val dynamicOnly = isCapped(currLength,
+                        org.rsmod.plugins.info.player.PlayerInfo.HIGH_RES_SAFETY_BUFFER
+                    )
                     if (!dynamicOnly) {
                         extInfoIndexes[metadata.extendedInfoCount++] = i.toShort()
                         // if we read extended info from high-resolution we should
@@ -208,7 +212,7 @@ public class PlayerInfo(public val playerLimit: Int = MAX_PLAYER_LIMIT) {
                 activity = activity,
                 isHighResolution = isHighResolution
             )
-            activity[i] = (activity[i].toInt() or ACTIVE_TO_INACTIVE_FLAG).toByte()
+            activity[i] = (activity[i].toInt() or org.rsmod.plugins.info.player.PlayerInfo.ACTIVE_TO_INACTIVE_FLAG).toByte()
             metadata.highResolutionSkip += skip
             metadata.highResolutionCount++
             putSkipCount(skip)
@@ -249,11 +253,11 @@ public class PlayerInfo(public val playerLimit: Int = MAX_PLAYER_LIMIT) {
         var skip = 0
         for (i in indices) {
             if (isHighResolution[i]) continue
-            val inactive = (activity[i].toInt() and INACTIVE_FLAG) != 0
+            val inactive = (activity[i].toInt() and org.rsmod.plugins.info.player.PlayerInfo.INACTIVE_FLAG) != 0
             if (inactive == active) continue
             if (skip > 0) {
                 skip--
-                activity[i] = (activity[i].toInt() or ACTIVE_TO_INACTIVE_FLAG).toByte()
+                activity[i] = (activity[i].toInt() or org.rsmod.plugins.info.player.PlayerInfo.ACTIVE_TO_INACTIVE_FLAG).toByte()
                 metadata.lowResolutionCount++
                 continue
             }
@@ -266,7 +270,7 @@ public class PlayerInfo(public val playerLimit: Int = MAX_PLAYER_LIMIT) {
                     // NOTE: we _could_ use the cached extended info buffers to get the
                     // actual length. however - this avoids skipping around in memory and
                     // adds another small safety net to the buffer byte cap.
-                    val length = if (extendedBlock != null) CACHED_EXT_INFO_BUFFER_SIZE else null
+                    val length = if (extendedBlock != null) org.rsmod.plugins.info.player.PlayerInfo.CACHED_EXT_INFO_BUFFER_SIZE else null
 
                     // The amount of bytes that can be written for the other low-res
                     // players left in the iteration. Note that this still takes
@@ -275,12 +279,12 @@ public class PlayerInfo(public val playerLimit: Int = MAX_PLAYER_LIMIT) {
                     // "player indexes" arrays).
                     // A possible workaround is to calculate the amount of highRes players
                     // beforehand and feed it as an argument.
-                    val possibleBytesLeft = (indices.last - i) * MAX_BYTES_PER_LOW_RES_PLAYER
+                    val possibleBytesLeft = (indices.last - i) * org.rsmod.plugins.info.player.PlayerInfo.MAX_BYTES_PER_LOW_RES_PLAYER
                     if (
                         length != null && extendedBlock != null &&
                         !isCapped(
                             metadata.extendedInfoLength + length + possibleBytesLeft,
-                            CACHED_EXT_INFO_SAFETY_BUFFER
+                            org.rsmod.plugins.info.player.PlayerInfo.CACHED_EXT_INFO_SAFETY_BUFFER
                         )
                     ) {
                         val ringIndex = metadata.extendedInfoCount++
@@ -294,7 +298,7 @@ public class PlayerInfo(public val playerLimit: Int = MAX_PLAYER_LIMIT) {
                     metadata.lowResolutionCount++
                     putLowToHighResChange(other.coords, other.prevCoords)
                     putBoolean(updateExtendedInfo)
-                    activity[i] = (activity[i].toInt() or ACTIVE_TO_INACTIVE_FLAG).toByte()
+                    activity[i] = (activity[i].toInt() or org.rsmod.plugins.info.player.PlayerInfo.ACTIVE_TO_INACTIVE_FLAG).toByte()
                     continue
                 }
                 val currLowResCoords = other.coords.toLowRes()
@@ -313,7 +317,7 @@ public class PlayerInfo(public val playerLimit: Int = MAX_PLAYER_LIMIT) {
                 activity = activity,
                 isHighResolution = isHighResolution
             )
-            activity[i] = (activity[i].toInt() or ACTIVE_TO_INACTIVE_FLAG).toByte()
+            activity[i] = (activity[i].toInt() or org.rsmod.plugins.info.player.PlayerInfo.ACTIVE_TO_INACTIVE_FLAG).toByte()
             metadata.lowResolutionSkip += skip
             metadata.lowResolutionCount++
             putSkipCount(skip)

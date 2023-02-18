@@ -1,4 +1,4 @@
-package org.rsmod.plugins.info.model.bitcode
+package org.rsmod.plugins.info.player.model.bitcode
 
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -7,8 +7,8 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.ArgumentsProvider
 import org.junit.jupiter.params.provider.ArgumentsSource
-import org.rsmod.plugins.info.buffer.BitBuffer
-import org.rsmod.plugins.info.model.bitcode.I26BitCode.Companion.VALUE_BITS
+import org.rsmod.plugins.info.player.buffer.BitBuffer
+import org.rsmod.plugins.info.player.model.bitcode.I26BitCode.Companion.VALUE_BITS
 import java.nio.ByteBuffer
 import java.util.stream.Stream
 

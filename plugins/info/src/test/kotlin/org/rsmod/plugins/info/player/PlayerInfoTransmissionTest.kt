@@ -1,23 +1,23 @@
-package org.rsmod.plugins.info
+package org.rsmod.plugins.info.player
 
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import org.rsmod.plugins.info.PlayerInfo.Companion.DEFAULT_BUFFER_LIMIT
-import org.rsmod.plugins.info.PlayerInfo.Companion.MAX_PLAYER_LIMIT
-import org.rsmod.plugins.info.PlayerInfoOpcodes.READ_AVATAR_INFO_OPCODE
-import org.rsmod.plugins.info.PlayerInfoOpcodes.READ_CHANGE_RESOLUTION
-import org.rsmod.plugins.info.PlayerInfoOpcodes.READ_HIGH_RES_COORDS_DISPLACEMENT
-import org.rsmod.plugins.info.PlayerInfoOpcodes.READ_HIGH_RES_COORDS_TELEPORT_CHANGE
-import org.rsmod.plugins.info.PlayerInfoOpcodes.READ_SKIP_COUNT_11BITS
-import org.rsmod.plugins.info.PlayerInfoOpcodes.READ_SKIP_COUNT_5BITS
-import org.rsmod.plugins.info.PlayerInfoOpcodes.READ_SKIP_COUNT_NO_BITS
-import org.rsmod.plugins.info.PlayerInfoOpcodes.READ_SKIP_COUNT_OPCODE
-import org.rsmod.plugins.info.buffer.BitBuffer
-import org.rsmod.plugins.info.model.PlayerInfoMetadata
-import org.rsmod.plugins.info.model.coord.HighResCoord
+import org.rsmod.plugins.info.player.PlayerInfo.Companion.DEFAULT_BUFFER_LIMIT
+import org.rsmod.plugins.info.player.PlayerInfo.Companion.MAX_PLAYER_LIMIT
+import org.rsmod.plugins.info.player.PlayerInfoOpcodes.READ_AVATAR_INFO_OPCODE
+import org.rsmod.plugins.info.player.PlayerInfoOpcodes.READ_CHANGE_RESOLUTION
+import org.rsmod.plugins.info.player.PlayerInfoOpcodes.READ_HIGH_RES_COORDS_DISPLACEMENT
+import org.rsmod.plugins.info.player.PlayerInfoOpcodes.READ_HIGH_RES_COORDS_TELEPORT_CHANGE
+import org.rsmod.plugins.info.player.PlayerInfoOpcodes.READ_SKIP_COUNT_11BITS
+import org.rsmod.plugins.info.player.PlayerInfoOpcodes.READ_SKIP_COUNT_5BITS
+import org.rsmod.plugins.info.player.PlayerInfoOpcodes.READ_SKIP_COUNT_NO_BITS
+import org.rsmod.plugins.info.player.PlayerInfoOpcodes.READ_SKIP_COUNT_OPCODE
+import org.rsmod.plugins.info.player.buffer.BitBuffer
+import org.rsmod.plugins.info.player.model.PlayerInfoMetadata
+import org.rsmod.plugins.info.player.model.coord.HighResCoord
 import java.nio.ByteBuffer
 
 class PlayerInfoTransmissionTest {

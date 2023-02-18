@@ -1,4 +1,4 @@
-package org.rsmod.plugins.info.model.bitcode
+package org.rsmod.plugins.info.player.model.bitcode
 
 @JvmInline
 public value class I26BitCode private constructor(private val packed: Int) {

@@ -1,6 +1,6 @@
-package org.rsmod.plugins.info.model.client
+package org.rsmod.plugins.info.player.model.client
 
-import org.rsmod.plugins.info.model.ExtendedInfoBlock
+import org.rsmod.plugins.info.player.model.ExtendedInfoBlock
 
 public class Client(
     playerCapacity: Int,

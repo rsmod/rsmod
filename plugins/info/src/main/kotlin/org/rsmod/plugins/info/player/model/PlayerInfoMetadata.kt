@@ -1,4 +1,4 @@
-package org.rsmod.plugins.info.model
+package org.rsmod.plugins.info.player.model
 
 public data class PlayerInfoMetadata(
     public var highResolutionCount: Int = 0,

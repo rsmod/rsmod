@@ -1,4 +1,4 @@
-package org.rsmod.plugins.info.buffer
+package org.rsmod.plugins.info.player.buffer
 
 import java.nio.ByteBuffer
 import kotlin.math.min

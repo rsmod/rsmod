@@ -1,4 +1,4 @@
-package org.rsmod.plugins.info
+package org.rsmod.plugins.info.player
 
 object PlayerInfoOpcodes {
 

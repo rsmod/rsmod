@@ -1,6 +1,6 @@
-package org.rsmod.plugins.info.model.client
+package org.rsmod.plugins.info.player.model.client
 
-import org.rsmod.plugins.info.model.coord.HighResCoord
+import org.rsmod.plugins.info.player.model.coord.HighResCoord
 
 public class Avatar(
     public var registered: Boolean = false,

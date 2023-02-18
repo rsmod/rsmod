@@ -1,9 +1,9 @@
-package org.rsmod.plugins.info
+package org.rsmod.plugins.info.player
 
-import org.rsmod.plugins.info.buffer.BitBuffer
-import org.rsmod.plugins.info.model.bitcode.I26BitCode
-import org.rsmod.plugins.info.model.coord.HighResCoord
-import org.rsmod.plugins.info.model.coord.LowResCoord
+import org.rsmod.plugins.info.player.buffer.BitBuffer
+import org.rsmod.plugins.info.player.model.bitcode.I26BitCode
+import org.rsmod.plugins.info.player.model.coord.HighResCoord
+import org.rsmod.plugins.info.player.model.coord.LowResCoord
 
 internal fun BitBuffer.getI26BitCode(bits: Int): I26BitCode {
     return I26BitCode(getBits(bits), bits)

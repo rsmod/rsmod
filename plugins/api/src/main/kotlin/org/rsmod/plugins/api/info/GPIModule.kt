@@ -3,7 +3,7 @@ package org.rsmod.plugins.api.info
 import com.google.inject.AbstractModule
 import com.google.inject.Scopes
 import org.rsmod.game.task.PlayerInfoTask
-import org.rsmod.plugins.info.PlayerInfo
+import org.rsmod.plugins.info.player.PlayerInfo
 
 public object GPIModule : AbstractModule() {
 

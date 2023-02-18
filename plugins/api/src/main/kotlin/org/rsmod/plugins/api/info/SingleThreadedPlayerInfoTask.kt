@@ -10,8 +10,8 @@ import org.rsmod.game.model.mob.Player
 import org.rsmod.game.model.mob.list.PlayerList
 import org.rsmod.game.task.PlayerInfoTask
 import org.rsmod.plugins.api.net.downstream.PlayerInfoPacket
-import org.rsmod.plugins.info.PlayerInfo
-import org.rsmod.plugins.info.model.coord.HighResCoord
+import org.rsmod.plugins.info.player.PlayerInfo
+import org.rsmod.plugins.info.player.model.coord.HighResCoord
 import javax.inject.Inject
 import javax.inject.Singleton
 

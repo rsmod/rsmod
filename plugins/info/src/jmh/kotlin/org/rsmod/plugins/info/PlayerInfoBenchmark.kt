@@ -13,7 +13,8 @@ import org.openjdk.jmh.annotations.Setup
 import org.openjdk.jmh.annotations.State
 import org.openjdk.jmh.annotations.Warmup
 import org.openjdk.jmh.infra.Blackhole
-import org.rsmod.plugins.info.PlayerInfo.Companion.CACHED_EXT_INFO_BUFFER_SIZE
+import org.rsmod.plugins.info.player.PlayerInfo
+import org.rsmod.plugins.info.player.PlayerInfo.Companion.CACHED_EXT_INFO_BUFFER_SIZE
 import java.nio.ByteBuffer
 import java.util.concurrent.TimeUnit
 

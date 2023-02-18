@@ -1,7 +1,7 @@
 package org.rsmod.plugins.api.info
 
 import org.rsmod.game.model.mob.list.PlayerList
-import org.rsmod.plugins.info.PlayerInfo
+import org.rsmod.plugins.info.player.PlayerInfo
 import javax.inject.Inject
 import javax.inject.Provider
 
