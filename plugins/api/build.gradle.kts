@@ -3,12 +3,18 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.cache)
+    api(projects.plugins.typesGenerated)
+    implementation(projects.game)
+    implementation(projects.game.events)
+    implementation(projects.game.plugins)
     implementation(projects.game.protocol)
     implementation(projects.game.types)
+    implementation(projects.cache)
     implementation(projects.json)
     implementation(projects.plugins.info)
-    implementation(projects.plugins.typesGenerated)
+    implementation(libs.inlineLogger)
+    implementation(libs.kotlinScriptRuntime)
+    implementation(libs.logback)
     implementation(libs.nettyBuffer)
     implementation(libs.nettyTransport)
     implementation(libs.openrs2Cache)
