@@ -8,7 +8,8 @@ public object GameCoroutineModule : AbstractModule() {
 
     override fun configure() {
         bind(GameCoroutineScope::class.java)
-            .toProvider(GameCoroutineScopeProvider::class.java)
+            .annotatedWith(WorldCoroutineScope::class.java)
+            .to(GameCoroutineScope::class.java)
             .`in`(Scopes.SINGLETON)
     }
 }
