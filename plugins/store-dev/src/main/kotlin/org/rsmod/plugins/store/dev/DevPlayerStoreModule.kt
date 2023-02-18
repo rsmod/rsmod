@@ -3,10 +3,10 @@ package org.rsmod.plugins.store.dev
 import com.google.inject.Scopes
 import com.google.inject.TypeLiteral
 import org.rsmod.game.plugins.module.DevModule
-import org.rsmod.game.store.player.PlayerCodec
-import org.rsmod.game.store.player.PlayerDataMapper
 import org.rsmod.plugins.store.dev.data.DevJsonPlayerCodec
 import org.rsmod.plugins.store.dev.data.DevPlayerDataMapper
+import org.rsmod.plugins.store.player.PlayerCodec
+import org.rsmod.plugins.store.player.PlayerDataMapper
 
 public object DevPlayerStoreModule : DevModule() {
 

@@ -1,6 +1,6 @@
 package org.rsmod.plugins.store.dev.data
 
-import org.rsmod.game.store.player.PlayerCodecData
+import org.rsmod.plugins.store.player.PlayerCodecData
 
 public data class DevPlayerData(
     public val username: String,

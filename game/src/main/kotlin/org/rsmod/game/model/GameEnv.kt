@@ -1,4 +1,4 @@
-package org.rsmod.game.env
+package org.rsmod.game.model
 
 public sealed class GameEnv {
 

@@ -3,11 +3,11 @@ package org.rsmod.plugins.store.dev.data
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.rsmod.game.config.GameConfig
 import org.rsmod.game.model.mob.Player
-import org.rsmod.game.store.player.PlayerCodec
-import org.rsmod.game.store.player.PlayerCodecData
-import org.rsmod.game.store.player.PlayerDataMapper
-import org.rsmod.game.store.player.PlayerDataRequest
-import org.rsmod.game.store.player.PlayerDataResponse
+import org.rsmod.plugins.store.player.PlayerCodec
+import org.rsmod.plugins.store.player.PlayerCodecData
+import org.rsmod.plugins.store.player.PlayerDataMapper
+import org.rsmod.plugins.store.player.PlayerDataRequest
+import org.rsmod.plugins.store.player.PlayerDataResponse
 import org.rsmod.json.Json
 import java.nio.file.Files
 import java.nio.file.Path

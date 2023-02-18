@@ -3,9 +3,9 @@ package org.rsmod.plugins.store.dev.data
 import org.rsmod.game.config.GameConfig
 import org.rsmod.game.model.map.Coordinates
 import org.rsmod.game.model.mob.Player
-import org.rsmod.game.store.player.PlayerDataMapper
-import org.rsmod.game.store.player.PlayerDataRequest
-import org.rsmod.game.store.player.PlayerDataResponse
+import org.rsmod.plugins.store.player.PlayerDataMapper
+import org.rsmod.plugins.store.player.PlayerDataRequest
+import org.rsmod.plugins.store.player.PlayerDataResponse
 import javax.inject.Inject
 
 public class DevPlayerDataMapper @Inject constructor(

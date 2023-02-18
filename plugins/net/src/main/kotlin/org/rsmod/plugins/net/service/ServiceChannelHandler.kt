@@ -17,9 +17,6 @@ import org.rsmod.game.client.Client
 import org.rsmod.game.client.ClientList
 import org.rsmod.game.events.EventBus
 import org.rsmod.game.model.mob.list.PlayerList
-import org.rsmod.game.store.player.PlayerCodec
-import org.rsmod.game.store.player.PlayerDataRequest
-import org.rsmod.game.store.player.PlayerDataResponse
 import org.rsmod.plugins.api.model.event.ClientSession
 import org.rsmod.plugins.api.net.client.Platform
 import org.rsmod.plugins.api.net.login.LoginPacketRequest
@@ -37,6 +34,9 @@ import org.rsmod.plugins.net.login.downstream.LoginResponse
 import org.rsmod.plugins.net.service.downstream.ServiceResponse
 import org.rsmod.plugins.net.service.upstream.ServiceRequest
 import org.rsmod.plugins.net.setClientAttr
+import org.rsmod.plugins.store.player.PlayerCodec
+import org.rsmod.plugins.store.player.PlayerDataRequest
+import org.rsmod.plugins.store.player.PlayerDataResponse
 import org.rsmod.protocol.game.Protocol
 import org.rsmod.protocol.game.ProtocolDecoder
 import org.rsmod.protocol.game.ProtocolEncoder

@@ -10,8 +10,8 @@ import org.rsmod.game.GameBootstrap
 import org.rsmod.game.GameModule
 import org.rsmod.game.config.GameConfig
 import org.rsmod.game.config.GameConfigModule
-import org.rsmod.game.env.GameEnv
-import org.rsmod.game.event.GameBootUp
+import org.rsmod.game.model.GameEnv
+import org.rsmod.game.model.event.GameBootUp
 import org.rsmod.game.events.EventBus
 import org.rsmod.game.plugins.content.ContentPluginLoader
 import org.rsmod.game.plugins.content.KotlinScriptContentPlugin

@@ -1,4 +1,4 @@
-package org.rsmod.game.store.player
+package org.rsmod.plugins.store.player
 
 public data class PlayerDataRequest(
     val username: String,

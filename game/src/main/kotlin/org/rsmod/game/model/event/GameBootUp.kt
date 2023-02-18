@@ -1,4 +1,4 @@
-package org.rsmod.game.event
+package org.rsmod.game.model.event
 
 import org.rsmod.game.events.Event
 
