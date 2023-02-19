@@ -22,6 +22,7 @@ import org.rsmod.plugins.info.player.model.client.isInvalid
 import org.rsmod.plugins.info.player.model.client.isValid
 import org.rsmod.plugins.info.player.model.coord.HighResCoord
 import java.nio.ByteBuffer
+import kotlin.math.max
 
 private typealias AvatarGroup = Array<Avatar>
 private typealias ClientGroup = Array<Client>
@@ -45,7 +46,7 @@ public class PlayerInfo(public val playerLimit: Int = MAX_PLAYER_LIMIT) {
         val avatar = avatars[playerIndex]
         avatar.registered = true
         client.isHighResolution[playerIndex] = true
-        client.viewDistance = DEFAULT_VIEW_DISTANCE
+        client.viewDistance = PREFERRED_VIEW_DISTANCE
     }
 
     public fun unregister(playerIndex: Int) {
@@ -97,6 +98,7 @@ public class PlayerInfo(public val playerLimit: Int = MAX_PLAYER_LIMIT) {
         buf.putExtendedInfo(metadata.extendedInfoCount, client.extendedInfoIndexes)
         buf.flip()
         shift(client)
+        resize(client, metadata.highResolutionCount)
     }
 
     public fun shift(client: Client): Unit = with(client) {
@@ -107,12 +109,27 @@ public class PlayerInfo(public val playerLimit: Int = MAX_PLAYER_LIMIT) {
         }
     }
 
+    public fun resize(client: Client, highResCount: Int): Unit = with(client) {
+        if (highResCount >= PREFERRED_VIEW_DISTANCE_PLAYER_COUNT) {
+            viewDistance = max(0, viewDistance - 1)
+            resizeViewDistanceInterval = 0
+            return
+        }
+        if (++resizeViewDistanceInterval >= VIEW_DISTANCE_RESIZE_INTERVALS) {
+            if (viewDistance < PREFERRED_VIEW_DISTANCE) {
+                viewDistance++
+            } else {
+                resizeViewDistanceInterval = 0
+            }
+        }
+    }
+
     public fun BitBuffer.putHighResolution(
         active: Boolean,
         coords: HighResCoord,
         client: Client,
         metadata: PlayerInfoMetadata
-    ): Unit = with (client) {
+    ): Unit = with(client) {
         var skip = 0
         for (i in indices) {
             if (!isHighResolution[i]) continue
@@ -191,7 +208,7 @@ public class PlayerInfo(public val playerLimit: Int = MAX_PLAYER_LIMIT) {
         coords: HighResCoord,
         client: Client,
         metadata: PlayerInfoMetadata
-    ): Unit = with (client) {
+    ): Unit = with(client) {
         var skip = 0
         for (i in indices) {
             if (isHighResolution[i]) continue
@@ -307,7 +324,9 @@ public class PlayerInfo(public val playerLimit: Int = MAX_PLAYER_LIMIT) {
         public const val INDEX_PADDING: Int = 1
         public const val MAX_PLAYER_LIMIT: Int = 2047
 
-        public const val DEFAULT_VIEW_DISTANCE: Int = 15
+        public const val PREFERRED_VIEW_DISTANCE: Int = 15
+        public const val VIEW_DISTANCE_RESIZE_INTERVALS: Int = 10
+        public const val PREFERRED_VIEW_DISTANCE_PLAYER_COUNT: Int = 250
 
         public const val DEFAULT_BUFFER_LIMIT: Int = 40_000
         public const val HIGH_RES_SAFETY_BUFFER: Int = 5000

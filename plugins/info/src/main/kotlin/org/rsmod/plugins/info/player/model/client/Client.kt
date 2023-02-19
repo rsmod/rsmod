@@ -5,6 +5,7 @@ import org.rsmod.plugins.info.player.model.ExtendedInfoBlock
 public class Client(
     playerCapacity: Int,
     public var viewDistance: Int = 0,
+    public var resizeViewDistanceInterval: Int = 0,
     public val isHighResolution: BooleanArray = BooleanArray(playerCapacity),
     public val pendingResolutionChange: BooleanArray = BooleanArray(playerCapacity),
     public val activityFlags: ByteArray = ByteArray(playerCapacity),
@@ -48,6 +49,7 @@ public class Client(
 
 public fun Client.clean() {
     viewDistance = 0
+    resizeViewDistanceInterval = 0
     isHighResolution.fill(false)
     pendingResolutionChange.fill(false)
     activityFlags.fill(0)
