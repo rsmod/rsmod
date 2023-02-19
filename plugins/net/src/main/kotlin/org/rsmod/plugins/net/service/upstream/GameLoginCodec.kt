@@ -109,9 +109,9 @@ public class GameLoginCodec @Inject constructor(
         }
         buf.skipBytes(Byte.SIZE_BYTES) /* `clientType` - written twice for some reason */
         buf.skipBytes(Int.SIZE_BYTES)
-        val checksumDecoder = decoders(platform)[LoginPacketRequest.CacheChecksum::class.java]
-            ?: error("CacheChecksum packet decoder must be defined.")
-        val cacheChecksum = checksumDecoder.decode(buf)
+        val crcDecoder = decoders(platform)[LoginPacketRequest.CacheCrc::class.java]
+            ?: error("CacheCrc packet decoder must be defined.")
+        val cacheChecksum = crcDecoder.decode(buf)
         return ServiceRequest.GameLogin(
             buildMajor = major,
             buildMinor = minor,
@@ -123,7 +123,7 @@ public class GameLoginCodec @Inject constructor(
             siteSettings = siteSettings,
             randomDat = randomDat,
             machineInfo = machineInfo,
-            cacheCrc = cacheChecksum.crcs
+            cacheChecksum = cacheChecksum.crcs
         )
     }
 

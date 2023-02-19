@@ -11,6 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import org.openrs2.cache.Js5MasterIndex
 import org.openrs2.crypto.IsaacRandom
 import org.openrs2.crypto.secureRandom
 import org.rsmod.game.client.Client
@@ -56,7 +57,8 @@ public class ServiceChannelHandler @Inject constructor(
     private val gamePackets: GamePlatformPacketMaps,
     private val events: EventBus,
     private val players: PlayerList,
-    private val clients: ClientList
+    private val clients: ClientList,
+    private val js5MasterIndex: Js5MasterIndex
 ) : SimpleChannelInboundHandler<UpstreamPacket>(UpstreamPacket::class.java) {
 
     private lateinit var scope: CoroutineScope
@@ -136,6 +138,9 @@ public class ServiceChannelHandler @Inject constructor(
         } else if (machineInfo.version != Revision.LOGIN_MACHINE_INFO_HEADER) {
             ctx.write(LoginResponse.ClientProtocolOutOfDate).addListener(ChannelFutureListener.CLOSE)
             return
+        } else if (isChecksumOutdated(cacheChecksum)) {
+            ctx.write(LoginResponse.ClientOutOfDate).addListener(ChannelFutureListener.CLOSE)
+            return
         }
         scope.launch {
             // TODO: account dispatcher to hold all this boilerplate
@@ -146,13 +151,11 @@ public class ServiceChannelHandler @Inject constructor(
             )
             when (val deserialize = playerCodec.deserialize(request)) {
                 PlayerDataResponse.InvalidCredentials -> {
-                    // TODO: invalid credentials response
-                    ctx.writeAndFlush(LoginResponse.ClientProtocolOutOfDate)
+                    ctx.writeAndFlush(LoginResponse.InvalidCredentials)
                         .addListener(ChannelFutureListener.CLOSE)
                 }
                 is PlayerDataResponse.Exception -> {
-                    // TODO: correct response
-                    ctx.writeAndFlush(LoginResponse.ClientProtocolOutOfDate)
+                    ctx.writeAndFlush(LoginResponse.CouldNotComplete)
                         .addListener(ChannelFutureListener.CLOSE)
                     logger.error(deserialize.t) { "Exception thrown when deserializing player: $username" }
                 }
@@ -169,9 +172,7 @@ public class ServiceChannelHandler @Inject constructor(
                     // TODO: use load-request response to create player in game-thread dispatcher.
                     val playerIndex = players.nextAvailableIndex()
                     if (playerIndex == null) {
-                        // TODO: world full response
-                        ctx.writeAndFlush(LoginResponse.ClientProtocolOutOfDate)
-                            .addListener(ChannelFutureListener.CLOSE)
+                        ctx.writeAndFlush(LoginResponse.WorldIsFull).addListener(ChannelFutureListener.CLOSE)
                         return@launch
                     }
                     players[playerIndex] = player
@@ -191,7 +192,12 @@ public class ServiceChannelHandler @Inject constructor(
                         cipher = encodeCipher
                     )
                     ctx.writeAndFlush(response).addListener { future ->
-                        if (!future.isSuccess) return@addListener
+                        if (!future.isSuccess) {
+                            logger.error(future.cause()) { "Could not write to channel. (ctx=$ctx)" }
+                            ctx.writeAndFlush(LoginResponse.ErrorConnecting)
+                                .addListener(ChannelFutureListener.CLOSE)
+                            return@addListener
+                        }
                         when (platform) {
                             Platform.Desktop -> {
                                 encoder.protocol = gamePackets.desktopDownstream.getOrCreateProtocol()
@@ -213,7 +219,6 @@ public class ServiceChannelHandler @Inject constructor(
 
     private fun handleUpstreamPacket(ctx: ChannelHandlerContext, msg: UpstreamPacket) {
         val client = ctx.channel().clientAttr() ?: return
-        // TODO: rate limit this
         client.player.upstream += msg
         ctx.read()
     }
@@ -226,5 +231,11 @@ public class ServiceChannelHandler @Inject constructor(
         if (evt is IdleStateEvent) {
             ctx.close()
         }
+    }
+
+    private fun isChecksumOutdated(checksum: IntArray): Boolean {
+        val js5Entries = js5MasterIndex.entries
+        val mismatch = checksum.filterIndexed { index, crc -> crc != 0 && crc != js5Entries[index].checksum }
+        return mismatch.isNotEmpty()
     }
 }

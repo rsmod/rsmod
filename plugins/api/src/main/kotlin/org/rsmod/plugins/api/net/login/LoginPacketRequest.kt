@@ -13,13 +13,13 @@ public sealed class LoginPacketRequest : LoginPacket {
         public object Skip : AuthType()
     }
 
-    public data class CacheChecksum(val crcs: IntArray) : LoginPacketRequest() {
+    public data class CacheCrc(val crcs: IntArray) : LoginPacketRequest() {
 
         override fun equals(other: Any?): Boolean {
             if (this === other) return true
             if (javaClass != other?.javaClass) return false
 
-            other as CacheChecksum
+            other as CacheCrc
 
             return crcs.contentEquals(other.crcs)
         }

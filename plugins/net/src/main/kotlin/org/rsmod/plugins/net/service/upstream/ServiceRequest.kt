@@ -24,7 +24,7 @@ public sealed class ServiceRequest : UpstreamPacket {
         val randomDat: ByteArray,
         val siteSettings: String,
         val machineInfo: MachineInfo,
-        val cacheCrc: IntArray
+        val cacheChecksum: IntArray
     ) : ServiceRequest() {
 
         public data class SecureBlock(
@@ -70,7 +70,7 @@ public sealed class ServiceRequest : UpstreamPacket {
             if (!randomDat.contentEquals(other.randomDat)) return false
             if (siteSettings != other.siteSettings) return false
             if (machineInfo != other.machineInfo) return false
-            return cacheCrc.contentEquals(other.cacheCrc)
+            return cacheChecksum.contentEquals(other.cacheChecksum)
         }
 
         override fun hashCode(): Int {
@@ -84,7 +84,7 @@ public sealed class ServiceRequest : UpstreamPacket {
             result = 31 * result + randomDat.contentHashCode()
             result = 31 * result + siteSettings.hashCode()
             result = 31 * result + machineInfo.hashCode()
-            result = 31 * result + cacheCrc.contentHashCode()
+            result = 31 * result + cacheChecksum.contentHashCode()
             return result
         }
     }

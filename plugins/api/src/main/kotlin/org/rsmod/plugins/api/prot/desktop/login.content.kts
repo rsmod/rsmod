@@ -8,7 +8,7 @@ import org.rsmod.plugins.api.net.platform.LoginPlatformPacketDecoders
 private val platforms: LoginPlatformPacketDecoders by inject()
 private val decoders = platforms.desktop
 
-decoders.register<LoginPacketRequest.AuthType> { buf ->
+decoders.register { buf ->
     when (buf.readUnsignedByte().toInt()) {
         0 -> LoginPacketRequest.AuthType.TwoFactorCheckDeviceLinkFound
         1 -> LoginPacketRequest.AuthType.TwoFactorInputDoNotTrustDevice
@@ -18,7 +18,7 @@ decoders.register<LoginPacketRequest.AuthType> { buf ->
     }
 }
 
-decoders.register<LoginPacketRequest.CacheChecksum> { buf ->
+decoders.register { buf ->
     val crcs = IntArray(21).apply {
         this[13] = buf.readIntAlt3()
         this[2] = buf.readInt()
@@ -42,5 +42,5 @@ decoders.register<LoginPacketRequest.CacheChecksum> { buf ->
         this[4] = buf.readInt()
         this[12] = buf.readIntLE()
     }
-    return@register LoginPacketRequest.CacheChecksum(crcs)
+    return@register LoginPacketRequest.CacheCrc(crcs)
 }

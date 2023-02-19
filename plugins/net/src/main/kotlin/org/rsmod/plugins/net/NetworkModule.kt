@@ -16,7 +16,11 @@ import org.rsmod.plugins.net.login.downstream.BadSessionIdCodec
 import org.rsmod.plugins.net.login.downstream.ClientOutOfDateCodec
 import org.rsmod.plugins.net.login.downstream.ClientProtocolOutOfDateCodec
 import org.rsmod.plugins.net.login.downstream.ConnectOkCodec
+import org.rsmod.plugins.net.login.downstream.CouldNotCompleteCodec
+import org.rsmod.plugins.net.login.downstream.ErrorConnectingCodec
+import org.rsmod.plugins.net.login.downstream.InvalidCredentialsCodec
 import org.rsmod.plugins.net.login.downstream.LoginDownstream
+import org.rsmod.plugins.net.login.downstream.WorldIsFullCodec
 import org.rsmod.plugins.net.rsa.RsaKeyProvider
 import org.rsmod.plugins.net.service.ServiceChannelInitializer
 import org.rsmod.plugins.net.service.downstream.ExchangeSessionKeyCodec
@@ -58,7 +62,11 @@ public object NetworkModule : AbstractModule() {
             ConnectOkCodec::class.java,
             ClientOutOfDateCodec::class.java,
             BadSessionIdCodec::class.java,
-            ClientProtocolOutOfDateCodec::class.java
+            ClientProtocolOutOfDateCodec::class.java,
+            InvalidCredentialsCodec::class.java,
+            CouldNotCompleteCodec::class.java,
+            WorldIsFullCodec::class.java,
+            ErrorConnectingCodec::class.java
         )
 
         bind(NetworkBootstrapFactory::class.java)
