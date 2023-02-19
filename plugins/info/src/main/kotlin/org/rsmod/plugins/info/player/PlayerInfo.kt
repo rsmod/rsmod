@@ -90,58 +90,10 @@ public class PlayerInfo(public val playerLimit: Int = MAX_PLAYER_LIMIT) {
         val avatar = avatars[playerIndex]
         val client = clients[playerIndex]
         buf.clear()
-        BitBuffer(buf).use { bitBuf ->
-            bitBuf.putHighResolution(
-                true,
-                avatar.coords,
-                client.viewDistance,
-                client.activityFlags,
-                client.isHighResolution,
-                client.pendingResolutionChange,
-                client.extendedInfoIndexes,
-                client.extendedInfoClocks,
-                metadata
-            )
-        }
-        BitBuffer(buf).use { bitBuf ->
-            bitBuf.putHighResolution(
-                false,
-                avatar.coords,
-                client.viewDistance,
-                client.activityFlags,
-                client.isHighResolution,
-                client.pendingResolutionChange,
-                client.extendedInfoIndexes,
-                client.extendedInfoClocks,
-                metadata
-            )
-        }
-        BitBuffer(buf).use { bitBuf ->
-            bitBuf.putLowResolution(
-                false,
-                avatar.coords,
-                client.viewDistance,
-                client.activityFlags,
-                client.isHighResolution,
-                client.pendingResolutionChange,
-                client.extendedInfoIndexes,
-                client.extendedInfoClocks,
-                metadata
-            )
-        }
-        BitBuffer(buf).use { bitBuf ->
-            bitBuf.putLowResolution(
-                true,
-                avatar.coords,
-                client.viewDistance,
-                client.activityFlags,
-                client.isHighResolution,
-                client.pendingResolutionChange,
-                client.extendedInfoIndexes,
-                client.extendedInfoClocks,
-                metadata
-            )
-        }
+        BitBuffer(buf).use { bitBuf -> bitBuf.putHighResolution(true, avatar.coords, client, metadata) }
+        BitBuffer(buf).use { bitBuf -> bitBuf.putHighResolution(false, avatar.coords, client, metadata) }
+        BitBuffer(buf).use { bitBuf -> bitBuf.putLowResolution(false, avatar.coords, client, metadata) }
+        BitBuffer(buf).use { bitBuf -> bitBuf.putLowResolution(true, avatar.coords, client, metadata) }
         buf.putExtendedInfo(metadata.extendedInfoCount, client.extendedInfoIndexes)
         buf.flip()
         shift(client)
@@ -158,22 +110,17 @@ public class PlayerInfo(public val playerLimit: Int = MAX_PLAYER_LIMIT) {
     public fun BitBuffer.putHighResolution(
         active: Boolean,
         coords: HighResCoord,
-        viewDistance: Int,
-        activity: ByteArray,
-        isHighResolution: BooleanArray,
-        pendingResolutionChange: BooleanArray,
-        extInfoIndexes: ShortArray,
-        extInfoClocks: IntArray,
+        client: Client,
         metadata: PlayerInfoMetadata
-    ) {
+    ): Unit = with (client) {
         var skip = 0
         for (i in indices) {
             if (!isHighResolution[i]) continue
-            val inactive = (activity[i].toInt() and INACTIVE_FLAG) != 0
+            val inactive = (activityFlags[i].toInt() and INACTIVE_FLAG) != 0
             if (inactive == active) continue
             if (skip > 0) {
                 skip--
-                activity[i] = (activity[i].toInt() or ACTIVE_TO_INACTIVE_FLAG).toByte()
+                activityFlags[i] = (activityFlags[i].toInt() or ACTIVE_TO_INACTIVE_FLAG).toByte()
                 metadata.highResolutionCount++
                 continue
             }
@@ -192,10 +139,10 @@ public class PlayerInfo(public val playerLimit: Int = MAX_PLAYER_LIMIT) {
                     // to use later in putExtendedInfo
                     val highResBufferCapped = isCapped(currLength, HIGH_RES_SAFETY_BUFFER)
                     if (!highResBufferCapped) {
-                        extInfoIndexes[metadata.extendedInfoCount++] = i.toShort()
+                        extendedInfoIndexes[metadata.extendedInfoCount++] = i.toShort()
                         // if we read extended info from high-resolution we should
                         // have the dynamic-extended-info up-to-date as well.
-                        extInfoClocks[i] = other.dynamicExtInfoUpdateClock
+                        extendedInfoClocks[i] = other.dynamicExtInfoUpdateClock
                         metadata.extendedInfoLength += other.extendedInfoLength
                         metadata.highResolutionCount++
                         putHighResUpdate(extended = true, other.coords, other.prevCoords)
@@ -211,10 +158,9 @@ public class PlayerInfo(public val playerLimit: Int = MAX_PLAYER_LIMIT) {
             skip = highResolutionSkipCount(
                 active = active,
                 startIndex = i + 1,
-                activity = activity,
-                isHighResolution = isHighResolution
+                client = client
             )
-            activity[i] = (activity[i].toInt() or ACTIVE_TO_INACTIVE_FLAG).toByte()
+            activityFlags[i] = (activityFlags[i].toInt() or ACTIVE_TO_INACTIVE_FLAG).toByte()
             metadata.highResolutionSkip += skip
             metadata.highResolutionCount++
             putSkipCount(skip)
@@ -224,13 +170,12 @@ public class PlayerInfo(public val playerLimit: Int = MAX_PLAYER_LIMIT) {
     public fun highResolutionSkipCount(
         active: Boolean,
         startIndex: Int,
-        activity: ByteArray,
-        isHighResolution: BooleanArray
+        client: Client
     ): Int {
         var skip = 0
         for (i in startIndex until capacity) {
-            if (!isHighResolution[i]) continue
-            val inactive = (activity[i].toInt() and INACTIVE_FLAG) != 0
+            if (!client.isHighResolution[i]) continue
+            val inactive = (client.activityFlags[i].toInt() and INACTIVE_FLAG) != 0
             if (inactive == active) continue
             val other = avatars[i]
             val update = other.isInvalid || other.extendedInfoLength != 0 ||
@@ -244,22 +189,17 @@ public class PlayerInfo(public val playerLimit: Int = MAX_PLAYER_LIMIT) {
     public fun BitBuffer.putLowResolution(
         active: Boolean,
         coords: HighResCoord,
-        viewDistance: Int,
-        activity: ByteArray,
-        isHighResolution: BooleanArray,
-        pendingResolutionChange: BooleanArray,
-        extInfoIndexes: ShortArray,
-        extInfoClocks: IntArray,
+        client: Client,
         metadata: PlayerInfoMetadata
-    ) {
+    ): Unit = with (client) {
         var skip = 0
         for (i in indices) {
             if (isHighResolution[i]) continue
-            val inactive = (activity[i].toInt() and INACTIVE_FLAG) != 0
+            val inactive = (activityFlags[i].toInt() and INACTIVE_FLAG) != 0
             if (inactive == active) continue
             if (skip > 0) {
                 skip--
-                activity[i] = (activity[i].toInt() or ACTIVE_TO_INACTIVE_FLAG).toByte()
+                activityFlags[i] = (activityFlags[i].toInt() or ACTIVE_TO_INACTIVE_FLAG).toByte()
                 metadata.lowResolutionCount++
                 continue
             }
@@ -267,7 +207,7 @@ public class PlayerInfo(public val playerLimit: Int = MAX_PLAYER_LIMIT) {
             if (other.isValid) {
                 if (coords.inViewDistance(other.coords, viewDistance)) {
                     var updateExtendedInfo = false
-                    val extendedBlock = other.getExtendedInfoBlock(extInfoClocks[i])
+                    val extendedBlock = other.getExtendedInfoBlock(extendedInfoClocks[i])
                     // NOTE: we _could_ use the cached extended info buffers to get the
                     // actual length. however - this avoids skipping around in memory.
                     // The above suggestion was benchmarked. It led to an approximate
@@ -288,8 +228,8 @@ public class PlayerInfo(public val playerLimit: Int = MAX_PLAYER_LIMIT) {
                     ) {
                         val ringIndex = metadata.extendedInfoCount++
                         val offsetIndex = extendedInfoBlockIndex(playerIndex = i, extendedBlock)
-                        extInfoIndexes[ringIndex] = offsetIndex
-                        extInfoClocks[i] = other.dynamicExtInfoUpdateClock
+                        extendedInfoIndexes[ringIndex] = offsetIndex
+                        extendedInfoClocks[i] = other.dynamicExtInfoUpdateClock
                         metadata.extendedInfoLength += extendedLength
                         updateExtendedInfo = true
                     }
@@ -297,7 +237,7 @@ public class PlayerInfo(public val playerLimit: Int = MAX_PLAYER_LIMIT) {
                     metadata.lowResolutionCount++
                     putLowToHighResChange(other.coords, other.prevCoords)
                     putBoolean(updateExtendedInfo)
-                    activity[i] = (activity[i].toInt() or ACTIVE_TO_INACTIVE_FLAG).toByte()
+                    activityFlags[i] = (activityFlags[i].toInt() or ACTIVE_TO_INACTIVE_FLAG).toByte()
                     continue
                 }
                 val currLowResCoords = other.coords.toLowRes()
@@ -312,11 +252,9 @@ public class PlayerInfo(public val playerLimit: Int = MAX_PLAYER_LIMIT) {
                 active = active,
                 startIndex = i + 1,
                 coords = coords,
-                viewDistance = viewDistance,
-                activity = activity,
-                isHighResolution = isHighResolution
+                client = client
             )
-            activity[i] = (activity[i].toInt() or ACTIVE_TO_INACTIVE_FLAG).toByte()
+            activityFlags[i] = (activityFlags[i].toInt() or ACTIVE_TO_INACTIVE_FLAG).toByte()
             metadata.lowResolutionSkip += skip
             metadata.lowResolutionCount++
             putSkipCount(skip)
@@ -327,14 +265,12 @@ public class PlayerInfo(public val playerLimit: Int = MAX_PLAYER_LIMIT) {
         active: Boolean,
         startIndex: Int,
         coords: HighResCoord,
-        viewDistance: Int,
-        activity: ByteArray,
-        isHighResolution: BooleanArray
+        client: Client
     ): Int {
         var skip = 0
         for (i in startIndex until capacity) {
-            if (isHighResolution[i]) continue
-            val inactive = (activity[i].toInt() and INACTIVE_FLAG) != 0
+            if (client.isHighResolution[i]) continue
+            val inactive = (client.activityFlags[i].toInt() and INACTIVE_FLAG) != 0
             if (inactive == active) continue
             val other = avatars[i]
             if (other.isInvalid) {
@@ -342,7 +278,7 @@ public class PlayerInfo(public val playerLimit: Int = MAX_PLAYER_LIMIT) {
                 continue
             }
             val update = other.coords.toLowRes() != other.prevCoords.toLowRes() ||
-                coords.inViewDistance(other.coords, viewDistance)
+                coords.inViewDistance(other.coords, client.viewDistance)
             if (update) break
             skip++
         }

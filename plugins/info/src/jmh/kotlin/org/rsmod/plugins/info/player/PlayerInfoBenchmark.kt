@@ -22,9 +22,9 @@ open class SimplePlayerInfoBenchmark : PlayerInfoBenchmark()
 @State(Scope.Benchmark)
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
-@Warmup(iterations = 1, time = 5)
+@Warmup(iterations = 2)
 @Measurement(iterations = 1, time = 5)
-@Fork(value = 1, warmups = 0)
+@Fork(value = 1, warmups = 2)
 abstract class PlayerInfoBenchmark {
 
     private lateinit var info: PlayerInfo
