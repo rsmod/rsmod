@@ -3,6 +3,7 @@ plugins {
 }
 
 dependencies {
+    api(projects.game.coroutines)
     api(projects.plugins.typesGenerated)
     implementation(projects.game)
     implementation(projects.game.events)

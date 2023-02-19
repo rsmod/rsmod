@@ -1,6 +1,12 @@
 package org.rsmod.plugins.net.service
 
 import com.github.michaelbull.logging.InlineLogger
+import com.github.michaelbull.retry.RetryFailure
+import com.github.michaelbull.retry.RetryInstruction
+import com.github.michaelbull.retry.policy.binaryExponentialBackoff
+import com.github.michaelbull.retry.policy.limitAttempts
+import com.github.michaelbull.retry.policy.plus
+import com.github.michaelbull.retry.retry
 import com.google.common.hash.Hashing
 import io.netty.channel.ChannelFutureListener
 import io.netty.channel.ChannelHandlerContext
@@ -9,16 +15,12 @@ import io.netty.handler.timeout.IdleStateEvent
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.asCoroutineDispatcher
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import org.openrs2.cache.Js5MasterIndex
 import org.openrs2.crypto.IsaacRandom
 import org.openrs2.crypto.secureRandom
 import org.rsmod.game.client.Client
-import org.rsmod.game.client.ClientList
-import org.rsmod.game.events.EventBus
-import org.rsmod.game.model.mob.list.PlayerList
-import org.rsmod.plugins.api.model.event.ClientSession
+import org.rsmod.game.model.mob.Player
 import org.rsmod.plugins.api.net.client.Platform
 import org.rsmod.plugins.api.net.login.LoginPacketRequest
 import org.rsmod.plugins.api.net.platform.GamePlatformPacketMaps
@@ -35,6 +37,14 @@ import org.rsmod.plugins.net.login.downstream.LoginResponse
 import org.rsmod.plugins.net.service.downstream.ServiceResponse
 import org.rsmod.plugins.net.service.upstream.ServiceRequest
 import org.rsmod.plugins.net.setClientAttr
+import org.rsmod.plugins.profile.dispatch.await
+import org.rsmod.plugins.profile.dispatch.client.ClientDeregisterDispatch
+import org.rsmod.plugins.profile.dispatch.client.ClientDispatchRequest
+import org.rsmod.plugins.profile.dispatch.client.ClientRegisterDispatch
+import org.rsmod.plugins.profile.dispatch.player.PlayerDeregisterDispatch
+import org.rsmod.plugins.profile.dispatch.player.PlayerDispatchRequest
+import org.rsmod.plugins.profile.dispatch.player.PlayerRegisterDispatch
+import org.rsmod.plugins.profile.dispatch.player.PlayerRegisterResponse
 import org.rsmod.plugins.store.player.PlayerCodec
 import org.rsmod.plugins.store.player.PlayerDataRequest
 import org.rsmod.plugins.store.player.PlayerDataResponse
@@ -53,11 +63,12 @@ public class ServiceChannelHandler @Inject constructor(
     @Js5RemoteDownstream private val js5RemoteDownstream: Protocol,
     @LoginDownstream private val loginDownstream: Protocol,
     private val playerCodec: PlayerCodec,
+    private val playerRegister: PlayerRegisterDispatch,
+    private val playerDeregister: PlayerDeregisterDispatch,
+    private val clientRegister: ClientRegisterDispatch,
+    private val clientDeregister: ClientDeregisterDispatch,
     private val js5HandlerProvider: Provider<Js5ChannelHandler>,
     private val gamePackets: GamePlatformPacketMaps,
-    private val events: EventBus,
-    private val players: PlayerList,
-    private val clients: ClientList,
     private val js5MasterIndex: Js5MasterIndex
 ) : SimpleChannelInboundHandler<UpstreamPacket>(UpstreamPacket::class.java) {
 
@@ -70,26 +81,20 @@ public class ServiceChannelHandler @Inject constructor(
     }
 
     override fun handlerRemoved(ctx: ChannelHandlerContext) {
-        scope.cancel()
+        val client = ctx.channel().clientAttr() ?: return
+        clientDeregister.query(ClientDispatchRequest(client))
+        scope.launch { awaitPlayerSave(client.player) }
     }
 
     override fun channelActive(ctx: ChannelHandlerContext) {
         ctx.read()
     }
 
-    override fun channelInactive(ctx: ChannelHandlerContext) {
-        // TODO: offload client unregister to a game-thread-safe dispatcher
-        ctx.channel().clientAttr()?.let { client ->
-            clients -= client
-            events += ClientSession.Disconnect(client)
-        }
-    }
-
     override fun channelRead0(ctx: ChannelHandlerContext, msg: UpstreamPacket) {
         when (msg) {
             ServiceRequest.InitGameConnection -> handleInitGameConnection(ctx)
             is ServiceRequest.InitJs5RemoteConnection -> handleInitJs5RemoteConnection(ctx, msg)
-            is ServiceRequest.GameLogin -> handleGameLogin(ctx, msg)
+            is ServiceRequest.GameLogin -> handleGameLogIn(ctx, msg)
             else -> handleUpstreamPacket(ctx, msg)
         }
     }
@@ -124,93 +129,54 @@ public class ServiceChannelHandler @Inject constructor(
         }
     }
 
-    private fun handleGameLogin(ctx: ChannelHandlerContext, msg: ServiceRequest.GameLogin) = with(msg) {
+    private fun handleGameLogIn(ctx: ChannelHandlerContext, msg: ServiceRequest.GameLogin) = with(msg) {
         val encoder = ctx.pipeline().get(ProtocolEncoder::class.java)
         val decoder = ctx.pipeline().get(ProtocolDecoder::class.java)
         encoder.protocol = loginDownstream
 
         if (buildMajor != Revision.MAJOR || buildMinor != Revision.MINOR) {
-            ctx.write(LoginResponse.ClientOutOfDate).addListener(ChannelFutureListener.CLOSE)
+            ctx.writeAndClose(LoginResponse.ClientOutOfDate)
             return
         } else if (encrypted.seed != serverKey) {
-            ctx.write(LoginResponse.BadSessionId).addListener(ChannelFutureListener.CLOSE)
+            ctx.writeAndClose(LoginResponse.BadSessionId)
             return
         } else if (machineInfo.version != Revision.LOGIN_MACHINE_INFO_HEADER) {
-            ctx.write(LoginResponse.ClientProtocolOutOfDate).addListener(ChannelFutureListener.CLOSE)
+            ctx.writeAndClose(LoginResponse.ClientProtocolOutOfDate)
             return
         } else if (isChecksumOutdated(cacheChecksum)) {
-            ctx.write(LoginResponse.ClientOutOfDate).addListener(ChannelFutureListener.CLOSE)
+            ctx.writeAndClose(LoginResponse.ClientOutOfDate)
             return
         }
         scope.launch {
-            // TODO: account dispatcher to hold all this boilerplate
-            val request = PlayerDataRequest(
-                username = username,
-                plaintTextPass = encrypted.password,
-                loginXtea = encrypted.xtea.toIntArray()
-            )
+            val request = PlayerDataRequest(username, encrypted.password, encrypted.xtea.toIntArray())
             when (val deserialize = playerCodec.deserialize(request)) {
-                PlayerDataResponse.InvalidCredentials -> {
-                    ctx.writeAndFlush(LoginResponse.InvalidCredentials)
-                        .addListener(ChannelFutureListener.CLOSE)
-                }
+                PlayerDataResponse.InvalidCredentials -> ctx.writeAndClose(LoginResponse.InvalidCredentials)
                 is PlayerDataResponse.Exception -> {
-                    ctx.writeAndFlush(LoginResponse.CouldNotComplete)
-                        .addListener(ChannelFutureListener.CLOSE)
+                    ctx.writeAndClose(LoginResponse.CouldNotComplete)
                     logger.error(deserialize.t) { "Exception thrown when deserializing player: $username" }
                 }
                 is PlayerDataResponse.Success -> {
                     val player = deserialize.player
-                    /* instantly save new players */
-                    if (deserialize is PlayerDataResponse.Success.NewPlayer) {
-                        launch { playerCodec.serialize(player) }
-                    }
-                    // TODO: check if player already online
-                    val decodeCipher = IsaacRandom(encrypted.xtea.toIntArray())
-                    val encodeCipher = IsaacRandom(encrypted.xtea.toIntArray().map { it + 50 }.toIntArray())
-                    val accountHash = Hashing.sha256().hashString(username.lowercase(Locale.US), StandardCharsets.UTF_8)
-                    // TODO: use load-request response to create player in game-thread dispatcher.
-                    val playerIndex = players.nextAvailableIndex()
-                    if (playerIndex == null) {
-                        ctx.writeAndFlush(LoginResponse.WorldIsFull).addListener(ChannelFutureListener.CLOSE)
+                    val encodeCipher = IsaacRandom(msg.encrypted.xtea.toIntArray().map { it + 50 }.toIntArray())
+                    val response = awaitPlayerResponse(player, encodeCipher, msg)
+                    if (response !is LoginResponse.ConnectOk) {
+                        ctx.writeAndClose(response)
                         return@launch
                     }
-                    players[playerIndex] = player
-                    player.index = playerIndex
-                    val deviceLinkIdentifier = when (encrypted.authType) {
-                        // TODO: use player_id or account_id as identifier
-                        LoginPacketRequest.AuthType.TwoFactorInputTrustDevice -> 69
-                        else -> null
-                    }
-                    val response = LoginResponse.ConnectOk(
-                        deviceLinkIdentifier = deviceLinkIdentifier,
-                        playerModLevel = 2,
-                        playerMember = true,
-                        playerMod = true,
-                        playerIndex = player.index,
-                        accountHash = accountHash.asLong(),
-                        cipher = encodeCipher
-                    )
-                    ctx.writeAndFlush(response).addListener { future ->
-                        if (!future.isSuccess) {
-                            logger.error(future.cause()) { "Could not write to channel. (ctx=$ctx)" }
-                            ctx.writeAndFlush(LoginResponse.ErrorConnecting)
-                                .addListener(ChannelFutureListener.CLOSE)
-                            return@addListener
+                    ctx.write(response, ctx.voidPromise())
+                    when (msg.platform) {
+                        Platform.Desktop -> {
+                            encoder.protocol = gamePackets.desktopDownstream.getOrCreateProtocol()
+                            decoder.protocol = gamePackets.desktopUpstream.getOrCreateProtocol()
                         }
-                        when (platform) {
-                            Platform.Desktop -> {
-                                encoder.protocol = gamePackets.desktopDownstream.getOrCreateProtocol()
-                                decoder.protocol = gamePackets.desktopUpstream.getOrCreateProtocol()
-                            }
-                        }
-                        val client = Client(player, ctx.channel())
-                        ctx.channel().setClientAttr(client)
-                        encoder.cipher = encodeCipher
-                        decoder.cipher = decodeCipher
-                        clients += client
-                        events += ClientSession.Connect(client)
                     }
+                    val decodeCipher = IsaacRandom(msg.encrypted.xtea.toIntArray())
+                    val client = Client(player, ctx.channel())
+                    ctx.channel().setClientAttr(client)
+                    encoder.cipher = encodeCipher
+                    decoder.cipher = decodeCipher
+                    clientRegister.query(ClientDispatchRequest(client))
+                    ctx.read()
                 }
             }
         }
@@ -237,5 +203,59 @@ public class ServiceChannelHandler @Inject constructor(
         val js5Entries = js5MasterIndex.entries
         val mismatch = checksum.filterIndexed { index, crc -> crc != 0 && crc != js5Entries[index].checksum }
         return mismatch.isNotEmpty()
+    }
+
+    private fun ChannelHandlerContext.writeAndClose(response: LoginResponse) {
+        writeAndFlush(response).addListener(ChannelFutureListener.CLOSE)
+    }
+
+    private suspend fun awaitPlayerResponse(
+        player: Player,
+        encodeCipher: IsaacRandom,
+        msg: ServiceRequest.GameLogin
+    ): LoginResponse {
+        val usernameHash = Hashing.sha256().hashString(player.username.lowercase(Locale.US), StandardCharsets.UTF_8)
+        val registerQuery = playerRegister.query(PlayerDispatchRequest(player))
+        logger.trace { "Sent query for player registration: $player." }
+        val registerResponse = registerQuery.await()
+        logger.debug { "Receive ${registerResponse.javaClass.simpleName} registration response for player $player." }
+        if (registerResponse == PlayerRegisterResponse.NoAvailableIndex) {
+            return LoginResponse.WorldIsFull
+        } else if (registerResponse == PlayerRegisterResponse.AlreadyOnline) {
+            return LoginResponse.AlreadyOnline
+        }
+        // TODO: use player_id or account_id as identifier
+        val deviceLinkIdentifier = if (msg.encrypted.authType.trustDevice) 69 else null
+        return LoginResponse.ConnectOk(
+            deviceLinkIdentifier = deviceLinkIdentifier,
+            playerModLevel = 2,
+            playerMember = true,
+            playerMod = true,
+            playerIndex = player.index,
+            accountHash = usernameHash.asLong(),
+            cipher = encodeCipher
+        )
+    }
+
+    private suspend fun awaitPlayerSave(player: Player) {
+        var retries = 0
+        retry(SERIALIZE_RETRY_POLICY) {
+            logger.debug { "Serializing player $player retry attempt#${retries++}" }
+            playerCodec.serialize(player)
+            playerDeregister.query(PlayerDispatchRequest(player))
+        }
+    }
+
+    private val LoginPacketRequest.AuthType.trustDevice: Boolean
+        get() = this == LoginPacketRequest.AuthType.TwoFactorInputTrustDevice
+
+    private companion object {
+
+        private const val SERIALIZE_ATTEMPTS = 5
+        private const val BACKOFF_BASE = 100L
+        private const val BACKOFF_MAX = 10000L
+
+        private val SERIALIZE_RETRY_POLICY: suspend RetryFailure<Throwable>.() -> RetryInstruction =
+            limitAttempts(SERIALIZE_ATTEMPTS) + binaryExponentialBackoff(BACKOFF_BASE, BACKOFF_MAX)
     }
 }

@@ -25,7 +25,7 @@ public class Js5ChannelHandler @Inject constructor(
             is Js5Request.Group -> service.push(client, msg)
             is Js5Request.Rekey -> handleMessage(ctx, msg)
             Js5Request.Disconnect -> ctx.close()
-            else -> logger.warn { "Unhandled Js5 request: $msg" }
+            else -> logger.debug { "Unhandled Js5 request: $msg" }
         }
     }
 

@@ -7,3 +7,12 @@ public inline fun <T : Mob> MobList<T>.forEachNotNull(action: (T) -> Unit) {
         action(element ?: continue)
     }
 }
+
+public inline fun <T : Mob> MobList<T>.anyNotNull(predicate: (T) -> Boolean): Boolean {
+    for (element in this) {
+        if (predicate(element ?: continue)) {
+            return true
+        }
+    }
+    return false
+}

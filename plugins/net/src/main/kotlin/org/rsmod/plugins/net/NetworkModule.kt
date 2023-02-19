@@ -12,6 +12,7 @@ import org.rsmod.plugins.net.js5.Js5Service
 import org.rsmod.plugins.net.js5.downstream.Js5ClientOutOfDateCodec
 import org.rsmod.plugins.net.js5.downstream.Js5OkCodec
 import org.rsmod.plugins.net.js5.downstream.Js5RemoteDownstream
+import org.rsmod.plugins.net.login.downstream.AlreadyOnlineCodec
 import org.rsmod.plugins.net.login.downstream.BadSessionIdCodec
 import org.rsmod.plugins.net.login.downstream.ClientOutOfDateCodec
 import org.rsmod.plugins.net.login.downstream.ClientProtocolOutOfDateCodec
@@ -63,6 +64,7 @@ public object NetworkModule : AbstractModule() {
             ClientOutOfDateCodec::class.java,
             BadSessionIdCodec::class.java,
             ClientProtocolOutOfDateCodec::class.java,
+            AlreadyOnlineCodec::class.java,
             InvalidCredentialsCodec::class.java,
             CouldNotCompleteCodec::class.java,
             WorldIsFullCodec::class.java,

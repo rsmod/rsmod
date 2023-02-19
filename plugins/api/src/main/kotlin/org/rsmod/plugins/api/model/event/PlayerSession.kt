@@ -7,4 +7,6 @@ public sealed class PlayerSession : Event {
 
     public data class Initialize(val player: Player) : PlayerSession()
     public data class LogIn(val player: Player) : PlayerSession()
+    public data class LogOut(val player: Player) : PlayerSession()
+    public data class Finalize(val player: Player) : PlayerSession()
 }

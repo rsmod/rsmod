@@ -35,6 +35,10 @@ public class SingleThreadedPlayerInfoTask @Inject constructor(
         info.cacheStaticExtendedInfo(player.index, player.extendedInfo(0x40 or 0x8 or 0x1))
     }
 
+    public fun finalize(player: Player) {
+        info.unregister(player.index)
+    }
+
     override fun execute() {
         gameClock++
         players.forEach { it?.prepareGpi() }
@@ -57,7 +61,6 @@ public class SingleThreadedPlayerInfoTask @Inject constructor(
         // should _not_ be handled in gpi task, but for testing purposes.
         prevCoords = coords
         info.updateExtendedInfo(index, byteArrayOf())
-        // TODO: if (player.loggedOut) info.unregister(player.index)
     }
 
     private fun Player.extendedInfo(flags: Int): ByteArray {

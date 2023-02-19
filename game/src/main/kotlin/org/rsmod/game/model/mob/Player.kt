@@ -15,4 +15,8 @@ public class Player(override val entity: PlayerEntity = PlayerEntity()) : Mob() 
     public var displayName: String
         get() = entity.name
         set(value) { entity.name = value }
+
+    public override fun toString(): String {
+        return "Player(username=$username, displayName=$displayName, coords=$coords)"
+    }
 }

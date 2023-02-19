@@ -27,6 +27,7 @@ public sealed class LoginResponse : Packet {
     public object ClientOutOfDate : LoginResponse()
     public object BadSessionId : LoginResponse()
     public object ClientProtocolOutOfDate : LoginResponse()
+    public object AlreadyOnline : LoginResponse()
     public object InvalidCredentials : LoginResponse()
     public object CouldNotComplete : LoginResponse()
     public object WorldIsFull : LoginResponse()
