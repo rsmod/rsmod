@@ -17,7 +17,8 @@ import org.rsmod.plugins.info.player.PlayerInfo.Companion.CACHED_EXT_INFO_BUFFER
 import java.nio.ByteBuffer
 import java.util.concurrent.TimeUnit
 
-open class SimplePlayerInfoBenchmark : PlayerInfoBenchmark()
+open class PlayerInfoBenchmarkNoBufLimit : PlayerInfoBenchmark(bufCapacity = 200_000)
+open class PlayerInfoBenchmarkBufLimited : PlayerInfoBenchmark(bufCapacity = 40_000)
 
 @State(Scope.Benchmark)
 @BenchmarkMode(Mode.AverageTime)
@@ -25,7 +26,7 @@ open class SimplePlayerInfoBenchmark : PlayerInfoBenchmark()
 @Warmup(iterations = 2)
 @Measurement(iterations = 1, time = 5)
 @Fork(value = 1, warmups = 2)
-abstract class PlayerInfoBenchmark {
+abstract class PlayerInfoBenchmark(private val bufCapacity: Int) {
 
     private lateinit var info: PlayerInfo
     private lateinit var buf: ByteBuffer
@@ -34,7 +35,7 @@ abstract class PlayerInfoBenchmark {
     @Setup
     fun setup() {
         info = PlayerInfo()
-        buf = ByteBuffer.allocate(200_000)
+        buf = ByteBuffer.allocate(bufCapacity)
         staticExtInfo = ByteArray(CACHED_EXT_INFO_BUFFER_SIZE)
     }
 
