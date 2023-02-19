@@ -63,7 +63,7 @@ public class PlayerInfo(public val playerLimit: Int = MAX_PLAYER_LIMIT) {
     public fun updateExtendedInfo(playerIndex: Int, data: ByteArray, length: Int = data.size) {
         assert(avatars[playerIndex].isValid) { "Player(index=$playerIndex) was not registered." }
         assert(length <= EXT_INFO_BUFFER_SIZE) {
-            "Extended info buffer capacity reached. (capacity=$CACHED_EXT_INFO_BUFFER_SIZE)"
+            "Extended info buffer capacity reached. (capacity=$EXT_INFO_BUFFER_SIZE)"
         }
         avatars[playerIndex].extendedInfoLength = length
         extendedHighRes[playerIndex].clear().putBytes(data, length)
