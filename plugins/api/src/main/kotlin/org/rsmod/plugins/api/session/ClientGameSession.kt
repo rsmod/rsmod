@@ -7,7 +7,7 @@ import org.rsmod.game.model.map.Coordinates
 import org.rsmod.game.model.mob.list.PlayerList
 import org.rsmod.plugins.api.cache.map.xtea.XteaRepository
 import org.rsmod.plugins.api.net.downstream.RebuildNormal
-import org.rsmod.plugins.api.prot.info.GPIInitialization
+import org.rsmod.plugins.api.net.downstream.GPIInitialization
 import javax.inject.Inject
 import javax.inject.Singleton
 

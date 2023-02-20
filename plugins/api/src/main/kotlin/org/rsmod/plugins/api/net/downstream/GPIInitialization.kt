@@ -1,4 +1,4 @@
-package org.rsmod.plugins.api.prot.info
+package org.rsmod.plugins.api.net.downstream
 
 import org.openrs2.buffer.BitBuf
 
