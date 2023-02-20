@@ -37,7 +37,6 @@ import org.rsmod.plugins.net.login.downstream.LoginResponse
 import org.rsmod.plugins.net.service.downstream.ServiceResponse
 import org.rsmod.plugins.net.service.upstream.ServiceRequest
 import org.rsmod.plugins.net.setClientAttr
-import org.rsmod.plugins.profile.dispatch.await
 import org.rsmod.plugins.profile.dispatch.client.ClientDeregisterDispatch
 import org.rsmod.plugins.profile.dispatch.client.ClientDispatchRequest
 import org.rsmod.plugins.profile.dispatch.client.ClientRegisterDispatch
@@ -45,6 +44,7 @@ import org.rsmod.plugins.profile.dispatch.player.PlayerDeregisterDispatch
 import org.rsmod.plugins.profile.dispatch.player.PlayerDispatchRequest
 import org.rsmod.plugins.profile.dispatch.player.PlayerRegisterDispatch
 import org.rsmod.plugins.profile.dispatch.player.PlayerRegisterResponse
+import org.rsmod.plugins.profile.dispatch.transaction.await
 import org.rsmod.plugins.store.player.PlayerCodec
 import org.rsmod.plugins.store.player.PlayerDataRequest
 import org.rsmod.plugins.store.player.PlayerDataResponse

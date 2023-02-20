@@ -1,10 +1,12 @@
-package org.rsmod.plugins.profile.dispatch
+package org.rsmod.plugins.profile.dispatch.transaction
 
+import org.rsmod.plugins.profile.dispatch.DispatchRequest
+import org.rsmod.plugins.profile.dispatch.DispatchResponse
 import java.util.concurrent.atomic.AtomicBoolean
 
 private typealias TransactionList<L, R> = ArrayDeque<DispatchTransaction<L, R>>
 
-public abstract class TransactionDispatch<L: DispatchRequest, R : DispatchResponse> {
+public abstract class TransactionDispatch<L : DispatchRequest, R : DispatchResponse> {
 
     private val requests = TransactionList<L, R>()
     private val pending = TransactionList<L, R>()

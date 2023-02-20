@@ -1,5 +1,7 @@
-package org.rsmod.plugins.profile.dispatch
+package org.rsmod.plugins.profile.dispatch.transaction
 
+import org.rsmod.plugins.profile.dispatch.DispatchRequest
+import org.rsmod.plugins.profile.dispatch.DispatchResponse
 import java.util.concurrent.atomic.AtomicBoolean
 
 public class DispatchTransaction<L : DispatchRequest, R : DispatchResponse>(

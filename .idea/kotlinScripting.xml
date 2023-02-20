@@ -9,5 +9,9 @@
       <order>2147483647</order>
       <autoReloadConfigurations>true</autoReloadConfigurations>
     </scriptDefinition>
+    <scriptDefinition className="org.rsmod.game.scripts.plugin.KotlinScriptPlugin" definitionName="Plugin Script">
+      <order>2147483647</order>
+      <autoReloadConfigurations>true</autoReloadConfigurations>
+    </scriptDefinition>
   </component>
 </project>

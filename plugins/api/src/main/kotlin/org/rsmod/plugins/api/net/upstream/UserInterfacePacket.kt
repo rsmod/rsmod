@@ -23,4 +23,3 @@ public class IfButton7(component: Int, dynamicChild: Int, item: Int) : IfButton(
 public class IfButton8(component: Int, dynamicChild: Int, item: Int) : IfButton(component, dynamicChild, item)
 public class IfButton9(component: Int, dynamicChild: Int, item: Int) : IfButton(component, dynamicChild, item)
 public class IfButton10(component: Int, dynamicChild: Int, item: Int) : IfButton(component, dynamicChild, item)
-

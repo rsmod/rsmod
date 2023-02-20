@@ -4,7 +4,7 @@ import com.github.michaelbull.logging.InlineLogger
 import org.rsmod.game.client.ClientList
 import org.rsmod.game.events.EventBus
 import org.rsmod.plugins.api.model.event.ClientSession
-import org.rsmod.plugins.profile.dispatch.TransactionDispatch
+import org.rsmod.plugins.profile.dispatch.transaction.TransactionDispatch
 import javax.inject.Inject
 import javax.inject.Singleton
 

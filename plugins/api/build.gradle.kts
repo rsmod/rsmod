@@ -7,7 +7,7 @@ dependencies {
     api(projects.plugins.typesGenerated)
     implementation(projects.game)
     implementation(projects.game.events)
-    implementation(projects.game.plugins)
+    implementation(projects.game.scripts)
     implementation(projects.game.protocol)
     implementation(projects.game.types)
     implementation(projects.cache)

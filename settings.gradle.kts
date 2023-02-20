@@ -19,7 +19,7 @@ include(
     "game:coroutines",
     "game:events",
     "game:pathfinder",
-    "game:plugins",
+    "game:scripts",
     "game:protocol",
     "game:types",
     "json",

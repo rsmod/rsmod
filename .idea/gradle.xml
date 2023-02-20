@@ -18,8 +18,8 @@
             <option value="$PROJECT_DIR$/game/coroutines" />
             <option value="$PROJECT_DIR$/game/events" />
             <option value="$PROJECT_DIR$/game/pathfinder" />
-            <option value="$PROJECT_DIR$/game/plugins" />
             <option value="$PROJECT_DIR$/game/protocol" />
+            <option value="$PROJECT_DIR$/game/scripts" />
             <option value="$PROJECT_DIR$/game/types" />
             <option value="$PROJECT_DIR$/json" />
             <option value="$PROJECT_DIR$/log" />

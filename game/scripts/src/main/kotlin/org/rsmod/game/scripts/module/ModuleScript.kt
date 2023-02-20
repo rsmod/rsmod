@@ -1,8 +1,8 @@
-package org.rsmod.game.plugins.module
+package org.rsmod.game.scripts.module
 
 import com.google.inject.AbstractModule
 
-public open class ModulePlugin(
+public open class ModuleScript(
     public val modules: ModuleSet = ModuleSet(),
     public val branchModules: ModuleMap<ModuleBranch> = ModuleMap()
 ) {

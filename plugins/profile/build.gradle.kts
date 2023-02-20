@@ -5,7 +5,7 @@ plugins {
 dependencies {
     implementation(projects.game)
     implementation(projects.game.events)
-    implementation(projects.game.plugins)
+    implementation(projects.game.scripts)
     implementation(projects.plugins.api)
     implementation(projects.plugins.store)
     implementation(libs.guice)

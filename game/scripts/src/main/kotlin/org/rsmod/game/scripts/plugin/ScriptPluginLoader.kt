@@ -1,11 +1,11 @@
-package org.rsmod.game.plugins.content
+package org.rsmod.game.scripts.plugin
 
 import com.google.inject.Injector
 import io.github.classgraph.ClassGraph
 
-public object ContentPluginLoader {
+public object ScriptPluginLoader {
 
-    public fun <T : ContentPlugin> load(type: Class<T>, injector: Injector, lenient: Boolean = false): List<T> {
+    public fun <T : ScriptPlugin> load(type: Class<T>, injector: Injector, lenient: Boolean = false): List<T> {
         val plugins = mutableListOf<T>()
         ClassGraph().enableAllInfo().scan().use { scan ->
             val infoList = scan.getSubclasses(type).directOnly()

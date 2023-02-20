@@ -13,11 +13,11 @@ import org.rsmod.game.config.GameConfigModule
 import org.rsmod.game.events.EventBus
 import org.rsmod.game.model.GameEnv
 import org.rsmod.game.model.event.GameBootUp
-import org.rsmod.game.plugins.content.ContentPluginLoader
-import org.rsmod.game.plugins.content.KotlinScriptContentPlugin
-import org.rsmod.game.plugins.module.KotlinScriptModulePlugin
-import org.rsmod.game.plugins.module.ModuleBranch
-import org.rsmod.game.plugins.module.ModulePluginLoader
+import org.rsmod.game.scripts.module.KotlinScriptModule
+import org.rsmod.game.scripts.module.ModuleBranch
+import org.rsmod.game.scripts.module.ModuleScriptLoader
+import org.rsmod.game.scripts.plugin.KotlinScriptPlugin
+import org.rsmod.game.scripts.plugin.ScriptPluginLoader
 
 private val logger = InlineLogger()
 
@@ -44,7 +44,7 @@ public class AppCommand : CliktCommand(name = "app") {
     }
 
     private fun loadPluginModules(env: GameEnv): List<AbstractModule> {
-        val modulePlugins = ModulePluginLoader.load(KotlinScriptModulePlugin::class.java)
+        val modulePlugins = ModuleScriptLoader.load(KotlinScriptModule::class.java)
         val branchModules = modulePlugins.flatMap { it.branchModules[env.moduleBranch] ?: emptyList() }
         val modules = modulePlugins.flatMap { it.modules } + branchModules
         logger.info {
@@ -55,7 +55,7 @@ public class AppCommand : CliktCommand(name = "app") {
     }
 
     private fun loadContentPlugins(injector: Injector) {
-        val plugins = ContentPluginLoader.load(KotlinScriptContentPlugin::class.java, injector)
+        val plugins = ScriptPluginLoader.load(KotlinScriptPlugin::class.java, injector)
         logger.info { "Loaded ${plugins.size} content plugin${if (plugins.size == 1) "" else "s"}." }
     }
 
