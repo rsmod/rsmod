@@ -1,13 +1,13 @@
 package org.rsmod.plugins.profile
 
-import org.rsmod.game.events.EventBus
-import org.rsmod.game.model.event.GameProcess
+import org.rsmod.game.events.GameEventBus
+import org.rsmod.game.model.GameProcess
 import org.rsmod.plugins.profile.dispatch.client.ClientDeregisterDispatch
 import org.rsmod.plugins.profile.dispatch.client.ClientRegisterDispatch
 import org.rsmod.plugins.profile.dispatch.player.PlayerDeregisterDispatch
 import org.rsmod.plugins.profile.dispatch.player.PlayerRegisterDispatch
 
-private val events: EventBus by inject()
+private val events: GameEventBus by inject()
 private val playerRegister: PlayerRegisterDispatch by inject()
 private val playerDeregister: PlayerDeregisterDispatch by inject()
 private val clientRegister: ClientRegisterDispatch by inject()

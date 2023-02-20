@@ -1,24 +1,25 @@
 package org.rsmod.plugins.api.model.event
 
-import org.rsmod.game.events.Event
+import org.rsmod.game.events.GameEvent
+import org.rsmod.game.events.GameKeyedEvent
+import org.rsmod.game.model.map.Coordinates
 import org.rsmod.game.model.mob.Player
 import org.rsmod.game.types.NamedComponent
 import org.rsmod.game.types.NamedItem
 
-public sealed class UpstreamEvent : Event {
+public sealed class UpstreamEvent {
 
     public data class MoveGameClick(
         val player: Player,
         val mode: Int,
-        val x: Int,
-        val y: Int
-    ) : UpstreamEvent()
+        val coords: Coordinates
+    ) : GameEvent
 
     public data class ClientCheat(
         val player: Player,
         val text: String,
         val args: List<String>
-    ) : UpstreamEvent()
+    ) : GameEvent
 
     public data class IfButton(
         val player: Player,
@@ -26,5 +27,5 @@ public sealed class UpstreamEvent : Event {
         val component: NamedComponent,
         val dynamicChild: Int?,
         val item: NamedItem?
-    ) : UpstreamEvent()
+    ) : GameKeyedEvent
 }

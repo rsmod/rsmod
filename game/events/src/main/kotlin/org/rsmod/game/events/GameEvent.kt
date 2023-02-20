@@ -1,3 +1,3 @@
 package org.rsmod.game.events
 
-public interface Event
+public interface GameEvent

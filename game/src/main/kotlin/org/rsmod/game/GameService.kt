@@ -11,8 +11,8 @@ import org.rsmod.game.client.ClientList
 import org.rsmod.game.coroutine.WorldCoroutineScope
 import org.rsmod.game.coroutines.GameCoroutineScope
 import org.rsmod.game.dispatcher.main.MainCoroutineScope
-import org.rsmod.game.events.EventBus
-import org.rsmod.game.model.event.GameProcess
+import org.rsmod.game.events.GameEventBus
+import org.rsmod.game.model.GameProcess
 import org.rsmod.game.model.mob.list.PlayerList
 import org.rsmod.game.model.mob.list.forEachNotNull
 import org.rsmod.game.task.PlayerInfoTask
@@ -34,7 +34,7 @@ public class GameService @Inject private constructor(
     private val playerInfoTask: PlayerInfoTask,
     private val clients: ClientList,
     private val players: PlayerList,
-    private val eventBus: EventBus
+    private val eventBus: GameEventBus
 ) : AbstractIdleService() {
 
     private var excessCycleNanos = 0L
@@ -77,7 +77,7 @@ public class GameService @Inject private constructor(
     }
 
     private fun startCycle() {
-        eventBus += GameProcess.StartCycle
+        eventBus.publish(GameProcess.StartCycle)
     }
 
     private fun worldCycle() {
@@ -106,6 +106,6 @@ public class GameService @Inject private constructor(
     }
 
     private fun endCycle() {
-        eventBus += GameProcess.EndCycle
+        eventBus.publish(GameProcess.EndCycle)
     }
 }

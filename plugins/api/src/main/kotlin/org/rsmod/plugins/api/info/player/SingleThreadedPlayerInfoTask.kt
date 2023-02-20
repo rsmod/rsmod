@@ -1,4 +1,4 @@
-package org.rsmod.plugins.api.info
+package org.rsmod.plugins.api.info.player
 
 import io.netty.buffer.Unpooled
 import org.openrs2.buffer.setByteC

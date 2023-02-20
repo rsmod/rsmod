@@ -1,4 +1,4 @@
-package org.rsmod.plugins.api.info
+package org.rsmod.plugins.api.info.player
 
 import org.rsmod.game.model.mob.list.PlayerList
 import org.rsmod.plugins.info.player.PlayerInfo

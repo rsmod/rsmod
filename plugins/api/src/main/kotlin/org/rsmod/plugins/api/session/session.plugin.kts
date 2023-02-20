@@ -1,10 +1,10 @@
 package org.rsmod.plugins.api.session
 
-import org.rsmod.game.events.EventBus
+import org.rsmod.game.events.GameEventBus
 import org.rsmod.plugins.api.model.event.ClientSession
 import org.rsmod.plugins.api.model.event.PlayerSession
 
-private val events: EventBus by inject()
+private val events: GameEventBus by inject()
 private val clientSession: ClientGameSession by inject()
 private val playerSession: PlayerGameSession by inject()
 
