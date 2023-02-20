@@ -10,7 +10,17 @@ internal object UpstreamHandlerModule : AbstractModule() {
 
     private val handlers = listOf(
         MoveGameClickHandler::class.java,
-        ClientCheatHandler::class.java
+        ClientCheatHandler::class.java,
+        IfButton1Handler::class.java,
+        IfButton2Handler::class.java,
+        IfButton3Handler::class.java,
+        IfButton4Handler::class.java,
+        IfButton5Handler::class.java,
+        IfButton6Handler::class.java,
+        IfButton7Handler::class.java,
+        IfButton8Handler::class.java,
+        IfButton9Handler::class.java,
+        IfButton10Handler::class.java
     )
 
     override fun configure() {

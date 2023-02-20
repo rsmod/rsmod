@@ -1,5 +1,6 @@
 package org.rsmod.plugins.api.prot.desktop
 
+import io.netty.buffer.ByteBuf
 import org.openrs2.buffer.readByteC
 import org.openrs2.buffer.readString
 import org.openrs2.buffer.readUnsignedShortA
@@ -12,6 +13,17 @@ import org.rsmod.plugins.api.net.upstream.EventKeyboard
 import org.rsmod.plugins.api.net.upstream.EventMouseClick
 import org.rsmod.plugins.api.net.upstream.EventMouseIdle
 import org.rsmod.plugins.api.net.upstream.EventMouseMove
+import org.rsmod.plugins.api.net.upstream.IfButton
+import org.rsmod.plugins.api.net.upstream.IfButton1
+import org.rsmod.plugins.api.net.upstream.IfButton10
+import org.rsmod.plugins.api.net.upstream.IfButton2
+import org.rsmod.plugins.api.net.upstream.IfButton3
+import org.rsmod.plugins.api.net.upstream.IfButton4
+import org.rsmod.plugins.api.net.upstream.IfButton5
+import org.rsmod.plugins.api.net.upstream.IfButton6
+import org.rsmod.plugins.api.net.upstream.IfButton7
+import org.rsmod.plugins.api.net.upstream.IfButton8
+import org.rsmod.plugins.api.net.upstream.IfButton9
 import org.rsmod.plugins.api.net.upstream.MapBuildComplete
 import org.rsmod.plugins.api.net.upstream.MoveGameClick
 import org.rsmod.plugins.api.net.upstream.NoTimeout
@@ -104,4 +116,101 @@ packets.register {
     opcode = 8
     length = variableShortLength
     decode { EventKeyboard }
+}
+
+packets.register {
+    opcode = 16
+    length = 8
+    decode { buf ->
+        val (component, dynamicChild, item) = buf.readIfButton
+        IfButton1(component, dynamicChild, item)
+    }
+}
+
+packets.register {
+    opcode = 37
+    length = 8
+    decode { buf ->
+        val (component, dynamicChild, item) = buf.readIfButton
+        IfButton2(component, dynamicChild, item)
+    }
+}
+
+packets.register {
+    opcode = 12
+    length = 8
+    decode { buf ->
+        val (component, dynamicChild, item) = buf.readIfButton
+        IfButton3(component, dynamicChild, item)
+    }
+}
+
+packets.register {
+    opcode = 19
+    length = 8
+    decode { buf ->
+        val (component, dynamicChild, item) = buf.readIfButton
+        IfButton4(component, dynamicChild, item)
+    }
+}
+
+packets.register {
+    opcode = 20
+    length = 8
+    decode { buf ->
+        val (component, dynamicChild, item) = buf.readIfButton
+        IfButton5(component, dynamicChild, item)
+    }
+}
+
+packets.register {
+    opcode = 52
+    length = 8
+    decode { buf ->
+        val (component, dynamicChild, item) = buf.readIfButton
+        IfButton6(component, dynamicChild, item)
+    }
+}
+
+packets.register {
+    opcode = 77
+    length = 8
+    decode { buf ->
+        val (component, dynamicChild, item) = buf.readIfButton
+        IfButton7(component, dynamicChild, item)
+    }
+}
+
+packets.register {
+    opcode = 23
+    length = 8
+    decode { buf ->
+        val (component, dynamicChild, item) = buf.readIfButton
+        IfButton8(component, dynamicChild, item)
+    }
+}
+
+packets.register {
+    opcode = 22
+    length = 8
+    decode { buf ->
+        val (component, dynamicChild, item) = buf.readIfButton
+        IfButton9(component, dynamicChild, item)
+    }
+}
+
+packets.register {
+    opcode = 6
+    length = 8
+    decode { buf ->
+        val (component, dynamicChild, item) = buf.readIfButton
+        IfButton10(component, dynamicChild, item)
+    }
+}
+
+private val ByteBuf.readIfButton: IfButton get() {
+    val component = readInt()
+    val dynamicChild = readUnsignedShort()
+    val item = readUnsignedShort()
+    return IfButton(component, dynamicChild, item)
 }
