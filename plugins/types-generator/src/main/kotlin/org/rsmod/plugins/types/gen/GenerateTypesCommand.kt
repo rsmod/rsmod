@@ -5,7 +5,7 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.google.inject.Guice
 import com.google.inject.Key
 import org.rsmod.game.config.DataPath
-import org.rsmod.game.types.NamedTypeGenerator
+import org.rsmod.plugins.types.NamedTypeGenerator
 import org.rsmod.toml.Toml
 import java.nio.file.Path
 

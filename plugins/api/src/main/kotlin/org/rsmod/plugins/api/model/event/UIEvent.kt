@@ -2,8 +2,8 @@ package org.rsmod.plugins.api.model.event
 
 import org.rsmod.game.events.GameKeyedEvent
 import org.rsmod.game.model.mob.Player
-import org.rsmod.game.types.NamedComponent
-import org.rsmod.game.types.NamedInterface
+import org.rsmod.plugins.types.NamedComponent
+import org.rsmod.plugins.types.NamedInterface
 
 public sealed class UIEvent {
 

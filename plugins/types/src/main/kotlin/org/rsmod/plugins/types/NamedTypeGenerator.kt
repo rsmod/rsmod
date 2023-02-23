@@ -1,4 +1,4 @@
-package org.rsmod.game.types
+package org.rsmod.plugins.types
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.squareup.kotlinpoet.FileSpec

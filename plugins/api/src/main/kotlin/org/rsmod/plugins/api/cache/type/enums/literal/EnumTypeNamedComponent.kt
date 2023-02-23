@@ -1,6 +1,6 @@
 package org.rsmod.plugins.api.cache.type.enums.literal
 
-import org.rsmod.game.types.NamedComponent
+import org.rsmod.plugins.types.NamedComponent
 
 public object EnumTypeNamedComponent : EnumTypeBaseInt<NamedComponent> {
 

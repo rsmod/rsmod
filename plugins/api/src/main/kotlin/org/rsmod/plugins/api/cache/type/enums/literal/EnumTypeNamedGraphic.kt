@@ -1,6 +1,6 @@
 package org.rsmod.plugins.api.cache.type.enums.literal
 
-import org.rsmod.game.types.NamedGraphic
+import org.rsmod.plugins.types.NamedGraphic
 
 public object EnumTypeNamedGraphic : EnumTypeBaseInt<NamedGraphic> {
 

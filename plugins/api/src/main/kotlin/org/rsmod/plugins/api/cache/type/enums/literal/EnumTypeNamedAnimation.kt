@@ -1,6 +1,6 @@
 package org.rsmod.plugins.api.cache.type.enums.literal
 
-import org.rsmod.game.types.NamedAnimation
+import org.rsmod.plugins.types.NamedAnimation
 
 public object EnumTypeNamedAnimation : EnumTypeBaseInt<NamedAnimation> {
 

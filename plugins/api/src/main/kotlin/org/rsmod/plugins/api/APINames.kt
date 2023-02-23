@@ -2,8 +2,6 @@
 
 package org.rsmod.plugins.api
 
-import org.rsmod.game.types.NamedComponent
-import org.rsmod.game.types.NamedInterface
 import org.rsmod.plugins.api.prot.Revision.GAMEFRAME_ATTACK_CHILD
 import org.rsmod.plugins.api.prot.Revision.GAMEFRAME_CHATBOX_CHILD
 import org.rsmod.plugins.api.prot.Revision.GAMEFRAME_CLAN_CHILD
@@ -24,6 +22,8 @@ import org.rsmod.plugins.api.prot.Revision.GAMEFRAME_SOCIAL_CHILD
 import org.rsmod.plugins.api.prot.Revision.GAMEFRAME_SPELLS_CHILD
 import org.rsmod.plugins.api.prot.Revision.GAMEFRAME_USERNAME_CHILD
 import org.rsmod.plugins.api.prot.Revision.GAMEFRAME_XP_COUNTER_CHILD
+import org.rsmod.plugins.types.NamedComponent
+import org.rsmod.plugins.types.NamedInterface
 
 /* interface ids don't _usually_ change per revision. should be fine to use magic numbers here */
 public inline val interf.gameframe_fixed: NamedInterface get() = NamedInterface(548)

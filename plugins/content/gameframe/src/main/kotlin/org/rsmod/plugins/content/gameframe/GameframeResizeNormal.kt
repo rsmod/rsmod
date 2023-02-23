@@ -1,7 +1,5 @@
 package org.rsmod.plugins.content.gameframe
 
-import org.rsmod.game.types.NamedComponent
-import org.rsmod.game.types.NamedInterface
 import org.rsmod.plugins.api.component
 import org.rsmod.plugins.api.gameframe_resize_normal
 import org.rsmod.plugins.api.gameframe_target_attack
@@ -26,6 +24,8 @@ import org.rsmod.plugins.api.gameframe_target_username
 import org.rsmod.plugins.api.gameframe_target_xp
 import org.rsmod.plugins.api.interf
 import org.rsmod.plugins.api.model.ui.StandardGameframe
+import org.rsmod.plugins.types.NamedComponent
+import org.rsmod.plugins.types.NamedInterface
 
 public object GameframeResizeNormal : StandardGameframe {
 

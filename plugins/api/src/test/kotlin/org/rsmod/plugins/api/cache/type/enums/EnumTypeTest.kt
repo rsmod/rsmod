@@ -8,10 +8,10 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.ArgumentsProvider
 import org.junit.jupiter.params.provider.ArgumentsSource
-import org.rsmod.game.types.NamedAnimation
-import org.rsmod.game.types.NamedGraphic
-import org.rsmod.game.types.NamedItem
-import org.rsmod.game.types.NamedObject
+import org.rsmod.plugins.types.NamedAnimation
+import org.rsmod.plugins.types.NamedGraphic
+import org.rsmod.plugins.types.NamedItem
+import org.rsmod.plugins.types.NamedObject
 import java.util.stream.Stream
 
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)

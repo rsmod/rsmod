@@ -11,7 +11,7 @@ plugins.withType<KotlinPluginWrapper> {
     }
 
     dependencies {
-        implementation(projects.game.types)
+        implementation(projects.plugins.types)
     }
 
     sourceSets {

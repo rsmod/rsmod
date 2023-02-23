@@ -4,8 +4,8 @@ import org.rsmod.game.events.GameEvent
 import org.rsmod.game.events.GameKeyedEvent
 import org.rsmod.game.model.map.Coordinates
 import org.rsmod.game.model.mob.Player
-import org.rsmod.game.types.NamedComponent
-import org.rsmod.game.types.NamedItem
+import org.rsmod.plugins.types.NamedComponent
+import org.rsmod.plugins.types.NamedItem
 
 public sealed class UpstreamEvent {
 

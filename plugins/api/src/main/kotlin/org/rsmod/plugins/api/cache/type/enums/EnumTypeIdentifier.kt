@@ -1,11 +1,6 @@
 package org.rsmod.plugins.api.cache.type.enums
 
 import org.rsmod.game.model.map.Coordinates
-import org.rsmod.game.types.NamedAnimation
-import org.rsmod.game.types.NamedComponent
-import org.rsmod.game.types.NamedGraphic
-import org.rsmod.game.types.NamedNpc
-import org.rsmod.game.types.NamedObject
 import org.rsmod.plugins.api.cache.type.enums.literal.EnumTypeBaseInt
 import org.rsmod.plugins.api.cache.type.enums.literal.EnumTypeBaseString
 import org.rsmod.plugins.api.cache.type.enums.literal.EnumTypeBoolean
@@ -19,6 +14,11 @@ import org.rsmod.plugins.api.cache.type.enums.literal.EnumTypeNamedItem
 import org.rsmod.plugins.api.cache.type.enums.literal.EnumTypeNamedNpc
 import org.rsmod.plugins.api.cache.type.enums.literal.EnumTypeNamedObject
 import org.rsmod.plugins.api.cache.type.enums.literal.EnumTypeString
+import org.rsmod.plugins.types.NamedAnimation
+import org.rsmod.plugins.types.NamedComponent
+import org.rsmod.plugins.types.NamedGraphic
+import org.rsmod.plugins.types.NamedNpc
+import org.rsmod.plugins.types.NamedObject
 
 /**
  * @param char The byte used within the enum type data to
@@ -46,10 +46,10 @@ public enum class EnumTypeIdentifier(
     Inv('v'),
 
     // meant to be integer-representations of the item, but we only do typed items around here!
-    Item('o', EnumTypeNamedItem, org.rsmod.game.types.NamedItem::class.java),
+    Item('o', EnumTypeNamedItem, org.rsmod.plugins.types.NamedItem::class.java),
     MapArea('`'),
     Model('m'),
-    NamedItem('O', EnumTypeNamedItem, org.rsmod.game.types.NamedItem::class.java),
+    NamedItem('O', EnumTypeNamedItem, org.rsmod.plugins.types.NamedItem::class.java),
     Npc('n', EnumTypeNamedNpc, NamedNpc::class.java),
     Object('l', EnumTypeNamedObject, NamedObject::class.java),
     Stat('S'),

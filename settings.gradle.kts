@@ -21,7 +21,6 @@ include(
     "game:pathfinder",
     "game:scripts",
     "game:protocol",
-    "game:types",
     "json",
     "log",
     "plugins",

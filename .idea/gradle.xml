@@ -20,7 +20,6 @@
             <option value="$PROJECT_DIR$/game/pathfinder" />
             <option value="$PROJECT_DIR$/game/protocol" />
             <option value="$PROJECT_DIR$/game/scripts" />
-            <option value="$PROJECT_DIR$/game/types" />
             <option value="$PROJECT_DIR$/json" />
             <option value="$PROJECT_DIR$/log" />
             <option value="$PROJECT_DIR$/plugins" />
@@ -32,6 +31,7 @@
             <option value="$PROJECT_DIR$/plugins/profile" />
             <option value="$PROJECT_DIR$/plugins/store" />
             <option value="$PROJECT_DIR$/plugins/store-dev" />
+            <option value="$PROJECT_DIR$/plugins/types" />
             <option value="$PROJECT_DIR$/plugins/types-generated" />
             <option value="$PROJECT_DIR$/plugins/types-generator" />
             <option value="$PROJECT_DIR$/toml" />

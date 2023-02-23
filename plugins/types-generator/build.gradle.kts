@@ -6,7 +6,7 @@ dependencies {
     implementation(projects.buffer)
     implementation(projects.cache)
     implementation(projects.game)
-    implementation(projects.game.types)
+    implementation(projects.plugins.types)
     implementation(projects.plugins.api)
     implementation(projects.plugins.typesGenerated)
     implementation(projects.toml)

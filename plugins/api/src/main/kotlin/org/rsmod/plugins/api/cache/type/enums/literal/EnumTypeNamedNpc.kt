@@ -1,6 +1,6 @@
 package org.rsmod.plugins.api.cache.type.enums.literal
 
-import org.rsmod.game.types.NamedNpc
+import org.rsmod.plugins.types.NamedNpc
 
 public object EnumTypeNamedNpc : EnumTypeBaseInt<NamedNpc> {
 

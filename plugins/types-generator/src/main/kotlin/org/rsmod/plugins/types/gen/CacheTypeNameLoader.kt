@@ -1,15 +1,15 @@
 package org.rsmod.plugins.types.gen
 
-import org.rsmod.game.types.NamedItem
-import org.rsmod.game.types.NamedNpc
-import org.rsmod.game.types.NamedObject
-import org.rsmod.game.types.NamedTypeMapHolder
 import org.rsmod.plugins.api.cache.type.item.ItemType
 import org.rsmod.plugins.api.cache.type.item.ItemTypeLoader
 import org.rsmod.plugins.api.cache.type.npc.NpcType
 import org.rsmod.plugins.api.cache.type.npc.NpcTypeLoader
 import org.rsmod.plugins.api.cache.type.obj.ObjectType
 import org.rsmod.plugins.api.cache.type.obj.ObjectTypeLoader
+import org.rsmod.plugins.types.NamedItem
+import org.rsmod.plugins.types.NamedNpc
+import org.rsmod.plugins.types.NamedObject
+import org.rsmod.plugins.types.NamedTypeMapHolder
 import javax.inject.Inject
 
 public class CacheTypeNameLoader @Inject constructor(

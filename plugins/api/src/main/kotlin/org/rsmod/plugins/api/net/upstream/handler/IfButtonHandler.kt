@@ -2,8 +2,6 @@ package org.rsmod.plugins.api.net.upstream.handler
 
 import org.rsmod.game.events.GameEventBus
 import org.rsmod.game.model.mob.Player
-import org.rsmod.game.types.NamedComponent
-import org.rsmod.game.types.NamedItem
 import org.rsmod.plugins.api.model.event.UpstreamEvent
 import org.rsmod.plugins.api.net.upstream.IfButton
 import org.rsmod.plugins.api.net.upstream.IfButton1
@@ -17,6 +15,8 @@ import org.rsmod.plugins.api.net.upstream.IfButton7
 import org.rsmod.plugins.api.net.upstream.IfButton8
 import org.rsmod.plugins.api.net.upstream.IfButton9
 import org.rsmod.plugins.api.publish
+import org.rsmod.plugins.types.NamedComponent
+import org.rsmod.plugins.types.NamedItem
 import javax.inject.Inject
 
 public open class IfButtonHandler<T : IfButton>(

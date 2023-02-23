@@ -1,6 +1,6 @@
 package org.rsmod.plugins.api.cache.type.enums
 
-import org.rsmod.game.types.NamedEnum
+import org.rsmod.plugins.types.NamedEnum
 
 public class EnumTypeList(private val elements: Array<EnumType<Any, Any>?>) {
 
