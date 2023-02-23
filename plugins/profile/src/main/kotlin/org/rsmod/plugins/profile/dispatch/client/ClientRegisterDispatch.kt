@@ -1,6 +1,5 @@
 package org.rsmod.plugins.profile.dispatch.client
 
-import com.github.michaelbull.logging.InlineLogger
 import org.rsmod.game.client.ClientList
 import org.rsmod.game.events.GameEventBus
 import org.rsmod.plugins.api.model.event.ClientSession
