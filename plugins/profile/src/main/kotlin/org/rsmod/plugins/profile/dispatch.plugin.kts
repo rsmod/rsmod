@@ -1,6 +1,7 @@
 package org.rsmod.plugins.profile
 
 import org.rsmod.game.events.GameEventBus
+import org.rsmod.game.events.subscribe
 import org.rsmod.game.model.GameProcess
 import org.rsmod.plugins.profile.dispatch.client.ClientDeregisterDispatch
 import org.rsmod.plugins.profile.dispatch.client.ClientRegisterDispatch

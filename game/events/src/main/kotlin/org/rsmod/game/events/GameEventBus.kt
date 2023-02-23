@@ -33,20 +33,4 @@ public class GameEventBus {
     @Suppress("UNCHECKED_CAST")
     public fun <T : GameKeyedEvent> getOrNull(type: Class<out T>): Map<Long, (T).() -> Unit>? =
         boundEvents[type] as? Map<Long, (T).() -> Unit>
-
-    public inline fun <reified T : GameEvent> subscribe(noinline action: (T).() -> Unit) {
-        add(T::class.java, action)
-    }
-
-    public inline fun <reified T : GameKeyedEvent> subscribe(id: Long, noinline action: (T).() -> Unit) {
-        add(T::class.java, id, action)
-    }
-
-    public inline fun <reified T : GameKeyedEvent> subscribe(id: Int, noinline action: (T).() -> Unit) {
-        add(T::class.java, id.toLong(), action)
-    }
-
-    public fun <T : GameEvent> publish(event: T) {
-        getOrNull(event::class.java)?.forEach { it.invoke(event) }
-    }
 }

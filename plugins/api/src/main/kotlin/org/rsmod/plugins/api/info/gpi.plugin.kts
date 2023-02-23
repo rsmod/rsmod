@@ -1,6 +1,7 @@
 package org.rsmod.plugins.api.info
 
 import org.rsmod.game.events.GameEventBus
+import org.rsmod.game.events.subscribe
 import org.rsmod.plugins.api.info.player.SingleThreadedPlayerInfoTask
 import org.rsmod.plugins.api.model.event.PlayerSession
 

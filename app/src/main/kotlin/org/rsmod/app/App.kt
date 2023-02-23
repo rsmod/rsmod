@@ -11,6 +11,7 @@ import org.rsmod.game.GameModule
 import org.rsmod.game.config.GameConfig
 import org.rsmod.game.config.GameConfigModule
 import org.rsmod.game.events.GameEventBus
+import org.rsmod.game.events.publish
 import org.rsmod.game.model.GameEnv
 import org.rsmod.game.model.GameProcess
 import org.rsmod.game.scripts.module.KotlinScriptModule

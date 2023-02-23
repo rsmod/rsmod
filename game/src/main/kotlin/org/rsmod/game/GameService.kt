@@ -12,6 +12,7 @@ import org.rsmod.game.coroutine.WorldCoroutineScope
 import org.rsmod.game.coroutines.GameCoroutineScope
 import org.rsmod.game.dispatcher.main.MainCoroutineScope
 import org.rsmod.game.events.GameEventBus
+import org.rsmod.game.events.publish
 import org.rsmod.game.model.GameProcess
 import org.rsmod.game.model.mob.list.PlayerList
 import org.rsmod.game.model.mob.list.forEachNotNull
