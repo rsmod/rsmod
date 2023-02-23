@@ -33,8 +33,8 @@ open class GameClickAltPath : PathFinderBenchmark("outofbound-path.json")
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 @Warmup(iterations = 2)
-@Measurement(iterations = 3)
-@Fork(value = 1)
+@Measurement(iterations = 1, time = 5)
+@Fork(value = 1, warmups = 2)
 abstract class PathFinderBenchmark(
     private val parameterResourceName: String,
     private val pathRequests: Int = 2000
