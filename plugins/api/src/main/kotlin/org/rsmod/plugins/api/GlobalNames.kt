@@ -11,6 +11,8 @@ import org.rsmod.types.Npcs
 import org.rsmod.types.Objs
 import org.rsmod.types.Params
 import org.rsmod.types.Structs
+import org.rsmod.types.Varbits
+import org.rsmod.types.Varps
 
 public typealias interf = Interfaces
 public typealias component = Components
@@ -23,3 +25,5 @@ public typealias enum = Enums
 public typealias struct = Structs
 public typealias param = Params
 public typealias inv = Invs
+public typealias varp = Varps
+public typealias varbit = Varbits

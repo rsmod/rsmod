@@ -26,7 +26,9 @@ public class NamedTypeGenerator {
             "Enums" to ::generateEnumsConst,
             "Structs" to ::generateStructsConst,
             "Params" to ::generateParamsConst,
-            "Invs" to ::generateInvsConst
+            "Invs" to ::generateInvsConst,
+            "Varps" to ::generateVarpsConst,
+            "Varbits" to ::generateVarbitsConst
         )
         generators.forEach { (typeName, generator) ->
             Files.writeString(outputPath.resolve("$typeName.kt"), generator(names, typeName, packageName))
@@ -50,6 +52,8 @@ public class NamedTypeGenerator {
         writeConfigMapFile(outputPath.resolve("structs.rscm"), structs.mapValues { it.value.id }, mapper)
         writeConfigMapFile(outputPath.resolve("params.rscm"), parameters.mapValues { it.value.id }, mapper)
         writeConfigMapFile(outputPath.resolve("invs.rscm"), inventories.mapValues { it.value.id }, mapper)
+        writeConfigMapFile(outputPath.resolve("varps.rscm"), varps.mapValues { it.value.id }, mapper)
+        writeConfigMapFile(outputPath.resolve("varbits.rscm"), varbits.mapValues { it.value.id }, mapper)
     }
 
     public fun writeConfigMapFile(output: Path, names: Map<String, Int>, mapper: ObjectMapper) {
@@ -105,6 +109,14 @@ public class NamedTypeGenerator {
 
     public fun generateInvsConst(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
         return generate(fileName, packageName, NamedInventory::class.java, names.inventories.mapValues { it.value.id })
+    }
+
+    public fun generateVarpsConst(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
+        return generate(fileName, packageName, NamedVarp::class.java, names.varps.mapValues { it.value.id })
+    }
+
+    public fun generateVarbitsConst(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
+        return generate(fileName, packageName, NamedVarbit::class.java, names.varbits.mapValues { it.value.id })
     }
 
     private fun <T> generate(
