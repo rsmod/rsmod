@@ -4,13 +4,10 @@ import com.google.inject.AbstractModule
 import com.google.inject.Scopes
 import org.openrs2.cache.Js5MasterIndex
 import org.openrs2.cache.Store
-import org.rsmod.plugins.api.cache.type.CacheTypeModule
 
 public object Js5CacheModule : AbstractModule() {
 
     override fun configure() {
-        install(CacheTypeModule)
-
         bind(Js5MasterIndex::class.java)
             .toProvider(Js5MasterIndexProvider::class.java)
             .`in`(Scopes.SINGLETON)
