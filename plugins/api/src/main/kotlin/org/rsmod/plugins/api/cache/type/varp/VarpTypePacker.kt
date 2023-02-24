@@ -34,8 +34,8 @@ public object VarpTypePacker {
             writeShort(it)
         }
         if (!isJs5) {
-            if (!type.transmit) {
-                writeByte(VarpType.BLOCK_TRANSMISSION_OPCODE)
+            if (type.transmit) {
+                writeByte(VarpType.TRANSMISSION_OPCODE)
             }
             type.alias?.let {
                 writeByte(ConfigType.ALIAS_OPCODE)

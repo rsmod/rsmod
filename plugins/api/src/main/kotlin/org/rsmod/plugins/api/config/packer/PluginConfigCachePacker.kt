@@ -3,9 +3,12 @@ package org.rsmod.plugins.api.config.packer
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.michaelbull.logging.InlineLogger
+import com.google.inject.Guice
+import com.google.inject.Key
 import org.openrs2.cache.Cache
 import org.rsmod.game.config.GameConfig
 import org.rsmod.plugins.api.cache.build.game.GameCache
+import org.rsmod.plugins.api.cache.build.js5.Js5Cache
 import org.rsmod.plugins.api.cache.type.varbit.VarbitType
 import org.rsmod.plugins.api.cache.type.varbit.VarbitTypeBuilder
 import org.rsmod.plugins.api.cache.type.varbit.VarbitTypeLoader
@@ -30,6 +33,16 @@ import kotlin.io.path.nameWithoutExtension
 import kotlin.io.path.walk
 
 private val logger = InlineLogger()
+
+public fun main(args: Array<String>) {
+    val guice = Guice.createInjector(PluginConfigPackerModule)
+    val gameCache = guice.getInstance(Key.get(Cache::class.java, GameCache::class.java))
+    val js5Cache = guice.getInstance(Key.get(Cache::class.java, Js5Cache::class.java))
+    val packer = guice.getInstance(PluginConfigCachePacker::class.java)
+    gameCache.use { packer.pack(isJs5 = false, it) }
+    println()
+    js5Cache.use { packer.pack(isJs5 = true, it) }
+}
 
 public class PluginConfigCachePacker @Inject constructor(
     @Toml private val mapper: ObjectMapper,

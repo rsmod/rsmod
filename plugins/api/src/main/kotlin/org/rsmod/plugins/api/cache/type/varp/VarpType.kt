@@ -11,6 +11,6 @@ public data class VarpType(
 
     public companion object {
 
-        public const val BLOCK_TRANSMISSION_OPCODE: Int = 230
+        public const val TRANSMISSION_OPCODE: Int = 230
     }
 }

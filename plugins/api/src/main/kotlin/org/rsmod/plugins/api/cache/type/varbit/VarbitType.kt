@@ -9,4 +9,10 @@ public data class VarbitType(
     public val lsb: Int,
     public val msb: Int,
     public val transmit: Boolean
-) : ConfigType
+) : ConfigType {
+
+    public companion object {
+
+        public const val TRANSMISSION_OPCODE: Int = 230
+    }
+}

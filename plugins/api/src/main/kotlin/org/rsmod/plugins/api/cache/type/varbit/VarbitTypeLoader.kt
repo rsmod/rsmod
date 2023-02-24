@@ -44,6 +44,7 @@ public class VarbitTypeLoader @Inject constructor(
                 lsb = buf.readUnsignedByte().toInt()
                 msb = buf.readUnsignedByte().toInt()
             }
+            VarbitType.TRANSMISSION_OPCODE -> transmit = true
             ConfigType.ALIAS_OPCODE -> alias = buf.readString()
             else -> throw IOException("Error unrecognised varp config code: $instruction")
         }
