@@ -1,4 +1,4 @@
-package org.rsmod.plugins.net.rsa
+package org.rsmod.plugins.net.util
 
 import org.bouncycastle.crypto.params.RSAPrivateCrtKeyParameters
 import org.openrs2.crypto.Rsa

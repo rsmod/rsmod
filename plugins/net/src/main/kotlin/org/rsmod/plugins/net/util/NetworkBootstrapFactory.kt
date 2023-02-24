@@ -1,4 +1,4 @@
-package org.rsmod.plugins.net.bootstrap
+package org.rsmod.plugins.net.util
 
 import io.netty.bootstrap.ServerBootstrap
 import io.netty.buffer.ByteBufAllocator
