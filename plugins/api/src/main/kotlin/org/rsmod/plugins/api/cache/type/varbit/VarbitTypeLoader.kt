@@ -1,8 +1,10 @@
 package org.rsmod.plugins.api.cache.type.varbit
 
 import io.netty.buffer.ByteBuf
+import org.openrs2.buffer.readString
 import org.openrs2.cache.Cache
-import org.rsmod.plugins.api.cache.game.GameCache
+import org.rsmod.plugins.api.cache.build.game.GameCache
+import org.rsmod.plugins.api.cache.type.ConfigType
 import java.io.IOException
 import javax.inject.Inject
 
@@ -42,6 +44,7 @@ public class VarbitTypeLoader @Inject constructor(
                 lsb = buf.readUnsignedByte().toInt()
                 msb = buf.readUnsignedByte().toInt()
             }
+            ConfigType.ALIAS_OPCODE -> alias = buf.readString()
             else -> throw IOException("Error unrecognised varp config code: $instruction")
         }
     }

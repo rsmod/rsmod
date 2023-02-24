@@ -1,4 +1,4 @@
-package org.rsmod.plugins.api.cache.game
+package org.rsmod.plugins.api.cache.build.game
 
 import com.google.inject.AbstractModule
 import com.google.inject.Scopes

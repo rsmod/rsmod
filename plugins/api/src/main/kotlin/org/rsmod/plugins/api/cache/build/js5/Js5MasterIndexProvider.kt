@@ -1,4 +1,4 @@
-package org.rsmod.plugins.api.cache.js5
+package org.rsmod.plugins.api.cache.build.js5
 
 import org.openrs2.cache.Js5MasterIndex
 import org.openrs2.cache.MasterIndexFormat

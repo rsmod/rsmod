@@ -3,7 +3,7 @@ package org.rsmod.plugins.api.cache.type.obj
 import io.netty.buffer.ByteBuf
 import org.openrs2.buffer.readString
 import org.openrs2.cache.Cache
-import org.rsmod.plugins.api.cache.game.GameCache
+import org.rsmod.plugins.api.cache.build.game.GameCache
 import org.rsmod.plugins.api.cache.type.readStruct
 import java.io.IOException
 import javax.inject.Inject

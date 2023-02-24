@@ -1,7 +1,6 @@
 package org.rsmod.plugins.net
 
 import org.rsmod.game.config.GameConfig
-import org.rsmod.plugins.api.cachePath
 import java.nio.file.Path
 
 public val GameConfig.rsaPath: Path

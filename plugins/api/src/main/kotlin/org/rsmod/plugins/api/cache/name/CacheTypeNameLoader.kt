@@ -1,4 +1,4 @@
-package org.rsmod.plugins.types.gen
+package org.rsmod.plugins.api.cache.name
 
 import org.rsmod.plugins.api.cache.type.item.ItemType
 import org.rsmod.plugins.api.cache.type.item.ItemTypeLoader
@@ -6,16 +6,24 @@ import org.rsmod.plugins.api.cache.type.npc.NpcType
 import org.rsmod.plugins.api.cache.type.npc.NpcTypeLoader
 import org.rsmod.plugins.api.cache.type.obj.ObjectType
 import org.rsmod.plugins.api.cache.type.obj.ObjectTypeLoader
+import org.rsmod.plugins.api.cache.type.varbit.VarbitType
+import org.rsmod.plugins.api.cache.type.varbit.VarbitTypeLoader
+import org.rsmod.plugins.api.cache.type.varp.VarpType
+import org.rsmod.plugins.api.cache.type.varp.VarpTypeLoader
 import org.rsmod.plugins.types.NamedItem
 import org.rsmod.plugins.types.NamedNpc
 import org.rsmod.plugins.types.NamedObject
 import org.rsmod.plugins.types.NamedTypeMapHolder
+import org.rsmod.plugins.types.NamedVarbit
+import org.rsmod.plugins.types.NamedVarp
 import javax.inject.Inject
 
 public class CacheTypeNameLoader @Inject constructor(
     private val items: ItemTypeLoader,
     private val npcs: NpcTypeLoader,
-    private val objs: ObjectTypeLoader
+    private val objs: ObjectTypeLoader,
+    private val varps: VarpTypeLoader,
+    private val varbits: VarbitTypeLoader
 ) {
 
     public fun load(): NamedTypeMapHolder {
@@ -23,6 +31,8 @@ public class CacheTypeNameLoader @Inject constructor(
         names.putItems(items.load())
         names.putNpcs(npcs.load())
         names.putObjs(objs.load())
+        names.putVarps(varps.load())
+        names.putVarbits(varbits.load())
         return names
     }
 
@@ -48,6 +58,20 @@ public class CacheTypeNameLoader @Inject constructor(
             val sanitized = it.name.sanitize() ?: return@forEach
             val name = sanitized + "_${it.id}"
             objs[name] = NamedObject(it.id)
+        }
+    }
+
+    private fun NamedTypeMapHolder.putVarps(types: List<VarpType>) {
+        types.forEach {
+            val name = it.alias ?: return@forEach
+            varps[name] = NamedVarp(it.id)
+        }
+    }
+
+    private fun NamedTypeMapHolder.putVarbits(types: List<VarbitType>) {
+        types.forEach {
+            val name = it.alias ?: return@forEach
+            varbits[name] = NamedVarbit(it.id)
         }
     }
 

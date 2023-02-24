@@ -16,8 +16,6 @@ public class NamedTypeMapHolder {
     public val varps: MutableMap<String, NamedVarp> = mutableMapOf()
     public val varbits: MutableMap<String, NamedVarbit> = mutableMapOf()
 
-    // TODO: handle name key collision
-
     public operator fun set(name: String, value: NamedComponent) {
         components[name] = value
     }

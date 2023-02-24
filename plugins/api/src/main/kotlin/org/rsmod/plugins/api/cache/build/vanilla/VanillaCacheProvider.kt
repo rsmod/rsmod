@@ -1,25 +1,24 @@
-package org.rsmod.plugins.api.cache.game
+package org.rsmod.plugins.api.cache.build.vanilla
 
 import io.netty.buffer.ByteBufAllocator
 import org.openrs2.cache.Cache
 import org.openrs2.cache.Store
 import org.rsmod.game.config.GameConfig
-import org.rsmod.plugins.api.gameCachePath
+import org.rsmod.plugins.api.cachePath
+import org.rsmod.plugins.api.vanillaCachePath
 import java.io.FileNotFoundException
 import javax.inject.Inject
 import javax.inject.Provider
 
-public class GameCacheProvider @Inject constructor(
-    @GameCache private val store: Store,
+public class VanillaCacheProvider @Inject constructor(
+    @VanillaCache private val store: Store,
     private val alloc: ByteBufAllocator,
     config: GameConfig
 ) : Provider<Cache> {
 
-    private val path = config.gameCachePath
-
     private val fnfInstructions = """
-        Place cache files in ${path.toAbsolutePath()}
-        and `xteas.json` in ${path.parent.toAbsolutePath()}
+        Place cache files in ${config.vanillaCachePath.toAbsolutePath()}
+        and `xteas.json` in ${config.cachePath.toAbsolutePath()}
     """.trimIndent()
 
     override fun get(): Cache {

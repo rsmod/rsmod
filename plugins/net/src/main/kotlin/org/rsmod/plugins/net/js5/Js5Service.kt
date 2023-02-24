@@ -8,7 +8,7 @@ import org.openrs2.cache.Js5CompressionType
 import org.openrs2.cache.Js5MasterIndex
 import org.openrs2.cache.Store
 import org.openrs2.cache.VersionTrailer
-import org.rsmod.plugins.api.cache.js5.Js5Cache
+import org.rsmod.plugins.api.cache.build.js5.Js5Cache
 import org.rsmod.plugins.net.js5.downstream.Js5GroupResponse
 import org.rsmod.plugins.net.js5.upstream.Js5Request
 import java.io.FileNotFoundException

@@ -1,4 +1,4 @@
-package org.rsmod.plugins.api.cache.js5
+package org.rsmod.plugins.api.cache.build.js5
 
 import javax.inject.Qualifier
 
