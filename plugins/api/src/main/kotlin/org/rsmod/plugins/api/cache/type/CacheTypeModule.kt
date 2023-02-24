@@ -5,7 +5,7 @@ import com.google.inject.Scopes
 import org.rsmod.plugins.api.cache.type.enums.EnumTypeList
 import org.rsmod.plugins.api.cache.type.enums.EnumTypeListProvider
 
-public object CacheTypeListModule : AbstractModule() {
+public object CacheTypeModule : AbstractModule() {
 
     override fun configure() {
         bind(EnumTypeList::class.java)
