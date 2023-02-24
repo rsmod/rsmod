@@ -3,6 +3,8 @@ package org.rsmod.plugins.net.util
 import org.bouncycastle.crypto.params.RSAPrivateCrtKeyParameters
 import org.openrs2.crypto.Rsa
 import org.rsmod.game.config.GameConfig
+import org.rsmod.plugins.net.rsaFile
+import org.rsmod.plugins.net.rsaPath
 import java.nio.file.Files
 import javax.inject.Inject
 import javax.inject.Provider

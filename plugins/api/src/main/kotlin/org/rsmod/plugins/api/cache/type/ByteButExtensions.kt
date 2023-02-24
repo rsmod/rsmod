@@ -1,4 +1,4 @@
-package org.rsmod.plugins.api.cache
+package org.rsmod.plugins.api.cache.type
 
 import io.netty.buffer.ByteBuf
 import org.openrs2.buffer.readString

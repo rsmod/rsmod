@@ -3,7 +3,7 @@ package org.rsmod.plugins.api.cache.type.npc
 import io.netty.buffer.ByteBuf
 import org.openrs2.buffer.readString
 import org.openrs2.cache.Cache
-import org.rsmod.plugins.api.cache.readStruct
+import org.rsmod.plugins.api.cache.type.readStruct
 import java.io.IOException
 import javax.inject.Inject
 

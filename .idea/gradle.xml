@@ -13,7 +13,6 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/buffer" />
-            <option value="$PROJECT_DIR$/cache" />
             <option value="$PROJECT_DIR$/game" />
             <option value="$PROJECT_DIR$/game/coroutines" />
             <option value="$PROJECT_DIR$/game/events" />

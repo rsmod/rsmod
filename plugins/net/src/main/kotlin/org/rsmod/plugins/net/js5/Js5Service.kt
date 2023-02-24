@@ -8,6 +8,7 @@ import org.openrs2.cache.Js5CompressionType
 import org.openrs2.cache.Js5MasterIndex
 import org.openrs2.cache.Store
 import org.openrs2.cache.VersionTrailer
+import org.rsmod.plugins.net.js5.cache.Js5Store
 import org.rsmod.plugins.net.js5.downstream.Js5GroupResponse
 import org.rsmod.plugins.net.js5.upstream.Js5Request
 import java.io.FileNotFoundException
@@ -16,7 +17,7 @@ import javax.inject.Singleton
 
 @Singleton
 public class Js5Service @Inject constructor(
-    private val store: Store,
+    @Js5Store private val store: Store,
     private val masterIndex: Js5MasterIndex,
     private val alloc: ByteBufAllocator
 ) : AbstractExecutionThreadService() {

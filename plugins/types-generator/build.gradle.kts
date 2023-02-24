@@ -4,10 +4,9 @@ plugins {
 
 dependencies {
     implementation(projects.buffer)
-    implementation(projects.cache)
     implementation(projects.game)
-    implementation(projects.plugins.types)
     implementation(projects.plugins.api)
+    implementation(projects.plugins.types)
     implementation(projects.plugins.typesGenerated)
     implementation(projects.toml)
     implementation(libs.clikt)

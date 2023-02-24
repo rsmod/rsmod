@@ -10,11 +10,4 @@ public data class GameConfig(
     val env: GameEnv,
     val dataPath: Path,
     val spawn: Coordinates
-) {
-
-    val cachePath: Path get() = dataPath.resolve("cache")
-    val packedCachePath: Path get() = cachePath.resolve("packed")
-
-    val rsaPath: Path get() = dataPath.resolve("rsa")
-    val rsaFile: Path get() = rsaPath.resolve("game.key")
-}
+)

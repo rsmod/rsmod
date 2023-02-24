@@ -3,8 +3,8 @@ package org.rsmod.plugins.net
 import com.github.michaelbull.logging.InlineLogger
 import com.google.common.util.concurrent.AbstractService
 import io.netty.channel.EventLoopGroup
-import org.rsmod.plugins.net.util.NetworkBootstrapFactory
 import org.rsmod.plugins.net.service.ServiceChannelInitializer
+import org.rsmod.plugins.net.util.NetworkBootstrapFactory
 import javax.inject.Inject
 import javax.inject.Singleton
 

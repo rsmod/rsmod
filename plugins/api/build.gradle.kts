@@ -10,7 +10,6 @@ dependencies {
     implementation(projects.game.events)
     implementation(projects.game.scripts)
     implementation(projects.game.protocol)
-    implementation(projects.cache)
     implementation(projects.json)
     implementation(projects.plugins.info)
     implementation(projects.plugins.types)
