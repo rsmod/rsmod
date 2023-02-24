@@ -8,3 +8,6 @@ public val GameConfig.cachePath: Path
 
 public val GameConfig.gameCachePath: Path
     get() = cachePath.resolve("game")
+
+public val GameConfig.js5CachePath: Path
+    get() = cachePath.resolve("js5")

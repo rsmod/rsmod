@@ -2,13 +2,16 @@ package org.rsmod.plugins.api.cache.type.varp
 
 import io.netty.buffer.ByteBuf
 import org.openrs2.cache.Cache
+import org.rsmod.plugins.api.cache.game.GameCache
 import java.io.IOException
 import javax.inject.Inject
 
 private const val CONFIG_ARCHIVE = 2
 private const val VARP_GROUP = 16
 
-public class VarpTypeLoader @Inject constructor(private val cache: Cache) {
+public class VarpTypeLoader @Inject constructor(
+    @GameCache private val cache: Cache
+) {
 
     public fun load(): List<VarpType> {
         val types = mutableListOf<VarpType>()

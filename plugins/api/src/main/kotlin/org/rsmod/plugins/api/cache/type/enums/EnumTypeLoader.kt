@@ -3,13 +3,16 @@ package org.rsmod.plugins.api.cache.type.enums
 import io.netty.buffer.ByteBuf
 import org.openrs2.buffer.readString
 import org.openrs2.cache.Cache
+import org.rsmod.plugins.api.cache.game.GameCache
 import java.io.IOException
 import javax.inject.Inject
 
 private const val CONFIG_ARCHIVE = 2
 private const val ENUM_GROUP = 8
 
-public class EnumTypeLoader @Inject constructor(private val cache: Cache) {
+public class EnumTypeLoader @Inject constructor(
+    @GameCache private val cache: Cache
+) {
 
     public fun load(): List<EnumType<Any, Any>> {
         val types = mutableListOf<EnumType<Any, Any>>()

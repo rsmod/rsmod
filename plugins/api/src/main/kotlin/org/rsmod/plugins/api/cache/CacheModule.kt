@@ -1,22 +1,15 @@
 package org.rsmod.plugins.api.cache
 
 import com.google.inject.AbstractModule
-import com.google.inject.Scopes
-import org.openrs2.cache.Cache
-import org.openrs2.cache.Store
+import org.rsmod.plugins.api.cache.game.GameCacheModule
+import org.rsmod.plugins.api.cache.js5.Js5CacheModule
 import org.rsmod.plugins.api.cache.type.CacheTypeModule
 
 public object CacheModule : AbstractModule() {
 
     override fun configure() {
         install(CacheTypeModule)
-
-        bind(Store::class.java)
-            .toProvider(StoreProvider::class.java)
-            .`in`(Scopes.SINGLETON)
-
-        bind(Cache::class.java)
-            .toProvider(CacheProvider::class.java)
-            .`in`(Scopes.SINGLETON)
+        install(GameCacheModule)
+        install(Js5CacheModule)
     }
 }

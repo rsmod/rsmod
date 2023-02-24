@@ -1,4 +1,4 @@
-package org.rsmod.plugins.api.cache
+package org.rsmod.plugins.api.cache.game
 
 import io.netty.buffer.ByteBufAllocator
 import org.openrs2.cache.Store
@@ -8,7 +8,7 @@ import java.nio.file.Files
 import javax.inject.Inject
 import javax.inject.Provider
 
-public class StoreProvider @Inject constructor(
+public class GameStoreProvider @Inject constructor(
     private val alloc: ByteBufAllocator,
     config: GameConfig
 ) : Provider<Store> {

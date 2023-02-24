@@ -3,6 +3,7 @@ package org.rsmod.plugins.api.cache.type.item
 import io.netty.buffer.ByteBuf
 import org.openrs2.buffer.readString
 import org.openrs2.cache.Cache
+import org.rsmod.plugins.api.cache.game.GameCache
 import org.rsmod.plugins.api.cache.type.readStruct
 import java.io.IOException
 import javax.inject.Inject
@@ -10,7 +11,9 @@ import javax.inject.Inject
 private const val CONFIG_ARCHIVE = 2
 private const val ITEM_GROUP = 10
 
-public class ItemTypeLoader @Inject constructor(private val cache: Cache) {
+public class ItemTypeLoader @Inject constructor(
+    @GameCache private val cache: Cache
+) {
 
     public fun load(): List<ItemType> {
         val types = mutableListOf<ItemType>()

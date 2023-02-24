@@ -2,13 +2,16 @@ package org.rsmod.plugins.api.cache.type.varbit
 
 import io.netty.buffer.ByteBuf
 import org.openrs2.cache.Cache
+import org.rsmod.plugins.api.cache.game.GameCache
 import java.io.IOException
 import javax.inject.Inject
 
 private const val CONFIG_ARCHIVE = 2
 private const val VARBIT_GROUP = 14
 
-public class VarbitTypeLoader @Inject constructor(private val cache: Cache) {
+public class VarbitTypeLoader @Inject constructor(
+    @GameCache private val cache: Cache
+) {
 
     public fun load(): List<VarbitType> {
         val types = mutableListOf<VarbitType>()

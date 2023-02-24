@@ -1,4 +1,4 @@
-package org.rsmod.plugins.net.js5.cache
+package org.rsmod.plugins.api.cache.js5
 
 import org.openrs2.cache.Js5MasterIndex
 import org.openrs2.cache.MasterIndexFormat
@@ -7,7 +7,7 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 public class Js5MasterIndexProvider @Inject constructor(
-    @Js5Store private val store: Store
+    @Js5Cache private val store: Store
 ) : Provider<Js5MasterIndex> {
 
     override fun get(): Js5MasterIndex {

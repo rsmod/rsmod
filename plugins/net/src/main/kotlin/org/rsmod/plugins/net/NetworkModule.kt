@@ -7,7 +7,7 @@ import com.google.inject.Scopes
 import com.google.inject.TypeLiteral
 import com.google.inject.multibindings.Multibinder
 import org.bouncycastle.crypto.params.RSAPrivateCrtKeyParameters
-import org.rsmod.plugins.net.js5.Js5Module
+import org.rsmod.plugins.api.cache.js5.Js5CacheModule
 import org.rsmod.plugins.net.js5.Js5Service
 import org.rsmod.plugins.net.js5.downstream.Js5ClientOutOfDateCodec
 import org.rsmod.plugins.net.js5.downstream.Js5OkCodec
@@ -39,7 +39,7 @@ public object NetworkModule : AbstractModule() {
     private val PACKET_CODEC_TYPE_LITERAL = object : TypeLiteral<PacketCodec<*>>() {}
 
     override fun configure() {
-        install(Js5Module)
+        install(Js5CacheModule)
 
         bindServices()
 
