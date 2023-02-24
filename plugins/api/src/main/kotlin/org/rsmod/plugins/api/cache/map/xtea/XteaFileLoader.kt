@@ -5,7 +5,7 @@ import com.github.michaelbull.logging.InlineLogger
 import org.openrs2.crypto.XteaKey
 import org.rsmod.game.config.GameConfig
 import org.rsmod.json.Json
-import org.rsmod.plugins.api.gameCachePath
+import org.rsmod.plugins.api.cachePath
 import java.nio.file.Files
 import javax.inject.Inject
 
@@ -21,7 +21,7 @@ public class XteaFileLoader @Inject constructor(
 
     public fun load() {
         /* xtea file should be one path level above packed cache */
-        val file = config.gameCachePath.parent.resolve(FILE_NAME)
+        val file = config.cachePath.resolve(FILE_NAME)
         Files.newBufferedReader(file).use {
             val fileXtea = mapper.readValue(it, Array<XteaFile>::class.java)
             fileXtea.forEach { xtea ->
