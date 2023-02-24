@@ -1,20 +1,26 @@
-package org.rsmod.plugins.api.module
+package org.rsmod.plugins.api
 
 import com.google.inject.AbstractModule
+import org.rsmod.buffer.BufferModule
+import org.rsmod.game.cache.CacheModule
 import org.rsmod.json.JsonModule
 import org.rsmod.plugins.api.cache.APICacheModule
 import org.rsmod.plugins.api.cache.map.xtea.XteaModule
 import org.rsmod.plugins.api.info.InfoModule
 import org.rsmod.plugins.api.net.PacketModule
 import org.rsmod.plugins.api.net.upstream.handler.UpstreamHandlerModule
+import org.rsmod.toml.TomlModule
 
 public object APIModule : AbstractModule() {
 
     override fun configure() {
         install(APICacheModule)
+        install(BufferModule)
+        install(CacheModule)
         install(InfoModule)
         install(JsonModule)
         install(PacketModule)
+        install(TomlModule)
         install(UpstreamHandlerModule)
         install(XteaModule)
     }

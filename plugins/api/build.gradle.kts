@@ -5,6 +5,7 @@ plugins {
 dependencies {
     api(projects.game.coroutines)
     api(projects.plugins.typesGenerated)
+    implementation(projects.buffer)
     implementation(projects.game)
     implementation(projects.game.events)
     implementation(projects.game.scripts)
@@ -13,6 +14,7 @@ dependencies {
     implementation(projects.json)
     implementation(projects.plugins.info)
     implementation(projects.plugins.types)
+    implementation(projects.toml)
     implementation(libs.inlineLogger)
     implementation(libs.kotlinScriptRuntime)
     implementation(libs.logback)
