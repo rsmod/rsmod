@@ -11,8 +11,6 @@ public sealed class Mob(
 
     public abstract val entity: Entity
 
-    private var activeCoroutine: GameCoroutine? = null
-
     public var index: Int
         get() = entity.index
         set(value) { entity.index = value }
@@ -24,6 +22,8 @@ public sealed class Mob(
     public var prevCoords: Coordinates
         get() = entity.prevCoords
         set(value) { entity.prevCoords = value }
+
+    private var activeCoroutine: GameCoroutine? = null
 
     public fun launchCoroutine(block: suspend (GameCoroutine).() -> Unit): GameCoroutine {
         return coroutineScope.launch(block = block)

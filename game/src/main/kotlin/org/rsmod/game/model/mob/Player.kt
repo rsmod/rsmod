@@ -3,18 +3,21 @@ package org.rsmod.game.model.mob
 import org.rsmod.game.model.DownstreamList
 import org.rsmod.game.model.UpstreamList
 import org.rsmod.game.model.client.PlayerEntity
+import org.rsmod.game.model.vars.VariableMap
 
 public class Player(override val entity: PlayerEntity = PlayerEntity()) : Mob() {
-
-    public val upstream: UpstreamList = UpstreamList()
-
-    public val downstream: DownstreamList = DownstreamList()
 
     public var username: String = ""
 
     public var displayName: String
         get() = entity.name
         set(value) { entity.name = value }
+
+    public val upstream: UpstreamList = UpstreamList()
+
+    public val downstream: DownstreamList = DownstreamList()
+
+    public val vars: VariableMap = VariableMap()
 
     public override fun toString(): String {
         return "Player(username=$username, displayName=$displayName, coords=$coords)"
