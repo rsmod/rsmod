@@ -7,6 +7,10 @@ plugins {
     id("me.champeau.gradle.jmh") apply true
 }
 
+dependencies {
+    jmh(libs.kotlinCoroutinesCore)
+}
+
 jmh {
     profilers = listOf("stack")
 }
