@@ -5,19 +5,18 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.michaelbull.logging.InlineLogger
 import org.openrs2.cache.Cache
 import org.rsmod.game.config.GameConfig
-import org.rsmod.plugins.api.cache.build.game.GameCache
+import org.rsmod.plugins.api.cache.name.CacheTypeNameLoader
 import org.rsmod.plugins.api.cache.type.varbit.VarbitType
 import org.rsmod.plugins.api.cache.type.varbit.VarbitTypeBuilder
-import org.rsmod.plugins.api.cache.type.varbit.VarbitTypeLoader
+import org.rsmod.plugins.api.cache.type.varbit.VarbitTypeList
 import org.rsmod.plugins.api.cache.type.varbit.VarbitTypePacker
 import org.rsmod.plugins.api.cache.type.varp.VarpType
 import org.rsmod.plugins.api.cache.type.varp.VarpTypeBuilder
-import org.rsmod.plugins.api.cache.type.varp.VarpTypeLoader
+import org.rsmod.plugins.api.cache.type.varp.VarpTypeList
 import org.rsmod.plugins.api.cache.type.varp.VarpTypePacker
 import org.rsmod.plugins.api.config.type.ConfigVarbit
 import org.rsmod.plugins.api.config.type.ConfigVarp
 import org.rsmod.plugins.api.pluginPath
-import org.rsmod.plugins.types.NamedTypeMapHolder
 import org.rsmod.plugins.types.NamedVarbit
 import org.rsmod.plugins.types.NamedVarp
 import org.rsmod.toml.Toml
@@ -33,26 +32,25 @@ private val logger = InlineLogger()
 
 public class ConfigCachePacker @Inject constructor(
     @Toml private val mapper: ObjectMapper,
-    @GameCache private val names: NamedTypeMapHolder,
     private val config: GameConfig,
-    private val varpLoader: VarpTypeLoader,
-    private val varbitLoader: VarbitTypeLoader
+    private val varpTypes: VarpTypeList,
+    private val varbitTypes: VarbitTypeList,
+    nameLoader: CacheTypeNameLoader
 ) {
 
-    private val varpTypes by lazy { varpLoader.load().associateBy { it.id } }
-    private val varbitTypes by lazy { varbitLoader.load().associateBy { it.id } }
+    private val names = nameLoader.load()
 
     @OptIn(ExperimentalPathApi::class)
     public fun pack(isJs5: Boolean, cache: Cache) {
         // TODO: inform of possible id collisions
         val pluginFiles = config.pluginPath.walk()
         run packVarps@{
-            val files = pluginFiles.filter { it.nameWithoutExtension.endsWith("varps") }
+            val files = pluginFiles.filter { it.nameWithoutExtension.endsWith(VARP_FILE_KEY) }
             val types = packVarps(isJs5, cache, files)
             logger.info { "Packed ${types.size} plugin varps to ${if (isJs5) "js5" else "game"} cache." }
         }
         run packVarbits@{
-            val files = pluginFiles.filter { it.nameWithoutExtension.endsWith("varbits") }
+            val files = pluginFiles.filter { it.nameWithoutExtension.endsWith(VARBIT_FILE_KEY) }
             val types = packVarbits(isJs5, cache, files)
             logger.info { "Packed ${types.size} plugin varbits to ${if (isJs5) "js5" else "game"} cache." }
         }
@@ -62,10 +60,9 @@ public class ConfigCachePacker @Inject constructor(
         val types = mutableListOf<VarpType>()
         files.forEach { f ->
             Files.newInputStream(f).use { input ->
-                val pluginTypes = extract<ConfigVarp>(input, VARPS_KEY)
-                    ?: error("Could not extract varps from $f")
-                types += pluginTypes.map { it.toCacheType() }
-                names.varps.putAll(pluginTypes.map { it.alias to NamedVarp(it.id) })
+                val configs = extractValues<ConfigVarp>(input, VARP_TYPE_KEY)
+                types += configs.map { it.toCacheType() }
+                names.varps.putAll(configs.map { it.alias to NamedVarp(it.id) })
             }
         }
         if (isJs5) types.removeIf { !it.transmit }
@@ -76,10 +73,9 @@ public class ConfigCachePacker @Inject constructor(
         val types = mutableListOf<VarbitType>()
         files.forEach { f ->
             Files.newInputStream(f).use { input ->
-                val pluginTypes = extract<ConfigVarbit>(input, VARBITS_KEY)
-                    ?: error("Could not extract varbits from $f")
-                types += pluginTypes.map { it.toCacheType() }
-                names.varbits.putAll(pluginTypes.map { it.alias to NamedVarbit(it.id) })
+                val configs = extractValues<ConfigVarbit>(input, VARBIT_TYPE_KEY)
+                types += configs.map { it.toCacheType() }
+                names.varbits.putAll(configs.map { it.alias to NamedVarbit(it.id) })
             }
         }
         if (isJs5) types.removeIf { !it.transmit }
@@ -118,9 +114,9 @@ public class ConfigCachePacker @Inject constructor(
         return builder.build()
     }
 
-    private inline fun <reified T> extract(input: InputStream, key: String): List<T>? {
+    private inline fun <reified T> extractValues(input: InputStream, key: String): List<T> {
         val map = mapper.readValue(input, object : TypeReference<Map<String, List<T>>>() {})
-        return map[key]
+        return map[key] ?: error("Could not extract $key values from input.")
     }
 
     private fun String.stripTag(): String {
@@ -130,7 +126,10 @@ public class ConfigCachePacker @Inject constructor(
 
     private companion object {
 
-        private const val VARPS_KEY = "varp"
-        private const val VARBITS_KEY = "varbit"
+        private const val VARP_TYPE_KEY = "varp"
+        private const val VARP_FILE_KEY = "varps"
+
+        private const val VARBIT_TYPE_KEY = "varbit"
+        private const val VARBIT_FILE_KEY = "varbits"
     }
 }

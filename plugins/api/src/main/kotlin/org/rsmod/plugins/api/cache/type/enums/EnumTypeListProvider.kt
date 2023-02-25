@@ -8,9 +8,6 @@ public class EnumTypeListProvider @Inject constructor(
 ) : Provider<EnumTypeList> {
 
     override fun get(): EnumTypeList {
-        val types = loader.load()
-        val elements = arrayOfNulls<EnumType<Any, Any>>(types.maxOf { it.id } + 1)
-        types.forEach { type -> elements[type.id] = type }
-        return EnumTypeList(elements)
+        return EnumTypeList(loader.load().associateBy { it.id })
     }
 }

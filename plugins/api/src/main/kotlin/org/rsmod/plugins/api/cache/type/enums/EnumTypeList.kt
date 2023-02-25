@@ -2,15 +2,15 @@ package org.rsmod.plugins.api.cache.type.enums
 
 import org.rsmod.plugins.types.NamedEnum
 
-public class EnumTypeList(private val elements: Array<EnumType<Any, Any>?>) {
+public class EnumTypeList(private val elements: Map<Int, EnumType<Any, Any>>) {
 
-    public val capacity: Int get() = elements.size
+    public val size: Int get() = elements.size
 
     @Suppress("UNCHECKED_CAST")
     public fun <K, V> get(enum: NamedEnum, input: Class<K>, output: Class<V>): EnumType<K, V> {
-        check(enum.id in elements.indices)
+        check(enum.id in elements.keys)
         checkNotNull(elements[enum.id])
-        val element = elements[enum.id]!!
+        val element = elements.getValue(enum.id)
         checkTypes(input, element.keyType.out, "input")
         checkTypes(output, element.valType.out, "output")
         return elements[enum.id] as EnumType<K, V>
