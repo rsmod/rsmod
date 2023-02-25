@@ -11,4 +11,3 @@ open class MultiThreadNoBufLimit : MultiThreadPlayerInfoBenchmark(bufCapacity = 
 open class MultiThreadBufLimited : MultiThreadPlayerInfoBenchmark(bufCapacity = 40_000)
 open class MultiThreadBufLimitedStartHighRes :
     MultiThreadPlayerInfoBenchmark(bufCapacity = 40_000, startInHighRes = true)
-
