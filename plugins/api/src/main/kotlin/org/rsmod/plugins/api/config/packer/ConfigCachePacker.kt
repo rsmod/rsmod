@@ -3,12 +3,9 @@ package org.rsmod.plugins.api.config.packer
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.michaelbull.logging.InlineLogger
-import com.google.inject.Guice
-import com.google.inject.Key
 import org.openrs2.cache.Cache
 import org.rsmod.game.config.GameConfig
 import org.rsmod.plugins.api.cache.build.game.GameCache
-import org.rsmod.plugins.api.cache.build.js5.Js5Cache
 import org.rsmod.plugins.api.cache.type.varbit.VarbitType
 import org.rsmod.plugins.api.cache.type.varbit.VarbitTypeBuilder
 import org.rsmod.plugins.api.cache.type.varbit.VarbitTypeLoader
@@ -17,8 +14,8 @@ import org.rsmod.plugins.api.cache.type.varp.VarpType
 import org.rsmod.plugins.api.cache.type.varp.VarpTypeBuilder
 import org.rsmod.plugins.api.cache.type.varp.VarpTypeLoader
 import org.rsmod.plugins.api.cache.type.varp.VarpTypePacker
-import org.rsmod.plugins.api.config.type.PluginVarbit
-import org.rsmod.plugins.api.config.type.PluginVarp
+import org.rsmod.plugins.api.config.type.ConfigVarbit
+import org.rsmod.plugins.api.config.type.ConfigVarp
 import org.rsmod.plugins.api.pluginPath
 import org.rsmod.plugins.types.NamedTypeMapHolder
 import org.rsmod.plugins.types.NamedVarbit
@@ -34,17 +31,7 @@ import kotlin.io.path.walk
 
 private val logger = InlineLogger()
 
-public fun main(args: Array<String>) {
-    val guice = Guice.createInjector(PluginConfigPackerModule)
-    val gameCache = guice.getInstance(Key.get(Cache::class.java, GameCache::class.java))
-    val js5Cache = guice.getInstance(Key.get(Cache::class.java, Js5Cache::class.java))
-    val packer = guice.getInstance(PluginConfigCachePacker::class.java)
-    gameCache.use { packer.pack(isJs5 = false, it) }
-    println()
-    js5Cache.use { packer.pack(isJs5 = true, it) }
-}
-
-public class PluginConfigCachePacker @Inject constructor(
+public class ConfigCachePacker @Inject constructor(
     @Toml private val mapper: ObjectMapper,
     @GameCache private val names: NamedTypeMapHolder,
     private val config: GameConfig,
@@ -75,7 +62,7 @@ public class PluginConfigCachePacker @Inject constructor(
         val types = mutableListOf<VarpType>()
         files.forEach { f ->
             Files.newInputStream(f).use { input ->
-                val pluginTypes = extract<PluginVarp>(input, VARPS_KEY)
+                val pluginTypes = extract<ConfigVarp>(input, VARPS_KEY)
                     ?: error("Could not extract varps from $f")
                 types += pluginTypes.map { it.toCacheType() }
                 names.varps.putAll(pluginTypes.map { it.alias to NamedVarp(it.id) })
@@ -89,7 +76,7 @@ public class PluginConfigCachePacker @Inject constructor(
         val types = mutableListOf<VarbitType>()
         files.forEach { f ->
             Files.newInputStream(f).use { input ->
-                val pluginTypes = extract<PluginVarbit>(input, VARBITS_KEY)
+                val pluginTypes = extract<ConfigVarbit>(input, VARBITS_KEY)
                     ?: error("Could not extract varbits from $f")
                 types += pluginTypes.map { it.toCacheType() }
                 names.varbits.putAll(pluginTypes.map { it.alias to NamedVarbit(it.id) })
@@ -99,7 +86,7 @@ public class PluginConfigCachePacker @Inject constructor(
         return VarbitTypePacker.pack(isJs5, cache, types)
     }
 
-    private fun PluginVarp.toCacheType(): VarpType {
+    private fun ConfigVarp.toCacheType(): VarpType {
         val builder = VarpTypeBuilder()
         builder.id = id
         builder.alias = alias
@@ -113,7 +100,7 @@ public class PluginConfigCachePacker @Inject constructor(
         return builder.build()
     }
 
-    private fun PluginVarbit.toCacheType(): VarbitType {
+    private fun ConfigVarbit.toCacheType(): VarbitType {
         val builder = VarbitTypeBuilder()
         // TODO: informative error if varp type does not exist
         val varp = names.varps.getValue(varp.stripTag())

@@ -8,7 +8,7 @@ import org.rsmod.plugins.api.cache.build.js5.Js5CacheModule
 import org.rsmod.plugins.api.cache.name.CacheTypeNameModule
 import org.rsmod.toml.TomlModule
 
-public object PluginConfigPackerModule : AbstractModule() {
+public object ConfigPackerModule : AbstractModule() {
 
     override fun configure() {
         install(BufferModule)

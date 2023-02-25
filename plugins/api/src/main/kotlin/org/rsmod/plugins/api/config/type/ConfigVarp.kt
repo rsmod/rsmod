@@ -1,6 +1,6 @@
 package org.rsmod.plugins.api.config.type
 
-public data class PluginVarp(
+public data class ConfigVarp(
     val id: Int,
     val alias: String,
     val transmit: Boolean,

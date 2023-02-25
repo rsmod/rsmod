@@ -1,6 +1,6 @@
 package org.rsmod.plugins.api.config.type
 
-public data class PluginVarbit(
+public data class ConfigVarbit(
     val id: Int,
     val alias: String,
     val varp: String,
