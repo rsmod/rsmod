@@ -1,3 +1,3 @@
 package org.rsmod.plugins.api.cache.type.literal.codec
 
-public interface CacheTypeBaseInt<V> : CacheTypeCodec<Int, V>
+public abstract class CacheTypeBaseInt<V>(out: Class<V>) : CacheTypeCodec<Int, V>(out)

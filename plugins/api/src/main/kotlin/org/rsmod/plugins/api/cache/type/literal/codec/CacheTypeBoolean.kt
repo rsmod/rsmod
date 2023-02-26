@@ -1,6 +1,6 @@
 package org.rsmod.plugins.api.cache.type.literal.codec
 
-public object CacheTypeBoolean : CacheTypeBaseInt<Boolean> {
+public object CacheTypeBoolean : CacheTypeBaseInt<Boolean>(Boolean::class.java) {
 
     override fun decode(value: Int): Boolean {
         return value == 1

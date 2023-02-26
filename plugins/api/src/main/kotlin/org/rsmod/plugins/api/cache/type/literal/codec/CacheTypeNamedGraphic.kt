@@ -2,7 +2,7 @@ package org.rsmod.plugins.api.cache.type.literal.codec
 
 import org.rsmod.plugins.types.NamedGraphic
 
-public object CacheTypeNamedGraphic : CacheTypeBaseInt<NamedGraphic> {
+public object CacheTypeNamedGraphic : CacheTypeBaseInt<NamedGraphic>(NamedGraphic::class.java) {
 
     override fun decode(value: Int): NamedGraphic {
         return NamedGraphic(value)

@@ -1,3 +1,3 @@
 package org.rsmod.plugins.api.cache.type.literal.codec
 
-public interface CacheTypeBaseString<V> : CacheTypeCodec<String, V>
+public abstract class CacheTypeBaseString<V>(out: Class<V>) : CacheTypeCodec<String, V>(out)
