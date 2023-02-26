@@ -28,11 +28,13 @@ import java.nio.file.Files
 import java.nio.file.Path
 import javax.inject.Inject
 import kotlin.io.path.ExperimentalPathApi
-import kotlin.io.path.nameWithoutExtension
+import kotlin.io.path.isDirectory
+import kotlin.io.path.name
 import kotlin.io.path.walk
 
 private val logger = InlineLogger()
 
+@OptIn(ExperimentalPathApi::class)
 public class ConfigCachePacker @Inject constructor(
     @Toml private val mapper: ObjectMapper,
     private val config: GameConfig,
@@ -44,11 +46,10 @@ public class ConfigCachePacker @Inject constructor(
 
     private val names by lazy { nameLoader.load() }
 
-    @OptIn(ExperimentalPathApi::class)
     public fun pack(cache: Cache, isJs5: Boolean) {
-        val pluginFiles = config.pluginPath.walk()
+        val mapped = config.pluginPath.configFiles()
         run packEnums@{
-            val files = pluginFiles.filter { it.nameWithoutExtension.endsWith(ENUM_FILE_KEY) }
+            val files = mapped[ConfigType.Enum] ?: emptyList()
             val types = packEnums(cache, files, isJs5)
             logger.info {
                 "Packed ${types.size} enum${if (types.size != 1) "s" else ""} " +
@@ -56,7 +57,7 @@ public class ConfigCachePacker @Inject constructor(
             }
         }
         run packVarps@{
-            val files = pluginFiles.filter { it.nameWithoutExtension.endsWith(VARP_FILE_KEY) }
+            val files = mapped[ConfigType.Varp] ?: emptyList()
             val types = packVarps(cache, files, isJs5)
             logger.info {
                 "Packed ${types.size} varp${if (types.size != 1) "s" else ""} " +
@@ -64,7 +65,7 @@ public class ConfigCachePacker @Inject constructor(
             }
         }
         run packVarbits@{
-            val files = pluginFiles.filter { it.nameWithoutExtension.endsWith(VARBIT_FILE_KEY) }
+            val files = mapped[ConfigType.Varbit] ?: emptyList()
             val types = packVarbits(cache, files, isJs5)
             logger.info {
                 "Packed ${types.size} varbit${if (types.size != 1) "s" else ""} " +
@@ -73,7 +74,7 @@ public class ConfigCachePacker @Inject constructor(
         }
     }
 
-    private fun packVarps(cache: Cache, files: Sequence<Path>, isJs5: Boolean): List<VarpType> {
+    private fun packVarps(cache: Cache, files: Iterable<Path>, isJs5: Boolean): List<VarpType> {
         val types = mutableListOf<VarpType>()
         files.forEach { file ->
             Files.newInputStream(file).use { input ->
@@ -86,7 +87,7 @@ public class ConfigCachePacker @Inject constructor(
         return VarpTypePacker.pack(cache, types, isJs5)
     }
 
-    private fun packVarbits(cache: Cache, files: Sequence<Path>, isJs5: Boolean): List<VarbitType> {
+    private fun packVarbits(cache: Cache, files: Iterable<Path>, isJs5: Boolean): List<VarbitType> {
         val types = mutableListOf<VarbitType>()
         files.forEach { file ->
             Files.newInputStream(file).use { input ->
@@ -99,7 +100,7 @@ public class ConfigCachePacker @Inject constructor(
         return VarbitTypePacker.pack(cache, types, isJs5)
     }
 
-    private fun packEnums(cache: Cache, files: Sequence<Path>, isJs5: Boolean): List<EnumType<Any, Any>> {
+    private fun packEnums(cache: Cache, files: Iterable<Path>, isJs5: Boolean): List<EnumType<Any, Any>> {
         val types = mutableListOf<EnumType<Any, Any>>()
         files.forEach { file ->
             Files.newInputStream(file).use { input ->
@@ -120,12 +121,34 @@ public class ConfigCachePacker @Inject constructor(
     private companion object {
 
         private const val ENUM_TYPE_KEY = "enum"
-        private const val ENUM_FILE_KEY = "enums"
+        private const val ENUM_DIRECTORY_KEY = "enums"
 
         private const val VARP_TYPE_KEY = "varp"
-        private const val VARP_FILE_KEY = "varps"
+        private const val VARP_DIRECTORY_KEY = "varps"
 
         private const val VARBIT_TYPE_KEY = "varbit"
-        private const val VARBIT_FILE_KEY = "varbits"
+        private const val VARBIT_DIRECTORY_KEY = "varbits"
+
+        private fun Path.configFiles(): Map<ConfigType, Iterable<Path>> {
+            val mapped = mutableMapOf<ConfigType, MutableList<Path>>()
+            walk().forEach { path ->
+                if (path.isDirectory()) return@forEach
+                val type = when (path.parent.name) {
+                    ENUM_DIRECTORY_KEY -> ConfigType.Enum
+                    VARBIT_DIRECTORY_KEY -> ConfigType.Varbit
+                    VARP_DIRECTORY_KEY -> ConfigType.Varp
+                    else -> return@forEach
+                }
+                val list = mapped.computeIfAbsent(type) { mutableListOf() }
+                list.add(path)
+            }
+            return mapped
+        }
+
+        private sealed class ConfigType {
+            object Enum : ConfigType()
+            object Varp : ConfigType()
+            object Varbit : ConfigType()
+        }
     }
 }
