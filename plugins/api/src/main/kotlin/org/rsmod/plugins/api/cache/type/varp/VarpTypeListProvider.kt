@@ -1,7 +1,7 @@
 package org.rsmod.plugins.api.cache.type.varp
 
-import javax.inject.Provider
 import javax.inject.Inject
+import javax.inject.Provider
 
 public class VarpTypeListProvider @Inject constructor(
     private val loader: VarpTypeLoader

@@ -1,7 +1,7 @@
 package org.rsmod.plugins.api.cache.type.npc
 
-import javax.inject.Provider
 import javax.inject.Inject
+import javax.inject.Provider
 
 public class NpcTypeListProvider @Inject constructor(
     private val loader: NpcTypeLoader
