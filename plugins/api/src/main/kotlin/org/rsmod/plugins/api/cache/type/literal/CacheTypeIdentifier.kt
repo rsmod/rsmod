@@ -50,5 +50,7 @@ public enum class CacheTypeIdentifier(
     public companion object {
 
         public val values: Array<CacheTypeIdentifier> = enumValues()
+
+        public val mapped: Map<Char, CacheTypeIdentifier> = values.associateBy { it.char }
     }
 }

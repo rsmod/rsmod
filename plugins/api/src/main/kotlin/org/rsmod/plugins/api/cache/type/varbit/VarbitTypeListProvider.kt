@@ -1,7 +1,7 @@
 package org.rsmod.plugins.api.cache.type.varbit
 
-import com.google.inject.Provider
 import javax.inject.Inject
+import javax.inject.Provider
 
 public class VarbitTypeListProvider @Inject constructor(
     private val loader: VarbitTypeLoader

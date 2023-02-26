@@ -1,6 +1,6 @@
 package org.rsmod.plugins.api.cache.type.varp
 
-import com.google.inject.Provider
+import javax.inject.Provider
 import javax.inject.Inject
 
 public class VarpTypeListProvider @Inject constructor(

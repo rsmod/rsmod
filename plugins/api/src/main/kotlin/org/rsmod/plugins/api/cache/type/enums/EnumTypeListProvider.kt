@@ -1,7 +1,7 @@
 package org.rsmod.plugins.api.cache.type.enums
 
-import com.google.inject.Provider
 import javax.inject.Inject
+import javax.inject.Provider
 
 public class EnumTypeListProvider @Inject constructor(
     private val loader: EnumTypeLoader

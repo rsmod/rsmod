@@ -1,7 +1,7 @@
 package org.rsmod.plugins.api.cache.type.item
 
-import com.google.inject.Provider
 import javax.inject.Inject
+import javax.inject.Provider
 
 public class ItemTypeListProvider @Inject constructor(
     private val loader: ItemTypeLoader

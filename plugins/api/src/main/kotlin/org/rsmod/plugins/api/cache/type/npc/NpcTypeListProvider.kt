@@ -1,6 +1,6 @@
 package org.rsmod.plugins.api.cache.type.npc
 
-import com.google.inject.Provider
+import javax.inject.Provider
 import javax.inject.Inject
 
 public class NpcTypeListProvider @Inject constructor(
