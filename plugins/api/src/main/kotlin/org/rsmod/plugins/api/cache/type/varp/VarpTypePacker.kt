@@ -11,7 +11,7 @@ private const val VARP_GROUP = 16
 
 public object VarpTypePacker {
 
-    public fun pack(isJs5: Boolean, cache: Cache, types: Iterable<VarpType>): List<VarpType> {
+    public fun pack(cache: Cache, types: Iterable<VarpType>, isJs5: Boolean): List<VarpType> {
         val buf = Unpooled.buffer()
         val packed = mutableListOf<VarpType>()
         types.forEach { type ->

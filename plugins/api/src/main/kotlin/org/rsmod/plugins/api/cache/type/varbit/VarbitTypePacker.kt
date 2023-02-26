@@ -12,7 +12,7 @@ private const val VARBIT_GROUP = 14
 
 public object VarbitTypePacker {
 
-    public fun pack(isJs5: Boolean, cache: Cache, types: Iterable<VarbitType>): List<VarbitType> {
+    public fun pack(cache: Cache, types: Iterable<VarbitType>, isJs5: Boolean): List<VarbitType> {
         val buf = Unpooled.buffer()
         val packed = mutableListOf<VarbitType>()
         types.forEach { type ->
