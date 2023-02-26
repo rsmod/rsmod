@@ -6,16 +6,16 @@ import org.openrs2.buffer.writeString
 import org.openrs2.cache.Cache
 import org.rsmod.plugins.api.cache.type.ConfigType
 
-private const val CONFIG_ARCHIVE = 2
-private const val VARP_GROUP = 16
-
 public object VarpTypePacker {
+
+    private const val CONFIG_ARCHIVE = 2
+    private const val VARP_GROUP = 16
 
     public fun pack(cache: Cache, types: Iterable<VarpType>, isJs5: Boolean): List<VarpType> {
         val buf = Unpooled.buffer()
         val packed = mutableListOf<VarpType>()
         types.forEach { type ->
-            buf.clear().writeType(type, isJs5)
+            writeType(buf.clear(), type, isJs5)
             val oldData = if (cache.exists(CONFIG_ARCHIVE, VARP_GROUP, type.id)) {
                 cache.read(CONFIG_ARCHIVE, VARP_GROUP, type.id)
             } else {
@@ -28,20 +28,20 @@ public object VarpTypePacker {
         return packed
     }
 
-    private fun ByteBuf.writeType(type: VarpType, isJs5: Boolean) {
+    public fun writeType(buf: ByteBuf, type: VarpType, isJs5: Boolean) {
         type.clientCode?.let {
-            writeByte(5)
-            writeShort(it)
+            buf.writeByte(5)
+            buf.writeShort(it)
         }
         if (!isJs5) {
             if (type.transmit) {
-                writeByte(ConfigType.TRANSMISSION_OPCODE)
+                buf.writeByte(ConfigType.TRANSMISSION_OPCODE)
             }
             type.name?.let {
-                writeByte(ConfigType.INTERNAL_NAME_OPCODE)
-                writeString(it)
+                buf.writeByte(ConfigType.INTERNAL_NAME_OPCODE)
+                buf.writeString(it)
             }
         }
-        writeByte(0)
+        buf.writeByte(0)
     }
 }
