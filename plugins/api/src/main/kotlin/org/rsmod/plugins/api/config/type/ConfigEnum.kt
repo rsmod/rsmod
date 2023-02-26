@@ -2,10 +2,10 @@ package org.rsmod.plugins.api.config.type
 
 import org.rsmod.plugins.api.cache.type.enums.EnumType
 import org.rsmod.plugins.api.cache.type.enums.EnumTypeBuilder
-import org.rsmod.plugins.api.cache.type.literal.CacheTypeIdentifier
 import org.rsmod.plugins.api.cache.type.enums.EnumTypeList
 import org.rsmod.plugins.api.cache.type.literal.CacheTypeBaseInt
 import org.rsmod.plugins.api.cache.type.literal.CacheTypeBaseString
+import org.rsmod.plugins.api.cache.type.literal.CacheTypeIdentifier
 import org.rsmod.plugins.api.config.StringUtil.stripTag
 import org.rsmod.plugins.types.NamedTypeMapHolder
 
