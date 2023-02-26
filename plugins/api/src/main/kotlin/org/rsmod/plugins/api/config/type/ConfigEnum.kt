@@ -74,7 +74,7 @@ public data class ConfigEnum(
         val incrementValues = arrayOfNulls<Any>(values.size)
         for (i in values.indices) {
             val keyElement = if (keyType == AUTO_INCREMENT_INT) i else values[i]
-            val valElement = if (valType == AUTO_INCREMENT_INT) i  else values[i]
+            val valElement = if (valType == AUTO_INCREMENT_INT) i else values[i]
             incrementKeys[i] = keyElement
             incrementValues[i] = valElement
         }
@@ -91,13 +91,13 @@ public data class ConfigEnum(
             if (entries == null || entries?.isEmpty() == true) return
             error(
                 "Cannot define `entries` with auto-increment key or value types. " +
-                "Use `values` instead."
+                    "Use `values` instead."
             )
         }
         if (values.isNullOrEmpty()) return
         error(
             "Cannot define `values` with non auto-increment key or value types. " +
-            "Use `entries` instead."
+                "Use `entries` instead."
         )
     }
 
