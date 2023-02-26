@@ -1,5 +1,7 @@
 package org.rsmod.plugins.api.cache.type.item
 
+import org.rsmod.plugins.api.cache.type.param.ParamMap
+
 private const val DEFAULT_ID = -1
 private const val DEFAULT_MODEL = 0
 private const val DEFAULT_MODEL_OFFSET = 0
@@ -14,7 +16,7 @@ private const val DEFAULT_STACKS = false
 private const val DEFAULT_COST = 1
 private const val DEFAULT_MEMBERS = false
 private const val DEFAULT_EXCHANGEABLE = false
-private const val DEFAULT_TEAM_CAPE = 0
+private const val DEFAULT_TEAM = 0
 private const val DEFAULT_NOTE_LINK = 0
 private const val DEFAULT_NOTE_VALUE = 0
 private const val DEFAULT_PLACEHOLDER_LINK = 0
@@ -32,7 +34,6 @@ private val DEFAULT_CATEGORIES = emptySet<Int>()
 private val DEFAULT_GROUND_OPTIONS = arrayOf(null, null, "Take", null, null)
 private val DEFAULT_INVENTORY_OPTIONS = arrayOf(null, null, null, null, "Drop")
 private val DEFAULT_INT_ARRAY = IntArray(0)
-private val DEFAULT_PARAMETERS = emptyMap<Int, Any>()
 
 @DslMarker
 private annotation class BuilderDslMarker
@@ -40,6 +41,7 @@ private annotation class BuilderDslMarker
 @BuilderDslMarker
 public class ItemTypeBuilder(
     public var id: Int = DEFAULT_ID,
+    public var internalName: String? = null,
     public var name: String = DEFAULT_NAME,
     public var model: Int = DEFAULT_MODEL,
     public var zoom2d: Int = DEFAULT_ZOOM_2D,
@@ -77,7 +79,7 @@ public class ItemTypeBuilder(
     public var ambient: Int = DEFAULT_AMBIENT,
     public var contrast: Int = DEFAULT_CONTRAST,
     public var exchangeable: Boolean = DEFAULT_EXCHANGEABLE,
-    public var teamCape: Int = DEFAULT_TEAM_CAPE,
+    public var team: Int = DEFAULT_TEAM,
     public var noteLink: Int = DEFAULT_NOTE_LINK,
     public var noteModel: Int = DEFAULT_NOTE_VALUE,
     public var placeholderLink: Int = DEFAULT_PLACEHOLDER_LINK,
@@ -86,7 +88,7 @@ public class ItemTypeBuilder(
     public var boughtValue: Int = DEFAULT_BOUGHT_VALUE,
     public var countItem: IntArray = DEFAULT_INT_ARRAY,
     public var countCo: IntArray = DEFAULT_INT_ARRAY,
-    public var parameters: Map<Int, Any> = DEFAULT_PARAMETERS,
+    public var params: ParamMap? = null,
     public var weight: Int = DEFAULT_WEIGHT,
     public var wearPos1: Int = DEFAULT_WEAR_POS,
     public var wearPos2: Int = DEFAULT_WEAR_POS,
@@ -106,6 +108,7 @@ public class ItemTypeBuilder(
         check(id != DEFAULT_ID) { "Item type id has not been set." }
         return ItemType(
             id = id,
+            internalName = internalName,
             name = name,
             stacks = stacks,
             cost = cost,
@@ -113,13 +116,12 @@ public class ItemTypeBuilder(
             groundOptions = groundOptions.toList(),
             inventoryOptions = inventoryOptions.toList(),
             exchangeable = exchangeable,
-            teamCape = teamCape,
+            team = team,
             noteLink = noteLink,
             noteModel = noteModel,
             placeholderLink = placeholderLink,
             placeholderModel = placeholderModel,
-            intParameters = parameters.filter { it.value is Int }.mapValues { it.value as Int },
-            strParameters = parameters.filter { it.value is String }.mapValues { it.value as String },
+            params = params,
             model = model,
             zoom2d = zoom2d,
             xan2d = xan2d,
@@ -202,7 +204,7 @@ public class ItemTypeBuilder(
         if (ambient == DEFAULT_AMBIENT) ambient = other.ambient
         if (contrast == DEFAULT_CONTRAST) contrast = other.contrast
         if (exchangeable == DEFAULT_EXCHANGEABLE) exchangeable = other.exchangeable
-        if (teamCape == DEFAULT_TEAM_CAPE) teamCape = other.teamCape
+        if (team == DEFAULT_TEAM) team = other.team
         if (noteLink == DEFAULT_NOTE_LINK) noteLink = other.noteLink
         if (noteModel == DEFAULT_NOTE_VALUE) noteModel = other.noteModel
         if (placeholderLink == DEFAULT_PLACEHOLDER_LINK) placeholderLink = other.placeholderLink
@@ -211,7 +213,7 @@ public class ItemTypeBuilder(
         if (boughtValue == DEFAULT_BOUGHT_VALUE) boughtValue = other.boughtValue
         if (countItem.contentEquals(DEFAULT_INT_ARRAY)) countItem = other.countItem.toIntArray()
         if (countCo.contentEquals(DEFAULT_INT_ARRAY)) countCo = other.countCo.toIntArray()
-        if (parameters == DEFAULT_PARAMETERS) parameters = other.intParameters + other.strParameters
+        if (params == null) params = other.params?.let { ParamMap(it) }
         if (weight == DEFAULT_WEIGHT) weight = other.weight
         if (wearPos1 == DEFAULT_WEAR_POS) wearPos1 = other.wearPos1
         if (wearPos2 == DEFAULT_WEAR_POS) wearPos2 = other.wearPos2

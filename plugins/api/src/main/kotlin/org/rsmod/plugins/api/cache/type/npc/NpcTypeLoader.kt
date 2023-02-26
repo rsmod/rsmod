@@ -3,8 +3,9 @@ package org.rsmod.plugins.api.cache.type.npc
 import io.netty.buffer.ByteBuf
 import org.openrs2.buffer.readString
 import org.openrs2.cache.Cache
-import org.rsmod.plugins.api.cache.game.GameCache
-import org.rsmod.plugins.api.cache.type.readStruct
+import org.rsmod.plugins.api.cache.build.game.GameCache
+import org.rsmod.plugins.api.cache.type.param.ParamTypeList
+import org.rsmod.plugins.api.cache.type.readParams
 import java.io.IOException
 import javax.inject.Inject
 
@@ -12,7 +13,8 @@ private const val CONFIG_ARCHIVE = 2
 private const val NPC_GROUP = 9
 
 public class NpcTypeLoader @Inject constructor(
-    @GameCache private val cache: Cache
+    @GameCache private val cache: Cache,
+    private val paramTypes: ParamTypeList
 ) {
 
     public fun load(): List<NpcType> {
@@ -135,7 +137,7 @@ public class NpcTypeLoader @Inject constructor(
                 buf.readUnsignedShort()
                 buf.readUnsignedShort()
             }
-            249 -> parameters = buf.readStruct()
+            249 -> params = buf.readParams(paramTypes)
             else -> throw IOException("Error unrecognised npc config code: $instruction")
         }
     }

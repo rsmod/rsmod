@@ -11,3 +11,9 @@ public val GameConfig.gameCachePath: Path
 
 public val GameConfig.js5CachePath: Path
     get() = cachePath.resolve("js5")
+
+public val GameConfig.vanillaCachePath: Path
+    get() = cachePath.resolve("vanilla")
+
+public val GameConfig.pluginPath: Path
+    get() = dataPath.resolve("plugins")

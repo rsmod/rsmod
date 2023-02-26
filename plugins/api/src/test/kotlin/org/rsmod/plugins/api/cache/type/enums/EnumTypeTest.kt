@@ -2,26 +2,25 @@ package org.rsmod.plugins.api.cache.type.enums
 
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.ArgumentsProvider
 import org.junit.jupiter.params.provider.ArgumentsSource
+import org.rsmod.plugins.api.cache.type.literal.CacheTypeLiteral
 import org.rsmod.plugins.types.NamedAnimation
 import org.rsmod.plugins.types.NamedGraphic
 import org.rsmod.plugins.types.NamedItem
 import org.rsmod.plugins.types.NamedObject
 import java.util.stream.Stream
 
-@TestInstance(TestInstance.Lifecycle.PER_METHOD)
 class EnumTypeTest {
 
     @Test
-    fun `test enum get returns null on undefined key when default int value is -1`() {
+    fun testGetReturnsNullOnUndefinedKey() {
         val intEnum = EnumTypeBuilder().apply {
-            keyType = EnumTypeIdentifier.Integer.char
-            valType = EnumTypeIdentifier.NamedItem.char
+            keyType = CacheTypeLiteral.Integer.char
+            valType = CacheTypeLiteral.NamedItem.char
             defaultInt = -1
             intValues[0] = ITEM_ID_4151
             intValues[1] = ITEM_ID_11802
@@ -33,10 +32,10 @@ class EnumTypeTest {
     }
 
     @Test
-    fun `test enum get returns default value on undefined key`() {
+    fun testGetReturnsDefaultOnUndefinedKey() {
         val intEnum = EnumTypeBuilder().apply {
-            keyType = EnumTypeIdentifier.Integer.char
-            valType = EnumTypeIdentifier.NamedItem.char
+            keyType = CacheTypeLiteral.Integer.char
+            valType = CacheTypeLiteral.NamedItem.char
             defaultInt = ITEM_ID_4151
             intValues[1] = ITEM_ID_11802
         }.build()
@@ -49,9 +48,9 @@ class EnumTypeTest {
 
     @ParameterizedTest
     @ArgumentsSource(MatchTypeProvider::class)
-    fun `test enum returns correct typed-values`(
-        keyId: EnumTypeIdentifier,
-        valId: EnumTypeIdentifier,
+    fun testGetReturnsCorrectTypedValue(
+        keyType: CacheTypeLiteral,
+        valType: CacheTypeLiteral,
         defaultInt: Int,
         defaultStr: String,
         keyClass: Class<Any>,
@@ -72,8 +71,8 @@ class EnumTypeTest {
         }
 
         val enum = EnumTypeBuilder().apply {
-            this.keyType = keyId.char
-            this.valType = valId.char
+            this.keyType = keyType.char
+            this.valType = valType.char
             this.defaultInt = defaultInt
             this.defaultStr = defaultStr
 
@@ -101,8 +100,8 @@ class EnumTypeTest {
             override fun provideArguments(context: ExtensionContext): Stream<out Arguments> {
                 return Stream.of(
                     Arguments.of(
-                        EnumTypeIdentifier.Integer,
-                        EnumTypeIdentifier.Integer,
+                        CacheTypeLiteral.Integer,
+                        CacheTypeLiteral.Integer,
                         // default args
                         -1, "",
                         // key args
@@ -111,8 +110,8 @@ class EnumTypeTest {
                         Int::class.java, 3, 3, null
                     ),
                     Arguments.of(
-                        EnumTypeIdentifier.Integer,
-                        EnumTypeIdentifier.String,
+                        CacheTypeLiteral.Integer,
+                        CacheTypeLiteral.String,
                         // default args
                         -1, "",
                         // key args
@@ -121,8 +120,8 @@ class EnumTypeTest {
                         String::class.java, "test", null, "test"
                     ),
                     Arguments.of(
-                        EnumTypeIdentifier.NamedItem,
-                        EnumTypeIdentifier.NamedItem,
+                        CacheTypeLiteral.NamedItem,
+                        CacheTypeLiteral.NamedItem,
                         // default args
                         -1, "",
                         // key args
@@ -131,8 +130,8 @@ class EnumTypeTest {
                         NamedItem::class.java, NamedItem(ITEM_ID_11802), ITEM_ID_11802, null
                     ),
                     Arguments.of(
-                        EnumTypeIdentifier.Object,
-                        EnumTypeIdentifier.NamedItem,
+                        CacheTypeLiteral.Object,
+                        CacheTypeLiteral.NamedItem,
                         // default args
                         -1, "",
                         // key args
@@ -141,8 +140,8 @@ class EnumTypeTest {
                         NamedItem::class.java, NamedItem(ITEM_ID_4151), ITEM_ID_4151, null
                     ),
                     Arguments.of(
-                        EnumTypeIdentifier.Animation,
-                        EnumTypeIdentifier.Graphic,
+                        CacheTypeLiteral.Animation,
+                        CacheTypeLiteral.Graphic,
                         // default args
                         -1, "",
                         // key args

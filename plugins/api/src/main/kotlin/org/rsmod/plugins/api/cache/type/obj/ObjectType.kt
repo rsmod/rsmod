@@ -1,6 +1,7 @@
 package org.rsmod.plugins.api.cache.type.obj
 
 import org.rsmod.plugins.api.cache.type.ConfigType
+import org.rsmod.plugins.api.cache.type.param.ParamMap
 
 public data class ObjectType(
     override val id: Int,
@@ -50,6 +51,5 @@ public data class ObjectType(
     val aBoolean3429: Boolean,
     val anIntArray3428: List<Int>,
     val mapIconId: Int,
-    val intParameters: Map<Int, Int>,
-    val strParameters: Map<Int, String>
+    val params: ParamMap?
 ) : ConfigType
