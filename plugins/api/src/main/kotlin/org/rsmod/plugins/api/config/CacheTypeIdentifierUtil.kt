@@ -1,6 +1,6 @@
 package org.rsmod.plugins.api.config
 
-import org.rsmod.plugins.api.cache.type.literal.CacheTypeIdentifier
+import org.rsmod.plugins.api.cache.type.literal.CacheTypeLiteral
 import org.rsmod.plugins.api.config.StringUtil.stripTag
 import org.rsmod.plugins.types.NamedTypeMapHolder
 
@@ -9,37 +9,37 @@ internal object CacheTypeIdentifierUtil {
     const val AUTO_INCREMENT_INT = "autoint"
 
     val TYPE_STRING_CONVERSION = mapOf(
-        AUTO_INCREMENT_INT to CacheTypeIdentifier.Integer,
-        "anim" to CacheTypeIdentifier.Animation,
-        "area" to CacheTypeIdentifier.Area,
-        "bool" to CacheTypeIdentifier.Boolean,
-        "category" to CacheTypeIdentifier.Category,
-        "char" to CacheTypeIdentifier.Character,
-        "chatchar" to CacheTypeIdentifier.ChatChar,
-        "color" to CacheTypeIdentifier.Color,
-        "component" to CacheTypeIdentifier.Component,
-        "coord" to CacheTypeIdentifier.Coordinate,
-        "enum" to CacheTypeIdentifier.Enum,
-        "font" to CacheTypeIdentifier.FontMetrics,
-        "graphic" to CacheTypeIdentifier.Graphic,
-        "identikit" to CacheTypeIdentifier.Idk,
-        "int" to CacheTypeIdentifier.Integer,
-        "inv" to CacheTypeIdentifier.Inv,
-        "item" to CacheTypeIdentifier.Item,
-        "maparea" to CacheTypeIdentifier.MapArea,
-        "model" to CacheTypeIdentifier.Model,
-        "nameditem" to CacheTypeIdentifier.NamedItem,
-        "npc" to CacheTypeIdentifier.Npc,
-        "object" to CacheTypeIdentifier.Object,
-        "stat" to CacheTypeIdentifier.Stat,
-        "string" to CacheTypeIdentifier.String,
-        "struct" to CacheTypeIdentifier.Struct
+        AUTO_INCREMENT_INT to CacheTypeLiteral.Integer,
+        "anim" to CacheTypeLiteral.Animation,
+        "area" to CacheTypeLiteral.Area,
+        "bool" to CacheTypeLiteral.Boolean,
+        "category" to CacheTypeLiteral.Category,
+        "char" to CacheTypeLiteral.Character,
+        "chatchar" to CacheTypeLiteral.ChatChar,
+        "color" to CacheTypeLiteral.Color,
+        "component" to CacheTypeLiteral.Component,
+        "coord" to CacheTypeLiteral.Coordinate,
+        "enum" to CacheTypeLiteral.Enum,
+        "font" to CacheTypeLiteral.FontMetrics,
+        "graphic" to CacheTypeLiteral.Graphic,
+        "identikit" to CacheTypeLiteral.Idk,
+        "int" to CacheTypeLiteral.Integer,
+        "inv" to CacheTypeLiteral.Inv,
+        "item" to CacheTypeLiteral.Item,
+        "maparea" to CacheTypeLiteral.MapArea,
+        "model" to CacheTypeLiteral.Model,
+        "nameditem" to CacheTypeLiteral.NamedItem,
+        "npc" to CacheTypeLiteral.Npc,
+        "object" to CacheTypeLiteral.Object,
+        "stat" to CacheTypeLiteral.Stat,
+        "string" to CacheTypeLiteral.String,
+        "struct" to CacheTypeLiteral.Struct
     )
 
     fun Map<Any, Any>.toConvertedEntryMap(
         names: NamedTypeMapHolder,
-        keyId: CacheTypeIdentifier,
-        valId: CacheTypeIdentifier
+        keyId: CacheTypeLiteral,
+        valId: CacheTypeLiteral
     ): Map<Any, Any> {
         val converted = mutableMapOf<Any, Any>()
         forEach { (key, value) ->
@@ -50,7 +50,7 @@ internal object CacheTypeIdentifierUtil {
         return converted
     }
 
-    fun Any.convert(names: NamedTypeMapHolder, id: CacheTypeIdentifier): Any {
+    fun Any.convert(names: NamedTypeMapHolder, id: CacheTypeLiteral): Any {
         if (id.isString && this is String) return this
         val relative = id.relativeNames(names) ?: return this
         if (this !is String) return this
@@ -58,16 +58,16 @@ internal object CacheTypeIdentifierUtil {
         return relative[name] ?: error("`$this` could not be found in `${id.out.simpleName}` cache type names.")
     }
 
-    private fun CacheTypeIdentifier.relativeNames(names: NamedTypeMapHolder): Map<String, Any>? = when (this) {
-        CacheTypeIdentifier.Component -> names.components
-        CacheTypeIdentifier.NamedItem, CacheTypeIdentifier.Item -> names.items
-        CacheTypeIdentifier.Npc -> names.npcs
-        CacheTypeIdentifier.Object -> names.objs
-        CacheTypeIdentifier.Animation -> names.anims
-        CacheTypeIdentifier.Graphic -> names.graphics
-        CacheTypeIdentifier.Enum -> names.enums
-        CacheTypeIdentifier.Struct -> names.structs
-        CacheTypeIdentifier.Inv -> names.inventories
+    private fun CacheTypeLiteral.relativeNames(names: NamedTypeMapHolder): Map<String, Any>? = when (this) {
+        CacheTypeLiteral.Component -> names.components
+        CacheTypeLiteral.NamedItem, CacheTypeLiteral.Item -> names.items
+        CacheTypeLiteral.Npc -> names.npcs
+        CacheTypeLiteral.Object -> names.objs
+        CacheTypeLiteral.Animation -> names.anims
+        CacheTypeLiteral.Graphic -> names.graphics
+        CacheTypeLiteral.Enum -> names.enums
+        CacheTypeLiteral.Struct -> names.structs
+        CacheTypeLiteral.Inv -> names.inventories
         else -> null
     }
 }

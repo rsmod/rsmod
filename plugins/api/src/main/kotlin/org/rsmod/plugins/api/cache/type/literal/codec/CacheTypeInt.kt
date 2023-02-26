@@ -1,4 +1,4 @@
-package org.rsmod.plugins.api.cache.type.literal
+package org.rsmod.plugins.api.cache.type.literal.codec
 
 public object CacheTypeInt : CacheTypeBaseInt<Int> {
 

@@ -1,6 +1,6 @@
 package org.rsmod.plugins.api.cache.type.param
 
-import org.rsmod.plugins.api.cache.type.literal.CacheTypeIdentifier
+import org.rsmod.plugins.api.cache.type.literal.CacheTypeLiteral
 
 @DslMarker
 private annotation class BuilderDslMarker
@@ -21,7 +21,7 @@ public class ParamTypeBuilder {
             error("Cannot set both default int and default string values.")
         }
         val id = id ?: error("`id` must be set.")
-        val type = CacheTypeIdentifier.mapped[typeChar]
+        val type = CacheTypeLiteral.mapped[typeChar]
         val default = if (type == null) {
             (defaultInt ?: defaultStr)
         } else {
@@ -37,14 +37,14 @@ public class ParamTypeBuilder {
         )
     }
 
-    private fun Int.convert(id: CacheTypeIdentifier): Any? {
-        if (id.isInt) return id.decodeInt(this)
-        error("Cache identifier mismatch for `$id` with value `$this`.")
+    private fun Int.convert(type: CacheTypeLiteral): Any? {
+        if (type.isInt) return type.decodeInt(this)
+        error("Cache identifier mismatch for `$type` with value `$this`.")
     }
 
-    private fun String.convert(id: CacheTypeIdentifier): Any? {
-        if (id.isString) return id.decodeString(this)
-        error("Cache identifier mismatch for `$id` with value `$this`.")
+    private fun String.convert(type: CacheTypeLiteral): Any? {
+        if (type.isString) return type.decodeString(this)
+        error("Cache identifier mismatch for `$type` with value `$this`.")
     }
 
     public operator fun plusAssign(other: ParamType) {

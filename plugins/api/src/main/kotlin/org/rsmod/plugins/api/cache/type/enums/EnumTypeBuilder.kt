@@ -1,15 +1,13 @@
 package org.rsmod.plugins.api.cache.type.enums
 
-import org.rsmod.plugins.api.cache.type.literal.CacheTypeIdentifier
 import org.rsmod.plugins.api.cache.type.literal.CacheTypeLiteral
+import org.rsmod.plugins.api.cache.type.literal.codec.CacheTypeCodec
 
 private const val DEFAULT_ID = -1
 private const val DEFAULT_KEY_TYPE = 'i'
 private const val DEFAULT_VAL_TYPE = 'i'
 private const val DEFAULT_INT_VALUE = -1
 private const val DEFAULT_TRANSMIT_FLAG = false
-
-private val DEFAULT_STR_VALUE: String? = null
 
 @DslMarker
 private annotation class BuilderDslMarker
@@ -22,7 +20,7 @@ public class EnumTypeBuilder(
     public var keyType: Char = DEFAULT_KEY_TYPE,
     public var valType: Char = DEFAULT_VAL_TYPE,
     public var defaultInt: Int = DEFAULT_INT_VALUE,
-    public var defaultStr: String? = DEFAULT_STR_VALUE,
+    public var defaultStr: String? = null,
     public var strValues: MutableMap<Int, String> = mutableMapOf(),
     public var intValues: MutableMap<Int, Int> = mutableMapOf(),
     public var size: Int = 0,
@@ -30,10 +28,10 @@ public class EnumTypeBuilder(
 ) {
 
     public fun build(): EnumType<Any, Any> {
-        val keyType = CacheTypeIdentifier.values.firstOrNull { it.char == keyType }
-            ?: error("EnumTypeIdentifier not declared (key=$keyType).")
-        val valType = CacheTypeIdentifier.values.firstOrNull { it.char == valType }
-            ?: error("EnumTypeIdentifier not declared (val=$valType).")
+        val keyType = CacheTypeLiteral.mapped[keyType]
+            ?: error("Cache literal not mapped for char `$keyType)`.")
+        val valType = CacheTypeLiteral.mapped[valType]
+            ?: error("Cache literal not mapped for char `$valType)`.")
 
         check(keyType.isInt) {
             "Enums are restricted to Integer-based input/keys. (enum=$id, key=$keyType, val=$valType)"
@@ -64,48 +62,43 @@ public class EnumTypeBuilder(
 
     private fun MutableMap<Any, Any>.putIntProperties(
         values: Map<Int, Int>,
-        keyType: CacheTypeIdentifier,
-        valType: CacheTypeIdentifier,
+        keyType: CacheTypeLiteral,
+        valType: CacheTypeLiteral,
         default: Any
     ) {
-        val keyLiteral = keyType.literal as CacheTypeLiteral<Int, *>
-        val valLiteral = valType.literal as CacheTypeLiteral<Int, *>
         values.forEach { (rawKey, rawValue) ->
-            val key = keyLiteral.decode(rawKey)
-                ?: error("Could not decode `$rawKey` with key literal `${keyLiteral.javaClass.simpleName}`.")
-            val value = valLiteral.decode(rawValue)
+            val key = keyType.decodeInt(rawKey)
+                ?: error("Could not decode `$rawKey` with key literal `$keyType`.")
+            val value = valType.decodeInt(rawValue)
             this[key] = value ?: default
         }
     }
 
     private fun MutableMap<Any, Any>.putStrProperties(
         values: Map<Int, String>,
-        keyType: CacheTypeIdentifier,
-        valType: CacheTypeIdentifier,
+        keyType: CacheTypeLiteral,
+        valType: CacheTypeLiteral,
         default: Any
     ) {
-        /* key literals are always integers */
-        val keyLiteral = keyType.literal as CacheTypeLiteral<Int, *>
-        val valLiteral = valType.literal as CacheTypeLiteral<String, *>
         values.forEach { (rawKey, rawValue) ->
-            val key = keyLiteral.decode(rawKey)
-                ?: error("Could not decode `$rawKey` with key literal `${keyLiteral.javaClass.simpleName}`.")
-            val value = valLiteral.decode(rawValue)
+            val key = keyType.decodeInt(rawKey)
+                ?: error("Could not decode `$rawKey` with key literal `$keyType`.")
+            val value = valType.decodeString(rawValue)
             this[key] = value ?: default
         }
     }
 
-    private fun CacheTypeIdentifier.defaultIntProperty(rawDefault: Int): Any? {
-        val decoder = literal as CacheTypeLiteral<Int, *>
-        return if (rawDefault == DEFAULT_INT_VALUE) null else decoder.decode(rawDefault)
+    private fun CacheTypeLiteral.defaultIntProperty(rawDefault: Int): Any? = if (rawDefault == DEFAULT_INT_VALUE) {
+        null
+    } else {
+        val decoder = codec as CacheTypeCodec<Int, *>
+        decoder.decode(rawDefault)
     }
 
-    private fun CacheTypeIdentifier.defaultStrProperty(rawDefault: String?): Any? {
-        val decoder = literal as CacheTypeLiteral<String, *>
-        return if (rawDefault == null || rawDefault == DEFAULT_STR_VALUE) {
-            null
-        } else {
-            decoder.decode(rawDefault)
-        }
+    private fun CacheTypeLiteral.defaultStrProperty(rawDefault: String?): Any? = if (rawDefault == null) {
+        null
+    } else {
+        val decoder = codec as CacheTypeCodec<String, *>
+        decoder.decode(rawDefault)
     }
 }
