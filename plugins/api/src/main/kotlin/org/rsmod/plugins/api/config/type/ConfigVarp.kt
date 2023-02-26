@@ -11,6 +11,7 @@ public data class ConfigVarp(
     val id: Int,
     val name: String,
     val transmit: Boolean,
+    val persist: Boolean,
     val clientCode: Int?,
     val inherit: String?
 ) {
@@ -24,6 +25,7 @@ public data class ConfigVarp(
         builder.name = name
         builder.clientCode = clientCode
         builder.transmit = transmit
+        builder.persist = persist
         inherit?.let {
             val named = names.varps.getOrThrow(it.stripTag())
             builder += types.getValue(named.id)

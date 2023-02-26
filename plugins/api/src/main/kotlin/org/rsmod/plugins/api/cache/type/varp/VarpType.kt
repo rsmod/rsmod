@@ -6,5 +6,6 @@ public data class VarpType(
     override val id: Int,
     public val name: String?,
     public val clientCode: Int?,
-    public val transmit: Boolean
+    public val transmit: Boolean,
+    public val persist: Boolean
 ) : ConfigType

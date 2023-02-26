@@ -29,6 +29,7 @@ public data class ConfigVarbit(
         builder.varp = varp.id
         builder.lsb = lsb
         builder.msb = msb
+        // TODO: should we set this implicitly through varp.transmit?
         builder.transmit = transmit
         inherit?.let {
             val named = names.varbits.getOrThrow(it.stripTag())
