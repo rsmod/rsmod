@@ -41,6 +41,7 @@ public data class ConfigEnum(
         builder.transmit = transmit
         builder.size = entries.size
         if (valId.isString) {
+            check(default == null || default is String) { "`default` value must be a string." }
             // As of now - keys are always int-based
             val keyLiteral = keyId.literal as EnumTypeBaseInt<in Any>
             val valLiteral = valId.literal as EnumTypeBaseString<in Any>
