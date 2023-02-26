@@ -58,7 +58,7 @@ internal object CacheTypeIdentifierUtil {
         return relative[name] ?: error("`$this` could not be found in `${id.out.simpleName}` cache type names.")
     }
 
-    fun CacheTypeIdentifier.relativeNames(names: NamedTypeMapHolder): Map<String, Any>? = when (this) {
+    private fun CacheTypeIdentifier.relativeNames(names: NamedTypeMapHolder): Map<String, Any>? = when (this) {
         CacheTypeIdentifier.Component -> names.components
         CacheTypeIdentifier.NamedItem, CacheTypeIdentifier.Item -> names.items
         CacheTypeIdentifier.Npc -> names.npcs
