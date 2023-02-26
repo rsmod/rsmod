@@ -2,7 +2,6 @@ package org.rsmod.plugins.api.cache.type.enums
 
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -15,11 +14,10 @@ import org.rsmod.plugins.types.NamedItem
 import org.rsmod.plugins.types.NamedObject
 import java.util.stream.Stream
 
-@TestInstance(TestInstance.Lifecycle.PER_METHOD)
 class EnumTypeTest {
 
     @Test
-    fun `test enum get returns null on undefined key when default int value is -1`() {
+    fun testGetReturnsNullOnUndefinedKey() {
         val intEnum = EnumTypeBuilder().apply {
             keyType = CacheTypeLiteral.Integer.char
             valType = CacheTypeLiteral.NamedItem.char
@@ -34,7 +32,7 @@ class EnumTypeTest {
     }
 
     @Test
-    fun `test enum get returns default value on undefined key`() {
+    fun testGetReturnsDefaultOnUndefinedKey() {
         val intEnum = EnumTypeBuilder().apply {
             keyType = CacheTypeLiteral.Integer.char
             valType = CacheTypeLiteral.NamedItem.char
@@ -50,7 +48,7 @@ class EnumTypeTest {
 
     @ParameterizedTest
     @ArgumentsSource(MatchTypeProvider::class)
-    fun `test enum returns correct typed-values`(
+    fun testGetReturnsCorrectTypedValue(
         keyType: CacheTypeLiteral,
         valType: CacheTypeLiteral,
         defaultInt: Int,
