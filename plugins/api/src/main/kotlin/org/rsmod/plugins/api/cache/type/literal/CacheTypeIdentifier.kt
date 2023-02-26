@@ -21,6 +21,7 @@ public enum class CacheTypeIdentifier(
     Color('C'),
     Component('I', CacheTypeNamedComponent, NamedComponent::class.java),
     Coordinate('c', CacheTypeCoordinate, Coordinates::class.java),
+    DbRow('￐'),
     Enum('g'),
     FontMetrics('f'),
     Graphic('d', CacheTypeNamedGraphic, NamedGraphic::class.java),
@@ -41,7 +42,6 @@ public enum class CacheTypeIdentifier(
     Unknown1('Ð'),
     Unknown2('P'),
     Unknown3('x'),
-    Unknown4('￐'),
     Unknown5('ﾵ');
 
     public val isString: kotlin.Boolean get() = literal is CacheTypeBaseString
