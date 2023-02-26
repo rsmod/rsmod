@@ -2,6 +2,7 @@ package org.rsmod.plugins.api.cache.type.npc
 
 import io.netty.buffer.ByteBuf
 import org.openrs2.buffer.readString
+import org.openrs2.buffer.use
 import org.openrs2.cache.Cache
 import org.rsmod.plugins.api.cache.build.game.GameCache
 import org.rsmod.plugins.api.cache.type.param.ParamTypeList
@@ -21,8 +22,9 @@ public class NpcTypeLoader @Inject constructor(
         val types = mutableListOf<NpcType>()
         val files = cache.list(CONFIG_ARCHIVE, NPC_GROUP)
         files.forEach { file ->
-            val data = cache.read(CONFIG_ARCHIVE, NPC_GROUP, file.id)
-            types += data.readType(file.id)
+            cache.read(CONFIG_ARCHIVE, NPC_GROUP, file.id).use {
+                types += it.readType(file.id)
+            }
         }
         return types
     }

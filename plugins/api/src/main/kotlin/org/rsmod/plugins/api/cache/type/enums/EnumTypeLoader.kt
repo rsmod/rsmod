@@ -2,6 +2,7 @@ package org.rsmod.plugins.api.cache.type.enums
 
 import io.netty.buffer.ByteBuf
 import org.openrs2.buffer.readString
+import org.openrs2.buffer.use
 import org.openrs2.cache.Cache
 import org.rsmod.plugins.api.cache.build.game.GameCache
 import org.rsmod.plugins.api.cache.type.ConfigType
@@ -19,8 +20,9 @@ public class EnumTypeLoader @Inject constructor(
         val types = mutableListOf<EnumType<Any, Any>>()
         val files = cache.list(CONFIG_ARCHIVE, ENUM_GROUP)
         files.forEach { file ->
-            val data = cache.read(CONFIG_ARCHIVE, ENUM_GROUP, file.id)
-            types += readType(data, file.id)
+            cache.read(CONFIG_ARCHIVE, ENUM_GROUP, file.id).use {
+                types += readType(it, file.id)
+            }
         }
         return types
     }
