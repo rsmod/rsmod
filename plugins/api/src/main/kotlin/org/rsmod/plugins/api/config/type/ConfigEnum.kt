@@ -5,8 +5,10 @@ import org.rsmod.plugins.api.cache.type.enums.EnumTypeBuilder
 import org.rsmod.plugins.api.cache.type.enums.EnumTypeList
 import org.rsmod.plugins.api.cache.type.literal.CacheTypeBaseInt
 import org.rsmod.plugins.api.cache.type.literal.CacheTypeBaseString
-import org.rsmod.plugins.api.cache.type.literal.CacheTypeIdentifier
-import org.rsmod.plugins.api.config.StringUtil.stripTag
+import org.rsmod.plugins.api.config.CacheTypeIdentifierUtil.AUTO_INCREMENT_INT
+import org.rsmod.plugins.api.config.CacheTypeIdentifierUtil.TYPE_STRING_CONVERSION
+import org.rsmod.plugins.api.config.CacheTypeIdentifierUtil.convert
+import org.rsmod.plugins.api.config.CacheTypeIdentifierUtil.toConvertedEntryMap
 import org.rsmod.plugins.types.NamedTypeMapHolder
 
 public data class ConfigEnum(
@@ -26,13 +28,13 @@ public data class ConfigEnum(
         names: NamedTypeMapHolder,
         types: EnumTypeList
     ): EnumType<Any, Any> {
-        assertAutoIncrement()
         val builder = EnumTypeBuilder()
         val keyId = TYPE_STRING_CONVERSION.getValue(keyType)
         val valId = TYPE_STRING_CONVERSION.getValue(valType)
         val entries = (entries ?: mutableMapOf())
-            .takeAutoIncrementValues(values)
-            .convertEntries(names, keyId, valId)
+            .assertAutoIncrement(entries, values, keyType, valType)
+            .putAutoIncrementEntries(values, keyType, valType)
+            .toConvertedEntryMap(names, keyId, valId)
         val default = default?.convert(names, valId)
         builder.id = id
         builder.name = name
@@ -66,106 +68,48 @@ public data class ConfigEnum(
         return builder.build()
     }
 
-    private fun MutableMap<Any, Any>.takeAutoIncrementValues(
-        values: List<Any>?
-    ): Map<Any, Any> {
-        if (values.isNullOrEmpty()) return this
-        val incrementKeys = arrayOfNulls<Any>(values.size)
-        val incrementValues = arrayOfNulls<Any>(values.size)
-        for (i in values.indices) {
-            val keyElement = if (keyType == AUTO_INCREMENT_INT) i else values[i]
-            val valElement = if (valType == AUTO_INCREMENT_INT) i else values[i]
-            incrementKeys[i] = keyElement
-            incrementValues[i] = valElement
-        }
-        for (i in values.indices) {
-            val key = incrementKeys[i] ?: error("Key cannot be null.")
-            val value = incrementValues[i] ?: error("Value cannot be null.")
-            this[key] = value
-        }
-        return this
-    }
-
-    private fun assertAutoIncrement() {
-        if (keyType == AUTO_INCREMENT_INT || valType == AUTO_INCREMENT_INT) {
-            if (entries == null || entries?.isEmpty() == true) return
-            error(
-                "Cannot define `entries` with auto-increment key or value types. " +
-                    "Use `values` instead."
-            )
-        }
-        if (values.isNullOrEmpty()) return
-        error(
-            "Cannot define `values` with non auto-increment key or value types. " +
-                "Use `entries` instead."
-        )
-    }
-
     private companion object {
 
-        private const val AUTO_INCREMENT_INT = "autoint"
-
-        private val TYPE_STRING_CONVERSION = mapOf(
-            AUTO_INCREMENT_INT to CacheTypeIdentifier.Integer,
-            "anim" to CacheTypeIdentifier.Animation,
-            "area" to CacheTypeIdentifier.Area,
-            "bool" to CacheTypeIdentifier.Boolean,
-            "category" to CacheTypeIdentifier.Category,
-            "char" to CacheTypeIdentifier.Character,
-            "chatchar" to CacheTypeIdentifier.ChatChar,
-            "color" to CacheTypeIdentifier.Color,
-            "component" to CacheTypeIdentifier.Component,
-            "coord" to CacheTypeIdentifier.Coordinate,
-            "enum" to CacheTypeIdentifier.Enum,
-            "font" to CacheTypeIdentifier.FontMetrics,
-            "graphic" to CacheTypeIdentifier.Graphic,
-            "identikit" to CacheTypeIdentifier.Idk,
-            "int" to CacheTypeIdentifier.Integer,
-            "inv" to CacheTypeIdentifier.Inv,
-            "item" to CacheTypeIdentifier.Item,
-            "maparea" to CacheTypeIdentifier.MapArea,
-            "model" to CacheTypeIdentifier.Model,
-            "nameditem" to CacheTypeIdentifier.NamedItem,
-            "npc" to CacheTypeIdentifier.Npc,
-            "object" to CacheTypeIdentifier.Object,
-            "stat" to CacheTypeIdentifier.Stat,
-            "string" to CacheTypeIdentifier.String,
-            "struct" to CacheTypeIdentifier.Struct
-        )
-
-        private fun Map<Any, Any>.convertEntries(
-            names: NamedTypeMapHolder,
-            keyId: CacheTypeIdentifier,
-            valId: CacheTypeIdentifier
+        fun MutableMap<Any, Any>.putAutoIncrementEntries(
+            values: List<Any>?,
+            keyType: String,
+            valType: String
         ): Map<Any, Any> {
-            val converted = mutableMapOf<Any, Any>()
-            forEach { (key, value) ->
-                val convertedKey = key.convert(names, keyId)
-                val convertedValue = value.convert(names, valId)
-                converted[convertedKey] = convertedValue
+            if (values.isNullOrEmpty()) return this
+            val incrementKeys = arrayOfNulls<Any>(values.size)
+            val incrementValues = arrayOfNulls<Any>(values.size)
+            for (i in values.indices) {
+                val keyElement = if (keyType == AUTO_INCREMENT_INT) i else values[i]
+                val valElement = if (valType == AUTO_INCREMENT_INT) i else values[i]
+                incrementKeys[i] = keyElement
+                incrementValues[i] = valElement
             }
-            return converted
+            for (i in values.indices) {
+                val key = incrementKeys[i] ?: error("Key cannot be null.")
+                val value = incrementValues[i] ?: error("Value cannot be null.")
+                this[key] = value
+            }
+            return this
         }
 
-        private fun Any.convert(names: NamedTypeMapHolder, id: CacheTypeIdentifier): Any {
-            if (id.isString && this is String) return this
-            val relative = id.relativeNames(names) ?: return this
-            if (this !is String) return this
-            val name = this.stripTag()
-            return relative[name] ?: error("`$this` could not be found in `${id.out.simpleName}` cache type names.")
-        }
-
-        private fun CacheTypeIdentifier.relativeNames(names: NamedTypeMapHolder): Map<String, Any>? = when (this) {
-            CacheTypeIdentifier.Component -> names.components
-            CacheTypeIdentifier.NamedItem, CacheTypeIdentifier.Item -> names.items
-            CacheTypeIdentifier.Npc -> names.npcs
-            CacheTypeIdentifier.Object -> names.objs
-            CacheTypeIdentifier.Animation -> names.anims
-            CacheTypeIdentifier.Graphic -> names.graphics
-            CacheTypeIdentifier.Enum -> names.enums
-            CacheTypeIdentifier.Struct -> names.structs
-            CacheTypeIdentifier.Inv -> names.inventories
-            else -> null
+        private fun MutableMap<Any, Any>.assertAutoIncrement(
+            entries: MutableMap<Any, Any>?,
+            values: List<Any>?,
+            keyType: String,
+            valType: String
+        ): MutableMap<Any, Any> {
+            if (keyType == AUTO_INCREMENT_INT || valType == AUTO_INCREMENT_INT) {
+                if (entries.isNullOrEmpty()) return this
+                error(
+                    "Cannot define `entries` with auto-increment key or value types. " +
+                        "Use `values` instead."
+                )
+            }
+            if (values.isNullOrEmpty()) return this
+            error(
+                "Cannot define `values` with non auto-increment key or value types. " +
+                    "Use `entries` instead."
+            )
         }
     }
 }
