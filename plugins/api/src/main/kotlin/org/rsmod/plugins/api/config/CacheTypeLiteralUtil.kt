@@ -4,7 +4,7 @@ import org.rsmod.plugins.api.cache.type.literal.CacheTypeLiteral
 import org.rsmod.plugins.api.config.StringUtil.stripTag
 import org.rsmod.plugins.types.NamedTypeMapHolder
 
-internal object CacheTypeIdentifierUtil {
+internal object CacheTypeLiteralUtil {
 
     const val AUTO_INCREMENT_INT = "autoint"
 

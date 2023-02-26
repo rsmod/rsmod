@@ -3,8 +3,8 @@ package org.rsmod.plugins.api.config.type
 import org.rsmod.plugins.api.cache.type.param.ParamType
 import org.rsmod.plugins.api.cache.type.param.ParamTypeBuilder
 import org.rsmod.plugins.api.cache.type.param.ParamTypeList
-import org.rsmod.plugins.api.config.CacheTypeIdentifierUtil.TYPE_STRING_CONVERSION
-import org.rsmod.plugins.api.config.CacheTypeIdentifierUtil.convert
+import org.rsmod.plugins.api.config.CacheTypeLiteralUtil.TYPE_STRING_CONVERSION
+import org.rsmod.plugins.api.config.CacheTypeLiteralUtil.convert
 import org.rsmod.plugins.api.config.StringUtil.stripTag
 import org.rsmod.plugins.types.NamedParameter
 import org.rsmod.plugins.types.NamedTypeMapHolder

@@ -5,7 +5,7 @@ import org.rsmod.plugins.api.cache.type.item.ItemTypeBuilder
 import org.rsmod.plugins.api.cache.type.item.ItemTypeList
 import org.rsmod.plugins.api.cache.type.param.ParamMap
 import org.rsmod.plugins.api.cache.type.param.ParamTypeList
-import org.rsmod.plugins.api.config.CacheTypeIdentifierUtil.convert
+import org.rsmod.plugins.api.config.CacheTypeLiteralUtil.convert
 import org.rsmod.plugins.api.config.StringUtil.stripTag
 import org.rsmod.plugins.types.NamedItem
 import org.rsmod.plugins.types.NamedTypeMapHolder
