@@ -23,6 +23,7 @@ public class VarbitTypeBuilder(
         check(varp != DEFAULT_VARP)
         check(lsb != DEFAULT_BITPOS)
         check(msb != DEFAULT_BITPOS)
+        check(lsb <= msb) { "Least-significant bit must be less than or equal to most-significant bit." }
         return VarbitType(id, name, varp, lsb, msb, transmit)
     }
 
