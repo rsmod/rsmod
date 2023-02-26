@@ -10,6 +10,8 @@ import org.rsmod.plugins.api.cache.type.npc.NpcTypeList
 import org.rsmod.plugins.api.cache.type.npc.NpcTypeListProvider
 import org.rsmod.plugins.api.cache.type.obj.ObjectTypeList
 import org.rsmod.plugins.api.cache.type.obj.ObjectTypeListProvider
+import org.rsmod.plugins.api.cache.type.param.ParamTypeList
+import org.rsmod.plugins.api.cache.type.param.ParamTypeListProvider
 import org.rsmod.plugins.api.cache.type.varbit.VarbitTypeList
 import org.rsmod.plugins.api.cache.type.varbit.VarbitTypeListProvider
 import org.rsmod.plugins.api.cache.type.varp.VarpTypeList
@@ -32,6 +34,10 @@ public object CacheTypeModule : AbstractModule() {
 
         bind(ObjectTypeList::class.java)
             .toProvider(ObjectTypeListProvider::class.java)
+            .`in`(Scopes.SINGLETON)
+
+        bind(ParamTypeList::class.java)
+            .toProvider(ParamTypeListProvider::class.java)
             .`in`(Scopes.SINGLETON)
 
         bind(VarpTypeList::class.java)

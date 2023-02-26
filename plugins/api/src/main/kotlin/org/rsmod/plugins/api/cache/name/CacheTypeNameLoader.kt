@@ -8,6 +8,8 @@ import org.rsmod.plugins.api.cache.type.npc.NpcType
 import org.rsmod.plugins.api.cache.type.npc.NpcTypeList
 import org.rsmod.plugins.api.cache.type.obj.ObjectType
 import org.rsmod.plugins.api.cache.type.obj.ObjectTypeList
+import org.rsmod.plugins.api.cache.type.param.ParamType
+import org.rsmod.plugins.api.cache.type.param.ParamTypeList
 import org.rsmod.plugins.api.cache.type.varbit.VarbitType
 import org.rsmod.plugins.api.cache.type.varbit.VarbitTypeList
 import org.rsmod.plugins.api.cache.type.varp.VarpType
@@ -16,6 +18,7 @@ import org.rsmod.plugins.types.NamedEnum
 import org.rsmod.plugins.types.NamedItem
 import org.rsmod.plugins.types.NamedNpc
 import org.rsmod.plugins.types.NamedObject
+import org.rsmod.plugins.types.NamedParameter
 import org.rsmod.plugins.types.NamedTypeMapHolder
 import org.rsmod.plugins.types.NamedVarbit
 import org.rsmod.plugins.types.NamedVarp
@@ -27,7 +30,8 @@ public class CacheTypeNameLoader @Inject constructor(
     private val objs: ObjectTypeList,
     private val varps: VarpTypeList,
     private val varbits: VarbitTypeList,
-    private val enums: EnumTypeList
+    private val enums: EnumTypeList,
+    private val params: ParamTypeList
 ) {
 
     public fun load(): NamedTypeMapHolder {
@@ -38,6 +42,7 @@ public class CacheTypeNameLoader @Inject constructor(
         names.putVarps(varps.values)
         names.putVarbits(varbits.values)
         names.putEnums(enums.values)
+        names.putParams(params.values)
         return names
     }
 
@@ -84,6 +89,13 @@ public class CacheTypeNameLoader @Inject constructor(
         types.forEach {
             val name = it.name ?: return@forEach
             enums[name] = NamedEnum(it.id)
+        }
+    }
+
+    private fun NamedTypeMapHolder.putParams(types: Iterable<ParamType>) {
+        types.forEach {
+            val name = it.name ?: return@forEach
+            parameters[name] = NamedParameter(it.id)
         }
     }
 
