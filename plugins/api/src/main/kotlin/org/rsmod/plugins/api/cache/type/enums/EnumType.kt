@@ -4,6 +4,8 @@ import org.rsmod.plugins.api.cache.type.ConfigType
 
 public data class EnumType<K, V>(
     public override val id: Int,
+    public val name: String?,
+    public val transmit: Boolean,
     public val keyType: EnumTypeIdentifier,
     public val valType: EnumTypeIdentifier,
     public val default: V?,

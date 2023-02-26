@@ -10,7 +10,7 @@ import org.rsmod.plugins.types.NamedVarp
 
 public data class ConfigVarbit(
     val id: Int,
-    val alias: String,
+    val name: String,
     val varp: String,
     val lsb: Int,
     val msb: Int,
@@ -25,7 +25,7 @@ public data class ConfigVarbit(
         val builder = VarbitTypeBuilder()
         val varp = names.varps.getOrThrow(varp.stripTag())
         builder.id = id
-        builder.alias = alias
+        builder.name = name
         builder.varp = varp.id
         builder.lsb = lsb
         builder.msb = msb

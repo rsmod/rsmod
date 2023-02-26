@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
 import org.openrs2.buffer.writeString
 import org.openrs2.cache.Cache
+import org.rsmod.plugins.api.cache.type.ConfigType
 import org.rsmod.plugins.api.cache.type.enums.literal.EnumTypeBaseInt
 import org.rsmod.plugins.api.cache.type.enums.literal.EnumTypeBaseString
 
@@ -38,7 +39,7 @@ public object EnumTypePacker {
         writeByte(1)
         writeByte(type.keyType.char.code)
         writeByte(2)
-        writeChar(type.valType.char.code)
+        writeByte(type.valType.char.code)
         if (type.valType.isString) {
             // As of now - keys are always int-based
             val keyLiteral = type.keyType.literal as EnumTypeBaseInt<in Any>
@@ -70,6 +71,15 @@ public object EnumTypePacker {
                 val encodedValue = valLiteral.encode(value)
                 writeInt(encodedKey)
                 writeInt(encodedValue)
+            }
+        }
+        if (!isJs5) {
+            if (type.transmit) {
+                writeByte(ConfigType.TRANSMISSION_OPCODE)
+            }
+            type.name?.let {
+                writeByte(ConfigType.INTERNAL_NAME_OPCODE)
+                writeString(it)
             }
         }
         writeByte(0)

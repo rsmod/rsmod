@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf
 import org.openrs2.buffer.readString
 import org.openrs2.cache.Cache
 import org.rsmod.plugins.api.cache.build.game.GameCache
+import org.rsmod.plugins.api.cache.type.ConfigType
 import java.io.IOException
 import javax.inject.Inject
 
@@ -60,6 +61,8 @@ public class EnumTypeLoader @Inject constructor(
                     intValues[key] = value
                 }
             }
+            ConfigType.TRANSMISSION_OPCODE -> transmit = true
+            ConfigType.INTERNAL_NAME_OPCODE -> name = buf.readString()
             else -> throw IOException("Error unrecognised enum config code: $instruction")
         }
     }

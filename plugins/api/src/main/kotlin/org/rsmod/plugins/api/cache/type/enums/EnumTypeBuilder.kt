@@ -6,6 +6,7 @@ private const val DEFAULT_ID = -1
 private const val DEFAULT_KEY_TYPE = 'i'
 private const val DEFAULT_VAL_TYPE = 'i'
 private const val DEFAULT_INT_VALUE = -1
+private const val DEFAULT_TRANSMIT_FLAG = false
 
 private val DEFAULT_STR_VALUE: String? = null
 
@@ -16,13 +17,15 @@ private annotation class BuilderDslMarker
 @BuilderDslMarker
 public class EnumTypeBuilder(
     public var id: Int = DEFAULT_ID,
+    public var name: String? = null,
     public var keyType: Char = DEFAULT_KEY_TYPE,
     public var valType: Char = DEFAULT_VAL_TYPE,
     public var defaultInt: Int = DEFAULT_INT_VALUE,
     public var defaultStr: String? = DEFAULT_STR_VALUE,
     public var strValues: MutableMap<Int, String> = mutableMapOf(),
     public var intValues: MutableMap<Int, Int> = mutableMapOf(),
-    public var size: Int = 0
+    public var size: Int = 0,
+    public var transmit: Boolean = DEFAULT_TRANSMIT_FLAG
 ) {
 
     public fun build(): EnumType<Any, Any> {
@@ -46,13 +49,13 @@ public class EnumTypeBuilder(
                 val properties = mutableMapOf<Any, Any>()
                 val default = valType.defaultStrProperty(defaultStr)
                 properties.putStrProperties(strValues, keyType, valType, (default ?: defaultStr ?: ""))
-                EnumType(id, keyType, valType, default, properties)
+                EnumType(id, name, transmit, keyType, valType, default, properties)
             }
             valType.isInt -> {
                 val properties = mutableMapOf<Any, Any>()
                 val default = valType.defaultIntProperty(defaultInt)
                 properties.putIntProperties(intValues, keyType, valType, default ?: defaultInt)
-                EnumType(id, keyType, valType, default, properties)
+                EnumType(id, name, transmit, keyType, valType, default, properties)
             }
             else -> error("Unhandled value type `$valType` for enum $id.")
         }

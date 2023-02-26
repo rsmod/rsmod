@@ -40,8 +40,8 @@ public class VarpTypeLoader @Inject constructor(
     private fun VarpTypeBuilder.readBuffer(instruction: Int, buf: ByteBuf) {
         when (instruction) {
             5 -> clientCode = buf.readUnsignedShort()
-            VarpType.TRANSMISSION_OPCODE -> transmit = true
-            ConfigType.ALIAS_OPCODE -> alias = buf.readString()
+            ConfigType.TRANSMISSION_OPCODE -> transmit = true
+            ConfigType.INTERNAL_NAME_OPCODE -> name = buf.readString()
             else -> throw IOException("Error unrecognised varp config code: $instruction")
         }
     }

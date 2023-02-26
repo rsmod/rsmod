@@ -9,19 +9,19 @@ private annotation class BuilderDslMarker
 @BuilderDslMarker
 public class VarpTypeBuilder(
     public var id: Int = DEFAULT_ID,
-    public var alias: String? = null,
+    public var name: String? = null,
     public var clientCode: Int? = null,
     public var transmit: Boolean = DEFAULT_TRANSMIT_FLAG
 ) {
 
     public fun build(): VarpType {
         check(id != DEFAULT_ID)
-        return VarpType(id, alias, clientCode, transmit)
+        return VarpType(id, name, clientCode, transmit)
     }
 
     public operator fun plusAssign(other: VarpType) {
         if (id == DEFAULT_ID) id = other.id
-        if (alias == null) alias = other.alias
+        if (name == null) name = other.name
         if (clientCode == null) clientCode = other.clientCode
         if (transmit == DEFAULT_TRANSMIT_FLAG) transmit = other.transmit
     }

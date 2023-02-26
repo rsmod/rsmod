@@ -11,7 +11,7 @@ private annotation class BuilderDslMarker
 @BuilderDslMarker
 public class VarbitTypeBuilder(
     public var id: Int = DEFAULT_ID,
-    public var alias: String? = null,
+    public var name: String? = null,
     public var varp: Int = DEFAULT_VARP,
     public var lsb: Int = DEFAULT_BITPOS,
     public var msb: Int = DEFAULT_BITPOS,
@@ -23,12 +23,12 @@ public class VarbitTypeBuilder(
         check(varp != DEFAULT_VARP)
         check(lsb != DEFAULT_BITPOS)
         check(msb != DEFAULT_BITPOS)
-        return VarbitType(id, alias, varp, lsb, msb, transmit)
+        return VarbitType(id, name, varp, lsb, msb, transmit)
     }
 
     public operator fun plusAssign(other: VarbitType) {
         if (id == DEFAULT_ID) id = other.id
-        if (alias == null) alias = other.alias
+        if (name == null) name = other.name
         if (varp == DEFAULT_VARP) varp = other.varp
         if (lsb == DEFAULT_BITPOS) lsb = other.lsb
         if (msb == DEFAULT_BITPOS) msb = other.msb

@@ -1,5 +1,7 @@
 package org.rsmod.plugins.api.cache.name
 
+import org.rsmod.plugins.api.cache.type.enums.EnumType
+import org.rsmod.plugins.api.cache.type.enums.EnumTypeList
 import org.rsmod.plugins.api.cache.type.item.ItemType
 import org.rsmod.plugins.api.cache.type.item.ItemTypeList
 import org.rsmod.plugins.api.cache.type.npc.NpcType
@@ -10,6 +12,7 @@ import org.rsmod.plugins.api.cache.type.varbit.VarbitType
 import org.rsmod.plugins.api.cache.type.varbit.VarbitTypeList
 import org.rsmod.plugins.api.cache.type.varp.VarpType
 import org.rsmod.plugins.api.cache.type.varp.VarpTypeList
+import org.rsmod.plugins.types.NamedEnum
 import org.rsmod.plugins.types.NamedItem
 import org.rsmod.plugins.types.NamedNpc
 import org.rsmod.plugins.types.NamedObject
@@ -23,7 +26,8 @@ public class CacheTypeNameLoader @Inject constructor(
     private val npcs: NpcTypeList,
     private val objs: ObjectTypeList,
     private val varps: VarpTypeList,
-    private val varbits: VarbitTypeList
+    private val varbits: VarbitTypeList,
+    private val enums: EnumTypeList
 ) {
 
     public fun load(): NamedTypeMapHolder {
@@ -33,6 +37,7 @@ public class CacheTypeNameLoader @Inject constructor(
         names.putObjs(objs.values)
         names.putVarps(varps.values)
         names.putVarbits(varbits.values)
+        names.putEnums(enums.values)
         return names
     }
 
@@ -63,15 +68,22 @@ public class CacheTypeNameLoader @Inject constructor(
 
     private fun NamedTypeMapHolder.putVarps(types: Iterable<VarpType>) {
         types.forEach {
-            val name = it.alias ?: return@forEach
+            val name = it.name ?: return@forEach
             varps[name] = NamedVarp(it.id)
         }
     }
 
     private fun NamedTypeMapHolder.putVarbits(types: Iterable<VarbitType>) {
         types.forEach {
-            val name = it.alias ?: return@forEach
+            val name = it.name ?: return@forEach
             varbits[name] = NamedVarbit(it.id)
+        }
+    }
+
+    private fun NamedTypeMapHolder.putEnums(types: Iterable<EnumType<Any, Any>>) {
+        types.forEach {
+            val name = it.name ?: return@forEach
+            enums[name] = NamedEnum(it.id)
         }
     }
 

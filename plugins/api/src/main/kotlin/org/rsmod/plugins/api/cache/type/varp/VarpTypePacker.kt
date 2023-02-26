@@ -35,10 +35,10 @@ public object VarpTypePacker {
         }
         if (!isJs5) {
             if (type.transmit) {
-                writeByte(VarpType.TRANSMISSION_OPCODE)
+                writeByte(ConfigType.TRANSMISSION_OPCODE)
             }
-            type.alias?.let {
-                writeByte(ConfigType.ALIAS_OPCODE)
+            type.name?.let {
+                writeByte(ConfigType.INTERNAL_NAME_OPCODE)
                 writeString(it)
             }
         }

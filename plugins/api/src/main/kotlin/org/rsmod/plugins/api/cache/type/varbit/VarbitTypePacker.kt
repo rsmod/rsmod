@@ -5,7 +5,6 @@ import io.netty.buffer.Unpooled
 import org.openrs2.buffer.writeString
 import org.openrs2.cache.Cache
 import org.rsmod.plugins.api.cache.type.ConfigType
-import org.rsmod.plugins.api.cache.type.varp.VarpType
 
 private const val CONFIG_ARCHIVE = 2
 private const val VARBIT_GROUP = 14
@@ -36,11 +35,11 @@ public object VarbitTypePacker {
         writeByte(type.msb)
         if (!isJs5) {
             if (type.transmit) {
-                writeByte(VarpType.TRANSMISSION_OPCODE)
+                writeByte(ConfigType.TRANSMISSION_OPCODE)
             }
-            type.alias?.let {
-                writeByte(ConfigType.ALIAS_OPCODE)
-                writeString(type.alias)
+            type.name?.let {
+                writeByte(ConfigType.INTERNAL_NAME_OPCODE)
+                writeString(it)
             }
         }
         writeByte(0)

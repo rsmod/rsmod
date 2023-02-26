@@ -9,7 +9,7 @@ import org.rsmod.plugins.types.NamedVarp
 
 public data class ConfigVarp(
     val id: Int,
-    val alias: String,
+    val name: String,
     val transmit: Boolean,
     val clientCode: Int?,
     val inherit: String?
@@ -21,7 +21,7 @@ public data class ConfigVarp(
     ): VarpType {
         val builder = VarpTypeBuilder()
         builder.id = id
-        builder.alias = alias
+        builder.name = name
         builder.clientCode = clientCode
         builder.transmit = transmit
         inherit?.let {

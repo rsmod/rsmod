@@ -6,6 +6,7 @@ public interface ConfigType {
 
     public companion object {
 
-        public const val ALIAS_OPCODE: Int = 240
+        public const val TRANSMISSION_OPCODE: Int = 230
+        public const val INTERNAL_NAME_OPCODE: Int = 240
     }
 }
