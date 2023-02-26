@@ -3,8 +3,6 @@ package org.rsmod.plugins.api.config.type
 import org.rsmod.plugins.api.cache.type.enums.EnumType
 import org.rsmod.plugins.api.cache.type.enums.EnumTypeBuilder
 import org.rsmod.plugins.api.cache.type.enums.EnumTypeList
-import org.rsmod.plugins.api.cache.type.literal.CacheTypeBaseInt
-import org.rsmod.plugins.api.cache.type.literal.CacheTypeBaseString
 import org.rsmod.plugins.api.config.CacheTypeIdentifierUtil.AUTO_INCREMENT_INT
 import org.rsmod.plugins.api.config.CacheTypeIdentifierUtil.TYPE_STRING_CONVERSION
 import org.rsmod.plugins.api.config.CacheTypeIdentifierUtil.convert
@@ -23,7 +21,7 @@ public data class ConfigEnum(
     val values: List<Any>?
 ) {
 
-    @Suppress("UNCHECKED_CAST", "UNUSED_PARAMETER")
+    @Suppress("UNUSED_PARAMETER")
     public fun toCacheType(
         names: NamedTypeMapHolder,
         types: EnumTypeList
@@ -44,23 +42,17 @@ public data class ConfigEnum(
         builder.size = entries.size
         if (valId.isString) {
             check(default == null || default is String) { "`default` value must be a string." }
-            // As of now - keys are always int-based
-            val keyLiteral = keyId.literal as CacheTypeBaseInt<in Any>
-            val valLiteral = valId.literal as CacheTypeBaseString<in Any>
-            default?.let { builder.defaultStr = valLiteral.encode(it) }
+            default?.let { builder.defaultStr = valId.encodeString(it) }
             entries.forEach { (key, value) ->
-                val encodedKey = keyLiteral.encode(key)
-                val encodedValue = valLiteral.encode(value)
+                val encodedKey = keyId.encodeInt(key)
+                val encodedValue = valId.encodeString(value)
                 builder.strValues[encodedKey] = encodedValue
             }
         } else if (valId.isInt) {
-            // As of now - keys are always int-based
-            val keyLiteral = keyId.literal as CacheTypeBaseInt<in Any>
-            val valLiteral = valId.literal as CacheTypeBaseInt<in Any>
-            default?.let { builder.defaultInt = valLiteral.encode(it) }
+            default?.let { builder.defaultInt = valId.encodeInt(it) }
             entries.forEach { (key, value) ->
-                val encodedKey = keyLiteral.encode(key)
-                val encodedValue = valLiteral.encode(value)
+                val encodedKey = keyId.encodeInt(key)
+                val encodedValue = valId.encodeInt(value)
                 builder.intValues[encodedKey] = encodedValue
             }
         }
