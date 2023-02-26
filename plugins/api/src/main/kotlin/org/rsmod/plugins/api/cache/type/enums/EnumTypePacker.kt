@@ -19,7 +19,7 @@ public object EnumTypePacker {
         val buf = Unpooled.buffer()
         val packed = mutableListOf<EnumType<Any, Any>>()
         types.forEach { type ->
-            buf.clear().writeType(type, isJs5)
+            writeType(buf.clear(), type, isJs5)
             val oldData = if (cache.exists(CONFIG_ARCHIVE, ENUM_GROUP, type.id)) {
                 cache.read(CONFIG_ARCHIVE, ENUM_GROUP, type.id)
             } else {
@@ -32,47 +32,47 @@ public object EnumTypePacker {
         return packed
     }
 
-    private fun ByteBuf.writeType(type: EnumType<Any, Any>, isJs5: Boolean) {
-        writeByte(1)
-        writeByte(type.keyType.char.code)
-        writeByte(2)
-        writeByte(type.valType.char.code)
+    public fun writeType(buf: ByteBuf, type: EnumType<Any, Any>, isJs5: Boolean) {
+        buf.writeByte(1)
+        buf.writeByte(type.keyType.char.code)
+        buf.writeByte(2)
+        buf.writeByte(type.valType.char.code)
         if (type.valType.isString) {
             type.default?.let { default ->
-                writeByte(3)
-                writeString(type.valType.encodeString(default))
+                buf.writeByte(3)
+                buf.writeString(type.valType.encodeString(default))
             }
-            writeByte(5)
-            writeShort(type.size)
+            buf.writeByte(5)
+            buf.writeShort(type.size)
             type.forEach { (key, value) ->
                 val encodedKey = type.keyType.encodeInt(key)
                 val encodedValue = type.valType.encodeString(value)
-                writeInt(encodedKey)
-                writeString(encodedValue)
+                buf.writeInt(encodedKey)
+                buf.writeString(encodedValue)
             }
         } else if (type.valType.isInt) {
             type.default?.let { default ->
-                writeByte(4)
-                writeInt(type.valType.encodeInt(default))
+                buf.writeByte(4)
+                buf.writeInt(type.valType.encodeInt(default))
             }
-            writeByte(6)
-            writeShort(type.size)
+            buf.writeByte(6)
+            buf.writeShort(type.size)
             type.forEach { (key, value) ->
                 val encodedKey = type.keyType.encodeInt(key)
                 val encodedValue = type.valType.encodeInt(value)
-                writeInt(encodedKey)
-                writeInt(encodedValue)
+                buf.writeInt(encodedKey)
+                buf.writeInt(encodedValue)
             }
         }
         if (!isJs5) {
             if (type.transmit) {
-                writeByte(ConfigType.TRANSMISSION_OPCODE)
+                buf.writeByte(ConfigType.TRANSMISSION_OPCODE)
             }
             type.name?.let {
-                writeByte(ConfigType.INTERNAL_NAME_OPCODE)
-                writeString(it)
+                buf.writeByte(ConfigType.INTERNAL_NAME_OPCODE)
+                buf.writeString(it)
             }
         }
-        writeByte(0)
+        buf.writeByte(0)
     }
 }

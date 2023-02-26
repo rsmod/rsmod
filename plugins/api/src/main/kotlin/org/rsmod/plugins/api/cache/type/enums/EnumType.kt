@@ -10,7 +10,7 @@ public data class EnumType<K, V>(
     public val keyType: CacheTypeLiteral,
     public val valType: CacheTypeLiteral,
     public val default: V?,
-    private val properties: MutableMap<K, V>
+    public val properties: MutableMap<K, V>
 ) : ConfigType, Iterable<Map.Entry<K, V>> {
 
     public val size: Int get() = properties.size
