@@ -9,6 +9,9 @@ import org.rsmod.plugins.api.cache.name.CacheTypeNameLoader
 import org.rsmod.plugins.api.cache.type.enums.EnumType
 import org.rsmod.plugins.api.cache.type.enums.EnumTypeList
 import org.rsmod.plugins.api.cache.type.enums.EnumTypePacker
+import org.rsmod.plugins.api.cache.type.item.ItemType
+import org.rsmod.plugins.api.cache.type.item.ItemTypeList
+import org.rsmod.plugins.api.cache.type.item.ItemTypePacker
 import org.rsmod.plugins.api.cache.type.param.ParamType
 import org.rsmod.plugins.api.cache.type.param.ParamTypeList
 import org.rsmod.plugins.api.cache.type.param.ParamTypePacker
@@ -19,11 +22,14 @@ import org.rsmod.plugins.api.cache.type.varp.VarpType
 import org.rsmod.plugins.api.cache.type.varp.VarpTypeList
 import org.rsmod.plugins.api.cache.type.varp.VarpTypePacker
 import org.rsmod.plugins.api.config.type.ConfigEnum
+import org.rsmod.plugins.api.config.type.ConfigItem
 import org.rsmod.plugins.api.config.type.ConfigParam
 import org.rsmod.plugins.api.config.type.ConfigVarbit
 import org.rsmod.plugins.api.config.type.ConfigVarp
 import org.rsmod.plugins.api.pluginPath
 import org.rsmod.plugins.types.NamedEnum
+import org.rsmod.plugins.types.NamedItem
+import org.rsmod.plugins.types.NamedParameter
 import org.rsmod.plugins.types.NamedVarbit
 import org.rsmod.plugins.types.NamedVarp
 import org.rsmod.toml.Toml
@@ -46,16 +52,23 @@ public class ConfigCachePacker @Inject constructor(
     private val varbits: VarbitTypeList,
     private val enums: EnumTypeList,
     private val params: ParamTypeList,
+    private val items: ItemTypeList,
     nameLoader: CacheTypeNameLoader
 ) {
 
     private val names by lazy { nameLoader.load() }
+
+    // This is only required to support the same injection
+    // of this class being used to pack multiple cache builds.
+    // The alternative is to use one injector per cache build.
+    private val updatedParams = mutableMapOf<Int, ParamType>()
 
     public fun pack(cache: Cache, isJs5: Boolean) {
         val mapped = config.pluginPath.configFiles()
         run packParams@{
             val files = mapped[ConfigType.Param] ?: emptyList()
             val types = packParams(cache, files, isJs5)
+            updatedParams += types.associateBy { it.id }
             logger.info {
                 "Packed ${types.size} param${if (types.size != 1) "s" else ""} " +
                     "to ${if (isJs5) "js5" else "game"} cache."
@@ -85,15 +98,24 @@ public class ConfigCachePacker @Inject constructor(
                     "to ${if (isJs5) "js5" else "game"} cache."
             }
         }
+        run packItems@{
+            val files = mapped[ConfigType.Item] ?: emptyList()
+            val updatedParams = ParamTypeList(params + updatedParams)
+            val types = packItems(cache, updatedParams, files, isJs5)
+            logger.info {
+                "Packed ${types.size} item${if (types.size != 1) "s" else ""} " +
+                    "to ${if (isJs5) "js5" else "game"} cache."
+            }
+        }
     }
 
     private fun packVarps(cache: Cache, files: Iterable<Path>, isJs5: Boolean): List<VarpType> {
         val types = mutableListOf<VarpType>()
         files.forEach { file ->
             Files.newInputStream(file).use { input ->
-                val configs = extractValues<ConfigVarp>(input, VARP_TYPE_KEY)
+                val configs = extractValues<ConfigVarp>(input, ConfigType.Varp.typeKey)
                 types += configs.map { it.toCacheType(names, varps) }
-                names.varps.putAll(configs.map { it.name to NamedVarp(it.id) })
+                names.varps += configs.map { it.name to NamedVarp(it.id) }
             }
         }
         if (isJs5) types.removeIf { !it.transmit }
@@ -104,9 +126,9 @@ public class ConfigCachePacker @Inject constructor(
         val types = mutableListOf<VarbitType>()
         files.forEach { file ->
             Files.newInputStream(file).use { input ->
-                val configs = extractValues<ConfigVarbit>(input, VARBIT_TYPE_KEY)
+                val configs = extractValues<ConfigVarbit>(input, ConfigType.Varbit.typeKey)
                 types += configs.map { it.toCacheType(names, varbits) }
-                names.varbits.putAll(configs.map { it.name to NamedVarbit(it.id) })
+                names.varbits += configs.map { it.name to NamedVarbit(it.id) }
             }
         }
         if (isJs5) types.removeIf { !it.transmit }
@@ -117,9 +139,9 @@ public class ConfigCachePacker @Inject constructor(
         val types = mutableListOf<EnumType<Any, Any>>()
         files.forEach { file ->
             Files.newInputStream(file).use { input ->
-                val configs = extractValues<ConfigEnum>(input, ENUM_TYPE_KEY)
+                val configs = extractValues<ConfigEnum>(input, ConfigType.Enum.typeKey)
                 types += configs.map { it.toCacheType(names, enums) }
-                names.enums.putAll(configs.map { it.name to NamedEnum(it.id) })
+                names.enums += configs.map { it.name to NamedEnum(it.id) }
             }
         }
         if (isJs5) types.removeIf { !it.transmit }
@@ -130,13 +152,32 @@ public class ConfigCachePacker @Inject constructor(
         val types = mutableListOf<ParamType>()
         files.forEach { file ->
             Files.newInputStream(file).use { input ->
-                val configs = extractValues<ConfigParam>(input, PARAM_TYPE_KEY)
+                val configs = extractValues<ConfigParam>(input, ConfigType.Param.typeKey)
                 types += configs.map { it.toCacheType(names, params) }
-                names.enums.putAll(configs.map { it.name to NamedEnum(it.id) })
+                names.parameters += configs.map { it.name to NamedParameter(it.id) }
             }
         }
         if (isJs5) types.removeIf { !it.transmit }
         return ParamTypePacker.pack(cache, types, isJs5)
+    }
+
+    private fun packItems(
+        cache: Cache,
+        params: ParamTypeList,
+        files: Iterable<Path>,
+        isJs5: Boolean
+    ): List<ItemType> {
+        val types = mutableListOf<ItemType>()
+        files.forEach { file ->
+            Files.newInputStream(file).use { input ->
+                val configs = extractValues<ConfigItem>(input, ConfigType.Item.typeKey)
+                types += configs.map { it.toCacheType(names, items, params) }
+                names.items += configs.map { it.name to NamedItem(it.id) }
+                names.items += configs.filter { it.internalName != null }
+                    .map { it.name to NamedItem(it.id) }
+            }
+        }
+        return ItemTypePacker.pack(cache, types, params, isJs5)
     }
 
     private inline fun <reified T> extractValues(input: InputStream, key: String): List<T> {
@@ -146,40 +187,30 @@ public class ConfigCachePacker @Inject constructor(
 
     private companion object {
 
-        private const val ENUM_TYPE_KEY = "enum"
-        private const val ENUM_DIRECTORY_KEY = "enums"
-
-        private const val PARAM_TYPE_KEY = "param"
-        private const val PARAM_DIRECTORY_KEY = "params"
-
-        private const val VARP_TYPE_KEY = "varp"
-        private const val VARP_DIRECTORY_KEY = "varps"
-
-        private const val VARBIT_TYPE_KEY = "varbit"
-        private const val VARBIT_DIRECTORY_KEY = "varbits"
-
         private fun Path.configFiles(): Map<ConfigType, Iterable<Path>> {
             val mapped = mutableMapOf<ConfigType, MutableList<Path>>()
             walk().forEach { path ->
                 if (path.isDirectory()) return@forEach
-                val type = when (path.parent.name) {
-                    ENUM_DIRECTORY_KEY -> ConfigType.Enum
-                    VARBIT_DIRECTORY_KEY -> ConfigType.Varbit
-                    VARP_DIRECTORY_KEY -> ConfigType.Varp
-                    PARAM_DIRECTORY_KEY -> ConfigType.Param
-                    else -> return@forEach
-                }
+                val type = ConfigType.directoryMapped[path.parent.name] ?: return@forEach
                 val list = mapped.computeIfAbsent(type) { mutableListOf() }
                 list.add(path)
             }
             return mapped
         }
 
-        private sealed class ConfigType {
-            object Enum : ConfigType()
-            object Param : ConfigType()
-            object Varp : ConfigType()
-            object Varbit : ConfigType()
+        private enum class ConfigType(val directoryKey: String, val typeKey: String) {
+            Enum(directoryKey = "enums", typeKey = "enum"),
+            Item(directoryKey = "items", typeKey = "item"),
+            Param(directoryKey = "params", typeKey = "param"),
+            Varp(directoryKey = "varps", typeKey = "varp"),
+            Varbit(directoryKey = "varbits", typeKey = "varbit");
+
+            companion object {
+
+                val values = enumValues<ConfigType>()
+
+                val directoryMapped = values.associateBy { it.directoryKey }
+            }
         }
     }
 }

@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf
 import org.openrs2.buffer.readString
 import org.openrs2.cache.Cache
 import org.rsmod.plugins.api.cache.build.game.GameCache
+import org.rsmod.plugins.api.cache.type.ConfigType
 import org.rsmod.plugins.api.cache.type.param.ParamTypeList
 import org.rsmod.plugins.api.cache.type.readParams
 import java.io.IOException
@@ -122,12 +123,13 @@ public class ItemTypeLoader @Inject constructor(
             112 -> resizeZ = buf.readUnsignedShort()
             113 -> ambient = buf.readByte().toInt()
             114 -> contrast = buf.readByte().toInt()
-            115 -> teamCape = buf.readUnsignedByte().toInt()
+            115 -> team = buf.readUnsignedByte().toInt()
             139 -> boughtLink = buf.readUnsignedShort()
             140 -> boughtValue = buf.readUnsignedShort()
             148 -> placeholderLink = buf.readUnsignedShort()
             149 -> placeholderModel = buf.readUnsignedShort()
             249 -> params = buf.readParams(paramTypes)
+            ConfigType.INTERNAL_NAME_OPCODE -> name = buf.readString()
             else -> throw IOException("Error unrecognised item config code: $instruction")
         }
     }

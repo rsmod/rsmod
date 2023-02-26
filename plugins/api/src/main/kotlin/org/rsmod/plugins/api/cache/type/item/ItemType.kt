@@ -5,6 +5,7 @@ import org.rsmod.plugins.api.cache.type.param.ParamMap
 
 public data class ItemType(
     override val id: Int,
+    val internalName: String?,
     val name: String,
     val stacks: Boolean,
     val cost: Int,
@@ -12,7 +13,7 @@ public data class ItemType(
     val groundOptions: List<String?>,
     val inventoryOptions: List<String?>,
     val exchangeable: Boolean,
-    val teamCape: Int,
+    val team: Int,
     val noteLink: Int,
     val noteModel: Int,
     val placeholderLink: Int,

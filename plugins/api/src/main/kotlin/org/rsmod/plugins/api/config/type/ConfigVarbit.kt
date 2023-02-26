@@ -40,9 +40,9 @@ public data class ConfigVarbit(
     private companion object {
 
         private fun Map<String, NamedVarbit>.getOrThrow(name: String): NamedVarbit =
-            this[name] ?: error("Varbit with name `$name` was not found in cache.")
+            this[name] ?: error("Varbit with name `$name` not found in cache.")
 
         private fun Map<String, NamedVarp>.getOrThrow(name: String): NamedVarp =
-            this[name] ?: error("Varp with name `$name` was not found in cache.")
+            this[name] ?: error("Varp with name `$name` not found in cache.")
     }
 }

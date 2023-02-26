@@ -16,7 +16,7 @@ private const val DEFAULT_STACKS = false
 private const val DEFAULT_COST = 1
 private const val DEFAULT_MEMBERS = false
 private const val DEFAULT_EXCHANGEABLE = false
-private const val DEFAULT_TEAM_CAPE = 0
+private const val DEFAULT_TEAM = 0
 private const val DEFAULT_NOTE_LINK = 0
 private const val DEFAULT_NOTE_VALUE = 0
 private const val DEFAULT_PLACEHOLDER_LINK = 0
@@ -41,6 +41,7 @@ private annotation class BuilderDslMarker
 @BuilderDslMarker
 public class ItemTypeBuilder(
     public var id: Int = DEFAULT_ID,
+    public var internalName: String? = null,
     public var name: String = DEFAULT_NAME,
     public var model: Int = DEFAULT_MODEL,
     public var zoom2d: Int = DEFAULT_ZOOM_2D,
@@ -78,7 +79,7 @@ public class ItemTypeBuilder(
     public var ambient: Int = DEFAULT_AMBIENT,
     public var contrast: Int = DEFAULT_CONTRAST,
     public var exchangeable: Boolean = DEFAULT_EXCHANGEABLE,
-    public var teamCape: Int = DEFAULT_TEAM_CAPE,
+    public var team: Int = DEFAULT_TEAM,
     public var noteLink: Int = DEFAULT_NOTE_LINK,
     public var noteModel: Int = DEFAULT_NOTE_VALUE,
     public var placeholderLink: Int = DEFAULT_PLACEHOLDER_LINK,
@@ -107,6 +108,7 @@ public class ItemTypeBuilder(
         check(id != DEFAULT_ID) { "Item type id has not been set." }
         return ItemType(
             id = id,
+            internalName = internalName,
             name = name,
             stacks = stacks,
             cost = cost,
@@ -114,7 +116,7 @@ public class ItemTypeBuilder(
             groundOptions = groundOptions.toList(),
             inventoryOptions = inventoryOptions.toList(),
             exchangeable = exchangeable,
-            teamCape = teamCape,
+            team = team,
             noteLink = noteLink,
             noteModel = noteModel,
             placeholderLink = placeholderLink,
@@ -202,7 +204,7 @@ public class ItemTypeBuilder(
         if (ambient == DEFAULT_AMBIENT) ambient = other.ambient
         if (contrast == DEFAULT_CONTRAST) contrast = other.contrast
         if (exchangeable == DEFAULT_EXCHANGEABLE) exchangeable = other.exchangeable
-        if (teamCape == DEFAULT_TEAM_CAPE) teamCape = other.teamCape
+        if (team == DEFAULT_TEAM) team = other.team
         if (noteLink == DEFAULT_NOTE_LINK) noteLink = other.noteLink
         if (noteModel == DEFAULT_NOTE_VALUE) noteModel = other.noteModel
         if (placeholderLink == DEFAULT_PLACEHOLDER_LINK) placeholderLink = other.placeholderLink

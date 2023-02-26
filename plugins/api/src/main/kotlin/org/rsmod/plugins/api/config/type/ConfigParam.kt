@@ -56,6 +56,6 @@ public data class ConfigParam(
     private companion object {
 
         private fun Map<String, NamedParameter>.getOrThrow(name: String): NamedParameter =
-            this[name] ?: error("Param with name `$name` was not found in cache.")
+            this[name] ?: error("Param with name `$name` not found in cache.")
     }
 }

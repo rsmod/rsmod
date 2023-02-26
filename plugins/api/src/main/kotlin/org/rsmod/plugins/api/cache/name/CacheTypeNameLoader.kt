@@ -48,6 +48,7 @@ public class CacheTypeNameLoader @Inject constructor(
 
     private fun NamedTypeMapHolder.putItems(types: Iterable<ItemType>) {
         types.forEach {
+            it.internalName?.let { internal -> items[internal] = NamedItem(it.id) }
             if (it.isPlaceholder || it.isNoted) return@forEach
             val sanitized = it.name.sanitize() ?: return@forEach
             val name = sanitized + "_${it.id}"
