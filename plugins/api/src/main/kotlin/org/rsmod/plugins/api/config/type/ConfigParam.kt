@@ -23,7 +23,7 @@ public data class ConfigParam(
     public fun toCacheType(
         names: NamedTypeMapHolder,
         types: ParamTypeList
-    ): ParamType {
+    ): ParamType<*> {
         val builder = ParamTypeBuilder()
         val typeId = TYPE_STRING_CONVERSION[type]
         val default = default

@@ -61,7 +61,7 @@ public class ConfigCachePacker @Inject constructor(
     // This is only required to support the same injection
     // of this class being used to pack multiple cache builds.
     // The alternative is to use one injector per cache build.
-    private val updatedParams = mutableMapOf<Int, ParamType>()
+    private val updatedParams = mutableMapOf<Int, ParamType<*>>()
 
     public fun pack(cache: Cache, isJs5: Boolean) {
         val mapped = config.pluginPath.configFiles()
@@ -148,8 +148,8 @@ public class ConfigCachePacker @Inject constructor(
         return EnumTypePacker.pack(cache, types, isJs5)
     }
 
-    private fun packParams(cache: Cache, files: Iterable<Path>, isJs5: Boolean): List<ParamType> {
-        val types = mutableListOf<ParamType>()
+    private fun packParams(cache: Cache, files: Iterable<Path>, isJs5: Boolean): List<ParamType<*>> {
+        val types = mutableListOf<ParamType<*>>()
         files.forEach { file ->
             Files.newInputStream(file).use { input ->
                 val configs = extractValues<ConfigParam>(input, ConfigType.Param.typeKey)

@@ -11,11 +11,11 @@ public object ParamTypePacker {
     private const val CONFIG_ARCHIVE = 2
     private const val PARAM_GROUP = 11
 
-    public fun pack(cache: Cache, types: Iterable<ParamType>, isJs5: Boolean): List<ParamType> {
+    public fun pack(cache: Cache, types: Iterable<ParamType<*>>, isJs5: Boolean): List<ParamType<*>> {
         val buf = Unpooled.buffer()
-        val packed = mutableListOf<ParamType>()
+        val packed = mutableListOf<ParamType<*>>()
         types.forEach { type ->
-            buf.clear().writeType(type, isJs5)
+            writeType(buf.clear(), type, isJs5)
             val oldData = if (cache.exists(CONFIG_ARCHIVE, PARAM_GROUP, type.id)) {
                 cache.read(CONFIG_ARCHIVE, PARAM_GROUP, type.id)
             } else {
@@ -28,44 +28,44 @@ public object ParamTypePacker {
         return packed
     }
 
-    private fun ByteBuf.writeType(param: ParamType, isJs5: Boolean) {
+    public fun writeType(buf: ByteBuf, param: ParamType<*>, isJs5: Boolean) {
         param.type?.let {
-            writeByte(1)
-            writeByte(it.char.code)
+            buf.writeByte(1)
+            buf.writeByte(it.char.code)
         }
         param.default?.let {
             val type = param.type
             if (type == null) {
                 if (it is String) {
-                    writeByte(5)
-                    writeString(it)
+                    buf.writeByte(5)
+                    buf.writeString(it)
                 } else if (it is Int) {
-                    writeByte(2)
-                    writeInt(it)
+                    buf.writeByte(2)
+                    buf.writeInt(it)
                 }
             } else if (type.isString) {
                 val encoded = type.encodeString(it)
-                writeByte(5)
-                writeString(encoded)
+                buf.writeByte(5)
+                buf.writeString(encoded)
             } else if (type.isInt) {
                 val encoded = type.encodeInt(it)
-                writeByte(2)
-                writeInt(encoded)
+                buf.writeByte(2)
+                buf.writeInt(encoded)
             }
             return@let
         }
         if (!param.autoDisable) {
-            writeByte(4)
+            buf.writeByte(4)
         }
         if (!isJs5) {
             if (param.transmit) {
-                writeByte(ConfigType.TRANSMISSION_OPCODE)
+                buf.writeByte(ConfigType.TRANSMISSION_OPCODE)
             }
             param.name?.let {
-                writeByte(ConfigType.INTERNAL_NAME_OPCODE)
-                writeString(it)
+                buf.writeByte(ConfigType.INTERNAL_NAME_OPCODE)
+                buf.writeString(it)
             }
         }
-        writeByte(0)
+        buf.writeByte(0)
     }
 }

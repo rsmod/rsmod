@@ -4,11 +4,12 @@ package org.rsmod.plugins.api.cache.type.param
 public value class ParamMap(private val params: Map<Int, Any>) : Map<Int, Any> by params {
 
     @Suppress("UNCHECKED_CAST")
-    public fun <T> getOrDefault(out: Class<T>, type: ParamType): T? {
+    public fun <T> get(type: ParamType<T>): T? {
         val cacheType = type.type
-        if (cacheType != null && cacheType.out != out) {
-            error("Unexpected `out` type. (received=$out, expected=${cacheType.out})")
+        val element = (params[type.id] ?: type.default)
+        if (element != null && cacheType != null && cacheType.out != element.javaClass) {
+            error("Unexpected element type. (received=${element.javaClass}, expected=${cacheType.out})")
         }
-        return (params[type.id] ?: type.default) as? T
+        return element as? T
     }
 }

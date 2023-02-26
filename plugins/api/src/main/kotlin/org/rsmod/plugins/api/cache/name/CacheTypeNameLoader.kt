@@ -93,7 +93,7 @@ public class CacheTypeNameLoader @Inject constructor(
         }
     }
 
-    private fun NamedTypeMapHolder.putParams(types: Iterable<ParamType>) {
+    private fun NamedTypeMapHolder.putParams(types: Iterable<ParamType<*>>) {
         types.forEach {
             val name = it.name ?: return@forEach
             parameters[name] = NamedParameter(it.id)

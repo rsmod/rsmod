@@ -16,7 +16,7 @@ public class ParamTypeBuilder(
     public var defaultInt: Int? = null
 ) {
 
-    public fun build(): ParamType {
+    public fun build(): ParamType<*> {
         if (defaultInt != null && defaultStr != null) {
             error("Cannot set both default int and default string values.")
         }
@@ -47,7 +47,7 @@ public class ParamTypeBuilder(
         error("Cache identifier mismatch for `$type` with value `$this`.")
     }
 
-    public operator fun plusAssign(other: ParamType) {
+    public operator fun plusAssign(other: ParamType<*>) {
         if (id == null) id = other.id
         if (name == null) name = other.name
         if (transmit == DEFAULT_TRANSMIT_FLAG) transmit = other.transmit
