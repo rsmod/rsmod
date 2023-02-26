@@ -6,15 +6,15 @@ import org.rsmod.plugins.api.cache.type.literal.CacheTypeLiteral
 private annotation class BuilderDslMarker
 
 @BuilderDslMarker
-public class ParamTypeBuilder {
-
-    public var id: Int? = null
-    public var name: String? = null
-    public var transmit: Boolean = DEFAULT_TRANSMIT_FLAG
-    public var typeChar: Char? = null
-    public var autoDisable: Boolean = DEFAULT_AUTO_DISABLE
-    public var defaultStr: String? = null
+public class ParamTypeBuilder(
+    public var id: Int? = null,
+    public var name: String? = null,
+    public var transmit: Boolean = DEFAULT_TRANSMIT_FLAG,
+    public var typeChar: Char? = null,
+    public var autoDisable: Boolean = DEFAULT_AUTO_DISABLE,
+    public var defaultStr: String? = null,
     public var defaultInt: Int? = null
+) {
 
     public fun build(): ParamType {
         if (defaultInt != null && defaultStr != null) {
