@@ -1,6 +1,7 @@
 package org.rsmod.plugins.api.cache.type.item
 
 import org.rsmod.plugins.api.cache.type.ConfigType
+import org.rsmod.plugins.api.cache.type.param.ParamMap
 
 public data class ItemType(
     override val id: Int,
@@ -16,8 +17,7 @@ public data class ItemType(
     val noteModel: Int,
     val placeholderLink: Int,
     val placeholderModel: Int,
-    val intParameters: Map<Int, Int>,
-    val strParameters: Map<Int, String>,
+    val params: ParamMap?,
     val model: Int,
     val zoom2d: Int,
     val xan2d: Int,

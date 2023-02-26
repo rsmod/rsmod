@@ -1,5 +1,7 @@
 package org.rsmod.plugins.api.cache.type.item
 
+import org.rsmod.plugins.api.cache.type.param.ParamMap
+
 private const val DEFAULT_ID = -1
 private const val DEFAULT_MODEL = 0
 private const val DEFAULT_MODEL_OFFSET = 0
@@ -32,7 +34,6 @@ private val DEFAULT_CATEGORIES = emptySet<Int>()
 private val DEFAULT_GROUND_OPTIONS = arrayOf(null, null, "Take", null, null)
 private val DEFAULT_INVENTORY_OPTIONS = arrayOf(null, null, null, null, "Drop")
 private val DEFAULT_INT_ARRAY = IntArray(0)
-private val DEFAULT_PARAMETERS = emptyMap<Int, Any>()
 
 @DslMarker
 private annotation class BuilderDslMarker
@@ -86,7 +87,7 @@ public class ItemTypeBuilder(
     public var boughtValue: Int = DEFAULT_BOUGHT_VALUE,
     public var countItem: IntArray = DEFAULT_INT_ARRAY,
     public var countCo: IntArray = DEFAULT_INT_ARRAY,
-    public var parameters: Map<Int, Any> = DEFAULT_PARAMETERS,
+    public var params: ParamMap? = null,
     public var weight: Int = DEFAULT_WEIGHT,
     public var wearPos1: Int = DEFAULT_WEAR_POS,
     public var wearPos2: Int = DEFAULT_WEAR_POS,
@@ -118,8 +119,7 @@ public class ItemTypeBuilder(
             noteModel = noteModel,
             placeholderLink = placeholderLink,
             placeholderModel = placeholderModel,
-            intParameters = parameters.filter { it.value is Int }.mapValues { it.value as Int },
-            strParameters = parameters.filter { it.value is String }.mapValues { it.value as String },
+            params = params,
             model = model,
             zoom2d = zoom2d,
             xan2d = xan2d,
@@ -211,7 +211,7 @@ public class ItemTypeBuilder(
         if (boughtValue == DEFAULT_BOUGHT_VALUE) boughtValue = other.boughtValue
         if (countItem.contentEquals(DEFAULT_INT_ARRAY)) countItem = other.countItem.toIntArray()
         if (countCo.contentEquals(DEFAULT_INT_ARRAY)) countCo = other.countCo.toIntArray()
-        if (parameters == DEFAULT_PARAMETERS) parameters = other.intParameters + other.strParameters
+        if (params == null) params = other.params?.let { ParamMap(it) }
         if (weight == DEFAULT_WEIGHT) weight = other.weight
         if (wearPos1 == DEFAULT_WEAR_POS) wearPos1 = other.wearPos1
         if (wearPos2 == DEFAULT_WEAR_POS) wearPos2 = other.wearPos2

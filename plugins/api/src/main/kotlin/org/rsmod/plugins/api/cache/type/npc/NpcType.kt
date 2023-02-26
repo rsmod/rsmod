@@ -1,6 +1,7 @@
 package org.rsmod.plugins.api.cache.type.npc
 
 import org.rsmod.plugins.api.cache.type.ConfigType
+import org.rsmod.plugins.api.cache.type.param.ParamMap
 
 public data class NpcType(
     override val id: Int,
@@ -37,6 +38,5 @@ public data class NpcType(
     val contrast: Int,
     val ambient: Int,
     val isPet: Boolean,
-    val intParameters: Map<Int, Int>,
-    val strParameters: Map<Int, String>
+    val params: ParamMap?
 ) : ConfigType

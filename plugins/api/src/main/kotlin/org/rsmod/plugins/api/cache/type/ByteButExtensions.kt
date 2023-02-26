@@ -2,19 +2,25 @@ package org.rsmod.plugins.api.cache.type
 
 import io.netty.buffer.ByteBuf
 import org.openrs2.buffer.readString
+import org.rsmod.plugins.api.cache.type.param.ParamMap
+import org.rsmod.plugins.api.cache.type.param.ParamTypeList
 
-// TODO: replace with struct type that stores params
-internal fun ByteBuf.readStruct(): Map<Int, Any> {
+internal fun ByteBuf.readParams(types: ParamTypeList): ParamMap {
     val parameters = mutableMapOf<Int, Any>()
     val count = readUnsignedByte().toInt()
     repeat(count) {
-        val readString = readBoolean()
+        val isString = readBoolean()
         val key = readUnsignedMedium()
-        if (readString) {
-            parameters[key] = readString()
+        val param = types[key] ?: error("Param with id `$key` not found in cache.")
+        if (isString) {
+            val value = readString()
+            val decoded = param.type?.decodeString(value)
+            parameters[key] = decoded ?: value
         } else {
-            parameters[key] = readInt()
+            val value = readInt()
+            val decoded = param.type?.decodeInt(value)
+            parameters[key] = decoded ?: value
         }
     }
-    return parameters
+    return ParamMap(parameters)
 }

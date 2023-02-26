@@ -1,5 +1,7 @@
 package org.rsmod.plugins.api.cache.type.npc
 
+import org.rsmod.plugins.api.cache.type.param.ParamMap
+
 private const val DEFAULT_ID = -1
 private const val DEFAULT_NAME = "null"
 private const val DEFAULT_SIZE = 1
@@ -68,7 +70,7 @@ public class NpcTypeBuilder(
     public var contrast: Int = DEFAULT_CONTRAST,
     public var ambient: Int = DEFAULT_AMBIENT,
     public var isPet: Boolean = false,
-    public var parameters: Map<Int, Any> = DEFAULT_PARAMETERS
+    public var params: ParamMap? = null
 ) {
 
     public val defaultOptions: Boolean
@@ -111,8 +113,7 @@ public class NpcTypeBuilder(
             contrast = contrast,
             ambient = ambient,
             isPet = isPet,
-            intParameters = parameters.filter { it.value is Int }.mapValues { it.value as Int },
-            strParameters = parameters.filter { it.value is String }.mapValues { it.value as String }
+            params = params
         )
     }
 
@@ -151,6 +152,6 @@ public class NpcTypeBuilder(
         if (contrast == DEFAULT_CONTRAST) contrast = other.contrast
         if (ambient == DEFAULT_AMBIENT) ambient = other.ambient
         if (!isPet) isPet = other.isPet
-        if (parameters == DEFAULT_PARAMETERS) parameters = other.intParameters + other.strParameters
+        if (params == null) params = other.params?.let { ParamMap(it) }
     }
 }

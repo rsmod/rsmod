@@ -4,7 +4,8 @@ import io.netty.buffer.ByteBuf
 import org.openrs2.buffer.readString
 import org.openrs2.cache.Cache
 import org.rsmod.plugins.api.cache.build.game.GameCache
-import org.rsmod.plugins.api.cache.type.readStruct
+import org.rsmod.plugins.api.cache.type.param.ParamTypeList
+import org.rsmod.plugins.api.cache.type.readParams
 import java.io.IOException
 import javax.inject.Inject
 
@@ -12,7 +13,8 @@ private const val CONFIG_ARCHIVE = 2
 private const val OBJECT_GROUP = 6
 
 public class ObjectTypeLoader @Inject constructor(
-    @GameCache private val cache: Cache
+    @GameCache private val cache: Cache,
+    private val paramTypes: ParamTypeList
 ) {
 
     public fun load(): List<ObjectType> {
@@ -152,7 +154,7 @@ public class ObjectTypeLoader @Inject constructor(
             81 -> contouredGround = buf.readUnsignedByte().toInt() * 256
             82 -> mapIconId = buf.readUnsignedShort()
             89 -> aBoolean3429 = false
-            249 -> parameters = buf.readStruct()
+            249 -> params = buf.readParams(paramTypes)
             else -> throw IOException("Error unrecognised object config code: $instruction")
         }
     }

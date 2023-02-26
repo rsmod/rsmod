@@ -1,5 +1,7 @@
 package org.rsmod.plugins.api.cache.type.obj
 
+import org.rsmod.plugins.api.cache.type.param.ParamMap
+
 private const val DEFAULT_ID = -1
 private const val DEFAULT_NAME = "null"
 private const val DEFAULT_HEIGHT = 1
@@ -97,7 +99,7 @@ public class ObjectTypeBuilder(
     public var aBoolean3429: Boolean = DEFAULT_UNKNOWN_BOOL_TRUE,
     public var anIntArray3428: Array<Int> = DEFAULT_UNKNOWN_INT_ARRAY,
     public var mapIconId: Int = DEFAULT_MINIMAP_ICON,
-    public var parameters: Map<Int, Any> = DEFAULT_PARAMETERS
+    public var params: ParamMap? = null
 ) {
 
     public val defaultOptions: Boolean
@@ -153,8 +155,7 @@ public class ObjectTypeBuilder(
             aBoolean3429 = aBoolean3429,
             anIntArray3428 = anIntArray3428.toList(),
             mapIconId = mapIconId,
-            intParameters = parameters.filter { it.value is Int }.mapValues { it.value as Int },
-            strParameters = parameters.filter { it.value is String }.mapValues { it.value as String }
+            params = params
         )
     }
 
@@ -208,6 +209,6 @@ public class ObjectTypeBuilder(
             anIntArray3428 = other.anIntArray3428.toTypedArray()
         }
         if (mapIconId == DEFAULT_MINIMAP_ICON) mapIconId = other.mapIconId
-        if (parameters == DEFAULT_PARAMETERS) parameters = other.intParameters + other.strParameters
+        if (params == null) params = other.params?.let { ParamMap(it) }
     }
 }
