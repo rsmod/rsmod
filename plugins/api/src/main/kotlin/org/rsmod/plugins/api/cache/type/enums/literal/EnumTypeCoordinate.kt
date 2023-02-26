@@ -7,4 +7,8 @@ public object EnumTypeCoordinate : EnumTypeBaseInt<Coordinates> {
     override fun decode(value: Int): Coordinates {
         return Coordinates(value)
     }
+
+    override fun encode(value: Coordinates): Int {
+        return value.packed
+    }
 }

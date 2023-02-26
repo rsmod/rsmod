@@ -5,4 +5,8 @@ public object EnumTypeString : EnumTypeBaseString<String> {
     override fun decode(value: String): String {
         return value
     }
+
+    override fun encode(value: String): String {
+        return value
+    }
 }

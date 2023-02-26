@@ -66,6 +66,6 @@ public enum class EnumTypeIdentifier(
 
     public companion object {
 
-        public val values: Array<EnumTypeIdentifier> = enumValues<EnumTypeIdentifier>()
+        public val values: Array<EnumTypeIdentifier> = enumValues()
     }
 }

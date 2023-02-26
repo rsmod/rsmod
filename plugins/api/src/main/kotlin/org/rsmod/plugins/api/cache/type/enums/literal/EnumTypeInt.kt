@@ -5,4 +5,8 @@ public object EnumTypeInt : EnumTypeBaseInt<Int> {
     override fun decode(value: Int): Int {
         return value
     }
+
+    override fun encode(value: Int): Int {
+        return value
+    }
 }

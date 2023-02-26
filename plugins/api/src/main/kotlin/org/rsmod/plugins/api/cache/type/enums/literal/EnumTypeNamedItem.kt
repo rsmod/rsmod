@@ -7,4 +7,8 @@ public object EnumTypeNamedItem : EnumTypeBaseInt<NamedItem> {
     override fun decode(value: Int): NamedItem {
         return NamedItem(value)
     }
+
+    override fun encode(value: NamedItem): Int {
+        return value.id
+    }
 }
