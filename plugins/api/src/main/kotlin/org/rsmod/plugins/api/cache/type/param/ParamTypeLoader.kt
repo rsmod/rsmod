@@ -36,10 +36,10 @@ public class ParamTypeLoader @Inject constructor(
 
     private fun ParamTypeBuilder.readBuffer(instruction: Int, buf: ByteBuf) {
         when (instruction) {
-            1 -> type = buf.readByte().toInt().toChar()
-            2 -> default = buf.readInt()
+            1 -> typeChar = buf.readByte().toInt().toChar()
+            2 -> defaultInt = buf.readInt()
             4 -> autoDisable = false
-            5 -> default = buf.readString()
+            5 -> defaultStr = buf.readString()
             ConfigType.TRANSMISSION_OPCODE -> transmit = true
             ConfigType.INTERNAL_NAME_OPCODE -> name = buf.readString()
             else -> throw IOException("Error unrecognised param config code: $instruction")

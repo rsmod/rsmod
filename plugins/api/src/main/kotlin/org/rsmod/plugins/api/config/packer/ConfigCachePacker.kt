@@ -9,6 +9,9 @@ import org.rsmod.plugins.api.cache.name.CacheTypeNameLoader
 import org.rsmod.plugins.api.cache.type.enums.EnumType
 import org.rsmod.plugins.api.cache.type.enums.EnumTypeList
 import org.rsmod.plugins.api.cache.type.enums.EnumTypePacker
+import org.rsmod.plugins.api.cache.type.param.ParamType
+import org.rsmod.plugins.api.cache.type.param.ParamTypeList
+import org.rsmod.plugins.api.cache.type.param.ParamTypePacker
 import org.rsmod.plugins.api.cache.type.varbit.VarbitType
 import org.rsmod.plugins.api.cache.type.varbit.VarbitTypeList
 import org.rsmod.plugins.api.cache.type.varbit.VarbitTypePacker
@@ -16,6 +19,7 @@ import org.rsmod.plugins.api.cache.type.varp.VarpType
 import org.rsmod.plugins.api.cache.type.varp.VarpTypeList
 import org.rsmod.plugins.api.cache.type.varp.VarpTypePacker
 import org.rsmod.plugins.api.config.type.ConfigEnum
+import org.rsmod.plugins.api.config.type.ConfigParam
 import org.rsmod.plugins.api.config.type.ConfigVarbit
 import org.rsmod.plugins.api.config.type.ConfigVarp
 import org.rsmod.plugins.api.pluginPath
@@ -41,6 +45,7 @@ public class ConfigCachePacker @Inject constructor(
     private val varps: VarpTypeList,
     private val varbits: VarbitTypeList,
     private val enums: EnumTypeList,
+    private val params: ParamTypeList,
     nameLoader: CacheTypeNameLoader
 ) {
 
@@ -48,6 +53,14 @@ public class ConfigCachePacker @Inject constructor(
 
     public fun pack(cache: Cache, isJs5: Boolean) {
         val mapped = config.pluginPath.configFiles()
+        run packParams@{
+            val files = mapped[ConfigType.Param] ?: emptyList()
+            val types = packParams(cache, files, isJs5)
+            logger.info {
+                "Packed ${types.size} param${if (types.size != 1) "s" else ""} " +
+                    "to ${if (isJs5) "js5" else "game"} cache."
+            }
+        }
         run packEnums@{
             val files = mapped[ConfigType.Enum] ?: emptyList()
             val types = packEnums(cache, files, isJs5)
@@ -113,6 +126,19 @@ public class ConfigCachePacker @Inject constructor(
         return EnumTypePacker.pack(cache, types, isJs5)
     }
 
+    private fun packParams(cache: Cache, files: Iterable<Path>, isJs5: Boolean): List<ParamType> {
+        val types = mutableListOf<ParamType>()
+        files.forEach { file ->
+            Files.newInputStream(file).use { input ->
+                val configs = extractValues<ConfigParam>(input, PARAM_TYPE_KEY)
+                types += configs.map { it.toCacheType(names, params) }
+                names.enums.putAll(configs.map { it.name to NamedEnum(it.id) })
+            }
+        }
+        if (isJs5) types.removeIf { !it.transmit }
+        return ParamTypePacker.pack(cache, types, isJs5)
+    }
+
     private inline fun <reified T> extractValues(input: InputStream, key: String): List<T> {
         val map = mapper.readValue(input, object : TypeReference<Map<String, List<T>>>() {})
         return map[key] ?: error("Could not extract $key values from input.")
@@ -122,6 +148,9 @@ public class ConfigCachePacker @Inject constructor(
 
         private const val ENUM_TYPE_KEY = "enum"
         private const val ENUM_DIRECTORY_KEY = "enums"
+
+        private const val PARAM_TYPE_KEY = "param"
+        private const val PARAM_DIRECTORY_KEY = "params"
 
         private const val VARP_TYPE_KEY = "varp"
         private const val VARP_DIRECTORY_KEY = "varps"
@@ -137,6 +166,7 @@ public class ConfigCachePacker @Inject constructor(
                     ENUM_DIRECTORY_KEY -> ConfigType.Enum
                     VARBIT_DIRECTORY_KEY -> ConfigType.Varbit
                     VARP_DIRECTORY_KEY -> ConfigType.Varp
+                    PARAM_DIRECTORY_KEY -> ConfigType.Param
                     else -> return@forEach
                 }
                 val list = mapped.computeIfAbsent(type) { mutableListOf() }
@@ -147,6 +177,7 @@ public class ConfigCachePacker @Inject constructor(
 
         private sealed class ConfigType {
             object Enum : ConfigType()
+            object Param : ConfigType()
             object Varp : ConfigType()
             object Varbit : ConfigType()
         }

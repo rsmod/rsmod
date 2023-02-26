@@ -47,6 +47,34 @@ public enum class CacheTypeIdentifier(
     public val isString: kotlin.Boolean get() = literal is CacheTypeBaseString
     public val isInt: kotlin.Boolean get() = literal is CacheTypeBaseInt
 
+    @Suppress("UNCHECKED_CAST")
+    public fun encodeString(value: Any): kotlin.String {
+        check(isString)
+        val literal = literal as CacheTypeBaseString<Any>
+        return literal.encode(value)
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    public fun decodeString(value: kotlin.String): Any? {
+        check(isString)
+        val literal = literal as CacheTypeBaseString<Any>
+        return literal.decode(value)
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    public fun encodeInt(value: Any): Int {
+        check(isInt)
+        val literal = literal as CacheTypeBaseInt<Any>
+        return literal.encode(value)
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    public fun decodeInt(value: Int): Any? {
+        check(isInt)
+        val literal = literal as CacheTypeBaseInt<Any>
+        return literal.decode(value)
+    }
+
     public companion object {
 
         public val values: Array<CacheTypeIdentifier> = enumValues()
