@@ -1,8 +1,8 @@
-package org.rsmod.plugins.api.cache.type.enums.literal
+package org.rsmod.plugins.api.cache.type.literal
 
 import org.rsmod.plugins.types.NamedGraphic
 
-public object EnumTypeNamedGraphic : EnumTypeBaseInt<NamedGraphic> {
+public object CacheTypeNamedGraphic : CacheTypeBaseInt<NamedGraphic> {
 
     override fun decode(value: Int): NamedGraphic {
         return NamedGraphic(value)

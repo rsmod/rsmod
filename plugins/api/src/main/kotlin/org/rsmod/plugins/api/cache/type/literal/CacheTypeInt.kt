@@ -1,6 +1,6 @@
-package org.rsmod.plugins.api.cache.type.enums.literal
+package org.rsmod.plugins.api.cache.type.literal
 
-public object EnumTypeInt : EnumTypeBaseInt<Int> {
+public object CacheTypeInt : CacheTypeBaseInt<Int> {
 
     override fun decode(value: Int): Int {
         return value

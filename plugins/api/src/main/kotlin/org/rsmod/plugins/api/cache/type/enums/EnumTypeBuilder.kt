@@ -1,6 +1,7 @@
 package org.rsmod.plugins.api.cache.type.enums
 
-import org.rsmod.plugins.api.cache.type.enums.literal.EnumTypeLiteral
+import org.rsmod.plugins.api.cache.type.literal.CacheTypeIdentifier
+import org.rsmod.plugins.api.cache.type.literal.CacheTypeLiteral
 
 private const val DEFAULT_ID = -1
 private const val DEFAULT_KEY_TYPE = 'i'
@@ -29,9 +30,9 @@ public class EnumTypeBuilder(
 ) {
 
     public fun build(): EnumType<Any, Any> {
-        val keyType = EnumTypeIdentifier.values.firstOrNull { it.char == keyType }
+        val keyType = CacheTypeIdentifier.values.firstOrNull { it.char == keyType }
             ?: error("EnumTypeIdentifier not declared (key=$keyType).")
-        val valType = EnumTypeIdentifier.values.firstOrNull { it.char == valType }
+        val valType = CacheTypeIdentifier.values.firstOrNull { it.char == valType }
             ?: error("EnumTypeIdentifier not declared (val=$valType).")
 
         check(keyType.isInt) {
@@ -63,12 +64,12 @@ public class EnumTypeBuilder(
 
     private fun MutableMap<Any, Any>.putIntProperties(
         values: Map<Int, Int>,
-        keyType: EnumTypeIdentifier,
-        valType: EnumTypeIdentifier,
+        keyType: CacheTypeIdentifier,
+        valType: CacheTypeIdentifier,
         default: Any
     ) {
-        val keyLiteral = keyType.literal as EnumTypeLiteral<Int, *>
-        val valLiteral = valType.literal as EnumTypeLiteral<Int, *>
+        val keyLiteral = keyType.literal as CacheTypeLiteral<Int, *>
+        val valLiteral = valType.literal as CacheTypeLiteral<Int, *>
         values.forEach { (rawKey, rawValue) ->
             val key = keyLiteral.decode(rawKey)
                 ?: error("Could not decode `$rawKey` with key literal `${keyLiteral.javaClass.simpleName}`.")
@@ -79,13 +80,13 @@ public class EnumTypeBuilder(
 
     private fun MutableMap<Any, Any>.putStrProperties(
         values: Map<Int, String>,
-        keyType: EnumTypeIdentifier,
-        valType: EnumTypeIdentifier,
+        keyType: CacheTypeIdentifier,
+        valType: CacheTypeIdentifier,
         default: Any
     ) {
         /* key literals are always integers */
-        val keyLiteral = keyType.literal as EnumTypeLiteral<Int, *>
-        val valLiteral = valType.literal as EnumTypeLiteral<String, *>
+        val keyLiteral = keyType.literal as CacheTypeLiteral<Int, *>
+        val valLiteral = valType.literal as CacheTypeLiteral<String, *>
         values.forEach { (rawKey, rawValue) ->
             val key = keyLiteral.decode(rawKey)
                 ?: error("Could not decode `$rawKey` with key literal `${keyLiteral.javaClass.simpleName}`.")
@@ -94,13 +95,13 @@ public class EnumTypeBuilder(
         }
     }
 
-    private fun EnumTypeIdentifier.defaultIntProperty(rawDefault: Int): Any? {
-        val decoder = literal as EnumTypeLiteral<Int, *>
+    private fun CacheTypeIdentifier.defaultIntProperty(rawDefault: Int): Any? {
+        val decoder = literal as CacheTypeLiteral<Int, *>
         return if (rawDefault == DEFAULT_INT_VALUE) null else decoder.decode(rawDefault)
     }
 
-    private fun EnumTypeIdentifier.defaultStrProperty(rawDefault: String?): Any? {
-        val decoder = literal as EnumTypeLiteral<String, *>
+    private fun CacheTypeIdentifier.defaultStrProperty(rawDefault: String?): Any? {
+        val decoder = literal as CacheTypeLiteral<String, *>
         return if (rawDefault == null || rawDefault == DEFAULT_STR_VALUE) {
             null
         } else {

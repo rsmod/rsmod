@@ -1,8 +1,8 @@
-package org.rsmod.plugins.api.cache.type.enums.literal
+package org.rsmod.plugins.api.cache.type.literal
 
 import org.rsmod.plugins.types.NamedItem
 
-public object EnumTypeNamedItem : EnumTypeBaseInt<NamedItem> {
+public object CacheTypeNamedItem : CacheTypeBaseInt<NamedItem> {
 
     override fun decode(value: Int): NamedItem {
         return NamedItem(value)

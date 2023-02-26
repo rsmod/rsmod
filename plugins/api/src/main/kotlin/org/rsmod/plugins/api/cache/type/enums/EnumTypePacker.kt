@@ -5,8 +5,8 @@ import io.netty.buffer.Unpooled
 import org.openrs2.buffer.writeString
 import org.openrs2.cache.Cache
 import org.rsmod.plugins.api.cache.type.ConfigType
-import org.rsmod.plugins.api.cache.type.enums.literal.EnumTypeBaseInt
-import org.rsmod.plugins.api.cache.type.enums.literal.EnumTypeBaseString
+import org.rsmod.plugins.api.cache.type.literal.CacheTypeBaseInt
+import org.rsmod.plugins.api.cache.type.literal.CacheTypeBaseString
 
 private const val CONFIG_ARCHIVE = 2
 private const val ENUM_GROUP = 8
@@ -42,8 +42,8 @@ public object EnumTypePacker {
         writeByte(type.valType.char.code)
         if (type.valType.isString) {
             // As of now - keys are always int-based
-            val keyLiteral = type.keyType.literal as EnumTypeBaseInt<in Any>
-            val valLiteral = type.valType.literal as EnumTypeBaseString<in Any>
+            val keyLiteral = type.keyType.literal as CacheTypeBaseInt<in Any>
+            val valLiteral = type.valType.literal as CacheTypeBaseString<in Any>
             type.default?.let { default ->
                 writeByte(3)
                 writeString(valLiteral.encode(default))
@@ -58,8 +58,8 @@ public object EnumTypePacker {
             }
         } else if (type.valType.isInt) {
             // As of now - keys are always int-based
-            val keyLiteral = type.keyType.literal as EnumTypeBaseInt<in Any>
-            val valLiteral = type.valType.literal as EnumTypeBaseInt<in Any>
+            val keyLiteral = type.keyType.literal as CacheTypeBaseInt<in Any>
+            val valLiteral = type.valType.literal as CacheTypeBaseInt<in Any>
             type.default?.let { default ->
                 writeByte(4)
                 writeInt(valLiteral.encode(default))

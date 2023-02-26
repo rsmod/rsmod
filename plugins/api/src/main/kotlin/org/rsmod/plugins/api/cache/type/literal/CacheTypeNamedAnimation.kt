@@ -1,8 +1,8 @@
-package org.rsmod.plugins.api.cache.type.enums.literal
+package org.rsmod.plugins.api.cache.type.literal
 
 import org.rsmod.plugins.types.NamedAnimation
 
-public object EnumTypeNamedAnimation : EnumTypeBaseInt<NamedAnimation> {
+public object CacheTypeNamedAnimation : CacheTypeBaseInt<NamedAnimation> {
 
     override fun decode(value: Int): NamedAnimation {
         return NamedAnimation(value)

@@ -1,6 +1,6 @@
-package org.rsmod.plugins.api.cache.type.enums.literal
+package org.rsmod.plugins.api.cache.type.literal
 
-public object EnumTypeBoolean : EnumTypeBaseInt<Boolean> {
+public object CacheTypeBoolean : CacheTypeBaseInt<Boolean> {
 
     override fun decode(value: Int): Boolean {
         return value == 1

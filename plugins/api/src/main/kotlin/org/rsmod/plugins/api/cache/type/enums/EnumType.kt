@@ -1,13 +1,14 @@
 package org.rsmod.plugins.api.cache.type.enums
 
 import org.rsmod.plugins.api.cache.type.ConfigType
+import org.rsmod.plugins.api.cache.type.literal.CacheTypeIdentifier
 
 public data class EnumType<K, V>(
     public override val id: Int,
     public val name: String?,
     public val transmit: Boolean,
-    public val keyType: EnumTypeIdentifier,
-    public val valType: EnumTypeIdentifier,
+    public val keyType: CacheTypeIdentifier,
+    public val valType: CacheTypeIdentifier,
     public val default: V?,
     private val properties: MutableMap<K, V>
 ) : ConfigType, Iterable<Map.Entry<K, V>> {

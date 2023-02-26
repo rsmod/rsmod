@@ -1,8 +1,8 @@
-package org.rsmod.plugins.api.cache.type.enums.literal
+package org.rsmod.plugins.api.cache.type.literal
 
 import org.rsmod.game.model.map.Coordinates
 
-public object EnumTypeCoordinate : EnumTypeBaseInt<Coordinates> {
+public object CacheTypeCoordinate : CacheTypeBaseInt<Coordinates> {
 
     override fun decode(value: Int): Coordinates {
         return Coordinates(value)

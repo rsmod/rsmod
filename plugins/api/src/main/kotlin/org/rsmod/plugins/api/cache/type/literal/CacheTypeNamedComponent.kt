@@ -1,8 +1,8 @@
-package org.rsmod.plugins.api.cache.type.enums.literal
+package org.rsmod.plugins.api.cache.type.literal
 
 import org.rsmod.plugins.types.NamedComponent
 
-public object EnumTypeNamedComponent : EnumTypeBaseInt<NamedComponent> {
+public object CacheTypeNamedComponent : CacheTypeBaseInt<NamedComponent> {
 
     override fun decode(value: Int): NamedComponent {
         return NamedComponent(value)
