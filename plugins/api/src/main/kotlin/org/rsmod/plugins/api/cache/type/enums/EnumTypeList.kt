@@ -10,12 +10,10 @@ public class EnumTypeList(private val elements: Map<Int, EnumType<Any, Any>>) {
 
     @Suppress("UNCHECKED_CAST")
     public fun <K, V> get(enum: NamedEnum, input: Class<K>, output: Class<V>): EnumType<K, V> {
-        check(enum.id in elements.keys)
-        checkNotNull(elements[enum.id])
-        val element = elements.getValue(enum.id)
+        val element = elements[enum.id] ?: throw NullPointerException("Enum with id `${enum.id}` not mapped.")
         checkTypes(input, element.keyType.out, "input")
         checkTypes(output, element.valType.out, "output")
-        return elements[enum.id] as EnumType<K, V>
+        return element as EnumType<K, V>
     }
 
     public fun getValue(id: Int): EnumType<Any, Any> {
