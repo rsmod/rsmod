@@ -214,7 +214,6 @@ public class ServiceChannelHandler @Inject constructor(
         encodeCipher: IsaacRandom,
         msg: ServiceRequest.GameLogin
     ): LoginResponse {
-        val usernameHash = Hashing.sha256().hashString(player.username.lowercase(Locale.US), StandardCharsets.UTF_8)
         val registerQuery = playerRegister.query(PlayerDispatchRequest(player))
         logger.trace { "Sent query for player registration: $player." }
         val registerResponse = registerQuery.await()
@@ -226,6 +225,10 @@ public class ServiceChannelHandler @Inject constructor(
         }
         // TODO: use player_id or account_id as identifier
         val deviceLinkIdentifier = if (msg.encrypted.authType.trustDevice) 69 else null
+        val usernameHash = Hashing.sha256().hashString(
+            player.displayName.lowercase(Locale.US),
+            StandardCharsets.UTF_8
+        )
         return LoginResponse.ConnectOk(
             deviceLinkIdentifier = deviceLinkIdentifier,
             playerModLevel = 2,
