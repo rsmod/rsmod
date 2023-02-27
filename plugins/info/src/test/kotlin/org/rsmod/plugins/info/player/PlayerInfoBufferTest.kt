@@ -20,7 +20,7 @@ import org.rsmod.plugins.info.player.model.PlayerInfoMetadata
 import org.rsmod.plugins.info.player.model.coord.HighResCoord
 import java.nio.ByteBuffer
 
-class PlayerInfoTransmissionTest {
+class PlayerInfoBufferTest {
 
     @Test
     fun testSinglePlayerFullReadNoUpdate() {
