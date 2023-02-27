@@ -11,8 +11,8 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.reflect.KClass
 
+@Suppress("UNCHECKED_CAST", "MemberVisibilityCanBePrivate")
 @RestrictsSuspension
-@Suppress("UNCHECKED_CAST")
 public class GameCoroutine(public val debugName: String? = null) {
 
     private var suspension: GameCoroutineSuspension<Any>? = null
