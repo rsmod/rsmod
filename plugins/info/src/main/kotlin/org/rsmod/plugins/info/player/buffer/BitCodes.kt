@@ -146,7 +146,7 @@ internal fun BitBuffer.putSkipCount(count: Int) {
 }
 
 private fun get3BitDirection(dx: Int, dy: Int): Int {
-    check(dx != 0 || dy != 0)
+    require(dx != 0 || dy != 0)
     if (dx == -1 && dy == -1) return 0
     if (dx == 0 && dy == -1) return 1
     if (dx == 1 && dy == -1) return 2
@@ -158,7 +158,7 @@ private fun get3BitDirection(dx: Int, dy: Int): Int {
 }
 
 private fun get4BitDirection(dx: Int, dy: Int): Int {
-    check(dx != 0 || dy != 0)
+    require(dx != 0 || dy != 0)
     if (dx == -2 && dy == -2) return 0
     if (dx == -1 && dy == -2) return 1
     if (dx == 0 && dy == -2) return 2
