@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "varp": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "clientCode": {
+              "type": "integer"
+            },
+            "id": {
+              "type": "integer"
+            },
+            "inherit": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "persist": {
+              "type": "boolean"
+            },
+            "transmit": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "id",
+            "inherit",
+            "name",
+            "persist",
+          ]
+        }
+      ]
+    }
+  },
+  "required": [
+    "varp"
+  ]
+}

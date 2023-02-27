@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "varbit": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "lsb": {
+              "type": "integer"
+            },
+            "msb": {
+              "type": "integer"
+            },
+            "name": {
+              "type": "string"
+            },
+            "transmit": {
+              "type": "boolean"
+            },
+            "varp": {
+              "type": "string"
+            },
+            "inherit": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "lsb",
+            "msb",
+            "name",
+            "transmit",
+            "varp"
+          ]
+        }
+      ]
+    }
+  },
+  "required": [
+    "varbit"
+  ]
+}
