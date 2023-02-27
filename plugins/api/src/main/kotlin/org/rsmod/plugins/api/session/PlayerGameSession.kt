@@ -15,5 +15,6 @@ public class PlayerGameSession {
 
     public fun logOut(player: Player) {
         logger.info { "Player has logged out: $player" }
+        player.finalize()
     }
 }

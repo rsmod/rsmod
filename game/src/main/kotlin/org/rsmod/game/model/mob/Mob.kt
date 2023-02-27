@@ -23,7 +23,8 @@ public sealed class Mob(
         get() = entity.prevCoords
         set(value) { entity.prevCoords = value }
 
-    private var activeCoroutine: GameCoroutine? = null
+    public var activeCoroutine: GameCoroutine? = null
+        private set
 
     public fun launchCoroutine(block: suspend (GameCoroutine).() -> Unit): GameCoroutine {
         return coroutineScope.launch(block = block)
@@ -36,5 +37,16 @@ public sealed class Mob(
             activeCoroutine = coroutine
         }
         return coroutine
+    }
+
+    /**
+     * This method is responsible for cleaning up any ongoing tasks
+     * that the mob may be responsible for. This includes things such
+     * as coroutines created by [coroutineScope]. If these coroutines
+     * are not cancelled properly they may linger in memory and run
+     * indefinitely.
+     */
+    public fun finalize() {
+        coroutineScope.cancel()
     }
 }
