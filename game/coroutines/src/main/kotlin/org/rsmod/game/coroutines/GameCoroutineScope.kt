@@ -5,7 +5,6 @@ import org.rsmod.game.coroutines.throwable.ScopeCancellationException
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.startCoroutine
 
-@Suppress("MemberVisibilityCanBePrivate")
 public class GameCoroutineScope {
 
     private val children = mutableListOf<GameCoroutine>()
