@@ -24,27 +24,19 @@ public fun main(args: Array<String>): Unit = AppCommand().main(args)
 public class AppCommand : CliktCommand(name = "app") {
 
     override fun run() {
-        val gameConfig = preloadGameConfig()
-        val pluginModules = loadPluginModules(gameConfig.env)
-        val combined = Modules.combine(GameModule, *pluginModules.toTypedArray())
-        val injector = Guice.createInjector(combined)
+        val scriptModules = loadPluginModules(injectGameConfig().env)
+        val combinedModules = Modules.combine(GameModule, *scriptModules.toTypedArray())
+        val injector = Guice.createInjector(combinedModules)
         loadContentPlugins(injector)
         startUpGame(injector)
     }
 
-    private fun preloadGameConfig(): GameConfig {
-        // TODO: find a more ideal way to load game config
-        // before the main injector is created.
-        val injector = Guice.createInjector(GameConfigModule)
-        return injector.getInstance(GameConfig::class.java)
-    }
-
     private fun loadPluginModules(env: GameEnv): List<AbstractModule> {
-        val modulePlugins = ModuleScriptLoader.load(KotlinScriptModule::class.java)
-        val branchModules = modulePlugins.flatMap { it.branchModules[env.moduleBranch] ?: emptyList() }
-        val modules = modulePlugins.flatMap { it.modules } + branchModules
+        val moduleScripts = ModuleScriptLoader.load(KotlinScriptModule::class.java)
+        val branchModules = moduleScripts.flatMap { it.branchModules[env.moduleBranch] ?: emptyList() }
+        val modules = moduleScripts.flatMap { it.modules } + branchModules
         logger.info {
-            "Loaded ${modules.size} module plugin${if (modules.size == 1) "" else "s"}. " +
+            "Loaded ${modules.size} module script${if (modules.size == 1) "" else "s"}. " +
                 "(${branchModules.size} branch-specific)"
         }
         return modules
@@ -52,7 +44,7 @@ public class AppCommand : CliktCommand(name = "app") {
 
     private fun loadContentPlugins(injector: Injector) {
         val plugins = ScriptPluginLoader.load(KotlinScriptPlugin::class.java, injector)
-        logger.info { "Loaded ${plugins.size} content plugin${if (plugins.size == 1) "" else "s"}." }
+        logger.info { "Loaded ${plugins.size} plugin script${if (plugins.size == 1) "" else "s"}." }
     }
 
     private fun startUpGame(injector: Injector) {
@@ -60,6 +52,11 @@ public class AppCommand : CliktCommand(name = "app") {
         val config = injector.getInstance(GameConfig::class.java)
         logger.info { "Loaded game with config: $config" }
         bootstrap.startUp()
+    }
+
+    private fun injectGameConfig(): GameConfig {
+        val injector = Guice.createInjector(GameConfigModule)
+        return injector.getInstance(GameConfig::class.java)
     }
 
     private val GameEnv.moduleBranch: ModuleBranch
