@@ -24,14 +24,14 @@ public fun main(args: Array<String>): Unit = AppCommand().main(args)
 public class AppCommand : CliktCommand(name = "app") {
 
     override fun run() {
-        val scriptModules = loadPluginModules(injectGameConfig().env)
+        val scriptModules = loadModuleScripts(injectGameConfig().env)
         val combinedModules = Modules.combine(GameModule, *scriptModules.toTypedArray())
         val injector = Guice.createInjector(combinedModules)
-        loadContentPlugins(injector)
+        loadPluginScripts(injector)
         startUpGame(injector)
     }
 
-    private fun loadPluginModules(env: GameEnv): List<AbstractModule> {
+    private fun loadModuleScripts(env: GameEnv): List<AbstractModule> {
         val moduleScripts = ModuleScriptLoader.load(KotlinScriptModule::class.java)
         val branchModules = moduleScripts.flatMap { it.branchModules[env.moduleBranch] ?: emptyList() }
         val modules = moduleScripts.flatMap { it.modules } + branchModules
@@ -42,7 +42,7 @@ public class AppCommand : CliktCommand(name = "app") {
         return modules
     }
 
-    private fun loadContentPlugins(injector: Injector) {
+    private fun loadPluginScripts(injector: Injector) {
         val plugins = ScriptPluginLoader.load(KotlinScriptPlugin::class.java, injector)
         logger.info { "Loaded ${plugins.size} plugin script${if (plugins.size == 1) "" else "s"}." }
     }
