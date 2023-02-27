@@ -16,50 +16,6 @@ public class NamedTypeMapHolder {
     public val varps: MutableMap<String, NamedVarp> = mutableMapOf()
     public val varbits: MutableMap<String, NamedVarbit> = mutableMapOf()
 
-    public operator fun set(name: String, value: NamedComponent) {
-        components[name] = value
-    }
-
-    public operator fun set(name: String, value: NamedInterface) {
-        interfaces[name] = value
-    }
-
-    public operator fun set(name: String, value: NamedItem) {
-        items[name] = value
-    }
-
-    public operator fun set(name: String, value: NamedNpc) {
-        npcs[name] = value
-    }
-
-    public operator fun set(name: String, value: NamedObject) {
-        objs[name] = value
-    }
-
-    public operator fun set(name: String, value: NamedAnimation) {
-        anims[name] = value
-    }
-
-    public operator fun set(name: String, value: NamedGraphic) {
-        graphics[name] = value
-    }
-
-    public operator fun set(name: String, value: NamedEnum) {
-        enums[name] = value
-    }
-
-    public operator fun set(name: String, value: NamedStruct) {
-        structs[name] = value
-    }
-
-    public operator fun set(name: String, value: NamedParameter) {
-        parameters[name] = value
-    }
-
-    public operator fun set(name: String, value: NamedInventory) {
-        inventories[name] = value
-    }
-
     public operator fun plusAssign(rhs: NamedTypeMapHolder) {
         interfaces += rhs.interfaces
         components += rhs.components
@@ -72,6 +28,8 @@ public class NamedTypeMapHolder {
         structs += rhs.structs
         parameters += rhs.parameters
         inventories += rhs.inventories
+        varps += rhs.varps
+        varbits += rhs.varbits
     }
 
     public operator fun plus(rhs: NamedTypeMapHolder): NamedTypeMapHolder {
