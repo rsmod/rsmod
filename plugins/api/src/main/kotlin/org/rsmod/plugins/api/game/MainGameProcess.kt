@@ -56,10 +56,11 @@ public class MainGameProcess @Inject constructor(
     }
 
     private fun playerCycle() {
+        /* info task should be last step in this cycle */
+        gpiTask.execute()
     }
 
     private fun clientOutput() {
-        gpiTask.execute()
         clients.forEach { client ->
             val downstream = client.player.downstream
             downstream.flush(client.channel)
