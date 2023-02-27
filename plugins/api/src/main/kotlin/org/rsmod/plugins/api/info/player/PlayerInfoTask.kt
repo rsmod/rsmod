@@ -8,7 +8,6 @@ import org.openrs2.buffer.writeString
 import org.rsmod.game.model.map.Coordinates
 import org.rsmod.game.model.mob.Player
 import org.rsmod.game.model.mob.list.PlayerList
-import org.rsmod.game.task.PlayerInfoTask
 import org.rsmod.plugins.api.net.downstream.PlayerInfoPacket
 import org.rsmod.plugins.info.player.PlayerInfo
 import org.rsmod.plugins.info.player.model.coord.HighResCoord
@@ -16,10 +15,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-public class SingleThreadedPlayerInfoTask @Inject constructor(
+public class PlayerInfoTask @Inject constructor(
     private val players: PlayerList,
     private val info: PlayerInfo
-) : PlayerInfoTask {
+) {
 
     private var gameClock = 0
 
@@ -39,7 +38,7 @@ public class SingleThreadedPlayerInfoTask @Inject constructor(
         info.unregister(player.index)
     }
 
-    override fun execute() {
+    public fun execute() {
         gameClock++
         players.forEach { it?.prepareGpi() }
         players.forEach { it?.executeGpi() }

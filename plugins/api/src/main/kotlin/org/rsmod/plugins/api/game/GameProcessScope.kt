@@ -1,8 +1,8 @@
-package org.rsmod.game.coroutine
+package org.rsmod.plugins.api.game
 
 import javax.inject.Qualifier
 
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.FIELD, AnnotationTarget.VALUE_PARAMETER, AnnotationTarget.FUNCTION)
-public annotation class WorldCoroutineScope
+public annotation class GameProcessScope

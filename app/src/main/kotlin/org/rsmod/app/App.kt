@@ -10,10 +10,7 @@ import org.rsmod.game.GameBootstrap
 import org.rsmod.game.GameModule
 import org.rsmod.game.config.GameConfig
 import org.rsmod.game.config.GameConfigModule
-import org.rsmod.game.events.GameEventBus
-import org.rsmod.game.events.publish
 import org.rsmod.game.model.GameEnv
-import org.rsmod.game.model.GameProcess
 import org.rsmod.game.scripts.module.KotlinScriptModule
 import org.rsmod.game.scripts.module.ModuleBranch
 import org.rsmod.game.scripts.module.ModuleScriptLoader
@@ -31,9 +28,7 @@ public class AppCommand : CliktCommand(name = "app") {
         val pluginModules = loadPluginModules(gameConfig.env)
         val combined = Modules.combine(GameModule, *pluginModules.toTypedArray())
         val injector = Guice.createInjector(combined)
-        val eventBus = injector.getInstance(GameEventBus::class.java)
         loadContentPlugins(injector)
-        publishEvents(eventBus)
         startUpGame(injector)
     }
 
@@ -58,10 +53,6 @@ public class AppCommand : CliktCommand(name = "app") {
     private fun loadContentPlugins(injector: Injector) {
         val plugins = ScriptPluginLoader.load(KotlinScriptPlugin::class.java, injector)
         logger.info { "Loaded ${plugins.size} content plugin${if (plugins.size == 1) "" else "s"}." }
-    }
-
-    private fun publishEvents(eventBus: GameEventBus) {
-        eventBus.publish(GameProcess.BootUp)
     }
 
     private fun startUpGame(injector: Injector) {
