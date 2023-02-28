@@ -27,6 +27,8 @@
             <option value="$PROJECT_DIR$/plugins/content/gameframe" />
             <option value="$PROJECT_DIR$/plugins/info" />
             <option value="$PROJECT_DIR$/plugins/net" />
+            <option value="$PROJECT_DIR$/plugins/playground" />
+            <option value="$PROJECT_DIR$/plugins/playground/login" />
             <option value="$PROJECT_DIR$/plugins/profile" />
             <option value="$PROJECT_DIR$/plugins/store" />
             <option value="$PROJECT_DIR$/plugins/store-dev" />
