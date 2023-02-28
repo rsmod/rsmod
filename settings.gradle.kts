@@ -3,7 +3,6 @@ import java.nio.file.Path
 
 rootProject.name = "rsmod"
 
-enableFeaturePreview("VERSION_CATALOGS")
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
