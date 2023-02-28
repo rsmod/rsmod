@@ -3,6 +3,25 @@
   <component name="JsonSchemaMappingsProjectConfiguration">
     <state>
       <map>
+        <entry key="enums.schema">
+          <value>
+            <SchemaInfo>
+              <option name="generatedName" value="New Schema" />
+              <option name="name" value="enums.schema" />
+              <option name="relativePathToSchema" value=".idea/jsonSchemas/enums.schema.json" />
+              <option name="schemaVersion" value="JSON Schema version 7" />
+              <option name="patterns">
+                <list>
+                  <Item>
+                    <option name="pattern" value="true" />
+                    <option name="path" value="**/enums/*.toml" />
+                    <option name="mappingKind" value="Pattern" />
+                  </Item>
+                </list>
+              </option>
+            </SchemaInfo>
+          </value>
+        </entry>
         <entry key="varbits.schema">
           <value>
             <SchemaInfo>
@@ -28,6 +47,7 @@
               <option name="generatedName" value="New Schema" />
               <option name="name" value="varps.schema" />
               <option name="relativePathToSchema" value=".idea/jsonSchemas/varps.schema.json" />
+              <option name="schemaVersion" value="JSON Schema version 7" />
               <option name="patterns">
                 <list>
                   <Item>

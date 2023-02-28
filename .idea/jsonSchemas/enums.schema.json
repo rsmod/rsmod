@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "enum": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "default": {
+              "type": "string"
+            },
+            "id": {
+              "type": "integer"
+            },
+            "inherit": {
+              "type": "string"
+            },
+            "key_type": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "transmit": {
+              "type": "boolean"
+            },
+            "val_type": {
+              "type": "string"
+            },
+            "values": {
+              "type": "array",
+              "items": {}
+            },
+            "entries": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "key_type",
+            "val_type"
+          ]
+        }
+      ]
+    }
+  },
+  "required": [
+    "enum"
+  ]
+}
