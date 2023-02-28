@@ -37,8 +37,11 @@ packets.register<RunClientScript> {
         val typeChars = String(packet.args.map { if (it is String) 's' else 'i' }.toCharArray())
         buf.writeString(typeChars)
         packet.args.reversed().forEach {
-            if (it is String) buf.writeString(it)
-            else if (it is Int) buf.writeInt(it)
+            if (it is String) {
+                buf.writeString(it)
+            } else if (it is Int) {
+                buf.writeInt(it)
+            }
         }
         buf.writeInt(packet.id)
     }
