@@ -7,9 +7,11 @@ import org.rsmod.game.events.GameKeyedEvent
 import org.rsmod.game.model.mob.Player
 import org.rsmod.plugins.api.cache.type.varbit.VarbitType
 import org.rsmod.plugins.api.cache.type.varp.VarpType
+import org.rsmod.plugins.api.model.MessageGameType
 import org.rsmod.plugins.api.model.ui.StandardGameframe
 import org.rsmod.plugins.api.net.downstream.IfOpenSub
 import org.rsmod.plugins.api.net.downstream.IfOpenTop
+import org.rsmod.plugins.api.net.downstream.MessageGame
 import org.rsmod.plugins.api.net.downstream.VarpLarge
 import org.rsmod.plugins.api.net.downstream.VarpSmall
 import org.rsmod.plugins.api.util.BitUtil
@@ -18,6 +20,14 @@ import org.rsmod.plugins.types.NamedInterface
 import kotlin.collections.set
 
 private val logger = InlineLogger()
+
+public fun Player.message(
+    text: String,
+    type: MessageGameType = MessageGameType.GameMessage,
+    username: String? = null
+) {
+    downstream += MessageGame(text, username, type.id)
+}
 
 public fun Player.openGameframe(gameframe: StandardGameframe) {
     val topLevel = gameframe.topLevel

@@ -4,8 +4,11 @@ import org.openrs2.buffer.BitBuf
 import org.openrs2.buffer.writeByteS
 import org.openrs2.buffer.writeShortA
 import org.openrs2.buffer.writeShortLEA
+import org.openrs2.buffer.writeShortSmart
+import org.openrs2.buffer.writeString
 import org.rsmod.plugins.api.net.downstream.IfOpenSub
 import org.rsmod.plugins.api.net.downstream.IfOpenTop
+import org.rsmod.plugins.api.net.downstream.MessageGame
 import org.rsmod.plugins.api.net.downstream.PlayerInfoPacket
 import org.rsmod.plugins.api.net.downstream.RebuildNormal
 import org.rsmod.plugins.api.net.downstream.VarpLarge
@@ -14,6 +17,17 @@ import org.rsmod.plugins.api.net.platform.GamePlatformPacketMaps
 
 private val platforms: GamePlatformPacketMaps by inject()
 private val packets = platforms.desktopDownstream
+
+packets.register<MessageGame> {
+    opcode = 86
+    length = variableByteLength
+    encode { packet, buf ->
+        buf.writeShortSmart(packet.type)
+        buf.writeBoolean(packet.username != null)
+        packet.username?.let { buf.writeString(it) }
+        buf.writeString(packet.text)
+    }
+}
 
 packets.register<IfOpenTop> {
     opcode = 10
