@@ -8,5 +8,6 @@ dependencies {
     implementation(projects.game.scripts)
     implementation(projects.plugins.types)
     implementation(projects.plugins.api)
+    implementation(libs.guice)
     implementation(libs.kotlinScriptRuntime)
 }

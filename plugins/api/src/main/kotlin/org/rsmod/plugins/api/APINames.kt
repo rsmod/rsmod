@@ -24,6 +24,9 @@ import org.rsmod.plugins.api.prot.Revision.GAMEFRAME_USERNAME_CHILD
 import org.rsmod.plugins.api.prot.Revision.GAMEFRAME_XP_COUNTER_CHILD
 import org.rsmod.plugins.types.NamedComponent
 import org.rsmod.plugins.types.NamedInterface
+import org.rsmod.plugins.types.NamedVarbit
+
+public val varbit.chatbox_unlocked: NamedVarbit get() = NamedVarbit(8119)
 
 /* interface ids don't _usually_ change per revision. should be fine to use magic numbers here */
 public inline val interf.gameframe_fixed: NamedInterface get() = NamedInterface(548)
