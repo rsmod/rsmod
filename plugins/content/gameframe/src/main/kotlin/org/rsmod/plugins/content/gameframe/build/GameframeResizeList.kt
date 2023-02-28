@@ -18,8 +18,7 @@ public class GameframeResizeList @Inject constructor(enums: EnumTypeList) : Stan
     override val topLevel: NamedInterface = interf.gameframe_resize_list
 
     override val overlays: Iterable<NamedComponent> = GameframeUtil.build(
-        ref = GameframeResizeNormal,
-        enumTypes = enums,
-        componentMap = enum.gameframe_resize_list_component_map
+        reference = GameframeResizeNormal,
+        componentEnum = enums[enum.gameframe_resize_list_component_map]
     )
 }
