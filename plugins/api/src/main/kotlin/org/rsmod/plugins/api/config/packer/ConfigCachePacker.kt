@@ -26,7 +26,7 @@ import org.rsmod.plugins.api.config.type.ConfigItem
 import org.rsmod.plugins.api.config.type.ConfigParam
 import org.rsmod.plugins.api.config.type.ConfigVarbit
 import org.rsmod.plugins.api.config.type.ConfigVarp
-import org.rsmod.plugins.api.pluginPath
+import org.rsmod.plugins.api.pluginConfigPath
 import org.rsmod.plugins.types.NamedEnum
 import org.rsmod.plugins.types.NamedItem
 import org.rsmod.plugins.types.NamedParameter
@@ -64,7 +64,7 @@ public class ConfigCachePacker @Inject constructor(
     private val updatedParams = mutableMapOf<Int, ParamType<*>>()
 
     public fun pack(cache: Cache, isJs5: Boolean) {
-        val mapped = config.pluginPath.configFiles()
+        val mapped = config.pluginConfigPath.configFiles()
         run packParams@{
             val files = mapped[ConfigType.Param] ?: emptyList()
             val types = packParams(cache, files, isJs5)

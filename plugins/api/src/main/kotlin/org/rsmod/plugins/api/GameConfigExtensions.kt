@@ -17,3 +17,6 @@ public val GameConfig.vanillaCachePath: Path
 
 public val GameConfig.pluginPath: Path
     get() = dataPath.resolve("plugins")
+
+public val GameConfig.pluginConfigPath: Path
+    get() = pluginPath.resolve("configs")
