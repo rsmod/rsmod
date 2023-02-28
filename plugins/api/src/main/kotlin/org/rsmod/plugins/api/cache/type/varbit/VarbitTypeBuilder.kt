@@ -3,7 +3,7 @@ package org.rsmod.plugins.api.cache.type.varbit
 private const val DEFAULT_ID = -1
 private const val DEFAULT_VARP = 0
 private const val DEFAULT_BITPOS = -1
-private const val DEFAULT_TRANSMIT_FLAG = false
+private const val DEFAULT_TRANSMIT_FLAG = true
 
 @DslMarker
 private annotation class BuilderDslMarker
