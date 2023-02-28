@@ -1,0 +1,5 @@
+[[varp]]
+id = 65535
+name = "api_varp_no_persist"
+transmit = false
+persist = false

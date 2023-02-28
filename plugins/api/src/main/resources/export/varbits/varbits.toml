@@ -1,0 +1,7 @@
+[[varbit]]
+id = 65535
+name = "log_out"
+varp = "varps.api_varp_no_persist"
+transmit = false
+lsb = 0
+msb = 0
