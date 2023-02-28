@@ -25,6 +25,7 @@ public class MainGameProcess @Inject constructor(
     }
 
     override fun shutDown() {
+        // TODO: unregister players and await responses.
         coroutineScope.cancel()
     }
 
