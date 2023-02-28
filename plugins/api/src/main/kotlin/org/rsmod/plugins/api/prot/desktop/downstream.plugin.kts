@@ -11,6 +11,7 @@ import org.rsmod.plugins.api.net.downstream.IfOpenTop
 import org.rsmod.plugins.api.net.downstream.MessageGame
 import org.rsmod.plugins.api.net.downstream.PlayerInfoPacket
 import org.rsmod.plugins.api.net.downstream.RebuildNormal
+import org.rsmod.plugins.api.net.downstream.RunClientScript
 import org.rsmod.plugins.api.net.downstream.VarpLarge
 import org.rsmod.plugins.api.net.downstream.VarpSmall
 import org.rsmod.plugins.api.net.platform.GamePlatformPacketMaps
@@ -26,6 +27,20 @@ packets.register<MessageGame> {
         buf.writeBoolean(packet.username != null)
         packet.username?.let { buf.writeString(it) }
         buf.writeString(packet.text)
+    }
+}
+
+packets.register<RunClientScript> {
+    opcode = 47
+    length = variableShortLength
+    encode { packet, buf ->
+        val typeChars = String(packet.args.map { if (it is String) 's' else 'i' }.toCharArray())
+        buf.writeString(typeChars)
+        packet.args.reversed().forEach {
+            if (it is String) buf.writeString(it)
+            else if (it is Int) buf.writeInt(it)
+        }
+        buf.writeInt(packet.id)
     }
 }
 
