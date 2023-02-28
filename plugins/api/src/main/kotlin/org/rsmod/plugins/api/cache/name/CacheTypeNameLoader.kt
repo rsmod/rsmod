@@ -89,7 +89,7 @@ public class CacheTypeNameLoader @Inject constructor(
     private fun NamedTypeMapHolder.putEnums(types: Iterable<EnumType<Any, Any>>) {
         types.forEach {
             val name = it.name ?: return@forEach
-            enums[name] = NamedEnum(it.id)
+            enums[name] = NamedEnum<Any, Any>(it.id)
         }
     }
 

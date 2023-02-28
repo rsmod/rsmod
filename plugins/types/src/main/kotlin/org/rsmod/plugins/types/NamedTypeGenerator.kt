@@ -165,12 +165,16 @@ public class NamedTypeGenerator {
         .replace(": Unit {", " {")
         .replace("public ", "")
 
-    private fun <T : Any> KClass<T>.namedTypeName(): TypeName = if (isParameterized) {
-        asTypeName().parameterizedBy(Any::class.asTypeName())
-    } else {
-        asTypeName()
+    private fun <T : Any> KClass<T>.namedTypeName(): TypeName = when (parameterCount) {
+        1 -> asTypeName().parameterizedBy(Any::class.asTypeName())
+        2 -> asTypeName().parameterizedBy(Any::class.asTypeName(), Any::class.asTypeName())
+        else -> asTypeName()
     }
 
-    private val <T : Any> KClass<T>.isParameterized: Boolean
-        get() = this == NamedParameter::class
+    private val <T : Any> KClass<T>.parameterCount: Int?
+        get() = when (this) {
+            NamedParameter::class -> 1
+            NamedEnum::class -> 2
+            else -> null
+        }
 }

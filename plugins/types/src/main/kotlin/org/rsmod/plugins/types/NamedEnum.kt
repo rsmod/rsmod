@@ -1,4 +1,5 @@
 package org.rsmod.plugins.types
 
+@Suppress("unused")
 @JvmInline
-public value class NamedEnum(public val id: Int)
+public value class NamedEnum<K, V>(public val id: Int)
