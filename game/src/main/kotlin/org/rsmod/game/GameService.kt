@@ -32,8 +32,8 @@ public class GameService @Inject private constructor(
 
     override fun shutDown() {
         if (isRunning) {
-            process.shutDown()
             coroutineScope.cancel()
+            process.shutDown()
         }
     }
 
