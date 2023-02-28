@@ -14,6 +14,7 @@ dependencies {
     implementation(projects.plugins.info)
     implementation(projects.plugins.types)
     implementation(projects.toml)
+    implementation(libs.clikt)
     implementation(libs.inlineLogger)
     implementation(libs.kotlinScriptRuntime)
     implementation(libs.logback)
