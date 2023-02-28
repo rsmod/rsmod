@@ -137,6 +137,8 @@ allprojects {
 tasks.register("install") {
     description = "Install RS Mod"
     dependsOn("createPlaceholderFiles")
+    dependsOn(":plugins:installPlugins")
+    dependsOn(":plugins:api:packConfigs")
     dependsOn(":plugins:types-generator:generateTypeNames")
 }
 
