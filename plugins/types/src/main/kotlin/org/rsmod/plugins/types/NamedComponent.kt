@@ -11,6 +11,11 @@ public value class NamedComponent(public val id: Int) {
         (interfaceId shl 16) or (child and 0xFFFF)
     )
 
+    @Suppress("NOTHING_TO_INLINE")
+    public inline fun parent(): NamedInterface {
+        return NamedInterface(interfaceId)
+    }
+
     public operator fun component1(): Int = interfaceId
 
     public operator fun component2(): Int = child
