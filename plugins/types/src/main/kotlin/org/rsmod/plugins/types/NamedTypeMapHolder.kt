@@ -11,7 +11,7 @@ public class NamedTypeMapHolder {
     public val graphics: MutableMap<String, NamedGraphic> = mutableMapOf()
     public val enums: MutableMap<String, NamedEnum> = mutableMapOf()
     public val structs: MutableMap<String, NamedStruct> = mutableMapOf()
-    public val parameters: MutableMap<String, NamedParameter> = mutableMapOf()
+    public val parameters: MutableMap<String, NamedParameter<*>> = mutableMapOf()
     public val inventories: MutableMap<String, NamedInventory> = mutableMapOf()
     public val varps: MutableMap<String, NamedVarp> = mutableMapOf()
     public val varbits: MutableMap<String, NamedVarbit> = mutableMapOf()

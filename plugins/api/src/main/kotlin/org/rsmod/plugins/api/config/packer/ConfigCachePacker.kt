@@ -154,7 +154,7 @@ public class ConfigCachePacker @Inject constructor(
             Files.newInputStream(file).use { input ->
                 val configs = extractValues<ConfigParam>(input, ConfigType.Param.typeKey)
                 types += configs.map { it.toCacheType(names, params) }
-                names.parameters += configs.map { it.name to NamedParameter(it.id) }
+                names.parameters += configs.map { it.name to NamedParameter<Any>(it.id) }
             }
         }
         if (isJs5) types.removeIf { !it.transmit }

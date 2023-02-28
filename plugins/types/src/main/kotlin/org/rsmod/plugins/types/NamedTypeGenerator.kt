@@ -3,13 +3,17 @@ package org.rsmod.plugins.types
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.PropertySpec
+import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
+import com.squareup.kotlinpoet.asTypeName
 import java.nio.file.Files
 import java.nio.file.Path
 import java.text.SimpleDateFormat
 import java.time.Instant
 import java.util.Date
+import kotlin.reflect.KClass
 
 public class NamedTypeGenerator {
 
@@ -68,61 +72,61 @@ public class NamedTypeGenerator {
     }
 
     public fun generateInterfacesConst(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
-        return generate(fileName, packageName, NamedInterface::class.java, names.interfaces.mapValues { it.value.id })
+        return generate(fileName, packageName, NamedInterface::class, names.interfaces.mapValues { it.value.id })
     }
 
     public fun generateComponentsConst(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
-        return generate(fileName, packageName, NamedComponent::class.java, names.components.mapValues { it.value.id })
+        return generate(fileName, packageName, NamedComponent::class, names.components.mapValues { it.value.id })
     }
 
     public fun generateItemsConst(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
-        return generate(fileName, packageName, NamedItem::class.java, names.items.mapValues { it.value.id })
+        return generate(fileName, packageName, NamedItem::class, names.items.mapValues { it.value.id })
     }
 
     public fun generateNpcsConst(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
-        return generate(fileName, packageName, NamedNpc::class.java, names.npcs.mapValues { it.value.id })
+        return generate(fileName, packageName, NamedNpc::class, names.npcs.mapValues { it.value.id })
     }
 
     public fun generateObjsConst(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
-        return generate(fileName, packageName, NamedObject::class.java, names.objs.mapValues { it.value.id })
+        return generate(fileName, packageName, NamedObject::class, names.objs.mapValues { it.value.id })
     }
 
     public fun generateAnimsConst(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
-        return generate(fileName, packageName, NamedAnimation::class.java, names.anims.mapValues { it.value.id })
+        return generate(fileName, packageName, NamedAnimation::class, names.anims.mapValues { it.value.id })
     }
 
     public fun generateGfxConst(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
-        return generate(fileName, packageName, NamedGraphic::class.java, names.graphics.mapValues { it.value.id })
+        return generate(fileName, packageName, NamedGraphic::class, names.graphics.mapValues { it.value.id })
     }
 
     public fun generateEnumsConst(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
-        return generate(fileName, packageName, NamedEnum::class.java, names.enums.mapValues { it.value.id })
+        return generate(fileName, packageName, NamedEnum::class, names.enums.mapValues { it.value.id })
     }
 
     public fun generateStructsConst(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
-        return generate(fileName, packageName, NamedStruct::class.java, names.structs.mapValues { it.value.id })
+        return generate(fileName, packageName, NamedStruct::class, names.structs.mapValues { it.value.id })
     }
 
     public fun generateParamsConst(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
-        return generate(fileName, packageName, NamedParameter::class.java, names.parameters.mapValues { it.value.id })
+        return generate(fileName, packageName, NamedParameter::class, names.parameters.mapValues { it.value.id })
     }
 
     public fun generateInvsConst(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
-        return generate(fileName, packageName, NamedInventory::class.java, names.inventories.mapValues { it.value.id })
+        return generate(fileName, packageName, NamedInventory::class, names.inventories.mapValues { it.value.id })
     }
 
     public fun generateVarpsConst(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
-        return generate(fileName, packageName, NamedVarp::class.java, names.varps.mapValues { it.value.id })
+        return generate(fileName, packageName, NamedVarp::class, names.varps.mapValues { it.value.id })
     }
 
     public fun generateVarbitsConst(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
-        return generate(fileName, packageName, NamedVarbit::class.java, names.varbits.mapValues { it.value.id })
+        return generate(fileName, packageName, NamedVarbit::class, names.varbits.mapValues { it.value.id })
     }
 
-    private fun <T> generate(
+    private fun <T : Any> generate(
         fileName: String,
         packageName: String,
-        type: Class<T>,
+        type: KClass<T>,
         names: Map<String, Int>
     ): String {
         val date = SimpleDateFormat().format(Date.from(Instant.now()))
@@ -135,19 +139,18 @@ public class NamedTypeGenerator {
             .removeDeadCode()
     }
 
-    private fun <T> createObject(fileName: String, type: Class<T>, names: Map<String, Int>): TypeSpec {
+    private fun <T : Any> createObject(fileName: String, type: KClass<T>, names: Map<String, Int>): TypeSpec {
         val builder = TypeSpec.objectBuilder(fileName)
         val ordered = names.entries.sortedBy { it.value }
         ordered.forEach { (name, id) -> builder.addProperty(createProperty(name, type, id)) }
         return builder.build()
     }
 
-    private fun <T> createProperty(name: String, type: Class<T>, id: Int): PropertySpec {
-        val typeName = type.simpleName
-        return PropertySpec.builder(name, type)
+    private fun <T : Any> createProperty(name: String, type: KClass<T>, id: Int): PropertySpec {
+        return PropertySpec.builder(name, type.namedTypeName())
             .getter(
                 FunSpec.getterBuilder()
-                    .addStatement("return $typeName(%L)", id)
+                    .addStatement("return %T(%L)", type, id)
                     .build()
             ).build()
     }
@@ -161,4 +164,13 @@ public class NamedTypeGenerator {
         .replace("import kotlin.Unit\n", "")
         .replace(": Unit {", " {")
         .replace("public ", "")
+
+    private fun <T : Any> KClass<T>.namedTypeName(): TypeName = if (isParameterized) {
+        asTypeName().parameterizedBy(Any::class.asTypeName())
+    } else {
+        asTypeName()
+    }
+
+    private val <T : Any> KClass<T>.isParameterized: Boolean
+        get() = this == NamedParameter::class
 }
