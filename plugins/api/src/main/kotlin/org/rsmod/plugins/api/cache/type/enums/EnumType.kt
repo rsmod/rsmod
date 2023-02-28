@@ -19,6 +19,10 @@ public data class EnumType<K, V>(
 
     public fun containsKey(key: K): Boolean = properties.containsKey(key)
 
+    public fun getValue(key: K): V {
+        return this[key] ?: throw NoSuchElementException("Key $key is missing in the map.")
+    }
+
     public operator fun get(key: K): V? {
         return properties[key] ?: default
     }
