@@ -4,6 +4,7 @@ import org.rsmod.plugins.api.cache.type.enums.EnumType
 import org.rsmod.plugins.api.cache.type.enums.EnumTypeBuilder
 import org.rsmod.plugins.api.cache.type.enums.EnumTypeList
 import org.rsmod.plugins.api.config.CacheTypeLiteralUtil.AUTO_INCREMENT_INT
+import org.rsmod.plugins.api.config.CacheTypeLiteralUtil.AUTO_SET_BOOL
 import org.rsmod.plugins.api.config.CacheTypeLiteralUtil.TYPE_STRING_CONVERSION
 import org.rsmod.plugins.api.config.CacheTypeLiteralUtil.convert
 import org.rsmod.plugins.api.config.CacheTypeLiteralUtil.toConvertedEntryMap
@@ -29,11 +30,11 @@ public data class ConfigEnum(
         val builder = EnumTypeBuilder()
         val keyId = TYPE_STRING_CONVERSION.getValue(keyType)
         val valId = TYPE_STRING_CONVERSION.getValue(valType)
-        val entries = (entries ?: mutableMapOf())
-            .assertAutoIncrement(entries, values, keyType, valType)
-            .putAutoIncrementEntries(values, keyType, valType)
-            .toConvertedEntryMap(names, keyId, valId)
         val default = default?.convert(names, valId)
+        val entries = (entries ?: mutableMapOf())
+            .assertAutoElements(entries, values, keyType, valType)
+            .putAutoElementEntries(values, keyType, valType, default)
+            .toConvertedEntryMap(names, keyId, valId)
         builder.id = id
         builder.name = name
         builder.keyType = keyId.char
@@ -62,19 +63,20 @@ public data class ConfigEnum(
 
     private companion object {
 
-        fun MutableMap<Any, Any>.putAutoIncrementEntries(
+        fun MutableMap<Any, Any>.putAutoElementEntries(
             values: List<Any>?,
             keyType: String,
-            valType: String
+            valType: String,
+            default: Any?
         ): Map<Any, Any> {
             if (values.isNullOrEmpty()) return this
             val incrementKeys = arrayOfNulls<Any>(values.size)
             val incrementValues = arrayOfNulls<Any>(values.size)
             for (i in values.indices) {
-                val keyElement = if (keyType == AUTO_INCREMENT_INT) i else values[i]
-                val valElement = if (valType == AUTO_INCREMENT_INT) i else values[i]
-                incrementKeys[i] = keyElement
-                incrementValues[i] = valElement
+                val key = keyType.autoElementValue(i, values[i], default)
+                val value = valType.autoElementValue(i, values[i], default)
+                incrementKeys[i] = key
+                incrementValues[i] = value
             }
             for (i in values.indices) {
                 val key = incrementKeys[i] ?: error("Key cannot be null.")
@@ -84,24 +86,42 @@ public data class ConfigEnum(
             return this
         }
 
-        private fun MutableMap<Any, Any>.assertAutoIncrement(
+        private fun MutableMap<Any, Any>.assertAutoElements(
             entries: MutableMap<Any, Any>?,
             values: List<Any>?,
             keyType: String,
             valType: String
         ): MutableMap<Any, Any> {
-            if (keyType == AUTO_INCREMENT_INT || valType == AUTO_INCREMENT_INT) {
+            /* _could_ add support by adding another field `default_bool` - but adds inconsistency */
+            if (keyType == AUTO_SET_BOOL) {
+                error("`$AUTO_SET_BOOL` not supported for keys.")
+            }
+            if (keyType.isAuto || valType.isAuto) {
                 if (entries.isNullOrEmpty()) return this
                 error(
-                    "Cannot define `entries` with auto-increment key or value types. " +
+                    "Cannot define `entries` with auto-key or value types. " +
                         "Use `values` instead."
                 )
             }
             if (values.isNullOrEmpty()) return this
             error(
-                "Cannot define `values` with non auto-increment key or value types. " +
+                "Cannot define `values` with non auto-key or value types. " +
                     "Use `entries` instead."
             )
         }
+
+        private fun String.autoElementValue(index: Int, value: Any, default: Any?): Any = when (this) {
+            AUTO_SET_BOOL -> default.toAutoBool()
+            AUTO_INCREMENT_INT -> index
+            else -> value
+        }
+
+        private fun Any?.toAutoBool(): Boolean {
+            require(this is Boolean) { "`default` value must be boolean when using `$AUTO_SET_BOOL` type." }
+            return !this
+        }
+
+        private val String.isAuto: Boolean
+            get() = this == AUTO_INCREMENT_INT || this == AUTO_SET_BOOL
     }
 }

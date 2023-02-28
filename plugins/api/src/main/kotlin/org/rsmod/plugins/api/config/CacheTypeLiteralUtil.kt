@@ -6,9 +6,11 @@ import org.rsmod.plugins.types.NamedTypeMapHolder
 
 internal object CacheTypeLiteralUtil {
 
-    const val AUTO_INCREMENT_INT = "autoint"
+    const val AUTO_INCREMENT_INT: String = "autoint"
+    const val AUTO_SET_BOOL: String = "autobool"
 
     val TYPE_STRING_CONVERSION = mapOf(
+        AUTO_SET_BOOL to CacheTypeLiteral.Boolean,
         AUTO_INCREMENT_INT to CacheTypeLiteral.Integer,
         "anim" to CacheTypeLiteral.Animation,
         "area" to CacheTypeLiteral.Area,
