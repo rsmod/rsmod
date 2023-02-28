@@ -1,4 +1,4 @@
-package org.rsmod.plugins.content.gameframe
+package org.rsmod.plugins.content.gameframe.build
 
 import org.rsmod.plugins.api.component
 import org.rsmod.plugins.api.gameframe_resize_normal
