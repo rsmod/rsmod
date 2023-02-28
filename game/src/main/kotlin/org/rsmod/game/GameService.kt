@@ -7,7 +7,9 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.rsmod.game.dispatcher.main.MainCoroutineScope
+import org.rsmod.game.job.boot.GameBootTaskScheduler
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -20,12 +22,14 @@ private const val GAME_TICK_DELAY = 600
 @Singleton
 public class GameService @Inject private constructor(
     private val coroutineScope: MainCoroutineScope,
+    private val bootTasks: GameBootTaskScheduler,
     private val process: GameProcess
 ) : AbstractIdleService() {
 
     private var excessCycleNanos = 0L
 
     override fun startUp() {
+        bootTasks.execute()
         process.startUp()
         coroutineScope.start(GAME_TICK_DELAY)
     }
@@ -53,5 +57,10 @@ public class GameService @Inject private constructor(
             excessCycleNanos = elapsedNanos - TimeUnit.MILLISECONDS.toNanos(elapsedMillis)
             delay(sleepTime)
         }
+    }
+
+    private fun GameBootTaskScheduler.execute(): Unit = runBlocking {
+        executeNonBlocking()
+        executeBlocking()
     }
 }

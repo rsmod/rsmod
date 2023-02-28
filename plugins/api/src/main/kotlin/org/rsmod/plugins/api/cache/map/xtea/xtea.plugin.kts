@@ -1,5 +1,8 @@
 package org.rsmod.plugins.api.cache.map.xtea
 
-// TODO: offload to a non-blocking thread (that gets joined before game accepts connections)
+import org.rsmod.game.job.boot.GameBootTaskScheduler
+
 private val loader: XteaFileLoader by inject()
-loader.load()
+private val scheduler: GameBootTaskScheduler by inject()
+
+scheduler.scheduleNonBlocking { loader.load() }

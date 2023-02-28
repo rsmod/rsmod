@@ -8,6 +8,7 @@ import org.rsmod.game.client.ClientModule
 import org.rsmod.game.config.GameConfigModule
 import org.rsmod.game.dispatcher.CoroutineDispatcherModule
 import org.rsmod.game.events.GameEventBus
+import org.rsmod.game.job.GameJobModule
 import org.rsmod.game.model.mob.list.PlayerList
 
 public object GameModule : AbstractModule() {
@@ -16,6 +17,7 @@ public object GameModule : AbstractModule() {
         install(ClientModule)
         install(CoroutineDispatcherModule)
         install(GameConfigModule)
+        install(GameJobModule)
 
         bind(GameEventBus::class.java).`in`(Scopes.SINGLETON)
         bind(PlayerList::class.java).`in`(Scopes.SINGLETON)
