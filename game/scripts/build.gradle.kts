@@ -5,5 +5,5 @@ plugins {
 dependencies {
     implementation(libs.guice)
     implementation(libs.kotlinScriptCommon)
-    implementation("io.github.classgraph:classgraph:4.8.154")
+    implementation("io.github.classgraph:classgraph:4.8.155")
 }

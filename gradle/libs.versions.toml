@@ -1,5 +1,5 @@
 [versions]
-clikt = "3.4.2"
+clikt = "3.5.2"
 guava = "31.1-jre"
 guice = "5.1.0"
 inline-logger = "1.0.4"
@@ -13,7 +13,7 @@ kotlinter = "3.13.0"
 logback = "1.4.5"
 netty = "4.1.87.Final"
 openrs2 = "0.1.0-SNAPSHOT"
-manes-versions = "0.45.0"
+manes-versions = "0.46.0"
 
 [plugins]
 kotlinter = { id = "org.jmailen.kotlinter", version.ref = "kotlinter" }
