@@ -26,6 +26,7 @@ import org.rsmod.plugins.api.net.upstream.IfButton8
 import org.rsmod.plugins.api.net.upstream.IfButton9
 import org.rsmod.plugins.api.net.upstream.MapBuildComplete
 import org.rsmod.plugins.api.net.upstream.MoveGameClick
+import org.rsmod.plugins.api.net.upstream.MoveMinimapClick
 import org.rsmod.plugins.api.net.upstream.NoTimeout
 import org.rsmod.plugins.api.net.upstream.ReflectionCheckReply
 import org.rsmod.plugins.api.net.upstream.WindowStatus
@@ -40,7 +41,7 @@ packets.register {
         val mode = buf.readByte().toInt()
         val width = buf.readUnsignedShort()
         val height = buf.readUnsignedShort()
-        return@decode WindowStatus(mode, width, height)
+        WindowStatus(mode, width, height)
     }
 }
 
@@ -51,7 +52,25 @@ packets.register {
         val y = buf.readUnsignedShortLEA()
         val mode = buf.readByteC().toInt()
         val x = buf.readUnsignedShortA()
-        return@decode MoveGameClick(mode, x, y)
+        MoveGameClick(mode, x, y)
+    }
+}
+
+packets.register {
+    opcode = 13
+    length = variableByteLength
+    decode { buf ->
+        val y = buf.readUnsignedShortLEA()
+        val mode = buf.readByteC().toInt()
+        val x = buf.readUnsignedShortA()
+        val minimapPxOffX = buf.readByte().toInt()
+        val minimapPxOffY = buf.readByte().toInt()
+        val cameraAngle = buf.readUnsignedShort()
+        buf.skipBytes(Byte.SIZE_BYTES * 4)
+        val fineX = buf.readUnsignedShort()
+        val fineY = buf.readUnsignedShort()
+        buf.skipBytes(Byte.SIZE_BYTES)
+        MoveMinimapClick(mode, x, y, fineX, fineY, minimapPxOffX, minimapPxOffY, cameraAngle)
     }
 }
 
@@ -60,7 +79,7 @@ packets.register {
     length = variableByteLength
     decode { buf ->
         val text = buf.readString()
-        return@decode ClientCheat(text)
+        ClientCheat(text)
     }
 }
 

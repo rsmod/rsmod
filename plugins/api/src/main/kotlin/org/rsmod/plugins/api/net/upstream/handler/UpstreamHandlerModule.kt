@@ -8,7 +8,6 @@ import com.google.inject.multibindings.Multibinder
 internal object UpstreamHandlerModule : AbstractModule() {
 
     private val handlers = listOf(
-        MoveGameClickHandler::class.java,
         ClientCheatHandler::class.java,
         IfButton1Handler::class.java,
         IfButton2Handler::class.java,
@@ -19,7 +18,9 @@ internal object UpstreamHandlerModule : AbstractModule() {
         IfButton7Handler::class.java,
         IfButton8Handler::class.java,
         IfButton9Handler::class.java,
-        IfButton10Handler::class.java
+        IfButton10Handler::class.java,
+        MoveGameClickHandler::class.java,
+        MoveMinimapClickHandler::class.java
     )
 
     override fun configure() {
