@@ -31,7 +31,7 @@ class VarbitTypeCodecTest {
             varp = 200
             lsb = 0
             msb = 1
-            transmit = true
+            transmit = false
         }.build()
         val buf = Unpooled.buffer(32).apply { writeType(this, type, isJs5 = true) }
         val decoded = readType(buf, type.id)
