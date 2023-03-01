@@ -61,6 +61,6 @@ public class GameService @Inject private constructor(
 
     private fun GameBootTaskScheduler.execute(): Unit = runBlocking {
         executeNonBlocking()
-        executeBlocking()
+        executeBlocking(this)
     }
 }
