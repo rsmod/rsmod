@@ -1,7 +1,7 @@
 package org.rsmod.game.model.map
 
 @JvmInline
-public value class Zone(public val packed: Int) {
+public value class ZoneKey(public val packed: Int) {
 
     public val x: Int get() = packed and 0x7FFF
 
@@ -13,17 +13,17 @@ public value class Zone(public val packed: Int) {
         (x and 0x7FFF) or ((y and 0x7FFF) shl 15) or ((level and 0x3) shl 30)
     )
 
-    public fun translate(xOffset: Int, yOffset: Int, levelOffset: Int = 0): Zone = Zone(
+    public fun translate(xOffset: Int, yOffset: Int, levelOffset: Int = 0): ZoneKey = ZoneKey(
         x = x + xOffset,
         y = y + yOffset,
         level = level + levelOffset
     )
 
-    public fun translateX(offset: Int): Zone = translate(offset, 0, 0)
+    public fun translateX(offset: Int): ZoneKey = translate(offset, 0, 0)
 
-    public fun translateY(offset: Int): Zone = translate(0, offset, 0)
+    public fun translateY(offset: Int): ZoneKey = translate(0, offset, 0)
 
-    public fun translateLevel(offset: Int): Zone = translate(0, 0, offset)
+    public fun translateLevel(offset: Int): ZoneKey = translate(0, 0, offset)
 
     public fun toCoords(): Coordinates = Coordinates(
         x = x * SIZE,
@@ -31,20 +31,20 @@ public value class Zone(public val packed: Int) {
         level = level
     )
 
-    public fun toMapSquare(): MapSquare = MapSquare(
-        x = (x / (MapSquare.SIZE / SIZE)),
-        y = (y / (MapSquare.SIZE / SIZE))
+    public fun toMapSquareKey(): MapSquareKey = MapSquareKey(
+        x = (x / (MapSquareKey.SIZE / SIZE)),
+        y = (y / (MapSquareKey.SIZE / SIZE))
     )
 
-    public fun toViewport(): List<MapSquare> {
+    public fun toViewport(): List<MapSquareKey> {
         val lx = (x - 6) / SIZE
         val ly = (y - 6) / SIZE
         val rx = (x + 6) / SIZE
         val ry = (y + 6) / SIZE
-        val viewport = mutableListOf<MapSquare>()
+        val viewport = mutableListOf<MapSquareKey>()
         for (mx in lx..rx) {
             for (my in ly..ry) {
-                val mapSquare = MapSquare(mx, my)
+                val mapSquare = MapSquareKey(mx, my)
                 viewport += mapSquare
             }
         }
@@ -57,16 +57,16 @@ public value class Zone(public val packed: Int) {
 
     public operator fun component3(): Int = level
 
-    public operator fun minus(other: Zone): Zone {
+    public operator fun minus(other: ZoneKey): ZoneKey {
         return translate(-other.x, -other.y)
     }
 
-    public operator fun plus(other: Zone): Zone {
+    public operator fun plus(other: ZoneKey): ZoneKey {
         return translate(other.x, other.y)
     }
 
     public override fun toString(): String {
-        return "Zone(x=$x, y=$y, level=$level)"
+        return "ZoneKey(x=$x, y=$y, level=$level)"
     }
 
     public companion object {

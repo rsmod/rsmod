@@ -35,7 +35,7 @@ public class ClientGameSession @Inject constructor(
     }
 
     private fun createRebuildNormal(playerIndex: Int, playerCoords: Coordinates): RebuildNormal {
-        val zone = playerCoords.toZone()
+        val zone = playerCoords.toZoneKey()
         val xtea = mutableListOf<Int>()
         zone.toViewport().forEach {
             val key = xteaRepository[it] ?: XteaKey.ZERO

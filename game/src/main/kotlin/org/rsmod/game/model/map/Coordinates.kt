@@ -28,14 +28,14 @@ public value class Coordinates(public val packed: Int) {
 
     public fun translateLevel(offset: Int): Coordinates = translate(0, 0, offset)
 
-    public fun toZone(): Zone = Zone(
-        x = x / Zone.SIZE,
-        y = y / Zone.SIZE
+    public fun toZoneKey(): ZoneKey = ZoneKey(
+        x = x / ZoneKey.SIZE,
+        y = y / ZoneKey.SIZE
     )
 
-    public fun toMapSquare(): MapSquare = MapSquare(
-        x = x / MapSquare.SIZE,
-        y = y / MapSquare.SIZE
+    public fun toMapSquareKey(): MapSquareKey = MapSquareKey(
+        x = x / MapSquareKey.SIZE,
+        y = y / MapSquareKey.SIZE
     )
 
     public operator fun component1(): Int = x
