@@ -2,7 +2,7 @@ package org.rsmod.plugins.profile
 
 import org.rsmod.game.events.GameEventBus
 import org.rsmod.game.events.subscribe
-import org.rsmod.plugins.api.game.GameProcessEvent
+import org.rsmod.plugins.api.core.GameProcessEvent
 import org.rsmod.plugins.profile.dispatch.client.ClientDeregisterDispatch
 import org.rsmod.plugins.profile.dispatch.client.ClientRegisterDispatch
 import org.rsmod.plugins.profile.dispatch.player.PlayerDeregisterDispatch

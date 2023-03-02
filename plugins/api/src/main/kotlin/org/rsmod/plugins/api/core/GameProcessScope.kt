@@ -1,4 +1,4 @@
-package org.rsmod.plugins.api.game
+package org.rsmod.plugins.api.core
 
 import javax.inject.Qualifier
 

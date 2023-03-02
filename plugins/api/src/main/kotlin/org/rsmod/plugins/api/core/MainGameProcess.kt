@@ -1,4 +1,4 @@
-package org.rsmod.plugins.api.game
+package org.rsmod.plugins.api.core
 
 import org.rsmod.game.GameProcess
 import org.rsmod.game.client.ClientList
