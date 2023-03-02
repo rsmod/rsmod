@@ -38,7 +38,7 @@ public class ClientGameSession @Inject constructor(
         val zone = playerCoords.toZone()
         val xtea = mutableListOf<Int>()
         zone.toViewport().forEach {
-            val key = xteaRepository[it.id] ?: XteaKey.ZERO
+            val key = xteaRepository[it] ?: XteaKey.ZERO
             xtea += key.k0
             xtea += key.k1
             xtea += key.k2
