@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.michaelbull.logging.InlineLogger
 import org.openrs2.crypto.XteaKey
 import org.rsmod.game.config.GameConfig
+import org.rsmod.game.events.GameEventBus
+import org.rsmod.game.events.publish
 import org.rsmod.json.Json
 import org.rsmod.plugins.api.cachePath
 import java.nio.file.Files
@@ -16,7 +18,8 @@ private const val FILE_NAME = "xteas.json"
 public class XteaFileLoader @Inject constructor(
     @Json private val mapper: ObjectMapper,
     private val config: GameConfig,
-    private val repository: XteaRepository
+    private val repository: XteaRepository,
+    private val eventBus: GameEventBus
 ) {
 
     public fun load() {
@@ -28,6 +31,7 @@ public class XteaFileLoader @Inject constructor(
                 repository[xtea.mapSquare] = XteaKey.fromIntArray(xtea.key)
             }
             logger.info { "Loaded ${fileXtea.size} map XTEA keys." }
+            eventBus.publish(XteaEvent.Loaded)
         }
     }
 }
