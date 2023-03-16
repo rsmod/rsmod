@@ -1,7 +1,7 @@
 package org.rsmod.plugins.api.net.upstream.handler
 
 import org.rsmod.game.events.GameEventBus
-import org.rsmod.game.model.map.Coordinates
+import org.rsmod.game.map.Coordinates
 import org.rsmod.game.model.mob.Player
 import org.rsmod.plugins.api.model.event.UpstreamEvent
 import org.rsmod.plugins.api.net.upstream.MoveGameClick

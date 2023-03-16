@@ -1,5 +1,6 @@
 [versions]
 clikt = "3.5.2"
+fastutil = "8.5.11"
 guava = "31.1-jre"
 guice = "5.1.0"
 inline-logger = "1.0.4"
@@ -22,6 +23,7 @@ versions = { id = "com.github.ben-manes.versions", version.ref = "manes-versions
 
 [libraries]
 clikt = { module = "com.github.ajalt.clikt:clikt", version.ref = "clikt" }
+fastutil = { module = "it.unimi.dsi:fastutil", version.ref = "fastutil" }
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
 guice = { module = "com.google.inject:guice", version.ref = "guice" }
 inlineLogger = { module = "com.michael-bull.kotlin-inline-logger:kotlin-inline-logger-jvm", version.ref = "inline-logger" }

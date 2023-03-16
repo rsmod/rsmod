@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer
 import org.rsmod.game.config.GameConfig
+import org.rsmod.game.map.Coordinates
 import org.rsmod.game.model.GameEnv
-import org.rsmod.game.model.map.Coordinates
 import java.nio.file.Path
 
 public object JacksonGameConfigDeserializer : StdDeserializer<GameConfig>(GameConfig::class.java) {

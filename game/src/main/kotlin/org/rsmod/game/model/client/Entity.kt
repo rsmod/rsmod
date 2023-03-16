@@ -1,6 +1,6 @@
 package org.rsmod.game.model.client
 
-import org.rsmod.game.model.map.Coordinates
+import org.rsmod.game.map.Coordinates
 
 public sealed class Entity(
     public var index: Int = INVALID_INDEX,

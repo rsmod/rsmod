@@ -3,11 +3,13 @@ package org.rsmod.plugins.api.session
 import com.github.michaelbull.logging.InlineLogger
 import org.openrs2.crypto.XteaKey
 import org.rsmod.game.client.Client
-import org.rsmod.game.model.map.Coordinates
+import org.rsmod.game.map.Coordinates
+import org.rsmod.game.map.zone.ZoneKey
 import org.rsmod.game.model.mob.list.PlayerList
 import org.rsmod.plugins.api.cache.map.xtea.XteaRepository
 import org.rsmod.plugins.api.net.downstream.GPIInitialization
 import org.rsmod.plugins.api.net.downstream.RebuildNormal
+import org.rsmod.plugins.info.player.model.coord.LowResCoord
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -35,7 +37,7 @@ public class ClientGameSession @Inject constructor(
     }
 
     private fun createRebuildNormal(playerIndex: Int, playerCoords: Coordinates): RebuildNormal {
-        val zone = playerCoords.toZoneKey()
+        val zone = ZoneKey.from(playerCoords)
         val xtea = mutableListOf<Int>()
         zone.toViewport().forEach {
             val key = xteaRepository[it] ?: XteaKey.ZERO
@@ -50,7 +52,7 @@ public class ClientGameSession @Inject constructor(
 
     private fun PlayerList.playerCoords(excludeIndex: Int): List<Int> = mapIndexedNotNull { index, player ->
         if (index != excludeIndex) {
-            player?.coords?.packed18Bits ?: 0
+            player?.coords?.let { LowResCoord(it.x, it.z, it.level).packed } ?: 0
         } else {
             null
         }

@@ -1,7 +1,7 @@
 package org.rsmod.plugins.store.dev.data
 
 import org.rsmod.game.config.GameConfig
-import org.rsmod.game.model.map.Coordinates
+import org.rsmod.game.map.Coordinates
 import org.rsmod.game.model.mob.Player
 import org.rsmod.plugins.store.player.PlayerDataMapper
 import org.rsmod.plugins.store.player.PlayerDataRequest
@@ -16,7 +16,7 @@ public class DevPlayerDataMapper @Inject constructor(
         return DevPlayerData(
             username = player.username,
             displayName = player.displayName,
-            coords = intArrayOf(player.coords.x, player.coords.y, player.coords.level)
+            coords = intArrayOf(player.coords.x, player.coords.z, player.coords.level)
         )
     }
 

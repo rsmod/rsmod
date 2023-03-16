@@ -1,7 +1,7 @@
 package org.rsmod.game.config
 
+import org.rsmod.game.map.Coordinates
 import org.rsmod.game.model.GameEnv
-import org.rsmod.game.model.map.Coordinates
 import java.nio.file.Path
 
 public data class GameConfig(

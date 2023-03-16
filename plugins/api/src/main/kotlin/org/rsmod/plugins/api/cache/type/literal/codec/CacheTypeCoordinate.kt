@@ -1,6 +1,6 @@
 package org.rsmod.plugins.api.cache.type.literal.codec
 
-import org.rsmod.game.model.map.Coordinates
+import org.rsmod.game.map.Coordinates
 
 public object CacheTypeCoordinate : CacheTypeBaseInt<Coordinates>(Coordinates::class.java) {
 

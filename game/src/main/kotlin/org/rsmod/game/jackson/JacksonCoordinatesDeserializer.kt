@@ -3,7 +3,7 @@ package org.rsmod.game.jackson
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer
-import org.rsmod.game.model.map.Coordinates
+import org.rsmod.game.map.Coordinates
 import java.io.IOException
 
 public object JacksonCoordinatesDeserializer : StdDeserializer<Coordinates>(Coordinates::class.java) {

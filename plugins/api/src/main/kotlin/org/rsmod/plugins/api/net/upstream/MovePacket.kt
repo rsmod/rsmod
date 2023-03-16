@@ -5,13 +5,13 @@ import org.rsmod.protocol.game.packet.UpstreamPacket
 public data class MoveGameClick(
     val mode: Int,
     val x: Int,
-    val y: Int
+    val z: Int
 ) : UpstreamPacket
 
 public data class MoveMinimapClick(
     val mode: Int,
     val x: Int,
-    val y: Int,
+    val z: Int,
     val fineX: Int,
     val fineY: Int,
     val minimapPxOffX: Int,

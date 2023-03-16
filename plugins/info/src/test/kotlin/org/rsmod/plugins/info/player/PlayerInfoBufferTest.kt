@@ -213,13 +213,13 @@ class PlayerInfoBufferTest {
                         val updateType = bitBuf.getBits(2)
                         val updateLowResCoords = bitBuf.getBoolean()
                         val x = bitBuf.getBits(13)
-                        val y = bitBuf.getBits(13)
+                        val z = bitBuf.getBits(13)
                         val extended = bitBuf.getBoolean()
                         assertEquals(READ_AVATAR_INFO_OPCODE, readOpcode)
                         assertEquals(READ_CHANGE_RESOLUTION, updateType)
                         assertFalse(updateLowResCoords)
                         assertEquals(info.avatars[playerB].coords.x, x)
-                        assertEquals(info.avatars[playerB].coords.y, y)
+                        assertEquals(info.avatars[playerB].coords.z, z)
                         assertTrue(extended)
                     }
 
@@ -266,7 +266,7 @@ class PlayerInfoBufferTest {
                     assertTrue(largeTeleport)
                     assertEquals(expected.level, diffLevel)
                     assertEquals(expected.x, diffX)
-                    assertEquals(expected.y, diffY)
+                    assertEquals(expected.z, diffY)
                 }
             }
             run getLowRes@{
@@ -276,13 +276,13 @@ class PlayerInfoBufferTest {
                         val updateType = bitBuf.getBits(2)
                         val updateLowResCoords = bitBuf.getBoolean()
                         val x = bitBuf.getBits(13)
-                        val y = bitBuf.getBits(13)
+                        val z = bitBuf.getBits(13)
                         val extended = bitBuf.getBoolean()
                         assertEquals(READ_AVATAR_INFO_OPCODE, readOpcode)
                         assertEquals(READ_CHANGE_RESOLUTION, updateType)
                         assertFalse(updateLowResCoords)
                         assertEquals(info.avatars[playerA].coords.x, x)
-                        assertEquals(info.avatars[playerA].coords.y, y)
+                        assertEquals(info.avatars[playerA].coords.z, z)
                         assertTrue(extended)
                     }
 
@@ -516,7 +516,7 @@ class PlayerInfoBufferTest {
                         assertTrue(largeTeleport)
                         assertEquals(expected.level, diffLevel)
                         assertEquals(expected.x, diffX)
-                        assertEquals(expected.y, diffY)
+                        assertEquals(expected.z, diffY)
                     }
                 }
             }
@@ -708,13 +708,13 @@ class PlayerInfoBufferTest {
                         val updateType = bitBuf.getBits(2)
                         val updateLowResCoords = bitBuf.getBoolean()
                         val x = bitBuf.getBits(13)
-                        val y = bitBuf.getBits(13)
+                        val z = bitBuf.getBits(13)
                         val extended = bitBuf.getBoolean()
                         assertEquals(READ_AVATAR_INFO_OPCODE, readOpcode)
                         assertEquals(READ_CHANGE_RESOLUTION, updateType)
                         assertFalse(updateLowResCoords)
                         assertEquals(info.avatars[playerB].coords.x, x)
-                        assertEquals(info.avatars[playerB].coords.y, y)
+                        assertEquals(info.avatars[playerB].coords.z, z)
                         assertTrue(extended)
                     }
 
@@ -761,13 +761,13 @@ class PlayerInfoBufferTest {
                         val updateType = bitBuf.getBits(2)
                         val updateLowResCoords = bitBuf.getBoolean()
                         val x = bitBuf.getBits(13)
-                        val y = bitBuf.getBits(13)
+                        val z = bitBuf.getBits(13)
                         val extended = bitBuf.getBoolean()
                         assertEquals(READ_AVATAR_INFO_OPCODE, readOpcode)
                         assertEquals(READ_CHANGE_RESOLUTION, updateType)
                         assertFalse(updateLowResCoords)
                         assertEquals(info.avatars[playerA].coords.x, x)
-                        assertEquals(info.avatars[playerA].coords.y, y)
+                        assertEquals(info.avatars[playerA].coords.z, z)
                         assertTrue(extended)
                     }
 

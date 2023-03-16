@@ -8,15 +8,16 @@ dependencies {
     implementation(projects.toml)
     implementation(projects.game.coroutines)
     implementation(projects.game.events)
+    implementation(projects.game.map)
     implementation(projects.game.protocol)
     implementation(libs.clikt)
-    implementation(libs.openrs2Crypto)
     implementation(libs.guava)
-    implementation(libs.kotlinCoroutinesCore)
-    implementation(libs.nettyTransport)
     implementation(libs.guice)
-    implementation(libs.logback)
     implementation(libs.inlineLogger)
+    implementation(libs.kotlinCoroutinesCore)
+    implementation(libs.logback)
+    implementation(libs.nettyTransport)
+    implementation(libs.openrs2Crypto)
 }
 
 subprojects {
