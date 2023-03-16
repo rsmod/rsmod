@@ -34,18 +34,32 @@ class GameMapTest {
             ObjectKey(5, 3, 2) to ObjectEntity(id = 3200, shape = 5, rot = 0)
         )
         objects.forEach { (key, entity) -> zone[key] = entity }
+
+        // Pseudo-verify all objects added to zone dynamic object map.
         assertEquals(objects.size, zone.dynamicObjects?.size)
 
         val map = GameMap(
             MutableZoneMap.empty().apply { this[zoneKey.packed] = zone }.immutable(),
             MutableZoneMap.empty().apply { this[zoneKey.packed] = zone }
         )
-        assertEquals(objects.size, map.objectEntries(zoneKey).size)
+
+        // Test object entries from zone key.
+        map.objectEntries(zoneKey).let { entries ->
+            assertEquals(objects.size, entries.size)
+            objects.forEach { (key, entity) ->
+                val coords = zoneKey.toCoords().translate(key.x, key.z)
+                val entry = entries.firstOrNull { it.slot == key.slot && it.coords == coords }
+                assertNotNull(entry)
+                assertEquals(entity, entry!!.entity)
+            }
+        }
+
+        // Test object entries from coords.
         objects.forEach { (key, entity) ->
             val coords = zoneKey.toCoords().translate(key.x, key.z)
-            val entry = map.objectEntries(coords)
-                .firstOrNull { it.slot == key.slot && it.entity == entity }
+            val entry = map.objectEntries(coords).firstOrNull { it.slot == key.slot }
             assertNotNull(entry)
+            assertEquals(entity, entry!!.entity)
         }
     }
 }
