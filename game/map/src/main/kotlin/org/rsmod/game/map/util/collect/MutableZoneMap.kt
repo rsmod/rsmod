@@ -26,6 +26,10 @@ public value class MutableZoneMap(private val backing: Int2ObjectMap<Zone>) {
         return backing.remove(key)
     }
 
+    public fun containsKey(key: Int): Boolean {
+        return backing.containsKey(key)
+    }
+
     public fun entrySet(): Set<Int2ObjectMap.Entry<Zone>> {
         return backing.int2ObjectEntrySet()
     }

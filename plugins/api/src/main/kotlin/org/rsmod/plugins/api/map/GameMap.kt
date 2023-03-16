@@ -1,5 +1,6 @@
-package org.rsmod.game.map
+package org.rsmod.plugins.api.map
 
+import org.rsmod.game.map.Coordinates
 import org.rsmod.game.map.entity.obj.ObjectEntity
 import org.rsmod.game.map.entity.obj.ObjectEntry
 import org.rsmod.game.map.entity.obj.ObjectKey
@@ -7,10 +8,12 @@ import org.rsmod.game.map.util.collect.ImmutableZoneMap
 import org.rsmod.game.map.util.collect.MutableZoneMap
 import org.rsmod.game.map.zone.Zone
 import org.rsmod.game.map.zone.ZoneKey
+import org.rsmod.game.pathfinder.collision.CollisionFlagMap
 
 public class GameMap(
     private val staticZones: ImmutableZoneMap,
-    private val dynamicZones: MutableZoneMap
+    private val dynamicZones: MutableZoneMap,
+    public val flags: CollisionFlagMap = CollisionFlagMap()
 ) {
 
     public operator fun get(key: ZoneKey): Zone? = if (key.isDynamicZone()) {

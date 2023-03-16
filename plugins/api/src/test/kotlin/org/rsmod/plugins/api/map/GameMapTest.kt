@@ -1,9 +1,10 @@
-package org.rsmod.game.map
+package org.rsmod.plugins.api.map
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import org.rsmod.game.map.Coordinates
 import org.rsmod.game.map.entity.obj.ObjectEntity
 import org.rsmod.game.map.entity.obj.ObjectKey
 import org.rsmod.game.map.util.collect.ImmutableObjectMap

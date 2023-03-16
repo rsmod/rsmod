@@ -2,7 +2,8 @@ package org.rsmod.game.map.square
 
 import org.rsmod.game.map.Coordinates
 
-public class MapSquareKey(public val id: Int) {
+@JvmInline
+public value class MapSquareKey(public val id: Int) {
 
     public val x: Int get() = (id shr X_BIT_OFFSET) and X_BIT_MASK
 

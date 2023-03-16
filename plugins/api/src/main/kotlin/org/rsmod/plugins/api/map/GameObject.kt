@@ -11,6 +11,20 @@ public class GameObject(
 ) {
 
     public val id: Int get() = entity.id
+
     public val shape: Int get() = entity.shape
+
     public val rot: Int get() = entity.rot
+
+    public fun shape(): ObjectShape? {
+        return ObjectShape.mapped[shape]
+    }
+
+    public fun slot(): ObjectSlot? {
+        return shape()?.slot
+    }
+
+    public override fun toString(): String {
+        return "GameObject(id=$id, shape=$shape, rot=$rot, coords=$coords)"
+    }
 }
