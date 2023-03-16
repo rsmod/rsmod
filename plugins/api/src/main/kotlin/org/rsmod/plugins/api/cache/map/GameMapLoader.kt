@@ -48,24 +48,27 @@ public class GameMapLoader @Inject constructor(
     }
 
     private fun GameMapBuilder.putAll(
-        key: MapSquareKey,
+        square: MapSquareKey,
         mapDef: MapDefinition,
         locDef: MapLocDefinition,
         loadVisualLinkBelowObjects: Boolean = false
     ) {
         val layeredCoords = mapDef.overlays.keys + mapDef.underlays.keys
         // Allocate zones for all tiles with any underlays/overlays
-        layeredCoords.forEach { flags.allocateIfAbsent(it.x, it.z, it.level) }
+        layeredCoords.forEach {
+            val coords = it.translate(square)
+            flags.allocateIfAbsent(coords.x, coords.z, coords.level)
+        }
 
         mapDef.rules.forEach { (local, ruleByte) ->
             val rule = rule(local, ruleByte.toInt()) { local.ruleAbove(mapDef.rules) }
             if ((rule and BLOCKED_BIT_FLAG) != 0) {
-                val coords = key.toCoords(local.level).translate(local.x, local.z)
+                val coords = local.translate(square)
                 flags.allocateIfAbsent(coords.x, coords.z, coords.level)
                 flags.add(coords.x, coords.z, coords.level, CollisionFlag.FLOOR)
             }
             if ((rule and REMOVE_ROOF_BIT_FLAG) != 0) {
-                val coords = key.toCoords(local.level).translate(local.x, local.z)
+                val coords = local.translate(square)
                 flags.allocateIfAbsent(coords.x, coords.z, coords.level)
                 flags.add(coords.x, coords.z, coords.level, CollisionFlag.ROOF)
             }
@@ -82,7 +85,7 @@ public class GameMapLoader @Inject constructor(
                 loc.level
             }
             if (!loadVisualLinkBelowObjects && visualLevel < 0) return@forEach
-            val coords = key.toCoords(0.coerceAtLeast(visualLevel)).translate(loc.localX, loc.localZ)
+            val coords = square.toCoords(0.coerceAtLeast(visualLevel)).translate(loc.localX, loc.localZ)
             val zone = computeIfAbsent(ZoneKey.from(coords)) { ZoneBuilder() }
             val obj = GameObject(loc.objectType(), coords, ObjectEntity(loc.id, loc.shape, loc.rot))
             val slot = obj.slot() ?: error("Invalid object slot. (obj=$obj)")
@@ -93,7 +96,7 @@ public class GameMapLoader @Inject constructor(
              * their original coordinates.
              */
             if (visualLevel !in 0 until Coordinates.LEVEL_COUNT) {
-                val originalCoords = key.toCoords(loc.level).translate(loc.localX, loc.localZ)
+                val originalCoords = local.translate(square)
                 zone.addLinkBelow(originalCoords, slot.id, obj.entity)
                 return@forEach
             }
@@ -122,6 +125,10 @@ public class GameMapLoader @Inject constructor(
 
     private fun MapLoc.objectType(): ObjectType {
         return objectTypes.getValue(id)
+    }
+
+    private fun Coordinates.translate(key: MapSquareKey): Coordinates {
+        return key.toCoords(level).translate(x, z)
     }
 
     public companion object {
