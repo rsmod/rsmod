@@ -2,7 +2,7 @@ package org.rsmod.plugins.profile.dispatch.player
 
 import com.github.michaelbull.logging.InlineLogger
 import org.rsmod.game.events.GameEventBus
-import org.rsmod.game.model.client.Entity
+import org.rsmod.game.model.mob.Mob
 import org.rsmod.game.model.mob.list.PlayerList
 import org.rsmod.plugins.api.model.event.PlayerSession
 import org.rsmod.plugins.api.publish
@@ -31,7 +31,7 @@ public class PlayerDeregisterDispatch @Inject constructor(
         playerList[player.index] = null
         player.publish(PlayerSession.LogOut(player), eventBus)
         player.publish(PlayerSession.Finalize(player), eventBus)
-        player.index = Entity.INVALID_INDEX
+        player.index = Mob.INVALID_INDEX
         return PlayerDeregisterResponse.Success
     }
 

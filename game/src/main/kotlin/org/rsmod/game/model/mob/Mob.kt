@@ -6,25 +6,20 @@ import org.rsmod.game.map.Coordinates
 import org.rsmod.game.model.client.Entity
 
 public sealed class Mob(
+    public var index: Int = INVALID_INDEX,
     public val coroutineScope: GameCoroutineScope = GameCoroutineScope()
 ) {
 
     public abstract val entity: Entity
 
-    public var index: Int
-        get() = entity.index
-        set(value) { entity.index = value }
-
     public var coords: Coordinates
         get() = entity.coords
         set(value) { entity.coords = value }
 
-    public var prevCoords: Coordinates
-        get() = entity.prevCoords
-        set(value) { entity.prevCoords = value }
-
     public var activeCoroutine: GameCoroutine? = null
         private set
+
+    public var prevCoords: Coordinates = Coordinates.ZERO
 
     public fun launchCoroutine(block: suspend (GameCoroutine).() -> Unit): GameCoroutine {
         return coroutineScope.launch(block = block)
@@ -48,5 +43,10 @@ public sealed class Mob(
      */
     public fun finalize() {
         coroutineScope.cancel()
+    }
+
+    public companion object {
+
+        public const val INVALID_INDEX: Int = -1
     }
 }
