@@ -4,10 +4,12 @@ import org.rsmod.game.coroutines.GameCoroutine
 import org.rsmod.game.coroutines.GameCoroutineScope
 import org.rsmod.game.map.Coordinates
 import org.rsmod.game.model.client.Entity
+import org.rsmod.game.model.mob.move.MovementQueue
 
 public sealed class Mob(
     public var index: Int = INVALID_INDEX,
-    public val coroutineScope: GameCoroutineScope = GameCoroutineScope()
+    public val coroutineScope: GameCoroutineScope = GameCoroutineScope(),
+    public val movement: MovementQueue = MovementQueue()
 ) {
 
     public abstract val entity: Entity
