@@ -10,7 +10,12 @@ public class StepFactory @Inject constructor(map: GameMap) {
 
     private val validator: StepValidator = StepValidator(map.flags)
 
+    /**
+     * @return the next available step in between [source] and [destination] _without_
+     * validating that said step is not blocked by any possible collision flags.
+     */
     public fun unvalidated(source: Coordinates, destination: Coordinates): Coordinates {
+        require(source != destination) { "`source` must not be equal to `destination`." }
         val offX = when {
             source.x < destination.x -> 1
             source.x > destination.x -> -1
@@ -21,7 +26,7 @@ public class StepFactory @Inject constructor(map: GameMap) {
             source.z > destination.z -> -1
             else -> 0
         }
-        return if (offX == 0 && offZ == 0) Coordinates.ZERO else source.translate(offX, offZ)
+        return source.translate(offX, offZ)
     }
 
     /**
