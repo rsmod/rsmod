@@ -9,6 +9,7 @@ import org.rsmod.plugins.api.core.GameProcessModule
 import org.rsmod.plugins.api.info.InfoModule
 import org.rsmod.plugins.api.net.PacketModule
 import org.rsmod.plugins.api.net.upstream.handler.UpstreamHandlerModule
+import org.rsmod.plugins.api.pathfinder.PathFinderModule
 import org.rsmod.toml.TomlModule
 
 public object APIModule : AbstractModule() {
@@ -20,6 +21,7 @@ public object APIModule : AbstractModule() {
         install(InfoModule)
         install(JsonModule)
         install(PacketModule)
+        install(PathFinderModule)
         install(TomlModule)
         install(UpstreamHandlerModule)
         install(XteaModule)

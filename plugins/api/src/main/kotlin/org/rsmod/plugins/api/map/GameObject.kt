@@ -16,6 +16,10 @@ public class GameObject(
 
     public val rot: Int get() = entity.rot
 
+    public val width: Int get() = type.width
+
+    public val height: Int get() = type.height
+
     public fun shape(): ObjectShape? {
         return ObjectShape.mapped[shape]
     }
