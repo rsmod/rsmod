@@ -13,6 +13,7 @@ import org.rsmod.plugins.api.model.ui.StandardGameframe
 import org.rsmod.plugins.api.net.downstream.IfOpenSub
 import org.rsmod.plugins.api.net.downstream.IfOpenTop
 import org.rsmod.plugins.api.net.downstream.MessageGame
+import org.rsmod.plugins.api.net.downstream.MinimapFlagSet
 import org.rsmod.plugins.api.net.downstream.RunClientScript
 import org.rsmod.plugins.api.net.downstream.VarpLarge
 import org.rsmod.plugins.api.net.downstream.VarpSmall
@@ -90,6 +91,20 @@ public fun Player.syncVarp(varp: Int, value: Int) {
         else -> VarpLarge(varp, value)
     }
     downstream += packet
+}
+
+public fun Player.setMinimapFlag(x: Int, z: Int) {
+    val dx = x - buildArea.base.x
+    val dz = z - buildArea.base.z
+    downstream += MinimapFlagSet(dx, dz)
+}
+
+public fun Player.setMinimapFlag(coords: Coordinates) {
+    setMinimapFlag(coords.x, coords.z)
+}
+
+public fun Player.clearMinimapFlag() {
+    downstream += MinimapFlagSet(255, 255)
 }
 
 public fun <T : GameEvent> Player.publish(event: T, bus: GameEventBus) {

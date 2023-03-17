@@ -9,6 +9,7 @@ import org.openrs2.buffer.writeString
 import org.rsmod.plugins.api.net.downstream.IfOpenSub
 import org.rsmod.plugins.api.net.downstream.IfOpenTop
 import org.rsmod.plugins.api.net.downstream.MessageGame
+import org.rsmod.plugins.api.net.downstream.MinimapFlagSet
 import org.rsmod.plugins.api.net.downstream.PlayerInfoPacket
 import org.rsmod.plugins.api.net.downstream.RebuildNormal
 import org.rsmod.plugins.api.net.downstream.RunClientScript
@@ -18,6 +19,15 @@ import org.rsmod.plugins.api.net.platform.GamePlatformPacketMaps
 
 private val platforms: GamePlatformPacketMaps by inject()
 private val packets = platforms.desktopDownstream
+
+packets.register<MinimapFlagSet> {
+    opcode = 24
+    length = 2
+    encode { packet, buf ->
+        buf.writeByte(packet.lx)
+        buf.writeByte(packet.lz)
+    }
+}
 
 packets.register<MessageGame> {
     opcode = 86
