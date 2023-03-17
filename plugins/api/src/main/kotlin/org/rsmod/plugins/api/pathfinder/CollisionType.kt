@@ -8,5 +8,5 @@ public enum class CollisionType(public val strategy: CollisionStrategy) {
     Fly(CollisionStrategies.Fly),
     Indoors(CollisionStrategies.Indoors),
     Normal(CollisionStrategies.Normal),
-    Outdoors(CollisionStrategies.Outdoors);
+    Outdoors(CollisionStrategies.Outdoors)
 }
