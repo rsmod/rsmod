@@ -9,6 +9,8 @@ import org.rsmod.game.model.mob.list.PlayerList
 import org.rsmod.plugins.api.cache.map.xtea.XteaRepository
 import org.rsmod.plugins.api.net.downstream.GPIInitialization
 import org.rsmod.plugins.api.net.downstream.RebuildNormal
+import org.rsmod.plugins.api.refreshBuildArea
+import org.rsmod.plugins.api.util.BuildAreaUtils
 import org.rsmod.plugins.info.player.model.coord.LowResCoord
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -25,6 +27,8 @@ public class ClientGameSession @Inject constructor(
         val player = client.player
         val channel = client.channel
         val rebuildNormal = createRebuildNormal(player.index, player.coords)
+        // TODO: move to game cycle (check if build area should be refreshed)
+        player.refreshBuildArea(player.coords)
         // REBUILD_NORMAL should be priority and the first packet to be
         // sent downstream.
         player.downstream.add(0, rebuildNormal)
@@ -39,7 +43,7 @@ public class ClientGameSession @Inject constructor(
     private fun createRebuildNormal(playerIndex: Int, playerCoords: Coordinates): RebuildNormal {
         val zone = ZoneKey.from(playerCoords)
         val xtea = mutableListOf<Int>()
-        zone.toViewport().forEach {
+        zone.toViewport(BuildAreaUtils.ZONE_VIEW_RADIUS).forEach {
             val key = xteaRepository[it] ?: XteaKey.ZERO
             xtea += key.k0
             xtea += key.k1

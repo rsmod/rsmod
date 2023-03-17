@@ -14,17 +14,23 @@ public value class ZoneKey(public val packed: Int) {
 
     public constructor(x: Int, z: Int, level: Int) : this(pack(x, z, level))
 
+    public fun translate(xOffset: Int, zOffset: Int, levelOffset: Int = 0): ZoneKey = ZoneKey(
+        x = x + xOffset,
+        z = z + zOffset,
+        level = level + levelOffset
+    )
+
     public fun toCoords(): Coordinates = Coordinates(
         x = x * Zone.SIZE,
         z = z * Zone.SIZE,
         level = level
     )
 
-    public fun toViewport(): List<MapSquareKey> {
-        val lx = (x - 6) / Zone.SIZE
-        val lz = (z - 6) / Zone.SIZE
-        val rx = (x + 6) / Zone.SIZE
-        val rz = (z + 6) / Zone.SIZE
+    public fun toViewport(zoneRadius: Int): List<MapSquareKey> {
+        val lx = (x - zoneRadius) / Zone.SIZE
+        val lz = (z - zoneRadius) / Zone.SIZE
+        val rx = (x + zoneRadius) / Zone.SIZE
+        val rz = (z + zoneRadius) / Zone.SIZE
         val viewport = mutableListOf<MapSquareKey>()
         for (mx in lx..rx) {
             for (mz in lz..rz) {

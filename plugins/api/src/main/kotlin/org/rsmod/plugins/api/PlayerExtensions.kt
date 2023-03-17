@@ -4,6 +4,7 @@ import com.github.michaelbull.logging.InlineLogger
 import org.rsmod.game.events.GameEvent
 import org.rsmod.game.events.GameEventBus
 import org.rsmod.game.events.GameKeyedEvent
+import org.rsmod.game.map.Coordinates
 import org.rsmod.game.model.mob.Player
 import org.rsmod.plugins.api.cache.type.varbit.VarbitType
 import org.rsmod.plugins.api.cache.type.varp.VarpType
@@ -118,3 +119,8 @@ public fun <T : GameKeyedEvent> Player.publish(id: Long, event: T, bus: GameEven
 
 public fun <T : GameKeyedEvent> Player.publish(id: Int, event: T, bus: GameEventBus): Unit =
     publish(id.toLong(), event, bus)
+
+public fun Player.refreshBuildArea(center: Coordinates) {
+    val buildArea = center.toBuildArea()
+    this.buildArea = buildArea
+}
