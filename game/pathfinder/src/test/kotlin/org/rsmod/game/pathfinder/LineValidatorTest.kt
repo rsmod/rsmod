@@ -22,6 +22,7 @@ class LineValidatorTest {
     fun `validate empty path`() {
         val src = RouteCoordinates(3200, 3200)
         val dest = RouteCoordinates(src.x + 3, src.z)
+        flags.allocateIfAbsent(src.x, src.z, src.level)
         val validPath = validator.hasLineOfSight(
             level = src.level,
             srcX = src.x,

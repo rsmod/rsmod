@@ -36,10 +36,15 @@ public class CollisionFlagMap(private val flags: Array<IntArray?> = arrayOfNulls
         this[x, z, level] = old and mask.inv()
     }
 
+    public fun allocateAndGet(x: Int, z: Int, level: Int): Int {
+        allocateIfAbsent(x, z, level)
+        return this[x, z, level]
+    }
+
     public operator fun get(x: Int, z: Int, level: Int): Int {
         val zoneIndex = coordsToZoneIndex(x, z, level)
         val localIndex = coordsToZoneLocalIndex(x, z)
-        return flags[zoneIndex]?.get(localIndex) ?: 0
+        return flags[zoneIndex]?.get(localIndex) ?: DEFAULT_FLAG
     }
 
     public operator fun set(x: Int, z: Int, level: Int, flags: Int) {
@@ -48,11 +53,17 @@ public class CollisionFlagMap(private val flags: Array<IntArray?> = arrayOfNulls
         zoneFlags[localIndex] = flags
     }
 
+    public fun defaultFlag(): Int {
+        return DEFAULT_FLAG
+    }
+
     public companion object {
 
         public const val TOTAL_ZONES: Int = 2048 * 2048 * 4
 
         public const val ZONE_SIZE: Int = 8 * 8
+
+        public const val DEFAULT_FLAG: Int = -1
 
         private fun coordsToZoneLocalIndex(x: Int, z: Int): Int {
             return (x and 0x7) or ((z and 0x7) shl 3)

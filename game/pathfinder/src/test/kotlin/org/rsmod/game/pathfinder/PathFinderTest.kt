@@ -25,6 +25,8 @@ class PathFinderTest {
     fun `reach empty tile`() {
         val src = RouteCoordinates(0, 0)
         val dest = RouteCoordinates(1, 0)
+        flags.allocateIfAbsent(src.x, src.z, src.level)
+        flags.allocateIfAbsent(dest.x, dest.z, dest.level)
         val route = pathFinder.findPath(
             level = src.level,
             srcX = src.x,
@@ -58,6 +60,8 @@ class PathFinderTest {
     internal fun `reach directional dest path`(dir: Direction) {
         val src = RouteCoordinates(3200, 3200)
         val dest = RouteCoordinates(src.x + dir.offX, src.z + dir.offZ)
+        flags.allocateIfAbsent(src.x, src.z, src.level)
+        flags.allocateIfAbsent(dest.x, dest.z, dest.level)
         val route = pathFinder.findPath(
             level = src.level,
             srcX = src.x,

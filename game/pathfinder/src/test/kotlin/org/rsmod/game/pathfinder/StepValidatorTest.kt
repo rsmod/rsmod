@@ -23,6 +23,10 @@ class StepValidatorTest {
     @ArgumentsSource(DirectionProvider::class)
     internal fun `validate unblocked direction (size 1)`(dir: Direction) {
         val src = RouteCoordinates(3200, 3200)
+        flags.allocateIfAbsent(src.x, src.z, src.level)
+        flags.allocateIfAbsent(src.x, src.z + dir.offZ, src.level)
+        flags.allocateIfAbsent(src.x + dir.offX, src.z, src.level)
+        flags.allocateIfAbsent(src.x + dir.offX, src.z + dir.offZ, src.level)
         val valid = validator.canTravel(
             level = src.level,
             x = src.x,

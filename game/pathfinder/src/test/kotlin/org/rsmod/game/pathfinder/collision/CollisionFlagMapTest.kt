@@ -31,11 +31,12 @@ internal class CollisionFlagMapTest {
         // Given
         val mask = 0x8
         // When
+        collisions.allocateIfAbsent(2, 0, 3)
         collisions.add(2, 0, 3, mask)
         // Then
         assertEquals(mask, 2, 0, 3)
-        assertEquals(0, 2050, 0, 3)
-        assertEquals(0, 10, 0, 3)
+        assertEquals(collisions.defaultFlag(), 2050, 0, 3)
+        assertEquals(collisions.defaultFlag(), 10, 0, 3)
     }
 
     @Test
@@ -72,7 +73,7 @@ internal class CollisionFlagMapTest {
     @Test
     fun `Get empty mask`() {
         // When
-        val result = collisions[1, 2, 3]
+        val result = collisions.allocateAndGet(1, 2, 3)
         // Then
         assertEquals(0, result)
     }
