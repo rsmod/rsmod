@@ -74,7 +74,7 @@ packets.register<RebuildNormal> {
             BitBuf(buf).use { bitBuf -> gpi.encode(bitBuf) }
         }
         buf.writeShortA(packet.zone.x)
-        buf.writeShortLE(packet.zone.y)
+        buf.writeShortLE(packet.zone.z)
         buf.writeShort(packet.xteaList.size / 4)
         packet.xteaList.forEach { key ->
             buf.writeInt(key)

@@ -344,7 +344,7 @@ public class PlayerInfo(public val playerLimit: Int = MAX_PLAYER_LIMIT) {
         private fun HighResCoord.inViewDistance(other: HighResCoord, viewDistance: Int): Boolean {
             return other.level == level &&
                 x - other.x in -viewDistance..viewDistance &&
-                y - other.y in -viewDistance..viewDistance
+                z - other.z in -viewDistance..viewDistance
         }
 
         private fun Avatar.getExtendedInfoBlock(sourceExtInfoClock: Int): ExtendedInfoBlock? = when {

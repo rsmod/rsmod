@@ -1,6 +1,6 @@
 package org.rsmod.game.pathfinder.collision
 
-@Suppress("NOTHING_TO_INLINE", "MemberVisibilityCanBePrivate")
+@Suppress("MemberVisibilityCanBePrivate")
 public class CollisionFlagMap(private val flags: Array<IntArray?> = arrayOfNulls(TOTAL_ZONES)) {
 
     public fun getOrAlloc(x: Int, y: Int, level: Int): IntArray {
@@ -10,6 +10,12 @@ public class CollisionFlagMap(private val flags: Array<IntArray?> = arrayOfNulls
         val alloc = IntArray(ZONE_SIZE)
         flags[zoneIndex] = alloc
         return alloc
+    }
+
+    public fun allocateIfAbsent(x: Int, z: Int, level: Int) {
+        val zoneIndex = coordsToZoneIndex(x, z, level)
+        if (flags[zoneIndex] != null) return
+        flags[zoneIndex] = IntArray(ZONE_SIZE)
     }
 
     /**
@@ -33,7 +39,7 @@ public class CollisionFlagMap(private val flags: Array<IntArray?> = arrayOfNulls
     public operator fun get(x: Int, y: Int, level: Int): Int {
         val zoneIndex = coordsToZoneIndex(x, y, level)
         val localIndex = coordsToZoneLocalIndex(x, y)
-        return flags[zoneIndex]?.get(localIndex) ?: 0
+        return flags[zoneIndex]?.get(localIndex) ?: -1
     }
 
     public operator fun set(x: Int, y: Int, level: Int, flags: Int) {
@@ -48,9 +54,11 @@ public class CollisionFlagMap(private val flags: Array<IntArray?> = arrayOfNulls
 
         public const val ZONE_SIZE: Int = 8 * 8
 
-        private inline fun coordsToZoneLocalIndex(x: Int, y: Int): Int = (x and 0x7) or ((y and 0x7) shl 3)
+        private fun coordsToZoneLocalIndex(x: Int, y: Int): Int {
+            return (x and 0x7) or ((y and 0x7) shl 3)
+        }
 
-        private inline fun coordsToZoneIndex(x: Int, y: Int, level: Int): Int {
+        private fun coordsToZoneIndex(x: Int, y: Int, level: Int): Int {
             return (x shr 3 and 0x7FF) or ((y shr 3 and 0x7FF) shl 11) or ((level and 0x3) shl 22)
         }
     }

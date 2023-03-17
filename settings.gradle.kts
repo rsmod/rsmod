@@ -16,6 +16,7 @@ include(
     "game",
     "game:coroutines",
     "game:events",
+    "game:map",
     "game:pathfinder",
     "game:scripts",
     "game:protocol",

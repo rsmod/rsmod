@@ -49,10 +49,10 @@ packets.register {
     opcode = 95
     length = variableByteLength
     decode { buf ->
-        val y = buf.readUnsignedShortLEA()
+        val z = buf.readUnsignedShortLEA()
         val mode = buf.readByteC().toInt()
         val x = buf.readUnsignedShortA()
-        MoveGameClick(mode, x, y)
+        MoveGameClick(mode, x, z)
     }
 }
 
@@ -60,7 +60,7 @@ packets.register {
     opcode = 13
     length = variableByteLength
     decode { buf ->
-        val y = buf.readUnsignedShortLEA()
+        val z = buf.readUnsignedShortLEA()
         val mode = buf.readByteC().toInt()
         val x = buf.readUnsignedShortA()
         val minimapPxOffX = buf.readByte().toInt()
@@ -70,7 +70,7 @@ packets.register {
         val fineX = buf.readUnsignedShort()
         val fineY = buf.readUnsignedShort()
         buf.skipBytes(Byte.SIZE_BYTES)
-        MoveMinimapClick(mode, x, y, fineX, fineY, minimapPxOffX, minimapPxOffY, cameraAngle)
+        MoveMinimapClick(mode, x, z, fineX, fineY, minimapPxOffX, minimapPxOffY, cameraAngle)
     }
 }
 

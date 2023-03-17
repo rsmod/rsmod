@@ -2,8 +2,8 @@ package org.rsmod.game.model.mob
 
 import org.rsmod.game.coroutines.GameCoroutine
 import org.rsmod.game.coroutines.GameCoroutineScope
+import org.rsmod.game.map.Coordinates
 import org.rsmod.game.model.client.Entity
-import org.rsmod.game.model.map.Coordinates
 
 public sealed class Mob(
     public val coroutineScope: GameCoroutineScope = GameCoroutineScope()

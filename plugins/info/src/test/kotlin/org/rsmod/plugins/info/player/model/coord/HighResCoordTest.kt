@@ -15,43 +15,43 @@ class HighResCoordTest {
     fun testArithmeticOperations() {
         val lhs = HighResCoord(3200, 2000, 0)
         val rhs = HighResCoord(1800, 1600, 1)
-        require(lhs.x == 3200 && lhs.y == 2000 && lhs.level == 0)
-        require(rhs.x == 1800 && rhs.y == 1600 && rhs.level == 1)
+        require(lhs.x == 3200 && lhs.z == 2000 && lhs.level == 0)
+        require(rhs.x == 1800 && rhs.z == 1600 && rhs.level == 1)
 
         val sum = lhs + rhs
         Assertions.assertEquals(lhs.x + rhs.x, sum.x)
-        Assertions.assertEquals(lhs.y + rhs.y, sum.y)
+        Assertions.assertEquals(lhs.z + rhs.z, sum.z)
         Assertions.assertEquals(lhs.level + rhs.level, sum.level)
 
         val diff = lhs - rhs
         Assertions.assertEquals(lhs.x - rhs.x, diff.x)
-        Assertions.assertEquals(lhs.y - rhs.y, diff.y)
+        Assertions.assertEquals(lhs.z - rhs.z, diff.z)
         Assertions.assertEquals((lhs.level - rhs.level) and 0x3, diff.level)
     }
 
     @ParameterizedTest
     @ArgumentsSource(CoordinateProvider::class)
-    fun testConstructCoord(x: Int, y: Int, vararg levels: Int) {
+    fun testConstructCoord(x: Int, z: Int, vararg levels: Int) {
         levels.forEach { level ->
-            val coord = HighResCoord(x, y, level)
+            val coord = HighResCoord(x, z, level)
             Assertions.assertEquals(x, coord.x)
-            Assertions.assertEquals(y, coord.y)
+            Assertions.assertEquals(z, coord.z)
             Assertions.assertEquals(level, coord.level)
         }
     }
 
     @ParameterizedTest
     @ArgumentsSource(CoordinateProvider::class)
-    fun testDeconstructCoord(x: Int, y: Int, vararg levels: Int) {
+    fun testDeconstructCoord(x: Int, z: Int, vararg levels: Int) {
         levels.forEach { level ->
-            val coord = HighResCoord(x, y, level)
+            val coord = HighResCoord(x, z, level)
             check(coord.x == x)
-            check(coord.y == y)
+            check(coord.z == z)
             check(coord.level == level)
 
-            val (cx, cy, clevel) = coord
+            val (cx, cz, clevel) = coord
             Assertions.assertEquals(x, cx)
-            Assertions.assertEquals(y, cy)
+            Assertions.assertEquals(z, cz)
             Assertions.assertEquals(level, clevel)
         }
     }
@@ -60,16 +60,16 @@ class HighResCoordTest {
     @ArgumentsSource(ConversionProvider::class)
     fun testLowResCoordConversion(
         highX: Int,
-        highY: Int,
+        highZ: Int,
         expectedLowX: Int,
-        expectedLowY: Int,
+        expectedLowZ: Int,
         vararg levels: Int
     ) {
         levels.forEach { level ->
-            val highRes = HighResCoord(highX, highY, level)
+            val highRes = HighResCoord(highX, highZ, level)
             val conversion = highRes.toLowRes()
             Assertions.assertEquals(expectedLowX, conversion.x)
-            Assertions.assertEquals(expectedLowY, conversion.y)
+            Assertions.assertEquals(expectedLowZ, conversion.z)
             Assertions.assertEquals(level, conversion.level)
         }
     }

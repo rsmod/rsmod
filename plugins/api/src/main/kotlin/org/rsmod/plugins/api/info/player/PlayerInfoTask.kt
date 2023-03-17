@@ -5,7 +5,7 @@ import org.openrs2.buffer.setByteC
 import org.openrs2.buffer.writeByteA
 import org.openrs2.buffer.writeShortLEA
 import org.openrs2.buffer.writeString
-import org.rsmod.game.model.map.Coordinates
+import org.rsmod.game.map.Coordinates
 import org.rsmod.game.model.mob.Player
 import org.rsmod.game.model.mob.list.PlayerList
 import org.rsmod.plugins.api.net.downstream.PlayerInfoPacket
@@ -119,7 +119,7 @@ public class PlayerInfoTask @Inject constructor(
     }
 
     private fun Coordinates.toHighResCoords(): HighResCoord {
-        return HighResCoord(x, y, level)
+        return HighResCoord(x, z, level)
     }
 
     private companion object {
