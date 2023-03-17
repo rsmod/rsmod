@@ -57,12 +57,6 @@ allprojects {
         }
     }
 
-    plugins.withType<KotlinterPlugin> {
-        configure<KotlinterExtension> {
-            disabledRules = arrayOf("filename")
-        }
-    }
-
     tasks.withType<JavaCompile> {
         options.release.set(11)
         options.encoding = "UTF-8"

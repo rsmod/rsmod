@@ -9,6 +9,10 @@ max_line_length = 120
 
 [*.{kt,kts}]
 indent_size = 4
+ktlint_code_style = official
+ktlint_standard_filename = disabled
+ktlint_standard_trailing-comma-on-call-site = disabled
+ktlint_standard_trailing-comma-on-declaration-site = disabled
 
 [*.md]
 max_line_length = 80
