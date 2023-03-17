@@ -5,9 +5,14 @@ import org.openrs2.cache.Cache
 import org.rsmod.game.map.Coordinates
 import org.rsmod.game.map.entity.obj.ObjectEntity
 import org.rsmod.game.map.square.MapSquareKey
+import org.rsmod.game.map.util.I14Coordinates
+import org.rsmod.game.map.util.I8Coordinates
 import org.rsmod.game.map.zone.ZoneKey
 import org.rsmod.game.pathfinder.flag.CollisionFlag
 import org.rsmod.plugins.api.cache.build.game.GameCache
+import org.rsmod.plugins.api.cache.map.MapDefinition.Companion.BLOCKED_BIT_FLAG
+import org.rsmod.plugins.api.cache.map.MapDefinition.Companion.LINK_BELOW_BIT_FLAG
+import org.rsmod.plugins.api.cache.map.MapDefinition.Companion.REMOVE_ROOF_BIT_FLAG
 import org.rsmod.plugins.api.cache.map.MapDefinitionLoader.Companion.MAPS_ARCHIVE
 import org.rsmod.plugins.api.cache.map.MapDefinitionLoader.Companion.readLocDefinition
 import org.rsmod.plugins.api.cache.map.MapDefinitionLoader.Companion.readMapDefinition
@@ -31,8 +36,8 @@ public class GameMapLoader @Inject constructor(
 
     /**
      * @param loadVisualLinkBelowObjects if set to true, any object below
-     * a tile that has the [LINK_BELOW_BIT_FLAG] set will be added to our
-     * game map in its respective zone and coordinates.
+     * a tile that has the [LINK_BELOW_BIT_FLAG] set and is located on level 0
+     * will be added to our game map in its respective zone and coordinates.
      * By default, this is false as the game does not make use of these
      * objects at any point, and they will consume memory.
      */
@@ -55,27 +60,27 @@ public class GameMapLoader @Inject constructor(
     ) {
         val layeredCoords = mapDef.overlays.keys + mapDef.underlays.keys
         // Allocate zones for all tiles with any underlays/overlays
-        layeredCoords.forEach {
-            val coords = it.translate(square)
+        layeredCoords.forEach { local ->
+            val coords = local.toCoords(square)
             flags.allocateIfAbsent(coords.x, coords.z, coords.level)
         }
 
         mapDef.rules.forEach { (local, ruleByte) ->
             val rule = rule(local, ruleByte.toInt()) { local.ruleAbove(mapDef.rules) }
             if ((rule and BLOCKED_BIT_FLAG) != 0) {
-                val coords = local.translate(square)
+                val coords = local.toCoords(square)
                 flags.allocateIfAbsent(coords.x, coords.z, coords.level)
                 flags.add(coords.x, coords.z, coords.level, CollisionFlag.FLOOR)
             }
             if ((rule and REMOVE_ROOF_BIT_FLAG) != 0) {
-                val coords = local.translate(square)
+                val coords = local.toCoords(square)
                 flags.allocateIfAbsent(coords.x, coords.z, coords.level)
                 flags.add(coords.x, coords.z, coords.level, CollisionFlag.ROOF)
             }
         }
 
         locDef.forEach { loc ->
-            val local = Coordinates(loc.localX, loc.localZ, loc.level)
+            val local = I14Coordinates(loc.localX, loc.localZ, loc.level)
             val rule = rule(local, mapDef.rules[local]?.toInt() ?: 0) { local.ruleAbove(mapDef.rules) }
             // Take into account that any tile that has this bit flag will
             // cause objects below it to "visually" go one level down.
@@ -96,47 +101,46 @@ public class GameMapLoader @Inject constructor(
              * their original coordinates.
              */
             if (visualLevel !in 0 until Coordinates.LEVEL_COUNT) {
-                val originalCoords = local.translate(square)
-                zone.addLinkBelow(originalCoords, slot.id, obj.entity)
+                zone.addLinkBelow(local.toI8Coords(), slot.id, obj.entity)
                 return@forEach
             }
-            zone.add(coords, slot.id, obj.entity)
+            zone.add(coords.toI8Coords(), slot.id, obj.entity)
             flags.allocateIfAbsent(coords.x, coords.z, coords.level)
             flags.addObject(obj)
         }
     }
 
-    @Suppress("NOTHING_TO_INLINE")
-    private inline fun rule(local: Coordinates, rule: Int, ruleAbove: () -> Int): Int {
-        if (local.level >= Coordinates.LEVEL_COUNT - 1) return rule
-        val aboveRule = ruleAbove()
-        return if ((aboveRule and LINK_BELOW_BIT_FLAG) != 0) {
-            aboveRule
-        } else {
-            rule
-        }
-    }
-
-    @Suppress("NOTHING_TO_INLINE")
-    private inline fun Coordinates.ruleAbove(rules: Map<Coordinates, Byte>): Int {
-        val above = Coordinates(x, z, level + 1)
-        return rules[above]?.toInt() ?: 0
-    }
-
-    private fun MapLoc.objectType(): ObjectType {
-        return objectTypes.getValue(id)
-    }
-
-    private fun Coordinates.translate(key: MapSquareKey): Coordinates {
-        return key.toCoords(level).translate(x, z)
-    }
+    private fun MapLoc.objectType(): ObjectType = objectTypes.getValue(id)
 
     public companion object {
 
-        public const val BLOCKED_BIT_FLAG: Int = 0x1
-        public const val LINK_BELOW_BIT_FLAG: Int = 0x2
-        public const val REMOVE_ROOF_BIT_FLAG: Int = 0x4
-        public const val VISIBLE_BELOW_BIT_FLAG: Int = 0x8
-        public const val FORCE_HIGH_DETAIL_BIT_FLAG: Int = 0x10
+        private fun I14Coordinates.toCoords(key: MapSquareKey): Coordinates {
+            return key.toCoords(level).translate(x, z)
+        }
+
+        private fun I14Coordinates.toI8Coords(): I8Coordinates {
+            return I8Coordinates.convert(x, z, level)
+        }
+
+        private fun Coordinates.toI8Coords(): I8Coordinates {
+            return I8Coordinates.convert(x, z, level)
+        }
+
+        @Suppress("NOTHING_TO_INLINE")
+        private inline fun rule(coords: I14Coordinates, rule: Int, ruleAbove: () -> Int): Int {
+            if (coords.level >= Coordinates.LEVEL_COUNT - 1) return rule
+            val aboveRule = ruleAbove()
+            return if ((aboveRule and LINK_BELOW_BIT_FLAG) != 0) {
+                aboveRule
+            } else {
+                rule
+            }
+        }
+
+        @Suppress("NOTHING_TO_INLINE")
+        private inline fun I14Coordinates.ruleAbove(rules: Map<I14Coordinates, Byte>): Int {
+            val above = I14Coordinates(x, z, level + 1)
+            return rules[above]?.toInt() ?: 0
+        }
     }
 }
