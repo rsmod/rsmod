@@ -77,7 +77,7 @@ internal class CollisionFlagMapTest {
         assertEquals(0, result)
     }
 
-    private fun assertEquals(expected: Int, x: Int, y: Int, level: Int) {
-        assertEquals(expected, collisions[x, y, level]) { "x=$x, y=$y, level=$level" }
+    private fun assertEquals(expected: Int, x: Int, z: Int, level: Int) {
+        assertEquals(expected, collisions[x, z, level]) { "x=$x, z=$z, level=$level" }
     }
 }

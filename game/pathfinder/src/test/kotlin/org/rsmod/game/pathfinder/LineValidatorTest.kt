@@ -21,13 +21,13 @@ class LineValidatorTest {
     @Test
     fun `validate empty path`() {
         val src = RouteCoordinates(3200, 3200)
-        val dest = RouteCoordinates(src.x + 3, src.y)
+        val dest = RouteCoordinates(src.x + 3, src.z)
         val validPath = validator.hasLineOfSight(
             level = src.level,
             srcX = src.x,
-            srcY = src.y,
+            srcZ = src.z,
             destX = dest.x,
-            destY = dest.y
+            destZ = dest.z
         )
         Assertions.assertTrue(validPath)
     }
@@ -36,14 +36,14 @@ class LineValidatorTest {
     @ArgumentsSource(InvalidDirectionPath::class)
     internal fun `invalidate blocked path`(dir: Direction, flag: Int) {
         val src = RouteCoordinates(3200, 3200)
-        val dest = RouteCoordinates(src.x + (dir.offX * 6), src.y + (dir.offY * 6))
-        flags[src.x + dir.offX, src.y + dir.offY, src.level] = flag
+        val dest = RouteCoordinates(src.x + (dir.offX * 6), src.z + (dir.offZ * 6))
+        flags[src.x + dir.offX, src.z + dir.offZ, src.level] = flag
         val validPath = validator.hasLineOfSight(
             level = src.level,
             srcX = src.x,
-            srcY = src.y,
+            srcZ = src.z,
             destX = dest.x,
-            destY = dest.y
+            destZ = dest.z
         )
         Assertions.assertFalse(validPath)
     }

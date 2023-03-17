@@ -13,10 +13,10 @@ public object ReachStrategy {
     public fun reached(
         flags: CollisionFlagMap,
         x: Int,
-        y: Int,
+        z: Int,
         level: Int,
         destX: Int,
-        destY: Int,
+        destZ: Int,
         destWidth: Int,
         destHeight: Int,
         srcSize: Int,
@@ -25,15 +25,15 @@ public object ReachStrategy {
         accessBitMask: Int
     ): Boolean {
         val exitStrategy = shape.exitStrategy
-        if (exitStrategy != RECTANGLE_EXCLUSIVE_STRATEGY && x == destX && y == destY) return true
+        if (exitStrategy != RECTANGLE_EXCLUSIVE_STRATEGY && x == destX && z == destZ) return true
         return when (exitStrategy) {
             WALL_STRATEGY -> reachWall(
                 flags,
                 x,
-                y,
+                z,
                 level,
                 destX,
-                destY,
+                destZ,
                 srcSize,
                 shape,
                 rotation
@@ -41,10 +41,10 @@ public object ReachStrategy {
             WALL_DECO_STRATEGY -> reachWallDeco(
                 flags,
                 x,
-                y,
+                z,
                 level,
                 destX,
-                destY,
+                destZ,
                 srcSize,
                 shape,
                 rotation
@@ -52,11 +52,11 @@ public object ReachStrategy {
             RECTANGLE_STRATEGY -> reachRectangle(
                 flags,
                 x,
-                y,
+                z,
                 level,
                 accessBitMask,
                 destX,
-                destY,
+                destZ,
                 srcSize,
                 destWidth,
                 destHeight
@@ -64,11 +64,11 @@ public object ReachStrategy {
             RECTANGLE_EXCLUSIVE_STRATEGY -> reachExclusiveRectangle(
                 flags,
                 x,
-                y,
+                z,
                 level,
                 accessBitMask,
                 destX,
-                destY,
+                destZ,
                 srcSize,
                 destWidth,
                 destHeight

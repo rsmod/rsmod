@@ -13,9 +13,9 @@ public object RectangleBoundaryUtils {
 
     public fun collides(
         srcX: Int,
-        srcY: Int,
+        srcZ: Int,
         destX: Int,
-        destY: Int,
+        destZ: Int,
         srcWidth: Int,
         srcHeight: Int,
         destWidth: Int,
@@ -23,84 +23,84 @@ public object RectangleBoundaryUtils {
     ): Boolean = if (srcX >= destX + destWidth || srcX + srcWidth <= destX) {
         false
     } else {
-        srcY < destY + destHeight && destY < srcHeight + srcY
+        srcZ < destZ + destHeight && destZ < srcHeight + srcZ
     }
 
     internal fun reachRectangle1(
         flags: CollisionFlagMap,
         x: Int,
-        y: Int,
+        z: Int,
         level: Int,
         accessBitMask: Int,
         destX: Int,
-        destY: Int,
+        destZ: Int,
         destWidth: Int,
         destHeight: Int
     ): Boolean {
         val east = destX + destWidth - 1
-        val north = destY + destHeight - 1
+        val north = destZ + destHeight - 1
 
-        if (x == destX - 1 && y >= destY && y <= north &&
-            (flags[x, y, level] and CollisionFlag.WALL_EAST) == 0 &&
+        if (x == destX - 1 && z >= destZ && z <= north &&
+            (flags[x, z, level] and CollisionFlag.WALL_EAST) == 0 &&
             (accessBitMask and AccessBitFlag.BLOCK_WEST) == 0
         ) {
             return true
         }
 
-        if (x == east + 1 && y >= destY && y <= north &&
-            (flags[x, y, level] and CollisionFlag.WALL_WEST) == 0 &&
+        if (x == east + 1 && z >= destZ && z <= north &&
+            (flags[x, z, level] and CollisionFlag.WALL_WEST) == 0 &&
             (accessBitMask and AccessBitFlag.BLOCK_EAST) == 0
         ) {
             return true
         }
 
-        if (y + 1 == destY && x >= destX && x <= east &&
-            (flags[x, y, level] and CollisionFlag.WALL_NORTH) == 0 &&
+        if (z + 1 == destZ && x >= destX && x <= east &&
+            (flags[x, z, level] and CollisionFlag.WALL_NORTH) == 0 &&
             (accessBitMask and AccessBitFlag.BLOCK_SOUTH) == 0
 
         ) {
             return true
         }
 
-        return y == north + 1 && x >= destX && x <= east &&
-            (flags[x, y, level] and CollisionFlag.WALL_SOUTH) == 0 &&
+        return z == north + 1 && x >= destX && x <= east &&
+            (flags[x, z, level] and CollisionFlag.WALL_SOUTH) == 0 &&
             (accessBitMask and AccessBitFlag.BLOCK_NORTH) == 0
     }
 
     internal fun reachRectangleN(
         flags: CollisionFlagMap,
         x: Int,
-        y: Int,
+        z: Int,
         level: Int,
         accessBitMask: Int,
         destX: Int,
-        destY: Int,
+        destZ: Int,
         srcWidth: Int,
         srcHeight: Int,
         destWidth: Int,
         destHeight: Int
     ): Boolean {
         val srcEast = x + srcWidth
-        val srcNorth = srcHeight + y
+        val srcNorth = srcHeight + z
         val destEast = destWidth + destX
-        val destNorth = destHeight + destY
+        val destNorth = destHeight + destZ
         if (destEast == x && (accessBitMask and AccessBitFlag.BLOCK_EAST) == 0) {
-            val fromY = max(y, destY)
-            val toY = min(srcNorth, destNorth)
-            for (sideY in fromY until toY) {
-                if (flags[destEast - 1, sideY, level] and CollisionFlag.WALL_EAST == 0) {
+            val fromZ = max(z, destZ)
+            val toZ = min(srcNorth, destNorth)
+            for (sideZ in fromZ until toZ) {
+                if (flags[destEast - 1, sideZ, level] and CollisionFlag.WALL_EAST == 0) {
                     return true
                 }
             }
         } else if (srcEast == destX && (accessBitMask and AccessBitFlag.BLOCK_WEST) == 0) {
-            val fromY = max(y, destY)
-            val toY = min(srcNorth, destNorth)
-            for (sideY in fromY until toY) {
-                if (flags[destX, sideY, level] and CollisionFlag.WALL_WEST == 0) {
+            val fromZ = max(z, destZ)
+            val toZ = min(srcNorth, destNorth)
+            for (sideZ in fromZ until toZ) {
+                if (flags[destX, sideZ, level] and CollisionFlag.WALL_WEST == 0) {
                     return true
                 }
             }
-        } else if (y == destNorth && (accessBitMask and AccessBitFlag.BLOCK_NORTH) == 0) {
+        } else if (z == destNorth && (accessBitMask and AccessBitFlag.BLOCK_NORTH) == 0) {
             val fromX = max(x, destX)
             val toX = min(srcEast, destEast)
             for (sideX in fromX until toX) {
@@ -108,11 +108,11 @@ public object RectangleBoundaryUtils {
                     return true
                 }
             }
-        } else if (destY == srcNorth && (accessBitMask and AccessBitFlag.BLOCK_SOUTH) == 0) {
+        } else if (destZ == srcNorth && (accessBitMask and AccessBitFlag.BLOCK_SOUTH) == 0) {
             val fromX = max(x, destX)
             val toX = min(srcEast, destEast)
             for (sideX in fromX until toX) {
-                if (flags[sideX, destY, level] and CollisionFlag.WALL_SOUTH == 0) {
+                if (flags[sideX, destZ, level] and CollisionFlag.WALL_SOUTH == 0) {
                     return true
                 }
             }

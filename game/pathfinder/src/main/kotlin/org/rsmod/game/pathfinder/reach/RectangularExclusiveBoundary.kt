@@ -8,27 +8,27 @@ import org.rsmod.game.pathfinder.collision.CollisionFlagMap
 internal fun reachExclusiveRectangle(
     flags: CollisionFlagMap,
     x: Int,
-    y: Int,
     z: Int,
+    level: Int,
     accessBitMask: Int,
     destX: Int,
-    destY: Int,
+    destZ: Int,
     srcSize: Int,
     destWidth: Int,
     destHeight: Int
 ): Boolean = when {
     srcSize > 1 -> {
-        if (RectangleBoundaryUtils.collides(x, y, destX, destY, srcSize, srcSize, destWidth, destHeight)) {
+        if (RectangleBoundaryUtils.collides(x, z, destX, destZ, srcSize, srcSize, destWidth, destHeight)) {
             false
         } else {
             RectangleBoundaryUtils.reachRectangleN(
                 flags,
                 x,
-                y,
                 z,
+                level,
                 accessBitMask,
                 destX,
-                destY,
+                destZ,
                 srcSize,
                 srcSize,
                 destWidth,
@@ -37,17 +37,17 @@ internal fun reachExclusiveRectangle(
         }
     }
     else -> {
-        if (RectangleBoundaryUtils.collides(x, y, destX, destY, srcSize, srcSize, destWidth, destHeight)) {
+        if (RectangleBoundaryUtils.collides(x, z, destX, destZ, srcSize, srcSize, destWidth, destHeight)) {
             false
         } else {
             RectangleBoundaryUtils.reachRectangle1(
                 flags,
                 x,
-                y,
                 z,
+                level,
                 accessBitMask,
                 destX,
-                destY,
+                destZ,
                 destWidth,
                 destHeight
             )

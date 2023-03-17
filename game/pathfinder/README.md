@@ -22,13 +22,13 @@ class PathFinderExample(collisionFlags: CollisionFlagMap) {
 
 	private val pathFinder = PathFinder(collisionFlags)
 
-	fun findPath(level: Int, srcX: Int, srcY: Int, destX: Int, destY: Int): Route {
+	fun findPath(level: Int, srcX: Int, srcZ: Int, destX: Int, destZ: Int): Route {
 		return pathFinder.findPath(
 			level = level,
 			srcX = srcX,
-			srcY = srcY,
+			srcZ = srcZ,
 			destX = destX,
-			destY = destY
+			destZ = destZ
 		)
 	}
 }
@@ -37,8 +37,8 @@ class PathFinderExample(collisionFlags: CollisionFlagMap) {
 `CollisionFlagMap` is responsible for storing collision flag data for the game map.
 When loading map data on the game-server, each object - and special tiles, such
 as roofs and bridges - should call the helper functions:
-`fun CollisionFlagMap.add(x: Int, y: Int, level: Int, mask: Int)` and
-`fun CollisionFlagMap.remove(x: Int, y: Int, level: Int, mask: Int)`
+`fun CollisionFlagMap.add(x: Int, z: Int, level: Int, mask: Int)` and
+`fun CollisionFlagMap.remove(x: Int, z: Int, level: Int, mask: Int)`
 in order to add or remove, respectively, the `mask` flag data.
 
 ## Performance

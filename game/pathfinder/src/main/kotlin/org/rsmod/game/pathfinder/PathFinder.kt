@@ -19,7 +19,6 @@ import org.rsmod.game.pathfinder.flag.CollisionFlag.BLOCK_SOUTH_EAST_ROUTE_BLOCK
 import org.rsmod.game.pathfinder.flag.DirectionFlag
 import org.rsmod.game.pathfinder.reach.ReachStrategy
 import java.util.Arrays
-import kotlin.collections.ArrayDeque
 
 private const val DEFAULT_RESET_ON_SEARCH = true
 private const val DEFAULT_SEARCH_MAP_SIZE = 128
@@ -51,18 +50,18 @@ public class PathFinder(
     private val directions = IntArray(searchMapSize * searchMapSize)
     private val distances = IntArray(searchMapSize * searchMapSize) { DEFAULT_DISTANCE_VALUE }
     private val validLocalX = IntArray(ringBufferSize)
-    private val validLocalY = IntArray(ringBufferSize)
+    private val validLocalZ = IntArray(ringBufferSize)
     private var currLocalX = 0
-    private var currLocalY = 0
+    private var currLocalZ = 0
     private var bufReaderIndex = 0
     private var bufWriterIndex = 0
 
     public fun findPath(
         level: Int,
         srcX: Int,
-        srcY: Int,
+        srcZ: Int,
         destX: Int,
-        destY: Int,
+        destZ: Int,
         srcSize: Int = DEFAULT_SRC_SIZE,
         destWidth: Int = DEFAULT_DEST_WIDTH,
         destHeight: Int = DEFAULT_DEST_HEIGHT,
@@ -77,25 +76,25 @@ public class PathFinder(
          * Functionality relies on coordinates being within the
          * given boundaries.
          */
-        require(srcX in 0..0x7FFF && srcY in 0..0x7FFF)
-        require(destX in 0..0x7FFF && destY in 0..0x7FFF)
+        require(srcX in 0..0x7FFF && srcZ in 0..0x7FFF)
+        require(destX in 0..0x7FFF && destZ in 0..0x7FFF)
         require(level in 0..0x3)
         if (resetOnSearch) reset()
         val baseX = srcX - (searchMapSize / 2)
-        val baseY = srcY - (searchMapSize / 2)
+        val baseZ = srcZ - (searchMapSize / 2)
         val localSrcX = srcX - baseX
-        val localSrcY = srcY - baseY
+        val localSrcZ = srcZ - baseZ
         val localDestX = destX - baseX
-        val localDestY = destY - baseY
-        appendDirection(localSrcX, localSrcY, DEFAULT_SRC_DIRECTION_VALUE, 0)
+        val localDestZ = destZ - baseZ
+        appendDirection(localSrcX, localSrcZ, DEFAULT_SRC_DIRECTION_VALUE, 0)
         val pathFound: Boolean = if (useRouteBlockerFlags) {
             when (srcSize) {
                 1 -> findRouteBlockerPath1(
                     baseX,
-                    baseY,
+                    baseZ,
                     level,
                     localDestX,
-                    localDestY,
+                    localDestZ,
                     destWidth,
                     destHeight,
                     srcSize,
@@ -106,10 +105,10 @@ public class PathFinder(
                 )
                 2 -> findRouteBlockerPath2(
                     baseX,
-                    baseY,
+                    baseZ,
                     level,
                     localDestX,
-                    localDestY,
+                    localDestZ,
                     destWidth,
                     destHeight,
                     srcSize,
@@ -120,10 +119,10 @@ public class PathFinder(
                 )
                 else -> findRouteBlockerPathN(
                     baseX,
-                    baseY,
+                    baseZ,
                     level,
                     localDestX,
-                    localDestY,
+                    localDestZ,
                     destWidth,
                     destHeight,
                     srcSize,
@@ -137,10 +136,10 @@ public class PathFinder(
             when (srcSize) {
                 1 -> findPath1(
                     baseX,
-                    baseY,
+                    baseZ,
                     level,
                     localDestX,
-                    localDestY,
+                    localDestZ,
                     destWidth,
                     destHeight,
                     srcSize,
@@ -151,10 +150,10 @@ public class PathFinder(
                 )
                 2 -> findPath2(
                     baseX,
-                    baseY,
+                    baseZ,
                     level,
                     localDestX,
-                    localDestY,
+                    localDestZ,
                     destWidth,
                     destHeight,
                     srcSize,
@@ -165,10 +164,10 @@ public class PathFinder(
                 )
                 else -> findPathN(
                     baseX,
-                    baseY,
+                    baseZ,
                     level,
                     localDestX,
-                    localDestY,
+                    localDestZ,
                     destWidth,
                     destHeight,
                     srcSize,
@@ -183,21 +182,21 @@ public class PathFinder(
             if (!moveNear) {
                 return FAILED_ROUTE
             }
-            if (!findClosestApproachPoint(localSrcX, localSrcY, localDestX, localDestY, destWidth, destHeight)) {
+            if (!findClosestApproachPoint(localSrcX, localSrcZ, localDestX, localDestZ, destWidth, destHeight)) {
                 return FAILED_ROUTE
             }
         }
         val anchors = ArrayDeque<RouteCoordinates>(maxTurns + 1)
-        var nextDir = directions[currLocalX, currLocalY]
+        var nextDir = directions[currLocalX, currLocalZ]
         var currDir = -1
         for (i in directions.indices) {
-            if (currLocalX == localSrcX && currLocalY == localSrcY) {
+            if (currLocalX == localSrcX && currLocalZ == localSrcZ) {
                 break
             }
             if (currDir != nextDir) {
                 currDir = nextDir
                 if (anchors.size >= maxTurns) anchors.removeLast()
-                val coords = RouteCoordinates(baseX + currLocalX, baseY + currLocalY)
+                val coords = RouteCoordinates(baseX + currLocalX, baseZ + currLocalZ)
                 anchors.addFirst(coords)
             }
             if ((currDir and DirectionFlag.EAST) != 0) {
@@ -206,21 +205,21 @@ public class PathFinder(
                 currLocalX--
             }
             if ((currDir and DirectionFlag.NORTH) != 0) {
-                currLocalY++
+                currLocalZ++
             } else if ((currDir and DirectionFlag.SOUTH) != 0) {
-                currLocalY--
+                currLocalZ--
             }
-            nextDir = directions[currLocalX, currLocalY]
+            nextDir = directions[currLocalX, currLocalZ]
         }
         return Route(anchors, alternative = !pathFound, success = true)
     }
 
     private fun findPath1(
         baseX: Int,
-        baseY: Int,
+        baseZ: Int,
         level: Int,
         localDestX: Int,
-        localDestY: Int,
+        localDestZ: Int,
         destWidth: Int,
         destHeight: Int,
         srcSize: Int,
@@ -230,22 +229,22 @@ public class PathFinder(
         collision: CollisionStrategy
     ): Boolean {
         var x: Int
-        var y: Int
+        var z: Int
         var clipFlag: Int
         var dirFlag: Int
         val relativeSearchSize = searchMapSize - 1
         while (bufWriterIndex != bufReaderIndex) {
             currLocalX = validLocalX[bufReaderIndex]
-            currLocalY = validLocalY[bufReaderIndex]
+            currLocalZ = validLocalZ[bufReaderIndex]
             bufReaderIndex = (bufReaderIndex + 1) and (ringBufferSize - 1)
 
             if (ReachStrategy.reached(
                     flags,
                     currLocalX + baseX,
-                    currLocalY + baseY,
+                    currLocalZ + baseZ,
                     level,
                     localDestX + baseX,
-                    localDestY + baseY,
+                    localDestZ + baseZ,
                     destWidth,
                     destHeight,
                     srcSize,
@@ -257,106 +256,106 @@ public class PathFinder(
                 return true
             }
 
-            val nextDistance = distances[currLocalX, currLocalY] + 1
+            val nextDistance = distances[currLocalX, currLocalZ] + 1
 
             /* east to west */
             x = currLocalX - 1
-            y = currLocalY
+            z = currLocalZ
             clipFlag = CollisionFlag.BLOCK_WEST
             dirFlag = DirectionFlag.EAST
             if (
-                currLocalX > 0 && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, x, y, level], clipFlag)
+                currLocalX > 0 && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, x, z, level], clipFlag)
             ) {
-                appendDirection(x, y, dirFlag, nextDistance)
+                appendDirection(x, z, dirFlag, nextDistance)
             }
 
             /* west to east */
             x = currLocalX + 1
-            y = currLocalY
+            z = currLocalZ
             clipFlag = CollisionFlag.BLOCK_EAST
             dirFlag = DirectionFlag.WEST
             if (
-                currLocalX < relativeSearchSize && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, x, y, level], clipFlag)
+                currLocalX < relativeSearchSize && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, x, z, level], clipFlag)
             ) {
-                appendDirection(x, y, dirFlag, nextDistance)
+                appendDirection(x, z, dirFlag, nextDistance)
             }
 
             /* north to south  */
             x = currLocalX
-            y = currLocalY - 1
+            z = currLocalZ - 1
             clipFlag = CollisionFlag.BLOCK_SOUTH
             dirFlag = DirectionFlag.NORTH
             if (
-                currLocalY > 0 && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, x, y, level], clipFlag)
+                currLocalZ > 0 && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, x, z, level], clipFlag)
             ) {
-                appendDirection(x, y, dirFlag, nextDistance)
+                appendDirection(x, z, dirFlag, nextDistance)
             }
 
             /* south to north */
             x = currLocalX
-            y = currLocalY + 1
+            z = currLocalZ + 1
             clipFlag = CollisionFlag.BLOCK_NORTH
             dirFlag = DirectionFlag.SOUTH
             if (
-                currLocalY < relativeSearchSize && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, x, y, level], clipFlag)
+                currLocalZ < relativeSearchSize && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, x, z, level], clipFlag)
             ) {
-                appendDirection(x, y, dirFlag, nextDistance)
+                appendDirection(x, z, dirFlag, nextDistance)
             }
 
             /* north-east to south-west */
             x = currLocalX - 1
-            y = currLocalY - 1
+            z = currLocalZ - 1
             dirFlag = DirectionFlag.NORTH_EAST
             if (
-                currLocalX > 0 && currLocalY > 0 && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, x, y, level], CollisionFlag.BLOCK_SOUTH_WEST) &&
-                collision.canMove(flags[baseX, baseY, x, currLocalY, level], CollisionFlag.BLOCK_WEST) &&
-                collision.canMove(flags[baseX, baseY, currLocalX, y, level], CollisionFlag.BLOCK_SOUTH)
+                currLocalX > 0 && currLocalZ > 0 && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, x, z, level], CollisionFlag.BLOCK_SOUTH_WEST) &&
+                collision.canMove(flags[baseX, baseZ, x, currLocalZ, level], CollisionFlag.BLOCK_WEST) &&
+                collision.canMove(flags[baseX, baseZ, currLocalX, z, level], CollisionFlag.BLOCK_SOUTH)
             ) {
-                appendDirection(x, y, dirFlag, nextDistance)
+                appendDirection(x, z, dirFlag, nextDistance)
             }
 
             /* north-west to south-east */
             x = currLocalX + 1
-            y = currLocalY - 1
+            z = currLocalZ - 1
             dirFlag = DirectionFlag.NORTH_WEST
             if (
-                currLocalX < relativeSearchSize && currLocalY > 0 && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, x, y, level], BLOCK_SOUTH_EAST) &&
-                collision.canMove(flags[baseX, baseY, x, currLocalY, level], CollisionFlag.BLOCK_EAST) &&
-                collision.canMove(flags[baseX, baseY, currLocalX, y, level], CollisionFlag.BLOCK_SOUTH)
+                currLocalX < relativeSearchSize && currLocalZ > 0 && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, x, z, level], BLOCK_SOUTH_EAST) &&
+                collision.canMove(flags[baseX, baseZ, x, currLocalZ, level], CollisionFlag.BLOCK_EAST) &&
+                collision.canMove(flags[baseX, baseZ, currLocalX, z, level], CollisionFlag.BLOCK_SOUTH)
             ) {
-                appendDirection(x, y, dirFlag, nextDistance)
+                appendDirection(x, z, dirFlag, nextDistance)
             }
 
             /* south-east to north-west */
             x = currLocalX - 1
-            y = currLocalY + 1
+            z = currLocalZ + 1
             dirFlag = DirectionFlag.SOUTH_EAST
             if (
-                currLocalX > 0 && currLocalY < relativeSearchSize && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, x, y, level], BLOCK_NORTH_WEST) &&
-                collision.canMove(flags[baseX, baseY, x, currLocalY, level], CollisionFlag.BLOCK_WEST) &&
-                collision.canMove(flags[baseX, baseY, currLocalX, y, level], CollisionFlag.BLOCK_NORTH)
+                currLocalX > 0 && currLocalZ < relativeSearchSize && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, x, z, level], BLOCK_NORTH_WEST) &&
+                collision.canMove(flags[baseX, baseZ, x, currLocalZ, level], CollisionFlag.BLOCK_WEST) &&
+                collision.canMove(flags[baseX, baseZ, currLocalX, z, level], CollisionFlag.BLOCK_NORTH)
             ) {
-                appendDirection(x, y, dirFlag, nextDistance)
+                appendDirection(x, z, dirFlag, nextDistance)
             }
 
             /* south-west to north-east */
             x = currLocalX + 1
-            y = currLocalY + 1
+            z = currLocalZ + 1
             dirFlag = DirectionFlag.SOUTH_WEST
             if (
-                currLocalX < relativeSearchSize && currLocalY < relativeSearchSize && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, x, y, level], BLOCK_NORTH_EAST) &&
-                collision.canMove(flags[baseX, baseY, x, currLocalY, level], CollisionFlag.BLOCK_EAST) &&
-                collision.canMove(flags[baseX, baseY, currLocalX, y, level], CollisionFlag.BLOCK_NORTH)
+                currLocalX < relativeSearchSize && currLocalZ < relativeSearchSize && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, x, z, level], BLOCK_NORTH_EAST) &&
+                collision.canMove(flags[baseX, baseZ, x, currLocalZ, level], CollisionFlag.BLOCK_EAST) &&
+                collision.canMove(flags[baseX, baseZ, currLocalX, z, level], CollisionFlag.BLOCK_NORTH)
             ) {
-                appendDirection(x, y, dirFlag, nextDistance)
+                appendDirection(x, z, dirFlag, nextDistance)
             }
         }
         return false
@@ -364,10 +363,10 @@ public class PathFinder(
 
     private fun findPath2(
         baseX: Int,
-        baseY: Int,
+        baseZ: Int,
         level: Int,
         localDestX: Int,
-        localDestY: Int,
+        localDestZ: Int,
         destWidth: Int,
         destHeight: Int,
         srcSize: Int,
@@ -377,21 +376,21 @@ public class PathFinder(
         collision: CollisionStrategy
     ): Boolean {
         var x: Int
-        var y: Int
+        var z: Int
         var dirFlag: Int
         val relativeSearchSize = searchMapSize - 2
         while (bufWriterIndex != bufReaderIndex) {
             currLocalX = validLocalX[bufReaderIndex]
-            currLocalY = validLocalY[bufReaderIndex]
+            currLocalZ = validLocalZ[bufReaderIndex]
             bufReaderIndex = (bufReaderIndex + 1) and (ringBufferSize - 1)
 
             if (ReachStrategy.reached(
                     flags,
                     currLocalX + baseX,
-                    currLocalY + baseY,
+                    currLocalZ + baseZ,
                     level,
                     localDestX + baseX,
-                    localDestY + baseY,
+                    localDestZ + baseZ,
                     destWidth,
                     destHeight,
                     srcSize,
@@ -403,106 +402,106 @@ public class PathFinder(
                 return true
             }
 
-            val nextDistance = distances[currLocalX, currLocalY] + 1
+            val nextDistance = distances[currLocalX, currLocalZ] + 1
 
             /* east to west */
             x = currLocalX - 1
-            y = currLocalY
+            z = currLocalZ
             dirFlag = DirectionFlag.EAST
             if (
-                currLocalX > 0 && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, x, y, level], CollisionFlag.BLOCK_SOUTH_WEST) &&
-                collision.canMove(flags[baseX, baseY, x, currLocalY + 1, level], BLOCK_NORTH_WEST)
+                currLocalX > 0 && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, x, z, level], CollisionFlag.BLOCK_SOUTH_WEST) &&
+                collision.canMove(flags[baseX, baseZ, x, currLocalZ + 1, level], BLOCK_NORTH_WEST)
             ) {
-                appendDirection(x, y, dirFlag, nextDistance)
+                appendDirection(x, z, dirFlag, nextDistance)
             }
 
             /* west to east */
             x = currLocalX + 1
-            y = currLocalY
+            z = currLocalZ
             dirFlag = DirectionFlag.WEST
             if (
-                currLocalX < relativeSearchSize && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, currLocalX + 2, y, level], BLOCK_SOUTH_EAST) &&
-                collision.canMove(flags[baseX, baseY, currLocalX + 2, currLocalY + 1, level], BLOCK_NORTH_EAST)
+                currLocalX < relativeSearchSize && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, currLocalX + 2, z, level], BLOCK_SOUTH_EAST) &&
+                collision.canMove(flags[baseX, baseZ, currLocalX + 2, currLocalZ + 1, level], BLOCK_NORTH_EAST)
             ) {
-                appendDirection(x, y, dirFlag, nextDistance)
+                appendDirection(x, z, dirFlag, nextDistance)
             }
 
             /* north to south  */
             x = currLocalX
-            y = currLocalY - 1
+            z = currLocalZ - 1
             dirFlag = DirectionFlag.NORTH
             if (
-                currLocalY > 0 && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, x, y, level], CollisionFlag.BLOCK_SOUTH_WEST) &&
-                collision.canMove(flags[baseX, baseY, currLocalX + 1, y, level], BLOCK_SOUTH_EAST)
+                currLocalZ > 0 && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, x, z, level], CollisionFlag.BLOCK_SOUTH_WEST) &&
+                collision.canMove(flags[baseX, baseZ, currLocalX + 1, z, level], BLOCK_SOUTH_EAST)
             ) {
-                appendDirection(x, y, dirFlag, nextDistance)
+                appendDirection(x, z, dirFlag, nextDistance)
             }
 
             /* south to north */
             x = currLocalX
-            y = currLocalY + 1
+            z = currLocalZ + 1
             dirFlag = DirectionFlag.SOUTH
             if (
-                currLocalY < relativeSearchSize && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, x, currLocalY + 2, level], BLOCK_NORTH_WEST) &&
-                collision.canMove(flags[baseX, baseY, currLocalX + 1, currLocalY + 2, level], BLOCK_NORTH_EAST)
+                currLocalZ < relativeSearchSize && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, x, currLocalZ + 2, level], BLOCK_NORTH_WEST) &&
+                collision.canMove(flags[baseX, baseZ, currLocalX + 1, currLocalZ + 2, level], BLOCK_NORTH_EAST)
             ) {
-                appendDirection(x, y, dirFlag, nextDistance)
+                appendDirection(x, z, dirFlag, nextDistance)
             }
 
             /* north-east to south-west */
             x = currLocalX - 1
-            y = currLocalY - 1
+            z = currLocalZ - 1
             dirFlag = DirectionFlag.NORTH_EAST
             if (
-                currLocalX > 0 && currLocalY > 0 && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, x, currLocalY, level], BLOCK_NORTH_AND_SOUTH_EAST) &&
-                collision.canMove(flags[baseX, baseY, x, y, level], CollisionFlag.BLOCK_SOUTH_WEST) &&
-                collision.canMove(flags[baseX, baseY, currLocalX, y, level], CollisionFlag.BLOCK_NORTH_EAST_AND_WEST)
+                currLocalX > 0 && currLocalZ > 0 && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, x, currLocalZ, level], BLOCK_NORTH_AND_SOUTH_EAST) &&
+                collision.canMove(flags[baseX, baseZ, x, z, level], CollisionFlag.BLOCK_SOUTH_WEST) &&
+                collision.canMove(flags[baseX, baseZ, currLocalX, z, level], CollisionFlag.BLOCK_NORTH_EAST_AND_WEST)
             ) {
-                appendDirection(x, y, dirFlag, nextDistance)
+                appendDirection(x, z, dirFlag, nextDistance)
             }
 
             /* north-west to south-east */
             x = currLocalX + 1
-            y = currLocalY - 1
+            z = currLocalZ - 1
             dirFlag = DirectionFlag.NORTH_WEST
             if (
-                currLocalX < relativeSearchSize && currLocalY > 0 && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, x, y, level], CollisionFlag.BLOCK_NORTH_EAST_AND_WEST) &&
-                collision.canMove(flags[baseX, baseY, currLocalX + 2, y, level], BLOCK_SOUTH_EAST) &&
-                collision.canMove(flags[baseX, baseY, currLocalX + 2, currLocalY, level], BLOCK_NORTH_AND_SOUTH_WEST)
+                currLocalX < relativeSearchSize && currLocalZ > 0 && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, x, z, level], CollisionFlag.BLOCK_NORTH_EAST_AND_WEST) &&
+                collision.canMove(flags[baseX, baseZ, currLocalX + 2, z, level], BLOCK_SOUTH_EAST) &&
+                collision.canMove(flags[baseX, baseZ, currLocalX + 2, currLocalZ, level], BLOCK_NORTH_AND_SOUTH_WEST)
             ) {
-                appendDirection(x, y, dirFlag, nextDistance)
+                appendDirection(x, z, dirFlag, nextDistance)
             }
 
             /* south-east to north-west */
             x = currLocalX - 1
-            y = currLocalY + 1
+            z = currLocalZ + 1
             dirFlag = DirectionFlag.SOUTH_EAST
             if (
-                currLocalX > 0 && currLocalY < relativeSearchSize && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, x, y, level], BLOCK_NORTH_AND_SOUTH_EAST) &&
-                collision.canMove(flags[baseX, baseY, x, currLocalY + 2, level], BLOCK_NORTH_WEST) &&
-                collision.canMove(flags[baseX, baseY, currLocalX, currLocalY + 2, level], BLOCK_SOUTH_EAST_AND_WEST)
+                currLocalX > 0 && currLocalZ < relativeSearchSize && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, x, z, level], BLOCK_NORTH_AND_SOUTH_EAST) &&
+                collision.canMove(flags[baseX, baseZ, x, currLocalZ + 2, level], BLOCK_NORTH_WEST) &&
+                collision.canMove(flags[baseX, baseZ, currLocalX, currLocalZ + 2, level], BLOCK_SOUTH_EAST_AND_WEST)
             ) {
-                appendDirection(x, y, dirFlag, nextDistance)
+                appendDirection(x, z, dirFlag, nextDistance)
             }
 
             /* south-west to north-east */
             x = currLocalX + 1
-            y = currLocalY + 1
+            z = currLocalZ + 1
             dirFlag = DirectionFlag.SOUTH_WEST
             if (
-                currLocalX < relativeSearchSize && currLocalY < relativeSearchSize && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, x, currLocalY + 2, level], BLOCK_SOUTH_EAST_AND_WEST) &&
-                collision.canMove(flags[baseX, baseY, currLocalX + 2, currLocalY + 2, level], BLOCK_NORTH_EAST) &&
-                collision.canMove(flags[baseX, baseY, currLocalX + 2, y, level], BLOCK_NORTH_AND_SOUTH_WEST)
+                currLocalX < relativeSearchSize && currLocalZ < relativeSearchSize && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, x, currLocalZ + 2, level], BLOCK_SOUTH_EAST_AND_WEST) &&
+                collision.canMove(flags[baseX, baseZ, currLocalX + 2, currLocalZ + 2, level], BLOCK_NORTH_EAST) &&
+                collision.canMove(flags[baseX, baseZ, currLocalX + 2, z, level], BLOCK_NORTH_AND_SOUTH_WEST)
             ) {
-                appendDirection(x, y, dirFlag, nextDistance)
+                appendDirection(x, z, dirFlag, nextDistance)
             }
         }
         return false
@@ -510,10 +509,10 @@ public class PathFinder(
 
     private fun findPathN(
         baseX: Int,
-        baseY: Int,
+        baseZ: Int,
         level: Int,
         localDestX: Int,
-        localDestY: Int,
+        localDestZ: Int,
         destWidth: Int,
         destHeight: Int,
         srcSize: Int,
@@ -523,21 +522,21 @@ public class PathFinder(
         collision: CollisionStrategy
     ): Boolean {
         var x: Int
-        var y: Int
+        var z: Int
         var dirFlag: Int
         val relativeSearchSize = searchMapSize - srcSize
         while (bufWriterIndex != bufReaderIndex) {
             currLocalX = validLocalX[bufReaderIndex]
-            currLocalY = validLocalY[bufReaderIndex]
+            currLocalZ = validLocalZ[bufReaderIndex]
             bufReaderIndex = (bufReaderIndex + 1) and (ringBufferSize - 1)
 
             if (ReachStrategy.reached(
                     flags,
                     currLocalX + baseX,
-                    currLocalY + baseY,
+                    currLocalZ + baseZ,
                     level,
                     localDestX + baseX,
-                    localDestY + baseY,
+                    localDestZ + baseZ,
                     destWidth,
                     destHeight,
                     srcSize,
@@ -549,167 +548,167 @@ public class PathFinder(
                 return true
             }
 
-            val nextDistance = distances[currLocalX, currLocalY] + 1
+            val nextDistance = distances[currLocalX, currLocalZ] + 1
 
             /* east to west */
             x = currLocalX - 1
-            y = currLocalY
+            z = currLocalZ
             dirFlag = DirectionFlag.EAST
             if (
-                currLocalX > 0 && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, x, y, level], CollisionFlag.BLOCK_SOUTH_WEST) &&
-                collision.canMove(flags[baseX, baseY, x, currLocalY + srcSize - 1, level], BLOCK_NORTH_WEST)
+                currLocalX > 0 && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, x, z, level], CollisionFlag.BLOCK_SOUTH_WEST) &&
+                collision.canMove(flags[baseX, baseZ, x, currLocalZ + srcSize - 1, level], BLOCK_NORTH_WEST)
             ) {
                 val clipFlag = BLOCK_NORTH_AND_SOUTH_EAST
                 val blocked = (1 until srcSize - 1).any {
-                    !collision.canMove(flags[baseX, baseY, x, currLocalY + it, level], clipFlag)
+                    !collision.canMove(flags[baseX, baseZ, x, currLocalZ + it, level], clipFlag)
                 }
                 if (!blocked) {
-                    appendDirection(x, y, dirFlag, nextDistance)
+                    appendDirection(x, z, dirFlag, nextDistance)
                 }
             }
 
             /* west to east */
             x = currLocalX + 1
-            y = currLocalY
+            z = currLocalZ
             dirFlag = DirectionFlag.WEST
             if (
-                currLocalX < relativeSearchSize && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, currLocalX + srcSize, y, level], BLOCK_SOUTH_EAST) &&
+                currLocalX < relativeSearchSize && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, currLocalX + srcSize, z, level], BLOCK_SOUTH_EAST) &&
                 collision.canMove(
-                    flags[baseX, baseY, currLocalX + srcSize, currLocalY + srcSize - 1, level],
+                    flags[baseX, baseZ, currLocalX + srcSize, currLocalZ + srcSize - 1, level],
                     BLOCK_NORTH_EAST
                 )
             ) {
                 val clipFlag = BLOCK_NORTH_AND_SOUTH_WEST
                 val blocked = (1 until srcSize - 1).any {
-                    !collision.canMove(flags[baseX, baseY, currLocalX + srcSize, currLocalY + it, level], clipFlag)
+                    !collision.canMove(flags[baseX, baseZ, currLocalX + srcSize, currLocalZ + it, level], clipFlag)
                 }
                 if (!blocked) {
-                    appendDirection(x, y, dirFlag, nextDistance)
+                    appendDirection(x, z, dirFlag, nextDistance)
                 }
             }
 
             /* north to south  */
             x = currLocalX
-            y = currLocalY - 1
+            z = currLocalZ - 1
             dirFlag = DirectionFlag.NORTH
             if (
-                currLocalY > 0 && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, x, y, level], CollisionFlag.BLOCK_SOUTH_WEST) &&
-                collision.canMove(flags[baseX, baseY, currLocalX + srcSize - 1, y, level], BLOCK_SOUTH_EAST)
+                currLocalZ > 0 && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, x, z, level], CollisionFlag.BLOCK_SOUTH_WEST) &&
+                collision.canMove(flags[baseX, baseZ, currLocalX + srcSize - 1, z, level], BLOCK_SOUTH_EAST)
             ) {
                 val clipFlag = CollisionFlag.BLOCK_NORTH_EAST_AND_WEST
                 val blocked = (1 until srcSize - 1).any {
-                    !collision.canMove(flags[baseX, baseY, currLocalX + it, y, level], clipFlag)
+                    !collision.canMove(flags[baseX, baseZ, currLocalX + it, z, level], clipFlag)
                 }
                 if (!blocked) {
-                    appendDirection(x, y, dirFlag, nextDistance)
+                    appendDirection(x, z, dirFlag, nextDistance)
                 }
             }
 
             /* south to north */
             x = currLocalX
-            y = currLocalY + 1
+            z = currLocalZ + 1
             dirFlag = DirectionFlag.SOUTH
             if (
-                currLocalY < relativeSearchSize && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, x, currLocalY + srcSize, level], BLOCK_NORTH_WEST) &&
+                currLocalZ < relativeSearchSize && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, x, currLocalZ + srcSize, level], BLOCK_NORTH_WEST) &&
                 collision.canMove(
-                    flags[baseX, baseY, currLocalX + srcSize - 1, currLocalY + srcSize, level],
+                    flags[baseX, baseZ, currLocalX + srcSize - 1, currLocalZ + srcSize, level],
                     BLOCK_NORTH_EAST
                 )
             ) {
                 val clipFlag = BLOCK_SOUTH_EAST_AND_WEST
                 val blocked = (1 until srcSize - 1).any {
-                    !collision.canMove(flags[baseX, baseY, x + it, currLocalY + srcSize, level], clipFlag)
+                    !collision.canMove(flags[baseX, baseZ, x + it, currLocalZ + srcSize, level], clipFlag)
                 }
                 if (!blocked) {
-                    appendDirection(x, y, dirFlag, nextDistance)
+                    appendDirection(x, z, dirFlag, nextDistance)
                 }
             }
 
             /* north-east to south-west */
             x = currLocalX - 1
-            y = currLocalY - 1
+            z = currLocalZ - 1
             dirFlag = DirectionFlag.NORTH_EAST
             if (
-                currLocalX > 0 && currLocalY > 0 && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, x, y, level], CollisionFlag.BLOCK_SOUTH_WEST)
+                currLocalX > 0 && currLocalZ > 0 && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, x, z, level], CollisionFlag.BLOCK_SOUTH_WEST)
             ) {
                 val clipFlag1 = BLOCK_NORTH_AND_SOUTH_EAST
                 val clipFlag2 = CollisionFlag.BLOCK_NORTH_EAST_AND_WEST
                 val blocked = (1 until srcSize).any {
-                    !collision.canMove(flags[baseX, baseY, x, currLocalY + it - 1, level], clipFlag1) ||
-                        !collision.canMove(flags[baseX, baseY, currLocalX + it - 1, y, level], clipFlag2)
+                    !collision.canMove(flags[baseX, baseZ, x, currLocalZ + it - 1, level], clipFlag1) ||
+                        !collision.canMove(flags[baseX, baseZ, currLocalX + it - 1, z, level], clipFlag2)
                 }
                 if (!blocked) {
-                    appendDirection(x, y, dirFlag, nextDistance)
+                    appendDirection(x, z, dirFlag, nextDistance)
                 }
             }
 
             /* north-west to south-east */
             x = currLocalX + 1
-            y = currLocalY - 1
+            z = currLocalZ - 1
             dirFlag = DirectionFlag.NORTH_WEST
             if (
-                currLocalX < relativeSearchSize && currLocalY > 0 && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, currLocalX + srcSize, y, level], BLOCK_SOUTH_EAST)
+                currLocalX < relativeSearchSize && currLocalZ > 0 && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, currLocalX + srcSize, z, level], BLOCK_SOUTH_EAST)
             ) {
                 val clipFlag1 = BLOCK_NORTH_AND_SOUTH_WEST
                 val clipFlag2 = CollisionFlag.BLOCK_NORTH_EAST_AND_WEST
                 val blocked = (1 until srcSize).any {
                     !collision.canMove(
-                        flags[baseX, baseY, currLocalX + srcSize, currLocalY + it - 1, level],
+                        flags[baseX, baseZ, currLocalX + srcSize, currLocalZ + it - 1, level],
                         clipFlag1
-                    ) || !collision.canMove(flags[baseX, baseY, currLocalX + it, y, level], clipFlag2)
+                    ) || !collision.canMove(flags[baseX, baseZ, currLocalX + it, z, level], clipFlag2)
                 }
                 if (!blocked) {
-                    appendDirection(x, y, dirFlag, nextDistance)
+                    appendDirection(x, z, dirFlag, nextDistance)
                 }
             }
 
             /* south-east to north-west */
             x = currLocalX - 1
-            y = currLocalY + 1
+            z = currLocalZ + 1
             dirFlag = DirectionFlag.SOUTH_EAST
             if (
-                currLocalX > 0 && currLocalY < relativeSearchSize && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, x, currLocalY + srcSize, level], BLOCK_NORTH_WEST)
+                currLocalX > 0 && currLocalZ < relativeSearchSize && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, x, currLocalZ + srcSize, level], BLOCK_NORTH_WEST)
             ) {
                 val clipFlag1 = BLOCK_NORTH_AND_SOUTH_EAST
                 val clipFlag2 = BLOCK_SOUTH_EAST_AND_WEST
                 val blocked = (1 until srcSize).any {
-                    !collision.canMove(flags[baseX, baseY, x, currLocalY + it, level], clipFlag1) ||
+                    !collision.canMove(flags[baseX, baseZ, x, currLocalZ + it, level], clipFlag1) ||
                         !collision.canMove(
-                            flags[baseX, baseY, currLocalX + it - 1, currLocalY + srcSize, level],
+                            flags[baseX, baseZ, currLocalX + it - 1, currLocalZ + srcSize, level],
                             clipFlag2
                         )
                 }
                 if (!blocked) {
-                    appendDirection(x, y, dirFlag, nextDistance)
+                    appendDirection(x, z, dirFlag, nextDistance)
                 }
             }
 
             /* south-west to north-east */
             x = currLocalX + 1
-            y = currLocalY + 1
+            z = currLocalZ + 1
             dirFlag = DirectionFlag.SOUTH_WEST
             if (
-                currLocalX < relativeSearchSize && currLocalY < relativeSearchSize && directions[x, y] == 0 &&
+                currLocalX < relativeSearchSize && currLocalZ < relativeSearchSize && directions[x, z] == 0 &&
                 collision.canMove(
-                    flags[baseX, baseY, currLocalX + srcSize, currLocalY + srcSize, level],
+                    flags[baseX, baseZ, currLocalX + srcSize, currLocalZ + srcSize, level],
                     BLOCK_NORTH_EAST
                 )
             ) {
                 val clipFlag1 = BLOCK_SOUTH_EAST_AND_WEST
                 val clipFlag2 = BLOCK_NORTH_AND_SOUTH_WEST
                 val blocked = (1 until srcSize).any {
-                    !collision.canMove(flags[baseX, baseY, currLocalX + it, currLocalY + srcSize, level], clipFlag1) ||
-                        !collision.canMove(flags[baseX, baseY, currLocalX + srcSize, currLocalY + it, level], clipFlag2)
+                    !collision.canMove(flags[baseX, baseZ, currLocalX + it, currLocalZ + srcSize, level], clipFlag1) ||
+                        !collision.canMove(flags[baseX, baseZ, currLocalX + srcSize, currLocalZ + it, level], clipFlag2)
                 }
                 if (!blocked) {
-                    appendDirection(x, y, dirFlag, nextDistance)
+                    appendDirection(x, z, dirFlag, nextDistance)
                 }
             }
         }
@@ -718,10 +717,10 @@ public class PathFinder(
 
     private fun findRouteBlockerPath1(
         baseX: Int,
-        baseY: Int,
+        baseZ: Int,
         level: Int,
         localDestX: Int,
-        localDestY: Int,
+        localDestZ: Int,
         destWidth: Int,
         destHeight: Int,
         srcSize: Int,
@@ -731,22 +730,22 @@ public class PathFinder(
         collision: CollisionStrategy
     ): Boolean {
         var x: Int
-        var y: Int
+        var z: Int
         var clipFlag: Int
         var dirFlag: Int
         val relativeSearchSize = searchMapSize - 1
         while (bufWriterIndex != bufReaderIndex) {
             currLocalX = validLocalX[bufReaderIndex]
-            currLocalY = validLocalY[bufReaderIndex]
+            currLocalZ = validLocalZ[bufReaderIndex]
             bufReaderIndex = (bufReaderIndex + 1) and (ringBufferSize - 1)
 
             if (ReachStrategy.reached(
                     flags,
                     currLocalX + baseX,
-                    currLocalY + baseY,
+                    currLocalZ + baseZ,
                     level,
                     localDestX + baseX,
-                    localDestY + baseY,
+                    localDestZ + baseZ,
                     destWidth,
                     destHeight,
                     srcSize,
@@ -758,106 +757,106 @@ public class PathFinder(
                 return true
             }
 
-            val nextDistance = distances[currLocalX, currLocalY] + 1
+            val nextDistance = distances[currLocalX, currLocalZ] + 1
 
             /* east to west */
             x = currLocalX - 1
-            y = currLocalY
+            z = currLocalZ
             clipFlag = CollisionFlag.BLOCK_WEST_ROUTE_BLOCKER
             dirFlag = DirectionFlag.EAST
             if (
-                currLocalX > 0 && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, x, y, level], clipFlag)
+                currLocalX > 0 && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, x, z, level], clipFlag)
             ) {
-                appendDirection(x, y, dirFlag, nextDistance)
+                appendDirection(x, z, dirFlag, nextDistance)
             }
 
             /* west to east */
             x = currLocalX + 1
-            y = currLocalY
+            z = currLocalZ
             clipFlag = CollisionFlag.BLOCK_EAST_ROUTE_BLOCKER
             dirFlag = DirectionFlag.WEST
             if (
-                currLocalX < relativeSearchSize && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, x, y, level], clipFlag)
+                currLocalX < relativeSearchSize && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, x, z, level], clipFlag)
             ) {
-                appendDirection(x, y, dirFlag, nextDistance)
+                appendDirection(x, z, dirFlag, nextDistance)
             }
 
             /* north to south  */
             x = currLocalX
-            y = currLocalY - 1
+            z = currLocalZ - 1
             clipFlag = CollisionFlag.BLOCK_SOUTH_ROUTE_BLOCKER
             dirFlag = DirectionFlag.NORTH
             if (
-                currLocalY > 0 && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, x, y, level], clipFlag)
+                currLocalZ > 0 && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, x, z, level], clipFlag)
             ) {
-                appendDirection(x, y, dirFlag, nextDistance)
+                appendDirection(x, z, dirFlag, nextDistance)
             }
 
             /* south to north */
             x = currLocalX
-            y = currLocalY + 1
+            z = currLocalZ + 1
             clipFlag = CollisionFlag.BLOCK_NORTH_ROUTE_BLOCKER
             dirFlag = DirectionFlag.SOUTH
             if (
-                currLocalY < relativeSearchSize && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, x, y, level], clipFlag)
+                currLocalZ < relativeSearchSize && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, x, z, level], clipFlag)
             ) {
-                appendDirection(x, y, dirFlag, nextDistance)
+                appendDirection(x, z, dirFlag, nextDistance)
             }
 
             /* north-east to south-west */
             x = currLocalX - 1
-            y = currLocalY - 1
+            z = currLocalZ - 1
             dirFlag = DirectionFlag.NORTH_EAST
             if (
-                currLocalX > 0 && currLocalY > 0 && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, x, y, level], CollisionFlag.BLOCK_SOUTH_WEST_ROUTE_BLOCKER) &&
-                collision.canMove(flags[baseX, baseY, x, currLocalY, level], CollisionFlag.BLOCK_WEST_ROUTE_BLOCKER) &&
-                collision.canMove(flags[baseX, baseY, currLocalX, y, level], CollisionFlag.BLOCK_SOUTH_ROUTE_BLOCKER)
+                currLocalX > 0 && currLocalZ > 0 && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, x, z, level], CollisionFlag.BLOCK_SOUTH_WEST_ROUTE_BLOCKER) &&
+                collision.canMove(flags[baseX, baseZ, x, currLocalZ, level], CollisionFlag.BLOCK_WEST_ROUTE_BLOCKER) &&
+                collision.canMove(flags[baseX, baseZ, currLocalX, z, level], CollisionFlag.BLOCK_SOUTH_ROUTE_BLOCKER)
             ) {
-                appendDirection(x, y, dirFlag, nextDistance)
+                appendDirection(x, z, dirFlag, nextDistance)
             }
 
             /* north-west to south-east */
             x = currLocalX + 1
-            y = currLocalY - 1
+            z = currLocalZ - 1
             dirFlag = DirectionFlag.NORTH_WEST
             if (
-                currLocalX < relativeSearchSize && currLocalY > 0 && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, x, y, level], BLOCK_SOUTH_EAST_ROUTE_BLOCKER) &&
-                collision.canMove(flags[baseX, baseY, x, currLocalY, level], CollisionFlag.BLOCK_EAST_ROUTE_BLOCKER) &&
-                collision.canMove(flags[baseX, baseY, currLocalX, y, level], CollisionFlag.BLOCK_SOUTH_ROUTE_BLOCKER)
+                currLocalX < relativeSearchSize && currLocalZ > 0 && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, x, z, level], BLOCK_SOUTH_EAST_ROUTE_BLOCKER) &&
+                collision.canMove(flags[baseX, baseZ, x, currLocalZ, level], CollisionFlag.BLOCK_EAST_ROUTE_BLOCKER) &&
+                collision.canMove(flags[baseX, baseZ, currLocalX, z, level], CollisionFlag.BLOCK_SOUTH_ROUTE_BLOCKER)
             ) {
-                appendDirection(x, y, dirFlag, nextDistance)
+                appendDirection(x, z, dirFlag, nextDistance)
             }
 
             /* south-east to north-west */
             x = currLocalX - 1
-            y = currLocalY + 1
+            z = currLocalZ + 1
             dirFlag = DirectionFlag.SOUTH_EAST
             if (
-                currLocalX > 0 && currLocalY < relativeSearchSize && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, x, y, level], BLOCK_NORTH_WEST_ROUTE_BLOCKER) &&
-                collision.canMove(flags[baseX, baseY, x, currLocalY, level], CollisionFlag.BLOCK_WEST_ROUTE_BLOCKER) &&
-                collision.canMove(flags[baseX, baseY, currLocalX, y, level], CollisionFlag.BLOCK_NORTH_ROUTE_BLOCKER)
+                currLocalX > 0 && currLocalZ < relativeSearchSize && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, x, z, level], BLOCK_NORTH_WEST_ROUTE_BLOCKER) &&
+                collision.canMove(flags[baseX, baseZ, x, currLocalZ, level], CollisionFlag.BLOCK_WEST_ROUTE_BLOCKER) &&
+                collision.canMove(flags[baseX, baseZ, currLocalX, z, level], CollisionFlag.BLOCK_NORTH_ROUTE_BLOCKER)
             ) {
-                appendDirection(x, y, dirFlag, nextDistance)
+                appendDirection(x, z, dirFlag, nextDistance)
             }
 
             /* south-west to north-east */
             x = currLocalX + 1
-            y = currLocalY + 1
+            z = currLocalZ + 1
             dirFlag = DirectionFlag.SOUTH_WEST
             if (
-                currLocalX < relativeSearchSize && currLocalY < relativeSearchSize && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, x, y, level], CollisionFlag.BLOCK_NORTH_EAST_ROUTE_BLOCKER) &&
-                collision.canMove(flags[baseX, baseY, x, currLocalY, level], CollisionFlag.BLOCK_EAST_ROUTE_BLOCKER) &&
-                collision.canMove(flags[baseX, baseY, currLocalX, y, level], CollisionFlag.BLOCK_NORTH_ROUTE_BLOCKER)
+                currLocalX < relativeSearchSize && currLocalZ < relativeSearchSize && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, x, z, level], CollisionFlag.BLOCK_NORTH_EAST_ROUTE_BLOCKER) &&
+                collision.canMove(flags[baseX, baseZ, x, currLocalZ, level], CollisionFlag.BLOCK_EAST_ROUTE_BLOCKER) &&
+                collision.canMove(flags[baseX, baseZ, currLocalX, z, level], CollisionFlag.BLOCK_NORTH_ROUTE_BLOCKER)
             ) {
-                appendDirection(x, y, dirFlag, nextDistance)
+                appendDirection(x, z, dirFlag, nextDistance)
             }
         }
         return false
@@ -865,10 +864,10 @@ public class PathFinder(
 
     private fun findRouteBlockerPath2(
         baseX: Int,
-        baseY: Int,
+        baseZ: Int,
         level: Int,
         localDestX: Int,
-        localDestY: Int,
+        localDestZ: Int,
         destWidth: Int,
         destHeight: Int,
         srcSize: Int,
@@ -878,21 +877,21 @@ public class PathFinder(
         collision: CollisionStrategy
     ): Boolean {
         var x: Int
-        var y: Int
+        var z: Int
         var dirFlag: Int
         val relativeSearchSize = searchMapSize - 2
         while (bufWriterIndex != bufReaderIndex) {
             currLocalX = validLocalX[bufReaderIndex]
-            currLocalY = validLocalY[bufReaderIndex]
+            currLocalZ = validLocalZ[bufReaderIndex]
             bufReaderIndex = (bufReaderIndex + 1) and (ringBufferSize - 1)
 
             if (ReachStrategy.reached(
                     flags,
                     currLocalX + baseX,
-                    currLocalY + baseY,
+                    currLocalZ + baseZ,
                     level,
                     localDestX + baseX,
-                    localDestY + baseY,
+                    localDestZ + baseZ,
                     destWidth,
                     destHeight,
                     srcSize,
@@ -904,130 +903,130 @@ public class PathFinder(
                 return true
             }
 
-            val nextDistance = distances[currLocalX, currLocalY] + 1
+            val nextDistance = distances[currLocalX, currLocalZ] + 1
 
             /* east to west */
             x = currLocalX - 1
-            y = currLocalY
+            z = currLocalZ
             dirFlag = DirectionFlag.EAST
             if (
-                currLocalX > 0 && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, x, y, level], CollisionFlag.BLOCK_SOUTH_WEST_ROUTE_BLOCKER) &&
-                collision.canMove(flags[baseX, baseY, x, currLocalY + 1, level], BLOCK_NORTH_WEST_ROUTE_BLOCKER)
+                currLocalX > 0 && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, x, z, level], CollisionFlag.BLOCK_SOUTH_WEST_ROUTE_BLOCKER) &&
+                collision.canMove(flags[baseX, baseZ, x, currLocalZ + 1, level], BLOCK_NORTH_WEST_ROUTE_BLOCKER)
             ) {
-                appendDirection(x, y, dirFlag, nextDistance)
+                appendDirection(x, z, dirFlag, nextDistance)
             }
 
             /* west to east */
             x = currLocalX + 1
-            y = currLocalY
+            z = currLocalZ
             dirFlag = DirectionFlag.WEST
             if (
-                currLocalX < relativeSearchSize && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, currLocalX + 2, y, level], BLOCK_SOUTH_EAST_ROUTE_BLOCKER) &&
+                currLocalX < relativeSearchSize && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, currLocalX + 2, z, level], BLOCK_SOUTH_EAST_ROUTE_BLOCKER) &&
                 collision.canMove(
-                    flags[baseX, baseY, currLocalX + 2, currLocalY + 1, level],
+                    flags[baseX, baseZ, currLocalX + 2, currLocalZ + 1, level],
                     CollisionFlag.BLOCK_NORTH_EAST_ROUTE_BLOCKER
                 )
             ) {
-                appendDirection(x, y, dirFlag, nextDistance)
+                appendDirection(x, z, dirFlag, nextDistance)
             }
 
             /* north to south  */
             x = currLocalX
-            y = currLocalY - 1
+            z = currLocalZ - 1
             dirFlag = DirectionFlag.NORTH
             if (
-                currLocalY > 0 && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, x, y, level], CollisionFlag.BLOCK_SOUTH_WEST_ROUTE_BLOCKER) &&
-                collision.canMove(flags[baseX, baseY, currLocalX + 1, y, level], BLOCK_SOUTH_EAST_ROUTE_BLOCKER)
+                currLocalZ > 0 && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, x, z, level], CollisionFlag.BLOCK_SOUTH_WEST_ROUTE_BLOCKER) &&
+                collision.canMove(flags[baseX, baseZ, currLocalX + 1, z, level], BLOCK_SOUTH_EAST_ROUTE_BLOCKER)
             ) {
-                appendDirection(x, y, dirFlag, nextDistance)
+                appendDirection(x, z, dirFlag, nextDistance)
             }
 
             /* south to north */
             x = currLocalX
-            y = currLocalY + 1
+            z = currLocalZ + 1
             dirFlag = DirectionFlag.SOUTH
             if (
-                currLocalY < relativeSearchSize && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, x, currLocalY + 2, level], BLOCK_NORTH_WEST_ROUTE_BLOCKER) &&
+                currLocalZ < relativeSearchSize && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, x, currLocalZ + 2, level], BLOCK_NORTH_WEST_ROUTE_BLOCKER) &&
                 collision.canMove(
-                    flags[baseX, baseY, currLocalX + 1, currLocalY + 2, level],
+                    flags[baseX, baseZ, currLocalX + 1, currLocalZ + 2, level],
                     CollisionFlag.BLOCK_NORTH_EAST_ROUTE_BLOCKER
                 )
             ) {
-                appendDirection(x, y, dirFlag, nextDistance)
+                appendDirection(x, z, dirFlag, nextDistance)
             }
 
             /* north-east to south-west */
             x = currLocalX - 1
-            y = currLocalY - 1
+            z = currLocalZ - 1
             dirFlag = DirectionFlag.NORTH_EAST
             if (
-                currLocalX > 0 && currLocalY > 0 && directions[x, y] == 0 &&
+                currLocalX > 0 && currLocalZ > 0 && directions[x, z] == 0 &&
                 collision.canMove(
-                    flags[baseX, baseY, x, currLocalY, level],
+                    flags[baseX, baseZ, x, currLocalZ, level],
                     BLOCK_NORTH_AND_SOUTH_EAST_ROUTE_BLOCKER
                 ) &&
-                collision.canMove(flags[baseX, baseY, x, y, level], CollisionFlag.BLOCK_SOUTH_WEST_ROUTE_BLOCKER) &&
-                collision.canMove(flags[baseX, baseY, currLocalX, y, level], BLOCK_NORTH_EAST_AND_WEST_ROUTE_BLOCKER)
+                collision.canMove(flags[baseX, baseZ, x, z, level], CollisionFlag.BLOCK_SOUTH_WEST_ROUTE_BLOCKER) &&
+                collision.canMove(flags[baseX, baseZ, currLocalX, z, level], BLOCK_NORTH_EAST_AND_WEST_ROUTE_BLOCKER)
             ) {
-                appendDirection(x, y, dirFlag, nextDistance)
+                appendDirection(x, z, dirFlag, nextDistance)
             }
 
             /* north-west to south-east */
             x = currLocalX + 1
-            y = currLocalY - 1
+            z = currLocalZ - 1
             dirFlag = DirectionFlag.NORTH_WEST
             if (
-                currLocalX < relativeSearchSize && currLocalY > 0 && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, x, y, level], BLOCK_NORTH_EAST_AND_WEST_ROUTE_BLOCKER) &&
-                collision.canMove(flags[baseX, baseY, currLocalX + 2, y, level], BLOCK_SOUTH_EAST_ROUTE_BLOCKER) &&
+                currLocalX < relativeSearchSize && currLocalZ > 0 && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, x, z, level], BLOCK_NORTH_EAST_AND_WEST_ROUTE_BLOCKER) &&
+                collision.canMove(flags[baseX, baseZ, currLocalX + 2, z, level], BLOCK_SOUTH_EAST_ROUTE_BLOCKER) &&
                 collision.canMove(
-                    flags[baseX, baseY, currLocalX + 2, currLocalY, level],
+                    flags[baseX, baseZ, currLocalX + 2, currLocalZ, level],
                     CollisionFlag.BLOCK_NORTH_AND_SOUTH_WEST_ROUTE_BLOCKER
                 )
             ) {
-                appendDirection(x, y, dirFlag, nextDistance)
+                appendDirection(x, z, dirFlag, nextDistance)
             }
 
             /* south-east to north-west */
             x = currLocalX - 1
-            y = currLocalY + 1
+            z = currLocalZ + 1
             dirFlag = DirectionFlag.SOUTH_EAST
             if (
-                currLocalX > 0 && currLocalY < relativeSearchSize && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, x, y, level], BLOCK_NORTH_AND_SOUTH_EAST_ROUTE_BLOCKER) &&
-                collision.canMove(flags[baseX, baseY, x, currLocalY + 2, level], BLOCK_NORTH_WEST_ROUTE_BLOCKER) &&
+                currLocalX > 0 && currLocalZ < relativeSearchSize && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, x, z, level], BLOCK_NORTH_AND_SOUTH_EAST_ROUTE_BLOCKER) &&
+                collision.canMove(flags[baseX, baseZ, x, currLocalZ + 2, level], BLOCK_NORTH_WEST_ROUTE_BLOCKER) &&
                 collision.canMove(
-                    flags[baseX, baseY, currLocalX, currLocalY + 2, level],
+                    flags[baseX, baseZ, currLocalX, currLocalZ + 2, level],
                     CollisionFlag.BLOCK_SOUTH_EAST_AND_WEST_ROUTE_BLOCKER
                 )
             ) {
-                appendDirection(x, y, dirFlag, nextDistance)
+                appendDirection(x, z, dirFlag, nextDistance)
             }
 
             /* south-west to north-east */
             x = currLocalX + 1
-            y = currLocalY + 1
+            z = currLocalZ + 1
             dirFlag = DirectionFlag.SOUTH_WEST
             if (
-                currLocalX < relativeSearchSize && currLocalY < relativeSearchSize && directions[x, y] == 0 &&
+                currLocalX < relativeSearchSize && currLocalZ < relativeSearchSize && directions[x, z] == 0 &&
                 collision.canMove(
-                    flags[baseX, baseY, x, currLocalY + 2, level],
+                    flags[baseX, baseZ, x, currLocalZ + 2, level],
                     CollisionFlag.BLOCK_SOUTH_EAST_AND_WEST_ROUTE_BLOCKER
                 ) &&
                 collision.canMove(
-                    flags[baseX, baseY, currLocalX + 2, currLocalY + 2, level],
+                    flags[baseX, baseZ, currLocalX + 2, currLocalZ + 2, level],
                     CollisionFlag.BLOCK_NORTH_EAST_ROUTE_BLOCKER
                 ) &&
                 collision.canMove(
-                    flags[baseX, baseY, currLocalX + 2, y, level],
+                    flags[baseX, baseZ, currLocalX + 2, z, level],
                     CollisionFlag.BLOCK_NORTH_AND_SOUTH_WEST_ROUTE_BLOCKER
                 )
             ) {
-                appendDirection(x, y, dirFlag, nextDistance)
+                appendDirection(x, z, dirFlag, nextDistance)
             }
         }
         return false
@@ -1035,10 +1034,10 @@ public class PathFinder(
 
     private fun findRouteBlockerPathN(
         baseX: Int,
-        baseY: Int,
+        baseZ: Int,
         level: Int,
         localDestX: Int,
-        localDestY: Int,
+        localDestZ: Int,
         destWidth: Int,
         destHeight: Int,
         srcSize: Int,
@@ -1048,21 +1047,21 @@ public class PathFinder(
         collision: CollisionStrategy
     ): Boolean {
         var x: Int
-        var y: Int
+        var z: Int
         var dirFlag: Int
         val relativeSearchSize = searchMapSize - srcSize
         while (bufWriterIndex != bufReaderIndex) {
             currLocalX = validLocalX[bufReaderIndex]
-            currLocalY = validLocalY[bufReaderIndex]
+            currLocalZ = validLocalZ[bufReaderIndex]
             bufReaderIndex = (bufReaderIndex + 1) and (ringBufferSize - 1)
 
             if (ReachStrategy.reached(
                     flags,
                     currLocalX + baseX,
-                    currLocalY + baseY,
+                    currLocalZ + baseZ,
                     level,
                     localDestX + baseX,
-                    localDestY + baseY,
+                    localDestZ + baseZ,
                     destWidth,
                     destHeight,
                     srcSize,
@@ -1074,183 +1073,183 @@ public class PathFinder(
                 return true
             }
 
-            val nextDistance = distances[currLocalX, currLocalY] + 1
+            val nextDistance = distances[currLocalX, currLocalZ] + 1
 
             /* east to west */
             x = currLocalX - 1
-            y = currLocalY
+            z = currLocalZ
             dirFlag = DirectionFlag.EAST
             if (
-                currLocalX > 0 && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, x, y, level], CollisionFlag.BLOCK_SOUTH_WEST_ROUTE_BLOCKER) &&
+                currLocalX > 0 && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, x, z, level], CollisionFlag.BLOCK_SOUTH_WEST_ROUTE_BLOCKER) &&
                 collision.canMove(
-                    flags[baseX, baseY, x, currLocalY + srcSize - 1, level],
+                    flags[baseX, baseZ, x, currLocalZ + srcSize - 1, level],
                     BLOCK_NORTH_WEST_ROUTE_BLOCKER
                 )
             ) {
                 val clipFlag = BLOCK_NORTH_AND_SOUTH_EAST_ROUTE_BLOCKER
                 val blocked = (1 until srcSize - 1).any {
-                    !collision.canMove(flags[baseX, baseY, x, currLocalY + it, level], clipFlag)
+                    !collision.canMove(flags[baseX, baseZ, x, currLocalZ + it, level], clipFlag)
                 }
                 if (!blocked) {
-                    appendDirection(x, y, dirFlag, nextDistance)
+                    appendDirection(x, z, dirFlag, nextDistance)
                 }
             }
 
             /* west to east */
             x = currLocalX + 1
-            y = currLocalY
+            z = currLocalZ
             dirFlag = DirectionFlag.WEST
             if (
-                currLocalX < relativeSearchSize && directions[x, y] == 0 &&
+                currLocalX < relativeSearchSize && directions[x, z] == 0 &&
                 collision.canMove(
-                    flags[baseX, baseY, currLocalX + srcSize, y, level],
+                    flags[baseX, baseZ, currLocalX + srcSize, z, level],
                     BLOCK_SOUTH_EAST_ROUTE_BLOCKER
                 ) &&
                 collision.canMove(
-                    flags[baseX, baseY, currLocalX + srcSize, currLocalY + srcSize - 1, level],
+                    flags[baseX, baseZ, currLocalX + srcSize, currLocalZ + srcSize - 1, level],
                     CollisionFlag.BLOCK_NORTH_EAST_ROUTE_BLOCKER
                 )
             ) {
                 val clipFlag = CollisionFlag.BLOCK_NORTH_AND_SOUTH_WEST_ROUTE_BLOCKER
                 val blocked = (1 until srcSize - 1).any {
-                    !collision.canMove(flags[baseX, baseY, currLocalX + srcSize, currLocalY + it, level], clipFlag)
+                    !collision.canMove(flags[baseX, baseZ, currLocalX + srcSize, currLocalZ + it, level], clipFlag)
                 }
                 if (!blocked) {
-                    appendDirection(x, y, dirFlag, nextDistance)
+                    appendDirection(x, z, dirFlag, nextDistance)
                 }
             }
 
             /* north to south  */
             x = currLocalX
-            y = currLocalY - 1
+            z = currLocalZ - 1
             dirFlag = DirectionFlag.NORTH
             if (
-                currLocalY > 0 && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, x, y, level], CollisionFlag.BLOCK_SOUTH_WEST_ROUTE_BLOCKER) &&
+                currLocalZ > 0 && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, x, z, level], CollisionFlag.BLOCK_SOUTH_WEST_ROUTE_BLOCKER) &&
                 collision.canMove(
-                    flags[baseX, baseY, currLocalX + srcSize - 1, y, level],
+                    flags[baseX, baseZ, currLocalX + srcSize - 1, z, level],
                     BLOCK_SOUTH_EAST_ROUTE_BLOCKER
                 )
             ) {
                 val clipFlag = BLOCK_NORTH_EAST_AND_WEST_ROUTE_BLOCKER
                 val blocked = (1 until srcSize - 1).any {
-                    !collision.canMove(flags[baseX, baseY, currLocalX + it, y, level], clipFlag)
+                    !collision.canMove(flags[baseX, baseZ, currLocalX + it, z, level], clipFlag)
                 }
                 if (!blocked) {
-                    appendDirection(x, y, dirFlag, nextDistance)
+                    appendDirection(x, z, dirFlag, nextDistance)
                 }
             }
 
             /* south to north */
             x = currLocalX
-            y = currLocalY + 1
+            z = currLocalZ + 1
             dirFlag = DirectionFlag.SOUTH
             if (
-                currLocalY < relativeSearchSize && directions[x, y] == 0 &&
+                currLocalZ < relativeSearchSize && directions[x, z] == 0 &&
                 collision.canMove(
-                    flags[baseX, baseY, x, currLocalY + srcSize, level],
+                    flags[baseX, baseZ, x, currLocalZ + srcSize, level],
                     BLOCK_NORTH_WEST_ROUTE_BLOCKER
                 ) &&
                 collision.canMove(
-                    flags[baseX, baseY, currLocalX + srcSize - 1, currLocalY + srcSize, level],
+                    flags[baseX, baseZ, currLocalX + srcSize - 1, currLocalZ + srcSize, level],
                     CollisionFlag.BLOCK_NORTH_EAST_ROUTE_BLOCKER
                 )
             ) {
                 val clipFlag = CollisionFlag.BLOCK_SOUTH_EAST_AND_WEST_ROUTE_BLOCKER
                 val blocked =
                     (1 until srcSize - 1).any {
-                        !collision.canMove(flags[baseX, baseY, x + it, currLocalY + srcSize, level], clipFlag)
+                        !collision.canMove(flags[baseX, baseZ, x + it, currLocalZ + srcSize, level], clipFlag)
                     }
                 if (!blocked) {
-                    appendDirection(x, y, dirFlag, nextDistance)
+                    appendDirection(x, z, dirFlag, nextDistance)
                 }
             }
 
             /* north-east to south-west */
             x = currLocalX - 1
-            y = currLocalY - 1
+            z = currLocalZ - 1
             dirFlag = DirectionFlag.NORTH_EAST
             if (
-                currLocalX > 0 && currLocalY > 0 && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, x, y, level], CollisionFlag.BLOCK_SOUTH_WEST_ROUTE_BLOCKER)
+                currLocalX > 0 && currLocalZ > 0 && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, x, z, level], CollisionFlag.BLOCK_SOUTH_WEST_ROUTE_BLOCKER)
             ) {
                 val clipFlag1 = BLOCK_NORTH_AND_SOUTH_EAST_ROUTE_BLOCKER
                 val clipFlag2 = BLOCK_NORTH_EAST_AND_WEST_ROUTE_BLOCKER
                 val blocked = (1 until srcSize).any {
-                    !collision.canMove(flags[baseX, baseY, x, currLocalY + it - 1, level], clipFlag1) ||
-                        !collision.canMove(flags[baseX, baseY, currLocalX + it - 1, y, level], clipFlag2)
+                    !collision.canMove(flags[baseX, baseZ, x, currLocalZ + it - 1, level], clipFlag1) ||
+                        !collision.canMove(flags[baseX, baseZ, currLocalX + it - 1, z, level], clipFlag2)
                 }
                 if (!blocked) {
-                    appendDirection(x, y, dirFlag, nextDistance)
+                    appendDirection(x, z, dirFlag, nextDistance)
                 }
             }
 
             /* north-west to south-east */
             x = currLocalX + 1
-            y = currLocalY - 1
+            z = currLocalZ - 1
             dirFlag = DirectionFlag.NORTH_WEST
             if (
-                currLocalX < relativeSearchSize && currLocalY > 0 && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, currLocalX + srcSize, y, level], BLOCK_SOUTH_EAST_ROUTE_BLOCKER)
+                currLocalX < relativeSearchSize && currLocalZ > 0 && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, currLocalX + srcSize, z, level], BLOCK_SOUTH_EAST_ROUTE_BLOCKER)
             ) {
                 val clipFlag1 = CollisionFlag.BLOCK_NORTH_AND_SOUTH_WEST_ROUTE_BLOCKER
                 val clipFlag2 = BLOCK_NORTH_EAST_AND_WEST_ROUTE_BLOCKER
                 val blocked = (1 until srcSize).any {
                     !collision.canMove(
-                        flags[baseX, baseY, currLocalX + srcSize, currLocalY + it - 1, level],
+                        flags[baseX, baseZ, currLocalX + srcSize, currLocalZ + it - 1, level],
                         clipFlag1
-                    ) || !collision.canMove(flags[baseX, baseY, currLocalX + it, y, level], clipFlag2)
+                    ) || !collision.canMove(flags[baseX, baseZ, currLocalX + it, z, level], clipFlag2)
                 }
                 if (!blocked) {
-                    appendDirection(x, y, dirFlag, nextDistance)
+                    appendDirection(x, z, dirFlag, nextDistance)
                 }
             }
 
             /* south-east to north-west */
             x = currLocalX - 1
-            y = currLocalY + 1
+            z = currLocalZ + 1
             dirFlag = DirectionFlag.SOUTH_EAST
             if (
-                currLocalX > 0 && currLocalY < relativeSearchSize && directions[x, y] == 0 &&
-                collision.canMove(flags[baseX, baseY, x, currLocalY + srcSize, level], BLOCK_NORTH_WEST_ROUTE_BLOCKER)
+                currLocalX > 0 && currLocalZ < relativeSearchSize && directions[x, z] == 0 &&
+                collision.canMove(flags[baseX, baseZ, x, currLocalZ + srcSize, level], BLOCK_NORTH_WEST_ROUTE_BLOCKER)
             ) {
                 val clipFlag1 = BLOCK_NORTH_AND_SOUTH_EAST_ROUTE_BLOCKER
                 val clipFlag2 = CollisionFlag.BLOCK_SOUTH_EAST_AND_WEST_ROUTE_BLOCKER
                 val blocked = (1 until srcSize).any {
-                    !collision.canMove(flags[baseX, baseY, x, currLocalY + it, level], clipFlag1) ||
+                    !collision.canMove(flags[baseX, baseZ, x, currLocalZ + it, level], clipFlag1) ||
                         !collision.canMove(
-                            flags[baseX, baseY, currLocalX + it - 1, currLocalY + srcSize, level],
+                            flags[baseX, baseZ, currLocalX + it - 1, currLocalZ + srcSize, level],
                             clipFlag2
                         )
                 }
                 if (!blocked) {
-                    appendDirection(x, y, dirFlag, nextDistance)
+                    appendDirection(x, z, dirFlag, nextDistance)
                 }
             }
 
             /* south-west to north-east */
             x = currLocalX + 1
-            y = currLocalY + 1
+            z = currLocalZ + 1
             dirFlag = DirectionFlag.SOUTH_WEST
             if (
-                currLocalX < relativeSearchSize && currLocalY < relativeSearchSize && directions[x, y] == 0 &&
+                currLocalX < relativeSearchSize && currLocalZ < relativeSearchSize && directions[x, z] == 0 &&
                 collision.canMove(
-                    flags[baseX, baseY, currLocalX + srcSize, currLocalY + srcSize, level],
+                    flags[baseX, baseZ, currLocalX + srcSize, currLocalZ + srcSize, level],
                     CollisionFlag.BLOCK_NORTH_EAST_ROUTE_BLOCKER
                 )
             ) {
                 val clipFlag1 = CollisionFlag.BLOCK_SOUTH_EAST_AND_WEST_ROUTE_BLOCKER
                 val clipFlag2 = CollisionFlag.BLOCK_NORTH_AND_SOUTH_WEST_ROUTE_BLOCKER
                 val blocked = (1 until srcSize).any {
-                    !collision.canMove(flags[baseX, baseY, currLocalX + it, currLocalY + srcSize, level], clipFlag1) ||
+                    !collision.canMove(flags[baseX, baseZ, currLocalX + it, currLocalZ + srcSize, level], clipFlag1) ||
                         !collision.canMove(
-                            flags[baseX, baseY, currLocalX + srcSize, currLocalY + it, level],
+                            flags[baseX, baseZ, currLocalX + srcSize, currLocalZ + it, level],
                             clipFlag2
                         )
                 }
                 if (!blocked) {
-                    appendDirection(x, y, dirFlag, nextDistance)
+                    appendDirection(x, z, dirFlag, nextDistance)
                 }
             }
         }
@@ -1259,9 +1258,9 @@ public class PathFinder(
 
     private fun findClosestApproachPoint(
         localSrcX: Int,
-        localSrcY: Int,
+        localSrcZ: Int,
         localDestX: Int,
-        localDestY: Int,
+        localDestZ: Int,
         width: Int,
         length: Int
     ): Boolean {
@@ -1269,13 +1268,14 @@ public class PathFinder(
         var maxAlternativePath = MAX_ALTERNATIVE_ROUTE_SEEK_RANGE
         val alternativeRouteRange = MAX_ALTERNATIVE_ROUTE_DISTANCE_FROM_DESTINATION
         val radiusX = localDestX - alternativeRouteRange..localDestX + alternativeRouteRange
-        val radiusY = localDestY - alternativeRouteRange..localDestY + alternativeRouteRange
+        val radiusZ = localDestZ - alternativeRouteRange..localDestZ + alternativeRouteRange
+        // TODO: iterating z first would be more efficient, but will it affect result?
         for (x in radiusX) {
-            for (y in radiusY) {
+            for (z in radiusZ) {
                 if (
                     x !in 0 until searchMapSize ||
-                    y !in 0 until searchMapSize ||
-                    distances[x, y] >= MAX_ALTERNATIVE_ROUTE_SEEK_RANGE
+                    z !in 0 until searchMapSize ||
+                    distances[x, z] >= MAX_ALTERNATIVE_ROUTE_SEEK_RANGE
                 ) {
                     continue
                 }
@@ -1288,31 +1288,31 @@ public class PathFinder(
                     0
                 }
 
-                val dy = if (y < localDestY) {
-                    localDestY - y
-                } else if (y > localDestY + length - 1) {
-                    y - (localDestY + length - 1)
+                val dy = if (z < localDestZ) {
+                    localDestZ - z
+                } else if (z > localDestZ + length - 1) {
+                    z - (localDestZ + length - 1)
                 } else {
                     0
                 }
                 val cost = dx * dx + dy * dy
-                if (cost < lowestCost || (cost == lowestCost && maxAlternativePath > distances[x, y])) {
+                if (cost < lowestCost || (cost == lowestCost && maxAlternativePath > distances[x, z])) {
                     currLocalX = x
-                    currLocalY = y
+                    currLocalZ = z
                     lowestCost = cost
-                    maxAlternativePath = distances[x, y]
+                    maxAlternativePath = distances[x, z]
                 }
             }
         }
-        return !(lowestCost == MAX_ALTERNATIVE_ROUTE_LOWEST_COST || localSrcX == currLocalX && localSrcY == currLocalY)
+        return !(lowestCost == MAX_ALTERNATIVE_ROUTE_LOWEST_COST || localSrcX == currLocalX && localSrcZ == currLocalZ)
     }
 
-    private fun appendDirection(x: Int, y: Int, direction: Int, distance: Int) {
-        val index = (y * searchMapSize) + x
+    private fun appendDirection(x: Int, z: Int, direction: Int, distance: Int) {
+        val index = (z * searchMapSize) + x
         directions[index] = direction
         distances[index] = distance
         validLocalX[bufWriterIndex] = x
-        validLocalY[bufWriterIndex] = y
+        validLocalZ[bufWriterIndex] = z
         bufWriterIndex = (bufWriterIndex + 1) and (ringBufferSize - 1)
     }
 
@@ -1324,22 +1324,22 @@ public class PathFinder(
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline operator fun IntArray.get(x: Int, y: Int): Int {
-        val index = (y * searchMapSize) + x
+    private inline operator fun IntArray.get(x: Int, z: Int): Int {
+        val index = (z * searchMapSize) + x
         return this[index]
     }
 
     @Suppress("NOTHING_TO_INLINE")
     private inline operator fun CollisionFlagMap.get(
         baseX: Int,
-        baseY: Int,
+        baseZ: Int,
         localX: Int,
-        localY: Int,
+        localZ: Int,
         level: Int
     ): Int {
         val x = baseX + localX
-        val y = baseY + localY
-        return this[x, y, level]
+        val z = baseZ + localZ
+        return this[x, z, level]
     }
 
     public companion object {
@@ -1347,7 +1347,7 @@ public class PathFinder(
         private val FAILED_ROUTE = Route(emptyList(), alternative = false, success = false)
 
         /**
-         * Calculates coordinates for [sourceX]/[sourceY] to move to interact with [targetX]/[targetY]
+         * Calculates coordinates for [sourceX]/[sourceZ] to move to interact with [targetX]/[targetZ]
          * We first determine the cardinal direction of the source relative to the target by comparing if
          * the source lies to the left or right of diagonal \ and anti-diagonal / lines.
          * \ <= North <= /
@@ -1369,29 +1369,29 @@ public class PathFinder(
          */
         public fun naiveDestination(
             sourceX: Int,
-            sourceY: Int,
+            sourceZ: Int,
             sourceWidth: Int,
             sourceHeight: Int,
             targetX: Int,
-            targetY: Int,
+            targetZ: Int,
             targetWidth: Int,
             targetHeight: Int
         ): RouteCoordinates {
-            val diagonal = (sourceX - targetX) + (sourceY - targetY)
-            val anti = (sourceX - targetX) - (sourceY - targetY)
+            val diagonal = (sourceX - targetX) + (sourceZ - targetZ)
+            val anti = (sourceX - targetX) - (sourceZ - targetZ)
             val southWestClockwise = anti < 0
             val northWestClockwise = diagonal >= (targetHeight - 1) - (sourceWidth - 1)
             val northEastClockwise = anti > sourceWidth - sourceHeight
             val southEastClockwise = diagonal <= (targetWidth - 1) - (sourceHeight - 1)
 
-            val target = RouteCoordinates(targetX, targetY)
+            val target = RouteCoordinates(targetX, targetZ)
             if (southWestClockwise && !northWestClockwise) {
-                val offY = when { // West
+                val offZ = when { // West
                     diagonal >= -sourceWidth -> (diagonal + sourceWidth).coerceAtMost(targetHeight - 1)
                     anti > -sourceWidth -> -(sourceWidth + anti)
                     else -> 0
                 }
-                return target.translate(-sourceWidth, offY)
+                return target.translate(-sourceWidth, offZ)
             } else if (northWestClockwise && !northEastClockwise) {
                 val offX = when { // North
                     anti >= -targetHeight -> (anti + targetHeight).coerceAtMost(targetWidth - 1)
@@ -1400,12 +1400,12 @@ public class PathFinder(
                 }
                 return target.translate(offX, targetHeight)
             } else if (northEastClockwise && !southEastClockwise) {
-                val offY = when { // East
+                val offZ = when { // East
                     anti <= targetWidth -> targetHeight - anti
                     diagonal < targetWidth -> (diagonal - targetWidth).coerceAtLeast(-(sourceHeight - 1))
                     else -> 0
                 }
-                return target.translate(targetWidth, offY)
+                return target.translate(targetWidth, offZ)
             } else {
                 check(southEastClockwise && !southWestClockwise)
                 val offX = when { // South

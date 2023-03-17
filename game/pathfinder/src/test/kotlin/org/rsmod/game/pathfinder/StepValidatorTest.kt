@@ -26,9 +26,9 @@ class StepValidatorTest {
         val valid = validator.canTravel(
             level = src.level,
             x = src.x,
-            y = src.y,
+            z = src.z,
             offsetX = dir.offX,
-            offsetY = dir.offY,
+            offsetZ = dir.offZ,
             size = 1,
             extraFlag = 0
         )
@@ -39,14 +39,14 @@ class StepValidatorTest {
     @ArgumentsSource(BlockedDirectionProvider::class)
     internal fun `invalidate blocked direction (size 1)`(dir: Direction, blockFlags: Int) {
         val src = RouteCoordinates(3200, 3200)
-        val dest = RouteCoordinates(src.x + dir.offX, src.y + dir.offY)
-        flags[dest.x, dest.y, dest.level] = blockFlags
+        val dest = RouteCoordinates(src.x + dir.offX, src.z + dir.offZ)
+        flags[dest.x, dest.z, dest.level] = blockFlags
         val valid = validator.canTravel(
             level = src.level,
             x = src.x,
-            y = src.y,
+            z = src.z,
             offsetX = dir.offX,
-            offsetY = dir.offY,
+            offsetZ = dir.offZ,
             size = 1,
             extraFlag = 0
         )
@@ -57,14 +57,14 @@ class StepValidatorTest {
     @ArgumentsSource(BlockedCharacterProvider::class)
     internal fun `invalidate blocked character direction (size 1)`(dir: Direction, blockFlags: Int) {
         val src = RouteCoordinates(3200, 3200)
-        val dest = RouteCoordinates(src.x + dir.offX, src.y + dir.offY)
-        flags[dest.x, dest.y, dest.level] = blockFlags
+        val dest = RouteCoordinates(src.x + dir.offX, src.z + dir.offZ)
+        flags[dest.x, dest.z, dest.level] = blockFlags
         val valid = validator.canTravel(
             level = src.level,
             x = src.x,
-            y = src.y,
+            z = src.z,
             offsetX = dir.offX,
-            offsetY = dir.offY,
+            offsetZ = dir.offZ,
             size = 1,
             extraFlag = BLOCK_PLAYERS or BLOCK_NPCS
         )

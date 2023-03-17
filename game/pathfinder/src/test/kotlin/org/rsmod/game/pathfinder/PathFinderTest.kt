@@ -28,26 +28,26 @@ class PathFinderTest {
         val route = pathFinder.findPath(
             level = src.level,
             srcX = src.x,
-            srcY = src.y,
+            srcZ = src.z,
             destX = dest.x,
-            destY = dest.y
+            destZ = dest.z
         )
         Assertions.assertEquals(1, route.size)
         Assertions.assertEquals(dest.x, route.last().x)
-        Assertions.assertEquals(dest.y, route.last().y)
+        Assertions.assertEquals(dest.z, route.last().z)
     }
 
     @Test
     fun `fail occupied tile`() {
         val src = RouteCoordinates(0, 0)
         val dest = RouteCoordinates(1, 0)
-        flags[dest.x, dest.y, dest.level] = CollisionFlag.FLOOR
+        flags[dest.x, dest.z, dest.level] = CollisionFlag.FLOOR
         val route = pathFinder.findPath(
             level = src.level,
             srcX = src.x,
-            srcY = src.y,
+            srcZ = src.z,
             destX = dest.x,
-            destY = dest.y
+            destZ = dest.z
         )
         Assertions.assertTrue(route.failed)
         Assertions.assertTrue(route.isEmpty())
@@ -57,31 +57,31 @@ class PathFinderTest {
     @ArgumentsSource(DirectionProvider::class)
     internal fun `reach directional dest path`(dir: Direction) {
         val src = RouteCoordinates(3200, 3200)
-        val dest = RouteCoordinates(src.x + dir.offX, src.y + dir.offY)
+        val dest = RouteCoordinates(src.x + dir.offX, src.z + dir.offZ)
         val route = pathFinder.findPath(
             level = src.level,
             srcX = src.x,
-            srcY = src.y,
+            srcZ = src.z,
             destX = dest.x,
-            destY = dest.y
+            destZ = dest.z
         )
         Assertions.assertTrue(route.isNotEmpty())
         Assertions.assertEquals(dest.x, route.last().x)
-        Assertions.assertEquals(dest.y, route.last().y)
+        Assertions.assertEquals(dest.z, route.last().z)
     }
 
     @ParameterizedTest
     @ArgumentsSource(DirectionProvider::class)
     internal fun `fail blocked direction path`(dir: Direction) {
         val src = RouteCoordinates(3200, 3200)
-        val dest = RouteCoordinates(src.x + dir.offX, src.y + dir.offY)
-        flags[dest.x, dest.y, dest.level] = CollisionFlag.OBJECT
+        val dest = RouteCoordinates(src.x + dir.offX, src.z + dir.offZ)
+        flags[dest.x, dest.z, dest.level] = CollisionFlag.OBJECT
         val route = pathFinder.findPath(
             level = src.level,
             srcX = src.x,
-            srcY = src.y,
+            srcZ = src.z,
             destX = dest.x,
-            destY = dest.y
+            destZ = dest.z
         )
         Assertions.assertTrue(route.isEmpty())
     }
@@ -92,17 +92,17 @@ class PathFinderTest {
         val src = RouteCoordinates(0, 0)
         val dest = RouteCoordinates(3 + width, 0) /* ensure destination is further than width */
         /* mark tiles with object */
-        for (y in 0 until height) {
+        for (z in 0 until height) {
             for (x in 0 until width) {
-                flags[dest.x + x, dest.y + y, dest.level] = CollisionFlag.OBJECT
+                flags[dest.x + x, dest.z + z, dest.level] = CollisionFlag.OBJECT
             }
         }
         val route = pathFinder.findPath(
             level = src.level,
             srcX = src.x,
-            srcY = src.y,
+            srcZ = src.z,
             destX = dest.x,
-            destY = dest.y,
+            destZ = dest.z,
             objShape = 10,
             destWidth = width,
             destHeight = height
@@ -120,12 +120,12 @@ class PathFinderTest {
         val route = pathFinder.findPath(
             level = params.level,
             srcX = params.srcX,
-            srcY = params.srcY,
+            srcZ = params.srcZ,
             destX = params.destX,
-            destY = params.destY
+            destZ = params.destZ
         )
         Assertions.assertEquals(params.expectedX, route.last().x)
-        Assertions.assertEquals(params.expectedY, route.last().y)
+        Assertions.assertEquals(params.expectedZ, route.last().z)
     }
 
     private fun loadParameters(resourceFile: String): PathParameter {
@@ -173,11 +173,11 @@ class PathFinderTest {
     private data class PathParameter(
         val level: Int,
         val srcX: Int,
-        val srcY: Int,
+        val srcZ: Int,
         val destX: Int,
-        val destY: Int,
+        val destZ: Int,
         val expectedX: Int,
-        val expectedY: Int,
+        val expectedZ: Int,
         val flags: IntArray
     ) {
 
@@ -188,15 +188,15 @@ class PathFinderTest {
             val mapSearchSize = sqrt(flags.size.toDouble()).toInt()
             val half = mapSearchSize / 2
             val centerX = srcX
-            val centerY = srcY
+            val centerZ = srcZ
             val rangeX = centerX - half until centerX + half
-            val rangeY = centerY - half until centerY + half
-            for (y in rangeY) {
+            val rangeZ = centerZ - half until centerZ + half
+            for (z in rangeZ) {
                 for (x in rangeX) {
                     val lx = x - (centerX - half)
-                    val ly = y - (centerY - half)
-                    val index = (ly * mapSearchSize) + lx
-                    collisionFlags[x, y, level] = flags[index]
+                    val lz = z - (centerZ - half)
+                    val index = (lz * mapSearchSize) + lx
+                    collisionFlags[x, z, level] = flags[index]
                 }
             }
             return collisionFlags
@@ -210,11 +210,11 @@ class PathFinderTest {
 
             if (level != other.level) return false
             if (srcX != other.srcX) return false
-            if (srcY != other.srcY) return false
+            if (srcZ != other.srcZ) return false
             if (destX != other.destX) return false
-            if (destY != other.destY) return false
+            if (destZ != other.destZ) return false
             if (expectedX != other.expectedX) return false
-            if (expectedY != other.expectedY) return false
+            if (expectedZ != other.expectedZ) return false
             if (!flags.contentEquals(other.flags)) return false
 
             return true
@@ -223,11 +223,11 @@ class PathFinderTest {
         override fun hashCode(): Int {
             var result = level
             result = 31 * result + srcX
-            result = 31 * result + srcY
+            result = 31 * result + srcZ
             result = 31 * result + destX
-            result = 31 * result + destY
+            result = 31 * result + destZ
             result = 31 * result + expectedX
-            result = 31 * result + expectedY
+            result = 31 * result + expectedZ
             result = 31 * result + flags.contentHashCode()
             return result
         }

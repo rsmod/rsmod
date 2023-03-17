@@ -17,25 +17,25 @@ public class StepValidator(private val flags: CollisionFlagMap) {
     public fun canTravel(
         level: Int,
         x: Int,
-        y: Int,
+        z: Int,
         offsetX: Int,
-        offsetY: Int,
+        offsetZ: Int,
         size: Int = 1,
         extraFlag: Int = 0,
         collision: CollisionStrategy = CollisionStrategies.Normal
     ): Boolean {
         assert(offsetX in -1..1) { "Offset x must be in bounds of -1..1" }
-        assert(offsetY in -1..1) { "Offset y must be in bounds of -1..1" }
-        assert(offsetX != 0 || offsetY != 0) { "Offset x and y cannot both be 0." }
-        val blocked = when (getDirection(offsetX, offsetY)) {
-            Direction.South -> isBlockedSouth(level, x, y, size, extraFlag, collision)
-            Direction.North -> isBlockedNorth(level, x, y, size, extraFlag, collision)
-            Direction.West -> isBlockedWest(level, x, y, size, extraFlag, collision)
-            Direction.East -> isBlockedEast(level, x, y, size, extraFlag, collision)
-            Direction.SouthWest -> isBlockedSouthWest(level, x, y, size, extraFlag, collision)
-            Direction.NorthWest -> isBlockedNorthWest(level, x, y, size, extraFlag, collision)
-            Direction.SouthEast -> isBlockedSouthEast(level, x, y, size, extraFlag, collision)
-            Direction.NorthEast -> isBlockedNorthEast(level, x, y, size, extraFlag, collision)
+        assert(offsetZ in -1..1) { "Offset z must be in bounds of -1..1" }
+        assert(offsetX != 0 || offsetZ != 0) { "Offset x and z cannot both be 0." }
+        val blocked = when (getDirection(offsetX, offsetZ)) {
+            Direction.South -> isBlockedSouth(level, x, z, size, extraFlag, collision)
+            Direction.North -> isBlockedNorth(level, x, z, size, extraFlag, collision)
+            Direction.West -> isBlockedWest(level, x, z, size, extraFlag, collision)
+            Direction.East -> isBlockedEast(level, x, z, size, extraFlag, collision)
+            Direction.SouthWest -> isBlockedSouthWest(level, x, z, size, extraFlag, collision)
+            Direction.NorthWest -> isBlockedNorthWest(level, x, z, size, extraFlag, collision)
+            Direction.SouthEast -> isBlockedSouthEast(level, x, z, size, extraFlag, collision)
+            Direction.NorthEast -> isBlockedNorthEast(level, x, z, size, extraFlag, collision)
         }
         return !blocked
     }
@@ -43,24 +43,24 @@ public class StepValidator(private val flags: CollisionFlagMap) {
     private fun isBlockedSouth(
         level: Int,
         x: Int,
-        y: Int,
+        z: Int,
         size: Int,
         extraFlag: Int,
         collision: CollisionStrategy
     ): Boolean {
         return when (size) {
-            1 -> !collision.canMove(flags[x, y - 1, level], CollisionFlag.BLOCK_SOUTH or extraFlag)
-            2 -> !collision.canMove(flags[x, y - 1, level], CollisionFlag.BLOCK_SOUTH_WEST or extraFlag) ||
-                !collision.canMove(flags[x + 1, y - 1, level], CollisionFlag.BLOCK_SOUTH_EAST or extraFlag)
+            1 -> !collision.canMove(flags[x, z - 1, level], CollisionFlag.BLOCK_SOUTH or extraFlag)
+            2 -> !collision.canMove(flags[x, z - 1, level], CollisionFlag.BLOCK_SOUTH_WEST or extraFlag) ||
+                !collision.canMove(flags[x + 1, z - 1, level], CollisionFlag.BLOCK_SOUTH_EAST or extraFlag)
             else -> {
                 if (
-                    !collision.canMove(flags[x, y - 1, level], CollisionFlag.BLOCK_SOUTH_WEST or extraFlag) ||
-                    !collision.canMove(flags[x + size - 1, y - 1, level], CollisionFlag.BLOCK_SOUTH_EAST or extraFlag)
+                    !collision.canMove(flags[x, z - 1, level], CollisionFlag.BLOCK_SOUTH_WEST or extraFlag) ||
+                    !collision.canMove(flags[x + size - 1, z - 1, level], CollisionFlag.BLOCK_SOUTH_EAST or extraFlag)
                 ) {
                     return true
                 }
                 for (midX in x + 1 until x + size - 1) {
-                    if (!collision.canMove(flags[midX, y - 1, level], BLOCK_NORTH_EAST_AND_WEST or extraFlag)) {
+                    if (!collision.canMove(flags[midX, z - 1, level], BLOCK_NORTH_EAST_AND_WEST or extraFlag)) {
                         return true
                     }
                 }
@@ -72,27 +72,27 @@ public class StepValidator(private val flags: CollisionFlagMap) {
     private fun isBlockedNorth(
         level: Int,
         x: Int,
-        y: Int,
+        z: Int,
         size: Int,
         extraFlag: Int,
         collision: CollisionStrategy
     ): Boolean {
         return when (size) {
-            1 -> !collision.canMove(flags[x, y + 1, level], CollisionFlag.BLOCK_NORTH or extraFlag)
-            2 -> !collision.canMove(flags[x, y + 2, level], CollisionFlag.BLOCK_NORTH_WEST or extraFlag) ||
-                !collision.canMove(flags[x + 1, y + 2, level], CollisionFlag.BLOCK_NORTH_EAST or extraFlag)
+            1 -> !collision.canMove(flags[x, z + 1, level], CollisionFlag.BLOCK_NORTH or extraFlag)
+            2 -> !collision.canMove(flags[x, z + 2, level], CollisionFlag.BLOCK_NORTH_WEST or extraFlag) ||
+                !collision.canMove(flags[x + 1, z + 2, level], CollisionFlag.BLOCK_NORTH_EAST or extraFlag)
             else -> {
                 if (
-                    !collision.canMove(flags[x, y + size, level], CollisionFlag.BLOCK_NORTH_WEST or extraFlag) ||
+                    !collision.canMove(flags[x, z + size, level], CollisionFlag.BLOCK_NORTH_WEST or extraFlag) ||
                     !collision.canMove(
-                        flags[x + size - 1, y + size, level],
+                        flags[x + size - 1, z + size, level],
                         CollisionFlag.BLOCK_NORTH_EAST or extraFlag
                     )
                 ) {
                     return true
                 }
                 for (midX in x + 1 until x + size - 1) {
-                    if (!collision.canMove(flags[midX, y + size, level], BLOCK_SOUTH_EAST_AND_WEST or extraFlag)) {
+                    if (!collision.canMove(flags[midX, z + size, level], BLOCK_SOUTH_EAST_AND_WEST or extraFlag)) {
                         return true
                     }
                 }
@@ -104,24 +104,24 @@ public class StepValidator(private val flags: CollisionFlagMap) {
     private fun isBlockedWest(
         level: Int,
         x: Int,
-        y: Int,
+        z: Int,
         size: Int,
         extraFlag: Int,
         collision: CollisionStrategy
     ): Boolean {
         return when (size) {
-            1 -> !collision.canMove(flags[x - 1, y, level], CollisionFlag.BLOCK_WEST or extraFlag)
-            2 -> !collision.canMove(flags[x - 1, y, level], CollisionFlag.BLOCK_SOUTH_WEST or extraFlag) ||
-                !collision.canMove(flags[x - 1, y + 1, level], CollisionFlag.BLOCK_NORTH_WEST or extraFlag)
+            1 -> !collision.canMove(flags[x - 1, z, level], CollisionFlag.BLOCK_WEST or extraFlag)
+            2 -> !collision.canMove(flags[x - 1, z, level], CollisionFlag.BLOCK_SOUTH_WEST or extraFlag) ||
+                !collision.canMove(flags[x - 1, z + 1, level], CollisionFlag.BLOCK_NORTH_WEST or extraFlag)
             else -> {
                 if (
-                    !collision.canMove(flags[x - 1, y, level], CollisionFlag.BLOCK_SOUTH_WEST or extraFlag) ||
-                    !collision.canMove(flags[x - 1, y + size - 1, level], CollisionFlag.BLOCK_NORTH_WEST or extraFlag)
+                    !collision.canMove(flags[x - 1, z, level], CollisionFlag.BLOCK_SOUTH_WEST or extraFlag) ||
+                    !collision.canMove(flags[x - 1, z + size - 1, level], CollisionFlag.BLOCK_NORTH_WEST or extraFlag)
                 ) {
                     return true
                 }
-                for (midY in y + 1 until y + size - 1) {
-                    if (!collision.canMove(flags[x - 1, midY, level], BLOCK_NORTH_AND_SOUTH_EAST or extraFlag)) {
+                for (midZ in z + 1 until z + size - 1) {
+                    if (!collision.canMove(flags[x - 1, midZ, level], BLOCK_NORTH_AND_SOUTH_EAST or extraFlag)) {
                         return true
                     }
                 }
@@ -133,27 +133,27 @@ public class StepValidator(private val flags: CollisionFlagMap) {
     private fun isBlockedEast(
         level: Int,
         x: Int,
-        y: Int,
+        z: Int,
         size: Int,
         extraFlag: Int,
         collision: CollisionStrategy
     ): Boolean {
         return when (size) {
-            1 -> !collision.canMove(flags[x + 1, y, level], CollisionFlag.BLOCK_EAST or extraFlag)
-            2 -> !collision.canMove(flags[x + 2, y, level], CollisionFlag.BLOCK_SOUTH_EAST or extraFlag) ||
-                !collision.canMove(flags[x + 2, y + 1, level], CollisionFlag.BLOCK_NORTH_EAST or extraFlag)
+            1 -> !collision.canMove(flags[x + 1, z, level], CollisionFlag.BLOCK_EAST or extraFlag)
+            2 -> !collision.canMove(flags[x + 2, z, level], CollisionFlag.BLOCK_SOUTH_EAST or extraFlag) ||
+                !collision.canMove(flags[x + 2, z + 1, level], CollisionFlag.BLOCK_NORTH_EAST or extraFlag)
             else -> {
                 if (
-                    !collision.canMove(flags[x + size, y, level], CollisionFlag.BLOCK_SOUTH_EAST or extraFlag) ||
+                    !collision.canMove(flags[x + size, z, level], CollisionFlag.BLOCK_SOUTH_EAST or extraFlag) ||
                     !collision.canMove(
-                        flags[x + size, y + size - 1, level],
+                        flags[x + size, z + size - 1, level],
                         CollisionFlag.BLOCK_NORTH_EAST or extraFlag
                     )
                 ) {
                     return true
                 }
-                for (midY in y + 1 until y + size - 1) {
-                    if (!collision.canMove(flags[x + size, midY, level], BLOCK_NORTH_AND_SOUTH_WEST or extraFlag)) {
+                for (midZ in z + 1 until z + size - 1) {
+                    if (!collision.canMove(flags[x + size, midZ, level], BLOCK_NORTH_AND_SOUTH_WEST or extraFlag)) {
                         return true
                     }
                 }
@@ -165,26 +165,26 @@ public class StepValidator(private val flags: CollisionFlagMap) {
     private fun isBlockedSouthWest(
         level: Int,
         x: Int,
-        y: Int,
+        z: Int,
         size: Int,
         extraFlag: Int,
         collision: CollisionStrategy
     ): Boolean {
         return when (size) {
-            1 -> !collision.canMove(flags[x - 1, y - 1, level], CollisionFlag.BLOCK_SOUTH_WEST or extraFlag) ||
-                !collision.canMove(flags[x - 1, y, level], CollisionFlag.BLOCK_WEST or extraFlag) ||
-                !collision.canMove(flags[x, y - 1, level], CollisionFlag.BLOCK_SOUTH or extraFlag)
-            2 -> !collision.canMove(flags[x - 1, y, level], BLOCK_NORTH_AND_SOUTH_EAST or extraFlag) ||
-                !collision.canMove(flags[x - 1, y - 1, level], CollisionFlag.BLOCK_SOUTH_WEST or extraFlag) ||
-                !collision.canMove(flags[x, y - 1, level], BLOCK_NORTH_EAST_AND_WEST or extraFlag)
+            1 -> !collision.canMove(flags[x - 1, z - 1, level], CollisionFlag.BLOCK_SOUTH_WEST or extraFlag) ||
+                !collision.canMove(flags[x - 1, z, level], CollisionFlag.BLOCK_WEST or extraFlag) ||
+                !collision.canMove(flags[x, z - 1, level], CollisionFlag.BLOCK_SOUTH or extraFlag)
+            2 -> !collision.canMove(flags[x - 1, z, level], BLOCK_NORTH_AND_SOUTH_EAST or extraFlag) ||
+                !collision.canMove(flags[x - 1, z - 1, level], CollisionFlag.BLOCK_SOUTH_WEST or extraFlag) ||
+                !collision.canMove(flags[x, z - 1, level], BLOCK_NORTH_EAST_AND_WEST or extraFlag)
             else -> {
-                if (!collision.canMove(flags[x - 1, y - 1, level], CollisionFlag.BLOCK_SOUTH_WEST or extraFlag)) {
+                if (!collision.canMove(flags[x - 1, z - 1, level], CollisionFlag.BLOCK_SOUTH_WEST or extraFlag)) {
                     return true
                 }
                 for (mid in 1 until size) {
                     if (
-                        !collision.canMove(flags[x - 1, y + mid - 1, level], BLOCK_NORTH_AND_SOUTH_EAST or extraFlag) ||
-                        !collision.canMove(flags[x + mid - 1, y - 1, level], BLOCK_NORTH_EAST_AND_WEST or extraFlag)
+                        !collision.canMove(flags[x - 1, z + mid - 1, level], BLOCK_NORTH_AND_SOUTH_EAST or extraFlag) ||
+                        !collision.canMove(flags[x + mid - 1, z - 1, level], BLOCK_NORTH_EAST_AND_WEST or extraFlag)
                     ) {
                         return true
                     }
@@ -197,26 +197,26 @@ public class StepValidator(private val flags: CollisionFlagMap) {
     private fun isBlockedNorthWest(
         level: Int,
         x: Int,
-        y: Int,
+        z: Int,
         size: Int,
         extraFlag: Int,
         collision: CollisionStrategy
     ): Boolean {
         return when (size) {
-            1 -> !collision.canMove(flags[x - 1, y + 1, level], CollisionFlag.BLOCK_NORTH_WEST or extraFlag) ||
-                !collision.canMove(flags[x - 1, y, level], CollisionFlag.BLOCK_WEST or extraFlag) ||
-                !collision.canMove(flags[x, y + 1, level], CollisionFlag.BLOCK_NORTH or extraFlag)
-            2 -> !collision.canMove(flags[x - 1, y + 1, level], BLOCK_NORTH_AND_SOUTH_EAST or extraFlag) ||
-                !collision.canMove(flags[x - 1, y + 2, level], CollisionFlag.BLOCK_NORTH_WEST or extraFlag) ||
-                !collision.canMove(flags[x, y + 2, level], BLOCK_SOUTH_EAST_AND_WEST or extraFlag)
+            1 -> !collision.canMove(flags[x - 1, z + 1, level], CollisionFlag.BLOCK_NORTH_WEST or extraFlag) ||
+                !collision.canMove(flags[x - 1, z, level], CollisionFlag.BLOCK_WEST or extraFlag) ||
+                !collision.canMove(flags[x, z + 1, level], CollisionFlag.BLOCK_NORTH or extraFlag)
+            2 -> !collision.canMove(flags[x - 1, z + 1, level], BLOCK_NORTH_AND_SOUTH_EAST or extraFlag) ||
+                !collision.canMove(flags[x - 1, z + 2, level], CollisionFlag.BLOCK_NORTH_WEST or extraFlag) ||
+                !collision.canMove(flags[x, z + 2, level], BLOCK_SOUTH_EAST_AND_WEST or extraFlag)
             else -> {
-                if (!collision.canMove(flags[x - 1, y + size, level], CollisionFlag.BLOCK_NORTH_WEST or extraFlag)) {
+                if (!collision.canMove(flags[x - 1, z + size, level], CollisionFlag.BLOCK_NORTH_WEST or extraFlag)) {
                     return true
                 }
                 for (mid in 1 until size) {
                     if (
-                        !collision.canMove(flags[x - 1, y + mid, level], BLOCK_NORTH_AND_SOUTH_EAST or extraFlag) ||
-                        !collision.canMove(flags[x + mid - 1, y + size, level], BLOCK_SOUTH_EAST_AND_WEST or extraFlag)
+                        !collision.canMove(flags[x - 1, z + mid, level], BLOCK_NORTH_AND_SOUTH_EAST or extraFlag) ||
+                        !collision.canMove(flags[x + mid - 1, z + size, level], BLOCK_SOUTH_EAST_AND_WEST or extraFlag)
                     ) {
                         return true
                     }
@@ -229,21 +229,21 @@ public class StepValidator(private val flags: CollisionFlagMap) {
     private fun isBlockedSouthEast(
         level: Int,
         x: Int,
-        y: Int,
+        z: Int,
         size: Int,
         extraFlag: Int,
         collision: CollisionStrategy
     ): Boolean {
         return when (size) {
-            1 -> !collision.canMove(flags[x + 1, y - 1, level], CollisionFlag.BLOCK_SOUTH_EAST or extraFlag) ||
-                !collision.canMove(flags[x + 1, y, level], CollisionFlag.BLOCK_EAST or extraFlag) ||
-                !collision.canMove(flags[x, y - 1, level], CollisionFlag.BLOCK_SOUTH or extraFlag)
-            2 -> !collision.canMove(flags[x + 1, y - 1, level], BLOCK_NORTH_EAST_AND_WEST or extraFlag) ||
-                !collision.canMove(flags[x + 2, y - 1, level], CollisionFlag.BLOCK_SOUTH_EAST or extraFlag) ||
-                !collision.canMove(flags[x + 2, y, level], BLOCK_NORTH_AND_SOUTH_WEST or extraFlag)
+            1 -> !collision.canMove(flags[x + 1, z - 1, level], CollisionFlag.BLOCK_SOUTH_EAST or extraFlag) ||
+                !collision.canMove(flags[x + 1, z, level], CollisionFlag.BLOCK_EAST or extraFlag) ||
+                !collision.canMove(flags[x, z - 1, level], CollisionFlag.BLOCK_SOUTH or extraFlag)
+            2 -> !collision.canMove(flags[x + 1, z - 1, level], BLOCK_NORTH_EAST_AND_WEST or extraFlag) ||
+                !collision.canMove(flags[x + 2, z - 1, level], CollisionFlag.BLOCK_SOUTH_EAST or extraFlag) ||
+                !collision.canMove(flags[x + 2, z, level], BLOCK_NORTH_AND_SOUTH_WEST or extraFlag)
             else -> {
                 if (!collision.canMove(
-                        flags[x + size, y - 1, level],
+                        flags[x + size, z - 1, level],
                         CollisionFlag.BLOCK_SOUTH_EAST or extraFlag
                     )
                 ) {
@@ -252,10 +252,10 @@ public class StepValidator(private val flags: CollisionFlagMap) {
                 for (mid in 1 until size) {
                     if (
                         !collision.canMove(
-                            flags[x + size, y + mid - 1, level],
+                            flags[x + size, z + mid - 1, level],
                             BLOCK_NORTH_AND_SOUTH_WEST or extraFlag
                         ) ||
-                        !collision.canMove(flags[x + mid, y - 1, level], BLOCK_NORTH_EAST_AND_WEST or extraFlag)
+                        !collision.canMove(flags[x + mid, z - 1, level], BLOCK_NORTH_EAST_AND_WEST or extraFlag)
                     ) {
                         return true
                     }
@@ -268,26 +268,26 @@ public class StepValidator(private val flags: CollisionFlagMap) {
     private fun isBlockedNorthEast(
         level: Int,
         x: Int,
-        y: Int,
+        z: Int,
         size: Int,
         extraFlag: Int,
         collision: CollisionStrategy
     ): Boolean {
         return when (size) {
-            1 -> !collision.canMove(flags[x + 1, y + 1, level], CollisionFlag.BLOCK_NORTH_EAST or extraFlag) ||
-                !collision.canMove(flags[x + 1, y, level], CollisionFlag.BLOCK_EAST or extraFlag) ||
-                !collision.canMove(flags[x, y + 1, level], CollisionFlag.BLOCK_NORTH or extraFlag)
-            2 -> !collision.canMove(flags[x + 1, y + 2, level], BLOCK_SOUTH_EAST_AND_WEST or extraFlag) ||
-                !collision.canMove(flags[x + 2, y + 2, level], CollisionFlag.BLOCK_NORTH_EAST or extraFlag) ||
-                !collision.canMove(flags[x + 2, y + 1, level], BLOCK_NORTH_AND_SOUTH_WEST or extraFlag)
+            1 -> !collision.canMove(flags[x + 1, z + 1, level], CollisionFlag.BLOCK_NORTH_EAST or extraFlag) ||
+                !collision.canMove(flags[x + 1, z, level], CollisionFlag.BLOCK_EAST or extraFlag) ||
+                !collision.canMove(flags[x, z + 1, level], CollisionFlag.BLOCK_NORTH or extraFlag)
+            2 -> !collision.canMove(flags[x + 1, z + 2, level], BLOCK_SOUTH_EAST_AND_WEST or extraFlag) ||
+                !collision.canMove(flags[x + 2, z + 2, level], CollisionFlag.BLOCK_NORTH_EAST or extraFlag) ||
+                !collision.canMove(flags[x + 2, z + 1, level], BLOCK_NORTH_AND_SOUTH_WEST or extraFlag)
             else -> {
-                if (!collision.canMove(flags[x + size, y + size, level], CollisionFlag.BLOCK_NORTH_EAST or extraFlag)) {
+                if (!collision.canMove(flags[x + size, z + size, level], CollisionFlag.BLOCK_NORTH_EAST or extraFlag)) {
                     return true
                 }
                 for (mid in 1 until size) {
                     if (
-                        !collision.canMove(flags[x + mid, y + size, level], BLOCK_SOUTH_EAST_AND_WEST or extraFlag) ||
-                        !collision.canMove(flags[x + size, y + mid, level], BLOCK_NORTH_AND_SOUTH_WEST or extraFlag)
+                        !collision.canMove(flags[x + mid, z + size, level], BLOCK_SOUTH_EAST_AND_WEST or extraFlag) ||
+                        !collision.canMove(flags[x + size, z + mid, level], BLOCK_NORTH_AND_SOUTH_WEST or extraFlag)
                     ) {
                         return true
                     }
@@ -300,11 +300,11 @@ public class StepValidator(private val flags: CollisionFlagMap) {
     public companion object {
 
         private val mappedDirections = List(0xF) { key ->
-            Direction.values.firstOrNull { bitpackDirection(it.offX, it.offY) == key }
+            Direction.values.firstOrNull { bitpackDirection(it.offX, it.offZ) == key }
         }
 
         /**
-         * Calculates coordinates for [sourceX]/[sourceY] to move to interact with [targetX]/[targetY]
+         * Calculates coordinates for [sourceX]/[sourceZ] to move to interact with [targetX]/[targetZ]
          * We first determine the cardinal direction of the source relative to the target by comparing if
          * the source lies to the left or right of diagonal \ and anti-diagonal / lines.
          * \ <= North <= /
@@ -328,39 +328,39 @@ public class StepValidator(private val flags: CollisionFlagMap) {
             message = "Use PathFinder.naiveDestination instead.",
             replaceWith = ReplaceWith(
                 "PathFinder.naiveDestination(" +
-                    "sourceX, sourceY, sourceWidth, sourceHeight, " +
-                    "targetX, targetY, targetWidth, targetHeight)"
+                    "sourceX, sourceZ, sourceWidth, sourceHeight, " +
+                    "targetX, targetZ, targetWidth, targetHeight)"
             )
         )
         public fun naiveDestination(
             sourceX: Int,
-            sourceY: Int,
+            sourceZ: Int,
             sourceWidth: Int,
             sourceHeight: Int,
             targetX: Int,
-            targetY: Int,
+            targetZ: Int,
             targetWidth: Int,
             targetHeight: Int
         ): RouteCoordinates {
             return PathFinder.naiveDestination(
                 sourceX,
-                sourceY,
+                sourceZ,
                 sourceWidth,
                 sourceHeight,
                 targetX,
-                targetY,
+                targetZ,
                 targetWidth,
                 targetHeight
             )
         }
 
-        private fun getDirection(xOff: Int, yOff: Int): Direction {
-            assert(xOff in -1..1) { "X offset must be in bounds of -1..1" }
-            assert(yOff in -1..1) { "Y offset must be in bounds of -1..1" }
-            return mappedDirections[bitpackDirection(xOff, yOff)]
-                ?: throw IllegalArgumentException("Offsets [$xOff, $yOff] do not produce a valid movement direction.")
+        private fun getDirection(xOff: Int, zOff: Int): Direction {
+            assert(xOff in -1..1) { "`xOff` must be in bounds of -1..1" }
+            assert(zOff in -1..1) { "`zOff` must be in bounds of -1..1" }
+            return mappedDirections[bitpackDirection(xOff, zOff)]
+                ?: throw IllegalArgumentException("Offsets [$xOff, $zOff] do not produce a valid movement direction.")
         }
 
-        private fun bitpackDirection(xOff: Int, yOff: Int): Int = xOff.inc().shl(2) or yOff.inc()
+        private fun bitpackDirection(xOff: Int, zOff: Int): Int = xOff.inc().shl(2) or zOff.inc()
     }
 }

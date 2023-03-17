@@ -58,31 +58,31 @@ abstract class PathFinderBenchmark(
 
     @Benchmark
     fun serverPathConstructOnIteration() {
-        val (level, srcX, srcY, destX, destY) = params
+        val (level, srcX, srcZ, destX, destZ) = params
         val flags = params.toCollisionFlags()
         repeat(pathRequests) {
             val noResetOnSearch = PathFinder(flags, resetOnSearch = false)
-            noResetOnSearch.findPath(level = level, srcX = srcX, srcY = srcY, destX = destX, destY = destY)
+            noResetOnSearch.findPath(level = level, srcX = srcX, srcZ = srcZ, destX = destX, destZ = destZ)
         }
     }
 
     @Benchmark
     fun serverPathResetOnIteration() {
-        val (level, srcX, srcY, destX, destY) = params
+        val (level, srcX, srcZ, destX, destZ) = params
         repeat(pathRequests) {
-            resetOnSearch.findPath(level = level, srcX = srcX, srcY = srcY, destX = destX, destY = destY)
+            resetOnSearch.findPath(level = level, srcX = srcX, srcZ = srcZ, destX = destX, destZ = destZ)
         }
     }
 
     @Benchmark
     fun serverPathCoroutineDispatcherThreadLocal() = runBlocking {
-        val (level, srcX, srcY, destX, destY) = params
+        val (level, srcX, srcZ, destX, destZ) = params
         val flags = params.toCollisionFlags()
         val threadLocal = ThreadLocal.withInitial { PathFinder(flags, resetOnSearch = true) }
 
         fun CoroutineScope.findPath() = launch {
             val pf = threadLocal.get()
-            pf.findPath(level = level, srcX = srcX, srcY = srcY, destX = destX, destY = destY)
+            pf.findPath(level = level, srcX = srcX, srcZ = srcZ, destX = destX, destZ = destZ)
         }
 
         launch(scope.coroutineContext) {
@@ -94,12 +94,12 @@ abstract class PathFinderBenchmark(
 
     @Benchmark
     fun serverPathCoroutineDispatcherConstruct() = runBlocking {
-        val (level, srcX, srcY, destX, destY) = params
+        val (level, srcX, srcZ, destX, destZ) = params
         val flags = params.toCollisionFlags()
 
         fun CoroutineScope.findPath() = launch {
             val pf = PathFinder(flags, resetOnSearch = false)
-            pf.findPath(level = level, srcX = srcX, srcY = srcY, destX = destX, destY = destY)
+            pf.findPath(level = level, srcX = srcX, srcZ = srcZ, destX = destX, destZ = destZ)
         }
 
         launch(scope.coroutineContext) {
@@ -113,9 +113,9 @@ abstract class PathFinderBenchmark(
 private data class PathFinderParameter(
     val level: Int,
     val srcX: Int,
-    val srcY: Int,
+    val srcZ: Int,
     val destX: Int,
-    val destY: Int,
+    val destZ: Int,
     val flags: IntArray
 ) {
 
@@ -126,15 +126,15 @@ private data class PathFinderParameter(
         val mapSearchSize = sqrt(flags.size.toDouble()).toInt()
         val half = mapSearchSize / 2
         val centerX = srcX
-        val centerY = srcY
+        val centerZ = srcZ
         val rangeX = centerX - half until centerX + half
-        val rangeY = centerY - half until centerY + half
-        for (y in rangeY) {
+        val rangeZ = centerZ - half until centerZ + half
+        for (z in rangeZ) {
             for (x in rangeX) {
                 val lx = x - (centerX - half)
-                val ly = y - (centerY - half)
-                val index = (ly * mapSearchSize) + lx
-                collisionFlags[x, y, level] = flags[index]
+                val lz = z - (centerZ - half)
+                val index = (lz * mapSearchSize) + lx
+                collisionFlags[x, z, level] = flags[index]
             }
         }
         return collisionFlags
@@ -148,9 +148,9 @@ private data class PathFinderParameter(
 
         if (level != other.level) return false
         if (srcX != other.srcX) return false
-        if (srcY != other.srcY) return false
+        if (srcZ != other.srcZ) return false
         if (destX != other.destX) return false
-        if (destY != other.destY) return false
+        if (destZ != other.destZ) return false
         if (!flags.contentEquals(other.flags)) return false
 
         return true
@@ -159,9 +159,9 @@ private data class PathFinderParameter(
     override fun hashCode(): Int {
         var result = level
         result = 31 * result + srcX
-        result = 31 * result + srcY
+        result = 31 * result + srcZ
         result = 31 * result + destX
-        result = 31 * result + destY
+        result = 31 * result + destZ
         result = 31 * result + flags.contentHashCode()
         return result
     }

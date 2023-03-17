@@ -3,8 +3,8 @@ package org.rsmod.game.pathfinder.collision
 @Suppress("MemberVisibilityCanBePrivate")
 public class CollisionFlagMap(private val flags: Array<IntArray?> = arrayOfNulls(TOTAL_ZONES)) {
 
-    public fun getOrAlloc(x: Int, y: Int, level: Int): IntArray {
-        val zoneIndex = coordsToZoneIndex(x, y, level)
+    public fun getOrAlloc(x: Int, z: Int, level: Int): IntArray {
+        val zoneIndex = coordsToZoneIndex(x, z, level)
         val curr = flags[zoneIndex]
         if (curr != null) return curr
         val alloc = IntArray(ZONE_SIZE)
@@ -19,32 +19,32 @@ public class CollisionFlagMap(private val flags: Array<IntArray?> = arrayOfNulls
     }
 
     /**
-     * Deallocates the whole 8x8 zone to which [x], [y] and [level] belong.
+     * Deallocates the whole 8x8 zone to which [x], [z] and [level] belong.
      */
-    public fun deallocate(x: Int, y: Int, level: Int) {
-        val zoneIndex = coordsToZoneIndex(x, y, level)
+    public fun deallocate(x: Int, z: Int, level: Int) {
+        val zoneIndex = coordsToZoneIndex(x, z, level)
         flags[zoneIndex] = null
     }
 
-    public fun add(x: Int, y: Int, level: Int, mask: Int) {
-        val old = this[x, y, level]
-        this[x, y, level] = old or mask
+    public fun add(x: Int, z: Int, level: Int, mask: Int) {
+        val old = this[x, z, level]
+        this[x, z, level] = old or mask
     }
 
-    public fun remove(x: Int, y: Int, level: Int, mask: Int) {
-        val old = this[x, y, level]
-        this[x, y, level] = old and mask.inv()
+    public fun remove(x: Int, z: Int, level: Int, mask: Int) {
+        val old = this[x, z, level]
+        this[x, z, level] = old and mask.inv()
     }
 
-    public operator fun get(x: Int, y: Int, level: Int): Int {
-        val zoneIndex = coordsToZoneIndex(x, y, level)
-        val localIndex = coordsToZoneLocalIndex(x, y)
-        return flags[zoneIndex]?.get(localIndex) ?: -1
+    public operator fun get(x: Int, z: Int, level: Int): Int {
+        val zoneIndex = coordsToZoneIndex(x, z, level)
+        val localIndex = coordsToZoneLocalIndex(x, z)
+        return flags[zoneIndex]?.get(localIndex) ?: 0
     }
 
-    public operator fun set(x: Int, y: Int, level: Int, flags: Int) {
-        val zoneFlags = getOrAlloc(x, y, level)
-        val localIndex = coordsToZoneLocalIndex(x, y)
+    public operator fun set(x: Int, z: Int, level: Int, flags: Int) {
+        val zoneFlags = getOrAlloc(x, z, level)
+        val localIndex = coordsToZoneLocalIndex(x, z)
         zoneFlags[localIndex] = flags
     }
 
@@ -54,12 +54,12 @@ public class CollisionFlagMap(private val flags: Array<IntArray?> = arrayOfNulls
 
         public const val ZONE_SIZE: Int = 8 * 8
 
-        private fun coordsToZoneLocalIndex(x: Int, y: Int): Int {
-            return (x and 0x7) or ((y and 0x7) shl 3)
+        private fun coordsToZoneLocalIndex(x: Int, z: Int): Int {
+            return (x and 0x7) or ((z and 0x7) shl 3)
         }
 
-        private fun coordsToZoneIndex(x: Int, y: Int, level: Int): Int {
-            return (x shr 3 and 0x7FF) or ((y shr 3 and 0x7FF) shl 11) or ((level and 0x3) shl 22)
+        private fun coordsToZoneIndex(x: Int, z: Int, level: Int): Int {
+            return (x shr 3 and 0x7FF) or ((z shr 3 and 0x7FF) shl 11) or ((level and 0x3) shl 22)
         }
     }
 }

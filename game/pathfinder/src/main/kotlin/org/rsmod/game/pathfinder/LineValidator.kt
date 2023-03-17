@@ -37,9 +37,9 @@ public class LineValidator(private val flags: CollisionFlagMap) {
     public fun hasLineOfSight(
         level: Int,
         srcX: Int,
-        srcY: Int,
+        srcZ: Int,
         destX: Int,
-        destY: Int,
+        destZ: Int,
         srcSize: Int = 1,
         destWidth: Int = 0,
         destHeight: Int = 0
@@ -47,9 +47,9 @@ public class LineValidator(private val flags: CollisionFlagMap) {
         return rayCast(
             level = level,
             srcX = srcX,
-            srcY = srcY,
+            srcZ = srcZ,
             destX = destX,
-            destY = destY,
+            destZ = destZ,
             srcSize = srcSize,
             destWidth = destWidth,
             destHeight = destHeight,
@@ -64,9 +64,9 @@ public class LineValidator(private val flags: CollisionFlagMap) {
     public fun hasLineOfWalk(
         level: Int,
         srcX: Int,
-        srcY: Int,
+        srcZ: Int,
         destX: Int,
-        destY: Int,
+        destZ: Int,
         srcSize: Int = 1,
         destWidth: Int = 0,
         destHeight: Int = 0
@@ -74,9 +74,9 @@ public class LineValidator(private val flags: CollisionFlagMap) {
         return rayCast(
             level = level,
             srcX = srcX,
-            srcY = srcY,
+            srcZ = srcZ,
             destX = destX,
-            destY = destY,
+            destZ = destZ,
             srcSize = srcSize,
             destWidth = destWidth,
             destHeight = destHeight,
@@ -91,9 +91,9 @@ public class LineValidator(private val flags: CollisionFlagMap) {
     private fun rayCast(
         level: Int,
         srcX: Int,
-        srcY: Int,
+        srcZ: Int,
         destX: Int,
-        destY: Int,
+        destZ: Int,
         srcSize: Int,
         destWidth: Int,
         destHeight: Int,
@@ -104,74 +104,74 @@ public class LineValidator(private val flags: CollisionFlagMap) {
         los: Boolean
     ): Boolean {
         val startX = coordinate(srcX, destX, srcSize)
-        val startY = coordinate(srcY, destY, srcSize)
+        val startZ = coordinate(srcZ, destZ, srcSize)
 
-        if (los && flags.isFlagged(startX, startY, level, CollisionFlag.OBJECT)) {
+        if (los && flags.isFlagged(startX, startZ, level, CollisionFlag.OBJECT)) {
             return false
         }
 
         val endX = coordinate(destX, srcX, destWidth)
-        val endY = coordinate(destY, srcY, destHeight)
+        val endZ = coordinate(destZ, srcZ, destHeight)
 
-        if (startX == endX && startY == endY) {
+        if (startX == endX && startZ == endZ) {
             return true
         }
 
         val deltaX = endX - startX
-        val deltaY = endY - startY
+        val deltaZ = endZ - startZ
 
         val travelEast = deltaX >= 0
-        val travelNorth = deltaY >= 0
+        val travelNorth = deltaZ >= 0
 
         var xFlags = if (travelEast) flagWest else flagEast
-        var yFlags = if (travelNorth) flagSouth else flagNorth
+        var zFlags = if (travelNorth) flagSouth else flagNorth
 
-        if (abs(deltaX) > abs(deltaY)) {
+        if (abs(deltaX) > abs(deltaZ)) {
             val offsetX = if (travelEast) 1 else -1
-            val offsetY = if (travelNorth) 0 else -1
+            val offsetZ = if (travelNorth) 0 else -1
 
-            var scaledY = scaleUp(startY) + HALF_TILE + offsetY
-            val tangent = scaleUp(deltaY) / abs(deltaX)
+            var scaledZ = scaleUp(startZ) + HALF_TILE + offsetZ
+            val tangent = scaleUp(deltaZ) / abs(deltaX)
 
             var currX = startX
             while (currX != endX) {
                 currX += offsetX
-                val currY = scaleDown(scaledY)
+                val currZ = scaleDown(scaledZ)
 
-                if (los && currX == endX && currY == endY) xFlags = xFlags and OBJECT_PROJECTILE_BLOCKER.inv()
-                if (flags.isFlagged(currX, currY, level, xFlags)) {
+                if (los && currX == endX && currZ == endZ) xFlags = xFlags and OBJECT_PROJECTILE_BLOCKER.inv()
+                if (flags.isFlagged(currX, currZ, level, xFlags)) {
                     return false
                 }
 
-                scaledY += tangent
+                scaledZ += tangent
 
-                val nextY = scaleDown(scaledY)
-                if (los && currX == endX && nextY == endY) yFlags = yFlags and OBJECT_PROJECTILE_BLOCKER.inv()
-                if (nextY != currY && flags.isFlagged(currX, nextY, level, yFlags)) {
+                val nextZ = scaleDown(scaledZ)
+                if (los && currX == endX && nextZ == endZ) zFlags = zFlags and OBJECT_PROJECTILE_BLOCKER.inv()
+                if (nextZ != currZ && flags.isFlagged(currX, nextZ, level, zFlags)) {
                     return false
                 }
             }
         } else {
             val offsetX = if (travelEast) 0 else -1
-            val offsetY = if (travelNorth) 1 else -1
+            val offsetZ = if (travelNorth) 1 else -1
 
             var scaledX = scaleUp(startX) + HALF_TILE + offsetX
-            val tangent = scaleUp(deltaX) / abs(deltaY)
+            val tangent = scaleUp(deltaX) / abs(deltaZ)
 
-            var currY = startY
-            while (currY != endY) {
-                currY += offsetY
+            var currZ = startZ
+            while (currZ != endZ) {
+                currZ += offsetZ
                 val currX = scaleDown(scaledX)
-                if (los && currX == endX && currY == endY) yFlags = yFlags and OBJECT_PROJECTILE_BLOCKER.inv()
-                if (flags.isFlagged(currX, currY, level, yFlags)) {
+                if (los && currX == endX && currZ == endZ) zFlags = zFlags and OBJECT_PROJECTILE_BLOCKER.inv()
+                if (flags.isFlagged(currX, currZ, level, zFlags)) {
                     return false
                 }
 
                 scaledX += tangent
 
                 val nextX = scaleDown(scaledX)
-                if (los && nextX == endX && currY == endY) xFlags = xFlags and OBJECT_PROJECTILE_BLOCKER.inv()
-                if (nextX != currX && flags.isFlagged(nextX, currY, level, xFlags)) {
+                if (los && nextX == endX && currZ == endZ) xFlags = xFlags and OBJECT_PROJECTILE_BLOCKER.inv()
+                if (nextX != currX && flags.isFlagged(nextX, currZ, level, xFlags)) {
                     return false
                 }
             }
@@ -189,10 +189,10 @@ public class LineValidator(private val flags: CollisionFlagMap) {
 
     private fun CollisionFlagMap.isFlagged(
         x: Int,
-        y: Int,
+        z: Int,
         level: Int,
         flags: Int
-    ): Boolean = (this[x, y, level] and flags) != 0
+    ): Boolean = (this[x, z, level] and flags) != 0
 
     private companion object {
 

@@ -1,6 +1,6 @@
 package org.rsmod.game.pathfinder
 
-internal enum class Direction(val offX: Int, val offY: Int) {
+internal enum class Direction(val offX: Int, val offZ: Int) {
     South(0, -1),
     North(0, 1),
     West(-1, 0),
