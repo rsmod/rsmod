@@ -5,7 +5,7 @@ guava = "31.1-jre"
 guice = "5.1.0"
 inline-logger = "1.0.4"
 jackson = "2.14.2"
-jmh = "0.5.3"
+jmh = "0.7.0"
 junit = "5.9.2"
 kotlin-coroutines = "1.6.4"
 kotlin-poet = "1.12.0"
@@ -18,7 +18,7 @@ manes-versions = "0.46.0"
 
 [plugins]
 kotlinter = { id = "org.jmailen.kotlinter", version.ref = "kotlinter" }
-jmh = { id = "me.champeau.gradle.jmh", version.ref = "jmh" }
+jmh = { id = "me.champeau.jmh", version.ref = "jmh" }
 versions = { id = "com.github.ben-manes.versions", version.ref = "manes-versions" }
 
 [libraries]

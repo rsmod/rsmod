@@ -4,17 +4,13 @@ plugins {
     `maven-publish`
     signing
     kotlin("jvm")
-    id("me.champeau.gradle.jmh") apply true
+    id("me.champeau.jmh") apply true
 }
 
 dependencies {
     jmh(libs.jacksonDatabind)
     jmh(libs.kotlinCoroutinesCore)
     testImplementation(libs.jacksonDatabind)
-}
-
-jmh {
-    profilers = listOf("stack")
 }
 
 publishing {

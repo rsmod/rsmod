@@ -4,15 +4,11 @@ plugins {
     `maven-publish`
     signing
     kotlin("jvm")
-    id("me.champeau.gradle.jmh") apply true
+    id("me.champeau.jmh") apply true
 }
 
 dependencies {
     jmh(libs.kotlinCoroutinesCore)
-}
-
-jmh {
-    profilers = listOf("stack")
 }
 
 publishing {
