@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.rsmod.game:pathfinder:1.3.0")
+    implementation("org.rsmod:rsmod-pathfinder:2.1.0")
 }
 ```
 
@@ -66,7 +66,7 @@ GameClickShortPath.threadLocalPathFinder  avgt        19.010          ms/op
 ```
 
 #### Glossary
-- **sequentialPathFinder**: calculates 2000 paths from short to out-of-bound (beyond search distance) destinations.
+- **sequentialPathFinder**: calculates 2000 paths sequentially using the same `PathFinder` instance.
 - **threadLocalPathFinder**: similar to `sequentialPathFinder`, but uses `ThreadLocal<PathFinder>` to find paths asynchronously.
 - **GameClickAltPath**: destination outside valid search distance (pathfinder forced to iterate the whole search area) (~72 tiles).
 - **GameClickLongPath**: destination near upper limit of `PathFinder::searchMapSize` radius (~63 tiles).
