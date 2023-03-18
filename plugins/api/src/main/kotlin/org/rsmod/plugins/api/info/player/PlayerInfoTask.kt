@@ -1,9 +1,6 @@
 package org.rsmod.plugins.api.info.player
 
 import io.netty.buffer.Unpooled
-import org.openrs2.buffer.setByteC
-import org.openrs2.buffer.writeByteA
-import org.openrs2.buffer.writeShortLEA
 import org.openrs2.buffer.writeString
 import org.rsmod.game.map.Coordinates
 import org.rsmod.game.model.mob.Player
@@ -29,9 +26,9 @@ public class PlayerInfoTask @Inject constructor(
 
     public fun initialize(player: Player) {
         info.register(player.index)
-        info.updateExtendedInfo(player.index, player.extendedInfo(0x40))
-        info.cacheDynamicExtendedInfo(player.index, gameClock, player.extendedInfo(0x40))
-        info.cacheStaticExtendedInfo(player.index, player.extendedInfo(0x40 or 0x8 or 0x1))
+        //info.updateExtendedInfo(player.index, player.extendedInfo(64))
+        //info.cacheDynamicExtendedInfo(player.index, gameClock, player.extendedInfo(64))
+        //info.cacheStaticExtendedInfo(player.index, player.extendedInfo(64))
     }
 
     public fun finalize(player: Player) {
@@ -68,12 +65,12 @@ public class PlayerInfoTask @Inject constructor(
         if (flags < 0xFF) {
             buf.writeByte(flags)
         } else {
-            val extendedFlags = flags or 0x4
+            val extendedFlags = flags or 2
             buf.writeByte(extendedFlags and 0xFF)
             buf.writeByte(extendedFlags shr 8)
         }
 
-        if ((flags and 0x40) != 0) {
+        if ((flags and 64) != 0) {
             val appStartPos = buf.writerIndex()
             buf.writeZero(1)
             buf.writeByte(0)
@@ -103,16 +100,7 @@ public class PlayerInfoTask @Inject constructor(
             buf.writeByte(0)
 
             val appLength = buf.writerIndex() - appStartPos - 1
-            buf.setByteC(appStartPos, appLength)
-        }
-
-        if ((flags and 0x8) != 0) {
-            buf.writeShortLEA(-1)
-            buf.writeByteA(0)
-        }
-
-        if ((flags and 0x1) != 0) {
-            buf.writeShort(0)
+            buf.setByte(appStartPos, appLength)
         }
 
         return ByteArray(buf.readableBytes()).apply { buf.readBytes(this) }
