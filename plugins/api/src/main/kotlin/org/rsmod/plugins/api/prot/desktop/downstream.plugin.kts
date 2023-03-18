@@ -1,7 +1,8 @@
 package org.rsmod.plugins.api.prot.desktop
 
 import org.openrs2.buffer.BitBuf
-import org.openrs2.buffer.writeByteS
+import org.openrs2.buffer.writeByteC
+import org.openrs2.buffer.writeIntAlt3
 import org.openrs2.buffer.writeShortA
 import org.openrs2.buffer.writeShortLEA
 import org.openrs2.buffer.writeShortSmart
@@ -21,7 +22,7 @@ private val platforms: GamePlatformPacketMaps by inject()
 private val packets = platforms.desktopDownstream
 
 packets.register<MinimapFlagSet> {
-    opcode = 24
+    opcode = 80
     length = 2
     encode { packet, buf ->
         buf.writeByte(packet.lx)
@@ -30,7 +31,7 @@ packets.register<MinimapFlagSet> {
 }
 
 packets.register<MessageGame> {
-    opcode = 86
+    opcode = 102
     length = variableByteLength
     encode { packet, buf ->
         buf.writeShortSmart(packet.type)
@@ -41,7 +42,7 @@ packets.register<MessageGame> {
 }
 
 packets.register<RunClientScript> {
-    opcode = 47
+    opcode = 94
     length = variableShortLength
     encode { packet, buf ->
         val typeChars = String(packet.args.map { if (it is String) 's' else 'i' }.toCharArray())
@@ -58,33 +59,33 @@ packets.register<RunClientScript> {
 }
 
 packets.register<IfOpenTop> {
-    opcode = 10
+    opcode = 46
     length = 2
     encode { packet, buf ->
-        buf.writeShortA(packet.interfaceId)
+        buf.writeShort(packet.interfaceId)
     }
 }
 
 packets.register<IfOpenSub> {
-    opcode = 48
+    opcode = 61
     length = 7
     encode { packet, buf ->
-        buf.writeByteS(packet.clickMode)
-        buf.writeIntLE(packet.targetComponent)
-        buf.writeShortA(packet.interfaceId)
+        buf.writeByteC(packet.clickMode)
+        buf.writeInt(packet.targetComponent)
+        buf.writeShortLE(packet.interfaceId)
     }
 }
 
 packets.register<RebuildNormal> {
-    opcode = 16
+    opcode = 0
     length = variableShortLength
     encode { packet, buf ->
         /* log-in sends gpi initialization data along with REBUILD_NORMAL data */
         packet.gpiInitialization?.let { gpi ->
             BitBuf(buf).use { bitBuf -> gpi.encode(bitBuf) }
         }
-        buf.writeShortA(packet.zone.x)
-        buf.writeShortLE(packet.zone.z)
+        buf.writeShortLEA(packet.zone.x)
+        buf.writeShortA(packet.zone.z)
         buf.writeShort(packet.xteaList.size / 4)
         packet.xteaList.forEach { key ->
             buf.writeInt(key)
@@ -93,7 +94,7 @@ packets.register<RebuildNormal> {
 }
 
 packets.register<PlayerInfoPacket> {
-    opcode = 26
+    opcode = 36
     length = variableShortLength
     encode { packet, buf ->
         buf.writeBytes(packet.data, 0, packet.length)
@@ -101,19 +102,19 @@ packets.register<PlayerInfoPacket> {
 }
 
 packets.register<VarpSmall> {
-    opcode = 31
+    opcode = 95
     length = 3
     encode { packet, buf ->
-        buf.writeByteS(packet.packed)
         buf.writeShortA(packet.varp)
+        buf.writeByte(packet.packed)
     }
 }
 
 packets.register<VarpLarge> {
-    opcode = 76
+    opcode = 67
     length = 6
     encode { packet, buf ->
-        buf.writeInt(packet.packed)
         buf.writeShortLEA(packet.varp)
+        buf.writeIntAlt3(packet.packed)
     }
 }

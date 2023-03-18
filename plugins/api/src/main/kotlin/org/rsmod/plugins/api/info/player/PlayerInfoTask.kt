@@ -1,15 +1,14 @@
 package org.rsmod.plugins.api.info.player
 
 import io.netty.buffer.Unpooled
-import org.openrs2.buffer.setByteC
-import org.openrs2.buffer.writeByteA
-import org.openrs2.buffer.writeShortLEA
+import org.openrs2.buffer.writeBytesA
 import org.openrs2.buffer.writeString
 import org.rsmod.game.map.Coordinates
 import org.rsmod.game.model.mob.Player
 import org.rsmod.game.model.mob.list.PlayerList
 import org.rsmod.plugins.api.net.downstream.PlayerInfoPacket
 import org.rsmod.plugins.info.player.PlayerInfo
+import org.rsmod.plugins.info.player.model.ExtendedInfoSizes
 import org.rsmod.plugins.info.player.model.coord.HighResCoord
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -29,9 +28,9 @@ public class PlayerInfoTask @Inject constructor(
 
     public fun initialize(player: Player) {
         info.register(player.index)
-        info.updateExtendedInfo(player.index, player.extendedInfo(0x40))
-        info.cacheDynamicExtendedInfo(player.index, gameClock, player.extendedInfo(0x40))
-        info.cacheStaticExtendedInfo(player.index, player.extendedInfo(0x40 or 0x8 or 0x1))
+        info.updateExtendedInfo(player.index, player.extendedInfo(64))
+        info.cacheDynamicExtendedInfo(player.index, gameClock, player.extendedInfo(64))
+        info.cacheStaticExtendedInfo(player.index, player.extendedInfo(64))
     }
 
     public fun finalize(player: Player) {
@@ -68,51 +67,42 @@ public class PlayerInfoTask @Inject constructor(
         if (flags < 0xFF) {
             buf.writeByte(flags)
         } else {
-            val extendedFlags = flags or 0x4
+            val extendedFlags = flags or 2
             buf.writeByte(extendedFlags and 0xFF)
             buf.writeByte(extendedFlags shr 8)
         }
 
-        if ((flags and 0x40) != 0) {
-            val appStartPos = buf.writerIndex()
-            buf.writeZero(1)
-            buf.writeByte(0)
-            buf.writeByte(-1)
-            buf.writeByte(-1)
-            for (i in 0 until 12) {
-                if (TRANSLATION_TABLE_BACK[i] != -1) {
-                    buf.writeShort(0x100 + DEFAULT_LOOKS[TRANSLATION_TABLE_BACK[i]])
-                } else {
-                    buf.writeByte(0)
+        if ((flags and 64) != 0) {
+            val appBuf = buf.alloc().buffer(ExtendedInfoSizes.APPEARANCE_MAX_BYTE_SIZE)
+            appBuf.let { buffer ->
+                buffer.writeByte(0)
+                buffer.writeByte(-1)
+                buffer.writeByte(-1)
+                for (i in 0 until 12) {
+                    if (TRANSLATION_TABLE_BACK[i] != -1) {
+                        buffer.writeShort(0x100 + DEFAULT_LOOKS[TRANSLATION_TABLE_BACK[i]])
+                    } else {
+                        buffer.writeByte(0)
+                    }
                 }
+                intArrayOf(0, 3, 2, 0, 0).forEach { color ->
+                    buffer.writeByte(color)
+                }
+                intArrayOf(808, 823, 819, 820, 821, 822, 824).forEach { bas ->
+                    buffer.writeShort(bas)
+                }
+                buffer.writeString(displayName)
+                buffer.writeByte(0)
+                buffer.writeShort(0)
+                buffer.writeByte(0)
+                buffer.writeShort(0)
+                for (i in 0 until 3) {
+                    buffer.writeString("")
+                }
+                buffer.writeByte(0)
             }
-            intArrayOf(0, 3, 2, 0, 0).forEach { color ->
-                buf.writeByte(color)
-            }
-            intArrayOf(808, 823, 819, 820, 821, 822, 824).forEach { bas ->
-                buf.writeShort(bas)
-            }
-            buf.writeString(displayName)
-            buf.writeByte(0)
-            buf.writeShort(0)
-            buf.writeByte(0)
-            buf.writeShort(0)
-            for (i in 0 until 3) {
-                buf.writeString("")
-            }
-            buf.writeByte(0)
-
-            val appLength = buf.writerIndex() - appStartPos - 1
-            buf.setByteC(appStartPos, appLength)
-        }
-
-        if ((flags and 0x8) != 0) {
-            buf.writeShortLEA(-1)
-            buf.writeByteA(0)
-        }
-
-        if ((flags and 0x1) != 0) {
-            buf.writeShort(0)
+            buf.writeByte(appBuf.readableBytes())
+            buf.writeBytesA(appBuf)
         }
 
         return ByteArray(buf.readableBytes()).apply { buf.readBytes(this) }

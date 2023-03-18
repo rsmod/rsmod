@@ -1,10 +1,9 @@
 package org.rsmod.plugins.api.prot.desktop
 
 import io.netty.buffer.ByteBuf
-import org.openrs2.buffer.readByteC
+import org.openrs2.buffer.readByteA
 import org.openrs2.buffer.readString
 import org.openrs2.buffer.readUnsignedShortA
-import org.openrs2.buffer.readUnsignedShortLEA
 import org.rsmod.plugins.api.net.platform.GamePlatformPacketMaps
 import org.rsmod.plugins.api.net.upstream.ClientCheat
 import org.rsmod.plugins.api.net.upstream.EventAppletFocus
@@ -35,7 +34,7 @@ private val platforms: GamePlatformPacketMaps by inject()
 private val packets = platforms.desktopUpstream
 
 packets.register {
-    opcode = 51
+    opcode = 12
     length = 5
     decode { buf ->
         val mode = buf.readByte().toInt()
@@ -46,23 +45,23 @@ packets.register {
 }
 
 packets.register {
-    opcode = 95
+    opcode = 34
     length = variableByteLength
     decode { buf ->
-        val z = buf.readUnsignedShortLEA()
-        val mode = buf.readByteC().toInt()
-        val x = buf.readUnsignedShortA()
+        val z = buf.readUnsignedShortA()
+        val x = buf.readUnsignedShort()
+        val mode = buf.readByteA().toInt()
         MoveGameClick(mode, x, z)
     }
 }
 
 packets.register {
-    opcode = 13
+    opcode = 37
     length = variableByteLength
     decode { buf ->
-        val z = buf.readUnsignedShortLEA()
-        val mode = buf.readByteC().toInt()
-        val x = buf.readUnsignedShortA()
+        val z = buf.readUnsignedShortA()
+        val x = buf.readUnsignedShort()
+        val mode = buf.readByteA().toInt()
         val minimapPxOffX = buf.readByte().toInt()
         val minimapPxOffY = buf.readByte().toInt()
         val cameraAngle = buf.readUnsignedShort()
@@ -84,61 +83,61 @@ packets.register {
 }
 
 packets.register {
-    opcode = 0
+    opcode = 36
     length = 0
     decode { NoTimeout }
 }
 
 packets.register {
-    opcode = 97
+    opcode = 15
     length = 0
     decode { MapBuildComplete }
 }
 
 packets.register {
-    opcode = 29
+    opcode = 66
     length = variableByteLength
     decode { ReflectionCheckReply }
 }
 
 packets.register {
-    opcode = 39
+    opcode = 25
     length = 1
     decode { EventAppletFocus }
 }
 
 packets.register {
-    opcode = 53
+    opcode = 29
     length = 4
     decode { EventCameraPosition }
 }
 
 packets.register {
-    opcode = 88
+    opcode = 56
     length = 0
     decode { EventMouseIdle }
 }
 
 packets.register {
-    opcode = 60
+    opcode = 4
     length = variableByteLength
     decode { EventMouseMove }
 }
 
 packets.register {
-    opcode = 55
+    opcode = 83
     length = 6
     decode { EventMouseClick }
 }
 
 packets.register {
-    opcode = 8
+    opcode = 55
     length = variableShortLength
     decode { EventKeyboard }
 }
 
 packets.register {
-    opcode = 16
+    opcode = 58
     length = 8
     decode { buf ->
         val (component, dynamicChild, item) = buf.readIfButton
@@ -147,7 +146,7 @@ packets.register {
 }
 
 packets.register {
-    opcode = 37
+    opcode = 2
     length = 8
     decode { buf ->
         val (component, dynamicChild, item) = buf.readIfButton
@@ -156,7 +155,7 @@ packets.register {
 }
 
 packets.register {
-    opcode = 12
+    opcode = 75
     length = 8
     decode { buf ->
         val (component, dynamicChild, item) = buf.readIfButton
@@ -165,7 +164,7 @@ packets.register {
 }
 
 packets.register {
-    opcode = 19
+    opcode = 50
     length = 8
     decode { buf ->
         val (component, dynamicChild, item) = buf.readIfButton
@@ -174,7 +173,7 @@ packets.register {
 }
 
 packets.register {
-    opcode = 20
+    opcode = 60
     length = 8
     decode { buf ->
         val (component, dynamicChild, item) = buf.readIfButton
@@ -183,7 +182,7 @@ packets.register {
 }
 
 packets.register {
-    opcode = 52
+    opcode = 23
     length = 8
     decode { buf ->
         val (component, dynamicChild, item) = buf.readIfButton
@@ -192,7 +191,7 @@ packets.register {
 }
 
 packets.register {
-    opcode = 77
+    opcode = 17
     length = 8
     decode { buf ->
         val (component, dynamicChild, item) = buf.readIfButton
@@ -201,7 +200,7 @@ packets.register {
 }
 
 packets.register {
-    opcode = 23
+    opcode = 21
     length = 8
     decode { buf ->
         val (component, dynamicChild, item) = buf.readIfButton
@@ -210,7 +209,7 @@ packets.register {
 }
 
 packets.register {
-    opcode = 22
+    opcode = 24
     length = 8
     decode { buf ->
         val (component, dynamicChild, item) = buf.readIfButton
@@ -219,7 +218,7 @@ packets.register {
 }
 
 packets.register {
-    opcode = 6
+    opcode = 52
     length = 8
     decode { buf ->
         val (component, dynamicChild, item) = buf.readIfButton
