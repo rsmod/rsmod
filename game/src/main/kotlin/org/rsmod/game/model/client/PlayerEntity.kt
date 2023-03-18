@@ -1,6 +1,6 @@
 package org.rsmod.game.model.client
 
-public class PlayerEntity : Entity(width = 1, height = 1) {
+public class PlayerEntity : MobEntity(size = 1) {
 
     public var name: String = ""
 

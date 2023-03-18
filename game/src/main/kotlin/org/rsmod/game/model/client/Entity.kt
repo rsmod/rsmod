@@ -8,5 +8,8 @@ public sealed class Entity(
     public var coords: Coordinates = Coordinates.ZERO
 ) {
 
+    /**
+     * Gets the maximum value between [width] and [height].
+     */
     public val size: Int get() = width.coerceAtLeast(height)
 }
