@@ -21,14 +21,10 @@ internal fun BitBuffer.putHighResUpdate(
 ): BitBuffer {
     putBoolean(true)
     putBoolean(extended)
-    /* assume this is from log-in */
-    if (prevCoords.packed == 0) {
-        putBits(len = 2, value = 0)
-        return this
-    }
     val diff = currCoords - prevCoords
-    /* if no movement - update is for extended info only */
-    if (extended && diff.packed == 0) {
+    // If no movement, or if player just logged in, that means this
+    // update is strictly for extended-info.
+    if (extended && (diff.packed == 0 || prevCoords.packed == 0)) {
         putBits(len = 2, value = 0)
         return this
     }
