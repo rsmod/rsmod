@@ -167,7 +167,10 @@ public class PlayerInfo(public val playerLimit: Int = MAX_PLAYER_LIMIT) {
                     }
                 }
             }
-            if (other.coords != other.prevCoords) {
+            // Previous coords being "0" signifies that the high-res player has
+            // registered this tick. The only player this _should_ be possible for
+            // is the "local" player. (when they first log in, they are set as high-res)
+            if (other.coords != other.prevCoords && other.prevCoords.packed != 0) {
                 metadata.highResolutionCount++
                 putHighResUpdate(extended = false, other.coords, other.prevCoords)
                 continue
