@@ -41,7 +41,7 @@ abstract class PathFinderBenchmark(
 ) {
 
     private lateinit var params: PathFinderParameter
-    private lateinit var resetOnSearch: PathFinder
+    private lateinit var pfer: PathFinder
     private lateinit var scope: CoroutineScope
 
     @Setup
@@ -49,7 +49,7 @@ abstract class PathFinderBenchmark(
         val stream = PathFinderBenchmark::class.java.getResourceAsStream(parameterResourceName)
         val mapper = ObjectMapper(JsonFactory())
         params = stream.use { mapper.readValue(it, PathFinderParameter::class.java) }
-        resetOnSearch = PathFinder(params.toCollisionFlags(), resetOnSearch = true)
+        pfer = PathFinder(params.toCollisionFlags())
 
         val executor = ForkJoinPool(Runtime.getRuntime().availableProcessors())
         val dispatcher = executor.asCoroutineDispatcher()
@@ -57,48 +57,21 @@ abstract class PathFinderBenchmark(
     }
 
     @Benchmark
-    fun serverPathConstructOnIteration() {
+    fun sequentialPathFinder() {
         val (level, srcX, srcZ, destX, destZ) = params
-        val flags = params.toCollisionFlags()
         repeat(pathRequests) {
-            val noResetOnSearch = PathFinder(flags, resetOnSearch = false)
-            noResetOnSearch.findPath(level = level, srcX = srcX, srcZ = srcZ, destX = destX, destZ = destZ)
+            pfer.findPath(level = level, srcX = srcX, srcZ = srcZ, destX = destX, destZ = destZ)
         }
     }
 
     @Benchmark
-    fun serverPathResetOnIteration() {
-        val (level, srcX, srcZ, destX, destZ) = params
-        repeat(pathRequests) {
-            resetOnSearch.findPath(level = level, srcX = srcX, srcZ = srcZ, destX = destX, destZ = destZ)
-        }
-    }
-
-    @Benchmark
-    fun serverPathCoroutineDispatcherThreadLocal() = runBlocking {
+    fun threadLocalPathFinder() = runBlocking {
         val (level, srcX, srcZ, destX, destZ) = params
         val flags = params.toCollisionFlags()
-        val threadLocal = ThreadLocal.withInitial { PathFinder(flags, resetOnSearch = true) }
+        val threadLocal = ThreadLocal.withInitial { PathFinder(flags) }
 
         fun CoroutineScope.findPath() = launch {
             val pf = threadLocal.get()
-            pf.findPath(level = level, srcX = srcX, srcZ = srcZ, destX = destX, destZ = destZ)
-        }
-
-        launch(scope.coroutineContext) {
-            repeat(pathRequests) {
-                findPath()
-            }
-        }.join()
-    }
-
-    @Benchmark
-    fun serverPathCoroutineDispatcherConstruct() = runBlocking {
-        val (level, srcX, srcZ, destX, destZ) = params
-        val flags = params.toCollisionFlags()
-
-        fun CoroutineScope.findPath() = launch {
-            val pf = PathFinder(flags, resetOnSearch = false)
             pf.findPath(level = level, srcX = srcX, srcZ = srcZ, destX = destX, destZ = destZ)
         }
 

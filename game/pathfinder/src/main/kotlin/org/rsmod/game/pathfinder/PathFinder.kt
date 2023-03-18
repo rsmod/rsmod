@@ -20,7 +20,6 @@ import org.rsmod.game.pathfinder.flag.DirectionFlag
 import org.rsmod.game.pathfinder.reach.ReachStrategy
 import java.util.Arrays
 
-private const val DEFAULT_RESET_ON_SEARCH = true
 private const val DEFAULT_SEARCH_MAP_SIZE = 128
 private const val DEFAULT_RING_BUFFER_SIZE = 4096
 private const val DEFAULT_DISTANCE_VALUE = 99_999_999
@@ -41,7 +40,6 @@ private const val DEFAULT_MOVE_NEAR_FLAG = true
 
 public class PathFinder(
     private val flags: CollisionFlagMap,
-    private val resetOnSearch: Boolean = DEFAULT_RESET_ON_SEARCH,
     private val searchMapSize: Int = DEFAULT_SEARCH_MAP_SIZE,
     private val ringBufferSize: Int = DEFAULT_RING_BUFFER_SIZE,
     private val useRouteBlockerFlags: Boolean = DEFAULT_USE_ROUTE_BLOCKER_FLAGS
@@ -79,7 +77,7 @@ public class PathFinder(
         require(srcX in 0..0x7FFF && srcZ in 0..0x7FFF)
         require(destX in 0..0x7FFF && destZ in 0..0x7FFF)
         require(level in 0..0x3)
-        if (resetOnSearch) reset()
+        reset()
         val baseX = srcX - (searchMapSize / 2)
         val baseZ = srcZ - (searchMapSize / 2)
         val localSrcX = srcX - baseX
