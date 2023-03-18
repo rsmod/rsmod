@@ -14,7 +14,6 @@ import org.rsmod.plugins.api.net.downstream.IfOpenSub
 import org.rsmod.plugins.api.net.downstream.IfOpenTop
 import org.rsmod.plugins.api.net.downstream.MessageGame
 import org.rsmod.plugins.api.net.downstream.MinimapFlagSet
-import org.rsmod.plugins.api.net.downstream.RunClientScript
 import org.rsmod.plugins.api.net.downstream.VarpLarge
 import org.rsmod.plugins.api.net.downstream.VarpSmall
 import org.rsmod.plugins.api.util.BitUtil
@@ -30,11 +29,6 @@ public fun Player.message(
     username: String? = null
 ) {
     downstream += MessageGame(text, username, type.id)
-}
-
-// TODO: clientscript args for type-safety/type-safety checks
-public fun Player.clientScript(id: Int, vararg args: Any) {
-    downstream += RunClientScript(id, args.toList())
 }
 
 public fun Player.openGameframe(gameframe: StandardGameframe) {
