@@ -32,7 +32,8 @@ public class NamedTypeGenerator {
             "Params" to ::generateParamsConst,
             "Invs" to ::generateInvsConst,
             "Varps" to ::generateVarpsConst,
-            "Varbits" to ::generateVarbitsConst
+            "Varbits" to ::generateVarbitsConst,
+            "Scripts" to ::generateScriptsConst
         )
         generators.forEach { (typeName, generator) ->
             Files.writeString(outputPath.resolve("$typeName.kt"), generator(names, typeName, packageName))
@@ -58,6 +59,7 @@ public class NamedTypeGenerator {
         writeConfigMapFile(outputPath.resolve("invs.rscm"), inventories.mapValues { it.value.id }, mapper)
         writeConfigMapFile(outputPath.resolve("varps.rscm"), varps.mapValues { it.value.id }, mapper)
         writeConfigMapFile(outputPath.resolve("varbits.rscm"), varbits.mapValues { it.value.id }, mapper)
+        writeConfigMapFile(outputPath.resolve("scripts.rscm"), scripts.mapValues { it.value.id }, mapper)
     }
 
     public fun writeConfigMapFile(output: Path, names: Map<String, Int>, mapper: ObjectMapper) {
@@ -123,6 +125,10 @@ public class NamedTypeGenerator {
         return generate(fileName, packageName, NamedVarbit::class, names.varbits.mapValues { it.value.id })
     }
 
+    public fun generateScriptsConst(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
+        return generate(fileName, packageName, NamedScript::class, names.scripts.mapValues { it.value.id })
+    }
+
     private fun <T : Any> generate(
         fileName: String,
         packageName: String,
@@ -165,16 +171,10 @@ public class NamedTypeGenerator {
         .replace(": Unit {", " {")
         .replace("public ", "")
 
-    private fun <T : Any> KClass<T>.namedTypeName(): TypeName = when (parameterCount) {
-        1 -> asTypeName().parameterizedBy(Any::class.asTypeName())
-        2 -> asTypeName().parameterizedBy(Any::class.asTypeName(), Any::class.asTypeName())
+    private fun <T : Any> KClass<T>.namedTypeName(): TypeName = when (this) {
+        NamedParameter::class -> asTypeName().parameterizedBy(Any::class.asTypeName())
+        NamedEnum::class -> asTypeName().parameterizedBy(Any::class.asTypeName(), Any::class.asTypeName())
+        NamedScript::class -> asTypeName().parameterizedBy(ScriptTypeList::class.asTypeName())
         else -> asTypeName()
     }
-
-    private val <T : Any> KClass<T>.parameterCount: Int?
-        get() = when (this) {
-            NamedParameter::class -> 1
-            NamedEnum::class -> 2
-            else -> null
-        }
 }

@@ -15,6 +15,7 @@ public class NamedTypeMapHolder {
     public val inventories: MutableMap<String, NamedInventory> = mutableMapOf()
     public val varps: MutableMap<String, NamedVarp> = mutableMapOf()
     public val varbits: MutableMap<String, NamedVarbit> = mutableMapOf()
+    public val scripts: MutableMap<String, NamedScript<out ScriptTypeList>> = mutableMapOf()
 
     public operator fun plusAssign(rhs: NamedTypeMapHolder) {
         interfaces += rhs.interfaces
@@ -30,6 +31,7 @@ public class NamedTypeMapHolder {
         inventories += rhs.inventories
         varps += rhs.varps
         varbits += rhs.varbits
+        scripts += rhs.scripts
     }
 
     public operator fun plus(rhs: NamedTypeMapHolder): NamedTypeMapHolder {
