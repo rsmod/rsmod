@@ -10,6 +10,7 @@ import org.rsmod.types.Items
 import org.rsmod.types.Npcs
 import org.rsmod.types.Objs
 import org.rsmod.types.Params
+import org.rsmod.types.Scripts
 import org.rsmod.types.Structs
 import org.rsmod.types.Varbits
 import org.rsmod.types.Varps
@@ -27,3 +28,4 @@ public typealias param = Params
 public typealias inv = Invs
 public typealias varp = Varps
 public typealias varbit = Varbits
+public typealias cs2 = Scripts

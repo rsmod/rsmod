@@ -140,7 +140,7 @@ tasks.register("createPlaceholderFiles") {
         val typeFiles = listOf(
             "Interfaces", "Components", "Items", "Npcs", "Objs",
             "Animations", "Graphics", "Enums", "Structs", "Params",
-            "Invs", "Varps", "Varbits"
+            "Invs", "Varps", "Varbits", "Scripts"
         )
         val outputProject = projects.plugins.typesGenerated.dependencyProject.buildFile.parentFile
         val outputPath = outputProject.resolve("src/main/gen/org/rsmod/types").toPath()
