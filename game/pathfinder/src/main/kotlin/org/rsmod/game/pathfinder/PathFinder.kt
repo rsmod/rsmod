@@ -1267,7 +1267,6 @@ public class PathFinder(
         val alternativeRouteRange = MAX_ALTERNATIVE_ROUTE_DISTANCE_FROM_DESTINATION
         val radiusX = localDestX - alternativeRouteRange..localDestX + alternativeRouteRange
         val radiusZ = localDestZ - alternativeRouteRange..localDestZ + alternativeRouteRange
-        // TODO: iterating z first would be more efficient, but will it affect result?
         for (x in radiusX) {
             for (z in radiusZ) {
                 if (
@@ -1306,7 +1305,7 @@ public class PathFinder(
     }
 
     private fun appendDirection(x: Int, z: Int, direction: Int, distance: Int) {
-        val index = (z * searchMapSize) + x
+        val index = (x * searchMapSize) + z
         directions[index] = direction
         distances[index] = distance
         validLocalX[bufWriterIndex] = x
@@ -1323,7 +1322,7 @@ public class PathFinder(
 
     @Suppress("NOTHING_TO_INLINE")
     private inline operator fun IntArray.get(x: Int, z: Int): Int {
-        val index = (z * searchMapSize) + x
+        val index = (x * searchMapSize) + z
         return this[index]
     }
 
