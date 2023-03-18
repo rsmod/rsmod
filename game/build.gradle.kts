@@ -19,7 +19,3 @@ dependencies {
     implementation(libs.nettyTransport)
     implementation(libs.openrs2Crypto)
 }
-
-subprojects {
-    group = rootProject.group.toString() + ".game"
-}

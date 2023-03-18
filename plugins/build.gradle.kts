@@ -5,10 +5,6 @@ plugins {
     kotlin("jvm")
 }
 
-subprojects {
-    group = rootProject.group.toString() + ".plugins"
-}
-
 tasks.register("installPlugins") {
     subprojects.forEach { project ->
         copyResources(project, pluginConfigDir)

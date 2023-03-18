@@ -1,8 +1,7 @@
+
 import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
 import org.jetbrains.kotlin.gradle.plugin.getKotlinPluginVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.jmailen.gradle.kotlinter.KotlinterExtension
-import org.jmailen.gradle.kotlinter.KotlinterPlugin
 import java.nio.file.Files
 
 val ossrhUsername: String? by ext
@@ -93,7 +92,7 @@ allprojects {
             }
 
             publications.withType<MavenPublication> {
-                artifactId = project.name
+                artifactId = "rsmod-${project.name}"
                 pom {
                     url.set("https://github.com/rsmod")
                     inceptionYear.set("2022")
