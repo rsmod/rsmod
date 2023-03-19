@@ -93,8 +93,8 @@ public val component.gameframe_target_management: NamedComponent
 public val component.gameframe_target_equipment: NamedComponent
     get() = interf.equipment_tab.child(GAMEFRAME_EQUIPMENT_CHILD)
 
-public val interf.quest_tab_free_quest: NamedComponent get() = quest_tab.child(4)
-public val interf.quest_tab_members_quest: NamedComponent get() = quest_tab.child(5)
+public val component.quest_tab_free_quest: NamedComponent get() = interf.quest_tab.child(4)
+public val component.quest_tab_members_quest: NamedComponent get() = interf.quest_tab.child(5)
 
 public val cs2.scrollbar_resize: NamedScript<ScriptTypeList3<NamedComponent, NamedComponent, Int>>
     get() = NamedScript(72)

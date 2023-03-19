@@ -4,8 +4,8 @@ import org.rsmod.plugins.api.account_info_update
 import org.rsmod.plugins.api.cache.type.varbit.VarbitTypeList
 import org.rsmod.plugins.api.chatbox_unlocked
 import org.rsmod.plugins.api.clientScript
+import org.rsmod.plugins.api.component
 import org.rsmod.plugins.api.cs2
-import org.rsmod.plugins.api.interf
 import org.rsmod.plugins.api.message
 import org.rsmod.plugins.api.onLogIn
 import org.rsmod.plugins.api.playermember
@@ -23,7 +23,7 @@ private val varbits: VarbitTypeList by inject()
 onLogIn {
     player.setVarbit(true, varbits[varbit.chatbox_unlocked])
     player.clientScript(cs2.account_info_update, arg1 = true, arg2 = false, arg3 = false)
-    player.clientScript(cs2.scrollbar_resize, interf.quest_tab_free_quest, interf.quest_tab_members_quest, 0)
+    player.clientScript(cs2.scrollbar_resize, component.quest_tab_free_quest, component.quest_tab_members_quest, 0)
     player.clientScript(cs2.settings_interface_scaling, 0)
     player.clientScript(cs2.pvp_icons_layout, true)
     player.clientScript(cs2.playermember, true)
