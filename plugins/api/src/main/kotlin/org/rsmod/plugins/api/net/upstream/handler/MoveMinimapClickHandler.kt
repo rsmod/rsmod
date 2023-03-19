@@ -13,9 +13,9 @@ public class MoveMinimapClickHandler @Inject constructor(
 ) : UpstreamHandler<MoveMinimapClick>(MoveMinimapClick::class.java) {
 
     override fun handle(player: Player, packet: MoveMinimapClick) {
-        val (_, x, y) = packet
+        val (_, x, z) = packet
         val speed = packet.speed() ?: player.movement.speed
-        val event = UpstreamEvent.MoveGameClick(player, speed, Coordinates(x, y))
+        val event = UpstreamEvent.MoveGameClick(player, speed, Coordinates(x, z))
         player.publish(event, eventBus)
     }
 }

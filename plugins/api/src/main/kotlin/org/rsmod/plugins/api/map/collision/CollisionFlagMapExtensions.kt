@@ -53,8 +53,8 @@ private fun CollisionFlagMap.changeNormal(
     add: Boolean
 ) {
     for (x in 0 until width) {
-        for (y in 0 until length) {
-            val translate = coords.translate(x, y)
+        for (z in 0 until length) {
+            val translate = coords.translate(x, z)
             change(translate, CollisionFlag.OBJECT, add)
             if (blockProjectile) {
                 change(translate, CollisionFlag.OBJECT_PROJECTILE_BLOCKER, add)
