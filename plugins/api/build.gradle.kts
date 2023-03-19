@@ -18,6 +18,7 @@ dependencies {
     implementation(projects.toml)
     implementation(libs.clikt)
     implementation(libs.inlineLogger)
+    implementation(libs.kotlinCoroutinesCore)
     implementation(libs.kotlinScriptRuntime)
     implementation(libs.logback)
     implementation(libs.nettyBuffer)

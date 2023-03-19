@@ -1,5 +1,9 @@
 package org.rsmod.plugins.api.movement
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.rsmod.game.map.Coordinates
 import org.rsmod.game.model.client.MobEntity
 import org.rsmod.game.model.mob.Player
@@ -25,22 +29,29 @@ public class MovementProcess @Inject constructor(
     private val stepFactory: StepFactory
 ) {
 
-    public fun execute() {
+    public fun execute(): Unit = runBlocking {
+        coroutineScope {
+            players.forEachNotNull {
+                if (!it.asyncRouteRequest) return@forEachNotNull
+                appendAsyncRouteRequest(it)
+            }
+        }
         players.forEachNotNull {
-            it.pollRequest()
-            it.move()
+            it.appendRouteRequest(async = false)
+            it.movementCycle()
         }
     }
 
-    private fun Player.pollRequest() {
+    private fun Player.appendRouteRequest(async: Boolean) {
         val request = routeRequest ?: return
+        if (request.async != async) return
         // TODO: check player can move, etc
         movement.clear()
-        appendRequest(request)
+        appendRouteRequest(request)
         routeRequest = null
     }
 
-    private fun Player.appendRequest(request: RouteRequest) {
+    private fun Player.appendRouteRequest(request: RouteRequest) {
         if (request.speed == MoveSpeed.Displace) {
             val displace = request.displaceCoordinates(entity)
             coords = displace
@@ -56,7 +67,7 @@ public class MovementProcess @Inject constructor(
         }
     }
 
-    private fun Player.move() {
+    private fun Player.movementCycle() {
         var waypoint = movement.peek() ?: return
         var curr = coords
         val steps = movement.speed.steps
@@ -75,9 +86,9 @@ public class MovementProcess @Inject constructor(
     }
 
     private fun RouteRequest.createRoute(source: MobEntity): Route = when (this) {
-        is RouteRequestCoordinates -> routeFactory.create(source, destination)
-        is RouteRequestEntity -> routeFactory.create(source, destination)
-        is RouteRequestGameObject -> routeFactory.create(source, destination)
+        is RouteRequestCoordinates -> routeFactory.create(source, destination, async = async)
+        is RouteRequestEntity -> routeFactory.create(source, destination, async = async)
+        is RouteRequestGameObject -> routeFactory.create(source, destination, async = async)
         else -> error("Unhandled route request type: $this.")
     }
 
@@ -89,4 +100,13 @@ public class MovementProcess @Inject constructor(
         is RouteRequestGameObject -> destination.coords
         else -> error("Unhandled route request type: $this.")
     }
+
+    private fun CoroutineScope.appendAsyncRouteRequest(player: Player) = launch {
+        val request = player.routeRequest ?: return@launch
+        if (request.async) {
+            player.appendRouteRequest(async = true)
+        }
+    }
+
+    private val Player?.asyncRouteRequest: Boolean get() = this?.routeRequest?.async == true
 }

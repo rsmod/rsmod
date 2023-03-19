@@ -5,6 +5,7 @@ import org.rsmod.game.model.route.RouteRequest
 import org.rsmod.plugins.api.map.GameObject
 
 public data class RouteRequestGameObject(
+    public val destination: GameObject,
     public override val speed: MovementSpeed,
-    public val destination: GameObject
+    public override val async: Boolean = false
 ) : RouteRequest

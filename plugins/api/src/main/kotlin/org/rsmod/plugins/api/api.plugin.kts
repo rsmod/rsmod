@@ -9,5 +9,5 @@ private val events: GameEventBus by inject()
 
 events.subscribe<UpstreamEvent.MoveGameClick> {
     // TODO: verify speed is valid for player (displace should be admins+, etc)
-    player.routeRequest = RouteRequestCoordinates(speed, coords)
+    player.routeRequest = RouteRequestCoordinates(coords, speed, async = true)
 }
