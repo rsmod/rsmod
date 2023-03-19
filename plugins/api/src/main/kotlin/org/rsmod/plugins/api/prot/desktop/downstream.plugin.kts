@@ -17,6 +17,7 @@ import org.rsmod.plugins.api.net.downstream.RunClientScript
 import org.rsmod.plugins.api.net.downstream.VarpLarge
 import org.rsmod.plugins.api.net.downstream.VarpSmall
 import org.rsmod.plugins.api.net.platform.GamePlatformPacketMaps
+import org.rsmod.plugins.api.util.ClientScriptUtils
 
 private val platforms: GamePlatformPacketMaps by inject()
 private val packets = platforms.desktopDownstream
@@ -45,13 +46,13 @@ packets.register<RunClientScript> {
     opcode = 94
     length = variableShortLength
     encode { packet, buf ->
-        val typeChars = String(packet.args.map { if (it is String) 's' else 'i' }.toCharArray())
-        buf.writeString(typeChars)
-        packet.args.reversed().forEach {
-            if (it is String) {
-                buf.writeString(it)
-            } else if (it is Int) {
-                buf.writeInt(it)
+        val args = ClientScriptUtils.buildArgs(packet.args)
+        buf.writeString(args.typeChars)
+        args.forEach { arg ->
+            when (arg) {
+                is String -> buf.writeString(arg)
+                is Int -> buf.writeInt(arg)
+                else -> error("`arg` could not be written. ($arg)")
             }
         }
         buf.writeInt(packet.id)

@@ -13,6 +13,7 @@ import org.rsmod.plugins.api.cache.type.literal.codec.CacheTypeNamedItem
 import org.rsmod.plugins.api.cache.type.literal.codec.CacheTypeNamedNpc
 import org.rsmod.plugins.api.cache.type.literal.codec.CacheTypeNamedObject
 import org.rsmod.plugins.api.cache.type.literal.codec.CacheTypeString
+import kotlin.reflect.KClass
 
 public enum class CacheTypeLiteral(
     public val char: Char,
@@ -84,8 +85,23 @@ public enum class CacheTypeLiteral(
 
     public companion object {
 
+        private val primitiveTypes: Map<KClass<*>, CacheTypeLiteral> = mapOf(
+            Int::class to Integer,
+            kotlin.Boolean::class to Boolean,
+            kotlin.String::class to String,
+            Char::class to Character
+        )
+
         public val values: Array<CacheTypeLiteral> = enumValues()
 
         public val mapped: Map<Char, CacheTypeLiteral> = values.associateBy { it.char }
+
+        public val mappedOutClasses: Map<KClass<*>, CacheTypeLiteral> = HashMap(
+            values
+                // Filter type literals with int and string codecs.
+                .filter { it.codec != CacheTypeInt && it.codec != CacheTypeString }
+                // Map with "out" value class type
+                .associateBy { it.out.kotlin } + primitiveTypes
+        )
     }
 }
