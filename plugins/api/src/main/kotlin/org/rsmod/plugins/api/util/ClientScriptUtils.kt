@@ -12,7 +12,7 @@ public object ClientScriptUtils {
             val argIndex = args.size - 1 - index
             val arg = args[argIndex]
             val type = CacheTypeLiteral.mappedOutClasses[arg::class]
-                ?: error("Could not find cache-type literal for type ${arg.javaClass}. ($arg)")
+                ?: error("Could not find cache-type literal for type ${arg::class}. ($arg)")
             val codec = type.codec as CacheTypeCodec<Any, Any>
             val value = codec.encode(arg)
             typeChars[argIndex] = type.char
