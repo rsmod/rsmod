@@ -75,8 +75,6 @@ public class NpcTypeBuilder(
 
     public val defaultOptions: Boolean get() = options === DEFAULT_OPTIONS
 
-    public val defaultHeadIcons: Boolean get() = headIconGroups === DEFAULT_HEAD_ICONS
-
     public fun build(): NpcType {
         check(id != DEFAULT_ID) { "Npc type id has not been set." }
         return NpcType(
