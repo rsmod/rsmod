@@ -24,7 +24,11 @@ import org.rsmod.plugins.api.prot.Revision.GAMEFRAME_USERNAME_CHILD
 import org.rsmod.plugins.api.prot.Revision.GAMEFRAME_XP_COUNTER_CHILD
 import org.rsmod.plugins.types.NamedComponent
 import org.rsmod.plugins.types.NamedInterface
+import org.rsmod.plugins.types.NamedScript
 import org.rsmod.plugins.types.NamedVarbit
+import org.rsmod.plugins.types.ScriptTypeList1
+import org.rsmod.plugins.types.ScriptTypeList3
+import org.rsmod.plugins.types.ScriptTypeList4
 
 public val varbit.chatbox_unlocked: NamedVarbit get() = NamedVarbit(8119)
 
@@ -88,3 +92,16 @@ public val component.gameframe_target_management: NamedComponent
     get() = interf.management_tab.child(GAMEFRAME_MANAGEMENT_CHILD)
 public val component.gameframe_target_equipment: NamedComponent
     get() = interf.equipment_tab.child(GAMEFRAME_EQUIPMENT_CHILD)
+
+public val cs2.scrollbar_resize: NamedScript<ScriptTypeList3<NamedComponent, NamedComponent, Int>>
+    get() = NamedScript(72)
+public val cs2.pvp_icons_layout: NamedScript<ScriptTypeList1<Boolean>>
+    get() = NamedScript(385)
+public val cs2.playermember: NamedScript<ScriptTypeList1<Boolean>>
+    get() = NamedScript(828)
+public val cs2.script_876: NamedScript<ScriptTypeList4<Int, Int, String, String>>
+    get() = NamedScript(876)
+public val cs2.settings_interface_scaling: NamedScript<ScriptTypeList1<Int>>
+    get() = NamedScript(2358)
+public val cs2.account_info_update: NamedScript<ScriptTypeList3<Boolean, Boolean, Boolean>>
+    get() = NamedScript(2498)
