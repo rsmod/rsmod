@@ -16,3 +16,8 @@ public class ScriptTypeList7<T1, T2, T3, T4, T5, T6, T7> : ScriptTypeList
 public class ScriptTypeList8<T1, T2, T3, T4, T5, T6, T7, T8> : ScriptTypeList
 public class ScriptTypeList9<T1, T2, T3, T4, T5, T6, T7, T8, T9> : ScriptTypeList
 public class ScriptTypeList10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> : ScriptTypeList
+
+public interface ScriptTypeArguments {
+
+    public val args: Array<out Any>
+}

@@ -3,6 +3,7 @@ package org.rsmod.plugins.api
 import org.rsmod.game.model.mob.Player
 import org.rsmod.plugins.api.net.downstream.RunClientScript
 import org.rsmod.plugins.types.NamedScript
+import org.rsmod.plugins.types.ScriptTypeArguments
 import org.rsmod.plugins.types.ScriptTypeList1
 import org.rsmod.plugins.types.ScriptTypeList10
 import org.rsmod.plugins.types.ScriptTypeList2
@@ -127,6 +128,9 @@ public fun <
     arg9: T9,
     arg10: T10
 ): Unit = runClientScript(script.id, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10)
+
+public fun <T : ScriptTypeArguments> Player.clientScript(script: NamedScript<*>, argsHolder: T): Unit =
+    runClientScript(script.id, *argsHolder.args)
 
 /**
  * This function should be _avoided_ when possible. You should only resort to using
