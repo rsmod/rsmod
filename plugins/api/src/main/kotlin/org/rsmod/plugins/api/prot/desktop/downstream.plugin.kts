@@ -1,10 +1,6 @@
 package org.rsmod.plugins.api.prot.desktop
 
 import org.openrs2.buffer.BitBuf
-import org.openrs2.buffer.writeByteC
-import org.openrs2.buffer.writeIntAlt3
-import org.openrs2.buffer.writeShortA
-import org.openrs2.buffer.writeShortLEA
 import org.openrs2.buffer.writeShortSmart
 import org.openrs2.buffer.writeString
 import org.rsmod.plugins.api.net.downstream.IfOpenSub
@@ -17,6 +13,11 @@ import org.rsmod.plugins.api.net.downstream.RunClientScript
 import org.rsmod.plugins.api.net.downstream.VarpLarge
 import org.rsmod.plugins.api.net.downstream.VarpSmall
 import org.rsmod.plugins.api.net.platform.GamePlatformPacketMaps
+import org.rsmod.plugins.api.prot.writeByteAlt2
+import org.rsmod.plugins.api.prot.writeIntAlt3_
+import org.rsmod.plugins.api.prot.writeShortAlt1
+import org.rsmod.plugins.api.prot.writeShortAlt2
+import org.rsmod.plugins.api.prot.writeShortAlt3
 import org.rsmod.plugins.api.util.ClientScriptUtils
 
 private val platforms: GamePlatformPacketMaps by inject()
@@ -71,9 +72,9 @@ packets.register<IfOpenSub> {
     opcode = 61
     length = 7
     encode { packet, buf ->
-        buf.writeByteC(packet.clickMode)
+        buf.writeByteAlt2(packet.clickMode)
         buf.writeInt(packet.targetComponent)
-        buf.writeShortLE(packet.interfaceId)
+        buf.writeShortAlt1(packet.interfaceId)
     }
 }
 
@@ -85,8 +86,8 @@ packets.register<RebuildNormal> {
         packet.gpiInitialization?.let { gpi ->
             BitBuf(buf).use { bitBuf -> gpi.encode(bitBuf) }
         }
-        buf.writeShortLEA(packet.zone.x)
-        buf.writeShortA(packet.zone.z)
+        buf.writeShortAlt3(packet.zone.x)
+        buf.writeShortAlt2(packet.zone.z)
         buf.writeShort(packet.xteaList.size / 4)
         packet.xteaList.forEach { key ->
             buf.writeInt(key)
@@ -106,7 +107,7 @@ packets.register<VarpSmall> {
     opcode = 95
     length = 3
     encode { packet, buf ->
-        buf.writeShortA(packet.varp)
+        buf.writeShortAlt2(packet.varp)
         buf.writeByte(packet.packed)
     }
 }
@@ -115,7 +116,7 @@ packets.register<VarpLarge> {
     opcode = 67
     length = 6
     encode { packet, buf ->
-        buf.writeShortLEA(packet.varp)
-        buf.writeIntAlt3(packet.packed)
+        buf.writeShortAlt3(packet.varp)
+        buf.writeIntAlt3_(packet.packed)
     }
 }

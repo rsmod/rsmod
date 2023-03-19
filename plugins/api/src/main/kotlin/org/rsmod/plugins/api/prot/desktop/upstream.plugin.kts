@@ -1,9 +1,7 @@
 package org.rsmod.plugins.api.prot.desktop
 
 import io.netty.buffer.ByteBuf
-import org.openrs2.buffer.readByteA
 import org.openrs2.buffer.readString
-import org.openrs2.buffer.readUnsignedShortA
 import org.rsmod.plugins.api.net.platform.GamePlatformPacketMaps
 import org.rsmod.plugins.api.net.upstream.ClientCheat
 import org.rsmod.plugins.api.net.upstream.EventAppletFocus
@@ -29,6 +27,8 @@ import org.rsmod.plugins.api.net.upstream.MoveMinimapClick
 import org.rsmod.plugins.api.net.upstream.NoTimeout
 import org.rsmod.plugins.api.net.upstream.ReflectionCheckReply
 import org.rsmod.plugins.api.net.upstream.WindowStatus
+import org.rsmod.plugins.api.prot.readUnsignedByteAlt1
+import org.rsmod.plugins.api.prot.readUnsignedShortAlt2
 
 private val platforms: GamePlatformPacketMaps by inject()
 private val packets = platforms.desktopUpstream
@@ -37,7 +37,7 @@ packets.register {
     opcode = 12
     length = 5
     decode { buf ->
-        val mode = buf.readByte().toInt()
+        val mode = buf.readUnsignedByte().toInt()
         val width = buf.readUnsignedShort()
         val height = buf.readUnsignedShort()
         WindowStatus(mode, width, height)
@@ -48,9 +48,9 @@ packets.register {
     opcode = 34
     length = variableByteLength
     decode { buf ->
-        val z = buf.readUnsignedShortA()
+        val z = buf.readUnsignedShortAlt2()
         val x = buf.readUnsignedShort()
-        val mode = buf.readByteA().toInt()
+        val mode = buf.readUnsignedByteAlt1().toInt()
         MoveGameClick(mode, x, z)
     }
 }
@@ -59,11 +59,11 @@ packets.register {
     opcode = 37
     length = variableByteLength
     decode { buf ->
-        val z = buf.readUnsignedShortA()
+        val z = buf.readUnsignedShortAlt2()
         val x = buf.readUnsignedShort()
-        val mode = buf.readByteA().toInt()
-        val minimapPxOffX = buf.readByte().toInt()
-        val minimapPxOffY = buf.readByte().toInt()
+        val mode = buf.readUnsignedByteAlt1().toInt()
+        val minimapPxOffX = buf.readUnsignedByte().toInt()
+        val minimapPxOffY = buf.readUnsignedByte().toInt()
         val cameraAngle = buf.readUnsignedShort()
         buf.skipBytes(Byte.SIZE_BYTES * 4)
         val fineX = buf.readUnsignedShort()

@@ -1,7 +1,5 @@
 package org.rsmod.plugins.api.prot.desktop
 
-import org.openrs2.buffer.readIntAlt3
-import org.openrs2.buffer.readIntAlt3Reverse
 import org.rsmod.plugins.api.cache.Archives.BASES
 import org.rsmod.plugins.api.cache.Archives.BINARY
 import org.rsmod.plugins.api.cache.Archives.CLIENT_SCRIPTS
@@ -26,6 +24,9 @@ import org.rsmod.plugins.api.cache.Archives.WORLD_MAP_GEO
 import org.rsmod.plugins.api.cache.Archives.WORLD_MAP_GROUND
 import org.rsmod.plugins.api.net.login.LoginPacketRequest
 import org.rsmod.plugins.api.net.platform.LoginPlatformPacketDecoders
+import org.rsmod.plugins.api.prot.readIntAlt1
+import org.rsmod.plugins.api.prot.readIntAlt2
+import org.rsmod.plugins.api.prot.readIntAlt3_
 
 private val platforms: LoginPlatformPacketDecoders by inject()
 private val decoders = platforms.desktop
@@ -42,26 +43,26 @@ decoders.register { buf ->
 
 decoders.register { buf ->
     val crcs = IntArray(TOTAL_ARCHIVES).apply {
-        this[TEXTURES] = buf.readIntAlt3()
-        this[WORLD_MAP_GROUND] = buf.readIntLE()
-        this[DEFAULTS] = buf.readIntAlt3()
-        this[BINARY] = buf.readIntAlt3()
-        this[FONT_METRICS] = buf.readIntAlt3()
-        this[MUSIC] = buf.readIntAlt3()
-        this[CLIENT_SCRIPTS] = buf.readIntAlt3()
+        this[TEXTURES] = buf.readIntAlt3_()
+        this[WORLD_MAP_GROUND] = buf.readIntAlt1()
+        this[DEFAULTS] = buf.readIntAlt3_()
+        this[BINARY] = buf.readIntAlt3_()
+        this[FONT_METRICS] = buf.readIntAlt3_()
+        this[MUSIC] = buf.readIntAlt3_()
+        this[CLIENT_SCRIPTS] = buf.readIntAlt3_()
         this[WORLD_MAP_GEO] = buf.readInt()
-        this[JINGLES] = buf.readIntLE()
-        this[MAPS] = buf.readIntAlt3()
-        this[SYNTHS] = buf.readIntLE()
+        this[JINGLES] = buf.readIntAlt1()
+        this[MAPS] = buf.readIntAlt3_()
+        this[SYNTHS] = buf.readIntAlt1()
         this[UNNAMED_4] = buf.readInt()
-        this[BASES] = buf.readIntAlt3Reverse()
-        this[CONFIG] = buf.readIntAlt3Reverse()
-        this[UNNAMED_16] = buf.readIntLE()
-        this[VORBIS] = buf.readIntAlt3Reverse()
-        this[INSTRUMENTS] = buf.readIntLE()
-        this[WORLD_MAP_DATA] = buf.readIntLE()
-        this[SPRITES] = buf.readIntAlt3()
-        this[INTERFACES] = buf.readIntAlt3()
+        this[BASES] = buf.readIntAlt2()
+        this[CONFIG] = buf.readIntAlt2()
+        this[UNNAMED_16] = buf.readIntAlt1()
+        this[VORBIS] = buf.readIntAlt2()
+        this[INSTRUMENTS] = buf.readIntAlt1()
+        this[WORLD_MAP_DATA] = buf.readIntAlt1()
+        this[SPRITES] = buf.readIntAlt3_()
+        this[INTERFACES] = buf.readIntAlt3_()
         this[MODELS] = buf.readInt()
     }
     return@register LoginPacketRequest.CacheCrc(crcs)
