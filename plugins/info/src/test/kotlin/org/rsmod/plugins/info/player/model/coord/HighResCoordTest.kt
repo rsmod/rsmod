@@ -7,6 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.ArgumentsProvider
 import org.junit.jupiter.params.provider.ArgumentsSource
+import org.rsmod.plugins.info.player.model.coord.HighResCoord.Companion.LEVEL_BIT_MASK
 import java.util.stream.Stream
 
 class HighResCoordTest {
@@ -21,12 +22,12 @@ class HighResCoordTest {
         val sum = lhs + rhs
         Assertions.assertEquals(lhs.x + rhs.x, sum.x)
         Assertions.assertEquals(lhs.z + rhs.z, sum.z)
-        Assertions.assertEquals(lhs.level + rhs.level, sum.level)
+        Assertions.assertEquals((lhs.level + rhs.level) and LEVEL_BIT_MASK, sum.level)
 
         val diff = lhs - rhs
         Assertions.assertEquals(lhs.x - rhs.x, diff.x)
         Assertions.assertEquals(lhs.z - rhs.z, diff.z)
-        Assertions.assertEquals((lhs.level - rhs.level) and 0x3, diff.level)
+        Assertions.assertEquals((lhs.level - rhs.level) and LEVEL_BIT_MASK, diff.level)
     }
 
     @ParameterizedTest
