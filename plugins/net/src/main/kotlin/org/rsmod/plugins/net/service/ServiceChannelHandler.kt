@@ -72,6 +72,8 @@ public class ServiceChannelHandler @Inject constructor(
     private val js5MasterIndex: Js5MasterIndex
 ) : SimpleChannelInboundHandler<UpstreamPacket>(UpstreamPacket::class.java) {
 
+    // TODO: channel-thrown exceptions
+
     private lateinit var scope: CoroutineScope
     private var serverKey = 0L
 
@@ -96,6 +98,16 @@ public class ServiceChannelHandler @Inject constructor(
             is ServiceRequest.InitJs5RemoteConnection -> handleInitJs5RemoteConnection(ctx, msg)
             is ServiceRequest.GameLogin -> handleGameLogIn(ctx, msg)
             else -> handleUpstreamPacket(ctx, msg)
+        }
+    }
+
+    override fun channelReadComplete(ctx: ChannelHandlerContext) {
+        ctx.flush()
+    }
+
+    override fun userEventTriggered(ctx: ChannelHandlerContext, evt: Any) {
+        if (evt is IdleStateEvent) {
+            ctx.close()
         }
     }
 
@@ -187,16 +199,6 @@ public class ServiceChannelHandler @Inject constructor(
         val client = ctx.channel().clientAttr() ?: return
         client.player.upstream += msg
         ctx.read()
-    }
-
-    override fun channelReadComplete(ctx: ChannelHandlerContext) {
-        ctx.flush()
-    }
-
-    override fun userEventTriggered(ctx: ChannelHandlerContext, evt: Any) {
-        if (evt is IdleStateEvent) {
-            ctx.close()
-        }
     }
 
     private fun isChecksumOutdated(checksum: IntArray): Boolean {
