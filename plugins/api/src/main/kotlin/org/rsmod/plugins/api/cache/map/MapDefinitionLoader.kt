@@ -9,6 +9,7 @@ import org.rsmod.plugins.api.cache.map.loc.MapLoc
 import org.rsmod.plugins.api.cache.map.loc.MapLocDefinition
 import org.rsmod.plugins.api.cache.map.tile.TileOverlay
 import org.rsmod.plugins.api.cache.map.tile.TileUnderlay
+import org.rsmod.plugins.api.prot.readIncrUnsignedShortSmart
 
 public class MapDefinitionLoader {
 
@@ -84,17 +85,6 @@ public class MapDefinitionLoader {
                 }
             }
             return MapLocDefinition(locs)
-        }
-
-        private fun ByteBuf.readIncrUnsignedShortSmart(): Int {
-            var value = 0
-            var curr = readUnsignedShortSmart()
-            while (curr == 0x7FFF) {
-                value += curr
-                curr = readUnsignedShortSmart()
-            }
-            value += curr
-            return value
         }
     }
 }
