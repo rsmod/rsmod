@@ -82,6 +82,6 @@ public class StepFactory @Inject constructor(map: GameMap) {
         )
         if (vertical) return source.translate(0, signZ)
 
-        return Coordinates.ZERO
+        return Coordinates.NULL
     }
 }

@@ -77,7 +77,7 @@ public class MovementProcess @Inject constructor(
                 waypoint = movement.poll() ?: break
             }
             val step = stepFactory.validated(curr, waypoint, extraFlag = CollisionFlag.BLOCK_PLAYERS)
-            if (step == Coordinates.ZERO) break
+            if (step == Coordinates.NULL) break
             curr = step
         }
         // If last step is exact waypoint coords, we remove waypoint from queue.
