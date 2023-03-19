@@ -24,9 +24,9 @@ import org.rsmod.plugins.api.cache.Archives.WORLD_MAP_GEO
 import org.rsmod.plugins.api.cache.Archives.WORLD_MAP_GROUND
 import org.rsmod.plugins.api.net.login.LoginPacketRequest
 import org.rsmod.plugins.api.net.platform.LoginPlatformPacketDecoders
-import org.rsmod.plugins.api.prot.readIntAlt1
-import org.rsmod.plugins.api.prot.readIntAlt2
-import org.rsmod.plugins.api.prot.readIntAlt3_
+import org.rsmod.plugins.api.net.readIntAlt1
+import org.rsmod.plugins.api.net.readIntAlt2
+import org.rsmod.plugins.api.net.readIntAlt3_
 
 private val platforms: LoginPlatformPacketDecoders by inject()
 private val decoders = platforms.desktop

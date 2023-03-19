@@ -13,11 +13,11 @@ import org.rsmod.plugins.api.net.downstream.RunClientScript
 import org.rsmod.plugins.api.net.downstream.VarpLarge
 import org.rsmod.plugins.api.net.downstream.VarpSmall
 import org.rsmod.plugins.api.net.platform.GamePlatformPacketMaps
-import org.rsmod.plugins.api.prot.writeByteAlt2
-import org.rsmod.plugins.api.prot.writeIntAlt3_
-import org.rsmod.plugins.api.prot.writeShortAlt1
-import org.rsmod.plugins.api.prot.writeShortAlt2
-import org.rsmod.plugins.api.prot.writeShortAlt3
+import org.rsmod.plugins.api.net.writeByteAlt2
+import org.rsmod.plugins.api.net.writeIntAlt3_
+import org.rsmod.plugins.api.net.writeShortAlt1
+import org.rsmod.plugins.api.net.writeShortAlt2
+import org.rsmod.plugins.api.net.writeShortAlt3
 import org.rsmod.plugins.api.util.ClientScriptUtils
 
 private val platforms: GamePlatformPacketMaps by inject()

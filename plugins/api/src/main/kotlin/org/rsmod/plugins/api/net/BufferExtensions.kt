@@ -1,6 +1,6 @@
 @file:Suppress("NOTHING_TO_INLINE")
 
-package org.rsmod.plugins.api.prot
+package org.rsmod.plugins.api.net
 
 import io.netty.buffer.ByteBuf
 import org.openrs2.buffer.readByteA

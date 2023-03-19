@@ -1,4 +1,4 @@
-package org.rsmod.plugins.api.prot
+package org.rsmod.plugins.api.net
 
 import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled

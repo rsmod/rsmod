@@ -27,8 +27,8 @@ import org.rsmod.plugins.api.net.upstream.MoveMinimapClick
 import org.rsmod.plugins.api.net.upstream.NoTimeout
 import org.rsmod.plugins.api.net.upstream.ReflectionCheckReply
 import org.rsmod.plugins.api.net.upstream.WindowStatus
-import org.rsmod.plugins.api.prot.readUnsignedByteAlt1
-import org.rsmod.plugins.api.prot.readUnsignedShortAlt2
+import org.rsmod.plugins.api.net.readUnsignedByteAlt1
+import org.rsmod.plugins.api.net.readUnsignedShortAlt2
 
 private val platforms: GamePlatformPacketMaps by inject()
 private val packets = platforms.desktopUpstream

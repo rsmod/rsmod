@@ -9,7 +9,7 @@ import org.rsmod.plugins.api.cache.map.loc.MapLoc
 import org.rsmod.plugins.api.cache.map.loc.MapLocDefinition
 import org.rsmod.plugins.api.cache.map.tile.TileOverlay
 import org.rsmod.plugins.api.cache.map.tile.TileUnderlay
-import org.rsmod.plugins.api.prot.readIncrUnsignedShortSmart
+import org.rsmod.plugins.api.net.readIncrUnsignedShortSmart
 
 public class MapDefinitionLoader {
 
