@@ -10,7 +10,6 @@ private const val DEFAULT_INTERACT = true
 private const val DEFAULT_MINIMAP_VISIBLE = true
 private const val DEFAULT_CLICKABLE = true
 private const val DEFAULT_ROTATION = 32
-private const val DEFAULT_HEAD_ICON = -1
 private const val DEFAULT_ANIMATION = -1
 private const val DEFAULT_RESIZE = 128
 private const val DEFAULT_CONTRAST = 0
@@ -29,7 +28,7 @@ private val DEFAULT_RECOLOR_SRC = emptyArray<Int>()
 private val DEFAULT_RECOLOR_DEST = emptyArray<Int>()
 private val DEFAULT_RETEXTURE_SRC = emptyArray<Int>()
 private val DEFAULT_RETEXTURE_DEST = emptyArray<Int>()
-private val DEFAULT_PARAMETERS = emptyMap<Int, Any>()
+private val DEFAULT_HEAD_ICONS = emptyArray<Int>()
 
 @DslMarker
 private annotation class BuilderDslMarker
@@ -58,7 +57,8 @@ public class NpcTypeBuilder(
     public var transforms: Array<Int> = DEFAULT_TRANSFORMS,
     public var defaultTransform: Int = DEFAULT_TRANSFORM,
     public var rotation: Int = DEFAULT_ROTATION,
-    public var headIcon: Int = DEFAULT_HEAD_ICON,
+    public var headIconGroups: Array<Int> = DEFAULT_HEAD_ICONS,
+    public var headIconIndexes: Array<Int> = DEFAULT_HEAD_ICONS,
     public var models: Array<Int> = DEFAULT_MODELS,
     public var headModels: Array<Int> = DEFAULT_HEAD_MODELS,
     public var recolorSrc: Array<Int> = DEFAULT_RECOLOR_SRC,
@@ -73,8 +73,9 @@ public class NpcTypeBuilder(
     public var params: ParamMap? = null
 ) {
 
-    public val defaultOptions: Boolean
-        get() = options === DEFAULT_OPTIONS
+    public val defaultOptions: Boolean get() = options === DEFAULT_OPTIONS
+
+    public val defaultHeadIcons: Boolean get() = headIconGroups === DEFAULT_HEAD_ICONS
 
     public fun build(): NpcType {
         check(id != DEFAULT_ID) { "Npc type id has not been set." }
@@ -101,7 +102,8 @@ public class NpcTypeBuilder(
             transforms = transforms.toList(),
             defaultTransform = defaultTransform,
             rotation = rotation,
-            headIcon = headIcon,
+            headIconGroups = headIconGroups.toList(),
+            headIconIndexes = headIconIndexes.toList(),
             models = models.toList(),
             headModels = headModels.toList(),
             recolorSrc = recolorSrc.toList(),
@@ -140,7 +142,8 @@ public class NpcTypeBuilder(
         if (transforms.contentEquals(DEFAULT_TRANSFORMS)) transforms = other.transforms.toTypedArray()
         if (defaultTransform == DEFAULT_TRANSFORM) defaultTransform = other.defaultTransform
         if (rotation == DEFAULT_ROTATION) rotation = other.rotation
-        if (headIcon == DEFAULT_HEAD_ICON) headIcon = other.headIcon
+        if (headIconGroups.contentEquals(DEFAULT_HEAD_ICONS)) headIconGroups = other.headIconGroups.toTypedArray()
+        if (headIconIndexes.contentEquals(DEFAULT_HEAD_ICONS)) headIconIndexes = other.headIconIndexes.toTypedArray()
         if (models.contentEquals(DEFAULT_MODELS)) models = other.models.toTypedArray()
         if (headModels.contentEquals(DEFAULT_HEAD_MODELS)) headModels = other.headModels.toTypedArray()
         if (recolorSrc.contentEquals(DEFAULT_RECOLOR_SRC)) recolorSrc = other.recolorSrc.toTypedArray()

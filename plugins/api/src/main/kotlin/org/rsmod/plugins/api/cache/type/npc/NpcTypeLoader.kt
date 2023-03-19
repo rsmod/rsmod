@@ -1,6 +1,8 @@
 package org.rsmod.plugins.api.cache.type.npc
 
 import io.netty.buffer.ByteBuf
+import org.openrs2.buffer.readIntSmart
+import org.openrs2.buffer.readShortSmart
 import org.openrs2.buffer.readString
 import org.openrs2.buffer.use
 import org.openrs2.cache.Cache
@@ -101,7 +103,28 @@ public class NpcTypeLoader @Inject constructor(
             99 -> renderPriority = true
             100 -> ambient = buf.readByte().toInt()
             101 -> contrast = buf.readByte() * 5
-            102 -> headIcon = buf.readUnsignedShort()
+            102 -> {
+                val initialBits = buf.readUnsignedByte().toInt()
+                var bits = initialBits
+                var count = 0
+                while (bits != 0) {
+                    count++
+                    bits = bits shr 1
+                }
+                val groups = mutableListOf<Int>()
+                val indexes = mutableListOf<Int>()
+                repeat(count) { i ->
+                    if ((initialBits and 0x1 shl i) == 0) {
+                        groups += -1
+                        indexes += -1
+                        return@repeat
+                    }
+                    groups += buf.readIntSmart()
+                    indexes += buf.readShortSmart()
+                }
+                headIconGroups = groups.toTypedArray()
+                headIconIndexes = indexes.toTypedArray()
+            }
             103 -> rotation = buf.readUnsignedShort()
             106, 118 -> {
                 varbit = buf.readUnsignedShort()
