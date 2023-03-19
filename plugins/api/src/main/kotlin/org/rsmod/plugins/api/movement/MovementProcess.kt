@@ -102,10 +102,7 @@ public class MovementProcess @Inject constructor(
     }
 
     private fun CoroutineScope.appendAsyncRouteRequest(player: Player) = launch {
-        val request = player.routeRequest ?: return@launch
-        if (request.async) {
-            player.appendRouteRequest(async = true)
-        }
+        player.appendRouteRequest(async = true)
     }
 
     private val Player?.asyncRouteRequest: Boolean get() = this?.routeRequest?.async == true
