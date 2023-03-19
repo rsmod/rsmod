@@ -5,6 +5,7 @@ import org.rsmod.game.coroutines.GameCoroutineScope
 import org.rsmod.game.map.Coordinates
 import org.rsmod.game.model.client.MobEntity
 import org.rsmod.game.model.mob.move.MovementQueue
+import org.rsmod.game.model.route.RouteRequest
 
 public sealed class Mob(
     public val coroutineScope: GameCoroutineScope = GameCoroutineScope(),
@@ -27,6 +28,8 @@ public sealed class Mob(
 
     public var activeCoroutine: GameCoroutine? = null
         private set
+
+    public var routeRequest: RouteRequest? = null
 
     public fun launchCoroutine(block: suspend (GameCoroutine).() -> Unit): GameCoroutine {
         return coroutineScope.launch(block = block)

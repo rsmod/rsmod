@@ -13,8 +13,9 @@ public class MoveGameClickHandler @Inject constructor(
 ) : UpstreamHandler<MoveGameClick>(MoveGameClick::class.java) {
 
     override fun handle(player: Player, packet: MoveGameClick) {
-        val (mode, x, y) = packet
-        val event = UpstreamEvent.MoveGameClick(player, mode, Coordinates(x, y))
+        val (_, x, y) = packet
+        val speed = packet.speed() ?: player.movement.speed
+        val event = UpstreamEvent.MoveGameClick(player, speed, Coordinates(x, y))
         player.publish(event, eventBus)
     }
 }

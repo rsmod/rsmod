@@ -4,6 +4,7 @@ import org.rsmod.game.events.GameEvent
 import org.rsmod.game.events.GameKeyedEvent
 import org.rsmod.game.map.Coordinates
 import org.rsmod.game.model.mob.Player
+import org.rsmod.game.model.mob.move.MovementSpeed
 import org.rsmod.plugins.types.NamedComponent
 import org.rsmod.plugins.types.NamedItem
 
@@ -11,7 +12,7 @@ public sealed class UpstreamEvent {
 
     public data class MoveGameClick(
         val player: Player,
-        val mode: Int,
+        val speed: MovementSpeed,
         val coords: Coordinates
     ) : GameEvent
 

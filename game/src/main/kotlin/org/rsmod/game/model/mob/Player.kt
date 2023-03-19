@@ -8,19 +8,19 @@ import org.rsmod.game.model.vars.VariableMap
 
 public class Player(override val entity: PlayerEntity = PlayerEntity()) : Mob() {
 
-    public var username: String = ""
-
-    public var buildArea: BuildArea = BuildArea.ZERO
-
-    public var displayName: String
-        get() = entity.name
-        set(value) { entity.name = value }
-
     public val upstream: UpstreamList = UpstreamList()
 
     public val downstream: DownstreamList = DownstreamList()
 
     public val vars: VariableMap = VariableMap()
+
+    public var displayName: String
+        get() = entity.name
+        set(value) { entity.name = value }
+
+    public var username: String = ""
+
+    public var buildArea: BuildArea = BuildArea.ZERO
 
     public override fun toString(): String {
         return "Player(username=$username, displayName=$displayName, coords=$coords)"
