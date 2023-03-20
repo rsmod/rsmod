@@ -6,6 +6,15 @@ import java.util.Queue
 
 public class MovementQueue(
     public val waypoints: Queue<Coordinates> = LinkedList(),
+    public val queue: Queue<Coordinates> = LinkedList(),
     public var speed: MovementSpeed = DefaultMovementSpeed,
     public var noclip: Boolean = false
-) : Queue<Coordinates> by waypoints
+) {
+
+    public fun clear() {
+        waypoints.clear()
+        queue.clear()
+    }
+
+    public fun isEmpty(): Boolean = waypoints.isEmpty() && queue.isEmpty()
+}

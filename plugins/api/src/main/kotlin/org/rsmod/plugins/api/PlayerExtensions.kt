@@ -10,12 +10,14 @@ import org.rsmod.plugins.api.cache.type.varbit.VarbitType
 import org.rsmod.plugins.api.cache.type.varp.VarpType
 import org.rsmod.plugins.api.model.MessageGameType
 import org.rsmod.plugins.api.model.ui.StandardGameframe
+import org.rsmod.plugins.api.movement.MoveSpeed
 import org.rsmod.plugins.api.net.downstream.IfOpenSub
 import org.rsmod.plugins.api.net.downstream.IfOpenTop
 import org.rsmod.plugins.api.net.downstream.MessageGame
 import org.rsmod.plugins.api.net.downstream.MinimapFlagSet
 import org.rsmod.plugins.api.net.downstream.VarpLarge
 import org.rsmod.plugins.api.net.downstream.VarpSmall
+import org.rsmod.plugins.api.net.info.ExtendedPlayerInfo
 import org.rsmod.plugins.api.util.BitUtil
 import org.rsmod.plugins.types.NamedComponent
 import org.rsmod.plugins.types.NamedInterface
@@ -99,6 +101,24 @@ public fun Player.setMinimapFlag(coords: Coordinates) {
 
 public fun Player.clearMinimapFlag() {
     downstream += MinimapFlagSet(255, 255)
+}
+
+public fun Player.displace(destination: Coordinates) {
+    coords = destination
+    sendTempMovement(MoveSpeed.Displace)
+}
+
+public fun Player.setMoveSpeed(speed: MoveSpeed) {
+    movement.speed = speed
+    sendPermMovement(speed)
+}
+
+public fun Player.sendTempMovement(speed: MoveSpeed) {
+    extendedInfo += ExtendedPlayerInfo.MovementTempMask(speed.infoId)
+}
+
+public fun Player.sendPermMovement(speed: MoveSpeed) {
+    extendedInfo += ExtendedPlayerInfo.MovementPermMask(speed.infoId)
 }
 
 public fun <T : GameEvent> Player.publish(event: T, bus: GameEventBus) {

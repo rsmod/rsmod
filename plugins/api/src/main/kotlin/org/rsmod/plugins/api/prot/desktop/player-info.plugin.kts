@@ -5,6 +5,7 @@ import org.openrs2.buffer.writeString
 import org.rsmod.plugins.api.net.info.ExtendedPlayerInfo
 import org.rsmod.plugins.api.net.platform.info.InfoPlatformPacketEncoders
 import org.rsmod.plugins.api.net.writeByteAlt1
+import org.rsmod.plugins.api.net.writeByteAlt3
 import org.rsmod.plugins.info.player.model.ExtendedInfoSizes
 
 private val encoders: InfoPlatformPacketEncoders by inject()
@@ -12,6 +13,7 @@ private val info = encoders.desktop.player
 
 info.order.apply {
     this += ExtendedPlayerInfo.Appearance::class.java
+    this += ExtendedPlayerInfo.MovementTempMask::class.java
     this += ExtendedPlayerInfo.MovementPermMask::class.java
 }
 
@@ -51,6 +53,13 @@ info.register<ExtendedPlayerInfo.Appearance> {
         }
         buf.writeByte(appBuf.readableBytes())
         buf.writeBytesA(appBuf)
+    }
+}
+
+info.register<ExtendedPlayerInfo.MovementTempMask> {
+    bitmask = 256
+    encode { info, buf ->
+        buf.writeByteAlt3(info.type)
     }
 }
 

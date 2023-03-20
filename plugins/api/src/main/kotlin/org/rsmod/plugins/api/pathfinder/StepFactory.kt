@@ -10,6 +10,21 @@ public class StepFactory @Inject constructor(map: GameMap) {
 
     private val validator: StepValidator = StepValidator(map.flags)
 
+    public fun createPath(
+        source: Coordinates,
+        destination: Coordinates,
+        extraFlag: Int = 0
+    ): List<Coordinates> {
+        val coords = mutableListOf<Coordinates>()
+        var curr = Coordinates(source.packed)
+        for (i in 0 until 128 * 128) {
+            if (curr == destination) break
+            curr = validated(curr, destination, extraFlag = extraFlag)
+            coords += curr
+        }
+        return coords
+    }
+
     /**
      * @return the next available step in between [source] and [destination] _without_
      * validating that said step is not blocked by any possible collision flags.
