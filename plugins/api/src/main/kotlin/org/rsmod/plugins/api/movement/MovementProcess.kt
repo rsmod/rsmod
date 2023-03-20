@@ -94,6 +94,7 @@ public class MovementProcess @Inject constructor(
 
     // TODO: stepFactory.create(Entity) function
     // TODO: stepFactory.create(GameObject) function
+    @Suppress("UNUSED_PARAMETER")
     private fun RouteRequest.displaceCoordinates(source: MobEntity): Coordinates = when (this) {
         is RouteRequestCoordinates -> destination
         is RouteRequestEntity -> destination.coords

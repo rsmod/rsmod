@@ -60,6 +60,7 @@ public inline fun ByteBuf.readIntAlt2(): Int = readIntAlt3Reverse()
 
 @Suppress("FunctionName")
 public inline fun ByteBuf.writeIntAlt3_(value: Int): ByteBuf = writeIntAlt3(`value` = value)
+
 @Suppress("FunctionName")
 public inline fun ByteBuf.readIntAlt3_(): Int = readIntAlt3()
 
