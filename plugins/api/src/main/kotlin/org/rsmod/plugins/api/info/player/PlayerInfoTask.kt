@@ -4,7 +4,7 @@ import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
 import org.rsmod.game.map.Coordinates
 import org.rsmod.game.model.mob.Player
-import org.rsmod.game.model.mob.info.ExtendedInfoSet
+import org.rsmod.game.model.mob.info.ExtendedInfoTypeSet
 import org.rsmod.game.model.mob.list.PlayerList
 import org.rsmod.game.model.mob.list.forEachNotNull
 import org.rsmod.plugins.api.info.ReusableByteBufferMap
@@ -26,11 +26,11 @@ public class PlayerInfoTask @Inject constructor(
 
     private var gameClock = 0
 
-    private val logInInfo = ExtendedInfoSet.of(
+    private val logInInfo = ExtendedInfoTypeSet.of(
         ExtendedPlayerInfo.Appearance::class.java
     )
 
-    private val cachedInfo = ExtendedInfoSet.of(
+    private val cachedInfo = ExtendedInfoTypeSet.of(
         ExtendedPlayerInfo.Appearance::class.java
     )
 
@@ -69,6 +69,7 @@ public class PlayerInfoTask @Inject constructor(
     private fun Player.finalizeGpi() {
         // should _not_ be handled in gpi task, but for testing purposes.
         prevCoords = coords
+        extendedInfo.clear()
         // NOTE: might be worth checking if extended info has been sent
         // in previous tick. avoids info having to do array access ops.
         // any performance gains from this are more than likely negligible.
@@ -77,10 +78,11 @@ public class PlayerInfoTask @Inject constructor(
 
     private fun Player.updateExtendedInfo() {
         if (extendedInfo.isEmpty()) return
-        val dataBuf = extendedInfoBuf()
         val encoders = infoEncoders()
-        info.updateExtendedInfo(index, extendedInfo(extendedInfo, dataBuf.clear(), encoders).array())
-        val updateCached = cachedInfo.filter { it in extendedInfo }
+        val dataBuf = extendedInfoBuf()
+        val pendingInfo = extendedInfo(extendedInfo.pendingTypes, dataBuf.clear(), encoders).array()
+        info.updateExtendedInfo(index, pendingInfo)
+        val updateCached = cachedInfo.filter { it in extendedInfo.pendingTypes }
         if (updateCached.isNotEmpty()) {
             val static = extendedInfo(cachedInfo, dataBuf.clear(), encoders).array()
             val dynamic = extendedInfo(updateCached, dataBuf.clear(), encoders).array()
@@ -90,22 +92,24 @@ public class PlayerInfoTask @Inject constructor(
     }
 
     private fun Player.initializeExtendedInfo() {
-        val dataBuf = extendedInfoBuf()
         val encoders = infoEncoders()
-        info.updateExtendedInfo(index, extendedInfo(logInInfo, dataBuf.clear(), encoders).array())
-        info.cacheStaticExtendedInfo(index, extendedInfo(cachedInfo, dataBuf.clear(), encoders).array())
+        val dataBuf = extendedInfoBuf()
+        val logInInfo = extendedInfo(logInInfo, dataBuf.clear(), encoders).array()
+        val cachedInfo = extendedInfo(cachedInfo, dataBuf.clear(), encoders).array()
+        info.updateExtendedInfo(index, logInInfo)
+        info.cacheStaticExtendedInfo(index, cachedInfo)
     }
 
     // Should _always_ return an array-backed buffer.
     private fun Player.extendedInfo(
-        infoSet: ExtendedInfoSet,
+        infoSet: ExtendedInfoTypeSet,
         dataBuf: ByteBuf,
         encoders: ExtendedInfoEncoderMap.EncoderMap<ExtendedPlayerInfo>
     ): ByteBuf {
         var bitmasks = 0
         encoders.order.forEach { ordered ->
             if (ordered !in infoSet) return@forEach
-            val packet = ordered.toPacket(this) ?: error("Unhandled extended-info type conversion: $ordered.")
+            val packet = ordered.toPacket(this) ?: error("No valid info found for extended-info type: $ordered.")
             val encoder = encoders[packet] ?: error("Encoder not found for extended-info type: $ordered.")
             bitmasks = bitmasks or encoder.bitmask
             encoder.encode(packet, dataBuf)
@@ -120,7 +124,25 @@ public class PlayerInfoTask @Inject constructor(
         return buf
     }
 
-    private fun Class<out ExtendedPlayerInfo>.toPacket(
+    private fun Player.extendedInfoBuf(): ByteBuf {
+        // TODO: add reusable ByteBufMap and use it here.
+        return Unpooled.buffer()
+    }
+
+    private fun Player.infoEncoders(): ExtendedInfoEncoderMap.EncoderMap<ExtendedPlayerInfo> = when {
+        // TODO: select encoder map based on platform
+        else -> extended.desktop.player
+    }
+
+    private fun Class<out ExtendedPlayerInfo>.toPacket(player: Player): ExtendedPlayerInfo? {
+        return toStaticPacket(player) ?: toDynamicPacket(player)
+    }
+
+    private fun Class<out ExtendedPlayerInfo>.toStaticPacket(player: Player): ExtendedPlayerInfo? {
+        return player.extendedInfo.pendingInfo[this] as? ExtendedPlayerInfo
+    }
+
+    private fun Class<out ExtendedPlayerInfo>.toDynamicPacket(
         player: Player
     ): ExtendedPlayerInfo? = when (this) {
         ExtendedPlayerInfo.Appearance::class.java -> player.appearance()
@@ -169,16 +191,6 @@ public class PlayerInfoTask @Inject constructor(
             data[pos++] = (value and 0xFF).toByte()
         }
         return data.copyOfRange(0, pos)
-    }
-
-    private fun Player.extendedInfoBuf(): ByteBuf {
-        // TODO: add reusable ByteBufMap and use it here.
-        return Unpooled.buffer()
-    }
-
-    private fun Player.infoEncoders(): ExtendedInfoEncoderMap.EncoderMap<ExtendedPlayerInfo> = when {
-        // TODO: select encoder map based on platform
-        else -> extended.desktop.player
     }
 
     private companion object {
