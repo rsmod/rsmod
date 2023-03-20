@@ -90,7 +90,7 @@ public class MovementProcess @Inject constructor(
     }
 
     private fun Player.applyTempMovement(speed: MovementSpeed, stepsTaken: Int) {
-        if (speed == MoveSpeed.Run && stepsTaken < speed.steps) {
+        if (speed == MoveSpeed.Run && stepsTaken == MoveSpeed.Walk.steps) {
             sendTempMovement(MoveSpeed.Walk)
         }
     }
