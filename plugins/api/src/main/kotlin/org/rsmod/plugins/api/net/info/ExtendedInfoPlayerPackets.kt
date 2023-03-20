@@ -5,6 +5,7 @@ import org.rsmod.game.model.mob.info.ExtendedInfo
 public sealed class ExtendedPlayerInfo : ExtendedInfo {
 
     public data class ExtendedFlag(public val bitmasks: Int) : ExtendedPlayerInfo()
+    public data class MovementPermMask(public val type: Int) : ExtendedPlayerInfo()
 
     public data class Appearance(
         public val gender: Int,

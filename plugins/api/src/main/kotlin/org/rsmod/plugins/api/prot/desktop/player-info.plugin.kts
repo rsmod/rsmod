@@ -2,31 +2,31 @@ package org.rsmod.plugins.api.prot.desktop
 
 import org.openrs2.buffer.writeBytesA
 import org.openrs2.buffer.writeString
-import org.rsmod.plugins.api.net.info.ExtendedPlayerInfo.Appearance
-import org.rsmod.plugins.api.net.info.ExtendedPlayerInfo.ExtendedFlag
+import org.rsmod.plugins.api.net.info.ExtendedPlayerInfo
 import org.rsmod.plugins.api.net.platform.info.InfoPlatformPacketEncoders
+import org.rsmod.plugins.api.net.writeByteAlt1
 import org.rsmod.plugins.info.player.model.ExtendedInfoSizes
 
 private val encoders: InfoPlatformPacketEncoders by inject()
 private val info = encoders.desktop.player
 
 info.order.apply {
-    this += Appearance::class.java
+    this += ExtendedPlayerInfo.Appearance::class.java
+    this += ExtendedPlayerInfo.MovementPermMask::class.java
 }
 
-info.register<ExtendedFlag> {
+info.register<ExtendedPlayerInfo.ExtendedFlag> {
     bitmask = 2
     encode { info, buf ->
         if (info.bitmasks >= 0xFF) {
-            val bitmasks = info.bitmasks or bitmask
-            buf.writeShort(bitmasks)
+            buf.writeShortLE(info.bitmasks or bitmask)
         } else {
             buf.writeByte(info.bitmasks)
         }
     }
 }
 
-info.register<Appearance> {
+info.register<ExtendedPlayerInfo.Appearance> {
     bitmask = 64
     encode { info, buf ->
         val appBuf = buf.alloc().buffer(ExtendedInfoSizes.APPEARANCE_MAX_BYTE_SIZE).let {
@@ -51,5 +51,12 @@ info.register<Appearance> {
         }
         buf.writeByte(appBuf.readableBytes())
         buf.writeBytesA(appBuf)
+    }
+}
+
+info.register<ExtendedPlayerInfo.MovementPermMask> {
+    bitmask = 16384
+    encode { info, buf ->
+        buf.writeByteAlt1(info.type)
     }
 }
