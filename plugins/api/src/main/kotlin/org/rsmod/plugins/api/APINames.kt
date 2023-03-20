@@ -26,9 +26,12 @@ import org.rsmod.plugins.types.NamedComponent
 import org.rsmod.plugins.types.NamedInterface
 import org.rsmod.plugins.types.NamedScript
 import org.rsmod.plugins.types.NamedVarbit
+import org.rsmod.plugins.types.NamedVarp
 import org.rsmod.plugins.types.ScriptTypeList1
 import org.rsmod.plugins.types.ScriptTypeList3
 import org.rsmod.plugins.types.ScriptTypeList4
+
+public val varp.running_enabled: NamedVarp get() = NamedVarp(173)
 
 public val varbit.chatbox_unlocked: NamedVarbit get() = NamedVarbit(8119)
 
