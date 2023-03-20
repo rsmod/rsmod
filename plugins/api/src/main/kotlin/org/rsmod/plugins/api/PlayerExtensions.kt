@@ -21,6 +21,7 @@ import org.rsmod.plugins.api.net.info.ExtendedPlayerInfo
 import org.rsmod.plugins.api.util.BitUtil
 import org.rsmod.plugins.types.NamedComponent
 import org.rsmod.plugins.types.NamedInterface
+import org.rsmod.plugins.types.NamedVarp
 import kotlin.collections.set
 
 private val logger = InlineLogger()
@@ -52,6 +53,10 @@ public fun Player.openOverlay(overlay: NamedInterface, target: NamedComponent) {
     downstream += IfOpenSub(overlay.id, target.id, 1)
 }
 
+public fun Player.getVarp(varp: NamedVarp): Int = vars[varp.id] ?: 0
+
+public fun Player.getVarp(type: VarpType): Int = vars[type.id] ?: 0
+
 public fun Player.setVarp(value: Int, type: VarpType) {
     // TODO: is there a scenario where we'd want to keep
     // track of a varp that doesn't persist?
@@ -61,6 +66,20 @@ public fun Player.setVarp(value: Int, type: VarpType) {
     if (type.transmit) {
         syncVarp(type.id, value)
     }
+}
+
+public fun Player.setVarp(value: Boolean, type: VarpType) {
+    setVarp(if (value) 1 else 0, type)
+}
+
+public fun Player.toggleVarp(type: VarpType) {
+    val state = if (getVarp(type) == 1) 0 else 1
+    setVarp(state, type)
+}
+
+public fun Player.getVarbit(type: VarbitType): Int {
+    val varp = vars[type.varp] ?: 0
+    return BitUtil.get(varp, type.lsb..type.msb)
 }
 
 public fun Player.setVarbit(value: Int, type: VarbitType, persist: Boolean = true) {

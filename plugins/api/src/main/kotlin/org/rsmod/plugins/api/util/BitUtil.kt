@@ -8,6 +8,11 @@ public object BitUtil {
         return (value and mask.inv()) or ((rangeValue shl bitRange.first) and mask)
     }
 
+    public fun get(value: Int, bitRange: IntRange): Int {
+        val len = bitRange.last - bitRange.first
+        return (value shr bitRange.first) and i32BitSizes[len]
+    }
+
     private val i32BitSizes = IntArray(Int.SIZE_BITS).apply {
         var size = 2
         for (i in indices) {
