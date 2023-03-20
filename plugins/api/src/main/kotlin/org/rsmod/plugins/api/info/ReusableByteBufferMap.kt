@@ -1,4 +1,4 @@
-package org.rsmod.plugins.api.info.player
+package org.rsmod.plugins.api.info
 
 import java.nio.ByteBuffer
 

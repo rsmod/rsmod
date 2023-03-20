@@ -1,4 +1,4 @@
-package org.rsmod.plugins.api.net.platform
+package org.rsmod.plugins.api.net.platform.login
 
 import org.rsmod.plugins.api.net.builder.login.LoginPacketDecoderMap
 import javax.inject.Inject

@@ -1,4 +1,4 @@
-package org.rsmod.plugins.api.net.platform
+package org.rsmod.plugins.api.net.platform.game
 
 import org.rsmod.plugins.api.net.builder.downstream.DownstreamPacketMap
 import org.rsmod.plugins.api.net.builder.upstream.UpstreamPacketMap

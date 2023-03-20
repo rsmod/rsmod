@@ -1,8 +1,8 @@
-package org.rsmod.plugins.api.net.platform
+package org.rsmod.plugins.api.net.platform.login
 
 import javax.inject.Qualifier
 
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.FIELD, AnnotationTarget.VALUE_PARAMETER, AnnotationTarget.FUNCTION)
-public annotation class GameDesktopDownstream
+public annotation class LoginDesktopDecoder

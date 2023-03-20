@@ -23,7 +23,7 @@ import org.rsmod.game.client.Client
 import org.rsmod.game.model.mob.Player
 import org.rsmod.plugins.api.net.client.Platform
 import org.rsmod.plugins.api.net.login.LoginPacketRequest
-import org.rsmod.plugins.api.net.platform.GamePlatformPacketMaps
+import org.rsmod.plugins.api.net.platform.game.GamePlatformPacketMaps
 import org.rsmod.plugins.api.prot.Revision
 import org.rsmod.plugins.net.clientAttr
 import org.rsmod.plugins.net.js5.Js5ChannelHandler

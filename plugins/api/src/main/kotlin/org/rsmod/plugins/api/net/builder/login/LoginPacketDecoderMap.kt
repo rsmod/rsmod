@@ -10,7 +10,7 @@ public class LoginPacketDecoderMap(
         val builder = LoginPacketDecoderBuilder<T>().apply { decode(read) }
         val decoder = builder.build()
         check(T::class.java !in decoders) {
-            "Login packet decoder already defined (packet=${T::class.simpleName})."
+            "Login packet decoder already defined. (packet=${T::class.simpleName})"
         }
         decoders[T::class.java] = decoder
     }

@@ -2,7 +2,7 @@ package org.rsmod.plugins.api.prot.desktop
 
 import io.netty.buffer.ByteBuf
 import org.openrs2.buffer.readString
-import org.rsmod.plugins.api.net.platform.GamePlatformPacketMaps
+import org.rsmod.plugins.api.net.platform.game.GamePlatformPacketMaps
 import org.rsmod.plugins.api.net.readUnsignedByteAlt1
 import org.rsmod.plugins.api.net.readUnsignedShortAlt2
 import org.rsmod.plugins.api.net.upstream.ClientCheat

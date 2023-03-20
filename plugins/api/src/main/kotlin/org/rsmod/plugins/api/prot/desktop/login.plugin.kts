@@ -23,7 +23,7 @@ import org.rsmod.plugins.api.cache.Archives.WORLD_MAP_DATA
 import org.rsmod.plugins.api.cache.Archives.WORLD_MAP_GEO
 import org.rsmod.plugins.api.cache.Archives.WORLD_MAP_GROUND
 import org.rsmod.plugins.api.net.login.LoginPacketRequest
-import org.rsmod.plugins.api.net.platform.LoginPlatformPacketDecoders
+import org.rsmod.plugins.api.net.platform.login.LoginPlatformPacketDecoders
 import org.rsmod.plugins.api.net.readIntAlt1
 import org.rsmod.plugins.api.net.readIntAlt2
 import org.rsmod.plugins.api.net.readIntAlt3_

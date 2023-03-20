@@ -12,7 +12,7 @@ import org.rsmod.plugins.api.net.downstream.RebuildNormal
 import org.rsmod.plugins.api.net.downstream.RunClientScript
 import org.rsmod.plugins.api.net.downstream.VarpLarge
 import org.rsmod.plugins.api.net.downstream.VarpSmall
-import org.rsmod.plugins.api.net.platform.GamePlatformPacketMaps
+import org.rsmod.plugins.api.net.platform.game.GamePlatformPacketMaps
 import org.rsmod.plugins.api.net.writeByteAlt2
 import org.rsmod.plugins.api.net.writeIntAlt3_
 import org.rsmod.plugins.api.net.writeShortAlt1
