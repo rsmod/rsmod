@@ -9,6 +9,7 @@ import org.rsmod.game.model.client.MobEntity
 import org.rsmod.game.model.mob.Player
 import org.rsmod.game.model.mob.list.PlayerList
 import org.rsmod.game.model.mob.list.forEachNotNull
+import org.rsmod.game.model.mob.move.MovementQueue
 import org.rsmod.game.model.mob.move.MovementSpeed
 import org.rsmod.game.model.route.RouteRequest
 import org.rsmod.game.model.route.RouteRequestCoordinates
@@ -110,6 +111,10 @@ public class MovementProcess @Inject constructor(
         is RouteRequestEntity -> destination.coords
         is RouteRequestGameObject -> destination.coords
         else -> error("Unhandled route request type: $this.")
+    }
+
+    private fun MovementQueue.addAll(route: Route) {
+        waypoints += route.map { Coordinates(it.x, it.z, it.level) }
     }
 
     private fun CoroutineScope.appendAsyncRouteRequest(player: Player) = launch {
