@@ -12,6 +12,7 @@ import org.rsmod.plugins.api.net.builder.info.ExtendedInfoEncoderMap
 import org.rsmod.plugins.api.net.downstream.PlayerInfoPacket
 import org.rsmod.plugins.api.net.info.ExtendedPlayerInfo
 import org.rsmod.plugins.api.net.platform.info.InfoPlatformPacketEncoders
+import org.rsmod.plugins.api.world.World
 import org.rsmod.plugins.info.player.PlayerInfo
 import org.rsmod.plugins.info.player.model.coord.HighResCoord
 import javax.inject.Inject
@@ -21,10 +22,9 @@ import javax.inject.Singleton
 public class PlayerInfoTask @Inject constructor(
     private val players: PlayerList,
     private val info: PlayerInfo,
-    private val extended: InfoPlatformPacketEncoders
+    private val extended: InfoPlatformPacketEncoders,
+    private val world: World
 ) {
-
-    private var gameClock = 0
 
     private val logInInfo = ExtendedInfoTypeSet.of(
         ExtendedPlayerInfo.Appearance::class.java
@@ -54,7 +54,6 @@ public class PlayerInfoTask @Inject constructor(
     }
 
     public fun execute() {
-        gameClock++
         players.forEachNotNull { it.prepareGpi() }
         players.forEachNotNull { it.executeGpi() }
         players.forEachNotNull { it.finalizeGpi() }
@@ -92,7 +91,7 @@ public class PlayerInfoTask @Inject constructor(
             val static = extendedInfo(cachedInfo, dataBuf.clear(), encoders).array()
             val dynamic = extendedInfo(updateCached, dataBuf.clear(), encoders).array()
             info.cacheStaticExtendedInfo(index, static)
-            info.cacheDynamicExtendedInfo(index, gameClock, dynamic)
+            info.cacheDynamicExtendedInfo(index, world.tick, dynamic)
         }
     }
 

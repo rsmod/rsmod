@@ -10,6 +10,7 @@ import org.rsmod.game.model.mob.list.forEachNotNull
 import org.rsmod.plugins.api.info.player.PlayerInfoTask
 import org.rsmod.plugins.api.movement.MovementProcess
 import org.rsmod.plugins.api.net.upstream.handler.UpstreamHandlerTask
+import org.rsmod.plugins.api.world.World
 import javax.inject.Inject
 
 public class MainGameProcess @Inject constructor(
@@ -19,7 +20,8 @@ public class MainGameProcess @Inject constructor(
     private val clients: ClientList,
     private val players: PlayerList,
     private val eventBus: GameEventBus,
-    private val movement: MovementProcess
+    private val movement: MovementProcess,
+    private val world: World
 ) : GameProcess {
 
     override fun startUp() {
@@ -45,6 +47,7 @@ public class MainGameProcess @Inject constructor(
     }
 
     private fun worldCycle() {
+        world.tick++
         coroutineScope.advance()
         players.forEachNotNull { player -> player.coroutineScope.advance() }
     }
