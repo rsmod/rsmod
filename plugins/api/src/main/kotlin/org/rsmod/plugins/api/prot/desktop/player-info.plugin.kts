@@ -17,16 +17,15 @@ private val encoders: InfoPlatformPacketEncoders by inject()
 private val info = encoders.desktop.player
 
 info.order {
-    this += ExtendedPlayerInfo.Spotanim::class.java
-    this += ExtendedPlayerInfo.Appearance::class.java
-    this += ExtendedPlayerInfo.ExactMove::class.java
-    this += ExtendedPlayerInfo.Hit::class.java
-    this += ExtendedPlayerInfo.MoveSpeedTemp::class.java
-    this += ExtendedPlayerInfo.Chat::class.java
-    this += ExtendedPlayerInfo.MoveSpeedPerm::class.java
-    this += ExtendedPlayerInfo.Anim::class.java
-    this += ExtendedPlayerInfo.Recolor::class.java
-
+    -ExtendedPlayerInfo.Spotanim::class
+    -ExtendedPlayerInfo.Appearance::class
+    -ExtendedPlayerInfo.ExactMove::class
+    -ExtendedPlayerInfo.Hit::class
+    -ExtendedPlayerInfo.MoveSpeedTemp::class
+    -ExtendedPlayerInfo.Chat::class
+    -ExtendedPlayerInfo.MoveSpeedPerm::class
+    -ExtendedPlayerInfo.Anim::class
+    -ExtendedPlayerInfo.Recolor::class
 }
 
 info.register<ExtendedPlayerInfo.ExtendedFlag> {
