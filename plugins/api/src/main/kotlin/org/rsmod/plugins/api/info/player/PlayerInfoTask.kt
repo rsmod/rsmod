@@ -31,7 +31,12 @@ public class PlayerInfoTask @Inject constructor(
     )
 
     private val cachedInfo = ExtendedInfoTypeSet.of(
-        ExtendedPlayerInfo.Appearance::class.java
+        ExtendedPlayerInfo.Appearance::class.java,
+        ExtendedPlayerInfo.FaceEntity::class.java,
+        ExtendedPlayerInfo.FaceSquare::class.java,
+        ExtendedPlayerInfo.MoveSpeedTemp::class.java,
+        ExtendedPlayerInfo.MoveSpeedPerm::class.java,
+        ExtendedPlayerInfo.Prefix::class.java
     )
 
     private val buffers = ReusableByteBufferMap(
@@ -109,7 +114,7 @@ public class PlayerInfoTask @Inject constructor(
         var bitmasks = 0
         encoders.order.forEach { ordered ->
             if (ordered !in infoSet) return@forEach
-            val packet = ordered.toPacket(this) ?: error("No valid info found for extended-info type: $ordered.")
+            val packet = ordered.toPacket(this) ?: return@forEach
             val encoder = encoders[packet] ?: error("Encoder not found for extended-info type: $ordered.")
             bitmasks = bitmasks or encoder.bitmask
             encoder.encode(packet, dataBuf)
@@ -146,6 +151,7 @@ public class PlayerInfoTask @Inject constructor(
         player: Player
     ): ExtendedPlayerInfo? = when (this) {
         ExtendedPlayerInfo.Appearance::class.java -> player.appearance()
+        ExtendedPlayerInfo.Hit::class.java -> TODO("Build hits")
         else -> null
     }
 
@@ -154,7 +160,7 @@ public class PlayerInfoTask @Inject constructor(
             gender = 0,
             overheadSkull = null,
             overheadPrayer = null,
-            transmogId = null,
+            transmog = null,
             looks = looks(),
             colors = intArrayOf(0, 3, 2, 0, 0),
             bas = intArrayOf(808, 823, 819, 820, 821, 822, 824),

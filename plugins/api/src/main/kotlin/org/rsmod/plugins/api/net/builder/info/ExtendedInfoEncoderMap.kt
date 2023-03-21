@@ -23,6 +23,10 @@ public class ExtendedInfoEncoderMap(
             encoders[S::class.java] = encoder
         }
 
+        public fun order(init: (MutableList<Class<out T>>).() -> Unit) {
+            order.apply(init)
+        }
+
         @Suppress("UNCHECKED_CAST")
         public inline operator fun <reified S : T> get(info: S): ExtendedInfoPacketEncoder<S>? {
             return encoders[info::class.java] as? ExtendedInfoPacketEncoder<S>

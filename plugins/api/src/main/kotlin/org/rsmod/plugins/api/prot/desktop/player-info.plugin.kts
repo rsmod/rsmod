@@ -5,16 +5,28 @@ import org.openrs2.buffer.writeString
 import org.rsmod.plugins.api.net.info.ExtendedPlayerInfo
 import org.rsmod.plugins.api.net.platform.info.InfoPlatformPacketEncoders
 import org.rsmod.plugins.api.net.writeByteAlt1
+import org.rsmod.plugins.api.net.writeByteAlt2
 import org.rsmod.plugins.api.net.writeByteAlt3
+import org.rsmod.plugins.api.net.writeIntAlt1
+import org.rsmod.plugins.api.net.writeShortAlt1
+import org.rsmod.plugins.api.net.writeShortAlt2
+import org.rsmod.plugins.api.net.writeShortAlt3
 import org.rsmod.plugins.info.player.model.ExtendedInfoSizes
 
 private val encoders: InfoPlatformPacketEncoders by inject()
 private val info = encoders.desktop.player
 
-info.order.apply {
+info.order {
+    this += ExtendedPlayerInfo.Spotanim::class.java
     this += ExtendedPlayerInfo.Appearance::class.java
-    this += ExtendedPlayerInfo.MovementTempMask::class.java
-    this += ExtendedPlayerInfo.MovementPermMask::class.java
+    this += ExtendedPlayerInfo.ExactMove::class.java
+    this += ExtendedPlayerInfo.Hit::class.java
+    this += ExtendedPlayerInfo.MoveSpeedTemp::class.java
+    this += ExtendedPlayerInfo.Chat::class.java
+    this += ExtendedPlayerInfo.MoveSpeedPerm::class.java
+    this += ExtendedPlayerInfo.Anim::class.java
+    this += ExtendedPlayerInfo.Recolor::class.java
+
 }
 
 info.register<ExtendedPlayerInfo.ExtendedFlag> {
@@ -28,6 +40,14 @@ info.register<ExtendedPlayerInfo.ExtendedFlag> {
     }
 }
 
+info.register<ExtendedPlayerInfo.Anim> {
+    bitmask = 16
+    encode { info, buf ->
+        buf.writeShort(info.sequence)
+        buf.writeByteAlt2(info.delay)
+    }
+}
+
 info.register<ExtendedPlayerInfo.Appearance> {
     bitmask = 64
     encode { info, buf ->
@@ -35,9 +55,9 @@ info.register<ExtendedPlayerInfo.Appearance> {
             it.writeByte(info.gender)
             it.writeByte(info.overheadSkull ?: -1)
             it.writeByte(info.overheadPrayer ?: -1)
-            if (info.transmogId != null) {
+            if (info.transmog != null) {
                 it.writeShort(-1)
-                it.writeShort(info.transmogId)
+                it.writeShort(info.transmog)
             } else {
                 it.writeBytes(info.looks)
             }
@@ -56,16 +76,94 @@ info.register<ExtendedPlayerInfo.Appearance> {
     }
 }
 
-info.register<ExtendedPlayerInfo.MovementTempMask> {
+info.register<ExtendedPlayerInfo.Chat> {
+    bitmask = 1
+    encode { info, buf ->
+        TODO("huffman")
+    }
+}
+
+info.register<ExtendedPlayerInfo.ExactMove> {
+    bitmask = 4096
+    encode { info, buf ->
+        buf.writeByteAlt1(info.deltaX1)
+        buf.writeByteAlt1(info.deltaY1)
+        buf.writeByteAlt1(info.deltaX2)
+        buf.writeByteAlt2(info.deltaY2)
+        buf.writeShort(info.arriveDelay1)
+        buf.writeShortAlt3(info.arriveDelay2)
+    }
+}
+
+info.register<ExtendedPlayerInfo.FaceEntity> {
+    bitmask = 8
+    encode { info, buf ->
+        buf.writeShortAlt1(info.index and 0xFFFF)
+        buf.writeByteAlt2(info.index shr 16)
+    }
+}
+
+info.register<ExtendedPlayerInfo.FaceSquare> {
+    bitmask = 128
+    encode { info, buf ->
+        buf.writeShortAlt2(info.orientation)
+    }
+}
+
+info.register<ExtendedPlayerInfo.Hit> {
+    bitmask = 4
+    encode { info, buf ->
+        TODO("Hit model")
+    }
+}
+
+info.register<ExtendedPlayerInfo.MoveSpeedTemp> {
     bitmask = 256
     encode { info, buf ->
         buf.writeByteAlt3(info.type)
     }
 }
 
-info.register<ExtendedPlayerInfo.MovementPermMask> {
+info.register<ExtendedPlayerInfo.MoveSpeedPerm> {
     bitmask = 16384
     encode { info, buf ->
         buf.writeByteAlt1(info.type)
+    }
+}
+
+info.register<ExtendedPlayerInfo.Prefix> {
+    bitmask = 1024
+    encode { info, buf ->
+        buf.writeString(info.string1 ?: "")
+        buf.writeString(info.string2 ?: "")
+        buf.writeString(info.string3 ?: "")
+    }
+}
+
+info.register<ExtendedPlayerInfo.Recolor> {
+    bitmask = 2048
+    encode { info, buf ->
+        buf.writeShort(info.startDelay)
+        buf.writeShortAlt1(info.endDelay)
+        buf.writeByteAlt1(info.hue)
+        buf.writeByte(info.sat)
+        buf.writeByteAlt2(info.lum)
+        buf.writeByteAlt3(info.amount)
+    }
+}
+
+info.register<ExtendedPlayerInfo.Spotanim> {
+    bitmask = 8192
+    encode { info, buf ->
+        buf.writeShortAlt2(info.id)
+        buf.writeIntAlt1((info.height shl 16) or info.delay)
+    }
+}
+
+info.register<ExtendedPlayerInfo.Say> {
+    bitmask = 32
+    encode { info, buf ->
+        val text = if (info.expose) "~${info.text}" else info.text
+        buf.writeString(text)
     }
 }

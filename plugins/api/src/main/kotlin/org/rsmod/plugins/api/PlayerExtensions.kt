@@ -133,11 +133,11 @@ public fun Player.setMoveSpeed(speed: MoveSpeed) {
 }
 
 public fun Player.sendTempMovement(speed: MoveSpeed) {
-    extendedInfo += ExtendedPlayerInfo.MovementTempMask(speed.infoId)
+    extendedInfo += ExtendedPlayerInfo.MoveSpeedTemp(speed.infoId)
 }
 
 public fun Player.sendPermMovement(speed: MoveSpeed) {
-    extendedInfo += ExtendedPlayerInfo.MovementPermMask(speed.infoId)
+    extendedInfo += ExtendedPlayerInfo.MoveSpeedPerm(speed.infoId)
 }
 
 public fun <T : GameEvent> Player.publish(event: T, bus: GameEventBus) {
