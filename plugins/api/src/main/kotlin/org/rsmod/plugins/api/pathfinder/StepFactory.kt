@@ -46,7 +46,7 @@ public class StepFactory @Inject constructor(map: GameMap) {
 
     /**
      * @return The next _validated_ step in between [source] and [destination].
-     * [Coordinates.ZERO] if no tile could be validated between the two given
+     * [Coordinates.NULL] if no tile could be validated between the two given
      * coordinates.
      */
     public fun validated(
