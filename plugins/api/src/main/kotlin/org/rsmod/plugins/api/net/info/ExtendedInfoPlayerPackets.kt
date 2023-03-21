@@ -79,9 +79,9 @@ public sealed class ExtendedPlayerInfo : ExtendedInfo {
 
     public data class ExactMove(
         public val deltaX1: Int,
-        public val deltaY1: Int,
+        public val deltaZ1: Int,
         public val deltaX2: Int,
-        public val deltaY2: Int,
+        public val deltaZ2: Int,
         public val arriveDelay1: Int,
         public val arriveDelay2: Int,
         public val direction: Int

@@ -86,9 +86,9 @@ info.register<ExtendedPlayerInfo.ExactMove> {
     bitmask = 4096
     encode { info, buf ->
         buf.writeByteAlt1(info.deltaX1)
-        buf.writeByteAlt1(info.deltaY1)
+        buf.writeByteAlt1(info.deltaZ1)
         buf.writeByteAlt1(info.deltaX2)
-        buf.writeByteAlt2(info.deltaY2)
+        buf.writeByteAlt2(info.deltaZ2)
         buf.writeShort(info.arriveDelay1)
         buf.writeShortAlt3(info.arriveDelay2)
     }
