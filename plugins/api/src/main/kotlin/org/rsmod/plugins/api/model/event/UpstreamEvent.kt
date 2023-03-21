@@ -8,7 +8,7 @@ import org.rsmod.game.model.mob.move.MovementSpeed
 import org.rsmod.plugins.types.NamedComponent
 import org.rsmod.plugins.types.NamedItem
 
-public sealed class UpstreamEvent {
+public object UpstreamEvent {
 
     public data class MoveGameClick(
         val player: Player,
