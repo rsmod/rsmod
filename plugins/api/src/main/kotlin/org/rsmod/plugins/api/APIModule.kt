@@ -1,7 +1,10 @@
 package org.rsmod.plugins.api
 
 import com.google.inject.AbstractModule
+import com.google.inject.Scopes
 import org.rsmod.buffer.BufferModule
+import org.rsmod.game.events.EventBus
+import org.rsmod.game.model.mob.list.PlayerList
 import org.rsmod.json.JsonModule
 import org.rsmod.plugins.api.cache.CacheModule
 import org.rsmod.plugins.api.cache.map.xtea.XteaModule
@@ -25,5 +28,8 @@ public object APIModule : AbstractModule() {
         install(TomlModule)
         install(UpstreamHandlerModule)
         install(XteaModule)
+
+        bind(EventBus::class.java).`in`(Scopes.SINGLETON)
+        bind(PlayerList::class.java).`in`(Scopes.SINGLETON)
     }
 }

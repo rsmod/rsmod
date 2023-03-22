@@ -14,10 +14,10 @@ import org.rsmod.plugins.content.gameframe.gameframe_run_button
 private val varps: VarpTypeList by inject()
 
 onButton(component.gameframe_run_button) {
-    val speed = when (player.getVarp(varp.running_enabled)) {
+    val speed = when (getVarp(varp.running_enabled)) {
         1 -> MoveSpeed.Walk
         else -> MoveSpeed.Run
     }
-    player.toggleVarp(varps[varp.running_enabled])
-    player.setMoveSpeed(speed)
+    toggleVarp(varps[varp.running_enabled])
+    setMoveSpeed(speed)
 }

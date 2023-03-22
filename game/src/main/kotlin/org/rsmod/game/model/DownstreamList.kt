@@ -7,9 +7,9 @@ public class DownstreamList(
     private val packets: MutableList<DownstreamPacket> = mutableListOf()
 ) : MutableList<DownstreamPacket> by packets {
 
-    public fun flush(channel: Channel) {
+    public fun flush(channel: Channel): DownstreamList {
         forEach { channel.write(it) }
-        clear()
         channel.flush()
+        return this
     }
 }
