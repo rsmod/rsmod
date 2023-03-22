@@ -1,13 +1,14 @@
 package org.rsmod.game.events
 
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap
+import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap
+
 private typealias EventClass = Class<out Event<*>>
 private typealias EventAction<P1, P2> = P1.(P2) -> Unit
 private typealias EventActionList = MutableList<EventAction<*, *>>
 
 private typealias KeyedClass = Class<out KeyedEvent<*>>
-
-// TODO: use fastutil map
-private typealias EventActionMap = MutableMap<Long, EventAction<*, *>>
+private typealias EventActionMap = Long2ObjectMap<EventAction<*, *>>
 
 public class EventBus {
 
@@ -20,7 +21,7 @@ public class EventBus {
     }
 
     public fun <K, T : KeyedEvent<K>> add(id: Long, type: Class<T>, action: K.(T) -> Unit) {
-        val map = keyedEvents.computeIfAbsent(type) { mutableMapOf() }
+        val map = keyedEvents.computeIfAbsent(type) { Long2ObjectOpenHashMap() }
         map[id] = action
     }
 
