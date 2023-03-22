@@ -20,6 +20,7 @@ public class StepFactory @Inject constructor(map: GameMap) {
         for (i in 0 until 128 * 128) {
             if (curr == destination) break
             curr = validated(curr, destination, extraFlag = extraFlag)
+            if (curr == Coordinates.NULL) break
             coords += curr
         }
         return coords
