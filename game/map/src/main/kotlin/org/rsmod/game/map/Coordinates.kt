@@ -44,7 +44,7 @@ public value class Coordinates(public val packed: Int) {
     public companion object {
 
         public val ZERO: Coordinates = Coordinates(0)
-        public val NULL: Coordinates = Coordinates(UInt.MAX_VALUE.toInt())
+        public val NULL: Coordinates = Coordinates(-1)
 
         public const val X_BIT_COUNT: Int = 14
         public const val X_BIT_MASK: Int = (1 shl X_BIT_COUNT) - 1
