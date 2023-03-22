@@ -36,8 +36,6 @@ public open class IfButtonHandler<T : IfButton>(
             dynamicChild = if (dynamicChild != 0xFFFF) dynamicChild else null,
             item = if (item != 0xFFFF) NamedItem(item) else null
         )
-        // TODO: can pack clickType(1byte), component(4bytes), and dynamicChild(2bytes)
-        // into the id and have each one be explicit in plugin "bindings".
         player.publish(component.id, event, eventBus)
     }
 
