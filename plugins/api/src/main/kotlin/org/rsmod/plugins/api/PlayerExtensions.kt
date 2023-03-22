@@ -146,7 +146,7 @@ public fun <T : TypePlayerEvent> Player.publish(event: T) {
 
 public fun <T : TypePlayerKeyedEvent> Player.publish(id: Number, event: T) {
     logger.trace { "Player $this publishing keyed event $event." }
-    events[id.toLong()] = event
+    events.add(id.toLong(), event)
 }
 
 public fun Player.refreshBuildArea(center: Coordinates) {
