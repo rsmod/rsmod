@@ -8,5 +8,5 @@ public inline fun <K, reified T : Event<K>> EventBus.subscribe(noinline action: 
     add(T::class.java, action)
 
 public inline fun <K, reified T : KeyedEvent<K>> EventBus.subscribe(id: Number, noinline action: K.(T) -> Unit) {
-    add(id.toLong(), T::class.java, action)
+    set(id.toLong(), T::class.java, action)
 }

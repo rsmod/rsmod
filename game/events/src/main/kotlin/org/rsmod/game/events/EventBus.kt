@@ -20,7 +20,7 @@ public class EventBus {
         list += action
     }
 
-    public fun <K, T : KeyedEvent<K>> add(id: Long, type: Class<T>, action: K.(T) -> Unit) {
+    public fun <K, T : KeyedEvent<K>> set(id: Long, type: Class<T>, action: K.(T) -> Unit) {
         val map = keyedEvents.computeIfAbsent(type) { Long2ObjectOpenHashMap() }
         map[id] = action
     }
@@ -37,7 +37,8 @@ public class EventBus {
         getOrNull(event::class.java)?.get(id)?.invoke(parameter, event)
     }
 
-    public fun <T : Event<*>> contains(type: Class<T>): Boolean = unboundEvents.containsKey(type)
+    public operator fun <T : Event<*>> contains(type: Class<T>): Boolean =
+        unboundEvents.containsKey(type)
 
     public fun <T : KeyedEvent<*>> contains(id: Long, type: Class<T>): Boolean =
         keyedEvents[type]?.containsKey(id) ?: false
