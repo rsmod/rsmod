@@ -98,7 +98,7 @@ public class GameMapLoader @Inject constructor(
              * "Link-below" associated objects do _not_ add clipping flags for
              * collision, nor do they get placed in the normal zone map.
              * We add them to a separate collection in our zone builder with
-             * their original coordinates.
+             * their original zone-local coordinates.
              */
             if (visualLevel !in 0 until Coordinates.LEVEL_COUNT) {
                 zone.addLinkBelow(local.toI8Coords(), slot.id, obj.entity)
