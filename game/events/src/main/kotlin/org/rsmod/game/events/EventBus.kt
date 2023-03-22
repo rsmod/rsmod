@@ -15,7 +15,7 @@ public class EventBus {
     public val unboundEvents: MutableMap<EventClass, EventActionList> = mutableMapOf()
     public val keyedEvents: MutableMap<KeyedClass, EventActionMap> = mutableMapOf()
 
-    public fun <K, T : Event<out K>> add(type: Class<T>, action: K.(T) -> Unit) {
+    public fun <K, T : Event<K>> add(type: Class<T>, action: K.(T) -> Unit) {
         val list = unboundEvents.computeIfAbsent(type) { mutableListOf() }
         list += action
     }
