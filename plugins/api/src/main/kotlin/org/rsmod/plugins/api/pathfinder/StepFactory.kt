@@ -31,16 +31,8 @@ public class StepFactory @Inject constructor(map: GameMap) {
      */
     public fun unvalidated(source: Coordinates, destination: Coordinates): Coordinates {
         require(source != destination) { "`source` must not be equal to `destination`." }
-        val offX = when {
-            source.x < destination.x -> 1
-            source.x > destination.x -> -1
-            else -> 0
-        }
-        val offZ = when {
-            source.z < destination.z -> 1
-            source.z > destination.z -> -1
-            else -> 0
-        }
+        val offX = (destination.x - source.x).sign
+        val offZ = (destination.z - source.z).sign
         return source.translate(offX, offZ)
     }
 
