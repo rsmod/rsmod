@@ -32,7 +32,7 @@ public class ClientGameSession @Inject constructor(
         // REBUILD_NORMAL should be priority and the first packet to be
         // sent downstream.
         player.downstream.add(0, rebuildNormal)
-        player.downstream.flush(channel)
+        player.downstream.flush(channel).clear()
         logger.debug { "Client connected: $client." }
     }
 

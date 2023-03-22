@@ -2,6 +2,7 @@ package org.rsmod.game.model.mob
 
 import org.rsmod.game.model.BuildArea
 import org.rsmod.game.model.DownstreamList
+import org.rsmod.game.model.EventList
 import org.rsmod.game.model.UpstreamList
 import org.rsmod.game.model.client.PlayerEntity
 import org.rsmod.game.model.vars.VariableMap
@@ -11,6 +12,8 @@ public class Player(override val entity: PlayerEntity = PlayerEntity()) : Mob() 
     public val upstream: UpstreamList = UpstreamList()
 
     public val downstream: DownstreamList = DownstreamList()
+
+    public val events: EventList<Player> = EventList()
 
     public val vars: VariableMap = VariableMap()
 

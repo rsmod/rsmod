@@ -1,11 +1,10 @@
 package org.rsmod.plugins.profile.dispatch.player
 
 import com.github.michaelbull.logging.InlineLogger
-import org.rsmod.game.events.GameEventBus
+import org.rsmod.game.events.EventBus
 import org.rsmod.game.model.mob.list.PlayerList
 import org.rsmod.game.model.mob.list.anyNotNull
 import org.rsmod.plugins.api.model.event.PlayerSession
-import org.rsmod.plugins.api.publish
 import org.rsmod.plugins.profile.dispatch.transaction.TransactionDispatch
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -15,7 +14,7 @@ private val logger = InlineLogger()
 @Singleton
 public class PlayerRegisterDispatch @Inject constructor(
     private val playerList: PlayerList,
-    private val eventBus: GameEventBus
+    private val eventBus: EventBus
 ) : TransactionDispatch<PlayerDispatchRequest, PlayerRegisterResponse>() {
 
     internal fun serve(): Unit = super.serve(TRANSACTIONS_PER_SERVE)
@@ -29,8 +28,8 @@ public class PlayerRegisterDispatch @Inject constructor(
         }
         player.index = index
         playerList[index] = player
-        player.publish(PlayerSession.Initialize(player), eventBus)
-        player.publish(PlayerSession.LogIn(player), eventBus)
+        eventBus.publish(player, PlayerSession.Initialize)
+        eventBus.publish(player, PlayerSession.LogIn)
         return PlayerRegisterResponse.Success
     }
 
