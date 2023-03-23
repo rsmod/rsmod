@@ -65,6 +65,7 @@ public class MovementProcess @Inject constructor(
         movement.addAll(route)
         if (route.failed) {
             clearMinimapFlag()
+            emulateLogInWalkTo()
         } else if (route.alternative) {
             val dest = route.last()
             setMinimapFlag(dest.x, dest.z)
@@ -88,6 +89,7 @@ public class MovementProcess @Inject constructor(
         // If last step in on waypoint destination, remove it from queue.
         if (curr == waypoint) movement.poll()
         applyTempMovement(speed, stepCount)
+        movement.lastStep = curr
         coords = curr
     }
 
@@ -116,6 +118,21 @@ public class MovementProcess @Inject constructor(
 
     private fun CoroutineScope.appendAsyncRouteRequest(player: Player) = launch {
         player.appendRouteRequest(async = true)
+    }
+
+    /**
+     * This emulates an edge-case mechanic (bug).
+     *
+     * The bug occurs on the first player route request after log-in, as long as
+     * they have _not_ moved at all (or teleported). If the route request _fails_,
+     * the player will begin _walking_ towards coordinates [0,0]; only stopping
+     * if the path is blocked along the way.
+     *
+     * @see [Route.failed]
+     */
+    private fun Player.emulateLogInWalkTo() {
+        if (movement.lastStep != Coordinates.ZERO) return
+        movement.add(movement.lastStep) // Emulate walk-to Coords[0,0] "mechanic"
     }
 
     private val Player?.asyncRouteRequest: Boolean get() = this?.routeRequest?.async == true

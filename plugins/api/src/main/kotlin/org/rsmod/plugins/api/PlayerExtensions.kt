@@ -123,6 +123,7 @@ public fun Player.clearMinimapFlag() {
 
 public fun Player.displace(destination: Coordinates) {
     coords = destination
+    movement.lastStep = destination
     sendTempMovement(MoveSpeed.Displace)
 }
 
