@@ -13,13 +13,15 @@ public class StepFactory @Inject constructor(map: GameMap) {
     public fun createPath(
         source: Coordinates,
         destination: Coordinates,
-        extraFlag: Int = 0
+        size: Int = 1,
+        extraFlag: Int = 0,
+        collision: CollisionType
     ): List<Coordinates> {
         val coords = mutableListOf<Coordinates>()
         var curr = Coordinates(source.packed)
         for (i in 0 until 128 * 128) {
             if (curr == destination) break
-            curr = validated(curr, destination, extraFlag = extraFlag)
+            curr = validated(curr, destination, size, extraFlag, collision)
             if (curr == Coordinates.NULL) break
             coords += curr
         }

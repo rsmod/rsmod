@@ -15,6 +15,7 @@ import org.rsmod.game.model.route.RouteRequest
 import org.rsmod.game.model.route.RouteRequestCoordinates
 import org.rsmod.game.model.route.RouteRequestEntity
 import org.rsmod.game.pathfinder.Route
+import org.rsmod.game.pathfinder.flag.CollisionFlag
 import org.rsmod.plugins.api.clearMinimapFlag
 import org.rsmod.plugins.api.displace
 import org.rsmod.plugins.api.model.route.RouteRequestGameObject
@@ -70,28 +71,28 @@ public class MovementProcess @Inject constructor(
         }
     }
 
-    private fun Player.movementCycle() {
-        if (movement.isEmpty()) return
-        var stepsTaken = 0
+    private fun Player.movementCycle(speed: MovementSpeed = movement.speed) {
+        var waypoint = movement.peek() ?: return
         var curr = coords
-        val steps = movement.speed.steps
-        for (i in 0 until steps) {
-            if (movement.queue.isEmpty()) pollNextWaypoint(curr)
-            curr = movement.queue.poll() ?: break
-            stepsTaken++
+        var stepCount = 0
+        for (i in 0 until speed.steps) {
+            if (curr == waypoint) {
+                movement.remove()
+                waypoint = movement.poll() ?: break
+            }
+            val step = stepFactory.validated(curr, waypoint, extraFlag = EXTRA_CLIP_VALIDATION)
+            if (step == Coordinates.NULL) break
+            stepCount++
+            curr = step
         }
-        applyTempMovement(movement.speed, stepsTaken)
+        // If last step in on waypoint destination, remove it from queue.
+        if (curr == waypoint) movement.poll()
+        applyTempMovement(speed, stepCount)
         coords = curr
     }
 
-    private fun Player.pollNextWaypoint(source: Coordinates) {
-        val waypoint = movement.waypoints.poll() ?: return
-        val path = stepFactory.createPath(source, waypoint)
-        movement.queue.addAll(path)
-    }
-
-    private fun Player.applyTempMovement(speed: MovementSpeed, stepsTaken: Int) {
-        if (speed == MoveSpeed.Run && stepsTaken == MoveSpeed.Walk.steps) {
+    private fun Player.applyTempMovement(speed: MovementSpeed, stepCount: Int) {
+        if (speed == MoveSpeed.Run && stepCount == MoveSpeed.Walk.steps) {
             sendTempMovement(MoveSpeed.Walk)
         }
     }
@@ -113,13 +114,18 @@ public class MovementProcess @Inject constructor(
         else -> error("Unhandled route request type: $this.")
     }
 
-    private fun MovementQueue.addAll(route: Route) {
-        waypoints += route.map { Coordinates(it.x, it.z, it.level) }
-    }
-
     private fun CoroutineScope.appendAsyncRouteRequest(player: Player) = launch {
         player.appendRouteRequest(async = true)
     }
 
     private val Player?.asyncRouteRequest: Boolean get() = this?.routeRequest?.async == true
+
+    private companion object {
+
+        private const val EXTRA_CLIP_VALIDATION: Int = CollisionFlag.BLOCK_PLAYERS
+
+        private fun MovementQueue.addAll(route: Route) {
+            this += route.map { Coordinates(it.x, it.z, it.level) }
+        }
+    }
 }
