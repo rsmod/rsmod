@@ -4,16 +4,16 @@ import org.rsmod.game.map.Coordinates
 import org.rsmod.game.model.client.Entity
 import org.rsmod.game.pathfinder.PathFinder
 import org.rsmod.game.pathfinder.Route
-import org.rsmod.plugins.api.map.GameMap
+import org.rsmod.game.pathfinder.collision.CollisionFlagMap
 import org.rsmod.plugins.api.map.GameObject
 import javax.inject.Inject
 
-public class RouteFactory @Inject constructor(map: GameMap) {
+public class RouteFactory @Inject constructor(flags: CollisionFlagMap) {
 
-    private val pathFinder: PathFinder = PathFinder(map.flags)
+    private val pathFinder: PathFinder = PathFinder(flags)
 
     private val threadLocalPathFinder: ThreadLocal<PathFinder> = ThreadLocal.withInitial {
-        PathFinder(map.flags)
+        PathFinder(flags)
     }
 
     private var asynchronous: Boolean = false

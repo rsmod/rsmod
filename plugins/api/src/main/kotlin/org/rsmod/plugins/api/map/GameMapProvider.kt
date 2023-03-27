@@ -1,6 +1,6 @@
-package org.rsmod.plugins.api.cache.map
+package org.rsmod.plugins.api.map
 
-import org.rsmod.plugins.api.map.GameMap
+import org.rsmod.plugins.api.cache.map.GameMapLoader
 import javax.inject.Inject
 import javax.inject.Provider
 

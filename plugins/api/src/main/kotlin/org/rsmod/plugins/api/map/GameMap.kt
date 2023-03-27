@@ -13,7 +13,7 @@ import org.rsmod.game.pathfinder.collision.CollisionFlagMap
 public class GameMap(
     private val staticZones: ImmutableZoneMap,
     private val dynamicZones: MutableZoneMap,
-    public val flags: CollisionFlagMap = CollisionFlagMap()
+    public val flags: CollisionFlagMap
 ) {
 
     public operator fun get(key: ZoneKey): Zone? = if (key.isDynamicZone()) {

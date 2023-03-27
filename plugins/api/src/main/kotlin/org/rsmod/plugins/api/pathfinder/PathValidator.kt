@@ -3,15 +3,14 @@ package org.rsmod.plugins.api.pathfinder
 import org.rsmod.game.map.Coordinates
 import org.rsmod.game.pathfinder.LineValidator
 import org.rsmod.game.pathfinder.StepValidator
-import org.rsmod.plugins.api.map.GameMap
+import org.rsmod.game.pathfinder.collision.CollisionFlagMap
 import org.rsmod.plugins.api.model.Direction
 import javax.inject.Inject
 
-public class PathValidator @Inject constructor(map: GameMap) {
+public class PathValidator @Inject constructor(flags: CollisionFlagMap) {
 
-    private val lineValidator: LineValidator = LineValidator(map.flags)
-
-    private val stepValidator: StepValidator = StepValidator(map.flags)
+    private val lineValidator: LineValidator = LineValidator(flags)
+    private val stepValidator: StepValidator = StepValidator(flags)
 
     public fun hasLineOfSight(
         source: Coordinates,

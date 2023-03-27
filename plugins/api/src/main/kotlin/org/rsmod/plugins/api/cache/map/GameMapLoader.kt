@@ -35,11 +35,7 @@ public class GameMapLoader @Inject constructor(
 ) {
 
     /**
-     * @param loadVisualLinkBelowObjects if set to true, any object below
-     * a tile that has the [LINK_BELOW_BIT_FLAG] set and is located on level 0
-     * will be added to our game map in its respective zone and coordinates.
-     * By default, this is false as the game does not make use of these
-     * objects at any point, and they will consume memory.
+     * @param loadVisualLinkBelowObjects see [putAll].
      */
     public fun load(loadVisualLinkBelowObjects: Boolean = false): GameMap {
         val builder = GameMapBuilder()
@@ -47,17 +43,25 @@ public class GameMapLoader @Inject constructor(
             val name = "${mapSquare.x}_${mapSquare.z}"
             val map = cache.read(MAPS_ARCHIVE, "m$name", file = 0).use { readMapDefinition(it) }
             val loc = cache.read(MAPS_ARCHIVE, "l$name", file = 0, key).use { readLocDefinition(it) }
-            builder.putAll(mapSquare, map, loc, loadVisualLinkBelowObjects)
+            putAll(builder, mapSquare, map, loc, loadVisualLinkBelowObjects)
         }
         return builder.build()
     }
 
-    private fun GameMapBuilder.putAll(
+    /**
+     * @param loadVisualLinkBelowObjects if set to true, any object below
+     * a tile that has the [LINK_BELOW_BIT_FLAG] set and is located on level 0
+     * will be added to our game map in its respective zone and coordinates.
+     * By default, this is false as the game does not make use of these
+     * objects at any point, and they will consume memory.
+     */
+    public fun putAll(
+        builder: GameMapBuilder,
         square: MapSquareKey,
         mapDef: MapDefinition,
         locDef: MapLocDefinition,
         loadVisualLinkBelowObjects: Boolean = false
-    ) {
+    ): Unit = with(builder) {
         val layeredCoords = mapDef.overlays.keys + mapDef.underlays.keys
         // Allocate zones for all tiles with any underlays/overlays
         layeredCoords.forEach { local ->

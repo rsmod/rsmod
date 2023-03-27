@@ -10,11 +10,9 @@ import org.rsmod.plugins.api.map.GameMap
 private annotation class GameMapBuilderDslMarker
 
 @GameMapBuilderDslMarker
-public class GameMapBuilder {
+public class GameMapBuilder(public val flags: CollisionFlagMap = CollisionFlagMap()) {
 
     private val zones: MutableMap<ZoneKey, ZoneBuilder> = mutableMapOf()
-
-    public val flags: CollisionFlagMap = CollisionFlagMap()
 
     public fun computeIfAbsent(key: ZoneKey, value: () -> ZoneBuilder): ZoneBuilder {
         return zones.computeIfAbsent(key) { value() }

@@ -12,12 +12,13 @@ import org.rsmod.game.map.util.collect.ImmutableZoneMap
 import org.rsmod.game.map.util.collect.MutableZoneMap
 import org.rsmod.game.map.zone.Zone
 import org.rsmod.game.map.zone.ZoneKey
+import org.rsmod.game.pathfinder.collision.CollisionFlagMap
 
 class GameMapTest {
 
     @Test
     fun testGetEmptyObjectEntries() {
-        val map = GameMap(ImmutableZoneMap.empty(), MutableZoneMap.empty())
+        val map = GameMap(ImmutableZoneMap.empty(), MutableZoneMap.empty(), CollisionFlagMap())
         assertTrue(map.objectEntries(ZoneKey.from(Coordinates(3200, 3200))).isEmpty())
         assertTrue(map.objectEntries(Coordinates(3200, 3200)).isEmpty())
     }
@@ -41,7 +42,8 @@ class GameMapTest {
 
         val map = GameMap(
             MutableZoneMap.empty().apply { this[zoneKey.packed] = zone }.immutable(),
-            MutableZoneMap.empty().apply { this[zoneKey.packed] = zone }
+            MutableZoneMap.empty().apply { this[zoneKey.packed] = zone },
+            CollisionFlagMap()
         )
 
         // Test object entries from zone key.

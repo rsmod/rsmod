@@ -2,13 +2,13 @@ package org.rsmod.plugins.api.pathfinder
 
 import org.rsmod.game.map.Coordinates
 import org.rsmod.game.pathfinder.StepValidator
-import org.rsmod.plugins.api.map.GameMap
+import org.rsmod.game.pathfinder.collision.CollisionFlagMap
 import javax.inject.Inject
 import kotlin.math.sign
 
-public class StepFactory @Inject constructor(map: GameMap) {
+public class StepFactory @Inject constructor(flags: CollisionFlagMap) {
 
-    private val validator: StepValidator = StepValidator(map.flags)
+    private val validator: StepValidator = StepValidator(flags)
 
     public fun createPath(
         source: Coordinates,
