@@ -1,5 +1,6 @@
 package org.rsmod.plugins.api.prot.desktop
 
+import org.rsmod.plugins.api.cache.Archives.ANIMS
 import org.rsmod.plugins.api.cache.Archives.BASES
 import org.rsmod.plugins.api.cache.Archives.BINARY
 import org.rsmod.plugins.api.cache.Archives.CLIENT_SCRIPTS
@@ -16,11 +17,10 @@ import org.rsmod.plugins.api.cache.Archives.SPRITES
 import org.rsmod.plugins.api.cache.Archives.SYNTHS
 import org.rsmod.plugins.api.cache.Archives.TEXTURES
 import org.rsmod.plugins.api.cache.Archives.TOTAL_ARCHIVES
-import org.rsmod.plugins.api.cache.Archives.UNNAMED_16
-import org.rsmod.plugins.api.cache.Archives.UNNAMED_4
 import org.rsmod.plugins.api.cache.Archives.VORBIS
 import org.rsmod.plugins.api.cache.Archives.WORLD_MAP_DATA
 import org.rsmod.plugins.api.cache.Archives.WORLD_MAP_GEO
+import org.rsmod.plugins.api.cache.Archives.WORLD_MAP_GEO_LEGACY
 import org.rsmod.plugins.api.cache.Archives.WORLD_MAP_GROUND
 import org.rsmod.plugins.api.net.login.LoginPacketRequest
 import org.rsmod.plugins.api.net.platform.login.LoginPlatformPacketDecoders
@@ -53,16 +53,16 @@ decoders.register { buf ->
         this[WORLD_MAP_GEO] = buf.readInt()
         this[JINGLES] = buf.readIntAlt1()
         this[MAPS] = buf.readIntAlt3_()
-        this[SYNTHS] = buf.readIntAlt1()
-        this[UNNAMED_4] = buf.readInt()
-        this[BASES] = buf.readIntAlt2()
+        this[INTERFACES] = buf.readIntAlt1()
+        this[SYNTHS] = buf.readInt()
+        this[ANIMS] = buf.readIntAlt2()
         this[CONFIG] = buf.readIntAlt2()
-        this[UNNAMED_16] = buf.readIntAlt1()
+        this[WORLD_MAP_GEO_LEGACY] = buf.readIntAlt1()
         this[VORBIS] = buf.readIntAlt2()
         this[INSTRUMENTS] = buf.readIntAlt1()
         this[WORLD_MAP_DATA] = buf.readIntAlt1()
         this[SPRITES] = buf.readIntAlt3_()
-        this[INTERFACES] = buf.readIntAlt3_()
+        this[BASES] = buf.readIntAlt3_()
         this[MODELS] = buf.readInt()
     }
     return@register LoginPacketRequest.CacheCrc(crcs)
