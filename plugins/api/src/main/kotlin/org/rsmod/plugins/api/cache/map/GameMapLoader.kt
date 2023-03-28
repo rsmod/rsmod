@@ -9,12 +9,12 @@ import org.rsmod.game.map.util.I14Coordinates
 import org.rsmod.game.map.util.I8Coordinates
 import org.rsmod.game.map.zone.ZoneKey
 import org.rsmod.game.pathfinder.flag.CollisionFlag
+import org.rsmod.plugins.api.cache.Js5Archives
 import org.rsmod.plugins.api.cache.map.MapDefinition.Companion.BLOCKED_BIT_FLAG
 import org.rsmod.plugins.api.cache.map.MapDefinition.Companion.LINK_BELOW_BIT_FLAG
 import org.rsmod.plugins.api.cache.map.MapDefinition.Companion.REMOVE_ROOF_BIT_FLAG
-import org.rsmod.plugins.api.cache.map.MapDefinitionLoader.Companion.MAPS_ARCHIVE
-import org.rsmod.plugins.api.cache.map.MapDefinitionLoader.Companion.readLocDefinition
-import org.rsmod.plugins.api.cache.map.MapDefinitionLoader.Companion.readMapDefinition
+import org.rsmod.plugins.api.cache.map.MapDefinitionLoader.readLocDefinition
+import org.rsmod.plugins.api.cache.map.MapDefinitionLoader.readMapDefinition
 import org.rsmod.plugins.api.cache.map.loc.MapLocDefinition
 import org.rsmod.plugins.api.cache.map.xtea.XteaRepository
 import org.rsmod.plugins.api.cache.type.obj.ObjectTypeList
@@ -38,8 +38,8 @@ public object GameMapLoader {
         val builder = GameMapBuilder()
         xteas.forEach { (mapSquare, key) ->
             val name = "${mapSquare.x}_${mapSquare.z}"
-            val map = cache.read(MAPS_ARCHIVE, "m$name", file = 0).use { readMapDefinition(it) }
-            val loc = cache.read(MAPS_ARCHIVE, "l$name", file = 0, key).use { readLocDefinition(it) }
+            val map = cache.read(Js5Archives.MAPS, "m$name", file = 0).use { readMapDefinition(it) }
+            val loc = cache.read(Js5Archives.MAPS, "l$name", file = 0, key).use { readLocDefinition(it) }
             putAll(builder, objectTypes, mapSquare, map, loc, loadVisualLinkBelowObjects)
         }
         return builder.build()
