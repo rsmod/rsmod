@@ -50,10 +50,7 @@ allprojects {
 
     plugins.withType<KotlinPluginWrapper> {
         apply(plugin = "org.jmailen.kotlinter")
-
-        kotlin {
-            explicitApi()
-        }
+        kotlin.explicitApi()
     }
 
     tasks.withType<JavaCompile> {
