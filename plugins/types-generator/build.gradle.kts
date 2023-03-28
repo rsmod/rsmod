@@ -11,6 +11,7 @@ dependencies {
     implementation(projects.toml)
     implementation(libs.clikt)
     implementation(libs.guice)
+    implementation(libs.kotlinPoet)
     implementation(libs.openrs2Cache)
 }
 

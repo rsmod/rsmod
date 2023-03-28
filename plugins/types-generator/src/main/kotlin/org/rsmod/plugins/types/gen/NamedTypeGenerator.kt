@@ -1,4 +1,4 @@
-package org.rsmod.plugins.types
+package org.rsmod.plugins.types.gen
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.squareup.kotlinpoet.FileSpec
@@ -8,6 +8,22 @@ import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
+import org.rsmod.plugins.types.NamedAnimation
+import org.rsmod.plugins.types.NamedComponent
+import org.rsmod.plugins.types.NamedEnum
+import org.rsmod.plugins.types.NamedGraphic
+import org.rsmod.plugins.types.NamedInterface
+import org.rsmod.plugins.types.NamedInventory
+import org.rsmod.plugins.types.NamedItem
+import org.rsmod.plugins.types.NamedNpc
+import org.rsmod.plugins.types.NamedObject
+import org.rsmod.plugins.types.NamedParameter
+import org.rsmod.plugins.types.NamedScript
+import org.rsmod.plugins.types.NamedStruct
+import org.rsmod.plugins.types.NamedTypeMapHolder
+import org.rsmod.plugins.types.NamedVarbit
+import org.rsmod.plugins.types.NamedVarp
+import org.rsmod.plugins.types.ScriptTypeList
 import java.nio.file.Files
 import java.nio.file.Path
 import java.text.SimpleDateFormat

@@ -6,7 +6,6 @@ import com.google.inject.Guice
 import com.google.inject.Key
 import org.rsmod.game.config.DataPath
 import org.rsmod.plugins.api.cache.name.CacheTypeNameLoader
-import org.rsmod.plugins.types.NamedTypeGenerator
 import org.rsmod.toml.Toml
 import java.nio.file.Path
 
