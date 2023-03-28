@@ -1,13 +1,16 @@
 package org.rsmod.plugins.api.cache.type.varp
 
+import org.openrs2.cache.Cache
+import org.rsmod.plugins.api.cache.build.game.GameCache
 import javax.inject.Inject
 import javax.inject.Provider
 
 public class VarpTypeListProvider @Inject constructor(
-    private val loader: VarpTypeLoader
+    @GameCache private val cache: Cache
 ) : Provider<VarpTypeList> {
 
     override fun get(): VarpTypeList {
-        return VarpTypeList(loader.load().associateBy { it.id })
+        val types = VarpTypeLoader.load(cache)
+        return VarpTypeList(types.associateBy { it.id })
     }
 }

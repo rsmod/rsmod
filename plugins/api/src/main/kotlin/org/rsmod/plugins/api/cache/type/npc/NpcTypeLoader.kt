@@ -6,44 +6,44 @@ import org.openrs2.buffer.readShortSmart
 import org.openrs2.buffer.readString
 import org.openrs2.buffer.use
 import org.openrs2.cache.Cache
-import org.rsmod.plugins.api.cache.build.game.GameCache
 import org.rsmod.plugins.api.cache.type.param.ParamTypeList
 import org.rsmod.plugins.api.cache.type.readParams
 import java.io.IOException
-import javax.inject.Inject
 
 private const val CONFIG_ARCHIVE = 2
 private const val NPC_GROUP = 9
 
-public class NpcTypeLoader @Inject constructor(
-    @GameCache private val cache: Cache,
-    private val paramTypes: ParamTypeList
-) {
+public object NpcTypeLoader {
 
-    public fun load(): List<NpcType> {
+    public fun load(cache: Cache, params: ParamTypeList): List<NpcType> {
         val types = mutableListOf<NpcType>()
         val files = cache.list(CONFIG_ARCHIVE, NPC_GROUP)
         files.forEach { file ->
             cache.read(CONFIG_ARCHIVE, NPC_GROUP, file.id).use {
-                types += it.readType(file.id)
+                types += readType(it, file.id, params)
             }
         }
         return types
     }
 
-    private fun ByteBuf.readType(id: Int): NpcType {
+    public fun readType(buf: ByteBuf, id: Int, params: ParamTypeList): NpcType {
         val builder = NpcTypeBuilder().apply { this.id = id }
-        while (isReadable) {
-            val instruction = readUnsignedByte().toInt()
+        while (buf.isReadable) {
+            val instruction = buf.readUnsignedByte().toInt()
             if (instruction == 0) {
                 break
             }
-            builder.readBuffer(instruction, this)
+            readBuffer(buf, builder, instruction, params)
         }
         return builder.build()
     }
 
-    private fun NpcTypeBuilder.readBuffer(instruction: Int, buf: ByteBuf) {
+    private fun readBuffer(
+        buf: ByteBuf,
+        builder: NpcTypeBuilder,
+        instruction: Int,
+        paramTypes: ParamTypeList
+    ): Unit = with(builder) {
         when (instruction) {
             1 -> {
                 val count = buf.readUnsignedByte().toInt()

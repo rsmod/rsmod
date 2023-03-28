@@ -1,13 +1,16 @@
 package org.rsmod.plugins.api.cache.type.varbit
 
+import org.openrs2.cache.Cache
+import org.rsmod.plugins.api.cache.build.game.GameCache
 import javax.inject.Inject
 import javax.inject.Provider
 
 public class VarbitTypeListProvider @Inject constructor(
-    private val loader: VarbitTypeLoader
+    @GameCache private val cache: Cache
 ) : Provider<VarbitTypeList> {
 
     override fun get(): VarbitTypeList {
-        return VarbitTypeList(loader.load().associateBy { it.id })
+        val types = VarbitTypeLoader.load(cache)
+        return VarbitTypeList(types.associateBy { it.id })
     }
 }

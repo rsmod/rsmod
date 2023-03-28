@@ -1,14 +1,20 @@
 package org.rsmod.plugins.api.map
 
+import org.openrs2.cache.Cache
+import org.rsmod.plugins.api.cache.build.game.GameCache
 import org.rsmod.plugins.api.cache.map.GameMapLoader
+import org.rsmod.plugins.api.cache.map.xtea.XteaRepository
+import org.rsmod.plugins.api.cache.type.obj.ObjectTypeList
 import javax.inject.Inject
 import javax.inject.Provider
 
 public class GameMapProvider @Inject constructor(
-    private val loader: GameMapLoader
+    @GameCache private val cache: Cache,
+    private val xteas: XteaRepository,
+    private val objectTypes: ObjectTypeList
 ) : Provider<GameMap> {
 
     override fun get(): GameMap {
-        return loader.load()
+        return GameMapLoader.load(cache, xteas, objectTypes)
     }
 }

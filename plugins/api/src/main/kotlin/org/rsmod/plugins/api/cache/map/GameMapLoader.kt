@@ -9,41 +9,38 @@ import org.rsmod.game.map.util.I14Coordinates
 import org.rsmod.game.map.util.I8Coordinates
 import org.rsmod.game.map.zone.ZoneKey
 import org.rsmod.game.pathfinder.flag.CollisionFlag
-import org.rsmod.plugins.api.cache.build.game.GameCache
 import org.rsmod.plugins.api.cache.map.MapDefinition.Companion.BLOCKED_BIT_FLAG
 import org.rsmod.plugins.api.cache.map.MapDefinition.Companion.LINK_BELOW_BIT_FLAG
 import org.rsmod.plugins.api.cache.map.MapDefinition.Companion.REMOVE_ROOF_BIT_FLAG
 import org.rsmod.plugins.api.cache.map.MapDefinitionLoader.Companion.MAPS_ARCHIVE
 import org.rsmod.plugins.api.cache.map.MapDefinitionLoader.Companion.readLocDefinition
 import org.rsmod.plugins.api.cache.map.MapDefinitionLoader.Companion.readMapDefinition
-import org.rsmod.plugins.api.cache.map.loc.MapLoc
 import org.rsmod.plugins.api.cache.map.loc.MapLocDefinition
 import org.rsmod.plugins.api.cache.map.xtea.XteaRepository
-import org.rsmod.plugins.api.cache.type.obj.ObjectType
 import org.rsmod.plugins.api.cache.type.obj.ObjectTypeList
 import org.rsmod.plugins.api.map.GameMap
 import org.rsmod.plugins.api.map.GameObject
 import org.rsmod.plugins.api.map.builder.GameMapBuilder
 import org.rsmod.plugins.api.map.builder.ZoneBuilder
 import org.rsmod.plugins.api.map.collision.addObject
-import javax.inject.Inject
 
-public class GameMapLoader @Inject constructor(
-    @GameCache private val cache: Cache,
-    private val xteas: XteaRepository,
-    private val objectTypes: ObjectTypeList
-) {
+public object GameMapLoader {
 
     /**
      * @param loadVisualLinkBelowObjects see [putAll].
      */
-    public fun load(loadVisualLinkBelowObjects: Boolean = false): GameMap {
+    public fun load(
+        cache: Cache,
+        xteas: XteaRepository,
+        objectTypes: ObjectTypeList,
+        loadVisualLinkBelowObjects: Boolean = false
+    ): GameMap {
         val builder = GameMapBuilder()
         xteas.forEach { (mapSquare, key) ->
             val name = "${mapSquare.x}_${mapSquare.z}"
             val map = cache.read(MAPS_ARCHIVE, "m$name", file = 0).use { readMapDefinition(it) }
             val loc = cache.read(MAPS_ARCHIVE, "l$name", file = 0, key).use { readLocDefinition(it) }
-            putAll(builder, mapSquare, map, loc, loadVisualLinkBelowObjects)
+            putAll(builder, objectTypes, mapSquare, map, loc, loadVisualLinkBelowObjects)
         }
         return builder.build()
     }
@@ -57,6 +54,7 @@ public class GameMapLoader @Inject constructor(
      */
     public fun putAll(
         builder: GameMapBuilder,
+        objectTypes: ObjectTypeList,
         square: MapSquareKey,
         mapDef: MapDefinition,
         locDef: MapLocDefinition,
@@ -96,7 +94,7 @@ public class GameMapLoader @Inject constructor(
             if (!loadVisualLinkBelowObjects && visualLevel < 0) return@forEach
             val coords = square.toCoords(0.coerceAtLeast(visualLevel)).translate(loc.localX, loc.localZ)
             val zone = computeIfAbsent(ZoneKey.from(coords)) { ZoneBuilder() }
-            val obj = GameObject(loc.objectType(), coords, ObjectEntity(loc.id, loc.shape, loc.rot))
+            val obj = GameObject(objectTypes.getValue(loc.id), coords, ObjectEntity(loc.id, loc.shape, loc.rot))
             val slot = obj.slot() ?: error("Invalid object slot. (obj=$obj)")
             /*
              * "Link-below" associated objects do _not_ add clipping flags for
@@ -114,37 +112,32 @@ public class GameMapLoader @Inject constructor(
         }
     }
 
-    private fun MapLoc.objectType(): ObjectType = objectTypes.getValue(id)
+    private fun I14Coordinates.toCoords(key: MapSquareKey): Coordinates {
+        return key.toCoords(level).translate(x, z)
+    }
 
-    public companion object {
+    private fun I14Coordinates.toI8Coords(): I8Coordinates {
+        return I8Coordinates.convert(x, z, level)
+    }
 
-        private fun I14Coordinates.toCoords(key: MapSquareKey): Coordinates {
-            return key.toCoords(level).translate(x, z)
+    private fun Coordinates.toI8Coords(): I8Coordinates {
+        return I8Coordinates.convert(x, z, level)
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    private inline fun rule(coords: I14Coordinates, rule: Int, ruleAbove: () -> Int): Int {
+        if (coords.level >= Coordinates.LEVEL_COUNT - 1) return rule
+        val aboveRule = ruleAbove()
+        return if ((aboveRule and LINK_BELOW_BIT_FLAG) != 0) {
+            aboveRule
+        } else {
+            rule
         }
+    }
 
-        private fun I14Coordinates.toI8Coords(): I8Coordinates {
-            return I8Coordinates.convert(x, z, level)
-        }
-
-        private fun Coordinates.toI8Coords(): I8Coordinates {
-            return I8Coordinates.convert(x, z, level)
-        }
-
-        @Suppress("NOTHING_TO_INLINE")
-        private inline fun rule(coords: I14Coordinates, rule: Int, ruleAbove: () -> Int): Int {
-            if (coords.level >= Coordinates.LEVEL_COUNT - 1) return rule
-            val aboveRule = ruleAbove()
-            return if ((aboveRule and LINK_BELOW_BIT_FLAG) != 0) {
-                aboveRule
-            } else {
-                rule
-            }
-        }
-
-        @Suppress("NOTHING_TO_INLINE")
-        private inline fun I14Coordinates.ruleAbove(rules: Map<I14Coordinates, Byte>): Int {
-            val above = I14Coordinates(x, z, level + 1)
-            return rules[above]?.toInt() ?: 0
-        }
+    @Suppress("NOTHING_TO_INLINE")
+    private inline fun I14Coordinates.ruleAbove(rules: Map<I14Coordinates, Byte>): Int {
+        val above = I14Coordinates(x, z, level + 1)
+        return rules[above]?.toInt() ?: 0
     }
 }
