@@ -40,7 +40,7 @@ public object ParamTypeLoader {
         instruction: Int
     ): Unit = with(builder) {
         when (instruction) {
-            1 -> typeChar = buf.readByte().toInt().toChar()
+            1 -> typeChar = buf.readUnsignedByte().toInt().toChar()
             2 -> defaultInt = buf.readInt()
             4 -> autoDisable = false
             5 -> defaultStr = buf.readString()

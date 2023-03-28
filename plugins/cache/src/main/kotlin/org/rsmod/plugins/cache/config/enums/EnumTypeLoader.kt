@@ -40,8 +40,8 @@ public object EnumTypeLoader {
         instruction: Int
     ): Unit = with(builder) {
         when (instruction) {
-            1 -> keyType = buf.readByte().toInt().toChar()
-            2 -> valType = buf.readByte().toInt().toChar()
+            1 -> keyType = buf.readUnsignedByte().toInt().toChar()
+            2 -> valType = buf.readUnsignedByte().toInt().toChar()
             3 -> defaultStr = buf.readString()
             4 -> defaultInt = buf.readInt()
             5 -> {
