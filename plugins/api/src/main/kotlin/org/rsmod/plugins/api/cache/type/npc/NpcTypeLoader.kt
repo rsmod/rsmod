@@ -6,20 +6,19 @@ import org.openrs2.buffer.readShortSmart
 import org.openrs2.buffer.readString
 import org.openrs2.buffer.use
 import org.openrs2.cache.Cache
+import org.rsmod.plugins.api.cache.Js5Archives
+import org.rsmod.plugins.api.cache.Js5Configs
 import org.rsmod.plugins.api.cache.type.param.ParamTypeList
 import org.rsmod.plugins.api.cache.type.readParams
 import java.io.IOException
-
-private const val CONFIG_ARCHIVE = 2
-private const val NPC_GROUP = 9
 
 public object NpcTypeLoader {
 
     public fun load(cache: Cache, params: ParamTypeList): List<NpcType> {
         val types = mutableListOf<NpcType>()
-        val files = cache.list(CONFIG_ARCHIVE, NPC_GROUP)
+        val files = cache.list(Js5Archives.CONFIG, Js5Configs.NPC)
         files.forEach { file ->
-            cache.read(CONFIG_ARCHIVE, NPC_GROUP, file.id).use {
+            cache.read(Js5Archives.CONFIG, Js5Configs.NPC, file.id).use {
                 types += readType(it, file.id, params)
             }
         }

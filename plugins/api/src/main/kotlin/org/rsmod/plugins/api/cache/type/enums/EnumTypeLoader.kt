@@ -4,19 +4,18 @@ import io.netty.buffer.ByteBuf
 import org.openrs2.buffer.readString
 import org.openrs2.buffer.use
 import org.openrs2.cache.Cache
+import org.rsmod.plugins.api.cache.Js5Archives
+import org.rsmod.plugins.api.cache.Js5Configs
 import org.rsmod.plugins.api.cache.type.ConfigType
 import java.io.IOException
-
-private const val CONFIG_ARCHIVE = 2
-private const val ENUM_GROUP = 8
 
 public object EnumTypeLoader {
 
     public fun load(cache: Cache): List<EnumType<Any, Any>> {
         val types = mutableListOf<EnumType<Any, Any>>()
-        val files = cache.list(CONFIG_ARCHIVE, ENUM_GROUP)
+        val files = cache.list(Js5Archives.CONFIG, Js5Configs.ENUM)
         files.forEach { file ->
-            cache.read(CONFIG_ARCHIVE, ENUM_GROUP, file.id).use {
+            cache.read(Js5Archives.CONFIG, Js5Configs.ENUM, file.id).use {
                 types += readType(it, file.id)
             }
         }
@@ -36,7 +35,9 @@ public object EnumTypeLoader {
     }
 
     private fun decodeType(
-        buf: ByteBuf, builder: EnumTypeBuilder, instruction: Int
+        buf: ByteBuf,
+        builder: EnumTypeBuilder,
+        instruction: Int
     ): Unit = with(builder) {
         when (instruction) {
             1 -> keyType = buf.readByte().toInt().toChar()
@@ -52,7 +53,6 @@ public object EnumTypeLoader {
                     strValues[key] = value
                 }
             }
-
             6 -> {
                 check(size == 0)
                 size = buf.readUnsignedShort()
@@ -62,7 +62,6 @@ public object EnumTypeLoader {
                     intValues[key] = value
                 }
             }
-
             ConfigType.TRANSMISSION_OPCODE -> transmit = true
             ConfigType.INTERNAL_NAME_OPCODE -> name = buf.readString()
             else -> throw IOException("Error unrecognised enum config code: $instruction")

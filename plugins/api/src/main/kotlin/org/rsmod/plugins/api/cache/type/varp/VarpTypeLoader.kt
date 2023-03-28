@@ -4,19 +4,18 @@ import io.netty.buffer.ByteBuf
 import org.openrs2.buffer.readString
 import org.openrs2.buffer.use
 import org.openrs2.cache.Cache
+import org.rsmod.plugins.api.cache.Js5Archives
+import org.rsmod.plugins.api.cache.Js5Configs
 import org.rsmod.plugins.api.cache.type.ConfigType
 import java.io.IOException
 
 public object VarpTypeLoader {
 
-    private const val CONFIG_ARCHIVE = 2
-    private const val VARP_GROUP = 16
-
     public fun load(cache: Cache): List<VarpType> {
         val types = mutableListOf<VarpType>()
-        val files = cache.list(CONFIG_ARCHIVE, VARP_GROUP)
+        val files = cache.list(Js5Archives.CONFIG, Js5Configs.VARPLAYER)
         files.forEach { file ->
-            cache.read(CONFIG_ARCHIVE, VARP_GROUP, file.id).use {
+            cache.read(Js5Archives.CONFIG, Js5Configs.VARPLAYER, file.id).use {
                 types += readType(it, file.id)
             }
         }

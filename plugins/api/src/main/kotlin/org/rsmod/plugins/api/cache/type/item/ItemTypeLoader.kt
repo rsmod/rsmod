@@ -4,21 +4,20 @@ import io.netty.buffer.ByteBuf
 import org.openrs2.buffer.readString
 import org.openrs2.buffer.use
 import org.openrs2.cache.Cache
+import org.rsmod.plugins.api.cache.Js5Archives
+import org.rsmod.plugins.api.cache.Js5Configs
 import org.rsmod.plugins.api.cache.type.ConfigType
 import org.rsmod.plugins.api.cache.type.param.ParamTypeList
 import org.rsmod.plugins.api.cache.type.readParams
 import java.io.IOException
 
-private const val CONFIG_ARCHIVE = 2
-private const val ITEM_GROUP = 10
-
 public object ItemTypeLoader {
 
     public fun load(cache: Cache, params: ParamTypeList): List<ItemType> {
         val types = mutableListOf<ItemType>()
-        val files = cache.list(CONFIG_ARCHIVE, ITEM_GROUP)
+        val files = cache.list(Js5Archives.CONFIG, Js5Configs.OBJ)
         files.forEach { file ->
-            cache.read(CONFIG_ARCHIVE, ITEM_GROUP, file.id).use {
+            cache.read(Js5Archives.CONFIG, Js5Configs.OBJ, file.id).use {
                 types += readType(it, file.id, params)
             }
         }
