@@ -258,7 +258,7 @@ class PlayerInfoBufferTest {
                     val largeTeleport = bitBuf.getBoolean()
                     val diffLevel = bitBuf.getBits(2)
                     val diffX = bitBuf.getBits(14)
-                    val diffY = bitBuf.getBits(14)
+                    val diffZ = bitBuf.getBits(14)
                     val expected = info.avatars[playerB].coords - info.avatars[playerB].prevCoords
                     assertEquals(READ_AVATAR_INFO_OPCODE, readOpcode)
                     assertFalse(extended)
@@ -266,7 +266,7 @@ class PlayerInfoBufferTest {
                     assertTrue(largeTeleport)
                     assertEquals(expected.level, diffLevel)
                     assertEquals(expected.x, diffX)
-                    assertEquals(expected.z, diffY)
+                    assertEquals(expected.z, diffZ)
                 }
             }
             run getLowRes@{
@@ -508,7 +508,7 @@ class PlayerInfoBufferTest {
                         val largeTeleport = bitBuf.getBoolean()
                         val diffLevel = bitBuf.getBits(2)
                         val diffX = bitBuf.getBits(14)
-                        val diffY = bitBuf.getBits(14)
+                        val diffZ = bitBuf.getBits(14)
                         val expected = info.avatars[playerB].coords - info.avatars[playerB].prevCoords
                         assertEquals(READ_AVATAR_INFO_OPCODE, readOpcode)
                         assertFalse(extended)
@@ -516,7 +516,7 @@ class PlayerInfoBufferTest {
                         assertTrue(largeTeleport)
                         assertEquals(expected.level, diffLevel)
                         assertEquals(expected.x, diffX)
-                        assertEquals(expected.z, diffY)
+                        assertEquals(expected.z, diffZ)
                     }
                 }
             }
