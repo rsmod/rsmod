@@ -2,7 +2,6 @@ package org.rsmod.plugins.cache.config
 
 import io.netty.buffer.ByteBuf
 import org.openrs2.buffer.readString
-import org.openrs2.buffer.readUnsignedShortSmart
 import org.openrs2.buffer.writeString
 import org.rsmod.plugins.cache.config.param.ParamMap
 import org.rsmod.plugins.cache.config.param.ParamTypeList
