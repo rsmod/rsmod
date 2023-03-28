@@ -5,11 +5,11 @@ import org.openrs2.buffer.readUnsignedShortSmart
 import org.rsmod.game.map.Coordinates
 import org.rsmod.game.map.square.MapSquare
 import org.rsmod.game.map.util.I14Coordinates
-import org.rsmod.plugins.cache.config.readIncrUnsignedShortSmart
 import org.rsmod.plugins.cache.map.loc.MapLoc
 import org.rsmod.plugins.cache.map.loc.MapLocDefinition
 import org.rsmod.plugins.cache.map.tile.TileOverlay
 import org.rsmod.plugins.cache.map.tile.TileUnderlay
+import org.rsmod.plugins.cache.readIncrUnsignedShortSmart
 
 public object MapDefinitionLoader {
 

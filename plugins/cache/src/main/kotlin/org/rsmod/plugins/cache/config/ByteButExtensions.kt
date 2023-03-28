@@ -7,17 +7,6 @@ import org.openrs2.buffer.writeString
 import org.rsmod.plugins.cache.config.param.ParamMap
 import org.rsmod.plugins.cache.config.param.ParamTypeList
 
-internal fun ByteBuf.readIncrUnsignedShortSmart(): Int {
-    var value = 0
-    var curr = readUnsignedShortSmart()
-    while (curr == 0x7FFF) {
-        value += curr
-        curr = readUnsignedShortSmart()
-    }
-    value += curr
-    return value
-}
-
 internal fun ByteBuf.readParams(types: ParamTypeList): ParamMap {
     val parameters = mutableMapOf<Int, Any>()
     val count = readUnsignedByte().toInt()
