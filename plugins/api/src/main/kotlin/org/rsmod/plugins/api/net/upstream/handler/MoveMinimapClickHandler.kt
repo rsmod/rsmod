@@ -9,8 +9,8 @@ import org.rsmod.plugins.api.publish
 public class MoveMinimapClickHandler : UpstreamHandler<MoveMinimapClick>(MoveMinimapClick::class.java) {
 
     override fun handle(player: Player, packet: MoveMinimapClick) {
-        val (_, x, z) = packet
-        val speed = packet.speed() ?: player.movement.speed
+        val (mode, x, z) = packet
+        val speed = UpstreamEvent.MoveGameClick.speedRequest(mode)
         val event = UpstreamEvent.MoveGameClick(speed, Coordinates(x, z))
         player.publish(event)
     }

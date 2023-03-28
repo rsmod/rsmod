@@ -154,3 +154,10 @@ public fun Player.refreshBuildArea(center: Coordinates) {
     val buildArea = center.toBuildArea()
     this.buildArea = buildArea
 }
+
+private val MoveSpeed.infoId: Int get() = when (this) {
+    MoveSpeed.Crawl -> 0
+    MoveSpeed.Walk -> 1
+    MoveSpeed.Run -> 2
+    MoveSpeed.Displace -> 127
+}
