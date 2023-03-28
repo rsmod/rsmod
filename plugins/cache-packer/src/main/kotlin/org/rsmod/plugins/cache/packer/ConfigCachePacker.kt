@@ -1,4 +1,4 @@
-package org.rsmod.plugins.api.config.packer
+package org.rsmod.plugins.cache.packer
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -11,11 +11,6 @@ import org.rsmod.plugins.api.cache.type.item.ItemTypeList
 import org.rsmod.plugins.api.cache.type.param.ParamTypeList
 import org.rsmod.plugins.api.cache.type.varbit.VarbitTypeList
 import org.rsmod.plugins.api.cache.type.varp.VarpTypeList
-import org.rsmod.plugins.api.config.type.ConfigEnum
-import org.rsmod.plugins.api.config.type.ConfigItem
-import org.rsmod.plugins.api.config.type.ConfigParam
-import org.rsmod.plugins.api.config.type.ConfigVarbit
-import org.rsmod.plugins.api.config.type.ConfigVarp
 import org.rsmod.plugins.api.pluginConfigPath
 import org.rsmod.plugins.cache.config.enums.EnumType
 import org.rsmod.plugins.cache.config.enums.EnumTypePacker
@@ -27,6 +22,11 @@ import org.rsmod.plugins.cache.config.varbit.VarbitType
 import org.rsmod.plugins.cache.config.varbit.VarbitTypePacker
 import org.rsmod.plugins.cache.config.varp.VarpType
 import org.rsmod.plugins.cache.config.varp.VarpTypePacker
+import org.rsmod.plugins.cache.packer.type.ConfigEnum
+import org.rsmod.plugins.cache.packer.type.ConfigItem
+import org.rsmod.plugins.cache.packer.type.ConfigParam
+import org.rsmod.plugins.cache.packer.type.ConfigVarbit
+import org.rsmod.plugins.cache.packer.type.ConfigVarp
 import org.rsmod.plugins.types.NamedEnum
 import org.rsmod.plugins.types.NamedItem
 import org.rsmod.plugins.types.NamedParameter

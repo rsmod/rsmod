@@ -28,9 +28,3 @@ dependencies {
     implementation(libs.openrs2Crypto)
     implementation(libs.openrs2Buffer)
 }
-
-tasks.register<JavaExec>("packConfigs") {
-    workingDir = rootProject.projectDir
-    classpath = sourceSets.main.get().runtimeClasspath
-    mainClass.set("org.rsmod.plugins.api.config.packer.ConfigPackerCommandKt")
-}

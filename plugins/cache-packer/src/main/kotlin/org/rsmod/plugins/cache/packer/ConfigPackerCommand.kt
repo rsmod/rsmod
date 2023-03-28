@@ -1,4 +1,4 @@
-package org.rsmod.plugins.api.config.packer
+package org.rsmod.plugins.cache.packer
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.google.inject.Guice

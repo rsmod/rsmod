@@ -1,4 +1,4 @@
-package org.rsmod.plugins.api.config
+package org.rsmod.plugins.cache.packer
 
 internal object StringUtil {
 

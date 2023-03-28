@@ -1,11 +1,11 @@
-package org.rsmod.plugins.api.config.type
+package org.rsmod.plugins.cache.packer.type
 
 import org.rsmod.plugins.api.cache.type.param.ParamTypeList
-import org.rsmod.plugins.api.config.CacheTypeLiteralUtil.TYPE_STRING_CONVERSION
-import org.rsmod.plugins.api.config.CacheTypeLiteralUtil.convert
-import org.rsmod.plugins.api.config.StringUtil.stripTag
 import org.rsmod.plugins.cache.config.param.ParamType
 import org.rsmod.plugins.cache.config.param.ParamTypeBuilder
+import org.rsmod.plugins.cache.packer.CacheTypeLiteralUtil.TYPE_STRING_CONVERSION
+import org.rsmod.plugins.cache.packer.CacheTypeLiteralUtil.convert
+import org.rsmod.plugins.cache.packer.StringUtil.stripTag
 import org.rsmod.plugins.types.NamedParameter
 import org.rsmod.plugins.types.NamedTypeMapHolder
 

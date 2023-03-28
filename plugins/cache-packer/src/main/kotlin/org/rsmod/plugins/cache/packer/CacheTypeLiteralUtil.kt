@@ -1,7 +1,7 @@
-package org.rsmod.plugins.api.config
+package org.rsmod.plugins.cache.packer
 
-import org.rsmod.plugins.api.config.StringUtil.stripTag
 import org.rsmod.plugins.cache.literal.CacheTypeLiteral
+import org.rsmod.plugins.cache.packer.StringUtil.stripTag
 import org.rsmod.plugins.types.NamedTypeMapHolder
 
 internal object CacheTypeLiteralUtil {

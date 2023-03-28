@@ -1,4 +1,4 @@
-package org.rsmod.plugins.api.config.packer
+package org.rsmod.plugins.cache.packer
 
 import com.google.inject.AbstractModule
 import org.rsmod.buffer.BufferModule
