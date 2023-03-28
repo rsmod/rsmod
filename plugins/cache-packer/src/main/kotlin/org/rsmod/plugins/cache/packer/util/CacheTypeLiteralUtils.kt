@@ -17,7 +17,7 @@ internal object CacheTypeLiteralUtils {
         "bool" to CacheTypeLiteral.Boolean,
         "category" to CacheTypeLiteral.Category,
         "char" to CacheTypeLiteral.Character,
-        "chatchar" to CacheTypeLiteral.ChatChar,
+        "chatcat" to CacheTypeLiteral.ChatCat,
         "color" to CacheTypeLiteral.Color,
         "component" to CacheTypeLiteral.Component,
         "coord" to CacheTypeLiteral.Coordinate,

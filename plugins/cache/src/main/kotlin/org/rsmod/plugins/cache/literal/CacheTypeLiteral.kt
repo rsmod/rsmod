@@ -24,7 +24,7 @@ public enum class CacheTypeLiteral(
     Boolean('1', CacheTypeBoolean),
     Category('y'),
     Character('z'),
-    ChatChar('k'),
+    ChatCat('k'),
     Color('C'),
     Component('I', CacheTypeNamedComponent),
     Coordinate('c', CacheTypeCoordinate),
