@@ -29,9 +29,9 @@ public class EnumTypeBuilder(
 
     public fun build(): EnumType<Any, Any> {
         val keyType = CacheTypeLiteral.mapped[keyType]
-            ?: error("Cache literal not mapped for char `$keyType)`.")
+            ?: error("Cache literal not mapped for char `$keyType`.")
         val valType = CacheTypeLiteral.mapped[valType]
-            ?: error("Cache literal not mapped for char `$valType)`.")
+            ?: error("Cache literal not mapped for char `$valType`.")
 
         check(keyType.isInt) {
             "Enums are restricted to Integer-based input/keys. (enum=$id, key=$keyType, val=$valType)"
