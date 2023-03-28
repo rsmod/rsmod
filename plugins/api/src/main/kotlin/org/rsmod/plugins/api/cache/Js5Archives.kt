@@ -1,6 +1,6 @@
 package org.rsmod.plugins.api.cache
 
-public object Archives {
+public object Js5Archives {
 
     public const val TOTAL_ARCHIVES: Int = 22
 
