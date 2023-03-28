@@ -1,5 +1,6 @@
 package org.rsmod.plugins.api.cache.type.param
 
+import org.rsmod.plugins.cache.config.param.ParamType
 import org.rsmod.plugins.types.NamedParameter
 
 public class ParamTypeList(

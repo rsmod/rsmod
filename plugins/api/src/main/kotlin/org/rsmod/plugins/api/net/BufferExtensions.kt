@@ -15,7 +15,6 @@ import org.openrs2.buffer.readUnsignedByteC
 import org.openrs2.buffer.readUnsignedByteS
 import org.openrs2.buffer.readUnsignedShortA
 import org.openrs2.buffer.readUnsignedShortLEA
-import org.openrs2.buffer.readUnsignedShortSmart
 import org.openrs2.buffer.writeByteA
 import org.openrs2.buffer.writeByteC
 import org.openrs2.buffer.writeByteS
@@ -63,14 +62,3 @@ public inline fun ByteBuf.writeIntAlt3_(value: Int): ByteBuf = writeIntAlt3(`val
 
 @Suppress("FunctionName")
 public inline fun ByteBuf.readIntAlt3_(): Int = readIntAlt3()
-
-public fun ByteBuf.readIncrUnsignedShortSmart(): Int {
-    var value = 0
-    var curr = readUnsignedShortSmart()
-    while (curr == 0x7FFF) {
-        value += curr
-        curr = readUnsignedShortSmart()
-    }
-    value += curr
-    return value
-}

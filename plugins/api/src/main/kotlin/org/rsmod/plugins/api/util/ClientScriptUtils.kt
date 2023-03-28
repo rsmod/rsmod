@@ -1,7 +1,7 @@
 package org.rsmod.plugins.api.util
 
-import org.rsmod.plugins.api.cache.type.literal.CacheTypeLiteral
-import org.rsmod.plugins.api.cache.type.literal.codec.CacheTypeCodec
+import org.rsmod.plugins.cache.literal.CacheTypeLiteral
+import org.rsmod.plugins.cache.literal.codec.CacheTypeCodec
 
 public object ClientScriptUtils {
 

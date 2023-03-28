@@ -1,5 +1,6 @@
 package org.rsmod.plugins.api.cache.type.enums
 
+import org.rsmod.plugins.cache.config.enums.EnumType
 import org.rsmod.plugins.types.NamedEnum
 
 public class EnumTypeList(

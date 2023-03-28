@@ -2,7 +2,7 @@ package org.rsmod.plugins.api.map
 
 import org.rsmod.game.map.Coordinates
 import org.rsmod.game.map.entity.obj.ObjectEntity
-import org.rsmod.plugins.api.cache.type.obj.ObjectType
+import org.rsmod.plugins.cache.config.obj.ObjectType
 
 public class GameObject(
     public val type: ObjectType,

@@ -1,9 +1,9 @@
 package org.rsmod.plugins.api.config.type
 
-import org.rsmod.plugins.api.cache.type.varp.VarpType
-import org.rsmod.plugins.api.cache.type.varp.VarpTypeBuilder
 import org.rsmod.plugins.api.cache.type.varp.VarpTypeList
 import org.rsmod.plugins.api.config.StringUtil.stripTag
+import org.rsmod.plugins.cache.config.varp.VarpType
+import org.rsmod.plugins.cache.config.varp.VarpTypeBuilder
 import org.rsmod.plugins.types.NamedTypeMapHolder
 import org.rsmod.plugins.types.NamedVarp
 

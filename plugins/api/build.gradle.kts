@@ -4,6 +4,7 @@ plugins {
 
 dependencies {
     api(projects.game.coroutines)
+    api(projects.plugins.cache)
     api(projects.plugins.typesGenerated)
     implementation(projects.buffer)
     implementation(projects.game)

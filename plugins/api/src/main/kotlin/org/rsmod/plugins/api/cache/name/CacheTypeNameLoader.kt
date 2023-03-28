@@ -1,19 +1,19 @@
 package org.rsmod.plugins.api.cache.name
 
-import org.rsmod.plugins.api.cache.type.enums.EnumType
 import org.rsmod.plugins.api.cache.type.enums.EnumTypeList
-import org.rsmod.plugins.api.cache.type.item.ItemType
 import org.rsmod.plugins.api.cache.type.item.ItemTypeList
-import org.rsmod.plugins.api.cache.type.npc.NpcType
 import org.rsmod.plugins.api.cache.type.npc.NpcTypeList
-import org.rsmod.plugins.api.cache.type.obj.ObjectType
 import org.rsmod.plugins.api.cache.type.obj.ObjectTypeList
-import org.rsmod.plugins.api.cache.type.param.ParamType
 import org.rsmod.plugins.api.cache.type.param.ParamTypeList
-import org.rsmod.plugins.api.cache.type.varbit.VarbitType
 import org.rsmod.plugins.api.cache.type.varbit.VarbitTypeList
-import org.rsmod.plugins.api.cache.type.varp.VarpType
 import org.rsmod.plugins.api.cache.type.varp.VarpTypeList
+import org.rsmod.plugins.cache.config.enums.EnumType
+import org.rsmod.plugins.cache.config.item.ItemType
+import org.rsmod.plugins.cache.config.npc.NpcType
+import org.rsmod.plugins.cache.config.obj.ObjectType
+import org.rsmod.plugins.cache.config.param.ParamType
+import org.rsmod.plugins.cache.config.varbit.VarbitType
+import org.rsmod.plugins.cache.config.varp.VarpType
 import org.rsmod.plugins.types.NamedEnum
 import org.rsmod.plugins.types.NamedItem
 import org.rsmod.plugins.types.NamedNpc

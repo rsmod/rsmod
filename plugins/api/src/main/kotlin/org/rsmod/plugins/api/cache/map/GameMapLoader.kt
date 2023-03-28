@@ -9,13 +9,6 @@ import org.rsmod.game.map.util.I14Coordinates
 import org.rsmod.game.map.util.I8Coordinates
 import org.rsmod.game.map.zone.ZoneKey
 import org.rsmod.game.pathfinder.flag.CollisionFlag
-import org.rsmod.plugins.api.cache.Js5Archives
-import org.rsmod.plugins.api.cache.map.MapDefinition.Companion.BLOCKED_BIT_FLAG
-import org.rsmod.plugins.api.cache.map.MapDefinition.Companion.LINK_BELOW_BIT_FLAG
-import org.rsmod.plugins.api.cache.map.MapDefinition.Companion.REMOVE_ROOF_BIT_FLAG
-import org.rsmod.plugins.api.cache.map.MapDefinitionLoader.readLocDefinition
-import org.rsmod.plugins.api.cache.map.MapDefinitionLoader.readMapDefinition
-import org.rsmod.plugins.api.cache.map.loc.MapLocDefinition
 import org.rsmod.plugins.api.cache.map.xtea.XteaRepository
 import org.rsmod.plugins.api.cache.type.obj.ObjectTypeList
 import org.rsmod.plugins.api.map.GameMap
@@ -23,6 +16,14 @@ import org.rsmod.plugins.api.map.GameObject
 import org.rsmod.plugins.api.map.builder.GameMapBuilder
 import org.rsmod.plugins.api.map.builder.ZoneBuilder
 import org.rsmod.plugins.api.map.collision.addObject
+import org.rsmod.plugins.cache.Js5Archives
+import org.rsmod.plugins.cache.map.MapDefinition
+import org.rsmod.plugins.cache.map.MapDefinition.Companion.BLOCKED_BIT_FLAG
+import org.rsmod.plugins.cache.map.MapDefinition.Companion.LINK_BELOW_BIT_FLAG
+import org.rsmod.plugins.cache.map.MapDefinition.Companion.REMOVE_ROOF_BIT_FLAG
+import org.rsmod.plugins.cache.map.MapDefinitionLoader.readLocDefinition
+import org.rsmod.plugins.cache.map.MapDefinitionLoader.readMapDefinition
+import org.rsmod.plugins.cache.map.loc.MapLocDefinition
 
 public object GameMapLoader {
 

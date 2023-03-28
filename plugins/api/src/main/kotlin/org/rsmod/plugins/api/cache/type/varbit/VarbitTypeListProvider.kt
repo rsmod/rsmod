@@ -2,6 +2,7 @@ package org.rsmod.plugins.api.cache.type.varbit
 
 import org.openrs2.cache.Cache
 import org.rsmod.plugins.api.cache.build.game.GameCache
+import org.rsmod.plugins.cache.config.varbit.VarbitTypeLoader
 import javax.inject.Inject
 import javax.inject.Provider
 

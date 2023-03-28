@@ -1,9 +1,9 @@
 package org.rsmod.plugins.api.config.type
 
-import org.rsmod.plugins.api.cache.type.varbit.VarbitType
-import org.rsmod.plugins.api.cache.type.varbit.VarbitTypeBuilder
 import org.rsmod.plugins.api.cache.type.varbit.VarbitTypeList
 import org.rsmod.plugins.api.config.StringUtil.stripTag
+import org.rsmod.plugins.cache.config.varbit.VarbitType
+import org.rsmod.plugins.cache.config.varbit.VarbitTypeBuilder
 import org.rsmod.plugins.types.NamedTypeMapHolder
 import org.rsmod.plugins.types.NamedVarbit
 import org.rsmod.plugins.types.NamedVarp

@@ -1,7 +1,7 @@
 package org.rsmod.plugins.content.gameframe.util
 
-import org.rsmod.plugins.api.cache.type.enums.EnumType
 import org.rsmod.plugins.api.model.ui.StandardGameframe
+import org.rsmod.plugins.cache.config.enums.EnumType
 import org.rsmod.plugins.types.NamedComponent
 
 public object GameframeUtil {
