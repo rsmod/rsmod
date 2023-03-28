@@ -1,10 +1,10 @@
-package org.rsmod.plugins.cache.packer
+package org.rsmod.plugins.cache.packer.util
 
 import org.rsmod.plugins.cache.literal.CacheTypeLiteral
-import org.rsmod.plugins.cache.packer.StringUtil.stripTag
+import org.rsmod.plugins.cache.packer.util.StringUtils.stripTag
 import org.rsmod.plugins.types.NamedTypeMapHolder
 
-internal object CacheTypeLiteralUtil {
+internal object CacheTypeLiteralUtils {
 
     const val AUTO_INCREMENT_INT: String = "autoint"
     const val AUTO_SET_BOOL: String = "autobool"

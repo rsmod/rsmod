@@ -15,7 +15,7 @@ import org.rsmod.plugins.api.net.downstream.MinimapFlagSet
 import org.rsmod.plugins.api.net.downstream.VarpLarge
 import org.rsmod.plugins.api.net.downstream.VarpSmall
 import org.rsmod.plugins.api.net.info.ExtendedPlayerInfo
-import org.rsmod.plugins.api.util.BitUtil
+import org.rsmod.plugins.api.util.BitUtils
 import org.rsmod.plugins.cache.config.varbit.VarbitType
 import org.rsmod.plugins.cache.config.varp.VarpType
 import org.rsmod.plugins.types.NamedComponent
@@ -78,11 +78,11 @@ public fun Player.toggleVarp(type: VarpType) {
 
 public fun Player.getVarbit(type: VarbitType): Int {
     val varp = vars[type.varp] ?: 0
-    return BitUtil.get(varp, type.lsb..type.msb)
+    return BitUtils.get(varp, type.lsb..type.msb)
 }
 
 public fun Player.setVarbit(value: Int, type: VarbitType, persist: Boolean = true) {
-    val modifiedValue = BitUtil.modify(
+    val modifiedValue = BitUtils.modify(
         value = vars[type.varp] ?: 0,
         bitRange = type.lsb..type.msb,
         rangeValue = value

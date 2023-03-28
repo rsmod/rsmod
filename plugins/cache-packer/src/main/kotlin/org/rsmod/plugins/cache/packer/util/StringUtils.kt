@@ -1,6 +1,6 @@
-package org.rsmod.plugins.cache.packer
+package org.rsmod.plugins.cache.packer.util
 
-internal object StringUtil {
+internal object StringUtils {
 
     fun String.stripTag(): String {
         if (indexOf('.') == -1) return this

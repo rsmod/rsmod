@@ -1,6 +1,6 @@
 package org.rsmod.plugins.api.util
 
-public object BitUtil {
+public object BitUtils {
 
     public fun modify(value: Int, bitRange: IntRange, rangeValue: Int): Int {
         val len = bitRange.last - bitRange.first

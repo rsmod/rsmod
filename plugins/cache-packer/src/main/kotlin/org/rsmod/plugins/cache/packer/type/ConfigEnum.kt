@@ -3,11 +3,11 @@ package org.rsmod.plugins.cache.packer.type
 import org.rsmod.plugins.api.cache.type.enums.EnumTypeList
 import org.rsmod.plugins.cache.config.enums.EnumType
 import org.rsmod.plugins.cache.config.enums.EnumTypeBuilder
-import org.rsmod.plugins.cache.packer.CacheTypeLiteralUtil.AUTO_INCREMENT_INT
-import org.rsmod.plugins.cache.packer.CacheTypeLiteralUtil.AUTO_SET_BOOL
-import org.rsmod.plugins.cache.packer.CacheTypeLiteralUtil.TYPE_STRING_CONVERSION
-import org.rsmod.plugins.cache.packer.CacheTypeLiteralUtil.convert
-import org.rsmod.plugins.cache.packer.CacheTypeLiteralUtil.toConvertedEntryMap
+import org.rsmod.plugins.cache.packer.util.CacheTypeLiteralUtils.AUTO_INCREMENT_INT
+import org.rsmod.plugins.cache.packer.util.CacheTypeLiteralUtils.AUTO_SET_BOOL
+import org.rsmod.plugins.cache.packer.util.CacheTypeLiteralUtils.TYPE_STRING_CONVERSION
+import org.rsmod.plugins.cache.packer.util.CacheTypeLiteralUtils.convert
+import org.rsmod.plugins.cache.packer.util.CacheTypeLiteralUtils.toConvertedEntryMap
 import org.rsmod.plugins.types.NamedTypeMapHolder
 
 public data class ConfigEnum(
