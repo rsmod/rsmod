@@ -28,7 +28,7 @@ private typealias AvatarGroup = Array<Avatar>
 private typealias ClientGroup = Array<Client>
 private typealias ExtInfoBuffers = Array<SimpleBuffer>
 
-public class PlayerInfo(public val playerLimit: Int = MAX_PLAYER_LIMIT) {
+public class PlayerInfo(public val playerLimit: Int = DEFAULT_PLAYER_LIMIT) {
 
     public val capacity: Int get() = playerLimit + INDEX_PADDING
     public val indices: IntRange get() = INDEX_PADDING until capacity
@@ -325,7 +325,7 @@ public class PlayerInfo(public val playerLimit: Int = MAX_PLAYER_LIMIT) {
     public companion object {
 
         public const val INDEX_PADDING: Int = 1
-        public const val MAX_PLAYER_LIMIT: Int = 2047
+        public const val DEFAULT_PLAYER_LIMIT: Int = 2047
 
         public const val PREFERRED_VIEW_DISTANCE: Int = 15
         public const val VIEW_DISTANCE_RESIZE_INTERVALS: Int = 10

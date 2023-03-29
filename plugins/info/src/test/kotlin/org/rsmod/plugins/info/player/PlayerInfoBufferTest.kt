@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.rsmod.plugins.info.player.PlayerInfo.Companion.DEFAULT_BUFFER_LIMIT
-import org.rsmod.plugins.info.player.PlayerInfo.Companion.MAX_PLAYER_LIMIT
+import org.rsmod.plugins.info.player.PlayerInfo.Companion.DEFAULT_PLAYER_LIMIT
 import org.rsmod.plugins.info.player.PlayerInfoOpcodes.READ_AVATAR_INFO_OPCODE
 import org.rsmod.plugins.info.player.PlayerInfoOpcodes.READ_CHANGE_RESOLUTION
 import org.rsmod.plugins.info.player.PlayerInfoOpcodes.READ_HIGH_RES_COORDS_DISPLACEMENT
@@ -47,7 +47,7 @@ class PlayerInfoBufferTest {
                 val skipCount = bitBuf.getBits(11)
                 assertEquals(READ_SKIP_COUNT_OPCODE, readOpcode)
                 assertEquals(READ_SKIP_COUNT_11BITS, skipOpcode)
-                assertEquals(MAX_PLAYER_LIMIT - 2, skipCount)
+                assertEquals(DEFAULT_PLAYER_LIMIT - 2, skipCount)
             }
         }
         assertEquals(0, buf.remaining())
@@ -82,7 +82,7 @@ class PlayerInfoBufferTest {
                 val skipCount = bitBuf.getBits(11)
                 assertEquals(READ_SKIP_COUNT_OPCODE, readOpcode)
                 assertEquals(READ_SKIP_COUNT_11BITS, skipOpcode)
-                assertEquals(MAX_PLAYER_LIMIT - 2, skipCount)
+                assertEquals(DEFAULT_PLAYER_LIMIT - 2, skipCount)
             }
         }
         run getExtendedInfo@{
@@ -148,7 +148,7 @@ class PlayerInfoBufferTest {
                     val skipCount = bitBuf.getBits(11)
                     assertEquals(READ_SKIP_COUNT_OPCODE, readOpcode)
                     assertEquals(READ_SKIP_COUNT_11BITS, skipOpcode)
-                    assertEquals(MAX_PLAYER_LIMIT - 2, skipCount)
+                    assertEquals(DEFAULT_PLAYER_LIMIT - 2, skipCount)
                 }
             }
             assertEquals(0, buf.remaining())
@@ -177,7 +177,7 @@ class PlayerInfoBufferTest {
                     val skipCount = bitBuf.getBits(11)
                     assertEquals(READ_SKIP_COUNT_OPCODE, readOpcode)
                     assertEquals(READ_SKIP_COUNT_11BITS, skipOpcode)
-                    assertEquals(MAX_PLAYER_LIMIT - 2, skipCount)
+                    assertEquals(DEFAULT_PLAYER_LIMIT - 2, skipCount)
                 }
             }
             assertEquals(0, buf.remaining())
@@ -229,7 +229,7 @@ class PlayerInfoBufferTest {
                         val skipCount = bitBuf.getBits(11)
                         assertEquals(READ_SKIP_COUNT_OPCODE, readOpcode)
                         assertEquals(READ_SKIP_COUNT_11BITS, skipOpcode)
-                        assertEquals(MAX_PLAYER_LIMIT - 3, skipCount)
+                        assertEquals(DEFAULT_PLAYER_LIMIT - 3, skipCount)
                     }
                 }
             }
@@ -292,7 +292,7 @@ class PlayerInfoBufferTest {
                         val skipCount = bitBuf.getBits(11)
                         assertEquals(READ_SKIP_COUNT_OPCODE, readOpcode)
                         assertEquals(READ_SKIP_COUNT_11BITS, skipOpcode)
-                        assertEquals(MAX_PLAYER_LIMIT - 3, skipCount)
+                        assertEquals(DEFAULT_PLAYER_LIMIT - 3, skipCount)
                     }
                 }
             }
@@ -330,7 +330,7 @@ class PlayerInfoBufferTest {
                     val skipCount = bitBuf.getBits(11)
                     assertEquals(READ_SKIP_COUNT_OPCODE, readOpcode)
                     assertEquals(READ_SKIP_COUNT_11BITS, skipOpcode)
-                    assertEquals(MAX_PLAYER_LIMIT - 3, skipCount)
+                    assertEquals(DEFAULT_PLAYER_LIMIT - 3, skipCount)
                 }
             }
             assertEquals(0, buf.remaining())
@@ -369,7 +369,7 @@ class PlayerInfoBufferTest {
                     val skipCount = bitBuf.getBits(11)
                     assertEquals(READ_SKIP_COUNT_OPCODE, readOpcode)
                     assertEquals(READ_SKIP_COUNT_11BITS, skipOpcode)
-                    assertEquals(MAX_PLAYER_LIMIT - 3, skipCount)
+                    assertEquals(DEFAULT_PLAYER_LIMIT - 3, skipCount)
                 }
             }
             assertEquals(0, buf.remaining())
@@ -400,7 +400,7 @@ class PlayerInfoBufferTest {
                     val skipCount = bitBuf.getBits(11)
                     assertEquals(READ_SKIP_COUNT_OPCODE, readOpcode)
                     assertEquals(READ_SKIP_COUNT_11BITS, skipOpcode)
-                    assertEquals(MAX_PLAYER_LIMIT - 3, skipCount)
+                    assertEquals(DEFAULT_PLAYER_LIMIT - 3, skipCount)
                 }
             }
             assertEquals(0, buf.remaining())
@@ -431,7 +431,7 @@ class PlayerInfoBufferTest {
                     val skipCount = bitBuf.getBits(11)
                     assertEquals(READ_SKIP_COUNT_OPCODE, readOpcode)
                     assertEquals(READ_SKIP_COUNT_11BITS, skipOpcode)
-                    assertEquals(MAX_PLAYER_LIMIT - 3, skipCount)
+                    assertEquals(DEFAULT_PLAYER_LIMIT - 3, skipCount)
                 }
             }
             assertEquals(0, buf.remaining())
@@ -474,7 +474,7 @@ class PlayerInfoBufferTest {
                     val skipCount = bitBuf.getBits(11)
                     assertEquals(READ_SKIP_COUNT_OPCODE, readOpcode)
                     assertEquals(READ_SKIP_COUNT_11BITS, skipOpcode)
-                    assertEquals(MAX_PLAYER_LIMIT - 3, skipCount)
+                    assertEquals(DEFAULT_PLAYER_LIMIT - 3, skipCount)
                 }
             }
             assertEquals(0, buf.remaining())
@@ -527,7 +527,7 @@ class PlayerInfoBufferTest {
                     val skipCount = bitBuf.getBits(11)
                     assertEquals(READ_SKIP_COUNT_OPCODE, readOpcode)
                     assertEquals(READ_SKIP_COUNT_11BITS, skipOpcode)
-                    assertEquals(MAX_PLAYER_LIMIT - 3, skipCount)
+                    assertEquals(DEFAULT_PLAYER_LIMIT - 3, skipCount)
                 }
             }
             assertEquals(0, buf.remaining())
@@ -559,7 +559,7 @@ class PlayerInfoBufferTest {
                         val skipCount = bitBuf.getBits(11)
                         assertEquals(READ_SKIP_COUNT_OPCODE, readOpcode)
                         assertEquals(READ_SKIP_COUNT_11BITS, skipOpcode)
-                        assertEquals(MAX_PLAYER_LIMIT - 3, skipCount)
+                        assertEquals(DEFAULT_PLAYER_LIMIT - 3, skipCount)
                     }
                 }
                 run activeOnly@{
@@ -598,7 +598,7 @@ class PlayerInfoBufferTest {
                         val skipCount = bitBuf.getBits(11)
                         assertEquals(READ_SKIP_COUNT_OPCODE, readOpcode)
                         assertEquals(READ_SKIP_COUNT_11BITS, skipOpcode)
-                        assertEquals(MAX_PLAYER_LIMIT - 3, skipCount)
+                        assertEquals(DEFAULT_PLAYER_LIMIT - 3, skipCount)
                     }
                 }
                 run activeOnly@{
@@ -666,7 +666,7 @@ class PlayerInfoBufferTest {
                     val skipCount = bitBuf.getBits(11)
                     assertEquals(READ_SKIP_COUNT_OPCODE, readOpcode)
                     assertEquals(READ_SKIP_COUNT_11BITS, skipOpcode)
-                    assertEquals(MAX_PLAYER_LIMIT - 2, skipCount)
+                    assertEquals(DEFAULT_PLAYER_LIMIT - 2, skipCount)
                 }
             }
             run getExtendedInfo@{
@@ -724,7 +724,7 @@ class PlayerInfoBufferTest {
                         val skipCount = bitBuf.getBits(11)
                         assertEquals(READ_SKIP_COUNT_OPCODE, readOpcode)
                         assertEquals(READ_SKIP_COUNT_11BITS, skipOpcode)
-                        assertEquals(MAX_PLAYER_LIMIT - 3, skipCount)
+                        assertEquals(DEFAULT_PLAYER_LIMIT - 3, skipCount)
                     }
                 }
             }
@@ -777,7 +777,7 @@ class PlayerInfoBufferTest {
                         val skipCount = bitBuf.getBits(11)
                         assertEquals(READ_SKIP_COUNT_OPCODE, readOpcode)
                         assertEquals(READ_SKIP_COUNT_11BITS, skipOpcode)
-                        assertEquals(MAX_PLAYER_LIMIT - 3, skipCount)
+                        assertEquals(DEFAULT_PLAYER_LIMIT - 3, skipCount)
                     }
                 }
             }
@@ -818,7 +818,7 @@ class PlayerInfoBufferTest {
                     val skipCount = bitBuf.getBits(11)
                     assertEquals(READ_SKIP_COUNT_OPCODE, readOpcode)
                     assertEquals(READ_SKIP_COUNT_11BITS, skipOpcode)
-                    assertEquals(MAX_PLAYER_LIMIT - 3, skipCount)
+                    assertEquals(DEFAULT_PLAYER_LIMIT - 3, skipCount)
                 }
             }
             run getExtendedInfo@{
