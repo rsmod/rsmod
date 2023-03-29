@@ -7,7 +7,7 @@ import org.rsmod.game.events.EventBus
 import org.rsmod.game.model.mob.list.PlayerList
 import org.rsmod.game.model.mob.list.forEachNotNull
 import org.rsmod.plugins.api.info.player.PlayerInfoTask
-import org.rsmod.plugins.api.movement.MovementProcess
+import org.rsmod.plugins.api.move.MovementProcess
 import org.rsmod.plugins.api.net.upstream.handler.UpstreamHandlerTask
 import org.rsmod.plugins.api.world.World
 import javax.inject.Inject

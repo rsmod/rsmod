@@ -1,4 +1,4 @@
-package org.rsmod.plugins.api.movement
+package org.rsmod.plugins.api.move
 
 import org.rsmod.game.model.mob.move.MovementSpeed
 

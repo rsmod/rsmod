@@ -1,4 +1,4 @@
-package org.rsmod.plugins.api.movement
+package org.rsmod.plugins.api.move
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.coroutineScope

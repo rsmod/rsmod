@@ -7,7 +7,7 @@ import org.rsmod.plugins.api.model.MessageGameType
 import org.rsmod.plugins.api.model.event.TypePlayerEvent
 import org.rsmod.plugins.api.model.event.TypePlayerKeyedEvent
 import org.rsmod.plugins.api.model.ui.StandardGameframe
-import org.rsmod.plugins.api.movement.MoveSpeed
+import org.rsmod.plugins.api.move.MoveSpeed
 import org.rsmod.plugins.api.net.downstream.IfOpenSub
 import org.rsmod.plugins.api.net.downstream.IfOpenTop
 import org.rsmod.plugins.api.net.downstream.MessageGame
