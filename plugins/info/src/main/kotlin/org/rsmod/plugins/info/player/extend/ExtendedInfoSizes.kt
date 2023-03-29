@@ -1,4 +1,4 @@
-package org.rsmod.plugins.info.player.model
+package org.rsmod.plugins.info.player.extend
 
 public object ExtendedInfoSizes {
 

@@ -1,4 +1,4 @@
-package org.rsmod.plugins.info.player.model.coord
+package org.rsmod.plugins.info.model.coord
 
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -7,7 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.ArgumentsProvider
 import org.junit.jupiter.params.provider.ArgumentsSource
-import org.rsmod.plugins.info.player.model.coord.HighResCoord.Companion.LEVEL_BIT_MASK
+import org.rsmod.plugins.info.model.coord.HighResCoord.Companion.LEVEL_BIT_MASK
 import java.util.stream.Stream
 
 class HighResCoordTest {

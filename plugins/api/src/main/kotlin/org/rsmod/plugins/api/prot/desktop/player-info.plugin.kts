@@ -11,7 +11,7 @@ import org.rsmod.plugins.api.net.writeIntAlt1
 import org.rsmod.plugins.api.net.writeShortAlt1
 import org.rsmod.plugins.api.net.writeShortAlt2
 import org.rsmod.plugins.api.net.writeShortAlt3
-import org.rsmod.plugins.info.player.model.ExtendedInfoSizes
+import org.rsmod.plugins.info.player.extend.ExtendedInfoSizes
 
 private val encoders: InfoPlatformPacketEncoders by inject()
 private val info = encoders.desktop.player

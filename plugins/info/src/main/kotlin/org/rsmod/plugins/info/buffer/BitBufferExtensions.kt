@@ -1,4 +1,4 @@
-package org.rsmod.plugins.info.player.buffer
+package org.rsmod.plugins.info.buffer
 
 public fun BitBuffer.isCapped(extendedByteLength: Int, safetyBuffer: Int): Boolean {
     val bytePos = (position() + 7) / Byte.SIZE_BITS

@@ -1,4 +1,4 @@
-package org.rsmod.plugins.info.player.model.coord
+package org.rsmod.plugins.info.model.coord
 
 @JvmInline
 public value class HighResCoord(public val packed: Int) {

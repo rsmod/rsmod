@@ -4,12 +4,11 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import org.rsmod.plugins.info.model.coord.HighResCoord
 import org.rsmod.plugins.info.player.PlayerInfo.Companion.CACHED_EXT_INFO_BUFFER_SIZE
 import org.rsmod.plugins.info.player.PlayerInfo.Companion.DEFAULT_BUFFER_LIMIT
-import org.rsmod.plugins.info.player.model.PlayerInfoMetadata
-import org.rsmod.plugins.info.player.model.client.isInvalid
-import org.rsmod.plugins.info.player.model.client.isValid
-import org.rsmod.plugins.info.player.model.coord.HighResCoord
+import org.rsmod.plugins.info.player.client.isInvalid
+import org.rsmod.plugins.info.player.client.isValid
 import java.nio.ByteBuffer
 
 class PlayerInfoTest {

@@ -1,4 +1,4 @@
-package org.rsmod.plugins.info.player.buffer
+package org.rsmod.plugins.info.buffer
 
 public class SimpleBuffer(
     public val data: ByteArray,

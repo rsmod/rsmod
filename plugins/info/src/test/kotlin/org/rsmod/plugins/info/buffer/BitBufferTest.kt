@@ -1,4 +1,4 @@
-package org.rsmod.plugins.info.player.buffer
+package org.rsmod.plugins.info.buffer
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse

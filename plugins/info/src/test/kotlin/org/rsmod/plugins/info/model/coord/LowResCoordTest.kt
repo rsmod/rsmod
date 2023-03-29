@@ -1,4 +1,4 @@
-package org.rsmod.plugins.info.player.model.coord
+package org.rsmod.plugins.info.model.coord
 
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test

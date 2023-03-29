@@ -1,7 +1,8 @@
-package org.rsmod.plugins.info.player.buffer
+package org.rsmod.plugins.info.player.bitcode
 
-import org.rsmod.plugins.info.player.model.coord.HighResCoord
-import org.rsmod.plugins.info.player.model.coord.LowResCoord
+import org.rsmod.plugins.info.buffer.BitBuffer
+import org.rsmod.plugins.info.model.coord.HighResCoord
+import org.rsmod.plugins.info.model.coord.LowResCoord
 
 internal fun BitBuffer.putHighResUpdate(
     extended: Boolean,
