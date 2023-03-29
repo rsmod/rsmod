@@ -35,7 +35,7 @@ private const val DEFAULT_DEST_HEIGHT = 1
 private const val DEFAULT_MAX_TURNS = 25
 private const val DEFAULT_OBJ_ROT = 10
 private const val DEFAULT_OBJ_SHAPE = -1
-private const val DEFAULT_ACCESS_BITMASK = 0
+private const val DEFAULT_BLOCK_ACCESS_FLAGS = 0
 private const val DEFAULT_MOVE_NEAR_FLAG = true
 
 public class PathFinder(
@@ -66,7 +66,7 @@ public class PathFinder(
         objRot: Int = DEFAULT_OBJ_ROT,
         objShape: Int = DEFAULT_OBJ_SHAPE,
         moveNear: Boolean = DEFAULT_MOVE_NEAR_FLAG,
-        accessBitMask: Int = DEFAULT_ACCESS_BITMASK,
+        blockAccessFlags: Int = DEFAULT_BLOCK_ACCESS_FLAGS,
         maxTurns: Int = DEFAULT_MAX_TURNS,
         collision: CollisionStrategy = CollisionStrategies.Normal
     ): Route {
@@ -98,7 +98,7 @@ public class PathFinder(
                     srcSize,
                     objRot,
                     objShape,
-                    accessBitMask,
+                    blockAccessFlags,
                     collision
                 )
                 2 -> findRouteBlockerPath2(
@@ -112,7 +112,7 @@ public class PathFinder(
                     srcSize,
                     objRot,
                     objShape,
-                    accessBitMask,
+                    blockAccessFlags,
                     collision
                 )
                 else -> findRouteBlockerPathN(
@@ -126,7 +126,7 @@ public class PathFinder(
                     srcSize,
                     objRot,
                     objShape,
-                    accessBitMask,
+                    blockAccessFlags,
                     collision
                 )
             }
@@ -143,7 +143,7 @@ public class PathFinder(
                     srcSize,
                     objRot,
                     objShape,
-                    accessBitMask,
+                    blockAccessFlags,
                     collision
                 )
                 2 -> findPath2(
@@ -157,7 +157,7 @@ public class PathFinder(
                     srcSize,
                     objRot,
                     objShape,
-                    accessBitMask,
+                    blockAccessFlags,
                     collision
                 )
                 else -> findPathN(
@@ -171,7 +171,7 @@ public class PathFinder(
                     srcSize,
                     objRot,
                     objShape,
-                    accessBitMask,
+                    blockAccessFlags,
                     collision
                 )
             }
@@ -223,7 +223,7 @@ public class PathFinder(
         srcSize: Int,
         objRot: Int,
         objShape: Int,
-        accessBitMask: Int,
+        blockAccessFlags: Int,
         collision: CollisionStrategy
     ): Boolean {
         var x: Int
@@ -248,7 +248,7 @@ public class PathFinder(
                     srcSize,
                     objRot,
                     objShape,
-                    accessBitMask
+                    blockAccessFlags
                 )
             ) {
                 return true
@@ -370,7 +370,7 @@ public class PathFinder(
         srcSize: Int,
         objRot: Int,
         objShape: Int,
-        accessBitMask: Int,
+        blockAccessFlags: Int,
         collision: CollisionStrategy
     ): Boolean {
         var x: Int
@@ -394,7 +394,7 @@ public class PathFinder(
                     srcSize,
                     objRot,
                     objShape,
-                    accessBitMask
+                    blockAccessFlags
                 )
             ) {
                 return true
@@ -516,7 +516,7 @@ public class PathFinder(
         srcSize: Int,
         objRot: Int,
         objShape: Int,
-        accessBitMask: Int,
+        blockAccessFlags: Int,
         collision: CollisionStrategy
     ): Boolean {
         var x: Int
@@ -540,7 +540,7 @@ public class PathFinder(
                     srcSize,
                     objRot,
                     objShape,
-                    accessBitMask
+                    blockAccessFlags
                 )
             ) {
                 return true
@@ -724,7 +724,7 @@ public class PathFinder(
         srcSize: Int,
         objRot: Int,
         objShape: Int,
-        accessBitMask: Int,
+        blockAccessFlags: Int,
         collision: CollisionStrategy
     ): Boolean {
         var x: Int
@@ -749,7 +749,7 @@ public class PathFinder(
                     srcSize,
                     objRot,
                     objShape,
-                    accessBitMask
+                    blockAccessFlags
                 )
             ) {
                 return true
@@ -871,7 +871,7 @@ public class PathFinder(
         srcSize: Int,
         objRot: Int,
         objShape: Int,
-        accessBitMask: Int,
+        blockAccessFlags: Int,
         collision: CollisionStrategy
     ): Boolean {
         var x: Int
@@ -895,7 +895,7 @@ public class PathFinder(
                     srcSize,
                     objRot,
                     objShape,
-                    accessBitMask
+                    blockAccessFlags
                 )
             ) {
                 return true
@@ -1041,7 +1041,7 @@ public class PathFinder(
         srcSize: Int,
         objRot: Int,
         objShape: Int,
-        accessBitMask: Int,
+        blockAccessFlags: Int,
         collision: CollisionStrategy
     ): Boolean {
         var x: Int
@@ -1065,7 +1065,7 @@ public class PathFinder(
                     srcSize,
                     objRot,
                     objShape,
-                    accessBitMask
+                    blockAccessFlags
                 )
             ) {
                 return true

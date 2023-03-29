@@ -1,7 +1,7 @@
 package org.rsmod.game.pathfinder.reach
 
 import org.rsmod.game.pathfinder.collision.CollisionFlagMap
-import org.rsmod.game.pathfinder.flag.AccessBitFlag
+import org.rsmod.game.pathfinder.flag.BlockAccessFlag
 import org.rsmod.game.pathfinder.flag.CollisionFlag
 import kotlin.math.max
 import kotlin.math.min
@@ -31,7 +31,7 @@ public object RectangleBoundaryUtils {
         x: Int,
         z: Int,
         level: Int,
-        accessBitMask: Int,
+        blockAccessFlags: Int,
         destX: Int,
         destZ: Int,
         destWidth: Int,
@@ -42,21 +42,21 @@ public object RectangleBoundaryUtils {
 
         if (x == destX - 1 && z >= destZ && z <= north &&
             (flags[x, z, level] and CollisionFlag.WALL_EAST) == 0 &&
-            (accessBitMask and AccessBitFlag.BLOCK_WEST) == 0
+            (blockAccessFlags and BlockAccessFlag.BLOCK_WEST) == 0
         ) {
             return true
         }
 
         if (x == east + 1 && z >= destZ && z <= north &&
             (flags[x, z, level] and CollisionFlag.WALL_WEST) == 0 &&
-            (accessBitMask and AccessBitFlag.BLOCK_EAST) == 0
+            (blockAccessFlags and BlockAccessFlag.BLOCK_EAST) == 0
         ) {
             return true
         }
 
         if (z + 1 == destZ && x >= destX && x <= east &&
             (flags[x, z, level] and CollisionFlag.WALL_NORTH) == 0 &&
-            (accessBitMask and AccessBitFlag.BLOCK_SOUTH) == 0
+            (blockAccessFlags and BlockAccessFlag.BLOCK_SOUTH) == 0
 
         ) {
             return true
@@ -64,7 +64,7 @@ public object RectangleBoundaryUtils {
 
         return z == north + 1 && x >= destX && x <= east &&
             (flags[x, z, level] and CollisionFlag.WALL_SOUTH) == 0 &&
-            (accessBitMask and AccessBitFlag.BLOCK_NORTH) == 0
+            (blockAccessFlags and BlockAccessFlag.BLOCK_NORTH) == 0
     }
 
     internal fun reachRectangleN(
@@ -72,7 +72,7 @@ public object RectangleBoundaryUtils {
         x: Int,
         z: Int,
         level: Int,
-        accessBitMask: Int,
+        blockAccessFlags: Int,
         destX: Int,
         destZ: Int,
         srcWidth: Int,
@@ -84,7 +84,7 @@ public object RectangleBoundaryUtils {
         val srcNorth = srcHeight + z
         val destEast = destWidth + destX
         val destNorth = destHeight + destZ
-        if (destEast == x && (accessBitMask and AccessBitFlag.BLOCK_EAST) == 0) {
+        if (destEast == x && (blockAccessFlags and BlockAccessFlag.BLOCK_EAST) == 0) {
             val fromZ = max(z, destZ)
             val toZ = min(srcNorth, destNorth)
             for (sideZ in fromZ until toZ) {
@@ -92,7 +92,7 @@ public object RectangleBoundaryUtils {
                     return true
                 }
             }
-        } else if (srcEast == destX && (accessBitMask and AccessBitFlag.BLOCK_WEST) == 0) {
+        } else if (srcEast == destX && (blockAccessFlags and BlockAccessFlag.BLOCK_WEST) == 0) {
             val fromZ = max(z, destZ)
             val toZ = min(srcNorth, destNorth)
             for (sideZ in fromZ until toZ) {
@@ -100,7 +100,7 @@ public object RectangleBoundaryUtils {
                     return true
                 }
             }
-        } else if (z == destNorth && (accessBitMask and AccessBitFlag.BLOCK_NORTH) == 0) {
+        } else if (z == destNorth && (blockAccessFlags and BlockAccessFlag.BLOCK_NORTH) == 0) {
             val fromX = max(x, destX)
             val toX = min(srcEast, destEast)
             for (sideX in fromX until toX) {
@@ -108,7 +108,7 @@ public object RectangleBoundaryUtils {
                     return true
                 }
             }
-        } else if (destZ == srcNorth && (accessBitMask and AccessBitFlag.BLOCK_SOUTH) == 0) {
+        } else if (destZ == srcNorth && (blockAccessFlags and BlockAccessFlag.BLOCK_SOUTH) == 0) {
             val fromX = max(x, destX)
             val toX = min(srcEast, destEast)
             for (sideX in fromX until toX) {

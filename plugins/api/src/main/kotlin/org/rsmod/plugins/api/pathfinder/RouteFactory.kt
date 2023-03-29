@@ -93,7 +93,7 @@ public class RouteFactory @Inject constructor(flags: CollisionFlagMap) {
             destHeight = destination.height,
             objShape = destination.shape,
             objRot = destination.rot,
-            accessBitMask = destination.relativeBlockApproach,
+            blockAccessFlags = destination.relativeBlockApproach,
             collision = collision.strategy
         )
     }

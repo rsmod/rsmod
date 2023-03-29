@@ -22,7 +22,7 @@ public object ReachStrategy {
         srcSize: Int,
         rotation: Int,
         shape: Int,
-        accessBitMask: Int
+        blockAccessFlags: Int
     ): Boolean {
         val exitStrategy = shape.exitStrategy
         if (exitStrategy != RECTANGLE_EXCLUSIVE_STRATEGY && x == destX && z == destZ) return true
@@ -54,7 +54,7 @@ public object ReachStrategy {
                 x,
                 z,
                 level,
-                accessBitMask,
+                blockAccessFlags,
                 destX,
                 destZ,
                 srcSize,
@@ -66,7 +66,7 @@ public object ReachStrategy {
                 x,
                 z,
                 level,
-                accessBitMask,
+                blockAccessFlags,
                 destX,
                 destZ,
                 srcSize,
