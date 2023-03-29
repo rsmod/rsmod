@@ -93,7 +93,7 @@ public class RouteFactory @Inject constructor(flags: CollisionFlagMap) {
             destHeight = destination.height,
             objShape = destination.shape,
             objRot = destination.rot,
-            accessBitMask = destination.accessBitMask,
+            accessBitMask = destination.relativeBlockApproach,
             collision = collision.strategy
         )
     }
@@ -108,11 +108,11 @@ public class RouteFactory @Inject constructor(flags: CollisionFlagMap) {
 
         private const val RECTANGLE_EXCLUSIVE_STRATEGY: Int = -2
 
-        private val GameObject.accessBitMask: Int get() {
+        private val GameObject.relativeBlockApproach: Int get() {
             return if (rot == 0) {
-                type.clipMask
+                type.blockApproach
             } else {
-                ((type.clipMask shl rot) and 0xF) or (type.clipMask shr (4 - rot))
+                ((type.blockApproach shl rot) and 0xF) or (type.blockApproach shr (4 - rot))
             }
         }
     }

@@ -11,7 +11,7 @@ private const val DEFAULT_BLOCK_PROJ = true
 private const val DEFAULT_INTERACT_TYPE = -1
 private const val DEFAULT_OBSTRUCT = false
 private const val DEFAULT_CLIP_TYPE = 2
-private const val DEFAULT_CLIP_MASK = 0
+private const val DEFAULT_BLOCK_APPROACH = 0
 private const val DEFAULT_VARP = -1
 private const val DEFAULT_VARBIT = -1
 private const val DEFAULT_ANIMATION = -1
@@ -45,7 +45,6 @@ private val DEFAULT_RECOLOR_DEST = emptyArray<Int>()
 private val DEFAULT_RETEXTURE_SRC = emptyArray<Int>()
 private val DEFAULT_RETEXTURE_DEST = emptyArray<Int>()
 private val DEFAULT_UNKNOWN_INT_ARRAY = emptyArray<Int>()
-private val DEFAULT_PARAMETERS = emptyMap<Int, Any>()
 
 @DslMarker
 private annotation class BuilderDslMarker
@@ -61,7 +60,7 @@ public class ObjectTypeBuilder(
     public var interactType: Int = DEFAULT_INTERACT_TYPE,
     public var obstruct: Boolean = DEFAULT_OBSTRUCT,
     public var clipType: Int = DEFAULT_CLIP_TYPE,
-    public var clipMask: Int = DEFAULT_CLIP_MASK,
+    public var blockApproach: Int = DEFAULT_BLOCK_APPROACH,
     public var varp: Int = DEFAULT_VARP,
     public var varbit: Int = DEFAULT_VARBIT,
     public var animation: Int = DEFAULT_ANIMATION,
@@ -117,7 +116,7 @@ public class ObjectTypeBuilder(
             interactType = interactType,
             obstruct = obstruct,
             clipType = clipType,
-            clipMask = clipMask,
+            blockApproach = blockApproach,
             varp = varp,
             varbit = varbit,
             animation = animation,
@@ -169,7 +168,7 @@ public class ObjectTypeBuilder(
         if (interactType == DEFAULT_INTERACT_TYPE) interactType = other.interactType
         if (obstruct == DEFAULT_OBSTRUCT) obstruct = other.obstruct
         if (clipType == DEFAULT_CLIP_TYPE) clipType = other.clipType
-        if (clipMask == DEFAULT_CLIP_MASK) clipMask = other.clipMask
+        if (blockApproach == DEFAULT_BLOCK_APPROACH) blockApproach = other.blockApproach
         if (varp == DEFAULT_VARP) varp = other.varp
         if (varbit == DEFAULT_VARBIT) varbit = other.varbit
         if (animation == DEFAULT_ANIMATION) animation = other.animation

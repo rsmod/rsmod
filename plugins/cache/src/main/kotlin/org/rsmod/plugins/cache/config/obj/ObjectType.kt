@@ -13,7 +13,7 @@ public data class ObjectType(
     val interactType: Int,
     val obstruct: Boolean,
     val clipType: Int,
-    val clipMask: Int,
+    val blockApproach: Int,
     val varp: Int,
     val varbit: Int,
     val animation: Int,

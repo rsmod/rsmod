@@ -111,7 +111,7 @@ public object ObjectTypeLoader {
             66 -> resizeHeight = buf.readUnsignedShort()
             67 -> resizeY = buf.readUnsignedShort()
             68 -> mapSceneId = buf.readUnsignedShort()
-            69 -> clipMask = buf.readUnsignedByte().toInt()
+            69 -> blockApproach = buf.readUnsignedByte().toInt()
             70 -> offsetX = buf.readShort().toInt()
             71 -> offsetHeight = buf.readShort().toInt()
             72 -> offsetY = buf.readShort().toInt()
