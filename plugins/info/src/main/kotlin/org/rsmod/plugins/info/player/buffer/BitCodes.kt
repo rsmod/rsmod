@@ -1,18 +1,7 @@
 package org.rsmod.plugins.info.player.buffer
 
-import org.rsmod.plugins.info.player.model.bitcode.I26BitCode
 import org.rsmod.plugins.info.player.model.coord.HighResCoord
 import org.rsmod.plugins.info.player.model.coord.LowResCoord
-
-internal fun BitBuffer.getI26BitCode(bits: Int): I26BitCode {
-    return I26BitCode(getBits(bits), bits)
-}
-
-internal fun BitBuffer.putI26BitCode(bitCode: I26BitCode): BitBuffer {
-    if (bitCode.bitCount == 0) return this
-    putBits(bitCode.bitCount, bitCode.value)
-    return this
-}
 
 internal fun BitBuffer.putHighResUpdate(
     extended: Boolean,
