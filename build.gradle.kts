@@ -1,3 +1,4 @@
+@file:Suppress("UnstableApiUsage")
 
 import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
 import org.jetbrains.kotlin.gradle.plugin.getKotlinPluginVersion
@@ -11,6 +12,7 @@ val ossrhPassword: String? by ext
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     kotlin("jvm")
+    `jvm-test-suite`
     alias(libs.plugins.kotlinter) apply false
     alias(libs.plugins.jmh) apply false
     alias(libs.plugins.versions)
@@ -46,6 +48,16 @@ allprojects {
             testImplementation(libs.junitApi)
             testImplementation(libs.junitParams)
         }
+
+        testing.suites {
+            configureEach {
+                if (this !is JvmTestSuite) error("Invalid test type: $this.")
+                useJUnit()
+                useJUnitJupiter()
+            }
+            @Suppress("UNUSED_VARIABLE")
+            val integration by registering(JvmTestSuite::class)
+        }
     }
 
     plugins.withType<KotlinPluginWrapper> {
@@ -64,11 +76,6 @@ allprojects {
             /* https://youtrack.jetbrains.com/issue/KT-52735/Ignore-scripts-in-source-roots-by-default */
             freeCompilerArgs = listOf("-Xallow-any-scripts-in-source-roots")
         }
-    }
-
-    tasks.withType<Test> {
-        jvmArgs = listOf("-ea")
-        useJUnitPlatform()
     }
 
     plugins.withType<MavenPublishPlugin> {
