@@ -11,8 +11,7 @@ public class GameTestExtension :
     BeforeAllCallback,
     AfterAllCallback,
     ParameterResolver,
-    ExtensionContext.Store.CloseableResource
-{
+    ExtensionContext.Store.CloseableResource {
 
     private val lock = ReentrantLock()
     private val namespace = ExtensionContext.Namespace.create("game-tests")
