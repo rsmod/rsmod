@@ -12,7 +12,6 @@ import org.junit.jupiter.params.provider.ArgumentsSource
 import org.rsmod.plugins.cache.config.item.ItemTypeLoader.readType
 import org.rsmod.plugins.cache.config.item.ItemTypePacker.writeType
 import org.rsmod.plugins.cache.config.param.ParamMap
-import org.rsmod.plugins.cache.config.param.ParamType
 import org.rsmod.plugins.cache.config.param.ParamTypeBuilder
 import org.rsmod.plugins.cache.config.param.ParamTypeList
 import org.rsmod.plugins.cache.literal.CacheTypeLiteral
@@ -31,7 +30,7 @@ class ItemTypeCodecTest {
 
     @Test
     fun testJs5Codec() {
-        val params = emptyMap<Int, ParamType<*>>()
+        val params = ParamTypeList(emptyMap())
         val type = ItemTypeBuilder().apply {
             id = 4151
             internalName = "test_name_4151"
@@ -57,7 +56,7 @@ class ItemTypeCodecTest {
         ).associateBy { it.id }
 
         private fun mockParamTypeList(): ParamTypeList {
-            return params
+            return ParamTypeList(params)
         }
     }
 

@@ -2,8 +2,9 @@ package org.rsmod.plugins.api.cache.type.item
 
 import org.openrs2.cache.Cache
 import org.rsmod.plugins.api.cache.build.game.GameCache
-import org.rsmod.plugins.api.cache.type.param.ParamTypeList
+import org.rsmod.plugins.cache.config.item.ItemTypeList
 import org.rsmod.plugins.cache.config.item.ItemTypeLoader
+import org.rsmod.plugins.cache.config.param.ParamTypeList
 import javax.inject.Inject
 import javax.inject.Provider
 
