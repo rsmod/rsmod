@@ -4,6 +4,7 @@ import com.google.inject.AbstractModule
 import com.google.inject.Scopes
 import org.rsmod.buffer.BufferModule
 import org.rsmod.game.events.EventBus
+import org.rsmod.game.model.WorldClock
 import org.rsmod.game.model.mob.list.PlayerList
 import org.rsmod.json.JsonModule
 import org.rsmod.plugins.api.cache.CacheModule
@@ -31,5 +32,6 @@ public object APIModule : AbstractModule() {
 
         bind(EventBus::class.java).`in`(Scopes.SINGLETON)
         bind(PlayerList::class.java).`in`(Scopes.SINGLETON)
+        bind(WorldClock::class.java).`in`(Scopes.SINGLETON)
     }
 }
