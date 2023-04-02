@@ -4,12 +4,12 @@ import org.rsmod.game.GameProcess
 import org.rsmod.game.client.ClientList
 import org.rsmod.game.coroutines.GameCoroutineScope
 import org.rsmod.game.events.EventBus
+import org.rsmod.game.model.WorldClock
 import org.rsmod.game.model.mob.list.PlayerList
 import org.rsmod.game.model.mob.list.forEachNotNull
 import org.rsmod.plugins.api.info.player.PlayerInfoTask
 import org.rsmod.plugins.api.move.MovementProcess
 import org.rsmod.plugins.api.net.upstream.handler.UpstreamHandlerTask
-import org.rsmod.plugins.api.world.World
 import javax.inject.Inject
 
 public class MainGameProcess @Inject constructor(
@@ -20,7 +20,7 @@ public class MainGameProcess @Inject constructor(
     private val players: PlayerList,
     private val eventBus: EventBus,
     private val movement: MovementProcess,
-    private val world: World
+    private val clock: WorldClock
 ) : GameProcess {
 
     override fun startUp() {
@@ -46,7 +46,7 @@ public class MainGameProcess @Inject constructor(
     }
 
     private fun worldCycle() {
-        world.tick++
+        clock.tick++
         coroutineScope.advance()
         players.advanceCoroutineScope()
     }

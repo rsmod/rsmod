@@ -3,6 +3,7 @@ package org.rsmod.plugins.api.info.player
 import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
 import org.rsmod.game.map.Coordinates
+import org.rsmod.game.model.WorldClock
 import org.rsmod.game.model.mob.Player
 import org.rsmod.game.model.mob.info.ExtendedInfoTypeSet
 import org.rsmod.game.model.mob.list.PlayerList
@@ -12,7 +13,6 @@ import org.rsmod.plugins.api.net.builder.info.ExtendedInfoEncoderMap
 import org.rsmod.plugins.api.net.downstream.PlayerInfoPacket
 import org.rsmod.plugins.api.net.info.ExtendedPlayerInfo
 import org.rsmod.plugins.api.net.platform.info.InfoPlatformPacketEncoders
-import org.rsmod.plugins.api.world.World
 import org.rsmod.plugins.info.model.coord.HighResCoord
 import org.rsmod.plugins.info.player.PlayerInfo
 import javax.inject.Inject
@@ -23,7 +23,7 @@ public class PlayerInfoTask @Inject constructor(
     private val players: PlayerList,
     private val info: PlayerInfo,
     private val extended: InfoPlatformPacketEncoders,
-    private val world: World
+    private val clock: WorldClock
 ) {
 
     private val logInInfo = ExtendedInfoTypeSet.of(
@@ -91,7 +91,7 @@ public class PlayerInfoTask @Inject constructor(
             val static = extendedInfo(cachedInfo, dataBuf.clear(), encoders).array()
             val dynamic = extendedInfo(updateCached, dataBuf.clear(), encoders).array()
             info.cacheStaticExtendedInfo(index, static)
-            info.cacheDynamicExtendedInfo(index, world.tick, dynamic)
+            info.cacheDynamicExtendedInfo(index, clock.tick, dynamic)
         }
     }
 
