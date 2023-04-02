@@ -1,6 +1,5 @@
-package org.rsmod.plugins.api.cache.type.npc
+package org.rsmod.plugins.cache.config.npc
 
-import org.rsmod.plugins.cache.config.npc.NpcType
 import org.rsmod.plugins.types.NamedNpc
 
 public class NpcTypeList(private val elements: Map<Int, NpcType>) : Map<Int, NpcType> by elements {

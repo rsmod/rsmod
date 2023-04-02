@@ -1,10 +1,10 @@
 package org.rsmod.plugins.cache.packer.type
 
-import org.rsmod.plugins.api.cache.type.item.ItemTypeList
-import org.rsmod.plugins.api.cache.type.param.ParamTypeList
 import org.rsmod.plugins.cache.config.item.ItemType
 import org.rsmod.plugins.cache.config.item.ItemTypeBuilder
+import org.rsmod.plugins.cache.config.item.ItemTypeList
 import org.rsmod.plugins.cache.config.param.ParamMap
+import org.rsmod.plugins.cache.config.param.ParamTypeList
 import org.rsmod.plugins.cache.packer.util.CacheTypeLiteralUtils.convert
 import org.rsmod.plugins.cache.packer.util.StringUtils.stripTag
 import org.rsmod.plugins.types.NamedItem

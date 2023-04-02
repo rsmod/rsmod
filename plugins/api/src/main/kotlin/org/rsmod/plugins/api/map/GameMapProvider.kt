@@ -4,7 +4,7 @@ import org.openrs2.cache.Cache
 import org.rsmod.plugins.api.cache.build.game.GameCache
 import org.rsmod.plugins.api.cache.map.GameMapLoader
 import org.rsmod.plugins.api.cache.map.xtea.XteaRepository
-import org.rsmod.plugins.api.cache.type.obj.ObjectTypeList
+import org.rsmod.plugins.cache.config.obj.ObjectTypeList
 import javax.inject.Inject
 import javax.inject.Provider
 

@@ -1,7 +1,6 @@
 package org.rsmod.plugins.playground.login
 
 import org.rsmod.plugins.api.account_info_update
-import org.rsmod.plugins.api.cache.type.varbit.VarbitTypeList
 import org.rsmod.plugins.api.chatbox_unlocked
 import org.rsmod.plugins.api.clientScript
 import org.rsmod.plugins.api.component
@@ -17,6 +16,7 @@ import org.rsmod.plugins.api.scrollbar_resize
 import org.rsmod.plugins.api.setVarbit
 import org.rsmod.plugins.api.settings_interface_scaling
 import org.rsmod.plugins.api.varbit
+import org.rsmod.plugins.cache.config.varbit.VarbitTypeList
 
 private val varbits: VarbitTypeList by inject()
 

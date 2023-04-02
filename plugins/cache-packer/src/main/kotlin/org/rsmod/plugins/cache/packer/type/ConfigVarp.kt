@@ -1,8 +1,8 @@
 package org.rsmod.plugins.cache.packer.type
 
-import org.rsmod.plugins.api.cache.type.varp.VarpTypeList
 import org.rsmod.plugins.cache.config.varp.VarpType
 import org.rsmod.plugins.cache.config.varp.VarpTypeBuilder
+import org.rsmod.plugins.cache.config.varp.VarpTypeList
 import org.rsmod.plugins.cache.packer.util.StringUtils.stripTag
 import org.rsmod.plugins.types.NamedTypeMapHolder
 import org.rsmod.plugins.types.NamedVarp
