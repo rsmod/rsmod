@@ -2,13 +2,10 @@ package org.rsmod.plugins.api.move
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 import org.rsmod.game.map.Coordinates
 import org.rsmod.game.model.route.RouteRequestCoordinates
-import org.rsmod.plugins.testing.GameTestExtension
 import org.rsmod.plugins.testing.GameTestState
 
-@ExtendWith(GameTestExtension::class)
 class MovementProcessTest {
 
     @Test
