@@ -1,5 +1,7 @@
 @file:Suppress("UnstableApiUsage")
 
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
 import org.jetbrains.kotlin.gradle.plugin.getKotlinPluginVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -52,11 +54,36 @@ allprojects {
         testing.suites {
             configureEach {
                 if (this !is JvmTestSuite) error("Invalid test type: $this.")
-                useJUnit()
-                useJUnitJupiter()
+                useJUnitJupiter("5.9.2")
             }
             @Suppress("UNUSED_VARIABLE")
-            val integration by registering(JvmTestSuite::class)
+            val integration by registering(JvmTestSuite::class) {
+                dependencies {
+                    implementation(project())
+                }
+                targets.all {
+                    testTask.configure {
+                        workingDir = rootDir
+                        debugOptions {
+                            host.set("localhost")
+                            port.set(4455)
+                            server.set(true)
+                            suspend.set(true)
+                        }
+                        testLogging {
+                            exceptionFormat = TestExceptionFormat.FULL
+                            showExceptions = true
+                            events(
+                                TestLogEvent.PASSED,
+                                TestLogEvent.FAILED,
+                                TestLogEvent.SKIPPED,
+                                TestLogEvent.STANDARD_OUT,
+                                TestLogEvent.STANDARD_ERROR
+                            )
+                        }
+                    }
+                }
+            }
         }
     }
 
