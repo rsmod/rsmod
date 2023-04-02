@@ -35,6 +35,7 @@
             <option value="$PROJECT_DIR$/plugins/profile" />
             <option value="$PROJECT_DIR$/plugins/store" />
             <option value="$PROJECT_DIR$/plugins/store-dev" />
+            <option value="$PROJECT_DIR$/plugins/testing" />
             <option value="$PROJECT_DIR$/plugins/types" />
             <option value="$PROJECT_DIR$/plugins/types-generated" />
             <option value="$PROJECT_DIR$/plugins/types-generator" />

@@ -1,4 +1,7 @@
+@file:Suppress("UnstableApiUsage")
 
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
 import org.jetbrains.kotlin.gradle.plugin.getKotlinPluginVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -11,6 +14,7 @@ val ossrhPassword: String? by ext
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     kotlin("jvm")
+    `jvm-test-suite`
     alias(libs.plugins.kotlinter) apply false
     alias(libs.plugins.jmh) apply false
     alias(libs.plugins.versions)
@@ -46,6 +50,41 @@ allprojects {
             testImplementation(libs.junitApi)
             testImplementation(libs.junitParams)
         }
+
+        testing.suites {
+            configureEach {
+                if (this !is JvmTestSuite) error("Invalid test type: $this.")
+                useJUnitJupiter("5.9.2")
+            }
+            @Suppress("UNUSED_VARIABLE")
+            val integration by registering(JvmTestSuite::class) {
+                dependencies {
+                    implementation(project())
+                }
+                targets.all {
+                    testTask.configure {
+                        workingDir = rootDir
+                        debugOptions {
+                            host.set("localhost")
+                            port.set(4455)
+                            server.set(true)
+                            suspend.set(true)
+                        }
+                        testLogging {
+                            exceptionFormat = TestExceptionFormat.FULL
+                            showExceptions = true
+                            events(
+                                TestLogEvent.PASSED,
+                                TestLogEvent.FAILED,
+                                TestLogEvent.SKIPPED,
+                                TestLogEvent.STANDARD_OUT,
+                                TestLogEvent.STANDARD_ERROR
+                            )
+                        }
+                    }
+                }
+            }
+        }
     }
 
     plugins.withType<KotlinPluginWrapper> {
@@ -64,11 +103,6 @@ allprojects {
             /* https://youtrack.jetbrains.com/issue/KT-52735/Ignore-scripts-in-source-roots-by-default */
             freeCompilerArgs = listOf("-Xallow-any-scripts-in-source-roots")
         }
-    }
-
-    tasks.withType<Test> {
-        jvmArgs = listOf("-ea")
-        useJUnitPlatform()
     }
 
     plugins.withType<MavenPublishPlugin> {
