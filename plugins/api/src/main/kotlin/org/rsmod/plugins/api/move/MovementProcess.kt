@@ -61,6 +61,8 @@ public class MovementProcess @Inject constructor(
             displace(destination)
             return
         }
+        // TODO: assign "temporary" move speed for this specific route
+        // based on [RouteRequest.speed]
         val route = request.createRoute(entity)
         movement.addAll(route)
         if (route.failed) {
