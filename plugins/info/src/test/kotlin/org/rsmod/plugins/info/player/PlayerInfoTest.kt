@@ -4,9 +4,12 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ArgumentsSource
 import org.rsmod.plugins.info.model.coord.HighResCoord
 import org.rsmod.plugins.info.player.PlayerInfo.Companion.CACHED_EXT_INFO_BUFFER_SIZE
 import org.rsmod.plugins.info.player.PlayerInfo.Companion.DEFAULT_BUFFER_LIMIT
+import org.rsmod.plugins.info.player.PlayerInfo.Companion.DEFAULT_PLAYER_LIMIT
 import org.rsmod.plugins.info.player.client.isInvalid
 import org.rsmod.plugins.info.player.client.isValid
 import java.nio.ByteBuffer
@@ -14,19 +17,8 @@ import java.nio.ByteBuffer
 class PlayerInfoTest {
 
     @Test
-    fun testRegistration() {
-        val info = PlayerInfo()
-        val index = DUMMY_INDEX
-        assertTrue(info.avatars[index].isInvalid)
-        info.register(index)
-        assertTrue(info.avatars[index].isValid)
-        info.unregister(index)
-        assertTrue(info.avatars[index].isInvalid)
-    }
-
-    @Test
     fun testMaxPlayersLowResBufferLimitation() {
-        val info = PlayerInfo()
+        val info = PlayerInfo(DEFAULT_PLAYER_LIMIT)
         val buf = ByteBuffer.allocate(DEFAULT_BUFFER_LIMIT)
         val staticExtInfo = ByteArray(CACHED_EXT_INFO_BUFFER_SIZE)
         for (i in info.indices) {
@@ -43,9 +35,20 @@ class PlayerInfoTest {
         }
     }
 
-    @Test
-    fun testMaxPlayersLowResNoBufferLimitation() {
-        val info = PlayerInfo()
+    @ParameterizedTest
+    @ArgumentsSource(PlayerInfoProvider::class)
+    fun testRegistration(info: PlayerInfo) {
+        val index = DUMMY_INDEX
+        assertTrue(info.avatars[index].isInvalid)
+        info.register(index)
+        assertTrue(info.avatars[index].isValid)
+        info.unregister(index)
+        assertTrue(info.avatars[index].isInvalid)
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(PlayerInfoProvider::class)
+    fun testMaxPlayersLowResNoBufferLimitation(info: PlayerInfo) {
         val buf = ByteBuffer.allocate(200_000)
         val staticExtInfo = ByteArray(CACHED_EXT_INFO_BUFFER_SIZE)
         for (i in info.indices) {
@@ -62,9 +65,9 @@ class PlayerInfoTest {
         }
     }
 
-    @Test
-    fun testMultiPlayerLogOut() {
-        val info = PlayerInfo()
+    @ParameterizedTest
+    @ArgumentsSource(PlayerInfoProvider::class)
+    fun testMultiPlayerLogOut(info: PlayerInfo) {
         val buf = ByteBuffer.allocate(16)
         val playerA = 1
         val playerB = 2
@@ -120,9 +123,9 @@ class PlayerInfoTest {
         }
     }
 
-    @Test
-    fun testMultiPlayerLogIn() {
-        val info = PlayerInfo()
+    @ParameterizedTest
+    @ArgumentsSource(PlayerInfoProvider::class)
+    fun testMultiPlayerLogIn(info: PlayerInfo) {
         val buf = ByteBuffer.allocate(16)
         val playerA = 1
         val playerB = 2

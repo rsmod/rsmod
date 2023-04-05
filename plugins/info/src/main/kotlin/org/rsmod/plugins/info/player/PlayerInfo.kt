@@ -137,7 +137,6 @@ public class PlayerInfo(public val playerLimit: Int = DEFAULT_PLAYER_LIMIT) {
             if (skip > 0) {
                 skip--
                 activityFlags[i] = (activityFlags[i].toInt() or ACTIVE_TO_INACTIVE_FLAG).toByte()
-                metadata.highResolutionCount++
                 continue
             }
             val other = avatars[i]
@@ -181,7 +180,7 @@ public class PlayerInfo(public val playerLimit: Int = DEFAULT_PLAYER_LIMIT) {
             )
             activityFlags[i] = (activityFlags[i].toInt() or ACTIVE_TO_INACTIVE_FLAG).toByte()
             metadata.highResolutionSkip += skip
-            metadata.highResolutionCount++
+            metadata.highResolutionCount += skip + 1
             putSkipCount(skip)
         }
     }
@@ -192,15 +191,20 @@ public class PlayerInfo(public val playerLimit: Int = DEFAULT_PLAYER_LIMIT) {
         client: Client
     ): Int {
         var skip = 0
+        var reachedTail = false
         for (i in startIndex until capacity) {
             if (!client.isHighResolution[i]) continue
             val inactive = (client.activityFlags[i].toInt() and INACTIVE_FLAG) != 0
             if (inactive == active) continue
+            reachedTail = i == playerLimit
             val other = avatars[i]
             val update = other.isInvalid || other.extendedInfoLength != 0 ||
                 other.coords != other.prevCoords
             if (update) break
             skip++
+        }
+        if (playerLimit != DEFAULT_PLAYER_LIMIT && reachedTail) {
+            skip += DEFAULT_PLAYER_LIMIT - playerLimit
         }
         return skip
     }
@@ -219,7 +223,6 @@ public class PlayerInfo(public val playerLimit: Int = DEFAULT_PLAYER_LIMIT) {
             if (skip > 0) {
                 skip--
                 activityFlags[i] = (activityFlags[i].toInt() or ACTIVE_TO_INACTIVE_FLAG).toByte()
-                metadata.lowResolutionCount++
                 continue
             }
             val other = avatars[i]
@@ -275,7 +278,7 @@ public class PlayerInfo(public val playerLimit: Int = DEFAULT_PLAYER_LIMIT) {
             )
             activityFlags[i] = (activityFlags[i].toInt() or ACTIVE_TO_INACTIVE_FLAG).toByte()
             metadata.lowResolutionSkip += skip
-            metadata.lowResolutionCount++
+            metadata.lowResolutionCount += skip + 1
             putSkipCount(skip)
         }
     }
@@ -287,10 +290,12 @@ public class PlayerInfo(public val playerLimit: Int = DEFAULT_PLAYER_LIMIT) {
         client: Client
     ): Int {
         var skip = 0
+        var reachedTail = false
         for (i in startIndex until capacity) {
             if (client.isHighResolution[i]) continue
             val inactive = (client.activityFlags[i].toInt() and INACTIVE_FLAG) != 0
             if (inactive == active) continue
+            reachedTail = i == playerLimit
             val other = avatars[i]
             if (other.isInvalid) {
                 skip++
@@ -300,6 +305,9 @@ public class PlayerInfo(public val playerLimit: Int = DEFAULT_PLAYER_LIMIT) {
                 coords.inViewDistance(other.coords, client.viewDistance)
             if (update) break
             skip++
+        }
+        if (playerLimit != DEFAULT_PLAYER_LIMIT && reachedTail) {
+            skip += DEFAULT_PLAYER_LIMIT - playerLimit
         }
         return skip
     }

@@ -4,7 +4,8 @@ import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ArgumentsSource
 import org.rsmod.plugins.info.buffer.BitBuffer
 import org.rsmod.plugins.info.model.coord.HighResCoord
 import org.rsmod.plugins.info.player.PlayerInfo.Companion.DEFAULT_BUFFER_LIMIT
@@ -21,9 +22,9 @@ import java.nio.ByteBuffer
 
 class PlayerInfoBufferTest {
 
-    @Test
-    fun testSinglePlayerFullReadNoUpdate() {
-        val info = PlayerInfo()
+    @ParameterizedTest
+    @ArgumentsSource(PlayerInfoProvider::class)
+    fun testSinglePlayerFullReadNoUpdate(info: PlayerInfo) {
         val buf = ByteBuffer.allocate(DEFAULT_BUFFER_LIMIT)
         val index = DUMMY_INDEX
         val metadata = PlayerInfoMetadata()
@@ -52,9 +53,9 @@ class PlayerInfoBufferTest {
         assertEquals(0, buf.remaining())
     }
 
-    @Test
-    fun testSinglePlayerFullReadExtInfoNoMovement() {
-        val info = PlayerInfo()
+    @ParameterizedTest
+    @ArgumentsSource(PlayerInfoProvider::class)
+    fun testSinglePlayerFullReadExtInfoNoMovement(info: PlayerInfo) {
         val buf = ByteBuffer.allocate(DEFAULT_BUFFER_LIMIT)
         val index = DUMMY_INDEX
         val metadata = PlayerInfoMetadata()
@@ -107,9 +108,9 @@ class PlayerInfoBufferTest {
      *
      * Where X < Y < Z
      */
-    @Test
-    fun testCase1() {
-        val info = PlayerInfo()
+    @ParameterizedTest
+    @ArgumentsSource(PlayerInfoProvider::class)
+    fun testCase1(info: PlayerInfo) {
         val buf = ByteBuffer.allocate(DEFAULT_BUFFER_LIMIT)
         val playerA = 1
         val playerB = 2
@@ -627,9 +628,9 @@ class PlayerInfoBufferTest {
      * Player A: stationary at coords 3200,3200
      * Player B: stationary at coords 3203,3202
      */
-    @Test
-    fun testCase2() {
-        val info = PlayerInfo()
+    @ParameterizedTest
+    @ArgumentsSource(PlayerInfoProvider::class)
+    fun testCase2(info: PlayerInfo) {
         val buf = ByteBuffer.allocate(DEFAULT_BUFFER_LIMIT)
         val playerA = 1
         val playerB = 2

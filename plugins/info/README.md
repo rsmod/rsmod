@@ -1,22 +1,22 @@
 ```
-Benchmark                                                                                      Mode  Cnt    Score   Error  Units
-MultiThreadBufLimited.registerAndUpdateMaxHighResPlayersWithMovement                           avgt        81.654          ms/op
-MultiThreadBufLimited.registerAndUpdateMaxPlayersNoExtInfo                                     avgt        78.548          ms/op
-MultiThreadBufLimited.registerAndUpdateMaxPlayersWithMaxByteStaticExtInfo                      avgt        79.336          ms/op
-MultiThreadBufLimitedStartHighRes.registerAndUpdateMaxHighResPlayersWithMovement               avgt        79.797          ms/op
-MultiThreadBufLimitedStartHighRes.registerAndUpdateMaxPlayersNoExtInfo                         avgt        78.348          ms/op
-MultiThreadBufLimitedStartHighRes.registerAndUpdateMaxPlayersWithMaxByteStaticExtInfo          avgt        79.356          ms/op
-MultiThreadNoBufLimit.registerAndUpdateMaxHighResPlayersWithMovement                           avgt        81.740          ms/op
-MultiThreadNoBufLimit.registerAndUpdateMaxPlayersNoExtInfo                                     avgt        76.761          ms/op
-MultiThreadNoBufLimit.registerAndUpdateMaxPlayersWithMaxByteStaticExtInfo                      avgt        79.281          ms/op
+Benchmark                                                                               Mode  Cnt    Score   Error  Units
+MultiThreadBufLimited.registerAndUpdateMaxHighResPlayersWithMovement                    avgt        79.593          ms/op
+MultiThreadBufLimited.registerAndUpdateMaxPlayersNoExtInfo                              avgt        77.300          ms/op
+MultiThreadBufLimited.registerAndUpdateMaxPlayersWithMaxByteStaticExtInfo               avgt        79.213          ms/op
+MultiThreadBufLimitedStartHighRes.registerAndUpdateMaxHighResPlayersWithMovement        avgt        78.030          ms/op
+MultiThreadBufLimitedStartHighRes.registerAndUpdateMaxPlayersNoExtInfo                  avgt        78.114          ms/op
+MultiThreadBufLimitedStartHighRes.registerAndUpdateMaxPlayersWithMaxByteStaticExtInfo   avgt        82.058          ms/op
+MultiThreadNoBufLimit.registerAndUpdateMaxHighResPlayersWithMovement                    avgt        73.842          ms/op
+MultiThreadNoBufLimit.registerAndUpdateMaxPlayersNoExtInfo                              avgt        75.187          ms/op
+MultiThreadNoBufLimit.registerAndUpdateMaxPlayersWithMaxByteStaticExtInfo               avgt        78.823          ms/op
 
-SingleThreadBufLimited.registerAndUpdateMaxHighResPlayersWithMovement                          avgt       199.164          ms/op
-SingleThreadBufLimited.registerAndUpdateMaxPlayersNoExtInfo                                    avgt       200.806          ms/op
-SingleThreadBufLimited.registerAndUpdateMaxPlayersWithMaxByteStaticExtInfo                     avgt       205.203          ms/op
-SingleThreadBufLimitedStartHighRes.registerAndUpdateMaxHighResPlayersWithMovement              avgt       202.616          ms/op
-SingleThreadBufLimitedStartHighRes.registerAndUpdateMaxPlayersNoExtInfo                        avgt       200.050          ms/op
-SingleThreadBufLimitedStartHighRes.registerAndUpdateMaxPlayersWithMaxByteStaticExtInfo         avgt       198.281          ms/op
-SingleThreadNoBufLimit.registerAndUpdateMaxHighResPlayersWithMovement                          avgt       205.985          ms/op
-SingleThreadNoBufLimit.registerAndUpdateMaxPlayersNoExtInfo                                    avgt       205.398          ms/op
-SingleThreadNoBufLimit.registerAndUpdateMaxPlayersWithMaxByteStaticExtInfo                     avgt       231.841          ms/op
+SingleThreadBufLimited.registerAndUpdateMaxHighResPlayersWithMovement                   avgt       191.676          ms/op
+SingleThreadBufLimited.registerAndUpdateMaxPlayersNoExtInfo                             avgt       186.596          ms/op
+SingleThreadBufLimited.registerAndUpdateMaxPlayersWithMaxByteStaticExtInfo              avgt       197.209          ms/op
+SingleThreadBufLimitedStartHighRes.registerAndUpdateMaxHighResPlayersWithMovement       avgt       191.951          ms/op
+SingleThreadBufLimitedStartHighRes.registerAndUpdateMaxPlayersNoExtInfo                 avgt       195.446          ms/op
+SingleThreadBufLimitedStartHighRes.registerAndUpdateMaxPlayersWithMaxByteStaticExtInfo  avgt       196.355          ms/op
+SingleThreadNoBufLimit.registerAndUpdateMaxHighResPlayersWithMovement                   avgt       200.219          ms/op
+SingleThreadNoBufLimit.registerAndUpdateMaxPlayersNoExtInfo                             avgt       205.668          ms/op
+SingleThreadNoBufLimit.registerAndUpdateMaxPlayersWithMaxByteStaticExtInfo              avgt       225.798          ms/op
 ```
