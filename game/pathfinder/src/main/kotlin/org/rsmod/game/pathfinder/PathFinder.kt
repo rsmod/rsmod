@@ -38,6 +38,11 @@ private const val DEFAULT_OBJ_SHAPE = -1
 private const val DEFAULT_BLOCK_ACCESS_FLAGS = 0
 private const val DEFAULT_MOVE_NEAR_FLAG = true
 
+/**
+ * Breadth-first searches through [flags] map to find [Route] from one point to another.
+ * Searches are limited to [searchMapSize] radius and [ringBufferSize] waypoints.
+ * [useRouteBlockerFlags] to allow routes to walk through certain objects.
+ */
 public class PathFinder(
     private val flags: CollisionFlagMap,
     private val searchMapSize: Int = DEFAULT_SEARCH_MAP_SIZE,
@@ -54,6 +59,15 @@ public class PathFinder(
     private var bufReaderIndex = 0
     private var bufWriterIndex = 0
 
+    /**
+     * Find a route from [srcX], [srcZ] to [destX], [destZ] on [level] avoiding obstacles determined by [collision].
+     * [destX], [destZ] is considered reached according to:
+     *  * [objShape] aiming under or beside the target
+     *  * [blockAccessFlags] for approach direction and whether to collide with certain entities.
+     *  * [srcSize], [destWidth] and [destHeight] flipped when necessary due to [objRot].
+     * If unable to reach and [moveNear] then [findClosestApproachPoint] will find a partial route.
+     * Note: [Route.waypoints] is limited to [maxTurns].
+     */
     public fun findPath(
         level: Int,
         srcX: Int,
@@ -1254,6 +1268,10 @@ public class PathFinder(
         return false
     }
 
+    /**
+     *  Checks if there is any closest reachable point within
+     *  [MAX_ALTERNATIVE_ROUTE_DISTANCE_FROM_DESTINATION] of the target.
+     */
     private fun findClosestApproachPoint(
         localSrcX: Int,
         localSrcZ: Int,
