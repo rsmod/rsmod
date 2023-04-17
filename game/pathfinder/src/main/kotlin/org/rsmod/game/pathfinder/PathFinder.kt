@@ -29,15 +29,6 @@ private const val MAX_ALTERNATIVE_ROUTE_SEEK_RANGE = 100
 private const val MAX_ALTERNATIVE_ROUTE_DISTANCE_FROM_DESTINATION = 10
 private const val DEFAULT_USE_ROUTE_BLOCKER_FLAGS = false
 
-private const val DEFAULT_SRC_SIZE = 1
-private const val DEFAULT_DEST_WIDTH = 1
-private const val DEFAULT_DEST_HEIGHT = 1
-private const val DEFAULT_MAX_TURNS = 25
-private const val DEFAULT_OBJ_ROT = 10
-private const val DEFAULT_OBJ_SHAPE = -1
-private const val DEFAULT_BLOCK_ACCESS_FLAGS = 0
-private const val DEFAULT_MOVE_NEAR_FLAG = true
-
 public class PathFinder(
     private val flags: CollisionFlagMap,
     private val searchMapSize: Int = DEFAULT_SEARCH_MAP_SIZE,
@@ -60,14 +51,14 @@ public class PathFinder(
         srcZ: Int,
         destX: Int,
         destZ: Int,
-        srcSize: Int = DEFAULT_SRC_SIZE,
-        destWidth: Int = DEFAULT_DEST_WIDTH,
-        destHeight: Int = DEFAULT_DEST_HEIGHT,
-        objRot: Int = DEFAULT_OBJ_ROT,
-        objShape: Int = DEFAULT_OBJ_SHAPE,
-        moveNear: Boolean = DEFAULT_MOVE_NEAR_FLAG,
-        blockAccessFlags: Int = DEFAULT_BLOCK_ACCESS_FLAGS,
-        maxTurns: Int = DEFAULT_MAX_TURNS,
+        srcSize: Int = 1,
+        destWidth: Int = 1,
+        destHeight: Int = 1,
+        objRot: Int = 10,
+        objShape: Int = -1,
+        moveNear: Boolean = true,
+        blockAccessFlags: Int = 0,
+        maxTurns: Int = 25,
         collision: CollisionStrategy = CollisionStrategies.Normal
     ): Route {
         /*
