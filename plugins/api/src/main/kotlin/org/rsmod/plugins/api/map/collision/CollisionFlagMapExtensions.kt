@@ -66,6 +66,7 @@ private fun CollisionFlagMap.changeNormal(
     }
 }
 
+@Suppress("CascadeIf")
 private fun CollisionFlagMap.changeWall(
     coords: Coordinates,
     rotation: Int,
