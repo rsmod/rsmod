@@ -1,6 +1,12 @@
 package org.rsmod.game.model.mob.list
 
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertNotSame
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertSame
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
@@ -18,32 +24,47 @@ class MobListTest {
     @ParameterizedTest
     @ArgumentsSource(ListProvider::class)
     fun `test capacity property`(list: PlayerList, capacity: Int, indexPadding: Int) {
-        Assertions.assertEquals(capacity, list.capacity)
+        assertEquals(capacity, list.capacity)
 
         /* adding an element should not alter capacity */
         list[1] = createPlayer()
-        Assertions.assertEquals(capacity, list.capacity)
+        assertEquals(capacity, list.capacity)
     }
 
     @ParameterizedTest
     @ArgumentsSource(ListProvider::class)
     fun `test indices property`(list: PlayerList, capacity: Int, indexPadding: Int) {
         val expected = 0 until capacity
-        Assertions.assertEquals(expected, list.indices)
+        assertEquals(expected, list.indices)
     }
 
     @ParameterizedTest
     @ArgumentsSource(ListProvider::class)
     fun `test size property`(list: PlayerList, capacity: Int, indexPadding: Int) {
-        Assertions.assertEquals(capacity, list.size)
+        assertEquals(capacity, list.size)
 
         val index = list.nextAvailableIndex()
-        Assertions.assertNotNull(index)
+        assertNotNull(index)
         list[index!!] = createPlayer()
-        Assertions.assertEquals(capacity, list.size)
+        assertEquals(capacity, list.size)
 
         list[index] = null
-        Assertions.assertEquals(capacity, list.size)
+        assertEquals(capacity, list.size)
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(ListProvider::class)
+    fun testCountNotNull(list: PlayerList, capacity: Int, indexPadding: Int) {
+        require(list.size == capacity)
+        assertEquals(0, list.countNotNull())
+
+        val index = list.nextAvailableIndex()
+        assertNotNull(index)
+        list[index!!] = createPlayer()
+        assertEquals(1, list.countNotNull())
+
+        list[index] = null
+        assertEquals(0, list.countNotNull())
     }
 
     @ParameterizedTest
@@ -53,13 +74,13 @@ class MobListTest {
         capacity: Int,
         indexPadding: Int
     ) {
-        Assertions.assertTrue(list.isEmpty())
+        assertTrue(list.isEmpty())
         /* make sure kotlin std isNotEmpty extension also works properly */
-        Assertions.assertFalse(list.isNotEmpty())
+        assertFalse(list.isNotEmpty())
 
         list[1] = createPlayer()
-        Assertions.assertFalse(list.isEmpty())
-        Assertions.assertTrue(list.isNotEmpty())
+        assertFalse(list.isEmpty())
+        assertTrue(list.isNotEmpty())
     }
 
     @ParameterizedTest
@@ -69,28 +90,28 @@ class MobListTest {
         capacity: Int,
         indexPadding: Int
     ) {
-        Assertions.assertFalse(list.isFull())
+        assertFalse(list.isFull())
 
         list[1] = createPlayer()
-        Assertions.assertFalse(list.isFull())
+        assertFalse(list.isFull())
 
         for (i in indexPadding until capacity - 1) {
             list[i] = createPlayer()
         }
-        Assertions.assertFalse(list.isFull())
+        assertFalse(list.isFull())
 
         list[capacity - 1] = createPlayer()
-        Assertions.assertTrue(list.isFull())
+        assertTrue(list.isFull())
     }
 
     @ParameterizedTest
     @ArgumentsSource(ListProvider::class)
     fun `test next available index is null when list is full`(list: PlayerList, capacity: Int, indexPadding: Int) {
-        Assertions.assertFalse(list.isFull())
+        assertFalse(list.isFull())
         for (i in indexPadding until list.size) {
             list[i] = createPlayer()
         }
-        Assertions.assertNull(list.nextAvailableIndex())
+        assertNull(list.nextAvailableIndex())
     }
 
     @ParameterizedTest
@@ -98,15 +119,15 @@ class MobListTest {
     fun `test available indexes OSRS emulation`(list: PlayerList, capacity: Int, indexPadding: Int) {
         val firstIndex = list.nextAvailableIndex()
         /* first ever available index should be 1 */
-        Assertions.assertEquals(1, firstIndex)
+        assertEquals(1, firstIndex)
 
         list[firstIndex!!] = createPlayer()
         val secondIndex = list.nextAvailableIndex()
-        Assertions.assertEquals(2, secondIndex)
+        assertEquals(2, secondIndex)
 
         list[secondIndex!!] = createPlayer()
         val thirdIndex = list.nextAvailableIndex()
-        Assertions.assertEquals(3, thirdIndex)
+        assertEquals(3, thirdIndex)
 
         /*
          * Next available indexes shouldn't rely on elements being null or not
@@ -117,12 +138,12 @@ class MobListTest {
         list[thirdIndex!!] = createPlayer()
         list[thirdIndex] = null
         val fourthIndex = list.nextAvailableIndex()
-        Assertions.assertEquals(4, fourthIndex)
+        assertEquals(4, fourthIndex)
 
         list[fourthIndex!!] = createPlayer()
         list[fourthIndex] = null
         val fifthIndex = list.nextAvailableIndex()
-        Assertions.assertEquals(5, fifthIndex)
+        assertEquals(5, fifthIndex)
 
         /*
          * After last index (capacity) has been used, the next available index
@@ -130,7 +151,7 @@ class MobListTest {
          */
         list[capacity - 1] = createPlayer()
         val sixthIndex = list.nextAvailableIndex()
-        Assertions.assertEquals(indexPadding, sixthIndex)
+        assertEquals(indexPadding, sixthIndex)
     }
 
     @ParameterizedTest
@@ -139,8 +160,8 @@ class MobListTest {
         val mob = createPlayer()
         val mob2 = createPlayer()
         list[1] = mob
-        Assertions.assertSame(mob, list[1])
-        Assertions.assertNotSame(mob2, list[1])
+        assertSame(mob, list[1])
+        assertNotSame(mob2, list[1])
     }
 
     private fun createPlayer(): Player = Player(PlayerEntity.ZERO)
