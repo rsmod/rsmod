@@ -63,7 +63,7 @@ public class GameTestExtension :
     }
 
     private fun setSharedState(state: GameTestState, store: ExtensionContext.Store) {
-        if (::sharedState.isInitialized) return
+        check(!::sharedState.isInitialized) { "Shared state has already been set." }
         sharedState = state
         store.put(namespace.toString(), this)
     }
