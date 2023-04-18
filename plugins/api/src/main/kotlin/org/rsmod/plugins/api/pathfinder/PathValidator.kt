@@ -1,7 +1,7 @@
 package org.rsmod.plugins.api.pathfinder
 
 import org.rsmod.game.map.Coordinates
-import org.rsmod.game.pathfinder.LinePathFinder
+import org.rsmod.game.pathfinder.LineValidator
 import org.rsmod.game.pathfinder.StepValidator
 import org.rsmod.game.pathfinder.collision.CollisionFlagMap
 import org.rsmod.plugins.api.model.Direction
@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 public class PathValidator @Inject constructor(flags: CollisionFlagMap) {
 
-    private val linePathFinder: LinePathFinder = LinePathFinder(flags)
+    private val lineValidator: LineValidator = LineValidator(flags)
     private val stepValidator: StepValidator = StepValidator(flags)
 
     public fun hasLineOfSight(
@@ -20,7 +20,7 @@ public class PathValidator @Inject constructor(flags: CollisionFlagMap) {
         destHeight: Int = 0
     ): Boolean {
         require(source.level == destination.level) { "`source` and `destination` must be on same level." }
-        return linePathFinder.lineOfSight(
+        return lineValidator.hasLineOfSight(
             level = source.level,
             srcX = source.x,
             srcZ = source.z,
@@ -29,7 +29,7 @@ public class PathValidator @Inject constructor(flags: CollisionFlagMap) {
             srcSize = srcSize,
             destWidth = destWidth,
             destHeight = destHeight
-        ).success
+        )
     }
 
     public fun hasLineOfWalk(
@@ -40,7 +40,7 @@ public class PathValidator @Inject constructor(flags: CollisionFlagMap) {
         destHeight: Int = 0
     ): Boolean {
         require(source.level == destination.level) { "`source` and `destination` must be on same level." }
-        return linePathFinder.lineOfWalk(
+        return lineValidator.hasLineOfWalk(
             level = source.level,
             srcX = source.x,
             srcZ = source.z,
@@ -49,7 +49,7 @@ public class PathValidator @Inject constructor(flags: CollisionFlagMap) {
             srcSize = srcSize,
             destWidth = destWidth,
             destHeight = destHeight
-        ).success
+        )
     }
 
     public fun canStep(
