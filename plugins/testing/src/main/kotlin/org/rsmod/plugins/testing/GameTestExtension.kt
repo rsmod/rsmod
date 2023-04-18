@@ -28,7 +28,7 @@ public class GameTestExtension :
                 store.put(GameTestState::class, state)
                 setSharedState(state, context.root.getStore(ExtensionContext.Namespace.GLOBAL))
             }
-            val state = store[GameTestState::class] as GameTestState
+            val state = store.get(GameTestState::class) as GameTestState
             state.register(context)
         } finally {
             lock.unlock()
