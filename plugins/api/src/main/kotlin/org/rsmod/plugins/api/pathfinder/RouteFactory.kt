@@ -93,7 +93,7 @@ public class RouteFactory @Inject constructor(flags: CollisionFlagMap) {
             destHeight = destination.height,
             objShape = destination.shape,
             objRot = destination.rot,
-            blockAccessFlags = destination.relativeBlockApproach,
+            blockAccessFlags = destination.type.blockApproach,
             collision = collision.strategy
         )
     }
@@ -107,13 +107,5 @@ public class RouteFactory @Inject constructor(flags: CollisionFlagMap) {
     public companion object {
 
         private const val RECTANGLE_EXCLUSIVE_STRATEGY: Int = -2
-
-        private val GameObject.relativeBlockApproach: Int get() {
-            return if (rot == 0) {
-                type.blockApproach
-            } else {
-                ((type.blockApproach shl rot) and 0xF) or (type.blockApproach shr (4 - rot))
-            }
-        }
     }
 }

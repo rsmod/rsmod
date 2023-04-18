@@ -2,23 +2,21 @@ package org.rsmod.plugins.api.pathfinder
 
 import org.rsmod.game.map.Coordinates
 import org.rsmod.game.pathfinder.LinePathFinder
-import org.rsmod.game.pathfinder.StepValidator
+import org.rsmod.game.pathfinder.RayCast
 import org.rsmod.game.pathfinder.collision.CollisionFlagMap
-import org.rsmod.plugins.api.model.Direction
 import javax.inject.Inject
 
-public class PathValidator @Inject constructor(flags: CollisionFlagMap) {
+public class RayCastFactory @Inject constructor(flags: CollisionFlagMap) {
 
     private val linePathFinder: LinePathFinder = LinePathFinder(flags)
-    private val stepValidator: StepValidator = StepValidator(flags)
 
-    public fun hasLineOfSight(
+    public fun createLineOfSight(
         source: Coordinates,
         destination: Coordinates,
         srcSize: Int = 1,
         destWidth: Int = 0,
         destHeight: Int = 0
-    ): Boolean {
+    ): RayCast {
         require(source.level == destination.level) { "`source` and `destination` must be on same level." }
         return linePathFinder.lineOfSight(
             level = source.level,
@@ -29,16 +27,16 @@ public class PathValidator @Inject constructor(flags: CollisionFlagMap) {
             srcSize = srcSize,
             destWidth = destWidth,
             destHeight = destHeight
-        ).success
+        )
     }
 
-    public fun hasLineOfWalk(
+    public fun createLineOfWalk(
         source: Coordinates,
         destination: Coordinates,
         srcSize: Int = 1,
         destWidth: Int = 0,
         destHeight: Int = 0
-    ): Boolean {
+    ): RayCast {
         require(source.level == destination.level) { "`source` and `destination` must be on same level." }
         return linePathFinder.lineOfWalk(
             level = source.level,
@@ -49,25 +47,6 @@ public class PathValidator @Inject constructor(flags: CollisionFlagMap) {
             srcSize = srcSize,
             destWidth = destWidth,
             destHeight = destHeight
-        ).success
-    }
-
-    public fun canStep(
-        source: Coordinates,
-        direction: Direction,
-        extraFlag: Int,
-        srcSize: Int = 1,
-        collision: CollisionType = CollisionType.Normal
-    ): Boolean {
-        return stepValidator.canTravel(
-            level = source.level,
-            x = source.x,
-            z = source.z,
-            offsetX = direction.offX,
-            offsetZ = direction.offZ,
-            size = srcSize,
-            extraFlag = extraFlag,
-            collision = collision.strategy
         )
     }
 }
