@@ -20,6 +20,12 @@ public value class ZoneKey(public val packed: Int) {
         level = level + levelOffset
     )
 
+    public fun translateX(offset: Int): ZoneKey = translate(offset, 0, 0)
+
+    public fun translateZ(offset: Int): ZoneKey = translate(0, offset, 0)
+
+    public fun translateLevel(offset: Int): ZoneKey = translate(0, 0, offset)
+
     public fun toCoords(): Coordinates = Coordinates(
         x = x * Zone.SIZE,
         z = z * Zone.SIZE,
