@@ -41,6 +41,7 @@ public value class Coordinates(public val packed: Int) {
         return "Coordinates(x=$x, z=$z, level=$level)"
     }
 
+    @Suppress("MemberVisibilityCanBePrivate")
     public companion object {
 
         public val ZERO: Coordinates = Coordinates(0)
@@ -60,6 +61,7 @@ public value class Coordinates(public val packed: Int) {
         public const val X_BIT_OFFSET: Int = Z_BIT_COUNT
         public const val LEVEL_BIT_OFFSET: Int = Z_BIT_COUNT + X_BIT_COUNT
 
+        @Suppress("DuplicatedCode")
         private fun pack(x: Int, z: Int, level: Int): Int {
             if (x !in 0..X_BIT_MASK) {
                 throw IllegalArgumentException("`x` value must be within range [0..$X_BIT_MASK].")

@@ -21,6 +21,7 @@ public value class ObjectEntity(public val packed: Int) {
         return "ObjectEntity(id=$id, shape=$shape, rot=$rot)"
     }
 
+    @Suppress("MemberVisibilityCanBePrivate")
     public companion object {
 
         public const val ID_BIT_COUNT: Int = 17
@@ -36,6 +37,7 @@ public value class ObjectEntity(public val packed: Int) {
         public const val SHAPE_BIT_OFFSET: Int = ID_BIT_COUNT
         public const val ROT_BIT_OFFSET: Int = ID_BIT_COUNT + SHAPE_BIT_COUNT
 
+        @Suppress("DuplicatedCode")
         private fun pack(id: Int, shape: Int, rot: Int): Int {
             if (id !in 0..ID_BIT_MASK) {
                 throw IllegalArgumentException("`id` value must be within range [0..$ID_BIT_MASK].")

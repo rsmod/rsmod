@@ -41,6 +41,7 @@ public value class I8Coordinates(public val packed: Int) {
         return "I8Coordinates(x=$x, z=$z, level=$level)"
     }
 
+    @Suppress("MemberVisibilityCanBePrivate")
     public companion object {
 
         public val ZERO: I8Coordinates = I8Coordinates(0)
@@ -59,10 +60,16 @@ public value class I8Coordinates(public val packed: Int) {
         public const val X_BIT_OFFSET: Int = Z_BIT_COUNT
         public const val LEVEL_BIT_OFFSET: Int = Z_BIT_COUNT + X_BIT_COUNT
 
+        /**
+         * Converts the absolute coordinates ([x], [z], [level]) to [I8Coordinates].
+         * In other words, this function will trim down the given coordinates in order
+         * to fit the respective amount of bits in [I8Coordinates].
+         */
         public fun convert(x: Int, z: Int, level: Int): I8Coordinates {
             return I8Coordinates(x and X_BIT_MASK, z and Z_BIT_MASK, level and LEVEL_BIT_MASK)
         }
 
+        @Suppress("DuplicatedCode")
         private fun pack(x: Int, z: Int, level: Int): Int {
             if (x !in 0..X_BIT_MASK) {
                 throw IllegalArgumentException("`x` value must be within range [0..$X_BIT_MASK].")

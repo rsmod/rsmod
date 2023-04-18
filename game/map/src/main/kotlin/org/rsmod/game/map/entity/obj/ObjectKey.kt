@@ -21,6 +21,7 @@ public value class ObjectKey(public val packed: Byte) {
         return "ObjectKey(x=$x, z=$z, slot=$slot)"
     }
 
+    @Suppress("MemberVisibilityCanBePrivate")
     public companion object {
 
         public const val X_BIT_COUNT: Int = 3

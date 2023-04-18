@@ -25,14 +25,13 @@ public value class MapSquareKey(public val id: Int) {
         return "MapSquareKey(id=$id, x=$x, z=$z)"
     }
 
+    @Suppress("MemberVisibilityCanBePrivate")
     public companion object {
 
-        public val ZERO: MapSquareKey = MapSquareKey(0)
-
-        private const val X_BIT_COUNT: Int = 8
+        public const val X_BIT_COUNT: Int = 8
         public const val X_BIT_MASK: Int = (1 shl X_BIT_COUNT) - 1
 
-        private const val Z_BIT_COUNT: Int = 8
+        public const val Z_BIT_COUNT: Int = 8
         public const val Z_BIT_MASK: Int = (1 shl Z_BIT_COUNT) - 1
 
         public const val Z_BIT_OFFSET: Int = 0
