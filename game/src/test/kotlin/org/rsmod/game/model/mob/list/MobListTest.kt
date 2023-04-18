@@ -23,7 +23,7 @@ class MobListTest {
 
     @ParameterizedTest
     @ArgumentsSource(ListProvider::class)
-    fun `test capacity property`(list: PlayerList, capacity: Int, indexPadding: Int) {
+    fun testCapacityProperty(list: PlayerList, capacity: Int, indexPadding: Int) {
         assertEquals(capacity, list.capacity)
 
         /* adding an element should not alter capacity */
@@ -33,14 +33,14 @@ class MobListTest {
 
     @ParameterizedTest
     @ArgumentsSource(ListProvider::class)
-    fun `test indices property`(list: PlayerList, capacity: Int, indexPadding: Int) {
+    fun testIndicesProperty(list: PlayerList, capacity: Int, indexPadding: Int) {
         val expected = 0 until capacity
         assertEquals(expected, list.indices)
     }
 
     @ParameterizedTest
     @ArgumentsSource(ListProvider::class)
-    fun `test size property`(list: PlayerList, capacity: Int, indexPadding: Int) {
+    fun testSizeProperty(list: PlayerList, capacity: Int, indexPadding: Int) {
         assertEquals(capacity, list.size)
 
         val index = list.nextAvailableIndex()
@@ -69,7 +69,7 @@ class MobListTest {
 
     @ParameterizedTest
     @ArgumentsSource(ListProvider::class)
-    fun `test isEmpty returns false if list contains a non-null element`(
+    fun testIsEmptyOverride(
         list: PlayerList,
         capacity: Int,
         indexPadding: Int
@@ -85,7 +85,7 @@ class MobListTest {
 
     @ParameterizedTest
     @ArgumentsSource(ListProvider::class)
-    fun `test isFull returns true only if list is full of non-null elements`(
+    fun testIsFullOverride(
         list: PlayerList,
         capacity: Int,
         indexPadding: Int
@@ -106,7 +106,7 @@ class MobListTest {
 
     @ParameterizedTest
     @ArgumentsSource(ListProvider::class)
-    fun `test next available index is null when list is full`(list: PlayerList, capacity: Int, indexPadding: Int) {
+    fun testNextAvailableIndexOnFullList(list: PlayerList, capacity: Int, indexPadding: Int) {
         assertFalse(list.isFull())
         for (i in indexPadding until list.size) {
             list[i] = createPlayer()
@@ -116,7 +116,7 @@ class MobListTest {
 
     @ParameterizedTest
     @ArgumentsSource(ListProvider::class)
-    fun `test available indexes OSRS emulation`(list: PlayerList, capacity: Int, indexPadding: Int) {
+    fun testAvailableIndexEmulation(list: PlayerList, capacity: Int, indexPadding: Int) {
         val firstIndex = list.nextAvailableIndex()
         /* first ever available index should be 1 */
         assertEquals(1, firstIndex)
@@ -156,7 +156,7 @@ class MobListTest {
 
     @ParameterizedTest
     @ArgumentsSource(ListProvider::class)
-    fun `test element added to list matches pointer`(list: PlayerList, capacity: Int, indexPadding: Int) {
+    fun testMatchingElementPointer(list: PlayerList, capacity: Int, indexPadding: Int) {
         val mob = createPlayer()
         val mob2 = createPlayer()
         list[1] = mob
