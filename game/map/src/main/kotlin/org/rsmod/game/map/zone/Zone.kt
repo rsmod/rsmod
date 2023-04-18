@@ -17,11 +17,11 @@ public data class Zone(public val staticObjects: ImmutableObjectMap) {
         dynamicObjects?.set(key.packed, obj.packed)
     }
 
-    public operator fun get(key: Byte): Int? {
-        return dynamicObjects?.get(key) ?: staticObjects[key]
+    public operator fun get(key: ObjectKey): Int? {
+        return dynamicObjects?.get(key.packed) ?: staticObjects[key.packed]
     }
 
-    public fun getValue(key: Byte): Int {
+    public fun getValue(key: ObjectKey): Int {
         return this[key] ?: throw NoSuchElementException("Key $key is missing in the map.")
     }
 
