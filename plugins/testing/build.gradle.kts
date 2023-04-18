@@ -16,3 +16,7 @@ dependencies {
     implementation(libs.logback)
     implementation(libs.openrs2Cache)
 }
+
+tasks.test {
+    systemProperty("junit.jupiter.extensions.autodetection.enabled", false)
+}
