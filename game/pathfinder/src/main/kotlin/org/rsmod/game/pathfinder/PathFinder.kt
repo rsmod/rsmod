@@ -69,6 +69,9 @@ public class PathFinder(
         require(destX in 0..0x7FFF && destZ in 0..0x7FFF)
         require(level in 0..0x3)
         reset()
+        val relativeBlockAccess = relativize(objRot, blockAccessFlags)
+        val relativeWidth = relativize(objRot, destWidth, destHeight)
+        val relativeHeight = relativize(objRot, destHeight, destWidth)
         val baseX = srcX - (searchMapSize / 2)
         val baseZ = srcZ - (searchMapSize / 2)
         val localSrcX = srcX - baseX
@@ -84,12 +87,12 @@ public class PathFinder(
                     level,
                     localDestX,
                     localDestZ,
-                    destWidth,
-                    destHeight,
+                    relativeWidth,
+                    relativeHeight,
                     srcSize,
                     objRot,
                     objShape,
-                    blockAccessFlags,
+                    relativeBlockAccess,
                     collision
                 )
                 2 -> findRouteBlockerPath2(
@@ -98,12 +101,12 @@ public class PathFinder(
                     level,
                     localDestX,
                     localDestZ,
-                    destWidth,
-                    destHeight,
+                    relativeWidth,
+                    relativeHeight,
                     srcSize,
                     objRot,
                     objShape,
-                    blockAccessFlags,
+                    relativeBlockAccess,
                     collision
                 )
                 else -> findRouteBlockerPathN(
@@ -112,12 +115,12 @@ public class PathFinder(
                     level,
                     localDestX,
                     localDestZ,
-                    destWidth,
-                    destHeight,
+                    relativeWidth,
+                    relativeHeight,
                     srcSize,
                     objRot,
                     objShape,
-                    blockAccessFlags,
+                    relativeBlockAccess,
                     collision
                 )
             }
@@ -129,12 +132,12 @@ public class PathFinder(
                     level,
                     localDestX,
                     localDestZ,
-                    destWidth,
-                    destHeight,
+                    relativeWidth,
+                    relativeHeight,
                     srcSize,
                     objRot,
                     objShape,
-                    blockAccessFlags,
+                    relativeBlockAccess,
                     collision
                 )
                 2 -> findPath2(
@@ -143,12 +146,12 @@ public class PathFinder(
                     level,
                     localDestX,
                     localDestZ,
-                    destWidth,
-                    destHeight,
+                    relativeWidth,
+                    relativeHeight,
                     srcSize,
                     objRot,
                     objShape,
-                    blockAccessFlags,
+                    relativeBlockAccess,
                     collision
                 )
                 else -> findPathN(
@@ -157,12 +160,12 @@ public class PathFinder(
                     level,
                     localDestX,
                     localDestZ,
-                    destWidth,
-                    destHeight,
+                    relativeWidth,
+                    relativeHeight,
                     srcSize,
                     objRot,
                     objShape,
-                    blockAccessFlags,
+                    relativeBlockAccess,
                     collision
                 )
             }
@@ -171,9 +174,15 @@ public class PathFinder(
             if (!moveNear) {
                 return FAILED_ROUTE
             }
-            if (!findClosestApproachPoint(localSrcX, localSrcZ, localDestX, localDestZ, destWidth, destHeight)) {
-                return FAILED_ROUTE
-            }
+            val foundApproachPoint = findClosestApproachPoint(
+                localSrcX,
+                localSrcZ,
+                localDestX,
+                localDestZ,
+                relativeWidth,
+                relativeHeight
+            )
+            if (!foundApproachPoint) return FAILED_ROUTE
         }
         val anchors = ArrayDeque<RouteCoordinates>(maxTurns + 1)
         var nextDir = directions[currLocalX, currLocalZ]
@@ -1403,6 +1412,16 @@ public class PathFinder(
                 }
                 return target.translate(offX, -sourceHeight)
             }
+        }
+
+        private fun relativize(rot: Int, primary: Int, secondary: Int): Int = when {
+            rot and 0x1 != 0 -> secondary
+            else -> primary
+        }
+
+        private fun relativize(rot: Int, blockAccessFlags: Int): Int = when (rot) {
+            0 -> blockAccessFlags
+            else -> ((blockAccessFlags shl rot) and 0xF) or (blockAccessFlags shr (4 - rot))
         }
     }
 }
