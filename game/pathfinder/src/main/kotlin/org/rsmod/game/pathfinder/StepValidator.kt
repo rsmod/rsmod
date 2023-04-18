@@ -303,57 +303,6 @@ public class StepValidator(private val flags: CollisionFlagMap) {
             Direction.values.firstOrNull { bitpackDirection(it.offX, it.offZ) == key }
         }
 
-        /**
-         * Calculates coordinates for [sourceX]/[sourceZ] to move to interact with [targetX]/[targetZ]
-         * We first determine the cardinal direction of the source relative to the target by comparing if
-         * the source lies to the left or right of diagonal \ and anti-diagonal / lines.
-         * \ <= North <= /
-         *  +------------+  >
-         *  |            |  East
-         *  +------------+  <
-         * / <= South <= \
-         * We then further bisect the area into three section relative to the south-west tile (zero):
-         * 1. Greater than zero: follow their diagonal until the target side is reached (clamped at the furthest most tile)
-         * 2. Less than zero: zero minus the size of the source
-         * 3. Equal to zero: move directly towards zero / the south-west coordinate
-         *
-         * <  \ 0 /   <   /
-         *     +---------+
-         *     |         |
-         *     +---------+
-         * This method is equivalent to returning the last coordinate in a sequence of steps towards south-west when moving
-         * ordinal then cardinally until entity side comes into contact with another.
-         */
-        @Deprecated(
-            message = "Use PathFinder.naiveDestination instead.",
-            replaceWith = ReplaceWith(
-                "PathFinder.naiveDestination(" +
-                    "sourceX, sourceZ, sourceWidth, sourceHeight, " +
-                    "targetX, targetZ, targetWidth, targetHeight)"
-            )
-        )
-        public fun naiveDestination(
-            sourceX: Int,
-            sourceZ: Int,
-            sourceWidth: Int,
-            sourceHeight: Int,
-            targetX: Int,
-            targetZ: Int,
-            targetWidth: Int,
-            targetHeight: Int
-        ): RouteCoordinates {
-            return PathFinder.naiveDestination(
-                sourceX,
-                sourceZ,
-                sourceWidth,
-                sourceHeight,
-                targetX,
-                targetZ,
-                targetWidth,
-                targetHeight
-            )
-        }
-
         private fun getDirection(xOff: Int, zOff: Int): Direction {
             assert(xOff in -1..1) { "`xOff` must be in bounds of -1..1" }
             assert(zOff in -1..1) { "`zOff` must be in bounds of -1..1" }
