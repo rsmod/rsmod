@@ -54,7 +54,7 @@ public class PathFinder(
         srcSize: Int = 1,
         destWidth: Int = 1,
         destHeight: Int = 1,
-        objRot: Int = 10,
+        objRot: Int = 0,
         objShape: Int = -1,
         moveNear: Boolean = true,
         blockAccessFlags: Int = 0,
