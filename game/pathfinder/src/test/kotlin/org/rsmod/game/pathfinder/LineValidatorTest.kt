@@ -13,23 +13,23 @@ import org.rsmod.game.pathfinder.flag.CollisionFlag
 import java.util.stream.Stream
 
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
-class LinePathFinderTest {
+class LineValidatorTest {
 
     private val flags = CollisionFlagMap()
-    private val validator = LinePathFinder(flags)
+    private val validator = LineValidator(flags)
 
     @Test
     fun `validate empty path`() {
         val src = RouteCoordinates(3200, 3200)
         val dest = RouteCoordinates(src.x + 3, src.z)
         flags.allocateIfAbsent(src.x, src.z, src.level)
-        val validPath = validator.lineOfSight(
+        val validPath = validator.hasLineOfSight(
             level = src.level,
             srcX = src.x,
             srcZ = src.z,
             destX = dest.x,
             destZ = dest.z
-        ).success
+        )
         Assertions.assertTrue(validPath)
     }
 
@@ -39,13 +39,13 @@ class LinePathFinderTest {
         val src = RouteCoordinates(3200, 3200)
         val dest = RouteCoordinates(src.x + (dir.offX * 6), src.z + (dir.offZ * 6))
         flags[src.x + dir.offX, src.z + dir.offZ, src.level] = flag
-        val validPath = validator.lineOfSight(
+        val validPath = validator.hasLineOfSight(
             level = src.level,
             srcX = src.x,
             srcZ = src.z,
             destX = dest.x,
             destZ = dest.z
-        ).success
+        )
         Assertions.assertFalse(validPath)
     }
 

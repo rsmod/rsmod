@@ -184,86 +184,40 @@ public class LinePathFinder(private val flags: CollisionFlagMap) {
         return RayCast(coordinates, alternative = false, success = true)
     }
 
-    private fun coordinate(a: Int, b: Int, size: Int): Int {
-        return when {
+    public companion object {
+
+        public const val SIGHT_BLOCKED_NORTH: Int = OBJECT_PROJECTILE_BLOCKER or WALL_NORTH_PROJECTILE_BLOCKER
+        public const val SIGHT_BLOCKED_EAST: Int = OBJECT_PROJECTILE_BLOCKER or WALL_EAST_PROJECTILE_BLOCKER
+        public const val SIGHT_BLOCKED_SOUTH: Int = OBJECT_PROJECTILE_BLOCKER or WALL_SOUTH_PROJECTILE_BLOCKER
+        public const val SIGHT_BLOCKED_WEST: Int = OBJECT_PROJECTILE_BLOCKER or WALL_WEST_PROJECTILE_BLOCKER
+
+        public const val WALK_BLOCKED_NORTH: Int =
+            CollisionFlag.WALL_NORTH or CollisionFlag.OBJECT or CollisionFlag.FLOOR_DECORATION or CollisionFlag.FLOOR
+        public const val WALK_BLOCKED_EAST: Int =
+            CollisionFlag.WALL_EAST or CollisionFlag.OBJECT or CollisionFlag.FLOOR_DECORATION or CollisionFlag.FLOOR
+        public const val WALK_BLOCKED_SOUTH: Int =
+            CollisionFlag.WALL_SOUTH or CollisionFlag.OBJECT or CollisionFlag.FLOOR_DECORATION or CollisionFlag.FLOOR
+        public const val WALK_BLOCKED_WEST: Int =
+            CollisionFlag.WALL_WEST or CollisionFlag.OBJECT or CollisionFlag.FLOOR_DECORATION or CollisionFlag.FLOOR
+
+        internal const val SCALE: Int = 16
+        internal val HALF_TILE: Int = scaleUp(tiles = 1) / 2
+
+        internal fun scaleUp(tiles: Int) = tiles shl SCALE
+
+        internal fun scaleDown(tiles: Int) = tiles ushr SCALE
+
+        internal fun coordinate(a: Int, b: Int, size: Int): Int = when {
             a >= b -> a
             a + size - 1 <= b -> a + size - 1
             else -> b
         }
-    }
 
-    private fun CollisionFlagMap.isFlagged(
-        x: Int,
-        z: Int,
-        level: Int,
-        flags: Int
-    ): Boolean = (this[x, z, level] and flags) != 0
-
-    @Deprecated(
-        message = "Use lineOfSight(...).success instead.",
-        replaceWith = ReplaceWith(
-            "lineOfSight(" +
-                "level, srcX, srcZ, destX, destZ, " +
-                "srcSize, destWidth, destHeight" +
-                ").success"
-        )
-    )
-    public fun hasLineOfSight(
-        level: Int,
-        srcX: Int,
-        srcZ: Int,
-        destX: Int,
-        destZ: Int,
-        srcSize: Int = 1,
-        destWidth: Int = 0,
-        destHeight: Int = 0
-    ): Boolean {
-        return lineOfSight(level, srcX, srcZ, destX, destZ, srcSize, destWidth, destHeight).success
-    }
-
-    @Deprecated(
-        message = "Use lineOfWalk(...).success instead.",
-        replaceWith = ReplaceWith(
-            "lineOfWalk(" +
-                "level, srcX, srcZ, destX, destZ, " +
-                "srcSize, destWidth, destHeight" +
-                ").success"
-        )
-    )
-    public fun hasLineOfWalk(
-        level: Int,
-        srcX: Int,
-        srcZ: Int,
-        destX: Int,
-        destZ: Int,
-        srcSize: Int = 1,
-        destWidth: Int = 0,
-        destHeight: Int = 0
-    ): Boolean {
-        return lineOfWalk(level, srcX, srcZ, destX, destZ, srcSize, destWidth, destHeight).success
-    }
-
-    private companion object {
-
-        private const val SIGHT_BLOCKED_NORTH = OBJECT_PROJECTILE_BLOCKER or WALL_NORTH_PROJECTILE_BLOCKER
-        private const val SIGHT_BLOCKED_EAST = OBJECT_PROJECTILE_BLOCKER or WALL_EAST_PROJECTILE_BLOCKER
-        private const val SIGHT_BLOCKED_SOUTH = OBJECT_PROJECTILE_BLOCKER or WALL_SOUTH_PROJECTILE_BLOCKER
-        private const val SIGHT_BLOCKED_WEST = OBJECT_PROJECTILE_BLOCKER or WALL_WEST_PROJECTILE_BLOCKER
-
-        private const val WALK_BLOCKED_NORTH =
-            CollisionFlag.WALL_NORTH or CollisionFlag.OBJECT or CollisionFlag.FLOOR_DECORATION or CollisionFlag.FLOOR
-        private const val WALK_BLOCKED_EAST =
-            CollisionFlag.WALL_EAST or CollisionFlag.OBJECT or CollisionFlag.FLOOR_DECORATION or CollisionFlag.FLOOR
-        private const val WALK_BLOCKED_SOUTH =
-            CollisionFlag.WALL_SOUTH or CollisionFlag.OBJECT or CollisionFlag.FLOOR_DECORATION or CollisionFlag.FLOOR
-        private const val WALK_BLOCKED_WEST =
-            CollisionFlag.WALL_WEST or CollisionFlag.OBJECT or CollisionFlag.FLOOR_DECORATION or CollisionFlag.FLOOR
-
-        private const val SCALE = 16
-        private val HALF_TILE = scaleUp(tiles = 1) / 2
-
-        private fun scaleUp(tiles: Int) = tiles shl SCALE
-
-        private fun scaleDown(tiles: Int) = tiles ushr SCALE
+        private fun CollisionFlagMap.isFlagged(
+            x: Int,
+            z: Int,
+            level: Int,
+            flags: Int
+        ): Boolean = (this[x, z, level] and flags) != 0
     }
 }
