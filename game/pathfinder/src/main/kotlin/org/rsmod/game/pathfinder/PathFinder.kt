@@ -1260,7 +1260,7 @@ public class PathFinder(
         localDestX: Int,
         localDestZ: Int,
         width: Int,
-        length: Int
+        height: Int
     ): Boolean {
         var lowestCost = MAX_ALTERNATIVE_ROUTE_LOWEST_COST
         var maxAlternativePath = MAX_ALTERNATIVE_ROUTE_SEEK_RANGE
@@ -1287,8 +1287,8 @@ public class PathFinder(
 
                 val dy = if (z < localDestZ) {
                     localDestZ - z
-                } else if (z > localDestZ + length - 1) {
-                    z - (localDestZ + length - 1)
+                } else if (z > localDestZ + height - 1) {
+                    z - (localDestZ + height - 1)
                 } else {
                     0
                 }
