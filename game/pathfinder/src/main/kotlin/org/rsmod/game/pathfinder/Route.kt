@@ -6,10 +6,14 @@ public class Route(
     public val success: Boolean
 ) : List<RouteCoordinates> by waypoints {
 
-    public val failed: Boolean
-        get() = !success
+    public val failed: Boolean get() = !success
 
     override fun toString(): String {
         return "Route(success=$success, alternative=$alternative, waypoints=$waypoints)"
+    }
+
+    public companion object {
+
+        public val FAILED: Route = Route(emptyList(), alternative = false, success = false)
     }
 }

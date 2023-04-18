@@ -45,6 +45,40 @@ public class PathFinder(
     private var bufReaderIndex = 0
     private var bufWriterIndex = 0
 
+    /**
+     * Creates a validated [Route] from ([srcX], [srcZ]) to ([destX], [destZ]) on height [level]
+     * avoiding obstacles in the appropriate manner respective to the given [collision] strategy.
+     *
+     * @param destWidth the _absolute_ width of the destination. This value should _not_ be
+     * changed even when passing the width of a rotated object. (it is done for us within the
+     * function)
+     *
+     * @param destHeight the _absolute_ height of the destination. Similar to [destWidth],
+     * this value should _not_ be changed or altered for rotated objects.
+     *
+     * @param objRot the rotation of the target object being used as the destination. If
+     * the path is meant for something that is _not_ a game object, this value should be
+     * passed or left as the default 0.
+     *
+     * @param objShape the shape of the target object being used as the destination. If
+     * the path is meant for something that is _not_ a game object, this value should be
+     * passed or left as the default -1.
+     *
+     * @param blockAccessFlags packed directional bitflags that should be blocked off when
+     * a "reach strategy" (AKA exit strategy) is checked. This can be seen in game objects
+     * such as staircases, where all directions excluding the direction with access to the
+     * steps are "blocked." (see [org.rsmod.game.pathfinder.flag.BlockAccessFlag])
+     *
+     * @return [Route.FAILED] if there is no valid path from source to destination coordinates.
+     * If validated route could _not_ reach destination, but [moveNear] flag is enabled and
+     * [findClosestApproachPoint] returns true - route is returned with [Route.alternative]
+     * as true, [Route.success] as false and a partial [Route.waypoints] list. Otherwise,
+     * if route successfully reaches the destination - route is returned with [Route.success]
+     * as true, [Route.alternative] as false and a full [Route.waypoints] list.
+     *
+     * @throws IllegalArgumentException if coordinates are out of bounds. `x` and `z` cannot be
+     * over 14-bits - 1, or a value of 16383. `level` cannot be over 2-bits - 1, or a value of 3.
+     */
     public fun findPath(
         level: Int,
         srcX: Int,
@@ -58,13 +92,9 @@ public class PathFinder(
         objShape: Int = -1,
         moveNear: Boolean = true,
         blockAccessFlags: Int = 0,
-        maxTurns: Int = 25,
+        maxWaypoints: Int = 25,
         collision: CollisionStrategy = CollisionStrategies.Normal
     ): Route {
-        /*
-         * Functionality relies on coordinates being within the
-         * given boundaries.
-         */
         require(srcX in 0..0x7FFF && srcZ in 0..0x7FFF)
         require(destX in 0..0x7FFF && destZ in 0..0x7FFF)
         require(level in 0..0x3)
@@ -171,9 +201,7 @@ public class PathFinder(
             }
         }
         if (!pathFound) {
-            if (!moveNear) {
-                return FAILED_ROUTE
-            }
+            if (!moveNear) return Route.FAILED
             val foundApproachPoint = findClosestApproachPoint(
                 localSrcX,
                 localSrcZ,
@@ -182,9 +210,9 @@ public class PathFinder(
                 relativeWidth,
                 relativeHeight
             )
-            if (!foundApproachPoint) return FAILED_ROUTE
+            if (!foundApproachPoint) return Route.FAILED
         }
-        val anchors = ArrayDeque<RouteCoordinates>(maxTurns + 1)
+        val waypoints = ArrayDeque<RouteCoordinates>(maxWaypoints + 1)
         var nextDir = directions[currLocalX, currLocalZ]
         var currDir = -1
         for (i in directions.indices) {
@@ -193,9 +221,9 @@ public class PathFinder(
             }
             if (currDir != nextDir) {
                 currDir = nextDir
-                if (anchors.size >= maxTurns) anchors.removeLast()
+                if (waypoints.size >= maxWaypoints) waypoints.removeLast()
                 val coords = RouteCoordinates(baseX + currLocalX, baseZ + currLocalZ)
-                anchors.addFirst(coords)
+                waypoints.addFirst(coords)
             }
             if ((currDir and DirectionFlag.EAST) != 0) {
                 currLocalX++
@@ -209,7 +237,7 @@ public class PathFinder(
             }
             nextDir = directions[currLocalX, currLocalZ]
         }
-        return Route(anchors, alternative = !pathFound, success = true)
+        return Route(waypoints, alternative = !pathFound, success = true)
     }
 
     private fun findPath1(
@@ -1340,8 +1368,6 @@ public class PathFinder(
     }
 
     public companion object {
-
-        private val FAILED_ROUTE = Route(emptyList(), alternative = false, success = false)
 
         /**
          * Calculates coordinates for [sourceX]/[sourceZ] to move to interact with [targetX]/[targetZ]
