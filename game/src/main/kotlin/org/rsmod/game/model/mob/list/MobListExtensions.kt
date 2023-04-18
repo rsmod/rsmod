@@ -16,3 +16,5 @@ public inline fun <T : Mob> MobList<T>.anyNotNull(predicate: (T) -> Boolean): Bo
     }
     return false
 }
+
+public fun <T : Mob> MobList<T>.countNotNull(): Int = count { it != null }

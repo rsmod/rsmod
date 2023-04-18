@@ -14,10 +14,6 @@ public sealed class MobList<T : Mob>(
         return mobs.all { it == null }
     }
 
-    public fun countNotNull(): Int {
-        return count { it != null }
-    }
-
     public fun isFull(): Boolean {
         return nextAvailableIndex() == null
     }
