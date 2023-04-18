@@ -24,7 +24,22 @@ class ObjectEntityTest {
     }
 
     @Test
-    fun testConstructFail() {
+    fun testDeconstruct() {
+        for (rot in 0..ROT_BIT_MASK) {
+            for (shape in 0..SHAPE_BIT_MASK) {
+                for (id in 0..ID_BIT_MASK) {
+                    val entity = ObjectEntity(id, shape, rot)
+                    val (c1, c2, c3) = entity
+                    assertEquals(id, c1)
+                    assertEquals(shape, c2)
+                    assertEquals(rot, c3)
+                }
+            }
+        }
+    }
+
+    @Test
+    fun testConstructOutOfBounds() {
         assertThrows<IllegalArgumentException> { ObjectKey(ID_BIT_MASK + 1, 0, 0) }
         assertThrows<IllegalArgumentException> { ObjectKey(0, SHAPE_BIT_MASK + 1, 0) }
         assertThrows<IllegalArgumentException> { ObjectKey(0, 0, ROT_BIT_MASK + 1) }

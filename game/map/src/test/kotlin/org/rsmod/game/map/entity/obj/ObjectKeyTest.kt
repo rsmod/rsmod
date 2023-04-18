@@ -24,7 +24,22 @@ class ObjectKeyTest {
     }
 
     @Test
-    fun testConstructFail() {
+    fun testDeconstruct() {
+        for (slot in 0..SLOT_BIT_MASK) {
+            for (z in 0..Z_BIT_MASK) {
+                for (x in 0..X_BIT_MASK) {
+                    val key = ObjectKey(x, z, slot)
+                    val (c1, c2, c3) = key
+                    assertEquals(x, c1)
+                    assertEquals(z, c2)
+                    assertEquals(slot, c3)
+                }
+            }
+        }
+    }
+
+    @Test
+    fun testConstructOutOfBounds() {
         assertThrows<IllegalArgumentException> { ObjectKey(X_BIT_MASK + 1, 0, 0) }
         assertThrows<IllegalArgumentException> { ObjectKey(0, Z_BIT_MASK + 1, 0) }
         assertThrows<IllegalArgumentException> { ObjectKey(0, 0, SLOT_BIT_MASK + 1) }
