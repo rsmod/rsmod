@@ -38,7 +38,7 @@ class LinePathFinderLineOfWalkTest {
 
     @ParameterizedTest
     @EnumSource(Direction::class)
-    internal fun testClearLineOfWalk(dir: Direction) {
+    fun testClearLineOfWalk(dir: Direction) {
         val map = CollisionFlagMap()
         val srcX = 3200
         val srcZ = 3200
@@ -77,7 +77,7 @@ class LinePathFinderLineOfWalkTest {
 
     @ParameterizedTest
     @EnumSource(Direction::class)
-    internal fun testObjectBlocking(dir: Direction) {
+    fun testObjectBlocking(dir: Direction) {
         val map = CollisionFlagMap()
         val srcX = 3200
         val srcZ = 3200
@@ -96,7 +96,7 @@ class LinePathFinderLineOfWalkTest {
 
     @ParameterizedTest
     @ArgumentsSource(DirectionalExtraFlagProvider::class)
-    internal fun testExtraFlagBlocking(dir: Direction, extraFlag: Int) {
+    fun testExtraFlagBlocking(dir: Direction, extraFlag: Int) {
         val map = CollisionFlagMap()
         val srcX = 3200
         val srcZ = 3200

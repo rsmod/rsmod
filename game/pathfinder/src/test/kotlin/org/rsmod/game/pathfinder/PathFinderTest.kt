@@ -14,7 +14,7 @@ class PathFinderTest {
 
     @ParameterizedTest
     @EnumSource(Direction::class)
-    internal fun testValidDirectionalPath(dir: Direction) {
+    fun testValidDirectionalPath(dir: Direction) {
         val map = CollisionFlagMap()
         val pathFinder = PathFinder(map)
         val srcX = 3200
@@ -39,7 +39,7 @@ class PathFinderTest {
 
     @ParameterizedTest
     @EnumSource(Direction::class)
-    internal fun testInvalidDirectionalPath(dir: Direction) {
+    fun testInvalidDirectionalPath(dir: Direction) {
         val map = CollisionFlagMap()
         val pathFinder = PathFinder(map)
         val srcX = 3200

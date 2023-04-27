@@ -17,7 +17,7 @@ class StepValidatorTest {
 
     @ParameterizedTest
     @EnumSource(Direction::class)
-    internal fun testClearPath(dir: Direction) {
+    fun testClearPath(dir: Direction) {
         val map = CollisionFlagMap()
         val srcX = 3200
         val srcZ = 3200
@@ -42,7 +42,7 @@ class StepValidatorTest {
 
     @ParameterizedTest
     @EnumSource(Direction::class)
-    internal fun testObjectBlocking(dir: Direction) {
+    fun testObjectBlocking(dir: Direction) {
         val map = CollisionFlagMap()
         val srcX = 3200
         val srcZ = 3200
@@ -70,7 +70,7 @@ class StepValidatorTest {
 
     @ParameterizedTest
     @ArgumentsSource(DirectionalExtraFlagProvider::class)
-    internal fun testExtraFlagBlocking(dir: Direction, extraFlag: Int) {
+    fun testExtraFlagBlocking(dir: Direction, extraFlag: Int) {
         val map = CollisionFlagMap()
         val srcX = 3200
         val srcZ = 3200
@@ -98,7 +98,7 @@ class StepValidatorTest {
 
     @ParameterizedTest
     @EnumSource(Direction::class)
-    internal fun testBlockedFlagStrategy(dir: Direction) {
+    fun testBlockedFlagStrategy(dir: Direction) {
         val map = CollisionFlagMap()
         val srcX = 3200
         val srcZ = 3200
@@ -125,7 +125,7 @@ class StepValidatorTest {
 
     @ParameterizedTest
     @EnumSource(Direction::class)
-    internal fun testIndoorsFlagStrategy(dir: Direction) {
+    fun testIndoorsFlagStrategy(dir: Direction) {
         val map = CollisionFlagMap()
         val srcX = 3200
         val srcZ = 3200
@@ -164,7 +164,7 @@ class StepValidatorTest {
 
     @ParameterizedTest
     @EnumSource(Direction::class)
-    internal fun testOutdoorsFlagStrategy(dir: Direction) {
+    fun testOutdoorsFlagStrategy(dir: Direction) {
         val map = CollisionFlagMap()
         val srcX = 3200
         val srcZ = 3200
@@ -202,7 +202,7 @@ class StepValidatorTest {
 
     @ParameterizedTest
     @EnumSource(Direction::class)
-    internal fun testLineOfSightFlagStrategy(dir: Direction) {
+    fun testLineOfSightFlagStrategy(dir: Direction) {
         val map = CollisionFlagMap()
         val srcX = 3200
         val srcZ = 3200

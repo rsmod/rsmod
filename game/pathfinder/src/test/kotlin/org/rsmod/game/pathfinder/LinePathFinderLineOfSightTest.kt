@@ -66,7 +66,7 @@ class LinePathFinderLineOfSightTest {
 
     @ParameterizedTest
     @ArgumentsSource(ValidLineOfSightFlagsProvider::class)
-    internal fun testValidLineOfSight(dir: Direction, collisionFlags: Int) {
+    fun testValidLineOfSight(dir: Direction, collisionFlags: Int) {
         val map = CollisionFlagMap()
         val srcX = 3200
         val srcZ = 3200
@@ -108,7 +108,7 @@ class LinePathFinderLineOfSightTest {
 
     @ParameterizedTest
     @EnumSource(Direction::class)
-    internal fun testObjectBlocking(dir: Direction) {
+    fun testObjectBlocking(dir: Direction) {
         val map = CollisionFlagMap()
         val srcX = 3200
         val srcZ = 3200
@@ -134,7 +134,7 @@ class LinePathFinderLineOfSightTest {
 
     @ParameterizedTest
     @ArgumentsSource(DirectionalExtraFlagProvider::class)
-    internal fun testExtraFlagBlocking(dir: Direction, extraFlag: Int) {
+    fun testExtraFlagBlocking(dir: Direction, extraFlag: Int) {
         val map = CollisionFlagMap()
         val srcX = 3200
         val srcZ = 3200
