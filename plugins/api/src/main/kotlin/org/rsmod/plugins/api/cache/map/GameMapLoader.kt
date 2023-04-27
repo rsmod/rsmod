@@ -72,12 +72,10 @@ public object GameMapLoader {
             val rule = rule(local, ruleByte.toInt()) { local.ruleAbove(mapDef.rules) }
             if ((rule and BLOCKED_BIT_FLAG) != 0) {
                 val coords = local.toCoords(square)
-                flags.allocateIfAbsent(coords.x, coords.z, coords.level)
                 flags.add(coords.x, coords.z, coords.level, CollisionFlag.FLOOR)
             }
             if ((rule and REMOVE_ROOF_BIT_FLAG) != 0) {
                 val coords = local.toCoords(square)
-                flags.allocateIfAbsent(coords.x, coords.z, coords.level)
                 flags.add(coords.x, coords.z, coords.level, CollisionFlag.ROOF)
             }
         }
@@ -108,7 +106,6 @@ public object GameMapLoader {
                 return@forEach
             }
             zone.add(coords.toI8Coords(), slot.id, obj.entity)
-            flags.allocateIfAbsent(coords.x, coords.z, coords.level)
             flags.addObject(obj)
         }
     }
