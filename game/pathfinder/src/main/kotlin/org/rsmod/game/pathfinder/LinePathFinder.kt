@@ -24,11 +24,17 @@
 package org.rsmod.game.pathfinder
 
 import org.rsmod.game.pathfinder.collision.CollisionFlagMap
-import org.rsmod.game.pathfinder.flag.CollisionFlag
+import org.rsmod.game.pathfinder.flag.CollisionFlag.FLOOR
+import org.rsmod.game.pathfinder.flag.CollisionFlag.FLOOR_DECORATION
+import org.rsmod.game.pathfinder.flag.CollisionFlag.OBJECT
 import org.rsmod.game.pathfinder.flag.CollisionFlag.OBJECT_PROJECTILE_BLOCKER
+import org.rsmod.game.pathfinder.flag.CollisionFlag.WALL_EAST
 import org.rsmod.game.pathfinder.flag.CollisionFlag.WALL_EAST_PROJECTILE_BLOCKER
+import org.rsmod.game.pathfinder.flag.CollisionFlag.WALL_NORTH
 import org.rsmod.game.pathfinder.flag.CollisionFlag.WALL_NORTH_PROJECTILE_BLOCKER
+import org.rsmod.game.pathfinder.flag.CollisionFlag.WALL_SOUTH
 import org.rsmod.game.pathfinder.flag.CollisionFlag.WALL_SOUTH_PROJECTILE_BLOCKER
+import org.rsmod.game.pathfinder.flag.CollisionFlag.WALL_WEST
 import org.rsmod.game.pathfinder.flag.CollisionFlag.WALL_WEST_PROJECTILE_BLOCKER
 import kotlin.math.abs
 
@@ -42,7 +48,8 @@ public class LinePathFinder(private val flags: CollisionFlagMap) {
         destZ: Int,
         srcSize: Int = 1,
         destWidth: Int = 0,
-        destHeight: Int = 0
+        destHeight: Int = 0,
+        extraFlag: Int = 0
     ): RayCast = rayCast(
         level = level,
         srcX = srcX,
@@ -52,10 +59,11 @@ public class LinePathFinder(private val flags: CollisionFlagMap) {
         srcSize = srcSize,
         destWidth = destWidth,
         destHeight = destHeight,
-        flagWest = SIGHT_BLOCKED_WEST,
-        flagEast = SIGHT_BLOCKED_EAST,
-        flagSouth = SIGHT_BLOCKED_SOUTH,
-        flagNorth = SIGHT_BLOCKED_NORTH,
+        flagWest = SIGHT_BLOCKED_WEST or extraFlag,
+        flagEast = SIGHT_BLOCKED_EAST or extraFlag,
+        flagSouth = SIGHT_BLOCKED_SOUTH or extraFlag,
+        flagNorth = SIGHT_BLOCKED_NORTH or extraFlag,
+        flagObject = OBJECT or extraFlag,
         los = true
     )
 
@@ -67,7 +75,8 @@ public class LinePathFinder(private val flags: CollisionFlagMap) {
         destZ: Int,
         srcSize: Int = 1,
         destWidth: Int = 0,
-        destHeight: Int = 0
+        destHeight: Int = 0,
+        extraFlag: Int = 0
     ): RayCast = rayCast(
         level = level,
         srcX = srcX,
@@ -77,10 +86,11 @@ public class LinePathFinder(private val flags: CollisionFlagMap) {
         srcSize = srcSize,
         destWidth = destWidth,
         destHeight = destHeight,
-        flagWest = WALK_BLOCKED_WEST,
-        flagEast = WALK_BLOCKED_EAST,
-        flagSouth = WALK_BLOCKED_SOUTH,
-        flagNorth = WALK_BLOCKED_NORTH,
+        flagWest = WALK_BLOCKED_WEST or extraFlag,
+        flagEast = WALK_BLOCKED_EAST or extraFlag,
+        flagSouth = WALK_BLOCKED_SOUTH or extraFlag,
+        flagNorth = WALK_BLOCKED_NORTH or extraFlag,
+        flagObject = OBJECT or extraFlag,
         los = false
     )
 
@@ -97,12 +107,13 @@ public class LinePathFinder(private val flags: CollisionFlagMap) {
         flagEast: Int,
         flagSouth: Int,
         flagNorth: Int,
+        flagObject: Int,
         los: Boolean
     ): RayCast {
         val startX = coordinate(srcX, destX, srcSize)
         val startZ = coordinate(srcZ, destZ, srcSize)
 
-        if (los && flags.isFlagged(startX, startZ, level, CollisionFlag.OBJECT)) {
+        if (los && flags.isFlagged(startX, startZ, level, flagObject)) {
             return RayCast.FAILED
         }
 
@@ -191,14 +202,10 @@ public class LinePathFinder(private val flags: CollisionFlagMap) {
         public const val SIGHT_BLOCKED_SOUTH: Int = OBJECT_PROJECTILE_BLOCKER or WALL_SOUTH_PROJECTILE_BLOCKER
         public const val SIGHT_BLOCKED_WEST: Int = OBJECT_PROJECTILE_BLOCKER or WALL_WEST_PROJECTILE_BLOCKER
 
-        public const val WALK_BLOCKED_NORTH: Int =
-            CollisionFlag.WALL_NORTH or CollisionFlag.OBJECT or CollisionFlag.FLOOR_DECORATION or CollisionFlag.FLOOR
-        public const val WALK_BLOCKED_EAST: Int =
-            CollisionFlag.WALL_EAST or CollisionFlag.OBJECT or CollisionFlag.FLOOR_DECORATION or CollisionFlag.FLOOR
-        public const val WALK_BLOCKED_SOUTH: Int =
-            CollisionFlag.WALL_SOUTH or CollisionFlag.OBJECT or CollisionFlag.FLOOR_DECORATION or CollisionFlag.FLOOR
-        public const val WALK_BLOCKED_WEST: Int =
-            CollisionFlag.WALL_WEST or CollisionFlag.OBJECT or CollisionFlag.FLOOR_DECORATION or CollisionFlag.FLOOR
+        public const val WALK_BLOCKED_NORTH: Int = WALL_NORTH or OBJECT or FLOOR_DECORATION or FLOOR
+        public const val WALK_BLOCKED_EAST: Int = WALL_EAST or OBJECT or FLOOR_DECORATION or FLOOR
+        public const val WALK_BLOCKED_SOUTH: Int = WALL_SOUTH or OBJECT or FLOOR_DECORATION or FLOOR
+        public const val WALK_BLOCKED_WEST: Int = WALL_WEST or OBJECT or FLOOR_DECORATION or FLOOR
 
         internal const val SCALE: Int = 16
         internal val HALF_TILE: Int = scaleUp(tiles = 1) / 2

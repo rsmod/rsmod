@@ -36,7 +36,7 @@ import org.rsmod.game.pathfinder.LinePathFinder.Companion.coordinate
 import org.rsmod.game.pathfinder.LinePathFinder.Companion.scaleDown
 import org.rsmod.game.pathfinder.LinePathFinder.Companion.scaleUp
 import org.rsmod.game.pathfinder.collision.CollisionFlagMap
-import org.rsmod.game.pathfinder.flag.CollisionFlag
+import org.rsmod.game.pathfinder.flag.CollisionFlag.OBJECT
 import org.rsmod.game.pathfinder.flag.CollisionFlag.OBJECT_PROJECTILE_BLOCKER
 import kotlin.math.abs
 
@@ -50,7 +50,8 @@ public class LineValidator(private val flags: CollisionFlagMap) {
         destZ: Int,
         srcSize: Int = 1,
         destWidth: Int = 0,
-        destHeight: Int = 0
+        destHeight: Int = 0,
+        extraFlag: Int = 0
     ): Boolean {
         return rayCast(
             level = level,
@@ -61,10 +62,11 @@ public class LineValidator(private val flags: CollisionFlagMap) {
             srcSize = srcSize,
             destWidth = destWidth,
             destHeight = destHeight,
-            flagWest = SIGHT_BLOCKED_WEST,
-            flagEast = SIGHT_BLOCKED_EAST,
-            flagSouth = SIGHT_BLOCKED_SOUTH,
-            flagNorth = SIGHT_BLOCKED_NORTH,
+            flagWest = SIGHT_BLOCKED_WEST or extraFlag,
+            flagEast = SIGHT_BLOCKED_EAST or extraFlag,
+            flagSouth = SIGHT_BLOCKED_SOUTH or extraFlag,
+            flagNorth = SIGHT_BLOCKED_NORTH or extraFlag,
+            flagObject = OBJECT or extraFlag,
             los = true
         )
     }
@@ -77,7 +79,8 @@ public class LineValidator(private val flags: CollisionFlagMap) {
         destZ: Int,
         srcSize: Int = 1,
         destWidth: Int = 0,
-        destHeight: Int = 0
+        destHeight: Int = 0,
+        extraFlag: Int = 0
     ): Boolean {
         return rayCast(
             level = level,
@@ -88,10 +91,11 @@ public class LineValidator(private val flags: CollisionFlagMap) {
             srcSize = srcSize,
             destWidth = destWidth,
             destHeight = destHeight,
-            flagWest = WALK_BLOCKED_WEST,
-            flagEast = WALK_BLOCKED_EAST,
-            flagSouth = WALK_BLOCKED_SOUTH,
-            flagNorth = WALK_BLOCKED_NORTH,
+            flagWest = WALK_BLOCKED_WEST or extraFlag,
+            flagEast = WALK_BLOCKED_EAST or extraFlag,
+            flagSouth = WALK_BLOCKED_SOUTH or extraFlag,
+            flagNorth = WALK_BLOCKED_NORTH or extraFlag,
+            flagObject = OBJECT or extraFlag,
             los = false
         )
     }
@@ -110,12 +114,13 @@ public class LineValidator(private val flags: CollisionFlagMap) {
         flagEast: Int,
         flagSouth: Int,
         flagNorth: Int,
+        flagObject: Int,
         los: Boolean
     ): Boolean {
         val startX = coordinate(srcX, destX, srcSize)
         val startZ = coordinate(srcZ, destZ, srcSize)
 
-        if (los && flags.isFlagged(startX, startZ, level, CollisionFlag.OBJECT)) {
+        if (los && flags.isFlagged(startX, startZ, level, flagObject)) {
             return false
         }
 
