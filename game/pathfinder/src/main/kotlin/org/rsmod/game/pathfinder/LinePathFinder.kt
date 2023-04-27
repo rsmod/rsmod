@@ -148,7 +148,7 @@ public class LinePathFinder(private val flags: CollisionFlagMap) {
 
                 if (los && currX == endX && currZ == endZ) xFlags = xFlags and OBJECT_PROJECTILE_BLOCKER.inv()
                 if (flags.isFlagged(currX, currZ, level, xFlags)) {
-                    return RayCast(coordinates, alternative = true, success = false)
+                    return RayCast(coordinates, alternative = coordinates.isNotEmpty(), success = false)
                 }
                 coordinates += RouteCoordinates(currX, currZ, level)
 
@@ -158,7 +158,7 @@ public class LinePathFinder(private val flags: CollisionFlagMap) {
                 if (los && currX == endX && nextZ == endZ) zFlags = zFlags and OBJECT_PROJECTILE_BLOCKER.inv()
                 if (nextZ != currZ) {
                     if (flags.isFlagged(currX, nextZ, level, zFlags)) {
-                        return RayCast(coordinates, alternative = true, success = false)
+                        return RayCast(coordinates, alternative = coordinates.isNotEmpty(), success = false)
                     }
                     coordinates += RouteCoordinates(currX, nextZ, level)
                 }
@@ -176,7 +176,7 @@ public class LinePathFinder(private val flags: CollisionFlagMap) {
                 val currX = scaleDown(scaledX)
                 if (los && currX == endX && currZ == endZ) zFlags = zFlags and OBJECT_PROJECTILE_BLOCKER.inv()
                 if (flags.isFlagged(currX, currZ, level, zFlags)) {
-                    return RayCast(coordinates, alternative = true, success = false)
+                    return RayCast(coordinates, alternative = coordinates.isNotEmpty(), success = false)
                 }
                 coordinates += RouteCoordinates(currX, currZ, level)
 
@@ -186,7 +186,7 @@ public class LinePathFinder(private val flags: CollisionFlagMap) {
                 if (los && nextX == endX && currZ == endZ) xFlags = xFlags and OBJECT_PROJECTILE_BLOCKER.inv()
                 if (nextX != currX) {
                     if (flags.isFlagged(nextX, currZ, level, xFlags)) {
-                        return RayCast(coordinates, alternative = true, success = false)
+                        return RayCast(coordinates, alternative = coordinates.isNotEmpty(), success = false)
                     }
                     coordinates += RouteCoordinates(nextX, currZ, level)
                 }
