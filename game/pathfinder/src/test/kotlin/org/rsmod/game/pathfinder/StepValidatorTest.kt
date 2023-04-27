@@ -223,7 +223,7 @@ class StepValidatorTest {
             map[blockedX, blockedZ, level] = OBJECT_PROJECTILE_BLOCKER
         }
         with(StepValidator(map)) {
-            val strategy = CollisionStrategies.Fly
+            val strategy = CollisionStrategies.LineOfSight
             // Test step is valid if destination _is not_ flagged with projectile block flag.
             assertTrue(canTravel(level = 0, srcX, srcZ, dir.offX, dir.offZ, collision = strategy))
             assertTrue(canTravel(level = 1, srcX, srcZ, dir.offX, dir.offZ, collision = strategy))
