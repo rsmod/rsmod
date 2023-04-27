@@ -6,14 +6,14 @@ public object Js5Configs {
     public const val IDENTIKIT: Int = 3
     public const val OVERLAY: Int = 4
     public const val INV: Int = 5
-    public const val LOC: Int = 6
 
     /** LOC = game/map object */
+    public const val LOC: Int = 6
     public const val ENUM: Int = 8
     public const val NPC: Int = 9
-    public const val OBJ: Int = 10
 
     /** OBJ = items */
+    public const val OBJ: Int = 10
     public const val PARAM: Int = 11
     public const val SEQ: Int = 12
     public const val SPOTANIM: Int = 13
