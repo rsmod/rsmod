@@ -41,16 +41,18 @@ class PathFinderReachObjectTest {
                 map[objX + x, objZ + z, 0] = CollisionFlag.OBJECT
             }
         }
-        with(pathFinder.findPath(
-            level = 0,
-            srcX = srcX,
-            srcZ = srcZ,
-            destX = objX,
-            destZ = objZ,
-            objShape = RECTANGLE,
-            destWidth = width,
-            destHeight = height
-        )) {
+        with(
+            pathFinder.findPath(
+                level = 0,
+                srcX = srcX,
+                srcZ = srcZ,
+                destX = objX,
+                destZ = objZ,
+                objShape = RECTANGLE,
+                destWidth = width,
+                destHeight = height
+            )
+        ) {
             assertTrue(success)
             assertFalse(alternative)
         }
