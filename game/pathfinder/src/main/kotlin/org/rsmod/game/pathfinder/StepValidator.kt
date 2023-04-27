@@ -24,18 +24,16 @@ public class StepValidator(private val flags: CollisionFlagMap) {
         extraFlag: Int = 0,
         collision: CollisionStrategy = CollisionStrategies.Normal
     ): Boolean {
-        assert(offsetX in -1..1) { "Offset x must be in bounds of -1..1" }
-        assert(offsetZ in -1..1) { "Offset z must be in bounds of -1..1" }
-        assert(offsetX != 0 || offsetZ != 0) { "Offset x and z cannot both be 0." }
-        val blocked = when (getDirection(offsetX, offsetZ)) {
-            Direction.South -> isBlockedSouth(level, x, z, size, extraFlag, collision)
-            Direction.North -> isBlockedNorth(level, x, z, size, extraFlag, collision)
-            Direction.West -> isBlockedWest(level, x, z, size, extraFlag, collision)
-            Direction.East -> isBlockedEast(level, x, z, size, extraFlag, collision)
-            Direction.SouthWest -> isBlockedSouthWest(level, x, z, size, extraFlag, collision)
-            Direction.NorthWest -> isBlockedNorthWest(level, x, z, size, extraFlag, collision)
-            Direction.SouthEast -> isBlockedSouthEast(level, x, z, size, extraFlag, collision)
-            Direction.NorthEast -> isBlockedNorthEast(level, x, z, size, extraFlag, collision)
+        val blocked = when {
+            offsetX == 0 && offsetZ == -1 -> isBlockedSouth(level, x, z, size, extraFlag, collision)
+            offsetX == 0 && offsetZ == 1 -> isBlockedNorth(level, x, z, size, extraFlag, collision)
+            offsetX == -1 && offsetZ == 0 -> isBlockedWest(level, x, z, size, extraFlag, collision)
+            offsetX == 1 && offsetZ == 0 -> isBlockedEast(level, x, z, size, extraFlag, collision)
+            offsetX == -1 && offsetZ == -1 -> isBlockedSouthWest(level, x, z, size, extraFlag, collision)
+            offsetX == -1 && offsetZ == 1 -> isBlockedNorthWest(level, x, z, size, extraFlag, collision)
+            offsetX == 1 && offsetZ == -1 -> isBlockedSouthEast(level, x, z, size, extraFlag, collision)
+            offsetX == 1 && offsetZ == 1 -> isBlockedNorthEast(level, x, z, size, extraFlag, collision)
+            else -> error("Invalid step tile offset: $offsetX, $offsetZ")
         }
         return !blocked
     }
@@ -295,21 +293,5 @@ public class StepValidator(private val flags: CollisionFlagMap) {
                 return false
             }
         }
-    }
-
-    public companion object {
-
-        private val mappedDirections = List(0xF) { key ->
-            Direction.values.firstOrNull { bitpackDirection(it.offX, it.offZ) == key }
-        }
-
-        private fun getDirection(xOff: Int, zOff: Int): Direction {
-            assert(xOff in -1..1) { "`xOff` must be in bounds of -1..1" }
-            assert(zOff in -1..1) { "`zOff` must be in bounds of -1..1" }
-            return mappedDirections[bitpackDirection(xOff, zOff)]
-                ?: throw IllegalArgumentException("Offsets [$xOff, $zOff] do not produce a valid movement direction.")
-        }
-
-        private fun bitpackDirection(xOff: Int, zOff: Int): Int = xOff.inc().shl(2) or zOff.inc()
     }
 }
