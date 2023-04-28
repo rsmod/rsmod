@@ -4,11 +4,11 @@ import org.rsmod.plugins.info.buffer.BitBuffer
 import org.rsmod.plugins.info.buffer.SimpleBuffer
 import org.rsmod.plugins.info.buffer.isCapped
 import org.rsmod.plugins.info.model.coord.HighResCoord
-import org.rsmod.plugins.info.player.bitcode.putHighResUpdate
-import org.rsmod.plugins.info.player.bitcode.putHighToLowResChange
-import org.rsmod.plugins.info.player.bitcode.putLowResUpdate
-import org.rsmod.plugins.info.player.bitcode.putLowToHighResChange
-import org.rsmod.plugins.info.player.bitcode.putSkipCount
+import org.rsmod.plugins.info.player.bitcode.GPIBitCodes.putHighResUpdate
+import org.rsmod.plugins.info.player.bitcode.GPIBitCodes.putHighToLowResChange
+import org.rsmod.plugins.info.player.bitcode.GPIBitCodes.putLowResUpdate
+import org.rsmod.plugins.info.player.bitcode.GPIBitCodes.putLowToHighResChange
+import org.rsmod.plugins.info.player.bitcode.GPIBitCodes.putSkipCount
 import org.rsmod.plugins.info.player.client.Avatar
 import org.rsmod.plugins.info.player.client.Client
 import org.rsmod.plugins.info.player.client.Client.Companion.extendedInfoBlockIndex
