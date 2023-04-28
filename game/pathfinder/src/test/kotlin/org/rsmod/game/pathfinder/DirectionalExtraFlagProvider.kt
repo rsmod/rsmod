@@ -9,7 +9,7 @@ import java.util.stream.Stream
 
 object DirectionalExtraFlagProvider : ArgumentsProvider {
 
-    private val EXTRA_FLAGS = intArrayOf(BLOCK_PLAYERS, BLOCK_NPCS)
+    private val EXTRA_FLAGS = intArrayOf(BLOCK_PLAYERS, BLOCK_NPCS, BLOCK_PLAYERS or BLOCK_NPCS)
 
     override fun provideArguments(context: ExtensionContext): Stream<out Arguments> {
         val arguments = EXTRA_FLAGS
