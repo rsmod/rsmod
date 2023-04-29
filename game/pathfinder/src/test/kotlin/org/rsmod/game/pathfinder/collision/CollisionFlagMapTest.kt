@@ -8,6 +8,16 @@ import org.junit.jupiter.api.Test
 class CollisionFlagMapTest {
 
     @Test
+    fun testGetCollisionFlag() {
+        val map = CollisionFlagMap()
+        map.allocateIfAbsent(0, 0, 0)
+        val flags = map.flags[0]
+        checkNotNull(flags)
+        flags[0] = 123456
+        assertEquals(123456, map[0, 0, 0])
+    }
+
+    @Test
     fun testGetCollisionFlagNullZone() {
         val map = CollisionFlagMap()
         check(!map.isZoneAllocated(3200, 3200, 0))
