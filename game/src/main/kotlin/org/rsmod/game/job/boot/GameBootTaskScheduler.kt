@@ -6,19 +6,19 @@ import org.rsmod.game.dispatcher.io.IOCoroutineScope
 import javax.inject.Inject
 import javax.inject.Singleton
 
+private typealias Task = suspend CoroutineScope.() -> Unit
+
 @Singleton
-public class GameBootTaskScheduler @Inject constructor(
-    private val ioCoroutineScope: IOCoroutineScope
-) {
+public class GameBootTaskScheduler @Inject constructor(private val ioCoroutineScope: IOCoroutineScope) {
 
-    private val blocking: MutableList<suspend (CoroutineScope).() -> Unit> = mutableListOf()
-    private val nonBlocking: MutableList<suspend (CoroutineScope).() -> Unit> = mutableListOf()
+    private val blocking: MutableList<Task> = mutableListOf()
+    private val nonBlocking: MutableList<Task> = mutableListOf()
 
-    public fun scheduleBlocking(action: suspend (CoroutineScope).() -> Unit) {
+    public fun scheduleBlocking(action: suspend CoroutineScope.() -> Unit) {
         blocking += action
     }
 
-    public fun scheduleNonBlocking(action: suspend (CoroutineScope).() -> Unit) {
+    public fun scheduleNonBlocking(action: suspend CoroutineScope.() -> Unit) {
         nonBlocking += action
     }
 
@@ -35,7 +35,7 @@ public class GameBootTaskScheduler @Inject constructor(
         job.join()
     }
 
-    public fun getBlocking(): List<suspend (CoroutineScope).() -> Unit> = blocking
+    public fun getBlocking(): List<suspend CoroutineScope.() -> Unit> = blocking
 
-    public fun getNonBlocking(): List<suspend (CoroutineScope).() -> Unit> = nonBlocking
+    public fun getNonBlocking(): List<suspend CoroutineScope.() -> Unit> = nonBlocking
 }
