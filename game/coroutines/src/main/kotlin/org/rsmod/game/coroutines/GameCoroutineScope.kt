@@ -12,12 +12,10 @@ public class GameCoroutineScope {
     public fun launch(
         coroutine: GameCoroutine = GameCoroutine(),
         completion: Continuation<Unit> = GameCoroutineSimpleCompletion,
-        block: suspend (GameCoroutine).() -> Unit
+        block: suspend GameCoroutine.() -> Unit
     ): GameCoroutine {
         block.startCoroutine(coroutine, completion)
-        if (coroutine.isSuspended) {
-            children += coroutine
-        }
+        if (coroutine.isSuspended) children += coroutine
         return coroutine
     }
 
