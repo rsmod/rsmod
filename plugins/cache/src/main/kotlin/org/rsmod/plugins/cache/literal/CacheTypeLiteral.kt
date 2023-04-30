@@ -15,6 +15,7 @@ import org.rsmod.plugins.cache.literal.codec.CacheTypeNamedObject
 import org.rsmod.plugins.cache.literal.codec.CacheTypeString
 import kotlin.reflect.KClass
 
+@Suppress("UNCHECKED_CAST")
 public enum class CacheTypeLiteral(
     public val char: Char,
     public val codec: CacheTypeCodec<*, *> = CacheTypeInt
@@ -68,28 +69,24 @@ public enum class CacheTypeLiteral(
     public val isInt: kotlin.Boolean get() = codec is CacheTypeBaseInt
     public val out: Class<*> get() = codec.out
 
-    @Suppress("UNCHECKED_CAST")
     public fun encodeString(value: Any): kotlin.String {
         check(isString)
         val codec = codec as CacheTypeBaseString<Any>
         return codec.encode(value)
     }
 
-    @Suppress("UNCHECKED_CAST")
     public fun decodeString(value: kotlin.String): Any? {
         check(isString)
         val codec = codec as CacheTypeBaseString<Any>
         return codec.decode(value)
     }
 
-    @Suppress("UNCHECKED_CAST")
     public fun encodeInt(value: Any): Int {
         check(isInt)
         val codec = codec as CacheTypeBaseInt<Any>
         return codec.encode(value)
     }
 
-    @Suppress("UNCHECKED_CAST")
     public fun decodeInt(value: Int): Any? {
         check(isInt)
         val codec = codec as CacheTypeBaseInt<Any>
