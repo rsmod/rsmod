@@ -1,5 +1,6 @@
 package org.rsmod.plugins.types
 
+@Suppress("DuplicatedCode")
 public class NamedTypeMapHolder {
 
     public val interfaces: MutableMap<String, NamedInterface> = mutableMapOf()
