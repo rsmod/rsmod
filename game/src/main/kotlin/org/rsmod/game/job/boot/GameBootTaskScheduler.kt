@@ -27,12 +27,11 @@ public class GameBootTaskScheduler @Inject constructor(private val ioCoroutineSc
     }
 
     public suspend fun executeNonBlocking() {
-        val job = ioCoroutineScope.launch {
-            nonBlocking.forEach {
-                launch { it.invoke(this) }
-            }
-        }
-        job.join()
+        ioCoroutineScope.executeNonBlocking().join()
+    }
+
+    private fun CoroutineScope.executeNonBlocking() = launch {
+        nonBlocking.forEach { launch { it(this) } }
     }
 
     public fun getBlocking(): List<suspend CoroutineScope.() -> Unit> = blocking
