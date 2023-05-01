@@ -61,6 +61,7 @@ internal object CacheTypeLiteralUtils {
     }
 
     private fun CacheTypeLiteral.relativeNames(names: NamedTypeMapHolder): Map<String, Any>? = when (this) {
+        CacheTypeLiteral.Interface -> names.interfaces
         CacheTypeLiteral.Component -> names.components
         CacheTypeLiteral.NamedItem, CacheTypeLiteral.Item -> names.items
         CacheTypeLiteral.Npc -> names.npcs
