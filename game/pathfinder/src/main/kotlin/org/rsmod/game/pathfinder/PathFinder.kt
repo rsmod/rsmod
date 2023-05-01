@@ -50,7 +50,7 @@ public class PathFinder(
      * avoiding obstacles in the appropriate manner respective to the given [collision] strategy.
      *
      * @param destWidth the _absolute_ width of the destination. This value should _not_ be
-     * changed even when passing the width of a rotated object. (it is done for us within the
+     * changed when passing the width of a rotated object. (it is done for us within the
      * function)
      *
      * @param destHeight the _absolute_ height of the destination. Similar to [destWidth],
