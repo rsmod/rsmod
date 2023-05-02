@@ -81,7 +81,7 @@ public class MovementProcess @Inject constructor(
         for (i in 0 until speed.steps) {
             if (curr == waypoint) {
                 movement.remove()
-                waypoint = movement.poll() ?: break
+                waypoint = movement.peek() ?: break
             }
             val step = stepFactory.validated(curr, waypoint, extraFlag = EXTRA_CLIP_VALIDATION)
             if (step == Coordinates.NULL) break
