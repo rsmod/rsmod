@@ -12,78 +12,77 @@ public object ReachStrategy {
 
     public fun reached(
         flags: CollisionFlagMap,
-        x: Int,
-        z: Int,
         level: Int,
+        srcX: Int,
+        srcZ: Int,
         destX: Int,
         destZ: Int,
         destWidth: Int,
         destHeight: Int,
         srcSize: Int,
-        rotation: Int,
-        shape: Int,
+        objRot: Int,
+        objShape: Int,
         blockAccessFlags: Int
     ): Boolean {
-        val exitStrategy = shape.exitStrategy
-        if (exitStrategy != RECTANGLE_EXCLUSIVE_STRATEGY && x == destX && z == destZ) return true
+        val exitStrategy = exitStrategy(objShape)
+        if (exitStrategy != RECTANGLE_EXCLUSIVE_STRATEGY && srcX == destX && srcZ == destZ) return true
         return when (exitStrategy) {
             WALL_STRATEGY -> reachWall(
-                flags,
-                x,
-                z,
-                level,
-                destX,
-                destZ,
-                srcSize,
-                shape,
-                rotation
+                flags = flags,
+                level = level,
+                srcX = srcX,
+                srcZ = srcZ,
+                destX = destX,
+                destZ = destZ,
+                srcSize = srcSize,
+                objShape = objShape,
+                objRot = objRot
             )
             WALL_DECO_STRATEGY -> reachWallDeco(
-                flags,
-                x,
-                z,
-                level,
-                destX,
-                destZ,
-                srcSize,
-                shape,
-                rotation
+                flags = flags,
+                level = level,
+                srcX = srcX,
+                srcZ = srcZ,
+                destX = destX,
+                destZ = destZ,
+                srcSize = srcSize,
+                objShape = objShape,
+                objRot = objRot
             )
             RECTANGLE_STRATEGY -> reachRectangle(
-                flags,
-                x,
-                z,
-                level,
-                blockAccessFlags,
-                destX,
-                destZ,
-                srcSize,
-                destWidth,
-                destHeight
+                flags = flags,
+                level = level,
+                srcX = srcX,
+                srcZ = srcZ,
+                destX = destX,
+                destZ = destZ,
+                srcSize = srcSize,
+                destWidth = destWidth,
+                destHeight = destHeight,
+                blockAccessFlags = blockAccessFlags
             )
             RECTANGLE_EXCLUSIVE_STRATEGY -> reachExclusiveRectangle(
-                flags,
-                x,
-                z,
-                level,
-                blockAccessFlags,
-                destX,
-                destZ,
-                srcSize,
-                destWidth,
-                destHeight
+                flags = flags,
+                level = level,
+                srcX = srcX,
+                srcZ = srcZ,
+                destX = destX,
+                destZ = destZ,
+                srcSize = srcSize,
+                destWidth = destWidth,
+                destHeight = destHeight,
+                blockAccessFlags = blockAccessFlags
             )
             else -> false
         }
     }
 
-    private val Int.exitStrategy: Int
-        get() = when {
-            this == -2 -> RECTANGLE_EXCLUSIVE_STRATEGY
-            this == -1 -> NO_STRATEGY
-            this in 0..3 || this == 9 -> WALL_STRATEGY
-            this < 9 -> WALL_DECO_STRATEGY
-            this in 10..11 || this == 22 -> RECTANGLE_STRATEGY
-            else -> NO_STRATEGY
-        }
+    private fun exitStrategy(objShape: Int): Int = when {
+        objShape == -2 -> RECTANGLE_EXCLUSIVE_STRATEGY
+        objShape == -1 -> NO_STRATEGY
+        objShape in 0..3 || objShape == 9 -> WALL_STRATEGY
+        objShape < 9 -> WALL_DECO_STRATEGY
+        objShape in 10..11 || objShape == 22 -> RECTANGLE_STRATEGY
+        else -> NO_STRATEGY
+    }
 }

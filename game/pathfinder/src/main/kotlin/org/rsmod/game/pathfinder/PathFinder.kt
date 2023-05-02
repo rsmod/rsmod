@@ -265,18 +265,18 @@ public class PathFinder(
             bufReaderIndex = (bufReaderIndex + 1) and (ringBufferSize - 1)
 
             if (ReachStrategy.reached(
-                    flags,
-                    currLocalX + baseX,
-                    currLocalZ + baseZ,
-                    level,
-                    localDestX + baseX,
-                    localDestZ + baseZ,
-                    destWidth,
-                    destHeight,
-                    srcSize,
-                    objRot,
-                    objShape,
-                    blockAccessFlags
+                    flags = flags,
+                    level = level,
+                    srcX = currLocalX + baseX,
+                    srcZ = currLocalZ + baseZ,
+                    destX = localDestX + baseX,
+                    destZ = localDestZ + baseZ,
+                    destWidth = destWidth,
+                    destHeight = destHeight,
+                    srcSize = srcSize,
+                    objRot = objRot,
+                    objShape = objShape,
+                    blockAccessFlags = blockAccessFlags
                 )
             ) {
                 return true
@@ -411,18 +411,18 @@ public class PathFinder(
             bufReaderIndex = (bufReaderIndex + 1) and (ringBufferSize - 1)
 
             if (ReachStrategy.reached(
-                    flags,
-                    currLocalX + baseX,
-                    currLocalZ + baseZ,
-                    level,
-                    localDestX + baseX,
-                    localDestZ + baseZ,
-                    destWidth,
-                    destHeight,
-                    srcSize,
-                    objRot,
-                    objShape,
-                    blockAccessFlags
+                    flags = flags,
+                    level = level,
+                    srcX = currLocalX + baseX,
+                    srcZ = currLocalZ + baseZ,
+                    destX = localDestX + baseX,
+                    destZ = localDestZ + baseZ,
+                    destWidth = destWidth,
+                    destHeight = destHeight,
+                    srcSize = srcSize,
+                    objRot = objRot,
+                    objShape = objShape,
+                    blockAccessFlags = blockAccessFlags
                 )
             ) {
                 return true
@@ -557,18 +557,18 @@ public class PathFinder(
             bufReaderIndex = (bufReaderIndex + 1) and (ringBufferSize - 1)
 
             if (ReachStrategy.reached(
-                    flags,
-                    currLocalX + baseX,
-                    currLocalZ + baseZ,
-                    level,
-                    localDestX + baseX,
-                    localDestZ + baseZ,
-                    destWidth,
-                    destHeight,
-                    srcSize,
-                    objRot,
-                    objShape,
-                    blockAccessFlags
+                    flags = flags,
+                    level = level,
+                    srcX = currLocalX + baseX,
+                    srcZ = currLocalZ + baseZ,
+                    destX = localDestX + baseX,
+                    destZ = localDestZ + baseZ,
+                    destWidth = destWidth,
+                    destHeight = destHeight,
+                    srcSize = srcSize,
+                    objRot = objRot,
+                    objShape = objShape,
+                    blockAccessFlags = blockAccessFlags
                 )
             ) {
                 return true
@@ -766,18 +766,18 @@ public class PathFinder(
             bufReaderIndex = (bufReaderIndex + 1) and (ringBufferSize - 1)
 
             if (ReachStrategy.reached(
-                    flags,
-                    currLocalX + baseX,
-                    currLocalZ + baseZ,
-                    level,
-                    localDestX + baseX,
-                    localDestZ + baseZ,
-                    destWidth,
-                    destHeight,
-                    srcSize,
-                    objRot,
-                    objShape,
-                    blockAccessFlags
+                    flags = flags,
+                    level = level,
+                    srcX = currLocalX + baseX,
+                    srcZ = currLocalZ + baseZ,
+                    destX = localDestX + baseX,
+                    destZ = localDestZ + baseZ,
+                    destWidth = destWidth,
+                    destHeight = destHeight,
+                    srcSize = srcSize,
+                    objRot = objRot,
+                    objShape = objShape,
+                    blockAccessFlags = blockAccessFlags
                 )
             ) {
                 return true
@@ -912,18 +912,18 @@ public class PathFinder(
             bufReaderIndex = (bufReaderIndex + 1) and (ringBufferSize - 1)
 
             if (ReachStrategy.reached(
-                    flags,
-                    currLocalX + baseX,
-                    currLocalZ + baseZ,
-                    level,
-                    localDestX + baseX,
-                    localDestZ + baseZ,
-                    destWidth,
-                    destHeight,
-                    srcSize,
-                    objRot,
-                    objShape,
-                    blockAccessFlags
+                    flags = flags,
+                    level = level,
+                    srcX = currLocalX + baseX,
+                    srcZ = currLocalZ + baseZ,
+                    destX = localDestX + baseX,
+                    destZ = localDestZ + baseZ,
+                    destWidth = destWidth,
+                    destHeight = destHeight,
+                    srcSize = srcSize,
+                    objRot = objRot,
+                    objShape = objShape,
+                    blockAccessFlags = blockAccessFlags
                 )
             ) {
                 return true
@@ -1082,18 +1082,18 @@ public class PathFinder(
             bufReaderIndex = (bufReaderIndex + 1) and (ringBufferSize - 1)
 
             if (ReachStrategy.reached(
-                    flags,
-                    currLocalX + baseX,
-                    currLocalZ + baseZ,
-                    level,
-                    localDestX + baseX,
-                    localDestZ + baseZ,
-                    destWidth,
-                    destHeight,
-                    srcSize,
-                    objRot,
-                    objShape,
-                    blockAccessFlags
+                    flags = flags,
+                    level = level,
+                    srcX = currLocalX + baseX,
+                    srcZ = currLocalZ + baseZ,
+                    destX = localDestX + baseX,
+                    destZ = localDestZ + baseZ,
+                    destWidth = destWidth,
+                    destHeight = destHeight,
+                    srcSize = srcSize,
+                    objRot = objRot,
+                    objShape = objShape,
+                    blockAccessFlags = blockAccessFlags
                 )
             ) {
                 return true

@@ -5,152 +5,152 @@ import org.rsmod.game.pathfinder.flag.CollisionFlag
 
 internal fun reachWallDeco(
     flags: CollisionFlagMap,
-    x: Int,
-    z: Int,
     level: Int,
+    srcX: Int,
+    srcZ: Int,
     destX: Int,
     destZ: Int,
     srcSize: Int,
-    shape: Int,
-    rot: Int
+    objShape: Int,
+    objRot: Int
 ): Boolean = when {
-    srcSize == 1 && x == destX && destZ == z -> true
-    srcSize != 1 && destX >= x && srcSize + x - 1 >= destX &&
-        destZ >= z && srcSize + z - 1 >= destZ -> true
+    srcSize == 1 && srcX == destX && destZ == srcZ -> true
+    srcSize != 1 && destX >= srcX && srcSize + srcX - 1 >= destX &&
+        destZ >= srcZ && srcSize + srcZ - 1 >= destZ -> true
     srcSize == 1 -> reachWallDeco1(
-        flags,
-        x,
-        z,
-        level,
-        destX,
-        destZ,
-        shape,
-        rot
+        flags = flags,
+        level = level,
+        srcX = srcX,
+        srcZ = srcZ,
+        destX = destX,
+        destZ = destZ,
+        objShape = objShape,
+        objRot = objRot
     )
     else -> reachWallDecoN(
-        flags,
-        x,
-        z,
-        level,
-        destX,
-        destZ,
-        srcSize,
-        shape,
-        rot
+        flags = flags,
+        level = level,
+        srcX = srcX,
+        srcZ = srcZ,
+        destX = destX,
+        destZ = destZ,
+        srcSize = srcSize,
+        objShape = objShape,
+        objRot = objRot
     )
 }
 
 @Suppress("DuplicatedCode")
 private fun reachWallDeco1(
     flags: CollisionFlagMap,
-    x: Int,
-    z: Int,
     level: Int,
+    srcX: Int,
+    srcZ: Int,
     destX: Int,
     destZ: Int,
-    shape: Int,
-    rot: Int
+    objShape: Int,
+    objRot: Int
 ): Boolean {
-    if (shape in 6..7) {
-        when (rot.alteredRotation(shape)) {
+    if (objShape in 6..7) {
+        when (objRot.alteredRotation(objShape)) {
             0 -> {
                 if (
-                    x == destX + 1 && z == destZ &&
-                    (flags[x, z, level] and CollisionFlag.WALL_WEST) == 0
+                    srcX == destX + 1 && srcZ == destZ &&
+                    (flags[srcX, srcZ, level] and CollisionFlag.WALL_WEST) == 0
                 ) {
                     return true
                 } else if (
-                    x == destX && z == destZ - 1 &&
-                    (flags[x, z, level] and CollisionFlag.WALL_NORTH) == 0
+                    srcX == destX && srcZ == destZ - 1 &&
+                    (flags[srcX, srcZ, level] and CollisionFlag.WALL_NORTH) == 0
                 ) {
                     return true
                 }
             }
             1 -> {
                 if (
-                    x == destX - 1 && z == destZ &&
-                    (flags[x, z, level] and CollisionFlag.WALL_EAST) == 0
+                    srcX == destX - 1 && srcZ == destZ &&
+                    (flags[srcX, srcZ, level] and CollisionFlag.WALL_EAST) == 0
                 ) {
                     return true
                 } else if (
-                    x == destX && z == destZ - 1 &&
-                    (flags[x, z, level] and CollisionFlag.WALL_NORTH) == 0
+                    srcX == destX && srcZ == destZ - 1 &&
+                    (flags[srcX, srcZ, level] and CollisionFlag.WALL_NORTH) == 0
                 ) {
                     return true
                 }
             }
             2 -> {
                 if (
-                    x == destX - 1 && z == destZ &&
-                    (flags[x, z, level] and CollisionFlag.WALL_EAST) == 0
+                    srcX == destX - 1 && srcZ == destZ &&
+                    (flags[srcX, srcZ, level] and CollisionFlag.WALL_EAST) == 0
                 ) {
                     return true
                 } else if (
-                    x == destX && z == destZ + 1 &&
-                    (flags[x, z, level] and CollisionFlag.WALL_SOUTH) == 0
+                    srcX == destX && srcZ == destZ + 1 &&
+                    (flags[srcX, srcZ, level] and CollisionFlag.WALL_SOUTH) == 0
                 ) {
                     return true
                 }
             }
             3 -> {
                 if (
-                    x == destX + 1 && z == destZ &&
-                    (flags[x, z, level] and CollisionFlag.WALL_WEST) == 0
+                    srcX == destX + 1 && srcZ == destZ &&
+                    (flags[srcX, srcZ, level] and CollisionFlag.WALL_WEST) == 0
                 ) {
                     return true
                 } else if (
-                    x == destX && z == destZ + 1 &&
-                    (flags[x, z, level] and CollisionFlag.WALL_SOUTH) == 0
+                    srcX == destX && srcZ == destZ + 1 &&
+                    (flags[srcX, srcZ, level] and CollisionFlag.WALL_SOUTH) == 0
                 ) {
                     return true
                 }
             }
         }
-    } else if (shape == 8) {
+    } else if (objShape == 8) {
         if (
-            x == destX && z == destZ + 1 &&
-            (flags[x, z, level] and CollisionFlag.WALL_SOUTH) == 0
+            srcX == destX && srcZ == destZ + 1 &&
+            (flags[srcX, srcZ, level] and CollisionFlag.WALL_SOUTH) == 0
         ) {
             return true
         } else if (
-            x == destX && z == destZ - 1 &&
-            (flags[x, z, level] and CollisionFlag.WALL_NORTH) == 0
+            srcX == destX && srcZ == destZ - 1 &&
+            (flags[srcX, srcZ, level] and CollisionFlag.WALL_NORTH) == 0
         ) {
             return true
         } else if (
-            x == destX - 1 && z == destZ &&
-            (flags[x, z, level] and CollisionFlag.WALL_EAST) == 0
+            srcX == destX - 1 && srcZ == destZ &&
+            (flags[srcX, srcZ, level] and CollisionFlag.WALL_EAST) == 0
         ) {
             return true
         }
-        return x == destX + 1 && z == destZ &&
-            (flags[x, z, level] and CollisionFlag.WALL_WEST) == 0
+        return srcX == destX + 1 && srcZ == destZ &&
+            (flags[srcX, srcZ, level] and CollisionFlag.WALL_WEST) == 0
     }
     return false
 }
 
 private fun reachWallDecoN(
     flags: CollisionFlagMap,
-    x: Int,
-    z: Int,
     level: Int,
+    srcX: Int,
+    srcZ: Int,
     destX: Int,
     destZ: Int,
     srcSize: Int,
-    shape: Int,
-    rot: Int
+    objShape: Int,
+    objRot: Int
 ): Boolean {
-    val east = x + srcSize - 1
-    val north = z + srcSize - 1
-    if (shape in 6..7) {
-        when (rot.alteredRotation(shape)) {
+    val east = srcX + srcSize - 1
+    val north = srcZ + srcSize - 1
+    if (objShape in 6..7) {
+        when (objRot.alteredRotation(objShape)) {
             0 -> {
                 if (
-                    x == destX + 1 && z <= destZ && north >= destZ &&
-                    (flags[x, destZ, level] and CollisionFlag.WALL_WEST) == 0
+                    srcX == destX + 1 && srcZ <= destZ && north >= destZ &&
+                    (flags[srcX, destZ, level] and CollisionFlag.WALL_WEST) == 0
                 ) {
                     return true
-                } else if (x <= destX && z == destZ - srcSize && east >= destX &&
+                } else if (srcX <= destX && srcZ == destZ - srcSize && east >= destX &&
                     (flags[destX, north, level] and CollisionFlag.WALL_NORTH) == 0
                 ) {
                     return true
@@ -158,12 +158,12 @@ private fun reachWallDecoN(
             }
             1 -> {
                 if (
-                    x == destX - srcSize && z <= destZ && north >= destZ &&
+                    srcX == destX - srcSize && srcZ <= destZ && north >= destZ &&
                     (flags[east, destZ, level] and CollisionFlag.WALL_EAST) == 0
                 ) {
                     return true
                 } else if (
-                    x <= destX && z == destZ - srcSize && east >= destX &&
+                    srcX <= destX && srcZ == destZ - srcSize && east >= destX &&
                     (flags[destX, north, level] and CollisionFlag.WALL_NORTH) == 0
                 ) {
                     return true
@@ -171,50 +171,50 @@ private fun reachWallDecoN(
             }
             2 -> {
                 if (
-                    x == destX - srcSize && z <= destZ && north >= destZ &&
+                    srcX == destX - srcSize && srcZ <= destZ && north >= destZ &&
                     (flags[east, destZ, level] and CollisionFlag.WALL_EAST) == 0
                 ) {
                     return true
                 } else if (
-                    x <= destX && z == destZ + 1 && east >= destX &&
-                    (flags[destX, z, level] and CollisionFlag.WALL_SOUTH) == 0
+                    srcX <= destX && srcZ == destZ + 1 && east >= destX &&
+                    (flags[destX, srcZ, level] and CollisionFlag.WALL_SOUTH) == 0
                 ) {
                     return true
                 }
             }
             3 -> {
                 if (
-                    x == destX + 1 && z <= destZ && north >= destZ &&
-                    (flags[x, destZ, level] and CollisionFlag.WALL_WEST) == 0
+                    srcX == destX + 1 && srcZ <= destZ && north >= destZ &&
+                    (flags[srcX, destZ, level] and CollisionFlag.WALL_WEST) == 0
                 ) {
                     return true
                 } else if (
-                    x <= destX && z == destZ + 1 && east >= destX &&
-                    (flags[destX, z, level] and CollisionFlag.WALL_SOUTH) == 0
+                    srcX <= destX && srcZ == destZ + 1 && east >= destX &&
+                    (flags[destX, srcZ, level] and CollisionFlag.WALL_SOUTH) == 0
                 ) {
                     return true
                 }
             }
         }
-    } else if (shape == 8) {
+    } else if (objShape == 8) {
         if (
-            x <= destX && z == destZ + 1 && east >= destX &&
-            (flags[destX, z, level] and CollisionFlag.WALL_SOUTH) == 0
+            srcX <= destX && srcZ == destZ + 1 && east >= destX &&
+            (flags[destX, srcZ, level] and CollisionFlag.WALL_SOUTH) == 0
         ) {
             return true
         } else if (
-            x <= destX && z == destZ - srcSize && east >= destX &&
+            srcX <= destX && srcZ == destZ - srcSize && east >= destX &&
             (flags[destX, north, level] and CollisionFlag.WALL_NORTH) == 0
         ) {
             return true
         } else if (
-            x == destX - srcSize && z <= destZ && north >= destZ &&
+            srcX == destX - srcSize && srcZ <= destZ && north >= destZ &&
             (flags[east, destZ, level] and CollisionFlag.WALL_EAST) == 0
         ) {
             return true
         }
-        return x == destX + 1 && z <= destZ && north >= destZ &&
-            (flags[x, destZ, level] and CollisionFlag.WALL_WEST) == 0
+        return srcX == destX + 1 && srcZ <= destZ && north >= destZ &&
+            (flags[srcX, destZ, level] and CollisionFlag.WALL_WEST) == 0
     }
     return false
 }

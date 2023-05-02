@@ -4,44 +4,43 @@ import org.rsmod.game.pathfinder.collision.CollisionFlagMap
 
 internal fun reachRectangle(
     flags: CollisionFlagMap,
-    x: Int,
-    z: Int,
     level: Int,
-    blockAccessFlags: Int,
+    srcX: Int,
+    srcZ: Int,
     destX: Int,
     destZ: Int,
     srcSize: Int,
     destWidth: Int,
-    destHeight: Int
+    destHeight: Int,
+    blockAccessFlags: Int
 ): Boolean = when {
     srcSize > 1 -> {
-        RectangleBoundaryUtils.collides(x, z, destX, destZ, srcSize, srcSize, destWidth, destHeight) ||
+        RectangleBoundaryUtils.collides(srcX, srcZ, destX, destZ, srcSize, srcSize, destWidth, destHeight) ||
             RectangleBoundaryUtils.reachRectangleN(
-                flags,
-                x,
-                z,
-                level,
-                blockAccessFlags,
-                destX,
-                destZ,
-                srcSize,
-                srcSize,
-                destWidth,
-                destHeight
+                flags = flags,
+                level = level,
+                srcX = srcX,
+                srcZ = srcZ,
+                destX = destX,
+                destZ = destZ,
+                srcWidth = srcSize,
+                srcHeight = srcSize,
+                destWidth = destWidth,
+                destHeight = destHeight,
+                blockAccessFlags = blockAccessFlags
             )
     }
-
     else ->
-        RectangleBoundaryUtils.collides(x, z, destX, destZ, srcSize, srcSize, destWidth, destHeight) ||
+        RectangleBoundaryUtils.collides(srcX, srcZ, destX, destZ, srcSize, srcSize, destWidth, destHeight) ||
             RectangleBoundaryUtils.reachRectangle1(
-                flags,
-                x,
-                z,
-                level,
-                blockAccessFlags,
-                destX,
-                destZ,
-                destWidth,
-                destHeight
+                flags = flags,
+                level = level,
+                srcX = srcX,
+                srcZ = srcZ,
+                destX = destX,
+                destZ = destZ,
+                destWidth = destWidth,
+                destHeight = destHeight,
+                blockAccessFlags = blockAccessFlags
             )
 }
