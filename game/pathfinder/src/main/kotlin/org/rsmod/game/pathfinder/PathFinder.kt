@@ -222,7 +222,7 @@ public class PathFinder(
             if (currDir != nextDir) {
                 currDir = nextDir
                 if (waypoints.size >= maxWaypoints) waypoints.removeLast()
-                val coords = RouteCoordinates(baseX + currLocalX, baseZ + currLocalZ)
+                val coords = RouteCoordinates(baseX + currLocalX, baseZ + currLocalZ, level)
                 waypoints.addFirst(coords)
             }
             if ((currDir and DirectionFlag.EAST) != 0) {
