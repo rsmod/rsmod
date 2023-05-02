@@ -11,6 +11,9 @@ enum class Direction(val offX: Int, val offZ: Int) {
     NorthEast(1, 1);
 
     companion object {
+
         val values = enumValues<Direction>()
+
+        val cardinal = listOf(South, North, West, East)
     }
 }
