@@ -22,6 +22,25 @@ class PathFinderTest {
         val pathFinder = PathFinder(map)
         pathFinder.findPath(level = 0, srcX, srcZ, destX, destZ).let { route ->
             assertEquals(1, route.size)
+            assertEquals(0, route.last().level)
+            assertEquals(destX, route.last().x)
+            assertEquals(destZ, route.last().z)
+        }
+        pathFinder.findPath(level = 1, srcX, srcZ, destX, destZ).let { route ->
+            assertEquals(1, route.size)
+            assertEquals(1, route.last().level)
+            assertEquals(destX, route.last().x)
+            assertEquals(destZ, route.last().z)
+        }
+        pathFinder.findPath(level = 2, srcX, srcZ, destX, destZ).let { route ->
+            assertEquals(1, route.size)
+            assertEquals(2, route.last().level)
+            assertEquals(destX, route.last().x)
+            assertEquals(destZ, route.last().z)
+        }
+        pathFinder.findPath(level = 3, srcX, srcZ, destX, destZ).let { route ->
+            assertEquals(1, route.size)
+            assertEquals(3, route.last().level)
             assertEquals(destX, route.last().x)
             assertEquals(destZ, route.last().z)
         }
@@ -38,6 +57,21 @@ class PathFinderTest {
             .flag(destX, destZ, width = 1, height = 1, mask = CollisionFlag.FLOOR)
         val pathFinder = PathFinder(map)
         pathFinder.findPath(level = 0, srcX, srcZ, destX, destZ, moveNear = false).let { route ->
+            assertTrue(route.failed)
+            assertTrue(route.isEmpty())
+            assertFalse(route.alternative)
+        }
+        pathFinder.findPath(level = 1, srcX, srcZ, destX, destZ, moveNear = false).let { route ->
+            assertTrue(route.failed)
+            assertTrue(route.isEmpty())
+            assertFalse(route.alternative)
+        }
+        pathFinder.findPath(level = 2, srcX, srcZ, destX, destZ, moveNear = false).let { route ->
+            assertTrue(route.failed)
+            assertTrue(route.isEmpty())
+            assertFalse(route.alternative)
+        }
+        pathFinder.findPath(level = 3, srcX, srcZ, destX, destZ, moveNear = false).let { route ->
             assertTrue(route.failed)
             assertTrue(route.isEmpty())
             assertFalse(route.alternative)
