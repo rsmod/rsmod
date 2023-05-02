@@ -41,6 +41,53 @@ class MovementProcessTest {
     }
 
     /**
+     * Waypoint in player's movement queue should not be removed until they
+     * have fully reached it.
+     *
+     * There was a scenario where after reaching a waypoint, the next one was
+     * instantly consumed and removed from the movement queue. If the final
+     * destination was X tiles away from said waypoint coordinates, then the
+     * rest of the route's tiles were never processed.
+     *
+     * X = further away than tiles the player could process in that single game cycle.
+     */
+    @Test
+    fun GameTestState.testPrematureWaypointRemoval() = runGameTest {
+        val process = MovementProcess(playerList, routeFactory, stepFactory)
+        // North of lumbridge fountain.
+        val start = Coordinates(3221, 3228)
+        val dest = Coordinates(3220, 3226)
+        val waypoints = listOf(
+            start.translate(xOffset = -1, zOffset = 0),
+            dest
+        )
+        // Test while walking.
+        withPlayer {
+            coords = start
+            movement.speed = MoveSpeed.Walk
+            check(movement.isEmpty())
+            movement += waypoints
+            repeat(waypoints.size + 1) {
+                process.execute()
+            }
+            assertEquals(dest, coords)
+            assertTrue(movement.isEmpty())
+        }
+        // Test while running.
+        withPlayer {
+            coords = start
+            movement.speed = MoveSpeed.Run
+            check(movement.isEmpty())
+            movement += waypoints
+            repeat(waypoints.size) {
+                process.execute()
+            }
+            assertEquals(dest, coords)
+            assertTrue(movement.isEmpty())
+        }
+    }
+
+    /**
      * When a player is "running" to a destination that's within one-tile of
      * distance - they will queue the walk "temp movement" extended-info.
      */
