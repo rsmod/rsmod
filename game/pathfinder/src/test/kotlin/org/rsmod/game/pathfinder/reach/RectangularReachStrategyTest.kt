@@ -109,11 +109,8 @@ class RectangularReachStrategyTest {
     @ArgumentsSource(DimensionProvider::class)
     fun testReachWithDimensions(dimension: Dimension) {
         val (width, height) = dimension
-        val (srcX, srcZ) = 3200 to 3200
-        val (objX, objZ) = 3205 + width to 3200
-        val destX = objX - 1
-        val destZ = objZ
-        val map = buildCollisionMap(srcX, srcZ, objX, objZ)
+        val (objX, objZ) = 3202 + width to 3202
+        val map = buildCollisionMap(objX, objZ, objX, objZ)
             .flag(objX, objZ, width, height, CollisionFlag.OBJECT)
         fun reached(level: Int, srcX: Int, srcZ: Int, destX: Int, destZ: Int): Boolean {
             return reachRectangle(
@@ -129,17 +126,18 @@ class RectangularReachStrategyTest {
                 blockAccessFlags = 0
             )
         }
-        assertFalse(reached(level = 0, srcX = destX - 1, srcZ = destZ, destX = objX, destZ = objZ))
-        assertFalse(reached(level = 0, srcX = destX, srcZ = destZ - 1, destX = objX, destZ = objZ))
-        assertTrue(reached(level = 0, srcX = destX, srcZ = destZ, destX = objX, destZ = objZ))
+        assertFalse(reached(level = 0, srcX = objX - 2, srcZ = objZ - 1, destX = objX, destZ = objZ))
+        assertFalse(reached(level = 0, srcX = objX - 1, srcZ = objZ - 2, destX = objX, destZ = objZ))
+        assertTrue(reached(level = 0, srcX = objX - 1, srcZ = objZ, destX = objX, destZ = objZ))
+        assertTrue(reached(level = 0, srcX = objX, srcZ = objZ - 1, destX = objX, destZ = objZ))
         // Being "inside" the object counts as reached.
         for (z in 1 until height) {
             for (x in 1 until width) {
                 assertTrue(
                     reached(
                         level = 0,
-                        srcX = destX + x,
-                        srcZ = destZ + z,
+                        srcX = objX + x,
+                        srcZ = objZ + z,
                         destX = objX,
                         destZ = objZ
                     )
