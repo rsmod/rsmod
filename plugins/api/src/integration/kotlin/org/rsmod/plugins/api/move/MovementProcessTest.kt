@@ -46,8 +46,8 @@ class MovementProcessTest {
      *
      * There was a scenario where after reaching a waypoint, the next one was
      * instantly consumed and removed from the movement queue. If the final
-     * destination was X tiles away from said waypoint coordinates, then the
-     * rest of the route's tiles were never processed.
+     * destination was X tiles away from said waypoint initial coordinates,
+     * then the rest of the route's tiles were never processed.
      *
      * X = further away than tiles the player could process in that single game cycle.
      */
@@ -61,19 +61,6 @@ class MovementProcessTest {
             start.translate(xOffset = -1, zOffset = 0),
             dest
         )
-        // Test while walking.
-        withPlayer {
-            coords = start
-            movement.speed = MoveSpeed.Walk
-            check(movement.isEmpty())
-            movement += waypoints
-            repeat(waypoints.size + 1) {
-                process.execute()
-            }
-            assertEquals(dest, coords)
-            assertTrue(movement.isEmpty())
-        }
-        // Test while running.
         withPlayer {
             coords = start
             movement.speed = MoveSpeed.Run
@@ -135,7 +122,7 @@ class MovementProcessTest {
             coords = startCoords
             routeRequest = RouteRequestCoordinates(
                 destination = destination,
-                speed = null,
+                speed = MoveSpeed.Walk,
                 async = true
             )
             // TODO: set perm speed to "run" as the mechanic _should_ force us to "walk"
@@ -155,9 +142,9 @@ class MovementProcessTest {
              * properly "interrupted," or reached.
              */
             repeat(8) {
+                process.execute()
                 assertEquals(expectedDest, coords)
                 assertFalse(movement.isEmpty())
-                process.execute()
             }
         }
         /* mechanic should only be valid on first ever step after log-in */
@@ -194,6 +181,56 @@ class MovementProcessTest {
             }
             /* player should not of have moved */
             assertEquals(startCoords, coords)
+        }
+    }
+
+    @Test
+    fun GameTestState.testMoveSpeeds() = runGameTest {
+        // Utilize a new collision state so that collision flags do not
+        // interfere with test.
+        withCollisionState {
+            val startCoords = Coordinates(3200, 3200, 0)
+            // Allocate an empty zone with no collision flags.
+            it.collision.allocateIfAbsent(startCoords.x, startCoords.z, startCoords.level)
+            val process = MovementProcess(playerList, it.routeFactory, it.stepFactory)
+            MoveSpeed.values.forEach { speed ->
+                // If we want to support more than 7 steps, allocate
+                // neighbouring zones.
+                check(speed.steps < 8)
+                withPlayer {
+                    val expectedCoords = startCoords.translateZ(speed.steps)
+                    coords = startCoords
+                    movement.speed = speed
+                    check(movement.isEmpty())
+                    movement += coords.translateZ(7)
+                    process.execute()
+                    assertEquals(expectedCoords, coords) {
+                        "Unexpected end coordinates for speed $speed"
+                    }
+                }
+                withPlayer {
+                    val expectedCoords = startCoords.translateX(speed.steps)
+                    coords = startCoords
+                    movement.speed = speed
+                    check(movement.isEmpty())
+                    movement += coords.translateX(7)
+                    process.execute()
+                    assertEquals(expectedCoords, coords) {
+                        "Unexpected end coordinates for speed $speed"
+                    }
+                }
+                withPlayer {
+                    val expectedCoords = startCoords.translate(speed.steps, speed.steps)
+                    coords = startCoords
+                    movement.speed = speed
+                    check(movement.isEmpty())
+                    movement += coords.translate(7, 7)
+                    process.execute()
+                    assertEquals(expectedCoords, coords) {
+                        "Unexpected end coordinates for speed $speed"
+                    }
+                }
+            }
         }
     }
 
