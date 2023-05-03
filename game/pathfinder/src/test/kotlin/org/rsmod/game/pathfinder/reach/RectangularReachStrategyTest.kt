@@ -110,12 +110,12 @@ class RectangularReachStrategyTest {
     fun testReachWithDimensions(dimension: Dimension) {
         val (width, height) = dimension
         val (objX, objZ) = 3202 + width to 3202
-        val map = buildCollisionMap(objX, objZ, objX, objZ)
+        val map = buildCollisionMap(objX - 1, objZ - 1, objX + width, objZ + height)
             .flag(objX, objZ, width, height, CollisionFlag.OBJECT)
-        fun reached(level: Int, srcX: Int, srcZ: Int, destX: Int, destZ: Int): Boolean {
+        fun reached(srcX: Int, srcZ: Int, destX: Int, destZ: Int): Boolean {
             return reachRectangle(
                 flags = map,
-                level = level,
+                level = 0,
                 srcX = srcX,
                 srcZ = srcZ,
                 destX = destX,
@@ -126,22 +126,20 @@ class RectangularReachStrategyTest {
                 blockAccessFlags = 0
             )
         }
-        assertFalse(reached(level = 0, srcX = objX - 2, srcZ = objZ - 1, destX = objX, destZ = objZ))
-        assertFalse(reached(level = 0, srcX = objX - 1, srcZ = objZ - 2, destX = objX, destZ = objZ))
-        assertTrue(reached(level = 0, srcX = objX - 1, srcZ = objZ, destX = objX, destZ = objZ))
-        assertTrue(reached(level = 0, srcX = objX, srcZ = objZ - 1, destX = objX, destZ = objZ))
-        // Being "inside" the object counts as reached.
-        for (z in 1 until height) {
-            for (x in 1 until width) {
-                assertTrue(
-                    reached(
-                        level = 0,
-                        srcX = objX + x,
-                        srcZ = objZ + z,
-                        destX = objX,
-                        destZ = objZ
-                    )
-                )
+        assertFalse(reached(objX - 2, objZ - 1, objX, objZ))
+        assertFalse(reached(objX - 1, objZ - 2, objX, objZ))
+        // Touching the object _and_ being inside its occupied area counts
+        // as reached.
+        for (z in -1 until height + 1) {
+            for (x in -1 until width + 1) {
+                val reached = reached(objX + x, objZ + z, objX, objZ)
+                val diagonal = z == -1 && x == -1 || z == height && x == width
+                    || z == -1 && x == width || z == height && x == -1
+                if (diagonal) {
+                    assertFalse(reached) { "Should not reach with offset ($x, $z)" }
+                    continue
+                }
+                assertTrue(reached) { "Should reach with offset ($x, $z)" }
             }
         }
     }
