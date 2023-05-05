@@ -8,6 +8,7 @@ import org.rsmod.game.pathfinder.reach.RectangleBoundaryUtils
 import org.rsmod.plugins.api.map.GameObject
 import javax.inject.Inject
 
+@Suppress("DuplicatedCode")
 public class BoundValidator @Inject constructor(private val flags: CollisionFlagMap) {
 
     public fun touches(source: Entity, target: Entity): Boolean {
@@ -38,7 +39,7 @@ public class BoundValidator @Inject constructor(private val flags: CollisionFlag
             destWidth = target.width,
             destHeight = target.height,
             srcSize = source.size,
-            blockAccessFlags = rotate(target.rot, target.type.blockApproach)
+            blockAccessFlags = 0
         )
     }
 
@@ -67,6 +68,28 @@ public class BoundValidator @Inject constructor(private val flags: CollisionFlag
             srcHeight = source.height,
             destWidth = target.width,
             destHeight = target.height
+        )
+    }
+
+    /**
+     * Similar to `touches`, but takes the [target]'s block approach bitflags
+     * into account. This means that if the [target] has its east side blocked,
+     * this method will only return true if [source] is touching it from any of
+     * the other sides.
+     */
+    public fun touchesStrict(source: Entity, target: GameObject): Boolean {
+        assertLevels(source.coords, target.coords)
+        return ReachStrategy.reachRectangle(
+            flags = flags,
+            level = source.coords.level,
+            srcX = source.coords.x,
+            srcZ = source.coords.z,
+            destX = target.coords.x,
+            destZ = target.coords.z,
+            destWidth = target.width,
+            destHeight = target.height,
+            srcSize = source.size,
+            blockAccessFlags = rotate(target.rot, target.type.blockApproach)
         )
     }
 
