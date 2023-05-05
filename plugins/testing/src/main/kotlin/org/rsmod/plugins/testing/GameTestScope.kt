@@ -28,7 +28,6 @@ public class GameTestScope {
         playerList[index] = player
         action(player)
         playerList[index] = null
-        // TODO: would we ever want [MobList.lastUsedIndex] reset here?
     }
 
     public fun withCollisionState(
