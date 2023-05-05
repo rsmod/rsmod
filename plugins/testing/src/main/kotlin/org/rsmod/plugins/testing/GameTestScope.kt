@@ -2,8 +2,8 @@ package org.rsmod.plugins.testing
 
 import org.rsmod.game.model.mob.Player
 import org.rsmod.game.model.mob.list.PlayerList
-import org.rsmod.game.pathfinder.StepValidator
 import org.rsmod.game.pathfinder.collision.CollisionFlagMap
+import org.rsmod.plugins.api.pathfinder.BoundValidator
 import org.rsmod.plugins.api.pathfinder.PathValidator
 import org.rsmod.plugins.api.pathfinder.RayCastFactory
 import org.rsmod.plugins.api.pathfinder.RouteFactory
@@ -32,7 +32,7 @@ public class GameTestScope {
         val rcf = RayCastFactory(collision)
         val sf = StepFactory(collision)
         val pv = PathValidator(collision)
-        val sv = StepValidator(collision)
-        action(GameCollisionState(collision, rf, rcf, sf, pv, sv))
+        val bv = BoundValidator(collision)
+        action(GameCollisionState(collision, rf, rcf, sf, pv, bv))
     }
 }

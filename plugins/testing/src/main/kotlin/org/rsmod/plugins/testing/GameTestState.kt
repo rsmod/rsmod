@@ -12,7 +12,9 @@ import org.rsmod.game.scripts.module.ModuleBranch
 import org.rsmod.game.scripts.module.ModuleScriptLoader
 import org.rsmod.game.scripts.plugin.KotlinScriptPlugin
 import org.rsmod.game.scripts.plugin.ScriptPluginLoader
+import org.rsmod.plugins.api.pathfinder.BoundValidator
 import org.rsmod.plugins.api.pathfinder.PathValidator
+import org.rsmod.plugins.api.pathfinder.RayCastFactory
 import org.rsmod.plugins.api.pathfinder.RouteFactory
 import org.rsmod.plugins.api.pathfinder.StepFactory
 import kotlin.jvm.optionals.getOrNull
@@ -26,9 +28,11 @@ public class GameTestState {
 
     private lateinit var injected: GameTestInjected
 
-    public val pathValidator: PathValidator by lazy { injected.pathValidator }
     public val routeFactory: RouteFactory by lazy { injected.routeFactory }
+    public val rayCastFactory: RayCastFactory by lazy { injected.rayCastFactory }
     public val stepFactory: StepFactory by lazy { injected.stepFactory }
+    public val pathValidator: PathValidator by lazy { injected.pathValidator }
+    public val boundValidator: BoundValidator by lazy { injected.boundValidator }
 
     public fun runGameTest(
         scope: GameTestScope = GameTestScope(),

@@ -1,7 +1,7 @@
 package org.rsmod.plugins.testing
 
-import org.rsmod.game.pathfinder.StepValidator
 import org.rsmod.game.pathfinder.collision.CollisionFlagMap
+import org.rsmod.plugins.api.pathfinder.BoundValidator
 import org.rsmod.plugins.api.pathfinder.PathValidator
 import org.rsmod.plugins.api.pathfinder.RayCastFactory
 import org.rsmod.plugins.api.pathfinder.RouteFactory
@@ -13,5 +13,5 @@ public data class GameCollisionState(
     public val rayCastFactory: RayCastFactory,
     public val stepFactory: StepFactory,
     public val pathValidator: PathValidator,
-    public val stepValidator: StepValidator
+    public val boundValidator: BoundValidator
 )
