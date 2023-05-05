@@ -28,7 +28,7 @@ public class BoundValidator @Inject constructor(private val flags: CollisionFlag
 
     public fun touches(source: Entity, target: GameObject): Boolean {
         assertLevels(source.coords, target.coords)
-        return ReachStrategy.reached(
+        return ReachStrategy.reachExclusiveRectangle(
             flags = flags,
             level = source.coords.level,
             srcX = source.coords.x,
@@ -38,8 +38,6 @@ public class BoundValidator @Inject constructor(private val flags: CollisionFlag
             destWidth = target.width,
             destHeight = target.height,
             srcSize = source.size,
-            objRot = target.rot,
-            objShape = target.shape,
             blockAccessFlags = rotate(target.rot, target.type.blockApproach)
         )
     }
