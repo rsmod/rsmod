@@ -12,6 +12,7 @@ import org.rsmod.game.pathfinder.collision.buildCollisionMap
 import org.rsmod.game.pathfinder.collision.flag
 import org.rsmod.game.pathfinder.flag.CollisionFlag
 import org.rsmod.game.pathfinder.flag.DirectionFlag
+import org.rsmod.game.pathfinder.reach.ReachStrategy.reachExclusiveRectangle
 import java.util.stream.Stream
 
 class RectangularExclusiveReachStrategyTest {
