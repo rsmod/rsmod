@@ -27,9 +27,7 @@ class MovementRouteRequestTest {
                 coords = start
                 check(movement.isEmpty())
                 routeRequest = RouteRequestCoordinates(dest)
-                for (i in 0 until 16) {
-                    process.execute()
-                }
+                repeat(16) { process.execute() }
                 assertTrue(movement.isEmpty())
                 assertEquals(dest, coords)
             }
@@ -51,9 +49,7 @@ class MovementRouteRequestTest {
                 check(movement.isEmpty())
                 check(!validator.touches(entity, target))
                 routeRequest = RouteRequestEntity(target)
-                for (i in 0 until 16) {
-                    process.execute()
-                }
+                repeat(16) { process.execute() }
                 assertTrue(movement.isEmpty())
                 assertNotEquals(coords, start)
                 assertTrue(validator.touches(entity, target))
@@ -80,9 +76,7 @@ class MovementRouteRequestTest {
                 check(movement.isEmpty())
                 check(!validator.touches(entity, target))
                 routeRequest = RouteRequestGameObject(target)
-                for (i in 0 until 16) {
-                    process.execute()
-                }
+                repeat(16) { process.execute() }
                 assertTrue(movement.isEmpty())
                 assertNotEquals(coords, start)
                 assertTrue(validator.touches(entity, target))
