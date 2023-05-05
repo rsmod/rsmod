@@ -87,7 +87,6 @@ class MovementProcessTest {
             coords = start
             routeRequest = RouteRequestCoordinates(
                 destination = start.translateX(2),
-                speed = null,
                 async = true
             )
             movement.speed = MoveSpeed.Run
@@ -101,7 +100,6 @@ class MovementProcessTest {
             coords = start
             routeRequest = RouteRequestCoordinates(
                 destination = start.translateX(1),
-                speed = null,
                 async = true
             )
             movement.speed = MoveSpeed.Run

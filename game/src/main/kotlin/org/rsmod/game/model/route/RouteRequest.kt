@@ -12,12 +12,12 @@ public interface RouteRequest {
 
 public data class RouteRequestCoordinates(
     public val destination: Coordinates,
-    public override val speed: MovementSpeed?,
+    public override val speed: MovementSpeed? = null,
     public override val async: Boolean = false
 ) : RouteRequest
 
 public data class RouteRequestEntity(
     public val destination: Entity,
-    public override val speed: MovementSpeed?,
+    public override val speed: MovementSpeed? = null,
     public override val async: Boolean = false
 ) : RouteRequest

@@ -26,7 +26,7 @@ class MovementRouteRequestTest {
             withPlayer {
                 coords = start
                 check(movement.isEmpty())
-                routeRequest = RouteRequestCoordinates(dest, speed = null)
+                routeRequest = RouteRequestCoordinates(dest)
                 for (i in 0 until 16) {
                     process.execute()
                 }
@@ -50,7 +50,7 @@ class MovementRouteRequestTest {
                 coords = start
                 check(movement.isEmpty())
                 check(!validator.touches(entity, target))
-                routeRequest = RouteRequestEntity(target, speed = null)
+                routeRequest = RouteRequestEntity(target)
                 for (i in 0 until 16) {
                     process.execute()
                 }
@@ -79,7 +79,7 @@ class MovementRouteRequestTest {
                 coords = start
                 check(movement.isEmpty())
                 check(!validator.touches(entity, target))
-                routeRequest = RouteRequestGameObject(target, speed = null)
+                routeRequest = RouteRequestGameObject(target)
                 for (i in 0 until 16) {
                     process.execute()
                 }
