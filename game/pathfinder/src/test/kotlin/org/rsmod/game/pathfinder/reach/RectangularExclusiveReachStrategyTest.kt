@@ -2,18 +2,15 @@ package org.rsmod.game.pathfinder.reach
 
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.ArgumentsProvider
 import org.junit.jupiter.params.provider.ArgumentsSource
+import org.rsmod.game.pathfinder.Dimension
+import org.rsmod.game.pathfinder.DimensionProvider
 import org.rsmod.game.pathfinder.Direction
 import org.rsmod.game.pathfinder.collision.buildCollisionMap
 import org.rsmod.game.pathfinder.collision.flag
 import org.rsmod.game.pathfinder.flag.CollisionFlag
-import org.rsmod.game.pathfinder.flag.DirectionFlag
 import org.rsmod.game.pathfinder.reach.ReachStrategy.reachExclusiveRectangle
-import java.util.stream.Stream
 
 class RectangularExclusiveReachStrategyTest {
 
@@ -94,33 +91,6 @@ class RectangularExclusiveReachStrategyTest {
                 }
                 assertTrue(reached) { "Should reach with offset ($x, $z)" }
             }
-        }
-    }
-
-    data class Dimension(val width: Int, val height: Int)
-
-    private object DimensionProvider : ArgumentsProvider {
-
-        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> {
-            return Stream.of(
-                Arguments.of(Dimension(1, 1)),
-                Arguments.of(Dimension(1, 2)),
-                Arguments.of(Dimension(2, 1)),
-                Arguments.of(Dimension(2, 2)),
-                Arguments.of(Dimension(3, 3))
-            )
-        }
-    }
-
-    private object BlockAccessFlagProvider : ArgumentsProvider {
-
-        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> {
-            return Stream.of(
-                Arguments.of(Direction.North, DirectionFlag.NORTH),
-                Arguments.of(Direction.East, DirectionFlag.EAST),
-                Arguments.of(Direction.South, DirectionFlag.SOUTH),
-                Arguments.of(Direction.West, DirectionFlag.WEST)
-            )
         }
     }
 }
