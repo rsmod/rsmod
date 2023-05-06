@@ -134,8 +134,8 @@ class RectangularReachStrategyTest {
         for (z in -1 until height + 1) {
             for (x in -1 until width + 1) {
                 val reached = reached(objX + x, objZ + z, objX, objZ)
-                val diagonal = z == -1 && x == -1 || z == height && x == width
-                    || z == -1 && x == width || z == height && x == -1
+                val diagonal = z == -1 && x == -1 || z == height && x == width ||
+                    z == -1 && x == width || z == height && x == -1
                 if (diagonal) {
                     assertFalse(reached) { "Should not reach with offset ($x, $z)" }
                     continue
