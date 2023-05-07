@@ -13,6 +13,30 @@ public object ReachStrategy {
     private const val NO_STRATEGY = 3
     private const val RECTANGLE_EXCLUSIVE_STRATEGY = 4
 
+    /**
+     * Returns true if coordinates ([srcX], [srcZ]) can reach coordinates ([destX], [destZ]),
+     * taking into account the dimensions [destWidth], [destHeight] and [srcSize].
+     *
+     * @param destWidth the _absolute_ width of the destination. This value should _not_ be
+     * changed when passing the width of a rotated object. (it is done for us within the
+     * function)
+     *
+     * @param destHeight the _absolute_ height of the destination. Similar to [destWidth],
+     * this value should _not_ be changed or altered for rotated objects.
+     *
+     * @param objRot the rotation of the target object being used as the destination. If
+     * the path is meant for something that is _not_ a game object, this value should be
+     * passed as 0.
+     *
+     * @param objShape the shape of the target object being used as the destination. If
+     * the path is meant for something that is _not_ a game object, this value should be
+     * passed as -1.
+     *
+     * @param blockAccessFlags packed directional bitflags where interaction should be
+     * blocked. This can be seen in game objects such as staircases, where all directions
+     * excluding the direction with access to the steps are "blocked."
+     * (see [org.rsmod.game.pathfinder.flag.BlockAccessFlag])
+     */
     public fun reached(
         flags: CollisionFlagMap,
         level: Int,
