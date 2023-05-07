@@ -22,8 +22,7 @@ public class BoundValidator @Inject constructor(private val flags: CollisionFlag
             destZ = target.coords.z,
             destWidth = target.width,
             destHeight = target.height,
-            srcSize = source.size,
-            blockAccessFlags = 0
+            srcSize = source.size
         )
     }
 
@@ -38,8 +37,7 @@ public class BoundValidator @Inject constructor(private val flags: CollisionFlag
             destZ = target.coords.z,
             destWidth = target.width,
             destHeight = target.height,
-            srcSize = source.size,
-            blockAccessFlags = 0
+            srcSize = source.size
         )
     }
 
@@ -89,16 +87,11 @@ public class BoundValidator @Inject constructor(private val flags: CollisionFlag
             destWidth = target.width,
             destHeight = target.height,
             srcSize = source.size,
-            blockAccessFlags = rotate(target.rot, target.type.blockApproach)
+            blockAccessFlags = target.type.blockApproach
         )
     }
 
     private companion object {
-
-        private fun rotate(rot: Int, blockAccessFlags: Int): Int = when (rot) {
-            0 -> blockAccessFlags
-            else -> ((blockAccessFlags shl rot) and 0xF) or (blockAccessFlags shr (4 - rot))
-        }
 
         @Suppress("NOTHING_TO_INLINE")
         private inline fun assertLevels(a: Coordinates, b: Coordinates) {
