@@ -18,6 +18,7 @@ import org.rsmod.game.pathfinder.flag.CollisionFlag.BLOCK_SOUTH_EAST_AND_WEST
 import org.rsmod.game.pathfinder.flag.CollisionFlag.BLOCK_SOUTH_EAST_ROUTE_BLOCKER
 import org.rsmod.game.pathfinder.flag.DirectionFlag
 import org.rsmod.game.pathfinder.reach.ReachStrategy
+import org.rsmod.game.pathfinder.util.RotationUtils.rotate
 import java.util.Arrays
 
 private const val DEFAULT_SEARCH_MAP_SIZE = 128
@@ -99,9 +100,6 @@ public class PathFinder(
         require(destX in 0..0x7FFF && destZ in 0..0x7FFF)
         require(level in 0..0x3)
         reset()
-        val relativeBlockAccess = relativize(objRot, blockAccessFlags)
-        val relativeWidth = relativize(objRot, destWidth, destHeight)
-        val relativeHeight = relativize(objRot, destHeight, destWidth)
         val baseX = srcX - (searchMapSize / 2)
         val baseZ = srcZ - (searchMapSize / 2)
         val localSrcX = srcX - baseX
@@ -117,12 +115,12 @@ public class PathFinder(
                     level,
                     localDestX,
                     localDestZ,
-                    relativeWidth,
-                    relativeHeight,
+                    destWidth,
+                    destHeight,
                     srcSize,
                     objRot,
                     objShape,
-                    relativeBlockAccess,
+                    blockAccessFlags,
                     collision
                 )
                 2 -> findRouteBlockerPath2(
@@ -131,12 +129,12 @@ public class PathFinder(
                     level,
                     localDestX,
                     localDestZ,
-                    relativeWidth,
-                    relativeHeight,
+                    destWidth,
+                    destHeight,
                     srcSize,
                     objRot,
                     objShape,
-                    relativeBlockAccess,
+                    blockAccessFlags,
                     collision
                 )
                 else -> findRouteBlockerPathN(
@@ -145,12 +143,12 @@ public class PathFinder(
                     level,
                     localDestX,
                     localDestZ,
-                    relativeWidth,
-                    relativeHeight,
+                    destWidth,
+                    destHeight,
                     srcSize,
                     objRot,
                     objShape,
-                    relativeBlockAccess,
+                    blockAccessFlags,
                     collision
                 )
             }
@@ -162,12 +160,12 @@ public class PathFinder(
                     level,
                     localDestX,
                     localDestZ,
-                    relativeWidth,
-                    relativeHeight,
+                    destWidth,
+                    destHeight,
                     srcSize,
                     objRot,
                     objShape,
-                    relativeBlockAccess,
+                    blockAccessFlags,
                     collision
                 )
                 2 -> findPath2(
@@ -176,12 +174,12 @@ public class PathFinder(
                     level,
                     localDestX,
                     localDestZ,
-                    relativeWidth,
-                    relativeHeight,
+                    destWidth,
+                    destHeight,
                     srcSize,
                     objRot,
                     objShape,
-                    relativeBlockAccess,
+                    blockAccessFlags,
                     collision
                 )
                 else -> findPathN(
@@ -190,12 +188,12 @@ public class PathFinder(
                     level,
                     localDestX,
                     localDestZ,
-                    relativeWidth,
-                    relativeHeight,
+                    destWidth,
+                    destHeight,
                     srcSize,
                     objRot,
                     objShape,
-                    relativeBlockAccess,
+                    blockAccessFlags,
                     collision
                 )
             }
@@ -207,8 +205,8 @@ public class PathFinder(
                 localSrcZ,
                 localDestX,
                 localDestZ,
-                relativeWidth,
-                relativeHeight
+                rotate(objRot, destWidth, destHeight),
+                rotate(objRot, destHeight, destWidth)
             )
             if (!foundApproachPoint) return Route.FAILED
         }
@@ -1438,16 +1436,6 @@ public class PathFinder(
                 }
                 return target.translate(offX, -sourceHeight)
             }
-        }
-
-        private fun relativize(rot: Int, primary: Int, secondary: Int): Int = when {
-            rot and 0x1 != 0 -> secondary
-            else -> primary
-        }
-
-        private fun relativize(rot: Int, blockAccessFlags: Int): Int = when (rot) {
-            0 -> blockAccessFlags
-            else -> ((blockAccessFlags shl rot) and 0xF) or (blockAccessFlags shr (4 - rot))
         }
     }
 }

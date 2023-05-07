@@ -2,6 +2,7 @@ package org.rsmod.game.pathfinder.reach
 
 import org.rsmod.game.pathfinder.collision.CollisionFlagMap
 import org.rsmod.game.pathfinder.flag.CollisionFlag
+import org.rsmod.game.pathfinder.util.RotationUtils.rotate
 
 @Suppress("MemberVisibilityCanBePrivate")
 public object ReachStrategy {
@@ -28,6 +29,9 @@ public object ReachStrategy {
     ): Boolean {
         val exitStrategy = exitStrategy(objShape)
         if (exitStrategy != RECTANGLE_EXCLUSIVE_STRATEGY && srcX == destX && srcZ == destZ) return true
+        val rotatedWidth = rotate(objRot, destWidth, destHeight)
+        val rotatedHeight = rotate(objRot, destHeight, destWidth)
+        val rotatedBlockAccess = rotate(objRot, blockAccessFlags)
         return when (exitStrategy) {
             WALL_STRATEGY -> reachWall(
                 flags = flags,
@@ -59,9 +63,9 @@ public object ReachStrategy {
                 destX = destX,
                 destZ = destZ,
                 srcSize = srcSize,
-                destWidth = destWidth,
-                destHeight = destHeight,
-                blockAccessFlags = blockAccessFlags
+                destWidth = rotatedWidth,
+                destHeight = rotatedHeight,
+                blockAccessFlags = rotatedBlockAccess
             )
             RECTANGLE_EXCLUSIVE_STRATEGY -> reachExclusiveRectangle(
                 flags = flags,
@@ -71,9 +75,9 @@ public object ReachStrategy {
                 destX = destX,
                 destZ = destZ,
                 srcSize = srcSize,
-                destWidth = destWidth,
-                destHeight = destHeight,
-                blockAccessFlags = blockAccessFlags
+                destWidth = rotatedWidth,
+                destHeight = rotatedHeight,
+                blockAccessFlags = rotatedBlockAccess
             )
             else -> false
         }
@@ -770,10 +774,6 @@ public object ReachStrategy {
         return false
     }
 
-    private fun Int.alteredRotation(shape: Int): Int {
-        return if (shape == 7) (this + 2) and 0x3 else this
-    }
-
     private fun exitStrategy(objShape: Int): Int = when {
         objShape == -2 -> RECTANGLE_EXCLUSIVE_STRATEGY
         objShape == -1 -> NO_STRATEGY
@@ -781,5 +781,9 @@ public object ReachStrategy {
         objShape < 9 -> WALL_DECO_STRATEGY
         objShape in 10..11 || objShape == 22 -> RECTANGLE_STRATEGY
         else -> NO_STRATEGY
+    }
+
+    private fun Int.alteredRotation(shape: Int): Int {
+        return if (shape == 7) (this + 2) and 0x3 else this
     }
 }
