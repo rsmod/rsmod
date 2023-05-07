@@ -26,11 +26,11 @@ public object ReachStrategy {
      *
      * @param objRot the rotation of the target object being used as the destination. If
      * the path is meant for something that is _not_ a game object, this value should be
-     * passed as 0.
+     * passed or left as the default 0.
      *
      * @param objShape the shape of the target object being used as the destination. If
      * the path is meant for something that is _not_ a game object, this value should be
-     * passed as -1.
+     * passed or left as the default -1.
      *
      * @param blockAccessFlags packed directional bitflags where interaction should be
      * blocked. This can be seen in game objects such as staircases, where all directions
@@ -47,9 +47,9 @@ public object ReachStrategy {
         destWidth: Int,
         destHeight: Int,
         srcSize: Int,
-        objRot: Int,
-        objShape: Int,
-        blockAccessFlags: Int
+        objRot: Int = 0,
+        objShape: Int = -1,
+        blockAccessFlags: Int = 0
     ): Boolean {
         val exitStrategy = exitStrategy(objShape)
         if (exitStrategy != RECTANGLE_EXCLUSIVE_STRATEGY && srcX == destX && srcZ == destZ) return true
@@ -116,8 +116,8 @@ public object ReachStrategy {
         srcSize: Int,
         destWidth: Int,
         destHeight: Int,
-        objRot: Int,
-        blockAccessFlags: Int
+        objRot: Int = 0,
+        blockAccessFlags: Int = 0
     ): Boolean = with(RectangleBoundaryUtils) {
         val rotatedWidth = rotate(objRot, destWidth, destHeight)
         val rotatedHeight = rotate(objRot, destHeight, destWidth)
@@ -166,8 +166,8 @@ public object ReachStrategy {
         srcSize: Int,
         destWidth: Int,
         destHeight: Int,
-        objRot: Int,
-        blockAccessFlags: Int
+        objRot: Int = 0,
+        blockAccessFlags: Int = 0
     ): Boolean = with(RectangleBoundaryUtils) {
         val rotatedWidth = rotate(objRot, destWidth, destHeight)
         val rotatedHeight = rotate(objRot, destHeight, destWidth)

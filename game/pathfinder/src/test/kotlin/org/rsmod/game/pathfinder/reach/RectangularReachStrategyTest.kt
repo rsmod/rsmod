@@ -32,9 +32,7 @@ class RectangularReachStrategyTest {
                 destZ = objZ,
                 srcSize = 1,
                 destWidth = 1,
-                destHeight = 1,
-                objRot = 0,
-                blockAccessFlags = 0
+                destHeight = 1
             )
         )
         // Wall in every other direction should allow reach rectangle
@@ -59,9 +57,7 @@ class RectangularReachStrategyTest {
                     destZ = objZ,
                     srcSize = 1,
                     destWidth = 1,
-                    destHeight = 1,
-                    objRot = 0,
-                    blockAccessFlags = 0
+                    destHeight = 1
                 )
             ) { "Should be reachable with collision flag 0x${flag.toString(16)}." }
         }
@@ -86,7 +82,6 @@ class RectangularReachStrategyTest {
                 srcSize = 1,
                 destWidth = 1,
                 destHeight = 1,
-                objRot = 0,
                 blockAccessFlags = blockAccessFlag
             )
             if (dir == blockedDir) {
@@ -123,9 +118,7 @@ class RectangularReachStrategyTest {
                 destZ = destZ,
                 srcSize = 1,
                 destWidth = width,
-                destHeight = height,
-                objRot = 0,
-                blockAccessFlags = 0
+                destHeight = height
             )
         }
         assertFalse(reached(objX - 2, objZ - 1, objX, objZ))

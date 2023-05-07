@@ -33,7 +33,6 @@ class RectangularExclusiveReachStrategyTest {
                 srcSize = 1,
                 destWidth = 1,
                 destHeight = 1,
-                objRot = 0,
                 blockAccessFlags = blockAccessFlag
             )
             if (dir == blockedDir) {
@@ -70,9 +69,7 @@ class RectangularExclusiveReachStrategyTest {
                 destZ = destZ,
                 srcSize = 1,
                 destWidth = width,
-                destHeight = height,
-                objRot = 0,
-                blockAccessFlags = 0
+                destHeight = height
             )
         }
         assertFalse(reached(objX - 2, objZ - 1, objX, objZ))
