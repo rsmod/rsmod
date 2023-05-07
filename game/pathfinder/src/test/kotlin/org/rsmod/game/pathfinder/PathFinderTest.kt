@@ -217,23 +217,23 @@ class PathFinderTest {
             route(srcX = objX + x, srcZ = objZ - 3, rot = 0, blockAccessFlags = BLOCK_SOUTH).let { route ->
                 assertTrue(route.success)
                 assertFalse(route.alternative)
-                assertNotEquals(RouteCoordinates(objX + x, objZ - 1), route.last())
+                assertNotEquals(objZ - 1, route.last().z)
             }
             route(srcX = objX + x, srcZ = objZ - 3, rot = 2, blockAccessFlags = BLOCK_NORTH).let { route ->
                 assertTrue(route.success)
                 assertFalse(route.alternative)
-                assertNotEquals(RouteCoordinates(objX + x, objZ - 1), route.last())
+                assertNotEquals(objZ - 1, route.last().z)
             }
             // Test coming from north tiles with access blocked.
             route(srcX = objX + x, srcZ = objZ + height + 3, rot = 0, blockAccessFlags = BLOCK_NORTH).let { route ->
                 assertTrue(route.success)
                 assertFalse(route.alternative)
-                assertNotEquals(RouteCoordinates(objX + x, objZ + height), route.last())
+                assertNotEquals(objZ + height, route.last().z)
             }
             route(srcX = objX + x, srcZ = objZ + height + 3, rot = 2, blockAccessFlags = BLOCK_SOUTH).let { route ->
                 assertTrue(route.success)
                 assertFalse(route.alternative)
-                assertNotEquals(RouteCoordinates(objX + x, objZ + height), route.last())
+                assertNotEquals(objZ + height, route.last().z)
             }
         }
         for (z in 0 until height) {
@@ -263,23 +263,23 @@ class PathFinderTest {
             route(srcX = objX - 3, srcZ = objZ + z, rot = 0, blockAccessFlags = BLOCK_WEST).let { route ->
                 assertTrue(route.success)
                 assertFalse(route.alternative)
-                assertNotEquals(RouteCoordinates(objX - 1, objZ + z), route.last())
+                assertNotEquals(objX - 1, route.last().x)
             }
             route(srcX = objX - 3, srcZ = objZ + z, rot = 2, blockAccessFlags = BLOCK_EAST).let { route ->
                 assertTrue(route.success)
                 assertFalse(route.alternative)
-                assertNotEquals(RouteCoordinates(objX - 1, objZ + z), route.last())
+                assertNotEquals(objX - 1, route.last().x)
             }
             // Test coming from east tiles with access blocked.
             route(srcX = objX + width + 3, srcZ = objZ + z, rot = 0, blockAccessFlags = BLOCK_EAST).let { route ->
                 assertTrue(route.success)
                 assertFalse(route.alternative)
-                assertNotEquals(RouteCoordinates(objX + width, objZ + z), route.last())
+                assertNotEquals(objX + width, route.last().x)
             }
             route(srcX = objX + width + 3, srcZ = objZ + z, rot = 2, blockAccessFlags = BLOCK_WEST).let { route ->
                 assertTrue(route.success)
                 assertFalse(route.alternative)
-                assertNotEquals(RouteCoordinates(objX + width, objZ + z), route.last())
+                assertNotEquals(objX + width, route.last().x)
             }
         }
     }
