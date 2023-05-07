@@ -33,6 +33,7 @@ class RectangularReachStrategyTest {
                 srcSize = 1,
                 destWidth = 1,
                 destHeight = 1,
+                objRot = 0,
                 blockAccessFlags = 0
             )
         )
@@ -59,6 +60,7 @@ class RectangularReachStrategyTest {
                     srcSize = 1,
                     destWidth = 1,
                     destHeight = 1,
+                    objRot = 0,
                     blockAccessFlags = 0
                 )
             ) { "Should be reachable with collision flag 0x${flag.toString(16)}." }
@@ -84,6 +86,7 @@ class RectangularReachStrategyTest {
                 srcSize = 1,
                 destWidth = 1,
                 destHeight = 1,
+                objRot = 0,
                 blockAccessFlags = blockAccessFlag
             )
             if (dir == blockedDir) {
@@ -121,6 +124,7 @@ class RectangularReachStrategyTest {
                 srcSize = 1,
                 destWidth = width,
                 destHeight = height,
+                objRot = 0,
                 blockAccessFlags = 0
             )
         }

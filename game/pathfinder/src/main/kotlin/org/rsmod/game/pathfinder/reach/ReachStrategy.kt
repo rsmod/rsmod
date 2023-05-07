@@ -53,9 +53,6 @@ public object ReachStrategy {
     ): Boolean {
         val exitStrategy = exitStrategy(objShape)
         if (exitStrategy != RECTANGLE_EXCLUSIVE_STRATEGY && srcX == destX && srcZ == destZ) return true
-        val rotatedWidth = rotate(objRot, destWidth, destHeight)
-        val rotatedHeight = rotate(objRot, destHeight, destWidth)
-        val rotatedBlockAccess = rotate(objRot, blockAccessFlags)
         return when (exitStrategy) {
             WALL_STRATEGY -> reachWall(
                 flags = flags,
@@ -87,9 +84,10 @@ public object ReachStrategy {
                 destX = destX,
                 destZ = destZ,
                 srcSize = srcSize,
-                destWidth = rotatedWidth,
-                destHeight = rotatedHeight,
-                blockAccessFlags = rotatedBlockAccess
+                destWidth = destWidth,
+                destHeight = destHeight,
+                objRot = objRot,
+                blockAccessFlags = blockAccessFlags
             )
             RECTANGLE_EXCLUSIVE_STRATEGY -> reachExclusiveRectangle(
                 flags = flags,
@@ -99,9 +97,10 @@ public object ReachStrategy {
                 destX = destX,
                 destZ = destZ,
                 srcSize = srcSize,
-                destWidth = rotatedWidth,
-                destHeight = rotatedHeight,
-                blockAccessFlags = rotatedBlockAccess
+                destWidth = destWidth,
+                destHeight = destHeight,
+                objRot = objRot,
+                blockAccessFlags = blockAccessFlags
             )
             else -> false
         }
@@ -117,11 +116,15 @@ public object ReachStrategy {
         srcSize: Int,
         destWidth: Int,
         destHeight: Int,
+        objRot: Int,
         blockAccessFlags: Int
-    ): Boolean = when {
-        srcSize > 1 -> {
-            RectangleBoundaryUtils.collides(srcX, srcZ, destX, destZ, srcSize, srcSize, destWidth, destHeight) ||
-                RectangleBoundaryUtils.reachRectangleN(
+    ): Boolean = with(RectangleBoundaryUtils) {
+        val rotatedWidth = rotate(objRot, destWidth, destHeight)
+        val rotatedHeight = rotate(objRot, destHeight, destWidth)
+        val rotatedBlockAccess = rotate(objRot, blockAccessFlags)
+        return if (srcSize > 1) {
+            collides(srcX, srcZ, destX, destZ, srcSize, srcSize, rotatedWidth, rotatedHeight) ||
+                reachRectangleN(
                     flags = flags,
                     level = level,
                     srcX = srcX,
@@ -130,24 +133,24 @@ public object ReachStrategy {
                     destZ = destZ,
                     srcWidth = srcSize,
                     srcHeight = srcSize,
-                    destWidth = destWidth,
-                    destHeight = destHeight,
-                    blockAccessFlags = blockAccessFlags
+                    destWidth = rotatedWidth,
+                    destHeight = rotatedHeight,
+                    blockAccessFlags = rotatedBlockAccess
                 )
-        }
-        else ->
-            RectangleBoundaryUtils.collides(srcX, srcZ, destX, destZ, srcSize, srcSize, destWidth, destHeight) ||
-                RectangleBoundaryUtils.reachRectangle1(
+        } else {
+            collides(srcX, srcZ, destX, destZ, srcSize, srcSize, rotatedWidth, rotatedHeight) ||
+                reachRectangle1(
                     flags = flags,
                     level = level,
                     srcX = srcX,
                     srcZ = srcZ,
                     destX = destX,
                     destZ = destZ,
-                    destWidth = destWidth,
-                    destHeight = destHeight,
-                    blockAccessFlags = blockAccessFlags
+                    destWidth = rotatedWidth,
+                    destHeight = rotatedHeight,
+                    blockAccessFlags = rotatedBlockAccess
                 )
+        }
     }
 
     /**
@@ -163,13 +166,15 @@ public object ReachStrategy {
         srcSize: Int,
         destWidth: Int,
         destHeight: Int,
+        objRot: Int,
         blockAccessFlags: Int
-    ): Boolean = when {
-        srcSize > 1 -> {
-            if (RectangleBoundaryUtils.collides(srcX, srcZ, destX, destZ, srcSize, srcSize, destWidth, destHeight)) {
-                false
-            } else {
-                RectangleBoundaryUtils.reachRectangleN(
+    ): Boolean = with(RectangleBoundaryUtils) {
+        val rotatedWidth = rotate(objRot, destWidth, destHeight)
+        val rotatedHeight = rotate(objRot, destHeight, destWidth)
+        val rotatedBlockAccess = rotate(objRot, blockAccessFlags)
+        return if (srcSize > 1) {
+            !collides(srcX, srcZ, destX, destZ, srcSize, srcSize, rotatedWidth, rotatedHeight) &&
+                reachRectangleN(
                     flags = flags,
                     level = level,
                     srcX = srcX,
@@ -178,28 +183,23 @@ public object ReachStrategy {
                     destZ = destZ,
                     srcWidth = srcSize,
                     srcHeight = srcSize,
-                    destWidth = destWidth,
-                    destHeight = destHeight,
-                    blockAccessFlags = blockAccessFlags
+                    destWidth = rotatedWidth,
+                    destHeight = rotatedHeight,
+                    blockAccessFlags = rotatedBlockAccess
                 )
-            }
-        }
-        else -> {
-            if (RectangleBoundaryUtils.collides(srcX, srcZ, destX, destZ, srcSize, srcSize, destWidth, destHeight)) {
-                false
-            } else {
-                RectangleBoundaryUtils.reachRectangle1(
+        } else {
+            !collides(srcX, srcZ, destX, destZ, srcSize, srcSize, rotatedWidth, rotatedHeight) &&
+                reachRectangle1(
                     flags = flags,
                     level = level,
                     srcX = srcX,
                     srcZ = srcZ,
                     destX = destX,
                     destZ = destZ,
-                    destWidth = destWidth,
-                    destHeight = destHeight,
-                    blockAccessFlags = blockAccessFlags
+                    destWidth = rotatedWidth,
+                    destHeight = rotatedHeight,
+                    blockAccessFlags = rotatedBlockAccess
                 )
-            }
         }
     }
 
