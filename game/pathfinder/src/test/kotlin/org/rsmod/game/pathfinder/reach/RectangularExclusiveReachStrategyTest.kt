@@ -51,7 +51,6 @@ class RectangularExclusiveReachStrategyTest {
         }
     }
 
-    @Suppress("UnnecessaryVariable")
     @ParameterizedTest
     @ArgumentsSource(DimensionProvider::class)
     fun testReachWithDimensions(dimension: Dimension) {
