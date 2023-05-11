@@ -8,7 +8,7 @@ import org.rsmod.plugins.api.net.downstream.RebuildNormal
 import org.rsmod.plugins.api.refreshBuildArea
 import org.rsmod.plugins.api.toBuildArea
 import org.rsmod.plugins.testing.GameTestState
-import org.rsmod.plugins.testing.assertions.verifyDownstream
+import org.rsmod.plugins.testing.assertions.withDownstreamScope
 
 class PostMovementProcessTest {
 
@@ -21,7 +21,7 @@ class PostMovementProcessTest {
             coords = Coordinates(3200, 3200)
             refreshBuildArea(coords)
             // Test player's build area is not rebuilt unnecessarily.
-            verifyDownstream {
+            withDownstreamScope {
                 // Test player does not have REBUILD_NORMAL in downstream list.
                 assertNull(RebuildNormal::class)
                 // Empty executes to make sure player isn't affected inappropriately.
@@ -30,14 +30,14 @@ class PostMovementProcessTest {
                 assertNull(RebuildNormal::class)
             }
             // Test player's build area is rebuilt when applicable.
-            verifyDownstream {
+            withDownstreamScope {
                 coords = dest
                 process.execute()
                 assert(RebuildNormal::class) { it.zone == ZoneKey.from(dest) }
                 assertEquals(dest.toBuildArea(), buildArea)
             }
             // Test player's build area is _not_ rebuilt further.
-            verifyDownstream {
+            withDownstreamScope {
                 process.execute()
                 assertNull(RebuildNormal::class)
             }

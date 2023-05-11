@@ -9,8 +9,8 @@ import org.rsmod.game.model.route.RouteRequestCoordinates
 import org.rsmod.plugins.api.displace
 import org.rsmod.plugins.api.net.info.ExtendedPlayerInfo
 import org.rsmod.plugins.testing.GameTestState
-import org.rsmod.plugins.testing.assertions.verify
-import org.rsmod.plugins.testing.assertions.verifyNull
+import org.rsmod.plugins.testing.assertions.assertTrue
+import org.rsmod.plugins.testing.assertions.assertNull
 
 class MovementProcessTest {
 
@@ -90,9 +90,9 @@ class MovementProcessTest {
                 async = true
             )
             movement.speed = MoveSpeed.Run
-            verifyNull(ExtendedPlayerInfo.MoveSpeedTemp::class)
+            assertNull(ExtendedPlayerInfo.MoveSpeedTemp::class)
             process.execute()
-            verifyNull(ExtendedPlayerInfo.MoveSpeedTemp::class)
+            assertNull(ExtendedPlayerInfo.MoveSpeedTemp::class)
             assertEquals(start.translateX(2), coords)
         }
         /* now verify running within one-tile distance */
@@ -104,9 +104,9 @@ class MovementProcessTest {
             )
             movement.speed = MoveSpeed.Run
             /* should not have pending "move speed temp" extended-info */
-            verifyNull(ExtendedPlayerInfo.MoveSpeedTemp::class)
+            assertNull(ExtendedPlayerInfo.MoveSpeedTemp::class)
             process.execute()
-            verify(ExtendedPlayerInfo.MoveSpeedTemp::class) { it.type == WALK_INFO_TYPE }
+            assertTrue(ExtendedPlayerInfo.MoveSpeedTemp::class) { it.type == WALK_INFO_TYPE }
             assertEquals(start.translateX(1), coords)
         }
     }
