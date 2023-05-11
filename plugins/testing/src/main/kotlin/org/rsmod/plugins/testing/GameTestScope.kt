@@ -27,6 +27,7 @@ public class GameTestScope {
         val index = playerList.nextAvailableIndex() ?: error("No available index.")
         playerList[index] = player
         action(player)
+        player.finalize()
         playerList[index] = null
     }
 
