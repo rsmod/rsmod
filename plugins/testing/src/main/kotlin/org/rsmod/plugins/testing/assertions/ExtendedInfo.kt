@@ -1,4 +1,4 @@
-package org.rsmod.plugins.testing
+package org.rsmod.plugins.testing.assertions
 
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNotNull
