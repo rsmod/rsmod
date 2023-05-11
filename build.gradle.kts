@@ -10,8 +10,6 @@ import java.nio.file.Files
 val ossrhUsername: String? by ext
 val ossrhPassword: String? by ext
 
-/* https://youtrack.jetbrains.com/issue/KTIJ-19369 */
-@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     kotlin("jvm")
     `jvm-test-suite`
