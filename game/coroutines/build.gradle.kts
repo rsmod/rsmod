@@ -8,7 +8,6 @@ plugins {
 
 dependencies {
     testImplementation(libs.kotlinCoroutinesTest)
-    implementation(libs.kotlinCoroutinesCore)
 }
 
 publishing {
