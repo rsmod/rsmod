@@ -39,7 +39,7 @@ class PostMovementProcessTest {
             withDownstreamScope {
                 coords = dest
                 process.execute()
-                assert(RebuildNormal::class) { it.zone == ZoneKey.from(dest) }
+                assertTrue(RebuildNormal::class) { it.zone == ZoneKey.from(dest) }
                 assertEquals(dest.toBuildArea(), buildArea)
             }
             // Test player's build area is _not_ rebuilt further.
