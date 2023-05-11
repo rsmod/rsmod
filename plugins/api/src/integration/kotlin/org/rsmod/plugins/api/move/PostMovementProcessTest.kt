@@ -8,9 +8,25 @@ import org.rsmod.plugins.api.net.downstream.RebuildNormal
 import org.rsmod.plugins.api.refreshBuildArea
 import org.rsmod.plugins.api.toBuildArea
 import org.rsmod.plugins.testing.GameTestState
+import org.rsmod.plugins.testing.assertions.assertNull
 import org.rsmod.plugins.testing.assertions.withDownstreamScope
 
 class PostMovementProcessTest {
+
+    @Test
+    fun GameTestState.testBuildAreaNeutral() = runGameTest {
+        val process = PostMovementProcess(playerList, xteaRepository)
+        withPlayer {
+            coords = Coordinates(3200, 3200)
+            refreshBuildArea(coords)
+            // Test player does not have REBUILD_NORMAL in downstream list.
+            assertNull(RebuildNormal::class)
+            // Empty executes to make sure player isn't affected inappropriately.
+            repeat(8) { process.execute() }
+            // Test player still does not have this packet queued even after process executes.
+            assertNull(RebuildNormal::class)
+        }
+    }
 
     @Test
     fun GameTestState.testBuildAreaRebuild() = runGameTest {
@@ -18,18 +34,8 @@ class PostMovementProcessTest {
         val start = Coordinates(3200, 3200)
         val dest = start.translateX(-40)
         withPlayer {
-            coords = Coordinates(3200, 3200)
+            coords = start
             refreshBuildArea(coords)
-            // Test player's build area is not rebuilt unnecessarily.
-            withDownstreamScope {
-                // Test player does not have REBUILD_NORMAL in downstream list.
-                assertNull(RebuildNormal::class)
-                // Empty executes to make sure player isn't affected inappropriately.
-                repeat(8) { process.execute() }
-                // Test player still does not have this packet queued even after process executes.
-                assertNull(RebuildNormal::class)
-            }
-            // Test player's build area is rebuilt when applicable.
             withDownstreamScope {
                 coords = dest
                 process.execute()
@@ -37,10 +43,8 @@ class PostMovementProcessTest {
                 assertEquals(dest.toBuildArea(), buildArea)
             }
             // Test player's build area is _not_ rebuilt further.
-            withDownstreamScope {
-                process.execute()
-                assertNull(RebuildNormal::class)
-            }
+            process.execute()
+            assertNull(RebuildNormal::class)
         }
     }
 }
