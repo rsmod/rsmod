@@ -13,7 +13,7 @@ import org.rsmod.plugins.api.model.route.RouteRequestGameObject
 import org.rsmod.plugins.api.pathfinder.BoundValidator
 import org.rsmod.plugins.testing.GameTestState
 
-class MovementRouteRequestTest {
+class MovementProcessRouteRequestTest {
 
     @Test
     fun GameTestState.testCoordinateRequest() = runGameTest {
