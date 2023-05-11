@@ -2,9 +2,9 @@ package org.rsmod.plugins.api.net.builder.upstream
 
 import io.netty.buffer.ByteBuf
 import org.openrs2.crypto.StreamCipher
-import org.rsmod.protocol.game.packet.UpstreamDiscardPacket
-import org.rsmod.protocol.game.packet.UpstreamPacket
-import org.rsmod.protocol.game.packet.VariableByteLengthPacketCodec
+import org.rsmod.game.protocol.packet.UpstreamDiscardPacket
+import org.rsmod.game.protocol.packet.UpstreamPacket
+import org.rsmod.game.protocol.packet.VariableByteLengthPacketCodec
 
 public class UpstreamVariableBytePacketCodec<T : UpstreamPacket>(
     type: Class<T>,

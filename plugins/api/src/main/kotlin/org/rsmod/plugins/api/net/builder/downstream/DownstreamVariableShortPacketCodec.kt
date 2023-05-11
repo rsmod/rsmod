@@ -2,8 +2,8 @@ package org.rsmod.plugins.api.net.builder.downstream
 
 import io.netty.buffer.ByteBuf
 import org.openrs2.crypto.StreamCipher
-import org.rsmod.protocol.game.packet.DownstreamPacket
-import org.rsmod.protocol.game.packet.VariableShortLengthPacketCodec
+import org.rsmod.game.protocol.packet.DownstreamPacket
+import org.rsmod.game.protocol.packet.VariableShortLengthPacketCodec
 
 public class DownstreamVariableShortPacketCodec<T : DownstreamPacket>(
     type: Class<T>,

@@ -1,7 +1,7 @@
 package org.rsmod.plugins.api.net.upstream
 
-import org.rsmod.protocol.game.packet.UpstreamDiscardPacket
-import org.rsmod.protocol.game.packet.UpstreamPacket
+import org.rsmod.game.protocol.packet.UpstreamDiscardPacket
+import org.rsmod.game.protocol.packet.UpstreamPacket
 
 public object EventMouseMove : UpstreamDiscardPacket
 public object EventMouseClick : UpstreamDiscardPacket

@@ -1,8 +1,8 @@
 package org.rsmod.plugins.api.net.builder.upstream
 
-import org.rsmod.protocol.game.Protocol
-import org.rsmod.protocol.game.packet.PacketCodec
-import org.rsmod.protocol.game.packet.UpstreamPacket
+import org.rsmod.game.protocol.Protocol
+import org.rsmod.game.protocol.packet.PacketCodec
+import org.rsmod.game.protocol.packet.UpstreamPacket
 
 public class UpstreamPacketMap(
     public val structures: MutableMap<Class<out UpstreamPacket>, UpstreamPacketStructure<*>> = mutableMapOf()

@@ -6,7 +6,7 @@ import org.rsmod.plugins.api.net.client.JavaVendor
 import org.rsmod.plugins.api.net.client.OperatingSystem
 import org.rsmod.plugins.api.net.client.Platform
 import org.rsmod.plugins.api.net.login.LoginPacketRequest
-import org.rsmod.protocol.game.packet.UpstreamPacket
+import org.rsmod.game.protocol.packet.UpstreamPacket
 
 public sealed class ServiceRequest : UpstreamPacket {
 

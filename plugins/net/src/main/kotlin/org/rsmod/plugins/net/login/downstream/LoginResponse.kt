@@ -1,7 +1,7 @@
 package org.rsmod.plugins.net.login.downstream
 
 import org.openrs2.crypto.StreamCipher
-import org.rsmod.protocol.game.packet.Packet
+import org.rsmod.game.protocol.packet.Packet
 
 public sealed class LoginResponse : Packet {
 

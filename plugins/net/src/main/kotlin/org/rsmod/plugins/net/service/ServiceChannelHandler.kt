@@ -48,10 +48,10 @@ import org.rsmod.plugins.profile.dispatch.transaction.await
 import org.rsmod.plugins.store.player.PlayerCodec
 import org.rsmod.plugins.store.player.PlayerDataRequest
 import org.rsmod.plugins.store.player.PlayerDataResponse
-import org.rsmod.protocol.game.Protocol
-import org.rsmod.protocol.game.ProtocolDecoder
-import org.rsmod.protocol.game.ProtocolEncoder
-import org.rsmod.protocol.game.packet.UpstreamPacket
+import org.rsmod.game.protocol.Protocol
+import org.rsmod.game.protocol.ProtocolDecoder
+import org.rsmod.game.protocol.ProtocolEncoder
+import org.rsmod.game.protocol.packet.UpstreamPacket
 import java.nio.charset.StandardCharsets
 import java.util.Locale
 import javax.inject.Inject

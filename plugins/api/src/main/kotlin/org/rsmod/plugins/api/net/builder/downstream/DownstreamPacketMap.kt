@@ -1,9 +1,9 @@
 package org.rsmod.plugins.api.net.builder.downstream
 
 import io.netty.buffer.ByteBuf
-import org.rsmod.protocol.game.Protocol
-import org.rsmod.protocol.game.packet.DownstreamPacket
-import org.rsmod.protocol.game.packet.PacketCodec
+import org.rsmod.game.protocol.Protocol
+import org.rsmod.game.protocol.packet.DownstreamPacket
+import org.rsmod.game.protocol.packet.PacketCodec
 
 public class DownstreamPacketMap(
     public val structures: MutableMap<Class<out DownstreamPacket>, DownstreamPacketStructure<*>> = mutableMapOf()

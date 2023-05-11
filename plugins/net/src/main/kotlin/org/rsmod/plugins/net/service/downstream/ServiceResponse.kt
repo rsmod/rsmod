@@ -1,6 +1,6 @@
 package org.rsmod.plugins.net.service.downstream
 
-import org.rsmod.protocol.game.packet.Packet
+import org.rsmod.game.protocol.packet.Packet
 
 public sealed class ServiceResponse : Packet {
 

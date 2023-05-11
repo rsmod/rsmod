@@ -1,6 +1,6 @@
 package org.rsmod.plugins.api.net.downstream
 
-import org.rsmod.protocol.game.packet.DownstreamPacket
+import org.rsmod.game.protocol.packet.DownstreamPacket
 
 public data class IfOpenTop(val interfaceId: Int) : DownstreamPacket
 public data class IfOpenSub(val interfaceId: Int, val targetComponent: Int, val clickMode: Int) : DownstreamPacket

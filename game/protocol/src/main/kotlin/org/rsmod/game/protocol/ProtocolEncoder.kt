@@ -1,12 +1,12 @@
-package org.rsmod.protocol.game
+package org.rsmod.game.protocol
 
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.MessageToByteEncoder
 import org.openrs2.crypto.NopStreamCipher
 import org.openrs2.crypto.StreamCipher
-import org.rsmod.protocol.game.packet.Packet
-import org.rsmod.protocol.game.packet.PacketCodec
+import org.rsmod.game.protocol.packet.Packet
+import org.rsmod.game.protocol.packet.PacketCodec
 
 public class ProtocolEncoder(
     public var protocol: Protocol,

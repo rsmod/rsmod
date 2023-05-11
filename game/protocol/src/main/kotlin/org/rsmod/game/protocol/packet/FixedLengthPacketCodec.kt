@@ -1,4 +1,4 @@
-package org.rsmod.protocol.game.packet
+package org.rsmod.game.protocol.packet
 
 import io.netty.buffer.ByteBuf
 import io.netty.buffer.ByteBufAllocator

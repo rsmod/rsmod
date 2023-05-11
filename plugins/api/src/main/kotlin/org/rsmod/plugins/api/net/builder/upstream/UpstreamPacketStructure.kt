@@ -1,7 +1,7 @@
 package org.rsmod.plugins.api.net.builder.upstream
 
 import io.netty.buffer.ByteBuf
-import org.rsmod.protocol.game.packet.UpstreamPacket
+import org.rsmod.game.protocol.packet.UpstreamPacket
 
 public data class UpstreamPacketStructure<T : UpstreamPacket>(
     val opcode: Int,

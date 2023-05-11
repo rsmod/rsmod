@@ -16,7 +16,7 @@ import org.rsmod.plugins.api.net.client.OperatingSystem
 import org.rsmod.plugins.api.net.client.Platform
 import org.rsmod.plugins.api.net.login.LoginPacketRequest
 import org.rsmod.plugins.api.net.platform.login.LoginPlatformPacketDecoders
-import org.rsmod.protocol.game.packet.VariableShortLengthPacketCodec
+import org.rsmod.game.protocol.packet.VariableShortLengthPacketCodec
 import javax.inject.Inject
 import javax.inject.Singleton
 

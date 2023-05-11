@@ -1,6 +1,6 @@
 package org.rsmod.plugins.api.net.downstream
 
-import org.rsmod.protocol.game.packet.DownstreamPacket
+import org.rsmod.game.protocol.packet.DownstreamPacket
 
 public data class PlayerInfoPacket(val data: ByteArray, val length: Int) : DownstreamPacket {
 

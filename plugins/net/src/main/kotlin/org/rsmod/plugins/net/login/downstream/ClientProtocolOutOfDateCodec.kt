@@ -1,6 +1,6 @@
 package org.rsmod.plugins.net.login.downstream
 
-import org.rsmod.protocol.game.packet.ZeroLengthPacketCodec
+import org.rsmod.game.protocol.packet.ZeroLengthPacketCodec
 import javax.inject.Singleton
 
 @Singleton

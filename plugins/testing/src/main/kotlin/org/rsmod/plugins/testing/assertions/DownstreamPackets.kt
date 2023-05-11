@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.rsmod.game.model.DownstreamList
 import org.rsmod.game.model.mob.Player
-import org.rsmod.protocol.game.packet.DownstreamPacket
+import org.rsmod.game.protocol.packet.DownstreamPacket
 import kotlin.reflect.KClass
 
 public fun Player.withDownstreamScope(

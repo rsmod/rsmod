@@ -31,8 +31,8 @@ import org.rsmod.plugins.net.service.upstream.InitJs5RemoteConnectionCodec
 import org.rsmod.plugins.net.service.upstream.ServiceUpstream
 import org.rsmod.plugins.net.util.NetworkBootstrapFactory
 import org.rsmod.plugins.net.util.RsaKeyProvider
-import org.rsmod.protocol.game.Protocol
-import org.rsmod.protocol.game.packet.PacketCodec
+import org.rsmod.game.protocol.Protocol
+import org.rsmod.game.protocol.packet.PacketCodec
 
 public object NetworkModule : AbstractModule() {
 

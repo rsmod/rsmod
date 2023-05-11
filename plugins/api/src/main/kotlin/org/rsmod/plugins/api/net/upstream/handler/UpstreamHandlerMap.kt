@@ -1,6 +1,6 @@
 package org.rsmod.plugins.api.net.upstream.handler
 
-import org.rsmod.protocol.game.packet.UpstreamPacket
+import org.rsmod.game.protocol.packet.UpstreamPacket
 
 public class UpstreamHandlerMap(
     public val handlers: Map<Class<out UpstreamPacket>, UpstreamHandler<*>>

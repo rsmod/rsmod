@@ -5,9 +5,9 @@ import io.netty.channel.socket.SocketChannel
 import io.netty.handler.timeout.IdleStateHandler
 import org.rsmod.plugins.net.service.downstream.ServiceDownstream
 import org.rsmod.plugins.net.service.upstream.ServiceUpstream
-import org.rsmod.protocol.game.Protocol
-import org.rsmod.protocol.game.ProtocolDecoder
-import org.rsmod.protocol.game.ProtocolEncoder
+import org.rsmod.game.protocol.Protocol
+import org.rsmod.game.protocol.ProtocolDecoder
+import org.rsmod.game.protocol.ProtocolEncoder
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Provider
