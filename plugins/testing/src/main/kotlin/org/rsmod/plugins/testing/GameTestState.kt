@@ -12,6 +12,7 @@ import org.rsmod.game.scripts.module.ModuleBranch
 import org.rsmod.game.scripts.module.ModuleScriptLoader
 import org.rsmod.game.scripts.plugin.KotlinScriptPlugin
 import org.rsmod.game.scripts.plugin.ScriptPluginLoader
+import org.rsmod.plugins.api.cache.map.xtea.XteaRepository
 import org.rsmod.plugins.api.pathfinder.BoundValidator
 import org.rsmod.plugins.api.pathfinder.PathValidator
 import org.rsmod.plugins.api.pathfinder.RayCastFactory
@@ -33,6 +34,7 @@ public class GameTestState {
     public val stepFactory: StepFactory by lazy { injected.stepFactory }
     public val pathValidator: PathValidator by lazy { injected.pathValidator }
     public val boundValidator: BoundValidator by lazy { injected.boundValidator }
+    public val xteaRepository: XteaRepository by lazy { injected.xteaRepository }
 
     public fun runGameTest(
         scope: GameTestScope = GameTestScope(),
