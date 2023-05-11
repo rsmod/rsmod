@@ -9,6 +9,7 @@ import org.rsmod.game.model.mob.list.PlayerList
 import org.rsmod.game.model.mob.list.forEachNotNull
 import org.rsmod.plugins.api.info.player.PlayerInfoTask
 import org.rsmod.plugins.api.move.MovementProcess
+import org.rsmod.plugins.api.move.PostMovementProcess
 import org.rsmod.plugins.api.net.upstream.handler.UpstreamHandlerTask
 import javax.inject.Inject
 
@@ -19,7 +20,8 @@ public class MainGameProcess @Inject constructor(
     private val clients: ClientList,
     private val players: PlayerList,
     private val eventBus: EventBus,
-    private val movement: MovementProcess,
+    private val movementProcess: MovementProcess,
+    private val postMovementProcess: PostMovementProcess,
     private val clock: WorldClock
 ) : GameProcess {
 
@@ -58,7 +60,8 @@ public class MainGameProcess @Inject constructor(
 
     private fun playerCycle() {
         players.publishEvents()
-        movement.execute()
+        movementProcess.execute()
+        postMovementProcess.execute()
         /* info task should be last step in this cycle */
         gpiTask.execute()
     }
