@@ -5,13 +5,15 @@ import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.rsmod.game.model.mob.Player
 import org.rsmod.game.model.mob.info.ExtendedInfo
+import kotlin.reflect.KClass
 
-public inline fun <reified T : ExtendedInfo> Player.verify(predicate: (T) -> Boolean) {
-    val found = extendedInfo.pendingInfo[T::class.java] as? T
-    assertNotNull(found) { "`${T::class.simpleName}` not found in extended-info pending map." }
+@Suppress("UNCHECKED_CAST")
+public fun <T : ExtendedInfo> Player.verify(type: KClass<T>, predicate: (T) -> Boolean) {
+    val found = extendedInfo.pendingInfo[type.java] as? T
+    assertNotNull(found) { "`${type.simpleName}` not found in extended-info pending map." }
     assertTrue(found?.let { predicate(it) } ?: false)
 }
 
-public inline fun <reified T : ExtendedInfo> Player.verifyNull() {
-    assertFalse(T::class.java in extendedInfo.pendingTypes)
+public fun <T : ExtendedInfo> Player.verifyNull(type: KClass<T>) {
+    assertFalse(type.java in extendedInfo.pendingTypes)
 }

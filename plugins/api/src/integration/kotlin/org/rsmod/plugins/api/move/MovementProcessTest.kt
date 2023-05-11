@@ -90,9 +90,9 @@ class MovementProcessTest {
                 async = true
             )
             movement.speed = MoveSpeed.Run
-            verifyNull<ExtendedPlayerInfo.MoveSpeedTemp>()
+            verifyNull(ExtendedPlayerInfo.MoveSpeedTemp::class)
             process.execute()
-            verifyNull<ExtendedPlayerInfo.MoveSpeedTemp>()
+            verifyNull(ExtendedPlayerInfo.MoveSpeedTemp::class)
             assertEquals(start.translateX(2), coords)
         }
         /* now verify running within one-tile distance */
@@ -104,9 +104,9 @@ class MovementProcessTest {
             )
             movement.speed = MoveSpeed.Run
             /* should not have pending "move speed temp" extended-info */
-            verifyNull<ExtendedPlayerInfo.MoveSpeedTemp>()
+            verifyNull(ExtendedPlayerInfo.MoveSpeedTemp::class)
             process.execute()
-            verify<ExtendedPlayerInfo.MoveSpeedTemp> { it.type == WALK_INFO_TYPE }
+            verify(ExtendedPlayerInfo.MoveSpeedTemp::class) { it.type == WALK_INFO_TYPE }
             assertEquals(start.translateX(1), coords)
         }
     }
