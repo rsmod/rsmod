@@ -201,8 +201,6 @@ public class PathFinder(
         if (!pathFound) {
             if (!moveNear) return Route.FAILED
             val foundApproachPoint = findClosestApproachPoint(
-                localSrcX,
-                localSrcZ,
                 localDestX,
                 localDestZ,
                 rotate(objRot, destWidth, destHeight),
@@ -1280,14 +1278,7 @@ public class PathFinder(
         return false
     }
 
-    private fun findClosestApproachPoint(
-        localSrcX: Int,
-        localSrcZ: Int,
-        localDestX: Int,
-        localDestZ: Int,
-        width: Int,
-        height: Int
-    ): Boolean {
+    private fun findClosestApproachPoint(localDestX: Int, localDestZ: Int, width: Int, height: Int): Boolean {
         var lowestCost = MAX_ALTERNATIVE_ROUTE_LOWEST_COST
         var maxAlternativePath = MAX_ALTERNATIVE_ROUTE_SEEK_RANGE
         val alternativeRouteRange = MAX_ALTERNATIVE_ROUTE_DISTANCE_FROM_DESTINATION
