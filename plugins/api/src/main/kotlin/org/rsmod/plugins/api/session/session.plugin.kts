@@ -2,13 +2,13 @@ package org.rsmod.plugins.api.session
 
 import org.rsmod.plugins.api.model.event.ClientSession
 import org.rsmod.plugins.api.model.event.PlayerSession
-import org.rsmod.plugins.api.subscribe
+import org.rsmod.plugins.api.onEvent
 
 private val clientSession: ClientGameSession by inject()
 private val playerSession: PlayerGameSession by inject()
 
-subscribe<ClientSession.Connect> { clientSession.connect(client) }
-subscribe<ClientSession.Disconnect> { clientSession.disconnect(client) }
+onEvent<ClientSession.Connect> { clientSession.connect(client) }
+onEvent<ClientSession.Disconnect> { clientSession.disconnect(client) }
 
-subscribe<PlayerSession.LogIn> { playerSession.logIn(this) }
-subscribe<PlayerSession.LogOut> { playerSession.logOut(this) }
+onEvent<PlayerSession.LogIn> { playerSession.logIn(this) }
+onEvent<PlayerSession.LogOut> { playerSession.logOut(this) }

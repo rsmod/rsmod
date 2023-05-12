@@ -1,7 +1,7 @@
 package org.rsmod.plugins.profile
 
 import org.rsmod.plugins.api.core.GameProcessEvent
-import org.rsmod.plugins.api.subscribe
+import org.rsmod.plugins.api.onEvent
 import org.rsmod.plugins.profile.dispatch.client.ClientDeregisterDispatch
 import org.rsmod.plugins.profile.dispatch.client.ClientRegisterDispatch
 import org.rsmod.plugins.profile.dispatch.player.PlayerDeregisterDispatch
@@ -12,7 +12,7 @@ private val playerDeregister: PlayerDeregisterDispatch by inject()
 private val clientRegister: ClientRegisterDispatch by inject()
 private val clientDeregister: ClientDeregisterDispatch by inject()
 
-subscribe<GameProcessEvent.EndCycle> {
+onEvent<GameProcessEvent.EndCycle> {
     playerRegister.serve()
     clientRegister.serve()
     playerDeregister.serve()

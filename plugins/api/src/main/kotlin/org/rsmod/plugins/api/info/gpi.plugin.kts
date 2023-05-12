@@ -2,9 +2,9 @@ package org.rsmod.plugins.api.info
 
 import org.rsmod.plugins.api.info.player.PlayerInfoTask
 import org.rsmod.plugins.api.model.event.PlayerSession
-import org.rsmod.plugins.api.subscribe
+import org.rsmod.plugins.api.onEvent
 
 private val task: PlayerInfoTask by inject()
 
-subscribe<PlayerSession.Initialize> { task.initialize(this) }
-subscribe<PlayerSession.LogOut> { task.finalize(this) }
+onEvent<PlayerSession.Initialize> { task.initialize(this) }
+onEvent<PlayerSession.LogOut> { task.finalize(this) }
