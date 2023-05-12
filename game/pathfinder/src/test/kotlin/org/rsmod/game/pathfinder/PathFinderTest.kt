@@ -60,7 +60,7 @@ class PathFinderTest {
         }
         val pathFinder = PathFinder(map)
         pathFinder.findPath(level = 0, srcX, srcZ, destX, destZ).let { route ->
-            assertTrue(route.failed)
+            assertTrue(route.alternative)
             assertTrue(route.isEmpty())
         }
     }
