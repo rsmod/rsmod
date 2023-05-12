@@ -1,12 +1,15 @@
 package org.rsmod.plugins.api.move
 
 import org.openrs2.crypto.XteaKey
+import org.rsmod.game.map.square.MapSquareKey
 import org.rsmod.game.map.zone.ZoneKey
 import org.rsmod.game.model.mob.Player
 import org.rsmod.game.model.mob.list.PlayerList
 import org.rsmod.game.model.mob.list.forEachNotNull
 import org.rsmod.plugins.api.cache.map.xtea.XteaRepository
+import org.rsmod.plugins.api.model.event.MapEvent
 import org.rsmod.plugins.api.net.downstream.RebuildNormal
+import org.rsmod.plugins.api.publish
 import org.rsmod.plugins.api.refreshBuildArea
 import org.rsmod.plugins.api.util.BuildAreaUtils
 import javax.inject.Inject
@@ -21,6 +24,8 @@ public class PostMovementProcess @Inject constructor(
     public fun execute() {
         players.forEachNotNull {
             it.checkViewportBoundary()
+            it.checkZoneChange()
+            it.checkMapSquareChange()
         }
     }
 
@@ -28,6 +33,20 @@ public class PostMovementProcess @Inject constructor(
         if (!shouldRebuildViewport()) return
         writeRebuildNormal()
         refreshBuildArea(coords)
+    }
+
+    private fun Player.checkZoneChange() {
+        val oldZone = ZoneKey.from(prevCoords)
+        val newZone = ZoneKey.from(coords)
+        if (newZone == oldZone) return
+        publish(newZone.packed, MapEvent.ZoneChange)
+    }
+
+    private fun Player.checkMapSquareChange() {
+        val oldMapSquare = MapSquareKey.from(prevCoords)
+        val newMapSquare = MapSquareKey.from(coords)
+        if (oldMapSquare == newMapSquare) return
+        publish(newMapSquare.id, MapEvent.MapSquareChange)
     }
 
     private fun Player.writeRebuildNormal() {
