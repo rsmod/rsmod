@@ -15,6 +15,10 @@ import org.rsmod.game.pathfinder.flag.BlockAccessFlag.BLOCK_NORTH
 import org.rsmod.game.pathfinder.flag.BlockAccessFlag.BLOCK_SOUTH
 import org.rsmod.game.pathfinder.flag.BlockAccessFlag.BLOCK_WEST
 import org.rsmod.game.pathfinder.flag.CollisionFlag
+import org.rsmod.game.pathfinder.flag.CollisionFlag.WALL_EAST
+import org.rsmod.game.pathfinder.flag.CollisionFlag.WALL_NORTH
+import org.rsmod.game.pathfinder.flag.CollisionFlag.WALL_SOUTH
+import org.rsmod.game.pathfinder.flag.CollisionFlag.WALL_WEST
 
 class PathFinderTest {
 
@@ -82,6 +86,20 @@ class PathFinderTest {
             assertEquals(RouteCoordinates(3198, 3198), route.waypoints[1])
             assertEquals(RouteCoordinates(3198, 3203), route.waypoints[2])
             assertEquals(RouteCoordinates(destX, destZ), route.waypoints.last())
+        }
+    }
+
+    @Test
+    fun testStandingOnClosestApproachPoint() {
+        val (srcX, srcZ) = 3200 to 3200
+        val (objX, objZ) = 3200 to 3201
+        val map = buildCollisionMap(srcX, srcZ, objX, objZ)
+        val pathFinder = PathFinder(map)
+        map[objX, objZ, 0] = WALL_NORTH or WALL_SOUTH or WALL_WEST or WALL_EAST
+        pathFinder.findPath(level = 0, srcX, srcZ, objX, objZ).let { route ->
+            assertTrue(route.success)
+            assertTrue(route.alternative)
+            assertTrue(route.isEmpty())
         }
     }
 
