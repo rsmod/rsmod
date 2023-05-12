@@ -9,6 +9,7 @@ import org.openrs2.crypto.StreamCipher
 import org.openrs2.crypto.XteaKey
 import org.openrs2.crypto.rsa
 import org.openrs2.crypto.xteaDecrypt
+import org.rsmod.game.protocol.packet.VariableShortLengthPacketCodec
 import org.rsmod.plugins.api.net.builder.login.LoginPacketDecoderMap
 import org.rsmod.plugins.api.net.client.ClientType
 import org.rsmod.plugins.api.net.client.JavaVendor
@@ -16,7 +17,6 @@ import org.rsmod.plugins.api.net.client.OperatingSystem
 import org.rsmod.plugins.api.net.client.Platform
 import org.rsmod.plugins.api.net.login.LoginPacketRequest
 import org.rsmod.plugins.api.net.platform.login.LoginPlatformPacketDecoders
-import org.rsmod.game.protocol.packet.VariableShortLengthPacketCodec
 import javax.inject.Inject
 import javax.inject.Singleton
 

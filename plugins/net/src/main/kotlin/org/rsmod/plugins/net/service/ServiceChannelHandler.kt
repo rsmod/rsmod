@@ -21,6 +21,10 @@ import org.openrs2.crypto.IsaacRandom
 import org.openrs2.crypto.secureRandom
 import org.rsmod.game.client.Client
 import org.rsmod.game.model.mob.Player
+import org.rsmod.game.protocol.Protocol
+import org.rsmod.game.protocol.ProtocolDecoder
+import org.rsmod.game.protocol.ProtocolEncoder
+import org.rsmod.game.protocol.packet.UpstreamPacket
 import org.rsmod.plugins.api.net.client.Platform
 import org.rsmod.plugins.api.net.login.LoginPacketRequest
 import org.rsmod.plugins.api.net.platform.game.GamePlatformPacketMaps
@@ -48,10 +52,6 @@ import org.rsmod.plugins.profile.dispatch.transaction.await
 import org.rsmod.plugins.store.player.PlayerCodec
 import org.rsmod.plugins.store.player.PlayerDataRequest
 import org.rsmod.plugins.store.player.PlayerDataResponse
-import org.rsmod.game.protocol.Protocol
-import org.rsmod.game.protocol.ProtocolDecoder
-import org.rsmod.game.protocol.ProtocolEncoder
-import org.rsmod.game.protocol.packet.UpstreamPacket
 import java.nio.charset.StandardCharsets
 import java.util.Locale
 import javax.inject.Inject

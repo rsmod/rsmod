@@ -7,6 +7,8 @@ import com.google.inject.Scopes
 import com.google.inject.TypeLiteral
 import com.google.inject.multibindings.Multibinder
 import org.bouncycastle.crypto.params.RSAPrivateCrtKeyParameters
+import org.rsmod.game.protocol.Protocol
+import org.rsmod.game.protocol.packet.PacketCodec
 import org.rsmod.plugins.api.cache.build.js5.Js5CacheModule
 import org.rsmod.plugins.net.js5.Js5Service
 import org.rsmod.plugins.net.js5.downstream.Js5ClientOutOfDateCodec
@@ -31,8 +33,6 @@ import org.rsmod.plugins.net.service.upstream.InitJs5RemoteConnectionCodec
 import org.rsmod.plugins.net.service.upstream.ServiceUpstream
 import org.rsmod.plugins.net.util.NetworkBootstrapFactory
 import org.rsmod.plugins.net.util.RsaKeyProvider
-import org.rsmod.game.protocol.Protocol
-import org.rsmod.game.protocol.packet.PacketCodec
 
 public object NetworkModule : AbstractModule() {
 
