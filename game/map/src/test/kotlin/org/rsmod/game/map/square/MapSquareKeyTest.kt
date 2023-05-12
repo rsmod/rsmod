@@ -47,6 +47,17 @@ class MapSquareKeyTest {
     }
 
     @ParameterizedTest
+    @ArgumentsSource(MapSquareAbsoluteCoordinatesProvider::class)
+    fun testFromCoordinates(
+        expectedMapSquareId: Int,
+        absoluteCoordsX: Int,
+        absoluteCoordsZ: Int
+    ) {
+        val mapSquare = MapSquareKey.from(Coordinates(absoluteCoordsX, absoluteCoordsZ))
+        assertEquals(expectedMapSquareId, mapSquare.id)
+    }
+
+    @ParameterizedTest
     @ArgumentsSource(MapSquareRelativeCoordinatesProvider::class)
     fun testRelativeCoordinates(
         mapSquareId: Int,

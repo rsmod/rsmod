@@ -37,6 +37,11 @@ public value class MapSquareKey(public val id: Int) {
         public const val Z_BIT_OFFSET: Int = 0
         public const val X_BIT_OFFSET: Int = Z_BIT_COUNT
 
+        public fun from(coords: Coordinates): MapSquareKey = MapSquareKey(
+            x = coords.x / MapSquare.SIZE,
+            z = coords.z / MapSquare.SIZE
+        )
+
         private fun pack(x: Int, z: Int): Int {
             if (x !in 0..X_BIT_MASK) {
                 throw IllegalArgumentException("`x` value must be within range [0..$X_BIT_MASK].")
