@@ -1327,7 +1327,7 @@ public class PathFinder(
                 }
             }
         }
-        return !(lowestCost == MAX_ALTERNATIVE_ROUTE_LOWEST_COST || localSrcX == currLocalX && localSrcZ == currLocalZ)
+        return lowestCost != MAX_ALTERNATIVE_ROUTE_LOWEST_COST
     }
 
     private fun appendDirection(x: Int, z: Int, direction: Int, distance: Int) {
