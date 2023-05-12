@@ -1,6 +1,9 @@
 package org.rsmod.plugins.cache.config.enums
 
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
@@ -26,9 +29,9 @@ class EnumTypeTest {
             intValues[1] = ITEM_ID_11802
         }.build()
 
-        Assertions.assertEquals(NamedItem(ITEM_ID_4151), intEnum[0])
-        Assertions.assertEquals(NamedItem(ITEM_ID_11802), intEnum[1])
-        Assertions.assertNull(intEnum[2])
+        assertEquals(NamedItem(ITEM_ID_4151), intEnum[0])
+        assertEquals(NamedItem(ITEM_ID_11802), intEnum[1])
+        assertNull(intEnum[2])
     }
 
     @Test
@@ -40,10 +43,10 @@ class EnumTypeTest {
             intValues[1] = ITEM_ID_11802
         }.build()
 
-        Assertions.assertEquals(NamedItem(ITEM_ID_4151), intEnum.default)
-        Assertions.assertEquals(NamedItem(ITEM_ID_11802), intEnum[1])
-        Assertions.assertFalse(intEnum.containsKey(ITEM_ID_4151))
-        Assertions.assertEquals(NamedItem(ITEM_ID_4151), intEnum[400])
+        assertEquals(NamedItem(ITEM_ID_4151), intEnum.default)
+        assertEquals(NamedItem(ITEM_ID_11802), intEnum[1])
+        assertFalse(intEnum.containsKey(ITEM_ID_4151))
+        assertEquals(NamedItem(ITEM_ID_4151), intEnum[400])
     }
 
     @ParameterizedTest
@@ -83,8 +86,8 @@ class EnumTypeTest {
             }
         }.build()
 
-        Assertions.assertTrue(enum.containsKey(key))
-        Assertions.assertEquals(value, enum[key])
+        assertTrue(enum.containsKey(key))
+        assertEquals(value, enum[key])
     }
 
     private companion object {

@@ -1,6 +1,6 @@
 package org.rsmod.plugins.info.model.coord
 
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
@@ -20,14 +20,14 @@ class HighResCoordTest {
         require(rhs.x == 1800 && rhs.z == 1600 && rhs.level == 1)
 
         val sum = lhs + rhs
-        Assertions.assertEquals(lhs.x + rhs.x, sum.x)
-        Assertions.assertEquals(lhs.z + rhs.z, sum.z)
-        Assertions.assertEquals((lhs.level + rhs.level) and LEVEL_BIT_MASK, sum.level)
+        assertEquals(lhs.x + rhs.x, sum.x)
+        assertEquals(lhs.z + rhs.z, sum.z)
+        assertEquals((lhs.level + rhs.level) and LEVEL_BIT_MASK, sum.level)
 
         val diff = lhs - rhs
-        Assertions.assertEquals(lhs.x - rhs.x, diff.x)
-        Assertions.assertEquals(lhs.z - rhs.z, diff.z)
-        Assertions.assertEquals((lhs.level - rhs.level) and LEVEL_BIT_MASK, diff.level)
+        assertEquals(lhs.x - rhs.x, diff.x)
+        assertEquals(lhs.z - rhs.z, diff.z)
+        assertEquals((lhs.level - rhs.level) and LEVEL_BIT_MASK, diff.level)
     }
 
     @ParameterizedTest
@@ -35,9 +35,9 @@ class HighResCoordTest {
     fun testConstructCoord(x: Int, z: Int, vararg levels: Int) {
         levels.forEach { level ->
             val coord = HighResCoord(x, z, level)
-            Assertions.assertEquals(x, coord.x)
-            Assertions.assertEquals(z, coord.z)
-            Assertions.assertEquals(level, coord.level)
+            assertEquals(x, coord.x)
+            assertEquals(z, coord.z)
+            assertEquals(level, coord.level)
         }
     }
 
@@ -51,9 +51,9 @@ class HighResCoordTest {
             check(coord.level == level)
 
             val (cx, cz, clevel) = coord
-            Assertions.assertEquals(x, cx)
-            Assertions.assertEquals(z, cz)
-            Assertions.assertEquals(level, clevel)
+            assertEquals(x, cx)
+            assertEquals(z, cz)
+            assertEquals(level, clevel)
         }
     }
 
@@ -69,9 +69,9 @@ class HighResCoordTest {
         levels.forEach { level ->
             val highRes = HighResCoord(highX, highZ, level)
             val conversion = highRes.toLowRes()
-            Assertions.assertEquals(expectedLowX, conversion.x)
-            Assertions.assertEquals(expectedLowZ, conversion.z)
-            Assertions.assertEquals(level, conversion.level)
+            assertEquals(expectedLowX, conversion.x)
+            assertEquals(expectedLowZ, conversion.z)
+            assertEquals(level, conversion.level)
         }
     }
 

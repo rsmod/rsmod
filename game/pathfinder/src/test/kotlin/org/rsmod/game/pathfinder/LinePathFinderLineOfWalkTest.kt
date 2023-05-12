@@ -1,6 +1,6 @@
 package org.rsmod.game.pathfinder
 
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -30,7 +30,7 @@ class LinePathFinderLineOfWalkTest {
         map[3200, 3205, 0] = OBJECT
         with(LinePathFinder(map)) {
             val rayCast = lineOfWalk(0, 3200, 3200, 3200, 3207)
-            Assertions.assertEquals(4, rayCast.size)
+            assertEquals(4, rayCast.size)
             assertFalse(rayCast.success)
             assertTrue(rayCast.alternative)
         }

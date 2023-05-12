@@ -1,6 +1,9 @@
 package org.rsmod.game.coroutines
 
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotSame
+import org.junit.jupiter.api.Assertions.assertSame
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 class GameCoroutineScopeTest {
@@ -9,34 +12,34 @@ class GameCoroutineScopeTest {
     fun testSupervisedCoroutines() {
         val scope = GameCoroutineScope()
         val coroutine1 = GameCoroutine()
-        Assertions.assertTrue(scope.children.isEmpty())
+        assertTrue(scope.children.isEmpty())
 
         /* non-suspended coroutine should not be supervised */
         scope.launch(coroutine1) {}
-        Assertions.assertTrue(scope.children.isEmpty())
+        assertTrue(scope.children.isEmpty())
 
         scope.launch(coroutine1) {
             pause(ticks = 1)
         }
-        Assertions.assertEquals(1, scope.children.size)
-        Assertions.assertSame(scope.children[0], coroutine1)
+        assertEquals(1, scope.children.size)
+        assertSame(scope.children[0], coroutine1)
 
         val coroutine2 = scope.launch {
             pause(Int::class)
         }
-        Assertions.assertEquals(2, scope.children.size)
-        Assertions.assertNotSame(scope.children[0], coroutine2)
+        assertEquals(2, scope.children.size)
+        assertNotSame(scope.children[0], coroutine2)
 
         coroutine1.resume()
         scope.advance()
-        Assertions.assertTrue(coroutine1.isIdle)
-        Assertions.assertEquals(1, scope.children.size)
-        Assertions.assertSame(scope.children[0], coroutine2)
+        assertTrue(coroutine1.isIdle)
+        assertEquals(1, scope.children.size)
+        assertSame(scope.children[0], coroutine2)
 
         coroutine2.resumeWith(0)
         scope.advance()
-        Assertions.assertTrue(coroutine2.isIdle)
-        Assertions.assertTrue(scope.children.isEmpty())
+        assertTrue(coroutine2.isIdle)
+        assertTrue(scope.children.isEmpty())
     }
 
     @Test
@@ -49,11 +52,11 @@ class GameCoroutineScopeTest {
                 pause(ticks = 1)
             }
         }
-        Assertions.assertTrue(coroutines.all { coroutine -> coroutine.isSuspended })
-        Assertions.assertEquals(coroutines.size, scope.children.size)
+        assertTrue(coroutines.all { coroutine -> coroutine.isSuspended })
+        assertEquals(coroutines.size, scope.children.size)
 
         scope.cancel()
-        Assertions.assertTrue(scope.children.isEmpty())
-        Assertions.assertTrue(coroutines.all { it.isIdle })
+        assertTrue(scope.children.isEmpty())
+        assertTrue(coroutines.all { it.isIdle })
     }
 }

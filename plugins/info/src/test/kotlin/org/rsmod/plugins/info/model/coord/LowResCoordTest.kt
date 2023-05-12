@@ -1,6 +1,6 @@
 package org.rsmod.plugins.info.model.coord
 
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
@@ -19,14 +19,14 @@ class LowResCoordTest {
         require(rhs.x == 0 && rhs.z == 1 && rhs.level == 0)
 
         val sum = lhs + rhs
-        Assertions.assertEquals(lhs.x + rhs.x, sum.x)
-        Assertions.assertEquals(lhs.z + rhs.z, sum.z)
-        Assertions.assertEquals(lhs.level + rhs.level, sum.level)
+        assertEquals(lhs.x + rhs.x, sum.x)
+        assertEquals(lhs.z + rhs.z, sum.z)
+        assertEquals(lhs.level + rhs.level, sum.level)
 
         val diff = lhs - rhs
-        Assertions.assertEquals(lhs.x - rhs.x, diff.x)
-        Assertions.assertEquals(lhs.z - rhs.z, diff.z)
-        Assertions.assertEquals((lhs.level - rhs.level) and 0x3, diff.level)
+        assertEquals(lhs.x - rhs.x, diff.x)
+        assertEquals(lhs.z - rhs.z, diff.z)
+        assertEquals((lhs.level - rhs.level) and 0x3, diff.level)
     }
 
     @ParameterizedTest
@@ -34,9 +34,9 @@ class LowResCoordTest {
     fun testConstructCoord(x: Int, z: Int, vararg levels: Int) {
         levels.forEach { level ->
             val coord = LowResCoord(x, z, level)
-            Assertions.assertEquals(x, coord.x)
-            Assertions.assertEquals(z, coord.z)
-            Assertions.assertEquals(level, coord.level)
+            assertEquals(x, coord.x)
+            assertEquals(z, coord.z)
+            assertEquals(level, coord.level)
         }
     }
 
@@ -50,9 +50,9 @@ class LowResCoordTest {
             check(coord.level == level)
 
             val (cx, cz, clevel) = coord
-            Assertions.assertEquals(x, cx)
-            Assertions.assertEquals(z, cz)
-            Assertions.assertEquals(level, clevel)
+            assertEquals(x, cx)
+            assertEquals(z, cz)
+            assertEquals(level, clevel)
         }
     }
 
@@ -68,9 +68,9 @@ class LowResCoordTest {
         levels.forEach { level ->
             val lowRes = LowResCoord(lowX, lowZ, level)
             val conversion = lowRes.toHighRes()
-            Assertions.assertEquals(expectedHighX, conversion.x)
-            Assertions.assertEquals(expectedHighZ, conversion.z)
-            Assertions.assertEquals(level, conversion.level)
+            assertEquals(expectedHighX, conversion.x)
+            assertEquals(expectedHighZ, conversion.z)
+            assertEquals(level, conversion.level)
         }
     }
 

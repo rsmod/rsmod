@@ -1,7 +1,7 @@
 package org.rsmod.plugins.info.player
 
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -109,7 +109,7 @@ class PlayerInfoTest {
             assertEquals(2045, metadata.lowResolutionCount)
             assertEquals(0, metadata.highResolutionSkip)
             assertEquals(2044, metadata.lowResolutionSkip)
-            Assertions.assertFalse(info.clients[playerA].isHighResolution[playerB])
+            assertFalse(info.clients[playerA].isHighResolution[playerB])
         }
 
         run playerA@{
@@ -119,7 +119,7 @@ class PlayerInfoTest {
             assertEquals(2046, metadata.lowResolutionCount)
             assertEquals(0, metadata.highResolutionSkip)
             assertEquals(2044, metadata.lowResolutionSkip)
-            Assertions.assertFalse(info.clients[playerA].isHighResolution[playerB])
+            assertFalse(info.clients[playerA].isHighResolution[playerB])
         }
     }
 

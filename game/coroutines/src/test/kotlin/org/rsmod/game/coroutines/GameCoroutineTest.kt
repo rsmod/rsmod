@@ -6,7 +6,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertNotEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertSame
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 class GameCoroutineTest {
@@ -15,15 +20,15 @@ class GameCoroutineTest {
     fun testCoroutineSuspension() {
         val scope = GameCoroutineScope()
         val coroutine = GameCoroutine("test-coroutine")
-        Assertions.assertTrue(coroutine.isIdle)
+        assertTrue(coroutine.isIdle)
 
         scope.launch(coroutine) {}
-        Assertions.assertTrue(coroutine.isIdle)
+        assertTrue(coroutine.isIdle)
 
         scope.launch(coroutine) {
             pause { false }
         }
-        Assertions.assertTrue(coroutine.isSuspended)
+        assertTrue(coroutine.isSuspended)
     }
 
     @Test
@@ -37,11 +42,11 @@ class GameCoroutineTest {
             pause { false }
             oversteppedCoroutine = true
         }
-        Assertions.assertTrue(coroutine.isSuspended)
+        assertTrue(coroutine.isSuspended)
 
         coroutine.cancel()
-        Assertions.assertTrue(coroutine.isIdle)
-        Assertions.assertFalse(oversteppedCoroutine)
+        assertTrue(coroutine.isIdle)
+        assertFalse(oversteppedCoroutine)
     }
 
     @Test
@@ -62,18 +67,18 @@ class GameCoroutineTest {
                 }
             }
         }
-        Assertions.assertEquals(0, stepped)
-        Assertions.assertTrue(coroutine.isSuspended)
+        assertEquals(0, stepped)
+        assertTrue(coroutine.isSuspended)
 
         for (i in 0 until validSteps) {
             coroutine.resume()
-            Assertions.assertEquals(i + 1, stepped)
+            assertEquals(i + 1, stepped)
         }
         for (i in validSteps until totalSteps) {
             coroutine.resume()
-            Assertions.assertNotEquals(i + 1, stepped)
+            assertNotEquals(i + 1, stepped)
         }
-        Assertions.assertEquals(validSteps, stepped)
+        assertEquals(validSteps, stepped)
     }
 
     @Test
@@ -88,17 +93,17 @@ class GameCoroutineTest {
             pause(ticks)
             completed = true
         }
-        Assertions.assertTrue(coroutine.isSuspended)
-        Assertions.assertFalse(completed)
+        assertTrue(coroutine.isSuspended)
+        assertFalse(completed)
 
         repeat(ticks - 1) {
             coroutine.resume()
         }
-        Assertions.assertTrue(coroutine.isSuspended)
+        assertTrue(coroutine.isSuspended)
 
         coroutine.resume()
-        Assertions.assertTrue(coroutine.isIdle)
-        Assertions.assertTrue(completed)
+        assertTrue(coroutine.isIdle)
+        assertTrue(completed)
     }
 
     @Test
@@ -113,16 +118,16 @@ class GameCoroutineTest {
             pause { resume }
             completed = true
         }
-        Assertions.assertTrue(coroutine.isSuspended)
-        Assertions.assertFalse(completed)
+        assertTrue(coroutine.isSuspended)
+        assertFalse(completed)
 
         coroutine.resume()
-        Assertions.assertTrue(coroutine.isSuspended)
+        assertTrue(coroutine.isSuspended)
 
         resume = true
         coroutine.resume()
-        Assertions.assertFalse(coroutine.isSuspended)
-        Assertions.assertTrue(completed)
+        assertFalse(coroutine.isSuspended)
+        assertTrue(completed)
     }
 
     @Test
@@ -138,21 +143,21 @@ class GameCoroutineTest {
             deferred = pause(Int::class)
             completed = true
         }
-        Assertions.assertTrue(coroutine.isSuspended)
-        Assertions.assertFalse(completed)
+        assertTrue(coroutine.isSuspended)
+        assertFalse(completed)
 
         /* stays suspended until proper value is submitted to `resumeWith` */
         coroutine.resume()
-        Assertions.assertTrue(coroutine.isSuspended)
+        assertTrue(coroutine.isSuspended)
 
         /* coroutine will not accept value type it did not ask for */
         coroutine.resumeWith(true)
-        Assertions.assertTrue(coroutine.isSuspended)
+        assertTrue(coroutine.isSuspended)
 
         coroutine.resumeWith(expectedValue)
-        Assertions.assertEquals(expectedValue, deferred)
-        Assertions.assertTrue(coroutine.isIdle)
-        Assertions.assertTrue(completed)
+        assertEquals(expectedValue, deferred)
+        assertTrue(coroutine.isIdle)
+        assertTrue(completed)
     }
 
     @Test
@@ -168,17 +173,17 @@ class GameCoroutineTest {
             pause(ticks = 1)
             completed = true
         }
-        Assertions.assertTrue(coroutine.isSuspended)
-        Assertions.assertFalse(completed)
+        assertTrue(coroutine.isSuspended)
+        assertFalse(completed)
 
         coroutine.resume()
-        Assertions.assertTrue(coroutine.isSuspended)
+        assertTrue(coroutine.isSuspended)
         coroutine.resumeWith(0)
-        Assertions.assertTrue(coroutine.isSuspended)
+        assertTrue(coroutine.isSuspended)
 
         coroutine.resume()
-        Assertions.assertTrue(coroutine.isIdle)
-        Assertions.assertTrue(completed)
+        assertTrue(coroutine.isIdle)
+        assertTrue(completed)
     }
 
     @Test
@@ -202,8 +207,8 @@ class GameCoroutineTest {
             advanceUntilIdle()
         }
         advanceUntilIdle()
-        Assertions.assertSame(parentThread, coroutineThread)
-        Assertions.assertNotNull(coroutineName)
-        Assertions.assertNotEquals(parentName, coroutineName)
+        assertSame(parentThread, coroutineThread)
+        assertNotNull(coroutineName)
+        assertNotEquals(parentName, coroutineName)
     }
 }
