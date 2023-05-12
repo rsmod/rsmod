@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.rsmod:rsmod-pathfinder:4.2.0")
+    implementation("org.rsmod:rsmod-pathfinder:4.2.1")
 }
 ```
 
