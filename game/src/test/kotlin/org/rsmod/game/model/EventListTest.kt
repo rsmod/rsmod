@@ -19,32 +19,32 @@ class EventListTest {
     @Test
     fun testAllowDuplicateKeyedEntries() {
         val list = EventList<EventType>()
-        check(list.getKeyed().isEmpty())
+        check(list.keyed.isEmpty())
 
         list.add(0, TestKeyedEvent1("test-event"))
-        assertEquals(1, list.getKeyed().size)
+        assertEquals(1, list.keyed.size)
 
         list.add(0, TestKeyedEvent1("test-event"))
-        assertEquals(2, list.getKeyed().size)
+        assertEquals(2, list.keyed.size)
 
         list.add(0, TestKeyedEvent2("test-event"))
-        assertEquals(3, list.getKeyed().size)
+        assertEquals(3, list.keyed.size)
 
         list.add(0, TestKeyedEvent2("test-event"))
-        assertEquals(4, list.getKeyed().size)
+        assertEquals(4, list.keyed.size)
     }
 
     @Test
     fun testMaintainInsertionOrder() {
         val list = EventList<EventType>()
-        check(list.getUnbound().isEmpty())
-        check(list.getKeyed().isEmpty())
+        check(list.unbound.isEmpty())
+        check(list.keyed.isEmpty())
 
         for (insertionIndex in 0 until 32) {
             TestEvent1("test-event").let { event ->
                 list += event
-                assertEquals(insertionIndex + 1, list.getUnbound().size)
-                assertSame(list.getUnbound().last(), event)
+                assertEquals(insertionIndex + 1, list.unbound.size)
+                assertSame(list.unbound.last(), event)
             }
         }
         list.clear()
@@ -52,8 +52,8 @@ class EventListTest {
         for (insertionIndex in 0 until 32) {
             TestKeyedEvent2("test-event").let { event ->
                 list.add(0, event)
-                assertEquals(insertionIndex + 1, list.getKeyed().size)
-                assertSame(list.getKeyed().last().event, event)
+                assertEquals(insertionIndex + 1, list.keyed.size)
+                assertSame(list.keyed.last().event, event)
             }
         }
         list.clear()
@@ -62,18 +62,18 @@ class EventListTest {
     @Test
     fun testClear() {
         val list = EventList<EventType>()
-        check(list.getUnbound().isEmpty())
-        check(list.getKeyed().isEmpty())
+        check(list.unbound.isEmpty())
+        check(list.keyed.isEmpty())
 
         list += TestEvent1("test-event")
-        assertEquals(1, list.getUnbound().size)
+        assertEquals(1, list.unbound.size)
         list.clear()
-        assertTrue(list.getUnbound().isEmpty())
+        assertTrue(list.unbound.isEmpty())
 
         list.add(0L, TestKeyedEvent1("test-event"))
-        assertEquals(1, list.getKeyed().size)
+        assertEquals(1, list.keyed.size)
         list.clear()
-        assertTrue(list.getKeyed().isEmpty())
+        assertTrue(list.keyed.isEmpty())
     }
 
     private abstract class TestEvent(val debugName: String) : Event<EventType> {

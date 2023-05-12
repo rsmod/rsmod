@@ -11,19 +11,22 @@ private typealias Task = suspend CoroutineScope.() -> Unit
 @Singleton
 public class GameBootTaskScheduler @Inject constructor(private val ioCoroutineScope: IOCoroutineScope) {
 
-    private val blocking: MutableList<Task> = mutableListOf()
-    private val nonBlocking: MutableList<Task> = mutableListOf()
+    private val _blocking: MutableList<Task> = mutableListOf()
+    private val _nonBlocking: MutableList<Task> = mutableListOf()
+
+    public val blocking: List<suspend CoroutineScope.() -> Unit> get() = _blocking
+    public val nonBlocking: List<suspend CoroutineScope.() -> Unit> get() = _nonBlocking
 
     public fun scheduleBlocking(action: suspend CoroutineScope.() -> Unit) {
-        blocking += action
+        _blocking += action
     }
 
     public fun scheduleNonBlocking(action: suspend CoroutineScope.() -> Unit) {
-        nonBlocking += action
+        _nonBlocking += action
     }
 
     public suspend fun executeBlocking(scope: CoroutineScope) {
-        blocking.forEach { it.invoke(scope) }
+        _blocking.forEach { it.invoke(scope) }
     }
 
     public suspend fun executeNonBlocking() {
@@ -31,10 +34,6 @@ public class GameBootTaskScheduler @Inject constructor(private val ioCoroutineSc
     }
 
     private fun CoroutineScope.executeNonBlocking() = launch {
-        nonBlocking.forEach { launch { it(this) } }
+        _nonBlocking.forEach { launch { it(this) } }
     }
-
-    public fun getBlocking(): List<suspend CoroutineScope.() -> Unit> = blocking
-
-    public fun getNonBlocking(): List<suspend CoroutineScope.() -> Unit> = nonBlocking
 }

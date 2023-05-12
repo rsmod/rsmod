@@ -9,34 +9,34 @@ class GameCoroutineScopeTest {
     fun testSupervisedCoroutines() {
         val scope = GameCoroutineScope()
         val coroutine1 = GameCoroutine()
-        Assertions.assertTrue(scope.getChildren().isEmpty())
+        Assertions.assertTrue(scope.children.isEmpty())
 
         /* non-suspended coroutine should not be supervised */
         scope.launch(coroutine1) {}
-        Assertions.assertTrue(scope.getChildren().isEmpty())
+        Assertions.assertTrue(scope.children.isEmpty())
 
         scope.launch(coroutine1) {
             pause(ticks = 1)
         }
-        Assertions.assertEquals(1, scope.getChildren().size)
-        Assertions.assertSame(scope.getChildren()[0], coroutine1)
+        Assertions.assertEquals(1, scope.children.size)
+        Assertions.assertSame(scope.children[0], coroutine1)
 
         val coroutine2 = scope.launch {
             pause(Int::class)
         }
-        Assertions.assertEquals(2, scope.getChildren().size)
-        Assertions.assertNotSame(scope.getChildren()[0], coroutine2)
+        Assertions.assertEquals(2, scope.children.size)
+        Assertions.assertNotSame(scope.children[0], coroutine2)
 
         coroutine1.resume()
         scope.advance()
         Assertions.assertTrue(coroutine1.isIdle)
-        Assertions.assertEquals(1, scope.getChildren().size)
-        Assertions.assertSame(scope.getChildren()[0], coroutine2)
+        Assertions.assertEquals(1, scope.children.size)
+        Assertions.assertSame(scope.children[0], coroutine2)
 
         coroutine2.resumeWith(0)
         scope.advance()
         Assertions.assertTrue(coroutine2.isIdle)
-        Assertions.assertTrue(scope.getChildren().isEmpty())
+        Assertions.assertTrue(scope.children.isEmpty())
     }
 
     @Test
@@ -50,10 +50,10 @@ class GameCoroutineScopeTest {
             }
         }
         Assertions.assertTrue(coroutines.all { coroutine -> coroutine.isSuspended })
-        Assertions.assertEquals(coroutines.size, scope.getChildren().size)
+        Assertions.assertEquals(coroutines.size, scope.children.size)
 
         scope.cancel()
-        Assertions.assertTrue(scope.getChildren().isEmpty())
+        Assertions.assertTrue(scope.children.isEmpty())
         Assertions.assertTrue(coroutines.all { it.isIdle })
     }
 }

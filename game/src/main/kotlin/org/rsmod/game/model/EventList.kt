@@ -6,30 +6,29 @@ import org.rsmod.game.events.KeyedEvent
 
 public class EventList<T> {
 
-    private val events: MutableList<Event<T>> = mutableListOf()
-    private val keyed: MutableList<CachedKeyedEvent<T>> = mutableListOf()
+    private val _unbound: MutableList<Event<T>> = mutableListOf()
+    private val _keyed: MutableList<CachedKeyedEvent<T>> = mutableListOf()
+
+    public val unbound: List<Event<T>> get() = _unbound
+    public val keyed: List<CachedKeyedEvent<T>> get() = _keyed
 
     public fun publishAll(parameter: T, eventBus: EventBus) {
-        events.forEach { event -> eventBus.publish(parameter, event) }
-        keyed.forEach { (id, event) -> eventBus.publish(id, parameter, event) }
+        _unbound.forEach { event -> eventBus.publish(parameter, event) }
+        _keyed.forEach { (id, event) -> eventBus.publish(id, parameter, event) }
     }
 
     public fun clear() {
-        events.clear()
-        keyed.clear()
+        _unbound.clear()
+        _keyed.clear()
     }
 
     public fun add(id: Long, event: KeyedEvent<T>) {
-        keyed += CachedKeyedEvent(id, event)
+        _keyed += CachedKeyedEvent(id, event)
     }
 
     public operator fun plusAssign(event: Event<T>) {
-        events += event
+        _unbound += event
     }
-
-    public fun getUnbound(): List<Event<T>> = events
-
-    public fun getKeyed(): List<CachedKeyedEvent<T>> = keyed
 
     public data class CachedKeyedEvent<T>(
         public val id: Long,

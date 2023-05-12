@@ -7,7 +7,8 @@ import kotlin.coroutines.startCoroutine
 
 public class GameCoroutineScope {
 
-    private val children = mutableListOf<GameCoroutine>()
+    private val _children = mutableListOf<GameCoroutine>()
+    public val children: List<GameCoroutine> get() = _children
 
     public fun launch(
         coroutine: GameCoroutine = GameCoroutine(),
@@ -15,19 +16,17 @@ public class GameCoroutineScope {
         block: suspend GameCoroutine.() -> Unit
     ): GameCoroutine {
         block.startCoroutine(coroutine, completion)
-        if (coroutine.isSuspended) children += coroutine
+        if (coroutine.isSuspended) _children += coroutine
         return coroutine
     }
 
     public fun advance() {
-        children.forEach { it.resume() }
-        children.removeIf { it.isIdle }
+        _children.forEach { it.resume() }
+        _children.removeIf { it.isIdle }
     }
 
     public fun cancel() {
-        children.forEach { it.cancel(ScopeCancellationException) }
-        children.clear()
+        _children.forEach { it.cancel(ScopeCancellationException) }
+        _children.clear()
     }
-
-    public fun getChildren(): List<GameCoroutine> = children
 }
