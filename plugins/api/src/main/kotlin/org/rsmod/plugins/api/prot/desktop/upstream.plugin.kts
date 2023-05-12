@@ -3,8 +3,11 @@ package org.rsmod.plugins.api.prot.desktop
 import io.netty.buffer.ByteBuf
 import org.openrs2.buffer.readString
 import org.rsmod.plugins.api.net.platform.game.GamePlatformPacketMaps
+import org.rsmod.plugins.api.net.readByteAlt1
 import org.rsmod.plugins.api.net.readUnsignedByteAlt1
+import org.rsmod.plugins.api.net.readUnsignedShortAlt1
 import org.rsmod.plugins.api.net.readUnsignedShortAlt2
+import org.rsmod.plugins.api.net.readUnsignedShortAlt3
 import org.rsmod.plugins.api.net.upstream.ClientCheat
 import org.rsmod.plugins.api.net.upstream.EventAppletFocus
 import org.rsmod.plugins.api.net.upstream.EventCameraPosition
@@ -27,6 +30,7 @@ import org.rsmod.plugins.api.net.upstream.MapBuildComplete
 import org.rsmod.plugins.api.net.upstream.MoveGameClick
 import org.rsmod.plugins.api.net.upstream.MoveMinimapClick
 import org.rsmod.plugins.api.net.upstream.NoTimeout
+import org.rsmod.plugins.api.net.upstream.OpLoc1
 import org.rsmod.plugins.api.net.upstream.ReflectionCheckReply
 import org.rsmod.plugins.api.net.upstream.WindowStatus
 
@@ -223,6 +227,18 @@ packets.register {
     decode { buf ->
         val (component, dynamicChild, item) = buf.readIfButton
         IfButton10(component, dynamicChild, item)
+    }
+}
+
+packets.register {
+    opcode = 78
+    length = 7
+    decode { buf ->
+        val mode = buf.readByteAlt1().toInt()
+        val id = buf.readUnsignedShortAlt3()
+        val x = buf.readUnsignedShort()
+        val z = buf.readUnsignedShortAlt1()
+        OpLoc1(mode, id, x, z)
     }
 }
 
