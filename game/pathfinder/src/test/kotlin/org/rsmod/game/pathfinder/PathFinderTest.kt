@@ -47,17 +47,12 @@ class PathFinderTest {
     }
 
     @Test
-    fun testSurroundedByBoxes() {
+    fun testSurroundedByObjectsAllowMoveNear() {
         val (srcX, srcZ) = 3200 to 3200
         val (destX, destZ) = 3205 to 3200
         val map = buildCollisionMap(srcX, srcZ, destX, destZ)
-        // Surround source tile with object collision flag.
-        for (z in -1..1) {
-            for (x in -1..1) {
-                if (x == 0 && z == 0) continue // Skip center (source) tile.
-                map[srcX + x, srcZ + z, 0] = CollisionFlag.OBJECT
-            }
-        }
+            .flag(srcX - 1, srcZ - 1, width = 3, height = 3, CollisionFlag.OBJECT)
+        map[srcX, srcZ, 0] = 0 // Remove collision flag from source tile
         val pathFinder = PathFinder(map)
         pathFinder.findPath(level = 0, srcX, srcZ, destX, destZ).let { route ->
             assertTrue(route.alternative)
@@ -66,18 +61,27 @@ class PathFinderTest {
     }
 
     @Test
-    fun testSurroundedByBoxesSingleExitPoint() {
+    fun testSurroundedByObjectsNoMoveNear() {
+        val (srcX, srcZ) = 3200 to 3200
+        val (destX, destZ) = 3205 to 3200
+        val map = buildCollisionMap(srcX, srcZ, destX, destZ)
+            .flag(srcX - 1, srcZ - 1, width = 3, height = 3, CollisionFlag.OBJECT)
+        map[srcX, srcZ, 0] = 0 // Remove collision flag from source tile
+        val pathFinder = PathFinder(map)
+        pathFinder.findPath(level = 0, srcX, srcZ, destX, destZ, moveNear = false).let { route ->
+            assertTrue(route.failed)
+            assertTrue(route.isEmpty())
+        }
+    }
+
+    @Test
+    fun testSurroundedByObjectsSingleExitPoint() {
         val (srcX, srcZ) = 3200 to 3200
         val (destX, destZ) = 3200 to 3205
         val map = buildCollisionMap(srcX, srcZ, destX, destZ)
-        // Surround source tile with object collision flag.
-        for (z in -1..1) {
-            for (x in -1..1) {
-                if (x == 0 && z == 0) continue // Skip center (source) tile.
-                if (x == 0 && z == -1) continue // Add exit point south of center tile.
-                map[srcX + x, srcZ + z, 0] = CollisionFlag.OBJECT
-            }
-        }
+            .flag(srcX - 1, srcZ - 1, width = 3, height = 3, CollisionFlag.OBJECT)
+        map[srcX, srcZ, 0] = 0 // Remove collision flag from source tile
+        map[srcX, srcZ - 1, 0] = 0 // Remove collision flag from tile south of source tile.
         val pathFinder = PathFinder(map)
         pathFinder.findPath(level = 0, srcX, srcZ, destX, destZ).let { route ->
             assertTrue(route.success)
