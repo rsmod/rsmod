@@ -1,5 +1,5 @@
 # pathfinder
-[![license][license-badge]][isc]
+[![Maven Central][maven-badge]][maven] [![license][license-badge]][isc]
 
 An efficient [BFS][bfs] pathfinder.
 
@@ -79,14 +79,16 @@ Pull requests are welcome on [GitHub][github].
 ## License
 This project is available under the terms of the ISC license, which is similar to the 2-clause BSD license. The full copyright notice and terms are available in the [LICENSE][license] file.
 
-[isc]: https://opensource.org/licenses/ISC
-[license]: https://github.com/rsmod/rsmod/blob/master/LICENSE.md
-[license-badge]: https://img.shields.io/badge/license-ISC-informational
-[bfs]: https://en.wikipedia.org/wiki/Breadth-first_search
-[github]: https://github.com/rsmod/rsmod
-[benchmark]: https://github.com/rsmod/rsmod/tree/master/game/pathfinder/src/jmh/kotlin/org/rsmod/game/pathfinder/benchmarks
-
 ## Acknowledgement
 **Kris#1337** *Discord ID: 202342920106409984*:
 Found and fixed several gameplay bugs with the pathfinder.
 Discovered the concept of ~~DumbPathFinder~~ does not exist.
+
+[isc]: https://opensource.org/licenses/ISC
+[license]: https://github.com/rsmod/rsmod/blob/master/LICENSE.md
+[license-badge]: https://img.shields.io/badge/license-ISC-informational
+[maven]: https://maven-badges.herokuapp.com/maven-central/org.rsmod/rsmod-pathfinder
+[maven-badge]: https://maven-badges.herokuapp.com/maven-central/org.rsmod/rsmod-pathfinder/badge.svg
+[bfs]: https://en.wikipedia.org/wiki/Breadth-first_search
+[github]: https://github.com/rsmod/rsmod
+[benchmark]: https://github.com/rsmod/rsmod/tree/master/game/pathfinder/src/jmh/kotlin/org/rsmod/game/pathfinder/benchmarks
