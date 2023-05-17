@@ -13,6 +13,10 @@ dependencies {
     testImplementation(libs.jacksonDatabind)
 }
 
+jmh {
+    profilers.set(listOf("stack"))
+}
+
 publishing {
     publications.create<MavenPublication>("maven") {
         from(components["java"])

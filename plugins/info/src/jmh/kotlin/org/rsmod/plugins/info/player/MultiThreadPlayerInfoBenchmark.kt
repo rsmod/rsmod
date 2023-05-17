@@ -27,9 +27,9 @@ import java.util.concurrent.TimeUnit
 @State(Scope.Benchmark)
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
-@Warmup(iterations = 2)
-@Measurement(iterations = 1, time = 5)
-@Fork(value = 1, warmups = 2)
+@Warmup(iterations = 5, time = 1, timeUnit = TimeUnit.SECONDS)
+@Measurement(iterations = 3, time = 8, timeUnit = TimeUnit.SECONDS)
+@Fork(3)
 abstract class MultiThreadPlayerInfoBenchmark(
     private val bufCapacity: Int,
     private val startInHighRes: Boolean = false
