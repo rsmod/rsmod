@@ -6,6 +6,7 @@ import org.rsmod.game.model.EventList
 import org.rsmod.game.model.UpstreamList
 import org.rsmod.game.model.client.PlayerEntity
 import org.rsmod.game.model.vars.VariableMap
+import org.rsmod.game.ui.UserInterfaceMap
 
 public class Player(override val entity: PlayerEntity = PlayerEntity()) : Mob() {
 
@@ -16,6 +17,8 @@ public class Player(override val entity: PlayerEntity = PlayerEntity()) : Mob() 
     public val events: EventList<Player> = EventList()
 
     public val vars: VariableMap = VariableMap()
+
+    public val ui: UserInterfaceMap = UserInterfaceMap()
 
     public var displayName: String
         get() = entity.name
