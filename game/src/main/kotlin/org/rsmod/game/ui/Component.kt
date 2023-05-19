@@ -3,6 +3,10 @@ package org.rsmod.game.ui
 @JvmInline
 public value class Component(public val packed: Int) {
 
+    public val parent: Int get() = (packed shr PARENT_BIT_OFFSET) and PARENT_BIT_MASK
+
+    public val child: Int get() = (packed shr CHILD_BIT_OFFSET) and CHILD_BIT_MASK
+
     public constructor(parent: Int, child: Int) : this(pack(parent, child))
 
     @Suppress("MemberVisibilityCanBePrivate")
