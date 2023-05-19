@@ -1,11 +1,15 @@
+@file:Suppress("DuplicatedCode")
+
 package org.rsmod.plugins.api
 
 import com.github.michaelbull.logging.InlineLogger
 import org.rsmod.game.map.Coordinates
 import org.rsmod.game.model.mob.Player
 import org.rsmod.plugins.api.model.MessageGameType
+import org.rsmod.plugins.api.model.event.DownstreamEvent
 import org.rsmod.plugins.api.model.event.TypePlayerEvent
 import org.rsmod.plugins.api.model.event.TypePlayerKeyedEvent
+import org.rsmod.plugins.api.model.ui.InterfaceType
 import org.rsmod.plugins.api.model.ui.StandardGameframe
 import org.rsmod.plugins.api.move.MoveSpeed
 import org.rsmod.plugins.api.net.downstream.IfOpenSub
@@ -45,11 +49,56 @@ public fun Player.openGameframe(gameframe: StandardGameframe) {
 }
 
 public fun Player.openTopLevel(topLevel: NamedInterface) {
+    // We only allow one top-level to be opened at a time.
+    // Close any previous top-levels.
+    closeTopLevels()
+    ui.openTopLevel(topLevel)
+    publish(topLevel.id, DownstreamEvent.IfOpenTop(topLevel))
     downstream += IfOpenTop(topLevel.id)
 }
 
 public fun Player.openOverlay(overlay: NamedInterface, target: NamedComponent) {
-    downstream += IfOpenSub(overlay.id, target.id, 1)
+    // Any overlay in the same [target] component is implicitly closed
+    // when a new interface is opened on it.
+    closeOverlays(target)
+    ui.openOverlay(overlay, target)
+    publish(overlay.id, DownstreamEvent.IfOpenSub(overlay, target, InterfaceType.Overlay))
+    downstream += IfOpenSub(overlay.id, target.id, InterfaceType.Overlay)
+}
+
+public fun Player.openModal(modal: NamedInterface, target: NamedComponent) {
+    // Any modal in the same [target] component is implicitly closed
+    // when a new interface is opened on it.
+    closeModals(target)
+    ui.openModal(modal, target)
+    publish(modal.id, DownstreamEvent.IfOpenSub(modal, target, InterfaceType.Modal))
+    downstream += IfOpenSub(modal.id, target.id, InterfaceType.Modal)
+}
+
+public fun Player.closeTopLevels() {
+    ui.topLevel.forEach { prev ->
+        val event = DownstreamEvent.IfCloseTop(NamedInterface(prev.id))
+        publish(prev.id, event)
+    }
+    ui.topLevel.clear()
+}
+
+public fun Player.closeOverlays(target: NamedComponent) {
+    val colliding = ui.overlays.filterKeys { target.id == it.packed }
+    colliding.values.forEach { prev ->
+        val event = DownstreamEvent.IfCloseSub(sub = NamedInterface(prev.id), target = target)
+        publish(prev.id, event)
+    }
+    ui.overlays -= colliding.keys
+}
+
+public fun Player.closeModals(target: NamedComponent) {
+    val colliding = ui.modals.filterKeys { target.id == it.packed }
+    colliding.values.forEach { prev ->
+        val event = DownstreamEvent.IfCloseSub(sub = NamedInterface(prev.id), target = target)
+        publish(prev.id, event)
+    }
+    ui.modals -= colliding.keys
 }
 
 public fun Player.getVarp(varp: NamedVarp): Int = vars[varp.id] ?: 0
