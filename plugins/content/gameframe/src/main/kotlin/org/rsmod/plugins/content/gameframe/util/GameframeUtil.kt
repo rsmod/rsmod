@@ -9,12 +9,12 @@ public object GameframeUtil {
     public fun build(
         reference: Gameframe,
         componentEnum: EnumType<NamedComponent, NamedComponent>
-    ): Iterable<NamedComponent> {
-        val overlays = mutableListOf<NamedComponent>()
+    ): Map<NamedComponent, NamedComponent> {
+        val overlays = mutableMapOf<NamedComponent, NamedComponent>()
         reference.overlays.forEach { targetRef ->
             val overlayRef = reference.topLevel.child(targetRef.child)
             val mappedComponent = componentEnum[overlayRef] ?: return@forEach
-            overlays += targetRef.parent().child(mappedComponent.child)
+            overlays[overlayRef] = targetRef.parent().child(mappedComponent.child)
         }
         return overlays
     }

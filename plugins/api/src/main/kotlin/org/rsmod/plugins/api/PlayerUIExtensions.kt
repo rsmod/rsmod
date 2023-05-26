@@ -14,7 +14,9 @@ import org.rsmod.plugins.types.NamedInterface
 
 public fun Player.openGameframe(gameframe: Gameframe) {
     val topLevel = gameframe.topLevel
+    val references = gameframe.references
     val overlays = gameframe.overlays
+    ui.setGameframe(references)
     openTopLevel(topLevel)
     overlays.forEach {
         val overlay = NamedInterface(it.interfaceId)
@@ -32,16 +34,18 @@ public fun Player.openTopLevel(topLevel: NamedInterface) {
 
 public fun Player.openOverlay(overlay: NamedInterface, target: NamedComponent) {
     closeOverlay(target)
-    ui.openOverlay(overlay, target)
-    publish(overlay.id, DownstreamEvent.IfOpenSub(overlay, target, InterfaceType.Overlay))
-    downstream += IfOpenSub(overlay.id, target.id, InterfaceType.Overlay)
+    val converted = ui.gameframe[Component(target.id)]?.let { NamedComponent(it.packed) } ?: target
+    ui.openOverlay(overlay, converted)
+    publish(overlay.id, DownstreamEvent.IfOpenSub(overlay, converted, InterfaceType.Overlay))
+    downstream += IfOpenSub(overlay.id, converted.id, InterfaceType.Overlay)
 }
 
 public fun Player.openModal(modal: NamedInterface, target: NamedComponent) {
     closeModal(target)
-    ui.openModal(modal, target)
-    publish(modal.id, DownstreamEvent.IfOpenSub(modal, target, InterfaceType.Modal))
-    downstream += IfOpenSub(modal.id, target.id, InterfaceType.Modal)
+    val converted = ui.gameframe[Component(target.id)]?.let { NamedComponent(it.packed) } ?: target
+    ui.openModal(modal, converted)
+    publish(modal.id, DownstreamEvent.IfOpenSub(modal, converted, InterfaceType.Modal))
+    downstream += IfOpenSub(modal.id, converted.id, InterfaceType.Modal)
 }
 
 public fun Player.closeTopLevels() {
@@ -67,17 +71,17 @@ public fun Player.closeSub(target: NamedComponent) {
 }
 
 public fun Player.closeOverlay(target: NamedComponent) {
-    val component = Component(target.id)
-    val colliding = ui.overlays[component] ?: return
-    val event = DownstreamEvent.IfCloseSub(sub = NamedInterface(colliding.id), target = target)
+    val converted = ui.gameframe[Component(target.id)]?.let { NamedComponent(it.packed) } ?: target
+    val colliding = ui.overlays[Component(converted.id)] ?: return
+    val event = DownstreamEvent.IfCloseSub(sub = NamedInterface(colliding.id), target = converted)
     publish(colliding.id, event)
-    ui.overlays -= component
+    ui.overlays -= Component(converted.id)
 }
 
 public fun Player.closeModal(target: NamedComponent) {
-    val component = Component(target.id)
-    val colliding = ui.modals[component] ?: return
-    val event = DownstreamEvent.IfCloseSub(sub = NamedInterface(colliding.id), target = target)
+    val converted = ui.gameframe[Component(target.id)]?.let { NamedComponent(it.packed) } ?: target
+    val colliding = ui.modals[Component(converted.id)] ?: return
+    val event = DownstreamEvent.IfCloseSub(sub = NamedInterface(colliding.id), target = converted)
     publish(colliding.id, event)
-    ui.modals -= component
+    ui.modals -= Component(converted.id)
 }

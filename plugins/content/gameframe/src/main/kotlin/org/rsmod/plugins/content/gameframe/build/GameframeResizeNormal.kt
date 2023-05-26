@@ -31,7 +31,7 @@ public object GameframeResizeNormal : Gameframe {
 
     override val topLevel: NamedInterface = interf.gameframe_resize_normal
 
-    override val overlays: List<NamedComponent> = listOf(
+    override val references: Map<NamedComponent, NamedComponent> = listOf(
         component.gameframe_target_chatbox,
         component.gameframe_target_username,
         component.gameframe_target_pvp,
@@ -53,5 +53,5 @@ public object GameframeResizeNormal : Gameframe {
         component.gameframe_target_music,
         component.gameframe_target_clan,
         component.gameframe_target_attack
-    )
+    ).associateBy { it }
 }

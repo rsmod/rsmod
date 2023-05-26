@@ -7,5 +7,7 @@ public interface Gameframe {
 
     public val topLevel: NamedInterface
 
-    public val overlays: Iterable<NamedComponent>
+    public val references: Map<NamedComponent, NamedComponent>
+
+    public val overlays: Iterable<NamedComponent> get() = references.values
 }

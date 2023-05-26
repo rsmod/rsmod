@@ -17,7 +17,7 @@ public class GameframeFixed @Inject constructor(enums: EnumTypeList) : Gameframe
 
     override val topLevel: NamedInterface = interf.gameframe_fixed
 
-    override val overlays: Iterable<NamedComponent> = GameframeUtil.build(
+    override val references: Map<NamedComponent, NamedComponent> = GameframeUtil.build(
         reference = GameframeResizeNormal,
         componentEnum = enums[enum.gameframe_fixed_component_map]
     )

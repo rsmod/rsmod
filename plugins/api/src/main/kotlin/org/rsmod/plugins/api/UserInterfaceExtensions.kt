@@ -22,3 +22,10 @@ public fun UserInterfaceMap.openModal(modal: NamedInterface, target: NamedCompon
 public fun UserInterfaceMap.setProperties(component: NamedComponent, range: IntRange, events: Int) {
     properties[Component(component.id)] = ComponentProperty(range, events)
 }
+
+public fun UserInterfaceMap.setGameframe(references: Map<NamedComponent, NamedComponent>) {
+    gameframe.clear()
+    references.forEach { (original, current) ->
+        gameframe[Component(original.id)] = Component(current.id)
+    }
+}
