@@ -27,5 +27,6 @@ dependencies {
     implementation(libs.openrs2Cache)
     implementation(libs.openrs2Crypto)
     implementation(libs.openrs2Buffer)
+    testImplementation(projects.plugins.testing.simple)
     integrationImplementation(projects.plugins.testing)
 }
