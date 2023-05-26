@@ -22,8 +22,8 @@ public value class Component(public val packed: Int) {
         public const val CHILD_BIT_COUNT: Int = 16
         public const val CHILD_BIT_MASK: Int = (1 shl CHILD_BIT_COUNT) - 1
 
-        public const val PARENT_BIT_OFFSET: Int = 0
-        public const val CHILD_BIT_OFFSET: Int = CHILD_BIT_COUNT
+        public const val CHILD_BIT_OFFSET: Int = 0
+        public const val PARENT_BIT_OFFSET: Int = CHILD_BIT_COUNT
 
         private fun pack(parent: Int, child: Int): Int {
             if (parent !in 0..PARENT_BIT_MASK) {
