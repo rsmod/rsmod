@@ -5,14 +5,14 @@ package org.rsmod.plugins.api
 import org.rsmod.game.model.mob.Player
 import org.rsmod.game.ui.Component
 import org.rsmod.plugins.api.model.event.DownstreamEvent
+import org.rsmod.plugins.api.model.ui.Gameframe
 import org.rsmod.plugins.api.model.ui.InterfaceType
-import org.rsmod.plugins.api.model.ui.StandardGameframe
 import org.rsmod.plugins.api.net.downstream.IfOpenSub
 import org.rsmod.plugins.api.net.downstream.IfOpenTop
 import org.rsmod.plugins.types.NamedComponent
 import org.rsmod.plugins.types.NamedInterface
 
-public fun Player.openGameframe(gameframe: StandardGameframe) {
+public fun Player.openGameframe(gameframe: Gameframe) {
     val topLevel = gameframe.topLevel
     val overlays = gameframe.overlays
     openTopLevel(topLevel)
