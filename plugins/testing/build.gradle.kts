@@ -4,10 +4,9 @@ plugins {
 
 dependencies {
     api(projects.game)
-    api(projects.game.events)
     api(projects.game.map)
     api(projects.game.pathfinder)
-    api(projects.game.protocol)
+    api(projects.plugins.testing.assertions)
     implementation(projects.game.scripts)
     implementation(projects.log)
     implementation(projects.plugins.api)
