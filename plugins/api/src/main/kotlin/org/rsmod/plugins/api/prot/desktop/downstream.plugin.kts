@@ -3,6 +3,7 @@ package org.rsmod.plugins.api.prot.desktop
 import org.openrs2.buffer.BitBuf
 import org.openrs2.buffer.writeShortSmart
 import org.openrs2.buffer.writeString
+import org.rsmod.plugins.api.model.ui.InterfaceType
 import org.rsmod.plugins.api.net.downstream.IfOpenSub
 import org.rsmod.plugins.api.net.downstream.IfOpenTop
 import org.rsmod.plugins.api.net.downstream.MessageGame
@@ -72,7 +73,7 @@ packets.register<IfOpenSub> {
     opcode = 61
     length = 7
     encode { packet, buf ->
-        buf.writeByteAlt2(packet.clickMode)
+        buf.writeByteAlt2(packet.type.id)
         buf.writeInt(packet.targetComponent)
         buf.writeShortAlt1(packet.interfaceId)
     }
@@ -119,4 +120,9 @@ packets.register<VarpLarge> {
         buf.writeShortAlt3(packet.varp)
         buf.writeIntAlt3_(packet.packed)
     }
+}
+
+public val InterfaceType.id: Int get() = when (this) {
+    InterfaceType.Modal -> 0
+    InterfaceType.Overlay -> 1
 }
