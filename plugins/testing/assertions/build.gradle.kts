@@ -3,6 +3,7 @@ plugins {
 }
 
 dependencies {
+    api(projects.game)
     api(projects.game.events)
     api(projects.game.protocol)
     implementation(projects.game)

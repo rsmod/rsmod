@@ -3,7 +3,6 @@ plugins {
 }
 
 dependencies {
-    api(projects.game)
     api(projects.game.map)
     api(projects.game.pathfinder)
     api(projects.plugins.testing.assertions)
