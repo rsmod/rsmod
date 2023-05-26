@@ -9,6 +9,10 @@ public value class Component(public val packed: Int) {
 
     public constructor(parent: Int, child: Int) : this(pack(parent, child))
 
+    public override fun toString(): String {
+        return "Component(parent=$parent, child=$child)"
+    }
+
     @Suppress("MemberVisibilityCanBePrivate")
     public companion object {
 
