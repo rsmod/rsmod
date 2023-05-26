@@ -12,20 +12,20 @@ public fun UserInterfaceMap.openTopLevel(topLevel: NamedInterface) {
 }
 
 public fun UserInterfaceMap.openOverlay(overlay: NamedInterface, target: NamedComponent) {
-    overlays[Component(target.id)] = UserInterface(overlay.id)
+    overlays[Component(target.packed)] = UserInterface(overlay.id)
 }
 
 public fun UserInterfaceMap.openModal(modal: NamedInterface, target: NamedComponent) {
-    modals[Component(target.id)] = UserInterface(modal.id)
+    modals[Component(target.packed)] = UserInterface(modal.id)
 }
 
 public fun UserInterfaceMap.setProperties(component: NamedComponent, range: IntRange, events: Int) {
-    properties[Component(component.id)] = ComponentProperty(range, events)
+    properties[Component(component.packed)] = ComponentProperty(range, events)
 }
 
 public fun UserInterfaceMap.setGameframe(references: Map<NamedComponent, NamedComponent>) {
     gameframe.clear()
     references.forEach { (original, current) ->
-        gameframe[Component(original.id)] = Component(current.id)
+        gameframe[Component(original.packed)] = Component(current.packed)
     }
 }

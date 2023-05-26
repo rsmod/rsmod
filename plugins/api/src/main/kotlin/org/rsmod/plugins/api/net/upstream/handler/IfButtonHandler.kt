@@ -32,7 +32,7 @@ public sealed class IfButtonHandler<T : IfButton>(
             dynamicChild = if (dynamicChild != 0xFFFF) dynamicChild else null,
             item = if (item != 0xFFFF) NamedItem(item) else null
         )
-        player.publish(component.id, event)
+        player.publish(component.packed, event)
     }
 
     public companion object {

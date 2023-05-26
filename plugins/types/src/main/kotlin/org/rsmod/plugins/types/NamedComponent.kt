@@ -1,11 +1,11 @@
 package org.rsmod.plugins.types
 
 @JvmInline
-public value class NamedComponent(public val id: Int) {
+public value class NamedComponent(public val packed: Int) {
 
-    public val interfaceId: Int get() = (id shr 16) and 0xFFFF
+    public val interfaceId: Int get() = (packed shr 16) and 0xFFFF
 
-    public val child: Int get() = id and 0xFFFF
+    public val child: Int get() = packed and 0xFFFF
 
     public constructor(interfaceId: Int, child: Int) : this(
         (interfaceId shl 16) or (child and 0xFFFF)

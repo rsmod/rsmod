@@ -9,6 +9,6 @@ public object CacheTypeNamedComponent : CacheTypeBaseInt<NamedComponent>(NamedCo
     }
 
     override fun encode(value: NamedComponent): Int {
-        return value.id
+        return value.packed
     }
 }

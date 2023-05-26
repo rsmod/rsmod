@@ -21,7 +21,7 @@ public fun ScriptPlugin.onButton(
     component: NamedComponent,
     action: Player.(event: UpstreamEvent.IfButton) -> Unit
 ) {
-    val id = component.id.toLong()
+    val id = component.packed.toLong()
     if (eventBus.contains(id, UpstreamEvent.IfButton::class.java)) {
         throw APIException.KeyedEventAlreadyMapped("component=$component")
     }

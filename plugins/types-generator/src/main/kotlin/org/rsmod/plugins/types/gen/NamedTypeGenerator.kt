@@ -63,7 +63,7 @@ public class NamedTypeGenerator {
     ): Unit = with(names) {
         if (!Files.exists(outputPath)) Files.createDirectories(outputPath)
         writeConfigMapFile(outputPath.resolve("interfaces.rscm"), interfaces.mapValues { it.value.id }, mapper)
-        writeConfigMapFile(outputPath.resolve("components.rscm"), components.mapValues { it.value.id }, mapper)
+        writeConfigMapFile(outputPath.resolve("components.rscm"), components.mapValues { it.value.packed }, mapper)
         writeConfigMapFile(outputPath.resolve("items.rscm"), items.mapValues { it.value.id }, mapper)
         writeConfigMapFile(outputPath.resolve("npcs.rscm"), npcs.mapValues { it.value.id }, mapper)
         writeConfigMapFile(outputPath.resolve("objs.rscm"), objs.mapValues { it.value.id }, mapper)
@@ -94,7 +94,7 @@ public class NamedTypeGenerator {
     }
 
     public fun generateComponentsConst(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
-        return generate(fileName, packageName, NamedComponent::class, names.components.mapValues { it.value.id })
+        return generate(fileName, packageName, NamedComponent::class, names.components.mapValues { it.value.packed })
     }
 
     public fun generateItemsConst(names: NamedTypeMapHolder, fileName: String, packageName: String): String {
