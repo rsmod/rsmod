@@ -8,7 +8,7 @@ import org.rsmod.game.model.mob.info.ExtendedInfo
 import kotlin.reflect.KClass
 
 @Suppress("UNCHECKED_CAST")
-public fun <T : ExtendedInfo> Player.assertTrue(type: KClass<T>, predicate: (T) -> Boolean) {
+public fun <T : ExtendedInfo> Player.assertAny(type: KClass<T>, predicate: (T) -> Boolean) {
     val found = extendedInfo.pendingInfo[type.java] as? T
     assertNotNull(found) { "`${type.simpleName}` not found in extended-info pending map." }
     assertTrue(found?.let { predicate(it) } ?: false)

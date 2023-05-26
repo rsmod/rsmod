@@ -10,7 +10,7 @@ import org.rsmod.plugins.api.displace
 import org.rsmod.plugins.api.net.info.ExtendedPlayerInfo
 import org.rsmod.plugins.testing.GameTestState
 import org.rsmod.plugins.testing.assertions.assertNull
-import org.rsmod.plugins.testing.assertions.assertTrue
+import org.rsmod.plugins.testing.assertions.assertAny
 
 class MovementProcessTest {
 
@@ -106,7 +106,7 @@ class MovementProcessTest {
             /* should not have pending "move speed temp" extended-info */
             assertNull(ExtendedPlayerInfo.MoveSpeedTemp::class)
             process.execute()
-            assertTrue(ExtendedPlayerInfo.MoveSpeedTemp::class) { it.type == WALK_INFO_TYPE }
+            assertAny(ExtendedPlayerInfo.MoveSpeedTemp::class) { it.type == WALK_INFO_TYPE }
             assertEquals(start.translateX(1), coords)
         }
     }
