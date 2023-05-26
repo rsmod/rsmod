@@ -37,7 +37,7 @@ private fun <K, T : KeyedEvent<K>> EventList<K>.assertAny(
     predicate: K.(T) -> Boolean
 ) {
     val valid = keyed.filter { it.event::class == type }
-    val pass = valid.any { predicate(context, it as T) }
+    val pass = valid.any { predicate(context, it.event as T) }
     assertFalse(valid.isEmpty()) { "`${type.simpleName}` not found in keyed event list." }
     assertTrue(pass) { "`${type.simpleName}` found but predicate failed. (${valid.size} tested events)" }
 }
