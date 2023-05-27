@@ -7,7 +7,13 @@ public interface Gameframe {
 
     public val topLevel: NamedInterface
 
-    public val references: Map<NamedComponent, NamedComponent>
+    public val mappings: Map<NamedComponent, NamedComponent>
 
-    public val overlays: Iterable<NamedComponent> get() = references.values
+    public val overlays: List<Pair<NamedInterface, NamedComponent>>
+
+    public operator fun component1(): NamedInterface = topLevel
+
+    public operator fun component2(): Map<NamedComponent, NamedComponent> = mappings
+
+    public operator fun component3(): List<Pair<NamedInterface, NamedComponent>> = overlays
 }

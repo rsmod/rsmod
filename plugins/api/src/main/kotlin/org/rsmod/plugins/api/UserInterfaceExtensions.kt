@@ -23,9 +23,13 @@ public fun UserInterfaceMap.setProperties(component: NamedComponent, range: IntR
     properties[Component(component.packed)] = ComponentProperty(range, events)
 }
 
-public fun UserInterfaceMap.setGameframe(references: Map<NamedComponent, NamedComponent>) {
+public fun UserInterfaceMap.setGameframe(mappings: Map<NamedComponent, NamedComponent>) {
     gameframe.clear()
-    references.forEach { (original, current) ->
+    mappings.forEach { (original, current) ->
         gameframe[Component(original.packed)] = Component(current.packed)
     }
+}
+
+public fun UserInterfaceMap.gameframeTransform(target: NamedComponent): NamedComponent? {
+    return gameframe[Component(target.packed)]?.let { NamedComponent(it.packed) }
 }

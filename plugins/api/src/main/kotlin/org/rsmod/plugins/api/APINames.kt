@@ -64,37 +64,31 @@ public inline val interf.music_tab: NamedInterface get() = NamedInterface(239)
 public inline val interf.clan_tab: NamedInterface get() = NamedInterface(7)
 public inline val interf.attack_tab: NamedInterface get() = NamedInterface(593)
 
-/*
- * The following don't represent the typical component structure. The "child" does _not_ belong to the scoped
- * interface (i.e `interf.health_hud`) - but instead they are the child id for `gameframe_resize_normal`.
- * The reason it leads to that gameframe interface in particular is because the cache contains information
- * on the target children for the other gameframe interfaces based on `gameframe_resize_normal`.
- */
-public val component.gameframe_target_hud: NamedComponent get() = interf.health_hud.child(GAMEFRAME_HUD_CHILD)
-public val component.gameframe_target_pvp: NamedComponent get() = interf.pvp_skull.child(GAMEFRAME_PVP_CHILD)
-public val component.gameframe_target_xp: NamedComponent get() = interf.xp_counter.child(GAMEFRAME_XP_COUNTER_CHILD)
-public val component.gameframe_target_minimap: NamedComponent get() = interf.minimap.child(GAMEFRAME_MINIMAP_CHILD)
-public val component.gameframe_target_attack: NamedComponent get() = interf.attack_tab.child(GAMEFRAME_ATTACK_CHILD)
-public val component.gameframe_target_skills: NamedComponent get() = interf.skills_tab.child(GAMEFRAME_SKILLS_CHILD)
-public val component.gameframe_target_quests: NamedComponent get() = interf.quest_tab.child(GAMEFRAME_QUEST_CHILD)
-public val component.gameframe_target_inv: NamedComponent get() = interf.inventory_tab.child(GAMEFRAME_INVENTORY_CHILD)
-public val component.gameframe_target_prayer: NamedComponent get() = interf.prayer_tab.child(GAMEFRAME_PRAYER_CHILD)
-public val component.gameframe_target_spells: NamedComponent get() = interf.spellbook_tab.child(GAMEFRAME_SPELLS_CHILD)
-public val component.gameframe_target_clan: NamedComponent get() = interf.clan_tab.child(GAMEFRAME_CLAN_CHILD)
-public val component.gameframe_target_social: NamedComponent get() = interf.social_tab.child(GAMEFRAME_SOCIAL_CHILD)
-public val component.gameframe_target_logout: NamedComponent get() = interf.logout_tab.child(GAMEFRAME_LOGOUT_CHILD)
-public val component.gameframe_target_emotes: NamedComponent get() = interf.emotes_tab.child(GAMEFRAME_EMOTES_CHILD)
-public val component.gameframe_target_music: NamedComponent get() = interf.music_tab.child(GAMEFRAME_MUSIC_CHILD)
-public val component.gameframe_target_chatbox: NamedComponent get() = interf.chatbox.child(GAMEFRAME_CHATBOX_CHILD)
+public val component.gameframe_target_hud: NamedComponent get() = interf.gameframe_resize_normal.child(GAMEFRAME_HUD_CHILD)
+public val component.gameframe_target_pvp: NamedComponent get() = interf.gameframe_resize_normal.child(GAMEFRAME_PVP_CHILD)
+public val component.gameframe_target_xp: NamedComponent get() = interf.gameframe_resize_normal.child(GAMEFRAME_XP_COUNTER_CHILD)
+public val component.gameframe_target_minimap: NamedComponent get() = interf.gameframe_resize_normal.child(GAMEFRAME_MINIMAP_CHILD)
+public val component.gameframe_target_attack: NamedComponent get() = interf.gameframe_resize_normal.child(GAMEFRAME_ATTACK_CHILD)
+public val component.gameframe_target_skills: NamedComponent get() = interf.gameframe_resize_normal.child(GAMEFRAME_SKILLS_CHILD)
+public val component.gameframe_target_quests: NamedComponent get() = interf.gameframe_resize_normal.child(GAMEFRAME_QUEST_CHILD)
+public val component.gameframe_target_inv: NamedComponent get() = interf.gameframe_resize_normal.child(GAMEFRAME_INVENTORY_CHILD)
+public val component.gameframe_target_prayer: NamedComponent get() = interf.gameframe_resize_normal.child(GAMEFRAME_PRAYER_CHILD)
+public val component.gameframe_target_spells: NamedComponent get() = interf.gameframe_resize_normal.child(GAMEFRAME_SPELLS_CHILD)
+public val component.gameframe_target_clan: NamedComponent get() = interf.gameframe_resize_normal.child(GAMEFRAME_CLAN_CHILD)
+public val component.gameframe_target_social: NamedComponent get() = interf.gameframe_resize_normal.child(GAMEFRAME_SOCIAL_CHILD)
+public val component.gameframe_target_logout: NamedComponent get() = interf.gameframe_resize_normal.child(GAMEFRAME_LOGOUT_CHILD)
+public val component.gameframe_target_emotes: NamedComponent get() = interf.gameframe_resize_normal.child(GAMEFRAME_EMOTES_CHILD)
+public val component.gameframe_target_music: NamedComponent get() = interf.gameframe_resize_normal.child(GAMEFRAME_MUSIC_CHILD)
+public val component.gameframe_target_chatbox: NamedComponent get() = interf.gameframe_resize_normal.child(GAMEFRAME_CHATBOX_CHILD)
 
 public val component.gameframe_target_username: NamedComponent
-    get() = interf.chatbox_username.child(GAMEFRAME_USERNAME_CHILD)
+    get() = interf.gameframe_resize_normal.child(GAMEFRAME_USERNAME_CHILD)
 public val component.gameframe_target_settings: NamedComponent
-    get() = interf.settings_tab.child(GAMEFRAME_SETTINGS_CHILD)
+    get() = interf.gameframe_resize_normal.child(GAMEFRAME_SETTINGS_CHILD)
 public val component.gameframe_target_management: NamedComponent
-    get() = interf.management_tab.child(GAMEFRAME_MANAGEMENT_CHILD)
+    get() = interf.gameframe_resize_normal.child(GAMEFRAME_MANAGEMENT_CHILD)
 public val component.gameframe_target_equipment: NamedComponent
-    get() = interf.equipment_tab.child(GAMEFRAME_EQUIPMENT_CHILD)
+    get() = interf.gameframe_resize_normal.child(GAMEFRAME_EQUIPMENT_CHILD)
 
 public val component.quest_tab_free_quest: NamedComponent get() = interf.quest_tab.child(4)
 public val component.quest_tab_members_quest: NamedComponent get() = interf.quest_tab.child(5)
