@@ -155,6 +155,32 @@ class PlayerUITests {
         }
     }
 
+    @Test
+    fun SimpleGameTestState.testCloseModalInterface() = runGameTest {
+        withPlayer {
+            openModal(interf.attack_tab, component.gameframe_target_attack)
+            check(ui.modals.isNotEmpty())
+            check(ui.modals[component.gameframe_target_attack.toSimple()]?.id == interf.attack_tab.id)
+            closeInterface(interf.skills_tab)
+            assertEquals(1, ui.modals.size)
+            closeInterface(interf.attack_tab)
+            assertTrue(ui.modals.isEmpty())
+        }
+    }
+
+    @Test
+    fun SimpleGameTestState.testCloseOverlayInterface() = runGameTest {
+        withPlayer {
+            openOverlay(interf.attack_tab, component.gameframe_target_attack)
+            check(ui.overlays.isNotEmpty())
+            check(ui.overlays[component.gameframe_target_attack.toSimple()]?.id == interf.attack_tab.id)
+            closeInterface(interf.skills_tab)
+            assertEquals(1, ui.overlays.size)
+            closeInterface(interf.attack_tab)
+            assertTrue(ui.overlays.isEmpty())
+        }
+    }
+
     private fun Player.openTestGameframe() {
         openGameframe(TestGameframe)
         check(ui.topLevel.any { it.id == TestGameframe.topLevel.id })
