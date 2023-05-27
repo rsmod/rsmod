@@ -9,8 +9,8 @@ import org.rsmod.game.model.route.RouteRequestCoordinates
 import org.rsmod.plugins.api.displace
 import org.rsmod.plugins.api.net.info.ExtendedPlayerInfo
 import org.rsmod.plugins.testing.GameTestState
-import org.rsmod.plugins.testing.assertions.assertNull
 import org.rsmod.plugins.testing.assertions.assertAny
+import org.rsmod.plugins.testing.assertions.assertNull
 
 class MovementProcessTest {
 

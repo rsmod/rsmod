@@ -64,23 +64,38 @@ public inline val interf.music_tab: NamedInterface get() = NamedInterface(239)
 public inline val interf.clan_tab: NamedInterface get() = NamedInterface(7)
 public inline val interf.attack_tab: NamedInterface get() = NamedInterface(593)
 
-public val component.gameframe_target_hud: NamedComponent get() = interf.gameframe_resize_normal.child(GAMEFRAME_HUD_CHILD)
-public val component.gameframe_target_pvp: NamedComponent get() = interf.gameframe_resize_normal.child(GAMEFRAME_PVP_CHILD)
-public val component.gameframe_target_xp: NamedComponent get() = interf.gameframe_resize_normal.child(GAMEFRAME_XP_COUNTER_CHILD)
-public val component.gameframe_target_minimap: NamedComponent get() = interf.gameframe_resize_normal.child(GAMEFRAME_MINIMAP_CHILD)
-public val component.gameframe_target_attack: NamedComponent get() = interf.gameframe_resize_normal.child(GAMEFRAME_ATTACK_CHILD)
-public val component.gameframe_target_skills: NamedComponent get() = interf.gameframe_resize_normal.child(GAMEFRAME_SKILLS_CHILD)
-public val component.gameframe_target_quests: NamedComponent get() = interf.gameframe_resize_normal.child(GAMEFRAME_QUEST_CHILD)
-public val component.gameframe_target_inv: NamedComponent get() = interf.gameframe_resize_normal.child(GAMEFRAME_INVENTORY_CHILD)
-public val component.gameframe_target_prayer: NamedComponent get() = interf.gameframe_resize_normal.child(GAMEFRAME_PRAYER_CHILD)
-public val component.gameframe_target_spells: NamedComponent get() = interf.gameframe_resize_normal.child(GAMEFRAME_SPELLS_CHILD)
-public val component.gameframe_target_clan: NamedComponent get() = interf.gameframe_resize_normal.child(GAMEFRAME_CLAN_CHILD)
-public val component.gameframe_target_social: NamedComponent get() = interf.gameframe_resize_normal.child(GAMEFRAME_SOCIAL_CHILD)
-public val component.gameframe_target_logout: NamedComponent get() = interf.gameframe_resize_normal.child(GAMEFRAME_LOGOUT_CHILD)
-public val component.gameframe_target_emotes: NamedComponent get() = interf.gameframe_resize_normal.child(GAMEFRAME_EMOTES_CHILD)
-public val component.gameframe_target_music: NamedComponent get() = interf.gameframe_resize_normal.child(GAMEFRAME_MUSIC_CHILD)
-public val component.gameframe_target_chatbox: NamedComponent get() = interf.gameframe_resize_normal.child(GAMEFRAME_CHATBOX_CHILD)
-
+public val component.gameframe_target_hud: NamedComponent
+    get() = interf.gameframe_resize_normal.child(GAMEFRAME_HUD_CHILD)
+public val component.gameframe_target_pvp: NamedComponent
+    get() = interf.gameframe_resize_normal.child(GAMEFRAME_PVP_CHILD)
+public val component.gameframe_target_xp: NamedComponent
+    get() = interf.gameframe_resize_normal.child(GAMEFRAME_XP_COUNTER_CHILD)
+public val component.gameframe_target_minimap: NamedComponent
+    get() = interf.gameframe_resize_normal.child(GAMEFRAME_MINIMAP_CHILD)
+public val component.gameframe_target_attack: NamedComponent
+    get() = interf.gameframe_resize_normal.child(GAMEFRAME_ATTACK_CHILD)
+public val component.gameframe_target_skills: NamedComponent
+    get() = interf.gameframe_resize_normal.child(GAMEFRAME_SKILLS_CHILD)
+public val component.gameframe_target_quests: NamedComponent
+    get() = interf.gameframe_resize_normal.child(GAMEFRAME_QUEST_CHILD)
+public val component.gameframe_target_inv: NamedComponent
+    get() = interf.gameframe_resize_normal.child(GAMEFRAME_INVENTORY_CHILD)
+public val component.gameframe_target_prayer: NamedComponent
+    get() = interf.gameframe_resize_normal.child(GAMEFRAME_PRAYER_CHILD)
+public val component.gameframe_target_spells: NamedComponent
+    get() = interf.gameframe_resize_normal.child(GAMEFRAME_SPELLS_CHILD)
+public val component.gameframe_target_clan: NamedComponent
+    get() = interf.gameframe_resize_normal.child(GAMEFRAME_CLAN_CHILD)
+public val component.gameframe_target_social: NamedComponent
+    get() = interf.gameframe_resize_normal.child(GAMEFRAME_SOCIAL_CHILD)
+public val component.gameframe_target_logout: NamedComponent
+    get() = interf.gameframe_resize_normal.child(GAMEFRAME_LOGOUT_CHILD)
+public val component.gameframe_target_emotes: NamedComponent
+    get() = interf.gameframe_resize_normal.child(GAMEFRAME_EMOTES_CHILD)
+public val component.gameframe_target_music: NamedComponent
+    get() = interf.gameframe_resize_normal.child(GAMEFRAME_MUSIC_CHILD)
+public val component.gameframe_target_chatbox: NamedComponent
+    get() = interf.gameframe_resize_normal.child(GAMEFRAME_CHATBOX_CHILD)
 public val component.gameframe_target_username: NamedComponent
     get() = interf.gameframe_resize_normal.child(GAMEFRAME_USERNAME_CHILD)
 public val component.gameframe_target_settings: NamedComponent
