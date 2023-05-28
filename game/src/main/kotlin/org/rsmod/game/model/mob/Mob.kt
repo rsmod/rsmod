@@ -4,6 +4,7 @@ import org.rsmod.game.coroutines.GameCoroutine
 import org.rsmod.game.coroutines.GameCoroutineScope
 import org.rsmod.game.map.Coordinates
 import org.rsmod.game.model.client.MobEntity
+import org.rsmod.game.model.clock.ClockMap
 import org.rsmod.game.model.mob.info.ExtendedInfoMap
 import org.rsmod.game.model.mob.move.MovementQueue
 import org.rsmod.game.model.route.RouteRequest
@@ -17,6 +18,8 @@ public sealed class Mob(
     public abstract val entity: MobEntity
 
     public val vars: VariableMap = VariableMap()
+
+    public val clocks: ClockMap = ClockMap(vars)
 
     public val extendedInfo: ExtendedInfoMap = ExtendedInfoMap()
 
