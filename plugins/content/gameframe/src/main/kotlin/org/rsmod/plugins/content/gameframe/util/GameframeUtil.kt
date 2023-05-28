@@ -50,11 +50,7 @@ public object GameframeUtil {
 
     public fun buildMappings(
         mappingsEnum: EnumType<NamedComponent, NamedComponent>
-    ): Map<NamedComponent, NamedComponent> {
-        val targets = mutableMapOf<NamedComponent, NamedComponent>()
-        mappingsEnum.forEach { (reference, converted) -> targets[reference] = converted }
-        return targets
-    }
+    ): Map<NamedComponent, NamedComponent> = mappingsEnum.associate { it.key to it.value }
 
     public fun standardOverlays(): List<Pair<NamedInterface, NamedComponent>> = listOf(
         interf.chatbox to component.gameframe_target_chatbox,
