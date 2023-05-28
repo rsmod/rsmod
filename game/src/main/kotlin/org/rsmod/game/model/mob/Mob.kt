@@ -7,6 +7,7 @@ import org.rsmod.game.model.client.MobEntity
 import org.rsmod.game.model.mob.info.ExtendedInfoMap
 import org.rsmod.game.model.mob.move.MovementQueue
 import org.rsmod.game.model.route.RouteRequest
+import org.rsmod.game.model.vars.VariableMap
 
 public sealed class Mob(
     public val coroutineScope: GameCoroutineScope = GameCoroutineScope(),
@@ -14,6 +15,8 @@ public sealed class Mob(
 ) {
 
     public abstract val entity: MobEntity
+
+    public val vars: VariableMap = VariableMap()
 
     public val extendedInfo: ExtendedInfoMap = ExtendedInfoMap()
 
