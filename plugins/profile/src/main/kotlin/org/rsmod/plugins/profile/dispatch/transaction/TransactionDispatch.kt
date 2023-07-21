@@ -4,12 +4,10 @@ import org.rsmod.plugins.profile.dispatch.DispatchRequest
 import org.rsmod.plugins.profile.dispatch.DispatchResponse
 import java.util.concurrent.atomic.AtomicBoolean
 
-private typealias TransactionList<L, R> = ArrayDeque<DispatchTransaction<L, R>>
-
 public abstract class TransactionDispatch<L : DispatchRequest, R : DispatchResponse> {
 
-    private val requests = TransactionList<L, R>()
-    private val pending = TransactionList<L, R>()
+    private val requests = ArrayDeque<DispatchTransaction<L, R>>()
+    private val pending = ArrayDeque<DispatchTransaction<L, R>>()
     private val busy = AtomicBoolean()
 
     internal fun serve(transactionLimit: Int) {
@@ -43,9 +41,9 @@ public abstract class TransactionDispatch<L : DispatchRequest, R : DispatchRespo
 
     private companion object {
 
-        private fun <L : DispatchRequest, R : DispatchResponse> TransactionList<L, R>.take(
-            other: TransactionList<L, R>
-        ): TransactionList<L, R> {
+        private fun <L : DispatchRequest, R : DispatchResponse> ArrayDeque<DispatchTransaction<L, R>>.take(
+            other: ArrayDeque<DispatchTransaction<L, R>>
+        ): ArrayDeque<DispatchTransaction<L, R>> {
             if (other.isEmpty()) return this
             this += other
             other.clear()
