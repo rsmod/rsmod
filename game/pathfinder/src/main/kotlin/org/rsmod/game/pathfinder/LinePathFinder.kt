@@ -64,6 +64,7 @@ public class LinePathFinder(private val flags: CollisionFlagMap) {
         flagSouth = SIGHT_BLOCKED_SOUTH or extraFlag,
         flagNorth = SIGHT_BLOCKED_NORTH or extraFlag,
         flagObject = OBJECT or extraFlag,
+        flagProjectileBlocker = OBJECT_PROJECTILE_BLOCKER or extraFlag,
         los = true
     )
 
@@ -91,6 +92,7 @@ public class LinePathFinder(private val flags: CollisionFlagMap) {
         flagSouth = WALK_BLOCKED_SOUTH or extraFlag,
         flagNorth = WALK_BLOCKED_NORTH or extraFlag,
         flagObject = OBJECT or extraFlag,
+        flagProjectileBlocker = OBJECT_PROJECTILE_BLOCKER or extraFlag,
         los = false
     )
 
@@ -108,6 +110,7 @@ public class LinePathFinder(private val flags: CollisionFlagMap) {
         flagSouth: Int,
         flagNorth: Int,
         flagObject: Int,
+        flagProjectileBlocker: Int,
         los: Boolean
     ): RayCast {
         val startX = coordinate(srcX, destX, srcSize)
@@ -146,7 +149,7 @@ public class LinePathFinder(private val flags: CollisionFlagMap) {
                 currX += offsetX
                 val currZ = scaleDown(scaledZ)
 
-                if (los && currX == endX && currZ == endZ) xFlags = xFlags and OBJECT_PROJECTILE_BLOCKER.inv()
+                if (los && currX == endX && currZ == endZ) xFlags = xFlags and flagProjectileBlocker.inv()
                 if (flags.isFlagged(currX, currZ, level, xFlags)) {
                     return RayCast(coordinates, alternative = coordinates.isNotEmpty(), success = false)
                 }
@@ -155,7 +158,7 @@ public class LinePathFinder(private val flags: CollisionFlagMap) {
                 scaledZ += tangent
 
                 val nextZ = scaleDown(scaledZ)
-                if (los && currX == endX && nextZ == endZ) zFlags = zFlags and OBJECT_PROJECTILE_BLOCKER.inv()
+                if (los && currX == endX && nextZ == endZ) zFlags = zFlags and flagProjectileBlocker.inv()
                 if (nextZ != currZ) {
                     if (flags.isFlagged(currX, nextZ, level, zFlags)) {
                         return RayCast(coordinates, alternative = coordinates.isNotEmpty(), success = false)
@@ -174,7 +177,7 @@ public class LinePathFinder(private val flags: CollisionFlagMap) {
             while (currZ != endZ) {
                 currZ += offsetZ
                 val currX = scaleDown(scaledX)
-                if (los && currX == endX && currZ == endZ) zFlags = zFlags and OBJECT_PROJECTILE_BLOCKER.inv()
+                if (los && currX == endX && currZ == endZ) zFlags = zFlags and flagProjectileBlocker.inv()
                 if (flags.isFlagged(currX, currZ, level, zFlags)) {
                     return RayCast(coordinates, alternative = coordinates.isNotEmpty(), success = false)
                 }
@@ -183,7 +186,7 @@ public class LinePathFinder(private val flags: CollisionFlagMap) {
                 scaledX += tangent
 
                 val nextX = scaleDown(scaledX)
-                if (los && nextX == endX && currZ == endZ) xFlags = xFlags and OBJECT_PROJECTILE_BLOCKER.inv()
+                if (los && nextX == endX && currZ == endZ) xFlags = xFlags and flagProjectileBlocker.inv()
                 if (nextX != currX) {
                     if (flags.isFlagged(nextX, currZ, level, xFlags)) {
                         return RayCast(coordinates, alternative = coordinates.isNotEmpty(), success = false)

@@ -17,6 +17,33 @@ import kotlin.math.min
 class LinePathFinderLineOfSightTest {
 
     @Test
+    fun testLineOfSightWithExtraFlagOnTargetCoords() {
+        val map = CollisionFlagMap()
+        map.add(3200, 3200, 0, BLOCK_PLAYERS)
+        with(LinePathFinder(map)) {
+            val rayCast = lineOfSight(0, 3200, 3202, 3200, 3200, destHeight = 1, destWidth = 1, extraFlag = BLOCK_PLAYERS)
+            assertEquals(2, rayCast.size)
+            assertTrue(rayCast.success)
+            assertFalse(rayCast.alternative)
+            assertEquals(RouteCoordinates(3200, 3201), rayCast.first())
+            assertEquals(RouteCoordinates(3200, 3200), rayCast.last())
+        }
+    }
+
+    @Test
+    fun testLineOfSightFailsWithExtraFlagPastTargetCoords() {
+        val map = CollisionFlagMap()
+        map.add(3200, 3200, 0, BLOCK_PLAYERS)
+        with(LinePathFinder(map)) {
+            val rayCast = lineOfSight(0, 3200, 3202, 3200, 3199, destHeight = 1, destWidth = 1, extraFlag = BLOCK_PLAYERS)
+            assertFalse(rayCast.isEmpty())
+            assertFalse(rayCast.success)
+            assertTrue(rayCast.alternative)
+            assertEquals(RouteCoordinates(3200, 3201), rayCast.last())
+        }
+    }
+
+    @Test
     fun testOnTopOfObjectFailsLineOfSight() {
         val map = CollisionFlagMap()
         map.add(3200, 3200, 0, OBJECT)
