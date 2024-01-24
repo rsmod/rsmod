@@ -38,7 +38,7 @@ allprojects {
     plugins.withType<JavaPlugin> {
         configure<JavaPluginExtension> {
             sourceCompatibility = JavaVersion.VERSION_11
-            targetCompatibility = JavaVersion.VERSION_11
+            targetCompatibility = JavaVersion.VERSION_1_8
             withJavadocJar()
             withSourcesJar()
         }
