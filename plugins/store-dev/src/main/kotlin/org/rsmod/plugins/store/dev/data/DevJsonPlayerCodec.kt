@@ -11,7 +11,7 @@ import org.rsmod.plugins.store.player.PlayerDataRequest
 import org.rsmod.plugins.store.player.PlayerDataResponse
 import java.nio.file.Files
 import java.nio.file.Path
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 private const val RELATIVE_PATH = "dev/saves"
 private const val FILE_EXT = "json"

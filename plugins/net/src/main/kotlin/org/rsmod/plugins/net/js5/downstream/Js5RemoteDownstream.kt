@@ -1,6 +1,6 @@
 package org.rsmod.plugins.net.js5.downstream
 
-import javax.inject.Qualifier
+import jakarta.inject.Qualifier
 
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)

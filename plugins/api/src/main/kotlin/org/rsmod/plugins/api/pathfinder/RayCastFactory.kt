@@ -4,7 +4,7 @@ import org.rsmod.game.map.Coordinates
 import org.rsmod.game.pathfinder.LinePathFinder
 import org.rsmod.game.pathfinder.RayCast
 import org.rsmod.game.pathfinder.collision.CollisionFlagMap
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 public class RayCastFactory @Inject constructor(flags: CollisionFlagMap) {
 

@@ -5,8 +5,8 @@ import org.openrs2.cache.Store
 import org.rsmod.game.config.GameConfig
 import org.rsmod.plugins.api.vanillaCachePath
 import java.nio.file.Files
-import javax.inject.Inject
-import javax.inject.Provider
+import jakarta.inject.Inject
+import jakarta.inject.Provider
 
 public class VanillaStoreProvider @Inject constructor(
     private val alloc: ByteBufAllocator,
