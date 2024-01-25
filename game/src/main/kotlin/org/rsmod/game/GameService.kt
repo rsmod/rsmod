@@ -11,8 +11,8 @@ import kotlinx.coroutines.runBlocking
 import org.rsmod.game.dispatcher.main.MainCoroutineScope
 import org.rsmod.game.job.boot.GameBootTaskScheduler
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
-import javax.inject.Singleton
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
 import kotlin.system.measureNanoTime
 
 private val logger = InlineLogger()

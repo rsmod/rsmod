@@ -1,7 +1,7 @@
 package org.rsmod.plugins.api.net.upstream.handler
 
-import javax.inject.Inject
-import javax.inject.Provider
+import jakarta.inject.Inject
+import jakarta.inject.Provider
 
 public class UpstreamHandlerMapProvider @Inject constructor(
     handlers: Set<UpstreamHandler<*>>
