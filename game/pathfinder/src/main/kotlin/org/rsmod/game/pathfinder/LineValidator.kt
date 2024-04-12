@@ -59,7 +59,8 @@ public class LineValidator(private val flags: CollisionFlagMap) {
             srcZ = srcZ,
             destX = destX,
             destZ = destZ,
-            srcSize = srcSize,
+            srcWidth = srcSize,
+            srcHeight = srcSize,
             destWidth = destWidth,
             destHeight = destHeight,
             flagWest = SIGHT_BLOCKED_WEST or extraFlag,
@@ -89,7 +90,8 @@ public class LineValidator(private val flags: CollisionFlagMap) {
             srcZ = srcZ,
             destX = destX,
             destZ = destZ,
-            srcSize = srcSize,
+            srcWidth = srcSize,
+            srcHeight = srcSize,
             destWidth = destWidth,
             destHeight = destHeight,
             flagWest = WALK_BLOCKED_WEST or extraFlag,
@@ -109,7 +111,8 @@ public class LineValidator(private val flags: CollisionFlagMap) {
         srcZ: Int,
         destX: Int,
         destZ: Int,
-        srcSize: Int,
+        srcWidth: Int,
+        srcHeight: Int,
         destWidth: Int,
         destHeight: Int,
         flagWest: Int,
@@ -120,8 +123,8 @@ public class LineValidator(private val flags: CollisionFlagMap) {
         flagProjectileBlocker: Int,
         los: Boolean
     ): Boolean {
-        val startX = coordinate(srcX, destX, srcSize)
-        val startZ = coordinate(srcZ, destZ, srcSize)
+        val startX = coordinate(srcX, destX, srcWidth)
+        val startZ = coordinate(srcZ, destZ, srcHeight)
 
         if (los && flags.isFlagged(startX, startZ, level, flagObject)) {
             return false
