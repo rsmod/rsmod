@@ -6,7 +6,7 @@ import org.openrs2.buffer.readString
 import org.openrs2.buffer.readVersionedString
 import org.openrs2.buffer.use
 import org.openrs2.crypto.StreamCipher
-import org.openrs2.crypto.XteaKey
+import org.openrs2.crypto.SymmetricKey
 import org.openrs2.crypto.rsa
 import org.openrs2.crypto.xteaDecrypt
 import org.rsmod.game.protocol.packet.VariableShortLengthPacketCodec
@@ -17,8 +17,8 @@ import org.rsmod.plugins.api.net.client.OperatingSystem
 import org.rsmod.plugins.api.net.client.Platform
 import org.rsmod.plugins.api.net.login.LoginPacketRequest
 import org.rsmod.plugins.api.net.platform.login.LoginPlatformPacketDecoders
-import javax.inject.Inject
-import javax.inject.Singleton
+import com.google.inject.Inject
+import com.google.inject.Singleton
 
 private const val RANDOM_UUID_BYTE_LENGTH = 24
 
@@ -42,7 +42,7 @@ public class GameLoginCodec @Inject constructor(
         val encryptedBuf = buf.readSlice(encryptedLength)
         val encrypted = encryptedBuf.rsa(key).use { secure ->
             check(secure.readUnsignedByte().toInt() == 1) { "Invalid RSA header" }
-            val xtea = XteaKey(secure.readInt(), secure.readInt(), secure.readInt(), secure.readInt())
+            val xtea = SymmetricKey(secure.readInt(), secure.readInt(), secure.readInt(), secure.readInt())
             val seed = secure.readLong()
             val authDecoder = decoders(platform)[LoginPacketRequest.AuthType::class.java]
                 ?: error("AuthType packet decoder must be defined.")

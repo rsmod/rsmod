@@ -1,11 +1,11 @@
 package org.rsmod.game.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.google.inject.Inject
+import com.google.inject.Provider
 import org.rsmod.toml.Toml
 import java.nio.file.Files
 import java.nio.file.Path
-import javax.inject.Inject
-import javax.inject.Provider
 
 public class GameConfigProvider @Inject constructor(
     @Toml private val mapper: ObjectMapper

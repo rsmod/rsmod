@@ -5,8 +5,8 @@ import org.rsmod.plugins.api.cache.build.game.GameCache
 import org.rsmod.plugins.api.cache.map.GameMapLoader
 import org.rsmod.plugins.api.cache.map.xtea.XteaRepository
 import org.rsmod.plugins.cache.config.obj.ObjectTypeList
-import javax.inject.Inject
-import javax.inject.Provider
+import com.google.inject.Inject
+import com.google.inject.Provider
 
 public class GameMapProvider @Inject constructor(
     @GameCache private val cache: Cache,

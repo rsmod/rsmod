@@ -5,8 +5,8 @@ import com.google.common.util.concurrent.AbstractService
 import io.netty.channel.EventLoopGroup
 import org.rsmod.plugins.net.service.ServiceChannelInitializer
 import org.rsmod.plugins.net.util.NetworkBootstrapFactory
-import javax.inject.Inject
-import javax.inject.Singleton
+import com.google.inject.Inject
+import com.google.inject.Singleton
 
 private val logger = InlineLogger()
 

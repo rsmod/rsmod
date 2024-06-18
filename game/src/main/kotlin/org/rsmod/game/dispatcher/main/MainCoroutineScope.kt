@@ -2,8 +2,8 @@ package org.rsmod.game.dispatcher.main
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import javax.inject.Inject
-import javax.inject.Singleton
+import com.google.inject.Inject
+import com.google.inject.Singleton
 
 @Singleton
 public class MainCoroutineScope @Inject constructor(

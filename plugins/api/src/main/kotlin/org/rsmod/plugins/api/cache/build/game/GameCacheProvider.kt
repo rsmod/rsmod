@@ -7,8 +7,8 @@ import org.rsmod.game.config.GameConfig
 import org.rsmod.plugins.api.cachePath
 import org.rsmod.plugins.api.vanillaCachePath
 import java.io.FileNotFoundException
-import javax.inject.Inject
-import javax.inject.Provider
+import com.google.inject.Inject
+import com.google.inject.Provider
 
 public class GameCacheProvider @Inject constructor(
     @GameCache private val store: Store,

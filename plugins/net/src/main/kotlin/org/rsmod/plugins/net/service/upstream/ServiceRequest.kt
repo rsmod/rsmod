@@ -1,6 +1,6 @@
 package org.rsmod.plugins.net.service.upstream
 
-import org.openrs2.crypto.XteaKey
+import org.openrs2.crypto.SymmetricKey
 import org.rsmod.game.protocol.packet.UpstreamPacket
 import org.rsmod.plugins.api.net.client.ClientType
 import org.rsmod.plugins.api.net.client.JavaVendor
@@ -28,7 +28,7 @@ public sealed class ServiceRequest : UpstreamPacket {
     ) : ServiceRequest() {
 
         public data class SecureBlock(
-            val xtea: XteaKey,
+            val xtea: SymmetricKey,
             val seed: Long,
             val password: String,
             val authType: LoginPacketRequest.AuthType,

@@ -6,8 +6,8 @@ import org.rsmod.game.model.client.MobEntity
 import org.rsmod.game.model.mob.list.PlayerList
 import org.rsmod.plugins.api.model.event.PlayerSession
 import org.rsmod.plugins.profile.dispatch.transaction.TransactionDispatch
-import javax.inject.Inject
-import javax.inject.Singleton
+import com.google.inject.Inject
+import com.google.inject.Singleton
 
 private val logger = InlineLogger()
 

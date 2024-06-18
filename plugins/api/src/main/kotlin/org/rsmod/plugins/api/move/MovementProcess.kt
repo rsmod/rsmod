@@ -23,8 +23,8 @@ import org.rsmod.plugins.api.pathfinder.RouteFactory
 import org.rsmod.plugins.api.pathfinder.StepFactory
 import org.rsmod.plugins.api.sendTempMovement
 import org.rsmod.plugins.api.setMinimapFlag
-import javax.inject.Inject
-import javax.inject.Singleton
+import com.google.inject.Inject
+import com.google.inject.Singleton
 
 @Singleton
 public class MovementProcess @Inject constructor(

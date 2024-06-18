@@ -2,7 +2,7 @@ package org.rsmod.game.protocol
 
 import org.rsmod.game.protocol.packet.Packet
 import org.rsmod.game.protocol.packet.PacketCodec
-import javax.inject.Inject
+import com.google.inject.Inject
 
 public class Protocol @Inject constructor(codecs: Set<PacketCodec<*>>) {
 
