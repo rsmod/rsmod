@@ -36,7 +36,7 @@ import org.rsmod.toml.Toml
 import java.io.InputStream
 import java.nio.file.Files
 import java.nio.file.Path
-import javax.inject.Inject
+import com.google.inject.Inject
 import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.isDirectory
 import kotlin.io.path.name

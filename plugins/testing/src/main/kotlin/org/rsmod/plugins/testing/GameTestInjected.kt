@@ -7,7 +7,7 @@ import org.rsmod.plugins.api.pathfinder.PathValidator
 import org.rsmod.plugins.api.pathfinder.RayCastFactory
 import org.rsmod.plugins.api.pathfinder.RouteFactory
 import org.rsmod.plugins.api.pathfinder.StepFactory
-import javax.inject.Inject
+import com.google.inject.Inject
 
 internal data class GameTestInjected @Inject constructor(
     internal val gameMap: GameMap,

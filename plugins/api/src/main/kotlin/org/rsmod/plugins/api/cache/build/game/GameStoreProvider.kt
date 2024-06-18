@@ -6,8 +6,8 @@ import org.rsmod.game.config.GameConfig
 import org.rsmod.plugins.api.cache.build.StoreProviderUtil
 import org.rsmod.plugins.api.gameCachePath
 import org.rsmod.plugins.api.vanillaCachePath
-import javax.inject.Inject
-import javax.inject.Provider
+import com.google.inject.Inject
+import com.google.inject.Provider
 
 public class GameStoreProvider @Inject constructor(
     private val alloc: ByteBufAllocator,

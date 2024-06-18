@@ -54,8 +54,8 @@ import org.rsmod.plugins.store.player.PlayerDataRequest
 import org.rsmod.plugins.store.player.PlayerDataResponse
 import java.nio.charset.StandardCharsets
 import java.util.Locale
-import javax.inject.Inject
-import javax.inject.Provider
+import com.google.inject.Inject
+import com.google.inject.Provider
 
 private val logger = InlineLogger()
 

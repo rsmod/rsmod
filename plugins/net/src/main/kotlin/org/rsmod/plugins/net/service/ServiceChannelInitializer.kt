@@ -9,9 +9,9 @@ import org.rsmod.game.protocol.ProtocolEncoder
 import org.rsmod.plugins.net.service.downstream.ServiceDownstream
 import org.rsmod.plugins.net.service.upstream.ServiceUpstream
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
-import javax.inject.Provider
-import javax.inject.Singleton
+import com.google.inject.Inject
+import com.google.inject.Provider
+import com.google.inject.Singleton
 
 private const val TIMEOUT_SECS = 30L
 

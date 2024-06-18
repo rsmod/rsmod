@@ -1,7 +1,7 @@
 package org.rsmod.plugins.api.session
 
 import com.github.michaelbull.logging.InlineLogger
-import org.openrs2.crypto.XteaKey
+import org.openrs2.crypto.SymmetricKey
 import org.rsmod.game.client.Client
 import org.rsmod.game.map.Coordinates
 import org.rsmod.game.map.zone.ZoneKey
@@ -12,8 +12,8 @@ import org.rsmod.plugins.api.net.downstream.RebuildNormal
 import org.rsmod.plugins.api.refreshBuildArea
 import org.rsmod.plugins.api.util.BuildAreaUtils
 import org.rsmod.plugins.info.model.coord.LowResCoord
-import javax.inject.Inject
-import javax.inject.Singleton
+import com.google.inject.Inject
+import com.google.inject.Singleton
 
 private val logger = InlineLogger()
 
@@ -44,7 +44,7 @@ public class ClientGameSession @Inject constructor(
         val zone = ZoneKey.from(playerCoords)
         val xtea = mutableListOf<Int>()
         zone.toViewport(BuildAreaUtils.ZONE_VIEW_RADIUS).forEach {
-            val key = xteaRepository[it] ?: XteaKey.ZERO
+            val key = xteaRepository[it] ?: SymmetricKey.ZERO
             xtea += key.k0
             xtea += key.k1
             xtea += key.k2

@@ -5,8 +5,8 @@ import org.rsmod.plugins.api.cache.build.game.GameCache
 import org.rsmod.plugins.cache.config.item.ItemTypeList
 import org.rsmod.plugins.cache.config.item.ItemTypeLoader
 import org.rsmod.plugins.cache.config.param.ParamTypeList
-import javax.inject.Inject
-import javax.inject.Provider
+import com.google.inject.Inject
+import com.google.inject.Provider
 
 public class ItemTypeListProvider @Inject constructor(
     @GameCache private val cache: Cache,

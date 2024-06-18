@@ -1,6 +1,6 @@
 package org.rsmod.game.dispatcher.main
 
-import javax.inject.Qualifier
+import jakarta.inject.Qualifier
 
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)

@@ -2,8 +2,8 @@ package org.rsmod.game
 
 import com.google.common.util.concurrent.Service
 import com.google.common.util.concurrent.ServiceManager
-import javax.inject.Inject
-import javax.inject.Singleton
+import com.google.inject.Inject
+import com.google.inject.Singleton
 
 @Singleton
 public class GameBootstrap @Inject constructor(services: Set<Service>) {

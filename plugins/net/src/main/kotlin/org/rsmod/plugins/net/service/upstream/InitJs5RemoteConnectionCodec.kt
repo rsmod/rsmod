@@ -3,7 +3,7 @@ package org.rsmod.plugins.net.service.upstream
 import io.netty.buffer.ByteBuf
 import org.openrs2.crypto.StreamCipher
 import org.rsmod.game.protocol.packet.FixedLengthPacketCodec
-import javax.inject.Singleton
+import com.google.inject.Singleton
 
 @Singleton
 public class InitJs5RemoteConnectionCodec : FixedLengthPacketCodec<ServiceRequest.InitJs5RemoteConnection>(

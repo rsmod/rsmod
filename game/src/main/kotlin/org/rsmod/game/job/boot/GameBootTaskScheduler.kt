@@ -3,8 +3,8 @@ package org.rsmod.game.job.boot
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.rsmod.game.dispatcher.io.IOCoroutineScope
-import javax.inject.Inject
-import javax.inject.Singleton
+import com.google.inject.Inject
+import com.google.inject.Singleton
 
 private typealias Task = suspend CoroutineScope.() -> Unit
 

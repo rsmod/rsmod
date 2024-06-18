@@ -1,7 +1,7 @@
 package org.rsmod.plugins.net.js5.downstream
 
 import org.rsmod.game.protocol.packet.ZeroLengthPacketCodec
-import javax.inject.Singleton
+import com.google.inject.Singleton
 
 @Singleton
 public class Js5ClientOutOfDateCodec : ZeroLengthPacketCodec<Js5Response>(

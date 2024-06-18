@@ -11,7 +11,7 @@ import org.rsmod.plugins.api.info.player.PlayerInfoTask
 import org.rsmod.plugins.api.move.MovementProcess
 import org.rsmod.plugins.api.move.PostMovementProcess
 import org.rsmod.plugins.api.net.upstream.handler.UpstreamHandlerTask
-import javax.inject.Inject
+import com.google.inject.Inject
 
 public class MainGameProcess @Inject constructor(
     @GameProcessScope private val coroutineScope: GameCoroutineScope,

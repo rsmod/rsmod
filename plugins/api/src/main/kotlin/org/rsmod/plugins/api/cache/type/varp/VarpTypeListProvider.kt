@@ -4,8 +4,8 @@ import org.openrs2.cache.Cache
 import org.rsmod.plugins.api.cache.build.game.GameCache
 import org.rsmod.plugins.cache.config.varp.VarpTypeList
 import org.rsmod.plugins.cache.config.varp.VarpTypeLoader
-import javax.inject.Inject
-import javax.inject.Provider
+import com.google.inject.Inject
+import com.google.inject.Provider
 
 public class VarpTypeListProvider @Inject constructor(
     @GameCache private val cache: Cache
