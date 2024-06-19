@@ -6,7 +6,7 @@ import org.rsmod.game.pathfinder.collision.CollisionFlagMap
 import org.rsmod.game.pathfinder.reach.ReachStrategy
 import org.rsmod.game.pathfinder.reach.RectangleBoundaryUtils
 import org.rsmod.plugins.api.map.GameObject
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 @Suppress("DuplicatedCode")
 public class BoundValidator @Inject constructor(private val flags: CollisionFlagMap) {

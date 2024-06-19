@@ -2,7 +2,7 @@
 clikt = "3.5.2"
 fastutil = "8.5.12"
 guava = "31.1-jre"
-guice = "5.1.0"
+guice = "7.0.0"
 inline-logger = "1.0.5"
 jackson = "2.15.0"
 jmh = "0.7.1"

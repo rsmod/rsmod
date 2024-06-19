@@ -1,6 +1,6 @@
 package org.rsmod.plugins.api.net.platform.game
 
-import javax.inject.Qualifier
+import jakarta.inject.Qualifier
 
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)

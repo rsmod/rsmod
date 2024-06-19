@@ -4,7 +4,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.asCoroutineDispatcher
 import java.util.concurrent.Executors
-import javax.inject.Provider
+import jakarta.inject.Provider
 
 private const val EXECUTOR_NAME = "GameExecutor"
 

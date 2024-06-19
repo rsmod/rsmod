@@ -5,7 +5,7 @@ import org.rsmod.game.pathfinder.LineValidator
 import org.rsmod.game.pathfinder.StepValidator
 import org.rsmod.game.pathfinder.collision.CollisionFlagMap
 import org.rsmod.plugins.api.model.Direction
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 public class PathValidator @Inject constructor(flags: CollisionFlagMap) {
 

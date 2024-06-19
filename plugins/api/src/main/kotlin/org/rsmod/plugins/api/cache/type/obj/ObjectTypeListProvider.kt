@@ -5,8 +5,8 @@ import org.rsmod.plugins.api.cache.build.game.GameCache
 import org.rsmod.plugins.cache.config.obj.ObjectTypeList
 import org.rsmod.plugins.cache.config.obj.ObjectTypeLoader
 import org.rsmod.plugins.cache.config.param.ParamTypeList
-import javax.inject.Inject
-import javax.inject.Provider
+import jakarta.inject.Inject
+import jakarta.inject.Provider
 
 public class ObjectTypeListProvider @Inject constructor(
     @GameCache private val cache: Cache,

@@ -10,8 +10,8 @@ import org.rsmod.plugins.content.gameframe.util.GameframeUtil.buildMappings
 import org.rsmod.plugins.content.gameframe.util.GameframeUtil.standardOverlays
 import org.rsmod.plugins.types.NamedComponent
 import org.rsmod.plugins.types.NamedInterface
-import javax.inject.Inject
-import javax.inject.Singleton
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
 
 @Singleton
 public class GameframeFixed @Inject constructor(enums: EnumTypeList) : Gameframe {

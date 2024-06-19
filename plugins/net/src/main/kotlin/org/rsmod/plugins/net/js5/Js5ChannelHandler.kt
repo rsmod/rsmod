@@ -6,7 +6,7 @@ import io.netty.channel.SimpleChannelInboundHandler
 import io.netty.handler.timeout.IdleStateEvent
 import org.rsmod.plugins.net.js5.downstream.XorEncoder
 import org.rsmod.plugins.net.js5.upstream.Js5Request
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 private val logger = InlineLogger()
 

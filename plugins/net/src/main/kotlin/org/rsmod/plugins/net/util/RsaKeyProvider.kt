@@ -6,8 +6,8 @@ import org.rsmod.game.config.GameConfig
 import org.rsmod.plugins.net.rsaFile
 import org.rsmod.plugins.net.rsaPath
 import java.nio.file.Files
-import javax.inject.Inject
-import javax.inject.Provider
+import jakarta.inject.Inject
+import jakarta.inject.Provider
 
 public class RsaKeyProvider @Inject constructor(
     private val config: GameConfig

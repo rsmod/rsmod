@@ -22,7 +22,7 @@ import org.rsmod.plugins.types.NamedParameter
 import org.rsmod.plugins.types.NamedTypeMapHolder
 import org.rsmod.plugins.types.NamedVarbit
 import org.rsmod.plugins.types.NamedVarp
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 public class CacheTypeNameLoader @Inject constructor(
     private val items: ItemTypeList,
