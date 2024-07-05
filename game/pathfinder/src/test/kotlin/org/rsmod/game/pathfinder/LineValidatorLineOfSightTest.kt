@@ -16,6 +16,21 @@ import kotlin.math.min
 class LineValidatorLineOfSightTest {
 
     @Test
+    fun testSameCoordsObjectBlocking() {
+        val map = CollisionFlagMap()
+        val (x, z) = 3200 to 3200
+        for (level in 0 until 4) {
+            map[x, z, level] = OBJECT
+        }
+        with(LineValidator(map)) {
+            assertTrue(hasLineOfSight(level = 0, x, z, x, z))
+            assertTrue(hasLineOfSight(level = 1, x, z, x, z))
+            assertTrue(hasLineOfSight(level = 2, x, z, x, z))
+            assertTrue(hasLineOfSight(level = 3, x, z, x, z))
+        }
+    }
+
+    @Test
     fun testLineOfSightWithExtraFlagOnTargetCoords() {
         val map = CollisionFlagMap()
         map.add(3200, 3200, 0, BLOCK_PLAYERS)

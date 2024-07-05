@@ -119,15 +119,15 @@ public class LinePathFinder(private val flags: CollisionFlagMap) {
         val startX = coordinate(srcX, destX, srcWidth)
         val startZ = coordinate(srcZ, destZ, srcHeight)
 
-        if (los && flags.isFlagged(startX, startZ, level, flagObject)) {
-            return RayCast.FAILED
-        }
-
         val endX = coordinate(destX, srcX, destWidth)
         val endZ = coordinate(destZ, srcZ, destHeight)
 
         if (startX == endX && startZ == endZ) {
             return RayCast.EMPTY_SUCCESS
+        }
+
+        if (los && flags.isFlagged(startX, startZ, level, flagObject)) {
+            return RayCast.FAILED
         }
 
         val deltaX = endX - startX

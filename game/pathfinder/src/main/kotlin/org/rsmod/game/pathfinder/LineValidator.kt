@@ -126,15 +126,15 @@ public class LineValidator(private val flags: CollisionFlagMap) {
         val startX = coordinate(srcX, destX, srcWidth)
         val startZ = coordinate(srcZ, destZ, srcHeight)
 
-        if (los && flags.isFlagged(startX, startZ, level, flagObject)) {
-            return false
-        }
-
         val endX = coordinate(destX, srcX, destWidth)
         val endZ = coordinate(destZ, srcZ, destHeight)
 
         if (startX == endX && startZ == endZ) {
             return true
+        }
+
+        if (los && flags.isFlagged(startX, startZ, level, flagObject)) {
+            return false
         }
 
         val deltaX = endX - startX
