@@ -3,6 +3,7 @@ package org.rsmod.plugins.cache.packer
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.michaelbull.logging.InlineLogger
+import jakarta.inject.Inject
 import org.openrs2.cache.Cache
 import org.rsmod.game.config.GameConfig
 import org.rsmod.plugins.api.cache.name.CacheTypeNameLoader
@@ -36,7 +37,6 @@ import org.rsmod.toml.Toml
 import java.io.InputStream
 import java.nio.file.Files
 import java.nio.file.Path
-import jakarta.inject.Inject
 import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.isDirectory
 import kotlin.io.path.name

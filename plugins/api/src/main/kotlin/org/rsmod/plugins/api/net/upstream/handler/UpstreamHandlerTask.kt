@@ -1,8 +1,8 @@
 package org.rsmod.plugins.api.net.upstream.handler
 
+import jakarta.inject.Inject
 import org.rsmod.game.model.UpstreamList
 import org.rsmod.game.model.mob.Player
-import jakarta.inject.Inject
 
 public class UpstreamHandlerTask @Inject constructor(
     private val handlers: UpstreamHandlerMap

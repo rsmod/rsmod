@@ -1,10 +1,10 @@
 package org.rsmod.game.job.boot
 
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.rsmod.game.dispatcher.io.IOCoroutineScope
-import jakarta.inject.Inject
-import jakarta.inject.Singleton
 
 private typealias Task = suspend CoroutineScope.() -> Unit
 

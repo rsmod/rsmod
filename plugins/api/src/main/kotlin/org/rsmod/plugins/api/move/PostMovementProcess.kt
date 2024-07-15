@@ -1,5 +1,7 @@
 package org.rsmod.plugins.api.move
 
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
 import org.openrs2.crypto.SymmetricKey
 import org.rsmod.game.map.square.MapSquareKey
 import org.rsmod.game.map.zone.ZoneKey
@@ -12,8 +14,6 @@ import org.rsmod.plugins.api.net.downstream.RebuildNormal
 import org.rsmod.plugins.api.publish
 import org.rsmod.plugins.api.refreshBuildArea
 import org.rsmod.plugins.api.util.BuildAreaUtils
-import jakarta.inject.Inject
-import jakarta.inject.Singleton
 
 @Singleton
 public class PostMovementProcess @Inject constructor(

@@ -1,5 +1,6 @@
 package org.rsmod.plugins.api.core
 
+import jakarta.inject.Inject
 import org.rsmod.game.GameProcess
 import org.rsmod.game.client.ClientList
 import org.rsmod.game.coroutines.GameCoroutineScope
@@ -11,7 +12,6 @@ import org.rsmod.plugins.api.info.player.PlayerInfoTask
 import org.rsmod.plugins.api.move.MovementProcess
 import org.rsmod.plugins.api.move.PostMovementProcess
 import org.rsmod.plugins.api.net.upstream.handler.UpstreamHandlerTask
-import jakarta.inject.Inject
 
 public class MainGameProcess @Inject constructor(
     @GameProcessScope private val coroutineScope: GameCoroutineScope,

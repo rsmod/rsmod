@@ -1,12 +1,12 @@
 package org.rsmod.plugins.api.pathfinder
 
+import jakarta.inject.Inject
 import org.rsmod.game.map.Coordinates
 import org.rsmod.game.model.client.Entity
 import org.rsmod.game.pathfinder.PathFinder
 import org.rsmod.game.pathfinder.Route
 import org.rsmod.game.pathfinder.collision.CollisionFlagMap
 import org.rsmod.plugins.api.map.GameObject
-import jakarta.inject.Inject
 
 public class RouteFactory @Inject constructor(flags: CollisionFlagMap) {
 

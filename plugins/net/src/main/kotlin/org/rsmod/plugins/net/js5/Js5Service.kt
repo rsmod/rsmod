@@ -2,6 +2,8 @@ package org.rsmod.plugins.net.js5
 
 import com.google.common.util.concurrent.AbstractExecutionThreadService
 import io.netty.buffer.ByteBufAllocator
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
 import org.openrs2.buffer.use
 import org.openrs2.cache.Js5Compression
 import org.openrs2.cache.Js5CompressionType
@@ -12,8 +14,6 @@ import org.rsmod.plugins.api.cache.build.js5.Js5Cache
 import org.rsmod.plugins.net.js5.downstream.Js5GroupResponse
 import org.rsmod.plugins.net.js5.upstream.Js5Request
 import java.io.FileNotFoundException
-import jakarta.inject.Inject
-import jakarta.inject.Singleton
 
 @Singleton
 public class Js5Service @Inject constructor(

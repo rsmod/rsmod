@@ -1,5 +1,7 @@
 package org.rsmod.plugins.content.gameframe.build
 
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
 import org.rsmod.plugins.api.enum
 import org.rsmod.plugins.api.gameframe_fixed
 import org.rsmod.plugins.api.interf
@@ -10,8 +12,6 @@ import org.rsmod.plugins.content.gameframe.util.GameframeUtil.buildMappings
 import org.rsmod.plugins.content.gameframe.util.GameframeUtil.standardOverlays
 import org.rsmod.plugins.types.NamedComponent
 import org.rsmod.plugins.types.NamedInterface
-import jakarta.inject.Inject
-import jakarta.inject.Singleton
 
 @Singleton
 public class GameframeFixed @Inject constructor(enums: EnumTypeList) : Gameframe {

@@ -1,7 +1,7 @@
 package org.rsmod.plugins.net.service.upstream
 
-import org.rsmod.game.protocol.packet.ZeroLengthPacketCodec
 import jakarta.inject.Singleton
+import org.rsmod.game.protocol.packet.ZeroLengthPacketCodec
 
 @Singleton
 public class InitGameConnectionCodec : ZeroLengthPacketCodec<ServiceRequest.InitGameConnection>(

@@ -1,12 +1,12 @@
 package org.rsmod.plugins.api.pathfinder
 
+import jakarta.inject.Inject
 import org.rsmod.game.map.Coordinates
 import org.rsmod.game.model.client.Entity
 import org.rsmod.game.pathfinder.collision.CollisionFlagMap
 import org.rsmod.game.pathfinder.reach.ReachStrategy
 import org.rsmod.game.pathfinder.reach.RectangleBoundaryUtils
 import org.rsmod.plugins.api.map.GameObject
-import jakarta.inject.Inject
 
 @Suppress("DuplicatedCode")
 public class BoundValidator @Inject constructor(private val flags: CollisionFlagMap) {

@@ -1,6 +1,8 @@
 package org.rsmod.plugins.net.service.upstream
 
 import io.netty.buffer.ByteBuf
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
 import org.bouncycastle.crypto.params.RSAPrivateCrtKeyParameters
 import org.openrs2.buffer.readString
 import org.openrs2.buffer.readVersionedString
@@ -17,8 +19,6 @@ import org.rsmod.plugins.api.net.client.OperatingSystem
 import org.rsmod.plugins.api.net.client.Platform
 import org.rsmod.plugins.api.net.login.LoginPacketRequest
 import org.rsmod.plugins.api.net.platform.login.LoginPlatformPacketDecoders
-import jakarta.inject.Inject
-import jakarta.inject.Singleton
 
 private const val RANDOM_UUID_BYTE_LENGTH = 24
 
@@ -127,7 +127,8 @@ public class GameLoginCodec @Inject constructor(
         )
     }
 
-    override fun encode(packet: ServiceRequest.GameLogin, buf: ByteBuf, cipher: StreamCipher) { /* empty */ }
+    override fun encode(packet: ServiceRequest.GameLogin, buf: ByteBuf, cipher: StreamCipher) { /* empty */
+    }
 
     private fun decoders(platform: Platform): LoginPacketDecoderMap = when (platform) {
         Platform.Desktop -> decoders.desktop
@@ -168,11 +169,13 @@ public class GameLoginCodec @Inject constructor(
                 secret = readUnsignedMedium()
                 skipBytes(Byte.SIZE_BYTES)
             }
+
             LoginPacketRequest.AuthType.TwoFactorCheckDeviceLinkFound -> secret = readInt()
             LoginPacketRequest.AuthType.TwoFactorCheckDeviceLinkNotFound -> {
                 secret = null
                 skipBytes(Int.SIZE_BYTES)
             }
+
             LoginPacketRequest.AuthType.Skip -> secret = null
         }
         return secret

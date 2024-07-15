@@ -1,10 +1,10 @@
 package org.rsmod.game.dispatcher.main
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder
+import jakarta.inject.Provider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.asCoroutineDispatcher
 import java.util.concurrent.Executors
-import jakarta.inject.Provider
 
 private const val EXECUTOR_NAME = "GameExecutor"
 

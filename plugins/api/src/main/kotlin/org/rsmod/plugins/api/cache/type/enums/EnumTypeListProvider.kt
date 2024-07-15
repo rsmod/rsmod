@@ -1,11 +1,11 @@
 package org.rsmod.plugins.api.cache.type.enums
 
+import jakarta.inject.Inject
+import jakarta.inject.Provider
 import org.openrs2.cache.Cache
 import org.rsmod.plugins.api.cache.build.game.GameCache
 import org.rsmod.plugins.cache.config.enums.EnumTypeList
 import org.rsmod.plugins.cache.config.enums.EnumTypeLoader
-import jakarta.inject.Inject
-import jakarta.inject.Provider
 
 public class EnumTypeListProvider @Inject constructor(
     @GameCache private val cache: Cache

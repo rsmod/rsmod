@@ -35,7 +35,18 @@ class LineValidatorLineOfSightTest {
         val map = CollisionFlagMap()
         map.add(3200, 3200, 0, BLOCK_PLAYERS)
         with(LineValidator(map)) {
-            assertTrue(hasLineOfSight(0, 3200, 3202, 3200, 3200, destHeight = 1, destWidth = 1, extraFlag = BLOCK_PLAYERS))
+            assertTrue(
+                hasLineOfSight(
+                    0,
+                    3200,
+                    3202,
+                    3200,
+                    3200,
+                    destHeight = 1,
+                    destWidth = 1,
+                    extraFlag = BLOCK_PLAYERS
+                )
+            )
         }
     }
 
@@ -44,7 +55,18 @@ class LineValidatorLineOfSightTest {
         val map = CollisionFlagMap()
         map.add(3200, 3200, 0, BLOCK_PLAYERS)
         with(LineValidator(map)) {
-            assertFalse(hasLineOfSight(0, 3200, 3202, 3200, 3199, destHeight = 1, destWidth = 1, extraFlag = BLOCK_PLAYERS))
+            assertFalse(
+                hasLineOfSight(
+                    0,
+                    3200,
+                    3202,
+                    3200,
+                    3199,
+                    destHeight = 1,
+                    destWidth = 1,
+                    extraFlag = BLOCK_PLAYERS
+                )
+            )
         }
     }
 

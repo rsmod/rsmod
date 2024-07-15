@@ -1,12 +1,12 @@
 package org.rsmod.plugins.store.dev.data
 
+import jakarta.inject.Inject
 import org.rsmod.game.config.GameConfig
 import org.rsmod.game.map.Coordinates
 import org.rsmod.game.model.mob.Player
 import org.rsmod.plugins.store.player.PlayerDataMapper
 import org.rsmod.plugins.store.player.PlayerDataRequest
 import org.rsmod.plugins.store.player.PlayerDataResponse
-import jakarta.inject.Inject
 
 public class DevPlayerDataMapper @Inject constructor(
     private val config: GameConfig

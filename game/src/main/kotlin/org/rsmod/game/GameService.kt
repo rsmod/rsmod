@@ -2,6 +2,8 @@ package org.rsmod.game
 
 import com.github.michaelbull.logging.InlineLogger
 import com.google.common.util.concurrent.AbstractIdleService
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
@@ -11,8 +13,6 @@ import kotlinx.coroutines.runBlocking
 import org.rsmod.game.dispatcher.main.MainCoroutineScope
 import org.rsmod.game.job.boot.GameBootTaskScheduler
 import java.util.concurrent.TimeUnit
-import jakarta.inject.Inject
-import jakarta.inject.Singleton
 import kotlin.system.measureNanoTime
 
 private val logger = InlineLogger()
