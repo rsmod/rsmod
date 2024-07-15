@@ -1,7 +1,7 @@
 package org.rsmod.plugins.api.cache.map.xtea
 
-import javax.inject.Inject
-import javax.inject.Provider
+import jakarta.inject.Inject
+import jakarta.inject.Provider
 
 public class XteaRepositoryProvider @Inject constructor(
     private val loader: XteaRepositoryLoader

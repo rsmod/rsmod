@@ -4,8 +4,8 @@ import org.rsmod.game.client.ClientList
 import org.rsmod.game.events.EventBus
 import org.rsmod.plugins.api.model.event.ClientSession
 import org.rsmod.plugins.profile.dispatch.transaction.TransactionDispatch
-import javax.inject.Inject
-import javax.inject.Singleton
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
 
 @Singleton
 public class ClientDeregisterDispatch @Inject constructor(

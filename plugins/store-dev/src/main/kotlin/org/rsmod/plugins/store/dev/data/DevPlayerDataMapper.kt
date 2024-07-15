@@ -6,7 +6,7 @@ import org.rsmod.game.model.mob.Player
 import org.rsmod.plugins.store.player.PlayerDataMapper
 import org.rsmod.plugins.store.player.PlayerDataRequest
 import org.rsmod.plugins.store.player.PlayerDataResponse
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 public class DevPlayerDataMapper @Inject constructor(
     private val config: GameConfig
