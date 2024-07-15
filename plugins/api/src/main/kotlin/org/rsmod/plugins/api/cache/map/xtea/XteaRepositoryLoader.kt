@@ -1,12 +1,12 @@
 package org.rsmod.plugins.api.cache.map.xtea
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import jakarta.inject.Inject
 import org.openrs2.crypto.SymmetricKey
 import org.rsmod.game.config.GameConfig
 import org.rsmod.json.Json
 import org.rsmod.plugins.api.cachePath
 import java.nio.file.Files
-import jakarta.inject.Inject
 
 private const val FILE_NAME = "xteas.json"
 

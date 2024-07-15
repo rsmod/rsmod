@@ -1,6 +1,7 @@
 package org.rsmod.plugins.store.dev.data
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import jakarta.inject.Inject
 import org.rsmod.game.config.GameConfig
 import org.rsmod.game.model.mob.Player
 import org.rsmod.json.Json
@@ -11,7 +12,6 @@ import org.rsmod.plugins.store.player.PlayerDataRequest
 import org.rsmod.plugins.store.player.PlayerDataResponse
 import java.nio.file.Files
 import java.nio.file.Path
-import jakarta.inject.Inject
 
 private const val RELATIVE_PATH = "dev/saves"
 private const val FILE_EXT = "json"

@@ -1,5 +1,7 @@
 package org.rsmod.plugins.api.move
 
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -23,8 +25,6 @@ import org.rsmod.plugins.api.pathfinder.RouteFactory
 import org.rsmod.plugins.api.pathfinder.StepFactory
 import org.rsmod.plugins.api.sendTempMovement
 import org.rsmod.plugins.api.setMinimapFlag
-import jakarta.inject.Inject
-import jakarta.inject.Singleton
 
 @Singleton
 public class MovementProcess @Inject constructor(

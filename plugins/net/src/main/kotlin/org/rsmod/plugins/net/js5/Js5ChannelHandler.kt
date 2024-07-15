@@ -4,9 +4,9 @@ import com.github.michaelbull.logging.InlineLogger
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.SimpleChannelInboundHandler
 import io.netty.handler.timeout.IdleStateEvent
+import jakarta.inject.Inject
 import org.rsmod.plugins.net.js5.downstream.XorEncoder
 import org.rsmod.plugins.net.js5.upstream.Js5Request
-import jakarta.inject.Inject
 
 private val logger = InlineLogger()
 

@@ -1,6 +1,8 @@
 package org.rsmod.plugins.api.session
 
 import com.github.michaelbull.logging.InlineLogger
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
 import org.openrs2.crypto.SymmetricKey
 import org.rsmod.game.client.Client
 import org.rsmod.game.map.Coordinates
@@ -12,8 +14,6 @@ import org.rsmod.plugins.api.net.downstream.RebuildNormal
 import org.rsmod.plugins.api.refreshBuildArea
 import org.rsmod.plugins.api.util.BuildAreaUtils
 import org.rsmod.plugins.info.model.coord.LowResCoord
-import jakarta.inject.Inject
-import jakarta.inject.Singleton
 
 private val logger = InlineLogger()
 

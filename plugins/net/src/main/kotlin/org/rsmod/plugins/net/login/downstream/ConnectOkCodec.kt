@@ -1,9 +1,9 @@
 package org.rsmod.plugins.net.login.downstream
 
 import io.netty.buffer.ByteBuf
+import jakarta.inject.Singleton
 import org.openrs2.crypto.StreamCipher
 import org.rsmod.game.protocol.packet.VariableByteLengthPacketCodec
-import jakarta.inject.Singleton
 
 @Singleton
 public class ConnectOkCodec : VariableByteLengthPacketCodec<LoginResponse.ConnectOk>(

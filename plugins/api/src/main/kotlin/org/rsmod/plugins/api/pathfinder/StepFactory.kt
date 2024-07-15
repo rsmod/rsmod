@@ -1,9 +1,9 @@
 package org.rsmod.plugins.api.pathfinder
 
+import jakarta.inject.Inject
 import org.rsmod.game.map.Coordinates
 import org.rsmod.game.pathfinder.StepValidator
 import org.rsmod.game.pathfinder.collision.CollisionFlagMap
-import jakarta.inject.Inject
 import kotlin.math.sign
 
 public class StepFactory @Inject constructor(flags: CollisionFlagMap) {

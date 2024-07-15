@@ -1,5 +1,6 @@
 package org.rsmod.plugins.testing
 
+import jakarta.inject.Inject
 import org.rsmod.plugins.api.cache.map.xtea.XteaRepository
 import org.rsmod.plugins.api.map.GameMap
 import org.rsmod.plugins.api.pathfinder.BoundValidator
@@ -7,7 +8,6 @@ import org.rsmod.plugins.api.pathfinder.PathValidator
 import org.rsmod.plugins.api.pathfinder.RayCastFactory
 import org.rsmod.plugins.api.pathfinder.RouteFactory
 import org.rsmod.plugins.api.pathfinder.StepFactory
-import jakarta.inject.Inject
 
 internal data class GameTestInjected @Inject constructor(
     internal val gameMap: GameMap,

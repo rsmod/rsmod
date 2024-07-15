@@ -2,6 +2,8 @@ package org.rsmod.plugins.api.info.player
 
 import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
 import org.rsmod.game.map.Coordinates
 import org.rsmod.game.model.WorldClock
 import org.rsmod.game.model.mob.Player
@@ -15,8 +17,6 @@ import org.rsmod.plugins.api.net.info.ExtendedPlayerInfo
 import org.rsmod.plugins.api.net.platform.info.InfoPlatformPacketEncoders
 import org.rsmod.plugins.info.model.coord.HighResCoord
 import org.rsmod.plugins.info.player.PlayerInfo
-import jakarta.inject.Inject
-import jakarta.inject.Singleton
 
 @Singleton
 public class PlayerInfoTask @Inject constructor(

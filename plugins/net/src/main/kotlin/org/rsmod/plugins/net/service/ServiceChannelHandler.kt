@@ -12,6 +12,8 @@ import io.netty.channel.ChannelFutureListener
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.SimpleChannelInboundHandler
 import io.netty.handler.timeout.IdleStateEvent
+import jakarta.inject.Inject
+import jakarta.inject.Provider
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.asCoroutineDispatcher
@@ -54,8 +56,6 @@ import org.rsmod.plugins.store.player.PlayerDataRequest
 import org.rsmod.plugins.store.player.PlayerDataResponse
 import java.nio.charset.StandardCharsets
 import java.util.Locale
-import jakarta.inject.Inject
-import jakarta.inject.Provider
 
 private val logger = InlineLogger()
 
@@ -167,6 +167,7 @@ public class ServiceChannelHandler @Inject constructor(
                     ctx.writeAndClose(LoginResponse.CouldNotComplete)
                     logger.error(deserialize.t) { "Exception thrown when deserializing player: $username" }
                 }
+
                 is PlayerDataResponse.Success -> {
                     val player = deserialize.player
                     val encodeCipher = IsaacRandom(msg.encrypted.xtea.toIntArray().map { it + 50 }.toIntArray())

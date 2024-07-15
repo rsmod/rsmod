@@ -3,15 +3,15 @@ package org.rsmod.plugins.net.service
 import io.netty.channel.ChannelInitializer
 import io.netty.channel.socket.SocketChannel
 import io.netty.handler.timeout.IdleStateHandler
+import jakarta.inject.Inject
+import jakarta.inject.Provider
+import jakarta.inject.Singleton
 import org.rsmod.game.protocol.Protocol
 import org.rsmod.game.protocol.ProtocolDecoder
 import org.rsmod.game.protocol.ProtocolEncoder
 import org.rsmod.plugins.net.service.downstream.ServiceDownstream
 import org.rsmod.plugins.net.service.upstream.ServiceUpstream
 import java.util.concurrent.TimeUnit
-import jakarta.inject.Inject
-import jakarta.inject.Provider
-import jakarta.inject.Singleton
 
 private const val TIMEOUT_SECS = 30L
 

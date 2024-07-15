@@ -1,5 +1,6 @@
 package org.rsmod.plugins.api.cache.name
 
+import jakarta.inject.Inject
 import org.rsmod.plugins.cache.config.enums.EnumType
 import org.rsmod.plugins.cache.config.enums.EnumTypeList
 import org.rsmod.plugins.cache.config.item.ItemType
@@ -22,7 +23,6 @@ import org.rsmod.plugins.types.NamedParameter
 import org.rsmod.plugins.types.NamedTypeMapHolder
 import org.rsmod.plugins.types.NamedVarbit
 import org.rsmod.plugins.types.NamedVarp
-import jakarta.inject.Inject
 
 public class CacheTypeNameLoader @Inject constructor(
     private val items: ItemTypeList,

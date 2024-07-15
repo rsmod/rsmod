@@ -1,14 +1,14 @@
 package org.rsmod.plugins.api.cache.build.vanilla
 
 import io.netty.buffer.ByteBufAllocator
+import jakarta.inject.Inject
+import jakarta.inject.Provider
 import org.openrs2.cache.Cache
 import org.openrs2.cache.Store
 import org.rsmod.game.config.GameConfig
 import org.rsmod.plugins.api.cachePath
 import org.rsmod.plugins.api.vanillaCachePath
 import java.io.FileNotFoundException
-import jakarta.inject.Inject
-import jakarta.inject.Provider
 
 public class VanillaCacheProvider @Inject constructor(
     @VanillaCache private val store: Store,
