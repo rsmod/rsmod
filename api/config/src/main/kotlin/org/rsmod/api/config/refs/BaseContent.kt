@@ -22,4 +22,5 @@ public object BaseContent : ContentReferences() {
     public val empty_chest: ContentType = find("empty_chest")
     public val empty_boxes: ContentType = find("empty_boxes")
     public val empty_sacks: ContentType = find("empty_sacks")
+    public val person: ContentType = find("person")
 }

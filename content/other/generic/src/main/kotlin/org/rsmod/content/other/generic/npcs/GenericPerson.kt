@@ -1,8 +1,8 @@
 package org.rsmod.content.other.generic.npcs
 
 import jakarta.inject.Inject
-import org.rsmod.api.config.refs.BaseNpcs
-import org.rsmod.api.config.refs.BaseObjs
+import org.rsmod.api.config.refs.content
+import org.rsmod.api.config.refs.objs
 import org.rsmod.api.dialogue.Dialogue
 import org.rsmod.api.dialogue.Dialogues
 import org.rsmod.api.dialogue.startDialogue
@@ -11,25 +11,14 @@ import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.random.GameRandom
 import org.rsmod.api.script.onOpNpc1
 import org.rsmod.game.entity.Npc
+import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
 class GenericPerson
 @Inject
-constructor(private val dialogues: Dialogues, private val random: GameRandom) {
-    fun startUp(script: ScriptContext) {
-        val people =
-            setOf(
-                BaseNpcs.man_id_3106,
-                BaseNpcs.man_id_3107,
-                BaseNpcs.man_id_3108,
-                BaseNpcs.man_id_6818,
-                BaseNpcs.woman_id_3111,
-                BaseNpcs.woman_id_3112,
-                BaseNpcs.woman_id_3113,
-            )
-        for (person in people) {
-            script.onOpNpc1(person) { personDialogue(it.npc) }
-        }
+constructor(private val dialogues: Dialogues, private val random: GameRandom) : PluginScript() {
+    override fun ScriptContext.startUp() {
+        onOpNpc1(content.person) { personDialogue(it.npc) }
     }
 
     private suspend fun ProtectedAccess.personDialogue(npc: Npc) =
@@ -114,9 +103,9 @@ constructor(private val dialogues: Dialogues, private val random: GameRandom) {
 
     private suspend fun Dialogue.randomGenericDialogue8(): Unit =
         with(player) {
-            if (inv.hasFreeSpace() && BaseObjs.bobs_axe_flyer !in inv) {
+            if (inv.hasFreeSpace() && objs.bobs_axe_flyer !in inv) {
                 chatNpc(happy, "Have this flyer...")
-                invAdd(inv, BaseObjs.bobs_axe_flyer)
+                invAdd(inv, objs.bobs_axe_flyer)
             } else {
                 randomGenericDialogue9()
             }
