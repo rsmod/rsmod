@@ -1,0 +1,85 @@
+package org.rsmod.game.entity.shared
+
+import org.rsmod.game.entity.Npc
+import org.rsmod.game.entity.PathingEntity
+import org.rsmod.game.entity.Player
+import org.rsmod.game.movement.MoveSpeed
+import org.rsmod.game.movement.RouteRequestCoord
+import org.rsmod.map.CoordGrid
+import org.rsmod.pathfinder.collision.CollisionFlagMap
+
+/**
+ * This class serves as a shared namespace for functions and logic common to all
+ * [org.rsmod.game.entity.PathingEntity] implementations. It allows for the reuse of code that
+ * multiple entities need to share, while also accommodating the need for certain entities to handle
+ * additional, specialized logic after invoking these common functions.
+ *
+ * For example, both [org.rsmod.game.entity.Npc] and [org.rsmod.game.entity.Player] can use the same
+ * logic for facing another player. However, NPCs might require extra steps, such as updating
+ * related state with extended info, whereas Players may only need to rely on the base
+ * functionality.
+ *
+ * Additionally, concepts like "protected access" influence the exposure of these functions. For
+ * instance, NPCs do not have the concept of protected access and can call methods like
+ * [org.rsmod.game.entity.Npc.telejump] directly. Players, however, may require these functions to
+ * be more restricted to ensure proper access control.
+ *
+ * By centralizing this logic here, we minimize code duplication and ensure consistent behavior
+ * across different entities, while still allowing for the flexibility needed by specific
+ * implementations.
+ */
+public object PathingEntityCommon {
+    // We don't declare or use [org.rsmod.game.entity.NpcList]'s capacity because some developers
+    // will more than likely be tempted to fiddle with that npc list capacity at some point. In that
+    // case, we do not want the npc list capacity, whether lower or higher, to affect this value
+    // used for facing entities.
+    private const val NPC_LIMIT = 65535
+    public const val FACE_PLAYER_START_SLOT: Int = NPC_LIMIT + 1
+
+    public fun walk(entity: PathingEntity, dest: CoordGrid) {
+        val request = RouteRequestCoord(dest)
+        entity.routeRequest = request
+    }
+
+    public fun telejump(entity: PathingEntity, collision: CollisionFlagMap, dest: CoordGrid) {
+        telemove(entity, collision, dest)
+        entity.moveSpeed = MoveSpeed.Stationary
+    }
+
+    public fun teleport(entity: PathingEntity, collision: CollisionFlagMap, dest: CoordGrid) {
+        telemove(entity, collision, dest)
+        entity.lastMovement = entity.currentMapClock
+    }
+
+    public fun telemove(entity: PathingEntity, collision: CollisionFlagMap, dest: CoordGrid) {
+        val start = entity.coords
+        entity.coords = dest
+        // Need to set move speed so that movement processor knows to consume
+        // steps for this entity.
+        entity.moveSpeed = MoveSpeed.Walk
+        // Reset any ongoing movement and/or interaction.
+        entity.abortRoute()
+        entity.clearInteraction()
+        // Instantly move collision flag from previous coords to new coords.
+        // This is important as it covers specific edge cases where processing order have differing
+        // outcomes if the collision flags have not been moved for other entities in the world.
+        collision.move(entity, start, dest)
+    }
+
+    public fun facePlayer(entity: PathingEntity, target: Player) {
+        entity.faceEntitySlot = target.slotId or FACE_PLAYER_START_SLOT
+    }
+
+    public fun faceNpc(entity: PathingEntity, target: Npc) {
+        entity.faceEntitySlot = target.slotId
+    }
+
+    public fun resetFaceEntity(entity: PathingEntity) {
+        entity.faceEntitySlot = -1
+    }
+
+    private fun CollisionFlagMap.move(entity: PathingEntity, from: CoordGrid, to: CoordGrid) {
+        entity.removeBlockWalkCollision(this, from)
+        entity.addBlockWalkCollision(this, to)
+    }
+}

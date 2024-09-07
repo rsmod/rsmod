@@ -1,0 +1,222 @@
+package org.rsmod.content.other.generic.npcs
+
+import jakarta.inject.Inject
+import org.rsmod.api.config.refs.BaseNpcs
+import org.rsmod.api.config.refs.BaseObjs
+import org.rsmod.api.dialogue.Dialogue
+import org.rsmod.api.dialogue.Dialogues
+import org.rsmod.api.dialogue.startDialogue
+import org.rsmod.api.invtx.invAdd
+import org.rsmod.api.player.protect.ProtectedAccess
+import org.rsmod.api.random.GameRandom
+import org.rsmod.api.script.onOpNpc1
+import org.rsmod.game.entity.Npc
+import org.rsmod.plugin.scripts.ScriptContext
+
+class GenericPerson
+@Inject
+constructor(private val dialogues: Dialogues, private val random: GameRandom) {
+    fun startUp(script: ScriptContext) {
+        val people =
+            setOf(
+                BaseNpcs.man_id_3106,
+                BaseNpcs.man_id_3107,
+                BaseNpcs.man_id_3108,
+                BaseNpcs.man_id_6818,
+                BaseNpcs.woman_id_3111,
+                BaseNpcs.woman_id_3112,
+                BaseNpcs.woman_id_3113,
+            )
+        for (person in people) {
+            script.onOpNpc1(person) { personDialogue(it.npc) }
+        }
+    }
+
+    private suspend fun ProtectedAccess.personDialogue(npc: Npc) =
+        startDialogue(dialogues, npc) {
+            chatPlayer(happy, "Hello, how's it going?")
+            when (random.of(maxExclusive = 23)) {
+                0 -> randomGenericDialogue1()
+                1 -> randomGenericDialogue2()
+                2 -> randomGenericDialogue3()
+                3 -> randomGenericDialogue4()
+                4 -> randomGenericDialogue5()
+                5 -> randomGenericDialogue6()
+                6 -> randomGenericDialogue7()
+                7 -> randomGenericDialogue8()
+                8 -> randomGenericDialogue9()
+                9 -> randomGenericDialogue10()
+                10 -> randomGenericDialogue11()
+                11 -> randomGenericDialogue12()
+                12 -> randomGenericDialogue13()
+                13 -> randomGenericDialogue14()
+                14 -> randomGenericDialogue15()
+                15 -> randomGenericDialogue16()
+                16 -> randomGenericDialogue17()
+                17 -> randomGenericDialogue18()
+                18 -> randomGenericDialogue19()
+                19 -> randomGenericDialogue20()
+                20 -> randomGenericDialogue21()
+                21 -> randomGenericDialogue22()
+                22 -> randomGenericDialogue23()
+            }
+        }
+
+    private suspend fun Dialogue.randomGenericDialogue1() {
+        chatNpc(happy, "I'm fine, how are you?")
+        chatPlayer(happy, "Very well thank you.")
+    }
+
+    private suspend fun Dialogue.randomGenericDialogue2() {
+        chatNpc(neutral, "I think we need a new king. The one we've got isn't<br>very good.")
+    }
+
+    private suspend fun Dialogue.randomGenericDialogue3() {
+        chatNpc(neutral, "How can I help you?")
+        val choice =
+            choice3(
+                "Do you wish to trade?",
+                1,
+                "I'm in search of a quest.",
+                2,
+                "I'm in search of enemies to kill.",
+                3,
+            )
+        when (choice) {
+            1 -> tradeDialogue()
+            2 -> searchingQuestDialogue()
+            3 -> searchingEnemiesDialogue()
+        }
+    }
+
+    private suspend fun Dialogue.randomGenericDialogue4() {
+        chatNpc(angry, "None of your business.")
+    }
+
+    private suspend fun Dialogue.randomGenericDialogue5() {
+        chatNpc(happy, "Not too bad thanks.")
+    }
+
+    private suspend fun Dialogue.randomGenericDialogue6() {
+        chatNpc(
+            neutral,
+            "Not too bad, but I'm a little worried about the increase<br>" +
+                "of goblins these days.",
+        )
+        chatPlayer(happy, "Don't worry, I'll kill them.")
+    }
+
+    private suspend fun Dialogue.randomGenericDialogue7() {
+        chatNpc(confused, "Who are you?")
+        chatPlayer(happy, "I'm a bold adventurer.")
+        chatNpc(happy, "Ah, a very noble profession.")
+    }
+
+    private suspend fun Dialogue.randomGenericDialogue8(): Unit =
+        with(player) {
+            if (inv.hasFreeSpace() && BaseObjs.bobs_axe_flyer !in inv) {
+                chatNpc(happy, "Have this flyer...")
+                invAdd(inv, BaseObjs.bobs_axe_flyer)
+            } else {
+                randomGenericDialogue9()
+            }
+        }
+
+    private suspend fun Dialogue.randomGenericDialogue9() {
+        chatNpc(happy, "I'm very well thank you.")
+    }
+
+    private suspend fun Dialogue.randomGenericDialogue10() {
+        chatNpc(happy, "Hello there! Nice weather we've been having.")
+    }
+
+    private suspend fun Dialogue.randomGenericDialogue11() {
+        chatNpc(happy, "Hello, how's it going?")
+        searchingEnemiesDialogue()
+    }
+
+    private suspend fun Dialogue.randomGenericDialogue12() {
+        chatNpc(happy, "Hello, how's it going?")
+        chatPlayer(happy, "I'm in search of a quest.")
+        chatNpc(neutral, "I'm sorry I can't help you there.")
+    }
+
+    private suspend fun Dialogue.randomGenericDialogue13() {
+        chatNpc(happy, "Hello, how's it going?")
+        chatPlayer(neutral, "Do you wish to trade?")
+        chatNpc(
+            neutral,
+            "No, I have nothing I wish to get rid of. If you want to<br>" +
+                "do some trading, there are plenty of shops and market<br>" +
+                "stalls around though.",
+        )
+    }
+
+    private suspend fun Dialogue.randomGenericDialogue14() {
+        chatNpc(happy, "Hello.")
+    }
+
+    private suspend fun Dialogue.randomGenericDialogue15() {
+        chatNpc(confused, "Do I know you? I'm in a hurry!")
+    }
+
+    private suspend fun Dialogue.randomGenericDialogue16() {
+        chatNpc(
+            neutral,
+            "I'm a little worried - I've heard there's lots of people<br>" +
+                "going about, killing citizens at random.",
+        )
+    }
+
+    private suspend fun Dialogue.randomGenericDialogue17() {
+        chatNpc(angry, "Get out of my way, I'm in a hurry!")
+    }
+
+    private suspend fun Dialogue.randomGenericDialogue18() {
+        chatNpc(neutral, "I'm busy right now.")
+    }
+
+    private suspend fun Dialogue.randomGenericDialogue19() {
+        chatNpc(angry, "Are you asking for a fight?")
+        // TODO(content): attack player here
+    }
+
+    private suspend fun Dialogue.randomGenericDialogue20() {
+        chatNpc(happy, "Yo, wassup!")
+    }
+
+    private suspend fun Dialogue.randomGenericDialogue21() {
+        chatNpc(neutral, "That is classified information.")
+    }
+
+    private suspend fun Dialogue.randomGenericDialogue22() {
+        chatNpc(neutral, "No I don't have any spare change.")
+    }
+
+    private suspend fun Dialogue.randomGenericDialogue23() {
+        chatNpc(angry, "No, I don't want to buy anything!")
+    }
+
+    private suspend fun Dialogue.tradeDialogue() {
+        chatPlayer(neutral, "Do you wish to trade?")
+        chatNpc(
+            neutral,
+            "No, I have nothing I wish to get rid of. If you want to<br>" +
+                "do some trading, there are plenty of shops and market<br>" +
+                "stalls around though.",
+        )
+    }
+
+    private suspend fun Dialogue.searchingQuestDialogue() {
+        chatPlayer(happy, "I'm in search of a quest.")
+        chatNpc(neutral, "I'm sorry I can't help you there.")
+    }
+
+    private suspend fun Dialogue.searchingEnemiesDialogue() {
+        chatPlayer(neutral, "I'm in search of enemies to kill.")
+        chatNpc(
+            neutral,
+            "I've heard there are many fearsome creatures that<br>dwell under the ground...",
+        )
+    }
+}

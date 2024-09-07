@@ -1,0 +1,94 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+
+      - name: Build with Gradle Wrapper
+        run: ./gradlew build
+
+      # Run available meta test suites (konsistTest and docTest).
+      # These tests are expected to remain small, so they are combined into a single step.
+      # If they grow significantly in the future, consider splitting them into separate steps.
+      - name: Run Meta Tests
+        run: |
+          ./gradlew konsistTest --rerun-tasks
+          ./gradlew docTest
+
+      - name: Run Unit Tests
+        run: ./gradlew test
+
+      - name: Create Meta Test Summary
+        uses: test-summary/action@v2
+        with:
+          paths: |
+            **/test-results/konsistTest/TEST-*.xml
+            **/test-results/docTest/TEST-*.xml
+          output: meta-test-summary.md
+        if: always()
+
+      - name: Create Unit Test Summary
+        uses: test-summary/action@v2
+        with:
+          paths: '**/test-results/test/TEST-*.xml'
+          output: unit-test-summary.md
+        if: always()
+
+      - name: Upload All Test Summaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: all-test-summaries
+          path: |
+            meta-test-summary.md
+            unit-test-summary.md
+        if: always()
+
+      - name: Upload Meta Test Summaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: meta-test-summary
+          path: 'meta-test-summary.md'
+        if: always()
+
+      - name: Upload Unit Test Summaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-test-summary
+          path: 'unit-test-summary.md'
+        if: always()
+
+      - name: Show Meta Test Summary
+        if: always()
+        run: |
+          echo "### Meta Test Summary" >> $GITHUB_STEP_SUMMARY
+          cat meta-test-summary.md >> $GITHUB_STEP_SUMMARY
+
+      - name: Show Unit Test Summary
+        if: always()
+        run: |
+          echo "### Unit Test Summary" >> $GITHUB_STEP_SUMMARY
+          cat unit-test-summary.md >> $GITHUB_STEP_SUMMARY

@@ -1,0 +1,76 @@
+554	chat_quiz1
+555	chat_quiz2
+556	chat_quiz3
+557	chat_quiz4
+
+562	chat_bored1
+563	chat_bored2
+564	chat_bored3
+565	chat_bored4
+
+566	chat_short
+
+567	chat_happy1
+568	chat_happy2
+569	chat_happy3
+570	chat_happy4
+
+571	chat_shock1
+572	chat_shock2
+573	chat_shock3
+574	chat_shock4
+
+575	chat_confused1
+576	chat_confused2
+577	chat_confused3
+578	chat_confused4
+
+579	chat_silent
+
+580	chat_goblin1
+581	chat_goblin2
+582	chat_goblin3
+583	chat_goblin4
+
+588	chat_neutral1
+589	chat_neutral2
+590	chat_neutral3
+591	chat_default
+
+592	chat_shifty1
+593	chat_shifty2
+594	chat_shifty3
+595	chat_shifty4
+
+596	chat_worried1
+597	chat_worried2
+598	chat_worried3
+599	chat_worried4
+
+600	chat_drunk1
+601	chat_drunk2
+602	chat_drunk3
+603	chat_drunk4
+
+604	chat_verymad
+
+605	chat_laugh1
+606	chat_laugh2
+607	chat_laugh3
+608	chat_laugh4
+
+609	chat_madlaugh
+
+610	chat_sad1
+611	chat_sad2
+612	chat_sad3
+613	chat_sad4
+
+614	chat_angry1
+615	chat_angry2
+616	chat_angry3
+617	chat_angry4
+
+827	human_pickupfloor
+828	human_reachforladddertop
+832	human_pickuptable

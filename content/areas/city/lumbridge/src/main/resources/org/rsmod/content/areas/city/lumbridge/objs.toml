@@ -1,0 +1,203 @@
+[[spawn]]
+obj = 'leather_gloves'
+coords = '0_49_49_12_41'
+
+[[spawn]]
+obj = 'swamp_tar'
+coords = '0_49_49_28_33'
+
+[[spawn]]
+obj = 'swamp_tar'
+coords = '0_49_49_28_44'
+
+[[spawn]]
+obj = 'swamp_tar'
+coords = '0_49_49_28_51'
+
+[[spawn]]
+obj = 'swamp_tar'
+coords = '0_49_49_34_31'
+
+[[spawn]]
+obj = 'swamp_tar'
+coords = '0_49_49_35_41'
+
+[[spawn]]
+obj = 'swamp_tar'
+coords = '0_49_49_35_55'
+
+[[spawn]]
+obj = 'swamp_tar'
+coords = '0_49_49_37_30'
+
+[[spawn]]
+obj = 'swamp_tar'
+coords = '0_49_49_37_42'
+
+[[spawn]]
+obj = 'swamp_tar'
+coords = '0_49_49_43_54'
+
+[[spawn]]
+obj = 'swamp_tar'
+coords = '0_49_49_45_57'
+
+[[spawn]]
+obj = 'swamp_tar'
+coords = '0_49_49_46_29'
+
+[[spawn]]
+obj = 'swamp_tar'
+coords = '0_49_49_47_44'
+
+[[spawn]]
+obj = 'swamp_tar'
+coords = '0_49_49_49_25'
+
+[[spawn]]
+obj = 'swamp_tar'
+coords = '0_49_49_53_27'
+
+[[spawn]]
+obj = 'swamp_tar'
+coords = '0_49_49_55_26'
+
+[[spawn]]
+obj = 'swamp_tar'
+coords = '0_49_49_57_45'
+
+[[spawn]]
+obj = 'swamp_tar'
+coords = '0_49_49_58_32'
+
+[[spawn]]
+obj = 'air_rune'
+coords = '0_49_50_14_47'
+
+[[spawn]]
+obj = 'pot_empty'
+coords = '0_49_50_12_11'
+
+[[spawn]]
+obj = 'bronze_axe'
+coords = '0_49_51_49_13'
+
+[[spawn]]
+obj = 'shears'
+coords = '0_49_51_16_42'
+
+[[spawn]]
+obj = 'shears'
+coords = '0_49_51_56_8'
+
+[[spawn]]
+obj = 'egg'
+coords = '0_49_51_33_27'
+
+[[spawn]]
+obj = 'egg'
+coords = '0_49_51_36_37'
+
+[[spawn]]
+obj = 'egg'
+coords = '0_49_51_39_41'
+
+[[spawn]]
+obj = 'egg'
+coords = '0_49_51_49_33'
+
+[[spawn]]
+obj = 'mind_rune'
+coords = '0_50_50_6_8'
+
+[[spawn]]
+obj = 'bronze_arrow'
+coords = '0_50_50_5_27'
+
+[[spawn]]
+obj = 'knife'
+coords = '0_50_50_5_12'
+
+[[spawn]]
+obj = 'knife'
+coords = '0_50_50_24_2'
+
+[[spawn]]
+obj = 'iron_dagger'
+coords = '0_50_50_48_45'
+
+[[spawn]]
+obj = 'bronze_dagger'
+coords = '1_50_50_13_16'
+
+[[spawn]]
+obj = 'bronze_pickaxe'
+coords = '2_50_50_29_15'
+
+[[spawn]]
+obj = 'bronze_pickaxe'
+coords = '2_50_50_29_23'
+
+[[spawn]]
+obj = 'logs'
+coords = '2_50_50_5_24'
+
+[[spawn]]
+obj = 'logs'
+coords = '2_50_50_5_26'
+
+[[spawn]]
+obj = 'logs'
+coords = '2_50_50_8_25'
+
+[[spawn]]
+obj = 'logs'
+coords = '2_50_50_9_24'
+
+[[spawn]]
+obj = 'bowl_empty'
+coords = '0_50_50_8_14'
+
+[[spawn]]
+obj = 'pot_empty'
+coords = '0_50_50_9_14'
+
+[[spawn]]
+obj = 'jug_empty'
+coords = '0_50_50_11_12'
+
+[[spawn]]
+obj = 'onion'
+coords = '1_50_50_11_47'
+
+[[spawn]]
+obj = 'bucket_empty'
+coords = '0_50_51_25_30'
+
+[[spawn]]
+obj = 'egg'
+coords = '0_50_51_26_37'
+
+[[spawn]]
+obj = 'egg'
+coords = '0_50_51_29_35'
+
+[[spawn]]
+obj = 'phoenix_crossbow'
+coords = '1_50_52_43_55'
+
+[[spawn]]
+obj = 'phoenix_crossbow'
+coords = '1_50_52_45_57'
+
+[[spawn]]
+obj = 'leather_gloves'
+coords = '1_50_52_42_57'
+
+[[spawn]]
+obj = 'leather_boots'
+coords = '1_50_52_44_58'
+
+[[spawn]]
+obj = 'iron_dagger'
+coords = '1_50_52_42_55'

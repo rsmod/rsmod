@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="GameServer" type="JetRunConfigurationType">
+    <option name="MAIN_CLASS_NAME" value="org.rsmod.server.app.GameServerKt" />
+    <module name="rsmod.server.app.main" />
+    <shortenClasspath name="NONE" />
+    <option name="VM_PARAMETERS" value="-XX:AutoBoxCacheMax=65535" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

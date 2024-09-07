@@ -1,0 +1,51 @@
+name: Integration Tests
+
+on:
+  schedule:
+    # Schedule the workflow to run every day at 2:00 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  integration-tests:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+
+      - name: Set up RS Mod
+        run: ./gradlew install
+
+      - name: Run Integration Tests
+        run: ./gradlew integration
+
+      - name: Create Test Summary
+        uses: test-summary/action@v2
+        with:
+          paths: '**/test-results/integration/TEST-*.xml'
+          output: integration-test-summary.md
+        if: always()
+
+      - name: Upload Test Summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: integration-test-summary
+          path: 'integration-test-summary.md'
+
+      - name: Show Test Summary
+        if: always()
+        run: |
+          echo "### Integration Test Summary" >> $GITHUB_STEP_SUMMARY
+          cat integration-test-summary.md >> $GITHUB_STEP_SUMMARY
