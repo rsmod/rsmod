@@ -19,7 +19,7 @@ RS Mod is available under the terms of the ISC license, which is similar to the 
 [rev-badge]: https://img.shields.io/badge/revision-224-important
 [license-badge]: https://img.shields.io/badge/license-ISC-informational
 [discord-badge]: https://img.shields.io/discord/550024461626114053?color=%237289da&logo=discord
-[core-ci]: https://github.com/Tomm0017/protomod/actions/workflows/core-ci.yml
-[core-ci-badge]: https://github.com/Tomm0017/protomod/actions/workflows/core-ci.yml/badge.svg?branch=main
-[nightly-ci]: https://github.com/Tomm0017/protomod/actions/workflows/nightly-ci.yml
-[nightly-ci-badge]: https://github.com/Tomm0017/protomod/actions/workflows/nightly-ci.yml/badge.svg?branch=main
+[core-ci]: https://github.com/rsmod/rsmod/actions/workflows/core-ci.yml
+[core-ci-badge]: https://github.com/rsmod/rsmod/actions/workflows/core-ci.yml/badge.svg?branch=main
+[nightly-ci]: https://github.com/rsmod/rsmod/actions/workflows/nightly-ci.yml
+[nightly-ci-badge]: https://github.com/rsmod/rsmod/actions/workflows/nightly-ci.yml/badge.svg?branch=main
