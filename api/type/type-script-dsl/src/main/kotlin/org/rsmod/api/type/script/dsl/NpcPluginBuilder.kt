@@ -83,12 +83,12 @@ public class NpcPluginBuilder(public var internal: String? = null) {
     public var timer: Int? by backing::timer
     public var respawnDir: Direction? by backing::respawnDir
 
-    private var contentType: Int? by backing::contentType
+    private var contentTypeId: Int? by backing::contentType
 
-    public var content: ContentType?
+    public var contentType: ContentType?
         get() = null
         set(value) {
-            contentType = value?.id
+            contentTypeId = value?.id
         }
 
     private var recolS: ResizableIntArray by backing::recolS
