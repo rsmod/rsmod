@@ -1,6 +1,6 @@
 package org.rsmod.content.other.generic.npcs
 
-import org.rsmod.api.config.refs.BaseContent
+import org.rsmod.api.config.refs.content
 import org.rsmod.api.type.editors.npc.NpcEditor
 
 internal object NpcEdits : NpcEditor() {
@@ -9,7 +9,7 @@ internal object NpcEdits : NpcEditor() {
     }
 
     private fun person(internal: String) {
-        edit(internal) { contentType = BaseContent.person }
+        edit(internal) { contentType = content.person }
     }
 
     private fun people(): Set<String> =
