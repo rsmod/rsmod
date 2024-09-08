@@ -42,4 +42,5 @@ public object BaseObjs : ObjReferences() {
     public val sos_security_book: ObjType = find(8829460440114872002)
 
     public val bobs_axe_flyer: ObjType = find(326717991034157980)
+    public val beer: ObjType = find(7326515787083333531)
 }

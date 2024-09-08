@@ -1,9 +1,15 @@
 package org.rsmod.content.areas.city.lumbridge.npcs
 
 import jakarta.inject.Inject
+import org.rsmod.api.config.refs.objs
+import org.rsmod.api.dialogue.Dialogue
 import org.rsmod.api.dialogue.Dialogues
 import org.rsmod.api.dialogue.startDialogue
+import org.rsmod.api.invtx.invAddOrDrop
+import org.rsmod.api.invtx.invTakeFee
 import org.rsmod.api.player.protect.ProtectedAccess
+import org.rsmod.api.player.spam
+import org.rsmod.api.repo.obj.ObjRepository
 import org.rsmod.api.script.onApNpc1
 import org.rsmod.api.script.onOpNpc1
 import org.rsmod.game.entity.Npc
@@ -12,7 +18,7 @@ import org.rsmod.map.CoordGrid
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-class Bartender @Inject constructor(private val dialogues: Dialogues) : PluginScript() {
+class Bartender @Inject constructor(private val dialogues: Dialogues, private val objRepo: ObjRepository) : PluginScript() {
     override fun ScriptContext.startUp() {
         onApNpc1(LumbridgeNpcs.bartender) { apDialogue(it.npc) }
         onOpNpc1(LumbridgeNpcs.bartender) { startDialogue(it.npc) }
@@ -34,7 +40,7 @@ class Bartender @Inject constructor(private val dialogues: Dialogues) : PluginSc
     }
 
     private suspend fun ProtectedAccess.startDialogue(npc: Npc) =
-        startDialogue(dialogues) {
+        startDialogue(dialogues, npc) {
             chatNpcSpecific(npc.type, happy, "Welcome to the Sheared Ram. What can I do for you?")
             val option =
                 choice3(
@@ -45,8 +51,36 @@ class Bartender @Inject constructor(private val dialogues: Dialogues) : PluginSc
                     "Nothing, I'm fine.",
                     3,
                 )
-            when (option) {}
+            when (option) {
+                1 -> requestBeer()
+                2 -> requestRumour()
+                3 -> nothing()
+            }
         }
+
+    private suspend fun Dialogue.requestBeer() {
+        chatPlayer(happy, "I'll have a beer please.")
+        chatNpc(happy, "That'll be two coins please.")
+        if (!player.invTakeFee(fee = 2)) {
+            chatPlayer(sad, "Oh dear, I don't seem to have enough money.")
+        } else {
+            player.spam("You buy a pint of beer.")
+            player.invAddOrDrop(objRepo, objs.beer)
+        }
+    }
+
+    private suspend fun Dialogue.requestRumour() {
+        chatPlayer(quiz, "Heard any rumours recently?")
+        chatNpc(
+            neutral,
+            "One of the patrons here is looking for treasure<br>" +
+                "apparently. A chap by the name of Veos."
+        )
+    }
+
+    private suspend fun Dialogue.nothing() {
+        chatPlayer(neutral, "Nothing, I'm fine.")
+    }
 
     private fun Player.isInBuilding(): Boolean =
         isWithinArea(CoordGrid(0, 50, 50, 28, 36), CoordGrid(0, 50, 50, 33, 42)) ||
