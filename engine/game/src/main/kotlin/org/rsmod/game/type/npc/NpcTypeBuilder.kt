@@ -5,12 +5,12 @@ import org.rsmod.game.entity.npc.NpcPatrol
 import org.rsmod.game.map.Direction
 import org.rsmod.game.movement.BlockWalk
 import org.rsmod.game.movement.MoveRestrict
+import org.rsmod.game.type.util.CompactableIntArray
 import org.rsmod.game.type.util.GenericPropertySelector.select
 import org.rsmod.game.type.util.GenericPropertySelector.selectIntArray
 import org.rsmod.game.type.util.GenericPropertySelector.selectPredicate
 import org.rsmod.game.type.util.GenericPropertySelector.selectShortArray
 import org.rsmod.game.type.util.ParamMap
-import org.rsmod.game.type.util.CompactableIntArray
 
 @DslMarker private annotation class NpcBuilderDsl
 

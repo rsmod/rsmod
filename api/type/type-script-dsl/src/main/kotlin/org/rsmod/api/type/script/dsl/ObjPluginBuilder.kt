@@ -8,9 +8,9 @@ import org.rsmod.game.type.obj.Dummyitem
 import org.rsmod.game.type.obj.ObjTypeBuilder
 import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.type.obj.Wearpos
+import org.rsmod.game.type.util.CompactableIntArray
 import org.rsmod.game.type.util.ObjWeight
 import org.rsmod.game.type.util.ParamMapBuilder
-import org.rsmod.game.type.util.CompactableIntArray
 import org.rsmod.game.type.varobjbit.UnpackedVarObjBitType
 import org.rsmod.game.type.varobjbit.VarObjBitType
 

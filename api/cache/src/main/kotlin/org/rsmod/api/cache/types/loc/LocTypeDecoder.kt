@@ -15,8 +15,8 @@ import org.rsmod.game.type.TypeResolver
 import org.rsmod.game.type.loc.LocTypeBuilder
 import org.rsmod.game.type.loc.LocTypeList
 import org.rsmod.game.type.loc.UnpackedLocType
-import org.rsmod.game.type.util.ParamMap
 import org.rsmod.game.type.util.CompactableIntArray
+import org.rsmod.game.type.util.ParamMap
 
 public object LocTypeDecoder {
     public fun decodeAll(cache: Cache): LocTypeList {

@@ -11,8 +11,8 @@ import org.rsmod.game.movement.MoveRestrict
 import org.rsmod.game.type.content.ContentType
 import org.rsmod.game.type.npc.NpcTypeBuilder
 import org.rsmod.game.type.npc.UnpackedNpcType
-import org.rsmod.game.type.util.ParamMapBuilder
 import org.rsmod.game.type.util.CompactableIntArray
+import org.rsmod.game.type.util.ParamMapBuilder
 import org.rsmod.map.CoordGrid
 
 @DslMarker private annotation class NpcBuilderDsl

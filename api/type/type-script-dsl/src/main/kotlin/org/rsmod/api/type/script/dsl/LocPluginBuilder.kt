@@ -7,14 +7,15 @@ import org.rsmod.game.type.loc.LocTypeBuilder
 import org.rsmod.game.type.loc.UnpackedLocType
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.synth.SynthType
-import org.rsmod.game.type.util.ParamMapBuilder
 import org.rsmod.game.type.util.CompactableIntArray
+import org.rsmod.game.type.util.ParamMapBuilder
 import org.rsmod.game.type.varbit.VarBitType
 import org.rsmod.game.type.varp.VarpType
 
 @DslMarker private annotation class LocBuilderDsl
 
-@LocBuilderDsl public class LocPluginBuilder(public var internal: String? = null) {
+@LocBuilderDsl
+public class LocPluginBuilder(public var internal: String? = null) {
     private val backing: LocTypeBuilder = LocTypeBuilder()
 
     // TODO: Change to wrapper class with ModelType and LocShape.
@@ -78,23 +79,33 @@ import org.rsmod.game.type.varp.VarpType
 
     public var op1: String?
         get() = op[0]
-        set(value) { op[0] = value }
+        set(value) {
+            op[0] = value
+        }
 
     public var op2: String?
         get() = op[1]
-        set(value) { op[1] = value }
+        set(value) {
+            op[1] = value
+        }
 
     public var op3: String?
         get() = op[2]
-        set(value) { op[2] = value }
+        set(value) {
+            op[2] = value
+        }
 
     public var op4: String?
         get() = op[3]
-        set(value) { op[3] = value }
+        set(value) {
+            op[3] = value
+        }
 
     public var op5: String?
         get() = op[4]
-        set(value) { op[4] = value }
+        set(value) {
+            op[4] = value
+        }
 
     public fun build(id: Int): UnpackedLocType {
         backing.internal = internal

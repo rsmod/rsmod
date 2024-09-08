@@ -1,11 +1,11 @@
 package org.rsmod.game.type.obj
 
+import org.rsmod.game.type.util.CompactableIntArray
 import org.rsmod.game.type.util.GenericPropertySelector.select
 import org.rsmod.game.type.util.GenericPropertySelector.selectIntArray
 import org.rsmod.game.type.util.GenericPropertySelector.selectPredicate
 import org.rsmod.game.type.util.GenericPropertySelector.selectShortArray
 import org.rsmod.game.type.util.ParamMap
-import org.rsmod.game.type.util.CompactableIntArray
 
 @DslMarker private annotation class ObjBuilderDsl
 

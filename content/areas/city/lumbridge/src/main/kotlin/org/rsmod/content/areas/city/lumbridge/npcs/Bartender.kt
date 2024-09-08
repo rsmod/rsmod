@@ -18,7 +18,9 @@ import org.rsmod.map.CoordGrid
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-class Bartender @Inject constructor(private val dialogues: Dialogues, private val objRepo: ObjRepository) : PluginScript() {
+class Bartender
+@Inject
+constructor(private val dialogues: Dialogues, private val objRepo: ObjRepository) : PluginScript() {
     override fun ScriptContext.startUp() {
         onApNpc1(LumbridgeNpcs.bartender) { apDialogue(it.npc) }
         onOpNpc1(LumbridgeNpcs.bartender) { startDialogue(it.npc) }
@@ -74,7 +76,7 @@ class Bartender @Inject constructor(private val dialogues: Dialogues, private va
         chatNpc(
             neutral,
             "One of the patrons here is looking for treasure<br>" +
-                "apparently. A chap by the name of Veos."
+                "apparently. A chap by the name of Veos.",
         )
     }
 

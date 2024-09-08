@@ -24,8 +24,8 @@ import org.rsmod.game.type.TypeResolver
 import org.rsmod.game.type.npc.NpcTypeBuilder
 import org.rsmod.game.type.npc.NpcTypeList
 import org.rsmod.game.type.npc.UnpackedNpcType
-import org.rsmod.game.type.util.ParamMap
 import org.rsmod.game.type.util.CompactableIntArray
+import org.rsmod.game.type.util.ParamMap
 
 public object NpcTypeDecoder {
     public fun decodeAll(cache: Cache): NpcTypeList {

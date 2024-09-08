@@ -14,8 +14,8 @@ import org.rsmod.game.type.TypeResolver
 import org.rsmod.game.type.obj.ObjTypeBuilder
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.obj.UnpackedObjType
-import org.rsmod.game.type.util.ParamMap
 import org.rsmod.game.type.util.CompactableIntArray
+import org.rsmod.game.type.util.ParamMap
 
 public object ObjTypeDecoder {
     public fun decodeAll(cache: Cache): ObjTypeList {
