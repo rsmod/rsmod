@@ -58,6 +58,14 @@ public class Obj(
         type: ObjType,
         count: Int,
         creationCycle: Int,
+        receiver: Player,
+    ) : this(coords, entity(type, count, ObjScope.Private), creationCycle, receiver.observerId())
+
+    public constructor(
+        coords: CoordGrid,
+        type: ObjType,
+        count: Int,
+        creationCycle: Int,
         receiverId: Long,
     ) : this(coords, entity(type, count, ObjScope.Private), creationCycle, receiverId)
 
@@ -99,5 +107,8 @@ public class Obj(
 
         private fun entity(type: ObjType, count: Int, scope: ObjScope): ObjEntity =
             ObjEntity(type.id, count, scope.id)
+
+        private fun Player.observerId(): Long =
+            observerUUID ?: error("`observerUUID` not set for player: $this")
     }
 }
