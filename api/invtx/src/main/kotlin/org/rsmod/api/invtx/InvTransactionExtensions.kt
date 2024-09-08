@@ -1,16 +1,42 @@
 package org.rsmod.api.invtx
 
+import org.rsmod.api.config.constants
+import org.rsmod.api.config.refs.objs
 import org.rsmod.api.player.updateInvFull
+import org.rsmod.api.repo.obj.ObjRepository
 import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.obj.InvObj
+import org.rsmod.game.obj.Obj
 import org.rsmod.game.type.inv.InvStackType
 import org.rsmod.game.type.obj.ObjType
+import org.rsmod.map.CoordGrid
 import org.rsmod.objtx.Transaction
 import org.rsmod.objtx.TransactionCancellation
 import org.rsmod.objtx.TransactionInventory
 import org.rsmod.objtx.TransactionResult
 import org.rsmod.objtx.TransactionResultList
+
+public fun Player.invAddOrDrop(
+    repo: ObjRepository,
+    type: ObjType,
+    count: Int = 1,
+    duration: Int = constants.lootdrop_duration,
+    coords: CoordGrid = this.coords,
+): Boolean {
+    val transaction = invAdd(inv, type, count)
+    if (transaction.success) {
+        return true
+    }
+    val obj = Obj(coords, type, count, currentMapClock, this)
+    repo.add(obj, duration)
+    return false
+}
+
+public fun Player.invTakeFee(fee: Int, inv: Inventory = this.inv): Boolean {
+    val transaction = invDel(inv, objs.coins, fee)
+    return transaction.success
+}
 
 public fun Player.invClear(inv: Inventory) {
     if (inv.isNotEmpty() && !denyProtectedAccess(inv)) {
