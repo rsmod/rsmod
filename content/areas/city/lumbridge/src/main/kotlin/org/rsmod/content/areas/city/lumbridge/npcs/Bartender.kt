@@ -43,7 +43,7 @@ constructor(private val dialogues: Dialogues, private val objRepo: ObjRepository
 
     private suspend fun ProtectedAccess.startDialogue(npc: Npc) =
         startDialogue(dialogues, npc) {
-            chatNpcSpecific(npc.type, happy, "Welcome to the Sheared Ram. What can I do for you?")
+            chatNpcNoTurn(happy, "Welcome to the Sheared Ram. What can I do for you?")
             val option =
                 choice3(
                     "I'll have a beer please.",
@@ -62,7 +62,7 @@ constructor(private val dialogues: Dialogues, private val objRepo: ObjRepository
 
     private suspend fun Dialogue.requestBeer() {
         chatPlayer(happy, "I'll have a beer please.")
-        chatNpc(happy, "That'll be two coins please.")
+        chatNpcNoTurn(happy, "That'll be two coins please.")
         if (!player.invTakeFee(fee = 2)) {
             chatPlayer(sad, "Oh dear, I don't seem to have enough money.")
         } else {
@@ -73,7 +73,7 @@ constructor(private val dialogues: Dialogues, private val objRepo: ObjRepository
 
     private suspend fun Dialogue.requestRumour() {
         chatPlayer(quiz, "Heard any rumours recently?")
-        chatNpc(
+        chatNpcNoTurn(
             neutral,
             "One of the patrons here is looking for treasure<br>" +
                 "apparently. A chap by the name of Veos.",

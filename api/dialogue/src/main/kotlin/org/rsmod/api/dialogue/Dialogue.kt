@@ -29,15 +29,25 @@ public class Dialogue(
         subtext: String = Shops.DEFAULT_SUBTEXT,
     ): Unit = shops.open(player, title, shopInv, subtext)
 
-    public suspend fun chatPlayer(mesanim: MesAnimType, text: String): Unit =
-        protectedChatPlayer(text, mesanim)
+    public suspend fun chatPlayer(mesanim: MesAnimType, text: String) {
+        protectedAccess.chatPlayer(eventBus, text, mesanim)
+    }
 
-    public suspend fun chatPlayerNoAnim(text: String): Unit = protectedChatPlayer(text, null)
+    public suspend fun chatPlayerNoAnim(text: String) {
+        protectedAccess.chatPlayer(eventBus, text, mesanim = null)
+    }
 
-    public suspend fun chatNpc(mesanim: MesAnimType, text: String): Unit =
-        protectedChatNpc(text, mesanim)
+    public suspend fun chatNpc(mesanim: MesAnimType, text: String) {
+        protectedAccess.chatNpc(eventBus, npc(), text, mesanim, faceFar = faceFar)
+    }
 
-    public suspend fun chatNpcNoAnim(text: String): Unit = protectedChatNpc(text, null)
+    public suspend fun chatNpcNoTurn(mesanim: MesAnimType, text: String) {
+        protectedAccess.chatNpcNoTurn(eventBus, npc(), text, mesanim)
+    }
+
+    public suspend fun chatNpcNoAnim(text: String) {
+        protectedAccess.chatNpc(eventBus, npc(), text, mesanim = null, faceFar = faceFar)
+    }
 
     public suspend fun chatNpcSpecific(type: UnpackedNpcType, mesanim: MesAnimType, text: String) {
         protectedAccess.chatNpcSpecific(eventBus, type.name, type, text, mesanim)
@@ -133,16 +143,8 @@ public class Dialogue(
 
     public suspend fun delay(ticks: Int = 1): Unit = protectedAccess.delay(ticks)
 
-    private suspend fun protectedChatPlayer(text: String, mesanim: MesAnimType?): Unit =
-        protectedAccess.chatPlayer(eventBus, text, mesanim)
-
-    private suspend fun protectedChatNpc(text: String, mesanim: MesAnimType?) {
-        val npc =
-            requireNotNull(npc) {
-                "`npc` must be set. Use `Dialogues.start(player, npc)` to start the dialogue."
-            }
-        protectedAccess.chatNpcSpecific(eventBus, npc, text, mesanim, faceFar = faceFar)
-    }
+    private fun npc(): Npc =
+        npc ?: error("`npc` must be set. Use `Dialogues.start(player, npc)` to start the dialogue.")
 
     public val quiz: MesAnimType = BaseMesAnims.quiz
     public val bored: MesAnimType = BaseMesAnims.bored
