@@ -35,7 +35,6 @@ import org.rsmod.game.type.varp.VarpType
     public var wallWidth: Int? by backing::wallWidth
     public var ambient: Int? by backing::ambient
     public var contrast: Int? by backing::contrast
-    // TODO: ResizableTypedArray for op
     private val op: Array<String?> by backing::op
     public var recolS: CompactableIntArray by backing::recolS
     public var recolD: CompactableIntArray by backing::recolD
@@ -59,25 +58,43 @@ import org.rsmod.game.type.varp.VarpType
     public var multiVarBit: VarBitType? by relay { backing.multiVarBit = it?.id }
     public var multiVarp: VarpType? by relay { backing.multiVarp = it?.id }
     public var multiLocDefault: LocType? by relay { backing.multiLocDefault = it?.id }
-    // TODO: ResizableTypedArray for multi variants
-    // public var multiLoc: ResizableTypedArray<LocType> by relayIndexed { index, type ->
-    //  backing.multiLoc[index] = type.id
-    // }
+    public val multiLoc: RelayArray<LocType?> = relayIndexed { index, type ->
+        backing.multiLoc[index] = type?.id ?: LocTypeBuilder.DEFAULT_MULTI_LOC_DEFAULT
+    }
     public var bgsoundSound: SynthType? by relay { backing.bgsoundSound = it?.id }
     public var bgsoundRange: Int? by backing::bgsoundRange
     public var bgsoundSize: Int? by backing::bgsoundSize
     public var bgsoundMinDelay: Int? by backing::bgsoundMinDelay
     public var bgsoundMaxDelay: Int? by backing::bgsoundMaxDelay
-    // TODO: ResizableTypedArray for random sounds
-    // public var multiLoc: ResizableTypedArray<SynthType> by relayIndexed { index, type ->
-    //  backing.bgsoundRandomSounds[index] = type.id
-    // }
+    public val bgsoundRandomSound: RelayArray<SynthType> = relayIndexed { index, type ->
+        backing.bgsoundRandomSound[index] = type.id
+    }
     public var treeSkew: Int? by backing::treeSkew
     public var mapIcon: Int? by backing::mapIcon
     public var randomAnimFrame: Boolean? by backing::randomAnimFrame
     public var fixLocAnimAfterLocChange: Boolean? by backing::fixLocAnimAfterLocChange
     public var contentType: ContentType? by relay { backing.contentType = it?.id }
     public var param: ParamMapBuilder = ParamMapBuilder()
+
+    public var op1: String?
+        get() = op[0]
+        set(value) { op[0] = value }
+
+    public var op2: String?
+        get() = op[1]
+        set(value) { op[1] = value }
+
+    public var op3: String?
+        get() = op[2]
+        set(value) { op[2] = value }
+
+    public var op4: String?
+        get() = op[3]
+        set(value) { op[3] = value }
+
+    public var op5: String?
+        get() = op[4]
+        set(value) { op[4] = value }
 
     public fun build(id: Int): UnpackedLocType {
         backing.internal = internal
