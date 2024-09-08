@@ -2,6 +2,8 @@
 
 package org.rsmod.api.config
 
+public typealias constants = Constants
+
 public object Constants {
     public const val dm_default: String = "Nothing interesting happens."
     public const val dm_reach: String = "I can't reach that!"
