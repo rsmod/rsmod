@@ -11,21 +11,21 @@ import org.rsmod.api.type.builders.resolver.TypeBuilderResult.NameNotFound
 import org.rsmod.api.type.builders.resolver.err
 import org.rsmod.api.type.builders.resolver.ok
 import org.rsmod.api.type.builders.resolver.update
+import org.rsmod.api.type.script.dsl.LocPluginBuilder
 import org.rsmod.api.type.symbols.name.NameMapping
 import org.rsmod.game.type.TypeResolver
-import org.rsmod.game.type.loc.LocTypeBuilder
 import org.rsmod.game.type.loc.LocTypeList
 import org.rsmod.game.type.loc.UnpackedLocType
 
 public class LocBuilderResolver
 @Inject
 constructor(private val types: LocTypeList, private val nameMapping: NameMapping) :
-    TypeBuilderResolver<LocTypeBuilder, UnpackedLocType> {
+    TypeBuilderResolver<LocPluginBuilder, UnpackedLocType> {
     private val names: Map<String, Int>
         get() = nameMapping.locs
 
     override fun resolve(
-        builders: TypeBuilder<LocTypeBuilder, UnpackedLocType>
+        builders: TypeBuilder<LocPluginBuilder, UnpackedLocType>
     ): List<TypeBuilderResult> = builders.cache.map { it.resolve() }
 
     private fun UnpackedLocType.resolve(): TypeBuilderResult {

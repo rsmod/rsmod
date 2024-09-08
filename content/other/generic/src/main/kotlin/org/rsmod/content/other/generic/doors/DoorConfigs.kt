@@ -1,11 +1,10 @@
 package org.rsmod.content.other.generic.doors
 
-import org.rsmod.api.config.refs.BaseContent
-import org.rsmod.api.config.refs.BaseParams
+import org.rsmod.api.config.refs.content
+import org.rsmod.api.config.refs.params
 import org.rsmod.api.config.refs.synths
 import org.rsmod.api.type.editors.loc.LocEditor
 import org.rsmod.api.type.refs.loc.LocReferences
-import org.rsmod.game.type.util.ParamMapBuilder
 
 internal object DoorConstants {
     /** The (cycle) duration that a door remains changed before reverting to its original state. */
@@ -26,61 +25,45 @@ internal object DoorLocs : LocReferences() {
 internal object DoorLocEdits : LocEditor() {
     init {
         edit("door_opened") {
-            val param = ParamMapBuilder()
-            param[BaseParams.next_loc_stage] = DoorLocs.door_closed
-            this.paramMap = param.toParamMap()
-            contentType = BaseContent.opened_single_door.id
+            param[params.next_loc_stage] = DoorLocs.door_closed
+            contentType = content.opened_single_door
         }
 
         edit("door_closed") {
-            val param = ParamMapBuilder()
-            param[BaseParams.next_loc_stage] = DoorLocs.door_opened
-            this.paramMap = param.toParamMap()
-            contentType = BaseContent.closed_single_door.id
+            param[params.next_loc_stage] = DoorLocs.door_opened
+            contentType = content.closed_single_door
         }
 
         edit("nicedoor_opened") {
-            val param = ParamMapBuilder()
-            param[BaseParams.next_loc_stage] = DoorLocs.nicedoor_closed
-            param[BaseParams.closesound] = synths.nicedoor_close
-            this.paramMap = param.toParamMap()
-            contentType = BaseContent.opened_single_door.id
+            param[params.next_loc_stage] = DoorLocs.nicedoor_closed
+            param[params.closesound] = synths.nicedoor_close
+            contentType = content.opened_single_door
         }
 
         edit("nicedoor_closed") {
-            val param = ParamMapBuilder()
-            param[BaseParams.next_loc_stage] = DoorLocs.nicedoor_opened
-            param[BaseParams.opensound] = synths.nicedoor_open
-            this.paramMap = param.toParamMap()
-            contentType = BaseContent.closed_single_door.id
+            param[params.next_loc_stage] = DoorLocs.nicedoor_opened
+            param[params.opensound] = synths.nicedoor_open
+            contentType = content.closed_single_door
         }
 
         edit("door_left_closed") {
-            val param = ParamMapBuilder()
-            param[BaseParams.next_loc_stage] = DoorLocs.door_left_opened
-            this.paramMap = param.toParamMap()
-            contentType = BaseContent.closed_left_door.id
+            param[params.next_loc_stage] = DoorLocs.door_left_opened
+            contentType = content.closed_left_door
         }
 
         edit("door_left_opened") {
-            val param = ParamMapBuilder()
-            param[BaseParams.next_loc_stage] = DoorLocs.door_left_closed
-            this.paramMap = param.toParamMap()
-            contentType = BaseContent.opened_left_door.id
+            param[params.next_loc_stage] = DoorLocs.door_left_closed
+            contentType = content.opened_left_door
         }
 
         edit("door_right_closed") {
-            val param = ParamMapBuilder()
-            param[BaseParams.next_loc_stage] = DoorLocs.door_right_opened
-            this.paramMap = param.toParamMap()
-            contentType = BaseContent.closed_right_door.id
+            param[params.next_loc_stage] = DoorLocs.door_right_opened
+            contentType = content.closed_right_door
         }
 
         edit("door_right_opened") {
-            val param = ParamMapBuilder()
-            param[BaseParams.next_loc_stage] = DoorLocs.door_right_closed
-            this.paramMap = param.toParamMap()
-            contentType = BaseContent.opened_right_door.id
+            param[params.next_loc_stage] = DoorLocs.door_right_closed
+            contentType = content.opened_right_door
         }
     }
 }

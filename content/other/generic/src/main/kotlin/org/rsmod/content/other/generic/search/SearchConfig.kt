@@ -1,9 +1,8 @@
 package org.rsmod.content.other.generic.search
 
-import org.rsmod.api.config.refs.BaseParams
 import org.rsmod.api.config.refs.content
+import org.rsmod.api.config.refs.params
 import org.rsmod.api.type.editors.loc.LocEditor
-import org.rsmod.game.type.util.ParamMapBuilder
 
 internal object SearchLocEdits : LocEditor() {
     init {
@@ -12,10 +11,8 @@ internal object SearchLocEdits : LocEditor() {
 
     private fun crate(internal: String) {
         edit(internal) {
-            val param = ParamMapBuilder()
-            param[BaseParams.game_message] = SearchConstants.EMPTY_CRATE
-            this.paramMap = param.toParamMap()
-            contentType = content.empty_crate.id
+            param[params.game_message] = SearchConstants.EMPTY_CRATE
+            contentType = content.empty_crate
         }
     }
 
