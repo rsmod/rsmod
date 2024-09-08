@@ -199,6 +199,7 @@ public class UnpackedObjType(
         "UnpackedObjType(" +
             "internalName='$internalName', " +
             "internalId=$internalId, " +
+            "internalHash=${computeIdentityHash()}, " +
             "contentType=$contentType, " +
             "name='$name', " +
             "desc='$desc', " +

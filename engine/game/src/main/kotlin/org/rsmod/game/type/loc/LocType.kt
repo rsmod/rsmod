@@ -148,6 +148,7 @@ public class UnpackedLocType(
         "UnpackedLocType(" +
             "internalName='$internalName', " +
             "internalId=$internalId, " +
+            "internalHash=${computeIdentityHash()}, " +
             "contentType=$contentType, " +
             "models=${models.contentToString()}, " +
             "shapes=${shapes.contentToString()}, " +
