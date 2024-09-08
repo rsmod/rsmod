@@ -46,6 +46,8 @@ class ConnectionHandler(private val players: PlayerList, private val events: Eve
                 username = response.loginBlock.username
                 displayName = username
                 varMoveSpeed = MoveSpeed.Run
+                uuid = displayName.hashCode().toLong()
+                observerUUID = uuid
             }
         // TODO: thread-safety for below
         players[slot] = player
