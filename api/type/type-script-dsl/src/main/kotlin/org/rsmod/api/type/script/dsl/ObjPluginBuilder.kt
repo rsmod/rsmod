@@ -10,7 +10,7 @@ import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.type.obj.Wearpos
 import org.rsmod.game.type.util.ObjWeight
 import org.rsmod.game.type.util.ParamMapBuilder
-import org.rsmod.game.type.util.ResizableIntArray
+import org.rsmod.game.type.util.CompactableIntArray
 import org.rsmod.game.type.varobjbit.UnpackedVarObjBitType
 import org.rsmod.game.type.varobjbit.VarObjBitType
 
@@ -39,10 +39,10 @@ public class ObjPluginBuilder(public var internal: String? = null) {
     public var womanwear: Int? by backing::womanwear
     public var womanwearOff: Int? by backing::womanwearOff
     public var womanwear2: Int? by backing::womanwear2
-    private var recolS: ResizableIntArray by backing::recolS
-    private var recolD: ResizableIntArray by backing::recolD
-    private var retexS: ResizableIntArray by backing::retexS
-    private var retexD: ResizableIntArray by backing::retexD
+    private var recolS: CompactableIntArray by backing::recolS
+    private var recolD: CompactableIntArray by backing::recolD
+    private var retexS: CompactableIntArray by backing::retexS
+    private var retexD: CompactableIntArray by backing::retexD
     public var shiftclickiop: Int? by backing::shiftclickiop
     public var stockmarket: Boolean? by backing::stockmarket
     public var manwear3: Int? by backing::manwear3
@@ -54,8 +54,8 @@ public class ObjPluginBuilder(public var internal: String? = null) {
     public var category: Int? by backing::category
     public var zan2d: Int? by backing::zan2d
     // TODO: find good way of defining countobjs within our builder
-    private var countObj: ResizableIntArray by backing::countObj
-    private var countCount: ResizableIntArray by backing::countCount
+    private var countObj: CompactableIntArray by backing::countObj
+    private var countCount: CompactableIntArray by backing::countCount
     public var resizeX: Int? by backing::resizeX
     public var resizeY: Int? by backing::resizeY
     public var resizeZ: Int? by backing::resizeZ
@@ -581,7 +581,7 @@ public class ObjPluginBuilder(public var internal: String? = null) {
             check(msb < Int.SIZE_BITS) { "Most-significant bit cannot be greater than 31." }
             check(!overlapping) { "Bits from `objvar` list must not overlap: $filtered" }
             val mapped = filtered.mapNotNull { TypeResolver[it] }
-            backing.objvar = ResizableIntArray(mapped.toIntArray())
+            backing.objvar = CompactableIntArray(mapped.toIntArray())
         }
         return backing.build(id)
     }

@@ -12,7 +12,7 @@ import org.rsmod.game.type.content.ContentType
 import org.rsmod.game.type.npc.NpcTypeBuilder
 import org.rsmod.game.type.npc.UnpackedNpcType
 import org.rsmod.game.type.util.ParamMapBuilder
-import org.rsmod.game.type.util.ResizableIntArray
+import org.rsmod.game.type.util.CompactableIntArray
 import org.rsmod.map.CoordGrid
 
 @DslMarker private annotation class NpcBuilderDsl
@@ -24,14 +24,14 @@ public class NpcPluginBuilder(public var internal: String? = null) {
     public var name: String? by backing::name
     public var desc: String? by backing::desc
     public var size: Int? by backing::size
-    public var models: ResizableIntArray by backing::models
+    public var models: CompactableIntArray by backing::models
     public var readyAnim: Int? by backing::readyAnim
     public var walkAnim: Int? by backing::walkAnim
     public var turnBackAnim: Int? by backing::turnBackAnim
     public var turnLeftAnim: Int? by backing::turnLeftAnim
     public var turnRightAnim: Int? by backing::turnRightAnim
     public var category: Int? by backing::category
-    public var head: ResizableIntArray by backing::head
+    public var head: CompactableIntArray by backing::head
     public var minimap: Boolean? by backing::minimap
     public var vislevel: Int? by backing::vislevel
     public var resizeH: Int? by backing::resizeH
@@ -40,15 +40,15 @@ public class NpcPluginBuilder(public var internal: String? = null) {
     public var ambient: Int? by backing::ambient
     public var contrast: Int? by backing::contrast
     // TODO: private and use a more plugin-esque approach with graphic types and such
-    public var headIconGraphic: ResizableIntArray by backing::headIconGraphic
-    public var headIconIndex: ResizableIntArray by backing::headIconGraphic
+    public var headIconGraphic: CompactableIntArray by backing::headIconGraphic
+    public var headIconIndex: CompactableIntArray by backing::headIconGraphic
     public var turnSpeed: Int? by backing::turnSpeed
     // TODO: switch to varp and varbit type
     public var multiVarp: Int? by backing::multiVarp
     public var multiVarBit: Int? by backing::multiVarBit
     // TODO: switch to npc type
     public var multiNpcDefault: Int? by backing::multiNpcDefault
-    public var multiNpc: ResizableIntArray by backing::multiNpc
+    public var multiNpc: CompactableIntArray by backing::multiNpc
     public var active: Boolean? by backing::active
     public var rotationFlag: Boolean? by backing::rotationFlag
     public var follower: Boolean? by backing::follower
@@ -91,10 +91,10 @@ public class NpcPluginBuilder(public var internal: String? = null) {
             contentTypeId = value?.id
         }
 
-    private var recolS: ResizableIntArray by backing::recolS
-    private var recolD: ResizableIntArray by backing::recolD
-    private var retexS: ResizableIntArray by backing::retexS
-    private var retexD: ResizableIntArray by backing::retexD
+    private var recolS: CompactableIntArray by backing::recolS
+    private var recolD: CompactableIntArray by backing::recolD
+    private var retexS: CompactableIntArray by backing::retexS
+    private var retexD: CompactableIntArray by backing::retexD
 
     private val op: Array<String?>
         get() = backing.op

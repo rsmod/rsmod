@@ -5,7 +5,7 @@ import org.rsmod.game.type.util.GenericPropertySelector.selectIntArray
 import org.rsmod.game.type.util.GenericPropertySelector.selectPredicate
 import org.rsmod.game.type.util.GenericPropertySelector.selectShortArray
 import org.rsmod.game.type.util.ParamMap
-import org.rsmod.game.type.util.ResizableIntArray
+import org.rsmod.game.type.util.CompactableIntArray
 
 @DslMarker private annotation class ObjBuilderDsl
 
@@ -35,10 +35,10 @@ public class ObjTypeBuilder(public var internal: String? = null) {
     public var wearpos3: Int? = null
     public val op: Array<String?> = arrayOfNulls(OP_CAPACITY)
     public val iop: Array<String?> = arrayOfNulls(IOP_CAPACITY)
-    public var recolS: ResizableIntArray = ResizableIntArray(RECOL_CAPACITY)
-    public var recolD: ResizableIntArray = ResizableIntArray(RECOL_CAPACITY)
-    public var retexS: ResizableIntArray = ResizableIntArray(RECOL_CAPACITY)
-    public var retexD: ResizableIntArray = ResizableIntArray(RECOL_CAPACITY)
+    public var recolS: CompactableIntArray = CompactableIntArray(RECOL_CAPACITY)
+    public var recolD: CompactableIntArray = CompactableIntArray(RECOL_CAPACITY)
+    public var retexS: CompactableIntArray = CompactableIntArray(RECOL_CAPACITY)
+    public var retexD: CompactableIntArray = CompactableIntArray(RECOL_CAPACITY)
     public var shiftclickiop: Int? = null
     public var isubop1: Array<String>? = null
     public var isubop2: Array<String>? = null
@@ -57,8 +57,8 @@ public class ObjTypeBuilder(public var internal: String? = null) {
     public var zan2d: Int? = null
     public var certlink: Int? = null
     public var certtemplate: Int? = null
-    public var countObj: ResizableIntArray = ResizableIntArray(COUNT_CAPACITY)
-    public var countCount: ResizableIntArray = ResizableIntArray(COUNT_CAPACITY)
+    public var countObj: CompactableIntArray = CompactableIntArray(COUNT_CAPACITY)
+    public var countCount: CompactableIntArray = CompactableIntArray(COUNT_CAPACITY)
     public var resizeX: Int? = null
     public var resizeY: Int? = null
     public var resizeZ: Int? = null
@@ -72,7 +72,7 @@ public class ObjTypeBuilder(public var internal: String? = null) {
     public var paramMap: ParamMap? = null
     public var generateCertificate: Boolean? = false
     public var generatePlaceholder: Boolean? = false
-    public var objvar: ResizableIntArray = ResizableIntArray()
+    public var objvar: CompactableIntArray = CompactableIntArray()
     public var playerCost: Int? = null
     public var playerCostDerived: Int? = null
     public var playerCostDerivedConst: Int? = null

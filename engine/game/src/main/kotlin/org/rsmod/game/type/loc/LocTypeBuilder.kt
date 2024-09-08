@@ -6,14 +6,14 @@ import org.rsmod.game.type.util.GenericPropertySelector.selectIntArray
 import org.rsmod.game.type.util.GenericPropertySelector.selectPredicate
 import org.rsmod.game.type.util.GenericPropertySelector.selectShortArray
 import org.rsmod.game.type.util.ParamMap
-import org.rsmod.game.type.util.ResizableIntArray
+import org.rsmod.game.type.util.CompactableIntArray
 
 @DslMarker private annotation class LocBuilderDsl
 
 @LocBuilderDsl
 public class LocTypeBuilder(public var internal: String? = null) {
-    public var model: ResizableIntArray = ResizableIntArray()
-    public var modelShape: ResizableIntArray = ResizableIntArray()
+    public var model: CompactableIntArray = CompactableIntArray()
+    public var modelShape: CompactableIntArray = CompactableIntArray()
     public var name: String? = null
     public var desc: String? = null
     public var width: Int? = null
@@ -30,10 +30,10 @@ public class LocTypeBuilder(public var internal: String? = null) {
     public var ambient: Int? = null
     public var contrast: Int? = null
     public val op: Array<String?> = arrayOfNulls(OP_CAPACITY)
-    public var recolS: ResizableIntArray = ResizableIntArray(RECOL_CAPACITY)
-    public var recolD: ResizableIntArray = ResizableIntArray(RECOL_CAPACITY)
-    public var retexS: ResizableIntArray = ResizableIntArray(RECOL_CAPACITY)
-    public var retexD: ResizableIntArray = ResizableIntArray(RECOL_CAPACITY)
+    public var recolS: CompactableIntArray = CompactableIntArray(RECOL_CAPACITY)
+    public var recolD: CompactableIntArray = CompactableIntArray(RECOL_CAPACITY)
+    public var retexS: CompactableIntArray = CompactableIntArray(RECOL_CAPACITY)
+    public var retexD: CompactableIntArray = CompactableIntArray(RECOL_CAPACITY)
     public var category: Int? = null
     public var mirror: Boolean? = null
     public var shadow: Boolean? = null
@@ -51,13 +51,13 @@ public class LocTypeBuilder(public var internal: String? = null) {
     public var multiVarBit: Int? = null
     public var multiVarp: Int? = null
     public var multiLocDefault: Int? = null
-    public var multiLoc: ResizableIntArray = ResizableIntArray()
+    public var multiLoc: CompactableIntArray = CompactableIntArray()
     public var bgsoundSound: Int? = null
     public var bgsoundRange: Int? = null
     public var bgsoundSize: Int? = null
     public var bgsoundMinDelay: Int? = null
     public var bgsoundMaxDelay: Int? = null
-    public var bgsoundRandomSound: ResizableIntArray = ResizableIntArray()
+    public var bgsoundRandomSound: CompactableIntArray = CompactableIntArray()
     public var treeSkew: Int? = null
     public var mapIcon: Int? = null
     public var randomAnimFrame: Boolean? = null

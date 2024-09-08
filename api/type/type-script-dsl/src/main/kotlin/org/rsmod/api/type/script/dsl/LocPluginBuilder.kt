@@ -8,7 +8,7 @@ import org.rsmod.game.type.loc.UnpackedLocType
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.synth.SynthType
 import org.rsmod.game.type.util.ParamMapBuilder
-import org.rsmod.game.type.util.ResizableIntArray
+import org.rsmod.game.type.util.CompactableIntArray
 import org.rsmod.game.type.varbit.VarBitType
 import org.rsmod.game.type.varp.VarpType
 
@@ -18,8 +18,8 @@ import org.rsmod.game.type.varp.VarpType
     private val backing: LocTypeBuilder = LocTypeBuilder()
 
     // TODO: Change to wrapper class with ModelType and LocShape.
-    private var models: ResizableIntArray by backing::model
-    private var shapes: ResizableIntArray by backing::modelShape
+    private var models: CompactableIntArray by backing::model
+    private var shapes: CompactableIntArray by backing::modelShape
     public var name: String? by backing::name
     public var desc: String? by backing::desc
     public var width: Int? by backing::width
@@ -37,9 +37,9 @@ import org.rsmod.game.type.varp.VarpType
     public var contrast: Int? by backing::contrast
     // TODO: ResizableTypedArray for op
     private val op: Array<String?> by backing::op
-    public var recolS: ResizableIntArray by backing::recolS
-    public var recolD: ResizableIntArray by backing::recolD
-    public var retexS: ResizableIntArray by backing::retexS
+    public var recolS: CompactableIntArray by backing::recolS
+    public var recolD: CompactableIntArray by backing::recolD
+    public var retexS: CompactableIntArray by backing::retexS
     public var mirror: Boolean? by backing::mirror
     public var shadow: Boolean? by backing::shadow
     public var resizeX: Int? by backing::resizeX

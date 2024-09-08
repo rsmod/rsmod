@@ -15,7 +15,7 @@ import org.rsmod.game.type.obj.ObjTypeBuilder
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.type.util.ParamMap
-import org.rsmod.game.type.util.ResizableIntArray
+import org.rsmod.game.type.util.CompactableIntArray
 
 public object ObjTypeDecoder {
     public fun decodeAll(cache: Cache): ObjTypeList {
@@ -85,12 +85,12 @@ public object ObjTypeDecoder {
                     }
                     when (code) {
                         40 -> {
-                            recolS = ResizableIntArray(src)
-                            recolD = ResizableIntArray(dest)
+                            recolS = CompactableIntArray(src)
+                            recolD = CompactableIntArray(dest)
                         }
                         41 -> {
-                            retexS = ResizableIntArray(src)
-                            retexD = ResizableIntArray(dest)
+                            retexS = CompactableIntArray(src)
+                            retexD = CompactableIntArray(dest)
                         }
                         else -> throw NotImplementedError("Unhandled .obj config code.")
                     }

@@ -25,7 +25,7 @@ import org.rsmod.game.type.npc.NpcTypeBuilder
 import org.rsmod.game.type.npc.NpcTypeList
 import org.rsmod.game.type.npc.UnpackedNpcType
 import org.rsmod.game.type.util.ParamMap
-import org.rsmod.game.type.util.ResizableIntArray
+import org.rsmod.game.type.util.CompactableIntArray
 
 public object NpcTypeDecoder {
     public fun decodeAll(cache: Cache): NpcTypeList {
@@ -58,7 +58,7 @@ public object NpcTypeDecoder {
                     val count = data.readUnsignedByte().toInt()
                     val models = IntArray(count)
                     repeat(count) { models[it] = data.readUnsignedShort() }
-                    this.models = ResizableIntArray(models)
+                    this.models = CompactableIntArray(models)
                 }
                 2 -> name = data.readString()
                 3 -> desc = data.readString()
@@ -88,12 +88,12 @@ public object NpcTypeDecoder {
                     }
                     when (code) {
                         40 -> {
-                            recolS = ResizableIntArray(src)
-                            recolD = ResizableIntArray(dest)
+                            recolS = CompactableIntArray(src)
+                            recolD = CompactableIntArray(dest)
                         }
                         41 -> {
-                            retexS = ResizableIntArray(src)
-                            retexD = ResizableIntArray(dest)
+                            retexS = CompactableIntArray(src)
+                            retexD = CompactableIntArray(dest)
                         }
                         else -> throw NotImplementedError("Unhandled .npc config code.")
                     }
@@ -102,7 +102,7 @@ public object NpcTypeDecoder {
                     val count = data.readUnsignedByte().toInt()
                     val models = IntArray(count)
                     repeat(count) { models[it] = data.readUnsignedShort() }
-                    this.head = ResizableIntArray(models)
+                    this.head = CompactableIntArray(models)
                 }
                 74 -> attack = data.readUnsignedShort()
                 75 -> defence = data.readUnsignedShort()
@@ -136,8 +136,8 @@ public object NpcTypeDecoder {
                             files[i] = data.readUnsignedSmallSmartPlusOne()
                         }
                     }
-                    this.headIconGraphic = ResizableIntArray(groups)
-                    this.headIconIndex = ResizableIntArray(files)
+                    this.headIconGraphic = CompactableIntArray(groups)
+                    this.headIconIndex = CompactableIntArray(files)
                 }
                 103 -> turnSpeed = data.readUnsignedShort()
                 106,
@@ -156,7 +156,7 @@ public object NpcTypeDecoder {
                     this.multiVarp = multiVarp
                     this.multiVarBit = multiVarBit
                     this.multiNpcDefault = defaultNpc
-                    this.multiNpc = ResizableIntArray(multiNpc)
+                    this.multiNpc = CompactableIntArray(multiNpc)
                 }
                 107 -> active = false
                 109 -> rotationFlag = false

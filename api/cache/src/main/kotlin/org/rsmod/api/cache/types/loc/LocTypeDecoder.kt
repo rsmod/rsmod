@@ -16,7 +16,7 @@ import org.rsmod.game.type.loc.LocTypeBuilder
 import org.rsmod.game.type.loc.LocTypeList
 import org.rsmod.game.type.loc.UnpackedLocType
 import org.rsmod.game.type.util.ParamMap
-import org.rsmod.game.type.util.ResizableIntArray
+import org.rsmod.game.type.util.CompactableIntArray
 
 public object LocTypeDecoder {
     public fun decodeAll(cache: Cache): LocTypeList {
@@ -53,8 +53,8 @@ public object LocTypeDecoder {
                         models[it] = data.readUnsignedShort()
                         shapes[it] = data.readUnsignedByte().toInt()
                     }
-                    this.model = ResizableIntArray(models)
-                    this.modelShape = ResizableIntArray(shapes)
+                    this.model = CompactableIntArray(models)
+                    this.modelShape = CompactableIntArray(shapes)
                 }
                 2 -> name = data.readString()
                 3 -> desc = data.readString()
@@ -62,7 +62,7 @@ public object LocTypeDecoder {
                     val count = data.readUnsignedByte().toInt()
                     val models = IntArray(count)
                     repeat(count) { models[it] = data.readUnsignedShort() }
-                    this.model = ResizableIntArray(models)
+                    this.model = CompactableIntArray(models)
                 }
                 14 -> width = data.readUnsignedByte().toInt()
                 15 -> length = data.readUnsignedByte().toInt()
@@ -94,12 +94,12 @@ public object LocTypeDecoder {
                     }
                     when (code) {
                         40 -> {
-                            recolS = ResizableIntArray(src)
-                            recolD = ResizableIntArray(dest)
+                            recolS = CompactableIntArray(src)
+                            recolD = CompactableIntArray(dest)
                         }
                         41 -> {
-                            retexS = ResizableIntArray(src)
-                            retexD = ResizableIntArray(dest)
+                            retexS = CompactableIntArray(src)
+                            retexD = CompactableIntArray(dest)
                         }
                         else -> throw NotImplementedError("Unhandled .loc config code.")
                     }
@@ -134,7 +134,7 @@ public object LocTypeDecoder {
                     this.multiVarp = multiVarp
                     this.multiVarBit = multiVarBit
                     this.multiLocDefault = multiLocDefault
-                    this.multiLoc = ResizableIntArray(multiLoc)
+                    this.multiLoc = CompactableIntArray(multiLoc)
                 }
                 78 -> {
                     bgsoundSound = data.readUnsignedShort()
@@ -148,7 +148,7 @@ public object LocTypeDecoder {
                     bgsoundSize = data.readUnsignedByte().toInt()
                     val count = data.readUnsignedByte().toInt()
                     val randomSounds = IntArray(count) { data.readUnsignedShort() }
-                    this.bgsoundRandomSound = ResizableIntArray(randomSounds)
+                    this.bgsoundRandomSound = CompactableIntArray(randomSounds)
                 }
                 81 -> treeSkew = data.readUnsignedByte().toInt()
                 82 -> mapIcon = data.readUnsignedShort()

@@ -1,6 +1,6 @@
 package org.rsmod.game.type.util
 
-public class ResizableIntArray(private val entries: Array<Int?>) : Iterable<Int?> {
+public class CompactableIntArray(private val entries: Array<Int?>) : Iterable<Int?> {
     public constructor(intArray: IntArray) : this(intArray.map { it }.toTypedArray())
 
     public constructor(capacity: Int = DEFAULT_CAPACITY) : this(arrayOfNulls(capacity))

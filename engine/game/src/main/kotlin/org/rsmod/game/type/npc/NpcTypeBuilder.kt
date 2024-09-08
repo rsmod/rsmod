@@ -10,7 +10,7 @@ import org.rsmod.game.type.util.GenericPropertySelector.selectIntArray
 import org.rsmod.game.type.util.GenericPropertySelector.selectPredicate
 import org.rsmod.game.type.util.GenericPropertySelector.selectShortArray
 import org.rsmod.game.type.util.ParamMap
-import org.rsmod.game.type.util.ResizableIntArray
+import org.rsmod.game.type.util.CompactableIntArray
 
 @DslMarker private annotation class NpcBuilderDsl
 
@@ -19,7 +19,7 @@ public class NpcTypeBuilder(public var internal: String? = null) {
     public var name: String? = null
     public var desc: String? = null
     public var size: Int? = null
-    public var models: ResizableIntArray = ResizableIntArray()
+    public var models: CompactableIntArray = CompactableIntArray()
     public var readyAnim: Int? = null
     public var walkAnim: Int? = null
     public var turnBackAnim: Int? = null
@@ -27,11 +27,11 @@ public class NpcTypeBuilder(public var internal: String? = null) {
     public var turnRightAnim: Int? = null
     public var category: Int? = null
     public val op: Array<String?> = arrayOfNulls(OP_CAPACITY)
-    public var recolS: ResizableIntArray = ResizableIntArray(RECOL_CAPACITY)
-    public var recolD: ResizableIntArray = ResizableIntArray(RECOL_CAPACITY)
-    public var retexS: ResizableIntArray = ResizableIntArray(RECOL_CAPACITY)
-    public var retexD: ResizableIntArray = ResizableIntArray(RECOL_CAPACITY)
-    public var head: ResizableIntArray = ResizableIntArray()
+    public var recolS: CompactableIntArray = CompactableIntArray(RECOL_CAPACITY)
+    public var recolD: CompactableIntArray = CompactableIntArray(RECOL_CAPACITY)
+    public var retexS: CompactableIntArray = CompactableIntArray(RECOL_CAPACITY)
+    public var retexD: CompactableIntArray = CompactableIntArray(RECOL_CAPACITY)
+    public var head: CompactableIntArray = CompactableIntArray()
     public var minimap: Boolean? = null
     public var vislevel: Int? = null
     public var resizeH: Int? = null
@@ -39,12 +39,12 @@ public class NpcTypeBuilder(public var internal: String? = null) {
     public var alwaysOnTop: Boolean? = null
     public var ambient: Int? = null
     public var contrast: Int? = null
-    public var headIconGraphic: ResizableIntArray = ResizableIntArray()
-    public var headIconIndex: ResizableIntArray = ResizableIntArray()
+    public var headIconGraphic: CompactableIntArray = CompactableIntArray()
+    public var headIconIndex: CompactableIntArray = CompactableIntArray()
     public var turnSpeed: Int? = null
     public var multiVarp: Int? = null
     public var multiVarBit: Int? = null
-    public var multiNpc: ResizableIntArray = ResizableIntArray()
+    public var multiNpc: CompactableIntArray = CompactableIntArray()
     public var multiNpcDefault: Int? = null
     public var active: Boolean? = null
     public var rotationFlag: Boolean? = null
