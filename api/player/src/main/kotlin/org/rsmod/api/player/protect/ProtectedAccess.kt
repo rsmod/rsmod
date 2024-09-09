@@ -4,11 +4,13 @@ import com.github.michaelbull.logging.InlineLogger
 import kotlin.math.max
 import org.rsmod.api.config.Constants
 import org.rsmod.api.config.refs.BaseComponents
+import org.rsmod.api.config.refs.components
 import org.rsmod.api.player.clearPendingAction
 import org.rsmod.api.player.ifChatNpcSpecific
 import org.rsmod.api.player.ifChatPlayer
 import org.rsmod.api.player.ifChoice
 import org.rsmod.api.player.ifClose
+import org.rsmod.api.player.ifMesbox
 import org.rsmod.api.player.mes
 import org.rsmod.api.player.ui.input.CountDialogInput
 import org.rsmod.api.player.ui.input.ResumePauseButtonInput
@@ -105,6 +107,21 @@ public class ProtectedAccess(public val player: Player, public val coroutine: Ga
         }
         delay()
         regainProtectedAccess()
+    }
+
+    /**
+     * @throws ProtectedAccessLostException if [regainProtectedAccess] returns false after
+     *   suspension resumes.
+     * @see [regainProtectedAccess]
+     */
+    public suspend fun mesbox(
+        eventBus: EventBus,
+        text: String,
+        pauseText: String = Constants.cm_pausebutton,
+    ) {
+        player.ifMesbox(eventBus, text, pauseText)
+        val input = coroutine.pause(ResumePauseButtonInput::class)
+        resumePauseButtonWithProtectedAccess(input, components.text_dialogue_pbutton)
     }
 
     /**

@@ -29,6 +29,10 @@ public class Dialogue(
         subtext: String = Shops.DEFAULT_SUBTEXT,
     ): Unit = shops.open(player, title, shopInv, subtext)
 
+    public suspend fun mesbox(text: String) {
+        protectedAccess.mesbox(eventBus, text)
+    }
+
     public suspend fun chatPlayer(mesanim: MesAnimType, text: String) {
         protectedAccess.chatPlayer(eventBus, text, mesanim)
     }

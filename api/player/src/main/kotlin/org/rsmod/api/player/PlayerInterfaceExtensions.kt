@@ -13,6 +13,8 @@ import org.rsmod.api.config.Constants
 import org.rsmod.api.config.refs.BaseComponents
 import org.rsmod.api.config.refs.BaseInterfaces
 import org.rsmod.api.config.refs.BaseVarBits
+import org.rsmod.api.config.refs.components
+import org.rsmod.api.config.refs.interfaces
 import org.rsmod.api.player.util.ChatType
 import org.rsmod.api.player.util.ClientScripts.chatboxMultiInit
 import org.rsmod.api.player.util.ClientScripts.ifSetTextAlign
@@ -37,6 +39,17 @@ private typealias OpenSub = org.rsmod.api.player.events.IfOpenSub
 private typealias CloseSub = org.rsmod.api.player.events.IfCloseSub
 
 private var Player.modalWidthAndHeightMode: Int by intVarp(BaseVarBits.modal_widthandheight_mode)
+
+public fun Player.ifMesbox(eventBus: EventBus, text: String, pauseText: String) {
+    mes(text, ChatType.Mesbox)
+    openModal(eventBus, interfaces.text_dialogue, components.chat_dialogue_target)
+    ifSetText(components.text_dialogue_text, text)
+    ifSetTextAlign(components.text_dialogue_text, alignH = 1, alignV = 1, lineHeight = 0)
+    ifSetEvents(components.text_dialogue_pbutton, -1..-1, IfEvent.PauseButton)
+    ifSetText(components.text_dialogue_pbutton, pauseText)
+    // TODO: Look into clientscript to name property and place in clientscript utility class.
+    runClientScript(1508, "0")
+}
 
 /** @see [chatboxMultiInit] */
 public fun Player.ifChoice(
