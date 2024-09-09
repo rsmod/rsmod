@@ -134,8 +134,8 @@ private suspend fun Dialogue.howAreYouToday() {
     chatNpc(laugh, "Yes weather, you know.")
     chatNpc(
         quiz,
-        "The state or condition of the atmosphere at a time and<br>" +
-            "place, with respect to variables such as temperature,<br>" +
+        "The state or condition of the atmosphere at a time and " +
+            "place, with respect to variables such as temperature, " +
             "moisture, wind velocity, and barometric pressure.",
     )
     chatPlayer(quiz, "...")
@@ -148,7 +148,7 @@ private suspend fun Dialogue.freeStuff() {
     chatPlayer(quiz, "Well... er... yes.")
     chatNpc(
         angry,
-        "No I do not have anything I can give you. If I did<br>" +
+        "No I do not have anything I can give you. If I did " +
             "have anything of value I wouldn't want to give it away.",
     )
 }
@@ -161,7 +161,7 @@ private suspend fun Dialogue.buyStick() {
     chatPlayer(laugh, "It's a stick isn't it?")
     chatNpc(
         sad,
-        "...Ok it's a stick.. But only while I save up for a staff.<br>" +
+        "...Ok it's a stick.. But only while I save up for a staff. " +
             "Zaff in Varrock square sells them in his shop.",
     )
     chatPlayer(laugh, "Well good luck with that.")
@@ -208,8 +208,8 @@ private suspend fun Dialogue.bigScaryDemonQuests() {
     chatNpc(laugh, "You are a brave soul indeed.")
     chatNpc(
         quiz,
-        "Now that you mention it, I heard a rumour about a<br>" +
-            "fortune-teller in Varrock who is rambling about some<br>" +
+        "Now that you mention it, I heard a rumour about a " +
+            "fortune-teller in Varrock who is rambling about some " +
             "kind of greater evil.. sounds demon-like if you ask me.",
     )
     chatNpc(quiz, "Perhaps you could check it out if you are as brave as<br>you say?")
@@ -220,12 +220,12 @@ private suspend fun Dialogue.bigScaryDemonQuests() {
     } else {
         chatPlayer(
             laugh,
-            "I've already killed the demon Delrith. He was merely a<br>" +
+            "I've already killed the demon Delrith. He was merely a " +
                 "stain on my sword when I was finished with him!",
         )
         chatNpc(
             happy,
-            "Well done! However I'm sure if you search around the<br>" +
+            "Well done! However I'm sure if you search around the " +
                 "world you will find more challenging foes to slay.",
         )
     }
@@ -236,14 +236,14 @@ private suspend fun Dialogue.vampyreQuests() {
     chatPlayerNoAnim("Vampyres!")
     chatNpc(
         laugh,
-        "Ha ha. I personally don't believe in such things.<br>" +
-            "However, there is a man in Draynor Village who has<br>" +
+        "Ha ha. I personally don't believe in such things. " +
+            "However, there is a man in Draynor Village who has " +
             "been scaring the village folk with stories of vampyres.",
     )
     chatNpc(
         happy,
-        "He's named Morgan and can be found in one of the<br>" +
-            "village houses. Perhaps you could see what the matter<br>" +
+        "He's named Morgan and can be found in one of the " +
+            "village houses. Perhaps you could see what the matter " +
             "is?",
     )
     // Note: dialogue should be different when quest has been started, but not completed.
@@ -253,7 +253,7 @@ private suspend fun Dialogue.vampyreQuests() {
     } else {
         chatPlayer(
             laugh,
-            "Oh I have already killed that nasty blood-sucking<br>" +
+            "Oh I have already killed that nasty blood-sucking " +
                 "vampyre. Draynor will be safe now.",
         )
         chatNpc(laugh, "Yeah, yeah of course you did. Everyone knows<br>vampyres are not real....")
@@ -268,13 +268,13 @@ private suspend fun Dialogue.smallMonsterQuests() {
     chatNpc(quiz, "Small? Small isn't really that dangerous though is it?")
     chatPlayer(
         angry,
-        "Yes it can be! There could be anything from an evil<br>" +
+        "Yes it can be! There could be anything from an evil " +
             "chicken to a poisonous spider. They attack in numbers<br>you know!",
     )
     chatNpc(
         happy,
-        "Yes ok, point taken. Speaking of small monsters, I hear<br>" +
-            "old Wizard Mizgog in the wizards' tower has just had<br>" +
+        "Yes ok, point taken. Speaking of small monsters, I hear " +
+            "old Wizard Mizgog in the wizards' tower has just had " +
             "all his beads taken by a gang of mischievous imps.",
     )
     chatNpc(happy, " Sounds like it could be a quest for you?")
@@ -285,7 +285,7 @@ private suspend fun Dialogue.smallMonsterQuests() {
     } else {
         chatPlayer(
             happy,
-            "Yes I know of Mizgog and have already helped him with<br>" +
+            "Yes I know of Mizgog and have already helped him with " +
                 "his imp problem. It took me ages to find those beads!",
         )
         chatNpc(laugh, "Imps will be imps!")
@@ -297,9 +297,9 @@ private suspend fun Dialogue.easyQuests() {
     chatNpc(happy, "I can tell you about plenty of small easy tasks.")
     chatNpc(
         quiz,
-        "The Lumbridge cook has been having problems, the<br>" +
-            "Duke is confused over some strange talisman and on<br>" +
-            "top of all that, poor lad Romeo in Varrock has girlfriend<br>" +
+        "The Lumbridge cook has been having problems, the " +
+            "Duke is confused over some strange talisman and on " +
+            "top of all that, poor lad Romeo in Varrock has girlfriend " +
             "problems.",
     )
     val nextDialogue =
@@ -320,13 +320,13 @@ private suspend fun Dialogue.lumbridgeCookQuest() {
     chatPlayer(quiz, "Tell me about the Lumbridge cook.")
     chatNpc(
         laugh,
-        "It's funny really, the cook would forget his head if it<br>" +
-            "wasn't screwed on. This time he forgot to get<br>" +
+        "It's funny really, the cook would forget his head if it " +
+            "wasn't screwed on. This time he forgot to get " +
             "ingredients for the Duke's birthday cake. ",
     )
     chatNpc(
         quiz,
-        "Perhaps you could help him? You will probably find him<br>" +
+        "Perhaps you could help him? You will probably find him " +
             "in the Lumbridge Castle kitchen.",
     )
     // Note: dialogue should be different when quest has been started, but not completed.
@@ -343,9 +343,9 @@ private suspend fun Dialogue.dukeStrangeTalismanQuest() {
     chatPlayer(happy, "Tell me about the Duke's strange talisman.")
     chatNpc(
         happy,
-        "Well the Duke of Lumbridge has found a strange<br>" +
-            "talisman that no one seems to understand. Perhaps you<br>" +
-            "could help him? You can probably find him upstairs in<br>" +
+        "Well the Duke of Lumbridge has found a strange " +
+            "talisman that no one seems to understand. Perhaps you " +
+            "could help him? You can probably find him upstairs in " +
             "Lumbridge Castle.",
     )
     // Note: dialogue should be different when quest has been started, but not completed.
@@ -362,12 +362,12 @@ private suspend fun Dialogue.romeoQuest() {
     chatPlayer(happy, "Tell me about Romeo and his girlfriend please.")
     chatNpc(
         happy,
-        "Romeo in Varrock needs help with finding his beloved<br>" +
+        "Romeo in Varrock needs help with finding his beloved " +
             "Juliet, you may be able to help him out. ",
     )
     chatNpc(
         laugh,
-        " Unless of course you manage to find Juliet first in<br>" +
+        " Unless of course you manage to find Juliet first in " +
             "which case she has probably lost Romeo.",
     )
     // Note: dialogue should be different when quest has been started, but not completed.
@@ -389,13 +389,13 @@ private suspend fun Dialogue.thinkingQuests() {
     chatPlayer(happy, "I'm a thinker rather than fighter, anything skill<br>orientated?")
     chatNpc(
         quiz,
-        "Skills play a big part when you want to progress in<br>" +
-            "knowledge throughout Gielinor. I know of a few skill-<br>" +
+        "Skills play a big part when you want to progress in " +
+            "knowledge throughout Gielinor. I know of a few skill- " +
             "related quests that can get you started.",
     )
     chatNpc(
         happy,
-        "You may be able to help out Fred the farmer who is in<br>" +
+        "You may be able to help out Fred the farmer who is in " +
             "need of someones crafting expertise.",
     )
     chatNpc(happy, "Or, there's always Doric the dwarf who needs an<br>errand running for him?")
@@ -416,7 +416,7 @@ private suspend fun Dialogue.fredFarmerQuest() {
     chatPlayer(happy, "Tell me about Fred the farmer please.")
     chatNpc(
         quiz,
-        "You can find Fred next to the field of sheep in<br>" +
+        "You can find Fred next to the field of sheep in " +
             "Lumbridge. Perhaps you should go and speak with him.",
     )
     // Note: dialogue should be different when quest has been started, but not completed.
@@ -426,7 +426,7 @@ private suspend fun Dialogue.fredFarmerQuest() {
     } else {
         chatPlayer(
             happy,
-            "I have already helped Fred the farmer. I sheared his<br>" +
+            "I have already helped Fred the farmer. I sheared his " +
                 "sheep and made 20 balls of wool for him.",
         )
         chatPlayer(sad, " He wouldn't let me kill his chickens though.")
@@ -439,8 +439,8 @@ private suspend fun Dialogue.doricDwarfQuest() {
     chatPlayer(happy, "Tell me about Doric the dwarf.")
     chatNpc(
         happy,
-        "Doric the dwarf is located north of Falador. He might<br>" +
-            "be able to help you with smithing. You should speak to<br>" +
+        "Doric the dwarf is located north of Falador. He might " +
+            "be able to help you with smithing. You should speak to " +
             "him. He may let you use his anvils.",
     )
     // Note: dialogue should be different when quest has been started, but not completed.
@@ -450,7 +450,7 @@ private suspend fun Dialogue.doricDwarfQuest() {
     } else {
         chatPlayer(
             happy,
-            "Yes, I've been to see Doric already. He was happy to<br>" +
+            "Yes, I've been to see Doric already. He was happy to " +
                 "let me use his anvils after I ran a small errand for him.",
         )
         chatNpc(happy, "Oh good, Thank you ${player.displayName}!")
@@ -462,12 +462,12 @@ private suspend fun Dialogue.allQuests() {
     chatNpc(happy, "Of course I do. Gielinor is a huge place you know, now<br>let me think...")
     chatNpc(
         happy,
-        "Hetty the witch in Rimmington might be able to offer<br>" +
+        "Hetty the witch in Rimmington might be able to offer " +
             "help in the ways of magical abilities..",
     )
     chatNpc(
         happy,
-        "Also, pirates are currently docked in Port Sarim,<br>" +
+        "Also, pirates are currently docked in Port Sarim, " +
             "Where pirates are, treasure is never far away...",
     )
     chatNpc(
@@ -493,9 +493,9 @@ private suspend fun Dialogue.hettyWitchQuest() {
     chatPlayer(happy, "Tell me about Hetty the witch.")
     chatNpc(
         happy,
-        "Hetty the witch can be found in Rimmington, south of<br>" +
-            "Falador. She's currently working on some new potions.<br>" +
-            "Perhaps you could give her a hand? She might be able<br>" +
+        "Hetty the witch can be found in Rimmington, south of " +
+            "Falador. She's currently working on some new potions. " +
+            "Perhaps you could give her a hand? She might be able " +
             "to offer help with your magical abilities.",
     )
     // Note: dialogue should be different when quest has been started, but not completed.
@@ -508,8 +508,8 @@ private suspend fun Dialogue.hettyWitchQuest() {
     } else {
         chatPlayer(
             happy,
-            "Yes, I have already been to see Hetty, she gave me<br>" +
-                "super cosmic powers after I helped out with her potion!<br>" +
+            "Yes, I have already been to see Hetty, she gave me " +
+                "super cosmic powers after I helped out with her potion! " +
                 "I could probably destroy you with a single thought!",
         )
         chatNpc(worried, "Did she really?")
@@ -522,8 +522,8 @@ private suspend fun Dialogue.pirateTreasureQuest() {
     chatPlayer(happy, "Tell me about Pirate's Treasure.")
     chatNpc(
         happy,
-        "RedBeard Frank in Port Sarim's bar, the Rusty<br>" +
-            "Anchor, might be able to tell you about the rumoured<br>" +
+        "RedBeard Frank in Port Sarim's bar, the Rusty " +
+            "Anchor, might be able to tell you about the rumoured " +
             "treasure that is buried somewhere in Gielinor.",
     )
     // Note: dialogue should be different when quest has been started, but not completed.
@@ -545,8 +545,8 @@ private suspend fun Dialogue.ernestChickenQuest() {
     chatPlayer(happy, "Tell me about Ernest please.")
     chatNpc(
         happy,
-        "The best place to start would be at the gate to<br>" +
-            "Draynor Manor. There you will find Veronica who will<br>" +
+        "The best place to start would be at the gate to " +
+            "Draynor Manor. There you will find Veronica who will " +
             "be able to tell you more.",
     )
     chatNpc(happy, "I suggest you tread carefully in that place; it's haunted.")
@@ -557,8 +557,7 @@ private suspend fun Dialogue.ernestChickenQuest() {
     } else {
         chatPlayer(
             happy,
-            "Yeah, I found Ernest already. Professor Oddenstein<br>" +
-                "had turned him into a chicken!",
+            "Yeah, I found Ernest already. Professor Oddenstein " + "had turned him into a chicken!",
         )
         chatNpc(laugh, "A chicken!?")
         chatPlayer(happy, "Yeah a chicken. It could have been worse though.")

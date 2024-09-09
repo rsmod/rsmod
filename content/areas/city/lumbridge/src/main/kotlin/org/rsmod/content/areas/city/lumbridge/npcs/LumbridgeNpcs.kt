@@ -12,6 +12,7 @@ object LumbridgeNpcs : NpcReferences() {
     val gee = find(6698040310459523799)
     val hans = find(6791077204654367342)
     val bartender = find(5628536812085541378)
+    val arthur_the_clue_hunter = find(2308854141696014193)
 }
 
 internal object LumbridgeNpcEditor : NpcEditor() {

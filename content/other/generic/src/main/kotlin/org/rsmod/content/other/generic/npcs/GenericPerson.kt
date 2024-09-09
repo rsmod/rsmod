@@ -89,8 +89,7 @@ constructor(private val dialogues: Dialogues, private val random: GameRandom) : 
     private suspend fun Dialogue.randomGenericDialogue6() {
         chatNpc(
             neutral,
-            "Not too bad, but I'm a little worried about the increase<br>" +
-                "of goblins these days.",
+            "Not too bad, but I'm a little worried about the increase " + "of goblins these days.",
         )
         chatPlayer(happy, "Don't worry, I'll kill them.")
     }
@@ -135,8 +134,8 @@ constructor(private val dialogues: Dialogues, private val random: GameRandom) : 
         chatPlayer(neutral, "Do you wish to trade?")
         chatNpc(
             neutral,
-            "No, I have nothing I wish to get rid of. If you want to<br>" +
-                "do some trading, there are plenty of shops and market<br>" +
+            "No, I have nothing I wish to get rid of. If you want to " +
+                "do some trading, there are plenty of shops and market " +
                 "stalls around though.",
         )
     }
@@ -152,7 +151,7 @@ constructor(private val dialogues: Dialogues, private val random: GameRandom) : 
     private suspend fun Dialogue.randomGenericDialogue16() {
         chatNpc(
             neutral,
-            "I'm a little worried - I've heard there's lots of people<br>" +
+            "I'm a little worried - I've heard there's lots of people " +
                 "going about, killing citizens at random.",
         )
     }
@@ -190,8 +189,8 @@ constructor(private val dialogues: Dialogues, private val random: GameRandom) : 
         chatPlayer(neutral, "Do you wish to trade?")
         chatNpc(
             neutral,
-            "No, I have nothing I wish to get rid of. If you want to<br>" +
-                "do some trading, there are plenty of shops and market<br>" +
+            "No, I have nothing I wish to get rid of. If you want to " +
+                "do some trading, there are plenty of shops and market " +
                 "stalls around though.",
         )
     }

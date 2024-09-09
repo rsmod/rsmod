@@ -51,8 +51,8 @@ class Hans @Inject constructor(private val dialogues: Dialogues) : PluginScript(
                 chatPlayer(confused, "I don't know. I'm lost. Where am I?")
                 chatNpc(
                     neutral,
-                    "You are in Lumbridge Castle, in the Kingdom of<br>" +
-                        "Misthalin. Across the river, the road leads north to<br>" +
+                    "You are in Lumbridge Castle, in the Kingdom of " +
+                        "Misthalin. Across the river, the road leads north to " +
                         "Varrock, and to the west lies Draynor Village.",
                 )
             }
@@ -60,7 +60,7 @@ class Hans @Inject constructor(private val dialogues: Dialogues) : PluginScript(
                 chatPlayer(quiz, "Can you tell me how long I've been here?")
                 chatNpc(
                     laugh,
-                    "Ahh, I see all the newcomers arriving in Lumbridge,<br>" +
+                    "Ahh, I see all the newcomers arriving in Lumbridge, " +
                         "fresh-faced and eager for adventure. I remember you...",
                 )
                 playtimeDialogue()
@@ -78,7 +78,7 @@ class Hans @Inject constructor(private val dialogues: Dialogues) : PluginScript(
         // TODO(content): playtime
         chatNpc(
             happy,
-            "You've spent 0 days, 0 hours, 0 minutes in the<br>" +
+            "You've spent 0 days, 0 hours, 0 minutes in the " +
                 "world since you arrived 0 days ago.",
         )
     }

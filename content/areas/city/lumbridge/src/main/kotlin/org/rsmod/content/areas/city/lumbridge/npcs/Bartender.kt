@@ -75,7 +75,7 @@ constructor(private val dialogues: Dialogues, private val objRepo: ObjRepository
         chatPlayer(quiz, "Heard any rumours recently?")
         chatNpcNoTurn(
             neutral,
-            "One of the patrons here is looking for treasure<br>" +
+            "One of the patrons here is looking for treasure " +
                 "apparently. A chap by the name of Veos.",
         )
     }
