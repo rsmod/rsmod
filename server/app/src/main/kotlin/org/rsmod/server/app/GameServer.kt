@@ -21,6 +21,7 @@ import org.rsmod.api.type.updater.TypeUpdater
 import org.rsmod.api.type.verifier.TypeVerifier
 import org.rsmod.api.type.verifier.isCacheUpdateRequired
 import org.rsmod.api.type.verifier.isFailure
+import org.rsmod.game.type.TypeListMap
 import org.rsmod.plugin.module.PluginModule
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
@@ -84,6 +85,11 @@ class GameServer : CliktCommand(name = "server") {
     }
 
     private fun loadCache(injector: Injector) {
+        loadCacheStore(injector)
+        loadCacheTypes(injector)
+    }
+
+    private fun loadCacheStore(injector: Injector) {
         val cachePath = injector.getInstance(Key.get(Path::class.java, GameCache::class.java))
         logger.info { "Loading cache from path: $cachePath..." }
         val store: Store
@@ -92,6 +98,12 @@ class GameServer : CliktCommand(name = "server") {
             injector.getInstance(Key.get(Cache::class.java, GameCache::class.java))
         }
         reportDuration { "Loaded cache with ${store.list().size} archives in $duration" }
+    }
+
+    private fun loadCacheTypes(injector: Injector) {
+        logger.info { "Loading cache types..." }
+        val duration = measureTime { injector.getInstance(TypeListMap::class.java) }
+        reportDuration { "Loaded cache types in $duration" }
     }
 
     private fun loadMap(injector: Injector) {
