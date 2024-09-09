@@ -9,12 +9,10 @@ import net.rsprot.protocol.game.outgoing.interfaces.IfSetNpcHead
 import net.rsprot.protocol.game.outgoing.interfaces.IfSetNpcHeadActive
 import net.rsprot.protocol.game.outgoing.interfaces.IfSetPlayerHead
 import net.rsprot.protocol.game.outgoing.interfaces.IfSetText
-import org.rsmod.api.config.Constants
-import org.rsmod.api.config.refs.BaseComponents
-import org.rsmod.api.config.refs.BaseInterfaces
-import org.rsmod.api.config.refs.BaseVarBits
+import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.components
 import org.rsmod.api.config.refs.interfaces
+import org.rsmod.api.config.refs.varbits
 import org.rsmod.api.player.util.ChatType
 import org.rsmod.api.player.util.ClientScripts.chatboxMultiInit
 import org.rsmod.api.player.util.ClientScripts.ifSetTextAlign
@@ -38,7 +36,7 @@ private typealias OpenSub = org.rsmod.api.player.events.IfOpenSub
 
 private typealias CloseSub = org.rsmod.api.player.events.IfCloseSub
 
-private var Player.modalWidthAndHeightMode: Int by intVarp(BaseVarBits.modal_widthandheight_mode)
+private var Player.modalWidthAndHeightMode: Int by intVarp(varbits.modal_widthandheight_mode)
 
 public fun Player.ifMesbox(eventBus: EventBus, text: String, pauseText: String) {
     mes(text, ChatType.Mesbox)
@@ -58,13 +56,9 @@ public fun Player.ifChoice(
     joinedChoices: String,
     choiceCountInclusive: Int,
 ) {
-    ifOpenChat(eventBus, BaseInterfaces.options_dialogue, Constants.modal_infinitewidthandheight)
+    ifOpenChat(eventBus, interfaces.options_dialogue, constants.modal_infinitewidthandheight)
     chatboxMultiInit(title, joinedChoices)
-    ifSetEvents(
-        BaseComponents.options_dialogue_pbutton,
-        1..choiceCountInclusive,
-        IfEvent.PauseButton,
-    )
+    ifSetEvents(components.options_dialogue_pbutton, 1..choiceCountInclusive, IfEvent.PauseButton)
 }
 
 public fun Player.ifChatPlayer(
@@ -74,14 +68,14 @@ public fun Player.ifChatPlayer(
     expression: SeqType?,
     pauseText: String,
 ) {
-    ifOpenChat(eventBus, BaseInterfaces.player_dialogue, Constants.modal_fixedwidthandheight)
-    ifSetPlayerHead(BaseComponents.player_dialogue_head)
-    ifSetAnim(BaseComponents.player_dialogue_head, expression)
-    ifSetText(BaseComponents.player_dialogue_title, title)
-    ifSetText(BaseComponents.player_dialogue_text, text)
-    ifSetTextAlign(BaseComponents.player_dialogue_text, alignH = 1, alignV = 1, lineHeight = 16)
-    ifSetEvents(BaseComponents.player_dialogue_pbutton, -1..-1, IfEvent.PauseButton)
-    ifSetText(BaseComponents.player_dialogue_pbutton, pauseText)
+    ifOpenChat(eventBus, interfaces.player_dialogue, constants.modal_fixedwidthandheight)
+    ifSetPlayerHead(components.player_dialogue_head)
+    ifSetAnim(components.player_dialogue_head, expression)
+    ifSetText(components.player_dialogue_title, title)
+    ifSetText(components.player_dialogue_text, text)
+    ifSetTextAlign(components.player_dialogue_text, alignH = 1, alignV = 1, lineHeight = 16)
+    ifSetEvents(components.player_dialogue_pbutton, -1..-1, IfEvent.PauseButton)
+    ifSetText(components.player_dialogue_pbutton, pauseText)
 }
 
 public fun Player.ifChatNpcActive(
@@ -92,14 +86,14 @@ public fun Player.ifChatNpcActive(
     chatanim: SeqType?,
     pauseText: String,
 ) {
-    ifOpenChat(eventBus, BaseInterfaces.npc_dialogue, Constants.modal_fixedwidthandheight)
-    ifSetNpcHeadActive(BaseComponents.npc_dialogue_head, npcSlotId)
-    ifSetAnim(BaseComponents.npc_dialogue_head, chatanim)
-    ifSetText(BaseComponents.npc_dialogue_title, title)
-    ifSetText(BaseComponents.npc_dialogue_text, text)
-    ifSetTextAlign(BaseComponents.npc_dialogue_text, alignH = 1, alignV = 1, lineHeight = 16)
-    ifSetEvents(BaseComponents.npc_dialogue_pbutton, -1..-1, IfEvent.PauseButton)
-    ifSetText(BaseComponents.npc_dialogue_pbutton, pauseText)
+    ifOpenChat(eventBus, interfaces.npc_dialogue, constants.modal_fixedwidthandheight)
+    ifSetNpcHeadActive(components.npc_dialogue_head, npcSlotId)
+    ifSetAnim(components.npc_dialogue_head, chatanim)
+    ifSetText(components.npc_dialogue_title, title)
+    ifSetText(components.npc_dialogue_text, text)
+    ifSetTextAlign(components.npc_dialogue_text, alignH = 1, alignV = 1, lineHeight = 16)
+    ifSetEvents(components.npc_dialogue_pbutton, -1..-1, IfEvent.PauseButton)
+    ifSetText(components.npc_dialogue_pbutton, pauseText)
 }
 
 public fun Player.ifChatNpcSpecific(
@@ -111,14 +105,14 @@ public fun Player.ifChatNpcSpecific(
     pauseText: String,
 ) {
     mes("$title|$text", ChatType.Dialogue)
-    ifOpenChat(eventBus, BaseInterfaces.npc_dialogue, Constants.modal_fixedwidthandheight)
-    ifSetNpcHead(BaseComponents.npc_dialogue_head, type)
-    ifSetAnim(BaseComponents.npc_dialogue_head, chatanim)
-    ifSetText(BaseComponents.npc_dialogue_title, title)
-    ifSetText(BaseComponents.npc_dialogue_text, text)
-    ifSetTextAlign(BaseComponents.npc_dialogue_text, alignH = 1, alignV = 1, lineHeight = 16)
-    ifSetEvents(BaseComponents.npc_dialogue_pbutton, -1..-1, IfEvent.PauseButton)
-    ifSetText(BaseComponents.npc_dialogue_pbutton, pauseText)
+    ifOpenChat(eventBus, interfaces.npc_dialogue, constants.modal_fixedwidthandheight)
+    ifSetNpcHead(components.npc_dialogue_head, type)
+    ifSetAnim(components.npc_dialogue_head, chatanim)
+    ifSetText(components.npc_dialogue_title, title)
+    ifSetText(components.npc_dialogue_text, text)
+    ifSetTextAlign(components.npc_dialogue_text, alignH = 1, alignV = 1, lineHeight = 16)
+    ifSetEvents(components.npc_dialogue_pbutton, -1..-1, IfEvent.PauseButton)
+    ifSetText(components.npc_dialogue_pbutton, pauseText)
 }
 
 public fun Player.ifSetAnim(target: ComponentType, seq: SeqType?) {
@@ -142,16 +136,16 @@ public fun Player.ifSetNpcHeadActive(target: ComponentType, npcSlotId: Int) {
 public fun Player.ifOpenChat(eventBus: EventBus, interf: InterfaceType, widthAndHeightMode: Int) {
     modalWidthAndHeightMode = widthAndHeightMode
     topLevelChatboxResetBackground()
-    openModal(eventBus, interf, BaseComponents.chat_dialogue_target)
+    openModal(eventBus, interf, components.chat_dialogue_target)
 }
 
 public fun Player.ifOpenMain(eventBus: EventBus, interf: InterfaceType) {
-    openModal(eventBus, interf, BaseComponents.main_modal)
+    openModal(eventBus, interf, components.main_modal)
 }
 
 public fun Player.ifOpenMainSidePair(eventBus: EventBus, main: InterfaceType, side: InterfaceType) {
-    openModal(eventBus, main, BaseComponents.main_modal)
-    openModal(eventBus, side, BaseComponents.side_modal)
+    openModal(eventBus, main, components.main_modal)
+    openModal(eventBus, side, components.side_modal)
 }
 
 public fun Player.ifClose(eventBus: EventBus) {
