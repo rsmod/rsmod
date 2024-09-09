@@ -4,6 +4,7 @@ package org.rsmod.api.dialogue
 
 import org.rsmod.api.config.Constants
 import org.rsmod.api.config.refs.BaseMesAnims
+import org.rsmod.api.dialogue.align.TextAlignment
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.shops.Shops
 import org.rsmod.events.EventBus
@@ -14,13 +15,14 @@ import org.rsmod.game.type.mesanim.MesAnimType
 import org.rsmod.game.type.npc.UnpackedNpcType
 
 public class Dialogue(
-    public val protectedAccess: ProtectedAccess,
-    public val eventBus: EventBus,
+    public val access: ProtectedAccess,
+    private val eventBus: EventBus,
+    private val alignment: TextAlignment,
     public val npc: Npc? = null,
     public val faceFar: Boolean = false,
 ) {
     public val player: Player
-        get() = protectedAccess.player
+        get() = access.player
 
     public fun openShop(
         shops: Shops,
@@ -30,31 +32,51 @@ public class Dialogue(
     ): Unit = shops.open(player, title, shopInv, subtext)
 
     public suspend fun mesbox(text: String) {
-        protectedAccess.mesbox(eventBus, text)
+        access.mesbox(eventBus, text)
     }
 
     public suspend fun chatPlayer(mesanim: MesAnimType, text: String) {
-        protectedAccess.chatPlayer(eventBus, text, mesanim)
+        val lineCount = text.lineCount()
+        val lineHeight = lineHeight(lineCount)
+        access.chatPlayer(eventBus, text, mesanim, lineCount, lineHeight)
     }
 
     public suspend fun chatPlayerNoAnim(text: String) {
-        protectedAccess.chatPlayer(eventBus, text, mesanim = null)
+        val lineCount = text.lineCount()
+        val lineHeight = lineHeight(lineCount)
+        access.chatPlayer(eventBus, text, mesanim = null, lineCount, lineHeight)
     }
 
     public suspend fun chatNpc(mesanim: MesAnimType, text: String) {
-        protectedAccess.chatNpc(eventBus, npc(), text, mesanim, faceFar = faceFar)
+        val lineCount = text.lineCount()
+        val lineHeight = lineHeight(lineCount)
+        access.chatNpc(eventBus, npc(), text, mesanim, lineCount, lineHeight, faceFar = faceFar)
     }
 
     public suspend fun chatNpcNoTurn(mesanim: MesAnimType, text: String) {
-        protectedAccess.chatNpcNoTurn(eventBus, npc(), text, mesanim)
+        val lineCount = text.lineCount()
+        val lineHeight = lineHeight(lineCount)
+        access.chatNpcNoTurn(eventBus, npc(), text, mesanim, lineCount, lineHeight)
     }
 
     public suspend fun chatNpcNoAnim(text: String) {
-        protectedAccess.chatNpc(eventBus, npc(), text, mesanim = null, faceFar = faceFar)
+        val lineCount = text.lineCount()
+        val lineHeight = lineHeight(lineCount)
+        access.chatNpc(
+            eventBus = eventBus,
+            npc = npc(),
+            text = text,
+            mesanim = null,
+            lineCount = lineCount,
+            lineHeight = lineHeight,
+            faceFar = faceFar,
+        )
     }
 
     public suspend fun chatNpcSpecific(type: UnpackedNpcType, mesanim: MesAnimType, text: String) {
-        protectedAccess.chatNpcSpecific(eventBus, type.name, type, text, mesanim)
+        val lineCount = text.lineCount()
+        val lineHeight = lineHeight(lineCount)
+        access.chatNpcSpecific(eventBus, type.name, type, text, mesanim, lineCount, lineHeight)
     }
 
     public suspend fun <T> choice2(
@@ -64,7 +86,7 @@ public class Dialogue(
         result2: T,
         title: String = Constants.cm_options,
     ): T =
-        protectedAccess.choice2(
+        access.choice2(
             eventBus = eventBus,
             choice1 = choice1,
             result1 = result1,
@@ -82,7 +104,7 @@ public class Dialogue(
         result3: T,
         title: String = Constants.cm_options,
     ): T =
-        protectedAccess.choice3(
+        access.choice3(
             eventBus = eventBus,
             choice1 = choice1,
             result1 = result1,
@@ -104,7 +126,7 @@ public class Dialogue(
         result4: T,
         title: String = Constants.cm_options,
     ): T =
-        protectedAccess.choice4(
+        access.choice4(
             eventBus = eventBus,
             choice1 = choice1,
             result1 = result1,
@@ -130,7 +152,7 @@ public class Dialogue(
         result5: T,
         title: String = Constants.cm_options,
     ): T =
-        protectedAccess.choice5(
+        access.choice5(
             eventBus = eventBus,
             choice1 = choice1,
             result1 = result1,
@@ -145,10 +167,14 @@ public class Dialogue(
             title = title,
         )
 
-    public suspend fun delay(ticks: Int = 1): Unit = protectedAccess.delay(ticks)
+    public suspend fun delay(ticks: Int = 1): Unit = access.delay(ticks)
 
     private fun npc(): Npc =
         npc ?: error("`npc` must be set. Use `Dialogues.start(player, npc)` to start the dialogue.")
+
+    private fun lineHeight(lineCount: Int): Int = alignment.lineHeight(lineCount)
+
+    private fun String.lineCount(): Int = alignment.computeLineCount(this)
 
     public val quiz: MesAnimType = BaseMesAnims.quiz
     public val bored: MesAnimType = BaseMesAnims.bored

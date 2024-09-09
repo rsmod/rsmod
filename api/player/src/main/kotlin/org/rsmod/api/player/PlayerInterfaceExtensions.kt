@@ -67,13 +67,14 @@ public fun Player.ifChatPlayer(
     text: String,
     expression: SeqType?,
     pauseText: String,
+    lineHeight: Int,
 ) {
     ifOpenChat(eventBus, interfaces.player_dialogue, constants.modal_fixedwidthandheight)
     ifSetPlayerHead(components.player_dialogue_head)
     ifSetAnim(components.player_dialogue_head, expression)
     ifSetText(components.player_dialogue_title, title)
     ifSetText(components.player_dialogue_text, text)
-    ifSetTextAlign(components.player_dialogue_text, alignH = 1, alignV = 1, lineHeight = 16)
+    ifSetTextAlign(components.player_dialogue_text, alignH = 1, alignV = 1, lineHeight)
     ifSetEvents(components.player_dialogue_pbutton, -1..-1, IfEvent.PauseButton)
     ifSetText(components.player_dialogue_pbutton, pauseText)
 }
@@ -85,13 +86,14 @@ public fun Player.ifChatNpcActive(
     text: String,
     chatanim: SeqType?,
     pauseText: String,
+    lineHeight: Int,
 ) {
     ifOpenChat(eventBus, interfaces.npc_dialogue, constants.modal_fixedwidthandheight)
     ifSetNpcHeadActive(components.npc_dialogue_head, npcSlotId)
     ifSetAnim(components.npc_dialogue_head, chatanim)
     ifSetText(components.npc_dialogue_title, title)
     ifSetText(components.npc_dialogue_text, text)
-    ifSetTextAlign(components.npc_dialogue_text, alignH = 1, alignV = 1, lineHeight = 16)
+    ifSetTextAlign(components.npc_dialogue_text, alignH = 1, alignV = 1, lineHeight)
     ifSetEvents(components.npc_dialogue_pbutton, -1..-1, IfEvent.PauseButton)
     ifSetText(components.npc_dialogue_pbutton, pauseText)
 }
@@ -103,6 +105,7 @@ public fun Player.ifChatNpcSpecific(
     text: String,
     chatanim: SeqType?,
     pauseText: String,
+    lineHeight: Int,
 ) {
     mes("$title|$text", ChatType.Dialogue)
     ifOpenChat(eventBus, interfaces.npc_dialogue, constants.modal_fixedwidthandheight)
@@ -110,7 +113,7 @@ public fun Player.ifChatNpcSpecific(
     ifSetAnim(components.npc_dialogue_head, chatanim)
     ifSetText(components.npc_dialogue_title, title)
     ifSetText(components.npc_dialogue_text, text)
-    ifSetTextAlign(components.npc_dialogue_text, alignH = 1, alignV = 1, lineHeight = 16)
+    ifSetTextAlign(components.npc_dialogue_text, alignH = 1, alignV = 1, lineHeight)
     ifSetEvents(components.npc_dialogue_pbutton, -1..-1, IfEvent.PauseButton)
     ifSetText(components.npc_dialogue_pbutton, pauseText)
 }

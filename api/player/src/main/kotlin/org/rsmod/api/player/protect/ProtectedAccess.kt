@@ -252,14 +252,13 @@ public class ProtectedAccess(public val player: Player, public val coroutine: Ga
         eventBus: EventBus,
         text: String,
         mesanim: MesAnimType?,
+        lineCount: Int,
+        lineHeight: Int,
         title: String = player.displayName,
         pauseText: String = constants.cm_pausebutton,
     ) {
-        // NOTE: might be a good idea to use fonts and split ourselves instead of relying on
-        // dialogue dumps to contain the line split tag.
-        val splits = text.split("<br>", limit = 4)
-        val chatanim = mesanim?.splitGetAnim(splits.size + 1)
-        player.ifChatPlayer(eventBus, title, text, chatanim, pauseText)
+        val chatanim = mesanim?.splitGetAnim(lineCount)
+        player.ifChatPlayer(eventBus, title, text, chatanim, pauseText, lineHeight)
         val input = coroutine.pause(ResumePauseButtonInput::class)
         resumePauseButtonWithProtectedAccess(input, components.player_dialogue_pbutton)
     }
@@ -274,19 +273,18 @@ public class ProtectedAccess(public val player: Player, public val coroutine: Ga
         npc: Npc,
         text: String,
         mesanim: MesAnimType?,
+        lineCount: Int,
+        lineHeight: Int,
         faceFar: Boolean = false,
         title: String = npc.name,
         pauseText: String = constants.cm_pausebutton,
     ) {
-        // NOTE: might be a good idea to use fonts and split ourselves instead of relying on
-        // dialogue dumps to contain the line split tag.
-        val splits = text.split("<br>", limit = 4)
-        val chatanim = mesanim?.splitGetAnim(splits.size + 1)
+        val chatanim = mesanim?.splitGetAnim(lineCount)
         val faceMode = if (faceFar) NpcMode.PlayerFace else NpcMode.PlayerFaceClose
         npc.mode = faceMode
         npc.facePlayer(player)
         player.facePathingEntitySquare(npc)
-        player.ifChatNpcSpecific(eventBus, title, npc.type, text, chatanim, pauseText)
+        player.ifChatNpcSpecific(eventBus, title, npc.type, text, chatanim, pauseText, lineHeight)
         val input = coroutine.pause(ResumePauseButtonInput::class)
         resumePauseButtonWithProtectedAccess(input, components.npc_dialogue_pbutton)
     }
@@ -301,15 +299,14 @@ public class ProtectedAccess(public val player: Player, public val coroutine: Ga
         npc: Npc,
         text: String,
         mesanim: MesAnimType?,
+        lineCount: Int,
+        lineHeight: Int,
         title: String = npc.name,
         pauseText: String = constants.cm_pausebutton,
     ) {
-        // NOTE: might be a good idea to use fonts and split ourselves instead of relying on
-        // dialogue dumps to contain the line split tag.
-        val splits = text.split("<br>", limit = 4)
-        val chatanim = mesanim?.splitGetAnim(splits.size + 1)
+        val chatanim = mesanim?.splitGetAnim(lineCount)
         player.facePathingEntitySquare(npc)
-        player.ifChatNpcSpecific(eventBus, title, npc.type, text, chatanim, pauseText)
+        player.ifChatNpcSpecific(eventBus, title, npc.type, text, chatanim, pauseText, lineHeight)
         val input = coroutine.pause(ResumePauseButtonInput::class)
         resumePauseButtonWithProtectedAccess(input, components.npc_dialogue_pbutton)
     }
@@ -325,13 +322,12 @@ public class ProtectedAccess(public val player: Player, public val coroutine: Ga
         type: NpcType,
         text: String,
         mesanim: MesAnimType?,
+        lineCount: Int,
+        lineHeight: Int,
         pauseText: String = constants.cm_pausebutton,
     ) {
-        // NOTE: might be a good idea to use fonts and split ourselves instead of relying on
-        // dialogue dumps to contain the line split tag.
-        val splits = text.split("<br>", limit = 4)
-        val chatanim = mesanim?.splitGetAnim(splits.size + 1)
-        player.ifChatNpcSpecific(eventBus, title, type, text, chatanim, pauseText)
+        val chatanim = mesanim?.splitGetAnim(lineCount)
+        player.ifChatNpcSpecific(eventBus, title, type, text, chatanim, pauseText, lineHeight)
         val input = coroutine.pause(ResumePauseButtonInput::class)
         resumePauseButtonWithProtectedAccess(input, components.npc_dialogue_pbutton)
     }
