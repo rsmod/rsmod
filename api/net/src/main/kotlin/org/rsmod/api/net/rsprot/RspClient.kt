@@ -8,7 +8,6 @@ import net.rsprot.protocol.game.outgoing.info.npcinfo.SetNpcUpdateOrigin
 import net.rsprot.protocol.game.outgoing.info.playerinfo.PlayerAvatarExtendedInfo
 import net.rsprot.protocol.game.outgoing.info.playerinfo.PlayerInfo
 import net.rsprot.protocol.game.outgoing.info.util.BuildArea
-import net.rsprot.protocol.game.outgoing.info.worldentityinfo.WorldEntityInfo
 import net.rsprot.protocol.game.outgoing.map.RebuildLogin
 import net.rsprot.protocol.game.outgoing.map.RebuildNormal
 import net.rsprot.protocol.game.outgoing.map.util.XteaProvider
@@ -30,8 +29,6 @@ class RspClient(val session: Session<Player>, val xteaProvider: XteaProvider) :
 
     lateinit var npcInfo: NpcInfo
 
-    lateinit var worldEntityInfo: WorldEntityInfo
-
     private var knownCoords: CoordGrid = CoordGrid.ZERO
 
     private var knownBuildArea: CoordGrid = CoordGrid.NULL
@@ -49,8 +46,6 @@ class RspClient(val session: Session<Player>, val xteaProvider: XteaProvider) :
     override fun open(service: Service, player: Player) {
         playerInfo = service.playerInfoProtocol.alloc(player.slotId, OldSchoolClientType.DESKTOP)
         npcInfo = service.npcInfoProtocol.alloc(player.slotId, OldSchoolClientType.DESKTOP)
-        worldEntityInfo =
-            service.worldEntityInfoProtocol.alloc(player.slotId, OldSchoolClientType.DESKTOP)
         player.updateCoords()
         player.queueRebuildLogin()
     }
@@ -58,7 +53,6 @@ class RspClient(val session: Session<Player>, val xteaProvider: XteaProvider) :
     override fun close(service: Service, player: Player) {
         service.playerInfoProtocol.dealloc(playerInfo)
         service.npcInfoProtocol.dealloc(npcInfo)
-        service.worldEntityInfoProtocol.dealloc(worldEntityInfo)
     }
 
     override fun write(message: OutgoingGameMessage) {
@@ -75,7 +69,7 @@ class RspClient(val session: Session<Player>, val xteaProvider: XteaProvider) :
 
     override fun preparePlayerCycle(player: Player) {
         // Temporary isInitialized check until code is thread-safe.
-        if (::playerInfo.isInitialized) {
+        if (::playerInfo.isInitialized && ::npcInfo.isInitialized) {
             player.updateMoveSpeed()
             player.updateCoords()
             player.rebuildArea()
@@ -90,7 +84,7 @@ class RspClient(val session: Session<Player>, val xteaProvider: XteaProvider) :
 
     override fun completePlayerCycle(player: Player) {
         // Temporary isInitialized check until code is thread-safe.
-        if (::playerInfo.isInitialized) {
+        if (::playerInfo.isInitialized && ::npcInfo.isInitialized) {
             val origin =
                 SetNpcUpdateOrigin(
                     player.coords.x - player.buildArea.x,
@@ -121,11 +115,6 @@ class RspClient(val session: Session<Player>, val xteaProvider: XteaProvider) :
     }
 
     private fun Player.updateCoords() {
-        /*worldEntityInfo.updateCoord(worldId, level, x, z)
-        if (worldId != -1) {
-            // NOTE: this is where we update renderCoord
-            // for world entity
-        }*/
         npcInfo.updateCoord(worldId, level, x, z)
         playerInfo.updateCoord(level, x, z)
         playerInfo.updateRenderCoord(worldId, level, x, z)
@@ -139,7 +128,6 @@ class RspClient(val session: Session<Player>, val xteaProvider: XteaProvider) :
             val area = BuildArea(zone.x, zone.z)
             playerInfo.updateBuildArea(worldId, area)
             npcInfo.updateBuildArea(worldId, area)
-            // worldEntityInfo.updateBuildArea(area)
         }
         // Skip log-in rebuild as RebuildLogin is already sent.
         if (recalcBuildArea && knownBuildArea != CoordGrid.NULL) {

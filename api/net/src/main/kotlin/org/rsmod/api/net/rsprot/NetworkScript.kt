@@ -48,7 +48,6 @@ constructor(
     private fun updateService() {
         service.playerInfoProtocol.update()
         service.npcInfoProtocol.update()
-        // service.worldEntityInfoProtocol.update()
     }
 
     @Suppress("UNCHECKED_CAST")
