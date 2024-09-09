@@ -45,6 +45,7 @@ private class NameMappingProvider : Provider<NameMapping> {
         val seqs = dirs.readSymbols("seq")
         val mesanims = dirs.readSymbols("mesanim")
         val synths = dirs.readSymbols("synth")
+        val fonts = dirs.readSymbols("font")
         return NameMapping(
             categories = categories,
             objs = objs,
@@ -64,6 +65,7 @@ private class NameMappingProvider : Provider<NameMapping> {
             mesanims = mesanims,
             content = content,
             synths = synths,
+            fonts = fonts,
         )
     }
 
@@ -126,6 +128,7 @@ private class HashMappingProvider : Provider<HashMapping> {
         val enums = dirs.readHashes("enum")
         val invs = dirs.readHashes("inv")
         val seqs = dirs.readHashes("seq")
+        val fonts = dirs.readHashes("font")
         return HashMapping(
             objs = objs,
             locs = locs,
@@ -138,6 +141,7 @@ private class HashMappingProvider : Provider<HashMapping> {
             enums = enums,
             invs = invs,
             seqs = seqs,
+            fonts = fonts,
         )
     }
 

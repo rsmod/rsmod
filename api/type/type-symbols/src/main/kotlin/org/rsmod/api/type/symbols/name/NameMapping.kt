@@ -25,4 +25,5 @@ public data class NameMapping(
     public val modLevels: Map<String, Int> = mutableMapOf(),
     public val modGroups: Map<String, Int> = mutableMapOf(),
     public val mesanims: Map<String, Int> = mutableMapOf(),
+    public val fonts: Map<String, Int> = mutableMapOf(),
 )

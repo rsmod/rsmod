@@ -5,6 +5,7 @@ import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.content.ContentType
 import org.rsmod.game.type.enums.EnumType
 import org.rsmod.game.type.enums.UnpackedEnumType
+import org.rsmod.game.type.font.FontMetricsType
 import org.rsmod.game.type.interf.InterfaceType
 import org.rsmod.game.type.inv.InvType
 import org.rsmod.game.type.loc.LocType
@@ -55,6 +56,16 @@ public object TypeResolver {
 
     public operator fun <K : Any, V : Any> set(type: EnumType<K, V>, id: Int) {
         type.internalId = id
+    }
+
+    public operator fun get(type: FontMetricsType): Int? = type.internalId
+
+    public operator fun set(type: FontMetricsType, id: Int) {
+        type.internalId = id
+    }
+
+    public operator fun set(type: FontMetricsType, internalName: String) {
+        type.internalName = internalName
     }
 
     public operator fun get(type: ComponentType): Int? = type.internalId

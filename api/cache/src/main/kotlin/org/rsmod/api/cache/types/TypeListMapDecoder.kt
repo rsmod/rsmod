@@ -7,6 +7,7 @@ import kotlinx.coroutines.runBlocking
 import org.openrs2.cache.Cache
 import org.rsmod.api.cache.types.comp.ComponentTypeDecoder
 import org.rsmod.api.cache.types.enums.EnumTypeDecoder
+import org.rsmod.api.cache.types.font.FontMetricsDecoder
 import org.rsmod.api.cache.types.inv.InvTypeDecoder
 import org.rsmod.api.cache.types.loc.LocTypeDecoder
 import org.rsmod.api.cache.types.npc.NpcTypeDecoder
@@ -36,6 +37,7 @@ public object TypeListMapDecoder {
         }
         val invs = decode { InvTypeDecoder.decodeAll(cache) }
         val seqs = decode { SeqTypeDecoder.decodeAll(cache) }
+        val fonts = decode { FontMetricsDecoder.decodeAll(cache) }
         TypeListMap(
                 locs = locs.await(),
                 objs = objs.await(),
@@ -48,6 +50,7 @@ public object TypeListMapDecoder {
                 varbits = varbits.await(),
                 invs = invs.await(),
                 seqs = seqs.await(),
+                fonts = fonts.await(),
             )
             .apply {
                 ObjTypeDecoder.assignInternal(this.objs, names.objs)
@@ -62,6 +65,7 @@ public object TypeListMapDecoder {
                 VarBitTypeDecoder.assignInternal(this.varbits, names.varbits)
                 VarBitTypeDecoder.assignBaseVars(this.varbits, this.varps)
                 SeqTypeDecoder.assignInternal(this.seqs, names.seqs)
+                FontMetricsDecoder.assignInternal(this.fonts, names.fonts)
                 ComplexTypeDecoder.decodeAll(this)
             }
     }

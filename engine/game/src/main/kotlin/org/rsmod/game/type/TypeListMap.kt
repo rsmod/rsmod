@@ -2,6 +2,7 @@ package org.rsmod.game.type
 
 import org.rsmod.game.type.comp.ComponentTypeList
 import org.rsmod.game.type.enums.EnumTypeList
+import org.rsmod.game.type.font.FontMetricsTypeList
 import org.rsmod.game.type.interf.InterfaceTypeList
 import org.rsmod.game.type.inv.InvTypeList
 import org.rsmod.game.type.loc.LocTypeList
@@ -24,4 +25,5 @@ public data class TypeListMap(
     public val varbits: VarBitTypeList,
     public val invs: InvTypeList,
     public val seqs: SeqTypeList,
+    public val fonts: FontMetricsTypeList,
 )

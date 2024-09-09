@@ -4,6 +4,7 @@ public data class HashMapping(
     public val clientscripts: Map<Long, String> = mutableMapOf(),
     public val components: Map<Long, String> = mutableMapOf(),
     public val enums: Map<Long, String> = mutableMapOf(),
+    public val fonts: Map<Long, String> = mutableMapOf(),
     public val interfaces: Map<Long, String> = mutableMapOf(),
     public val invs: Map<Long, String> = mutableMapOf(),
     public val locs: Map<Long, String> = mutableMapOf(),
