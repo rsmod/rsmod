@@ -201,3 +201,35 @@ coords = '1_50_52_44_58'
 [[spawn]]
 obj = 'iron_dagger'
 coords = '1_50_52_42_55'
+
+# Lumbridge Castle Cellar
+
+[[spawn]]
+obj = 'knife'
+count = 1
+coords = '0_50_150_15_25'
+
+[[spawn]]
+obj = 'leather_boots'
+count = 1
+coords = '0_50_150_8_20'
+
+[[spawn]]
+obj = 'leather_boots'
+count = 1
+coords = '0_50_150_10_15'
+
+[[spawn]]
+obj = 'bucket_empty'
+count = 1
+coords = '0_50_150_16_25'
+
+[[spawn]]
+obj = 'jug_empty'
+count = 1
+coords = '0_50_150_11_25'
+
+[[spawn]]
+obj = 'cabbage'
+count = 1
+coords = '0_50_150_17_22'
