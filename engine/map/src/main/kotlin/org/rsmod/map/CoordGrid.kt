@@ -4,6 +4,7 @@ import kotlin.math.abs
 import kotlin.math.max
 import org.rsmod.map.square.MapSquareGrid
 import org.rsmod.map.square.MapSquareKey
+import org.rsmod.map.util.Translation
 
 @JvmInline
 public value class CoordGrid(public val packed: Int) {
@@ -49,6 +50,9 @@ public value class CoordGrid(public val packed: Int) {
     public fun translateZ(offset: Int): CoordGrid = translate(0, offset, 0)
 
     public fun translateLevel(offset: Int): CoordGrid = translate(0, 0, offset)
+
+    public fun translate(translation: Translation): CoordGrid =
+        translate(translation.x, translation.z, translation.level)
 
     /**
      * Chebyshev distance between two [org.rsmod.map.CoordGrid]s is used for specific scenarios. For
