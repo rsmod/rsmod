@@ -8,9 +8,9 @@
 7	ladder_down
 8	ladder_up
 9	ladder_option
-10	staircase_down
-11	staircase_up
-12	staircase_option
+10	spiralstaircase_down
+11	spiralstaircase_up
+12	spiralstaircase_option
 13	empty_crate
 14	empty_chest
 15	empty_boxes
