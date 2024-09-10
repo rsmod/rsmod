@@ -6,7 +6,7 @@ import org.rsmod.game.type.loc.UnpackedLocType
 
 public sealed class LocEvents {
     public sealed class Op(
-        private val bound: BoundLocInfo,
+        public val bound: BoundLocInfo,
         public val type: UnpackedLocType,
         public val loc: LocInfo = bound.toLocInfo(),
     ) : OpEvent(loc.id.toLong())
@@ -37,7 +37,7 @@ public sealed class LocEvents {
 
 public sealed class LocContentEvents {
     public sealed class Op(
-        private val bound: BoundLocInfo,
+        public val bound: BoundLocInfo,
         public val type: UnpackedLocType,
         public val loc: LocInfo = bound.toLocInfo(),
         contentType: Int,
@@ -59,7 +59,7 @@ public sealed class LocContentEvents {
         Op(loc, type, contentType = content)
 
     public sealed class Ap(
-        private val bound: BoundLocInfo,
+        public val bound: BoundLocInfo,
         public val type: UnpackedLocType,
         public val loc: LocInfo = bound.toLocInfo(),
         contentType: Int,
@@ -83,7 +83,7 @@ public sealed class LocContentEvents {
 
 public sealed class LocDefaultEvents {
     public sealed class Op(
-        private val bound: BoundLocInfo,
+        public val bound: BoundLocInfo,
         public val type: UnpackedLocType,
         public val loc: LocInfo = bound.toLocInfo(),
     ) : OpDefaultEvent()
@@ -114,7 +114,7 @@ public sealed class LocDefaultEvents {
 
 public sealed class LocUnimplementedEvents {
     public sealed class Op(
-        private val bound: BoundLocInfo,
+        public val bound: BoundLocInfo,
         public val type: UnpackedLocType,
         public val loc: LocInfo = bound.toLocInfo(),
     ) : OpEvent(loc.id.toLong())
