@@ -45,14 +45,14 @@ public class HashedFontMetricsType(
 }
 
 public class UnpackedFontMetricsType(
-    public val charWidths: IntArray,
-    public val kerning: ByteArray,
+    public val glyphAdvances: IntArray,
     public val ascent: Int,
+    public val kerning: ByteArray,
     internalId: Int,
     internalName: String,
 ) : FontMetricsType(internalId, internalName) {
     public fun computeIdentityHash(): Long {
-        var result = charWidths.contentHashCode().toLong()
+        var result = glyphAdvances.contentHashCode().toLong()
         result = 61 * result + kerning.contentHashCode()
         result = 61 * result + ascent
         result = 61 * result + (internalId?.hashCode() ?: 0)
@@ -63,7 +63,7 @@ public class UnpackedFontMetricsType(
         "UnpackedFontMetricsType(" +
             "internalName='$internalName', " +
             "internalId=$internalId, " +
-            "charWidths=$charWidths, " +
+            "glyphAdvances=$glyphAdvances, " +
             "ascent=$ascent" +
             ")"
 
@@ -73,7 +73,7 @@ public class UnpackedFontMetricsType(
 
         other as UnpackedFontMetricsType
 
-        if (charWidths != other.charWidths) return false
+        if (glyphAdvances != other.glyphAdvances) return false
         if (kerning != other.kerning) return false
         if (ascent != other.ascent) return false
 
@@ -81,7 +81,7 @@ public class UnpackedFontMetricsType(
     }
 
     override fun hashCode(): Int {
-        var result = charWidths.contentHashCode()
+        var result = glyphAdvances.contentHashCode()
         result = 31 * result + kerning.contentHashCode()
         result = 31 * result + ascent
         return result

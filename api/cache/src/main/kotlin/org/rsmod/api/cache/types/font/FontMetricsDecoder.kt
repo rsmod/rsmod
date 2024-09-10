@@ -31,11 +31,11 @@ public object FontMetricsDecoder {
 
     public fun decode(builder: FontMetricsTypeBuilder, data: ByteBuf): Unit =
         with(builder) {
-            val charWidths = IntArray(256)
-            for (i in charWidths.indices) {
-                charWidths[i] = data.readUnsignedByte().toInt()
+            val glyphAdvances = IntArray(256)
+            for (i in glyphAdvances.indices) {
+                glyphAdvances[i] = data.readUnsignedByte().toInt()
             }
-            this.charWidths = charWidths
+            this.glyphAdvances = glyphAdvances
 
             if (data.readableBytes() == Byte.SIZE_BYTES) {
                 val ascent = data.readUnsignedByte().toInt()
@@ -43,91 +43,91 @@ public object FontMetricsDecoder {
                 return
             }
 
-            val startWidths = IntArray(256)
-            for (i in startWidths.indices) {
-                startWidths[i] = data.readUnsignedByte().toInt()
+            val glyphHeights = IntArray(256)
+            for (i in glyphHeights.indices) {
+                glyphHeights[i] = data.readUnsignedByte().toInt()
             }
 
-            val endWidths = IntArray(256)
-            for (i in endWidths.indices) {
-                endWidths[i] = data.readUnsignedByte().toInt()
+            val bearingY = IntArray(256)
+            for (i in bearingY.indices) {
+                bearingY[i] = data.readUnsignedByte().toInt()
             }
 
-            val startByteArrays = Array(256) { ByteArray(startWidths[it]) }
-            for (i in startByteArrays.indices) {
-                var tmp: Byte = 0
-                for (j in startByteArrays[i].indices) {
-                    tmp = (tmp + data.readByte()).toByte()
-                    startByteArrays[i][j] = tmp
+            val rightKern = Array(256) { ByteArray(glyphHeights[it]) }
+            for (i in rightKern.indices) {
+                var kern: Byte = 0
+                for (j in rightKern[i].indices) {
+                    kern = (kern + data.readByte()).toByte()
+                    rightKern[i][j] = kern
                 }
             }
 
             var tmpPos = 0
-            val endByteArrays = Array(256) { ByteArray(startWidths[it]) }
-            for (i in endByteArrays.indices) {
-                var tmp: Byte = 0
-                for (j in endByteArrays[i].indices) {
-                    tmp = (tmp + data.getByte(tmpPos++)).toByte()
-                    endByteArrays[i][j] = tmp
+            val leftKern = Array(256) { ByteArray(glyphHeights[it]) }
+            for (i in leftKern.indices) {
+                var kern: Byte = 0
+                for (j in leftKern[i].indices) {
+                    kern = (kern + data.getByte(tmpPos++)).toByte()
+                    leftKern[i][j] = kern
                 }
             }
 
             val kerning = ByteArray(65536)
-            for (prevChar in 0 until 256) {
-                if (prevChar == 32 || prevChar == 160) {
+            for (leftGlyph in 0 until 256) {
+                if (leftGlyph == 32 || leftGlyph == 160) {
                     continue
                 }
-                for (currChar in 0 until 256) {
-                    val calculated =
-                        calculateKerning(
-                            startByteArrays,
-                            endByteArrays,
-                            endWidths,
-                            charWidths,
-                            startWidths,
-                            prevChar,
-                            currChar,
+                for (rightGlyph in 0 until 256) {
+                    val computed =
+                        computeKerning(
+                            rightKern,
+                            leftKern,
+                            bearingY,
+                            glyphAdvances,
+                            glyphHeights,
+                            leftGlyph,
+                            rightGlyph,
                         )
-                    kerning[(prevChar shl 8) or currChar] = calculated.toByte()
+                    kerning[(leftGlyph shl 8) or rightGlyph] = computed.toByte()
                 }
             }
             this.kerning = kerning
 
-            this.ascent = startWidths[32] + endWidths[32]
+            this.ascent = glyphHeights[32] + bearingY[32]
         }
 
-    private fun calculateKerning(
-        startArray: Array<ByteArray>,
-        endArray: Array<ByteArray>,
-        endWidths: IntArray,
-        charWidths: IntArray,
-        startWidths: IntArray,
-        prevChar: Int,
-        currChar: Int,
+    private fun computeKerning(
+        rightKern: Array<ByteArray>,
+        leftKern: Array<ByteArray>,
+        bearingY: IntArray,
+        width: IntArray,
+        height: IntArray,
+        leftGlyph: Int,
+        rightGlyph: Int,
     ): Int {
-        val startOffset = endWidths[prevChar]
-        val startLimit = startOffset + startWidths[prevChar]
-        val currOffset = endWidths[currChar]
-        val currLimit = currOffset + startWidths[currChar]
+        val minY1 = bearingY[leftGlyph]
+        val maxY1 = minY1 + height[leftGlyph]
+        val minY2 = bearingY[rightGlyph]
+        val maxY2 = minY2 + height[rightGlyph]
 
-        val overlapStart = startOffset.coerceAtLeast(currOffset)
-        val overlapEnd = startLimit.coerceAtMost(currLimit)
+        val minY = minY1.coerceAtLeast(minY2)
+        val maxY = maxY1.coerceAtMost(maxY2)
 
-        var minOverlap = charWidths[prevChar].coerceAtMost(charWidths[currChar])
-        val prevCharData = endArray[prevChar]
-        val currCharData = startArray[currChar]
+        var kern = width[leftGlyph].coerceAtMost(width[rightGlyph])
+        val leftGlyphKern = leftKern[leftGlyph]
+        val rightGlyphKern = rightKern[rightGlyph]
 
-        var startIndex = overlapStart - startOffset
-        var currIndex = overlapStart - currOffset
+        var y1 = minY - minY1
+        var y2 = minY - minY2
 
-        for (i in overlapStart until overlapEnd) {
-            val overlap = prevCharData[startIndex++].toInt() + currCharData[currIndex++].toInt()
-            if (overlap < minOverlap) {
-                minOverlap = overlap
+        for (i in minY until maxY) {
+            val total = leftGlyphKern[y1++].toInt() + rightGlyphKern[y2++].toInt()
+            if (total < kern) {
+                kern = total
             }
         }
 
-        return -minOverlap
+        return -kern
     }
 
     public fun assignInternal(list: FontMetricsTypeList, names: Map<String, Int>) {

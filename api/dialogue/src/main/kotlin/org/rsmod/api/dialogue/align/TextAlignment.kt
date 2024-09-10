@@ -75,14 +75,14 @@ public class TextAlignment @Inject constructor(fonts: FontMetricsTypeList) {
                         prevChar = 0.toChar()
                     }
                     "lt" -> {
-                        lineWidth += getCharWidth('<')
+                        lineWidth += getAdjustedGlyphAdvance('<')
                         if (kerning.isNotEmpty() && prevChar != 0.toChar()) {
                             lineWidth += kerning[(prevChar.code shl 8) + 60]
                         }
                         prevChar = '<'
                     }
                     "gt" -> {
-                        lineWidth += getCharWidth('>')
+                        lineWidth += getAdjustedGlyphAdvance('>')
                         if (kerning.isNotEmpty() && prevChar != 0.toChar()) {
                             lineWidth += kerning[(prevChar.code shl 8) + 62]
                         }
@@ -103,7 +103,7 @@ public class TextAlignment @Inject constructor(fonts: FontMetricsTypeList) {
             if (tagStart == -1) {
                 if (char != 0.toChar()) {
                     lineBuilder.append(char)
-                    lineWidth += getCharWidth(char)
+                    lineWidth += getAdjustedGlyphAdvance(char)
                     if (kerning.isNotEmpty() && prevChar != 0.toChar()) {
                         lineWidth += kerning[(prevChar.code shl 8) or char.code]
                     }
@@ -140,9 +140,9 @@ public class TextAlignment @Inject constructor(fonts: FontMetricsTypeList) {
         return lineCount
     }
 
-    private fun UnpackedFontMetricsType.getCharWidth(char: Char): Int {
+    private fun UnpackedFontMetricsType.getAdjustedGlyphAdvance(char: Char): Int {
         val adjustedChar = if (char == 160.toChar()) ' ' else char
-        return charWidths[adjustedChar.code and 0xFF]
+        return glyphAdvances[adjustedChar.code and 0xFF]
     }
 
     private fun Array<String>.joinToPageString(indexRangeExclusive: IntRange): String =

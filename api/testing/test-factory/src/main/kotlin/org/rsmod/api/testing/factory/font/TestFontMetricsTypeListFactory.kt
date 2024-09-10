@@ -7,7 +7,7 @@ public class TestFontMetricsTypeListFactory {
         val factory = TestFontMetricsTypeFactory()
         val q8full =
             factory.create(Q8_FULL_ID) {
-                charWidths = Q8_FULL_CHAR_WIDTHS
+                glyphAdvances = Q8_FULL_GLYPH_ADVANCES
                 ascent = 15
             }
         val map = mapOf(Q8_FULL_ID to q8full)
@@ -17,7 +17,7 @@ public class TestFontMetricsTypeListFactory {
     internal companion object {
         const val Q8_FULL_ID = 1
 
-        private val Q8_FULL_CHAR_WIDTHS =
+        private val Q8_FULL_GLYPH_ADVANCES =
             intArrayOf(
                 0,
                 0,
