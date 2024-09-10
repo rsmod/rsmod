@@ -166,7 +166,8 @@ constructor(private val dialogues: Dialogues, private val random: GameRandom) : 
 
     private suspend fun Dialogue.randomGenericDialogue19() {
         chatNpc(angry, "Are you asking for a fight?")
-        // TODO(content): attack player here
+        // TODO(content): attack player here. seems like this should be skipped under certain
+        //  circumstances. might be an indoor check.
     }
 
     private suspend fun Dialogue.randomGenericDialogue20() {
