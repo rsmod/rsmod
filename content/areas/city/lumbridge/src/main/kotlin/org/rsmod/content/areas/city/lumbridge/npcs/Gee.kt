@@ -129,7 +129,7 @@ private suspend fun Dialogue.whereAmI() {
 
 private suspend fun Dialogue.howAreYouToday() {
     chatPlayer(happy, "How are you today?")
-    chatNpc(happy, "Aye, not too bad thank you. Lovely weather in Gielinor<br>this fine day.")
+    chatNpc(happy, "Aye, not too bad thank you. Lovely weather in Gielinor this fine day.")
     chatPlayer(laugh, "Weather?")
     chatNpc(laugh, "Yes weather, you know.")
     chatNpc(
@@ -155,7 +155,7 @@ private suspend fun Dialogue.freeStuff() {
 
 private suspend fun Dialogue.buyStick() {
     chatPlayer(quiz, "Can I buy your stick?")
-    chatNpc(angry, "It's not a stick! I'll have you know it's a very powerful<br>staff!")
+    chatNpc(angry, "It's not a stick! I'll have you know it's a very powerful staff!")
     chatPlayer(quiz, "Really? Show me what it can do!")
     chatNpc(sad, "Um..It's a bit low on power at the moment..")
     chatPlayer(laugh, "It's a stick isn't it?")
@@ -188,7 +188,7 @@ private suspend fun Dialogue.questsToDo() {
 
 private suspend fun Dialogue.dangerousQuests() {
     chatPlayer(happy, "I fancy a bit of a fight, anything dangerous?")
-    chatNpc(quiz, "Hmm.. dangerous you say? What sort of creatures are<br>you looking to fight?")
+    chatNpc(quiz, "Hmm.. dangerous you say? What sort of creatures are you looking to fight?")
     val nextDialogue =
         choice4(
             "Big scary demons!",
@@ -212,7 +212,7 @@ private suspend fun Dialogue.bigScaryDemonQuests() {
             "fortune-teller in Varrock who is rambling about some " +
             "kind of greater evil.. sounds demon-like if you ask me.",
     )
-    chatNpc(quiz, "Perhaps you could check it out if you are as brave as<br>you say?")
+    chatNpc(quiz, "Perhaps you could check it out if you are as brave as you say?")
     // Note: dialogue should be different when quest has been started, but not completed.
     val progress = player.vars[BaseVarBits.demon_slayer_progress] ?: 0
     if (progress == 0) {
@@ -256,7 +256,7 @@ private suspend fun Dialogue.vampyreQuests() {
             "Oh I have already killed that nasty blood-sucking " +
                 "vampyre. Draynor will be safe now.",
         )
-        chatNpc(laugh, "Yeah, yeah of course you did. Everyone knows<br>vampyres are not real....")
+        chatNpc(laugh, "Yeah, yeah of course you did. Everyone knows vampyres are not real....")
         chatPlayer(angry, "What! I did slay the beast..I really did.")
         chatNpc(laugh, "You're not fooling anyone you know.")
         chatPlayer(angry, "..Huh.. But... Hey! I did... believe what you like.")
@@ -269,7 +269,7 @@ private suspend fun Dialogue.smallMonsterQuests() {
     chatPlayer(
         angry,
         "Yes it can be! There could be anything from an evil " +
-            "chicken to a poisonous spider. They attack in numbers<br>you know!",
+            "chicken to a poisonous spider. They attack in numbers you know!",
     )
     chatNpc(
         happy,
@@ -335,7 +335,7 @@ private suspend fun Dialogue.lumbridgeCookQuest() {
         chatPlayer(happy, "Thank you. I shall go speak with him.")
     } else {
         chatPlayer(happy, "I have already helped the cook in Lumbridge.")
-        chatNpc(happy, "Oh yes, so you have. I am sure the Duke will be<br>pleased.")
+        chatNpc(happy, "Oh yes, so you have. I am sure the Duke will be pleased.")
     }
 }
 
@@ -374,9 +374,9 @@ private suspend fun Dialogue.romeoQuest() {
     val progress = player.vars[BaseVarps.romeo_and_juliet_progress] ?: 0
     if (progress == 0) {
         chatPlayer(quiz, "Right, ok. Romeo is in Varrock?")
-        chatNpc(happy, "Yes you can't miss him, he's wandering aimlessly in the<br>square.")
+        chatNpc(happy, "Yes you can't miss him, he's wandering aimlessly in the square.")
     } else {
-        chatPlayer(happy, "Oh yes, I've already helped Romeo in the best possible<br>way I can...")
+        chatPlayer(happy, "Oh yes, I've already helped Romeo in the best possible way I can...")
         chatNpc(quiz, "Really?")
         chatPlayer(happy, "Yup.")
         chatNpc(quiz, "...How?")
@@ -386,7 +386,7 @@ private suspend fun Dialogue.romeoQuest() {
 }
 
 private suspend fun Dialogue.thinkingQuests() {
-    chatPlayer(happy, "I'm a thinker rather than fighter, anything skill<br>orientated?")
+    chatPlayer(happy, "I'm a thinker rather than fighter, anything skill orientated?")
     chatNpc(
         quiz,
         "Skills play a big part when you want to progress in " +
@@ -398,7 +398,7 @@ private suspend fun Dialogue.thinkingQuests() {
         "You may be able to help out Fred the farmer who is in " +
             "need of someones crafting expertise.",
     )
-    chatNpc(happy, "Or, there's always Doric the dwarf who needs an<br>errand running for him?")
+    chatNpc(happy, "Or, there's always Doric the dwarf who needs an errand running for him?")
     val nextDialogue =
         choice3(
             "Fred the farmer.",
@@ -458,8 +458,8 @@ private suspend fun Dialogue.doricDwarfQuest() {
 }
 
 private suspend fun Dialogue.allQuests() {
-    chatPlayer(happy, "I want to do all kinds of things, do you know of<br>anything like that?")
-    chatNpc(happy, "Of course I do. Gielinor is a huge place you know, now<br>let me think...")
+    chatPlayer(happy, "I want to do all kinds of things, do you know of anything like that?")
+    chatNpc(happy, "Of course I do. Gielinor is a huge place you know, now let me think...")
     chatNpc(
         happy,
         "Hetty the witch in Rimmington might be able to offer " +
@@ -472,7 +472,7 @@ private suspend fun Dialogue.allQuests() {
     )
     chatNpc(
         happy,
-        "Or you could go help out Ernest who got lost in<br>Draynor Manor, spooky place that.",
+        "Or you could go help out Ernest who got lost in Draynor Manor, spooky place that.",
     )
     val nextDialogue =
         choice4(
@@ -501,10 +501,7 @@ private suspend fun Dialogue.hettyWitchQuest() {
     // Note: dialogue should be different when quest has been started, but not completed.
     val progress = player.vars[BaseVarps.witchs_potion_progress] ?: 0
     if (progress == 0) {
-        chatPlayer(
-            happy,
-            "Ok thanks, let's hope she doesn't turn me into a potato<br>or something..",
-        )
+        chatPlayer(happy, "Ok thanks, let's hope she doesn't turn me into a potato or something..")
     } else {
         chatPlayer(
             happy,
@@ -529,7 +526,7 @@ private suspend fun Dialogue.pirateTreasureQuest() {
     // Note: dialogue should be different when quest has been started, but not completed.
     val progress = player.vars[BaseVarps.pirates_treasure_progress] ?: 0
     if (progress == 0) {
-        chatPlayer(happy, "Sounds adventurous, I may have to check that out.<br>Thank you.")
+        chatPlayer(happy, "Sounds adventurous, I may have to check that out. Thank you.")
     } else {
         chatPlayer(angry, "Yarr! I already found the booty!")
         chatNpc(laugh, "Yarr indeed my friend. A most excellent find.")
@@ -553,7 +550,7 @@ private suspend fun Dialogue.ernestChickenQuest() {
     // Note: dialogue should be different when quest has been started, but not completed.
     val progress = player.vars[BaseVarps.ernest_the_chicken_progress] ?: 0
     if (progress == 0) {
-        chatPlayer(quiz, "Sounds like fun. I've never been to a Haunted Manor<br>before.")
+        chatPlayer(quiz, "Sounds like fun. I've never been to a Haunted Manor before.")
     } else {
         chatPlayer(
             happy,
@@ -580,9 +577,6 @@ private suspend fun Dialogue.haircutRecommendation() {
     chatPlayer(quiz, "Where can I get a haircut like yours?")
     chatNpc(happy, "Yes, it does look like you need a hairdresser.")
     chatPlayer(angry, "Oh thanks!")
-    chatNpc(
-        laugh,
-        "No problem. The hairdresser in Falador will probably be<br>able to sort you out.",
-    )
-    chatNpc(happy, "The Lumbridge general store sells useful maps if you<br>don't know the way.")
+    chatNpc(laugh, "No problem. The hairdresser in Falador will probably be able to sort you out.")
+    chatNpc(happy, "The Lumbridge general store sells useful maps if you don't know the way.")
 }

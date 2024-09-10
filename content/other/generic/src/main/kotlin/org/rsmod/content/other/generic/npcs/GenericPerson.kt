@@ -57,7 +57,7 @@ constructor(private val dialogues: Dialogues, private val random: GameRandom) : 
     }
 
     private suspend fun Dialogue.randomGenericDialogue2() {
-        chatNpc(neutral, "I think we need a new king. The one we've got isn't<br>very good.")
+        chatNpc(neutral, "I think we need a new king. The one we've got isn't very good.")
     }
 
     private suspend fun Dialogue.randomGenericDialogue3() {
@@ -204,7 +204,7 @@ constructor(private val dialogues: Dialogues, private val random: GameRandom) : 
         chatPlayer(neutral, "I'm in search of enemies to kill.")
         chatNpc(
             neutral,
-            "I've heard there are many fearsome creatures that<br>dwell under the ground...",
+            "I've heard there are many fearsome creatures that dwell under the ground...",
         )
     }
 }
