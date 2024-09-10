@@ -7,6 +7,7 @@ import org.rsmod.api.type.editors.loc.LocEditor
 internal object SearchLocEdits : LocEditor() {
     init {
         crates().forEach(::crate)
+        sacks().forEach(::sack)
     }
 
     private fun crate(internal: String) {
@@ -16,8 +17,17 @@ internal object SearchLocEdits : LocEditor() {
         }
     }
 
+    private fun sack(internal: String) {
+        edit(internal) {
+            param[params.game_message] = SearchConstants.EMPTY_SACKS
+            contentType = content.empty_sacks
+        }
+    }
+
     private fun crates(): Set<String> =
         setOf("stack_crate_2", "big_crate_2", "stack_crate", "big_crate")
+
+    private fun sacks(): Set<String> = setOf("sacks")
 }
 
 internal object SearchConstants {
