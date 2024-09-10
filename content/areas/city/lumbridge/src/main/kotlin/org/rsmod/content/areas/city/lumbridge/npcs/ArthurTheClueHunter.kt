@@ -326,9 +326,7 @@ class ArthurTheClueHunter @Inject constructor(private val dialogues: Dialogues) 
                 4,
             )
         when (choice) {
-            1 -> {
-                mapExplanation()
-            }
+            1 -> mapExplanation()
             2 -> fairyRingExplanation()
             3 -> clueTypesPg1()
             4 -> mainMenu()
