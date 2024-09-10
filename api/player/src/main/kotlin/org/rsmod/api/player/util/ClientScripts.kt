@@ -8,6 +8,12 @@ import org.rsmod.game.type.inv.InvType
 import org.rsmod.game.type.obj.ObjType
 
 public object ClientScripts {
+    /**
+     * Switches, or opens, the toplevel side tab. Values for [side] can be found in
+     * [org.rsmod.api.config.Constants] prefixed with `toplevel_`. (i.e., `toplevel_attack`)
+     */
+    public fun Player.toplevelSidebuttonSwitch(side: Int): Unit = runClientScript(915, side)
+
     /** @param joinedChoices Dialogue choices must be split by the `|` character. */
     public fun Player.chatboxMultiInit(title: String, joinedChoices: String): Unit =
         runClientScript(58, title, joinedChoices)

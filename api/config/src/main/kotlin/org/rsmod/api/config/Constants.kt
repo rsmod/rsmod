@@ -31,4 +31,6 @@ public object Constants {
 
     public const val modal_fixedwidthandheight: Int = 0
     public const val modal_infinitewidthandheight: Int = 1
+
+    public const val toplevel_prayer: Int = 5
 }
