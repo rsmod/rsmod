@@ -17,4 +17,5 @@ dependencies {
     implementation(projects.engine.events)
     implementation(projects.engine.game)
     implementation(projects.engine.plugin)
+    testImplementation(projects.api.testing.testFactory)
 }

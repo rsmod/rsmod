@@ -32,51 +32,73 @@ public class Dialogue(
     ): Unit = shops.open(player, title, shopInv, subtext)
 
     public suspend fun mesbox(text: String) {
-        access.mesbox(eventBus, text)
+        val pages = alignment.generatePageList(text)
+        for (page in pages) {
+            val text = page.text
+            access.mesbox(eventBus, text)
+        }
     }
 
     public suspend fun chatPlayer(mesanim: MesAnimType, text: String) {
-        val lineCount = text.lineCount()
-        val lineHeight = lineHeight(lineCount)
-        access.chatPlayer(eventBus, text, mesanim, lineCount, lineHeight)
+        val pages = alignment.generatePageList(text)
+        for (page in pages) {
+            val (text, lineCount) = page
+            val lineHeight = lineHeight(lineCount)
+            access.chatPlayer(eventBus, text, mesanim, lineCount, lineHeight)
+        }
     }
 
     public suspend fun chatPlayerNoAnim(text: String) {
-        val lineCount = text.lineCount()
-        val lineHeight = lineHeight(lineCount)
-        access.chatPlayer(eventBus, text, mesanim = null, lineCount, lineHeight)
+        val pages = alignment.generatePageList(text)
+        for (page in pages) {
+            val (text, lineCount) = page
+            val lineHeight = lineHeight(lineCount)
+            access.chatPlayer(eventBus, text, mesanim = null, lineCount, lineHeight)
+        }
     }
 
     public suspend fun chatNpc(mesanim: MesAnimType, text: String) {
-        val lineCount = text.lineCount()
-        val lineHeight = lineHeight(lineCount)
-        access.chatNpc(eventBus, npc(), text, mesanim, lineCount, lineHeight, faceFar = faceFar)
+        val pages = alignment.generatePageList(text)
+        for (page in pages) {
+            val (text, lineCount) = page
+            val lineHeight = lineHeight(lineCount)
+            access.chatNpc(eventBus, npc(), text, mesanim, lineCount, lineHeight, faceFar = faceFar)
+        }
     }
 
     public suspend fun chatNpcNoTurn(mesanim: MesAnimType, text: String) {
-        val lineCount = text.lineCount()
-        val lineHeight = lineHeight(lineCount)
-        access.chatNpcNoTurn(eventBus, npc(), text, mesanim, lineCount, lineHeight)
+        val pages = alignment.generatePageList(text)
+        for (page in pages) {
+            val (text, lineCount) = page
+            val lineHeight = lineHeight(lineCount)
+            access.chatNpcNoTurn(eventBus, npc(), text, mesanim, lineCount, lineHeight)
+        }
     }
 
     public suspend fun chatNpcNoAnim(text: String) {
-        val lineCount = text.lineCount()
-        val lineHeight = lineHeight(lineCount)
-        access.chatNpc(
-            eventBus = eventBus,
-            npc = npc(),
-            text = text,
-            mesanim = null,
-            lineCount = lineCount,
-            lineHeight = lineHeight,
-            faceFar = faceFar,
-        )
+        val pages = alignment.generatePageList(text)
+        for (page in pages) {
+            val (text, lineCount) = page
+            val lineHeight = lineHeight(lineCount)
+            access.chatNpc(
+                eventBus = eventBus,
+                npc = npc(),
+                text = text,
+                mesanim = null,
+                lineCount = lineCount,
+                lineHeight = lineHeight,
+                faceFar = faceFar,
+            )
+        }
     }
 
     public suspend fun chatNpcSpecific(type: UnpackedNpcType, mesanim: MesAnimType, text: String) {
-        val lineCount = text.lineCount()
-        val lineHeight = lineHeight(lineCount)
-        access.chatNpcSpecific(eventBus, type.name, type, text, mesanim, lineCount, lineHeight)
+        val pages = alignment.generatePageList(text)
+        for (page in pages) {
+            val (text, lineCount) = page
+            val lineHeight = lineHeight(lineCount)
+            access.chatNpcSpecific(eventBus, type.name, type, text, mesanim, lineCount, lineHeight)
+        }
     }
 
     public suspend fun <T> choice2(
@@ -173,8 +195,6 @@ public class Dialogue(
         npc ?: error("`npc` must be set. Use `Dialogues.start(player, npc)` to start the dialogue.")
 
     private fun lineHeight(lineCount: Int): Int = alignment.lineHeight(lineCount)
-
-    private fun String.lineCount(): Int = alignment.computeLineCount(this)
 
     public val quiz: MesAnimType = BaseMesAnims.quiz
     public val bored: MesAnimType = BaseMesAnims.bored
