@@ -28,7 +28,7 @@ constructor(private val dialogues: Dialogues, private val objRepo: ObjRepository
 
     private suspend fun ProtectedAccess.apDialogue(npc: Npc) {
         val dest = npc.coords.translate(-2, 0)
-        if (!player.isInBuilding() || player.x > dest.x) {
+        if (!player.shouldPathToCounter()) {
             apRange(-1)
             return
         } else if (player.coords == dest) {
@@ -84,7 +84,7 @@ constructor(private val dialogues: Dialogues, private val objRepo: ObjRepository
         chatPlayer(neutral, "Nothing, I'm fine.")
     }
 
-    private fun Player.isInBuilding(): Boolean =
-        isWithinArea(CoordGrid(0, 50, 50, 28, 36), CoordGrid(0, 50, 50, 33, 42)) ||
+    private fun Player.shouldPathToCounter(): Boolean =
+        isWithinArea(CoordGrid(0, 50, 50, 28, 36), CoordGrid(0, 50, 50, 30, 42)) ||
             isWithinArea(CoordGrid(0, 50, 50, 26, 39), CoordGrid(0, 50, 50, 27, 42))
 }
