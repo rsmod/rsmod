@@ -13,4 +13,5 @@ public object BaseSynths : SynthReferences() {
     public val nicedoor_close: SynthType = find("nicedoor_close")
     public val nicedoor_open: SynthType = find("nicedoor_open")
     public val pick2: SynthType = find("pick2")
+    public val lever: SynthType = find("lever")
 }
