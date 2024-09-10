@@ -14,11 +14,15 @@ object LumbridgeNpcs : NpcReferences() {
     val hans = find(6791077204654367342)
     val bartender = find(5628536812085541378)
     val arthur_the_clue_hunter = find(2308854141696014193)
-    val prayer_tutor = find(2676816285850822926)
+    val prayer_tutor = find(2676816440411946009)
 }
 
 internal object LumbridgeNpcEditor : NpcEditor() {
     init {
+        edit("prayer_tutor") { moveRestrict = indoors }
+
+        edit("father_aereck") { moveRestrict = indoors }
+
         edit("hans") {
             defaultMode = patrol
             patrol1 = patrol(CoordGrid(0, 50, 50, 7, 33), 0)
