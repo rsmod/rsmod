@@ -97,4 +97,17 @@ public data class BoundLocInfo(
     public fun angle(): LocAngle = LocAngle[angle]
 
     public fun turnAngle(rotations: Int = 1): LocAngle = angle().turn(rotations)
+
+    override fun toString(): String =
+        "BoundLocInfo(" +
+            "coords=$coords, " +
+            "id=$id, " +
+            "shape=${shape()}, " +
+            "angle=${angle()}, " +
+            "adjustedWidth=$adjustedWidth, " +
+            "adjustedLength=$adjustedLength, " +
+            "width=$width, " +
+            "length=$length, " +
+            "forceApproachFlags=$forceApproachFlags" +
+            ")"
 }
