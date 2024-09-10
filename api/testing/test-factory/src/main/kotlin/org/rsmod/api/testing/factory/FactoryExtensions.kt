@@ -1,9 +1,15 @@
 package org.rsmod.api.testing.factory
 
+import org.rsmod.api.testing.factory.font.TestFontMetricsTypeListFactory
 import org.rsmod.api.testing.factory.loc.TestLocTypeListFactory
 import org.rsmod.api.testing.factory.obj.TestObjTypeListFactory
+import org.rsmod.game.type.font.UnpackedFontMetricsType
 import org.rsmod.game.type.loc.UnpackedLocType
 import org.rsmod.game.type.obj.UnpackedObjType
+
+/* Font metrics extension functions */
+public fun Map<Int, UnpackedFontMetricsType>.q8Full(): UnpackedFontMetricsType =
+    getValue(TestFontMetricsTypeListFactory.Q8_FULL_ID)
 
 /* Loc extension functions */
 public fun Map<Int, UnpackedLocType>.smallBlockWalk(): UnpackedLocType =
