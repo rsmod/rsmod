@@ -58,6 +58,6 @@ constructor(
         player.interaction = interaction
         player.routeRequest = routeRequest
         player.tempMoveSpeed = speed
-        logger.debug { "OpLoc: op=${message.op}, loc=$loc type=$type" }
+        logger.debug { "OpLoc: op=${message.op}, loc=$boundLoc type=$type" }
     }
 }
