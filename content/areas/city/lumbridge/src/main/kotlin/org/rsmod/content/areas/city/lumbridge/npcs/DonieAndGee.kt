@@ -13,25 +13,27 @@ import org.rsmod.game.entity.Npc
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-class Gee @Inject constructor(private val dialogues: Dialogues, private val random: GameRandom) :
-    PluginScript() {
+class DonieAndGee
+@Inject
+constructor(private val dialogues: Dialogues, private val random: GameRandom) : PluginScript() {
     override fun ScriptContext.startUp() {
-        onOpNpc1(LumbridgeNpcs.gee) { geeDialogue(it.npc) }
+        onOpNpc1(LumbridgeNpcs.gee) { startDialogue(it.npc) }
+        onOpNpc1(LumbridgeNpcs.donie) { startDialogue(it.npc) }
     }
 
-    private suspend fun ProtectedAccess.geeDialogue(npc: Npc) =
+    private suspend fun ProtectedAccess.startDialogue(npc: Npc) =
         startDialogue(dialogues, npc) {
             chatNpc(happy, "Hello there, can I help you?")
             when (random.of(maxExclusive = 5)) {
-                0 -> randomGeeDialogue1()
-                1 -> randomGeeDialogue2()
-                2 -> randomGeeDialogue3()
-                3 -> randomGeeDialogue4()
-                4 -> randomGeeDialogue5()
+                0 -> randomDialogue1()
+                1 -> randomDialogue2()
+                2 -> randomDialogue3()
+                3 -> randomDialogue4()
+                4 -> randomDialogue5()
             }
         }
 
-    private suspend fun Dialogue.randomGeeDialogue1() {
+    private suspend fun Dialogue.randomDialogue1() {
         val nextDialogue =
             choice3(
                 "What's up?",
@@ -44,7 +46,7 @@ class Gee @Inject constructor(private val dialogues: Dialogues, private val rand
         nextDialogue()
     }
 
-    private suspend fun Dialogue.randomGeeDialogue2() {
+    private suspend fun Dialogue.randomDialogue2() {
         val nextDialogue =
             choice3(
                 "Do you have anything of value which I can have?",
@@ -57,7 +59,7 @@ class Gee @Inject constructor(private val dialogues: Dialogues, private val rand
         nextDialogue()
     }
 
-    private suspend fun Dialogue.randomGeeDialogue3() {
+    private suspend fun Dialogue.randomDialogue3() {
         val nextDialogue =
             choice4(
                 "What's up?",
@@ -72,7 +74,7 @@ class Gee @Inject constructor(private val dialogues: Dialogues, private val rand
         nextDialogue()
     }
 
-    private suspend fun Dialogue.randomGeeDialogue4() {
+    private suspend fun Dialogue.randomDialogue4() {
         val nextDialogue =
             choice4(
                 "Where am I?",
@@ -87,7 +89,7 @@ class Gee @Inject constructor(private val dialogues: Dialogues, private val rand
         nextDialogue()
     }
 
-    private suspend fun Dialogue.randomGeeDialogue5() {
+    private suspend fun Dialogue.randomDialogue5() {
         val nextDialogue =
             choice4(
                 "Where am I?",
