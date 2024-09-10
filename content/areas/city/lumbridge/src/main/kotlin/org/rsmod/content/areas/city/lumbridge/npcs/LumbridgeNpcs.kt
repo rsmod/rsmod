@@ -15,6 +15,7 @@ object LumbridgeNpcs : NpcReferences() {
     val bartender = find(5628536812085541378)
     val arthur_the_clue_hunter = find(2308854141696014193)
     val prayer_tutor = find(2676816440411946009)
+    val hatius_cosaintus = find(1040948992764943727)
 }
 
 internal object LumbridgeNpcEditor : NpcEditor() {
