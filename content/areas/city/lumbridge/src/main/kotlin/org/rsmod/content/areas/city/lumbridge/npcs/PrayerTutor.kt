@@ -64,9 +64,10 @@ class PrayerTutor @Inject constructor(private val dialogues: Dialogues) : Plugin
         )
         chatNpc(happy, "Is there anything else you would like to know?")
         val choice = choice2("What is prayer useful for?", 1, "No, thank you.", 2)
-        when (choice) {
-            1 -> prayerUsefulness()
-            2 -> noThanks()
+        if (choice == 1) {
+            prayerUsefulness()
+        } else if (choice == 2) {
+            noThanks()
         }
     }
 
