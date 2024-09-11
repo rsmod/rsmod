@@ -257,12 +257,13 @@ private fun Player.closeModal(eventBus: EventBus, interf: InterfaceType) {
 
 public fun Player.closeModal(eventBus: EventBus, interf: UserInterface, target: Component) {
     ui.modals.remove(target)
-    eventBus.publish(CloseSub(this, interf, target))
 
     // Translate any gameframe target component when sent to the client. As far as the server
     // is aware, the interface was open on the "base" target component. (when applicable)
     val translated = ui.translate(target)
     client.write(IfCloseSub(translated.parent, translated.child))
+
+    eventBus.publish(CloseSub(this, interf, target))
 }
 
 private fun Player.closeOverlay(eventBus: EventBus, interf: InterfaceType) {
@@ -275,12 +276,13 @@ private fun Player.closeOverlay(eventBus: EventBus, interf: InterfaceType) {
 
 public fun Player.closeOverlay(eventBus: EventBus, interf: UserInterface, target: Component) {
     ui.overlays.remove(target)
-    eventBus.publish(CloseSub(this, interf, target))
 
     // Translate any gameframe target component when sent to the client. As far as the server
     // is aware, the interface was open on the "base" target component. (when applicable)
     val translated = ui.translate(target)
     client.write(IfCloseSub(translated.parent, translated.child))
+
+    eventBus.publish(CloseSub(this, interf, target))
 }
 
 /**
@@ -290,12 +292,12 @@ public fun Player.closeOverlay(eventBus: EventBus, interf: UserInterface, target
 private fun Player.closeSubs(eventBus: EventBus, from: Component) {
     val remove = ui.modals.remove(from) ?: ui.overlays.remove(from)
     if (remove != null) {
-        eventBus.publish(CloseSub(this, remove, from))
-
         // Translate any gameframe target component when sent to the client. As far as the server
         // is aware, the interface was open on the "base" target component. (when applicable)
         val translated = ui.translate(from)
         client.write(IfCloseSub(translated.parent, translated.child))
+
+        eventBus.publish(CloseSub(this, remove, from))
     }
 }
 
