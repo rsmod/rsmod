@@ -37,11 +37,17 @@ public data class BoundLocInfo(
     public val id: Int
         get() = entity.id
 
-    public val shape: Int
+    public val shapeId: Int
         get() = entity.shape
 
-    public val angle: Int
+    public val shape: LocShape
+        get() = LocShape[shapeId]
+
+    public val angleId: Int
         get() = entity.angle
+
+    public val angle: LocAngle
+        get() = LocAngle[angleId]
 
     public val x: Int
         get() = coords.x
@@ -53,7 +59,7 @@ public data class BoundLocInfo(
         get() = coords.level
 
     /**
-     * The width of the loc, adjusted based on its [angle] and original dimensions ([width] and
+     * The width of the loc, adjusted based on its [angleId] and original dimensions ([width] and
      * [length]).
      *
      * This property calculates the effective width of the loc in the game world after applying the
@@ -63,10 +69,10 @@ public data class BoundLocInfo(
      * @return The adjusted width of the loc, taking into account its angle.
      */
     public val adjustedWidth: Int
-        get() = Rotations.rotate(angle, width, length)
+        get() = Rotations.rotate(angleId, width, length)
 
     /**
-     * The length of the loc, adjusted based on its [angle] and original dimensions ([length] and
+     * The length of the loc, adjusted based on its [angleId] and original dimensions ([length] and
      * [width]).
      *
      * This property calculates the effective length of the loc in the game world after applying the
@@ -76,7 +82,7 @@ public data class BoundLocInfo(
      * @return The adjusted length of the loc, taking into account its angle.
      */
     public val adjustedLength: Int
-        get() = Rotations.rotate(angle, length, width)
+        get() = Rotations.rotate(angleId, length, width)
 
     /**
      * Calculates the bounding area of the loc in the game world, based on its current [coords],
@@ -92,18 +98,14 @@ public data class BoundLocInfo(
      */
     public fun bounds(): Bounds = Bounds(coords, adjustedWidth, adjustedLength)
 
-    public fun shape(): LocShape = LocShape[shape]
-
-    public fun angle(): LocAngle = LocAngle[angle]
-
-    public fun turnAngle(rotations: Int = 1): LocAngle = angle().turn(rotations)
+    public fun turnAngle(rotations: Int = 1): LocAngle = angle.turn(rotations)
 
     override fun toString(): String =
         "BoundLocInfo(" +
             "coords=$coords, " +
             "id=$id, " +
-            "shape=${shape()}, " +
-            "angle=${angle()}, " +
+            "shape=$shape, " +
+            "angle=$angle, " +
             "adjustedWidth=$adjustedWidth, " +
             "adjustedLength=$adjustedLength, " +
             "width=$width, " +

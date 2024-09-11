@@ -40,8 +40,8 @@ public class BoundValidator @Inject constructor(private val flags: CollisionFlag
             destWidth = target.width,
             destLength = target.length,
             srcSize = source.size,
-            locAngle = target.angle,
-            locShape = target.shape,
+            locAngle = target.angleId,
+            locShape = target.shapeId,
             blockAccessFlags = target.forceApproachFlags,
         )
     }

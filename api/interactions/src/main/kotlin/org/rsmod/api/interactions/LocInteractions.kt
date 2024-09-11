@@ -138,7 +138,7 @@ constructor(
         return if (!locTypes.containsKey(multiLoc)) {
             null
         } else {
-            loc.copy(entity = LocEntity(multiLoc and 0xFFFF, loc.shape, loc.angle))
+            loc.copy(entity = LocEntity(multiLoc and 0xFFFF, loc.shapeId, loc.angleId))
         }
     }
 

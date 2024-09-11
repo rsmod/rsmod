@@ -37,7 +37,7 @@ constructor(private val collision: CollisionFlagMap, private val dialogues: Dial
         climb(loc, loc.climbDownTranslation())
 
     private fun BoundLocInfo.climbDownTranslation(): Translation =
-        when (angle()) {
+        when (angle) {
             LocAngle.West -> Translation(x = adjustedWidth - 1, z = -1, level = -1)
             LocAngle.North -> Translation(x = -adjustedWidth, z = 0, level = -1)
             LocAngle.East -> Translation(x = 0, z = adjustedLength, level = -1)
@@ -47,7 +47,7 @@ constructor(private val collision: CollisionFlagMap, private val dialogues: Dial
     private fun ProtectedAccess.climbUp(loc: BoundLocInfo) = climb(loc, loc.climbUpTranslation())
 
     private fun BoundLocInfo.climbUpTranslation(): Translation =
-        when (angle()) {
+        when (angle) {
             LocAngle.West -> Translation(x = adjustedWidth, z = 0, level = 1)
             LocAngle.North -> Translation(x = 0, z = -(adjustedLength - 1), level = 1)
             LocAngle.East ->
