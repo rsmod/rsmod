@@ -143,11 +143,11 @@ public fun Player.ifOpenChat(eventBus: EventBus, interf: InterfaceType, widthAnd
     openModal(eventBus, interf, components.chat_dialogue_target)
 }
 
-public fun Player.ifOpenMain(
+public fun Player.ifOpenMainModal(
     eventBus: EventBus,
     interf: InterfaceType,
-    colour: Int,
-    transparency: Int,
+    colour: Int = -1,
+    transparency: Int = -1,
 ) {
     topLevelMainModalOpen(colour, transparency)
     ifOpenMain(eventBus, interf)
