@@ -39,9 +39,9 @@ private typealias CloseSub = org.rsmod.api.player.events.IfCloseSub
 
 private var Player.modalWidthAndHeightMode: Int by intVarp(varbits.modal_widthandheight_mode)
 
-public fun Player.ifMesbox(eventBus: EventBus, text: String, pauseText: String) {
+public fun Player.ifMesbox(text: String, pauseText: String, eventBus: EventBus) {
     mes(text, ChatType.Mesbox)
-    openModal(eventBus, interfaces.text_dialogue, components.chat_dialogue_target)
+    openModal(interfaces.text_dialogue, components.chat_dialogue_target, eventBus)
     ifSetText(components.text_dialogue_text, text)
     ifSetTextAlign(components.text_dialogue_text, alignH = 1, alignV = 1, lineHeight = 0)
     ifSetEvents(components.text_dialogue_pbutton, -1..-1, IfEvent.PauseButton)
@@ -52,25 +52,25 @@ public fun Player.ifMesbox(eventBus: EventBus, text: String, pauseText: String) 
 
 /** @see [chatboxMultiInit] */
 public fun Player.ifChoice(
-    eventBus: EventBus,
     title: String,
     joinedChoices: String,
     choiceCountInclusive: Int,
+    eventBus: EventBus,
 ) {
-    ifOpenChat(eventBus, interfaces.options_dialogue, constants.modal_infinitewidthandheight)
+    ifOpenChat(interfaces.options_dialogue, constants.modal_infinitewidthandheight, eventBus)
     chatboxMultiInit(title, joinedChoices)
     ifSetEvents(components.options_dialogue_pbutton, 1..choiceCountInclusive, IfEvent.PauseButton)
 }
 
 public fun Player.ifChatPlayer(
-    eventBus: EventBus,
     title: String,
     text: String,
     expression: SeqType?,
     pauseText: String,
     lineHeight: Int,
+    eventBus: EventBus,
 ) {
-    ifOpenChat(eventBus, interfaces.player_dialogue, constants.modal_fixedwidthandheight)
+    ifOpenChat(interfaces.player_dialogue, constants.modal_fixedwidthandheight, eventBus)
     ifSetPlayerHead(components.player_dialogue_head)
     ifSetAnim(components.player_dialogue_head, expression)
     ifSetText(components.player_dialogue_title, title)
@@ -81,15 +81,15 @@ public fun Player.ifChatPlayer(
 }
 
 public fun Player.ifChatNpcActive(
-    eventBus: EventBus,
     title: String,
     npcSlotId: Int,
     text: String,
     chatanim: SeqType?,
     pauseText: String,
     lineHeight: Int,
+    eventBus: EventBus,
 ) {
-    ifOpenChat(eventBus, interfaces.npc_dialogue, constants.modal_fixedwidthandheight)
+    ifOpenChat(interfaces.npc_dialogue, constants.modal_fixedwidthandheight, eventBus)
     ifSetNpcHeadActive(components.npc_dialogue_head, npcSlotId)
     ifSetAnim(components.npc_dialogue_head, chatanim)
     ifSetText(components.npc_dialogue_title, title)
@@ -100,16 +100,16 @@ public fun Player.ifChatNpcActive(
 }
 
 public fun Player.ifChatNpcSpecific(
-    eventBus: EventBus,
     title: String,
     type: NpcType,
     text: String,
     chatanim: SeqType?,
     pauseText: String,
     lineHeight: Int,
+    eventBus: EventBus,
 ) {
     mes("$title|$text", ChatType.Dialogue)
-    ifOpenChat(eventBus, interfaces.npc_dialogue, constants.modal_fixedwidthandheight)
+    ifOpenChat(interfaces.npc_dialogue, constants.modal_fixedwidthandheight, eventBus)
     ifSetNpcHead(components.npc_dialogue_head, type)
     ifSetAnim(components.npc_dialogue_head, chatanim)
     ifSetText(components.npc_dialogue_title, title)
@@ -137,29 +137,29 @@ public fun Player.ifSetNpcHeadActive(target: ComponentType, npcSlotId: Int) {
     client.write(IfSetNpcHeadActive(target.interfaceId, target.component, npcSlotId))
 }
 
-public fun Player.ifOpenChat(eventBus: EventBus, interf: InterfaceType, widthAndHeightMode: Int) {
+public fun Player.ifOpenChat(interf: InterfaceType, widthAndHeightMode: Int, eventBus: EventBus) {
     modalWidthAndHeightMode = widthAndHeightMode
     topLevelChatboxResetBackground()
-    openModal(eventBus, interf, components.chat_dialogue_target)
+    openModal(interf, components.chat_dialogue_target, eventBus)
 }
 
 public fun Player.ifOpenMainModal(
-    eventBus: EventBus,
     interf: InterfaceType,
+    eventBus: EventBus,
     colour: Int = -1,
     transparency: Int = -1,
 ) {
     topLevelMainModalOpen(colour, transparency)
-    ifOpenMain(eventBus, interf)
+    ifOpenMain(interf, eventBus)
 }
 
-public fun Player.ifOpenMain(eventBus: EventBus, interf: InterfaceType) {
-    openModal(eventBus, interf, components.main_modal)
+public fun Player.ifOpenMain(interf: InterfaceType, eventBus: EventBus) {
+    openModal(interf, components.main_modal, eventBus)
 }
 
-public fun Player.ifOpenMainSidePair(eventBus: EventBus, main: InterfaceType, side: InterfaceType) {
-    openModal(eventBus, main, components.main_modal)
-    openModal(eventBus, side, components.side_modal)
+public fun Player.ifOpenMainSidePair(main: InterfaceType, side: InterfaceType, eventBus: EventBus) {
+    openModal(main, components.main_modal, eventBus)
+    openModal(side, components.side_modal, eventBus)
 }
 
 public fun Player.ifClose(eventBus: EventBus) {
@@ -178,7 +178,7 @@ public fun Player.ifCloseModals(eventBus: EventBus) {
     for ((key, value) in modalEntries) {
         val interf = UserInterface(value)
         val target = Component(key)
-        closeModal(eventBus, interf, target)
+        closeModal(interf, target, eventBus)
     }
     // Make sure _all_ modals were closed. If not, then something is wrong, and we'd rather force
     // the player to disconnect than to allow them to keep modals open when they shouldn't.
@@ -197,7 +197,7 @@ public fun Player.ifSetText(target: ComponentType, text: String) {
     client.write(IfSetText(target.interfaceId, target.component, text))
 }
 
-public fun Player.ifOpenTop(eventBus: EventBus, topLevel: InterfaceType) {
+public fun Player.ifOpenTop(topLevel: InterfaceType, eventBus: EventBus) {
     val userInterface = UserInterface(topLevel.id)
     ui.topLevels.clear()
     ui.topLevels += userInterface
@@ -206,25 +206,25 @@ public fun Player.ifOpenTop(eventBus: EventBus, topLevel: InterfaceType) {
 }
 
 public fun Player.ifOpenSub(
-    eventBus: EventBus,
     interf: InterfaceType,
     target: ComponentType,
-    type: IfSubType = IfSubType.Modal,
+    type: IfSubType,
+    eventBus: EventBus,
 ): Unit =
     when (type) {
-        IfSubType.Modal -> openModal(eventBus, interf, target)
-        IfSubType.Overlay -> openOverlay(eventBus, interf, target)
+        IfSubType.Modal -> openModal(interf, target, eventBus)
+        IfSubType.Overlay -> openOverlay(interf, target, eventBus)
     }
 
-public fun Player.ifCloseSub(eventBus: EventBus, interf: InterfaceType) {
-    closeModal(eventBus, interf)
-    closeOverlay(eventBus, interf)
+public fun Player.ifCloseSub(interf: InterfaceType, eventBus: EventBus) {
+    closeModal(interf, eventBus)
+    closeOverlay(interf, eventBus)
 }
 
-private fun Player.openModal(eventBus: EventBus, interf: InterfaceType, target: ComponentType) {
+private fun Player.openModal(interf: InterfaceType, target: ComponentType, eventBus: EventBus) {
     val idComponent = target.toIdComponent()
     val idInterface = interf.toIdInterface()
-    closeSubs(eventBus, idComponent)
+    closeSubs(idComponent, eventBus)
     ui.modals[idComponent] = idInterface
     eventBus.publish(OpenSub(this, idInterface, idComponent, IfSubType.Modal))
 
@@ -234,10 +234,10 @@ private fun Player.openModal(eventBus: EventBus, interf: InterfaceType, target: 
     client.write(IfOpenSub(translated.parent, translated.child, interf.id, IfSubType.Modal.id))
 }
 
-private fun Player.openOverlay(eventBus: EventBus, interf: InterfaceType, target: ComponentType) {
+private fun Player.openOverlay(interf: InterfaceType, target: ComponentType, eventBus: EventBus) {
     val idComponent = target.toIdComponent()
     val idInterface = interf.toIdInterface()
-    closeSubs(eventBus, idComponent)
+    closeSubs(idComponent, eventBus)
     ui.overlays[idComponent] = idInterface
     eventBus.publish(OpenSub(this, idInterface, idComponent, IfSubType.Overlay))
 
@@ -247,15 +247,15 @@ private fun Player.openOverlay(eventBus: EventBus, interf: InterfaceType, target
     client.write(IfOpenSub(translated.parent, translated.child, interf.id, IfSubType.Overlay.id))
 }
 
-private fun Player.closeModal(eventBus: EventBus, interf: InterfaceType) {
+private fun Player.closeModal(interf: InterfaceType, eventBus: EventBus) {
     val idInterface = interf.toIdInterface()
     val target = ui.modals.getComponent(idInterface)
     if (target != null) {
-        closeModal(eventBus, idInterface, target)
+        closeModal(idInterface, target, eventBus)
     }
 }
 
-public fun Player.closeModal(eventBus: EventBus, interf: UserInterface, target: Component) {
+public fun Player.closeModal(interf: UserInterface, target: Component, eventBus: EventBus) {
     ui.modals.remove(target)
 
     // Translate any gameframe target component when sent to the client. As far as the server
@@ -266,15 +266,15 @@ public fun Player.closeModal(eventBus: EventBus, interf: UserInterface, target: 
     eventBus.publish(CloseSub(this, interf, target))
 }
 
-private fun Player.closeOverlay(eventBus: EventBus, interf: InterfaceType) {
+private fun Player.closeOverlay(interf: InterfaceType, eventBus: EventBus) {
     val idInterface = interf.toIdInterface()
     val target = ui.overlays.getComponent(idInterface)
     if (target != null) {
-        closeOverlay(eventBus, idInterface, target)
+        closeOverlay(idInterface, target, eventBus)
     }
 }
 
-public fun Player.closeOverlay(eventBus: EventBus, interf: UserInterface, target: Component) {
+public fun Player.closeOverlay(interf: UserInterface, target: Component, eventBus: EventBus) {
     ui.overlays.remove(target)
 
     // Translate any gameframe target component when sent to the client. As far as the server
@@ -289,7 +289,7 @@ public fun Player.closeOverlay(eventBus: EventBus, interf: UserInterface, target
  * The difference between this and [ifCloseModals]/[closeOverlay] is that this function will check
  * if [from] is being occupied by either a modal, or an overlay, and then close it accordingly.
  */
-private fun Player.closeSubs(eventBus: EventBus, from: Component) {
+private fun Player.closeSubs(from: Component, eventBus: EventBus) {
     val remove = ui.modals.remove(from) ?: ui.overlays.remove(from)
     if (remove != null) {
         // Translate any gameframe target component when sent to the client. As far as the server

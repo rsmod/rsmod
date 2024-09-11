@@ -25,7 +25,7 @@ constructor(
         val interfaceType = interfaceTypes[message.asComponent]
         val input = ResumePauseButtonInput(componentType, message.sub)
         if (player.ui.containsModal(interfaceType)) {
-            player.ifCloseSub(eventBus, interfaceType)
+            player.ifCloseSub(interfaceType, eventBus)
             player.resumeActiveCoroutine(input)
         }
     }

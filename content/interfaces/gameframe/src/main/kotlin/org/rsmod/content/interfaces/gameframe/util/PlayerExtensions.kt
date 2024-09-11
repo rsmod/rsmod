@@ -10,12 +10,12 @@ import org.rsmod.game.type.interf.IfSubType
 import org.rsmod.game.ui.Component
 import org.rsmod.game.ui.UserInterfaceMap
 
-fun Player.openGameframe(eventBus: EventBus, gameframe: Gameframe) {
+fun Player.openGameframe(gameframe: Gameframe, eventBus: EventBus) {
     val (topLevel, mappings, overlays) = gameframe
     ui.setGameframe(mappings)
-    ifOpenTop(eventBus, topLevel)
+    ifOpenTop(topLevel, eventBus)
     for (overlay in overlays) {
-        ifOpenSub(eventBus, overlay.first, overlay.second, IfSubType.Overlay)
+        ifOpenSub(overlay.first, overlay.second, IfSubType.Overlay, eventBus)
     }
 }
 

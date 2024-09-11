@@ -118,7 +118,7 @@ public class ProtectedAccess(public val player: Player, public val coroutine: Ga
         text: String,
         pauseText: String = constants.cm_pausebutton,
     ) {
-        player.ifMesbox(eventBus, text, pauseText)
+        player.ifMesbox(text, pauseText, eventBus)
         val input = coroutine.pause(ResumePauseButtonInput::class)
         resumePauseButtonWithProtectedAccess(input, components.text_dialogue_pbutton)
     }
@@ -136,7 +136,7 @@ public class ProtectedAccess(public val player: Player, public val coroutine: Ga
         result2: T,
         title: String = constants.cm_options,
     ): T {
-        player.ifChoice(eventBus, title, "$choice1|$choice2", choiceCountInclusive = 2)
+        player.ifChoice(title, "$choice1|$choice2", choiceCountInclusive = 2, eventBus)
         val input = coroutine.pause(ResumePauseButtonInput::class)
         resumePauseButtonWithProtectedAccess(input, components.options_dialogue_pbutton)
         return when (input.subcomponent) {
@@ -161,7 +161,7 @@ public class ProtectedAccess(public val player: Player, public val coroutine: Ga
         result3: T,
         title: String = constants.cm_options,
     ): T {
-        player.ifChoice(eventBus, title, "$choice1|$choice2|$choice3", choiceCountInclusive = 3)
+        player.ifChoice(title, "$choice1|$choice2|$choice3", choiceCountInclusive = 3, eventBus)
         val input = coroutine.pause(ResumePauseButtonInput::class)
         resumePauseButtonWithProtectedAccess(input, components.options_dialogue_pbutton)
         return when (input.subcomponent) {
@@ -190,10 +190,10 @@ public class ProtectedAccess(public val player: Player, public val coroutine: Ga
         title: String = constants.cm_options,
     ): T {
         player.ifChoice(
-            eventBus,
             title,
             "$choice1|$choice2|$choice3|$choice4",
             choiceCountInclusive = 4,
+            eventBus,
         )
         val input = coroutine.pause(ResumePauseButtonInput::class)
         resumePauseButtonWithProtectedAccess(input, components.options_dialogue_pbutton)
@@ -226,10 +226,10 @@ public class ProtectedAccess(public val player: Player, public val coroutine: Ga
         title: String = constants.cm_options,
     ): T {
         player.ifChoice(
-            eventBus,
             title,
             "$choice1|$choice2|$choice3|$choice4|$choice5",
             choiceCountInclusive = 5,
+            eventBus,
         )
         val input = coroutine.pause(ResumePauseButtonInput::class)
         resumePauseButtonWithProtectedAccess(input, components.options_dialogue_pbutton)
@@ -258,7 +258,7 @@ public class ProtectedAccess(public val player: Player, public val coroutine: Ga
         pauseText: String = constants.cm_pausebutton,
     ) {
         val chatanim = mesanim?.splitGetAnim(lineCount)
-        player.ifChatPlayer(eventBus, title, text, chatanim, pauseText, lineHeight)
+        player.ifChatPlayer(title, text, chatanim, pauseText, lineHeight, eventBus)
         val input = coroutine.pause(ResumePauseButtonInput::class)
         resumePauseButtonWithProtectedAccess(input, components.player_dialogue_pbutton)
     }
@@ -284,7 +284,7 @@ public class ProtectedAccess(public val player: Player, public val coroutine: Ga
         npc.mode = faceMode
         npc.facePlayer(player)
         player.facePathingEntitySquare(npc)
-        player.ifChatNpcSpecific(eventBus, title, npc.type, text, chatanim, pauseText, lineHeight)
+        player.ifChatNpcSpecific(title, npc.type, text, chatanim, pauseText, lineHeight, eventBus)
         val input = coroutine.pause(ResumePauseButtonInput::class)
         resumePauseButtonWithProtectedAccess(input, components.npc_dialogue_pbutton)
     }
@@ -306,7 +306,7 @@ public class ProtectedAccess(public val player: Player, public val coroutine: Ga
     ) {
         val chatanim = mesanim?.splitGetAnim(lineCount)
         player.facePathingEntitySquare(npc)
-        player.ifChatNpcSpecific(eventBus, title, npc.type, text, chatanim, pauseText, lineHeight)
+        player.ifChatNpcSpecific(title, npc.type, text, chatanim, pauseText, lineHeight, eventBus)
         val input = coroutine.pause(ResumePauseButtonInput::class)
         resumePauseButtonWithProtectedAccess(input, components.npc_dialogue_pbutton)
     }
@@ -327,7 +327,7 @@ public class ProtectedAccess(public val player: Player, public val coroutine: Ga
         pauseText: String = constants.cm_pausebutton,
     ) {
         val chatanim = mesanim?.splitGetAnim(lineCount)
-        player.ifChatNpcSpecific(eventBus, title, type, text, chatanim, pauseText, lineHeight)
+        player.ifChatNpcSpecific(title, type, text, chatanim, pauseText, lineHeight, eventBus)
         val input = coroutine.pause(ResumePauseButtonInput::class)
         resumePauseButtonWithProtectedAccess(input, components.npc_dialogue_pbutton)
     }

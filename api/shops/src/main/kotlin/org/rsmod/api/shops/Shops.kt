@@ -34,7 +34,7 @@ constructor(private val invTypes: InvTypeList, private val eventBus: EventBus) {
             updateInvFull(sharedInv)
             updateInvFull(player.inv)
             topLevelMainModalBackground()
-            ifOpenMainSidePair(eventBus, BaseInterfaces.shop_main, BaseInterfaces.shop_side)
+            ifOpenMainSidePair(BaseInterfaces.shop_main, BaseInterfaces.shop_side, eventBus)
             ifSetText(BaseComponents.shop_subtext, subtext)
             shopMainInit(shopInv, title)
             ifSetEvents(
