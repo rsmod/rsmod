@@ -92,5 +92,5 @@ constructor(
         revealNpcs.clear()
     }
 
-    private fun Npc.shouldTrigger(triggerCycle: Int): Boolean = mapClock.tick == triggerCycle
+    private fun Npc.shouldTrigger(triggerCycle: Int): Boolean = mapClock.cycle == triggerCycle
 }

@@ -8,29 +8,29 @@ import org.rsmod.pathfinder.collision.CollisionFlagMap
 public class NpcPatrolModeProcessor @Inject constructor(private val collision: CollisionFlagMap) {
     public fun process(npc: Npc) {
         val patrol = npc.type.patrol ?: return
-        npc.updateIdleTicks()
+        npc.updateIdleCycles()
         npc.patrol(patrol)
     }
 
-    private fun Npc.updateIdleTicks() {
-        if (hasMovedPreviousTick) {
-            patrolIdleTicks = 0
+    private fun Npc.updateIdleCycles() {
+        if (hasMovedPreviousCycle) {
+            patrolIdleCycles = 0
         } else {
-            patrolIdleTicks++
+            patrolIdleCycles++
         }
     }
 
     private fun Npc.patrol(patrol: NpcPatrol) {
         val waypoint = patrol[patrolWaypointIndex % patrol.size]
-        if (patrolIdleTicks > IDLE_TELE_DELAY) {
+        if (patrolIdleCycles > IDLE_TELE_DELAY) {
             teleport(collision, waypoint.destination)
         }
         if (coords == waypoint.destination) {
-            if (waypoint.pauseDelay > patrolPauseTicks) {
-                patrolPauseTicks++
-                patrolIdleTicks = 0
+            if (waypoint.pauseDelay > patrolPauseCycles) {
+                patrolPauseCycles++
+                patrolIdleCycles = 0
             } else {
-                patrolPauseTicks = 0
+                patrolPauseCycles = 0
                 val nextWaypoint = patrol[++patrolWaypointIndex % patrol.size]
                 walk(nextWaypoint.destination)
             }
@@ -41,7 +41,7 @@ public class NpcPatrolModeProcessor @Inject constructor(private val collision: C
 
     public companion object {
         /**
-         * The amount of ticks that the patrol npc can wait without moving before it teleports to
+         * The amount of cycles that the patrol npc can wait without moving before it teleports to
          * its next patrol waypoint.
          */
         public const val IDLE_TELE_DELAY: Int = 30

@@ -54,13 +54,13 @@ class PathingEntityFaceSquareProcessorTest {
                 // After processing, the npc should have moved. This means the face angle should not
                 // be calculated yet, and pending face square should remain as its initial value.
                 check(routeDestination.lastOrNull() == moveDest)
-                check(hasMovedThisTick)
+                check(hasMovedThisCycle)
                 assertEquals(-1, faceAngle)
                 assertEquals(faceTarget, pendingFaceSquare)
 
                 processUntilArrival(moveDest)
 
-                // Now that the npc has arrived, we have to wait 1 tick (process) before the face
+                // Now that the npc has arrived, we have to wait 1 cycle (process) before the face
                 // angle is set due to the `hasMovedThisTick` condition.
                 process()
 
@@ -96,13 +96,14 @@ class PathingEntityFaceSquareProcessorTest {
                 // not be calculated yet, and pending face square should remain as its initial
                 // value.
                 check(routeDestination.lastOrNull() == moveDest)
-                check(hasMovedThisTick)
+                check(hasMovedThisCycle)
                 assertEquals(-1, faceAngle)
                 assertEquals(faceTarget, pendingFaceSquare)
 
                 processUntilArrival(moveDest)
 
-                // Now that the player has arrived, we have to wait 1 tick (process) before the face
+                // Now that the player has arrived, we have to wait 1 cycle (process) before the
+                // face
                 // angle is set due to the `hasMovedThisTick` condition.
                 process()
 

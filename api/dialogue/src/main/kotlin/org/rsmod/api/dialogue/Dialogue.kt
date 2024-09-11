@@ -189,7 +189,7 @@ public class Dialogue(
             title = title,
         )
 
-    public suspend fun delay(ticks: Int = 1): Unit = access.delay(ticks)
+    public suspend fun delay(cycles: Int = 1): Unit = access.delay(cycles)
 
     private fun npc(): Npc =
         npc ?: error("`npc` must be set. Use `Dialogues.start(player, npc)` to start the dialogue.")

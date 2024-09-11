@@ -53,7 +53,7 @@ class NpcWanderProcessorTest {
 
                 random.next = Int.MAX_VALUE
                 process()
-                assertFalse(hasMovedThisTick)
+                assertFalse(hasMovedThisCycle)
                 assertEquals(lastMovement, -1)
                 assertTrue(routeDestination.isEmpty())
 
@@ -62,7 +62,7 @@ class NpcWanderProcessorTest {
                 random.then = -2 // Set output for z-coordinate movement.
                 val expectedDest1 = spawn.translate(4, -2)
                 process()
-                assertTrue(hasMovedThisTick)
+                assertTrue(hasMovedThisCycle)
                 assertEquals(expectedDest1, routeDestination.lastOrNull())
 
                 coords = expectedDest1
@@ -76,7 +76,7 @@ class NpcWanderProcessorTest {
                     random.then = deltaX
                     random.then = deltaZ
                     process()
-                    assertTrue(hasMovedThisTick)
+                    assertTrue(hasMovedThisCycle)
                     assertEquals(expected, routeDestination.lastOrNull())
 
                     processUntilArrival(expected)
@@ -92,7 +92,7 @@ class NpcWanderProcessorTest {
                     random.then = deltaX
                     random.then = deltaZ
                     process()
-                    assertTrue(hasMovedThisTick)
+                    assertTrue(hasMovedThisCycle)
                     assertEquals(expected, routeDestination.lastOrNull())
 
                     processUntilArrival(expected)
@@ -108,7 +108,7 @@ class NpcWanderProcessorTest {
                     random.then = deltaX
                     random.then = deltaZ
                     process()
-                    assertTrue(hasMovedThisTick)
+                    assertTrue(hasMovedThisCycle)
                     assertEquals(expected, routeDestination.lastOrNull())
 
                     processUntilArrival(expected)
@@ -124,7 +124,7 @@ class NpcWanderProcessorTest {
                     random.then = deltaX
                     random.then = deltaZ
                     process()
-                    assertTrue(hasMovedThisTick)
+                    assertTrue(hasMovedThisCycle)
                     assertEquals(expected, routeDestination.lastOrNull())
 
                     processUntilArrival(expected)
@@ -137,7 +137,7 @@ class NpcWanderProcessorTest {
                 random.then = 0
                 random.then = 0
                 process()
-                assertTrue(hasMovedThisTick)
+                assertTrue(hasMovedThisCycle)
                 assertEquals(expectedDestSpawn, routeDestination.lastOrNull())
 
                 processUntilArrival(expectedDestSpawn)
@@ -179,7 +179,7 @@ class NpcWanderProcessorTest {
                 check(routeDestination.isEmpty())
 
                 process()
-                assertTrue(hasMovedThisTick)
+                assertTrue(hasMovedThisCycle)
                 assertEquals(spawn, routeDestination.lastOrNull())
 
                 processUntilArrival(spawn)
@@ -223,7 +223,7 @@ class NpcWanderProcessorTest {
                         assertEquals(current, coords)
                     }
 
-                    // There is still a one tick delay before the npc is actually teleported away.
+                    // There is still a one cycle delay before the npc is actually teleported away.
                     process()
 
                     assertEquals(spawn, coords)

@@ -63,11 +63,11 @@ constructor(
             // Update the player's cached visible zone keys to reflect the current visible zones.
             refreshVisibleZoneKeys(currZones)
 
-            // Identify zones that have been visible for more than one tick (or one call to this
+            // Identify zones that have been visible for more than one cycle (or one call to this
             // processor). These zones will have their transient updates sent. This prevents a newly
             // visible zone from immediately sending a transient update (e.g., an `ObjAdd` update)
             // right after a persistent entity update, which could occur if an obj is spawned on the
-            // ground the same tick the zone becomes visible to the player.
+            // ground the same cycle the zone becomes visible to the player.
             val oldZones = IntArrayList(currZones).apply { removeAll(newZones) }
             processVisibleZoneUpdates(buildArea, oldZones)
         } else {

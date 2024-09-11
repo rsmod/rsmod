@@ -10,24 +10,24 @@ public class NpcWanderModeProcessor
 @Inject
 constructor(@CoreRandom private val random: GameRandom, private val collision: CollisionFlagMap) {
     private val Npc.shouldRespawn: Boolean
-        get() = wanderIdleTicks >= RESPAWN_IDLE_REQUIREMENT
+        get() = wanderIdleCycles >= RESPAWN_IDLE_REQUIREMENT
 
     public fun process(npc: Npc) {
         val wanderRange = npc.wanderRange
         if (wanderRange > 0) {
-            npc.updateIdleTicks()
+            npc.updateIdleCycles()
             npc.processWanderRange(wanderRange)
         } else {
-            npc.updateIdleTicks()
+            npc.updateIdleCycles()
             npc.processSpawnRetreat()
         }
     }
 
-    private fun Npc.updateIdleTicks() {
-        if (hasMovedPreviousTick) {
-            wanderIdleTicks = 0
+    private fun Npc.updateIdleCycles() {
+        if (hasMovedPreviousCycle) {
+            wanderIdleCycles = 0
         } else {
-            wanderIdleTicks++
+            wanderIdleCycles++
         }
     }
 

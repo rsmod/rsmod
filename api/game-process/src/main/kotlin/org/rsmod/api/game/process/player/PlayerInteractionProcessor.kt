@@ -74,8 +74,8 @@ constructor(
                 // followed-up by a `TriggerEngineOp` post-movement step. In said situation,
                 // `apRangeCalled` would be true; `TriggerEngineOp` would set `interacted` to true;
                 // `dm_default` engine message would be sent. However, since the `apRangeCalled`
-                // flag is true, the interaction would not be reset that tick. It would instead be
-                // reset the following tick, but not before sending an extra `dm_default` message
+                // flag is true, the interaction would not be reset that cycle. It would instead be
+                // reset the following cycle, but not before sending an extra `dm_default` message
                 // due to the next steps: `Continue` and `TriggerEngineOp`.
                 // Ex:
                 // - Player is next to a door without a defined script op/ap
@@ -89,7 +89,7 @@ constructor(
                 val step = determinePostMovementStep(this)
                 processPostMovementStep(this, step)
             }
-            if (!interaction.interacted && routeDestination.isEmpty() && !hasMovedThisTick) {
+            if (!interaction.interacted && routeDestination.isEmpty() && !hasMovedThisCycle) {
                 mes(Constants.dm_reach, ChatType.Engine)
                 clearInteractionRoute()
             }
@@ -198,7 +198,7 @@ constructor(
 
     private fun Player.postMovementStep(interaction: InteractionLoc): InteractionStep =
         Interactions.lateStep(
-            hasMoved = hasMovedThisTick,
+            hasMoved = hasMovedThisCycle,
             target = InteractionTarget.Static,
             hasScriptOp = interaction.hasOpTrigger,
             hasScriptAp = interaction.hasApTrigger,
@@ -230,7 +230,7 @@ constructor(
 
     private fun Player.postMovementStep(interaction: InteractionNpc): InteractionStep =
         Interactions.lateStep(
-            hasMoved = hasMovedThisTick,
+            hasMoved = hasMovedThisCycle,
             target = InteractionTarget.Pathing,
             hasScriptOp = interaction.hasOpTrigger,
             hasScriptAp = interaction.hasApTrigger,
@@ -261,7 +261,7 @@ constructor(
 
     private fun Player.postMovementStep(interaction: InteractionObj): InteractionStep =
         Interactions.lateStep(
-            hasMoved = hasMovedThisTick,
+            hasMoved = hasMovedThisCycle,
             target = InteractionTarget.Static,
             hasScriptOp = interaction.hasOpTrigger,
             hasScriptAp = interaction.hasApTrigger,

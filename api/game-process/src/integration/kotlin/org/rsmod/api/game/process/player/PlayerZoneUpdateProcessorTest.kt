@@ -64,9 +64,9 @@ class PlayerZoneUpdateProcessorTest {
             val zoneRange = -zoneRadius..zoneRadius
 
             fun process() {
-                // Clear zone updates from previous tick.
+                // Clear zone updates from previous cycle.
                 zoneProcessor.clearPendingZoneUpdates()
-                // Clear zone prots from previous tick.
+                // Clear zone prots from previous cycle.
                 client.flush()
                 buildProcessor.process(this)
                 zoneProcessor.process(this)
@@ -171,7 +171,7 @@ class PlayerZoneUpdateProcessorTest {
             zoneProcessor.process(player2)
         }
 
-        fun endTick() {
+        fun endCycle() {
             zoneProcessor.clearPendingZoneUpdates()
             client1.flush()
             client2.flush()
@@ -179,7 +179,7 @@ class PlayerZoneUpdateProcessorTest {
 
         // Skip the initial set-up phase for new build area.
         process()
-        endTick()
+        endCycle()
 
         // Add a new obj to be sent as an `ObjAdd` update.
         val obj =
@@ -203,7 +203,7 @@ class PlayerZoneUpdateProcessorTest {
         assertEquals(0, client1.count { it is ZoneProt })
         assertEquals(0, client1.count())
 
-        endTick()
+        endCycle()
 
         // Add the same type of obj on top of the existing stack, this should trigger an
         // `ObjCount`.
@@ -229,7 +229,7 @@ class PlayerZoneUpdateProcessorTest {
         assertEquals(0, client1.count { it is ZoneProt })
         assertEquals(0, client1.count())
 
-        endTick()
+        endCycle()
 
         // Finally, delete the obj.
         val deleteObj = objRegistry.findAll(obj.coords).single()
@@ -247,7 +247,7 @@ class PlayerZoneUpdateProcessorTest {
         assertEquals(0, client1.count { it is ZoneProt })
         assertEquals(0, client1.count())
 
-        endTick()
+        endCycle()
     }
 
     private fun GameTestScope.createZoneProcess(): ZoneProcessParams {

@@ -76,7 +76,7 @@ constructor(
                 level = npc.level,
                 x = npc.x,
                 z = npc.z,
-                spawnCycle = mapClock.tick,
+                spawnCycle = mapClock.cycle,
                 direction = npc.respawnDir.id,
             )
     }

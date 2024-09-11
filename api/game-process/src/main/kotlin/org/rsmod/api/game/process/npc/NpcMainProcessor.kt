@@ -39,7 +39,7 @@ constructor(
         }
         for (npc in this@process) {
             npc.previousCoords = npc.coords
-            npc.currentMapClock = mapClock.tick
+            npc.currentMapClock = mapClock.cycle
             npc.modeProcess()
             npc.movementProcess()
             npc.faceSquareProcess()

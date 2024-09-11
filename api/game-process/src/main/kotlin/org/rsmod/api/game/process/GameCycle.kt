@@ -44,9 +44,9 @@ constructor(
     }
 
     /*
-     * Making an educated guess that these processes occur _after_ the map clock ticks. Drew this
+     * Making an educated guess that these processes occur _after_ the map clock cycles. Drew this
      * conclusion due to some clues, like `loc_del`. i.e., `loc_del(100)` will actually trigger
-     * after 99 ticks, not 100.
+     * after 99 cycles, not 100.
      */
     private fun postTick() {
         worldLateProcessor.process()

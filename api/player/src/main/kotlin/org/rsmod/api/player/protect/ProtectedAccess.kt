@@ -88,9 +88,9 @@ public class ProtectedAccess(public val player: Player, public val coroutine: Ga
      *   suspension resumes.
      * @see [regainProtectedAccess]
      */
-    public suspend fun delay(ticks: Int = 1) {
-        require(ticks > 0) { "`ticks` must be greater than 0." }
-        player.delay(ticks)
+    public suspend fun delay(cycles: Int = 1) {
+        require(cycles > 0) { "`cycles` must be greater than 0. (cycles=$cycles)" }
+        player.delay(cycles)
         coroutine.pause { player.isNotDelayed }
         regainProtectedAccess()
     }
@@ -101,7 +101,7 @@ public class ProtectedAccess(public val player: Player, public val coroutine: Ga
      * @see [regainProtectedAccess]
      */
     public suspend fun arriveDelay() {
-        if (!player.hasMovedPreviousTick) {
+        if (!player.hasMovedPreviousCycle) {
             return
         }
         delay()

@@ -37,7 +37,7 @@ constructor(
     @Suppress("DeferredResultUnused")
     private fun PlayerList.process() = runBlocking {
         for (player in this@process) {
-            player.currentMapClock = mapClock.tick
+            player.currentMapClock = mapClock.cycle
             player.tryOrDisconnect {
                 resumePausedProcess()
                 refreshFaceEntity()

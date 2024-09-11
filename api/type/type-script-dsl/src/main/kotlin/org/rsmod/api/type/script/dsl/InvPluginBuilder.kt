@@ -271,8 +271,8 @@ public class InvPluginBuilder(public var internal: String? = null) {
         return backing.build(id)
     }
 
-    public fun stock(type: ObjType, count: Int, restockTicks: Int): InvStock =
-        InvStock(type, count, restockTicks)
+    public fun stock(type: ObjType, count: Int, restockCycles: Int): InvStock =
+        InvStock(type, count, restockCycles)
 
     private fun MutableList<InvStock?>?.insertAt(
         index: Int,

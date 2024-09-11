@@ -9,7 +9,7 @@ class PlayerInitTest {
     @Test
     fun GameTestState.`is not delayed on first map clock`() = runGameTest {
         withPlayer {
-            check(mapClock.tick == 0)
+            check(mapClock.cycle == 0)
             assertFalse(isDelayed)
             assertTrue(isNotDelayed)
         }
@@ -18,9 +18,9 @@ class PlayerInitTest {
     @Test
     fun GameTestState.`has not recently moved on first map clock`() = runGameTest {
         withPlayer {
-            check(mapClock.tick == 0)
+            check(mapClock.cycle == 0)
             check(routeDestination.isEmpty())
-            assertFalse(hasMovedThisTick)
+            assertFalse(hasMovedThisCycle)
         }
     }
 }

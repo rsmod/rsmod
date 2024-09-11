@@ -18,7 +18,7 @@ class NpcPatrolModeProcessorTest {
     /**
      * When a patrolling NPC is teleported after not moving for the acceptable amount of time, it
      * will not only teleport to its next waypoint, but also immediately queue up its next step to
-     * be handled on the same tick. (patrol/npc modes are processed before movement)
+     * be handled on the same cycle. (patrol/npc modes are processed before movement)
      */
     @Test
     fun GameTestState.`immediately queue movement after teleport`() = runGameTest {
@@ -65,13 +65,13 @@ class NpcPatrolModeProcessorTest {
     /**
      * When a patrolling NPC is teleported after not moving for the acceptable amount of time, it
      * will not only teleport to its next waypoint, but also immediately queue up its next step to
-     * be handled on the same tick. (patrol/npc modes are processed before movement)
+     * be handled on the same cycle. (patrol/npc modes are processed before movement)
      *
      * Having explained this; if the next waypoint has a defined pause delay, then this behaviour
-     * becomes slightly different. Instead of walking one step, it will count as a tick of being
+     * becomes slightly different. Instead of walking one step, it will count as a cycle of being
      * stood still waiting for the pause delay to pass. This means that if a regular waypoint had a
-     * pause delay of 11 ticks, and the NPC is teleported to it, it will effectively become a 10
-     * tick pause delay. One less tick than if the NPC had simply walked there.
+     * pause delay of 11 cycles, and the NPC is teleported to it, it will effectively become a 10
+     * cycle pause delay. One less cycle than if the NPC had simply walked there.
      */
     @Test
     fun GameTestState.`emulate pause delay timing after teleport`() = runGameTest {
@@ -105,7 +105,7 @@ class NpcPatrolModeProcessorTest {
                     process()
                     assertEquals(blocked.translateZ(1), coords)
                     assertEquals(patrol[3].destination, routeDestination.peekLast())
-                    assertEquals(0, patrolPauseTicks)
+                    assertEquals(0, patrolPauseCycles)
                 }
 
                 // When the teleport delay hits, there is still a one clock delay before the npc
@@ -113,27 +113,27 @@ class NpcPatrolModeProcessorTest {
                 process()
                 // The npc should be on top of the waypoint and not stuck behind the blocked square.
                 assertEquals(patrol[3].destination, coords)
-                // The teleport sequence should have taken `[IDLE_TELE_DELAY] + 2` ticks.
+                // The teleport sequence should have taken `[IDLE_TELE_DELAY] + 2` cycles.
                 assertEquals(IDLE_TELE_DELAY + 2, currentMapClock - startClock)
 
-                // This is what makes the difference in our pause time: the patrol pause tick should
-                // have instantly been increased following the teleport.
-                assertEquals(1, patrolPauseTicks)
+                // This is what makes the difference in our pause time: the patrol pause cycle
+                // should have instantly been increased following the teleport.
+                assertEquals(1, patrolPauseCycles)
 
                 val pauseDelay = patrol[3].pauseDelay
-                repeat(pauseDelay - patrolPauseTicks) {
+                repeat(pauseDelay - patrolPauseCycles) {
                     process()
                     assertEquals(patrol[3].destination, coords)
                 }
 
-                // On the final pause delay tick, we should begin to move, as the [patrolPauseTick]
+                // On the final pause delay cycle, we should begin to move, as the [patrolPauseTick]
                 // was greater than usual as the pause began.
                 process()
                 assertEquals(patrol[3].destination.translateX(1), coords)
 
-                // Given the standard delay values - this entire sequence should have taken 32 ticks
-                // for the teleport to move the npc onto the waypoint, and 10 ticks for the pause
-                // delay to wear off and for the npc to begin moving onto the next waypoint.
+                // Given the standard delay values - this entire sequence should have taken 32
+                // cycles for the teleport to move the npc onto the waypoint, and 10 cycles for the
+                // pause delay to wear off and for the npc to begin moving onto the next waypoint.
                 val sequenceDuration = IDLE_TELE_DELAY + 2 + pauseDelay
                 assertEquals(sequenceDuration, currentMapClock - startClock)
             }
@@ -141,7 +141,7 @@ class NpcPatrolModeProcessorTest {
     }
 
     /**
-     * NPCs should have to wait [NpcPatrolWaypoint.pauseDelay] + 1 ticks standing still after
+     * NPCs should have to wait [NpcPatrolWaypoint.pauseDelay] + 1 cycles standing still after
      * reaching said waypoint before they can resume patrolling.
      */
     @Test
@@ -186,7 +186,7 @@ class NpcPatrolModeProcessorTest {
                     assertTrue(routeDestination.isEmpty())
                 }
 
-                // When the pause delay has passed, there is still a one tick delay before the npc
+                // When the pause delay has passed, there is still a one cycle delay before the npc
                 // begins moving.
                 process()
 
@@ -202,7 +202,7 @@ class NpcPatrolModeProcessorTest {
     }
 
     /**
-     * NPCs should have to wait [IDLE_TELE_DELAY] + 2 ticks standing still before they actually
+     * NPCs should have to wait [IDLE_TELE_DELAY] + 2 cycles standing still before they actually
      * teleport.
      */
     @Test
@@ -289,7 +289,7 @@ class NpcPatrolModeProcessorTest {
                 repeat(8) { process() }
                 assertEquals(patrol[3].destination, coords)
 
-                // This waypoint has a pause delay of 10 ticks, so for the next 10 processes, hans
+                // This waypoint has a pause delay of 10 cycles, so for the next 10 processes, hans
                 // should not move.
                 repeat(10) {
                     process()
@@ -318,7 +318,7 @@ class NpcPatrolModeProcessorTest {
                 repeat(5) { process() }
                 assertEquals(patrol[0].destination, coords)
 
-                // The entire patrol, uninterrupted, should take 94 ticks.
+                // The entire patrol, uninterrupted, should take 94 cycles.
                 assertEquals(94, currentMapClock - startClock)
 
                 repeat(4) { process() }

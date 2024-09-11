@@ -45,9 +45,9 @@ constructor(
     ): Obj {
         val obj =
             if (receiverId != null) {
-                Obj(coords, type, count, mapClock.tick, receiverId)
+                Obj(coords, type, count, mapClock.cycle, receiverId)
             } else {
-                Obj(coords, type, count, mapClock.tick)
+                Obj(coords, type, count, mapClock.cycle)
             }
         add(obj, duration, reveal)
         return obj
@@ -63,10 +63,10 @@ constructor(
         val obj =
             if (receiverId != null) {
                 val entity = ObjEntity(obj.id, obj.count, ObjScope.Private.id)
-                Obj(coords, entity, mapClock.tick, receiverId)
+                Obj(coords, entity, mapClock.cycle, receiverId)
             } else {
                 val entity = ObjEntity(obj.id, obj.count, ObjScope.Temp.id)
-                Obj(coords, entity, mapClock.tick, Obj.NULL_RECEIVER_ID)
+                Obj(coords, entity, mapClock.cycle, Obj.NULL_RECEIVER_ID)
             }
         add(obj, duration, reveal)
         return obj
@@ -143,7 +143,7 @@ constructor(
         val iterator = addDurations.iterator()
         while (iterator.hasNext()) {
             val duration = iterator.next()
-            if (mapClock.tick == duration.revealCycle) {
+            if (mapClock.cycle == duration.revealCycle) {
                 registry.reveal(duration.obj)
             }
             if (duration.shouldTrigger()) {

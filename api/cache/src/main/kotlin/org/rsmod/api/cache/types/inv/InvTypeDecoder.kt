@@ -71,8 +71,8 @@ public object InvTypeDecoder {
                                 countHeader - 1
                             }
                         val obj = data.readUnsignedShort()
-                        val restockTicks = data.readUnsignedByte().toInt()
-                        defaultStock[i] = InvStock(obj, count, restockTicks)
+                        val restockCycles = data.readUnsignedByte().toInt()
+                        defaultStock[i] = InvStock(obj, count, restockCycles)
                     }
                     this.stock = defaultStock
                 }

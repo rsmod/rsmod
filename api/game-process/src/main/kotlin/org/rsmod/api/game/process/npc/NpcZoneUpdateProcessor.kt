@@ -16,7 +16,7 @@ constructor(private val npcList: NpcList, private val registry: NpcRegistry) {
     }
 
     public fun process(npc: Npc) {
-        if (npc.hasMovedThisTick) {
+        if (npc.hasMovedThisCycle) {
             npc.processZoneUpdates()
         }
     }

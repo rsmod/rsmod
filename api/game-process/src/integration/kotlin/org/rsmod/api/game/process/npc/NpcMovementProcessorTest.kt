@@ -19,7 +19,7 @@ class NpcMovementProcessorTest {
      * unable to reach its next route tile due to a blockage (e.g., blocked by a loc).
      *
      * This ensures that if the NPC's path is blocked, and it cannot proceed, it continuously
-     * re-applies the collision flag under its current position every tick, even if no movement is
+     * re-applies the collision flag under its current position every cycle, even if no movement is
      * possible.
      *
      * For example, if a player temporarily occupies the NPC's tile and then moves away, the NPC

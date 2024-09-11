@@ -12,11 +12,11 @@ public class PathingEntityFaceSquareProcessor {
 
     private fun PathingEntity.processFaceSquare() {
         faceAngle = -1
-        if (!hasMovedThisTick && pendingFaceSquare != CoordGrid.NULL) {
+        if (!hasMovedThisCycle && pendingFaceSquare != CoordGrid.NULL) {
             // Seems like face angle is not transmitted if face pathing entity is set on the same
-            // tick. This can be tested by speaking to an NPC (that starts with a chatNpc dialogue)
+            // cycle. This can be tested by speaking to an NPC (that starts with a chatNpc dialogue)
             // while being cardinally adjacent to them. In this example, the face pathing entity is
-            // sent on the first tick, as well as the face square as you're within op distance.
+            // sent on the first cycle, as well as the face square as you're within op distance.
             // However, the face square is not actually transmitted. This is not the case if you
             // go anywhere that'll take at least 1 cycle to reach op distance. (including being
             // diagonal to the npc)

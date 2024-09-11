@@ -41,10 +41,10 @@ public class Npc(
     public var lifecycleRevealCycle: Int = -1
 
     public var patrolWaypointIndex: Int = 0
-    public var patrolIdleTicks: Int = -1
-    public var patrolPauseTicks: Int = 0
+    public var patrolIdleCycles: Int = -1
+    public var patrolPauseCycles: Int = 0
 
-    public var wanderIdleTicks: Int = -1
+    public var wanderIdleCycles: Int = -1
 
     public lateinit var rspAvatar: RspAvatar
 
@@ -113,7 +113,7 @@ public class Npc(
     }
 
     /**
-     * Suspends the call site until this [Npc] has gone a tick without moving. If the npc was not
+     * Suspends the call site until this [Npc] has gone a cycle without moving. If the npc was not
      * moving when this function was called, the coroutine will not suspend and this function will
      * instantly return.
      *
@@ -122,7 +122,7 @@ public class Npc(
      * @see [delay]
      */
     public suspend fun GameCoroutine.arriveDelay() {
-        if (!hasMovedThisTick) {
+        if (!hasMovedThisCycle) {
             return
         }
         delay()
@@ -134,11 +134,11 @@ public class Npc(
      *
      * For similar functionality with a [Player], it must be done with "protected access."
      *
-     * @throws IllegalArgumentException if [ticks] is not greater than 0.
+     * @throws IllegalArgumentException if [cycles] is not greater than 0.
      */
-    public suspend fun GameCoroutine.delay(ticks: Int = 1) {
-        require(ticks > 0) { "`ticks` must be greater than 0. (ticks=$ticks)" }
-        delay(ticks)
+    public suspend fun GameCoroutine.delay(cycles: Int = 1) {
+        require(cycles > 0) { "`cycles` must be greater than 0. (cycles=$cycles)" }
+        delay(cycles)
         pause { isNotDelayed }
     }
 

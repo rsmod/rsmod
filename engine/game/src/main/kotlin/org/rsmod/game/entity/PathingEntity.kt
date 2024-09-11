@@ -93,13 +93,13 @@ public sealed class PathingEntity {
     public val isAccessProtected: Boolean
         get() = isBusy || activeCoroutine?.isSuspended == true
 
-    public val hasMovedThisTick: Boolean
+    public val hasMovedThisCycle: Boolean
         get() = lastMovement >= currentMapClock
 
-    public val hasMovedPreviousTick: Boolean
+    public val hasMovedPreviousCycle: Boolean
         get() = lastMovement == currentMapClock - 1
 
-    public val ticksWithoutMovement: Int
+    public val cyclesWithoutMovement: Int
         get() = currentMapClock - lastMovement
 
     public val isFacingPlayer: Boolean
@@ -138,8 +138,8 @@ public sealed class PathingEntity {
             avatar.previousCoords = value
         }
 
-    public fun delay(ticks: Int = 1) {
-        this.delay = currentMapClock + ticks
+    public fun delay(cycles: Int = 1) {
+        this.delay = currentMapClock + cycles
     }
 
     public fun launch(

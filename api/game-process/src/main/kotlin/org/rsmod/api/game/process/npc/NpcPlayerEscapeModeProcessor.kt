@@ -43,7 +43,7 @@ constructor(private val playerList: PlayerList, private val stepFactory: StepFac
         val validatedDest = stepFactory.validated(this, coords, dest, collision)
         if (validatedDest != CoordGrid.NULL) {
             walk(validatedDest)
-        } else if (ticksWithoutMovement > COLLISION_RETREAT_RESET_DELAY) {
+        } else if (cyclesWithoutMovement > COLLISION_RETREAT_RESET_DELAY) {
             resetMode()
         }
     }
