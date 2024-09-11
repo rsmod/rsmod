@@ -1,4 +1,3 @@
-250910356	skill_challenge_disable_vessels
 2748412	unlocked_minnows_access
 4343927	setting_fishing_trawler_camera_effects
 4347780	arceuus_fairy_ring_revived
@@ -403,6 +402,7 @@
 250818148	show_kill_death_ratio
 250822485	wilderness_enter_count
 250903172	in_wilderness
+250910356	skill_challenge_disable_vessels
 250918166	combat_level_varbit
 250937753	wilderness_revenant_caves_warning_disabled
 256566417	glider_quest_unlock
