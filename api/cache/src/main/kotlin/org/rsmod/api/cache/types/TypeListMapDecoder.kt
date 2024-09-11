@@ -14,6 +14,7 @@ import org.rsmod.api.cache.types.npc.NpcTypeDecoder
 import org.rsmod.api.cache.types.obj.ObjTypeDecoder
 import org.rsmod.api.cache.types.param.ParamTypeDecoder
 import org.rsmod.api.cache.types.seq.SeqTypeDecoder
+import org.rsmod.api.cache.types.stat.StatTypeDecoder
 import org.rsmod.api.cache.types.varbit.VarBitTypeDecoder
 import org.rsmod.api.cache.types.varp.VarpTypeDecoder
 import org.rsmod.api.cache.util.ComplexTypeDecoder
@@ -38,6 +39,7 @@ public object TypeListMapDecoder {
         val invs = decode { InvTypeDecoder.decodeAll(cache) }
         val seqs = decode { SeqTypeDecoder.decodeAll(cache) }
         val fonts = decode { FontMetricsDecoder.decodeAll(cache) }
+        val stats = StatTypeDecoder.decodeAll(names)
         TypeListMap(
                 locs = locs.await(),
                 objs = objs.await(),
@@ -51,6 +53,7 @@ public object TypeListMapDecoder {
                 invs = invs.await(),
                 seqs = seqs.await(),
                 fonts = fonts.await(),
+                stats = stats,
             )
             .apply {
                 ObjTypeDecoder.assignInternal(this.objs, names.objs)

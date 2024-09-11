@@ -9,6 +9,7 @@ import org.rsmod.game.type.loc.LocType
 import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.seq.SeqType
+import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.synth.SynthType
 import org.rsmod.map.CoordGrid
 
@@ -105,6 +106,12 @@ public object CacheVarEnumCodec : BaseIntVarCodec<EnumType<*, *>>(EnumType::clas
     override fun encode(value: EnumType<*, *>): Int =
         TypeResolver[value]
             ?: throw IllegalStateException("EnumType does not have an internal id: $value.")
+}
+
+public object CacheVarStatCodec : BaseIntVarCodec<StatType>(StatType::class) {
+    override fun decode(types: TypeListMap, value: Int): StatType? = types.stats[value]
+
+    override fun encode(value: StatType): Int = value.id
 }
 
 public object CacheVarSynthCodec : BaseIntVarCodec<SynthType>(SynthType::class) {

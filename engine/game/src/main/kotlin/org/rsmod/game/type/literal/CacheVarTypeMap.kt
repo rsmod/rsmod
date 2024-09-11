@@ -13,6 +13,7 @@ import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.type.seq.HashedSeqType
 import org.rsmod.game.type.seq.SeqType
+import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.synth.SynthType
 import org.rsmod.map.CoordGrid
 
@@ -35,6 +36,7 @@ public object CacheVarTypeMap {
             HashedSeqType::class to CacheVarLiteral.SEQ,
             UnpackedObjType::class to CacheVarLiteral.NAMEDOBJ,
             String::class to CacheVarLiteral.STRING,
+            StatType::class to CacheVarLiteral.STAT,
             SynthType::class to CacheVarLiteral.SYNTH,
         )
 
@@ -56,6 +58,7 @@ public object CacheVarTypeMap {
             HashedSeqType::class to CacheVarSeqCodec,
             UnpackedObjType::class to CacheVarNamedObjCodec,
             String::class to CacheVarStringCodec,
+            StatType::class to CacheVarStatCodec,
             SynthType::class to CacheVarSynthCodec,
         )
 
@@ -77,7 +80,7 @@ public object CacheVarTypeMap {
                 CacheVarLiteral.NAMEDOBJ -> UnpackedObjType::class
                 CacheVarLiteral.SYNTH -> SynthType::class
                 CacheVarLiteral.AREA -> Int::class
-                CacheVarLiteral.STAT -> Int::class
+                CacheVarLiteral.STAT -> StatType::class
                 CacheVarLiteral.NPCSTAT -> Int::class
                 CacheVarLiteral.MAPAREA -> Int::class
                 CacheVarLiteral.INTERFACE -> Int::class

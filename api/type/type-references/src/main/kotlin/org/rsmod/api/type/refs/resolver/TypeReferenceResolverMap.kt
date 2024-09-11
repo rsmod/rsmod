@@ -28,6 +28,8 @@ import org.rsmod.api.type.refs.param.ParamReferenceResolver
 import org.rsmod.api.type.refs.param.ParamReferences
 import org.rsmod.api.type.refs.seq.SeqReferenceResolver
 import org.rsmod.api.type.refs.seq.SeqReferences
+import org.rsmod.api.type.refs.stat.StatReferenceResolver
+import org.rsmod.api.type.refs.stat.StatReferences
 import org.rsmod.api.type.refs.synth.SynthReferenceResolver
 import org.rsmod.api.type.refs.synth.SynthReferences
 import org.rsmod.api.type.refs.varbit.VarBitReferenceResolver
@@ -51,6 +53,7 @@ constructor(
     private val objResolver: ObjReferenceResolver,
     private val paramResolver: ParamReferenceResolver,
     private val seqResolver: SeqReferenceResolver,
+    private val statResolver: StatReferenceResolver,
     private val synthResolver: SynthReferenceResolver,
     private val varBitResolver: VarBitReferenceResolver,
     private val varpResolver: VarpReferenceResolver,
@@ -126,6 +129,7 @@ constructor(
                 is ObjReferences -> objResolver
                 is ParamReferences -> paramResolver
                 is SeqReferences -> seqResolver
+                is StatReferences -> statResolver
                 is SynthReferences -> synthResolver
                 is VarBitReferences -> varBitResolver
                 is VarpReferences -> varpResolver
