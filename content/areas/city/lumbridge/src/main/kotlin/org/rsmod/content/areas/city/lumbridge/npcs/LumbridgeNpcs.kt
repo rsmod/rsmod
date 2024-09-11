@@ -7,15 +7,15 @@ import org.rsmod.api.type.refs.npc.NpcReferences
 import org.rsmod.map.CoordGrid
 
 object LumbridgeNpcs : NpcReferences() {
-    val shop_keeper = find(1094911069973142126)
-    val shop_assistant = find(368508977701121127)
-    val gee = find(6698040310459523799)
-    val donie = find(3405435756849256968)
-    val hans = find(6791077204654367342)
-    val bartender = find(5628536812085541378)
-    val arthur_the_clue_hunter = find(2308854141696014193)
-    val prayer_tutor = find(2676816440411946009)
-    val hatius_cosaintus = find(1040948992764943727)
+    val shop_keeper = find(4750494125510652894)
+    val shop_assistant = find(7175769830569298007)
+    val gee = find(4562549981157667997)
+    val donie = find(8328767713494932046)
+    val hans = find(3939300316871989450)
+    val bartender = find(325196120220401239)
+    val arthur_the_clue_hunter = find(6533328399600640885)
+    val prayer_tutor = find(8388572464855062601)
+    val hatius_cosaintus = find(3864914163306269512)
 }
 
 internal object LumbridgeNpcEditor : NpcEditor() {

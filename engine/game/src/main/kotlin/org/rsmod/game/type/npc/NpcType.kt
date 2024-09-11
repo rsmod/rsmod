@@ -137,11 +137,8 @@ public class UnpackedNpcType(
     public fun computeIdentityHash(): Long {
         var result = name.hashCode().toLong()
         result = 61 * result + size
-        result = 61 * result + category
         result = 61 * result + op.contentHashCode()
-        result = 61 * result + minimap.hashCode()
         result = 61 * result + vislevel
-        result = 61 * result + alwaysOnTop.hashCode()
         result = 61 * result + headIconGraphic.contentHashCode()
         result = 61 * result + headIconIndex.contentHashCode()
         result = 61 * result + multiVarp
@@ -156,7 +153,6 @@ public class UnpackedNpcType(
         result = 61 * result + defaultMode.id
         result = 61 * result + blockWalk.id
         result = 61 * result + huntMode
-        result = 61 * result + giveChase.hashCode()
         result = 61 * result + (patrol?.hashCode() ?: 0)
         result = 61 * result + (internalId?.hashCode() ?: 0)
         return result and 0x7FFFFFFFFFFFFFFF

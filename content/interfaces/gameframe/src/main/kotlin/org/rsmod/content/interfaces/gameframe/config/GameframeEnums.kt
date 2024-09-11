@@ -6,9 +6,9 @@ import org.rsmod.api.config.aliases.EnumComp
 import org.rsmod.api.type.refs.enums.EnumReferences
 
 object GameframeEnums : EnumReferences() {
-    val fixed_pane_redirect = find<EnumComp, EnumComp>(9223371961183347480)
-    val resizable_basic_pane_redirect = find<EnumComp, EnumComp>(16842376)
-    val side_panels_resizable_pane_redirect = find<EnumComp, EnumComp>(1636029915)
+    val fixed_pane_redirect = find<EnumComp, EnumComp>(4205535)
+    val resizable_basic_pane_redirect = find<EnumComp, EnumComp>(4209256)
+    val side_panels_resizable_pane_redirect = find<EnumComp, EnumComp>(4212977)
 }
 
 // [IF_RESYNC] id=161

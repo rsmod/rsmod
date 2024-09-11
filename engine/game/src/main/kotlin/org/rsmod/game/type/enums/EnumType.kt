@@ -86,11 +86,9 @@ public class UnpackedEnumType<K : Any, V : Any>(
     public fun getOrNull(key: K): V? = typedMap[key]
 
     public fun computeIdentityHash(): Long {
-        var result = default?.hashCode()?.toLong() ?: 0L
+        var result = internalId?.hashCode()?.toLong() ?: 0L
         result = 61 * result + keyLiteral.char.hashCode()
         result = 61 * result + valLiteral.char.hashCode()
-        result = 61 * result + primitiveMap.hashCode()
-        result = 61 * result + (internalId?.hashCode() ?: 0)
         return result and 0x7FFFFFFFFFFFFFFF
     }
 

@@ -74,22 +74,12 @@ public class UnpackedSeqType(
         result = 61 * result + delay.contentHashCode()
         result = 61 * result + replayOff
         result = 61 * result + walkMerge.contentHashCode()
-        result = 61 * result + stretches.hashCode()
-        result = 61 * result + priority
         result = 61 * result + mainhand
         result = 61 * result + offhand
         result = 61 * result + replayCount
         result = 61 * result + (preanimMove?.id ?: -1)
         result = 61 * result + (postanimMove?.id ?: -1)
         result = 61 * result + replaceMode
-        result = 61 * result + iframeGroup.contentHashCode()
-        result = 61 * result + iframeIndex.contentHashCode()
-        result = 61 * result + sounds.contentHashCode()
-        result = 61 * result + keyframeSet
-        result = 61 * result + (mayaAnimationSounds?.hashCode() ?: 0)
-        result = 61 * result + keyframeRangeStart
-        result = 61 * result + keyframeRangeEnd
-        result = 61 * result + keyframeWalkMerge.contentHashCode()
         result = 61 * result + (internalId?.hashCode() ?: 0)
         return result and 0x7FFFFFFFFFFFFFFF
     }

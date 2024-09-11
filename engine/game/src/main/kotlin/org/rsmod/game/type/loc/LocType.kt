@@ -130,10 +130,8 @@ public class UnpackedLocType(
         result = 61 * result + width
         result = 61 * result + length
         result = 61 * result + blockWalk
-        result = 61 * result + blockRange.hashCode()
         result = 61 * result + active
         result = 61 * result + op.contentHashCode()
-        result = 61 * result + category
         result = 61 * result + forceApproachFlags
         result = 61 * result + breakRouteFinding.hashCode()
         result = 61 * result + multiVarBit
