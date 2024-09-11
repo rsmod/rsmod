@@ -2,7 +2,6 @@ package org.rsmod.game.type.literal
 
 import kotlin.reflect.KClass
 import org.rsmod.game.type.TypeListMap
-import org.rsmod.game.type.TypeResolver
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.enums.EnumType
 import org.rsmod.game.type.loc.LocType
@@ -51,61 +50,47 @@ public object CacheVarComponentCodec : BaseIntVarCodec<ComponentType>(ComponentT
     override fun decode(types: TypeListMap, value: Int): ComponentType? =
         types.components[value]?.toHashedType()
 
-    override fun encode(value: ComponentType): Int =
-        TypeResolver[value]
-            ?: throw IllegalStateException("ComponentType does not have an internal id: $value.")
+    override fun encode(value: ComponentType): Int = value.packed
 }
 
 public object CacheVarNamedObjCodec : BaseIntVarCodec<ObjType>(ObjType::class) {
     override fun decode(types: TypeListMap, value: Int): ObjType? = types.objs[value]
 
-    override fun encode(value: ObjType): Int =
-        TypeResolver[value]
-            ?: throw IllegalStateException("UnpackedObjType does not have an internal id: $value.")
+    override fun encode(value: ObjType): Int = value.id
 }
 
 public object CacheVarObjCodec : BaseIntVarCodec<ObjType>(ObjType::class) {
     override fun decode(types: TypeListMap, value: Int): ObjType? =
         types.objs[value]?.toHashedType()
 
-    override fun encode(value: ObjType): Int =
-        TypeResolver[value]
-            ?: throw IllegalStateException("ObjType does not have an internal id: $value.")
+    override fun encode(value: ObjType): Int = value.id
 }
 
 public object CacheVarSeqCodec : BaseIntVarCodec<SeqType>(SeqType::class) {
     override fun decode(types: TypeListMap, value: Int): SeqType? =
         types.seqs[value]?.toHashedType()
 
-    override fun encode(value: SeqType): Int =
-        TypeResolver[value]
-            ?: throw IllegalStateException("SeqType does not have an internal id: $value.")
+    override fun encode(value: SeqType): Int = value.id
 }
 
 public object CacheVarLocCodec : BaseIntVarCodec<LocType>(LocType::class) {
     override fun decode(types: TypeListMap, value: Int): LocType? =
         types.locs[value]?.toHashedType()
 
-    override fun encode(value: LocType): Int =
-        TypeResolver[value]
-            ?: throw IllegalStateException("LocType does not have an internal id: $value.")
+    override fun encode(value: LocType): Int = value.id
 }
 
 public object CacheVarNpcCodec : BaseIntVarCodec<NpcType>(NpcType::class) {
     override fun decode(types: TypeListMap, value: Int): NpcType? =
         types.npcs[value]?.toHashedType()
 
-    override fun encode(value: NpcType): Int =
-        TypeResolver[value]
-            ?: throw IllegalStateException("NpcType does not have an internal id: $value.")
+    override fun encode(value: NpcType): Int = value.id
 }
 
 public object CacheVarEnumCodec : BaseIntVarCodec<EnumType<*, *>>(EnumType::class) {
     override fun decode(types: TypeListMap, value: Int): EnumType<Any, Any>? = types.enums[value]
 
-    override fun encode(value: EnumType<*, *>): Int =
-        TypeResolver[value]
-            ?: throw IllegalStateException("EnumType does not have an internal id: $value.")
+    override fun encode(value: EnumType<*, *>): Int = value.id
 }
 
 public object CacheVarStatCodec : BaseIntVarCodec<StatType>(StatType::class) {
