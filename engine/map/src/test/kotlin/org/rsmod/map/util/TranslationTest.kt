@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
-class TranslationTests {
+class TranslationTest {
     @Test
     fun `constructor correctly packs values`() {
         val translation = Translation(x = 1000, z = -500, level = 2)
