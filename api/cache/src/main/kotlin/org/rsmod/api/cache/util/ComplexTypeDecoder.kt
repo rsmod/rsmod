@@ -88,7 +88,7 @@ public object ComplexTypeDecoder {
             val keyCodec = CacheVarTypeMap.codecMap[keyOut]
             val valCodec = CacheVarTypeMap.codecMap[valOut]
             // Resolve default value if required.
-            var defaultValue = type.defaultValue
+            var defaultValue: Any? = type.defaultStr ?: type.defaultInt
             if (defaultValue != null) {
                 val codec = valCodec as CacheVarCodec<Any, Any>
                 val resolved = codec.decode(this, defaultValue)

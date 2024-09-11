@@ -8,7 +8,7 @@ public object GenericPropertySelector {
      * @return [priority]'s [getValue] value _only if_ retrieved value does not equal [default].
      *   Otherwise, returns [other]'s [getValue] value.
      */
-    public fun <T, V> select(priority: T, other: T, default: V, getValue: T.() -> V): V {
+    public fun <T, V> select(priority: T, other: T, default: V?, getValue: T.() -> V): V {
         val selected = selectPredicate(priority, other) { getValue(priority) != default }
         return getValue(selected)
     }
@@ -29,6 +29,11 @@ public object GenericPropertySelector {
     }
 
     public fun <T> selectByteArray(priority: T, other: T, getValue: T.() -> ByteArray): ByteArray {
+        val selected = selectPredicate(priority, other) { getValue(priority).isNotEmpty() }
+        return getValue(selected)
+    }
+
+    public fun <T, K, V> selectMap(priority: T, other: T, getValue: T.() -> Map<K, V>): Map<K, V> {
         val selected = selectPredicate(priority, other) { getValue(priority).isNotEmpty() }
         return getValue(selected)
     }

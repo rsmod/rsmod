@@ -1,7 +1,7 @@
 package org.rsmod.api.type.builders
 
 public abstract class TypeBuilder<B, T> {
-    internal val cache = mutableListOf<T>()
+    @PublishedApi internal val cache: MutableList<T> = mutableListOf<T>()
 }
 
 public abstract class HashTypeBuilder<B, T> : TypeBuilder<B, T>() {

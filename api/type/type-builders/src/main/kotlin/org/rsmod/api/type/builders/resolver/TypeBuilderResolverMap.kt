@@ -2,6 +2,8 @@ package org.rsmod.api.type.builders.resolver
 
 import jakarta.inject.Inject
 import org.rsmod.api.type.builders.TypeBuilder
+import org.rsmod.api.type.builders.enums.EnumBuilder
+import org.rsmod.api.type.builders.enums.EnumBuilderResolver
 import org.rsmod.api.type.builders.inv.InvBuilder
 import org.rsmod.api.type.builders.inv.InvBuilderResolver
 import org.rsmod.api.type.builders.loc.LocBuilder
@@ -22,6 +24,7 @@ import org.rsmod.api.type.builders.varobjbit.VarObjBitResolver
 public class TypeBuilderResolverMap
 @Inject
 constructor(
+    private val enumResolver: EnumBuilderResolver,
     private val invResolver: InvBuilderResolver,
     private val locResolver: LocBuilderResolver,
     private val mesAnimResolver: MesAnimResolver,
@@ -91,6 +94,7 @@ constructor(
     private fun <B, T> TypeBuilder<B, T>.resolver(): TypeBuilderResolver<B, T> {
         val resolver =
             when (this) {
+                is EnumBuilder -> enumResolver
                 is InvBuilder -> invResolver
                 is LocBuilder -> locResolver
                 is MesAnimBuilder -> mesAnimResolver

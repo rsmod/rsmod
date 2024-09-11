@@ -3,6 +3,7 @@ package org.rsmod.api.type.script.dsl
 import kotlin.reflect.KClass
 import org.rsmod.game.type.enums.EnumTypeBuilder
 import org.rsmod.game.type.enums.UnpackedEnumType
+import org.rsmod.game.type.literal.CacheVarLiteral
 import org.rsmod.game.type.literal.CacheVarTypeMap
 
 @DslMarker private annotation class EnumBuildersDsl
@@ -66,9 +67,15 @@ public class EnumPluginBuilder<K : Any, V : Any>(
             }
         val internal = checkNotNull(internal) { "`internal` must be set." }
         val backing = EnumTypeBuilder<K, V>(expectedKeyType, expectedValType, internal)
+        val primitiveMap = vals.toPrimitiveMap(key, value)
+        val primitiveDefault = default?.toPrimitive(value)
         backing.keyCharId = key.char
         backing.valCharId = value.char
+        backing.default = default
+        backing.defaultStr = primitiveDefault as? String
+        backing.defaultInt = primitiveDefault as? Int
         backing.typedMap = vals
+        backing.primitiveMap = primitiveMap
         return backing.build(id) ?: error("Could not build $id.")
     }
 
@@ -78,6 +85,26 @@ public class EnumPluginBuilder<K : Any, V : Any>(
 
     public operator fun set(key: K, value: V?) {
         vals[key] = value
+    }
+
+    private fun Map<K, V?>.toPrimitiveMap(
+        keyLiteral: CacheVarLiteral,
+        valLiteral: CacheVarLiteral,
+    ): Map<Any, Any?> {
+        val keyCodec = CacheVarTypeMap.findCodec<Any, Any>(keyLiteral)
+        val valCodec = CacheVarTypeMap.findCodec<Any, Any>(valLiteral)
+        val primitiveMap = mutableMapOf<Any, Any?>()
+        for ((key, value) in this) {
+            val keyPrimitive = keyCodec.encode(key)
+            val valPrimitive = value?.let { valCodec.encode(it) }
+            primitiveMap[keyPrimitive] = valPrimitive
+        }
+        return primitiveMap
+    }
+
+    private fun V.toPrimitive(valLiteral: CacheVarLiteral): Any {
+        val codec = CacheVarTypeMap.findCodec<Any, V>(valLiteral)
+        return codec.encode(this)
     }
 
     @EnumBuildersDsl

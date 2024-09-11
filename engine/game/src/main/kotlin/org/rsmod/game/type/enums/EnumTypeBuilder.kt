@@ -2,6 +2,8 @@ package org.rsmod.game.type.enums
 
 import kotlin.reflect.KClass
 import org.rsmod.game.type.literal.CacheVarLiteral
+import org.rsmod.game.type.util.GenericPropertySelector.select
+import org.rsmod.game.type.util.GenericPropertySelector.selectMap
 
 @DslMarker private annotation class EnumBuilderDsl
 
@@ -14,6 +16,8 @@ public class EnumTypeBuilder<K : Any, V : Any>(
     public var keyCharId: Char? = null
     public var valCharId: Char? = null
     public var default: V? = null
+    public var defaultStr: String? = null
+    public var defaultInt: Int? = null
     public var primitiveMap: Map<Any, Any?>? = null
     public var typedMap: Map<K, V?>? = null
 
@@ -30,9 +34,43 @@ public class EnumTypeBuilder<K : Any, V : Any>(
             valLiteral = valLiteral,
             primitiveMap = primitiveMap,
             default = default,
+            defaultStr = defaultStr,
+            defaultInt = defaultInt,
             typedMap = typedMap,
             internalId = id,
             internalName = internal,
         )
+    }
+
+    public companion object {
+        public fun merge(
+            edit: UnpackedEnumType<*, *>,
+            base: UnpackedEnumType<*, *>,
+        ): UnpackedEnumType<Any, Any> {
+            val keyType = select(edit, base, default = null) { keyType } as KClass<Any>
+            val valType = select(edit, base, default = null) { valType } as KClass<Any>
+            val keyLiteral = select(edit, base, default = null) { keyLiteral }
+            val valLiteral = select(edit, base, default = null) { valLiteral }
+            val primitiveMap = selectMap(edit, base) { primitiveMap }
+            val typedMap = selectMap(edit, base) { typedMap } as? Map<Any, Any?>
+            val default = select(edit, base, default = null) { default }
+            val defaultInt = select(edit, base, default = null) { defaultInt }
+            val defaultStr = select(edit, base, default = null) { defaultStr }
+            val internalId = select(edit, base, default = null) { internalId }
+            val internalName = select(edit, base, default = null) { internalName }
+            return UnpackedEnumType<Any, Any>(
+                keyType = keyType,
+                valType = valType,
+                keyLiteral = keyLiteral,
+                valLiteral = valLiteral,
+                primitiveMap = primitiveMap,
+                defaultStr = defaultStr,
+                defaultInt = defaultInt,
+                default = default,
+                typedMap = typedMap ?: emptyMap(),
+                internalId = internalId ?: -1,
+                internalName = internalName ?: "",
+            )
+        }
     }
 }

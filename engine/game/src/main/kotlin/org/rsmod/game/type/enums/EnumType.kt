@@ -61,6 +61,8 @@ public class UnpackedEnumType<K : Any, V : Any>(
     public val keyLiteral: CacheVarLiteral,
     public val valLiteral: CacheVarLiteral,
     public val primitiveMap: Map<Any, Any?>,
+    public val defaultStr: String?,
+    public val defaultInt: Int?,
     internal var default: V?,
     internal var typedMap: Map<K, V?>,
     internalId: Int? = null,
@@ -99,6 +101,8 @@ public class UnpackedEnumType<K : Any, V : Any>(
             "keyLiteral=$keyLiteral, " +
             "valLiteral=$valLiteral, " +
             "default=$default, " +
+            "defaultInt=$defaultInt, " +
+            "defaultStr=$defaultStr, " +
             "entries=$typedMap" +
             ")"
 
@@ -107,6 +111,9 @@ public class UnpackedEnumType<K : Any, V : Any>(
         if (other !is UnpackedEnumType<*, *>) return false
 
         if (default != other.default) return false
+        if (keyLiteral != other.keyLiteral) return false
+        if (valLiteral != other.valLiteral) return false
+        if (primitiveMap != other.primitiveMap) return false
         if (internalId != other.internalId) return false
 
         return true

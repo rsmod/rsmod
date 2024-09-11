@@ -12,6 +12,7 @@ import org.rsmod.annotations.GameCache
 import org.rsmod.annotations.Js5Cache
 import org.rsmod.annotations.VanillaCache
 import org.rsmod.api.cache.types.TypeListMapDecoder
+import org.rsmod.api.cache.types.enums.EnumTypeEncoder
 import org.rsmod.api.cache.types.inv.InvTypeEncoder
 import org.rsmod.api.cache.types.loc.LocTypeEncoder
 import org.rsmod.api.cache.types.npc.NpcTypeEncoder
@@ -20,6 +21,8 @@ import org.rsmod.api.type.builders.resolver.TypeBuilderResolverMap
 import org.rsmod.api.type.editors.resolver.TypeEditorResolverMap
 import org.rsmod.api.type.symbols.name.NameMapping
 import org.rsmod.game.type.TypeListMap
+import org.rsmod.game.type.enums.EnumTypeBuilder
+import org.rsmod.game.type.enums.UnpackedEnumType
 import org.rsmod.game.type.inv.InvTypeBuilder
 import org.rsmod.game.type.inv.UnpackedInvType
 import org.rsmod.game.type.loc.LocTypeBuilder
@@ -86,7 +89,8 @@ constructor(
         val locs = mergeLocs(builders.locs, editors.locs, vanilla.locs)
         val npcs = mergeNpcs(builders.npcs, editors.npcs, vanilla.npcs)
         val params = mergeParams(builders.params, editors.params, vanilla.params)
-        return UpdateMap(invs, locs, npcs, params)
+        val enums = mergeEnums(builders.enums, editors.enums, vanilla.enums)
+        return UpdateMap(invs, locs, npcs, params, enums)
     }
 
     private data class UpdateMap(
@@ -94,6 +98,7 @@ constructor(
         val locs: List<UnpackedLocType>,
         val npcs: List<UnpackedNpcType>,
         val params: List<UnpackedParamType<*>>,
+        val enums: List<UnpackedEnumType<*, *>>,
     )
 
     private fun List<*>.toUpdateMap(): UpdateMap {
@@ -101,7 +106,8 @@ constructor(
         val locs = filterIsInstance<UnpackedLocType>()
         val npcs = filterIsInstance<UnpackedNpcType>()
         val params = filterIsInstance<UnpackedParamType<*>>()
-        return UpdateMap(invs, locs, npcs, params)
+        val enums = filterIsInstance<UnpackedEnumType<*, *>>()
+        return UpdateMap(invs, locs, npcs, params, enums)
     }
 
     private fun mergeInvs(
@@ -218,10 +224,41 @@ constructor(
             this
         }
 
+    private fun mergeEnums(
+        builders: List<UnpackedEnumType<*, *>>,
+        editors: List<UnpackedEnumType<*, *>>,
+        cacheTypes: Map<Int, UnpackedEnumType<*, *>>,
+    ): List<UnpackedEnumType<*, *>> {
+        val merged = (builders + editors).groupBy { it.id }
+        return merged.map {
+            check(it.value.size <= 4) {
+                "A single cache-type can only have up to 4 builders or editors modifying it."
+            }
+            val combined =
+                it.value[0] + it.value.getOrNull(1) + it.value.getOrNull(2) + it.value.getOrNull(3)
+            val cacheType = cacheTypes[combined.id]
+            if (cacheType != null) {
+                cacheType + combined
+            } else {
+                combined
+            }
+        }
+    }
+
+    private operator fun UnpackedEnumType<*, *>.plus(
+        other: UnpackedEnumType<*, *>?
+    ): UnpackedEnumType<*, *> =
+        if (other != null) {
+            EnumTypeBuilder.merge(edit = this, base = other)
+        } else {
+            this
+        }
+
     private fun encodeCacheTypes(updates: UpdateMap, cachePath: Path, serverCache: Boolean) {
         val buffer = Unpooled.buffer()
         Cache.open(cachePath).use { cache ->
             ParamTypeEncoder.encodeAll(cache, updates.params, serverCache, buffer)
+            EnumTypeEncoder.encodeAll(cache, updates.enums, serverCache, buffer)
             InvTypeEncoder.encodeAll(cache, updates.invs, serverCache, buffer)
             LocTypeEncoder.encodeAll(cache, updates.locs, serverCache, buffer)
             NpcTypeEncoder.encodeAll(cache, updates.npcs, serverCache, buffer)

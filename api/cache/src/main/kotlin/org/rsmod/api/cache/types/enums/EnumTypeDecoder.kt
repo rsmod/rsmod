@@ -45,8 +45,8 @@ public object EnumTypeDecoder {
             when (code) {
                 1 -> keyCharId = data.readUnsignedByte().toInt().toChar()
                 2 -> valCharId = data.readUnsignedByte().toInt().toChar()
-                3 -> default = data.readString()
-                4 -> default = data.readInt()
+                3 -> defaultStr = data.readString()
+                4 -> defaultInt = data.readInt()
                 5 -> {
                     val map = hashMapOf<Int, String>()
                     val count = data.readUnsignedShort()
