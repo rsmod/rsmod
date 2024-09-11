@@ -1,8 +1,8 @@
 package org.rsmod.api.shops
 
 import jakarta.inject.Inject
-import org.rsmod.api.config.refs.BaseComponents
-import org.rsmod.api.config.refs.BaseInterfaces
+import org.rsmod.api.config.refs.components
+import org.rsmod.api.config.refs.interfaces
 import org.rsmod.api.player.ifOpenMainSidePair
 import org.rsmod.api.player.ifSetEvents
 import org.rsmod.api.player.ifSetText
@@ -34,11 +34,11 @@ constructor(private val invTypes: InvTypeList, private val eventBus: EventBus) {
             updateInvFull(sharedInv)
             updateInvFull(player.inv)
             topLevelMainModalBackground()
-            ifOpenMainSidePair(BaseInterfaces.shop_main, BaseInterfaces.shop_side, eventBus)
-            ifSetText(BaseComponents.shop_subtext, subtext)
+            ifOpenMainSidePair(interfaces.shop_main, interfaces.shop_side, eventBus)
+            ifSetText(components.shop_subtext, subtext)
             shopMainInit(shopInv, title)
             ifSetEvents(
-                BaseComponents.shop_inv,
+                components.shop_inv,
                 1..sharedInv.size,
                 IfEvent.Op1,
                 IfEvent.Op2,
@@ -50,7 +50,7 @@ constructor(private val invTypes: InvTypeList, private val eventBus: EventBus) {
             )
             interfaceInvInit(
                 inv = player.inv,
-                target = BaseComponents.shop_side_inv,
+                target = components.shop_side_inv,
                 objRowCount = 4,
                 objColCount = 7,
                 op1 = "Value<col=ff9040>",
@@ -60,7 +60,7 @@ constructor(private val invTypes: InvTypeList, private val eventBus: EventBus) {
                 op5 = "Sell 50<col=ff9040>",
             )
             ifSetEvents(
-                BaseComponents.shop_side_inv,
+                components.shop_side_inv,
                 0 until player.inv.size,
                 IfEvent.Op1,
                 IfEvent.Op2,
