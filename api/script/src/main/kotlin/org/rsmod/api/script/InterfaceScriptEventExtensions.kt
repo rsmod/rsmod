@@ -9,8 +9,8 @@ import org.rsmod.plugin.scripts.ScriptContext
 public fun ScriptContext.onIfOpenTop(type: InterfaceType, action: IfOpenTop.() -> Unit): Unit =
     onEvent<IfOpenTop>(type.id, action)
 
-public fun ScriptContext.onIfOpenSub(type: InterfaceType, action: IfOpenSub.() -> Unit): Unit =
+public fun ScriptContext.onIfOpen(type: InterfaceType, action: IfOpenSub.() -> Unit): Unit =
     onEvent<IfOpenSub>(type.id, action)
 
-public fun ScriptContext.onIfCloseSub(type: InterfaceType, action: IfCloseSub.() -> Unit): Unit =
+public fun ScriptContext.onIfClose(type: InterfaceType, action: IfCloseSub.() -> Unit): Unit =
     onEvent<IfCloseSub>(type.id, action)
