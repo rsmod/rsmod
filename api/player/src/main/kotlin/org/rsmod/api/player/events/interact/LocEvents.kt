@@ -21,8 +21,11 @@ public sealed class LocEvents {
 
     public class Op5(loc: BoundLocInfo, type: UnpackedLocType) : Op(loc, type)
 
-    public sealed class Ap(public val loc: BoundLocInfo, public val type: UnpackedLocType) :
-        ApEvent(loc.id.toLong())
+    public sealed class Ap(
+        public val bound: BoundLocInfo,
+        public val type: UnpackedLocType,
+        public val loc: LocInfo = bound.toLocInfo(),
+    ) : ApEvent(loc.id.toLong())
 
     public class Ap1(loc: BoundLocInfo, type: UnpackedLocType) : Ap(loc, type)
 
@@ -98,8 +101,11 @@ public sealed class LocDefaultEvents {
 
     public class Op5(loc: BoundLocInfo, type: UnpackedLocType) : Op(loc, type)
 
-    public sealed class Ap(public val loc: BoundLocInfo, public val type: UnpackedLocType) :
-        ApEvent(loc.id.toLong())
+    public sealed class Ap(
+        public val bound: BoundLocInfo,
+        public val type: UnpackedLocType,
+        public val loc: LocInfo = bound.toLocInfo(),
+    ) : ApEvent(loc.id.toLong())
 
     public class Ap1(loc: BoundLocInfo, type: UnpackedLocType) : Ap(loc, type)
 
