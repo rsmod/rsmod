@@ -100,10 +100,8 @@ public object CacheVarStatCodec : BaseIntVarCodec<StatType>(StatType::class) {
 }
 
 public object CacheVarSynthCodec : BaseIntVarCodec<SynthType>(SynthType::class) {
-    // TODO: Store synths in TypeListMap, no config decoder necessary, but we do want to set the
-    //  internal name for each type so we can have debug names here (i.e., so params that store
-    //  synth defaults will show the internal synth name and not just an empty string)
-    override fun decode(types: TypeListMap, value: Int): SynthType = SynthType(value, "")
+    override fun decode(types: TypeListMap, value: Int): SynthType =
+        types.synths[value] ?: SynthType(value, "unnamed_synth_$value")
 
     override fun encode(value: SynthType): Int = value.id
 }

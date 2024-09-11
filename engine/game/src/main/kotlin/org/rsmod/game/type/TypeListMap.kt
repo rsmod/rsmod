@@ -11,6 +11,7 @@ import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.param.ParamTypeList
 import org.rsmod.game.type.seq.SeqTypeList
 import org.rsmod.game.type.stat.StatTypeList
+import org.rsmod.game.type.synth.SynthTypeList
 import org.rsmod.game.type.varbit.VarBitTypeList
 import org.rsmod.game.type.varp.VarpTypeList
 
@@ -28,4 +29,5 @@ public data class TypeListMap(
     public val seqs: SeqTypeList,
     public val fonts: FontMetricsTypeList,
     public val stats: StatTypeList,
+    public val synths: SynthTypeList,
 )

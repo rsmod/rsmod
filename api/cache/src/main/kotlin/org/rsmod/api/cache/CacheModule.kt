@@ -19,6 +19,7 @@ import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.param.ParamTypeList
 import org.rsmod.game.type.seq.SeqTypeList
 import org.rsmod.game.type.stat.StatTypeList
+import org.rsmod.game.type.synth.SynthTypeList
 import org.rsmod.game.type.varbit.VarBitTypeList
 import org.rsmod.game.type.varp.VarpTypeList
 import org.rsmod.module.ExtendedModule
@@ -53,6 +54,8 @@ public object CacheModule : ExtendedModule() {
     @Provides public fun fontMetricTypeList(map: TypeListMap): FontMetricsTypeList = map.fonts
 
     @Provides public fun statTypeList(map: TypeListMap): StatTypeList = map.stats
+
+    @Provides public fun synthTypeList(map: TypeListMap): SynthTypeList = map.synths
 }
 
 private class ConfigTypeListMapProvider
