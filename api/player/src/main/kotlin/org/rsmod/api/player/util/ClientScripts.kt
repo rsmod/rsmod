@@ -8,6 +8,8 @@ import org.rsmod.game.type.inv.InvType
 import org.rsmod.game.type.obj.ObjType
 
 public object ClientScripts {
+    public fun Player.camForceAngle(rate: Int, rate2: Int): Unit = runClientScript(143, rate, rate2)
+
     /**
      * Switches, or opens, the toplevel side tab. Values for [side] can be found in
      * [org.rsmod.api.config.Constants] prefixed with `toplevel_`. (i.e., `toplevel_attack`)
@@ -19,6 +21,9 @@ public object ClientScripts {
         runClientScript(58, title, joinedChoices)
 
     public fun Player.mesLayerMode7(title: String): Unit = runClientScript(108, title)
+
+    public fun Player.topLevelMainModalOpen(colour: Int = -1, transparency: Int = -1): Unit =
+        runClientScript(2524, colour, transparency)
 
     public fun Player.topLevelMainModalBackground(colour: Int = -1, transparency: Int = -1): Unit =
         runClientScript(917, colour, transparency)

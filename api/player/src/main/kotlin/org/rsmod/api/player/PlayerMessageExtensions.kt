@@ -1,6 +1,9 @@
 package org.rsmod.api.player
 
 import net.rsprot.protocol.common.game.outgoing.inv.InventoryObject
+import net.rsprot.protocol.game.outgoing.camera.CamLookAt
+import net.rsprot.protocol.game.outgoing.camera.CamMoveTo
+import net.rsprot.protocol.game.outgoing.camera.CamReset
 import net.rsprot.protocol.game.outgoing.inv.UpdateInvFull
 import net.rsprot.protocol.game.outgoing.inv.UpdateInvPartial
 import net.rsprot.protocol.game.outgoing.inv.UpdateInvStopTransmit
@@ -17,6 +20,24 @@ import org.rsmod.game.obj.InvObj
 import org.rsmod.game.type.synth.SynthType
 import org.rsmod.game.type.varp.VarpType
 import org.rsmod.map.CoordGrid
+
+public fun Player.camReset() {
+    client.write(CamReset)
+}
+
+public fun Player.camLookAt(dest: CoordGrid, camHeight: Int, camRate: Int, camRate2: Int) {
+    // TODO: Add require assertion to make sure coords is valid within build area.
+    val dx = dest.x - buildArea.x
+    val dz = dest.z - buildArea.z
+    client.write(CamLookAt(dx, dz, camHeight, camRate, camRate2))
+}
+
+public fun Player.camMoveTo(dest: CoordGrid, camHeight: Int, camRate: Int, camRate2: Int) {
+    // TODO: Add require assertion to make sure coords is valid within build area.
+    val dx = dest.x - buildArea.x
+    val dz = dest.z - buildArea.z
+    client.write(CamMoveTo(dx, dz, camHeight, camRate, camRate2))
+}
 
 /** @see [SynthSound] */
 public fun Player.soundSynth(synth: SynthType, loops: Int = 1, delay: Int = 0) {

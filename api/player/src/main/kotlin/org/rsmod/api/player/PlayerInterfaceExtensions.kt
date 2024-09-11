@@ -17,6 +17,7 @@ import org.rsmod.api.player.util.ChatType
 import org.rsmod.api.player.util.ClientScripts.chatboxMultiInit
 import org.rsmod.api.player.util.ClientScripts.ifSetTextAlign
 import org.rsmod.api.player.util.ClientScripts.topLevelChatboxResetBackground
+import org.rsmod.api.player.util.ClientScripts.topLevelMainModalOpen
 import org.rsmod.api.player.vars.intVarp
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
@@ -140,6 +141,16 @@ public fun Player.ifOpenChat(eventBus: EventBus, interf: InterfaceType, widthAnd
     modalWidthAndHeightMode = widthAndHeightMode
     topLevelChatboxResetBackground()
     openModal(eventBus, interf, components.chat_dialogue_target)
+}
+
+public fun Player.ifOpenMain(
+    eventBus: EventBus,
+    interf: InterfaceType,
+    colour: Int,
+    transparency: Int,
+) {
+    topLevelMainModalOpen(colour, transparency)
+    ifOpenMain(eventBus, interf)
 }
 
 public fun Player.ifOpenMain(eventBus: EventBus, interf: InterfaceType) {
