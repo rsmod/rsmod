@@ -52,7 +52,7 @@ public object PlayerSkillXP {
         val nextLevelXp = PlayerSkillXPTable.getXPFromLevel(baseLevel + 1)
         val currentXp = statMap.getXP(stat)
         if (currentXp >= nextLevelXp) {
-            val newLevel = PlayerSkillXPTable.getLevelFromXP(currentXp)
+            val newLevel = min(MAX_LEVEL, PlayerSkillXPTable.getLevelFromXP(currentXp))
             statMap.setBaseLevel(stat, newLevel.toByte())
 
             val setCurrLevel = statMap.getCurrentLevel(stat) == baseLevel
