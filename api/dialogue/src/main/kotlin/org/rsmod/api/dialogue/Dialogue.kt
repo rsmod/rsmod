@@ -7,7 +7,6 @@ import org.rsmod.api.config.refs.BaseMesAnims
 import org.rsmod.api.dialogue.align.TextAlignment
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.shops.Shops
-import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.game.type.inv.InvType
@@ -16,7 +15,6 @@ import org.rsmod.game.type.npc.UnpackedNpcType
 
 public class Dialogue(
     public val access: ProtectedAccess,
-    private val eventBus: EventBus,
     private val alignment: TextAlignment,
     public val npc: Npc? = null,
     public val faceFar: Boolean = false,
@@ -35,7 +33,7 @@ public class Dialogue(
         val pages = alignment.generatePageList(text)
         for (page in pages) {
             val text = page.text
-            access.mesbox(eventBus, text)
+            access.mesbox(text)
         }
     }
 
@@ -44,7 +42,7 @@ public class Dialogue(
         for (page in pages) {
             val (text, lineCount) = page
             val lineHeight = lineHeight(lineCount)
-            access.chatPlayer(eventBus, text, mesanim, lineCount, lineHeight)
+            access.chatPlayer(text, mesanim, lineCount, lineHeight)
         }
     }
 
@@ -53,7 +51,7 @@ public class Dialogue(
         for (page in pages) {
             val (text, lineCount) = page
             val lineHeight = lineHeight(lineCount)
-            access.chatPlayer(eventBus, text, mesanim = null, lineCount, lineHeight)
+            access.chatPlayer(text, mesanim = null, lineCount, lineHeight)
         }
     }
 
@@ -62,7 +60,7 @@ public class Dialogue(
         for (page in pages) {
             val (text, lineCount) = page
             val lineHeight = lineHeight(lineCount)
-            access.chatNpc(eventBus, npc(), text, mesanim, lineCount, lineHeight, faceFar = faceFar)
+            access.chatNpc(npc(), text, mesanim, lineCount, lineHeight, faceFar = faceFar)
         }
     }
 
@@ -71,7 +69,7 @@ public class Dialogue(
         for (page in pages) {
             val (text, lineCount) = page
             val lineHeight = lineHeight(lineCount)
-            access.chatNpcNoTurn(eventBus, npc(), text, mesanim, lineCount, lineHeight)
+            access.chatNpcNoTurn(npc(), text, mesanim, lineCount, lineHeight)
         }
     }
 
@@ -81,7 +79,6 @@ public class Dialogue(
             val (text, lineCount) = page
             val lineHeight = lineHeight(lineCount)
             access.chatNpc(
-                eventBus = eventBus,
                 npc = npc(),
                 text = text,
                 mesanim = null,
@@ -97,7 +94,7 @@ public class Dialogue(
         for (page in pages) {
             val (text, lineCount) = page
             val lineHeight = lineHeight(lineCount)
-            access.chatNpcSpecific(eventBus, type.name, type, text, mesanim, lineCount, lineHeight)
+            access.chatNpcSpecific(type.name, type, text, mesanim, lineCount, lineHeight)
         }
     }
 
@@ -109,7 +106,6 @@ public class Dialogue(
         title: String = Constants.cm_options,
     ): T =
         access.choice2(
-            eventBus = eventBus,
             choice1 = choice1,
             result1 = result1,
             choice2 = choice2,
@@ -127,7 +123,6 @@ public class Dialogue(
         title: String = Constants.cm_options,
     ): T =
         access.choice3(
-            eventBus = eventBus,
             choice1 = choice1,
             result1 = result1,
             choice2 = choice2,
@@ -149,7 +144,6 @@ public class Dialogue(
         title: String = Constants.cm_options,
     ): T =
         access.choice4(
-            eventBus = eventBus,
             choice1 = choice1,
             result1 = result1,
             choice2 = choice2,
@@ -175,7 +169,6 @@ public class Dialogue(
         title: String = Constants.cm_options,
     ): T =
         access.choice5(
-            eventBus = eventBus,
             choice1 = choice1,
             result1 = result1,
             choice2 = choice2,

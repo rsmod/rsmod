@@ -3,14 +3,11 @@ package org.rsmod.api.dialogue
 import jakarta.inject.Inject
 import org.rsmod.api.dialogue.align.TextAlignment
 import org.rsmod.api.player.protect.ProtectedAccess
-import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Npc
 
-public class Dialogues
-@Inject
-constructor(private val eventBus: EventBus, private val alignment: TextAlignment) {
+public class Dialogues @Inject constructor(private val alignment: TextAlignment) {
     public suspend fun start(access: ProtectedAccess, conversation: suspend Dialogue.() -> Unit) {
-        val dialogue = Dialogue(access, eventBus, alignment, null, faceFar = false)
+        val dialogue = Dialogue(access, alignment, null, faceFar = false)
         conversation(dialogue)
     }
 
@@ -20,7 +17,7 @@ constructor(private val eventBus: EventBus, private val alignment: TextAlignment
         faceFar: Boolean,
         conversation: suspend Dialogue.() -> Unit,
     ) {
-        val dialogue = Dialogue(access, eventBus, alignment, npc, faceFar)
+        val dialogue = Dialogue(access, alignment, npc, faceFar)
         conversation(dialogue)
     }
 }

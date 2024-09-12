@@ -12,14 +12,10 @@ import org.rsmod.game.loc.LocInfo
 import org.rsmod.game.loc.LocShape
 import org.rsmod.game.type.loc.UnpackedLocType
 import org.rsmod.map.CoordGrid
-import org.rsmod.pathfinder.collision.CollisionFlagMap
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-class DoorScript
-@Inject
-constructor(private val collision: CollisionFlagMap, private val locRepo: LocRepository) :
-    PluginScript() {
+class DoorScript @Inject constructor(private val locRepo: LocRepository) : PluginScript() {
     override fun ScriptContext.startUp() {
         onOpLoc1(content.closed_single_door) { openDoor(it.loc, it.type) }
         onOpLoc1(content.opened_single_door) { closeDoor(it.loc, it.type) }
@@ -35,7 +31,7 @@ constructor(private val collision: CollisionFlagMap, private val locRepo: LocRep
 
         val stepAway = closed.openStepAway(openedCoords)
         if (player.coords == openedCoords && stepAway != CoordGrid.NULL) {
-            teleport(collision, stepAway)
+            teleport(stepAway)
             delay(2)
         }
 
@@ -70,7 +66,7 @@ constructor(private val collision: CollisionFlagMap, private val locRepo: LocRep
 
         val stepAway = closed.closeStepAway(closedCoords)
         if (player.coords == closedCoords && stepAway != CoordGrid.NULL) {
-            teleport(collision, stepAway)
+            teleport(stepAway)
             delay(2)
         }
 

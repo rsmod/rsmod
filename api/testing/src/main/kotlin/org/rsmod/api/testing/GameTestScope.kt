@@ -2,6 +2,9 @@ package org.rsmod.api.testing
 
 import org.rsmod.api.npc.events.NpcEvents
 import org.rsmod.api.player.events.SessionStateEvent
+import org.rsmod.api.player.protect.ProtectedAccess
+import org.rsmod.api.player.protect.ProtectedAccessContext
+import org.rsmod.api.player.protect.withProtectedAccess
 import org.rsmod.api.route.BoundValidator
 import org.rsmod.api.route.RayCastFactory
 import org.rsmod.api.route.RayCastValidator
@@ -91,6 +94,11 @@ public class GameTestScope(private val eventBus: EventBus) {
         val bv = BoundValidator(collision)
         action(GameCollisionState(collision, rf, rcf, sf, pv, bv))
     }
+
+    public fun Player.withProtectedAccess(
+        context: ProtectedAccessContext = ProtectedAccessContext.EMPTY_CTX,
+        block: suspend ProtectedAccess.() -> Unit,
+    ): Boolean = withProtectedAccess(context = context, busyText = null, block = block)
 
     public fun PathingEntity.walk(dest: CoordGrid): Unit = PathingEntityCommon.walk(this, dest)
 

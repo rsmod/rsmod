@@ -5,6 +5,7 @@ import jakarta.inject.Inject
 import org.rsmod.api.cache.CacheModule
 import org.rsmod.api.core.module.EntityRepoModule
 import org.rsmod.api.core.module.GameMapModule
+import org.rsmod.api.core.module.PlayerModule
 import org.rsmod.api.core.module.TypeModule
 import org.rsmod.api.game.process.GameCycle
 import org.rsmod.api.random.RandomModule
@@ -18,6 +19,7 @@ public object CoreModule : ExtendedModule() {
         install(CacheModule)
         install(EntityRepoModule)
         install(GameMapModule)
+        install(PlayerModule)
         install(RandomModule)
         install(RouteModule)
         install(TypeModule)

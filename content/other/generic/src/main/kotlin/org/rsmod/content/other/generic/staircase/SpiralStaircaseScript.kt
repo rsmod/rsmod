@@ -11,14 +11,10 @@ import org.rsmod.api.script.onOpLoc3
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.loc.LocAngle
 import org.rsmod.map.util.Translation
-import org.rsmod.pathfinder.collision.CollisionFlagMap
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-class SpiralStaircaseScript
-@Inject
-constructor(private val collision: CollisionFlagMap, private val dialogues: Dialogues) :
-    PluginScript() {
+class SpiralStaircaseScript @Inject constructor(private val dialogues: Dialogues) : PluginScript() {
     override fun ScriptContext.startUp() {
         onOpLoc1(content.spiralstaircase_down) { climbDown(it.bound) }
         onOpLoc1(content.spiralstaircase_up) { climbUp(it.bound) }
@@ -57,7 +53,7 @@ constructor(private val collision: CollisionFlagMap, private val dialogues: Dial
 
     private fun ProtectedAccess.climb(loc: BoundLocInfo, translation: Translation) {
         val dest = loc.coords.translate(translation)
-        telejump(collision, dest)
+        telejump(dest)
     }
 
     private suspend fun ProtectedAccess.climOption(loc: BoundLocInfo) {
@@ -71,7 +67,7 @@ constructor(private val collision: CollisionFlagMap, private val dialogues: Dial
                     title = "Climb up or down the stairs?",
                 )
             val dest = loc.coords.translate(translation)
-            telejump(collision, dest)
+            telejump(dest)
         }
     }
 }

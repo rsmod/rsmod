@@ -10,6 +10,9 @@ import org.rsmod.api.player.ifChatPlayer
 import org.rsmod.api.player.ifChoice
 import org.rsmod.api.player.ifClose
 import org.rsmod.api.player.ifMesbox
+import org.rsmod.api.player.ifOpenMain
+import org.rsmod.api.player.ifOpenMainModal
+import org.rsmod.api.player.ifSetText
 import org.rsmod.api.player.mes
 import org.rsmod.api.player.ui.input.CountDialogInput
 import org.rsmod.api.player.ui.input.ResumePauseButtonInput
@@ -25,6 +28,7 @@ import org.rsmod.game.entity.shared.PathingEntityCommon
 import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.interf.IfEvent
+import org.rsmod.game.type.interf.InterfaceType
 import org.rsmod.game.type.mesanim.MesAnimType
 import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.seq.SeqType
@@ -34,8 +38,12 @@ import org.rsmod.pathfinder.collision.CollisionFlagMap
 
 private val logger = InlineLogger()
 
-public class ProtectedAccess(public val player: Player, public val coroutine: GameCoroutine) {
-    public fun clearPendingAction(eventBus: EventBus) {
+public class ProtectedAccess(
+    public val player: Player,
+    public val coroutine: GameCoroutine,
+    private val context: ProtectedAccessContext,
+) {
+    public fun clearPendingAction(eventBus: EventBus = context.eventBus) {
         player.clearPendingAction(eventBus)
     }
 
@@ -53,11 +61,11 @@ public class ProtectedAccess(public val player: Player, public val coroutine: Ga
         }
     }
 
-    public fun telejump(collision: CollisionFlagMap, dest: CoordGrid) {
+    public fun telejump(dest: CoordGrid, collision: CollisionFlagMap = context.collision) {
         PathingEntityCommon.telejump(player, collision, dest)
     }
 
-    public fun teleport(collision: CollisionFlagMap, dest: CoordGrid) {
+    public fun teleport(dest: CoordGrid, collision: CollisionFlagMap = context.collision) {
         PathingEntityCommon.teleport(player, collision, dest)
     }
 
@@ -66,7 +74,7 @@ public class ProtectedAccess(public val player: Player, public val coroutine: Ga
         player.anim(seq, delay, priority)
     }
 
-    public fun ifClose(eventBus: EventBus) {
+    public fun ifClose(eventBus: EventBus = context.eventBus) {
         player.ifClose(eventBus)
     }
 
@@ -83,6 +91,18 @@ public class ProtectedAccess(public val player: Player, public val coroutine: Ga
     public fun logOut() {
         // TODO: impl
     }
+
+    public fun ifOpenMainModal(
+        interf: InterfaceType,
+        colour: Int = -1,
+        transparency: Int = -1,
+        eventBus: EventBus = context.eventBus,
+    ): Unit = player.ifOpenMainModal(interf, eventBus, colour, transparency)
+
+    public fun ifOpenMain(interf: InterfaceType, eventBus: EventBus = context.eventBus): Unit =
+        player.ifOpenMain(interf, eventBus)
+
+    public fun ifSetText(target: ComponentType, text: String): Unit = player.ifSetText(target, text)
 
     /**
      * @throws ProtectedAccessLostException if [regainProtectedAccess] returns false after
@@ -115,9 +135,9 @@ public class ProtectedAccess(public val player: Player, public val coroutine: Ga
      * @see [regainProtectedAccess]
      */
     public suspend fun mesbox(
-        eventBus: EventBus,
         text: String,
         pauseText: String = constants.cm_pausebutton,
+        eventBus: EventBus = context.eventBus,
     ) {
         player.ifMesbox(text, pauseText, eventBus)
         val input = coroutine.pause(ResumePauseButtonInput::class)
@@ -130,12 +150,12 @@ public class ProtectedAccess(public val player: Player, public val coroutine: Ga
      * @see [regainProtectedAccess]
      */
     public suspend fun <T> choice2(
-        eventBus: EventBus,
         choice1: String,
         result1: T,
         choice2: String,
         result2: T,
         title: String = constants.cm_options,
+        eventBus: EventBus = context.eventBus,
     ): T {
         player.ifChoice(title, "$choice1|$choice2", choiceCountInclusive = 2, eventBus)
         val input = coroutine.pause(ResumePauseButtonInput::class)
@@ -153,7 +173,6 @@ public class ProtectedAccess(public val player: Player, public val coroutine: Ga
      * @see [regainProtectedAccess]
      */
     public suspend fun <T> choice3(
-        eventBus: EventBus,
         choice1: String,
         result1: T,
         choice2: String,
@@ -161,6 +180,7 @@ public class ProtectedAccess(public val player: Player, public val coroutine: Ga
         choice3: String,
         result3: T,
         title: String = constants.cm_options,
+        eventBus: EventBus = context.eventBus,
     ): T {
         player.ifChoice(title, "$choice1|$choice2|$choice3", choiceCountInclusive = 3, eventBus)
         val input = coroutine.pause(ResumePauseButtonInput::class)
@@ -179,7 +199,6 @@ public class ProtectedAccess(public val player: Player, public val coroutine: Ga
      * @see [regainProtectedAccess]
      */
     public suspend fun <T> choice4(
-        eventBus: EventBus,
         choice1: String,
         result1: T,
         choice2: String,
@@ -189,6 +208,7 @@ public class ProtectedAccess(public val player: Player, public val coroutine: Ga
         choice4: String,
         result4: T,
         title: String = constants.cm_options,
+        eventBus: EventBus = context.eventBus,
     ): T {
         player.ifChoice(
             title,
@@ -213,7 +233,6 @@ public class ProtectedAccess(public val player: Player, public val coroutine: Ga
      * @see [regainProtectedAccess]
      */
     public suspend fun <T> choice5(
-        eventBus: EventBus,
         choice1: String,
         result1: T,
         choice2: String,
@@ -225,6 +244,7 @@ public class ProtectedAccess(public val player: Player, public val coroutine: Ga
         choice5: String,
         result5: T,
         title: String = constants.cm_options,
+        eventBus: EventBus = context.eventBus,
     ): T {
         player.ifChoice(
             title,
@@ -250,13 +270,13 @@ public class ProtectedAccess(public val player: Player, public val coroutine: Ga
      * @see [regainProtectedAccess]
      */
     public suspend fun chatPlayer(
-        eventBus: EventBus,
         text: String,
         mesanim: MesAnimType?,
         lineCount: Int,
         lineHeight: Int,
         title: String = player.displayName,
         pauseText: String = constants.cm_pausebutton,
+        eventBus: EventBus = context.eventBus,
     ) {
         val chatanim = mesanim?.splitGetAnim(lineCount)
         player.ifChatPlayer(title, text, chatanim, pauseText, lineHeight, eventBus)
@@ -270,7 +290,6 @@ public class ProtectedAccess(public val player: Player, public val coroutine: Ga
      * @see [regainProtectedAccess]
      */
     public suspend fun chatNpc(
-        eventBus: EventBus,
         npc: Npc,
         text: String,
         mesanim: MesAnimType?,
@@ -279,6 +298,7 @@ public class ProtectedAccess(public val player: Player, public val coroutine: Ga
         faceFar: Boolean = false,
         title: String = npc.name,
         pauseText: String = constants.cm_pausebutton,
+        eventBus: EventBus = context.eventBus,
     ) {
         val chatanim = mesanim?.splitGetAnim(lineCount)
         val faceMode = if (faceFar) NpcMode.PlayerFace else NpcMode.PlayerFaceClose
@@ -296,7 +316,6 @@ public class ProtectedAccess(public val player: Player, public val coroutine: Ga
      * @see [regainProtectedAccess]
      */
     public suspend fun chatNpcNoTurn(
-        eventBus: EventBus,
         npc: Npc,
         text: String,
         mesanim: MesAnimType?,
@@ -304,6 +323,7 @@ public class ProtectedAccess(public val player: Player, public val coroutine: Ga
         lineHeight: Int,
         title: String = npc.name,
         pauseText: String = constants.cm_pausebutton,
+        eventBus: EventBus = context.eventBus,
     ) {
         val chatanim = mesanim?.splitGetAnim(lineCount)
         player.facePathingEntitySquare(npc)
@@ -318,7 +338,6 @@ public class ProtectedAccess(public val player: Player, public val coroutine: Ga
      * @see [regainProtectedAccess]
      */
     public suspend fun chatNpcSpecific(
-        eventBus: EventBus,
         title: String,
         type: NpcType,
         text: String,
@@ -326,6 +345,7 @@ public class ProtectedAccess(public val player: Player, public val coroutine: Ga
         lineCount: Int,
         lineHeight: Int,
         pauseText: String = constants.cm_pausebutton,
+        eventBus: EventBus = context.eventBus,
     ) {
         val chatanim = mesanim?.splitGetAnim(lineCount)
         player.ifChatNpcSpecific(title, type, text, chatanim, pauseText, lineHeight, eventBus)
@@ -426,6 +446,7 @@ public class ProtectedAccess(public val player: Player, public val coroutine: Ga
 
 /** @see [ProtectedAccess] */
 public fun Player.withProtectedAccess(
+    context: ProtectedAccessContext,
     busyText: String? = constants.dm_busy,
     block: suspend ProtectedAccess.() -> Unit,
 ): Boolean {
@@ -435,7 +456,7 @@ public fun Player.withProtectedAccess(
     }
     val coroutine = GameCoroutine()
     launch(coroutine) {
-        val protectedAccess = ProtectedAccess(this@withProtectedAccess, this)
+        val protectedAccess = ProtectedAccess(this@withProtectedAccess, this, context)
         block(protectedAccess)
     }
     return true
@@ -443,15 +464,11 @@ public fun Player.withProtectedAccess(
 
 /** @see [ProtectedAccess.telejump] */
 public fun Player.protectedTelejump(collision: CollisionFlagMap, dest: CoordGrid): Boolean =
-    withProtectedAccess {
-        telejump(collision, dest)
-    }
+    withProtectedAccess(ProtectedAccessContext.EMPTY_CTX) { telejump(dest, collision) }
 
 /** @see [ProtectedAccess.teleport] */
 public fun Player.protectedTeleport(collision: CollisionFlagMap, dest: CoordGrid): Boolean =
-    withProtectedAccess {
-        teleport(collision, dest)
-    }
+    withProtectedAccess(ProtectedAccessContext.EMPTY_CTX) { teleport(dest, collision) }
 
 private fun MesAnimType.splitGetAnim(lines: Int) =
     when (lines) {

@@ -11,14 +11,10 @@ import org.rsmod.api.script.onOpLoc2
 import org.rsmod.api.script.onOpLoc3
 import org.rsmod.game.type.loc.UnpackedLocType
 import org.rsmod.game.type.seq.SeqType
-import org.rsmod.pathfinder.collision.CollisionFlagMap
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-class LadderScript
-@Inject
-constructor(private val collision: CollisionFlagMap, private val dialogues: Dialogues) :
-    PluginScript() {
+class LadderScript @Inject constructor(private val dialogues: Dialogues) : PluginScript() {
     override fun ScriptContext.startUp() {
         onOpLoc1(content.ladder_down) {
             arriveDelay()
@@ -48,7 +44,9 @@ constructor(private val collision: CollisionFlagMap, private val dialogues: Dial
 
     private suspend fun ProtectedAccess.climb(type: UnpackedLocType, translateLevel: Int) {
         val dest = player.coords.translateLevel(translateLevel)
-        Ladders.climb(collision, this, dest, type.climbAnim())
+        anim(type.climbAnim())
+        delay(1)
+        telejump(dest)
     }
 
     private suspend fun ProtectedAccess.climbOption(type: UnpackedLocType) =
@@ -58,7 +56,7 @@ constructor(private val collision: CollisionFlagMap, private val dialogues: Dial
             val dest = player.coords.translateLevel(translate)
             anim(type.climbAnim())
             delay(2)
-            telejump(collision, dest)
+            telejump(dest)
         }
 
     private fun UnpackedLocType.climbAnim(): SeqType = param(params.climb_anim)

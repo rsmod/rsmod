@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import org.rsmod.api.player.protect.withProtectedAccess
 import org.rsmod.api.player.varMoveSpeed
 import org.rsmod.api.testing.GameTestState
 import org.rsmod.api.testing.factory.entityFactory
@@ -380,7 +379,7 @@ class PlayerMovementProcessorTest {
             varMoveSpeed = MoveSpeed.Run
             routeRequest = RouteRequestCoord(destination)
             // Teleporting should also set `lastStep`
-            withProtectedAccess { telejump(collision, startCoords) }
+            withProtectedAccess { telejump(startCoords, collision) }
             assertEquals(startCoords, coords)
             repeat(8) {
                 movement.process(this)
