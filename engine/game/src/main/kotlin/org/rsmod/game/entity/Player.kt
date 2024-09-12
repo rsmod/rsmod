@@ -8,6 +8,7 @@ import org.rsmod.game.entity.player.PublicMessage
 import org.rsmod.game.entity.shared.PathingEntityCommon
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.inv.InventoryMap
+import org.rsmod.game.stat.PlayerStatMap
 import org.rsmod.game.type.mod.ModGroup
 import org.rsmod.game.ui.UserInterfaceMap
 import org.rsmod.map.CoordGrid
@@ -31,6 +32,7 @@ public class Player(
 
     public val ui: UserInterfaceMap = UserInterfaceMap()
     public val invMap: InventoryMap = InventoryMap()
+    public val statMap: PlayerStatMap = PlayerStatMap()
 
     /**
      * A unique identifier that should be generated when the player's account is created and then
@@ -49,6 +51,7 @@ public class Player(
     public val visibleZoneKeys: IntList = IntArrayList()
 
     public var modGroup: ModGroup? = null
+    public var xpRate: Double = 1.0
 
     public var publicMessage: PublicMessage? = null
 

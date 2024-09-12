@@ -28,6 +28,7 @@ import org.rsmod.game.type.interf.IfEvent
 import org.rsmod.game.type.mesanim.MesAnimType
 import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.seq.SeqType
+import org.rsmod.game.type.stat.StatType
 import org.rsmod.map.CoordGrid
 import org.rsmod.pathfinder.collision.CollisionFlagMap
 
@@ -75,8 +76,8 @@ public class ProtectedAccess(public val player: Player, public val coroutine: Ga
         interaction.apRangeCalled = true
     }
 
-    public fun statAdvance(stat: Int, xp: Int) {
-        // TODO: stat type + impl
+    public fun statAdvance(stat: StatType, xp: Double) {
+        // TODO: impl
     }
 
     public fun logOut() {
