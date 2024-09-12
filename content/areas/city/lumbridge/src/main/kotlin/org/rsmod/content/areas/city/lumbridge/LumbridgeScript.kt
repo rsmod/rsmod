@@ -10,13 +10,13 @@ import org.rsmod.api.script.onOpLoc1
 import org.rsmod.api.utils.io.InputStreams.readAllBytes
 import org.rsmod.content.areas.city.lumbridge.locs.LumbridgeLocs
 import org.rsmod.game.entity.Player
+import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
-import org.rsmod.plugin.scripts.SimplePluginScript
 
 class LumbridgeScript
 @Inject
 constructor(private val npcSpawner: ParsedNpcSpawner, private val objSpawner: ParsedObjSpawner) :
-    SimplePluginScript() {
+    PluginScript() {
     override fun ScriptContext.startUp() {
         onOpLoc1(LumbridgeLocs.winch) { player.operateWinch() }
         addSpawns()

@@ -5,14 +5,14 @@ import jakarta.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.runBlocking
 import org.rsmod.api.script.onBootUp
+import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
-import org.rsmod.plugin.scripts.SimplePluginScript
 import org.rsmod.scheduler.TaskScheduler
 
 public class ParsedNpcSpawnerScript
 @Inject
 constructor(private val spawner: ParsedNpcSpawner, private val scheduler: TaskScheduler) :
-    SimplePluginScript() {
+    PluginScript() {
     private val logger = InlineLogger()
 
     private lateinit var staticSpawns: Collection<ParsedNpcSpawn>

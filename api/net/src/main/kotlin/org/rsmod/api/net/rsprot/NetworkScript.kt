@@ -16,8 +16,8 @@ import org.rsmod.game.client.Client
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.PlayerList
+import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
-import org.rsmod.plugin.scripts.SimplePluginScript
 
 @OptIn(ExperimentalUnsignedTypes::class, ExperimentalStdlibApi::class)
 class NetworkScript
@@ -27,7 +27,7 @@ constructor(
     private val players: PlayerList,
     private val mapClock: MapClock,
     private val xteaProvider: XTEAProvider,
-) : SimplePluginScript() {
+) : PluginScript() {
     override fun ScriptContext.startUp() {
         check(NetworkService.REVISION == Build.MAJOR) {
             "RSProt and RSMod have mismatching revision builds! " +
