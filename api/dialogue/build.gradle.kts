@@ -13,6 +13,7 @@ dependencies {
     implementation(projects.api.shops)
     implementation(projects.api.type.typeBuilders)
     implementation(projects.api.type.typeReferences)
+    implementation(projects.api.type.typeScriptDsl)
     implementation(projects.engine.coroutine)
     implementation(projects.engine.events)
     implementation(projects.engine.game)
