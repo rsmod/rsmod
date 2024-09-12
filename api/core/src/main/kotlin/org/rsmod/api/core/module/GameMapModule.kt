@@ -1,4 +1,4 @@
-package org.rsmod.api.core
+package org.rsmod.api.core.module
 
 import net.rsprot.protocol.api.util.ZonePartialEnclosedCacheBuffer
 import org.rsmod.api.registry.loc.LocRegistry

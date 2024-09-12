@@ -1,4 +1,4 @@
-package org.rsmod.api.core
+package org.rsmod.api.core.module
 
 import org.rsmod.api.repo.EntityLifecycleProcess
 import org.rsmod.api.repo.loc.LocRepository

@@ -1,4 +1,4 @@
-package org.rsmod.api.core
+package org.rsmod.api.core.module
 
 import org.rsmod.api.type.builders.TypeBuilderModule
 import org.rsmod.api.type.editors.TypeEditorModule

@@ -3,6 +3,9 @@ package org.rsmod.api.core
 import com.google.inject.Provider
 import jakarta.inject.Inject
 import org.rsmod.api.cache.CacheModule
+import org.rsmod.api.core.module.EntityRepoModule
+import org.rsmod.api.core.module.GameMapModule
+import org.rsmod.api.core.module.TypeModule
 import org.rsmod.api.game.process.GameCycle
 import org.rsmod.api.random.RandomModule
 import org.rsmod.api.route.RouteModule
