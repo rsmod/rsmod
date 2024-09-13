@@ -13,10 +13,10 @@ import org.rsmod.api.player.ifMesbox
 import org.rsmod.api.player.ifOpenMain
 import org.rsmod.api.player.ifOpenMainModal
 import org.rsmod.api.player.ifSetText
+import org.rsmod.api.player.input.CountDialogInput
+import org.rsmod.api.player.input.ResumePauseButtonInput
 import org.rsmod.api.player.mes
 import org.rsmod.api.player.stat.PlayerSkillXP
-import org.rsmod.api.player.ui.input.CountDialogInput
-import org.rsmod.api.player.ui.input.ResumePauseButtonInput
 import org.rsmod.api.player.util.ClientScripts.mesLayerMode7
 import org.rsmod.api.player.varMoveSpeed
 import org.rsmod.coroutine.GameCoroutine

@@ -1,4 +1,4 @@
-package org.rsmod.api.player.ui.input
+package org.rsmod.api.player.input
 
 import org.rsmod.game.type.comp.ComponentType
 

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import org.rsmod.api.player.ui.input.CountDialogInput
+import org.rsmod.api.player.input.CountDialogInput
 import org.rsmod.api.testing.GameTestState
 
 class PlayerProtectedAccessTest {

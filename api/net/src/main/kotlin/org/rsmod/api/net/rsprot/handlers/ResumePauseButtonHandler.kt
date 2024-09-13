@@ -3,7 +3,7 @@ package org.rsmod.api.net.rsprot.handlers
 import jakarta.inject.Inject
 import net.rsprot.protocol.game.incoming.resumed.ResumePauseButton
 import org.rsmod.api.player.ifCloseSub
-import org.rsmod.api.player.ui.input.ResumePauseButtonInput
+import org.rsmod.api.player.input.ResumePauseButtonInput
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.type.comp.ComponentTypeList
