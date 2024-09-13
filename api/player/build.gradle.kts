@@ -12,6 +12,7 @@ dependencies {
     implementation(libs.guice)
     implementation(libs.rsprot)
     implementation(projects.api.config)
+    implementation(projects.api.player.playerStat)
     implementation(projects.api.type.typeReferences)
     implementation(projects.engine.coroutine)
     implementation(projects.engine.events)
@@ -21,6 +22,4 @@ dependencies {
     implementation(projects.engine.utilsBits)
     implementation(projects.engine.utilsTime)
     integrationImplementation(projects.engine.coroutine)
-    testImplementation(projects.api.testing.testFactory)
-    testImplementation(projects.api.testing.testParams)
 }
