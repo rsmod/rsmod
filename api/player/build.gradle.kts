@@ -21,4 +21,6 @@ dependencies {
     implementation(projects.engine.utilsBits)
     implementation(projects.engine.utilsTime)
     integrationImplementation(projects.engine.coroutine)
+    testImplementation(projects.api.testing.testFactory)
+    testImplementation(projects.api.testing.testParams)
 }
