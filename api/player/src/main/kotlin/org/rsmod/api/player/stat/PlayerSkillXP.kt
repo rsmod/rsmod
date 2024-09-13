@@ -55,12 +55,13 @@ public object PlayerSkillXP {
             val newLevel = min(MAX_LEVEL, PlayerSkillXPTable.getLevelFromXP(currentXp))
             statMap.setBaseLevel(stat, newLevel.toByte())
 
+            // TODO: Find out if condition should return true when current level is boosted.
             val setCurrLevel = statMap.getCurrentLevel(stat) == baseLevel
             if (setCurrLevel) {
                 statMap.setCurrentLevel(stat, newLevel.toByte())
             }
 
-            val levelUp = PlayerLevelUpEvent(this, stat, baseLevel.toInt(), newLevel.toInt())
+            val levelUp = AdvanceStatEvent(this, stat, baseLevel.toInt(), newLevel.toInt())
             eventBus.publish(levelUp)
         }
     }
