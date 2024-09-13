@@ -14,6 +14,7 @@ import org.rsmod.api.player.ifOpenMain
 import org.rsmod.api.player.ifOpenMainModal
 import org.rsmod.api.player.ifSetText
 import org.rsmod.api.player.mes
+import org.rsmod.api.player.stat.PlayerSkillXP
 import org.rsmod.api.player.ui.input.CountDialogInput
 import org.rsmod.api.player.ui.input.ResumePauseButtonInput
 import org.rsmod.api.player.util.ClientScripts.mesLayerMode7
@@ -84,9 +85,12 @@ public class ProtectedAccess(
         interaction.apRangeCalled = true
     }
 
-    public fun statAdvance(stat: StatType, xp: Double) {
-        // TODO: impl
-    }
+    public fun statAdvance(
+        stat: StatType,
+        xp: Double,
+        rate: Double = player.xpRate,
+        eventBus: EventBus = context.eventBus,
+    ): Int = PlayerSkillXP.internalAddXP(player, stat, xp, rate, eventBus)
 
     public fun logOut() {
         // TODO: impl
