@@ -2,8 +2,8 @@ package org.rsmod.api.net.rsprot.handlers
 
 import jakarta.inject.Inject
 import net.rsprot.protocol.game.incoming.npcs.OpNpc6
-import org.rsmod.api.player.mes
-import org.rsmod.api.player.util.ChatType
+import org.rsmod.api.player.output.ChatType
+import org.rsmod.api.player.output.mes
 import org.rsmod.game.entity.Player
 import org.rsmod.game.type.npc.NpcTypeList
 

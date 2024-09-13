@@ -1,4 +1,4 @@
-package org.rsmod.api.player
+package org.rsmod.api.player.output
 
 import net.rsprot.protocol.common.game.outgoing.inv.InventoryObject
 import net.rsprot.protocol.game.outgoing.camera.CamLookAt
@@ -13,7 +13,6 @@ import net.rsprot.protocol.game.outgoing.misc.player.SetMapFlag
 import net.rsprot.protocol.game.outgoing.sound.SynthSound
 import net.rsprot.protocol.game.outgoing.varp.VarpLarge
 import net.rsprot.protocol.game.outgoing.varp.VarpSmall
-import org.rsmod.api.player.util.ChatType
 import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.obj.InvObj

@@ -1,7 +1,7 @@
 package org.rsmod.api.script
 
-import org.rsmod.api.player.events.IfCloseSub
-import org.rsmod.api.player.events.IfOpenSub
+import org.rsmod.api.player.ui.IfCloseSub
+import org.rsmod.api.player.ui.IfOpenSub
 import org.rsmod.game.type.interf.InterfaceType
 import org.rsmod.plugin.scripts.ScriptContext
 

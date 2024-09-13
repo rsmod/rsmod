@@ -6,8 +6,8 @@ import org.rsmod.api.interactions.LocInteractions
 import org.rsmod.api.interactions.NpcInteractions
 import org.rsmod.api.interactions.ObjInteractions
 import org.rsmod.api.player.clearInteractionRoute
-import org.rsmod.api.player.mes
-import org.rsmod.api.player.util.ChatType
+import org.rsmod.api.player.output.ChatType
+import org.rsmod.api.player.output.mes
 import org.rsmod.api.registry.loc.LocRegistry
 import org.rsmod.api.registry.obj.ObjRegistry
 import org.rsmod.api.route.BoundValidator

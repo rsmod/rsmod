@@ -1,9 +1,7 @@
-package org.rsmod.api.player
+package org.rsmod.api.player.vars
 
 import org.rsmod.api.config.refs.varbits
 import org.rsmod.api.config.refs.varps
-import org.rsmod.api.player.vars.boolVarp
-import org.rsmod.api.player.vars.typeIntVarp
 import org.rsmod.game.entity.Player
 import org.rsmod.game.movement.MoveSpeed
 
@@ -32,4 +30,12 @@ private fun getSpeedId(speed: MoveSpeed): Int =
         MoveSpeed.Crawl -> 2
         MoveSpeed.Run -> 1
         else -> 0
+    }
+
+// TODO: invert run mode setting to disable this
+public fun Player.ctrlMoveSpeed(): MoveSpeed =
+    if (varMoveSpeed == MoveSpeed.Run) {
+        MoveSpeed.Walk
+    } else {
+        MoveSpeed.Run
     }

@@ -1,4 +1,4 @@
-package org.rsmod.api.player.util
+package org.rsmod.api.player.output
 
 public enum class ChatType(public val id: Int) {
     GameMessage(0),

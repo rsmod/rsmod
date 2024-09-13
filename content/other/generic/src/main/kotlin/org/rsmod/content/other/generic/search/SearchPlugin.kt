@@ -2,7 +2,7 @@ package org.rsmod.content.other.generic.search
 
 import org.rsmod.api.config.refs.content
 import org.rsmod.api.config.refs.params
-import org.rsmod.api.player.mes
+import org.rsmod.api.player.output.mes
 import org.rsmod.api.script.onOpLoc1
 import org.rsmod.game.entity.Player
 import org.rsmod.game.type.loc.UnpackedLocType

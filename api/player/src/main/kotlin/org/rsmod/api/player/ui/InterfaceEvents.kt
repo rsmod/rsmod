@@ -1,4 +1,4 @@
-package org.rsmod.api.player.events
+package org.rsmod.api.player.ui
 
 import org.rsmod.events.KeyedEvent
 import org.rsmod.game.entity.Player

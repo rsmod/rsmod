@@ -9,4 +9,10 @@ public class ProtectedAccessContextFactory
 constructor(private val collision: CollisionFlagMap, private val eventBus: EventBus) {
     public fun create(): ProtectedAccessContext =
         ProtectedAccessContext(getEventBus = { eventBus }, getCollision = { collision })
+
+    public fun create(
+        eventBus: EventBus = this.eventBus,
+        collision: CollisionFlagMap = this.collision,
+    ): ProtectedAccessContext =
+        ProtectedAccessContext(getEventBus = { eventBus }, getCollision = { collision })
 }

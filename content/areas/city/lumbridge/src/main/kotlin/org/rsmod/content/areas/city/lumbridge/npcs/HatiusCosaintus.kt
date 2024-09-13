@@ -5,8 +5,8 @@ import org.rsmod.api.config.constants
 import org.rsmod.api.dialogue.Dialogue
 import org.rsmod.api.dialogue.Dialogues
 import org.rsmod.api.dialogue.startDialogue
+import org.rsmod.api.player.output.ClientScripts.toplevelSidebuttonSwitch
 import org.rsmod.api.player.protect.ProtectedAccess
-import org.rsmod.api.player.util.ClientScripts.toplevelSidebuttonSwitch
 import org.rsmod.api.script.onOpNpc1
 import org.rsmod.game.entity.Npc
 import org.rsmod.plugin.scripts.PluginScript

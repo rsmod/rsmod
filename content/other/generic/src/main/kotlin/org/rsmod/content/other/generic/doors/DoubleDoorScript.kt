@@ -3,8 +3,8 @@ package org.rsmod.content.other.generic.doors
 import jakarta.inject.Inject
 import org.rsmod.api.config.refs.content
 import org.rsmod.api.config.refs.params
+import org.rsmod.api.player.output.soundSynth
 import org.rsmod.api.player.protect.ProtectedAccess
-import org.rsmod.api.player.soundSynth
 import org.rsmod.api.repo.loc.LocRepository
 import org.rsmod.api.script.onOpLoc1
 import org.rsmod.game.loc.LocInfo

@@ -1,6 +1,5 @@
-package org.rsmod.api.player.util
+package org.rsmod.api.player.output
 
-import org.rsmod.api.player.runClientScript
 import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.type.comp.ComponentType

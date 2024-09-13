@@ -2,7 +2,7 @@ package org.rsmod.api.net.rsprot.handlers
 
 import jakarta.inject.Inject
 import net.rsprot.protocol.game.incoming.misc.user.CloseModal
-import org.rsmod.api.player.ifCloseModals
+import org.rsmod.api.player.ui.ifCloseModals
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 

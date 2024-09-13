@@ -1,9 +1,9 @@
 package org.rsmod.api.game.process.player
 
 import jakarta.inject.Inject
-import org.rsmod.api.player.clearMapFlag
-import org.rsmod.api.player.setMapFlag
-import org.rsmod.api.player.varMoveSpeed
+import org.rsmod.api.player.output.clearMapFlag
+import org.rsmod.api.player.output.setMapFlag
+import org.rsmod.api.player.vars.varMoveSpeed
 import org.rsmod.api.route.RouteFactory
 import org.rsmod.api.route.StepFactory
 import org.rsmod.game.entity.Player

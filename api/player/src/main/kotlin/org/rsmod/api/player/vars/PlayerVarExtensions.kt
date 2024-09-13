@@ -1,12 +1,8 @@
-package org.rsmod.api.player
+package org.rsmod.api.player.vars
 
+import org.rsmod.api.player.output.writeVarp
 import org.rsmod.game.entity.Player
 import org.rsmod.game.type.varp.VarpType
-
-public fun Player.forceDisconnect() {
-    // TODO: disconnect player
-    mes("TODO: Get Disconnected!")
-}
 
 public fun Player.syncVarp(varp: VarpType, value: Int) {
     vars[varp] = if (value == 0) null else value

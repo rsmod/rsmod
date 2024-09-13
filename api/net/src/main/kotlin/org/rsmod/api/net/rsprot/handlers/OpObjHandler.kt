@@ -4,8 +4,8 @@ import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
 import net.rsprot.protocol.game.incoming.objs.OpObj
 import org.rsmod.api.interactions.ObjInteractions
-import org.rsmod.api.player.clearPendingAction
-import org.rsmod.api.player.ctrlMoveSpeed
+import org.rsmod.api.player.protect.clearPendingAction
+import org.rsmod.api.player.vars.ctrlMoveSpeed
 import org.rsmod.api.registry.obj.ObjRegistry
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player

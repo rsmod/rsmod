@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import org.rsmod.api.player.varMoveSpeed
+import org.rsmod.api.player.vars.varMoveSpeed
 import org.rsmod.api.testing.GameTestState
 import org.rsmod.api.testing.factory.entityFactory
 import org.rsmod.api.testing.params.TestArgs

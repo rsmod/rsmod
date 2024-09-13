@@ -1,7 +1,7 @@
 package org.rsmod.api.cheat
 
 import com.github.michaelbull.logging.InlineLogger
-import org.rsmod.api.player.mes
+import org.rsmod.api.player.output.mes
 import org.rsmod.game.cheat.Cheat
 import org.rsmod.game.cheat.CheatHandler
 import org.rsmod.game.type.mod.ModLevel

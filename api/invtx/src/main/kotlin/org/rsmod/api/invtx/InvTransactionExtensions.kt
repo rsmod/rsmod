@@ -2,7 +2,7 @@ package org.rsmod.api.invtx
 
 import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.objs
-import org.rsmod.api.player.updateInvFull
+import org.rsmod.api.player.output.updateInvFull
 import org.rsmod.api.repo.obj.ObjRepository
 import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.Inventory

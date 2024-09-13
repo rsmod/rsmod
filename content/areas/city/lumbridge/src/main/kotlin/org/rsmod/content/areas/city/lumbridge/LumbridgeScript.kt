@@ -4,8 +4,8 @@ import jakarta.inject.Inject
 import org.rsmod.api.config.refs.synths
 import org.rsmod.api.npc.spawn.ParsedNpcSpawner
 import org.rsmod.api.obj.spawns.ParsedObjSpawner
-import org.rsmod.api.player.mes
-import org.rsmod.api.player.soundSynth
+import org.rsmod.api.player.output.mes
+import org.rsmod.api.player.output.soundSynth
 import org.rsmod.api.script.onOpLoc1
 import org.rsmod.api.utils.io.InputStreams.readAllBytes
 import org.rsmod.content.areas.city.lumbridge.locs.LumbridgeLocs

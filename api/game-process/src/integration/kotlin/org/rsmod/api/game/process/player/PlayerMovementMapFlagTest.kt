@@ -4,7 +4,7 @@ import net.rsprot.protocol.game.outgoing.misc.player.SetMapFlag
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import org.rsmod.api.player.varMoveSpeed
+import org.rsmod.api.player.vars.varMoveSpeed
 import org.rsmod.api.route.RouteFactory
 import org.rsmod.api.route.StepFactory
 import org.rsmod.api.testing.GameTestState

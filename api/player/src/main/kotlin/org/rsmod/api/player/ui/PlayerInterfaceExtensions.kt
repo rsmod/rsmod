@@ -1,4 +1,4 @@
-package org.rsmod.api.player
+package org.rsmod.api.player.ui
 
 import net.rsprot.protocol.game.outgoing.interfaces.IfCloseSub
 import net.rsprot.protocol.game.outgoing.interfaces.IfOpenSub
@@ -13,11 +13,13 @@ import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.components
 import org.rsmod.api.config.refs.interfaces
 import org.rsmod.api.config.refs.varbits
-import org.rsmod.api.player.util.ChatType
-import org.rsmod.api.player.util.ClientScripts.chatboxMultiInit
-import org.rsmod.api.player.util.ClientScripts.ifSetTextAlign
-import org.rsmod.api.player.util.ClientScripts.topLevelChatboxResetBackground
-import org.rsmod.api.player.util.ClientScripts.topLevelMainModalOpen
+import org.rsmod.api.player.output.ChatType
+import org.rsmod.api.player.output.ClientScripts.chatboxMultiInit
+import org.rsmod.api.player.output.ClientScripts.ifSetTextAlign
+import org.rsmod.api.player.output.ClientScripts.topLevelChatboxResetBackground
+import org.rsmod.api.player.output.ClientScripts.topLevelMainModalOpen
+import org.rsmod.api.player.output.mes
+import org.rsmod.api.player.output.runClientScript
 import org.rsmod.api.player.vars.intVarp
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
@@ -31,11 +33,11 @@ import org.rsmod.game.ui.Component
 import org.rsmod.game.ui.UserInterface
 import org.rsmod.game.ui.UserInterfaceMap
 
-private typealias OpenTop = org.rsmod.api.player.events.IfOpenTop
+private typealias OpenTop = org.rsmod.api.player.ui.IfOpenTop
 
-private typealias OpenSub = org.rsmod.api.player.events.IfOpenSub
+private typealias OpenSub = org.rsmod.api.player.ui.IfOpenSub
 
-private typealias CloseSub = org.rsmod.api.player.events.IfCloseSub
+private typealias CloseSub = org.rsmod.api.player.ui.IfCloseSub
 
 private var Player.modalWidthAndHeightMode: Int by intVarp(varbits.modal_widthandheight_mode)
 

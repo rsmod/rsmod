@@ -1,6 +1,6 @@
 package org.rsmod.api.script.advanced
 
-import org.rsmod.api.player.events.IfOpenTop
+import org.rsmod.api.player.ui.IfOpenTop
 import org.rsmod.api.script.onEvent
 import org.rsmod.game.type.interf.InterfaceType
 import org.rsmod.plugin.scripts.ScriptContext

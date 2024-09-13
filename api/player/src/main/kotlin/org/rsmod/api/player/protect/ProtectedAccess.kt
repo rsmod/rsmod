@@ -4,21 +4,21 @@ import com.github.michaelbull.logging.InlineLogger
 import kotlin.math.max
 import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.components
-import org.rsmod.api.player.clearPendingAction
-import org.rsmod.api.player.ifChatNpcSpecific
-import org.rsmod.api.player.ifChatPlayer
-import org.rsmod.api.player.ifChoice
-import org.rsmod.api.player.ifClose
-import org.rsmod.api.player.ifMesbox
-import org.rsmod.api.player.ifOpenMain
-import org.rsmod.api.player.ifOpenMainModal
-import org.rsmod.api.player.ifSetText
 import org.rsmod.api.player.input.CountDialogInput
 import org.rsmod.api.player.input.ResumePauseButtonInput
-import org.rsmod.api.player.mes
+import org.rsmod.api.player.output.ClientScripts.mesLayerMode7
+import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.stat.PlayerSkillXP
-import org.rsmod.api.player.util.ClientScripts.mesLayerMode7
-import org.rsmod.api.player.varMoveSpeed
+import org.rsmod.api.player.ui.ifChatNpcSpecific
+import org.rsmod.api.player.ui.ifChatPlayer
+import org.rsmod.api.player.ui.ifChoice
+import org.rsmod.api.player.ui.ifClose
+import org.rsmod.api.player.ui.ifCloseModals
+import org.rsmod.api.player.ui.ifMesbox
+import org.rsmod.api.player.ui.ifOpenMain
+import org.rsmod.api.player.ui.ifOpenMainModal
+import org.rsmod.api.player.ui.ifSetText
+import org.rsmod.api.player.vars.varMoveSpeed
 import org.rsmod.coroutine.GameCoroutine
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Npc
@@ -481,3 +481,13 @@ private fun MesAnimType.splitGetAnim(lines: Int) =
         3 -> len3
         else -> len4
     }
+
+/**
+ * This function should only be called directly under specific circumstances. Prefer calling
+ * [org.rsmod.api.player.protect.ProtectedAccess.clearPendingAction] instead.
+ */
+public fun Player.clearPendingAction(eventBus: EventBus) {
+    cancelActiveCoroutine()
+    clearInteraction()
+    ifCloseModals(eventBus)
+}

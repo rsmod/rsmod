@@ -1,4 +1,4 @@
-package org.rsmod.api.player
+package org.rsmod.api.player.stat
 
 import org.rsmod.api.config.refs.stats
 import org.rsmod.game.stat.PlayerStatMap

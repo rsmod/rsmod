@@ -2,7 +2,7 @@ package org.rsmod.api.inv
 
 import jakarta.inject.Inject
 import org.rsmod.api.config.refs.BaseInvs
-import org.rsmod.api.player.updateInvFull
+import org.rsmod.api.player.output.updateInvFull
 import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.type.inv.InvTypeList

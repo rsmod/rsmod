@@ -1,8 +1,8 @@
 package org.rsmod.content.interfaces.gameframe.util
 
 import org.rsmod.api.config.aliases.EnumComp
-import org.rsmod.api.player.ifOpenSub
-import org.rsmod.api.player.ifOpenTop
+import org.rsmod.api.player.ui.ifOpenSub
+import org.rsmod.api.player.ui.ifOpenTop
 import org.rsmod.content.interfaces.gameframe.Gameframe
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player

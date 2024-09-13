@@ -1,7 +1,6 @@
 package org.rsmod.api.player.vars
 
 import kotlin.reflect.KProperty
-import org.rsmod.api.player.syncVarp
 import org.rsmod.game.entity.Player
 import org.rsmod.game.type.varbit.VarBitType
 import org.rsmod.game.type.varp.VarpType

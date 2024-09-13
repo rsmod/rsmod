@@ -9,7 +9,7 @@ import net.rsprot.protocol.loginprot.outgoing.LoginResponse
 import net.rsprot.protocol.loginprot.outgoing.util.AuthenticatorResponse
 import org.rsmod.api.net.rsprot.event.SessionEnd
 import org.rsmod.api.net.rsprot.event.SessionStart
-import org.rsmod.api.player.varMoveSpeed
+import org.rsmod.api.player.vars.varMoveSpeed
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.PlayerList
@@ -42,7 +42,7 @@ class ConnectionHandler(private val players: PlayerList, private val events: Eve
         val player =
             Player().apply {
                 slotId = slot
-                coords = CoordGrid(0, 50, 50, 15, 19)
+                coords = CoordGrid(0, 50, 50, 35, 20)
                 username = response.loginBlock.username
                 displayName = username
                 varMoveSpeed = MoveSpeed.Run

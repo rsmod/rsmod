@@ -1,11 +1,11 @@
 package org.rsmod.content.other.generic.signpost
 
 import jakarta.inject.Inject
-import org.rsmod.api.player.camLookAt
-import org.rsmod.api.player.camMoveTo
-import org.rsmod.api.player.camReset
+import org.rsmod.api.player.output.ClientScripts.camForceAngle
+import org.rsmod.api.player.output.camLookAt
+import org.rsmod.api.player.output.camMoveTo
+import org.rsmod.api.player.output.camReset
 import org.rsmod.api.player.protect.ProtectedAccess
-import org.rsmod.api.player.util.ClientScripts.camForceAngle
 import org.rsmod.api.script.onApLoc1
 import org.rsmod.api.script.onIfClose
 import org.rsmod.api.script.onOpLoc1

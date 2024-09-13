@@ -6,9 +6,9 @@ import org.rsmod.api.config.refs.seqs
 import org.rsmod.api.config.refs.synths
 import org.rsmod.api.invtx.invAdd
 import org.rsmod.api.invtx.invCommit
-import org.rsmod.api.player.mes
+import org.rsmod.api.player.output.mes
+import org.rsmod.api.player.output.soundSynth
 import org.rsmod.api.player.protect.ProtectedAccess
-import org.rsmod.api.player.soundSynth
 import org.rsmod.api.repo.obj.ObjRepository
 import org.rsmod.api.script.advanced.onDefaultOpObj3
 import org.rsmod.game.entity.Player

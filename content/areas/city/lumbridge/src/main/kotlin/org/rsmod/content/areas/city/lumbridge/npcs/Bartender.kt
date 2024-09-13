@@ -7,8 +7,8 @@ import org.rsmod.api.dialogue.Dialogues
 import org.rsmod.api.dialogue.startDialogue
 import org.rsmod.api.invtx.invAddOrDrop
 import org.rsmod.api.invtx.invTakeFee
+import org.rsmod.api.player.output.spam
 import org.rsmod.api.player.protect.ProtectedAccess
-import org.rsmod.api.player.spam
 import org.rsmod.api.repo.obj.ObjRepository
 import org.rsmod.api.script.onApNpc1
 import org.rsmod.api.script.onOpNpc1
