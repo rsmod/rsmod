@@ -12,6 +12,7 @@ import net.rsprot.protocol.game.outgoing.map.RebuildLogin
 import net.rsprot.protocol.game.outgoing.map.RebuildNormal
 import net.rsprot.protocol.game.outgoing.map.util.XteaProvider
 import net.rsprot.protocol.game.outgoing.misc.client.ServerTickEnd
+import net.rsprot.protocol.game.outgoing.worldentity.SetActiveWorld
 import net.rsprot.protocol.message.OutgoingGameMessage
 import org.rsmod.game.client.Client
 import org.rsmod.game.entity.Player
@@ -90,7 +91,8 @@ class RspClient(val session: Session<Player>, val xteaProvider: XteaProvider) :
                     player.coords.x - player.buildArea.x,
                     player.coords.z - player.buildArea.z,
                 )
-            session.queue(playerInfo.toPacket(worldId))
+            session.queue(SetActiveWorld(SetActiveWorld.RootWorldType(player.level)))
+            session.queue(playerInfo.toPacket())
             session.queue(origin)
             session.queue(npcInfo.toNpcInfoPacket(worldId))
             session.queue(ServerTickEnd)
