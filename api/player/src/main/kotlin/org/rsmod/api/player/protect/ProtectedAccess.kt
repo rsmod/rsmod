@@ -18,6 +18,7 @@ import org.rsmod.api.player.output.runClientScript
 import org.rsmod.api.player.output.soundSynth
 import org.rsmod.api.player.output.spam
 import org.rsmod.api.player.output.updateInvFull
+import org.rsmod.api.player.protect.ProtectedAccessLauncher.Companion.withProtectedAccess
 import org.rsmod.api.player.stat.PlayerSkillXP
 import org.rsmod.api.player.ui.ifChatNpcSpecific
 import org.rsmod.api.player.ui.ifChatPlayer
@@ -615,31 +616,13 @@ public class ProtectedAccess(
         player.soundSynth(synth, loops, delay)
 }
 
-/** @see [ProtectedAccess] */
-public fun Player.withProtectedAccess(
-    context: ProtectedAccessContext,
-    busyText: String? = constants.dm_busy,
-    block: suspend ProtectedAccess.() -> Unit,
-): Boolean {
-    if (isAccessProtected) {
-        busyText?.let { mes(it) }
-        return false
-    }
-    val coroutine = GameCoroutine()
-    launch(coroutine) {
-        val protectedAccess = ProtectedAccess(this@withProtectedAccess, this, context)
-        block(protectedAccess)
-    }
-    return true
-}
-
 /** @see [ProtectedAccess.telejump] */
 public fun Player.protectedTelejump(collision: CollisionFlagMap, dest: CoordGrid): Boolean =
-    withProtectedAccess(ProtectedAccessContext.EMPTY_CTX) { telejump(dest, collision) }
+    withProtectedAccess(this, ProtectedAccessContext.EMPTY_CTX) { telejump(dest, collision) }
 
 /** @see [ProtectedAccess.teleport] */
 public fun Player.protectedTeleport(collision: CollisionFlagMap, dest: CoordGrid): Boolean =
-    withProtectedAccess(ProtectedAccessContext.EMPTY_CTX) { teleport(dest, collision) }
+    withProtectedAccess(this, ProtectedAccessContext.EMPTY_CTX) { teleport(dest, collision) }
 
 private fun MesAnimType.splitGetAnim(lines: Int) =
     when (lines) {

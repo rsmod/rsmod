@@ -6,8 +6,7 @@ import org.rsmod.api.player.events.interact.ObjContentEvents
 import org.rsmod.api.player.events.interact.ObjDefaultEvents
 import org.rsmod.api.player.events.interact.ObjEvents
 import org.rsmod.api.player.events.interact.OpEvent
-import org.rsmod.api.player.protect.ProtectedAccessContextFactory
-import org.rsmod.api.player.protect.withProtectedAccess
+import org.rsmod.api.player.protect.ProtectedAccessLauncher
 import org.rsmod.api.registry.obj.ObjRegistry
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
@@ -22,14 +21,13 @@ constructor(
     private val objTypes: ObjTypeList,
     private val registry: ObjRegistry,
     private val eventBus: EventBus,
-    private val accessFactory: ProtectedAccessContextFactory,
+    private val protectedAccess: ProtectedAccessLauncher,
 ) {
     public fun triggerOp(player: Player, interaction: InteractionObj) {
         val obj = interaction.target
         val op = opTrigger(player, obj, objTypes[obj], interaction.opSlot)
         if (op != null) {
-            val context = accessFactory.create()
-            player.withProtectedAccess(context) { eventBus.publish(this, op) }
+            protectedAccess.launch(player) { eventBus.publish(this, op) }
         }
     }
 
@@ -57,8 +55,7 @@ constructor(
         val obj = interaction.target
         val ap = apTrigger(player, obj, objTypes[obj], interaction.opSlot)
         if (ap != null) {
-            val context = accessFactory.create()
-            player.withProtectedAccess(context) { eventBus.publish(this, ap) }
+            protectedAccess.launch(player) { eventBus.publish(this, ap) }
         }
     }
 

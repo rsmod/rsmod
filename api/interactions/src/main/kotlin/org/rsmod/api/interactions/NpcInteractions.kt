@@ -7,8 +7,7 @@ import org.rsmod.api.player.events.interact.NpcDefaultEvents
 import org.rsmod.api.player.events.interact.NpcEvents
 import org.rsmod.api.player.events.interact.NpcUnimplementedEvents
 import org.rsmod.api.player.events.interact.OpEvent
-import org.rsmod.api.player.protect.ProtectedAccessContextFactory
-import org.rsmod.api.player.protect.withProtectedAccess
+import org.rsmod.api.player.protect.ProtectedAccessLauncher
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
@@ -27,14 +26,13 @@ constructor(
     private val varpTypes: VarpTypeList,
     private val varBitTypes: VarBitTypeList,
     private val eventBus: EventBus,
-    private val accessFactory: ProtectedAccessContextFactory,
+    private val protectedAccess: ProtectedAccessLauncher,
 ) {
     public fun triggerOp(player: Player, interaction: InteractionNpc) {
         val npc = interaction.target
         val op = opTrigger(player, npc, npc.type, interaction.opSlot)
         if (op != null) {
-            val context = accessFactory.create()
-            player.withProtectedAccess(context) { eventBus.publish(this, op) }
+            protectedAccess.launch(player) { eventBus.publish(this, op) }
         }
     }
 
@@ -72,8 +70,7 @@ constructor(
         val npc = interaction.target
         val ap = apTrigger(player, npc, npc.type, interaction.opSlot)
         if (ap != null) {
-            val context = accessFactory.create()
-            player.withProtectedAccess(context) { eventBus.publish(this, ap) }
+            protectedAccess.launch(player) { eventBus.publish(this, ap) }
         }
     }
 

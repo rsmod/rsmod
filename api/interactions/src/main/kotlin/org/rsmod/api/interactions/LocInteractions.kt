@@ -7,8 +7,7 @@ import org.rsmod.api.player.events.interact.LocDefaultEvents
 import org.rsmod.api.player.events.interact.LocEvents
 import org.rsmod.api.player.events.interact.LocUnimplementedEvents
 import org.rsmod.api.player.events.interact.OpEvent
-import org.rsmod.api.player.protect.ProtectedAccessContextFactory
-import org.rsmod.api.player.protect.withProtectedAccess
+import org.rsmod.api.player.protect.ProtectedAccessLauncher
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.interact.InteractionLoc
@@ -28,14 +27,13 @@ constructor(
     private val varpTypes: VarpTypeList,
     private val varBitTypes: VarBitTypeList,
     private val eventBus: EventBus,
-    private val accessFactory: ProtectedAccessContextFactory,
+    private val protectedAccess: ProtectedAccessLauncher,
 ) {
     public fun triggerOp(player: Player, interaction: InteractionLoc) {
         val loc = interaction.target
         val op = opTrigger(player, loc, locTypes[loc], interaction.opSlot)
         if (op != null) {
-            val context = accessFactory.create()
-            player.withProtectedAccess(context) { eventBus.publish(this, op) }
+            protectedAccess.launch(player) { eventBus.publish(this, op) }
         }
     }
 
@@ -83,8 +81,7 @@ constructor(
         val loc = interaction.target
         val ap = apTrigger(player, loc, locTypes[loc], interaction.opSlot)
         if (ap != null) {
-            val context = accessFactory.create()
-            player.withProtectedAccess(context) { eventBus.publish(this, ap) }
+            protectedAccess.launch(player) { eventBus.publish(this, ap) }
         }
     }
 
