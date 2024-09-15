@@ -42,7 +42,7 @@ class InvTransactionsTest {
     @Test
     fun GameTestState.`delete obj successfully`() = runGameTest {
         withPlayerInit {
-            inv[5] = objs.fire_cape
+            inv[5] = objs.fire_cape.obj()
             val transaction = invDel(inv, objs.fire_cape.obj(count = 2), strict = false).single()
             assertTrueContract(transaction.isOk())
             assertTrue(transaction.partialSuccess)
@@ -74,8 +74,8 @@ class InvTransactionsTest {
         withPlayerInit {
             check(inv.isEmpty())
             val bank = invMap.getOrPut(cacheTypes.invs[invs.bank])
-            inv[0] = objs.abyssal_whip
-            inv[1] = objs.abyssal_whip
+            inv[0] = objs.abyssal_whip.obj()
+            inv[1] = objs.abyssal_whip.obj()
             val transaction = invTransfer(inv, fromSlot = 0, count = 2, into = bank).single()
             assertTrueContract(transaction.isOk())
             assertTrue(transaction.fullSuccess)
@@ -94,7 +94,7 @@ class InvTransactionsTest {
             val placeholder = cacheTypes.objs[objs.abyssal_whip].placeholderlink
             val bank = invMap.getOrPut(cacheTypes.invs[invs.bank])
             bank[0] = objs.rune_arrow.obj(500)
-            bank[1] = objs.abyssal_whip
+            bank[1] = objs.abyssal_whip.obj()
             val transaction =
                 invTransfer(bank, fromSlot = 1, count = 1, into = inv, placehold = true).single()
             assertTrueContract(transaction.isOk())

@@ -1,10 +1,13 @@
 package org.rsmod.objtx
 
+import java.util.BitSet
+
 public class TransactionInventory<T>(
     public val stackType: StackType,
     public val output: Array<T?>,
     public val image: Array<TransactionObj?>,
     public val placeholders: Boolean = false,
+    public val modifiedSlots: BitSet? = null,
 ) {
     internal val stackAll: Boolean
         get() = stackType == AlwaysStack
@@ -52,6 +55,7 @@ public class TransactionInventory<T>(
 
     internal operator fun set(slot: Int, obj: TransactionObj?) {
         image[slot] = obj
+        modifiedSlots?.set(slot)
     }
 
     internal operator fun get(slot: Int): TransactionObj? = image[slot]

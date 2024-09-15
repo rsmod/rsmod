@@ -2,7 +2,7 @@ package org.rsmod.api.invtx
 
 import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.objs
-import org.rsmod.api.player.output.updateInvFull
+import org.rsmod.api.player.output.updateInvRecommended
 import org.rsmod.api.repo.obj.ObjRepository
 import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.Inventory
@@ -41,14 +41,14 @@ public fun Player.invTakeFee(fee: Int, inv: Inventory = this.inv): Boolean {
 public fun Player.invClear(inv: Inventory) {
     if (inv.isNotEmpty() && !denyProtectedAccess(inv)) {
         inv.fillNulls()
-        updateInvFull(inv)
+        updateModifiedInv(inv)
     }
 }
 
 public fun Player.invCommit(inv: Inventory, transaction: TransactionResultList<InvObj>) {
     transaction.commitAll()
     if (transaction.anyCompleted()) {
-        updateInvFull(inv)
+        updateModifiedInv(inv)
     }
 }
 
@@ -309,7 +309,8 @@ public fun Transaction<InvObj>.transfer(
 public fun Transaction<InvObj>.select(inv: Inventory): TransactionInventory<InvObj> {
     val image = Array(inv.objs.size) { input(inv.objs[it]) }
     val stack = inv.type.stack.toTransactionStackType()
-    val transformed = TransactionInventory(stack, inv.objs, image, inv.type.placeholders)
+    val transformed =
+        TransactionInventory(stack, inv.objs, image, inv.type.placeholders, inv.modifiedSlots)
     register(transformed)
     return transformed
 }
@@ -324,19 +325,24 @@ public fun Player.invProtectedTransaction(
         return protectedAccessException()
     }
     val result = transactions.transaction(autoCommit) { transaction() }
-    if (updateInv && result.commited && result.anyCompleted()) {
-        updateInvFull(inv)
+    if (updateInv && result.commited && inv.hasModifiedSlots()) {
+        updateModifiedInv(inv)
     }
     return result
 }
+
+private fun Player.updateModifiedInv(inv: Inventory) {
+    updateInvRecommended(inv)
+    inv.clearModifiedSlots()
+}
+
+private fun Player.denyProtectedAccess(inv: Inventory): Boolean =
+    inv.type.protect && isAccessProtected
 
 private fun Player.protectedAccessException(): TransactionResultList<InvObj> {
     val exception = TransactionResult.Exception("Player does not have protected access: $this")
     return transactions.transaction(autoCommit = true) { throw TransactionCancellation(exception) }
 }
-
-private fun Player.denyProtectedAccess(inv: Inventory): Boolean =
-    inv.type.protect && isAccessProtected
 
 private fun InvStackType.toTransactionStackType(): TransactionInventory.StackType =
     when (this) {

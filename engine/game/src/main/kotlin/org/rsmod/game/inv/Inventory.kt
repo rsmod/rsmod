@@ -1,5 +1,6 @@
 package org.rsmod.game.inv
 
+import java.util.BitSet
 import org.rsmod.game.obj.InvObj
 import org.rsmod.game.type.inv.UnpackedInvType
 import org.rsmod.game.type.obj.ObjType
@@ -8,6 +9,8 @@ public class Inventory(public val type: UnpackedInvType, public val objs: Array<
     Iterable<InvObj?> {
     public val size: Int
         get() = objs.size
+
+    public val modifiedSlots: BitSet = BitSet()
 
     public fun isNotEmpty(): Boolean = !isEmpty()
 
@@ -24,20 +27,29 @@ public class Inventory(public val type: UnpackedInvType, public val objs: Array<
     public fun mapNotNullSlotObjs(): List<Pair<Int, InvObj>> = objs.mapNotNullEntries()
 
     public fun fillNulls() {
-        objs.fill(null)
+        for (i in objs.indices) {
+            if (objs[i] == null) {
+                continue
+            }
+            objs[i] = null
+            modifiedSlots.set(i)
+        }
     }
 
     public fun getValue(slot: Int): InvObj =
         this[slot] ?: throw NoSuchElementException("Slot $slot is missing in the inv.")
 
+    public fun hasModifiedSlots(): Boolean = !modifiedSlots.isEmpty
+
+    public fun clearModifiedSlots() {
+        modifiedSlots.clear()
+    }
+
     public operator fun get(slot: Int): InvObj? = objs.getOrNull(slot)
 
     public operator fun set(slot: Int, obj: InvObj?) {
         objs[slot] = obj
-    }
-
-    public operator fun set(slot: Int, type: ObjType) {
-        objs[slot] = InvObj(type, count = 1)
+        modifiedSlots.set(slot)
     }
 
     public fun count(type: ObjType): Int = objs.count { it != null && it.isAssociatedWith(type) }
