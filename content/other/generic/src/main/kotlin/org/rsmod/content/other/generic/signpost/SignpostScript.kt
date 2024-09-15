@@ -26,11 +26,9 @@ class SignpostScript @Inject constructor(private val enums: EnumTypeMapResolver)
     }
 
     private fun ProtectedAccess.apReadSignpost(loc: BoundLocInfo) {
-        if (!isWithinDistance(loc, 5)) {
-            apRange(5)
-            return
+        if (isWithinApRange(loc, distance = 5)) {
+            readSignpost(loc)
         }
-        readSignpost(loc)
     }
 
     private fun ProtectedAccess.readSignpost(loc: BoundLocInfo) {

@@ -119,10 +119,26 @@ public class ProtectedAccess(
 
     public fun distanceTo(loc: BoundLocInfo): Int = player.distanceTo(loc)
 
-    public fun apRange(dist: Int) {
+    public fun apRange(distance: Int) {
         val interaction = player.interaction ?: return
-        interaction.apRange = dist
+        interaction.apRange = distance
         interaction.apRangeCalled = true
+    }
+
+    public fun isWithinApRange(loc: BoundLocInfo, distance: Int): Boolean {
+        if (!isWithinDistance(loc, distance)) {
+            apRange(distance)
+            return false
+        }
+        return true
+    }
+
+    public fun isWithinApRange(target: PathingEntity, distance: Int): Boolean {
+        if (!isWithinDistance(target, distance)) {
+            apRange(distance)
+            return false
+        }
+        return true
     }
 
     public fun faceSquare(target: CoordGrid): Unit = player.faceSquare(target)
