@@ -6,34 +6,56 @@ import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.components
 import org.rsmod.api.player.input.CountDialogInput
 import org.rsmod.api.player.input.ResumePauseButtonInput
+import org.rsmod.api.player.output.Camera
+import org.rsmod.api.player.output.ChatType
+import org.rsmod.api.player.output.ClientScripts
 import org.rsmod.api.player.output.ClientScripts.mesLayerMode7
+import org.rsmod.api.player.output.MapFlag
+import org.rsmod.api.player.output.UpdateInventory
+import org.rsmod.api.player.output.clearMapFlag
 import org.rsmod.api.player.output.mes
+import org.rsmod.api.player.output.runClientScript
+import org.rsmod.api.player.output.soundSynth
+import org.rsmod.api.player.output.spam
+import org.rsmod.api.player.output.updateInvFull
 import org.rsmod.api.player.stat.PlayerSkillXP
 import org.rsmod.api.player.ui.ifChatNpcSpecific
 import org.rsmod.api.player.ui.ifChatPlayer
 import org.rsmod.api.player.ui.ifChoice
 import org.rsmod.api.player.ui.ifClose
 import org.rsmod.api.player.ui.ifCloseModals
+import org.rsmod.api.player.ui.ifCloseSub
 import org.rsmod.api.player.ui.ifMesbox
 import org.rsmod.api.player.ui.ifOpenMain
 import org.rsmod.api.player.ui.ifOpenMainModal
+import org.rsmod.api.player.ui.ifOpenSub
+import org.rsmod.api.player.ui.ifSetAnim
+import org.rsmod.api.player.ui.ifSetEvents
+import org.rsmod.api.player.ui.ifSetNpcHead
+import org.rsmod.api.player.ui.ifSetPlayerHead
 import org.rsmod.api.player.ui.ifSetText
 import org.rsmod.api.player.vars.varMoveSpeed
 import org.rsmod.coroutine.GameCoroutine
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Npc
+import org.rsmod.game.entity.PathingEntity
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.npc.NpcMode
 import org.rsmod.game.entity.player.ProtectedAccessLostException
 import org.rsmod.game.entity.shared.PathingEntityCommon
+import org.rsmod.game.inv.Inventory
+import org.rsmod.game.loc.BoundLocInfo
+import org.rsmod.game.map.Direction
 import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.interf.IfEvent
+import org.rsmod.game.type.interf.IfSubType
 import org.rsmod.game.type.interf.InterfaceType
 import org.rsmod.game.type.mesanim.MesAnimType
 import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.stat.StatType
+import org.rsmod.game.type.synth.SynthType
 import org.rsmod.map.CoordGrid
 import org.rsmod.pathfinder.collision.CollisionFlagMap
 
@@ -41,12 +63,11 @@ private val logger = InlineLogger()
 
 public class ProtectedAccess(
     public val player: Player,
-    public val coroutine: GameCoroutine,
+    private val coroutine: GameCoroutine,
     private val context: ProtectedAccessContext,
 ) {
-    public fun clearPendingAction(eventBus: EventBus = context.eventBus) {
-        player.clearPendingAction(eventBus)
-    }
+    public val coords: CoordGrid
+        get() = player.coords
 
     public suspend fun walk(dest: CoordGrid): Unit = move(dest, MoveSpeed.Walk)
 
@@ -75,15 +96,51 @@ public class ProtectedAccess(
         player.anim(seq, delay, priority)
     }
 
-    public fun ifClose(eventBus: EventBus = context.eventBus) {
-        player.ifClose(eventBus)
-    }
+    public fun isWithinDistance(
+        target: CoordGrid,
+        distance: Int,
+        width: Int = 1,
+        length: Int = 1,
+    ): Boolean = player.isWithinDistance(target, distance, width, length)
+
+    public fun isWithinDistance(other: PathingEntity, distance: Int): Boolean =
+        player.isWithinDistance(other, distance)
+
+    public fun isWithinDistance(loc: BoundLocInfo, distance: Int): Boolean =
+        player.isWithinDistance(loc, distance)
+
+    public fun isWithinArea(southWest: CoordGrid, northEast: CoordGrid): Boolean =
+        player.isWithinArea(southWest, northEast)
+
+    public fun distanceTo(target: CoordGrid, width: Int = 1, length: Int = 1): Int =
+        player.distanceTo(target, width, length)
+
+    public fun distanceTo(other: PathingEntity): Int = player.distanceTo(other)
+
+    public fun distanceTo(loc: BoundLocInfo): Int = player.distanceTo(loc)
 
     public fun apRange(dist: Int) {
         val interaction = player.interaction ?: return
         interaction.apRange = dist
         interaction.apRangeCalled = true
     }
+
+    public fun faceSquare(target: CoordGrid): Unit = player.faceSquare(target)
+
+    public fun faceDirection(direction: Direction): Unit = player.faceDirection(direction)
+
+    public fun faceLoc(loc: BoundLocInfo): Unit = player.faceLoc(loc)
+
+    public fun faceEntitySquare(target: PathingEntity): Unit =
+        player.facePathingEntitySquare(target)
+
+    public fun resetFaceSquare(): Unit = player.resetPendingFaceSquare()
+
+    public fun facePlayer(target: Player): Unit = player.facePlayer(target)
+
+    public fun faceNpc(target: Npc): Unit = player.faceNpc(target)
+
+    public fun resetFaceEntity(): Unit = player.resetFaceEntity()
 
     public fun statAdvance(
         stat: StatType,
@@ -92,21 +149,13 @@ public class ProtectedAccess(
         eventBus: EventBus = context.eventBus,
     ): Int = PlayerSkillXP.internalAddXP(player, stat, xp, rate, eventBus)
 
+    public fun clearPendingAction(eventBus: EventBus = context.eventBus) {
+        player.clearPendingAction(eventBus)
+    }
+
     public fun logOut() {
         // TODO: impl
     }
-
-    public fun ifOpenMainModal(
-        interf: InterfaceType,
-        colour: Int = -1,
-        transparency: Int = -1,
-        eventBus: EventBus = context.eventBus,
-    ): Unit = player.ifOpenMainModal(interf, eventBus, colour, transparency)
-
-    public fun ifOpenMain(interf: InterfaceType, eventBus: EventBus = context.eventBus): Unit =
-        player.ifOpenMain(interf, eventBus)
-
-    public fun ifSetText(target: ComponentType, text: String): Unit = player.ifSetText(target, text)
 
     /**
      * @throws ProtectedAccessLostException if [regainProtectedAccess] returns false after
@@ -363,7 +412,7 @@ public class ProtectedAccess(
      * @see [regainProtectedAccess]
      */
     public suspend fun countDialog(title: String = constants.cm_count): Int {
-        player.mesLayerMode7(title)
+        mesLayerMode7(player, title)
         val input = coroutine.pause(CountDialogInput::class)
         return withProtectedAccess(input.count)
     }
@@ -446,6 +495,108 @@ public class ProtectedAccess(
         }
         regainProtectedAccess()
     }
+
+    /* Client script helper functions */
+    public fun runClientScript(id: Int, vararg args: Any): Unit = player.runClientScript(id, *args)
+
+    public fun camForceAngle(rate: Int, rate2: Int): Unit =
+        ClientScripts.camForceAngle(player, rate, rate2)
+
+    public fun interfaceInvInit(
+        inv: Inventory,
+        target: ComponentType,
+        objRowCount: Int,
+        objColCount: Int,
+        op1: String? = null,
+        op2: String? = null,
+        op3: String? = null,
+        op4: String? = null,
+        op5: String? = null,
+        dragType: Int = 0,
+        dragComponent: ComponentType? = null,
+    ): Unit =
+        ClientScripts.interfaceInvInit(
+            player = player,
+            inv = inv,
+            target = target,
+            objRowCount = objRowCount,
+            objColCount = objColCount,
+            op1 = op1,
+            op2 = op2,
+            op3 = op3,
+            op4 = op4,
+            op5 = op5,
+            dragType = dragType,
+            dragComponent = dragComponent,
+        )
+
+    public fun toplevelSidebuttonSwitch(side: Int): Unit =
+        ClientScripts.toplevelSidebuttonSwitch(player, side)
+
+    /* Cam helper functions */
+    public fun camLookAt(dest: CoordGrid, height: Int, rate: Int, rate2: Int): Unit =
+        Camera.camLookAt(player, dest, height, rate, rate2)
+
+    public fun camMoveTo(dest: CoordGrid, height: Int, rate: Int, rate2: Int): Unit =
+        Camera.camMoveTo(player, dest, height, rate, rate2)
+
+    public fun camReset(): Unit = Camera.camReset(player)
+
+    /* Interface helper functions */
+    public fun ifClose(eventBus: EventBus = context.eventBus): Unit = player.ifClose(eventBus)
+
+    public fun ifCloseSub(interf: InterfaceType, eventBus: EventBus = context.eventBus): Unit =
+        player.ifCloseSub(interf, eventBus)
+
+    public fun ifOpenMain(interf: InterfaceType, eventBus: EventBus = context.eventBus): Unit =
+        player.ifOpenMain(interf, eventBus)
+
+    public fun ifOpenMainModal(
+        interf: InterfaceType,
+        colour: Int = -1,
+        transparency: Int = -1,
+        eventBus: EventBus = context.eventBus,
+    ): Unit = player.ifOpenMainModal(interf, eventBus, colour, transparency)
+
+    public fun ifOpenSub(
+        interf: InterfaceType,
+        target: ComponentType,
+        type: IfSubType,
+        eventBus: EventBus = context.eventBus,
+    ): Unit = player.ifOpenSub(interf, target, type, eventBus)
+
+    public fun ifSetAnim(target: ComponentType, seq: SeqType?): Unit = player.ifSetAnim(target, seq)
+
+    public fun ifSetEvents(target: ComponentType, range: IntRange, vararg event: IfEvent): Unit =
+        player.ifSetEvents(target, range, *event)
+
+    public fun ifSetNpcHead(target: ComponentType, npc: NpcType): Unit =
+        player.ifSetNpcHead(target, npc)
+
+    public fun ifSetPlayerHead(target: ComponentType): Unit = player.ifSetPlayerHead(target)
+
+    public fun ifSetText(target: ComponentType, text: String): Unit = player.ifSetText(target, text)
+
+    /* Inventory helper functions */
+    public fun updateInvFull(inv: Inventory): Unit = player.updateInvFull(inv)
+
+    public fun updateInvStopTransmit(inv: Inventory): Unit =
+        UpdateInventory.updateInvStopTransmit(player, inv)
+
+    /* Map flag helper functions */
+    public fun clearMapFlag(): Unit = player.clearMapFlag()
+
+    public fun setMapFlag(coords: CoordGrid): Unit = MapFlag.setMapFlag(player, coords)
+
+    /* Message game helper functions */
+    public fun mes(text: String, type: ChatType = ChatType.GameMessage): Unit =
+        player.mes(text, type)
+
+    public fun spam(text: String): Unit = player.spam(text)
+
+    /* Sound helper functions */
+    public fun soundSynth(synth: SynthType, loops: Int = 1, delay: Int = 0): Unit =
+        player.soundSynth(synth, loops, delay)
 }
 
 /** @see [ProtectedAccess] */

@@ -1,42 +1,63 @@
 package org.rsmod.api.player.output
 
+import net.rsprot.protocol.game.outgoing.misc.player.RunClientScript
 import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.inv.InvType
 import org.rsmod.game.type.obj.ObjType
 
+// TODO: Decide if we want to have ClientScriptType.
+public fun Player.runClientScript(id: Int, vararg args: Any) {
+    runClientScript(id, args.toList())
+}
+
+public fun Player.runClientScript(id: Int, args: List<Any>) {
+    client.write(RunClientScript(id, args))
+}
+
 public object ClientScripts {
-    public fun Player.camForceAngle(rate: Int, rate2: Int): Unit = runClientScript(143, rate, rate2)
+    public fun camForceAngle(player: Player, rate: Int, rate2: Int): Unit =
+        player.runClientScript(143, rate, rate2)
 
     /**
      * Switches, or opens, the toplevel side tab. Values for [side] can be found in
      * [org.rsmod.api.config.Constants] prefixed with `toplevel_`. (i.e., `toplevel_attack`)
      */
-    public fun Player.toplevelSidebuttonSwitch(side: Int): Unit = runClientScript(915, side)
+    public fun toplevelSidebuttonSwitch(player: Player, side: Int): Unit =
+        player.runClientScript(915, side)
 
     /** @param joinedChoices Dialogue choices must be split by the `|` character. */
-    public fun Player.chatboxMultiInit(title: String, joinedChoices: String): Unit =
-        runClientScript(58, title, joinedChoices)
+    public fun chatboxMultiInit(player: Player, title: String, joinedChoices: String): Unit =
+        player.runClientScript(58, title, joinedChoices)
 
-    public fun Player.mesLayerMode7(title: String): Unit = runClientScript(108, title)
+    public fun mesLayerMode7(player: Player, title: String): Unit =
+        player.runClientScript(108, title)
 
-    public fun Player.topLevelMainModalOpen(colour: Int = -1, transparency: Int = -1): Unit =
-        runClientScript(2524, colour, transparency)
+    public fun topLevelMainModalOpen(
+        player: Player,
+        colour: Int = -1,
+        transparency: Int = -1,
+    ): Unit = player.runClientScript(2524, colour, transparency)
 
-    public fun Player.topLevelMainModalBackground(colour: Int = -1, transparency: Int = -1): Unit =
-        runClientScript(917, colour, transparency)
+    public fun topLevelMainModalBackground(
+        player: Player,
+        colour: Int = -1,
+        transparency: Int = -1,
+    ): Unit = player.runClientScript(917, colour, transparency)
 
-    public fun Player.topLevelChatboxResetBackground(): Unit = runClientScript(2379)
+    public fun topLevelChatboxResetBackground(player: Player): Unit = player.runClientScript(2379)
 
-    public fun Player.ifSetTextAlign(
+    public fun ifSetTextAlign(
+        player: Player,
         target: ComponentType,
         alignH: Int,
         alignV: Int,
         lineHeight: Int,
-    ): Unit = runClientScript(600, alignH, alignV, lineHeight, target.packed)
+    ): Unit = player.runClientScript(600, alignH, alignV, lineHeight, target.packed)
 
-    public fun Player.interfaceInvInit(
+    public fun interfaceInvInit(
+        player: Player,
         inv: Inventory,
         target: ComponentType,
         objRowCount: Int,
@@ -49,7 +70,7 @@ public object ClientScripts {
         dragType: Int = 0,
         dragComponent: ComponentType? = null,
     ): Unit =
-        runClientScript(
+        player.runClientScript(
             149,
             target.packed,
             inv.type.id,
@@ -64,7 +85,8 @@ public object ClientScripts {
             op5 ?: "",
         )
 
-    public fun Player.shopMainInit(
+    public fun shopMainInit(
+        player: Player,
         shopInv: InvType,
         title: String,
         enableBuy50: Boolean = true,
@@ -77,7 +99,7 @@ public object ClientScripts {
         check(customBuyAmountObj == null || customBuyAmount != null) {
             "`customBuyAmountObj` must be set if `customBuyAmount` is set."
         }
-        runClientScript(
+        player.runClientScript(
             1074,
             shopInv.id,
             title,

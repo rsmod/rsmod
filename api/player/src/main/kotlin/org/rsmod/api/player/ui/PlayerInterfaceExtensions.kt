@@ -45,7 +45,7 @@ public fun Player.ifMesbox(text: String, pauseText: String, eventBus: EventBus) 
     mes(text, ChatType.Mesbox)
     openModal(interfaces.text_dialogue, components.chat_dialogue_target, eventBus)
     ifSetText(components.text_dialogue_text, text)
-    ifSetTextAlign(components.text_dialogue_text, alignH = 1, alignV = 1, lineHeight = 0)
+    ifSetTextAlign(this, components.text_dialogue_text, alignH = 1, alignV = 1, lineHeight = 0)
     ifSetEvents(components.text_dialogue_pbutton, -1..-1, IfEvent.PauseButton)
     ifSetText(components.text_dialogue_pbutton, pauseText)
     // TODO: Look into clientscript to name property and place in clientscript utility class.
@@ -60,7 +60,7 @@ public fun Player.ifChoice(
     eventBus: EventBus,
 ) {
     ifOpenChat(interfaces.options_dialogue, constants.modal_infinitewidthandheight, eventBus)
-    chatboxMultiInit(title, joinedChoices)
+    chatboxMultiInit(this, title, joinedChoices)
     ifSetEvents(components.options_dialogue_pbutton, 1..choiceCountInclusive, IfEvent.PauseButton)
 }
 
@@ -77,7 +77,7 @@ public fun Player.ifChatPlayer(
     ifSetAnim(components.player_dialogue_head, expression)
     ifSetText(components.player_dialogue_title, title)
     ifSetText(components.player_dialogue_text, text)
-    ifSetTextAlign(components.player_dialogue_text, alignH = 1, alignV = 1, lineHeight)
+    ifSetTextAlign(this, components.player_dialogue_text, alignH = 1, alignV = 1, lineHeight)
     ifSetEvents(components.player_dialogue_pbutton, -1..-1, IfEvent.PauseButton)
     ifSetText(components.player_dialogue_pbutton, pauseText)
 }
@@ -96,7 +96,7 @@ public fun Player.ifChatNpcActive(
     ifSetAnim(components.npc_dialogue_head, chatanim)
     ifSetText(components.npc_dialogue_title, title)
     ifSetText(components.npc_dialogue_text, text)
-    ifSetTextAlign(components.npc_dialogue_text, alignH = 1, alignV = 1, lineHeight)
+    ifSetTextAlign(this, components.npc_dialogue_text, alignH = 1, alignV = 1, lineHeight)
     ifSetEvents(components.npc_dialogue_pbutton, -1..-1, IfEvent.PauseButton)
     ifSetText(components.npc_dialogue_pbutton, pauseText)
 }
@@ -116,7 +116,7 @@ public fun Player.ifChatNpcSpecific(
     ifSetAnim(components.npc_dialogue_head, chatanim)
     ifSetText(components.npc_dialogue_title, title)
     ifSetText(components.npc_dialogue_text, text)
-    ifSetTextAlign(components.npc_dialogue_text, alignH = 1, alignV = 1, lineHeight)
+    ifSetTextAlign(this, components.npc_dialogue_text, alignH = 1, alignV = 1, lineHeight)
     ifSetEvents(components.npc_dialogue_pbutton, -1..-1, IfEvent.PauseButton)
     ifSetText(components.npc_dialogue_pbutton, pauseText)
 }
@@ -141,7 +141,7 @@ public fun Player.ifSetNpcHeadActive(target: ComponentType, npcSlotId: Int) {
 
 public fun Player.ifOpenChat(interf: InterfaceType, widthAndHeightMode: Int, eventBus: EventBus) {
     modalWidthAndHeightMode = widthAndHeightMode
-    topLevelChatboxResetBackground()
+    topLevelChatboxResetBackground(this)
     openModal(interf, components.chat_dialogue_target, eventBus)
 }
 
@@ -151,7 +151,7 @@ public fun Player.ifOpenMainModal(
     colour: Int = -1,
     transparency: Int = -1,
 ) {
-    topLevelMainModalOpen(colour, transparency)
+    topLevelMainModalOpen(this, colour, transparency)
     ifOpenMain(interf, eventBus)
 }
 

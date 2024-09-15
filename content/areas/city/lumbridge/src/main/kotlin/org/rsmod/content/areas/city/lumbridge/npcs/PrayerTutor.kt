@@ -86,7 +86,7 @@ class PrayerTutor @Inject constructor(private val dialogues: Dialogues) : Plugin
                 "heal more quickly, protect your belongings... There's a " +
                 "lot they can do for you!",
         )
-        player.toplevelSidebuttonSwitch(constants.toplevel_prayer)
+        toplevelSidebuttonSwitch(player, constants.toplevel_prayer)
         chatNpc(happy, "You can find out more by looking in your prayer book.")
         chatPlayer(happy, "Wow! That sounds great.")
         chatNpc(

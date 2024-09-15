@@ -1,8 +1,8 @@
 package org.rsmod.api.game.process.player
 
 import jakarta.inject.Inject
+import org.rsmod.api.player.output.MapFlag.setMapFlag
 import org.rsmod.api.player.output.clearMapFlag
-import org.rsmod.api.player.output.setMapFlag
 import org.rsmod.api.player.vars.varMoveSpeed
 import org.rsmod.api.route.RouteFactory
 import org.rsmod.api.route.StepFactory
@@ -61,7 +61,7 @@ constructor(
             clearMapFlag()
         } else {
             val dest = route.last()
-            setMapFlag(dest.x, dest.z)
+            setMapFlag(this, dest.x, dest.z)
         }
         if (route.failed) {
             emulateLogInWalkTo()

@@ -13,7 +13,6 @@ import org.rsmod.api.repo.obj.ObjRepository
 import org.rsmod.api.script.onApNpc1
 import org.rsmod.api.script.onOpNpc1
 import org.rsmod.game.entity.Npc
-import org.rsmod.game.entity.Player
 import org.rsmod.map.CoordGrid
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
@@ -28,16 +27,16 @@ constructor(private val dialogues: Dialogues, private val objRepo: ObjRepository
 
     private suspend fun ProtectedAccess.apDialogue(npc: Npc) {
         val dest = npc.coords.translate(-2, 0)
-        if (!player.shouldPathToCounter()) {
+        if (!shouldPathToCounter()) {
             apRange(-1)
             return
-        } else if (player.coords == dest) {
+        } else if (coords == dest) {
             startDialogue(npc)
             return
         }
         delay(1)
         move(dest)
-        player.facePathingEntitySquare(npc)
+        faceEntitySquare(npc)
         startDialogue(npc)
     }
 
@@ -84,7 +83,7 @@ constructor(private val dialogues: Dialogues, private val objRepo: ObjRepository
         chatPlayer(neutral, "Nothing, I'm fine.")
     }
 
-    private fun Player.shouldPathToCounter(): Boolean =
+    private fun ProtectedAccess.shouldPathToCounter(): Boolean =
         isWithinArea(CoordGrid(0, 50, 50, 28, 36), CoordGrid(0, 50, 50, 30, 42)) ||
             isWithinArea(CoordGrid(0, 50, 50, 26, 39), CoordGrid(0, 50, 50, 27, 42))
 }

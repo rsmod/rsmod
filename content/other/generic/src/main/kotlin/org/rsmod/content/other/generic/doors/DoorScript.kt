@@ -3,7 +3,6 @@ package org.rsmod.content.other.generic.doors
 import jakarta.inject.Inject
 import org.rsmod.api.config.refs.content
 import org.rsmod.api.config.refs.params
-import org.rsmod.api.player.output.soundSynth
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.repo.loc.LocRepository
 import org.rsmod.api.script.onOpLoc1
@@ -23,14 +22,14 @@ class DoorScript @Inject constructor(private val locRepo: LocRepository) : Plugi
 
     private suspend fun ProtectedAccess.openDoor(closed: LocInfo, type: UnpackedLocType) {
         val sound = type.param(params.opensound)
-        player.soundSynth(sound)
+        soundSynth(sound)
 
         val openedLoc = type.param(params.next_loc_stage)
         val openedAngle = closed.openAngle()
         val openedCoords = closed.openCoords()
 
         val stepAway = closed.openStepAway(openedCoords)
-        if (player.coords == openedCoords && stepAway != CoordGrid.NULL) {
+        if (coords == openedCoords && stepAway != CoordGrid.NULL) {
             teleport(stepAway)
             delay(2)
         }
@@ -58,14 +57,14 @@ class DoorScript @Inject constructor(private val locRepo: LocRepository) : Plugi
 
     private suspend fun ProtectedAccess.closeDoor(closed: LocInfo, type: UnpackedLocType) {
         val sound = type.param(params.closesound)
-        player.soundSynth(sound)
+        soundSynth(sound)
 
         val closedLoc = type.param(params.next_loc_stage)
         val closedAngle = closed.closeAngle()
         val closedCoords = closed.closeCoords()
 
         val stepAway = closed.closeStepAway(closedCoords)
-        if (player.coords == closedCoords && stepAway != CoordGrid.NULL) {
+        if (coords == closedCoords && stepAway != CoordGrid.NULL) {
             teleport(stepAway)
             delay(2)
         }

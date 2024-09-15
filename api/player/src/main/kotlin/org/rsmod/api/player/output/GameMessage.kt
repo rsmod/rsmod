@@ -1,5 +1,30 @@
 package org.rsmod.api.player.output
 
+import net.rsprot.protocol.game.outgoing.misc.player.MessageGame
+import org.rsmod.game.entity.Player
+
+/** Calls [mes] with [text] as the message and [ChatType.Spam] as the type of chat. */
+public fun Player.spam(text: String): Unit = mes(text, ChatType.Spam)
+
+/** @see [MessageGame] */
+public fun Player.mes(text: String, type: ChatType = ChatType.GameMessage) {
+    val message = MessageGame(type.id, text)
+    client.write(message)
+}
+
+public object GameMessage {
+    /** @see [MessageGame] */
+    public fun requestMes(
+        player: Player,
+        text: String,
+        name: String,
+        type: ChatType = ChatType.ChalReqTrade,
+    ) {
+        val message = MessageGame(type.id, name, text)
+        player.client.write(message)
+    }
+}
+
 public enum class ChatType(public val id: Int) {
     GameMessage(0),
     ModChat(1),

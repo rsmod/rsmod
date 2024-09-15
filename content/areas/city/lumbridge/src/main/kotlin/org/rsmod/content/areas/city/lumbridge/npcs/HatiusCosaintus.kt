@@ -50,7 +50,7 @@ class HatiusCosaintus @Inject constructor(private val dialogues: Dialogues) : Pl
                 "reward you",
         )
         // TODO(content): Open achievement diary overlay
-        player.toplevelSidebuttonSwitch(constants.toplevel_details)
+        toplevelSidebuttonSwitch(player, constants.toplevel_details)
         chatNpc(neutral, "You can see the list of tasks on the side-panel.")
         mainMenu()
     }
@@ -87,7 +87,7 @@ class HatiusCosaintus @Inject constructor(private val dialogues: Dialogues) : Pl
                 "reward you.",
         )
         // TODO(content): Open achievement diary overlay
-        player.toplevelSidebuttonSwitch(constants.toplevel_details)
+        toplevelSidebuttonSwitch(player, constants.toplevel_details)
         chatNpc(neutral, "You can see the list of tasks on the side-panel.")
         mainMenu()
     }

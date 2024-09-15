@@ -17,7 +17,7 @@ class BookcasesScript @Inject constructor(private val random: GameRandom) : Plug
 
     private suspend fun ProtectedAccess.search() {
         arriveDelay()
-        player.spam("You search the books...")
+        spam("You search the books...")
         delay(2)
         val message =
             random.pick(
@@ -25,6 +25,6 @@ class BookcasesScript @Inject constructor(private val random: GameRandom) : Plug
                 "You don't find anything that you'd ever want to read.",
                 "You find nothing to interest you.",
             )
-        player.mes(message)
+        mes(message)
     }
 }

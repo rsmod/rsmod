@@ -1,10 +1,7 @@
 package org.rsmod.content.other.generic.signpost
 
 import jakarta.inject.Inject
-import org.rsmod.api.player.output.ClientScripts.camForceAngle
-import org.rsmod.api.player.output.camLookAt
-import org.rsmod.api.player.output.camMoveTo
-import org.rsmod.api.player.output.camReset
+import org.rsmod.api.player.output.Camera.camReset
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.script.onApLoc1
 import org.rsmod.api.script.onIfClose
@@ -29,7 +26,7 @@ class SignpostScript @Inject constructor(private val enums: EnumTypeMapResolver)
     }
 
     private fun ProtectedAccess.apReadSignpost(loc: BoundLocInfo) {
-        if (!player.isWithinDistance(loc, 5)) {
+        if (!isWithinDistance(loc, 5)) {
             apRange(5)
             return
         }
@@ -37,13 +34,13 @@ class SignpostScript @Inject constructor(private val enums: EnumTypeMapResolver)
     }
 
     private fun ProtectedAccess.readSignpost(loc: BoundLocInfo) {
-        player.camForceAngle(rate = 280, rate2 = 0)
+        camForceAngle(rate = 280, rate2 = 0)
 
-        val camMoveTo = player.coords.translateZ(-6)
-        player.camMoveTo(camMoveTo, camHeight = 1500, camRate = 2, camRate2 = 10)
+        val camMoveTo = coords.translateZ(-6)
+        camMoveTo(camMoveTo, height = 1500, rate = 2, rate2 = 10)
 
-        val camLookAt = player.coords.translateZ(3)
-        player.camLookAt(camLookAt, camHeight = 450, camRate = 2, camRate2 = 10)
+        val camLookAt = coords.translateZ(3)
+        camLookAt(camLookAt, height = 450, rate = 2, rate2 = 10)
 
         val directions = signposts.getValue(loc.coords).split("|")
         val (west, south, north, east) = directions
@@ -53,12 +50,12 @@ class SignpostScript @Inject constructor(private val enums: EnumTypeMapResolver)
         ifSetText(SignpostComponents.signpost_east, east)
         ifOpenMainModal(SignpostInterfaces.signpost)
 
-        player.faceDirection(Direction.North)
+        faceDirection(Direction.North)
     }
 
     private fun Player.exitSignpost() {
         // TODO: Investigate when/how this gets sent sometimes.
         // faceDirection(Direction.North)
-        camReset()
+        camReset(this)
     }
 }

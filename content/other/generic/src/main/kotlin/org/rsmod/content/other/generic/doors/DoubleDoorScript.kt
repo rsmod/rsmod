@@ -3,7 +3,6 @@ package org.rsmod.content.other.generic.doors
 import jakarta.inject.Inject
 import org.rsmod.api.config.refs.content
 import org.rsmod.api.config.refs.params
-import org.rsmod.api.player.output.soundSynth
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.repo.loc.LocRepository
 import org.rsmod.api.script.onOpLoc1
@@ -23,7 +22,7 @@ class DoubleDoorScript @Inject constructor(private val locRepo: LocRepository) :
 
     private fun ProtectedAccess.openLeftDoor(left: LocInfo, type: UnpackedLocType) {
         val sound = type.param(params.opensound)
-        player.soundSynth(sound)
+        soundSynth(sound)
 
         left.let {
             val openedLoc = type.param(params.next_loc_stage)
@@ -50,7 +49,7 @@ class DoubleDoorScript @Inject constructor(private val locRepo: LocRepository) :
 
     private fun ProtectedAccess.openRightDoor(right: LocInfo, type: UnpackedLocType) {
         val sound = type.param(params.opensound)
-        player.soundSynth(sound)
+        soundSynth(sound)
 
         right.let {
             val openedLoc = type.param(params.next_loc_stage)
@@ -77,7 +76,7 @@ class DoubleDoorScript @Inject constructor(private val locRepo: LocRepository) :
 
     private fun ProtectedAccess.closeLeftDoor(left: LocInfo, type: UnpackedLocType) {
         val sound = type.param(params.opensound)
-        player.soundSynth(sound)
+        soundSynth(sound)
 
         left.let {
             val openedLoc = type.param(params.next_loc_stage)
@@ -104,7 +103,7 @@ class DoubleDoorScript @Inject constructor(private val locRepo: LocRepository) :
 
     private fun ProtectedAccess.closeRightDoor(right: LocInfo, type: UnpackedLocType) {
         val sound = type.param(params.opensound)
-        player.soundSynth(sound)
+        soundSynth(sound)
 
         right.let {
             val openedLoc = type.param(params.next_loc_stage)

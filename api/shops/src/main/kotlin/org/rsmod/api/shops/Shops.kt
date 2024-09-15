@@ -33,10 +33,10 @@ constructor(private val invTypes: InvTypeList, private val eventBus: EventBus) {
             val sharedInv = shopInv.sharedInv()
             updateInvFull(sharedInv)
             updateInvFull(player.inv)
-            topLevelMainModalBackground()
+            topLevelMainModalBackground(this)
             ifOpenMainSidePair(interfaces.shop_main, interfaces.shop_side, eventBus)
             ifSetText(components.shop_subtext, subtext)
-            shopMainInit(shopInv, title)
+            shopMainInit(this, shopInv, title)
             ifSetEvents(
                 components.shop_inv,
                 1..sharedInv.size,
@@ -49,6 +49,7 @@ constructor(private val invTypes: InvTypeList, private val eventBus: EventBus) {
                 IfEvent.Op10,
             )
             interfaceInvInit(
+                player = this,
                 inv = player.inv,
                 target = components.shop_side_inv,
                 objRowCount = 4,
