@@ -55,6 +55,9 @@ public class Player(
 
     public var publicMessage: PublicMessage? = null
 
+    public val isModalButtonProtected: Boolean
+        get() = isDelayed || activeCoroutine?.isSuspended == true
+
     public var displayName: String
         get() = avatar.name
         set(value) {
@@ -64,6 +67,8 @@ public class Player(
     /* Cache for commonly-accessed Invs */
     public lateinit var inv: Inventory
     public lateinit var worn: Inventory
+
+    public var modalInv: Inventory? = null
 
     public fun facePlayer(target: Player): Unit = PathingEntityCommon.facePlayer(this, target)
 
