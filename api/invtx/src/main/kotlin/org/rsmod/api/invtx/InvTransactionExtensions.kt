@@ -62,7 +62,7 @@ public fun Player.invAdd(
     updateInv: Boolean = true,
     autoCommit: Boolean = true,
 ): TransactionResultList<InvObj> =
-    invProtectedTransaction(inv, updateInv, autoCommit) {
+    invTransaction(inv, updateInv, autoCommit) {
         val targetInv = select(inv)
         add(inv = targetInv, obj = obj, slot = slot, strict = strict, cert = cert, uncert = uncert)
     }
@@ -115,7 +115,7 @@ public fun Player.invAddAll(
     updateInv: Boolean = true,
     autoCommit: Boolean = true,
 ): TransactionResultList<InvObj> =
-    invProtectedTransaction(inv, updateInv, autoCommit) {
+    invTransaction(inv, updateInv, autoCommit) {
         val targetInv = select(inv)
         var targetSlot = startSlot ?: 0
         for (obj in objs) {
@@ -139,7 +139,7 @@ public fun Player.invDel(
     updateInv: Boolean = true,
     autoCommit: Boolean = true,
 ): TransactionResultList<InvObj> =
-    invProtectedTransaction(inv, updateInv, autoCommit) {
+    invTransaction(inv, updateInv, autoCommit) {
         val targetInv = select(inv)
         delete(inv = targetInv, obj = obj, slot = slot, strict = strict, placehold = placehold)
     }
@@ -186,7 +186,7 @@ public fun Player.invDelAll(
     updateInv: Boolean = true,
     autoCommit: Boolean = true,
 ): TransactionResultList<InvObj> =
-    invProtectedTransaction(inv, updateInv, autoCommit) {
+    invTransaction(inv, updateInv, autoCommit) {
         val targetInv = select(inv)
         var targetSlot = startSlot ?: 0
         for (obj in objs) {
@@ -220,7 +220,7 @@ public fun Player.invSwap(
     updateInv: Boolean = true,
     autoCommit: Boolean = true,
 ): TransactionResultList<InvObj> =
-    invProtectedTransaction(inv, updateInv, autoCommit) {
+    invTransaction(inv, updateInv, autoCommit) {
         val fromInv = select(from)
         val intoInv = into?.let { select(it) } ?: fromInv
         swap(
@@ -268,7 +268,7 @@ public fun Player.invTransfer(
     autoCommit: Boolean = true,
 ): TransactionResultList<InvObj> {
     check(into != from) { "`into` should not be equal to `from` inv. Use `swap` function instead." }
-    return invProtectedTransaction(inv, updateInv, autoCommit) {
+    return invTransaction(inv, updateInv, autoCommit) {
         val fromInv = select(from)
         val intoInv = select(into)
         transfer(
@@ -315,10 +315,10 @@ public fun Transaction<InvObj>.select(inv: Inventory): TransactionInventory<InvO
     return transformed
 }
 
-public fun Player.invProtectedTransaction(
+public fun Player.invTransaction(
     inv: Inventory,
-    updateInv: Boolean,
-    autoCommit: Boolean,
+    updateInv: Boolean = true,
+    autoCommit: Boolean = true,
     transaction: Transaction<InvObj>.() -> Unit,
 ): TransactionResultList<InvObj> {
     if (denyProtectedAccess(inv)) {

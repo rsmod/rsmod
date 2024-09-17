@@ -7,6 +7,8 @@ public sealed class GameLifecycle : UnboundEvent {
 
     public data object StartCycle : GameLifecycle()
 
+    public data object LateCycle : GameLifecycle()
+
     public data object EndCycle : GameLifecycle()
 
     public data object ShutDown : GameLifecycle()

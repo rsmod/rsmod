@@ -47,8 +47,4 @@ public object BaseComponents : ComponentReferences() {
 
     public val main_modal: ComponentType = find(5905850806851984360)
     public val side_modal: ComponentType = find(8719636644635355055)
-
-    public val shop_subtext: ComponentType = find(1009675651464801228)
-    public val shop_side_inv: ComponentType = find(5117171527864918016)
-    public val shop_inv: ComponentType = find(7875443253800243706)
 }

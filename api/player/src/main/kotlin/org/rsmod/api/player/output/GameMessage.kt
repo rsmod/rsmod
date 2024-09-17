@@ -1,7 +1,9 @@
 package org.rsmod.api.player.output
 
 import net.rsprot.protocol.game.outgoing.misc.player.MessageGame
+import org.rsmod.api.utils.format.formatAmount
 import org.rsmod.game.entity.Player
+import org.rsmod.game.type.obj.UnpackedObjType
 
 /** Calls [mes] with [text] as the message and [ChatType.Spam] as the type of chat. */
 public fun Player.spam(text: String): Unit = mes(text, ChatType.Spam)
@@ -10,6 +12,14 @@ public fun Player.spam(text: String): Unit = mes(text, ChatType.Spam)
 public fun Player.mes(text: String, type: ChatType = ChatType.GameMessage) {
     val message = MessageGame(type.id, text)
     client.write(message)
+}
+
+public fun Player.objExamine(type: UnpackedObjType, count: Int) {
+    if (count >= 100_000) {
+        mes("${count.formatAmount} x ${type.name}.")
+    } else {
+        mes(type.desc, ChatType.ObjExamine)
+    }
 }
 
 public object GameMessage {

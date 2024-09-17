@@ -131,6 +131,10 @@
 1801	slayer_task_boss_displayname
 1802	slayer_task_boss_location
 
+65496	shop_sale_restricted
+65497	shop_sell_percentage
+65498	shop_buy_percentage
+65499	shop_change_percentage
 65500	attack_anim
 65501	defend_anim
 65502	death_anim
@@ -150,9 +154,9 @@
 65516	poh_door_east
 65517	poh_door_south
 65518	poh_door_flag
-65530	game_message
-65531	game_message2
-65532	climb_anim
-65533	closesound
-65534	next_loc_stage
-65535	opensound
+65529	game_message
+65530	game_message2
+65531	climb_anim
+65532	closesound
+65533	next_loc_stage
+65534	opensound

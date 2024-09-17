@@ -11,12 +11,12 @@ import org.rsmod.game.type.synth.SynthType
 
 internal object ParamBuilds : ParamBuilder() {
     init {
-        buildTyped<String>("game_message") {}
-        buildTyped<String>("game_message2") {}
+        build<String>("game_message") {}
+        build<String>("game_message2") {}
 
-        buildTyped<LocType>("next_loc_stage") {}
-        buildTyped<SynthType>("opensound") { default = synths.door_open }
-        buildTyped<SynthType>("closesound") { default = synths.door_close }
-        buildTyped<SeqType>("climb_anim") { default = seqs.human_reachforladddertop }
+        build<LocType>("next_loc_stage") {}
+        build<SynthType>("opensound") { default = synths.door_open }
+        build<SynthType>("closesound") { default = synths.door_close }
+        build<SeqType>("climb_anim") { default = seqs.human_reachforladddertop }
     }
 }

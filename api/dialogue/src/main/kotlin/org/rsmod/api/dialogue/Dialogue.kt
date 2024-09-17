@@ -6,10 +6,8 @@ import org.rsmod.api.config.Constants
 import org.rsmod.api.config.refs.BaseMesAnims
 import org.rsmod.api.dialogue.align.TextAlignment
 import org.rsmod.api.player.protect.ProtectedAccess
-import org.rsmod.api.shops.Shops
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
-import org.rsmod.game.type.inv.InvType
 import org.rsmod.game.type.mesanim.MesAnimType
 import org.rsmod.game.type.npc.UnpackedNpcType
 
@@ -21,13 +19,6 @@ public class Dialogue(
 ) {
     public val player: Player
         get() = access.player
-
-    public fun openShop(
-        shops: Shops,
-        title: String,
-        shopInv: InvType,
-        subtext: String = Shops.DEFAULT_SUBTEXT,
-    ): Unit = shops.open(player, title, shopInv, subtext)
 
     public suspend fun mesbox(text: String) {
         val pages = alignment.generatePageList(text)

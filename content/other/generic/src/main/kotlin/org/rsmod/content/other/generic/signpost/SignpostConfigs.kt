@@ -23,7 +23,7 @@ internal object SignpostComponents : ComponentReferences() {
 }
 
 internal object SignpostEnums : EnumReferences() {
-    val signpost_directions = find<CoordGrid, String>(243858168)
+    val signpost_directions = find<CoordGrid, String>(243854447)
 }
 
 internal object SignpostEnumBuild : EnumBuilder() {

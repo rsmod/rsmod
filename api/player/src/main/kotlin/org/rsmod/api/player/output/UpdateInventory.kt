@@ -11,9 +11,9 @@ import org.rsmod.game.obj.InvObj
 
 /** @see [UpdateInvFull] */
 public fun Player.updateInvFull(inv: Inventory) {
-    val highestSlot = inv.indexOfLast { it != null } + 1
+    val highestSlot = inv.lastOccupiedSlot()
     val provider = RspObjProvider(inv.objs)
-    val message = UpdateInvFull(inv.type.id, highestSlot, provider)
+    val message = UpdateInvFull(-1, -(1234 + inv.type.id), inv.type.id, highestSlot, provider)
     client.write(message)
 }
 
@@ -40,7 +40,7 @@ public object UpdateInventory {
     /** @see [UpdateInvPartial] */
     public fun updateInvPartial(player: Player, inv: Inventory, updateSlots: Iterator<Int>) {
         val provider = RspIndexedObjProvider(inv.objs, updateSlots)
-        val message = UpdateInvPartial(inv.type.id, provider)
+        val message = UpdateInvPartial(-1, -(1234 + inv.type.id), inv.type.id, provider)
         player.client.write(message)
     }
 

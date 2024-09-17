@@ -47,6 +47,7 @@ private class NameMappingProvider : Provider<NameMapping> {
         val synths = dirs.readSymbols("synth")
         val fonts = dirs.readSymbols("font")
         val stats = dirs.readSymbols("stat")
+        val currencies = dirs.readSymbols("currency")
         return NameMapping(
             categories = categories,
             objs = objs,
@@ -68,6 +69,7 @@ private class NameMappingProvider : Provider<NameMapping> {
             synths = synths,
             fonts = fonts,
             stats = stats,
+            currencies = currencies,
         )
     }
 

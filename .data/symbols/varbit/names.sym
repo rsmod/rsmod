@@ -1026,4 +1026,4 @@
 
 10670	modal_widthandheight_mode
 
-65535	jmod_attackable
+65534	jmod_attackable

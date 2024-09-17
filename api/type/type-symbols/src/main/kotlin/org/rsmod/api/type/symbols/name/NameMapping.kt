@@ -5,6 +5,7 @@ public data class NameMapping(
     public val clientscripts: Map<String, Int> = mutableMapOf(),
     public val components: Map<String, Int> = mutableMapOf(),
     public val content: Map<String, Int> = mutableMapOf(),
+    public val currencies: Map<String, Int> = mutableMapOf(),
     public val enums: Map<String, Int> = mutableMapOf(),
     public val interfaces: Map<String, Int> = mutableMapOf(),
     public val invs: Map<String, Int> = mutableMapOf(),

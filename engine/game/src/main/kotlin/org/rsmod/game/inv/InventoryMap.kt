@@ -30,6 +30,8 @@ public class InventoryMap(
     public fun getValue(type: InvType): Inventory =
         this[type] ?: throw NoSuchElementException("InvType is missing in the map: $type.")
 
+    public fun remove(type: InvType): Inventory? = backing.remove(type.id)
+
     public operator fun set(type: InvType, inventory: Inventory) {
         backing[type.id] = inventory
     }

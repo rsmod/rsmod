@@ -31,7 +31,7 @@ public data class IfCloseSub(val player: Player, val interf: UserInterface, val 
 
 public data class IfModalButton(
     val component: ComponentType,
-    val comsub: Int?,
+    val comsub: Int,
     val obj: ObjType?,
     val op: IfButtonOp,
 ) : SuspendEvent<ProtectedAccess> {
@@ -41,17 +41,7 @@ public data class IfModalButton(
 public data class IfOverlayButton(
     val player: Player,
     val component: ComponentType,
-    val comsub: Int?,
-    val obj: ObjType?,
-    val op: IfButtonOp,
-) : KeyedEvent {
-    override val id: Long = component.packed.toLong()
-}
-
-public data class IfTopLevelButton(
-    val player: Player,
-    val component: ComponentType,
-    val comsub: Int?,
+    val comsub: Int,
     val obj: ObjType?,
     val op: IfButtonOp,
 ) : KeyedEvent {

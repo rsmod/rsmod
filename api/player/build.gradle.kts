@@ -13,6 +13,7 @@ dependencies {
     implementation(libs.rsprot)
     implementation(projects.api.config)
     implementation(projects.api.type.typeReferences)
+    implementation(projects.api.utils.utilsFormat)
     implementation(projects.engine.coroutine)
     implementation(projects.engine.events)
     implementation(projects.engine.game)
