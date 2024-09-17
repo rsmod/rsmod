@@ -10,6 +10,11 @@ public infix fun ObjType.isAssociatedWith(obj: InvObj?): Boolean {
     return obj != null && obj.isAssociatedWith(this)
 }
 
+public infix fun ObjType.isAssociatedWith(other: ObjType?): Boolean {
+    contract { returns(true) implies (other != null) }
+    return other?.id == this.id
+}
+
 public sealed class ObjType(internal var internalId: Int?, internal var internalName: String?) {
     public val id: Int
         get() = internalId ?: error("`internalId` must not be null.")
@@ -128,6 +133,12 @@ public class UnpackedObjType(
 ) : ObjType(internalId, internalName) {
     public val isStackable: Boolean
         get() = (stackable || certtemplate > 0) && objvar.isEmpty()
+
+    public val canCert: Boolean
+        get() = !stackable && certlink > 0 && certtemplate == 0 && objvar.isEmpty()
+
+    public val canUncert: Boolean
+        get() = certlink > 0 && certtemplate > 0
 
     public val isDummyItem: Boolean
         get() = dummyitem != ObjTypeBuilder.DEFAULT_DUMMYITEM

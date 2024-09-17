@@ -11,7 +11,7 @@ import org.rsmod.api.type.builders.resolver.TypeBuilderResult.NameNotFound
 import org.rsmod.api.type.builders.resolver.err
 import org.rsmod.api.type.builders.resolver.ok
 import org.rsmod.api.type.builders.resolver.update
-import org.rsmod.api.type.script.dsl.ParamPluginBuilder
+import org.rsmod.api.type.script.dsl.TypedParamPluginBuilder
 import org.rsmod.api.type.symbols.name.NameMapping
 import org.rsmod.game.type.TypeResolver
 import org.rsmod.game.type.param.ParamTypeList
@@ -20,12 +20,12 @@ import org.rsmod.game.type.param.UnpackedParamType
 public class ParamBuilderResolver
 @Inject
 constructor(private val types: ParamTypeList, private val nameMapping: NameMapping) :
-    TypeBuilderResolver<ParamPluginBuilder, UnpackedParamType<*>> {
+    TypeBuilderResolver<TypedParamPluginBuilder<*>, UnpackedParamType<*>> {
     private val names: Map<String, Int>
         get() = nameMapping.params
 
     override fun resolve(
-        builders: TypeBuilder<ParamPluginBuilder, UnpackedParamType<*>>
+        builders: TypeBuilder<TypedParamPluginBuilder<*>, UnpackedParamType<*>>
     ): List<TypeBuilderResult> = builders.cache.map { it.resolve() }
 
     private fun UnpackedParamType<*>.resolve(): TypeBuilderResult {

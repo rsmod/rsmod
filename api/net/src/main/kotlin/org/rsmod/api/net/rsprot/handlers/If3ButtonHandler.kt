@@ -6,7 +6,6 @@ import net.rsprot.protocol.game.incoming.buttons.If3Button
 import org.rsmod.api.player.protect.ProtectedAccessLauncher
 import org.rsmod.api.player.ui.IfModalButton
 import org.rsmod.api.player.ui.IfOverlayButton
-import org.rsmod.api.player.ui.IfTopLevelButton
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.type.comp.ComponentTypeList
@@ -50,14 +49,7 @@ constructor(
         val componentType = componentTypes[message.asComponent]
         val interfaceType = interfaceTypes[message.asComponent]
         val objType = objTypes[message.obj]
-        if (player.ui.containsTopLevel(interfaceType)) {
-            val event =
-                IfTopLevelButton(player, componentType, message.sub, objType, message.buttonOp)
-            eventBus.publish(event)
-            logger.debug { "[Toplevel] If3Button: $message" }
-            return
-        }
-        if (player.ui.containsOverlay(interfaceType)) {
+        if (player.ui.containsOverlay(interfaceType) || player.ui.containsTopLevel(interfaceType)) {
             val event =
                 IfOverlayButton(player, componentType, message.sub, objType, message.buttonOp)
             eventBus.publish(event)

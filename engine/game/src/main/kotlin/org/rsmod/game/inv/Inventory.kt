@@ -2,13 +2,18 @@ package org.rsmod.game.inv
 
 import java.util.BitSet
 import org.rsmod.game.obj.InvObj
+import org.rsmod.game.type.inv.InvStackType
 import org.rsmod.game.type.inv.UnpackedInvType
 import org.rsmod.game.type.obj.ObjType
+import org.rsmod.game.type.obj.UnpackedObjType
 
 public class Inventory(public val type: UnpackedInvType, public val objs: Array<InvObj?>) :
     Iterable<InvObj?> {
     public val size: Int
         get() = objs.size
+
+    public val indices: IntRange
+        get() = objs.indices
 
     public val modifiedSlots: BitSet = BitSet()
 
@@ -23,6 +28,8 @@ public class Inventory(public val type: UnpackedInvType, public val objs: Array<
     public fun occupiedSpace(): Int = objs.count { it != null }
 
     public fun hasFreeSpace(): Boolean = objs.any { it == null }
+
+    public fun lastOccupiedSlot(): Int = indexOfLast { it != null } + 1
 
     public fun mapNotNullSlotObjs(): List<Pair<Int, InvObj>> = objs.mapNotNullEntries()
 
@@ -52,10 +59,37 @@ public class Inventory(public val type: UnpackedInvType, public val objs: Array<
         modifiedSlots.set(slot)
     }
 
-    public fun count(type: ObjType): Int = objs.count { it != null && it.isAssociatedWith(type) }
-
     public infix operator fun contains(type: ObjType): Boolean =
         objs.any { it != null && it.isAssociatedWith(type) }
+
+    public fun count(objType: UnpackedObjType): Int {
+        val obj = objs.firstOrNull { it?.id == objType.id } ?: return 0
+        val singleStack = type.stack == InvStackType.Always || objType.isStackable
+        return count(obj, singleStack)
+    }
+
+    public fun count(obj: InvObj, objType: UnpackedObjType): Int {
+        val singleStack = type.stack == InvStackType.Always || objType.isStackable
+        return count(obj, singleStack)
+    }
+
+    private fun count(obj: InvObj, isStackable: Boolean): Int =
+        if (isStackable) {
+            obj.count
+        } else {
+            count(obj)
+        }
+
+    private fun count(obj: InvObj): Int {
+        var count = 0
+        for (i in objs.indices) {
+            val other = objs[i] ?: continue
+            if (other.id == obj.id) {
+                count += other.count
+            }
+        }
+        return count
+    }
 
     override fun iterator(): Iterator<InvObj?> = objs.iterator()
 

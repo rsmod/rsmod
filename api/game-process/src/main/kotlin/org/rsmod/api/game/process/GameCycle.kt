@@ -30,6 +30,7 @@ constructor(
         eventBus.publish(GameLifecycle.StartCycle)
         preTick()
         mapClock.tick()
+        eventBus.publish(GameLifecycle.LateCycle)
         postTick()
         eventBus.publish(GameLifecycle.EndCycle)
     }

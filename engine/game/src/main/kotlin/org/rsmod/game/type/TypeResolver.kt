@@ -3,6 +3,7 @@ package org.rsmod.game.type
 import org.rsmod.game.type.category.CategoryType
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.content.ContentType
+import org.rsmod.game.type.currency.CurrencyType
 import org.rsmod.game.type.enums.EnumType
 import org.rsmod.game.type.enums.UnpackedEnumType
 import org.rsmod.game.type.font.FontMetricsType
@@ -23,6 +24,12 @@ import org.rsmod.game.type.varobjbit.VarObjBitType
 import org.rsmod.game.type.varp.VarpType
 
 public object TypeResolver {
+    public operator fun get(type: CurrencyType): Int? = type.internalId
+
+    public operator fun set(type: CurrencyType, id: Int) {
+        type.internalId = id
+    }
+
     public operator fun get(type: ModGroup): Int? = type.internalId
 
     public operator fun set(type: ModGroup, id: Int) {

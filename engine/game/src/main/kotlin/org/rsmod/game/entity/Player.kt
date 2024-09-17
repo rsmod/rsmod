@@ -8,6 +8,7 @@ import org.rsmod.game.entity.player.PublicMessage
 import org.rsmod.game.entity.shared.PathingEntityCommon
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.inv.InventoryMap
+import org.rsmod.game.shop.Shop
 import org.rsmod.game.stat.PlayerStatMap
 import org.rsmod.game.type.mod.ModGroup
 import org.rsmod.game.ui.UserInterfaceMap
@@ -69,6 +70,8 @@ public class Player(
     public lateinit var worn: Inventory
 
     public var modalInv: Inventory? = null
+    public var modalSideInv: Inventory? = null
+    public var openedShop: Shop? = null
 
     public fun facePlayer(target: Player): Unit = PathingEntityCommon.facePlayer(this, target)
 

@@ -24,10 +24,10 @@ public object BaseParams : ParamReferences() {
     public val statreq0_level: ParamInt = find(88687192592)
     public val statreq1_level: ParamInt = find(88687192593)
 
-    public val game_message: ParamStr = find(97133220696)
-    public val game_message2: ParamStr = find(97133220697)
-    public val climb_anim: ParamSeq = find(66367761996)
-    public val closesound: ParamSynth = find(68403100624)
-    public val opensound: ParamSynth = find(68430792308)
-    public val next_loc_stage: ParamLoc = find(91221046593)
+    public val game_message: ParamStr = find(97133220695)
+    public val game_message2: ParamStr = find(97133220696)
+    public val climb_anim: ParamSeq = find(66367761995)
+    public val closesound: ParamSynth = find(68403100623)
+    public val opensound: ParamSynth = find(68430792307)
+    public val next_loc_stage: ParamLoc = find(91221046592)
 }

@@ -8,6 +8,8 @@ import org.rsmod.api.type.refs.comp.ComponentReferenceResolver
 import org.rsmod.api.type.refs.comp.ComponentReferences
 import org.rsmod.api.type.refs.content.ContentReferenceResolver
 import org.rsmod.api.type.refs.content.ContentReferences
+import org.rsmod.api.type.refs.currency.CurrencyReferenceResolver
+import org.rsmod.api.type.refs.currency.CurrencyReferences
 import org.rsmod.api.type.refs.enums.EnumReferenceResolver
 import org.rsmod.api.type.refs.enums.EnumReferences
 import org.rsmod.api.type.refs.font.FontMetricsReferenceResolver
@@ -43,6 +45,7 @@ constructor(
     private val categoryResolver: CategoryReferenceResolver,
     private val componentResolver: ComponentReferenceResolver,
     private val contentResolver: ContentReferenceResolver,
+    private val currencyResolver: CurrencyReferenceResolver,
     private val enumResolver: EnumReferenceResolver,
     private val fontMetricsResolver: FontMetricsReferenceResolver,
     private val interfaceResolver: InterfaceReferenceResolver,
@@ -119,6 +122,7 @@ constructor(
                 is CategoryReferences -> categoryResolver
                 is ComponentReferences -> componentResolver
                 is ContentReferences -> contentResolver
+                is CurrencyReferences -> currencyResolver
                 is EnumReferences -> enumResolver
                 is FontMetricsReferences -> fontMetricsResolver
                 is InterfaceReferences -> interfaceResolver

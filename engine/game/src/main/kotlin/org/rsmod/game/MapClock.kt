@@ -7,6 +7,8 @@ public class MapClock(public var cycle: Int = 0) {
         cycle++
     }
 
+    public operator fun rem(cycles: Int): Int = cycle % cycles
+
     public operator fun plus(cycles: Int): Int =
         min(Int.MAX_VALUE.toLong(), cycle.toLong() + cycles).toInt()
 
