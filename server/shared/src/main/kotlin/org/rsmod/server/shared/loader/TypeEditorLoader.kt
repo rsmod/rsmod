@@ -2,6 +2,7 @@ package org.rsmod.server.shared.loader
 
 import io.github.classgraph.ClassGraph
 import jakarta.inject.Inject
+import java.util.concurrent.Executors
 import kotlin.reflect.KVisibility
 import org.rsmod.annotations.PluginGraph
 import org.rsmod.api.type.editors.TypeEditor
@@ -9,7 +10,9 @@ import org.rsmod.api.type.editors.TypeEditor
 class TypeEditorLoader @Inject constructor(@PluginGraph private val scanner: ClassGraph) {
     fun load(): Collection<TypeEditor<*, *>> {
         val editors = mutableListOf<TypeEditor<*, *>>()
-        scanner.scan().use { result ->
+        val parallelism = Runtime.getRuntime().availableProcessors()
+        val scan = scanner.scan(Executors.newFixedThreadPool(parallelism), parallelism)
+        scan.use { result ->
             val subclasses = result.getSubclasses(TypeEditor::class.java)
             for (info in subclasses) {
                 val clazz = info.loadClass(TypeEditor::class.java)

@@ -201,9 +201,10 @@ class GameServer : CliktCommand(name = "server") {
 
     private fun loadScripts(injector: Injector) {
         logger.info { "Loading plugin scripts..." }
+        val scriptLoader = injector.getInstance(PluginScriptLoader::class.java)
         val scripts: Collection<PluginScript>
         val loadDuration = measureTime {
-            scripts = PluginScriptLoader.load(PluginScript::class.java, pluginPackages, injector)
+            scripts = scriptLoader.load(PluginScript::class.java, injector)
         }
         val scriptContext = injector.getInstance(ScriptContext::class.java)
         val startUpDuration = measureTime {

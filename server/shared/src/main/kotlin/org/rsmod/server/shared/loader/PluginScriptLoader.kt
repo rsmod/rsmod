@@ -2,19 +2,20 @@ package org.rsmod.server.shared.loader
 
 import com.google.inject.Injector
 import io.github.classgraph.ClassGraph
+import jakarta.inject.Inject
+import java.util.concurrent.Executors
+import org.rsmod.annotations.PluginGraph
 import org.rsmod.plugin.scripts.PluginScript
 
-object PluginScriptLoader {
-    /** @param packages package names which will be accepted; leave empty for default. */
+class PluginScriptLoader @Inject constructor(@PluginGraph private val scanner: ClassGraph) {
     fun <T : PluginScript> load(
         type: Class<T>,
-        packages: Array<String>,
         injector: Injector,
         lenient: Boolean = false,
     ): Collection<T> {
         val plugins = mutableListOf<T>()
-        val scanner = ClassGraph().enableClassInfo().acceptPackages(*packages)
-        val scan = scanner.scan()
+        val parallelism = Runtime.getRuntime().availableProcessors()
+        val scan = scanner.scan(Executors.newFixedThreadPool(parallelism), parallelism)
         scan.use { result ->
             val infoList = result.getSubclasses(type)
             infoList.forEach { info ->
