@@ -37,4 +37,14 @@ public object GenericPropertySelector {
         val selected = selectPredicate(priority, other) { getValue(priority).isNotEmpty() }
         return getValue(selected)
     }
+
+    public fun <T> selectParamMap(priority: T, other: T, getValue: T.() -> ParamMap?): ParamMap? {
+        val priorityParamMap = getValue(priority)
+        val otherParamMap = getValue(other)
+        return when {
+            priorityParamMap != null && otherParamMap != null -> priorityParamMap + otherParamMap
+            priorityParamMap != null -> priorityParamMap
+            else -> otherParamMap
+        }
+    }
 }

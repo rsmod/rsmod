@@ -139,6 +139,23 @@ public object ObjTypeDecoder {
                 140 -> boughttemplate = data.readUnsignedShort()
                 148 -> placeholderlink = data.readUnsignedShort()
                 149 -> placeholdertemplate = data.readUnsignedShort()
+                200 -> {
+                    val count = data.readUnsignedByte().toInt()
+                    val objvar = IntArray(count)
+                    for (i in objvar.indices) {
+                        objvar[i] = data.readUnsignedShort()
+                    }
+                    this.objvar = CompactableIntArray(objvar)
+                }
+                201 -> playerCost = data.readInt()
+                202 -> playerCostDerived = data.readInt()
+                203 -> playerCostDerivedConst = data.readInt()
+                204 -> stockMarketBuyLimit = data.readUnsignedShort()
+                205 -> stockMarketRecalcUsers = data.readUnsignedShort()
+                206 -> tradeable = false
+                207 -> respawnRate = data.readUnsignedShort()
+                208 -> dummyitem = data.readByte().toInt()
+                209 -> contentType = data.readUnsignedShort()
                 249 -> paramMap = ParamMap(data.readRawParams())
                 else -> throw IOException("Error unrecognised .obj config code: $code")
             }

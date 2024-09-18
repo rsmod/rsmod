@@ -3,6 +3,7 @@ package org.rsmod.game.type.obj
 import org.rsmod.game.type.util.CompactableIntArray
 import org.rsmod.game.type.util.GenericPropertySelector.select
 import org.rsmod.game.type.util.GenericPropertySelector.selectIntArray
+import org.rsmod.game.type.util.GenericPropertySelector.selectParamMap
 import org.rsmod.game.type.util.GenericPropertySelector.selectPredicate
 import org.rsmod.game.type.util.GenericPropertySelector.selectShortArray
 import org.rsmod.game.type.util.ParamMap
@@ -303,7 +304,7 @@ public class ObjTypeBuilder(public var internal: String? = null) {
             val boughttemplate = select(edit, base, default = 0) { boughttemplate }
             val placeholderlink = select(edit, base, default = 0) { placeholderlink }
             val placeholdertemplate = select(edit, base, default = 0) { placeholdertemplate }
-            val paramMap = select(edit, base, default = null) { paramMap }
+            val paramMap = selectParamMap(edit, base) { paramMap }
             val objvar = selectIntArray(edit, base) { objvar }
             val generateCertificate = select(edit, base, default = false) { generateCertificate }
             val generatePlaceholder = select(edit, base, default = false) { generatePlaceholder }

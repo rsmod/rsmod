@@ -31,6 +31,19 @@ public class ParamMap(
     public operator fun <T : Any> contains(param: ParamType<T>): Boolean =
         checkedTypedMap.containsKey(param.id)
 
+    public operator fun plus(other: ParamMap): ParamMap {
+        val otherTypedMap = other.typedMap
+        val thisTypedMap = typedMap
+        val combinedTypedMap =
+            when {
+                thisTypedMap == null -> otherTypedMap
+                otherTypedMap == null -> thisTypedMap
+                else -> thisTypedMap + otherTypedMap
+            }
+        val combinedPrimitiveMap = primitiveMap + other.primitiveMap
+        return ParamMap(combinedPrimitiveMap, combinedTypedMap)
+    }
+
     override fun iterator(): Iterator<Map.Entry<Int, Any>> = checkedTypedMap.iterator()
 
     override fun equals(other: Any?): Boolean {
