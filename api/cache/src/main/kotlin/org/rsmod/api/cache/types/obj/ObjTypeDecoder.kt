@@ -99,13 +99,11 @@ public object ObjTypeDecoder {
                 43 -> {
                     val op = data.readUnsignedByte().toInt() + 1
                     var subop = data.readUnsignedByte().toInt()
-                    val list = mutableListOf<String>()
+                    val isubop = Array<String>(20) { "" }
                     while (subop != 0) {
-                        val isubop = data.readString()
-                        list += isubop
+                        isubop[subop - 1] = data.readString()
                         subop = data.readUnsignedByte().toInt()
                     }
-                    val isubop = list.toTypedArray()
                     when (op) {
                         1 -> this.isubop1 = isubop
                         2 -> this.isubop2 = isubop
