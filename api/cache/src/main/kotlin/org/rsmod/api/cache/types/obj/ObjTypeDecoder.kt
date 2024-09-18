@@ -72,7 +72,7 @@ public object ObjTypeDecoder {
                     op[code - 30] = data.readString()
                 }
                 in 35 until 40 -> {
-                    op[code - 35] = data.readString()
+                    iop[code - 35] = data.readString()
                 }
                 40,
                 41 -> {
