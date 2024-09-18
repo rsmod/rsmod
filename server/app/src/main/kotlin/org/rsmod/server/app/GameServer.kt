@@ -1,6 +1,7 @@
 package org.rsmod.server.app
 
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.main
 import com.github.michaelbull.logging.InlineLogger
 import com.google.inject.AbstractModule
 import com.google.inject.Guice

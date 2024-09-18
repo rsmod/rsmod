@@ -1,6 +1,7 @@
 package org.rsmod.server.install
 
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.main
 import com.google.inject.Guice
 import com.google.inject.Injector
 import java.nio.file.Path
