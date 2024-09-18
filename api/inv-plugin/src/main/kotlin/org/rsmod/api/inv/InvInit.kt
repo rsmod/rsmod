@@ -2,7 +2,6 @@ package org.rsmod.api.inv
 
 import jakarta.inject.Inject
 import org.rsmod.api.config.refs.BaseInvs
-import org.rsmod.api.player.output.updateInvFull
 import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.type.inv.InvTypeList
@@ -15,7 +14,6 @@ public class InvInit @Inject constructor(invs: InvTypeList) {
     public fun init(player: Player) {
         putIfAbsent(player)
         cacheCommons(player)
-        sendInvs(player, player.invMap.values)
     }
 
     public fun putIfAbsent(player: Player) {
@@ -30,12 +28,6 @@ public class InvInit @Inject constructor(invs: InvTypeList) {
     public fun cacheCommons(player: Player) {
         player.inv = player.invMap.getValue(BaseInvs.inv)
         player.worn = player.invMap.getValue(BaseInvs.worn)
-    }
-
-    public fun sendInvs(player: Player, invs: Iterable<Inventory>) {
-        for (inv in invs) {
-            player.updateInvFull(inv)
-        }
     }
 
     public operator fun plusAssign(inv: UnpackedInvType) {

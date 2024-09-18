@@ -22,6 +22,7 @@ public class Player(
 ) : PathingEntity() {
     init {
         pendingFaceSquare = CoordGrid.ZERO
+        pendingSequenceAnim = -1
     }
 
     public override val isBusy: Boolean

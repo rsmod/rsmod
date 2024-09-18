@@ -1,7 +1,7 @@
 package org.rsmod.api.player.stat
 
 import kotlin.math.min
-import net.rsprot.protocol.game.outgoing.misc.player.UpdateStat
+import org.rsmod.api.player.output.UpdateStat
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.stat.PlayerSkillXPTable
@@ -68,8 +68,7 @@ public object PlayerSkillXP {
 
     private fun Player.updateStat(stat: StatType) {
         val currXp = statMap.getXP(stat)
-        val currLevel = statMap.getCurrentLevel(stat).toInt()
-        val updateStat = UpdateStat(stat.id, currLevel, currLevel, currXp)
-        client.write(updateStat)
+        val currLvl = statMap.getCurrentLevel(stat).toInt()
+        UpdateStat.update(this, stat, currXp, currLvl, currLvl)
     }
 }
