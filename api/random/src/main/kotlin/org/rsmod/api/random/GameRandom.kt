@@ -123,11 +123,11 @@ public interface GameRandom {
      * Returns a random boolean value based on the upper bound (exclusive).
      *
      * @param maxExclusive The upper bound (exclusive) for generating the random integer that
-     *   determines the boolean value. Defaults to `1`, simulating a 50/50 chance.
+     *   determines the boolean value. Defaults to `2`, simulating a 1/2 chance.
      * @return `true` if the random integer is `0`, otherwise `false`.
      * @throws IllegalArgumentException if [maxExclusive] is less than or equal to zero.
      */
-    public fun randomBoolean(maxExclusive: Int = 1): Boolean = of(maxExclusive) == 0
+    public fun randomBoolean(maxExclusive: Int = 2): Boolean = of(maxExclusive) == 0
 
     /**
      * Returns a random integer between 0 (inclusive) and the specified maximum value (exclusive).
