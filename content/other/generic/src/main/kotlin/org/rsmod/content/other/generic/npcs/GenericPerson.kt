@@ -11,6 +11,7 @@ import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.random.GameRandom
 import org.rsmod.api.script.onOpNpc1
 import org.rsmod.game.entity.Npc
+import org.rsmod.game.entity.Player
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
@@ -24,7 +25,11 @@ constructor(private val dialogues: Dialogues, private val random: GameRandom) : 
     private suspend fun ProtectedAccess.personDialogue(npc: Npc) =
         startDialogue(dialogues, npc) {
             chatPlayer(happy, "Hello, how's it going?")
-            when (random.of(maxExclusive = 23)) {
+            if (player.rollBobsFlyer(128)) {
+                giveBobsAxeFlyer()
+                return@startDialogue
+            }
+            when (random.of(maxExclusive = 22)) {
                 0 -> randomGenericDialogue1()
                 1 -> randomGenericDialogue2()
                 2 -> randomGenericDialogue3()
@@ -47,9 +52,16 @@ constructor(private val dialogues: Dialogues, private val random: GameRandom) : 
                 19 -> randomGenericDialogue20()
                 20 -> randomGenericDialogue21()
                 21 -> randomGenericDialogue22()
-                22 -> randomGenericDialogue23()
             }
         }
+
+    private fun Player.rollBobsFlyer(rate: Int): Boolean =
+        random.randomBoolean(rate) && inv.hasFreeSpace() && objs.bobs_axe_flyer !in inv
+
+    private suspend fun Dialogue.giveBobsAxeFlyer() {
+        chatNpc(happy, "Have this flyer...")
+        player.invAdd(player.inv, objs.bobs_axe_flyer)
+    }
 
     private suspend fun Dialogue.randomGenericDialogue1() {
         chatNpc(happy, "I'm fine, how are you?")
@@ -100,36 +112,26 @@ constructor(private val dialogues: Dialogues, private val random: GameRandom) : 
         chatNpc(happy, "Ah, a very noble profession.")
     }
 
-    private suspend fun Dialogue.randomGenericDialogue8(): Unit =
-        with(player) {
-            if (inv.hasFreeSpace() && objs.bobs_axe_flyer !in inv) {
-                chatNpc(happy, "Have this flyer...")
-                invAdd(inv, objs.bobs_axe_flyer)
-            } else {
-                randomGenericDialogue9()
-            }
-        }
-
-    private suspend fun Dialogue.randomGenericDialogue9() {
+    private suspend fun Dialogue.randomGenericDialogue8() {
         chatNpc(happy, "I'm very well thank you.")
     }
 
-    private suspend fun Dialogue.randomGenericDialogue10() {
+    private suspend fun Dialogue.randomGenericDialogue9() {
         chatNpc(happy, "Hello there! Nice weather we've been having.")
     }
 
-    private suspend fun Dialogue.randomGenericDialogue11() {
+    private suspend fun Dialogue.randomGenericDialogue10() {
         chatNpc(happy, "Hello, how's it going?")
         searchingEnemiesDialogue()
     }
 
-    private suspend fun Dialogue.randomGenericDialogue12() {
+    private suspend fun Dialogue.randomGenericDialogue11() {
         chatNpc(happy, "Hello, how's it going?")
         chatPlayer(happy, "I'm in search of a quest.")
         chatNpc(neutral, "I'm sorry I can't help you there.")
     }
 
-    private suspend fun Dialogue.randomGenericDialogue13() {
+    private suspend fun Dialogue.randomGenericDialogue12() {
         chatNpc(happy, "Hello, how's it going?")
         chatPlayer(neutral, "Do you wish to trade?")
         chatNpc(
@@ -140,15 +142,15 @@ constructor(private val dialogues: Dialogues, private val random: GameRandom) : 
         )
     }
 
-    private suspend fun Dialogue.randomGenericDialogue14() {
+    private suspend fun Dialogue.randomGenericDialogue13() {
         chatNpc(happy, "Hello.")
     }
 
-    private suspend fun Dialogue.randomGenericDialogue15() {
+    private suspend fun Dialogue.randomGenericDialogue14() {
         chatNpc(confused, "Do I know you? I'm in a hurry!")
     }
 
-    private suspend fun Dialogue.randomGenericDialogue16() {
+    private suspend fun Dialogue.randomGenericDialogue15() {
         chatNpc(
             neutral,
             "I'm a little worried - I've heard there's lots of people " +
@@ -156,33 +158,33 @@ constructor(private val dialogues: Dialogues, private val random: GameRandom) : 
         )
     }
 
-    private suspend fun Dialogue.randomGenericDialogue17() {
+    private suspend fun Dialogue.randomGenericDialogue16() {
         chatNpc(angry, "Get out of my way, I'm in a hurry!")
     }
 
-    private suspend fun Dialogue.randomGenericDialogue18() {
+    private suspend fun Dialogue.randomGenericDialogue17() {
         chatNpc(neutral, "I'm busy right now.")
     }
 
-    private suspend fun Dialogue.randomGenericDialogue19() {
+    private suspend fun Dialogue.randomGenericDialogue18() {
         chatNpc(angry, "Are you asking for a fight?")
         // TODO(content): attack player here. seems like this should be skipped under certain
         //  circumstances. might be an indoor check.
     }
 
-    private suspend fun Dialogue.randomGenericDialogue20() {
+    private suspend fun Dialogue.randomGenericDialogue19() {
         chatNpc(happy, "Yo, wassup!")
     }
 
-    private suspend fun Dialogue.randomGenericDialogue21() {
+    private suspend fun Dialogue.randomGenericDialogue20() {
         chatNpc(neutral, "That is classified information.")
     }
 
-    private suspend fun Dialogue.randomGenericDialogue22() {
+    private suspend fun Dialogue.randomGenericDialogue21() {
         chatNpc(neutral, "No I don't have any spare change.")
     }
 
-    private suspend fun Dialogue.randomGenericDialogue23() {
+    private suspend fun Dialogue.randomGenericDialogue22() {
         chatNpc(angry, "No, I don't want to buy anything!")
     }
 
