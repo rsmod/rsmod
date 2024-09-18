@@ -45,7 +45,7 @@ public sealed class PathingEntity {
     public var lastMovement: Int = -1
 
     public var activeCoroutine: GameCoroutine? = null
-    public var routeDestination: RouteDestination = RouteDestination()
+    public val routeDestination: RouteDestination = RouteDestination()
     public var routeRequest: RouteRequest? = null
     // Used for setting temporary move speed for single requests, aka ctrl run mode.
     public var tempMoveSpeed: MoveSpeed? = null
