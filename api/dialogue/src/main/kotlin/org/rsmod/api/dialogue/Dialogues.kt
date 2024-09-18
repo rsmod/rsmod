@@ -14,7 +14,7 @@ public class Dialogues @Inject constructor(private val alignment: TextAlignment)
     public suspend fun start(
         access: ProtectedAccess,
         npc: Npc,
-        faceFar: Boolean,
+        faceFar: Boolean = false,
         conversation: suspend Dialogue.() -> Unit,
     ) {
         val dialogue = Dialogue(access, alignment, npc, faceFar)
