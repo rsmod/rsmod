@@ -1,4 +1,4 @@
-package org.rsmod.content.areas.city.lumbridge.locs
+package org.rsmod.content.areas.city.lumbridge.configs
 
 import org.rsmod.api.type.refs.loc.LocReferences
 

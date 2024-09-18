@@ -1,4 +1,4 @@
-package org.rsmod.content.areas.city.lumbridge.vars
+package org.rsmod.content.areas.city.lumbridge.configs
 
 import org.rsmod.api.player.vars.boolVarp
 import org.rsmod.api.type.refs.varbit.VarBitReferences

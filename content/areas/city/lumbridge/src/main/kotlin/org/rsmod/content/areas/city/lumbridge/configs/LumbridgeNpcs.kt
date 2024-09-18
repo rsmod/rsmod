@@ -1,7 +1,8 @@
 @file:Suppress("unused", "SpellCheckingInspection")
 
-package org.rsmod.content.areas.city.lumbridge.npcs
+package org.rsmod.content.areas.city.lumbridge.configs
 
+import org.rsmod.api.shops.config.ShopParams
 import org.rsmod.api.type.editors.npc.NpcEditor
 import org.rsmod.api.type.refs.npc.NpcReferences
 import org.rsmod.map.CoordGrid
@@ -16,6 +17,7 @@ object LumbridgeNpcs : NpcReferences() {
     val arthur_the_clue_hunter = find(6533328399600640885)
     val prayer_tutor = find(8388572464855062601)
     val hatius_cosaintus = find(3864914163306269512)
+    val bob = find(8634932672814888402)
 }
 
 internal object LumbridgeNpcEditor : NpcEditor() {
@@ -98,6 +100,11 @@ internal object LumbridgeNpcEditor : NpcEditor() {
             wanderRange = 0
         }
 
-        edit("bob_id_10619") { moveRestrict = indoors }
+        edit("bob_id_10619") {
+            moveRestrict = indoors
+            param[ShopParams.shop_sell_percentage] = 1000
+            param[ShopParams.shop_buy_percentage] = 600
+            param[ShopParams.shop_change_percentage] = 20
+        }
     }
 }

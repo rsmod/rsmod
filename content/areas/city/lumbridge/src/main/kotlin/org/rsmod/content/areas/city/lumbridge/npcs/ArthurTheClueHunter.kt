@@ -6,7 +6,8 @@ import org.rsmod.api.dialogue.Dialogues
 import org.rsmod.api.dialogue.startDialogue
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.script.onOpNpc1
-import org.rsmod.content.areas.city.lumbridge.vars.clueScrollDisableVessels
+import org.rsmod.content.areas.city.lumbridge.configs.LumbridgeNpcs
+import org.rsmod.content.areas.city.lumbridge.configs.clueScrollDisableVessels
 import org.rsmod.game.entity.Npc
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
