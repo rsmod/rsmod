@@ -2,6 +2,7 @@
 
 package org.rsmod.api.config.refs
 
+import org.rsmod.api.config.aliases.ParamBool
 import org.rsmod.api.config.aliases.ParamInt
 import org.rsmod.api.config.aliases.ParamLoc
 import org.rsmod.api.config.aliases.ParamSeq
@@ -30,4 +31,5 @@ public object BaseParams : ParamReferences() {
     public val closesound: ParamSynth = find(68403100623)
     public val opensound: ParamSynth = find(68430792307)
     public val next_loc_stage: ParamLoc = find(91221046592)
+    public val shop_sale_restricted: ParamBool = find(41389864796)
 }

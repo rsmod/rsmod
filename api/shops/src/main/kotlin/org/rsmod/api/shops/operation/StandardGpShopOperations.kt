@@ -4,11 +4,11 @@ import jakarta.inject.Inject
 import kotlin.math.max
 import kotlin.math.min
 import org.rsmod.api.config.refs.objs
+import org.rsmod.api.config.refs.params
 import org.rsmod.api.invtx.invTransaction
 import org.rsmod.api.invtx.select
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.output.objExamine
-import org.rsmod.api.shops.config.ShopParams
 import org.rsmod.api.shops.cost.StandardGpCostCalculations
 import org.rsmod.api.shops.restock.ShopRestockProcessor
 import org.rsmod.api.utils.format.formatAmount
@@ -155,7 +155,7 @@ constructor(private val objTypes: ObjTypeList, private val restockProcessor: Sho
             return
         }
 
-        val saleRestricted = objType.param(ShopParams.shop_sale_restricted)
+        val saleRestricted = objType.param(params.shop_sale_restricted)
         if (saleRestricted) {
             player.mes("You can't sell this item to a shop.")
             return
@@ -196,7 +196,7 @@ constructor(private val objTypes: ObjTypeList, private val restockProcessor: Sho
             return
         }
 
-        val saleRestricted = uncertType.param(ShopParams.shop_sale_restricted)
+        val saleRestricted = uncertType.param(params.shop_sale_restricted)
         if (saleRestricted) {
             player.mes("You can't sell this item to a shop.")
             return

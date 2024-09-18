@@ -2,7 +2,6 @@
 
 package org.rsmod.api.shops.config
 
-import org.rsmod.api.config.aliases.ParamBool
 import org.rsmod.api.config.aliases.ParamInt
 import org.rsmod.api.type.builders.param.ParamBuilder
 import org.rsmod.api.type.refs.comp.ComponentReferences
@@ -26,7 +25,6 @@ public object ShopParams : ParamReferences() {
     public val shop_sell_percentage: ParamInt = find(106686850953)
     public val shop_buy_percentage: ParamInt = find(94225594054)
     public val shop_change_percentage: ParamInt = find(89102632885)
-    public val shop_sale_restricted: ParamBool = find(41389864796)
 }
 
 public object ShopParamBuilder : ParamBuilder() {
@@ -35,6 +33,5 @@ public object ShopParamBuilder : ParamBuilder() {
         build<Int>("shop_sell_percentage") { default = 1300 }
         build<Int>("shop_buy_percentage") { default = 400 }
         build<Int>("shop_change_percentage") { default = 30 }
-        build<Boolean>("shop_sale_restricted") { default = false }
     }
 }
