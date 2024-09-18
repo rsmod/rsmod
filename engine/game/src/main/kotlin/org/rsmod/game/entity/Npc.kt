@@ -109,9 +109,26 @@ public class Npc(
         }
 
     public fun playerEscape(target: Player) {
-        facePlayer(target)
         mode = NpcMode.PlayerEscape
+        facePlayer(target)
     }
+
+    public fun playerFaceClose(target: Player) {
+        mode = NpcMode.PlayerFaceClose
+        facePlayer(target)
+    }
+
+    public fun playerFace(target: Player) {
+        mode = NpcMode.PlayerFace
+        facePlayer(target)
+    }
+
+    public fun playerFace(target: Player, faceFar: Boolean): Unit =
+        if (faceFar) {
+            playerFace(target)
+        } else {
+            playerFaceClose(target)
+        }
 
     public fun forceDespawn() {
         // TODO: force

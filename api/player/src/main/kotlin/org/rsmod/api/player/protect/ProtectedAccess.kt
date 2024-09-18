@@ -41,7 +41,6 @@ import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.PathingEntity
 import org.rsmod.game.entity.Player
-import org.rsmod.game.entity.npc.NpcMode
 import org.rsmod.game.entity.player.ProtectedAccessLostException
 import org.rsmod.game.entity.shared.PathingEntityCommon
 import org.rsmod.game.inv.Inventory
@@ -371,9 +370,7 @@ public class ProtectedAccess(
         eventBus: EventBus = context.eventBus,
     ) {
         val chatanim = mesanim?.splitGetAnim(lineCount)
-        val faceMode = if (faceFar) NpcMode.PlayerFace else NpcMode.PlayerFaceClose
-        npc.mode = faceMode
-        npc.facePlayer(player)
+        npc.playerFace(player, faceFar = faceFar)
         player.facePathingEntitySquare(npc)
         player.ifChatNpcSpecific(title, npc.type, text, chatanim, pauseText, lineHeight, eventBus)
         val input = coroutine.pause(ResumePauseButtonInput::class)
