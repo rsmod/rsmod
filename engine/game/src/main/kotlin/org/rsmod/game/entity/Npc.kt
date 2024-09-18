@@ -108,6 +108,11 @@ public class Npc(
             null
         }
 
+    public fun playerEscape(target: Player) {
+        facePlayer(target)
+        mode = NpcMode.PlayerEscape
+    }
+
     public fun forceDespawn() {
         // TODO: force
     }

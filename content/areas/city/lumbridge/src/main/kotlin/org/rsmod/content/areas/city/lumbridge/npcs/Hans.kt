@@ -9,7 +9,6 @@ import org.rsmod.api.script.onOpNpc1
 import org.rsmod.api.script.onOpNpc3
 import org.rsmod.content.areas.city.lumbridge.configs.LumbridgeNpcs
 import org.rsmod.game.entity.Npc
-import org.rsmod.game.entity.npc.NpcMode
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
@@ -44,7 +43,7 @@ class Hans @Inject constructor(private val dialogues: Dialogues) : PluginScript(
             }
             2 -> {
                 chatPlayer(angry, "I have come to kill everyone in this castle!")
-                npc.mode = NpcMode.PlayerEscape
+                npc.playerEscape(player)
                 delay(2)
                 npc.say("Help! Help!")
             }
