@@ -22,265 +22,269 @@ public class InvPluginBuilder(public var internal: String? = null) {
     public var runWeight: Boolean? by backing::runWeight
     public var dummyInv: Boolean? by backing::dummyInv
     public var placeholders: Boolean? by backing::placeholders
+    public var autoSize: Boolean = false
 
-    private var invStockList: MutableList<InvStock?>? = null
+    public var stock: MutableList<InvStock?> = mutableListOf()
 
     public var stock1: InvStock?
-        get() = invStockList?.get(0)
+        get() = stock[0]
         set(value) {
-            invStockList = invStockList.insertAt(0, value)
+            stock = stock.insertAt(0, value)
         }
 
     public var stock2: InvStock?
-        get() = invStockList?.get(1)
+        get() = stock[1]
         set(value) {
-            invStockList = invStockList.insertAt(1, value)
+            stock = stock.insertAt(1, value)
         }
 
     public var stock3: InvStock?
-        get() = invStockList?.get(2)
+        get() = stock[2]
         set(value) {
-            invStockList = invStockList.insertAt(2, value)
+            stock = stock.insertAt(2, value)
         }
 
     public var stock4: InvStock?
-        get() = invStockList?.get(3)
+        get() = stock[3]
         set(value) {
-            invStockList = invStockList.insertAt(3, value)
+            stock = stock.insertAt(3, value)
         }
 
     public var stock5: InvStock?
-        get() = invStockList?.get(4)
+        get() = stock[4]
         set(value) {
-            invStockList = invStockList.insertAt(4, value)
+            stock = stock.insertAt(4, value)
         }
 
     public var stock6: InvStock?
-        get() = invStockList?.get(5)
+        get() = stock[5]
         set(value) {
-            invStockList = invStockList.insertAt(5, value)
+            stock = stock.insertAt(5, value)
         }
 
     public var stock7: InvStock?
-        get() = invStockList?.get(6)
+        get() = stock[6]
         set(value) {
-            invStockList = invStockList.insertAt(6, value)
+            stock = stock.insertAt(6, value)
         }
 
     public var stock8: InvStock?
-        get() = invStockList?.get(7)
+        get() = stock[7]
         set(value) {
-            invStockList = invStockList.insertAt(7, value)
+            stock = stock.insertAt(7, value)
         }
 
     public var stock9: InvStock?
-        get() = invStockList?.get(8)
+        get() = stock[8]
         set(value) {
-            invStockList = invStockList.insertAt(8, value)
+            stock = stock.insertAt(8, value)
         }
 
     public var stock10: InvStock?
-        get() = invStockList?.get(9)
+        get() = stock[9]
         set(value) {
-            invStockList = invStockList.insertAt(9, value)
+            stock = stock.insertAt(9, value)
         }
 
     public var stock11: InvStock?
-        get() = invStockList?.get(10)
+        get() = stock[10]
         set(value) {
-            invStockList = invStockList.insertAt(10, value)
+            stock = stock.insertAt(10, value)
         }
 
     public var stock12: InvStock?
-        get() = invStockList?.get(11)
+        get() = stock[11]
         set(value) {
-            invStockList = invStockList.insertAt(11, value)
+            stock = stock.insertAt(11, value)
         }
 
     public var stock13: InvStock?
-        get() = invStockList?.get(12)
+        get() = stock[12]
         set(value) {
-            invStockList = invStockList.insertAt(12, value)
+            stock = stock.insertAt(12, value)
         }
 
     public var stock14: InvStock?
-        get() = invStockList?.get(13)
+        get() = stock[13]
         set(value) {
-            invStockList = invStockList.insertAt(13, value)
+            stock = stock.insertAt(13, value)
         }
 
     public var stock15: InvStock?
-        get() = invStockList?.get(14)
+        get() = stock[14]
         set(value) {
-            invStockList = invStockList.insertAt(14, value)
+            stock = stock.insertAt(14, value)
         }
 
     public var stock16: InvStock?
-        get() = invStockList?.get(15)
+        get() = stock[15]
         set(value) {
-            invStockList = invStockList.insertAt(15, value)
+            stock = stock.insertAt(15, value)
         }
 
     public var stock17: InvStock?
-        get() = invStockList?.get(16)
+        get() = stock[16]
         set(value) {
-            invStockList = invStockList.insertAt(16, value)
+            stock = stock.insertAt(16, value)
         }
 
     public var stock18: InvStock?
-        get() = invStockList?.get(17)
+        get() = stock[17]
         set(value) {
-            invStockList = invStockList.insertAt(17, value)
+            stock = stock.insertAt(17, value)
         }
 
     public var stock19: InvStock?
-        get() = invStockList?.get(18)
+        get() = stock[18]
         set(value) {
-            invStockList = invStockList.insertAt(18, value)
+            stock = stock.insertAt(18, value)
         }
 
     public var stock20: InvStock?
-        get() = invStockList?.get(19)
+        get() = stock[19]
         set(value) {
-            invStockList = invStockList.insertAt(19, value)
+            stock = stock.insertAt(19, value)
         }
 
     public var stock21: InvStock?
-        get() = invStockList?.get(20)
+        get() = stock[20]
         set(value) {
-            invStockList = invStockList.insertAt(20, value)
+            stock = stock.insertAt(20, value)
         }
 
     public var stock22: InvStock?
-        get() = invStockList?.get(21)
+        get() = stock[21]
         set(value) {
-            invStockList = invStockList.insertAt(21, value)
+            stock = stock.insertAt(21, value)
         }
 
     public var stock23: InvStock?
-        get() = invStockList?.get(22)
+        get() = stock[22]
         set(value) {
-            invStockList = invStockList.insertAt(22, value)
+            stock = stock.insertAt(22, value)
         }
 
     public var stock24: InvStock?
-        get() = invStockList?.get(23)
+        get() = stock[23]
         set(value) {
-            invStockList = invStockList.insertAt(23, value)
+            stock = stock.insertAt(23, value)
         }
 
     public var stock25: InvStock?
-        get() = invStockList?.get(24)
+        get() = stock[24]
         set(value) {
-            invStockList = invStockList.insertAt(24, value)
+            stock = stock.insertAt(24, value)
         }
 
     public var stock26: InvStock?
-        get() = invStockList?.get(25)
+        get() = stock[25]
         set(value) {
-            invStockList = invStockList.insertAt(25, value)
+            stock = stock.insertAt(25, value)
         }
 
     public var stock27: InvStock?
-        get() = invStockList?.get(26)
+        get() = stock[26]
         set(value) {
-            invStockList = invStockList.insertAt(26, value)
+            stock = stock.insertAt(26, value)
         }
 
     public var stock28: InvStock?
-        get() = invStockList?.get(27)
+        get() = stock[27]
         set(value) {
-            invStockList = invStockList.insertAt(27, value)
+            stock = stock.insertAt(27, value)
         }
 
     public var stock29: InvStock?
-        get() = invStockList?.get(28)
+        get() = stock[28]
         set(value) {
-            invStockList = invStockList.insertAt(28, value)
+            stock = stock.insertAt(28, value)
         }
 
     public var stock30: InvStock?
-        get() = invStockList?.get(29)
+        get() = stock[29]
         set(value) {
-            invStockList = invStockList.insertAt(29, value)
+            stock = stock.insertAt(29, value)
         }
 
     public var stock31: InvStock?
-        get() = invStockList?.get(30)
+        get() = stock[30]
         set(value) {
-            invStockList = invStockList.insertAt(30, value)
+            stock = stock.insertAt(30, value)
         }
 
     public var stock32: InvStock?
-        get() = invStockList?.get(31)
+        get() = stock[31]
         set(value) {
-            invStockList = invStockList.insertAt(31, value)
+            stock = stock.insertAt(31, value)
         }
 
     public var stock33: InvStock?
-        get() = invStockList?.get(32)
+        get() = stock[32]
         set(value) {
-            invStockList = invStockList.insertAt(32, value)
+            stock = stock.insertAt(32, value)
         }
 
     public var stock34: InvStock?
-        get() = invStockList?.get(33)
+        get() = stock[33]
         set(value) {
-            invStockList = invStockList.insertAt(33, value)
+            stock = stock.insertAt(33, value)
         }
 
     public var stock35: InvStock?
-        get() = invStockList?.get(34)
+        get() = stock[34]
         set(value) {
-            invStockList = invStockList.insertAt(34, value)
+            stock = stock.insertAt(34, value)
         }
 
     public var stock36: InvStock?
-        get() = invStockList?.get(35)
+        get() = stock[35]
         set(value) {
-            invStockList = invStockList.insertAt(35, value)
+            stock = stock.insertAt(35, value)
         }
 
     public var stock37: InvStock?
-        get() = invStockList?.get(36)
+        get() = stock[36]
         set(value) {
-            invStockList = invStockList.insertAt(36, value)
+            stock = stock.insertAt(36, value)
         }
 
     public var stock38: InvStock?
-        get() = invStockList?.get(37)
+        get() = stock[37]
         set(value) {
-            invStockList = invStockList.insertAt(37, value)
+            stock = stock.insertAt(37, value)
         }
 
     public var stock39: InvStock?
-        get() = invStockList?.get(38)
+        get() = stock[38]
         set(value) {
-            invStockList = invStockList.insertAt(38, value)
+            stock = stock.insertAt(38, value)
         }
 
     public var stock40: InvStock?
-        get() = invStockList?.get(39)
+        get() = stock[39]
         set(value) {
-            invStockList = invStockList.insertAt(39, value)
+            stock = stock.insertAt(39, value)
         }
 
     public fun build(id: Int): UnpackedInvType {
         backing.internal = internal
-        invStockList?.let { stock -> backing.stock = stock.toTypedArray() }
+        if (stock.isNotEmpty()) {
+            backing.stock = stock.toTypedArray()
+        }
+        if (autoSize) {
+            backing.size = stock.size
+        }
         return backing.build(id)
     }
 
     public fun stock(type: ObjType, count: Int, restockCycles: Int): InvStock =
         InvStock(type, count, restockCycles)
 
-    private fun MutableList<InvStock?>?.insertAt(
+    private fun MutableList<InvStock?>.insertAt(
         index: Int,
         stock: InvStock?,
     ): MutableList<InvStock?> =
-        if (this == null) {
-            mutableListOf(stock)
-        } else if (index == size) {
+        if (index == size) {
             apply { this += stock }
         } else {
             val name = "stock${size + 1}"
