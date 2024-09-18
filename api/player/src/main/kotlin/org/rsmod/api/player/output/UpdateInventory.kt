@@ -75,7 +75,7 @@ private fun BitSet.asSequence(): Sequence<Int> = sequence {
 }
 
 private class RspObjProvider(private val objs: Array<InvObj?>) : UpdateInvFull.ObjectProvider {
-    override fun provide(slot: Int): InventoryObject {
+    override fun provide(slot: Int): Long {
         val obj = objs.getOrNull(slot) ?: return InventoryObject.NULL
         return InventoryObject(slot, obj.id, obj.count)
     }
@@ -83,7 +83,7 @@ private class RspObjProvider(private val objs: Array<InvObj?>) : UpdateInvFull.O
 
 private class RspIndexedObjProvider(private val objs: Array<InvObj?>, updateSlots: Iterator<Int>) :
     UpdateInvPartial.IndexedObjectProvider(updateSlots) {
-    override fun provide(slot: Int): InventoryObject {
+    override fun provide(slot: Int): Long {
         val obj = objs.getOrNull(slot) ?: return InventoryObject(slot, -1, -1)
         return InventoryObject(slot, obj.id, obj.count)
     }
