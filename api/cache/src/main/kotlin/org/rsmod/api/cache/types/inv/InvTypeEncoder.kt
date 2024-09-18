@@ -98,7 +98,7 @@ public object InvTypeEncoder {
                         data.writeInt(stock.count)
                     }
                     data.writeShort(stock.obj)
-                    data.writeByte(stock.restockCycles)
+                    data.writeShort(stock.restockCycles)
                 }
             }
         }
