@@ -91,3 +91,33 @@ internal val sos_security_book =
         name = "Security book"
         cost = 2
     }
+
+internal val shark =
+    objTypeFactory.create(id = 16) {
+        name = "Shark"
+        cost = 170
+    }
+
+internal val stamina_potion4 =
+    objTypeFactory.create(id = 17) {
+        name = "Stamina potion(4)"
+        cost = 400
+    }
+
+internal val dragon_claws =
+    objTypeFactory.create(id = 18) {
+        name = "Dragon claws"
+        cost = 205_000
+    }
+
+internal val amulet_of_eternal_glory =
+    objTypeFactory.create(id = 19) {
+        name = "Amulet of eternal glory"
+        cost = 17_625
+    }
+
+internal val amethyst_arrow =
+    objTypeFactory.create(id = 20) {
+        name = "Amethyst arrow"
+        cost = 490
+    }

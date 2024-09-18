@@ -20,6 +20,7 @@ import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.objtx.TransactionResult
+import org.rsmod.objtx.isOk
 
 private typealias CostCalculation = StandardGpCostCalculations
 
@@ -35,9 +36,9 @@ constructor(private val objTypes: ObjTypeList, private val restockProcessor: Sho
 
         val shopInitialObjCount = shop.inv.initialStockCount(obj)
         val value =
-            CostCalculation.calculateSingleSaleValue(
-                currentStock = obj.count,
+            CostCalculation.calculateShopSellSingleValue(
                 initialStock = shopInitialObjCount,
+                currentStock = obj.count,
                 baseCost = objType.cost,
                 sellPercentage = shop.sellPercentage,
                 changePercentage = shop.changePercentage,
@@ -61,22 +62,21 @@ constructor(private val objTypes: ObjTypeList, private val restockProcessor: Sho
             return
         }
 
+        val shopInitialObjCount = shopInv.initialStockCount(obj)
+        val currencyCount = sideInv.count(currencyObj)
         val cappedRequest =
             if (objType.isStackable) {
                 min(Int.MAX_VALUE - sideInv.count(objType), invCappedRequest)
             } else {
-                min(sideInv.freeSpace(), invCappedRequest)
+                min(sideInv.freeSpace() + 1, invCappedRequest)
             }
 
-        val currencyCount = sideInv.count(currencyObj)
-        val shopInitialObjCount = shopInv.initialStockCount(obj)
         val (count, totalCost, firstObjPrice) =
-            CostCalculation.calculateBulkSaleParameters(
-                currentStock = obj.count,
+            CostCalculation.calculateShopSellBulkParameters(
                 initialStock = shopInitialObjCount,
+                currentStock = obj.count,
                 baseCost = objType.cost,
                 requestedCount = max(1, cappedRequest),
-                availableObjCount = obj.count,
                 availableCurrency = currencyCount,
                 sellPercentage = shop.sellPercentage,
                 changePercentage = shop.changePercentage,
@@ -104,18 +104,22 @@ constructor(private val objTypes: ObjTypeList, private val restockProcessor: Sho
                 }
             }
 
+        val currencyResult = transaction.results[0]
+        val invAddResult = transaction.results.getOrNull(2)
+
         val message =
-            when (transaction.err) {
-                TransactionResult.ObjNotFound -> "You don't have enough coins."
-                TransactionResult.NotEnoughObjCount -> "You don't have enough coins."
-                TransactionResult.NotEnoughSpace -> "You don't have enough inventory space."
-                else -> {
-                    if (transaction.success && count < invCappedRequest) {
-                        "You don't have enough inventory space."
-                    } else {
-                        null
-                    }
-                }
+            if (currencyResult == TransactionResult.ObjNotFound) {
+                "You don't have enough coins."
+            } else if (currencyResult == TransactionResult.NotEnoughObjCount) {
+                "You don't have enough coins."
+            } else if (invAddResult == TransactionResult.NotEnoughSpace) {
+                "You don't have enough inventory space."
+            } else if (currencyResult.isOk() && count < invCappedRequest) {
+                "You don't have enough coins."
+            } else if (transaction.success && count < invCappedRequest) {
+                "You don't have enough inventory space."
+            } else {
+                null
             }
         message?.let(player::mes)
 
@@ -166,9 +170,9 @@ constructor(private val objTypes: ObjTypeList, private val restockProcessor: Sho
         val shopCurrentObjCount = shopInv.count(objType)
         val shopInitialObjCount = shopInv.initialStockCount(objType)
         val value =
-            CostCalculation.calculateSingleBuyValue(
-                currentStock = shopCurrentObjCount,
+            CostCalculation.calculateShopBuySingleValue(
                 initialStock = shopInitialObjCount,
+                currentStock = shopCurrentObjCount,
                 baseCost = objType.cost,
                 buyPercentage = shop.buyPercentage,
                 changePercentage = shop.changePercentage,
@@ -210,16 +214,17 @@ constructor(private val objTypes: ObjTypeList, private val restockProcessor: Sho
         }
         val shopCurrentObjCount = shopInv.count(uncertType)
         val shopInitialObjCount = shopInv.initialStockCount(uncertType)
+
+        val currencyCount = sideInv.count(currencyObj)
         val cappedRequest = min(Int.MAX_VALUE - shopCurrentObjCount, invCappedRequest)
 
         val (count, payment) =
-            CostCalculation.calculateBulkBuyParameters(
-                currentStock = shopCurrentObjCount,
+            CostCalculation.calculateShopBuyBulkParameters(
                 initialStock = shopInitialObjCount,
+                currentStock = shopCurrentObjCount,
                 baseCost = uncertType.cost,
                 requestedCount = max(1, cappedRequest),
-                availableObjCount = invCappedRequest,
-                availableCurrency = Int.MAX_VALUE,
+                currencyCap = Int.MAX_VALUE - currencyCount,
                 buyPercentage = shop.buyPercentage,
                 changePercentage = shop.changePercentage,
             )

@@ -2,8 +2,6 @@ package org.rsmod.api.shops.cost
 
 import kotlin.math.floor
 import kotlin.math.max
-import kotlin.math.min
-import kotlin.math.sqrt
 
 public object StandardGpCostCalculations {
     public const val BUY_FROM_SHOP_MIN_FRACTION: Double = 0.3
@@ -13,12 +11,18 @@ public object StandardGpCostCalculations {
         val basePriceWithMarkup: Int,
         val stockDifference: Int,
         val firstObjPrice: Int,
-        val priceIncreasePerObj: Int,
+        val priceChangePerObj: Int,
+    )
+
+    public data class BulkPriceParameters(
+        val count: Int,
+        val totalValue: Int,
+        val firstObjPrice: Int,
     )
 
     public fun calculatePriceParameters(
-        currentStock: Int,
         initialStock: Int,
+        currentStock: Int,
         baseCost: Int,
         exchangePercentage: Double,
         changePercentage: Double,
@@ -31,26 +35,28 @@ public object StandardGpCostCalculations {
         var firstObjPrice = floor(basePriceWithMarkup + difference)
         firstObjPrice = max(minCost.toDouble(), max(firstObjPrice, baseCost * cap))
 
-        val priceIncreasePerObj = max(1, (baseCost * (changePercentage / 100.0)).toInt())
+        val priceChangePerObj = max(minCost, (baseCost * (changePercentage / 100.0)).toInt())
         return PriceParameters(
             basePriceWithMarkup = basePriceWithMarkup.toInt(),
             stockDifference = stockDifference.toInt(),
             firstObjPrice = firstObjPrice.toInt(),
-            priceIncreasePerObj = priceIncreasePerObj,
+            priceChangePerObj = priceChangePerObj,
         )
     }
 
-    public fun calculateSingleSaleValue(
-        currentStock: Int,
+    /* Logic for buying objs from shop */
+
+    public fun calculateShopSellSingleValue(
         initialStock: Int,
+        currentStock: Int,
         baseCost: Int,
         sellPercentage: Double,
         changePercentage: Double,
     ): Int {
         val parameters =
             calculatePriceParameters(
-                currentStock = currentStock,
                 initialStock = initialStock,
+                currentStock = currentStock,
                 baseCost = baseCost,
                 exchangePercentage = sellPercentage,
                 changePercentage = changePercentage,
@@ -60,17 +66,60 @@ public object StandardGpCostCalculations {
         return parameters.firstObjPrice
     }
 
-    public fun calculateSingleBuyValue(
-        currentStock: Int,
+    public fun calculateShopSellBulkParameters(
         initialStock: Int,
+        currentStock: Int,
+        baseCost: Int,
+        requestedCount: Int,
+        availableCurrency: Int,
+        sellPercentage: Double,
+        changePercentage: Double,
+    ): BulkPriceParameters {
+        val firstObjPrice =
+            calculateShopSellSingleValue(
+                initialStock = initialStock,
+                currentStock = currentStock,
+                baseCost = baseCost,
+                sellPercentage = sellPercentage,
+                changePercentage = changePercentage,
+            )
+        var currentCost = firstObjPrice
+        var totalValue = 0
+        var exchangeCount = 0
+
+        while (exchangeCount < requestedCount && totalValue + currentCost <= availableCurrency) {
+            totalValue += currentCost
+            exchangeCount++
+            currentCost =
+                calculateShopSellSingleValue(
+                    initialStock = initialStock,
+                    currentStock = currentStock - exchangeCount,
+                    baseCost = baseCost,
+                    sellPercentage = sellPercentage,
+                    changePercentage = changePercentage,
+                )
+        }
+
+        return BulkPriceParameters(
+            count = exchangeCount,
+            totalValue = totalValue,
+            firstObjPrice = firstObjPrice,
+        )
+    }
+
+    /* Logic for selling objs to shop */
+
+    public fun calculateShopBuySingleValue(
+        initialStock: Int,
+        currentStock: Int,
         baseCost: Int,
         buyPercentage: Double,
         changePercentage: Double,
     ): Int {
         val parameters =
             calculatePriceParameters(
-                currentStock = currentStock,
                 initialStock = initialStock,
+                currentStock = currentStock,
                 baseCost = baseCost,
                 exchangePercentage = buyPercentage,
                 changePercentage = changePercentage,
@@ -80,113 +129,44 @@ public object StandardGpCostCalculations {
         return parameters.firstObjPrice
     }
 
-    public data class BulkSaleParameters(
-        val count: Int,
-        val totalCost: Int,
-        val firstObjPrice: Int,
-    )
-
-    public fun calculateBulkSaleParameters(
-        currentStock: Int,
+    public fun calculateShopBuyBulkParameters(
         initialStock: Int,
+        currentStock: Int,
         baseCost: Int,
         requestedCount: Int,
-        availableObjCount: Int,
-        availableCurrency: Int,
-        sellPercentage: Double,
-        changePercentage: Double,
-    ): BulkSaleParameters =
-        calculateBulkPriceParameters(
-            currentStock = currentStock,
-            initialStock = initialStock,
-            baseCost = baseCost,
-            requestedCount = requestedCount,
-            availableObjCount = availableObjCount,
-            availableCurrency = availableCurrency,
-            exchangePercentage = sellPercentage,
-            changePercentage = changePercentage,
-            cap = BUY_FROM_SHOP_MIN_FRACTION,
-            minCost = 1,
-        )
-
-    public fun calculateBulkBuyParameters(
-        currentStock: Int,
-        initialStock: Int,
-        baseCost: Int,
-        requestedCount: Int,
-        availableObjCount: Int,
-        availableCurrency: Int,
+        currencyCap: Int,
         buyPercentage: Double,
         changePercentage: Double,
-    ): BulkSaleParameters =
-        calculateBulkPriceParameters(
-            currentStock = currentStock,
-            initialStock = initialStock,
-            baseCost = baseCost,
-            requestedCount = requestedCount,
-            availableObjCount = availableObjCount,
-            availableCurrency = availableCurrency,
-            exchangePercentage = buyPercentage,
-            changePercentage = changePercentage,
-            cap = SELL_TO_SHOP_MIN_FRACTION,
-            minCost = 0,
-        )
-
-    public fun calculateBulkPriceParameters(
-        currentStock: Int,
-        initialStock: Int,
-        baseCost: Int,
-        requestedCount: Int,
-        availableObjCount: Int,
-        availableCurrency: Int,
-        exchangePercentage: Double,
-        changePercentage: Double,
-        cap: Double,
-        minCost: Int,
-    ): BulkSaleParameters {
-        val priceParams =
-            calculatePriceParameters(
-                currentStock = currentStock,
+    ): BulkPriceParameters {
+        val firstObjPrice =
+            calculateShopBuySingleValue(
                 initialStock = initialStock,
+                currentStock = currentStock,
                 baseCost = baseCost,
-                exchangePercentage = exchangePercentage,
+                buyPercentage = buyPercentage,
                 changePercentage = changePercentage,
-                cap = cap,
-                minCost = minCost,
             )
-        val firstObjPrice = priceParams.firstObjPrice
-        val priceIncreasePerObj = priceParams.priceIncreasePerObj
+        var currentPrice = firstObjPrice
+        var totalValue = 0
+        var exchangeCount = 0
 
-        val quadraticA = priceIncreasePerObj
-        val quadraticB = 2L * firstObjPrice - priceIncreasePerObj
-        val quadraticC = -2L * availableCurrency
-
-        val discriminant = quadraticB * quadraticB - 4L * quadraticA * quadraticC
-        if (discriminant < 0) {
-            return BulkSaleParameters(count = 0, totalCost = 0, firstObjPrice = firstObjPrice)
+        while (exchangeCount < requestedCount && totalValue + currentPrice <= currencyCap) {
+            totalValue += currentPrice
+            exchangeCount++
+            currentPrice =
+                calculateShopBuySingleValue(
+                    initialStock = initialStock,
+                    currentStock = currentStock + exchangeCount,
+                    baseCost = baseCost,
+                    buyPercentage = buyPercentage,
+                    changePercentage = changePercentage,
+                )
         }
 
-        val validRequestCount = min(requestedCount, availableObjCount)
-        var purchaseCount =
-            floor((-quadraticB + sqrt(discriminant.toDouble())) / (2 * quadraticA)).toInt()
-        purchaseCount = max(0, min(validRequestCount, purchaseCount))
-
-        var totalCost = calculateTotalCost(purchaseCount, firstObjPrice, priceIncreasePerObj)
-        while (totalCost > availableCurrency && purchaseCount > 0) {
-            purchaseCount--
-            totalCost = calculateTotalCost(purchaseCount, firstObjPrice, priceIncreasePerObj)
-        }
-
-        return BulkSaleParameters(
-            count = purchaseCount,
-            totalCost = totalCost,
+        return BulkPriceParameters(
+            count = exchangeCount,
+            totalValue = totalValue,
             firstObjPrice = firstObjPrice,
         )
     }
-
-    public fun calculateTotalCost(
-        objCount: Int,
-        firstObjPrice: Int,
-        priceIncreasePerObj: Int,
-    ): Int = objCount * (2 * firstObjPrice + (objCount - 1) * priceIncreasePerObj) / 2
 }

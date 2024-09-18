@@ -3,8 +3,8 @@ package org.rsmod.api.shops.cost
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.rsmod.api.shops.bowl
 import org.rsmod.api.shops.cake_tin
-import org.rsmod.api.shops.cost.StandardGpCostCalculations.calculateBulkSaleParameters
-import org.rsmod.api.shops.cost.StandardGpCostCalculations.calculateSingleSaleValue
+import org.rsmod.api.shops.cost.StandardGpCostCalculations.calculateShopSellBulkParameters
+import org.rsmod.api.shops.cost.StandardGpCostCalculations.calculateShopSellSingleValue
 import org.rsmod.api.shops.empty_bucket
 import org.rsmod.api.shops.empty_bucket_pack
 import org.rsmod.api.shops.empty_jug_pack
@@ -18,25 +18,25 @@ import org.rsmod.api.testing.params.TestWithArgs
 import org.rsmod.game.type.obj.UnpackedObjType
 
 class StandardGpCostCalculationBuyTest {
-    @TestWithArgs(WithinStockCostProvider::class)
-    fun `calculate cost based on within-stock quantity`(
+    @TestWithArgs(WithinStockProvider::class)
+    fun `calculate single cost based on within-stock quantity`(
         initialStock: Int,
         currentStock: Int,
-        expectedCost: Int,
+        expectedValue: Int,
         obj: UnpackedObjType,
     ) {
-        val cost =
-            calculateSingleSaleValue(
+        val actualValue =
+            calculateShopSellSingleValue(
                 currentStock = currentStock,
                 initialStock = initialStock,
                 baseCost = obj.cost,
                 sellPercentage = LUMBRIDGE_STORE_SELL_PERCENTAGE,
                 changePercentage = LUMBRIDGE_STORE_CHANGE_PERCENTAGE,
             )
-        assertEquals(expectedCost, cost)
+        assertEquals(expectedValue, actualValue)
     }
 
-    private object WithinStockCostProvider : TestArgsProvider {
+    private object WithinStockProvider : TestArgsProvider {
         override fun args(): List<TestArgs> =
             listOf(
                 // NOTE: empty_pot has a 1 gp cost; can skip other 1-gp-cost objs.
@@ -99,25 +99,25 @@ class StandardGpCostCalculationBuyTest {
             )
     }
 
-    @TestWithArgs(OverStockCostProvider::class)
-    fun `calculate cost based on overstock quantity`(
+    @TestWithArgs(OverStockProvider::class)
+    fun `calculate single cost based on overstock quantity`(
         initialStock: Int,
         currentStock: Int,
-        expectedCost: Int,
+        expectedValue: Int,
         obj: UnpackedObjType,
     ) {
-        val cost =
-            calculateSingleSaleValue(
+        val actualValue =
+            calculateShopSellSingleValue(
                 currentStock = currentStock,
                 initialStock = initialStock,
                 baseCost = obj.cost,
                 sellPercentage = LUMBRIDGE_STORE_SELL_PERCENTAGE,
                 changePercentage = LUMBRIDGE_STORE_CHANGE_PERCENTAGE,
             )
-        assertEquals(expectedCost, cost)
+        assertEquals(expectedValue, actualValue)
     }
 
-    private object OverStockCostProvider : TestArgsProvider {
+    private object OverStockProvider : TestArgsProvider {
         override fun args(): List<TestArgs> =
             listOf(
                 TestArgs(5, 9, 7, knife),
@@ -132,31 +132,31 @@ class StandardGpCostCalculationBuyTest {
             )
     }
 
-    @TestWithArgs(StockBulkCostProvider::class)
+    @TestWithArgs(StockBulkProvider::class)
     fun `calculate bulk cost based on stock`(
         initialStock: Int,
         currentStock: Int,
         buyCount: Int,
-        expectedTotalCost: Int,
+        expectedTotalValue: Int,
         obj: UnpackedObjType,
     ) {
         val parameters =
-            calculateBulkSaleParameters(
+            calculateShopSellBulkParameters(
                 currentStock = currentStock,
                 initialStock = initialStock,
                 baseCost = obj.cost,
                 requestedCount = buyCount,
-                availableObjCount = currentStock,
                 availableCurrency = Int.MAX_VALUE,
                 sellPercentage = LUMBRIDGE_STORE_SELL_PERCENTAGE,
                 changePercentage = LUMBRIDGE_STORE_CHANGE_PERCENTAGE,
             )
-        assertEquals(expectedTotalCost, parameters.totalCost)
+        assertEquals(expectedTotalValue, parameters.totalValue)
     }
 
-    private object StockBulkCostProvider : TestArgsProvider {
+    private object StockBulkProvider : TestArgsProvider {
         override fun args(): List<TestArgs> =
             listOf(
+                TestArgs(5, 5, 2, 14, knife),
                 TestArgs(5, 5, 5, 950, empty_jug_pack),
                 TestArgs(5, 5, 4, 752, empty_jug_pack),
                 TestArgs(5, 5, 3, 558, empty_jug_pack),
