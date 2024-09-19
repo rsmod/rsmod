@@ -16,7 +16,6 @@ constructor(
 ) {
     private val addNpcs = ObjectArrayList<Npc>()
     private val delNpcs = ObjectArrayList<Npc>()
-    private val revealNpcs = ObjectArrayList<Npc>()
 
     public fun add(npc: Npc, duration: Int): Boolean {
         val added = registry.add(npc)
@@ -50,11 +49,16 @@ constructor(
         }
     }
 
+    internal fun processReveal(npc: Npc) {
+        if (npc.shouldTrigger(npc.lifecycleRevealCycle)) {
+            registry.reveal(npc)
+        }
+    }
+
     internal fun processDurations() {
         computeDurations()
         processDelDurations()
         processAddDurations()
-        processRevealNpcs()
     }
 
     private fun computeDurations() {
@@ -64,9 +68,6 @@ constructor(
             }
             if (npc.shouldTrigger(npc.lifecycleAddCycle)) {
                 addNpcs.add(npc)
-            }
-            if (npc.shouldTrigger(npc.lifecycleRevealCycle)) {
-                revealNpcs.add(npc)
             }
         }
     }
@@ -83,13 +84,6 @@ constructor(
             registry.add(npc)
         }
         addNpcs.clear()
-    }
-
-    private fun processRevealNpcs() {
-        for (npc in revealNpcs) {
-            registry.reveal(npc)
-        }
-        revealNpcs.clear()
     }
 
     private fun Npc.shouldTrigger(triggerCycle: Int): Boolean = mapClock.cycle == triggerCycle

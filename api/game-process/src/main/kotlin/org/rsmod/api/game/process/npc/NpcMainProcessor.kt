@@ -7,6 +7,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.supervisorScope
 import org.rsmod.api.game.process.entity.PathingEntityFaceSquareProcessor
 import org.rsmod.api.game.process.npc.mode.NpcModeProcessor
+import org.rsmod.api.repo.NpcRevealProcessor
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.NpcList
@@ -15,6 +16,7 @@ public class NpcMainProcessor
 @Inject
 constructor(
     private val npcs: NpcList,
+    private val reveal: NpcRevealProcessor,
     private val movement: NpcMovementProcessor,
     private val modes: NpcModeProcessor,
     private val facing: PathingEntityFaceSquareProcessor,
@@ -43,6 +45,9 @@ constructor(
             npc.currentMapClock = mapClock.cycle
             if (npc.isNotDelayed) {
                 npc.resumePausedProcess()
+            }
+            reveal.process(npc)
+            if (npc.isNotDelayed) {
                 npc.modeProcess()
                 npc.movementProcess()
                 npc.faceSquareProcess()
