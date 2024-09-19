@@ -41,17 +41,17 @@ constructor(
         for (npc in this@process) {
             npc.previousCoords = npc.coords
             npc.currentMapClock = mapClock.cycle
-            npc.resumePausedProcess()
-            npc.modeProcess()
-            npc.movementProcess()
-            npc.faceSquareProcess()
+            if (npc.isNotDelayed) {
+                npc.resumePausedProcess()
+                npc.modeProcess()
+                npc.movementProcess()
+                npc.faceSquareProcess()
+            }
         }
     }
 
     private fun Npc.resumePausedProcess() {
-        if (isNotDelayed) {
-            advanceActiveCoroutine()
-        }
+        advanceActiveCoroutine()
     }
 
     private fun Npc.modeProcess() {
