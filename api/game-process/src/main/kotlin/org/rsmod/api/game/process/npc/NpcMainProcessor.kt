@@ -2,9 +2,7 @@ package org.rsmod.api.game.process.npc
 
 import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
-import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.supervisorScope
 import org.rsmod.api.game.process.entity.PathingEntityFaceSquareProcessor
 import org.rsmod.api.game.process.npc.mode.NpcModeProcessor
 import org.rsmod.api.game.process.npc.timer.AITimerProcessor
@@ -32,28 +30,20 @@ constructor(
 
     @Suppress("DeferredResultUnused")
     private fun NpcList.process() = runBlocking {
-        supervisorScope {
-            for (npc in this@process) {
-                val request = npc.routeRequest ?: continue
-                if (request.recalc) {
-                    continue
-                }
-                npc.routeRequest = null
-                async { npc.tryOrDespawn { movement.consumeRequest(this, request) } }
-            }
-        }
         for (npc in this@process) {
             npc.previousCoords = npc.coords
             npc.currentMapClock = mapClock.cycle
-            if (npc.isNotDelayed) {
-                npc.resumePausedProcess()
-            }
-            reveal.process(npc)
-            if (npc.isNotDelayed) {
-                npc.aiTimerProcess()
-                npc.modeProcess()
-                npc.movementProcess()
-                npc.faceSquareProcess()
+            npc.tryOrDespawn {
+                if (isNotDelayed) {
+                    resumePausedProcess()
+                }
+                reveal.process(this)
+                if (isNotDelayed) {
+                    aiTimerProcess()
+                    modeProcess()
+                    movementProcess()
+                    faceSquareProcess()
+                }
             }
         }
     }
