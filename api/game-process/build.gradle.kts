@@ -15,6 +15,7 @@ dependencies {
     implementation(libs.rsprot)
     implementation(projects.api.config)
     implementation(projects.api.interactions)
+    implementation(projects.api.npc)
     implementation(projects.api.player)
     implementation(projects.api.random)
     implementation(projects.api.registry)

@@ -34,7 +34,9 @@ public class Npc(
 
     public var spawnCoords: CoordGrid = coords
     public var defaultMoveSpeed: MoveSpeed = MoveSpeed.Walk
+
     public var mode: NpcMode? = type.defaultMode
+    public var aiTimerCycles: Int = type.timer
 
     public var lifecycleAddCycle: Int = -1
     public var lifecycleDelCycle: Int = -1

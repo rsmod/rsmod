@@ -1,5 +1,6 @@
 package org.rsmod.api.script
 
+import org.rsmod.api.npc.events.NpcAIEvents
 import org.rsmod.api.player.events.interact.NpcContentEvents
 import org.rsmod.api.player.events.interact.NpcEvents
 import org.rsmod.api.player.protect.ProtectedAccess
@@ -108,3 +109,12 @@ public fun ScriptContext.onApNpc5(
     content: ContentType,
     action: suspend ProtectedAccess.(NpcContentEvents.Ap5) -> Unit,
 ): Unit = onProtectedEvent<NpcContentEvents.Ap5>(content.id, action)
+
+/* Timer functions */
+public fun ScriptContext.onAiTimer(type: NpcType, action: NpcAIEvents.Type.() -> Unit): Unit =
+    onEvent(type.id, action)
+
+public fun ScriptContext.onAiTimer(
+    content: ContentType,
+    action: NpcAIEvents.Content.() -> Unit,
+): Unit = onEvent(content.id, action)

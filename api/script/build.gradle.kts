@@ -8,6 +8,7 @@ kotlin {
 
 dependencies {
     implementation(projects.api.gameProcess)
+    implementation(projects.api.npc)
     implementation(projects.api.player)
     implementation(projects.engine.events)
     implementation(projects.engine.plugin)

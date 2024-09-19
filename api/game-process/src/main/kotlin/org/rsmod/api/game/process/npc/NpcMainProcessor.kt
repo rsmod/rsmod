@@ -7,6 +7,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.supervisorScope
 import org.rsmod.api.game.process.entity.PathingEntityFaceSquareProcessor
 import org.rsmod.api.game.process.npc.mode.NpcModeProcessor
+import org.rsmod.api.game.process.npc.timer.AITimerProcessor
 import org.rsmod.api.repo.NpcRevealProcessor
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Npc
@@ -17,6 +18,7 @@ public class NpcMainProcessor
 constructor(
     private val npcs: NpcList,
     private val reveal: NpcRevealProcessor,
+    private val aiTimer: AITimerProcessor,
     private val movement: NpcMovementProcessor,
     private val modes: NpcModeProcessor,
     private val facing: PathingEntityFaceSquareProcessor,
@@ -48,6 +50,7 @@ constructor(
             }
             reveal.process(npc)
             if (npc.isNotDelayed) {
+                npc.aiTimerProcess()
                 npc.modeProcess()
                 npc.movementProcess()
                 npc.faceSquareProcess()
@@ -57,6 +60,10 @@ constructor(
 
     private fun Npc.resumePausedProcess() {
         advanceActiveCoroutine()
+    }
+
+    private fun Npc.aiTimerProcess() {
+        aiTimer.process(this)
     }
 
     private fun Npc.modeProcess() {
