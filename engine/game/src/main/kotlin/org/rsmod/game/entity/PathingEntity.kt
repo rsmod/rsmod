@@ -102,6 +102,9 @@ public sealed class PathingEntity {
     public val cyclesWithoutMovement: Int
         get() = currentMapClock - lastMovement
 
+    public val isFacingEntity: Boolean
+        get() = faceEntitySlot != -1
+
     public val isFacingPlayer: Boolean
         get() = faceEntitySlot >= PathingEntityCommon.FACE_PLAYER_START_SLOT
 
