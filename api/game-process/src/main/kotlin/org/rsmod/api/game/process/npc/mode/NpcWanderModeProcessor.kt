@@ -1,4 +1,4 @@
-package org.rsmod.api.game.process.npc
+package org.rsmod.api.game.process.npc.mode
 
 import jakarta.inject.Inject
 import org.rsmod.api.random.CoreRandom

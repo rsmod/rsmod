@@ -1,9 +1,10 @@
-package org.rsmod.api.game.process.npc
+package org.rsmod.api.game.process.npc.mode
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import org.rsmod.api.game.process.npc.NpcMovementProcessor
 import org.rsmod.api.testing.GameTestState
 import org.rsmod.api.testing.factory.npcFactory
 import org.rsmod.api.testing.factory.npcTypeFactory
