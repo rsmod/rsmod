@@ -79,6 +79,10 @@ public class Npc(
     public fun telejump(collision: CollisionFlagMap, dest: CoordGrid): Unit =
         PathingEntityCommon.telejump(this, collision, dest)
 
+    public fun setTimer(cycles: Int) {
+        this.aiTimerCycles = cycles
+    }
+
     public fun resetMode() {
         resetFaceEntity()
         mode = null
@@ -104,8 +108,15 @@ public class Npc(
     }
 
     public fun facingTarget(playerList: PlayerList): Player? =
-        if (faceEntitySlot >= PathingEntityCommon.FACE_PLAYER_START_SLOT) {
+        if (isFacingPlayer) {
             playerList[faceEntitySlot - PathingEntityCommon.FACE_PLAYER_START_SLOT]
+        } else {
+            null
+        }
+
+    public fun facingTarget(npcList: NpcList): Npc? =
+        if (isFacingNpc) {
+            npcList[faceEntitySlot]
         } else {
             null
         }
