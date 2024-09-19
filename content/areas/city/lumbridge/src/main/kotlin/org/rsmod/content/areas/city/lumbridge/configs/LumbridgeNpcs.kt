@@ -71,6 +71,7 @@ internal object LumbridgeNpcEditor : NpcEditor() {
         edit("arthur_the_clue_hunter") {
             respawnDir = north
             wanderRange = 0
+            timer = 20
         }
 
         edit("bartender_id_7546") {

@@ -1,20 +1,54 @@
 package org.rsmod.content.areas.city.lumbridge.npcs
 
 import jakarta.inject.Inject
+import org.rsmod.api.config.refs.seqs
 import org.rsmod.api.dialogue.Dialogue
 import org.rsmod.api.dialogue.Dialogues
 import org.rsmod.api.dialogue.startDialogue
 import org.rsmod.api.player.protect.ProtectedAccess
+import org.rsmod.api.random.GameRandom
+import org.rsmod.api.script.onAiTimer
 import org.rsmod.api.script.onOpNpc1
 import org.rsmod.content.areas.city.lumbridge.configs.LumbridgeNpcs
 import org.rsmod.content.areas.city.lumbridge.configs.clueScrollDisableVessels
 import org.rsmod.game.entity.Npc
+import org.rsmod.game.map.Direction
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-class ArthurTheClueHunter @Inject constructor(private val dialogues: Dialogues) : PluginScript() {
+class ArthurTheClueHunter
+@Inject
+constructor(private val random: GameRandom, private val dialogues: Dialogues) : PluginScript() {
     override fun ScriptContext.startUp() {
+        onAiTimer(LumbridgeNpcs.arthur_the_clue_hunter) { npc.shout() }
         onOpNpc1(LumbridgeNpcs.arthur_the_clue_hunter) { startDialogue(it.npc) }
+    }
+
+    private fun Npc.shout() {
+        resetFaceEntity()
+        faceDirection(Direction.North)
+        when (random.of(maxExclusive = 5)) {
+            0 -> {
+                say("Why did I not think of that before.")
+                anim(seqs.slap_head)
+            }
+            1 -> {
+                say("Hmm.... What could this mean?")
+                anim(seqs.shrug)
+            }
+            2 -> {
+                say("I'm going to be rich!")
+                anim(seqs.jump_for_joy)
+            }
+            3 -> {
+                say("I've got it!")
+                anim(seqs.idea)
+            }
+            4 -> {
+                say("Why is this so hard...")
+                anim(seqs.stamp)
+            }
+        }
     }
 
     private suspend fun ProtectedAccess.startDialogue(npc: Npc) =
