@@ -30,23 +30,23 @@ constructor(private val random: GameRandom, private val dialogues: Dialogues) : 
         when (random.of(maxExclusive = 5)) {
             0 -> {
                 say("Why did I not think of that before.")
-                anim(seqs.slap_head)
+                anim(seqs.emote_slap_head)
             }
             1 -> {
                 say("Hmm.... What could this mean?")
-                anim(seqs.shrug)
+                anim(seqs.emote_shrug)
             }
             2 -> {
                 say("I'm going to be rich!")
-                anim(seqs.jump_for_joy)
+                anim(seqs.emote_jump_with_joy)
             }
             3 -> {
                 say("I've got it!")
-                anim(seqs.idea)
+                anim(seqs.emote_lightbulb)
             }
             4 -> {
                 say("Why is this so hard...")
-                anim(seqs.stamp)
+                anim(seqs.emote_stampfeet)
             }
         }
     }

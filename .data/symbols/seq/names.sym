@@ -75,8 +75,8 @@
 828	human_reachforladddertop
 832	human_pickuptable
 
-2109	jump_for_joy
-2113	shrug
-4275	slap_head
-4276	idea
-4278	stamp
+2109	emote_jump_with_joy
+2113	emote_shrug
+4275	emote_slap_head
+4276	emote_lightbulb
+4278	emote_stampfeet

@@ -83,9 +83,9 @@ public object BaseSeqs : SeqReferences() {
     public val chat_angry3: SeqType = find(6084199341057174784)
     public val chat_angry4: SeqType = find(7210468101274955265)
 
-    public val jump_for_joy: SeqType = find(6714284013292701398)
-    public val shrug: SeqType = find(5070576747624279012)
-    public val slap_head: SeqType = find(3370474307084846909)
-    public val idea: SeqType = find(292138196177583791)
-    public val stamp: SeqType = find(5494836562082430474)
+    public val emote_jump_with_joy: SeqType = find(6714284013292701398)
+    public val emote_shrug: SeqType = find(5070576747624279012)
+    public val emote_slap_head: SeqType = find(3370474307084846909)
+    public val emote_lightbulb: SeqType = find(292138196177583791)
+    public val emote_stampfeet: SeqType = find(5494836562082430474)
 }
