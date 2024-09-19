@@ -68,7 +68,7 @@ constructor(
 
         // Note that the event is published _after_ the npc is registered to the zone, in case said
         // information is required by the listeners.
-        eventBus.publish(NpcEvents.Show(npc))
+        eventBus.publish(NpcEvents.Reveal(npc))
 
         // Reveal the npc client avatar.
         npc.hidden = false

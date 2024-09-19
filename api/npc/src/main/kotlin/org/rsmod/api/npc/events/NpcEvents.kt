@@ -10,5 +10,5 @@ public sealed class NpcEvents {
 
     public data class Hide(val npc: Npc) : UnboundEvent
 
-    public data class Show(val npc: Npc) : UnboundEvent
+    public data class Reveal(val npc: Npc) : UnboundEvent
 }
