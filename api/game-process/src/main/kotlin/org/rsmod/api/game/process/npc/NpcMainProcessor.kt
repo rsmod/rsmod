@@ -78,7 +78,7 @@ constructor(
         val pending = pendingFaceSquare
         facing.process(this)
         if (faceAngle != -1) {
-            rspAvatar.extendedInfo.faceCoord(pending.x, pending.z, instant = true)
+            rspAvatar.extendedInfo.faceCoord(pending.x, pending.z, instant = false)
         }
     }
 
