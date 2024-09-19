@@ -1,7 +1,6 @@
 package org.rsmod.api.repo.loc
 
 import jakarta.inject.Inject
-import java.util.LinkedList
 import org.rsmod.api.registry.loc.LocRegistry
 import org.rsmod.api.registry.loc.LocRegistryResult
 import org.rsmod.game.MapClock
@@ -25,8 +24,8 @@ constructor(
     private val registry: LocRegistry,
     private val locTypes: LocTypeList,
 ) {
-    private val addDurations = LinkedList<LocCycleDuration>()
-    private val delDurations = LinkedList<LocCycleDuration>()
+    private val addDurations = ArrayDeque<LocCycleDuration>()
+    private val delDurations = ArrayDeque<LocCycleDuration>()
 
     public fun add(loc: LocInfo, duration: Int) {
         val add = registry.add(loc)
@@ -76,7 +75,7 @@ constructor(
 
     private fun BoundLocInfo.toLocInfo(): LocInfo = LocInfo(layer, coords, entity)
 
-    private fun LinkedList<LocCycleDuration>.removeExisting(loc: LocInfo) {
+    private fun ArrayDeque<LocCycleDuration>.removeExisting(loc: LocInfo) {
         val iterator = iterator()
         while (iterator.hasNext()) {
             val next = iterator.next()

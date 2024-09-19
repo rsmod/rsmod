@@ -1,10 +1,9 @@
 package org.rsmod.api.registry.zone
 
-import java.util.LinkedList
 import net.rsprot.protocol.message.ZoneProt
 
 public class ZoneUpdateList : Iterable<ZoneProt> {
-    public val protList: LinkedList<ZoneProt> = LinkedList()
+    public val protList: ArrayDeque<ZoneProt> = ArrayDeque()
 
     public val size: Int
         get() = protList.size

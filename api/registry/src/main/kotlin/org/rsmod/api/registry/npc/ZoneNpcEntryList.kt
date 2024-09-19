@@ -1,14 +1,13 @@
 package org.rsmod.api.registry.npc
 
-import java.util.LinkedList
 import org.rsmod.game.entity.Npc
 
 @JvmInline
-public value class ZoneNpcEntryList(public val entries: LinkedList<Npc>) {
+public value class ZoneNpcEntryList(public val entries: ArrayDeque<Npc>) {
     public val size: Int
         get() = entries.size
 
-    public constructor() : this(LinkedList())
+    public constructor() : this(ArrayDeque())
 
     // TODO: Find out if npcs are FIFO or LIFO
     public fun add(entry: Npc) {

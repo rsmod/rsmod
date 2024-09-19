@@ -1,7 +1,6 @@
 package org.rsmod.api.repo.obj
 
 import jakarta.inject.Inject
-import java.util.LinkedList
 import org.rsmod.api.registry.obj.ObjRegistry
 import org.rsmod.game.MapClock
 import org.rsmod.game.obj.InvObj
@@ -20,8 +19,8 @@ constructor(
     private val registry: ObjRegistry,
     private val objTypes: ObjTypeList,
 ) {
-    private val addDurations = LinkedList<ObjAddDuration>()
-    private val delDurations = LinkedList<ObjDelDuration>()
+    private val addDurations = ArrayDeque<ObjAddDuration>()
+    private val delDurations = ArrayDeque<ObjDelDuration>()
 
     public fun add(obj: Obj, duration: Int, reveal: Int = duration - DEFAULT_REVEAL_DELTA) {
         require(obj.count > 0) { "Obj must have a `count` higher than 0: $obj" }
