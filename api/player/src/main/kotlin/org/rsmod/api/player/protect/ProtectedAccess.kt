@@ -2,6 +2,7 @@ package org.rsmod.api.player.protect
 
 import com.github.michaelbull.logging.InlineLogger
 import kotlin.math.max
+import net.rsprot.protocol.game.outgoing.misc.player.TriggerOnDialogAbort
 import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.components
 import org.rsmod.api.player.input.CountDialogInput
@@ -634,7 +635,17 @@ private fun MesAnimType.splitGetAnim(lines: Int) =
  * [org.rsmod.api.player.protect.ProtectedAccess.clearPendingAction] instead.
  */
 public fun Player.clearPendingAction(eventBus: EventBus) {
+    triggerOnDialogAbort()
     cancelActiveCoroutine()
     clearInteraction()
     ifCloseModals(eventBus)
+}
+
+private fun Player.triggerOnDialogAbort() {
+    // If this is called, we can safely assume the only active coroutine would be from a chatbox
+    // related suspension. `delay` suspensions would not allow this function to be reached as the
+    // player would be under a delay and the respective packets would be discarded.
+    if (activeCoroutine?.isSuspended == true) {
+        client.write(TriggerOnDialogAbort)
+    }
 }
