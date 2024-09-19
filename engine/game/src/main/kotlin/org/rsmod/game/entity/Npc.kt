@@ -7,6 +7,7 @@ import org.rsmod.game.map.Direction
 import org.rsmod.game.movement.BlockWalk
 import org.rsmod.game.movement.MoveRestrict
 import org.rsmod.game.movement.MoveSpeed
+import org.rsmod.game.type.content.ContentType
 import org.rsmod.game.type.npc.UnpackedNpcType
 import org.rsmod.map.CoordGrid
 import org.rsmod.pathfinder.collision.CollisionFlagMap
@@ -142,6 +143,8 @@ public class Npc(
         } else {
             playerFaceClose(target)
         }
+
+    public fun matches(contentType: ContentType): Boolean = type.contentType == contentType.id
 
     public fun forceDespawn() {
         // TODO: force
