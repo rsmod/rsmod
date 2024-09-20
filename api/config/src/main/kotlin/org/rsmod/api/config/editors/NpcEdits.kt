@@ -38,12 +38,12 @@ private fun NpcEditor.duck(internal: String) =
     edit(internal) {
         moveRestrict = blocked
         contentType = content.duck
-        timer = 0
+        timer = 1
     }
 
 private fun NpcEdits.duckling(internal: String) =
     edit(internal) {
         moveRestrict = blocked
         contentType = content.duckling
-        timer = 0
+        timer = 1
     }

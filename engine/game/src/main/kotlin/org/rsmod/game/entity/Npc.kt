@@ -43,7 +43,9 @@ public class Npc(
     public var defaultMoveSpeed: MoveSpeed = MoveSpeed.Walk
 
     public var mode: NpcMode? = type.defaultMode
-    public var aiTimerCycles: Int = type.timer
+
+    public var aiTimerStart: Int = type.timer
+    public var aiTimer: Int = type.timer
 
     public var lifecycleAddCycle: Int = -1
     public var lifecycleDelCycle: Int = -1
@@ -88,7 +90,8 @@ public class Npc(
         PathingEntityCommon.telejump(this, collision, dest)
 
     public fun aiTimer(cycles: Int) {
-        this.aiTimerCycles = cycles
+        this.aiTimerStart = cycles
+        this.aiTimer = cycles
     }
 
     public fun timer(timer: TimerType, cycles: Int) {

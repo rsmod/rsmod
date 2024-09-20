@@ -17,7 +17,7 @@ public class NpcMainProcessor
 constructor(
     private val npcs: NpcList,
     private val reveal: NpcRevealProcessor,
-    private val aiTimer: AITimerProcessor,
+    private val aiTimers: AITimerProcessor,
     private val timers: NpcTimerProcessor,
     private val movement: NpcMovementProcessor,
     private val modes: NpcModeProcessor,
@@ -56,7 +56,7 @@ constructor(
     }
 
     private fun Npc.aiTimerProcess() {
-        aiTimer.process(this)
+        aiTimers.process(this)
     }
 
     private fun Npc.timerProcess() {
