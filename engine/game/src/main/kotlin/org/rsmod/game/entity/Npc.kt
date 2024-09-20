@@ -7,9 +7,11 @@ import org.rsmod.game.map.Direction
 import org.rsmod.game.movement.BlockWalk
 import org.rsmod.game.movement.MoveRestrict
 import org.rsmod.game.movement.MoveSpeed
+import org.rsmod.game.seq.EntitySeq
 import org.rsmod.game.timer.NpcTimerMap
 import org.rsmod.game.type.content.ContentType
 import org.rsmod.game.type.npc.UnpackedNpcType
+import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.timer.TimerType
 import org.rsmod.map.CoordGrid
 import org.rsmod.pathfinder.collision.CollisionFlagMap
@@ -54,6 +56,7 @@ public class Npc(
     public var wanderIdleCycles: Int = -1
 
     public lateinit var rspAvatar: RspAvatar
+    private var lastSequenceCycle: Int = -1
 
     public val id: Int
         get() = type.id
@@ -95,6 +98,29 @@ public class Npc(
     public fun resetMode() {
         resetFaceEntity()
         mode = null
+    }
+
+    override fun anim(seq: SeqType, delay: Int, priority: Int) {
+        // For now, we will reset any sequence from previous cycles here. Ideally, we'd find an
+        // appropriate spot during one of the process steps for npcs. Until then, this is a valid
+        // solution to making sure sequences from previous cycles don't block this `anim` request
+        // if they have higher `priority`.
+        if (currentMapClock > lastSequenceCycle) {
+            pendingSequence = EntitySeq.NULL
+        }
+
+        val setSequence = PathingEntityCommon.anim(this, seq, delay, priority)
+        if (!setSequence) {
+            return
+        }
+
+        if (pendingSequence == EntitySeq.ZERO) {
+            rspAvatar.extendedInfo.setSequence(-1, 0)
+        } else {
+            rspAvatar.extendedInfo.setSequence(pendingSequence.id, pendingSequence.delay)
+        }
+
+        lastSequenceCycle = currentMapClock
     }
 
     public fun say(text: String) {

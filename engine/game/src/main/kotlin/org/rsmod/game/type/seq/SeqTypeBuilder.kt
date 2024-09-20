@@ -57,7 +57,6 @@ public class SeqTypeBuilder(public var internal: String? = null) {
             replayOff = replayOff,
             walkMerge = walkMerge,
             stretches = stretches,
-            priority = priority,
             mainhand = mainhand,
             offhand = offhand,
             replayCount = replayCount,
@@ -72,6 +71,7 @@ public class SeqTypeBuilder(public var internal: String? = null) {
             keyframeRangeStart = keyframeRangeStart,
             keyframeRangeEnd = keyframeRangeEnd,
             keyframeWalkMerge = keyframeWalkMerge,
+            priority = priority,
             internalId = id,
             internalName = internal,
         )

@@ -17,6 +17,7 @@ import net.rsprot.protocol.message.OutgoingGameMessage
 import org.rsmod.game.client.Client
 import org.rsmod.game.entity.Player
 import org.rsmod.game.movement.MoveSpeed
+import org.rsmod.game.seq.EntitySeq
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.zone.ZoneKey
 
@@ -169,9 +170,16 @@ class RspClient(val session: Session<Player>, val xteaProvider: XteaProvider) :
     }
 
     private fun Player.applyAnim() {
-        if (pendingSequenceAnim != -Int.MAX_VALUE) {
-            playerExtendedInfo.setSequence(pendingSequenceAnim, pendingSequenceDelay)
-            pendingSequenceAnim = -Int.MAX_VALUE
+        when (pendingSequence) {
+            EntitySeq.NULL -> return
+            EntitySeq.ZERO -> {
+                playerExtendedInfo.setSequence(-1, 0)
+                pendingSequence = EntitySeq.NULL
+            }
+            else -> {
+                playerExtendedInfo.setSequence(pendingSequence.id, pendingSequence.delay)
+                pendingSequence = EntitySeq.NULL
+            }
         }
     }
 }

@@ -123,6 +123,10 @@ public object TypeResolver {
         type.internalName = internalName
     }
 
+    public fun setPriority(type: SeqType, priority: Int) {
+        type.internalPriority = priority
+    }
+
     public operator fun get(type: StatType): Int? = type.internalId
 
     public operator fun set(type: StatType, id: Int) {

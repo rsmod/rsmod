@@ -43,6 +43,10 @@ constructor(
         TypeResolver[this] = name
         TypeResolver[this] = internalId
 
+        if (cacheType != null) {
+            TypeResolver.setPriority(this, cacheType.priority)
+        }
+
         return when (val cacheIdentityHash = cacheType?.computeIdentityHash()) {
             null -> update(CacheTypeNotFound)
             supposedHash -> ok(FullSuccess)

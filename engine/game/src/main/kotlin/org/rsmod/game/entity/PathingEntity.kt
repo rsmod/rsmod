@@ -12,6 +12,7 @@ import org.rsmod.game.map.Direction
 import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.movement.RouteDestination
 import org.rsmod.game.movement.RouteRequest
+import org.rsmod.game.seq.EntitySeq
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.vars.VariableIntMap
 import org.rsmod.game.vars.VariableStringMap
@@ -62,12 +63,11 @@ public sealed class PathingEntity {
     public var pendingFaceLength: Int = 1
     public var faceAngle: Int = 0
 
-    // TODO: Encapsulate in a value class
-    public var pendingSequenceAnim: Int = -Int.MAX_VALUE
-    public var pendingSequenceDelay: Int = 0
-    public var pendingSequencePriority: Int = 0
+    public var pendingSequence: EntitySeq = EntitySeq.NULL
 
     public var interaction: Interaction? = null
+
+    internal var animProtect: Boolean = false
 
     public val isSlotAssigned: Boolean
         get() = slotId != INVALID_SLOT
@@ -196,19 +196,11 @@ public sealed class PathingEntity {
         interaction = null
     }
 
-    public fun anim(seq: SeqType? = null, delay: Int = 0, priority: Int = 0) {
-        // TODO: Clean up this condition.
-        val hasPriority =
-            seq == null ||
-                pendingSequenceAnim == -1 ||
-                priority > pendingSequencePriority ||
-                pendingSequencePriority == 0
-        if (hasPriority) {
-            pendingSequenceAnim = seq?.id ?: -1
-            pendingSequenceDelay = delay
-            pendingSequencePriority = priority
-        }
+    public fun resetAnim() {
+        pendingSequence = EntitySeq.ZERO
     }
+
+    public abstract fun anim(seq: SeqType, delay: Int = 0, priority: Int = seq.priority)
 
     /**
      * Sets the [pendingFaceSquare] for [target] to face as soon as this [PathingEntity] is not

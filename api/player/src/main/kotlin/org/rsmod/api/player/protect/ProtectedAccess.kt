@@ -93,9 +93,16 @@ public class ProtectedAccess(
         PathingEntityCommon.teleport(player, collision, dest)
     }
 
-    // TODO: Resolve priority
-    public fun anim(seq: SeqType, delay: Int = 0, priority: Int = 0) {
-        player.anim(seq, delay, priority)
+    public fun anim(seq: SeqType, delay: Int = 0) {
+        player.anim(seq, delay)
+    }
+
+    public fun resetAnim() {
+        player.resetAnim()
+    }
+
+    public fun animProtect(animProtect: Boolean) {
+        PathingEntityCommon.setAnimProtect(player, animProtect)
     }
 
     public fun isWithinDistance(

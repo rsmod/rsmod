@@ -8,10 +8,12 @@ import org.rsmod.game.entity.player.PublicMessage
 import org.rsmod.game.entity.shared.PathingEntityCommon
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.inv.InventoryMap
+import org.rsmod.game.seq.EntitySeq
 import org.rsmod.game.shop.Shop
 import org.rsmod.game.stat.PlayerStatMap
 import org.rsmod.game.timer.PlayerTimerMap
 import org.rsmod.game.type.mod.ModGroup
+import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.timer.TimerType
 import org.rsmod.game.ui.UserInterfaceMap
 import org.rsmod.map.CoordGrid
@@ -24,7 +26,7 @@ public class Player(
 ) : PathingEntity() {
     init {
         pendingFaceSquare = CoordGrid.ZERO
-        pendingSequenceAnim = -1
+        pendingSequence = EntitySeq.ZERO
     }
 
     public override val isBusy: Boolean
@@ -84,6 +86,10 @@ public class Player(
 
     public fun softTimer(timer: TimerType, cycles: Int) {
         softTimerMap[timer] = currentMapClock + cycles
+    }
+
+    override fun anim(seq: SeqType, delay: Int, priority: Int) {
+        PathingEntityCommon.anim(this, seq, delay, priority)
     }
 
     public fun facePlayer(target: Player): Unit = PathingEntityCommon.facePlayer(this, target)

@@ -1,18 +1,26 @@
 package org.rsmod.game.type.seq
 
-public sealed class SeqType(internal var internalId: Int?, internal var internalName: String?) {
+public sealed class SeqType(
+    internal var internalId: Int?,
+    internal var internalName: String?,
+    internal var internalPriority: Int,
+) {
     public val id: Int
         get() = internalId ?: error("`internalId` must not be null.")
 
     public val internalNameGet: String?
         get() = internalName
+
+    public val priority: Int
+        get() = internalPriority
 }
 
 public class HashedSeqType(
     internal val startHash: Long? = null,
     internalId: Int? = null,
     internalName: String? = null,
-) : SeqType(internalId, internalName) {
+    priority: Int = 0,
+) : SeqType(internalId, internalName, priority) {
     public val supposedHash: Long?
         get() = startHash
 
@@ -43,7 +51,6 @@ public class UnpackedSeqType(
     public val replayOff: Int,
     public val walkMerge: IntArray,
     public val stretches: Boolean,
-    public val priority: Int,
     public val mainhand: Int,
     public val offhand: Int,
     public val replayCount: Int,
@@ -58,14 +65,16 @@ public class UnpackedSeqType(
     public val keyframeRangeStart: Int,
     public val keyframeRangeEnd: Int,
     public val keyframeWalkMerge: BooleanArray,
+    priority: Int,
     internalId: Int,
     internalName: String,
-) : SeqType(internalId, internalName) {
+) : SeqType(internalId, internalName, priority) {
     public fun toHashedType(): HashedSeqType =
         HashedSeqType(
             internalId = internalId,
             internalName = internalName,
             startHash = computeIdentityHash(),
+            priority = priority,
         )
 
     public fun computeIdentityHash(): Long {

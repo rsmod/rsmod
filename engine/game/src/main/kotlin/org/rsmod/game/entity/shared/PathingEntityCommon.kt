@@ -5,6 +5,8 @@ import org.rsmod.game.entity.PathingEntity
 import org.rsmod.game.entity.Player
 import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.movement.RouteRequestCoord
+import org.rsmod.game.seq.EntitySeq
+import org.rsmod.game.type.seq.SeqType
 import org.rsmod.map.CoordGrid
 import org.rsmod.pathfinder.collision.CollisionFlagMap
 
@@ -66,6 +68,11 @@ public object PathingEntityCommon {
         collision.move(entity, start, dest)
     }
 
+    private fun CollisionFlagMap.move(entity: PathingEntity, from: CoordGrid, to: CoordGrid) {
+        entity.removeBlockWalkCollision(this, from)
+        entity.addBlockWalkCollision(this, to)
+    }
+
     public fun facePlayer(entity: PathingEntity, target: Player) {
         entity.faceEntitySlot = target.slotId or FACE_PLAYER_START_SLOT
     }
@@ -78,8 +85,25 @@ public object PathingEntityCommon {
         entity.faceEntitySlot = -1
     }
 
-    private fun CollisionFlagMap.move(entity: PathingEntity, from: CoordGrid, to: CoordGrid) {
-        entity.removeBlockWalkCollision(this, from)
-        entity.addBlockWalkCollision(this, to)
+    public fun anim(entity: PathingEntity, seq: SeqType, delay: Int, priority: Int): Boolean {
+        require(delay in 0..254) { "`delay` must be within range [0..254]." }
+        require(priority in 0..254) { "`priority` must be within range [0..254]." }
+        val hasPriority = entity.pendingSequence.isLowerPriorityThan(priority)
+        if (!hasPriority) {
+            return false
+        }
+        entity.pendingSequence = EntitySeq(seq.id, delay, priority)
+        return true
+    }
+
+    private fun EntitySeq.isLowerPriorityThan(otherPriority: Int): Boolean =
+        when (this) {
+            EntitySeq.NULL -> true
+            EntitySeq.ZERO -> true
+            else -> otherPriority > priority
+        }
+
+    public fun setAnimProtect(entity: PathingEntity, animProtect: Boolean) {
+        entity.animProtect = animProtect
     }
 }
