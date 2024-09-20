@@ -6,6 +6,7 @@ import kotlinx.coroutines.runBlocking
 import org.rsmod.api.game.process.entity.PathingEntityFaceSquareProcessor
 import org.rsmod.api.game.process.npc.mode.NpcModeProcessor
 import org.rsmod.api.game.process.npc.timer.AITimerProcessor
+import org.rsmod.api.game.process.npc.timer.NpcTimerProcessor
 import org.rsmod.api.repo.NpcRevealProcessor
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Npc
@@ -17,6 +18,7 @@ constructor(
     private val npcs: NpcList,
     private val reveal: NpcRevealProcessor,
     private val aiTimer: AITimerProcessor,
+    private val timers: NpcTimerProcessor,
     private val movement: NpcMovementProcessor,
     private val modes: NpcModeProcessor,
     private val facing: PathingEntityFaceSquareProcessor,
@@ -40,6 +42,7 @@ constructor(
                 reveal.process(this)
                 if (isNotDelayed) {
                     aiTimerProcess()
+                    timerProcess()
                     modeProcess()
                     movementProcess()
                     faceSquareProcess()
@@ -54,6 +57,10 @@ constructor(
 
     private fun Npc.aiTimerProcess() {
         aiTimer.process(this)
+    }
+
+    private fun Npc.timerProcess() {
+        timers.process(this)
     }
 
     private fun Npc.modeProcess() {
