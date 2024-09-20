@@ -37,6 +37,6 @@ class Ducks @Inject constructor(private val random: GameRandom, private val npcL
 
     private fun Npc.setNextTimer() {
         val next = random.of(50..100)
-        setTimer(next)
+        aiTimer(next)
     }
 }

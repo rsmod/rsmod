@@ -18,6 +18,7 @@ public data class NameMapping(
     public val stats: Map<String, Int> = mutableMapOf(),
     public val structs: Map<String, Int> = mutableMapOf(),
     public val synths: Map<String, Int> = mutableMapOf(),
+    public val timers: Map<String, Int> = mutableMapOf(),
     public val varbits: Map<String, Int> = mutableMapOf(),
     public val varps: Map<String, Int> = mutableMapOf(),
     public val varns: Map<String, Int> = mutableMapOf(),

@@ -1,6 +1,7 @@
 package org.rsmod.api.script
 
 import org.rsmod.api.npc.events.NpcAIEvents
+import org.rsmod.api.npc.events.NpcTimerEvent
 import org.rsmod.api.player.events.interact.NpcContentEvents
 import org.rsmod.api.player.events.interact.NpcEvents
 import org.rsmod.api.player.protect.ProtectedAccess
@@ -118,3 +119,6 @@ public fun ScriptContext.onAiTimer(
     content: ContentType,
     action: NpcAIEvents.Content.() -> Unit,
 ): Unit = onEvent(content.id, action)
+
+public fun ScriptContext.onNpcTimer(type: NpcType, action: NpcTimerEvent.() -> Unit): Unit =
+    onEvent(type.id, action)

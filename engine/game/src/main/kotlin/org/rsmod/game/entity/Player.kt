@@ -10,7 +10,9 @@ import org.rsmod.game.inv.Inventory
 import org.rsmod.game.inv.InventoryMap
 import org.rsmod.game.shop.Shop
 import org.rsmod.game.stat.PlayerStatMap
+import org.rsmod.game.timer.PlayerTimerMap
 import org.rsmod.game.type.mod.ModGroup
+import org.rsmod.game.type.timer.TimerType
 import org.rsmod.game.ui.UserInterfaceMap
 import org.rsmod.map.CoordGrid
 import org.rsmod.pathfinder.collision.CollisionStrategy
@@ -35,6 +37,8 @@ public class Player(
     public val ui: UserInterfaceMap = UserInterfaceMap()
     public val invMap: InventoryMap = InventoryMap()
     public val statMap: PlayerStatMap = PlayerStatMap()
+    public val timerMap: PlayerTimerMap = PlayerTimerMap()
+    public val softTimerMap: PlayerTimerMap = PlayerTimerMap()
 
     /**
      * A unique identifier that should be generated when the player's account is created and then
@@ -73,6 +77,14 @@ public class Player(
     public var modalInv: Inventory? = null
     public var modalSideInv: Inventory? = null
     public var openedShop: Shop? = null
+
+    public fun timer(timer: TimerType, cycles: Int) {
+        timerMap[timer] = currentMapClock + cycles
+    }
+
+    public fun softTimer(timer: TimerType, cycles: Int) {
+        softTimerMap[timer] = currentMapClock + cycles
+    }
 
     public fun facePlayer(target: Player): Unit = PathingEntityCommon.facePlayer(this, target)
 

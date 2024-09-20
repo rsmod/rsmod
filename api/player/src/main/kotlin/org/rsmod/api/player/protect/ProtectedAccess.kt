@@ -57,6 +57,7 @@ import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.synth.SynthType
+import org.rsmod.game.type.timer.TimerType
 import org.rsmod.map.CoordGrid
 import org.rsmod.pathfinder.collision.CollisionFlagMap
 
@@ -165,6 +166,14 @@ public class ProtectedAccess(
         rate: Double = player.xpRate,
         eventBus: EventBus = context.eventBus,
     ): Int = PlayerSkillXP.internalAddXP(player, stat, xp, rate, eventBus)
+
+    public fun timer(timerType: TimerType, cycles: Int) {
+        player.timer(timerType, cycles)
+    }
+
+    public fun softTimer(timerType: TimerType, cycles: Int) {
+        player.softTimer(timerType, cycles)
+    }
 
     public fun clearPendingAction(eventBus: EventBus = context.eventBus) {
         player.clearPendingAction(eventBus)

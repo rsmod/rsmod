@@ -17,6 +17,7 @@ public class PlayerMainProcessor
 @Inject
 constructor(
     private val players: PlayerList,
+    private val timers: PlayerTimerProcessor,
     private val interact: PlayerInteractionProcessor,
     private val movement: PlayerMovementProcessor,
     private val facing: PathingEntityFaceSquareProcessor,
@@ -41,6 +42,7 @@ constructor(
             player.tryOrDisconnect {
                 resumePausedProcess()
                 refreshFaceEntity()
+                processTimers()
                 processMovementSequence()
             }
         }
@@ -58,6 +60,10 @@ constructor(
         if (interaction == null) {
             resetFaceEntity()
         }
+    }
+
+    private fun Player.processTimers() {
+        timers.process(this)
     }
 
     private fun Player.processMovementSequence() {

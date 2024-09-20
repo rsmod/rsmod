@@ -7,8 +7,10 @@ import org.rsmod.game.map.Direction
 import org.rsmod.game.movement.BlockWalk
 import org.rsmod.game.movement.MoveRestrict
 import org.rsmod.game.movement.MoveSpeed
+import org.rsmod.game.timer.NpcTimerMap
 import org.rsmod.game.type.content.ContentType
 import org.rsmod.game.type.npc.UnpackedNpcType
+import org.rsmod.game.type.timer.TimerType
 import org.rsmod.map.CoordGrid
 import org.rsmod.pathfinder.collision.CollisionFlagMap
 import org.rsmod.pathfinder.collision.CollisionStrategy
@@ -32,6 +34,8 @@ public class Npc(
 
     override val collisionStrategy: CollisionStrategy?
         get() = moveRestrict.collisionStrategy
+
+    public val timerMap: NpcTimerMap = NpcTimerMap()
 
     public var spawnCoords: CoordGrid = coords
     public var defaultMoveSpeed: MoveSpeed = MoveSpeed.Walk
@@ -80,8 +84,12 @@ public class Npc(
     public fun telejump(collision: CollisionFlagMap, dest: CoordGrid): Unit =
         PathingEntityCommon.telejump(this, collision, dest)
 
-    public fun setTimer(cycles: Int) {
+    public fun aiTimer(cycles: Int) {
         this.aiTimerCycles = cycles
+    }
+
+    public fun timer(timer: TimerType, cycles: Int) {
+        timerMap[timer] = currentMapClock + cycles
     }
 
     public fun resetMode() {

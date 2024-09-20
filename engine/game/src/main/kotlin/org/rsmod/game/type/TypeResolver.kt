@@ -19,6 +19,7 @@ import org.rsmod.game.type.param.ParamType
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.synth.SynthType
+import org.rsmod.game.type.timer.TimerType
 import org.rsmod.game.type.varbit.VarBitType
 import org.rsmod.game.type.varobjbit.VarObjBitType
 import org.rsmod.game.type.varp.VarpType
@@ -135,6 +136,12 @@ public object TypeResolver {
     public operator fun get(type: SynthType): Int? = type.internalId
 
     public operator fun set(type: SynthType, id: Int) {
+        type.internalId = id
+    }
+
+    public operator fun get(type: TimerType): Int? = type.internalId
+
+    public operator fun set(type: TimerType, id: Int) {
         type.internalId = id
     }
 

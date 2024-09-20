@@ -34,6 +34,8 @@ import org.rsmod.api.type.refs.stat.StatReferenceResolver
 import org.rsmod.api.type.refs.stat.StatReferences
 import org.rsmod.api.type.refs.synth.SynthReferenceResolver
 import org.rsmod.api.type.refs.synth.SynthReferences
+import org.rsmod.api.type.refs.timer.TimerReferenceResolver
+import org.rsmod.api.type.refs.timer.TimerReferences
 import org.rsmod.api.type.refs.varbit.VarBitReferenceResolver
 import org.rsmod.api.type.refs.varbit.VarBitReferences
 import org.rsmod.api.type.refs.varp.VarpReferenceResolver
@@ -58,6 +60,7 @@ constructor(
     private val seqResolver: SeqReferenceResolver,
     private val statResolver: StatReferenceResolver,
     private val synthResolver: SynthReferenceResolver,
+    private val timerResolver: TimerReferenceResolver,
     private val varBitResolver: VarBitReferenceResolver,
     private val varpResolver: VarpReferenceResolver,
 ) {
@@ -135,6 +138,7 @@ constructor(
                 is SeqReferences -> seqResolver
                 is StatReferences -> statResolver
                 is SynthReferences -> synthResolver
+                is TimerReferences -> timerResolver
                 is VarBitReferences -> varBitResolver
                 is VarpReferences -> varpResolver
                 else -> throw NotImplementedError("Resolver not defined for type-reference: $this")
