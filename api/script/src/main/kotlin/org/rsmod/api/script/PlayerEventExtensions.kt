@@ -7,10 +7,10 @@ import org.rsmod.game.type.timer.TimerType
 import org.rsmod.plugin.scripts.ScriptContext
 
 public fun ScriptContext.onPlayerInit(action: SessionStateEvent.Initialize.() -> Unit): Unit =
-    onEvent<SessionStateEvent.Initialize>(action)
+    onEvent(action)
 
 public fun ScriptContext.onPlayerLogIn(action: SessionStateEvent.LogIn.() -> Unit): Unit =
-    onEvent<SessionStateEvent.LogIn>(action)
+    onEvent(action)
 
 public fun ScriptContext.onPlayerTimer(
     timer: TimerType,
