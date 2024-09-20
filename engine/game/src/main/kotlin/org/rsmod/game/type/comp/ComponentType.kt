@@ -60,7 +60,7 @@ public class UnpackedComponentType(
     public val v3: Boolean,
     public val type: Int,
     public val buttonType: Int,
-    public val contentType: Int,
+    public val clientCode: Int,
     public val x: Int,
     public val y: Int,
     public val width: Int,
@@ -159,7 +159,7 @@ public class UnpackedComponentType(
         var result = v3.hashCode().toLong()
         result = 61 * result + type
         result = 61 * result + buttonType
-        result = 61 * result + contentType
+        result = 61 * result + clientCode
         result = 61 * result + x
         result = 61 * result + y
         result = 61 * result + width
@@ -255,7 +255,7 @@ public class UnpackedComponentType(
             "v3=$v3, " +
             "type=$type, " +
             "buttonType=$buttonType, " +
-            "contentType=$contentType, " +
+            "clientCode=$clientCode, " +
             "x=$x, " +
             "y=$y, " +
             "width=$width, " +
@@ -349,7 +349,7 @@ public class UnpackedComponentType(
         if (v3 != other.v3) return false
         if (type != other.type) return false
         if (buttonType != other.buttonType) return false
-        if (contentType != other.contentType) return false
+        if (clientCode != other.clientCode) return false
         if (x != other.x) return false
         if (y != other.y) return false
         if (width != other.width) return false

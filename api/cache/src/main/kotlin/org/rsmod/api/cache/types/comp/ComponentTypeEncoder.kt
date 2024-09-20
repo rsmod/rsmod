@@ -17,7 +17,7 @@ public object ComponentTypeEncoder {
         with(unpacked) {
             data.writeByte(type)
             data.writeByte(buttonType)
-            data.writeShort(contentType)
+            data.writeShort(clientCode)
             data.writeShort(x)
             data.writeShort(y)
             data.writeShort(width)
@@ -118,7 +118,7 @@ public object ComponentTypeEncoder {
         with(unpacked) {
             data.writeByte(-1)
             data.writeByte(type)
-            data.writeShort(contentType)
+            data.writeShort(clientCode)
             data.writeShort(x)
             data.writeShort(y)
             data.writeShort(width)
