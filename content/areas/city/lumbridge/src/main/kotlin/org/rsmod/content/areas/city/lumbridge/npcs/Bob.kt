@@ -4,6 +4,7 @@ import jakarta.inject.Inject
 import org.rsmod.api.dialogue.Dialogue
 import org.rsmod.api.dialogue.Dialogues
 import org.rsmod.api.player.protect.ProtectedAccess
+import org.rsmod.api.script.advanced.onUnimplementedOpNpc4
 import org.rsmod.api.script.onOpNpc1
 import org.rsmod.api.script.onOpNpc3
 import org.rsmod.api.shops.Shops
@@ -19,7 +20,7 @@ class Bob @Inject constructor(private val shops: Shops, private val dialogues: D
     override fun ScriptContext.startUp() {
         onOpNpc1(LumbridgeNpcs.bob) { startDialogue(it.npc) }
         onOpNpc3(LumbridgeNpcs.bob) { player.openShop(it.npc) }
-        // TODO(content): Use obj on bob to repair.
+        onUnimplementedOpNpc4(LumbridgeNpcs.bob) { repairOp(it.npc) }
     }
 
     private fun Player.openShop(npc: Npc) {
@@ -65,5 +66,9 @@ class Bob @Inject constructor(private val shops: Shops, private val dialogues: D
             "Of course I'll repair it, though the materials may cost " +
                 "you. Just hand me the item and I'll have a look.",
         )
+    }
+
+    private suspend fun ProtectedAccess.repairOp(npc: Npc) {
+        dialogues.start(this, npc) { chatNpc(confused, "You don't have anything I can repair.") }
     }
 }
