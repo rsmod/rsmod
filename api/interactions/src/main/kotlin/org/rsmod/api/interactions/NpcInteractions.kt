@@ -50,22 +50,27 @@ constructor(
                 return multiNpcTrigger
             }
         }
-        val opEvent = npc.toOp(op)
-        if (eventBus.contains(opEvent::class.java, type.id)) {
-            return opEvent
+
+        val typeEvent = npc.toOp(op)
+        if (eventBus.contains(typeEvent::class.java, type.id)) {
+            return typeEvent
         }
+
         val contentEvent = npc.toContentOp(type.contentGroup, op)
         if (eventBus.contains(contentEvent::class.java, type.contentGroup)) {
             return contentEvent
         }
-        val unimplOpEvent = npc.toUnimplementedOp(op)
-        if (eventBus.contains(unimplOpEvent::class.java, type.id)) {
-            return unimplOpEvent
+
+        val unimplEvent = npc.toUnimplementedOp(op)
+        if (eventBus.contains(unimplEvent::class.java, type.id)) {
+            return unimplEvent
         }
+
         val defaultEvent = npc.toDefaultOp(op)
         if (eventBus.contains(defaultEvent::class.java, defaultEvent.id)) {
             return defaultEvent
         }
+
         return null
     }
 
@@ -94,18 +99,22 @@ constructor(
                 return multiNpcTrigger
             }
         }
-        val apEvent = npc.toAp(op)
-        if (eventBus.contains(apEvent::class.java, type.id)) {
-            return apEvent
+
+        val typeEvent = npc.toAp(op)
+        if (eventBus.contains(typeEvent::class.java, type.id)) {
+            return typeEvent
         }
+
         val contentEvent = npc.toContentAp(type.contentGroup, op)
         if (eventBus.contains(contentEvent::class.java, type.contentGroup)) {
             return contentEvent
         }
+
         val defaultEvent = npc.toDefaultAp(op)
         if (eventBus.contains(defaultEvent::class.java, defaultEvent.id)) {
             return defaultEvent
         }
+
         return null
     }
 

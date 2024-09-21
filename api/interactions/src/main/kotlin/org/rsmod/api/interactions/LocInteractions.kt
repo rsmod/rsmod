@@ -52,18 +52,22 @@ constructor(
                 return multiLocTrigger
             }
         }
-        val opEvent = loc.toOp(type, op)
-        if (eventBus.contains(opEvent::class.java, type.id)) {
-            return opEvent
+
+        val typeEvent = loc.toOp(type, op)
+        if (eventBus.contains(typeEvent::class.java, type.id)) {
+            return typeEvent
         }
+
         val contentEvent = loc.toContentOp(type, type.contentGroup, op)
         if (eventBus.contains(contentEvent::class.java, type.contentGroup)) {
             return contentEvent
         }
-        val unimplOpEvent = loc.toUnimplementedOp(type, op)
-        if (eventBus.contains(unimplOpEvent::class.java, type.id)) {
-            return unimplOpEvent
+
+        val unimplEvent = loc.toUnimplementedOp(type, op)
+        if (eventBus.contains(unimplEvent::class.java, type.id)) {
+            return unimplEvent
         }
+
         val defaultEvent = loc.toDefaultOp(type, op)
         if (eventBus.contains(defaultEvent::class.java, defaultEvent.id)) {
             return defaultEvent
@@ -102,20 +106,17 @@ constructor(
         }
 
         val typeEvent = loc.toAp(type, op)
-        val typeEventDefined = eventBus.contains(typeEvent::class.java, type.id)
-        if (typeEventDefined) {
+        if (eventBus.contains(typeEvent::class.java, type.id)) {
             return typeEvent
         }
 
         val contentEvent = loc.toContentAp(type, type.contentGroup, op)
-        val hasContentEvent = eventBus.contains(contentEvent::class.java, type.contentGroup)
-        if (hasContentEvent) {
+        if (eventBus.contains(contentEvent::class.java, type.contentGroup)) {
             return contentEvent
         }
 
         val defaultEvent = loc.toDefaultAp(type, op)
-        val hasDefaultEvent = eventBus.contains(defaultEvent::class.java, defaultEvent.id)
-        if (hasDefaultEvent) {
+        if (eventBus.contains(defaultEvent::class.java, defaultEvent.id)) {
             return defaultEvent
         }
 

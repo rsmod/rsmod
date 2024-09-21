@@ -39,18 +39,21 @@ constructor(
         type: UnpackedObjType,
         op: InteractionOp,
     ): OpEvent? {
-        val opEvent = obj.toOp(op)
-        if (eventBus.contains(opEvent::class.java, type.id)) {
-            return opEvent
+        val typeEvent = obj.toOp(op)
+        if (eventBus.contains(typeEvent::class.java, type.id)) {
+            return typeEvent
         }
+
         val contentEvent = obj.toContentOp(type.contentGroup, op)
         if (eventBus.contains(contentEvent::class.java, type.contentGroup)) {
             return contentEvent
         }
+
         val defaultEvent = obj.toDefaultOp(op)
         if (eventBus.contains(defaultEvent::class.java, defaultEvent.id)) {
             return defaultEvent
         }
+
         return null
     }
 
@@ -76,18 +79,21 @@ constructor(
         type: UnpackedObjType,
         op: InteractionOp,
     ): ApEvent? {
-        val apEvent = obj.toAp(op)
-        if (eventBus.contains(apEvent::class.java, type.id)) {
-            return apEvent
+        val typeEvent = obj.toAp(op)
+        if (eventBus.contains(typeEvent::class.java, type.id)) {
+            return typeEvent
         }
+
         val contentEvent = obj.toContentAp(type.contentGroup, op)
         if (eventBus.contains(contentEvent::class.java, type.contentGroup)) {
             return contentEvent
         }
+
         val defaultEvent = obj.toDefaultAp(op)
         if (eventBus.contains(defaultEvent::class.java, defaultEvent.id)) {
             return defaultEvent
         }
+
         return null
     }
 
