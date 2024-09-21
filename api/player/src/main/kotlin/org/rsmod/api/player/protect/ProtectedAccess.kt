@@ -28,6 +28,7 @@ import org.rsmod.api.player.ui.ifClose
 import org.rsmod.api.player.ui.ifCloseModals
 import org.rsmod.api.player.ui.ifCloseSub
 import org.rsmod.api.player.ui.ifMesbox
+import org.rsmod.api.player.ui.ifObjbox
 import org.rsmod.api.player.ui.ifOpenMain
 import org.rsmod.api.player.ui.ifOpenMainModal
 import org.rsmod.api.player.ui.ifOpenSub
@@ -48,12 +49,14 @@ import org.rsmod.game.inv.Inventory
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.map.Direction
 import org.rsmod.game.movement.MoveSpeed
+import org.rsmod.game.obj.InvObj
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.interf.IfEvent
 import org.rsmod.game.type.interf.IfSubType
 import org.rsmod.game.type.interf.InterfaceType
 import org.rsmod.game.type.mesanim.MesAnimType
 import org.rsmod.game.type.npc.NpcType
+import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.synth.SynthType
@@ -228,6 +231,40 @@ public class ProtectedAccess(
         player.ifMesbox(text, pauseText, eventBus)
         val input = coroutine.pause(ResumePauseButtonInput::class)
         resumePauseButtonWithProtectedAccess(input, components.text_dialogue_pbutton)
+    }
+
+    /**
+     * @throws ProtectedAccessLostException if [regainProtectedAccess] returns false after
+     *   suspension resumes.
+     * @see [regainProtectedAccess]
+     */
+    public suspend fun objbox(
+        obj: ObjType,
+        zoomOrCount: Int,
+        text: String,
+        pauseText: String = constants.cm_pausebutton,
+        eventBus: EventBus = context.eventBus,
+    ) {
+        player.ifObjbox(text, obj, zoomOrCount, pauseText, eventBus)
+        val input = coroutine.pause(ResumePauseButtonInput::class)
+        resumePauseButtonWithProtectedAccess(input, components.obj_dialogue_pbutton)
+    }
+
+    /**
+     * @throws ProtectedAccessLostException if [regainProtectedAccess] returns false after
+     *   suspension resumes.
+     * @see [regainProtectedAccess]
+     */
+    public suspend fun objbox(
+        obj: InvObj,
+        zoomOrCount: Int,
+        text: String,
+        pauseText: String = constants.cm_pausebutton,
+        eventBus: EventBus = context.eventBus,
+    ) {
+        player.ifObjbox(text, obj, zoomOrCount, pauseText, eventBus)
+        val input = coroutine.pause(ResumePauseButtonInput::class)
+        resumePauseButtonWithProtectedAccess(input, components.obj_dialogue_pbutton)
     }
 
     /**

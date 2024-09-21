@@ -7,6 +7,7 @@ import net.rsprot.protocol.game.outgoing.interfaces.IfSetAnim
 import net.rsprot.protocol.game.outgoing.interfaces.IfSetEvents
 import net.rsprot.protocol.game.outgoing.interfaces.IfSetNpcHead
 import net.rsprot.protocol.game.outgoing.interfaces.IfSetNpcHeadActive
+import net.rsprot.protocol.game.outgoing.interfaces.IfSetObject
 import net.rsprot.protocol.game.outgoing.interfaces.IfSetPlayerHead
 import net.rsprot.protocol.game.outgoing.interfaces.IfSetText
 import org.rsmod.api.config.constants
@@ -16,6 +17,7 @@ import org.rsmod.api.config.refs.varbits
 import org.rsmod.api.player.output.ChatType
 import org.rsmod.api.player.output.ClientScripts.chatboxMultiInit
 import org.rsmod.api.player.output.ClientScripts.ifSetTextAlign
+import org.rsmod.api.player.output.ClientScripts.objboxSetButtons
 import org.rsmod.api.player.output.ClientScripts.topLevelChatboxResetBackground
 import org.rsmod.api.player.output.ClientScripts.topLevelMainModalOpen
 import org.rsmod.api.player.output.mes
@@ -23,11 +25,13 @@ import org.rsmod.api.player.output.runClientScript
 import org.rsmod.api.player.vars.intVarp
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
+import org.rsmod.game.obj.InvObj
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.interf.IfEvent
 import org.rsmod.game.type.interf.IfSubType
 import org.rsmod.game.type.interf.InterfaceType
 import org.rsmod.game.type.npc.NpcType
+import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.ui.Component
 import org.rsmod.game.ui.UserInterface
@@ -52,6 +56,36 @@ public fun Player.ifMesbox(text: String, pauseText: String, eventBus: EventBus) 
     runClientScript(1508, "0")
 }
 
+internal fun Player.ifObjbox(
+    text: String,
+    obj: ObjType,
+    zoomOrCount: Int,
+    pauseText: String,
+    eventBus: EventBus,
+) {
+    mes(text, ChatType.Mesbox)
+    ifOpenChat(interfaces.obj_dialogue, constants.modal_infinitewidthandheight, eventBus)
+    objboxSetButtons(this, pauseText)
+    ifSetEvents(components.obj_dialogue_pbutton, 0..1, IfEvent.PauseButton)
+    ifSetObj(components.obj_dialogue_objmodel, obj, zoomOrCount)
+    ifSetText(components.obj_dialogue_text, text)
+}
+
+internal fun Player.ifObjbox(
+    text: String,
+    obj: InvObj,
+    zoomOrCount: Int,
+    pauseText: String,
+    eventBus: EventBus,
+) {
+    mes(text, ChatType.Mesbox)
+    ifOpenChat(interfaces.obj_dialogue, constants.modal_infinitewidthandheight, eventBus)
+    objboxSetButtons(this, pauseText)
+    ifSetEvents(components.obj_dialogue_pbutton, -1..-1, IfEvent.PauseButton)
+    ifSetObj(components.obj_dialogue_objmodel, obj, zoomOrCount)
+    ifSetText(components.obj_dialogue_text, text)
+}
+
 /** @see [chatboxMultiInit] */
 public fun Player.ifChoice(
     title: String,
@@ -72,6 +106,7 @@ public fun Player.ifChatPlayer(
     lineHeight: Int,
     eventBus: EventBus,
 ) {
+    mes("$title|$text", ChatType.Dialogue)
     ifOpenChat(interfaces.player_dialogue, constants.modal_fixedwidthandheight, eventBus)
     ifSetPlayerHead(components.player_dialogue_head)
     ifSetAnim(components.player_dialogue_head, expression)
@@ -91,6 +126,7 @@ public fun Player.ifChatNpcActive(
     lineHeight: Int,
     eventBus: EventBus,
 ) {
+    mes("$title|$text", ChatType.Dialogue)
     ifOpenChat(interfaces.npc_dialogue, constants.modal_fixedwidthandheight, eventBus)
     ifSetNpcHeadActive(components.npc_dialogue_head, npcSlotId)
     ifSetAnim(components.npc_dialogue_head, chatanim)
@@ -119,6 +155,14 @@ public fun Player.ifChatNpcSpecific(
     ifSetTextAlign(this, components.npc_dialogue_text, alignH = 1, alignV = 1, lineHeight)
     ifSetEvents(components.npc_dialogue_pbutton, -1..-1, IfEvent.PauseButton)
     ifSetText(components.npc_dialogue_pbutton, pauseText)
+}
+
+public fun Player.ifSetObj(target: ComponentType, obj: ObjType, zoomOrCount: Int) {
+    client.write(IfSetObject(target.packed, obj.id, zoomOrCount))
+}
+
+public fun Player.ifSetObj(target: ComponentType, obj: InvObj, zoomOrCount: Int) {
+    client.write(IfSetObject(target.packed, obj.id, zoomOrCount))
 }
 
 public fun Player.ifSetAnim(target: ComponentType, seq: SeqType?) {

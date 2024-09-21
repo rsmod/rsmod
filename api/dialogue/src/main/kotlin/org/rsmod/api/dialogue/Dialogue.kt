@@ -8,8 +8,10 @@ import org.rsmod.api.dialogue.align.TextAlignment
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
+import org.rsmod.game.obj.InvObj
 import org.rsmod.game.type.mesanim.MesAnimType
 import org.rsmod.game.type.npc.UnpackedNpcType
+import org.rsmod.game.type.obj.ObjType
 
 public class Dialogue(
     public val access: ProtectedAccess,
@@ -25,6 +27,26 @@ public class Dialogue(
         for (page in pages) {
             val text = page.text
             access.mesbox(text)
+        }
+    }
+
+    public suspend fun objbox(obj: ObjType, text: String): Unit = objbox(obj, 1, text)
+
+    public suspend fun objbox(obj: ObjType, zoomOrCount: Int, text: String) {
+        val pages = alignment.generatePageList(text)
+        for (page in pages) {
+            val text = page.text
+            access.objbox(obj, zoomOrCount, text)
+        }
+    }
+
+    public suspend fun objbox(obj: InvObj, text: String): Unit = objbox(obj, 1, text)
+
+    public suspend fun objbox(obj: InvObj, zoomOrCount: Int, text: String) {
+        val pages = alignment.generatePageList(text)
+        for (page in pages) {
+            val text = page.text
+            access.objbox(obj, zoomOrCount, text)
         }
     }
 

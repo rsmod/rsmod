@@ -45,6 +45,10 @@ public object BaseComponents : ComponentReferences() {
     public val text_dialogue_text: ComponentType = find(428946190838703861)
     public val text_dialogue_pbutton: ComponentType = find(2586163870891555941)
 
+    public val obj_dialogue_pbutton: ComponentType = find(5529957094503964265)
+    public val obj_dialogue_objmodel: ComponentType = find(5616504651123485620)
+    public val obj_dialogue_text: ComponentType = find(2524578908064496713)
+
     public val main_modal: ComponentType = find(5905850806851984360)
     public val side_modal: ComponentType = find(8719636644635355055)
 }

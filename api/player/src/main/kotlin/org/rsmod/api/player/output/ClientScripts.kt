@@ -56,6 +56,9 @@ public object ClientScripts {
         lineHeight: Int,
     ): Unit = player.runClientScript(600, alignH, alignV, lineHeight, target.packed)
 
+    public fun objboxSetButtons(player: Player, text: String): Unit =
+        player.runClientScript(2868, text)
+
     public fun interfaceInvInit(
         player: Player,
         inv: Inventory,
