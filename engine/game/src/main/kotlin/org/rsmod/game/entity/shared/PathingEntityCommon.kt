@@ -88,10 +88,16 @@ public object PathingEntityCommon {
     public fun anim(entity: PathingEntity, seq: SeqType, delay: Int, priority: Int): Boolean {
         require(delay in 0..254) { "`delay` must be within range [0..254]." }
         require(priority in 0..254) { "`priority` must be within range [0..254]." }
+
+        if (entity.animProtect) {
+            return false
+        }
+
         val hasPriority = entity.pendingSequence.isLowerPriorityThan(priority)
         if (!hasPriority) {
             return false
         }
+
         entity.pendingSequence = EntitySeq(seq.id, delay, priority)
         return true
     }
