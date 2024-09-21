@@ -6,6 +6,7 @@ import org.rsmod.game.type.inv.InvStackType
 import org.rsmod.game.type.inv.UnpackedInvType
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.UnpackedObjType
+import org.rsmod.game.type.obj.isAssociatedWith
 
 public class Inventory(public val type: UnpackedInvType, public val objs: Array<InvObj?>) :
     Iterable<InvObj?> {
@@ -59,8 +60,7 @@ public class Inventory(public val type: UnpackedInvType, public val objs: Array<
         modifiedSlots.set(slot)
     }
 
-    public infix operator fun contains(type: ObjType): Boolean =
-        objs.any { it != null && it.isAssociatedWith(type) }
+    public operator fun contains(type: ObjType): Boolean = objs.any { type.isAssociatedWith(it) }
 
     public fun count(objType: UnpackedObjType): Int {
         val obj = objs.firstOrNull { it?.id == objType.id } ?: return 0

@@ -7,12 +7,7 @@ import org.rsmod.game.type.util.ParamMap
 
 public infix fun ObjType.isAssociatedWith(obj: InvObj?): Boolean {
     contract { returns(true) implies (obj != null) }
-    return obj != null && obj.isAssociatedWith(this)
-}
-
-public infix fun ObjType.isAssociatedWith(other: ObjType?): Boolean {
-    contract { returns(true) implies (other != null) }
-    return other?.id == this.id
+    return obj != null && obj.id == id
 }
 
 public sealed class ObjType(internal var internalId: Int?, internal var internalName: String?) {
