@@ -240,12 +240,12 @@ public class ProtectedAccess(
      */
     public suspend fun objbox(
         obj: ObjType,
-        zoomOrCount: Int,
+        zoom: Int,
         text: String,
         pauseText: String = constants.cm_pausebutton,
         eventBus: EventBus = context.eventBus,
     ) {
-        player.ifObjbox(text, obj, zoomOrCount, pauseText, eventBus)
+        player.ifObjbox(text, obj, zoom, pauseText, eventBus)
         val input = coroutine.pause(ResumePauseButtonInput::class)
         resumePauseButtonWithProtectedAccess(input, components.obj_dialogue_pbutton)
     }

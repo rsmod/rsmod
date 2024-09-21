@@ -32,21 +32,21 @@ public class Dialogue(
 
     public suspend fun objbox(obj: ObjType, text: String): Unit = objbox(obj, 1, text)
 
-    public suspend fun objbox(obj: ObjType, zoomOrCount: Int, text: String) {
+    public suspend fun objbox(obj: ObjType, zoom: Int, text: String) {
         val pages = alignment.generatePageList(text)
         for (page in pages) {
             val text = page.text
-            access.objbox(obj, zoomOrCount, text)
+            access.objbox(obj, zoom, text)
         }
     }
 
     public suspend fun objbox(obj: InvObj, text: String): Unit = objbox(obj, 1, text)
 
-    public suspend fun objbox(obj: InvObj, zoomOrCount: Int, text: String) {
+    public suspend fun objbox(obj: InvObj, zoom: Int, text: String) {
         val pages = alignment.generatePageList(text)
         for (page in pages) {
             val text = page.text
-            access.objbox(obj, zoomOrCount, text)
+            access.objbox(obj, zoom, text)
         }
     }
 

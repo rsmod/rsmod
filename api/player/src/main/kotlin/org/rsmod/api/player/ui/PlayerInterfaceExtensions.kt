@@ -261,7 +261,7 @@ internal fun Player.ifMesbox(text: String, pauseText: String, eventBus: EventBus
 internal fun Player.ifObjbox(
     text: String,
     obj: ObjType,
-    zoomOrCount: Int,
+    zoom: Int,
     pauseText: String,
     eventBus: EventBus,
 ) {
@@ -269,7 +269,7 @@ internal fun Player.ifObjbox(
     ifOpenChat(interfaces.obj_dialogue, constants.modal_infinitewidthandheight, eventBus)
     objboxSetButtons(this, pauseText)
     ifSetEvents(components.obj_dialogue_pbutton, 0..1, IfEvent.PauseButton)
-    ifSetObj(components.obj_dialogue_objmodel, obj, zoomOrCount)
+    ifSetObj(components.obj_dialogue_objmodel, obj, zoom)
     ifSetText(components.obj_dialogue_text, text)
 }
 
