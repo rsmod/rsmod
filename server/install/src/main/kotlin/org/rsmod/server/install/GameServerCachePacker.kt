@@ -7,7 +7,6 @@ import com.google.inject.Injector
 import java.nio.file.Path
 import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.deleteRecursively
-import org.rsmod.api.cache.CacheModule
 import org.rsmod.api.core.CoreModule
 import org.rsmod.api.parsers.jackson.JacksonModule
 import org.rsmod.api.parsers.json.JsonModule
@@ -43,7 +42,6 @@ class GameServerCachePacker : CliktCommand(name = "cache-pack") {
                 CacheStoreModule,
                 SymbolModule,
                 CoreModule,
-                CacheModule,
                 EventModule,
                 JacksonModule,
                 JsonModule,
