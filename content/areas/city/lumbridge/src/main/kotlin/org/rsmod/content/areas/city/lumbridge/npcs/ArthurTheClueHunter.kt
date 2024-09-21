@@ -25,7 +25,6 @@ constructor(private val random: GameRandom, private val dialogues: Dialogues) : 
     }
 
     private fun Npc.shout() {
-        resetFaceEntity()
         faceDirection(Direction.North)
         when (random.of(maxExclusive = 5)) {
             0 -> {
@@ -43,6 +42,7 @@ constructor(private val random: GameRandom, private val dialogues: Dialogues) : 
             3 -> {
                 say("I've got it!")
                 anim(seqs.emote_lightbulb)
+                // TODO: spotanim(712)
             }
             4 -> {
                 say("Why is this so hard...")
