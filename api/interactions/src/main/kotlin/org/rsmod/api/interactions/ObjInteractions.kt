@@ -40,17 +40,15 @@ constructor(
         op: InteractionOp,
     ): OpEvent? {
         val opEvent = obj.toOp(op)
-        if (opEvent != null && eventBus.contains(opEvent::class.java, type.id)) {
+        if (eventBus.contains(opEvent::class.java, type.id)) {
             return opEvent
         }
         val contentEvent = obj.toContentOp(type.contentGroup, op)
-        if (
-            contentEvent != null && eventBus.contains(contentEvent::class.java, type.contentGroup)
-        ) {
+        if (eventBus.contains(contentEvent::class.java, type.contentGroup)) {
             return contentEvent
         }
         val defaultEvent = obj.toDefaultOp(op)
-        if (defaultEvent != null && eventBus.contains(defaultEvent::class.java, defaultEvent.id)) {
+        if (eventBus.contains(defaultEvent::class.java, defaultEvent.id)) {
             return defaultEvent
         }
         return null
@@ -79,17 +77,15 @@ constructor(
         op: InteractionOp,
     ): ApEvent? {
         val apEvent = obj.toAp(op)
-        if (apEvent != null && eventBus.contains(apEvent::class.java, type.id)) {
+        if (eventBus.contains(apEvent::class.java, type.id)) {
             return apEvent
         }
         val contentEvent = obj.toContentAp(type.contentGroup, op)
-        if (
-            contentEvent != null && eventBus.contains(contentEvent::class.java, type.contentGroup)
-        ) {
+        if (eventBus.contains(contentEvent::class.java, type.contentGroup)) {
             return contentEvent
         }
         val defaultEvent = obj.toDefaultAp(op)
-        if (defaultEvent != null && eventBus.contains(defaultEvent::class.java, defaultEvent.id)) {
+        if (eventBus.contains(defaultEvent::class.java, defaultEvent.id)) {
             return defaultEvent
         }
         return null
@@ -102,7 +98,7 @@ constructor(
         op: InteractionOp,
     ): Boolean = apTrigger(player, obj, type, op) != null
 
-    private fun Obj.toOp(op: InteractionOp): ObjEvents.Op? =
+    private fun Obj.toOp(op: InteractionOp): ObjEvents.Op =
         when (op) {
             InteractionOp.Op1 -> ObjEvents.Op1(this)
             InteractionOp.Op2 -> ObjEvents.Op2(this)
@@ -111,7 +107,7 @@ constructor(
             InteractionOp.Op5 -> ObjEvents.Op5(this)
         }
 
-    private fun Obj.toContentOp(contentGroup: Int, op: InteractionOp): ObjContentEvents.Op? =
+    private fun Obj.toContentOp(contentGroup: Int, op: InteractionOp): ObjContentEvents.Op =
         when (op) {
             InteractionOp.Op1 -> ObjContentEvents.Op1(this, contentGroup)
             InteractionOp.Op2 -> ObjContentEvents.Op2(this, contentGroup)
@@ -120,7 +116,7 @@ constructor(
             InteractionOp.Op5 -> ObjContentEvents.Op5(this, contentGroup)
         }
 
-    private fun Obj.toDefaultOp(op: InteractionOp): ObjDefaultEvents.Op? =
+    private fun Obj.toDefaultOp(op: InteractionOp): ObjDefaultEvents.Op =
         when (op) {
             InteractionOp.Op1 -> ObjDefaultEvents.Op1(this)
             InteractionOp.Op2 -> ObjDefaultEvents.Op2(this)
@@ -129,7 +125,7 @@ constructor(
             InteractionOp.Op5 -> ObjDefaultEvents.Op5(this)
         }
 
-    private fun Obj.toAp(op: InteractionOp): ObjEvents.Ap? =
+    private fun Obj.toAp(op: InteractionOp): ObjEvents.Ap =
         when (op) {
             InteractionOp.Op1 -> ObjEvents.Ap1(this)
             InteractionOp.Op2 -> ObjEvents.Ap2(this)
@@ -138,7 +134,7 @@ constructor(
             InteractionOp.Op5 -> ObjEvents.Ap5(this)
         }
 
-    private fun Obj.toContentAp(contentGroup: Int, op: InteractionOp): ObjContentEvents.Ap? =
+    private fun Obj.toContentAp(contentGroup: Int, op: InteractionOp): ObjContentEvents.Ap =
         when (op) {
             InteractionOp.Op1 -> ObjContentEvents.Ap1(this, contentGroup)
             InteractionOp.Op2 -> ObjContentEvents.Ap2(this, contentGroup)
@@ -147,7 +143,7 @@ constructor(
             InteractionOp.Op5 -> ObjContentEvents.Ap5(this, contentGroup)
         }
 
-    private fun Obj.toDefaultAp(op: InteractionOp): ObjDefaultEvents.Ap? =
+    private fun Obj.toDefaultAp(op: InteractionOp): ObjDefaultEvents.Ap =
         when (op) {
             InteractionOp.Op1 -> ObjDefaultEvents.Ap1(this)
             InteractionOp.Op2 -> ObjDefaultEvents.Ap1(this)

@@ -51,21 +51,19 @@ constructor(
             }
         }
         val opEvent = npc.toOp(op)
-        if (opEvent != null && eventBus.contains(opEvent::class.java, type.id)) {
+        if (eventBus.contains(opEvent::class.java, type.id)) {
             return opEvent
         }
         val contentEvent = npc.toContentOp(type.contentGroup, op)
-        if (
-            contentEvent != null && eventBus.contains(contentEvent::class.java, type.contentGroup)
-        ) {
+        if (eventBus.contains(contentEvent::class.java, type.contentGroup)) {
             return contentEvent
         }
         val unimplOpEvent = npc.toUnimplementedOp(op)
-        if (unimplOpEvent != null && eventBus.contains(unimplOpEvent::class.java, type.id)) {
+        if (eventBus.contains(unimplOpEvent::class.java, type.id)) {
             return unimplOpEvent
         }
         val defaultEvent = npc.toDefaultOp(op)
-        if (defaultEvent != null && eventBus.contains(defaultEvent::class.java, defaultEvent.id)) {
+        if (eventBus.contains(defaultEvent::class.java, defaultEvent.id)) {
             return defaultEvent
         }
         return null
@@ -97,17 +95,15 @@ constructor(
             }
         }
         val apEvent = npc.toAp(op)
-        if (apEvent != null && eventBus.contains(apEvent::class.java, type.id)) {
+        if (eventBus.contains(apEvent::class.java, type.id)) {
             return apEvent
         }
         val contentEvent = npc.toContentAp(type.contentGroup, op)
-        if (
-            contentEvent != null && eventBus.contains(contentEvent::class.java, type.contentGroup)
-        ) {
+        if (eventBus.contains(contentEvent::class.java, type.contentGroup)) {
             return contentEvent
         }
         val defaultEvent = npc.toDefaultAp(op)
-        if (defaultEvent != null && eventBus.contains(defaultEvent::class.java, defaultEvent.id)) {
+        if (eventBus.contains(defaultEvent::class.java, defaultEvent.id)) {
             return defaultEvent
         }
         return null
@@ -130,7 +126,7 @@ constructor(
         return npcTypes.getOrDefault(multiNpc and 0xFFFF, null)
     }
 
-    private fun Npc.toOp(op: InteractionOp): NpcEvents.Op? =
+    private fun Npc.toOp(op: InteractionOp): NpcEvents.Op =
         when (op) {
             InteractionOp.Op1 -> NpcEvents.Op1(this)
             InteractionOp.Op2 -> NpcEvents.Op2(this)
@@ -139,7 +135,7 @@ constructor(
             InteractionOp.Op5 -> NpcEvents.Op5(this)
         }
 
-    private fun Npc.toContentOp(contentGroup: Int, op: InteractionOp): NpcContentEvents.Op? =
+    private fun Npc.toContentOp(contentGroup: Int, op: InteractionOp): NpcContentEvents.Op =
         when (op) {
             InteractionOp.Op1 -> NpcContentEvents.Op1(this, contentGroup)
             InteractionOp.Op2 -> NpcContentEvents.Op2(this, contentGroup)
@@ -148,7 +144,7 @@ constructor(
             InteractionOp.Op5 -> NpcContentEvents.Op5(this, contentGroup)
         }
 
-    private fun Npc.toUnimplementedOp(op: InteractionOp): NpcUnimplementedEvents.Op? =
+    private fun Npc.toUnimplementedOp(op: InteractionOp): NpcUnimplementedEvents.Op =
         when (op) {
             InteractionOp.Op1 -> NpcUnimplementedEvents.Op1(this)
             InteractionOp.Op2 -> NpcUnimplementedEvents.Op2(this)
@@ -157,7 +153,7 @@ constructor(
             InteractionOp.Op5 -> NpcUnimplementedEvents.Op5(this)
         }
 
-    private fun Npc.toDefaultOp(op: InteractionOp): NpcDefaultEvents.Op? =
+    private fun Npc.toDefaultOp(op: InteractionOp): NpcDefaultEvents.Op =
         when (op) {
             InteractionOp.Op1 -> NpcDefaultEvents.Op1(this)
             InteractionOp.Op2 -> NpcDefaultEvents.Op2(this)
@@ -166,7 +162,7 @@ constructor(
             InteractionOp.Op5 -> NpcDefaultEvents.Op5(this)
         }
 
-    private fun Npc.toAp(op: InteractionOp): NpcEvents.Ap? =
+    private fun Npc.toAp(op: InteractionOp): NpcEvents.Ap =
         when (op) {
             InteractionOp.Op1 -> NpcEvents.Ap1(this)
             InteractionOp.Op2 -> NpcEvents.Ap2(this)
@@ -175,7 +171,7 @@ constructor(
             InteractionOp.Op5 -> NpcEvents.Ap5(this)
         }
 
-    private fun Npc.toContentAp(contentGroup: Int, op: InteractionOp): NpcContentEvents.Ap? =
+    private fun Npc.toContentAp(contentGroup: Int, op: InteractionOp): NpcContentEvents.Ap =
         when (op) {
             InteractionOp.Op1 -> NpcContentEvents.Ap1(this, contentGroup)
             InteractionOp.Op2 -> NpcContentEvents.Ap2(this, contentGroup)
@@ -184,7 +180,7 @@ constructor(
             InteractionOp.Op5 -> NpcContentEvents.Ap5(this, contentGroup)
         }
 
-    private fun Npc.toDefaultAp(op: InteractionOp): NpcDefaultEvents.Ap? =
+    private fun Npc.toDefaultAp(op: InteractionOp): NpcDefaultEvents.Ap =
         when (op) {
             InteractionOp.Op1 -> NpcDefaultEvents.Ap1(this)
             InteractionOp.Op2 -> NpcDefaultEvents.Ap2(this)

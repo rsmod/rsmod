@@ -53,21 +53,19 @@ constructor(
             }
         }
         val opEvent = loc.toOp(type, op)
-        if (opEvent != null && eventBus.contains(opEvent::class.java, type.id)) {
+        if (eventBus.contains(opEvent::class.java, type.id)) {
             return opEvent
         }
         val contentEvent = loc.toContentOp(type, type.contentGroup, op)
-        if (
-            contentEvent != null && eventBus.contains(contentEvent::class.java, type.contentGroup)
-        ) {
+        if (eventBus.contains(contentEvent::class.java, type.contentGroup)) {
             return contentEvent
         }
         val unimplOpEvent = loc.toUnimplementedOp(type, op)
-        if (unimplOpEvent != null && eventBus.contains(unimplOpEvent::class.java, type.id)) {
+        if (eventBus.contains(unimplOpEvent::class.java, type.id)) {
             return unimplOpEvent
         }
         val defaultEvent = loc.toDefaultOp(type, op)
-        if (defaultEvent != null && eventBus.contains(defaultEvent::class.java, defaultEvent.id)) {
+        if (eventBus.contains(defaultEvent::class.java, defaultEvent.id)) {
             return defaultEvent
         }
         return null
@@ -104,22 +102,19 @@ constructor(
         }
 
         val typeEvent = loc.toAp(type, op)
-        val typeEventDefined =
-            typeEvent != null && eventBus.contains(typeEvent::class.java, type.id)
+        val typeEventDefined = eventBus.contains(typeEvent::class.java, type.id)
         if (typeEventDefined) {
             return typeEvent
         }
 
         val contentEvent = loc.toContentAp(type, type.contentGroup, op)
-        val hasContentEvent =
-            contentEvent != null && eventBus.contains(contentEvent::class.java, type.contentGroup)
+        val hasContentEvent = eventBus.contains(contentEvent::class.java, type.contentGroup)
         if (hasContentEvent) {
             return contentEvent
         }
 
         val defaultEvent = loc.toDefaultAp(type, op)
-        val hasDefaultEvent =
-            defaultEvent != null && eventBus.contains(defaultEvent::class.java, defaultEvent.id)
+        val hasDefaultEvent = eventBus.contains(defaultEvent::class.java, defaultEvent.id)
         if (hasDefaultEvent) {
             return defaultEvent
         }
@@ -156,7 +151,7 @@ constructor(
         }
     }
 
-    private fun BoundLocInfo.toOp(type: UnpackedLocType, op: InteractionOp): LocEvents.Op? =
+    private fun BoundLocInfo.toOp(type: UnpackedLocType, op: InteractionOp): LocEvents.Op =
         when (op) {
             InteractionOp.Op1 -> LocEvents.Op1(this, type)
             InteractionOp.Op2 -> LocEvents.Op2(this, type)
@@ -169,7 +164,7 @@ constructor(
         type: UnpackedLocType,
         contentGroup: Int,
         op: InteractionOp,
-    ): LocContentEvents.Op? =
+    ): LocContentEvents.Op =
         when (op) {
             InteractionOp.Op1 -> LocContentEvents.Op1(this, type, contentGroup)
             InteractionOp.Op2 -> LocContentEvents.Op2(this, type, contentGroup)
@@ -181,7 +176,7 @@ constructor(
     private fun BoundLocInfo.toUnimplementedOp(
         type: UnpackedLocType,
         op: InteractionOp,
-    ): LocUnimplementedEvents.Op? =
+    ): LocUnimplementedEvents.Op =
         when (op) {
             InteractionOp.Op1 -> LocUnimplementedEvents.Op1(this, type)
             InteractionOp.Op2 -> LocUnimplementedEvents.Op2(this, type)
@@ -193,7 +188,7 @@ constructor(
     private fun BoundLocInfo.toDefaultOp(
         type: UnpackedLocType,
         op: InteractionOp,
-    ): LocDefaultEvents.Op? =
+    ): LocDefaultEvents.Op =
         when (op) {
             InteractionOp.Op1 -> LocDefaultEvents.Op1(this, type)
             InteractionOp.Op2 -> LocDefaultEvents.Op2(this, type)
@@ -202,7 +197,7 @@ constructor(
             InteractionOp.Op5 -> LocDefaultEvents.Op5(this, type)
         }
 
-    private fun BoundLocInfo.toAp(type: UnpackedLocType, op: InteractionOp): LocEvents.Ap? =
+    private fun BoundLocInfo.toAp(type: UnpackedLocType, op: InteractionOp): LocEvents.Ap =
         when (op) {
             InteractionOp.Op1 -> LocEvents.Ap1(this, type)
             InteractionOp.Op2 -> LocEvents.Ap2(this, type)
@@ -215,7 +210,7 @@ constructor(
         type: UnpackedLocType,
         contentGroup: Int,
         op: InteractionOp,
-    ): LocContentEvents.Ap? =
+    ): LocContentEvents.Ap =
         when (op) {
             InteractionOp.Op1 -> LocContentEvents.Ap1(this, type, contentGroup)
             InteractionOp.Op2 -> LocContentEvents.Ap2(this, type, contentGroup)
@@ -227,7 +222,7 @@ constructor(
     private fun BoundLocInfo.toDefaultAp(
         type: UnpackedLocType,
         op: InteractionOp,
-    ): LocDefaultEvents.Ap? =
+    ): LocDefaultEvents.Ap =
         when (op) {
             InteractionOp.Op1 -> LocDefaultEvents.Ap1(this, type)
             InteractionOp.Op2 -> LocDefaultEvents.Ap2(this, type)
