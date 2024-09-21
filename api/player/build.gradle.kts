@@ -14,6 +14,7 @@ dependencies {
     implementation(projects.api.config)
     implementation(projects.api.type.typeReferences)
     implementation(projects.api.utils.utilsFormat)
+    implementation(projects.engine.annotations)
     implementation(projects.engine.coroutine)
     implementation(projects.engine.events)
     implementation(projects.engine.game)

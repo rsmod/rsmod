@@ -3,6 +3,7 @@ package org.rsmod.api.net.rsprot.handlers
 import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
 import net.rsprot.protocol.game.incoming.buttons.If3Button
+import org.rsmod.annotations.InternalApi
 import org.rsmod.api.player.protect.ProtectedAccessLauncher
 import org.rsmod.api.player.ui.IfModalButton
 import org.rsmod.api.player.ui.IfOverlayButton
@@ -44,7 +45,7 @@ constructor(
                 else -> throw NotImplementedError("Unhandled If3Button op: $this")
             }
 
-    @OptIn(ProtectedAccessLauncher.InternalApi::class)
+    @OptIn(InternalApi::class)
     override fun handle(player: Player, message: If3Button) {
         val componentType = componentTypes[message.asComponent]
         val interfaceType = interfaceTypes[message.asComponent]

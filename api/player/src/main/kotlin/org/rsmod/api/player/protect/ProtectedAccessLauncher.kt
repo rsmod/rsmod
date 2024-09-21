@@ -1,6 +1,7 @@
 package org.rsmod.api.player.protect
 
 import jakarta.inject.Inject
+import org.rsmod.annotations.InternalApi
 import org.rsmod.api.config.constants
 import org.rsmod.api.player.output.mes
 import org.rsmod.game.entity.Player
@@ -14,7 +15,7 @@ constructor(private val contextFactory: ProtectedAccessContextFactory) {
         block: suspend ProtectedAccess.() -> Unit,
     ): Boolean = withProtectedAccess(player, contextFactory.create(), busyText, block)
 
-    @InternalApi
+    @InternalApi(message = "Usage of this function should only be used internally, or sparingly.")
     public fun launchLenient(
         player: Player,
         busyText: String? = constants.dm_busy,
@@ -25,14 +26,6 @@ constructor(private val contextFactory: ProtectedAccessContextFactory) {
             block(protectedAccess)
         }
     }
-
-    @Retention(AnnotationRetention.BINARY)
-    @Target(AnnotationTarget.FUNCTION)
-    @RequiresOptIn(
-        level = RequiresOptIn.Level.ERROR,
-        message = "Usage of this function should only be used internally, or sparingly.",
-    )
-    public annotation class InternalApi
 
     public companion object {
         public fun withProtectedAccess(

@@ -7,6 +7,7 @@ import org.rsmod.game.type.inv.UnpackedInvType
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.type.obj.isAssociatedWith
+import org.rsmod.game.type.util.UncheckedType
 
 public class Inventory(public val type: UnpackedInvType, public val objs: Array<InvObj?>) :
     Iterable<InvObj?> {
@@ -96,7 +97,7 @@ public class Inventory(public val type: UnpackedInvType, public val objs: Array<
     override fun toString(): String = "Inventory(type=$type, objs=${mapNotNullSlotObjs()})"
 
     public companion object {
-        @Suppress("DEPRECATION")
+        @OptIn(UncheckedType::class)
         public fun create(type: UnpackedInvType): Inventory {
             val objs = arrayOfNulls<InvObj>(type.size)
             if (type.stock != null) {

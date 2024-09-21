@@ -15,6 +15,7 @@ import org.rsmod.game.type.inv.InvStock
 import org.rsmod.game.type.inv.InvTypeBuilder
 import org.rsmod.game.type.inv.InvTypeList
 import org.rsmod.game.type.inv.UnpackedInvType
+import org.rsmod.game.type.util.UncheckedType
 
 public object InvTypeDecoder {
     public fun decodeAll(cache: Cache): InvTypeList {
@@ -40,7 +41,7 @@ public object InvTypeDecoder {
         return builder
     }
 
-    @Suppress("DEPRECATION")
+    @OptIn(UncheckedType::class)
     public fun decode(builder: InvTypeBuilder, data: ByteBuf, code: Int): Unit =
         with(builder) {
             when (code) {

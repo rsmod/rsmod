@@ -7,6 +7,7 @@ import kotlin.contracts.contract
 import org.rsmod.game.obj.InvObj
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.obj.UnpackedObjType
+import org.rsmod.game.type.util.UncheckedType
 import org.rsmod.objtx.Transaction
 import org.rsmod.objtx.TransactionCancellation
 import org.rsmod.objtx.TransactionObj
@@ -73,7 +74,7 @@ private fun InvObj?.toTransactionObj(): TransactionObj? =
         null
     }
 
-@Suppress("DEPRECATION")
+@OptIn(UncheckedType::class)
 private fun TransactionObj?.toObj(): InvObj? =
     if (this != null) {
         InvObj(id, count, vars)

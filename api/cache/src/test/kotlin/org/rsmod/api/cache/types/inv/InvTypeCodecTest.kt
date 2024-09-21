@@ -9,6 +9,7 @@ import org.rsmod.game.type.inv.InvStackType
 import org.rsmod.game.type.inv.InvStock
 import org.rsmod.game.type.inv.InvTypeBuilder
 import org.rsmod.game.type.inv.UnpackedInvType
+import org.rsmod.game.type.util.UncheckedType
 
 class InvTypeCodecTest {
     @Test
@@ -43,7 +44,7 @@ class InvTypeCodecTest {
             internalName = "null",
         )
 
-    @Suppress("DEPRECATION")
+    @OptIn(UncheckedType::class)
     private fun createGameInvType(): UnpackedInvType =
         UnpackedInvType(
             scope = InvScope.Shared,
