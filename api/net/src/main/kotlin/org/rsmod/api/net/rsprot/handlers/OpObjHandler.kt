@@ -10,6 +10,7 @@ import org.rsmod.api.registry.obj.ObjRegistry
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.interact.InteractionObj
+import org.rsmod.game.interact.InteractionOp
 import org.rsmod.game.movement.RouteRequestCoord
 import org.rsmod.game.obj.Obj
 import org.rsmod.game.type.obj.ObjTypeList
@@ -25,6 +26,17 @@ constructor(
 ) : MessageHandler<OpObj> {
     private val logger = InlineLogger()
 
+    private val OpObj.interactionOp: InteractionOp
+        get() =
+            when (op) {
+                1 -> InteractionOp.Op1
+                2 -> InteractionOp.Op1
+                3 -> InteractionOp.Op1
+                4 -> InteractionOp.Op1
+                5 -> InteractionOp.Op1
+                else -> throw NotImplementedError("Unhandled `op` conversion: $this")
+            }
+
     override fun handle(player: Player, message: OpObj) {
         if (player.isDelayed) {
             return
@@ -33,12 +45,12 @@ constructor(
         val obj = findObj(player, coords, message.id) ?: return
         val type = objTypes[obj.type] ?: return
         val speed = if (message.controlKey) player.ctrlMoveSpeed() else null
-        val opTrigger = objInteractions.hasOpTrigger(player, obj, type, message.op)
-        val apTrigger = objInteractions.hasApTrigger(player, obj, type, message.op)
+        val opTrigger = objInteractions.hasOpTrigger(player, obj, type, message.interactionOp)
+        val apTrigger = objInteractions.hasApTrigger(player, obj, type, message.interactionOp)
         val interaction =
             InteractionObj(
                 target = obj,
-                opSlot = message.op,
+                op = message.interactionOp,
                 hasOpTrigger = opTrigger,
                 hasApTrigger = apTrigger,
             )

@@ -12,6 +12,7 @@ import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.game.interact.InteractionNpc
+import org.rsmod.game.interact.InteractionOp
 import org.rsmod.game.type.npc.NpcTypeList
 import org.rsmod.game.type.npc.UnpackedNpcType
 import org.rsmod.game.type.varbit.VarBitTypeList
@@ -30,13 +31,18 @@ constructor(
 ) {
     public fun triggerOp(player: Player, interaction: InteractionNpc) {
         val npc = interaction.target
-        val op = opTrigger(player, npc, npc.type, interaction.opSlot)
+        val op = opTrigger(player, npc, npc.type, interaction.op)
         if (op != null) {
             protectedAccess.launch(player) { eventBus.publish(this, op) }
         }
     }
 
-    public fun opTrigger(player: Player, npc: Npc, type: UnpackedNpcType, op: Int): OpEvent? {
+    public fun opTrigger(
+        player: Player,
+        npc: Npc,
+        type: UnpackedNpcType,
+        op: InteractionOp,
+    ): OpEvent? {
         val multiNpcType = multiNpc(type, player.vars)
         if (multiNpcType != null) {
             val multiNpcTrigger = opTrigger(player, npc, multiNpcType, op)
@@ -65,18 +71,23 @@ constructor(
         return null
     }
 
-    public fun hasOpTrigger(player: Player, npc: Npc, op: Int): Boolean =
+    public fun hasOpTrigger(player: Player, npc: Npc, op: InteractionOp): Boolean =
         opTrigger(player, npc, npc.type, op) != null
 
     public fun triggerAp(player: Player, interaction: InteractionNpc) {
         val npc = interaction.target
-        val ap = apTrigger(player, npc, npc.type, interaction.opSlot)
+        val ap = apTrigger(player, npc, npc.type, interaction.op)
         if (ap != null) {
             protectedAccess.launch(player) { eventBus.publish(this, ap) }
         }
     }
 
-    public fun apTrigger(player: Player, npc: Npc, type: UnpackedNpcType, op: Int): ApEvent? {
+    public fun apTrigger(
+        player: Player,
+        npc: Npc,
+        type: UnpackedNpcType,
+        op: InteractionOp,
+    ): ApEvent? {
         val multiNpcType = multiNpc(type, player.vars)
         if (multiNpcType != null) {
             val multiNpcType = npcTypes[multiNpcType]
@@ -102,7 +113,7 @@ constructor(
         return null
     }
 
-    public fun hasApTrigger(player: Player, npc: Npc, op: Int): Boolean =
+    public fun hasApTrigger(player: Player, npc: Npc, op: InteractionOp): Boolean =
         apTrigger(player, npc, npc.type, op) != null
 
     public fun multiNpc(type: UnpackedNpcType, vars: VariableIntMap): UnpackedNpcType? {
@@ -119,74 +130,67 @@ constructor(
         return npcTypes.getOrDefault(multiNpc and 0xFFFF, null)
     }
 
-    private fun Npc.toOp(op: Int): NpcEvents.Op? =
+    private fun Npc.toOp(op: InteractionOp): NpcEvents.Op? =
         when (op) {
-            1 -> NpcEvents.Op1(this)
-            2 -> NpcEvents.Op2(this)
-            3 -> NpcEvents.Op3(this)
-            4 -> NpcEvents.Op4(this)
-            5 -> NpcEvents.Op5(this)
-            else -> null
+            InteractionOp.Op1 -> NpcEvents.Op1(this)
+            InteractionOp.Op2 -> NpcEvents.Op2(this)
+            InteractionOp.Op3 -> NpcEvents.Op3(this)
+            InteractionOp.Op4 -> NpcEvents.Op4(this)
+            InteractionOp.Op5 -> NpcEvents.Op5(this)
         }
 
-    private fun Npc.toContentOp(contentGroup: Int, op: Int): NpcContentEvents.Op? =
+    private fun Npc.toContentOp(contentGroup: Int, op: InteractionOp): NpcContentEvents.Op? =
         when (op) {
-            1 -> NpcContentEvents.Op1(this, contentGroup)
-            2 -> NpcContentEvents.Op2(this, contentGroup)
-            3 -> NpcContentEvents.Op3(this, contentGroup)
-            4 -> NpcContentEvents.Op4(this, contentGroup)
-            5 -> NpcContentEvents.Op5(this, contentGroup)
-            else -> null
+            InteractionOp.Op1 -> NpcContentEvents.Op1(this, contentGroup)
+            InteractionOp.Op2 -> NpcContentEvents.Op2(this, contentGroup)
+            InteractionOp.Op3 -> NpcContentEvents.Op3(this, contentGroup)
+            InteractionOp.Op4 -> NpcContentEvents.Op4(this, contentGroup)
+            InteractionOp.Op5 -> NpcContentEvents.Op5(this, contentGroup)
         }
 
-    private fun Npc.toUnimplementedOp(op: Int): NpcUnimplementedEvents.Op? =
+    private fun Npc.toUnimplementedOp(op: InteractionOp): NpcUnimplementedEvents.Op? =
         when (op) {
-            1 -> NpcUnimplementedEvents.Op1(this)
-            2 -> NpcUnimplementedEvents.Op2(this)
-            3 -> NpcUnimplementedEvents.Op3(this)
-            4 -> NpcUnimplementedEvents.Op4(this)
-            5 -> NpcUnimplementedEvents.Op5(this)
-            else -> null
+            InteractionOp.Op1 -> NpcUnimplementedEvents.Op1(this)
+            InteractionOp.Op2 -> NpcUnimplementedEvents.Op2(this)
+            InteractionOp.Op3 -> NpcUnimplementedEvents.Op3(this)
+            InteractionOp.Op4 -> NpcUnimplementedEvents.Op4(this)
+            InteractionOp.Op5 -> NpcUnimplementedEvents.Op5(this)
         }
 
-    private fun Npc.toDefaultOp(op: Int): NpcDefaultEvents.Op? =
+    private fun Npc.toDefaultOp(op: InteractionOp): NpcDefaultEvents.Op? =
         when (op) {
-            1 -> NpcDefaultEvents.Op1(this)
-            2 -> NpcDefaultEvents.Op2(this)
-            3 -> NpcDefaultEvents.Op3(this)
-            4 -> NpcDefaultEvents.Op4(this)
-            5 -> NpcDefaultEvents.Op5(this)
-            else -> null
+            InteractionOp.Op1 -> NpcDefaultEvents.Op1(this)
+            InteractionOp.Op2 -> NpcDefaultEvents.Op2(this)
+            InteractionOp.Op3 -> NpcDefaultEvents.Op3(this)
+            InteractionOp.Op4 -> NpcDefaultEvents.Op4(this)
+            InteractionOp.Op5 -> NpcDefaultEvents.Op5(this)
         }
 
-    private fun Npc.toAp(op: Int): NpcEvents.Ap? =
+    private fun Npc.toAp(op: InteractionOp): NpcEvents.Ap? =
         when (op) {
-            1 -> NpcEvents.Ap1(this)
-            2 -> NpcEvents.Ap2(this)
-            3 -> NpcEvents.Ap3(this)
-            4 -> NpcEvents.Ap4(this)
-            5 -> NpcEvents.Ap5(this)
-            else -> null
+            InteractionOp.Op1 -> NpcEvents.Ap1(this)
+            InteractionOp.Op2 -> NpcEvents.Ap2(this)
+            InteractionOp.Op3 -> NpcEvents.Ap3(this)
+            InteractionOp.Op4 -> NpcEvents.Ap4(this)
+            InteractionOp.Op5 -> NpcEvents.Ap5(this)
         }
 
-    private fun Npc.toContentAp(contentGroup: Int, op: Int): NpcContentEvents.Ap? =
+    private fun Npc.toContentAp(contentGroup: Int, op: InteractionOp): NpcContentEvents.Ap? =
         when (op) {
-            1 -> NpcContentEvents.Ap1(this, contentGroup)
-            2 -> NpcContentEvents.Ap2(this, contentGroup)
-            3 -> NpcContentEvents.Ap3(this, contentGroup)
-            4 -> NpcContentEvents.Ap4(this, contentGroup)
-            5 -> NpcContentEvents.Ap5(this, contentGroup)
-            else -> null
+            InteractionOp.Op1 -> NpcContentEvents.Ap1(this, contentGroup)
+            InteractionOp.Op2 -> NpcContentEvents.Ap2(this, contentGroup)
+            InteractionOp.Op3 -> NpcContentEvents.Ap3(this, contentGroup)
+            InteractionOp.Op4 -> NpcContentEvents.Ap4(this, contentGroup)
+            InteractionOp.Op5 -> NpcContentEvents.Ap5(this, contentGroup)
         }
 
-    private fun Npc.toDefaultAp(op: Int): NpcDefaultEvents.Ap? =
+    private fun Npc.toDefaultAp(op: InteractionOp): NpcDefaultEvents.Ap? =
         when (op) {
-            1 -> NpcDefaultEvents.Ap1(this)
-            2 -> NpcDefaultEvents.Ap2(this)
-            3 -> NpcDefaultEvents.Ap3(this)
-            4 -> NpcDefaultEvents.Ap4(this)
-            5 -> NpcDefaultEvents.Ap5(this)
-            else -> null
+            InteractionOp.Op1 -> NpcDefaultEvents.Ap1(this)
+            InteractionOp.Op2 -> NpcDefaultEvents.Ap2(this)
+            InteractionOp.Op3 -> NpcDefaultEvents.Ap3(this)
+            InteractionOp.Op4 -> NpcDefaultEvents.Ap4(this)
+            InteractionOp.Op5 -> NpcDefaultEvents.Ap5(this)
         }
 
     private fun UnpackedNpcType.multiVarValue(vars: VariableIntMap): Int? {

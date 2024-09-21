@@ -11,6 +11,7 @@ import org.rsmod.api.player.protect.ProtectedAccessLauncher
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.interact.InteractionLoc
+import org.rsmod.game.interact.InteractionOp
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.loc.LocEntity
 import org.rsmod.game.type.loc.LocTypeList
@@ -31,7 +32,7 @@ constructor(
 ) {
     public fun triggerOp(player: Player, interaction: InteractionLoc) {
         val loc = interaction.target
-        val op = opTrigger(player, loc, locTypes[loc], interaction.opSlot)
+        val op = opTrigger(player, loc, locTypes[loc], interaction.op)
         if (op != null) {
             protectedAccess.launch(player) { eventBus.publish(this, op) }
         }
@@ -41,7 +42,7 @@ constructor(
         player: Player,
         loc: BoundLocInfo,
         type: UnpackedLocType,
-        op: Int,
+        op: InteractionOp,
     ): OpEvent? {
         val multiLoc = multiLoc(loc, type, player.vars)
         if (multiLoc != null) {
@@ -76,12 +77,12 @@ constructor(
         player: Player,
         loc: BoundLocInfo,
         type: UnpackedLocType,
-        op: Int,
+        op: InteractionOp,
     ): Boolean = opTrigger(player, loc, type, op) != null
 
     public fun triggerAp(player: Player, interaction: InteractionLoc) {
         val loc = interaction.target
-        val ap = apTrigger(player, loc, locTypes[loc], interaction.opSlot)
+        val ap = apTrigger(player, loc, locTypes[loc], interaction.op)
         if (ap != null) {
             protectedAccess.launch(player) { eventBus.publish(this, ap) }
         }
@@ -91,7 +92,7 @@ constructor(
         player: Player,
         loc: BoundLocInfo,
         type: UnpackedLocType,
-        op: Int,
+        op: InteractionOp,
     ): ApEvent? {
         val multiLoc = multiLoc(loc, type, player.vars)
         if (multiLoc != null) {
@@ -130,7 +131,7 @@ constructor(
         player: Player,
         loc: BoundLocInfo,
         type: UnpackedLocType,
-        op: Int,
+        op: InteractionOp,
     ): Boolean = apTrigger(player, loc, type, op) != null
 
     public fun multiLoc(
@@ -155,85 +156,84 @@ constructor(
         }
     }
 
-    private fun BoundLocInfo.toOp(type: UnpackedLocType, op: Int): LocEvents.Op? =
+    private fun BoundLocInfo.toOp(type: UnpackedLocType, op: InteractionOp): LocEvents.Op? =
         when (op) {
-            1 -> LocEvents.Op1(this, type)
-            2 -> LocEvents.Op2(this, type)
-            3 -> LocEvents.Op3(this, type)
-            4 -> LocEvents.Op4(this, type)
-            5 -> LocEvents.Op5(this, type)
-            else -> null
+            InteractionOp.Op1 -> LocEvents.Op1(this, type)
+            InteractionOp.Op2 -> LocEvents.Op2(this, type)
+            InteractionOp.Op3 -> LocEvents.Op3(this, type)
+            InteractionOp.Op4 -> LocEvents.Op4(this, type)
+            InteractionOp.Op5 -> LocEvents.Op5(this, type)
         }
 
     private fun BoundLocInfo.toContentOp(
         type: UnpackedLocType,
         contentGroup: Int,
-        op: Int,
+        op: InteractionOp,
     ): LocContentEvents.Op? =
         when (op) {
-            1 -> LocContentEvents.Op1(this, type, contentGroup)
-            2 -> LocContentEvents.Op2(this, type, contentGroup)
-            3 -> LocContentEvents.Op3(this, type, contentGroup)
-            4 -> LocContentEvents.Op4(this, type, contentGroup)
-            5 -> LocContentEvents.Op5(this, type, contentGroup)
-            else -> null
+            InteractionOp.Op1 -> LocContentEvents.Op1(this, type, contentGroup)
+            InteractionOp.Op2 -> LocContentEvents.Op2(this, type, contentGroup)
+            InteractionOp.Op3 -> LocContentEvents.Op3(this, type, contentGroup)
+            InteractionOp.Op4 -> LocContentEvents.Op4(this, type, contentGroup)
+            InteractionOp.Op5 -> LocContentEvents.Op5(this, type, contentGroup)
         }
 
     private fun BoundLocInfo.toUnimplementedOp(
         type: UnpackedLocType,
-        op: Int,
+        op: InteractionOp,
     ): LocUnimplementedEvents.Op? =
         when (op) {
-            1 -> LocUnimplementedEvents.Op1(this, type)
-            2 -> LocUnimplementedEvents.Op2(this, type)
-            3 -> LocUnimplementedEvents.Op3(this, type)
-            4 -> LocUnimplementedEvents.Op4(this, type)
-            5 -> LocUnimplementedEvents.Op5(this, type)
-            else -> null
+            InteractionOp.Op1 -> LocUnimplementedEvents.Op1(this, type)
+            InteractionOp.Op2 -> LocUnimplementedEvents.Op2(this, type)
+            InteractionOp.Op3 -> LocUnimplementedEvents.Op3(this, type)
+            InteractionOp.Op4 -> LocUnimplementedEvents.Op4(this, type)
+            InteractionOp.Op5 -> LocUnimplementedEvents.Op5(this, type)
         }
 
-    private fun BoundLocInfo.toDefaultOp(type: UnpackedLocType, op: Int): LocDefaultEvents.Op? =
+    private fun BoundLocInfo.toDefaultOp(
+        type: UnpackedLocType,
+        op: InteractionOp,
+    ): LocDefaultEvents.Op? =
         when (op) {
-            1 -> LocDefaultEvents.Op1(this, type)
-            2 -> LocDefaultEvents.Op2(this, type)
-            3 -> LocDefaultEvents.Op3(this, type)
-            4 -> LocDefaultEvents.Op4(this, type)
-            5 -> LocDefaultEvents.Op5(this, type)
-            else -> null
+            InteractionOp.Op1 -> LocDefaultEvents.Op1(this, type)
+            InteractionOp.Op2 -> LocDefaultEvents.Op2(this, type)
+            InteractionOp.Op3 -> LocDefaultEvents.Op3(this, type)
+            InteractionOp.Op4 -> LocDefaultEvents.Op4(this, type)
+            InteractionOp.Op5 -> LocDefaultEvents.Op5(this, type)
         }
 
-    private fun BoundLocInfo.toAp(type: UnpackedLocType, op: Int): LocEvents.Ap? =
+    private fun BoundLocInfo.toAp(type: UnpackedLocType, op: InteractionOp): LocEvents.Ap? =
         when (op) {
-            1 -> LocEvents.Ap1(this, type)
-            2 -> LocEvents.Ap2(this, type)
-            3 -> LocEvents.Ap3(this, type)
-            4 -> LocEvents.Ap4(this, type)
-            5 -> LocEvents.Ap5(this, type)
-            else -> null
+            InteractionOp.Op1 -> LocEvents.Ap1(this, type)
+            InteractionOp.Op2 -> LocEvents.Ap2(this, type)
+            InteractionOp.Op3 -> LocEvents.Ap3(this, type)
+            InteractionOp.Op4 -> LocEvents.Ap4(this, type)
+            InteractionOp.Op5 -> LocEvents.Ap5(this, type)
         }
 
     private fun BoundLocInfo.toContentAp(
         type: UnpackedLocType,
         contentGroup: Int,
-        op: Int,
+        op: InteractionOp,
     ): LocContentEvents.Ap? =
         when (op) {
-            1 -> LocContentEvents.Ap1(this, type, contentGroup)
-            2 -> LocContentEvents.Ap2(this, type, contentGroup)
-            3 -> LocContentEvents.Ap3(this, type, contentGroup)
-            4 -> LocContentEvents.Ap4(this, type, contentGroup)
-            5 -> LocContentEvents.Ap5(this, type, contentGroup)
-            else -> null
+            InteractionOp.Op1 -> LocContentEvents.Ap1(this, type, contentGroup)
+            InteractionOp.Op2 -> LocContentEvents.Ap2(this, type, contentGroup)
+            InteractionOp.Op3 -> LocContentEvents.Ap3(this, type, contentGroup)
+            InteractionOp.Op4 -> LocContentEvents.Ap4(this, type, contentGroup)
+            InteractionOp.Op5 -> LocContentEvents.Ap5(this, type, contentGroup)
         }
 
-    private fun BoundLocInfo.toDefaultAp(type: UnpackedLocType, op: Int): LocDefaultEvents.Ap? =
+    private fun BoundLocInfo.toDefaultAp(
+        type: UnpackedLocType,
+        op: InteractionOp,
+    ): LocDefaultEvents.Ap? =
         when (op) {
-            1 -> LocDefaultEvents.Ap1(this, type)
-            2 -> LocDefaultEvents.Ap2(this, type)
-            3 -> LocDefaultEvents.Ap3(this, type)
-            4 -> LocDefaultEvents.Ap4(this, type)
-            5 -> LocDefaultEvents.Ap5(this, type)
-            else -> null
+            InteractionOp.Op1 -> LocDefaultEvents.Ap1(this, type)
+            InteractionOp.Op2 -> LocDefaultEvents.Ap2(this, type)
+            InteractionOp.Op3 -> LocDefaultEvents.Ap3(this, type)
+            InteractionOp.Op4 -> LocDefaultEvents.Ap4(this, type)
+            InteractionOp.Op5 -> LocDefaultEvents.Ap5(this, type)
         }
 
     private fun UnpackedLocType.multiVarValue(vars: VariableIntMap): Int? {

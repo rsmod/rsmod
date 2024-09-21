@@ -11,6 +11,7 @@ import org.rsmod.events.EventBus
 import org.rsmod.game.entity.NpcList
 import org.rsmod.game.entity.Player
 import org.rsmod.game.interact.InteractionNpc
+import org.rsmod.game.interact.InteractionOp
 import org.rsmod.game.movement.RouteRequestPathingEntity
 
 class OpNpcHandler
@@ -22,6 +23,17 @@ constructor(
 ) : MessageHandler<OpNpc> {
     private val logger = InlineLogger()
 
+    private val OpNpc.interactionOp: InteractionOp
+        get() =
+            when (op) {
+                1 -> InteractionOp.Op1
+                2 -> InteractionOp.Op1
+                3 -> InteractionOp.Op1
+                4 -> InteractionOp.Op1
+                5 -> InteractionOp.Op1
+                else -> throw NotImplementedError("Unhandled `op` conversion: $this")
+            }
+
     override fun handle(player: Player, message: OpNpc) {
         if (player.isDelayed) {
             player.clearMapFlag()
@@ -29,12 +41,12 @@ constructor(
         }
         val npc = npcList[message.index] ?: return
         val speed = if (message.controlKey) player.ctrlMoveSpeed() else null
-        val opTrigger = npcInteractions.hasOpTrigger(player, npc, message.op)
-        val apTrigger = npcInteractions.hasApTrigger(player, npc, message.op)
+        val opTrigger = npcInteractions.hasOpTrigger(player, npc, message.interactionOp)
+        val apTrigger = npcInteractions.hasApTrigger(player, npc, message.interactionOp)
         val interaction =
             InteractionNpc(
                 target = npc,
-                opSlot = message.op,
+                op = message.interactionOp,
                 hasOpTrigger = opTrigger,
                 hasApTrigger = apTrigger,
             )
