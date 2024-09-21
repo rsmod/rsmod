@@ -6,6 +6,7 @@ import jakarta.inject.Inject
 import java.util.concurrent.Executors
 import org.rsmod.annotations.PluginGraph
 import org.rsmod.plugin.scripts.PluginScript
+import org.rsmod.server.shared.util.use
 
 class PluginScriptLoader @Inject constructor(@PluginGraph private val scanner: ClassGraph) {
     fun <T : PluginScript> load(
@@ -15,7 +16,8 @@ class PluginScriptLoader @Inject constructor(@PluginGraph private val scanner: C
     ): Collection<T> {
         val plugins = mutableListOf<T>()
         val parallelism = Runtime.getRuntime().availableProcessors()
-        val scan = scanner.scan(Executors.newFixedThreadPool(parallelism), parallelism)
+        val threadPool = Executors.newFixedThreadPool(parallelism)
+        val scan = threadPool.use { scanner.scan(it, parallelism) }
         scan.use { result ->
             val infoList = result.getSubclasses(type)
             infoList.forEach { info ->
