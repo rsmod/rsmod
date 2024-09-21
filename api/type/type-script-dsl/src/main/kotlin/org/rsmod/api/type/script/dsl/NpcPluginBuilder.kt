@@ -8,7 +8,7 @@ import org.rsmod.game.entity.npc.NpcPatrolWaypoint
 import org.rsmod.game.map.Direction
 import org.rsmod.game.movement.BlockWalk
 import org.rsmod.game.movement.MoveRestrict
-import org.rsmod.game.type.content.ContentType
+import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.npc.NpcTypeBuilder
 import org.rsmod.game.type.npc.UnpackedNpcType
 import org.rsmod.game.type.util.CompactableIntArray
@@ -83,12 +83,12 @@ public class NpcPluginBuilder(public var internal: String? = null) {
     public var timer: Int? by backing::timer
     public var respawnDir: Direction? by backing::respawnDir
 
-    private var contentTypeId: Int? by backing::contentType
+    private var contentGroupId: Int? by backing::contentGroup
 
-    public var contentType: ContentType?
+    public var contentGroup: ContentGroupType?
         get() = null
         set(value) {
-            contentTypeId = value?.id
+            contentGroupId = value?.id
         }
 
     private var recolS: CompactableIntArray by backing::recolS

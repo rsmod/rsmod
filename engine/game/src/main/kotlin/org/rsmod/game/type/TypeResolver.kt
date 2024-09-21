@@ -2,7 +2,7 @@ package org.rsmod.game.type
 
 import org.rsmod.game.type.category.CategoryType
 import org.rsmod.game.type.comp.ComponentType
-import org.rsmod.game.type.content.ContentType
+import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.currency.CurrencyType
 import org.rsmod.game.type.enums.EnumType
 import org.rsmod.game.type.enums.UnpackedEnumType
@@ -49,9 +49,9 @@ public object TypeResolver {
         type.internalId = id
     }
 
-    public operator fun get(type: ContentType): Int? = type.internalId
+    public operator fun get(type: ContentGroupType): Int? = type.internalId
 
-    public operator fun set(type: ContentType, id: Int) {
+    public operator fun set(type: ContentGroupType, id: Int) {
         type.internalId = id
     }
 

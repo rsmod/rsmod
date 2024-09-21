@@ -37,8 +37,10 @@ constructor(
         if (opEvent != null && eventBus.contains(opEvent::class.java, type.id)) {
             return opEvent
         }
-        val contentEvent = obj.toContentOp(type.contentType, op)
-        if (contentEvent != null && eventBus.contains(contentEvent::class.java, type.contentType)) {
+        val contentEvent = obj.toContentOp(type.contentGroup, op)
+        if (
+            contentEvent != null && eventBus.contains(contentEvent::class.java, type.contentGroup)
+        ) {
             return contentEvent
         }
         val defaultEvent = obj.toDefaultOp(op)
@@ -65,8 +67,10 @@ constructor(
         if (apEvent != null && eventBus.contains(apEvent::class.java, type.id)) {
             return apEvent
         }
-        val contentEvent = obj.toContentAp(type.contentType, op)
-        if (contentEvent != null && eventBus.contains(contentEvent::class.java, type.contentType)) {
+        val contentEvent = obj.toContentAp(type.contentGroup, op)
+        if (
+            contentEvent != null && eventBus.contains(contentEvent::class.java, type.contentGroup)
+        ) {
             return contentEvent
         }
         val defaultEvent = obj.toDefaultAp(op)
@@ -89,13 +93,13 @@ constructor(
             else -> null
         }
 
-    private fun Obj.toContentOp(contentType: Int, op: Int): ObjContentEvents.Op? =
+    private fun Obj.toContentOp(contentGroup: Int, op: Int): ObjContentEvents.Op? =
         when (op) {
-            1 -> ObjContentEvents.Op1(this, contentType)
-            2 -> ObjContentEvents.Op2(this, contentType)
-            3 -> ObjContentEvents.Op3(this, contentType)
-            4 -> ObjContentEvents.Op4(this, contentType)
-            5 -> ObjContentEvents.Op5(this, contentType)
+            1 -> ObjContentEvents.Op1(this, contentGroup)
+            2 -> ObjContentEvents.Op2(this, contentGroup)
+            3 -> ObjContentEvents.Op3(this, contentGroup)
+            4 -> ObjContentEvents.Op4(this, contentGroup)
+            5 -> ObjContentEvents.Op5(this, contentGroup)
             else -> null
         }
 
@@ -119,13 +123,13 @@ constructor(
             else -> null
         }
 
-    private fun Obj.toContentAp(contentType: Int, op: Int): ObjContentEvents.Ap? =
+    private fun Obj.toContentAp(contentGroup: Int, op: Int): ObjContentEvents.Ap? =
         when (op) {
-            1 -> ObjContentEvents.Ap1(this, contentType)
-            2 -> ObjContentEvents.Ap2(this, contentType)
-            3 -> ObjContentEvents.Ap3(this, contentType)
-            4 -> ObjContentEvents.Ap4(this, contentType)
-            5 -> ObjContentEvents.Ap5(this, contentType)
+            1 -> ObjContentEvents.Ap1(this, contentGroup)
+            2 -> ObjContentEvents.Ap2(this, contentGroup)
+            3 -> ObjContentEvents.Ap3(this, contentGroup)
+            4 -> ObjContentEvents.Ap4(this, contentGroup)
+            5 -> ObjContentEvents.Ap5(this, contentGroup)
             else -> null
         }
 

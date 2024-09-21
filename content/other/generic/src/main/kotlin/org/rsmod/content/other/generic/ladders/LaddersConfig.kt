@@ -9,18 +9,18 @@ internal object LadderLocsEdits : LocEditor() {
     init {
         edit("ladder_down") {
             param[params.climb_anim] = seqs.human_pickupfloor
-            contentType = content.ladder_down
+            contentGroup = content.ladder_down
         }
 
-        edit("ladder_up") { contentType = content.ladder_up }
+        edit("ladder_up") { contentGroup = content.ladder_up }
 
-        edit("ladder_option") { contentType = content.ladder_option }
+        edit("ladder_option") { contentGroup = content.ladder_option }
 
         edit("lumbridge_kitchen_dungeonladder") {
             param[params.climb_anim] = seqs.human_pickupfloor
-            contentType = content.dungeonladder_down
+            contentGroup = content.dungeonladder_down
         }
 
-        edit("lumbridge_cellar_dungeonladder") { contentType = content.dungeonladder_up }
+        edit("lumbridge_cellar_dungeonladder") { contentGroup = content.dungeonladder_up }
     }
 }

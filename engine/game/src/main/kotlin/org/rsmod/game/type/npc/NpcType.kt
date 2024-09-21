@@ -108,7 +108,7 @@ public class UnpackedNpcType(
     public val timer: Int,
     public val respawnDir: Direction,
     public val patrol: NpcPatrol?,
-    public val contentType: Int,
+    public val contentGroup: Int,
     internalId: Int,
     internalName: String,
 ) : NpcType(internalId, internalName) {
@@ -163,7 +163,7 @@ public class UnpackedNpcType(
             "internalName='$internalName', " +
             "internalId=$internalId, " +
             "internalHash=${computeIdentityHash()}, " +
-            "contentType=$contentType, " +
+            "contentGroup=$contentGroup, " +
             "name='$name', " +
             "desc='$desc', " +
             "models=${models.contentToString()}, " +
@@ -299,7 +299,7 @@ public class UnpackedNpcType(
             if (other.patrol == null) return false
             if (patrol != other.patrol) return false
         } else if (other.patrol != null) return false
-        if (contentType != other.contentType) return false
+        if (contentGroup != other.contentGroup) return false
         if (internalId != other.internalId) return false
 
         return true
@@ -369,7 +369,7 @@ public class UnpackedNpcType(
         result = 31 * result + timer
         result = 31 * result + respawnDir.hashCode()
         result = 31 * result + (patrol?.hashCode() ?: 0)
-        result = 31 * result + contentType
+        result = 31 * result + contentGroup
         result = 31 * result + (internalId ?: 0)
         return result
     }

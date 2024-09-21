@@ -1,7 +1,7 @@
 package org.rsmod.api.type.script.dsl
 
 import org.rsmod.game.type.category.CategoryType
-import org.rsmod.game.type.content.ContentType
+import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.loc.LocType
 import org.rsmod.game.type.loc.LocTypeBuilder
 import org.rsmod.game.type.loc.UnpackedLocType
@@ -74,7 +74,7 @@ public class LocPluginBuilder(public var internal: String? = null) {
     public var mapIcon: Int? by backing::mapIcon
     public var randomAnimFrame: Boolean? by backing::randomAnimFrame
     public var fixLocAnimAfterLocChange: Boolean? by backing::fixLocAnimAfterLocChange
-    public var contentType: ContentType? by relay { backing.contentType = it?.id }
+    public var contentGroup: ContentGroupType? by relay { backing.contentGroup = it?.id }
     public var param: ParamMapBuilder = ParamMapBuilder()
 
     public var op1: String?

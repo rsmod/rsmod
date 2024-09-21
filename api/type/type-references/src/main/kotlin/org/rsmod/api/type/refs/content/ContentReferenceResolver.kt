@@ -10,17 +10,17 @@ import org.rsmod.api.type.refs.resolver.err
 import org.rsmod.api.type.refs.resolver.ok
 import org.rsmod.api.type.symbols.name.NameMapping
 import org.rsmod.game.type.TypeResolver
-import org.rsmod.game.type.content.ContentType
+import org.rsmod.game.type.content.ContentGroupType
 
 public class ContentReferenceResolver @Inject constructor(private val nameMapping: NameMapping) :
-    NameTypeReferenceResolver<ContentType> {
+    NameTypeReferenceResolver<ContentGroupType> {
     private val names: Map<String, Int>
         get() = nameMapping.content
 
-    override fun resolve(refs: NameTypeReferences<ContentType>): List<TypeReferenceResult> =
+    override fun resolve(refs: NameTypeReferences<ContentGroupType>): List<TypeReferenceResult> =
         refs.cache.map { it.resolve() }
 
-    private fun ContentType.resolve(): TypeReferenceResult {
+    private fun ContentGroupType.resolve(): TypeReferenceResult {
         val internalId = names[internalNameGet] ?: return err(ImplicitNameNotFound(internalNameGet))
         TypeResolver[this] = internalId
         return ok(FullSuccess)

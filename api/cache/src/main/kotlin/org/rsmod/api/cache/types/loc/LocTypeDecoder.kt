@@ -154,7 +154,7 @@ public object LocTypeDecoder {
                 82 -> mapIcon = data.readUnsignedShort()
                 89 -> randomAnimFrame = false
                 90 -> fixLocAnimAfterLocChange = true
-                200 -> contentType = data.readUnsignedShort()
+                200 -> contentGroup = data.readUnsignedShort()
                 249 -> paramMap = ParamMap(data.readRawParams())
                 else -> throw IOException("Error unrecognised .loc config code: $code")
             }

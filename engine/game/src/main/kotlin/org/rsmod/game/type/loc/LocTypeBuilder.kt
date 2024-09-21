@@ -63,7 +63,7 @@ public class LocTypeBuilder(public var internal: String? = null) {
     public var randomAnimFrame: Boolean? = null
     public var fixLocAnimAfterLocChange: Boolean? = null
     public var paramMap: ParamMap? = null
-    public var contentType: Int? = null
+    public var contentGroup: Int? = null
 
     public fun build(id: Int): UnpackedLocType {
         val internal = checkNotNull(internal) { "`internal` must be set." }
@@ -107,7 +107,7 @@ public class LocTypeBuilder(public var internal: String? = null) {
         val mapIcon = mapIcon ?: DEFAULT_MAP_ICON
         val randomAnimFrame = randomAnimFrame ?: DEFAULT_RANDOM_ANIM_FRAME
         val fixLocAnimAfterLocChange = fixLocAnimAfterLocChange == true
-        val contentType = contentType ?: DEFAULT_CONTENT_TYPE
+        val contentGroup = contentGroup ?: DEFAULT_CONTENT_GROUP
         return UnpackedLocType(
             models = model.toIntArray(),
             shapes = modelShape.toByteArray(),
@@ -159,7 +159,7 @@ public class LocTypeBuilder(public var internal: String? = null) {
             randomAnimFrame = randomAnimFrame,
             fixLocAnimAfterLocChange = fixLocAnimAfterLocChange,
             paramMap = paramMap,
-            contentType = contentType,
+            contentGroup = contentGroup,
             internalId = id,
             internalName = internal,
         )
@@ -188,7 +188,7 @@ public class LocTypeBuilder(public var internal: String? = null) {
         public const val DEFAULT_BGSOUND_SOUND: Int = -1
         public const val DEFAULT_MAP_ICON: Int = -1
         public const val DEFAULT_RANDOM_ANIM_FRAME: Boolean = true
-        public const val DEFAULT_CONTENT_TYPE: Int = -1
+        public const val DEFAULT_CONTENT_GROUP: Int = -1
 
         public const val OP_CAPACITY: Int = 5
         public const val RECOL_CAPACITY: Int = 15
@@ -235,7 +235,7 @@ public class LocTypeBuilder(public var internal: String? = null) {
             val randomAnimFrame = select(edit, base, DEFAULT_RANDOM_ANIM_FRAME) { randomAnimFrame }
             val fixLocAnimAfterLocChange =
                 select(edit, base, default = false) { fixLocAnimAfterLocChange }
-            val contentType = select(edit, base, DEFAULT_CONTENT_TYPE) { contentType }
+            val contentGroup = select(edit, base, DEFAULT_CONTENT_GROUP) { contentGroup }
             val models = selectIntArray(edit, base) { models }
             val shapes = selectByteArray(edit, base) { shapes }
             val op = selectPredicate(edit.op, base.op) { edit.op.any { it != null } }
@@ -299,7 +299,7 @@ public class LocTypeBuilder(public var internal: String? = null) {
                 randomAnimFrame = randomAnimFrame,
                 fixLocAnimAfterLocChange = fixLocAnimAfterLocChange,
                 paramMap = paramMap,
-                contentType = contentType,
+                contentGroup = contentGroup,
                 internalId = internalId ?: -1,
                 internalName = internalName ?: "",
             )

@@ -100,7 +100,7 @@ class NpcTypeCodecTest {
             timer = -1,
             respawnDir = NpcTypeBuilder.DEFAULT_RESPAWN_DIR,
             patrol = null,
-            contentType = NpcTypeBuilder.DEFAULT_CONTENT_TYPE,
+            contentGroup = NpcTypeBuilder.DEFAULT_CONTENT_GROUP,
         )
 
     private fun createGameNpcType(): UnpackedNpcType =
@@ -170,6 +170,6 @@ class NpcTypeCodecTest {
             timer = -1,
             respawnDir = Direction.East,
             patrol = NpcPatrol(listOf(NpcPatrolWaypoint(CoordGrid(0, 50, 50, 0, 0), 0))),
-            contentType = 5,
+            contentGroup = 5,
         )
 }

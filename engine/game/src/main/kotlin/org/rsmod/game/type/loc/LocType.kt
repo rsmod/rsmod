@@ -98,7 +98,7 @@ public class UnpackedLocType(
     public val randomAnimFrame: Boolean,
     public val fixLocAnimAfterLocChange: Boolean,
     public val paramMap: ParamMap?,
-    public val contentType: Int,
+    public val contentGroup: Int,
     internalId: Int,
     internalName: String,
 ) : LocType(internalId, internalName) {
@@ -147,7 +147,7 @@ public class UnpackedLocType(
             "internalName='$internalName', " +
             "internalId=$internalId, " +
             "internalHash=${computeIdentityHash()}, " +
-            "contentType=$contentType, " +
+            "contentGroup=$contentGroup, " +
             "models=${models.contentToString()}, " +
             "shapes=${shapes.contentToString()}, " +
             "name='$name', " +
@@ -254,7 +254,7 @@ public class UnpackedLocType(
         if (randomAnimFrame != other.randomAnimFrame) return false
         if (fixLocAnimAfterLocChange != other.fixLocAnimAfterLocChange) return false
         if (paramMap != other.paramMap) return false
-        if (contentType != other.contentType) return false
+        if (contentGroup != other.contentGroup) return false
         if (internalId != other.internalId) return false
 
         return true
@@ -311,7 +311,7 @@ public class UnpackedLocType(
         result = 31 * result + randomAnimFrame.hashCode()
         result = 31 * result + fixLocAnimAfterLocChange.hashCode()
         result = 31 * result + (paramMap?.hashCode() ?: 0)
-        result = 31 * result + contentType
+        result = 31 * result + contentGroup
         result = 31 * result + (internalId ?: 0)
         return result
     }

@@ -290,9 +290,9 @@ public object LocTypeEncoder {
                 data.writeString(desc)
             }
 
-            if (contentType != LocTypeBuilder.DEFAULT_CONTENT_TYPE) {
+            if (contentGroup != LocTypeBuilder.DEFAULT_CONTENT_GROUP) {
                 data.writeByte(200)
-                data.writeShort(contentType)
+                data.writeShort(contentGroup)
             }
         }
 }

@@ -9,7 +9,7 @@ import org.rsmod.game.loc.LocAngle
 import org.rsmod.game.loc.LocEntity
 import org.rsmod.game.loc.LocInfo
 import org.rsmod.game.loc.LocShape
-import org.rsmod.game.type.content.ContentType
+import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.loc.LocType
 import org.rsmod.game.type.loc.LocTypeList
 import org.rsmod.game.type.param.ParamType
@@ -97,13 +97,13 @@ constructor(
 
     public fun findExact(
         coords: CoordGrid,
-        content: ContentType,
+        content: ContentGroupType,
         type: LocType? = null,
         shape: LocShape? = null,
         angle: LocAngle? = null,
     ): LocInfo? {
         val loc = registry.find(coords, type?.id, shape?.id, angle?.id) ?: return null
-        return if (locTypes[loc].contentType == content.id) {
+        return if (locTypes[loc].contentGroup == content.id) {
             loc
         } else {
             null

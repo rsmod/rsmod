@@ -3,7 +3,7 @@ package org.rsmod.api.script
 import org.rsmod.api.player.events.interact.LocContentEvents
 import org.rsmod.api.player.events.interact.LocEvents
 import org.rsmod.api.player.protect.ProtectedAccess
-import org.rsmod.game.type.content.ContentType
+import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.loc.LocType
 import org.rsmod.plugin.scripts.ScriptContext
 
@@ -34,27 +34,27 @@ public fun ScriptContext.onOpLoc5(
 ): Unit = onProtectedEvent(type.id, action)
 
 public fun ScriptContext.onOpLoc1(
-    content: ContentType,
+    content: ContentGroupType,
     action: suspend ProtectedAccess.(LocContentEvents.Op1) -> Unit,
 ): Unit = onProtectedEvent(content.id, action)
 
 public fun ScriptContext.onOpLoc2(
-    content: ContentType,
+    content: ContentGroupType,
     action: suspend ProtectedAccess.(LocContentEvents.Op2) -> Unit,
 ): Unit = onProtectedEvent(content.id, action)
 
 public fun ScriptContext.onOpLoc3(
-    content: ContentType,
+    content: ContentGroupType,
     action: suspend ProtectedAccess.(LocContentEvents.Op3) -> Unit,
 ): Unit = onProtectedEvent(content.id, action)
 
 public fun ScriptContext.onOpLoc4(
-    content: ContentType,
+    content: ContentGroupType,
     action: suspend ProtectedAccess.(LocContentEvents.Op4) -> Unit,
 ): Unit = onProtectedEvent(content.id, action)
 
 public fun ScriptContext.onOpLoc5(
-    content: ContentType,
+    content: ContentGroupType,
     action: suspend ProtectedAccess.(LocContentEvents.Op5) -> Unit,
 ): Unit = onProtectedEvent(content.id, action)
 
@@ -85,26 +85,26 @@ public fun ScriptContext.onApLoc5(
 ): Unit = onProtectedEvent(type.id, action)
 
 public fun ScriptContext.onApLoc1(
-    content: ContentType,
+    content: ContentGroupType,
     action: suspend ProtectedAccess.(LocContentEvents.Ap1) -> Unit,
 ): Unit = onProtectedEvent(content.id, action)
 
 public fun ScriptContext.onApLoc2(
-    content: ContentType,
+    content: ContentGroupType,
     action: suspend ProtectedAccess.(LocContentEvents.Ap2) -> Unit,
 ): Unit = onProtectedEvent(content.id, action)
 
 public fun ScriptContext.onApLoc3(
-    content: ContentType,
+    content: ContentGroupType,
     action: suspend ProtectedAccess.(LocContentEvents.Ap3) -> Unit,
 ): Unit = onProtectedEvent(content.id, action)
 
 public fun ScriptContext.onApLoc4(
-    content: ContentType,
+    content: ContentGroupType,
     action: suspend ProtectedAccess.(LocContentEvents.Ap4) -> Unit,
 ): Unit = onProtectedEvent(content.id, action)
 
 public fun ScriptContext.onApLoc5(
-    content: ContentType,
+    content: ContentGroupType,
     action: suspend ProtectedAccess.(LocContentEvents.Ap5) -> Unit,
 ): Unit = onProtectedEvent(content.id, action)

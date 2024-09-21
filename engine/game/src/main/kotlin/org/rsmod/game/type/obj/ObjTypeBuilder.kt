@@ -82,7 +82,7 @@ public class ObjTypeBuilder(public var internal: String? = null) {
     public var tradeable: Boolean? = null
     public var respawnRate: Int? = null
     public var dummyitem: Int? = null
-    public var contentType: Int? = null
+    public var contentGroup: Int? = null
 
     public fun build(id: Int): UnpackedObjType {
         val internal = checkNotNull(internal) { "`internal` must be set." }
@@ -139,7 +139,7 @@ public class ObjTypeBuilder(public var internal: String? = null) {
         val tradeable = tradeable ?: DEFAULT_TRADEABLE
         val respawnRate = respawnRate ?: DEFAULT_RESPAWN_RATE
         val dummyitem = dummyitem ?: DEFAULT_DUMMYITEM
-        val contentType = contentType ?: DEFAULT_CONTENT_TYPE
+        val contentGroup = contentGroup ?: DEFAULT_CONTENT_GROUP
         return UnpackedObjType(
             name = name,
             desc = desc,
@@ -209,7 +209,7 @@ public class ObjTypeBuilder(public var internal: String? = null) {
             tradeable = tradeable,
             respawnRate = respawnRate,
             dummyitem = dummyitem,
-            contentType = contentType,
+            contentGroup = contentGroup,
             internalId = id,
             internalName = internal,
         )
@@ -240,7 +240,7 @@ public class ObjTypeBuilder(public var internal: String? = null) {
         public const val DEFAULT_TRADEABLE: Boolean = true
         public const val DEFAULT_RESPAWN_RATE: Int = 100
         public const val DEFAULT_DUMMYITEM: Int = -1
-        public const val DEFAULT_CONTENT_TYPE: Int = -1
+        public const val DEFAULT_CONTENT_GROUP: Int = -1
 
         public const val OP_CAPACITY: Int = 5
         public const val IOP_CAPACITY: Int = 5
@@ -316,7 +316,7 @@ public class ObjTypeBuilder(public var internal: String? = null) {
             val tradeable = select(edit, base, DEFAULT_TRADEABLE) { tradeable }
             val respawnRate = select(edit, base, DEFAULT_RESPAWN_RATE) { respawnRate }
             val dummyitem = select(edit, base, DEFAULT_DUMMYITEM) { dummyitem }
-            val contentType = select(edit, base, DEFAULT_CONTENT_TYPE) { contentType }
+            val contentGroup = select(edit, base, DEFAULT_CONTENT_GROUP) { contentGroup }
             val internalId = select(edit, base, default = null) { internalId }
             val internalName = select(edit, base, default = null) { internalName }
             return UnpackedObjType(
@@ -388,7 +388,7 @@ public class ObjTypeBuilder(public var internal: String? = null) {
                 tradeable = tradeable,
                 respawnRate = respawnRate,
                 dummyitem = dummyitem,
-                contentType = contentType,
+                contentGroup = contentGroup,
                 internalId = internalId ?: -1,
                 internalName = internalName ?: "",
             )

@@ -29,7 +29,7 @@ public sealed class NpcEvents {
 }
 
 public sealed class NpcContentEvents {
-    public sealed class Op(public val npc: Npc, contentType: Int) : OpEvent(contentType.toLong())
+    public sealed class Op(public val npc: Npc, contentGroup: Int) : OpEvent(contentGroup.toLong())
 
     public class Op1(npc: Npc, category: Int) : Op(npc, category)
 
@@ -41,7 +41,7 @@ public sealed class NpcContentEvents {
 
     public class Op5(npc: Npc, category: Int) : Op(npc, category)
 
-    public sealed class Ap(public val npc: Npc, contentType: Int) : ApEvent(contentType.toLong())
+    public sealed class Ap(public val npc: Npc, contentGroup: Int) : ApEvent(contentGroup.toLong())
 
     public class Ap1(npc: Npc, category: Int) : Ap(npc, category)
 

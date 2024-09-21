@@ -379,9 +379,9 @@ public object NpcTypeEncoder {
                 data.writeByte(respawnDir.id)
             }
 
-            if (contentType != NpcTypeBuilder.DEFAULT_CONTENT_TYPE) {
+            if (contentGroup != NpcTypeBuilder.DEFAULT_CONTENT_GROUP) {
                 data.writeByte(213)
-                data.writeShort(contentType)
+                data.writeShort(contentGroup)
             }
         }
 }

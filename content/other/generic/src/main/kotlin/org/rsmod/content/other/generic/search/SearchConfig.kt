@@ -13,14 +13,14 @@ internal object SearchLocEdits : LocEditor() {
     private fun crate(internal: String) {
         edit(internal) {
             param[params.game_message] = SearchConstants.EMPTY_CRATE
-            contentType = content.empty_crate
+            contentGroup = content.empty_crate
         }
     }
 
     private fun sack(internal: String) {
         edit(internal) {
             param[params.game_message] = SearchConstants.EMPTY_SACKS
-            contentType = content.empty_sacks
+            contentGroup = content.empty_sacks
         }
     }
 

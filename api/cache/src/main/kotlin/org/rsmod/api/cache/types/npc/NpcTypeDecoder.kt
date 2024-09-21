@@ -212,7 +212,7 @@ public object NpcTypeDecoder {
                     val dir = Direction.forId(id) ?: error("Invalid direction id `$id` for: $this.")
                     respawnDir = dir
                 }
-                213 -> contentType = data.readUnsignedShort()
+                213 -> contentGroup = data.readUnsignedShort()
                 249 -> paramMap = ParamMap(data.readRawParams())
                 else -> throw IOException("Error unrecognised .npc config code: $code")
             }

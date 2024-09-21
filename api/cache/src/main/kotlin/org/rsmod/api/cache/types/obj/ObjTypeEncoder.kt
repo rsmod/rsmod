@@ -364,9 +364,9 @@ public object ObjTypeEncoder {
                 data.writeByte(dummyitem)
             }
 
-            if (contentType != ObjTypeBuilder.DEFAULT_CONTENT_TYPE) {
+            if (contentGroup != ObjTypeBuilder.DEFAULT_CONTENT_GROUP) {
                 data.writeByte(209)
-                data.writeShort(contentType)
+                data.writeShort(contentGroup)
             }
         }
 }

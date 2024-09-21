@@ -9,7 +9,7 @@ internal object NpcEdits : NpcEditor() {
     }
 
     private fun person(internal: String) {
-        edit(internal) { contentType = content.person }
+        edit(internal) { contentGroup = content.person }
     }
 
     private fun people(): Set<String> =

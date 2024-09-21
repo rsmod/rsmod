@@ -28,11 +28,11 @@ public class AITimerProcessor @Inject constructor(private val eventBus: EventBus
             return
         }
 
-        if (type.contentType != -1) {
+        if (type.contentGroup != -1) {
             val contentTrigger =
-                eventBus.keyed[NpcAIEvents.Content::class.java, type.contentType.toLong()]
+                eventBus.keyed[NpcAIEvents.Content::class.java, type.contentGroup.toLong()]
             if (contentTrigger != null) {
-                contentTrigger.invoke(NpcAIEvents.Content(this, type.contentType))
+                contentTrigger.invoke(NpcAIEvents.Content(this, type.contentGroup))
                 return
             }
         }

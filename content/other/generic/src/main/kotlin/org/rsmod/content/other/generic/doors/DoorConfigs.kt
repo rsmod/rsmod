@@ -26,44 +26,44 @@ internal object DoorLocEdits : LocEditor() {
     init {
         edit("door_opened") {
             param[params.next_loc_stage] = DoorLocs.door_closed
-            contentType = content.opened_single_door
+            contentGroup = content.opened_single_door
         }
 
         edit("door_closed") {
             param[params.next_loc_stage] = DoorLocs.door_opened
-            contentType = content.closed_single_door
+            contentGroup = content.closed_single_door
         }
 
         edit("nicedoor_opened") {
             param[params.next_loc_stage] = DoorLocs.nicedoor_closed
             param[params.closesound] = synths.nicedoor_close
-            contentType = content.opened_single_door
+            contentGroup = content.opened_single_door
         }
 
         edit("nicedoor_closed") {
             param[params.next_loc_stage] = DoorLocs.nicedoor_opened
             param[params.opensound] = synths.nicedoor_open
-            contentType = content.closed_single_door
+            contentGroup = content.closed_single_door
         }
 
         edit("door_left_closed") {
             param[params.next_loc_stage] = DoorLocs.door_left_opened
-            contentType = content.closed_left_door
+            contentGroup = content.closed_left_door
         }
 
         edit("door_left_opened") {
             param[params.next_loc_stage] = DoorLocs.door_left_closed
-            contentType = content.opened_left_door
+            contentGroup = content.opened_left_door
         }
 
         edit("door_right_closed") {
             param[params.next_loc_stage] = DoorLocs.door_right_opened
-            contentType = content.closed_right_door
+            contentGroup = content.closed_right_door
         }
 
         edit("door_right_opened") {
             param[params.next_loc_stage] = DoorLocs.door_right_closed
-            contentType = content.opened_right_door
+            contentGroup = content.opened_right_door
         }
     }
 }

@@ -37,13 +37,13 @@ private fun NpcEditor.imp(internal: String) = edit(internal) { giveChase = false
 private fun NpcEditor.duck(internal: String) =
     edit(internal) {
         moveRestrict = blocked
-        contentType = content.duck
+        contentGroup = content.duck
         timer = 1
     }
 
 private fun NpcEdits.duckling(internal: String) =
     edit(internal) {
         moveRestrict = blocked
-        contentType = content.duckling
+        contentGroup = content.duckling
         timer = 1
     }

@@ -3,7 +3,7 @@
 package org.rsmod.api.type.script.dsl
 
 import org.rsmod.game.type.TypeResolver
-import org.rsmod.game.type.content.ContentType
+import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.obj.Dummyitem
 import org.rsmod.game.type.obj.ObjTypeBuilder
 import org.rsmod.game.type.obj.UnpackedObjType
@@ -73,7 +73,7 @@ public class ObjPluginBuilder(public var internal: String? = null) {
     public var tradeable: Boolean? by backing::tradeable
     public var respawnRate: Int? by backing::respawnRate
     private var objvarList: MutableList<VarObjBitType>? = null
-    private var contentType: Int? by backing::contentType
+    private var contentGroupId: Int? by backing::contentGroup
 
     public var objvar: MutableList<VarObjBitType>?
         get() = objvarList
@@ -81,10 +81,10 @@ public class ObjPluginBuilder(public var internal: String? = null) {
             objvarList = value
         }
 
-    public var content: ContentType?
+    public var contentGroup: ContentGroupType?
         get() = null
         set(value) {
-            contentType = value?.id
+            contentGroupId = value?.id
         }
 
     public var dummyitem: Dummyitem?

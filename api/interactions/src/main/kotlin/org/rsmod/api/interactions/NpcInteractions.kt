@@ -48,8 +48,10 @@ constructor(
         if (opEvent != null && eventBus.contains(opEvent::class.java, type.id)) {
             return opEvent
         }
-        val contentEvent = npc.toContentOp(type.contentType, op)
-        if (contentEvent != null && eventBus.contains(contentEvent::class.java, type.contentType)) {
+        val contentEvent = npc.toContentOp(type.contentGroup, op)
+        if (
+            contentEvent != null && eventBus.contains(contentEvent::class.java, type.contentGroup)
+        ) {
             return contentEvent
         }
         val unimplOpEvent = npc.toUnimplementedOp(op)
@@ -87,8 +89,10 @@ constructor(
         if (apEvent != null && eventBus.contains(apEvent::class.java, type.id)) {
             return apEvent
         }
-        val contentEvent = npc.toContentAp(type.contentType, op)
-        if (contentEvent != null && eventBus.contains(contentEvent::class.java, type.contentType)) {
+        val contentEvent = npc.toContentAp(type.contentGroup, op)
+        if (
+            contentEvent != null && eventBus.contains(contentEvent::class.java, type.contentGroup)
+        ) {
             return contentEvent
         }
         val defaultEvent = npc.toDefaultAp(op)
@@ -125,13 +129,13 @@ constructor(
             else -> null
         }
 
-    private fun Npc.toContentOp(contentType: Int, op: Int): NpcContentEvents.Op? =
+    private fun Npc.toContentOp(contentGroup: Int, op: Int): NpcContentEvents.Op? =
         when (op) {
-            1 -> NpcContentEvents.Op1(this, contentType)
-            2 -> NpcContentEvents.Op2(this, contentType)
-            3 -> NpcContentEvents.Op3(this, contentType)
-            4 -> NpcContentEvents.Op4(this, contentType)
-            5 -> NpcContentEvents.Op5(this, contentType)
+            1 -> NpcContentEvents.Op1(this, contentGroup)
+            2 -> NpcContentEvents.Op2(this, contentGroup)
+            3 -> NpcContentEvents.Op3(this, contentGroup)
+            4 -> NpcContentEvents.Op4(this, contentGroup)
+            5 -> NpcContentEvents.Op5(this, contentGroup)
             else -> null
         }
 
@@ -165,13 +169,13 @@ constructor(
             else -> null
         }
 
-    private fun Npc.toContentAp(contentType: Int, op: Int): NpcContentEvents.Ap? =
+    private fun Npc.toContentAp(contentGroup: Int, op: Int): NpcContentEvents.Ap? =
         when (op) {
-            1 -> NpcContentEvents.Ap1(this, contentType)
-            2 -> NpcContentEvents.Ap2(this, contentType)
-            3 -> NpcContentEvents.Ap3(this, contentType)
-            4 -> NpcContentEvents.Ap4(this, contentType)
-            5 -> NpcContentEvents.Ap5(this, contentType)
+            1 -> NpcContentEvents.Ap1(this, contentGroup)
+            2 -> NpcContentEvents.Ap2(this, contentGroup)
+            3 -> NpcContentEvents.Ap3(this, contentGroup)
+            4 -> NpcContentEvents.Ap4(this, contentGroup)
+            5 -> NpcContentEvents.Ap5(this, contentGroup)
             else -> null
         }
 

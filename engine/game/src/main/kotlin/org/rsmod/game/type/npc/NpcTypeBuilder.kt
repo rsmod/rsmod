@@ -79,7 +79,7 @@ public class NpcTypeBuilder(public var internal: String? = null) {
     public var magic: Int? = null
     public var timer: Int? = null
     public var respawnDir: Direction? = null
-    public var contentType: Int? = null
+    public var contentGroup: Int? = null
 
     public fun build(id: Int): UnpackedNpcType {
         val internal = checkNotNull(internal) { "`internal` must be set." }
@@ -137,7 +137,7 @@ public class NpcTypeBuilder(public var internal: String? = null) {
         check(patrol == null || patrol?.isNotEmpty() == true) {
             "`patrol` must be either null, or have at least one element."
         }
-        val contentType = contentType ?: DEFAULT_CONTENT_TYPE
+        val contentGroup = contentGroup ?: DEFAULT_CONTENT_GROUP
         return UnpackedNpcType(
             name = name,
             desc = desc,
@@ -202,7 +202,7 @@ public class NpcTypeBuilder(public var internal: String? = null) {
             timer = timer,
             respawnDir = respawnDir,
             patrol = patrol,
-            contentType = contentType,
+            contentGroup = contentGroup,
             internalId = id,
             internalName = internal,
         )
@@ -234,7 +234,7 @@ public class NpcTypeBuilder(public var internal: String? = null) {
         public const val DEFAULT_HITPOINTS: Int = 10
         public const val DEFAULT_STAT_LEVEL: Int = 1
         public const val DEFAULT_TIMER: Int = -1
-        public const val DEFAULT_CONTENT_TYPE: Int = -1
+        public const val DEFAULT_CONTENT_GROUP: Int = -1
 
         public const val OP_CAPACITY: Int = 5
         public const val RECOL_CAPACITY: Int = 15
@@ -308,7 +308,7 @@ public class NpcTypeBuilder(public var internal: String? = null) {
             val timer = select(edit, base, DEFAULT_TIMER) { timer }
             val respawnDir = select(edit, base, DEFAULT_RESPAWN_DIR) { respawnDir }
             val patrol = select(edit, base, default = null) { patrol }
-            val contentType = select(edit, base, DEFAULT_CONTENT_TYPE) { contentType }
+            val contentGroup = select(edit, base, DEFAULT_CONTENT_GROUP) { contentGroup }
             val internalId = select(edit, base, default = null) { internalId }
             val internalName = select(edit, base, default = null) { internalName }
             return UnpackedNpcType(
@@ -375,7 +375,7 @@ public class NpcTypeBuilder(public var internal: String? = null) {
                 timer = timer,
                 respawnDir = respawnDir,
                 patrol = patrol,
-                contentType = contentType,
+                contentGroup = contentGroup,
                 internalId = internalId ?: -1,
                 internalName = internalName ?: "",
             )

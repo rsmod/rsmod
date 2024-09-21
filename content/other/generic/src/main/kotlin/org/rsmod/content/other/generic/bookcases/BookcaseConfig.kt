@@ -5,8 +5,8 @@ import org.rsmod.api.type.editors.loc.LocEditor
 
 internal object BookcaseLocEdits : LocEditor() {
     init {
-        edit("nicebookcase_varrock") { contentType = content.bookcase }
+        edit("nicebookcase_varrock") { contentGroup = content.bookcase }
 
-        edit("bookcase") { contentType = content.bookcase }
+        edit("bookcase") { contentGroup = content.bookcase }
     }
 }

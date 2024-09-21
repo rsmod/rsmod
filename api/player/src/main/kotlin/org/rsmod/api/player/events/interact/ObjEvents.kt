@@ -31,7 +31,7 @@ public sealed class ObjEvents {
 }
 
 public sealed class ObjContentEvents {
-    public sealed class Op(public val obj: Obj, contentType: Int) : OpEvent(contentType.toLong())
+    public sealed class Op(public val obj: Obj, contentGroup: Int) : OpEvent(contentGroup.toLong())
 
     public class Op1(obj: Obj, content: Int) : Op(obj, content)
 
@@ -45,7 +45,7 @@ public sealed class ObjContentEvents {
 
     public class Op6(obj: Obj, content: Int) : Op(obj, content)
 
-    public sealed class Ap(public val obj: Obj, contentType: Int) : ApEvent(contentType.toLong())
+    public sealed class Ap(public val obj: Obj, contentGroup: Int) : ApEvent(contentGroup.toLong())
 
     public class Ap1(obj: Obj, content: Int) : Ap(obj, content)
 

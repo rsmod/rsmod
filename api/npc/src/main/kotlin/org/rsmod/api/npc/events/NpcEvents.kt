@@ -21,8 +21,8 @@ public class NpcAIEvents {
         override val id: Long = npc.id.toLong()
     }
 
-    public class Content(public val npc: Npc, contentType: Int) : KeyedEvent {
-        override val id: Long = contentType.toLong()
+    public class Content(public val npc: Npc, contentGroup: Int) : KeyedEvent {
+        override val id: Long = contentGroup.toLong()
     }
 }
 

@@ -127,7 +127,7 @@ public class UnpackedObjType(
     public val tradeable: Boolean,
     public val respawnRate: Int,
     public val dummyitem: Int,
-    public val contentType: Int,
+    public val contentGroup: Int,
     internalId: Int,
     internalName: String,
 ) : ObjType(internalId, internalName) {
@@ -199,7 +199,7 @@ public class UnpackedObjType(
             "internalName='$internalName', " +
             "internalId=$internalId, " +
             "internalHash=${computeIdentityHash()}, " +
-            "contentType=$contentType, " +
+            "contentGroup=$contentGroup, " +
             "name='$name', " +
             "desc='$desc', " +
             "model=$model, " +
@@ -342,7 +342,7 @@ public class UnpackedObjType(
         if (tradeable != other.tradeable) return false
         if (respawnRate != other.respawnRate) return false
         if (dummyitem != other.dummyitem) return false
-        if (contentType != other.contentType) return false
+        if (contentGroup != other.contentGroup) return false
         if (internalId != other.internalId) return false
 
         return true
@@ -417,7 +417,7 @@ public class UnpackedObjType(
         result = 31 * result + tradeable.hashCode()
         result = 31 * result + respawnRate
         result = 31 * result + dummyitem
-        result = 31 * result + contentType
+        result = 31 * result + contentGroup
         result = 31 * result + (internalId ?: 0)
         return result
     }

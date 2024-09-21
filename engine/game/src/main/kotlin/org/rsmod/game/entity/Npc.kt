@@ -9,7 +9,7 @@ import org.rsmod.game.movement.MoveRestrict
 import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.seq.EntitySeq
 import org.rsmod.game.timer.NpcTimerMap
-import org.rsmod.game.type.content.ContentType
+import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.npc.UnpackedNpcType
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.timer.TimerType
@@ -181,7 +181,7 @@ public class Npc(
             playerFaceClose(target)
         }
 
-    public fun matches(contentType: ContentType): Boolean = type.contentType == contentType.id
+    public fun matches(content: ContentGroupType): Boolean = type.contentGroup == content.id
 
     public fun forceDespawn() {
         // TODO: force

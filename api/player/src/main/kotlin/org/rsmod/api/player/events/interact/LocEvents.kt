@@ -43,45 +43,45 @@ public sealed class LocContentEvents {
         public val bound: BoundLocInfo,
         public val type: UnpackedLocType,
         public val loc: LocInfo = bound.toLocInfo(),
-        contentType: Int,
-    ) : OpEvent(contentType.toLong())
+        contentGroup: Int,
+    ) : OpEvent(contentGroup.toLong())
 
     public class Op1(loc: BoundLocInfo, type: UnpackedLocType, content: Int) :
-        Op(loc, type, contentType = content)
+        Op(loc, type, contentGroup = content)
 
     public class Op2(loc: BoundLocInfo, type: UnpackedLocType, content: Int) :
-        Op(loc, type, contentType = content)
+        Op(loc, type, contentGroup = content)
 
     public class Op3(loc: BoundLocInfo, type: UnpackedLocType, content: Int) :
-        Op(loc, type, contentType = content)
+        Op(loc, type, contentGroup = content)
 
     public class Op4(loc: BoundLocInfo, type: UnpackedLocType, content: Int) :
-        Op(loc, type, contentType = content)
+        Op(loc, type, contentGroup = content)
 
     public class Op5(loc: BoundLocInfo, type: UnpackedLocType, content: Int) :
-        Op(loc, type, contentType = content)
+        Op(loc, type, contentGroup = content)
 
     public sealed class Ap(
         public val bound: BoundLocInfo,
         public val type: UnpackedLocType,
         public val loc: LocInfo = bound.toLocInfo(),
-        contentType: Int,
-    ) : ApEvent(contentType.toLong())
+        contentGroup: Int,
+    ) : ApEvent(contentGroup.toLong())
 
     public class Ap1(loc: BoundLocInfo, type: UnpackedLocType, content: Int) :
-        Ap(loc, type, contentType = content)
+        Ap(loc, type, contentGroup = content)
 
     public class Ap2(loc: BoundLocInfo, type: UnpackedLocType, content: Int) :
-        Ap(loc, type, contentType = content)
+        Ap(loc, type, contentGroup = content)
 
     public class Ap3(loc: BoundLocInfo, type: UnpackedLocType, content: Int) :
-        Ap(loc, type, contentType = content)
+        Ap(loc, type, contentGroup = content)
 
     public class Ap4(loc: BoundLocInfo, type: UnpackedLocType, content: Int) :
-        Ap(loc, type, contentType = content)
+        Ap(loc, type, contentGroup = content)
 
     public class Ap5(loc: BoundLocInfo, type: UnpackedLocType, content: Int) :
-        Ap(loc, type, contentType = content)
+        Ap(loc, type, contentGroup = content)
 }
 
 public sealed class LocDefaultEvents {
