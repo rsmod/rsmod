@@ -26,11 +26,11 @@ class WoodsmanTutor @Inject constructor(private val dialogues: Dialogues) : Plug
     }
 
     private suspend fun Dialogue.woodsmanDialogue() {
-        // TODO(content): Get dialogue for missing level-specific conditions.
+        // TODO(content): Get dialogue for missing level-specific condition.
         when {
             player.woodcuttingLvl >= 99 -> {}
             player.woodcuttingLvl in 29..98 -> highLevelMenu()
-            player.woodcuttingLvl in 20..28 -> {}
+            player.woodcuttingLvl in 20..28 -> intermediateLevelMenu()
             else -> lowLevelMenu()
         }
     }
@@ -90,6 +90,47 @@ class WoodsmanTutor @Inject constructor(private val dialogues: Dialogues) : Plug
                     "attempt to light a fire that you can use for cooking.",
             )
         }
+    }
+
+    private suspend fun Dialogue.intermediateLevelMenu() {
+        val choice =
+            choice4(
+                "I already know a bit about Woodcutting and Firemaking, any tips?",
+                1,
+                "Tell me about different trees and axes.",
+                2,
+                "What is that cape you're wearing?",
+                3,
+                "Goodbye.",
+                4,
+            )
+        when (choice) {
+            1 -> intermediateAdvice()
+            2 -> treeAndAxeInquiry()
+            3 -> capeExplanationNonMastery()
+            4 -> goodbye()
+        }
+    }
+
+    private suspend fun Dialogue.intermediateAdvice() {
+        chatPlayer(quiz, "I already know about the basics of woodcutting, got any tips?")
+        chatNpc(
+            happy,
+            "Choose carefully where and what you chop, you can get " +
+                "different trees in different places throughout the land.",
+        )
+        chatNpc(
+            happy,
+            "Make sure you hang on to your logs, don't throw them " +
+                "away as you can get valuable firemaking experience " +
+                "from them! Look out for other things too...",
+        )
+        chatNpc(
+            shifty,
+            "Watch out for the tree spirits, they really don't like you " +
+                "chopping trees, they can really do some damage if " +
+                "you're not paying attention...",
+        )
     }
 
     private suspend fun Dialogue.highLevelMenu() {
