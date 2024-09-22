@@ -69,6 +69,14 @@ public value class CoordGrid(public val packed: Int) {
         return translate(other.x, other.z, other.level)
     }
 
+    public operator fun minus(translation: Translation): CoordGrid {
+        return translate(-translation.x, -translation.z, -translation.level)
+    }
+
+    public operator fun plus(translation: Translation): CoordGrid {
+        return translate(translation.x, translation.z, translation.level)
+    }
+
     public operator fun component1(): Int = x
 
     public operator fun component2(): Int = z
