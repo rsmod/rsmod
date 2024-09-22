@@ -7,7 +7,7 @@ import org.rsmod.api.type.editors.loc.LocEditor
 import org.rsmod.api.type.refs.loc.LocReferences
 
 internal object GateConstants {
-    /** The (cycle) duration that gates remains changed before reverting to its original state. */
+    /** The (cycle) duration that gates remains changed before reverting to their original state. */
     const val DURATION = 500
 }
 
