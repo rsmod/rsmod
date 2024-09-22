@@ -32,7 +32,7 @@ public class Dialogue(
         }
     }
 
-    public suspend fun objbox(obj: ObjType, text: String): Unit = objbox(obj, 1, text)
+    public suspend fun objbox(obj: ObjType, text: String): Unit = objbox(obj, zoom = 400, text)
 
     public suspend fun objbox(obj: ObjType, zoom: Int, text: String) {
         val pages = alignment.generatePageList(text)
@@ -49,6 +49,40 @@ public class Dialogue(
         for (page in pages) {
             val text = page.text
             access.objbox(obj, zoom, text)
+        }
+    }
+
+    public suspend fun doubleobjbox(obj1: ObjType, obj2: ObjType, text: String): Unit =
+        doubleobjbox(obj1, zoom1 = 400, obj2, zoom2 = 400, text)
+
+    public suspend fun doubleobjbox(
+        obj1: ObjType,
+        zoom1: Int,
+        obj2: ObjType,
+        zoom2: Int,
+        text: String,
+    ) {
+        val pages = alignment.generatePageList(text)
+        for (page in pages) {
+            val text = page.text
+            access.doubleobjbox(obj1, zoom1, obj2, zoom2, text)
+        }
+    }
+
+    public suspend fun doubleobjbox(obj1: InvObj, obj2: InvObj, text: String): Unit =
+        doubleobjbox(obj1, zoom1 = 400, obj2, zoom2 = 400, text)
+
+    public suspend fun doubleobjbox(
+        obj1: InvObj,
+        zoom1: Int,
+        obj2: InvObj,
+        zoom2: Int,
+        text: String,
+    ) {
+        val pages = alignment.generatePageList(text)
+        for (page in pages) {
+            val text = page.text
+            access.doubleobjbox(obj1, zoom1, obj2, zoom2, text)
         }
     }
 

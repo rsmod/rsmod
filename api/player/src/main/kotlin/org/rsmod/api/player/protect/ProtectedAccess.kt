@@ -27,6 +27,7 @@ import org.rsmod.api.player.ui.ifChoice
 import org.rsmod.api.player.ui.ifClose
 import org.rsmod.api.player.ui.ifCloseModals
 import org.rsmod.api.player.ui.ifCloseSub
+import org.rsmod.api.player.ui.ifDoubleobjbox
 import org.rsmod.api.player.ui.ifMesbox
 import org.rsmod.api.player.ui.ifObjbox
 import org.rsmod.api.player.ui.ifOpenMain
@@ -247,7 +248,7 @@ public class ProtectedAccess(
         pauseText: String = constants.cm_pausebutton,
         eventBus: EventBus = context.eventBus,
     ) {
-        player.ifObjbox(text, obj, zoom, pauseText, eventBus)
+        player.ifObjbox(text, obj.id, zoom, pauseText, eventBus)
         val input = coroutine.pause(ResumePauseButtonInput::class)
         resumePauseButtonWithProtectedAccess(input, components.obj_dialogue_pbutton)
     }
@@ -264,9 +265,47 @@ public class ProtectedAccess(
         pauseText: String = constants.cm_pausebutton,
         eventBus: EventBus = context.eventBus,
     ) {
-        player.ifObjbox(text, obj, zoomOrCount, pauseText, eventBus)
+        player.ifObjbox(text, obj.id, zoomOrCount, pauseText, eventBus)
         val input = coroutine.pause(ResumePauseButtonInput::class)
         resumePauseButtonWithProtectedAccess(input, components.obj_dialogue_pbutton)
+    }
+
+    /**
+     * @throws ProtectedAccessLostException if [regainProtectedAccess] returns false after
+     *   suspension resumes.
+     * @see [regainProtectedAccess]
+     */
+    public suspend fun doubleobjbox(
+        obj1: ObjType,
+        zoom1: Int,
+        obj2: ObjType,
+        zoom2: Int,
+        text: String,
+        pauseText: String = constants.cm_pausebutton,
+        eventBus: EventBus = context.eventBus,
+    ) {
+        player.ifDoubleobjbox(text, obj1.id, zoom1, obj2.id, zoom2, pauseText, eventBus)
+        val input = coroutine.pause(ResumePauseButtonInput::class)
+        resumePauseButtonWithProtectedAccess(input, components.double_obj_dialogue_pbutton)
+    }
+
+    /**
+     * @throws ProtectedAccessLostException if [regainProtectedAccess] returns false after
+     *   suspension resumes.
+     * @see [regainProtectedAccess]
+     */
+    public suspend fun doubleobjbox(
+        obj1: InvObj,
+        zoom1: Int,
+        obj2: InvObj,
+        zoom2: Int,
+        text: String,
+        pauseText: String = constants.cm_pausebutton,
+        eventBus: EventBus = context.eventBus,
+    ) {
+        player.ifDoubleobjbox(text, obj1.id, zoom1, obj2.id, zoom2, pauseText, eventBus)
+        val input = coroutine.pause(ResumePauseButtonInput::class)
+        resumePauseButtonWithProtectedAccess(input, components.double_obj_dialogue_pbutton)
     }
 
     /**

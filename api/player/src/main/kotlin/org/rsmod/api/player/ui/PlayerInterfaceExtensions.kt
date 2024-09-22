@@ -260,7 +260,7 @@ internal fun Player.ifMesbox(text: String, pauseText: String, eventBus: EventBus
 
 internal fun Player.ifObjbox(
     text: String,
-    obj: ObjType,
+    obj: Int,
     zoom: Int,
     pauseText: String,
     eventBus: EventBus,
@@ -269,23 +269,26 @@ internal fun Player.ifObjbox(
     ifOpenChat(interfaces.obj_dialogue, constants.modal_infinitewidthandheight, eventBus)
     objboxSetButtons(this, pauseText)
     ifSetEvents(components.obj_dialogue_pbutton, 0..1, IfEvent.PauseButton)
-    ifSetObj(components.obj_dialogue_objmodel, obj, zoom)
+    ifSetObj(components.obj_dialogue_obj, obj, zoom)
     ifSetText(components.obj_dialogue_text, text)
 }
 
-internal fun Player.ifObjbox(
+internal fun Player.ifDoubleobjbox(
     text: String,
-    obj: InvObj,
-    zoomOrCount: Int,
+    obj1: Int,
+    zoom1: Int,
+    obj2: Int,
+    zoom2: Int,
     pauseText: String,
     eventBus: EventBus,
 ) {
     mes(text, ChatType.Mesbox)
-    ifOpenChat(interfaces.obj_dialogue, constants.modal_infinitewidthandheight, eventBus)
-    objboxSetButtons(this, pauseText)
-    ifSetEvents(components.obj_dialogue_pbutton, -1..-1, IfEvent.PauseButton)
-    ifSetObj(components.obj_dialogue_objmodel, obj, zoomOrCount)
-    ifSetText(components.obj_dialogue_text, text)
+    ifOpenChat(interfaces.double_obj_dialogue, constants.modal_infinitewidthandheight, eventBus)
+    ifSetEvents(components.double_obj_dialogue_pbutton, -1..-1, IfEvent.PauseButton)
+    ifSetText(components.double_obj_dialogue_pbutton, pauseText)
+    ifSetObj(components.double_obj_dialogue_obj1, obj1, zoom1)
+    ifSetObj(components.double_obj_dialogue_obj2, obj2, zoom2)
+    ifSetText(components.double_obj_dialogue_text, text)
 }
 
 /** @see [chatboxMultiInit] */
@@ -363,4 +366,8 @@ internal fun Player.ifOpenChat(interf: InterfaceType, widthAndHeightMode: Int, e
     modalWidthAndHeightMode = widthAndHeightMode
     topLevelChatboxResetBackground(this)
     openModal(interf, components.chat_dialogue_target, eventBus)
+}
+
+private fun Player.ifSetObj(target: ComponentType, obj: Int, zoomOrCount: Int) {
+    client.write(IfSetObject(target.packed, obj, zoomOrCount))
 }
