@@ -8,7 +8,9 @@ import org.rsmod.api.dialogue.align.TextAlignment
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
+import org.rsmod.game.inv.Inventory
 import org.rsmod.game.obj.InvObj
+import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.mesanim.MesAnimType
 import org.rsmod.game.type.npc.UnpackedNpcType
 import org.rsmod.game.type.obj.ObjType
@@ -196,6 +198,12 @@ public class Dialogue(
         )
 
     public suspend fun delay(cycles: Int = 1): Unit = access.delay(cycles)
+
+    public fun invTotalContentGroup(inv: Inventory, content: ContentGroupType): Int =
+        access.invTotalContentGroup(inv, content)
+
+    public operator fun Inventory.contains(content: ContentGroupType): Boolean =
+        access.invContainsContentGroup(this, content)
 
     private fun npc(): Npc =
         npc ?: error("`npc` must be set. Use `Dialogues.start(player, npc)` to start the dialogue.")

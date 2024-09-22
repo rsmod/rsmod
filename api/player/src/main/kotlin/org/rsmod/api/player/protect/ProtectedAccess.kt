@@ -51,12 +51,14 @@ import org.rsmod.game.map.Direction
 import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.obj.InvObj
 import org.rsmod.game.type.comp.ComponentType
+import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.interf.IfEvent
 import org.rsmod.game.type.interf.IfSubType
 import org.rsmod.game.type.interf.InterfaceType
 import org.rsmod.game.type.mesanim.MesAnimType
 import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.obj.ObjType
+import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.synth.SynthType
@@ -563,6 +565,23 @@ public class ProtectedAccess(
         }
         regainProtectedAccess()
     }
+
+    /* Inventory helper functions */
+
+    public fun invTotalContentGroup(
+        inv: Inventory,
+        content: ContentGroupType,
+        objTypes: ObjTypeList = context.objTypes,
+    ): Int = inv.count { it != null && objTypes[it].contentGroup == content.id }
+
+    public fun invContainsContentGroup(
+        inv: Inventory,
+        content: ContentGroupType,
+        objTypes: ObjTypeList = context.objTypes,
+    ): Boolean = inv.any { it != null && objTypes[it].contentGroup == content.id }
+
+    public operator fun Inventory.contains(content: ContentGroupType): Boolean =
+        invContainsContentGroup(this, content)
 
     /* Client script helper functions */
     public fun runClientScript(id: Int, vararg args: Any): Unit = player.runClientScript(id, *args)
