@@ -5,6 +5,7 @@
 365	sacks
 366	big_crate
 380	bookcase
+883	nicepicketgate_left_closed
 1535	door_closed
 1536	door_opened
 1521	door_left_closed
@@ -13,7 +14,15 @@
 1525	door_right_opened
 1540	nicedoor_closed
 1541	nicedoor_opened
+1558	picketgate_left_closed
+1559	picketgate_left_opened
+1560	picketgate_right_closed
+1567	picketgate_right_opened
 7180	nicebookcase_varrock
+12986	farmerfred_gate_left_closed
+12987	farmerfred_gate_right_closed
+12988	farmerfred_gate_left_opened
+12989	farmerfred_gate_right_opened
 14880	lumbridge_kitchen_dungeonladder
 16671	spiralstaircase_up
 16672	spiralstaircase_option
@@ -23,4 +32,7 @@
 16684	ladder_option
 17385	lumbridge_cellar_dungeonladder
 18493	signpost
+23917	nicepicketgate_right_closed
+23918	nicepicketgate_left_opened
+23919	nicepicketgate_right_opened
 37482	league_firsts_board

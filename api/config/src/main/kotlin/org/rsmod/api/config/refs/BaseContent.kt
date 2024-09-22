@@ -31,4 +31,8 @@ public object BaseContent : ContentReferences() {
     public val duck: ContentGroupType = find("duck")
     public val duckling: ContentGroupType = find("duckling")
     public val woodcutting_axe: ContentGroupType = find("woodcutting_axe")
+    public val closed_left_picketgate: ContentGroupType = find("closed_left_picketgate")
+    public val closed_right_picketgate: ContentGroupType = find("closed_right_picketgate")
+    public val opened_left_picketgate: ContentGroupType = find("opened_left_picketgate")
+    public val opened_right_picketgate: ContentGroupType = find("opened_right_picketgate")
 }

@@ -1,5 +1,7 @@
 60	door_close
 62	door_open
+66	picketgate_close
+67	picketgate_open
 80	nicedoor_close
 81	nicedoor_open
 2400	lever
