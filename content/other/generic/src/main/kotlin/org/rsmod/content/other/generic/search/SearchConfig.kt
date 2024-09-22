@@ -25,7 +25,7 @@ internal object SearchLocEdits : LocEditor() {
     }
 
     private fun crates(): Set<String> =
-        setOf("stack_crate_2", "big_crate_2", "stack_crate", "big_crate")
+        setOf("stack_crate_2", "big_crate_2", "stack_crate", "big_crate", "stack_nicecrate")
 
     private fun sacks(): Set<String> = setOf("sacks")
 }
