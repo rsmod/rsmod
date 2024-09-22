@@ -7,7 +7,9 @@ A RuneScape game-server emulator.
 * [Discord][discord]
 
 ## Contributing
-Pull requests are welcome on [GitHub](https://github.com/rsmod/rsmod).
+At this time, the project is still in its early stages and not yet ready for external contributions. Before opening it up to contributions, we want to ensure the codebase and API are well-defined and that clear guidelines are in place for contributors.
+
+Stay tuned for updates as the project matures!
 
 ## License
 RS Mod is available under the terms of the ISC license, which is similar to the 2-clause BSD license. The full copyright notice and terms are available in the [LICENSE][license] file.
