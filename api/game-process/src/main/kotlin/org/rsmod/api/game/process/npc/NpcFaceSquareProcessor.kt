@@ -6,8 +6,8 @@ import org.rsmod.map.CoordGrid
 import org.rsmod.map.util.Bounds
 
 public class NpcFaceSquareProcessor {
-    public fun process(entity: Npc) {
-        entity.processFaceSquare()
+    public fun process(npc: Npc) {
+        npc.processFaceSquare()
     }
 
     private fun Npc.processFaceSquare() {
