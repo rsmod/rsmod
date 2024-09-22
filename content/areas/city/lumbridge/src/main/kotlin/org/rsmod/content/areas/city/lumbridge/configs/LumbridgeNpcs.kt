@@ -108,5 +108,7 @@ internal object LumbridgeNpcEditor : NpcEditor() {
             param[ShopParams.shop_buy_percentage] = 600
             param[ShopParams.shop_change_percentage] = 20
         }
+
+        edit("millie_miller") { wanderRange = 1 }
     }
 }
