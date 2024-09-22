@@ -30,10 +30,10 @@ constructor(
         get() =
             when (op) {
                 1 -> InteractionOp.Op1
-                2 -> InteractionOp.Op1
-                3 -> InteractionOp.Op1
-                4 -> InteractionOp.Op1
-                5 -> InteractionOp.Op1
+                2 -> InteractionOp.Op2
+                3 -> InteractionOp.Op3
+                4 -> InteractionOp.Op4
+                5 -> InteractionOp.Op5
                 else -> throw NotImplementedError("Unhandled `op` conversion: $this")
             }
 
