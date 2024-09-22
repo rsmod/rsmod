@@ -3,7 +3,6 @@ package org.rsmod.api.game.process.npc
 import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
 import kotlinx.coroutines.runBlocking
-import org.rsmod.api.game.process.entity.PathingEntityFaceSquareProcessor
 import org.rsmod.api.game.process.npc.mode.NpcModeProcessor
 import org.rsmod.api.game.process.npc.timer.AITimerProcessor
 import org.rsmod.api.game.process.npc.timer.NpcTimerProcessor
@@ -21,7 +20,7 @@ constructor(
     private val timers: NpcTimerProcessor,
     private val movement: NpcMovementProcessor,
     private val modes: NpcModeProcessor,
-    private val facing: PathingEntityFaceSquareProcessor,
+    private val facing: NpcFaceSquareProcessor,
     private val mapClock: MapClock,
 ) {
     private val logger = InlineLogger()

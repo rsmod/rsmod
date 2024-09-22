@@ -1,16 +1,16 @@
-package org.rsmod.api.game.process.entity
+package org.rsmod.api.game.process.player
 
-import org.rsmod.game.entity.PathingEntity
+import org.rsmod.game.entity.Player
 import org.rsmod.game.map.Direction
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.util.Bounds
 
-public class PathingEntityFaceSquareProcessor {
-    public fun process(entity: PathingEntity) {
+public class PlayerFaceSquareProcessor {
+    public fun process(entity: Player) {
         entity.processFaceSquare()
     }
 
-    private fun PathingEntity.processFaceSquare() {
+    private fun Player.processFaceSquare() {
         faceAngle = -1
         if (!hasMovedThisCycle && pendingFaceSquare != CoordGrid.NULL) {
             // Seems like face angle is not transmitted if face pathing entity is set on the same
@@ -28,7 +28,7 @@ public class PathingEntityFaceSquareProcessor {
         }
     }
 
-    private fun PathingEntity.calculateAngle(target: CoordGrid, width: Int, length: Int): Int? =
+    private fun Player.calculateAngle(target: CoordGrid, width: Int, length: Int): Int? =
         when (target) {
             CoordGrid.ZERO -> 0
             coords -> null

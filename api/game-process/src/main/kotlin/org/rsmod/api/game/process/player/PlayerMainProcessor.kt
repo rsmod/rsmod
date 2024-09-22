@@ -4,7 +4,6 @@ import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
 import kotlinx.coroutines.runBlocking
 import org.rsmod.api.game.process.GameLifecycle
-import org.rsmod.api.game.process.entity.PathingEntityFaceSquareProcessor
 import org.rsmod.api.player.clearInteractionRoute
 import org.rsmod.api.player.forceDisconnect
 import org.rsmod.events.EventBus
@@ -20,7 +19,7 @@ constructor(
     private val timers: PlayerTimerProcessor,
     private val interact: PlayerInteractionProcessor,
     private val movement: PlayerMovementProcessor,
-    private val facing: PathingEntityFaceSquareProcessor,
+    private val facing: PlayerFaceSquareProcessor,
     private val buildAreas: PlayerBuildAreaProcessor,
     private val mapSquares: PlayerMapSquareProcessor,
     private val eventBus: EventBus,
