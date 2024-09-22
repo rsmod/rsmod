@@ -39,7 +39,7 @@ class WindmillLadderScript @Inject constructor(private val dialogues: Dialogues)
                 choice2("Climb Up.", 1, "Climb Down.", -1, title = "Climb up or down the ladder?")
             val dest = player.coords.translateLevel(translate)
             anim(seqs.human_reachforladddertop)
-            delay(1)
+            delay(2)
             telejump(dest)
         }
     }
