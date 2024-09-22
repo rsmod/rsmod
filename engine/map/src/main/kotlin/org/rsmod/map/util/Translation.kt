@@ -29,7 +29,7 @@ public value class Translation(public val packed: Int) {
     public val level: Int
         get() = (packed shl (32 - LEVEL_BIT_COUNT - LEVEL_BIT_OFFSET)) shr (32 - LEVEL_BIT_COUNT)
 
-    public constructor(x: Int, z: Int, level: Int) : this(pack(x, z, level))
+    public constructor(x: Int = 0, z: Int = 0, level: Int = 0) : this(pack(x, z, level))
 
     public fun copy(x: Int = this.x, z: Int = this.z, level: Int = this.level): Translation =
         Translation(x, z, level)
