@@ -43,11 +43,19 @@ public object BaseObjs : ObjReferences() {
 
     public val bobs_axe_flyer: ObjType = find(5493521706775849826)
     public val bronze_pickaxe: ObjType = find(8326025668456746520)
-    public val bronze_axe: ObjType = find(1512054257036297123)
-    public val iron_axe: ObjType = find(5051380196926653228)
-    public val steel_axe: ObjType = find(8622568470257962634)
     public val iron_battleaxe: ObjType = find(6816183171946296461)
     public val steel_battleaxe: ObjType = find(2327773003493138715)
     public val mithril_battleaxe: ObjType = find(782109061256786835)
     public val beer: ObjType = find(7851755189103479507)
+
+    public val logs: ObjType = find(4041835203739053675)
+    public val oak_logs: ObjType = find(634918793900890292)
+    public val willow_logs: ObjType = find(5264972695437675152)
+    public val maple_logs: ObjType = find(3305874646595214374)
+    public val yew_logs: ObjType = find(6895215185469384745)
+
+    public val bronze_axe: ObjType = find(1512054257036297123)
+    public val iron_axe: ObjType = find(5051380196926653228)
+    public val steel_axe: ObjType = find(8622568470257962634)
+    public val rune_axe: ObjType = find(825962267469486463)
 }

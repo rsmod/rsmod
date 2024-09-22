@@ -3183,6 +3183,7 @@
 5076	birds_egg_zamorak
 5077	birds_egg_saradomin
 5078	birds_egg_guthix
+5080	dummyitem_bank_icon
 5087	shop_interface_varrock_armour
 5089	skillguide_slayer_sea_snake
 5093	shop_interface_morytania_legs
@@ -6135,6 +6136,7 @@
 9705	training_bow
 9706	training_arrows
 9712	lumbridge_home_teleport_spell
+9713	dummyitem_woodcutting_icon
 9715	slashed_book
 9716	rock_9716
 9717	beaten_book
