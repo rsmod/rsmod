@@ -1,4 +1,4 @@
-package org.rsmod.content.other.generic.windmill
+package org.rsmod.content.other.windmill
 
 import org.rsmod.api.type.refs.loc.LocReferences
 

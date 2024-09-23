@@ -1,4 +1,4 @@
-package org.rsmod.content.other.generic.windmill
+package org.rsmod.content.other.windmill
 
 import jakarta.inject.Inject
 import org.rsmod.api.config.refs.seqs
