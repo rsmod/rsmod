@@ -3184,6 +3184,7 @@
 5077	birds_egg_saradomin
 5078	birds_egg_guthix
 5080	dummyitem_bank_icon
+5084	dummyitem_furnace_icon
 5087	shop_interface_varrock_armour
 5089	skillguide_slayer_sea_snake
 5093	shop_interface_morytania_legs
@@ -10471,6 +10472,8 @@
 22552	thammarons_sceptre_u
 22555	thammarons_sceptre
 22557	amulet_of_avarice
+22571	dummyitem_mining_icon
+22574	dummyitem_smithing_icon
 22586	looting_bag_opened
 22588	old_mans_coffin
 22589	reduced_cadava_potion

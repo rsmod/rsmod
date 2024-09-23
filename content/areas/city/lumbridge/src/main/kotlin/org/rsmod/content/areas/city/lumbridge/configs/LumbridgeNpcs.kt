@@ -19,6 +19,7 @@ object LumbridgeNpcs : NpcReferences() {
     val hatius_cosaintus = find(3864914163306269512)
     val bob = find(8634932672814888402)
     val woodsman_tutor = find(271199259888530822)
+    val smithing_apprentice = find(6197725326458585267)
 }
 
 internal object LumbridgeNpcEditor : NpcEditor() {

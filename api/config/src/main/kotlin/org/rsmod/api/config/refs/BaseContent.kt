@@ -35,4 +35,5 @@ public object BaseContent : ContentReferences() {
     public val closed_right_picketgate: ContentGroupType = find("closed_right_picketgate")
     public val opened_left_picketgate: ContentGroupType = find("opened_left_picketgate")
     public val opened_right_picketgate: ContentGroupType = find("opened_right_picketgate")
+    public val ore: ContentGroupType = find("ore")
 }
