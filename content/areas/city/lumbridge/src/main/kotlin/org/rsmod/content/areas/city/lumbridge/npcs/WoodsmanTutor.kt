@@ -7,7 +7,7 @@ import org.rsmod.api.dialogue.Dialogue
 import org.rsmod.api.dialogue.Dialogues
 import org.rsmod.api.invtx.invAdd
 import org.rsmod.api.player.protect.ProtectedAccess
-import org.rsmod.api.player.stat.woodcuttingLvl
+import org.rsmod.api.player.stat.baseWoodcuttingLvl
 import org.rsmod.api.script.advanced.onUnimplementedOpNpc1
 import org.rsmod.content.areas.city.lumbridge.configs.LumbridgeNpcs
 import org.rsmod.content.areas.city.lumbridge.configs.LumbridgeObjs.bank_icon
@@ -28,9 +28,9 @@ class WoodsmanTutor @Inject constructor(private val dialogues: Dialogues) : Plug
     private suspend fun Dialogue.woodsmanDialogue() {
         // TODO(content): Get dialogue for missing level-specific condition.
         when {
-            player.woodcuttingLvl >= 99 -> {}
-            player.woodcuttingLvl in 29..98 -> highLevelMenu()
-            player.woodcuttingLvl in 20..28 -> intermediateLevelMenu()
+            player.baseWoodcuttingLvl >= 99 -> {}
+            player.baseWoodcuttingLvl in 29..98 -> highLevelMenu()
+            player.baseWoodcuttingLvl in 20..28 -> intermediateLevelMenu()
             else -> lowLevelMenu()
         }
     }
