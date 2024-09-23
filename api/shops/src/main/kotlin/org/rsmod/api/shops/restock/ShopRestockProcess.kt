@@ -6,7 +6,7 @@ import org.rsmod.api.utils.format.formatAmount
 import org.rsmod.game.MapClock
 import org.rsmod.game.inv.Inventory
 
-public class ShopRestockProcessor @Inject constructor(private val mapClock: MapClock) {
+public class ShopRestockProcess @Inject constructor(private val mapClock: MapClock) {
     public val modifiedShops: MutableSet<Inventory> = hashSetOf()
 
     private val restockedShops: MutableSet<Inventory> = hashSetOf()

@@ -7,20 +7,20 @@ import org.rsmod.game.entity.NpcList
 import org.rsmod.game.seq.EntitySeq
 import org.rsmod.map.zone.ZoneKey
 
-public class NpcPostTickProcessor
+public class NpcPostTickProcess
 @Inject
 constructor(private val npcList: NpcList, private val registry: NpcRegistry) {
     public fun process() {
         for (npc in npcList) {
-            process(npc)
+            npc.process()
         }
     }
 
-    public fun process(npc: Npc) {
-        if (npc.hasMovedThisCycle) {
-            npc.processZoneUpdates()
+    private fun Npc.process() {
+        if (hasMovedThisCycle) {
+            processZoneUpdates()
         }
-        npc.cleanUpPendingUpdates()
+        cleanUpPendingUpdates()
     }
 
     private fun Npc.processZoneUpdates() {

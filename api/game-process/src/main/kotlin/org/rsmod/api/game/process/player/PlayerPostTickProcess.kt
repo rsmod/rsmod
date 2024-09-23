@@ -10,7 +10,7 @@ import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.PlayerList
 import org.rsmod.game.seq.EntitySeq
 
-public class PlayerPostTickProcessor
+public class PlayerPostTickProcess
 @Inject
 constructor(private val players: PlayerList, private val zoneUpdates: PlayerZoneUpdateProcessor) {
     private val logger = InlineLogger()

@@ -11,7 +11,7 @@ import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.NpcList
 
-public class NpcMainProcessor
+public class NpcMainProcess
 @Inject
 constructor(
     private val npcs: NpcList,

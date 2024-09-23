@@ -1,14 +1,14 @@
 package org.rsmod.api.game.process
 
 import jakarta.inject.Inject
-import org.rsmod.api.game.process.controller.ControllerMainProcessor
-import org.rsmod.api.game.process.npc.NpcHuntProcessor
-import org.rsmod.api.game.process.npc.NpcMainProcessor
-import org.rsmod.api.game.process.player.PlayerInputProcessor
-import org.rsmod.api.game.process.player.PlayerMainProcessor
-import org.rsmod.api.game.process.player.PlayerPostTickProcessor
+import org.rsmod.api.game.process.controller.ControllerMainProcess
+import org.rsmod.api.game.process.npc.NpcHuntProcess
+import org.rsmod.api.game.process.npc.NpcMainProcess
+import org.rsmod.api.game.process.player.PlayerInputProcess
+import org.rsmod.api.game.process.player.PlayerMainProcess
+import org.rsmod.api.game.process.player.PlayerPostTickProcess
 import org.rsmod.api.game.process.player.PlayerRouteRequestProcess
-import org.rsmod.api.game.process.world.WorldPostTickProcessor
+import org.rsmod.api.game.process.world.WorldPostTickProcess
 import org.rsmod.events.EventBus
 import org.rsmod.game.MapClock
 
@@ -17,14 +17,14 @@ public data class GameCycle
 constructor(
     public val eventBus: EventBus,
     public val mapClock: MapClock,
-    public val npcHuntProcess: NpcHuntProcessor,
-    public val playerInputProcessor: PlayerInputProcessor,
-    public val playerRouteRequestProcessor: PlayerRouteRequestProcess,
-    public val npcMainProcessor: NpcMainProcessor,
-    public val controllerMainProcessor: ControllerMainProcessor,
-    public val playerMainProcessor: PlayerMainProcessor,
-    public val worldPostTickProcessor: WorldPostTickProcessor,
-    public val playerPostTickProcessor: PlayerPostTickProcessor,
+    public val npcHunt: NpcHuntProcess,
+    public val playerInput: PlayerInputProcess,
+    public val playerRouteRequest: PlayerRouteRequestProcess,
+    public val npcMain: NpcMainProcess,
+    public val controllerMain: ControllerMainProcess,
+    public val playerMain: PlayerMainProcess,
+    public val worldPostTick: WorldPostTickProcess,
+    public val playerPostTick: PlayerPostTickProcess,
 ) {
     public fun tick() {
         eventBus.publish(GameLifecycle.StartCycle)
@@ -36,12 +36,12 @@ constructor(
     }
 
     private fun preTick() {
-        npcHuntProcess.process()
-        playerInputProcessor.process()
-        playerRouteRequestProcessor.process()
-        npcMainProcessor.process()
-        controllerMainProcessor.process()
-        playerMainProcessor.process()
+        npcHunt.process()
+        playerInput.process()
+        playerRouteRequest.process()
+        npcMain.process()
+        controllerMain.process()
+        playerMain.process()
     }
 
     /*
@@ -50,7 +50,7 @@ constructor(
      * after 99 cycles, not 100.
      */
     private fun postTick() {
-        worldPostTickProcessor.process()
-        playerPostTickProcessor.process()
+        worldPostTick.process()
+        playerPostTick.process()
     }
 }

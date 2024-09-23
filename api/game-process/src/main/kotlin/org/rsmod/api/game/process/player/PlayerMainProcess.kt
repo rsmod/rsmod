@@ -12,7 +12,7 @@ import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.PlayerList
 import org.rsmod.game.interact.Interaction
 
-public class PlayerMainProcessor
+public class PlayerMainProcess
 @Inject
 constructor(
     private val players: PlayerList,

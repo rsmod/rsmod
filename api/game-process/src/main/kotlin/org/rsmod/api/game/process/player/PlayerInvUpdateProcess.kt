@@ -7,7 +7,7 @@ import org.rsmod.game.entity.PlayerList
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.type.inv.InvScope
 
-public class PlayerInvUpdateProcessor @Inject constructor(private val players: PlayerList) {
+public class PlayerInvUpdateProcess @Inject constructor(private val players: PlayerList) {
     private val sharedUpdatedInvs = hashSetOf<Inventory>()
 
     public fun process() {

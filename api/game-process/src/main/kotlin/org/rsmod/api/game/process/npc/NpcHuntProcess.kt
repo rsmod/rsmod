@@ -1,5 +1,5 @@
 package org.rsmod.api.game.process.npc
 
-public class NpcHuntProcessor {
+public class NpcHuntProcess {
     public fun process() {}
 }

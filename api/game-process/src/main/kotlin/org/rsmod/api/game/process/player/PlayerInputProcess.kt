@@ -6,7 +6,7 @@ import org.rsmod.api.player.forceDisconnect
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.PlayerList
 
-public class PlayerInputProcessor @Inject constructor(private val players: PlayerList) {
+public class PlayerInputProcess @Inject constructor(private val players: PlayerList) {
     private val logger = InlineLogger()
 
     public fun process() {

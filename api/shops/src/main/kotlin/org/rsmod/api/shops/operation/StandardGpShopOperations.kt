@@ -10,7 +10,7 @@ import org.rsmod.api.invtx.select
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.output.objExamine
 import org.rsmod.api.shops.cost.StandardGpCostCalculations
-import org.rsmod.api.shops.restock.ShopRestockProcessor
+import org.rsmod.api.shops.restock.ShopRestockProcess
 import org.rsmod.api.utils.format.formatAmount
 import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.Inventory
@@ -26,7 +26,7 @@ private typealias CostCalculation = StandardGpCostCalculations
 
 public class StandardGpShopOperations
 @Inject
-constructor(private val objTypes: ObjTypeList, private val restockProcessor: ShopRestockProcessor) :
+constructor(private val objTypes: ObjTypeList, private val restockProcess: ShopRestockProcess) :
     StandardShopOperations {
     private val currencyObj: UnpackedObjType by lazy { objTypes[objs.coins] }
 
@@ -124,7 +124,7 @@ constructor(private val objTypes: ObjTypeList, private val restockProcessor: Sho
         message?.let(player::mes)
 
         if (transaction.success) {
-            restockProcessor += shopInv
+            restockProcess += shopInv
         }
 
         if (shopInv[slot] == null) {
@@ -253,7 +253,7 @@ constructor(private val objTypes: ObjTypeList, private val restockProcessor: Sho
             }
 
         if (transaction.success) {
-            restockProcessor += shopInv
+            restockProcess += shopInv
         }
     }
 
