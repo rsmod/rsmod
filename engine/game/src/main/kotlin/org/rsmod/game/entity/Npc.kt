@@ -58,7 +58,6 @@ public class Npc(
     public var wanderIdleCycles: Int = -1
 
     public lateinit var rspAvatar: RspAvatar
-    private var lastSequenceCycle: Int = -1
 
     public val id: Int
         get() = type.id
@@ -104,26 +103,15 @@ public class Npc(
     }
 
     override fun anim(seq: SeqType, delay: Int, priority: Int) {
-        // For now, we will reset any sequence from previous cycles here. Ideally, we'd find an
-        // appropriate spot during one of the process steps for npcs. Until then, this is a valid
-        // solution to making sure sequences from previous cycles don't block this `anim` request
-        // if they have higher `priority`.
-        if (currentMapClock > lastSequenceCycle) {
-            pendingSequence = EntitySeq.NULL
-        }
-
         val setSequence = PathingEntityCommon.anim(this, seq, delay, priority)
         if (!setSequence) {
             return
         }
-
         if (pendingSequence == EntitySeq.ZERO) {
             rspAvatar.extendedInfo.setSequence(-1, 0)
         } else {
             rspAvatar.extendedInfo.setSequence(pendingSequence.id, pendingSequence.delay)
         }
-
-        lastSequenceCycle = currentMapClock
     }
 
     public fun say(text: String) {

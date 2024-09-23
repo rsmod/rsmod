@@ -172,14 +172,8 @@ class RspClient(val session: Session<Player>, val xteaProvider: XteaProvider) :
     private fun Player.applyAnim() {
         when (pendingSequence) {
             EntitySeq.NULL -> return
-            EntitySeq.ZERO -> {
-                playerExtendedInfo.setSequence(-1, 0)
-                pendingSequence = EntitySeq.NULL
-            }
-            else -> {
-                playerExtendedInfo.setSequence(pendingSequence.id, pendingSequence.delay)
-                pendingSequence = EntitySeq.NULL
-            }
+            EntitySeq.ZERO -> playerExtendedInfo.setSequence(-1, 0)
+            else -> playerExtendedInfo.setSequence(pendingSequence.id, pendingSequence.delay)
         }
     }
 }

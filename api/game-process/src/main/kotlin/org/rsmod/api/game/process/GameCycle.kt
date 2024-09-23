@@ -6,9 +6,9 @@ import org.rsmod.api.game.process.npc.NpcHuntProcessor
 import org.rsmod.api.game.process.npc.NpcMainProcessor
 import org.rsmod.api.game.process.player.PlayerInputProcessor
 import org.rsmod.api.game.process.player.PlayerMainProcessor
-import org.rsmod.api.game.process.player.PlayerOutputProcessor
+import org.rsmod.api.game.process.player.PlayerPostTickProcessor
 import org.rsmod.api.game.process.player.PlayerRouteRequestProcess
-import org.rsmod.api.game.process.world.WorldLateProcessor
+import org.rsmod.api.game.process.world.WorldPostTickProcessor
 import org.rsmod.events.EventBus
 import org.rsmod.game.MapClock
 
@@ -23,8 +23,8 @@ constructor(
     public val npcMainProcessor: NpcMainProcessor,
     public val controllerMainProcessor: ControllerMainProcessor,
     public val playerMainProcessor: PlayerMainProcessor,
-    public val worldLateProcessor: WorldLateProcessor,
-    public val playerOutputProcessor: PlayerOutputProcessor,
+    public val worldPostTickProcessor: WorldPostTickProcessor,
+    public val playerPostTickProcessor: PlayerPostTickProcessor,
 ) {
     public fun tick() {
         eventBus.publish(GameLifecycle.StartCycle)
@@ -50,7 +50,7 @@ constructor(
      * after 99 cycles, not 100.
      */
     private fun postTick() {
-        worldLateProcessor.process()
-        playerOutputProcessor.process()
+        worldPostTickProcessor.process()
+        playerPostTickProcessor.process()
     }
 }

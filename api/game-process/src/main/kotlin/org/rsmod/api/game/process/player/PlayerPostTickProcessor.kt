@@ -8,15 +8,21 @@ import kotlinx.coroutines.supervisorScope
 import org.rsmod.api.player.forceDisconnect
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.PlayerList
+import org.rsmod.game.seq.EntitySeq
 
-public class PlayerOutputProcessor
+public class PlayerPostTickProcessor
 @Inject
 constructor(private val players: PlayerList, private val zoneUpdates: PlayerZoneUpdateProcessor) {
     private val logger = InlineLogger()
 
     public fun process() {
         players.processZones()
-        players.forEach { it.flushClient() }
+        players.forEach {
+            it.tryOrDisconnect {
+                flushClient()
+                cleanUpPendingUpdates()
+            }
+        }
     }
 
     private fun PlayerList.processZones() = runBlocking {
@@ -32,6 +38,10 @@ constructor(private val players: PlayerList, private val zoneUpdates: PlayerZone
 
     private fun Player.flushClient() {
         client.flush()
+    }
+
+    private fun Player.cleanUpPendingUpdates() {
+        pendingSequence = EntitySeq.NULL
     }
 
     private fun Player.tryOrDisconnect(block: Player.() -> Unit) =
