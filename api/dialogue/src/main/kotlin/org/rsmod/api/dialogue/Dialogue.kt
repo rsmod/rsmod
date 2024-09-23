@@ -233,11 +233,11 @@ public class Dialogue(
 
     public suspend fun delay(cycles: Int = 1): Unit = access.delay(cycles)
 
-    public fun invTotalContentGroup(inv: Inventory, content: ContentGroupType): Int =
-        access.invTotalContentGroup(inv, content)
+    public fun invTotal(inv: Inventory, content: ContentGroupType): Int =
+        access.invTotal(inv, content)
 
     public operator fun Inventory.contains(content: ContentGroupType): Boolean =
-        access.invContainsContentGroup(this, content)
+        access.invContains(this, content)
 
     private fun npc(): Npc =
         npc ?: error("`npc` must be set. Use `Dialogues.start(player, npc)` to start the dialogue.")

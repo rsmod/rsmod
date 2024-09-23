@@ -607,20 +607,20 @@ public class ProtectedAccess(
 
     /* Inventory helper functions */
 
-    public fun invTotalContentGroup(
+    public fun invTotal(
         inv: Inventory,
         content: ContentGroupType,
         objTypes: ObjTypeList = context.objTypes,
     ): Int = inv.count { it != null && objTypes[it].contentGroup == content.id }
 
-    public fun invContainsContentGroup(
+    public fun invContains(
         inv: Inventory,
         content: ContentGroupType,
         objTypes: ObjTypeList = context.objTypes,
     ): Boolean = inv.any { it != null && objTypes[it].contentGroup == content.id }
 
     public operator fun Inventory.contains(content: ContentGroupType): Boolean =
-        invContainsContentGroup(this, content)
+        invContains(this, content)
 
     /* Client script helper functions */
     public fun runClientScript(id: Int, vararg args: Any): Unit = player.runClientScript(id, *args)
