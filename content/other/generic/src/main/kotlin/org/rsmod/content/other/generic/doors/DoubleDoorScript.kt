@@ -29,21 +29,21 @@ class DoubleDoorScript @Inject constructor(private val locRepo: LocRepository) :
             val openedAngle = it.turnAngle(rotations = 3)
             val openedCoords = it.openCoords()
             locRepo.del(it, DoorConstants.DURATION)
-            locRepo.add(openedCoords, openedLoc, DoorConstants.DURATION, openedAngle, it.shape())
+            locRepo.add(openedCoords, openedLoc, DoorConstants.DURATION, openedAngle, it.shape)
         }
 
         val right =
             locRepo.findExact(
                 coords = left.closeCoords(),
                 content = content.closed_right_door,
-                shape = left.shape(),
+                shape = left.shape,
             )
         right?.let {
             val openedLoc = locRepo.locParam(it, params.next_loc_stage) ?: return
             val openedAngle = it.turnAngle(rotations = 1)
             val openedCoords = it.openCoords()
             locRepo.del(it, DoorConstants.DURATION)
-            locRepo.add(openedCoords, openedLoc, DoorConstants.DURATION, openedAngle, it.shape())
+            locRepo.add(openedCoords, openedLoc, DoorConstants.DURATION, openedAngle, it.shape)
         }
     }
 
@@ -56,21 +56,21 @@ class DoubleDoorScript @Inject constructor(private val locRepo: LocRepository) :
             val openedAngle = it.turnAngle(rotations = 1)
             val openedCoords = it.openCoords()
             locRepo.del(it, DoorConstants.DURATION)
-            locRepo.add(openedCoords, openedLoc, DoorConstants.DURATION, openedAngle, it.shape())
+            locRepo.add(openedCoords, openedLoc, DoorConstants.DURATION, openedAngle, it.shape)
         }
 
         val left =
             locRepo.findExact(
                 coords = right.closeCoordsOpposite(),
                 content = content.closed_left_door,
-                shape = right.shape(),
+                shape = right.shape,
             )
         left?.let {
             val openedLoc = locRepo.locParam(it, params.next_loc_stage) ?: return
             val openedAngle = it.turnAngle(rotations = 3)
             val openedCoords = it.openCoords()
             locRepo.del(it, DoorConstants.DURATION)
-            locRepo.add(openedCoords, openedLoc, DoorConstants.DURATION, openedAngle, it.shape())
+            locRepo.add(openedCoords, openedLoc, DoorConstants.DURATION, openedAngle, it.shape)
         }
     }
 
@@ -83,21 +83,21 @@ class DoubleDoorScript @Inject constructor(private val locRepo: LocRepository) :
             val openedAngle = it.turnAngle(rotations = 1)
             val openedCoords = it.closeCoordsOpposite()
             locRepo.del(it, DoorConstants.DURATION)
-            locRepo.add(openedCoords, openedLoc, DoorConstants.DURATION, openedAngle, it.shape())
+            locRepo.add(openedCoords, openedLoc, DoorConstants.DURATION, openedAngle, it.shape)
         }
 
         val right =
             locRepo.findExact(
                 coords = left.openCoordsOpposite(),
                 content = content.opened_right_door,
-                shape = left.shape(),
+                shape = left.shape,
             )
         right?.let {
             val openedLoc = locRepo.locParam(it, params.next_loc_stage) ?: return
             val openedAngle = it.turnAngle(rotations = 3)
             val openedCoords = it.closeCoords()
             locRepo.del(it, DoorConstants.DURATION)
-            locRepo.add(openedCoords, openedLoc, DoorConstants.DURATION, openedAngle, it.shape())
+            locRepo.add(openedCoords, openedLoc, DoorConstants.DURATION, openedAngle, it.shape)
         }
     }
 
@@ -110,33 +110,33 @@ class DoubleDoorScript @Inject constructor(private val locRepo: LocRepository) :
             val openedAngle = it.turnAngle(rotations = 3)
             val openedCoords = it.closeCoords()
             locRepo.del(it, DoorConstants.DURATION)
-            locRepo.add(openedCoords, openedLoc, DoorConstants.DURATION, openedAngle, it.shape())
+            locRepo.add(openedCoords, openedLoc, DoorConstants.DURATION, openedAngle, it.shape)
         }
 
         val left =
             locRepo.findExact(
                 coords = right.openCoordsOpposite(),
                 content = content.opened_left_door,
-                shape = right.shape(),
+                shape = right.shape,
             )
         left?.let {
             val openedLoc = locRepo.locParam(it, params.next_loc_stage) ?: return
             val openedAngle = it.turnAngle(rotations = 1)
             val openedCoords = it.closeCoordsOpposite()
             locRepo.del(it, DoorConstants.DURATION)
-            locRepo.add(openedCoords, openedLoc, DoorConstants.DURATION, openedAngle, it.shape())
+            locRepo.add(openedCoords, openedLoc, DoorConstants.DURATION, openedAngle, it.shape)
         }
     }
 
     private fun LocInfo.openCoords(): CoordGrid =
-        DoorTranslations.translateOpen(coords, shape(), angle())
+        DoorTranslations.translateOpen(coords, shape, angle)
 
     private fun LocInfo.openCoordsOpposite(): CoordGrid =
-        DoorTranslations.translateOpenOpposite(coords, shape(), angle())
+        DoorTranslations.translateOpenOpposite(coords, shape, angle)
 
     private fun LocInfo.closeCoords(): CoordGrid =
-        DoorTranslations.translateClose(coords, shape(), angle())
+        DoorTranslations.translateClose(coords, shape, angle)
 
     private fun LocInfo.closeCoordsOpposite(): CoordGrid =
-        DoorTranslations.translateCloseOpposite(coords, shape(), angle())
+        DoorTranslations.translateCloseOpposite(coords, shape, angle)
 }

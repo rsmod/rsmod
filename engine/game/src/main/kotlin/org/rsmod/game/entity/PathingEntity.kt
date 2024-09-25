@@ -240,8 +240,8 @@ public sealed class PathingEntity {
      * @see [faceSquare]
      */
     public fun faceLoc(loc: LocInfo, width: Int, length: Int) {
-        val rotatedWidth = Rotations.rotate(loc.angle, width, length)
-        val rotatedLength = Rotations.rotate(loc.angle, length, width)
+        val rotatedWidth = Rotations.rotate(loc.angleId, width, length)
+        val rotatedLength = Rotations.rotate(loc.angleId, length, width)
         faceSquare(loc.coords, rotatedWidth, rotatedLength)
     }
 

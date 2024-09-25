@@ -30,9 +30,9 @@ class PicketGate @Inject constructor(private val locRepo: LocRepository) : Plugi
 
         val right =
             locRepo.findExact(
-                coords = left.coords + leftGateRightPair(left.shape(), left.angle()),
+                coords = left.coords + leftGateRightPair(left.shape, left.angle),
                 content = content.closed_right_picketgate,
-                shape = left.shape(),
+                shape = left.shape,
             )
 
         left.let { locRepo.del(it, GateConstants.DURATION) }
@@ -40,17 +40,17 @@ class PicketGate @Inject constructor(private val locRepo: LocRepository) : Plugi
 
         left.let {
             val openedLoc = type.param(params.next_loc_stage)
-            val openedTranslation = leftGateOpen(it.shape(), it.angle())
+            val openedTranslation = leftGateOpen(it.shape, it.angle)
             val openedCoords = it.coords + openedTranslation
             val openedAngle = it.turnAngle(rotations = 3)
-            locRepo.add(openedCoords, openedLoc, GateConstants.DURATION, openedAngle, it.shape())
+            locRepo.add(openedCoords, openedLoc, GateConstants.DURATION, openedAngle, it.shape)
         }
         right?.let {
             val openedLoc = locRepo.locParam(it, params.next_loc_stage) ?: return
-            val openedTranslation = rightGateOpen(it.shape(), it.angle())
+            val openedTranslation = rightGateOpen(it.shape, it.angle)
             val openedCoords = it.coords + openedTranslation
             val openedAngle = it.turnAngle(rotations = 3)
-            locRepo.add(openedCoords, openedLoc, GateConstants.DURATION, openedAngle, it.shape())
+            locRepo.add(openedCoords, openedLoc, GateConstants.DURATION, openedAngle, it.shape)
         }
     }
 
@@ -60,9 +60,9 @@ class PicketGate @Inject constructor(private val locRepo: LocRepository) : Plugi
 
         val left =
             locRepo.findExact(
-                coords = right.coords - leftGateRightPair(right.shape(), right.angle()),
+                coords = right.coords - leftGateRightPair(right.shape, right.angle),
                 content = content.closed_left_picketgate,
-                shape = right.shape(),
+                shape = right.shape,
             )
 
         left?.let { locRepo.del(it, GateConstants.DURATION) }
@@ -70,17 +70,17 @@ class PicketGate @Inject constructor(private val locRepo: LocRepository) : Plugi
 
         left?.let {
             val openedLoc = locRepo.locParam(it, params.next_loc_stage) ?: return@let
-            val openedTranslation = leftGateOpen(it.shape(), it.angle())
+            val openedTranslation = leftGateOpen(it.shape, it.angle)
             val openedCoords = it.coords + openedTranslation
             val openedAngle = it.turnAngle(rotations = 3)
-            locRepo.add(openedCoords, openedLoc, GateConstants.DURATION, openedAngle, it.shape())
+            locRepo.add(openedCoords, openedLoc, GateConstants.DURATION, openedAngle, it.shape)
         }
         right.let {
             val openedLoc = type.param(params.next_loc_stage)
-            val openedTranslation = rightGateOpen(it.shape(), it.angle())
+            val openedTranslation = rightGateOpen(it.shape, it.angle)
             val openedCoords = it.coords + openedTranslation
             val openedAngle = it.turnAngle(rotations = 3)
-            locRepo.add(openedCoords, openedLoc, GateConstants.DURATION, openedAngle, it.shape())
+            locRepo.add(openedCoords, openedLoc, GateConstants.DURATION, openedAngle, it.shape)
         }
     }
 
@@ -90,9 +90,9 @@ class PicketGate @Inject constructor(private val locRepo: LocRepository) : Plugi
 
         val right =
             locRepo.findExact(
-                coords = left.coords + leftGateRightPair(left.shape(), left.angle()),
+                coords = left.coords + leftGateRightPair(left.shape, left.angle),
                 content = content.opened_right_picketgate,
-                shape = left.shape(),
+                shape = left.shape,
             )
 
         left.let { locRepo.del(it, GateConstants.DURATION) }
@@ -100,17 +100,17 @@ class PicketGate @Inject constructor(private val locRepo: LocRepository) : Plugi
 
         left.let {
             val closedLoc = type.param(params.next_loc_stage)
-            val closedTranslation = leftGateClose(it.shape(), it.angle())
+            val closedTranslation = leftGateClose(it.shape, it.angle)
             val closedCoords = it.coords + closedTranslation
             val closedAngle = it.turnAngle(rotations = -3)
-            locRepo.add(closedCoords, closedLoc, GateConstants.DURATION, closedAngle, it.shape())
+            locRepo.add(closedCoords, closedLoc, GateConstants.DURATION, closedAngle, it.shape)
         }
         right?.let {
             val closedLoc = locRepo.locParam(it, params.next_loc_stage) ?: return
-            val closedTranslation = rightGateClose(it.shape(), it.angle())
+            val closedTranslation = rightGateClose(it.shape, it.angle)
             val closedCoords = it.coords + closedTranslation
             val closedAngle = it.turnAngle(rotations = -3)
-            locRepo.add(closedCoords, closedLoc, GateConstants.DURATION, closedAngle, it.shape())
+            locRepo.add(closedCoords, closedLoc, GateConstants.DURATION, closedAngle, it.shape)
         }
     }
 
@@ -120,9 +120,9 @@ class PicketGate @Inject constructor(private val locRepo: LocRepository) : Plugi
 
         val left =
             locRepo.findExact(
-                coords = right.coords - leftGateRightPair(right.shape(), right.angle()),
+                coords = right.coords - leftGateRightPair(right.shape, right.angle),
                 content = content.opened_left_picketgate,
-                shape = right.shape(),
+                shape = right.shape,
             )
 
         left?.let { locRepo.del(it, GateConstants.DURATION) }
@@ -130,17 +130,17 @@ class PicketGate @Inject constructor(private val locRepo: LocRepository) : Plugi
 
         left?.let {
             val openedLoc = locRepo.locParam(it, params.next_loc_stage) ?: return@let
-            val openedTranslation = leftGateClose(it.shape(), it.angle())
+            val openedTranslation = leftGateClose(it.shape, it.angle)
             val openedCoords = it.coords + openedTranslation
             val openedAngle = it.turnAngle(rotations = -3)
-            locRepo.add(openedCoords, openedLoc, GateConstants.DURATION, openedAngle, it.shape())
+            locRepo.add(openedCoords, openedLoc, GateConstants.DURATION, openedAngle, it.shape)
         }
         right.let {
             val openedLoc = type.param(params.next_loc_stage)
-            val openedTranslation = rightGateClose(it.shape(), it.angle())
+            val openedTranslation = rightGateClose(it.shape, it.angle)
             val openedCoords = it.coords + openedTranslation
             val openedAngle = it.turnAngle(rotations = -3)
-            locRepo.add(openedCoords, openedLoc, GateConstants.DURATION, openedAngle, it.shape())
+            locRepo.add(openedCoords, openedLoc, GateConstants.DURATION, openedAngle, it.shape)
         }
     }
 }

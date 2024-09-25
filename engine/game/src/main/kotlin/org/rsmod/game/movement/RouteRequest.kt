@@ -34,8 +34,8 @@ public class RouteRequestLoc(
         destination = loc.coords,
         width = width,
         length = length,
-        shape = loc.shape,
-        angle = loc.angle,
+        shape = loc.shapeId,
+        angle = loc.angleId,
         forceApproachFlags = forceApproachFlags,
         recalc = recalc,
     )

@@ -15,7 +15,6 @@ import org.rsmod.game.loc.LocEntity
 import org.rsmod.game.loc.LocShape
 import org.rsmod.game.loc.LocZoneKey
 import org.rsmod.game.map.collision.get
-import org.rsmod.game.map.collision.set
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.zone.ZoneGrid
 import org.rsmod.map.zone.ZoneKey
@@ -119,7 +118,7 @@ class LocRegistryAddTest {
         // Manually set the map loc.
         val zoneKey = ZoneKey.from(mapLoc.coords)
         val locZoneKey = LocZoneKey(ZoneGrid.from(mapLoc.coords), mapLoc.layer)
-        registry.mapLocs[zoneKey, locZoneKey] = LocEntity(mapLoc.id, mapLoc.shape, mapLoc.angle)
+        registry.mapLocs[zoneKey, locZoneKey] = LocEntity(mapLoc.id, mapLoc.shapeId, mapLoc.angleId)
         check(collision[mapLoc.coords] and CollisionFlag.LOC == 0)
 
         registry.add(spawnLoc)
@@ -145,7 +144,7 @@ class LocRegistryAddTest {
         // Manually set the map loc.
         val zoneKey = ZoneKey.from(mapLoc.coords)
         val locZoneKey = LocZoneKey(ZoneGrid.from(mapLoc.coords), mapLoc.layer)
-        registry.mapLocs[zoneKey, locZoneKey] = LocEntity(mapLoc.id, mapLoc.shape, mapLoc.angle)
+        registry.mapLocs[zoneKey, locZoneKey] = LocEntity(mapLoc.id, mapLoc.shapeId, mapLoc.angleId)
 
         check(collision[mapLoc.coords] and CollisionFlag.LOC == 0)
         check(registry.spawnedLocs.locCount() == 0)

@@ -37,17 +37,17 @@ public data class BoundLocInfo(
     public val id: Int
         get() = entity.id
 
-    public val shapeId: Int
-        get() = entity.shape
-
     public val shape: LocShape
         get() = LocShape[shapeId]
 
-    public val angleId: Int
-        get() = entity.angle
+    public val shapeId: Int
+        get() = entity.shape
 
     public val angle: LocAngle
         get() = LocAngle[angleId]
+
+    public val angleId: Int
+        get() = entity.angle
 
     public val x: Int
         get() = coords.x

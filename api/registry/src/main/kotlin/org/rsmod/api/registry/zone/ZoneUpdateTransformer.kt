@@ -19,20 +19,34 @@ public object ZoneUpdateTransformer {
     public fun toPersistentLocChange(loc: LocInfo): ZoneProt {
         val zoneGrid = ZoneGrid.from(loc.coords)
         return if (loc.id == LocRegistry.DELETED_LOC_ID) {
-            LocDel(zoneGrid.x, zoneGrid.z, loc.shape, loc.angle)
+            LocDel(zoneGrid.x, zoneGrid.z, loc.shapeId, loc.angleId)
         } else {
-            LocAddChange(loc.id, zoneGrid.x, zoneGrid.z, loc.shape, loc.angle, OpFlags.ALL_SHOWN)
+            LocAddChange(
+                loc.id,
+                zoneGrid.x,
+                zoneGrid.z,
+                loc.shapeId,
+                loc.angleId,
+                OpFlags.ALL_SHOWN,
+            )
         }
     }
 
     public fun toLocAddChangeProt(loc: LocInfo): ZoneProt {
         val zoneGrid = ZoneGrid.from(loc.coords)
-        return LocAddChange(loc.id, zoneGrid.x, zoneGrid.z, loc.shape, loc.angle, OpFlags.ALL_SHOWN)
+        return LocAddChange(
+            loc.id,
+            zoneGrid.x,
+            zoneGrid.z,
+            loc.shapeId,
+            loc.angleId,
+            OpFlags.ALL_SHOWN,
+        )
     }
 
     public fun toLocDelProt(loc: LocInfo): ZoneProt {
         val zoneGrid = ZoneGrid.from(loc.coords)
-        return LocDel(zoneGrid.x, zoneGrid.z, loc.shape, loc.angle)
+        return LocDel(zoneGrid.x, zoneGrid.z, loc.shapeId, loc.angleId)
     }
 
     public fun toPersistentObjAdd(obj: Obj, observerId: Long?): ZoneProt? =

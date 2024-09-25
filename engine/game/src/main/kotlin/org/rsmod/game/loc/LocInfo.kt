@@ -11,17 +11,19 @@ public data class LocInfo(
     public val id: Int
         get() = entity.id
 
-    public val shape: Int
+    public val shape: LocShape
+        get() = LocShape[shapeId]
+
+    public val shapeId: Int
         get() = entity.shape
 
-    public val angle: Int
+    public val angle: LocAngle
+        get() = LocAngle[angleId]
+
+    public val angleId: Int
         get() = entity.angle
 
-    public fun shape(): LocShape = LocShape[shape]
-
-    public fun angle(): LocAngle = LocAngle[angle]
-
-    public fun turnAngle(rotations: Int = 1): LocAngle = angle().turn(rotations)
+    public fun turnAngle(rotations: Int = 1): LocAngle = angle.turn(rotations)
 
     public infix fun isAssociatedWith(type: LocType): Boolean = type.internalId == id
 }

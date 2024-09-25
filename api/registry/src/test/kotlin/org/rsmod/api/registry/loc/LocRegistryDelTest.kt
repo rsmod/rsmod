@@ -129,7 +129,7 @@ class LocRegistryDelTest {
         // Manually set the map loc and its collision data.
         val zoneKey = ZoneKey.from(small.coords)
         val locZoneKey = LocZoneKey(ZoneGrid.from(small.coords), small.layer)
-        registry.mapLocs[zoneKey, locZoneKey] = LocEntity(small.id, small.shape, small.angle)
+        registry.mapLocs[zoneKey, locZoneKey] = LocEntity(small.id, small.shapeId, small.angleId)
         collision[small.coords] = CollisionFlag.LOC
 
         // Take a snapshot of the collision data for later.

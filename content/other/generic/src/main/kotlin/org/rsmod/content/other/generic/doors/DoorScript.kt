@@ -35,19 +35,19 @@ class DoorScript @Inject constructor(private val locRepo: LocRepository) : Plugi
         }
 
         locRepo.del(closed, DoorConstants.DURATION)
-        locRepo.add(openedCoords, openedLoc, DoorConstants.DURATION, openedAngle, closed.shape())
+        locRepo.add(openedCoords, openedLoc, DoorConstants.DURATION, openedAngle, closed.shape)
     }
 
     private fun LocInfo.openAngle(): LocAngle = turnAngle(rotations = 1)
 
     private fun LocInfo.openCoords(): CoordGrid =
-        DoorTranslations.translateOpen(coords, shape(), angle())
+        DoorTranslations.translateOpen(coords, shape, angle)
 
     private fun LocInfo.openStepAway(openedCoords: CoordGrid): CoordGrid {
-        if (shape() != LocShape.WallDiagonal) {
+        if (shape != LocShape.WallDiagonal) {
             return CoordGrid.NULL
         }
-        return when (angle()) {
+        return when (angle) {
             LocAngle.West -> openedCoords.translateX(-1)
             LocAngle.North -> openedCoords.translateZ(1)
             LocAngle.East -> openedCoords.translateX(1)
@@ -70,19 +70,19 @@ class DoorScript @Inject constructor(private val locRepo: LocRepository) : Plugi
         }
 
         locRepo.del(closed, DoorConstants.DURATION)
-        locRepo.add(closedCoords, closedLoc, DoorConstants.DURATION, closedAngle, closed.shape())
+        locRepo.add(closedCoords, closedLoc, DoorConstants.DURATION, closedAngle, closed.shape)
     }
 
     private fun LocInfo.closeAngle(): LocAngle = turnAngle(rotations = -1)
 
     private fun LocInfo.closeCoords(): CoordGrid =
-        DoorTranslations.translateClose(coords, shape(), angle())
+        DoorTranslations.translateClose(coords, shape, angle)
 
     private fun LocInfo.closeStepAway(closedCoords: CoordGrid): CoordGrid {
-        if (shape() != LocShape.WallDiagonal) {
+        if (shape != LocShape.WallDiagonal) {
             return CoordGrid.NULL
         }
-        return when (angle()) {
+        return when (angle) {
             LocAngle.West -> closedCoords.translate(1, 1)
             LocAngle.North -> closedCoords.translate(1, -1)
             LocAngle.East -> closedCoords.translate(-1, -1)
