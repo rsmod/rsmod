@@ -4,6 +4,7 @@ import kotlin.math.min
 
 public class MapClock(public var cycle: Int = 0) {
     public fun tick() {
+        check(cycle < Int.MAX_VALUE)
         cycle++
     }
 
