@@ -2,6 +2,7 @@ package org.rsmod.api.net.rsprot
 
 import jakarta.inject.Inject
 import net.rsprot.protocol.api.NetworkService
+import net.rsprot.protocol.common.RSProtConstants
 import net.rsprot.protocol.game.outgoing.info.playerinfo.PlayerAvatarExtendedInfo
 import org.rsmod.api.core.Build
 import org.rsmod.api.game.process.GameLifecycle
@@ -29,9 +30,9 @@ constructor(
     private val xteaProvider: XTEAProvider,
 ) : PluginScript() {
     override fun ScriptContext.startUp() {
-        check(NetworkService.REVISION == Build.MAJOR) {
+        check(RSProtConstants.REVISION == Build.MAJOR) {
             "RSProt and RSMod have mismatching revision builds! " +
-                "(rsmod=${Build.MAJOR}, rsprot=${NetworkService.REVISION})"
+                "(rsmod=${Build.MAJOR}, rsprot=${RSProtConstants.REVISION})"
         }
         eventBus.subscribe<GameLifecycle.BootUp> { startService() }
         eventBus.subscribe<GameLifecycle.PlayersProcessed> { updateService() }

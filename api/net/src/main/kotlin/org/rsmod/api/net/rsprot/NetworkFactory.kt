@@ -7,7 +7,6 @@ import net.rsprot.compression.provider.HuffmanCodecProvider
 import net.rsprot.crypto.rsa.RsaKeyPair
 import net.rsprot.protocol.api.AbstractNetworkServiceFactory
 import net.rsprot.protocol.api.GameConnectionHandler
-import net.rsprot.protocol.api.bootstrap.BootstrapFactory
 import net.rsprot.protocol.api.handlers.ExceptionHandlers
 import net.rsprot.protocol.api.js5.Js5GroupProvider
 import net.rsprot.protocol.api.suppliers.NpcInfoSupplier
@@ -25,7 +24,6 @@ import org.rsmod.api.net.rsprot.provider.NpcSupplier
 import org.rsmod.api.net.rsprot.provider.RsaProvider
 import org.rsmod.api.net.rsprot.provider.WorldEntityProvider
 import org.rsmod.events.EventBus
-import org.rsmod.game.entity.NpcList
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.PlayerList
 
@@ -37,23 +35,18 @@ constructor(
     @Js5Cache private val store: Store,
     private val messageConsumerProvider: MessageConsumerProvider,
     private val huffmanProvider: HuffmanProvider,
-    npcs: NpcList,
     players: PlayerList,
     events: EventBus,
 ) : AbstractNetworkServiceFactory<Player>() {
     private val js5Store = Js5Store.from(store)
     private val js5Groups = Js5GroupResponseProvider(js5Store)
     private val connectionHandler = ConnectionHandler(players, events)
-    private val npcSupplier = NpcSupplier.provide(players, npcs)
+    private val npcSupplier = NpcSupplier.provide()
 
     override val ports: List<Int> = listOf(43594)
 
     override val supportedClientTypes: List<OldSchoolClientType> =
         listOf(OldSchoolClientType.DESKTOP)
-
-    override fun getBootstrapFactory(): BootstrapFactory {
-        return BootstrapFactory(allocator)
-    }
 
     override fun getExceptionHandlers(): ExceptionHandlers<Player> {
         return ExceptionHandlersProvider.provide()

@@ -8,7 +8,7 @@ kotlin {
 
 dependencies {
     implementation(libs.fastutil)
-    implementation(libs.rsprot)
+    implementation(libs.rsprot.api)
     implementation(projects.engine.coroutine)
     implementation(projects.engine.events)
     implementation(projects.engine.map)

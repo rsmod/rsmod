@@ -10,7 +10,7 @@ kotlin {
 dependencies {
     implementation(libs.bundles.logging)
     implementation(libs.guice)
-    implementation(libs.rsprot)
+    implementation(libs.rsprot.api)
     implementation(projects.api.config)
     implementation(projects.api.type.typeReferences)
     implementation(projects.api.utils.utilsFormat)

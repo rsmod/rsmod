@@ -13,7 +13,7 @@ import org.rsmod.game.obj.InvObj
 public fun Player.updateInvFull(inv: Inventory) {
     val highestSlot = inv.lastOccupiedSlot()
     val provider = RspObjProvider(inv.objs)
-    val message = UpdateInvFull(-1, -(1234 + inv.type.id), inv.type.id, highestSlot, provider)
+    val message = UpdateInvFull(-(1234 + inv.type.id), inv.type.id, highestSlot, provider)
     client.write(message)
 }
 

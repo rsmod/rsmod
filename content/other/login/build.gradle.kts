@@ -3,6 +3,6 @@ plugins {
 }
 
 dependencies {
-    implementation(libs.rsprot)
+    implementation(libs.rsprot.api)
     implementation(projects.api.pluginCommons)
 }
