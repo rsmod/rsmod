@@ -86,4 +86,4 @@ This project is available under the terms of the ISC license, which is similar t
 [maven-badge]: https://maven-badges.herokuapp.com/maven-central/org.rsmod/rsmod-pathfinder/badge.svg
 [bfs]: https://en.wikipedia.org/wiki/Breadth-first_search
 [github]: https://github.com/rsmod/rsmod
-[benchmark]: https://github.com/Tomm0017/protomod/tree/main/engine/pathfinder/src/jmh/kotlin/org/rsmod/pathfinder/benchmarks
+[benchmark]: https://github.com/rsmod/rsmod/tree/main/engine/pathfinder/src/jmh/kotlin/org/rsmod/pathfinder/benchmarks
