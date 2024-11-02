@@ -16,6 +16,7 @@ import org.rsmod.game.type.mod.ModLevel
 import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.param.ParamType
+import org.rsmod.game.type.queue.QueueType
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.synth.SynthType
@@ -110,6 +111,12 @@ public object TypeResolver {
     public operator fun get(type: ObjType): Int? = type.internalId
 
     public operator fun set(type: ObjType, id: Int) {
+        type.internalId = id
+    }
+
+    public operator fun get(type: QueueType): Int? = type.internalId
+
+    public operator fun set(type: QueueType, id: Int) {
         type.internalId = id
     }
 

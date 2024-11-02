@@ -28,6 +28,8 @@ import org.rsmod.api.type.refs.obj.ObjReferenceResolver
 import org.rsmod.api.type.refs.obj.ObjReferences
 import org.rsmod.api.type.refs.param.ParamReferenceResolver
 import org.rsmod.api.type.refs.param.ParamReferences
+import org.rsmod.api.type.refs.queue.QueueReferenceResolver
+import org.rsmod.api.type.refs.queue.QueueReferences
 import org.rsmod.api.type.refs.seq.SeqReferenceResolver
 import org.rsmod.api.type.refs.seq.SeqReferences
 import org.rsmod.api.type.refs.stat.StatReferenceResolver
@@ -57,6 +59,7 @@ constructor(
     private val npcResolver: NpcReferenceResolver,
     private val objResolver: ObjReferenceResolver,
     private val paramResolver: ParamReferenceResolver,
+    private val queueResolver: QueueReferenceResolver,
     private val seqResolver: SeqReferenceResolver,
     private val statResolver: StatReferenceResolver,
     private val synthResolver: SynthReferenceResolver,
@@ -135,6 +138,7 @@ constructor(
                 is NpcReferences -> npcResolver
                 is ObjReferences -> objResolver
                 is ParamReferences -> paramResolver
+                is QueueReferences -> queueResolver
                 is SeqReferences -> seqResolver
                 is StatReferences -> statResolver
                 is SynthReferences -> synthResolver

@@ -7,10 +7,12 @@ import org.rsmod.game.map.Direction
 import org.rsmod.game.movement.BlockWalk
 import org.rsmod.game.movement.MoveRestrict
 import org.rsmod.game.movement.MoveSpeed
+import org.rsmod.game.queue.NpcQueueList
 import org.rsmod.game.seq.EntitySeq
 import org.rsmod.game.timer.NpcTimerMap
 import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.npc.UnpackedNpcType
+import org.rsmod.game.type.queue.QueueType
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.timer.TimerType
 import org.rsmod.map.CoordGrid
@@ -38,6 +40,7 @@ public class Npc(
         get() = moveRestrict.collisionStrategy
 
     public val timerMap: NpcTimerMap = NpcTimerMap()
+    public val queueList: NpcQueueList = NpcQueueList()
 
     public var spawnCoords: CoordGrid = coords
     public var defaultMoveSpeed: MoveSpeed = MoveSpeed.Walk
@@ -95,6 +98,10 @@ public class Npc(
 
     public fun timer(timer: TimerType, cycles: Int) {
         timerMap[timer] = currentMapClock + cycles
+    }
+
+    public fun queue(queue: QueueType, cycles: Int) {
+        queueList.add(queue, cycles)
     }
 
     public fun resetMode() {

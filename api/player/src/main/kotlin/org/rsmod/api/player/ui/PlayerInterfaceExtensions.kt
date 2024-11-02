@@ -90,15 +90,15 @@ public fun Player.ifOpenMainSidePair(main: InterfaceType, side: InterfaceType, e
     openModal(side, components.side_modal, eventBus)
 }
 
+/**
+ * Difference between this and [ifCloseModals] is that this function will also clear all weak queues
+ * for the player.
+ */
 public fun Player.ifClose(eventBus: EventBus) {
-    // TODO: this might clear weakqueues. not sure yet.
+    weakQueueList.clear()
     ifCloseModals(eventBus)
 }
 
-/**
- * Difference between this and [ifClose] is that `ifClose` _may_ (depending on future research) also
- * remove weak queues for the player.
- */
 public fun Player.ifCloseModals(eventBus: EventBus) {
     // This gives us an iterable copy of the entries, so we are safe to modify ui.modals while
     // closing them.
@@ -214,8 +214,8 @@ public fun Player.closeOverlay(interf: UserInterface, target: Component, eventBu
 }
 
 /**
- * The difference between this and [ifCloseModals]/[closeOverlay] is that this function will check
- * if [from] is being occupied by either a modal, or an overlay, and then close it accordingly.
+ * The difference between this and [ifClose]/[closeOverlay] is that this function will check if
+ * [from] is being occupied by either a modal, or an overlay, and then close it accordingly.
  */
 private fun Player.closeSubs(from: Component, eventBus: EventBus) {
     val remove = ui.modals.remove(from) ?: ui.overlays.remove(from)

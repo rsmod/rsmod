@@ -18,6 +18,7 @@ constructor(
     private val reveal: NpcRevealProcessor,
     private val aiTimers: AITimerProcessor,
     private val timers: NpcTimerProcessor,
+    private val queues: NpcQueueProcessor,
     private val movement: NpcMovementProcessor,
     private val modes: NpcModeProcessor,
     private val facing: NpcFaceSquareProcessor,
@@ -29,7 +30,6 @@ constructor(
         npcs.process()
     }
 
-    @Suppress("DeferredResultUnused")
     private fun NpcList.process() = runBlocking {
         for (npc in this@process) {
             npc.previousCoords = npc.coords
@@ -42,6 +42,7 @@ constructor(
                 if (isNotDelayed) {
                     aiTimerProcess()
                     timerProcess()
+                    queueProcess()
                     modeProcess()
                     movementProcess()
                     faceSquareProcess()
@@ -60,6 +61,10 @@ constructor(
 
     private fun Npc.timerProcess() {
         timers.process(this)
+    }
+
+    private fun Npc.queueProcess() {
+        queues.process(this)
     }
 
     private fun Npc.modeProcess() {

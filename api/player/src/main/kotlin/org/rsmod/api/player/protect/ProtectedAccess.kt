@@ -25,7 +25,6 @@ import org.rsmod.api.player.ui.ifChatNpcSpecific
 import org.rsmod.api.player.ui.ifChatPlayer
 import org.rsmod.api.player.ui.ifChoice
 import org.rsmod.api.player.ui.ifClose
-import org.rsmod.api.player.ui.ifCloseModals
 import org.rsmod.api.player.ui.ifCloseSub
 import org.rsmod.api.player.ui.ifDoubleobjbox
 import org.rsmod.api.player.ui.ifMesbox
@@ -606,7 +605,6 @@ public class ProtectedAccess(
     }
 
     /* Inventory helper functions */
-
     public fun invTotal(
         inv: Inventory,
         content: ContentGroupType,
@@ -749,7 +747,7 @@ public fun Player.clearPendingAction(eventBus: EventBus) {
     triggerOnDialogAbort()
     cancelActiveCoroutine()
     clearInteraction()
-    ifCloseModals(eventBus)
+    ifClose(eventBus)
 }
 
 private fun Player.triggerOnDialogAbort() {

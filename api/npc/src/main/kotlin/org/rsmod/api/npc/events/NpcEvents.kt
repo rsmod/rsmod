@@ -29,3 +29,7 @@ public class NpcAIEvents {
 public class NpcTimerEvent(public val npc: Npc, timerType: Int) : KeyedEvent {
     override val id: Long = timerType.toLong()
 }
+
+public class NpcQueueEvent(public val npc: Npc, queueType: Int) : KeyedEvent {
+    override val id: Long = queueType.toLong()
+}
