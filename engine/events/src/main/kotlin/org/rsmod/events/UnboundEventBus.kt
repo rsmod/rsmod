@@ -5,7 +5,7 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList
 
 public class UnboundEventBus {
     public val events: MutableMap<Class<out UnboundEvent>, MutableList<UnboundEvent.() -> Unit>> =
-        Object2ObjectOpenHashMap<Class<out UnboundEvent>, MutableList<UnboundEvent.() -> Unit>>()
+        Object2ObjectOpenHashMap()
 
     public operator fun <T : UnboundEvent> contains(type: Class<T>): Boolean =
         events.containsKey(type)

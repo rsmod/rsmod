@@ -5,7 +5,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap
 
 public class KeyedEventBus {
     public val events: MutableMap<Class<out KeyedEvent>, MutableMap<Long, KeyedEvent.() -> Unit>> =
-        Object2ObjectOpenHashMap<Class<out KeyedEvent>, MutableMap<Long, KeyedEvent.() -> Unit>>()
+        Object2ObjectOpenHashMap()
 
     public fun <T : KeyedEvent> contains(type: Class<T>, key: Long): Boolean =
         this[type]?.containsKey(key) == true
