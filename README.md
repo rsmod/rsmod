@@ -18,7 +18,7 @@ RS Mod is available under the terms of the ISC license, which is similar to the 
 [license]: https://github.com/rsmod/rsmod/blob/main/LICENSE.md
 [discord]: https://discord.gg/UznZnZR
 [patch]: https://oldschool.runescape.wiki/w/Update:Halloween_Fixes_%26_Miscellaneous_Changes
-[rev-badge]: https://img.shields.io/badge/revision-225-important
+[rev-badge]: https://img.shields.io/badge/revision-226-important
 [license-badge]: https://img.shields.io/badge/license-ISC-informational
 [discord-badge]: https://img.shields.io/discord/550024461626114053?color=%237289da&logo=discord
 [core-ci]: https://github.com/rsmod/rsmod/actions/workflows/core-ci.yml
