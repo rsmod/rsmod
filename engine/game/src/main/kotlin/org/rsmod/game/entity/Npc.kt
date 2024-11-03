@@ -211,7 +211,7 @@ public class Npc(
      */
     public suspend fun GameCoroutine.delay(cycles: Int = 1) {
         require(cycles > 0) { "`cycles` must be greater than 0. (cycles=$cycles)" }
-        delay(cycles)
+        this@Npc.delay(cycles)
         pause { isNotDelayed }
     }
 
