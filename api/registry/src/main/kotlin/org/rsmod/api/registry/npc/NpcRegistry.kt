@@ -26,6 +26,7 @@ constructor(
         npcList[slot] = npc
         npc.slotId = slot
         npc.addBlockWalkCollision(collision, npc.coords)
+        eventBus.publish(NpcEvents.Create(npc))
         eventBus.publish(NpcEvents.Spawn(npc))
         npc.lastProcessedZone = ZoneKey.from(npc.coords)
         zoneAdd(npc, npc.lastProcessedZone)
@@ -106,16 +107,16 @@ constructor(
     }
 
     private fun Npc.disableAvatar() {
-        rspAvatar.setInaccessible(true)
+        infoProtocol.disable()
     }
 
     private fun Npc.hideAvatar() {
         hidden = true
-        rspAvatar.setInaccessible(true)
+        infoProtocol.hide()
     }
 
     private fun Npc.revealAvatar() {
         hidden = false
-        rspAvatar.setInaccessible(false)
+        infoProtocol.reveal()
     }
 }

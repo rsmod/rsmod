@@ -1,6 +1,7 @@
 package org.rsmod.game.entity
 
 import org.rsmod.coroutine.GameCoroutine
+import org.rsmod.game.entity.npc.NpcInfoProtocol
 import org.rsmod.game.entity.npc.NpcMode
 import org.rsmod.game.entity.shared.PathingEntityCommon
 import org.rsmod.game.map.Direction
@@ -19,11 +20,9 @@ import org.rsmod.map.CoordGrid
 import org.rsmod.pathfinder.collision.CollisionFlagMap
 import org.rsmod.pathfinder.collision.CollisionStrategy
 
-private typealias RspAvatar = net.rsprot.protocol.game.outgoing.info.npcinfo.NpcAvatar
-
 public class Npc(
     public val type: UnpackedNpcType,
-    override val avatar: PathingEntityAvatar = NpcAvatar(type.size),
+    override val avatar: NpcAvatar = NpcAvatar(type.size),
 ) : PathingEntity() {
     public constructor(type: UnpackedNpcType, coords: CoordGrid) : this(type) {
         this.coords = coords
@@ -60,8 +59,6 @@ public class Npc(
 
     public var wanderIdleCycles: Int = -1
 
-    public lateinit var rspAvatar: RspAvatar
-
     public val id: Int
         get() = type.id
 
@@ -82,6 +79,12 @@ public class Npc(
 
     public val defaultMode: NpcMode
         get() = type.defaultMode
+
+    public var infoProtocol: NpcInfoProtocol
+        get() = avatar.infoProtocol
+        set(value) {
+            avatar.infoProtocol = value
+        }
 
     public fun walk(dest: CoordGrid): Unit = PathingEntityCommon.walk(this, dest)
 
@@ -115,29 +118,29 @@ public class Npc(
             return
         }
         if (pendingSequence == EntitySeq.ZERO) {
-            rspAvatar.extendedInfo.setSequence(-1, 0)
+            infoProtocol.setSequence(-1, 0)
         } else {
-            rspAvatar.extendedInfo.setSequence(pendingSequence.id, pendingSequence.delay)
+            infoProtocol.setSequence(pendingSequence.id, pendingSequence.delay)
         }
     }
 
     public fun say(text: String) {
-        rspAvatar.extendedInfo.setSay(text)
+        infoProtocol.setSay(text)
     }
 
     public fun facePlayer(target: Player) {
         PathingEntityCommon.facePlayer(this, target)
-        rspAvatar.extendedInfo.setFacePathingEntity(faceEntitySlot)
+        infoProtocol.setFacePathingEntity(faceEntitySlot)
     }
 
     public fun faceNpc(target: Npc) {
         PathingEntityCommon.faceNpc(this, target)
-        rspAvatar.extendedInfo.setFacePathingEntity(faceEntitySlot)
+        infoProtocol.setFacePathingEntity(faceEntitySlot)
     }
 
     public fun resetFaceEntity() {
         PathingEntityCommon.resetFaceEntity(this)
-        rspAvatar.extendedInfo.setFacePathingEntity(faceEntitySlot)
+        infoProtocol.setFacePathingEntity(faceEntitySlot)
     }
 
     public fun facingTarget(playerList: PlayerList): Player? =

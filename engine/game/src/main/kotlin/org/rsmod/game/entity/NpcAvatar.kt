@@ -1,3 +1,7 @@
 package org.rsmod.game.entity
 
-public class NpcAvatar(size: Int) : PathingEntityAvatar(size)
+import org.rsmod.game.entity.npc.NoopNpcInfo
+import org.rsmod.game.entity.npc.NpcInfoProtocol
+
+public class NpcAvatar(size: Int, public var infoProtocol: NpcInfoProtocol = NoopNpcInfo) :
+    PathingEntityAvatar(size)

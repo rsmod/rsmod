@@ -5,6 +5,8 @@ import org.rsmod.events.UnboundEvent
 import org.rsmod.game.entity.Npc
 
 public class NpcEvents {
+    public data class Create(val npc: Npc) : UnboundEvent
+
     public data class Spawn(val npc: Npc) : UnboundEvent
 
     public data class Delete(val npc: Npc) : UnboundEvent

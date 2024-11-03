@@ -38,7 +38,7 @@ constructor(
         eventBus.subscribe<GameLifecycle.PlayersProcessed> { updateService() }
         eventBus.subscribe<SessionStart> { startSession(eventBus) }
         eventBus.subscribe<SessionEnd> { closeSession() }
-        eventBus.subscribe<NpcEvents.Spawn> { createNpcAvatar(npc) }
+        eventBus.subscribe<NpcEvents.Create> { createNpcAvatar(npc) }
         eventBus.subscribe<NpcEvents.Delete> { deleteNpcAvatar(npc) }
     }
 
@@ -70,7 +70,7 @@ constructor(
         }
 
     private fun createNpcAvatar(npc: Npc) {
-        npc.rspAvatar =
+        val rspAvatar =
             service.npcAvatarFactory.alloc(
                 index = npc.slotId,
                 id = npc.id,
@@ -80,10 +80,14 @@ constructor(
                 spawnCycle = mapClock.cycle,
                 direction = npc.respawnDir.id,
             )
+        npc.infoProtocol = RspNpcInfo(rspAvatar)
     }
 
     private fun deleteNpcAvatar(npc: Npc) {
-        service.npcAvatarFactory.release(npc.rspAvatar)
+        val infoProtocol = npc.avatar.infoProtocol
+        if (infoProtocol is RspNpcInfo) {
+            service.npcAvatarFactory.release(infoProtocol.rspAvatar)
+        }
     }
 
     private fun SessionStart.setAppearance(extendedInfo: PlayerAvatarExtendedInfo) {

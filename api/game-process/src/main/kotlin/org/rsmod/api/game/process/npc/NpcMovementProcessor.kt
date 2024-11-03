@@ -1,7 +1,6 @@
 package org.rsmod.api.game.process.npc
 
 import jakarta.inject.Inject
-import net.rsprot.protocol.game.outgoing.info.npcinfo.NpcAvatar
 import org.rsmod.api.route.StepFactory
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.movement.MoveSpeed
@@ -108,23 +107,22 @@ constructor(private val collision: CollisionFlagMap, private val stepFactory: St
         removeBlockWalkCollision(collision, coords)
     }
 
+    // TODO: Use actual movement direction opcodes instead of distance to avoid sync issues with
+    //  client route finder.
     private fun Npc.updateRspAvatar() {
-        if (rspAvatar.sameCoords(coords)) {
+        if (previousCoords == coords) {
             return
         }
-        val rspCoords = CoordGrid(rspAvatar.x(), rspAvatar.z(), rspAvatar.level())
-        val deltaX = coords.x - rspCoords.x
-        val deltaZ = coords.z - rspCoords.z
-        val distance = coords.chebyshevDistance(rspCoords)
+        val prevCoords = previousCoords
+        val deltaX = coords.x - prevCoords.x
+        val deltaZ = coords.z - prevCoords.z
+        val distance = coords.chebyshevDistance(prevCoords)
         when (distance) {
             0 -> return
-            1 -> rspAvatar.walk(deltaX, deltaZ)
-            else -> rspAvatar.teleport(coords.level, coords.x, coords.z, jump = false)
+            1 -> infoProtocol.walk(deltaX, deltaZ)
+            else -> infoProtocol.teleport(coords.x, coords.z, coords.level, jump = false)
         }
     }
-
-    private fun NpcAvatar.sameCoords(coords: CoordGrid): Boolean =
-        x() == coords.x && z() == coords.z && level() == coords.level
 
     private fun Npc.resetTempSpeed() {
         if (routeDestination.isEmpty()) {
