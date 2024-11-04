@@ -42,6 +42,16 @@ public class NpcTimerEvents {
     }
 }
 
-public class NpcQueueEvent(public val npc: Npc, queueType: Int) : KeyedEvent {
-    override val id: Long = queueType.toLong()
+public class NpcQueueEvents {
+    public class Default(public val npc: Npc, queueType: Int) : KeyedEvent {
+        override val id: Long = queueType.toLong()
+    }
+
+    public class Type(public val npc: Npc, queueType: Int) : KeyedEvent {
+        override val id: Long = (npc.id.toLong() shl 32) or queueType.toLong()
+    }
+
+    public class Content(public val npc: Npc, contentGroup: Int, queueType: Int) : KeyedEvent {
+        override val id: Long = (contentGroup.toLong() shl 32) or queueType.toLong()
+    }
 }

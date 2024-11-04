@@ -1,7 +1,7 @@
 package org.rsmod.api.script
 
 import org.rsmod.api.npc.events.NpcAIEvents
-import org.rsmod.api.npc.events.NpcQueueEvent
+import org.rsmod.api.npc.events.NpcQueueEvents
 import org.rsmod.api.npc.events.NpcTimerEvents
 import org.rsmod.api.player.events.interact.NpcContentEvents
 import org.rsmod.api.player.events.interact.NpcEvents
@@ -141,5 +141,19 @@ public fun ScriptContext.onNpcTimer(
 ): Unit = onEvent((content.id.toLong() shl 32) or timer.id.toLong(), action)
 
 /* Queue functions */
-public fun ScriptContext.onNpcQueue(type: QueueType, action: NpcQueueEvent.() -> Unit): Unit =
-    onEvent(type.id, action)
+public fun ScriptContext.onNpcQueue(
+    type: QueueType,
+    action: NpcQueueEvents.Default.() -> Unit,
+): Unit = onEvent(type.id, action)
+
+public fun ScriptContext.onNpcQueue(
+    queue: QueueType,
+    npc: NpcType,
+    action: NpcQueueEvents.Type.() -> Unit,
+): Unit = onEvent((npc.id.toLong() shl 32) or queue.id.toLong(), action)
+
+public fun ScriptContext.onNpcQueue(
+    queue: QueueType,
+    content: ContentGroupType,
+    action: NpcQueueEvents.Content.() -> Unit,
+): Unit = onEvent((content.id.toLong() shl 32) or queue.id.toLong(), action)

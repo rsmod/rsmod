@@ -1,10 +1,11 @@
 package org.rsmod.api.game.process.npc
 
 import jakarta.inject.Inject
-import org.rsmod.api.npc.events.NpcQueueEvent
+import org.rsmod.api.npc.events.NpcQueueEvents
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.queue.NpcQueueList
+import org.rsmod.game.type.npc.UnpackedNpcType
 
 public class NpcQueueProcessor @Inject constructor(private val eventBus: EventBus) {
     public fun process(npc: Npc) {
@@ -29,7 +30,7 @@ public class NpcQueueProcessor @Inject constructor(private val eventBus: EventBu
                 if (!isBusy) {
                     processedNone = false
                     iterator.remove()
-                    publish(queue)
+                    publishEvent(queue)
                 }
             }
             iterator.cleanUp()
@@ -40,8 +41,24 @@ public class NpcQueueProcessor @Inject constructor(private val eventBus: EventBu
         }
     }
 
-    private fun Npc.publish(queue: NpcQueueList.Queue) {
-        val event = NpcQueueEvent(this, queue.id)
-        eventBus.publish(event)
+    private fun Npc.publishEvent(queue: NpcQueueList.Queue, type: UnpackedNpcType = currentType) {
+        val packedType = (type.id.toLong() shl 32) or queue.id.toLong()
+        val typeTrigger = eventBus.keyed[NpcQueueEvents.Type::class.java, packedType]
+        if (typeTrigger != null) {
+            typeTrigger.invoke(NpcQueueEvents.Type(this, queue.id))
+            return
+        }
+
+        if (type.contentGroup != -1) {
+            val packedContentGroup = (type.contentGroup.toLong() shl 32) or queue.id.toLong()
+            val contentTrigger =
+                eventBus.keyed[NpcQueueEvents.Content::class.java, packedContentGroup]
+            if (contentTrigger != null) {
+                contentTrigger.invoke(NpcQueueEvents.Content(this, type.contentGroup, queue.id))
+                return
+            }
+        }
+
+        eventBus.publish(NpcQueueEvents.Default(this, queue.id))
     }
 }
