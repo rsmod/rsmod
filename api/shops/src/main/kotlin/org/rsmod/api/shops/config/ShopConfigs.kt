@@ -11,7 +11,7 @@ import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.interf.InterfaceType
 
 public object ShopInterfaces : InterfaceReferences() {
-    public val shop_main: InterfaceType = find(9223372035530134635)
+    public val shop_main: InterfaceType = find(1596431697)
     public val shop_side: InterfaceType = find(9223372034793400280)
 }
 

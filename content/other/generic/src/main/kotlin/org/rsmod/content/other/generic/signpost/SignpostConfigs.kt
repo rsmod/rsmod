@@ -12,7 +12,7 @@ internal object SignpostLocs : LocReferences() {
 }
 
 internal object SignpostInterfaces : InterfaceReferences() {
-    val signpost = find(9223372036145858282)
+    val signpost = find(9223372036367484796)
 }
 
 internal object SignpostComponents : ComponentReferences() {
