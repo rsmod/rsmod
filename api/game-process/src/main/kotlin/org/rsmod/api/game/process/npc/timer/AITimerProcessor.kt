@@ -4,6 +4,7 @@ import jakarta.inject.Inject
 import org.rsmod.api.npc.events.NpcAIEvents
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Npc
+import org.rsmod.game.type.npc.UnpackedNpcType
 
 public class AITimerProcessor @Inject constructor(private val eventBus: EventBus) {
     public fun process(npc: Npc) {
@@ -21,8 +22,11 @@ public class AITimerProcessor @Inject constructor(private val eventBus: EventBus
         }
 
         aiTimer = aiTimerStart
+        publishEvent()
+    }
 
-        val typeTrigger = eventBus.keyed[NpcAIEvents.Type::class.java, id.toLong()]
+    private fun Npc.publishEvent(type: UnpackedNpcType = currentType) {
+        val typeTrigger = eventBus.keyed[NpcAIEvents.Type::class.java, type.id.toLong()]
         if (typeTrigger != null) {
             typeTrigger.invoke(NpcAIEvents.Type(this))
             return
