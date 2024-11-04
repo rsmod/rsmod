@@ -59,6 +59,9 @@ public class Npc(
 
     public var wanderIdleCycles: Int = -1
 
+    public var transmogType: UnpackedNpcType? = null
+        private set
+
     public val id: Int
         get() = type.id
 
@@ -79,6 +82,9 @@ public class Npc(
 
     public val defaultMode: NpcMode
         get() = type.defaultMode
+
+    public val currentType: UnpackedNpcType
+        get() = transmogType ?: type
 
     public var infoProtocol: NpcInfoProtocol
         get() = avatar.infoProtocol
@@ -141,6 +147,16 @@ public class Npc(
     public fun resetFaceEntity() {
         PathingEntityCommon.resetFaceEntity(this)
         infoProtocol.setFacePathingEntity(faceEntitySlot)
+    }
+
+    public fun transmog(type: UnpackedNpcType) {
+        transmogType = type
+        infoProtocol.setTransmog(type.id)
+    }
+
+    public fun resetTransmog() {
+        transmogType = null
+        infoProtocol.setTransmog(-1)
     }
 
     public fun facingTarget(playerList: PlayerList): Player? =

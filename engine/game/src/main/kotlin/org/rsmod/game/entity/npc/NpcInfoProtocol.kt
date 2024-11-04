@@ -9,6 +9,8 @@ public interface NpcInfoProtocol {
 
     public fun setFaceSquare(x: Int, z: Int, instant: Boolean)
 
+    public fun setTransmog(type: Int)
+
     public fun walk(deltaX: Int, deltaZ: Int)
 
     public fun teleport(x: Int, z: Int, level: Int, jump: Boolean)
@@ -28,6 +30,8 @@ public data object NoopNpcInfo : NpcInfoProtocol {
     override fun setFacePathingEntity(slot: Int) {}
 
     override fun setFaceSquare(x: Int, z: Int, instant: Boolean) {}
+
+    override fun setTransmog(type: Int) {}
 
     override fun walk(deltaX: Int, deltaZ: Int) {}
 

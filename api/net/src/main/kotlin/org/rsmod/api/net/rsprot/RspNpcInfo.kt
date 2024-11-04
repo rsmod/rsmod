@@ -20,6 +20,10 @@ class RspNpcInfo(val rspAvatar: NpcAvatar) : NpcInfoProtocol {
         rspAvatar.extendedInfo.setFaceCoord(x, z, instant)
     }
 
+    override fun setTransmog(type: Int) {
+        rspAvatar.extendedInfo.setTransmogrification(type)
+    }
+
     override fun walk(deltaX: Int, deltaZ: Int) {
         rspAvatar.walk(deltaX, deltaZ)
     }
