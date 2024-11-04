@@ -2,13 +2,14 @@ package org.rsmod.api.script
 
 import org.rsmod.api.npc.events.NpcAIEvents
 import org.rsmod.api.npc.events.NpcQueueEvent
-import org.rsmod.api.npc.events.NpcTimerEvent
+import org.rsmod.api.npc.events.NpcTimerEvents
 import org.rsmod.api.player.events.interact.NpcContentEvents
 import org.rsmod.api.player.events.interact.NpcEvents
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.queue.QueueType
+import org.rsmod.game.type.timer.TimerType
 import org.rsmod.plugin.scripts.ScriptContext
 
 /* Op functions */
@@ -122,8 +123,22 @@ public fun ScriptContext.onAiTimer(
     action: NpcAIEvents.Content.() -> Unit,
 ): Unit = onEvent(content.id, action)
 
-public fun ScriptContext.onNpcTimer(type: NpcType, action: NpcTimerEvent.() -> Unit): Unit =
-    onEvent(type.id, action)
+public fun ScriptContext.onNpcTimer(
+    type: NpcType,
+    action: NpcTimerEvents.Default.() -> Unit,
+): Unit = onEvent(type.id, action)
+
+public fun ScriptContext.onNpcTimer(
+    npc: NpcType,
+    timer: TimerType,
+    action: NpcTimerEvents.Type.() -> Unit,
+): Unit = onEvent((npc.id.toLong() shl 32) or timer.id.toLong(), action)
+
+public fun ScriptContext.onNpcTimer(
+    content: ContentGroupType,
+    timer: TimerType,
+    action: NpcTimerEvents.Content.() -> Unit,
+): Unit = onEvent((content.id.toLong() shl 32) or timer.id.toLong(), action)
 
 /* Queue functions */
 public fun ScriptContext.onNpcQueue(type: QueueType, action: NpcQueueEvent.() -> Unit): Unit =
