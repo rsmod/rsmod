@@ -78,11 +78,19 @@ public object SeqTypeDecoder {
                 8 -> replayCount = data.readUnsignedByte().toInt()
                 9 -> {
                     val id = data.readUnsignedByte().toInt()
-                    preanimMove = PreanimMove.entries.first { it.id == id }
+                    val preanimMove = PreanimMove.entries.firstOrNull { it.id == id }
+                    this.preanimMove =
+                        checkNotNull(preanimMove) {
+                            "`id` $id is not associated with a PreanimMove type."
+                        }
                 }
                 10 -> {
                     val id = data.readUnsignedByte().toInt()
-                    postanimMove = PostanimMove.entries.first { it.id == id }
+                    val postanimMove = PostanimMove.entries.firstOrNull { it.id == id }
+                    this.postanimMove =
+                        checkNotNull(postanimMove) {
+                            "`id` $id is not associated with a Postanimmove type."
+                        }
                 }
                 11 -> replaceMode = data.readUnsignedByte().toInt()
                 12 -> {
@@ -98,29 +106,15 @@ public object SeqTypeDecoder {
                     this.iframeGroup = groups
                     this.iframeIndex = files
                 }
-                13 -> {
-                    val count = data.readUnsignedByte().toInt()
-                    val sounds =
-                        Array<SeqFrameSound>(count) {
-                            val type = data.readUnsignedShort()
-                            val loops = data.readUnsignedByte().toInt()
-                            val range = data.readUnsignedByte().toInt()
-                            val size = data.readUnsignedByte().toInt()
-                            if (type >= 1 && loops >= 1) {
-                                SeqFrameSound(type, loops, range, size)
-                            } else {
-                                SeqFrameSound.NULL
-                            }
-                        }
-                    this.sounds = sounds
-                }
-                14 -> keyframeSet = data.readInt()
-                15 -> {
-                    val count = data.readUnsignedShort().toInt()
+                13 -> keyframeSet = data.readInt()
+                14 -> {
+                    val count = data.readUnsignedShort()
                     val mayaAnimationSounds = HashMap<Int, SeqFrameSound>(count)
                     repeat(count) {
                         val id = data.readUnsignedShort()
                         val type = data.readUnsignedShort()
+                        // TODO: Find usage of unknown value.
+                        val unknown = data.readUnsignedByte().toInt()
                         val loops = data.readUnsignedByte().toInt()
                         val range = data.readUnsignedByte().toInt()
                         val size = data.readUnsignedByte().toInt()
@@ -130,7 +124,7 @@ public object SeqTypeDecoder {
                     }
                     this.mayaAnimationSounds = mayaAnimationSounds
                 }
-                16 -> {
+                15 -> {
                     keyframeRangeStart = data.readUnsignedShort()
                     keyframeRangeEnd = data.readUnsignedShort()
                 }
