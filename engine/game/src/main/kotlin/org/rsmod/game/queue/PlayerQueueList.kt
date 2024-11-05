@@ -19,8 +19,13 @@ public class PlayerQueueList {
     public val isNotEmpty: Boolean
         get() = size > 0
 
-    public fun add(type: QueueType, category: QueueCategory, remainingCycles: Int) {
-        val queue = Queue(type.id, category.id, remainingCycles)
+    public fun add(
+        type: QueueType,
+        category: QueueCategory,
+        remainingCycles: Int,
+        args: Any? = null,
+    ) {
+        val queue = Queue(type.id, category.id, remainingCycles, args)
         val node = Node(queue, prev = last)
         add(node)
 
@@ -149,6 +154,7 @@ public class PlayerQueueList {
         public val id: Int,
         public val category: Int,
         public var remainingCycles: Int,
+        public val args: Any?,
     )
 
     public fun iterator(): QueueIterator? {

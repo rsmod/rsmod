@@ -1,6 +1,6 @@
 package org.rsmod.api.script
 
-import org.rsmod.api.player.events.PlayerQueueEvent
+import org.rsmod.api.player.events.PlayerQueueEvents
 import org.rsmod.api.player.events.PlayerTimerEvent
 import org.rsmod.api.player.events.SessionStateEvent
 import org.rsmod.api.player.protect.ProtectedAccess
@@ -14,6 +14,7 @@ public fun ScriptContext.onPlayerInit(action: SessionStateEvent.Initialize.() ->
 public fun ScriptContext.onPlayerLogIn(action: SessionStateEvent.LogIn.() -> Unit): Unit =
     onEvent(action)
 
+/* Timer functions */
 public fun ScriptContext.onPlayerTimer(
     timer: TimerType,
     action: suspend ProtectedAccess.(PlayerTimerEvent.Normal) -> Unit,
@@ -24,12 +25,23 @@ public fun ScriptContext.onPlayerSoftTimer(
     action: PlayerTimerEvent.Soft.() -> Unit,
 ): Unit = onEvent(timer.id, action)
 
+/* Queue functions */
 public fun ScriptContext.onPlayerQueue(
     queue: QueueType,
-    action: suspend ProtectedAccess.(PlayerQueueEvent.Protected) -> Unit,
+    action: suspend ProtectedAccess.(PlayerQueueEvents.Protected<Nothing>) -> Unit,
+): Unit = onProtectedEvent(queue.id, action)
+
+public fun <T> ScriptContext.onPlayerQueueWithArgs(
+    queue: QueueType,
+    action: suspend ProtectedAccess.(PlayerQueueEvents.Protected<T>) -> Unit,
 ): Unit = onProtectedEvent(queue.id, action)
 
 public fun ScriptContext.onPlayerSoftQueue(
     queue: QueueType,
-    action: PlayerQueueEvent.Soft.() -> Unit,
+    action: PlayerQueueEvents.Soft<Nothing>.() -> Unit,
+): Unit = onEvent(queue.id, action)
+
+public fun <T> ScriptContext.onPlayerSoftQueueWithArgs(
+    queue: QueueType,
+    action: PlayerQueueEvents.Soft<T>.() -> Unit,
 ): Unit = onEvent(queue.id, action)

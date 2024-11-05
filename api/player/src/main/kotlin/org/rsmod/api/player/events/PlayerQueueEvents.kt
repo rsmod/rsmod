@@ -5,12 +5,13 @@ import org.rsmod.events.KeyedEvent
 import org.rsmod.events.SuspendEvent
 import org.rsmod.game.entity.Player
 
-public class PlayerQueueEvent {
-    public class Soft(public val player: Player, queueType: Int) : KeyedEvent {
+public class PlayerQueueEvents {
+    public class Soft<T>(public val player: Player, public val args: T, queueType: Int) :
+        KeyedEvent {
         override val id: Long = queueType.toLong()
     }
 
-    public class Protected(queueType: Int) : SuspendEvent<ProtectedAccess> {
+    public class Protected<T>(public val args: T, queueType: Int) : SuspendEvent<ProtectedAccess> {
         override val id: Long = queueType.toLong()
     }
 }

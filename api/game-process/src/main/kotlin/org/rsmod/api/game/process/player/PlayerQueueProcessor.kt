@@ -1,7 +1,7 @@
 package org.rsmod.api.game.process.player
 
 import jakarta.inject.Inject
-import org.rsmod.api.player.events.PlayerQueueEvent
+import org.rsmod.api.player.events.PlayerQueueEvents
 import org.rsmod.api.player.protect.ProtectedAccessLauncher
 import org.rsmod.api.player.ui.ifClose
 import org.rsmod.events.EventBus
@@ -65,7 +65,7 @@ constructor(private val eventBus: EventBus, private val protectedAccess: Protect
 
     private fun Player.publish(queue: PlayerQueueList.Queue) {
         if (queue.category == QueueCategory.Soft.id) {
-            val event = PlayerQueueEvent.Soft(this, queue.id)
+            val event = PlayerQueueEvents.Soft(this, queue.args, queue.id)
             eventBus.publish(event)
             return
         }
@@ -73,7 +73,7 @@ constructor(private val eventBus: EventBus, private val protectedAccess: Protect
     }
 
     private fun Player.publishProtected(queue: PlayerQueueList.Queue) {
-        val event = PlayerQueueEvent.Protected(queue.id)
+        val event = PlayerQueueEvents.Protected(queue.args, queue.id)
         protectedAccess.launch(this) { eventBus.publish(this, event) }
     }
 

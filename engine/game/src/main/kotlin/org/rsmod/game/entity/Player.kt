@@ -93,28 +93,28 @@ public class Player(
         softTimerMap[timer] = currentMapClock + cycles
     }
 
-    public fun weakQueue(queue: QueueType, cycles: Int) {
-        weakQueueList.add(queue, QueueCategory.Weak, cycles)
+    public fun weakQueue(queue: QueueType, cycles: Int, args: Any? = null) {
+        weakQueueList.add(queue, QueueCategory.Weak, cycles, args)
     }
 
-    public fun softQueue(queue: QueueType, cycles: Int) {
-        queueList.add(queue, QueueCategory.Soft, cycles)
+    public fun softQueue(queue: QueueType, cycles: Int, args: Any? = null) {
+        queueList.add(queue, QueueCategory.Soft, cycles, args)
     }
 
-    public fun queue(queue: QueueType, cycles: Int) {
-        queueList.add(queue, QueueCategory.Normal, cycles)
+    public fun queue(queue: QueueType, cycles: Int, args: Any? = null) {
+        queueList.add(queue, QueueCategory.Normal, cycles, args)
     }
 
-    public fun strongQueue(queue: QueueType, cycles: Int) {
-        queueList.add(queue, QueueCategory.Strong, cycles)
+    public fun strongQueue(queue: QueueType, cycles: Int, args: Any? = null) {
+        queueList.add(queue, QueueCategory.Strong, cycles, args)
     }
 
-    public fun longQueueAccelerate(queue: QueueType, cycles: Int) {
-        queueList.add(queue, QueueCategory.LongAccelerate, cycles)
+    public fun longQueueAccelerate(queue: QueueType, cycles: Int, args: Any? = null) {
+        queueList.add(queue, QueueCategory.LongAccelerate, cycles, args)
     }
 
-    public fun longQueueDiscard(queue: QueueType, cycles: Int) {
-        queueList.add(queue, QueueCategory.LongDiscard, cycles)
+    public fun longQueueDiscard(queue: QueueType, cycles: Int, args: Any? = null) {
+        queueList.add(queue, QueueCategory.LongDiscard, cycles, args)
     }
 
     override fun anim(seq: SeqType, delay: Int, priority: Int) {

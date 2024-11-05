@@ -45,7 +45,7 @@ public class NpcQueueProcessor @Inject constructor(private val eventBus: EventBu
         val packedType = (type.id.toLong() shl 32) or queue.id.toLong()
         val typeTrigger = eventBus.keyed[NpcQueueEvents.Type::class.java, packedType]
         if (typeTrigger != null) {
-            typeTrigger.invoke(NpcQueueEvents.Type(this, queue.id))
+            typeTrigger.invoke(NpcQueueEvents.Type(this, queue.args, queue.id))
             return
         }
 
@@ -54,11 +54,13 @@ public class NpcQueueProcessor @Inject constructor(private val eventBus: EventBu
             val contentTrigger =
                 eventBus.keyed[NpcQueueEvents.Content::class.java, packedContentGroup]
             if (contentTrigger != null) {
-                contentTrigger.invoke(NpcQueueEvents.Content(this, type.contentGroup, queue.id))
+                contentTrigger.invoke(
+                    NpcQueueEvents.Content(this, queue.args, type.contentGroup, queue.id)
+                )
                 return
             }
         }
 
-        eventBus.publish(NpcQueueEvents.Default(this, queue.id))
+        eventBus.publish(NpcQueueEvents.Default(this, queue.args, queue.id))
     }
 }

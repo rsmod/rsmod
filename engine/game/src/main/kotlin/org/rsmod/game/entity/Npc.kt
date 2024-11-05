@@ -109,8 +109,8 @@ public class Npc(
         timerMap[timer] = currentMapClock + cycles
     }
 
-    public fun queue(queue: QueueType, cycles: Int) {
-        queueList.add(queue, cycles)
+    public fun queue(queue: QueueType, cycles: Int, args: Any? = null) {
+        queueList.add(queue, cycles, args)
     }
 
     public fun resetMode() {

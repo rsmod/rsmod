@@ -16,8 +16,8 @@ public class NpcQueueList {
     public val isNotEmpty: Boolean
         get() = size > 0
 
-    public fun add(type: QueueType, remainingCycles: Int) {
-        val queue = Queue(type.id, remainingCycles)
+    public fun add(type: QueueType, remainingCycles: Int, args: Any? = null) {
+        val queue = Queue(type.id, remainingCycles, args)
         val node = Node(queue, prev = last)
         add(node)
     }
@@ -57,7 +57,7 @@ public class NpcQueueList {
 
     internal data class Node(val queue: Queue, var prev: Node?, var next: Node? = null)
 
-    public data class Queue(public val id: Int, public var remainingCycles: Int)
+    public data class Queue(val id: Int, var remainingCycles: Int, val args: Any?)
 
     public fun iterator(): QueueIterator? {
         if (isEmpty) {
