@@ -114,7 +114,7 @@ constructor(
         )
         extendedInfo.setName(player.avatar.name)
         extendedInfo.setCombatLevel(126)
-        extendedInfo.setMale(true)
+        extendedInfo.setBodyType(0)
         extendedInfo.setOverheadIcon(-1)
         extendedInfo.setSkullIcon(-1)
     }

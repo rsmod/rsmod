@@ -95,7 +95,7 @@ class RspClient(val session: Session<Player>, val xteaProvider: XteaProvider) :
             session.queue(SetActiveWorld(SetActiveWorld.RootWorldType(player.level)))
             session.queue(playerInfo.toPacket())
             session.queue(origin)
-            session.queue(npcInfo.toNpcInfoPacket(worldId))
+            session.queue(npcInfo.toPacket(worldId))
             session.queue(ServerTickEnd)
         }
     }
