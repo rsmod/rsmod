@@ -1,5 +1,5 @@
 [versions]
-classgraph = "4.8.177"
+classgraph = "4.8.179"
 clikt = "5.0.1"
 fastutil = "8.5.15"
 gradle-download = "5.6.0"
