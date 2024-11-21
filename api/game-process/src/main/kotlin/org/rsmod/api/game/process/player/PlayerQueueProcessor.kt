@@ -18,15 +18,25 @@ constructor(private val eventBus: EventBus, private val protectedAccess: Protect
         }
 
         if (player.queueList.isNotEmpty) {
-            player.processQueues()
+            player.queueList.decrementDelays()
+            player.publishExpiredQueues()
         }
 
         if (player.weakQueueList.isNotEmpty) {
-            player.processWeakQueues()
+            player.weakQueueList.decrementDelays()
+            player.publishExpiredWeakQueues()
         }
     }
 
-    private fun Player.processQueues() {
+    private fun PlayerQueueList.decrementDelays() {
+        val iterator = iterator() ?: return
+        while (iterator.hasNext()) {
+            val queue = iterator.next()
+            queue.remainingCycles--
+        }
+    }
+
+    private fun Player.publishExpiredQueues() {
         while (queueList.isNotEmpty) {
             var processedNone = true
 
@@ -39,7 +49,6 @@ constructor(private val eventBus: EventBus, private val protectedAccess: Protect
                 }
 
                 if (queue.remainingCycles > 0) {
-                    queue.remainingCycles--
                     continue
                 }
 
@@ -77,7 +86,7 @@ constructor(private val eventBus: EventBus, private val protectedAccess: Protect
         protectedAccess.launch(this) { eventBus.publish(this, event) }
     }
 
-    private fun Player.processWeakQueues() {
+    private fun Player.publishExpiredWeakQueues() {
         while (weakQueueList.isNotEmpty) {
             var processedNone = true
 
@@ -86,7 +95,6 @@ constructor(private val eventBus: EventBus, private val protectedAccess: Protect
                 val queue = iterator.next()
 
                 if (queue.remainingCycles > 0) {
-                    queue.remainingCycles--
                     continue
                 }
 

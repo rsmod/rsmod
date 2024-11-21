@@ -10,11 +10,20 @@ import org.rsmod.game.type.npc.UnpackedNpcType
 public class NpcQueueProcessor @Inject constructor(private val eventBus: EventBus) {
     public fun process(npc: Npc) {
         if (npc.queueList.isNotEmpty) {
-            npc.processQueues()
+            npc.decrementQueueDelays()
+            npc.publishExpiredQueues()
         }
     }
 
-    private fun Npc.processQueues() {
+    private fun Npc.decrementQueueDelays() {
+        val iterator = queueList.iterator() ?: return
+        while (iterator.hasNext()) {
+            val queue = iterator.next()
+            queue.remainingCycles--
+        }
+    }
+
+    private fun Npc.publishExpiredQueues() {
         while (queueList.isNotEmpty) {
             var processedNone = true
 
@@ -23,7 +32,6 @@ public class NpcQueueProcessor @Inject constructor(private val eventBus: EventBu
                 val queue = iterator.next()
 
                 if (queue.remainingCycles > 0) {
-                    queue.remainingCycles--
                     continue
                 }
 
