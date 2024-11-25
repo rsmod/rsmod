@@ -21,7 +21,13 @@ class RspNpcInfo(val rspAvatar: NpcAvatar) : NpcInfoProtocol {
     }
 
     override fun setTransmog(type: Int) {
+        rspAvatar.setId(type)
         rspAvatar.extendedInfo.setTransmogrification(type)
+    }
+
+    override fun resetTransmog(originalType: Int) {
+        rspAvatar.setId(originalType)
+        rspAvatar.extendedInfo.setTransmogrification(-1)
     }
 
     override fun walk(deltaX: Int, deltaZ: Int) {

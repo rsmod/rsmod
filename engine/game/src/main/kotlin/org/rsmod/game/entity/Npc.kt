@@ -156,7 +156,7 @@ public class Npc(
 
     public fun resetTransmog() {
         transmogType = null
-        infoProtocol.setTransmog(-1)
+        infoProtocol.resetTransmog(originalType = id)
     }
 
     public fun facingTarget(playerList: PlayerList): Player? =
