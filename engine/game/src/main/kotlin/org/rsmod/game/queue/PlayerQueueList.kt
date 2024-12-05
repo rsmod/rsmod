@@ -9,9 +9,9 @@ public class PlayerQueueList {
     public var strongQueues: Int = 0
         private set
 
+    private var iterator: QueueIterator? = null
     private var first: Node? = null
     private var last: Node? = null
-    private var iterator: QueueIterator? = null
 
     public val isEmpty: Boolean
         get() = size == 0

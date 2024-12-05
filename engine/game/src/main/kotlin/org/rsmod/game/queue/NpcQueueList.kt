@@ -6,9 +6,9 @@ public class NpcQueueList {
     public var size: Int = 0
         private set
 
+    private var iterator: QueueIterator? = null
     private var first: Node? = null
     private var last: Node? = null
-    private var iterator: QueueIterator? = null
 
     public val isEmpty: Boolean
         get() = size == 0
@@ -53,6 +53,26 @@ public class NpcQueueList {
 
         check(size > 0)
         size--
+    }
+
+    public fun removeAll(type: QueueType): Int {
+        if (isEmpty) {
+            return 0
+        }
+
+        val startSize = size
+        var count = 0
+        var current = first
+        while (current != null) {
+            if (current.queue.id == type.id) {
+                remove(current)
+                count++
+            }
+            current = current.next ?: break
+        }
+
+        check(startSize - count == size)
+        return count
     }
 
     internal data class Node(val queue: Queue, var prev: Node?, var next: Node? = null)
