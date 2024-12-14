@@ -66,6 +66,7 @@ public sealed class PathingEntity {
     public var pendingSequence: EntitySeq = EntitySeq.NULL
 
     public var interaction: Interaction? = null
+    public var actionDelay: Int = 0
 
     internal var animProtect: Boolean = false
 
