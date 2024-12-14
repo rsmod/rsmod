@@ -78,6 +78,15 @@ public class ProtectedAccess(
     public val coords: CoordGrid
         get() = player.coords
 
+    public val mapClock: Int
+        get() = player.currentMapClock
+
+    public var actionDelay: Int
+        get() = player.actionDelay
+        set(value) {
+            player.actionDelay = value
+        }
+
     public suspend fun walk(dest: CoordGrid): Unit = move(dest, MoveSpeed.Walk)
 
     public suspend fun run(dest: CoordGrid): Unit = move(dest, MoveSpeed.Run)
