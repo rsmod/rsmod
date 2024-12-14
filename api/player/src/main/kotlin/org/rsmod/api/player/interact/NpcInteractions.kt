@@ -1,4 +1,4 @@
-package org.rsmod.api.interactions
+package org.rsmod.api.player.interact
 
 import jakarta.inject.Inject
 import org.rsmod.api.player.events.interact.ApEvent
@@ -7,12 +7,14 @@ import org.rsmod.api.player.events.interact.NpcDefaultEvents
 import org.rsmod.api.player.events.interact.NpcEvents
 import org.rsmod.api.player.events.interact.NpcUnimplementedEvents
 import org.rsmod.api.player.events.interact.OpEvent
-import org.rsmod.api.player.protect.ProtectedAccessLauncher
+import org.rsmod.api.player.output.clearMapFlag
+import org.rsmod.api.player.protect.clearPendingAction
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.game.interact.InteractionNpc
 import org.rsmod.game.interact.InteractionOp
+import org.rsmod.game.movement.RouteRequestPathingEntity
 import org.rsmod.game.type.npc.NpcTypeList
 import org.rsmod.game.type.npc.UnpackedNpcType
 import org.rsmod.game.type.varbit.VarBitTypeList
@@ -27,25 +29,33 @@ constructor(
     private val varpTypes: VarpTypeList,
     private val varBitTypes: VarBitTypeList,
     private val eventBus: EventBus,
-    private val protectedAccess: ProtectedAccessLauncher,
 ) {
-    public fun triggerOp(player: Player, interaction: InteractionNpc) {
-        val npc = interaction.target
-        val op = opTrigger(player, npc, npc.type, interaction.op)
-        if (op != null) {
-            protectedAccess.launch(player) { eventBus.publish(this, op) }
-        }
+    public fun interact(player: Player, npc: Npc, op: InteractionOp) {
+        val opTrigger = hasOpTrigger(player, npc, op)
+        val apTrigger = hasApTrigger(player, npc, op)
+        val interaction =
+            InteractionNpc(
+                target = npc,
+                op = op,
+                hasOpTrigger = opTrigger,
+                hasApTrigger = apTrigger,
+            )
+        val routeRequest = RouteRequestPathingEntity(npc.avatar)
+        player.clearPendingAction(eventBus)
+        player.clearMapFlag()
+        player.interaction = interaction
+        player.routeRequest = routeRequest
     }
 
     public fun opTrigger(
         player: Player,
         npc: Npc,
-        type: UnpackedNpcType,
         op: InteractionOp,
+        type: UnpackedNpcType = npc.currentType,
     ): OpEvent? {
         val multiNpcType = multiNpc(type, player.vars)
         if (multiNpcType != null) {
-            val multiNpcTrigger = opTrigger(player, npc, multiNpcType, op)
+            val multiNpcTrigger = opTrigger(player, npc, op, multiNpcType)
             if (multiNpcTrigger != null) {
                 return multiNpcTrigger
             }
@@ -75,26 +85,18 @@ constructor(
     }
 
     public fun hasOpTrigger(player: Player, npc: Npc, op: InteractionOp): Boolean =
-        opTrigger(player, npc, npc.type, op) != null
-
-    public fun triggerAp(player: Player, interaction: InteractionNpc) {
-        val npc = interaction.target
-        val ap = apTrigger(player, npc, npc.type, interaction.op)
-        if (ap != null) {
-            protectedAccess.launch(player) { eventBus.publish(this, ap) }
-        }
-    }
+        opTrigger(player, npc, op) != null
 
     public fun apTrigger(
         player: Player,
         npc: Npc,
-        type: UnpackedNpcType,
         op: InteractionOp,
+        type: UnpackedNpcType = npc.currentType,
     ): ApEvent? {
-        val multiNpcType = multiNpc(type, player.vars)
-        if (multiNpcType != null) {
-            val multiNpcType = npcTypes[multiNpcType]
-            val multiNpcTrigger = apTrigger(player, npc, multiNpcType, op)
+        val multiNpc = multiNpc(type, player.vars)
+        if (multiNpc != null) {
+            val multiNpcType = npcTypes[multiNpc]
+            val multiNpcTrigger = apTrigger(player, npc, op, multiNpcType)
             if (multiNpcTrigger != null) {
                 return multiNpcTrigger
             }
@@ -119,7 +121,7 @@ constructor(
     }
 
     public fun hasApTrigger(player: Player, npc: Npc, op: InteractionOp): Boolean =
-        apTrigger(player, npc, npc.type, op) != null
+        apTrigger(player, npc, op) != null
 
     public fun multiNpc(type: UnpackedNpcType, vars: VariableIntMap): UnpackedNpcType? {
         if (type.multiNpc.isEmpty() && type.multiNpcDefault <= 0) {

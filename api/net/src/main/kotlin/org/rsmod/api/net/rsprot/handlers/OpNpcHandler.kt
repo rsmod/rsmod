@@ -3,7 +3,7 @@ package org.rsmod.api.net.rsprot.handlers
 import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
 import net.rsprot.protocol.game.incoming.npcs.OpNpc
-import org.rsmod.api.interactions.NpcInteractions
+import org.rsmod.api.player.interact.NpcInteractions
 import org.rsmod.api.player.output.clearMapFlag
 import org.rsmod.api.player.protect.clearPendingAction
 import org.rsmod.api.player.vars.ctrlMoveSpeed

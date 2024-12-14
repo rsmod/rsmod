@@ -2,16 +2,18 @@ package org.rsmod.api.game.process.player
 
 import jakarta.inject.Inject
 import org.rsmod.api.config.Constants
-import org.rsmod.api.interactions.LocInteractions
-import org.rsmod.api.interactions.NpcInteractions
-import org.rsmod.api.interactions.ObjInteractions
 import org.rsmod.api.player.clearInteractionRoute
+import org.rsmod.api.player.interact.LocInteractions
+import org.rsmod.api.player.interact.NpcInteractions
+import org.rsmod.api.player.interact.ObjInteractions
 import org.rsmod.api.player.output.ChatType
 import org.rsmod.api.player.output.mes
+import org.rsmod.api.player.protect.ProtectedAccessLauncher
 import org.rsmod.api.registry.loc.LocRegistry
 import org.rsmod.api.registry.obj.ObjRegistry
 import org.rsmod.api.route.BoundValidator
 import org.rsmod.api.route.RayCastValidator
+import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.interact.Interaction
 import org.rsmod.game.interact.InteractionLoc
@@ -26,6 +28,7 @@ import org.rsmod.pathfinder.flag.CollisionFlag
 public class PlayerInteractionProcessor
 @Inject
 constructor(
+    private val eventBus: EventBus,
     private val locRegistry: LocRegistry,
     private val objRegistry: ObjRegistry,
     private val boundValidator: BoundValidator,
@@ -33,6 +36,7 @@ constructor(
     private val locInteractions: LocInteractions,
     private val npcInteractions: NpcInteractions,
     private val objInteractions: ObjInteractions,
+    private val protectedAccess: ProtectedAccessLauncher,
 ) {
     public fun processPreMovement(player: Player, interaction: Interaction) {
         if (player.shouldCancelInteraction(interaction)) {
@@ -55,7 +59,7 @@ constructor(
         if (!player.isBusy) {
             player.postMovementInteraction(interaction)
         }
-        player.clearFinishedInteraction(interaction)
+        player.clearFinishedInteraction()
     }
 
     private fun Player.preMovementInteraction(interaction: Interaction): Unit =
@@ -152,7 +156,8 @@ constructor(
             }
         }
 
-    private fun Player.clearFinishedInteraction(interaction: Interaction) {
+    private fun Player.clearFinishedInteraction() {
+        val interaction = interaction ?: return
         if (interaction.interacted && !interaction.apRangeCalled && !interaction.persistent) {
             clearInteractionRoute()
         }
@@ -174,16 +179,16 @@ constructor(
 
     private fun Player.triggerOp(interaction: Interaction): Unit =
         when (interaction) {
-            is InteractionLoc -> locInteractions.triggerOp(this, interaction)
-            is InteractionNpc -> npcInteractions.triggerOp(this, interaction)
-            is InteractionObj -> objInteractions.triggerOp(this, interaction)
+            is InteractionLoc -> triggerOp(this, interaction)
+            is InteractionNpc -> triggerOp(this, interaction)
+            is InteractionObj -> triggerOp(this, interaction)
         }
 
     private fun Player.triggerAp(interaction: Interaction): Unit =
         when (interaction) {
-            is InteractionLoc -> locInteractions.triggerAp(this, interaction)
-            is InteractionNpc -> npcInteractions.triggerAp(this, interaction)
-            is InteractionObj -> objInteractions.triggerAp(this, interaction)
+            is InteractionLoc -> triggerAp(this, interaction)
+            is InteractionNpc -> triggerAp(this, interaction)
+            is InteractionObj -> triggerAp(this, interaction)
         }
 
     /* Loc interactions */
@@ -316,4 +321,53 @@ constructor(
                 objRegistry.isInvalid(this, interaction.target)
             }
         }
+
+    /* Interaction event launch functions */
+    public fun triggerOp(player: Player, interaction: InteractionLoc) {
+        val loc = interaction.target
+        val op = locInteractions.opTrigger(player, loc, interaction.op)
+        if (op != null) {
+            protectedAccess.launch(player) { eventBus.publish(this, op) }
+        }
+    }
+
+    public fun triggerAp(player: Player, interaction: InteractionLoc) {
+        val loc = interaction.target
+        val ap = locInteractions.apTrigger(player, loc, interaction.op)
+        if (ap != null) {
+            protectedAccess.launch(player) { eventBus.publish(this, ap) }
+        }
+    }
+
+    public fun triggerOp(player: Player, interaction: InteractionNpc) {
+        val npc = interaction.target
+        val op = npcInteractions.opTrigger(player, npc, interaction.op)
+        if (op != null) {
+            protectedAccess.launch(player) { eventBus.publish(this, op) }
+        }
+    }
+
+    public fun triggerAp(player: Player, interaction: InteractionNpc) {
+        val npc = interaction.target
+        val ap = npcInteractions.apTrigger(player, npc, interaction.op)
+        if (ap != null) {
+            protectedAccess.launch(player) { eventBus.publish(this, ap) }
+        }
+    }
+
+    private fun triggerOp(player: Player, interaction: InteractionObj) {
+        val obj = interaction.target
+        val op = objInteractions.opTrigger(obj, interaction.op)
+        if (op != null) {
+            protectedAccess.launch(player) { eventBus.publish(this, op) }
+        }
+    }
+
+    public fun triggerAp(player: Player, interaction: InteractionObj) {
+        val obj = interaction.target
+        val ap = objInteractions.apTrigger(obj, interaction.op)
+        if (ap != null) {
+            protectedAccess.launch(player) { eventBus.publish(this, ap) }
+        }
+    }
 }

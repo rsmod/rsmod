@@ -3,7 +3,7 @@ package org.rsmod.api.net.rsprot.handlers
 import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
 import net.rsprot.protocol.game.incoming.objs.OpObj
-import org.rsmod.api.interactions.ObjInteractions
+import org.rsmod.api.player.interact.ObjInteractions
 import org.rsmod.api.player.protect.clearPendingAction
 import org.rsmod.api.player.vars.ctrlMoveSpeed
 import org.rsmod.api.registry.obj.ObjRegistry
@@ -45,8 +45,8 @@ constructor(
         val obj = findObj(player, coords, message.id) ?: return
         val type = objTypes[obj.type] ?: return
         val speed = if (message.controlKey) player.ctrlMoveSpeed() else null
-        val opTrigger = objInteractions.hasOpTrigger(player, obj, type, message.interactionOp)
-        val apTrigger = objInteractions.hasApTrigger(player, obj, type, message.interactionOp)
+        val opTrigger = objInteractions.hasOpTrigger(obj, message.interactionOp, type)
+        val apTrigger = objInteractions.hasApTrigger(obj, message.interactionOp, type)
         val interaction =
             InteractionObj(
                 target = obj,
@@ -57,7 +57,7 @@ constructor(
         val routeRequest = RouteRequestCoord(coords)
         player.clearPendingAction(eventBus)
         player.resetFaceEntity()
-        player.faceSquare(coords, targetWidth = 1, targetLength = 1)
+        player.faceSquare(coords)
         player.interaction = interaction
         player.routeRequest = routeRequest
         player.tempMoveSpeed = speed

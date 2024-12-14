@@ -1,4 +1,4 @@
-package org.rsmod.api.interactions
+package org.rsmod.api.player.interact
 
 import jakarta.inject.Inject
 import org.rsmod.api.player.events.interact.ApEvent
@@ -7,13 +7,15 @@ import org.rsmod.api.player.events.interact.LocDefaultEvents
 import org.rsmod.api.player.events.interact.LocEvents
 import org.rsmod.api.player.events.interact.LocUnimplementedEvents
 import org.rsmod.api.player.events.interact.OpEvent
-import org.rsmod.api.player.protect.ProtectedAccessLauncher
+import org.rsmod.api.player.output.clearMapFlag
+import org.rsmod.api.player.protect.clearPendingAction
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.interact.InteractionLoc
 import org.rsmod.game.interact.InteractionOp
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.loc.LocEntity
+import org.rsmod.game.movement.RouteRequestLoc
 import org.rsmod.game.type.loc.LocTypeList
 import org.rsmod.game.type.loc.UnpackedLocType
 import org.rsmod.game.type.varbit.VarBitTypeList
@@ -28,26 +30,47 @@ constructor(
     private val varpTypes: VarpTypeList,
     private val varBitTypes: VarBitTypeList,
     private val eventBus: EventBus,
-    private val protectedAccess: ProtectedAccessLauncher,
 ) {
-    public fun triggerOp(player: Player, interaction: InteractionLoc) {
-        val loc = interaction.target
-        val op = opTrigger(player, loc, locTypes[loc], interaction.op)
-        if (op != null) {
-            protectedAccess.launch(player) { eventBus.publish(this, op) }
-        }
+    public fun interact(
+        player: Player,
+        loc: BoundLocInfo,
+        op: InteractionOp,
+        type: UnpackedLocType = locTypes[loc],
+    ) {
+        val opTrigger = hasOpTrigger(player, loc, op, type)
+        val apTrigger = hasApTrigger(player, loc, op, type)
+        val interaction =
+            InteractionLoc(
+                target = loc,
+                op = op,
+                hasOpTrigger = opTrigger,
+                hasApTrigger = apTrigger,
+            )
+        val routeRequest =
+            RouteRequestLoc(
+                destination = loc.coords,
+                width = type.width,
+                length = type.length,
+                shape = loc.entity.shape,
+                angle = loc.entity.angle,
+                forceApproachFlags = type.forceApproachFlags,
+            )
+        player.clearPendingAction(eventBus)
+        player.clearMapFlag()
+        player.interaction = interaction
+        player.routeRequest = routeRequest
     }
 
     public fun opTrigger(
         player: Player,
         loc: BoundLocInfo,
-        type: UnpackedLocType,
         op: InteractionOp,
+        type: UnpackedLocType = locTypes[loc],
     ): OpEvent? {
         val multiLoc = multiLoc(loc, type, player.vars)
         if (multiLoc != null) {
             val multiLocType = locTypes[multiLoc]
-            val multiLocTrigger = opTrigger(player, multiLoc, multiLocType, op)
+            val multiLocTrigger = opTrigger(player, multiLoc, op, multiLocType)
             if (multiLocTrigger != null) {
                 return multiLocTrigger
             }
@@ -78,28 +101,20 @@ constructor(
     public fun hasOpTrigger(
         player: Player,
         loc: BoundLocInfo,
-        type: UnpackedLocType,
         op: InteractionOp,
-    ): Boolean = opTrigger(player, loc, type, op) != null
-
-    public fun triggerAp(player: Player, interaction: InteractionLoc) {
-        val loc = interaction.target
-        val ap = apTrigger(player, loc, locTypes[loc], interaction.op)
-        if (ap != null) {
-            protectedAccess.launch(player) { eventBus.publish(this, ap) }
-        }
-    }
+        type: UnpackedLocType = locTypes[loc],
+    ): Boolean = opTrigger(player, loc, op, type) != null
 
     public fun apTrigger(
         player: Player,
         loc: BoundLocInfo,
-        type: UnpackedLocType,
         op: InteractionOp,
+        type: UnpackedLocType = locTypes[loc],
     ): ApEvent? {
         val multiLoc = multiLoc(loc, type, player.vars)
         if (multiLoc != null) {
             val multiLocType = locTypes[multiLoc]
-            val multiLocTrigger = apTrigger(player, multiLoc, multiLocType, op)
+            val multiLocTrigger = apTrigger(player, multiLoc, op, multiLocType)
             if (multiLocTrigger != null) {
                 return multiLocTrigger
             }
@@ -126,9 +141,9 @@ constructor(
     public fun hasApTrigger(
         player: Player,
         loc: BoundLocInfo,
-        type: UnpackedLocType,
         op: InteractionOp,
-    ): Boolean = apTrigger(player, loc, type, op) != null
+        type: UnpackedLocType = locTypes[loc],
+    ): Boolean = apTrigger(player, loc, op, type) != null
 
     public fun multiLoc(
         loc: BoundLocInfo,

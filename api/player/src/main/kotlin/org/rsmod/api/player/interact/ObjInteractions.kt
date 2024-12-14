@@ -1,4 +1,4 @@
-package org.rsmod.api.interactions
+package org.rsmod.api.player.interact
 
 import jakarta.inject.Inject
 import org.rsmod.api.player.events.interact.ApEvent
@@ -6,38 +6,46 @@ import org.rsmod.api.player.events.interact.ObjContentEvents
 import org.rsmod.api.player.events.interact.ObjDefaultEvents
 import org.rsmod.api.player.events.interact.ObjEvents
 import org.rsmod.api.player.events.interact.OpEvent
-import org.rsmod.api.player.protect.ProtectedAccessLauncher
-import org.rsmod.api.registry.obj.ObjRegistry
+import org.rsmod.api.player.output.clearMapFlag
+import org.rsmod.api.player.protect.clearPendingAction
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.interact.InteractionObj
 import org.rsmod.game.interact.InteractionOp
+import org.rsmod.game.movement.RouteRequestCoord
 import org.rsmod.game.obj.Obj
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.obj.UnpackedObjType
 
 public class ObjInteractions
 @Inject
-constructor(
-    private val objTypes: ObjTypeList,
-    private val registry: ObjRegistry,
-    private val eventBus: EventBus,
-    private val protectedAccess: ProtectedAccessLauncher,
-) {
-    public fun triggerOp(player: Player, interaction: InteractionObj) {
-        val obj = interaction.target
-        val op = opTrigger(player, obj, objTypes[obj], interaction.op)
-        if (op != null) {
-            protectedAccess.launch(player) { eventBus.publish(this, op) }
-        }
-    }
-
-    @Suppress("unused")
-    public fun opTrigger(
+constructor(private val objTypes: ObjTypeList, private val eventBus: EventBus) {
+    public fun interact(
         player: Player,
         obj: Obj,
-        type: UnpackedObjType,
         op: InteractionOp,
+        type: UnpackedObjType = objTypes[obj],
+    ) {
+        val opTrigger = hasOpTrigger(obj, op, type)
+        val apTrigger = hasApTrigger(obj, op, type)
+        val interaction =
+            InteractionObj(
+                target = obj,
+                op = op,
+                hasOpTrigger = opTrigger,
+                hasApTrigger = apTrigger,
+            )
+        val routeRequest = RouteRequestCoord(obj.coords)
+        player.clearPendingAction(eventBus)
+        player.clearMapFlag()
+        player.interaction = interaction
+        player.routeRequest = routeRequest
+    }
+
+    public fun opTrigger(
+        obj: Obj,
+        op: InteractionOp,
+        type: UnpackedObjType = objTypes[obj],
     ): OpEvent? {
         val typeEvent = obj.toOp(op)
         if (eventBus.contains(typeEvent::class.java, type.id)) {
@@ -58,26 +66,15 @@ constructor(
     }
 
     public fun hasOpTrigger(
-        player: Player,
         obj: Obj,
-        type: UnpackedObjType,
         op: InteractionOp,
-    ): Boolean = opTrigger(player, obj, type, op) != null
+        type: UnpackedObjType = objTypes[obj],
+    ): Boolean = opTrigger(obj, op, type) != null
 
-    public fun triggerAp(player: Player, interaction: InteractionObj) {
-        val obj = interaction.target
-        val ap = apTrigger(player, obj, objTypes[obj], interaction.op)
-        if (ap != null) {
-            protectedAccess.launch(player) { eventBus.publish(this, ap) }
-        }
-    }
-
-    @Suppress("unused")
     public fun apTrigger(
-        player: Player,
         obj: Obj,
-        type: UnpackedObjType,
         op: InteractionOp,
+        type: UnpackedObjType = objTypes[obj],
     ): ApEvent? {
         val typeEvent = obj.toAp(op)
         if (eventBus.contains(typeEvent::class.java, type.id)) {
@@ -98,11 +95,10 @@ constructor(
     }
 
     public fun hasApTrigger(
-        player: Player,
         obj: Obj,
-        type: UnpackedObjType,
         op: InteractionOp,
-    ): Boolean = apTrigger(player, obj, type, op) != null
+        type: UnpackedObjType = objTypes[obj],
+    ): Boolean = apTrigger(obj, op, type) != null
 
     private fun Obj.toOp(op: InteractionOp): ObjEvents.Op =
         when (op) {

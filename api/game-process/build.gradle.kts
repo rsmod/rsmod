@@ -14,7 +14,6 @@ dependencies {
     implementation(libs.kotlin.coroutines.core)
     implementation(libs.rsprot.api)
     implementation(projects.api.config)
-    implementation(projects.api.interactions)
     implementation(projects.api.npc)
     implementation(projects.api.player)
     implementation(projects.api.random)

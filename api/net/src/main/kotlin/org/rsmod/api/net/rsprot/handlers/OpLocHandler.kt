@@ -3,7 +3,7 @@ package org.rsmod.api.net.rsprot.handlers
 import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
 import net.rsprot.protocol.game.incoming.locs.OpLoc
-import org.rsmod.api.interactions.LocInteractions
+import org.rsmod.api.player.interact.LocInteractions
 import org.rsmod.api.player.protect.clearPendingAction
 import org.rsmod.api.player.vars.ctrlMoveSpeed
 import org.rsmod.api.registry.loc.LocRegistry
@@ -46,8 +46,8 @@ constructor(
         val type = locTypes[message.id] ?: return
         val speed = if (message.controlKey) player.ctrlMoveSpeed() else null
         val boundLoc = BoundLocInfo(loc, type)
-        val opTrigger = locInteractions.hasOpTrigger(player, boundLoc, type, message.interactionOp)
-        val apTrigger = locInteractions.hasApTrigger(player, boundLoc, type, message.interactionOp)
+        val opTrigger = locInteractions.hasOpTrigger(player, boundLoc, message.interactionOp, type)
+        val apTrigger = locInteractions.hasApTrigger(player, boundLoc, message.interactionOp, type)
         val interaction =
             InteractionLoc(
                 target = boundLoc,
