@@ -7,6 +7,7 @@ import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.components
 import org.rsmod.api.player.input.CountDialogInput
 import org.rsmod.api.player.input.ResumePauseButtonInput
+import org.rsmod.api.player.interact.LocInteractions
 import org.rsmod.api.player.output.Camera
 import org.rsmod.api.player.output.ChatType
 import org.rsmod.api.player.output.ClientScripts
@@ -45,6 +46,7 @@ import org.rsmod.game.entity.PathingEntity
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.player.ProtectedAccessLostException
 import org.rsmod.game.entity.shared.PathingEntityCommon
+import org.rsmod.game.interact.InteractionOp
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.map.Direction
@@ -154,6 +156,26 @@ public class ProtectedAccess(
         }
         return true
     }
+
+    public fun opLoc1(
+        loc: BoundLocInfo,
+        interactions: LocInteractions = context.locInteractions,
+    ): Unit = interactions.interact(player, loc, InteractionOp.Op1)
+
+    public fun opLoc2(
+        loc: BoundLocInfo,
+        interactions: LocInteractions = context.locInteractions,
+    ): Unit = interactions.interact(player, loc, InteractionOp.Op2)
+
+    public fun opLoc3(
+        loc: BoundLocInfo,
+        interactions: LocInteractions = context.locInteractions,
+    ): Unit = interactions.interact(player, loc, InteractionOp.Op3)
+
+    public fun opLoc4(
+        loc: BoundLocInfo,
+        interactions: LocInteractions = context.locInteractions,
+    ): Unit = interactions.interact(player, loc, InteractionOp.Op4)
 
     public fun faceSquare(target: CoordGrid): Unit = player.faceSquare(target)
 

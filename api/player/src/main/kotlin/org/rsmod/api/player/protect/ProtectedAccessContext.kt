@@ -1,5 +1,6 @@
 package org.rsmod.api.player.protect
 
+import org.rsmod.api.player.interact.LocInteractions
 import org.rsmod.events.EventBus
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.pathfinder.collision.CollisionFlagMap
@@ -58,10 +59,13 @@ public data class ProtectedAccessContext(
     private val getEventBus: () -> EventBus,
     private val getCollision: () -> CollisionFlagMap,
     private val getObjTypes: () -> ObjTypeList,
+    private val getLocInteractions: () -> LocInteractions,
 ) {
     public val eventBus: EventBus by lazy(LazyThreadSafetyMode.NONE) { getEventBus() }
     public val collision: CollisionFlagMap by lazy(LazyThreadSafetyMode.NONE) { getCollision() }
     public val objTypes: ObjTypeList by lazy(LazyThreadSafetyMode.NONE) { getObjTypes() }
+    public val locInteractions: LocInteractions by
+        lazy(LazyThreadSafetyMode.NONE) { getLocInteractions() }
 
     public companion object {
         /**
@@ -80,6 +84,9 @@ public data class ProtectedAccessContext(
                 getEventBus = { throw IllegalStateException("No event bus provided.") },
                 getCollision = { throw IllegalStateException("No collision map provided.") },
                 getObjTypes = { throw IllegalStateException("No obj type list provided.") },
+                getLocInteractions = {
+                    throw IllegalStateException("No loc interactions provided.")
+                },
             )
     }
 }
