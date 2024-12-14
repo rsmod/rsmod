@@ -41,8 +41,8 @@ constructor(
                 reveal.process(this)
                 if (isNotDelayed) {
                     aiTimerProcess()
-                    timerProcess()
                     queueProcess()
+                    timerProcess()
                     modeProcess()
                     movementProcess()
                     faceSquareProcess()
@@ -59,12 +59,12 @@ constructor(
         aiTimers.process(this)
     }
 
-    private fun Npc.timerProcess() {
-        timers.process(this)
-    }
-
     private fun Npc.queueProcess() {
         queues.process(this)
+    }
+
+    private fun Npc.timerProcess() {
+        timers.process(this)
     }
 
     private fun Npc.modeProcess() {
