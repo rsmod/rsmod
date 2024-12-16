@@ -13,7 +13,7 @@ public class InvTransactionsScript @Inject constructor(private val objTypes: Obj
     public lateinit var transactions: InvTransactions
 
     override fun ScriptContext.startUp() {
-        val create = InvTransactions.Companion.from(objTypes)
+        val create = InvTransactions.from(objTypes)
         transactions = create
         cachedInventoryTransactions = create
     }
