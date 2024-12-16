@@ -9,4 +9,15 @@ public abstract class LocEditor : TypeEditor<LocPluginBuilder, UnpackedLocType>(
         val type = LocPluginBuilder(internal).apply(init).build(id = -1)
         cache += type
     }
+
+    public fun edit(
+        first: String,
+        second: String,
+        vararg rest: String,
+        init: LocPluginBuilder.() -> Unit,
+    ) {
+        edit(first, init)
+        edit(second, init)
+        rest.forEach { edit(it, init) }
+    }
 }
