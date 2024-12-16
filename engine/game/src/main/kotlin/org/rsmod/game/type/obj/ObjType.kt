@@ -299,11 +299,11 @@ public class UnpackedObjType(
         if (!retexS.contentEquals(other.retexS)) return false
         if (!retexD.contentEquals(other.retexD)) return false
         if (shiftclickiop != other.shiftclickiop) return false
-        if (isubop1 != other.isubop1) return false
-        if (isubop2 != other.isubop2) return false
-        if (isubop3 != other.isubop3) return false
-        if (isubop4 != other.isubop4) return false
-        if (isubop5 != other.isubop5) return false
+        if (!isubop1.contentEquals(other.isubop1)) return false
+        if (!isubop2.contentEquals(other.isubop2)) return false
+        if (!isubop3.contentEquals(other.isubop3)) return false
+        if (!isubop4.contentEquals(other.isubop4)) return false
+        if (!isubop5.contentEquals(other.isubop5)) return false
         if (stockmarket != other.stockmarket) return false
         if (weight != other.weight) return false
         if (manwear3 != other.manwear3) return false
