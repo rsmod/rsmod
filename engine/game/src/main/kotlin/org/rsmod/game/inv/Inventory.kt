@@ -35,6 +35,9 @@ public class Inventory(public val type: UnpackedInvType, public val objs: Array<
 
     public fun mapNotNullSlotObjs(): List<Pair<Int, InvObj>> = objs.mapNotNullEntries()
 
+    public fun filterNotNull(predicate: (InvObj) -> Boolean): List<InvObj> =
+        objs.mapNotNull { if (it != null && predicate(it)) it else null }
+
     public fun fillNulls() {
         for (i in objs.indices) {
             if (objs[i] == null) {
