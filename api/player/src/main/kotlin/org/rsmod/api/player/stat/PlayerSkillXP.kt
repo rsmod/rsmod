@@ -27,6 +27,8 @@ public object PlayerSkillXP {
         }
         val addedFineXp = statMap.addXP(stat, fineXp)
         if (addedFineXp == 0) {
+            // UpdateStat packet is sent even if stat is maxed.
+            updateStat(stat)
             return 0
         }
         checkLevelUp(stat, eventBus)
