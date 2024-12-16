@@ -12,6 +12,7 @@ dependencies {
     implementation(libs.guice)
     implementation(libs.rsprot.api)
     implementation(projects.api.config)
+    implementation(projects.api.playerOutput)
     implementation(projects.api.type.typeReferences)
     implementation(projects.api.utils.utilsFormat)
     implementation(projects.engine.annotations)

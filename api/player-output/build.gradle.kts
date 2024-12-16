@@ -7,7 +7,8 @@ kotlin {
 }
 
 dependencies {
-    implementation(libs.bundles.logging)
-    implementation(projects.api.playerOutput)
+    implementation(libs.rsprot.api)
     implementation(projects.engine.game)
+    implementation(projects.engine.map)
+    implementation(projects.api.utils.utilsFormat)
 }

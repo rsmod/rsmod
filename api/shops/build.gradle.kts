@@ -15,6 +15,7 @@ dependencies {
     implementation(projects.api.gameProcess)
     implementation(projects.api.invtx)
     implementation(projects.api.player)
+    implementation(projects.api.playerOutput)
     implementation(projects.api.script)
     implementation(projects.api.type.typeBuilders)
     implementation(projects.api.type.typeReferences)

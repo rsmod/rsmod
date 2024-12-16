@@ -15,6 +15,7 @@ dependencies {
     implementation(projects.api.gameProcess)
     implementation(projects.api.npc)
     implementation(projects.api.player)
+    implementation(projects.api.playerOutput)
     implementation(projects.api.registry)
     implementation(projects.engine.annotations)
     implementation(projects.engine.events)

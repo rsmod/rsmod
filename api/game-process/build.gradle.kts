@@ -16,6 +16,7 @@ dependencies {
     implementation(projects.api.config)
     implementation(projects.api.npc)
     implementation(projects.api.player)
+    implementation(projects.api.playerOutput)
     implementation(projects.api.random)
     implementation(projects.api.registry)
     implementation(projects.api.repo)

@@ -16,6 +16,7 @@ dependencies {
     api(projects.api.npcSpawns)
     api(projects.api.objSpawns)
     api(projects.api.player)
+    api(projects.api.playerOutput)
     api(projects.api.random)
     api(projects.api.repo)
     api(projects.api.route)
