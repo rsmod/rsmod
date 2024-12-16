@@ -2,8 +2,6 @@ package org.rsmod.content.other.generic.bookcases
 
 import jakarta.inject.Inject
 import org.rsmod.api.config.refs.content
-import org.rsmod.api.player.output.mes
-import org.rsmod.api.player.output.spam
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.random.GameRandom
 import org.rsmod.api.script.onOpLoc1
