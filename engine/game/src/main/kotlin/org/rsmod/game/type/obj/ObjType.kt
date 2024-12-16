@@ -2,6 +2,7 @@ package org.rsmod.game.type.obj
 
 import kotlin.contracts.contract
 import org.rsmod.game.obj.InvObj
+import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.param.ParamType
 import org.rsmod.game.type.util.ParamMap
 
@@ -137,6 +138,8 @@ public class UnpackedObjType(
 
     public val isDummyItem: Boolean
         get() = dummyitem != ObjTypeBuilder.DEFAULT_DUMMYITEM
+
+    public fun isAssociatedWith(content: ContentGroupType): Boolean = contentGroup == content.id
 
     public fun <T : Any> param(type: ParamType<T>): T {
         val params = paramMap
