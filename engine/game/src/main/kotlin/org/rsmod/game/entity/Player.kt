@@ -85,6 +85,10 @@ public class Player(
     public var modalSideInv: Inventory? = null
     public var openedShop: Shop? = null
 
+    public var actionDelay: Int = 0
+    public var skillAnimDelay: Int = 0
+    public var skillSoundDelay: Int = 0
+
     public fun timer(timer: TimerType, cycles: Int) {
         timerMap[timer] = currentMapClock + cycles
     }
