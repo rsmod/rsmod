@@ -5,6 +5,7 @@ import kotlin.math.max
 import net.rsprot.protocol.game.outgoing.misc.player.TriggerOnDialogAbort
 import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.components
+import org.rsmod.api.invtx.invAdd
 import org.rsmod.api.player.input.CountDialogInput
 import org.rsmod.api.player.input.ResumePauseButtonInput
 import org.rsmod.api.player.interact.LocInteractions
@@ -39,6 +40,7 @@ import org.rsmod.api.player.ui.ifSetNpcHead
 import org.rsmod.api.player.ui.ifSetPlayerHead
 import org.rsmod.api.player.ui.ifSetText
 import org.rsmod.api.player.vars.varMoveSpeed
+import org.rsmod.api.random.GameRandom
 import org.rsmod.coroutine.GameCoroutine
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Npc
@@ -66,6 +68,7 @@ import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.synth.SynthType
 import org.rsmod.game.type.timer.TimerType
 import org.rsmod.map.CoordGrid
+import org.rsmod.objtx.TransactionResultList
 import org.rsmod.pathfinder.collision.CollisionFlagMap
 
 private val logger = InlineLogger()
@@ -75,17 +78,20 @@ public class ProtectedAccess(
     private val coroutine: GameCoroutine,
     private val context: ProtectedAccessContext,
 ) {
+    public val random: GameRandom by context::random
+
     public val coords: CoordGrid
         get() = player.coords
 
     public val mapClock: Int
         get() = player.currentMapClock
 
-    public var actionDelay: Int
-        get() = player.actionDelay
-        set(value) {
-            player.actionDelay = value
-        }
+    public val inv: Inventory
+        get() = player.inv
+
+    public var actionDelay: Int by player::actionDelay
+    public var skillAnimDelay: Int by player::skillAnimDelay
+    public var skillSoundDelay: Int by player::skillSoundDelay
 
     public suspend fun walk(dest: CoordGrid): Unit = move(dest, MoveSpeed.Walk)
 
@@ -202,6 +208,52 @@ public class ProtectedAccess(
     public fun faceNpc(target: Npc): Unit = player.faceNpc(target)
 
     public fun resetFaceEntity(): Unit = player.resetFaceEntity()
+
+    public fun invAdd(
+        inv: Inventory,
+        obj: InvObj,
+        slot: Int? = null,
+        strict: Boolean = true,
+        cert: Boolean = false,
+        uncert: Boolean = false,
+        updateInv: Boolean = true,
+        autoCommit: Boolean = true,
+    ): TransactionResultList<InvObj> =
+        player.invAdd(
+            inv = inv,
+            obj = obj,
+            slot = slot,
+            strict = strict,
+            cert = cert,
+            uncert = uncert,
+            updateInv = updateInv,
+            autoCommit = autoCommit,
+        )
+
+    public fun invAdd(
+        inv: Inventory,
+        type: ObjType,
+        count: Int = 1,
+        vars: Int = 0,
+        slot: Int? = null,
+        strict: Boolean = true,
+        cert: Boolean = false,
+        uncert: Boolean = false,
+        updateInv: Boolean = true,
+        autoCommit: Boolean = true,
+    ): TransactionResultList<InvObj> =
+        player.invAdd(
+            inv = inv,
+            type = type,
+            count = count,
+            vars = vars,
+            slot = slot,
+            strict = strict,
+            cert = cert,
+            uncert = uncert,
+            updateInv = updateInv,
+            autoCommit = autoCommit,
+        )
 
     public fun statAdvance(
         stat: StatType,
@@ -641,6 +693,9 @@ public class ProtectedAccess(
         content: ContentGroupType,
         objTypes: ObjTypeList = context.objTypes,
     ): Int = inv.count { it != null && objTypes[it].contentGroup == content.id }
+
+    public fun invTotal(inv: Inventory, obj: ObjType): Int =
+        inv.count { it != null && it.id == obj.id }
 
     public fun invContains(
         inv: Inventory,

@@ -1,6 +1,7 @@
 package org.rsmod.api.player.protect
 
 import org.rsmod.api.player.interact.LocInteractions
+import org.rsmod.api.random.GameRandom
 import org.rsmod.events.EventBus
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.pathfinder.collision.CollisionFlagMap
@@ -56,11 +57,13 @@ import org.rsmod.pathfinder.collision.CollisionFlagMap
  * ```
  */
 public data class ProtectedAccessContext(
+    private val getRandom: () -> GameRandom,
     private val getEventBus: () -> EventBus,
     private val getCollision: () -> CollisionFlagMap,
     private val getObjTypes: () -> ObjTypeList,
     private val getLocInteractions: () -> LocInteractions,
 ) {
+    public val random: GameRandom by lazy(LazyThreadSafetyMode.NONE) { getRandom() }
     public val eventBus: EventBus by lazy(LazyThreadSafetyMode.NONE) { getEventBus() }
     public val collision: CollisionFlagMap by lazy(LazyThreadSafetyMode.NONE) { getCollision() }
     public val objTypes: ObjTypeList by lazy(LazyThreadSafetyMode.NONE) { getObjTypes() }
@@ -81,12 +84,11 @@ public data class ProtectedAccessContext(
          */
         public val EMPTY_CTX: ProtectedAccessContext =
             ProtectedAccessContext(
-                getEventBus = { throw IllegalStateException("No event bus provided.") },
-                getCollision = { throw IllegalStateException("No collision map provided.") },
-                getObjTypes = { throw IllegalStateException("No obj type list provided.") },
-                getLocInteractions = {
-                    throw IllegalStateException("No loc interactions provided.")
-                },
+                getRandom = { error("No game random provided.") },
+                getEventBus = { error("No event bus provided.") },
+                getCollision = { error("No collision map provided.") },
+                getObjTypes = { error("No obj type list provided.") },
+                getLocInteractions = { error("No loc interactions provided.") },
             )
     }
 }
