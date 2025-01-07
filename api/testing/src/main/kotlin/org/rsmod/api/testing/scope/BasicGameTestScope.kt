@@ -1,4 +1,4 @@
-package org.rsmod.api.testing
+package org.rsmod.api.testing.scope
 
 import org.rsmod.api.npc.events.NpcEvents
 import org.rsmod.api.player.events.SessionStateEvent
@@ -10,6 +10,7 @@ import org.rsmod.api.route.RayCastFactory
 import org.rsmod.api.route.RayCastValidator
 import org.rsmod.api.route.RouteFactory
 import org.rsmod.api.route.StepFactory
+import org.rsmod.api.testing.GameCollisionState
 import org.rsmod.api.testing.factory.collisionFactory
 import org.rsmod.events.EventBus
 import org.rsmod.game.MapClock
@@ -25,7 +26,7 @@ import org.rsmod.game.movement.RouteRequestPathingEntity
 import org.rsmod.map.CoordGrid
 import org.rsmod.pathfinder.collision.CollisionFlagMap
 
-public class GameTestScope(private val eventBus: EventBus) {
+public class BasicGameTestScope(private val eventBus: EventBus) {
     public val mapClock: MapClock = MapClock()
     public val playerList: PlayerList = PlayerList()
     public val npcList: NpcList = NpcList()

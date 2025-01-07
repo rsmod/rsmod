@@ -27,7 +27,7 @@ class NpcMovementProcessorTest {
      */
     @Test
     fun GameTestState.`reapply collision flag without steps but valid route destination`() =
-        runGameTest {
+        runBasicGameTest {
             withCollisionState {
                 val targetCoords = CoordGrid(0, 0, 0, 0, 7)
                 val startCoords = CoordGrid(0, 0, 0, 0, 0)

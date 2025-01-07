@@ -17,7 +17,7 @@ import org.rsmod.map.CoordGrid
 
 class PlayerRouteRequestTest {
     @Test
-    fun GameTestState.`reach coordinate target route destination`() = runGameTest {
+    fun GameTestState.`reach coordinate target route destination`() = runBasicGameTest {
         val start = CoordGrid(3200, 3200)
         val dest = CoordGrid(3205, 3202)
         withCollisionState {
@@ -36,7 +36,7 @@ class PlayerRouteRequestTest {
     }
 
     @Test
-    fun GameTestState.`reach pathing entity target route destination`() = runGameTest {
+    fun GameTestState.`reach pathing entity target route destination`() = runBasicGameTest {
         val start = CoordGrid(3200, 3200)
         val dest = CoordGrid(3203, 3207)
         val target = entityFactory.createAvatar(dest)
@@ -60,7 +60,7 @@ class PlayerRouteRequestTest {
     }
 
     @Test
-    fun GameTestState.`reach loc target route destination`() = runGameTest {
+    fun GameTestState.`reach loc target route destination`() = runBasicGameTest {
         val start = CoordGrid(3200, 3200)
         val dest = CoordGrid(3203, 3205)
         val target = locFactory.create(dest)

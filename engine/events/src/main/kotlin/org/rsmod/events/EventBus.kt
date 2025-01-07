@@ -1,9 +1,9 @@
 package org.rsmod.events
 
 public class EventBus(
-    public val unbound: UnboundEventBus,
-    public val keyed: KeyedEventBus,
-    public val suspend: SuspendEventBus,
+    public val unbound: UnboundEventBus = UnboundEventBus(),
+    public val keyed: KeyedEventBus = KeyedEventBus(),
+    public val suspend: SuspendEventBus = SuspendEventBus(),
 ) {
     /* Keyed events */
     public fun <T : KeyedEvent> publish(event: T): Boolean {

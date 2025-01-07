@@ -20,7 +20,7 @@ import org.rsmod.map.square.MapSquareKey
 
 class NpcWanderProcessorTest {
     @Test
-    fun GameTestState.`wander to max range destinations`() = runGameTest {
+    fun GameTestState.`wander to max range destinations`() = runBasicGameTest {
         withCollisionState {
             val random = SequenceRandom()
             val spawn = CoordGrid(0, 0, 0, 25, 25)
@@ -148,7 +148,7 @@ class NpcWanderProcessorTest {
     }
 
     @Test
-    fun GameTestState.`retreat back to spawn point when wander range is 0`() = runGameTest {
+    fun GameTestState.`retreat back to spawn point when wander range is 0`() = runBasicGameTest {
         withCollisionState {
             val spawn = CoordGrid(0, 0, 0, 25, 25)
             val type = npcTypeFactory.create { wanderRange = 0 }
@@ -193,7 +193,7 @@ class NpcWanderProcessorTest {
 
     @TestWithArgs(WanderRangeProvider::class)
     fun `teleport to spawn when idle`(wanderRange: Int, state: GameTestState) =
-        state.runGameTest {
+        state.runBasicGameTest {
             withCollisionState {
                 val spawn = CoordGrid(0, 0, 0, 25, 25)
                 val current = CoordGrid(0, 0, 0, 50, 50)

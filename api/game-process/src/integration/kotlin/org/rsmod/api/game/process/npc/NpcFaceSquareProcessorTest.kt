@@ -15,7 +15,7 @@ import org.rsmod.map.square.MapSquareKey
 
 class NpcFaceSquareProcessorTest {
     @Test
-    fun GameTestState.`face angle is delayed until no movement`() = runGameTest {
+    fun GameTestState.`face angle is delayed until no movement`() = runBasicGameTest {
         withCollisionState {
             val start = CoordGrid(0, 0, 0, 10, 10)
             val moveDest = CoordGrid(0, 0, 0, 10, 15)
@@ -66,7 +66,7 @@ class NpcFaceSquareProcessorTest {
     }
 
     @Test
-    fun GameTestState.`reset pending face square after setting face angle`() = runGameTest {
+    fun GameTestState.`reset pending face square after setting face angle`() = runBasicGameTest {
         val type = npcTypeFactory.create()
         val npc = npcFactory.create(type)
         withNpc(npc) {
@@ -89,7 +89,7 @@ class NpcFaceSquareProcessorTest {
     @TestWithArgs(DirectionProvider::class)
     fun `calculate correct angle based on direction`(dir: Direction, state: GameTestState) =
         with(state) {
-            runGameTest {
+            runBasicGameTest {
                 val start = CoordGrid(0, 0, 0, 16, 16)
                 val target = start.translate(dir.xOff * 5, dir.zOff * 5)
                 val type = npcTypeFactory.create()

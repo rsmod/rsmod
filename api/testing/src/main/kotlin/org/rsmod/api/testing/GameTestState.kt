@@ -3,6 +3,7 @@ package org.rsmod.api.testing
 import com.github.michaelbull.logging.InlineLogger
 import com.google.inject.Injector
 import kotlin.jvm.optionals.getOrNull
+import kotlin.reflect.KClass
 import kotlin.time.measureTime
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.rsmod.api.route.BoundValidator
@@ -10,12 +11,16 @@ import org.rsmod.api.route.RayCastFactory
 import org.rsmod.api.route.RayCastValidator
 import org.rsmod.api.route.RouteFactory
 import org.rsmod.api.route.StepFactory
-import org.rsmod.api.testing.advanced.AdvancedGameTestScope
-import org.rsmod.api.testing.advanced.AdvancedReadOnly
+import org.rsmod.api.testing.scope.AdvancedGameTestScope
+import org.rsmod.api.testing.scope.AdvancedReadOnly
+import org.rsmod.api.testing.scope.BasicGameTestScope
+import org.rsmod.api.testing.scope.GameTestScope
 import org.rsmod.events.EventBus
 import org.rsmod.game.map.XteaMap
 import org.rsmod.game.type.TypeListMap
 import org.rsmod.pathfinder.collision.CollisionFlagMap
+import org.rsmod.plugin.scripts.PluginScript
+import org.rsmod.plugin.scripts.ScriptContext
 import org.rsmod.server.app.GameServer
 
 public class GameTestState {
@@ -36,9 +41,40 @@ public class GameTestState {
 
     private val logger = InlineLogger()
 
+    /**
+     * @param scripts Associated [PluginScript] classes relevant to the newly created [scope]. If
+     *   one or more scripts are provided, the test is run given isolated [ScriptContext]s that are
+     *   only available to the specified scripts. Otherwise, the default [ScriptContext] is used,
+     *   which includes a globally shared [EventBus] and events registered by all available
+     *   [PluginScript]s.
+     *
+     *   This is useful when you want to ignore scripts that are irrelevant to the current test case
+     *   but might cause cross-contamination or unexpected failures. For example, when presetting a
+     *   [GameTestScope.random] sequence for a woodcutting test, an unrelated plugin such as a "get
+     *   a random reward after 30 seconds of playtime" script could consume and reset the random
+     *   value before the woodcutting script executes. In such cases, you can specify the relevant
+     *   script like so: `runGameTest(WoodcuttingScript::class) { ... }`
+     *
+     * @see [GameTestScope]
+     */
     public fun runGameTest(
-        scope: GameTestScope = GameTestScope(eventBus),
+        vararg scripts: KClass<out PluginScript>,
+        scope: GameTestScope = GameTestScope.Builder(this, scripts.toSet()).build(),
         testBody: GameTestScope.() -> Unit,
+    ): Unit = testBody(scope)
+
+    /**
+     * Runs a loosely-coupled test using the [BasicGameTestScope], which provides basic properties
+     * and explicit control over the systems being tested. This is useful for test cases that
+     * require minimal dependencies or where the focus is on isolated components rather than the
+     * full game system.
+     *
+     * For most scenarios, prefer using [runGameTest], which offers a more integrated scope with all
+     * game systems operating as they would in a live environment.
+     */
+    public fun runBasicGameTest(
+        scope: BasicGameTestScope = BasicGameTestScope(eventBus),
+        testBody: BasicGameTestScope.() -> Unit,
     ): Unit = testBody(scope)
 
     /**
@@ -52,16 +88,17 @@ public class GameTestState {
      * Within the [testBody], the [AdvancedGameTestScope] is available as a receiver and can be
      * accessed using the default `it` keyword or an explicit parameter name.
      *
-     * **Note**: **By default**, use the standard [runGameTest] function. The [runAdvancedGameTest]
-     * function should only be used when absolutely necessary and no other workaround is possible.
+     * **Note**: **By default**, use the standard [runBasicGameTest] function. The
+     * [runAdvancedGameTest] function should only be used when absolutely necessary and no other
+     * workaround is possible.
      *
      * @see [AdvancedGameTestScope]
-     * @see [runGameTest]
+     * @see [runBasicGameTest]
      */
     public fun runAdvancedGameTest(
-        standardScope: GameTestScope = GameTestScope(eventBus),
+        standardScope: BasicGameTestScope = BasicGameTestScope(eventBus),
         advancedScope: AdvancedGameTestScope = AdvancedGameTestScope(readOnly),
-        testBody: GameTestScope.(AdvancedGameTestScope) -> Unit,
+        testBody: BasicGameTestScope.(AdvancedGameTestScope) -> Unit,
     ): Unit = testBody(standardScope, advancedScope)
 
     internal fun initialize() {

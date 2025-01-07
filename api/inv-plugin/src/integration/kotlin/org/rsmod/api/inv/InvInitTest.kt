@@ -9,7 +9,7 @@ import org.rsmod.api.testing.GameTestState
 
 class InvInitTest {
     @Test
-    fun GameTestState.`init default player invs`() = runGameTest {
+    fun GameTestState.`init default player invs`() = runBasicGameTest {
         val initializer = InvInit(cacheTypes.invs)
         val defaults = initializer.defaultInvs
         withPlayer {
@@ -21,7 +21,7 @@ class InvInitTest {
     }
 
     @Test
-    fun GameTestState.`cache common player invs`() = runGameTest {
+    fun GameTestState.`cache common player invs`() = runBasicGameTest {
         withPlayer {
             assertTrue(invMap.isNotEmpty())
             assertDoesNotThrow { inv[0] }

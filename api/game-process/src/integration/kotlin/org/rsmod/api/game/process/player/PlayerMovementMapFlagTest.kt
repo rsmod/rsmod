@@ -16,13 +16,13 @@ import org.rsmod.map.CoordGrid
 
 class PlayerMovementMapFlagTest {
     @Test
-    fun GameTestState.`empty route resets map flag`() = runGameTest {
+    fun GameTestState.`empty route resets map flag`() = runBasicGameTest {
         val player = playerFactory.create()
         val captured = player.attachClientCapture()
 
         val movement = createMovementProcessor()
         fun process() {
-            captured.flush()
+            captured.clear()
             player.previousCoords = player.coords
             player.currentMapClock++
             movement.process(player)
@@ -36,7 +36,7 @@ class PlayerMovementMapFlagTest {
     }
 
     @Test
-    fun GameTestState.`map flag is reset on last step consumption`() = runGameTest {
+    fun GameTestState.`map flag is reset on last step consumption`() = runBasicGameTest {
         val collision = collisionFactory.borrowSharedMap()
         val routeFactory = RouteFactory(collision)
         val stepFactory = StepFactory(collision)
@@ -49,7 +49,7 @@ class PlayerMovementMapFlagTest {
 
             val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory)
             fun process() {
-                captured.flush()
+                captured.clear()
                 previousCoords = coords
                 currentMapClock++
                 movement.process(this)
@@ -89,7 +89,7 @@ class PlayerMovementMapFlagTest {
 
             val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory)
             fun process() {
-                captured.flush()
+                captured.clear()
                 previousCoords = coords
                 currentMapClock++
                 movement.process(this)
@@ -134,7 +134,7 @@ class PlayerMovementMapFlagTest {
 
             val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory)
             fun process() {
-                captured.flush()
+                captured.clear()
                 previousCoords = coords
                 currentMapClock++
                 movement.process(this)
@@ -190,7 +190,7 @@ class PlayerMovementMapFlagTest {
 
             val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory)
             fun process() {
-                captured.flush()
+                captured.clear()
                 previousCoords = coords
                 currentMapClock++
                 movement.process(this)
@@ -247,7 +247,7 @@ class PlayerMovementMapFlagTest {
     }
 
     @Test
-    fun GameTestState.`emulate map flags in lumbridge castle route`() = runGameTest {
+    fun GameTestState.`emulate map flags in lumbridge castle route`() = runBasicGameTest {
         val expectedCoordinates =
             listOf(
                 CoordGrid(0, 50, 50, 10, 12),
@@ -270,7 +270,7 @@ class PlayerMovementMapFlagTest {
 
         val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory)
         fun process() {
-            captured.flush()
+            captured.clear()
             player.previousCoords = player.coords
             player.currentMapClock++
             movement.process(player)

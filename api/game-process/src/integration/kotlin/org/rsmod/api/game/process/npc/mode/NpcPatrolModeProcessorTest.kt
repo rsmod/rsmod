@@ -22,7 +22,7 @@ class NpcPatrolModeProcessorTest {
      * be handled on the same cycle. (patrol/npc modes are processed before movement)
      */
     @Test
-    fun GameTestState.`immediately queue movement after teleport`() = runGameTest {
+    fun GameTestState.`immediately queue movement after teleport`() = runBasicGameTest {
         withCollisionState {
             val patrol = NpcPatrol(LUMBRIDGE_CASTLE_PATROL)
             val start = patrol[0].destination.translateX(-2)
@@ -75,7 +75,7 @@ class NpcPatrolModeProcessorTest {
      * cycle pause delay. One less cycle than if the NPC had simply walked there.
      */
     @Test
-    fun GameTestState.`emulate pause delay timing after teleport`() = runGameTest {
+    fun GameTestState.`emulate pause delay timing after teleport`() = runBasicGameTest {
         withCollisionState {
             val patrol = NpcPatrol(LUMBRIDGE_CASTLE_PATROL)
             val start = patrol[2].destination
@@ -146,7 +146,7 @@ class NpcPatrolModeProcessorTest {
      * reaching said waypoint before they can resume patrolling.
      */
     @Test
-    fun GameTestState.`emulate pause delay timing`() = runGameTest {
+    fun GameTestState.`emulate pause delay timing`() = runBasicGameTest {
         withCollisionState {
             val patrol = NpcPatrol(LUMBRIDGE_CASTLE_PATROL)
             val start = patrol[2].destination
@@ -207,7 +207,7 @@ class NpcPatrolModeProcessorTest {
      * teleport.
      */
     @Test
-    fun GameTestState.`emulate teleport delay timing`() = runGameTest {
+    fun GameTestState.`emulate teleport delay timing`() = runBasicGameTest {
         withCollisionState {
             val patrol = NpcPatrol(LUMBRIDGE_CASTLE_PATROL)
             val start = patrol[2].destination
@@ -256,7 +256,7 @@ class NpcPatrolModeProcessorTest {
     }
 
     @Test
-    fun GameTestState.`process hans lumbridge castle patrol`() = runGameTest {
+    fun GameTestState.`process hans lumbridge castle patrol`() = runBasicGameTest {
         withCollisionState {
             val patrol = NpcPatrol(LUMBRIDGE_CASTLE_PATROL)
             // Start one tile behind the initial patrol waypoint, so we can time a full run

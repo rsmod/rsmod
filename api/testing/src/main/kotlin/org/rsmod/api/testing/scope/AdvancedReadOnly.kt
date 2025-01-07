@@ -1,4 +1,4 @@
-package org.rsmod.api.testing.advanced
+package org.rsmod.api.testing.scope
 
 import jakarta.inject.Inject
 import org.rsmod.api.registry.loc.LocRegistry

@@ -1,4 +1,4 @@
-package org.rsmod.api.testing.advanced
+package org.rsmod.api.testing.scope
 
 /**
  * Provides a higher-privilege testing scope for integration tests.

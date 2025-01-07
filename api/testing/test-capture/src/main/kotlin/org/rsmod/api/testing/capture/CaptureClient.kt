@@ -61,6 +61,10 @@ public class CaptureClient : Client<Any, Any> {
 
     public operator fun contains(message: Any): Boolean = message in messages
 
+    public fun clear() {
+        _messages.clear()
+    }
+
     override fun open(service: Any, player: Player) {
         sessionOpened = true
     }
@@ -75,9 +79,7 @@ public class CaptureClient : Client<Any, Any> {
 
     override fun read(player: Player) {}
 
-    override fun flush() {
-        _messages.clear()
-    }
+    override fun flush() {}
 
     override fun preparePlayerCycle(player: Player) {}
 

@@ -11,7 +11,7 @@ import org.rsmod.api.testing.GameTestState
 
 class PlayerProtectedAccessTest {
     @Test
-    fun GameTestState.`lambda exits gracefully when protected access is lost`() = runGameTest {
+    fun GameTestState.`lambda exits gracefully when protected access is lost`() = runBasicGameTest {
         withPlayer {
             var launched = false
             var unreachableInput: Int? = null
@@ -47,7 +47,7 @@ class PlayerProtectedAccessTest {
     }
 
     @Test
-    fun GameTestState.`lambda continues normally with protected access`() = runGameTest {
+    fun GameTestState.`lambda continues normally with protected access`() = runBasicGameTest {
         withPlayer {
             var launched = false
             var validInput: Int? = null

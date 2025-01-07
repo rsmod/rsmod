@@ -13,7 +13,6 @@ import org.rsmod.api.game.process.player.PlayerZoneUpdateProcessor.Companion.ZON
 import org.rsmod.api.registry.loc.LocRegistry
 import org.rsmod.api.registry.obj.ObjRegistry
 import org.rsmod.api.registry.zone.ZoneUpdateMap
-import org.rsmod.api.testing.GameTestScope
 import org.rsmod.api.testing.GameTestState
 import org.rsmod.api.testing.capture.attachClientCapture
 import org.rsmod.api.testing.factory.collisionFactory
@@ -25,6 +24,7 @@ import org.rsmod.api.testing.factory.playerFactory
 import org.rsmod.api.testing.factory.smallBlockWalk
 import org.rsmod.api.testing.factory.stackable1
 import org.rsmod.api.testing.factory.standard1
+import org.rsmod.api.testing.scope.BasicGameTestScope
 import org.rsmod.api.utils.map.zone.SharedZoneEnclosedBuffers
 import org.rsmod.game.loc.LocEntity
 import org.rsmod.game.loc.LocInfo
@@ -68,6 +68,7 @@ class PlayerZoneUpdateProcessorTest {
                 zoneProcessor.clearPendingZoneUpdates()
                 // Clear zone prots from previous cycle.
                 client.flush()
+                captured.clear()
                 buildProcessor.process(this)
                 zoneProcessor.process(this)
             }
@@ -173,8 +174,8 @@ class PlayerZoneUpdateProcessorTest {
 
         fun endCycle() {
             zoneProcessor.clearPendingZoneUpdates()
-            client1.flush()
-            client2.flush()
+            client1.clear()
+            client2.clear()
         }
 
         // Skip the initial set-up phase for new build area.
@@ -250,7 +251,7 @@ class PlayerZoneUpdateProcessorTest {
         endCycle()
     }
 
-    private fun GameTestScope.createZoneProcess(): ZoneProcessParams {
+    private fun BasicGameTestScope.createZoneProcess(): ZoneProcessParams {
         val zoneUpdates = ZoneUpdateMap()
         val collision = collisionFactory.borrowSharedMap()
         val locTypes = locTypeListFactory.createDefault()

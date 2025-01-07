@@ -29,7 +29,7 @@ import org.rsmod.objtx.isOk
 @Execution(ExecutionMode.SAME_THREAD)
 class InvTransactionsTest {
     @Test
-    fun GameTestState.`add obj successfully`() = runGameTest {
+    fun GameTestState.`add obj successfully`() = runBasicGameTest {
         withPlayerInit {
             check(inv.isEmpty())
             invAdd(inv, objs.abyssal_whip.obj(count = 2), slot = 3)
@@ -40,7 +40,7 @@ class InvTransactionsTest {
     }
 
     @Test
-    fun GameTestState.`delete obj successfully`() = runGameTest {
+    fun GameTestState.`delete obj successfully`() = runBasicGameTest {
         withPlayerInit {
             inv[5] = objs.fire_cape.obj()
             val transaction = invDel(inv, objs.fire_cape.obj(count = 2), strict = false).single()
@@ -53,7 +53,7 @@ class InvTransactionsTest {
     }
 
     @Test
-    fun GameTestState.`swap inv objs`() = runGameTest {
+    fun GameTestState.`swap inv objs`() = runBasicGameTest {
         val fromSlot = 10
         val toSlot = 4
         withPlayerInit {
@@ -70,7 +70,7 @@ class InvTransactionsTest {
     }
 
     @Test
-    fun GameTestState.`insert obj into bank`() = runGameTest {
+    fun GameTestState.`insert obj into bank`() = runBasicGameTest {
         withPlayerInit {
             check(inv.isEmpty())
             val bank = invMap.getOrPut(cacheTypes.invs[invs.bank])
@@ -88,7 +88,7 @@ class InvTransactionsTest {
     }
 
     @Test
-    fun GameTestState.`withdraw obj from bank with placeholder`() = runGameTest {
+    fun GameTestState.`withdraw obj from bank with placeholder`() = runBasicGameTest {
         withPlayerInit {
             check(inv.isEmpty())
             val placeholder = cacheTypes.objs[objs.abyssal_whip].placeholderlink
@@ -108,7 +108,7 @@ class InvTransactionsTest {
     }
 
     @Test
-    fun GameTestState.`equip stackable obj in worn with overflow leftover`() = runGameTest {
+    fun GameTestState.`equip stackable obj in worn with overflow leftover`() = runBasicGameTest {
         withPlayerInit {
             check(worn.isEmpty())
             check(inv.isEmpty())
@@ -134,7 +134,7 @@ class InvTransactionsTest {
     }
 
     @Test
-    fun GameTestState.`swap inv obj slots`() = runGameTest {
+    fun GameTestState.`swap inv obj slots`() = runBasicGameTest {
         withPlayerInit {
             check(inv.isEmpty())
             val item1 = objs.berserker_ring.obj()
@@ -156,7 +156,7 @@ class InvTransactionsTest {
 
     @TestWithArgs(WearposProvider::class)
     fun `equip obj in wearpos`(wearpos: Wearpos, type: ObjType, count: Int, test: GameTestState) =
-        test.runGameTest {
+        test.runBasicGameTest {
             val invSlot = 5
             withPlayerInit {
                 check(worn.isEmpty())

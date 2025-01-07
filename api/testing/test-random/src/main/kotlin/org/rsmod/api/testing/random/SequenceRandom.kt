@@ -57,6 +57,9 @@ public class SequenceRandom(private val sequence: MutableList<Int>) : GameRandom
     private var writerIndex = 0
     private var readerIndex = 0
 
+    public val hasNext: Boolean
+        get() = readerIndex < writerIndex
+
     private val size: Int
         get() = sequence.size
 
@@ -108,15 +111,7 @@ public class SequenceRandom(private val sequence: MutableList<Int>) : GameRandom
 
     override fun of(maxExclusive: Int): Int = nextInt()
 
-    override fun of(minInclusive: Int, maxInclusive: Int): Int {
-        val next = nextInt()
-        if (next !in minInclusive..maxInclusive) {
-            throw IllegalStateException(
-                "The next value `$next` in the sequence is not between $minInclusive-$maxInclusive."
-            )
-        }
-        return next
-    }
+    override fun of(minInclusive: Int, maxInclusive: Int): Int = nextInt()
 
     private fun nextInt(): Int {
         if (readerIndex !in sequence.indices) {

@@ -7,5 +7,6 @@ kotlin {
 }
 
 dependencies {
+    api(libs.rsprot.api)
     implementation(projects.engine.game)
 }

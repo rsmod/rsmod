@@ -8,6 +8,7 @@ kotlin {
 
 dependencies {
     api(projects.api.cache)
+    api(projects.api.random)
     api(projects.api.route)
     api(projects.api.testing.testAssertions)
     api(projects.api.testing.testCapture)
@@ -25,8 +26,12 @@ dependencies {
     implementation(libs.jupiter.api)
     implementation(projects.api.cache)
     implementation(projects.api.gameProcess)
+    implementation(projects.api.invPlugin)
     implementation(projects.api.npc)
     implementation(projects.api.player)
     implementation(projects.api.registry)
+    implementation(projects.api.repo)
+    implementation(projects.engine.annotations)
+    implementation(projects.engine.plugin)
     implementation(projects.server.app)
 }

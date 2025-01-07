@@ -14,7 +14,7 @@ import org.rsmod.map.CoordGrid
 // purposes.
 class PlayerTeleportTest {
     @Test
-    fun GameTestState.`teleport takes player to destination`() = runGameTest {
+    fun GameTestState.`teleport takes player to destination`() = runBasicGameTest {
         withPlayer {
             val dest = CoordGrid(0, 50, 50, 9, 10)
             coords = CoordGrid(0, 50, 50, 10, 10)
@@ -24,7 +24,7 @@ class PlayerTeleportTest {
     }
 
     @Test
-    fun GameTestState.`teleport flags player with walk movespeed`() = runGameTest {
+    fun GameTestState.`teleport flags player with walk movespeed`() = runBasicGameTest {
         withPlayer {
             val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory)
             val dest = CoordGrid(0, 50, 50, 9, 10)
@@ -39,7 +39,7 @@ class PlayerTeleportTest {
     }
 
     @Test
-    fun GameTestState.`telejump takes player to destination`() = runGameTest {
+    fun GameTestState.`telejump takes player to destination`() = runBasicGameTest {
         withPlayer {
             val dest = CoordGrid(0, 50, 50, 9, 10)
             coords = CoordGrid(0, 50, 50, 10, 10)
@@ -55,7 +55,7 @@ class PlayerTeleportTest {
     }
 
     @Test
-    fun GameTestState.`telejump flags player with stationary movespeed`() = runGameTest {
+    fun GameTestState.`telejump flags player with stationary movespeed`() = runBasicGameTest {
         withPlayer {
             val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory)
             val dest = CoordGrid(0, 50, 50, 9, 10)

@@ -13,7 +13,7 @@ import org.rsmod.map.square.MapSquareKey
 
 class PlayerFaceSquareProcessorTest {
     @Test
-    fun GameTestState.`face angle is delayed until no movement`() = runGameTest {
+    fun GameTestState.`face angle is delayed until no movement`() = runBasicGameTest {
         withCollisionState {
             val start = CoordGrid(0, 0, 0, 10, 10)
             val moveDest = CoordGrid(0, 0, 0, 10, 15)
@@ -64,7 +64,7 @@ class PlayerFaceSquareProcessorTest {
     }
 
     @Test
-    fun GameTestState.`send default face angle on player init`() = runGameTest {
+    fun GameTestState.`send default face angle on player init`() = runBasicGameTest {
         withPlayer {
             val facing = PlayerFaceSquareProcessor()
             fun process() {
@@ -81,7 +81,7 @@ class PlayerFaceSquareProcessorTest {
     }
 
     @Test
-    fun GameTestState.`reset pending face square after setting face angle`() = runGameTest {
+    fun GameTestState.`reset pending face square after setting face angle`() = runBasicGameTest {
         withPlayer {
             val facing = PlayerFaceSquareProcessor()
             fun process() {
@@ -102,7 +102,7 @@ class PlayerFaceSquareProcessorTest {
     @TestWithArgs(DirectionProvider::class)
     fun `calculate correct angle based on direction`(dir: Direction, state: GameTestState) =
         with(state) {
-            runGameTest {
+            runBasicGameTest {
                 val start = CoordGrid(0, 0, 0, 16, 16)
                 val target = start.translate(dir.xOff * 5, dir.zOff * 5)
                 withPlayer(start) {

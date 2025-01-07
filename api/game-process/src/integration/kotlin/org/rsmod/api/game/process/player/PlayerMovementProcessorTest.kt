@@ -21,7 +21,7 @@ import org.rsmod.pathfinder.flag.CollisionFlag
 
 class PlayerMovementProcessorTest {
     @Test
-    fun GameTestState.`reset temp speed only when destination queue is empty`() = runGameTest {
+    fun GameTestState.`reset temp speed only when destination queue is empty`() = runBasicGameTest {
         withCollisionState {
             val movement = PlayerMovementProcessor(it.collision, it.routeFactory, it.stepFactory)
             val sourceCoords = CoordGrid(0, 0, 0, 0, 0)
@@ -86,7 +86,7 @@ class PlayerMovementProcessorTest {
     }
 
     @Test
-    fun GameTestState.`only recalc while not busy`() = runGameTest {
+    fun GameTestState.`only recalc while not busy`() = runBasicGameTest {
         withCollisionState {
             val movement = PlayerMovementProcessor(it.collision, it.routeFactory, it.stepFactory)
             val sourceCoords = CoordGrid(0, 0, 0, 0, 0)
@@ -161,7 +161,7 @@ class PlayerMovementProcessorTest {
      * @see <img width=240 height=239 src="https://i.imgur.com/JUEY1Uv.png">
      */
     @Test
-    fun GameTestState.`recalculate route during last waypoint stretch`() = runGameTest {
+    fun GameTestState.`recalculate route during last waypoint stretch`() = runBasicGameTest {
         withCollisionState {
             val sourceStart = CoordGrid(0, 0, 0, 7, 7)
             val targetStart = CoordGrid(0, 0, 0, 0, 7)
@@ -248,7 +248,7 @@ class PlayerMovementProcessorTest {
     }
 
     @Test
-    fun GameTestState.`walk towards waypoints`() = runGameTest {
+    fun GameTestState.`walk towards waypoints`() = runBasicGameTest {
         val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory)
         val start = CoordGrid(3194, 3199)
         val waypoints =
@@ -285,7 +285,7 @@ class PlayerMovementProcessorTest {
      * X = further away than tiles the player could process in that single game cycle.
      */
     @Test
-    fun GameTestState.`consume waypoints only on arrival`() = runGameTest {
+    fun GameTestState.`consume waypoints only on arrival`() = runBasicGameTest {
         val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory)
         // North of Lumbridge fountain.
         val start = CoordGrid(3221, 3228)
@@ -307,7 +307,7 @@ class PlayerMovementProcessorTest {
      * will complete the route by walking the last step.
      */
     @Test
-    fun GameTestState.`finish off walking when coords are odd-tiles away`() = runGameTest {
+    fun GameTestState.`finish off walking when coords are odd-tiles away`() = runBasicGameTest {
         val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory)
         val start = CoordGrid(3200, 3200)
         /* verify running > 1 tile does _not_ queue extended-info update */
@@ -333,7 +333,7 @@ class PlayerMovementProcessorTest {
     }
 
     @Test
-    fun GameTestState.`emulate initial log-in fail route mechanic`() = runGameTest {
+    fun GameTestState.`emulate initial log-in fail route mechanic`() = runBasicGameTest {
         val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory)
         val startCoords = CoordGrid(3357, 3141)
         val destination = CoordGrid(3384, 3155)
@@ -392,7 +392,7 @@ class PlayerMovementProcessorTest {
 
     @TestWithArgs(StandardMoveSpeedProvider::class)
     fun `correct move speed steps per process`(speed: MoveSpeed, state: GameTestState) =
-        state.runGameTest {
+        state.runBasicGameTest {
             // Utilize a new collision state so that collision flags do not
             // interfere with test.
             withCollisionState {
