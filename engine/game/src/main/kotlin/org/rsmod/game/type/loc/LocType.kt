@@ -2,6 +2,7 @@ package org.rsmod.game.type.loc
 
 import kotlin.contracts.contract
 import org.rsmod.game.loc.LocInfo
+import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.param.ParamType
 import org.rsmod.game.type.util.ParamMap
 
@@ -102,6 +103,8 @@ public class UnpackedLocType(
     internalId: Int,
     internalName: String,
 ) : LocType(internalId, internalName) {
+    public fun isAssociatedWith(content: ContentGroupType): Boolean = contentGroup == content.id
+
     public fun <T : Any> param(type: ParamType<T>): T {
         val params = paramMap
         if (params == null) {

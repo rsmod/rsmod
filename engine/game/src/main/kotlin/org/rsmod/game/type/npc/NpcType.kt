@@ -5,6 +5,7 @@ import org.rsmod.game.entity.npc.NpcPatrol
 import org.rsmod.game.map.Direction
 import org.rsmod.game.movement.BlockWalk
 import org.rsmod.game.movement.MoveRestrict
+import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.param.ParamType
 import org.rsmod.game.type.util.ParamMap
 
@@ -112,6 +113,8 @@ public class UnpackedNpcType(
     internalId: Int,
     internalName: String,
 ) : NpcType(internalId, internalName) {
+    public fun isAssociatedWith(content: ContentGroupType): Boolean = contentGroup == content.id
+
     public fun <T : Any> param(type: ParamType<T>): T {
         val params = paramMap
         if (params == null) {
