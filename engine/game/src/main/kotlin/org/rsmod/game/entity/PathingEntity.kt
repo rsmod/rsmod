@@ -102,6 +102,21 @@ public sealed class PathingEntity {
     public val cyclesWithoutMovement: Int
         get() = currentMapClock - lastMovement
 
+    /**
+     * Returns `true` if the entity has a pending interaction or active route waypoint.
+     *
+     * _Note: Terrible name, but used for consistency with official naming._
+     */
+    public val isBusy2: Boolean
+        get() = interaction != null || routeDestination.isNotEmpty()
+
+    /**
+     * Returns `true` if the entity does not have a pending interaction or an active route waypoint.
+     * In other words, returns the inverse of [isBusy2].
+     */
+    public val isIdle: Boolean
+        get() = !isBusy2
+
     public val isFacingEntity: Boolean
         get() = faceEntitySlot != -1
 
