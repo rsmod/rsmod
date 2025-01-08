@@ -64,6 +64,10 @@ constructor(
                 angle = loc.entity.angle,
                 forceApproachFlags = type.forceApproachFlags,
             )
+        if (!type.hasOp(message.op)) {
+            logger.debug { "OpLoc blocked due to op: op=${message.op}, loc=$boundLoc type=$type" }
+            return
+        }
         player.clearPendingAction(eventBus)
         player.resetFaceEntity()
         player.faceLoc(loc, type.width, type.length)

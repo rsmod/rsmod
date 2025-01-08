@@ -158,6 +158,13 @@ public class UnpackedObjType(
 
     public fun <T : Any> hasParam(type: ParamType<T>): Boolean = paramOrNull(type) != null
 
+    public fun hasOp(slot: Int): Boolean {
+        require(slot > 0) { "`opSlot` must be greater than 0." }
+        val text = op.getOrNull(slot - 1) ?: return false
+        val invalid = text.isBlank() || text.equals("hidden", ignoreCase = true)
+        return !invalid
+    }
+
     public fun toHashedType(): HashedObjType =
         HashedObjType(
             internalId = internalId,

@@ -51,6 +51,10 @@ constructor(
                 hasApTrigger = apTrigger,
             )
         val routeRequest = RouteRequestPathingEntity(npc.avatar)
+        if (!npc.type.hasOp(message.op)) {
+            logger.debug { "OpNpc blocked due to op: op=${message.op}, npc=$npc" }
+            return
+        }
         player.clearPendingAction(eventBus)
         player.faceNpc(npc)
         player.interaction = interaction
