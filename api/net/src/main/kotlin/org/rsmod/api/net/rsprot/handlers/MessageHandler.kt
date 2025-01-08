@@ -7,7 +7,7 @@ import org.rsmod.game.entity.Player
 fun interface MessageHandler<in T : IncomingGameMessage> : MessageConsumer<Player, T> {
     fun handle(player: Player, message: T)
 
-    override fun consume(t: Player, u: T) {
-        handle(t, u)
+    override fun consume(receiver: Player, message: T) {
+        handle(receiver, message)
     }
 }

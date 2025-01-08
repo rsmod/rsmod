@@ -35,7 +35,6 @@ constructor(
         players.forEach { it.tryOrDisconnect { clientPostProcess() } }
     }
 
-    @Suppress("DeferredResultUnused")
     private fun PlayerList.process() = runBlocking {
         for (player in this@process) {
             player.currentMapClock = mapClock.cycle

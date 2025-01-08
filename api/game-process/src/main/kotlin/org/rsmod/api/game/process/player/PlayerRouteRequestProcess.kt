@@ -18,6 +18,7 @@ constructor(private val players: PlayerList, private val movement: PlayerMovemen
         players.process()
     }
 
+    @Suppress("DeferredResultUnused")
     private fun PlayerList.process() = runBlocking {
         supervisorScope {
             for (player in this@process) {
