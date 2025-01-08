@@ -158,15 +158,36 @@ constructor(
         }
 
     private fun findNormal(coords: CoordGrid, id: Int?, shape: Int?, angle: Int?): LocInfo? {
-        val spawnedLoc = spawnedLocs.find(coords, id, shape, angle)
-        return when {
-            spawnedLoc != null && spawnedLoc.entity.id == DELETED_LOC_ID -> null
-            spawnedLoc != null -> spawnedLoc
-            else -> mapLocs.find(coords, id, shape, angle)
+        val spawnedLoc = spawnedLocs.find(coords, id, shape, angle, layer = null)
+        if (spawnedLoc != null) {
+            if (spawnedLoc.entity.id == DELETED_LOC_ID) {
+                return null
+            }
+            return spawnedLoc
         }
+
+        val mapLoc = mapLocs.find(coords, id, shape, angle, layer = null) ?: return null
+
+        // Map locs can sometimes be replaced by a spawned loc that occupies the same "layer."
+        // Take for example trees being replaced by tree stumps during woodcutting; these will
+        // share shape and angle, but are different locs. Without this condition, the original
+        // tree would be found in `mapLocs` and would otherwise return as a valid `LocInfo.`
+        val layeredLoc =
+            spawnedLocs.find(coords, id = null, shape = null, angle = null, layer = mapLoc.layer)
+        if (layeredLoc != null) {
+            return null
+        }
+
+        return mapLoc
     }
 
-    private fun ZoneLocMap.find(coords: CoordGrid, id: Int?, shape: Int?, angle: Int?): LocInfo? {
+    private fun ZoneLocMap.find(
+        coords: CoordGrid,
+        id: Int?,
+        shape: Int?,
+        angle: Int?,
+        layer: Int?,
+    ): LocInfo? {
         val zoneKey = ZoneKey.from(coords)
         val entries = this[zoneKey]?.byte2IntEntrySet() ?: return null
         val zoneCoords = zoneKey.toCoords()
@@ -182,6 +203,9 @@ constructor(
                 continue
             }
             val locKey = LocZoneKey(entry.byteKey)
+            if (layer != null && locKey.layer != layer) {
+                continue
+            }
             val locCoords = zoneCoords.translate(locKey.x, locKey.z)
             if (locCoords != coords) {
                 continue

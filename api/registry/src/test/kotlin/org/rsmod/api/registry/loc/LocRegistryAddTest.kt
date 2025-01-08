@@ -2,15 +2,16 @@ package org.rsmod.api.registry.loc
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotEquals
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import org.rsmod.api.testing.factory.collisionFactory
 import org.rsmod.api.testing.factory.locFactory
 import org.rsmod.api.testing.factory.locRegistryFactory
 import org.rsmod.api.testing.factory.locTypeListFactory
+import org.rsmod.api.testing.factory.mediumBlockRange
 import org.rsmod.api.testing.factory.mediumBlockWalk
 import org.rsmod.api.testing.factory.smallBlockRange
 import org.rsmod.api.testing.factory.smallBlockWalk
-import org.rsmod.game.loc.LocAngle
 import org.rsmod.game.loc.LocEntity
 import org.rsmod.game.loc.LocShape
 import org.rsmod.game.loc.LocZoneKey
@@ -138,8 +139,8 @@ class LocRegistryAddTest {
 
         collision.allocateIfAbsent(0, 0, 0)
 
-        val mapLoc = locFactory.create(types.mediumBlockWalk(), angle = LocAngle.West)
-        val spawnLoc = locFactory.create(types.mediumBlockWalk(), angle = LocAngle.South)
+        val mapLoc = locFactory.create(types.mediumBlockWalk())
+        val spawnLoc = locFactory.create(types.mediumBlockRange())
 
         // Manually set the map loc.
         val zoneKey = ZoneKey.from(mapLoc.coords)
@@ -157,5 +158,8 @@ class LocRegistryAddTest {
 
         // Map loc should be masked by newly-spawned loc and be ignored during find lookups.
         assertEquals(setOf(spawnLoc), registry.findAll(zoneKey).toSet())
+
+        // Map loc should no longer be found via `find` functions.
+        assertNull(registry.find(mapLoc.coords, mapLoc.id, mapLoc.shapeId, mapLoc.angleId))
     }
 }
