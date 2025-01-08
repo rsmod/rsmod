@@ -130,6 +130,8 @@ public class UnpackedNpcType(
 
     public fun <T : Any> paramOrNull(type: ParamType<T>): T? = paramMap?.get(type)
 
+    public fun <T : Any> hasParam(type: ParamType<T>): Boolean = paramOrNull(type) != null
+
     public fun toHashedType(): HashedNpcType =
         HashedNpcType(
             internalId = internalId,
