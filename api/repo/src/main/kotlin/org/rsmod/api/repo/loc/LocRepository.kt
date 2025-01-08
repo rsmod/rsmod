@@ -71,6 +71,15 @@ constructor(
         return true
     }
 
+    public fun change(from: BoundLocInfo, into: LocType, duration: Int): Unit =
+        change(from.toLocInfo(), into, duration)
+
+    public fun change(from: LocInfo, into: LocType, duration: Int) {
+        val delete = del(from, duration)
+        check(delete) { "Loc could not be deleted: $from" }
+        add(from.coords, into, duration, from.angle, from.shape)
+    }
+
     private fun LocRegistryResult.canRespawn(): Boolean = this == LocRegistryResult.DeleteMapLoc
 
     private fun BoundLocInfo.toLocInfo(): LocInfo = LocInfo(layer, coords, entity)
