@@ -27,7 +27,7 @@ dependencies {
     implementation(projects.engine.game)
     implementation(projects.engine.map)
     implementation(projects.engine.module)
-    implementation(projects.engine.pathfinder)
+    implementation(projects.engine.routefinder)
     implementation(projects.engine.plugin)
     implementation(projects.engine.scheduler)
     implementation(projects.server.shared)

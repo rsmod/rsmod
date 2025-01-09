@@ -18,9 +18,9 @@ import org.rsmod.api.testing.scope.GameTestScope
 import org.rsmod.events.EventBus
 import org.rsmod.game.map.XteaMap
 import org.rsmod.game.type.TypeListMap
-import org.rsmod.pathfinder.collision.CollisionFlagMap
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
+import org.rsmod.routefinder.collision.CollisionFlagMap
 import org.rsmod.server.app.GameServer
 
 public class GameTestState {

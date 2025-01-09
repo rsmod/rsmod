@@ -11,9 +11,9 @@ import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.movement.RouteDestination
 import org.rsmod.game.movement.RouteRequest
 import org.rsmod.map.CoordGrid
-import org.rsmod.pathfinder.Route
-import org.rsmod.pathfinder.collision.CollisionFlagMap
-import org.rsmod.pathfinder.flag.CollisionFlag
+import org.rsmod.routefinder.Route
+import org.rsmod.routefinder.collision.CollisionFlagMap
+import org.rsmod.routefinder.flag.CollisionFlag
 
 public class PlayerMovementProcessor
 @Inject

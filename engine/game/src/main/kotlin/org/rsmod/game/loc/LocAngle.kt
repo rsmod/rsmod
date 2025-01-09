@@ -1,6 +1,6 @@
 package org.rsmod.game.loc
 
-import org.rsmod.pathfinder.loc.LocAngleConstants
+import org.rsmod.routefinder.loc.LocAngleConstants
 
 public enum class LocAngle(public val id: Int) {
     West(LocAngleConstants.WEST),

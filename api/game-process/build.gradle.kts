@@ -26,7 +26,7 @@ dependencies {
     implementation(projects.engine.game)
     implementation(projects.engine.interact)
     implementation(projects.engine.map)
-    implementation(projects.engine.pathfinder)
+    implementation(projects.engine.routefinder)
     integrationImplementation(libs.fastutil)
     integrationImplementation(libs.rsprot.api)
     integrationImplementation(projects.api.player)

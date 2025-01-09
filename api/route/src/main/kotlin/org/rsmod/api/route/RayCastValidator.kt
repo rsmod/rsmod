@@ -3,10 +3,10 @@ package org.rsmod.api.route
 import jakarta.inject.Inject
 import org.rsmod.game.map.Direction
 import org.rsmod.map.CoordGrid
-import org.rsmod.pathfinder.LineValidator
-import org.rsmod.pathfinder.StepValidator
-import org.rsmod.pathfinder.collision.CollisionFlagMap
-import org.rsmod.pathfinder.collision.CollisionStrategy
+import org.rsmod.routefinder.LineValidator
+import org.rsmod.routefinder.StepValidator
+import org.rsmod.routefinder.collision.CollisionFlagMap
+import org.rsmod.routefinder.collision.CollisionStrategy
 
 public class RayCastValidator @Inject constructor(flags: CollisionFlagMap) {
     private val lineValidator: LineValidator = LineValidator(flags)

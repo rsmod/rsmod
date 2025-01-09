@@ -18,5 +18,5 @@ dependencies {
     implementation(projects.engine.game)
     implementation(projects.engine.map)
     implementation(projects.engine.module)
-    implementation(projects.engine.pathfinder)
+    implementation(projects.engine.routefinder)
 }

@@ -4,7 +4,7 @@ import jakarta.inject.Inject
 import org.rsmod.api.random.CoreRandom
 import org.rsmod.api.random.GameRandom
 import org.rsmod.game.entity.Npc
-import org.rsmod.pathfinder.collision.CollisionFlagMap
+import org.rsmod.routefinder.collision.CollisionFlagMap
 
 public class NpcWanderModeProcessor
 @Inject

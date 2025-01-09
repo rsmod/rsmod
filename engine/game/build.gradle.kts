@@ -11,6 +11,6 @@ dependencies {
     implementation(projects.engine.coroutine)
     implementation(projects.engine.events)
     implementation(projects.engine.map)
-    implementation(projects.engine.pathfinder)
+    implementation(projects.engine.routefinder)
     implementation(projects.engine.utilsBits)
 }

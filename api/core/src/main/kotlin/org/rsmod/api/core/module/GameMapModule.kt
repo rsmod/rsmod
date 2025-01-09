@@ -6,7 +6,7 @@ import org.rsmod.api.registry.npc.NpcRegistry
 import org.rsmod.api.registry.obj.ObjRegistry
 import org.rsmod.api.registry.zone.ZoneUpdateMap
 import org.rsmod.module.ExtendedModule
-import org.rsmod.pathfinder.collision.CollisionFlagMap
+import org.rsmod.routefinder.collision.CollisionFlagMap
 
 public object GameMapModule : ExtendedModule() {
     override fun bind() {

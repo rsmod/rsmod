@@ -29,9 +29,9 @@ import org.rsmod.map.square.MapSquareGrid
 import org.rsmod.map.square.MapSquareKey
 import org.rsmod.map.zone.ZoneGrid
 import org.rsmod.map.zone.ZoneKey
-import org.rsmod.pathfinder.collision.CollisionFlagMap
-import org.rsmod.pathfinder.flag.CollisionFlag
-import org.rsmod.pathfinder.loc.LocLayerConstants
+import org.rsmod.routefinder.collision.CollisionFlagMap
+import org.rsmod.routefinder.flag.CollisionFlag
+import org.rsmod.routefinder.loc.LocLayerConstants
 
 public class GameMapDecoder
 @Inject

@@ -19,7 +19,7 @@ dependencies {
     api(projects.engine.game)
     api(projects.engine.map)
     api(projects.engine.objtx)
-    api(projects.engine.pathfinder)
+    api(projects.engine.routefinder)
     implementation(libs.bundles.logging)
     implementation(libs.clikt)
     implementation(libs.guice)

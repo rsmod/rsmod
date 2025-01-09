@@ -13,7 +13,7 @@ import org.rsmod.game.entity.npc.NpcPatrolWaypoint
 import org.rsmod.game.map.collision.add
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.square.MapSquareKey
-import org.rsmod.pathfinder.flag.CollisionFlag
+import org.rsmod.routefinder.flag.CollisionFlag
 
 class NpcPatrolModeProcessorTest {
     /**

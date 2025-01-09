@@ -24,7 +24,7 @@ import org.rsmod.game.entity.shared.PathingEntityCommon
 import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.movement.RouteRequestPathingEntity
 import org.rsmod.map.CoordGrid
-import org.rsmod.pathfinder.collision.CollisionFlagMap
+import org.rsmod.routefinder.collision.CollisionFlagMap
 
 public class BasicGameTestScope(private val eventBus: EventBus) {
     public val mapClock: MapClock = MapClock()

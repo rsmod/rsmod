@@ -1,6 +1,6 @@
 package org.rsmod.game.loc
 
-import org.rsmod.pathfinder.loc.LocShapeConstants
+import org.rsmod.routefinder.loc.LocShapeConstants
 
 public enum class LocShape(public val id: Int) {
     WallStraight(LocShapeConstants.WALL_STRAIGHT),

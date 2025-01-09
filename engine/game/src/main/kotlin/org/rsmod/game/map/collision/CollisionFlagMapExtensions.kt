@@ -3,10 +3,10 @@ package org.rsmod.game.map.collision
 import org.rsmod.game.loc.LocInfo
 import org.rsmod.game.type.loc.UnpackedLocType
 import org.rsmod.map.CoordGrid
-import org.rsmod.pathfinder.collision.CollisionFlagMap
-import org.rsmod.pathfinder.flag.CollisionFlag
-import org.rsmod.pathfinder.loc.LocAngleConstants
-import org.rsmod.pathfinder.loc.LocShapeConstants
+import org.rsmod.routefinder.collision.CollisionFlagMap
+import org.rsmod.routefinder.flag.CollisionFlag
+import org.rsmod.routefinder.loc.LocAngleConstants
+import org.rsmod.routefinder.loc.LocShapeConstants
 
 private typealias LocShapes = LocShapeConstants
 

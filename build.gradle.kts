@@ -4,6 +4,11 @@ plugins {
     id("kotlin-conventions")
 }
 
+allprojects {
+    group = "org.rsmod"
+    version = "0.0.1"
+}
+
 dependencies {
     implementation(projects.server.install)
 }

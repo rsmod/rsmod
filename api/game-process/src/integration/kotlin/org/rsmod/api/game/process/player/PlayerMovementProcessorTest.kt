@@ -17,7 +17,7 @@ import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.movement.RouteRequestCoord
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.zone.ZoneKey
-import org.rsmod.pathfinder.flag.CollisionFlag
+import org.rsmod.routefinder.flag.CollisionFlag
 
 class PlayerMovementProcessorTest {
     @Test

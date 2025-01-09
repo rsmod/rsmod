@@ -3,7 +3,7 @@ package org.rsmod.api.game.process.npc.mode
 import jakarta.inject.Inject
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.npc.NpcPatrol
-import org.rsmod.pathfinder.collision.CollisionFlagMap
+import org.rsmod.routefinder.collision.CollisionFlagMap
 
 public class NpcPatrolModeProcessor @Inject constructor(private val collision: CollisionFlagMap) {
     public fun process(npc: Npc) {

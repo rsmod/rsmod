@@ -20,8 +20,8 @@ import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.timer.TimerType
 import org.rsmod.game.ui.UserInterfaceMap
 import org.rsmod.map.CoordGrid
-import org.rsmod.pathfinder.collision.CollisionStrategy
-import org.rsmod.pathfinder.flag.CollisionFlag
+import org.rsmod.routefinder.collision.CollisionStrategy
+import org.rsmod.routefinder.flag.CollisionFlag
 
 public class Player(
     public var client: Client<Any, Any> = NoopClient,

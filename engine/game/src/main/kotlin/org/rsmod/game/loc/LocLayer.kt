@@ -1,6 +1,6 @@
 package org.rsmod.game.loc
 
-import org.rsmod.pathfinder.loc.LocLayerConstants
+import org.rsmod.routefinder.loc.LocLayerConstants
 
 public enum class LocLayer(public val id: Int) {
     Wall(LocLayerConstants.WALL),

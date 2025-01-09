@@ -10,7 +10,7 @@ import org.rsmod.api.route.StepFactory
 import org.rsmod.events.EventBus
 import org.rsmod.game.map.XteaMap
 import org.rsmod.game.type.TypeListMap
-import org.rsmod.pathfinder.collision.CollisionFlagMap
+import org.rsmod.routefinder.collision.CollisionFlagMap
 
 internal data class GameTestInjected
 @Inject

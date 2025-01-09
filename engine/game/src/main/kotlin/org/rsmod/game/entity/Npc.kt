@@ -17,8 +17,8 @@ import org.rsmod.game.type.queue.QueueType
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.timer.TimerType
 import org.rsmod.map.CoordGrid
-import org.rsmod.pathfinder.collision.CollisionFlagMap
-import org.rsmod.pathfinder.collision.CollisionStrategy
+import org.rsmod.routefinder.collision.CollisionFlagMap
+import org.rsmod.routefinder.collision.CollisionStrategy
 
 public class Npc(
     public val type: UnpackedNpcType,

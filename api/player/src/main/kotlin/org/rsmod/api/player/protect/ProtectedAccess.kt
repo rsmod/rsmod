@@ -70,7 +70,7 @@ import org.rsmod.game.type.synth.SynthType
 import org.rsmod.game.type.timer.TimerType
 import org.rsmod.map.CoordGrid
 import org.rsmod.objtx.TransactionResultList
-import org.rsmod.pathfinder.collision.CollisionFlagMap
+import org.rsmod.routefinder.collision.CollisionFlagMap
 
 private val logger = InlineLogger()
 

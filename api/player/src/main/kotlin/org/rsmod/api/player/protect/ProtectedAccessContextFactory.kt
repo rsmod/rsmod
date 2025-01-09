@@ -5,7 +5,7 @@ import org.rsmod.api.player.interact.LocInteractions
 import org.rsmod.api.random.GameRandom
 import org.rsmod.events.EventBus
 import org.rsmod.game.type.obj.ObjTypeList
-import org.rsmod.pathfinder.collision.CollisionFlagMap
+import org.rsmod.routefinder.collision.CollisionFlagMap
 
 public class ProtectedAccessContextFactory
 @Inject

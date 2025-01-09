@@ -11,7 +11,7 @@ import org.rsmod.game.map.collision.get
 import org.rsmod.game.map.collision.set
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.zone.ZoneKey
-import org.rsmod.pathfinder.flag.CollisionFlag
+import org.rsmod.routefinder.flag.CollisionFlag
 
 class NpcMovementProcessorTest {
     /**

@@ -4,7 +4,7 @@ import org.rsmod.api.registry.loc.LocRegistry
 import org.rsmod.api.registry.zone.ZoneUpdateMap
 import org.rsmod.api.testing.factory.map.TestCollisionFactory
 import org.rsmod.game.type.loc.LocTypeList
-import org.rsmod.pathfinder.collision.CollisionFlagMap
+import org.rsmod.routefinder.collision.CollisionFlagMap
 
 public class TestLocRegistryFactory {
     public fun create(

@@ -1,6 +1,6 @@
 package org.rsmod.game.movement
 
-import org.rsmod.pathfinder.flag.CollisionFlag
+import org.rsmod.routefinder.flag.CollisionFlag
 
 public enum class BlockWalk(public val id: Int) {
     None(0),

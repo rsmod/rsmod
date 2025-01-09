@@ -8,7 +8,7 @@ import org.rsmod.game.entity.NpcList
 import org.rsmod.game.entity.PathingEntity
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.zone.ZoneKey
-import org.rsmod.pathfinder.collision.CollisionFlagMap
+import org.rsmod.routefinder.collision.CollisionFlagMap
 
 public class NpcRegistry
 @Inject

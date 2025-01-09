@@ -2,9 +2,9 @@ package org.rsmod.api.route
 
 import jakarta.inject.Inject
 import org.rsmod.map.CoordGrid
-import org.rsmod.pathfinder.LineRouteFinding
-import org.rsmod.pathfinder.RayCast
-import org.rsmod.pathfinder.collision.CollisionFlagMap
+import org.rsmod.routefinder.LineRouteFinding
+import org.rsmod.routefinder.RayCast
+import org.rsmod.routefinder.collision.CollisionFlagMap
 
 public class RayCastFactory @Inject constructor(flags: CollisionFlagMap) {
     private val linePathFinder: LineRouteFinding = LineRouteFinding(flags)

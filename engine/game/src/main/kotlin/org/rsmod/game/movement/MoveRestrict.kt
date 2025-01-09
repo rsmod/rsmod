@@ -1,6 +1,6 @@
 package org.rsmod.game.movement
 
-import org.rsmod.pathfinder.collision.CollisionStrategy
+import org.rsmod.routefinder.collision.CollisionStrategy
 
 public enum class MoveRestrict(public val id: Int) {
     /** Walks on normal terrain. */

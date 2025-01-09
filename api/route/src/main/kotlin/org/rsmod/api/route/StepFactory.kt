@@ -10,11 +10,11 @@ import org.rsmod.game.movement.RouteRequestCoord
 import org.rsmod.game.movement.RouteRequestLoc
 import org.rsmod.game.movement.RouteRequestPathingEntity
 import org.rsmod.map.CoordGrid
-import org.rsmod.pathfinder.RouteFinding
-import org.rsmod.pathfinder.StepValidator
-import org.rsmod.pathfinder.collision.CollisionFlagMap
-import org.rsmod.pathfinder.collision.CollisionStrategy
-import org.rsmod.pathfinder.flag.CollisionFlag
+import org.rsmod.routefinder.RouteFinding
+import org.rsmod.routefinder.StepValidator
+import org.rsmod.routefinder.collision.CollisionFlagMap
+import org.rsmod.routefinder.collision.CollisionStrategy
+import org.rsmod.routefinder.flag.CollisionFlag
 
 public class StepFactory @Inject constructor(flags: CollisionFlagMap) {
     private val validator = StepValidator(flags)

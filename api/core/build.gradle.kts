@@ -24,5 +24,5 @@ dependencies {
     implementation(projects.api.type.typeVerifier)
     implementation(projects.engine.game)
     implementation(projects.engine.module)
-    implementation(projects.engine.pathfinder)
+    implementation(projects.engine.routefinder)
 }

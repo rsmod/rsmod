@@ -15,7 +15,7 @@ import org.rsmod.game.type.loc.LocTypeList
 import org.rsmod.game.type.param.ParamType
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.zone.ZoneKey
-import org.rsmod.pathfinder.loc.LocLayerConstants
+import org.rsmod.routefinder.loc.LocLayerConstants
 
 public class LocRepository
 @Inject

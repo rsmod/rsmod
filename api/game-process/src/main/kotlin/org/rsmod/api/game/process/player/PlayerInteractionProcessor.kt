@@ -23,7 +23,7 @@ import org.rsmod.interact.InteractionStep
 import org.rsmod.interact.InteractionTarget
 import org.rsmod.interact.Interactions
 import org.rsmod.map.CoordGrid
-import org.rsmod.pathfinder.flag.CollisionFlag
+import org.rsmod.routefinder.flag.CollisionFlag
 
 public class PlayerInteractionProcessor
 @Inject

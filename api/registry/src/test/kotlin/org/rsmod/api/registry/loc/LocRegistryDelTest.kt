@@ -19,8 +19,8 @@ import org.rsmod.game.map.collision.get
 import org.rsmod.game.map.collision.set
 import org.rsmod.map.zone.ZoneGrid
 import org.rsmod.map.zone.ZoneKey
-import org.rsmod.pathfinder.collision.CollisionFlagMap
-import org.rsmod.pathfinder.flag.CollisionFlag
+import org.rsmod.routefinder.collision.CollisionFlagMap
+import org.rsmod.routefinder.flag.CollisionFlag
 
 class LocRegistryDelTest {
     @Test

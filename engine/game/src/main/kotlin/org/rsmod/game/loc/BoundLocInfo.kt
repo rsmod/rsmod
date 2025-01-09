@@ -3,7 +3,7 @@ package org.rsmod.game.loc
 import org.rsmod.game.type.loc.UnpackedLocType
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.util.Bounds
-import org.rsmod.pathfinder.util.Rotations
+import org.rsmod.routefinder.util.Rotations
 
 /**
  * [BoundLocInfo] is an enhanced version of [LocInfo] that provides additional details and utilities

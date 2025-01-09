@@ -33,7 +33,7 @@ dependencies {
     api(projects.engine.game)
     api(projects.engine.map)
     api(projects.engine.objtx)
-    api(projects.engine.pathfinder)
+    api(projects.engine.routefinder)
     api(projects.engine.plugin)
     api(projects.engine.scheduler)
 }

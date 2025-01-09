@@ -8,7 +8,7 @@ import org.rsmod.game.movement.RouteRequestCoord
 import org.rsmod.game.seq.EntitySeq
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.map.CoordGrid
-import org.rsmod.pathfinder.collision.CollisionFlagMap
+import org.rsmod.routefinder.collision.CollisionFlagMap
 
 /**
  * This class serves as a shared namespace for functions and logic common to all

@@ -19,9 +19,9 @@ import org.rsmod.game.vars.VariableStringMap
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.util.Bounds
 import org.rsmod.map.zone.ZoneKey
-import org.rsmod.pathfinder.collision.CollisionFlagMap
-import org.rsmod.pathfinder.collision.CollisionStrategy
-import org.rsmod.pathfinder.util.Rotations
+import org.rsmod.routefinder.collision.CollisionFlagMap
+import org.rsmod.routefinder.collision.CollisionStrategy
+import org.rsmod.routefinder.util.Rotations
 
 public sealed class PathingEntity {
     public abstract val avatar: PathingEntityAvatar

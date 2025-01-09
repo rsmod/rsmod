@@ -1,6 +1,6 @@
 package org.rsmod.api.testing.factory.map
 
-import org.rsmod.pathfinder.collision.CollisionFlagMap
+import org.rsmod.routefinder.collision.CollisionFlagMap
 
 public class TestCollisionFactory {
     /**

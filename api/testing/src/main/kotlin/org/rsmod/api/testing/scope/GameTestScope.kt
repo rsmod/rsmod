@@ -62,10 +62,10 @@ import org.rsmod.game.type.varp.VarpTypeList
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.zone.ZoneGrid
 import org.rsmod.map.zone.ZoneKey
-import org.rsmod.pathfinder.collision.CollisionFlagMap
-import org.rsmod.pathfinder.loc.LocLayerConstants
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
+import org.rsmod.routefinder.collision.CollisionFlagMap
+import org.rsmod.routefinder.loc.LocLayerConstants
 
 public class GameTestScope
 @Inject

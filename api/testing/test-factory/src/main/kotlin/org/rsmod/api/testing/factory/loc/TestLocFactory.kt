@@ -7,7 +7,7 @@ import org.rsmod.game.loc.LocInfo
 import org.rsmod.game.loc.LocShape
 import org.rsmod.game.type.loc.UnpackedLocType
 import org.rsmod.map.CoordGrid
-import org.rsmod.pathfinder.loc.LocLayerConstants
+import org.rsmod.routefinder.loc.LocLayerConstants
 
 public class TestLocFactory {
     public fun create(

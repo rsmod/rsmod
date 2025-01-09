@@ -1,3 +1,6 @@
+val ossrhUsername: String? by ext
+val ossrhPassword: String? by ext
+
 plugins {
     `maven-publish`
     signing
@@ -13,8 +16,6 @@ publishing {
                 setUrl("https://oss.sonatype.org/service/local/staging/deploy/maven2")
             }
             credentials {
-                val ossrhUsername: String? by ext
-                val ossrhPassword: String? by ext
                 username = ossrhUsername
                 password = ossrhPassword
             }

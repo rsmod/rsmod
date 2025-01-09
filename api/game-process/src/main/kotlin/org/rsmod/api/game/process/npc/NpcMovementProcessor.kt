@@ -9,10 +9,10 @@ import org.rsmod.game.movement.RouteRequestCoord
 import org.rsmod.game.movement.RouteRequestLoc
 import org.rsmod.game.movement.RouteRequestPathingEntity
 import org.rsmod.map.CoordGrid
-import org.rsmod.pathfinder.RouteCoordinates
-import org.rsmod.pathfinder.RouteFinding
-import org.rsmod.pathfinder.collision.CollisionFlagMap
-import org.rsmod.pathfinder.collision.CollisionStrategy
+import org.rsmod.routefinder.RouteCoordinates
+import org.rsmod.routefinder.RouteFinding
+import org.rsmod.routefinder.collision.CollisionFlagMap
+import org.rsmod.routefinder.collision.CollisionStrategy
 
 public class NpcMovementProcessor
 @Inject
