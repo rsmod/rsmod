@@ -21,7 +21,6 @@ publishing {
     publications.create<MavenPublication>("maven") {
         from(components["java"])
         groupId = project.group.toString()
-        artifactId = "rsmod-routefinder"
         version = project.version.toString()
         pom {
             packaging = "jar"

@@ -23,15 +23,7 @@ publishing {
     }
 
     publications.withType<MavenPublication> {
-        val targetName = this@withType.name
-
-        artifact(tasks.register("${targetName}JavadocJar", Jar::class) {
-            group = LifecycleBasePlugin.BUILD_GROUP
-            description = "Assembles a jar archive containing the Javadoc API documentation of target '$targetName'."
-            archiveClassifier.set("javadoc")
-            archiveAppendix.set(targetName)
-        })
-
+        artifactId = "rsmod-${project.name}"
         pom {
             name.set(project.name)
             description.set(project.description)
