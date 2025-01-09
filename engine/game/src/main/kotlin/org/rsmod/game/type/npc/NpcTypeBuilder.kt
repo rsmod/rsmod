@@ -8,6 +8,7 @@ import org.rsmod.game.movement.MoveRestrict
 import org.rsmod.game.type.util.CompactableIntArray
 import org.rsmod.game.type.util.GenericPropertySelector.select
 import org.rsmod.game.type.util.GenericPropertySelector.selectIntArray
+import org.rsmod.game.type.util.GenericPropertySelector.selectParamMap
 import org.rsmod.game.type.util.GenericPropertySelector.selectPredicate
 import org.rsmod.game.type.util.GenericPropertySelector.selectShortArray
 import org.rsmod.game.type.util.ParamMap
@@ -288,7 +289,7 @@ public class NpcTypeBuilder(public var internal: String? = null) {
             val crawlTurnBackAnim = select(edit, base, DEFAULT_ANIM) { crawlTurnBackAnim }
             val crawlTurnLeftAnim = select(edit, base, DEFAULT_ANIM) { crawlTurnLeftAnim }
             val crawlTurnRightAnim = select(edit, base, DEFAULT_ANIM) { crawlTurnRightAnim }
-            val paramMap = select(edit, base, default = null) { paramMap }
+            val paramMap = selectParamMap(edit, base) { paramMap }
             val moveRestrict = select(edit, base, DEFAULT_MOVE_RESTRICT) { moveRestrict }
             val defaultMode = select(edit, base, DEFAULT_MODE) { defaultMode }
             val blockWalk = select(edit, base, DEFAULT_BLOCK_WALK) { blockWalk }

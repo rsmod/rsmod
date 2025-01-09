@@ -4,6 +4,7 @@ import org.rsmod.game.type.util.CompactableIntArray
 import org.rsmod.game.type.util.GenericPropertySelector.select
 import org.rsmod.game.type.util.GenericPropertySelector.selectByteArray
 import org.rsmod.game.type.util.GenericPropertySelector.selectIntArray
+import org.rsmod.game.type.util.GenericPropertySelector.selectParamMap
 import org.rsmod.game.type.util.GenericPropertySelector.selectPredicate
 import org.rsmod.game.type.util.GenericPropertySelector.selectShortArray
 import org.rsmod.game.type.util.ParamMap
@@ -245,7 +246,7 @@ public class LocTypeBuilder(public var internal: String? = null) {
             val retexD = selectShortArray(edit, base) { retexD }
             val multiLoc = selectShortArray(edit, base) { multiLoc }
             val bgsoundRandomSounds = selectShortArray(edit, base) { bgsoundRandomSounds }
-            val paramMap = select(edit, base, default = null) { paramMap }
+            val paramMap = selectParamMap(edit, base) { paramMap }
             val internalId = select(edit, base, default = null) { internalId }
             val internalName = select(edit, base, default = null) { internalName }
             return UnpackedLocType(
