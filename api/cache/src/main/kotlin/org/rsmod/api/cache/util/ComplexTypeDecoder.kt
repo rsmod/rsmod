@@ -131,17 +131,13 @@ public object ComplexTypeDecoder {
     }
 
     private fun ParamMap.resolveTypedMap(cacheTypes: TypeListMap) {
-        val typedMap = hashMapOf<Int, Any>()
+        val typedMap = hashMapOf<Int, Any?>()
         for ((key, primitive) in primitiveMap) {
             val param = cacheTypes.params[key] ?: continue
             val literal =
                 param.typeLiteral ?: error("ParamType requires a type to be used for maps: $param")
             val codec = CacheVarTypeMap.findCodec<Any, Any>(literal)
-            val typedValue =
-                codec.decode(cacheTypes, primitive)
-                    ?: error(
-                        "Could not decode `$primitive` with codec for `$literal`. (codec=$codec)"
-                    )
+            val typedValue = codec.decode(cacheTypes, primitive)
             typedMap[key] = typedValue
         }
         this.typedMap = typedMap
