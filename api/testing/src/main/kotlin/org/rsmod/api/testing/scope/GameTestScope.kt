@@ -390,6 +390,7 @@ constructor(
         }
     }
 
+    @Suppress("konsist.avoid usage of stdlib Random in properties")
     public class VariableGameRandom {
         internal val impl: InternalRandomImpl = InternalRandomImpl()
         private val sequence = SequenceRandom(size = 128)
