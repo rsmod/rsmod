@@ -43,6 +43,7 @@ import org.rsmod.api.player.vars.varMoveSpeed
 import org.rsmod.api.random.GameRandom
 import org.rsmod.coroutine.GameCoroutine
 import org.rsmod.events.EventBus
+import org.rsmod.events.UnboundEvent
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.PathingEntity
 import org.rsmod.game.entity.Player
@@ -272,6 +273,10 @@ public class ProtectedAccess(
 
     public fun clearPendingAction(eventBus: EventBus = context.eventBus) {
         player.clearPendingAction(eventBus)
+    }
+
+    public fun publish(event: UnboundEvent, eventBus: EventBus = context.eventBus) {
+        eventBus.publish(event)
     }
 
     public fun logOut() {
