@@ -11,7 +11,7 @@ public object BaseInterfaces : InterfaceReferences() {
     public val side_panels_resizable_pane: InterfaceType =
         find("side_panels_resizable_pane", 1080365065)
 
-    public val steam_side_panel: InterfaceType = find("steam_side_panel", 703173897)
+    public val steam_side_panel: InterfaceType = find("steam_side_panel", 9223372036050024336)
     public val chat: InterfaceType = find("chat", 1912455023)
     public val private_chat: InterfaceType = find("private_chat", 9223372036709596550)
     public val orbs: InterfaceType = find("orbs", 9223372034748519799)
@@ -25,16 +25,16 @@ public object BaseInterfaces : InterfaceReferences() {
     public val chat_header: InterfaceType = find("chat_header", 351697622)
     public val settings_tab: InterfaceType = find("settings_tab", 9223372036348650444)
     public val prayer_tab: InterfaceType = find("prayer_tab", 9223372034905333594)
-    public val spellbook_tab: InterfaceType = find("spellbook_tab", 1423550780)
+    public val spellbook_tab: InterfaceType = find("spellbook_tab", 643013118)
     public val friend_list_tab: InterfaceType = find("friend_list_tab", 149140580)
     public val account_management_tab: InterfaceType =
         find("account_management_tab", 9223372036107886058)
-    public val logout_tab: InterfaceType = find("logout_tab", 9223372036754073083)
+    public val logout_tab: InterfaceType = find("logout_tab", 2003439444)
     public val emote_tab: InterfaceType = find("emote_tab", 1866350332)
     public val music_tab: InterfaceType = find("music_tab", 9223372035640978172)
     public val chat_channel_tab: InterfaceType = find("chat_channel_tab", 555490233)
     public val world_switcher: InterfaceType = find("world_switcher", 770239458)
-    public val combat_tab: InterfaceType = find("combat_tab", 9223372036327241509)
+    public val combat_tab: InterfaceType = find("combat_tab", 9223372036611818538)
     public val hp_hud: InterfaceType = find("hp_hud", 9223372036744970435)
 
     public val player_dialogue: InterfaceType = find("player_dialogue", 1128178504)
