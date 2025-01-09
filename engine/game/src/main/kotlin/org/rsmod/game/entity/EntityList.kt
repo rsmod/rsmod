@@ -1,9 +1,7 @@
 package org.rsmod.game.entity
 
-public sealed class PathingEntityList<T : PathingEntity>(
-    public val capacity: Int,
-    public val slotPadding: Int,
-) : Iterable<T> {
+public sealed class EntityList<T>(public val capacity: Int, public val slotPadding: Int) :
+    Iterable<T> {
     private val entries: MutableList<T?> = MutableList(capacity) { null }
     private var lastUsedSlot = 0
 
@@ -38,7 +36,7 @@ public sealed class PathingEntityList<T : PathingEntity>(
     }
 
     override fun iterator(): Iterator<T> {
-        return PathingEntityListIterator()
+        return EntityListIterator()
     }
 
     private fun assertSlot(slot: Int) {
@@ -50,7 +48,7 @@ public sealed class PathingEntityList<T : PathingEntity>(
         )
     }
 
-    private inner class PathingEntityListIterator : Iterator<T> {
+    private inner class EntityListIterator : Iterator<T> {
         private var cursor = 0
 
         override fun hasNext(): Boolean {
