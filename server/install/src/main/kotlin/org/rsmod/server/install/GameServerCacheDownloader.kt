@@ -12,6 +12,7 @@ import java.nio.file.Path
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 import java.nio.file.StandardOpenOption
+import java.util.concurrent.TimeUnit
 import java.util.zip.ZipInputStream
 import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.createDirectories
@@ -47,7 +48,11 @@ class GameServerCacheDownloader : CliktCommand(name = "cache-download") {
 
     @ExperimentalPathApi
     override fun run() {
-        val client = OkHttpClient()
+        val client =
+            OkHttpClient.Builder()
+                .connectTimeout(15, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .build()
         cacheDir.createDirectories()
 
         // TODO: add support for extracting .tar.gz files
