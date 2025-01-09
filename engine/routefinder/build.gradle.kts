@@ -25,7 +25,7 @@ publishing {
         pom {
             packaging = "jar"
             name.set("RS Mod Routefinder")
-            description.set(" A custom BFS pathfinder implementation to emulate RS.")
+            description.set("A custom BFS pathfinder implementation to emulate RS.")
         }
     }
 }
