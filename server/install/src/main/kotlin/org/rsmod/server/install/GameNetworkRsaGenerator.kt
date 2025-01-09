@@ -3,6 +3,7 @@ package org.rsmod.server.install
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.main
 import com.github.ajalt.clikt.parameters.options.default
+import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.michaelbull.logging.InlineLogger
 import java.nio.file.Files
@@ -14,6 +15,7 @@ import java.security.interfaces.RSAPrivateKey
 import java.security.interfaces.RSAPublicKey
 import kotlin.io.path.absolutePathString
 import kotlin.io.path.createDirectories
+import kotlin.io.path.exists
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.bouncycastle.util.io.pem.PemObject
 import org.bouncycastle.util.io.pem.PemWriter
@@ -24,6 +26,7 @@ fun main(args: Array<String>): Unit = GameNetworkRsaGenerator().main(args)
 class GameNetworkRsaGenerator : CliktCommand(name = "generate-rsa") {
     private val preferredDir by option("-outputDir")
     private val fileName by option("-fileName").default("game.key")
+    private val fileOverwrite by option("-fileOverwrite").flag(default = false)
 
     private val logger = InlineLogger()
 
@@ -31,6 +34,13 @@ class GameNetworkRsaGenerator : CliktCommand(name = "generate-rsa") {
         get() = preferredDir?.let { Paths.get(it) } ?: DirectoryConstants.DATA_PATH
 
     override fun run() {
+        if (!fileOverwrite) {
+            val foundFile = cacheDir.resolve(fileName)
+            if (foundFile.exists()) {
+                logger.info { "RSA key file already found: $foundFile" }
+                return
+            }
+        }
         cacheDir.createDirectories()
         val file = cacheDir.resolve(fileName)
         logger.info { "Generating RSA key to ${file.absolutePathString()}" }
