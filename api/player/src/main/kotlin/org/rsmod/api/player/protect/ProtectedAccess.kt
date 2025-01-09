@@ -81,14 +81,9 @@ public class ProtectedAccess(
 ) {
     public val random: GameRandom by context::random
 
-    public val coords: CoordGrid
-        get() = player.coords
-
-    public val mapClock: Int
-        get() = player.currentMapClock
-
-    public val inv: Inventory
-        get() = player.inv
+    public val coords: CoordGrid by player::coords
+    public val mapClock: Int by player::currentMapClock
+    public val inv: Inventory by player::inv
 
     public var actionDelay: Int by player::actionDelay
     public var skillAnimDelay: Int by player::skillAnimDelay
