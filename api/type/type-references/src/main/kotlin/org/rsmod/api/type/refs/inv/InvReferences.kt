@@ -5,8 +5,8 @@ import org.rsmod.game.type.inv.HashedInvType
 import org.rsmod.game.type.inv.InvType
 
 public abstract class InvReferences : HashTypeReferences<InvType>(InvType::class.java) {
-    override fun find(hash: Long): InvType {
-        val type = HashedInvType(hash)
+    override fun find(internal: String, hash: Long?): InvType {
+        val type = HashedInvType(hash, internalName = internal)
         cache += type
         return type
     }

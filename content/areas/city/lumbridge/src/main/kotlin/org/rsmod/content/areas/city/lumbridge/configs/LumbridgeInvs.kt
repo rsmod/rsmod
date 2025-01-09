@@ -7,7 +7,7 @@ import org.rsmod.game.type.inv.InvScope
 import org.rsmod.game.type.inv.InvStackType
 
 object LumbridgeInvs : InvReferences() {
-    val bobs_brilliant_axes = find(9223371997938348999)
+    val bobs_brilliant_axes = find("bobs_brilliant_axes")
 }
 
 object LumbridgeInvBuilder : InvEditor() {

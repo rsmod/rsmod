@@ -2,16 +2,13 @@ package org.rsmod.content.areas.city.lumbridge.npcs
 
 import jakarta.inject.Inject
 import org.rsmod.api.config.refs.content
+import org.rsmod.api.config.refs.objs
 import org.rsmod.api.dialogue.Dialogue
 import org.rsmod.api.dialogue.Dialogues
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.stat.baseSmithingLvl
 import org.rsmod.api.script.onOpNpc1
 import org.rsmod.content.areas.city.lumbridge.configs.LumbridgeNpcs
-import org.rsmod.content.areas.city.lumbridge.configs.LumbridgeObjs.bank_icon
-import org.rsmod.content.areas.city.lumbridge.configs.LumbridgeObjs.furnace_icon
-import org.rsmod.content.areas.city.lumbridge.configs.LumbridgeObjs.mining_icon
-import org.rsmod.content.areas.city.lumbridge.configs.LumbridgeObjs.smithing_icon
 import org.rsmod.game.entity.Npc
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
@@ -37,7 +34,7 @@ class SmithingApprentice @Inject constructor(private val dialogues: Dialogues) :
     private suspend fun Dialogue.lowLevelDialogue() {
         chatPlayer(quiz, "Can you teach me the basics of smelting please?")
         objbox(
-            furnace_icon,
+            objs.furnace_icon,
             "Look for this icon on your minimap to find a furnace to smelt ores into metal.",
         )
         if (content.ore in player.inv) {
@@ -54,7 +51,7 @@ class SmithingApprentice @Inject constructor(private val dialogues: Dialogues) :
                 "see the mining tutor to the south if you're not sure " +
                 "how to do this.",
         )
-        objbox(mining_icon, "Look for this icon to the south of here, in the swamp.")
+        objbox(objs.mining_icon, "Look for this icon to the south of here, in the swamp.")
     }
 
     private suspend fun Dialogue.invOre() {
@@ -70,7 +67,7 @@ class SmithingApprentice @Inject constructor(private val dialogues: Dialogues) :
                 "you can find it on the roof of the castle in Lumbridge.",
         )
         objbox(
-            bank_icon,
+            objs.bank_icon,
             "To find a bank, look for this symbol on your minimap " +
                 "after climbing the stairs of the Lumbridge Castle to the " +
                 "top. There are banks all over the world with this symbol.",
@@ -124,7 +121,7 @@ class SmithingApprentice @Inject constructor(private val dialogues: Dialogues) :
                 "my master, the Smithing Tutor, plies his trade. Ask him " +
                 "to teach you how to smith.",
         )
-        objbox(smithing_icon, "Look for this icon in the west of Varrock.")
+        objbox(objs.smithing_icon, "Look for this icon in the west of Varrock.")
         chatNpc(
             happy,
             "Smelt some ore and store it in the bank. Grab a " +

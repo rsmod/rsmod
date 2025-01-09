@@ -12,14 +12,14 @@ internal object DoorConstants {
 }
 
 internal object DoorLocs : LocReferences() {
-    val door_opened = find(5065226005806317467)
-    val door_closed = find(1827052337340400340)
-    val nicedoor_closed = find(1827052337340400345)
-    val nicedoor_opened = find(5065226005806317472)
-    val door_left_closed = find(8682664997836417386)
-    val door_left_opened = find(2697466629447558705)
-    val door_right_closed = find(8682664997836417389)
-    val door_right_opened = find(2697466629447558708)
+    val door_opened = find("door_opened", 5065226005806317467)
+    val door_closed = find("door_closed", 1827052337340400340)
+    val nicedoor_closed = find("nicedoor_closed", 1827052337340400345)
+    val nicedoor_opened = find("nicedoor_opened", 5065226005806317472)
+    val door_left_closed = find("door_left_closed", 8682664997836417386)
+    val door_left_opened = find("door_left_opened", 2697466629447558705)
+    val door_right_closed = find("door_right_closed", 8682664997836417389)
+    val door_right_opened = find("door_right_opened", 2697466629447558708)
 }
 
 internal object DoorLocEdits : LocEditor() {

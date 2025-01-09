@@ -131,6 +131,14 @@
 1801	slayer_task_boss_displayname
 1802	slayer_task_boss_location
 
+65488	respawn_time
+65489	despawn_time
+65490	deplete_chance
+65491	skill_sound
+65492	skill_productitem
+65493	skill_xp
+65494	skill_anim
+65495	skill_levelreq
 65496	shop_sale_restricted
 65497	shop_sell_percentage
 65498	shop_buy_percentage

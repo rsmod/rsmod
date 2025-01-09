@@ -8,22 +8,22 @@ import org.rsmod.api.type.refs.loc.LocReferences
 import org.rsmod.map.CoordGrid
 
 internal object SignpostLocs : LocReferences() {
-    val signpost = find(5944252288185964868)
+    val signpost = find("signpost", 5944252288185964868)
 }
 
 internal object SignpostInterfaces : InterfaceReferences() {
-    val signpost = find(9223372036367484796)
+    val signpost = find("signpost", 9223372036367484796)
 }
 
 internal object SignpostComponents : ComponentReferences() {
-    val signpost_north = find(3633456669255458235)
-    val signpost_east = find(6865859231034431206)
-    val signpost_south = find(3946237333876253083)
-    val signpost_west = find(2578427790880957538)
+    val signpost_north = find("signpost_com2", 3633456669255458235)
+    val signpost_east = find("signpost_com7", 6865859231034431206)
+    val signpost_south = find("signpost_com8", 3946237333876253083)
+    val signpost_west = find("signpost_com11", 2578427790880957538)
 }
 
 internal object SignpostEnums : EnumReferences() {
-    val signpost_directions = find<CoordGrid, String>(243854447)
+    val signpost_directions = find<CoordGrid, String>("signpost_directions")
 }
 
 internal object SignpostEnumBuild : EnumBuilder() {

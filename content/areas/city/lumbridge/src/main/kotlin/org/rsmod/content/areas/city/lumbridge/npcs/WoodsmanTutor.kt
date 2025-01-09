@@ -10,8 +10,6 @@ import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.stat.baseWoodcuttingLvl
 import org.rsmod.api.script.advanced.onUnimplementedOpNpc1
 import org.rsmod.content.areas.city.lumbridge.configs.LumbridgeNpcs
-import org.rsmod.content.areas.city.lumbridge.configs.LumbridgeObjs.bank_icon
-import org.rsmod.content.areas.city.lumbridge.configs.LumbridgeObjs.woodcutting_icon
 import org.rsmod.game.entity.Npc
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
@@ -53,7 +51,7 @@ class WoodsmanTutor @Inject constructor(private val dialogues: Dialogues) : Plug
     private suspend fun Dialogue.noviceBasics() {
         chatPlayer(quiz, "Can you teach me the basics of Woodcutting and Firemaking, please?")
         objbox(
-            woodcutting_icon,
+            objs.woodcutting_icon,
             "Of course... look for this icon on your minimap to find areas of trees.",
         )
         giveAxeIfRequired()
@@ -69,7 +67,7 @@ class WoodsmanTutor @Inject constructor(private val dialogues: Dialogues) : Plug
                 "roof of the castle in Lumbridge, or you can burn them.",
         )
         objbox(
-            bank_icon,
+            objs.bank_icon,
             "To find a bank, look for this symbol on your minimap " +
                 "after climbing the stairs of the Lumbridge Castle to the " +
                 "top. There are banks all over the world with this symbol.",
@@ -225,7 +223,7 @@ class WoodsmanTutor @Inject constructor(private val dialogues: Dialogues) : Plug
         )
         doubleobjbox(
             objs.yew_logs,
-            woodcutting_icon,
+            objs.woodcutting_icon,
             "Yew trees are few and far between. We do our best to " +
                 "cultivate them. Look for the tree icon on your minimap " +
                 "to find rare trees. Try North of Port Sarim.",

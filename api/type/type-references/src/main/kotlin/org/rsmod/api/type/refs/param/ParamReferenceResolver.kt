@@ -7,14 +7,13 @@ import org.rsmod.api.type.refs.resolver.TypeReferenceResult
 import org.rsmod.api.type.refs.resolver.TypeReferenceResult.CacheTypeHashMismatch
 import org.rsmod.api.type.refs.resolver.TypeReferenceResult.CacheTypeNotFound
 import org.rsmod.api.type.refs.resolver.TypeReferenceResult.FullSuccess
-import org.rsmod.api.type.refs.resolver.TypeReferenceResult.HashNotFound
+import org.rsmod.api.type.refs.resolver.TypeReferenceResult.InvalidImplicitName
 import org.rsmod.api.type.refs.resolver.TypeReferenceResult.KeyTypeMismatch
 import org.rsmod.api.type.refs.resolver.TypeReferenceResult.NameNotFound
 import org.rsmod.api.type.refs.resolver.err
 import org.rsmod.api.type.refs.resolver.issue
 import org.rsmod.api.type.refs.resolver.ok
 import org.rsmod.api.type.refs.resolver.update
-import org.rsmod.api.type.symbols.hash.HashMapping
 import org.rsmod.api.type.symbols.name.NameMapping
 import org.rsmod.game.type.TypeListMap
 import org.rsmod.game.type.TypeResolver
@@ -27,15 +26,11 @@ public class ParamReferenceResolver
 @Inject
 constructor(
     private val nameMapping: NameMapping,
-    private val hashMapping: HashMapping,
     private val cacheTypes: TypeListMap,
     private val types: ParamTypeList,
 ) : TypeReferenceResolver<HashedParamType<*>, Nothing> {
     private val names: Map<String, Int>
         get() = nameMapping.params
-
-    private val hashes: Map<Long, String>
-        get() = hashMapping.params
 
     override fun resolve(
         refs: TypeReferences<HashedParamType<*>, Nothing>
@@ -43,16 +38,11 @@ constructor(
 
     @Suppress("UNCHECKED_CAST")
     private fun HashedParamType<*>.resolve(): TypeReferenceResult {
-        val name = hashes[supposedHash] ?: return err(HashNotFound(supposedHash))
+        val name = internalNameGet ?: return err(InvalidImplicitName)
         val internalId = names[name] ?: return err(NameNotFound(name, supposedHash))
-        val cacheType = types[internalId]
-
-        TypeResolver[this] = name
         TypeResolver[this] = internalId
 
-        if (cacheType == null) {
-            return update(CacheTypeNotFound)
-        }
+        val cacheType = types[internalId] ?: return update(CacheTypeNotFound)
 
         val cacheTypeLiteral = cacheType.typeLiteral?.codecOut
         val thisTypeLiteral = CacheVarTypeMap.classedLiterals[type]?.codecOut
@@ -68,11 +58,14 @@ constructor(
             TypeResolver.setDefault(genericType, typedDefault)
         }
 
-        val cacheHash = cacheType.computeIdentityHash()
-        return if (cacheHash != supposedHash) {
-            issue(CacheTypeHashMismatch(supposedHash, cacheHash))
-        } else {
-            ok(FullSuccess)
+        if (supposedHash == null) {
+            return ok(FullSuccess)
         }
+
+        val cacheIdentityHash = cacheType.computeIdentityHash()
+        if (cacheIdentityHash != supposedHash) {
+            return issue(CacheTypeHashMismatch(supposedHash, cacheIdentityHash))
+        }
+        return ok(FullSuccess)
     }
 }

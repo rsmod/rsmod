@@ -3,15 +3,13 @@ package org.rsmod.server.shared.module
 import com.google.inject.Provider
 import java.nio.file.Files
 import java.nio.file.Path
-import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.PathWalkOption
 import kotlin.io.path.isDirectory
 import kotlin.io.path.name
 import kotlin.io.path.nameWithoutExtension
+import kotlin.io.path.relativeTo
 import kotlin.io.path.walk
 import kotlin.streams.toList
-import org.rsmod.api.type.symbols.hash.HashLoader
-import org.rsmod.api.type.symbols.hash.HashMapping
 import org.rsmod.api.type.symbols.name.NameLoader
 import org.rsmod.api.type.symbols.name.NameMapping
 import org.rsmod.module.ExtendedModule
@@ -20,36 +18,35 @@ import org.rsmod.server.shared.DirectoryConstants
 object SymbolModule : ExtendedModule() {
     override fun bind() {
         bindProvider(NameMappingProvider::class.java)
-        bindProvider(HashMappingProvider::class.java)
     }
 }
 
 private class NameMappingProvider : Provider<NameMapping> {
     override fun get(): NameMapping {
         val dirs = shallowSymbolDirectories()
-        val objs = dirs.readSymbols("obj")
-        val interfaces = dirs.readSymbols("interface")
-        val components = dirs.readComps("component", interfaces)
-        val varps = dirs.readSymbols("varp")
-        val varbits = dirs.readSymbols("varbit")
-        val params = dirs.readSymbols("param")
-        val npcs = dirs.readSymbols("npc")
-        val locs = dirs.readSymbols("loc")
-        val varobjbits = dirs.readSymbols("varobj")
         val categories = dirs.readSymbols("category")
+        val interfaces = dirs.readSymbols("interface")
+        val components = dirs.readComps("component", interfaces = interfaces)
         val content = dirs.readSymbols("content")
-        val enums = dirs.readSymbols("enum")
-        val invs = dirs.readSymbols("inv")
-        val modLevels = dirs.readSymbols("mod", fileName = "names.level")
-        val modGroups = dirs.readSymbols("mod", fileName = "names.group")
-        val seqs = dirs.readSymbols("seq")
-        val mesanims = dirs.readSymbols("mesanim")
-        val synths = dirs.readSymbols("synth")
-        val fonts = dirs.readSymbols("font")
-        val stats = dirs.readSymbols("stat")
         val currencies = dirs.readSymbols("currency")
-        val timers = dirs.readSymbols("timer")
+        val enums = dirs.readSymbols("enum")
+        val fonts = dirs.readSymbols("font")
+        val invs = dirs.readSymbols("inv")
+        val locs = dirs.readSymbols("loc")
+        val mesanims = dirs.readSymbols("mesanim")
+        val modLevels = dirs.readSymbols("modlevel")
+        val modGroups = dirs.readSymbols("modgroup")
+        val npcs = dirs.readSymbols("npc")
+        val objs = dirs.readSymbols("obj")
+        val params = dirs.readSymbols("param")
         val queues = dirs.readSymbols("queue")
+        val seqs = dirs.readSymbols("seq")
+        val stats = dirs.readSymbols("stat")
+        val synths = dirs.readSymbols("synth")
+        val timers = dirs.readSymbols("timer")
+        val varbits = dirs.readSymbols("varbit")
+        val varobjbits = dirs.readSymbols("varobj")
+        val varps = dirs.readSymbols("varp")
         return NameMapping(
             categories = categories,
             objs = objs,
@@ -77,103 +74,44 @@ private class NameMappingProvider : Provider<NameMapping> {
         )
     }
 
-    private fun ShallowDirectoryMap.readSymbols(
-        parent: String,
-        fileName: String,
-    ): Map<String, Int> {
-        val file = find(parent, fileName) ?: return emptyMap()
-        return NameLoader.read(file)
-    }
-
-    private fun ShallowDirectoryMap.readComps(
-        parent: String,
-        interfaces: Map<String, Int>,
-        fileName: String,
-    ): Map<String, Int> {
-        val file = find(parent, fileName) ?: return emptyMap()
-        return NameLoader.readComponents(file, interfaces)
-    }
-
-    private fun List<ShallowDirectoryMap>.readSymbols(
-        parent: String,
-        fileName: String = DEFAULT_FILE_NAME,
-    ): Map<String, Int> {
+    private fun List<ShallowDirectoryMap>.readSymbols(fileName: String): Map<String, Int> {
         val merged = mutableMapOf<String, Int>()
         for (entry in this) {
-            merged += entry.readSymbols(parent, fileName)
+            merged += entry.readSymbols(DEFAULT_FILE_DIR, fileName)
         }
         return merged
     }
 
     private fun List<ShallowDirectoryMap>.readComps(
-        parent: String,
+        fileName: String,
         interfaces: Map<String, Int>,
-        fileName: String = DEFAULT_FILE_NAME,
     ): Map<String, Int> {
         val merged = mutableMapOf<String, Int>()
         for (entry in this) {
-            merged += entry.readComps(parent, interfaces, fileName)
+            merged += entry.readComps(DEFAULT_FILE_DIR, fileName, interfaces)
         }
         return merged
     }
 
-    private companion object {
-        private const val DEFAULT_FILE_NAME = "names"
-    }
-}
-
-private class HashMappingProvider : Provider<HashMapping> {
-    override fun get(): HashMapping {
-        val dirs = shallowSymbolDirectories()
-        val objs = dirs.readHashes("obj")
-        val interfaces = dirs.readHashes("interface")
-        val components = dirs.readHashes("component")
-        val varps = dirs.readHashes("varp")
-        val varbits = dirs.readHashes("varbit")
-        val locs = dirs.readHashes("loc")
-        val params = dirs.readHashes("param")
-        val npcs = dirs.readHashes("npc")
-        val enums = dirs.readHashes("enum")
-        val invs = dirs.readHashes("inv")
-        val seqs = dirs.readHashes("seq")
-        val fonts = dirs.readHashes("font")
-        return HashMapping(
-            objs = objs,
-            locs = locs,
-            interfaces = interfaces,
-            components = components,
-            varps = varps,
-            varbits = varbits,
-            params = params,
-            npcs = npcs,
-            enums = enums,
-            invs = invs,
-            seqs = seqs,
-            fonts = fonts,
-        )
-    }
-
-    private fun ShallowDirectoryMap.readHashes(
-        parent: String,
+    private fun ShallowDirectoryMap.readSymbols(
+        directory: String,
         fileName: String,
-    ): Map<Long, String> {
-        val file = find(parent, fileName) ?: return emptyMap()
-        return HashLoader.read(file)
+    ): Map<String, Int> {
+        val file = find(directory, fileName) ?: return emptyMap()
+        return NameLoader.read(file)
     }
 
-    private fun List<ShallowDirectoryMap>.readHashes(
-        parent: String,
-        fileName: String = DEFAULT_FILE_NAMES,
-    ): Map<Long, String> {
-        val merged = mutableMapOf<Long, String>()
-        for (entry in this) {
-            merged += entry.readHashes(parent, fileName)
-        }
-        return merged
+    private fun ShallowDirectoryMap.readComps(
+        directory: String,
+        fileName: String,
+        interfaces: Map<String, Int>,
+    ): Map<String, Int> {
+        val file = find(directory, fileName) ?: return emptyMap()
+        return NameLoader.readComponents(file, interfaces)
     }
 
     private companion object {
-        private const val DEFAULT_FILE_NAMES = "hashes"
+        private const val DEFAULT_FILE_DIR = ""
     }
 }
 
@@ -183,12 +121,11 @@ private fun shallowSymbolDirectories(): List<ShallowDirectoryMap> {
     return listOf(root.shallowDirectoryMap(), local.shallowDirectoryMap())
 }
 
-@OptIn(ExperimentalPathApi::class)
 private fun Path.shallowDirectoryMap(): ShallowDirectoryMap {
     val map =
         walk(PathWalkOption.INCLUDE_DIRECTORIES)
-            .filter { it != this && it.isDirectory() }
-            .associate { it.name to it.listFiles() }
+            .filter { it.isDirectory() }
+            .associate { it.relativeTo(this).name to it.listFiles() }
     return ShallowDirectoryMap(map)
 }
 

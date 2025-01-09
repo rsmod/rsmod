@@ -11,20 +11,20 @@ import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.interf.InterfaceType
 
 public object ShopInterfaces : InterfaceReferences() {
-    public val shop_main: InterfaceType = find(1596431697)
-    public val shop_side: InterfaceType = find(9223372034793400280)
+    public val shop_main: InterfaceType = find("shop", 1596431697)
+    public val shop_side: InterfaceType = find("shop_inventory", 9223372034793400280)
 }
 
 public object ShopComponents : ComponentReferences() {
-    public val shop_subtext: ComponentType = find(1009675651464801228)
-    public val shop_side_inv: ComponentType = find(5117171527864918016)
-    public val shop_inv: ComponentType = find(7875443253800243706)
+    public val shop_subtext: ComponentType = find("shop_com19", 1009675651464801228)
+    public val shop_side_inv: ComponentType = find("shop_inventory_com0", 5117171527864918016)
+    public val shop_inv: ComponentType = find("shop_com16", 7875443253800243706)
 }
 
 public object ShopParams : ParamReferences() {
-    public val shop_sell_percentage: ParamInt = find(106686850953)
-    public val shop_buy_percentage: ParamInt = find(94225594054)
-    public val shop_change_percentage: ParamInt = find(89102632885)
+    public val shop_sell_percentage: ParamInt = find("shop_sell_percentage")
+    public val shop_buy_percentage: ParamInt = find("shop_buy_percentage")
+    public val shop_change_percentage: ParamInt = find("shop_change_percentage")
 }
 
 public object ShopParamBuilder : ParamBuilder() {

@@ -6,8 +6,8 @@ import org.rsmod.game.type.comp.HashedComponentType
 
 public abstract class ComponentReferences :
     HashTypeReferences<ComponentType>(ComponentType::class.java) {
-    override fun find(hash: Long): ComponentType {
-        val type = HashedComponentType(hash)
+    override fun find(internal: String, hash: Long?): ComponentType {
+        val type = HashedComponentType(hash, internalName = internal)
         cache += type
         return type
     }

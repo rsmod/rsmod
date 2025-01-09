@@ -8,18 +8,18 @@ import org.rsmod.api.type.refs.npc.NpcReferences
 import org.rsmod.map.CoordGrid
 
 object LumbridgeNpcs : NpcReferences() {
-    val shop_keeper = find(4750494125510652894)
-    val shop_assistant = find(7175769830569298007)
-    val gee = find(4562549981157667997)
-    val donie = find(8328767713494932046)
-    val hans = find(3939300316871989450)
-    val bartender = find(325196120220401239)
-    val arthur_the_clue_hunter = find(6533328399600640885)
-    val prayer_tutor = find(8388572464855062601)
-    val hatius_cosaintus = find(3864914163306269512)
-    val bob = find(8634932672814888402)
-    val woodsman_tutor = find(271199259888530822)
-    val smithing_apprentice = find(6197725326458585267)
+    val shop_keeper = find("shop_keeper_id_2813", 4750494125510652894)
+    val shop_assistant = find("shop_assistant_id_2814", 7175769830569298007)
+    val gee = find("gee", 4562549981157667997)
+    val donie = find("donie", 8328767713494932046)
+    val hans = find("hans", 3939300316871989450)
+    val bartender = find("bartender_id_7546", 325196120220401239)
+    val arthur_the_clue_hunter = find("arthur_the_clue_hunter", 6533328399600640885)
+    val prayer_tutor = find("prayer_tutor", 8388572464855062601)
+    val hatius_cosaintus = find("hatius_cosaintus", 3864914163306269512)
+    val bob = find("bob_id_10619", 8634932672814888402)
+    val woodsman_tutor = find("woodsman_tutor", 271199259888530822)
+    val smithing_apprentice = find("smithing_apprentice", 6197725326458585267)
 }
 
 internal object LumbridgeNpcEditor : NpcEditor() {

@@ -12,18 +12,18 @@ internal object GateConstants {
 }
 
 internal object GateLocs : LocReferences() {
-    val picketgate_left_closed = find(6120710262097893169)
-    val picketgate_right_closed = find(6120710262097893171)
-    val picketgate_left_opened = find(135511893709034488)
-    val picketgate_right_opened = find(135511893709034496)
-    val nicepicketgate_left_closed = find(8381220604490231462)
-    val nicepicketgate_right_closed = find(8381220604490254496)
-    val nicepicketgate_left_opened = find(2396022236101395815)
-    val nicepicketgate_right_opened = find(2396022236101395816)
-    val farmerfred_gate_left_closed = find(8381220604490243565)
-    val farmerfred_gate_right_closed = find(8381220604490243566)
-    val farmerfred_gate_left_opened = find(2396022236101384885)
-    val farmerfred_gate_right_opened = find(2395638821475390324)
+    val picketgate_left_closed = find("picketgate_left_closed", 6120710262097893169)
+    val picketgate_right_closed = find("picketgate_right_closed", 6120710262097893171)
+    val picketgate_left_opened = find("picketgate_left_opened", 135511893709034488)
+    val picketgate_right_opened = find("picketgate_right_opened", 135511893709034496)
+    val nicepicketgate_left_closed = find("nicepicketgate_left_closed", 8381220604490231462)
+    val nicepicketgate_right_closed = find("nicepicketgate_right_closed", 8381220604490254496)
+    val nicepicketgate_left_opened = find("nicepicketgate_left_opened", 2396022236101395815)
+    val nicepicketgate_right_opened = find("nicepicketgate_right_opened", 2396022236101395816)
+    val farmerfred_gate_left_closed = find("farmerfred_gate_left_closed", 8381220604490243565)
+    val farmerfred_gate_right_closed = find("farmerfred_gate_right_closed", 8381220604490243566)
+    val farmerfred_gate_left_opened = find("farmerfred_gate_left_opened", 2396022236101384885)
+    val farmerfred_gate_right_opened = find("farmerfred_gate_right_opened", 2395638821475390324)
 }
 
 internal object GateLocEditor : LocEditor() {

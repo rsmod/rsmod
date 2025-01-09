@@ -144,11 +144,11 @@ constructor(private val references: TypeReferenceResolverMap) {
                 "The following references have an unexpected generic key, value " +
                     "type pair ($count found)"
             }
-            is TypeReferenceResult.HashNotFound -> {
-                "The following references have hashes that are not defined in a hashes.sym " +
+            is TypeReferenceResult.NameNotFound -> {
+                "The following references use names that are not defined in a names.sym " +
                     "file ($count found)"
             }
-            is TypeReferenceResult.NameNotFound -> {
+            is TypeReferenceResult.InvalidImplicitName -> {
                 "The following references use names that are not defined in a names.sym " +
                     "file ($count found)"
             }
@@ -173,10 +173,8 @@ constructor(private val references: TypeReferenceResolverMap) {
                     "Actual: ${actualKey?.simpleName}, ${actualVal?.simpleName}\t| " +
                     "Reference: $value"
             }
-            is TypeReferenceResult.HashNotFound -> {
-                "Type: ${value?.javaClass?.simpleName}\t| Hash: $hash"
-            }
             is TypeReferenceResult.NameNotFound -> "Hash: $hash\t| Name: \"$name\""
+            is TypeReferenceResult.InvalidImplicitName -> "Name not defined"
             is TypeReferenceResult.ImplicitNameNotFound -> "Name: \"$name\""
             is TypeReferenceResult.ValTypeMismatch -> {
                 "Expected: ${expected?.simpleName}\t| " +

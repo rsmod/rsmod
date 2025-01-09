@@ -5,8 +5,8 @@ import org.rsmod.game.type.npc.HashedNpcType
 import org.rsmod.game.type.npc.NpcType
 
 public abstract class NpcReferences : HashTypeReferences<NpcType>(NpcType::class.java) {
-    override fun find(hash: Long): NpcType {
-        val type = HashedNpcType(hash)
+    override fun find(internal: String, hash: Long?): NpcType {
+        val type = HashedNpcType(hash, internalName = internal)
         cache += type
         return type
     }

@@ -7,7 +7,7 @@ import org.rsmod.api.type.refs.resolver.TypeReferenceResult
 import org.rsmod.api.type.refs.resolver.TypeReferenceResult.CacheTypeHashMismatch
 import org.rsmod.api.type.refs.resolver.TypeReferenceResult.CacheTypeNotFound
 import org.rsmod.api.type.refs.resolver.TypeReferenceResult.FullSuccess
-import org.rsmod.api.type.refs.resolver.TypeReferenceResult.HashNotFound
+import org.rsmod.api.type.refs.resolver.TypeReferenceResult.InvalidImplicitName
 import org.rsmod.api.type.refs.resolver.TypeReferenceResult.KeyTypeMismatch
 import org.rsmod.api.type.refs.resolver.TypeReferenceResult.KeyValTypeMismatch
 import org.rsmod.api.type.refs.resolver.TypeReferenceResult.NameNotFound
@@ -16,7 +16,6 @@ import org.rsmod.api.type.refs.resolver.err
 import org.rsmod.api.type.refs.resolver.issue
 import org.rsmod.api.type.refs.resolver.ok
 import org.rsmod.api.type.refs.resolver.update
-import org.rsmod.api.type.symbols.hash.HashMapping
 import org.rsmod.api.type.symbols.name.NameMapping
 import org.rsmod.game.type.TypeResolver
 import org.rsmod.game.type.enums.EnumTypeList
@@ -26,33 +25,21 @@ import org.rsmod.game.type.literal.CacheVarTypeMap.codecOut
 
 public class EnumReferenceResolver
 @Inject
-constructor(
-    private val nameMapping: NameMapping,
-    private val hashMapping: HashMapping,
-    private val types: EnumTypeList,
-) : TypeReferenceResolver<HashedEnumType<*, *>, Nothing> {
+constructor(private val nameMapping: NameMapping, private val types: EnumTypeList) :
+    TypeReferenceResolver<HashedEnumType<*, *>, Nothing> {
     private val names: Map<String, Int>
         get() = nameMapping.enums
-
-    private val hashes: Map<Long, String>
-        get() = hashMapping.enums
 
     override fun resolve(
         refs: TypeReferences<HashedEnumType<*, *>, Nothing>
     ): List<TypeReferenceResult> = refs.cache.map { it.resolve() }
 
-    @Suppress("UNCHECKED_CAST")
     private fun HashedEnumType<*, *>.resolve(): TypeReferenceResult {
-        val name = hashes[supposedHash] ?: return err(HashNotFound(supposedHash))
+        val name = internalNameGet ?: return err(InvalidImplicitName)
         val internalId = names[name] ?: return err(NameNotFound(name, supposedHash))
-        val cacheType = types[internalId]
-
-        TypeResolver[this] = name
         TypeResolver[this] = internalId
 
-        if (cacheType == null) {
-            return update(CacheTypeNotFound)
-        }
+        val cacheType = types[internalId] ?: return update(CacheTypeNotFound)
 
         val cacheKeyLiteral = cacheType.keyLiteral.codecOut
         val thisKeyLiteral = CacheVarTypeMap.classedLiterals[keyType]?.codecOut
@@ -76,11 +63,14 @@ constructor(
             return err(ValTypeMismatch(cacheValLiteral, thisValLiteral))
         }
 
-        val cacheHash = cacheType.computeIdentityHash()
-        return if (cacheHash != supposedHash) {
-            issue(CacheTypeHashMismatch(supposedHash, cacheHash))
-        } else {
-            ok(FullSuccess)
+        if (supposedHash == null) {
+            return ok(FullSuccess)
         }
+
+        val cacheIdentityHash = cacheType.computeIdentityHash()
+        if (cacheIdentityHash != supposedHash) {
+            return issue(CacheTypeHashMismatch(supposedHash, cacheIdentityHash))
+        }
+        return ok(FullSuccess)
     }
 }

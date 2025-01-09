@@ -19,8 +19,6 @@ public sealed class TypeReferenceResult {
 
     public sealed class StatusErr
 
-    public data class HashNotFound(val hash: Long?) : StatusErr()
-
     public data class NameNotFound(val name: String, val hash: Long?) : StatusErr()
 
     public data class KeyTypeMismatch(val expected: KClass<*>?, val actual: KClass<*>?) :
@@ -36,13 +34,15 @@ public sealed class TypeReferenceResult {
         val actualVal: KClass<*>?,
     ) : StatusErr()
 
+    public data object InvalidImplicitName : StatusErr()
+
     public data class ImplicitNameNotFound(val name: String) : StatusErr()
 
-    public object CacheTypeNotFound : StatusUpdate()
+    public data object CacheTypeNotFound : StatusUpdate()
 
     public data class CacheTypeHashMismatch(val hash: Long?, val cacheHash: Long) : StatusIssue()
 
-    public object FullSuccess : StatusOk()
+    public data object FullSuccess : StatusOk()
 }
 
 internal fun <T> T.ok(status: TypeReferenceResult.StatusOk): TypeReferenceResult =

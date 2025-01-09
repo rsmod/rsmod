@@ -32,13 +32,13 @@ public object TypeResolver {
         type.internalId = id
     }
 
-    public operator fun get(type: ModGroup): Int? = type.internalId
+    public operator fun get(type: ModGroup): Int = type.internalId
 
     public operator fun set(type: ModGroup, id: Int) {
         type.internalId = id
     }
 
-    public operator fun get(type: ModLevel): Int? = type.internalId
+    public operator fun get(type: ModLevel): Int = type.internalId
 
     public operator fun set(type: ModLevel, id: Int) {
         type.internalId = id
@@ -62,10 +62,18 @@ public object TypeResolver {
         type.internalId = id
     }
 
+    public operator fun set(type: InterfaceType, internalName: String) {
+        type.internalName = internalName
+    }
+
     public operator fun <K, V> get(type: EnumType<K, V>): Int? = type.internalId
 
     public operator fun <K : Any, V : Any> set(type: EnumType<K, V>, id: Int) {
         type.internalId = id
+    }
+
+    public operator fun set(type: EnumType<*, *>, internalName: String) {
+        type.internalName = internalName
     }
 
     public operator fun get(type: FontMetricsType): Int? = type.internalId
@@ -84,10 +92,18 @@ public object TypeResolver {
         type.internalId = id
     }
 
+    public operator fun set(type: ComponentType, internalName: String) {
+        type.internalName = internalName
+    }
+
     public operator fun get(type: InvType): Int? = type.internalId
 
     public operator fun set(type: InvType, id: Int) {
         type.internalId = id
+    }
+
+    public operator fun set(type: InvType, internalName: String) {
+        type.internalName = internalName
     }
 
     public operator fun get(type: LocType): Int? = type.internalId
@@ -96,7 +112,11 @@ public object TypeResolver {
         type.internalId = id
     }
 
-    public operator fun get(type: MesAnimType): Int? = type.internalId
+    public operator fun set(type: LocType, internalName: String) {
+        type.internalName = internalName
+    }
+
+    public operator fun get(type: MesAnimType): Int = type.internalId
 
     public operator fun set(type: MesAnimType, id: Int) {
         type.internalId = id
@@ -108,10 +128,18 @@ public object TypeResolver {
         type.internalId = id
     }
 
+    public operator fun set(type: NpcType, internalName: String) {
+        type.internalName = internalName
+    }
+
     public operator fun get(type: ObjType): Int? = type.internalId
 
     public operator fun set(type: ObjType, id: Int) {
         type.internalId = id
+    }
+
+    public operator fun set(type: ObjType, internalName: String) {
+        type.internalName = internalName
     }
 
     public operator fun get(type: QueueType): Int? = type.internalId
@@ -140,10 +168,6 @@ public object TypeResolver {
         type.internalId = id
     }
 
-    public operator fun set(type: StatType, internalName: String) {
-        type.internalName = internalName
-    }
-
     public operator fun get(type: SynthType): Int? = type.internalId
 
     public operator fun set(type: SynthType, id: Int) {
@@ -162,54 +186,24 @@ public object TypeResolver {
         type.internalId = id
     }
 
+    public operator fun set(type: ParamType<*>, internalName: String) {
+        type.internalName = internalName
+    }
+
     public operator fun get(type: VarBitType): Int? = type.internalId
 
     public operator fun set(type: VarBitType, id: Int) {
         type.internalId = id
     }
 
+    public operator fun set(type: VarBitType, internalName: String) {
+        type.internalName = internalName
+    }
+
     public operator fun get(type: VarpType): Int? = type.internalId
 
     public operator fun set(type: VarpType, id: Int) {
         type.internalId = id
-    }
-
-    public operator fun get(type: VarObjBitType): Int? = type.internalId
-
-    public operator fun set(type: VarObjBitType, id: Int) {
-        type.internalId = id
-    }
-
-    public operator fun set(type: InterfaceType, internalName: String) {
-        type.internalName = internalName
-    }
-
-    public operator fun set(type: InvType, internalName: String) {
-        type.internalName = internalName
-    }
-
-    public operator fun set(type: ComponentType, internalName: String) {
-        type.internalName = internalName
-    }
-
-    public operator fun set(type: EnumType<*, *>, internalName: String) {
-        type.internalName = internalName
-    }
-
-    public operator fun set(type: LocType, internalName: String) {
-        type.internalName = internalName
-    }
-
-    public operator fun set(type: NpcType, internalName: String) {
-        type.internalName = internalName
-    }
-
-    public operator fun set(type: ObjType, internalName: String) {
-        type.internalName = internalName
-    }
-
-    public operator fun set(type: ParamType<*>, internalName: String) {
-        type.internalName = internalName
     }
 
     public operator fun set(type: VarpType, internalName: String) {
@@ -220,8 +214,10 @@ public object TypeResolver {
         type.transmit = transmit
     }
 
-    public operator fun set(type: VarBitType, internalName: String) {
-        type.internalName = internalName
+    public operator fun get(type: VarObjBitType): Int? = type.internalId
+
+    public operator fun set(type: VarObjBitType, id: Int) {
+        type.internalId = id
     }
 
     public operator fun set(type: VarBitType, baseVar: VarpType) {
