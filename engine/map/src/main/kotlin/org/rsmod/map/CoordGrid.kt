@@ -57,7 +57,7 @@ public value class CoordGrid(public val packed: Int) {
     /**
      * Chebyshev distance between two [org.rsmod.map.CoordGrid]s is used for specific scenarios. For
      * general distance calculation consider using [org.rsmod.map.util.Bounds] instead, which takes
-     * width and height dimensions into account.
+     * width and length dimensions into account.
      */
     public fun chebyshevDistance(other: CoordGrid): Int = max(abs(x - other.x), abs(z - other.z))
 
