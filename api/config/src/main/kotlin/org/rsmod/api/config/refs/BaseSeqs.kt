@@ -10,8 +10,23 @@ public object BaseSeqs : SeqReferences() {
     public val human_reachforladddertop: SeqType =
         find("human_reachforladddertop", 982512216732930687)
     public val human_pickuptable: SeqType = find("human_pickuptable", 7332159705071832323)
-    public val human_woodcutting_bronze_axe: SeqType =
-        find("human_woodcutting_bronze_axe", 1004037693580768110)
+
+    public val human_woodcutting_bronze_axe: SeqType = find("human_woodcutting_bronze_axe")
+    public val human_woodcutting_iron_axe: SeqType = find("human_woodcutting_iron_axe")
+    public val human_woodcutting_steel_axe: SeqType = find("human_woodcutting_steel_axe")
+    public val human_woodcutting_black_axe: SeqType = find("human_woodcutting_black_axe")
+    public val human_woodcutting_mithril_axe: SeqType = find("human_woodcutting_mithril_axe")
+    public val human_woodcutting_adamant_axe: SeqType = find("human_woodcutting_adamant_axe")
+    public val human_woodcutting_blessed_axe: SeqType = find("human_woodcutting_blessed_axe")
+    public val human_woodcutting_rune_axe: SeqType = find("human_woodcutting_rune_axe")
+    public val human_woodcutting_gilded_axe: SeqType = find("human_woodcutting_gilded_axe")
+    public val human_woodcutting_dragon_axe: SeqType = find("human_woodcutting_dragon_axe")
+    public val human_woodcutting_dragon_axe_or: SeqType = find("human_woodcutting_dragon_axe_or")
+    public val human_woodcutting_3a_axe: SeqType = find("human_woodcutting_3a_axe")
+    public val human_woodcutting_infernal_axe: SeqType = find("human_woodcutting_infernal_axe")
+    public val human_woodcutting_infernal_axe_or: SeqType =
+        find("human_woodcutting_infernal_axe_or")
+    public val human_woodcutting_crystal_axe: SeqType = find("human_woodcutting_crystal_axe")
 
     public val chat_quiz1: SeqType = find("chat_quiz1", 4245769988701295170)
     public val chat_quiz2: SeqType = find("chat_quiz2", 6483730274112213507)

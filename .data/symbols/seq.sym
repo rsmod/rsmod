@@ -74,7 +74,22 @@
 827	human_pickupfloor
 828	human_reachforladddertop
 832	human_pickuptable
+
+24	human_woodcutting_dragon_axe_or
+867	human_woodcutting_rune_axe
+869	human_woodcutting_adamant_axe
+871	human_woodcutting_mithril_axe
+873	human_woodcutting_black_axe
+875	human_woodcutting_steel_axe
+877	human_woodcutting_iron_axe
 879	human_woodcutting_bronze_axe
+2117	human_woodcutting_infernal_axe
+2846	human_woodcutting_dragon_axe
+5383	human_woodcutting_blessed_axe
+7264	human_woodcutting_3a_axe
+8303	human_woodcutting_gilded_axe
+8778	human_woodcutting_infernal_axe_or
+8324	human_woodcutting_crystal_axe
 
 2109	emote_jump_with_joy
 2113	emote_shrug
