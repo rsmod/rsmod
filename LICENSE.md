@@ -1,4 +1,4 @@
-Copyright (c) 2024 RS Mod
+Copyright (c) 2025 RS Mod
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
