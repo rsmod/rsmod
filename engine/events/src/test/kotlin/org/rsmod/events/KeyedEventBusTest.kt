@@ -81,6 +81,7 @@ class KeyedEventBusTest {
         override val id: Long = pid.toLong()
     }
 
+    @Suppress("EXTENSION_SHADOWED_BY_MEMBER")
     private operator fun <T : KeyedEvent> KeyedEventBus.get(
         type: Class<T>,
         key: Long,
