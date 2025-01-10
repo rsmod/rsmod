@@ -50,7 +50,7 @@ constructor(
     }
 
     internal fun processReveal(npc: Npc) {
-        if (npc.shouldTrigger(npc.lifecycleRevealCycle)) {
+        if (shouldTrigger(npc.lifecycleRevealCycle)) {
             registry.reveal(npc)
         }
     }
@@ -63,10 +63,10 @@ constructor(
 
     private fun computeDurations() {
         for (npc in npcList) {
-            if (npc.shouldTrigger(npc.lifecycleDelCycle)) {
+            if (shouldTrigger(npc.lifecycleDelCycle)) {
                 delNpcs.add(npc)
             }
-            if (npc.shouldTrigger(npc.lifecycleAddCycle)) {
+            if (shouldTrigger(npc.lifecycleAddCycle)) {
                 addNpcs.add(npc)
             }
         }
@@ -86,5 +86,5 @@ constructor(
         addNpcs.clear()
     }
 
-    private fun Npc.shouldTrigger(triggerCycle: Int): Boolean = mapClock.cycle == triggerCycle
+    private fun shouldTrigger(triggerCycle: Int): Boolean = mapClock.cycle == triggerCycle
 }
