@@ -152,16 +152,16 @@ public fun <T> ScriptContext.onNpcQueueWithArgs(
 ): Unit = onEvent(type.id, action)
 
 public fun ScriptContext.onNpcQueue(
-    npc: NpcType,
+    type: NpcType,
     queue: QueueType,
     action: NpcQueueEvents.Type<Nothing>.() -> Unit,
-): Unit = onEvent((npc.id.toLong() shl 32) or queue.id.toLong(), action)
+): Unit = onEvent((type.id.toLong() shl 32) or queue.id.toLong(), action)
 
 public fun <T> ScriptContext.onNpcQueueWithArgs(
-    npc: NpcType,
+    type: NpcType,
     queue: QueueType,
     action: NpcQueueEvents.Type<T>.() -> Unit,
-): Unit = onEvent((npc.id.toLong() shl 32) or queue.id.toLong(), action)
+): Unit = onEvent((type.id.toLong() shl 32) or queue.id.toLong(), action)
 
 public fun ScriptContext.onNpcQueue(
     content: ContentGroupType,
