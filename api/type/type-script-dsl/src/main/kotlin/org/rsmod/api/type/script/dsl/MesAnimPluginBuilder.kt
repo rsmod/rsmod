@@ -10,25 +10,10 @@ import org.rsmod.game.type.seq.SeqType
 public class MesAnimPluginBuilder(public var internal: String? = null) {
     private val backing: MesAnimTypeBuilder = MesAnimTypeBuilder()
 
-    public var len1: SeqType? = null
-        set(value) {
-            backing.len1 = value
-        }
-
-    public var len2: SeqType? = null
-        set(value) {
-            backing.len2 = value
-        }
-
-    public var len3: SeqType? = null
-        set(value) {
-            backing.len3 = value
-        }
-
-    public var len4: SeqType? = null
-        set(value) {
-            backing.len4 = value
-        }
+    public var len1: SeqType? by backing::len1
+    public var len2: SeqType? by backing::len2
+    public var len3: SeqType? by backing::len3
+    public var len4: SeqType? by backing::len4
 
     public fun build(id: Int): MesAnimType {
         backing.internal = internal
