@@ -3,6 +3,7 @@ package org.rsmod.game.type
 import org.rsmod.game.type.category.CategoryType
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.content.ContentGroupType
+import org.rsmod.game.type.controller.ControllerType
 import org.rsmod.game.type.currency.CurrencyType
 import org.rsmod.game.type.enums.EnumType
 import org.rsmod.game.type.enums.UnpackedEnumType
@@ -22,6 +23,8 @@ import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.synth.SynthType
 import org.rsmod.game.type.timer.TimerType
 import org.rsmod.game.type.varbit.VarBitType
+import org.rsmod.game.type.varcon.VarConType
+import org.rsmod.game.type.varconbit.VarConBitType
 import org.rsmod.game.type.varobjbit.VarObjBitType
 import org.rsmod.game.type.varp.VarpType
 
@@ -53,6 +56,12 @@ public object TypeResolver {
     public operator fun get(type: ContentGroupType): Int? = type.internalId
 
     public operator fun set(type: ContentGroupType, id: Int) {
+        type.internalId = id
+    }
+
+    public operator fun get(type: ControllerType): Int? = type.internalId
+
+    public operator fun set(type: ControllerType, id: Int) {
         type.internalId = id
     }
 
@@ -188,6 +197,18 @@ public object TypeResolver {
 
     public operator fun set(type: ParamType<*>, internalName: String) {
         type.internalName = internalName
+    }
+
+    public operator fun get(type: VarConType): Int? = type.internalId
+
+    public operator fun set(type: VarConType, id: Int) {
+        type.internalId = id
+    }
+
+    public operator fun get(type: VarConBitType): Int? = type.internalId
+
+    public operator fun set(type: VarConBitType, id: Int) {
+        type.internalId = id
     }
 
     public operator fun get(type: VarBitType): Int? = type.internalId

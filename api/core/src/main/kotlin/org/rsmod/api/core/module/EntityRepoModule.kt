@@ -1,6 +1,7 @@
 package org.rsmod.api.core.module
 
 import org.rsmod.api.repo.EntityLifecycleProcess
+import org.rsmod.api.repo.controller.ControllerRepository
 import org.rsmod.api.repo.loc.LocRepository
 import org.rsmod.api.repo.npc.NpcRepository
 import org.rsmod.api.repo.obj.ObjRepository
@@ -12,5 +13,6 @@ public object EntityRepoModule : ExtendedModule() {
         bindInstance<LocRepository>()
         bindInstance<NpcRepository>()
         bindInstance<ObjRepository>()
+        bindInstance<ControllerRepository>()
     }
 }

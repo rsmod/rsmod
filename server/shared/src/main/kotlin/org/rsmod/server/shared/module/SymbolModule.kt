@@ -28,6 +28,7 @@ private class NameMappingProvider : Provider<NameMapping> {
         val interfaces = dirs.readSymbols("interface")
         val components = dirs.readComps("component", interfaces = interfaces)
         val content = dirs.readSymbols("content")
+        val controllers = dirs.readSymbols("controller")
         val currencies = dirs.readSymbols("currency")
         val enums = dirs.readSymbols("enum")
         val fonts = dirs.readSymbols("font")
@@ -44,6 +45,8 @@ private class NameMappingProvider : Provider<NameMapping> {
         val stats = dirs.readSymbols("stat")
         val synths = dirs.readSymbols("synth")
         val timers = dirs.readSymbols("timer")
+        val varcons = dirs.readSymbols("varcon")
+        val varconbits = dirs.readSymbols("varconbit")
         val varbits = dirs.readSymbols("varbit")
         val varobjbits = dirs.readSymbols("varobj")
         val varps = dirs.readSymbols("varp")
@@ -71,6 +74,9 @@ private class NameMappingProvider : Provider<NameMapping> {
             currencies = currencies,
             timers = timers,
             queues = queues,
+            controllers = controllers,
+            varcons = varcons,
+            varconbits = varconbits,
         )
     }
 

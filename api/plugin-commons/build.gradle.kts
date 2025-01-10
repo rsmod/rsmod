@@ -9,6 +9,7 @@ dependencies {
     api(projects.api.cache)
     api(projects.api.cheat)
     api(projects.api.config)
+    api(projects.api.controller)
     api(projects.api.dialogue)
     api(projects.api.gameProcess)
     api(projects.api.invtx)

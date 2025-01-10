@@ -296,6 +296,13 @@ public sealed class PathingEntity {
      *
      * @see [PathingEntityAvatar.distanceTo]
      */
+    public fun distanceTo(other: Controller): Int = avatar.distanceTo(other.bounds())
+
+    /**
+     * Alias for [PathingEntityAvatar.distanceTo].
+     *
+     * @see [PathingEntityAvatar.distanceTo]
+     */
     public fun distanceTo(loc: BoundLocInfo): Int = avatar.distanceTo(loc.bounds())
 
     /**
@@ -316,6 +323,14 @@ public sealed class PathingEntity {
      * @see [PathingEntityAvatar.isWithinDistance]
      */
     public fun isWithinDistance(other: PathingEntity, distance: Int): Boolean =
+        avatar.isWithinDistance(other.bounds(), distance)
+
+    /**
+     * Alias for [PathingEntityAvatar.isWithinDistance].
+     *
+     * @see [PathingEntityAvatar.isWithinDistance]
+     */
+    public fun isWithinDistance(other: Controller, distance: Int): Boolean =
         avatar.isWithinDistance(other.bounds(), distance)
 
     /**

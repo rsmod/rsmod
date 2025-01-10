@@ -41,7 +41,15 @@ constructor(private val objTypes: ObjTypeList, private val locRepo: LocRepositor
 
     private fun ProtectedAccess.attempt(tree: BoundLocInfo, type: UnpackedLocType) {
         if (player.woodcuttingLvl < type.treeLevelReq) {
+            resetAnim()
             mes("You need a Woodcutting level of ${type.treeLevelReq} to chop down this tree.")
+            return
+        }
+
+        if (inv.isFull()) {
+            resetAnim()
+            val product = objTypes[type.treeLogs]
+            mes("Your inventory is too full to hold any more ${product.name.lowercase()}.")
             return
         }
 
@@ -63,17 +71,24 @@ constructor(private val objTypes: ObjTypeList, private val locRepo: LocRepositor
     }
 
     private fun ProtectedAccess.cut(tree: BoundLocInfo, type: UnpackedLocType) {
+        val axe = findAxe(player, objTypes)
+        if (axe == null) {
+            resetAnim()
+            mes("You need an axe to chop down this tree.")
+            mes("You do not have an axe which you have the woodcutting level to use.")
+            return
+        }
+
         if (player.woodcuttingLvl < type.treeLevelReq) {
             resetAnim()
             mes("You need a Woodcutting level of ${type.treeLevelReq} to chop down this tree.")
             return
         }
 
-        val axe = findAxe(player, objTypes)
-        if (axe == null) {
+        if (inv.isFull()) {
             resetAnim()
-            mes("You need an axe to chop down this tree.")
-            mes("You do not have an axe which you have the woodcutting level to use.")
+            val product = objTypes[type.treeLogs]
+            mes("Your inventory is too full to hold any more ${product.name.lowercase()}.")
             return
         }
 
@@ -88,7 +103,7 @@ constructor(private val objTypes: ObjTypeList, private val locRepo: LocRepositor
         if (actionDelay < mapClock) {
             actionDelay = mapClock + 3
         } else if (actionDelay == mapClock) {
-            cutLogs = true
+            cutLogs = true // TODO: Random roll
             despawn = !type.hasDespawnTimer && random.of(1, 255) > type.treeDepleteChance
         }
 
@@ -156,8 +171,7 @@ constructor(private val objTypes: ObjTypeList, private val locRepo: LocRepositor
         }
 
         private fun Player.carriedAxe(objTypes: ObjTypeList): InvObj? {
-            val level = woodcuttingLvl
-            return inv.filterNotNull { objTypes[it].isUsableAxe(level) }
+            return inv.filterNotNull { objTypes[it].isUsableAxe(woodcuttingLvl) }
                 .maxByOrNull { objTypes[it].axeWoodcuttingReq }
         }
 

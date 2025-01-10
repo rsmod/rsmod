@@ -1,4 +1,4 @@
-package org.rsmod.api.type.builders.varobjbit
+package org.rsmod.api.type.builders.varcon
 
 import jakarta.inject.Inject
 import org.rsmod.api.type.builders.TypeBuilder
@@ -8,21 +8,21 @@ import org.rsmod.api.type.builders.resolver.TypeBuilderResult.FullSuccess
 import org.rsmod.api.type.builders.resolver.TypeBuilderResult.NameNotFound
 import org.rsmod.api.type.builders.resolver.err
 import org.rsmod.api.type.builders.resolver.ok
-import org.rsmod.api.type.script.dsl.VarObjBitPluginBuilder
 import org.rsmod.api.type.symbols.name.NameMapping
 import org.rsmod.game.type.TypeResolver
-import org.rsmod.game.type.varobjbit.UnpackedVarObjBitType
+import org.rsmod.game.type.varcon.UnpackedVarConType
+import org.rsmod.game.type.varcon.VarConTypeBuilder
 
-public class VarObjBitResolver @Inject constructor(private val nameMapping: NameMapping) :
-    TypeBuilderResolver<VarObjBitPluginBuilder, UnpackedVarObjBitType> {
+public class VarConBuilderResolver @Inject constructor(private val nameMapping: NameMapping) :
+    TypeBuilderResolver<VarConTypeBuilder, UnpackedVarConType> {
     private val names: Map<String, Int>
-        get() = nameMapping.varobjbits
+        get() = nameMapping.varcons
 
     override fun resolve(
-        builders: TypeBuilder<VarObjBitPluginBuilder, UnpackedVarObjBitType>
+        builders: TypeBuilder<VarConTypeBuilder, UnpackedVarConType>
     ): List<TypeBuilderResult> = builders.cache.map { it.resolve() }
 
-    private fun UnpackedVarObjBitType.resolve(): TypeBuilderResult {
+    private fun UnpackedVarConType.resolve(): TypeBuilderResult {
         val internalId = names[internalNameGet] ?: return err(NameNotFound(internalNameGet))
         TypeResolver[this] = internalId
         return ok(FullSuccess)

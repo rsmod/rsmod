@@ -2,6 +2,8 @@ package org.rsmod.api.type.builders.resolver
 
 import jakarta.inject.Inject
 import org.rsmod.api.type.builders.TypeBuilder
+import org.rsmod.api.type.builders.controller.ControllerBuilder
+import org.rsmod.api.type.builders.controller.ControllerResolver
 import org.rsmod.api.type.builders.enums.EnumBuilder
 import org.rsmod.api.type.builders.enums.EnumBuilderResolver
 import org.rsmod.api.type.builders.inv.InvBuilder
@@ -18,12 +20,17 @@ import org.rsmod.api.type.builders.obj.ObjBuilder
 import org.rsmod.api.type.builders.obj.ObjBuilderResolver
 import org.rsmod.api.type.builders.param.ParamBuilder
 import org.rsmod.api.type.builders.param.ParamBuilderResolver
+import org.rsmod.api.type.builders.varcon.VarConBuilder
+import org.rsmod.api.type.builders.varcon.VarConBuilderResolver
+import org.rsmod.api.type.builders.varconbit.VarConBitBuilder
+import org.rsmod.api.type.builders.varconbit.VarConBitBuilderResolver
 import org.rsmod.api.type.builders.varobjbit.VarObjBitBuilder
-import org.rsmod.api.type.builders.varobjbit.VarObjBitResolver
+import org.rsmod.api.type.builders.varobjbit.VarObjBitBuilderResolver
 
 public class TypeBuilderResolverMap
 @Inject
 constructor(
+    private val conResolver: ControllerResolver,
     private val enumResolver: EnumBuilderResolver,
     private val invResolver: InvBuilderResolver,
     private val locResolver: LocBuilderResolver,
@@ -32,7 +39,9 @@ constructor(
     private val npcResolver: NpcBuilderResolver,
     private val objResolver: ObjBuilderResolver,
     private val paramResolver: ParamBuilderResolver,
-    private val varObjBitResolver: VarObjBitResolver,
+    private val varConResolver: VarConBuilderResolver,
+    private val varConBitResolver: VarConBitBuilderResolver,
+    private val varObjBitResolver: VarObjBitBuilderResolver,
 ) {
     private val builders = mutableListOf<TypeBuilder<*, *>>()
 
@@ -94,6 +103,7 @@ constructor(
     private fun <B, T> TypeBuilder<B, T>.resolver(): TypeBuilderResolver<B, T> {
         val resolver =
             when (this) {
+                is ControllerBuilder -> conResolver
                 is EnumBuilder -> enumResolver
                 is InvBuilder -> invResolver
                 is LocBuilder -> locResolver
@@ -102,6 +112,8 @@ constructor(
                 is NpcBuilder -> npcResolver
                 is ObjBuilder -> objResolver
                 is ParamBuilder -> paramResolver
+                is VarConBuilder -> varConResolver
+                is VarConBitBuilder -> varConBitResolver
                 is VarObjBitBuilder -> varObjBitResolver
                 else -> throw NotImplementedError("Resolver not defined for type-builder: $this")
             }
