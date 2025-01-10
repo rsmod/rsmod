@@ -78,7 +78,7 @@ constructor(
         }
     }
 
-    private fun Npc.tryOrDespawn(block: Npc.() -> Unit) =
+    private inline fun Npc.tryOrDespawn(block: Npc.() -> Unit) =
         try {
             block(this)
         } catch (e: Exception) {

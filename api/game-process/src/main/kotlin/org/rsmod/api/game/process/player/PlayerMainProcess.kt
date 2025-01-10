@@ -118,7 +118,7 @@ constructor(
         client.completePlayerCycle(this)
     }
 
-    private fun Player.tryOrDisconnect(block: Player.() -> Unit) =
+    private inline fun Player.tryOrDisconnect(block: Player.() -> Unit) =
         try {
             block(this)
         } catch (e: Exception) {

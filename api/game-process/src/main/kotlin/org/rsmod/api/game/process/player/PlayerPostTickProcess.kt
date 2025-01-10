@@ -25,6 +25,7 @@ constructor(private val players: PlayerList, private val zoneUpdates: PlayerZone
         }
     }
 
+    @Suppress("DeferredResultUnused")
     private fun PlayerList.processZones() = runBlocking {
         zoneUpdates.computeEnclosedBuffers()
         supervisorScope {
@@ -44,7 +45,7 @@ constructor(private val players: PlayerList, private val zoneUpdates: PlayerZone
         pendingSequence = EntitySeq.NULL
     }
 
-    private fun Player.tryOrDisconnect(block: Player.() -> Unit) =
+    private inline fun Player.tryOrDisconnect(block: Player.() -> Unit) =
         try {
             block(this)
         } catch (e: Exception) {
