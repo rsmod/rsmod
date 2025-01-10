@@ -14,6 +14,7 @@ dependencies {
     implementation(projects.api.config)
     implementation(projects.api.gameProcess)
     implementation(projects.api.invtx)
+    implementation(projects.api.market)
     implementation(projects.api.player)
     implementation(projects.api.playerOutput)
     implementation(projects.api.script)

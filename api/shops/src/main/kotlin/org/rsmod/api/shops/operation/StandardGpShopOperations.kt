@@ -7,6 +7,7 @@ import org.rsmod.api.config.refs.objs
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.invtx.invTransaction
 import org.rsmod.api.invtx.select
+import org.rsmod.api.market.MarketPrices
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.output.objExamine
 import org.rsmod.api.shops.cost.StandardGpCostCalculations
@@ -26,8 +27,11 @@ private typealias CostCalculation = StandardGpCostCalculations
 
 public class StandardGpShopOperations
 @Inject
-constructor(private val objTypes: ObjTypeList, private val restockProcess: ShopRestockProcess) :
-    StandardShopOperations {
+constructor(
+    private val objTypes: ObjTypeList,
+    private val restockProcess: ShopRestockProcess,
+    private val marketPrices: MarketPrices,
+) : StandardShopOperations {
     private val currencyObj: UnpackedObjType by lazy { objTypes[objs.coins] }
 
     override fun examineShopValue(player: Player, shop: Shop, slot: Int) {
@@ -260,7 +264,8 @@ constructor(private val objTypes: ObjTypeList, private val restockProcess: ShopR
     override fun examineDesc(player: Player, inv: Inventory, shop: Shop, slot: Int) {
         val obj = inv[slot] ?: return
         val type = objTypes[obj]
-        player.objExamine(type, obj.count)
+        val marketPrice = marketPrices[type] ?: 0
+        player.objExamine(type, obj.count, marketPrice)
     }
 
     private fun Inventory.initialStockCount(obj: InvObj): Int = initialStockCount(obj.id)

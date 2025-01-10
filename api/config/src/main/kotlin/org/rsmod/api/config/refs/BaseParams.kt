@@ -25,6 +25,7 @@ public object BaseParams : ParamReferences() {
     public val wear_op8: ParamStr = find("wear_op8", 97133155624)
     public val statreq0_level: ParamInt = find("statreq0_level", 88687192592)
     public val statreq1_level: ParamInt = find("statreq1_level", 88687192593)
+    public val no_alchemy: ParamInt = find("no_alchemy")
 
     /* Server-side only types */
     public val respawn_time: ParamInt = find("respawn_time")

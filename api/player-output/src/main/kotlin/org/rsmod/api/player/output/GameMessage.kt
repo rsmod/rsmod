@@ -1,7 +1,7 @@
 package org.rsmod.api.player.output
 
 import net.rsprot.protocol.game.outgoing.misc.player.MessageGame
-import org.rsmod.api.utils.format.formatAmount
+import org.rsmod.api.config.refs.params
 import org.rsmod.game.entity.Player
 import org.rsmod.game.type.obj.UnpackedObjType
 
@@ -14,12 +14,18 @@ public fun Player.mes(text: String, type: ChatType = ChatType.GameMessage) {
     client.write(message)
 }
 
-public fun Player.objExamine(type: UnpackedObjType, count: Int) {
-    if (count >= 100_000) {
-        mes("${count.formatAmount} x ${type.name}.")
-    } else {
-        mes(type.desc, ChatType.ObjExamine)
-    }
+public fun Player.objExamine(type: UnpackedObjType, count: Int, marketPrice: Int) {
+    ClientScripts.examineItem(
+        player = this,
+        obj = type.id,
+        count = count,
+        desc = type.desc,
+        market = type.stockmarket,
+        marketPrice = marketPrice,
+        alchable = type.param(params.no_alchemy) == 0,
+        lowAlch = type.lowAlch,
+        highAlch = type.highAlch,
+    )
 }
 
 public object GameMessage {

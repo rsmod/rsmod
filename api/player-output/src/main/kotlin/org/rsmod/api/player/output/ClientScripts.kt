@@ -111,4 +111,28 @@ public object ClientScripts {
             if (enableBuy50) 1 else 0,
         )
     }
+
+    public fun examineItem(
+        player: Player,
+        obj: Int,
+        count: Int,
+        desc: String,
+        market: Boolean,
+        marketPrice: Int,
+        alchable: Boolean,
+        highAlch: Int,
+        lowAlch: Int,
+    ) {
+        player.runClientScript(
+            6003,
+            obj,
+            count,
+            desc,
+            if (market) 1 else 0,
+            marketPrice,
+            if (alchable) 1 else 0,
+            highAlch,
+            lowAlch,
+        )
+    }
 }

@@ -139,6 +139,12 @@ public class UnpackedObjType(
     public val isDummyItem: Boolean
         get() = dummyitem != ObjTypeBuilder.DEFAULT_DUMMYITEM
 
+    public val highAlch: Int
+        get() = cost * 60 / 100
+
+    public val lowAlch: Int
+        get() = cost * 40 / 100
+
     public fun isAssociatedWith(content: ContentGroupType): Boolean = contentGroup == content.id
 
     public fun <T : Any> param(type: ParamType<T>): T {
