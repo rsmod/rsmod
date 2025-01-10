@@ -3,8 +3,6 @@ package org.rsmod.api.game.process.npc
 import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
 import org.rsmod.api.game.process.npc.mode.NpcModeProcessor
-import org.rsmod.api.game.process.npc.timer.AITimerProcessor
-import org.rsmod.api.game.process.npc.timer.NpcTimerProcessor
 import org.rsmod.api.repo.NpcRevealProcessor
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Npc

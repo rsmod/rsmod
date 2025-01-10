@@ -1,4 +1,4 @@
-package org.rsmod.api.game.process.npc.timer
+package org.rsmod.api.game.process.npc
 
 import jakarta.inject.Inject
 import org.rsmod.api.npc.events.NpcAIEvents
