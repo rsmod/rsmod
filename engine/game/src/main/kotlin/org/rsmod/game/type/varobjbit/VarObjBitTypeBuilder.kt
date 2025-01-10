@@ -3,7 +3,7 @@ package org.rsmod.game.type.varobjbit
 @DslMarker private annotation class VarObjBitBuilderDsl
 
 @VarObjBitBuilderDsl
-public class VarObjTypeBitBuilder(public var internal: String? = null) {
+public class VarObjBitTypeBuilder(public var internal: String? = null) {
     public var startBit: Int? = null
     public var endBit: Int? = null
 

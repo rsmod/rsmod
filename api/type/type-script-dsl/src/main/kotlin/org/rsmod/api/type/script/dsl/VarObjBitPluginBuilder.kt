@@ -1,13 +1,13 @@
 package org.rsmod.api.type.script.dsl
 
 import org.rsmod.game.type.varobjbit.UnpackedVarObjBitType
-import org.rsmod.game.type.varobjbit.VarObjTypeBitBuilder
+import org.rsmod.game.type.varobjbit.VarObjBitTypeBuilder
 
 @DslMarker private annotation class VarObjBitBuilderDsl
 
 @VarObjBitBuilderDsl
 public class VarObjBitPluginBuilder(public var internal: String? = null) {
-    private val backing: VarObjTypeBitBuilder = VarObjTypeBitBuilder()
+    private val backing: VarObjBitTypeBuilder = VarObjBitTypeBuilder()
 
     public var startBit: Int? by backing::startBit
     public var endBit: Int? by backing::endBit
@@ -24,7 +24,7 @@ public class VarObjBitPluginBuilder(public var internal: String? = null) {
         return backing.build(id)
     }
 
-    private fun VarObjTypeBitBuilder.bits(): IntRange? {
+    private fun VarObjBitTypeBuilder.bits(): IntRange? {
         val startBit = startBit
         val endBit = endBit
         return if (startBit == null || endBit == null) {
