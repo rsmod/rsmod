@@ -43,7 +43,7 @@ constructor(
         eventBus.publish(NpcEvents.Delete(npc))
         npc.removeBlockWalkCollision(collision, npc.coords)
         zoneDel(npc, npc.lastProcessedZone)
-        npc.slotId = -1
+        npc.slotId = PathingEntity.INVALID_SLOT
         npc.disableAvatar()
         return true
     }
