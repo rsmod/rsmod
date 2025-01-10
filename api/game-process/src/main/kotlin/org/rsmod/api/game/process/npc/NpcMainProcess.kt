@@ -2,7 +2,6 @@ package org.rsmod.api.game.process.npc
 
 import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
-import kotlinx.coroutines.runBlocking
 import org.rsmod.api.game.process.npc.mode.NpcModeProcessor
 import org.rsmod.api.game.process.npc.timer.AITimerProcessor
 import org.rsmod.api.game.process.npc.timer.NpcTimerProcessor
@@ -27,11 +26,7 @@ constructor(
     private val logger = InlineLogger()
 
     public fun process() {
-        npcs.process()
-    }
-
-    private fun NpcList.process() = runBlocking {
-        for (npc in this@process) {
+        for (npc in npcs) {
             npc.previousCoords = npc.coords
             npc.currentMapClock = mapClock.cycle
             npc.tryOrDespawn {
