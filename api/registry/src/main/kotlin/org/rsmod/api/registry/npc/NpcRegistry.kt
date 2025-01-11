@@ -21,9 +21,8 @@ constructor(
 
     public fun count(): Int = zones.npcCount()
 
-    public fun add(npc: Npc) {
-        val slot = npcList.nextFreeSlot()
-        checkNotNull(slot) { "Could not find free slot for npc: $npc" }
+    public fun add(npc: Npc): NpcRegistryResult.Add {
+        val slot = npcList.nextFreeSlot() ?: return NpcRegistryResult.AddErrorInvalidSlot
         npcList[slot] = npc
         npc.slotId = slot
         npc.addBlockWalkCollision(collision, npc.coords)
@@ -31,17 +30,23 @@ constructor(
         eventBus.publish(NpcEvents.Spawn(npc))
         npc.lastProcessedZone = ZoneKey.from(npc.coords)
         zoneAdd(npc, npc.lastProcessedZone)
+        return NpcRegistryResult.AddSuccess
     }
 
-    public fun del(npc: Npc) {
-        check(npc.slotId != INVALID_SLOT) { "Npc does not have a valid slotId. (npc=$npc)" }
-        check(npcList[npc.slotId] == npc) { "Npc is not registered in `NpcList.` (npc=$npc)" }
+    public fun del(npc: Npc): NpcRegistryResult.Delete {
+        val slot = npc.slotId
+        if (slot == INVALID_SLOT) {
+            return NpcRegistryResult.DeleteErrorInvalidSlot
+        } else if (npcList[slot] != npc) {
+            return NpcRegistryResult.DeleteErrorSlotMismatch(npcList[slot])
+        }
         npcList.remove(npc.slotId)
         eventBus.publish(NpcEvents.Delete(npc))
         npc.removeBlockWalkCollision(collision, npc.coords)
         zoneDel(npc, npc.lastProcessedZone)
         npc.slotId = INVALID_SLOT
         npc.disableAvatar()
+        return NpcRegistryResult.DeleteSuccess
     }
 
     public fun hide(npc: Npc) {
@@ -77,13 +82,13 @@ constructor(
         zoneAdd(npc, to)
     }
 
-    public fun findAll(coords: CoordGrid): Sequence<Npc> =
-        findAll(ZoneKey.from(coords)).filter { it.coords == coords }
-
-    public fun findAll(key: ZoneKey): Sequence<Npc> {
-        val entries = zones[key] ?: return emptySequence()
+    public fun findAll(zone: ZoneKey): Sequence<Npc> {
+        val entries = zones[zone] ?: return emptySequence()
         return entries.entries.asSequence()
     }
+
+    public fun findAll(coords: CoordGrid): Sequence<Npc> =
+        findAll(ZoneKey.from(coords)).filter { it.coords == coords }
 
     private fun zoneDel(npc: Npc, zone: ZoneKey) {
         if (zone == ZoneKey.NULL) {

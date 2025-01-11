@@ -2,6 +2,7 @@ package org.rsmod.api.repo.obj
 
 import jakarta.inject.Inject
 import org.rsmod.api.registry.obj.ObjRegistry
+import org.rsmod.api.registry.obj.ObjRegistryResult
 import org.rsmod.game.MapClock
 import org.rsmod.game.obj.InvObj
 import org.rsmod.game.obj.Obj
@@ -24,13 +25,12 @@ constructor(
 
     public fun add(obj: Obj, duration: Int, reveal: Int = duration - DEFAULT_REVEAL_DELTA) {
         require(obj.count > 0) { "Obj must have a `count` higher than 0: $obj" }
-        val register = registry.add(obj)
-        when (register) {
+        when (val register = registry.add(obj)) {
             // TODO: Check how the duration is supposed to be calculated. Does it take the
             //  greater duration comparing the existing obj vs `duration` input from this call?
-            is ObjRegistry.RegisterMerge -> updateDurations(register.merged, duration, reveal)
-            is ObjRegistry.RegisterSplit -> addDurations(register.split, duration, reveal)
-            ObjRegistry.RegisterStack -> addDuration(obj, duration, reveal)
+            is ObjRegistryResult.Merge -> updateDurations(register.merged, duration, reveal)
+            is ObjRegistryResult.Split -> addDurations(register.split, duration, reveal)
+            ObjRegistryResult.Stack -> addDuration(obj, duration, reveal)
         }
     }
 
@@ -53,7 +53,7 @@ constructor(
     }
 
     public fun add(
-        obj: InvObj,
+        invObj: InvObj,
         coords: CoordGrid,
         duration: Int,
         reveal: Int = DEFAULT_REVEAL_DELTA,
@@ -61,10 +61,10 @@ constructor(
     ): Obj {
         val obj =
             if (receiverId != null) {
-                val entity = ObjEntity(obj.id, obj.count, ObjScope.Private.id)
+                val entity = ObjEntity(invObj.id, invObj.count, ObjScope.Private.id)
                 Obj(coords, entity, mapClock.cycle, receiverId)
             } else {
-                val entity = ObjEntity(obj.id, obj.count, ObjScope.Temp.id)
+                val entity = ObjEntity(invObj.id, invObj.count, ObjScope.Temp.id)
                 Obj(coords, entity, mapClock.cycle, Obj.NULL_RECEIVER_ID)
             }
         add(obj, duration, reveal)
@@ -88,9 +88,9 @@ constructor(
 
     private fun Obj.canRespawn(): Boolean = scope == ObjScope.Perm
 
-    public fun findAll(coords: CoordGrid): Sequence<Obj> = registry.findAll(coords)
-
     public fun findAll(zone: ZoneKey): Sequence<Obj> = registry.findAll(zone)
+
+    public fun findAll(coords: CoordGrid): Sequence<Obj> = registry.findAll(coords)
 
     private fun addDurations(objs: Iterable<Obj>, duration: Int, reveal: Int) {
         for (obj in objs) {

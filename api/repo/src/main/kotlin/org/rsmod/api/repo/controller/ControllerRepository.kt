@@ -14,26 +14,30 @@ public class ControllerRepository
 constructor(private val registry: ControllerRegistry, private val controllerList: ControllerList) {
     private val delControllers = ObjectArrayList<Controller>()
 
-    public fun add(controller: Controller, duration: Int): Boolean {
-        registry.add(controller)
+    public fun add(controller: Controller, duration: Int) {
+        val add = registry.add(controller)
+        check(add.isSuccess) { "Failed to add controller. (result=$add, controller=$controller)" }
         controller.duration(duration)
-        return true
     }
 
     public fun del(controller: Controller) {
-        require(controller.duration > -1) { "Duration must be greater than -1: $controller." }
-        registry.del(controller)
+        check(controller.duration > -1) { "Duration must be greater than -1: $controller." }
+        val del = registry.del(controller)
+        check(del.isSuccess) {
+            "Failed to delete controller. (result=$del, controller=$controller)"
+        }
     }
 
-    public fun findAll(key: ZoneKey): Sequence<Controller> = registry.findAll(key)
+    public fun findAll(zone: ZoneKey): Sequence<Controller> = registry.findAll(zone)
 
-    public fun findAll(coords: CoordGrid): Sequence<Controller> = registry.findAll(coords)
+    public fun findAll(coords: CoordGrid): Sequence<Controller> =
+        findAll(ZoneKey.from(coords)).filter { it.coords == coords }
 
     public fun findExact(coords: CoordGrid): Controller? =
-        registry.findAll(coords).firstOrNull { it.coords == coords }
+        findAll(ZoneKey.from(coords)).firstOrNull { it.coords == coords }
 
     public fun findExact(coords: CoordGrid, type: ControllerType): Controller? =
-        registry.findAll(coords).firstOrNull { it.coords == coords && it.id == type.id }
+        findAll(ZoneKey.from(coords)).firstOrNull { it.coords == coords && it.id == type.id }
 
     internal fun processDurations() {
         computeDurations()

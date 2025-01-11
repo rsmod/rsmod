@@ -42,7 +42,7 @@ constructor(
             return
         }
         val coords = CoordGrid(message.x, message.z, player.level)
-        val loc = locRegistry.find(coords, id = message.id) ?: return
+        val loc = locRegistry.findExact(coords, id = message.id) ?: return
         val type = locTypes[message.id] ?: return
         val speed = if (message.controlKey) player.ctrlMoveSpeed() else null
         val boundLoc = BoundLocInfo(loc, type)

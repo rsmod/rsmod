@@ -97,12 +97,15 @@ constructor(
 
     public fun findAll(zone: ZoneKey): Sequence<LocInfo> = registry.findAll(zone)
 
+    public fun findAll(coords: CoordGrid): Sequence<LocInfo> =
+        findAll(ZoneKey.from(coords)).filter { it.coords == coords }
+
     public fun findExact(
         coords: CoordGrid,
         type: LocType? = null,
         shape: LocShape? = null,
         angle: LocAngle? = null,
-    ): LocInfo? = registry.find(coords, type?.id, shape?.id, angle?.id)
+    ): LocInfo? = registry.findExact(coords, type?.id, shape?.id, angle?.id)
 
     public fun findExact(
         coords: CoordGrid,
@@ -111,7 +114,7 @@ constructor(
         shape: LocShape? = null,
         angle: LocAngle? = null,
     ): LocInfo? {
-        val loc = registry.find(coords, type?.id, shape?.id, angle?.id) ?: return null
+        val loc = registry.findExact(coords, type?.id, shape?.id, angle?.id) ?: return null
         return if (locTypes[loc].contentGroup == content.id) {
             loc
         } else {

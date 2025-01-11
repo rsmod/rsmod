@@ -160,6 +160,6 @@ class LocRegistryAddTest {
         assertEquals(setOf(spawnLoc), registry.findAll(zoneKey).toSet())
 
         // Map loc should no longer be found via `find` functions.
-        assertNull(registry.find(mapLoc.coords, mapLoc.id, mapLoc.shapeId, mapLoc.angleId))
+        assertNull(registry.findExact(mapLoc.coords, mapLoc.id, mapLoc.shapeId, mapLoc.angleId))
     }
 }

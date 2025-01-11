@@ -5,7 +5,6 @@ import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Controller
 import org.rsmod.game.entity.Controller.Companion.INVALID_SLOT
 import org.rsmod.game.entity.ControllerList
-import org.rsmod.map.CoordGrid
 import org.rsmod.map.zone.ZoneKey
 
 public class ControllerRegistry
@@ -15,35 +14,34 @@ constructor(private val mapClock: MapClock, private val controllerList: Controll
 
     public fun count(): Int = zones.controllerCount()
 
-    public fun add(controller: Controller) {
-        val slot = controllerList.nextFreeSlot()
-        checkNotNull(slot) { "Could not find free slot for controller: $controller" }
+    public fun add(controller: Controller): ControllerRegistryResult.Add {
+        val slot =
+            controllerList.nextFreeSlot() ?: return ControllerRegistryResult.AddErrorInvalidSlot
         controllerList[slot] = controller
         controller.slotId = slot
         controller.creationCycle = mapClock.cycle
         zoneAdd(controller, ZoneKey.from(controller.coords))
+        return ControllerRegistryResult.AddSuccess
     }
 
-    public fun del(controller: Controller) {
-        check(controller.slotId != INVALID_SLOT) {
-            "Controller does not have a valid slotId. (controller=$controller)"
-        }
-        check(controllerList[controller.slotId] == controller) {
-            "Controller is not registered in `ControllerList.` (controller=$controller)"
+    public fun del(controller: Controller): ControllerRegistryResult.Delete {
+        val slot = controller.slotId
+        if (slot == INVALID_SLOT) {
+            return ControllerRegistryResult.DeleteErrorInvalidSlot
+        } else if (controllerList[slot] != controller) {
+            return ControllerRegistryResult.DeleteErrorSlotMismatch(controllerList[slot])
         }
         controllerList.remove(controller.slotId)
         zoneDel(controller, ZoneKey.from(controller.coords))
         controller.slotId = INVALID_SLOT
         controller.destroy()
+        return ControllerRegistryResult.DeleteSuccess
     }
 
-    public fun findAll(key: ZoneKey): Sequence<Controller> {
-        val entries = zones[key] ?: return emptySequence()
+    public fun findAll(zone: ZoneKey): Sequence<Controller> {
+        val entries = zones[zone] ?: return emptySequence()
         return entries.entries.asSequence()
     }
-
-    public fun findAll(coords: CoordGrid): Sequence<Controller> =
-        findAll(ZoneKey.from(coords)).filter { it.coords == coords }
 
     private fun zoneDel(controller: Controller, zone: ZoneKey) {
         require(zone != ZoneKey.NULL) { "Invalid zone for controller: $controller" }
