@@ -18,10 +18,7 @@ constructor(
     private val delNpcs = ObjectArrayList<Npc>()
 
     public fun add(npc: Npc, duration: Int): Boolean {
-        val added = registry.add(npc)
-        if (!added) {
-            return false
-        }
+        registry.add(npc)
         if (duration != Int.MAX_VALUE) {
             val deleteCycle = mapClock + duration
             npc.lifecycleDelCycle = deleteCycle
@@ -30,10 +27,7 @@ constructor(
     }
 
     public fun del(npc: Npc, duration: Int): Boolean {
-        val deleted = registry.del(npc)
-        if (!deleted) {
-            return false
-        }
+        registry.del(npc)
         if (duration != Int.MAX_VALUE) {
             val addCycle = mapClock + duration
             npc.lifecycleAddCycle = addCycle

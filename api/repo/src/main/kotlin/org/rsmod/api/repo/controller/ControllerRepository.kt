@@ -15,10 +15,7 @@ constructor(private val registry: ControllerRegistry, private val controllerList
     private val delControllers = ObjectArrayList<Controller>()
 
     public fun add(controller: Controller, duration: Int): Boolean {
-        val added = registry.add(controller)
-        if (!added) {
-            return false
-        }
+        registry.add(controller)
         controller.duration(duration)
         return true
     }

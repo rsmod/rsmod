@@ -3,6 +3,7 @@ package org.rsmod.api.registry.controller
 import jakarta.inject.Inject
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Controller
+import org.rsmod.game.entity.Controller.Companion.INVALID_SLOT
 import org.rsmod.game.entity.ControllerList
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.zone.ZoneKey
@@ -14,26 +15,26 @@ constructor(private val mapClock: MapClock, private val controllerList: Controll
 
     public fun count(): Int = zones.controllerCount()
 
-    public fun add(controller: Controller): Boolean {
-        val slot = controllerList.nextFreeSlot() ?: return false
+    public fun add(controller: Controller) {
+        val slot = controllerList.nextFreeSlot()
+        checkNotNull(slot) { "Could not find free slot for controller: $controller" }
         controllerList[slot] = controller
         controller.slotId = slot
         controller.creationCycle = mapClock.cycle
         zoneAdd(controller, ZoneKey.from(controller.coords))
-        return true
     }
 
-    public fun del(controller: Controller): Boolean {
-        if (controller.slotId == Controller.INVALID_SLOT) {
-            return false
-        } else if (controllerList[controller.slotId] != controller) {
-            return false
+    public fun del(controller: Controller) {
+        check(controller.slotId != INVALID_SLOT) {
+            "Controller does not have a valid slotId. (controller=$controller)"
+        }
+        check(controllerList[controller.slotId] == controller) {
+            "Controller is not registered in `ControllerList.` (controller=$controller)"
         }
         controllerList.remove(controller.slotId)
         zoneDel(controller, ZoneKey.from(controller.coords))
-        controller.slotId = Controller.INVALID_SLOT
+        controller.slotId = INVALID_SLOT
         controller.destroy()
-        return true
     }
 
     public fun findAll(key: ZoneKey): Sequence<Controller> {

@@ -5,7 +5,7 @@ import org.rsmod.api.npc.events.NpcEvents
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.NpcList
-import org.rsmod.game.entity.PathingEntity
+import org.rsmod.game.entity.PathingEntity.Companion.INVALID_SLOT
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.zone.ZoneKey
 import org.rsmod.routefinder.collision.CollisionFlagMap
@@ -21,8 +21,9 @@ constructor(
 
     public fun count(): Int = zones.npcCount()
 
-    public fun add(npc: Npc): Boolean {
-        val slot = npcList.nextFreeSlot() ?: return false
+    public fun add(npc: Npc) {
+        val slot = npcList.nextFreeSlot()
+        checkNotNull(slot) { "Could not find free slot for npc: $npc" }
         npcList[slot] = npc
         npc.slotId = slot
         npc.addBlockWalkCollision(collision, npc.coords)
@@ -30,22 +31,17 @@ constructor(
         eventBus.publish(NpcEvents.Spawn(npc))
         npc.lastProcessedZone = ZoneKey.from(npc.coords)
         zoneAdd(npc, npc.lastProcessedZone)
-        return true
     }
 
-    public fun del(npc: Npc): Boolean {
-        if (npc.slotId == PathingEntity.INVALID_SLOT) {
-            return false
-        } else if (npcList[npc.slotId] != npc) {
-            return false
-        }
+    public fun del(npc: Npc) {
+        check(npc.slotId != INVALID_SLOT) { "Npc does not have a valid slotId. (npc=$npc)" }
+        check(npcList[npc.slotId] == npc) { "Npc is not registered in `NpcList.` (npc=$npc)" }
         npcList.remove(npc.slotId)
         eventBus.publish(NpcEvents.Delete(npc))
         npc.removeBlockWalkCollision(collision, npc.coords)
         zoneDel(npc, npc.lastProcessedZone)
-        npc.slotId = PathingEntity.INVALID_SLOT
+        npc.slotId = INVALID_SLOT
         npc.disableAvatar()
-        return true
     }
 
     public fun hide(npc: Npc) {
