@@ -5,6 +5,7 @@ import org.rsmod.api.registry.controller.ControllerRegistry
 import org.rsmod.api.registry.loc.LocRegistry
 import org.rsmod.api.registry.npc.NpcRegistry
 import org.rsmod.api.registry.obj.ObjRegistry
+import org.rsmod.api.registry.player.PlayerRegistry
 import org.rsmod.api.registry.zone.ZoneUpdateMap
 import org.rsmod.module.ExtendedModule
 import org.rsmod.routefinder.collision.CollisionFlagMap
@@ -15,6 +16,7 @@ public object GameMapModule : ExtendedModule() {
         bindInstance<LocRegistry>()
         bindInstance<NpcRegistry>()
         bindInstance<ObjRegistry>()
+        bindInstance<PlayerRegistry>()
         bindInstance<ControllerRegistry>()
         bindInstance<ZonePartialEnclosedCacheBuffer>()
         bindInstance<ZoneUpdateMap>()
