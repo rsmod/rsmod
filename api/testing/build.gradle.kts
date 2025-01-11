@@ -31,6 +31,7 @@ dependencies {
     implementation(projects.api.player)
     implementation(projects.api.registry)
     implementation(projects.api.repo)
+    implementation(projects.api.xpmod)
     implementation(projects.engine.annotations)
     implementation(projects.engine.plugin)
     implementation(projects.server.app)

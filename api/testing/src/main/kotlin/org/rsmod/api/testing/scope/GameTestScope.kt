@@ -5,6 +5,7 @@ import com.google.inject.Guice
 import com.google.inject.Inject
 import com.google.inject.Injector
 import com.google.inject.Scopes
+import com.google.inject.multibindings.Multibinder
 import kotlin.contracts.contract
 import kotlin.reflect.KClass
 import net.rsprot.protocol.game.outgoing.misc.player.MessageGame
@@ -22,6 +23,8 @@ import org.rsmod.api.testing.GameTestState
 import org.rsmod.api.testing.capture.CaptureClient
 import org.rsmod.api.testing.factory.collisionFactory
 import org.rsmod.api.testing.random.SequenceRandom
+import org.rsmod.api.xpmod.XpMod
+import org.rsmod.api.xpmod.XpModifiers
 import org.rsmod.events.EventBus
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.NpcList
@@ -386,6 +389,9 @@ constructor(
                 bind(SynthTypeList::class.java).toInstance(cacheTypes.synths)
                 bind(VarBitTypeList::class.java).toInstance(cacheTypes.varbits)
                 bind(VarpTypeList::class.java).toInstance(cacheTypes.varps)
+
+                Multibinder.newSetBinder(binder(), XpMod::class.java)
+                bind(XpModifiers::class.java).`in`(Scopes.SINGLETON)
             }
         }
     }
