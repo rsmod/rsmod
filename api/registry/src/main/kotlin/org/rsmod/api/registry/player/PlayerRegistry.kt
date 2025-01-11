@@ -31,7 +31,6 @@ constructor(
         player.slotId = slot
         eventBus.publish(SessionStateEvent.Initialize(player))
         eventBus.publish(SessionStateEvent.LogIn(player))
-        zoneAdd(player, ZoneKey.from(player.coords))
         return PlayerRegistryResult.AddSuccess
     }
 
