@@ -7,6 +7,10 @@ public class StatType(internal var internalId: Int?, internal var internalName: 
     public val internalNameGet: String
         get() = internalName
 
+    // TODO: Make value configurable.
+    public val maxLevel: Int
+        get() = 99
+
     override fun toString(): String =
         "StatType(internalName='$internalName', internalId=$internalId)"
 }

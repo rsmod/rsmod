@@ -9,9 +9,6 @@ import org.rsmod.game.stat.PlayerStatMap
 import org.rsmod.game.type.stat.StatType
 
 public object PlayerSkillXP {
-    // TODO: Move MAX_LEVEL as a value within each StatType.
-    private const val MAX_LEVEL: Int = 99
-
     public fun internalAddXP(
         player: Player,
         stat: StatType,
@@ -48,13 +45,13 @@ public object PlayerSkillXP {
 
     private fun Player.checkLevelUp(stat: StatType, eventBus: EventBus) {
         val baseLevel = statMap.getBaseLevel(stat)
-        if (baseLevel >= MAX_LEVEL) {
+        if (baseLevel >= stat.maxLevel) {
             return
         }
         val nextLevelXp = PlayerSkillXPTable.getXPFromLevel(baseLevel + 1)
         val currentXp = statMap.getXP(stat)
         if (currentXp >= nextLevelXp) {
-            val newLevel = min(MAX_LEVEL, PlayerSkillXPTable.getLevelFromXP(currentXp))
+            val newLevel = min(stat.maxLevel, PlayerSkillXPTable.getLevelFromXP(currentXp))
             statMap.setBaseLevel(stat, newLevel.toByte())
 
             // TODO: Find out if condition should return true when current level is boosted.
@@ -63,7 +60,7 @@ public object PlayerSkillXP {
                 statMap.setCurrentLevel(stat, newLevel.toByte())
             }
 
-            val levelUp = AdvanceStatEvent(this, stat, baseLevel.toInt(), newLevel.toInt())
+            val levelUp = AdvanceStatEvent(this, stat, baseLevel.toInt(), newLevel)
             eventBus.publish(levelUp)
         }
     }
