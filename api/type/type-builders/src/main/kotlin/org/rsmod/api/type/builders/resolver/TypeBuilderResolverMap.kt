@@ -3,7 +3,7 @@ package org.rsmod.api.type.builders.resolver
 import jakarta.inject.Inject
 import org.rsmod.api.type.builders.TypeBuilder
 import org.rsmod.api.type.builders.controller.ControllerBuilder
-import org.rsmod.api.type.builders.controller.ControllerResolver
+import org.rsmod.api.type.builders.controller.ControllerBuilderResolver
 import org.rsmod.api.type.builders.enums.EnumBuilder
 import org.rsmod.api.type.builders.enums.EnumBuilderResolver
 import org.rsmod.api.type.builders.inv.InvBuilder
@@ -11,9 +11,9 @@ import org.rsmod.api.type.builders.inv.InvBuilderResolver
 import org.rsmod.api.type.builders.loc.LocBuilder
 import org.rsmod.api.type.builders.loc.LocBuilderResolver
 import org.rsmod.api.type.builders.mesanim.MesAnimBuilder
-import org.rsmod.api.type.builders.mesanim.MesAnimResolver
+import org.rsmod.api.type.builders.mesanim.MesAnimBuilderResolver
 import org.rsmod.api.type.builders.mod.ModGroupBuilder
-import org.rsmod.api.type.builders.mod.ModGroupResolver
+import org.rsmod.api.type.builders.mod.ModGroupBuilderResolver
 import org.rsmod.api.type.builders.npc.NpcBuilder
 import org.rsmod.api.type.builders.npc.NpcBuilderResolver
 import org.rsmod.api.type.builders.obj.ObjBuilder
@@ -30,12 +30,12 @@ import org.rsmod.api.type.builders.varobjbit.VarObjBitBuilderResolver
 public class TypeBuilderResolverMap
 @Inject
 constructor(
-    private val conResolver: ControllerResolver,
+    private val conResolver: ControllerBuilderResolver,
     private val enumResolver: EnumBuilderResolver,
     private val invResolver: InvBuilderResolver,
     private val locResolver: LocBuilderResolver,
-    private val mesAnimResolver: MesAnimResolver,
-    private val modGroupResolver: ModGroupResolver,
+    private val mesAnimResolver: MesAnimBuilderResolver,
+    private val modGroupResolver: ModGroupBuilderResolver,
     private val npcResolver: NpcBuilderResolver,
     private val objResolver: ObjBuilderResolver,
     private val paramResolver: ParamBuilderResolver,

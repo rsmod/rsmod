@@ -13,7 +13,7 @@ import org.rsmod.api.type.symbols.name.NameMapping
 import org.rsmod.game.type.TypeResolver
 import org.rsmod.game.type.mesanim.MesAnimType
 
-public class MesAnimResolver @Inject constructor(private val nameMapping: NameMapping) :
+public class MesAnimBuilderResolver @Inject constructor(private val nameMapping: NameMapping) :
     TypeBuilderResolver<MesAnimPluginBuilder, MesAnimType> {
     private val names: Map<String, Int>
         get() = nameMapping.mesanims
