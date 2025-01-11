@@ -55,13 +55,11 @@ constructor(
 
     private fun ProtectedAccess.attempt(tree: BoundLocInfo, type: UnpackedLocType) {
         if (player.woodcuttingLvl < type.treeLevelReq) {
-            resetAnim()
             mes("You need a Woodcutting level of ${type.treeLevelReq} to chop down this tree.")
             return
         }
 
         if (inv.isFull()) {
-            resetAnim()
             val product = objTypes[type.treeLogs]
             mes("Your inventory is too full to hold any more ${product.name.lowercase()}.")
             return
@@ -87,20 +85,17 @@ constructor(
     private fun ProtectedAccess.cut(tree: BoundLocInfo, type: UnpackedLocType) {
         val axe = findAxe(player, objTypes)
         if (axe == null) {
-            resetAnim()
             mes("You need an axe to chop down this tree.")
             mes("You do not have an axe which you have the woodcutting level to use.")
             return
         }
 
         if (player.woodcuttingLvl < type.treeLevelReq) {
-            resetAnim()
             mes("You need a Woodcutting level of ${type.treeLevelReq} to chop down this tree.")
             return
         }
 
         if (inv.isFull()) {
-            resetAnim() // TODO: Verify. Don't think this resets anim.
             val product = objTypes[type.treeLogs]
             mes("Your inventory is too full to hold any more ${product.name.lowercase()}.")
             return
