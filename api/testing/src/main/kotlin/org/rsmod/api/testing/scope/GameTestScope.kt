@@ -11,7 +11,6 @@ import net.rsprot.protocol.game.outgoing.misc.player.MessageGame
 import org.junit.jupiter.api.Assertions
 import org.rsmod.api.game.process.GameCycle
 import org.rsmod.api.inv.InvInit
-import org.rsmod.api.player.events.SessionStateEvent
 import org.rsmod.api.player.interact.LocInteractions
 import org.rsmod.api.player.protect.clearPendingAction
 import org.rsmod.api.random.CoreRandom
@@ -29,6 +28,7 @@ import org.rsmod.game.entity.NpcList
 import org.rsmod.game.entity.PathingEntity
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.PlayerList
+import org.rsmod.game.entity.player.SessionStateEvent
 import org.rsmod.game.interact.InteractionOp
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.loc.BoundLocInfo

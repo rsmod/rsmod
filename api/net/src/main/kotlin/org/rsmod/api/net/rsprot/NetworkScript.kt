@@ -10,13 +10,10 @@ import org.rsmod.api.net.rsprot.event.SessionEnd
 import org.rsmod.api.net.rsprot.event.SessionStart
 import org.rsmod.api.net.rsprot.provider.XTEAProvider
 import org.rsmod.api.npc.events.NpcEvents
-import org.rsmod.api.player.events.SessionStateEvent
-import org.rsmod.events.EventBus
 import org.rsmod.game.MapClock
 import org.rsmod.game.client.Client
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
-import org.rsmod.game.entity.PlayerList
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
@@ -25,7 +22,6 @@ class NetworkScript
 @Inject
 constructor(
     private val service: NetworkService<Player>,
-    private val players: PlayerList,
     private val mapClock: MapClock,
     private val xteaProvider: XTEAProvider,
 ) : PluginScript() {
@@ -36,7 +32,7 @@ constructor(
         }
         eventBus.subscribe<GameLifecycle.BootUp> { startService() }
         eventBus.subscribe<GameLifecycle.PlayersProcessed> { updateService() }
-        eventBus.subscribe<SessionStart> { startSession(eventBus) }
+        eventBus.subscribe<SessionStart> { startSession() }
         eventBus.subscribe<SessionEnd> { closeSession() }
         eventBus.subscribe<NpcEvents.Create> { createNpcAvatar(npc) }
         eventBus.subscribe<NpcEvents.Delete> { deleteNpcAvatar(npc) }
@@ -52,22 +48,17 @@ constructor(
     }
 
     @Suppress("UNCHECKED_CAST")
-    private fun SessionStart.startSession(eventBus: EventBus) {
+    private fun SessionStart.startSession() {
         val client = RspClient(session, xteaProvider)
         player.client = client as Client<Any, Any>
         client.open(service, player)
         setAppearance(client.playerInfo.avatar.extendedInfo)
-        eventBus.publish(SessionStateEvent.Initialize(player))
-        eventBus.publish(SessionStateEvent.LogIn(player))
     }
 
-    private fun SessionEnd.closeSession(): Unit =
-        with(player) {
-            val client = client as RspClient
-            client.close(service, this)
-            // TODO: thread-safety for below
-            players.remove(slotId)
-        }
+    private fun SessionEnd.closeSession() {
+        val client = player.client as RspClient
+        client.close(service, player)
+    }
 
     private fun createNpcAvatar(npc: Npc) {
         val rspAvatar =

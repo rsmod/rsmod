@@ -1,7 +1,6 @@
 package org.rsmod.api.testing.scope
 
 import org.rsmod.api.npc.events.NpcEvents
-import org.rsmod.api.player.events.SessionStateEvent
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.protect.ProtectedAccessContext
 import org.rsmod.api.player.protect.ProtectedAccessLauncher
@@ -20,6 +19,7 @@ import org.rsmod.game.entity.PathingEntity
 import org.rsmod.game.entity.PathingEntityAvatar
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.PlayerList
+import org.rsmod.game.entity.player.SessionStateEvent
 import org.rsmod.game.entity.shared.PathingEntityCommon
 import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.movement.RouteRequestPathingEntity

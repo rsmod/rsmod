@@ -1,4 +1,4 @@
-package org.rsmod.api.player.events
+package org.rsmod.game.entity.player
 
 import org.rsmod.events.UnboundEvent
 import org.rsmod.game.entity.Player
