@@ -5,19 +5,27 @@ import org.rsmod.api.config.locParam
 import org.rsmod.api.config.locXpParam
 import org.rsmod.api.config.objParam
 import org.rsmod.api.config.refs.content
+import org.rsmod.api.config.refs.controllers
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.config.refs.stats
+import org.rsmod.api.config.refs.varcons
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.righthand
 import org.rsmod.api.player.stat.woodcuttingLvl
+import org.rsmod.api.player.vars.intVarCon
+import org.rsmod.api.repo.controller.ControllerRepository
 import org.rsmod.api.repo.loc.LocRepository
+import org.rsmod.api.script.onAiConTimer
 import org.rsmod.api.script.onOpLoc1
 import org.rsmod.api.script.onOpLoc3
 import org.rsmod.events.UnboundEvent
+import org.rsmod.game.MapClock
+import org.rsmod.game.entity.Controller
 import org.rsmod.game.entity.Player
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.obj.InvObj
 import org.rsmod.game.type.loc.LocType
+import org.rsmod.game.type.loc.LocTypeList
 import org.rsmod.game.type.loc.UnpackedLocType
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.ObjTypeList
@@ -32,11 +40,17 @@ import org.rsmod.plugin.scripts.ScriptContext
 // - axe effects/charges
 class Woodcutting
 @Inject
-constructor(private val objTypes: ObjTypeList, private val locRepo: LocRepository) :
-    PluginScript() {
+constructor(
+    private val objTypes: ObjTypeList,
+    private val locTypes: LocTypeList,
+    private val locRepo: LocRepository,
+    private val conRepo: ControllerRepository,
+    private val mapClock: MapClock,
+) : PluginScript() {
     override fun ScriptContext.startUp() {
         onOpLoc1(content.tree) { attempt(it.bound, it.type) }
         onOpLoc3(content.tree) { cut(it.bound, it.type) }
+        onAiConTimer(controllers.woodcutting_tree_duration) { controller.treeDespawnTick() }
     }
 
     private fun ProtectedAccess.attempt(tree: BoundLocInfo, type: UnpackedLocType) {
@@ -86,7 +100,7 @@ constructor(private val objTypes: ObjTypeList, private val locRepo: LocRepositor
         }
 
         if (inv.isFull()) {
-            resetAnim()
+            resetAnim() // TODO: Verify. Don't think this resets anim.
             val product = objTypes[type.treeLogs]
             mes("Your inventory is too full to hold any more ${product.name.lowercase()}.")
             return
@@ -108,8 +122,8 @@ constructor(private val objTypes: ObjTypeList, private val locRepo: LocRepositor
         }
 
         if (type.hasDespawnTimer) {
-            // TODO: Global/shared despawn timers
-            // despawn = ...
+            treeSwingDespawnTick(tree, type)
+            despawn = cutLogs && isTreeDespawnRequired(tree)
         }
 
         if (cutLogs) {
@@ -129,10 +143,63 @@ constructor(private val objTypes: ObjTypeList, private val locRepo: LocRepositor
         opLoc3(tree)
     }
 
+    private fun Controller.treeDespawnTick() {
+        val tree = locRepo.findExact(coords, locTypes[treeLocId])
+        if (tree == null) {
+            conRepo.del(this)
+            return
+        }
+
+        // If tree is actively being cut down by a player, increment the associated varcon.
+        if (treeLastCut == mapClock.cycle - 1) {
+            treeActivelyCutTicks++
+        } else {
+            treeActivelyCutTicks--
+        }
+
+        // If the tree has been idle (not cut) for a duration equal to or longer than the time it
+        // was actively cut, the controller is no longer needed and can be safely deleted.
+        if (treeActivelyCutTicks <= 0) {
+            conRepo.del(this)
+            return
+        }
+
+        // Reset the timer for next tick.
+        aiTimer(1)
+
+        // Keep the controller alive.
+        resetDuration()
+    }
+
+    private fun treeSwingDespawnTick(tree: BoundLocInfo, type: UnpackedLocType) {
+        val controller = conRepo.findExact(tree.coords, controllers.woodcutting_tree_duration)
+        if (controller != null) {
+            controller.treeLastCut = mapClock.cycle
+            return
+        }
+
+        val spawn = Controller(tree.coords, controllers.woodcutting_tree_duration)
+        conRepo.add(spawn, type.treeDespawnTime)
+
+        spawn.treeLocId = tree.id
+        spawn.treeLastCut = mapClock.cycle
+        spawn.treeActivelyCutTicks = 0
+        spawn.aiTimer(1)
+    }
+
+    private fun isTreeDespawnRequired(tree: BoundLocInfo): Boolean {
+        val controller = conRepo.findExact(tree.coords, controllers.woodcutting_tree_duration)
+        return controller != null && controller.treeActivelyCutTicks >= controller.durationStart
+    }
+
     data class CutLogs(val player: Player, val tree: BoundLocInfo, val product: ObjType) :
         UnboundEvent
 
     companion object {
+        var Controller.treeActivelyCutTicks: Int by intVarCon(varcons.woodcutting_tree_cut_ticks)
+        var Controller.treeLastCut: Int by intVarCon(varcons.woodcutting_tree_last_cut)
+        var Controller.treeLocId: Int by intVarCon(varcons.woodcutting_tree_loc)
+
         val UnpackedObjType.axeWoodcuttingReq: Int by objParam(params.skill_levelreq)
         val UnpackedObjType.axeWoodcuttingAnim: SeqType by objParam(params.skill_anim)
 
