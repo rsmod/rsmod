@@ -91,7 +91,9 @@ internal object WoodcuttingTrees : LocEditor() {
         edit(internalName) {
             contentGroup = content.tree
             param[params.deplete_chance] = 0
-            param[params.respawn_time] = 15
+            param[params.respawn_time] = 0
+            param[params.respawn_time_low] = 60
+            param[params.respawn_time_high] = 100
             param[params.skill_levelreq] = 1
             param[params.skill_xp] = PlayerStatMap.toFineXP(25.0).toInt()
             param[params.skill_productitem] = logs

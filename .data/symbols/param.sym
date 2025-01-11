@@ -131,6 +131,8 @@
 1801	slayer_task_boss_displayname
 1802	slayer_task_boss_location
 
+65486	respawn_time_low
+65487	respawn_time_high
 65488	respawn_time
 65489	despawn_time
 65490	deplete_chance

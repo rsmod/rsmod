@@ -31,5 +31,7 @@ internal object ParamBuilds : ParamBuilder() {
         build<Int>("deplete_chance")
         build<Int>("despawn_time")
         build<Int>("respawn_time")
+        build<Int>("respawn_time_low")
+        build<Int>("respawn_time_high")
     }
 }

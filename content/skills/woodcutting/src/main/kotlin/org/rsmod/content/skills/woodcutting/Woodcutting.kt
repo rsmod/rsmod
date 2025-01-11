@@ -16,12 +16,14 @@ import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.righthand
 import org.rsmod.api.player.stat.woodcuttingLvl
 import org.rsmod.api.player.vars.intVarCon
+import org.rsmod.api.random.GameRandom
 import org.rsmod.api.repo.controller.ControllerRepository
 import org.rsmod.api.repo.loc.LocRepository
 import org.rsmod.api.repo.player.PlayerRepository
 import org.rsmod.api.script.onAiConTimer
 import org.rsmod.api.script.onOpLoc1
 import org.rsmod.api.script.onOpLoc3
+import org.rsmod.api.xpmod.XpModifiers
 import org.rsmod.events.UnboundEvent
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Controller
@@ -50,6 +52,7 @@ constructor(
     private val locRepo: LocRepository,
     private val conRepo: ControllerRepository,
     private val playerRepo: PlayerRepository,
+    private val mods: XpModifiers,
     private val mapClock: MapClock,
 ) : PluginScript() {
     override fun ScriptContext.startUp() {
@@ -130,17 +133,19 @@ constructor(
 
         if (cutLogs) {
             val product = objTypes[type.treeLogs]
+            val xp = type.treeXp * mods.get(player, stats.woodcutting)
             spam("You get some ${product.name.lowercase()}.")
-            statAdvance(stats.woodcutting, type.treeXp)
+            statAdvance(stats.woodcutting, xp)
             invAdd(inv, product)
             publish(CutLogs(player, tree, product))
         }
 
         if (despawn) {
-            locRepo.change(tree, type.treeStump, type.treeRespawnTime)
+            val respawnTime = type.resolveRespawnTime(random)
+            locRepo.change(tree, type.treeStump, respawnTime)
             resetAnim()
             soundSynth(synths.tree_fall_sound)
-            sendLocalOverlayLoc(tree, type)
+            sendLocalOverlayLoc(tree, type, respawnTime)
             return
         }
 
@@ -204,7 +209,7 @@ constructor(
         return controller != null && controller.treeActivelyCutTicks >= controller.durationStart
     }
 
-    private fun sendLocalOverlayLoc(tree: BoundLocInfo, type: UnpackedLocType) {
+    private fun sendLocalOverlayLoc(tree: BoundLocInfo, type: UnpackedLocType, respawnTime: Int) {
         val players = playerRepo.findAll(ZoneKey.from(tree.coords), zoneRadius = 3)
         for (player in players) {
             ClientScripts.addOverlayLoc(
@@ -213,7 +218,7 @@ constructor(
                 loc = type,
                 shape = tree.shape,
                 timer = Constants.overlay_timer_woodcutting,
-                ticks = type.treeRespawnTime,
+                ticks = respawnTime,
                 colour = 16765184,
                 unknownInt = 0,
             )
@@ -238,6 +243,8 @@ constructor(
         val UnpackedLocType.treeDespawnTime: Int by locParam(params.despawn_time)
         val UnpackedLocType.treeDepleteChance: Int by locParam(params.deplete_chance)
         val UnpackedLocType.treeRespawnTime: Int by locParam(params.respawn_time)
+        val UnpackedLocType.treeRespawnTimeLow: Int by locParam(params.respawn_time_low)
+        val UnpackedLocType.treeRespawnTimeHigh: Int by locParam(params.respawn_time_high)
 
         private val UnpackedLocType.hasDespawnTimer: Boolean
             get() = hasParam(params.despawn_time)
@@ -272,5 +279,13 @@ constructor(
 
         private fun UnpackedObjType.isUsableAxe(woodcuttingLevel: Int): Boolean =
             isAssociatedWith(content.woodcutting_axe) && woodcuttingLevel >= axeWoodcuttingReq
+
+        private fun UnpackedLocType.resolveRespawnTime(random: GameRandom): Int {
+            val fixed = treeRespawnTime
+            if (fixed > 0) {
+                return fixed
+            }
+            return random.of(treeRespawnTimeLow, treeRespawnTimeHigh)
+        }
     }
 }

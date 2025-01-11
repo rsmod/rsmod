@@ -1,5 +1,6 @@
 package org.rsmod.content.skills.woodcutting
 
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -12,7 +13,7 @@ import org.rsmod.api.testing.GameTestState
 import org.rsmod.api.testing.assertions.assertNotNullContract
 import org.rsmod.content.skills.woodcutting.Woodcutting.Companion.treeLevelReq
 import org.rsmod.content.skills.woodcutting.Woodcutting.Companion.treeLogs
-import org.rsmod.content.skills.woodcutting.Woodcutting.Companion.treeRespawnTime
+import org.rsmod.content.skills.woodcutting.Woodcutting.Companion.treeRespawnTimeHigh
 import org.rsmod.content.skills.woodcutting.Woodcutting.Companion.treeStump
 import org.rsmod.game.obj.InvObj
 import org.rsmod.map.CoordGrid
@@ -57,6 +58,19 @@ class WoodcuttingTest {
             assertNotNullContract(treeParams)
             assertTrue(params.deplete_chance in treeParams)
             assertTrue(treeParams[params.deplete_chance] in 0..255)
+        }
+
+        // Trees which have a variable respawn time.
+        val respawnVariable =
+            trees.filter {
+                it.hasParam(params.respawn_time_low) || it.hasParam(params.respawn_time_high)
+            }
+        for (tree in respawnVariable) {
+            val treeParams = tree.paramMap
+            assertNotNullContract(treeParams)
+            assertTrue(params.respawn_time_low in treeParams)
+            assertTrue(params.respawn_time_high in treeParams)
+            assertEquals(0, tree.param(params.respawn_time))
         }
     }
 
@@ -158,7 +172,7 @@ class WoodcuttingTest {
             assertContains(player.inv, logs)
             assertDoesNotExist(tree)
             assertExists(tree.coords, type.treeStump)
-            advance(ticks = type.treeRespawnTime)
+            advance(ticks = type.treeRespawnTimeHigh)
             assertDoesNotExist(tree.coords, type.treeStump)
             assertExists(tree)
         }

@@ -28,6 +28,8 @@ public object BaseParams : ParamReferences() {
     public val no_alchemy: ParamInt = find("no_alchemy")
 
     /* Server-side only types */
+    public val respawn_time_low: ParamInt = find("respawn_time_low")
+    public val respawn_time_high: ParamInt = find("respawn_time_high")
     public val respawn_time: ParamInt = find("respawn_time")
     public val despawn_time: ParamInt = find("despawn_time")
     public val deplete_chance: ParamInt = find("deplete_chance")
