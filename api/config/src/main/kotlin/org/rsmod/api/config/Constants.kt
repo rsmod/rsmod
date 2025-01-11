@@ -34,4 +34,6 @@ public object Constants {
 
     public const val toplevel_details: Int = 2
     public const val toplevel_prayer: Int = 5
+
+    public const val overlay_timer_woodcutting: Int = 2
 }

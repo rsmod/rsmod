@@ -1,6 +1,7 @@
 package org.rsmod.content.skills.woodcutting
 
 import jakarta.inject.Inject
+import org.rsmod.api.config.Constants
 import org.rsmod.api.config.locParam
 import org.rsmod.api.config.locXpParam
 import org.rsmod.api.config.objParam
@@ -8,7 +9,9 @@ import org.rsmod.api.config.refs.content
 import org.rsmod.api.config.refs.controllers
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.config.refs.stats
+import org.rsmod.api.config.refs.synths
 import org.rsmod.api.config.refs.varcons
+import org.rsmod.api.player.output.ClientScripts
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.righthand
 import org.rsmod.api.player.stat.woodcuttingLvl
@@ -62,6 +65,7 @@ constructor(
         if (inv.isFull()) {
             val product = objTypes[type.treeLogs]
             mes("Your inventory is too full to hold any more ${product.name.lowercase()}.")
+            soundSynth(synths.pillory_wrong)
             return
         }
 
@@ -98,6 +102,7 @@ constructor(
         if (inv.isFull()) {
             val product = objTypes[type.treeLogs]
             mes("Your inventory is too full to hold any more ${product.name.lowercase()}.")
+            soundSynth(synths.pillory_wrong)
             return
         }
 
@@ -132,6 +137,18 @@ constructor(
         if (despawn) {
             locRepo.change(tree, type.treeStump, type.treeRespawnTime)
             resetAnim()
+            soundSynth(synths.tree_fall_sound)
+            // TODO: Loop through all visible zone players once we have PlayerRepository support.
+            ClientScripts.addOverlayLoc(
+                player = player,
+                coords = tree.coords,
+                loc = type,
+                shape = tree.shape,
+                timer = Constants.overlay_timer_woodcutting,
+                ticks = type.treeRespawnTime,
+                colour = 16765184,
+                unknownInt = 0,
+            )
             return
         }
 
