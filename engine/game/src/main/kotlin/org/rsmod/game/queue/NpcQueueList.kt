@@ -75,6 +75,8 @@ public class NpcQueueList {
         return count
     }
 
+    override fun toString(): String = "NpcQueueList(size=$size, first=$first, last=$last)"
+
     internal data class Node(val queue: Queue, var prev: Node?, var next: Node? = null)
 
     public data class Queue(val id: Int, var remainingCycles: Int, val args: Any?)

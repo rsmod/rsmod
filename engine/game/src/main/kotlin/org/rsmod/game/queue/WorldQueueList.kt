@@ -54,6 +54,8 @@ public class WorldQueueList {
         size--
     }
 
+    override fun toString(): String = "WorldQueueList(size=$size, first=$first, last=$last)"
+
     public data class Node(val queue: Queue, var prev: Node?, var next: Node? = null)
 
     public data class Queue(val action: () -> Unit, var remainingCycles: Int)
