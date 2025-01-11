@@ -2,8 +2,8 @@ package org.rsmod.api.script
 
 import org.rsmod.api.player.events.PlayerQueueEvents
 import org.rsmod.api.player.events.PlayerTimerEvent
-import org.rsmod.api.player.events.SessionStateEvent
 import org.rsmod.api.player.protect.ProtectedAccess
+import org.rsmod.game.entity.player.SessionStateEvent
 import org.rsmod.game.type.queue.QueueType
 import org.rsmod.game.type.timer.TimerType
 import org.rsmod.plugin.scripts.ScriptContext

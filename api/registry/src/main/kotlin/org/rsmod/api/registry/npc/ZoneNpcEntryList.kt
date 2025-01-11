@@ -9,7 +9,6 @@ public value class ZoneNpcEntryList(public val entries: ArrayDeque<Npc>) {
 
     public constructor() : this(ArrayDeque())
 
-    // TODO: Find out if npcs are FIFO or LIFO
     public fun add(entry: Npc) {
         entries.addFirst(entry)
     }

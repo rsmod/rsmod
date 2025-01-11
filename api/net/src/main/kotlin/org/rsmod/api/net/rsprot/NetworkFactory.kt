@@ -23,9 +23,7 @@ import org.rsmod.api.net.rsprot.provider.MessageConsumerProvider
 import org.rsmod.api.net.rsprot.provider.NpcSupplier
 import org.rsmod.api.net.rsprot.provider.RsaProvider
 import org.rsmod.api.net.rsprot.provider.WorldEntityProvider
-import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
-import org.rsmod.game.entity.PlayerList
 
 @OptIn(ExperimentalUnsignedTypes::class)
 @Singleton
@@ -35,12 +33,10 @@ constructor(
     @Js5Cache private val store: Store,
     private val messageConsumerProvider: MessageConsumerProvider,
     private val huffmanProvider: HuffmanProvider,
-    players: PlayerList,
-    events: EventBus,
+    private val connectionHandler: ConnectionHandler,
 ) : AbstractNetworkServiceFactory<Player>() {
     private val js5Store = Js5Store.from(store)
     private val js5Groups = Js5GroupResponseProvider(js5Store)
-    private val connectionHandler = ConnectionHandler(players, events)
     private val npcSupplier = NpcSupplier.provide()
 
     override val ports: List<Int> = listOf(43594)

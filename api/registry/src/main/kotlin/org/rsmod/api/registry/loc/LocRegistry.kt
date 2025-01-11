@@ -141,11 +141,11 @@ constructor(
         !isValid(coords, id, shape)
 
     public fun isValid(coords: CoordGrid, id: Int? = null, shape: Int? = null): Boolean {
-        val found = find(coords, id, shape)
+        val found = findExact(coords, id, shape)
         return found != null && found.entity.id != DELETED_LOC_ID
     }
 
-    public fun find(
+    public fun findExact(
         coords: CoordGrid,
         id: Int? = null,
         shape: Int? = null,

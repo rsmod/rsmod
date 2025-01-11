@@ -6,6 +6,8 @@ import org.rsmod.api.registry.npc.NpcRegistry
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.NpcList
+import org.rsmod.map.CoordGrid
+import org.rsmod.map.zone.ZoneKey
 
 public class NpcRepository
 @Inject
@@ -17,28 +19,22 @@ constructor(
     private val addNpcs = ObjectArrayList<Npc>()
     private val delNpcs = ObjectArrayList<Npc>()
 
-    public fun add(npc: Npc, duration: Int): Boolean {
-        val added = registry.add(npc)
-        if (!added) {
-            return false
-        }
+    public fun add(npc: Npc, duration: Int) {
+        val add = registry.add(npc)
+        check(add.isSuccess) { "Failed to add npc. (result=$add, npc=$npc)" }
         if (duration != Int.MAX_VALUE) {
             val deleteCycle = mapClock + duration
             npc.lifecycleDelCycle = deleteCycle
         }
-        return true
     }
 
-    public fun del(npc: Npc, duration: Int): Boolean {
-        val deleted = registry.del(npc)
-        if (!deleted) {
-            return false
-        }
+    public fun del(npc: Npc, duration: Int) {
+        val del = registry.del(npc)
+        check(del.isSuccess) { "Failed to delete npc. (result=$del, npc=$npc)" }
         if (duration != Int.MAX_VALUE) {
             val addCycle = mapClock + duration
             npc.lifecycleAddCycle = addCycle
         }
-        return true
     }
 
     public fun hide(npc: Npc, duration: Int) {
@@ -46,6 +42,23 @@ constructor(
         if (duration != Int.MAX_VALUE) {
             val revealCycle = mapClock + duration
             npc.lifecycleRevealCycle = revealCycle
+        }
+    }
+
+    public fun findAll(zone: ZoneKey): Sequence<Npc> = registry.findAll(zone)
+
+    public fun findAll(coords: CoordGrid): Sequence<Npc> =
+        findAll(ZoneKey.from(coords)).filter { it.coords == coords }
+
+    public fun findAll(zone: ZoneKey, zoneRadius: Int): Sequence<Npc> {
+        return sequence {
+            for (x in -zoneRadius..zoneRadius) {
+                for (z in -zoneRadius..zoneRadius) {
+                    val translate = zone.translate(x, z)
+                    val players = findAll(translate)
+                    yieldAll(players)
+                }
+            }
         }
     }
 
