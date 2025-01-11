@@ -18,6 +18,7 @@ import org.rsmod.api.player.stat.woodcuttingLvl
 import org.rsmod.api.player.vars.intVarCon
 import org.rsmod.api.repo.controller.ControllerRepository
 import org.rsmod.api.repo.loc.LocRepository
+import org.rsmod.api.repo.player.PlayerRepository
 import org.rsmod.api.script.onAiConTimer
 import org.rsmod.api.script.onOpLoc1
 import org.rsmod.api.script.onOpLoc3
@@ -34,6 +35,7 @@ import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.type.seq.SeqType
+import org.rsmod.map.zone.ZoneKey
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
@@ -47,6 +49,7 @@ constructor(
     private val locTypes: LocTypeList,
     private val locRepo: LocRepository,
     private val conRepo: ControllerRepository,
+    private val playerRepo: PlayerRepository,
     private val mapClock: MapClock,
 ) : PluginScript() {
     override fun ScriptContext.startUp() {
@@ -137,17 +140,7 @@ constructor(
             locRepo.change(tree, type.treeStump, type.treeRespawnTime)
             resetAnim()
             soundSynth(synths.tree_fall_sound)
-            // TODO: Loop through all visible zone players once we have PlayerRepository support.
-            ClientScripts.addOverlayLoc(
-                player = player,
-                coords = tree.coords,
-                loc = type,
-                shape = tree.shape,
-                timer = Constants.overlay_timer_woodcutting,
-                ticks = type.treeRespawnTime,
-                colour = 16765184,
-                unknownInt = 0,
-            )
+            sendLocalOverlayLoc(tree, type)
             return
         }
 
@@ -209,6 +202,22 @@ constructor(
     private fun isTreeDespawnRequired(tree: BoundLocInfo): Boolean {
         val controller = conRepo.findExact(tree.coords, controllers.woodcutting_tree_duration)
         return controller != null && controller.treeActivelyCutTicks >= controller.durationStart
+    }
+
+    private fun sendLocalOverlayLoc(tree: BoundLocInfo, type: UnpackedLocType) {
+        val players = playerRepo.findAll(ZoneKey.from(tree.coords), zoneRadius = 3)
+        for (player in players) {
+            ClientScripts.addOverlayLoc(
+                player = player,
+                coords = tree.coords,
+                loc = type,
+                shape = tree.shape,
+                timer = Constants.overlay_timer_woodcutting,
+                ticks = type.treeRespawnTime,
+                colour = 16765184,
+                unknownInt = 0,
+            )
+        }
     }
 
     data class CutLogs(val player: Player, val tree: BoundLocInfo, val product: ObjType) :
