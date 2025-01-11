@@ -38,7 +38,6 @@ import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
 // TODO:
-// - sounds
 // - bird nests
 // - axe effects/charges
 class Woodcutting
@@ -158,6 +157,10 @@ constructor(
     private fun Controller.treeDespawnTick() {
         val tree = locRepo.findExact(coords, locTypes[treeLocId])
         if (tree == null) {
+            // Make sure the controller has lived beyond a single tick. Otherwise, we can make an
+            // educated guess that there's an oversight allowing the tree to recreate controllers
+            // faster than we'd expect. (1 tick intervals in this case)
+            check(mapClock > creationCycle + 1) { "Tree loc deleted faster than expected." }
             conRepo.del(this)
             return
         }
@@ -186,6 +189,10 @@ constructor(
     private fun treeSwingDespawnTick(tree: BoundLocInfo, type: UnpackedLocType) {
         val controller = conRepo.findExact(tree.coords, controllers.woodcutting_tree_duration)
         if (controller != null) {
+            check(controller.treeLocId == tree.id) {
+                "Controller in coords is not associated with tree: " +
+                    "controller=$controller, treeLoc=$tree, treeType=$type"
+            }
             controller.treeLastCut = mapClock.cycle
             return
         }
