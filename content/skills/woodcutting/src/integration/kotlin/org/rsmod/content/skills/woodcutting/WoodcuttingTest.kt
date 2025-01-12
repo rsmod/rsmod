@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertDoesNotThrow
 import org.rsmod.api.config.refs.content
 import org.rsmod.api.config.refs.objs
 import org.rsmod.api.config.refs.params
@@ -11,10 +12,12 @@ import org.rsmod.api.config.refs.stats
 import org.rsmod.api.player.righthand
 import org.rsmod.api.testing.GameTestState
 import org.rsmod.api.testing.assertions.assertNotNullContract
+import org.rsmod.content.skills.woodcutting.Woodcutting.Companion.cutSuccessRates
 import org.rsmod.content.skills.woodcutting.Woodcutting.Companion.treeLevelReq
 import org.rsmod.content.skills.woodcutting.Woodcutting.Companion.treeLogs
 import org.rsmod.content.skills.woodcutting.Woodcutting.Companion.treeRespawnTimeHigh
 import org.rsmod.content.skills.woodcutting.Woodcutting.Companion.treeStump
+import org.rsmod.content.skills.woodcutting.config.WoodcuttingParams
 import org.rsmod.game.obj.InvObj
 import org.rsmod.map.CoordGrid
 
@@ -41,6 +44,7 @@ class WoodcuttingTest {
             assertTrue(params.skill_xp in treeParams)
             assertTrue(params.next_loc_stage in treeParams)
             assertTrue(params.respawn_time in treeParams)
+            assertTrue(WoodcuttingParams.success_rates in treeParams)
         }
 
         // Trees which turn into stumps after a set period of time.
@@ -71,6 +75,23 @@ class WoodcuttingTest {
             assertTrue(params.respawn_time_low in treeParams)
             assertTrue(params.respawn_time_high in treeParams)
             assertEquals(0, tree.param(params.respawn_time))
+        }
+
+        // All trees must have all axe success rates defined.
+        val axes = cacheTypes.objs.values.filter { it.isAssociatedWith(content.woodcutting_axe) }
+        for (tree in trees) {
+            val treeParams = checkNotNull(tree.paramMap)
+            val enum = checkNotNull(treeParams[WoodcuttingParams.success_rates])
+            val successRates = cacheTypes.enums[enum]
+            assertNotNullContract(successRates)
+            for (axe in axes) {
+                val (lowRate, highRate) =
+                    assertDoesNotThrow("Axe success rates not defined: axe=$axe, tree=$tree") {
+                        cutSuccessRates(tree, axe.obj(), cacheTypes.enums)
+                    }
+                assertTrue(lowRate > 0)
+                assertTrue(highRate > 0)
+            }
         }
     }
 

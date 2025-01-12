@@ -24,12 +24,15 @@ import org.rsmod.api.script.onAiConTimer
 import org.rsmod.api.script.onOpLoc1
 import org.rsmod.api.script.onOpLoc3
 import org.rsmod.api.xpmod.XpModifiers
+import org.rsmod.content.skills.woodcutting.config.WoodcuttingParams
 import org.rsmod.events.UnboundEvent
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Controller
 import org.rsmod.game.entity.Player
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.obj.InvObj
+import org.rsmod.game.type.enums.EnumTypeList
+import org.rsmod.game.type.enums.findValue
 import org.rsmod.game.type.loc.LocType
 import org.rsmod.game.type.loc.LocTypeList
 import org.rsmod.game.type.loc.UnpackedLocType
@@ -49,6 +52,7 @@ class Woodcutting
 constructor(
     private val objTypes: ObjTypeList,
     private val locTypes: LocTypeList,
+    private val enumTypes: EnumTypeList,
     private val locRepo: LocRepository,
     private val conRepo: ControllerRepository,
     private val playerRepo: PlayerRepository,
@@ -122,9 +126,7 @@ constructor(
         if (actionDelay < mapClock) {
             actionDelay = mapClock + 3
         } else if (actionDelay == mapClock) {
-            // TODO: Define low/high per axe for every tree.
-            val low = 42
-            val high = 99
+            val (low, high) = cutSuccessRates(type, axe, enumTypes)
             cutLogs = rollSuccessRate(low, high, stats.woodcutting)
             despawn = !type.hasDespawnTimer && random.of(1, 255) > type.treeDepleteChance
         }
@@ -289,6 +291,18 @@ constructor(
                 return fixed
             }
             return random.of(treeRespawnTimeLow, treeRespawnTimeHigh)
+        }
+
+        fun cutSuccessRates(
+            treeType: UnpackedLocType,
+            axe: InvObj,
+            enumTypes: EnumTypeList,
+        ): Pair<Int, Int> {
+            val axes = treeType.param(WoodcuttingParams.success_rates)
+            val rates = enumTypes[axes].findValue(axe)
+            val low = rates shr 16
+            val high = rates and 0xFFFF
+            return low to high
         }
     }
 }

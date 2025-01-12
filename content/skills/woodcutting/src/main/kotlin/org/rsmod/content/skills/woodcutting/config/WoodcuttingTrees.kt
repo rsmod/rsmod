@@ -5,11 +5,14 @@ import org.rsmod.api.config.refs.objs
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.type.editors.loc.LocEditor
 import org.rsmod.api.type.refs.loc.LocReferences
+import org.rsmod.content.skills.woodcutting.config.WoodcuttingParams.success_rates
 import org.rsmod.game.stat.PlayerStatMap
 import org.rsmod.game.type.loc.LocType
 import org.rsmod.game.type.obj.ObjType
 
 private typealias stumps = WoodcuttingStumps
+
+private typealias axe_enums = WoodcuttingEnums
 
 internal object WoodcuttingTrees : LocEditor() {
     init {
@@ -100,6 +103,7 @@ internal object WoodcuttingTrees : LocEditor() {
             param[params.skill_xp] = PlayerStatMap.toFineXP(25.0).toInt()
             param[params.skill_productitem] = logs
             param[params.next_loc_stage] = stump
+            param[success_rates] = axe_enums.regular_tree_axes
         }
     }
 
@@ -128,6 +132,7 @@ internal object WoodcuttingTrees : LocEditor() {
             param[params.skill_xp] = PlayerStatMap.toFineXP(37.5).toInt()
             param[params.skill_productitem] = objs.oak_logs
             param[params.next_loc_stage] = stump
+            param[success_rates] = axe_enums.oak_tree_axes
         }
     }
 
@@ -140,6 +145,7 @@ internal object WoodcuttingTrees : LocEditor() {
             param[params.skill_xp] = PlayerStatMap.toFineXP(67.5).toInt()
             param[params.skill_productitem] = objs.willow_logs
             param[params.next_loc_stage] = stump
+            param[success_rates] = axe_enums.willow_tree_axes
         }
     }
 
@@ -152,6 +158,7 @@ internal object WoodcuttingTrees : LocEditor() {
             param[params.skill_xp] = PlayerStatMap.toFineXP(85.0).toInt()
             param[params.skill_productitem] = objs.teak_logs
             param[params.next_loc_stage] = stump
+            param[success_rates] = axe_enums.teak_tree_axes
         }
     }
 
@@ -165,6 +172,7 @@ internal object WoodcuttingTrees : LocEditor() {
             param[params.skill_xp] = PlayerStatMap.toFineXP(35.0).toInt()
             param[params.skill_productitem] = objs.juniper_logs
             param[params.next_loc_stage] = stump
+            param[success_rates] = axe_enums.regular_tree_axes
         }
     }
 
@@ -177,6 +185,7 @@ internal object WoodcuttingTrees : LocEditor() {
             param[params.skill_xp] = PlayerStatMap.toFineXP(100.0).toInt()
             param[params.skill_productitem] = objs.maple_logs
             param[params.next_loc_stage] = stump
+            param[success_rates] = axe_enums.maple_tree_axes
         }
     }
 
@@ -190,6 +199,7 @@ internal object WoodcuttingTrees : LocEditor() {
             param[params.skill_xp] = PlayerStatMap.toFineXP(40.0).toInt()
             param[params.skill_productitem] = objs.arctic_pine_logs
             param[params.next_loc_stage] = stump
+            param[success_rates] = axe_enums.arctic_tree_axes
         }
     }
 
@@ -202,6 +212,7 @@ internal object WoodcuttingTrees : LocEditor() {
             param[params.skill_xp] = PlayerStatMap.toFineXP(125.0).toInt()
             param[params.skill_productitem] = objs.mahogany_logs
             param[params.next_loc_stage] = stump
+            param[success_rates] = axe_enums.mahogany_tree_axes
         }
     }
 
@@ -214,6 +225,7 @@ internal object WoodcuttingTrees : LocEditor() {
             param[params.skill_xp] = PlayerStatMap.toFineXP(175.0).toInt()
             param[params.skill_productitem] = objs.yew_logs
             param[params.next_loc_stage] = stump
+            param[success_rates] = axe_enums.yew_tree_axes
         }
     }
 
@@ -227,6 +239,7 @@ internal object WoodcuttingTrees : LocEditor() {
             param[params.skill_xp] = PlayerStatMap.toFineXP(250.0).toInt()
             param[params.skill_productitem] = objs.magic_logs
             param[params.next_loc_stage] = stump
+            param[success_rates] = axe_enums.magic_tree_axes
         }
     }
 
@@ -239,6 +252,7 @@ internal object WoodcuttingTrees : LocEditor() {
             param[params.skill_xp] = PlayerStatMap.toFineXP(380.0).toInt()
             param[params.skill_productitem] = objs.redwood_logs
             param[params.next_loc_stage] = stump
+            param[success_rates] = axe_enums.redwood_tree_axes
         }
     }
 
@@ -251,6 +265,7 @@ internal object WoodcuttingTrees : LocEditor() {
             param[params.skill_xp] = PlayerStatMap.toFineXP(82.5).toInt()
             param[params.skill_productitem] = objs.bark
             param[params.next_loc_stage] = stump
+            param[success_rates] = axe_enums.hollow_tree_axes
         }
     }
 }
