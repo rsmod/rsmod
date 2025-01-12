@@ -36,10 +36,11 @@ constructor(private val nameMapping: NameMapping, private val types: SeqTypeList
         val cacheType = types[internalId] ?: return update(CacheTypeNotFound)
         TypeResolver.setPriority(this, cacheType.priority)
 
+        val cacheIdentityHash = cacheType.computeIdentityHash()
         if (supposedHash == null) {
+            TypeResolver[this] = cacheIdentityHash
             return ok(FullSuccess)
         }
-        val cacheIdentityHash = cacheType.computeIdentityHash()
         if (cacheIdentityHash != supposedHash) {
             return issue(CacheTypeHashMismatch(supposedHash, cacheIdentityHash))
         }

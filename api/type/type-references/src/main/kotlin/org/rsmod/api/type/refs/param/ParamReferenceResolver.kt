@@ -58,11 +58,11 @@ constructor(
             TypeResolver.setDefault(genericType, typedDefault)
         }
 
+        val cacheIdentityHash = cacheType.computeIdentityHash()
         if (supposedHash == null) {
+            TypeResolver[this] = cacheIdentityHash
             return ok(FullSuccess)
         }
-
-        val cacheIdentityHash = cacheType.computeIdentityHash()
         if (cacheIdentityHash != supposedHash) {
             return issue(CacheTypeHashMismatch(supposedHash, cacheIdentityHash))
         }

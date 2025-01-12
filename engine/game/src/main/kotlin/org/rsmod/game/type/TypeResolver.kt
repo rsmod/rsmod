@@ -2,31 +2,44 @@ package org.rsmod.game.type
 
 import org.rsmod.game.type.category.CategoryType
 import org.rsmod.game.type.comp.ComponentType
+import org.rsmod.game.type.comp.HashedComponentType
 import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.controller.ControllerType
 import org.rsmod.game.type.currency.CurrencyType
 import org.rsmod.game.type.enums.EnumType
+import org.rsmod.game.type.enums.HashedEnumType
 import org.rsmod.game.type.enums.UnpackedEnumType
 import org.rsmod.game.type.font.FontMetricsType
+import org.rsmod.game.type.font.HashedFontMetricsType
+import org.rsmod.game.type.interf.HashedInterfaceType
 import org.rsmod.game.type.interf.InterfaceType
+import org.rsmod.game.type.inv.HashedInvType
 import org.rsmod.game.type.inv.InvType
+import org.rsmod.game.type.loc.HashedLocType
 import org.rsmod.game.type.loc.LocType
 import org.rsmod.game.type.mesanim.MesAnimType
 import org.rsmod.game.type.mod.ModGroup
 import org.rsmod.game.type.mod.ModLevel
+import org.rsmod.game.type.npc.HashedNpcType
 import org.rsmod.game.type.npc.NpcType
+import org.rsmod.game.type.obj.HashedObjType
 import org.rsmod.game.type.obj.ObjType
+import org.rsmod.game.type.param.HashedParamType
 import org.rsmod.game.type.param.ParamType
 import org.rsmod.game.type.queue.QueueType
+import org.rsmod.game.type.seq.HashedSeqType
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.stat.StatType
+import org.rsmod.game.type.struct.HashedStructType
 import org.rsmod.game.type.struct.StructType
 import org.rsmod.game.type.synth.SynthType
 import org.rsmod.game.type.timer.TimerType
+import org.rsmod.game.type.varbit.HashedVarBitType
 import org.rsmod.game.type.varbit.VarBitType
 import org.rsmod.game.type.varcon.VarConType
 import org.rsmod.game.type.varconbit.VarConBitType
 import org.rsmod.game.type.varobjbit.VarObjBitType
+import org.rsmod.game.type.varp.HashedVarpType
 import org.rsmod.game.type.varp.VarpType
 
 public object TypeResolver {
@@ -76,6 +89,10 @@ public object TypeResolver {
         type.internalName = internalName
     }
 
+    public operator fun set(type: HashedInterfaceType, identityHash: Long) {
+        type.startHash = identityHash
+    }
+
     public operator fun <K, V> get(type: EnumType<K, V>): Int? = type.internalId
 
     public operator fun <K : Any, V : Any> set(type: EnumType<K, V>, id: Int) {
@@ -84,6 +101,10 @@ public object TypeResolver {
 
     public operator fun set(type: EnumType<*, *>, internalName: String) {
         type.internalName = internalName
+    }
+
+    public operator fun set(type: HashedEnumType<*, *>, identityHash: Long) {
+        type.startHash = identityHash
     }
 
     public operator fun get(type: FontMetricsType): Int? = type.internalId
@@ -96,6 +117,10 @@ public object TypeResolver {
         type.internalName = internalName
     }
 
+    public operator fun set(type: HashedFontMetricsType, identityHash: Long) {
+        type.startHash = identityHash
+    }
+
     public operator fun get(type: ComponentType): Int? = type.internalId
 
     public operator fun set(type: ComponentType, id: Int) {
@@ -104,6 +129,10 @@ public object TypeResolver {
 
     public operator fun set(type: ComponentType, internalName: String) {
         type.internalName = internalName
+    }
+
+    public operator fun set(type: HashedComponentType, identityHash: Long) {
+        type.startHash = identityHash
     }
 
     public operator fun get(type: InvType): Int? = type.internalId
@@ -116,6 +145,10 @@ public object TypeResolver {
         type.internalName = internalName
     }
 
+    public operator fun set(type: HashedInvType, identityHash: Long) {
+        type.startHash = identityHash
+    }
+
     public operator fun get(type: LocType): Int? = type.internalId
 
     public operator fun set(type: LocType, id: Int) {
@@ -124,6 +157,10 @@ public object TypeResolver {
 
     public operator fun set(type: LocType, internalName: String) {
         type.internalName = internalName
+    }
+
+    public operator fun set(type: HashedLocType, identityHash: Long) {
+        type.startHash = identityHash
     }
 
     public operator fun get(type: MesAnimType): Int = type.internalId
@@ -142,6 +179,10 @@ public object TypeResolver {
         type.internalName = internalName
     }
 
+    public operator fun set(type: HashedNpcType, identityHash: Long) {
+        type.startHash = identityHash
+    }
+
     public operator fun get(type: ObjType): Int? = type.internalId
 
     public operator fun set(type: ObjType, id: Int) {
@@ -150,6 +191,10 @@ public object TypeResolver {
 
     public operator fun set(type: ObjType, internalName: String) {
         type.internalName = internalName
+    }
+
+    public operator fun set(type: HashedObjType, identityHash: Long) {
+        type.startHash = identityHash
     }
 
     public operator fun get(type: QueueType): Int? = type.internalId
@@ -172,6 +217,10 @@ public object TypeResolver {
         type.internalPriority = priority
     }
 
+    public operator fun set(type: HashedSeqType, identityHash: Long) {
+        type.startHash = identityHash
+    }
+
     public operator fun get(type: StatType): Int? = type.internalId
 
     public operator fun set(type: StatType, id: Int) {
@@ -186,6 +235,10 @@ public object TypeResolver {
 
     public operator fun set(type: StructType, internalName: String) {
         type.internalName = internalName
+    }
+
+    public operator fun set(type: HashedStructType, identityHash: Long) {
+        type.startHash = identityHash
     }
 
     public operator fun get(type: SynthType): Int? = type.internalId
@@ -210,6 +263,10 @@ public object TypeResolver {
         type.internalName = internalName
     }
 
+    public operator fun set(type: HashedParamType<*>, identityHash: Long) {
+        type.startHash = identityHash
+    }
+
     public operator fun get(type: VarConType): Int? = type.internalId
 
     public operator fun set(type: VarConType, id: Int) {
@@ -232,6 +289,10 @@ public object TypeResolver {
         type.internalName = internalName
     }
 
+    public operator fun set(type: HashedVarBitType, identityHash: Long) {
+        type.startHash = identityHash
+    }
+
     public operator fun get(type: VarpType): Int? = type.internalId
 
     public operator fun set(type: VarpType, id: Int) {
@@ -244,6 +305,10 @@ public object TypeResolver {
 
     public operator fun set(type: VarpType, transmit: Boolean) {
         type.transmit = transmit
+    }
+
+    public operator fun set(type: HashedVarpType, identityHash: Long) {
+        type.startHash = identityHash
     }
 
     public operator fun get(type: VarObjBitType): Int? = type.internalId

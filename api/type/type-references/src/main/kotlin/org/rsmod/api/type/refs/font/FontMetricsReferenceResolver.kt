@@ -35,10 +35,11 @@ constructor(private val nameMapping: NameMapping, private val types: FontMetrics
         TypeResolver[this] = internalId
 
         val cacheType = types[internalId] ?: return update(CacheTypeNotFound)
+        val cacheIdentityHash = cacheType.computeIdentityHash()
         if (supposedHash == null) {
+            TypeResolver[this] = cacheIdentityHash
             return ok(FullSuccess)
         }
-        val cacheIdentityHash = cacheType.computeIdentityHash()
         if (cacheIdentityHash != supposedHash) {
             return issue(CacheTypeHashMismatch(supposedHash, cacheIdentityHash))
         }
