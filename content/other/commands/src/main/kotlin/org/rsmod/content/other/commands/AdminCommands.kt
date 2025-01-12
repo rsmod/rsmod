@@ -170,7 +170,7 @@ constructor(
 
     private fun invAdd(cheat: Cheat) =
         with(cheat) {
-            val typeId = resolveArgTypeId(args[1], names.objs)
+            val typeId = resolveArgTypeId(args[0], names.objs)
             if (typeId == null) {
                 player.mes("There is no obj mapped to name: `${args[0]}`")
                 return
