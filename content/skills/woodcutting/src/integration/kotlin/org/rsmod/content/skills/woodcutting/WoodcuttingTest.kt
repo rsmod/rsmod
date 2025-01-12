@@ -141,7 +141,8 @@ class WoodcuttingTest {
             assertMessageNotSent("You get some logs.")
             assertDoesNotContain(player.inv, logs)
 
-            random.next = 0 // Set random roll to avoid tree turning into stump.
+            random.next = 0 // Set random roll to guarantee log success rate.
+            random.then = 0 // Set random roll to avoid tree turning into stump.
             advance(ticks = 1)
             assertMessageNotSent("You swing your axe at the tree.")
             assertMessageSent("You get some logs.")
@@ -165,7 +166,8 @@ class WoodcuttingTest {
             assertMessageNotSent("You get some logs.")
             assertDoesNotContain(player.inv, logs)
 
-            random.next = 256 // Set random roll to guarantee tree turning into stump.
+            random.next = 0 // Set random roll to guarantee log success rate.
+            random.then = 256 // Set random roll to guarantee tree turning into stump.
             advance(ticks = 1)
             assertMessageNotSent("You swing your axe at the tree.")
             assertMessageSent("You get some logs.")

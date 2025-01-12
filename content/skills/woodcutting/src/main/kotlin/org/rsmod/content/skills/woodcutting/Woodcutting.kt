@@ -122,7 +122,10 @@ constructor(
         if (actionDelay < mapClock) {
             actionDelay = mapClock + 3
         } else if (actionDelay == mapClock) {
-            cutLogs = true // TODO: Random roll
+            // TODO: Define low/high per axe for every tree.
+            val low = 42
+            val high = 99
+            cutLogs = rollSuccessRate(low, high, stats.woodcutting)
             despawn = !type.hasDespawnTimer && random.of(1, 255) > type.treeDepleteChance
         }
 
