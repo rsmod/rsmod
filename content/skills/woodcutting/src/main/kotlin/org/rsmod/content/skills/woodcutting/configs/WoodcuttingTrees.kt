@@ -1,11 +1,11 @@
-package org.rsmod.content.skills.woodcutting.config
+package org.rsmod.content.skills.woodcutting.configs
 
 import org.rsmod.api.config.refs.content
 import org.rsmod.api.config.refs.objs
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.type.editors.loc.LocEditor
 import org.rsmod.api.type.refs.loc.LocReferences
-import org.rsmod.content.skills.woodcutting.config.WoodcuttingParams.success_rates
+import org.rsmod.content.skills.woodcutting.configs.WoodcuttingParams.success_rates
 import org.rsmod.game.stat.PlayerStatMap
 import org.rsmod.game.type.loc.LocType
 import org.rsmod.game.type.obj.ObjType

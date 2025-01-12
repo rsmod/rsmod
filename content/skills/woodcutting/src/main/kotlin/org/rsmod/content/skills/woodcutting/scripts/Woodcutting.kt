@@ -1,4 +1,4 @@
-package org.rsmod.content.skills.woodcutting
+package org.rsmod.content.skills.woodcutting.scripts
 
 import jakarta.inject.Inject
 import org.rsmod.api.config.Constants
@@ -24,7 +24,7 @@ import org.rsmod.api.script.onAiConTimer
 import org.rsmod.api.script.onOpLoc1
 import org.rsmod.api.script.onOpLoc3
 import org.rsmod.api.stats.xpmod.XpModifiers
-import org.rsmod.content.skills.woodcutting.config.WoodcuttingParams
+import org.rsmod.content.skills.woodcutting.configs.WoodcuttingParams
 import org.rsmod.events.UnboundEvent
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Controller

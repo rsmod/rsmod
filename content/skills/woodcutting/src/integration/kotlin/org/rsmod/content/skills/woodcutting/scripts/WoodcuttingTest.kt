@@ -1,4 +1,4 @@
-package org.rsmod.content.skills.woodcutting
+package org.rsmod.content.skills.woodcutting.scripts
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
@@ -12,12 +12,12 @@ import org.rsmod.api.config.refs.stats
 import org.rsmod.api.player.righthand
 import org.rsmod.api.testing.GameTestState
 import org.rsmod.api.testing.assertions.assertNotNullContract
-import org.rsmod.content.skills.woodcutting.Woodcutting.Companion.cutSuccessRates
-import org.rsmod.content.skills.woodcutting.Woodcutting.Companion.treeLevelReq
-import org.rsmod.content.skills.woodcutting.Woodcutting.Companion.treeLogs
-import org.rsmod.content.skills.woodcutting.Woodcutting.Companion.treeRespawnTimeHigh
-import org.rsmod.content.skills.woodcutting.Woodcutting.Companion.treeStump
-import org.rsmod.content.skills.woodcutting.config.WoodcuttingParams
+import org.rsmod.content.skills.woodcutting.configs.WoodcuttingParams
+import org.rsmod.content.skills.woodcutting.scripts.Woodcutting.Companion.cutSuccessRates
+import org.rsmod.content.skills.woodcutting.scripts.Woodcutting.Companion.treeLevelReq
+import org.rsmod.content.skills.woodcutting.scripts.Woodcutting.Companion.treeLogs
+import org.rsmod.content.skills.woodcutting.scripts.Woodcutting.Companion.treeRespawnTimeHigh
+import org.rsmod.content.skills.woodcutting.scripts.Woodcutting.Companion.treeStump
 import org.rsmod.game.obj.InvObj
 import org.rsmod.map.CoordGrid
 

@@ -1,4 +1,4 @@
-package org.rsmod.content.skills.woodcutting.config
+package org.rsmod.content.skills.woodcutting.configs
 
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.config.refs.stats
