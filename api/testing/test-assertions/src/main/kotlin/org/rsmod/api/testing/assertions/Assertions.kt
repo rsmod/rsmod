@@ -22,3 +22,8 @@ public fun assertNotNullContract(actual: Any?) {
     contract { returns() implies (actual != null) }
     Assertions.assertNotNull(actual)
 }
+
+public fun assertNotNullContract(actual: Any?, messageSupplier: () -> String) {
+    contract { returns() implies (actual != null) }
+    Assertions.assertNotNull(actual, messageSupplier)
+}
