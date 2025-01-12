@@ -20,6 +20,7 @@ import org.rsmod.game.type.param.ParamType
 import org.rsmod.game.type.queue.QueueType
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.stat.StatType
+import org.rsmod.game.type.struct.StructType
 import org.rsmod.game.type.synth.SynthType
 import org.rsmod.game.type.timer.TimerType
 import org.rsmod.game.type.varbit.VarBitType
@@ -175,6 +176,16 @@ public object TypeResolver {
 
     public operator fun set(type: StatType, id: Int) {
         type.internalId = id
+    }
+
+    public operator fun get(type: StructType): Int? = type.internalId
+
+    public operator fun set(type: StructType, id: Int) {
+        type.internalId = id
+    }
+
+    public operator fun set(type: StructType, internalName: String) {
+        type.internalName = internalName
     }
 
     public operator fun get(type: SynthType): Int? = type.internalId

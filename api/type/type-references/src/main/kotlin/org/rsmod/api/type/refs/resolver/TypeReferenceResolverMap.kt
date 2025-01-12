@@ -34,6 +34,8 @@ import org.rsmod.api.type.refs.seq.SeqReferenceResolver
 import org.rsmod.api.type.refs.seq.SeqReferences
 import org.rsmod.api.type.refs.stat.StatReferenceResolver
 import org.rsmod.api.type.refs.stat.StatReferences
+import org.rsmod.api.type.refs.struct.StructReferenceResolver
+import org.rsmod.api.type.refs.struct.StructReferences
 import org.rsmod.api.type.refs.synth.SynthReferenceResolver
 import org.rsmod.api.type.refs.synth.SynthReferences
 import org.rsmod.api.type.refs.timer.TimerReferenceResolver
@@ -62,6 +64,7 @@ constructor(
     private val queueResolver: QueueReferenceResolver,
     private val seqResolver: SeqReferenceResolver,
     private val statResolver: StatReferenceResolver,
+    private val structResolver: StructReferenceResolver,
     private val synthResolver: SynthReferenceResolver,
     private val timerResolver: TimerReferenceResolver,
     private val varBitResolver: VarBitReferenceResolver,
@@ -141,6 +144,7 @@ constructor(
                 is QueueReferences -> queueResolver
                 is SeqReferences -> seqResolver
                 is StatReferences -> statResolver
+                is StructReferences -> structResolver
                 is SynthReferences -> synthResolver
                 is TimerReferences -> timerResolver
                 is VarBitReferences -> varBitResolver
