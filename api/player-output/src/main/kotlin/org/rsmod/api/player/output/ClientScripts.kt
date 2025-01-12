@@ -10,8 +10,6 @@ import org.rsmod.game.type.loc.LocType
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.map.CoordGrid
 
-// TODO: Add ClientScriptType with identity hash code computed from its args.
-
 public fun Player.runClientScript(id: Int, vararg args: Any) {
     runClientScript(id, args.toList())
 }
