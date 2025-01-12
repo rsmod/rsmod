@@ -143,6 +143,8 @@ public object ClientScripts {
     /**
      * @param timer the overlay timer type, see [org.rsmod.api.config.Constants] for known values.
      *   (prefixed with `overlay_timer_`)
+     * @param isDespawnTimer `true` if the overlay represents a despawn timer as opposed to respawn
+     *   timer. (i.e., hunter trap despawn vs tree respawn)
      */
     public fun addOverlayTimerLoc(
         player: Player,
@@ -152,7 +154,7 @@ public object ClientScripts {
         timer: Int,
         ticks: Int,
         colour: Int,
-        unknownInt: Int,
+        isDespawnTimer: Boolean = false,
     ) {
         player.runClientScript(
             5474,
@@ -162,7 +164,7 @@ public object ClientScripts {
             timer,
             ticks,
             colour,
-            unknownInt,
+            if (isDespawnTimer) 1 else 0,
         )
     }
 }

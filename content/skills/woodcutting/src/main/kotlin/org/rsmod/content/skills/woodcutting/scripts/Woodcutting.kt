@@ -228,7 +228,6 @@ constructor(
                 timer = Constants.overlay_timer_woodcutting,
                 ticks = respawnTime,
                 colour = 16765184,
-                unknownInt = 0,
             )
         }
     }
