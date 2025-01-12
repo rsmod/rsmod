@@ -27,7 +27,7 @@ public object ParamTypeDecoder {
     }
 
     public fun decode(data: ByteBuf): ParamTypeBuilder<Any> {
-        val builder = ParamTypeBuilder<Any>(Any::class)
+        val builder = ParamTypeBuilder(Any::class)
         builder.internal = TextUtil.NULL
         while (data.isReadable) {
             val code = data.readUnsignedByte().toInt()
