@@ -140,7 +140,7 @@ constructor(
             val shape = args.getOrNull(1)?.toIntOrNull() ?: LocShape.CentrepieceStraight.id
             val loc = locs.firstOrNull { it.shapeId == shape }
             if (loc == null) {
-                player.mes("No loc found with shape `${LocShape[shape]}` found on ${player.coords}")
+                player.mes("No loc with shape `${LocShape[shape]}` found on ${player.coords}")
                 return
             }
             val type = locTypes[loc]
