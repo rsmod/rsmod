@@ -41,6 +41,7 @@ import org.rsmod.api.player.ui.ifSetPlayerHead
 import org.rsmod.api.player.ui.ifSetText
 import org.rsmod.api.player.vars.varMoveSpeed
 import org.rsmod.api.random.GameRandom
+import org.rsmod.api.stats.levelmod.InvisibleLevels
 import org.rsmod.api.utils.skills.SkillingSuccessRate
 import org.rsmod.coroutine.GameCoroutine
 import org.rsmod.events.EventBus
@@ -264,10 +265,20 @@ public class ProtectedAccess(
         return rate > random.randomDouble()
     }
 
-    public fun rollSuccessRate(low: Int, high: Int, stat: StatType): Boolean {
+    public fun rollSuccessRate(low: Int, high: Int, stat: StatType, invisibleBoost: Int): Boolean {
         val visibleLevel = player.statMap.getCurrentLevel(stat).toInt()
-        val level = visibleLevel.coerceIn(1, stat.maxLevel) // TODO: + invisibleLevel...
+        val level = visibleLevel.coerceIn(1, stat.maxLevel) + invisibleBoost
         return rollSuccessRate(low, high, level, stat.maxLevel)
+    }
+
+    public fun rollSuccessRate(
+        low: Int,
+        high: Int,
+        stat: StatType,
+        invisibleLevels: InvisibleLevels,
+    ): Boolean {
+        val invisibleBoost = invisibleLevels.get(player, stat)
+        return rollSuccessRate(low, high, stat, invisibleBoost)
     }
 
     public fun timer(timerType: TimerType, cycles: Int) {

@@ -23,6 +23,7 @@ import org.rsmod.api.repo.player.PlayerRepository
 import org.rsmod.api.script.onAiConTimer
 import org.rsmod.api.script.onOpLoc1
 import org.rsmod.api.script.onOpLoc3
+import org.rsmod.api.stats.levelmod.InvisibleLevels
 import org.rsmod.api.stats.xpmod.XpModifiers
 import org.rsmod.content.skills.woodcutting.configs.WoodcuttingParams
 import org.rsmod.events.UnboundEvent
@@ -56,7 +57,8 @@ constructor(
     private val locRepo: LocRepository,
     private val conRepo: ControllerRepository,
     private val playerRepo: PlayerRepository,
-    private val mods: XpModifiers,
+    private val xpMods: XpModifiers,
+    private val invisibleLvls: InvisibleLevels,
     private val mapClock: MapClock,
 ) : PluginScript() {
     override fun ScriptContext.startUp() {
@@ -127,7 +129,7 @@ constructor(
             actionDelay = mapClock + 3
         } else if (actionDelay == mapClock) {
             val (low, high) = cutSuccessRates(type, axe, enumTypes)
-            cutLogs = rollSuccessRate(low, high, stats.woodcutting)
+            cutLogs = rollSuccessRate(low, high, stats.woodcutting, invisibleLvls)
         }
 
         if (type.hasDespawnTimer) {
@@ -139,7 +141,7 @@ constructor(
 
         if (cutLogs) {
             val product = objTypes[type.treeLogs]
-            val xp = type.treeXp * mods.get(player, stats.woodcutting)
+            val xp = type.treeXp * xpMods.get(player, stats.woodcutting)
             spam("You get some ${product.name.lowercase()}.")
             statAdvance(stats.woodcutting, xp)
             invAdd(inv, product)
