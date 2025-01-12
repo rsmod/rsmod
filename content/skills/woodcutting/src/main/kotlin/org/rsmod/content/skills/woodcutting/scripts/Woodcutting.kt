@@ -220,7 +220,7 @@ constructor(
     private fun sendLocalOverlayLoc(tree: BoundLocInfo, type: UnpackedLocType, respawnTime: Int) {
         val players = playerRepo.findAll(ZoneKey.from(tree.coords), zoneRadius = 3)
         for (player in players) {
-            ClientScripts.addOverlayLoc(
+            ClientScripts.addOverlayTimerLoc(
                 player = player,
                 coords = tree.coords,
                 loc = type,

@@ -144,7 +144,7 @@ public object ClientScripts {
      * @param timer the overlay timer type, see [org.rsmod.api.config.Constants] for known values.
      *   (prefixed with `overlay_timer_`)
      */
-    public fun addOverlayLoc(
+    public fun addOverlayTimerLoc(
         player: Player,
         coords: CoordGrid,
         loc: LocType,
