@@ -4,6 +4,7 @@ import kotlin.reflect.KClass
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.comp.HashedComponentType
 import org.rsmod.game.type.enums.EnumType
+import org.rsmod.game.type.enums.HashedEnumType
 import org.rsmod.game.type.loc.HashedLocType
 import org.rsmod.game.type.loc.LocType
 import org.rsmod.game.type.npc.HashedNpcType
@@ -26,6 +27,7 @@ public object CacheVarTypeMap {
             Int::class to CacheVarLiteral.INT,
             CoordGrid::class to CacheVarLiteral.COORDGRID,
             EnumType::class to CacheVarLiteral.ENUM,
+            HashedEnumType::class to CacheVarLiteral.ENUM,
             LocType::class to CacheVarLiteral.LOC,
             HashedLocType::class to CacheVarLiteral.LOC,
             NpcType::class to CacheVarLiteral.NPC,
@@ -48,6 +50,7 @@ public object CacheVarTypeMap {
             Int::class to CacheVarIntCodec,
             CoordGrid::class to CacheVarCoordGridCodec,
             EnumType::class to CacheVarEnumCodec,
+            HashedEnumType::class to CacheVarEnumCodec,
             LocType::class to CacheVarLocCodec,
             HashedLocType::class to CacheVarLocCodec,
             NpcType::class to CacheVarNpcCodec,
@@ -111,7 +114,7 @@ public object CacheVarTypeMap {
             }
 
     public fun <K, V : Any> findCodec(literal: CacheVarLiteral): CacheVarCodec<K, V> =
-        findCodec<K, V>(literal.codecOut)
+        findCodec(literal.codecOut)
 
     @Suppress("UNCHECKED_CAST")
     public fun <K, V : Any> findCodec(type: KClass<*>): CacheVarCodec<K, V> =
