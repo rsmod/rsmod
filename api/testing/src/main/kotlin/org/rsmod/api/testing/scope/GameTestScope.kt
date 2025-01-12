@@ -19,6 +19,8 @@ import org.rsmod.api.random.DefaultGameRandom
 import org.rsmod.api.random.GameRandom
 import org.rsmod.api.registry.loc.LocRegistry
 import org.rsmod.api.repo.loc.LocRepository
+import org.rsmod.api.stats.levelmod.InvisibleLevelMod
+import org.rsmod.api.stats.levelmod.InvisibleLevels
 import org.rsmod.api.stats.xpmod.XpMod
 import org.rsmod.api.stats.xpmod.XpModifiers
 import org.rsmod.api.testing.GameTestState
@@ -391,6 +393,9 @@ constructor(
                 bind(SynthTypeList::class.java).toInstance(cacheTypes.synths)
                 bind(VarBitTypeList::class.java).toInstance(cacheTypes.varbits)
                 bind(VarpTypeList::class.java).toInstance(cacheTypes.varps)
+
+                Multibinder.newSetBinder(binder(), InvisibleLevelMod::class.java)
+                bind(InvisibleLevels::class.java).`in`(Scopes.SINGLETON)
 
                 Multibinder.newSetBinder(binder(), XpMod::class.java)
                 bind(XpModifiers::class.java).`in`(Scopes.SINGLETON)

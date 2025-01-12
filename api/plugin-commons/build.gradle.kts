@@ -23,6 +23,7 @@ dependencies {
     api(projects.api.route)
     api(projects.api.script)
     api(projects.api.shops)
+    api(projects.api.stats.levelmod)
     api(projects.api.stats.xpmod)
     api(projects.api.type.typeBuilders)
     api(projects.api.type.typeEditors)
