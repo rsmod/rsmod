@@ -8,6 +8,7 @@ import org.rsmod.api.type.builders.param.ParamBuilder
 import org.rsmod.game.type.loc.LocType
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.seq.SeqType
+import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.synth.SynthType
 
 internal object ParamBuilds : ParamBuilder() {
@@ -33,5 +34,8 @@ internal object ParamBuilds : ParamBuilder() {
         build<Int>("respawn_time")
         build<Int>("respawn_time_low")
         build<Int>("respawn_time_high")
+
+        build<StatType>("xpmod_stat")
+        build<Int>("xpmod_percent")
     }
 }

@@ -5,6 +5,7 @@ import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.type.param.ParamType
 import org.rsmod.game.type.seq.SeqType
+import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.synth.SynthType
 import org.rsmod.map.CoordGrid
 
@@ -23,5 +24,7 @@ public typealias ParamNamedObj = ParamType<UnpackedObjType>
 public typealias ParamLoc = ParamType<LocType>
 
 public typealias ParamSeq = ParamType<SeqType>
+
+public typealias ParamStat = ParamType<StatType>
 
 public typealias ParamSynth = ParamType<SynthType>
