@@ -64,7 +64,7 @@ constructor(
                 angle = loc.entity.angle,
                 forceApproachFlags = type.forceApproachFlags,
             )
-        if (!type.hasOp(message.op)) {
+        if (!locInteractions.hasOp(boundLoc, type, player.vars, message.interactionOp)) {
             logger.debug { "OpLoc blocked due to op: op=${message.op}, loc=$boundLoc type=$type" }
             return
         }

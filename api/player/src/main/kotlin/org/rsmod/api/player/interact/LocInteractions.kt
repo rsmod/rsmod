@@ -156,14 +156,14 @@ constructor(
         val varValue = type.multiVarValue(vars) ?: 0
         val multiLoc =
             if (varValue in type.multiLoc.indices) {
-                type.multiLoc[varValue].toInt()
+                type.multiLoc[varValue].toInt() and 0xFFFF
             } else {
                 type.multiLocDefault
             }
         return if (!locTypes.containsKey(multiLoc)) {
             null
         } else {
-            loc.copy(entity = LocEntity(multiLoc and 0xFFFF, loc.shapeId, loc.angleId))
+            loc.copy(entity = LocEntity(multiLoc, loc.shapeId, loc.angleId))
         }
     }
 
@@ -257,5 +257,19 @@ constructor(
             return packed.getBits(varBit.bits)
         }
         return null
+    }
+
+    public fun hasOp(
+        loc: BoundLocInfo,
+        type: UnpackedLocType,
+        vars: VariableIntMap,
+        op: InteractionOp,
+    ): Boolean {
+        val multiLoc = multiLoc(loc, type, vars)
+        if (multiLoc != null) {
+            val multiLocType = locTypes[multiLoc]
+            return multiLocType.hasOp(op)
+        }
+        return type.hasOp(op)
     }
 }

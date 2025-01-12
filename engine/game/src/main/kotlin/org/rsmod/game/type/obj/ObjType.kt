@@ -1,6 +1,7 @@
 package org.rsmod.game.type.obj
 
 import kotlin.contracts.contract
+import org.rsmod.game.interact.InteractionOp
 import org.rsmod.game.obj.InvObj
 import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.param.ParamType
@@ -164,9 +165,8 @@ public class UnpackedObjType(
 
     public fun <T : Any> hasParam(type: ParamType<T>): Boolean = paramOrNull(type) != null
 
-    public fun hasOp(slot: Int): Boolean {
-        require(slot > 0) { "`opSlot` must be greater than 0." }
-        val text = op.getOrNull(slot - 1) ?: return false
+    public fun hasOp(interactionOp: InteractionOp): Boolean {
+        val text = op.getOrNull(interactionOp.slot - 1) ?: return false
         val invalid = text.isBlank() || text.equals("hidden", ignoreCase = true)
         return !invalid
     }

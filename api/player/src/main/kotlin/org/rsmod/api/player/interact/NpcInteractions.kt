@@ -130,11 +130,15 @@ constructor(
         val varValue = type.multiVarValue(vars) ?: 0
         val multiNpc =
             if (varValue in type.multiNpc.indices) {
-                type.multiNpc[varValue].toInt()
+                type.multiNpc[varValue].toInt() and 0xFFFF
             } else {
                 type.multiNpcDefault
             }
-        return npcTypes.getOrDefault(multiNpc and 0xFFFF, null)
+        return if (!npcTypes.containsKey(multiNpc)) {
+            null
+        } else {
+            npcTypes.getOrDefault(multiNpc, null)
+        }
     }
 
     private fun Npc.toOp(op: InteractionOp): NpcEvents.Op =
@@ -210,5 +214,14 @@ constructor(
             return packed.getBits(varBit.bits)
         }
         return null
+    }
+
+    public fun hasOp(npc: Npc, vars: VariableIntMap, op: InteractionOp): Boolean {
+        val multiNpc = multiNpc(npc.currentType, vars)
+        if (multiNpc != null) {
+            val multiNpcType = npcTypes[multiNpc]
+            return multiNpcType.hasOp(op)
+        }
+        return npc.currentType.hasOp(op)
     }
 }
