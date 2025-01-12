@@ -16,11 +16,7 @@ constructor(private val contextFactory: ProtectedAccessContextFactory) {
     ): Boolean = withProtectedAccess(player, contextFactory.create(), busyText, block)
 
     @InternalApi(message = "Usage of this function should only be used internally, or sparingly.")
-    public fun launchLenient(
-        player: Player,
-        busyText: String? = constants.dm_busy,
-        block: suspend ProtectedAccess.() -> Unit,
-    ) {
+    public fun launchLenient(player: Player, block: suspend ProtectedAccess.() -> Unit) {
         player.launch {
             val protectedAccess = ProtectedAccess(player, this, contextFactory.create())
             block(protectedAccess)

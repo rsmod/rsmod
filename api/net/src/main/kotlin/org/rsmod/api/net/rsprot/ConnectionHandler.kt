@@ -9,8 +9,8 @@ import net.rsprot.protocol.loginprot.incoming.util.AuthenticationType
 import net.rsprot.protocol.loginprot.incoming.util.LoginBlock
 import net.rsprot.protocol.loginprot.outgoing.LoginResponse
 import net.rsprot.protocol.loginprot.outgoing.util.AuthenticatorResponse
-import org.rsmod.api.net.rsprot.event.SessionEnd
-import org.rsmod.api.net.rsprot.event.SessionStart
+import org.rsmod.api.net.rsprot.player.SessionEnd
+import org.rsmod.api.net.rsprot.player.SessionStart
 import org.rsmod.api.player.vars.varMoveSpeed
 import org.rsmod.api.registry.player.PlayerRegistry
 import org.rsmod.api.registry.player.PlayerRegistryResult

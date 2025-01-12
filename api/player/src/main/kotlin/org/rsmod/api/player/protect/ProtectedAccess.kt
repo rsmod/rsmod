@@ -821,14 +821,6 @@ public class ProtectedAccess(
         player.soundSynth(synth, loops, delay)
 }
 
-/** @see [ProtectedAccess.telejump] */
-public fun Player.protectedTelejump(collision: CollisionFlagMap, dest: CoordGrid): Boolean =
-    withProtectedAccess(this, ProtectedAccessContext.EMPTY_CTX) { telejump(dest, collision) }
-
-/** @see [ProtectedAccess.teleport] */
-public fun Player.protectedTeleport(collision: CollisionFlagMap, dest: CoordGrid): Boolean =
-    withProtectedAccess(this, ProtectedAccessContext.EMPTY_CTX) { teleport(dest, collision) }
-
 private fun MesAnimType.splitGetAnim(lines: Int) =
     when (lines) {
         1 -> len1

@@ -6,8 +6,8 @@ import net.rsprot.protocol.common.RSProtConstants
 import net.rsprot.protocol.game.outgoing.info.playerinfo.PlayerAvatarExtendedInfo
 import org.rsmod.api.core.Build
 import org.rsmod.api.game.process.GameLifecycle
-import org.rsmod.api.net.rsprot.event.SessionEnd
-import org.rsmod.api.net.rsprot.event.SessionStart
+import org.rsmod.api.net.rsprot.player.SessionEnd
+import org.rsmod.api.net.rsprot.player.SessionStart
 import org.rsmod.api.net.rsprot.provider.XTEAProvider
 import org.rsmod.api.npc.events.NpcEvents
 import org.rsmod.game.MapClock

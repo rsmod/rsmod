@@ -1,4 +1,4 @@
-package org.rsmod.api.net.rsprot.event
+package org.rsmod.api.net.rsprot.player
 
 import net.rsprot.protocol.api.Session
 import org.rsmod.events.UnboundEvent

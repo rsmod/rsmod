@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.rsmod.api.game.process.player.PlayerMovementProcessor
-import org.rsmod.api.player.protect.protectedTeleport
 import org.rsmod.api.testing.GameTestState
 import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.map.CoordGrid

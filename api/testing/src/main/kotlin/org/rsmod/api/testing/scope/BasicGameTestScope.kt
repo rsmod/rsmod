@@ -3,6 +3,7 @@ package org.rsmod.api.testing.scope
 import org.rsmod.api.npc.events.NpcEvents
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.protect.ProtectedAccessContext
+import org.rsmod.api.player.protect.ProtectedAccessContextFactory
 import org.rsmod.api.player.protect.ProtectedAccessLauncher
 import org.rsmod.api.route.BoundValidator
 import org.rsmod.api.route.RayCastFactory
@@ -97,7 +98,7 @@ public class BasicGameTestScope(private val eventBus: EventBus) {
     }
 
     public fun Player.withProtectedAccess(
-        context: ProtectedAccessContext = ProtectedAccessContext.EMPTY_CTX,
+        context: ProtectedAccessContext = ProtectedAccessContextFactory.empty(),
         block: suspend ProtectedAccess.() -> Unit,
     ): Boolean = ProtectedAccessLauncher.withProtectedAccess(this, context, null, block)
 
@@ -108,4 +109,9 @@ public class BasicGameTestScope(private val eventBus: EventBus) {
         routeRequest = request
         tempMoveSpeed = speed
     }
+
+    public fun Player.protectedTeleport(collision: CollisionFlagMap, dest: CoordGrid): Boolean =
+        withProtectedAccess {
+            teleport(dest, collision)
+        }
 }

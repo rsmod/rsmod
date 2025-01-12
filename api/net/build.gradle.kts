@@ -19,6 +19,7 @@ dependencies {
     implementation(projects.api.playerOutput)
     implementation(projects.api.registry)
     implementation(projects.engine.annotations)
+    implementation(projects.engine.coroutine)
     implementation(projects.engine.events)
     implementation(projects.engine.game)
     implementation(projects.engine.map)

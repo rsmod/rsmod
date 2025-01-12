@@ -63,32 +63,11 @@ public data class ProtectedAccessContext(
     private val getObjTypes: () -> ObjTypeList,
     private val getLocInteractions: () -> LocInteractions,
 ) {
-    public val random: GameRandom by lazy(LazyThreadSafetyMode.NONE) { getRandom() }
-    public val eventBus: EventBus by lazy(LazyThreadSafetyMode.NONE) { getEventBus() }
-    public val collision: CollisionFlagMap by lazy(LazyThreadSafetyMode.NONE) { getCollision() }
-    public val objTypes: ObjTypeList by lazy(LazyThreadSafetyMode.NONE) { getObjTypes() }
-    public val locInteractions: LocInteractions by
-        lazy(LazyThreadSafetyMode.NONE) { getLocInteractions() }
-
-    public companion object {
-        /**
-         * A lightweight, empty context for use when a full [ProtectedAccessContext] is not
-         * required.
-         *
-         * ## Usage:
-         * - Use in cases where the [ProtectedAccessContext] dependencies are not needed within the
-         *   scope.
-         * - Accessing any context-dependent properties will throw an [IllegalStateException].
-         *
-         * _Excessive use of [EMPTY_CTX] may indicate improper usage of [ProtectedAccessContext]._
-         */
-        public val EMPTY_CTX: ProtectedAccessContext =
-            ProtectedAccessContext(
-                getRandom = { error("No game random provided.") },
-                getEventBus = { error("No event bus provided.") },
-                getCollision = { error("No collision map provided.") },
-                getObjTypes = { error("No obj type list provided.") },
-                getLocInteractions = { error("No loc interactions provided.") },
-            )
-    }
+    public val random: GameRandom by lazyLoad { getRandom() }
+    public val eventBus: EventBus by lazyLoad { getEventBus() }
+    public val collision: CollisionFlagMap by lazyLoad { getCollision() }
+    public val objTypes: ObjTypeList by lazyLoad { getObjTypes() }
+    public val locInteractions: LocInteractions by lazyLoad { getLocInteractions() }
 }
+
+private fun <T> lazyLoad(init: () -> T): Lazy<T> = lazy(LazyThreadSafetyMode.NONE, init)

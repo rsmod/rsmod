@@ -24,4 +24,28 @@ constructor(
             getObjTypes = { objTypes },
             getLocInteractions = { locInteractions },
         )
+
+    public companion object {
+        private val EMPTY_CTX: ProtectedAccessContext =
+            ProtectedAccessContext(
+                getRandom = { error("No game random provided.") },
+                getEventBus = { error("No event bus provided.") },
+                getCollision = { error("No collision map provided.") },
+                getObjTypes = { error("No obj type list provided.") },
+                getLocInteractions = { error("No loc interactions provided.") },
+            )
+
+        /**
+         * Returns a lightweight, empty context for use when a full [ProtectedAccessContext] is not
+         * required.
+         *
+         * ## Usage:
+         * - Use in cases where the [ProtectedAccessContext] dependencies are not needed within the
+         *   scope.
+         * - Accessing any context-dependent properties will throw an [IllegalStateException].
+         *
+         * _Excessive use of [EMPTY_CTX] may indicate improper usage of [ProtectedAccessContext]._
+         */
+        public fun empty(): ProtectedAccessContext = EMPTY_CTX
+    }
 }
