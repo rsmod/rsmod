@@ -121,19 +121,20 @@ constructor(
         }
 
         var cutLogs = false
-        var despawn = false
+        val despawn: Boolean
 
         if (actionDelay < mapClock) {
             actionDelay = mapClock + 3
         } else if (actionDelay == mapClock) {
             val (low, high) = cutSuccessRates(type, axe, enumTypes)
             cutLogs = rollSuccessRate(low, high, stats.woodcutting)
-            despawn = !type.hasDespawnTimer && random.of(1, 255) > type.treeDepleteChance
         }
 
         if (type.hasDespawnTimer) {
             treeSwingDespawnTick(tree, type)
             despawn = cutLogs && isTreeDespawnRequired(tree)
+        } else {
+            despawn = cutLogs && random.of(1, 255) > type.treeDepleteChance
         }
 
         if (cutLogs) {
