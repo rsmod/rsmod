@@ -121,8 +121,8 @@ constructor(
     private inline fun Player.tryOrDisconnect(block: Player.() -> Unit) =
         try {
             block(this)
-        } catch (e: Exception) {
+        } catch (t: Throwable) {
             forceDisconnect()
-            logger.error(e) { "Error processing main cycle for player: $this." }
+            logger.error(t) { "Error processing main cycle for player: $this." }
         }
 }

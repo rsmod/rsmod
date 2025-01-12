@@ -24,9 +24,8 @@ class WoodsmanTutor @Inject constructor(private val dialogues: Dialogues) : Plug
     }
 
     private suspend fun Dialogue.woodsmanDialogue() {
-        // TODO(content): Get dialogue for missing level-specific condition.
         when {
-            player.baseWoodcuttingLvl >= 99 -> {}
+            player.baseWoodcuttingLvl >= 99 -> TODO("Mastery dialogue")
             player.baseWoodcuttingLvl in 29..98 -> highLevelMenu()
             player.baseWoodcuttingLvl in 20..28 -> intermediateLevelMenu()
             else -> lowLevelMenu()

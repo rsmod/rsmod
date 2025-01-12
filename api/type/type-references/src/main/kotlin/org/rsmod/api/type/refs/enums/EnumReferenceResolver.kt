@@ -63,11 +63,11 @@ constructor(private val nameMapping: NameMapping, private val types: EnumTypeLis
             return err(ValTypeMismatch(cacheValLiteral, thisValLiteral))
         }
 
+        val cacheIdentityHash = cacheType.computeIdentityHash()
         if (supposedHash == null) {
+            TypeResolver[this] = cacheIdentityHash
             return ok(FullSuccess)
         }
-
-        val cacheIdentityHash = cacheType.computeIdentityHash()
         if (cacheIdentityHash != supposedHash) {
             return issue(CacheTypeHashMismatch(supposedHash, cacheIdentityHash))
         }

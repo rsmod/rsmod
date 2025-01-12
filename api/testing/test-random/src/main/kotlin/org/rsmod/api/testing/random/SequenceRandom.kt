@@ -113,6 +113,8 @@ public class SequenceRandom(private val sequence: MutableList<Int>) : GameRandom
 
     override fun of(minInclusive: Int, maxInclusive: Int): Int = nextInt()
 
+    override fun randomDouble(): Double = nextInt() / 100.0
+
     private fun nextInt(): Int {
         if (readerIndex !in sequence.indices) {
             throw IndexOutOfBoundsException("There are no more predetermined values in `sequence.")

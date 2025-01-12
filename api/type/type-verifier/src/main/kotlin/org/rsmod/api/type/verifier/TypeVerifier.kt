@@ -66,7 +66,7 @@ constructor(
             public fun formatError(): String = System.lineSeparator() + error.toString()
         }
 
-        public object FullSuccess : Verification()
+        public data object FullSuccess : Verification()
 
         public fun isSuccess(): Boolean = this == FullSuccess
     }
@@ -74,12 +74,13 @@ constructor(
 
 public fun TypeVerifier.Verification?.isCacheUpdateRequired(): Boolean {
     contract {
-        returns(true) implies (this@Verification is TypeVerifier.Verification.CacheUpdateRequired)
+        returns(true) implies
+            (this@isCacheUpdateRequired is TypeVerifier.Verification.CacheUpdateRequired)
     }
     return this is TypeVerifier.Verification.CacheUpdateRequired
 }
 
 public fun TypeVerifier.Verification?.isFailure(): Boolean {
-    contract { returns(true) implies (this@Verification is TypeVerifier.Verification.Failure) }
+    contract { returns(true) implies (this@isFailure is TypeVerifier.Verification.Failure) }
     return this is TypeVerifier.Verification.Failure
 }

@@ -29,4 +29,6 @@ public class DefaultGameRandom(private val random: Random) : GameRandom {
 
     override fun of(minInclusive: Int, maxInclusive: Int): Int =
         random.nextInt(minInclusive, maxInclusive + 1)
+
+    override fun randomDouble(): Double = random.nextDouble()
 }

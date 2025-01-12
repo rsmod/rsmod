@@ -20,7 +20,7 @@ public sealed class VarpType(
 }
 
 public class HashedVarpType(
-    internal val startHash: Long? = null,
+    internal var startHash: Long? = null,
     internalId: Int? = null,
     internalName: String? = null,
 ) : VarpType(internalId, internalName) {

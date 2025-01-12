@@ -23,4 +23,6 @@ public value class VariableStringMap(
     }
 
     public operator fun contains(key: VarpType): Boolean = backing.containsKey(key.id)
+
+    override fun toString(): String = backing.toString()
 }

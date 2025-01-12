@@ -73,8 +73,10 @@ public object BaseObjs : ObjReferences() {
     public val rune_axe: ObjType = find("rune_axe")
     public val gilded_axe: ObjType = find("gilded_axe")
     public val dragon_axe: ObjType = find("dragon_axe")
+    public val dragon_axe_or: ObjType = find("dragon_axe_or")
     public val third_age_axe: ObjType = find("3rd_age_axe")
     public val infernal_axe: ObjType = find("infernal_axe")
+    public val infernal_axe_or: ObjType = find("infernal_axe_or")
     public val crystal_axe: ObjType = find("crystal_axe")
 
     public val woodcutting_icon: ObjType = find("dummyitem_woodcutting_icon", 520313320359048412)

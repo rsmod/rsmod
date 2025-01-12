@@ -76,6 +76,8 @@ public class FixedRandom(start: Int? = null) : GameRandom {
         return expected
     }
 
+    override fun randomDouble(): Double = expected() / 100.0
+
     private fun expected(): Int =
         checkNotNull(expected) { "`expected` value must be set. Use the `set` function." }
 }

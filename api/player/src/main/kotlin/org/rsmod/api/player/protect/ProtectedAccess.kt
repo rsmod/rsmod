@@ -41,6 +41,7 @@ import org.rsmod.api.player.ui.ifSetPlayerHead
 import org.rsmod.api.player.ui.ifSetText
 import org.rsmod.api.player.vars.varMoveSpeed
 import org.rsmod.api.random.GameRandom
+import org.rsmod.api.utils.skills.SkillingSuccessRate
 import org.rsmod.coroutine.GameCoroutine
 import org.rsmod.events.EventBus
 import org.rsmod.events.UnboundEvent
@@ -257,6 +258,17 @@ public class ProtectedAccess(
         rate: Double = player.xpRate,
         eventBus: EventBus = context.eventBus,
     ): Int = PlayerSkillXP.internalAddXP(player, stat, xp, rate, eventBus)
+
+    public fun rollSuccessRate(low: Int, high: Int, level: Int, maxLevel: Int): Boolean {
+        val rate = SkillingSuccessRate.successRate(low, high, level, maxLevel)
+        return rate > random.randomDouble()
+    }
+
+    public fun rollSuccessRate(low: Int, high: Int, stat: StatType): Boolean {
+        val visibleLevel = player.statMap.getCurrentLevel(stat).toInt()
+        val level = visibleLevel.coerceIn(1, stat.maxLevel) // TODO: + invisibleLevel...
+        return rollSuccessRate(low, high, level, stat.maxLevel)
+    }
 
     public fun timer(timerType: TimerType, cycles: Int) {
         player.timer(timerType, cycles)

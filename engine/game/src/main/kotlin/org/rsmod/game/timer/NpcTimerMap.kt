@@ -35,4 +35,6 @@ public class NpcTimerMap(private var timers: Short2IntOpenHashMap? = null) :
 
     override fun iterator(): Iterator<Map.Entry<Short, Int>> =
         timers?.iterator() ?: Collections.emptyIterator()
+
+    override fun toString(): String = timers?.toString() ?: "null"
 }

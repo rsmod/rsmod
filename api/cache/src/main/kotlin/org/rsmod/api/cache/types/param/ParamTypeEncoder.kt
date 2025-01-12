@@ -55,9 +55,8 @@ public object ParamTypeEncoder {
             }
             defaultInt?.let {
                 data.writeByte(2)
-                data.writeInt(it.toInt())
+                data.writeInt(it)
             }
-            @Suppress("KotlinConstantConditions")
             if (autoDisable != ParamTypeBuilder.DEFAULT_AUTO_DISABLE) {
                 data.writeByte(4)
             }
@@ -67,6 +66,5 @@ public object ParamTypeEncoder {
             }
         }
 
-    @Suppress("unused")
     public fun encodeGame(type: UnpackedParamType<*>, data: ByteBuf): Unit = with(type) {}
 }

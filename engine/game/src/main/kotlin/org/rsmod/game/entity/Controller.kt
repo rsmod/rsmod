@@ -137,8 +137,16 @@ public class Controller(public val coords: CoordGrid, public val type: Controlle
             "slot=$slotId, " +
             "coords=$coords, " +
             "creationCycle=$creationCycle, " +
+            "startDuration=$durationStart, " +
             "duration=$duration, " +
-            "type=$type" +
+            "mapClock=$currentMapClock, " +
+            "type=$type, " +
+            "aiTimer=$aiTimer, " +
+            "aiQueue=$aiQueue, " +
+            "activeCoroutine=$activeCoroutine, " +
+            "vars=$vars, " +
+            "timers=$timerMap, " +
+            "queues=$queueList" +
             ")"
 
     public companion object {

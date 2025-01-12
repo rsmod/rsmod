@@ -9,7 +9,7 @@ public sealed class InvType(internal var internalId: Int?, internal var internal
 }
 
 public class HashedInvType(
-    internal val startHash: Long? = null,
+    internal var startHash: Long? = null,
     internalId: Int? = null,
     internalName: String? = null,
 ) : InvType(internalId, internalName) {
