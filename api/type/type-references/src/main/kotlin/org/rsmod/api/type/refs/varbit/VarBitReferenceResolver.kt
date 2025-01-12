@@ -37,10 +37,11 @@ constructor(private val nameMapping: NameMapping, private val types: VarBitTypeL
         TypeResolver[this] = cacheType.bits
         TypeResolver[this] = cacheType.baseVar
 
+        val cacheIdentityHash = cacheType.computeIdentityHash()
         if (supposedHash == null) {
+            TypeResolver[this] = cacheIdentityHash
             return ok(FullSuccess)
         }
-        val cacheIdentityHash = cacheType.computeIdentityHash()
         if (cacheIdentityHash != supposedHash) {
             return issue(CacheTypeHashMismatch(supposedHash, cacheIdentityHash))
         }

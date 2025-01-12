@@ -3,11 +3,15 @@ package org.rsmod.api.player.output
 import net.rsprot.protocol.game.outgoing.misc.player.RunClientScript
 import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.Inventory
+import org.rsmod.game.loc.LocShape
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.inv.InvType
+import org.rsmod.game.type.loc.LocType
 import org.rsmod.game.type.obj.ObjType
+import org.rsmod.map.CoordGrid
 
-// TODO: Decide if we want to have ClientScriptType.
+// TODO: Add ClientScriptType with identity hash code computed from its args.
+
 public fun Player.runClientScript(id: Int, vararg args: Any) {
     runClientScript(id, args.toList())
 }
@@ -133,6 +137,32 @@ public object ClientScripts {
             if (alchable) 1 else 0,
             highAlch,
             lowAlch,
+        )
+    }
+
+    /**
+     * @param timer the overlay timer type, see [org.rsmod.api.config.Constants] for known values.
+     *   (prefixed with `overlay_timer_`)
+     */
+    public fun addOverlayLoc(
+        player: Player,
+        coords: CoordGrid,
+        loc: LocType,
+        shape: LocShape,
+        timer: Int,
+        ticks: Int,
+        colour: Int,
+        unknownInt: Int,
+    ) {
+        player.runClientScript(
+            5474,
+            coords.packed,
+            loc.id,
+            shape.id,
+            timer,
+            ticks,
+            colour,
+            unknownInt,
         )
     }
 }

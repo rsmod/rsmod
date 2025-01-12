@@ -112,4 +112,13 @@ class TypeIdentityHashCollisionTest {
         assert(collisions.isEmpty()) { "Type collision detected: $collisions." }
         assertEquals(grouped.size, types.size)
     }
+
+    @Test
+    fun GameTestState.`detect struct type collisions`() = runBasicGameTest {
+        val types = cacheTypes.structs.values
+        val grouped = types.groupBy { it.computeIdentityHash() }
+        val collisions = grouped.filter { it.value.size > 1 }
+        assert(collisions.isEmpty()) { "Type collision detected: $collisions." }
+        assertEquals(grouped.size, types.size)
+    }
 }

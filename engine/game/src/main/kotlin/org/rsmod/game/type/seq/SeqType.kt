@@ -16,7 +16,7 @@ public sealed class SeqType(
 }
 
 public class HashedSeqType(
-    internal val startHash: Long? = null,
+    internal var startHash: Long? = null,
     internalId: Int? = null,
     internalName: String? = null,
     priority: Int = 0,

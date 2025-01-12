@@ -11,6 +11,7 @@ import org.rsmod.api.game.process.GameCycle
 import org.rsmod.api.market.MarketModule
 import org.rsmod.api.random.RandomModule
 import org.rsmod.api.route.RouteModule
+import org.rsmod.api.xpmod.XpModModule
 import org.rsmod.game.queue.WorldQueueList
 import org.rsmod.game.type.enums.EnumTypeList
 import org.rsmod.game.type.util.EnumTypeMapResolver
@@ -26,6 +27,7 @@ public object CoreModule : ExtendedModule() {
         install(RandomModule)
         install(RouteModule)
         install(TypeModule)
+        install(XpModModule)
         bindInstance<GameCycle>()
         bindInstance<WorldQueueList>()
         bindProvider(EnumTypeMapResolverProvider::class.java)

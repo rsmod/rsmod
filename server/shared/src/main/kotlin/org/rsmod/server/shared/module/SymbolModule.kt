@@ -43,6 +43,7 @@ private class NameMappingProvider : Provider<NameMapping> {
         val queues = dirs.readSymbols("queue")
         val seqs = dirs.readSymbols("seq")
         val stats = dirs.readSymbols("stat")
+        val structs = dirs.readSymbols("struct")
         val synths = dirs.readSymbols("synth")
         val timers = dirs.readSymbols("timer")
         val varcons = dirs.readSymbols("varcon")
@@ -77,6 +78,7 @@ private class NameMappingProvider : Provider<NameMapping> {
             controllers = controllers,
             varcons = varcons,
             varconbits = varconbits,
+            structs = structs,
         )
     }
 

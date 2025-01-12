@@ -149,4 +149,7 @@ public interface GameRandom {
      *   either value is less than or equal to zero.
      */
     public fun of(minInclusive: Int, maxInclusive: Int): Int
+
+    /** Returns a random double value within bounds `0` to `1.0`. */
+    public fun randomDouble(): Double
 }

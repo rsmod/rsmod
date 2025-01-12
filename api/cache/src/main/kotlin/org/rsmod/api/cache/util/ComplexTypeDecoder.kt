@@ -124,7 +124,8 @@ public object ComplexTypeDecoder {
         val locs = locs.values.mapNotNull { it.paramMap }
         val npcs = npcs.values.mapNotNull { it.paramMap }
         val objs = objs.values.mapNotNull { it.paramMap }
-        val paramsList = locs + npcs + objs
+        val structs = structs.values.mapNotNull { it.paramMap }
+        val paramsList = locs + npcs + objs + structs
         for (params in paramsList) {
             params.resolveTypedMap(this)
         }

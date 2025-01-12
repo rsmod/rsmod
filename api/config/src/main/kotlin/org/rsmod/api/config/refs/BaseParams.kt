@@ -7,6 +7,7 @@ import org.rsmod.api.config.aliases.ParamInt
 import org.rsmod.api.config.aliases.ParamLoc
 import org.rsmod.api.config.aliases.ParamObj
 import org.rsmod.api.config.aliases.ParamSeq
+import org.rsmod.api.config.aliases.ParamStat
 import org.rsmod.api.config.aliases.ParamStr
 import org.rsmod.api.config.aliases.ParamSynth
 import org.rsmod.api.type.refs.param.ParamReferences
@@ -28,6 +29,10 @@ public object BaseParams : ParamReferences() {
     public val no_alchemy: ParamInt = find("no_alchemy")
 
     /* Server-side only types */
+    public val xpmod_percent: ParamInt = find("xpmod_percent")
+    public val xpmod_stat: ParamStat = find("xpmod_stat")
+    public val respawn_time_low: ParamInt = find("respawn_time_low")
+    public val respawn_time_high: ParamInt = find("respawn_time_high")
     public val respawn_time: ParamInt = find("respawn_time")
     public val despawn_time: ParamInt = find("despawn_time")
     public val deplete_chance: ParamInt = find("deplete_chance")

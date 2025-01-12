@@ -77,7 +77,7 @@ constructor(private val references: TypeReferenceResolverMap) {
     private fun TypeReferenceResult.StatusUpdate.toHeader(count: Int): String =
         when (this) {
             TypeReferenceResult.CacheTypeNotFound -> {
-                "The following reference hashes point to types that do not exist ($count found)"
+                "The following references point to cache types that do not exist ($count found)"
             }
         }
 

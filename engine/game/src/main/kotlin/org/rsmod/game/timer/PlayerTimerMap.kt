@@ -24,4 +24,6 @@ public class PlayerTimerMap(private val timers: Short2IntOpenHashMap = Short2Int
     }
 
     override fun iterator(): Iterator<Map.Entry<Short, Int>> = timers.iterator()
+
+    override fun toString(): String = timers.toString()
 }

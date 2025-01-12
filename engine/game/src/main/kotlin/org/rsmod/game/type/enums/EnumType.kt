@@ -1,7 +1,10 @@
 package org.rsmod.game.type.enums
 
 import kotlin.reflect.KClass
+import org.rsmod.game.obj.InvObj
 import org.rsmod.game.type.literal.CacheVarLiteral
+import org.rsmod.game.type.obj.ObjType
+import org.rsmod.game.type.obj.isAssociatedWith
 
 public sealed class EnumType<K, V>(
     internal var internalId: Int?,
@@ -28,7 +31,7 @@ public class HashedEnumType<K : Any, V : Any>(
         "EnumType(" +
             "internalName='$internalName', " +
             "internalId=$internalId, " +
-            "supposedHash=$supposedHash," +
+            "supposedHash=$supposedHash, " +
             "keyType=$keyType, " +
             "valType=$valType" +
             ")"
@@ -85,6 +88,17 @@ public class UnpackedEnumType<K : Any, V : Any>(
 
     public fun getOrNull(key: K): V? = typedMap[key]
 
+    public fun getValue(key: K): V =
+        get(key) ?: throw NoSuchElementException("Key $key is missing in the map.")
+
+    override fun get(key: K): V? = typedMap[key] ?: default
+
+    override fun isEmpty(): Boolean = typedMap.isEmpty()
+
+    override fun containsValue(value: V?): Boolean = typedMap.containsValue(value)
+
+    override fun containsKey(key: K): Boolean = typedMap.containsKey(key)
+
     public fun computeIdentityHash(): Long {
         var result = internalId?.hashCode()?.toLong() ?: 0L
         result = 61 * result + keyLiteral.char.hashCode()
@@ -118,12 +132,16 @@ public class UnpackedEnumType<K : Any, V : Any>(
     }
 
     override fun hashCode(): Int = computeIdentityHash().toInt()
-
-    override fun isEmpty(): Boolean = typedMap.isEmpty()
-
-    override fun get(key: K): V? = typedMap[key] ?: default
-
-    override fun containsValue(value: V?): Boolean = typedMap.containsValue(value)
-
-    override fun containsKey(key: K): Boolean = typedMap.containsKey(key)
 }
+
+public fun <V : Any> UnpackedEnumType<ObjType, V>.find(obj: InvObj): V? {
+    for ((key, value) in this) {
+        if (key.isAssociatedWith(obj)) {
+            return value
+        }
+    }
+    return null
+}
+
+public fun <V : Any> UnpackedEnumType<ObjType, V>.findValue(obj: InvObj): V =
+    find(obj) ?: throw NoSuchElementException("Key $obj is missing in the map.")

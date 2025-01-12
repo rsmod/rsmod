@@ -29,4 +29,6 @@ public value class VariableIntMap(public val backing: Int2IntMap = Int2IntOpenHa
     }
 
     public operator fun contains(key: VarpType): Boolean = backing.containsKey(key.id)
+
+    override fun toString(): String = backing.toString()
 }

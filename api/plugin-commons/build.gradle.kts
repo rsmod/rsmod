@@ -29,6 +29,7 @@ dependencies {
     api(projects.api.type.typeScriptDsl)
     api(projects.api.utils.utilsFormat)
     api(projects.api.utils.utilsIo)
+    api(projects.api.xpmod)
     api(projects.engine.coroutine)
     api(projects.engine.events)
     api(projects.engine.game)

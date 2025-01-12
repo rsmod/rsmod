@@ -17,6 +17,7 @@ dependencies {
     implementation(projects.api.random)
     implementation(projects.api.type.typeReferences)
     implementation(projects.api.utils.utilsFormat)
+    implementation(projects.api.utils.utilsSkills)
     implementation(projects.engine.annotations)
     implementation(projects.engine.coroutine)
     implementation(projects.engine.events)

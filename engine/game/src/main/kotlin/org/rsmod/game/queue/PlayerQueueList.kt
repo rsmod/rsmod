@@ -148,6 +148,8 @@ public class PlayerQueueList {
         strongQueues = 0
     }
 
+    override fun toString(): String = "PlayerQueueList(size=$size, first=$first, last=$last)"
+
     internal data class Node(val queue: Queue, var prev: Node?, var next: Node? = null)
 
     public data class Queue(

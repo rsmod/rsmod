@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test
 import org.rsmod.api.game.process.player.PlayerZoneUpdateProcessor.Companion.ZONE_VIEW_RADIUS
 import org.rsmod.api.registry.loc.LocRegistry
 import org.rsmod.api.registry.obj.ObjRegistry
+import org.rsmod.api.registry.player.PlayerRegistry
 import org.rsmod.api.registry.zone.ZoneUpdateMap
 import org.rsmod.api.testing.GameTestState
 import org.rsmod.api.testing.capture.attachClientCapture
@@ -26,6 +27,7 @@ import org.rsmod.api.testing.factory.stackable1
 import org.rsmod.api.testing.factory.standard1
 import org.rsmod.api.testing.scope.BasicGameTestScope
 import org.rsmod.api.utils.map.zone.SharedZoneEnclosedBuffers
+import org.rsmod.events.EventBus
 import org.rsmod.game.loc.LocEntity
 import org.rsmod.game.loc.LocInfo
 import org.rsmod.game.loc.LocZoneKey
@@ -260,8 +262,15 @@ class PlayerZoneUpdateProcessorTest {
         val objRegistry = objRegistryFactory.create(zoneUpdates, objTypes)
         val enclosedCache = ZonePartialEnclosedCacheBuffer()
         val sharedEnclosed = SharedZoneEnclosedBuffers(playerList, zoneUpdates, enclosedCache)
+        val playerRegistry = PlayerRegistry(playerList, collision, EventBus())
         val processor =
-            PlayerZoneUpdateProcessor(zoneUpdates, locRegistry, objRegistry, sharedEnclosed)
+            PlayerZoneUpdateProcessor(
+                zoneUpdates,
+                locRegistry,
+                objRegistry,
+                playerRegistry,
+                sharedEnclosed,
+            )
         return ZoneProcessParams(
             collision,
             locRegistry,

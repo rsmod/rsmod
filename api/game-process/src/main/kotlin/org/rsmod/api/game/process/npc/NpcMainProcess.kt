@@ -79,8 +79,8 @@ constructor(
     private inline fun Npc.tryOrDespawn(block: Npc.() -> Unit) =
         try {
             block(this)
-        } catch (e: Exception) {
+        } catch (t: Throwable) {
             forceDespawn()
-            logger.error(e) { "Error processing main cycle for npc: $this." }
+            logger.error(t) { "Error processing main cycle for npc: $this." }
         }
 }
