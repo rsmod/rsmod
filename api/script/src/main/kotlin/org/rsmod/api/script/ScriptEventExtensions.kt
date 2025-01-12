@@ -1,5 +1,7 @@
 package org.rsmod.api.script
 
+import org.rsmod.api.cheat.CheatHandlerBuilder
+import org.rsmod.api.cheat.register
 import org.rsmod.api.game.process.GameLifecycle
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.events.KeyedEvent
@@ -9,6 +11,9 @@ import org.rsmod.plugin.scripts.ScriptContext
 
 public fun ScriptContext.onBootUp(action: GameLifecycle.BootUp.() -> Unit): Unit =
     eventBus.subscribe<GameLifecycle.BootUp>(action)
+
+public fun ScriptContext.onCommand(command: String, build: CheatHandlerBuilder.() -> Unit): Unit =
+    cheatCommandMap.register(command, build)
 
 public inline fun <reified T : UnboundEvent> ScriptContext.onEvent(
     noinline action: T.() -> Unit

@@ -25,7 +25,7 @@ public fun Player.clearInteractionRoute() {
 //  then and simply have it as a branch where if dev mode is on it'll just return Stationary move
 //  speed instead of even calling this method.
 public fun Player.modLevelTeleMoveSpeed(developmentMode: Boolean): MoveSpeed? =
-    if (modGroup?.isAdmin == true || developmentMode) {
+    if (modGroup?.isClientAdmin == true || developmentMode) {
         MoveSpeed.Stationary
     } else {
         null

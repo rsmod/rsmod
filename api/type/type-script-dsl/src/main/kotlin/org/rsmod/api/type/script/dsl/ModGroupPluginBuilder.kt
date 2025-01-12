@@ -7,19 +7,20 @@ import org.rsmod.game.type.mod.ModLevel
 
 @ModGroupBuilderDsl
 public class ModGroupPluginBuilder(private var internal: String? = null) {
-    public var moderator: Boolean? = null
-    public var administrator: Boolean? = null
+    public var clientModerator: Boolean? = null
+    public var clientAdministrator: Boolean? = null
     public var modLevels: Set<ModLevel>? = null
 
     public var modLevel: ModLevel? = null
         set(value) {
             modLevels = value?.let { setOf(it) }
+            field = value
         }
 
     public fun build(id: Int): ModGroup {
         val internal = checkNotNull(internal) { "`internal` must be set." }
-        val moderator = moderator == true
-        val administrator = administrator == true
+        val moderator = clientModerator == true
+        val administrator = clientAdministrator == true
         val modLevels = modLevels ?: emptySet()
         return ModGroup(id, internal, moderator, administrator, modLevels)
     }

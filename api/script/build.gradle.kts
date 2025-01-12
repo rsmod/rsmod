@@ -7,6 +7,7 @@ kotlin {
 }
 
 dependencies {
+    implementation(projects.api.cheat)
     implementation(projects.api.controller)
     implementation(projects.api.gameProcess)
     implementation(projects.api.npc)

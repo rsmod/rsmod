@@ -28,18 +28,18 @@ private constructor(
     public val internalNameGet: String
         get() = internalName
 
-    public val isMod: Boolean
+    public val isClientMod: Boolean
         get() = flags and MODERATOR_FLAG != 0
 
-    public val isAdmin: Boolean
+    public val isClientAdmin: Boolean
         get() = flags and ADMINISTRATOR_FLAG != 0
 
     override fun toString(): String =
         "ModGroup(" +
             "internalId=$internalId, " +
-            "internalName=$internalName, " +
-            "administrator=$isAdmin, " +
-            "moderator=$isMod, " +
+            "internalName='$internalName', " +
+            "administrator=$isClientAdmin, " +
+            "moderator=$isClientMod, " +
             "flags=$flags" +
             ")"
 

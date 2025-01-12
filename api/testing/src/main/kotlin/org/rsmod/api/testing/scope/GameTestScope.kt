@@ -27,6 +27,7 @@ import org.rsmod.api.xpmod.XpMod
 import org.rsmod.api.xpmod.XpModifiers
 import org.rsmod.events.EventBus
 import org.rsmod.game.MapClock
+import org.rsmod.game.cheat.CheatCommandMap
 import org.rsmod.game.entity.NpcList
 import org.rsmod.game.entity.PathingEntity
 import org.rsmod.game.entity.Player
@@ -374,6 +375,7 @@ constructor(
                 bind(NpcList::class.java).`in`(Scopes.SINGLETON)
                 bind(LocRegistry::class.java).`in`(Scopes.SINGLETON)
                 bind(LocRepository::class.java).`in`(Scopes.SINGLETON)
+                bind(CheatCommandMap::class.java).`in`(Scopes.SINGLETON)
 
                 bind(TypeListMap::class.java).toInstance(cacheTypes)
                 bind(ComponentTypeList::class.java).toInstance(cacheTypes.components)
