@@ -133,7 +133,7 @@ public object LocTypeDecoder {
                     }
                     this.multiVarp = multiVarp
                     this.multiVarBit = multiVarBit
-                    this.multiLocDefault = multiLocDefault
+                    this.multiLocDefault = defaultLoc
                     this.multiLoc = CompactableIntArray(multiLoc)
                 }
                 78 -> {
