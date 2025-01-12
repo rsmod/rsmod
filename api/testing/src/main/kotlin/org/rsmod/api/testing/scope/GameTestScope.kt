@@ -430,6 +430,14 @@ constructor(
                     default.of(minInclusive, maxInclusive)
                 }
             }
+
+            override fun randomDouble(): Double {
+                return if (sequence.hasNext) {
+                    sequence.randomDouble()
+                } else {
+                    default.randomDouble()
+                }
+            }
         }
     }
 
