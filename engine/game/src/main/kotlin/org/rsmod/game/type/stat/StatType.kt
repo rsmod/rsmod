@@ -13,4 +13,22 @@ public class StatType(internal var internalId: Int?, internal var internalName: 
 
     override fun toString(): String =
         "StatType(internalName='$internalName', internalId=$internalId)"
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as StatType
+
+        if (internalId != other.internalId) return false
+        if (internalName != other.internalName) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = internalId ?: 0
+        result = 31 * result + internalName.hashCode()
+        return result
+    }
 }
