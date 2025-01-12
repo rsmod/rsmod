@@ -52,8 +52,8 @@ constructor(
     private inline fun Controller.tryOrDelete(block: Controller.() -> Unit) =
         try {
             block(this)
-        } catch (e: Exception) {
+        } catch (t: Throwable) {
             conRepo.del(this)
-            logger.error(e) { "Error processing main cycle for controller: $this." }
+            logger.error(t) { "Error processing main cycle for controller: $this." }
         }
 }
