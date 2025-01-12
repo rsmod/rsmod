@@ -1,4 +1,4 @@
-package org.rsmod.api.xpmod
+package org.rsmod.api.stats.xpmod
 
 import org.rsmod.game.entity.Player
 import org.rsmod.game.type.stat.StatType

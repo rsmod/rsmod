@@ -1,4 +1,4 @@
-package org.rsmod.api.xpmod
+package org.rsmod.api.stats.xpmod
 
 import jakarta.inject.Inject
 import org.rsmod.game.entity.Player

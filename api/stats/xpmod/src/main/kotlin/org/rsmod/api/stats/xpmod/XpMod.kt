@@ -1,9 +1,9 @@
-package org.rsmod.api.xpmod
+package org.rsmod.api.stats.xpmod
 
 import org.rsmod.game.entity.Player
 import org.rsmod.game.type.stat.StatType
 
-interface XpMod {
+fun interface XpMod {
     /**
      * Retrieves an experience rate modifier to be added to the base value of `1.0`. The resulting
      * sum can then be used to multiply the skill experience gained. For example, a modifier of +4%

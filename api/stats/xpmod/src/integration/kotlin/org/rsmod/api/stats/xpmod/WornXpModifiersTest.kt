@@ -1,4 +1,4 @@
-package org.rsmod.api.xpmod
+package org.rsmod.api.stats.xpmod
 
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test

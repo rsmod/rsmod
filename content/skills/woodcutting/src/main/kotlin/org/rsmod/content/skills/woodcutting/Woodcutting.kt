@@ -23,7 +23,7 @@ import org.rsmod.api.repo.player.PlayerRepository
 import org.rsmod.api.script.onAiConTimer
 import org.rsmod.api.script.onOpLoc1
 import org.rsmod.api.script.onOpLoc3
-import org.rsmod.api.xpmod.XpModifiers
+import org.rsmod.api.stats.xpmod.XpModifiers
 import org.rsmod.content.skills.woodcutting.config.WoodcuttingParams
 import org.rsmod.events.UnboundEvent
 import org.rsmod.game.MapClock

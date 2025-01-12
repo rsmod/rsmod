@@ -19,12 +19,12 @@ import org.rsmod.api.random.DefaultGameRandom
 import org.rsmod.api.random.GameRandom
 import org.rsmod.api.registry.loc.LocRegistry
 import org.rsmod.api.repo.loc.LocRepository
+import org.rsmod.api.stats.xpmod.XpMod
+import org.rsmod.api.stats.xpmod.XpModifiers
 import org.rsmod.api.testing.GameTestState
 import org.rsmod.api.testing.capture.CaptureClient
 import org.rsmod.api.testing.factory.collisionFactory
 import org.rsmod.api.testing.random.SequenceRandom
-import org.rsmod.api.xpmod.XpMod
-import org.rsmod.api.xpmod.XpModifiers
 import org.rsmod.events.EventBus
 import org.rsmod.game.MapClock
 import org.rsmod.game.cheat.CheatCommandMap

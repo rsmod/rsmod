@@ -1,4 +1,4 @@
-package org.rsmod.api.xpmod
+package org.rsmod.api.stats.xpmod
 
 import org.rsmod.module.ExtendedModule
 
