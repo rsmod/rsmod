@@ -121,7 +121,11 @@ public value class Bounds(public val packed: Long) {
         return areWithinDistance(this, other, distance)
     }
 
-    public operator fun iterator(): Iterator<CoordGrid> = BoundsIterator(this)
+    public fun iterator(): Iterator<CoordGrid> = BoundsIterator(this)
+
+    public fun asSequence(): Sequence<CoordGrid> = iterator().asSequence()
+
+    public fun shuffled(): Sequence<CoordGrid> = asSequence().shuffled()
 
     override fun toString(): String = "Bounds(base=$coords, width=$width, length=$length)"
 
