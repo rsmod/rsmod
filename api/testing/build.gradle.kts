@@ -9,6 +9,7 @@ kotlin {
 dependencies {
     api(projects.api.cache)
     api(projects.api.random)
+    api(projects.api.repo)
     api(projects.api.route)
     api(projects.api.testing.testAssertions)
     api(projects.api.testing.testCapture)
@@ -30,7 +31,6 @@ dependencies {
     implementation(projects.api.npc)
     implementation(projects.api.player)
     implementation(projects.api.registry)
-    implementation(projects.api.repo)
     implementation(projects.api.stats.levelmod)
     implementation(projects.api.stats.xpmod)
     implementation(projects.engine.annotations)

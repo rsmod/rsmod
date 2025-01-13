@@ -17,8 +17,16 @@ import org.rsmod.api.player.protect.clearPendingAction
 import org.rsmod.api.random.CoreRandom
 import org.rsmod.api.random.DefaultGameRandom
 import org.rsmod.api.random.GameRandom
+import org.rsmod.api.registry.controller.ControllerRegistry
 import org.rsmod.api.registry.loc.LocRegistry
+import org.rsmod.api.registry.npc.NpcRegistry
+import org.rsmod.api.registry.obj.ObjRegistry
+import org.rsmod.api.registry.player.PlayerRegistry
+import org.rsmod.api.repo.controller.ControllerRepository
 import org.rsmod.api.repo.loc.LocRepository
+import org.rsmod.api.repo.npc.NpcRepository
+import org.rsmod.api.repo.obj.ObjRepository
+import org.rsmod.api.repo.player.PlayerRepository
 import org.rsmod.api.stats.levelmod.InvisibleLevelMod
 import org.rsmod.api.stats.levelmod.InvisibleLevels
 import org.rsmod.api.stats.xpmod.XpMod
@@ -30,6 +38,7 @@ import org.rsmod.api.testing.random.SequenceRandom
 import org.rsmod.events.EventBus
 import org.rsmod.game.MapClock
 import org.rsmod.game.cheat.CheatCommandMap
+import org.rsmod.game.entity.ControllerList
 import org.rsmod.game.entity.NpcList
 import org.rsmod.game.entity.PathingEntity
 import org.rsmod.game.entity.Player
@@ -82,6 +91,7 @@ constructor(
     public val players: PlayerList,
     public val objTypes: ObjTypeList,
     public val locTypes: LocTypeList,
+    public val conRepo: ControllerRepository,
     private val gameCycle: GameCycle,
     private val collision: CollisionFlagMap,
     private val locRegistry: LocRegistry,
@@ -373,11 +383,20 @@ constructor(
                 }
 
                 bind(MapClock::class.java).`in`(Scopes.SINGLETON)
+                bind(CheatCommandMap::class.java).`in`(Scopes.SINGLETON)
+                bind(ControllerList::class.java).`in`(Scopes.SINGLETON)
+                bind(ControllerRegistry::class.java).`in`(Scopes.SINGLETON)
+                bind(ControllerRepository::class.java).`in`(Scopes.SINGLETON)
                 bind(PlayerList::class.java).`in`(Scopes.SINGLETON)
+                bind(PlayerRegistry::class.java).`in`(Scopes.SINGLETON)
+                bind(PlayerRepository::class.java).`in`(Scopes.SINGLETON)
                 bind(NpcList::class.java).`in`(Scopes.SINGLETON)
+                bind(NpcRegistry::class.java).`in`(Scopes.SINGLETON)
+                bind(NpcRepository::class.java).`in`(Scopes.SINGLETON)
                 bind(LocRegistry::class.java).`in`(Scopes.SINGLETON)
                 bind(LocRepository::class.java).`in`(Scopes.SINGLETON)
-                bind(CheatCommandMap::class.java).`in`(Scopes.SINGLETON)
+                bind(ObjRegistry::class.java).`in`(Scopes.SINGLETON)
+                bind(ObjRepository::class.java).`in`(Scopes.SINGLETON)
 
                 bind(TypeListMap::class.java).toInstance(cacheTypes)
                 bind(ComponentTypeList::class.java).toInstance(cacheTypes.components)
