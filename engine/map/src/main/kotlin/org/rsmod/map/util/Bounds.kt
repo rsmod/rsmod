@@ -121,7 +121,7 @@ public value class Bounds(public val packed: Long) {
         return areWithinDistance(this, other, distance)
     }
 
-    public fun iterator(): Iterator<CoordGrid> = BoundsIterator(this)
+    public operator fun iterator(): Iterator<CoordGrid> = BoundsIterator(this)
 
     public fun asSequence(): Sequence<CoordGrid> = iterator().asSequence()
 
