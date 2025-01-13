@@ -15,6 +15,7 @@ dependencies {
     implementation(projects.api.playerOutput)
     implementation(projects.api.invtx)
     implementation(projects.api.random)
+    implementation(projects.api.route)
     implementation(projects.api.stats.levelmod)
     implementation(projects.api.type.typeReferences)
     implementation(projects.api.utils.utilsFormat)

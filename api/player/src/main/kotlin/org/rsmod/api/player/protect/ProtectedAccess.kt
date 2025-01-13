@@ -41,6 +41,7 @@ import org.rsmod.api.player.ui.ifSetPlayerHead
 import org.rsmod.api.player.ui.ifSetText
 import org.rsmod.api.player.vars.varMoveSpeed
 import org.rsmod.api.random.GameRandom
+import org.rsmod.api.route.RayCastValidator
 import org.rsmod.api.stats.levelmod.InvisibleLevels
 import org.rsmod.api.utils.skills.SkillingSuccessRate
 import org.rsmod.coroutine.GameCoroutine
@@ -55,6 +56,7 @@ import org.rsmod.game.interact.InteractionOp
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.map.Direction
+import org.rsmod.game.map.collision.get
 import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.obj.InvObj
 import org.rsmod.game.type.comp.ComponentType
@@ -71,8 +73,10 @@ import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.synth.SynthType
 import org.rsmod.game.type.timer.TimerType
 import org.rsmod.map.CoordGrid
+import org.rsmod.map.util.Bounds
 import org.rsmod.objtx.TransactionResultList
 import org.rsmod.routefinder.collision.CollisionFlagMap
+import org.rsmod.routefinder.flag.CollisionFlag
 
 private val logger = InlineLogger()
 
@@ -168,6 +172,79 @@ public class ProtectedAccess(
             return false
         }
         return true
+    }
+
+    public fun mapFindSquareLineOfWalk(
+        centre: CoordGrid,
+        minRadius: Int,
+        maxRadius: Int,
+        collision: CollisionFlagMap = context.collision,
+    ): CoordGrid? {
+        val squares = validatedLineOfWalkSquares(centre, minRadius, maxRadius, collision)
+        return squares.firstOrNull()
+    }
+
+    public fun mapFindSquareLineOfSight(
+        centre: CoordGrid,
+        minRadius: Int,
+        maxRadius: Int,
+        collision: CollisionFlagMap = context.collision,
+    ): CoordGrid? {
+        val squares = validatedLineOfSightSquares(centre, minRadius, maxRadius, collision)
+        return squares.firstOrNull()
+    }
+
+    public fun validatedLineOfWalkSquares(
+        centre: CoordGrid,
+        minRadius: Int,
+        maxRadius: Int,
+        collision: CollisionFlagMap = context.collision,
+    ): Sequence<CoordGrid> {
+        val squares = shuffledSquares(centre, minRadius, maxRadius)
+        val validator = RayCastValidator(collision)
+        return squares.filter {
+            validator.hasLineOfWalk(centre, it, extraFlag = CollisionFlag.BLOCK_PLAYERS)
+        }
+    }
+
+    public fun validatedLineOfSightSquares(
+        centre: CoordGrid,
+        minRadius: Int,
+        maxRadius: Int,
+        collision: CollisionFlagMap = context.collision,
+    ): Sequence<CoordGrid> {
+        val squares = shuffledSquares(centre, minRadius, maxRadius)
+        val validator = RayCastValidator(collision)
+        return squares.filter {
+            validator.hasLineOfSight(centre, it, extraFlag = CollisionFlag.BLOCK_PLAYERS)
+        }
+    }
+
+    public fun validatedSquares(
+        centre: CoordGrid,
+        minRadius: Int,
+        maxRadius: Int,
+        collision: CollisionFlagMap = context.collision,
+    ): Sequence<CoordGrid> {
+        val squares = shuffledSquares(centre, minRadius, maxRadius)
+        return squares.filter {
+            val flag = collision[coords]
+            flag and CollisionFlag.BLOCK_WALK == 0
+        }
+    }
+
+    private fun shuffledSquares(
+        centre: CoordGrid,
+        minRadius: Int,
+        maxRadius: Int,
+    ): Sequence<CoordGrid> {
+        require(minRadius <= maxRadius) {
+            "`minRadius` must be less than or equal to `maxRadius`. " +
+                "(centre=$centre, minRadius=$minRadius, maxRadius=$maxRadius)"
+        }
+        val base = centre.translate(-maxRadius, -maxRadius)
+        val bounds = Bounds(base, 2 * maxRadius + 1, 2 * maxRadius + 1)
+        return bounds.shuffled().filter { centre.chebyshevDistance(it) >= minRadius }
     }
 
     public fun opLoc1(
