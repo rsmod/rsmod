@@ -178,9 +178,9 @@ public class ProtectedAccess(
         centre: CoordGrid,
         minRadius: Int,
         maxRadius: Int,
-        collision: CollisionFlagMap = context.collision,
+        validator: RayCastValidator = RayCastValidator(context.collision),
     ): CoordGrid? {
-        val squares = validatedLineOfWalkSquares(centre, minRadius, maxRadius, collision)
+        val squares = validatedLineOfWalkSquares(centre, minRadius, maxRadius, validator)
         return squares.firstOrNull()
     }
 
@@ -188,9 +188,9 @@ public class ProtectedAccess(
         centre: CoordGrid,
         minRadius: Int,
         maxRadius: Int,
-        collision: CollisionFlagMap = context.collision,
+        validator: RayCastValidator = RayCastValidator(context.collision),
     ): CoordGrid? {
-        val squares = validatedLineOfSightSquares(centre, minRadius, maxRadius, collision)
+        val squares = validatedLineOfSightSquares(centre, minRadius, maxRadius, validator)
         return squares.firstOrNull()
     }
 
@@ -198,10 +198,9 @@ public class ProtectedAccess(
         centre: CoordGrid,
         minRadius: Int,
         maxRadius: Int,
-        collision: CollisionFlagMap = context.collision,
+        validator: RayCastValidator = RayCastValidator(context.collision),
     ): Sequence<CoordGrid> {
         val squares = shuffledSquares(centre, minRadius, maxRadius)
-        val validator = RayCastValidator(collision)
         return squares.filter {
             validator.hasLineOfWalk(centre, it, extraFlag = CollisionFlag.BLOCK_PLAYERS)
         }
@@ -211,10 +210,9 @@ public class ProtectedAccess(
         centre: CoordGrid,
         minRadius: Int,
         maxRadius: Int,
-        collision: CollisionFlagMap = context.collision,
+        validator: RayCastValidator = RayCastValidator(context.collision),
     ): Sequence<CoordGrid> {
         val squares = shuffledSquares(centre, minRadius, maxRadius)
-        val validator = RayCastValidator(collision)
         return squares.filter {
             validator.hasLineOfSight(centre, it, extraFlag = CollisionFlag.BLOCK_PLAYERS)
         }
