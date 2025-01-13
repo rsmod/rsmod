@@ -29,6 +29,9 @@ import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.seq.SeqTypeList
 import org.rsmod.game.type.stat.StatTypeList
 import org.rsmod.map.CoordGrid
+import org.rsmod.map.square.MapSquareGrid
+import org.rsmod.map.square.MapSquareKey
+import org.rsmod.map.zone.ZoneGrid
 import org.rsmod.map.zone.ZoneKey
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
@@ -72,7 +75,15 @@ constructor(
 
     private fun reset(cheat: Cheat) = with(cheat) { player.setStatLevels(level = 1) }
 
-    private fun mypos(cheat: Cheat) = with(cheat) { player.mes("${player.coords}") }
+    private fun mypos(cheat: Cheat) =
+        with(cheat) {
+            player.mes("${player.coords}:")
+            player.mes("  ${ZoneKey.from(player.coords)} - ${ZoneGrid.from(player.coords)}")
+            player.mes(
+                "  ${MapSquareKey.from(player.coords)} - ${MapSquareGrid.from(player.coords)}"
+            )
+            player.mes("  BuildArea(${player.buildArea})")
+        }
 
     private fun tele(cheat: Cheat) =
         with(cheat) {
