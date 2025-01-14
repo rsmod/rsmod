@@ -154,12 +154,13 @@ private fun Player.openModal(interf: InterfaceType, target: ComponentType, event
     val idInterface = interf.toIdInterface()
     closeSubs(idComponent, eventBus)
     ui.modals[idComponent] = idInterface
-    eventBus.publish(OpenSub(this, idInterface, idComponent, IfSubType.Modal))
 
     // Translate any gameframe target component when sent to the client. As far as the server is
     // aware, the interface is being opened on the "base" target component. (when applicable)
     val translated = ui.translate(idComponent)
     client.write(IfOpenSub(translated.parent, translated.child, interf.id, IfSubType.Modal.id))
+
+    eventBus.publish(OpenSub(this, idInterface, idComponent, IfSubType.Modal))
 }
 
 private fun Player.openOverlay(interf: InterfaceType, target: ComponentType, eventBus: EventBus) {
@@ -167,12 +168,13 @@ private fun Player.openOverlay(interf: InterfaceType, target: ComponentType, eve
     val idInterface = interf.toIdInterface()
     closeSubs(idComponent, eventBus)
     ui.overlays[idComponent] = idInterface
-    eventBus.publish(OpenSub(this, idInterface, idComponent, IfSubType.Overlay))
 
     // Translate any gameframe target component when sent to the client. As far as the server is
     // aware, the interface is being opened on the "base" target component. (when applicable)
     val translated = ui.translate(idComponent)
     client.write(IfOpenSub(translated.parent, translated.child, interf.id, IfSubType.Overlay.id))
+
+    eventBus.publish(OpenSub(this, idInterface, idComponent, IfSubType.Overlay))
 }
 
 private fun Player.closeModal(interf: InterfaceType, eventBus: EventBus) {
