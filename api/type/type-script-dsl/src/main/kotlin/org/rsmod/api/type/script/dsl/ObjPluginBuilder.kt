@@ -127,19 +127,19 @@ public class ObjPluginBuilder(public var internal: String? = null) {
         }
 
     public var wearpos: Wearpos?
-        get() = Wearpos.forSlot(backing.wearpos1 ?: -1)
+        get() = Wearpos[backing.wearpos1 ?: -1]
         set(value) {
             backing.wearpos1 = value?.slot
         }
 
     public var wearpos2: Wearpos?
-        get() = Wearpos.forSlot(backing.wearpos2 ?: -1)
+        get() = Wearpos[backing.wearpos2 ?: -1]
         set(value) {
             backing.wearpos2 = value?.slot
         }
 
     public var wearpos3: Wearpos?
-        get() = Wearpos.forSlot(backing.wearpos3 ?: -1)
+        get() = Wearpos[backing.wearpos3 ?: -1]
         set(value) {
             backing.wearpos3 = value?.slot
         }

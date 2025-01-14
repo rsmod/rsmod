@@ -17,7 +17,7 @@ public enum class Wearpos(public val slot: Int) {
     Quiver(13);
 
     public companion object {
-        public fun forSlot(slot: Int): Wearpos? =
+        public operator fun get(slot: Int): Wearpos? =
             when (slot) {
                 0 -> Hat
                 1 -> Back
