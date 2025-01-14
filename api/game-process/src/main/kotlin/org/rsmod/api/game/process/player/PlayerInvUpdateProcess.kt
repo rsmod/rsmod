@@ -16,7 +16,7 @@ public class PlayerInvUpdateProcess @Inject constructor(private val players: Pla
     }
 
     private fun PlayerList.process() {
-        for (player in players) {
+        for (player in this) {
             val modalInv = player.modalInv
             if (modalInv != null) {
                 player.updateInv(modalInv)
