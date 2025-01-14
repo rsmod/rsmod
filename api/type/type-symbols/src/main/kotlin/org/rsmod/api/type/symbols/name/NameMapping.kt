@@ -7,6 +7,7 @@ public data class NameMapping(
     public val content: Map<String, Int> = mutableMapOf(),
     public val controllers: Map<String, Int> = mutableMapOf(),
     public val currencies: Map<String, Int> = mutableMapOf(),
+    public val dropTriggers: Map<String, Int> = mutableMapOf(),
     public val enums: Map<String, Int> = mutableMapOf(),
     public val interfaces: Map<String, Int> = mutableMapOf(),
     public val invs: Map<String, Int> = mutableMapOf(),

@@ -6,6 +6,7 @@ import org.rsmod.game.type.comp.HashedComponentType
 import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.controller.ControllerType
 import org.rsmod.game.type.currency.CurrencyType
+import org.rsmod.game.type.droptrig.DropTriggerType
 import org.rsmod.game.type.enums.EnumType
 import org.rsmod.game.type.enums.HashedEnumType
 import org.rsmod.game.type.enums.UnpackedEnumType
@@ -46,6 +47,12 @@ public object TypeResolver {
     public operator fun get(type: CurrencyType): Int? = type.internalId
 
     public operator fun set(type: CurrencyType, id: Int) {
+        type.internalId = id
+    }
+
+    public operator fun get(type: DropTriggerType): Int? = type.internalId
+
+    public operator fun set(type: DropTriggerType, id: Int) {
         type.internalId = id
     }
 

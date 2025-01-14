@@ -4,6 +4,8 @@ import jakarta.inject.Inject
 import org.rsmod.api.type.builders.TypeBuilder
 import org.rsmod.api.type.builders.controller.ControllerBuilder
 import org.rsmod.api.type.builders.controller.ControllerBuilderResolver
+import org.rsmod.api.type.builders.droptrig.DropTriggerBuilder
+import org.rsmod.api.type.builders.droptrig.DropTriggerBuilderResolver
 import org.rsmod.api.type.builders.enums.EnumBuilder
 import org.rsmod.api.type.builders.enums.EnumBuilderResolver
 import org.rsmod.api.type.builders.inv.InvBuilder
@@ -33,6 +35,7 @@ public class TypeBuilderResolverMap
 @Inject
 constructor(
     private val conResolver: ControllerBuilderResolver,
+    private val dropTriggerResolver: DropTriggerBuilderResolver,
     private val enumResolver: EnumBuilderResolver,
     private val invResolver: InvBuilderResolver,
     private val locResolver: LocBuilderResolver,
@@ -107,6 +110,7 @@ constructor(
         val resolver =
             when (this) {
                 is ControllerBuilder -> conResolver
+                is DropTriggerBuilder -> dropTriggerResolver
                 is EnumBuilder -> enumResolver
                 is InvBuilder -> invResolver
                 is LocBuilder -> locResolver

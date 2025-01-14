@@ -30,6 +30,7 @@ private class NameMappingProvider : Provider<NameMapping> {
         val content = dirs.readSymbols("content")
         val controllers = dirs.readSymbols("controller")
         val currencies = dirs.readSymbols("currency")
+        val dropTriggers = dirs.readSymbols("droptrigger")
         val enums = dirs.readSymbols("enum")
         val fonts = dirs.readSymbols("font")
         val invs = dirs.readSymbols("inv")
@@ -79,6 +80,7 @@ private class NameMappingProvider : Provider<NameMapping> {
             varcons = varcons,
             varconbits = varconbits,
             structs = structs,
+            dropTriggers = dropTriggers,
         )
     }
 
