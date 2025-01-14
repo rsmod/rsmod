@@ -76,6 +76,11 @@ public object BaseComponents : ComponentReferences() {
     public val double_obj_dialogue_obj2: ComponentType =
         find("double_item_dialogue_com3", 4738683382078767074)
 
+    public val destroy_obj_dialogue_pbutton: ComponentType =
+        find("destroy_item_dialogue_com0", 634370088850376912)
+
     public val main_modal: ComponentType = find("resizable_pane_com16", 5905850806851984360)
     public val side_modal: ComponentType = find("resizable_pane_com74", 8719636644635355055)
+
+    public val inv_inv: ComponentType = find("inventory_tab_com0", 2716382361977651445)
 }

@@ -16,6 +16,7 @@ import org.rsmod.api.config.refs.interfaces
 import org.rsmod.api.config.refs.varbits
 import org.rsmod.api.player.output.ChatType
 import org.rsmod.api.player.output.ClientScripts.chatboxMultiInit
+import org.rsmod.api.player.output.ClientScripts.confirmDestroyInit
 import org.rsmod.api.player.output.ClientScripts.ifSetTextAlign
 import org.rsmod.api.player.output.ClientScripts.objboxSetButtons
 import org.rsmod.api.player.output.ClientScripts.topLevelChatboxResetBackground
@@ -291,6 +292,18 @@ internal fun Player.ifDoubleobjbox(
     ifSetObj(components.double_obj_dialogue_obj1, obj1, zoom1)
     ifSetObj(components.double_obj_dialogue_obj2, obj2, zoom2)
     ifSetText(components.double_obj_dialogue_text, text)
+}
+
+internal fun Player.ifConfirmDestroy(
+    header: String,
+    text: String,
+    obj: Int,
+    count: Int,
+    eventBus: EventBus,
+) {
+    ifOpenChat(interfaces.destroy_obj_dialogue, constants.modal_fixedwidthandheight, eventBus)
+    confirmDestroyInit(this, header, text, obj, count)
+    ifSetEvents(components.destroy_obj_dialogue_pbutton, 0..1, IfEvent.PauseButton)
 }
 
 /** @see [chatboxMultiInit] */

@@ -231,6 +231,13 @@ public class Dialogue(
             title = title,
         )
 
+    public suspend fun confirmDestroy(
+        obj: ObjType,
+        count: Int,
+        header: String,
+        text: String,
+    ): Boolean = access.confirmDestroy(obj, count, header, text)
+
     public suspend fun delay(cycles: Int = 1): Unit = access.delay(cycles)
 
     public fun invTotal(inv: Inventory, content: ContentGroupType): Int =

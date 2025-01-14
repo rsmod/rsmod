@@ -44,4 +44,5 @@ public object BaseInterfaces : InterfaceReferences() {
     public val obj_dialogue: InterfaceType = find("item_dialogue", 1639203600)
     public val double_obj_dialogue: InterfaceType =
         find("double_item_dialogue", 9223372035376440778)
+    public val destroy_obj_dialogue: InterfaceType = find("destroy_item_dialogue", 923450919)
 }

@@ -165,4 +165,12 @@ public object ClientScripts {
             if (isDespawnTimer) 1 else 0,
         )
     }
+
+    public fun confirmDestroyInit(
+        player: Player,
+        header: String,
+        text: String,
+        obj: Int,
+        count: Int,
+    ): Unit = player.runClientScript(814, obj, count, header, text)
 }

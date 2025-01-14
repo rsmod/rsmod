@@ -28,6 +28,7 @@ import org.rsmod.api.player.ui.ifChatPlayer
 import org.rsmod.api.player.ui.ifChoice
 import org.rsmod.api.player.ui.ifClose
 import org.rsmod.api.player.ui.ifCloseSub
+import org.rsmod.api.player.ui.ifConfirmDestroy
 import org.rsmod.api.player.ui.ifDoubleobjbox
 import org.rsmod.api.player.ui.ifMesbox
 import org.rsmod.api.player.ui.ifObjbox
@@ -709,6 +710,28 @@ public class ProtectedAccess(
     }
 
     /**
+     * @throws ProtectedAccessLostException if [regainProtectedAccess] returns false after
+     *   suspension resumes.
+     * @see [regainProtectedAccess]
+     */
+    public suspend fun confirmDestroy(
+        obj: ObjType,
+        count: Int,
+        header: String,
+        text: String,
+        eventBus: EventBus = context.eventBus,
+    ): Boolean {
+        player.ifConfirmDestroy(header, text, obj.id, count, eventBus)
+        val input = coroutine.pause(ResumePauseButtonInput::class)
+        resumePauseButtonWithProtectedAccess(input, components.destroy_obj_dialogue_pbutton)
+        return when (input.subcomponent) {
+            0 -> false
+            1 -> true
+            else -> error("Invalid choice `${input.subcomponent}` for `$player`. (input=$input)")
+        }
+    }
+
+    /**
      * Ensures we can still obtain protected access for [player]. If protected access cannot be
      * regained, this function throws a [ProtectedAccessLostException], which will cause the current
      * [withProtectedAccess] lambda block to exit gracefully.
@@ -779,8 +802,10 @@ public class ProtectedAccess(
     ) {
         if (!expectedComponent.isAssociatedWith(input.component)) {
             logger.debug {
-                "Protected-access was lost due to unexpected " +
-                    "component `${input.component}` for player: $player"
+                "Protected-access was lost due to unexpected component: " +
+                    "player=$player, " +
+                    "received=${input.component.internalNameGet ?: input}, " +
+                    "expected=${expectedComponent.internalNameGet ?: expectedComponent}"
             }
             throw ProtectedAccessLostException()
         }
