@@ -252,6 +252,7 @@ public class UnpackedComponentType(
         "UnpackedComponentType(" +
             "internalName='$internalName', " +
             "internalId=$interfaceId:$component (packed=$packed), " +
+            "internalHash=${computeIdentityHash()}, " +
             "v3=$v3, " +
             "type=$type, " +
             "buttonType=$buttonType, " +
