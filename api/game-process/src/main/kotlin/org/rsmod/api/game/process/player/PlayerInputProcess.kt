@@ -17,10 +17,13 @@ public class PlayerInputProcess @Inject constructor(private val players: PlayerL
         client.read(this)
     }
 
-    private fun Player.tryOrDisconnect(block: Player.() -> Unit) =
+    private inline fun Player.tryOrDisconnect(block: Player.() -> Unit) =
         try {
             block(this)
         } catch (e: Exception) {
+            forceDisconnect()
+            logger.error(e) { "Error processing input cycle for player: $this." }
+        } catch (e: NotImplementedError) {
             forceDisconnect()
             logger.error(e) { "Error processing input cycle for player: $this." }
         }

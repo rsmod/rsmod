@@ -32,10 +32,13 @@ constructor(private val players: PlayerList, private val movement: PlayerMovemen
         }
     }
 
-    private fun Player.tryOrDisconnect(block: Player.() -> Unit) =
+    private inline fun Player.tryOrDisconnect(block: Player.() -> Unit) =
         try {
             block(this)
         } catch (e: Exception) {
+            forceDisconnect()
+            logger.error(e) { "Error processing route request cycle for player: $this." }
+        } catch (e: NotImplementedError) {
             forceDisconnect()
             logger.error(e) { "Error processing route request cycle for player: $this." }
         }

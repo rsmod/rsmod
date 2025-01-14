@@ -48,8 +48,11 @@ constructor(private val players: PlayerList, private val zoneUpdates: PlayerZone
     private inline fun Player.tryOrDisconnect(block: Player.() -> Unit) =
         try {
             block(this)
-        } catch (t: Throwable) {
+        } catch (e: Exception) {
             forceDisconnect()
-            logger.error(t) { "Error processing zone updates for player: $this." }
+            logger.error(e) { "Error processing zone updates for player: $this." }
+        } catch (e: NotImplementedError) {
+            forceDisconnect()
+            logger.error(e) { "Error processing zone updates for player: $this." }
         }
 }
