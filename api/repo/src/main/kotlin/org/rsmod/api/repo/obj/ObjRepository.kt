@@ -39,7 +39,7 @@ constructor(
         coords: CoordGrid,
         duration: Int,
         count: Int = 1,
-        reveal: Int = DEFAULT_REVEAL_DELTA,
+        reveal: Int = duration - DEFAULT_REVEAL_DELTA,
         receiverId: Long? = null,
     ): Obj {
         val obj =
@@ -56,7 +56,7 @@ constructor(
         invObj: InvObj,
         coords: CoordGrid,
         duration: Int,
-        reveal: Int = DEFAULT_REVEAL_DELTA,
+        reveal: Int = duration - DEFAULT_REVEAL_DELTA,
         receiverId: Long? = null,
     ): Obj {
         val obj =
