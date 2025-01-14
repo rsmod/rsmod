@@ -297,7 +297,7 @@ public fun Player.invSwap(
     updateInv: Boolean = true,
     autoCommit: Boolean = true,
 ): TransactionResultList<InvObj> =
-    invTransaction(inv, updateInv, autoCommit) {
+    invTransaction(from, into, updateInv, autoCommit) {
         val fromInv = select(from)
         val intoInv = into?.let { select(it) } ?: fromInv
         swap(
@@ -345,7 +345,7 @@ public fun Player.invTransfer(
     autoCommit: Boolean = true,
 ): TransactionResultList<InvObj> {
     check(into != from) { "`into` should not be equal to `from` inv. Use `swap` function instead." }
-    return invTransaction(inv, updateInv, autoCommit) {
+    return invTransaction(from, into, updateInv, autoCommit) {
         val fromInv = select(from)
         val intoInv = select(into)
         transfer(
@@ -393,20 +393,40 @@ public fun Transaction<InvObj>.select(inv: Inventory): TransactionInventory<InvO
 }
 
 public fun Player.invTransaction(
-    inv: Inventory,
+    from: Inventory,
+    into: Inventory?,
     updateInv: Boolean = true,
     autoCommit: Boolean = true,
     transaction: Transaction<InvObj>.() -> Unit,
 ): TransactionResultList<InvObj> {
-    if (denyProtectedAccess(inv)) {
+    if (denyProtectedAccess(from) || into != null && denyProtectedAccess(into)) {
         return protectedAccessException()
     }
     val result = transactions.transaction(autoCommit) { transaction() }
-    if (updateInv && result.commited && inv.hasModifiedSlots()) {
-        updateModifiedInv(inv)
+    if (updateInv && result.commited) {
+        if (from.hasModifiedSlots()) {
+            updateModifiedInv(from)
+        }
+        if (into != null && into.hasModifiedSlots()) {
+            updateModifiedInv(into)
+        }
     }
     return result
 }
+
+public fun Player.invTransaction(
+    inv: Inventory,
+    updateInv: Boolean = true,
+    autoCommit: Boolean = true,
+    transaction: Transaction<InvObj>.() -> Unit,
+): TransactionResultList<InvObj> =
+    invTransaction(
+        from = inv,
+        into = null,
+        updateInv = updateInv,
+        autoCommit = autoCommit,
+        transaction = transaction,
+    )
 
 private fun Player.updateModifiedInv(inv: Inventory) {
     updateInvRecommended(inv)
