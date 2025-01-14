@@ -1,5 +1,6 @@
 package org.rsmod.api.type.refs.font
 
+import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
 import org.rsmod.api.type.refs.HashTypeReferences
 import org.rsmod.api.type.refs.resolver.HashTypeReferenceResolver
@@ -22,6 +23,8 @@ public class FontMetricsReferenceResolver
 @Inject
 constructor(private val nameMapping: NameMapping, private val types: FontMetricsTypeList) :
     HashTypeReferenceResolver<HashedFontMetricsType> {
+    private val logger = InlineLogger()
+
     private val names: Map<String, Int>
         get() = nameMapping.fonts
 
@@ -38,6 +41,7 @@ constructor(private val nameMapping: NameMapping, private val types: FontMetrics
         val cacheIdentityHash = cacheType.computeIdentityHash()
         if (supposedHash == null) {
             TypeResolver[this] = cacheIdentityHash
+            logger.trace { "  FontMetric($name) identity hash auto-resolved: $cacheIdentityHash" }
             return ok(FullSuccess)
         }
         if (cacheIdentityHash != supposedHash) {

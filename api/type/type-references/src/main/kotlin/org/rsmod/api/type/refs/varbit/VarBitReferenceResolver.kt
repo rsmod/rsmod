@@ -1,5 +1,6 @@
 package org.rsmod.api.type.refs.varbit
 
+import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
 import org.rsmod.api.type.refs.HashTypeReferences
 import org.rsmod.api.type.refs.resolver.HashTypeReferenceResolver
@@ -22,6 +23,8 @@ public class VarBitReferenceResolver
 @Inject
 constructor(private val nameMapping: NameMapping, private val types: VarBitTypeList) :
     HashTypeReferenceResolver<HashedVarBitType> {
+    private val logger = InlineLogger()
+
     private val names: Map<String, Int>
         get() = nameMapping.varbits
 
@@ -40,6 +43,7 @@ constructor(private val nameMapping: NameMapping, private val types: VarBitTypeL
         val cacheIdentityHash = cacheType.computeIdentityHash()
         if (supposedHash == null) {
             TypeResolver[this] = cacheIdentityHash
+            logger.trace { "  VarBit($name) identity hash auto-resolved: $cacheIdentityHash" }
             return ok(FullSuccess)
         }
         if (cacheIdentityHash != supposedHash) {

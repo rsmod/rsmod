@@ -7,6 +7,7 @@ kotlin {
 }
 
 dependencies {
+    implementation(libs.bundles.logging)
     implementation(libs.guice)
     implementation(projects.api.cache)
     implementation(projects.api.type.typeSymbols)

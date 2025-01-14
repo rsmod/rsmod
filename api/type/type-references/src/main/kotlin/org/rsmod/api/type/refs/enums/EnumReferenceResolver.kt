@@ -1,5 +1,6 @@
 package org.rsmod.api.type.refs.enums
 
+import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
 import org.rsmod.api.type.refs.TypeReferences
 import org.rsmod.api.type.refs.resolver.TypeReferenceResolver
@@ -27,6 +28,8 @@ public class EnumReferenceResolver
 @Inject
 constructor(private val nameMapping: NameMapping, private val types: EnumTypeList) :
     TypeReferenceResolver<HashedEnumType<*, *>, Nothing> {
+    private val logger = InlineLogger()
+
     private val names: Map<String, Int>
         get() = nameMapping.enums
 
@@ -66,6 +69,7 @@ constructor(private val nameMapping: NameMapping, private val types: EnumTypeLis
         val cacheIdentityHash = cacheType.computeIdentityHash()
         if (supposedHash == null) {
             TypeResolver[this] = cacheIdentityHash
+            logger.trace { "  Enum($name) identity hash auto-resolved: $cacheIdentityHash" }
             return ok(FullSuccess)
         }
         if (cacheIdentityHash != supposedHash) {

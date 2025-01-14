@@ -1,5 +1,6 @@
 package org.rsmod.api.type.refs.obj
 
+import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
 import org.rsmod.api.type.refs.HashTypeReferences
 import org.rsmod.api.type.refs.resolver.HashTypeReferenceResolver
@@ -22,6 +23,8 @@ public class ObjReferenceResolver
 @Inject
 constructor(private val nameMapping: NameMapping, private val types: ObjTypeList) :
     HashTypeReferenceResolver<HashedObjType> {
+    private val logger = InlineLogger()
+
     private val names: Map<String, Int>
         get() = nameMapping.objs
 
@@ -37,6 +40,7 @@ constructor(private val nameMapping: NameMapping, private val types: ObjTypeList
         val cacheIdentityHash = cacheType.computeIdentityHash()
         if (supposedHash == null) {
             TypeResolver[this] = cacheIdentityHash
+            logger.trace { "  Obj($name) identity hash auto-resolved: $cacheIdentityHash" }
             return ok(FullSuccess)
         }
         if (cacheIdentityHash != supposedHash) {

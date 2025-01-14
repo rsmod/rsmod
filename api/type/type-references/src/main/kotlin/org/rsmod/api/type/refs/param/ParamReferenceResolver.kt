@@ -1,5 +1,6 @@
 package org.rsmod.api.type.refs.param
 
+import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
 import org.rsmod.api.type.refs.TypeReferences
 import org.rsmod.api.type.refs.resolver.TypeReferenceResolver
@@ -29,6 +30,8 @@ constructor(
     private val cacheTypes: TypeListMap,
     private val types: ParamTypeList,
 ) : TypeReferenceResolver<HashedParamType<*>, Nothing> {
+    private val logger = InlineLogger()
+
     private val names: Map<String, Int>
         get() = nameMapping.params
 
@@ -61,6 +64,7 @@ constructor(
         val cacheIdentityHash = cacheType.computeIdentityHash()
         if (supposedHash == null) {
             TypeResolver[this] = cacheIdentityHash
+            logger.trace { "  Param($name) identity hash auto-resolved: $cacheIdentityHash" }
             return ok(FullSuccess)
         }
         if (cacheIdentityHash != supposedHash) {

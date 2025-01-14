@@ -1,5 +1,6 @@
 package org.rsmod.api.type.refs.loc
 
+import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
 import org.rsmod.api.type.refs.HashTypeReferences
 import org.rsmod.api.type.refs.resolver.HashTypeReferenceResolver
@@ -22,6 +23,8 @@ public class LocReferenceResolver
 @Inject
 constructor(private val nameMapping: NameMapping, private val types: LocTypeList) :
     HashTypeReferenceResolver<HashedLocType> {
+    private val logger = InlineLogger()
+
     private val names: Map<String, Int>
         get() = nameMapping.locs
 
@@ -37,6 +40,7 @@ constructor(private val nameMapping: NameMapping, private val types: LocTypeList
         val cacheIdentityHash = cacheType.computeIdentityHash()
         if (supposedHash == null) {
             TypeResolver[this] = cacheIdentityHash
+            logger.trace { "  Loc($name) identity hash auto-resolved: $cacheIdentityHash" }
             return ok(FullSuccess)
         }
         if (cacheIdentityHash != supposedHash) {

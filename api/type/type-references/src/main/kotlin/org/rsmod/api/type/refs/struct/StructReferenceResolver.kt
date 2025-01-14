@@ -1,5 +1,6 @@
 package org.rsmod.api.type.refs.struct
 
+import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
 import org.rsmod.api.type.refs.HashTypeReferences
 import org.rsmod.api.type.refs.resolver.HashTypeReferenceResolver
@@ -22,6 +23,8 @@ public class StructReferenceResolver
 @Inject
 constructor(private val nameMapping: NameMapping, private val types: StructTypeList) :
     HashTypeReferenceResolver<HashedStructType> {
+    private val logger = InlineLogger()
+
     private val names: Map<String, Int>
         get() = nameMapping.structs
 
@@ -37,6 +40,7 @@ constructor(private val nameMapping: NameMapping, private val types: StructTypeL
         val cacheIdentityHash = cacheType.computeIdentityHash()
         if (supposedHash == null) {
             TypeResolver[this] = cacheIdentityHash
+            logger.trace { "  Struct($name) identity hash auto-resolved: $cacheIdentityHash" }
             return ok(FullSuccess)
         }
         if (cacheIdentityHash != supposedHash) {
