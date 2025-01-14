@@ -1,4 +1,4 @@
-package org.rsmod.api.dialogue
+package org.rsmod.api.player.dialogue
 
 import org.rsmod.plugin.module.PluginModule
 

@@ -1,10 +1,10 @@
 @file:Suppress("konsist.properties are declared before functions")
 
-package org.rsmod.api.dialogue
+package org.rsmod.api.player.dialogue
 
 import org.rsmod.api.config.Constants
 import org.rsmod.api.config.refs.BaseMesAnims
-import org.rsmod.api.dialogue.align.TextAlignment
+import org.rsmod.api.player.dialogue.align.TextAlignment
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
@@ -27,8 +27,7 @@ public class Dialogue(
     public suspend fun mesbox(text: String) {
         val pages = alignment.generatePageList(text)
         for (page in pages) {
-            val text = page.text
-            access.mesbox(text)
+            access.mesbox(page.text)
         }
     }
 
@@ -37,8 +36,7 @@ public class Dialogue(
     public suspend fun objbox(obj: ObjType, zoom: Int, text: String) {
         val pages = alignment.generatePageList(text)
         for (page in pages) {
-            val text = page.text
-            access.objbox(obj, zoom, text)
+            access.objbox(obj, zoom, page.text)
         }
     }
 
@@ -47,8 +45,7 @@ public class Dialogue(
     public suspend fun objbox(obj: InvObj, zoom: Int, text: String) {
         val pages = alignment.generatePageList(text)
         for (page in pages) {
-            val text = page.text
-            access.objbox(obj, zoom, text)
+            access.objbox(obj, zoom, page.text)
         }
     }
 
@@ -64,8 +61,7 @@ public class Dialogue(
     ) {
         val pages = alignment.generatePageList(text)
         for (page in pages) {
-            val text = page.text
-            access.doubleobjbox(obj1, zoom1, obj2, zoom2, text)
+            access.doubleobjbox(obj1, zoom1, obj2, zoom2, page.text)
         }
     }
 
@@ -81,55 +77,54 @@ public class Dialogue(
     ) {
         val pages = alignment.generatePageList(text)
         for (page in pages) {
-            val text = page.text
-            access.doubleobjbox(obj1, zoom1, obj2, zoom2, text)
+            access.doubleobjbox(obj1, zoom1, obj2, zoom2, page.text)
         }
     }
 
     public suspend fun chatPlayer(mesanim: MesAnimType, text: String) {
         val pages = alignment.generatePageList(text)
         for (page in pages) {
-            val (text, lineCount) = page
+            val (pgText, lineCount) = page
             val lineHeight = lineHeight(lineCount)
-            access.chatPlayer(text, mesanim, lineCount, lineHeight)
+            access.chatPlayer(pgText, mesanim, lineCount, lineHeight)
         }
     }
 
     public suspend fun chatPlayerNoAnim(text: String) {
         val pages = alignment.generatePageList(text)
         for (page in pages) {
-            val (text, lineCount) = page
+            val (pgText, lineCount) = page
             val lineHeight = lineHeight(lineCount)
-            access.chatPlayer(text, mesanim = null, lineCount, lineHeight)
+            access.chatPlayer(pgText, mesanim = null, lineCount, lineHeight)
         }
     }
 
     public suspend fun chatNpc(mesanim: MesAnimType, text: String) {
         val pages = alignment.generatePageList(text)
         for (page in pages) {
-            val (text, lineCount) = page
+            val (pgText, lineCount) = page
             val lineHeight = lineHeight(lineCount)
-            access.chatNpc(npc(), text, mesanim, lineCount, lineHeight, faceFar = faceFar)
+            access.chatNpc(npc(), pgText, mesanim, lineCount, lineHeight, faceFar = faceFar)
         }
     }
 
     public suspend fun chatNpcNoTurn(mesanim: MesAnimType, text: String) {
         val pages = alignment.generatePageList(text)
         for (page in pages) {
-            val (text, lineCount) = page
+            val (pgText, lineCount) = page
             val lineHeight = lineHeight(lineCount)
-            access.chatNpcNoTurn(npc(), text, mesanim, lineCount, lineHeight)
+            access.chatNpcNoTurn(npc(), pgText, mesanim, lineCount, lineHeight)
         }
     }
 
     public suspend fun chatNpcNoAnim(text: String) {
         val pages = alignment.generatePageList(text)
         for (page in pages) {
-            val (text, lineCount) = page
+            val (pgText, lineCount) = page
             val lineHeight = lineHeight(lineCount)
             access.chatNpc(
                 npc = npc(),
-                text = text,
+                text = pgText,
                 mesanim = null,
                 lineCount = lineCount,
                 lineHeight = lineHeight,
@@ -141,9 +136,9 @@ public class Dialogue(
     public suspend fun chatNpcSpecific(type: UnpackedNpcType, mesanim: MesAnimType, text: String) {
         val pages = alignment.generatePageList(text)
         for (page in pages) {
-            val (text, lineCount) = page
+            val (pgText, lineCount) = page
             val lineHeight = lineHeight(lineCount)
-            access.chatNpcSpecific(type.name, type, text, mesanim, lineCount, lineHeight)
+            access.chatNpcSpecific(type.name, type, pgText, mesanim, lineCount, lineHeight)
         }
     }
 

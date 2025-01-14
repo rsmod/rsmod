@@ -3,10 +3,10 @@ package org.rsmod.content.other.generic.npcs
 import jakarta.inject.Inject
 import org.rsmod.api.config.refs.content
 import org.rsmod.api.config.refs.objs
-import org.rsmod.api.dialogue.Dialogue
-import org.rsmod.api.dialogue.Dialogues
-import org.rsmod.api.dialogue.startDialogue
 import org.rsmod.api.invtx.invAdd
+import org.rsmod.api.player.dialogue.Dialogue
+import org.rsmod.api.player.dialogue.Dialogues
+import org.rsmod.api.player.dialogue.startDialogue
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.random.GameRandom
 import org.rsmod.api.script.onOpNpc1

@@ -1,4 +1,4 @@
-package org.rsmod.api.dialogue.align
+package org.rsmod.api.player.dialogue.align
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test

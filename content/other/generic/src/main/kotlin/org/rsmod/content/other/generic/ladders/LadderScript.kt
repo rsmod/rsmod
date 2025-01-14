@@ -3,8 +3,8 @@ package org.rsmod.content.other.generic.ladders
 import jakarta.inject.Inject
 import org.rsmod.api.config.refs.content
 import org.rsmod.api.config.refs.params
-import org.rsmod.api.dialogue.Dialogues
-import org.rsmod.api.dialogue.startDialogue
+import org.rsmod.api.player.dialogue.Dialogues
+import org.rsmod.api.player.dialogue.startDialogue
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.script.onOpLoc1
 import org.rsmod.api.script.onOpLoc2

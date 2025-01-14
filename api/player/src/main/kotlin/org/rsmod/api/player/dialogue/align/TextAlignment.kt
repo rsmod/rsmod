@@ -1,4 +1,4 @@
-package org.rsmod.api.dialogue.align
+package org.rsmod.api.player.dialogue.align
 
 import jakarta.inject.Inject
 import kotlin.math.ceil

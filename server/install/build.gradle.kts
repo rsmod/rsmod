@@ -10,7 +10,6 @@ dependencies {
     implementation(libs.openrs2.cache)
     implementation(projects.api.cache)
     implementation(projects.api.core)
-    implementation(projects.api.dialogue)
     implementation(projects.api.gameProcess)
     implementation(projects.api.invPlugin)
     implementation(projects.api.parsers.jackson)

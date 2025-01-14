@@ -1,7 +1,7 @@
-package org.rsmod.api.dialogue
+package org.rsmod.api.player.dialogue
 
 import jakarta.inject.Inject
-import org.rsmod.api.dialogue.align.TextAlignment
+import org.rsmod.api.player.dialogue.align.TextAlignment
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.game.entity.Npc
 
