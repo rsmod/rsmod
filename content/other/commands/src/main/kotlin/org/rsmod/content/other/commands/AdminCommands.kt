@@ -193,10 +193,9 @@ constructor(
             }
             val longCount = args.getOrNull(1)?.toLong() ?: 1
             val count = longCount.coerceAtMost(Int.MAX_VALUE.toLong()).toInt()
-            val obj = type.obj(count)
             val objName = type.internalNameGet ?: type.name
-            player.invAdd(player.inv, obj, strict = false)
-            player.mes("Spawned inv obj `$objName` x ${obj.count.formatAmount}")
+            val spawned = player.invAdd(player.inv, type, count, strict = false)
+            player.mes("Spawned inv obj `$objName` x ${spawned.completed().formatAmount}")
         }
 
     private fun invClear(cheat: Cheat) = with(cheat) { player.invClear(player.inv) }

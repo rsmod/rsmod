@@ -13,7 +13,6 @@ import org.rsmod.api.script.advanced.onDefaultOpObj3
 import org.rsmod.game.entity.Player
 import org.rsmod.game.obj.InvObj
 import org.rsmod.game.obj.Obj
-import org.rsmod.game.type.util.UncheckedType
 import org.rsmod.objtx.TransactionResultList
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
@@ -61,7 +60,5 @@ public class ObjTakePlugin @Inject constructor(private val repo: ObjRepository) 
     private fun Player.hasInvSpace(obj: Obj): Boolean = transaction(obj).success
 
     private fun Player.transaction(obj: Obj): TransactionResultList<InvObj> =
-        invAdd(inv, obj.toInvObj(), autoCommit = false)
-
-    @OptIn(UncheckedType::class) private fun Obj.toInvObj(): InvObj = InvObj(type, count)
+        invAdd(inv, obj.type, obj.count, autoCommit = false)
 }

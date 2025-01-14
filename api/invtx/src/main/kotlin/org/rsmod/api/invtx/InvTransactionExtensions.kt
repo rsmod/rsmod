@@ -23,8 +23,9 @@ public fun Player.invAddOrDrop(
     count: Int = 1,
     duration: Int = constants.lootdrop_duration,
     coords: CoordGrid = this.coords,
+    inv: Inventory = this.inv,
 ): Boolean {
-    val transaction = invAdd(inv, type, count)
+    val transaction = invAdd(inv, type, count = count)
     if (transaction.success) {
         return true
     }
@@ -34,7 +35,7 @@ public fun Player.invAddOrDrop(
 }
 
 public fun Player.invTakeFee(fee: Int, inv: Inventory = this.inv): Boolean {
-    val transaction = invDel(inv, objs.coins, fee)
+    val transaction = invDel(inv, objs.coins, count = fee)
     return transaction.success
 }
 
@@ -54,7 +55,9 @@ public fun Player.invCommit(inv: Inventory, transaction: TransactionResultList<I
 
 public fun Player.invAdd(
     inv: Inventory,
-    obj: InvObj,
+    obj: Int,
+    count: Int,
+    vars: Int = 0,
     slot: Int? = null,
     strict: Boolean = true,
     cert: Boolean = false,
@@ -64,7 +67,16 @@ public fun Player.invAdd(
 ): TransactionResultList<InvObj> =
     invTransaction(inv, updateInv, autoCommit) {
         val targetInv = select(inv)
-        add(inv = targetInv, obj = obj, slot = slot, strict = strict, cert = cert, uncert = uncert)
+        add(
+            inv = targetInv,
+            obj = obj,
+            count = count,
+            vars = vars,
+            slot = slot,
+            strict = strict,
+            cert = cert,
+            uncert = uncert,
+        )
     }
 
 public fun Player.invAdd(
@@ -79,11 +91,24 @@ public fun Player.invAdd(
     updateInv: Boolean = true,
     autoCommit: Boolean = true,
 ): TransactionResultList<InvObj> =
-    invAdd(inv, type.obj(count, vars), slot, strict, cert, uncert, updateInv, autoCommit)
+    invAdd(
+        inv = inv,
+        obj = type.id,
+        count = count,
+        vars = vars,
+        slot = slot,
+        strict = strict,
+        cert = cert,
+        uncert = uncert,
+        updateInv = updateInv,
+        autoCommit = autoCommit,
+    )
 
 public fun Transaction<InvObj>.add(
     inv: TransactionInventory<InvObj>,
-    obj: InvObj,
+    obj: Int,
+    count: Int,
+    vars: Int = 0,
     slot: Int? = null,
     strict: Boolean = true,
     cert: Boolean = false,
@@ -91,15 +116,15 @@ public fun Transaction<InvObj>.add(
 ) {
     insert {
         this.into = inv
-        this.obj = obj.id
+        this.obj = obj
         this.cert = cert
         this.uncert = uncert
-        this.vars = obj.vars
+        this.vars = vars
         if (strict) {
-            this.strictCount = obj.count
+            this.strictCount = count
             this.strictSlot = slot
         } else {
-            this.count = obj.count
+            this.count = count
             this.slot = slot ?: 0
         }
     }
@@ -121,7 +146,9 @@ public fun Player.invAddAll(
         for (obj in objs) {
             add(
                 inv = targetInv,
-                obj = obj,
+                obj = obj.id,
+                count = obj.count,
+                vars = obj.vars,
                 slot = targetSlot++,
                 strict = strict,
                 cert = cert,
@@ -132,7 +159,8 @@ public fun Player.invAddAll(
 
 public fun Player.invDel(
     inv: Inventory,
-    obj: InvObj,
+    obj: Int,
+    count: Int,
     slot: Int? = null,
     strict: Boolean = true,
     placehold: Boolean = false,
@@ -141,7 +169,14 @@ public fun Player.invDel(
 ): TransactionResultList<InvObj> =
     invTransaction(inv, updateInv, autoCommit) {
         val targetInv = select(inv)
-        delete(inv = targetInv, obj = obj, slot = slot, strict = strict, placehold = placehold)
+        delete(
+            inv = targetInv,
+            obj = obj,
+            count = count,
+            slot = slot,
+            strict = strict,
+            placehold = placehold,
+        )
     }
 
 public fun Player.invDel(
@@ -154,24 +189,34 @@ public fun Player.invDel(
     updateInv: Boolean = true,
     autoCommit: Boolean = true,
 ): TransactionResultList<InvObj> =
-    invDel(inv, type.obj(count), slot, strict, placehold, updateInv, autoCommit)
+    invDel(
+        inv = inv,
+        obj = type.id,
+        count = count,
+        slot = slot,
+        strict = strict,
+        placehold = placehold,
+        updateInv = updateInv,
+        autoCommit = autoCommit,
+    )
 
 public fun Transaction<InvObj>.delete(
     inv: TransactionInventory<InvObj>,
-    obj: InvObj,
+    obj: Int,
+    count: Int,
     slot: Int? = null,
     strict: Boolean = true,
     placehold: Boolean = false,
 ) {
     delete {
         this.from = inv
-        this.obj = obj.id
+        this.obj = obj
         this.placehold = placehold
         if (strict) {
-            this.strictCount = obj.count
+            this.strictCount = count
             this.strictSlot = slot
         } else {
-            this.count = obj.count
+            this.count = count
             this.slot = slot ?: 0
         }
     }
@@ -192,7 +237,8 @@ public fun Player.invDelAll(
         for (obj in objs) {
             delete(
                 inv = targetInv,
-                obj = obj,
+                obj = obj.id,
+                count = obj.count,
                 slot = targetSlot++,
                 strict = strict,
                 placehold = placehold,

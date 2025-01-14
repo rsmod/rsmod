@@ -32,7 +32,7 @@ class InvTransactionsTest {
     fun GameTestState.`add obj successfully`() = runBasicGameTest {
         withPlayerInit {
             check(inv.isEmpty())
-            invAdd(inv, objs.abyssal_whip.obj(count = 2), slot = 3)
+            invAdd(inv, objs.abyssal_whip, count = 2, slot = 3)
             assertEquals(objs.abyssal_whip.id, inv[3]?.id)
             assertEquals(objs.abyssal_whip.id, inv[4]?.id)
             assertEquals(2, inv.occupiedSpace())
@@ -43,7 +43,7 @@ class InvTransactionsTest {
     fun GameTestState.`delete obj successfully`() = runBasicGameTest {
         withPlayerInit {
             inv[5] = objs.fire_cape.obj()
-            val transaction = invDel(inv, objs.fire_cape.obj(count = 2), strict = false).single()
+            val transaction = invDel(inv, objs.fire_cape, count = 2, strict = false).single()
             assertTrueContract(transaction.isOk())
             assertTrue(transaction.partialSuccess)
             assertEquals(1, transaction.completed)

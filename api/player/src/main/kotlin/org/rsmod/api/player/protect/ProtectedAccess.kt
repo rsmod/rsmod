@@ -294,7 +294,9 @@ public class ProtectedAccess(
     ): TransactionResultList<InvObj> =
         player.invAdd(
             inv = inv,
-            obj = obj,
+            obj = obj.id,
+            count = obj.count,
+            vars = obj.vars,
             slot = slot,
             strict = strict,
             cert = cert,
