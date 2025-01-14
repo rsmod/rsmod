@@ -8,7 +8,6 @@ import org.rsmod.api.config.refs.params
 import org.rsmod.api.config.refs.stats
 import org.rsmod.api.player.righthand
 import org.rsmod.api.testing.GameTestState
-import org.rsmod.api.testing.assertions.assertNotNullContract
 import org.rsmod.content.skills.woodcutting.scripts.Woodcutting.Companion.treeLevelReq
 import org.rsmod.content.skills.woodcutting.scripts.Woodcutting.Companion.treeLogs
 import org.rsmod.content.skills.woodcutting.scripts.Woodcutting.Companion.treeRespawnTime
@@ -140,13 +139,13 @@ class WoodcuttingScriptTest {
             advance(ticks = 1)
             assertContains(player.inv, logs)
             val controller = conRepo.findExact(tree.coords)
-            assertNotNullContract(controller)
+            assertNotNull(controller)
 
             // Fast-forward until despawn controller has 1 tick duration left.
             advance(ticks = controller.durationStart - 1)
             assertExists(tree)
             assertDoesNotExist(tree.coords, type.treeStump)
-            assertEquals(conRepo.findExact(tree.coords), controller)
+            assertEquals(controller, conRepo.findExact(tree.coords))
 
             random.next = 0 // Set random roll to guarantee log success rate.
             player.actionDelay = mapClock.cycle // Set player action delay to force log cut.
