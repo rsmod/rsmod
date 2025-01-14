@@ -53,17 +53,17 @@ constructor(
         if (player.ui.containsOverlay(interfaceType) || player.ui.containsTopLevel(interfaceType)) {
             val event =
                 IfOverlayButton(player, componentType, message.sub, objType, message.buttonOp)
+            logger.debug { "[Overlay] If3Button: $message (event=$event)" }
             eventBus.publish(event)
-            logger.debug { "[Overlay] If3Button: $message" }
             return
         }
         if (player.ui.containsModal(interfaceType)) {
+            val event = IfModalButton(componentType, message.sub, objType, message.buttonOp)
             if (!player.isModalButtonProtected) {
-                val event = IfModalButton(componentType, message.sub, objType, message.buttonOp)
+                logger.debug { "[Modal] If3Button: $message (event=$event)" }
                 protectedAccess.launchLenient(player) { eventBus.publish(this, event) }
-                logger.debug { "[Modal] If3Button: $message" }
             } else {
-                logger.debug { "[Modal][BLOCKED] If3Button: $message" }
+                logger.debug { "[Modal][BLOCKED] If3Button: $message (event=$event)" }
             }
             return
         }
