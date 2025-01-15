@@ -121,7 +121,9 @@ private constructor(
         val result = equipOp.equip(this, invSlot, inv)
         if (result is InvEquipResult.Fail) {
             result.messages.forEach { mes(it) }
+            return
         }
+        // TODO: sound_synth(type.param(params.equip_sound))
     }
 
     private fun Player.invOp3(obj: InvObj, type: UnpackedObjType, invSlot: Int) {
