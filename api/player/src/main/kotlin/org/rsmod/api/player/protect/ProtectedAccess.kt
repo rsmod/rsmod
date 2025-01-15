@@ -953,6 +953,17 @@ public fun Player.clearPendingAction(eventBus: EventBus) {
     ifClose(eventBus)
 }
 
+/**
+ * Avoid usage until to-do comment is investigated.
+ *
+ * TODO: Should `ifClose` always call `triggerOnDialogAbort`? If so, we can get rid of this function
+ *   and instead call ifClose.
+ */
+public fun Player.ifClear(eventBus: EventBus) {
+    triggerOnDialogAbort()
+    ifClose(eventBus)
+}
+
 private fun Player.triggerOnDialogAbort() {
     // If this is called, we can safely assume the only active coroutine would be from a chatbox
     // related suspension. `delay` suspensions would not allow this function to be reached as the
