@@ -16,6 +16,11 @@ public class KeyedEventBus {
     public operator fun <T : KeyedEvent> get(type: Class<T>, key: Long): (KeyedEvent.() -> Unit)? =
         events.getOrDefault(type, null)?.getOrDefault(key, null)
 
+    public operator fun <T : KeyedEvent> get(
+        type: Class<T>,
+        key: Number,
+    ): (KeyedEvent.() -> Unit)? = get(type, key.toLong())
+
     @Suppress("UNCHECKED_CAST")
     public operator fun <T : KeyedEvent> set(type: Class<T>, key: Long, action: T.() -> Unit) {
         val map = events.getOrPut(type) { Long2ObjectOpenHashMap() }
