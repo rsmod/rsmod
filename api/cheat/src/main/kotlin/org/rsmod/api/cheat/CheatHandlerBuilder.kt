@@ -41,7 +41,7 @@ public class CheatHandlerBuilder(public val command: String) {
         cheat: Cheat.() -> Unit,
     ): Cheat.() -> Unit = action@{
         if (modLevel != null && !player.modGroup.hasAccessTo(modLevel)) {
-            modLevelMsg?.let { player.mes(it) }
+            modLevelMsg?.let(player::mes)
             return@action
         }
         try {
@@ -51,7 +51,7 @@ public class CheatHandlerBuilder(public val command: String) {
         } catch (_: IndexOutOfBoundsException) {
             player.mes(invalidArgsMsg)
         } catch (e: Exception) {
-            exceptionMsg?.let { player.mes(it) }
+            exceptionMsg?.let(player::mes)
             logger.error(e) { "Error executing command `$command` for player: $player." }
         }
     }
