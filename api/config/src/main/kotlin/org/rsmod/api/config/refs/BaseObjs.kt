@@ -23,7 +23,11 @@ public object BaseObjs : ObjReferences() {
     public val barrows_gloves: ObjType = find("barrows_gloves")
     public val dragon_boots: ObjType = find("dragon_boots")
     public val berserker_ring: ObjType = find("berserker_ring")
+    public val adamant_arrow: ObjType = find("adamant_arrow")
     public val rune_arrow: ObjType = find("rune_arrow")
+    public val rune_kiteshield: ObjType = find("rune_kiteshield")
+    public val dragon_claws: ObjType = find("dragon_claws")
+    public val crystal_shield: ObjType = find("crystal_shield")
 
     public val pot_empty: ObjType = find("pot_empty")
     public val jug_empty: ObjType = find("jug_empty")

@@ -18,7 +18,8 @@ public object BaseSynths : SynthReferences() {
     public val pillory_locked: SynthType = find("pillory_locked")
     public val pillory_unlock: SynthType = find("pillory_unlock")
     public val pillory_wrong: SynthType = find("pillory_wrong")
-    public val pick2: SynthType = find("pick2")
+    public val put_down: SynthType = find("put_down")
     public val lever: SynthType = find("lever")
+    public val pick2: SynthType = find("pick2")
     public val tree_fall_sound: SynthType = find("tree_fall_sound")
 }

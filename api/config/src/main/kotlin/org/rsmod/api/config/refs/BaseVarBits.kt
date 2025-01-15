@@ -12,6 +12,8 @@ public object BaseVarBits : VarBitReferences() {
     public val rt7_enabled: VarBitType = find("rt7_enabled", 861505757)
     public val rt7_mode: VarBitType = find("rt7_mode", 861509540)
     public val rt7_enabled2: VarBitType = find("rt7_enabled2", 861513323)
+    public val drop_item_warning: VarBitType = find("drop_item_warning", 64468015)
+    public val drop_item_minimum_value: VarBitType = find("drop_item_minimum_value", 64473506)
 
     public val demon_slayer_progress: VarBitType = find("demon_slayer_progress", 50392587)
 }

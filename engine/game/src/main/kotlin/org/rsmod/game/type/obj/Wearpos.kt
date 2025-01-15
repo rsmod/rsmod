@@ -16,6 +16,9 @@ public enum class Wearpos(public val slot: Int) {
     Ring(12),
     Quiver(13);
 
+    public val isClientOnly: Boolean
+        get() = this == Arms || this == Head || this == Jaw
+
     public companion object {
         public operator fun get(slot: Int): Wearpos? =
             when (slot) {

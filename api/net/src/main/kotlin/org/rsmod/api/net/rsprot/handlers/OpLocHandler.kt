@@ -65,7 +65,7 @@ constructor(
                 forceApproachFlags = type.forceApproachFlags,
             )
         if (!locInteractions.hasOp(boundLoc, type, player.vars, message.interactionOp)) {
-            logger.debug { "OpLoc blocked due to op: op=${message.op}, loc=$boundLoc type=$type" }
+            logger.debug { "OpLoc invalid op blocked: op=${message.op}, loc=$boundLoc type=$type" }
             return
         }
         player.clearPendingAction(eventBus)

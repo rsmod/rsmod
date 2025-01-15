@@ -2,6 +2,7 @@ package org.rsmod.game.type.obj
 
 import kotlin.contracts.contract
 import org.rsmod.game.interact.InteractionOp
+import org.rsmod.game.interact.InvInteractionOp
 import org.rsmod.game.obj.InvObj
 import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.param.ParamType
@@ -169,6 +170,11 @@ public class UnpackedObjType(
         val text = op.getOrNull(interactionOp.slot - 1) ?: return false
         val invalid = text.isBlank() || text.equals("hidden", ignoreCase = true)
         return !invalid
+    }
+
+    public fun hasInvOp(invOp: InvInteractionOp): Boolean {
+        val text = iop.getOrNull(invOp.slot - 1) ?: return false
+        return text.isNotBlank()
     }
 
     public fun toHashedType(): HashedObjType =

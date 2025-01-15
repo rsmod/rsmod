@@ -52,7 +52,7 @@ constructor(
             )
         val routeRequest = RouteRequestPathingEntity(npc.avatar)
         if (!npcInteractions.hasOp(npc, player.vars, message.interactionOp)) {
-            logger.debug { "OpNpc blocked due to op: op=${message.op}, npc=$npc" }
+            logger.debug { "OpNpc invalid op blocked: op=${message.op}, npc=$npc" }
             return
         }
         player.clearPendingAction(eventBus)

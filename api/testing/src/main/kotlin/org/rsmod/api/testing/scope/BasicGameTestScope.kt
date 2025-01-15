@@ -11,6 +11,7 @@ import org.rsmod.api.route.RayCastValidator
 import org.rsmod.api.route.RouteFactory
 import org.rsmod.api.route.StepFactory
 import org.rsmod.api.testing.GameCollisionState
+import org.rsmod.api.testing.GameTestState
 import org.rsmod.api.testing.factory.collisionFactory
 import org.rsmod.events.EventBus
 import org.rsmod.game.MapClock
@@ -114,4 +115,12 @@ public class BasicGameTestScope(private val eventBus: EventBus) {
         withProtectedAccess {
             teleport(dest, collision)
         }
+
+    public fun GameTestState.setMaxLevels(player: Player) {
+        val stats = cacheTypes.stats.values
+        for (stat in stats) {
+            player.statMap.setBaseLevel(stat, stat.maxLevel.toByte())
+            player.statMap.setCurrentLevel(stat, stat.maxLevel.toByte())
+        }
+    }
 }

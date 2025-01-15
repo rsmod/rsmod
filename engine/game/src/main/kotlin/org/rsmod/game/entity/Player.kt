@@ -14,6 +14,7 @@ import org.rsmod.game.seq.EntitySeq
 import org.rsmod.game.shop.Shop
 import org.rsmod.game.stat.PlayerStatMap
 import org.rsmod.game.timer.PlayerTimerMap
+import org.rsmod.game.type.droptrig.DropTriggerType
 import org.rsmod.game.type.mod.ModGroup
 import org.rsmod.game.type.queue.QueueType
 import org.rsmod.game.type.seq.SeqType
@@ -89,6 +90,25 @@ public class Player(
     public var skillAnimDelay: Int = -1
     public var skillSoundDelay: Int = -1
 
+    public var lootDropDuration: Int? = null
+
+    /**
+     * Drop triggers enable extensibility for inv obj drop prevention.
+     *
+     * They are best suited for controlled, enclosed environments such as minigames, raids,
+     * instances, or other scenarios tied to a specific area. The drop trigger is reset only when
+     * the player drops an inventory obj or when explicitly cleared via [clearDropTrigger] or
+     * [clearAnyDropTrigger].
+     *
+     * If there is no clear mechanism to reset the trigger - such as an `exit` function for a
+     * minigame - there is no guarantee that the drop trigger will not become "out-of-date" until
+     * the player drops an inventory object.
+     *
+     * _Note: Use the [dropTrigger] function to set this value._
+     */
+    public var dropTrigger: DropTriggerType? = null
+        private set
+
     public fun timer(timer: TimerType, cycles: Int) {
         timerMap[timer] = currentMapClock + cycles
     }
@@ -130,6 +150,41 @@ public class Player(
     public fun faceNpc(target: Npc): Unit = PathingEntityCommon.faceNpc(this, target)
 
     public fun resetFaceEntity(): Unit = PathingEntityCommon.resetFaceEntity(this)
+
+    /**
+     * @throws [IllegalStateException] if a [dropTrigger] is already set. This ensures that
+     *   previously set drop triggers cannot be replaced unexpectedly or removed without explicit
+     *   action.
+     *
+     * Features that set a drop trigger are responsible for clearing it using [clearDropTrigger] or
+     * [clearAnyDropTrigger]. If a [dropTrigger] is still set, it may indicate the player exited
+     * through unintended means, and an error will be thrown to prevent silent failures.
+     */
+    public fun dropTrigger(trigger: DropTriggerType) {
+        // Ensures the player's drop trigger cannot be replaced unexpectedly or through unintended
+        // mechanics.
+        check(dropTrigger == null) {
+            "Previous `dropTrigger` must be removed before " +
+                "setting a new trigger: oldTrigger=$dropTrigger, newTrigger=$trigger"
+        }
+        dropTrigger = trigger
+    }
+
+    /**
+     * Clears [dropTrigger] as long as it matches [trigger], otherwise throws
+     * [IllegalStateException].
+     */
+    public fun clearDropTrigger(trigger: DropTriggerType) {
+        check(dropTrigger == trigger) {
+            "Current `dropTrigger` does not match input: " +
+                "currentTrigger=$dropTrigger, clearTrigger=$trigger"
+        }
+        dropTrigger = null
+    }
+
+    public fun clearAnyDropTrigger() {
+        dropTrigger = null
+    }
 
     override fun toString(): String =
         "Player(username=$username, displayName=$displayName, coords=$coords)"
