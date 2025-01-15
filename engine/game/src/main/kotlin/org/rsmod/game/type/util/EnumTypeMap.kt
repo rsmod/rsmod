@@ -7,6 +7,18 @@ public class EnumTypeMap<K : Any, V : Any>(type: UnpackedEnumType<K, V>) :
     private val entries: Map<K, V?> = type.typedMap
     private val default: V? = type.default
 
+    public val isEmpty: Boolean
+        get() = entries.isEmpty()
+
+    public val isNotEmpty: Boolean
+        get() = entries.isNotEmpty()
+
+    public val keys: Set<K>
+        get() = entries.keys
+
+    public val values: Collection<V?>
+        get() = entries.values
+
     public fun getValue(key: K): V =
         this[key] ?: throw NoSuchElementException("Key $key is missing in the map.")
 
