@@ -181,9 +181,15 @@ constructor(
 
     private fun invAdd(cheat: Cheat) =
         with(cheat) {
-            val typeId = resolveArgTypeId(args[0], names.objs)
+            val (typeName, countArg) =
+                if (args.size > 1 && args.last().toLongOrNull() != null) {
+                    args.dropLast(1).joinToString("_") to args.last()
+                } else {
+                    args.joinToString("_") to "1"
+                }
+            val typeId = resolveArgTypeId(typeName, names.objs)
             if (typeId == null) {
-                player.mes("There is no obj mapped to name: `${args[0]}`")
+                player.mes("There is no obj mapped to name: `$typeName`")
                 return
             }
             val type = objTypes[typeId]
@@ -191,8 +197,7 @@ constructor(
                 player.mes("That obj does not exist: $typeId")
                 return
             }
-            val longCount = args.getOrNull(1)?.toLong() ?: 1
-            val count = longCount.coerceAtMost(Int.MAX_VALUE.toLong()).toInt()
+            val count = countArg.toLong().coerceAtMost(Int.MAX_VALUE.toLong()).toInt()
             val objName = type.internalNameGet ?: type.name
             val spawned = player.invAdd(player.inv, type, count, strict = false)
             player.mes("Spawned inv obj `$objName` x ${spawned.completed().formatAmount}")
