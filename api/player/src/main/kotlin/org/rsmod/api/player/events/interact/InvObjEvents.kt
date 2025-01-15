@@ -34,22 +34,22 @@ public class InvObjDropEvents {
     ) : UnboundEvent
 }
 
-public class InvEquipEvents {
+public sealed class InvEquipEvents : KeyedEvent {
     public data class Equip(
         public val player: Player,
         public val invSlot: Int,
         public val wearpos: Wearpos,
         public val type: UnpackedObjType,
         override val id: Long = type.contentGroup.toLong(),
-    ) : KeyedEvent
+    ) : InvEquipEvents()
 
     public data class Unequip(
         public val player: Player,
         public val wearpos: Wearpos,
         public val obj: InvObj,
-        public val contentGroup: Int,
-        override val id: Long = contentGroup.toLong(),
-    ) : KeyedEvent
+        public val type: UnpackedObjType,
+        override val id: Long = type.contentGroup.toLong(),
+    ) : InvEquipEvents()
 }
 
 public sealed class InvObjEvents : KeyedEvent {

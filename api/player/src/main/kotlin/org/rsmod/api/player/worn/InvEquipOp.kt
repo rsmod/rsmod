@@ -84,8 +84,7 @@ constructor(private val objTypes: ObjTypeList, private val eventBus: EventBus) {
 
             for ((wearpos, unequipObj) in unequipObjs) {
                 val wornObj = unequipObj ?: continue
-                val content = objTypes[wornObj].contentGroup
-                val unequip = InvEquipEvents.Unequip(player, wearpos, wornObj, content)
+                val unequip = InvEquipEvents.Unequip(player, wearpos, wornObj, objTypes[wornObj])
                 eventBus.publish(unequip)
             }
         }
