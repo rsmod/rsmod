@@ -15,6 +15,8 @@ public class TransactionInventory<T>(
     internal val stackNone: Boolean
         get() = stackType == NeverStack
 
+    internal fun freeSpace(): Int = image.count { it == null }
+
     internal fun indexOfNull(startIndex: Int = 0): Int? {
         for (i in image.indices) {
             val slot = (i + startIndex) % image.size

@@ -195,10 +195,11 @@ public class Transaction<T>(
             if (strictSlot != null && this[strictSlot] != null) {
                 return TransactionResult.StrictSlotTaken
             }
+            val cappedCount = if (isStrictCount) count else min(freeSpace(), count)
             var completed = 0
             val startIndex = solveSlot
             val isStrictCount = isStrictCount
-            for (i in 0 until count) {
+            for (i in 0 until cappedCount) {
                 val slot = indexOfNull(startIndex + i)
                 if (slot == null && isStrictCount) {
                     return TransactionResult.NotEnoughSpace
