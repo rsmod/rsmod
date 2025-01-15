@@ -8,6 +8,11 @@ public fun TransactionResult?.isOk(): Boolean {
     return this is Ok
 }
 
+public fun TransactionResult?.isErr(): Boolean {
+    contract { returns(true) implies (this@isErr is TransactionResult.Err) }
+    return this is TransactionResult.Err
+}
+
 public sealed class TransactionResult {
     public data class Ok(public val requested: Int, public val completed: Int) :
         TransactionResult() {
