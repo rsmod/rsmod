@@ -32,6 +32,13 @@ public class InvObjDropEvents {
         public val obj: InvObj,
         public val type: UnpackedObjType,
     ) : UnboundEvent
+
+    public data class Release(
+        public val player: Player,
+        public val invSlot: Int,
+        public val obj: InvObj,
+        public val type: UnpackedObjType,
+    ) : UnboundEvent
 }
 
 public sealed class InvEquipEvents : KeyedEvent {

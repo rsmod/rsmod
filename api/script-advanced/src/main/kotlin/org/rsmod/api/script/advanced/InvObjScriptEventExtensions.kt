@@ -8,3 +8,6 @@ public fun ScriptContext.onDropObj(action: InvObjDropEvents.Drop.() -> Unit): Un
 
 public fun ScriptContext.onDestroyObj(action: InvObjDropEvents.Destroy.() -> Unit): Unit =
     onEvent(action)
+
+public fun ScriptContext.onReleaseObj(action: InvObjDropEvents.Release.() -> Unit): Unit =
+    onEvent(action)

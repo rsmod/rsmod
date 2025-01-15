@@ -249,7 +249,7 @@ constructor(
         val message = type.paramOrNull(params.release_note_message)
         val result = invDel(inv, type, count = obj.count, slot = dropSlot)
         if (result.success) {
-            val event = InvObjDropEvents.Destroy(this, dropSlot, obj, type)
+            val event = InvObjDropEvents.Release(this, dropSlot, obj, type)
             eventBus.publish(event)
             message?.let(::mes)
         }
