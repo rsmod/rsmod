@@ -724,6 +724,8 @@ public class Transaction<T>(
             return if (into != null) {
                 from.dumpInto(into)
             } else {
+                // You may as well use a "clear" method at a higher level in your server codebase.
+                // We provide the option regardless.
                 from.dump()
             }
         }
@@ -789,15 +791,13 @@ public class Transaction<T>(
         }
 
         private fun TransactionInventory<T>.dump(): TransactionResult {
-            // You may as well use a "clear" method at a higher level in your server codebase.
-            // We provide the option regardless.
             val count = image.count { it != null }
             image.fill(null)
             return TransactionResult.Ok(requested = count, completed = count)
         }
     }
 
-    public interface TransactionQuery {
+    public fun interface TransactionQuery {
         public fun result(): TransactionResult
     }
 
