@@ -1,7 +1,6 @@
 plugins {
     id("base-conventions")
     id("benchmark-suite")
-    id("publish-conventions")
 }
 
 version = "6.0.0"
