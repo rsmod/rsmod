@@ -36,7 +36,7 @@ class InvInsertQueryTest {
         assertTrue(transaction.success)
         assertEquals(1, transaction.size)
         assertEquals(1, transaction.completed())
-        assertEquals(0, transaction[0]?.left)
+        assertEquals(0, transaction.asOk(0)?.left)
     }
 
     @Test
@@ -83,7 +83,7 @@ class InvInsertQueryTest {
         assertTrue(transaction.success)
         assertEquals(1, transaction.size)
         assertEquals(request, transaction.completed())
-        assertEquals(0, transaction[0]?.left)
+        assertEquals(0, transaction.asOk(0)?.left)
     }
 
     @Test
@@ -125,7 +125,7 @@ class InvInsertQueryTest {
         assertTrue(transaction.success)
         assertEquals(1, transaction.size)
         assertEquals(0, transaction.completed())
-        assertEquals(1, transaction[0]?.left)
+        assertEquals(1, transaction.asOk(0)?.left)
     }
 
     @Test
@@ -195,7 +195,7 @@ class InvInsertQueryTest {
         assertEquals(1, transaction.size)
         assertEquals(request - leftover, transaction.completed())
         assertEquals(Obj(purple_sweets, Int.MAX_VALUE), inventory[slot])
-        assertEquals(leftover, transaction[0]?.left)
+        assertEquals(leftover, transaction.asOk(0)?.left)
     }
 
     @Test

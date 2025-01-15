@@ -3,8 +3,8 @@ package org.rsmod.objtx
 import kotlin.contracts.contract
 import org.rsmod.objtx.TransactionResult.Ok
 
-public fun TransactionResult.isOk(): Boolean {
-    contract { returns(true) implies (this@TransactionResult is Ok) }
+public fun TransactionResult?.isOk(): Boolean {
+    contract { returns(true) implies (this@isOk is Ok) }
     return this is Ok
 }
 

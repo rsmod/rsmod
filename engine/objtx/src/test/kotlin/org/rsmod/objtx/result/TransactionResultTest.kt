@@ -37,8 +37,8 @@ class TransactionResultTest {
         }
         assertTrue(transaction.success)
         assertFalse(transaction.failure)
-        assertNotNull(transaction[0])
-        val result = checkNotNull(transaction[0])
+        assertNotNull(transaction.asOk(0))
+        val result = checkNotNull(transaction.asOk(0))
         assertEquals(inventory.size, result.completed)
         assertEquals(0, result.left)
         assertTrue(result.fullSuccess)
@@ -60,8 +60,8 @@ class TransactionResultTest {
         }
         assertTrue(transaction.success)
         assertFalse(transaction.failure)
-        assertNotNull(transaction[0])
-        val result = checkNotNull(transaction[0])
+        assertNotNull(transaction.asOk(0))
+        val result = checkNotNull(transaction.asOk(0))
         assertEquals(inventory.size, result.completed)
         assertEquals(left, result.left)
         assertTrue(result.partialSuccess)
@@ -86,8 +86,8 @@ class TransactionResultTest {
         }
         assertTrue(transaction.success)
         assertFalse(transaction.failure)
-        assertNotNull(transaction[0])
-        val result = checkNotNull(transaction[0])
+        assertNotNull(transaction.asOk(0))
+        val result = checkNotNull(transaction.asOk(0))
         assertEquals(0, result.completed)
         assertEquals(request, result.left)
         assertTrue(result.emptySuccess)
@@ -115,8 +115,8 @@ class TransactionResultTest {
         }
         assertTrue(transaction.success)
         assertFalse(transaction.failure)
-        assertNotNull(transaction[0])
-        val result = checkNotNull(transaction[0])
+        assertNotNull(transaction.asOk(0))
+        val result = checkNotNull(transaction.asOk(0))
         assertEquals(request - occupied, result.completed)
         assertEquals(occupied, result.left)
         assertTrue(result.partialSuccess)

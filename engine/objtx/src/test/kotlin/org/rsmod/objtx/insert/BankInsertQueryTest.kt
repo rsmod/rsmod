@@ -96,7 +96,7 @@ class BankInsertQueryTest {
         assertTrue(transaction.success)
         assertEquals(1, transaction.size)
         assertEquals(1, transaction.completed())
-        assertEquals(0, transaction[0]?.left)
+        assertEquals(0, transaction.asOk(0)?.left)
     }
 
     @Test
@@ -121,7 +121,7 @@ class BankInsertQueryTest {
         assertTrue(transaction.success)
         assertEquals(1, transaction.size)
         assertEquals(request, transaction.completed())
-        assertEquals(0, transaction[0]?.left)
+        assertEquals(0, transaction.asOk(0)?.left)
     }
 
     @Test
@@ -160,8 +160,8 @@ class BankInsertQueryTest {
         }
         assertFalse(transaction.failure)
         assertTrue(transaction.success)
-        assertEquals(Int.MAX_VALUE - 1, transaction[0]?.completed)
-        assertEquals(1, transaction[0]?.left)
+        assertEquals(Int.MAX_VALUE - 1, transaction.asOk(0)?.completed)
+        assertEquals(1, transaction.asOk(0)?.left)
         assertEquals(Obj(purple_sweets, Int.MAX_VALUE), inventory[0])
     }
 

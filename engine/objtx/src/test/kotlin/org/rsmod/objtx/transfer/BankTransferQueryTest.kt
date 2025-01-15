@@ -160,7 +160,7 @@ class BankTransferQueryTest {
         }
         assertEquals(0, bankInventory.occupiedSpace())
         assertEquals(fullCount, invInventory.occupiedSpace())
-        assertEquals(fullCount, result[0]?.completed)
+        assertEquals(fullCount, result.asOk(0)?.completed)
     }
 
     @Test
