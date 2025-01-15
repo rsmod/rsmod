@@ -9,6 +9,8 @@ import org.rsmod.game.type.varp.VarpType
 
 public var Player.chatboxUnlocked: Boolean by boolVarp(varbits.chatbox_unlocked)
 
+private var Player.varSpeed: MoveSpeed by typeIntVarp(varps.player_run, ::getSpeed, ::getSpeedId)
+
 public var Player.varMoveSpeed: MoveSpeed
     get() = varSpeed
     set(value) {
@@ -17,8 +19,6 @@ public var Player.varMoveSpeed: MoveSpeed
         // changed due to protected access.
         cachedMoveSpeed = varSpeed
     }
-
-private var Player.varSpeed: MoveSpeed by typeIntVarp(varps.player_run, ::getSpeed, ::getSpeedId)
 
 public fun Player.syncVarp(varp: VarpType, value: Int) {
     vars[varp] = if (value == 0) null else value
