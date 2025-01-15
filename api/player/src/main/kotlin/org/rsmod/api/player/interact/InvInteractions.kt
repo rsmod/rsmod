@@ -120,7 +120,7 @@ private constructor(
         }
         val result = equipOp.equip(this, invSlot, inv)
         if (result is InvEquipResult.Fail) {
-            result.messages.forEach { mes(it) }
+            result.messages.forEach(::mes)
             return
         }
         // TODO: sound_synth(type.param(params.equip_sound))
