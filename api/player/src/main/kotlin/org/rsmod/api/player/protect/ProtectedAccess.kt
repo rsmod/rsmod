@@ -6,7 +6,7 @@ import net.rsprot.protocol.game.outgoing.misc.player.TriggerOnDialogAbort
 import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.components
 import org.rsmod.api.invtx.invAdd
-import org.rsmod.api.player.input.CountDialogInput
+import org.rsmod.api.player.input.ResumePCountDialogInput
 import org.rsmod.api.player.input.ResumePauseButtonInput
 import org.rsmod.api.player.interact.LocInteractions
 import org.rsmod.api.player.output.Camera
@@ -21,7 +21,6 @@ import org.rsmod.api.player.output.runClientScript
 import org.rsmod.api.player.output.soundSynth
 import org.rsmod.api.player.output.spam
 import org.rsmod.api.player.output.updateInvFull
-import org.rsmod.api.player.protect.ProtectedAccessLauncher.Companion.withProtectedAccess
 import org.rsmod.api.player.stat.PlayerSkillXP
 import org.rsmod.api.player.ui.ifChatNpcSpecific
 import org.rsmod.api.player.ui.ifChatPlayer
@@ -705,7 +704,7 @@ public class ProtectedAccess(
      */
     public suspend fun countDialog(title: String = constants.cm_count): Int {
         mesLayerMode7(player, title)
-        val input = coroutine.pause(CountDialogInput::class)
+        val input = coroutine.pause(ResumePCountDialogInput::class)
         return withProtectedAccess(input.count)
     }
 

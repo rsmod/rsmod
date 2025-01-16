@@ -14,6 +14,10 @@ import net.rsprot.protocol.game.incoming.npcs.OpNpc
 import net.rsprot.protocol.game.incoming.npcs.OpNpc6
 import net.rsprot.protocol.game.incoming.objs.OpObj
 import net.rsprot.protocol.game.incoming.objs.OpObj6
+import net.rsprot.protocol.game.incoming.resumed.ResumePCountDialog
+import net.rsprot.protocol.game.incoming.resumed.ResumePNameDialog
+import net.rsprot.protocol.game.incoming.resumed.ResumePObjDialog
+import net.rsprot.protocol.game.incoming.resumed.ResumePStringDialog
 import net.rsprot.protocol.game.incoming.resumed.ResumePauseButton
 import net.rsprot.protocol.message.codec.incoming.GameMessageConsumerRepositoryBuilder
 import net.rsprot.protocol.message.codec.incoming.provider.DefaultGameMessageConsumerRepositoryProvider
@@ -29,6 +33,10 @@ import org.rsmod.api.net.rsprot.handlers.OpNpc6Handler
 import org.rsmod.api.net.rsprot.handlers.OpNpcHandler
 import org.rsmod.api.net.rsprot.handlers.OpObj6Handler
 import org.rsmod.api.net.rsprot.handlers.OpObjHandler
+import org.rsmod.api.net.rsprot.handlers.ResumePCountDialogHandler
+import org.rsmod.api.net.rsprot.handlers.ResumePNameDialogHandler
+import org.rsmod.api.net.rsprot.handlers.ResumePObjDialogHandler
+import org.rsmod.api.net.rsprot.handlers.ResumePStringDialogHandler
 import org.rsmod.api.net.rsprot.handlers.ResumePauseButtonHandler
 import org.rsmod.game.entity.Player
 
@@ -49,6 +57,10 @@ constructor(
     private val resumePauseButton: ResumePauseButtonHandler,
     private val opObj: OpObjHandler,
     private val opObj6: OpObj6Handler,
+    private val resumePCountDialog: ResumePCountDialogHandler,
+    private val resumePNameDialog: ResumePNameDialogHandler,
+    private val resumePStringDialog: ResumePStringDialogHandler,
+    private val resumePObjDialog: ResumePObjDialogHandler,
 ) {
     fun get(): DefaultGameMessageConsumerRepositoryProvider<Player> {
         val builder = GameMessageConsumerRepositoryBuilder<Player>()
@@ -65,6 +77,10 @@ constructor(
         builder.addListener(ResumePauseButton::class.java, resumePauseButton)
         builder.addListener(OpObj::class.java, opObj)
         builder.addListener(OpObj6::class.java, opObj6)
+        builder.addListener(ResumePCountDialog::class.java, resumePCountDialog)
+        builder.addListener(ResumePNameDialog::class.java, resumePNameDialog)
+        builder.addListener(ResumePStringDialog::class.java, resumePStringDialog)
+        builder.addListener(ResumePObjDialog::class.java, resumePObjDialog)
         return DefaultGameMessageConsumerRepositoryProvider(builder.build())
     }
 }

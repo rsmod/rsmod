@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import org.rsmod.api.player.input.CountDialogInput
+import org.rsmod.api.player.input.ResumePCountDialogInput
 import org.rsmod.api.testing.GameTestState
 
 class PlayerProtectedAccessTest {
@@ -39,7 +39,7 @@ class PlayerProtectedAccessTest {
             delay()
             check(activeCoroutine?.isSuspended == true)
 
-            assertDoesNotThrow { resumeActiveCoroutine(CountDialogInput(5)) }
+            assertDoesNotThrow { resumeActiveCoroutine(ResumePCountDialogInput(5)) }
 
             assertNull(activeCoroutine)
             assertNull(unreachableInput)
@@ -65,7 +65,7 @@ class PlayerProtectedAccessTest {
             assertEquals(true, activeCoroutine?.isSuspended)
             assertTrue(isAccessProtected)
 
-            assertDoesNotThrow { resumeActiveCoroutine(CountDialogInput(5)) }
+            assertDoesNotThrow { resumeActiveCoroutine(ResumePCountDialogInput(5)) }
 
             assertNull(activeCoroutine)
             assertEquals(5, validInput)
