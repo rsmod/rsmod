@@ -10,7 +10,6 @@ import net.rsprot.protocol.game.outgoing.zone.header.UpdateZonePartialFollows
 import net.rsprot.protocol.message.ZoneProt
 import org.rsmod.api.registry.loc.LocRegistry
 import org.rsmod.api.registry.obj.ObjRegistry
-import org.rsmod.api.registry.player.PlayerRegistry
 import org.rsmod.api.registry.zone.ZoneUpdateMap
 import org.rsmod.api.registry.zone.ZoneUpdateTransformer
 import org.rsmod.api.utils.map.BuildAreaUtils
@@ -27,7 +26,6 @@ constructor(
     private val updates: ZoneUpdateMap,
     private val locReg: LocRegistry,
     private val objReg: ObjRegistry,
-    private val playerReg: PlayerRegistry,
     private val enclosedBuffers: SharedZoneEnclosedBuffers,
 ) {
     public fun computeEnclosedBuffers() {
@@ -72,9 +70,6 @@ constructor(
             // ground the same cycle the zone becomes visible to the player.
             val oldZones = IntArrayList(currZones).apply { removeAll(newZones) }
             processVisibleZoneUpdates(buildArea, oldZones)
-
-            // Update player's zone in registry.
-            playerReg.change(this, prevZone, currZone)
         } else {
             // If the player hasn't moved to a new zone, process updates for currently visible
             // zones.
