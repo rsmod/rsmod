@@ -50,6 +50,14 @@ public class GameCoroutine(public val debugName: String? = null) {
         }
     }
 
+    public fun <T : Any> isAwaiting(type: KClass<out T>): Boolean {
+        val suspension = this.suspension ?: return false
+        val condition = suspension.condition
+        return condition is DeferredResumeCondition && condition.type == type
+    }
+
+    public fun isAwaitingAny(vararg types: KClass<out Any>): Boolean = types.any(::isAwaiting)
+
     @Suppress("UNCHECKED_CAST")
     public suspend fun pause(resume: () -> Boolean) {
         if (resume()) return
