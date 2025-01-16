@@ -74,7 +74,6 @@ private constructor(
         player.clearPendingAction(eventBus)
         player.resetFaceEntity()
 
-        @Suppress("KotlinConstantConditions")
         when (op) {
             InvInteractionOp.Op1 -> player.invOp1(obj, type, invSlot)
             InvInteractionOp.Op2 -> player.invOp2(obj, type, invSlot, inv)

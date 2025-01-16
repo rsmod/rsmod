@@ -8,7 +8,7 @@ import org.rsmod.api.player.events.interact.WornObjContentEvents
 import org.rsmod.api.player.events.interact.WornObjEvents
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.output.objExamine
-import org.rsmod.api.player.protect.ifClear
+import org.rsmod.api.player.ui.ifClear
 import org.rsmod.api.player.worn.WornUnequipOp
 import org.rsmod.api.player.worn.WornUnequipResult
 import org.rsmod.events.EventBus
@@ -55,7 +55,6 @@ constructor(
 
         player.ifClear(eventBus)
 
-        @Suppress("KotlinConstantConditions")
         when (op) {
             IfButtonOp.Op1 -> player.wornOp1(wornSlot, worn, into)
             IfButtonOp.Op2 -> player.wornOp2(obj, type, wornSlot)
