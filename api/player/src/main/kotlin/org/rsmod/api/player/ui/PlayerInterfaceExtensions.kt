@@ -10,10 +10,15 @@ import net.rsprot.protocol.game.outgoing.interfaces.IfSetNpcHeadActive
 import net.rsprot.protocol.game.outgoing.interfaces.IfSetObject
 import net.rsprot.protocol.game.outgoing.interfaces.IfSetPlayerHead
 import net.rsprot.protocol.game.outgoing.interfaces.IfSetText
+import net.rsprot.protocol.game.outgoing.misc.player.TriggerOnDialogAbort
 import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.components
 import org.rsmod.api.config.refs.interfaces
 import org.rsmod.api.config.refs.varbits
+import org.rsmod.api.player.input.ResumePCountDialogInput
+import org.rsmod.api.player.input.ResumePNameDialogInput
+import org.rsmod.api.player.input.ResumePObjDialogInput
+import org.rsmod.api.player.input.ResumePStringDialogInput
 import org.rsmod.api.player.output.ChatType
 import org.rsmod.api.player.output.ClientScripts.chatboxMultiInit
 import org.rsmod.api.player.output.ClientScripts.confirmDestroyInit
@@ -24,6 +29,8 @@ import org.rsmod.api.player.output.ClientScripts.topLevelMainModalOpen
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.output.runClientScript
 import org.rsmod.api.player.vars.intVarp
+import org.rsmod.coroutine.GameCoroutine
+import org.rsmod.coroutine.resume.DeferredResumeCondition
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.obj.InvObj
@@ -92,12 +99,40 @@ public fun Player.ifOpenMainSidePair(main: InterfaceType, side: InterfaceType, e
 }
 
 /**
- * Difference between this and [ifCloseModals] is that this function will also clear all weak queues
- * for the player.
+ * Difference from [ifCloseModals]: this function clears all weak queues for the player and closes
+ * specific input dialogues.
+ *
+ * @see [triggerOnDialogAbort]
  */
 public fun Player.ifClose(eventBus: EventBus) {
+    triggerOnDialogAbort()
     weakQueueList.clear()
     ifCloseModals(eventBus)
+}
+
+/**
+ * If [requiresInputDialogAbort] conditions are met, the player's active script will be cancelled
+ * ([Player.cancelActiveCoroutine]) and [TriggerOnDialogAbort] will be sent to their client.
+ */
+private fun Player.triggerOnDialogAbort() {
+    val coroutine = activeCoroutine ?: return
+    if (coroutine.requiresInputDialogAbort()) {
+        cancelActiveCoroutine()
+        client.write(TriggerOnDialogAbort)
+    }
+}
+
+/**
+ * Checks if the coroutine is suspended on a [DeferredResumeCondition] and the deferred type matches
+ * any input from dialogue boxes built through cs2, which are not standard modals or overlays.
+ */
+private fun GameCoroutine.requiresInputDialogAbort(): Boolean {
+    return isAwaitingAny(
+        ResumePCountDialogInput::class,
+        ResumePNameDialogInput::class,
+        ResumePStringDialogInput::class,
+        ResumePObjDialogInput::class,
+    )
 }
 
 public fun Player.ifCloseModals(eventBus: EventBus) {
