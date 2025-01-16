@@ -161,8 +161,6 @@ public class Player(
      * through unintended means, and an error will be thrown to prevent silent failures.
      */
     public fun dropTrigger(trigger: DropTriggerType) {
-        // Ensures the player's drop trigger cannot be replaced unexpectedly or through unintended
-        // mechanics.
         check(dropTrigger == null) {
             "Previous `dropTrigger` must be removed before " +
                 "setting a new trigger: oldTrigger=$dropTrigger, newTrigger=$trigger"
