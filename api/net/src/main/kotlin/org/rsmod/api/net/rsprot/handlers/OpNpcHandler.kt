@@ -55,6 +55,10 @@ constructor(
             logger.debug { "OpNpc invalid op blocked: op=${message.op}, npc=$npc" }
             return
         }
+        // Op on delayed npcs are discarded.
+        if (npc.isDelayed) {
+            return
+        }
         player.clearPendingAction(eventBus)
         player.faceNpc(npc)
         player.interaction = interaction
