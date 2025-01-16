@@ -11,7 +11,7 @@ class SeeTagKonsistTest {
     fun `test see tag references are formatted correctly`() {
         val docs = KonsistScope.allKDocs().validateSeeTagParsing()
         docs.withSeeTags().assertTrue(additionalMessage = SEE_TAG_FORMAT_VALIDATION_ERROR_MESSAGE) {
-            it.seeTags.all { it.value.isValidSeeTagFormat() }
+            it.seeTags.all { tag -> tag.value.isValidSeeTagFormat() }
         }
     }
 

@@ -7,16 +7,13 @@ import org.rsmod.api.player.dialogue.Dialogue
 import org.rsmod.api.player.dialogue.Dialogues
 import org.rsmod.api.player.dialogue.startDialogue
 import org.rsmod.api.player.protect.ProtectedAccess
-import org.rsmod.api.random.GameRandom
 import org.rsmod.api.script.onOpNpc1
 import org.rsmod.content.areas.city.lumbridge.configs.LumbridgeNpcs
 import org.rsmod.game.entity.Npc
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-class DonieAndGee
-@Inject
-constructor(private val dialogues: Dialogues, private val random: GameRandom) : PluginScript() {
+class DonieAndGee @Inject constructor(private val dialogues: Dialogues) : PluginScript() {
     override fun ScriptContext.startUp() {
         onOpNpc1(LumbridgeNpcs.gee) { startDialogue(it.npc) }
         onOpNpc1(LumbridgeNpcs.donie) { startDialogue(it.npc) }

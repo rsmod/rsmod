@@ -67,7 +67,7 @@ class GameServerCachePacker : CliktCommand(name = "cache-pack") {
         resolver.resolveReferences()
 
         val referenceVerification = referenceVerifier.verifyErrors()
-        if (referenceVerification.isFailure() == true) {
+        if (referenceVerification.isFailure()) {
             throw RuntimeException(referenceVerification.formatError())
         }
 

@@ -17,8 +17,6 @@ class Inventory(
 
     fun isEmpty(): Boolean = occupiedSpace() == 0
 
-    fun isNotEmpty(): Boolean = !isEmpty()
-
     operator fun get(slot: Int): Obj? = objs.getOrNull(slot)
 
     operator fun set(slot: Int, obj: Obj?): Unit = objs.set(slot, obj)

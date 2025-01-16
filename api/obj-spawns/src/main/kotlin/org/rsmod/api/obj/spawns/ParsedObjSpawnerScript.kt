@@ -2,8 +2,6 @@ package org.rsmod.api.obj.spawns
 
 import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.runBlocking
 import org.rsmod.api.script.onBootUp
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
@@ -33,9 +31,9 @@ constructor(private val spawner: ParsedObjSpawner, private val scheduler: TaskSc
 
     private fun TaskScheduler.scheduleStaticSpawns() = scheduleIO { loadStaticSpawns() }
 
-    private fun CoroutineScope.loadStaticSpawns() {
+    private suspend fun loadStaticSpawns() {
         val spawnListCount = spawner.inputContentsList.size
-        val spawns = runBlocking { spawner.loadStaticSpawns() }
+        val spawns = spawner.loadStaticSpawns()
         staticSpawns = spawns
         logger.debug {
             "Loaded $spawnListCount spawn list${if (spawnListCount == 1) "" else "s"} " +

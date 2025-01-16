@@ -81,10 +81,10 @@ public class ObjPluginBuilder(public var internal: String? = null) {
             objvarList = value
         }
 
-    public var contentGroup: ContentGroupType?
-        get() = null
+    public var contentGroup: ContentGroupType? = null
         set(value) {
             contentGroupId = value?.id
+            field = value
         }
 
     public var dummyitem: Dummyitem?

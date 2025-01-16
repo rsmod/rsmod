@@ -21,16 +21,20 @@ public fun ByteBuf.readCoordGrid(): CoordGrid = CoordGrid(readInt())
 public fun ByteBuf.writeRawParams(params: Map<Int, Any>): ByteBuf {
     writeByte(params.size)
     for ((key, value) in params.entries) {
-        if (value is String) {
-            writeBoolean(true)
-            writeMedium(key)
-            writeString(value)
-        } else if (value is Int) {
-            writeBoolean(false)
-            writeMedium(key)
-            writeInt(value)
-        } else {
-            error("Invalid param value: $value.")
+        when (value) {
+            is String -> {
+                writeBoolean(true)
+                writeMedium(key)
+                writeString(value)
+            }
+
+            is Int -> {
+                writeBoolean(false)
+                writeMedium(key)
+                writeInt(value)
+            }
+
+            else -> error("Invalid param value: $value.")
         }
     }
     return this

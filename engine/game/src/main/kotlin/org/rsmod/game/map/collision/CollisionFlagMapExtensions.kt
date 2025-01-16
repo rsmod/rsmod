@@ -104,6 +104,7 @@ private fun CollisionFlagMap.toggleGround(
     }
 }
 
+@Suppress("CascadeIf")
 private fun CollisionFlagMap.toggleWall(
     coords: CoordGrid,
     angle: Int,

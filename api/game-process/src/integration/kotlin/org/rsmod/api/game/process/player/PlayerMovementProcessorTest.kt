@@ -201,10 +201,10 @@ class PlayerMovementProcessorTest {
 
                 // Iterate over the next 5 steps, asserting the player's coords and current
                 // route destination waypoint count.
-                repeat(5) {
+                repeat(5) { i ->
                     // We take into account the first step taken, and then the steps that will be
                     // taken after these process calls.
-                    val travelled = 1 + (it + 1)
+                    val travelled = 1 + (i + 1)
                     process()
                     assertEquals(3, routeDestination.size)
                     assertEquals(sourceStart.translateZ(-travelled), coords)
@@ -218,8 +218,8 @@ class PlayerMovementProcessorTest {
 
                 // Iterate over the next 6 steps, asserting the player's coords and current
                 // route destination waypoint count.
-                repeat(6) {
-                    val travelled = it + 1
+                repeat(6) { i ->
+                    val travelled = i + 1
                     process()
                     assertEquals(2, routeDestination.size)
                     assertEquals(sourceStart.translate(-travelled, -7), coords)

@@ -57,6 +57,7 @@ public object ParamTypeEncoder {
                 data.writeByte(2)
                 data.writeInt(it)
             }
+            @Suppress("SimplifyBooleanWithConstants", "KotlinConstantConditions")
             if (autoDisable != ParamTypeBuilder.DEFAULT_AUTO_DISABLE) {
                 data.writeByte(4)
             }

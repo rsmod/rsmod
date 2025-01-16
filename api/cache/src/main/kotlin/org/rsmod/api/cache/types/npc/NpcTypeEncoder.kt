@@ -364,7 +364,7 @@ public object NpcTypeEncoder {
                 data.writeByte(huntMode)
             }
 
-            @Suppress("KotlinConstantConditions")
+            @Suppress("KotlinConstantConditions", "SimplifyBooleanWithConstants")
             if (giveChase != NpcTypeBuilder.DEFAULT_GIVE_CHASE) {
                 data.writeByte(210)
             }

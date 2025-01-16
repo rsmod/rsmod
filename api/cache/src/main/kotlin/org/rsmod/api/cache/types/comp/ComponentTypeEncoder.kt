@@ -232,14 +232,18 @@ public object ComponentTypeEncoder {
         }
         for (i in values.indices) {
             val value = values[i]
-            if (value is Int) {
-                data.writeByte(0)
-                data.writeInt(value)
-            } else if (value is String) {
-                data.writeByte(1)
-                data.writeString(value)
-            } else {
-                error("Invalid value type: $value (${value::class.simpleName})")
+            when (value) {
+                is Int -> {
+                    data.writeByte(0)
+                    data.writeInt(value)
+                }
+
+                is String -> {
+                    data.writeByte(1)
+                    data.writeString(value)
+                }
+
+                else -> error("Invalid value type: $value (${value::class.simpleName})")
             }
         }
     }

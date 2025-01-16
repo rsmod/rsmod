@@ -13,7 +13,7 @@ import org.openrs2.cache.Js5MasterIndex
 import org.openrs2.cache.Store
 import org.openrs2.cache.VersionTrailer
 
-class Js5Store(val crc: IntArray, val sizes: Int2IntMap, val responses: Int2ObjectMap<ByteBuf>) {
+class Js5Store(val sizes: Int2IntMap, val responses: Int2ObjectMap<ByteBuf>) {
     fun response(archive: Int, group: Int): ByteBuf =
         responses.getOrDefault((archive shl 16) or group, null)
             ?: error("Response does not exist for $archive:$group.")
@@ -44,14 +44,7 @@ class Js5Store(val crc: IntArray, val sizes: Int2IntMap, val responses: Int2Obje
                 generateMasterResponse(masterIndex),
                 sizes,
             )
-            val crc = createCrc(masterIndex)
-            return Js5Store(crc, sizes, responses)
-        }
-
-        private fun createCrc(masterIndex: Js5MasterIndex): IntArray {
-            return masterIndex.entries
-                .mapTo(mutableListOf(), Js5MasterIndex.Entry::checksum)
-                .toIntArray()
+            return Js5Store(sizes, responses)
         }
 
         private fun Int2ObjectOpenHashMap<ByteBuf>.putResponse(

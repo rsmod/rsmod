@@ -85,10 +85,10 @@ public class NpcPluginBuilder(public var internal: String? = null) {
 
     private var contentGroupId: Int? by backing::contentGroup
 
-    public var contentGroup: ContentGroupType?
-        get() = null
+    public var contentGroup: ContentGroupType? = null
         set(value) {
             contentGroupId = value?.id
+            field = value
         }
 
     private var recolS: CompactableIntArray by backing::recolS

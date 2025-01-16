@@ -88,8 +88,6 @@ private data class RouteFindingParameter(
     val destZ: Int,
     val flags: IntArray,
 ) {
-    constructor() : this(0, 0, 0, 0, 0, intArrayOf())
-
     fun toCollisionFlags(): CollisionFlagMap {
         val collisionFlags = CollisionFlagMap()
         val mapSearchSize = sqrt(flags.size.toDouble()).toInt()

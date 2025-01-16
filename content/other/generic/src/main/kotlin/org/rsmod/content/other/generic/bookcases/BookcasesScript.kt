@@ -1,14 +1,12 @@
 package org.rsmod.content.other.generic.bookcases
 
-import jakarta.inject.Inject
 import org.rsmod.api.config.refs.content
 import org.rsmod.api.player.protect.ProtectedAccess
-import org.rsmod.api.random.GameRandom
 import org.rsmod.api.script.onOpLoc1
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-class BookcasesScript @Inject constructor(private val random: GameRandom) : PluginScript() {
+class BookcasesScript : PluginScript() {
     override fun ScriptContext.startUp() {
         onOpLoc1(content.bookcase) { search() }
     }
