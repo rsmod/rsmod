@@ -25,5 +25,5 @@ dependencies {
     implementation(projects.engine.map)
     implementation(projects.engine.routefinder)
     implementation(projects.engine.plugin)
-    implementation("org.bouncycastle:bcprov-jdk18on:1.79")
+    implementation("org.bouncycastle:bcprov-jdk18on:1.80")
 }
