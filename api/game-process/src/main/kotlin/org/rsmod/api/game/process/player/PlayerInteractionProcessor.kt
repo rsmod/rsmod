@@ -314,7 +314,7 @@ constructor(
             }
 
             is InteractionNpc -> {
-                !interaction.target.isValidTarget
+                !interaction.target.isValidTarget || interaction.target.isDelayed
             }
 
             is InteractionObj -> {
