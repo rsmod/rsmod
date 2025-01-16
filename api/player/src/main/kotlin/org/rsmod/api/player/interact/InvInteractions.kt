@@ -38,7 +38,7 @@ private constructor(
     private val objTypes: ObjTypeList,
     private val eventBus: EventBus,
     private val marketPrices: MarketPrices,
-    private val dropOp: InvOpDrop,
+    private val dropOp: InvDropOp,
     private val equipOp: InvEquipOp,
 ) {
     private val logger = InlineLogger()
@@ -190,7 +190,7 @@ private constructor(
     }
 }
 
-private class InvOpDrop
+private class InvDropOp
 @Inject
 constructor(
     private val eventBus: EventBus,
