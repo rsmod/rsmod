@@ -84,7 +84,6 @@ public class Player(
 
     public var actionDelay: Int = -1
     public var skillAnimDelay: Int = -1
-    public var skillSoundDelay: Int = -1
 
     public var lootDropDuration: Int? = null
 

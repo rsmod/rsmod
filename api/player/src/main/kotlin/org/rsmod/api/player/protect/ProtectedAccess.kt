@@ -92,7 +92,6 @@ public class ProtectedAccess(
 
     public var actionDelay: Int by player::actionDelay
     public var skillAnimDelay: Int by player::skillAnimDelay
-    public var skillSoundDelay: Int by player::skillSoundDelay
 
     public suspend fun walk(dest: CoordGrid): Unit = move(dest, MoveSpeed.Walk)
 
