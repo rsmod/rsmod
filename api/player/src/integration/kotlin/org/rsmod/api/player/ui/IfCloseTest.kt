@@ -37,6 +37,7 @@ class IfCloseTest {
         val handler = ResumePCountDialogHandler()
         handler.handle(player, resume)
 
+        assertNull(player.activeCoroutine)
         assertNull(input)
     }
 }
