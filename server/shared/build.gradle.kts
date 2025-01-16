@@ -12,9 +12,7 @@ dependencies {
     api(projects.api.type.typeResolver)
     api(projects.api.type.typeUpdater)
     api(projects.api.type.typeVerifier)
-    findPlugins(projects.content).forEach {
-        api(it)
-    }
+    findPlugins().forEach { api(it) }
     implementation(libs.classgraph)
     implementation(libs.guice)
     implementation(libs.kotlin.reflect)
@@ -29,12 +27,6 @@ dependencies {
     implementation(projects.engine.plugin)
 }
 
-fun findPlugins(pluginProject: ProjectDependency): List<Project> {
-    val plugins = mutableListOf<Project>()
-    for (project in pluginProject.dependencyProject.subprojects) {
-        if (project.buildFile.exists()) {
-            plugins += project
-        }
-    }
-    return plugins
+fun findPlugins(): List<Project> {
+    return project(":content").subprojects.filter { it.buildFile.exists() }
 }
