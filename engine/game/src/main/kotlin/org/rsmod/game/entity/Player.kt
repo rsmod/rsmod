@@ -59,7 +59,9 @@ public class Player(
      * "hidden" entities, like objs that are only visible to certain players.
      */
     public var observerUUID: Long? = null
+
     public var username: String = ""
+    public var displayName: String by avatar::name
 
     public var buildArea: CoordGrid = CoordGrid.NULL
     public val visibleZoneKeys: IntList = IntArrayList()
@@ -71,12 +73,6 @@ public class Player(
 
     public val isModalButtonProtected: Boolean
         get() = isDelayed || activeCoroutine?.isSuspended == true
-
-    public var displayName: String
-        get() = avatar.name
-        set(value) {
-            avatar.name = value
-        }
 
     /* Cache for commonly-accessed Invs */
     public lateinit var inv: Inventory
