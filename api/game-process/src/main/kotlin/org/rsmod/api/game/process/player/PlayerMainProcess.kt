@@ -54,7 +54,6 @@ constructor(
         }
     }
 
-    // TODO: Why is this needed?
     private fun Player.refreshFaceEntity() {
         val interaction = interaction
         if (interaction == null) {
