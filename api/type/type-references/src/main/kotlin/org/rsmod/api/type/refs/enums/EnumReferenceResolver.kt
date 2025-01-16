@@ -67,7 +67,7 @@ constructor(private val nameMapping: NameMapping, private val types: EnumTypeLis
         }
 
         val cacheIdentityHash = cacheType.computeIdentityHash()
-        if (supposedHash == null) {
+        if (autoResolve) {
             TypeResolver[this] = cacheIdentityHash
             logger.trace { "  Enum($name) identity hash auto-resolved: $cacheIdentityHash" }
             return ok(FullSuccess)

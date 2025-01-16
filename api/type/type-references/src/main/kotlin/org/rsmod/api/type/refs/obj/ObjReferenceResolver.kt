@@ -38,7 +38,7 @@ constructor(private val nameMapping: NameMapping, private val types: ObjTypeList
 
         val cacheType = types[internalId] ?: return update(CacheTypeNotFound)
         val cacheIdentityHash = cacheType.computeIdentityHash()
-        if (supposedHash == null) {
+        if (autoResolve) {
             TypeResolver[this] = cacheIdentityHash
             logger.trace { "  Obj($name) identity hash auto-resolved: $cacheIdentityHash" }
             return ok(FullSuccess)

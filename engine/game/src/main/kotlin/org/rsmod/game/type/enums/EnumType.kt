@@ -23,6 +23,7 @@ public class HashedEnumType<K : Any, V : Any>(
     internal var startHash: Long? = null,
     internalId: Int? = null,
     internalName: String? = null,
+    public val autoResolve: Boolean = startHash == null,
 ) : EnumType<K, V>(internalId, internalName) {
     public val supposedHash: Long?
         get() = startHash

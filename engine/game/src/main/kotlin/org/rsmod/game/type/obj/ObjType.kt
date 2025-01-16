@@ -31,6 +31,7 @@ public class HashedObjType(
     internal var startHash: Long? = null,
     internalId: Int? = null,
     internalName: String? = null,
+    public val autoResolve: Boolean = startHash == null,
 ) : ObjType(internalId, internalName) {
     public val supposedHash: Long?
         get() = startHash

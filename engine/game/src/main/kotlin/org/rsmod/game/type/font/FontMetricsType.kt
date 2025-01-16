@@ -15,6 +15,7 @@ public class HashedFontMetricsType(
     internal var startHash: Long? = null,
     internalId: Int? = null,
     internalName: String? = null,
+    public val autoResolve: Boolean = startHash == null,
 ) : FontMetricsType(internalId, internalName) {
     public val supposedHash: Long?
         get() = startHash

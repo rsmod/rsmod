@@ -20,6 +20,7 @@ public class HashedSeqType(
     internalId: Int? = null,
     internalName: String? = null,
     priority: Int = 0,
+    public val autoResolve: Boolean = startHash == null,
 ) : SeqType(internalId, internalName, priority) {
     public val supposedHash: Long?
         get() = startHash

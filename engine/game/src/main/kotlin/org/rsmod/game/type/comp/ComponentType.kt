@@ -28,6 +28,7 @@ public class HashedComponentType(
     internal var startHash: Long? = null,
     internalId: Int? = null,
     internalName: String? = null,
+    public val autoResolve: Boolean = startHash == null,
 ) : ComponentType(internalId, internalName) {
     public val supposedHash: Long?
         get() = startHash

@@ -40,7 +40,7 @@ constructor(private val nameMapping: NameMapping, private val types: SeqTypeList
         TypeResolver.setPriority(this, cacheType.priority)
 
         val cacheIdentityHash = cacheType.computeIdentityHash()
-        if (supposedHash == null) {
+        if (autoResolve) {
             TypeResolver[this] = cacheIdentityHash
             logger.trace { "  Seq($name) identity hash auto-resolved: $cacheIdentityHash" }
             return ok(FullSuccess)

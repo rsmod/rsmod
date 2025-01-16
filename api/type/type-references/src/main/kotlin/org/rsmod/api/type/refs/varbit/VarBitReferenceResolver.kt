@@ -41,7 +41,7 @@ constructor(private val nameMapping: NameMapping, private val types: VarBitTypeL
         TypeResolver[this] = cacheType.baseVar
 
         val cacheIdentityHash = cacheType.computeIdentityHash()
-        if (supposedHash == null) {
+        if (autoResolve) {
             TypeResolver[this] = cacheIdentityHash
             logger.trace { "  VarBit($name) identity hash auto-resolved: $cacheIdentityHash" }
             return ok(FullSuccess)

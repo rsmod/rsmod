@@ -23,6 +23,7 @@ public class HashedVarpType(
     internal var startHash: Long? = null,
     internalId: Int? = null,
     internalName: String? = null,
+    public val autoResolve: Boolean = startHash == null,
 ) : VarpType(internalId, internalName) {
     public val supposedHash: Long?
         get() = startHash

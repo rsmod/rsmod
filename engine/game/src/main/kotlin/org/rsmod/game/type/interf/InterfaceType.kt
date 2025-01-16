@@ -17,6 +17,7 @@ public class HashedInterfaceType(
     internal var startHash: Long? = null,
     internalId: Int? = null,
     internalName: String? = null,
+    public val autoResolve: Boolean = startHash == null,
 ) : InterfaceType(internalId, internalName) {
     public val supposedHash: Long?
         get() = startHash

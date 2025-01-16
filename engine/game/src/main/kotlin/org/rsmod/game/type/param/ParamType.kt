@@ -24,6 +24,7 @@ public class HashedParamType<T : Any>(
     typedDefault: T?,
     internalId: Int? = null,
     internalName: String? = null,
+    public val autoResolve: Boolean = startHash == null,
 ) : ParamType<T>(internalId, internalName, typedDefault) {
     public val supposedHash: Long?
         get() = startHash

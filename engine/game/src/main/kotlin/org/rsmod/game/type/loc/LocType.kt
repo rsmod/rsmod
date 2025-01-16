@@ -24,6 +24,7 @@ public class HashedLocType(
     internal var startHash: Long? = null,
     internalId: Int? = null,
     internalName: String? = null,
+    public val autoResolve: Boolean = startHash == null,
 ) : LocType(internalId, internalName) {
     public val supposedHash: Long?
         get() = startHash
