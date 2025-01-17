@@ -127,6 +127,7 @@ public class UnpackedObjType(
     public val respawnRate: Int,
     public val dummyitem: Int,
     public val contentGroup: Int,
+    public val weaponCategory: Int,
     internalId: Int,
     internalName: String,
 ) : ObjType(internalId, internalName) {
@@ -222,6 +223,7 @@ public class UnpackedObjType(
             "contentGroup=$contentGroup, " +
             "name='$name', " +
             "desc='$desc', " +
+            "weaponCategory=$weaponCategory, " +
             "model=$model, " +
             "zoom2d=$zoom2d, " +
             "xan2d=$xan2d, " +
@@ -296,6 +298,7 @@ public class UnpackedObjType(
 
         if (name != other.name) return false
         if (desc != other.desc) return false
+        if (weaponCategory != other.weaponCategory) return false
         if (model != other.model) return false
         if (zoom2d != other.zoom2d) return false
         if (xan2d != other.xan2d) return false
@@ -371,6 +374,7 @@ public class UnpackedObjType(
     override fun hashCode(): Int {
         var result = name.hashCode()
         result = 31 * result + desc.hashCode()
+        result = 31 * result + weaponCategory
         result = 31 * result + model
         result = 31 * result + zoom2d
         result = 31 * result + xan2d

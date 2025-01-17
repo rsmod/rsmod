@@ -3,10 +3,12 @@ package org.rsmod.api.player.worn
 import jakarta.inject.Inject
 import org.rsmod.api.invtx.invTransfer
 import org.rsmod.api.player.events.interact.InvEquipEvents
+import org.rsmod.api.player.ui.PlayerInterfaceUpdates.updateCombatTab
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.type.obj.ObjTypeList
+import org.rsmod.game.type.obj.WeaponCategory
 import org.rsmod.game.type.obj.Wearpos
 import org.rsmod.objtx.TransactionResult
 
@@ -36,6 +38,10 @@ constructor(private val objTypes: ObjTypeList, private val eventBus: EventBus) {
 
         val unequip = InvEquipEvents.Unequip(player, wearpos, obj, objTypes[obj])
         eventBus.publish(unequip)
+
+        if (wearpos == Wearpos.RightHand) {
+            updateCombatTab(player, null, WeaponCategory.Unarmed)
+        }
 
         player.rebuildAppearance()
         return WornUnequipResult.Success

@@ -18,18 +18,26 @@ import org.rsmod.api.player.output.UpdateStat
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.output.runClientScript
 import org.rsmod.api.player.output.updateInvFull
+import org.rsmod.api.player.righthand
+import org.rsmod.api.player.ui.PlayerInterfaceUpdates.updateCombatTab
 import org.rsmod.api.player.vars.boolVarp
 import org.rsmod.api.player.vars.chatboxUnlocked
 import org.rsmod.api.script.onPlayerLogIn
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Player
+import org.rsmod.game.type.obj.ObjTypeList
+import org.rsmod.game.type.obj.WeaponCategory
 import org.rsmod.game.type.stat.StatTypeList
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
 class LoginScript
 @Inject
-constructor(private val mapClock: MapClock, private val statTypes: StatTypeList) : PluginScript() {
+constructor(
+    private val mapClock: MapClock,
+    private val statTypes: StatTypeList,
+    private val objTypes: ObjTypeList,
+) : PluginScript() {
     private var Player.hideRoofs by boolVarp(varbits.hide_roofs)
 
     override fun ScriptContext.startUp() {
@@ -75,6 +83,7 @@ constructor(private val mapClock: MapClock, private val statTypes: StatTypeList)
         resetCam()
         runClientScript(828, 1)
         runClientScript(5141)
+        updateCombatTab()
         runClientScript(876, mapClock.cycle, 0, displayName, "REGULAR")
         sendStats()
         sendRun()
@@ -102,5 +111,15 @@ constructor(private val mapClock: MapClock, private val statTypes: StatTypeList)
     private fun Player.sendRun() {
         client.write(UpdateRunWeight(0))
         client.write(UpdateRunEnergy(10_000))
+    }
+
+    private fun Player.updateCombatTab() {
+        val weaponType = righthand?.let(objTypes::get)
+        if (weaponType == null) {
+            updateCombatTab(this, null, WeaponCategory.Unarmed)
+            return
+        }
+        val category = WeaponCategory[weaponType.weaponCategory] ?: WeaponCategory.Unarmed
+        updateCombatTab(this, weaponType.name, category)
     }
 }

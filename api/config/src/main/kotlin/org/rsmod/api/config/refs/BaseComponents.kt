@@ -61,4 +61,7 @@ object BaseComponents : ComponentReferences() {
     val side_modal = find("resizable_pane_com74", 8719636644635355055)
 
     val inv_inv = find("inventory_tab_com0", 2716382361977651445)
+
+    val combat_tab_weapon_name = find("combat_tab_com2", 8061099330540068392)
+    val combat_tab_weapon_category = find("combat_tab_com3", 311653829278247768)
 }

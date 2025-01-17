@@ -173,4 +173,7 @@ public object ClientScripts {
         obj: Int,
         count: Int,
     ): Unit = player.runClientScript(814, obj, count, header, text)
+
+    public fun pvpIconsComLevelRange(player: Player, combatLevel: Int): Unit =
+        player.runClientScript(5224, combatLevel)
 }

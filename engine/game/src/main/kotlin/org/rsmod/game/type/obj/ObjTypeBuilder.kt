@@ -83,6 +83,7 @@ public class ObjTypeBuilder(public var internal: String? = null) {
     public var respawnRate: Int? = null
     public var dummyitem: Int? = null
     public var contentGroup: Int? = null
+    public var weaponCategory: Int? = null
 
     public fun build(id: Int): UnpackedObjType {
         val internal = checkNotNull(internal) { "`internal` must be set." }
@@ -140,6 +141,7 @@ public class ObjTypeBuilder(public var internal: String? = null) {
         val respawnRate = respawnRate ?: DEFAULT_RESPAWN_RATE
         val dummyitem = dummyitem ?: DEFAULT_DUMMYITEM
         val contentGroup = contentGroup ?: DEFAULT_CONTENT_GROUP
+        val weaponCategory = weaponCategory ?: defaultWeaponCategory().id
         return UnpackedObjType(
             name = name,
             desc = desc,
@@ -210,9 +212,44 @@ public class ObjTypeBuilder(public var internal: String? = null) {
             respawnRate = respawnRate,
             dummyitem = dummyitem,
             contentGroup = contentGroup,
+            weaponCategory = weaponCategory,
             internalId = id,
             internalName = internal,
         )
+    }
+
+    private fun defaultWeaponCategory(): WeaponCategory {
+        if (wearpos1 != Wearpos.RightHand.slot) {
+            return WeaponCategory.Unarmed
+        }
+        return when (category) {
+            21 -> WeaponCategory.SlashSword
+            25 -> WeaponCategory.StabSword
+            24 -> WeaponCategory.Thrown
+            37 -> WeaponCategory.Crossbow
+            567 -> WeaponCategory.Crossbow
+            26 -> WeaponCategory.Blunt
+            55 -> WeaponCategory.Blunt
+            64 -> WeaponCategory.Bow
+            106 -> WeaponCategory.Bow
+            36 -> WeaponCategory.Spear
+            67 -> WeaponCategory.Pickaxe
+            61 -> WeaponCategory.TwoHandedSword
+            35 -> WeaponCategory.Axe
+            1 -> WeaponCategory.Staff
+            1193 -> WeaponCategory.Scythe
+            39 -> WeaponCategory.Spiked
+            65 -> WeaponCategory.Claw
+            66 -> WeaponCategory.Polearm
+            42 -> WeaponCategory.Banner
+            150 -> WeaponCategory.Whip
+            96 -> WeaponCategory.Gun
+            92 -> WeaponCategory.Polestaff
+            572 -> WeaponCategory.Chinchompas
+            586 -> WeaponCategory.Salamander
+            1014 -> WeaponCategory.Bulwark
+            else -> WeaponCategory.Unarmed
+        }
     }
 
     public companion object {
@@ -317,6 +354,7 @@ public class ObjTypeBuilder(public var internal: String? = null) {
             val respawnRate = select(edit, base, DEFAULT_RESPAWN_RATE) { respawnRate }
             val dummyitem = select(edit, base, DEFAULT_DUMMYITEM) { dummyitem }
             val contentGroup = select(edit, base, DEFAULT_CONTENT_GROUP) { contentGroup }
+            val weaponCategory = select(edit, base, default = 0) { weaponCategory }
             val internalId = select(edit, base, default = null) { internalId }
             val internalName = select(edit, base, default = null) { internalName }
             return UnpackedObjType(
@@ -389,6 +427,7 @@ public class ObjTypeBuilder(public var internal: String? = null) {
                 respawnRate = respawnRate,
                 dummyitem = dummyitem,
                 contentGroup = contentGroup,
+                weaponCategory = weaponCategory,
                 internalId = internalId ?: -1,
                 internalName = internalName ?: "",
             )

@@ -74,6 +74,7 @@ public class ObjPluginBuilder(public var internal: String? = null) {
     public var respawnRate: Int? by backing::respawnRate
     private var objvarList: MutableList<VarObjBitType>? = null
     private var contentGroupId: Int? by backing::contentGroup
+    public var weaponCategory: Int? by backing::weaponCategory
 
     public var objvar: MutableList<VarObjBitType>?
         get() = objvarList

@@ -15,6 +15,7 @@ object BaseVarBits : VarBitReferences() {
     val rt7_enabled2 = find("rt7_enabled2", 861513323)
     val drop_item_warning = find("drop_item_warning", 64468015)
     val drop_item_minimum_value = find("drop_item_minimum_value", 64473506)
+    val combat_tab_weapon_style_type = find("combat_tab_weapon_style_type", 191345645)
 
     val demon_slayer_progress = find("demon_slayer_progress", 50392587)
 }
