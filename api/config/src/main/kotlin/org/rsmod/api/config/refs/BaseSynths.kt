@@ -13,6 +13,7 @@ object BaseSynths : SynthReferences() {
     val picketgate_open = find("picketgate_open")
     val nicedoor_close = find("nicedoor_close")
     val nicedoor_open = find("nicedoor_open")
+    val default_equipment = find("default_equipment")
     val pillory_success = find("pillory_success")
     val pillory_locked = find("pillory_locked")
     val pillory_unlock = find("pillory_unlock")

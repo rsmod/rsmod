@@ -55,5 +55,6 @@ internal object ParamBuilds : ParamBuilder() {
         build<String>("statreq_failmessage2")
 
         build<String>("player_op5_text")
+        build<SynthType>("equipment_sound") { default = synths.default_equipment }
     }
 }

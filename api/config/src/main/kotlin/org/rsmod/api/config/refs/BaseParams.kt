@@ -11,6 +11,8 @@ import org.rsmod.api.config.aliases.ParamStat
 import org.rsmod.api.config.aliases.ParamStr
 import org.rsmod.api.config.aliases.ParamSynth
 import org.rsmod.api.type.refs.param.ParamReferences
+import org.rsmod.game.type.param.ParamType
+import org.rsmod.game.type.synth.SynthType
 
 typealias params = BaseParams
 
@@ -31,6 +33,7 @@ object BaseParams : ParamReferences() {
     val no_alchemy: ParamInt = find("no_alchemy")
 
     /* Server-side only types */
+    val equipment_sound: ParamType<SynthType> = find("equipment_sound")
     val player_op5_text: ParamStr = find("player_op5_text")
     val release_note_title: ParamStr = find("release_note_title")
     val release_note_message: ParamStr = find("release_note_message")

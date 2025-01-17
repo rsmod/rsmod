@@ -3,12 +3,10 @@ package org.rsmod.api.player.worn
 import jakarta.inject.Inject
 import org.rsmod.api.invtx.invTransfer
 import org.rsmod.api.player.events.interact.InvEquipEvents
-import org.rsmod.api.player.ui.PlayerInterfaceUpdates.updateCombatTab
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.type.obj.ObjTypeList
-import org.rsmod.game.type.obj.WeaponCategory
 import org.rsmod.game.type.obj.Wearpos
 import org.rsmod.objtx.TransactionResult
 
@@ -23,6 +21,7 @@ constructor(private val objTypes: ObjTypeList, private val eventBus: EventBus) {
     ): WornUnequipResult {
         val obj = worn[wornSlot] ?: return WornUnequipResult.Fail.InvalidObj
         val wearpos = Wearpos[wornSlot] ?: error("Wearpos `$wornSlot` not found.")
+        val objType = objTypes[obj]
 
         val transaction =
             player.invTransfer(from = worn, fromSlot = wornSlot, into = into, count = obj.count)
@@ -36,12 +35,11 @@ constructor(private val objTypes: ObjTypeList, private val eventBus: EventBus) {
             return WornUnequipResult.Fail.NotEnoughInvSpace(message)
         }
 
-        val unequip = InvEquipEvents.Unequip(player, wearpos, obj, objTypes[obj])
-        eventBus.publish(unequip)
+        val change = InvEquipEvents.WearposChange(player, objType, emptyList())
+        eventBus.publish(change)
 
-        if (wearpos == Wearpos.RightHand) {
-            updateCombatTab(player, null, WeaponCategory.Unarmed)
-        }
+        val unequip = InvEquipEvents.Unequip(player, wearpos, objType)
+        eventBus.publish(unequip)
 
         player.rebuildAppearance()
         return WornUnequipResult.Success

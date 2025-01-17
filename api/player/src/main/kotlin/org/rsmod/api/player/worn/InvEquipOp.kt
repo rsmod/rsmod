@@ -8,14 +8,12 @@ import org.rsmod.api.invtx.swap
 import org.rsmod.api.invtx.transfer
 import org.rsmod.api.player.events.interact.InvEquipEvents
 import org.rsmod.api.player.righthand
-import org.rsmod.api.player.ui.PlayerInterfaceUpdates.updateCombatTab
 import org.rsmod.api.utils.format.addArticle
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.obj.UnpackedObjType
-import org.rsmod.game.type.obj.WeaponCategory
 import org.rsmod.game.type.obj.Wearpos
 import org.rsmod.game.type.stat.StatType
 import org.rsmod.objtx.TransactionResult
@@ -35,7 +33,10 @@ constructor(private val objTypes: ObjTypeList, private val eventBus: EventBus) {
             val into = player.worn
 
             // Cache objs to publish as events after successful transaction.
-            val unequipObjs = (unequipWearpos + primaryWearpos).associateWith { into[it.slot] }
+            val unequipObjs =
+                (unequipWearpos + primaryWearpos).associateWith {
+                    into[it.slot]?.let(objTypes::get)
+                }
             val unequipPrimary = into[primaryWearpos.slot] != null
 
             val transaction =
@@ -81,20 +82,17 @@ constructor(private val objTypes: ObjTypeList, private val eventBus: EventBus) {
                 return InvEquipResult.Fail.NotEnoughInvSpace(message)
             }
 
-            for ((wearpos, unequipObj) in unequipObjs) {
-                val wornObj = unequipObj ?: continue
-                val unequip = InvEquipEvents.Unequip(player, wearpos, wornObj, objTypes[wornObj])
+            val change = InvEquipEvents.WearposChange(player, objType, unequipObjs.values)
+            eventBus.publish(change)
+
+            for ((wearpos, type) in unequipObjs) {
+                val unequipType = type ?: continue
+                val unequip = InvEquipEvents.Unequip(player, wearpos, unequipType)
                 eventBus.publish(unequip)
             }
 
             val equip = InvEquipEvents.Equip(player, invSlot, primaryWearpos, objType)
             eventBus.publish(equip)
-
-            if (primaryWearpos == Wearpos.RightHand || Wearpos.RightHand in unequipWearpos) {
-                val name = player.righthand?.let { objTypes[it].name }
-                val category = WeaponCategory[objType.weaponCategory] ?: WeaponCategory.Unarmed
-                updateCombatTab(player, name, category)
-            }
 
             player.rebuildAppearance()
         }

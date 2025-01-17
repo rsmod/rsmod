@@ -4,6 +4,7 @@
 67	picketgate_open
 80	nicedoor_close
 81	nicedoor_open
+2238	default_equipment
 2274	pillory_success
 2275	pillory_locked
 2276	pillory_unlock
