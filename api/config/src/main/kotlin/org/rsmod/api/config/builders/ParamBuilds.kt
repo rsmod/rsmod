@@ -53,5 +53,7 @@ internal object ParamBuilds : ParamBuilder() {
             default = "You are not a high enough level to use this item."
         }
         build<String>("statreq_failmessage2")
+
+        build<String>("player_op5_text")
     }
 }

@@ -31,6 +31,7 @@ object BaseParams : ParamReferences() {
     val no_alchemy: ParamInt = find("no_alchemy")
 
     /* Server-side only types */
+    val player_op5_text: ParamStr = find("player_op5_text")
     val release_note_title: ParamStr = find("release_note_title")
     val release_note_message: ParamStr = find("release_note_message")
     val statreq_failmessage1: ParamStr = find("statreq_failmessage1")
