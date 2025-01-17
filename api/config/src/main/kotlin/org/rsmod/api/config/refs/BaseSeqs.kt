@@ -1,3 +1,5 @@
+@file:Suppress("SpellCheckingInspection")
+
 package org.rsmod.api.config.refs
 
 import org.rsmod.api.type.refs.seq.SeqReferences
@@ -6,6 +8,13 @@ import org.rsmod.game.type.seq.SeqType
 public typealias seqs = BaseSeqs
 
 public object BaseSeqs : SeqReferences() {
+    public val human_ready: SeqType = find("human_ready")
+    public val human_walk_f: SeqType = find("human_walk_f")
+    public val human_walk_b: SeqType = find("human_walk_b")
+    public val human_walk_l: SeqType = find("human_walk_l")
+    public val human_walk_r: SeqType = find("human_walk_r")
+    public val human_turnonspot: SeqType = find("human_turnonspot")
+    public val human_running: SeqType = find("human_running")
     public val human_pickupfloor: SeqType = find("human_pickupfloor", 3783034793219422123)
     public val human_reachforladddertop: SeqType =
         find("human_reachforladddertop", 982512216732930687)

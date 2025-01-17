@@ -71,6 +71,13 @@
 616	chat_angry3
 617	chat_angry4
 
+808	human_ready
+819	human_walk_f
+820	human_walk_b
+821	human_walk_l
+822	human_walk_r
+823	human_turnonspot
+824	human_running
 827	human_pickupfloor
 828	human_reachforladddertop
 832	human_pickuptable

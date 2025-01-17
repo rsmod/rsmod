@@ -24,6 +24,7 @@ object SymbolModule : ExtendedModule() {
 private class NameMappingProvider : Provider<NameMapping> {
     override fun get(): NameMapping {
         val dirs = shallowSymbolDirectories()
+        val bas = dirs.readSymbols("bas")
         val categories = dirs.readSymbols("category")
         val interfaces = dirs.readSymbols("interface")
         val components = dirs.readComps("component", interfaces = interfaces)
@@ -81,6 +82,7 @@ private class NameMappingProvider : Provider<NameMapping> {
             varconbits = varconbits,
             structs = structs,
             dropTriggers = dropTriggers,
+            bas = bas,
         )
     }
 

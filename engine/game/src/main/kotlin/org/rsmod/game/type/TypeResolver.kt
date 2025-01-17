@@ -1,5 +1,6 @@
 package org.rsmod.game.type
 
+import org.rsmod.game.type.bas.BasType
 import org.rsmod.game.type.category.CategoryType
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.comp.HashedComponentType
@@ -44,6 +45,12 @@ import org.rsmod.game.type.varp.HashedVarpType
 import org.rsmod.game.type.varp.VarpType
 
 public object TypeResolver {
+    public operator fun get(type: BasType): Int = type.internalId
+
+    public operator fun set(type: BasType, id: Int) {
+        type.internalId = id
+    }
+
     public operator fun get(type: CurrencyType): Int? = type.internalId
 
     public operator fun set(type: CurrencyType, id: Int) {

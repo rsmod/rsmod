@@ -2,6 +2,8 @@ package org.rsmod.api.type.builders.resolver
 
 import jakarta.inject.Inject
 import org.rsmod.api.type.builders.TypeBuilder
+import org.rsmod.api.type.builders.bas.BasBuilder
+import org.rsmod.api.type.builders.bas.BasBuilderResolver
 import org.rsmod.api.type.builders.controller.ControllerBuilder
 import org.rsmod.api.type.builders.controller.ControllerBuilderResolver
 import org.rsmod.api.type.builders.droptrig.DropTriggerBuilder
@@ -34,6 +36,7 @@ import org.rsmod.api.type.builders.varobjbit.VarObjBitBuilderResolver
 public class TypeBuilderResolverMap
 @Inject
 constructor(
+    private val basResolver: BasBuilderResolver,
     private val conResolver: ControllerBuilderResolver,
     private val dropTriggerResolver: DropTriggerBuilderResolver,
     private val enumResolver: EnumBuilderResolver,
@@ -109,6 +112,7 @@ constructor(
     private fun <B, T> TypeBuilder<B, T>.resolver(): TypeBuilderResolver<B, T> {
         val resolver =
             when (this) {
+                is BasBuilder -> basResolver
                 is ControllerBuilder -> conResolver
                 is DropTriggerBuilder -> dropTriggerResolver
                 is EnumBuilder -> enumResolver
