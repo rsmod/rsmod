@@ -81,14 +81,14 @@ constructor(private val objTypes: ObjTypeList, private val eventBus: EventBus) {
                 return InvEquipResult.Fail.NotEnoughInvSpace(message)
             }
 
-            val equip = InvEquipEvents.Equip(player, invSlot, primaryWearpos, objType)
-            eventBus.publish(equip)
-
             for ((wearpos, unequipObj) in unequipObjs) {
                 val wornObj = unequipObj ?: continue
                 val unequip = InvEquipEvents.Unequip(player, wearpos, wornObj, objTypes[wornObj])
                 eventBus.publish(unequip)
             }
+
+            val equip = InvEquipEvents.Equip(player, invSlot, primaryWearpos, objType)
+            eventBus.publish(equip)
 
             if (primaryWearpos == Wearpos.RightHand || Wearpos.RightHand in unequipWearpos) {
                 val name = player.righthand?.let { objTypes[it].name }
