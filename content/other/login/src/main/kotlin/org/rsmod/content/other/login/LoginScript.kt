@@ -14,6 +14,7 @@ import net.rsprot.protocol.game.outgoing.worldentity.ClearEntities
 import org.rsmod.api.config.refs.varbits
 import org.rsmod.api.player.output.Camera
 import org.rsmod.api.player.output.ChatType
+import org.rsmod.api.player.output.MiscOutput
 import org.rsmod.api.player.output.UpdateStat
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.output.runClientScript
@@ -84,6 +85,7 @@ constructor(
         runClientScript(828, 1)
         runClientScript(5141)
         updateCombatTab()
+        sendPlayerOps()
         runClientScript(876, mapClock.cycle, 0, displayName, "REGULAR")
         sendStats()
         sendRun()
@@ -121,5 +123,13 @@ constructor(
         }
         val category = WeaponCategory[weaponType.weaponCategory] ?: WeaponCategory.Unarmed
         updateCombatTab(this, weaponType.name, category)
+    }
+
+    private fun Player.sendPlayerOps() {
+        MiscOutput.setPlayerOp(this, slot = 2, op = null)
+        MiscOutput.setPlayerOp(this, slot = 3, op = "Follow")
+        MiscOutput.setPlayerOp(this, slot = 4, op = "Trade with")
+        MiscOutput.setPlayerOp(this, slot = 5, op = null)
+        MiscOutput.setPlayerOp(this, slot = 8, op = "Report")
     }
 }
