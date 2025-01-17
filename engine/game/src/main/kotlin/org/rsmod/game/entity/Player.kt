@@ -71,18 +71,6 @@ public class Player(
 
     public var publicMessage: PublicMessage? = null
 
-    public val isModalButtonProtected: Boolean
-        get() = isDelayed || activeCoroutine?.isSuspended == true
-
-    private val hasPendingQueue: Boolean
-        get() = queueList.isNotEmpty || weakQueueList.isNotEmpty
-
-    public val shouldHaltMovement: Boolean
-        get() = isBusy && hasPendingQueue
-
-    public val canProcessMovement: Boolean
-        get() = !shouldHaltMovement
-
     /* Cache for commonly-accessed Invs */
     public lateinit var inv: Inventory
     public lateinit var worn: Inventory
@@ -112,6 +100,18 @@ public class Player(
      */
     public var dropTrigger: DropTriggerType? = null
         private set
+
+    public val isModalButtonProtected: Boolean
+        get() = isDelayed || activeCoroutine?.isSuspended == true
+
+    private val hasPendingQueue: Boolean
+        get() = queueList.isNotEmpty || weakQueueList.isNotEmpty
+
+    public val shouldHaltMovement: Boolean
+        get() = isBusy && hasPendingQueue
+
+    public val canProcessMovement: Boolean
+        get() = !shouldHaltMovement
 
     public fun timer(timer: TimerType, cycles: Int) {
         timerMap[timer] = currentMapClock + cycles
