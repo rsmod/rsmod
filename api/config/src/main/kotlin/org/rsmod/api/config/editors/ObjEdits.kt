@@ -19,5 +19,6 @@ internal object ObjEdits : ObjEditor() {
             param[params.release_note_title] = "Drop all of your black chinchompas?"
             param[params.release_note_message] = "You release the chinchompa and it bounds away."
         }
+        edit("snowball") { param[params.player_op5_text] = "Pelt" }
     }
 }
