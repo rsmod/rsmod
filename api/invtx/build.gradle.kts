@@ -19,7 +19,5 @@ dependencies {
     implementation(projects.engine.map)
     implementation(projects.engine.objtx)
     implementation(projects.engine.plugin)
-    integrationImplementation(projects.api.config)
-    integrationImplementation(projects.api.type.typeReferences)
     integrationImplementation(projects.engine.objtx)
 }

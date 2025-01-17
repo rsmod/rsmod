@@ -9,6 +9,4 @@ dependencies {
     implementation(projects.api.type.typeReferences)
     implementation(projects.engine.game)
     implementation(projects.engine.module)
-    integrationImplementation(projects.api.config)
-    integrationImplementation(projects.api.type.typeReferences)
 }
