@@ -28,6 +28,7 @@ object BaseParams : ParamReferences() {
     val statreq1_level: ParamInt = find("statreq1_level", 88687192592)
     val statreq2_skill: ParamStat = find("statreq2_skill")
     val statreq2_level: ParamInt = find("statreq2_level", 88687192593)
+    val no_bank: ParamInt = find("no_bank")
     val no_alchemy: ParamInt = find("no_alchemy")
 
     /* Server-side only types */
