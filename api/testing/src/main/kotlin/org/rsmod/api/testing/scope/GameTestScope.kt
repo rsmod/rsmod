@@ -14,6 +14,7 @@ import org.rsmod.api.game.process.GameCycle
 import org.rsmod.api.inv.InvInit
 import org.rsmod.api.player.interact.LocInteractions
 import org.rsmod.api.player.protect.clearPendingAction
+import org.rsmod.api.player.ui.ifOpenMain
 import org.rsmod.api.random.CoreRandom
 import org.rsmod.api.random.DefaultGameRandom
 import org.rsmod.api.random.GameRandom
@@ -60,6 +61,7 @@ import org.rsmod.game.type.comp.ComponentTypeList
 import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.enums.EnumTypeList
 import org.rsmod.game.type.font.FontMetricsTypeList
+import org.rsmod.game.type.interf.InterfaceType
 import org.rsmod.game.type.inv.InvTypeList
 import org.rsmod.game.type.loc.LocType
 import org.rsmod.game.type.loc.LocTypeList
@@ -194,6 +196,10 @@ constructor(
 
     public fun Player.opLoc5(loc: BoundLocInfo) {
         locInteractions.interact(this, loc, InteractionOp.Op5)
+    }
+
+    public fun Player.ifOpenMain(interf: InterfaceType) {
+        ifOpenMain(interf, eventBus)
     }
 
     public fun Inventory.count(obj: ObjType): Int {
