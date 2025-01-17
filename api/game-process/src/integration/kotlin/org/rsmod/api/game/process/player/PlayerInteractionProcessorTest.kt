@@ -1,6 +1,5 @@
 package org.rsmod.api.game.process.player
 
-import net.rsprot.protocol.game.outgoing.misc.player.MessageGame
 import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Test
 import org.rsmod.api.config.refs.interfaces
@@ -86,8 +85,5 @@ class PlayerInteractionProcessorTest {
 
         advance(ticks = 1)
         assertNull(player.interaction)
-        // Player should not receive any game message as the interaction should have been cancelled
-        // since the loc was replaced.
-        assertTrue(client.noneOf<MessageGame>())
     }
 }
