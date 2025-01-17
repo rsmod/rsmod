@@ -51,12 +51,12 @@ constructor(
                 hasApTrigger = apTrigger,
             )
         val routeRequest = RouteRequestPathingEntity(npc.avatar)
-        if (!npcInteractions.hasOp(npc, player.vars, message.interactionOp)) {
-            logger.debug { "OpNpc invalid op blocked: op=${message.op}, npc=$npc" }
-            return
-        }
         // Op on delayed npcs are discarded.
         if (npc.isDelayed) {
+            return
+        }
+        if (!npcInteractions.hasOp(npc, player.vars, message.interactionOp)) {
+            logger.debug { "OpNpc invalid op blocked: op=${message.op}, npc=$npc" }
             return
         }
         player.clearPendingAction(eventBus)
