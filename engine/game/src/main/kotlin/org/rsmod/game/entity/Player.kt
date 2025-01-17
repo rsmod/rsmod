@@ -4,6 +4,7 @@ import it.unimi.dsi.fastutil.ints.IntArrayList
 import it.unimi.dsi.fastutil.ints.IntList
 import org.rsmod.game.client.Client
 import org.rsmod.game.client.NoopClient
+import org.rsmod.game.entity.player.Appearance
 import org.rsmod.game.entity.player.PublicMessage
 import org.rsmod.game.entity.shared.PathingEntityCommon
 import org.rsmod.game.inv.Inventory
@@ -14,8 +15,10 @@ import org.rsmod.game.seq.EntitySeq
 import org.rsmod.game.shop.Shop
 import org.rsmod.game.stat.PlayerStatMap
 import org.rsmod.game.timer.PlayerTimerMap
+import org.rsmod.game.type.bas.BasType
 import org.rsmod.game.type.droptrig.DropTriggerType
 import org.rsmod.game.type.mod.ModGroup
+import org.rsmod.game.type.npc.UnpackedNpcType
 import org.rsmod.game.type.queue.QueueType
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.timer.TimerType
@@ -83,6 +86,13 @@ public class Player(
     public var skillAnimDelay: Int = -1
 
     public var lootDropDuration: Int? = null
+
+    public val appearance: Appearance = Appearance()
+    public var bas: BasType? by appearance::bas
+    public var transmog: UnpackedNpcType? by appearance::transmog
+    public var skullIcon: Int? by appearance::skullIcon
+    public var overheadIcon: Int? by appearance::overheadIcon
+    public val combatLevel: Int by appearance::combatLevel
 
     /**
      * Drop triggers enable extensibility for inv obj drop prevention.
@@ -154,6 +164,10 @@ public class Player(
     public fun faceNpc(target: Npc): Unit = PathingEntityCommon.faceNpc(this, target)
 
     public fun resetFaceEntity(): Unit = PathingEntityCommon.resetFaceEntity(this)
+
+    public fun rebuildAppearance() {
+        appearance.rebuild = true
+    }
 
     /**
      * @throws [IllegalStateException] if a [dropTrigger] is already set. This ensures that

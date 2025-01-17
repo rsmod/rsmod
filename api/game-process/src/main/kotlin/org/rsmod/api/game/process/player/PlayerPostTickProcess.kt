@@ -66,6 +66,7 @@ constructor(
 
     private fun Player.cleanUpPendingUpdates() {
         pendingSequence = EntitySeq.NULL
+        appearance.clearRebuildFlag()
     }
 
     private inline fun Player.tryOrDisconnect(block: Player.() -> Unit) =

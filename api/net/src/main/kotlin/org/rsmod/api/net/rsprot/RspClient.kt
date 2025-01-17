@@ -14,10 +14,13 @@ import net.rsprot.protocol.game.outgoing.map.util.XteaProvider
 import net.rsprot.protocol.game.outgoing.misc.client.ServerTickEnd
 import net.rsprot.protocol.game.outgoing.worldentity.SetActiveWorld
 import net.rsprot.protocol.message.OutgoingGameMessage
+import org.rsmod.api.config.refs.baseanimsets
 import org.rsmod.game.client.Client
 import org.rsmod.game.entity.Player
 import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.seq.EntitySeq
+import org.rsmod.game.type.obj.ObjTypeList
+import org.rsmod.game.type.obj.Wearpos
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.zone.ZoneKey
 
@@ -69,7 +72,7 @@ class RspClient(val session: Session<Player>, val xteaProvider: XteaProvider) :
         session.flush()
     }
 
-    override fun prePlayerCycle(player: Player) {
+    override fun prePlayerCycle(player: Player, objTypes: ObjTypeList) {
         // Temporary isInitialized check until code is thread-safe.
         if (::playerInfo.isInitialized && ::npcInfo.isInitialized) {
             player.updateMoveSpeed()
@@ -79,7 +82,7 @@ class RspClient(val session: Session<Player>, val xteaProvider: XteaProvider) :
             player.applyFacePathingEntity()
             player.applyFaceAngle()
             player.applyAnim()
-            player.syncAppearance()
+            player.syncAppearance(objTypes)
         }
     }
 
@@ -176,5 +179,69 @@ class RspClient(val session: Session<Player>, val xteaProvider: XteaProvider) :
         }
     }
 
-    private fun Player.syncAppearance() {}
+    private fun Player.syncAppearance(objTypes: ObjTypeList) {
+        if (!appearance.rebuild) {
+            return
+        }
+        val info = playerExtendedInfo
+
+        val colours = appearance.coloursSnapshot()
+        for (i in colours.indices) {
+            info.setColour(i, colours[i].toInt())
+        }
+
+        val identKit = appearance.identKitSnapshot()
+        for (i in identKit.indices) {
+            info.setIdentKit(i, identKit[i].toInt())
+        }
+
+        info.setName(displayName)
+        info.setOverheadIcon(overheadIcon ?: -1)
+        info.setSkullIcon(skullIcon ?: -1)
+        info.setCombatLevel(combatLevel)
+        info.setBodyType(appearance.bodyType)
+        info.setPronoun(appearance.pronoun)
+        info.setHidden(appearance.softHidden)
+
+        info.setNameExtras(
+            beforeName = appearance.namePrefix ?: "",
+            afterName = appearance.nameSuffix ?: "",
+            afterCombatLevel = appearance.combatLvlSuffix ?: "",
+        )
+
+        val transmog = this.transmog
+        info.setTransmogrification(transmog?.id ?: -1)
+        if (transmog != null) {
+            info.setBaseAnimationSet(
+                readyAnim = transmog.readyAnim,
+                turnAnim = transmog.turnBackAnim,
+                walkAnim = transmog.walkAnim,
+                walkAnimBack = transmog.walkAnim,
+                walkAnimLeft = transmog.walkAnim,
+                walkAnimRight = transmog.turnRightAnim,
+                runAnim = transmog.runAnim,
+            )
+        } else {
+            val bas = appearance.bas ?: baseanimsets.human_default
+            info.setBaseAnimationSet(
+                readyAnim = bas.readyAnim.id,
+                turnAnim = bas.turnAnim.id,
+                walkAnim = bas.walkAnim.id,
+                walkAnimBack = bas.walkAnimBack.id,
+                walkAnimLeft = bas.walkAnimLeft.id,
+                walkAnimRight = bas.walkAnimRight.id,
+                runAnim = bas.runAnim.id,
+            )
+        }
+
+        for (wearpos in Wearpos.PLAYER_INFO_WEARPOS) {
+            val obj = worn[wearpos.slot]
+            if (obj == null) {
+                info.setWornObj(wearpos.slot, -1, -1, -1)
+                continue
+            }
+            val objType = objTypes[obj]
+            info.setWornObj(wearpos.slot, obj.id, objType.wearpos2, objType.wearpos3)
+        }
+    }
 }

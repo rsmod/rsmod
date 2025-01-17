@@ -3,7 +3,6 @@ package org.rsmod.api.net.rsprot
 import jakarta.inject.Inject
 import net.rsprot.protocol.api.NetworkService
 import net.rsprot.protocol.common.RSProtConstants
-import net.rsprot.protocol.game.outgoing.info.playerinfo.PlayerAvatarExtendedInfo
 import org.rsmod.api.core.Build
 import org.rsmod.api.game.process.GameLifecycle
 import org.rsmod.api.net.rsprot.player.SessionEnd
@@ -52,7 +51,6 @@ constructor(
         val client = RspClient(session, xteaProvider)
         player.client = client as Client<Any, Any>
         client.open(service, player)
-        setAppearance(client.playerInfo.avatar.extendedInfo)
     }
 
     private fun SessionEnd.closeSession() {
@@ -79,34 +77,5 @@ constructor(
         if (infoProtocol is RspNpcInfo) {
             service.npcAvatarFactory.release(infoProtocol.rspAvatar)
         }
-    }
-
-    private fun SessionStart.setAppearance(extendedInfo: PlayerAvatarExtendedInfo) {
-        extendedInfo.setIdentKit(0, 9)
-        extendedInfo.setIdentKit(1, 14)
-        extendedInfo.setIdentKit(2, 109)
-        extendedInfo.setIdentKit(3, 26)
-        extendedInfo.setIdentKit(4, 33)
-        extendedInfo.setIdentKit(5, 36)
-        extendedInfo.setIdentKit(6, 42)
-        extendedInfo.setColour(0, 0)
-        extendedInfo.setColour(1, 3)
-        extendedInfo.setColour(2, 2)
-        extendedInfo.setColour(3, 0)
-        extendedInfo.setColour(4, 0)
-        extendedInfo.setBaseAnimationSet(
-            readyAnim = 808,
-            turnAnim = 823,
-            walkAnim = 819,
-            walkAnimBack = 820,
-            walkAnimLeft = 821,
-            walkAnimRight = 822,
-            runAnim = 824,
-        )
-        extendedInfo.setName(player.avatar.name)
-        extendedInfo.setCombatLevel(126)
-        extendedInfo.setBodyType(0)
-        extendedInfo.setOverheadIcon(-1)
-        extendedInfo.setSkullIcon(-1)
     }
 }

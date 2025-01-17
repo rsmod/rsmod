@@ -59,7 +59,7 @@ public class Npc(
 
     public var wanderIdleCycles: Int = -1
 
-    public var transmogType: UnpackedNpcType? = null
+    public var transmog: UnpackedNpcType? = null
         private set
 
     public val id: Int
@@ -84,7 +84,7 @@ public class Npc(
         get() = type.defaultMode
 
     public val currentType: UnpackedNpcType
-        get() = transmogType ?: type
+        get() = transmog ?: type
 
     public var infoProtocol: NpcInfoProtocol
         get() = avatar.infoProtocol
@@ -150,12 +150,12 @@ public class Npc(
     }
 
     public fun transmog(type: UnpackedNpcType) {
-        transmogType = type
+        transmog = type
         infoProtocol.setTransmog(type.id)
     }
 
     public fun resetTransmog() {
-        transmogType = null
+        transmog = null
         infoProtocol.resetTransmog(originalType = id)
     }
 

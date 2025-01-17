@@ -37,6 +37,7 @@ constructor(private val objTypes: ObjTypeList, private val eventBus: EventBus) {
         val unequip = InvEquipEvents.Unequip(player, wearpos, obj, objTypes[obj])
         eventBus.publish(unequip)
 
+        player.rebuildAppearance()
         return WornUnequipResult.Success
     }
 }

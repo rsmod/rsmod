@@ -11,10 +11,12 @@ import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.PlayerList
 import org.rsmod.game.interact.Interaction
+import org.rsmod.game.type.obj.ObjTypeList
 
 public class PlayerMainProcess
 @Inject
 constructor(
+    private val objTypes: ObjTypeList,
     private val players: PlayerList,
     private val queues: PlayerQueueProcessor,
     private val timers: PlayerTimerProcessor,
@@ -101,7 +103,7 @@ constructor(
         facing.process(this)
         buildAreas.process(this)
         mapSquares.process(this)
-        client.prePlayerCycle(this)
+        client.prePlayerCycle(this, objTypes)
     }
 
     private fun Player.clientPostProcess() {
