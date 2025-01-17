@@ -118,14 +118,19 @@ constructor(
         }
     }
 
-    public fun advanceUntil(predicate: () -> Boolean, timeoutTicks: Int = 1000) {
+    public fun advanceUntil(
+        predicate: () -> Boolean,
+        timeoutTicks: Int = 1000,
+        timeoutMessage: () -> String? = { null },
+    ) {
         for (i in 0 until timeoutTicks) {
             if (predicate()) {
                 return
             }
             advance()
         }
-        throw IllegalStateException("Could not advance after $timeoutTicks ticks!")
+        val message = timeoutMessage() ?: "Could not advance after $timeoutTicks ticks!"
+        throw IllegalStateException(message)
     }
 
     public fun registerPlayer(
