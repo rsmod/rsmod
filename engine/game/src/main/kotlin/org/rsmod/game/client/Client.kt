@@ -13,9 +13,7 @@ public interface Client<S, T> {
 
     public fun flush()
 
-    public fun preparePlayerCycle(player: Player)
+    public fun prePlayerCycle(player: Player)
 
-    public fun playerCycle(player: Player)
-
-    public fun completePlayerCycle(player: Player)
+    public fun postPlayerCycle(player: Player)
 }

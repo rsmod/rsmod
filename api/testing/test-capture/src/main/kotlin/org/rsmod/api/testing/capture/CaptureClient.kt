@@ -81,9 +81,7 @@ public class CaptureClient : Client<Any, Any> {
 
     override fun flush() {}
 
-    override fun preparePlayerCycle(player: Player) {}
+    override fun prePlayerCycle(player: Player) {}
 
-    override fun playerCycle(player: Player) {}
-
-    override fun completePlayerCycle(player: Player) {}
+    override fun postPlayerCycle(player: Player) {}
 }

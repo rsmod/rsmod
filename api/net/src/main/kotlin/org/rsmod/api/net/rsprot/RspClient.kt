@@ -69,7 +69,7 @@ class RspClient(val session: Session<Player>, val xteaProvider: XteaProvider) :
         session.flush()
     }
 
-    override fun preparePlayerCycle(player: Player) {
+    override fun prePlayerCycle(player: Player) {
         // Temporary isInitialized check until code is thread-safe.
         if (::playerInfo.isInitialized && ::npcInfo.isInitialized) {
             player.updateMoveSpeed()
@@ -79,12 +79,11 @@ class RspClient(val session: Session<Player>, val xteaProvider: XteaProvider) :
             player.applyFacePathingEntity()
             player.applyFaceAngle()
             player.applyAnim()
+            player.syncAppearance()
         }
     }
 
-    override fun playerCycle(player: Player) {}
-
-    override fun completePlayerCycle(player: Player) {
+    override fun postPlayerCycle(player: Player) {
         // Temporary isInitialized check until code is thread-safe.
         if (::playerInfo.isInitialized && ::npcInfo.isInitialized) {
             val origin =
@@ -176,4 +175,6 @@ class RspClient(val session: Session<Player>, val xteaProvider: XteaProvider) :
             else -> playerExtendedInfo.setSequence(pendingSequence.id, pendingSequence.delay)
         }
     }
+
+    private fun Player.syncAppearance() {}
 }

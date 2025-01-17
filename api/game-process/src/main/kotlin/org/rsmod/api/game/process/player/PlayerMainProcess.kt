@@ -98,23 +98,14 @@ constructor(
     }
 
     private fun Player.clientProcess() {
-        faceSquareProcess()
-        mapListenerProcess()
-        client.preparePlayerCycle(this)
-        client.playerCycle(this)
-    }
-
-    private fun Player.faceSquareProcess() {
         facing.process(this)
-    }
-
-    private fun Player.mapListenerProcess() {
         buildAreas.process(this)
         mapSquares.process(this)
+        client.prePlayerCycle(this)
     }
 
     private fun Player.clientPostProcess() {
-        client.completePlayerCycle(this)
+        client.postPlayerCycle(this)
     }
 
     private inline fun Player.tryOrDisconnect(block: Player.() -> Unit) =
