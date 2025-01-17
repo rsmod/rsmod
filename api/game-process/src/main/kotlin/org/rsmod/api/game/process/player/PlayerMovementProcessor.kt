@@ -76,9 +76,11 @@ constructor(
             moveSpeed = MoveSpeed.Stationary
             return
         }
-        val steps = move(moveSpeed.steps)
-        if (steps > 0) {
-            moveSpeed = speedOffset(moveSpeed, steps)
+        if (canProcessMovement) {
+            val steps = move(moveSpeed.steps)
+            if (steps > 0) {
+                moveSpeed = speedOffset(moveSpeed, steps)
+            }
         }
     }
 

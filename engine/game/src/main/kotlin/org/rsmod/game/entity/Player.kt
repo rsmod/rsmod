@@ -74,6 +74,15 @@ public class Player(
     public val isModalButtonProtected: Boolean
         get() = isDelayed || activeCoroutine?.isSuspended == true
 
+    private val hasPendingQueue: Boolean
+        get() = queueList.isNotEmpty || weakQueueList.isNotEmpty
+
+    public val shouldHaltMovement: Boolean
+        get() = isBusy && hasPendingQueue
+
+    public val canProcessMovement: Boolean
+        get() = !shouldHaltMovement
+
     /* Cache for commonly-accessed Invs */
     public lateinit var inv: Inventory
     public lateinit var worn: Inventory
