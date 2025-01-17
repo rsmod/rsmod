@@ -39,26 +39,29 @@ constructor(
     private val protectedAccess: ProtectedAccessLauncher,
 ) {
     public fun processPreMovement(player: Player, interaction: Interaction) {
+        if (player.isBusy) {
+            return
+        }
         if (player.shouldCancelInteraction(interaction)) {
             player.clearInteractionRoute()
             return
         }
-        if (!player.isBusy) {
-            player.preMovementInteraction(interaction)
-        }
+        player.preMovementInteraction(interaction)
     }
 
     public fun isMovementCancellationRequired(interaction: Interaction): Boolean =
         interaction.interacted && !interaction.apRangeCalled
 
     public fun processPostMovement(player: Player, interaction: Interaction) {
+        if (player.isBusy) {
+            player.clearFinishedInteraction()
+            return
+        }
         if (player.shouldCancelInteraction(interaction)) {
             player.clearInteractionRoute()
             return
         }
-        if (!player.isBusy) {
-            player.postMovementInteraction(interaction)
-        }
+        player.postMovementInteraction(interaction)
         player.clearFinishedInteraction()
     }
 
