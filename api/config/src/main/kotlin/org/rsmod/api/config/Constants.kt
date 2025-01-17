@@ -1,4 +1,4 @@
-@file:Suppress("SpellCheckingInspection", "ConstPropertyName")
+@file:Suppress("SpellCheckingInspection", "unused", "ConstPropertyName")
 
 package org.rsmod.api.config
 
