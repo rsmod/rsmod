@@ -1,19 +1,18 @@
 package org.rsmod.api.config.refs
 
 import org.rsmod.api.type.refs.varbit.VarBitReferences
-import org.rsmod.game.type.varbit.VarBitType
 
-public typealias varbits = BaseVarBits
+typealias varbits = BaseVarBits
 
-public object BaseVarBits : VarBitReferences() {
-    public val chatbox_unlocked: VarBitType = find("chatbox_unlocked", 394391358)
-    public val modal_widthandheight_mode: VarBitType = find("modal_widthandheight_mode", 231792309)
-    public val hide_roofs: VarBitType = find("hide_roofs", 697869214)
-    public val rt7_enabled: VarBitType = find("rt7_enabled", 861505757)
-    public val rt7_mode: VarBitType = find("rt7_mode", 861509540)
-    public val rt7_enabled2: VarBitType = find("rt7_enabled2", 861513323)
-    public val drop_item_warning: VarBitType = find("drop_item_warning", 64468015)
-    public val drop_item_minimum_value: VarBitType = find("drop_item_minimum_value", 64473506)
+object BaseVarBits : VarBitReferences() {
+    val chatbox_unlocked = find("chatbox_unlocked", 394391358)
+    val modal_widthandheight_mode = find("modal_widthandheight_mode", 231792309)
+    val hide_roofs = find("hide_roofs", 697869214)
+    val rt7_enabled = find("rt7_enabled", 861505757)
+    val rt7_mode = find("rt7_mode", 861509540)
+    val rt7_enabled2 = find("rt7_enabled2", 861513323)
+    val drop_item_warning = find("drop_item_warning", 64468015)
+    val drop_item_minimum_value = find("drop_item_minimum_value", 64473506)
 
-    public val demon_slayer_progress: VarBitType = find("demon_slayer_progress", 50392587)
+    val demon_slayer_progress = find("demon_slayer_progress", 50392587)
 }

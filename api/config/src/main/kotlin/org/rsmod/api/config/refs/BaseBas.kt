@@ -3,12 +3,11 @@
 package org.rsmod.api.config.refs
 
 import org.rsmod.api.type.builders.bas.BasBuilder
-import org.rsmod.game.type.bas.BasType
 
-public typealias baseanimsets = BaseBas
+typealias baseanimsets = BaseBas
 
-public object BaseBas : BasBuilder() {
-    public val human_default: BasType =
+object BaseBas : BasBuilder() {
+    val human_default =
         build("human_default") {
             readyAnim = seqs.human_ready
             turnAnim = seqs.human_turnonspot

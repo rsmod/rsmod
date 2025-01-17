@@ -1,24 +1,23 @@
 package org.rsmod.api.config.refs
 
 import org.rsmod.api.type.builders.mod.ModGroupBuilder
-import org.rsmod.game.type.mod.ModGroup
 
-public object BaseModGroups : ModGroupBuilder() {
-    public val player: ModGroup = build("player") { modLevel = BaseModLevels.player }
+object BaseModGroups : ModGroupBuilder() {
+    val player = build("player") { modLevel = BaseModLevels.player }
 
-    public val moderator: ModGroup =
+    val moderator =
         build("moderator") {
             clientModerator = true
             modLevels = BaseModLevels.player + BaseModLevels.moderator
         }
 
-    public val admin: ModGroup =
+    val admin =
         build("admin") {
             clientAdministrator = true
             modLevels = BaseModLevels.player + BaseModLevels.moderator + BaseModLevels.admin
         }
 
-    public val owner: ModGroup =
+    val owner =
         build("owner") {
             clientAdministrator = true
             modLevels =

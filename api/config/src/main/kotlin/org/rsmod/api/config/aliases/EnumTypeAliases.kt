@@ -6,12 +6,12 @@ import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.UnpackedObjType
 
-public typealias EnumNamedObj = UnpackedObjType
+typealias EnumNamedObj = UnpackedObjType
 
-public typealias EnumObj = ObjType
+typealias EnumObj = ObjType
 
-public typealias EnumNpc = NpcType
+typealias EnumNpc = NpcType
 
-public typealias EnumLoc = LocType
+typealias EnumLoc = LocType
 
-public typealias EnumComp = ComponentType
+typealias EnumComp = ComponentType

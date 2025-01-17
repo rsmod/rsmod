@@ -9,22 +9,22 @@ import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.synth.SynthType
 import org.rsmod.map.CoordGrid
 
-public typealias ParamInt = ParamType<Int>
+typealias ParamInt = ParamType<Int>
 
-public typealias ParamStr = ParamType<String>
+typealias ParamStr = ParamType<String>
 
-public typealias ParamBool = ParamType<Boolean>
+typealias ParamBool = ParamType<Boolean>
 
-public typealias ParamCoord = ParamType<CoordGrid>
+typealias ParamCoord = ParamType<CoordGrid>
 
-public typealias ParamObj = ParamType<ObjType>
+typealias ParamObj = ParamType<ObjType>
 
-public typealias ParamNamedObj = ParamType<UnpackedObjType>
+typealias ParamNamedObj = ParamType<UnpackedObjType>
 
-public typealias ParamLoc = ParamType<LocType>
+typealias ParamLoc = ParamType<LocType>
 
-public typealias ParamSeq = ParamType<SeqType>
+typealias ParamSeq = ParamType<SeqType>
 
-public typealias ParamStat = ParamType<StatType>
+typealias ParamStat = ParamType<StatType>
 
-public typealias ParamSynth = ParamType<SynthType>
+typealias ParamSynth = ParamType<SynthType>

@@ -1,48 +1,43 @@
 package org.rsmod.api.config.refs
 
 import org.rsmod.api.type.refs.interf.InterfaceReferences
-import org.rsmod.game.type.interf.InterfaceType
 
-public typealias interfaces = BaseInterfaces
+typealias interfaces = BaseInterfaces
 
-public object BaseInterfaces : InterfaceReferences() {
-    public val fixed_pane: InterfaceType = find("fixed_pane", 9223372034726091525)
-    public val resizable_pane: InterfaceType = find("resizable_pane", 9223372036366731764)
-    public val side_panels_resizable_pane: InterfaceType =
-        find("side_panels_resizable_pane", 1080365065)
+object BaseInterfaces : InterfaceReferences() {
+    val fixed_pane = find("fixed_pane", 9223372034726091525)
+    val resizable_pane = find("resizable_pane", 9223372036366731764)
+    val side_panels_resizable_pane = find("side_panels_resizable_pane", 1080365065)
 
-    public val steam_side_panel: InterfaceType = find("steam_side_panel", 9223372036050024336)
-    public val chat: InterfaceType = find("chat", 1912455023)
-    public val private_chat: InterfaceType = find("private_chat", 9223372036709596550)
-    public val orbs: InterfaceType = find("orbs", 9223372034748519799)
-    public val experience_drops_window: InterfaceType =
-        find("experience_drops_window", 9223372035590703519)
-    public val skills_tab: InterfaceType = find("skills_tab", 9223372036078334889)
-    public val journal_header_tab: InterfaceType = find("journal_header_tab", 338347850)
-    public val quest_tab: InterfaceType = find("quest_tab", 9223372034739161249)
-    public val inventory_tab: InterfaceType = find("inventory_tab", 9223372035777930389)
-    public val equipment_tab: InterfaceType = find("equipment_tab", 9223372035270475546)
-    public val chat_header: InterfaceType = find("chat_header", 351697622)
-    public val settings_tab: InterfaceType = find("settings_tab", 9223372036348650444)
-    public val prayer_tab: InterfaceType = find("prayer_tab", 9223372034905333594)
-    public val spellbook_tab: InterfaceType = find("spellbook_tab", 643013118)
-    public val friend_list_tab: InterfaceType = find("friend_list_tab", 149140580)
-    public val account_management_tab: InterfaceType =
-        find("account_management_tab", 9223372036107886058)
-    public val logout_tab: InterfaceType = find("logout_tab", 2003439444)
-    public val emote_tab: InterfaceType = find("emote_tab", 1866350332)
-    public val music_tab: InterfaceType = find("music_tab", 9223372035640978172)
-    public val chat_channel_tab: InterfaceType = find("chat_channel_tab", 555490233)
-    public val world_switcher: InterfaceType = find("world_switcher", 770239458)
-    public val combat_tab: InterfaceType = find("combat_tab", 9223372036611818538)
-    public val hp_hud: InterfaceType = find("hp_hud", 9223372036744970435)
+    val steam_side_panel = find("steam_side_panel", 9223372036050024336)
+    val chat = find("chat", 1912455023)
+    val private_chat = find("private_chat", 9223372036709596550)
+    val orbs = find("orbs", 9223372034748519799)
+    val experience_drops_window = find("experience_drops_window", 9223372035590703519)
+    val skills_tab = find("skills_tab", 9223372036078334889)
+    val journal_header_tab = find("journal_header_tab", 338347850)
+    val quest_tab = find("quest_tab", 9223372034739161249)
+    val inventory_tab = find("inventory_tab", 9223372035777930389)
+    val equipment_tab = find("equipment_tab", 9223372035270475546)
+    val chat_header = find("chat_header", 351697622)
+    val settings_tab = find("settings_tab", 9223372036348650444)
+    val prayer_tab = find("prayer_tab", 9223372034905333594)
+    val spellbook_tab = find("spellbook_tab", 643013118)
+    val friend_list_tab = find("friend_list_tab", 149140580)
+    val account_management_tab = find("account_management_tab", 9223372036107886058)
+    val logout_tab = find("logout_tab", 2003439444)
+    val emote_tab = find("emote_tab", 1866350332)
+    val music_tab = find("music_tab", 9223372035640978172)
+    val chat_channel_tab = find("chat_channel_tab", 555490233)
+    val world_switcher = find("world_switcher", 770239458)
+    val combat_tab = find("combat_tab", 9223372036611818538)
+    val hp_hud = find("hp_hud", 9223372036744970435)
 
-    public val player_dialogue: InterfaceType = find("player_dialogue", 1128178504)
-    public val npc_dialogue: InterfaceType = find("npc_dialogue", 430345552)
-    public val options_dialogue: InterfaceType = find("options_dialogue", 151753214)
-    public val text_dialogue: InterfaceType = find("text_dialogue", 9223372035695642409)
-    public val obj_dialogue: InterfaceType = find("item_dialogue", 1639203600)
-    public val double_obj_dialogue: InterfaceType =
-        find("double_item_dialogue", 9223372035376440778)
-    public val destroy_obj_dialogue: InterfaceType = find("destroy_item_dialogue", 923450919)
+    val player_dialogue = find("player_dialogue", 1128178504)
+    val npc_dialogue = find("npc_dialogue", 430345552)
+    val options_dialogue = find("options_dialogue", 151753214)
+    val text_dialogue = find("text_dialogue", 9223372035695642409)
+    val obj_dialogue = find("item_dialogue", 1639203600)
+    val double_obj_dialogue = find("double_item_dialogue", 9223372035376440778)
+    val destroy_obj_dialogue = find("destroy_item_dialogue", 923450919)
 }

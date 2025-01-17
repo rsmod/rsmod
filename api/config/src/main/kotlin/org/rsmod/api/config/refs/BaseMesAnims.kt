@@ -1,12 +1,11 @@
 package org.rsmod.api.config.refs
 
 import org.rsmod.api.type.builders.mesanim.MesAnimBuilder
-import org.rsmod.game.type.mesanim.MesAnimType
 
-public typealias mesanims = BaseMesAnims
+typealias mesanims = BaseMesAnims
 
-public object BaseMesAnims : MesAnimBuilder() {
-    public val quiz: MesAnimType =
+object BaseMesAnims : MesAnimBuilder() {
+    val quiz =
         build("quiz") {
             len1 = seqs.chat_quiz1
             len2 = seqs.chat_quiz2
@@ -14,7 +13,7 @@ public object BaseMesAnims : MesAnimBuilder() {
             len4 = seqs.chat_quiz4
         }
 
-    public val bored: MesAnimType =
+    val bored =
         build("bored") {
             len1 = seqs.chat_bored1
             len2 = seqs.chat_bored2
@@ -22,7 +21,7 @@ public object BaseMesAnims : MesAnimBuilder() {
             len4 = seqs.chat_bored4
         }
 
-    public val short: MesAnimType =
+    val short =
         build("short") {
             len1 = seqs.chat_short
             len2 = seqs.chat_short
@@ -30,7 +29,7 @@ public object BaseMesAnims : MesAnimBuilder() {
             len4 = seqs.chat_short
         }
 
-    public val happy: MesAnimType =
+    val happy =
         build("happy") {
             len1 = seqs.chat_happy1
             len2 = seqs.chat_happy2
@@ -38,7 +37,7 @@ public object BaseMesAnims : MesAnimBuilder() {
             len4 = seqs.chat_happy4
         }
 
-    public val shocked: MesAnimType =
+    val shocked =
         build("shocked") {
             len1 = seqs.chat_happy1
             len2 = seqs.chat_happy2
@@ -46,7 +45,7 @@ public object BaseMesAnims : MesAnimBuilder() {
             len4 = seqs.chat_happy4
         }
 
-    public val confused: MesAnimType =
+    val confused =
         build("confused") {
             len1 = seqs.chat_confused1
             len2 = seqs.chat_confused2
@@ -54,7 +53,7 @@ public object BaseMesAnims : MesAnimBuilder() {
             len4 = seqs.chat_confused4
         }
 
-    public val silent: MesAnimType =
+    val silent =
         build("silent") {
             len1 = seqs.chat_silent
             len2 = seqs.chat_silent
@@ -62,7 +61,7 @@ public object BaseMesAnims : MesAnimBuilder() {
             len4 = seqs.chat_silent
         }
 
-    public val goblin: MesAnimType =
+    val goblin =
         build("goblin") {
             len1 = seqs.chat_goblin1
             len2 = seqs.chat_goblin2
@@ -70,7 +69,7 @@ public object BaseMesAnims : MesAnimBuilder() {
             len4 = seqs.chat_goblin4
         }
 
-    public val neutral: MesAnimType =
+    val neutral =
         build("neutral") {
             len1 = seqs.chat_neutral1
             len2 = seqs.chat_neutral2
@@ -78,7 +77,7 @@ public object BaseMesAnims : MesAnimBuilder() {
             len4 = seqs.chat_default
         }
 
-    public val shifty: MesAnimType =
+    val shifty =
         build("shifty") {
             len1 = seqs.chat_shifty1
             len2 = seqs.chat_shifty2
@@ -86,7 +85,7 @@ public object BaseMesAnims : MesAnimBuilder() {
             len4 = seqs.chat_shifty4
         }
 
-    public val worried: MesAnimType =
+    val worried =
         build("worried") {
             len1 = seqs.chat_worried1
             len2 = seqs.chat_worried2
@@ -94,7 +93,7 @@ public object BaseMesAnims : MesAnimBuilder() {
             len4 = seqs.chat_worried4
         }
 
-    public val drunk: MesAnimType =
+    val drunk =
         build("drunk") {
             len1 = seqs.chat_drunk1
             len2 = seqs.chat_drunk2
@@ -102,7 +101,7 @@ public object BaseMesAnims : MesAnimBuilder() {
             len4 = seqs.chat_drunk4
         }
 
-    public val very_mad: MesAnimType =
+    val very_mad =
         build("very_mad") {
             len1 = seqs.chat_verymad
             len2 = seqs.chat_verymad
@@ -110,7 +109,7 @@ public object BaseMesAnims : MesAnimBuilder() {
             len4 = seqs.chat_verymad
         }
 
-    public val laugh: MesAnimType =
+    val laugh =
         build("laugh") {
             len1 = seqs.chat_laugh1
             len2 = seqs.chat_laugh2
@@ -118,7 +117,7 @@ public object BaseMesAnims : MesAnimBuilder() {
             len4 = seqs.chat_laugh4
         }
 
-    public val mad_laugh: MesAnimType =
+    val mad_laugh =
         build("mad_laugh") {
             len1 = seqs.chat_madlaugh
             len2 = seqs.chat_madlaugh
@@ -126,7 +125,7 @@ public object BaseMesAnims : MesAnimBuilder() {
             len4 = seqs.chat_madlaugh
         }
 
-    public val sad: MesAnimType =
+    val sad =
         build("sad") {
             len1 = seqs.chat_sad1
             len2 = seqs.chat_sad2
@@ -134,7 +133,7 @@ public object BaseMesAnims : MesAnimBuilder() {
             len4 = seqs.chat_sad4
         }
 
-    public val angry: MesAnimType =
+    val angry =
         build("angry") {
             len1 = seqs.chat_angry1
             len2 = seqs.chat_angry2

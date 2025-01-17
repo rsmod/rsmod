@@ -2,58 +2,50 @@
 
 package org.rsmod.api.config.refs
 
-import org.rsmod.api.config.aliases.ParamBool
-import org.rsmod.api.config.aliases.ParamInt
-import org.rsmod.api.config.aliases.ParamLoc
-import org.rsmod.api.config.aliases.ParamObj
-import org.rsmod.api.config.aliases.ParamSeq
-import org.rsmod.api.config.aliases.ParamStat
-import org.rsmod.api.config.aliases.ParamStr
-import org.rsmod.api.config.aliases.ParamSynth
 import org.rsmod.api.type.refs.param.ParamReferences
 
-public typealias params = BaseParams
+typealias params = BaseParams
 
-public object BaseParams : ParamReferences() {
-    public val wear_op_index: ParamInt = find("wear_op_index", 88714906312)
-    public val wear_op1: ParamStr = find("wear_op1", 97133155617)
-    public val wear_op2: ParamStr = find("wear_op2", 97133155618)
-    public val wear_op3: ParamStr = find("wear_op3", 97133155619)
-    public val wear_op4: ParamStr = find("wear_op4", 97133155620)
-    public val wear_op5: ParamStr = find("wear_op5", 97133155621)
-    public val wear_op6: ParamStr = find("wear_op6", 97133155622)
-    public val wear_op7: ParamStr = find("wear_op7", 97133155623)
-    public val wear_op8: ParamStr = find("wear_op8", 97133155624)
-    public val statreq1_skill: ParamStat = find("statreq1_skill")
-    public val statreq1_level: ParamInt = find("statreq1_level", 88687192592)
-    public val statreq2_skill: ParamStat = find("statreq2_skill")
-    public val statreq2_level: ParamInt = find("statreq2_level", 88687192593)
-    public val no_alchemy: ParamInt = find("no_alchemy")
+object BaseParams : ParamReferences() {
+    val wear_op_index = find("wear_op_index", 88714906312)
+    val wear_op1 = find("wear_op1", 97133155617)
+    val wear_op2 = find("wear_op2", 97133155618)
+    val wear_op3 = find("wear_op3", 97133155619)
+    val wear_op4 = find("wear_op4", 97133155620)
+    val wear_op5 = find("wear_op5", 97133155621)
+    val wear_op6 = find("wear_op6", 97133155622)
+    val wear_op7 = find("wear_op7", 97133155623)
+    val wear_op8 = find("wear_op8", 97133155624)
+    val statreq1_skill = find("statreq1_skill")
+    val statreq1_level = find("statreq1_level", 88687192592)
+    val statreq2_skill = find("statreq2_skill")
+    val statreq2_level = find("statreq2_level", 88687192593)
+    val no_alchemy = find("no_alchemy")
 
     /* Server-side only types */
-    public val release_note_title: ParamStr = find("release_note_title")
-    public val release_note_message: ParamStr = find("release_note_message")
-    public val statreq_failmessage1: ParamStr = find("statreq_failmessage1")
-    public val statreq_failmessage2: ParamStr = find("statreq_failmessage2")
-    public val destroy_note_title: ParamStr = find("destroy_note_title")
-    public val destroy_note_desc: ParamStr = find("destroy_note_desc")
-    public val xpmod_percent: ParamInt = find("xpmod_percent")
-    public val xpmod_stat: ParamStat = find("xpmod_stat")
-    public val respawn_time_low: ParamInt = find("respawn_time_low")
-    public val respawn_time_high: ParamInt = find("respawn_time_high")
-    public val respawn_time: ParamInt = find("respawn_time")
-    public val despawn_time: ParamInt = find("despawn_time")
-    public val deplete_chance: ParamInt = find("deplete_chance")
-    public val skill_sound: ParamSynth = find("skill_sound")
-    public val skill_productitem: ParamObj = find("skill_productitem")
-    public val skill_xp: ParamInt = find("skill_xp")
-    public val skill_anim: ParamSeq = find("skill_anim")
-    public val skill_levelreq: ParamInt = find("skill_levelreq")
-    public val game_message: ParamStr = find("game_message")
-    public val game_message2: ParamStr = find("game_message2")
-    public val climb_anim: ParamSeq = find("climb_anim")
-    public val closesound: ParamSynth = find("closesound")
-    public val opensound: ParamSynth = find("opensound")
-    public val next_loc_stage: ParamLoc = find("next_loc_stage")
-    public val shop_sale_restricted: ParamBool = find("shop_sale_restricted")
+    val release_note_title = find("release_note_title")
+    val release_note_message = find("release_note_message")
+    val statreq_failmessage1 = find("statreq_failmessage1")
+    val statreq_failmessage2 = find("statreq_failmessage2")
+    val destroy_note_title = find("destroy_note_title")
+    val destroy_note_desc = find("destroy_note_desc")
+    val xpmod_percent = find("xpmod_percent")
+    val xpmod_stat = find("xpmod_stat")
+    val respawn_time_low = find("respawn_time_low")
+    val respawn_time_high = find("respawn_time_high")
+    val respawn_time = find("respawn_time")
+    val despawn_time = find("despawn_time")
+    val deplete_chance = find("deplete_chance")
+    val skill_sound = find("skill_sound")
+    val skill_productitem = find("skill_productitem")
+    val skill_xp = find("skill_xp")
+    val skill_anim = find("skill_anim")
+    val skill_levelreq = find("skill_levelreq")
+    val game_message = find("game_message")
+    val game_message2 = find("game_message2")
+    val climb_anim = find("climb_anim")
+    val closesound = find("closesound")
+    val opensound = find("opensound")
+    val next_loc_stage = find("next_loc_stage")
+    val shop_sale_restricted = find("shop_sale_restricted")
 }

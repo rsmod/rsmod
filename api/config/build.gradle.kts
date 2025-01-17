@@ -2,10 +2,6 @@ plugins {
     id("base-conventions")
 }
 
-kotlin {
-    explicitApi()
-}
-
 dependencies {
     implementation(projects.api.type.typeScriptDsl)
     implementation(projects.api.type.typeBuilders)
