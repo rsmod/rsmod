@@ -1,6 +1,12 @@
 package org.rsmod.game.type.interf
 
+import kotlin.contracts.contract
 import org.rsmod.game.type.comp.ComponentType
+
+public infix fun InterfaceType?.isType(other: InterfaceType): Boolean {
+    contract { returns(true) implies (this@isType != null) }
+    return this != null && this.id == other.id
+}
 
 public sealed class InterfaceType(
     internal var internalId: Int?,

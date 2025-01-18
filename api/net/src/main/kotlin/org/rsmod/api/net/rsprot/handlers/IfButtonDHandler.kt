@@ -7,6 +7,7 @@ import org.rsmod.api.player.ui.IfButtonDrag
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.type.interf.InterfaceTypeList
+import org.rsmod.game.type.interf.isType
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.ui.Component
 
@@ -34,7 +35,7 @@ constructor(
         }
 
         // No need to verify again if dragging objs on the same interface.
-        val skipTargetVerification = selectedInterface.id == targetInterface.id
+        val skipTargetVerification = selectedInterface.isType(targetInterface)
         if (!skipTargetVerification) {
             val targetOpened =
                 ui.containsModal(targetInterface) || ui.containsOverlay(targetInterface)
