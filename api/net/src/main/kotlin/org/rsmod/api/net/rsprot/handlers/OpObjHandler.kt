@@ -56,7 +56,7 @@ constructor(
             )
         val routeRequest = RouteRequestCoord(coords)
         if (!type.hasOp(message.interactionOp) && message.interactionOp != InteractionOp.Op3) {
-            logger.debug { "OpObj invalid op blocked: op=${message.op}, obj=$obj, type=$type" }
+            logger.debug { "OpObj: invalid op blocked: op=${message.op}, obj=$obj, type=$type" }
             return
         }
         player.clearPendingAction(eventBus)
