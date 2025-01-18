@@ -207,6 +207,10 @@ public sealed class PathingEntity {
         currentWaypoint = coords
     }
 
+    public fun clearRouteRecalc() {
+        routeDestination.clearRecalc()
+    }
+
     public fun clearInteraction() {
         interaction = null
     }

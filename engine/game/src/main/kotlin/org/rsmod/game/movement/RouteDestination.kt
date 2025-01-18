@@ -12,4 +12,8 @@ public data class RouteDestination(
         waypoints.clear()
         recalcRequest = null
     }
+
+    internal fun clearRecalc() {
+        recalcRequest = null
+    }
 }
