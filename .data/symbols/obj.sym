@@ -3946,7 +3946,7 @@
 6476	compost_potion_1
 6478	trolley
 6479	list
-6512	empty_item_placeholder
+6512	null_item_placeholder
 6514	skillguide_agility_agility_jump
 6515	skillguide_agility_agility_balance
 6516	skillguide_agility_agility_contortion

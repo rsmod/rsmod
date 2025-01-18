@@ -9,6 +9,7 @@ typealias objs = BaseObjs
 object BaseObjs : ObjReferences() {
     val template_for_cert = find("template_for_cert")
     val template_for_placeholder = find("template_for_placeholder")
+    val null_item_placeholder = find("null_item_placeholder")
 
     val coins = find("coins")
 

@@ -3,15 +3,20 @@ package org.rsmod.api.inv
 import jakarta.inject.Inject
 import org.rsmod.api.config.refs.components
 import org.rsmod.api.config.refs.interfaces
+import org.rsmod.api.config.refs.objs
 import org.rsmod.api.player.interact.InvInteractions
+import org.rsmod.api.player.ui.IfButtonDrag
 import org.rsmod.api.player.ui.IfOverlayButton
 import org.rsmod.api.player.ui.ifSetEvents
+import org.rsmod.api.script.advanced.onIfButtonDrag
 import org.rsmod.api.script.onIfOpen
 import org.rsmod.api.script.onIfOverlayButton
 import org.rsmod.game.entity.Player
 import org.rsmod.game.interact.InvInteractionOp
 import org.rsmod.game.type.interf.IfButtonOp
 import org.rsmod.game.type.interf.IfEvent
+import org.rsmod.game.type.obj.UnpackedObjType
+import org.rsmod.game.type.obj.isType
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
@@ -20,6 +25,15 @@ public class InvOpScript @Inject private constructor(private val interactions: I
     override fun ScriptContext.startUp() {
         onIfOpen(interfaces.inventory_tab) { player.onInvOpen() }
         onIfOverlayButton(components.inv_inv) { onInvButton() }
+        onIfButtonDrag(components.inv_inv, components.inv_inv) { onDrag() }
+    }
+
+    private fun IfButtonDrag.onDrag() {
+        val fromSlot = selectedSlot ?: return
+        val intoSlot = targetSlot ?: return
+        val selectedObj = selectedObj.convertNullReplacement()
+        val targetObj = targetObj.convertNullReplacement()
+        interactions.drag(player, player.inv, fromSlot, intoSlot, selectedObj, targetObj)
     }
 
     private fun IfOverlayButton.onInvButton() {
@@ -62,4 +76,14 @@ public class InvOpScript @Inject private constructor(private val interactions: I
             IfButtonOp.Op9 -> InvInteractionOp.Op7
             IfButtonOp.Op10 -> InvInteractionOp.Op8
         }
+
+    // Client replaces empty obj ids with `6512`. To make life easier, we simply replace those
+    // with null obj types as that's what the server expects.
+    private fun UnpackedObjType?.convertNullReplacement(): UnpackedObjType? {
+        return if (isType(objs.null_item_placeholder)) {
+            null
+        } else {
+            this
+        }
+    }
 }

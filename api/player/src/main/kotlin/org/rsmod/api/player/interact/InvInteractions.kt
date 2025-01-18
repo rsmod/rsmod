@@ -8,6 +8,7 @@ import org.rsmod.api.config.refs.synths
 import org.rsmod.api.config.refs.varbits
 import org.rsmod.api.invtx.invDel
 import org.rsmod.api.invtx.invDropSlot
+import org.rsmod.api.invtx.invSwap
 import org.rsmod.api.market.MarketPrices
 import org.rsmod.api.player.dialogue.Dialogue
 import org.rsmod.api.player.dialogue.Dialogues
@@ -21,6 +22,7 @@ import org.rsmod.api.player.output.objExamine
 import org.rsmod.api.player.output.soundSynth
 import org.rsmod.api.player.protect.ProtectedAccessLauncher
 import org.rsmod.api.player.protect.clearPendingAction
+import org.rsmod.api.player.ui.ifClose
 import org.rsmod.api.player.worn.InvEquipOp
 import org.rsmod.api.player.worn.InvEquipResult
 import org.rsmod.api.repo.obj.ObjRepository
@@ -191,6 +193,33 @@ private constructor(
         }
         mes(constants.dm_default)
         logger.debug { "InvOp7 for `${type.name}` is not implemented: type=$type" }
+    }
+
+    public fun drag(
+        player: Player,
+        inv: Inventory,
+        fromSlot: Int,
+        intoSlot: Int,
+        selectedObj: UnpackedObjType?,
+        targetObj: UnpackedObjType?,
+    ) {
+        val fromObj = inv[fromSlot]
+        val intoObj = inv[intoSlot]
+
+        // Note: `targetObj` is the obj being dragged and `selectedObj` the one being targeted due
+        // to client-sided prediction from cs2.
+        if (targetObj?.id != fromObj?.id || selectedObj?.id != intoObj?.id) {
+            resendSlot(player, inv, 0)
+            return
+        }
+
+        if (player.isDelayed) {
+            resendSlot(player, inv, 0)
+            return
+        }
+
+        player.ifClose(eventBus)
+        player.invSwap(inv, fromSlot, intoSlot)
     }
 }
 
