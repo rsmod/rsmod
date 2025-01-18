@@ -13,6 +13,11 @@ public infix fun ObjType.isAssociatedWith(obj: InvObj?): Boolean {
     return obj != null && obj.id == id
 }
 
+public infix fun ObjType?.isType(other: ObjType): Boolean {
+    contract { returns(true) implies (this@isType != null) }
+    return this != null && this.id == other.id
+}
+
 public sealed class ObjType(internal var internalId: Int?, internal var internalName: String?) {
     public val id: Int
         get() = internalId ?: error("`internalId` must not be null.")
