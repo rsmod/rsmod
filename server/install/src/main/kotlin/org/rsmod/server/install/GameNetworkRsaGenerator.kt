@@ -25,7 +25,8 @@ fun main(args: Array<String>): Unit = GameNetworkRsaGenerator().main(args)
 
 class GameNetworkRsaGenerator : CliktCommand(name = "generate-rsa") {
     private val preferredDir by option("-outputDir")
-    private val fileName by option("-fileName").default("game.key")
+    private val privateKeyFileName by option("-privateKeyFile").default("game.key")
+    private val publicModFileName by option("-publicModFile").default("client.key")
     private val fileOverwrite by option("-fileOverwrite").flag(default = false)
 
     private val logger = InlineLogger()
@@ -35,20 +36,21 @@ class GameNetworkRsaGenerator : CliktCommand(name = "generate-rsa") {
 
     override fun run() {
         if (!fileOverwrite) {
-            val foundFile = cacheDir.resolve(fileName)
+            val foundFile = cacheDir.resolve(privateKeyFileName)
             if (foundFile.exists()) {
                 logger.info { "RSA key file already found: $foundFile" }
                 return
             }
         }
         cacheDir.createDirectories()
-        val file = cacheDir.resolve(fileName)
-        logger.info { "Generating RSA key to ${file.absolutePathString()}" }
-        create(file)
+        val gameKeyFile = cacheDir.resolve(privateKeyFileName)
+        val clientModFile = cacheDir.resolve(publicModFileName)
+        logger.info { "Generating RSA key to ${gameKeyFile.absolutePathString()}" }
+        create(gameKeyFile, clientModFile)
         logger.info { "Generated RSA key." }
     }
 
-    private fun create(output: Path, bitLength: Int = 1024) {
+    private fun create(privateKeyFile: Path, pubModFile: Path, bitLength: Int = 1024) {
         Security.addProvider(BouncyCastleProvider())
 
         val keyPairGenerator = KeyPairGenerator.getInstance("RSA", "BC")
@@ -58,19 +60,26 @@ class GameNetworkRsaGenerator : CliktCommand(name = "generate-rsa") {
         val privateKey = keyPair.private as RSAPrivateKey
         val publicKey = keyPair.public as RSAPublicKey
 
-        println("")
+        val publicExponent = publicKey.publicExponent.toString(16)
+        val publicModulus = publicKey.modulus.toString(16)
+
+        PemWriter(Files.newBufferedWriter(privateKeyFile)).use { writer ->
+            writer.writeObject(PemObject("RSA PRIVATE KEY", privateKey.encoded))
+        }
+
+        Files.newBufferedWriter(pubModFile).use { writer ->
+            writer.write("Exponent: $publicExponent")
+            writer.newLine()
+            writer.write("Modulus: $publicModulus")
+        }
+
+        println()
         println("Place these keys in the client (find BigInteger(\"10001\" in client code):")
         println("--------------------")
-        println("public key: " + publicKey.publicExponent.toString(16))
-        println("modulus: " + publicKey.modulus.toString(16))
-        println("")
-
-        try {
-            PemWriter(Files.newBufferedWriter(output)).use { writer ->
-                writer.writeObject(PemObject("RSA PRIVATE KEY", privateKey.encoded))
-            }
-        } catch (e: Exception) {
-            logger.error(e) { "Failed to write private key to ${output.toAbsolutePath()}" }
-        }
+        println("exponent: $publicExponent")
+        println("modulus: $publicModulus")
+        println("--------------------")
+        println("Additionally, these details have been written to ${pubModFile.toAbsolutePath()}")
+        println()
     }
 }
