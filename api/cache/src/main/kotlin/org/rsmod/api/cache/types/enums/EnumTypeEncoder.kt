@@ -1,6 +1,7 @@
 package org.rsmod.api.cache.types.enums
 
 import io.netty.buffer.ByteBuf
+import io.netty.buffer.PooledByteBufAllocator
 import org.openrs2.buffer.writeString
 import org.openrs2.cache.Cache
 import org.rsmod.api.cache.Js5Archives
@@ -14,8 +15,8 @@ public object EnumTypeEncoder {
         cache: Cache,
         types: Iterable<UnpackedEnumType<*, *>>,
         serverCache: Boolean,
-        reusableBuf: ByteBuf,
     ): List<UnpackedEnumType<*, *>> {
+        val buffer = PooledByteBufAllocator.DEFAULT.buffer()
         val archive = Js5Archives.CONFIG
         val config = Js5Configs.ENUM
         val packed = mutableListOf<UnpackedEnumType<*, *>>()
@@ -27,7 +28,7 @@ public object EnumTypeEncoder {
                     null
                 }
             val newBuf =
-                reusableBuf.clear().encodeConfig {
+                buffer.clear().encodeConfig {
                     encodeJs5(type, this)
                     if (serverCache) {
                         encodeGame(type, this)
@@ -37,7 +38,9 @@ public object EnumTypeEncoder {
                 cache.write(archive, config, type.id, newBuf)
                 packed += type
             }
+            oldBuf?.release()
         }
+        buffer.release()
         return packed
     }
 

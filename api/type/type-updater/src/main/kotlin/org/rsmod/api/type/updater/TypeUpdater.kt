@@ -1,6 +1,5 @@
 package org.rsmod.api.type.updater
 
-import io.netty.buffer.Unpooled
 import jakarta.inject.Inject
 import java.nio.file.Path
 import kotlin.io.path.ExperimentalPathApi
@@ -289,15 +288,13 @@ constructor(
         }
 
     private fun encodeCacheTypes(updates: UpdateMap, cachePath: Path, serverCache: Boolean) {
-        val buffer = Unpooled.buffer()
         Cache.open(cachePath).use { cache ->
-            ParamTypeEncoder.encodeAll(cache, updates.params, serverCache, buffer)
-            EnumTypeEncoder.encodeAll(cache, updates.enums, serverCache, buffer)
-            InvTypeEncoder.encodeAll(cache, updates.invs, serverCache, buffer)
-            LocTypeEncoder.encodeAll(cache, updates.locs, serverCache, buffer)
-            NpcTypeEncoder.encodeAll(cache, updates.npcs, serverCache, buffer)
-            ObjTypeEncoder.encodeAll(cache, updates.objs, serverCache, buffer)
+            ParamTypeEncoder.encodeAll(cache, updates.params, serverCache)
+            EnumTypeEncoder.encodeAll(cache, updates.enums, serverCache)
+            InvTypeEncoder.encodeAll(cache, updates.invs, serverCache)
+            LocTypeEncoder.encodeAll(cache, updates.locs, serverCache)
+            NpcTypeEncoder.encodeAll(cache, updates.npcs, serverCache)
+            ObjTypeEncoder.encodeAll(cache, updates.objs, serverCache)
         }
-        buffer.release()
     }
 }

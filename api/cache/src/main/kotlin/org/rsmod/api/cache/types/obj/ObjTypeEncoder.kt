@@ -1,6 +1,7 @@
 package org.rsmod.api.cache.types.obj
 
 import io.netty.buffer.ByteBuf
+import io.netty.buffer.PooledByteBufAllocator
 import org.openrs2.buffer.writeString
 import org.openrs2.cache.Cache
 import org.rsmod.api.cache.Js5Archives
@@ -15,8 +16,8 @@ public object ObjTypeEncoder {
         cache: Cache,
         types: Iterable<UnpackedObjType>,
         serverCache: Boolean,
-        reusableBuf: ByteBuf,
     ): List<UnpackedObjType> {
+        val buffer = PooledByteBufAllocator.DEFAULT.buffer()
         val archive = Js5Archives.CONFIG
         val config = Js5Configs.OBJ
         val packed = mutableListOf<UnpackedObjType>()
@@ -28,7 +29,7 @@ public object ObjTypeEncoder {
                     null
                 }
             val newBuf =
-                reusableBuf.clear().encodeConfig {
+                buffer.clear().encodeConfig {
                     encodeJs5(type, this)
                     if (serverCache) {
                         encodeGame(type, this)
@@ -38,7 +39,9 @@ public object ObjTypeEncoder {
                 cache.write(archive, config, type.id, newBuf)
                 packed += type
             }
+            oldBuf?.release()
         }
+        buffer.release()
         return packed
     }
 

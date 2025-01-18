@@ -1,6 +1,5 @@
 package org.rsmod.api.cache.enricher
 
-import io.netty.buffer.Unpooled
 import jakarta.inject.Inject
 import org.openrs2.cache.Cache
 import org.rsmod.annotations.GameCache
@@ -30,9 +29,9 @@ constructor(
             val locs = locEnrichments.collect(locTypes).asIterable()
             val npcs = npcEnrichments.collect(npcTypes).asIterable()
             val objs = objEnrichments.collect(objTypes).asIterable()
-            LocTypeEncoder.encodeAll(cache, locs, serverCache = true, Unpooled.buffer())
-            NpcTypeEncoder.encodeAll(cache, npcs, serverCache = true, Unpooled.buffer())
-            ObjTypeEncoder.encodeAll(cache, objs, serverCache = true, Unpooled.buffer())
+            LocTypeEncoder.encodeAll(cache, locs, serverCache = true)
+            NpcTypeEncoder.encodeAll(cache, npcs, serverCache = true)
+            ObjTypeEncoder.encodeAll(cache, objs, serverCache = true)
         }
     }
 

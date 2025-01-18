@@ -1,6 +1,7 @@
 package org.rsmod.api.cache.types.struct
 
 import io.netty.buffer.ByteBuf
+import io.netty.buffer.PooledByteBufAllocator
 import org.openrs2.cache.Cache
 import org.rsmod.api.cache.Js5Archives
 import org.rsmod.api.cache.Js5Configs
@@ -13,8 +14,8 @@ public object StructTypeEncoder {
         cache: Cache,
         types: Iterable<UnpackedStructType>,
         serverCache: Boolean,
-        reusableBuf: ByteBuf,
     ): List<UnpackedStructType> {
+        val buffer = PooledByteBufAllocator.DEFAULT.buffer()
         val archive = Js5Archives.CONFIG
         val config = Js5Configs.STRUCT
         val packed = mutableListOf<UnpackedStructType>()
@@ -26,7 +27,7 @@ public object StructTypeEncoder {
                     null
                 }
             val newBuf =
-                reusableBuf.clear().encodeConfig {
+                buffer.clear().encodeConfig {
                     encodeJs5(type, this)
                     if (serverCache) {
                         encodeGame(type, this)
@@ -36,7 +37,9 @@ public object StructTypeEncoder {
                 cache.write(archive, config, type.id, newBuf)
                 packed += type
             }
+            oldBuf?.release()
         }
+        buffer.release()
         return packed
     }
 
