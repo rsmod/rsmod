@@ -15,6 +15,7 @@ import org.rsmod.api.player.dialogue.startDialogue
 import org.rsmod.api.player.events.interact.InvObjContentEvents
 import org.rsmod.api.player.events.interact.InvObjDropEvents
 import org.rsmod.api.player.events.interact.InvObjEvents
+import org.rsmod.api.player.output.UpdateInventory.resendSlot
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.output.objExamine
 import org.rsmod.api.player.output.soundSynth
@@ -44,7 +45,11 @@ private constructor(
     private val logger = InlineLogger()
 
     public fun interact(player: Player, inv: Inventory, invSlot: Int, op: InvInteractionOp) {
-        val obj = inv[invSlot] ?: return
+        val obj = inv[invSlot]
+        if (obj == null) {
+            resendSlot(player, inv, 0)
+            return
+        }
         interact(player, inv, invSlot, obj, objTypes[obj], op)
     }
 
@@ -68,6 +73,7 @@ private constructor(
         }
 
         if (player.isDelayed || !obj.isType(type)) {
+            resendSlot(player, inv, 0)
             return
         }
 
@@ -120,9 +126,7 @@ private constructor(
         val result = equipOp.equip(this, invSlot, inv)
         if (result is InvEquipResult.Fail) {
             result.messages.forEach(::mes)
-            return
         }
-        // TODO: sound_synth(type.param(params.equip_sound))
     }
 
     private fun Player.invOp3(obj: InvObj, type: UnpackedObjType, invSlot: Int) {

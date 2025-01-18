@@ -48,6 +48,14 @@ public object UpdateInventory {
     public fun updateInvStopTransmit(player: Player, inv: Inventory) {
         player.client.write(UpdateInvStopTransmit(inv.type.id))
     }
+
+    /**
+     * Mostly used for emulations purposes when re-syncing an inventory. [slot] is usually sent as
+     * value `0`.
+     */
+    public fun resendSlot(player: Player, inv: Inventory, slot: Int) {
+        updateInvPartial(player, inv, listOf(slot).iterator())
+    }
 }
 
 /**
