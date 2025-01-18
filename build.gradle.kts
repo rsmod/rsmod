@@ -79,10 +79,20 @@ fun registerLogbackCopyTask(taskName: String, sourceFileName: String, descriptio
 
         val app = project(":server:app")
         val appDir = app.projectDir
+        val destFileName = "logback.xml"
+
+        onlyIf("Copies a preset logback file if one does not exist.") {
+            val destFile = file("$appDir/src/main/resources/$destFileName")
+            val fileExists = destFile.exists()
+            if (fileExists) {
+                logger.lifecycle("Skipping $taskName: `$destFileName` already exists.")
+            }
+            !fileExists
+        }
 
         from("$appDir/src/main/resources/$sourceFileName")
         into("$appDir/src/main/resources/")
-        rename(sourceFileName, "logback.xml")
+        rename(sourceFileName, destFileName)
     }
 }
 
