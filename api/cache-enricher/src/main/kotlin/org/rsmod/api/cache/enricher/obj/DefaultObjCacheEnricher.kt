@@ -15,14 +15,12 @@ import org.rsmod.api.utils.io.InputStreams
 import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.type.seq.SeqTypeList
 import org.rsmod.game.type.synth.SynthType
-import org.rsmod.game.type.synth.SynthTypeList
 
 public class DefaultObjCacheEnricher
 @Inject
 constructor(
     @Toml private val mapper: ObjectMapper,
     private val nameMapping: NameMapping,
-    private val synthTypes: SynthTypeList,
     private val seqTypes: SeqTypeList,
 ) : ObjCacheEnricher {
     private val names: Map<String, Int>
