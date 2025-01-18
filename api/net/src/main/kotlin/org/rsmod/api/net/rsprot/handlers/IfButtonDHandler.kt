@@ -33,8 +33,8 @@ constructor(
             return
         }
 
-        // No need to verify again if dragging objs in the same inventory.
-        val skipTargetVerification = selectedInterface.id != targetInterface.id
+        // No need to verify again if dragging objs on the same interface.
+        val skipTargetVerification = selectedInterface.id == targetInterface.id
         if (!skipTargetVerification) {
             val targetOpened =
                 ui.containsModal(targetInterface) || ui.containsOverlay(targetInterface)
