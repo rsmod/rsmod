@@ -15,7 +15,7 @@ dependencies {
 
 tasks.register("install") {
     group = "installation"
-    description = "Runs the complete server installation task."
+    description = "Runs the complete RS Mod server installation task."
 
     dependsOn(":setupLogbackNovice")
     dependsOn(":downloadCache")
@@ -25,8 +25,20 @@ tasks.register("install") {
     doLast { logger.lifecycle("Installation process completed.") }
 }
 
-tasks.register<JavaExec>("downloadCache") {
+tasks.register<JavaExec>("cleanInstall") {
     group = "installation"
+    description = "Cleans up any partial or corrupted artifacts from previous RS Mod installations."
+
+    args = getArgsFromProperty("rsmodInstallClean")
+    mainClass.set("org.rsmod.server.install.GameServerCleanInstallKt")
+    classpath = sourceSets["main"].runtimeClasspath
+
+    doFirst { logger.lifecycle("Starting clean up of any previous installation attempts...") }
+    doLast { logger.lifecycle("Clean-up process completed. You can now run the `install` task.") }
+}
+
+tasks.register<JavaExec>("downloadCache") {
+    group = "cache"
     description = "Runs the cache download & extract task."
 
     args = getArgsFromProperty("cacheDownload")
@@ -38,7 +50,7 @@ tasks.register<JavaExec>("downloadCache") {
 }
 
 tasks.register<JavaExec>("packCache") {
-    group = "installation"
+    group = "cache"
     description = "Runs the cache packer task."
 
     args = getArgsFromProperty("cachePack")
@@ -50,7 +62,7 @@ tasks.register<JavaExec>("packCache") {
 }
 
 tasks.register<JavaExec>("generateRsa") {
-    group = "installation"
+    group = "security"
     description = "Runs the rsa-key generation task."
 
     args = getArgsFromProperty("rsa")
