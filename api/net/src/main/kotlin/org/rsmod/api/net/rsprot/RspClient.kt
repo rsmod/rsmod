@@ -15,6 +15,8 @@ import net.rsprot.protocol.game.outgoing.misc.client.ServerTickEnd
 import net.rsprot.protocol.game.outgoing.worldentity.SetActiveWorld
 import net.rsprot.protocol.message.OutgoingGameMessage
 import org.rsmod.api.config.refs.baseanimsets
+import org.rsmod.api.config.refs.params
+import org.rsmod.api.player.righthand
 import org.rsmod.game.client.Client
 import org.rsmod.game.entity.Player
 import org.rsmod.game.movement.MoveSpeed
@@ -209,30 +211,64 @@ class RspClient(val session: Session<Player>, val xteaProvider: XteaProvider) :
             afterCombatLevel = appearance.combatLvlSuffix ?: "",
         )
 
+        val bas = this.appearance.bas
+        val weapon = this.righthand
         val transmog = this.transmog
-        info.setTransmogrification(transmog?.id ?: -1)
-        if (transmog != null) {
-            info.setBaseAnimationSet(
-                readyAnim = transmog.readyAnim,
-                turnAnim = transmog.turnBackAnim,
-                walkAnim = transmog.walkAnim,
-                walkAnimBack = transmog.walkAnim,
-                walkAnimLeft = transmog.walkAnim,
-                walkAnimRight = transmog.turnRightAnim,
-                runAnim = transmog.runAnim,
-            )
+
+        val readyAnim: Int
+        val turnAnim: Int
+        val walkAnim: Int
+        val walkAnimBack: Int
+        val walkAnimLeft: Int
+        val walkAnimRight: Int
+        val runAnim: Int
+
+        if (bas != null) {
+            readyAnim = bas.readyAnim.id
+            turnAnim = bas.turnAnim.id
+            walkAnim = bas.walkAnim.id
+            walkAnimBack = bas.walkAnimBack.id
+            walkAnimLeft = bas.walkAnimLeft.id
+            walkAnimRight = bas.walkAnimRight.id
+            runAnim = bas.runAnim.id
+        } else if (transmog != null) {
+            readyAnim = transmog.readyAnim
+            turnAnim = transmog.turnBackAnim
+            walkAnim = transmog.walkAnim
+            walkAnimBack = transmog.walkAnim
+            walkAnimLeft = transmog.turnLeftAnim
+            walkAnimRight = transmog.turnRightAnim
+            runAnim = transmog.runAnim
+        } else if (weapon != null) {
+            val type = objTypes[weapon]
+            readyAnim = type.param(params.bas_readyanim).id
+            turnAnim = type.param(params.bas_turnonspot).id
+            walkAnim = type.param(params.bas_walk_f).id
+            walkAnimBack = type.param(params.bas_walk_b).id
+            walkAnimLeft = type.param(params.bas_walk_l).id
+            walkAnimRight = type.param(params.bas_walk_r).id
+            runAnim = type.param(params.bas_running).id
         } else {
-            val bas = appearance.bas ?: baseanimsets.human_default
-            info.setBaseAnimationSet(
-                readyAnim = bas.readyAnim.id,
-                turnAnim = bas.turnAnim.id,
-                walkAnim = bas.walkAnim.id,
-                walkAnimBack = bas.walkAnimBack.id,
-                walkAnimLeft = bas.walkAnimLeft.id,
-                walkAnimRight = bas.walkAnimRight.id,
-                runAnim = bas.runAnim.id,
-            )
+            val default = baseanimsets.human_default
+            readyAnim = default.readyAnim.id
+            turnAnim = default.turnAnim.id
+            walkAnim = default.walkAnim.id
+            walkAnimBack = default.walkAnimBack.id
+            walkAnimLeft = default.walkAnimLeft.id
+            walkAnimRight = default.walkAnimRight.id
+            runAnim = default.runAnim.id
         }
+
+        info.setTransmogrification(transmog?.id ?: -1)
+        info.setBaseAnimationSet(
+            readyAnim = readyAnim,
+            turnAnim = turnAnim,
+            walkAnim = walkAnim,
+            walkAnimBack = walkAnimBack,
+            walkAnimLeft = walkAnimLeft,
+            walkAnimRight = walkAnimRight,
+            runAnim = runAnim,
+        )
 
         for (wearpos in Wearpos.PLAYER_INFO_WEARPOS) {
             val obj = worn[wearpos.slot]
