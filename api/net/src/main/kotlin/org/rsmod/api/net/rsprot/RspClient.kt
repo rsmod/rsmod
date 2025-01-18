@@ -216,58 +216,58 @@ class RspClient(val session: Session<Player>, val xteaProvider: XteaProvider) :
         val transmog = this.transmog
 
         val readyAnim: Int
-        val turnAnim: Int
-        val walkAnim: Int
-        val walkAnimBack: Int
-        val walkAnimLeft: Int
-        val walkAnimRight: Int
-        val runAnim: Int
+        val turnOnSpotAnim: Int
+        val walkForwardAnim: Int
+        val walkBackAnim: Int
+        val walkLeftAnim: Int
+        val walkRightAnim: Int
+        val runningAnim: Int
 
         if (bas != null) {
             readyAnim = bas.readyAnim.id
-            turnAnim = bas.turnAnim.id
-            walkAnim = bas.walkAnim.id
-            walkAnimBack = bas.walkAnimBack.id
-            walkAnimLeft = bas.walkAnimLeft.id
-            walkAnimRight = bas.walkAnimRight.id
-            runAnim = bas.runAnim.id
+            turnOnSpotAnim = bas.turnOnSpot.id
+            walkForwardAnim = bas.walkForward.id
+            walkBackAnim = bas.walkBack.id
+            walkLeftAnim = bas.walkLeft.id
+            walkRightAnim = bas.walkRight.id
+            runningAnim = bas.running.id
         } else if (transmog != null) {
             readyAnim = transmog.readyAnim
-            turnAnim = transmog.turnBackAnim
-            walkAnim = transmog.walkAnim
-            walkAnimBack = transmog.walkAnim
-            walkAnimLeft = transmog.turnLeftAnim
-            walkAnimRight = transmog.turnRightAnim
-            runAnim = transmog.runAnim
+            turnOnSpotAnim = transmog.turnBackAnim
+            walkForwardAnim = transmog.walkAnim
+            walkBackAnim = transmog.walkAnim
+            walkLeftAnim = transmog.turnLeftAnim
+            walkRightAnim = transmog.turnRightAnim
+            runningAnim = transmog.runAnim
         } else if (weapon != null) {
             val type = objTypes[weapon]
             readyAnim = type.param(params.bas_readyanim).id
-            turnAnim = type.param(params.bas_turnonspot).id
-            walkAnim = type.param(params.bas_walk_f).id
-            walkAnimBack = type.param(params.bas_walk_b).id
-            walkAnimLeft = type.param(params.bas_walk_l).id
-            walkAnimRight = type.param(params.bas_walk_r).id
-            runAnim = type.param(params.bas_running).id
+            turnOnSpotAnim = type.param(params.bas_turnonspot).id
+            walkForwardAnim = type.param(params.bas_walk_f).id
+            walkBackAnim = type.param(params.bas_walk_b).id
+            walkLeftAnim = type.param(params.bas_walk_l).id
+            walkRightAnim = type.param(params.bas_walk_r).id
+            runningAnim = type.param(params.bas_running).id
         } else {
             val default = baseanimsets.human_default
             readyAnim = default.readyAnim.id
-            turnAnim = default.turnAnim.id
-            walkAnim = default.walkAnim.id
-            walkAnimBack = default.walkAnimBack.id
-            walkAnimLeft = default.walkAnimLeft.id
-            walkAnimRight = default.walkAnimRight.id
-            runAnim = default.runAnim.id
+            turnOnSpotAnim = default.turnOnSpot.id
+            walkForwardAnim = default.walkForward.id
+            walkBackAnim = default.walkBack.id
+            walkLeftAnim = default.walkLeft.id
+            walkRightAnim = default.walkRight.id
+            runningAnim = default.running.id
         }
 
         info.setTransmogrification(transmog?.id ?: -1)
         info.setBaseAnimationSet(
             readyAnim = readyAnim,
-            turnAnim = turnAnim,
-            walkAnim = walkAnim,
-            walkAnimBack = walkAnimBack,
-            walkAnimLeft = walkAnimLeft,
-            walkAnimRight = walkAnimRight,
-            runAnim = runAnim,
+            turnAnim = turnOnSpotAnim,
+            walkAnim = walkForwardAnim,
+            walkAnimBack = walkBackAnim,
+            walkAnimLeft = walkLeftAnim,
+            walkAnimRight = walkRightAnim,
+            runAnim = runningAnim,
         )
 
         for (wearpos in Wearpos.PLAYER_INFO_WEARPOS) {

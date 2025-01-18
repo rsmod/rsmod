@@ -4,12 +4,12 @@ import org.rsmod.game.type.seq.SeqType
 
 public class BasType(
     public val readyAnim: SeqType,
-    public val turnAnim: SeqType,
-    public val walkAnim: SeqType,
-    public val walkAnimBack: SeqType,
-    public val walkAnimLeft: SeqType,
-    public val walkAnimRight: SeqType,
-    public val runAnim: SeqType,
+    public val turnOnSpot: SeqType,
+    public val walkForward: SeqType,
+    public val walkBack: SeqType,
+    public val walkLeft: SeqType,
+    public val walkRight: SeqType,
+    public val running: SeqType,
     internal var internalId: Int,
     internal var internalName: String,
 ) {
@@ -23,12 +23,12 @@ public class BasType(
         "BasType(" +
             "internalName='$internalName', " +
             "internalId=$internalId, " +
-            "runAnim=$runAnim, " +
-            "walkAnimRight=$walkAnimRight, " +
-            "walkAnimLeft=$walkAnimLeft, " +
-            "walkAnimBack=$walkAnimBack, " +
-            "walkAnim=$walkAnim, " +
-            "turnAnim=$turnAnim, " +
-            "readyAnim=$readyAnim" +
+            "readyAnim=$readyAnim, " +
+            "turnOnSpot=$turnOnSpot, " +
+            "walkForward=$walkForward, " +
+            "walkBack=$walkBack, " +
+            "walkLeft=$walkLeft, " +
+            "walkRight=$walkRight, " +
+            "running=$running" +
             ")"
 }

@@ -25,12 +25,12 @@ public class BasTypeBuilder(public var internal: String? = null) {
         val runAnim = checkNotNull(runAnim) { "`runAnim` must be set. (id=$id)" }
         return BasType(
             readyAnim = readyAnim,
-            turnAnim = turnAnim,
-            walkAnim = walkAnim,
-            walkAnimBack = walkAnimBack,
-            walkAnimLeft = walkAnimLeft,
-            walkAnimRight = walkAnimRight,
-            runAnim = runAnim,
+            turnOnSpot = turnAnim,
+            walkForward = walkAnim,
+            walkBack = walkAnimBack,
+            walkLeft = walkAnimLeft,
+            walkRight = walkAnimRight,
+            running = runAnim,
             internalId = id,
             internalName = internal,
         )
