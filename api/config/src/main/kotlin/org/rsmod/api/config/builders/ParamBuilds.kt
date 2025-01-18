@@ -56,5 +56,25 @@ internal object ParamBuilds : ParamBuilder() {
 
         build<String>("player_op5_text")
         build<SynthType>("equipment_sound") { default = synths.default_equipment }
+
+        build<Int>("attack_range") { default = 1 }
+        build<SeqType>("attack_anim_accurate")
+        build<SeqType>("attack_anim_aggressive")
+        build<SeqType>("attack_anim_controlled")
+        build<SeqType>("attack_anim_defensive")
+        build<SynthType>("attack_sound_accurate")
+        build<SynthType>("attack_sound_aggressive")
+        build<SynthType>("attack_sound_controlled")
+        build<SynthType>("attack_sound_defensive")
+        build<SeqType>("bas_readyanim") { default = seqs.human_ready }
+        build<SeqType>("bas_turnonspot") { default = seqs.human_turnonspot }
+        build<SeqType>("bas_walk_f") { default = seqs.human_walk_f }
+        build<SeqType>("bas_walk_b") { default = seqs.human_walk_b }
+        build<SeqType>("bas_walk_l") { default = seqs.human_walk_l }
+        build<SeqType>("bas_walk_r") { default = seqs.human_walk_r }
+        build<SeqType>("bas_running") { default = seqs.human_running }
+        build<SeqType>("attack_anim")
+        build<SeqType>("defend_anim")
+        build<Int>("attackrate") { default = 4 }
     }
 }
