@@ -59,7 +59,7 @@ combat_style = 'StabSword'
 
 [[config]]
 obj = 'phoenix_crossbow'
-walk_anim = 822
+walk_anim = 4226
 run_anim = 4228
 ready_anim = 4591
 walk_anim_back = 4227
@@ -77,7 +77,7 @@ combat_style = 'Crossbow'
 
 [[config]]
 obj = 'dramen_staff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -348,7 +348,7 @@ combat_style = 'Thrown'
 
 [[config]]
 obj = 'crossbow'
-walk_anim = 822
+walk_anim = 4226
 run_anim = 4228
 ready_anim = 4591
 walk_anim_back = 4227
@@ -958,7 +958,7 @@ combat_style = 'StabSword'
 
 [[config]]
 obj = 'bronze_spear'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -979,7 +979,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'iron_spear'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -1000,7 +1000,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'steel_spear'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -1021,7 +1021,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'mithril_spear'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -1042,7 +1042,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'adamant_spear'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -1063,7 +1063,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'rune_spear'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -1084,7 +1084,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'dragon_spear'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -1105,7 +1105,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'bronze_spear_p'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -1126,7 +1126,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'iron_spear_p'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -1147,7 +1147,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'steel_spear_p'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -1168,7 +1168,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'mithril_spear_p'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -1189,7 +1189,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'adamant_spear_p'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -1210,7 +1210,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'rune_spear_p'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -1231,7 +1231,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'dragon_spear_p'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -2122,7 +2122,7 @@ combat_style = 'Axe'
 
 [[config]]
 obj = 'staff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -2142,7 +2142,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'staff_of_air'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -2162,7 +2162,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'staff_of_water'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -2182,7 +2182,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'staff_of_earth'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -2203,7 +2203,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'staff_of_fire'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -2223,7 +2223,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'magic_staff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -2243,7 +2243,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'battlestaff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -2263,7 +2263,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'fire_battlestaff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -2283,7 +2283,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'water_battlestaff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -2303,7 +2303,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'air_battlestaff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -2323,7 +2323,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'earth_battlestaff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -2343,7 +2343,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'mystic_fire_staff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -2363,7 +2363,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'mystic_water_staff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -2383,7 +2383,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'mystic_air_staff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -2403,7 +2403,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'mystic_earth_staff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -2423,7 +2423,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'ibans_staff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -2784,7 +2784,7 @@ combat_style = 'SlashSword'
 
 [[config]]
 obj = 'lava_battlestaff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -2804,7 +2804,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'mystic_lava_staff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -2943,7 +2943,7 @@ combat_style = 'Claw'
 
 [[config]]
 obj = 'bronze_spear_kp'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -2964,7 +2964,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'iron_spear_kp'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -2985,7 +2985,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'steel_spear_kp'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -3006,7 +3006,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'mithril_spear_kp'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -3027,7 +3027,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'adamant_spear_kp'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -3048,7 +3048,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'rune_spear_kp'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -3069,7 +3069,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'dragon_spear_kp'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -3090,7 +3090,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'bronze_halberd'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -3111,7 +3111,7 @@ combat_style = 'Polearm'
 
 [[config]]
 obj = 'iron_halberd'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -3132,7 +3132,7 @@ combat_style = 'Polearm'
 
 [[config]]
 obj = 'steel_halberd'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -3153,7 +3153,7 @@ combat_style = 'Polearm'
 
 [[config]]
 obj = 'black_halberd'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -3174,7 +3174,7 @@ combat_style = 'Polearm'
 
 [[config]]
 obj = 'mithril_halberd'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -3195,7 +3195,7 @@ combat_style = 'Polearm'
 
 [[config]]
 obj = 'adamant_halberd'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -3216,7 +3216,7 @@ combat_style = 'Polearm'
 
 [[config]]
 obj = 'rune_halberd'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -3237,7 +3237,7 @@ combat_style = 'Polearm'
 
 [[config]]
 obj = 'dragon_halberd'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -3280,7 +3280,7 @@ combat_style = 'Unarmed'
 
 [[config]]
 obj = 'pet_rock'
-walk_anim = 6663
+walk_anim = 6658
 run_anim = 6660
 ready_anim = 6657
 turn_anim = 6661
@@ -3327,7 +3327,7 @@ combat_style = 'SlashSword'
 
 [[config]]
 obj = 'saradomin_banner'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -3345,7 +3345,7 @@ combat_style = 'Banner'
 
 [[config]]
 obj = 'zamorak_banner'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -3410,7 +3410,7 @@ combat_style = 'Blunt'
 
 [[config]]
 obj = 'leafbladed_spear'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -3432,7 +3432,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'slayers_staff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -3637,7 +3637,7 @@ combat_style = 'Blunt'
 
 [[config]]
 obj = 'rubber_chicken'
-walk_anim = 822
+walk_anim = 1830
 ready_anim = 1832
 walk_anim_back = 1830
 accurate_anim = 1833
@@ -3652,7 +3652,7 @@ combat_style = 'Blunt'
 
 [[config]]
 obj = 'black_spear'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -3673,7 +3673,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'black_spear_p'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -3694,7 +3694,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'black_spear_kp'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -3750,7 +3750,7 @@ combat_style = 'Blunt'
 
 [[config]]
 obj = 'ancient_staff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -3769,7 +3769,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'ahrims_staff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -3809,7 +3809,7 @@ combat_style = 'Axe'
 
 [[config]]
 obj = 'guthans_warspear'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -3896,7 +3896,7 @@ combat_style = 'Bow'
 
 [[config]]
 obj = 'ahrims_staff_100'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -3916,7 +3916,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'ahrims_staff_75'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -3936,7 +3936,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'ahrims_staff_50'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -3956,7 +3956,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'ahrims_staff_25'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -4056,7 +4056,7 @@ combat_style = 'Axe'
 
 [[config]]
 obj = 'guthans_warspear_100'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -4078,7 +4078,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'guthans_warspear_75'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -4100,7 +4100,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'guthans_warspear_50'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -4122,7 +4122,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'guthans_warspear_25'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -4348,7 +4348,7 @@ combat_style = 'Spiked'
 
 [[config]]
 obj = 'bone_spear'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -5011,7 +5011,7 @@ combat_style = 'StabSword'
 
 [[config]]
 obj = 'bronze_spear_p_plus'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -5032,7 +5032,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'iron_spear_p_plus'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -5053,7 +5053,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'steel_spear_p_plus'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -5074,7 +5074,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'mithril_spear_p_plus'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -5095,7 +5095,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'adamant_spear_p_plus'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -5116,7 +5116,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'rune_spear_p_plus'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -5137,7 +5137,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'dragon_spear_p_plus'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -5158,7 +5158,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'bronze_spear_p_plus_plus'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -5179,7 +5179,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'iron_spear_p_plus_plus'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -5200,7 +5200,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'steel_spear_p_plus_plus'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -5221,7 +5221,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'mithril_spear_p_plus_plus'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -5242,7 +5242,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'adamant_spear_p_plus_plus'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -5263,7 +5263,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'rune_spear_p_plus_plus'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -5284,7 +5284,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'dragon_spear_p_plus_plus'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -5305,7 +5305,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'black_spear_p_plus'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -5326,7 +5326,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'black_spear_p_plus_plus'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -5347,7 +5347,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'fixed_device'
-walk_anim = 2320
+walk_anim = 2317
 run_anim = 2322
 ready_anim = 2316
 turn_anim = 2321
@@ -5555,7 +5555,7 @@ combat_style = 'SlashSword'
 
 [[config]]
 obj = 'toktz_mej_tal'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -5618,7 +5618,7 @@ combat_style = 'Blunt'
 
 [[config]]
 obj = 'mud_battlestaff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -5638,7 +5638,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'mystic_mud_staff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -5742,7 +5742,7 @@ combat_style = 'StabSword'
 
 [[config]]
 obj = 'white_halberd'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -5777,7 +5777,7 @@ combat_style = 'Spiked'
 
 [[config]]
 obj = 'white_magic_staff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -5931,7 +5931,7 @@ combat_style = 'SlashSword'
 
 [[config]]
 obj = 'guthix_mjolnir'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -5951,7 +5951,7 @@ combat_style = 'Polestaff'
 
 [[config]]
 obj = 'saradomin_mjolnir'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -5971,7 +5971,7 @@ combat_style = 'Polestaff'
 
 [[config]]
 obj = 'zamorak_mjolnir'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -5991,7 +5991,7 @@ combat_style = 'Polestaff'
 
 [[config]]
 obj = 'rat_pole'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -6010,7 +6010,7 @@ combat_style = 'Blunt'
 
 [[config]]
 obj = 'rat_pole_6774'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -6029,7 +6029,7 @@ combat_style = 'Blunt'
 
 [[config]]
 obj = 'rat_pole_6775'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -6048,7 +6048,7 @@ combat_style = 'Blunt'
 
 [[config]]
 obj = 'rat_pole_6776'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -6067,7 +6067,7 @@ combat_style = 'Blunt'
 
 [[config]]
 obj = 'rat_pole_6777'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -6086,7 +6086,7 @@ combat_style = 'Blunt'
 
 [[config]]
 obj = 'rat_pole_6778'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -6105,7 +6105,7 @@ combat_style = 'Blunt'
 
 [[config]]
 obj = 'rat_pole_6779'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -6124,7 +6124,7 @@ combat_style = 'Blunt'
 
 [[config]]
 obj = 'beginner_wand'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -6143,7 +6143,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'apprentice_wand'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -6162,7 +6162,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'teacher_wand'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -6181,7 +6181,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'master_wand'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -6435,7 +6435,7 @@ combat_style = 'SlashSword'
 
 [[config]]
 obj = 'rod_of_ivandis_10'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -6455,7 +6455,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'rod_of_ivandis_9'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -6475,7 +6475,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'rod_of_ivandis_8'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -6495,7 +6495,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'rod_of_ivandis_7'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -6515,7 +6515,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'rod_of_ivandis_6'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -6535,7 +6535,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'rod_of_ivandis_5'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -6555,7 +6555,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'rod_of_ivandis_4'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -6575,7 +6575,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'rod_of_ivandis_3'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -6595,7 +6595,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'rod_of_ivandis_2'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -6615,7 +6615,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'rod_of_ivandis_1'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -6668,7 +6668,7 @@ combat_style = 'StabSword'
 
 [[config]]
 obj = 'poh_banner_arrav'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -6686,7 +6686,7 @@ combat_style = 'Banner'
 
 [[config]]
 obj = 'poh_banner_asgarnia'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -6704,7 +6704,7 @@ combat_style = 'Banner'
 
 [[config]]
 obj = 'poh_banner_dorgeshuun'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -6722,7 +6722,7 @@ combat_style = 'Banner'
 
 [[config]]
 obj = 'poh_banner_dragon'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -6740,7 +6740,7 @@ combat_style = 'Banner'
 
 [[config]]
 obj = 'poh_banner_fairy'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -6758,7 +6758,7 @@ combat_style = 'Banner'
 
 [[config]]
 obj = 'poh_banner_guthix'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -6776,7 +6776,7 @@ combat_style = 'Banner'
 
 [[config]]
 obj = 'poh_banner_ham'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -6794,7 +6794,7 @@ combat_style = 'Banner'
 
 [[config]]
 obj = 'poh_banner_horse'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -6812,7 +6812,7 @@ combat_style = 'Banner'
 
 [[config]]
 obj = 'poh_banner_jogre'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -6830,7 +6830,7 @@ combat_style = 'Banner'
 
 [[config]]
 obj = 'poh_banner_kandarin'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -6848,7 +6848,7 @@ combat_style = 'Banner'
 
 [[config]]
 obj = 'poh_banner_misthalin'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -6866,7 +6866,7 @@ combat_style = 'Banner'
 
 [[config]]
 obj = 'poh_banner_moneybag'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -6884,7 +6884,7 @@ combat_style = 'Banner'
 
 [[config]]
 obj = 'poh_banner_saradomin'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -6902,7 +6902,7 @@ combat_style = 'Banner'
 
 [[config]]
 obj = 'poh_banner_skull'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -6920,7 +6920,7 @@ combat_style = 'Banner'
 
 [[config]]
 obj = 'poh_banner_varrock'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -6938,7 +6938,7 @@ combat_style = 'Banner'
 
 [[config]]
 obj = 'poh_banner_zamorak'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -7008,7 +7008,7 @@ combat_style = 'StabSword'
 
 [[config]]
 obj = 'dorgeshuun_crossbow'
-walk_anim = 822
+walk_anim = 4226
 run_anim = 4228
 ready_anim = 4591
 walk_anim_back = 4227
@@ -7026,7 +7026,7 @@ combat_style = 'Crossbow'
 
 [[config]]
 obj = 'cutthroat_flag'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -7044,7 +7044,7 @@ combat_style = 'Banner'
 
 [[config]]
 obj = 'gilded_smile_flag'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -7062,7 +7062,7 @@ combat_style = 'Banner'
 
 [[config]]
 obj = 'bronze_fist_flag'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -7080,7 +7080,7 @@ combat_style = 'Banner'
 
 [[config]]
 obj = 'lucky_shot_flag'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -7098,7 +7098,7 @@ combat_style = 'Banner'
 
 [[config]]
 obj = 'treasure_flag'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -7116,7 +7116,7 @@ combat_style = 'Banner'
 
 [[config]]
 obj = 'phasmatys_flag'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -7134,7 +7134,7 @@ combat_style = 'Banner'
 
 [[config]]
 obj = 'skull_sceptre'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -7153,7 +7153,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'pharaohs_sceptre_3'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -7170,7 +7170,7 @@ block_anim = 415
 
 [[config]]
 obj = 'pharaohs_sceptre_2'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -7187,7 +7187,7 @@ block_anim = 415
 
 [[config]]
 obj = 'pharaohs_sceptre_1'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -7204,7 +7204,7 @@ block_anim = 415
 
 [[config]]
 obj = 'pharaohs_sceptre'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -7221,7 +7221,7 @@ block_anim = 415
 
 [[config]]
 obj = 'lunar_staff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -7242,7 +7242,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'lunar_staff_pt1'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -7262,7 +7262,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'lunar_staff_pt2'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -7282,7 +7282,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'lunar_staff_pt3'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -7302,7 +7302,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'bronze_crossbow'
-walk_anim = 822
+walk_anim = 4226
 run_anim = 4228
 ready_anim = 4591
 walk_anim_back = 4227
@@ -7320,7 +7320,7 @@ combat_style = 'Crossbow'
 
 [[config]]
 obj = 'blurite_crossbow'
-walk_anim = 822
+walk_anim = 4226
 run_anim = 4228
 ready_anim = 4591
 walk_anim_back = 4227
@@ -7338,7 +7338,7 @@ combat_style = 'Crossbow'
 
 [[config]]
 obj = 'iron_crossbow'
-walk_anim = 822
+walk_anim = 4226
 run_anim = 4228
 ready_anim = 4591
 walk_anim_back = 4227
@@ -7356,7 +7356,7 @@ combat_style = 'Crossbow'
 
 [[config]]
 obj = 'steel_crossbow'
-walk_anim = 822
+walk_anim = 4226
 run_anim = 4228
 ready_anim = 4591
 walk_anim_back = 4227
@@ -7374,7 +7374,7 @@ combat_style = 'Crossbow'
 
 [[config]]
 obj = 'mithril_crossbow'
-walk_anim = 822
+walk_anim = 4226
 run_anim = 4228
 ready_anim = 4591
 walk_anim_back = 4227
@@ -7392,7 +7392,7 @@ combat_style = 'Crossbow'
 
 [[config]]
 obj = 'adamant_crossbow'
-walk_anim = 822
+walk_anim = 4226
 run_anim = 4228
 ready_anim = 4591
 walk_anim_back = 4227
@@ -7410,7 +7410,7 @@ combat_style = 'Crossbow'
 
 [[config]]
 obj = 'rune_crossbow'
-walk_anim = 822
+walk_anim = 4226
 run_anim = 4228
 ready_anim = 4591
 walk_anim_back = 4227
@@ -7457,7 +7457,7 @@ combat_style = 'Bow'
 
 [[config]]
 obj = 'butterfly_net'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -7474,7 +7474,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'falconers_glove_no_falcon'
-walk_anim = 5167
+walk_anim = 5164
 run_anim = 5168
 ready_anim = 5160
 turn_anim = 5161
@@ -7492,7 +7492,7 @@ combat_style = 'Unarmed'
 
 [[config]]
 obj = 'falconers_glove_with_falcon'
-walk_anim = 5167
+walk_anim = 5164
 run_anim = 5168
 ready_anim = 5160
 turn_anim = 5161
@@ -7619,7 +7619,7 @@ combat_style = 'Salamander'
 
 [[config]]
 obj = 'noose_wand'
-walk_anim = 1208
+walk_anim = 5250
 run_anim = 5253
 ready_anim = 5254
 turn_anim = 5252
@@ -7640,7 +7640,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'hunters_crossbow'
-walk_anim = 822
+walk_anim = 4226
 run_anim = 4228
 ready_anim = 4591
 walk_anim_back = 4227
@@ -7657,7 +7657,7 @@ combat_style = 'Crossbow'
 
 [[config]]
 obj = 'willow_comp_bow'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -7678,7 +7678,7 @@ combat_style = 'Bow'
 
 [[config]]
 obj = 'yew_comp_bow'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -7699,7 +7699,7 @@ combat_style = 'Bow'
 
 [[config]]
 obj = 'magic_comp_bow'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -7720,7 +7720,7 @@ combat_style = 'Bow'
 
 [[config]]
 obj = 'saradomin_crozier'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -7739,7 +7739,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'guthix_crozier'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -7758,7 +7758,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'zamorak_crozier'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -7777,7 +7777,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'undead_chicken'
-walk_anim = 822
+walk_anim = 5364
 ready_anim = 5363
 walk_anim_back = 5438
 accurate_anim = 5439
@@ -7952,7 +7952,7 @@ combat_style = 'Spiked'
 
 [[config]]
 obj = 'phoenix_crossbow_11165'
-walk_anim = 822
+walk_anim = 4226
 run_anim = 4228
 ready_anim = 4591
 walk_anim_back = 4227
@@ -7967,7 +7967,7 @@ equipment_sound = 2244
 
 [[config]]
 obj = 'phoenix_crossbow_11167'
-walk_anim = 822
+walk_anim = 4226
 run_anim = 4228
 ready_anim = 4591
 walk_anim_back = 4227
@@ -8052,7 +8052,7 @@ combat_style = 'Bow'
 
 [[config]]
 obj = 'magic_butterfly_net'
-walk_anim = 6609
+walk_anim = 6607
 run_anim = 6603
 ready_anim = 6604
 turn_anim = 6611
@@ -8070,7 +8070,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'bronze_hasta'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -8091,7 +8091,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'iron_hasta'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -8112,7 +8112,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'steel_hasta'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -8133,7 +8133,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'mithril_hasta'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -8154,7 +8154,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'adamant_hasta'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -8175,7 +8175,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'rune_hasta'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -8196,7 +8196,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'bronze_hasta_p'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -8217,7 +8217,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'bronze_hasta_kp'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -8238,7 +8238,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'bronze_hasta_p_plus'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -8259,7 +8259,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'bronze_hasta_p_plus_plus'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -8280,7 +8280,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'iron_hasta_p'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -8301,7 +8301,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'iron_hasta_kp'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -8322,7 +8322,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'iron_hasta_p_plus'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -8343,7 +8343,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'iron_hasta_p_plus_plus'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -8364,7 +8364,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'steel_hasta_p'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -8385,7 +8385,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'steel_hasta_kp'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -8406,7 +8406,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'steel_hasta_p_plus'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -8427,7 +8427,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'steel_hasta_p_plus_plus'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -8448,7 +8448,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'mithril_hasta_p'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -8469,7 +8469,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'mithril_hasta_kp'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -8490,7 +8490,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'mithril_hasta_p_plus'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -8511,7 +8511,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'mithril_hasta_p_plus_plus'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -8532,7 +8532,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'adamant_hasta_p'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -8553,7 +8553,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'adamant_hasta_kp'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -8574,7 +8574,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'adamant_hasta_p_plus'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -8595,7 +8595,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'adamant_hasta_p_plus_plus'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -8616,7 +8616,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'rune_hasta_p'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -8637,7 +8637,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'rune_hasta_kp'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -8658,7 +8658,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'rune_hasta_p_plus'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -8679,7 +8679,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'rune_hasta_p_plus_plus'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -8761,7 +8761,7 @@ combat_style = 'Bow'
 
 [[config]]
 obj = 'cursed_goblin_staff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -8993,7 +8993,7 @@ combat_style = 'Bow'
 
 [[config]]
 obj = 'armadyl_crossbow'
-walk_anim = 822
+walk_anim = 4226
 run_anim = 4228
 ready_anim = 4591
 walk_anim_back = 4227
@@ -9011,7 +9011,7 @@ combat_style = 'Crossbow'
 
 [[config]]
 obj = 'steam_battlestaff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -9031,7 +9031,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'mystic_steam_staff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -9051,7 +9051,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'staff_of_the_dead'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -9070,7 +9070,7 @@ combat_style = 'BladedStaff'
 
 [[config]]
 obj = 'armadyl_godsword'
-walk_anim = 7047
+walk_anim = 7052
 run_anim = 7043
 ready_anim = 7053
 turn_anim = 7044
@@ -9092,7 +9092,7 @@ combat_style = 'TwoHandedSword'
 
 [[config]]
 obj = 'bandos_godsword'
-walk_anim = 7047
+walk_anim = 7052
 run_anim = 7043
 ready_anim = 7053
 turn_anim = 7044
@@ -9114,7 +9114,7 @@ combat_style = 'TwoHandedSword'
 
 [[config]]
 obj = 'saradomin_godsword'
-walk_anim = 7047
+walk_anim = 7052
 run_anim = 7043
 ready_anim = 7053
 turn_anim = 7044
@@ -9136,7 +9136,7 @@ combat_style = 'TwoHandedSword'
 
 [[config]]
 obj = 'zamorak_godsword'
-walk_anim = 7047
+walk_anim = 7052
 run_anim = 7043
 ready_anim = 7053
 turn_anim = 7044
@@ -9158,7 +9158,7 @@ combat_style = 'TwoHandedSword'
 
 [[config]]
 obj = 'zamorakian_spear'
-walk_anim = 1705
+walk_anim = 1703
 run_anim = 1707
 ready_anim = 1713
 turn_anim = 1702
@@ -9179,7 +9179,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'saradomin_sword'
-walk_anim = 7047
+walk_anim = 7052
 run_anim = 7043
 ready_anim = 7053
 turn_anim = 7044
@@ -9200,7 +9200,7 @@ combat_style = 'TwoHandedSword'
 
 [[config]]
 obj = 'zamorakian_hasta'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -9221,7 +9221,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'saradomin_banner_11891'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -9239,7 +9239,7 @@ combat_style = 'Banner'
 
 [[config]]
 obj = 'zamorak_banner_11892'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -9271,7 +9271,7 @@ combat_style = 'StabSword'
 
 [[config]]
 obj = 'trident_of_the_seas_full'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -9290,7 +9290,7 @@ combat_style = 'PoweredStaff'
 
 [[config]]
 obj = 'trident_of_the_seas'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -9309,7 +9309,7 @@ combat_style = 'PoweredStaff'
 
 [[config]]
 obj = 'uncharged_trident'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -9359,7 +9359,7 @@ combat_style = 'Chinchompas'
 
 [[config]]
 obj = 'smoke_battlestaff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -9379,7 +9379,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'mystic_smoke_staff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -9416,7 +9416,7 @@ combat_style = 'Whip'
 
 [[config]]
 obj = 'ancient_crozier'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -9435,7 +9435,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'armadyl_crozier'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -9454,7 +9454,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'bandos_crozier'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -9501,7 +9501,7 @@ combat_style = 'SlashSword'
 
 [[config]]
 obj = 'dragon_cane'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -9579,7 +9579,7 @@ combat_style = 'SlashSword'
 
 [[config]]
 obj = '3rd_age_wand'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -9611,7 +9611,7 @@ combat_style = 'Bow'
 
 [[config]]
 obj = 'royal_sceptre'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -9629,7 +9629,7 @@ combat_style = 'Polestaff'
 
 [[config]]
 obj = 'ibans_staff_u'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -9649,7 +9649,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'goblin_paint_cannon'
-walk_anim = 2320
+walk_anim = 2317
 run_anim = 2322
 ready_anim = 2316
 turn_anim = 2321
@@ -9771,7 +9771,7 @@ combat_style = 'Bow'
 
 [[config]]
 obj = 'steam_battlestaff_or'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -9791,7 +9791,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'mystic_steam_staff_12796'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -9826,7 +9826,7 @@ combat_style = 'Pickaxe'
 
 [[config]]
 obj = 'saras_blessed_sword_full'
-walk_anim = 7047
+walk_anim = 7052
 run_anim = 7043
 ready_anim = 7053
 turn_anim = 7044
@@ -9847,7 +9847,7 @@ combat_style = 'TwoHandedSword'
 
 [[config]]
 obj = 'saradomins_blessed_sword'
-walk_anim = 7047
+walk_anim = 7052
 run_anim = 7043
 ready_anim = 7053
 turn_anim = 7044
@@ -9887,7 +9887,7 @@ combat_style = 'Blunt'
 
 [[config]]
 obj = 'trident_of_the_swamp'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -9906,7 +9906,7 @@ combat_style = 'PoweredStaff'
 
 [[config]]
 obj = 'uncharged_toxic_trident'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -9925,7 +9925,7 @@ combat_style = 'PoweredStaff'
 
 [[config]]
 obj = 'toxic_staff_uncharged'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -9944,7 +9944,7 @@ combat_style = 'BladedStaff'
 
 [[config]]
 obj = 'toxic_staff_of_the_dead'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -9963,7 +9963,7 @@ combat_style = 'BladedStaff'
 
 [[config]]
 obj = 'toxic_blowpipe'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -9983,7 +9983,7 @@ combat_style = 'Thrown'
 
 [[config]]
 obj = 'pharaohs_sceptre_8'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -10000,7 +10000,7 @@ block_anim = 415
 
 [[config]]
 obj = 'pharaohs_sceptre_7'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -10017,7 +10017,7 @@ block_anim = 415
 
 [[config]]
 obj = 'pharaohs_sceptre_6'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -10034,7 +10034,7 @@ block_anim = 415
 
 [[config]]
 obj = 'pharaohs_sceptre_5'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -10051,7 +10051,7 @@ block_anim = 415
 
 [[config]]
 obj = 'pharaohs_sceptre_4'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -10079,7 +10079,7 @@ combat_style = 'Unarmed'
 
 [[config]]
 obj = 'new_crystal_halberd_full_i'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -10100,7 +10100,7 @@ combat_style = 'Polearm'
 
 [[config]]
 obj = 'crystal_halberd_full_i'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -10121,7 +10121,7 @@ combat_style = 'Polearm'
 
 [[config]]
 obj = 'crystal_halberd_910_i'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -10142,7 +10142,7 @@ combat_style = 'Polearm'
 
 [[config]]
 obj = 'crystal_halberd_810_i'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -10163,7 +10163,7 @@ combat_style = 'Polearm'
 
 [[config]]
 obj = 'crystal_halberd_710_i'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -10184,7 +10184,7 @@ combat_style = 'Polearm'
 
 [[config]]
 obj = 'crystal_halberd_610_i'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -10205,7 +10205,7 @@ combat_style = 'Polearm'
 
 [[config]]
 obj = 'crystal_halberd_510_i'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -10226,7 +10226,7 @@ combat_style = 'Polearm'
 
 [[config]]
 obj = 'crystal_halberd_410_i'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -10247,7 +10247,7 @@ combat_style = 'Polearm'
 
 [[config]]
 obj = 'crystal_halberd_310_i'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -10268,7 +10268,7 @@ combat_style = 'Polearm'
 
 [[config]]
 obj = 'crystal_halberd_210_i'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -10289,7 +10289,7 @@ combat_style = 'Polearm'
 
 [[config]]
 obj = 'crystal_halberd_110_i'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -10366,7 +10366,7 @@ combat_style = 'StabSword'
 
 [[config]]
 obj = 'western_banner_1'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -10386,7 +10386,7 @@ combat_style = 'Polestaff'
 
 [[config]]
 obj = 'western_banner_2'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -10406,7 +10406,7 @@ combat_style = 'Polestaff'
 
 [[config]]
 obj = 'western_banner_3'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -10426,7 +10426,7 @@ combat_style = 'Polestaff'
 
 [[config]]
 obj = 'western_banner_4'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -10583,7 +10583,7 @@ combat_style = 'StabSword'
 
 [[config]]
 obj = 'green_banner'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -10746,7 +10746,7 @@ combat_style = 'Pickaxe'
 
 [[config]]
 obj = 'ale_of_the_gods'
-walk_anim = 822
+walk_anim = 3039
 ready_anim = 3040
 accurate_anim = 422
 accurate_sound = 2566
@@ -10780,7 +10780,7 @@ combat_style = 'TwoHandedSword'
 
 [[config]]
 obj = 'gilded_spear'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -10801,7 +10801,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'gilded_hasta'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -10833,7 +10833,7 @@ combat_style = 'Blunt'
 
 [[config]]
 obj = 'arceuus_banner'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -10853,7 +10853,7 @@ combat_style = 'Polestaff'
 
 [[config]]
 obj = 'hosidius_banner'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -10873,7 +10873,7 @@ combat_style = 'Polestaff'
 
 [[config]]
 obj = 'lovakengj_banner'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -10893,7 +10893,7 @@ combat_style = 'Polestaff'
 
 [[config]]
 obj = 'piscarilius_banner'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -10913,7 +10913,7 @@ combat_style = 'Polestaff'
 
 [[config]]
 obj = 'shayzien_banner'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -10933,7 +10933,7 @@ combat_style = 'Polestaff'
 
 [[config]]
 obj = 'armadyl_godsword_or'
-walk_anim = 7047
+walk_anim = 7052
 run_anim = 7043
 ready_anim = 7053
 turn_anim = 7044
@@ -10955,7 +10955,7 @@ combat_style = 'TwoHandedSword'
 
 [[config]]
 obj = 'bandos_godsword_or'
-walk_anim = 7047
+walk_anim = 7052
 run_anim = 7043
 ready_anim = 7053
 turn_anim = 7044
@@ -10977,7 +10977,7 @@ combat_style = 'TwoHandedSword'
 
 [[config]]
 obj = 'saradomin_godsword_or'
-walk_anim = 7047
+walk_anim = 7052
 run_anim = 7043
 ready_anim = 7053
 turn_anim = 7044
@@ -10999,7 +10999,7 @@ combat_style = 'TwoHandedSword'
 
 [[config]]
 obj = 'zamorak_godsword_or'
-walk_anim = 7047
+walk_anim = 7052
 run_anim = 7043
 ready_anim = 7053
 turn_anim = 7044
@@ -11021,7 +11021,7 @@ combat_style = 'TwoHandedSword'
 
 [[config]]
 obj = 'spear'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -11132,7 +11132,7 @@ combat_style = 'Bow'
 
 [[config]]
 obj = 'ancient_staff_lms'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -11164,7 +11164,7 @@ equipment_sound = 2232
 
 [[config]]
 obj = 'beginner_wand_lms'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -11214,7 +11214,7 @@ equipment_sound = 2248
 
 [[config]]
 obj = 'apprentice_wand_lms'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -11280,7 +11280,7 @@ equipment_sound = 2248
 
 [[config]]
 obj = 'master_wand_lms'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -11298,7 +11298,7 @@ equipment_sound = 2247
 
 [[config]]
 obj = 'stale_baguette'
-walk_anim = 822
+walk_anim = 1830
 ready_anim = 1832
 walk_anim_back = 1830
 accurate_anim = 1833
@@ -11312,7 +11312,7 @@ combat_style = 'Blunt'
 
 [[config]]
 obj = 'armadyl_godsword_lms'
-walk_anim = 7047
+walk_anim = 7052
 run_anim = 7043
 ready_anim = 7053
 turn_anim = 7044
@@ -11360,7 +11360,7 @@ combat_style = 'Axe'
 
 [[config]]
 obj = 'mist_battlestaff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -11380,7 +11380,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'mystic_mist_staff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -11400,7 +11400,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'dust_battlestaff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -11420,7 +11420,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'mystic_dust_staff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -11458,7 +11458,7 @@ combat_style = 'Blunt'
 
 [[config]]
 obj = 'hunting_knife'
-walk_anim = 822
+walk_anim = 7327
 run_anim = 2322
 ready_anim = 2911
 walk_anim_back = 7327
@@ -11565,7 +11565,7 @@ combat_style = 'Blunt'
 
 [[config]]
 obj = 'kodai_wand'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -11598,7 +11598,7 @@ combat_style = 'StabSword'
 
 [[config]]
 obj = 'dragon_hunter_crossbow'
-walk_anim = 822
+walk_anim = 4226
 run_anim = 4228
 ready_anim = 4591
 walk_anim_back = 4227
@@ -11672,7 +11672,7 @@ combat_style = 'StabSword'
 
 [[config]]
 obj = 'lava_battlestaff_or'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -11692,7 +11692,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'mystic_lava_staff_21200'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -11755,7 +11755,7 @@ equipment_sound = 2232
 
 [[config]]
 obj = 'birthday_balloons'
-walk_anim = 822
+walk_anim = 7539
 run_anim = 7540
 ready_anim = 7538
 walk_anim_back = 7539
@@ -11771,7 +11771,7 @@ combat_style = 'Blunt'
 
 [[config]]
 obj = 'slayers_staff_e'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -11791,7 +11791,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'skull_sceptre_i'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -11837,7 +11837,7 @@ combat_style = 'Blunt'
 
 [[config]]
 obj = 'dragon_crossbow'
-walk_anim = 822
+walk_anim = 4226
 run_anim = 4228
 ready_anim = 4591
 walk_anim_back = 4227
@@ -11855,7 +11855,7 @@ combat_style = 'Crossbow'
 
 [[config]]
 obj = 'trident_of_the_seas_e'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -11874,7 +11874,7 @@ combat_style = 'PoweredStaff'
 
 [[config]]
 obj = 'uncharged_trident_e'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -11893,7 +11893,7 @@ combat_style = 'PoweredStaff'
 
 [[config]]
 obj = 'trident_of_the_swamp_e'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -11912,7 +11912,7 @@ combat_style = 'PoweredStaff'
 
 [[config]]
 obj = 'uncharged_toxic_trident_e'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -11931,7 +11931,7 @@ combat_style = 'PoweredStaff'
 
 [[config]]
 obj = 'staff_of_light'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -11963,7 +11963,7 @@ combat_style = 'Blunt'
 
 [[config]]
 obj = 'sanguinesti_staff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -12028,7 +12028,7 @@ combat_style = 'Bow'
 
 [[config]]
 obj = 'starter_staff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -12048,7 +12048,7 @@ combat_style = 'PoweredStaff'
 
 [[config]]
 obj = 'bryophytas_staff_uncharged'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -12068,7 +12068,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'bryophytas_staff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -12088,7 +12088,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'ivandis_flail'
-walk_anim = 8014
+walk_anim = 8011
 run_anim = 8016
 ready_anim = 8009
 turn_anim = 8015
@@ -12138,7 +12138,7 @@ combat_style = 'SlashSword'
 
 [[config]]
 obj = 'sanguinesti_staff_uncharged'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -12174,7 +12174,7 @@ combat_style = 'Scythe'
 
 [[config]]
 obj = 'dawnbringer'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -12255,7 +12255,7 @@ combat_style = 'Bow'
 
 [[config]]
 obj = 'thammarons_sceptre_u'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1205
@@ -12274,7 +12274,7 @@ combat_style = 'PoweredStaff'
 
 [[config]]
 obj = 'thammarons_sceptre'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1205
@@ -12390,7 +12390,7 @@ combat_style = 'Blunt'
 
 [[config]]
 obj = 'dragon_hasta'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -12411,7 +12411,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'dragon_hasta_p'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -12432,7 +12432,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'dragon_hasta_p_plus'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -12453,7 +12453,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'dragon_hasta_p_plus_plus'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -12474,7 +12474,7 @@ combat_style = 'Spear'
 
 [[config]]
 obj = 'dragon_hasta_kp'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -12573,7 +12573,7 @@ equipment_sound = 2244
 
 [[config]]
 obj = 'cormorants_glove_empty'
-walk_anim = 5167
+walk_anim = 5164
 run_anim = 5168
 ready_anim = 5160
 turn_anim = 5161
@@ -12591,7 +12591,7 @@ combat_style = 'Unarmed'
 
 [[config]]
 obj = 'cormorants_glove_with_cormorant'
-walk_anim = 5167
+walk_anim = 5164
 run_anim = 5168
 ready_anim = 5160
 turn_anim = 5161
@@ -12609,7 +12609,7 @@ combat_style = 'Unarmed'
 
 [[config]]
 obj = 'dragon_hunter_lance'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 2563
 ready_anim = 813
 turn_anim = 1209
@@ -12748,7 +12748,7 @@ combat_style = 'SlashSword'
 
 [[config]]
 obj = '3rd_age_druidic_staff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -12837,7 +12837,7 @@ combat_style = 'Spiked'
 
 [[config]]
 obj = 'rune_crossbow_lms'
-walk_anim = 822
+walk_anim = 4226
 run_anim = 4228
 ready_anim = 4591
 walk_anim_back = 4227
@@ -12855,7 +12855,7 @@ combat_style = 'Crossbow'
 
 [[config]]
 obj = 'armadyl_crossbow_lms'
-walk_anim = 822
+walk_anim = 4226
 run_anim = 4228
 ready_anim = 4591
 walk_anim_back = 4227
@@ -12873,7 +12873,7 @@ combat_style = 'Crossbow'
 
 [[config]]
 obj = 'staff_of_the_dead_lms'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -12948,7 +12948,7 @@ combat_style = 'Blunt'
 
 [[config]]
 obj = 'kodai_wand_lms'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -13001,7 +13001,7 @@ combat_style = 'Crossbow'
 
 [[config]]
 obj = 'ahrims_staff_lms'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -13168,7 +13168,7 @@ combat_style = 'StabSword'
 
 [[config]]
 obj = 'corrupted_halberd_basic'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -13188,7 +13188,7 @@ combat_style = 'Polearm'
 
 [[config]]
 obj = 'corrupted_halberd_attuned'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -13208,7 +13208,7 @@ combat_style = 'Polearm'
 
 [[config]]
 obj = 'corrupted_halberd_perfected'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -13228,7 +13228,7 @@ combat_style = 'Polearm'
 
 [[config]]
 obj = 'corrupted_staff_basic'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -13248,7 +13248,7 @@ combat_style = 'PoweredStaff'
 
 [[config]]
 obj = 'corrupted_staff_attuned'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -13268,7 +13268,7 @@ combat_style = 'PoweredStaff'
 
 [[config]]
 obj = 'corrupted_staff_perfected'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -13374,7 +13374,7 @@ combat_style = 'StabSword'
 
 [[config]]
 obj = 'crystal_halberd_basic'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -13394,7 +13394,7 @@ combat_style = 'Polearm'
 
 [[config]]
 obj = 'crystal_halberd_attuned'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -13414,7 +13414,7 @@ combat_style = 'Polearm'
 
 [[config]]
 obj = 'crystal_halberd_perfected'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -13434,7 +13434,7 @@ combat_style = 'Polearm'
 
 [[config]]
 obj = 'crystal_staff_basic'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -13454,7 +13454,7 @@ combat_style = 'PoweredStaff'
 
 [[config]]
 obj = 'crystal_staff_attuned'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -13474,7 +13474,7 @@ combat_style = 'PoweredStaff'
 
 [[config]]
 obj = 'crystal_staff_perfected'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -13564,7 +13564,7 @@ combat_style = 'Bow'
 
 [[config]]
 obj = 'crystal_halberd'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -13585,7 +13585,7 @@ combat_style = 'Polearm'
 
 [[config]]
 obj = 'crystal_halberd_inactive'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -13634,7 +13634,7 @@ combat_style = 'SlashSword'
 
 [[config]]
 obj = 'crystal_grail'
-walk_anim = 822
+walk_anim = 3039
 ready_anim = 3040
 accurate_anim = 422
 accurate_sound = 2566
@@ -13661,7 +13661,7 @@ combat_style = 'Bow'
 
 [[config]]
 obj = 'crystal_halberd_24125'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -13682,7 +13682,7 @@ combat_style = 'Polearm'
 
 [[config]]
 obj = 'staff_of_balance'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -13844,7 +13844,7 @@ combat_style = 'Spiked'
 
 [[config]]
 obj = 'twisted_banner'
-walk_anim = 1425
+walk_anim = 1422
 run_anim = 1427
 ready_anim = 1421
 turn_anim = 1426
@@ -13876,7 +13876,7 @@ combat_style = 'Spiked'
 
 [[config]]
 obj = 'nightmare_staff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 4504
 turn_anim = 1209
@@ -13896,7 +13896,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'harmonised_nightmare_staff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 4504
 turn_anim = 1209
@@ -13916,7 +13916,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'volatile_nightmare_staff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 4504
 turn_anim = 1209
@@ -13936,7 +13936,7 @@ combat_style = 'Staff'
 
 [[config]]
 obj = 'eldritch_nightmare_staff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 4504
 turn_anim = 1209
@@ -14059,7 +14059,7 @@ combat_style = 'SlashSword'
 
 [[config]]
 obj = 'blisterwood_flail'
-walk_anim = 8014
+walk_anim = 8011
 run_anim = 8016
 ready_anim = 8009
 turn_anim = 8015
@@ -14368,7 +14368,7 @@ combat_style = 'Axe'
 
 [[config]]
 obj = 'volatile_nightmare_staff_lms'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 4504
 turn_anim = 1209
@@ -14419,7 +14419,7 @@ combat_style = 'Blunt'
 
 [[config]]
 obj = 'clan_vexillum'
-walk_anim = 9020
+walk_anim = 9017
 run_anim = 9019
 ready_anim = 9018
 turn_anim = 7044
@@ -14440,7 +14440,7 @@ combat_style = 'Banner'
 
 [[config]]
 obj = 'clan_vexillum_25723'
-walk_anim = 9020
+walk_anim = 9017
 run_anim = 9019
 ready_anim = 9018
 turn_anim = 7044
@@ -14461,7 +14461,7 @@ combat_style = 'Banner'
 
 [[config]]
 obj = 'clan_vexillum_25724'
-walk_anim = 9020
+walk_anim = 9017
 run_anim = 9019
 ready_anim = 9018
 turn_anim = 7044
@@ -14482,7 +14482,7 @@ combat_style = 'Banner'
 
 [[config]]
 obj = 'clan_vexillum_25725'
-walk_anim = 9020
+walk_anim = 9017
 run_anim = 9019
 ready_anim = 9018
 turn_anim = 7044
@@ -14503,7 +14503,7 @@ combat_style = 'Banner'
 
 [[config]]
 obj = 'clan_vexillum_25726'
-walk_anim = 9020
+walk_anim = 9017
 run_anim = 9019
 ready_anim = 9018
 turn_anim = 7044
@@ -14524,7 +14524,7 @@ combat_style = 'Banner'
 
 [[config]]
 obj = 'clan_vexillum_25727'
-walk_anim = 9020
+walk_anim = 9017
 run_anim = 9019
 ready_anim = 9018
 turn_anim = 7044
@@ -14545,7 +14545,7 @@ combat_style = 'Banner'
 
 [[config]]
 obj = 'clan_vexillum_25728'
-walk_anim = 9020
+walk_anim = 9017
 run_anim = 9019
 ready_anim = 9018
 turn_anim = 7044
@@ -14566,7 +14566,7 @@ combat_style = 'Banner'
 
 [[config]]
 obj = 'clan_vexillum_25729'
-walk_anim = 9020
+walk_anim = 9017
 run_anim = 9019
 ready_anim = 9018
 turn_anim = 7044
@@ -14587,7 +14587,7 @@ combat_style = 'Banner'
 
 [[config]]
 obj = 'holy_sanguinesti_staff'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -14607,7 +14607,7 @@ combat_style = 'PoweredStaff'
 
 [[config]]
 obj = 'holy_sanguinesti_staff_uncharged'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -14921,7 +14921,7 @@ combat_style = 'Bow'
 
 [[config]]
 obj = 'dragon_hunter_crossbow_t'
-walk_anim = 822
+walk_anim = 4226
 run_anim = 4228
 ready_anim = 4591
 walk_anim_back = 4227
@@ -14939,7 +14939,7 @@ combat_style = 'Crossbow'
 
 [[config]]
 obj = 'dragon_hunter_crossbow_b'
-walk_anim = 822
+walk_anim = 4226
 run_anim = 4228
 ready_anim = 4591
 walk_anim_back = 4227
@@ -14957,7 +14957,7 @@ combat_style = 'Crossbow'
 
 [[config]]
 obj = 'tumekens_heka'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -14974,7 +14974,7 @@ block_anim = 415
 
 [[config]]
 obj = 'tumekens_heka_uncharged'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -15007,7 +15007,7 @@ combat_style = 'StabSword'
 
 [[config]]
 obj = 'ancient_godsword'
-walk_anim = 7047
+walk_anim = 7052
 run_anim = 7043
 ready_anim = 7053
 turn_anim = 7044
@@ -15041,7 +15041,7 @@ combat_style = 'Blunt'
 
 [[config]]
 obj = 'zaryte_crossbow'
-walk_anim = 822
+walk_anim = 4226
 run_anim = 4228
 ready_anim = 4591
 walk_anim_back = 4227
@@ -15059,7 +15059,7 @@ combat_style = 'Crossbow'
 
 [[config]]
 obj = 'shattered_banner'
-walk_anim = 9267
+walk_anim = 9264
 run_anim = 9269
 ready_anim = 9263
 turn_anim = 9268
@@ -15114,7 +15114,7 @@ combat_style = 'Whip'
 
 [[config]]
 obj = 'rune_crossbow_or'
-walk_anim = 822
+walk_anim = 4226
 run_anim = 4228
 ready_anim = 4591
 walk_anim_back = 4227
@@ -15188,7 +15188,7 @@ destroy_note = 'You can reclaim this by speaking to the Leagues Tutor or from yo
 
 [[config]]
 obj = 'shattered_cane'
-walk_anim = 822
+walk_anim = 1146
 ready_anim = 813
 accurate_anim = 4505
 accurate_sound = 2508
@@ -15204,7 +15204,7 @@ combat_style = 'Spiked'
 
 [[config]]
 obj = 'skis'
-walk_anim = 9344
+walk_anim = 9342
 run_anim = 9346
 ready_anim = 9341
 turn_anim = 9343
@@ -15268,7 +15268,7 @@ combat_style = 'Crossbow'
 
 [[config]]
 obj = 'pharaohs_sceptre_uncharged'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -15287,7 +15287,7 @@ combat_style = 'Polestaff'
 
 [[config]]
 obj = 'pharaohs_sceptre_charged'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -15306,7 +15306,7 @@ combat_style = 'Polestaff'
 
 [[config]]
 obj = 'pharaohs_sceptre_charged_alt_unused'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -15356,7 +15356,7 @@ combat_style = 'Thrown'
 
 [[config]]
 obj = 'ancient_godsword_emirs_arena'
-walk_anim = 7047
+walk_anim = 7052
 run_anim = 7043
 ready_anim = 7053
 turn_anim = 7044
@@ -15378,7 +15378,7 @@ combat_style = 'TwoHandedSword'
 
 [[config]]
 obj = 'zaryte_crossbow_emirs_arena'
-walk_anim = 822
+walk_anim = 4226
 run_anim = 4228
 ready_anim = 4591
 walk_anim_back = 4227
@@ -15431,7 +15431,7 @@ combat_style = 'StabSword'
 
 [[config]]
 obj = 'tumekens_shadow'
-walk_anim = 1705
+walk_anim = 1703
 run_anim = 1707
 ready_anim = 9494
 turn_anim = 1702
@@ -15452,7 +15452,7 @@ combat_style = 'PoweredStaff'
 
 [[config]]
 obj = 'tumekens_shadow_uncharged'
-walk_anim = 1705
+walk_anim = 1703
 run_anim = 1707
 ready_anim = 9494
 turn_anim = 1702
@@ -15472,7 +15472,7 @@ combat_style = 'PoweredStaff'
 
 [[config]]
 obj = 'venator_bow'
-walk_anim = 9862
+walk_anim = 9859
 run_anim = 9860
 ready_anim = 9857
 turn_anim = 9863
@@ -15493,7 +15493,7 @@ combat_style = 'Bow'
 
 [[config]]
 obj = 'venator_bow_uncharged'
-walk_anim = 9862
+walk_anim = 9859
 run_anim = 9860
 ready_anim = 9857
 turn_anim = 9863
@@ -15576,7 +15576,7 @@ combat_style = 'Spiked'
 
 [[config]]
 obj = 'accursed_sceptre_u'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1205
@@ -15595,7 +15595,7 @@ combat_style = 'PoweredStaff'
 
 [[config]]
 obj = 'accursed_sceptre'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1205
@@ -15614,7 +15614,7 @@ combat_style = 'PoweredStaff'
 
 [[config]]
 obj = 'accursed_sceptre_a'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1205
@@ -15647,7 +15647,7 @@ combat_style = 'SlashSword'
 
 [[config]]
 obj = 'thammarons_sceptre_a'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1205
@@ -15910,7 +15910,7 @@ combat_style = 'Axe'
 
 [[config]]
 obj = 'blazing_blowpipe'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -15974,7 +15974,7 @@ combat_style = 'Thrown'
 
 [[config]]
 obj = 'blue_moon_spear'
-walk_anim = 1705
+walk_anim = 1703
 run_anim = 1707
 ready_anim = 1713
 turn_anim = 1702
@@ -16010,7 +16010,7 @@ combat_style = 'Spiked'
 
 [[config]]
 obj = 'eclipse_atlatl'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -16043,7 +16043,7 @@ combat_style = 'SlashSword'
 
 [[config]]
 obj = 'noxious_halberd'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
@@ -16064,7 +16064,7 @@ combat_style = 'Polearm'
 
 [[config]]
 obj = 'blue_moon_spear_lms'
-walk_anim = 1705
+walk_anim = 1703
 run_anim = 1707
 ready_anim = 1713
 turn_anim = 1702
@@ -16086,7 +16086,7 @@ combat_style = 'BladedStaff'
 
 [[config]]
 obj = 'eclipse_atlatl_lms'
-walk_anim = 1208
+walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
 turn_anim = 1209
