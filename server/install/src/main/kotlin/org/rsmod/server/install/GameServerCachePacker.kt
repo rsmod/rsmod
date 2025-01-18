@@ -7,15 +7,17 @@ import com.google.inject.Injector
 import java.nio.file.Path
 import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.deleteRecursively
+import org.rsmod.api.cache.CacheModule
+import org.rsmod.api.cache.enricher.CacheEnricherModule
+import org.rsmod.api.cache.enricher.CacheEnrichment
 import org.rsmod.api.core.CoreModule
 import org.rsmod.api.parsers.jackson.JacksonModule
 import org.rsmod.api.parsers.json.JsonModule
 import org.rsmod.api.parsers.toml.TomlModule
 import org.rsmod.api.type.resolver.TypeResolver
 import org.rsmod.api.type.updater.TypeUpdater
-import org.rsmod.api.type.verifier.BuilderVerifier
-import org.rsmod.api.type.verifier.EditorVerifier
-import org.rsmod.api.type.verifier.ReferenceVerifier
+import org.rsmod.api.type.verifier.TypeVerifier
+import org.rsmod.api.type.verifier.isCacheUpdateRequired
 import org.rsmod.api.type.verifier.isFailure
 import org.rsmod.server.shared.DirectoryConstants
 import org.rsmod.server.shared.loader.TypeBuilderLoader
@@ -37,63 +39,57 @@ class GameServerCachePacker : CliktCommand(name = "cache-pack") {
         get() = DirectoryConstants.CACHE_PATH.resolve("js5")
 
     override fun run() {
+        gameCacheDir.deleteRecursively()
+        js5CacheDir.deleteRecursively()
+        packEnrichedTypes()
+    }
+
+    private fun packEnrichedTypes() {
         val injector =
             Guice.createInjector(
+                CacheEnricherModule,
+                CacheModule,
                 CacheStoreModule,
-                SymbolModule,
                 CoreModule,
                 EventModule,
                 JacksonModule,
                 JsonModule,
                 ScannerModule,
+                SymbolModule,
                 TomlModule,
             )
-        deleteOldCacheDirectories()
-        resolveAllTypes(injector)
-        updateCacheTypes(injector)
+        val resolved = resolveAllTypes(injector)
+        if (resolved) {
+            val enricher = injector.getInstance(CacheEnrichment::class.java)
+            enricher.encodeAll()
+        }
     }
 
-    private fun deleteOldCacheDirectories() {
-        gameCacheDir.deleteRecursively()
-        js5CacheDir.deleteRecursively()
-    }
-
-    private fun resolveAllTypes(injector: Injector) {
+    private fun resolveAllTypes(injector: Injector): Boolean {
         val resolver = injector.getInstance(TypeResolver::class.java)
 
         val references = injector.getInstance(TypeReferencesLoader::class.java)
-        val referenceVerifier = injector.getInstance(ReferenceVerifier::class.java)
         resolver.appendReferences(references.load())
         resolver.resolveReferences()
 
-        val referenceVerification = referenceVerifier.verifyErrors()
-        if (referenceVerification.isFailure()) {
-            throw RuntimeException(referenceVerification.formatError())
-        }
-
         val builders = injector.getInstance(TypeBuilderLoader::class.java)
-        val builderVerifier = injector.getInstance(BuilderVerifier::class.java)
         resolver.appendBuilders(builders.load())
         resolver.resolveBuilders()
 
-        val builderVerification = builderVerifier.verifyErrors()
-        if (builderVerification.isFailure()) {
-            throw RuntimeException(builderVerification.formatError())
-        }
-
         val editors = injector.getInstance(TypeEditorLoader::class.java)
-        val editorVerifier = injector.getInstance(EditorVerifier::class.java)
         resolver.appendEditors(editors.load())
         resolver.resolveEditors()
 
-        val editorVerification = editorVerifier.verifyErrors()
-        if (editorVerification.isFailure()) {
-            throw RuntimeException(editorVerification.formatError())
+        val verifier = injector.getInstance(TypeVerifier::class.java)
+        val verification = verifier.verifyAll()
+        if (verification.isCacheUpdateRequired()) {
+            val updater = injector.getInstance(TypeUpdater::class.java)
+            updater.updateAll()
+            packEnrichedTypes()
+            return false
+        } else if (verification.isFailure()) {
+            throw RuntimeException(verification.formatError())
         }
-    }
-
-    private fun updateCacheTypes(injector: Injector) {
-        val updater = injector.getInstance(TypeUpdater::class.java)
-        updater.updateAll()
+        return true
     }
 }

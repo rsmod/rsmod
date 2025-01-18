@@ -9,6 +9,7 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.openrs2.cache)
     implementation(projects.api.cache)
+    implementation(projects.api.cacheEnricher)
     implementation(projects.api.core)
     implementation(projects.api.gameProcess)
     implementation(projects.api.invPlugin)

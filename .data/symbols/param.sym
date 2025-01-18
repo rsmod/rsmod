@@ -148,6 +148,22 @@
 1801	slayer_task_boss_displayname
 1802	slayer_task_boss_location
 
+65459	attack_range
+65460	attack_anim_accurate
+65461	attack_sound_accurate
+65462	attack_anim_aggressive
+65463	attack_sound_aggressive
+65464	attack_anim_controlled
+65465	attack_sound_controlled
+65466	attack_anim_defensive
+65467	attack_sound_defensive
+65468	bas_readyanim
+65469	bas_turnonspot
+65470	bas_walk_f
+65471	bas_walk_b
+65472	bas_walk_l
+65473	bas_walk_r
+65474	bas_running
 65475	equipment_sound
 65476	player_op5_text
 65477	release_note_title
