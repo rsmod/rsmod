@@ -47,3 +47,25 @@ public data class IfOverlayButton(
 ) : KeyedEvent {
     override val id: Long = component.packed.toLong()
 }
+
+public class IfButtonDrag(
+    public val player: Player,
+    public val selectedSlot: Int?,
+    public val selectedObj: UnpackedObjType?,
+    public val targetSlot: Int?,
+    public val targetObj: UnpackedObjType?,
+    selectedComponent: Component,
+    targetComponent: Component,
+) : KeyedEvent {
+    override val id: Long =
+        (selectedComponent.packed.toLong() shl 32) or targetComponent.packed.toLong()
+
+    override fun toString(): String =
+        "IfButtonDrag(" +
+            "selectedSlot=$selectedSlot, " +
+            "targetSlot=$targetSlot, " +
+            "selectedObj=$selectedObj, " +
+            "targetObj=$targetObj, " +
+            "player=$player" +
+            ")"
+}

@@ -3,6 +3,7 @@ package org.rsmod.api.net.rsprot.provider
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
 import net.rsprot.protocol.game.incoming.buttons.If3Button
+import net.rsprot.protocol.game.incoming.buttons.IfButtonD
 import net.rsprot.protocol.game.incoming.locs.OpLoc
 import net.rsprot.protocol.game.incoming.locs.OpLoc6
 import net.rsprot.protocol.game.incoming.messaging.MessagePublic
@@ -24,6 +25,7 @@ import net.rsprot.protocol.message.codec.incoming.provider.DefaultGameMessageCon
 import org.rsmod.api.net.rsprot.handlers.ClientCheatHandler
 import org.rsmod.api.net.rsprot.handlers.CloseModalHandler
 import org.rsmod.api.net.rsprot.handlers.If3ButtonHandler
+import org.rsmod.api.net.rsprot.handlers.IfButtonDHandler
 import org.rsmod.api.net.rsprot.handlers.MessagePublicHandler
 import org.rsmod.api.net.rsprot.handlers.MoveGameClickHandler
 import org.rsmod.api.net.rsprot.handlers.MoveMinimapClickHandler
@@ -61,6 +63,7 @@ constructor(
     private val resumePNameDialog: ResumePNameDialogHandler,
     private val resumePStringDialog: ResumePStringDialogHandler,
     private val resumePObjDialog: ResumePObjDialogHandler,
+    private val ifButtonD: IfButtonDHandler,
 ) {
     fun get(): DefaultGameMessageConsumerRepositoryProvider<Player> {
         val builder = GameMessageConsumerRepositoryBuilder<Player>()
@@ -81,6 +84,7 @@ constructor(
         builder.addListener(ResumePNameDialog::class.java, resumePNameDialog)
         builder.addListener(ResumePStringDialog::class.java, resumePStringDialog)
         builder.addListener(ResumePObjDialog::class.java, resumePObjDialog)
+        builder.addListener(IfButtonD::class.java, ifButtonD)
         return DefaultGameMessageConsumerRepositoryProvider(builder.build())
     }
 }
