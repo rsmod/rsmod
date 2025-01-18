@@ -45,8 +45,8 @@ constructor(
             }
         }
 
-        // TODO: Verify `IfSetEvent` for dragging has been enabled components. This requires us to
-        //  store the state of IfSetEvents for the player.
+        // TODO: Verify `IfSetEvent` for dragging has been enabled for the components. This requires
+        //  us to store the state of IfSetEvents for the player.
 
         val selectedType = objTypes[message.selectedObj]
         val selectedSlot = message.selectedSub
