@@ -2,12 +2,12 @@ package org.rsmod.api.player.interact
 
 import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
+import kotlin.math.min
 import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.config.refs.synths
 import org.rsmod.api.config.refs.varbits
 import org.rsmod.api.invtx.invDel
-import org.rsmod.api.invtx.invDropSlot
 import org.rsmod.api.invtx.invSwap
 import org.rsmod.api.market.MarketPrices
 import org.rsmod.api.player.dialogue.Dialogue
@@ -20,9 +20,7 @@ import org.rsmod.api.player.output.UpdateInventory.resendSlot
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.output.objExamine
 import org.rsmod.api.player.output.soundSynth
-import org.rsmod.api.player.protect.ProtectedAccessLauncher
-import org.rsmod.api.player.protect.clearPendingAction
-import org.rsmod.api.player.ui.ifClose
+import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.worn.InvEquipOp
 import org.rsmod.api.player.worn.InvEquipResult
 import org.rsmod.api.repo.obj.ObjRepository
@@ -31,9 +29,13 @@ import org.rsmod.game.entity.Player
 import org.rsmod.game.interact.InvInteractionOp
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.obj.InvObj
+import org.rsmod.game.obj.Obj
+import org.rsmod.game.obj.ObjEntity
+import org.rsmod.game.obj.ObjScope
 import org.rsmod.game.obj.isType
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.obj.UnpackedObjType
+import org.rsmod.map.CoordGrid
 
 public class InvInteractions
 @Inject
@@ -46,9 +48,14 @@ private constructor(
 ) {
     private val logger = InlineLogger()
 
-    public fun interact(player: Player, inv: Inventory, invSlot: Int, op: InvInteractionOp) {
-        val obj = inv[invSlot] ?: return resendSlot(player, inv, 0)
-        interact(player, inv, invSlot, obj, objTypes[obj], op)
+    public suspend fun interact(
+        access: ProtectedAccess,
+        inv: Inventory,
+        invSlot: Int,
+        op: InvInteractionOp,
+    ) {
+        val obj = inv[invSlot] ?: return resendSlot(access.player, inv, 0)
+        interact(access, inv, invSlot, obj, objTypes[obj], op)
     }
 
     /**
@@ -58,18 +65,19 @@ private constructor(
      * the usual event flow. After that custom logic, call `drop(...)` to finalize the drop as if
      * `Op5` had been invoked, but without re-triggering any event-based scripts.
      */
-    public fun drop(player: Player, inv: Inventory, invSlot: Int) {
-        val obj = inv[invSlot] ?: return resendSlot(player, inv, 0)
-
-        val type = objTypes[obj]
-        if (!objectVerify(player, inv, obj, type, InvInteractionOp.Op5)) {
+    public suspend fun drop(access: ProtectedAccess, inv: Inventory, invSlot: Int) {
+        val obj = inv[invSlot]
+        if (obj == null) {
+            resendSlot(access.player, inv, 0)
             return
         }
 
-        player.clearPendingAction(eventBus)
-        player.resetFaceEntity()
+        val type = objTypes[obj]
+        if (!objectVerify(access.player, inv, obj, type, InvInteractionOp.Op5)) {
+            return
+        }
 
-        dropOp.attemptDrop(player, invSlot, obj, type)
+        dropOp.attemptDrop(access, invSlot, obj, type)
     }
 
     /**
@@ -84,81 +92,78 @@ private constructor(
      *
      * @return the outcome of the equip attempt, represented as [InvEquipResult].
      */
-    public fun equip(player: Player, inv: Inventory, invSlot: Int): InvEquipResult {
+    public fun equip(access: ProtectedAccess, inv: Inventory, invSlot: Int): InvEquipResult {
         val obj = inv[invSlot]
         if (obj == null) {
-            resendSlot(player, inv, 0)
+            resendSlot(access.player, inv, 0)
             return InvEquipResult.Fail.InvalidObj
         }
 
         val type = objTypes[obj]
-        if (!objectVerify(player, inv, obj, type, InvInteractionOp.Op2)) {
+        if (!objectVerify(access.player, inv, obj, type, InvInteractionOp.Op2)) {
             return InvEquipResult.Fail.InvalidObj
         }
 
-        player.clearPendingAction(eventBus)
-        player.resetFaceEntity()
-
-        val result = equipOp.equip(player, invSlot, inv)
+        val result = equipOp.equip(access.player, invSlot, inv)
         return result
     }
 
-    private fun interact(
-        player: Player,
+    public fun examine(player: Player, inv: Inventory, invSlot: Int) {
+        val obj = inv[invSlot] ?: return resendSlot(player, inv, 0)
+        objExamine(player, obj, objTypes[obj])
+    }
+
+    private suspend fun interact(
+        access: ProtectedAccess,
         inv: Inventory,
         invSlot: Int,
         obj: InvObj,
         type: UnpackedObjType,
         op: InvInteractionOp,
     ) {
-        if (op == InvInteractionOp.Op8) {
-            player.objExamine(type, obj.count, marketPrices[type] ?: 0)
+        if (!objectVerify(access.player, inv, obj, type, op)) {
             return
         }
-
-        if (!objectVerify(player, inv, obj, type, op)) {
-            return
-        }
-
-        player.clearPendingAction(eventBus)
-        player.resetFaceEntity()
-
         when (op) {
-            InvInteractionOp.Op1 -> player.invOp1(obj, type, invSlot)
-            InvInteractionOp.Op2 -> player.invOp2(obj, type, invSlot, inv)
-            InvInteractionOp.Op3 -> player.invOp3(obj, type, invSlot)
-            InvInteractionOp.Op4 -> player.invOp4(obj, type, invSlot)
-            InvInteractionOp.Op5 -> player.invOp5(obj, type, invSlot)
-            InvInteractionOp.Op6 -> player.invOp6(obj, type, invSlot)
-            InvInteractionOp.Op7 -> player.invOp7(obj, type, invSlot)
-            InvInteractionOp.Op8 -> throw IllegalStateException("Unreachable.")
+            InvInteractionOp.Op1 -> access.invOp1(obj, type, invSlot)
+            InvInteractionOp.Op2 -> access.invOp2(obj, type, invSlot, inv)
+            InvInteractionOp.Op3 -> access.invOp3(obj, type, invSlot)
+            InvInteractionOp.Op4 -> access.invOp4(obj, type, invSlot)
+            InvInteractionOp.Op5 -> access.invOp5(obj, type, invSlot)
+            InvInteractionOp.Op6 -> access.invOp6(obj, type, invSlot)
+            InvInteractionOp.Op7 -> access.invOp7(obj, type, invSlot)
         }
     }
 
-    private fun Player.invOp1(obj: InvObj, type: UnpackedObjType, invSlot: Int) {
-        val typeScript = eventBus.keyed[InvObjEvents.Op1::class.java, type.id]
+    private suspend fun ProtectedAccess.invOp1(obj: InvObj, type: UnpackedObjType, invSlot: Int) {
+        val typeScript = eventBus.suspend[InvObjEvents.Op1::class.java, type.id]
         if (typeScript != null) {
-            typeScript(InvObjEvents.Op1(this, invSlot, obj, type))
+            typeScript(InvObjEvents.Op1(invSlot, obj, type))
             return
         }
-        val groupScript = eventBus.keyed[InvObjContentEvents.Op1::class.java, type.contentGroup]
+        val groupScript = eventBus.suspend[InvObjContentEvents.Op1::class.java, type.contentGroup]
         if (groupScript != null) {
-            groupScript(InvObjContentEvents.Op1(this, invSlot, obj, type))
+            groupScript(InvObjContentEvents.Op1(invSlot, obj, type))
             return
         }
         mes(constants.dm_default)
         logger.debug { "InvOp1 for `${type.name}` is not implemented: type=$type" }
     }
 
-    private fun Player.invOp2(obj: InvObj, type: UnpackedObjType, invSlot: Int, inv: Inventory) {
-        val typeScript = eventBus.keyed[InvObjEvents.Op2::class.java, type.id]
+    private suspend fun ProtectedAccess.invOp2(
+        obj: InvObj,
+        type: UnpackedObjType,
+        invSlot: Int,
+        inv: Inventory,
+    ) {
+        val typeScript = eventBus.suspend[InvObjEvents.Op2::class.java, type.id]
         if (typeScript != null) {
-            typeScript(InvObjEvents.Op2(this, invSlot, obj, type))
+            typeScript(InvObjEvents.Op2(invSlot, obj, type))
             return
         }
-        val groupScript = eventBus.keyed[InvObjContentEvents.Op2::class.java, type.contentGroup]
+        val groupScript = eventBus.suspend[InvObjContentEvents.Op2::class.java, type.contentGroup]
         if (groupScript != null) {
-            groupScript(InvObjContentEvents.Op2(this, invSlot, obj, type))
+            groupScript(InvObjContentEvents.Op2(invSlot, obj, type))
             return
         }
         if (type.iop[1] != "Wield" && type.iop[1] != "Wear") {
@@ -166,80 +171,80 @@ private constructor(
             logger.debug { "InvOp2 for `${type.name}` is not implemented: type=$type" }
             return
         }
-        val result = equipOp.equip(this, invSlot, inv)
+        val result = equipOp.equip(player, invSlot, inv)
         if (result is InvEquipResult.Fail) {
             result.messages.forEach(::mes)
         }
     }
 
-    private fun Player.invOp3(obj: InvObj, type: UnpackedObjType, invSlot: Int) {
-        val typeScript = eventBus.keyed[InvObjEvents.Op3::class.java, type.id]
+    private suspend fun ProtectedAccess.invOp3(obj: InvObj, type: UnpackedObjType, invSlot: Int) {
+        val typeScript = eventBus.suspend[InvObjEvents.Op3::class.java, type.id]
         if (typeScript != null) {
-            typeScript(InvObjEvents.Op3(this, invSlot, obj, type))
+            typeScript(InvObjEvents.Op3(invSlot, obj, type))
             return
         }
-        val groupScript = eventBus.keyed[InvObjContentEvents.Op3::class.java, type.contentGroup]
+        val groupScript = eventBus.suspend[InvObjContentEvents.Op3::class.java, type.contentGroup]
         if (groupScript != null) {
-            groupScript(InvObjContentEvents.Op3(this, invSlot, obj, type))
+            groupScript(InvObjContentEvents.Op3(invSlot, obj, type))
             return
         }
         mes(constants.dm_default)
         logger.debug { "InvOp3 for `${type.name}` is not implemented: type=$type" }
     }
 
-    private fun Player.invOp4(obj: InvObj, type: UnpackedObjType, invSlot: Int) {
-        val typeScript = eventBus.keyed[InvObjEvents.Op4::class.java, type.id]
+    private suspend fun ProtectedAccess.invOp4(obj: InvObj, type: UnpackedObjType, invSlot: Int) {
+        val typeScript = eventBus.suspend[InvObjEvents.Op4::class.java, type.id]
         if (typeScript != null) {
-            typeScript(InvObjEvents.Op4(this, invSlot, obj, type))
+            typeScript(InvObjEvents.Op4(invSlot, obj, type))
             return
         }
-        val groupScript = eventBus.keyed[InvObjContentEvents.Op4::class.java, type.contentGroup]
+        val groupScript = eventBus.suspend[InvObjContentEvents.Op4::class.java, type.contentGroup]
         if (groupScript != null) {
-            groupScript(InvObjContentEvents.Op4(this, invSlot, obj, type))
+            groupScript(InvObjContentEvents.Op4(invSlot, obj, type))
             return
         }
         mes(constants.dm_default)
         logger.debug { "InvOp4 for `${type.name}` is not implemented: type=$type" }
     }
 
-    private fun Player.invOp5(obj: InvObj, type: UnpackedObjType, invSlot: Int) {
-        val typeScript = eventBus.keyed[InvObjEvents.Op5::class.java, type.id]
+    private suspend fun ProtectedAccess.invOp5(obj: InvObj, type: UnpackedObjType, invSlot: Int) {
+        val typeScript = eventBus.suspend[InvObjEvents.Op5::class.java, type.id]
         if (typeScript != null) {
-            typeScript(InvObjEvents.Op5(this, invSlot, obj, type))
+            typeScript(InvObjEvents.Op5(invSlot, obj, type))
             return
         }
-        val groupScript = eventBus.keyed[InvObjContentEvents.Op5::class.java, type.contentGroup]
+        val groupScript = eventBus.suspend[InvObjContentEvents.Op5::class.java, type.contentGroup]
         if (groupScript != null) {
-            groupScript(InvObjContentEvents.Op5(this, invSlot, obj, type))
+            groupScript(InvObjContentEvents.Op5(invSlot, obj, type))
             return
         }
         dropOp.dropOrDestroy(this, invSlot, obj, type)
     }
 
-    private fun Player.invOp6(obj: InvObj, type: UnpackedObjType, invSlot: Int) {
-        val typeScript = eventBus.keyed[InvObjEvents.Op6::class.java, type.id]
+    private suspend fun ProtectedAccess.invOp6(obj: InvObj, type: UnpackedObjType, invSlot: Int) {
+        val typeScript = eventBus.suspend[InvObjEvents.Op6::class.java, type.id]
         if (typeScript != null) {
-            typeScript(InvObjEvents.Op6(this, invSlot, obj, type))
+            typeScript(InvObjEvents.Op6(invSlot, obj, type))
             return
         }
-        val groupScript = eventBus.keyed[InvObjContentEvents.Op6::class.java, type.contentGroup]
+        val groupScript = eventBus.suspend[InvObjContentEvents.Op6::class.java, type.contentGroup]
         if (groupScript != null) {
-            groupScript(InvObjContentEvents.Op6(this, invSlot, obj, type))
+            groupScript(InvObjContentEvents.Op6(invSlot, obj, type))
             return
         }
         mes(constants.dm_default)
         logger.debug { "InvOp6 for `${type.name}` is not implemented: type=$type" }
     }
 
-    private fun Player.invOp7(obj: InvObj, type: UnpackedObjType, invSlot: Int) {
-        val typeScript = eventBus.keyed[InvObjEvents.Op7::class.java, type.id]
+    private suspend fun ProtectedAccess.invOp7(obj: InvObj, type: UnpackedObjType, invSlot: Int) {
+        val typeScript = eventBus.suspend[InvObjEvents.Op7::class.java, type.id]
         if (typeScript != null) {
-            typeScript(InvObjEvents.Op7(this, invSlot, obj, type))
+            typeScript(InvObjEvents.Op7(invSlot, obj, type))
             return
         }
-        val groupScript = eventBus.keyed[InvObjContentEvents.Op7::class.java, type.contentGroup]
+        val groupScript = eventBus.suspend[InvObjContentEvents.Op7::class.java, type.contentGroup]
         if (groupScript != null) {
-            groupScript(InvObjContentEvents.Op7(this, invSlot, obj, type))
+            groupScript(InvObjContentEvents.Op7(invSlot, obj, type))
             return
         }
         mes(constants.dm_default)
@@ -269,7 +274,6 @@ private constructor(
             return
         }
 
-        player.ifClose(eventBus)
         player.invSwap(inv, fromSlot, intoSlot)
     }
 
@@ -293,6 +297,10 @@ private constructor(
 
         return true
     }
+
+    private fun objExamine(player: Player, obj: InvObj, type: UnpackedObjType) {
+        player.objExamine(type, obj.count, marketPrices[type] ?: 0)
+    }
 }
 
 private class InvDropOp
@@ -300,22 +308,28 @@ private class InvDropOp
 constructor(
     private val eventBus: EventBus,
     private val objRepo: ObjRepository,
-    private val protectedAccess: ProtectedAccessLauncher,
     private val marketPrices: MarketPrices,
     private val dialogues: Dialogues,
 ) {
-    fun dropOrDestroy(player: Player, dropSlot: Int, obj: InvObj, type: UnpackedObjType) {
+    suspend fun dropOrDestroy(
+        access: ProtectedAccess,
+        dropSlot: Int,
+        obj: InvObj,
+        type: UnpackedObjType,
+    ) {
         when (type.iop[4]) {
-            "Destroy" -> player.attemptDestroy(dropSlot, obj, type)
-            "Release" -> player.attemptRelease(dropSlot, obj, type)
-            else -> attemptDrop(player, dropSlot, obj, type)
+            "Destroy" -> access.attemptDestroy(dropSlot, obj, type)
+            "Release" -> access.attemptRelease(dropSlot, obj, type)
+            else -> attemptDrop(access, dropSlot, obj, type)
         }
     }
 
-    private fun Player.attemptDestroy(dropSlot: Int, obj: InvObj, type: UnpackedObjType) {
-        protectedAccess.launch(this) {
-            startDialogue(dialogues) { destroyWarning(dropSlot, obj, type) }
-        }
+    private suspend fun ProtectedAccess.attemptDestroy(
+        dropSlot: Int,
+        obj: InvObj,
+        type: UnpackedObjType,
+    ) {
+        startDialogue(dialogues) { destroyWarning(dropSlot, obj, type) }
     }
 
     private suspend fun Dialogue.destroyWarning(dropSlot: Int, obj: InvObj, type: UnpackedObjType) {
@@ -336,14 +350,16 @@ constructor(
         }
     }
 
-    private fun Player.attemptRelease(dropSlot: Int, obj: InvObj, type: UnpackedObjType) {
+    private suspend fun ProtectedAccess.attemptRelease(
+        dropSlot: Int,
+        obj: InvObj,
+        type: UnpackedObjType,
+    ) {
         if (obj.count == 1) {
-            release(this, dropSlot, obj, type)
-        } else {
-            protectedAccess.launch(this) {
-                startDialogue(dialogues) { releaseWarning(dropSlot, obj, type) }
-            }
+            release(player, dropSlot, obj, type)
+            return
         }
+        startDialogue(dialogues) { releaseWarning(dropSlot, obj, type) }
     }
 
     private suspend fun Dialogue.releaseWarning(dropSlot: Int, obj: InvObj, type: UnpackedObjType) {
@@ -367,7 +383,13 @@ constructor(
         }
     }
 
-    fun attemptDrop(player: Player, dropSlot: Int, obj: InvObj, type: UnpackedObjType) {
+    suspend fun attemptDrop(
+        access: ProtectedAccess,
+        dropSlot: Int,
+        obj: InvObj,
+        type: UnpackedObjType,
+    ) {
+        val player = access.player
         val trigger = player.dropTrigger
         if (trigger != null) {
             player.clearDropTrigger(trigger)
@@ -385,7 +407,7 @@ constructor(
             val threshold = player.vars[varbits.drop_item_minimum_value] ?: 0
             val cost = (marketPrices[type] ?: 0) * obj.count
             if (cost >= threshold) {
-                player.dropWithWarning(dropSlot, obj, type)
+                access.dropWithWarning(dropSlot, obj, type)
                 return
             }
         }
@@ -404,10 +426,12 @@ constructor(
         eventBus.publish(event)
     }
 
-    private fun Player.dropWithWarning(dropSlot: Int, obj: InvObj, type: UnpackedObjType) {
-        protectedAccess.launch(this) {
-            startDialogue(dialogues) { dropWarning(dropSlot, obj, type) }
-        }
+    private suspend fun ProtectedAccess.dropWithWarning(
+        dropSlot: Int,
+        obj: InvObj,
+        type: UnpackedObjType,
+    ) {
+        startDialogue(dialogues) { dropWarning(dropSlot, obj, type) }
     }
 
     private suspend fun Dialogue.dropWarning(dropSlot: Int, obj: InvObj, type: UnpackedObjType) {
@@ -429,5 +453,33 @@ constructor(
         if (confirm) {
             player.drop(dropSlot, obj, type)
         }
+    }
+
+    private fun Player.invDropSlot(
+        repo: ObjRepository,
+        slot: Int,
+        count: Int = Int.MAX_VALUE,
+        duration: Int = this.lootDropDuration ?: constants.lootdrop_duration,
+        reveal: Int = duration - ObjRepository.DEFAULT_REVEAL_DELTA,
+        coords: CoordGrid = this.coords,
+        inv: Inventory = this.inv,
+    ): Boolean {
+        val invObj = inv[slot] ?: return false
+        val cappedCount = min(invObj.count, count)
+        if (cappedCount <= 0) {
+            return false
+        }
+
+        val transaction = invDel(inv, invObj.id, cappedCount, slot)
+        if (!transaction.success) {
+            return false
+        }
+
+        val observer = observerUUID ?: error("`observerUUID` not set for player: $this")
+        val entity =
+            ObjEntity(id = invObj.id, count = transaction.completed(), scope = ObjScope.Private.id)
+        val obj = Obj(coords, entity, currentMapClock, observer)
+        repo.add(obj, duration, reveal)
+        return true
     }
 }

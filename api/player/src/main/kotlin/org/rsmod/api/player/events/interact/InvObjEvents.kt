@@ -15,9 +15,8 @@ public class InvObjDropEvents {
         public val obj: InvObj,
         public val type: UnpackedObjType,
         triggerType: DropTriggerType,
-    ) : KeyedEvent {
-        override val id: Long = triggerType.id.toLong()
-    }
+        override val id: Long = triggerType.id.toLong(),
+    ) : KeyedEvent
 
     public data class Drop(
         public val player: Player,
@@ -64,134 +63,102 @@ public class InvEquipEvents {
     ) : UnboundEvent
 }
 
-public sealed class InvObjEvents : KeyedEvent {
+public sealed class InvObjEvents(id: Number) : OpEvent(id.toLong()) {
     public class Op1(
-        public val player: Player,
         public val slot: Int,
         public val obj: InvObj,
         public val type: UnpackedObjType,
-        override val id: Long = obj.id.toLong(),
-    ) : InvObjEvents()
+    ) : InvObjEvents(obj.id)
 
     public class Op2(
-        public val player: Player,
         public val slot: Int,
         public val obj: InvObj,
         public val type: UnpackedObjType,
-        override val id: Long = obj.id.toLong(),
-    ) : InvObjEvents()
+    ) : InvObjEvents(obj.id)
 
     public class Op3(
-        public val player: Player,
         public val slot: Int,
         public val obj: InvObj,
         public val type: UnpackedObjType,
-        override val id: Long = obj.id.toLong(),
-    ) : InvObjEvents()
+    ) : InvObjEvents(obj.id)
 
     public class Op4(
-        public val player: Player,
         public val slot: Int,
         public val obj: InvObj,
         public val type: UnpackedObjType,
-        override val id: Long = obj.id.toLong(),
-    ) : InvObjEvents()
+    ) : InvObjEvents(obj.id)
 
     public class Op5(
-        public val player: Player,
         public val slot: Int,
         public val obj: InvObj,
         public val type: UnpackedObjType,
-        override val id: Long = obj.id.toLong(),
-    ) : InvObjEvents()
+    ) : InvObjEvents(obj.id)
 
     public class Op6(
-        public val player: Player,
         public val slot: Int,
         public val obj: InvObj,
         public val type: UnpackedObjType,
-        override val id: Long = obj.id.toLong(),
-    ) : InvObjEvents()
+    ) : InvObjEvents(obj.id)
 
     public class Op7(
-        public val player: Player,
         public val slot: Int,
         public val obj: InvObj,
         public val type: UnpackedObjType,
-        override val id: Long = obj.id.toLong(),
-    ) : InvObjEvents()
+    ) : InvObjEvents(obj.id)
 
     public class Op8(
-        public val player: Player,
         public val slot: Int,
         public val obj: InvObj,
         public val type: UnpackedObjType,
-        override val id: Long = obj.id.toLong(),
-    ) : InvObjEvents()
+    ) : InvObjEvents(obj.id)
 }
 
-public sealed class InvObjContentEvents : KeyedEvent {
+public sealed class InvObjContentEvents(id: Number) : OpEvent(id.toLong()) {
     public class Op1(
-        public val player: Player,
         public val slot: Int,
         public val obj: InvObj,
         public val type: UnpackedObjType,
-        override val id: Long = type.contentGroup.toLong(),
-    ) : InvObjContentEvents()
+    ) : InvObjContentEvents(type.contentGroup)
 
     public class Op2(
-        public val player: Player,
         public val slot: Int,
         public val obj: InvObj,
         public val type: UnpackedObjType,
-        override val id: Long = type.contentGroup.toLong(),
-    ) : InvObjContentEvents()
+    ) : InvObjContentEvents(type.contentGroup)
 
     public class Op3(
-        public val player: Player,
         public val slot: Int,
         public val obj: InvObj,
         public val type: UnpackedObjType,
-        override val id: Long = type.contentGroup.toLong(),
-    ) : InvObjContentEvents()
+    ) : InvObjContentEvents(type.contentGroup)
 
     public class Op4(
-        public val player: Player,
         public val slot: Int,
         public val obj: InvObj,
         public val type: UnpackedObjType,
-        override val id: Long = type.contentGroup.toLong(),
-    ) : InvObjContentEvents()
+    ) : InvObjContentEvents(type.contentGroup)
 
     public class Op5(
-        public val player: Player,
         public val slot: Int,
         public val obj: InvObj,
         public val type: UnpackedObjType,
-        override val id: Long = type.contentGroup.toLong(),
-    ) : InvObjContentEvents()
+    ) : InvObjContentEvents(type.contentGroup)
 
     public class Op6(
-        public val player: Player,
         public val slot: Int,
         public val obj: InvObj,
         public val type: UnpackedObjType,
-        override val id: Long = type.contentGroup.toLong(),
-    ) : InvObjContentEvents()
+    ) : InvObjContentEvents(type.contentGroup)
 
     public class Op7(
-        public val player: Player,
         public val slot: Int,
         public val obj: InvObj,
         public val type: UnpackedObjType,
-        override val id: Long = type.contentGroup.toLong(),
-    ) : InvObjContentEvents()
+    ) : InvObjContentEvents(type.contentGroup)
 
     public class Op8(
-        public val player: Player,
         public val slot: Int,
         public val obj: InvObj,
         public val type: UnpackedObjType,
-        override val id: Long = type.contentGroup.toLong(),
-    ) : InvObjContentEvents()
+    ) : InvObjContentEvents(type.contentGroup)
 }

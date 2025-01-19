@@ -10,6 +10,4 @@ public enum class InvInteractionOp(public val slot: Int) {
     Op5(5),
     Op6(6),
     Op7(7),
-    /** The `Examine` op. */
-    Op8(8),
 }

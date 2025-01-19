@@ -1,6 +1,5 @@
 package org.rsmod.api.invtx
 
-import kotlin.math.min
 import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.objs
 import org.rsmod.api.player.output.updateInvRecommended
@@ -9,8 +8,6 @@ import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.obj.InvObj
 import org.rsmod.game.obj.Obj
-import org.rsmod.game.obj.ObjEntity
-import org.rsmod.game.obj.ObjScope
 import org.rsmod.game.type.inv.InvStackType
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.map.CoordGrid
@@ -19,34 +16,6 @@ import org.rsmod.objtx.TransactionCancellation
 import org.rsmod.objtx.TransactionInventory
 import org.rsmod.objtx.TransactionResult
 import org.rsmod.objtx.TransactionResultList
-
-public fun Player.invDropSlot(
-    repo: ObjRepository,
-    slot: Int,
-    count: Int = Int.MAX_VALUE,
-    duration: Int = this.lootDropDuration ?: constants.lootdrop_duration,
-    reveal: Int = duration - ObjRepository.DEFAULT_REVEAL_DELTA,
-    coords: CoordGrid = this.coords,
-    inv: Inventory = this.inv,
-): Boolean {
-    val invObj = inv[slot] ?: return false
-    val cappedCount = min(invObj.count, count)
-    if (cappedCount <= 0) {
-        return false
-    }
-
-    val transaction = invDel(inv, invObj.id, cappedCount, slot)
-    if (!transaction.success) {
-        return false
-    }
-
-    val observer = observerUUID ?: error("`observerUUID` not set for player: $this")
-    val entity =
-        ObjEntity(id = invObj.id, count = transaction.completed(), scope = ObjScope.Private.id)
-    val obj = Obj(coords, entity, currentMapClock, observer)
-    repo.add(obj, duration, reveal)
-    return true
-}
 
 public fun Player.invAddOrDrop(
     repo: ObjRepository,
