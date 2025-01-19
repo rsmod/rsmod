@@ -25,6 +25,14 @@ public class SuspendEventBus {
         map[key] = action
     }
 
+    public operator fun <K, T : SuspendEvent<K>> get(
+        type: Class<out T>,
+        key: Number,
+    ): (suspend K.(T) -> Unit)? {
+        val map = get(type) ?: return null
+        return map.getOrDefault(key.toLong(), null)
+    }
+
     @Suppress("UNCHECKED_CAST")
     public operator fun <K, T : SuspendEvent<K>> get(
         type: Class<out T>
