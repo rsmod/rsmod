@@ -7,6 +7,7 @@ import org.rsmod.api.config.refs.components
 import org.rsmod.api.invtx.invAdd
 import org.rsmod.api.player.input.ResumePCountDialogInput
 import org.rsmod.api.player.input.ResumePauseButtonInput
+import org.rsmod.api.player.interact.InvInteractions
 import org.rsmod.api.player.interact.LocInteractions
 import org.rsmod.api.player.output.Camera
 import org.rsmod.api.player.output.ChatType
@@ -39,6 +40,7 @@ import org.rsmod.api.player.ui.ifSetNpcHead
 import org.rsmod.api.player.ui.ifSetPlayerHead
 import org.rsmod.api.player.ui.ifSetText
 import org.rsmod.api.player.vars.varMoveSpeed
+import org.rsmod.api.player.worn.InvEquipResult
 import org.rsmod.api.random.GameRandom
 import org.rsmod.api.route.RayCastValidator
 import org.rsmod.api.stats.levelmod.InvisibleLevels
@@ -52,6 +54,7 @@ import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.player.ProtectedAccessLostException
 import org.rsmod.game.entity.shared.PathingEntityCommon
 import org.rsmod.game.interact.InteractionOp
+import org.rsmod.game.interact.InvInteractionOp
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.map.Direction
@@ -262,6 +265,73 @@ public class ProtectedAccess(
         loc: BoundLocInfo,
         interactions: LocInteractions = context.locInteractions,
     ): Unit = interactions.interact(player, loc, InteractionOp.Op4)
+
+    public fun invOp1(invSlot: Int, interactions: InvInteractions = context.invInteractions) {
+        interactions.interact(player, player.inv, invSlot, InvInteractionOp.Op1)
+    }
+
+    /**
+     * Note that if you wish to directly equip an obj bypassing any custom scripts you will need to
+     * call [invEquip] instead.
+     *
+     * @see [InvInteractionOp.Op2]
+     */
+    public fun invOp2(invSlot: Int, interactions: InvInteractions = context.invInteractions) {
+        interactions.interact(player, player.inv, invSlot, InvInteractionOp.Op2)
+    }
+
+    public fun invOp3(invSlot: Int, interactions: InvInteractions = context.invInteractions) {
+        interactions.interact(player, player.inv, invSlot, InvInteractionOp.Op3)
+    }
+
+    public fun invOp4(invSlot: Int, interactions: InvInteractions = context.invInteractions) {
+        interactions.interact(player, player.inv, invSlot, InvInteractionOp.Op4)
+    }
+
+    /**
+     * Note that if you wish to directly drop an obj bypassing any custom scripts you will need to
+     * call [invDrop] instead.
+     *
+     * @see [InvInteractionOp.Op5]
+     */
+    public fun invOp5(invSlot: Int, interactions: InvInteractions = context.invInteractions) {
+        interactions.interact(player, player.inv, invSlot, InvInteractionOp.Op5)
+    }
+
+    public fun invOp6(invSlot: Int, interactions: InvInteractions = context.invInteractions) {
+        interactions.interact(player, player.inv, invSlot, InvInteractionOp.Op6)
+    }
+
+    public fun invOp7(invSlot: Int, interactions: InvInteractions = context.invInteractions) {
+        interactions.interact(player, player.inv, invSlot, InvInteractionOp.Op7)
+    }
+
+    public fun invExamine(invSlot: Int, interactions: InvInteractions = context.invInteractions) {
+        interactions.interact(player, player.inv, invSlot, InvInteractionOp.Op8)
+    }
+
+    /**
+     * Note that this function will bypass any custom scripts attached to the respective obj and
+     * will attempt to directly equip it instead. Use [invOp2] if you wish to avoid this behavior.
+     *
+     * @return [InvEquipResult] with result of the attempt to equip respective obj.
+     * @see [InvInteractions.equip]
+     */
+    public fun invEquip(
+        invSlot: Int,
+        interactions: InvInteractions = context.invInteractions,
+    ): InvEquipResult = interactions.equip(player, player.inv, invSlot)
+
+    /**
+     * Note that this function will bypass any custom scripts attached to the respective obj and
+     * will attempt to directly drop it instead. Use [invOp5] if you wish to avoid this behavior.
+     *
+     * @see [InvInteractions.drop]
+     */
+    public fun invDrop(
+        invSlot: Int,
+        interactions: InvInteractions = context.invInteractions,
+    ): Unit = interactions.drop(player, player.inv, invSlot)
 
     public fun faceSquare(target: CoordGrid): Unit = player.faceSquare(target)
 
