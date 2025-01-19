@@ -47,12 +47,60 @@ private constructor(
     private val logger = InlineLogger()
 
     public fun interact(player: Player, inv: Inventory, invSlot: Int, op: InvInteractionOp) {
+        val obj = inv[invSlot] ?: return resendSlot(player, inv, 0)
+        interact(player, inv, invSlot, obj, objTypes[obj], op)
+    }
+
+    /**
+     * Directly drops the obj in [invSlot], bypassing the normal `Op5` scripted logic.
+     *
+     * Use this when an obj requires custom or additional logic (before dropping) that isn't part of
+     * the usual event flow. After that custom logic, call `drop(...)` to finalize the drop as if
+     * `Op5` had been invoked, but without re-triggering any event-based scripts.
+     */
+    public fun drop(player: Player, inv: Inventory, invSlot: Int) {
+        val obj = inv[invSlot] ?: return resendSlot(player, inv, 0)
+
+        val type = objTypes[obj]
+        if (!objectVerify(player, inv, obj, type, InvInteractionOp.Op5)) {
+            return
+        }
+
+        player.clearPendingAction(eventBus)
+        player.resetFaceEntity()
+
+        dropOp.attemptDrop(player, invSlot, obj, type)
+    }
+
+    /**
+     * Directly equips the obj in [invSlot], bypassing the normal `Op2` scripted logic.
+     *
+     * Use this when an obj requires custom or additional logic (before equipping) that isn't part
+     * of the usual event flow. After that custom logic, call `equip(...)` to finalize the equip as
+     * if `Op2` had been invoked, but without re-triggering any event-based scripts.
+     *
+     * _Note that this function may not actually equip the obj if the player is prohibited from
+     * doing so. In those cases, the reason is returned in the form of [InvEquipResult]._
+     *
+     * @return the outcome of the equip attempt, represented as [InvEquipResult].
+     */
+    public fun equip(player: Player, inv: Inventory, invSlot: Int): InvEquipResult {
         val obj = inv[invSlot]
         if (obj == null) {
             resendSlot(player, inv, 0)
-            return
+            return InvEquipResult.Fail.InvalidObj
         }
-        interact(player, inv, invSlot, obj, objTypes[obj], op)
+
+        val type = objTypes[obj]
+        if (!objectVerify(player, inv, obj, type, InvInteractionOp.Op2)) {
+            return InvEquipResult.Fail.InvalidObj
+        }
+
+        player.clearPendingAction(eventBus)
+        player.resetFaceEntity()
+
+        val result = equipOp.equip(player, invSlot, inv)
+        return result
     }
 
     private fun interact(
@@ -68,14 +116,7 @@ private constructor(
             return
         }
 
-        // Op5 (`Drop`) always exists as a fallback.
-        if (!type.hasInvOp(op) && op != InvInteractionOp.Op5) {
-            logger.debug { "InvOp invalid op blocked: op=$op, obj=$obj, type=$type" }
-            return
-        }
-
-        if (player.isDelayed || !obj.isType(type)) {
-            resendSlot(player, inv, 0)
+        if (!objectVerify(player, inv, obj, type, op)) {
             return
         }
 
@@ -231,6 +272,27 @@ private constructor(
         player.ifClose(eventBus)
         player.invSwap(inv, fromSlot, intoSlot)
     }
+
+    private fun objectVerify(
+        player: Player,
+        inv: Inventory,
+        obj: InvObj?,
+        type: UnpackedObjType,
+        op: InvInteractionOp,
+    ): Boolean {
+        if (player.isDelayed || !obj.isType(type)) {
+            resendSlot(player, inv, 0)
+            return false
+        }
+
+        // Op5 (`Drop`) always exists as a fallback.
+        if (!type.hasInvOp(op) && op != InvInteractionOp.Op5) {
+            logger.debug { "InvOp invalid op blocked: op=$op, obj=$obj, type=$type" }
+            return false
+        }
+
+        return true
+    }
 }
 
 private class InvDropOp
@@ -246,7 +308,7 @@ constructor(
         when (type.iop[4]) {
             "Destroy" -> player.attemptDestroy(dropSlot, obj, type)
             "Release" -> player.attemptRelease(dropSlot, obj, type)
-            else -> player.attemptDrop(dropSlot, obj, type)
+            else -> attemptDrop(player, dropSlot, obj, type)
         }
     }
 
@@ -263,6 +325,10 @@ constructor(
         if (!confirm) {
             return
         }
+        destroy(player, dropSlot, obj, type)
+    }
+
+    fun destroy(player: Player, dropSlot: Int, obj: InvObj, type: UnpackedObjType) {
         val result = player.invDel(player.inv, type, count = obj.count, slot = dropSlot)
         if (result.success) {
             val event = InvObjDropEvents.Destroy(player, dropSlot, obj, type)
@@ -272,7 +338,7 @@ constructor(
 
     private fun Player.attemptRelease(dropSlot: Int, obj: InvObj, type: UnpackedObjType) {
         if (obj.count == 1) {
-            release(dropSlot, obj, type)
+            release(this, dropSlot, obj, type)
         } else {
             protectedAccess.launch(this) {
                 startDialogue(dialogues) { releaseWarning(dropSlot, obj, type) }
@@ -281,48 +347,50 @@ constructor(
     }
 
     private suspend fun Dialogue.releaseWarning(dropSlot: Int, obj: InvObj, type: UnpackedObjType) {
-        val header = type.param(params.release_note_title)
+        val header =
+            type.paramOrNull(params.release_note_title) ?: "Drop all of your ${type.lowercaseName}?"
         val confirm = choice2("Yes", true, "No", false, title = header)
         if (!confirm) {
             return
         }
-        player.release(dropSlot, obj, type)
+        release(player, dropSlot, obj, type)
     }
 
-    private fun Player.release(dropSlot: Int, obj: InvObj, type: UnpackedObjType) {
-        val message = type.paramOrNull(params.release_note_message)
-        val result = invDel(inv, type, count = obj.count, slot = dropSlot)
+    fun release(player: Player, dropSlot: Int, obj: InvObj, type: UnpackedObjType) {
+        val result = player.invDel(player.inv, type, count = obj.count, slot = dropSlot)
         if (result.success) {
-            val event = InvObjDropEvents.Release(this, dropSlot, obj, type)
+            val event = InvObjDropEvents.Release(player, dropSlot, obj, type)
             eventBus.publish(event)
-            message?.let(::mes)
+
+            val message = type.paramOrNull(params.release_note_message)
+            message?.let(player::mes)
         }
     }
 
-    private fun Player.attemptDrop(dropSlot: Int, obj: InvObj, type: UnpackedObjType) {
-        val trigger = dropTrigger
+    fun attemptDrop(player: Player, dropSlot: Int, obj: InvObj, type: UnpackedObjType) {
+        val trigger = player.dropTrigger
         if (trigger != null) {
-            clearDropTrigger(trigger)
-            val event = InvObjDropEvents.Trigger(this, dropSlot, obj, type, trigger)
+            player.clearDropTrigger(trigger)
+            val event = InvObjDropEvents.Trigger(player, dropSlot, obj, type, trigger)
             eventBus.publish(event)
         }
 
         // If drop trigger was reset it means the inv obj cannot be dropped.
-        if (dropTrigger != null) {
+        if (player.dropTrigger != null) {
             return
         }
 
-        val thresholdWarning = vars[varbits.drop_item_warning] == 1
+        val thresholdWarning = player.vars[varbits.drop_item_warning] == 1
         if (thresholdWarning) {
-            val threshold = vars[varbits.drop_item_minimum_value] ?: 0
+            val threshold = player.vars[varbits.drop_item_minimum_value] ?: 0
             val cost = (marketPrices[type] ?: 0) * obj.count
             if (cost >= threshold) {
-                dropWithWarning(dropSlot, obj, type)
+                player.dropWithWarning(dropSlot, obj, type)
                 return
             }
         }
 
-        drop(dropSlot, obj, type)
+        player.drop(dropSlot, obj, type)
     }
 
     private fun Player.drop(dropSlot: Int, obj: InvObj, type: UnpackedObjType) {

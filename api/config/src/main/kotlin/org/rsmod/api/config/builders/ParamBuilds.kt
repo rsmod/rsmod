@@ -38,16 +38,13 @@ internal object ParamBuilds : ParamBuilder() {
         build<StatType>("xpmod_stat")
         build<Int>("xpmod_percent")
 
-        // TODO: Integration test to ensure all objs with `Destroy` iop have a destroy note params.
-        //  + Remove defaults once all destroyable objs have notes.
-        //  Same goes for `Release` iop.
         build<String>("destroy_note_title") {
             default = "Are you sure you want to destroy this item?"
         }
         build<String>("destroy_note_desc") { default = "This action cannot be undone." }
 
-        build<String>("release_note_title") { default = "Drop all of this item?" }
-        build<String>("release_note_message") { default = "You release it and it bounds away." }
+        build<String>("release_note_title")
+        build<String>("release_note_message")
 
         build<String>("statreq_failmessage1") {
             default = "You are not a high enough level to use this item."
