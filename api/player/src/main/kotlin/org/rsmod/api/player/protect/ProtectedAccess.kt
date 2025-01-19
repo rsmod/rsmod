@@ -96,6 +96,8 @@ public class ProtectedAccess(
     public var actionDelay: Int by player::actionDelay
     public var skillAnimDelay: Int by player::skillAnimDelay
 
+    private var opInvCallCount = 0
+
     public suspend fun walk(dest: CoordGrid): Unit = move(dest, MoveSpeed.Walk)
 
     public suspend fun run(dest: CoordGrid): Unit = move(dest, MoveSpeed.Run)
@@ -266,53 +268,101 @@ public class ProtectedAccess(
         interactions: LocInteractions = context.locInteractions,
     ): Unit = interactions.interact(player, loc, InteractionOp.Op4)
 
-    public fun invOp1(invSlot: Int, interactions: InvInteractions = context.invInteractions) {
-        interactions.interact(player, player.inv, invSlot, InvInteractionOp.Op1)
+    /**
+     * @throws IllegalStateException if [checkOpInvCallLimit] exceeds the safety net threshold.
+     * @see [checkOpInvCallLimit]
+     */
+    public suspend fun opInv1(
+        invSlot: Int,
+        interactions: InvInteractions = context.invInteractions,
+    ) {
+        checkOpInvCallLimit()
+        interactions.interact(this, player.inv, invSlot, InvInteractionOp.Op1)
     }
 
     /**
-     * Note that if you wish to directly equip an obj bypassing any custom scripts you will need to
-     * call [invEquip] instead.
+     * Note: If you wish to directly equip an obj bypassing any custom scripts you will need to call
+     * [invEquip] instead.
      *
+     * @throws IllegalStateException if [checkOpInvCallLimit] exceeds the safety net threshold.
+     * @see [checkOpInvCallLimit]
      * @see [InvInteractionOp.Op2]
      */
-    public fun invOp2(invSlot: Int, interactions: InvInteractions = context.invInteractions) {
-        interactions.interact(player, player.inv, invSlot, InvInteractionOp.Op2)
-    }
-
-    public fun invOp3(invSlot: Int, interactions: InvInteractions = context.invInteractions) {
-        interactions.interact(player, player.inv, invSlot, InvInteractionOp.Op3)
-    }
-
-    public fun invOp4(invSlot: Int, interactions: InvInteractions = context.invInteractions) {
-        interactions.interact(player, player.inv, invSlot, InvInteractionOp.Op4)
+    public suspend fun opInv2(
+        invSlot: Int,
+        interactions: InvInteractions = context.invInteractions,
+    ) {
+        checkOpInvCallLimit()
+        interactions.interact(this, player.inv, invSlot, InvInteractionOp.Op2)
     }
 
     /**
-     * Note that if you wish to directly drop an obj bypassing any custom scripts you will need to
-     * call [invDrop] instead.
-     *
-     * @see [InvInteractionOp.Op5]
+     * @throws IllegalStateException if [checkOpInvCallLimit] exceeds the safety net threshold.
+     * @see [checkOpInvCallLimit]
      */
-    public fun invOp5(invSlot: Int, interactions: InvInteractions = context.invInteractions) {
-        interactions.interact(player, player.inv, invSlot, InvInteractionOp.Op5)
-    }
-
-    public fun invOp6(invSlot: Int, interactions: InvInteractions = context.invInteractions) {
-        interactions.interact(player, player.inv, invSlot, InvInteractionOp.Op6)
-    }
-
-    public fun invOp7(invSlot: Int, interactions: InvInteractions = context.invInteractions) {
-        interactions.interact(player, player.inv, invSlot, InvInteractionOp.Op7)
-    }
-
-    public fun invExamine(invSlot: Int, interactions: InvInteractions = context.invInteractions) {
-        interactions.interact(player, player.inv, invSlot, InvInteractionOp.Op8)
+    public suspend fun opInv3(
+        invSlot: Int,
+        interactions: InvInteractions = context.invInteractions,
+    ) {
+        checkOpInvCallLimit()
+        interactions.interact(this, player.inv, invSlot, InvInteractionOp.Op3)
     }
 
     /**
-     * Note that this function will bypass any custom scripts attached to the respective obj and
-     * will attempt to directly equip it instead. Use [invOp2] if you wish to avoid this behavior.
+     * @throws IllegalStateException if [checkOpInvCallLimit] exceeds the safety net threshold.
+     * @see [checkOpInvCallLimit]
+     */
+    public suspend fun opInv4(
+        invSlot: Int,
+        interactions: InvInteractions = context.invInteractions,
+    ) {
+        checkOpInvCallLimit()
+        interactions.interact(this, player.inv, invSlot, InvInteractionOp.Op4)
+    }
+
+    /**
+     * Note: If you wish to directly drop an obj bypassing any custom scripts you will need to call
+     * [invDrop] instead.
+     *
+     * @throws IllegalStateException if [checkOpInvCallLimit] exceeds the safety net threshold.
+     * @see [InvInteractionOp.Op5]
+     * @see [checkOpInvCallLimit]
+     */
+    public suspend fun opInv5(
+        invSlot: Int,
+        interactions: InvInteractions = context.invInteractions,
+    ) {
+        checkOpInvCallLimit()
+        interactions.interact(this, player.inv, invSlot, InvInteractionOp.Op5)
+    }
+
+    /**
+     * @throws IllegalStateException if [checkOpInvCallLimit] exceeds the safety net threshold.
+     * @see [checkOpInvCallLimit]
+     */
+    public suspend fun opInv6(
+        invSlot: Int,
+        interactions: InvInteractions = context.invInteractions,
+    ) {
+        checkOpInvCallLimit()
+        interactions.interact(this, player.inv, invSlot, InvInteractionOp.Op6)
+    }
+
+    /**
+     * @throws IllegalStateException if [checkOpInvCallLimit] exceeds the safety net threshold.
+     * @see [checkOpInvCallLimit]
+     */
+    public suspend fun opInv7(
+        invSlot: Int,
+        interactions: InvInteractions = context.invInteractions,
+    ) {
+        checkOpInvCallLimit()
+        interactions.interact(this, player.inv, invSlot, InvInteractionOp.Op7)
+    }
+
+    /**
+     * Note: This function will bypass any custom scripts attached to the respective obj and will
+     * attempt to directly equip it instead. Use [opInv2] if you wish to avoid this behavior.
      *
      * @return [InvEquipResult] with result of the attempt to equip respective obj.
      * @see [InvInteractions.equip]
@@ -320,18 +370,26 @@ public class ProtectedAccess(
     public fun invEquip(
         invSlot: Int,
         interactions: InvInteractions = context.invInteractions,
-    ): InvEquipResult = interactions.equip(player, player.inv, invSlot)
+    ): InvEquipResult = interactions.equip(this, player.inv, invSlot)
 
     /**
-     * Note that this function will bypass any custom scripts attached to the respective obj and
-     * will attempt to directly drop it instead. Use [invOp5] if you wish to avoid this behavior.
+     * Note: This function will bypass any custom scripts attached to the respective obj and will
+     * attempt to directly drop it instead. Use [opInv5] if you wish to avoid this behavior.
      *
      * @see [InvInteractions.drop]
      */
-    public fun invDrop(
+    public suspend fun invDrop(
         invSlot: Int,
         interactions: InvInteractions = context.invInteractions,
-    ): Unit = interactions.drop(player, player.inv, invSlot)
+    ) {
+        checkOpInvCallLimit()
+        interactions.drop(this, player.inv, invSlot)
+    }
+
+    public fun invExamine(
+        invSlot: Int,
+        interactions: InvInteractions = context.invInteractions,
+    ): Unit = interactions.examine(player, player.inv, invSlot)
 
     public fun faceSquare(target: CoordGrid): Unit = player.faceSquare(target)
 
@@ -999,6 +1057,28 @@ public class ProtectedAccess(
     /* Sound helper functions */
     public fun soundSynth(synth: SynthType, loops: Int = 1, delay: Int = 0): Unit =
         player.soundSynth(synth, loops, delay)
+
+    /**
+     * Increments [opInvCallCount] counter and throws [IllegalStateException] if the call count
+     * exceeds a certain threshold. This is done as a counter-measure to avoid [StackOverflowError]
+     * under a specific scenario of `opInv` calls.
+     *
+     * This occurs when an `opInvN` function is called from an `onInvObjN` script that comes from
+     * the same inv slot obj. Assuming there are no `delay` or similar suspending calls in between
+     * each script, this leads to infinite recursion:
+     * ```
+     * onInvObjN -> opInvN -> onInvObjN -> opInvN -> ...
+     * ```
+     *
+     * @throws IllegalStateException
+     */
+    private fun checkOpInvCallLimit() {
+        if (opInvCallCount++ >= 500) {
+            throw IllegalStateException("Detected `opInv` infinite recursion: $this")
+        }
+    }
+
+    override fun toString(): String = "ProtectedAccess(player=$player, coroutine=$coroutine)"
 }
 
 private fun MesAnimType.splitGetAnim(lines: Int) =
