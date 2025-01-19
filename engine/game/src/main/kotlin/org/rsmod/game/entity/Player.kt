@@ -72,6 +72,7 @@ public class Player(
     public var modGroup: ModGroup? = null
     public var xpRate: Double = 1.0
 
+    public var requestModalClose: Boolean = false
     public var publicMessage: PublicMessage? = null
 
     /* Cache for commonly-accessed Invs */

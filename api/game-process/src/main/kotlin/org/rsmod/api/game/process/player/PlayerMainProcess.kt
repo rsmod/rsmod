@@ -6,6 +6,7 @@ import kotlinx.coroutines.runBlocking
 import org.rsmod.api.game.process.GameLifecycle
 import org.rsmod.api.player.clearInteractionRoute
 import org.rsmod.api.player.forceDisconnect
+import org.rsmod.api.player.ui.ifClose
 import org.rsmod.events.EventBus
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Player
@@ -43,6 +44,7 @@ constructor(
             player.tryOrDisconnect {
                 resumePausedProcess()
                 refreshFaceEntity()
+                processModalClosure()
                 processQueues()
                 processTimers()
                 processMovementSequence()
@@ -60,6 +62,13 @@ constructor(
         val interaction = interaction
         if (interaction == null) {
             resetFaceEntity()
+        }
+    }
+
+    private fun Player.processModalClosure() {
+        if (requestModalClose || queueList.strongQueues > 0) {
+            requestModalClose = false
+            ifClose(eventBus)
         }
     }
 
