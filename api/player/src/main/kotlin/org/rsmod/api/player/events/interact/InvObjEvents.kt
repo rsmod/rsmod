@@ -97,6 +97,14 @@ public sealed class InvObjEvents : KeyedEvent {
         override val id: Long = obj.id.toLong(),
     ) : InvObjEvents()
 
+    public class Op5(
+        public val player: Player,
+        public val slot: Int,
+        public val obj: InvObj,
+        public val type: UnpackedObjType,
+        override val id: Long = obj.id.toLong(),
+    ) : InvObjEvents()
+
     public class Op6(
         public val player: Player,
         public val slot: Int,
@@ -148,6 +156,14 @@ public sealed class InvObjContentEvents : KeyedEvent {
     ) : InvObjContentEvents()
 
     public class Op4(
+        public val player: Player,
+        public val slot: Int,
+        public val obj: InvObj,
+        public val type: UnpackedObjType,
+        override val id: Long = type.contentGroup.toLong(),
+    ) : InvObjContentEvents()
+
+    public class Op5(
         public val player: Player,
         public val slot: Int,
         public val obj: InvObj,

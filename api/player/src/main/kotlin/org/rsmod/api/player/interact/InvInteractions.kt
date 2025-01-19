@@ -162,6 +162,16 @@ private constructor(
     }
 
     private fun Player.invOp5(obj: InvObj, type: UnpackedObjType, invSlot: Int) {
+        val typeScript = eventBus.keyed[InvObjEvents.Op5::class.java, type.id]
+        if (typeScript != null) {
+            typeScript(InvObjEvents.Op5(this, invSlot, obj, type))
+            return
+        }
+        val groupScript = eventBus.keyed[InvObjContentEvents.Op5::class.java, type.contentGroup]
+        if (groupScript != null) {
+            groupScript(InvObjContentEvents.Op5(this, invSlot, obj, type))
+            return
+        }
         dropOp.dropOrDestroy(this, invSlot, obj, type)
     }
 
