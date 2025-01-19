@@ -16156,14 +16156,20 @@ equipment_sound = 2237
 [[config]]
 obj = 'cooking_gauntlets'
 equipment_sound = 2236
+destroy_note = 'You can obtain another set of Cooking gauntlets from Caleb.'
+destroy_note_alt = 'Before Family Pest: You can obtain another set of Cooking gauntlets from Dimintheis.'
 
 [[config]]
 obj = 'goldsmith_gauntlets'
 equipment_sound = 2236
+destroy_note = 'You can obtain another set of Goldsmithing gauntlets from Avan.'
+destroy_note_alt = 'Before Family Pest: You can obtain another set of Goldsmithing gauntlets from Dimintheis.'
 
 [[config]]
 obj = 'chaos_gauntlets'
 equipment_sound = 2236
+destroy_note = 'You can obtain another set of Chaos gauntlets from Johnathon.'
+destroy_note_alt = 'Before Family Pest: You can obtain another set of Chaos gauntlets from Dimintheis.'
 
 [[config]]
 obj = 'steel_gauntlets'
@@ -18498,12 +18504,10 @@ equipment_sound = 2235
 [[config]]
 obj = 'fancy_boots'
 equipment_sound = 2237
-destroy_note = 'You can get another pair of Fancy boots from the Stronghold of Security.'
 
 [[config]]
 obj = 'fighting_boots'
 equipment_sound = 2237
-destroy_note = 'You can get another pair of Fancy boots from the Stronghold of Security.'
 
 [[config]]
 obj = 'moonclan_helm'
@@ -22175,6 +22179,7 @@ equipment_sound = 2241
 [[config]]
 obj = 'giant_bronze_dagger'
 equipment_sound = 2248
+destroy_note = 'You can get a replacement from Horvik.'
 combat_style = 'TwoHandedSword'
 
 [[config]]
@@ -25384,10 +25389,6 @@ obj = 'archaic_emblem_tier_10_23487'
 destroy_note = 'The Emblem Trader in Edgeville may want this.'
 
 [[config]]
-obj = 'larrans_key'
-destroy_note = "You'll have to fight more creatures to find more keys."
-
-[[config]]
 obj = 'temple_coin'
 destroy_note = 'You can reclaim another one from Olbertus.'
 
@@ -28135,10 +28136,6 @@ obj = 'quest_lamp_28554'
 destroy_note = 'Are you sure you want to destroy the quest lamp? You can only claim it once from any Combat Tutor in Lumbridge.'
 
 [[config]]
-obj = 'chest_key_28573'
-destroy_note = ''
-
-[[config]]
 obj = 'crystal_chime_seed'
 destroy_note = 'You can obtain another from within the Tree Gnome Village Dungeon.'
 
@@ -28243,7 +28240,6 @@ destroy_note = 'You can get this item back by talking to the Sage near Lumbridge
 
 [[config]]
 obj = 'sages_axe'
-destroy_note = ''
 speed = 3
 range = 5
 combat_style = 'Thrown'
@@ -28986,10 +28982,6 @@ obj = 'costume_needle'
 destroy_note = 'The Villa Lucens Costumer on Aldarin can give you another.'
 
 [[config]]
-obj = 'case_file'
-destroy_note = "''You shouldn't destroy that. You need it at the moment.''"
-
-[[config]]
 obj = 'drinking_flask'
 destroy_note = "You'll have to steal another from Pavo."
 
@@ -29494,12 +29486,13 @@ obj = 'dog_boots'
 destroy_note = 'You can get a replacement from Diango.'
 
 [[config]]
-obj = 'invitations'
-destroy_note = 'You will need to request a replacement from Cecilia in Falador Park or at the Party Room.'
-
-[[config]]
 obj = 'sapphire'
 respawn_timer = 1000
+
+[[config]]
+obj = 'slimy_tablet_part_3'
+destroy_note = 'You have no further need for it, so you can safely destroy it.'
+destroy_note_alt = 'While still in the passage: You can obtain another from within the Scar.'
 
 [[config]]
 obj = 'shoes'
@@ -29509,6 +29502,11 @@ respawn_timer = 1
 obj = 'sled_4084'
 respawn_timer = 30
 combat_style = 'Unarmed'
+
+[[config]]
+obj = 'armadyl_communiqu'
+destroy_note = 'You have no further need for it, so you can safely destroy it.'
+destroy_note_alt = 'Unread: Hopefully a Guardian of Armadyl will bring you another.'
 
 [[config]]
 obj = 'broken_pickaxe'
@@ -29590,10 +29588,24 @@ obj = 'letter_4615'
 respawn_timer = 10
 
 [[config]]
+obj = 'slimy_tablet_part_2'
+destroy_note = 'You have no further need for it, so you can safely destroy it.'
+destroy_note_alt = 'While still in the passage: You can obtain another from within the Scar.'
+
+[[config]]
+obj = 'holy_grail'
+destroy_note = 'You will need to return to Keep Le Faye to get another.'
+destroy_note_alt = "During Holy Grail: You will need to return to the Fisher King's realm to get another."
+
+[[config]]
 obj = 'echo_venator_bow'
 speed = 5
 range = 6
 combat_style = 'Bow'
+
+[[config]]
+obj = 'intel_report'
+destroy_note = '???'
 
 [[config]]
 obj = 'infernal_axe_or_trailblazer_reloaded'
@@ -29613,6 +29625,11 @@ obj = 'pearl_barbarian_rod'
 combat_style = 'Unarmed'
 
 [[config]]
+obj = 'elias_message'
+destroy_note = 'You have no further need for it, so you can safely destroy it.'
+destroy_note_alt = 'Before reading: Hopefully a messenger will bring you another.'
+
+[[config]]
 obj = 'statiuss_warhammer_bh_inactive'
 speed = 5
 combat_style = 'Blunt'
@@ -29624,6 +29641,11 @@ speed = 5
 [[config]]
 obj = 'pearl_fishing_rod'
 combat_style = 'Unarmed'
+
+[[config]]
+obj = 'packed_mulch'
+destroy_note = 'You discard your left over mulch.'
+destroy_note_alt = 'Active event: - This mulch contains: [ingredient 1], [ingredient 2], [ingredient 3].'
 
 [[config]]
 obj = 'gorilla_greegree'
@@ -29656,6 +29678,11 @@ combat_style = 'Thrown'
 [[config]]
 obj = 'ruby_ring'
 respawn_timer = 500
+
+[[config]]
+obj = 'damp_tablet_rejoice'
+destroy_note = 'You have no further need for it, so you can safely destroy it.'
+destroy_note_alt = 'While still in the passage: You can obtain another from within the Scar.'
 
 [[config]]
 obj = 'dragon_hunter_wand'
@@ -29707,6 +29734,11 @@ respawn_timer = 200
 [[config]]
 obj = 'ice_ancient_sceptre_l'
 combat_style = 'Staff'
+
+[[config]]
+obj = 'tree_top'
+destroy_note = 'You can get a replacement from Diango.'
+destroy_note_alt = 'During event: You can make yourself another outfit if you need it.'
 
 [[config]]
 obj = 'corrupted_voidwaker'
@@ -29775,6 +29807,11 @@ obj = 'monkey_talisman'
 combat_style = 'Unarmed'
 
 [[config]]
+obj = 'maisas_message'
+destroy_note = 'You have no further need for it, so you can safely destroy it.'
+destroy_note_alt = 'Before reading: Hopefully a messenger will bring you another.'
+
+[[config]]
 obj = 'gold_necklace'
 respawn_timer = 500
 
@@ -29782,6 +29819,11 @@ respawn_timer = 500
 obj = 'merfolk_trident'
 speed = 5
 combat_style = 'Spear'
+
+[[config]]
+obj = 'slimy_tablet_part_1'
+destroy_note = 'You have no further need for it, so you can safely destroy it.'
+destroy_note_alt = 'While still in the passage: You can obtain another from within the Scar.'
 
 [[config]]
 obj = 'smoke_ancient_sceptre_broken'
@@ -29836,6 +29878,10 @@ speed = 5
 combat_style = 'Pickaxe'
 
 [[config]]
+obj = 'eastfloor_spade'
+destroy_note = 'You can get a replacement from the Easter Bunny.'
+
+[[config]]
 obj = 'sunlight_spear'
 speed = 5
 combat_style = 'StabSword'
@@ -29858,8 +29904,18 @@ obj = 'cooked_meat'
 respawn_timer = 200
 
 [[config]]
+obj = 'mulch'
+destroy_note = 'You discard your left over mulch.'
+destroy_note_alt = 'Active event: - This mulch contains: [ingredient 1], [ingredient 2], [ingredient 3].'
+
+[[config]]
 obj = 'cosmic_rune'
 respawn_timer = 200
+
+[[config]]
+obj = 'mulch_28649'
+destroy_note = 'You discard your left over mulch.'
+destroy_note_alt = 'Active event: - This mulch contains: [ingredient 1], [ingredient 2], [ingredient 3].'
 
 [[config]]
 obj = 'zaryte_bow'
@@ -29878,6 +29934,11 @@ respawn_timer = 10
 [[config]]
 obj = 'glacial_temotli'
 combat_style = 'Spiked'
+
+[[config]]
+obj = 'looting_bag_opened'
+destroy_note = 'If you destroy it, the contents will be lost.'
+destroy_note_alt = 'Empty: The bag is empty. Are you sure you want to destroy it?'
 
 [[config]]
 obj = 'snape_grass'
@@ -29923,6 +29984,11 @@ obj = 'burnt_chicken'
 respawn_timer = 200
 
 [[config]]
+obj = 'abyssal_observations'
+destroy_note = 'You have no further need for it, so you can safely destroy it.'
+destroy_note_alt = 'While still in the passage: You can obtain another from within the Scar.'
+
+[[config]]
 obj = 'broken_axe_496'
 speed = 5
 
@@ -29965,6 +30031,11 @@ obj = 'death_rune'
 respawn_timer = 200
 
 [[config]]
+obj = 'damp_tablet_incident_report'
+destroy_note = 'You have no further need for it, so you can safely destroy it.'
+destroy_note_alt = 'While still in the passage: You can obtain another from within the Scar.'
+
+[[config]]
 obj = 'chaos_rune'
 respawn_timer = 200
 
@@ -29980,6 +30051,11 @@ speed = 5
 [[config]]
 obj = 'bracelet_mould'
 respawn_timer = 200
+
+[[config]]
+obj = 'abyssal_incantation'
+destroy_note = 'You can obtain another from Wizard Persten north of Al Kharid.'
+destroy_note_alt = 'Before showing to Wizard Persten: You can obtain another from the Dark Mage in the Abyss.'
 
 [[config]]
 obj = 'jangerberries'
@@ -30033,8 +30109,18 @@ range = 8
 combat_style = 'Crossbow'
 
 [[config]]
+obj = 'tree_skirt'
+destroy_note = 'You can get a replacement from Diango.'
+destroy_note_alt = 'During event: You can make yourself another outfit if you need it.'
+
+[[config]]
 obj = 'ice_ancient_sceptre_broken'
 combat_style = 'Staff'
+
+[[config]]
+obj = 'important_letter'
+destroy_note = "You have no further need for it, so won't be able to reobtain it."
+destroy_note_alt = 'First time receiving: The messenger will probably bring you another. Destroyed at least once: The messenger will almost definitely bring you another.'
 
 [[config]]
 obj = 'tiles_5570'
@@ -30054,6 +30140,11 @@ obj = 'enchanted_lyre'
 combat_style = 'Unarmed'
 
 [[config]]
+obj = 'gooey_note_part_1'
+destroy_note = 'You have no further need for it, so you can safely destroy it.'
+destroy_note_alt = 'While still in the passage: You can obtain another from within the Scar.'
+
+[[config]]
 obj = 'fox'
 combat_style = 'Unarmed'
 
@@ -30068,6 +30159,11 @@ combat_style = 'Unarmed'
 [[config]]
 obj = 'broken_axe_506'
 speed = 5
+
+[[config]]
+obj = 'forestry_basket'
+destroy_note = 'The Forestry basket and its contents will be lost. You may obtain another from the Friendly Forester.'
+destroy_note_alt = 'Empty: You may purchase more gear from the Friendly Forester but the sturdy harness will be lost.'
 
 [[config]]
 obj = 'blood_ancient_sceptre_broken'
@@ -30131,6 +30227,11 @@ obj = 'stone_ball_3111'
 respawn_timer = 10
 
 [[config]]
+obj = 'chores'
+destroy_note = 'You have completed the chores; you can safely destroy the list.'
+destroy_note_alt = 'Before completion: You can get a replacement list of chores by speaking to your kitten or cat.'
+
+[[config]]
 obj = 'broken_pickaxe_474'
 speed = 5
 
@@ -30174,10 +30275,24 @@ obj = 'childs_blanket'
 respawn_timer = 50
 
 [[config]]
+obj = 'withered_note'
+destroy_note = 'You have no further need for it, so you can safely destroy it.'
+destroy_note_alt = 'While still in the passage: You can obtain another from within the Scar.'
+
+[[config]]
+obj = 'blackstone_fragment_glowing'
+destroy_note = 'Ketla in the Lassar Undercity might be able to give you another.'
+
+[[config]]
 obj = 'dark_bow_deadman'
 speed = 9
 range = 10
 combat_style = 'Bow'
+
+[[config]]
+obj = 'gooey_note_part_2'
+destroy_note = 'You have no further need for it, so you can safely destroy it.'
+destroy_note_alt = 'While still in the passage: You can obtain another from within the Scar.'
 
 [[config]]
 obj = 'drygore_blowpipe'
@@ -30213,9 +30328,19 @@ speed = 5
 combat_style = 'Blunt'
 
 [[config]]
+obj = 'log_basket'
+destroy_note = 'Your items will be transferred to your other basket. You may purchase another basket from the Friendly Forester.'
+destroy_note_alt = 'Empty: You may purchase another basket from the Friendly Forester. Filled: The Log basket and its contents will be lost. You may obtain another from the Friendly Forester.'
+
+[[config]]
 obj = 'corrupted_scythe_of_vitur'
 speed = 5
 combat_style = 'Scythe'
+
+[[config]]
+obj = 'fish_barrel'
+destroy_note = 'The barrel and its contents will be lost. You may win another barrel from Tempoross.'
+destroy_note_alt = 'Empty: You may win another barrel from Tempoross.'
 
 [[config]]
 obj = 'corrupted_twisted_bow'
@@ -30283,6 +30408,11 @@ obj = 'broken_axe_504'
 speed = 5
 
 [[config]]
+obj = 'teddy'
+destroy_note = 'Pickpocket the female student on the Digsite to obtain another one.'
+destroy_note_alt = 'During quest: Look around the Digsite to obtain another.'
+
+[[config]]
 obj = 'corrupted_tumekens_shadow_uncharged'
 speed = 5
 range = 8
@@ -30306,12 +30436,22 @@ obj = 'tile_5568'
 respawn_timer = 10
 
 [[config]]
+obj = 'open_log_basket'
+destroy_note = 'The Open log basket and its contents will be lost.'
+destroy_note_alt = 'Empty: You may purchase another basket from the Friendly Forester.'
+
+[[config]]
 obj = 'large_spade'
 combat_style = 'Blunt'
 
 [[config]]
 obj = 'peaceful_handegg'
 combat_style = 'Unarmed'
+
+[[config]]
+obj = 'old_tablet'
+destroy_note = 'You have no further need for it, so you can safely destroy it.'
+destroy_note_alt = 'While still in the passage: You can obtain another from within the Scar.'
 
 [[config]]
 obj = 'imcando_hammer_broken'
@@ -30332,6 +30472,16 @@ combat_style = 'Bow'
 obj = 'zuriels_staff_bh_inactive'
 speed = 5
 combat_style = 'Staff'
+
+[[config]]
+obj = 'open_forestry_basket'
+destroy_note = 'The Open forestry basket and its contents will be lost. You may obtain another from the Friendly Forester.'
+destroy_note_alt = 'Empty: You may purchase more gear from the Friendly Forester but the sturdy harness will be lost.'
+
+[[config]]
+obj = 'strange_pollen'
+destroy_note = 'You discard the leftover pollen.'
+destroy_note_alt = 'Active event: You scatter the pollen.'
 
 [[config]]
 obj = 'blood_ancient_sceptre'
@@ -30362,8 +30512,18 @@ obj = 'necklace_mould'
 respawn_timer = 200
 
 [[config]]
+obj = 'forestry_kit'
+destroy_note = 'The kit and its contents will be lost. You may purchase another kit from the Friendly Forester.'
+destroy_note_alt = 'Empty: You may purchase another kit from the Friendly Forester.'
+
+[[config]]
 obj = 'white_apron_7957'
 respawn_timer = 10
+
+[[config]]
+obj = 'open_fish_barrel'
+destroy_note = 'The barrel and its contents will be lost. You may win another barrel from Tempoross.'
+destroy_note_alt = 'Empty: You may win another barrel from Tempoross.'
 
 [[config]]
 obj = 'golden_tench'
@@ -30403,6 +30563,30 @@ obj = 'diary'
 respawn_timer = 30
 
 [[config]]
+obj = 'varlamore_invitation'
+destroy_note = 'You have no further need for it, so you can safely destroy it.'
+destroy_note_alt = 'Before reading: Hopefully a messenger will bring you another. '
+
+[[config]]
+obj = 'starface'
+destroy_note = 'You can get a replacement from Diango.'
+destroy_note_alt = 'During event: You can make yourself another outfit if you need it.'
+
+[[config]]
+obj = 'huntsmans_kit'
+destroy_note = "Your Huntsman's Kit contains items. If you destroy it, they'll be lost. The kit may also be hard to replace."
+destroy_note_alt = "Empty: Your Huntsman's Kit is currently empty, but it can be hard to replace."
+
+[[config]]
+obj = 'blackstone_fragment_normal'
+destroy_note = 'Ketla in the Lassar Undercity might be able to give you another.'
+
+[[config]]
+obj = 'tackle_box'
+destroy_note = "Your tackle box contains items. If you destroy it they'll be lost. The box may also be hard to replace."
+destroy_note_alt = 'Empty: Your tackle box is currently empty, but they can be hard to replace.'
+
+[[config]]
 obj = 'emberlight'
 combat_style = 'SlashSword'
 
@@ -30427,8 +30611,18 @@ obj = 'metal_spade'
 respawn_timer = 10
 
 [[config]]
+obj = 'crystal_trinket'
+destroy_note = 'You can get another from a chest in Lletya.'
+destroy_note_alt = "After Mourning's End Part II: You can get another from Arianwyn in Lletya."
+
+[[config]]
 obj = 'door_key'
 respawn_timer = 95
+
+[[config]]
+obj = 'gooey_note_part_3'
+destroy_note = 'You have no further need for it, so you can safely destroy it.'
+destroy_note_alt = 'While still in the passage: You can obtain another from within the Scar.'
 
 [[config]]
 obj = 'zombie_axe'

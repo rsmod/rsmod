@@ -122,6 +122,7 @@ private data class ExternalObjConfig(
     val equipmentSound: Int?,
     val destroyHeader: String?,
     val destroyNote: String?,
+    val destroyNoteAlt: String?,
     val respawnTimer: Int?,
     val speed: Int?,
     val range: Int?,
