@@ -136,6 +136,9 @@ public class UnpackedObjType(
     internalId: Int,
     internalName: String,
 ) : ObjType(internalId, internalName) {
+    public val lowercaseName: String
+        get() = name.lowercase()
+
     public val isStackable: Boolean
         get() = (stackable || certtemplate > 0) && objvar.isEmpty()
 
