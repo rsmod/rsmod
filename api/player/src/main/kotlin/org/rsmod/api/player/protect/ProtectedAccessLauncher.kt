@@ -2,7 +2,6 @@ package org.rsmod.api.player.protect
 
 import jakarta.inject.Inject
 import org.rsmod.annotations.InternalApi
-import org.rsmod.api.config.constants
 import org.rsmod.api.player.output.mes
 import org.rsmod.game.entity.Player
 
@@ -11,7 +10,7 @@ public class ProtectedAccessLauncher
 constructor(private val contextFactory: ProtectedAccessContextFactory) {
     public fun launch(
         player: Player,
-        busyText: String? = constants.dm_busy,
+        busyText: String? = null,
         block: suspend ProtectedAccess.() -> Unit,
     ): Boolean = withProtectedAccess(player, contextFactory.create(), busyText, block)
 
@@ -27,7 +26,7 @@ constructor(private val contextFactory: ProtectedAccessContextFactory) {
         public fun withProtectedAccess(
             player: Player,
             context: ProtectedAccessContext,
-            busyText: String? = constants.dm_busy,
+            busyText: String? = null,
             block: suspend ProtectedAccess.() -> Unit,
         ): Boolean {
             if (player.isAccessProtected) {
