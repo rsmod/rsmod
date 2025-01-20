@@ -5,7 +5,6 @@ plugins {
 dependencies {
     api(libs.guice)
     api(libs.bundles.logging)
-    api(libs.kotlin.coroutines.core)
     api(projects.api.cache)
     api(projects.api.cheat)
     api(projects.api.config)
