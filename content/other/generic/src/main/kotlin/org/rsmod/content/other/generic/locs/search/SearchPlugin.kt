@@ -1,4 +1,4 @@
-package org.rsmod.content.other.generic.search
+package org.rsmod.content.other.generic.locs.search
 
 import org.rsmod.api.config.refs.content
 import org.rsmod.api.config.refs.params

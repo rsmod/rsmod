@@ -1,4 +1,4 @@
-package org.rsmod.content.other.generic.doors
+package org.rsmod.content.other.generic.locs.doors
 
 import jakarta.inject.Inject
 import org.rsmod.api.config.refs.content

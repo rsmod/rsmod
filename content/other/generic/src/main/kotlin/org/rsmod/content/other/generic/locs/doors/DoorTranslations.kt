@@ -1,4 +1,4 @@
-package org.rsmod.content.other.generic.doors
+package org.rsmod.content.other.generic.locs.doors
 
 import org.rsmod.game.loc.LocAngle
 import org.rsmod.game.loc.LocShape

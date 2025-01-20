@@ -1,4 +1,4 @@
-package org.rsmod.content.other.generic.ladders
+package org.rsmod.content.other.generic.locs.ladders
 
 import org.rsmod.api.config.refs.content
 import org.rsmod.api.config.refs.params

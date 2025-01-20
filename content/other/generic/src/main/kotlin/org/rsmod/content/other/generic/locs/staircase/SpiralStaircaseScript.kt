@@ -1,4 +1,4 @@
-package org.rsmod.content.other.generic.staircase
+package org.rsmod.content.other.generic.locs.staircase
 
 import jakarta.inject.Inject
 import org.rsmod.api.config.refs.content

@@ -1,4 +1,4 @@
-package org.rsmod.content.other.generic.gate
+package org.rsmod.content.other.generic.locs.gate
 
 import org.rsmod.api.config.refs.content
 import org.rsmod.api.config.refs.params

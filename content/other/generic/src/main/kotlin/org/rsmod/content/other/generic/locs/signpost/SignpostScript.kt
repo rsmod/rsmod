@@ -1,4 +1,4 @@
-package org.rsmod.content.other.generic.signpost
+package org.rsmod.content.other.generic.locs.signpost
 
 import jakarta.inject.Inject
 import org.rsmod.api.player.output.Camera.camReset

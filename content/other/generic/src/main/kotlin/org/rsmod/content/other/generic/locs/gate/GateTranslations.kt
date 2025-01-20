@@ -1,4 +1,4 @@
-package org.rsmod.content.other.generic.gate
+package org.rsmod.content.other.generic.locs.gate
 
 import org.rsmod.game.loc.LocAngle
 import org.rsmod.game.loc.LocShape

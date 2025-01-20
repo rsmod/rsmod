@@ -1,4 +1,4 @@
-package org.rsmod.content.other.generic.signpost
+package org.rsmod.content.other.generic.locs.signpost
 
 import org.rsmod.api.type.builders.enums.EnumBuilder
 import org.rsmod.api.type.refs.comp.ComponentReferences
