@@ -7,7 +7,7 @@ import org.rsmod.api.config.refs.components
 import org.rsmod.api.invtx.invAdd
 import org.rsmod.api.player.input.ResumePCountDialogInput
 import org.rsmod.api.player.input.ResumePauseButtonInput
-import org.rsmod.api.player.interact.InvInteractions
+import org.rsmod.api.player.interact.HeldInteractions
 import org.rsmod.api.player.interact.LocInteractions
 import org.rsmod.api.player.output.Camera
 import org.rsmod.api.player.output.ChatType
@@ -40,7 +40,7 @@ import org.rsmod.api.player.ui.ifSetNpcHead
 import org.rsmod.api.player.ui.ifSetPlayerHead
 import org.rsmod.api.player.ui.ifSetText
 import org.rsmod.api.player.vars.varMoveSpeed
-import org.rsmod.api.player.worn.InvEquipResult
+import org.rsmod.api.player.worn.HeldEquipResult
 import org.rsmod.api.random.GameRandom
 import org.rsmod.api.route.RayCastValidator
 import org.rsmod.api.stats.levelmod.InvisibleLevels
@@ -53,8 +53,8 @@ import org.rsmod.game.entity.PathingEntity
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.player.ProtectedAccessLostException
 import org.rsmod.game.entity.shared.PathingEntityCommon
+import org.rsmod.game.interact.HeldOp
 import org.rsmod.game.interact.InteractionOp
-import org.rsmod.game.interact.InvInteractionOp
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.map.Direction
@@ -96,7 +96,7 @@ public class ProtectedAccess(
     public var actionDelay: Int by player::actionDelay
     public var skillAnimDelay: Int by player::skillAnimDelay
 
-    private var opInvCallCount = 0
+    private var opHeldCallCount = 0
 
     public suspend fun walk(dest: CoordGrid): Unit = move(dest, MoveSpeed.Walk)
 
@@ -269,136 +269,136 @@ public class ProtectedAccess(
     ): Unit = interactions.interact(player, loc, InteractionOp.Op4)
 
     /**
-     * @throws IllegalStateException if [checkOpInvCallLimit] exceeds the safety net threshold.
-     * @see [checkOpInvCallLimit]
+     * @throws IllegalStateException if [checkOpHeldCallLimit] exceeds the safety net threshold.
+     * @see [checkOpHeldCallLimit]
      */
-    public suspend fun opInv1(
+    public suspend fun opHeld1(
         invSlot: Int,
         inv: Inventory = player.inv,
-        interactions: InvInteractions = context.invInteractions,
+        interactions: HeldInteractions = context.heldInteractions,
     ) {
-        checkOpInvCallLimit()
-        interactions.interact(this, inv, invSlot, InvInteractionOp.Op1)
+        checkOpHeldCallLimit()
+        interactions.interact(this, inv, invSlot, HeldOp.Op1)
     }
 
     /**
      * Note: If you wish to directly equip an obj bypassing any custom scripts you will need to call
      * [invEquip] instead.
      *
-     * @throws IllegalStateException if [checkOpInvCallLimit] exceeds the safety net threshold.
-     * @see [checkOpInvCallLimit]
-     * @see [InvInteractionOp.Op2]
+     * @throws IllegalStateException if [checkOpHeldCallLimit] exceeds the safety net threshold.
+     * @see [checkOpHeldCallLimit]
+     * @see [HeldOp.Op2]
      */
-    public suspend fun opInv2(
+    public suspend fun opHeld2(
         invSlot: Int,
         inv: Inventory = player.inv,
-        interactions: InvInteractions = context.invInteractions,
+        interactions: HeldInteractions = context.heldInteractions,
     ) {
-        checkOpInvCallLimit()
-        interactions.interact(this, inv, invSlot, InvInteractionOp.Op2)
+        checkOpHeldCallLimit()
+        interactions.interact(this, inv, invSlot, HeldOp.Op2)
     }
 
     /**
-     * @throws IllegalStateException if [checkOpInvCallLimit] exceeds the safety net threshold.
-     * @see [checkOpInvCallLimit]
+     * @throws IllegalStateException if [checkOpHeldCallLimit] exceeds the safety net threshold.
+     * @see [checkOpHeldCallLimit]
      */
-    public suspend fun opInv3(
+    public suspend fun opHeld3(
         invSlot: Int,
         inv: Inventory = player.inv,
-        interactions: InvInteractions = context.invInteractions,
+        interactions: HeldInteractions = context.heldInteractions,
     ) {
-        checkOpInvCallLimit()
-        interactions.interact(this, inv, invSlot, InvInteractionOp.Op3)
+        checkOpHeldCallLimit()
+        interactions.interact(this, inv, invSlot, HeldOp.Op3)
     }
 
     /**
-     * @throws IllegalStateException if [checkOpInvCallLimit] exceeds the safety net threshold.
-     * @see [checkOpInvCallLimit]
+     * @throws IllegalStateException if [checkOpHeldCallLimit] exceeds the safety net threshold.
+     * @see [checkOpHeldCallLimit]
      */
-    public suspend fun opInv4(
+    public suspend fun opHeld4(
         invSlot: Int,
         inv: Inventory = player.inv,
-        interactions: InvInteractions = context.invInteractions,
+        interactions: HeldInteractions = context.heldInteractions,
     ) {
-        checkOpInvCallLimit()
-        interactions.interact(this, inv, invSlot, InvInteractionOp.Op4)
+        checkOpHeldCallLimit()
+        interactions.interact(this, inv, invSlot, HeldOp.Op4)
     }
 
     /**
      * Note: If you wish to directly drop an obj bypassing any custom scripts you will need to call
      * [invDrop] instead.
      *
-     * @throws IllegalStateException if [checkOpInvCallLimit] exceeds the safety net threshold.
-     * @see [InvInteractionOp.Op5]
-     * @see [checkOpInvCallLimit]
+     * @throws IllegalStateException if [checkOpHeldCallLimit] exceeds the safety net threshold.
+     * @see [HeldOp.Op5]
+     * @see [checkOpHeldCallLimit]
      */
-    public suspend fun opInv5(
+    public suspend fun opHeld5(
         invSlot: Int,
         inv: Inventory = player.inv,
-        interactions: InvInteractions = context.invInteractions,
+        interactions: HeldInteractions = context.heldInteractions,
     ) {
-        checkOpInvCallLimit()
-        interactions.interact(this, inv, invSlot, InvInteractionOp.Op5)
+        checkOpHeldCallLimit()
+        interactions.interact(this, inv, invSlot, HeldOp.Op5)
     }
 
     /**
-     * @throws IllegalStateException if [checkOpInvCallLimit] exceeds the safety net threshold.
-     * @see [checkOpInvCallLimit]
+     * @throws IllegalStateException if [checkOpHeldCallLimit] exceeds the safety net threshold.
+     * @see [checkOpHeldCallLimit]
      */
-    public suspend fun opInv6(
+    public suspend fun opHeld6(
         invSlot: Int,
         inv: Inventory = player.inv,
-        interactions: InvInteractions = context.invInteractions,
+        interactions: HeldInteractions = context.heldInteractions,
     ) {
-        checkOpInvCallLimit()
-        interactions.interact(this, inv, invSlot, InvInteractionOp.Op6)
+        checkOpHeldCallLimit()
+        interactions.interact(this, inv, invSlot, HeldOp.Op6)
     }
 
     /**
-     * @throws IllegalStateException if [checkOpInvCallLimit] exceeds the safety net threshold.
-     * @see [checkOpInvCallLimit]
+     * @throws IllegalStateException if [checkOpHeldCallLimit] exceeds the safety net threshold.
+     * @see [checkOpHeldCallLimit]
      */
-    public suspend fun opInv7(
+    public suspend fun opHeld7(
         invSlot: Int,
         inv: Inventory = player.inv,
-        interactions: InvInteractions = context.invInteractions,
+        interactions: HeldInteractions = context.heldInteractions,
     ) {
-        checkOpInvCallLimit()
-        interactions.interact(this, inv, invSlot, InvInteractionOp.Op7)
+        checkOpHeldCallLimit()
+        interactions.interact(this, inv, invSlot, HeldOp.Op7)
     }
 
     /**
      * Note: This function will bypass any custom scripts attached to the respective obj and will
-     * attempt to directly equip it instead. Use [opInv2] if you wish to avoid this behavior.
+     * attempt to directly equip it instead. Use [opHeld2] if you wish to avoid this behavior.
      *
-     * @return [InvEquipResult] with result of the attempt to equip respective obj.
-     * @see [InvInteractions.equip]
+     * @return [HeldEquipResult] with result of the attempt to equip respective obj.
+     * @see [HeldInteractions.equip]
      */
     public fun invEquip(
         invSlot: Int,
         inv: Inventory = player.inv,
-        interactions: InvInteractions = context.invInteractions,
-    ): InvEquipResult = interactions.equip(this, inv, invSlot)
+        interactions: HeldInteractions = context.heldInteractions,
+    ): HeldEquipResult = interactions.equip(this, inv, invSlot)
 
     /**
      * Note: This function will bypass any custom scripts attached to the respective obj and will
-     * attempt to directly drop it instead. Use [opInv5] if you wish to avoid this behavior.
+     * attempt to directly drop it instead. Use [opHeld5] if you wish to avoid this behavior.
      *
-     * @see [InvInteractions.drop]
+     * @see [HeldInteractions.drop]
      */
     public suspend fun invDrop(
         invSlot: Int,
         inv: Inventory = player.inv,
-        interactions: InvInteractions = context.invInteractions,
+        interactions: HeldInteractions = context.heldInteractions,
     ) {
-        checkOpInvCallLimit()
+        checkOpHeldCallLimit()
         interactions.drop(this, inv, invSlot)
     }
 
     public fun invExamine(
         invSlot: Int,
         inv: Inventory = player.inv,
-        interactions: InvInteractions = context.invInteractions,
+        interactions: HeldInteractions = context.heldInteractions,
     ): Unit = interactions.examine(player, inv, invSlot)
 
     public fun faceSquare(target: CoordGrid): Unit = player.faceSquare(target)
@@ -1069,22 +1069,22 @@ public class ProtectedAccess(
         player.soundSynth(synth, loops, delay)
 
     /**
-     * Increments [opInvCallCount] counter and throws [IllegalStateException] if the call count
+     * Increments [opHeldCallCount] counter and throws [IllegalStateException] if the call count
      * exceeds a certain threshold. This is done as a counter-measure to avoid [StackOverflowError]
-     * under a specific scenario of `opInv` calls.
+     * under a specific scenario of `opHeld` calls.
      *
-     * This occurs when an `opInvN` function is called from an `onInvObjN` script that comes from
+     * This occurs when an `opHeldN` function is called from an `onOpHeldN` script that comes from
      * the same inv slot obj. Assuming there are no `delay` or similar suspending calls in between
      * each script, this leads to infinite recursion:
      * ```
-     * onInvObjN -> opInvN -> onInvObjN -> opInvN -> ...
+     * onOpHeldN -> opHeldN -> onOpHeldN -> opHeldN -> ...
      * ```
      *
      * @throws IllegalStateException
      */
-    private fun checkOpInvCallLimit() {
-        if (opInvCallCount++ >= 25) {
-            throw IllegalStateException("Detected `opInv` infinite recursion: $this")
+    private fun checkOpHeldCallLimit() {
+        if (opHeldCallCount++ >= 25) {
+            throw IllegalStateException("Detected `opHeld` infinite recursion: $this")
         }
     }
 

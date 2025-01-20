@@ -1,4 +1,4 @@
-package org.rsmod.api.inv
+package org.rsmod.api.inv.map
 
 import jakarta.inject.Inject
 import org.rsmod.api.config.refs.BaseInvs
@@ -7,7 +7,7 @@ import org.rsmod.game.inv.Inventory
 import org.rsmod.game.type.inv.InvTypeList
 import org.rsmod.game.type.inv.UnpackedInvType
 
-public class InvInit @Inject constructor(invs: InvTypeList) {
+public class InvMapInit @Inject constructor(invs: InvTypeList) {
     public val defaultInvs: MutableSet<UnpackedInvType> =
         hashSetOf(invs[BaseInvs.inv], invs[BaseInvs.worn])
 

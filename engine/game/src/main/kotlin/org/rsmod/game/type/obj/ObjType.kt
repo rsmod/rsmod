@@ -1,8 +1,8 @@
 package org.rsmod.game.type.obj
 
 import kotlin.contracts.contract
+import org.rsmod.game.interact.HeldOp
 import org.rsmod.game.interact.InteractionOp
-import org.rsmod.game.interact.InvInteractionOp
 import org.rsmod.game.obj.InvObj
 import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.param.ParamType
@@ -182,7 +182,7 @@ public class UnpackedObjType(
         return !invalid
     }
 
-    public fun hasInvOp(invOp: InvInteractionOp): Boolean {
+    public fun hasInvOp(invOp: HeldOp): Boolean {
         val text = iop.getOrNull(invOp.slot - 1) ?: return false
         return text.isNotBlank()
     }

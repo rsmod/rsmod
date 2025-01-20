@@ -17,7 +17,7 @@ import org.rsmod.game.type.obj.Wearpos
 
 /* Obj transaction system is not thread-safe. */
 @Execution(ExecutionMode.SAME_THREAD)
-class InvEquipOpTest {
+class HeldEquipOpTest {
     @Test
     fun GameTestState.`equip standard obj into empty wearpos`() = runBasicGameTest {
         withPlayerInit {
@@ -25,9 +25,9 @@ class InvEquipOpTest {
 
             setMaxLevels(this)
 
-            val operations = InvEquipOp(cacheTypes.objs, EventBus())
+            val operations = HeldEquipOp(cacheTypes.objs, EventBus())
             val result = operations.equip(this, invSlot = 4, inventory = inv)
-            assertInstanceOf<InvEquipResult.Success>(result)
+            assertInstanceOf<HeldEquipResult.Success>(result)
             assertEquals(Wearpos.RightHand, result.equipWearpos)
             assertEquals(emptyList<Wearpos>(), result.unequipWearpos)
             assertEquals(InvObj(objs.rune_axe), righthand)
@@ -42,9 +42,9 @@ class InvEquipOpTest {
 
             setMaxLevels(this)
 
-            val operations = InvEquipOp(cacheTypes.objs, EventBus())
+            val operations = HeldEquipOp(cacheTypes.objs, EventBus())
             val result = operations.equip(this, invSlot = 4, inventory = inv)
-            assertInstanceOf<InvEquipResult.Success>(result)
+            assertInstanceOf<HeldEquipResult.Success>(result)
             assertEquals(Wearpos.RightHand, result.equipWearpos)
             assertEquals(emptyList<Wearpos>(), result.unequipWearpos)
             assertEquals(InvObj(objs.rune_axe), righthand)
@@ -61,9 +61,9 @@ class InvEquipOpTest {
 
             setMaxLevels(this)
 
-            val operations = InvEquipOp(cacheTypes.objs, EventBus())
+            val operations = HeldEquipOp(cacheTypes.objs, EventBus())
             val result = operations.equip(this, invSlot = 4, inventory = inv)
-            assertInstanceOf<InvEquipResult.Success>(result)
+            assertInstanceOf<HeldEquipResult.Success>(result)
             assertEquals(Wearpos.RightHand, result.equipWearpos)
             assertEquals(emptyList<Wearpos>(), result.unequipWearpos)
             assertEquals(InvObj(objs.rune_axe), righthand)
@@ -79,9 +79,9 @@ class InvEquipOpTest {
 
             setMaxLevels(this)
 
-            val operations = InvEquipOp(cacheTypes.objs, EventBus())
+            val operations = HeldEquipOp(cacheTypes.objs, EventBus())
             val result = operations.equip(this, invSlot = 4, inventory = inv)
-            assertInstanceOf<InvEquipResult.Success>(result)
+            assertInstanceOf<HeldEquipResult.Success>(result)
             assertEquals(Wearpos.Quiver, result.equipWearpos)
             assertEquals(emptyList<Wearpos>(), result.unequipWearpos)
             assertEquals(InvObj(objs.rune_arrow, count = 100), quiver)
@@ -97,9 +97,9 @@ class InvEquipOpTest {
 
             setMaxLevels(this)
 
-            val operations = InvEquipOp(cacheTypes.objs, EventBus())
+            val operations = HeldEquipOp(cacheTypes.objs, EventBus())
             val result = operations.equip(this, invSlot = 4, inventory = inv)
-            assertInstanceOf<InvEquipResult.Success>(result)
+            assertInstanceOf<HeldEquipResult.Success>(result)
             assertEquals(Wearpos.Quiver, result.equipWearpos)
             assertEquals(emptyList<Wearpos>(), result.unequipWearpos)
             assertEquals(InvObj(objs.rune_arrow, count = Int.MAX_VALUE), quiver)
@@ -115,9 +115,9 @@ class InvEquipOpTest {
 
             setMaxLevels(this)
 
-            val operations = InvEquipOp(cacheTypes.objs, EventBus())
+            val operations = HeldEquipOp(cacheTypes.objs, EventBus())
             val result = operations.equip(this, invSlot = 4, inventory = inv)
-            assertInstanceOf<InvEquipResult.Fail.NotEnoughWornSpace>(result)
+            assertInstanceOf<HeldEquipResult.Fail.NotEnoughWornSpace>(result)
             assertEquals(InvObj(objs.rune_arrow, count = Int.MAX_VALUE), quiver)
             assertEquals(InvObj(objs.rune_arrow, count = 10), inv[4])
         }
@@ -131,9 +131,9 @@ class InvEquipOpTest {
 
             setMaxLevels(this)
 
-            val operations = InvEquipOp(cacheTypes.objs, EventBus())
+            val operations = HeldEquipOp(cacheTypes.objs, EventBus())
             val result = operations.equip(this, invSlot = 4, inventory = inv)
-            assertInstanceOf<InvEquipResult.Success>(result)
+            assertInstanceOf<HeldEquipResult.Success>(result)
             assertEquals(Wearpos.Quiver, result.equipWearpos)
             assertEquals(emptyList<Wearpos>(), result.unequipWearpos)
             assertEquals(InvObj(objs.adamant_arrow, count = Int.MAX_VALUE), quiver)
@@ -150,9 +150,9 @@ class InvEquipOpTest {
 
             setMaxLevels(this)
 
-            val operations = InvEquipOp(cacheTypes.objs, EventBus())
+            val operations = HeldEquipOp(cacheTypes.objs, EventBus())
             val result = operations.equip(this, invSlot = 4, inventory = inv)
-            assertInstanceOf<InvEquipResult.Fail.NotEnoughWornSpace>(result)
+            assertInstanceOf<HeldEquipResult.Fail.NotEnoughWornSpace>(result)
             assertEquals(InvObj(objs.rune_arrow, count = Int.MAX_VALUE), quiver)
             assertEquals(InvObj(objs.rune_arrow, count = 50), inv[3])
             assertEquals(InvObj(objs.adamant_arrow, count = Int.MAX_VALUE), inv[4])
@@ -169,9 +169,9 @@ class InvEquipOpTest {
 
                 setMaxLevels(this)
 
-                val operations = InvEquipOp(cacheTypes.objs, EventBus())
+                val operations = HeldEquipOp(cacheTypes.objs, EventBus())
                 val result = operations.equip(this, invSlot = 4, inventory = inv)
-                assertInstanceOf<InvEquipResult.Success>(result)
+                assertInstanceOf<HeldEquipResult.Success>(result)
                 assertEquals(Wearpos.RightHand, result.equipWearpos)
                 assertEquals(listOf(Wearpos.LeftHand), result.unequipWearpos)
                 assertEquals(InvObj(objs.dragon_claws), righthand)
@@ -191,9 +191,9 @@ class InvEquipOpTest {
 
                 setMaxLevels(this)
 
-                val operations = InvEquipOp(cacheTypes.objs, EventBus())
+                val operations = HeldEquipOp(cacheTypes.objs, EventBus())
                 val result = operations.equip(this, invSlot = 4, inventory = inv)
-                assertInstanceOf<InvEquipResult.Fail.NotEnoughInvSpace>(result)
+                assertInstanceOf<HeldEquipResult.Fail.NotEnoughInvSpace>(result)
                 assertEquals(InvObj(objs.dragon_claws), inv[4])
                 assertEquals(InvObj(objs.abyssal_whip), righthand)
                 assertEquals(InvObj(objs.crystal_shield, vars = 24), lefthand)
@@ -212,9 +212,9 @@ class InvEquipOpTest {
 
                 setMaxLevels(this)
 
-                val operations = InvEquipOp(cacheTypes.objs, EventBus())
+                val operations = HeldEquipOp(cacheTypes.objs, EventBus())
                 val result = operations.equip(this, invSlot = 4, inventory = inv)
-                assertInstanceOf<InvEquipResult.Success>(result)
+                assertInstanceOf<HeldEquipResult.Success>(result)
                 assertEquals(Wearpos.RightHand, result.equipWearpos)
                 assertEquals(listOf(Wearpos.LeftHand), result.unequipWearpos)
                 assertEquals(InvObj(objs.dragon_claws), righthand)

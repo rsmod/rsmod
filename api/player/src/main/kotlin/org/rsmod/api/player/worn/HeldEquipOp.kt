@@ -6,7 +6,7 @@ import org.rsmod.api.invtx.invTransaction
 import org.rsmod.api.invtx.select
 import org.rsmod.api.invtx.swap
 import org.rsmod.api.invtx.transfer
-import org.rsmod.api.player.events.interact.InvEquipEvents
+import org.rsmod.api.player.events.interact.HeldEquipEvents
 import org.rsmod.api.player.righthand
 import org.rsmod.api.utils.format.addArticle
 import org.rsmod.events.EventBus
@@ -19,16 +19,16 @@ import org.rsmod.game.type.stat.StatType
 import org.rsmod.objtx.TransactionResult
 import org.rsmod.objtx.isErr
 
-public class InvEquipOp
+public class HeldEquipOp
 @Inject
 constructor(private val objTypes: ObjTypeList, private val eventBus: EventBus) {
-    public fun equip(player: Player, invSlot: Int, inventory: Inventory): InvEquipResult {
-        val obj = inventory[invSlot] ?: return InvEquipResult.Fail.InvalidObj
+    public fun equip(player: Player, invSlot: Int, inventory: Inventory): HeldEquipResult {
+        val obj = inventory[invSlot] ?: return HeldEquipResult.Fail.InvalidObj
         val objType = objTypes[obj]
 
         val result = equip(player, objType)
 
-        if (result is InvEquipResult.Success) {
+        if (result is HeldEquipResult.Success) {
             val (unequipWearpos, primaryWearpos) = result
             val into = player.worn
 
@@ -69,7 +69,7 @@ constructor(private val objTypes: ObjTypeList, private val eventBus: EventBus) {
                         "`NotEnoughSpace` type: found=$equipTransaction"
                 }
                 val message = "You don't have enough free space to do that."
-                return InvEquipResult.Fail.NotEnoughWornSpace(message)
+                return HeldEquipResult.Fail.NotEnoughWornSpace(message)
             }
 
             val unequipTransactionErr = transaction.err
@@ -79,19 +79,19 @@ constructor(private val objTypes: ObjTypeList, private val eventBus: EventBus) {
                         "`NotEnoughSpace` type: found=$unequipTransactionErr"
                 }
                 val message = "You don't have enough free inventory space to do that."
-                return InvEquipResult.Fail.NotEnoughInvSpace(message)
+                return HeldEquipResult.Fail.NotEnoughInvSpace(message)
             }
 
-            val change = InvEquipEvents.WearposChange(player, objType, unequipObjs.values)
+            val change = HeldEquipEvents.WearposChange(player, objType, unequipObjs.values)
             eventBus.publish(change)
 
             for ((wearpos, type) in unequipObjs) {
                 val unequipType = type ?: continue
-                val unequip = InvEquipEvents.Unequip(player, wearpos, unequipType)
+                val unequip = HeldEquipEvents.Unequip(player, wearpos, unequipType)
                 eventBus.publish(unequip)
             }
 
-            val equip = InvEquipEvents.Equip(player, invSlot, primaryWearpos, objType)
+            val equip = HeldEquipEvents.Equip(player, invSlot, primaryWearpos, objType)
             eventBus.publish(equip)
 
             player.rebuildAppearance()
@@ -100,15 +100,15 @@ constructor(private val objTypes: ObjTypeList, private val eventBus: EventBus) {
         return result
     }
 
-    private fun equip(player: Player, type: UnpackedObjType): InvEquipResult {
+    private fun equip(player: Player, type: UnpackedObjType): HeldEquipResult {
         val statRequirements =
             type.statRequirements().filter { player.statMap.getBaseLevel(it.stat) < it.level }
         if (statRequirements.isNotEmpty()) {
             val messages = type.toMessages(statRequirements)
-            return InvEquipResult.Fail.StatRequirements(messages)
+            return HeldEquipResult.Fail.StatRequirements(messages)
         }
 
-        val wearpos1 = Wearpos[type.wearpos1] ?: return InvEquipResult.Fail.InvalidObj
+        val wearpos1 = Wearpos[type.wearpos1] ?: return HeldEquipResult.Fail.InvalidObj
         val wearpos2 = Wearpos[type.wearpos2]?.takeUnless { it.isClientOnly }
         val wearpos3 = Wearpos[type.wearpos3]?.takeUnless { it.isClientOnly }
 
@@ -122,7 +122,7 @@ constructor(private val objTypes: ObjTypeList, private val eventBus: EventBus) {
             }
         }
 
-        return InvEquipResult.Success(unequipWearpos, wearpos1)
+        return HeldEquipResult.Success(unequipWearpos, wearpos1)
     }
 
     private fun UnpackedObjType.statRequirements(): List<StatRequirement> {

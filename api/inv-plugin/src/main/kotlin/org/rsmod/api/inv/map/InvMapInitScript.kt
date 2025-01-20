@@ -1,12 +1,13 @@
-package org.rsmod.api.inv
+package org.rsmod.api.inv.map
 
 import jakarta.inject.Inject
 import org.rsmod.api.script.onPlayerInit
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-public class InvInitScript @Inject constructor(private val invInit: InvInit) : PluginScript() {
+public class InvMapInitScript @Inject constructor(private val invMapInit: InvMapInit) :
+    PluginScript() {
     override fun ScriptContext.startUp() {
-        onPlayerInit { invInit.init(player) }
+        onPlayerInit { invMapInit.init(player) }
     }
 }

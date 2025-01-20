@@ -9,7 +9,7 @@ import org.rsmod.game.type.droptrig.DropTriggerType
 import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.type.obj.Wearpos
 
-public class InvObjDropEvents {
+public class HeldDropEvents {
     public class Trigger(
         public val player: Player,
         public val dropSlot: Int,
@@ -41,7 +41,7 @@ public class InvObjDropEvents {
     ) : UnboundEvent
 }
 
-public class InvEquipEvents {
+public class HeldEquipEvents {
     public data class Equip(
         public val player: Player,
         public val invSlot: Int,
@@ -64,118 +64,118 @@ public class InvEquipEvents {
     ) : UnboundEvent
 }
 
-public sealed class InvObjEvents(id: Number) : OpEvent(id.toLong()) {
+public sealed class HeldObjEvents(id: Number) : OpEvent(id.toLong()) {
     public class Op1(
         public val slot: Int,
         public val obj: InvObj,
         public val type: UnpackedObjType,
         public val inventory: Inventory,
-    ) : InvObjEvents(obj.id)
+    ) : HeldObjEvents(obj.id)
 
     public class Op2(
         public val slot: Int,
         public val obj: InvObj,
         public val type: UnpackedObjType,
         public val inventory: Inventory,
-    ) : InvObjEvents(obj.id)
+    ) : HeldObjEvents(obj.id)
 
     public class Op3(
         public val slot: Int,
         public val obj: InvObj,
         public val type: UnpackedObjType,
         public val inventory: Inventory,
-    ) : InvObjEvents(obj.id)
+    ) : HeldObjEvents(obj.id)
 
     public class Op4(
         public val slot: Int,
         public val obj: InvObj,
         public val type: UnpackedObjType,
         public val inventory: Inventory,
-    ) : InvObjEvents(obj.id)
+    ) : HeldObjEvents(obj.id)
 
     public class Op5(
         public val slot: Int,
         public val obj: InvObj,
         public val type: UnpackedObjType,
         public val inventory: Inventory,
-    ) : InvObjEvents(obj.id)
+    ) : HeldObjEvents(obj.id)
 
     public class Op6(
         public val slot: Int,
         public val obj: InvObj,
         public val type: UnpackedObjType,
         public val inventory: Inventory,
-    ) : InvObjEvents(obj.id)
+    ) : HeldObjEvents(obj.id)
 
     public class Op7(
         public val slot: Int,
         public val obj: InvObj,
         public val type: UnpackedObjType,
         public val inventory: Inventory,
-    ) : InvObjEvents(obj.id)
+    ) : HeldObjEvents(obj.id)
 
     public class Op8(
         public val slot: Int,
         public val obj: InvObj,
         public val type: UnpackedObjType,
         public val inventory: Inventory,
-    ) : InvObjEvents(obj.id)
+    ) : HeldObjEvents(obj.id)
 }
 
-public sealed class InvObjContentEvents(id: Number) : OpEvent(id.toLong()) {
+public sealed class HeldContentEvents(id: Number) : OpEvent(id.toLong()) {
     public class Op1(
         public val slot: Int,
         public val obj: InvObj,
         public val type: UnpackedObjType,
         public val inventory: Inventory,
-    ) : InvObjContentEvents(type.contentGroup)
+    ) : HeldContentEvents(type.contentGroup)
 
     public class Op2(
         public val slot: Int,
         public val obj: InvObj,
         public val type: UnpackedObjType,
         public val inventory: Inventory,
-    ) : InvObjContentEvents(type.contentGroup)
+    ) : HeldContentEvents(type.contentGroup)
 
     public class Op3(
         public val slot: Int,
         public val obj: InvObj,
         public val type: UnpackedObjType,
         public val inventory: Inventory,
-    ) : InvObjContentEvents(type.contentGroup)
+    ) : HeldContentEvents(type.contentGroup)
 
     public class Op4(
         public val slot: Int,
         public val obj: InvObj,
         public val type: UnpackedObjType,
         public val inventory: Inventory,
-    ) : InvObjContentEvents(type.contentGroup)
+    ) : HeldContentEvents(type.contentGroup)
 
     public class Op5(
         public val slot: Int,
         public val obj: InvObj,
         public val type: UnpackedObjType,
         public val inventory: Inventory,
-    ) : InvObjContentEvents(type.contentGroup)
+    ) : HeldContentEvents(type.contentGroup)
 
     public class Op6(
         public val slot: Int,
         public val obj: InvObj,
         public val type: UnpackedObjType,
         public val inventory: Inventory,
-    ) : InvObjContentEvents(type.contentGroup)
+    ) : HeldContentEvents(type.contentGroup)
 
     public class Op7(
         public val slot: Int,
         public val obj: InvObj,
         public val type: UnpackedObjType,
         public val inventory: Inventory,
-    ) : InvObjContentEvents(type.contentGroup)
+    ) : HeldContentEvents(type.contentGroup)
 
     public class Op8(
         public val slot: Int,
         public val obj: InvObj,
         public val type: UnpackedObjType,
         public val inventory: Inventory,
-    ) : InvObjContentEvents(type.contentGroup)
+    ) : HeldContentEvents(type.contentGroup)
 }

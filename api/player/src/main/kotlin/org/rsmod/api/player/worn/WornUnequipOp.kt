@@ -2,7 +2,7 @@ package org.rsmod.api.player.worn
 
 import jakarta.inject.Inject
 import org.rsmod.api.invtx.invTransfer
-import org.rsmod.api.player.events.interact.InvEquipEvents
+import org.rsmod.api.player.events.interact.HeldEquipEvents
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.Inventory
@@ -35,10 +35,10 @@ constructor(private val objTypes: ObjTypeList, private val eventBus: EventBus) {
             return WornUnequipResult.Fail.NotEnoughInvSpace(message)
         }
 
-        val change = InvEquipEvents.WearposChange(player, objType, emptyList())
+        val change = HeldEquipEvents.WearposChange(player, objType, emptyList())
         eventBus.publish(change)
 
-        val unequip = InvEquipEvents.Unequip(player, wearpos, objType)
+        val unequip = HeldEquipEvents.Unequip(player, wearpos, objType)
         eventBus.publish(unequip)
 
         player.rebuildAppearance()

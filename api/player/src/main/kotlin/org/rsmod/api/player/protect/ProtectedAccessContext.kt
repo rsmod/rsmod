@@ -1,6 +1,6 @@
 package org.rsmod.api.player.protect
 
-import org.rsmod.api.player.interact.InvInteractions
+import org.rsmod.api.player.interact.HeldInteractions
 import org.rsmod.api.player.interact.LocInteractions
 import org.rsmod.api.random.GameRandom
 import org.rsmod.events.EventBus
@@ -63,14 +63,14 @@ public data class ProtectedAccessContext(
     private val getCollision: () -> CollisionFlagMap,
     private val getObjTypes: () -> ObjTypeList,
     private val getLocInteractions: () -> LocInteractions,
-    private val getInvInteractions: () -> InvInteractions,
+    private val getHeldInteractions: () -> HeldInteractions,
 ) {
     public val random: GameRandom by lazyLoad { getRandom() }
     public val eventBus: EventBus by lazyLoad { getEventBus() }
     public val collision: CollisionFlagMap by lazyLoad { getCollision() }
     public val objTypes: ObjTypeList by lazyLoad { getObjTypes() }
     public val locInteractions: LocInteractions by lazyLoad { getLocInteractions() }
-    public val invInteractions: InvInteractions by lazyLoad { getInvInteractions() }
+    public val heldInteractions: HeldInteractions by lazyLoad { getHeldInteractions() }
 }
 
 private fun <T> lazyLoad(init: () -> T): Lazy<T> = lazy(LazyThreadSafetyMode.NONE, init)

@@ -13,20 +13,20 @@ import org.rsmod.api.market.MarketPrices
 import org.rsmod.api.player.dialogue.Dialogue
 import org.rsmod.api.player.dialogue.Dialogues
 import org.rsmod.api.player.dialogue.startDialogue
-import org.rsmod.api.player.events.interact.InvObjContentEvents
-import org.rsmod.api.player.events.interact.InvObjDropEvents
-import org.rsmod.api.player.events.interact.InvObjEvents
+import org.rsmod.api.player.events.interact.HeldContentEvents
+import org.rsmod.api.player.events.interact.HeldDropEvents
+import org.rsmod.api.player.events.interact.HeldObjEvents
 import org.rsmod.api.player.output.UpdateInventory.resendSlot
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.output.objExamine
 import org.rsmod.api.player.output.soundSynth
 import org.rsmod.api.player.protect.ProtectedAccess
-import org.rsmod.api.player.worn.InvEquipOp
-import org.rsmod.api.player.worn.InvEquipResult
+import org.rsmod.api.player.worn.HeldEquipOp
+import org.rsmod.api.player.worn.HeldEquipResult
 import org.rsmod.api.repo.obj.ObjRepository
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
-import org.rsmod.game.interact.InvInteractionOp
+import org.rsmod.game.interact.HeldOp
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.obj.InvObj
 import org.rsmod.game.obj.Obj
@@ -37,14 +37,14 @@ import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.map.CoordGrid
 
-public class InvInteractions
+public class HeldInteractions
 @Inject
 private constructor(
     private val objTypes: ObjTypeList,
     private val eventBus: EventBus,
     private val marketPrices: MarketPrices,
     private val dropOp: InvDropOp,
-    private val equipOp: InvEquipOp,
+    private val equipOp: HeldEquipOp,
 ) {
     private val logger = InlineLogger()
 
@@ -52,7 +52,7 @@ private constructor(
         access: ProtectedAccess,
         inventory: Inventory,
         invSlot: Int,
-        op: InvInteractionOp,
+        op: HeldOp,
     ) {
         val obj = inventory[invSlot] ?: return resendSlot(access.player, inventory, 0)
         interact(access, inventory, invSlot, obj, objTypes[obj], op)
@@ -73,7 +73,7 @@ private constructor(
         }
 
         val type = objTypes[obj]
-        if (!objectVerify(access.player, inventory, obj, type, InvInteractionOp.Op5)) {
+        if (!objectVerify(access.player, inventory, obj, type, HeldOp.Op5)) {
             return
         }
 
@@ -88,20 +88,20 @@ private constructor(
      * if `Op2` had been invoked, but without re-triggering any event-based scripts.
      *
      * _Note that this function may not actually equip the obj if the player is prohibited from
-     * doing so. In those cases, the reason is returned in the form of [InvEquipResult]._
+     * doing so. In those cases, the reason is returned in the form of [HeldEquipResult]._
      *
-     * @return the outcome of the equip attempt, represented as [InvEquipResult].
+     * @return the outcome of the equip attempt, represented as [HeldEquipResult].
      */
-    public fun equip(access: ProtectedAccess, inventory: Inventory, invSlot: Int): InvEquipResult {
+    public fun equip(access: ProtectedAccess, inventory: Inventory, invSlot: Int): HeldEquipResult {
         val obj = inventory[invSlot]
         if (obj == null) {
             resendSlot(access.player, inventory, 0)
-            return InvEquipResult.Fail.InvalidObj
+            return HeldEquipResult.Fail.InvalidObj
         }
 
         val type = objTypes[obj]
-        if (!objectVerify(access.player, inventory, obj, type, InvInteractionOp.Op2)) {
-            return InvEquipResult.Fail.InvalidObj
+        if (!objectVerify(access.player, inventory, obj, type, HeldOp.Op2)) {
+            return HeldEquipResult.Fail.InvalidObj
         }
 
         val result = equipOp.equip(access.player, invSlot, inventory)
@@ -119,166 +119,166 @@ private constructor(
         invSlot: Int,
         obj: InvObj,
         type: UnpackedObjType,
-        op: InvInteractionOp,
+        op: HeldOp,
     ) {
         if (!objectVerify(access.player, inventory, obj, type, op)) {
             return
         }
         when (op) {
-            InvInteractionOp.Op1 -> access.invOp1(obj, type, inventory, invSlot)
-            InvInteractionOp.Op2 -> access.invOp2(obj, type, inventory, invSlot)
-            InvInteractionOp.Op3 -> access.invOp3(obj, type, inventory, invSlot)
-            InvInteractionOp.Op4 -> access.invOp4(obj, type, inventory, invSlot)
-            InvInteractionOp.Op5 -> access.invOp5(obj, type, inventory, invSlot)
-            InvInteractionOp.Op6 -> access.invOp6(obj, type, inventory, invSlot)
-            InvInteractionOp.Op7 -> access.invOp7(obj, type, inventory, invSlot)
+            HeldOp.Op1 -> access.opHeld1(obj, type, inventory, invSlot)
+            HeldOp.Op2 -> access.opHeld2(obj, type, inventory, invSlot)
+            HeldOp.Op3 -> access.opHeld3(obj, type, inventory, invSlot)
+            HeldOp.Op4 -> access.opHeld4(obj, type, inventory, invSlot)
+            HeldOp.Op5 -> access.opHeld5(obj, type, inventory, invSlot)
+            HeldOp.Op6 -> access.opHeld6(obj, type, inventory, invSlot)
+            HeldOp.Op7 -> access.opHeld7(obj, type, inventory, invSlot)
         }
     }
 
-    private suspend fun ProtectedAccess.invOp1(
+    private suspend fun ProtectedAccess.opHeld1(
         obj: InvObj,
         type: UnpackedObjType,
         inventory: Inventory,
         invSlot: Int,
     ) {
-        val typeScript = eventBus.suspend[InvObjEvents.Op1::class.java, type.id]
+        val typeScript = eventBus.suspend[HeldObjEvents.Op1::class.java, type.id]
         if (typeScript != null) {
-            typeScript(InvObjEvents.Op1(invSlot, obj, type, inventory))
+            typeScript(HeldObjEvents.Op1(invSlot, obj, type, inventory))
             return
         }
-        val groupScript = eventBus.suspend[InvObjContentEvents.Op1::class.java, type.contentGroup]
+        val groupScript = eventBus.suspend[HeldContentEvents.Op1::class.java, type.contentGroup]
         if (groupScript != null) {
-            groupScript(InvObjContentEvents.Op1(invSlot, obj, type, inventory))
+            groupScript(HeldContentEvents.Op1(invSlot, obj, type, inventory))
             return
         }
         mes(constants.dm_default)
-        logger.debug { "InvOp1 for `${type.name}` is not implemented: type=$type" }
+        logger.debug { "OpHeld1 for `${type.name}` is not implemented: type=$type" }
     }
 
-    private suspend fun ProtectedAccess.invOp2(
+    private suspend fun ProtectedAccess.opHeld2(
         obj: InvObj,
         type: UnpackedObjType,
         inventory: Inventory,
         invSlot: Int,
     ) {
-        val typeScript = eventBus.suspend[InvObjEvents.Op2::class.java, type.id]
+        val typeScript = eventBus.suspend[HeldObjEvents.Op2::class.java, type.id]
         if (typeScript != null) {
-            typeScript(InvObjEvents.Op2(invSlot, obj, type, inventory))
+            typeScript(HeldObjEvents.Op2(invSlot, obj, type, inventory))
             return
         }
-        val groupScript = eventBus.suspend[InvObjContentEvents.Op2::class.java, type.contentGroup]
+        val groupScript = eventBus.suspend[HeldContentEvents.Op2::class.java, type.contentGroup]
         if (groupScript != null) {
-            groupScript(InvObjContentEvents.Op2(invSlot, obj, type, inventory))
+            groupScript(HeldContentEvents.Op2(invSlot, obj, type, inventory))
             return
         }
         if (type.iop[1] != "Wield" && type.iop[1] != "Wear") {
             mes(constants.dm_default)
-            logger.debug { "InvOp2 for `${type.name}` is not implemented: type=$type" }
+            logger.debug { "OpHeld2 for `${type.name}` is not implemented: type=$type" }
             return
         }
         val result = equipOp.equip(player, invSlot, inventory)
-        if (result is InvEquipResult.Fail) {
+        if (result is HeldEquipResult.Fail) {
             result.messages.forEach(::mes)
         }
     }
 
-    private suspend fun ProtectedAccess.invOp3(
+    private suspend fun ProtectedAccess.opHeld3(
         obj: InvObj,
         type: UnpackedObjType,
         inventory: Inventory,
         invSlot: Int,
     ) {
-        val typeScript = eventBus.suspend[InvObjEvents.Op3::class.java, type.id]
+        val typeScript = eventBus.suspend[HeldObjEvents.Op3::class.java, type.id]
         if (typeScript != null) {
-            typeScript(InvObjEvents.Op3(invSlot, obj, type, inventory))
+            typeScript(HeldObjEvents.Op3(invSlot, obj, type, inventory))
             return
         }
-        val groupScript = eventBus.suspend[InvObjContentEvents.Op3::class.java, type.contentGroup]
+        val groupScript = eventBus.suspend[HeldContentEvents.Op3::class.java, type.contentGroup]
         if (groupScript != null) {
-            groupScript(InvObjContentEvents.Op3(invSlot, obj, type, inventory))
+            groupScript(HeldContentEvents.Op3(invSlot, obj, type, inventory))
             return
         }
         mes(constants.dm_default)
-        logger.debug { "InvOp3 for `${type.name}` is not implemented: type=$type" }
+        logger.debug { "OpHeld3 for `${type.name}` is not implemented: type=$type" }
     }
 
-    private suspend fun ProtectedAccess.invOp4(
+    private suspend fun ProtectedAccess.opHeld4(
         obj: InvObj,
         type: UnpackedObjType,
         inventory: Inventory,
         invSlot: Int,
     ) {
-        val typeScript = eventBus.suspend[InvObjEvents.Op4::class.java, type.id]
+        val typeScript = eventBus.suspend[HeldObjEvents.Op4::class.java, type.id]
         if (typeScript != null) {
-            typeScript(InvObjEvents.Op4(invSlot, obj, type, inventory))
+            typeScript(HeldObjEvents.Op4(invSlot, obj, type, inventory))
             return
         }
-        val groupScript = eventBus.suspend[InvObjContentEvents.Op4::class.java, type.contentGroup]
+        val groupScript = eventBus.suspend[HeldContentEvents.Op4::class.java, type.contentGroup]
         if (groupScript != null) {
-            groupScript(InvObjContentEvents.Op4(invSlot, obj, type, inventory))
+            groupScript(HeldContentEvents.Op4(invSlot, obj, type, inventory))
             return
         }
         mes(constants.dm_default)
-        logger.debug { "InvOp4 for `${type.name}` is not implemented: type=$type" }
+        logger.debug { "OpHeld4 for `${type.name}` is not implemented: type=$type" }
     }
 
-    private suspend fun ProtectedAccess.invOp5(
+    private suspend fun ProtectedAccess.opHeld5(
         obj: InvObj,
         type: UnpackedObjType,
         inventory: Inventory,
         invSlot: Int,
     ) {
-        val typeScript = eventBus.suspend[InvObjEvents.Op5::class.java, type.id]
+        val typeScript = eventBus.suspend[HeldObjEvents.Op5::class.java, type.id]
         if (typeScript != null) {
-            typeScript(InvObjEvents.Op5(invSlot, obj, type, inventory))
+            typeScript(HeldObjEvents.Op5(invSlot, obj, type, inventory))
             return
         }
-        val groupScript = eventBus.suspend[InvObjContentEvents.Op5::class.java, type.contentGroup]
+        val groupScript = eventBus.suspend[HeldContentEvents.Op5::class.java, type.contentGroup]
         if (groupScript != null) {
-            groupScript(InvObjContentEvents.Op5(invSlot, obj, type, inventory))
+            groupScript(HeldContentEvents.Op5(invSlot, obj, type, inventory))
             return
         }
         dropOp.dropOrDestroy(this, invSlot, obj, type)
     }
 
-    private suspend fun ProtectedAccess.invOp6(
+    private suspend fun ProtectedAccess.opHeld6(
         obj: InvObj,
         type: UnpackedObjType,
         inventory: Inventory,
         invSlot: Int,
     ) {
-        val typeScript = eventBus.suspend[InvObjEvents.Op6::class.java, type.id]
+        val typeScript = eventBus.suspend[HeldObjEvents.Op6::class.java, type.id]
         if (typeScript != null) {
-            typeScript(InvObjEvents.Op6(invSlot, obj, type, inventory))
+            typeScript(HeldObjEvents.Op6(invSlot, obj, type, inventory))
             return
         }
-        val groupScript = eventBus.suspend[InvObjContentEvents.Op6::class.java, type.contentGroup]
+        val groupScript = eventBus.suspend[HeldContentEvents.Op6::class.java, type.contentGroup]
         if (groupScript != null) {
-            groupScript(InvObjContentEvents.Op6(invSlot, obj, type, inventory))
+            groupScript(HeldContentEvents.Op6(invSlot, obj, type, inventory))
             return
         }
         mes(constants.dm_default)
-        logger.debug { "InvOp6 for `${type.name}` is not implemented: type=$type" }
+        logger.debug { "OpHeld6 for `${type.name}` is not implemented: type=$type" }
     }
 
-    private suspend fun ProtectedAccess.invOp7(
+    private suspend fun ProtectedAccess.opHeld7(
         obj: InvObj,
         type: UnpackedObjType,
         inventory: Inventory,
         invSlot: Int,
     ) {
-        val typeScript = eventBus.suspend[InvObjEvents.Op7::class.java, type.id]
+        val typeScript = eventBus.suspend[HeldObjEvents.Op7::class.java, type.id]
         if (typeScript != null) {
-            typeScript(InvObjEvents.Op7(invSlot, obj, type, inventory))
+            typeScript(HeldObjEvents.Op7(invSlot, obj, type, inventory))
             return
         }
-        val groupScript = eventBus.suspend[InvObjContentEvents.Op7::class.java, type.contentGroup]
+        val groupScript = eventBus.suspend[HeldContentEvents.Op7::class.java, type.contentGroup]
         if (groupScript != null) {
-            groupScript(InvObjContentEvents.Op7(invSlot, obj, type, inventory))
+            groupScript(HeldContentEvents.Op7(invSlot, obj, type, inventory))
             return
         }
         mes(constants.dm_default)
-        logger.debug { "InvOp7 for `${type.name}` is not implemented: type=$type" }
+        logger.debug { "OpHeld7 for `${type.name}` is not implemented: type=$type" }
     }
 
     public fun drag(
@@ -312,7 +312,7 @@ private constructor(
         inventory: Inventory,
         obj: InvObj?,
         type: UnpackedObjType,
-        op: InvInteractionOp,
+        op: HeldOp,
     ): Boolean {
         if (player.isDelayed || !obj.isType(type)) {
             resendSlot(player, inventory, 0)
@@ -320,8 +320,8 @@ private constructor(
         }
 
         // Op5 (`Drop`) always exists as a fallback.
-        if (!type.hasInvOp(op) && op != InvInteractionOp.Op5) {
-            logger.debug { "InvOp invalid op blocked: op=$op, obj=$obj, type=$type" }
+        if (!type.hasInvOp(op) && op != HeldOp.Op5) {
+            logger.debug { "OpHeld invalid op blocked: op=$op, obj=$obj, type=$type" }
             return false
         }
 
@@ -375,7 +375,7 @@ constructor(
     private fun destroy(player: Player, dropSlot: Int, obj: InvObj, type: UnpackedObjType) {
         val result = player.invDel(player.inv, type, count = obj.count, slot = dropSlot)
         if (result.success) {
-            val event = InvObjDropEvents.Destroy(player, dropSlot, obj, type)
+            val event = HeldDropEvents.Destroy(player, dropSlot, obj, type)
             eventBus.publish(event)
         }
     }
@@ -405,7 +405,7 @@ constructor(
     private fun release(player: Player, dropSlot: Int, obj: InvObj, type: UnpackedObjType) {
         val result = player.invDel(player.inv, type, count = obj.count, slot = dropSlot)
         if (result.success) {
-            val event = InvObjDropEvents.Release(player, dropSlot, obj, type)
+            val event = HeldDropEvents.Release(player, dropSlot, obj, type)
             eventBus.publish(event)
 
             val message = type.paramOrNull(params.release_note_message)
@@ -423,7 +423,7 @@ constructor(
         val trigger = player.dropTrigger
         if (trigger != null) {
             player.clearDropTrigger(trigger)
-            val event = InvObjDropEvents.Trigger(player, dropSlot, obj, type, trigger)
+            val event = HeldDropEvents.Trigger(player, dropSlot, obj, type, trigger)
             eventBus.publish(event)
         }
 
@@ -452,7 +452,7 @@ constructor(
         }
         soundSynth(synths.put_down)
 
-        val event = InvObjDropEvents.Drop(this, dropSlot, obj, type)
+        val event = HeldDropEvents.Drop(this, dropSlot, obj, type)
         eventBus.publish(event)
     }
 

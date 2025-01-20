@@ -11,7 +11,7 @@ import kotlin.reflect.KClass
 import net.rsprot.protocol.game.outgoing.misc.player.MessageGame
 import org.junit.jupiter.api.Assertions
 import org.rsmod.api.game.process.GameCycle
-import org.rsmod.api.inv.InvInit
+import org.rsmod.api.inv.map.InvMapInit
 import org.rsmod.api.market.DefaultMarketPrices
 import org.rsmod.api.market.MarketPrices
 import org.rsmod.api.player.interact.LocInteractions
@@ -100,7 +100,7 @@ constructor(
     private val collision: CollisionFlagMap,
     private val locRegistry: LocRegistry,
     private val locInteractions: LocInteractions,
-    private val invInit: InvInit,
+    private val invMapInit: InvMapInit,
 ) {
     init {
         registerPlayer()
@@ -148,7 +148,7 @@ constructor(
         players[slot] = player
         eventBus.publish(SessionStateEvent.Initialize(player))
         if (player.invMap.isEmpty()) {
-            invInit.init(player)
+            invMapInit.init(player)
         }
         eventBus.publish(SessionStateEvent.LogIn(player))
         return player

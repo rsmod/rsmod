@@ -1,7 +1,7 @@
 package org.rsmod.api.player.protect
 
 import jakarta.inject.Inject
-import org.rsmod.api.player.interact.InvInteractions
+import org.rsmod.api.player.interact.HeldInteractions
 import org.rsmod.api.player.interact.LocInteractions
 import org.rsmod.api.random.GameRandom
 import org.rsmod.events.EventBus
@@ -16,7 +16,7 @@ constructor(
     private val eventBus: EventBus,
     private val objTypes: ObjTypeList,
     private val locInteractions: LocInteractions,
-    private val invInteractions: InvInteractions,
+    private val heldInteractions: HeldInteractions,
 ) {
     public fun create(): ProtectedAccessContext =
         ProtectedAccessContext(
@@ -25,7 +25,7 @@ constructor(
             getCollision = { collision },
             getObjTypes = { objTypes },
             getLocInteractions = { locInteractions },
-            getInvInteractions = { invInteractions },
+            getHeldInteractions = { heldInteractions },
         )
 
     public companion object {
@@ -36,7 +36,7 @@ constructor(
                 getCollision = { error("No collision map provided.") },
                 getObjTypes = { error("No obj type list provided.") },
                 getLocInteractions = { error("No loc interactions provided.") },
-                getInvInteractions = { error("No inv interactions provided.") },
+                getHeldInteractions = { error("No held interactions provided.") },
             )
 
         /**
