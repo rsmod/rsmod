@@ -13,7 +13,7 @@ public data class TransactionResultList<T>(
         get() = results.size
 
     public val success: Boolean
-        get() = err == null
+        get() = err == null && results.isNotEmpty()
 
     public val failure: Boolean
         get() = !success
