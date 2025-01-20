@@ -274,10 +274,11 @@ public class ProtectedAccess(
      */
     public suspend fun opInv1(
         invSlot: Int,
+        inv: Inventory = player.inv,
         interactions: InvInteractions = context.invInteractions,
     ) {
         checkOpInvCallLimit()
-        interactions.interact(this, player.inv, invSlot, InvInteractionOp.Op1)
+        interactions.interact(this, inv, invSlot, InvInteractionOp.Op1)
     }
 
     /**
@@ -290,10 +291,11 @@ public class ProtectedAccess(
      */
     public suspend fun opInv2(
         invSlot: Int,
+        inv: Inventory = player.inv,
         interactions: InvInteractions = context.invInteractions,
     ) {
         checkOpInvCallLimit()
-        interactions.interact(this, player.inv, invSlot, InvInteractionOp.Op2)
+        interactions.interact(this, inv, invSlot, InvInteractionOp.Op2)
     }
 
     /**
@@ -302,10 +304,11 @@ public class ProtectedAccess(
      */
     public suspend fun opInv3(
         invSlot: Int,
+        inv: Inventory = player.inv,
         interactions: InvInteractions = context.invInteractions,
     ) {
         checkOpInvCallLimit()
-        interactions.interact(this, player.inv, invSlot, InvInteractionOp.Op3)
+        interactions.interact(this, inv, invSlot, InvInteractionOp.Op3)
     }
 
     /**
@@ -314,10 +317,11 @@ public class ProtectedAccess(
      */
     public suspend fun opInv4(
         invSlot: Int,
+        inv: Inventory = player.inv,
         interactions: InvInteractions = context.invInteractions,
     ) {
         checkOpInvCallLimit()
-        interactions.interact(this, player.inv, invSlot, InvInteractionOp.Op4)
+        interactions.interact(this, inv, invSlot, InvInteractionOp.Op4)
     }
 
     /**
@@ -330,10 +334,11 @@ public class ProtectedAccess(
      */
     public suspend fun opInv5(
         invSlot: Int,
+        inv: Inventory = player.inv,
         interactions: InvInteractions = context.invInteractions,
     ) {
         checkOpInvCallLimit()
-        interactions.interact(this, player.inv, invSlot, InvInteractionOp.Op5)
+        interactions.interact(this, inv, invSlot, InvInteractionOp.Op5)
     }
 
     /**
@@ -342,10 +347,11 @@ public class ProtectedAccess(
      */
     public suspend fun opInv6(
         invSlot: Int,
+        inv: Inventory = player.inv,
         interactions: InvInteractions = context.invInteractions,
     ) {
         checkOpInvCallLimit()
-        interactions.interact(this, player.inv, invSlot, InvInteractionOp.Op6)
+        interactions.interact(this, inv, invSlot, InvInteractionOp.Op6)
     }
 
     /**
@@ -354,10 +360,11 @@ public class ProtectedAccess(
      */
     public suspend fun opInv7(
         invSlot: Int,
+        inv: Inventory = player.inv,
         interactions: InvInteractions = context.invInteractions,
     ) {
         checkOpInvCallLimit()
-        interactions.interact(this, player.inv, invSlot, InvInteractionOp.Op7)
+        interactions.interact(this, inv, invSlot, InvInteractionOp.Op7)
     }
 
     /**
@@ -369,8 +376,9 @@ public class ProtectedAccess(
      */
     public fun invEquip(
         invSlot: Int,
+        inv: Inventory = player.inv,
         interactions: InvInteractions = context.invInteractions,
-    ): InvEquipResult = interactions.equip(this, player.inv, invSlot)
+    ): InvEquipResult = interactions.equip(this, inv, invSlot)
 
     /**
      * Note: This function will bypass any custom scripts attached to the respective obj and will
@@ -380,16 +388,18 @@ public class ProtectedAccess(
      */
     public suspend fun invDrop(
         invSlot: Int,
+        inv: Inventory = player.inv,
         interactions: InvInteractions = context.invInteractions,
     ) {
         checkOpInvCallLimit()
-        interactions.drop(this, player.inv, invSlot)
+        interactions.drop(this, inv, invSlot)
     }
 
     public fun invExamine(
         invSlot: Int,
+        inv: Inventory = player.inv,
         interactions: InvInteractions = context.invInteractions,
-    ): Unit = interactions.examine(player, player.inv, invSlot)
+    ): Unit = interactions.examine(player, inv, invSlot)
 
     public fun faceSquare(target: CoordGrid): Unit = player.faceSquare(target)
 
@@ -1073,7 +1083,7 @@ public class ProtectedAccess(
      * @throws IllegalStateException
      */
     private fun checkOpInvCallLimit() {
-        if (opInvCallCount++ >= 500) {
+        if (opInvCallCount++ >= 25) {
             throw IllegalStateException("Detected `opInv` infinite recursion: $this")
         }
     }
