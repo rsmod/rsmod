@@ -30,7 +30,8 @@ public fun Player.invAddOrDrop(
         return true
     }
     val obj = Obj(coords, type, count, currentMapClock, this)
-    repo.add(obj, duration)
+    val result = repo.add(obj, duration)
+    check(result) { "Obj could not be dropped: coords=$coords, obj=$obj, type=$type, inv=$inv" }
     return false
 }
 
