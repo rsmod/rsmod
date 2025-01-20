@@ -15,6 +15,7 @@ import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.npc.UnpackedNpcType
 import org.rsmod.game.type.queue.QueueType
 import org.rsmod.game.type.seq.SeqType
+import org.rsmod.game.type.spot.SpotanimType
 import org.rsmod.game.type.timer.TimerType
 import org.rsmod.map.CoordGrid
 import org.rsmod.routefinder.collision.CollisionFlagMap
@@ -128,6 +129,11 @@ public class Npc(
         } else {
             infoProtocol.setSequence(pendingSequence.id, pendingSequence.delay)
         }
+    }
+
+    override fun spotanim(spot: SpotanimType, delay: Int, height: Int, slot: Int) {
+        PathingEntityCommon.spotanim(this, spot, delay, height, slot)
+        infoProtocol.setSpotanim(spot.id, delay, height, slot)
     }
 
     public fun say(text: String) {

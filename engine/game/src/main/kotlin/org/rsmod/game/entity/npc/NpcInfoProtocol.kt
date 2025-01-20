@@ -3,6 +3,8 @@ package org.rsmod.game.entity.npc
 public interface NpcInfoProtocol {
     public fun setSequence(seq: Int, delay: Int)
 
+    public fun setSpotanim(spotanim: Int, delay: Int, height: Int, slot: Int)
+
     public fun setSay(text: String)
 
     public fun setFacePathingEntity(slot: Int)
@@ -26,6 +28,8 @@ public interface NpcInfoProtocol {
 
 public data object NoopNpcInfo : NpcInfoProtocol {
     override fun setSequence(seq: Int, delay: Int) {}
+
+    override fun setSpotanim(spotanim: Int, delay: Int, height: Int, slot: Int) {}
 
     override fun setSay(text: String) {}
 

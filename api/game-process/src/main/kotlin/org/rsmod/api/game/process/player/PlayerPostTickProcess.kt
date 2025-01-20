@@ -66,6 +66,7 @@ constructor(
 
     private fun Player.cleanUpPendingUpdates() {
         pendingSequence = EntitySeq.NULL
+        pendingSpotanims.clear()
         appearance.clearRebuildFlag()
     }
 

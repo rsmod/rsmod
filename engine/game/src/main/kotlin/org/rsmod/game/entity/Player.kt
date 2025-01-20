@@ -21,6 +21,7 @@ import org.rsmod.game.type.mod.ModGroup
 import org.rsmod.game.type.npc.UnpackedNpcType
 import org.rsmod.game.type.queue.QueueType
 import org.rsmod.game.type.seq.SeqType
+import org.rsmod.game.type.spot.SpotanimType
 import org.rsmod.game.type.timer.TimerType
 import org.rsmod.game.ui.UserInterfaceMap
 import org.rsmod.map.CoordGrid
@@ -158,6 +159,10 @@ public class Player(
 
     override fun anim(seq: SeqType, delay: Int, priority: Int) {
         PathingEntityCommon.anim(this, seq, delay, priority)
+    }
+
+    override fun spotanim(spot: SpotanimType, delay: Int, height: Int, slot: Int) {
+        PathingEntityCommon.spotanim(this, spot, delay, height, slot)
     }
 
     public fun facePlayer(target: Player): Unit = PathingEntityCommon.facePlayer(this, target)

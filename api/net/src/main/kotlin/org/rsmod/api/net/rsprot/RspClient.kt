@@ -21,6 +21,7 @@ import org.rsmod.game.client.Client
 import org.rsmod.game.entity.Player
 import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.seq.EntitySeq
+import org.rsmod.game.spot.EntitySpotanim
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.obj.Wearpos
 import org.rsmod.map.CoordGrid
@@ -84,6 +85,7 @@ class RspClient(val session: Session<Player>, val xteaProvider: XteaProvider) :
             player.applyFacePathingEntity()
             player.applyFaceAngle()
             player.applyAnim()
+            player.applySpotanims()
             player.syncAppearance(objTypes)
         }
     }
@@ -178,6 +180,16 @@ class RspClient(val session: Session<Player>, val xteaProvider: XteaProvider) :
             EntitySeq.NULL -> return
             EntitySeq.ZERO -> playerExtendedInfo.setSequence(-1, 0)
             else -> playerExtendedInfo.setSequence(pendingSequence.id, pendingSequence.delay)
+        }
+    }
+
+    private fun Player.applySpotanims() {
+        if (pendingSpotanims.isEmpty) {
+            return
+        }
+        for (packed in pendingSpotanims.longIterator()) {
+            val (id, delay, height, slot) = EntitySpotanim(packed)
+            playerExtendedInfo.setSpotAnim(slot, id, delay, height)
         }
     }
 

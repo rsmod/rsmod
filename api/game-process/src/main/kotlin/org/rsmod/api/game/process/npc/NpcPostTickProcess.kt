@@ -35,5 +35,6 @@ constructor(private val npcList: NpcList, private val registry: NpcRegistry) {
 
     private fun Npc.cleanUpPendingUpdates() {
         pendingSequence = EntitySeq.NULL
+        pendingSpotanims.clear()
     }
 }

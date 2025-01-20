@@ -1,5 +1,6 @@
 package org.rsmod.game.entity
 
+import it.unimi.dsi.fastutil.longs.LongArrayList
 import kotlin.coroutines.startCoroutine
 import org.rsmod.coroutine.GameCoroutine
 import org.rsmod.coroutine.suspension.GameCoroutineSimpleCompletion
@@ -14,6 +15,7 @@ import org.rsmod.game.movement.RouteDestination
 import org.rsmod.game.movement.RouteRequest
 import org.rsmod.game.seq.EntitySeq
 import org.rsmod.game.type.seq.SeqType
+import org.rsmod.game.type.spot.SpotanimType
 import org.rsmod.game.vars.VariableIntMap
 import org.rsmod.game.vars.VariableStringMap
 import org.rsmod.map.CoordGrid
@@ -64,6 +66,7 @@ public sealed class PathingEntity {
     public var faceAngle: Int = 0
 
     public var pendingSequence: EntitySeq = EntitySeq.NULL
+    public val pendingSpotanims: LongArrayList = LongArrayList()
 
     public var interaction: Interaction? = null
 
@@ -220,6 +223,8 @@ public sealed class PathingEntity {
     }
 
     public abstract fun anim(seq: SeqType, delay: Int = 0, priority: Int = seq.priority)
+
+    public abstract fun spotanim(spot: SpotanimType, delay: Int, height: Int = 100, slot: Int = 0)
 
     /**
      * Sets the [pendingFaceSquare] for [target] to face as soon as this [PathingEntity] is not

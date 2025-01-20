@@ -8,6 +8,10 @@ class RspNpcInfo(val rspAvatar: NpcAvatar) : NpcInfoProtocol {
         rspAvatar.extendedInfo.setSequence(seq, delay)
     }
 
+    override fun setSpotanim(spotanim: Int, delay: Int, height: Int, slot: Int) {
+        rspAvatar.extendedInfo.setSpotAnim(slot, spotanim, delay, height)
+    }
+
     override fun setSay(text: String) {
         rspAvatar.extendedInfo.setSay(text)
     }
