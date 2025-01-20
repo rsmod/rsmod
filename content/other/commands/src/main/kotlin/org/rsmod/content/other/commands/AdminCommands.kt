@@ -187,9 +187,10 @@ constructor(
                 } else {
                     args.joinToString("_") to "1"
                 }
-            val typeId = resolveArgTypeId(typeName, names.objs)
+            val resolvedName = typeName.replace("cert_", "")
+            val typeId = resolveArgTypeId(resolvedName, names.objs)
             if (typeId == null) {
-                player.mes("There is no obj mapped to name: `$typeName`")
+                player.mes("There is no obj mapped to name: `$resolvedName`")
                 return
             }
             val type = objTypes[typeId]
@@ -197,9 +198,12 @@ constructor(
                 player.mes("That obj does not exist: $typeId")
                 return
             }
+            val spawnCert = typeName.startsWith("cert_")
+            val resolvedType =
+                if (spawnCert && type.canCert) objTypes.getValue(type.certlink) else type
             val count = countArg.toLong().coerceAtMost(Int.MAX_VALUE.toLong()).toInt()
             val objName = type.internalNameGet ?: type.name
-            val spawned = player.invAdd(player.inv, type, count, strict = false)
+            val spawned = player.invAdd(player.inv, resolvedType, count, strict = false)
             player.mes("Spawned inv obj `$objName` x ${spawned.completed().formatAmount}")
         }
 
