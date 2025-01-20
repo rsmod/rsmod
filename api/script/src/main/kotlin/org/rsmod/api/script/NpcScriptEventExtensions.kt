@@ -124,9 +124,9 @@ public fun ScriptContext.onAiTimer(
 ): Unit = onEvent(content.id, action)
 
 public fun ScriptContext.onNpcTimer(
-    type: NpcType,
+    timer: TimerType,
     action: NpcTimerEvents.Default.() -> Unit,
-): Unit = onEvent(type.id, action)
+): Unit = onEvent(timer.id, action)
 
 public fun ScriptContext.onNpcTimer(
     npc: NpcType,
