@@ -2,6 +2,7 @@ package org.rsmod.content.other.commands
 
 import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
+import kotlin.math.min
 import org.rsmod.api.cheat.CheatHandlerBuilder
 import org.rsmod.api.config.refs.modlevels
 import org.rsmod.api.invtx.invAdd
@@ -27,6 +28,7 @@ import org.rsmod.game.type.loc.LocTypeList
 import org.rsmod.game.type.npc.NpcTypeList
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.seq.SeqTypeList
+import org.rsmod.game.type.spot.SpotanimTypeList
 import org.rsmod.game.type.stat.StatTypeList
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.square.MapSquareGrid
@@ -43,6 +45,7 @@ constructor(
     private val protectedAccess: ProtectedAccessLauncher,
     private val statTypes: StatTypeList,
     private val seqTypes: SeqTypeList,
+    private val spotTypes: SpotanimTypeList,
     private val locTypes: LocTypeList,
     private val npcTypes: NpcTypeList,
     private val objTypes: ObjTypeList,
@@ -60,6 +63,9 @@ constructor(
             invalidArgs = "Use as ::tele level mx mz lx lz (ex: 0 50 50 0 0)"
         }
         onCommand("anim", "Play animation", ::anim)
+        onCommand("spot", "Play spotanim", ::spotanim) {
+            invalidArgs = "Use as ::spot spotanimDebugNameOrId (ex: emote_party)"
+        }
         onCommand("locadd", "Spawn loc", ::locAdd) {
             invalidArgs = "Use as ::locadd duration locDebugNameOrId (ex: 100 bookcase)"
         }
@@ -115,6 +121,25 @@ constructor(
             player.anim(type)
             player.mes("Anim: ${type.id} (priority=${type.priority})")
             logger.debug { "Anim: $type" }
+        }
+
+    private fun spotanim(cheat: Cheat) =
+        with(cheat) {
+            val (typeName, heightArg) = args.asTypeNameAndNumber(defaultNumber = 100)
+            val typeId = resolveArgTypeId(typeName, names.spotanims)
+            if (typeId == null) {
+                player.mes("There is no spotanim mapped to: `$typeName`")
+                return
+            }
+            val type = spotTypes[typeId]
+            if (type == null) {
+                player.mes("That spotanim does not exist: $typeId")
+                return
+            }
+            val height = min(heightArg.toInt(), Short.MAX_VALUE.toInt())
+            player.spotanim(type, delay = 0, height = height, slot = 0)
+            player.mes("Spotanim: ${type.id} (height=$height)")
+            logger.debug { "Spotanim: $type" }
         }
 
     private fun locAdd(cheat: Cheat) =
@@ -181,12 +206,7 @@ constructor(
 
     private fun invAdd(cheat: Cheat) =
         with(cheat) {
-            val (typeName, countArg) =
-                if (args.size > 1 && args.last().toLongOrNull() != null) {
-                    args.dropLast(1).joinToString("_") to args.last()
-                } else {
-                    args.joinToString("_") to "1"
-                }
+            val (typeName, countArg) = args.asTypeNameAndNumber(defaultNumber = 1)
             val resolvedName = typeName.replace("cert_", "")
             val typeId = resolveArgTypeId(resolvedName, names.objs)
             if (typeId == null) {
@@ -227,6 +247,13 @@ constructor(
         val sanitized = arg.replace("-", "_")
         return names[sanitized]
     }
+
+    private fun List<String>.asTypeNameAndNumber(defaultNumber: Number): Pair<String, String> =
+        if (size > 1 && last().toLongOrNull() != null) {
+            dropLast(1).joinToString("_") to last()
+        } else {
+            joinToString("_") to defaultNumber.toString()
+        }
 
     private fun ScriptContext.onCommand(
         command: String,
