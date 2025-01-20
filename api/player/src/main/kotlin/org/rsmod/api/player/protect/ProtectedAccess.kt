@@ -71,6 +71,7 @@ import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.seq.SeqType
+import org.rsmod.game.type.spot.SpotanimType
 import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.synth.SynthType
 import org.rsmod.game.type.timer.TimerType
@@ -130,6 +131,10 @@ public class ProtectedAccess(
 
     public fun animProtect(animProtect: Boolean) {
         PathingEntityCommon.setAnimProtect(player, animProtect)
+    }
+
+    public fun spotanim(spot: SpotanimType, delay: Int = 0, height: Int = 100, slot: Int = 0) {
+        player.spotanim(spot, delay, height, slot)
     }
 
     public fun isWithinDistance(
