@@ -2,7 +2,7 @@ package org.rsmod.api.registry.zone
 
 import net.rsprot.protocol.ServerProtCategory
 import net.rsprot.protocol.game.outgoing.util.OpFlags
-import net.rsprot.protocol.game.outgoing.zone.payload.LocAddChange
+import net.rsprot.protocol.game.outgoing.zone.payload.LocAddChangeV2
 import net.rsprot.protocol.game.outgoing.zone.payload.LocDel
 import net.rsprot.protocol.game.outgoing.zone.payload.ObjAdd
 import net.rsprot.protocol.game.outgoing.zone.payload.ObjCount
@@ -21,7 +21,7 @@ public object ZoneUpdateTransformer {
         return if (loc.id == LocRegistry.DELETED_LOC_ID) {
             LocDel(zoneGrid.x, zoneGrid.z, loc.shapeId, loc.angleId)
         } else {
-            LocAddChange(
+            LocAddChangeV2(
                 loc.id,
                 zoneGrid.x,
                 zoneGrid.z,
@@ -34,7 +34,7 @@ public object ZoneUpdateTransformer {
 
     public fun toLocAddChangeProt(loc: LocInfo): ZoneProt {
         val zoneGrid = ZoneGrid.from(loc.coords)
-        return LocAddChange(
+        return LocAddChangeV2(
             loc.id,
             zoneGrid.x,
             zoneGrid.z,
