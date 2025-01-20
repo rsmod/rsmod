@@ -167,7 +167,9 @@ constructor(
 
     private fun ObjCycleDuration.shouldTrigger(): Boolean = mapClock >= triggerCycle
 
-    private sealed class ObjCycleDuration(val obj: Obj, var triggerCycle: Int)
+    private sealed class ObjCycleDuration(val obj: Obj, var triggerCycle: Int) {
+        override fun toString(): String = "ObjCycleDuration($obj=$obj, triggerCycle=$triggerCycle)"
+    }
 
     private class ObjAddDuration(obj: Obj, triggerCycle: Int, var revealCycle: Int) :
         ObjCycleDuration(obj, triggerCycle)
