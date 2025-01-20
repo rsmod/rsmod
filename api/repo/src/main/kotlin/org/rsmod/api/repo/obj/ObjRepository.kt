@@ -23,15 +23,27 @@ constructor(
     private val addDurations = ArrayDeque<ObjAddDuration>()
     private val delDurations = ArrayDeque<ObjDelDuration>()
 
-    public fun add(obj: Obj, duration: Int, reveal: Int = duration - DEFAULT_REVEAL_DELTA) {
+    public fun add(
+        obj: Obj,
+        duration: Int,
+        reveal: Int = duration - DEFAULT_REVEAL_DELTA,
+    ): Boolean {
+        val register = register(obj, duration, reveal)
+        return register.isSuccess
+    }
+
+    private fun register(obj: Obj, duration: Int, reveal: Int): ObjRegistryResult {
         require(obj.count > 0) { "Obj must have a `count` higher than 0: $obj" }
-        when (val register = registry.add(obj)) {
+        val register = registry.add(obj)
+        when (register) {
             // TODO: Check how the duration is supposed to be calculated. Does it take the
             //  greater duration comparing the existing obj vs `duration` input from this call?
             is ObjRegistryResult.Merge -> updateDurations(register.merged, duration, reveal)
             is ObjRegistryResult.Split -> addDurations(register.split, duration, reveal)
             ObjRegistryResult.Stack -> addDuration(obj, duration, reveal)
+            is ObjRegistryResult.BulkNonStackableLimitExceeded -> return register
         }
+        return register
     }
 
     public fun add(
@@ -48,7 +60,7 @@ constructor(
             } else {
                 Obj(coords, type, count, mapClock.cycle)
             }
-        add(obj, duration, reveal)
+        register(obj, duration, reveal)
         return obj
     }
 
@@ -67,7 +79,7 @@ constructor(
                 val entity = ObjEntity(invObj.id, invObj.count, ObjScope.Temp.id)
                 Obj(coords, entity, mapClock.cycle, Obj.NULL_RECEIVER_ID)
             }
-        add(obj, duration, reveal)
+        register(obj, duration, reveal)
         return obj
     }
 
@@ -133,7 +145,8 @@ constructor(
             if (!duration.shouldTrigger()) {
                 continue
             }
-            registry.add(duration.obj)
+            val result = registry.add(duration.obj)
+            check(result.isSuccess) { "Failed to respawn obj: $duration" }
             iterator.remove()
         }
     }

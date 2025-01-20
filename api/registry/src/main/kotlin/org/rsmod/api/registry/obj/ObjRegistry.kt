@@ -17,11 +17,8 @@ constructor(private val updates: ZoneUpdateMap, private val objTypes: ObjTypeLis
 
     public fun add(obj: Obj): ObjRegistryResult {
         val stackable = obj.isStackable()
-        if (!stackable) {
-            check(obj.count < MAX_NON_STACK_COUNT_DROP) {
-                "Cannot call `add` with this many non-stackable " +
-                    "objs: obj=$obj, max=$MAX_NON_STACK_COUNT_DROP"
-            }
+        if (!stackable && obj.count > MAX_NON_STACK_COUNT_DROP) {
+            return ObjRegistryResult.BulkNonStackableLimitExceeded(obj.count)
         }
 
         val zoneKey = ZoneKey.from(obj.coords)
