@@ -224,7 +224,12 @@ public sealed class PathingEntity {
 
     public abstract fun anim(seq: SeqType, delay: Int = 0, priority: Int = seq.priority)
 
-    public abstract fun spotanim(spot: SpotanimType, delay: Int, height: Int = 100, slot: Int = 0)
+    public abstract fun spotanim(
+        spot: SpotanimType,
+        delay: Int = 0,
+        height: Int = 100,
+        slot: Int = 0,
+    )
 
     /**
      * Sets the [pendingFaceSquare] for [target] to face as soon as this [PathingEntity] is not
