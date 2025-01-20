@@ -423,6 +423,13 @@ public class ProtectedAccess(
 
     public fun resetFaceEntity(): Unit = player.resetFaceEntity()
 
+    public fun stopAction(eventBus: EventBus = context.eventBus) {
+        clearPendingAction(eventBus)
+        resetFaceEntity()
+        clearMapFlag()
+        player.abortRoute()
+    }
+
     public fun invAdd(
         inv: Inventory,
         obj: InvObj,
