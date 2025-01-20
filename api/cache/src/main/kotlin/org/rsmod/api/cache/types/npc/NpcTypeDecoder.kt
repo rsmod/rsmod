@@ -95,7 +95,7 @@ public object NpcTypeDecoder {
                             retexS = CompactableIntArray(src)
                             retexD = CompactableIntArray(dest)
                         }
-                        else -> throw NotImplementedError("Unhandled .npc config code.")
+                        else -> throw NotImplementedError("Unhandled .npc config code: $code")
                     }
                 }
                 60 -> {
