@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.parallel.Execution
 import org.junit.jupiter.api.parallel.ExecutionMode
+import org.rsmod.objtx.Inventory
 import org.rsmod.objtx.Obj
+import org.rsmod.objtx.TransactionInventory
 import org.rsmod.objtx.TransactionResult
 import org.rsmod.objtx.abyssal_whip
 import org.rsmod.objtx.bank
@@ -241,6 +243,35 @@ class BankSwapQueryTest {
         assertEquals(Obj(trident_of_the_seas, 1), worn[3])
         assertEquals(Obj(abyssal_whip), bank[5])
         assertEquals(6, bank.occupiedSpace())
+        assertEquals(1, worn.occupiedSpace())
+    }
+
+    @Test
+    fun `swap stacked non-stackable obj in full inv into slot-taken non-stacking inv`() {
+        val bank = Inventory(TransactionInventory.AlwaysStack, arrayOfNulls(5), placeholders = true)
+        val worn = worn()
+        bank[0] = Obj(red_partyhat)
+        bank[1] = Obj(purple_sweets, 100)
+        bank[2] = Obj(bronze_arrow, 50)
+        bank[3] = Obj(trident_of_the_seas, 3)
+        bank[4] = Obj(pickaxe_handle)
+        worn[3] = Obj(abyssal_whip)
+        val result = transaction {
+            val bankInv = select(bank)
+            val wornInv = select(worn)
+            swap {
+                from = bankInv
+                into = wornInv
+                fromSlot = 3
+                intoSlot = 3
+                merge = true
+                strict = false
+            }
+        }
+        assertEquals(TransactionResult.NotEnoughSpace, result.err)
+        assertEquals(Obj(trident_of_the_seas, 3), bank[3])
+        assertEquals(Obj(abyssal_whip), worn[3])
+        assertEquals(5, bank.occupiedSpace())
         assertEquals(1, worn.occupiedSpace())
     }
 }
