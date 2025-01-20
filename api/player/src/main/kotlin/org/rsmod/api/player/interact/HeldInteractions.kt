@@ -43,7 +43,7 @@ private constructor(
     private val objTypes: ObjTypeList,
     private val eventBus: EventBus,
     private val marketPrices: MarketPrices,
-    private val dropOp: InvDropOp,
+    private val dropOp: HeldDropOp,
     private val equipOp: HeldEquipOp,
 ) {
     private val logger = InlineLogger()
@@ -77,7 +77,7 @@ private constructor(
             return
         }
 
-        dropOp.attemptDrop(access, invSlot, obj, type)
+        dropOp.attemptDrop(access, inventory, invSlot, obj, type)
     }
 
     /**
@@ -238,7 +238,7 @@ private constructor(
             groupScript(HeldContentEvents.Op5(invSlot, obj, type, inventory))
             return
         }
-        dropOp.dropOrDestroy(this, invSlot, obj, type)
+        dropOp.dropOrDestroy(this, inventory, invSlot, obj, type)
     }
 
     private suspend fun ProtectedAccess.opHeld6(
@@ -333,7 +333,7 @@ private constructor(
     }
 }
 
-private class InvDropOp
+private class HeldDropOp
 @Inject
 constructor(
     private val eventBus: EventBus,
@@ -343,37 +343,50 @@ constructor(
 ) {
     suspend fun dropOrDestroy(
         access: ProtectedAccess,
+        inventory: Inventory,
         dropSlot: Int,
         obj: InvObj,
         type: UnpackedObjType,
     ) {
         when (type.iop[4]) {
-            "Destroy" -> access.attemptDestroy(dropSlot, obj, type)
-            "Release" -> access.attemptRelease(dropSlot, obj, type)
-            else -> attemptDrop(access, dropSlot, obj, type)
+            "Destroy" -> access.attemptDestroy(inventory, dropSlot, obj, type)
+            "Release" -> access.attemptRelease(inventory, dropSlot, obj, type)
+            else -> attemptDrop(access, inventory, dropSlot, obj, type)
         }
     }
 
     private suspend fun ProtectedAccess.attemptDestroy(
+        inventory: Inventory,
         dropSlot: Int,
         obj: InvObj,
         type: UnpackedObjType,
     ) {
-        startDialogue(dialogues) { destroyWarning(dropSlot, obj, type) }
+        startDialogue(dialogues) { destroyWarning(inventory, dropSlot, obj, type) }
     }
 
-    private suspend fun Dialogue.destroyWarning(dropSlot: Int, obj: InvObj, type: UnpackedObjType) {
+    private suspend fun Dialogue.destroyWarning(
+        inventory: Inventory,
+        dropSlot: Int,
+        obj: InvObj,
+        type: UnpackedObjType,
+    ) {
         val header = type.param(params.destroy_note_title)
         val text = type.param(params.destroy_note_desc)
         val confirm = confirmDestroy(type, obj.count, header, text)
         if (!confirm) {
             return
         }
-        destroy(player, dropSlot, obj, type)
+        destroy(player, inventory, dropSlot, obj, type)
     }
 
-    private fun destroy(player: Player, dropSlot: Int, obj: InvObj, type: UnpackedObjType) {
-        val result = player.invDel(player.inv, type, count = obj.count, slot = dropSlot)
+    private fun destroy(
+        player: Player,
+        inventory: Inventory,
+        dropSlot: Int,
+        obj: InvObj,
+        type: UnpackedObjType,
+    ) {
+        val result = player.invDel(inventory, type, count = obj.count, slot = dropSlot)
         if (result.success) {
             val event = HeldDropEvents.Destroy(player, dropSlot, obj, type)
             eventBus.publish(event)
@@ -381,29 +394,41 @@ constructor(
     }
 
     private suspend fun ProtectedAccess.attemptRelease(
+        inventory: Inventory,
         dropSlot: Int,
         obj: InvObj,
         type: UnpackedObjType,
     ) {
         if (obj.count == 1) {
-            release(player, dropSlot, obj, type)
+            release(player, inventory, dropSlot, obj, type)
             return
         }
-        startDialogue(dialogues) { releaseWarning(dropSlot, obj, type) }
+        startDialogue(dialogues) { releaseWarning(inventory, dropSlot, obj, type) }
     }
 
-    private suspend fun Dialogue.releaseWarning(dropSlot: Int, obj: InvObj, type: UnpackedObjType) {
+    private suspend fun Dialogue.releaseWarning(
+        inventory: Inventory,
+        dropSlot: Int,
+        obj: InvObj,
+        type: UnpackedObjType,
+    ) {
         val header =
             type.paramOrNull(params.release_note_title) ?: "Drop all of your ${type.lowercaseName}?"
         val confirm = choice2("Yes", true, "No", false, title = header)
         if (!confirm) {
             return
         }
-        release(player, dropSlot, obj, type)
+        release(player, inventory, dropSlot, obj, type)
     }
 
-    private fun release(player: Player, dropSlot: Int, obj: InvObj, type: UnpackedObjType) {
-        val result = player.invDel(player.inv, type, count = obj.count, slot = dropSlot)
+    private fun release(
+        player: Player,
+        inventory: Inventory,
+        dropSlot: Int,
+        obj: InvObj,
+        type: UnpackedObjType,
+    ) {
+        val result = player.invDel(inventory, type, count = obj.count, slot = dropSlot)
         if (result.success) {
             val event = HeldDropEvents.Release(player, dropSlot, obj, type)
             eventBus.publish(event)
@@ -415,6 +440,7 @@ constructor(
 
     suspend fun attemptDrop(
         access: ProtectedAccess,
+        inventory: Inventory,
         dropSlot: Int,
         obj: InvObj,
         type: UnpackedObjType,
@@ -437,16 +463,21 @@ constructor(
             val threshold = player.vars[varbits.drop_item_minimum_value] ?: 0
             val cost = (marketPrices[type] ?: 0) * obj.count
             if (cost >= threshold) {
-                access.dropWithWarning(dropSlot, obj, type)
+                access.dropWithWarning(inventory, dropSlot, obj, type)
                 return
             }
         }
 
-        player.drop(dropSlot, obj, type)
+        player.drop(inventory, dropSlot, obj, type)
     }
 
-    private fun Player.drop(dropSlot: Int, obj: InvObj, type: UnpackedObjType) {
-        val dropped = invDropSlot(objRepo, dropSlot)
+    private fun Player.drop(
+        inventory: Inventory,
+        dropSlot: Int,
+        obj: InvObj,
+        type: UnpackedObjType,
+    ) {
+        val dropped = invDropSlot(objRepo, inventory, dropSlot)
         if (!dropped) {
             return
         }
@@ -457,14 +488,20 @@ constructor(
     }
 
     private suspend fun ProtectedAccess.dropWithWarning(
+        inventory: Inventory,
         dropSlot: Int,
         obj: InvObj,
         type: UnpackedObjType,
     ) {
-        startDialogue(dialogues) { dropWarning(dropSlot, obj, type) }
+        startDialogue(dialogues) { dropWarning(inventory, dropSlot, obj, type) }
     }
 
-    private suspend fun Dialogue.dropWarning(dropSlot: Int, obj: InvObj, type: UnpackedObjType) {
+    private suspend fun Dialogue.dropWarning(
+        inventory: Inventory,
+        dropSlot: Int,
+        obj: InvObj,
+        type: UnpackedObjType,
+    ) {
         objbox(
             obj = type,
             zoom = 400,
@@ -481,26 +518,26 @@ constructor(
                 title = "${type.name}: Really put it down?",
             )
         if (confirm) {
-            player.drop(dropSlot, obj, type)
+            player.drop(inventory, dropSlot, obj, type)
         }
     }
 
     private fun Player.invDropSlot(
         repo: ObjRepository,
+        inventory: Inventory,
         slot: Int,
         count: Int = Int.MAX_VALUE,
         duration: Int = this.lootDropDuration ?: constants.lootdrop_duration,
         reveal: Int = duration - ObjRepository.DEFAULT_REVEAL_DELTA,
         coords: CoordGrid = this.coords,
-        inv: Inventory = this.inv,
     ): Boolean {
-        val invObj = inv[slot] ?: return false
+        val invObj = inventory[slot] ?: return false
         val cappedCount = min(invObj.count, count)
         if (cappedCount <= 0) {
             return false
         }
 
-        val transaction = invDel(inv, invObj.id, cappedCount, slot)
+        val transaction = invDel(inventory, invObj.id, cappedCount, slot)
         if (!transaction.success) {
             return false
         }
