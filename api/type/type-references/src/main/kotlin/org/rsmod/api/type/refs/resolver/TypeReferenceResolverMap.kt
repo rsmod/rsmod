@@ -32,6 +32,8 @@ import org.rsmod.api.type.refs.queue.QueueReferenceResolver
 import org.rsmod.api.type.refs.queue.QueueReferences
 import org.rsmod.api.type.refs.seq.SeqReferenceResolver
 import org.rsmod.api.type.refs.seq.SeqReferences
+import org.rsmod.api.type.refs.spot.SpotanimReferenceResolver
+import org.rsmod.api.type.refs.spot.SpotanimReferences
 import org.rsmod.api.type.refs.stat.StatReferenceResolver
 import org.rsmod.api.type.refs.stat.StatReferences
 import org.rsmod.api.type.refs.struct.StructReferenceResolver
@@ -63,6 +65,7 @@ constructor(
     private val paramResolver: ParamReferenceResolver,
     private val queueResolver: QueueReferenceResolver,
     private val seqResolver: SeqReferenceResolver,
+    private val spotResolver: SpotanimReferenceResolver,
     private val statResolver: StatReferenceResolver,
     private val structResolver: StructReferenceResolver,
     private val synthResolver: SynthReferenceResolver,
@@ -143,6 +146,7 @@ constructor(
                 is ParamReferences -> paramResolver
                 is QueueReferences -> queueResolver
                 is SeqReferences -> seqResolver
+                is SpotanimReferences -> spotResolver
                 is StatReferences -> statResolver
                 is StructReferences -> structResolver
                 is SynthReferences -> synthResolver

@@ -18,6 +18,7 @@ public data class NameMapping(
     public val objs: Map<String, Int> = mutableMapOf(),
     public val params: Map<String, Int> = mutableMapOf(),
     public val seqs: Map<String, Int> = mutableMapOf(),
+    public val spotanims: Map<String, Int> = mutableMapOf(),
     public val stats: Map<String, Int> = mutableMapOf(),
     public val structs: Map<String, Int> = mutableMapOf(),
     public val synths: Map<String, Int> = mutableMapOf(),

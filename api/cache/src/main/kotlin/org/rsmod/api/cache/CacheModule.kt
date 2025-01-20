@@ -18,6 +18,7 @@ import org.rsmod.game.type.npc.NpcTypeList
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.param.ParamTypeList
 import org.rsmod.game.type.seq.SeqTypeList
+import org.rsmod.game.type.spot.SpotanimTypeList
 import org.rsmod.game.type.stat.StatTypeList
 import org.rsmod.game.type.struct.StructTypeList
 import org.rsmod.game.type.synth.SynthTypeList
@@ -59,6 +60,8 @@ public object CacheModule : ExtendedModule() {
     @Provides public fun synthTypeList(map: TypeListMap): SynthTypeList = map.synths
 
     @Provides public fun structTypeList(map: TypeListMap): StructTypeList = map.structs
+
+    @Provides public fun spotanimTypeList(map: TypeListMap): SpotanimTypeList = map.spotanims
 }
 
 private class ConfigTypeListMapProvider

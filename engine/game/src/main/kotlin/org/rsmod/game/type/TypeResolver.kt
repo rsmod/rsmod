@@ -31,6 +31,8 @@ import org.rsmod.game.type.param.ParamType
 import org.rsmod.game.type.queue.QueueType
 import org.rsmod.game.type.seq.HashedSeqType
 import org.rsmod.game.type.seq.SeqType
+import org.rsmod.game.type.spot.HashedSpotanimType
+import org.rsmod.game.type.spot.SpotanimType
 import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.struct.HashedStructType
 import org.rsmod.game.type.struct.StructType
@@ -232,6 +234,20 @@ public object TypeResolver {
     }
 
     public operator fun set(type: HashedSeqType, identityHash: Long) {
+        type.startHash = identityHash
+    }
+
+    public operator fun get(type: SpotanimType): Int? = type.internalId
+
+    public operator fun set(type: SpotanimType, id: Int) {
+        type.internalId = id
+    }
+
+    public operator fun set(type: SpotanimType, internalName: String) {
+        type.internalName = internalName
+    }
+
+    public operator fun set(type: HashedSpotanimType, identityHash: Long) {
         type.startHash = identityHash
     }
 

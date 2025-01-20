@@ -10,6 +10,7 @@ import org.rsmod.game.type.npc.NpcTypeList
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.param.ParamTypeList
 import org.rsmod.game.type.seq.SeqTypeList
+import org.rsmod.game.type.spot.SpotanimTypeList
 import org.rsmod.game.type.stat.StatTypeList
 import org.rsmod.game.type.struct.StructTypeList
 import org.rsmod.game.type.synth.SynthTypeList
@@ -28,6 +29,7 @@ public data class TypeListMap(
     public val varbits: VarBitTypeList,
     public val invs: InvTypeList,
     public val seqs: SeqTypeList,
+    public val spotanims: SpotanimTypeList,
     public val fonts: FontMetricsTypeList,
     public val stats: StatTypeList,
     public val synths: SynthTypeList,

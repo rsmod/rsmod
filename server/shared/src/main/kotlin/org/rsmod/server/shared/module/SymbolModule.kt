@@ -44,6 +44,7 @@ private class NameMappingProvider : Provider<NameMapping> {
         val params = dirs.readSymbols("param")
         val queues = dirs.readSymbols("queue")
         val seqs = dirs.readSymbols("seq")
+        val spotanims = dirs.readSymbols("spotanim")
         val stats = dirs.readSymbols("stat")
         val structs = dirs.readSymbols("struct")
         val synths = dirs.readSymbols("synth")
@@ -83,6 +84,7 @@ private class NameMappingProvider : Provider<NameMapping> {
             structs = structs,
             dropTriggers = dropTriggers,
             bas = bas,
+            spotanims = spotanims,
         )
     }
 
