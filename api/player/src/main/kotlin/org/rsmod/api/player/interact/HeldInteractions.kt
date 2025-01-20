@@ -7,6 +7,7 @@ import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.config.refs.synths
 import org.rsmod.api.config.refs.varbits
+import org.rsmod.api.invtx.invCommit
 import org.rsmod.api.invtx.invDel
 import org.rsmod.api.invtx.invSwap
 import org.rsmod.api.market.MarketPrices
@@ -537,7 +538,7 @@ constructor(
             return false
         }
 
-        val transaction = invDel(inventory, invObj.id, cappedCount, slot)
+        val transaction = invDel(inventory, invObj.id, cappedCount, slot, autoCommit = false)
         if (!transaction.success) {
             return false
         }
@@ -546,7 +547,12 @@ constructor(
         val entity =
             ObjEntity(id = invObj.id, count = transaction.completed(), scope = ObjScope.Private.id)
         val obj = Obj(coords, entity, currentMapClock, observer)
-        repo.add(obj, duration, reveal)
+        val dropped = repo.add(obj, duration, reveal)
+        if (!dropped) {
+            return false
+        }
+
+        invCommit(inventory, transaction)
         return true
     }
 }
