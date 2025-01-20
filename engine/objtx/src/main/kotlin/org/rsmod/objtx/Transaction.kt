@@ -501,6 +501,7 @@ public class Transaction<T>(
         public var cert: Boolean = false,
         public var uncert: Boolean = false,
         public var merge: Boolean = false,
+        public var strict: Boolean = true,
     ) : TransactionQuery {
         override fun result(): TransactionResult {
             val from = from ?: return TransactionResult.Exception("`from` is required.")
@@ -526,11 +527,15 @@ public class Transaction<T>(
                     )
                 return transfer.result()
             }
+            // If query is going from an inv that stacks non-stackable objs, into an inv that
+            // does not - we take that into account and cap the transfer count to 1.
+            val canStackInto = into.canStack(obj.id)
+            val count = if (!canStackInto) 1 else obj.count
             val otherObj = into[intoSlot]
             return if (merge && otherObj?.id == obj.id) {
-                merge(from, into, fromSlot, intoSlot, obj, otherObj)
+                merge(from, into, fromSlot, intoSlot, obj, otherObj, count, canStackInto)
             } else {
-                swap(from, into, fromSlot, intoSlot, obj, otherObj)
+                swap(from, into, fromSlot, intoSlot, obj, otherObj, count)
             }
         }
 
@@ -541,8 +546,9 @@ public class Transaction<T>(
             intoSlot: Int,
             obj: TransactionObj,
             otherObj: TransactionObj?,
+            count: Int,
         ): TransactionResult {
-            val requested = obj.count
+            val requested = count
             if (otherObj != null) {
                 val deleteOtherObj =
                     this@Transaction.DeleteQuery(
@@ -561,7 +567,7 @@ public class Transaction<T>(
                 this@Transaction.DeleteQuery(
                         from = from,
                         obj = obj.id,
-                        strictCount = obj.count,
+                        strictCount = count,
                         strictSlot = fromSlot,
                     )
                     .result()
@@ -574,7 +580,8 @@ public class Transaction<T>(
                             into = from,
                             obj = otherObj.id,
                             strictCount = otherObj.count,
-                            strictSlot = fromSlot,
+                            preferredSlot = if (strict) 0 else fromSlot,
+                            strictSlot = if (strict) fromSlot else null,
                             vars = otherObj.vars,
                             cert = cert,
                             uncert = uncert,
@@ -588,7 +595,7 @@ public class Transaction<T>(
                 this@Transaction.InsertQuery(
                         into = into,
                         obj = obj.id,
-                        strictCount = obj.count,
+                        strictCount = count,
                         strictSlot = intoSlot,
                         vars = obj.vars,
                         cert = cert,
@@ -608,14 +615,16 @@ public class Transaction<T>(
             intoSlot: Int,
             obj: TransactionObj,
             otherObj: TransactionObj,
+            count: Int,
+            canStackInto: Boolean,
         ): TransactionResult {
             if (obj.hasVars || otherObj.hasVars) {
-                return swap(from, into, fromSlot, intoSlot, obj, otherObj)
-            } else if (!into.canStack(obj.id)) {
-                return swap(from, into, fromSlot, intoSlot, obj, otherObj)
+                return swap(from, into, fromSlot, intoSlot, obj, otherObj, count)
+            } else if (!canStackInto) {
+                return swap(from, into, fromSlot, intoSlot, obj, otherObj, count)
             }
             val otherCount = otherObj.count
-            val sumCount = otherCount.toLong() + obj.count
+            val sumCount = otherCount.toLong() + count
             val addCount = min(Int.MAX_VALUE.toLong() - otherCount, sumCount - otherCount).toInt()
             if (addCount == 0) {
                 // NOTE: it has not been confirmed what should happen in this situation, where
@@ -625,12 +634,12 @@ public class Transaction<T>(
             }
             into[intoSlot] = otherObj.copy(count = otherObj.count + addCount)
             from[fromSlot] =
-                if (obj.count > addCount) {
-                    obj.copy(count = obj.count - addCount)
+                if (count > addCount) {
+                    obj.copy(count = count - addCount)
                 } else {
                     null
                 }
-            return TransactionResult.Ok(requested = obj.count, completed = addCount)
+            return TransactionResult.Ok(requested = count, completed = addCount)
         }
 
         private fun TransactionInventory<T>.canStack(obj: Int): Boolean {

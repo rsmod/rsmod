@@ -247,13 +247,17 @@ public fun Player.invDelAll(
     }
 
 /**
- * @param into the inventory to place the obj into. `null` if swap is to occur in `this` Inventory.
- * @param cert if the obj in the respective [fromSlot] should be turned into its certificate form
+ * @param into The inventory to place the obj into. `null` if swap is to occur in `this` Inventory.
+ * @param cert If the obj in the respective [fromSlot] should be turned into its certificate form
  *   when inserted into [into] inv. (if applicable)
- * @param uncert if the obj in the respective [fromSlot] should be transformed, when applicable,
+ * @param uncert If the obj in the respective [fromSlot] should be transformed, when applicable,
  *   from its certificate form to its non-certificate variant.
- * @param mergeStacks if the obj in the respective [fromSlot] should be merged with any exact obj
+ * @param mergeStacks If the obj in the respective [fromSlot] should be merged with any exact obj
  *   match found in [into] inv. (ex: merging stackable items when moved from bank to inventory)
+ * @param strict When `true`: If any obj exists in [intoSlot] it must strictly try to take slot
+ *   [fromSlot]. When `false`: The `into` obj will attempt to take [fromSlot], but if it cannot, it
+ *   will find the next free slot. _`from` obj will always be strictly taken from [fromSlot] and the
+ *   transaction will fail if it cannot be done._
  */
 public fun Player.invSwap(
     from: Inventory,
@@ -263,6 +267,7 @@ public fun Player.invSwap(
     cert: Boolean = false,
     uncert: Boolean = false,
     mergeStacks: Boolean = true,
+    strict: Boolean = true,
     updateInv: Boolean = true,
     autoCommit: Boolean = true,
 ): TransactionResultList<InvObj> =
@@ -277,6 +282,7 @@ public fun Player.invSwap(
             cert = cert,
             uncert = uncert,
             mergeStacks = mergeStacks,
+            strict = strict,
         )
     }
 
@@ -289,6 +295,7 @@ public fun Transaction<InvObj>.swap(
     cert: Boolean = false,
     uncert: Boolean = false,
     mergeStacks: Boolean = true,
+    strict: Boolean = true,
 ) {
     swap {
         this.from = from
@@ -298,6 +305,7 @@ public fun Transaction<InvObj>.swap(
         this.cert = cert
         this.uncert = uncert
         this.merge = mergeStacks
+        this.strict = strict
     }
 }
 
