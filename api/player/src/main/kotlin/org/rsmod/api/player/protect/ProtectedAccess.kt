@@ -283,6 +283,36 @@ public class ProtectedAccess(
         validator: RayCastValidator = RayCastValidator(context.collision),
     ): Boolean = validator.hasLineOfSight(from, to, extraFlag = CollisionFlag.BLOCK_PLAYERS)
 
+    /**
+     * Returns `true` if there is a valid line of walk from [from] to **every** coordinate occupied
+     * by [bounds]; otherwise, returns `false`.
+     */
+    public fun lineOfWalk(
+        from: CoordGrid,
+        bounds: Bounds,
+        validator: RayCastValidator = RayCastValidator(context.collision),
+    ): Boolean {
+        val squares = bounds.asSequence()
+        return squares.all {
+            validator.hasLineOfWalk(from, it, extraFlag = CollisionFlag.BLOCK_PLAYERS)
+        }
+    }
+
+    /**
+     * Returns `true` if there is a valid line of sight from [from] to **every** coordinate occupied
+     * by [bounds]; otherwise, returns `false`.
+     */
+    public fun lineOfSight(
+        from: CoordGrid,
+        bounds: Bounds,
+        validator: RayCastValidator = RayCastValidator(context.collision),
+    ): Boolean {
+        val squares = bounds.asSequence()
+        return squares.all {
+            validator.hasLineOfSight(from, it, extraFlag = CollisionFlag.BLOCK_PLAYERS)
+        }
+    }
+
     public fun opLoc1(
         loc: BoundLocInfo,
         interactions: LocInteractions = context.locInteractions,
