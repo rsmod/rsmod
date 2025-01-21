@@ -13,6 +13,17 @@ object BaseObjs : ObjReferences() {
 
     val coins = find("coins")
 
+    val music_cape = find("music_cape")
+    val music_cape_t = find("music_cape_t")
+    val music_hood = find("music_hood")
+    val quest_point_cape = find("quest_point_cape")
+    val quest_point_cape_t = find("quest_point_cape_t")
+    val quest_point_hood = find("quest_point_hood")
+    val achievement_diary_cape = find("achievement_diary_cape")
+    val achievement_diary_cape_t = find("achievement_diary_cape_t")
+    val achievement_diary_hood = find("achievement_diary_hood")
+    val cabbage_cape = find("cabbage_cape")
+
     val helm_of_neitiznot = find("helm_of_neitiznot")
     val fire_cape = find("fire_cape")
     val amulet_of_fury = find("amulet_of_fury")

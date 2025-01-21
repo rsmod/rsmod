@@ -36,4 +36,9 @@ object BaseContent : ContentReferences() {
     val opened_right_picketgate = find("opened_right_picketgate")
     val ore = find("ore")
     val tree = find("tree")
+    val chicken_outfit = find("chicken_outfit")
+    val skill_cape = find("skill_cape")
+    val skill_hood = find("skill_hood")
+    val max_cape = find("max_cape")
+    val max_hood = find("max_hood")
 }

@@ -14,4 +14,7 @@ object BaseNpcs : NpcReferences() {
     val woman_id_3112 = find("woman_id_3112", 7243513195153570707)
     val woman_id_3113 = find("woman_id_3113", 7243513195153570708)
     val man_id_6818 = find("man_id_6818", 5122201184108340293)
+    val uri_emote_1 = find("uri_id_7311")
+    val uri_emote_2 = find("uri_id_7313")
+    val achievement_diary_cape_emote = find("achievement_diary_cape_emote")
 }

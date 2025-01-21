@@ -22,4 +22,6 @@ object BaseVarps : VarpReferences() {
     val dragon_slayer_i_progress = find("dragon_slayer_i_progress", 4429203)
     val vampyre_slayer_progress = find("vampyre_slayer_progress", 4429205)
     val sheep_shearer_progress = find("sheep_shearer_progress", 4429206)
+
+    val fortis_colosseum_glory_highscore = find("fortis_colosseum_glory_highscore")
 }

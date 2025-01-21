@@ -241,31 +241,33 @@
 
 
 532	lost_tribe_quest
+1000	zombie_hand_emote
+1367	glass_wall_emote
 1368	glass_box_emote
 1369	climb_rope_emote
 1370	lean_emote
-1367	glass_wall_emote
+1371	scared_emote
+1921	zombie_walk_emote
+1920	zombie_dance_emote
 2311	idea_emote
 2312	stamp_emote
 2309	flap_emote
 2310	slap_head_emote
-1921	zombie_walk_emote
-1920	zombie_dance_emote
-1371	scared_emote
 2055	rabbit_hop_emote
 4732	drill_demon_emotes
-1000	zombie_hand_emote
 4802	hypermobile_drinker_emote
 4673	air_guitar_emote
+4797	skillcape_emote_unlocked1
 5104	uri_transform_emote
 5597	smooth_dance_emote
 5598	crazy_dance_emote
 6041	premier_shield_emote
-4797	skillcape_emote_unlocked1
+6550	party_emote
 11832	skillcape_emote_unlocked2
 11757	relic_unlock_emote
 10115	explore_emote
 12062	flex_emote
+15322	trick_emote
 
 3851	warning_dagannoth_kings_ladder
 3852	warning_contact_dungeon_ladder

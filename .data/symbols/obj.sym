@@ -6222,7 +6222,7 @@
 9805	firemaking_cape_t
 9806	firemaking_hood
 9807	woodcutting_cape
-9808	woodcut_cape_t
+9808	woodcutting_cape_t
 9809	woodcutting_hood
 9810	farming_cape
 9811	farming_cape_t
@@ -8426,8 +8426,8 @@
 13337	accumulator_max_cape
 13338	accumulator_max_hood
 13339	sacred_eel
-13340	agility_cape_worn
-13341	agility_cape_t_worn
+13340	agility_cape
+13341	agility_cape_t
 13342	max_cape_worn
 13343	black_santa_hat
 13344	inverted_santa_hat

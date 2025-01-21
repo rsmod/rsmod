@@ -148,6 +148,7 @@
 1801	slayer_task_boss_displayname
 1802	slayer_task_boss_location
 
+65458	skill_spot
 65459	attack_range
 65460	attack_anim_accurate
 65461	attack_sound_accurate
