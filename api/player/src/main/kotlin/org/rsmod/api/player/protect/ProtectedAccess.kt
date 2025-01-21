@@ -68,6 +68,7 @@ import org.rsmod.game.type.interf.IfSubType
 import org.rsmod.game.type.interf.InterfaceType
 import org.rsmod.game.type.mesanim.MesAnimType
 import org.rsmod.game.type.npc.NpcType
+import org.rsmod.game.type.npc.NpcTypeList
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.seq.SeqType
@@ -138,6 +139,14 @@ public class ProtectedAccess(
 
     public fun spotanim(spot: SpotanimType, delay: Int = 0, height: Int = 0, slot: Int = 0) {
         player.spotanim(spot, delay, height, slot)
+    }
+
+    public fun transmog(npcType: NpcType, npcTypeList: NpcTypeList = context.npcTypes) {
+        player.transmog = npcTypeList[npcType]
+    }
+
+    public fun resetTransmog() {
+        player.transmog = null
     }
 
     public fun isWithinDistance(
