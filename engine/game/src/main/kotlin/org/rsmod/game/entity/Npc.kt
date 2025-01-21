@@ -44,6 +44,7 @@ public class Npc(
 
     public var spawnCoords: CoordGrid = coords
     public var defaultMoveSpeed: MoveSpeed = MoveSpeed.Walk
+    public var respawnDir: Direction = type.respawnDir
 
     public var mode: NpcMode? = type.defaultMode
 
@@ -74,9 +75,6 @@ public class Npc(
 
     public val blockWalk: BlockWalk
         get() = type.blockWalk
-
-    public val respawnDir: Direction
-        get() = type.respawnDir
 
     public val wanderRange: Int
         get() = type.wanderRange
