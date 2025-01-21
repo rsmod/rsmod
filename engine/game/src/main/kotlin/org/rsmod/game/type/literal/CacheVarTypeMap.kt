@@ -14,6 +14,8 @@ import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.type.seq.HashedSeqType
 import org.rsmod.game.type.seq.SeqType
+import org.rsmod.game.type.spot.HashedSpotanimType
+import org.rsmod.game.type.spot.SpotanimType
 import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.synth.SynthType
 import org.rsmod.map.CoordGrid
@@ -36,6 +38,8 @@ public object CacheVarTypeMap {
             HashedObjType::class to CacheVarLiteral.OBJ,
             SeqType::class to CacheVarLiteral.SEQ,
             HashedSeqType::class to CacheVarLiteral.SEQ,
+            SpotanimType::class to CacheVarLiteral.SPOTANIM,
+            HashedSpotanimType::class to CacheVarLiteral.SPOTANIM,
             UnpackedObjType::class to CacheVarLiteral.NAMEDOBJ,
             String::class to CacheVarLiteral.STRING,
             StatType::class to CacheVarLiteral.STAT,
@@ -59,6 +63,8 @@ public object CacheVarTypeMap {
             HashedObjType::class to CacheVarObjCodec,
             SeqType::class to CacheVarSeqCodec,
             HashedSeqType::class to CacheVarSeqCodec,
+            SpotanimType::class to CacheVarSpotanimCodec,
+            HashedSpotanimType::class to CacheVarSpotanimCodec,
             UnpackedObjType::class to CacheVarNamedObjCodec,
             String::class to CacheVarStringCodec,
             StatType::class to CacheVarStatCodec,
@@ -99,7 +105,7 @@ public object CacheVarTypeMap {
                 CacheVarLiteral.OBJ -> ObjType::class
                 CacheVarLiteral.PLAYERUID -> Int::class
                 CacheVarLiteral.STRING -> String::class
-                CacheVarLiteral.SPOTANIM -> Int::class
+                CacheVarLiteral.SPOTANIM -> SpotanimType::class
                 CacheVarLiteral.NPCUID -> Int::class
                 CacheVarLiteral.INV -> Int::class
                 CacheVarLiteral.TEXTURE -> Int::class

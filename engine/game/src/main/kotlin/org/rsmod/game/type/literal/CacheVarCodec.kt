@@ -8,6 +8,7 @@ import org.rsmod.game.type.loc.LocType
 import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.seq.SeqType
+import org.rsmod.game.type.spot.SpotanimType
 import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.synth.SynthType
 import org.rsmod.map.CoordGrid
@@ -71,6 +72,13 @@ public object CacheVarSeqCodec : BaseIntVarCodec<SeqType>(SeqType::class) {
         types.seqs[value]?.toHashedType()
 
     override fun encode(value: SeqType): Int = value.id
+}
+
+public object CacheVarSpotanimCodec : BaseIntVarCodec<SpotanimType>(SpotanimType::class) {
+    override fun decode(types: TypeListMap, value: Int): SpotanimType? =
+        types.spotanims[value]?.toHashedType()
+
+    override fun encode(value: SpotanimType): Int = value.id
 }
 
 public object CacheVarLocCodec : BaseIntVarCodec<LocType>(LocType::class) {
