@@ -14,7 +14,7 @@ object BaseSpotanims : SpotanimReferences() {
     val blow_kiss_emote = find("blow_kiss_emote", 18465091)
     val teletab_suck_in = find("teletab_suck_in", 47632284)
     val idea_emote = find("idea_emote", 59488766)
-    val stampfeet_emote = find("stampfeet_emote")
+    val stampfeet_emote = find("stampfeet_emote", 59485168)
     val fletching_skillcape = find("fletching_skillcape", 71294989)
     val magic_skillcape = find("magic_skillcape", 71309996)
     val mining_skillcape = find("mining_skillcape", 71313840)
@@ -48,5 +48,5 @@ object BaseSpotanims : SpotanimReferences() {
     val twisted_relic_unlock = find("twisted_relic_unlock", 145480649)
     val trailblazer_relic_unlock = find("trailblazer_relic_unlock", 153030644)
     val emote_party = find("emote_party", 177276600)
-    val emote_trick = find("emote_trick")
+    val emote_trick = find("emote_trick", 185997487)
 }
