@@ -62,6 +62,7 @@ import org.rsmod.game.map.Direction
 import org.rsmod.game.map.collision.get
 import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.obj.InvObj
+import org.rsmod.game.obj.isType
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.interf.IfEvent
@@ -73,6 +74,7 @@ import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.npc.NpcTypeList
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.ObjTypeList
+import org.rsmod.game.type.param.ParamType
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.spot.SpotanimType
 import org.rsmod.game.type.stat.StatType
@@ -973,6 +975,24 @@ public class ProtectedAccess(
         }
         regainProtectedAccess()
     }
+
+    /* Obj helper functions (oc=obj config) */
+    public fun <T : Any> ocParam(
+        obj: InvObj,
+        type: ParamType<T>,
+        objTypes: ObjTypeList = context.objTypes,
+    ): T? = objTypes[obj].paramOrNull(type)
+
+    public fun ocMatches(
+        obj: InvObj?,
+        content: ContentGroupType,
+        objTypes: ObjTypeList = context.objTypes,
+    ): Boolean = obj != null && objTypes[obj].contentGroup == content.id
+
+    public fun ocMatches(obj: InvObj?, type: ObjType): Boolean = obj.isType(type)
+
+    public fun ocMatches(obj: InvObj?, type: ObjType, vararg others: ObjType): Boolean =
+        obj.isType(type) || others.any(obj::isType)
 
     /* Inventory helper functions */
     public fun invTotal(
