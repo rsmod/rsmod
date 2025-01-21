@@ -5,6 +5,7 @@ import org.rsmod.api.player.interact.HeldInteractions
 import org.rsmod.api.player.interact.LocInteractions
 import org.rsmod.api.random.GameRandom
 import org.rsmod.events.EventBus
+import org.rsmod.game.type.npc.NpcTypeList
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.routefinder.collision.CollisionFlagMap
 
@@ -14,6 +15,7 @@ constructor(
     private val random: GameRandom,
     private val collision: CollisionFlagMap,
     private val eventBus: EventBus,
+    private val npcTypes: NpcTypeList,
     private val objTypes: ObjTypeList,
     private val locInteractions: LocInteractions,
     private val heldInteractions: HeldInteractions,
@@ -23,6 +25,7 @@ constructor(
             getRandom = { random },
             getEventBus = { eventBus },
             getCollision = { collision },
+            getNpcTypes = { npcTypes },
             getObjTypes = { objTypes },
             getLocInteractions = { locInteractions },
             getHeldInteractions = { heldInteractions },
@@ -34,6 +37,7 @@ constructor(
                 getRandom = { error("No game random provided.") },
                 getEventBus = { error("No event bus provided.") },
                 getCollision = { error("No collision map provided.") },
+                getNpcTypes = { error("No npc type list provided.") },
                 getObjTypes = { error("No obj type list provided.") },
                 getLocInteractions = { error("No loc interactions provided.") },
                 getHeldInteractions = { error("No held interactions provided.") },
