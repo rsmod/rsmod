@@ -75,6 +75,7 @@ import org.rsmod.game.type.spot.SpotanimType
 import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.synth.SynthType
 import org.rsmod.game.type.timer.TimerType
+import org.rsmod.game.vars.VariableIntMap
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.util.Bounds
 import org.rsmod.objtx.TransactionResultList
@@ -93,6 +94,7 @@ public class ProtectedAccess(
     public val coords: CoordGrid by player::coords
     public val mapClock: Int by player::currentMapClock
     public val inv: Inventory by player::inv
+    public val vars: VariableIntMap by player::vars
 
     public var actionDelay: Int by player::actionDelay
     public var skillAnimDelay: Int by player::skillAnimDelay
