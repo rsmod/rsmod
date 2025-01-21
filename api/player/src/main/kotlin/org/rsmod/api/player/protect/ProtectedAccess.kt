@@ -407,32 +407,6 @@ public class ProtectedAccess(
     }
 
     /**
-     * @throws IllegalStateException if [checkOpHeldCallLimit] exceeds the safety net threshold.
-     * @see [checkOpHeldCallLimit]
-     */
-    public suspend fun opHeld6(
-        invSlot: Int,
-        inv: Inventory = player.inv,
-        interactions: HeldInteractions = context.heldInteractions,
-    ) {
-        checkOpHeldCallLimit()
-        interactions.interact(this, inv, invSlot, HeldOp.Op6)
-    }
-
-    /**
-     * @throws IllegalStateException if [checkOpHeldCallLimit] exceeds the safety net threshold.
-     * @see [checkOpHeldCallLimit]
-     */
-    public suspend fun opHeld7(
-        invSlot: Int,
-        inv: Inventory = player.inv,
-        interactions: HeldInteractions = context.heldInteractions,
-    ) {
-        checkOpHeldCallLimit()
-        interactions.interact(this, inv, invSlot, HeldOp.Op7)
-    }
-
-    /**
      * Note: This function will bypass any custom scripts attached to the respective obj and will
      * attempt to directly equip it instead. Use [opHeld2] if you wish to avoid this behavior.
      *

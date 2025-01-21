@@ -131,8 +131,6 @@ private constructor(
             HeldOp.Op3 -> access.opHeld3(obj, type, inventory, invSlot)
             HeldOp.Op4 -> access.opHeld4(obj, type, inventory, invSlot)
             HeldOp.Op5 -> access.opHeld5(obj, type, inventory, invSlot)
-            HeldOp.Op6 -> access.opHeld6(obj, type, inventory, invSlot)
-            HeldOp.Op7 -> access.opHeld7(obj, type, inventory, invSlot)
         }
     }
 
@@ -240,46 +238,6 @@ private constructor(
             return
         }
         dropOp.dropOrDestroy(this, inventory, invSlot, obj, type)
-    }
-
-    private suspend fun ProtectedAccess.opHeld6(
-        obj: InvObj,
-        type: UnpackedObjType,
-        inventory: Inventory,
-        invSlot: Int,
-    ) {
-        val typeScript = eventBus.suspend[HeldObjEvents.Op6::class.java, type.id]
-        if (typeScript != null) {
-            typeScript(HeldObjEvents.Op6(invSlot, obj, type, inventory))
-            return
-        }
-        val groupScript = eventBus.suspend[HeldContentEvents.Op6::class.java, type.contentGroup]
-        if (groupScript != null) {
-            groupScript(HeldContentEvents.Op6(invSlot, obj, type, inventory))
-            return
-        }
-        mes(constants.dm_default)
-        logger.debug { "OpHeld6 for `${type.name}` is not implemented: type=$type" }
-    }
-
-    private suspend fun ProtectedAccess.opHeld7(
-        obj: InvObj,
-        type: UnpackedObjType,
-        inventory: Inventory,
-        invSlot: Int,
-    ) {
-        val typeScript = eventBus.suspend[HeldObjEvents.Op7::class.java, type.id]
-        if (typeScript != null) {
-            typeScript(HeldObjEvents.Op7(invSlot, obj, type, inventory))
-            return
-        }
-        val groupScript = eventBus.suspend[HeldContentEvents.Op7::class.java, type.contentGroup]
-        if (groupScript != null) {
-            groupScript(HeldContentEvents.Op7(invSlot, obj, type, inventory))
-            return
-        }
-        mes(constants.dm_default)
-        logger.debug { "OpHeld7 for `${type.name}` is not implemented: type=$type" }
     }
 
     public fun drag(

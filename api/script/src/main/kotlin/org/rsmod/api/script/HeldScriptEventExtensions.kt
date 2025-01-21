@@ -54,16 +54,6 @@ public fun ScriptContext.onOpHeld5(
     action: suspend ProtectedAccess.(HeldObjEvents.Op5) -> Unit,
 ): Unit = onProtectedEvent(type.id, action)
 
-public fun ScriptContext.onOpHeld6(
-    type: ObjType,
-    action: suspend ProtectedAccess.(HeldObjEvents.Op6) -> Unit,
-): Unit = onProtectedEvent(type.id, action)
-
-public fun ScriptContext.onOpHeld7(
-    type: ObjType,
-    action: suspend ProtectedAccess.(HeldObjEvents.Op7) -> Unit,
-): Unit = onProtectedEvent(type.id, action)
-
 /* Standard content op functions */
 public fun ScriptContext.onOpHeld1(
     content: ContentGroupType,
@@ -91,14 +81,4 @@ public fun ScriptContext.onOpHeld4(
 public fun ScriptContext.onOpHeld5(
     content: ContentGroupType,
     action: suspend ProtectedAccess.(HeldContentEvents.Op5) -> Unit,
-): Unit = onProtectedEvent(content.id, action)
-
-public fun ScriptContext.onOpHeld6(
-    content: ContentGroupType,
-    action: suspend ProtectedAccess.(HeldContentEvents.Op6) -> Unit,
-): Unit = onProtectedEvent(content.id, action)
-
-public fun ScriptContext.onOpHeld7(
-    content: ContentGroupType,
-    action: suspend ProtectedAccess.(HeldContentEvents.Op7) -> Unit,
 ): Unit = onProtectedEvent(content.id, action)

@@ -101,8 +101,8 @@ private constructor(
             IfButtonOp.Op5 -> null
             IfButtonOp.Op6 -> HeldOp.Op4
             IfButtonOp.Op7 -> HeldOp.Op5
-            IfButtonOp.Op8 -> HeldOp.Op6
-            IfButtonOp.Op9 -> HeldOp.Op7
+            IfButtonOp.Op8 -> null
+            IfButtonOp.Op9 -> null
             IfButtonOp.Op10 -> null
         }
 }
