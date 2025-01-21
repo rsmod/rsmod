@@ -450,7 +450,7 @@ public class ProtectedAccess(
         player.facePathingEntitySquare(target)
 
     public fun stopAction(eventBus: EventBus = context.eventBus) {
-        clearPendingAction(eventBus)
+        player.clearPendingAction(eventBus)
         player.resetFaceEntity()
         player.clearMapFlag()
         player.abortRoute()
