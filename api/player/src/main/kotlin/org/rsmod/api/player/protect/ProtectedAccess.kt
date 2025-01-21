@@ -271,6 +271,18 @@ public class ProtectedAccess(
         return bounds.shuffled().filter { centre.chebyshevDistance(it) >= minRadius }
     }
 
+    public fun lineOfWalk(
+        from: CoordGrid,
+        to: CoordGrid,
+        validator: RayCastValidator = RayCastValidator(context.collision),
+    ): Boolean = validator.hasLineOfWalk(from, to, extraFlag = CollisionFlag.BLOCK_PLAYERS)
+
+    public fun lineOfSight(
+        from: CoordGrid,
+        to: CoordGrid,
+        validator: RayCastValidator = RayCastValidator(context.collision),
+    ): Boolean = validator.hasLineOfSight(from, to, extraFlag = CollisionFlag.BLOCK_PLAYERS)
+
     public fun opLoc1(
         loc: BoundLocInfo,
         interactions: LocInteractions = context.locInteractions,
