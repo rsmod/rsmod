@@ -2,10 +2,11 @@ package org.rsmod.api.testing.scope
 
 import com.google.inject.AbstractModule
 import com.google.inject.Guice
-import com.google.inject.Inject
 import com.google.inject.Injector
+import com.google.inject.Provider
 import com.google.inject.Scopes
 import com.google.inject.multibindings.Multibinder
+import jakarta.inject.Inject
 import kotlin.contracts.contract
 import kotlin.reflect.KClass
 import net.rsprot.protocol.game.outgoing.misc.player.MessageGame
@@ -64,6 +65,7 @@ import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.enums.EnumTypeList
 import org.rsmod.game.type.font.FontMetricsTypeList
 import org.rsmod.game.type.interf.InterfaceType
+import org.rsmod.game.type.interf.InterfaceTypeList
 import org.rsmod.game.type.inv.InvTypeList
 import org.rsmod.game.type.loc.LocType
 import org.rsmod.game.type.loc.LocTypeList
@@ -76,6 +78,7 @@ import org.rsmod.game.type.seq.SeqTypeList
 import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.stat.StatTypeList
 import org.rsmod.game.type.synth.SynthTypeList
+import org.rsmod.game.type.util.EnumTypeMapResolver
 import org.rsmod.game.type.varbit.VarBitTypeList
 import org.rsmod.game.type.varp.VarpTypeList
 import org.rsmod.map.CoordGrid
@@ -415,6 +418,7 @@ constructor(
                 bind(ComponentTypeList::class.java).toInstance(cacheTypes.components)
                 bind(EnumTypeList::class.java).toInstance(cacheTypes.enums)
                 bind(FontMetricsTypeList::class.java).toInstance(cacheTypes.fonts)
+                bind(InterfaceTypeList::class.java).toInstance(cacheTypes.interfaces)
                 bind(InvTypeList::class.java).toInstance(cacheTypes.invs)
                 bind(LocTypeList::class.java).toInstance(cacheTypes.locs)
                 bind(NpcTypeList::class.java).toInstance(cacheTypes.npcs)
@@ -433,7 +437,17 @@ constructor(
                 bind(XpModifiers::class.java).`in`(Scopes.SINGLETON)
 
                 bind(MarketPrices::class.java).toInstance(DefaultMarketPrices)
+
+                bind(EnumTypeMapResolver::class.java)
+                    .toProvider(EnumTypeMapResolverProvider::class.java)
+                    .`in`(Scopes.SINGLETON)
             }
+        }
+
+        private class EnumTypeMapResolverProvider
+        @Inject
+        constructor(private val enums: EnumTypeList) : Provider<EnumTypeMapResolver> {
+            override fun get(): EnumTypeMapResolver = EnumTypeMapResolver(enums)
         }
     }
 
