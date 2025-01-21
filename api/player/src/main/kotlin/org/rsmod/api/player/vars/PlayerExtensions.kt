@@ -12,6 +12,5 @@ public fun Player.syncVarp(varp: VarpType, value: Int) {
 }
 
 public fun Player.syncVarpStr(varp: VarpType, value: String?) {
-    // NOTE: Might be worth considering blank `value`s as null here to remove from var map.
     varsString[varp] = value
 }
