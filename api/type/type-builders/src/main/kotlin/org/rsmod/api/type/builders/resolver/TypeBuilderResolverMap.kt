@@ -26,12 +26,16 @@ import org.rsmod.api.type.builders.param.ParamBuilder
 import org.rsmod.api.type.builders.param.ParamBuilderResolver
 import org.rsmod.api.type.builders.struct.StructBuilder
 import org.rsmod.api.type.builders.struct.StructBuilderResolver
+import org.rsmod.api.type.builders.varbit.VarBitBuilder
+import org.rsmod.api.type.builders.varbit.VarBitBuilderResolver
 import org.rsmod.api.type.builders.varcon.VarConBuilder
 import org.rsmod.api.type.builders.varcon.VarConBuilderResolver
 import org.rsmod.api.type.builders.varconbit.VarConBitBuilder
 import org.rsmod.api.type.builders.varconbit.VarConBitBuilderResolver
 import org.rsmod.api.type.builders.varobjbit.VarObjBitBuilder
 import org.rsmod.api.type.builders.varobjbit.VarObjBitBuilderResolver
+import org.rsmod.api.type.builders.varp.VarpBuilder
+import org.rsmod.api.type.builders.varp.VarpBuilderResolver
 
 public class TypeBuilderResolverMap
 @Inject
@@ -48,9 +52,11 @@ constructor(
     private val objResolver: ObjBuilderResolver,
     private val paramResolver: ParamBuilderResolver,
     private val structResolver: StructBuilderResolver,
+    private val varBitResolver: VarBitBuilderResolver,
     private val varConResolver: VarConBuilderResolver,
     private val varConBitResolver: VarConBitBuilderResolver,
     private val varObjBitResolver: VarObjBitBuilderResolver,
+    private val varpResolver: VarpBuilderResolver,
 ) {
     private val builders = mutableListOf<TypeBuilder<*, *>>()
 
@@ -124,9 +130,11 @@ constructor(
                 is ObjBuilder -> objResolver
                 is ParamBuilder -> paramResolver
                 is StructBuilder -> structResolver
+                is VarBitBuilder -> varBitResolver
                 is VarConBuilder -> varConResolver
                 is VarConBitBuilder -> varConBitResolver
                 is VarObjBitBuilder -> varObjBitResolver
+                is VarpBuilder -> varpResolver
                 else -> throw NotImplementedError("Resolver not defined for type-builder: $this")
             }
         return resolver as TypeBuilderResolver<B, T>

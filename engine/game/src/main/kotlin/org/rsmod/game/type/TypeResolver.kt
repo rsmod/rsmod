@@ -340,8 +340,12 @@ public object TypeResolver {
         type.internalName = internalName
     }
 
-    public operator fun set(type: VarpType, transmit: Boolean) {
+    public fun setTransmit(type: VarpType, transmit: Boolean) {
         type.transmit = transmit
+    }
+
+    public fun setProtect(type: VarpType, protect: Boolean) {
+        type.protect = protect
     }
 
     public operator fun set(type: HashedVarpType, identityHash: Long) {
@@ -355,12 +359,12 @@ public object TypeResolver {
     }
 
     public operator fun set(type: VarBitType, baseVar: VarpType) {
-        type.varp = baseVar
+        type.internalVarp = baseVar
     }
 
     public operator fun set(type: VarBitType, bitRange: IntRange) {
-        type.lsb = bitRange.first
-        type.msb = bitRange.last
+        type.internalLsb = bitRange.first
+        type.internalMsb = bitRange.last
     }
 
     public fun <K : Any, V : Any> setTypedMap(type: UnpackedEnumType<K, V>, map: Map<K, V?>) {

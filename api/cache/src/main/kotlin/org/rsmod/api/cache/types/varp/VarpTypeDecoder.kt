@@ -41,6 +41,8 @@ public object VarpTypeDecoder {
         with(builder) {
             when (code) {
                 5 -> clientCode = data.readUnsignedShort()
+                200 -> transmit = false
+                201 -> protect = true
                 else -> throw IOException("Error unrecognised .varp config code: $code")
             }
         }

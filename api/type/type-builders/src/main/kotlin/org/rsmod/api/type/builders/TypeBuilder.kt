@@ -5,7 +5,7 @@ public abstract class TypeBuilder<B, T> {
 }
 
 public abstract class HashTypeBuilder<B, T> : TypeBuilder<B, T>() {
-    public abstract fun build(internal: String, init: B.() -> Unit)
+    public abstract fun build(internal: String, init: B.() -> Unit = {})
 }
 
 public abstract class NameTypeBuilder<B, T> : TypeBuilder<B, T>() {

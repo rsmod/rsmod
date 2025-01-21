@@ -23,6 +23,7 @@ public class VarBitPluginBuilder(public var internal: String? = null) {
 
     public fun build(id: Int): UnpackedVarBitType {
         backing.internal = internal
+        backing.baseVar = baseVar?.id
         return backing.build(id)
     }
 
