@@ -12,6 +12,7 @@ public data class NameMapping(
     public val enums: Map<String, Int> = mutableMapOf(),
     public val interfaces: Map<String, Int> = mutableMapOf(),
     public val invs: Map<String, Int> = mutableMapOf(),
+    public val jingles: Map<String, Int> = mutableMapOf(),
     public val locs: Map<String, Int> = mutableMapOf(),
     public val models: Map<String, Int> = mutableMapOf(),
     public val npcs: Map<String, Int> = mutableMapOf(),

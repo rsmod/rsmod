@@ -9,6 +9,7 @@ import org.rsmod.api.cache.types.comp.ComponentTypeDecoder
 import org.rsmod.api.cache.types.enums.EnumTypeDecoder
 import org.rsmod.api.cache.types.font.FontMetricsDecoder
 import org.rsmod.api.cache.types.inv.InvTypeDecoder
+import org.rsmod.api.cache.types.jingle.JingleTypeDecoder
 import org.rsmod.api.cache.types.loc.LocTypeDecoder
 import org.rsmod.api.cache.types.npc.NpcTypeDecoder
 import org.rsmod.api.cache.types.obj.ObjTypeDecoder
@@ -46,6 +47,7 @@ public object TypeListMapDecoder {
         val synths = SynthTypeDecoder.decodeAll(names)
         val structs = decode { StructTypeDecoder.decodeAll(cache) }
         val spotanims = decode { SpotanimTypeDecoder.decodeAll(cache) }
+        val jingles = JingleTypeDecoder.decodeAll(names)
         TypeListMap(
                 locs = locs.await(),
                 objs = objs.await(),
@@ -63,6 +65,7 @@ public object TypeListMapDecoder {
                 spotanims = spotanims.await(),
                 synths = synths,
                 structs = structs.await(),
+                jingles = jingles,
             )
             .apply {
                 ObjTypeDecoder.assignInternal(this.objs, names.objs)

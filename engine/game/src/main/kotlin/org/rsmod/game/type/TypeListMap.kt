@@ -5,6 +5,7 @@ import org.rsmod.game.type.enums.EnumTypeList
 import org.rsmod.game.type.font.FontMetricsTypeList
 import org.rsmod.game.type.interf.InterfaceTypeList
 import org.rsmod.game.type.inv.InvTypeList
+import org.rsmod.game.type.jingle.JingleTypeList
 import org.rsmod.game.type.loc.LocTypeList
 import org.rsmod.game.type.npc.NpcTypeList
 import org.rsmod.game.type.obj.ObjTypeList
@@ -34,4 +35,5 @@ public data class TypeListMap(
     public val stats: StatTypeList,
     public val synths: SynthTypeList,
     public val structs: StructTypeList,
+    public val jingles: JingleTypeList,
 )

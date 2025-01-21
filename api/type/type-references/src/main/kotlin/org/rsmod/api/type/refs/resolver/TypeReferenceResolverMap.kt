@@ -18,6 +18,8 @@ import org.rsmod.api.type.refs.interf.InterfaceReferenceResolver
 import org.rsmod.api.type.refs.interf.InterfaceReferences
 import org.rsmod.api.type.refs.inv.InvReferenceResolver
 import org.rsmod.api.type.refs.inv.InvReferences
+import org.rsmod.api.type.refs.jingle.JingleReferenceResolver
+import org.rsmod.api.type.refs.jingle.JingleReferences
 import org.rsmod.api.type.refs.loc.LocReferenceResolver
 import org.rsmod.api.type.refs.loc.LocReferences
 import org.rsmod.api.type.refs.mod.ModLevelReferenceResolver
@@ -58,6 +60,7 @@ constructor(
     private val fontMetricsResolver: FontMetricsReferenceResolver,
     private val interfaceResolver: InterfaceReferenceResolver,
     private val invResolver: InvReferenceResolver,
+    private val jingleResolver: JingleReferenceResolver,
     private val locResolver: LocReferenceResolver,
     private val modLevelResolver: ModLevelReferenceResolver,
     private val npcResolver: NpcReferenceResolver,
@@ -139,6 +142,7 @@ constructor(
                 is FontMetricsReferences -> fontMetricsResolver
                 is InterfaceReferences -> interfaceResolver
                 is InvReferences -> invResolver
+                is JingleReferences -> jingleResolver
                 is LocReferences -> locResolver
                 is ModLevelReferences -> modLevelResolver
                 is NpcReferences -> npcResolver

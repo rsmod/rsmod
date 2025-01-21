@@ -13,6 +13,7 @@ import org.rsmod.game.type.enums.EnumTypeList
 import org.rsmod.game.type.font.FontMetricsTypeList
 import org.rsmod.game.type.interf.InterfaceTypeList
 import org.rsmod.game.type.inv.InvTypeList
+import org.rsmod.game.type.jingle.JingleTypeList
 import org.rsmod.game.type.loc.LocTypeList
 import org.rsmod.game.type.npc.NpcTypeList
 import org.rsmod.game.type.obj.ObjTypeList
@@ -62,6 +63,8 @@ public object CacheModule : ExtendedModule() {
     @Provides public fun structTypeList(map: TypeListMap): StructTypeList = map.structs
 
     @Provides public fun spotanimTypeList(map: TypeListMap): SpotanimTypeList = map.spotanims
+
+    @Provides public fun jingleTypeList(map: TypeListMap): JingleTypeList = map.jingles
 }
 
 private class ConfigTypeListMapProvider

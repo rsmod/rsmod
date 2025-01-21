@@ -17,6 +17,7 @@ import org.rsmod.game.type.interf.HashedInterfaceType
 import org.rsmod.game.type.interf.InterfaceType
 import org.rsmod.game.type.inv.HashedInvType
 import org.rsmod.game.type.inv.InvType
+import org.rsmod.game.type.jingle.JingleType
 import org.rsmod.game.type.loc.HashedLocType
 import org.rsmod.game.type.loc.LocType
 import org.rsmod.game.type.mesanim.MesAnimType
@@ -163,6 +164,12 @@ public object TypeResolver {
 
     public operator fun set(type: HashedInvType, identityHash: Long) {
         type.startHash = identityHash
+    }
+
+    public operator fun get(type: JingleType): Int? = type.internalId
+
+    public operator fun set(type: JingleType, id: Int) {
+        type.internalId = id
     }
 
     public operator fun get(type: LocType): Int? = type.internalId

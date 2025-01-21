@@ -16,6 +16,7 @@ import org.rsmod.api.player.output.ClientScripts.mesLayerMode7
 import org.rsmod.api.player.output.MapFlag
 import org.rsmod.api.player.output.UpdateInventory
 import org.rsmod.api.player.output.clearMapFlag
+import org.rsmod.api.player.output.jingle
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.output.runClientScript
 import org.rsmod.api.player.output.soundSynth
@@ -66,6 +67,7 @@ import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.interf.IfEvent
 import org.rsmod.game.type.interf.IfSubType
 import org.rsmod.game.type.interf.InterfaceType
+import org.rsmod.game.type.jingle.JingleType
 import org.rsmod.game.type.mesanim.MesAnimType
 import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.npc.NpcTypeList
@@ -1092,6 +1094,8 @@ public class ProtectedAccess(
     /* Sound helper functions */
     public fun soundSynth(synth: SynthType, loops: Int = 1, delay: Int = 0): Unit =
         player.soundSynth(synth, loops, delay)
+
+    public fun jingle(jingle: JingleType): Unit = player.jingle(jingle)
 
     /**
      * Increments [opHeldCallCount] counter and throws [IllegalStateException] if the call count
