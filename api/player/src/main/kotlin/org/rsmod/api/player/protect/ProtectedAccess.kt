@@ -610,7 +610,7 @@ public class ProtectedAccess(
      * @throws IllegalStateException if [UnpackedSeqType.tickDuration] is `0`.
      * @throws ProtectedAccessLostException if [regainProtectedAccess] returns false after
      *   suspension resumes.
-     * @see regainProtectedAccess
+     * @see [regainProtectedAccess]
      */
     public suspend fun delay(seq: SeqType, seqTypes: SeqTypeList = context.seqTypes) {
         val ticks = seqTypes[seq].tickDuration
