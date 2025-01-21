@@ -125,7 +125,7 @@ constructor(
 
     private fun spotanim(cheat: Cheat) =
         with(cheat) {
-            val (typeName, heightArg) = args.asTypeNameAndNumber(defaultNumber = 100)
+            val (typeName, heightArg) = args.asTypeNameAndNumber(defaultNumber = 0)
             val typeId = resolveArgTypeId(typeName, names.spotanims)
             if (typeId == null) {
                 player.mes("There is no spotanim mapped to: `$typeName`")
