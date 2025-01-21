@@ -445,18 +445,10 @@ public class ProtectedAccess(
     public fun faceEntitySquare(target: PathingEntity): Unit =
         player.facePathingEntitySquare(target)
 
-    public fun resetFaceSquare(): Unit = player.resetPendingFaceSquare()
-
-    public fun facePlayer(target: Player): Unit = player.facePlayer(target)
-
-    public fun faceNpc(target: Npc): Unit = player.faceNpc(target)
-
-    public fun resetFaceEntity(): Unit = player.resetFaceEntity()
-
     public fun stopAction(eventBus: EventBus = context.eventBus) {
         clearPendingAction(eventBus)
-        resetFaceEntity()
-        clearMapFlag()
+        player.resetFaceEntity()
+        player.clearMapFlag()
         player.abortRoute()
     }
 
@@ -1139,8 +1131,6 @@ public class ProtectedAccess(
         UpdateInventory.updateInvStopTransmit(player, inv)
 
     /* Map flag helper functions */
-    public fun clearMapFlag(): Unit = player.clearMapFlag()
-
     public fun setMapFlag(coords: CoordGrid): Unit = MapFlag.setMapFlag(player, coords)
 
     /* Message game helper functions */
