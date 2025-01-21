@@ -34,6 +34,7 @@ dependencies {
     implementation(projects.api.gameProcess)
     implementation(projects.api.invPlugin)
     implementation(projects.api.market)
+    implementation(projects.api.net)
     implementation(projects.api.npc)
     implementation(projects.api.player)
     implementation(projects.api.registry)

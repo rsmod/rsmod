@@ -9,15 +9,19 @@ import com.google.inject.multibindings.Multibinder
 import jakarta.inject.Inject
 import kotlin.contracts.contract
 import kotlin.reflect.KClass
+import net.rsprot.protocol.game.incoming.buttons.If3Button
 import net.rsprot.protocol.game.outgoing.misc.player.MessageGame
+import net.rsprot.protocol.util.CombinedId
 import org.junit.jupiter.api.Assertions
 import org.rsmod.api.game.process.GameCycle
 import org.rsmod.api.inv.map.InvMapInit
 import org.rsmod.api.market.DefaultMarketPrices
 import org.rsmod.api.market.MarketPrices
+import org.rsmod.api.net.rsprot.handlers.If3ButtonHandler
 import org.rsmod.api.player.interact.LocInteractions
 import org.rsmod.api.player.protect.clearPendingAction
 import org.rsmod.api.player.ui.ifOpenMain
+import org.rsmod.api.player.ui.ifOpenSub
 import org.rsmod.api.random.CoreRandom
 import org.rsmod.api.random.DefaultGameRandom
 import org.rsmod.api.random.GameRandom
@@ -60,10 +64,13 @@ import org.rsmod.game.map.collision.addLoc
 import org.rsmod.game.stat.PlayerSkillXPTable
 import org.rsmod.game.stat.PlayerStatMap
 import org.rsmod.game.type.TypeListMap
+import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.comp.ComponentTypeList
 import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.enums.EnumTypeList
 import org.rsmod.game.type.font.FontMetricsTypeList
+import org.rsmod.game.type.interf.IfButtonOp
+import org.rsmod.game.type.interf.IfSubType
 import org.rsmod.game.type.interf.InterfaceType
 import org.rsmod.game.type.interf.InterfaceTypeList
 import org.rsmod.game.type.inv.InvTypeList
@@ -104,6 +111,7 @@ constructor(
     private val locRegistry: LocRegistry,
     private val locInteractions: LocInteractions,
     private val invMapInit: InvMapInit,
+    private val ifButtonHandler: If3ButtonHandler,
 ) {
     init {
         registerPlayer()
@@ -205,6 +213,20 @@ constructor(
 
     public fun Player.ifOpenMain(interf: InterfaceType) {
         ifOpenMain(interf, eventBus)
+    }
+
+    public fun Player.ifOpenOverlay(interf: InterfaceType, target: ComponentType) {
+        ifOpenSub(interf, target, IfSubType.Overlay, eventBus)
+    }
+
+    public fun Player.ifButton(
+        type: ComponentType,
+        comsub: Int? = null,
+        op: IfButtonOp = IfButtonOp.Op1,
+    ) {
+        val combinedId = CombinedId(type.interfaceId, type.component)
+        val message = If3Button(combinedId, comsub ?: -1, obj = -1, op = op.slot)
+        ifButtonHandler.handle(this, message)
     }
 
     public fun Inventory.count(obj: ObjType): Int {
