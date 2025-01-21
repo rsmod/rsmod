@@ -15,7 +15,7 @@ public class StatType(internal var internalId: Int?, internal var internalName: 
     public val displayName: String = internalNameGet.replaceFirstChar(Char::titlecase)
 
     public val unreleased: Boolean
-        get() = internalNameGet == "unreleased"
+        get() = internalNameGet == "unreleased" || internalNameGet == "sailing"
 
     override fun toString(): String =
         "StatType(internalName='$internalName', internalId=$internalId)"
