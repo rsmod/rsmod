@@ -6,6 +6,7 @@ import org.rsmod.api.random.GameRandom
 import org.rsmod.events.EventBus
 import org.rsmod.game.type.npc.NpcTypeList
 import org.rsmod.game.type.obj.ObjTypeList
+import org.rsmod.game.type.seq.SeqTypeList
 import org.rsmod.routefinder.collision.CollisionFlagMap
 
 /**
@@ -64,6 +65,7 @@ public data class ProtectedAccessContext(
     private val getCollision: () -> CollisionFlagMap,
     private val getNpcTypes: () -> NpcTypeList,
     private val getObjTypes: () -> ObjTypeList,
+    private val getSeqTypes: () -> SeqTypeList,
     private val getLocInteractions: () -> LocInteractions,
     private val getHeldInteractions: () -> HeldInteractions,
 ) {
@@ -72,6 +74,7 @@ public data class ProtectedAccessContext(
     public val collision: CollisionFlagMap by lazyLoad { getCollision() }
     public val npcTypes: NpcTypeList by lazyLoad { getNpcTypes() }
     public val objTypes: ObjTypeList by lazyLoad { getObjTypes() }
+    public val seqTypes: SeqTypeList by lazyLoad { getSeqTypes() }
     public val locInteractions: LocInteractions by lazyLoad { getLocInteractions() }
     public val heldInteractions: HeldInteractions by lazyLoad { getHeldInteractions() }
 }

@@ -76,6 +76,8 @@ import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.param.ParamType
 import org.rsmod.game.type.seq.SeqType
+import org.rsmod.game.type.seq.SeqTypeList
+import org.rsmod.game.type.seq.UnpackedSeqType
 import org.rsmod.game.type.spot.SpotanimType
 import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.synth.SynthType
@@ -568,6 +570,21 @@ public class ProtectedAccess(
     }
 
     /**
+     * Delays the player for a number of ticks equal to the time duration of [seq].
+     *
+     * @param seq The seq type whose tick duration determines the delay.
+     * @throws IllegalStateException if [UnpackedSeqType.tickDuration] is `0`.
+     * @throws ProtectedAccessLostException if [regainProtectedAccess] returns false after
+     *   suspension resumes.
+     * @see regainProtectedAccess
+     */
+    public suspend fun delay(seq: SeqType, seqTypes: SeqTypeList = context.seqTypes) {
+        val ticks = seqTypes[seq].tickDuration
+        check(ticks > 0) { "Seq tick duration must be positive: ${seqTypes[seq]}" }
+        delay(cycles = ticks)
+    }
+
+    /**
      * @throws ProtectedAccessLostException if [regainProtectedAccess] returns false after
      *   suspension resumes.
      * @see [regainProtectedAccess]
@@ -993,6 +1010,15 @@ public class ProtectedAccess(
 
     public fun ocMatches(obj: InvObj?, type: ObjType, vararg others: ObjType): Boolean =
         obj.isType(type) || others.any(obj::isType)
+
+    /* Seq helper functions */
+    /** Returns the total time duration of [seq] in _**client frames**_. */
+    public fun seqLength(seq: SeqType, seqTypes: SeqTypeList = context.seqTypes): Int =
+        seqTypes[seq].totalDelay
+
+    /** Returns the total time duration of [seq] in _**server ticks**_. */
+    public fun seqTicks(seq: SeqType, seqTypes: SeqTypeList = context.seqTypes): Int =
+        seqTypes[seq].tickDuration
 
     /* Inventory helper functions */
     public fun invTotal(
