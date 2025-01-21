@@ -1007,10 +1007,10 @@ public class ProtectedAccess(
 
     /* Obj helper functions (oc=obj config) */
     public fun <T : Any> ocParam(
-        obj: InvObj,
+        obj: InvObj?,
         type: ParamType<T>,
         objTypes: ObjTypeList = context.objTypes,
-    ): T? = objTypes[obj].paramOrNull(type)
+    ): T? = if (obj == null) null else objTypes[obj].paramOrNull(type)
 
     public fun ocMatches(
         obj: InvObj?,
