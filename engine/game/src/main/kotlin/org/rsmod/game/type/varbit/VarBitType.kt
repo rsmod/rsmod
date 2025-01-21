@@ -73,10 +73,10 @@ public class UnpackedVarBitType(
     internalName: String,
 ) : VarBitType(internalId, internalName, varp, lsb, msb) {
     public fun computeIdentityHash(): Long {
-        var result = varp?.internalId?.hashCode()?.toLong() ?: 0L
+        var result = internalId?.hashCode()?.toLong() ?: 0L
         result = 61 * result + lsb.hashCode()
         result = 61 * result + msb.hashCode()
-        result = 61 * result + (internalId?.hashCode()?.toLong() ?: 0)
+        result = 61 * result + (varp?.hashCode()?.toLong() ?: 0)
         return result and 0x7FFFFFFFFFFFFFFF
     }
 
