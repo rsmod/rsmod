@@ -2,8 +2,8 @@ package org.rsmod.api.game.process
 
 import jakarta.inject.Inject
 import org.rsmod.api.game.process.controller.ControllerMainProcess
-import org.rsmod.api.game.process.npc.NpcHuntProcess
 import org.rsmod.api.game.process.npc.NpcMainProcess
+import org.rsmod.api.game.process.npc.NpcPreTickProcess
 import org.rsmod.api.game.process.player.PlayerInputProcess
 import org.rsmod.api.game.process.player.PlayerMainProcess
 import org.rsmod.api.game.process.player.PlayerPostTickProcess
@@ -19,7 +19,7 @@ constructor(
     public val eventBus: EventBus,
     public val mapClock: MapClock,
     public val worldQueue: WorldQueueListProcess,
-    public val npcHunt: NpcHuntProcess,
+    public val npcPreTick: NpcPreTickProcess,
     public val playerInput: PlayerInputProcess,
     public val playerRouteRequest: PlayerRouteRequestProcess,
     public val npcMain: NpcMainProcess,
@@ -39,7 +39,7 @@ constructor(
 
     private fun preTick() {
         worldQueue.process()
-        npcHunt.process()
+        npcPreTick.process()
         playerInput.process()
         playerRouteRequest.process()
         npcMain.process()
