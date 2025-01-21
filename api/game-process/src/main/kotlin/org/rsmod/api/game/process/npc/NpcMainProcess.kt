@@ -26,7 +26,6 @@ constructor(
     public fun process() {
         for (npc in npcs) {
             npc.previousCoords = npc.coords
-            npc.currentMapClock = mapClock.cycle
             npc.tryOrDespawn {
                 if (isNotDelayed) {
                     resumePausedProcess()
