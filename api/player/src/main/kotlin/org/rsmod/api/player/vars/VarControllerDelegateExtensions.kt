@@ -48,7 +48,7 @@ public fun <T> typedIntVarCon(
 /* Delegate implementations */
 public class ControllerVariableIntDelegate(private val varcon: VarConType) {
     public operator fun getValue(thisRef: Controller, property: KProperty<*>): Int {
-        return thisRef.vars[varcon] ?: 0
+        return thisRef.vars[varcon]
     }
 
     public operator fun setValue(thisRef: Controller, property: KProperty<*>, value: Int) {
@@ -84,13 +84,13 @@ public class ControllerVariableIntBitsDelegate(private val varbit: VarConBitType
         get() = varbit.bits
 
     public operator fun getValue(thisRef: Controller, property: KProperty<*>): Int {
-        val mappedValue = thisRef.vars[baseVar] ?: return 0
+        val mappedValue = thisRef.vars[baseVar]
         val extracted = mappedValue.getBits(bitRange)
         return extracted
     }
 
     public operator fun setValue(thisRef: Controller, property: KProperty<*>, value: Int) {
-        val mappedValue = thisRef.vars[baseVar] ?: 0
+        val mappedValue = thisRef.vars[baseVar]
         val packedValue = mappedValue.withBits(bitRange, value)
         thisRef.vars[baseVar] = packedValue
     }
@@ -109,13 +109,13 @@ public class ControllerVariableTypeIntBitsDelegate<T>(
 
     public operator fun getValue(thisRef: Controller, property: KProperty<*>): T {
         val mappedValue = thisRef.vars[baseVar]
-        val extracted = mappedValue?.getBits(bitRange)
+        val extracted = mappedValue.getBits(bitRange)
         return toType(extracted)
     }
 
     public operator fun setValue(thisRef: Controller, property: KProperty<*>, value: T?) {
         val varValue = value?.let(fromType) ?: 0
-        val mappedValue = thisRef.vars[baseVar] ?: 0
+        val mappedValue = thisRef.vars[baseVar]
         val packedValue = mappedValue.withBits(bitRange, varValue)
         thisRef.vars[baseVar] = packedValue
     }
@@ -123,7 +123,7 @@ public class ControllerVariableTypeIntBitsDelegate<T>(
 
 public class ControllerVariableLocalDateTimeDelegate(private val varcon: VarConType) {
     public operator fun getValue(thisRef: Controller, property: KProperty<*>): InlineLocalDateTime {
-        val packed = thisRef.vars[varcon] ?: return InlineLocalDateTime.NULL
+        val packed = thisRef.vars[varcon]
         return InlineLocalDateTime(packed)
     }
 

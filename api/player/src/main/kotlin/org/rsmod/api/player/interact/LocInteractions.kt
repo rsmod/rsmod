@@ -253,7 +253,7 @@ constructor(
             return vars[varp]
         } else if (multiVarBit > 0) {
             val varBit = varBitTypes[multiVarBit] ?: return null
-            val packed = vars[varBit.baseVar] ?: return null
+            val packed = vars[varBit.baseVar]
             return packed.getBits(varBit.bits)
         }
         return null

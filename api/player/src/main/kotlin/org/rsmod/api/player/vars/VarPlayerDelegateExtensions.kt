@@ -52,7 +52,7 @@ public fun <T> typeIntVarp(
 /* Delegate implementations */
 public class VariableIntDelegate(private val varp: VarpType) {
     public operator fun getValue(thisRef: Player, property: KProperty<*>): Int {
-        return thisRef.vars[varp] ?: 0
+        return thisRef.vars[varp]
     }
 
     public operator fun setValue(thisRef: Player, property: KProperty<*>, value: Int) {
@@ -88,13 +88,13 @@ public class VariableIntBitsDelegate(private val varbit: VarBitType) {
         get() = varbit.bits
 
     public operator fun getValue(thisRef: Player, property: KProperty<*>): Int {
-        val mappedValue = thisRef.vars[baseVar] ?: return 0
+        val mappedValue = thisRef.vars[baseVar]
         val extracted = mappedValue.getBits(bitRange)
         return extracted
     }
 
     public operator fun setValue(thisRef: Player, property: KProperty<*>, value: Int) {
-        val mappedValue = thisRef.vars[baseVar] ?: 0
+        val mappedValue = thisRef.vars[baseVar]
         val packedValue = mappedValue.withBits(bitRange, value)
         thisRef.syncVarp(baseVar, packedValue)
     }
@@ -113,13 +113,13 @@ public class VariableTypeIntBitsDelegate<T>(
 
     public operator fun getValue(thisRef: Player, property: KProperty<*>): T {
         val mappedValue = thisRef.vars[baseVar]
-        val extracted = mappedValue?.getBits(bitRange)
+        val extracted = mappedValue.getBits(bitRange)
         return toType(extracted)
     }
 
     public operator fun setValue(thisRef: Player, property: KProperty<*>, value: T?) {
         val varValue = value?.let(fromType) ?: 0
-        val mappedValue = thisRef.vars[baseVar] ?: 0
+        val mappedValue = thisRef.vars[baseVar]
         val packedValue = mappedValue.withBits(bitRange, varValue)
         thisRef.syncVarp(baseVar, packedValue)
     }
@@ -127,7 +127,7 @@ public class VariableTypeIntBitsDelegate<T>(
 
 public class VariableLocalDateTimeDelegate(private val varp: VarpType) {
     public operator fun getValue(thisRef: Player, property: KProperty<*>): InlineLocalDateTime {
-        val packed = thisRef.vars[varp] ?: return InlineLocalDateTime.NULL
+        val packed = thisRef.vars[varp]
         return InlineLocalDateTime(packed)
     }
 

@@ -214,7 +214,7 @@ private suspend fun Dialogue.bigScaryDemonQuests() {
     )
     chatNpc(quiz, "Perhaps you could check it out if you are as brave as you say?")
     // Note: dialogue should be different when quest has been started, but not completed.
-    val progress = player.vars[BaseVarBits.demon_slayer_progress] ?: 0
+    val progress = player.vars[BaseVarBits.demon_slayer_progress]
     if (progress == 0) {
         chatPlayer(happy, "Thanks for the tip, perhaps I will.")
     } else {
@@ -247,7 +247,7 @@ private suspend fun Dialogue.vampyreQuests() {
             "is?",
     )
     // Note: dialogue should be different when quest has been started, but not completed.
-    val progress = player.vars[BaseVarps.vampyre_slayer_progress] ?: 0
+    val progress = player.vars[BaseVarps.vampyre_slayer_progress]
     if (progress == 0) {
         chatPlayer(happy, "Thanks for the tip.")
     } else {
@@ -279,7 +279,7 @@ private suspend fun Dialogue.smallMonsterQuests() {
     )
     chatNpc(happy, " Sounds like it could be a quest for you?")
     // Note: dialogue should be different when quest has been started, but not completed.
-    val progress = player.vars[BaseVarps.imp_catcher_progress] ?: 0
+    val progress = player.vars[BaseVarps.imp_catcher_progress]
     if (progress == 0) {
         chatPlayer(happy, "Thanks for the help.")
     } else {
@@ -330,7 +330,7 @@ private suspend fun Dialogue.lumbridgeCookQuest() {
             "in the Lumbridge Castle kitchen.",
     )
     // Note: dialogue should be different when quest has been started, but not completed.
-    val progress = player.vars[BaseVarps.cooks_assistant_progress] ?: 0
+    val progress = player.vars[BaseVarps.cooks_assistant_progress]
     if (progress == 0) {
         chatPlayer(happy, "Thank you. I shall go speak with him.")
     } else {
@@ -349,7 +349,7 @@ private suspend fun Dialogue.dukeStrangeTalismanQuest() {
             "Lumbridge Castle.",
     )
     // Note: dialogue should be different when quest has been started, but not completed.
-    val progress = player.vars[BaseVarps.rune_mysteries_progress] ?: 0
+    val progress = player.vars[BaseVarps.rune_mysteries_progress]
     if (progress == 0) {
         chatPlayer(quiz, "Sounds mysterious. I may just do that. Thanks.")
     } else {
@@ -371,7 +371,7 @@ private suspend fun Dialogue.romeoQuest() {
             "which case she has probably lost Romeo.",
     )
     // Note: dialogue should be different when quest has been started, but not completed.
-    val progress = player.vars[BaseVarps.romeo_and_juliet_progress] ?: 0
+    val progress = player.vars[BaseVarps.romeo_and_juliet_progress]
     if (progress == 0) {
         chatPlayer(quiz, "Right, ok. Romeo is in Varrock?")
         chatNpc(happy, "Yes you can't miss him, he's wandering aimlessly in the square.")
@@ -420,7 +420,7 @@ private suspend fun Dialogue.fredFarmerQuest() {
             "Lumbridge. Perhaps you should go and speak with him.",
     )
     // Note: dialogue should be different when quest has been started, but not completed.
-    val progress = player.vars[BaseVarps.sheep_shearer_progress] ?: 0
+    val progress = player.vars[BaseVarps.sheep_shearer_progress]
     if (progress == 0) {
         chatPlayer(happy, "Thanks, maybe I will.")
     } else {
@@ -444,7 +444,7 @@ private suspend fun Dialogue.doricDwarfQuest() {
             "him. He may let you use his anvils.",
     )
     // Note: dialogue should be different when quest has been started, but not completed.
-    val progress = player.vars[BaseVarps.dorics_quest_progress] ?: 0
+    val progress = player.vars[BaseVarps.dorics_quest_progress]
     if (progress == 0) {
         chatPlayer(happy, "Thanks for the tip.")
     } else {
@@ -499,7 +499,7 @@ private suspend fun Dialogue.hettyWitchQuest() {
             "to offer help with your magical abilities.",
     )
     // Note: dialogue should be different when quest has been started, but not completed.
-    val progress = player.vars[BaseVarps.witchs_potion_progress] ?: 0
+    val progress = player.vars[BaseVarps.witchs_potion_progress]
     if (progress == 0) {
         chatPlayer(happy, "Ok thanks, let's hope she doesn't turn me into a potato or something..")
     } else {
@@ -524,7 +524,7 @@ private suspend fun Dialogue.pirateTreasureQuest() {
             "treasure that is buried somewhere in Gielinor.",
     )
     // Note: dialogue should be different when quest has been started, but not completed.
-    val progress = player.vars[BaseVarps.pirates_treasure_progress] ?: 0
+    val progress = player.vars[BaseVarps.pirates_treasure_progress]
     if (progress == 0) {
         chatPlayer(happy, "Sounds adventurous, I may have to check that out. Thank you.")
     } else {
@@ -548,7 +548,7 @@ private suspend fun Dialogue.ernestChickenQuest() {
     )
     chatNpc(happy, "I suggest you tread carefully in that place; it's haunted.")
     // Note: dialogue should be different when quest has been started, but not completed.
-    val progress = player.vars[BaseVarps.ernest_the_chicken_progress] ?: 0
+    val progress = player.vars[BaseVarps.ernest_the_chicken_progress]
     if (progress == 0) {
         chatPlayer(quiz, "Sounds like fun. I've never been to a Haunted Manor before.")
     } else {

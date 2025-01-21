@@ -12,7 +12,7 @@ public value class VariableIntMap(public val backing: Int2IntMap = Int2IntOpenHa
         backing.remove(key.id)
     }
 
-    public operator fun get(key: VarpType): Int? = backing.getOrDefault(key.id, null)
+    public operator fun get(key: VarpType): Int = backing.getOrDefault(key.id, null)
 
     public operator fun set(key: VarpType, value: Int?) {
         if (value == null) {
@@ -22,8 +22,8 @@ public value class VariableIntMap(public val backing: Int2IntMap = Int2IntOpenHa
         }
     }
 
-    public operator fun get(varp: VarBitType): Int? {
-        val mappedValue = this[varp.baseVar] ?: return null
+    public operator fun get(varp: VarBitType): Int {
+        val mappedValue = this[varp.baseVar]
         val extracted = mappedValue.getBits(varp.bits)
         return extracted
     }
