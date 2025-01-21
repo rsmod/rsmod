@@ -133,13 +133,9 @@ constructor(
         cacheTypes: Map<Int, UnpackedInvType>,
     ): List<UnpackedInvType> {
         val merged = (builders + editors).groupBy { it.id }
-        return merged.map {
-            check(it.value.size <= 4) {
-                "A single cache-type can only have up to 4 builders or editors modifying it."
-            }
-            val combined =
-                it.value[0] + it.value.getOrNull(1) + it.value.getOrNull(2) + it.value.getOrNull(3)
-            val cacheType = cacheTypes[combined.id]
+        return merged.map { (id, types) ->
+            val combined = types.fold(types[0]) { curr, next -> next + curr }
+            val cacheType = cacheTypes[id]
             if (cacheType != null) {
                 cacheType + combined
             } else {
@@ -161,13 +157,9 @@ constructor(
         cacheTypes: Map<Int, UnpackedLocType>,
     ): List<UnpackedLocType> {
         val merged = (builders + editors).groupBy { it.id }
-        return merged.map {
-            check(it.value.size <= 4) {
-                "A single cache-type can only have up to 4 builders or editors modifying it."
-            }
-            val combined =
-                it.value[0] + it.value.getOrNull(1) + it.value.getOrNull(2) + it.value.getOrNull(3)
-            val cacheType = cacheTypes[combined.id]
+        return merged.map { (id, types) ->
+            val combined = types.fold(types[0]) { curr, next -> next + curr }
+            val cacheType = cacheTypes[id]
             if (cacheType != null) {
                 cacheType + combined
             } else {
@@ -189,13 +181,9 @@ constructor(
         cacheTypes: Map<Int, UnpackedNpcType>,
     ): List<UnpackedNpcType> {
         val merged = (builders + editors).groupBy { it.id }
-        return merged.map {
-            check(it.value.size <= 4) {
-                "A single cache-type can only have up to 4 builders or editors modifying it."
-            }
-            val combined =
-                it.value[0] + it.value.getOrNull(1) + it.value.getOrNull(2) + it.value.getOrNull(3)
-            val cacheType = cacheTypes[combined.id]
+        return merged.map { (id, types) ->
+            val combined = types.fold(types[0]) { curr, next -> next + curr }
+            val cacheType = cacheTypes[id]
             if (cacheType != null) {
                 cacheType + combined
             } else {
@@ -217,13 +205,9 @@ constructor(
         cacheTypes: Map<Int, UnpackedObjType>,
     ): List<UnpackedObjType> {
         val merged = (builders + editors).groupBy { it.id }
-        return merged.map {
-            check(it.value.size <= 4) {
-                "A single cache-type can only have up to 4 builders or editors modifying it."
-            }
-            val combined =
-                it.value[0] + it.value.getOrNull(1) + it.value.getOrNull(2) + it.value.getOrNull(3)
-            val cacheType = cacheTypes[combined.id]
+        return merged.map { (id, types) ->
+            val combined = types.fold(types[0]) { curr, next -> next + curr }
+            val cacheType = cacheTypes[id]
             if (cacheType != null) {
                 cacheType + combined
             } else {
@@ -245,13 +229,9 @@ constructor(
         cacheTypes: Map<Int, UnpackedParamType<*>>,
     ): List<UnpackedParamType<*>> {
         val merged = (builders + editors).groupBy { it.id }
-        return merged.map {
-            check(it.value.size <= 4) {
-                "A single cache-type can only have up to 4 builders or editors modifying it."
-            }
-            val combined =
-                it.value[0] + it.value.getOrNull(1) + it.value.getOrNull(2) + it.value.getOrNull(3)
-            val cacheType = cacheTypes[combined.id]
+        return merged.map { (id, types) ->
+            val combined = types.fold(types[0]) { curr, next -> next + curr }
+            val cacheType = cacheTypes[id]
             if (cacheType != null) {
                 cacheType + combined
             } else {
@@ -275,13 +255,9 @@ constructor(
         cacheTypes: Map<Int, UnpackedEnumType<*, *>>,
     ): List<UnpackedEnumType<*, *>> {
         val merged = (builders + editors).groupBy { it.id }
-        return merged.map {
-            check(it.value.size <= 4) {
-                "A single cache-type can only have up to 4 builders or editors modifying it."
-            }
-            val combined =
-                it.value[0] + it.value.getOrNull(1) + it.value.getOrNull(2) + it.value.getOrNull(3)
-            val cacheType = cacheTypes[combined.id]
+        return merged.map { (id, types) ->
+            val combined = types.fold(types[0]) { curr, next -> next + curr }
+            val cacheType = cacheTypes[id]
             if (cacheType != null) {
                 cacheType + combined
             } else {
