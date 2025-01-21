@@ -10,15 +10,15 @@ import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.spot.SpotanimType
 import org.rsmod.game.type.stat.StatType
 
-internal typealias emote_components = EmoteComponents
+typealias emote_components = EmoteComponents
 
-internal typealias emote_enums = EmoteEnums
+typealias emote_enums = EmoteEnums
 
-internal object EmoteComponents : ComponentReferences() {
+object EmoteComponents : ComponentReferences() {
     val emote_list = find("emote_tab_com2")
 }
 
-internal object EmoteEnums : EnumReferences() {
+object EmoteEnums : EnumReferences() {
     val emote_names = find<Int, String>("emote_names")
     val skill_cape_anims = find<StatType, SeqType>("skill_cape_anims")
     val skill_cape_spots = find<StatType, SpotanimType>("skill_cape_spots")
