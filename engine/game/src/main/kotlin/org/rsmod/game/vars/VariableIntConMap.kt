@@ -12,7 +12,7 @@ public value class VariableIntConMap(public val backing: Int2IntMap = Int2IntOpe
         backing.remove(key.id)
     }
 
-    public operator fun get(key: VarConType): Int = backing.getOrDefault(key.id, null)
+    public operator fun get(key: VarConType): Int = backing.getOrDefault(key.id, 0)
 
     public operator fun set(key: VarConType, value: Int?) {
         if (value == null) {
