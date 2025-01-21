@@ -39,6 +39,7 @@ object BaseVarBits : VarBitReferences() {
     val air_guitar_emote = find("air_guitar_emote")
     val uri_transform_emote = find("uri_transform_emote")
     val smooth_dance_emote = find("smooth_dance_emote")
+    val crazy_dance_emote = find("crazy_dance_emote")
     val premier_shield_emote = find("premier_shield_emote")
     val flex_emote = find("flex_emote")
     val explore_emote = find("explore_emote")

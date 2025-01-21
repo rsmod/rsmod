@@ -16,6 +16,7 @@ import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.protect.ProtectedAccessLauncher
 import org.rsmod.api.player.ui.ifClose
 import org.rsmod.api.player.ui.ifSetEvents
+import org.rsmod.api.player.vars.intVarp
 import org.rsmod.api.repo.npc.NpcRepository
 import org.rsmod.api.script.onIfOpen
 import org.rsmod.api.script.onIfOverlayButton
@@ -239,7 +240,7 @@ private constructor(
             "Crazy dance" ->
                 lockedAnimDialog(
                     crazyDanceEmoteSelector(),
-                    varbits.smooth_dance_emote,
+                    varbits.crazy_dance_emote,
                     "This emote can be unlocked by doing a birthday event.",
                 )
             "Premier Shield" -> premierShieldEmote()
@@ -417,14 +418,27 @@ private constructor(
     }
 
     private suspend fun ProtectedAccess.premierShieldEmote() {
-        // TODO(content): Cannot spam this emote. ("You're already doing that.")
+        stopAction()
+        if (vars[varbits.premier_shield_emote] < 1) {
+            mesbox("This emote is unlocked upon creating an account.", lineHeight = 31)
+            return
+        }
 
-        lockedAnimDialog(
-            seqs.emote_premier_shield,
-            varbits.premier_shield_emote,
-            "This emote is unlocked upon creating an account.",
-            spot = premierShieldSpotSelector(),
-        )
+        if (mapClock - player.premierShieldClock < 4) {
+            mes("You're already doing that.")
+            return
+        }
+
+        val spot =
+            when (player.premierShieldCount) {
+                1 -> spotanims.premier_shield_emote_silver
+                2 -> spotanims.premier_shield_emote_gold
+                else -> spotanims.premier_shield_emote_bronze
+            }
+
+        player.premierShieldCount = (player.premierShieldCount + 1) % 3
+        player.premierShieldClock = mapClock
+        playAnim(seqs.emote_premier_shield, spot)
     }
 
     private suspend fun ProtectedAccess.relicUnlockEmote() {
@@ -488,13 +502,12 @@ private constructor(
     }
 
     private fun ProtectedAccess.crazyDanceEmoteSelector(): SeqType {
-        // TODO(content): Select based on a counter.
-        return seqs.emote_crazy_dance1
-    }
-
-    private fun ProtectedAccess.premierShieldSpotSelector(): SpotanimType {
-        // TODO(content): Select based on a counter.
-        return spotanims.premier_shield_emote_bronze
+        player.crazyDanceCount = (player.crazyDanceCount + 1) % 2
+        return if (player.crazyDanceCount % 2 == 0) {
+            seqs.emote_crazy_dance2
+        } else {
+            seqs.emote_crazy_dance1
+        }
     }
 }
 
@@ -518,3 +531,7 @@ constructor(private val enumResolver: EnumTypeMapResolver) {
         return anim to spot
     }
 }
+
+private var Player.premierShieldClock by intVarp(emote_varps.emote_clock_premier_shield)
+private var Player.premierShieldCount by intVarp(emote_varbits.emote_counters_premier_shield)
+private var Player.crazyDanceCount by intVarp(emote_varbits.emote_counters_crazy_dance)

@@ -4,8 +4,12 @@ import org.rsmod.api.config.refs.seqs
 import org.rsmod.api.config.refs.spotanims
 import org.rsmod.api.config.refs.stats
 import org.rsmod.api.type.builders.enums.EnumBuilder
+import org.rsmod.api.type.builders.varbit.VarBitBuilder
+import org.rsmod.api.type.builders.varp.VarpBuilder
 import org.rsmod.api.type.refs.comp.ComponentReferences
 import org.rsmod.api.type.refs.enums.EnumReferences
+import org.rsmod.api.type.refs.varbit.VarBitReferences
+import org.rsmod.api.type.refs.varp.VarpReferences
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.spot.SpotanimType
 import org.rsmod.game.type.stat.StatType
@@ -13,6 +17,10 @@ import org.rsmod.game.type.stat.StatType
 typealias emote_components = EmoteComponents
 
 typealias emote_enums = EmoteEnums
+
+internal typealias emote_varps = EmoteVarps
+
+internal typealias emote_varbits = EmoteVarBits
 
 object EmoteComponents : ComponentReferences() {
     val emote_list = find("emote_tab_com2")
@@ -22,6 +30,16 @@ object EmoteEnums : EnumReferences() {
     val emote_names = find<Int, String>("emote_names")
     val skill_cape_anims = find<StatType, SeqType>("skill_cape_anims")
     val skill_cape_spots = find<StatType, SpotanimType>("skill_cape_spots")
+}
+
+internal object EmoteVarps : VarpReferences() {
+    val emote_counters = find("emote_counters")
+    val emote_clock_premier_shield = find("emote_clock_premier_shield")
+}
+
+internal object EmoteVarBits : VarBitReferences() {
+    val emote_counters_crazy_dance = find("emote_counters_crazy_dance")
+    val emote_counters_premier_shield = find("emote_counters_premier_shield")
 }
 
 internal object EmoteEnumBuilds : EnumBuilder() {
@@ -76,6 +94,29 @@ internal object EmoteEnumBuilds : EnumBuilder() {
             this[stats.runecrafting] = spotanims.runecrafting_skillcape
             this[stats.hunter] = spotanims.hunter_skillcape
             this[stats.construction] = spotanims.construction_skillcape
+        }
+    }
+}
+
+internal object EmoteVarpBuilds : VarpBuilder() {
+    init {
+        build("emote_counters")
+        build("emote_clock_premier_shield")
+    }
+}
+
+internal object EmoteVarBitBuilds : VarBitBuilder() {
+    init {
+        build("emote_counters_crazy_dance") {
+            baseVar = emote_varps.emote_counters
+            startBit = 0
+            endBit = 0
+        }
+
+        build("emote_counters_premier_shield") {
+            baseVar = emote_varps.emote_counters
+            startBit = 1
+            endBit = 2
         }
     }
 }
