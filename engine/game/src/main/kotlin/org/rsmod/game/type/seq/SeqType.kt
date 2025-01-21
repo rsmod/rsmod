@@ -1,5 +1,7 @@
 package org.rsmod.game.type.seq
 
+import kotlin.math.ceil
+
 public sealed class SeqType(
     internal var internalId: Int?,
     internal var internalName: String?,
@@ -66,6 +68,8 @@ public class UnpackedSeqType(
     public val keyframeRangeStart: Int,
     public val keyframeRangeEnd: Int,
     public val keyframeWalkMerge: BooleanArray,
+    public val totalDelay: Int = delay.sum(),
+    public val tickDuration: Int = delay.tickDuration(),
     priority: Int,
     internalId: Int,
     internalName: String,
@@ -152,4 +156,11 @@ public class UnpackedSeqType(
     }
 
     override fun hashCode(): Int = computeIdentityHash().toInt()
+}
+
+private fun ShortArray.tickDuration(): Int {
+    val validDelays = dropLastWhile { it > 30 }
+    val buffer = if (validDelays.size != size) 5 else 0
+    val duration = (validDelays.sum() + buffer) * 20
+    return ceil(duration / 600.0).toInt()
 }
