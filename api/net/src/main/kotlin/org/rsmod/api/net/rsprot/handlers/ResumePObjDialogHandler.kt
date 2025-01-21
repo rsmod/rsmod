@@ -1,6 +1,6 @@
 package org.rsmod.api.net.rsprot.handlers
 
-import com.google.inject.Inject
+import jakarta.inject.Inject
 import net.rsprot.protocol.game.incoming.resumed.ResumePObjDialog
 import org.rsmod.api.player.input.ResumePObjDialogInput
 import org.rsmod.game.entity.Player
