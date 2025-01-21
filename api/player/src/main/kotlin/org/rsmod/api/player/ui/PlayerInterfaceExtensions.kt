@@ -19,6 +19,7 @@ import org.rsmod.api.player.input.ResumePCountDialogInput
 import org.rsmod.api.player.input.ResumePNameDialogInput
 import org.rsmod.api.player.input.ResumePObjDialogInput
 import org.rsmod.api.player.input.ResumePStringDialogInput
+import org.rsmod.api.player.input.ResumePauseButtonInput
 import org.rsmod.api.player.output.ChatType
 import org.rsmod.api.player.output.ClientScripts.chatboxMultiInit
 import org.rsmod.api.player.output.ClientScripts.confirmDestroyInit
@@ -102,10 +103,10 @@ public fun Player.ifOpenMainSidePair(main: InterfaceType, side: InterfaceType, e
  * Difference from [ifCloseModals]: this function clears all weak queues for the player and closes
  * specific input dialogues.
  *
- * @see [triggerOnDialogAbort]
+ * @see [cancelActiveDialog]
  */
 public fun Player.ifClose(eventBus: EventBus) {
-    triggerOnDialogAbort()
+    cancelActiveDialog()
     weakQueueList.clear()
     ifCloseModals(eventBus)
 }
@@ -113,14 +114,27 @@ public fun Player.ifClose(eventBus: EventBus) {
 /**
  * If [requiresInputDialogAbort] conditions are met, the player's active script will be cancelled
  * ([Player.cancelActiveCoroutine]) and [TriggerOnDialogAbort] will be sent to their client.
+ *
+ * If [requiresCancellation] condition is met instead, then only the player's active script will be
+ * cancelled.
  */
-private fun Player.triggerOnDialogAbort() {
+private fun Player.cancelActiveDialog() {
     val coroutine = activeCoroutine ?: return
     if (coroutine.requiresInputDialogAbort()) {
         cancelActiveCoroutine()
         client.write(TriggerOnDialogAbort)
+    } else if (coroutine.requiresCancellation()) {
+        cancelActiveCoroutine()
     }
 }
+
+/**
+ * Checks if the coroutine is suspended on a [DeferredResumeCondition] and the deferred type matches
+ * [ResumePauseButtonInput], which occurs during dialogs with `Click here to continue`-esque pause
+ * buttons.
+ */
+private fun GameCoroutine.requiresCancellation(): Boolean =
+    isAwaiting(ResumePauseButtonInput::class)
 
 /**
  * Checks if the coroutine is suspended on a [DeferredResumeCondition] and the deferred type matches
