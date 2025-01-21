@@ -11,13 +11,13 @@ import org.rsmod.game.type.util.UncheckedType
 
 public class Inventory(public val type: UnpackedInvType, public val objs: Array<InvObj?>) :
     Iterable<InvObj?> {
+    public val modifiedSlots: BitSet = BitSet()
+
     public val size: Int
         get() = objs.size
 
     public val indices: IntRange
         get() = objs.indices
-
-    public val modifiedSlots: BitSet = BitSet()
 
     public fun isNotEmpty(): Boolean = !isEmpty()
 
