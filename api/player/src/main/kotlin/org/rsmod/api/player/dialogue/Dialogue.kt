@@ -27,7 +27,9 @@ public class Dialogue(
     public suspend fun mesbox(text: String) {
         val pages = alignment.generatePageList(text)
         for (page in pages) {
-            access.mesbox(page.text)
+            val (pgText, lineCount) = page
+            val lineHeight = lineHeight(lineCount)
+            access.mesbox(pgText, lineHeight)
         }
     }
 

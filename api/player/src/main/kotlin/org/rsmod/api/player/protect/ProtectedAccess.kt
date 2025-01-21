@@ -558,10 +558,11 @@ public class ProtectedAccess(
      */
     public suspend fun mesbox(
         text: String,
+        lineHeight: Int,
         pauseText: String = constants.cm_pausebutton,
         eventBus: EventBus = context.eventBus,
     ) {
-        player.ifMesbox(text, pauseText, eventBus)
+        player.ifMesbox(text, pauseText, lineHeight, eventBus)
         val input = coroutine.pause(ResumePauseButtonInput::class)
         resumePauseButtonWithProtectedAccess(input, components.text_dialogue_pbutton)
     }

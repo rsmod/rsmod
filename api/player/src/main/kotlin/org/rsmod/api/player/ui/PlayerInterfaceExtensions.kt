@@ -285,11 +285,11 @@ private fun UserInterfaceMap.translate(component: Component): Component =
  * in unwanted behavior.
  */
 
-internal fun Player.ifMesbox(text: String, pauseText: String, eventBus: EventBus) {
+internal fun Player.ifMesbox(text: String, pauseText: String, lineHeight: Int, eventBus: EventBus) {
     mes(text, ChatType.Mesbox)
     openModal(interfaces.text_dialogue, components.chat_dialogue_target, eventBus)
     ifSetText(components.text_dialogue_text, text)
-    ifSetTextAlign(this, components.text_dialogue_text, alignH = 1, alignV = 1, lineHeight = 0)
+    ifSetTextAlign(this, components.text_dialogue_text, alignH = 1, alignV = 1, lineHeight)
     ifSetEvents(components.text_dialogue_pbutton, -1..-1, IfEvent.PauseButton)
     ifSetText(components.text_dialogue_pbutton, pauseText)
     // TODO: Look into clientscript to name property and place in clientscript utility class.
