@@ -30,6 +30,8 @@ public data class TransactionResultList<T>(
 
     public fun anyCompleted(): Boolean = results.any { it.isOk() && it.completed > 0 }
 
+    public fun noneCompleted(): Boolean = !anyCompleted()
+
     public inline fun <reified T : TransactionResult> resolve(index: Int): T? {
         val result = results.getOrNull(index) ?: return null
         return result as? T
