@@ -88,7 +88,7 @@ constructor(
         val cost = max(totalCost, firstObjPrice)
 
         val transaction =
-            player.invTransaction(sideInv, updateInv = false) {
+            player.invTransaction(sideInv) {
                 val inv = select(sideInv)
                 val shop = select(shopInv)
                 delete {
@@ -234,7 +234,7 @@ constructor(
             )
 
         val transaction =
-            player.invTransaction(sideInv, updateInv = false) {
+            player.invTransaction(sideInv) {
                 val inv = select(sideInv)
                 val shop = select(shop.inv)
                 delete {

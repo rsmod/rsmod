@@ -14,15 +14,15 @@ import org.rsmod.api.player.output.ChatType
 import org.rsmod.api.player.output.ClientScripts
 import org.rsmod.api.player.output.ClientScripts.mesLayerMode7
 import org.rsmod.api.player.output.MapFlag
-import org.rsmod.api.player.output.UpdateInventory
 import org.rsmod.api.player.output.clearMapFlag
 import org.rsmod.api.player.output.jingle
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.output.runClientScript
 import org.rsmod.api.player.output.soundSynth
 import org.rsmod.api.player.output.spam
-import org.rsmod.api.player.output.updateInvFull
+import org.rsmod.api.player.startInvTransmit
 import org.rsmod.api.player.stat.PlayerSkillXP
+import org.rsmod.api.player.stopInvTransmit
 import org.rsmod.api.player.ui.ifChatNpcSpecific
 import org.rsmod.api.player.ui.ifChatPlayer
 import org.rsmod.api.player.ui.ifChoice
@@ -475,7 +475,6 @@ public class ProtectedAccess(
             strict = strict,
             cert = cert,
             uncert = uncert,
-            updateInv = updateInv,
             autoCommit = autoCommit,
         )
 
@@ -500,7 +499,6 @@ public class ProtectedAccess(
             strict = strict,
             cert = cert,
             uncert = uncert,
-            updateInv = updateInv,
             autoCommit = autoCommit,
         )
 
@@ -1129,10 +1127,9 @@ public class ProtectedAccess(
     public fun ifSetText(target: ComponentType, text: String): Unit = player.ifSetText(target, text)
 
     /* Inventory helper functions */
-    public fun updateInvFull(inv: Inventory): Unit = player.updateInvFull(inv)
+    public fun updateInvStartTransmit(inv: Inventory): Unit = player.startInvTransmit(inv)
 
-    public fun updateInvStopTransmit(inv: Inventory): Unit =
-        UpdateInventory.updateInvStopTransmit(player, inv)
+    public fun updateInvStopTransmit(inv: Inventory): Unit = player.stopInvTransmit(inv)
 
     /* Map flag helper functions */
     public fun setMapFlag(coords: CoordGrid): Unit = MapFlag.setMapFlag(player, coords)

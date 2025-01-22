@@ -3,8 +3,8 @@ package org.rsmod.api.shops
 import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
 import org.rsmod.api.config.refs.currencies
-import org.rsmod.api.player.output.UpdateInventory
 import org.rsmod.api.player.protect.ProtectedAccess
+import org.rsmod.api.player.stopInvTransmit
 import org.rsmod.api.script.onIfClose
 import org.rsmod.api.script.onIfModalButton
 import org.rsmod.api.shops.config.ShopComponents
@@ -44,37 +44,28 @@ constructor(
 
     private fun ProtectedAccess.shopInvButton(sub: Int, op: IfButtonOp, clientObj: ObjType?) {
         val objSlot = sub - 1
-        val shopInv = player.modalInv ?: return
-        val shopObj = shopInv[objSlot] ?: return
+        val shop = player.openedShop ?: return
+        val shopObj = shop.inv[objSlot] ?: return
         if (isClientObjInvalid(shopObj, clientObj)) {
             return
         }
-        val shop = player.openedShop ?: return
         val operations = shop.operations() ?: return
-        val sideInv = player.modalSideInv ?: return
-        operations.shopInvOp(player, sideInv, shop, objSlot, op)
+        operations.shopInvOp(player, player.inv, shop, objSlot, op)
     }
 
     private fun ProtectedAccess.shopSideInvButton(sub: Int, op: IfButtonOp, clientObj: ObjType?) {
-        val sideInv = player.modalSideInv ?: return
-        val invObj = sideInv[sub] ?: return
+        val invObj = player.inv[sub] ?: return
         if (isClientObjInvalid(invObj, clientObj)) {
             return
         }
         val shop = player.openedShop ?: return
         val operations = shop.operations() ?: return
-        operations.sideInvOp(player, sideInv, shop, sub, op)
+        operations.sideInvOp(player, player.inv, shop, sub, op)
     }
 
     private fun Player.closeShop() {
-        val inv = modalInv
-        if (inv != null) {
-            UpdateInventory.updateInvStopTransmit(this, inv)
-            modalInv = null
-        }
-
-        modalSideInv = null
-
+        val shop = openedShop ?: return
+        stopInvTransmit(shop.inv)
         openedShop = null
     }
 

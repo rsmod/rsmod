@@ -1,6 +1,7 @@
 package org.rsmod.game.entity
 
 import it.unimi.dsi.fastutil.ints.IntArrayList
+import it.unimi.dsi.fastutil.ints.IntArraySet
 import it.unimi.dsi.fastutil.ints.IntList
 import org.rsmod.game.client.Client
 import org.rsmod.game.client.NoopClient
@@ -45,7 +46,6 @@ public class Player(
     override val blockWalkCollisionFlag: Int = CollisionFlag.BLOCK_NPCS
 
     public val ui: UserInterfaceMap = UserInterfaceMap()
-    public val invMap: InventoryMap = InventoryMap()
     public val statMap: PlayerStatMap = PlayerStatMap()
     public val timerMap: PlayerTimerMap = PlayerTimerMap()
     public val softTimerMap: PlayerTimerMap = PlayerTimerMap()
@@ -76,13 +76,13 @@ public class Player(
     public var requestModalClose: Boolean = false
     public var publicMessage: PublicMessage? = null
 
+    public val invMap: InventoryMap = InventoryMap()
+    public val transmittedInvs: IntArraySet = IntArraySet()
+    public var openedShop: Shop? = null
+
     /* Cache for commonly-accessed Invs */
     public lateinit var inv: Inventory
     public lateinit var worn: Inventory
-
-    public var modalInv: Inventory? = null
-    public var modalSideInv: Inventory? = null
-    public var openedShop: Shop? = null
 
     public var actionDelay: Int = -1
     public var skillAnimDelay: Int = -1

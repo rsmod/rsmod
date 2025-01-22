@@ -9,6 +9,7 @@ kotlin {
 
 dependencies {
     implementation(libs.bundles.logging)
+    implementation(libs.fastutil)
     implementation(libs.guice)
     implementation(libs.rsprot.api)
     implementation(projects.api.config)

@@ -5,7 +5,7 @@ import org.rsmod.api.config.refs.currencies
 import org.rsmod.api.player.output.ClientScripts.interfaceInvInit
 import org.rsmod.api.player.output.ClientScripts.shopMainInit
 import org.rsmod.api.player.output.ClientScripts.topLevelMainModalBackground
-import org.rsmod.api.player.output.updateInvFull
+import org.rsmod.api.player.startInvTransmit
 import org.rsmod.api.player.ui.ifOpenMainSidePair
 import org.rsmod.api.player.ui.ifSetEvents
 import org.rsmod.api.player.ui.ifSetText
@@ -85,11 +85,9 @@ constructor(private val invTypes: InvTypeList, private val eventBus: EventBus) {
         subtext: String,
     ) {
         openedShop = Shop(shopInv, currency, buyPercentage, sellPercentage, changePercentage)
-        modalInv = shopInv
-        modalSideInv = sideInv
 
-        updateInvFull(shopInv)
-        updateInvFull(sideInv)
+        startInvTransmit(shopInv)
+        startInvTransmit(sideInv)
         topLevelMainModalBackground(this)
         ifOpenMainSidePair(ShopInterfaces.shop_main, ShopInterfaces.shop_side, eventBus)
         ifSetText(ShopComponents.shop_subtext, subtext)

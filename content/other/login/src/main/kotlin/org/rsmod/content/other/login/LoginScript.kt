@@ -18,8 +18,8 @@ import org.rsmod.api.player.output.MiscOutput
 import org.rsmod.api.player.output.UpdateStat
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.output.runClientScript
-import org.rsmod.api.player.output.updateInvFull
 import org.rsmod.api.player.righthand
+import org.rsmod.api.player.startInvTransmit
 import org.rsmod.api.player.ui.PlayerInterfaceUpdates.updateCombatTab
 import org.rsmod.api.player.vars.boolVarp
 import org.rsmod.api.player.vars.chatboxUnlocked
@@ -94,8 +94,8 @@ constructor(
     }
 
     private fun Player.sendInvs() {
-        updateInvFull(inv)
-        updateInvFull(worn)
+        startInvTransmit(inv)
+        startInvTransmit(worn)
     }
 
     private fun Player.resetCam() {
