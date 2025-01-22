@@ -2,8 +2,8 @@ package org.rsmod.api.net.rsprot.handlers
 
 import jakarta.inject.Inject
 import net.rsprot.protocol.game.incoming.misc.user.MoveGameClick
+import org.rsmod.api.net.rsprot.player.modLevelTeleMoveSpeed
 import org.rsmod.api.net.rsprot.player.protectedTelejump
-import org.rsmod.api.player.modLevelTeleMoveSpeed
 import org.rsmod.api.player.output.clearMapFlag
 import org.rsmod.api.player.protect.clearPendingAction
 import org.rsmod.api.player.vars.ctrlMoveSpeed
