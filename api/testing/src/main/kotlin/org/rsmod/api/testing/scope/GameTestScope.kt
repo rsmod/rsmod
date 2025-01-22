@@ -150,7 +150,7 @@ constructor(
     }
 
     public fun registerPlayer(
-        coords: CoordGrid = CoordGrid.ZERO,
+        coords: CoordGrid = CoordGrid(0, 50, 50, 0, 0),
         player: Player = Player(),
     ): Player {
         val slot = players.nextFreeSlot() ?: error("No available slot.")
