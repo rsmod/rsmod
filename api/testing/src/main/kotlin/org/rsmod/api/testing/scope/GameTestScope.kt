@@ -88,7 +88,6 @@ import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.stat.StatTypeList
 import org.rsmod.game.type.synth.SynthTypeList
 import org.rsmod.game.type.util.EnumTypeMapResolver
-import org.rsmod.game.type.util.UncheckedType
 import org.rsmod.game.type.varbit.VarBitTypeList
 import org.rsmod.game.type.varp.VarpTypeList
 import org.rsmod.map.CoordGrid
@@ -191,9 +190,8 @@ constructor(
         inv.fillNulls()
     }
 
-    @OptIn(UncheckedType::class)
     public fun Player.fillInv(with: InvObj = InvObj(objs.beer), inv: Inventory = this.inv) {
-        repeat(inv.size) { inv[it] = InvObj(with.id, with.count, with.vars) }
+        repeat(inv.size) { inv[it] = InvObj(with) }
     }
 
     public fun Player.count(obj: ObjType, inv: Inventory = this.inv): Int = inv.count(obj)
