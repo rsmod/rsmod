@@ -224,9 +224,10 @@ constructor(
         type: ComponentType,
         comsub: Int? = null,
         op: IfButtonOp = IfButtonOp.Op1,
+        obj: Int? = null,
     ) {
         val combinedId = CombinedId(type.interfaceId, type.component)
-        val message = If3Button(combinedId, comsub ?: -1, obj = -1, op = op.slot)
+        val message = If3Button(combinedId, comsub ?: -1, obj = obj ?: -1, op = op.slot)
         ifButtonHandler.handle(this, message)
     }
 
