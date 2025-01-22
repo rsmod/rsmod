@@ -1,6 +1,5 @@
 package org.rsmod.api.shops.operation
 
-import net.rsprot.protocol.game.outgoing.misc.player.MessageGame
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.rsmod.api.config.Constants
@@ -33,9 +32,10 @@ class StandardGpShopOperationsBuyTest {
 
             buyStock(shop, objs.newcomer_map, OP_BUY1)
 
+            assertEquals(4, shop.inv.count(objs.newcomer_map))
             assertEquals(1, player.count(objs.newcomer_map))
             assertEquals(4, player.count(objs.coins))
-            assertTrue(client.hasNone<MessageGame>())
+            assertNoMessageSent()
         }
 
     @Test
@@ -91,7 +91,7 @@ class StandardGpShopOperationsBuyTest {
 
             assertEquals(0, shop.inv.count(objs.newcomer_map))
             assertEquals(5, player.count(objs.newcomer_map))
-            assertTrue(client.hasNone<MessageGame>())
+            assertNoMessageSent()
         }
 
     @Test
@@ -122,7 +122,7 @@ class StandardGpShopOperationsBuyTest {
 
             assertEquals(0, shop.inv.count(objs.newcomer_map))
             assertEquals(5, player.count(objs.newcomer_map))
-            assertTrue(client.hasNone<MessageGame>())
+            assertNoMessageSent()
         }
 
     private fun GameTestScope.buyStock(shop: Shop, obj: ObjType, op: IfButtonOp) {

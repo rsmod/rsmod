@@ -375,6 +375,11 @@ constructor(
         }
     }
 
+    public fun assertNoMessageSent(player: Player = this.player) {
+        val messages = player.captureClient.mapOf(MessageGame::message)
+        Assertions.assertEquals(emptyList<String>(), messages) { "Messages found:" }
+    }
+
     public class Builder(state: GameTestState, private val scripts: Set<KClass<out PluginScript>>) {
         private val cacheTypes: TypeListMap = state.cacheTypes
         private val eventBus: EventBus by lazy { resolveEventBus(state.eventBus) }
