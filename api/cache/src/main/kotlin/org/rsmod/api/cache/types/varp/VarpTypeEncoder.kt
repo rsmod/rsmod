@@ -59,5 +59,8 @@ public object VarpTypeEncoder {
             if (isProtected) {
                 data.writeByte(201)
             }
+            if (bitProtect) {
+                data.writeByte(202)
+            }
         }
 }

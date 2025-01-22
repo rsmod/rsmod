@@ -43,6 +43,7 @@ public object VarpTypeDecoder {
                 5 -> clientCode = data.readUnsignedShort()
                 200 -> transmit = false
                 201 -> protect = true
+                202 -> bitProtect = true
                 else -> throw IOException("Error unrecognised .varp config code: $code")
             }
         }

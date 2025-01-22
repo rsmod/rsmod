@@ -13,10 +13,13 @@ public class VarpPluginBuilder(public var internal: String? = null) {
     public var transmit: Boolean = false
     public var clientCode: Int? by backing::clientCode
     public var protect: Boolean? by backing::protect
+    /** If set to `true` this varp will check all associated varbits to detect bit collisions. */
+    public var detectCollision: Boolean = true
 
     public fun build(id: Int): UnpackedVarpType {
         backing.internal = internal
         backing.transmit = transmit
+        backing.bitProtect = detectCollision
         return backing.build(id)
     }
 }

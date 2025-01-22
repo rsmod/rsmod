@@ -55,6 +55,7 @@ public class HashedVarpType(
 }
 
 public class UnpackedVarpType(
+    public val bitProtect: Boolean,
     public val clientCode: Int,
     transmit: Boolean,
     protect: Boolean,
@@ -73,6 +74,7 @@ public class UnpackedVarpType(
         "UnpackedVarpType(" +
             "internalName='$internalName', " +
             "internalId=$internalId, " +
+            "bitProtect=$bitProtect, " +
             "clientCode=$clientCode, " +
             "transmit=$transmit, " +
             "protect=$protect" +
@@ -82,6 +84,7 @@ public class UnpackedVarpType(
         if (this === other) return true
         if (other !is UnpackedVarpType) return false
 
+        if (bitProtect != other.bitProtect) return false
         if (clientCode != other.clientCode) return false
         if (transmit != other.transmit) return false
         if (protect != other.protect) return false
