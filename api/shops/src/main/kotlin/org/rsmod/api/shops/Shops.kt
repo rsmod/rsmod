@@ -62,7 +62,8 @@ constructor(private val invTypes: InvTypeList, private val eventBus: EventBus) {
         subtext: String = DEFAULT_SUBTEXT,
     ) {
         val inv = shopInv.toInventory(player)
-        player.open(
+        open(
+            player = player,
             title = title,
             shopInv = inv,
             sideInv = player.inv,
@@ -74,7 +75,8 @@ constructor(private val invTypes: InvTypeList, private val eventBus: EventBus) {
         )
     }
 
-    private fun Player.open(
+    public fun open(
+        player: Player,
         title: String,
         shopInv: Inventory,
         sideInv: Inventory,
@@ -84,16 +86,16 @@ constructor(private val invTypes: InvTypeList, private val eventBus: EventBus) {
         changePercentage: Double,
         subtext: String,
     ) {
-        openedShop = Shop(shopInv, currency, buyPercentage, sellPercentage, changePercentage)
+        player.openedShop = Shop(shopInv, currency, buyPercentage, sellPercentage, changePercentage)
 
-        startInvTransmit(shopInv)
-        startInvTransmit(sideInv)
-        topLevelMainModalBackground(this)
-        ifOpenMainSidePair(ShopInterfaces.shop_main, ShopInterfaces.shop_side, eventBus)
-        ifSetText(ShopComponents.shop_subtext, subtext)
-        shopMainInit(this, shopInv.type, title)
+        player.startInvTransmit(shopInv)
+        player.startInvTransmit(sideInv)
+        topLevelMainModalBackground(player)
+        player.ifOpenMainSidePair(ShopInterfaces.shop_main, ShopInterfaces.shop_side, eventBus)
+        player.ifSetText(ShopComponents.shop_subtext, subtext)
+        shopMainInit(player, shopInv.type, title)
 
-        ifSetEvents(
+        player.ifSetEvents(
             ShopComponents.shop_inv,
             1..shopInv.size,
             IfEvent.Op1,
@@ -106,7 +108,7 @@ constructor(private val invTypes: InvTypeList, private val eventBus: EventBus) {
         )
 
         interfaceInvInit(
-            player = this,
+            player = player,
             inv = sideInv,
             target = ShopComponents.shop_side_inv,
             objRowCount = 4,
@@ -117,7 +119,7 @@ constructor(private val invTypes: InvTypeList, private val eventBus: EventBus) {
             op4 = "Sell 10<col=ff9040>",
             op5 = "Sell 50<col=ff9040>",
         )
-        ifSetEvents(
+        player.ifSetEvents(
             ShopComponents.shop_side_inv,
             0 until sideInv.size,
             IfEvent.Op1,
