@@ -53,10 +53,10 @@ public object VarpTypeEncoder {
 
     public fun encodeGame(type: UnpackedVarpType, data: ByteBuf): Unit =
         with(type) {
-            if (!canTransmit) {
+            if (!transmit) {
                 data.writeByte(200)
             }
-            if (isProtected) {
+            if (protect) {
                 data.writeByte(201)
             }
             if (bitProtect) {

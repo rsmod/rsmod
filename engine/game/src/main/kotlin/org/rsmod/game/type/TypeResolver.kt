@@ -341,11 +341,11 @@ public object TypeResolver {
     }
 
     public fun setTransmit(type: VarpType, transmit: Boolean) {
-        type.transmit = transmit
+        type.internalTransmit = transmit
     }
 
     public fun setProtect(type: VarpType, protect: Boolean) {
-        type.protect = protect
+        type.internalProtect = protect
     }
 
     public operator fun set(type: HashedVarpType, identityHash: Long) {

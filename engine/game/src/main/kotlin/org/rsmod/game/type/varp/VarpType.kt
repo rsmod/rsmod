@@ -3,8 +3,8 @@ package org.rsmod.game.type.varp
 public sealed class VarpType(
     internal var internalId: Int?,
     internal var internalName: String?,
-    internal var transmit: Boolean = true,
-    internal var protect: Boolean = false,
+    internal var internalTransmit: Boolean = true,
+    internal var internalProtect: Boolean = false,
 ) {
     public val internalNameGet: String?
         get() = internalName
@@ -12,11 +12,11 @@ public sealed class VarpType(
     public val id: Int
         get() = internalId ?: error("`internalId` must not be null.")
 
-    public val canTransmit: Boolean
-        get() = transmit
+    public val transmit: Boolean
+        get() = internalTransmit
 
-    public val isProtected: Boolean
-        get() = protect
+    public val protect: Boolean
+        get() = internalProtect
 }
 
 public class HashedVarpType(
@@ -33,8 +33,8 @@ public class HashedVarpType(
             "internalName='$internalName', " +
             "internalId=$internalId, " +
             "supposedHash=$supposedHash, " +
-            "transmit=$transmit, " +
-            "protect=$protect" +
+            "transmit=$internalTransmit, " +
+            "protect=$internalProtect" +
             ")"
 
     override fun equals(other: Any?): Boolean {
@@ -64,8 +64,8 @@ public class UnpackedVarpType(
 ) : VarpType(internalId, internalName, transmit, protect) {
     public fun computeIdentityHash(): Long {
         var result = clientCode.hashCode().toLong()
-        result = 61 * result + transmit.hashCode()
-        result = 61 * result + protect.hashCode()
+        result = 61 * result + internalTransmit.hashCode()
+        result = 61 * result + internalProtect.hashCode()
         result = 61 * result + (internalId?.hashCode()?.toLong() ?: 0)
         return result and 0x7FFFFFFFFFFFFFFF
     }
@@ -76,8 +76,8 @@ public class UnpackedVarpType(
             "internalId=$internalId, " +
             "bitProtect=$bitProtect, " +
             "clientCode=$clientCode, " +
-            "transmit=$transmit, " +
-            "protect=$protect" +
+            "transmit=$internalTransmit, " +
+            "protect=$internalProtect" +
             ")"
 
     override fun equals(other: Any?): Boolean {
@@ -86,8 +86,8 @@ public class UnpackedVarpType(
 
         if (bitProtect != other.bitProtect) return false
         if (clientCode != other.clientCode) return false
-        if (transmit != other.transmit) return false
-        if (protect != other.protect) return false
+        if (internalTransmit != other.internalTransmit) return false
+        if (internalProtect != other.internalProtect) return false
         if (internalId != other.internalId) return false
 
         return true

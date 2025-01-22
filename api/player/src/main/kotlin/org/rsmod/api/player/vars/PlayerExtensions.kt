@@ -6,7 +6,7 @@ import org.rsmod.game.type.varp.VarpType
 
 public fun Player.syncVarp(varp: VarpType, value: Int) {
     vars[varp] = if (value == 0) null else value
-    if (varp.canTransmit) {
+    if (varp.transmit) {
         writeVarp(this, varp, value)
     }
 }
