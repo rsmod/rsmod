@@ -105,6 +105,7 @@ constructor(
     public val players: PlayerList,
     public val objTypes: ObjTypeList,
     public val locTypes: LocTypeList,
+    public val npcTypes: NpcTypeList,
     public val conRepo: ControllerRepository,
     private val gameCycle: GameCycle,
     private val collision: CollisionFlagMap,
