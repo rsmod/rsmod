@@ -19,7 +19,7 @@ public fun Player.clearInteractionRoute() {
 }
 
 public fun Player.startInvTransmit(inv: Inventory) {
-    check(inv.type.scope == InvScope.Perm || !invMap.contains(inv.type)) {
+    check(inv.type.scope != InvScope.Shared || !invMap.contains(inv.type)) {
         "`inv` should have previously been removed from cached inv map: $inv"
     }
     invMap[inv.type] = inv
@@ -28,7 +28,7 @@ public fun Player.startInvTransmit(inv: Inventory) {
 }
 
 public fun Player.stopInvTransmit(inv: Inventory) {
-    if (inv.type.scope != InvScope.Perm) {
+    if (inv.type.scope == InvScope.Shared) {
         val removed = invMap.remove(inv.type)
         check(removed == inv) { "Mismatch with cached value: (cached=$removed, inv=$inv)" }
     }
