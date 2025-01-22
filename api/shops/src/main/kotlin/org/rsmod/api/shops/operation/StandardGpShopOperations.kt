@@ -21,7 +21,6 @@ import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.objtx.TransactionResult
-import org.rsmod.objtx.isOk
 
 private typealias CostCalculation = StandardGpCostCalculations
 
@@ -60,32 +59,32 @@ constructor(
         val obj = shopInv[slot] ?: return
         val objType = objTypes[obj]
 
-        val invCappedRequest = min(shopInv.count(obj, objType), request)
-        if (invCappedRequest == 0) {
+        val initialPurchaseRequest = min(shopInv.count(obj, objType), request)
+        if (initialPurchaseRequest == 0) {
             player.mes("That item is currently out of stock.")
             return
         }
 
         val shopInitialObjCount = shopInv.initialStockCount(obj)
-        val currencyCount = sideInv.count(currencyObj)
+        val availableCurrencyCount = sideInv.count(currencyObj)
         val cappedRequest =
             if (objType.isStackable) {
-                min(Int.MAX_VALUE - sideInv.count(objType), invCappedRequest)
+                min(Int.MAX_VALUE - sideInv.count(objType), initialPurchaseRequest)
             } else {
-                min(sideInv.freeSpace() + 1, invCappedRequest)
+                min(sideInv.freeSpace(), initialPurchaseRequest)
             }
 
-        val (count, totalCost, firstObjPrice) =
+        val (finalPurchaseCount, totalCost, firstObjPrice) =
             CostCalculation.calculateShopSellBulkParameters(
                 initialStock = shopInitialObjCount,
                 currentStock = obj.count,
                 baseCost = objType.cost,
                 requestedCount = max(1, cappedRequest),
-                availableCurrency = currencyCount,
+                availableCurrency = availableCurrencyCount,
                 sellPercentage = shop.sellPercentage,
                 changePercentage = shop.changePercentage,
             )
-        val cost = max(totalCost, firstObjPrice)
+        val finalPurchaseCost = max(totalCost, firstObjPrice)
 
         val transaction =
             player.invTransaction(sideInv) {
@@ -94,40 +93,41 @@ constructor(
                 delete {
                     this.from = inv
                     this.obj = currencyObj.id
-                    this.strictCount = cost
+                    this.strictCount = finalPurchaseCost
                 }
                 delete {
                     this.from = shop
                     this.obj = obj.id
-                    this.strictCount = count
+                    this.strictCount = finalPurchaseCount
                 }
                 insert {
                     this.into = inv
                     this.obj = obj.id
-                    this.strictCount = count
+                    this.strictCount = finalPurchaseCount
                 }
             }
 
-        val currencyResult = transaction.results[0]
-        val invAddResult = transaction.results.getOrNull(2)
+        val success = transaction.success
+        val currencyDel = transaction.results[0]
+        val stockObjAdd = transaction.results.getOrNull(2)
 
         val message =
-            if (currencyResult == TransactionResult.ObjNotFound) {
-                "You don't have enough coins."
-            } else if (currencyResult == TransactionResult.NotEnoughObjCount) {
-                "You don't have enough coins."
-            } else if (invAddResult == TransactionResult.NotEnoughSpace) {
-                "You don't have enough inventory space."
-            } else if (currencyResult.isOk() && count < invCappedRequest) {
-                "You don't have enough coins."
-            } else if (transaction.success && count < invCappedRequest) {
-                "You don't have enough inventory space."
-            } else {
-                null
+            when {
+                currencyDel == TransactionResult.ObjNotFound -> NOT_ENOUGH_COINS
+                currencyDel == TransactionResult.NotEnoughObjCount -> NOT_ENOUGH_COINS
+                stockObjAdd == TransactionResult.NotEnoughSpace -> NOT_ENOUGH_INV_SPACE
+                success && finalPurchaseCount < initialPurchaseRequest -> {
+                    if (availableCurrencyCount <= finalPurchaseCost) {
+                        NOT_ENOUGH_COINS
+                    } else {
+                        NOT_ENOUGH_INV_SPACE
+                    }
+                }
+                else -> null
             }
         message?.let(player::mes)
 
-        if (transaction.success) {
+        if (success) {
             restockProcess += shopInv
         }
 
@@ -281,5 +281,10 @@ constructor(
             }
         }
         return 0
+    }
+
+    public companion object {
+        public const val NOT_ENOUGH_COINS: String = "You don't have enough coins."
+        public const val NOT_ENOUGH_INV_SPACE: String = "You don't have enough inventory space."
     }
 }
