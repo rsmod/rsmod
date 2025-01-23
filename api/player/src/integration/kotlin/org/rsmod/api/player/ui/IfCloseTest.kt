@@ -6,6 +6,7 @@ import net.rsprot.protocol.game.outgoing.misc.player.TriggerOnDialogAbort
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import org.rsmod.api.config.refs.mesanims
 import org.rsmod.api.net.rsprot.handlers.ResumePCountDialogHandler
 import org.rsmod.api.testing.GameTestState
 import org.rsmod.api.testing.capture.attachClientCapture
@@ -23,7 +24,7 @@ class IfCloseTest {
      * coroutine (active script).
      */
     @Test
-    fun GameTestState.`call during a dialog input active script`() = runBasicGameTest {
+    fun GameTestState.`call during dialog input script`() = runBasicGameTest {
         val player = playerFactory.create()
         val client = player.attachClientCapture()
         var input: Int? = null
@@ -32,6 +33,8 @@ class IfCloseTest {
 
         player.ifClose(EventBus())
         assertTrue(client.contains(TriggerOnDialogAbort))
+        assertNull(player.activeCoroutine)
+        assertNull(input)
 
         val resume = ResumePCountDialog(5)
         val handler = ResumePCountDialogHandler()
@@ -39,5 +42,25 @@ class IfCloseTest {
 
         assertNull(player.activeCoroutine)
         assertNull(input)
+    }
+
+    /**
+     * Ensures that calling [ifClose] properly cancels the player's active script when specific
+     * dialogues (e.g., `chatNpc`) are open.
+     */
+    @Test
+    fun GameTestState.`call during standard dialog script`() = runBasicGameTest {
+        val eventBus = EventBus()
+        val player = playerFactory.create()
+        var unreachable = true
+        player.withProtectedAccess {
+            chatPlayer("Test", mesanims.angry, lineCount = 1, lineHeight = 31, eventBus = eventBus)
+            unreachable = false
+        }
+        checkNotNull(player.activeCoroutine)
+
+        player.ifClose(eventBus)
+        assertNull(player.activeCoroutine)
+        assertTrue(unreachable)
     }
 }
