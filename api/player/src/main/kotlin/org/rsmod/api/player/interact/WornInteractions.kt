@@ -101,7 +101,7 @@ constructor(
             IfButtonOp.Op7 -> access.opWorn7(obj, type, wornSlot)
             IfButtonOp.Op8 -> access.opWorn8(obj, type, wornSlot)
             IfButtonOp.Op9 -> access.opWorn9(obj, type, wornSlot)
-            IfButtonOp.Op10 -> throw IllegalStateException("Unreachable.")
+            IfButtonOp.Op10 -> examine(access.player, worn, wornSlot)
         }
     }
 
@@ -259,11 +259,9 @@ constructor(
             return false
         }
 
+        // Op1 (`Remove`) and Op10 (`Examine`) always exists for worn objs.
         val param = op.toParamType()
-
-        // Op1 (`Remove`) always exists for worn objs.
-        val validOp = op == IfButtonOp.Op1 || param != null && type.hasParam(param)
-        if (!validOp) {
+        if (param != null && !type.hasParam(param)) {
             logger.debug { "OpWorn invalid op blocked: op=$op, obj=$obj, type=$type" }
             return false
         }
