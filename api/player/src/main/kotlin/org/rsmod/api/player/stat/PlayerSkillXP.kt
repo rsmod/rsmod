@@ -54,7 +54,6 @@ public object PlayerSkillXP {
             val newLevel = min(stat.maxLevel, PlayerSkillXPTable.getLevelFromXP(currentXp))
             statMap.setBaseLevel(stat, newLevel.toByte())
 
-            // TODO: Find out if condition should return true when current level is boosted.
             val setCurrLevel = statMap.getCurrentLevel(stat) == baseLevel
             if (setCurrLevel) {
                 statMap.setCurrentLevel(stat, newLevel.toByte())
