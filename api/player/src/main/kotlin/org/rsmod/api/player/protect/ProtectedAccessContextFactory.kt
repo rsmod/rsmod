@@ -3,6 +3,7 @@ package org.rsmod.api.player.protect
 import jakarta.inject.Inject
 import org.rsmod.api.player.interact.HeldInteractions
 import org.rsmod.api.player.interact.LocInteractions
+import org.rsmod.api.player.interact.WornInteractions
 import org.rsmod.api.random.GameRandom
 import org.rsmod.events.EventBus
 import org.rsmod.game.type.npc.NpcTypeList
@@ -21,6 +22,7 @@ constructor(
     private val seqTypes: SeqTypeList,
     private val locInteractions: LocInteractions,
     private val heldInteractions: HeldInteractions,
+    private val wornInteractions: WornInteractions,
 ) {
     public fun create(): ProtectedAccessContext =
         ProtectedAccessContext(
@@ -32,6 +34,7 @@ constructor(
             getSeqTypes = { seqTypes },
             getLocInteractions = { locInteractions },
             getHeldInteractions = { heldInteractions },
+            getWornInteractions = { wornInteractions },
         )
 
     public companion object {
@@ -45,6 +48,7 @@ constructor(
                 getSeqTypes = { error("No seq type list provided.") },
                 getLocInteractions = { error("No loc interactions provided.") },
                 getHeldInteractions = { error("No held interactions provided.") },
+                getWornInteractions = { error("No worn interactions provided.") },
             )
 
         /**

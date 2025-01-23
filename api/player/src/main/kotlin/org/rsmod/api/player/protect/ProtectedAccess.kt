@@ -9,6 +9,7 @@ import org.rsmod.api.player.input.ResumePCountDialogInput
 import org.rsmod.api.player.input.ResumePauseButtonInput
 import org.rsmod.api.player.interact.HeldInteractions
 import org.rsmod.api.player.interact.LocInteractions
+import org.rsmod.api.player.interact.WornInteractions
 import org.rsmod.api.player.output.Camera
 import org.rsmod.api.player.output.ChatType
 import org.rsmod.api.player.output.ClientScripts
@@ -45,6 +46,7 @@ import org.rsmod.api.player.ui.ifSetText
 import org.rsmod.api.player.vars.VarPlayerIntMapDelegate
 import org.rsmod.api.player.vars.varMoveSpeed
 import org.rsmod.api.player.worn.HeldEquipResult
+import org.rsmod.api.player.worn.WornUnequipResult
 import org.rsmod.api.random.GameRandom
 import org.rsmod.api.route.RayCastValidator
 import org.rsmod.api.stats.levelmod.InvisibleLevels
@@ -352,8 +354,8 @@ public class ProtectedAccess(
     }
 
     /**
-     * Note: If you wish to directly equip an obj bypassing any custom scripts you will need to call
-     * [invEquip] instead.
+     * Note: If you wish to directly equip an obj bypassing `onOpHeld2` scripts you will need to
+     * call [invEquip] instead.
      *
      * @throws IllegalStateException if [checkOpHeldCallLimit] exceeds the safety net threshold.
      * @see [checkOpHeldCallLimit]
@@ -412,8 +414,8 @@ public class ProtectedAccess(
     }
 
     /**
-     * Note: This function will bypass any custom scripts attached to the respective obj and will
-     * attempt to directly equip it instead. Use [opHeld2] if you wish to avoid this behavior.
+     * Note: This function will bypass any `onOpHeld2` scripts attached to the respective obj and
+     * will attempt to directly equip it instead. Use [opHeld2] if you wish to avoid this behavior.
      *
      * @return [HeldEquipResult] with result of the attempt to equip respective obj.
      * @see [HeldInteractions.equip]
@@ -425,8 +427,8 @@ public class ProtectedAccess(
     ): HeldEquipResult = interactions.equip(this, inv, invSlot)
 
     /**
-     * Note: This function will bypass any custom scripts attached to the respective obj and will
-     * attempt to directly drop it instead. Use [opHeld5] if you wish to avoid this behavior.
+     * Note: This function will bypass any `onOpHeld5` scripts attached to the respective obj and
+     * will attempt to directly drop it instead. Use [opHeld5] if you wish to avoid this behavior.
      *
      * @see [HeldInteractions.drop]
      */
@@ -444,6 +446,20 @@ public class ProtectedAccess(
         inv: Inventory = player.inv,
         interactions: HeldInteractions = context.heldInteractions,
     ): Unit = interactions.examine(player, inv, invSlot)
+
+    /**
+     * Note: This function will bypass any `onOpWorn1` scripts attached to the respective obj and
+     * will attempt to directly unequip it instead.
+     *
+     * @return [WornUnequipResult] with result of the attempt to unequip respective obj.
+     * @see [WornInteractions.unequip]
+     */
+    public fun wornUnequip(
+        wornSlot: Int,
+        into: Inventory = player.inv,
+        from: Inventory = player.worn,
+        interactions: WornInteractions = context.wornInteractions,
+    ): WornUnequipResult = interactions.unequip(this, from, wornSlot, into)
 
     public fun faceSquare(target: CoordGrid): Unit = player.faceSquare(target)
 

@@ -2,6 +2,7 @@ package org.rsmod.api.player.protect
 
 import org.rsmod.api.player.interact.HeldInteractions
 import org.rsmod.api.player.interact.LocInteractions
+import org.rsmod.api.player.interact.WornInteractions
 import org.rsmod.api.random.GameRandom
 import org.rsmod.events.EventBus
 import org.rsmod.game.type.npc.NpcTypeList
@@ -68,6 +69,7 @@ public data class ProtectedAccessContext(
     private val getSeqTypes: () -> SeqTypeList,
     private val getLocInteractions: () -> LocInteractions,
     private val getHeldInteractions: () -> HeldInteractions,
+    private val getWornInteractions: () -> WornInteractions,
 ) {
     public val random: GameRandom by lazyLoad { getRandom() }
     public val eventBus: EventBus by lazyLoad { getEventBus() }
@@ -77,6 +79,7 @@ public data class ProtectedAccessContext(
     public val seqTypes: SeqTypeList by lazyLoad { getSeqTypes() }
     public val locInteractions: LocInteractions by lazyLoad { getLocInteractions() }
     public val heldInteractions: HeldInteractions by lazyLoad { getHeldInteractions() }
+    public val wornInteractions: WornInteractions by lazyLoad { getWornInteractions() }
 }
 
 private fun <T> lazyLoad(init: () -> T): Lazy<T> = lazy(LazyThreadSafetyMode.NONE, init)
