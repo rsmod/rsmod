@@ -34,6 +34,7 @@ import org.rsmod.api.player.ui.ifMesbox
 import org.rsmod.api.player.ui.ifObjbox
 import org.rsmod.api.player.ui.ifOpenMain
 import org.rsmod.api.player.ui.ifOpenMainModal
+import org.rsmod.api.player.ui.ifOpenMainSidePair
 import org.rsmod.api.player.ui.ifOpenOverlay
 import org.rsmod.api.player.ui.ifOpenSub
 import org.rsmod.api.player.ui.ifSetAnim
@@ -1101,6 +1102,12 @@ public class ProtectedAccess(
 
     public fun ifOpenMain(interf: InterfaceType, eventBus: EventBus = context.eventBus): Unit =
         player.ifOpenMain(interf, eventBus)
+
+    public fun ifOpenMainSidePair(
+        main: InterfaceType,
+        side: InterfaceType,
+        eventBus: EventBus = context.eventBus,
+    ): Unit = player.ifOpenMainSidePair(main, side, eventBus)
 
     public fun ifOpenMainModal(
         interf: InterfaceType,
