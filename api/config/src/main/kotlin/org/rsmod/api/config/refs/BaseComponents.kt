@@ -28,6 +28,7 @@ object BaseComponents : ComponentReferences() {
     val world_switcher_target = find("resizable_pane_com86", 3182435415241880455)
     val hp_hud_target = find("resizable_pane_com2", 4026873813368753075)
     val music_tab_target = find("resizable_pane_com89", 3182435415241880458)
+    val overlay_target = find("resizable_pane_com18", 7699969845154582066)
 
     val chat_dialogue_target = find("chat_com565", 137902143560901726)
 
