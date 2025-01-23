@@ -466,7 +466,6 @@ public class ProtectedAccess(
         strict: Boolean = true,
         cert: Boolean = false,
         uncert: Boolean = false,
-        updateInv: Boolean = true,
         autoCommit: Boolean = true,
     ): TransactionResultList<InvObj> =
         player.invAdd(
@@ -490,7 +489,6 @@ public class ProtectedAccess(
         strict: Boolean = true,
         cert: Boolean = false,
         uncert: Boolean = false,
-        updateInv: Boolean = true,
         autoCommit: Boolean = true,
     ): TransactionResultList<InvObj> =
         player.invAdd(
