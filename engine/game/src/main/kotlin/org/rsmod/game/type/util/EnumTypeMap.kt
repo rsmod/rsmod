@@ -60,7 +60,7 @@ public class EnumTypeNonNullMap<K : Any, V : Any>(
 
     public fun getOrNull(key: K): V? = entries[key]
 
-    public operator fun get(key: K): V? =
+    public operator fun get(key: K): V =
         entries[key] ?: default ?: throw NoSuchElementException("Key $key is missing in the map.")
 
     public operator fun contains(key: K): Boolean = entries.containsKey(key)
