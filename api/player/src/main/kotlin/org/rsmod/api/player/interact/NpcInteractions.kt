@@ -19,7 +19,7 @@ import org.rsmod.game.type.npc.NpcTypeList
 import org.rsmod.game.type.npc.UnpackedNpcType
 import org.rsmod.game.type.varbit.VarBitTypeList
 import org.rsmod.game.type.varp.VarpTypeList
-import org.rsmod.game.vars.VariableIntMap
+import org.rsmod.game.vars.VarPlayerIntMap
 import org.rsmod.utils.bits.getBits
 
 public class NpcInteractions
@@ -123,7 +123,7 @@ constructor(
     public fun hasApTrigger(player: Player, npc: Npc, op: InteractionOp): Boolean =
         apTrigger(player, npc, op) != null
 
-    public fun multiNpc(type: UnpackedNpcType, vars: VariableIntMap): UnpackedNpcType? {
+    public fun multiNpc(type: UnpackedNpcType, vars: VarPlayerIntMap): UnpackedNpcType? {
         if (type.multiNpc.isEmpty() && type.multiNpcDefault <= 0) {
             return null
         }
@@ -204,7 +204,7 @@ constructor(
             InteractionOp.Op5 -> NpcDefaultEvents.Ap5(this)
         }
 
-    private fun UnpackedNpcType.multiVarValue(vars: VariableIntMap): Int? {
+    private fun UnpackedNpcType.multiVarValue(vars: VarPlayerIntMap): Int? {
         if (multiVarp > 0) {
             val varp = varpTypes[multiVarp] ?: return null
             return vars[varp]
@@ -216,7 +216,7 @@ constructor(
         return null
     }
 
-    public fun hasOp(npc: Npc, vars: VariableIntMap, op: InteractionOp): Boolean {
+    public fun hasOp(npc: Npc, vars: VarPlayerIntMap, op: InteractionOp): Boolean {
         val multiNpc = multiNpc(npc.currentType, vars)
         if (multiNpc != null) {
             val multiNpcType = npcTypes[multiNpc]

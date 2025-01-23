@@ -5,9 +5,10 @@ import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap
 import org.rsmod.game.type.varcon.VarConType
 import org.rsmod.game.type.varconbit.VarConBitType
 import org.rsmod.utils.bits.getBits
+import org.rsmod.utils.bits.withBits
 
 @JvmInline
-public value class VariableIntConMap(public val backing: Int2IntMap = Int2IntOpenHashMap()) {
+public value class VarConIntMap(public val backing: Int2IntMap = Int2IntOpenHashMap()) {
     public fun remove(key: VarConType) {
         backing.remove(key.id)
     }
@@ -26,6 +27,12 @@ public value class VariableIntConMap(public val backing: Int2IntMap = Int2IntOpe
         val mappedValue = this[varp.baseVar]
         val extracted = mappedValue.getBits(varp.bits)
         return extracted
+    }
+
+    public operator fun set(varp: VarConBitType, value: Int) {
+        val mappedValue = this[varp.baseVar]
+        val packedValue = mappedValue.withBits(varp.bits, value)
+        set(varp.baseVar, packedValue)
     }
 
     public operator fun contains(key: VarConType): Boolean = backing.containsKey(key.id)

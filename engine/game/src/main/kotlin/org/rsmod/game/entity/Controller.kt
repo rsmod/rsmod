@@ -8,7 +8,7 @@ import org.rsmod.game.timer.NpcTimerMap
 import org.rsmod.game.type.controller.ControllerType
 import org.rsmod.game.type.queue.QueueType
 import org.rsmod.game.type.timer.TimerType
-import org.rsmod.game.vars.VariableIntConMap
+import org.rsmod.game.vars.VarConIntMap
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.util.Bounds
 
@@ -16,7 +16,7 @@ public class Controller(public val coords: CoordGrid, public val type: Controlle
     public val id: Int = type.id
     public val timerMap: NpcTimerMap = NpcTimerMap()
     public val queueList: NpcQueueList = NpcQueueList()
-    public val vars: VariableIntConMap by lazy { VariableIntConMap() }
+    public val vars: VarConIntMap by lazy { VarConIntMap() }
 
     public var durationStart: Int = -1
     public var duration: Int = -1

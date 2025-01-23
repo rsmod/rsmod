@@ -1,8 +1,8 @@
 package org.rsmod.api.game.process.controller
 
 import jakarta.inject.Inject
-import org.rsmod.api.controller.ControllerAIEvents
-import org.rsmod.api.controller.ControllerQueueEvents
+import org.rsmod.api.controller.events.ControllerAIEvents
+import org.rsmod.api.controller.events.ControllerQueueEvents
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Controller
 import org.rsmod.game.queue.NpcQueueList

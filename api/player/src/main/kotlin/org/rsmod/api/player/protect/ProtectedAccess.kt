@@ -40,6 +40,7 @@ import org.rsmod.api.player.ui.ifSetEvents
 import org.rsmod.api.player.ui.ifSetNpcHead
 import org.rsmod.api.player.ui.ifSetPlayerHead
 import org.rsmod.api.player.ui.ifSetText
+import org.rsmod.api.player.vars.VarPlayerIntMapDelegate
 import org.rsmod.api.player.vars.varMoveSpeed
 import org.rsmod.api.player.worn.HeldEquipResult
 import org.rsmod.api.random.GameRandom
@@ -82,7 +83,7 @@ import org.rsmod.game.type.spot.SpotanimType
 import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.synth.SynthType
 import org.rsmod.game.type.timer.TimerType
-import org.rsmod.game.vars.VariableIntMap
+import org.rsmod.game.vars.VarPlayerStrMap
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.util.Bounds
 import org.rsmod.objtx.TransactionResultList
@@ -102,10 +103,12 @@ public class ProtectedAccess(
     public val mapClock: Int by player::currentMapClock
     public val inv: Inventory by player::inv
     public val worn: Inventory by player::worn
-    public val vars: VariableIntMap by player::vars
 
     public var actionDelay: Int by player::actionDelay
     public var skillAnimDelay: Int by player::skillAnimDelay
+
+    public val vars: VarPlayerIntMapDelegate by lazy { VarPlayerIntMapDelegate.from(player) }
+    public val strVars: VarPlayerStrMap by player::strVars
 
     private var opHeldCallCount = 0
 
@@ -1168,6 +1171,8 @@ public class ProtectedAccess(
 
     override fun toString(): String = "ProtectedAccess(player=$player, coroutine=$coroutine)"
 }
+
+private fun <T> lazy(init: () -> T): Lazy<T> = lazy(LazyThreadSafetyMode.NONE, init)
 
 private fun MesAnimType.splitGetAnim(lines: Int) =
     when (lines) {

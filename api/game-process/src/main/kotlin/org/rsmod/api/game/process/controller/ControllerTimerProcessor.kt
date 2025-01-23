@@ -1,7 +1,7 @@
 package org.rsmod.api.game.process.controller
 
 import jakarta.inject.Inject
-import org.rsmod.api.controller.ControllerTimerEvents
+import org.rsmod.api.controller.events.ControllerTimerEvents
 import org.rsmod.events.EventBus
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Controller

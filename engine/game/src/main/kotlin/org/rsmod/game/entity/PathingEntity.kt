@@ -16,8 +16,6 @@ import org.rsmod.game.movement.RouteRequest
 import org.rsmod.game.seq.EntitySeq
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.spot.SpotanimType
-import org.rsmod.game.vars.VariableIntMap
-import org.rsmod.game.vars.VariableStringMap
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.util.Bounds
 import org.rsmod.map.zone.ZoneKey
@@ -31,9 +29,6 @@ public sealed class PathingEntity {
 
     public abstract val collisionStrategy: CollisionStrategy?
     public abstract val blockWalkCollisionFlag: Int?
-
-    public val vars: VariableIntMap = VariableIntMap()
-    public val varsString: VariableStringMap = VariableStringMap()
 
     public var slotId: Int = INVALID_SLOT
     public var currentMapClock: Int = 0

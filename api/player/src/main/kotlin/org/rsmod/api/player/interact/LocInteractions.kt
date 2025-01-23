@@ -20,7 +20,7 @@ import org.rsmod.game.type.loc.LocTypeList
 import org.rsmod.game.type.loc.UnpackedLocType
 import org.rsmod.game.type.varbit.VarBitTypeList
 import org.rsmod.game.type.varp.VarpTypeList
-import org.rsmod.game.vars.VariableIntMap
+import org.rsmod.game.vars.VarPlayerIntMap
 import org.rsmod.utils.bits.getBits
 
 public class LocInteractions
@@ -148,7 +148,7 @@ constructor(
     public fun multiLoc(
         loc: BoundLocInfo,
         type: UnpackedLocType,
-        vars: VariableIntMap,
+        vars: VarPlayerIntMap,
     ): BoundLocInfo? {
         if (type.multiLoc.isEmpty() && type.multiLocDefault <= 0) {
             return null
@@ -247,7 +247,7 @@ constructor(
             InteractionOp.Op5 -> LocDefaultEvents.Ap5(this, type)
         }
 
-    private fun UnpackedLocType.multiVarValue(vars: VariableIntMap): Int? {
+    private fun UnpackedLocType.multiVarValue(vars: VarPlayerIntMap): Int? {
         if (multiVarp > 0) {
             val varp = varpTypes[multiVarp] ?: return null
             return vars[varp]
@@ -262,7 +262,7 @@ constructor(
     public fun hasOp(
         loc: BoundLocInfo,
         type: UnpackedLocType,
-        vars: VariableIntMap,
+        vars: VarPlayerIntMap,
         op: InteractionOp,
     ): Boolean {
         val multiLoc = multiLoc(loc, type, vars)

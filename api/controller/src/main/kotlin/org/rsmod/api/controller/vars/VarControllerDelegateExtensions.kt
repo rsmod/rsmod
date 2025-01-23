@@ -1,4 +1,4 @@
-package org.rsmod.api.player.vars
+package org.rsmod.api.controller.vars
 
 import kotlin.reflect.KProperty
 import org.rsmod.game.entity.Controller
@@ -17,9 +17,9 @@ public fun boolVarCon(varcon: VarConType): ControllerVariableTypeIntDelegate<Boo
 
 /**
  * Important to note that this local date time variant does not allow for years before
- * [org.rsmod.utils.time.InlineLocalDateTime.YEAR_OFFSET].
+ * [InlineLocalDateTime.YEAR_OFFSET].
  *
- * @see [org.rsmod.utils.time.InlineLocalDateTime.YEAR_OFFSET]
+ * @see [InlineLocalDateTime.YEAR_OFFSET]
  */
 public fun dateVarCon(varcon: VarConType): ControllerVariableLocalDateTimeDelegate =
     ControllerVariableLocalDateTimeDelegate(varcon)

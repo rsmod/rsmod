@@ -25,6 +25,8 @@ import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.spot.SpotanimType
 import org.rsmod.game.type.timer.TimerType
 import org.rsmod.game.ui.UserInterfaceMap
+import org.rsmod.game.vars.VarPlayerIntMap
+import org.rsmod.game.vars.VarPlayerStrMap
 import org.rsmod.map.CoordGrid
 import org.rsmod.routefinder.collision.CollisionStrategy
 import org.rsmod.routefinder.flag.CollisionFlag
@@ -44,6 +46,9 @@ public class Player(
     override val collisionStrategy: CollisionStrategy = CollisionStrategy.Normal
 
     override val blockWalkCollisionFlag: Int = CollisionFlag.BLOCK_NPCS
+
+    public val vars: VarPlayerIntMap = VarPlayerIntMap()
+    public val strVars: VarPlayerStrMap = VarPlayerStrMap()
 
     public val ui: UserInterfaceMap = UserInterfaceMap()
     public val statMap: PlayerStatMap = PlayerStatMap()

@@ -6,6 +6,7 @@ import org.rsmod.api.config.Constants
 import org.rsmod.api.config.refs.BaseMesAnims
 import org.rsmod.api.player.dialogue.align.TextAlignment
 import org.rsmod.api.player.protect.ProtectedAccess
+import org.rsmod.api.player.vars.VarPlayerIntMapDelegate
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.Inventory
@@ -21,8 +22,8 @@ public class Dialogue(
     public val npc: Npc? = null,
     public val faceFar: Boolean = false,
 ) {
-    public val player: Player
-        get() = access.player
+    public val player: Player by access::player
+    public val vars: VarPlayerIntMapDelegate by access::vars
 
     public suspend fun mesbox(text: String) {
         val pages = alignment.generatePageList(text)

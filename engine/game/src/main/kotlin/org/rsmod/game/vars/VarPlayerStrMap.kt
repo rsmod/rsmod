@@ -5,7 +5,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap
 import org.rsmod.game.type.varp.VarpType
 
 @JvmInline
-public value class VariableStringMap(
+public value class VarPlayerStrMap(
     public val backing: Int2ObjectMap<String> = Int2ObjectOpenHashMap()
 ) {
     public fun remove(key: VarpType) {

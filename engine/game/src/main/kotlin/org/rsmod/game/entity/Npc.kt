@@ -17,6 +17,8 @@ import org.rsmod.game.type.queue.QueueType
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.spot.SpotanimType
 import org.rsmod.game.type.timer.TimerType
+import org.rsmod.game.vars.VarNpcIntMap
+import org.rsmod.game.vars.VarNpcStrMap
 import org.rsmod.map.CoordGrid
 import org.rsmod.routefinder.collision.CollisionFlagMap
 import org.rsmod.routefinder.collision.CollisionStrategy
@@ -38,6 +40,9 @@ public class Npc(
 
     override val collisionStrategy: CollisionStrategy?
         get() = moveRestrict.collisionStrategy
+
+    public val vars: VarNpcIntMap = VarNpcIntMap()
+    public val strVars: VarNpcStrMap = VarNpcStrMap()
 
     public val timerMap: NpcTimerMap = NpcTimerMap()
     public val queueList: NpcQueueList = NpcQueueList()

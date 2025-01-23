@@ -1,8 +1,8 @@
 package org.rsmod.api.script
 
-import org.rsmod.api.controller.ControllerAIEvents
-import org.rsmod.api.controller.ControllerQueueEvents
-import org.rsmod.api.controller.ControllerTimerEvents
+import org.rsmod.api.controller.events.ControllerAIEvents
+import org.rsmod.api.controller.events.ControllerQueueEvents
+import org.rsmod.api.controller.events.ControllerTimerEvents
 import org.rsmod.game.type.controller.ControllerType
 import org.rsmod.game.type.queue.QueueType
 import org.rsmod.game.type.timer.TimerType

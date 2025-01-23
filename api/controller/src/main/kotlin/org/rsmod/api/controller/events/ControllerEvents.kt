@@ -1,4 +1,4 @@
-package org.rsmod.api.controller
+package org.rsmod.api.controller.events
 
 import org.rsmod.events.KeyedEvent
 import org.rsmod.game.entity.Controller
