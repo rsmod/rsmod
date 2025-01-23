@@ -1059,13 +1059,13 @@ public class ProtectedAccess(
         target: ComponentType,
         objRowCount: Int,
         objColCount: Int,
+        dragType: Int = 0,
+        dragComponent: ComponentType? = null,
         op1: String? = null,
         op2: String? = null,
         op3: String? = null,
         op4: String? = null,
         op5: String? = null,
-        dragType: Int = 0,
-        dragComponent: ComponentType? = null,
     ): Unit =
         ClientScripts.interfaceInvInit(
             player = player,
@@ -1073,13 +1073,13 @@ public class ProtectedAccess(
             target = target,
             objRowCount = objRowCount,
             objColCount = objColCount,
+            dragType = dragType,
+            dragComponent = dragComponent,
             op1 = op1,
             op2 = op2,
             op3 = op3,
             op4 = op4,
             op5 = op5,
-            dragType = dragType,
-            dragComponent = dragComponent,
         )
 
     public fun toplevelSidebuttonSwitch(side: Int): Unit =

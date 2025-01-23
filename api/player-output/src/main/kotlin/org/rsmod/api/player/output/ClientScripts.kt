@@ -67,13 +67,13 @@ public object ClientScripts {
         target: ComponentType,
         objRowCount: Int,
         objColCount: Int,
+        dragType: Int = 0,
+        dragComponent: ComponentType? = null,
         op1: String? = null,
         op2: String? = null,
         op3: String? = null,
         op4: String? = null,
         op5: String? = null,
-        dragType: Int = 0,
-        dragComponent: ComponentType? = null,
     ): Unit =
         player.runClientScript(
             149,
@@ -176,4 +176,11 @@ public object ClientScripts {
 
     public fun pvpIconsComLevelRange(player: Player, combatLevel: Int): Unit =
         player.runClientScript(5224, combatLevel)
+
+    public fun statGroupTooltip(
+        player: Player,
+        tooltip: ComponentType,
+        container: ComponentType,
+        text: String,
+    ): Unit = player.runClientScript(7065, tooltip.packed, container.packed, text)
 }
