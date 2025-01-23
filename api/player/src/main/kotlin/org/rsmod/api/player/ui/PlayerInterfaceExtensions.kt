@@ -99,6 +99,9 @@ public fun Player.ifOpenMainSidePair(main: InterfaceType, side: InterfaceType, e
     openModal(side, components.side_modal, eventBus)
 }
 
+public fun Player.ifOpenOverlay(interf: InterfaceType, eventBus: EventBus): Unit =
+    ifOpenSub(interf, components.overlay_target, IfSubType.Overlay, eventBus)
+
 /**
  * Difference from [ifCloseModals]: this function clears all weak queues for the player and closes
  * specific input dialogues.
