@@ -271,7 +271,6 @@ private fun boolToInt(bool: Boolean): Int = if (bool) 1 else 0
 private fun boolFromInt(int: Int?): Boolean = int == 1
 
 private fun Player.syncVarp(varp: VarpType, value: Int) {
-    // TODO: Look into "protected" varps to decide if it's worth implementing here.
     vars.backing[varp.id] = value
     if (varp.transmit) {
         VarpSync.writeVarp(client, varp, value)
