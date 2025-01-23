@@ -3,12 +3,13 @@ package org.rsmod.api.player.interact
 import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
 import org.rsmod.api.config.constants
+import org.rsmod.api.config.refs.params
 import org.rsmod.api.market.MarketPrices
 import org.rsmod.api.player.events.interact.WornObjContentEvents
 import org.rsmod.api.player.events.interact.WornObjEvents
-import org.rsmod.api.player.output.mes
+import org.rsmod.api.player.output.UpdateInventory.resendSlot
 import org.rsmod.api.player.output.objExamine
-import org.rsmod.api.player.ui.ifClose
+import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.worn.WornUnequipOp
 import org.rsmod.api.player.worn.WornUnequipResult
 import org.rsmod.events.EventBus
@@ -19,6 +20,7 @@ import org.rsmod.game.obj.isType
 import org.rsmod.game.type.interf.IfButtonOp
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.obj.UnpackedObjType
+import org.rsmod.game.type.param.ParamType
 
 public class WornInteractions
 @Inject
@@ -30,171 +32,260 @@ constructor(
 ) {
     private val logger = InlineLogger()
 
-    public fun interact(player: Player, worn: Inventory, wornSlot: Int, op: IfButtonOp) {
-        val obj = worn[wornSlot] ?: return
-        interact(player, worn, wornSlot, player.inv, obj, objTypes[obj], op)
+    public suspend fun interact(
+        access: ProtectedAccess,
+        worn: Inventory,
+        wornSlot: Int,
+        op: IfButtonOp,
+    ) {
+        val obj = worn[wornSlot] ?: return resendSlot(access.player, worn, 0)
+        interact(access, worn, wornSlot, obj, objTypes[obj], op)
     }
 
-    private fun interact(
-        player: Player,
+    /**
+     * Directly unequips the obj in [wornSlot], bypassing the normal `Op1` scripted logic.
+     *
+     * Use this when an obj requires custom or additional logic (before unequipping) that isn't part
+     * of the usual event flow. After that custom logic, call `unequip(...)` to finalize the equip
+     * as if `Op1` had been invoked, but without re-triggering any event-based scripts.
+     *
+     * _Note that this function may not actually unequip the obj if the player is prohibited from
+     * doing so. In those cases, the reason is returned in the form of [WornUnequipResult]._
+     *
+     * @return the outcome of the unequip attempt, represented as [WornUnequipResult].
+     */
+    public fun unequip(
+        access: ProtectedAccess,
         worn: Inventory,
         wornSlot: Int,
         into: Inventory,
+    ): WornUnequipResult {
+        val obj = worn[wornSlot]
+        if (obj == null) {
+            resendSlot(access.player, worn, 0)
+            return WornUnequipResult.Fail.InvalidObj
+        }
+
+        val type = objTypes[obj]
+        if (!objectVerify(access.player, worn, obj, type, IfButtonOp.Op1)) {
+            return WornUnequipResult.Fail.InvalidObj
+        }
+
+        val result = unequipOp.unequip(access.player, wornSlot, worn, into)
+        return result
+    }
+
+    public fun examine(player: Player, worn: Inventory, wornSlot: Int) {
+        val obj = worn[wornSlot] ?: return resendSlot(player, worn, 0)
+        objExamine(player, obj, objTypes[obj])
+    }
+
+    private suspend fun interact(
+        access: ProtectedAccess,
+        worn: Inventory,
+        wornSlot: Int,
         obj: InvObj,
         type: UnpackedObjType,
         op: IfButtonOp,
     ) {
-        if (op == IfButtonOp.Op10) {
-            player.objExamine(type, obj.count, marketPrices[type] ?: 0)
+        if (!objectVerify(access.player, worn, obj, type, op)) {
             return
         }
-
-        if (player.isDelayed || !obj.isType(type)) {
-            return
-        }
-
-        player.ifClose(eventBus)
-
         when (op) {
-            IfButtonOp.Op1 -> player.wornOp1(wornSlot, worn, into)
-            IfButtonOp.Op2 -> player.wornOp2(obj, type, wornSlot)
-            IfButtonOp.Op3 -> player.wornOp3(obj, type, wornSlot)
-            IfButtonOp.Op4 -> player.wornOp4(obj, type, wornSlot)
-            IfButtonOp.Op5 -> player.wornOp5(obj, type, wornSlot)
-            IfButtonOp.Op6 -> player.wornOp6(obj, type, wornSlot)
-            IfButtonOp.Op7 -> player.wornOp7(obj, type, wornSlot)
-            IfButtonOp.Op8 -> player.wornOp8(obj, type, wornSlot)
-            IfButtonOp.Op9 -> player.wornOp9(obj, type, wornSlot)
+            IfButtonOp.Op1 -> access.wornOp1(obj, type, worn, wornSlot)
+            IfButtonOp.Op2 -> access.opWorn2(obj, type, wornSlot)
+            IfButtonOp.Op3 -> access.opWorn3(obj, type, wornSlot)
+            IfButtonOp.Op4 -> access.opWorn4(obj, type, wornSlot)
+            IfButtonOp.Op5 -> access.opWorn5(obj, type, wornSlot)
+            IfButtonOp.Op6 -> access.opWorn6(obj, type, wornSlot)
+            IfButtonOp.Op7 -> access.opWorn7(obj, type, wornSlot)
+            IfButtonOp.Op8 -> access.opWorn8(obj, type, wornSlot)
+            IfButtonOp.Op9 -> access.opWorn9(obj, type, wornSlot)
             IfButtonOp.Op10 -> throw IllegalStateException("Unreachable.")
         }
     }
 
-    private fun Player.wornOp1(wornSlot: Int, worn: Inventory, into: Inventory) {
-        val result = unequipOp.unequip(this, wornSlot, worn, into)
+    private suspend fun ProtectedAccess.wornOp1(
+        obj: InvObj,
+        type: UnpackedObjType,
+        worn: Inventory,
+        wornSlot: Int,
+    ) {
+        val typeScript = eventBus.suspend[WornObjEvents.Op1::class.java, type.id]
+        if (typeScript != null) {
+            typeScript(WornObjEvents.Op1(wornSlot, obj))
+            return
+        }
+        val groupScript = eventBus.suspend[WornObjContentEvents.Op1::class.java, type.contentGroup]
+        if (groupScript != null) {
+            groupScript(WornObjContentEvents.Op1(wornSlot, obj, type))
+            return
+        }
+        val result = unequipOp.unequip(player, wornSlot, worn, into = inv)
         if (result is WornUnequipResult.Fail) {
             result.message?.let(::mes)
-            return
         }
-        // TODO: sound_synth(type.param(params.unequip_sound))
     }
 
-    private fun Player.wornOp2(obj: InvObj, type: UnpackedObjType, wornSlot: Int) {
-        val typeScript = eventBus.keyed[WornObjEvents.Op2::class.java, type.id]
+    private suspend fun ProtectedAccess.opWorn2(obj: InvObj, type: UnpackedObjType, wornSlot: Int) {
+        val typeScript = eventBus.suspend[WornObjEvents.Op2::class.java, type.id]
         if (typeScript != null) {
-            typeScript(WornObjEvents.Op2(this, wornSlot, obj))
+            typeScript(WornObjEvents.Op2(wornSlot, obj))
             return
         }
-        val groupScript = eventBus.keyed[WornObjContentEvents.Op2::class.java, type.contentGroup]
+        val groupScript = eventBus.suspend[WornObjContentEvents.Op2::class.java, type.contentGroup]
         if (groupScript != null) {
-            groupScript(WornObjContentEvents.Op2(this, wornSlot, obj, type))
+            groupScript(WornObjContentEvents.Op2(wornSlot, obj, type))
             return
         }
         mes(constants.dm_default)
-        logger.debug { "WornOp2 for `${type.name}` is not implemented: type=$type" }
+        logger.debug { "OpWorn2 for `${type.name}` is not implemented: type=$type" }
     }
 
-    private fun Player.wornOp3(obj: InvObj, type: UnpackedObjType, wornSlot: Int) {
-        val typeScript = eventBus.keyed[WornObjEvents.Op3::class.java, type.id]
+    private suspend fun ProtectedAccess.opWorn3(obj: InvObj, type: UnpackedObjType, wornSlot: Int) {
+        val typeScript = eventBus.suspend[WornObjEvents.Op3::class.java, type.id]
         if (typeScript != null) {
-            typeScript(WornObjEvents.Op3(this, wornSlot, obj))
+            typeScript(WornObjEvents.Op3(wornSlot, obj))
             return
         }
-        val groupScript = eventBus.keyed[WornObjContentEvents.Op3::class.java, type.contentGroup]
+        val groupScript = eventBus.suspend[WornObjContentEvents.Op3::class.java, type.contentGroup]
         if (groupScript != null) {
-            groupScript(WornObjContentEvents.Op3(this, wornSlot, obj, type))
+            groupScript(WornObjContentEvents.Op3(wornSlot, obj, type))
             return
         }
         mes(constants.dm_default)
-        logger.debug { "WornOp3 for `${type.name}` is not implemented: type=$type" }
+        logger.debug { "OpWorn3 for `${type.name}` is not implemented: type=$type" }
     }
 
-    private fun Player.wornOp4(obj: InvObj, type: UnpackedObjType, wornSlot: Int) {
-        val typeScript = eventBus.keyed[WornObjEvents.Op4::class.java, type.id]
+    private suspend fun ProtectedAccess.opWorn4(obj: InvObj, type: UnpackedObjType, wornSlot: Int) {
+        val typeScript = eventBus.suspend[WornObjEvents.Op4::class.java, type.id]
         if (typeScript != null) {
-            typeScript(WornObjEvents.Op4(this, wornSlot, obj))
+            typeScript(WornObjEvents.Op4(wornSlot, obj))
             return
         }
-        val groupScript = eventBus.keyed[WornObjContentEvents.Op4::class.java, type.contentGroup]
+        val groupScript = eventBus.suspend[WornObjContentEvents.Op4::class.java, type.contentGroup]
         if (groupScript != null) {
-            groupScript(WornObjContentEvents.Op4(this, wornSlot, obj, type))
+            groupScript(WornObjContentEvents.Op4(wornSlot, obj, type))
             return
         }
         mes(constants.dm_default)
-        logger.debug { "WornOp4 for `${type.name}` is not implemented: type=$type" }
+        logger.debug { "OpWorn4 for `${type.name}` is not implemented: type=$type" }
     }
 
-    private fun Player.wornOp5(obj: InvObj, type: UnpackedObjType, wornSlot: Int) {
-        val typeScript = eventBus.keyed[WornObjEvents.Op5::class.java, type.id]
+    private suspend fun ProtectedAccess.opWorn5(obj: InvObj, type: UnpackedObjType, wornSlot: Int) {
+        val typeScript = eventBus.suspend[WornObjEvents.Op5::class.java, type.id]
         if (typeScript != null) {
-            typeScript(WornObjEvents.Op5(this, wornSlot, obj))
+            typeScript(WornObjEvents.Op5(wornSlot, obj))
             return
         }
-        val groupScript = eventBus.keyed[WornObjContentEvents.Op5::class.java, type.contentGroup]
+        val groupScript = eventBus.suspend[WornObjContentEvents.Op5::class.java, type.contentGroup]
         if (groupScript != null) {
-            groupScript(WornObjContentEvents.Op5(this, wornSlot, obj, type))
+            groupScript(WornObjContentEvents.Op5(wornSlot, obj, type))
             return
         }
         mes(constants.dm_default)
-        logger.debug { "WornOp5 for `${type.name}` is not implemented: type=$type" }
+        logger.debug { "OpWorn5 for `${type.name}` is not implemented: type=$type" }
     }
 
-    private fun Player.wornOp6(obj: InvObj, type: UnpackedObjType, wornSlot: Int) {
-        val typeScript = eventBus.keyed[WornObjEvents.Op6::class.java, type.id]
+    private suspend fun ProtectedAccess.opWorn6(obj: InvObj, type: UnpackedObjType, wornSlot: Int) {
+        val typeScript = eventBus.suspend[WornObjEvents.Op6::class.java, type.id]
         if (typeScript != null) {
-            typeScript(WornObjEvents.Op6(this, wornSlot, obj))
+            typeScript(WornObjEvents.Op6(wornSlot, obj))
             return
         }
-        val groupScript = eventBus.keyed[WornObjContentEvents.Op6::class.java, type.contentGroup]
+        val groupScript = eventBus.suspend[WornObjContentEvents.Op6::class.java, type.contentGroup]
         if (groupScript != null) {
-            groupScript(WornObjContentEvents.Op6(this, wornSlot, obj, type))
+            groupScript(WornObjContentEvents.Op6(wornSlot, obj, type))
             return
         }
         mes(constants.dm_default)
-        logger.debug { "WornOp6 for `${type.name}` is not implemented: type=$type" }
+        logger.debug { "OpWorn6 for `${type.name}` is not implemented: type=$type" }
     }
 
-    private fun Player.wornOp7(obj: InvObj, type: UnpackedObjType, wornSlot: Int) {
-        val typeScript = eventBus.keyed[WornObjEvents.Op7::class.java, type.id]
+    private suspend fun ProtectedAccess.opWorn7(obj: InvObj, type: UnpackedObjType, wornSlot: Int) {
+        val typeScript = eventBus.suspend[WornObjEvents.Op7::class.java, type.id]
         if (typeScript != null) {
-            typeScript(WornObjEvents.Op7(this, wornSlot, obj))
+            typeScript(WornObjEvents.Op7(wornSlot, obj))
             return
         }
-        val groupScript = eventBus.keyed[WornObjContentEvents.Op7::class.java, type.contentGroup]
+        val groupScript = eventBus.suspend[WornObjContentEvents.Op7::class.java, type.contentGroup]
         if (groupScript != null) {
-            groupScript(WornObjContentEvents.Op7(this, wornSlot, obj, type))
+            groupScript(WornObjContentEvents.Op7(wornSlot, obj, type))
             return
         }
         mes(constants.dm_default)
-        logger.debug { "WornOp7 for `${type.name}` is not implemented: type=$type" }
+        logger.debug { "OpWorn7 for `${type.name}` is not implemented: type=$type" }
     }
 
-    private fun Player.wornOp8(obj: InvObj, type: UnpackedObjType, wornSlot: Int) {
-        val typeScript = eventBus.keyed[WornObjEvents.Op8::class.java, type.id]
+    private suspend fun ProtectedAccess.opWorn8(obj: InvObj, type: UnpackedObjType, wornSlot: Int) {
+        val typeScript = eventBus.suspend[WornObjEvents.Op8::class.java, type.id]
         if (typeScript != null) {
-            typeScript(WornObjEvents.Op8(this, wornSlot, obj))
+            typeScript(WornObjEvents.Op8(wornSlot, obj))
             return
         }
-        val groupScript = eventBus.keyed[WornObjContentEvents.Op8::class.java, type.contentGroup]
+        val groupScript = eventBus.suspend[WornObjContentEvents.Op8::class.java, type.contentGroup]
         if (groupScript != null) {
-            groupScript(WornObjContentEvents.Op8(this, wornSlot, obj, type))
+            groupScript(WornObjContentEvents.Op8(wornSlot, obj, type))
             return
         }
         mes(constants.dm_default)
-        logger.debug { "WornOp8 for `${type.name}` is not implemented: type=$type" }
+        logger.debug { "OpWorn8 for `${type.name}` is not implemented: type=$type" }
     }
 
-    private fun Player.wornOp9(obj: InvObj, type: UnpackedObjType, wornSlot: Int) {
-        val typeScript = eventBus.keyed[WornObjEvents.Op9::class.java, type.id]
+    private suspend fun ProtectedAccess.opWorn9(obj: InvObj, type: UnpackedObjType, wornSlot: Int) {
+        val typeScript = eventBus.suspend[WornObjEvents.Op9::class.java, type.id]
         if (typeScript != null) {
-            typeScript(WornObjEvents.Op9(this, wornSlot, obj))
+            typeScript(WornObjEvents.Op9(wornSlot, obj))
             return
         }
-        val groupScript = eventBus.keyed[WornObjContentEvents.Op9::class.java, type.contentGroup]
+        val groupScript = eventBus.suspend[WornObjContentEvents.Op9::class.java, type.contentGroup]
         if (groupScript != null) {
-            groupScript(WornObjContentEvents.Op9(this, wornSlot, obj, type))
+            groupScript(WornObjContentEvents.Op9(wornSlot, obj, type))
             return
         }
         mes(constants.dm_default)
-        logger.debug { "WornOp9 for `${type.name}` is not implemented: type=$type" }
+        logger.debug { "OpWorn9 for `${type.name}` is not implemented: type=$type" }
+    }
+
+    private fun objectVerify(
+        player: Player,
+        inventory: Inventory,
+        obj: InvObj?,
+        type: UnpackedObjType,
+        op: IfButtonOp,
+    ): Boolean {
+        if (player.isDelayed || !obj.isType(type)) {
+            resendSlot(player, inventory, 0)
+            return false
+        }
+
+        val param = op.toParamType()
+
+        // Op1 (`Remove`) always exists for worn objs.
+        val validOp = op == IfButtonOp.Op1 || param != null && type.hasParam(param)
+        if (!validOp) {
+            logger.debug { "OpWorn invalid op blocked: op=$op, obj=$obj, type=$type" }
+            return false
+        }
+
+        return true
+    }
+
+    private fun IfButtonOp.toParamType(): ParamType<String>? =
+        when (this) {
+            IfButtonOp.Op1 -> null
+            IfButtonOp.Op2 -> params.wear_op1
+            IfButtonOp.Op3 -> params.wear_op2
+            IfButtonOp.Op4 -> params.wear_op3
+            IfButtonOp.Op5 -> params.wear_op4
+            IfButtonOp.Op6 -> params.wear_op5
+            IfButtonOp.Op7 -> params.wear_op6
+            IfButtonOp.Op8 -> params.wear_op7
+            IfButtonOp.Op9 -> params.wear_op8
+            IfButtonOp.Op10 -> null
+        }
+
+    private fun objExamine(player: Player, obj: InvObj, type: UnpackedObjType) {
+        player.objExamine(type, obj.count, marketPrices[type] ?: 0)
     }
 }
