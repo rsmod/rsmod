@@ -26,26 +26,17 @@ constructor(
     private val protectedAccess: ProtectedAccessLauncher,
 ) : PluginScript() {
     override fun ScriptContext.startUp() {
-        val mappedComponents = enumResolver[guide_enums.open_buttons].filterValuesNotNull()
-        for ((button, varbit) in mappedComponents) {
+        val mappedTabButtons = enumResolver[guide_enums.open_buttons].filterValuesNotNull()
+        for ((button, varbit) in mappedTabButtons) {
             onIfOverlayButton(button) { player.selectGuide(varbit) }
         }
-        onIfOverlayButton(guide_components.close_button) { player.closeGuide() }
 
-        onIfOverlayButton(guide_components.subsection_1) { player.changeSubsection(0) }
-        onIfOverlayButton(guide_components.subsection_2) { player.changeSubsection(1) }
-        onIfOverlayButton(guide_components.subsection_3) { player.changeSubsection(2) }
-        onIfOverlayButton(guide_components.subsection_4) { player.changeSubsection(3) }
-        onIfOverlayButton(guide_components.subsection_5) { player.changeSubsection(4) }
-        onIfOverlayButton(guide_components.subsection_6) { player.changeSubsection(5) }
-        onIfOverlayButton(guide_components.subsection_7) { player.changeSubsection(6) }
-        onIfOverlayButton(guide_components.subsection_8) { player.changeSubsection(7) }
-        onIfOverlayButton(guide_components.subsection_9) { player.changeSubsection(8) }
-        onIfOverlayButton(guide_components.subsection_10) { player.changeSubsection(9) }
-        onIfOverlayButton(guide_components.subsection_11) { player.changeSubsection(10) }
-        onIfOverlayButton(guide_components.subsection_12) { player.changeSubsection(11) }
-        onIfOverlayButton(guide_components.subsection_13) { player.changeSubsection(12) }
-        onIfOverlayButton(guide_components.subsection_14) { player.changeSubsection(13) }
+        val mappedSubsections = enumResolver[guide_enums.subsection_buttons].filterValuesNotNull()
+        for ((button, varbit) in mappedSubsections) {
+            onIfOverlayButton(button) { player.changeSubsection(varbit) }
+        }
+
+        onIfOverlayButton(guide_components.close_button) { player.closeGuide() }
     }
 
     private fun Player.selectGuide(guideVarBit: Int) {

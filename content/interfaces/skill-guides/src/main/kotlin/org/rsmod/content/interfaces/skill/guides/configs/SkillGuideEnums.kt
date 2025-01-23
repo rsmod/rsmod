@@ -8,6 +8,7 @@ typealias guide_enums = SkillGuideEnums
 
 object SkillGuideEnums : EnumReferences() {
     val open_buttons = find<ComponentType, Int>("skill_guide_button_vars")
+    val subsection_buttons = find<ComponentType, Int>("skill_guide_section_vars")
 }
 
 internal object SkillGuideEnumBuilder : EnumBuilder() {
@@ -36,6 +37,23 @@ internal object SkillGuideEnumBuilder : EnumBuilder() {
             this[guide_components.farming] = 21
             this[guide_components.construction] = 22
             this[guide_components.hunter] = 23
+        }
+
+        build<ComponentType, Int>("skill_guide_section_vars") {
+            this[guide_components.subsection_1] = 0
+            this[guide_components.subsection_2] = 1
+            this[guide_components.subsection_3] = 2
+            this[guide_components.subsection_4] = 3
+            this[guide_components.subsection_5] = 4
+            this[guide_components.subsection_6] = 5
+            this[guide_components.subsection_7] = 6
+            this[guide_components.subsection_8] = 7
+            this[guide_components.subsection_9] = 8
+            this[guide_components.subsection_10] = 9
+            this[guide_components.subsection_11] = 10
+            this[guide_components.subsection_12] = 11
+            this[guide_components.subsection_13] = 12
+            this[guide_components.subsection_14] = 13
         }
     }
 }
