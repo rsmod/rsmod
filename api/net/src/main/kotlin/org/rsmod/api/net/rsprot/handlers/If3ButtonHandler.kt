@@ -7,6 +7,7 @@ import org.rsmod.annotations.InternalApi
 import org.rsmod.api.player.protect.ProtectedAccessLauncher
 import org.rsmod.api.player.ui.IfModalButton
 import org.rsmod.api.player.ui.IfOverlayButton
+import org.rsmod.api.player.ui.ifCloseDialog
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.type.comp.ComponentTypeList
@@ -58,13 +59,16 @@ constructor(
             return
         }
         if (player.ui.containsModal(interfaceType)) {
+            player.ifCloseDialog()
+
             val event = IfModalButton(componentType, message.sub, objType, message.buttonOp)
-            if (!player.isModalButtonProtected) {
-                logger.debug { "[Modal] If3Button: $message (event=$event)" }
-                protectedAccess.launchLenient(player) { eventBus.publish(this, event) }
-            } else {
+            if (player.isModalButtonProtected) {
                 logger.debug { "[Modal][BLOCKED] If3Button: $message (event=$event)" }
+                return
             }
+
+            logger.debug { "[Modal] If3Button: $message (event=$event)" }
+            protectedAccess.launchLenient(player) { eventBus.publish(this, event) }
             return
         }
     }
