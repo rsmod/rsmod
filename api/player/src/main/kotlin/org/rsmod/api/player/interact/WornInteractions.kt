@@ -263,6 +263,7 @@ constructor(
         val param = op.toParamType()
         if (param != null && !type.hasParam(param)) {
             logger.debug { "OpWorn invalid op blocked: op=$op, obj=$obj, type=$type" }
+            resendSlot(player, inventory, 0)
             return false
         }
 

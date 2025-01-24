@@ -280,6 +280,7 @@ private constructor(
         // Op5 (`Drop`) always exists as a fallback.
         if (!type.hasInvOp(op) && op != HeldOp.Op5) {
             logger.debug { "OpHeld invalid op blocked: op=$op, obj=$obj, type=$type" }
+            resendSlot(player, inventory, 0)
             return false
         }
 
