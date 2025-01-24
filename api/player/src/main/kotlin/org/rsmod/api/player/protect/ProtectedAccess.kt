@@ -441,12 +441,6 @@ public class ProtectedAccess(
         interactions.drop(this, inv, invSlot)
     }
 
-    public fun invExamine(
-        invSlot: Int,
-        inv: Inventory = player.inv,
-        interactions: HeldInteractions = context.heldInteractions,
-    ): Unit = interactions.examine(player, inv, invSlot)
-
     /**
      * Note: This function will bypass any `onOpWorn1` scripts attached to the respective obj and
      * will attempt to directly unequip it instead.
