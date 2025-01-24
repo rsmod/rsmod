@@ -48,6 +48,29 @@ public class Inventory(public val type: UnpackedInvType, public val objs: Array<
         }
     }
 
+    /**
+     * Moves all objs in the inventory to the lowest available empty slots, filling gaps and
+     * maintaining their order.
+     *
+     * Note: This updates the `modifiedSlots` to reflect all affected slots.
+     */
+    public fun compact() {
+        var emptySlot = -1
+        for (slot in indices) {
+            if (this[slot] == null) {
+                if (emptySlot == -1) {
+                    emptySlot = slot
+                }
+            } else if (emptySlot != -1) {
+                this[emptySlot] = this[slot]
+                this[slot] = null
+                modifiedSlots.set(emptySlot)
+                modifiedSlots.set(slot)
+                emptySlot++
+            }
+        }
+    }
+
     public fun getValue(slot: Int): InvObj =
         this[slot] ?: throw NoSuchElementException("Slot $slot is missing in the inv.")
 
