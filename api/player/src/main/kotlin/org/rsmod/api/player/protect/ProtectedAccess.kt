@@ -78,6 +78,8 @@ import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.interf.IfEvent
 import org.rsmod.game.type.interf.IfSubType
 import org.rsmod.game.type.interf.InterfaceType
+import org.rsmod.game.type.inv.InvType
+import org.rsmod.game.type.inv.InvTypeList
 import org.rsmod.game.type.jingle.JingleType
 import org.rsmod.game.type.mesanim.MesAnimType
 import org.rsmod.game.type.npc.NpcType
@@ -1233,6 +1235,11 @@ public class ProtectedAccess(
 
     public operator fun Inventory.contains(content: ContentGroupType): Boolean =
         invContains(this, content)
+
+    public fun inv(inv: InvType, invTypes: InvTypeList = context.invTypes): Inventory {
+        val type = invTypes[inv]
+        return player.invMap.getOrPut(type)
+    }
 
     /* Client script helper functions */
     public fun runClientScript(id: Int, vararg args: Any): Unit = player.runClientScript(id, *args)

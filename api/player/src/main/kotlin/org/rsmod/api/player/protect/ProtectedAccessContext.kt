@@ -5,6 +5,7 @@ import org.rsmod.api.player.interact.LocInteractions
 import org.rsmod.api.player.interact.WornInteractions
 import org.rsmod.api.random.GameRandom
 import org.rsmod.events.EventBus
+import org.rsmod.game.type.inv.InvTypeList
 import org.rsmod.game.type.npc.NpcTypeList
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.seq.SeqTypeList
@@ -64,6 +65,7 @@ public data class ProtectedAccessContext(
     private val getRandom: () -> GameRandom,
     private val getEventBus: () -> EventBus,
     private val getCollision: () -> CollisionFlagMap,
+    private val getInvTypes: () -> InvTypeList,
     private val getNpcTypes: () -> NpcTypeList,
     private val getObjTypes: () -> ObjTypeList,
     private val getSeqTypes: () -> SeqTypeList,
@@ -74,6 +76,7 @@ public data class ProtectedAccessContext(
     public val random: GameRandom by lazyLoad { getRandom() }
     public val eventBus: EventBus by lazyLoad { getEventBus() }
     public val collision: CollisionFlagMap by lazyLoad { getCollision() }
+    public val invTypes: InvTypeList by lazyLoad { getInvTypes() }
     public val npcTypes: NpcTypeList by lazyLoad { getNpcTypes() }
     public val objTypes: ObjTypeList by lazyLoad { getObjTypes() }
     public val seqTypes: SeqTypeList by lazyLoad { getSeqTypes() }
