@@ -342,6 +342,38 @@ public fun Transaction<InvObj>.transfer(
     }
 }
 
+public fun Player.invMoveAll(
+    from: Inventory,
+    into: Inventory,
+    cert: Boolean = false,
+    uncert: Boolean = false,
+    placehold: Boolean = false,
+    autoCommit: Boolean = true,
+): TransactionResultList<InvObj> {
+    check(into != from) { "`into` should not be equal to `from` inv." }
+    return invTransaction(from, into, autoCommit) {
+        val fromInv = select(from)
+        val intoInv = select(into)
+        moveAll(from = fromInv, into = intoInv, cert = cert, uncert = uncert, placehold = placehold)
+    }
+}
+
+public fun Transaction<InvObj>.moveAll(
+    from: TransactionInventory<InvObj>,
+    into: TransactionInventory<InvObj>,
+    cert: Boolean = false,
+    uncert: Boolean = false,
+    placehold: Boolean = false,
+) {
+    dump {
+        this.from = from
+        this.into = into
+        this.cert = cert
+        this.uncert = uncert
+        this.placehold = placehold
+    }
+}
+
 public fun Transaction<InvObj>.select(inv: Inventory): TransactionInventory<InvObj> {
     val image = Array(inv.objs.size) { input(inv.objs[it]) }
     val stack = inv.type.stack.toTransactionStackType()

@@ -6,7 +6,10 @@ import kotlin.math.min
 import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.components
 import org.rsmod.api.invtx.invAdd
+import org.rsmod.api.invtx.invClear
+import org.rsmod.api.invtx.invMoveAll
 import org.rsmod.api.invtx.invSwap
+import org.rsmod.api.invtx.invTransfer
 import org.rsmod.api.player.input.ResumePCountDialogInput
 import org.rsmod.api.player.input.ResumePauseButtonInput
 import org.rsmod.api.player.interact.HeldInteractions
@@ -107,14 +110,15 @@ public class ProtectedAccess(
 
     public val coords: CoordGrid by player::coords
     public val mapClock: Int by player::currentMapClock
+
     public val inv: Inventory by player::inv
     public val worn: Inventory by player::worn
 
-    public var actionDelay: Int by player::actionDelay
-    public var skillAnimDelay: Int by player::skillAnimDelay
-
     public val vars: VarPlayerIntMapDelegate by lazy { VarPlayerIntMapDelegate.from(player) }
     public val strVars: VarPlayerStrMap by player::strVars
+
+    public var actionDelay: Int by player::actionDelay
+    public var skillAnimDelay: Int by player::skillAnimDelay
 
     private var opHeldCallCount = 0
 
@@ -517,9 +521,36 @@ public class ProtectedAccess(
             autoCommit = autoCommit,
         )
 
-    public fun invMoveToSlot(from: Inventory, into: Inventory, fromSlot: Int, intoSlot: Int) {
+    public fun invMoveToSlot(
+        from: Inventory,
+        into: Inventory,
+        fromSlot: Int,
+        intoSlot: Int,
+    ): TransactionResultList<InvObj> {
         val resolvedInto = if (from === into) null else into
-        player.invSwap(from = from, into = resolvedInto, fromSlot = fromSlot, intoSlot = intoSlot)
+        return player.invSwap(
+            from = from,
+            into = resolvedInto,
+            fromSlot = fromSlot,
+            intoSlot = intoSlot,
+        )
+    }
+
+    public fun invMoveFromSlot(
+        from: Inventory,
+        into: Inventory,
+        fromSlot: Int,
+        count: Int = 1,
+    ): TransactionResultList<InvObj> {
+        return player.invTransfer(from = from, into = into, count = count, fromSlot = fromSlot)
+    }
+
+    public fun invMoveInv(from: Inventory, into: Inventory): TransactionResultList<InvObj> {
+        return player.invMoveAll(from, into)
+    }
+
+    public fun invClear(inventory: Inventory) {
+        player.invClear(inventory)
     }
 
     public fun stat(stat: StatType): Int {

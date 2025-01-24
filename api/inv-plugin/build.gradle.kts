@@ -20,5 +20,6 @@ dependencies {
     implementation(projects.engine.events)
     implementation(projects.engine.game)
     implementation(projects.engine.module)
+    implementation(projects.engine.objtx)
     implementation(projects.engine.plugin)
 }
