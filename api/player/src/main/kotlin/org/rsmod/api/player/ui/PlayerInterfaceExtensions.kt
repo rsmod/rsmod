@@ -116,17 +116,23 @@ public fun Player.ifClose(eventBus: EventBus) {
 }
 
 /**
- * Cancels any active dialog suspension by calling the private function [cancelActiveDialog].
+ * Cancels and closes any active _input_ dialog suspension.
  *
  * #### Note
  * This is a custom concept and not part of any known game mechanic or command. It is primarily used
- * internally to close suspending dialogs during the handling of `If3Button` packets.
+ * internally to close suspending input dialogs during the handling of `If3Button` packets.
  *
  * **Warning:** Avoid calling this function unless you fully understand its implications, as it can
  * interrupt active dialog-related processes.
  */
 @InternalApi("Usage of this function should only be used internally, or sparingly.")
-public fun Player.ifCloseDialog(): Unit = cancelActiveDialog()
+public fun Player.ifCloseInputDialog() {
+    val coroutine = activeCoroutine ?: return
+    if (coroutine.requiresInputDialogAbort()) {
+        cancelActiveCoroutine()
+        client.write(TriggerOnDialogAbort)
+    }
+}
 
 /**
  * If [requiresInputDialogAbort] conditions are met, the player's active script will be cancelled
