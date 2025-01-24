@@ -102,13 +102,13 @@ constructor(
             checkNotNull(invMap[invs.tempinv]) {
                 "`tempInv` must be transmitted. (`startInvTransmit`)"
             }
-        val prices = tempInv.toPriceList()
-        updatePrices(prices)
-        updateTotalPrice(prices)
+        val priceList = tempInv.toPriceList()
+        updatePrices(priceList.prices)
+        updateTotalPrice(priceList.totalPrice)
     }
 
-    private fun Player.updateTotalPrice(prices: List<Int>) {
-        val total = prices.sum().formatAmount
+    private fun Player.updateTotalPrice(totalPrice: Long) {
+        val total = totalPrice.formatAmount
         ifSetTextAlign(
             player = this,
             target = equip_components.guide_prices_total_price_text,
@@ -136,12 +136,13 @@ constructor(
         )
     }
 
-    private fun Player.updatePrices(prices: List<Int>) {
-        check(prices.size == 28) { "ClientScript takes 28 exact prices." }
-        runClientScript(785, *prices.toTypedArray())
+    private fun Player.updatePrices(priceList: List<Int>) {
+        check(priceList.size == 28) { "ClientScript takes 28 exact prices." }
+        runClientScript(785, *priceList.toTypedArray())
     }
 
-    private fun Iterable<InvObj?>.toPriceList(): List<Int> {
+    private fun Iterable<InvObj?>.toPriceList(): PriceList {
+        var total = 0L
         val prices = mutableListOf<Int>()
         for (obj in this) {
             if (obj == null) {
@@ -149,9 +150,11 @@ constructor(
                 continue
             }
             val type = objTypes[obj]
-            prices += type.price * obj.count
+            val price = type.price
+            total += price * obj.count.toLong()
+            prices += price
         }
-        return prices
+        return PriceList(prices, total)
     }
 
     private suspend fun ProtectedAccess.searchObj() {
@@ -227,4 +230,6 @@ constructor(
         val type = objTypes[obj]
         objExamine(type, obj.count, type.price)
     }
+
+    private data class PriceList(val prices: List<Int>, val totalPrice: Long)
 }
