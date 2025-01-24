@@ -95,6 +95,7 @@ import org.rsmod.game.type.spot.SpotanimType
 import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.synth.SynthType
 import org.rsmod.game.type.timer.TimerType
+import org.rsmod.game.ui.Component
 import org.rsmod.game.vars.VarPlayerStrMap
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.util.Bounds
@@ -1084,8 +1085,9 @@ public class ProtectedAccess(
      */
     public suspend fun countDialog(title: String = constants.cm_count): Int {
         mesLayerMode7(player, title)
+        val modal = player.ui.getModalOrNull(components.main_modal)
         val input = coroutine.pause(ResumePCountDialogInput::class)
-        return withProtectedAccess(input.count)
+        return resumePauseInputWithProtectedAccess(input.count, modal)
     }
 
     /**
@@ -1151,19 +1153,6 @@ public class ProtectedAccess(
     }
 
     /**
-     * Syntax sugar alias for [regainProtectedAccess] that allows the input argument
-     * ([returnWithProtectedAccess]) to be returned as long as [regainProtectedAccess] does not
-     * throw [ProtectedAccessLostException].
-     *
-     * @throws ProtectedAccessLostException
-     * @see [regainProtectedAccess]
-     */
-    private fun <T> withProtectedAccess(returnWithProtectedAccess: T): T {
-        regainProtectedAccess()
-        return returnWithProtectedAccess
-    }
-
-    /**
      * Helper function to attempt and resume a call-site from a `ResumePauseButtonInput` suspension
      * while ensuring that the [ResumePauseButtonInput.component] is associated with the
      * [expectedComponent].
@@ -1189,6 +1178,48 @@ public class ProtectedAccess(
             throw ProtectedAccessLostException()
         }
         regainProtectedAccess()
+    }
+
+    /**
+     * Helper function to attempt and resume a call-site from a `ResumeP_Input` (e.g.,
+     * `ResumePCountDialogInput`) suspension while ensuring that any currently open modal is
+     * associated with the [expectedModal].
+     *
+     * @param returnWithProtectedAccess the value to be returned after verifying protected access
+     *   conditions are met.
+     * @param expectedModal the [Component] that is expected to be the player's active modal.
+     * @throws ProtectedAccessLostException if the player is `delayed`, their active coroutine does
+     *   not match this scope's [coroutine], or if the current modal does not match [expectedModal].
+     */
+    private fun <T> resumePauseInputWithProtectedAccess(
+        returnWithProtectedAccess: T,
+        expectedModal: Component?,
+    ): T {
+        if (player.isDelayed) {
+            logger.debug { "Protected-access was lost due to delay: player=$player" }
+            throw ProtectedAccessLostException()
+        }
+
+        if (player.activeCoroutine !== coroutine) {
+            logger.debug {
+                "Protected-access was lost due to coroutine mismatch: " +
+                    "player=$player, scopeCoroutine=$coroutine"
+            }
+            throw ProtectedAccessLostException()
+        }
+
+        val currentModal = player.ui.getModalOrNull(components.main_modal)
+        if (currentModal != expectedModal) {
+            logger.debug {
+                "Protected-access was lost due to unexpected modal: " +
+                    "player=$player, " +
+                    "received=$currentModal, " +
+                    "expected=$expectedModal"
+            }
+            throw ProtectedAccessLostException()
+        }
+
+        return returnWithProtectedAccess
     }
 
     /* Obj helper functions (oc=obj config) */
