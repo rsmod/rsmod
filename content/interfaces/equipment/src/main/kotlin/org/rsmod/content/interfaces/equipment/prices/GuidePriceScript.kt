@@ -29,7 +29,7 @@ import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-class GuicePriceScript
+class GuidePriceScript
 @Inject
 constructor(
     private val objTypes: ObjTypeList,
@@ -62,7 +62,6 @@ constructor(
             main = equip_interfaces.guide_prices_main,
             side = equip_interfaces.guide_prices_side,
         )
-
         player.updateGuidePrices()
         ifSetObj(equip_components.guide_prices_search_obj, objs.null_item_placeholder, zoom = 1)
         ifSetEvents(
