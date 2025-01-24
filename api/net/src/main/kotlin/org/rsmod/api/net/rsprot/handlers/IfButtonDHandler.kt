@@ -10,8 +10,6 @@ import org.rsmod.game.entity.Player
 import org.rsmod.game.type.interf.InterfaceTypeList
 import org.rsmod.game.type.interf.isType
 import org.rsmod.game.type.obj.ObjTypeList
-import org.rsmod.game.type.obj.UnpackedObjType
-import org.rsmod.game.type.obj.isType
 import org.rsmod.game.ui.Component
 
 class IfButtonDHandler
@@ -53,8 +51,8 @@ constructor(
 
         // Client replaces empty obj ids with `6512`. To make life easier, we simply replace those
         // with null obj types as that's what associated scripts should treat them as.
-        val selectedType = convertNullReplacement(objTypes[message.selectedObj])
-        val targetType = convertNullReplacement(objTypes[message.targetObj])
+        val selectedType = convertNullReplacement(message.selectedObj)
+        val targetType = convertNullReplacement(message.targetObj)
 
         val buttonDrag =
             IfButtonDrag(
@@ -70,11 +68,11 @@ constructor(
         eventBus.publish(buttonDrag)
     }
 
-    private fun convertNullReplacement(type: UnpackedObjType?): UnpackedObjType? {
-        return if (!type.isType(objs.null_item_placeholder)) {
-            type
-        } else {
+    private fun convertNullReplacement(type: Int?): Int? {
+        return if (type == objs.null_item_placeholder.id) {
             null
+        } else {
+            type
         }
     }
 }

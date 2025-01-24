@@ -51,9 +51,9 @@ public data class IfOverlayButton(
 public class IfButtonDrag(
     public val player: Player,
     public val selectedSlot: Int?,
-    public val selectedObj: UnpackedObjType?,
+    public val selectedObj: Int?,
     public val targetSlot: Int?,
-    public val targetObj: UnpackedObjType?,
+    public val targetObj: Int?,
     selectedComponent: Component,
     targetComponent: Component,
 ) : KeyedEvent {

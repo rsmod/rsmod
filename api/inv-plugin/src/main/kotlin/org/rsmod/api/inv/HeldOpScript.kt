@@ -15,7 +15,6 @@ import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.interact.HeldOp
 import org.rsmod.game.type.interf.IfButtonOp
-import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
@@ -41,20 +40,13 @@ private constructor(
         protectedAccess.launch(this) { interactions.interact(this, inv, invSlot, op) }
     }
 
-    private fun Player.dragHeld(
-        fromSlot: Int,
-        intoSlot: Int,
-        selectedObj: UnpackedObjType?,
-        targetObj: UnpackedObjType?,
-    ) {
+    private fun Player.dragHeld(fromSlot: Int, intoSlot: Int) {
         ifClose(eventBus)
         if (isAccessProtected) {
             resendSlot(this, inv, 0)
             return
         }
-        protectedAccess.launch(this) {
-            interactions.drag(player, player.inv, fromSlot, intoSlot, selectedObj, targetObj)
-        }
+        protectedAccess.launch(this) { invMoveToSlot(inv, inv, fromSlot, intoSlot) }
     }
 
     private fun IfOverlayButton.opHeldButton() {
@@ -69,7 +61,7 @@ private constructor(
     private fun IfButtonDrag.dragHeldButton() {
         val fromSlot = selectedSlot ?: return
         val intoSlot = targetSlot ?: return
-        player.dragHeld(fromSlot, intoSlot, selectedObj, targetObj)
+        player.dragHeld(fromSlot, intoSlot)
     }
 
     private fun IfButtonOp.toHeldOp(): HeldOp? =
