@@ -32,7 +32,7 @@ internal object InvBuilds : InvBuilder() {
         }
 
         build("tempinv") {
-            scope = InvScope.Temp
+            scope = InvScope.Perm
             protect = false
             size = 28
         }
