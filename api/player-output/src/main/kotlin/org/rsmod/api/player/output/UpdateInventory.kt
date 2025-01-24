@@ -19,8 +19,9 @@ public object UpdateInventory {
     }
 
     /** @see [UpdateInvPartial] */
-    public fun updateInvPartial(player: Player, inv: Inventory, updateSlots: Iterator<Int>) {
-        val provider = RspIndexedObjProvider(inv.objs, updateSlots)
+    public fun updateInvPartial(player: Player, inv: Inventory) {
+        val changedSlots = inv.modifiedSlots.asSequence().iterator()
+        val provider = RspIndexedObjProvider(inv.objs, changedSlots)
         val message = UpdateInvPartial(-1, -(1234 + inv.type.id), inv.type.id, provider)
         player.client.write(message)
     }
@@ -44,8 +45,7 @@ public object UpdateInventory {
         if (inv.isFullUpdateRecommended()) {
             updateInvFull(player, inv)
         } else {
-            val changedSlots = inv.modifiedSlots.asSequence().iterator()
-            updateInvPartial(player, inv, changedSlots)
+            updateInvPartial(player, inv)
         }
     }
 

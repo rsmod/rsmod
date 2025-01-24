@@ -4,7 +4,7 @@ import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
 import kotlin.collections.iterator
 import org.rsmod.api.player.forceDisconnect
-import org.rsmod.api.player.output.UpdateInventory.updateInvRecommended
+import org.rsmod.api.player.output.UpdateInventory.updateInvPartial
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.PlayerList
 import org.rsmod.game.inv.Inventory
@@ -38,7 +38,7 @@ public class PlayerInvUpdateProcess @Inject constructor(private val players: Pla
         if (!inv.hasModifiedSlots()) {
             return
         }
-        updateInvRecommended(this, inv)
+        updateInvPartial(this, inv)
         if (inv.type.scope == InvScope.Shared) {
             sharedUpdatedInvs += inv
         } else {
