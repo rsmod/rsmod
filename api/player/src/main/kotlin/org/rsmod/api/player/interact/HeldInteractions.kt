@@ -169,7 +169,7 @@ private constructor(
             groupScript(HeldContentEvents.Op2(invSlot, obj, type, inventory))
             return
         }
-        if (type.iop[1] != "Wield" && type.iop[1] != "Wear") {
+        if (!type.isEquipable) {
             mes(constants.dm_default)
             logger.debug { "OpHeld2 for `${type.name}` is not implemented: type=$type" }
             return
