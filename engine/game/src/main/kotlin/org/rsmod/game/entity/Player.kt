@@ -118,6 +118,9 @@ public class Player(
     public var dropTrigger: DropTriggerType? = null
         private set
 
+    public val isAccessProtected: Boolean
+        get() = isBusy || activeCoroutine?.isSuspended == true
+
     public val isModalButtonProtected: Boolean
         get() = isDelayed || activeCoroutine?.isSuspended == true
 

@@ -88,9 +88,6 @@ public sealed class PathingEntity {
     public val isNotDelayed: Boolean
         get() = !isDelayed
 
-    public val isAccessProtected: Boolean
-        get() = isBusy || activeCoroutine?.isSuspended == true
-
     public val hasMovedThisCycle: Boolean
         get() = lastMovement >= currentMapClock
 
