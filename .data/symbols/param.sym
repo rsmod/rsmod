@@ -148,6 +148,11 @@
 1801	slayer_task_boss_displayname
 1802	slayer_task_boss_location
 
+65453	attackrate_rapid
+65454	bonus_slayer_meleeonly
+65455	bonus_slayer_buff
+65456	bonus_undead_meleeonly
+65457	bonus_undead_buff
 65458	skill_spot
 65459	attack_range
 65460	attack_anim_accurate

@@ -2,6 +2,7 @@
 
 package org.rsmod.api.config.builders
 
+import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.seqs
 import org.rsmod.api.config.refs.synths
 import org.rsmod.api.type.builders.param.ParamBuilder
@@ -13,6 +14,12 @@ import org.rsmod.game.type.synth.SynthType
 
 internal object ParamBuilds : ParamBuilder() {
     init {
+        build<Int>("bonus_undead_buff") { default = 0 }
+        build<Boolean>("bonus_undead_meleeonly") { default = true }
+
+        build<Int>("bonus_slayer_buff") { default = 0 }
+        build<Boolean>("bonus_slayer_meleeonly") { default = true }
+
         build<String>("game_message")
         build<String>("game_message2")
 
@@ -72,6 +79,7 @@ internal object ParamBuilds : ParamBuilder() {
         build<SeqType>("bas_running") { default = seqs.human_running }
         build<SeqType>("attack_anim")
         build<SeqType>("defend_anim")
-        build<Int>("attackrate") { default = 4 }
+        build<Int>("attackrate") { default = constants.combat_default_attackrate }
+        build<Int>("attackrate_rapid")
     }
 }
