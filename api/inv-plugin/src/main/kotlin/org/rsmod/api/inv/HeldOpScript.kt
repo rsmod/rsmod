@@ -26,12 +26,6 @@ private constructor(
     private val interactions: HeldInteractions,
     private val protectedAccess: ProtectedAccessLauncher,
 ) : PluginScript() {
-    /*
-     * Note: Held interactions used to get protected access through specialized packets (OpHeld).
-     * However, this was changed around revision 204. They are now given protected-access later on.
-     * (In this script)
-     */
-
     override fun ScriptContext.startUp() {
         onIfOverlayButton(components.inv_inv) { opHeldButton() }
         onIfButtonDrag(components.inv_inv, components.inv_inv) { dragHeldButton() }
