@@ -38,7 +38,7 @@ constructor(
         wornSlot: Int,
         op: IfButtonOp,
     ) {
-        val obj = worn[wornSlot] ?: return resendSlot(access.player, worn, 0)
+        val obj = worn[wornSlot] ?: return resendSlot(worn, 0)
         interact(access, worn, wornSlot, obj, objTypes[obj], op)
     }
 
@@ -62,7 +62,7 @@ constructor(
     ): WornUnequipResult {
         val obj = worn[wornSlot]
         if (obj == null) {
-            resendSlot(access.player, worn, 0)
+            resendSlot(worn, 0)
             return WornUnequipResult.Fail.InvalidObj
         }
 
@@ -76,7 +76,7 @@ constructor(
     }
 
     public fun examine(player: Player, worn: Inventory, wornSlot: Int) {
-        val obj = worn[wornSlot] ?: return resendSlot(player, worn, 0)
+        val obj = worn[wornSlot] ?: return resendSlot(worn, 0)
         objExamine(player, obj, objTypes[obj])
     }
 
@@ -255,7 +255,7 @@ constructor(
         op: IfButtonOp,
     ): Boolean {
         if (player.isDelayed || !obj.isType(type)) {
-            resendSlot(player, inventory, 0)
+            resendSlot(inventory, 0)
             return false
         }
 
@@ -263,7 +263,7 @@ constructor(
         val param = op.toParamType()
         if (param != null && !type.hasParam(param)) {
             logger.debug { "OpWorn invalid op blocked: op=$op, obj=$obj, type=$type" }
-            resendSlot(player, inventory, 0)
+            resendSlot(inventory, 0)
             return false
         }
 

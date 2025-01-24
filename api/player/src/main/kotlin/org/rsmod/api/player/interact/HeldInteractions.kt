@@ -53,7 +53,7 @@ private constructor(
         invSlot: Int,
         op: HeldOp,
     ) {
-        val obj = inventory[invSlot] ?: return resendSlot(access.player, inventory, 0)
+        val obj = inventory[invSlot] ?: return resendSlot(inventory, 0)
         interact(access, inventory, invSlot, obj, objTypes[obj], op)
     }
 
@@ -67,7 +67,7 @@ private constructor(
     public suspend fun drop(access: ProtectedAccess, inventory: Inventory, invSlot: Int) {
         val obj = inventory[invSlot]
         if (obj == null) {
-            resendSlot(access.player, inventory, 0)
+            resendSlot(inventory, 0)
             return
         }
 
@@ -94,7 +94,7 @@ private constructor(
     public fun equip(access: ProtectedAccess, inventory: Inventory, invSlot: Int): HeldEquipResult {
         val obj = inventory[invSlot]
         if (obj == null) {
-            resendSlot(access.player, inventory, 0)
+            resendSlot(inventory, 0)
             return HeldEquipResult.Fail.InvalidObj
         }
 
@@ -108,7 +108,7 @@ private constructor(
     }
 
     public fun examine(player: Player, inventory: Inventory, invSlot: Int) {
-        val obj = inventory[invSlot] ?: return resendSlot(player, inventory, 0)
+        val obj = inventory[invSlot] ?: return resendSlot(inventory, 0)
         val objType = objTypes[obj]
         val price = marketPrices[objType] ?: 0
         player.objExamine(objType, obj.count, price)
@@ -248,14 +248,14 @@ private constructor(
         op: HeldOp,
     ): Boolean {
         if (player.isDelayed || !obj.isType(type)) {
-            resendSlot(player, inventory, 0)
+            resendSlot(inventory, 0)
             return false
         }
 
         // Op5 (`Drop`) always exists as a fallback.
         if (!type.hasInvOp(op) && op != HeldOp.Op5) {
             logger.debug { "OpHeld invalid op blocked: op=$op, obj=$obj, type=$type" }
-            resendSlot(player, inventory, 0)
+            resendSlot(inventory, 0)
             return false
         }
 

@@ -35,7 +35,7 @@ constructor(
     private fun Player.opWorn(wornSlot: Int, op: IfButtonOp) {
         ifClose(eventBus)
         if (isAccessProtected) {
-            resendSlot(this, worn, 0)
+            resendSlot(worn, 0)
             return
         }
         protectedAccess.launch(this) { interactions.interact(this, worn, wornSlot, op) }

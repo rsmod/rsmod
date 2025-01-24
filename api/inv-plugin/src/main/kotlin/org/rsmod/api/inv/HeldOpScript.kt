@@ -34,7 +34,7 @@ private constructor(
         clearPendingAction(eventBus)
         resetFaceEntity()
         if (isAccessProtected) {
-            resendSlot(this, inv, 0)
+            resendSlot(inv, 0)
             return
         }
         protectedAccess.launch(this) { interactions.interact(this, inv, invSlot, op) }
@@ -43,7 +43,7 @@ private constructor(
     private fun Player.dragHeld(fromSlot: Int, intoSlot: Int) {
         ifClose(eventBus)
         if (isAccessProtected) {
-            resendSlot(this, inv, 0)
+            resendSlot(inv, 0)
             return
         }
         protectedAccess.launch(this) { invMoveToSlot(inv, inv, fromSlot, intoSlot) }

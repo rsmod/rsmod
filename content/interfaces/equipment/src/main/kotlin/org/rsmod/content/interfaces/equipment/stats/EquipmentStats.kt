@@ -125,7 +125,7 @@ constructor(
     }
 
     private suspend fun ProtectedAccess.opWornMain(wornSlot: Int, op: IfButtonOp) {
-        val obj = worn[wornSlot] ?: return resendSlot(player, worn, wornSlot)
+        val obj = worn[wornSlot] ?: return resendSlot(worn, wornSlot)
         wornInteractions.interact(this, worn, wornSlot, op)
 
         if (op == IfButtonOp.Op1) {
@@ -138,7 +138,7 @@ constructor(
     }
 
     private suspend fun ProtectedAccess.opHeldSide(invSlot: Int, op: IfButtonOp) {
-        val obj = inv[invSlot] ?: return resendSlot(player, inv, invSlot)
+        val obj = inv[invSlot] ?: return resendSlot(inv, invSlot)
         if (op == IfButtonOp.Op10) {
             val type = objTypes[obj]
             val price = marketPrices[type] ?: 0
