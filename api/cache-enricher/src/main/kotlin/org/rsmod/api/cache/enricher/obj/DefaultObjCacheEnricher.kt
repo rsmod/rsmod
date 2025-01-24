@@ -47,6 +47,7 @@ constructor(
     }
 
     private fun ObjPluginBuilder.apply(config: ExternalObjConfig): ObjPluginBuilder {
+        this.tradeable = config.untradable == null || !config.untradable
         putSeq(config.walkAnim, params.bas_walk_f)
         putSeq(config.runAnim, params.bas_running)
         putSeq(config.readyAnim, params.bas_readyanim)
@@ -124,6 +125,7 @@ private data class ExternalObjConfig(
     val destroyNote: String?,
     val destroyNoteAlt: String?,
     val respawnTimer: Int?,
+    val untradable: Boolean?,
     val speed: Int?,
     val range: Int?,
     val combatStyle: String?,
