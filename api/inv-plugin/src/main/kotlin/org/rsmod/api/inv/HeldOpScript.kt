@@ -2,7 +2,6 @@ package org.rsmod.api.inv
 
 import jakarta.inject.Inject
 import org.rsmod.api.config.refs.components
-import org.rsmod.api.config.refs.objs
 import org.rsmod.api.player.interact.HeldInteractions
 import org.rsmod.api.player.output.UpdateInventory.resendSlot
 import org.rsmod.api.player.protect.ProtectedAccessLauncher
@@ -17,7 +16,6 @@ import org.rsmod.game.entity.Player
 import org.rsmod.game.interact.HeldOp
 import org.rsmod.game.type.interf.IfButtonOp
 import org.rsmod.game.type.obj.UnpackedObjType
-import org.rsmod.game.type.obj.isType
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
@@ -77,19 +75,7 @@ private constructor(
     private fun IfButtonDrag.dragHeldButton() {
         val fromSlot = selectedSlot ?: return
         val intoSlot = targetSlot ?: return
-        val selectedObj = selectedObj.convertNullReplacement()
-        val targetObj = targetObj.convertNullReplacement()
         player.dragHeld(fromSlot, intoSlot, selectedObj, targetObj)
-    }
-
-    // Client replaces empty obj ids with `6512`. To make life easier, we simply replace those
-    // with null obj types as that's what the server expects.
-    private fun UnpackedObjType?.convertNullReplacement(): UnpackedObjType? {
-        return if (isType(objs.null_item_placeholder)) {
-            null
-        } else {
-            this
-        }
     }
 
     private fun IfButtonOp.toHeldOp(): HeldOp? =

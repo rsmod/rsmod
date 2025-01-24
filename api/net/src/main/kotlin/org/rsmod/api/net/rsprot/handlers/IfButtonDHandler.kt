@@ -3,12 +3,15 @@ package org.rsmod.api.net.rsprot.handlers
 import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
 import net.rsprot.protocol.game.incoming.buttons.IfButtonD
+import org.rsmod.api.config.refs.objs
 import org.rsmod.api.player.ui.IfButtonDrag
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.type.interf.InterfaceTypeList
 import org.rsmod.game.type.interf.isType
 import org.rsmod.game.type.obj.ObjTypeList
+import org.rsmod.game.type.obj.UnpackedObjType
+import org.rsmod.game.type.obj.isType
 import org.rsmod.game.ui.Component
 
 class IfButtonDHandler
@@ -48,22 +51,30 @@ constructor(
         // TODO: Verify `IfSetEvent` for dragging has been enabled for the components. This requires
         //  us to store the state of IfSetEvents for the player.
 
-        val selectedType = objTypes[message.selectedObj]
-        val selectedSlot = message.selectedSub
-        val targetType = objTypes[message.targetObj]
-        val targetSlot = message.targetSub
+        // Client replaces empty obj ids with `6512`. To make life easier, we simply replace those
+        // with null obj types as that's what associated scripts should treat them as.
+        val selectedType = convertNullReplacement(objTypes[message.selectedObj])
+        val targetType = convertNullReplacement(objTypes[message.targetObj])
 
         val buttonDrag =
             IfButtonDrag(
                 player = player,
-                selectedSlot = selectedSlot,
+                selectedSlot = message.selectedSub,
                 selectedObj = selectedType,
-                targetSlot = targetSlot,
+                targetSlot = message.targetSub,
                 targetObj = targetType,
                 selectedComponent = selectedComponent,
                 targetComponent = targetComponent,
             )
         logger.debug { "IfButtonD: $message (event=$buttonDrag)" }
         eventBus.publish(buttonDrag)
+    }
+
+    private fun convertNullReplacement(type: UnpackedObjType?): UnpackedObjType? {
+        return if (!type.isType(objs.null_item_placeholder)) {
+            type
+        } else {
+            null
+        }
     }
 }
