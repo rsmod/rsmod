@@ -46,6 +46,7 @@ import org.rsmod.api.player.ui.ifOpenSub
 import org.rsmod.api.player.ui.ifSetAnim
 import org.rsmod.api.player.ui.ifSetEvents
 import org.rsmod.api.player.ui.ifSetNpcHead
+import org.rsmod.api.player.ui.ifSetObj
 import org.rsmod.api.player.ui.ifSetPlayerHead
 import org.rsmod.api.player.ui.ifSetText
 import org.rsmod.api.player.vars.VarPlayerIntMapDelegate
@@ -1330,6 +1331,9 @@ public class ProtectedAccess(
     public fun ifSetPlayerHead(target: ComponentType): Unit = player.ifSetPlayerHead(target)
 
     public fun ifSetText(target: ComponentType, text: String): Unit = player.ifSetText(target, text)
+
+    public fun ifSetObj(target: ComponentType, obj: ObjType, zoom: Int): Unit =
+        player.ifSetObj(target, obj, zoom)
 
     /* Map flag helper functions */
     public fun setMapFlag(coords: CoordGrid): Unit = MapFlag.setMapFlag(player, coords)
