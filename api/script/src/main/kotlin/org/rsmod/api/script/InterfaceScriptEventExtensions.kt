@@ -1,6 +1,7 @@
 package org.rsmod.api.script
 
 import org.rsmod.api.player.protect.ProtectedAccess
+import org.rsmod.api.player.ui.IfButtonDrag
 import org.rsmod.api.player.ui.IfCloseSub
 import org.rsmod.api.player.ui.IfModalButton
 import org.rsmod.api.player.ui.IfOpenSub
@@ -24,3 +25,12 @@ public fun ScriptContext.onIfModalButton(
     button: ComponentType,
     action: suspend ProtectedAccess.(IfModalButton) -> Unit,
 ): Unit = onProtectedEvent(button.packed, action)
+
+public fun ScriptContext.onIfButtonDrag(
+    selectedComponent: ComponentType,
+    targetComponent: ComponentType,
+    action: IfButtonDrag.() -> Unit,
+) {
+    val packed = (selectedComponent.packed.toLong() shl 32) or targetComponent.packed.toLong()
+    onEvent(packed, action)
+}

@@ -10,7 +10,7 @@ import org.rsmod.api.player.protect.clearPendingAction
 import org.rsmod.api.player.ui.IfButtonDrag
 import org.rsmod.api.player.ui.IfOverlayButton
 import org.rsmod.api.player.ui.ifClose
-import org.rsmod.api.script.advanced.onIfButtonDrag
+import org.rsmod.api.script.onIfButtonDrag
 import org.rsmod.api.script.onIfOverlayButton
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
