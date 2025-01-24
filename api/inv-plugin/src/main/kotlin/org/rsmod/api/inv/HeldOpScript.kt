@@ -28,7 +28,7 @@ private constructor(
 ) : PluginScript() {
     override fun ScriptContext.startUp() {
         onIfOverlayButton(components.inv_inv) { opHeldButton() }
-        onIfButtonDrag(components.inv_inv, components.inv_inv) { dragHeldButton() }
+        onIfButtonDrag(components.inv_inv) { dragHeldButton() }
     }
 
     private fun Player.opHeld(invSlot: Int, op: HeldOp) {

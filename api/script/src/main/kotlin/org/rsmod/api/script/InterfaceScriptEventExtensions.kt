@@ -28,7 +28,7 @@ public fun ScriptContext.onIfModalButton(
 
 public fun ScriptContext.onIfButtonDrag(
     selectedComponent: ComponentType,
-    targetComponent: ComponentType,
+    targetComponent: ComponentType = selectedComponent,
     action: IfButtonDrag.() -> Unit,
 ) {
     val packed = (selectedComponent.packed.toLong() shl 32) or targetComponent.packed.toLong()
