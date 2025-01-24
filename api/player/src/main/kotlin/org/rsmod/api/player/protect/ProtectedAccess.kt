@@ -5,6 +5,7 @@ import kotlin.math.max
 import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.components
 import org.rsmod.api.invtx.invAdd
+import org.rsmod.api.invtx.invSwap
 import org.rsmod.api.player.input.ResumePCountDialogInput
 import org.rsmod.api.player.input.ResumePauseButtonInput
 import org.rsmod.api.player.interact.HeldInteractions
@@ -514,6 +515,11 @@ public class ProtectedAccess(
             uncert = uncert,
             autoCommit = autoCommit,
         )
+
+    public fun invMoveToSlot(from: Inventory, into: Inventory, fromSlot: Int, intoSlot: Int) {
+        val resolvedInto = if (from === into) null else into
+        player.invSwap(from = from, into = resolvedInto, fromSlot = fromSlot, intoSlot = intoSlot)
+    }
 
     public fun statAdvance(
         stat: StatType,
