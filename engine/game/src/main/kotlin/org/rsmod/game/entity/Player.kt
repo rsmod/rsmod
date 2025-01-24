@@ -214,5 +214,10 @@ public class Player(
     }
 
     override fun toString(): String =
-        "Player(username=$username, displayName=$displayName, coords=$coords)"
+        "Player(" +
+            "username=$username, " +
+            "displayName=$displayName, " +
+            "coords=$coords, " +
+            "coroutine=$activeCoroutine" +
+            ")"
 }
