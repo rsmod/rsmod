@@ -5,12 +5,14 @@ import kotlin.math.max
 import kotlin.math.min
 import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.components
+import org.rsmod.api.config.refs.invs
 import org.rsmod.api.invtx.invAdd
 import org.rsmod.api.invtx.invClear
 import org.rsmod.api.invtx.invMoveAll
 import org.rsmod.api.invtx.invSwap
 import org.rsmod.api.invtx.invTransfer
 import org.rsmod.api.player.input.ResumePCountDialogInput
+import org.rsmod.api.player.input.ResumePObjDialogInput
 import org.rsmod.api.player.input.ResumePauseButtonInput
 import org.rsmod.api.player.interact.HeldInteractions
 import org.rsmod.api.player.interact.LocInteractions
@@ -18,6 +20,7 @@ import org.rsmod.api.player.interact.WornInteractions
 import org.rsmod.api.player.output.Camera
 import org.rsmod.api.player.output.ChatType
 import org.rsmod.api.player.output.ClientScripts
+import org.rsmod.api.player.output.ClientScripts.mesLayerMode14
 import org.rsmod.api.player.output.ClientScripts.mesLayerMode7
 import org.rsmod.api.player.output.MapFlag
 import org.rsmod.api.player.output.clearMapFlag
@@ -76,6 +79,7 @@ import org.rsmod.game.obj.InvObj
 import org.rsmod.game.obj.isType
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.content.ContentGroupType
+import org.rsmod.game.type.enums.EnumType
 import org.rsmod.game.type.interf.IfEvent
 import org.rsmod.game.type.interf.IfSubType
 import org.rsmod.game.type.interf.InterfaceType
@@ -87,6 +91,7 @@ import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.npc.NpcTypeList
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.ObjTypeList
+import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.type.param.ParamType
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.seq.SeqTypeList
@@ -117,6 +122,7 @@ public class ProtectedAccess(
 
     public val inv: Inventory by player::inv
     public val worn: Inventory by player::worn
+    public val tempInv: Inventory by lazy { inv(invs.tempinv) }
 
     public val vars: VarPlayerIntMapDelegate by lazy { VarPlayerIntMapDelegate.from(player) }
     public val strVars: VarPlayerStrMap by player::strVars
@@ -553,9 +559,11 @@ public class ProtectedAccess(
         return player.invTransfer(from = from, into = into, count = count, fromSlot = fromSlot)
     }
 
-    public fun invMoveInv(from: Inventory, into: Inventory): TransactionResultList<InvObj> {
-        return player.invMoveAll(from, into)
-    }
+    public fun invMoveInv(
+        from: Inventory,
+        into: Inventory,
+        keepSlots: Set<Int>? = null,
+    ): TransactionResultList<InvObj> = player.invMoveAll(from, into, keepSlots = keepSlots)
 
     public fun invClear(inventory: Inventory) {
         player.invClear(inventory)
@@ -1079,15 +1087,35 @@ public class ProtectedAccess(
     }
 
     /**
-     * @throws ProtectedAccessLostException if [regainProtectedAccess] returns false after
-     *   suspension resumes.
-     * @see [regainProtectedAccess]
+     * @throws ProtectedAccessLostException if [resumePauseInputWithProtectedAccess] could not
+     *   validate protected access retention.
      */
     public suspend fun countDialog(title: String = constants.cm_count): Int {
         mesLayerMode7(player, title)
         val modal = player.ui.getModalOrNull(components.main_modal)
         val input = coroutine.pause(ResumePCountDialogInput::class)
         return resumePauseInputWithProtectedAccess(input.count, modal)
+    }
+
+    /**
+     * @param stockMarketRestriction If `true` the search will be restricted to only objs that can
+     *   be found in the grand exchange.
+     * @param enumRestriction If an enum (with key of `ObjType` and value of `Boolean`) is provided,
+     *   the search is restricted to only the entries in said enum.
+     * @param showLastSearched If `true` the search will present the last selected obj.
+     * @throws ProtectedAccessLostException if [resumePauseInputWithProtectedAccess] could not
+     *   validate protected access retention.
+     */
+    public suspend fun objDialog(
+        title: String = constants.cm_obj,
+        stockMarketRestriction: Boolean = true,
+        enumRestriction: EnumType<ObjType, Boolean>? = null,
+        showLastSearched: Boolean = false,
+    ): UnpackedObjType {
+        mesLayerMode14(player, title, stockMarketRestriction, enumRestriction, showLastSearched)
+        val modal = player.ui.getModalOrNull(components.main_modal)
+        val input = coroutine.pause(ResumePObjDialogInput::class)
+        return resumePauseInputWithProtectedAccess(input.obj, modal)
     }
 
     /**

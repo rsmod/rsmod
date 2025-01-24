@@ -7,7 +7,7 @@ import org.rsmod.game.type.inv.InvScope
 import org.rsmod.game.type.inv.InvStackType
 
 internal object InvBuilds : InvBuilder() {
-    val generalshop1 =
+    init {
         build("generalshop1") {
             scope = InvScope.Shared
             stack = InvStackType.Always
@@ -30,4 +30,11 @@ internal object InvBuilds : InvBuilder() {
             stock14 = stock(objs.newcomer_map, count = 5, restockCycles = 100)
             stock15 = stock(objs.sos_security_book, count = 5, restockCycles = 100)
         }
+
+        build("tempinv") {
+            scope = InvScope.Temp
+            protect = false
+            size = 28
+        }
+    }
 }

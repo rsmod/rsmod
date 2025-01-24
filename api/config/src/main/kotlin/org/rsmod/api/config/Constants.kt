@@ -16,6 +16,7 @@ object Constants {
     const val cm_pausebutton: String = "Click here to continue"
     const val cm_options: String = "Select an option"
     const val cm_count: String = "Enter amount:"
+    const val cm_obj: String = "Select an item:"
 
     const val lootdrop_duration: Int = 200
     const val shop_default_size: Int = 40

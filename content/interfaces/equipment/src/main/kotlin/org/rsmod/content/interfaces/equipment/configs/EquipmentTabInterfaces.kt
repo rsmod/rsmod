@@ -33,9 +33,18 @@ object EquipmentTabComponents : ComponentReferences() {
     val equipment_stats_undead = find("equipment_stats_com41")
     val equipment_stats_undead_tooltip = find("equipment_stats_com52")
     val equipment_stats_slayer = find("equipment_stats_com42")
+
+    val guide_prices_side_inv = find("price_checker_inventory_com0")
+    val guide_prices_main_inv = find("price_checker_com2")
+    val guide_prices_search = find("price_checker_com5")
+    val guide_prices_search_obj = find("price_checker_com8")
+    val guide_prices_add_all = find("price_checker_com10")
+    val guide_prices_total_price_text = find("price_checker_com12")
 }
 
 object EquipmentTabInterfaces : InterfaceReferences() {
     val equipment_stats_main = find("equipment_stats")
     val equipment_stats_side = find("equipment_inventory")
+    val guide_prices_main = find("price_checker")
+    val guide_prices_side = find("price_checker_inventory")
 }

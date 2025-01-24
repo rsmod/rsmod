@@ -5,6 +5,7 @@ import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.loc.LocShape
 import org.rsmod.game.type.comp.ComponentType
+import org.rsmod.game.type.enums.EnumType
 import org.rsmod.game.type.inv.InvType
 import org.rsmod.game.type.loc.LocType
 import org.rsmod.game.type.obj.ObjType
@@ -35,6 +36,21 @@ public object ClientScripts {
 
     public fun mesLayerMode7(player: Player, title: String): Unit =
         player.runClientScript(108, title)
+
+    public fun mesLayerMode14(
+        player: Player,
+        title: String,
+        stockMarketRestriction: Boolean = true,
+        enumRestriction: EnumType<ObjType, Boolean>? = null,
+        showLastSearched: Boolean = false,
+    ): Unit =
+        player.runClientScript(
+            750,
+            title,
+            if (stockMarketRestriction) 1 else 0,
+            enumRestriction?.id ?: -1,
+            if (showLastSearched) 1 else 0,
+        )
 
     public fun topLevelMainModalOpen(
         player: Player,
