@@ -348,13 +348,21 @@ public fun Player.invMoveAll(
     cert: Boolean = false,
     uncert: Boolean = false,
     placehold: Boolean = false,
+    keepSlots: Set<Int>? = null,
     autoCommit: Boolean = true,
 ): TransactionResultList<InvObj> {
     check(into != from) { "`into` should not be equal to `from` inv." }
     return invTransaction(from, into, autoCommit) {
         val fromInv = select(from)
         val intoInv = select(into)
-        moveAll(from = fromInv, into = intoInv, cert = cert, uncert = uncert, placehold = placehold)
+        moveAll(
+            from = fromInv,
+            into = intoInv,
+            cert = cert,
+            uncert = uncert,
+            placehold = placehold,
+            keepSlots = keepSlots,
+        )
     }
 }
 
@@ -364,6 +372,7 @@ public fun Transaction<InvObj>.moveAll(
     cert: Boolean = false,
     uncert: Boolean = false,
     placehold: Boolean = false,
+    keepSlots: Set<Int>? = null,
 ) {
     dump {
         this.from = from
@@ -371,6 +380,7 @@ public fun Transaction<InvObj>.moveAll(
         this.cert = cert
         this.uncert = uncert
         this.placehold = placehold
+        this.keepSlots = keepSlots
     }
 }
 

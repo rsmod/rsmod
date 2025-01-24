@@ -1,6 +1,7 @@
 package org.rsmod.objtx.dump
 
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.parallel.Execution
@@ -123,19 +124,27 @@ class InvDumpQueryTest {
     }
 
     @Test
-    fun `empty full inv`() {
-        val inventory = inv()
-        for (i in inventory.indices) {
-            inventory[i] = Obj(id = i, count = 1 + i * 2)
+    fun `dump inv into bank with exclusion`() {
+        val invInventory = inv()
+        val bankInventory = bank()
+        for (i in invInventory.indices) {
+            invInventory[i] = Obj(id = i)
         }
-        assertEquals(0, inventory.freeSpace())
-        assertEquals(inventory.size, inventory.occupiedSpace())
+        val excluded = setOf(0, 3, 5)
         val result = transaction {
-            val inv = select(inventory)
-            dump { from = inv }
+            val inv = select(invInventory)
+            val bank = select(bankInventory)
+            dump {
+                from = inv
+                into = bank
+                keepSlots = excluded
+            }
         }
         assertNull(result.err)
-        assertEquals(inventory.size, inventory.freeSpace())
-        assertEquals(0, inventory.occupiedSpace())
+        assertEquals(excluded.size, invInventory.occupiedSpace())
+        assertEquals(invInventory.size - excluded.size, bankInventory.occupiedSpace())
+        assertNotNull(invInventory[0])
+        assertNotNull(invInventory[3])
+        assertNotNull(invInventory[5])
     }
 }

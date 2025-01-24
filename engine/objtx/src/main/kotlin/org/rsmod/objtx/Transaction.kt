@@ -726,27 +726,26 @@ public class Transaction<T>(
         public var cert: Boolean = false,
         public var uncert: Boolean = false,
         public var placehold: Boolean = false,
+        public var keepSlots: Set<Int>? = null,
     ) : TransactionQuery {
         override fun result(): TransactionResult {
             val from = from ?: return TransactionResult.Exception("`from` is required.")
-            val into = into
-            return if (into != null) {
-                from.dumpInto(into)
-            } else {
-                // You may as well use a "clear" method at a higher level in your server codebase.
-                // We provide the option regardless.
-                from.dump()
-            }
+            val into = into ?: return TransactionResult.Exception("`into` is required.")
+            return from.dumpInto(into, keepSlots)
         }
 
         private fun TransactionInventory<T>.dumpInto(
-            into: TransactionInventory<T>
+            into: TransactionInventory<T>,
+            keepSlots: Set<Int>?,
         ): TransactionResult {
             var completed = 0
             var requested = 0
             var error: TransactionResult? = null
             for (i in image.indices) {
                 val obj = image[i] ?: continue
+                if (keepSlots != null && i in keepSlots) {
+                    continue
+                }
                 if (obj.count > 1 && obj.hasVars) {
                     return TransactionResult.Exception(
                         "Var obj should not be stackable. (obj=$obj)"
@@ -797,12 +796,6 @@ public class Transaction<T>(
                 return error
             }
             return TransactionResult.Ok(requested, completed)
-        }
-
-        private fun TransactionInventory<T>.dump(): TransactionResult {
-            val count = image.count { it != null }
-            image.fill(null)
-            return TransactionResult.Ok(requested = count, completed = count)
         }
     }
 
