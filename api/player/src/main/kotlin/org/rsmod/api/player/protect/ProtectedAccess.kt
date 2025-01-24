@@ -477,6 +477,10 @@ public class ProtectedAccess(
         player.abortRoute()
     }
 
+    public fun invTransmit(inv: Inventory): Unit = player.startInvTransmit(inv)
+
+    public fun invStopTransmit(inv: Inventory): Unit = player.stopInvTransmit(inv)
+
     public fun invAdd(
         inv: Inventory,
         obj: InvObj,
@@ -1319,11 +1323,6 @@ public class ProtectedAccess(
     public fun ifSetPlayerHead(target: ComponentType): Unit = player.ifSetPlayerHead(target)
 
     public fun ifSetText(target: ComponentType, text: String): Unit = player.ifSetText(target, text)
-
-    /* Inventory helper functions */
-    public fun updateInvStartTransmit(inv: Inventory): Unit = player.startInvTransmit(inv)
-
-    public fun updateInvStopTransmit(inv: Inventory): Unit = player.stopInvTransmit(inv)
 
     /* Map flag helper functions */
     public fun setMapFlag(coords: CoordGrid): Unit = MapFlag.setMapFlag(player, coords)
