@@ -8,7 +8,6 @@ import org.rsmod.api.config.refs.params
 import org.rsmod.api.config.refs.synths
 import org.rsmod.api.config.refs.varbits
 import org.rsmod.api.invtx.invDel
-import org.rsmod.api.invtx.invSwap
 import org.rsmod.api.market.MarketPrices
 import org.rsmod.api.player.dialogue.Dialogue
 import org.rsmod.api.player.dialogue.Dialogues
@@ -110,7 +109,9 @@ private constructor(
 
     public fun examine(player: Player, inventory: Inventory, invSlot: Int) {
         val obj = inventory[invSlot] ?: return resendSlot(player, inventory, 0)
-        objExamine(player, obj, objTypes[obj])
+        val objType = objTypes[obj]
+        val price = marketPrices[objType] ?: 0
+        player.objExamine(objType, obj.count, price)
     }
 
     private suspend fun interact(
@@ -239,32 +240,6 @@ private constructor(
         dropOp.dropOrDestroy(this, inventory, invSlot, obj, type)
     }
 
-    public fun drag(
-        player: Player,
-        inventory: Inventory,
-        fromSlot: Int,
-        intoSlot: Int,
-        selectedObj: UnpackedObjType?,
-        targetObj: UnpackedObjType?,
-    ) {
-        val fromObj = inventory[fromSlot]
-        val intoObj = inventory[intoSlot]
-
-        // Note: `targetObj` is the obj being dragged and `selectedObj` the one being targeted due
-        // to client-sided prediction from cs2.
-        if (targetObj?.id != fromObj?.id || selectedObj?.id != intoObj?.id) {
-            resendSlot(player, inventory, 0)
-            return
-        }
-
-        if (player.isDelayed) {
-            resendSlot(player, inventory, 0)
-            return
-        }
-
-        player.invSwap(inventory, fromSlot, intoSlot)
-    }
-
     private fun objectVerify(
         player: Player,
         inventory: Inventory,
@@ -285,10 +260,6 @@ private constructor(
         }
 
         return true
-    }
-
-    private fun objExamine(player: Player, obj: InvObj, type: UnpackedObjType) {
-        player.objExamine(type, obj.count, marketPrices[type] ?: 0)
     }
 }
 
