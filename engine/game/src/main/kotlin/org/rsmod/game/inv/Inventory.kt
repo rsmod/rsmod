@@ -1,5 +1,6 @@
 package org.rsmod.game.inv
 
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet
 import java.util.BitSet
 import org.rsmod.game.obj.InvObj
 import org.rsmod.game.type.inv.InvStackType
@@ -33,7 +34,25 @@ public class Inventory(public val type: UnpackedInvType, public val objs: Array<
 
     public fun lastOccupiedSlot(): Int = indexOfLast { it != null } + 1
 
-    public fun mapNotNullSlotObjs(): List<Pair<Int, InvObj>> = objs.mapNotNullEntries()
+    /**
+     * Maps and returns the indices (`slots`) of objs in the inventory that satisfy the given
+     * [predicate].
+     *
+     * The [predicate] function is invoked for each slot with its index and the obj at that slot as
+     * parameters.
+     *
+     * **Example Usage:** Find all slots with non-null objs
+     *
+     * ```
+     * val occupiedSlots = inventory.mapSlots { _, obj -> obj != null }
+     * ```
+     *
+     * @param predicate A lambda that takes the slot and the obj and returns `true` for slots to
+     *   map.
+     * @return A [Set] of slot indices where the objects satisfy the given [predicate].
+     */
+    public fun mapSlots(predicate: (Int, InvObj?) -> Boolean): Set<Int> =
+        objs.mapSlotsTo(IntOpenHashSet(), predicate)
 
     public fun filterNotNull(predicate: (InvObj) -> Boolean): List<InvObj> =
         objs.mapNotNull { if (it != null && predicate(it)) it else null }
@@ -120,7 +139,7 @@ public class Inventory(public val type: UnpackedInvType, public val objs: Array<
 
     override fun iterator(): Iterator<InvObj?> = objs.iterator()
 
-    override fun toString(): String = "Inventory(type=$type, objs=${mapNotNullSlotObjs()})"
+    override fun toString(): String = "Inventory(type=$type, objs=${(objs.mapNotNullEntries())})"
 
     public companion object {
         @OptIn(UncheckedType::class)
@@ -133,6 +152,19 @@ public class Inventory(public val type: UnpackedInvType, public val objs: Array<
                 }
             }
             return Inventory(type, objs)
+        }
+
+        private inline fun <T : MutableCollection<Int>> Array<InvObj?>.mapSlotsTo(
+            destination: T,
+            predicate: (Int, InvObj?) -> Boolean,
+        ): T {
+            for (slot in indices) {
+                val obj = this[slot]
+                if (predicate(slot, obj)) {
+                    destination.add(slot)
+                }
+            }
+            return destination
         }
 
         private fun Array<InvObj?>.mapNotNullEntries(): List<Pair<Int, InvObj>> =
