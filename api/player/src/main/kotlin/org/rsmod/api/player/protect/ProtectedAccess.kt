@@ -1240,6 +1240,9 @@ public class ProtectedAccess(
     public fun ocMatches(obj: InvObj?, type: ObjType, vararg others: ObjType): Boolean =
         obj.isType(type) || others.any(obj::isType)
 
+    public fun ocTradable(obj: InvObj, objTypes: ObjTypeList = context.objTypes): Boolean =
+        objTypes[obj].tradeable
+
     /* Seq helper functions */
     /** Returns the total time duration of [seq] in _**client frames**_. */
     public fun seqLength(seq: SeqType, seqTypes: SeqTypeList = context.seqTypes): Int =
