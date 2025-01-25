@@ -1386,6 +1386,10 @@ public class ProtectedAccess(
     public fun ifCloseSub(interf: InterfaceType, eventBus: EventBus = context.eventBus): Unit =
         player.ifCloseSub(interf, eventBus)
 
+    /**
+     * Difference with [ifOpenMainModal] is that this function will **not** send
+     * `toplevel_mainmodal_open` (script 2524) before opening the interface.
+     */
     public fun ifOpenMain(interf: InterfaceType, eventBus: EventBus = context.eventBus): Unit =
         player.ifOpenMain(interf, eventBus)
 
@@ -1395,6 +1399,10 @@ public class ProtectedAccess(
         eventBus: EventBus = context.eventBus,
     ): Unit = player.ifOpenMainSidePair(main, side, eventBus)
 
+    /**
+     * Difference with [ifOpenMain] is that this function will send `toplevel_mainmodal_open`
+     * (script 2524) before opening the interface in the main modal position.
+     */
     public fun ifOpenMainModal(
         interf: InterfaceType,
         colour: Int = -1,
