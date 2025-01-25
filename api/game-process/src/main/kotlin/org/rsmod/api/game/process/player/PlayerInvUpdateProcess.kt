@@ -4,51 +4,56 @@ import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
 import kotlin.collections.iterator
 import org.rsmod.api.player.forceDisconnect
-import org.rsmod.api.player.output.UpdateInventory.updateInvPartial
+import org.rsmod.api.player.output.UpdateInventory
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.PlayerList
 import org.rsmod.game.inv.Inventory
-import org.rsmod.game.type.inv.InvScope
 
 public class PlayerInvUpdateProcess @Inject constructor(private val players: PlayerList) {
     private val logger = InlineLogger()
 
-    private val sharedUpdatedInvs = hashSetOf<Inventory>()
+    private val processedInvs = hashSetOf<Inventory>()
 
     public fun process() {
         players.process()
-        resetUpdatedInvs()
+        resetProcessedInvs()
     }
 
     private fun PlayerList.process() {
         for (player in this) {
-            player.tryOrDisconnect { updateTransmittedInvs() }
+            player.tryOrDisconnect {
+                updateTransmittedInvs()
+                processQueuedTransmissions()
+            }
         }
     }
 
     private fun Player.updateTransmittedInvs() {
         for (transmitted in transmittedInvs.intIterator()) {
             val inv = invMap.backing[transmitted]
-            checkNotNull(inv) { "Inv expected in `invMap` cache: $transmitted (invMap=${invMap})" }
-            updateInv(inv)
+            checkNotNull(inv) { "Inv expected in `invMap`: $transmitted (invMap=${invMap})" }
+            if (!inv.hasModifiedSlots()) {
+                continue
+            }
+            UpdateInventory.updateInvPartial(this, inv)
+            processedInvs += inv
         }
     }
 
-    private fun Player.updateInv(inv: Inventory) {
-        if (!inv.hasModifiedSlots()) {
-            return
+    private fun Player.processQueuedTransmissions() {
+        for (add in transmittedInvAddQueue.intIterator()) {
+            val inv = invMap.backing[add]
+            checkNotNull(inv) { "Inv expected in `invMap`: $add (invMap=${invMap})" }
+            UpdateInventory.updateInvFull(this, inv)
+            transmittedInvs.add(add)
+            processedInvs += inv
         }
-        updateInvPartial(this, inv)
-        if (inv.type.scope == InvScope.Shared) {
-            sharedUpdatedInvs += inv
-        } else {
-            inv.clearModifiedSlots()
-        }
+        transmittedInvAddQueue.clear()
     }
 
-    private fun resetUpdatedInvs() {
-        sharedUpdatedInvs.forEach(Inventory::clearModifiedSlots)
-        sharedUpdatedInvs.clear()
+    private fun resetProcessedInvs() {
+        processedInvs.forEach(Inventory::clearModifiedSlots)
+        processedInvs.clear()
     }
 
     private inline fun Player.tryOrDisconnect(block: Player.() -> Unit) =

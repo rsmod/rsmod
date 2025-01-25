@@ -83,6 +83,7 @@ public class Player(
 
     public val invMap: InventoryMap = InventoryMap()
     public val transmittedInvs: IntArraySet = IntArraySet()
+    public val transmittedInvAddQueue: IntArraySet = IntArraySet()
     public var openedShop: Shop? = null
 
     /* Cache for commonly-accessed Invs */

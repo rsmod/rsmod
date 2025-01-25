@@ -32,46 +32,12 @@ public object UpdateInventory {
     }
 
     /**
-     * Updates the inventory with either a full update ([UpdateInvFull]) or a partial update
-     * ([UpdateInvPartial]), depending on how many slots in [inv] have been modified since the last
-     * update or since [Inventory.modifiedSlots] was last reset.
-     *
-     * If a full update is recommended (based on [isFullUpdateRecommended]), all inventory slots are
-     * sent. Otherwise, only the modified slots are sent as a partial update.
-     *
-     * **Note**: This function _does not_ reset or alter [Inventory.modifiedSlots].
-     */
-    public fun updateInvRecommended(player: Player, inv: Inventory) {
-        if (inv.isFullUpdateRecommended()) {
-            updateInvFull(player, inv)
-        } else {
-            updateInvPartial(player, inv)
-        }
-    }
-
-    /**
      * Mostly used for emulations purposes when re-syncing an inventory. [slot] is usually sent as
      * value `0`.
      */
     public fun resendSlot(inv: Inventory, slot: Int) {
         inv.modifiedSlots.set(slot)
     }
-}
-
-/**
- * Returns `true` if the [Inventory] in scope should receive a "full" update based on the
- * recommendation within rsprot.
- */
-private fun Inventory.isFullUpdateRecommended(): Boolean {
-    val modifiedSlotCount = modifiedSlots.cardinality()
-    val highestModifiedIndex = modifiedSlots.length() - 1
-    val percentageModified =
-        if (highestModifiedIndex >= 0) {
-            modifiedSlotCount.toDouble() / (highestModifiedIndex + 1)
-        } else {
-            0.0
-        }
-    return percentageModified >= 0.66
 }
 
 private fun BitSet.asSequence(): Sequence<Int> = sequence {

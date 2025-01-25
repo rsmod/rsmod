@@ -34,10 +34,8 @@ public fun Player.startInvTransmit(inv: Inventory) {
      * This logic guarantees that updates sent from this point onward respect the new order.
      */
     transmittedInvs.remove(inv.type.id)
-
+    transmittedInvAddQueue.add(inv.type.id)
     invMap[inv.type] = inv
-    transmittedInvs.add(inv.type.id)
-    UpdateInventory.updateInvFull(this, inv)
 }
 
 public fun Player.stopInvTransmit(inv: Inventory) {
@@ -46,5 +44,6 @@ public fun Player.stopInvTransmit(inv: Inventory) {
         check(removed == inv) { "Mismatch with cached value: (cached=$removed, inv=$inv)" }
     }
     transmittedInvs.remove(inv.type.id)
+    transmittedInvAddQueue.remove(inv.type.id)
     UpdateInventory.updateInvStopTransmit(this, inv)
 }
