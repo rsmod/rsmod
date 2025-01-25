@@ -47,6 +47,7 @@ object BaseParams : ParamReferences() {
     val item_prayer_bonus: ParamInt = find("item_prayer_bonus")
 
     /* Server-side only types */
+    val bond_item: ParamBool = find("bond_item")
     val attackrate_rapid: ParamInt = find("attackrate_rapid")
     val bonus_slayer_meleeonly: ParamBool = find("bonus_slayer_meleeonly")
     val bonus_slayer_buff: ParamInt = find("bonus_slayer_buff")

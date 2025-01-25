@@ -8,6 +8,7 @@ import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.components
 import org.rsmod.api.config.refs.invs
 import org.rsmod.api.invtx.invAdd
+import org.rsmod.api.invtx.invAddAll
 import org.rsmod.api.invtx.invClear
 import org.rsmod.api.invtx.invMoveAll
 import org.rsmod.api.invtx.invSwap
@@ -565,6 +566,25 @@ public class ProtectedAccess(
         into: Inventory,
         keepSlots: Set<Int>? = null,
     ): TransactionResultList<InvObj> = player.invMoveAll(from, into, keepSlots = keepSlots)
+
+    public fun invMoveAll(
+        into: Inventory,
+        objs: Iterable<InvObj>,
+        startSlot: Int? = null,
+        strict: Boolean = true,
+        cert: Boolean = false,
+        uncert: Boolean = false,
+        autoCommit: Boolean = true,
+    ): TransactionResultList<InvObj> =
+        player.invAddAll(
+            inv = into,
+            objs = objs,
+            startSlot = startSlot,
+            strict = strict,
+            cert = cert,
+            uncert = uncert,
+            autoCommit = autoCommit,
+        )
 
     public fun invClear(inventory: Inventory) {
         player.invClear(inventory)

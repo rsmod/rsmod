@@ -14,6 +14,8 @@ import org.rsmod.game.type.synth.SynthType
 
 internal object ParamBuilds : ParamBuilder() {
     init {
+        build<Boolean>("bond_item") { default = false }
+
         build<Int>("bonus_undead_buff") { default = 0 }
         build<Boolean>("bonus_undead_meleeonly") { default = true }
 
