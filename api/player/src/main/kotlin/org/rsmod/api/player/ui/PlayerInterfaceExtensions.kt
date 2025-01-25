@@ -135,19 +135,15 @@ public fun Player.ifCloseInputDialog() {
 }
 
 /**
- * If [requiresInputDialogAbort] conditions are met, the player's active script will be cancelled
- * ([Player.cancelActiveCoroutine]) and [TriggerOnDialogAbort] will be sent to their client.
- *
- * If [requiresCancellation] condition is met instead, then only the player's active script will be
- * cancelled.
+ * If [requiresInputDialogAbort] or [requiresPauseDialogAbort] conditions are met, the player's
+ * active script will be cancelled ([Player.cancelActiveCoroutine]) and [TriggerOnDialogAbort] will
+ * be sent to their client.
  */
 private fun Player.cancelActiveDialog() {
     val coroutine = activeCoroutine ?: return
-    if (coroutine.requiresInputDialogAbort()) {
+    if (coroutine.requiresPauseDialogAbort() || coroutine.requiresInputDialogAbort()) {
         cancelActiveCoroutine()
         client.write(TriggerOnDialogAbort)
-    } else if (coroutine.requiresCancellation()) {
-        cancelActiveCoroutine()
     }
 }
 
@@ -156,7 +152,7 @@ private fun Player.cancelActiveDialog() {
  * [ResumePauseButtonInput], which occurs during dialogs with `Click here to continue`-esque pause
  * buttons.
  */
-private fun GameCoroutine.requiresCancellation(): Boolean =
+private fun GameCoroutine.requiresPauseDialogAbort(): Boolean =
     isAwaiting(ResumePauseButtonInput::class)
 
 /**
