@@ -108,7 +108,7 @@ constructor(
         ifSetText(comps.equipment_stats_prayer, "Prayer: ${stats.prayer.signed}")
         ifSetText(
             comps.equipment_stats_undead,
-            "Undead: ${stats.undead.formatPercent}$undeadSuffix",
+            "Undead: ${stats.undead.formatWholePercent}$undeadSuffix",
         )
         statGroupTooltip(
             player,
@@ -120,7 +120,7 @@ constructor(
         )
         ifSetText(
             comps.equipment_stats_slayer,
-            "Slayer: ${stats.slayer.formatPercent}$slayerSuffix",
+            "Slayer: ${stats.slayer.formatWholePercent}$slayerSuffix",
         )
     }
 
@@ -177,6 +177,9 @@ private val Int.signed: String
 
 private val Int.formatPercent: String
     get() = "+${this / 10.0}%"
+
+private val Int.formatWholePercent: String
+    get() = "+${this / 10}%"
 
 private val Int.tickToSecs: String
     get() = "${(this * 600) / 1000.0}s"
