@@ -10,6 +10,7 @@ object BaseVarps : VarpReferences() {
     val player_run = find("player_run", 6245048)
     val player_attack_option = find("player_attack_option", 8742773)
     val npc_attack_option = find("npc_attack_option", 9650896)
+    val sound_effect_volume = find("sound_effect_volume", 4429196)
 
     val cooks_assistant_progress = find("cooks_assistant_progress", 4429056)
     val dorics_quest_progress = find("dorics_quest_progress", 4429058)
