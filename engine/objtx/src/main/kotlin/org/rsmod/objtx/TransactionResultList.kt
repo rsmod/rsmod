@@ -63,6 +63,13 @@ public data class TransactionResultList<T>(
         }
     }
 
+    override fun toString(): String =
+        "TransactionResultList(" +
+            "error=$err, " +
+            "results=${results.map(TransactionResult::toString)}, " +
+            "invs=${inventories.map(TransactionInventory<T>::toString)}" +
+            ")"
+
     private companion object {
         fun List<TransactionResult>.findErr(): TransactionResult.Err? {
             return filterIsInstance<TransactionResult.Err>().firstOrNull()

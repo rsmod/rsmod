@@ -62,6 +62,9 @@ public class TransactionInventory<T>(
 
     internal operator fun get(slot: Int): TransactionObj? = image[slot]
 
+    override fun toString(): String =
+        "TransactionInventory(stackType=$stackType, invSize=${image.size})"
+
     public sealed class StackType
 
     public data object NormalStack : StackType()
