@@ -3,6 +3,7 @@ package org.rsmod.api.player.protect
 import com.github.michaelbull.logging.InlineLogger
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.reflect.KClass
 import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.components
 import org.rsmod.api.config.refs.invs
@@ -792,6 +793,22 @@ public class ProtectedAccess(
     }
 
     /**
+     * Suspends the [coroutine] until the player receives the respective [input].
+     *
+     * _Note: This does not `delay` the player._
+     *
+     * @param input the expected input type to suspend on, provided as a [KClass].
+     * @return the input value of type [T] once received.
+     * @throws ProtectedAccessLostException if [regainProtectedAccess] returns false after
+     *   suspension resumes.
+     * @see [regainProtectedAccess]
+     */
+    public suspend fun <T : Any> await(input: KClass<T>): T {
+        val value = coroutine.pause(input)
+        return withProtectedAccess(value)
+    }
+
+    /**
      * @throws ProtectedAccessLostException if [regainProtectedAccess] returns false after
      *   suspension resumes.
      * @see [regainProtectedAccess]
@@ -1178,6 +1195,19 @@ public class ProtectedAccess(
             logger.debug { "Protected-access could not be re-obtained for player: $player" }
             throw ProtectedAccessLostException()
         }
+    }
+
+    /**
+     * Syntax sugar alias for [regainProtectedAccess] that allows the input argument
+     * ([returnWithProtectedAccess]) to be returned as long as [regainProtectedAccess] does not
+     * throw [ProtectedAccessLostException].
+     *
+     * @throws ProtectedAccessLostException
+     * @see [regainProtectedAccess]
+     */
+    private fun <T> withProtectedAccess(returnWithProtectedAccess: T): T {
+        regainProtectedAccess()
+        return returnWithProtectedAccess
     }
 
     /**
