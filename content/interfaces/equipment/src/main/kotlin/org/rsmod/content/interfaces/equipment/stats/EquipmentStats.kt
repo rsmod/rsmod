@@ -1,8 +1,6 @@
 package org.rsmod.content.interfaces.equipment.stats
 
 import jakarta.inject.Inject
-import java.lang.IllegalStateException
-import org.rsmod.api.invtx.invSwap
 import org.rsmod.api.market.MarketPrices
 import org.rsmod.api.player.combat.WeaponSpeeds
 import org.rsmod.api.player.combat.WornBonuses
@@ -12,10 +10,10 @@ import org.rsmod.api.player.output.UpdateInventory.resendSlot
 import org.rsmod.api.player.output.objExamine
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.protect.ProtectedAccessLauncher
-import org.rsmod.api.player.ui.IfButtonDrag
+import org.rsmod.api.player.ui.IfModalDrag
 import org.rsmod.api.player.ui.ifClose
-import org.rsmod.api.script.onIfButtonDrag
 import org.rsmod.api.script.onIfModalButton
+import org.rsmod.api.script.onIfModalDrag
 import org.rsmod.api.script.onIfOverlayButton
 import org.rsmod.content.interfaces.equipment.configs.equip_components
 import org.rsmod.content.interfaces.equipment.configs.equip_enums
@@ -50,7 +48,7 @@ constructor(
         }
 
         onIfModalButton(equip_components.equipment_stats_side_inv) { opHeldSide(it.comsub, it.op) }
-        onIfButtonDrag(equip_components.equipment_stats_side_inv) { dragHeldButton() }
+        onIfModalDrag(equip_components.equipment_stats_side_inv) { dragHeldButton(it) }
     }
 
     private fun Player.selectStats() {
@@ -165,10 +163,10 @@ constructor(
         throw IllegalStateException("Op not allowed: $op (obj=$obj, invSlot=$invSlot, inv=$inv)")
     }
 
-    private fun IfButtonDrag.dragHeldButton() {
-        val fromSlot = selectedSlot ?: return
-        val intoSlot = targetSlot ?: return
-        player.invSwap(player.inv, fromSlot = fromSlot, intoSlot = intoSlot)
+    private fun ProtectedAccess.dragHeldButton(drag: IfModalDrag) {
+        val fromSlot = drag.selectedSlot ?: return
+        val intoSlot = drag.targetSlot ?: return
+        invMoveToSlot(inv, inv, fromSlot, intoSlot)
     }
 }
 

@@ -59,14 +59,12 @@ constructor(
             return
         }
         if (player.ui.containsModal(interfaceType)) {
-            player.ifCloseInputDialog()
-
             val event = IfModalButton(componentType, message.sub, objType, message.buttonOp)
+            player.ifCloseInputDialog()
             if (player.isModalButtonProtected) {
                 logger.debug { "[Modal][BLOCKED] If3Button: $message (event=$event)" }
                 return
             }
-
             logger.debug { "[Modal] If3Button: $message (event=$event)" }
             protectedAccess.launchLenient(player) { eventBus.publish(this, event) }
             return

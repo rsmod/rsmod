@@ -1,11 +1,12 @@
 package org.rsmod.api.script
 
 import org.rsmod.api.player.protect.ProtectedAccess
-import org.rsmod.api.player.ui.IfButtonDrag
 import org.rsmod.api.player.ui.IfCloseSub
 import org.rsmod.api.player.ui.IfModalButton
+import org.rsmod.api.player.ui.IfModalDrag
 import org.rsmod.api.player.ui.IfOpenSub
 import org.rsmod.api.player.ui.IfOverlayButton
+import org.rsmod.api.player.ui.IfOverlayDrag
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.interf.InterfaceType
 import org.rsmod.plugin.scripts.ScriptContext
@@ -26,11 +27,20 @@ public fun ScriptContext.onIfModalButton(
     action: suspend ProtectedAccess.(IfModalButton) -> Unit,
 ): Unit = onProtectedEvent(button.packed, action)
 
-public fun ScriptContext.onIfButtonDrag(
+public fun ScriptContext.onIfOverlayDrag(
     selectedComponent: ComponentType,
     targetComponent: ComponentType = selectedComponent,
-    action: IfButtonDrag.() -> Unit,
+    action: IfOverlayDrag.() -> Unit,
 ) {
     val packed = (selectedComponent.packed.toLong() shl 32) or targetComponent.packed.toLong()
     onEvent(packed, action)
+}
+
+public fun ScriptContext.onIfModalDrag(
+    selectedComponent: ComponentType,
+    targetComponent: ComponentType = selectedComponent,
+    action: suspend ProtectedAccess.(IfModalDrag) -> Unit,
+) {
+    val packed = (selectedComponent.packed.toLong() shl 32) or targetComponent.packed.toLong()
+    onProtectedEvent(packed, action)
 }

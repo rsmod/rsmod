@@ -48,7 +48,27 @@ public data class IfOverlayButton(
     override val id: Long = component.packed.toLong()
 }
 
-public class IfButtonDrag(
+public class IfModalDrag(
+    public val selectedSlot: Int?,
+    public val selectedObj: Int?,
+    public val targetSlot: Int?,
+    public val targetObj: Int?,
+    selectedComponent: Component,
+    targetComponent: Component,
+) : SuspendEvent<ProtectedAccess> {
+    override val id: Long =
+        (selectedComponent.packed.toLong() shl 32) or targetComponent.packed.toLong()
+
+    override fun toString(): String =
+        "IfModalDrag(" +
+            "selectedSlot=$selectedSlot, " +
+            "targetSlot=$targetSlot, " +
+            "selectedObj=$selectedObj, " +
+            "targetObj=$targetObj, " +
+            ")"
+}
+
+public class IfOverlayDrag(
     public val player: Player,
     public val selectedSlot: Int?,
     public val selectedObj: Int?,
@@ -61,7 +81,7 @@ public class IfButtonDrag(
         (selectedComponent.packed.toLong() shl 32) or targetComponent.packed.toLong()
 
     override fun toString(): String =
-        "IfButtonDrag(" +
+        "IfOverlayDrag(" +
             "selectedSlot=$selectedSlot, " +
             "targetSlot=$targetSlot, " +
             "selectedObj=$selectedObj, " +

@@ -6,11 +6,11 @@ import org.rsmod.api.player.interact.HeldInteractions
 import org.rsmod.api.player.output.UpdateInventory.resendSlot
 import org.rsmod.api.player.protect.ProtectedAccessLauncher
 import org.rsmod.api.player.protect.clearPendingAction
-import org.rsmod.api.player.ui.IfButtonDrag
 import org.rsmod.api.player.ui.IfOverlayButton
+import org.rsmod.api.player.ui.IfOverlayDrag
 import org.rsmod.api.player.ui.ifClose
-import org.rsmod.api.script.onIfButtonDrag
 import org.rsmod.api.script.onIfOverlayButton
+import org.rsmod.api.script.onIfOverlayDrag
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.interact.HeldOp
@@ -27,7 +27,7 @@ private constructor(
 ) : PluginScript() {
     override fun ScriptContext.startUp() {
         onIfOverlayButton(components.inv_inv) { opHeldButton() }
-        onIfButtonDrag(components.inv_inv) { dragHeldButton() }
+        onIfOverlayDrag(components.inv_inv) { dragHeldButton() }
     }
 
     private fun Player.opHeld(invSlot: Int, op: HeldOp) {
@@ -58,7 +58,7 @@ private constructor(
         player.opHeld(comsub, heldOp)
     }
 
-    private fun IfButtonDrag.dragHeldButton() {
+    private fun IfOverlayDrag.dragHeldButton() {
         val fromSlot = selectedSlot ?: return
         val intoSlot = targetSlot ?: return
         player.dragHeld(fromSlot, intoSlot)
