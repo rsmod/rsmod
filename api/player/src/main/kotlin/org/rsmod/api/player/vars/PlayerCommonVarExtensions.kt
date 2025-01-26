@@ -2,8 +2,11 @@ package org.rsmod.api.player.vars
 
 import org.rsmod.api.config.refs.varbits
 import org.rsmod.api.config.refs.varps
+import org.rsmod.api.player.output.VarpSync
 import org.rsmod.game.entity.Player
 import org.rsmod.game.movement.MoveSpeed
+import org.rsmod.game.type.varbit.VarBitType
+import org.rsmod.game.type.varp.VarpType
 
 public var Player.chatboxUnlocked: Boolean by boolVarp(varbits.chatbox_unlocked)
 
@@ -17,6 +20,14 @@ public var Player.varMoveSpeed: MoveSpeed
         // changed due to protected access.
         cachedMoveSpeed = varSpeed
     }
+
+public fun Player.resyncVar(varp: VarpType) {
+    if (varp.transmit) {
+        VarpSync.writeVarp(client, varp, vars[varp])
+    }
+}
+
+public fun Player.resyncVar(varBit: VarBitType): Unit = resyncVar(varBit.baseVar)
 
 private fun getSpeed(id: Int?): MoveSpeed =
     when (id) {
