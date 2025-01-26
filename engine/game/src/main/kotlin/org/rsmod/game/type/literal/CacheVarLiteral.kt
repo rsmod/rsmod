@@ -52,7 +52,9 @@ public enum class CacheVarLiteral(
     STRINGVECTOR('¸'),
     DBTABLE('Ø'),
     DBROW('Ð'),
-    MOVESPEED('Ý');
+    MOVESPEED('Ý'),
+    VARP('7'),
+    VARBIT(']');
 
     public companion object {
         public fun forCharId(char: Char?): CacheVarLiteral? =

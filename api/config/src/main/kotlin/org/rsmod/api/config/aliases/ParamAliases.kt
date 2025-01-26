@@ -8,6 +8,8 @@ import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.spot.SpotanimType
 import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.synth.SynthType
+import org.rsmod.game.type.varbit.VarBitType
+import org.rsmod.game.type.varp.VarpType
 import org.rsmod.map.CoordGrid
 
 typealias ParamInt = ParamType<Int>
@@ -31,3 +33,7 @@ typealias ParamSpot = ParamType<SpotanimType>
 typealias ParamStat = ParamType<StatType>
 
 typealias ParamSynth = ParamType<SynthType>
+
+typealias ParamVarBit = ParamType<VarBitType>
+
+typealias ParamVarp = ParamType<VarpType>

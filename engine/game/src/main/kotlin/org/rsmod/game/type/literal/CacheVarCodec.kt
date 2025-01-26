@@ -11,6 +11,8 @@ import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.spot.SpotanimType
 import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.synth.SynthType
+import org.rsmod.game.type.varbit.VarBitType
+import org.rsmod.game.type.varp.VarpType
 import org.rsmod.map.CoordGrid
 
 public sealed class CacheVarCodec<K, V : Any>(public val out: KClass<V>) {
@@ -112,4 +114,16 @@ public object CacheVarSynthCodec : BaseIntVarCodec<SynthType>(SynthType::class) 
         types.synths[value] ?: SynthType(value, "unnamed_synth_$value")
 
     override fun encode(value: SynthType): Int = value.id
+}
+
+public object CacheVarVarBitCodec : BaseIntVarCodec<VarBitType>(VarBitType::class) {
+    override fun decode(types: TypeListMap, value: Int): VarBitType? = types.varbits[value]
+
+    override fun encode(value: VarBitType): Int = value.id
+}
+
+public object CacheVarVarpCodec : BaseIntVarCodec<VarpType>(VarpType::class) {
+    override fun decode(types: TypeListMap, value: Int): VarpType? = types.varps[value]
+
+    override fun encode(value: VarpType): Int = value.id
 }

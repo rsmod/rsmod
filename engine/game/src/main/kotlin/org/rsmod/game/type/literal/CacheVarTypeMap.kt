@@ -18,6 +18,10 @@ import org.rsmod.game.type.spot.HashedSpotanimType
 import org.rsmod.game.type.spot.SpotanimType
 import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.synth.SynthType
+import org.rsmod.game.type.varbit.HashedVarBitType
+import org.rsmod.game.type.varbit.VarBitType
+import org.rsmod.game.type.varp.HashedVarpType
+import org.rsmod.game.type.varp.VarpType
 import org.rsmod.map.CoordGrid
 
 public object CacheVarTypeMap {
@@ -44,6 +48,10 @@ public object CacheVarTypeMap {
             String::class to CacheVarLiteral.STRING,
             StatType::class to CacheVarLiteral.STAT,
             SynthType::class to CacheVarLiteral.SYNTH,
+            VarBitType::class to CacheVarLiteral.VARBIT,
+            HashedVarBitType::class to CacheVarLiteral.VARBIT,
+            VarpType::class to CacheVarLiteral.VARP,
+            HashedVarpType::class to CacheVarLiteral.VARP,
         )
 
     public val codecMap: Map<KClass<*>, CacheVarCodec<*, *>> =
@@ -69,6 +77,10 @@ public object CacheVarTypeMap {
             String::class to CacheVarStringCodec,
             StatType::class to CacheVarStatCodec,
             SynthType::class to CacheVarSynthCodec,
+            VarBitType::class to CacheVarVarBitCodec,
+            HashedVarBitType::class to CacheVarVarBitCodec,
+            VarpType::class to CacheVarVarpCodec,
+            HashedVarpType::class to CacheVarVarpCodec,
         )
 
     public val CacheVarLiteral.codecOut: KClass<*>
@@ -117,6 +129,8 @@ public object CacheVarTypeMap {
                 CacheVarLiteral.DBTABLE -> Int::class
                 CacheVarLiteral.DBROW -> Int::class
                 CacheVarLiteral.MOVESPEED -> Int::class
+                CacheVarLiteral.VARBIT -> VarBitType::class
+                CacheVarLiteral.VARP -> VarpType::class
             }
 
     public fun <K, V : Any> findCodec(literal: CacheVarLiteral): CacheVarCodec<K, V> =
