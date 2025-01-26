@@ -1,5 +1,7 @@
 package org.rsmod.game.type.param
 
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet
+
 public data class ParamTypeList(public val types: Map<Int, UnpackedParamType<*>>) :
     Map<Int, UnpackedParamType<*>> by types {
     @Suppress("UNCHECKED_CAST")
@@ -18,4 +20,7 @@ public data class ParamTypeList(public val types: Map<Int, UnpackedParamType<*>>
             "Type for input does not match key type for cache type: input=$type, cache=$cache"
         }
     }
+
+    public fun filterTransmitKeys(): Set<Int> =
+        IntOpenHashSet(types.filterValues(UnpackedParamType<*>::transmit).keys)
 }

@@ -6,6 +6,7 @@ import org.openrs2.buffer.writeString
 import org.openrs2.cache.Cache
 import org.rsmod.api.cache.Js5Archives
 import org.rsmod.api.cache.Js5Configs
+import org.rsmod.api.cache.util.EncoderContext
 import org.rsmod.api.cache.util.encodeConfig
 import org.rsmod.game.type.param.ParamTypeBuilder
 import org.rsmod.game.type.param.UnpackedParamType
@@ -14,13 +15,18 @@ public object ParamTypeEncoder {
     public fun encodeAll(
         cache: Cache,
         types: Iterable<UnpackedParamType<*>>,
-        serverCache: Boolean,
+        ctx: EncoderContext,
     ): List<UnpackedParamType<*>> {
         val buffer = PooledByteBufAllocator.DEFAULT.buffer()
         val archive = Js5Archives.CONFIG
         val config = Js5Configs.PARAM
         val packed = mutableListOf<UnpackedParamType<*>>()
         for (type in types) {
+            // Skip server-side parameters when packing into the client cache.
+            if (ctx.clientOnly && type.id !in ctx.clientParams) {
+                continue
+            }
+
             val oldBuf =
                 if (cache.exists(archive, config, type.id)) {
                     cache.read(archive, config, type.id)
@@ -30,7 +36,7 @@ public object ParamTypeEncoder {
             val newBuf =
                 buffer.clear().encodeConfig {
                     encodeJs5(type, this)
-                    if (serverCache) {
+                    if (ctx.encodeFull) {
                         encodeGame(type, this)
                     }
                 }
@@ -43,12 +49,6 @@ public object ParamTypeEncoder {
         buffer.release()
         return packed
     }
-
-    public fun encodeFull(type: UnpackedParamType<*>, data: ByteBuf): ByteBuf =
-        data.encodeConfig {
-            encodeJs5(type, this)
-            encodeGame(type, this)
-        }
 
     public fun encodeJs5(type: UnpackedParamType<*>, data: ByteBuf): Unit =
         with(type) {
@@ -70,5 +70,10 @@ public object ParamTypeEncoder {
             }
         }
 
-    public fun encodeGame(type: UnpackedParamType<*>, data: ByteBuf): Unit = with(type) {}
+    public fun encodeGame(type: UnpackedParamType<*>, data: ByteBuf): Unit =
+        with(type) {
+            if (!transmit) {
+                data.writeByte(200)
+            }
+        }
 }

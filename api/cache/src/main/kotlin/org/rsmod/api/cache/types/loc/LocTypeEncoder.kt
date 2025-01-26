@@ -6,7 +6,9 @@ import org.openrs2.buffer.writeString
 import org.openrs2.cache.Cache
 import org.rsmod.api.cache.Js5Archives
 import org.rsmod.api.cache.Js5Configs
+import org.rsmod.api.cache.util.EncoderContext
 import org.rsmod.api.cache.util.encodeConfig
+import org.rsmod.api.cache.util.filterTransmit
 import org.rsmod.api.cache.util.writeRawParams
 import org.rsmod.game.type.loc.LocTypeBuilder
 import org.rsmod.game.type.loc.UnpackedLocType
@@ -15,7 +17,7 @@ public object LocTypeEncoder {
     public fun encodeAll(
         cache: Cache,
         types: Iterable<UnpackedLocType>,
-        serverCache: Boolean,
+        ctx: EncoderContext,
     ): List<UnpackedLocType> {
         val buffer = PooledByteBufAllocator.DEFAULT.buffer()
         val archive = Js5Archives.CONFIG
@@ -30,8 +32,8 @@ public object LocTypeEncoder {
                 }
             val newBuf =
                 buffer.clear().encodeConfig {
-                    encodeJs5(type, this)
-                    if (serverCache) {
+                    encodeJs5(type, this, ctx)
+                    if (ctx.encodeFull) {
                         encodeGame(type, this)
                     }
                 }
@@ -45,13 +47,7 @@ public object LocTypeEncoder {
         return packed
     }
 
-    public fun encodeFull(type: UnpackedLocType, data: ByteBuf): ByteBuf =
-        data.encodeConfig {
-            encodeJs5(type, this)
-            encodeGame(type, this)
-        }
-
-    public fun encodeJs5(type: UnpackedLocType, data: ByteBuf): Unit =
+    public fun encodeJs5(type: UnpackedLocType, data: ByteBuf, ctx: EncoderContext): Unit =
         with(type) {
             if (models.isNotEmpty() && shapes.isNotEmpty()) {
                 data.writeByte(1)
@@ -279,7 +275,7 @@ public object LocTypeEncoder {
                 data.writeByte(90)
             }
 
-            val params = paramMap?.primitiveMap
+            val params = paramMap?.filterTransmit(ctx)?.primitiveMap
             if (params?.isNotEmpty() == true) {
                 data.writeByte(249)
                 data.writeRawParams(params)

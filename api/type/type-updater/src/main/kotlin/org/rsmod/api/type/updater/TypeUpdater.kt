@@ -1,5 +1,6 @@
 package org.rsmod.api.type.updater
 
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet
 import jakarta.inject.Inject
 import java.nio.file.Path
 import kotlin.io.path.ExperimentalPathApi
@@ -19,6 +20,7 @@ import org.rsmod.api.cache.types.obj.ObjTypeEncoder
 import org.rsmod.api.cache.types.param.ParamTypeEncoder
 import org.rsmod.api.cache.types.varbit.VarBitTypeEncoder
 import org.rsmod.api.cache.types.varp.VarpTypeEncoder
+import org.rsmod.api.cache.util.EncoderContext
 import org.rsmod.api.type.builders.resolver.TypeBuilderResolverMap
 import org.rsmod.api.type.editors.resolver.TypeEditorResolverMap
 import org.rsmod.api.type.symbols.name.NameMapping
@@ -34,6 +36,7 @@ import org.rsmod.game.type.npc.UnpackedNpcType
 import org.rsmod.game.type.obj.ObjTypeBuilder
 import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.type.param.ParamTypeBuilder
+import org.rsmod.game.type.param.ParamTypeList
 import org.rsmod.game.type.param.UnpackedParamType
 import org.rsmod.game.type.varbit.UnpackedVarBitType
 import org.rsmod.game.type.varbit.VarBitTypeBuilder
@@ -79,14 +82,34 @@ constructor(
     }
 
     private fun encodeAllCacheTypes() {
-        val updates = collectUpdateMap()
-        encodeCacheTypes(updates, gameCachePath, serverCache = true)
-        encodeCacheTypes(updates, js5CachePath, serverCache = false)
+        val configs = TypeListMapDecoder.ofParallel(vanillaCache, names)
+        val updates = collectUpdateMap(configs)
+        val params = transmitParamKeys(configs.params, updates.params)
+        encodeCacheTypes(updates, gameCachePath, EncoderContext(encodeFull = true, params))
+        encodeCacheTypes(updates, js5CachePath, EncoderContext(encodeFull = false, params))
     }
 
-    private fun collectUpdateMap(): UpdateMap {
-        val configs = TypeListMapDecoder.ofParallel(vanillaCache, names)
-        return collectUpdateMap(configs)
+    /**
+     * Combines and returns a set of all unique [UnpackedParamType.id] values where the
+     * [UnpackedParamType.transmit] flag is `true`. This ensures only relevant parameters are
+     * included for client cache packing, filtering out server-side parameters.
+     *
+     * Discrepancies between the existing [cache] and [updates] are resolved by:
+     * - Removing outdated `transmit` flags from [cache] that are overridden by [updates].
+     * - Including only updated or valid `transmit` keys from [updates].
+     *
+     * This guarantees that parameters marked with `transmit` in [cache] but later updated to
+     * `false` in [updates] are excluded, avoiding incorrect inclusion in the transmit keys.
+     */
+    private fun transmitParamKeys(
+        cache: ParamTypeList,
+        updates: List<UnpackedParamType<*>>,
+    ): Set<Int> {
+        val updateParamKeys = IntOpenHashSet(updates.map(UnpackedParamType<*>::id))
+        val cacheTransmitKeys = cache.filterTransmitKeys().filterNot(updateParamKeys::contains)
+        val updateTransmitKeys =
+            updates.filter(UnpackedParamType<*>::transmit).map(UnpackedParamType<*>::id)
+        return IntOpenHashSet(cacheTransmitKeys + updateTransmitKeys)
     }
 
     private fun collectUpdateMap(vanilla: TypeListMap): UpdateMap {
@@ -323,16 +346,16 @@ constructor(
             this
         }
 
-    private fun encodeCacheTypes(updates: UpdateMap, cachePath: Path, serverCache: Boolean) {
+    private fun encodeCacheTypes(updates: UpdateMap, cachePath: Path, ctx: EncoderContext) {
         Cache.open(cachePath).use { cache ->
-            ParamTypeEncoder.encodeAll(cache, updates.params, serverCache)
-            EnumTypeEncoder.encodeAll(cache, updates.enums, serverCache)
-            InvTypeEncoder.encodeAll(cache, updates.invs, serverCache)
-            LocTypeEncoder.encodeAll(cache, updates.locs, serverCache)
-            NpcTypeEncoder.encodeAll(cache, updates.npcs, serverCache)
-            ObjTypeEncoder.encodeAll(cache, updates.objs, serverCache)
-            VarpTypeEncoder.encodeAll(cache, updates.varps, serverCache)
-            VarBitTypeEncoder.encodeAll(cache, updates.varbits, serverCache)
+            ParamTypeEncoder.encodeAll(cache, updates.params, ctx)
+            EnumTypeEncoder.encodeAll(cache, updates.enums, ctx)
+            InvTypeEncoder.encodeAll(cache, updates.invs, ctx)
+            LocTypeEncoder.encodeAll(cache, updates.locs, ctx)
+            NpcTypeEncoder.encodeAll(cache, updates.npcs, ctx)
+            ObjTypeEncoder.encodeAll(cache, updates.objs, ctx)
+            VarpTypeEncoder.encodeAll(cache, updates.varps, ctx)
+            VarBitTypeEncoder.encodeAll(cache, updates.varbits, ctx)
         }
     }
 }

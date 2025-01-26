@@ -5,6 +5,7 @@ import io.netty.buffer.PooledByteBufAllocator
 import org.openrs2.cache.Cache
 import org.rsmod.api.cache.Js5Archives
 import org.rsmod.api.cache.Js5Configs
+import org.rsmod.api.cache.util.EncoderContext
 import org.rsmod.api.cache.util.encodeConfig
 import org.rsmod.game.type.varp.UnpackedVarpType
 import org.rsmod.game.type.varp.VarpTypeBuilder
@@ -13,13 +14,18 @@ public object VarpTypeEncoder {
     public fun encodeAll(
         cache: Cache,
         types: Iterable<UnpackedVarpType>,
-        serverCache: Boolean,
+        ctx: EncoderContext,
     ): List<UnpackedVarpType> {
         val buffer = PooledByteBufAllocator.DEFAULT.buffer()
         val archive = Js5Archives.CONFIG
         val config = Js5Configs.VARPLAYER
         val packed = mutableListOf<UnpackedVarpType>()
         for (type in types) {
+            // Skip server-side varps when packing into the client cache.
+            if (!type.transmit && ctx.clientOnly) {
+                continue
+            }
+
             val oldBuf =
                 if (cache.exists(archive, config, type.id)) {
                     cache.read(archive, config, type.id)
@@ -29,7 +35,7 @@ public object VarpTypeEncoder {
             val newBuf =
                 buffer.clear().encodeConfig {
                     encodeJs5(type, this)
-                    if (serverCache) {
+                    if (ctx.encodeFull) {
                         encodeGame(type, this)
                     }
                 }

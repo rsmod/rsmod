@@ -9,9 +9,11 @@ import org.rsmod.api.cache.enricher.obj.ObjCacheEnricher
 import org.rsmod.api.cache.types.loc.LocTypeEncoder
 import org.rsmod.api.cache.types.npc.NpcTypeEncoder
 import org.rsmod.api.cache.types.obj.ObjTypeEncoder
+import org.rsmod.api.cache.util.EncoderContext
 import org.rsmod.game.type.loc.LocTypeList
 import org.rsmod.game.type.npc.NpcTypeList
 import org.rsmod.game.type.obj.ObjTypeList
+import org.rsmod.game.type.param.ParamTypeList
 
 public class CacheEnrichment
 @Inject
@@ -23,15 +25,17 @@ constructor(
     private val npcEnrichments: Set<NpcCacheEnricher>,
     private val objTypes: ObjTypeList,
     private val objEnrichments: Set<ObjCacheEnricher>,
+    private val paramTypes: ParamTypeList,
 ) {
     public fun encodeAll() {
+        val encoderContext = EncoderContext(encodeFull = true, paramTypes.filterTransmitKeys())
         cache.use { cache ->
             val locs = locEnrichments.collect(locTypes).asIterable()
             val npcs = npcEnrichments.collect(npcTypes).asIterable()
             val objs = objEnrichments.collect(objTypes).asIterable()
-            LocTypeEncoder.encodeAll(cache, locs, serverCache = true)
-            NpcTypeEncoder.encodeAll(cache, npcs, serverCache = true)
-            ObjTypeEncoder.encodeAll(cache, objs, serverCache = true)
+            LocTypeEncoder.encodeAll(cache, locs, encoderContext)
+            NpcTypeEncoder.encodeAll(cache, npcs, encoderContext)
+            ObjTypeEncoder.encodeAll(cache, objs, encoderContext)
         }
     }
 

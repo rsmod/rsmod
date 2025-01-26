@@ -5,6 +5,7 @@ import io.netty.buffer.PooledByteBufAllocator
 import org.openrs2.cache.Cache
 import org.rsmod.api.cache.Js5Archives
 import org.rsmod.api.cache.Js5Configs
+import org.rsmod.api.cache.util.EncoderContext
 import org.rsmod.api.cache.util.encodeConfig
 import org.rsmod.game.type.varbit.UnpackedVarBitType
 
@@ -12,7 +13,7 @@ public object VarBitTypeEncoder {
     public fun encodeAll(
         cache: Cache,
         types: Iterable<UnpackedVarBitType>,
-        serverCache: Boolean,
+        ctx: EncoderContext,
     ): List<UnpackedVarBitType> {
         val buffer = PooledByteBufAllocator.DEFAULT.buffer()
         val archive = Js5Archives.CONFIG
@@ -28,7 +29,7 @@ public object VarBitTypeEncoder {
             val newBuf =
                 buffer.clear().encodeConfig {
                     encodeJs5(type, this)
-                    if (serverCache) {
+                    if (ctx.encodeFull) {
                         encodeGame(type, this)
                     }
                 }

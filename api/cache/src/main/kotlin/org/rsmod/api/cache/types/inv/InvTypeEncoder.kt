@@ -6,6 +6,7 @@ import kotlin.math.min
 import org.openrs2.cache.Cache
 import org.rsmod.api.cache.Js5Archives
 import org.rsmod.api.cache.Js5Configs
+import org.rsmod.api.cache.util.EncoderContext
 import org.rsmod.api.cache.util.encodeConfig
 import org.rsmod.game.type.inv.InvTypeBuilder
 import org.rsmod.game.type.inv.UnpackedInvType
@@ -14,7 +15,7 @@ public object InvTypeEncoder {
     public fun encodeAll(
         cache: Cache,
         types: Iterable<UnpackedInvType>,
-        serverCache: Boolean,
+        ctx: EncoderContext,
     ): List<UnpackedInvType> {
         val buffer = PooledByteBufAllocator.DEFAULT.buffer()
         val archive = Js5Archives.CONFIG
@@ -30,7 +31,7 @@ public object InvTypeEncoder {
             val newBuf =
                 buffer.clear().encodeConfig {
                     encodeJs5(type, this)
-                    if (serverCache) {
+                    if (ctx.encodeFull) {
                         encodeGame(type, this)
                     }
                 }
@@ -43,12 +44,6 @@ public object InvTypeEncoder {
         buffer.release()
         return packed
     }
-
-    public fun encodeFull(type: UnpackedInvType, data: ByteBuf): ByteBuf =
-        data.encodeConfig {
-            encodeJs5(type, this)
-            encodeGame(type, this)
-        }
 
     public fun encodeJs5(type: UnpackedInvType, data: ByteBuf): Unit =
         with(type) {
@@ -78,9 +73,6 @@ public object InvTypeEncoder {
                 }
             }
 
-            // We care more about having more free opcodes than saving space,
-            // so instead of having each boolean as its own opcode, we simply
-            // store the full flags field as an int.
             if (type.flags != InvTypeBuilder.DEFAULT_FLAGS) {
                 data.writeByte(204)
                 data.writeInt(type.flags)

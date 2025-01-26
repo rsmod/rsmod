@@ -11,6 +11,7 @@ import org.rsmod.game.type.param.UnpackedParamType
 public class ParamPluginBuilder(internal: String?) {
     private val backing = TypedParamPluginBuilder<Any>(null, internal)
     public var autoDisable: Boolean? by backing::autoDisable
+    public var transmit: Boolean by backing::transmit
 
     public fun build(id: Int): UnpackedParamType<Any> = backing.build(id)
 }
@@ -22,6 +23,7 @@ public class TypedParamPluginBuilder<T : Any>(
 ) {
     public var default: T? = null
     public var autoDisable: Boolean? = null
+    public var transmit: Boolean = false
 
     @Suppress("UNCHECKED_CAST")
     public fun build(id: Int): UnpackedParamType<T> {
@@ -45,6 +47,7 @@ public class TypedParamPluginBuilder<T : Any>(
         backing.typeCharId = literal?.char
         backing.autoDisable = autoDisable
         backing.typedDefault = default
+        backing.transmit = transmit
         return backing.build(id)
     }
 }

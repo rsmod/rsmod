@@ -5,7 +5,9 @@ import io.netty.buffer.PooledByteBufAllocator
 import org.openrs2.cache.Cache
 import org.rsmod.api.cache.Js5Archives
 import org.rsmod.api.cache.Js5Configs
+import org.rsmod.api.cache.util.EncoderContext
 import org.rsmod.api.cache.util.encodeConfig
+import org.rsmod.api.cache.util.filterTransmit
 import org.rsmod.api.cache.util.writeRawParams
 import org.rsmod.game.type.struct.UnpackedStructType
 
@@ -13,7 +15,7 @@ public object StructTypeEncoder {
     public fun encodeAll(
         cache: Cache,
         types: Iterable<UnpackedStructType>,
-        serverCache: Boolean,
+        ctx: EncoderContext,
     ): List<UnpackedStructType> {
         val buffer = PooledByteBufAllocator.DEFAULT.buffer()
         val archive = Js5Archives.CONFIG
@@ -28,8 +30,8 @@ public object StructTypeEncoder {
                 }
             val newBuf =
                 buffer.clear().encodeConfig {
-                    encodeJs5(type, this)
-                    if (serverCache) {
+                    encodeJs5(type, this, ctx)
+                    if (ctx.encodeFull) {
                         encodeGame(type, this)
                     }
                 }
@@ -43,11 +45,12 @@ public object StructTypeEncoder {
         return packed
     }
 
-    public fun encodeJs5(type: UnpackedStructType, data: ByteBuf): Unit =
+    public fun encodeJs5(type: UnpackedStructType, data: ByteBuf, ctx: EncoderContext): Unit =
         with(type) {
-            paramMap?.let {
+            val params = paramMap?.filterTransmit(ctx)?.primitiveMap
+            if (params?.isNotEmpty() == true) {
                 data.writeByte(249)
-                data.writeRawParams(it.primitiveMap)
+                data.writeRawParams(params)
             }
         }
 

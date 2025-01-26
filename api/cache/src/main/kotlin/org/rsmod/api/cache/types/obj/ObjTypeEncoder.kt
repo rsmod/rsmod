@@ -6,7 +6,9 @@ import org.openrs2.buffer.writeString
 import org.openrs2.cache.Cache
 import org.rsmod.api.cache.Js5Archives
 import org.rsmod.api.cache.Js5Configs
+import org.rsmod.api.cache.util.EncoderContext
 import org.rsmod.api.cache.util.encodeConfig
+import org.rsmod.api.cache.util.filterTransmit
 import org.rsmod.api.cache.util.writeRawParams
 import org.rsmod.game.type.obj.ObjTypeBuilder
 import org.rsmod.game.type.obj.UnpackedObjType
@@ -15,7 +17,7 @@ public object ObjTypeEncoder {
     public fun encodeAll(
         cache: Cache,
         types: Iterable<UnpackedObjType>,
-        serverCache: Boolean,
+        ctx: EncoderContext,
     ): List<UnpackedObjType> {
         val buffer = PooledByteBufAllocator.DEFAULT.buffer()
         val archive = Js5Archives.CONFIG
@@ -30,8 +32,8 @@ public object ObjTypeEncoder {
                 }
             val newBuf =
                 buffer.clear().encodeConfig {
-                    encodeJs5(type, this)
-                    if (serverCache) {
+                    encodeJs5(type, this, ctx)
+                    if (ctx.encodeFull) {
                         encodeGame(type, this)
                     }
                 }
@@ -45,13 +47,7 @@ public object ObjTypeEncoder {
         return packed
     }
 
-    public fun encodeFull(type: UnpackedObjType, data: ByteBuf): ByteBuf =
-        data.encodeConfig {
-            encodeJs5(type, this)
-            encodeGame(type, this)
-        }
-
-    public fun encodeJs5(type: UnpackedObjType, data: ByteBuf): Unit =
+    public fun encodeJs5(type: UnpackedObjType, data: ByteBuf, ctx: EncoderContext): Unit =
         with(type) {
             if (model != 0) {
                 data.writeByte(1)
@@ -310,7 +306,7 @@ public object ObjTypeEncoder {
                 data.writeShort(placeholdertemplate)
             }
 
-            val params = paramMap?.primitiveMap
+            val params = paramMap?.filterTransmit(ctx)?.primitiveMap
             if (params?.isNotEmpty() == true) {
                 data.writeByte(249)
                 data.writeRawParams(params)

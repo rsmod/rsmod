@@ -62,6 +62,7 @@ public class UnpackedParamType<T : Any>(
     public val defaultInt: Int?,
     public val defaultStr: String?,
     public val autoDisable: Boolean,
+    public val transmit: Boolean,
     typedDefault: T?,
     internalId: Int,
     internalName: String,
@@ -84,6 +85,7 @@ public class UnpackedParamType<T : Any>(
             "default=$default, " +
             "defaultInt=$defaultInt, " +
             "defaultStr=$defaultStr, " +
+            "transmit=$transmit, " +
             "autoDisable=$autoDisable" +
             ")"
 
@@ -95,6 +97,7 @@ public class UnpackedParamType<T : Any>(
         if (defaultInt != other.defaultInt) return false
         if (defaultStr != other.defaultStr) return false
         if (autoDisable != other.autoDisable) return false
+        if (transmit != other.transmit) return false
         if (internalId != other.internalId) return false
 
         return true
