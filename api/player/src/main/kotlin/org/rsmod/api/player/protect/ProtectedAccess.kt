@@ -1,6 +1,7 @@
 package org.rsmod.api.player.protect
 
 import com.github.michaelbull.logging.InlineLogger
+import kotlin.math.absoluteValue
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.reflect.KClass
@@ -1136,10 +1137,26 @@ public class ProtectedAccess(
     }
 
     /**
+     * **Note:** The returned integer will _always_ be positive. To allow negative values, use
+     * [numberDialog] instead.
+     *
      * @throws ProtectedAccessLostException if [resumePauseInputWithProtectedAccess] could not
      *   validate protected access retention.
      */
     public suspend fun countDialog(title: String = constants.cm_count): Int {
+        mesLayerMode7(player, title)
+        val modal = player.ui.getModalOrNull(components.main_modal)
+        val input = coroutine.pause(ResumePCountDialogInput::class)
+        return resumePauseInputWithProtectedAccess(input.count.absoluteValue, modal)
+    }
+
+    /**
+     * A version of [countDialog] that allows the returned value to be negative.
+     *
+     * @throws ProtectedAccessLostException if [resumePauseInputWithProtectedAccess] could not
+     *   validate protected access retention.
+     */
+    public suspend fun numberDialog(title: String): Int {
         mesLayerMode7(player, title)
         val modal = player.ui.getModalOrNull(components.main_modal)
         val input = coroutine.pause(ResumePCountDialogInput::class)
