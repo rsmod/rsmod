@@ -142,6 +142,9 @@ public class UnpackedObjType(
     public val isStackable: Boolean
         get() = (stackable || certtemplate > 0) && objvar.isEmpty()
 
+    public val isPlaceholder: Boolean
+        get() = placeholdertemplate != 0
+
     public val canCert: Boolean
         get() = !stackable && certlink > 0 && certtemplate == 0 && objvar.isEmpty()
 

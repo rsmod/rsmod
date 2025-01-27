@@ -55,4 +55,17 @@ public data class ObjTypeList(public val types: Map<Int, UnpackedObjType>) :
             types[link] ?: throw NoSuchElementException("Type is missing in the map: $link.")
         return InvObj(uncertType, obj.count)
     }
+
+    public fun unplacehold(type: UnpackedObjType): UnpackedObjType {
+        if (!type.isPlaceholder) {
+            return type
+        }
+        val link = type.placeholderlink
+        return types[link] ?: throw NoSuchElementException("Type is missing in the map: $link.")
+    }
+
+    public fun normalize(type: UnpackedObjType): UnpackedObjType {
+        val uncert = uncert(type)
+        return unplacehold(uncert)
+    }
 }
