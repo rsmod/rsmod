@@ -8,3 +8,5 @@
 7	generic_queue8
 8	generic_queue9
 9	generic_queue10
+10	prayer_toggle
+11	quick_prayer_toggle

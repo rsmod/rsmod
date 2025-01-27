@@ -18,7 +18,6 @@
 845	smithing_product_to_bars_required
 846	smithing_product_to_requirement
 854	slayer_disableable_rewards
-864	prayer_components
 866	prayer_attack_collisions
 867	prayer_strength_collisions
 868	prayer_defence_collisions
@@ -76,6 +75,7 @@
 4624	data_orbs_setting_prereq
 4625	data_orbs_setting_prereq_values
 4664	toa_invocations
+4956	prayer_oc
 
 65518	skill_guide_section_vars
 65519	skill_guide_button_vars

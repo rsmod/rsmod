@@ -218,6 +218,14 @@ public fun Player.ifCloseSub(interf: InterfaceType, eventBus: EventBus) {
     closeOverlay(interf, eventBus)
 }
 
+public fun Player.ifCloseModal(interf: InterfaceType, eventBus: EventBus) {
+    closeModal(interf, eventBus)
+}
+
+public fun Player.ifCloseOverlay(interf: InterfaceType, eventBus: EventBus) {
+    closeOverlay(interf, eventBus)
+}
+
 private fun Player.openModal(interf: InterfaceType, target: ComponentType, eventBus: EventBus) {
     val idComponent = target.toIdComponent()
     val idInterface = interf.toIdInterface()

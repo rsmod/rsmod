@@ -50,6 +50,7 @@
 606	spell_runetype_4
 607	spell_runecount_4
 608	spell_parent_obj
+630	prayer_id
 682	collection_category_name
 683	collection_category_sublist
 684	collection_category_slot
@@ -142,12 +143,20 @@
 1337	ca_tier_reward_obj3_primary
 1338	ca_tier_reward_obj3_secondary
 1339	ca_tier_reward_desc_enum3
+1751	prayer_component
 1752	prayer_name
+1753	prayer_levelreq
 1754	prayer_desc
+1755	prayer_sound
 1800	slayer_task_boss_name
 1801	slayer_task_boss_displayname
 1802	slayer_task_boss_location
 
+65447	prayer_locked_message
+65448	prayer_unlock_state
+65449	prayer_unlock_varbit
+65450	prayer_varbit
+65451	prayer_overhead
 65452	bond_item
 65453	attackrate_rapid
 65454	bonus_slayer_meleeonly
