@@ -557,9 +557,21 @@ public class ProtectedAccess(
         into: Inventory,
         fromSlot: Int,
         count: Int = 1,
-    ): TransactionResultList<InvObj> {
-        return player.invTransfer(from = from, into = into, count = count, fromSlot = fromSlot)
-    }
+        strict: Boolean = true,
+        cert: Boolean = false,
+        uncert: Boolean = false,
+        placehold: Boolean = false,
+    ): TransactionResultList<InvObj> =
+        player.invTransfer(
+            from = from,
+            into = into,
+            count = count,
+            fromSlot = fromSlot,
+            strict = strict,
+            cert = cert,
+            uncert = uncert,
+            placehold = placehold,
+        )
 
     public fun invMoveInv(
         from: Inventory,

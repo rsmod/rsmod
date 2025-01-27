@@ -298,6 +298,7 @@ public fun Player.invTransfer(
     count: Int,
     into: Inventory,
     intoSlot: Int? = null,
+    strict: Boolean = true,
     cert: Boolean = false,
     uncert: Boolean = false,
     placehold: Boolean = false,
@@ -313,6 +314,7 @@ public fun Player.invTransfer(
             count = count,
             into = intoInv,
             intoSlot = intoSlot,
+            strict = strict,
             cert = cert,
             uncert = uncert,
             placehold = placehold,
@@ -326,6 +328,7 @@ public fun Transaction<InvObj>.transfer(
     count: Int,
     into: TransactionInventory<InvObj>,
     intoSlot: Int? = null,
+    strict: Boolean = true,
     cert: Boolean = false,
     uncert: Boolean = false,
     placehold: Boolean = false,
@@ -339,6 +342,7 @@ public fun Transaction<InvObj>.transfer(
         this.cert = cert
         this.uncert = uncert
         this.placehold = placehold
+        this.strict = strict
     }
 }
 

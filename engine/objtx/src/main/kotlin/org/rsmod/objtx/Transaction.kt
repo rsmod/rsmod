@@ -346,6 +346,7 @@ public class Transaction<T>(
         public var cert: Boolean = false,
         public var uncert: Boolean = false,
         public var placehold: Boolean = false,
+        public var strict: Boolean = true,
     ) : TransactionQuery {
         override fun result(): TransactionResult {
             val from = from ?: return TransactionResult.Exception("`from` is required.")
@@ -390,33 +391,42 @@ public class Transaction<T>(
             count: Int,
             fromSlot: Int,
         ): TransactionResult {
-            val delete =
-                this@Transaction.DeleteQuery(
-                        from = this,
-                        obj = obj.id,
-                        strictCount = count,
-                        placehold = placehold,
-                        preferredSlot = fromSlot,
-                    )
-                    .result()
-            if (delete is TransactionResult.Err) {
-                return delete
-            }
             val insert =
                 this@Transaction.InsertQuery(
                         into = into,
                         obj = obj.id,
-                        strictCount = count,
+                        preferredCount = if (strict) null else count,
+                        strictCount = if (strict) count else 1,
                         preferredSlot = intoSlot,
                         vars = obj.vars,
                         cert = cert,
                         uncert = uncert,
                     )
                     .result()
-            if (insert is TransactionResult.Err) {
+            if (insert !is TransactionResult.Ok) {
                 return insert
             }
-            return TransactionResult.Ok(requested = count, completed = count)
+            // When `strict` is false, the `delete` query can fail due to insufficient space in the
+            // `into` inventory. Attempting to "delete" the obj from the `from` inventory in this
+            // case would result in an `InvalidCountRequest` because a `strictCount` of `0` is not
+            // valid. To handle this gracefully, we intercept and return `NotEnoughSpace` instead,
+            // which is more intuitive for the consumer.
+            if (!strict && insert.completed == 0 && count > 0) {
+                return TransactionResult.NotEnoughSpace
+            }
+            val delete =
+                this@Transaction.DeleteQuery(
+                        from = this,
+                        obj = obj.id,
+                        strictCount = insert.completed,
+                        placehold = placehold,
+                        preferredSlot = fromSlot,
+                    )
+                    .result()
+            if (delete !is TransactionResult.Ok) {
+                return delete
+            }
+            return TransactionResult.Ok(requested = count, completed = delete.completed)
         }
 
         private fun TransactionInventory<T>.multiVarTransfer(
