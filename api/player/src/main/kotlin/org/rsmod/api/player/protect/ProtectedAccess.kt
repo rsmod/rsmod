@@ -14,6 +14,7 @@ import org.rsmod.api.invtx.invClear
 import org.rsmod.api.invtx.invMoveAll
 import org.rsmod.api.invtx.invSwap
 import org.rsmod.api.invtx.invTransfer
+import org.rsmod.api.market.MarketPrices
 import org.rsmod.api.player.input.ResumePCountDialogInput
 import org.rsmod.api.player.input.ResumePObjDialogInput
 import org.rsmod.api.player.input.ResumePauseButtonInput
@@ -26,9 +27,11 @@ import org.rsmod.api.player.output.ClientScripts
 import org.rsmod.api.player.output.ClientScripts.mesLayerMode14
 import org.rsmod.api.player.output.ClientScripts.mesLayerMode7
 import org.rsmod.api.player.output.MapFlag
+import org.rsmod.api.player.output.UpdateInventory.resendSlot
 import org.rsmod.api.player.output.clearMapFlag
 import org.rsmod.api.player.output.jingle
 import org.rsmod.api.player.output.mes
+import org.rsmod.api.player.output.objExamine
 import org.rsmod.api.player.output.runClientScript
 import org.rsmod.api.player.output.soundSynth
 import org.rsmod.api.player.output.spam
@@ -601,6 +604,17 @@ public class ProtectedAccess(
 
     public fun invClear(inventory: Inventory) {
         player.invClear(inventory)
+    }
+
+    public fun objExamine(
+        inventory: Inventory,
+        slot: Int,
+        marketPrices: MarketPrices = context.marketPrices,
+        objTypes: ObjTypeList = context.objTypes,
+    ) {
+        val obj = inventory[slot] ?: return resendSlot(inventory, 0)
+        val normalized = objTypes.normalize(objTypes[obj])
+        player.objExamine(normalized, obj.count, marketPrices[normalized] ?: 0)
     }
 
     public fun stat(stat: StatType): Int {

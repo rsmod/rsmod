@@ -1,5 +1,6 @@
 package org.rsmod.api.player.protect
 
+import org.rsmod.api.market.MarketPrices
 import org.rsmod.api.player.interact.HeldInteractions
 import org.rsmod.api.player.interact.LocInteractions
 import org.rsmod.api.player.interact.WornInteractions
@@ -72,6 +73,7 @@ public data class ProtectedAccessContext(
     private val getLocInteractions: () -> LocInteractions,
     private val getHeldInteractions: () -> HeldInteractions,
     private val getWornInteractions: () -> WornInteractions,
+    private val getMarketPrices: () -> MarketPrices,
 ) {
     public val random: GameRandom by lazyLoad { getRandom() }
     public val eventBus: EventBus by lazyLoad { getEventBus() }
@@ -83,6 +85,7 @@ public data class ProtectedAccessContext(
     public val locInteractions: LocInteractions by lazyLoad { getLocInteractions() }
     public val heldInteractions: HeldInteractions by lazyLoad { getHeldInteractions() }
     public val wornInteractions: WornInteractions by lazyLoad { getWornInteractions() }
+    public val marketPrices: MarketPrices by lazyLoad { getMarketPrices() }
 }
 
 private fun <T> lazyLoad(init: () -> T): Lazy<T> = lazy(LazyThreadSafetyMode.NONE, init)
