@@ -10,6 +10,7 @@ import jakarta.inject.Inject
 import kotlin.contracts.contract
 import kotlin.reflect.KClass
 import net.rsprot.protocol.game.incoming.buttons.If3Button
+import net.rsprot.protocol.game.incoming.misc.user.MoveGameClick
 import net.rsprot.protocol.game.outgoing.misc.player.MessageGame
 import net.rsprot.protocol.util.CombinedId
 import org.junit.jupiter.api.Assertions
@@ -19,7 +20,10 @@ import org.rsmod.api.inv.map.InvMapInit
 import org.rsmod.api.market.DefaultMarketPrices
 import org.rsmod.api.market.MarketPrices
 import org.rsmod.api.net.rsprot.handlers.If3ButtonHandler
+import org.rsmod.api.net.rsprot.handlers.MoveGameClickHandler
 import org.rsmod.api.player.interact.LocInteractions
+import org.rsmod.api.player.protect.ProtectedAccess
+import org.rsmod.api.player.protect.ProtectedAccessLauncher
 import org.rsmod.api.player.protect.clearPendingAction
 import org.rsmod.api.player.ui.ifOpenMain
 import org.rsmod.api.player.ui.ifOpenSub
@@ -36,6 +40,11 @@ import org.rsmod.api.repo.loc.LocRepository
 import org.rsmod.api.repo.npc.NpcRepository
 import org.rsmod.api.repo.obj.ObjRepository
 import org.rsmod.api.repo.player.PlayerRepository
+import org.rsmod.api.route.BoundValidator
+import org.rsmod.api.route.RayCastFactory
+import org.rsmod.api.route.RayCastValidator
+import org.rsmod.api.route.RouteFactory
+import org.rsmod.api.route.StepFactory
 import org.rsmod.api.stats.levelmod.InvisibleLevelMod
 import org.rsmod.api.stats.levelmod.InvisibleLevels
 import org.rsmod.api.stats.xpmod.XpMod
@@ -114,7 +123,9 @@ constructor(
     private val locRegistry: LocRegistry,
     private val locInteractions: LocInteractions,
     private val invMapInit: InvMapInit,
+    private val protectedAccess: ProtectedAccessLauncher,
     private val ifButtonHandler: If3ButtonHandler,
+    private val gameClickHandler: MoveGameClickHandler,
 ) {
     init {
         registerPlayer()
@@ -133,6 +144,7 @@ constructor(
         repeat(ticks) {
             clearCaptureClients()
             gameCycle.tick()
+            flushCaptureClients()
         }
     }
 
@@ -179,6 +191,7 @@ constructor(
     }
 
     public fun Player.teleport(dest: CoordGrid) {
+        allocZoneCollision(dest)
         coords = dest
     }
 
@@ -228,6 +241,12 @@ constructor(
         ifOpenSub(interf, target, IfSubType.Overlay, eventBus)
     }
 
+    public fun Player.moveGameClick(dest: CoordGrid) {
+        allocZoneCollision(dest)
+        val message = MoveGameClick(dest.x, dest.z, keyCombination = 0)
+        captureClient.queue(gameClickHandler, message)
+    }
+
     public fun Player.ifButton(
         type: ComponentType,
         comsub: Int? = null,
@@ -236,7 +255,23 @@ constructor(
     ) {
         val combinedId = CombinedId(type.interfaceId, type.component)
         val message = If3Button(combinedId, comsub ?: -1, obj = obj ?: -1, op = op.slot)
+        captureClient.queue(ifButtonHandler, message)
+    }
+
+    /** Note: This button message will be handled _instantly_ when this function is called. */
+    public fun Player.handleIfButton(
+        type: ComponentType,
+        comsub: Int? = null,
+        op: IfButtonOp = IfButtonOp.Op1,
+        obj: Int? = null,
+    ) {
+        val combinedId = CombinedId(type.interfaceId, type.component)
+        val message = If3Button(combinedId, comsub ?: -1, obj = obj ?: -1, op = op.slot)
         ifButtonHandler.handle(this, message)
+    }
+
+    public fun Player.withProtectedAccess(action: suspend ProtectedAccess.() -> Unit) {
+        protectedAccess.launch(this) { action() }
     }
 
     public fun Inventory.count(obj: ObjType): Int {
@@ -298,7 +333,15 @@ constructor(
 
     private fun clearCaptureClients() {
         for (player in players) {
-            player.captureClient.clear()
+            val client = player.captureClient
+            client.clearOutgoing()
+        }
+    }
+
+    private fun flushCaptureClients() {
+        for (player in players) {
+            val client = player.captureClient
+            client.clearIncoming()
         }
     }
 
@@ -380,6 +423,10 @@ constructor(
         Assertions.assertEquals(emptyList<String>(), messages) { "Messages found:" }
     }
 
+    private fun allocZoneCollision(coord: CoordGrid) {
+        collision.allocateIfAbsent(coord.x, coord.z, coord.level)
+    }
+
     public class Builder(state: GameTestState, private val scripts: Set<KClass<out PluginScript>>) {
         private val cacheTypes: TypeListMap = state.cacheTypes
         private val eventBus: EventBus by lazy { resolveEventBus(state.eventBus) }
@@ -436,7 +483,13 @@ constructor(
                 }
 
                 bind(MapClock::class.java).`in`(Scopes.SINGLETON)
-                bind(CheatCommandMap::class.java).`in`(Scopes.SINGLETON)
+
+                bind(BoundValidator::class.java).`in`(Scopes.SINGLETON)
+                bind(RayCastValidator::class.java).`in`(Scopes.SINGLETON)
+                bind(RayCastFactory::class.java).`in`(Scopes.SINGLETON)
+                bind(RouteFactory::class.java).`in`(Scopes.SINGLETON)
+                bind(StepFactory::class.java).`in`(Scopes.SINGLETON)
+
                 bind(ControllerList::class.java).`in`(Scopes.SINGLETON)
                 bind(ControllerRegistry::class.java).`in`(Scopes.SINGLETON)
                 bind(ControllerRepository::class.java).`in`(Scopes.SINGLETON)
@@ -466,6 +519,8 @@ constructor(
                 bind(SynthTypeList::class.java).toInstance(cacheTypes.synths)
                 bind(VarBitTypeList::class.java).toInstance(cacheTypes.varbits)
                 bind(VarpTypeList::class.java).toInstance(cacheTypes.varps)
+
+                bind(CheatCommandMap::class.java).`in`(Scopes.SINGLETON)
 
                 Multibinder.newSetBinder(binder(), InvisibleLevelMod::class.java)
                 bind(InvisibleLevels::class.java).`in`(Scopes.SINGLETON)

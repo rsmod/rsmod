@@ -15,11 +15,13 @@ class EmotesScriptTest {
             player.ifOpenOverlay(interfaces.emote_tab, components.emote_tab_target)
 
             // Ensure that buttons are actually reaching the emote code.
-            assertThrows<NotImplementedError> { player.ifButton(emote_components.emote_list, -1) }
+            assertThrows<NotImplementedError> {
+                player.handleIfButton(emote_components.emote_list, -1)
+            }
 
             val emoteSlots = cacheTypes.enums[emote_enums.emote_names].keys
             for (slot in emoteSlots) {
-                assertDoesNotThrow { player.ifButton(emote_components.emote_list, slot) }
+                assertDoesNotThrow { player.handleIfButton(emote_components.emote_list, slot) }
             }
         }
 }

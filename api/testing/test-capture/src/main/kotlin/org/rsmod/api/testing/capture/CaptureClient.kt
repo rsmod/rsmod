@@ -1,5 +1,7 @@
 package org.rsmod.api.testing.capture
 
+import net.rsprot.protocol.message.IncomingGameMessage
+import net.rsprot.protocol.message.codec.incoming.MessageConsumer
 import org.rsmod.game.client.Client
 import org.rsmod.game.entity.Player
 import org.rsmod.game.type.obj.ObjTypeList
@@ -11,21 +13,24 @@ public class CaptureClient : Client<Any, Any> {
     public var sessionClosed: Boolean = false
         private set
 
-    private val _messages: MutableList<Any> = mutableListOf()
-    public val messages: List<Any>
-        get() = _messages
+    private val _outgoingMessages: MutableList<Any> = mutableListOf()
+    public val outgoingMessages: List<Any>
+        get() = _outgoingMessages
+
+    private val _incomingHandlers = mutableListOf<IncomingHandlerMessage<in IncomingGameMessage>>()
 
     public val isEmpty: Boolean
-        get() = messages.isEmpty()
+        get() = outgoingMessages.isEmpty()
 
     public val isNotEmpty: Boolean
         get() = !isEmpty
 
-    public fun count(): Int = messages.size
+    public fun count(): Int = outgoingMessages.size
 
-    public fun count(predicate: (Any) -> Boolean): Int = messages.count(predicate)
+    public fun count(predicate: (Any) -> Boolean): Int = outgoingMessages.count(predicate)
 
-    public inline fun <reified R> filterIsInstance(): List<R> = messages.filterIsInstance<R>()
+    public inline fun <reified R> filterIsInstance(): List<R> =
+        outgoingMessages.filterIsInstance<R>()
 
     public inline fun <reified R> allOf(predicate: (R) -> Boolean): Boolean =
         filterIsInstance<R>().all(predicate)
@@ -60,10 +65,21 @@ public class CaptureClient : Client<Any, Any> {
     public inline fun <reified R> singlePredicate(predicate: (R) -> Boolean): Boolean =
         predicate(single())
 
-    public operator fun contains(message: Any): Boolean = message in messages
+    public operator fun contains(message: Any): Boolean = message in outgoingMessages
 
-    public fun clear() {
-        _messages.clear()
+    public fun clearOutgoing() {
+        _outgoingMessages.clear()
+    }
+
+    public fun clearIncoming() {
+        _incomingHandlers.clear()
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    public fun <T : IncomingGameMessage> queue(handler: MessageConsumer<Player, T>, message: T) {
+        val handlerMessage =
+            IncomingHandlerMessage(handler, message) as IncomingHandlerMessage<IncomingGameMessage>
+        _incomingHandlers += handlerMessage
     }
 
     override fun open(service: Any, player: Player) {
@@ -75,14 +91,23 @@ public class CaptureClient : Client<Any, Any> {
     }
 
     override fun write(message: Any) {
-        _messages += message
+        _outgoingMessages += message
     }
 
-    override fun read(player: Player) {}
+    override fun read(player: Player) {
+        for ((handler, message) in _incomingHandlers) {
+            handler.consume(player, message)
+        }
+    }
 
     override fun flush() {}
 
     override fun prePlayerCycle(player: Player, objTypes: ObjTypeList) {}
 
     override fun postPlayerCycle(player: Player) {}
+
+    private data class IncomingHandlerMessage<T : IncomingGameMessage>(
+        val handler: MessageConsumer<Player, T>,
+        val message: T,
+    )
 }

@@ -131,6 +131,7 @@ class StandardGpShopOperationsBuyTest {
 
         val obj = shop.inv.getValue(slot)
         player.ifButton(ShopComponents.shop_inv, comsub = slot + 1, obj = obj.id, op = op)
+        advance(ticks = 1)
     }
 
     private fun GameTestScope.openGeneralShop(): Shop {
@@ -151,7 +152,7 @@ class StandardGpShopOperationsBuyTest {
         )
 
         // Clear out the player's outgoing messages from opening shop.
-        client.clear()
+        client.clearOutgoing()
 
         check(player.ui.containsModal(ShopInterfaces.shop_main))
         check(player.ui.containsModal(ShopInterfaces.shop_side))
