@@ -10,7 +10,7 @@ internal typealias prayer_interfaces = PrayerTabInterfaces
 object PrayerTabComponents : ComponentReferences() {
     val quick_prayers_orb = find("orbs_com19")
     val quick_prayers_close = find("quick_prayers_com5")
-    val quick_prayer_setup = find("quick_prayers_com4")
+    val quick_prayers_setup = find("quick_prayers_com4")
     val filters = find("prayer_tab_com42")
 }
 

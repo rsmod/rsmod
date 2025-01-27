@@ -44,7 +44,9 @@ constructor(
         onPlayerQueue(prayer_queues.quick_prayer) { toggleQuickPrayers() }
         onIfOpen(prayer_interfaces.quick_prayers) { player.onOpenQuickPrayerSetUp() }
         onIfClose(prayer_interfaces.quick_prayers) { player.onCloseQuickPrayerSetUp() }
-        onIfOverlayButton(prayer_components.quick_prayer_setup) { player.toggleQuickPrayer(comsub) }
+        onIfOverlayButton(prayer_components.quick_prayers_setup) {
+            player.toggleQuickPrayer(comsub)
+        }
         onIfOverlayButton(prayer_components.quick_prayers_close) { player.closeQuickPrayerSetUp() }
     }
 
@@ -157,7 +159,7 @@ constructor(
     private fun Player.disableCollisions(prayer: Prayer) = disableCollisions(repo[prayer])
 
     private fun Player.onOpenQuickPrayerSetUp() {
-        ifSetEvents(prayer_components.quick_prayer_setup, repo.prayerList.indices, IfEvent.Op1)
+        ifSetEvents(prayer_components.quick_prayers_setup, repo.prayerList.indices, IfEvent.Op1)
     }
 
     private fun Player.closeQuickPrayerSetUp() {
