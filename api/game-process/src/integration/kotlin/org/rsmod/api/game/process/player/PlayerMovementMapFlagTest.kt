@@ -22,9 +22,10 @@ class PlayerMovementMapFlagTest {
 
         val movement = createMovementProcessor()
         fun process() {
-            captured.clear()
+            captured.clearOutgoing()
             player.previousCoords = player.coords
             player.currentMapClock++
+            player.processedMapClock++
             movement.process(player)
         }
 
@@ -49,9 +50,10 @@ class PlayerMovementMapFlagTest {
 
             val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory)
             fun process() {
-                captured.clear()
+                captured.clearOutgoing()
                 previousCoords = coords
                 currentMapClock++
+                processedMapClock++
                 movement.process(this)
             }
 
@@ -89,9 +91,10 @@ class PlayerMovementMapFlagTest {
 
             val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory)
             fun process() {
-                captured.clear()
+                captured.clearOutgoing()
                 previousCoords = coords
                 currentMapClock++
+                processedMapClock++
                 movement.process(this)
             }
 
@@ -134,9 +137,10 @@ class PlayerMovementMapFlagTest {
 
             val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory)
             fun process() {
-                captured.clear()
+                captured.clearOutgoing()
                 previousCoords = coords
                 currentMapClock++
+                processedMapClock++
                 movement.process(this)
             }
 
@@ -190,9 +194,10 @@ class PlayerMovementMapFlagTest {
 
             val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory)
             fun process() {
-                captured.clear()
+                captured.clearOutgoing()
                 previousCoords = coords
                 currentMapClock++
+                processedMapClock++
                 movement.process(this)
             }
 
@@ -270,9 +275,10 @@ class PlayerMovementMapFlagTest {
 
         val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory)
         fun process() {
-            captured.clear()
+            captured.clearOutgoing()
             player.previousCoords = player.coords
             player.currentMapClock++
+            player.processedMapClock++
             movement.process(player)
         }
 

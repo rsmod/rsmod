@@ -31,16 +31,45 @@ public sealed class PathingEntity {
     public abstract val blockWalkCollisionFlag: Int?
 
     public var slotId: Int = INVALID_SLOT
-    public var currentMapClock: Int = 0
+
+    /**
+     * A copy of the _most up-to-date_ map clock based on the current game tick. This serves as a
+     * consistent baseline for delayed actions, such as `queue`, `timer`, and `delay`.
+     */
+    public var currentMapClock: Int = -1
+
+    /**
+     * The map clock value when this entity was last "processed" in the game loop. Unlike
+     * [currentMapClock], this value is used for certain flags, such as [isDelayed].
+     *
+     * ### Why this is needed:
+     * Client input processing occurs before suspended coroutines (e.g., delayed actions) are
+     * processed. This can lead to scenarios where a player can cancel a suspended coroutine before
+     * it resumes.
+     *
+     * ### Example Problem:
+     * 1. **Player Action**:
+     *     - Player clicks a ladder on map clock 49.
+     *     - The ladder script calls `delay(1); telejump(new_coords);`.
+     *     - Player is delayed until map clock 50 (their `delay` is set to 50).
+     * 2. **Next Tick**:
+     *     - Map clock increments to 50.
+     *     - Player clicks away from the ladder.
+     *     - The `MoveGameClick` packet handler processes the player's input and checks if they are
+     *       delayed.
+     *     - Since `delay` is 50 and `currentMapClock` is also 50, the player appears "not delayed."
+     *     - The player moves and cancels their coroutine.
+     * 3. **Later in the Tick**:
+     *     - During player processing, the player's `activeCoroutine` would normally advance.
+     *     - However, it has already been cancelled during client input processing by the
+     *       `MoveGameClick` handler.
+     */
+    public var processedMapClock: Int = -1
+
+    public var delay: Int = Int.MIN_VALUE
+    public var lastMovement: Int = Int.MIN_VALUE
 
     public var hidden: Boolean = false
-
-    // Important for these variables to start as negative so that the initial [currentMapClock] is
-    // greater than they are. Otherwise, the first map clock tick will always have the PathingEntity
-    // as _technically_ "delayed" and "moving". This would be fine if not for integration tests,
-    // where we do not want the responsibility of setting these to be on the tests themselves.
-    public var delay: Int = -1
-    public var lastMovement: Int = -1
 
     public var activeCoroutine: GameCoroutine? = null
     public val routeDestination: RouteDestination = RouteDestination()
@@ -83,19 +112,19 @@ public sealed class PathingEntity {
         get() = avatar.size
 
     public val isDelayed: Boolean
-        get() = delay > currentMapClock
+        get() = delay > processedMapClock
 
     public val isNotDelayed: Boolean
         get() = !isDelayed
 
     public val hasMovedThisCycle: Boolean
-        get() = lastMovement >= currentMapClock
+        get() = lastMovement >= processedMapClock
 
     public val hasMovedPreviousCycle: Boolean
-        get() = lastMovement == currentMapClock - 1
+        get() = lastMovement == processedMapClock - 1
 
     public val cyclesWithoutMovement: Int
-        get() = currentMapClock - lastMovement
+        get() = processedMapClock - lastMovement
 
     /**
      * Returns `true` if the entity has a pending interaction or active route waypoint.

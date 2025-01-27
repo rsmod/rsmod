@@ -33,6 +33,7 @@ class NpcWanderProcessorTest {
                 fun process() {
                     previousCoords = coords
                     currentMapClock++
+                    processedMapClock++
                     mode.process(this)
                     movement.process(this)
                 }
@@ -44,6 +45,7 @@ class NpcWanderProcessorTest {
                     if (coords != dest) {
                         previousCoords = coords
                         currentMapClock++
+                        processedMapClock++
                         movement.process(this)
                         processUntilArrival(dest, tracker + 1)
                     }
@@ -55,7 +57,7 @@ class NpcWanderProcessorTest {
                 random.next = Int.MAX_VALUE
                 process()
                 assertFalse(hasMovedThisCycle)
-                assertEquals(lastMovement, -1)
+                assertEquals(lastMovement, Int.MIN_VALUE)
                 assertTrue(routeDestination.isEmpty())
 
                 random.next = 0 // Trigger `randomBoolean` to begin walk.
@@ -160,6 +162,7 @@ class NpcWanderProcessorTest {
                 fun process() {
                     previousCoords = coords
                     currentMapClock++
+                    processedMapClock++
                     mode.process(this)
                     movement.process(this)
                 }
@@ -171,6 +174,7 @@ class NpcWanderProcessorTest {
                     if (coords != dest) {
                         previousCoords = coords
                         currentMapClock++
+                        processedMapClock++
                         movement.process(this)
                         processUntilArrival(dest, tracker + 1)
                     }
@@ -206,6 +210,7 @@ class NpcWanderProcessorTest {
                     fun process() {
                         previousCoords = coords
                         currentMapClock++
+                        processedMapClock++
                         mode.process(this)
                         movement.process(this)
                     }

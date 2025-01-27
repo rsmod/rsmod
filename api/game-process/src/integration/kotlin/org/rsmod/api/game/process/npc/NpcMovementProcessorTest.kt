@@ -44,6 +44,7 @@ class NpcMovementProcessorTest {
                     fun process() {
                         previousCoords = coords
                         currentMapClock++
+                        processedMapClock++
                         movement.process(this)
                     }
 

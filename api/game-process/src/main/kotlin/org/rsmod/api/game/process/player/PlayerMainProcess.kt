@@ -40,6 +40,7 @@ constructor(
 
     private fun PlayerList.process() = runBlocking {
         for (player in this@process) {
+            player.processedMapClock = mapClock.cycle
             player.tryOrDisconnect {
                 resumePausedProcess()
                 refreshFaceEntity()

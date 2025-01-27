@@ -68,7 +68,7 @@ class PlayerZoneUpdateProcessorTest {
                 zoneProcessor.clearPendingZoneUpdates()
                 // Clear zone prots from previous cycle.
                 client.flush()
-                captured.clear()
+                captured.clearOutgoing()
                 buildProcessor.process(this)
                 zoneProcessor.process(this)
             }
@@ -174,8 +174,8 @@ class PlayerZoneUpdateProcessorTest {
 
         fun endCycle() {
             zoneProcessor.clearPendingZoneUpdates()
-            client1.clear()
-            client2.clear()
+            client1.clearOutgoing()
+            client2.clearOutgoing()
         }
 
         // Skip the initial set-up phase for new build area.

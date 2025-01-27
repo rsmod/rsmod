@@ -25,6 +25,7 @@ constructor(
 
     public fun process() {
         for (npc in npcs) {
+            npc.processedMapClock = mapClock.cycle
             npc.previousCoords = npc.coords
             npc.tryOrDespawn {
                 if (isNotDelayed) {

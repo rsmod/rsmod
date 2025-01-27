@@ -36,6 +36,7 @@ class NpcPatrolModeProcessorTest {
                 fun process() {
                     previousCoords = coords
                     currentMapClock++
+                    processedMapClock++
                     mode.process(this)
                     movement.process(this)
                 }
@@ -90,6 +91,7 @@ class NpcPatrolModeProcessorTest {
                 fun process() {
                     previousCoords = coords
                     currentMapClock++
+                    processedMapClock++
                     mode.process(this)
                     movement.process(this)
                 }
@@ -159,6 +161,7 @@ class NpcPatrolModeProcessorTest {
                 fun process() {
                     previousCoords = coords
                     currentMapClock++
+                    processedMapClock++
                     mode.process(this)
                     movement.process(this)
                 }
@@ -221,6 +224,7 @@ class NpcPatrolModeProcessorTest {
                 fun process() {
                     previousCoords = coords
                     currentMapClock++
+                    processedMapClock++
                     mode.process(this)
                     movement.process(this)
                 }
@@ -271,6 +275,7 @@ class NpcPatrolModeProcessorTest {
                 fun process() {
                     previousCoords = coords
                     currentMapClock++
+                    processedMapClock++
                     mode.process(this)
                     movement.process(this)
                 }

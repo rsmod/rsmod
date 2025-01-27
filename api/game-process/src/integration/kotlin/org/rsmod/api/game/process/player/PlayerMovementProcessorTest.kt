@@ -37,6 +37,7 @@ class PlayerMovementProcessorTest {
                 fun process() {
                     previousCoords = coords
                     currentMapClock++
+                    processedMapClock++
                     movement.process(this)
                 }
 
@@ -102,6 +103,7 @@ class PlayerMovementProcessorTest {
                 fun process() {
                     previousCoords = coords
                     currentMapClock++
+                    processedMapClock++
                     movement.process(this)
                 }
 
@@ -186,6 +188,7 @@ class PlayerMovementProcessorTest {
                 fun process() {
                     previousCoords = coords
                     currentMapClock++
+                    processedMapClock++
                     movement.process(this)
                 }
 

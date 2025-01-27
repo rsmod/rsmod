@@ -29,6 +29,7 @@ class NpcFaceSquareProcessorTest {
                 fun process() {
                     previousCoords = coords
                     currentMapClock++
+                    processedMapClock++
                     move.process(this)
                     face.process(this)
                 }
@@ -74,6 +75,7 @@ class NpcFaceSquareProcessorTest {
             fun process() {
                 previousCoords = coords
                 currentMapClock++
+                processedMapClock++
                 facing.process(this)
             }
             check(pendingFaceSquare == CoordGrid.NULL)
@@ -96,13 +98,19 @@ class NpcFaceSquareProcessorTest {
                 val npc = npcFactory.create(type, start)
                 withNpc(npc) {
                     val facing = NpcFaceSquareProcessor()
+                    fun process() {
+                        previousCoords = coords
+                        currentMapClock++
+                        processedMapClock++
+                        facing.process(this)
+                    }
                     check(faceAngle == 0)
 
                     // Set the _pending_ face square to target.
                     faceSquare(target, targetWidth = 1, targetLength = 1)
                     check(faceAngle == 0)
 
-                    facing.process(this)
+                    process()
 
                     assertEquals(dir.angle, faceAngle)
                     assertEquals(CoordGrid.NULL, pendingFaceSquare)

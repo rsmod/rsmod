@@ -25,6 +25,7 @@ class PlayerFaceSquareProcessorTest {
                 fun process() {
                     previousCoords = coords
                     currentMapClock++
+                    processedMapClock++
                     move.process(this)
                     face.process(this)
                 }
@@ -70,6 +71,7 @@ class PlayerFaceSquareProcessorTest {
             fun process() {
                 previousCoords = coords
                 currentMapClock++
+                processedMapClock++
                 facing.process(this)
             }
             check(faceAngle == 0)
@@ -87,6 +89,7 @@ class PlayerFaceSquareProcessorTest {
             fun process() {
                 previousCoords = coords
                 currentMapClock++
+                processedMapClock++
                 facing.process(this)
             }
             check(pendingFaceSquare != CoordGrid.NULL)
@@ -107,13 +110,19 @@ class PlayerFaceSquareProcessorTest {
                 val target = start.translate(dir.xOff * 5, dir.zOff * 5)
                 withPlayer(start) {
                     val facing = PlayerFaceSquareProcessor()
+                    fun process() {
+                        previousCoords = coords
+                        currentMapClock++
+                        processedMapClock++
+                        facing.process(this)
+                    }
                     check(faceAngle == 0)
 
                     // Set the _pending_ face square to target.
                     faceSquare(target, targetWidth = 1, targetLength = 1)
                     check(faceAngle == 0)
 
-                    facing.process(this)
+                    process()
 
                     assertEquals(dir.angle, faceAngle)
                     assertEquals(CoordGrid.NULL, pendingFaceSquare)
