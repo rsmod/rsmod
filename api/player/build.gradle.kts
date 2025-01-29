@@ -25,6 +25,7 @@ dependencies {
     implementation(projects.api.type.typeScriptDsl)
     implementation(projects.api.utils.utilsFormat)
     implementation(projects.api.utils.utilsSkills)
+    implementation(projects.api.utils.utilsVars)
     implementation(projects.engine.annotations)
     implementation(projects.engine.coroutine)
     implementation(projects.engine.events)

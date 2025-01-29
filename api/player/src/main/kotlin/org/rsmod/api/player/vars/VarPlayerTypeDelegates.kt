@@ -1,8 +1,11 @@
 package org.rsmod.api.player.vars
 
+import kotlin.enums.EnumEntries
+import kotlin.enums.enumEntries
 import kotlin.reflect.KProperty
 import org.rsmod.api.player.output.VarpSync
 import org.rsmod.api.player.protect.ProtectedAccess
+import org.rsmod.api.utils.vars.VarEnumDelegate
 import org.rsmod.game.entity.Player
 import org.rsmod.game.type.varbit.VarBitType
 import org.rsmod.game.type.varp.VarpType
@@ -39,6 +42,18 @@ public fun <T> typeStrVarp(
     fromType: (T) -> String,
 ): VariableTypeStringDelegate<T> = VariableTypeStringDelegate(varp, toType, fromType)
 
+public inline fun <reified V> enumVarp(
+    varp: VarpType,
+    entries: EnumEntries<V> = enumEntries(),
+    default: V = entries.firstOrNull { it.varValue == 0 } ?: entries.first(),
+): VariableTypeIntDelegate<V> where V : Enum<V>, V : VarEnumDelegate {
+    val toType: (Int) -> V = { varValue ->
+        entries.firstOrNull { varValue == it.varValue } ?: default
+    }
+    val fromType: (V) -> Int = { typed -> typed.varValue }
+    return VariableTypeIntDelegate(varp, toType, fromType)
+}
+
 /* Varbit delegates */
 public fun intVarp(varBit: VarBitType): VariableIntBitsDelegate = VariableIntBitsDelegate(varBit)
 
@@ -50,6 +65,18 @@ public fun <T> typeIntVarp(
     toType: (Int) -> T,
     fromType: (T) -> Int,
 ): VariableTypeIntBitsDelegate<T> = VariableTypeIntBitsDelegate(varBit, toType, fromType)
+
+public inline fun <reified V> enumVarp(
+    varBit: VarBitType,
+    entries: EnumEntries<V> = enumEntries(),
+    default: V = entries.firstOrNull { it.varValue == 0 } ?: entries.first(),
+): VariableTypeIntBitsDelegate<V> where V : Enum<V>, V : VarEnumDelegate {
+    val toType: (Int) -> V = { varValue ->
+        entries.firstOrNull { varValue == it.varValue } ?: default
+    }
+    val fromType: (V) -> Int = { typed -> typed.varValue }
+    return VariableTypeIntBitsDelegate(varBit, toType, fromType)
+}
 
 /* Delegate implementations */
 public class VariableIntDelegate(private val varp: VarpType) {
