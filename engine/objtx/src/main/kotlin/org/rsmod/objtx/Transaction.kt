@@ -22,33 +22,38 @@ public class Transaction<T>(
         return TransactionResultList(output, inventories, results)
     }
 
-    public fun insert(init: InsertQuery.() -> Unit) {
+    public inline fun insert(init: InsertQuery.() -> Unit) {
         val query = InsertQuery().apply(init)
         execute(query)
     }
 
-    public fun delete(init: DeleteQuery.() -> Unit) {
+    public inline fun delete(init: DeleteQuery.() -> Unit) {
         val query = DeleteQuery().apply(init)
         execute(query)
     }
 
-    public fun transfer(init: TransferQuery.() -> Unit) {
+    public inline fun transfer(init: TransferQuery.() -> Unit) {
         val query = TransferQuery().apply(init)
         execute(query)
     }
 
-    public fun swap(init: SwapQuery.() -> Unit) {
+    public inline fun swap(init: SwapQuery.() -> Unit) {
         val query = SwapQuery().apply(init)
         execute(query)
     }
 
-    public fun shift(init: ShiftQuery.() -> Unit) {
+    public inline fun shift(init: ShiftQuery.() -> Unit) {
         val query = ShiftQuery().apply(init)
         execute(query)
     }
 
-    public fun dump(init: DumpQuery.() -> Unit) {
+    public inline fun dump(init: DumpQuery.() -> Unit) {
         val query = DumpQuery().apply(init)
+        execute(query)
+    }
+
+    public inline fun compact(init: CompactQuery.() -> Unit) {
+        val query = CompactQuery().apply(init)
         execute(query)
     }
 
@@ -806,6 +811,166 @@ public class Transaction<T>(
                 return error
             }
             return TransactionResult.Ok(requested, completed)
+        }
+    }
+
+    @TransactionBuilder
+    public inner class CompactQuery(
+        public var from: TransactionInventory<T>? = null,
+        public var startSlot: Int? = null,
+        public var endSlot: Int? = null,
+    ) : TransactionQuery {
+        override fun result(): TransactionResult {
+            val from = from ?: return TransactionResult.Exception("`from` is required.")
+            val image = from.image
+            val startSlot = startSlot ?: 0
+            val endSlot = endSlot ?: (image.size - 1)
+            if (startSlot !in image.indices) {
+                return TransactionResult.Exception(
+                    "`startSlot` not in valid range: $startSlot (size=${image.size})"
+                )
+            }
+            if (endSlot !in image.indices) {
+                return TransactionResult.Exception(
+                    "`endSlot` not in valid range: $endSlot (size=${image.size})"
+                )
+            }
+            if (endSlot <= startSlot) {
+                return TransactionResult.Exception(
+                    "`endSlot` must come after `startSlot`: " +
+                        "endSlot=$endSlot, startSlot=$startSlot"
+                )
+            }
+            return from.compact(startSlot..endSlot)
+        }
+
+        private fun TransactionInventory<T>.compact(slots: IntRange): TransactionResult {
+            var emptySlot = -1
+            for (slot in slots) {
+                if (this[slot] == null) {
+                    if (emptySlot == -1) {
+                        emptySlot = slot
+                    }
+                } else if (emptySlot != -1) {
+                    this[emptySlot] = this[slot]
+                    this[slot] = null
+                    emptySlot++
+                }
+            }
+            val requested = slots.last - slots.first
+            return TransactionResult.Ok(requested = requested, completed = requested)
+        }
+    }
+
+    @TransactionBuilder
+    public inner class BulkLeftShiftQuery(
+        public var from: TransactionInventory<T>? = null,
+        public var startSlot: Int? = null,
+        public var toSlot: Int? = null,
+        public var maxSlot: Int? = null,
+        public var strict: Boolean = true,
+    ) : TransactionQuery {
+        override fun result(): TransactionResult {
+            val from = from ?: return TransactionResult.Exception("`from` is required.")
+            val startSlot =
+                startSlot ?: return TransactionResult.Exception("`startSlot` is required.")
+            val toSlot = toSlot ?: return TransactionResult.Exception("`toSlot` is required.")
+            val image = from.image
+            if (startSlot !in image.indices) {
+                return TransactionResult.Exception(
+                    "`startSlot` not in valid range: $startSlot (size=${image.size})"
+                )
+            }
+            if (toSlot !in image.indices) {
+                return TransactionResult.Exception(
+                    "`toSlot` not in valid range: $toSlot (size=${image.size})"
+                )
+            }
+            if (toSlot >= startSlot) {
+                return TransactionResult.Exception(
+                    "`toSlot` must come before `startSlot`: target=$toSlot, start=$startSlot"
+                )
+            }
+            val maxSlot = maxSlot ?: image.size
+            if (maxSlot > image.size) {
+                return TransactionResult.Exception(
+                    "`maxSlot` cannot be greater than inventory capacity: " +
+                        "maxSlot=$maxSlot, capacity=${image.size}"
+                )
+            }
+            // When `strict` flag is set, we ensure that no non-null objs will be overwritten by
+            // the shift.
+            if (strict) {
+                val nonNullObjSlot = (toSlot until startSlot).firstOrNull { from[it] != null }
+                if (nonNullObjSlot != null) {
+                    return TransactionResult.StrictSlotTaken
+                }
+            }
+            return from.shift(startSlot, toSlot, maxSlot)
+        }
+
+        private fun TransactionInventory<T>.shift(
+            startSlot: Int,
+            toSlot: Int,
+            maxSlot: Int,
+        ): TransactionResult {
+            val shiftElements = image.copyOfRange(startSlot, maxSlot)
+            for (i in shiftElements.indices) {
+                this[toSlot + i] = shiftElements[i]
+            }
+            val excessIndex = toSlot + shiftElements.size
+            for (i in excessIndex until maxSlot) {
+                this[i] = null
+            }
+            val requested = maxSlot - toSlot
+            return TransactionResult.Ok(requested = requested, completed = requested)
+        }
+    }
+
+    @TransactionBuilder
+    public inner class BulkRightShiftQuery(
+        public var from: TransactionInventory<T>? = null,
+        public var startSlot: Int? = null,
+        public var shiftCount: Int? = null,
+    ) : TransactionQuery {
+        override fun result(): TransactionResult {
+            val from = from ?: return TransactionResult.Exception("`from` is required.")
+            val startSlot =
+                startSlot ?: return TransactionResult.Exception("`startSlot` is required.")
+            val shiftCount =
+                shiftCount ?: return TransactionResult.Exception("`shiftCount` is required.")
+            val image = from.image
+            if (startSlot !in image.indices) {
+                return TransactionResult.Exception(
+                    "`startSlot` not in valid range: $startSlot (size=${image.size})"
+                )
+            }
+            if (shiftCount <= 0) {
+                return TransactionResult.Exception(
+                    "`shiftCount` must be greater than zero: $shiftCount"
+                )
+            }
+            return from.shift(startSlot, shiftCount)
+        }
+
+        private fun TransactionInventory<T>.shift(
+            startSlot: Int,
+            shiftCount: Int,
+        ): TransactionResult {
+            // Ensure that any non-null objs at the tail of the inventory do not overflow.
+            for (i in image.size - 1 downTo image.size - shiftCount) {
+                if (this[i] != null && i + shiftCount >= image.size) {
+                    return TransactionResult.NotEnoughSpace
+                }
+            }
+            for (i in image.size - 1 downTo startSlot + shiftCount) {
+                this[i] = image[i - shiftCount]
+            }
+            for (i in startSlot until startSlot + shiftCount) {
+                this[i] = null
+            }
+            val requested = image.size - startSlot
+            return TransactionResult.Ok(requested = requested, completed = requested)
         }
     }
 

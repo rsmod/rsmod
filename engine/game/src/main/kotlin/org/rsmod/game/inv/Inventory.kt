@@ -73,6 +73,7 @@ public class Inventory(public val type: UnpackedInvType, public val objs: Array<
      *
      * Note: This updates the `modifiedSlots` to reflect all affected slots.
      */
+    // TODO: Remove and replace call sites with compact transaction query.
     public fun compact() {
         var emptySlot = -1
         for (slot in indices) {
