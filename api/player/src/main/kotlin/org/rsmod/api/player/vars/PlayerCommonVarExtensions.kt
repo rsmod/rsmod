@@ -29,7 +29,7 @@ public fun Player.resyncVar(varp: VarpType) {
 
 public fun Player.resyncVar(varBit: VarBitType): Unit = resyncVar(varBit.baseVar)
 
-private fun getSpeed(id: Int?): MoveSpeed =
+private fun getSpeed(id: Int): MoveSpeed =
     when (id) {
         2 -> MoveSpeed.Crawl
         1 -> MoveSpeed.Run

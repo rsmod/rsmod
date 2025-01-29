@@ -29,7 +29,7 @@ public fun dateVarp(varp: VarpType): VariableLocalDateTimeDelegate =
 
 public fun <T> typeIntVarp(
     varp: VarpType,
-    toType: (Int?) -> T,
+    toType: (Int) -> T,
     fromType: (T) -> Int,
 ): VariableTypeIntDelegate<T> = VariableTypeIntDelegate(varp, toType, fromType)
 
@@ -47,7 +47,7 @@ public fun boolVarp(varBit: VarBitType): VariableTypeIntBitsDelegate<Boolean> =
 
 public fun <T> typeIntVarp(
     varBit: VarBitType,
-    toType: (Int?) -> T,
+    toType: (Int) -> T,
     fromType: (T) -> Int,
 ): VariableTypeIntBitsDelegate<T> = VariableTypeIntBitsDelegate(varBit, toType, fromType)
 
@@ -72,7 +72,7 @@ public class VariableIntDelegate(private val varp: VarpType) {
 
 public class VariableTypeIntDelegate<T>(
     private val varp: VarpType,
-    public val toType: (Int?) -> T,
+    public val toType: (Int) -> T,
     public val fromType: (T) -> Int,
 ) {
     public operator fun getValue(thisRef: Player, property: KProperty<*>): T {
@@ -138,7 +138,7 @@ public class VariableIntBitsDelegate(private val varbit: VarBitType) {
 
 public class VariableTypeIntBitsDelegate<T>(
     private val varbit: VarBitType,
-    public val toType: (Int?) -> T,
+    public val toType: (Int) -> T,
     public val fromType: (T) -> Int,
 ) {
     private val baseVar: VarpType
@@ -268,7 +268,7 @@ public class VariableTypeStringDelegate<T>(
 /* Utility functions */
 private fun boolToInt(bool: Boolean): Int = if (bool) 1 else 0
 
-private fun boolFromInt(int: Int?): Boolean = int == 1
+private fun boolFromInt(int: Int): Boolean = int == 1
 
 private fun Player.syncVarp(varp: VarpType, value: Int) {
     vars.backing[varp.id] = value
