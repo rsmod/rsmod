@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
-import org.rsmod.events.SuspendEventBusTest.LocOp
 
 class SuspendEventBusTest {
     @Test
@@ -86,13 +85,4 @@ class SuspendEventBusTest {
         key: Long,
         action: suspend K.(T) -> Unit,
     ): Unit = set(type, key, action)
-
-    private operator fun <K, T : SuspendEvent<K>> SuspendEventBus.get(
-        type: Class<out T>,
-        id: Number,
-    ): (suspend K.(T) -> Unit)? {
-        val map = this[type] ?: return null
-        val action = map.getOrDefault(id.toLong(), null) ?: return null
-        return action
-    }
 }
