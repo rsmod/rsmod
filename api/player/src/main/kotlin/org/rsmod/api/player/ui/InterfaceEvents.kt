@@ -64,7 +64,7 @@ public class IfModalDrag(
             "selectedSlot=$selectedSlot, " +
             "targetSlot=$targetSlot, " +
             "selectedObj=$selectedObj, " +
-            "targetObj=$targetObj, " +
+            "targetObj=$targetObj" +
             ")"
 }
 
