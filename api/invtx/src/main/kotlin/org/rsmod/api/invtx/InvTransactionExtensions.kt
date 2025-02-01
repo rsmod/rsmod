@@ -388,6 +388,20 @@ public fun Transaction<InvObj>.moveAll(
     }
 }
 
+public fun Player.invCompress(
+    from: Inventory,
+    slots: IntRange = from.indices,
+): TransactionResultList<InvObj> {
+    return invTransaction(from) {
+        val fromInv = select(from)
+        compact {
+            this.from = fromInv
+            this.startSlot = slots.first
+            this.endSlot = slots.last
+        }
+    }
+}
+
 public fun Transaction<InvObj>.select(inv: Inventory): TransactionInventory<InvObj> {
     val image = Array(inv.objs.size) { input(inv.objs[it]) }
     val stack = inv.type.stack.toTransactionStackType()

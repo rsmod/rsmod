@@ -4,6 +4,7 @@ import jakarta.inject.Inject
 import org.rsmod.api.config.refs.invs
 import org.rsmod.api.config.refs.objs
 import org.rsmod.api.config.refs.synths
+import org.rsmod.api.invtx.invCompress
 import org.rsmod.api.invtx.invMoveAll
 import org.rsmod.api.market.MarketPrices
 import org.rsmod.api.player.output.ClientScripts.ifSetTextAlign
@@ -206,7 +207,7 @@ constructor(
         }
         val count = resolveCount(op) ?: error("Invalid op: $op (slot=$fromSlot)")
         invMoveFromSlot(from = tempInv, into = inv, fromSlot = fromSlot, count = count)
-        tempInv.compact()
+        player.invCompress(tempInv)
         player.updateGuidePrices()
     }
 
