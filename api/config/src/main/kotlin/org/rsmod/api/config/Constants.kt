@@ -29,6 +29,10 @@ object Constants {
     // Arbitrary value until I get more info on this var.
     const val ge_recalcusers_low: Int = 10
 
+    const val meslayer_mode_countdialog = 7
+    const val meslayer_mode_objsearch = 11
+    const val meslayer_mode_objdialog = 14
+
     const val modal_fixedwidthandheight: Int = 0
     const val modal_infinitewidthandheight: Int = 1
 

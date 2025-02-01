@@ -34,6 +34,13 @@ public object ClientScripts {
     public fun chatboxMultiInit(player: Player, title: String, joinedChoices: String): Unit =
         player.runClientScript(58, title, joinedChoices)
 
+    /**
+     * Values for [layerMode] can be found in [org.rsmod.api.config.Constants] prefixed with
+     * `meslayer_mode`. (i.e., `meslayer_mode_countdialog`)
+     */
+    public fun mesLayerClose(player: Player, layerMode: Int): Unit =
+        player.runClientScript(101, layerMode)
+
     public fun mesLayerMode7(player: Player, title: String): Unit =
         player.runClientScript(108, title)
 
@@ -199,4 +206,11 @@ public object ClientScripts {
         container: ComponentType,
         text: String,
     ): Unit = player.runClientScript(7065, tooltip.packed, container.packed, text)
+
+    public fun tooltip(
+        player: Player,
+        text: String,
+        container: ComponentType,
+        tooltip: ComponentType,
+    ): Unit = player.runClientScript(1495, text, container.packed, tooltip.packed)
 }
