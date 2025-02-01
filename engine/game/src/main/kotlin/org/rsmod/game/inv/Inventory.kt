@@ -88,22 +88,21 @@ public class Inventory(public val type: UnpackedInvType, public val objs: Array<
     public fun count(objType: UnpackedObjType): Int {
         val obj = objs.firstOrNull { it?.id == objType.id } ?: return 0
         val singleStack = type.stack == InvStackType.Always || objType.isStackable
-        return count(obj, singleStack)
+        if (singleStack) {
+            return obj.count
+        }
+        return individualCount(obj)
     }
 
     public fun count(obj: InvObj, objType: UnpackedObjType): Int {
         val singleStack = type.stack == InvStackType.Always || objType.isStackable
-        return count(obj, singleStack)
+        if (singleStack) {
+            return obj.count
+        }
+        return individualCount(obj)
     }
 
-    private fun count(obj: InvObj, isStackable: Boolean): Int =
-        if (isStackable) {
-            obj.count
-        } else {
-            count(obj)
-        }
-
-    private fun count(obj: InvObj): Int {
+    private fun individualCount(obj: InvObj): Int {
         var count = 0
         for (i in objs.indices) {
             val other = objs[i] ?: continue
