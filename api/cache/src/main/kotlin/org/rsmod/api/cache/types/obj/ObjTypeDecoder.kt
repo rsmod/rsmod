@@ -110,7 +110,7 @@ public object ObjTypeDecoder {
                         3 -> this.isubop3 = isubop
                         4 -> this.isubop4 = isubop
                         5 -> this.isubop5 = isubop
-                        else -> error("Unhandled isubop parent op `$op`.")
+                        else -> throw NotImplementedError("Unhandled isubop parent op: $op")
                     }
                 }
                 65 -> stockmarket = true

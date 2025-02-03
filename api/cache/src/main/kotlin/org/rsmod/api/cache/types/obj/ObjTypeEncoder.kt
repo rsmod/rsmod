@@ -168,6 +168,7 @@ public object ObjTypeEncoder {
 
             fun writeIsubop(op: Int, isubop: Array<String>) {
                 require(isubop.any { it.isNotBlank() }) { "`isubop` must not be empty: $this" }
+                data.writeByte(43)
                 data.writeByte(op - 1)
                 for (i in isubop.indices) {
                     val op = isubop[i]
