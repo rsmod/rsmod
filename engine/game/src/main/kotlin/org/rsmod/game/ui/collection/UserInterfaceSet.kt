@@ -1,11 +1,12 @@
 package org.rsmod.game.ui.collection
 
-import it.unimi.dsi.fastutil.ints.IntOpenHashSet
+import it.unimi.dsi.fastutil.ints.IntLinkedOpenHashSet
 import it.unimi.dsi.fastutil.ints.IntSet
 import org.rsmod.game.ui.UserInterface
 
 @JvmInline
-public value class UserInterfaceSet(public val backing: IntSet = IntOpenHashSet()) : Iterable<Int> {
+public value class UserInterfaceSet(public val backing: IntSet = IntLinkedOpenHashSet()) :
+    Iterable<Int> {
     public fun isEmpty(): Boolean = backing.isEmpty()
 
     public fun isNotEmpty(): Boolean = !isEmpty()

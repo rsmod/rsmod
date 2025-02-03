@@ -1,13 +1,13 @@
 package org.rsmod.game.ui.collection
 
+import it.unimi.dsi.fastutil.ints.Int2IntLinkedOpenHashMap
 import it.unimi.dsi.fastutil.ints.Int2IntMap
-import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap
 import kotlin.collections.set
 import org.rsmod.game.ui.Component
 import org.rsmod.game.ui.UserInterface
 
 @JvmInline
-public value class ComponentTargetMap(public val backing: Int2IntMap = Int2IntOpenHashMap()) :
+public value class ComponentTargetMap(public val backing: Int2IntMap = Int2IntLinkedOpenHashMap()) :
     Iterable<Map.Entry<Int, Int>> {
     public val keys: Collection<Int>
         get() = backing.keys

@@ -1,12 +1,13 @@
 package org.rsmod.game.ui.collection
 
+import it.unimi.dsi.fastutil.ints.Int2IntLinkedOpenHashMap
 import it.unimi.dsi.fastutil.ints.Int2IntMap
-import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap
 import org.rsmod.game.ui.Component
 
 @JvmInline
-public value class ComponentTranslationMap(public val backing: Int2IntMap = Int2IntOpenHashMap()) :
-    Iterable<Map.Entry<Int, Int>> {
+public value class ComponentTranslationMap(
+    public val backing: Int2IntMap = Int2IntLinkedOpenHashMap()
+) : Iterable<Map.Entry<Int, Int>> {
     public fun isEmpty(): Boolean = backing.isEmpty()
 
     public fun isNotEmpty(): Boolean = !isEmpty()
