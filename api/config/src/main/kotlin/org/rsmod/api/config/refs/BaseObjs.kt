@@ -8,6 +8,7 @@ typealias objs = BaseObjs
 
 object BaseObjs : ObjReferences() {
     val template_for_cert = find("template_for_cert")
+    val template_for_transform = find("template_for_transform")
     val template_for_placeholder = find("template_for_placeholder")
     val null_item_placeholder = find("null_item_placeholder")
 
@@ -23,6 +24,9 @@ object BaseObjs : ObjReferences() {
     val achievement_diary_cape_t = find("achievement_diary_cape_t")
     val achievement_diary_hood = find("achievement_diary_hood")
     val cabbage_cape = find("cabbage_cape")
+    val max_hood = find("max_hood")
+    val max_cape_worn = find("max_cape_worn")
+    val max_cape_inv = find("max_cape_inv")
 
     val helm_of_neitiznot = find("helm_of_neitiznot")
     val fire_cape = find("fire_cape")

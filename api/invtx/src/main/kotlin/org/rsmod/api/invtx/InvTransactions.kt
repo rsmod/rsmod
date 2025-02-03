@@ -16,6 +16,7 @@ import org.rsmod.objtx.TransactionResultList
 
 public class InvTransactions(
     public val certLookup: Map<Int, TransactionObjTemplate>,
+    public val transformLookup: Map<Int, TransactionObjTemplate>,
     public val placeholderLookup: Map<Int, TransactionObjTemplate>,
     public val stackableLookup: Set<Int>,
 ) {
@@ -28,6 +29,7 @@ public class InvTransactions(
             Transaction(input = InvObj?::toTransactionObj, output = TransactionObj?::toObj)
         transaction.autoCommit = autoCommit
         transaction.certLookup = certLookup
+        transaction.transformLookup = transformLookup
         transaction.placeholderLookup = placeholderLookup
         transaction.stackableLookup = stackableLookup
         try {
@@ -45,10 +47,12 @@ public class InvTransactions(
     public companion object {
         public fun from(types: ObjTypeList): InvTransactions {
             val certLookup = types.values.toCertLookup()
+            val transformLookup = types.values.toTransformLookup()
             val placeholderLookup = types.values.toPlaceholderLookup()
             val stackableLookup = types.values.filter { it.stackable }.map { it.id }
             return InvTransactions(
                 certLookup = Int2ObjectOpenHashMap(certLookup),
+                transformLookup = Int2ObjectOpenHashMap(transformLookup),
                 placeholderLookup = Int2ObjectOpenHashMap(placeholderLookup),
                 stackableLookup = IntOpenHashSet(stackableLookup),
             )
@@ -57,6 +61,13 @@ public class InvTransactions(
         private fun Iterable<UnpackedObjType>.toCertLookup(): Map<Int, TransactionObjTemplate> =
             filter { it.certlink != 0 }
                 .associate { it.id to TransactionObjTemplate(it.certlink, it.certtemplate) }
+
+        private fun Iterable<UnpackedObjType>.toTransformLookup():
+            Map<Int, TransactionObjTemplate> =
+            filter { it.transformlink != 0 }
+                .associate {
+                    it.id to TransactionObjTemplate(it.transformlink, it.transformtemplate)
+                }
 
         private fun Iterable<UnpackedObjType>.toPlaceholderLookup():
             Map<Int, TransactionObjTemplate> =

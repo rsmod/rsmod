@@ -277,6 +277,8 @@ public fun Transaction<InvObj>.swap(
     intoSlot: Int,
     cert: Boolean = false,
     uncert: Boolean = false,
+    transform: Boolean = false,
+    untransform: Boolean = false,
     mergeStacks: Boolean = true,
     strict: Boolean = true,
 ) {
@@ -287,6 +289,8 @@ public fun Transaction<InvObj>.swap(
         this.intoSlot = intoSlot
         this.cert = cert
         this.uncert = uncert
+        this.transform = transform
+        this.untransform = untransform
         this.merge = mergeStacks
         this.strict = strict
     }
@@ -301,6 +305,8 @@ public fun Player.invTransfer(
     strict: Boolean = true,
     cert: Boolean = false,
     uncert: Boolean = false,
+    transform: Boolean = false,
+    untransform: Boolean = false,
     placehold: Boolean = false,
     autoCommit: Boolean = true,
 ): TransactionResultList<InvObj> {
@@ -317,6 +323,8 @@ public fun Player.invTransfer(
             strict = strict,
             cert = cert,
             uncert = uncert,
+            transform = transform,
+            untransform = untransform,
             placehold = placehold,
         )
     }
@@ -331,6 +339,8 @@ public fun Transaction<InvObj>.transfer(
     strict: Boolean = true,
     cert: Boolean = false,
     uncert: Boolean = false,
+    transform: Boolean = false,
+    untransform: Boolean = false,
     placehold: Boolean = false,
 ) {
     transfer {
@@ -341,6 +351,8 @@ public fun Transaction<InvObj>.transfer(
         this.count = count
         this.cert = cert
         this.uncert = uncert
+        this.transform = transform
+        this.untransform = untransform
         this.placehold = placehold
         this.strict = strict
     }
@@ -351,8 +363,11 @@ public fun Player.invMoveAll(
     into: Inventory,
     cert: Boolean = false,
     uncert: Boolean = false,
+    transform: Boolean = false,
+    untransform: Boolean = false,
     placehold: Boolean = false,
     keepSlots: Set<Int>? = null,
+    intoStartSlot: Int = 0,
     autoCommit: Boolean = true,
 ): TransactionResultList<InvObj> {
     check(into != from) { "`into` should not be equal to `from` inv." }
@@ -364,8 +379,11 @@ public fun Player.invMoveAll(
             into = intoInv,
             cert = cert,
             uncert = uncert,
+            transform = transform,
+            untransform = untransform,
             placehold = placehold,
             keepSlots = keepSlots,
+            intoStartSlot = intoStartSlot,
         )
     }
 }
@@ -375,16 +393,22 @@ public fun Transaction<InvObj>.moveAll(
     into: TransactionInventory<InvObj>,
     cert: Boolean = false,
     uncert: Boolean = false,
+    transform: Boolean = false,
+    untransform: Boolean = false,
     placehold: Boolean = false,
     keepSlots: Set<Int>? = null,
+    intoStartSlot: Int = 0,
 ) {
     dump {
         this.from = from
         this.into = into
         this.cert = cert
         this.uncert = uncert
+        this.transform = transform
+        this.untransform = untransform
         this.placehold = placehold
         this.keepSlots = keepSlots
+        this.intoStartSlot = intoStartSlot
     }
 }
 

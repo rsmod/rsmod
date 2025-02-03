@@ -367,5 +367,15 @@ public object ObjTypeEncoder {
                 data.writeByte(209)
                 data.writeShort(contentGroup)
             }
+
+            if (transformlink != 0) {
+                data.writeByte(210)
+                data.writeShort(transformlink)
+            }
+
+            if (transformtemplate != 0) {
+                data.writeByte(211)
+                data.writeShort(transformtemplate)
+            }
         }
 }

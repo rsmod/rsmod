@@ -22,6 +22,9 @@ public sealed class ObjType(internal var internalId: Int?, internal var internal
     public val id: Int
         get() = internalId ?: error("`internalId` must not be null.")
 
+    public val nameValue: String
+        get() = internalName ?: error("`internalName` must not be null.")
+
     public val internalNameGet: String?
         get() = internalName
 
@@ -133,6 +136,8 @@ public class UnpackedObjType(
     public val dummyitem: Int,
     public val contentGroup: Int,
     public val weaponCategory: Int,
+    public val transformlink: Int,
+    public val transformtemplate: Int,
     internalId: Int,
     internalName: String,
 ) : ObjType(internalId, internalName) {
@@ -142,6 +147,9 @@ public class UnpackedObjType(
     public val isStackable: Boolean
         get() = (stackable || certtemplate > 0) && objvar.isEmpty()
 
+    public val hasPlaceholder: Boolean
+        get() = placeholderlink > 0 && placeholdertemplate == 0
+
     public val isPlaceholder: Boolean
         get() = placeholdertemplate != 0
 
@@ -150,6 +158,12 @@ public class UnpackedObjType(
 
     public val canUncert: Boolean
         get() = certlink > 0 && certtemplate > 0
+
+    public val hasTransformation: Boolean
+        get() = transformlink > 0 && transformtemplate == 0
+
+    public val isTransformation: Boolean
+        get() = transformtemplate != 0
 
     public val isDummyItem: Boolean
         get() = dummyitem != ObjTypeBuilder.DEFAULT_DUMMYITEM
@@ -292,6 +306,8 @@ public class UnpackedObjType(
             "boughttemplate=$boughttemplate, " +
             "placeholderlink=$placeholderlink, " +
             "placeholdertemplate=$placeholdertemplate, " +
+            "transformlink=$transformlink, " +
+            "transformtemplate=$transformtemplate, " +
             "params=$paramMap, " +
             "generateCertificate=$generateCertificate, " +
             "generatePlaceholder=$generatePlaceholder, " +
@@ -380,6 +396,8 @@ public class UnpackedObjType(
         if (respawnRate != other.respawnRate) return false
         if (dummyitem != other.dummyitem) return false
         if (contentGroup != other.contentGroup) return false
+        if (transformlink != other.transformlink) return false
+        if (transformtemplate != other.transformtemplate) return false
         if (internalId != other.internalId) return false
 
         return true
@@ -456,6 +474,8 @@ public class UnpackedObjType(
         result = 31 * result + respawnRate
         result = 31 * result + dummyitem
         result = 31 * result + contentGroup
+        result = 31 * result + transformlink
+        result = 31 * result + transformtemplate
         result = 31 * result + (internalId ?: 0)
         return result
     }

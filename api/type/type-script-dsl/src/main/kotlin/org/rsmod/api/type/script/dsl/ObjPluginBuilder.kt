@@ -5,6 +5,7 @@ package org.rsmod.api.type.script.dsl
 import org.rsmod.game.type.TypeResolver
 import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.obj.Dummyitem
+import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.ObjTypeBuilder
 import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.type.obj.Wearpos
@@ -104,6 +105,18 @@ public class ObjPluginBuilder(public var internal: String? = null) {
         get() = backing.generatePlaceholder == true
         set(value) {
             backing.generatePlaceholder = value
+        }
+
+    public var transformlink: ObjType?
+        get() = null
+        set(value) {
+            backing.transformlink = value?.id
+        }
+
+    public var transformtemplate: ObjType?
+        get() = null
+        set(value) {
+            backing.transformtemplate = value?.id
         }
 
     private val op: Array<String?>

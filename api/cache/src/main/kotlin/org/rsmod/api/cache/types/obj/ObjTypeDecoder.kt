@@ -156,6 +156,8 @@ public object ObjTypeDecoder {
                 207 -> respawnRate = data.readUnsignedShort()
                 208 -> dummyitem = data.readByte().toInt()
                 209 -> contentGroup = data.readUnsignedShort()
+                210 -> transformlink = data.readUnsignedShort()
+                211 -> transformtemplate = data.readUnsignedShort()
                 249 -> paramMap = ParamMap(data.readRawParams())
                 else -> throw IOException("Error unrecognised .obj config code: $code")
             }

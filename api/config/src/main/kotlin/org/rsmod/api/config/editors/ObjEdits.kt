@@ -1,9 +1,11 @@
 package org.rsmod.api.config.editors
 
 import org.rsmod.api.config.refs.content
+import org.rsmod.api.config.refs.objs
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.config.refs.stats
 import org.rsmod.api.type.editors.obj.ObjEditor
+import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.stat.StatType
 
 internal object ObjEdits : ObjEditor() {
@@ -54,10 +56,6 @@ internal object ObjEdits : ObjEditor() {
         skillCape(stats.construction, "construct_hood", "construct_cape", "construct_cape_t")
     }
 
-    private fun editMaxCapes() {
-        maxCape("max_hood", "max_cape_worn")
-    }
-
     private fun skillCape(stat: StatType, hood: String, untrimmed: String, trimmed: String) {
         edit(hood) {
             param[params.statreq1_skill] = stat
@@ -78,8 +76,20 @@ internal object ObjEdits : ObjEditor() {
         }
     }
 
-    private fun maxCape(hood: String, cape: String) {
-        edit(hood) { contentGroup = content.max_hood }
-        edit(cape) { contentGroup = content.max_cape }
+    private fun editMaxCapes() {
+        maxCape(objs.max_hood, objs.max_cape_worn, objs.max_cape_inv)
+    }
+
+    private fun maxCape(hood: ObjType, wornCape: ObjType, invCape: ObjType) {
+        edit(invCape.nameValue) {
+            contentGroup = content.max_cape
+            transformlink = wornCape
+        }
+        edit(wornCape.nameValue) {
+            contentGroup = content.max_cape
+            transformlink = invCape
+            transformtemplate = objs.template_for_transform
+        }
+        edit(hood.nameValue) { contentGroup = content.max_hood }
     }
 }

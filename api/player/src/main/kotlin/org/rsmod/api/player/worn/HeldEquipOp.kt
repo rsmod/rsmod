@@ -48,6 +48,7 @@ constructor(private val objTypes: ObjTypeList, private val eventBus: EventBus) {
                         fromSlot = invSlot,
                         intoSlot = primaryWearpos.slot,
                         into = worn,
+                        transform = true,
                         mergeStacks = true,
                     )
                     for (unequip in unequipWearpos) {
@@ -58,6 +59,7 @@ constructor(private val objTypes: ObjTypeList, private val eventBus: EventBus) {
                             count = wornObj.count,
                             into = inv,
                             intoSlot = if (unequipPrimary) null else invSlot,
+                            untransform = true,
                         )
                     }
                 }

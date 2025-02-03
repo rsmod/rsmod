@@ -13,6 +13,7 @@ public class Transaction<T>(
 ) {
     public var certLookup: Map<Int, TransactionObjTemplate>? = null
     public var placeholderLookup: Map<Int, TransactionObjTemplate>? = null
+    public var transformLookup: Map<Int, TransactionObjTemplate>? = null
     public var stackableLookup: Set<Int>? = null
 
     private val results = mutableListOf<TransactionResult>()
@@ -80,6 +81,10 @@ public class Transaction<T>(
         return placeholderLookup?.get(obj)
     }
 
+    private fun transformTemplate(obj: Int): TransactionObjTemplate? {
+        return transformLookup?.get(obj)
+    }
+
     private fun stackable(obj: Int): Boolean {
         val lookup = stackableLookup ?: return false
         return obj in lookup
@@ -96,6 +101,8 @@ public class Transaction<T>(
         public var vars: Int = 0,
         public var cert: Boolean = false,
         public var uncert: Boolean = false,
+        public var transform: Boolean = false,
+        public var untransform: Boolean = false,
     ) : TransactionQuery {
         public var count: Int
             get() = preferredCount ?: 0
@@ -121,6 +128,26 @@ public class Transaction<T>(
             val count = preferredCount ?: strictCount
             if (count < 1) {
                 return TransactionResult.InvalidCountRequest
+            }
+            if (transform) {
+                val template = this@Transaction.transformTemplate(obj)
+                val resolved =
+                    if (template != null && !template.isTransformed) {
+                        template.link
+                    } else {
+                        obj
+                    }
+                return inv.insert(resolved, count)
+            }
+            if (untransform) {
+                val template = this@Transaction.transformTemplate(obj)
+                val resolved =
+                    if (template != null && template.isTransformed) {
+                        template.link
+                    } else {
+                        obj
+                    }
+                return inv.insert(resolved, count)
             }
             return inv.insert(obj, count)
         }
@@ -351,6 +378,8 @@ public class Transaction<T>(
         public var cert: Boolean = false,
         public var uncert: Boolean = false,
         public var placehold: Boolean = false,
+        public var transform: Boolean = false,
+        public var untransform: Boolean = false,
         public var strict: Boolean = true,
     ) : TransactionQuery {
         override fun result(): TransactionResult {
@@ -406,6 +435,8 @@ public class Transaction<T>(
                         vars = obj.vars,
                         cert = cert,
                         uncert = uncert,
+                        transform = transform,
+                        untransform = untransform,
                     )
                     .result()
             if (insert !is TransactionResult.Ok) {
@@ -473,6 +504,8 @@ public class Transaction<T>(
                             cert = cert,
                             uncert = uncert,
                             preferredSlot = intoSlot,
+                            transform = transform,
+                            untransform = untransform,
                         )
                         .result()
                 if (insert is TransactionResult.Err) {
@@ -515,6 +548,8 @@ public class Transaction<T>(
         public var intoSlot: Int? = null,
         public var cert: Boolean = false,
         public var uncert: Boolean = false,
+        public var transform: Boolean = false,
+        public var untransform: Boolean = false,
         public var merge: Boolean = false,
         public var strict: Boolean = true,
     ) : TransactionQuery {
@@ -538,6 +573,8 @@ public class Transaction<T>(
                         count = obj.count,
                         cert = cert,
                         uncert = uncert,
+                        transform = transform,
+                        untransform = untransform,
                         placehold = false,
                     )
                 return transfer.result()
@@ -600,6 +637,10 @@ public class Transaction<T>(
                             vars = otherObj.vars,
                             cert = cert,
                             uncert = uncert,
+                            // Assume anything that any obj that is swapped from the target
+                            // inventory should have the opposite transformation flags.
+                            transform = untransform,
+                            untransform = transform,
                         )
                         .result()
                 if (insertOtherObj is TransactionResult.Err) {
@@ -615,6 +656,8 @@ public class Transaction<T>(
                         vars = obj.vars,
                         cert = cert,
                         uncert = uncert,
+                        transform = transform,
+                        untransform = untransform,
                     )
                     .result()
             if (insertObj is TransactionResult.Err) {
@@ -740,6 +783,8 @@ public class Transaction<T>(
         public var into: TransactionInventory<T>? = null,
         public var cert: Boolean = false,
         public var uncert: Boolean = false,
+        public var transform: Boolean = false,
+        public var untransform: Boolean = false,
         public var placehold: Boolean = false,
         public var keepSlots: Set<Int>? = null,
     ) : TransactionQuery {
@@ -774,6 +819,8 @@ public class Transaction<T>(
                             vars = obj.vars,
                             cert = cert,
                             uncert = uncert,
+                            transform = transform,
+                            untransform = untransform,
                         )
                         .result()
                 if (insert is TransactionResult.Err) {
@@ -983,6 +1030,9 @@ public class Transaction<T>(
             get() = template != 0
 
         private val TransactionObjTemplate.isPlaceholder: Boolean
+            get() = template != 0
+
+        private val TransactionObjTemplate.isTransformed: Boolean
             get() = template != 0
     }
 }

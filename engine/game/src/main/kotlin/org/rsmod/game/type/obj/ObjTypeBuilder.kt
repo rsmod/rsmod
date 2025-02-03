@@ -84,6 +84,8 @@ public class ObjTypeBuilder(public var internal: String? = null) {
     public var dummyitem: Int? = null
     public var contentGroup: Int? = null
     public var weaponCategory: Int? = null
+    public var transformlink: Int? = null
+    public var transformtemplate: Int? = null
 
     public fun build(id: Int): UnpackedObjType {
         val internal = checkNotNull(internal) { "`internal` must be set." }
@@ -142,6 +144,8 @@ public class ObjTypeBuilder(public var internal: String? = null) {
         val dummyitem = dummyitem ?: DEFAULT_DUMMYITEM
         val contentGroup = contentGroup ?: DEFAULT_CONTENT_GROUP
         val weaponCategory = weaponCategory ?: defaultWeaponCategory().id
+        val transformlink = transformlink ?: 0
+        val transformtemplate = transformtemplate ?: 0
         return UnpackedObjType(
             name = name,
             desc = desc,
@@ -213,6 +217,8 @@ public class ObjTypeBuilder(public var internal: String? = null) {
             dummyitem = dummyitem,
             contentGroup = contentGroup,
             weaponCategory = weaponCategory,
+            transformlink = transformlink,
+            transformtemplate = transformtemplate,
             internalId = id,
             internalName = internal,
         )
@@ -355,6 +361,8 @@ public class ObjTypeBuilder(public var internal: String? = null) {
             val dummyitem = select(edit, base, DEFAULT_DUMMYITEM) { dummyitem }
             val contentGroup = select(edit, base, DEFAULT_CONTENT_GROUP) { contentGroup }
             val weaponCategory = select(edit, base, default = 0) { weaponCategory }
+            val transformlink = select(edit, base, default = 0) { transformlink }
+            val transformtemplate = select(edit, base, default = 0) { transformtemplate }
             val internalId = select(edit, base, default = null) { internalId }
             val internalName = select(edit, base, default = null) { internalName }
             return UnpackedObjType(
@@ -428,6 +436,8 @@ public class ObjTypeBuilder(public var internal: String? = null) {
                 dummyitem = dummyitem,
                 contentGroup = contentGroup,
                 weaponCategory = weaponCategory,
+                transformlink = transformlink,
+                transformtemplate = transformtemplate,
                 internalId = internalId ?: -1,
                 internalName = internalName ?: "",
             )

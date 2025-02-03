@@ -110,10 +110,13 @@
       <w>telejump</w>
       <w>telemove</w>
       <w>tradeable</w>
+      <w>transformlink</w>
+      <w>transformtemplate</w>
       <w>transmog</w>
       <w>uncert</w>
       <w>unequip</w>
       <w>unimpl</w>
+      <w>unplacehold</w>
       <w>vampyre</w>
       <w>vampyres</w>
       <w>varbit</w>

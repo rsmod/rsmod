@@ -24,7 +24,13 @@ constructor(private val objTypes: ObjTypeList, private val eventBus: EventBus) {
         val objType = objTypes[obj]
 
         val transaction =
-            player.invTransfer(from = worn, fromSlot = wornSlot, into = into, count = obj.count)
+            player.invTransfer(
+                from = worn,
+                fromSlot = wornSlot,
+                into = into,
+                count = obj.count,
+                untransform = true,
+            )
 
         if (transaction.failure) {
             check(transaction.err is TransactionResult.NotEnoughSpace) {
