@@ -30,7 +30,7 @@ object BaseComponents : ComponentReferences() {
     val music_tab_target = find("resizable_pane_com89", 3182435415241880458)
     val overlay_target = find("resizable_pane_com18", 7699969845154582066)
 
-    val chat_dialogue_target = find("chat_com565", 137902143560901726)
+    val chat_dialogue_target = find("chat_com566", 1527608226813778100)
 
     val player_dialogue_head = find("player_dialogue_com2", 5373095475151190962)
     val player_dialogue_title = find("player_dialogue_com4", 6182330832416658165)
