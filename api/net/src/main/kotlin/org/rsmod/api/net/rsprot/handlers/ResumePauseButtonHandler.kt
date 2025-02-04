@@ -24,8 +24,19 @@ constructor(
         val componentType = componentTypes[message.asComponent]
         val interfaceType = interfaceTypes[message.asComponent]
         val input = ResumePauseButtonInput(componentType, message.sub)
+
         if (player.ui.containsModal(interfaceType)) {
             player.ifCloseSub(interfaceType, eventBus)
+            player.resumeActiveCoroutine(input)
+            return
+        }
+
+        // Seems overlays do not implicitly close their associated interface. Can be seen in bank
+        // tutorial overlay. After finishing the tutorial, the main bank interface is the first
+        // interface to close, followed by the tutorial overlay (which is closed due to interface
+        // close recursion), and then side bank interface. The overlay would be the first interface
+        // to close were it closed here.
+        if (player.ui.containsOverlay(interfaceType)) {
             player.resumeActiveCoroutine(input)
         }
     }
