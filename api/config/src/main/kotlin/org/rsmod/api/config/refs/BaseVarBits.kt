@@ -80,4 +80,17 @@ object BaseVarBits : VarBitReferences() {
     val preserve_unlocked = find("preserve_prayer_unlocked", 1237738739)
     val rigour_unlocked = find("rigour_prayer_unlocked", 1237277213)
     val augury_unlocked = find("augury_prayer_unlocked", 1237507976)
+
+    /* Server-side only types */
+    val coal_bag_storage_count = find("coal_bag_storage_count")
+    val small_pouch_storage_type = find("small_pouch_storage_type")
+    val small_pouch_storage_count = find("small_pouch_storage_count")
+    val medium_pouch_storage_type = find("medium_pouch_storage_type")
+    val medium_pouch_storage_count = find("medium_pouch_storage_count")
+    val large_pouch_storage_type = find("large_pouch_storage_type")
+    val large_pouch_storage_count = find("large_pouch_storage_count")
+    val giant_pouch_storage_type = find("giant_pouch_storage_type")
+    val giant_pouch_storage_count = find("giant_pouch_storage_count")
+    val colossal_pouch_storage_type = find("colossal_pouch_storage_type")
+    val colossal_pouch_storage_count = find("colossal_pouch_storage_count")
 }

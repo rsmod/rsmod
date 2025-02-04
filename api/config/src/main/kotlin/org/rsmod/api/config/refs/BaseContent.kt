@@ -21,6 +21,10 @@ object BaseContent : ContentReferences() {
     val empty_chest = find("empty_chest")
     val empty_boxes = find("empty_boxes")
     val empty_sacks = find("empty_sacks")
+    val banker = find("banker")
+    val bank_booth = find("bank_booth")
+    val bank_chest = find("bank_chest")
+    val bank_deposit_box = find("bank_deposit_box")
     val person = find("person")
     val dungeonladder_down = find("dungeonladder_down")
     val dungeonladder_up = find("dungeonladder_up")
@@ -41,4 +45,6 @@ object BaseContent : ContentReferences() {
     val skill_hood = find("skill_hood")
     val max_cape = find("max_cape")
     val max_hood = find("max_hood")
+    val food = find("food")
+    val potion = find("potion")
 }

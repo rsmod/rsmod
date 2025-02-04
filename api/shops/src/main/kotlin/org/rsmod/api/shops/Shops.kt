@@ -4,7 +4,6 @@ import jakarta.inject.Inject
 import org.rsmod.api.config.refs.currencies
 import org.rsmod.api.player.output.ClientScripts.interfaceInvInit
 import org.rsmod.api.player.output.ClientScripts.shopMainInit
-import org.rsmod.api.player.output.ClientScripts.topLevelMainModalBackground
 import org.rsmod.api.player.startInvTransmit
 import org.rsmod.api.player.ui.ifOpenMainSidePair
 import org.rsmod.api.player.ui.ifSetEvents
@@ -90,8 +89,13 @@ constructor(private val invTypes: InvTypeList, private val eventBus: EventBus) {
 
         player.startInvTransmit(shopInv)
         player.startInvTransmit(sideInv)
-        topLevelMainModalBackground(player)
-        player.ifOpenMainSidePair(ShopInterfaces.shop_main, ShopInterfaces.shop_side, eventBus)
+        player.ifOpenMainSidePair(
+            main = ShopInterfaces.shop_main,
+            side = ShopInterfaces.shop_side,
+            colour = -1,
+            transparency = -1,
+            eventBus = eventBus,
+        )
         player.ifSetText(ShopComponents.shop_subtext, subtext)
         shopMainInit(player, shopInv.type, title)
 

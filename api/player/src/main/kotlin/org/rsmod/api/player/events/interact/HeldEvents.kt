@@ -6,8 +6,18 @@ import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.obj.InvObj
 import org.rsmod.game.type.droptrig.DropTriggerType
+import org.rsmod.game.type.inv.InvType
 import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.type.obj.Wearpos
+
+public class HeldBanksideEvents {
+    public class Type(
+        public val player: Player,
+        public val slot: Int,
+        public val type: UnpackedObjType,
+        override val id: Long = type.id.toLong(),
+    ) : KeyedEvent
+}
 
 public class HeldDropEvents {
     public class Trigger(
@@ -38,6 +48,13 @@ public class HeldDropEvents {
         public val invSlot: Int,
         public val obj: InvObj,
         public val type: UnpackedObjType,
+    ) : UnboundEvent
+
+    public data class Dispose(
+        public val player: Player,
+        public val invType: InvType,
+        public val invSlot: Int,
+        public val obj: InvObj,
     ) : UnboundEvent
 }
 

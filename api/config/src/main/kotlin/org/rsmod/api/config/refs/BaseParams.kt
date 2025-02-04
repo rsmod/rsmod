@@ -10,6 +10,7 @@ import org.rsmod.api.config.aliases.ParamSeq
 import org.rsmod.api.config.aliases.ParamStat
 import org.rsmod.api.config.aliases.ParamStr
 import org.rsmod.api.config.aliases.ParamSynth
+import org.rsmod.api.config.aliases.ParamVarBit
 import org.rsmod.api.type.refs.param.ParamReferences
 
 typealias params = BaseParams
@@ -24,9 +25,10 @@ object BaseParams : ParamReferences() {
     val wear_op6: ParamStr = find("wear_op6", 97133155622)
     val wear_op7: ParamStr = find("wear_op7", 97133155623)
     val wear_op8: ParamStr = find("wear_op8", 97133155624)
-    val statreq1_skill: ParamStat = find("statreq1_skill")
+    val bankside_extraop: ParamStr = find("bankside_extraop", 97133155761)
+    val statreq1_skill: ParamStat = find("statreq1_skill", 70092228127)
     val statreq1_level: ParamInt = find("statreq1_level", 88687192592)
-    val statreq2_skill: ParamStat = find("statreq2_skill")
+    val statreq2_skill: ParamStat = find("statreq2_skill", 70092228128)
     val statreq2_level: ParamInt = find("statreq2_level", 88687192593)
     val no_bank: ParamInt = find("no_bank", 88687214541)
     val no_alchemy: ParamInt = find("no_alchemy", 88687192451)
@@ -47,6 +49,9 @@ object BaseParams : ParamReferences() {
     val item_prayer_bonus: ParamInt = find("item_prayer_bonus", 88687192167)
 
     /* Server-side only types */
+    val bankside_extraop_flip: ParamBool = find("bankside_extraop_conditional_flip")
+    val bankside_extraop_varbit: ParamVarBit = find("bankside_extraop_conditional_varbit")
+    val bankside_extraop_bit: ParamInt = find("bankside_extraop_conditional_bit")
     val bond_item: ParamBool = find("bond_item")
     val attackrate_rapid: ParamInt = find("attackrate_rapid")
     val bonus_slayer_meleeonly: ParamBool = find("bonus_slayer_meleeonly")

@@ -43,11 +43,6 @@ public class Transaction<T>(
         execute(query)
     }
 
-    public inline fun shift(init: ShiftQuery.() -> Unit) {
-        val query = ShiftQuery().apply(init)
-        execute(query)
-    }
-
     public inline fun dump(init: DumpQuery.() -> Unit) {
         val query = DumpQuery().apply(init)
         execute(query)
@@ -716,68 +711,6 @@ public class Transaction<T>(
     }
 
     @TransactionBuilder
-    public inner class ShiftQuery(
-        public var from: TransactionInventory<T>? = null,
-        public var fromSlot: Int? = null,
-        public var intoSlot: Int? = null,
-    ) : TransactionQuery {
-        override fun result(): TransactionResult {
-            val from = from ?: return TransactionResult.Exception("`from` is required.")
-            val fromSlot = fromSlot ?: return TransactionResult.Exception("`fromSlot` is required.")
-            val intoSlot = intoSlot ?: return TransactionResult.Exception("`intoSlot` is required.")
-            val obj = from[fromSlot] ?: return TransactionResult.ObjNotFound
-            // When trying to shift an obj by placing it into an empty slot, the behaviour changes.
-            // It results in the obj being swapped to the target slot instead of being shifted.
-            if (from[intoSlot] == null) {
-                val swap =
-                    this@Transaction.SwapQuery(
-                        from = from,
-                        into = from,
-                        fromSlot = fromSlot,
-                        intoSlot = intoSlot,
-                        cert = false,
-                        uncert = false,
-                        merge = false,
-                    )
-                return swap.result()
-            }
-            return if (intoSlot == fromSlot) {
-                TransactionResult.Ok(requested = obj.count, completed = 0)
-            } else if (fromSlot < intoSlot) {
-                from.shiftComingFromLeft(obj.copy(), fromSlot, intoSlot)
-            } else {
-                from.shiftComingFromRight(obj.copy(), fromSlot, intoSlot)
-            }
-        }
-
-        private fun TransactionInventory<T>.shiftComingFromLeft(
-            copy: TransactionObj,
-            fromSlot: Int,
-            intoSlot: Int,
-        ): TransactionResult {
-            val shiftRange = (fromSlot + 1)..intoSlot
-            for (slot in shiftRange) {
-                this[slot - 1] = this[slot]
-            }
-            this[intoSlot] = copy
-            return TransactionResult.Ok(requested = copy.count, completed = copy.count)
-        }
-
-        private fun TransactionInventory<T>.shiftComingFromRight(
-            copy: TransactionObj,
-            fromSlot: Int,
-            intoSlot: Int,
-        ): TransactionResult {
-            val shiftRange = (intoSlot until fromSlot).reversed()
-            for (slot in shiftRange) {
-                this[slot + 1] = this[slot]
-            }
-            this[intoSlot] = copy
-            return TransactionResult.Ok(requested = copy.count, completed = copy.count)
-        }
-    }
-
-    @TransactionBuilder
     public inner class DumpQuery(
         public var from: TransactionInventory<T>? = null,
         public var into: TransactionInventory<T>? = null,
@@ -787,15 +720,17 @@ public class Transaction<T>(
         public var untransform: Boolean = false,
         public var placehold: Boolean = false,
         public var keepSlots: Set<Int>? = null,
+        public var intoStartSlot: Int = 0,
     ) : TransactionQuery {
         override fun result(): TransactionResult {
             val from = from ?: return TransactionResult.Exception("`from` is required.")
             val into = into ?: return TransactionResult.Exception("`into` is required.")
-            return from.dumpInto(into, keepSlots)
+            return from.dumpInto(into, intoStartSlot, keepSlots)
         }
 
         private fun TransactionInventory<T>.dumpInto(
             into: TransactionInventory<T>,
+            intoStartSlot: Int,
             keepSlots: Set<Int>?,
         ): TransactionResult {
             var completed = 0
@@ -816,6 +751,7 @@ public class Transaction<T>(
                             into = into,
                             obj = obj.id,
                             preferredCount = obj.count,
+                            preferredSlot = intoStartSlot,
                             vars = obj.vars,
                             cert = cert,
                             uncert = uncert,
@@ -910,7 +846,54 @@ public class Transaction<T>(
     }
 
     @TransactionBuilder
-    public inner class BulkLeftShiftQuery(
+    public inner class ShiftInsertQuery(
+        public var from: TransactionInventory<T>? = null,
+        public var fromSlot: Int? = null,
+        public var intoSlot: Int? = null,
+    ) : TransactionQuery {
+        override fun result(): TransactionResult {
+            val from = from ?: return TransactionResult.Exception("`from` is required.")
+            val fromSlot = fromSlot ?: return TransactionResult.Exception("`fromSlot` is required.")
+            val intoSlot = intoSlot ?: return TransactionResult.Exception("`intoSlot` is required.")
+            val obj = from[fromSlot] ?: return TransactionResult.ObjNotFound
+            return if (intoSlot == fromSlot) {
+                TransactionResult.Ok(requested = obj.count, completed = 0)
+            } else if (fromSlot < intoSlot) {
+                from.shiftComingFromLeft(obj.copy(), fromSlot, intoSlot)
+            } else {
+                from.shiftComingFromRight(obj.copy(), fromSlot, intoSlot)
+            }
+        }
+
+        private fun TransactionInventory<T>.shiftComingFromLeft(
+            copy: TransactionObj,
+            fromSlot: Int,
+            intoSlot: Int,
+        ): TransactionResult {
+            val shiftRange = (fromSlot + 1)..intoSlot
+            for (slot in shiftRange) {
+                this[slot - 1] = this[slot]
+            }
+            this[intoSlot] = copy
+            return TransactionResult.Ok(requested = copy.count, completed = copy.count)
+        }
+
+        private fun TransactionInventory<T>.shiftComingFromRight(
+            copy: TransactionObj,
+            fromSlot: Int,
+            intoSlot: Int,
+        ): TransactionResult {
+            val shiftRange = (intoSlot until fromSlot).reversed()
+            for (slot in shiftRange) {
+                this[slot + 1] = this[slot]
+            }
+            this[intoSlot] = copy
+            return TransactionResult.Ok(requested = copy.count, completed = copy.count)
+        }
+    }
+
+    @TransactionBuilder
+    public inner class LeftShiftQuery(
         public var from: TransactionInventory<T>? = null,
         public var startSlot: Int? = null,
         public var toSlot: Int? = null,
@@ -933,7 +916,7 @@ public class Transaction<T>(
                     "`toSlot` not in valid range: $toSlot (size=${image.size})"
                 )
             }
-            if (toSlot >= startSlot) {
+            if (toSlot > startSlot) {
                 return TransactionResult.Exception(
                     "`toSlot` must come before `startSlot`: target=$toSlot, start=$startSlot"
                 )
@@ -967,7 +950,9 @@ public class Transaction<T>(
             }
             val excessIndex = toSlot + shiftElements.size
             for (i in excessIndex until maxSlot) {
-                this[i] = null
+                if (this[i] != null) {
+                    this[i] = null
+                }
             }
             val requested = maxSlot - toSlot
             return TransactionResult.Ok(requested = requested, completed = requested)
@@ -975,7 +960,7 @@ public class Transaction<T>(
     }
 
     @TransactionBuilder
-    public inner class BulkRightShiftQuery(
+    public inner class RightShiftQuery(
         public var from: TransactionInventory<T>? = null,
         public var startSlot: Int? = null,
         public var shiftCount: Int? = null,
@@ -1011,13 +996,78 @@ public class Transaction<T>(
                 }
             }
             for (i in image.size - 1 downTo startSlot + shiftCount) {
-                this[i] = image[i - shiftCount]
+                val copy = image[i - shiftCount]
+                if (copy == null && this[i] == null) {
+                    continue
+                }
+                this[i] = copy
             }
             for (i in startSlot until startSlot + shiftCount) {
                 this[i] = null
             }
             val requested = image.size - startSlot
             return TransactionResult.Ok(requested = requested, completed = requested)
+        }
+    }
+
+    @TransactionBuilder
+    public inner class BulkShiftQuery(
+        public var from: TransactionInventory<T>? = null,
+        public var fromSlots: IntRange? = null,
+        public var intoSlot: Int? = null,
+    ) : TransactionQuery {
+        override fun result(): TransactionResult {
+            val from = from ?: return TransactionResult.Exception("`from` is required.")
+            val fromSlots =
+                fromSlots ?: return TransactionResult.Exception("`fromSlots` is required.")
+            val intoSlot = intoSlot ?: return TransactionResult.Exception("`intoSlot` is required.")
+            return when {
+                intoSlot > fromSlots.last -> from.shiftComingFromLeft(fromSlots, intoSlot)
+                intoSlot < fromSlots.first -> from.shiftComingFromRight(fromSlots, intoSlot)
+                else ->
+                    TransactionResult.Exception(
+                        "`intoSlot` should not be within range of `fromSlots`. " +
+                            "(fromSlots=$fromSlots, intoSlot=$intoSlot)"
+                    )
+            }
+        }
+
+        private fun TransactionInventory<T>.shiftComingFromLeft(
+            fromSlots: IntRange,
+            intoSlot: Int,
+        ): TransactionResult {
+            val copied = image.copyOfRange(fromSlots.first, fromSlots.last + 1)
+
+            val blockSize = fromSlots.last - fromSlots.first + 1
+            for (slot in (fromSlots.last + 1)..intoSlot) {
+                this[slot - blockSize] = this[slot]
+            }
+
+            val gapSize = intoSlot - fromSlots.last
+            val targetStart = fromSlots.first + gapSize
+            for (i in copied.indices) {
+                this[targetStart + i] = copied[i]
+            }
+
+            return TransactionResult.Ok(requested = blockSize, completed = blockSize)
+        }
+
+        private fun TransactionInventory<T>.shiftComingFromRight(
+            fromSlots: IntRange,
+            intoSlot: Int,
+        ): TransactionResult {
+            val copied = image.copyOfRange(fromSlots.first, fromSlots.last + 1)
+
+            val blockSize = fromSlots.last - fromSlots.first + 1
+            for (slot in (fromSlots.first - 1) downTo intoSlot) {
+                this[slot + blockSize] = this[slot]
+            }
+
+            for (i in copied.indices) {
+                this[intoSlot + i] = copied[i]
+            }
+
+            return TransactionResult.Ok(requested = blockSize, completed = blockSize)
         }
     }
 

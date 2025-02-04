@@ -213,4 +213,13 @@ public object ClientScripts {
         container: ComponentType,
         tooltip: ComponentType,
     ): Unit = player.runClientScript(1495, text, container.packed, tooltip.packed)
+
+    public fun confirmOverlayInit(
+        player: Player,
+        target: ComponentType,
+        title: String,
+        text: String,
+        cancel: String,
+        confirm: String,
+    ): Unit = player.runClientScript(4212, "$title|$text|$cancel|$confirm", target.packed)
 }

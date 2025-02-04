@@ -202,8 +202,10 @@ public class UnpackedObjType(
         return !invalid
     }
 
-    public fun hasInvOp(invOp: HeldOp): Boolean {
-        val text = iop.getOrNull(invOp.slot - 1) ?: return false
+    public fun hasInvOp(invOp: HeldOp): Boolean = hasInvOp(invOp.slot)
+
+    public fun hasInvOp(slot: Int): Boolean {
+        val text = iop.getOrNull(slot - 1) ?: return false
         return text.isNotBlank()
     }
 

@@ -4,6 +4,8 @@
 67	picketgate_open
 80	nicedoor_close
 81	nicedoor_open
+159	firebreath
+1413	paper_turn
 2238	default_equipment
 2274	pillory_success
 2275	pillory_locked

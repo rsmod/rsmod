@@ -44,6 +44,8 @@ import org.rsmod.api.player.ui.ifChoice
 import org.rsmod.api.player.ui.ifClose
 import org.rsmod.api.player.ui.ifCloseSub
 import org.rsmod.api.player.ui.ifConfirmDestroy
+import org.rsmod.api.player.ui.ifConfirmOverlay
+import org.rsmod.api.player.ui.ifConfirmOverlayClose
 import org.rsmod.api.player.ui.ifDoubleobjbox
 import org.rsmod.api.player.ui.ifMesbox
 import org.rsmod.api.player.ui.ifObjbox
@@ -68,6 +70,8 @@ import org.rsmod.api.stats.levelmod.InvisibleLevels
 import org.rsmod.api.utils.skills.SkillingSuccessRate
 import org.rsmod.coroutine.GameCoroutine
 import org.rsmod.events.EventBus
+import org.rsmod.events.KeyedEvent
+import org.rsmod.events.SuspendEvent
 import org.rsmod.events.UnboundEvent
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.PathingEntity
@@ -128,6 +132,7 @@ public class ProtectedAccess(
 
     public val inv: Inventory by player::inv
     public val worn: Inventory by player::worn
+    public val bank: Inventory by lazy { inv(invs.bank) }
     public val tempInv: Inventory by lazy { inv(invs.tempinv) }
 
     public val vars: VarPlayerIntMapDelegate by lazy { VarPlayerIntMapDelegate.from(player) }
@@ -546,6 +551,7 @@ public class ProtectedAccess(
         into: Inventory,
         fromSlot: Int,
         intoSlot: Int,
+        strict: Boolean = true,
     ): TransactionResultList<InvObj> {
         val resolvedInto = if (from === into) null else into
         return player.invSwap(
@@ -553,6 +559,7 @@ public class ProtectedAccess(
             into = resolvedInto,
             fromSlot = fromSlot,
             intoSlot = intoSlot,
+            strict = strict,
         )
     }
 
@@ -561,6 +568,7 @@ public class ProtectedAccess(
         into: Inventory,
         fromSlot: Int,
         count: Int = 1,
+        intoSlot: Int? = null,
         strict: Boolean = true,
         cert: Boolean = false,
         uncert: Boolean = false,
@@ -571,6 +579,7 @@ public class ProtectedAccess(
             into = into,
             count = count,
             fromSlot = fromSlot,
+            intoSlot = intoSlot,
             strict = strict,
             cert = cert,
             uncert = uncert,
@@ -580,8 +589,17 @@ public class ProtectedAccess(
     public fun invMoveInv(
         from: Inventory,
         into: Inventory,
+        untransform: Boolean = false,
+        intoStartSlot: Int = 0,
         keepSlots: Set<Int>? = null,
-    ): TransactionResultList<InvObj> = player.invMoveAll(from, into, keepSlots = keepSlots)
+    ): TransactionResultList<InvObj> =
+        player.invMoveAll(
+            from = from,
+            into = into,
+            untransform = untransform,
+            keepSlots = keepSlots,
+            intoStartSlot = intoStartSlot,
+        )
 
     public fun invMoveAll(
         into: Inventory,
@@ -795,6 +813,15 @@ public class ProtectedAccess(
         eventBus.publish(event)
     }
 
+    public fun publish(event: KeyedEvent, eventBus: EventBus = context.eventBus) {
+        eventBus.publish(event)
+    }
+
+    public suspend fun <T : SuspendEvent<ProtectedAccess>> publish(
+        event: T,
+        eventBus: EventBus = context.eventBus,
+    ): Boolean = eventBus.publish(this, event)
+
     public fun logOut() {
         // TODO: impl
     }
@@ -853,6 +880,27 @@ public class ProtectedAccess(
     public suspend fun <T : Any> await(input: KClass<T>): T {
         val value = coroutine.pause(input)
         return withProtectedAccess(value)
+    }
+
+    /**
+     * Suspends the [coroutine] until the player receives the respective [input].
+     *
+     * Unlike [await], this function ensures protected access is not lost if the same modal remains
+     * open throughout the suspension. It achieves this by using [resumeWithModalProtectedAccess]
+     * instead of [withProtectedAccess].
+     *
+     * _Note: This does not `delay` the player._
+     *
+     * @param input the expected input type to suspend on, provided as a [KClass].
+     * @return the input value of type [T] once received.
+     * @throws ProtectedAccessLostException if [resumeWithModalProtectedAccess] could not validate
+     *   protected access retention.
+     * @see [resumeWithModalProtectedAccess]
+     */
+    public suspend fun <T : Any> awaitWithModal(input: KClass<T>): T {
+        val modal = player.ui.getModalOrNull(components.main_modal)
+        val value = coroutine.pause(input)
+        return resumeWithModalProtectedAccess(value, modal)
     }
 
     /**
@@ -1154,27 +1202,27 @@ public class ProtectedAccess(
      * **Note:** The returned integer will _always_ be positive. To allow negative values, use
      * [numberDialog] instead.
      *
-     * @throws ProtectedAccessLostException if [resumePauseInputWithProtectedAccess] could not
-     *   validate protected access retention.
+     * @throws ProtectedAccessLostException if [resumeWithModalProtectedAccess] could not validate
+     *   protected access retention.
      */
     public suspend fun countDialog(title: String = constants.cm_count): Int {
         mesLayerMode7(player, title)
         val modal = player.ui.getModalOrNull(components.main_modal)
         val input = coroutine.pause(ResumePCountDialogInput::class)
-        return resumePauseInputWithProtectedAccess(input.count.absoluteValue, modal)
+        return resumeWithModalProtectedAccess(input.count.absoluteValue, modal)
     }
 
     /**
      * A version of [countDialog] that allows the returned value to be negative.
      *
-     * @throws ProtectedAccessLostException if [resumePauseInputWithProtectedAccess] could not
-     *   validate protected access retention.
+     * @throws ProtectedAccessLostException if [resumeWithModalProtectedAccess] could not validate
+     *   protected access retention.
      */
     public suspend fun numberDialog(title: String): Int {
         mesLayerMode7(player, title)
         val modal = player.ui.getModalOrNull(components.main_modal)
         val input = coroutine.pause(ResumePCountDialogInput::class)
-        return resumePauseInputWithProtectedAccess(input.count, modal)
+        return resumeWithModalProtectedAccess(input.count, modal)
     }
 
     /**
@@ -1183,8 +1231,8 @@ public class ProtectedAccess(
      * @param enumRestriction If an enum (with key of `ObjType` and value of `Boolean`) is provided,
      *   the search is restricted to only the entries in said enum.
      * @param showLastSearched If `true` the search will present the last selected obj.
-     * @throws ProtectedAccessLostException if [resumePauseInputWithProtectedAccess] could not
-     *   validate protected access retention.
+     * @throws ProtectedAccessLostException if [resumeWithModalProtectedAccess] could not validate
+     *   protected access retention.
      */
     public suspend fun objDialog(
         title: String = constants.cm_obj,
@@ -1195,7 +1243,7 @@ public class ProtectedAccess(
         mesLayerMode14(player, title, stockMarketRestriction, enumRestriction, showLastSearched)
         val modal = player.ui.getModalOrNull(components.main_modal)
         val input = coroutine.pause(ResumePObjDialogInput::class)
-        return resumePauseInputWithProtectedAccess(input.obj, modal)
+        return resumeWithModalProtectedAccess(input.obj, modal)
     }
 
     /**
@@ -1218,6 +1266,26 @@ public class ProtectedAccess(
             1 -> true
             else -> error("Invalid choice `${input.subcomponent}` for `$player`. (input=$input)")
         }
+    }
+
+    /**
+     * @throws ProtectedAccessLostException if [resumeWithModalProtectedAccess] could not validate
+     *   protected access retention.
+     */
+    public suspend fun confirmOverlay(
+        target: ComponentType,
+        title: String,
+        text: String,
+        cancel: String,
+        confirm: String,
+        eventBus: EventBus = context.eventBus,
+    ): Boolean {
+        player.ifConfirmOverlay(target, title, text, cancel, confirm, eventBus)
+        val modal = player.ui.getModalOrNull(components.main_modal)
+        val input = coroutine.pause(ResumePCountDialogInput::class)
+        val confirmed = resumeWithModalProtectedAccess(input.count != 0, modal)
+        player.ifConfirmOverlayClose(eventBus)
+        return confirmed
     }
 
     /**
@@ -1302,9 +1370,8 @@ public class ProtectedAccess(
     }
 
     /**
-     * Helper function to attempt and resume a call-site from a `ResumeP_Input` (e.g.,
-     * `ResumePCountDialogInput`) suspension while ensuring that any currently open modal is
-     * associated with the [expectedModal].
+     * Helper function to attempt and resume a call-site from a suspension point while ensuring that
+     * the [expectedModal] remained open.
      *
      * @param returnWithProtectedAccess the value to be returned after verifying protected access
      *   conditions are met.
@@ -1312,7 +1379,7 @@ public class ProtectedAccess(
      * @throws ProtectedAccessLostException if the player is `delayed`, their active coroutine does
      *   not match this scope's [coroutine], or if the current modal does not match [expectedModal].
      */
-    private fun <T> resumePauseInputWithProtectedAccess(
+    private fun <T> resumeWithModalProtectedAccess(
         returnWithProtectedAccess: T,
         expectedModal: Component?,
     ): T {
@@ -1459,8 +1526,10 @@ public class ProtectedAccess(
     public fun ifOpenMainSidePair(
         main: InterfaceType,
         side: InterfaceType,
+        colour: Int = -1,
+        transparency: Int = -1,
         eventBus: EventBus = context.eventBus,
-    ): Unit = player.ifOpenMainSidePair(main, side, eventBus)
+    ): Unit = player.ifOpenMainSidePair(main, side, colour, transparency, eventBus)
 
     /**
      * Difference with [ifOpenMain] is that this function will send `toplevel_mainmodal_open`
@@ -1475,6 +1544,12 @@ public class ProtectedAccess(
 
     public fun ifOpenOverlay(interf: InterfaceType, eventBus: EventBus = context.eventBus): Unit =
         player.ifOpenOverlay(interf, eventBus)
+
+    public fun ifOpenOverlay(
+        interf: InterfaceType,
+        target: ComponentType,
+        eventBus: EventBus = context.eventBus,
+    ): Unit = player.ifOpenSub(interf, target, IfSubType.Overlay, eventBus)
 
     public fun ifOpenSub(
         interf: InterfaceType,

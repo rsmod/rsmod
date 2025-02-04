@@ -171,7 +171,7 @@ constructor(
             return
         }
         val untradableSlots = inv.mapSlots { slot, obj -> obj != null && !ocTradable(obj) }
-        val transaction = invMoveInv(inv, tempInv, untradableSlots)
+        val transaction = invMoveInv(inv, tempInv, keepSlots = untradableSlots)
 
         if (transaction.noneCompleted()) {
             mes("You have items that cannot be traded.")

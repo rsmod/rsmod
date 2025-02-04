@@ -41,6 +41,8 @@
       <w>hitmark</w>
       <w>hitpoint</w>
       <w>hitpoints</w>
+      <w>ifevent</w>
+      <w>ifevents</w>
       <w>interf</w>
       <w>invs</w>
       <w>isubop</w>
@@ -96,6 +98,7 @@
       <w>runite</w>
       <w>sarim</w>
       <w>seqs</w>
+      <w>setevent</w>
       <w>shiftclickiop</w>
       <w>sidebutton</w>
       <w>skillcape</w>

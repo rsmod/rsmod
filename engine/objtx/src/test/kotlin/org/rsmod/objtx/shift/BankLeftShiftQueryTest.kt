@@ -1,4 +1,4 @@
-package org.rsmod.objtx.bulk
+package org.rsmod.objtx.shift
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
@@ -19,9 +19,9 @@ import org.rsmod.objtx.transaction
 import org.rsmod.objtx.trident_of_the_seas
 
 @Execution(ExecutionMode.SAME_THREAD)
-class BankBulkLeftShiftQueryTest {
+class BankLeftShiftQueryTest {
     @Test
-    fun `bulk shift from slot 4 to slot 2`() {
+    fun `shift from slot 4 to slot 2`() {
         val inventory = bank()
         inventory[0] = Obj(abyssal_whip)
         inventory[1] = Obj(purple_sweets, 10)
@@ -31,7 +31,7 @@ class BankBulkLeftShiftQueryTest {
 
         val result = transaction {
             val inv = select(inventory)
-            bulkLeftShift {
+            leftShift {
                 from = inv
                 startSlot = 4
                 toSlot = 2
@@ -48,7 +48,7 @@ class BankBulkLeftShiftQueryTest {
     }
 
     @Test
-    fun `bulk shift from slot 3 to slot 0`() {
+    fun `shift from slot 3 to slot 0`() {
         val inventory = bank()
         inventory[0] = null
         inventory[1] = null
@@ -58,7 +58,7 @@ class BankBulkLeftShiftQueryTest {
 
         val result = transaction {
             val inv = select(inventory)
-            bulkLeftShift {
+            leftShift {
                 from = inv
                 startSlot = 3
                 toSlot = 0
@@ -81,7 +81,7 @@ class BankBulkLeftShiftQueryTest {
     }
 
     @Test
-    fun `bulk shift from slot 3 to slot 0 with center gaps`() {
+    fun `shift from slot 3 to slot 0 with center gaps`() {
         val inventory = bank()
         inventory[0] = null
         inventory[1] = null
@@ -93,7 +93,7 @@ class BankBulkLeftShiftQueryTest {
 
         val result = transaction {
             val inv = select(inventory)
-            bulkLeftShift {
+            leftShift {
                 from = inv
                 startSlot = 3
                 toSlot = 0
@@ -118,7 +118,7 @@ class BankBulkLeftShiftQueryTest {
     }
 
     @Test
-    fun `bulk shift with strict mode preventing overwrite`() {
+    fun `shift with strict mode preventing overwrite`() {
         val inventory = bank()
         inventory[0] = Obj(abyssal_whip)
         inventory[1] = Obj(purple_sweets, 10)
@@ -128,7 +128,7 @@ class BankBulkLeftShiftQueryTest {
 
         val result = transaction {
             val inv = select(inventory)
-            bulkLeftShift {
+            leftShift {
                 from = inv
                 startSlot = 4
                 toSlot = 2
@@ -142,7 +142,7 @@ class BankBulkLeftShiftQueryTest {
     }
 
     @Test
-    fun `bulk shift from slot 2 to slot 0 with non-strict mode`() {
+    fun `shift from slot 2 to slot 0 with non-strict mode`() {
         val inventory = bank()
         inventory[0] = Obj(abyssal_whip)
         inventory[1] = Obj(purple_sweets, 10)
@@ -151,7 +151,7 @@ class BankBulkLeftShiftQueryTest {
 
         val result = transaction {
             val inv = select(inventory)
-            bulkLeftShift {
+            leftShift {
                 from = inv
                 startSlot = 2
                 toSlot = 0
@@ -169,7 +169,7 @@ class BankBulkLeftShiftQueryTest {
     }
 
     @Test
-    fun `bulk shift should fail if toSlot is greater than or equal to startSlot`() {
+    fun `shift should fail if toSlot is greater than or equal to startSlot`() {
         val inventory = bank()
         inventory[0] = Obj(abyssal_whip)
         inventory[1] = Obj(purple_sweets, 10)
@@ -179,7 +179,7 @@ class BankBulkLeftShiftQueryTest {
 
         val result = transaction {
             val inv = select(inventory)
-            bulkLeftShift {
+            leftShift {
                 from = inv
                 startSlot = 2
                 toSlot = 4
@@ -192,11 +192,11 @@ class BankBulkLeftShiftQueryTest {
     }
 
     @Test
-    fun `bulk shift does nothing when inventory is empty`() {
+    fun `shift does nothing when inventory is empty`() {
         val inventory = bank()
         val result = transaction {
             val inv = select(inventory)
-            bulkLeftShift {
+            leftShift {
                 from = inv
                 startSlot = 3
                 toSlot = 0
@@ -208,7 +208,7 @@ class BankBulkLeftShiftQueryTest {
     }
 }
 
-private fun Transaction<Obj>.bulkLeftShift(init: Transaction<Obj>.BulkLeftShiftQuery.() -> Unit) {
-    val query = BulkLeftShiftQuery().apply(init)
+private fun Transaction<Obj>.leftShift(init: Transaction<Obj>.LeftShiftQuery.() -> Unit) {
+    val query = LeftShiftQuery().apply(init)
     execute(query)
 }

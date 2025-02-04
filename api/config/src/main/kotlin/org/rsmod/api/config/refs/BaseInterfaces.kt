@@ -7,6 +7,9 @@ import org.rsmod.api.type.refs.interf.InterfaceReferences
 typealias interfaces = BaseInterfaces
 
 object BaseInterfaces : InterfaceReferences() {
+    val bank_main = find("bank", 261123712)
+    val bank_side = find("bank_inventory", 1999686874)
+
     val fixed_pane = find("fixed_pane", 9223372034726091525)
     val resizable_pane = find("resizable_pane", 9223372036366731764)
     val side_panels_resizable_pane = find("side_panels_resizable_pane", 1080365065)
@@ -42,4 +45,6 @@ object BaseInterfaces : InterfaceReferences() {
     val obj_dialogue = find("item_dialogue", 1639203600)
     val double_obj_dialogue = find("double_item_dialogue", 9223372035376440778)
     val destroy_obj_dialogue = find("destroy_item_dialogue", 923450919)
+
+    val overlay_confirmation = find("overlay_confirmation", 9223372035707796330)
 }

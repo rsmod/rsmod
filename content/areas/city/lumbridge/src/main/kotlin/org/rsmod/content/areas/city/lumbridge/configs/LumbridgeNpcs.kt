@@ -2,12 +2,15 @@
 
 package org.rsmod.content.areas.city.lumbridge.configs
 
+import org.rsmod.api.config.refs.content
 import org.rsmod.api.shops.config.ShopParams
 import org.rsmod.api.type.editors.npc.NpcEditor
 import org.rsmod.api.type.refs.npc.NpcReferences
 import org.rsmod.map.CoordGrid
 
 object LumbridgeNpcs : NpcReferences() {
+    val banker = find("banker_multi_id_6520", 6234226215159038166)
+    val banker_tutor = find("banker_tutor", 2745924514590361594)
     val shop_keeper = find("shop_keeper_id_2813", 4750494125510652894)
     val shop_assistant = find("shop_assistant_id_2814", 7175769830569298007)
     val gee = find("gee", 4562549981157667997)
@@ -24,6 +27,8 @@ object LumbridgeNpcs : NpcReferences() {
 
 internal object LumbridgeNpcEditor : NpcEditor() {
     init {
+        edit("banker_multi_id_6520") { contentGroup = content.banker }
+
         edit("prayer_tutor") { moveRestrict = indoors }
 
         edit("father_aereck") { moveRestrict = indoors }

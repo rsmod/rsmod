@@ -1,4 +1,4 @@
-package org.rsmod.objtx.bulk
+package org.rsmod.objtx.shift
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
@@ -18,9 +18,9 @@ import org.rsmod.objtx.transaction
 import org.rsmod.objtx.trident_of_the_seas
 
 @Execution(ExecutionMode.SAME_THREAD)
-class BankBulkRightShiftQueryTest {
+class BankRightShiftQueryTest {
     @Test
-    fun `bulk shift right by 1 from slot 2`() {
+    fun `shift right by 1 from slot 2`() {
         val inventory = bank()
         inventory[0] = Obj(abyssal_whip)
         inventory[1] = Obj(purple_sweets, 10)
@@ -30,7 +30,7 @@ class BankBulkRightShiftQueryTest {
 
         val result = transaction {
             val inv = select(inventory)
-            bulkRightShift {
+            rightShift {
                 from = inv
                 startSlot = 2
                 shiftCount = 1
@@ -54,7 +54,7 @@ class BankBulkRightShiftQueryTest {
     }
 
     @Test
-    fun `bulk shift right by 2 from slot 1`() {
+    fun `shift right by 2 from slot 1`() {
         val inventory = bank()
         inventory[0] = null
         inventory[1] = Obj(trident_of_the_seas, vars = 16383)
@@ -64,7 +64,7 @@ class BankBulkRightShiftQueryTest {
 
         val result = transaction {
             val inv = select(inventory)
-            bulkRightShift {
+            rightShift {
                 from = inv
                 startSlot = 1
                 shiftCount = 2
@@ -89,7 +89,7 @@ class BankBulkRightShiftQueryTest {
     }
 
     @Test
-    fun `bulk shift right should fail if shift overflows inventory size`() {
+    fun `shift right should fail if shift overflows inventory size`() {
         val inventory = bank()
         inventory[0] = Obj(abyssal_whip)
         inventory[1] = Obj(purple_sweets, 10)
@@ -97,7 +97,7 @@ class BankBulkRightShiftQueryTest {
 
         val result = transaction {
             val inv = select(inventory)
-            bulkRightShift {
+            rightShift {
                 from = inv
                 startSlot = 0
                 shiftCount = inventory.size - 2
@@ -108,14 +108,14 @@ class BankBulkRightShiftQueryTest {
     }
 
     @Test
-    fun `bulk shift right should fail if shift overflows last inv obj`() {
+    fun `shift right should fail if shift overflows last inv obj`() {
         val inventory = bank()
         inventory[0] = Obj(abyssal_whip)
         inventory[inventory.size - 1] = Obj(bronze_arrow, 100)
 
         val result = transaction {
             val inv = select(inventory)
-            bulkRightShift {
+            rightShift {
                 from = inv
                 startSlot = 0
                 shiftCount = 1
@@ -126,7 +126,7 @@ class BankBulkRightShiftQueryTest {
     }
 }
 
-private fun Transaction<Obj>.bulkRightShift(init: Transaction<Obj>.BulkRightShiftQuery.() -> Unit) {
-    val query = BulkRightShiftQuery().apply(init)
+private fun Transaction<Obj>.rightShift(init: Transaction<Obj>.RightShiftQuery.() -> Unit) {
+    val query = RightShiftQuery().apply(init)
     execute(query)
 }

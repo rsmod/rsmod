@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.parallel.Execution
 import org.junit.jupiter.api.parallel.ExecutionMode
 import org.rsmod.objtx.Obj
+import org.rsmod.objtx.Transaction
 import org.rsmod.objtx.abyssal_whip
 import org.rsmod.objtx.bank
 import org.rsmod.objtx.bronze_arrow
@@ -16,9 +17,9 @@ import org.rsmod.objtx.transaction
 import org.rsmod.objtx.trident_of_the_seas
 
 @Execution(ExecutionMode.SAME_THREAD)
-class BankShiftQueryTest {
+class BankShiftInsertQueryTest {
     @Test
-    fun `shift into empty slot should swap instead of shift`() {
+    fun `shift into empty slot`() {
         val inventory = bank()
         inventory[0] = Obj(abyssal_whip)
         inventory[1] = Obj(purple_sweets, 10)
@@ -27,7 +28,7 @@ class BankShiftQueryTest {
         inventory[4] = Obj(bronze_arrow, 100)
         val result = transaction {
             val inv = select(inventory)
-            shift {
+            shiftInsert {
                 from = inv
                 fromSlot = 1
                 intoSlot = 3
@@ -35,8 +36,8 @@ class BankShiftQueryTest {
         }
         assertNull(result.err)
         assertEquals(Obj(abyssal_whip), inventory[0])
-        assertNull(inventory[1])
-        assertEquals(Obj(pickaxe_handle), inventory[2])
+        assertEquals(Obj(pickaxe_handle), inventory[1])
+        assertNull(inventory[2])
         assertEquals(Obj(purple_sweets, 10), inventory[3])
         assertEquals(Obj(bronze_arrow, 100), inventory[4])
         assertEquals(4, inventory.occupiedSpace())
@@ -52,7 +53,7 @@ class BankShiftQueryTest {
         inventory[4] = Obj(bronze_arrow, 100)
         val result = transaction {
             val inv = select(inventory)
-            shift {
+            shiftInsert {
                 from = inv
                 fromSlot = 4
                 intoSlot = 3
@@ -77,7 +78,7 @@ class BankShiftQueryTest {
         inventory[4] = Obj(bronze_arrow, 100)
         val result = transaction {
             val inv = select(inventory)
-            shift {
+            shiftInsert {
                 from = inv
                 fromSlot = 4
                 intoSlot = 0
@@ -102,7 +103,7 @@ class BankShiftQueryTest {
         inventory[4] = Obj(bronze_arrow, 100)
         val result = transaction {
             val inv = select(inventory)
-            shift {
+            shiftInsert {
                 from = inv
                 fromSlot = 3
                 intoSlot = 4
@@ -127,7 +128,7 @@ class BankShiftQueryTest {
         inventory[4] = Obj(bronze_arrow, 100)
         val result = transaction {
             val inv = select(inventory)
-            shift {
+            shiftInsert {
                 from = inv
                 fromSlot = 0
                 intoSlot = 3
@@ -141,4 +142,9 @@ class BankShiftQueryTest {
         assertEquals(Obj(bronze_arrow, 100), inventory[4])
         assertEquals(5, inventory.occupiedSpace())
     }
+}
+
+private fun Transaction<Obj>.shiftInsert(init: Transaction<Obj>.ShiftInsertQuery.() -> Unit) {
+    val query = ShiftInsertQuery().apply(init)
+    execute(query)
 }

@@ -665,6 +665,7 @@
 10748	rt7_enabled
 10749	rt7_mode
 10750	rt7_enabled2
+11437	bank_always_deposit_to_potion_store
 11697	journal_tab_fresh_start_worlds
 11705	attached_kalphite_lair_bottom_rope
 11708	godwars_private_instances
@@ -1019,6 +1020,19 @@
 14604	pollnivneach_npc_name_update
 15322	trick_emote
 
+65519	coal_bag_storage_count
+65520	small_pouch_storage_count
+65521	small_pouch_storage_type
+65522	medium_pouch_storage_count
+65523	medium_pouch_storage_type
+65524	large_pouch_storage_count
+65525	large_pouch_storage_type
+65526	giant_pouch_storage_count
+65527	giant_pouch_storage_type
+65528	colossal_pouch_storage_count
+65529	colossal_pouch_storage_type
+65530	bank_disable_ifevents
+65531	bank_tab_size_main
 65532	emote_counters_crazy_dance
 65533	emote_counters_premier_shield
 65534	jmod_attackable

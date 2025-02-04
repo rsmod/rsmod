@@ -37,6 +37,7 @@
 456	wear_op6
 457	wear_op7
 458	wear_op8
+595	bankside_extraop
 596	spell_button
 597	spell_graphic1_on
 598	spell_graphic1_off
@@ -152,6 +153,9 @@
 1801	slayer_task_boss_displayname
 1802	slayer_task_boss_location
 
+65444	bankside_extraop_conditional_flip
+65445	bankside_extraop_conditional_varbit
+65446	bankside_extraop_conditional_bit
 65447	prayer_locked_message
 65448	prayer_unlock_state
 65449	prayer_unlock_varbit

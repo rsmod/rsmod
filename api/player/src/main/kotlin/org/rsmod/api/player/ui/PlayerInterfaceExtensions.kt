@@ -24,9 +24,11 @@ import org.rsmod.api.player.input.ResumePauseButtonInput
 import org.rsmod.api.player.output.ChatType
 import org.rsmod.api.player.output.ClientScripts.chatboxMultiInit
 import org.rsmod.api.player.output.ClientScripts.confirmDestroyInit
+import org.rsmod.api.player.output.ClientScripts.confirmOverlayInit
 import org.rsmod.api.player.output.ClientScripts.ifSetTextAlign
 import org.rsmod.api.player.output.ClientScripts.objboxSetButtons
 import org.rsmod.api.player.output.ClientScripts.topLevelChatboxResetBackground
+import org.rsmod.api.player.output.ClientScripts.topLevelMainModalBackground
 import org.rsmod.api.player.output.ClientScripts.topLevelMainModalOpen
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.output.runClientScript
@@ -95,7 +97,14 @@ public fun Player.ifOpenMain(interf: InterfaceType, eventBus: EventBus) {
     openModal(interf, components.main_modal, eventBus)
 }
 
-public fun Player.ifOpenMainSidePair(main: InterfaceType, side: InterfaceType, eventBus: EventBus) {
+public fun Player.ifOpenMainSidePair(
+    main: InterfaceType,
+    side: InterfaceType,
+    colour: Int,
+    transparency: Int,
+    eventBus: EventBus,
+) {
+    topLevelMainModalBackground(this, colour, transparency)
     openModal(main, components.main_modal, eventBus)
     openModal(side, components.side_modal, eventBus)
 }
@@ -398,6 +407,21 @@ internal fun Player.ifConfirmDestroy(
     confirmDestroyInit(this, header, text, obj, count)
     ifSetEvents(components.destroy_obj_dialogue_pbutton, 0..1, IfEvent.PauseButton)
 }
+
+internal fun Player.ifConfirmOverlay(
+    target: ComponentType,
+    title: String,
+    text: String,
+    cancel: String,
+    confirm: String,
+    eventBus: EventBus,
+) {
+    ifOpenSub(interfaces.overlay_confirmation, target, IfSubType.Overlay, eventBus)
+    confirmOverlayInit(this, target, title, text, cancel, confirm)
+}
+
+internal fun Player.ifConfirmOverlayClose(eventBus: EventBus): Unit =
+    ifCloseOverlay(interfaces.overlay_confirmation, eventBus)
 
 /** @see [chatboxMultiInit] */
 internal fun Player.ifChoice(

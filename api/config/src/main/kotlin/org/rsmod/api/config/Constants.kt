@@ -42,4 +42,19 @@ object Constants {
     const val overlay_timer_woodcutting: Int = 2
 
     const val combat_default_attackrate = 4
+
+    const val setpos_abs_top = 0
+    const val setpos_abs_left = 0
+    const val setpos_abs_centre = 1
+    const val setpos_abs_bottom = 2
+    const val setpos_abs_right = 2
+
+    const val setsize_abs = 0
+    const val setsize_minus = 1
+
+    const val settextalign_top = 0
+    const val settextalign_left = 0
+    const val settextalign_centre = 1
+    const val settextalign_bottom = 2
+    const val settextalign_right = 2
 }

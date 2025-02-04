@@ -7,6 +7,10 @@ import org.rsmod.api.type.refs.varp.VarpReferences
 typealias varps = BaseVarps
 
 object BaseVarps : VarpReferences() {
+    val generic_261 = find("generic_varp_261", 4429288)
+    val generic_262 = find("generic_varp_262", 4429289)
+    val generic_263 = find("generic_varp_263", 4429290)
+
     val player_run = find("player_run", 6245048)
     val player_attack_option = find("player_attack_option", 8742773)
     val npc_attack_option = find("npc_attack_option", 9650896)
@@ -25,4 +29,7 @@ object BaseVarps : VarpReferences() {
     val sheep_shearer_progress = find("sheep_shearer_progress", 4429206)
 
     val fortis_colosseum_glory_highscore = find("fortis_colosseum_glory_highscore", 4433157)
+
+    /* Server-side only types */
+    val generic_storage_65531 = find("generic_storage_65531")
 }

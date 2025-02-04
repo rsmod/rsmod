@@ -11,9 +11,13 @@ import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.synth.SynthType
+import org.rsmod.game.type.varbit.VarBitType
 
 internal object ParamBuilds : ParamBuilder() {
     init {
+        build<Boolean>("bankside_extraop_conditional_flip") { default = false }
+        build<VarBitType>("bankside_extraop_conditional_varbit")
+        build<Int>("bankside_extraop_conditional_bit")
         build<Boolean>("bond_item") { default = false }
 
         build<Int>("bonus_undead_buff") { default = 0 }

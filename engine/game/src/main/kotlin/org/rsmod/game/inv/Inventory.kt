@@ -67,14 +67,14 @@ public class Inventory(public val type: UnpackedInvType, public val objs: Array<
         }
     }
 
-    public fun getValue(slot: Int): InvObj =
-        this[slot] ?: throw NoSuchElementException("Slot $slot is missing in the inv.")
-
     public fun hasModifiedSlots(): Boolean = !modifiedSlots.isEmpty
 
     public fun clearModifiedSlots() {
         modifiedSlots.clear()
     }
+
+    public fun getValue(slot: Int): InvObj =
+        this[slot] ?: throw NoSuchElementException("Slot $slot is missing in the inv.")
 
     public operator fun get(slot: Int): InvObj? = objs.getOrNull(slot)
 

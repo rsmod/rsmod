@@ -4,6 +4,7 @@ import org.rsmod.api.config.refs.content
 import org.rsmod.api.config.refs.objs
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.config.refs.stats
+import org.rsmod.api.config.refs.varbits
 import org.rsmod.api.type.editors.obj.ObjEditor
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.stat.StatType
@@ -28,6 +29,7 @@ internal object ObjEdits : ObjEditor() {
 
         editSkillCapes()
         editMaxCapes()
+        editGeneralStorage()
     }
 
     private fun editSkillCapes() {
@@ -91,5 +93,59 @@ internal object ObjEdits : ObjEditor() {
             transformtemplate = objs.template_for_transform
         }
         edit(hood.nameValue) { contentGroup = content.max_hood }
+    }
+
+    private fun editGeneralStorage() {
+        edit("small_pouch") {
+            param[params.bankside_extraop_bit] = 0
+            param[params.bankside_extraop_varbit] = varbits.small_pouch_storage_count
+        }
+
+        edit("medium_pouch") {
+            param[params.bankside_extraop_bit] = 1
+            param[params.bankside_extraop_varbit] = varbits.medium_pouch_storage_count
+        }
+        edit("medium_pouch_5511") {
+            param[params.bankside_extraop_bit] = 1
+            param[params.bankside_extraop_varbit] = varbits.medium_pouch_storage_count
+        }
+
+        edit("large_pouch") {
+            param[params.bankside_extraop_bit] = 2
+            param[params.bankside_extraop_varbit] = varbits.large_pouch_storage_count
+        }
+        edit("large_pouch_5513") {
+            param[params.bankside_extraop_bit] = 2
+            param[params.bankside_extraop_varbit] = varbits.large_pouch_storage_count
+        }
+
+        edit("giant_pouch") {
+            param[params.bankside_extraop_bit] = 3
+            param[params.bankside_extraop_varbit] = varbits.giant_pouch_storage_count
+        }
+        edit("giant_pouch_5515") {
+            param[params.bankside_extraop_bit] = 3
+            param[params.bankside_extraop_varbit] = varbits.giant_pouch_storage_count
+        }
+
+        edit("colossal_pouch") {
+            param[params.bankside_extraop_bit] = 4
+            param[params.bankside_extraop_varbit] = varbits.colossal_pouch_storage_count
+        }
+        edit("colossal_pouch_degraded") {
+            param[params.bankside_extraop_bit] = 4
+            param[params.bankside_extraop_varbit] = varbits.colossal_pouch_storage_count
+        }
+
+        edit("coal_bag") {
+            param[params.bankside_extraop_bit] = 5
+            param[params.bankside_extraop_varbit] = varbits.coal_bag_storage_count
+            param[params.bankside_extraop_flip] = true
+        }
+        edit("open_coal_bag") {
+            param[params.bankside_extraop_bit] = 5
+            param[params.bankside_extraop_varbit] = varbits.coal_bag_storage_count
+            param[params.bankside_extraop_flip] = true
+        }
     }
 }
