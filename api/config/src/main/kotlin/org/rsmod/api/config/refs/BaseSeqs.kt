@@ -199,6 +199,13 @@ object BaseSeqs : SeqReferences() {
     val emote_banana_cape = find("emote_banana_cape", 3607408401586812734)
     val emote_flex = find("emote_flex", 3393879205576510169)
     val emote_party = find("emote_party", 5224811359794599253)
+    val emote_dance_loop = find("emote_dance_loop", 8499055999686458218)
+    val emote_jig_loop = find("emote_jig_loop", 1227767632972059389)
+    val emote_headbang_loop = find("emote_headbang_loop", 7429567925343178269)
+    val emote_sit_down = find("emote_sit_down", 1309866189445368677)
+    val emote_sit_down_loop = find("emote_sit_down_loop", 5999503978150838625)
+    val emote_lean_loop = find("emote_lean_loop", 7858518107127560988)
     val emote_trick = find("emote_trick", 5504673726382127545)
     val emote_fortis_salute = find("emote_fortis_salute", 723902820459858528)
+    val emote_fortis_salute_loop = find("emote_fortis_salute_loop", 280028558164551449)
 }

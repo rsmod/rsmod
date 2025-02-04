@@ -26,6 +26,7 @@ import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.npc.NpcMode
 import org.rsmod.game.map.Direction
 import org.rsmod.game.map.translate
+import org.rsmod.game.type.interf.IfButtonOp
 import org.rsmod.game.type.interf.IfEvent
 import org.rsmod.game.type.npc.NpcTypeList
 import org.rsmod.game.type.seq.SeqType
@@ -54,7 +55,7 @@ private constructor(
         loadEmotesEnum()
         loadSkillCapeEmotes()
         onIfOpen(interfaces.emote_tab) { player.onTabOpen() }
-        onIfOverlayButton(emote_components.emote_list) { player.selectEmote(comsub) }
+        onIfOverlayButton(emote_components.emote_list) { player.selectEmote(comsub, op) }
     }
 
     private fun loadEmotesEnum() {
@@ -68,13 +69,13 @@ private constructor(
         skillCapeEmotes.startUp()
     }
 
-    private fun Player.selectEmote(emoteSlot: Int) {
+    private fun Player.selectEmote(emoteSlot: Int, op: IfButtonOp) {
         val emote = emoteSlots.getValue(emoteSlot)
         ifClose(eventBus)
-        protectedAccess.launch(this) { selectEmote(emote) }
+        protectedAccess.launch(this) { selectEmote(emote, op) }
     }
 
-    private suspend fun ProtectedAccess.selectEmote(emote: String) {
+    private suspend fun ProtectedAccess.selectEmote(emote: String, op: IfButtonOp) {
         when (emote) {
             "Yes" -> simpleAnim(seqs.emote_yes)
             "No" -> simpleAnim(seqs.emote_no)
@@ -88,10 +89,10 @@ private constructor(
             "Laugh" -> simpleAnim(seqs.emote_laugh)
             "Jump for Joy" -> simpleAnim(seqs.emote_jump_with_joy)
             "Yawn" -> simpleAnim(seqs.emote_yawn)
-            "Dance" -> simpleAnim(seqs.emote_dance)
-            "Jig" -> simpleAnim(seqs.emote_jig)
+            "Dance" -> loopAnim(seqs.emote_dance, seqs.emote_dance_loop, op)
+            "Jig" -> loopAnim(seqs.emote_jig, seqs.emote_jig_loop, op)
             "Spin" -> simpleAnim(seqs.emote_spin)
-            "Headbang" -> simpleAnim(seqs.emote_headbang)
+            "Headbang" -> loopAnim(seqs.emote_headbang, seqs.emote_headbang_loop, op)
             "Cry" -> simpleAnim(seqs.emote_cry)
             "Blow Kiss" -> simpleAnim(seqs.emote_blow_kiss_low_prio)
             "Panic" -> simpleAnim(seqs.emote_panic)
@@ -125,10 +126,12 @@ private constructor(
                     "This emote can be unlocked during the mime random event.",
                 )
             "Lean" ->
-                lockedAnimDialog(
+                lockedLoopAnimDialog(
                     seqs.emote_lean,
+                    seqs.emote_lean_loop,
                     varbits.lean_emote,
                     "This emote can be unlocked during the mime random event.",
+                    op,
                 )
             "Glass Wall" ->
                 lockedAnimDialog(
@@ -265,13 +268,11 @@ private constructor(
                     "This emote can be unlocked by doing a Halloween event.",
                     spot = spotanims.emote_trick,
                 )
-            "Fortis Salute" -> fortisSaluteEmote()
+            "Fortis Salute" -> fortisSaluteEmote(loop = op == IfButtonOp.Op2)
             "Crab dance" -> {
                 /* Emote is not available in tab. */
             }
-            "Sit down" -> {
-                /* Emote is not available in tab. */
-            }
+            "Sit down" -> loopAnim(seqs.emote_sit_down_loop, seqs.emote_sit_down, op)
             else -> throw NotImplementedError("Emote not implemented: $emote")
         }
     }
@@ -287,6 +288,11 @@ private constructor(
         playAnim(seq, spot)
     }
 
+    private fun ProtectedAccess.loopAnim(seqOp1: SeqType, seqOp2: SeqType, op: IfButtonOp) {
+        val seq = if (op == IfButtonOp.Op2) seqOp2 else seqOp1
+        simpleAnim(seq)
+    }
+
     private suspend fun ProtectedAccess.lockedAnimDialog(
         seq: SeqType,
         varbit: VarBitType,
@@ -300,6 +306,22 @@ private constructor(
             return
         }
         simpleAnim(seq, spot)
+    }
+
+    private suspend fun ProtectedAccess.lockedLoopAnimDialog(
+        seqOp1: SeqType,
+        seqOp2: SeqType,
+        varbit: VarBitType,
+        text: String,
+        op: IfButtonOp,
+        varbitStateReq: Int = 1,
+    ) {
+        val state = vars[varbit]
+        if (state < varbitStateReq) {
+            mesbox(text, lineHeight = 31)
+            return
+        }
+        loopAnim(seqOp1, seqOp2, op)
     }
 
     private suspend fun ProtectedAccess.skillCapeEmote() {
@@ -463,7 +485,7 @@ private constructor(
         publishEmoteEvent(seqs.emote_relic_unlock)
     }
 
-    private suspend fun ProtectedAccess.fortisSaluteEmote() {
+    private suspend fun ProtectedAccess.fortisSaluteEmote(loop: Boolean) {
         val unlocked = vars[varps.fortis_colosseum_glory_highscore] >= 20_000
         if (!unlocked) {
             mesbox(
@@ -473,7 +495,8 @@ private constructor(
             )
             return
         }
-        simpleAnim(seqs.emote_fortis_salute)
+        val seq = if (loop) seqs.emote_fortis_salute_loop else seqs.emote_fortis_salute
+        simpleAnim(seq)
     }
 
     private fun ProtectedAccess.publishEmoteEvent(seq: SeqType) {

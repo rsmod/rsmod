@@ -187,6 +187,12 @@
 8855	emote_banana_cape
 8917	emote_flex
 10031	emote_party
+10048	emote_dance_loop
+10049	emote_jig_loop
+10050	emote_headbang_loop
+10053	emote_sit_down
+10061	emote_sit_down_loop
+10062	emote_lean_loop
 10503	emote_trick
 10796	emote_fortis_salute
-
+10797	emote_fortis_salute_loop
