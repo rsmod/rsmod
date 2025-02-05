@@ -51,6 +51,7 @@ internal fun Player.setBanksideExtraOps(objTypes: ObjTypeList) {
             val enabled = flipReq && vars[varbit] == 0 || !flipReq && vars[varbit] > 0
             if (enabled) {
                 specialBits = specialBits or (1 shl specialBit)
+                continue
             }
         }
 
