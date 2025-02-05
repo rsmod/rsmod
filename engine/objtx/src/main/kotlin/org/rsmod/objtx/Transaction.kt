@@ -93,6 +93,7 @@ public class Transaction<T>(
         private var preferredCount: Int? = null,
         public var strictSlot: Int? = null,
         private var preferredSlot: Int = 0,
+        public var capacity: Int? = null,
         public var vars: Int = 0,
         public var cert: Boolean = false,
         public var uncert: Boolean = false,
@@ -124,6 +125,13 @@ public class Transaction<T>(
             if (count < 1) {
                 return TransactionResult.InvalidCountRequest
             }
+            val capacity = capacity ?: inv.image.size
+            if (capacity > inv.image.size) {
+                return TransactionResult.Exception(
+                    "`capacity` cannot be greater than inventory size. " +
+                        "(capacity=$capacity, invSize=${inv.image.size})"
+                )
+            }
             if (transform) {
                 val template = this@Transaction.transformTemplate(obj)
                 val resolved =
@@ -132,7 +140,7 @@ public class Transaction<T>(
                     } else {
                         obj
                     }
-                return inv.insert(resolved, count)
+                return inv.insert(resolved, count, capacity)
             }
             if (untransform) {
                 val template = this@Transaction.transformTemplate(obj)
@@ -142,48 +150,56 @@ public class Transaction<T>(
                     } else {
                         obj
                     }
-                return inv.insert(resolved, count)
+                return inv.insert(resolved, count, capacity)
             }
-            return inv.insert(obj, count)
+            return inv.insert(obj, count, capacity)
         }
 
-        private fun TransactionInventory<T>.insert(obj: Int, count: Int): TransactionResult {
+        private fun TransactionInventory<T>.insert(
+            obj: Int,
+            count: Int,
+            capacity: Int,
+        ): TransactionResult {
             val template = this@Transaction.certTemplate(obj)
             if (template != null && vars > 0) {
                 return TransactionResult.VarObjIncorrectlyHasCert
             }
             if (vars > 0) {
-                return insertIndividual(obj, count)
+                return insertIndividual(obj, count, capacity)
             }
             if (template != null && template.isCert) {
                 val uncert = uncert || stackAll
                 val transform = if (uncert) template.link else obj
                 return when {
-                    stackNone -> insertIndividual(transform, count)
-                    transform == obj || stackAll -> insertStack(transform, count)
-                    else -> insertIndividual(transform, count)
+                    stackNone -> insertIndividual(transform, count, capacity)
+                    transform == obj || stackAll -> insertStack(transform, count, capacity)
+                    else -> insertIndividual(transform, count, capacity)
                 }
             }
             if (stackAll) {
-                return insertStack(obj, count)
+                return insertStack(obj, count, capacity)
             } else if (stackNone) {
-                return insertIndividual(obj, count)
+                return insertIndividual(obj, count, capacity)
             }
             if (template != null && !template.isCert && cert) {
                 return if (stackNone) {
-                    insertIndividual(template.link, count)
+                    insertIndividual(template.link, count, capacity)
                 } else {
-                    insertStack(template.link, count)
+                    insertStack(template.link, count, capacity)
                 }
             }
             val stacks = this@Transaction.stackable(obj)
             if (stacks) {
-                return insertStack(obj, count)
+                return insertStack(obj, count, capacity)
             }
-            return insertIndividual(obj, count)
+            return insertIndividual(obj, count, capacity)
         }
 
-        private fun TransactionInventory<T>.insertStack(obj: Int, count: Int): TransactionResult {
+        private fun TransactionInventory<T>.insertStack(
+            obj: Int,
+            count: Int,
+            capacity: Int,
+        ): TransactionResult {
             val placeholderSlot = if (placeholders) findPlaceholderSlot(obj) else null
             if (placeholderSlot != null) {
                 this[placeholderSlot] = TransactionObj(obj, count)
@@ -204,7 +220,11 @@ public class Transaction<T>(
             if (strictSlot != null && this[strictSlot] != null) {
                 return TransactionResult.StrictSlotTaken
             }
-            val emptySlot = indexOfNull(solveSlot) ?: return TransactionResult.NotEnoughSpace
+            val emptySlot =
+                indexOfNull(solveSlot, capacity) ?: return TransactionResult.NotEnoughSpace
+            if (capacity != image.size && occupiedSpace() >= capacity) {
+                return TransactionResult.NotEnoughSpace
+            }
             this[emptySlot] = TransactionObj(obj, count)
             return TransactionResult.Ok(requested = count, completed = count)
         }
@@ -212,6 +232,7 @@ public class Transaction<T>(
         private fun TransactionInventory<T>.insertIndividual(
             obj: Int,
             count: Int,
+            capacity: Int,
         ): TransactionResult {
             val placeholderSlot = if (placeholders) findPlaceholderSlot(obj) else null
             if (placeholderSlot != null) {
@@ -222,15 +243,21 @@ public class Transaction<T>(
             if (strictSlot != null && this[strictSlot] != null) {
                 return TransactionResult.StrictSlotTaken
             }
-            val cappedCount = if (isStrictCount) count else min(freeSpace(), count)
+            val freeSpace = freeSpace() - (image.size - capacity)
+            val cappedCount = if (isStrictCount) count else min(freeSpace, count)
             var completed = 0
             val startIndex = solveSlot
             val isStrictCount = isStrictCount
             for (i in 0 until cappedCount) {
-                val slot = indexOfNull(startIndex + i)
+                val slot = indexOfNull(startIndex + i, capacity)
                 if (slot == null && isStrictCount) {
                     return TransactionResult.NotEnoughSpace
                 } else if (slot == null) {
+                    continue
+                }
+                if (freeSpace - completed <= 0 && isStrictCount) {
+                    return TransactionResult.NotEnoughSpace
+                } else if (freeSpace - completed <= 0) {
                     continue
                 }
                 completed++
@@ -370,6 +397,7 @@ public class Transaction<T>(
         public var fromSlot: Int? = null,
         public var intoSlot: Int = 0,
         public var count: Int = 1,
+        public var intoCapacity: Int? = null,
         public var cert: Boolean = false,
         public var uncert: Boolean = false,
         public var placehold: Boolean = false,
@@ -427,6 +455,7 @@ public class Transaction<T>(
                         preferredCount = if (strict) null else count,
                         strictCount = if (strict) count else 1,
                         preferredSlot = intoSlot,
+                        capacity = intoCapacity,
                         vars = obj.vars,
                         cert = cert,
                         uncert = uncert,
@@ -495,6 +524,7 @@ public class Transaction<T>(
                             into = into,
                             obj = obj.id,
                             strictCount = obj.count,
+                            capacity = intoCapacity,
                             vars = obj.vars,
                             cert = cert,
                             uncert = uncert,
@@ -721,6 +751,7 @@ public class Transaction<T>(
         public var placehold: Boolean = false,
         public var keepSlots: Set<Int>? = null,
         public var intoStartSlot: Int = 0,
+        public var intoCapacity: Int? = null,
     ) : TransactionQuery {
         override fun result(): TransactionResult {
             val from = from ?: return TransactionResult.Exception("`from` is required.")
@@ -752,6 +783,7 @@ public class Transaction<T>(
                             obj = obj.id,
                             preferredCount = obj.count,
                             preferredSlot = intoStartSlot,
+                            capacity = intoCapacity,
                             vars = obj.vars,
                             cert = cert,
                             uncert = uncert,

@@ -366,8 +366,9 @@ public fun Player.invMoveAll(
     transform: Boolean = false,
     untransform: Boolean = false,
     placehold: Boolean = false,
-    keepSlots: Set<Int>? = null,
     intoStartSlot: Int = 0,
+    intoCapacity: Int? = null,
+    keepSlots: Set<Int>? = null,
     autoCommit: Boolean = true,
 ): TransactionResultList<InvObj> {
     check(into != from) { "`into` should not be equal to `from` inv." }
@@ -382,8 +383,9 @@ public fun Player.invMoveAll(
             transform = transform,
             untransform = untransform,
             placehold = placehold,
-            keepSlots = keepSlots,
             intoStartSlot = intoStartSlot,
+            intoCapacity = intoCapacity,
+            keepSlots = keepSlots,
         )
     }
 }
@@ -396,8 +398,9 @@ public fun Transaction<InvObj>.moveAll(
     transform: Boolean = false,
     untransform: Boolean = false,
     placehold: Boolean = false,
-    keepSlots: Set<Int>? = null,
     intoStartSlot: Int = 0,
+    intoCapacity: Int? = null,
+    keepSlots: Set<Int>? = null,
 ) {
     dump {
         this.from = from
@@ -407,8 +410,9 @@ public fun Transaction<InvObj>.moveAll(
         this.transform = transform
         this.untransform = untransform
         this.placehold = placehold
-        this.keepSlots = keepSlots
         this.intoStartSlot = intoStartSlot
+        this.intoCapacity = intoCapacity
+        this.keepSlots = keepSlots
     }
 }
 

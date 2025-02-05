@@ -595,14 +595,16 @@ public class ProtectedAccess(
         into: Inventory,
         untransform: Boolean = false,
         intoStartSlot: Int = 0,
+        intoCapacity: Int? = null,
         keepSlots: Set<Int>? = null,
     ): TransactionResultList<InvObj> =
         player.invMoveAll(
             from = from,
             into = into,
             untransform = untransform,
-            keepSlots = keepSlots,
             intoStartSlot = intoStartSlot,
+            intoCapacity = intoCapacity,
+            keepSlots = keepSlots,
         )
 
     public fun invMoveAll(

@@ -17,9 +17,11 @@ public class TransactionInventory<T>(
 
     internal fun freeSpace(): Int = image.count { it == null }
 
-    internal fun indexOfNull(startIndex: Int = 0): Int? {
+    internal fun occupiedSpace(): Int = image.count { it != null }
+
+    internal fun indexOfNull(startIndex: Int, capacity: Int = image.size): Int? {
         for (i in image.indices) {
-            val slot = (i + startIndex) % image.size
+            val slot = (i + startIndex) % capacity
             if (image[slot] == null) {
                 return slot
             }
@@ -45,9 +47,9 @@ public class TransactionInventory<T>(
         return slots
     }
 
-    internal fun indexOf(obj: Int, startSlot: Int = 0): Int? {
+    internal fun indexOf(obj: Int, startIndex: Int = 0): Int? {
         for (i in image.indices) {
-            val slot = (i + startSlot) % image.size
+            val slot = (i + startIndex) % image.size
             if (image[slot]?.id == obj) {
                 return slot
             }
