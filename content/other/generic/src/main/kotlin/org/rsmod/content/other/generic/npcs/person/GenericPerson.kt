@@ -101,7 +101,7 @@ constructor(private val dialogues: Dialogues, private val random: GameRandom) : 
     private suspend fun Dialogue.randomGenericDialogue6() {
         chatNpc(
             neutral,
-            "Not too bad, but I'm a little worried about the increase " + "of goblins these days.",
+            "Not too bad, but I'm a little worried about the increase of goblins these days.",
         )
         chatPlayer(happy, "Don't worry, I'll kill them.")
     }

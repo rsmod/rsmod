@@ -252,7 +252,7 @@ private constructor(
             if (access.invCoinTotal() < cost) {
                 chatPlayer(
                     confused,
-                    "Oh... I don't seem to have enough money for that. " + "Never mind.",
+                    "Oh... I don't seem to have enough money for that. Never mind.",
                 )
                 return
             }
@@ -280,7 +280,7 @@ private constructor(
             if (!takeFee) {
                 chatPlayer(
                     confused,
-                    "Oh... I don't seem to have enough money for that. " + "Never mind.",
+                    "Oh... I don't seem to have enough money for that. Never mind.",
                 )
                 return
             }
@@ -311,10 +311,7 @@ private constructor(
 
     private suspend fun Dialogue.whatIsThisPlace() {
         chatPlayer(quiz, "What is this place?")
-        chatNpc(
-            happy,
-            "This is a branch of the Bank of Gielinor. We have " + "branches in many towns.",
-        )
+        chatNpc(happy, "This is a branch of the Bank of Gielinor. We have branches in many towns.")
         chatPlayer(quiz, "And what do you do?")
         chatNpc(
             happy,

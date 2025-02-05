@@ -554,7 +554,7 @@ private suspend fun Dialogue.ernestChickenQuest() {
     } else {
         chatPlayer(
             happy,
-            "Yeah, I found Ernest already. Professor Oddenstein " + "had turned him into a chicken!",
+            "Yeah, I found Ernest already. Professor Oddenstein had turned him into a chicken!",
         )
         chatNpc(laugh, "A chicken!?")
         chatPlayer(happy, "Yeah a chicken. It could have been worse though.")
