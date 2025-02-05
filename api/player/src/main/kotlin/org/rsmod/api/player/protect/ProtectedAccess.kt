@@ -177,6 +177,10 @@ public class ProtectedAccess(
         PathingEntityCommon.setAnimProtect(player, animProtect)
     }
 
+    public fun resetSpotanim() {
+        player.resetSpotanim()
+    }
+
     public fun spotanim(spot: SpotanimType, delay: Int = 0, height: Int = 0, slot: Int = 0) {
         player.spotanim(spot, delay, height, slot)
     }

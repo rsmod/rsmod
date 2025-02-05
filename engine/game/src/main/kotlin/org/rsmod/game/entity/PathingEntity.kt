@@ -14,6 +14,7 @@ import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.movement.RouteDestination
 import org.rsmod.game.movement.RouteRequest
 import org.rsmod.game.seq.EntitySeq
+import org.rsmod.game.spot.EntitySpotanim
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.spot.SpotanimType
 import org.rsmod.map.CoordGrid
@@ -244,6 +245,13 @@ public sealed class PathingEntity {
     }
 
     public abstract fun anim(seq: SeqType, delay: Int = 0, priority: Int = seq.priority)
+
+    public fun resetSpotanim() {
+        pendingSpotanims.clear()
+
+        val spotanim = EntitySpotanim(65535, 0, 0, 0)
+        pendingSpotanims.add(spotanim.packed)
+    }
 
     public abstract fun spotanim(spot: SpotanimType, delay: Int = 0, height: Int = 0, slot: Int = 0)
 
