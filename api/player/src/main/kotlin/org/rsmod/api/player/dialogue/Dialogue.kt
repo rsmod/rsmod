@@ -31,6 +31,9 @@ public class Dialogue(
     private val resolvedNpc: Npc
         get() = npc ?: error("`npc` must be set. Use `Dialogues.start(player, npc)` instead.")
 
+    private val npcVisName: String
+        get() = resolveNpcVisName()
+
     public suspend fun mesbox(text: String) {
         val pages = alignment.generatePageList(text)
         for (page in pages) {
@@ -113,7 +116,15 @@ public class Dialogue(
         for (page in pages) {
             val (pgText, lineCount) = page
             val lineHeight = lineHeight(lineCount)
-            access.chatNpc(resolvedNpc, pgText, mesanim, lineCount, lineHeight, faceFar = faceFar)
+            access.chatNpc(
+                title = npcVisName,
+                npc = resolvedNpc,
+                text = pgText,
+                mesanim = mesanim,
+                lineCount = lineCount,
+                lineHeight = lineHeight,
+                faceFar = faceFar,
+            )
         }
     }
 
@@ -122,7 +133,14 @@ public class Dialogue(
         for (page in pages) {
             val (pgText, lineCount) = page
             val lineHeight = lineHeight(lineCount)
-            access.chatNpcNoTurn(resolvedNpc, pgText, mesanim, lineCount, lineHeight)
+            access.chatNpcNoTurn(
+                title = npcVisName,
+                npc = resolvedNpc,
+                text = pgText,
+                mesanim = mesanim,
+                lineCount = lineCount,
+                lineHeight = lineHeight,
+            )
         }
     }
 
@@ -132,6 +150,7 @@ public class Dialogue(
             val (pgText, lineCount) = page
             val lineHeight = lineHeight(lineCount)
             access.chatNpc(
+                title = npcVisName,
                 npc = resolvedNpc,
                 text = pgText,
                 mesanim = null,
@@ -267,6 +286,15 @@ public class Dialogue(
         access.invContains(this, content)
 
     private fun lineHeight(lineCount: Int): Int = alignment.lineHeight(lineCount)
+
+    private fun resolveNpcVisName(): String {
+        val type = resolvedNpc.type
+        if (!type.isMultiNpc) {
+            return type.name
+        }
+        val visType = access.npcVisType(resolvedNpc)
+        return visType.name
+    }
 
     public val quiz: MesAnimType = BaseMesAnims.quiz
     public val bored: MesAnimType = BaseMesAnims.bored

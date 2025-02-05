@@ -1137,20 +1137,22 @@ public class ProtectedAccess(
      * @see [resumePauseButtonWithProtectedAccess]
      */
     public suspend fun chatNpc(
+        title: String,
         npc: Npc,
         text: String,
         mesanim: MesAnimType?,
         lineCount: Int,
         lineHeight: Int,
         faceFar: Boolean = false,
-        title: String = npc.name,
         pauseText: String = constants.cm_pausebutton,
         eventBus: EventBus = context.eventBus,
     ) {
-        val chatanim = mesanim?.splitGetAnim(lineCount)
         npc.playerFace(player, faceFar = faceFar)
         player.facePathingEntitySquare(npc)
+
+        val chatanim = mesanim?.splitGetAnim(lineCount)
         player.ifChatNpcSpecific(title, npc.type, text, chatanim, pauseText, lineHeight, eventBus)
+
         val modal = player.ui.getModalOrNull(components.chat_dialogue_target)
         val input = coroutine.pause(ResumePauseButtonInput::class)
         resumePauseButtonWithProtectedAccess(input, modal, components.npc_dialogue_pbutton)
@@ -1162,18 +1164,20 @@ public class ProtectedAccess(
      * @see [resumePauseButtonWithProtectedAccess]
      */
     public suspend fun chatNpcNoTurn(
+        title: String,
         npc: Npc,
         text: String,
         mesanim: MesAnimType?,
         lineCount: Int,
         lineHeight: Int,
-        title: String = npc.name,
         pauseText: String = constants.cm_pausebutton,
         eventBus: EventBus = context.eventBus,
     ) {
-        val chatanim = mesanim?.splitGetAnim(lineCount)
         player.facePathingEntitySquare(npc)
+
+        val chatanim = mesanim?.splitGetAnim(lineCount)
         player.ifChatNpcSpecific(title, npc.type, text, chatanim, pauseText, lineHeight, eventBus)
+
         val modal = player.ui.getModalOrNull(components.chat_dialogue_target)
         val input = coroutine.pause(ResumePauseButtonInput::class)
         resumePauseButtonWithProtectedAccess(input, modal, components.npc_dialogue_pbutton)
