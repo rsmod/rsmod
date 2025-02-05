@@ -5,6 +5,12 @@ import org.rsmod.api.type.builders.varbit.VarBitBuilder
 
 internal object VarBitBuilds : VarBitBuilder() {
     init {
+        build("bank_capacity") {
+            baseVar = varps.inv_capacity_65530
+            startBit = 0
+            endBit = 12
+        }
+
         build("small_pouch_storage_type") {
             baseVar = varps.generic_storage_65531
             startBit = 0

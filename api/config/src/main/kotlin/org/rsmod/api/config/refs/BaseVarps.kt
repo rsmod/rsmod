@@ -31,5 +31,6 @@ object BaseVarps : VarpReferences() {
     val fortis_colosseum_glory_highscore = find("fortis_colosseum_glory_highscore", 4433157)
 
     /* Server-side only types */
+    val inv_capacity_65530 = find("inv_capacity_65530")
     val generic_storage_65531 = find("generic_storage_65531")
 }

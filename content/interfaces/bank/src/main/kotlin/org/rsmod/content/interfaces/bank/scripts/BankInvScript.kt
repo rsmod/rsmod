@@ -28,6 +28,7 @@ import org.rsmod.api.script.onIfModalDrag
 import org.rsmod.content.interfaces.bank.BankTab
 import org.rsmod.content.interfaces.bank.QuantityMode
 import org.rsmod.content.interfaces.bank.alwaysPlacehold
+import org.rsmod.content.interfaces.bank.bankCapacity
 import org.rsmod.content.interfaces.bank.configs.bank_components
 import org.rsmod.content.interfaces.bank.configs.bank_comsubs
 import org.rsmod.content.interfaces.bank.configs.bank_enums
@@ -259,6 +260,7 @@ constructor(
                     this.into = bankInv
                     this.fromSlot = slot
                     this.intoSlot = prioritySlot ?: tabSlots.first
+                    this.intoCapacity = bankCapacity
                     this.count = count
                     this.uncert = true
                     this.strict = false
@@ -267,7 +269,7 @@ constructor(
         val result = insertQuery.results.last()
 
         // TODO(content): This message may be incorrect.
-        if (result == TransactionResult.NotEnoughSpace && bank.isFull()) {
+        if (result == TransactionResult.NotEnoughSpace && bank.occupiedSpace() >= bankCapacity) {
             mes("You don't have enough space in your bank account.")
             return false
         }
@@ -365,6 +367,7 @@ constructor(
                     into = bank,
                     untransform = true,
                     intoStartSlot = tab.firstSlot(this),
+                    intoCapacity = bankCapacity,
                     keepSlots = unbankableSlots,
                 )
             val result = transaction[0]
@@ -457,6 +460,7 @@ constructor(
         val fromSlots = from.indices.filter { from[it] != null }.distinctBy { from[it]?.id }
         val tabSlots = tab.slotRange(this)
 
+        val bankCapacity = bankCapacity
         val filteredFromSlots = fromSlots - unbankableSlots
         val transferQuery =
             player.invTransaction(from, bank) {
@@ -468,6 +472,7 @@ constructor(
                         this.into = bankInv
                         this.fromSlot = slot
                         this.intoSlot = tabSlots.first
+                        this.intoCapacity = bankCapacity
                         this.count = Int.MAX_VALUE
                         this.uncert = true
                         this.untransform = true
@@ -1166,8 +1171,9 @@ constructor(
 
     suspend fun addBankFillers(access: ProtectedAccess, requestedCount: Int?) {
         val bank = access.bank
+        val bankCapacity = access.bankCapacity
 
-        val freeSpace = bank.freeSpace()
+        val freeSpace = bankCapacity - bank.occupiedSpace()
         if (freeSpace <= 0) {
             access.mes("Your bank is already full, so there is no reason to add any bank fillers.")
             return
@@ -1181,7 +1187,7 @@ constructor(
 
         val targetTab = BankTab.Main
         val startSlot = targetTab.slotRange(access).first
-        val emptySlots = (startSlot until bank.size).filter { bank[it] == null }
+        val emptySlots = (startSlot until bankCapacity).filter { bank[it] == null }
 
         var completed = 0
         for (slot in emptySlots) {

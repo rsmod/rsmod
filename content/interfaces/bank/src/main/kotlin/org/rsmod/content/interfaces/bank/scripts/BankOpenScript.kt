@@ -16,8 +16,11 @@ import org.rsmod.api.player.ui.ifSetText
 import org.rsmod.api.player.vars.boolVarp
 import org.rsmod.api.script.onIfClose
 import org.rsmod.api.script.onIfOpen
+import org.rsmod.api.script.onPlayerLogIn
+import org.rsmod.content.interfaces.bank.bankCapacity
 import org.rsmod.content.interfaces.bank.configs.bank_components
 import org.rsmod.content.interfaces.bank.configs.bank_comsubs
+import org.rsmod.content.interfaces.bank.configs.bank_constants
 import org.rsmod.content.interfaces.bank.configs.bank_interfaces
 import org.rsmod.content.interfaces.bank.configs.bank_varbits
 import org.rsmod.content.interfaces.bank.disableIfEvents
@@ -46,28 +49,36 @@ constructor(
     private var Player.withdrawCert by boolVarp(bank_varbits.withdraw_mode)
 
     override fun ScriptContext.startUp() {
+        onPlayerLogIn { player.setDefaultCapacity() }
         // `onBankOpen` occurs on `bank_side` trigger for emulation purposes.
         onIfOpen(interfaces.bank_side) { player.onBankOpen() }
         onIfClose(interfaces.bank_main) { player.onBankClose() }
     }
 
+    private fun Player.setDefaultCapacity() {
+        if (bankCapacity == 0) {
+            bankCapacity = bank_constants.default_capacity
+        }
+    }
+
     private fun Player.onBankOpen() {
-        val disableEvents = disableIfEvents
-        val capacity = bank.size
-        if (!disableEvents) {
+        if (!disableIfEvents) {
+            val capacityIncrease = bank_constants.purchasable_capacity
             withdrawCert = false
             invCompress(bank)
             setBanksideExtraOps(objTypes)
             setBankIfEvents()
             setBankWornBonuses(wornBonuses, weaponSpeeds)
-            ifSetText(bank_components.capacity_text, capacity.toString())
+            ifSetText(bank_components.capacity_text, bankCapacity.toString())
             tooltip(
                 this,
-                "Members' capacity: $capacity",
+                "Members' capacity: ${bank_constants.default_capacity}<br>" +
+                    "A banker can sell you up to $capacityIncrease more.",
                 bank_components.capacity_container,
                 bank_components.tooltip,
             )
         }
+
         startInvTransmit(bank)
     }
 

@@ -1,5 +1,6 @@
 package org.rsmod.content.interfaces.bank
 
+import org.rsmod.api.config.refs.varbits
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.vars.boolVarp
 import org.rsmod.api.player.vars.enumVarp
@@ -25,3 +26,6 @@ var ProtectedAccess.depositToPotionStore by boolVarp(bank_varbits.always_deposit
 var ProtectedAccess.bankFillerMode by enumVarp<BankFillerMode>(bank_varbits.bank_filler_quantity)
 
 internal var Player.disableIfEvents by boolVarp(bank_varbits.disable_ifevents)
+
+val ProtectedAccess.bankCapacity by intVarp(varbits.bank_capacity)
+var Player.bankCapacity by intVarp(varbits.bank_capacity)

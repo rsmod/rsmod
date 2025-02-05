@@ -82,6 +82,7 @@ object BaseVarBits : VarBitReferences() {
     val augury_unlocked = find("augury_prayer_unlocked", 1237507976)
 
     /* Server-side only types */
+    val bank_capacity = find("bank_capacity")
     val coal_bag_storage_count = find("coal_bag_storage_count")
     val small_pouch_storage_type = find("small_pouch_storage_type")
     val small_pouch_storage_count = find("small_pouch_storage_count")
