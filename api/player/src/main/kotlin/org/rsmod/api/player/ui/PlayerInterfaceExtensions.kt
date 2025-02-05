@@ -178,7 +178,7 @@ private fun GameCoroutine.requiresInputDialogAbort(): Boolean {
 }
 
 public fun Player.ifCloseModals(eventBus: EventBus) {
-    // This gives us an iterable copy of the entries, so we are safe to modify ui.modals while
+    // This gives us an iterable copy of the entries, so we are safe to modify `ui.modals` while
     // closing them.
     val modalEntries = ui.modals.entries()
     for ((key, value) in modalEntries) {
@@ -238,7 +238,8 @@ public fun Player.ifCloseOverlay(interf: InterfaceType, eventBus: EventBus) {
 private fun Player.openModal(interf: InterfaceType, target: ComponentType, eventBus: EventBus) {
     val idComponent = target.toIdComponent()
     val idInterface = interf.toIdInterface()
-    closeSubs(idComponent, eventBus)
+    triggerCloseSubs(idComponent, eventBus)
+    ui.removeQueuedCloseSub(target)
     ui.modals[idComponent] = idInterface
 
     // Translate any gameframe target component when sent to the client. As far as the server is
@@ -252,7 +253,8 @@ private fun Player.openModal(interf: InterfaceType, target: ComponentType, event
 private fun Player.openOverlay(interf: InterfaceType, target: ComponentType, eventBus: EventBus) {
     val idComponent = target.toIdComponent()
     val idInterface = interf.toIdInterface()
-    closeSubs(idComponent, eventBus)
+    triggerCloseSubs(idComponent, eventBus)
+    ui.removeQueuedCloseSub(target)
     ui.overlays[idComponent] = idInterface
 
     // Translate any gameframe target component when sent to the client. As far as the server is
@@ -271,7 +273,7 @@ private fun Player.closeModal(interf: InterfaceType, eventBus: EventBus) {
     }
 }
 
-public fun Player.closeModal(interf: UserInterface, target: Component, eventBus: EventBus) {
+private fun Player.closeModal(interf: UserInterface, target: Component, eventBus: EventBus) {
     ui.modals.remove(target)
 
     // Translate any gameframe target component when sent to the client. As far as the server
@@ -292,7 +294,7 @@ private fun Player.closeOverlay(interf: InterfaceType, eventBus: EventBus) {
     }
 }
 
-public fun Player.closeOverlay(interf: UserInterface, target: Component, eventBus: EventBus) {
+private fun Player.closeOverlay(interf: UserInterface, target: Component, eventBus: EventBus) {
     ui.overlays.remove(target)
 
     // Translate any gameframe target component when sent to the client. As far as the server
@@ -305,11 +307,21 @@ public fun Player.closeOverlay(interf: UserInterface, target: Component, eventBu
     closeOverlayChildren(interf, eventBus)
 }
 
-/**
- * The difference between this and [ifClose]/[closeOverlay] is that this function will check if
- * [from] is being occupied by either a modal, or an overlay, and then close it accordingly.
- */
-private fun Player.closeSubs(from: Component, eventBus: EventBus) {
+private fun Player.closeOverlayChildren(parent: UserInterface, eventBus: EventBus) {
+    // This gives us an iterable copy of the entries, so we are safe to modify `ui.overlays` while
+    // closing them.
+    val overlayEntries = ui.overlays.entries()
+    for ((key, value) in overlayEntries) {
+        val interf = UserInterface(value)
+        val target = Component(key)
+        if (target.parent == parent.id) {
+            closeOverlay(interf, target, eventBus)
+        }
+    }
+}
+
+@InternalApi("Usage of this function should only be used internally")
+public fun Player.closeSubs(from: Component, eventBus: EventBus) {
     val remove = ui.modals.remove(from) ?: ui.overlays.remove(from)
     if (remove != null) {
         // Translate any gameframe target component when sent to the client. As far as the server
@@ -323,15 +335,47 @@ private fun Player.closeSubs(from: Component, eventBus: EventBus) {
     }
 }
 
-private fun Player.closeOverlayChildren(parent: UserInterface, eventBus: EventBus) {
+/**
+ * Similar to [closeSubs], but only triggers "close sub" scripts and does _not_ send [IfCloseSub]
+ * packet to the client.
+ */
+private fun Player.triggerCloseSubs(from: Component, eventBus: EventBus) {
+    val remove = ui.modals.remove(from) ?: ui.overlays.remove(from)
+    if (remove != null) {
+        eventBus.publish(CloseSub(this, remove, from))
+        triggerCloseOverlayChildren(remove, eventBus)
+    }
+}
+
+/**
+ * Similar to [closeOverlayChildren], but only triggers "close sub" scripts and does _not_ send
+ * [IfCloseSub] packet to the client.
+ */
+private fun Player.triggerCloseOverlayChildren(parent: UserInterface, eventBus: EventBus) {
+    // This gives us an iterable copy of the entries, so we are safe to modify `ui.overlays` while
+    // closing them.
     val overlayEntries = ui.overlays.entries()
     for ((key, value) in overlayEntries) {
         val interf = UserInterface(value)
         val target = Component(key)
         if (target.parent == parent.id) {
-            closeOverlay(interf, target, eventBus)
+            triggerCloseOverlay(interf, target, eventBus)
         }
     }
+}
+
+/**
+ * Similar to [closeOverlay], but only triggers "close sub" scripts and does _not_ send [IfCloseSub]
+ * packet to the client.
+ */
+private fun Player.triggerCloseOverlay(
+    interf: UserInterface,
+    target: Component,
+    eventBus: EventBus,
+) {
+    ui.overlays.remove(target)
+    eventBus.publish(CloseSub(this, interf, target))
+    triggerCloseOverlayChildren(interf, eventBus)
 }
 
 private fun InterfaceType.toIdInterface() = UserInterface(id)

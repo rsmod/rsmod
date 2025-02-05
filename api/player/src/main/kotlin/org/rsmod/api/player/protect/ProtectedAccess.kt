@@ -873,40 +873,20 @@ public class ProtectedAccess(
      *
      * @param input the expected input type to suspend on, provided as a [KClass].
      * @return the input value of type [T] once received.
-     * @throws ProtectedAccessLostException if [regainProtectedAccess] returns false after
-     *   suspension resumes.
-     * @see [regainProtectedAccess]
+     * @throws ProtectedAccessLostException if the player could not retain protected access after
+     *   the coroutine suspension.
+     * @see [resumeWithMainModalProtectedAccess]
      */
     public suspend fun <T : Any> await(input: KClass<T>): T {
-        val value = coroutine.pause(input)
-        return withProtectedAccess(value)
-    }
-
-    /**
-     * Suspends the [coroutine] until the player receives the respective [input].
-     *
-     * Unlike [await], this function ensures protected access is not lost if the same modal remains
-     * open throughout the suspension. It achieves this by using [resumeWithModalProtectedAccess]
-     * instead of [withProtectedAccess].
-     *
-     * _Note: This does not `delay` the player._
-     *
-     * @param input the expected input type to suspend on, provided as a [KClass].
-     * @return the input value of type [T] once received.
-     * @throws ProtectedAccessLostException if [resumeWithModalProtectedAccess] could not validate
-     *   protected access retention.
-     * @see [resumeWithModalProtectedAccess]
-     */
-    public suspend fun <T : Any> awaitWithModal(input: KClass<T>): T {
         val modal = player.ui.getModalOrNull(components.main_modal)
         val value = coroutine.pause(input)
-        return resumeWithModalProtectedAccess(value, modal)
+        return resumeWithMainModalProtectedAccess(value, modal)
     }
 
     /**
-     * @throws ProtectedAccessLostException if [regainProtectedAccess] returns false after
-     *   suspension resumes.
-     * @see [regainProtectedAccess]
+     * @throws ProtectedAccessLostException if the player could not retain protected access after
+     *   the coroutine suspension.
+     * @see [resumePauseButtonWithProtectedAccess]
      */
     public suspend fun mesbox(
         text: String,
@@ -915,14 +895,15 @@ public class ProtectedAccess(
         eventBus: EventBus = context.eventBus,
     ) {
         player.ifMesbox(text, pauseText, lineHeight, eventBus)
+        val modal = player.ui.getModalOrNull(components.chat_dialogue_target)
         val input = coroutine.pause(ResumePauseButtonInput::class)
-        resumePauseButtonWithProtectedAccess(input, components.text_dialogue_pbutton)
+        resumePauseButtonWithProtectedAccess(input, modal, components.text_dialogue_pbutton)
     }
 
     /**
-     * @throws ProtectedAccessLostException if [regainProtectedAccess] returns false after
-     *   suspension resumes.
-     * @see [regainProtectedAccess]
+     * @throws ProtectedAccessLostException if the player could not retain protected access after
+     *   the coroutine suspension.
+     * @see [resumePauseButtonWithProtectedAccess]
      */
     public suspend fun objbox(
         obj: ObjType,
@@ -932,14 +913,15 @@ public class ProtectedAccess(
         eventBus: EventBus = context.eventBus,
     ) {
         player.ifObjbox(text, obj.id, zoom, pauseText, eventBus)
+        val modal = player.ui.getModalOrNull(components.chat_dialogue_target)
         val input = coroutine.pause(ResumePauseButtonInput::class)
-        resumePauseButtonWithProtectedAccess(input, components.obj_dialogue_pbutton)
+        resumePauseButtonWithProtectedAccess(input, modal, components.obj_dialogue_pbutton)
     }
 
     /**
-     * @throws ProtectedAccessLostException if [regainProtectedAccess] returns false after
-     *   suspension resumes.
-     * @see [regainProtectedAccess]
+     * @throws ProtectedAccessLostException if the player could not retain protected access after
+     *   the coroutine suspension.
+     * @see [resumePauseButtonWithProtectedAccess]
      */
     public suspend fun objbox(
         obj: InvObj,
@@ -949,14 +931,15 @@ public class ProtectedAccess(
         eventBus: EventBus = context.eventBus,
     ) {
         player.ifObjbox(text, obj.id, zoomOrCount, pauseText, eventBus)
+        val modal = player.ui.getModalOrNull(components.chat_dialogue_target)
         val input = coroutine.pause(ResumePauseButtonInput::class)
-        resumePauseButtonWithProtectedAccess(input, components.obj_dialogue_pbutton)
+        resumePauseButtonWithProtectedAccess(input, modal, components.obj_dialogue_pbutton)
     }
 
     /**
-     * @throws ProtectedAccessLostException if [regainProtectedAccess] returns false after
-     *   suspension resumes.
-     * @see [regainProtectedAccess]
+     * @throws ProtectedAccessLostException if the player could not retain protected access after
+     *   the coroutine suspension.
+     * @see [resumePauseButtonWithProtectedAccess]
      */
     public suspend fun doubleobjbox(
         obj1: ObjType,
@@ -968,14 +951,15 @@ public class ProtectedAccess(
         eventBus: EventBus = context.eventBus,
     ) {
         player.ifDoubleobjbox(text, obj1.id, zoom1, obj2.id, zoom2, pauseText, eventBus)
+        val modal = player.ui.getModalOrNull(components.chat_dialogue_target)
         val input = coroutine.pause(ResumePauseButtonInput::class)
-        resumePauseButtonWithProtectedAccess(input, components.double_obj_dialogue_pbutton)
+        resumePauseButtonWithProtectedAccess(input, modal, components.double_obj_dialogue_pbutton)
     }
 
     /**
-     * @throws ProtectedAccessLostException if [regainProtectedAccess] returns false after
-     *   suspension resumes.
-     * @see [regainProtectedAccess]
+     * @throws ProtectedAccessLostException if the player could not retain protected access after
+     *   the coroutine suspension.
+     * @see [resumePauseButtonWithProtectedAccess]
      */
     public suspend fun doubleobjbox(
         obj1: InvObj,
@@ -987,14 +971,15 @@ public class ProtectedAccess(
         eventBus: EventBus = context.eventBus,
     ) {
         player.ifDoubleobjbox(text, obj1.id, zoom1, obj2.id, zoom2, pauseText, eventBus)
+        val modal = player.ui.getModalOrNull(components.chat_dialogue_target)
         val input = coroutine.pause(ResumePauseButtonInput::class)
-        resumePauseButtonWithProtectedAccess(input, components.double_obj_dialogue_pbutton)
+        resumePauseButtonWithProtectedAccess(input, modal, components.double_obj_dialogue_pbutton)
     }
 
     /**
-     * @throws ProtectedAccessLostException if [regainProtectedAccess] returns false after
-     *   suspension resumes.
-     * @see [regainProtectedAccess]
+     * @throws ProtectedAccessLostException if the player could not retain protected access after
+     *   the coroutine suspension.
+     * @see [resumePauseButtonWithProtectedAccess]
      */
     public suspend fun <T> choice2(
         choice1: String,
@@ -1005,8 +990,9 @@ public class ProtectedAccess(
         eventBus: EventBus = context.eventBus,
     ): T {
         player.ifChoice(title, "$choice1|$choice2", choiceCountInclusive = 2, eventBus)
+        val modal = player.ui.getModalOrNull(components.chat_dialogue_target)
         val input = coroutine.pause(ResumePauseButtonInput::class)
-        resumePauseButtonWithProtectedAccess(input, components.options_dialogue_pbutton)
+        resumePauseButtonWithProtectedAccess(input, modal, components.options_dialogue_pbutton)
         return when (input.subcomponent) {
             1 -> result1
             2 -> result2
@@ -1015,9 +1001,9 @@ public class ProtectedAccess(
     }
 
     /**
-     * @throws ProtectedAccessLostException if [regainProtectedAccess] returns false after
-     *   suspension resumes.
-     * @see [regainProtectedAccess]
+     * @throws ProtectedAccessLostException if the player could not retain protected access after
+     *   the coroutine suspension.
+     * @see [resumePauseButtonWithProtectedAccess]
      */
     public suspend fun <T> choice3(
         choice1: String,
@@ -1030,8 +1016,9 @@ public class ProtectedAccess(
         eventBus: EventBus = context.eventBus,
     ): T {
         player.ifChoice(title, "$choice1|$choice2|$choice3", choiceCountInclusive = 3, eventBus)
+        val modal = player.ui.getModalOrNull(components.chat_dialogue_target)
         val input = coroutine.pause(ResumePauseButtonInput::class)
-        resumePauseButtonWithProtectedAccess(input, components.options_dialogue_pbutton)
+        resumePauseButtonWithProtectedAccess(input, modal, components.options_dialogue_pbutton)
         return when (input.subcomponent) {
             1 -> result1
             2 -> result2
@@ -1041,9 +1028,9 @@ public class ProtectedAccess(
     }
 
     /**
-     * @throws ProtectedAccessLostException if [regainProtectedAccess] returns false after
-     *   suspension resumes.
-     * @see [regainProtectedAccess]
+     * @throws ProtectedAccessLostException if the player could not retain protected access after
+     *   the coroutine suspension.
+     * @see [resumePauseButtonWithProtectedAccess]
      */
     public suspend fun <T> choice4(
         choice1: String,
@@ -1063,8 +1050,9 @@ public class ProtectedAccess(
             choiceCountInclusive = 4,
             eventBus,
         )
+        val modal = player.ui.getModalOrNull(components.chat_dialogue_target)
         val input = coroutine.pause(ResumePauseButtonInput::class)
-        resumePauseButtonWithProtectedAccess(input, components.options_dialogue_pbutton)
+        resumePauseButtonWithProtectedAccess(input, modal, components.options_dialogue_pbutton)
         return when (input.subcomponent) {
             1 -> result1
             2 -> result2
@@ -1075,9 +1063,9 @@ public class ProtectedAccess(
     }
 
     /**
-     * @throws ProtectedAccessLostException if [regainProtectedAccess] returns false after
-     *   suspension resumes.
-     * @see [regainProtectedAccess]
+     * @throws ProtectedAccessLostException if the player could not retain protected access after
+     *   the coroutine suspension.
+     * @see [resumePauseButtonWithProtectedAccess]
      */
     public suspend fun <T> choice5(
         choice1: String,
@@ -1099,8 +1087,9 @@ public class ProtectedAccess(
             choiceCountInclusive = 5,
             eventBus,
         )
+        val modal = player.ui.getModalOrNull(components.chat_dialogue_target)
         val input = coroutine.pause(ResumePauseButtonInput::class)
-        resumePauseButtonWithProtectedAccess(input, components.options_dialogue_pbutton)
+        resumePauseButtonWithProtectedAccess(input, modal, components.options_dialogue_pbutton)
         return when (input.subcomponent) {
             1 -> result1
             2 -> result2
@@ -1112,9 +1101,9 @@ public class ProtectedAccess(
     }
 
     /**
-     * @throws ProtectedAccessLostException if [regainProtectedAccess] returns false after
-     *   suspension resumes.
-     * @see [regainProtectedAccess]
+     * @throws ProtectedAccessLostException if the player could not retain protected access after
+     *   the coroutine suspension.
+     * @see [resumePauseButtonWithProtectedAccess]
      */
     public suspend fun chatPlayer(
         text: String,
@@ -1127,14 +1116,15 @@ public class ProtectedAccess(
     ) {
         val chatanim = mesanim?.splitGetAnim(lineCount)
         player.ifChatPlayer(title, text, chatanim, pauseText, lineHeight, eventBus)
+        val modal = player.ui.getModalOrNull(components.chat_dialogue_target)
         val input = coroutine.pause(ResumePauseButtonInput::class)
-        resumePauseButtonWithProtectedAccess(input, components.player_dialogue_pbutton)
+        resumePauseButtonWithProtectedAccess(input, modal, components.player_dialogue_pbutton)
     }
 
     /**
-     * @throws ProtectedAccessLostException if [regainProtectedAccess] returns false after
-     *   suspension resumes.
-     * @see [regainProtectedAccess]
+     * @throws ProtectedAccessLostException if the player could not retain protected access after
+     *   the coroutine suspension.
+     * @see [resumePauseButtonWithProtectedAccess]
      */
     public suspend fun chatNpc(
         npc: Npc,
@@ -1151,14 +1141,15 @@ public class ProtectedAccess(
         npc.playerFace(player, faceFar = faceFar)
         player.facePathingEntitySquare(npc)
         player.ifChatNpcSpecific(title, npc.type, text, chatanim, pauseText, lineHeight, eventBus)
+        val modal = player.ui.getModalOrNull(components.chat_dialogue_target)
         val input = coroutine.pause(ResumePauseButtonInput::class)
-        resumePauseButtonWithProtectedAccess(input, components.npc_dialogue_pbutton)
+        resumePauseButtonWithProtectedAccess(input, modal, components.npc_dialogue_pbutton)
     }
 
     /**
-     * @throws ProtectedAccessLostException if [regainProtectedAccess] returns false after
-     *   suspension resumes.
-     * @see [regainProtectedAccess]
+     * @throws ProtectedAccessLostException if the player could not retain protected access after
+     *   the coroutine suspension.
+     * @see [resumePauseButtonWithProtectedAccess]
      */
     public suspend fun chatNpcNoTurn(
         npc: Npc,
@@ -1173,14 +1164,15 @@ public class ProtectedAccess(
         val chatanim = mesanim?.splitGetAnim(lineCount)
         player.facePathingEntitySquare(npc)
         player.ifChatNpcSpecific(title, npc.type, text, chatanim, pauseText, lineHeight, eventBus)
+        val modal = player.ui.getModalOrNull(components.chat_dialogue_target)
         val input = coroutine.pause(ResumePauseButtonInput::class)
-        resumePauseButtonWithProtectedAccess(input, components.npc_dialogue_pbutton)
+        resumePauseButtonWithProtectedAccess(input, modal, components.npc_dialogue_pbutton)
     }
 
     /**
-     * @throws ProtectedAccessLostException if [regainProtectedAccess] returns false after
-     *   suspension resumes.
-     * @see [regainProtectedAccess]
+     * @throws ProtectedAccessLostException if the player could not retain protected access after
+     *   the coroutine suspension.
+     * @see [resumePauseButtonWithProtectedAccess]
      */
     public suspend fun chatNpcSpecific(
         title: String,
@@ -1194,35 +1186,38 @@ public class ProtectedAccess(
     ) {
         val chatanim = mesanim?.splitGetAnim(lineCount)
         player.ifChatNpcSpecific(title, type, text, chatanim, pauseText, lineHeight, eventBus)
+        val modal = player.ui.getModalOrNull(components.chat_dialogue_target)
         val input = coroutine.pause(ResumePauseButtonInput::class)
-        resumePauseButtonWithProtectedAccess(input, components.npc_dialogue_pbutton)
+        resumePauseButtonWithProtectedAccess(input, modal, components.npc_dialogue_pbutton)
     }
 
     /**
      * **Note:** The returned integer will _always_ be positive. To allow negative values, use
      * [numberDialog] instead.
      *
-     * @throws ProtectedAccessLostException if [resumeWithModalProtectedAccess] could not validate
-     *   protected access retention.
+     * @throws ProtectedAccessLostException if the player could not retain protected access after
+     *   the coroutine suspension.
+     * @see [resumeWithMainModalProtectedAccess]
      */
     public suspend fun countDialog(title: String = constants.cm_count): Int {
         mesLayerMode7(player, title)
         val modal = player.ui.getModalOrNull(components.main_modal)
         val input = coroutine.pause(ResumePCountDialogInput::class)
-        return resumeWithModalProtectedAccess(input.count.absoluteValue, modal)
+        return resumeWithMainModalProtectedAccess(input.count.absoluteValue, modal)
     }
 
     /**
      * A version of [countDialog] that allows the returned value to be negative.
      *
-     * @throws ProtectedAccessLostException if [resumeWithModalProtectedAccess] could not validate
-     *   protected access retention.
+     * @throws ProtectedAccessLostException if the player could not retain protected access after
+     *   the coroutine suspension.
+     * @see [resumeWithMainModalProtectedAccess]
      */
     public suspend fun numberDialog(title: String): Int {
         mesLayerMode7(player, title)
         val modal = player.ui.getModalOrNull(components.main_modal)
         val input = coroutine.pause(ResumePCountDialogInput::class)
-        return resumeWithModalProtectedAccess(input.count, modal)
+        return resumeWithMainModalProtectedAccess(input.count, modal)
     }
 
     /**
@@ -1231,8 +1226,9 @@ public class ProtectedAccess(
      * @param enumRestriction If an enum (with key of `ObjType` and value of `Boolean`) is provided,
      *   the search is restricted to only the entries in said enum.
      * @param showLastSearched If `true` the search will present the last selected obj.
-     * @throws ProtectedAccessLostException if [resumeWithModalProtectedAccess] could not validate
-     *   protected access retention.
+     * @throws ProtectedAccessLostException if the player could not retain protected access after
+     *   the coroutine suspension.
+     * @see [resumeWithMainModalProtectedAccess]
      */
     public suspend fun objDialog(
         title: String = constants.cm_obj,
@@ -1243,13 +1239,13 @@ public class ProtectedAccess(
         mesLayerMode14(player, title, stockMarketRestriction, enumRestriction, showLastSearched)
         val modal = player.ui.getModalOrNull(components.main_modal)
         val input = coroutine.pause(ResumePObjDialogInput::class)
-        return resumeWithModalProtectedAccess(input.obj, modal)
+        return resumeWithMainModalProtectedAccess(input.obj, modal)
     }
 
     /**
-     * @throws ProtectedAccessLostException if [regainProtectedAccess] returns false after
-     *   suspension resumes.
-     * @see [regainProtectedAccess]
+     * @throws ProtectedAccessLostException if the player could not retain protected access after
+     *   the coroutine suspension.
+     * @see [resumePauseButtonWithProtectedAccess]
      */
     public suspend fun confirmDestroy(
         obj: ObjType,
@@ -1259,8 +1255,9 @@ public class ProtectedAccess(
         eventBus: EventBus = context.eventBus,
     ): Boolean {
         player.ifConfirmDestroy(header, text, obj.id, count, eventBus)
+        val modal = player.ui.getModalOrNull(components.chat_dialogue_target)
         val input = coroutine.pause(ResumePauseButtonInput::class)
-        resumePauseButtonWithProtectedAccess(input, components.destroy_obj_dialogue_pbutton)
+        resumePauseButtonWithProtectedAccess(input, modal, components.destroy_obj_dialogue_pbutton)
         return when (input.subcomponent) {
             0 -> false
             1 -> true
@@ -1269,8 +1266,9 @@ public class ProtectedAccess(
     }
 
     /**
-     * @throws ProtectedAccessLostException if [resumeWithModalProtectedAccess] could not validate
-     *   protected access retention.
+     * @throws ProtectedAccessLostException if the player could not retain protected access after
+     *   the coroutine suspension.
+     * @see [resumeWithMainModalProtectedAccess]
      */
     public suspend fun confirmOverlay(
         target: ComponentType,
@@ -1283,7 +1281,7 @@ public class ProtectedAccess(
         player.ifConfirmOverlay(target, title, text, cancel, confirm, eventBus)
         val modal = player.ui.getModalOrNull(components.main_modal)
         val input = coroutine.pause(ResumePCountDialogInput::class)
-        val confirmed = resumeWithModalProtectedAccess(input.count != 0, modal)
+        val confirmed = resumeWithMainModalProtectedAccess(input.count != 0, modal)
         player.ifConfirmOverlayClose(eventBus)
         return confirmed
     }
@@ -1291,7 +1289,7 @@ public class ProtectedAccess(
     /**
      * Ensures we can still obtain protected access for [player]. If protected access cannot be
      * regained, this function throws a [ProtectedAccessLostException], which will cause the current
-     * [withProtectedAccess] lambda block to exit gracefully.
+     * `withProtectedAccess` lambda block to exit gracefully.
      *
      * The thrown exception will be suppressed by [Player.advanceActiveCoroutine] and/or
      * [Player.resumeActiveCoroutine], so it will not interrupt the server or the player. While
@@ -1329,32 +1327,22 @@ public class ProtectedAccess(
     }
 
     /**
-     * Syntax sugar alias for [regainProtectedAccess] that allows the input argument
-     * ([returnWithProtectedAccess]) to be returned as long as [regainProtectedAccess] does not
-     * throw [ProtectedAccessLostException].
-     *
-     * @throws ProtectedAccessLostException
-     * @see [regainProtectedAccess]
-     */
-    private fun <T> withProtectedAccess(returnWithProtectedAccess: T): T {
-        regainProtectedAccess()
-        return returnWithProtectedAccess
-    }
-
-    /**
      * Helper function to attempt and resume a call-site from a `ResumePauseButtonInput` suspension
      * while ensuring that the [ResumePauseButtonInput.component] is associated with the
-     * [expectedComponent].
+     * [expectedComponent] and that the same [expectedModal] is still opened after the suspension.
      *
      * @param expectedComponent the [ComponentType] that had its [IfEvent.PauseButton] bitmask
      *   enabled and what is expected of the player to click in order to "continue."
-     * @throws ProtectedAccessLostException if [regainProtectedAccess] throws the exception, or if
+     * @param expectedModal the [Component] that is expected to be the player's active modal.
+     * @throws ProtectedAccessLostException if the player is `delayed`, their active coroutine does
+     *   not match this scope's [coroutine], the current modal does not match [expectedModal], or if
      *   [expectedComponent] `isAssociatedWith` returns `false` for
      *   [ResumePauseButtonInput.component].
-     * @see [regainProtectedAccess]
+     * @see [resumeWithModalProtectedAccess]
      */
     private fun resumePauseButtonWithProtectedAccess(
         input: ResumePauseButtonInput,
+        expectedModal: Component?,
         expectedComponent: ComponentType,
     ) {
         if (!expectedComponent.isAssociatedWith(input.component)) {
@@ -1366,7 +1354,7 @@ public class ProtectedAccess(
             }
             throw ProtectedAccessLostException()
         }
-        regainProtectedAccess()
+        resumeWithModalProtectedAccess(null, expectedModal, components.chat_dialogue_target)
     }
 
     /**
@@ -1382,6 +1370,7 @@ public class ProtectedAccess(
     private fun <T> resumeWithModalProtectedAccess(
         returnWithProtectedAccess: T,
         expectedModal: Component?,
+        modalTarget: ComponentType,
     ): T {
         if (player.isDelayed) {
             logger.debug { "Protected-access was lost due to delay: player=$player" }
@@ -1396,7 +1385,7 @@ public class ProtectedAccess(
             throw ProtectedAccessLostException()
         }
 
-        val currentModal = player.ui.getModalOrNull(components.main_modal)
+        val currentModal = player.ui.getModalOrNull(modalTarget)
         if (currentModal != expectedModal) {
             logger.debug {
                 "Protected-access was lost due to unexpected modal: " +
@@ -1408,6 +1397,23 @@ public class ProtectedAccess(
         }
 
         return returnWithProtectedAccess
+    }
+
+    /**
+     * Helper function that calls [resumeWithModalProtectedAccess] with the `modalTarget` set to
+     * `components.main_modal`.
+     *
+     * @see [resumeWithModalProtectedAccess]
+     */
+    private fun <T> resumeWithMainModalProtectedAccess(
+        returnWithProtectedAccess: T,
+        expectedModal: Component?,
+    ): T {
+        return resumeWithModalProtectedAccess(
+            returnWithProtectedAccess,
+            expectedModal,
+            components.main_modal,
+        )
     }
 
     /* Obj helper functions (oc=obj config) */

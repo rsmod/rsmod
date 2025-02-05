@@ -13,6 +13,10 @@ public class PlayerQueueProcessor
 @Inject
 constructor(private val eventBus: EventBus, private val protectedAccess: ProtectedAccessLauncher) {
     public fun process(player: Player) {
+        if (player.queueList.strongQueues > 0) {
+            player.ifClose(eventBus)
+        }
+
         if (player.queueList.isNotEmpty) {
             player.queueList.decrementDelays()
             player.publishExpiredQueues()

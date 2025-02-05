@@ -5,6 +5,7 @@ import org.rsmod.api.config.constants
 import org.rsmod.api.player.input.ResumePauseButtonInput
 import org.rsmod.api.player.output.runClientScript
 import org.rsmod.api.player.protect.ProtectedAccess
+import org.rsmod.api.player.ui.ifClose
 import org.rsmod.api.player.vars.intVarp
 import org.rsmod.api.script.onIfClose
 import org.rsmod.api.script.onIfModalButton
@@ -32,30 +33,21 @@ class BankTutorialScript @Inject constructor(private val eventBus: EventBus) : P
         onIfClose(bank_interfaces.tutorial_overlay) { player.onTutorialClose() }
     }
 
-    suspend fun begin(access: ProtectedAccess) {
-        val player = access.player
-
+    private suspend fun ProtectedAccess.selectTutorial() {
+        ifClose(eventBus)
         player.openBankWithoutEvents(eventBus)
 
         player.tutorialTotalPages = pages.size
 
-        player.highlightNoClick()
-        access.ifOpenOverlay(
-            bank_interfaces.tutorial_overlay,
-            bank_components.tutorial_overlay_target,
-        )
-        access.ifSetEvents(bank_components.tutorial_next_page, 9..9, IfEvent.Op1)
-        access.ifSetEvents(bank_components.tutorial_prev_page, 9..9, IfEvent.Op1)
+        ifOpenOverlay(bank_interfaces.tutorial_overlay, bank_components.tutorial_overlay_target)
+        ifSetEvents(bank_components.tutorial_prev_page, 9..9, IfEvent.Op1)
+        ifSetEvents(bank_components.tutorial_next_page, 9..9, IfEvent.Op1)
         player.highlightStart()
         player.showPage(0)
-        access.ifSetEvents(bank_components.tutorial_close_button, -1..-1, IfEvent.PauseButton)
+        ifSetEvents(bank_components.tutorial_close_button, -1..-1, IfEvent.PauseButton)
 
-        access.await(ResumePauseButtonInput::class)
-    }
+        await(ResumePauseButtonInput::class)
 
-    private suspend fun ProtectedAccess.selectTutorial() {
-        ifClose(eventBus)
-        begin(this)
         ifClose(eventBus)
         player.openBank(eventBus)
     }
@@ -99,10 +91,6 @@ class BankTutorialScript @Inject constructor(private val eventBus: EventBus) : P
     private fun Player.onTutorialClose() {
         highlightScreenHideLayer()
         highlightNoClickClear()
-    }
-
-    private fun Player.highlightNoClick() {
-        runClientScript(3406, bank_components.side_com40.packed)
     }
 
     private fun Player.highlightStart() {

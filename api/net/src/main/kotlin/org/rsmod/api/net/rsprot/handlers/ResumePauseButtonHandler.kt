@@ -3,17 +3,15 @@ package org.rsmod.api.net.rsprot.handlers
 import jakarta.inject.Inject
 import net.rsprot.protocol.game.incoming.resumed.ResumePauseButton
 import org.rsmod.api.player.input.ResumePauseButtonInput
-import org.rsmod.api.player.ui.ifCloseSub
-import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.type.comp.ComponentTypeList
 import org.rsmod.game.type.interf.InterfaceTypeList
 import org.rsmod.game.ui.Component
+import org.rsmod.game.ui.UserInterface
 
 class ResumePauseButtonHandler
 @Inject
 constructor(
-    private val eventBus: EventBus,
     private val interfaceTypes: InterfaceTypeList,
     private val componentTypes: ComponentTypeList,
 ) : MessageHandler<ResumePauseButton> {
@@ -24,20 +22,20 @@ constructor(
         val componentType = componentTypes[message.asComponent]
         val interfaceType = interfaceTypes[message.asComponent]
         val input = ResumePauseButtonInput(componentType, message.sub)
+        val userInterface = UserInterface(interfaceType)
 
-        if (player.ui.containsModal(interfaceType)) {
-            player.ifCloseSub(interfaceType, eventBus)
+        val modal = player.ui.modals.getComponent(userInterface)
+        if (modal != null) {
+            player.ui.queueClose(modal)
             player.resumeActiveCoroutine(input)
             return
         }
 
-        // Seems overlays do not implicitly close their associated interface. Can be seen in bank
-        // tutorial overlay. After finishing the tutorial, the main bank interface is the first
-        // interface to close, followed by the tutorial overlay (which is closed due to interface
-        // close recursion), and then side bank interface. The overlay would be the first interface
-        // to close were it closed here.
-        if (player.ui.containsOverlay(interfaceType)) {
+        val overlay = player.ui.overlays.getComponent(userInterface)
+        if (overlay != null) {
+            player.ui.queueClose(overlay)
             player.resumeActiveCoroutine(input)
+            return
         }
     }
 }

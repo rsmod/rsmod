@@ -1,6 +1,7 @@
 package org.rsmod.game.ui
 
 import it.unimi.dsi.fastutil.ints.Int2IntMap
+import it.unimi.dsi.fastutil.ints.IntArraySet
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.interf.InterfaceType
 import org.rsmod.game.ui.collection.ComponentEventMap
@@ -14,7 +15,17 @@ public data class UserInterfaceMap(
     public val modals: ComponentTargetMap = ComponentTargetMap(),
     public val events: ComponentEventMap = ComponentEventMap(),
     public val gameframe: ComponentTranslationMap = ComponentTranslationMap(),
+    public val closeQueue: IntArraySet = IntArraySet(),
+    public var closeModal: Boolean = false,
 ) {
+    public fun queueClose(target: Component) {
+        closeQueue.add(target.packed)
+    }
+
+    public fun removeQueuedCloseSub(target: ComponentType) {
+        closeQueue.remove(target.packed)
+    }
+
     public operator fun contains(type: InterfaceType): Boolean {
         return containsModal(type) ||
             containsOverlay(type) ||

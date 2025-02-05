@@ -5,6 +5,6 @@ import org.rsmod.game.entity.Player
 
 class CloseModalHandler : MessageHandler<CloseModal> {
     override fun handle(player: Player, message: CloseModal) {
-        player.requestModalClose = true
+        player.ui.closeModal = true
     }
 }
