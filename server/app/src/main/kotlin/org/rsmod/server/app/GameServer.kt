@@ -44,8 +44,10 @@ class GameServer : CliktCommand(name = "server") {
 
     override fun run() {
         val injector = createInjector()
-        prepareGame(injector)
-        startUpGame(injector)
+        try {
+            prepareGame(injector)
+            startUpGame(injector)
+        } catch (_: ServerRestartException) {}
     }
 
     fun createInjector(): Injector {
@@ -188,7 +190,8 @@ class GameServer : CliktCommand(name = "server") {
             val updater = injector.getInstance(TypeUpdater::class.java)
             updater.updateAll()
             logger.info { "Now restarting game server..." }
-            return run()
+            run()
+            throw ServerRestartException()
         } else if (verification.isFailure()) {
             throw RuntimeException(verification.formatError())
         }
@@ -236,4 +239,14 @@ class GameServer : CliktCommand(name = "server") {
     private fun startUpPluginScript(script: PluginScript, context: ScriptContext) {
         with(script) { context.startUp() }
     }
+
+    /**
+     * Thrown to immediately abort the current server startup process when a cache update requires a
+     * server restart.
+     *
+     * After performing the necessary cache update and calling `run` to restart the server, this
+     * exception is thrown to ensure that no further initialization occurs in the current execution
+     * context. It is caught at the top level and safely ignored.
+     */
+    private class ServerRestartException : Exception()
 }
