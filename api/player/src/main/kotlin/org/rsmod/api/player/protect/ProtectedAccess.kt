@@ -8,11 +8,13 @@ import kotlin.reflect.KClass
 import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.components
 import org.rsmod.api.config.refs.invs
+import org.rsmod.api.config.refs.objs
 import org.rsmod.api.invtx.invAdd
 import org.rsmod.api.invtx.invAddAll
 import org.rsmod.api.invtx.invClear
 import org.rsmod.api.invtx.invMoveAll
 import org.rsmod.api.invtx.invSwap
+import org.rsmod.api.invtx.invTakeFee
 import org.rsmod.api.invtx.invTransfer
 import org.rsmod.api.market.MarketPrices
 import org.rsmod.api.player.input.ResumePCountDialogInput
@@ -1479,6 +1481,9 @@ public class ProtectedAccess(
     }
 
     /* Obj helper functions (oc=obj config) */
+    public fun ocCert(type: ObjType, objTypes: ObjTypeList = context.objTypes): UnpackedObjType =
+        objTypes.cert(objTypes[type])
+
     public fun <T : Any> ocParam(
         obj: InvObj?,
         type: ParamType<T>,
@@ -1509,6 +1514,11 @@ public class ProtectedAccess(
         seqTypes[seq].tickDuration
 
     /* Inventory helper functions */
+    public fun invTakeFee(fee: Int, inv: Inventory = this.inv): Boolean =
+        player.invTakeFee(fee, inv)
+
+    public fun invCoinTotal(inv: Inventory = this.inv): Int = invTotal(inv, objs.coins)
+
     public fun invTotal(
         inv: Inventory,
         content: ContentGroupType,

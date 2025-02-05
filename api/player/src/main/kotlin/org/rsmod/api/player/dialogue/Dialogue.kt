@@ -15,6 +15,7 @@ import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.mesanim.MesAnimType
 import org.rsmod.game.type.npc.UnpackedNpcType
 import org.rsmod.game.type.obj.ObjType
+import org.rsmod.game.type.obj.UnpackedObjType
 
 public class Dialogue(
     public val access: ProtectedAccess,
@@ -284,6 +285,8 @@ public class Dialogue(
 
     public operator fun Inventory.contains(content: ContentGroupType): Boolean =
         access.invContains(this, content)
+
+    public fun ocCert(type: ObjType): UnpackedObjType = access.ocCert(type)
 
     private fun lineHeight(lineCount: Int): Int = alignment.lineHeight(lineCount)
 

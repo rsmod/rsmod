@@ -29,6 +29,8 @@ internal object LumbridgeNpcEditor : NpcEditor() {
     init {
         edit("banker_multi_id_6520") { contentGroup = content.banker }
 
+        edit("banker_tutor") { contentGroup = content.banker_tutor }
+
         edit("prayer_tutor") { moveRestrict = indoors }
 
         edit("father_aereck") { moveRestrict = indoors }

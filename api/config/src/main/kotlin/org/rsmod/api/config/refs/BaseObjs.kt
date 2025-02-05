@@ -98,6 +98,8 @@ object BaseObjs : ObjReferences() {
     val infernal_axe_or = find("infernal_axe_or")
     val crystal_axe = find("crystal_axe")
 
+    val shrimps = find("shrimps")
+
     val woodcutting_icon = find("dummyitem_woodcutting_icon", 520313320359048412)
     val bank_icon = find("dummyitem_bank_icon", 520313320359043779)
     val furnace_icon = find("dummyitem_furnace_icon", 520313320359043783)

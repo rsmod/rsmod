@@ -871,6 +871,7 @@
 13088	highlight_entities_on_mouse_over
 13089	popout_xp_tracker
 13113	show_gravestone_confirmation
+13119	bank_space_blocks_purchased
 13120	chatbox_mode
 13130	accept_trade_delay
 13131	pk_skull_prevention

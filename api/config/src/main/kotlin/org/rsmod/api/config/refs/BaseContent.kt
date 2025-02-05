@@ -47,4 +47,5 @@ object BaseContent : ContentReferences() {
     val max_hood = find("max_hood")
     val food = find("food")
     val potion = find("potion")
+    val banker_tutor = find("banker_tutor")
 }

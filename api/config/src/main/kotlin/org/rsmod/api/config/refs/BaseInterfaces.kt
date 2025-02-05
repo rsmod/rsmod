@@ -9,6 +9,7 @@ typealias interfaces = BaseInterfaces
 object BaseInterfaces : InterfaceReferences() {
     val bank_main = find("bank", 261123712)
     val bank_side = find("bank_inventory", 1999686874)
+    val bank_pin_settings = find("bank_pin_settings", 642937557)
 
     val fixed_pane = find("fixed_pane", 9223372034726091525)
     val resizable_pane = find("resizable_pane", 9223372036366731764)
@@ -48,4 +49,5 @@ object BaseInterfaces : InterfaceReferences() {
     val menu = find("options_menu_dialogue", 130230041)
 
     val overlay_confirmation = find("overlay_confirmation", 9223372035707796330)
+    val ge_collection_box = find("grand_exchange_collection_box", 9223372036801773648)
 }
