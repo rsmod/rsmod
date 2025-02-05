@@ -18,6 +18,7 @@ public class AutoIntEnumPluginBuilder<V : Any>(
     private var currKey = 0
 
     public var default: V? by backing::default
+    public var transmit: Boolean by backing::transmit
 
     public fun build(id: Int): UnpackedEnumType<Int, V> {
         backing.internal = internal
@@ -52,6 +53,8 @@ public class EnumPluginBuilder<K : Any, V : Any>(
 ) {
     public var default: V? = null
     public var vals: MutableMap<K, V?> = mutableMapOf()
+    // Enums created through this builder are usually server-side only.
+    public var transmit: Boolean = false
 
     @Suppress("UNCHECKED_CAST")
     public fun build(id: Int): UnpackedEnumType<K, V> {
@@ -75,6 +78,7 @@ public class EnumPluginBuilder<K : Any, V : Any>(
         backing.defaultStr = primitiveDefault as? String
         backing.defaultInt = primitiveDefault as? Int
         backing.typedMap = vals
+        backing.transmit = transmit
         backing.primitiveMap = primitiveMap
         return backing.build(id) ?: error("Could not build $id.")
     }

@@ -22,6 +22,11 @@ public object EnumTypeEncoder {
         val config = Js5Configs.ENUM
         val packed = mutableListOf<UnpackedEnumType<*, *>>()
         for (type in types) {
+            // Skip server-side enums when packing into the client cache.
+            if (!type.transmit && ctx.clientOnly) {
+                continue
+            }
+
             val oldBuf =
                 if (cache.exists(archive, config, type.id)) {
                     cache.read(archive, config, type.id)
@@ -86,5 +91,10 @@ public object EnumTypeEncoder {
         }
 
     @Suppress("unused")
-    public fun encodeGame(type: UnpackedEnumType<*, *>, data: ByteBuf): Unit = with(type) {}
+    public fun encodeGame(type: UnpackedEnumType<*, *>, data: ByteBuf): Unit =
+        with(type) {
+            if (!transmit) {
+                data.writeByte(200)
+            }
+        }
 }

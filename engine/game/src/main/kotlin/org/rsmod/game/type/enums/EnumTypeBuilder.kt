@@ -20,6 +20,7 @@ public class EnumTypeBuilder<K : Any, V : Any>(
     public var defaultInt: Int? = null
     public var primitiveMap: Map<Any, Any?>? = null
     public var typedMap: Map<K, V?>? = null
+    public var transmit: Boolean? = null
 
     public fun build(id: Int): UnpackedEnumType<K, V>? {
         val internal = checkNotNull(internal) { "`internal` must be set." }
@@ -27,6 +28,7 @@ public class EnumTypeBuilder<K : Any, V : Any>(
         val valLiteral = CacheVarLiteral.forCharId(valCharId) ?: return null
         val primitiveMap = primitiveMap ?: emptyMap()
         val typedMap = typedMap ?: emptyMap()
+        val transmit = transmit ?: DEFAULT_TRANSMIT
         return UnpackedEnumType(
             keyType = keyType,
             valType = valType,
@@ -37,12 +39,15 @@ public class EnumTypeBuilder<K : Any, V : Any>(
             defaultStr = defaultStr,
             defaultInt = defaultInt,
             typedMap = typedMap,
+            transmit = transmit,
             internalId = id,
             internalName = internal,
         )
     }
 
     public companion object {
+        public const val DEFAULT_TRANSMIT: Boolean = true
+
         public fun merge(
             edit: UnpackedEnumType<*, *>,
             base: UnpackedEnumType<*, *>,
@@ -56,6 +61,7 @@ public class EnumTypeBuilder<K : Any, V : Any>(
             val default = select(edit, base, default = null) { default }
             val defaultInt = select(edit, base, default = null) { defaultInt }
             val defaultStr = select(edit, base, default = null) { defaultStr }
+            val transmit = select(edit, base, DEFAULT_TRANSMIT) { transmit }
             val internalId = select(edit, base, default = null) { internalId }
             val internalName = select(edit, base, default = null) { internalName }
             return UnpackedEnumType<Any, Any>(
@@ -68,6 +74,7 @@ public class EnumTypeBuilder<K : Any, V : Any>(
                 defaultInt = defaultInt,
                 default = default,
                 typedMap = typedMap ?: emptyMap(),
+                transmit = transmit,
                 internalId = internalId ?: -1,
                 internalName = internalName ?: "",
             )

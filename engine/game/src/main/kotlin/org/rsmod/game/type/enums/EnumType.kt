@@ -67,6 +67,7 @@ public class UnpackedEnumType<K : Any, V : Any>(
     public val primitiveMap: Map<Any, Any?>,
     public val defaultStr: String?,
     public val defaultInt: Int?,
+    public val transmit: Boolean,
     internal var default: V?,
     internal var typedMap: Map<K, V?>,
     internalId: Int? = null,
@@ -116,7 +117,8 @@ public class UnpackedEnumType<K : Any, V : Any>(
             "default=$default, " +
             "defaultInt=$defaultInt, " +
             "defaultStr=$defaultStr, " +
-            "entries=$typedMap" +
+            "entries=$typedMap, " +
+            "transmit=$transmit" +
             ")"
 
     override fun equals(other: Any?): Boolean {
@@ -127,6 +129,7 @@ public class UnpackedEnumType<K : Any, V : Any>(
         if (keyLiteral != other.keyLiteral) return false
         if (valLiteral != other.valLiteral) return false
         if (primitiveMap != other.primitiveMap) return false
+        if (transmit != other.transmit) return false
         if (internalId != other.internalId) return false
 
         return true

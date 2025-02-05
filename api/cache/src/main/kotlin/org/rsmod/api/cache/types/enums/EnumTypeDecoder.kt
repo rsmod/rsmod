@@ -67,6 +67,7 @@ public object EnumTypeDecoder {
                     }
                     this.primitiveMap = map as Map<Any, Any>
                 }
+                200 -> transmit = false
                 else -> throw IOException("Error unrecognised .enum config code: $code")
             }
         }
