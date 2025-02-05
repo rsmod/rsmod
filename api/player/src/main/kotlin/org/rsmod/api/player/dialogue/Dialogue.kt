@@ -25,6 +25,9 @@ public class Dialogue(
     public val player: Player by access::player
     public val vars: VarPlayerIntMapDelegate by access::vars
 
+    public val npcVisType: UnpackedNpcType
+        get() = access.npcVisType(resolvedNpc)
+
     private val resolvedNpc: Npc
         get() = npc ?: error("`npc` must be set. Use `Dialogues.start(player, npc)` instead.")
 

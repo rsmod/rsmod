@@ -20,6 +20,7 @@ import org.rsmod.api.player.input.ResumePObjDialogInput
 import org.rsmod.api.player.input.ResumePauseButtonInput
 import org.rsmod.api.player.interact.HeldInteractions
 import org.rsmod.api.player.interact.LocInteractions
+import org.rsmod.api.player.interact.NpcInteractions
 import org.rsmod.api.player.interact.WornInteractions
 import org.rsmod.api.player.output.Camera
 import org.rsmod.api.player.output.ChatType
@@ -101,6 +102,7 @@ import org.rsmod.game.type.jingle.JingleType
 import org.rsmod.game.type.mesanim.MesAnimType
 import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.npc.NpcTypeList
+import org.rsmod.game.type.npc.UnpackedNpcType
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.obj.UnpackedObjType
@@ -1461,6 +1463,15 @@ public class ProtectedAccess(
             expectedModal,
             components.main_modal,
         )
+    }
+
+    /* Npc helper functions */
+    public fun npcVisType(
+        npc: Npc,
+        interactions: NpcInteractions = context.npcInteractions,
+    ): UnpackedNpcType {
+        val multiNpc = interactions.multiNpc(npc.type, player.vars)
+        return multiNpc ?: npc.type
     }
 
     /* Obj helper functions (oc=obj config) */
