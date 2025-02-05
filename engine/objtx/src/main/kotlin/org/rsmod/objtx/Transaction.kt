@@ -662,8 +662,8 @@ public class Transaction<T>(
                             vars = otherObj.vars,
                             cert = cert,
                             uncert = uncert,
-                            // Assume anything that any obj that is swapped from the target
-                            // inventory should have the opposite transformation flags.
+                            // Assume that any obj that is swapped from the target inventory should
+                            // have the opposite transformation flags.
                             transform = untransform,
                             untransform = transform,
                         )
