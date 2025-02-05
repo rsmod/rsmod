@@ -39,7 +39,6 @@ object BankComponents : ComponentReferences() {
     val worn_prayer = find("bank_com114", 1135837496487089393)
     val worn_undead = find("bank_com116", 247971817102018936)
     val worn_slayer = find("bank_com117", 4063743363812038655)
-    val com138 = find("bank_com138", 6110944052766837765)
     val tutorial_overlay_target = find("bank_com125", 5345750290142623059)
     val confirmation_overlay_target = find("bank_com126", 7725483948440596984)
     val tooltip = find("bank_com128", 4370591860360031647)

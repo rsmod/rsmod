@@ -184,6 +184,6 @@ constructor(
         )
 
         ifSetEvents(bank_components.incinerator_confirm, 1..bank.size, IfEvent.Op1)
-        ifSetEvents(bank_components.com138, 0..8, IfEvent.Op1)
+        ifSetEvents(bank_components.bank_tab_display, 0..8, IfEvent.Op1)
     }
 }
