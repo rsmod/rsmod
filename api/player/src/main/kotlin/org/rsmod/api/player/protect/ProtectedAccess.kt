@@ -24,6 +24,7 @@ import org.rsmod.api.player.interact.WornInteractions
 import org.rsmod.api.player.output.Camera
 import org.rsmod.api.player.output.ChatType
 import org.rsmod.api.player.output.ClientScripts
+import org.rsmod.api.player.output.ClientScripts.chatDefaultRestoreInput
 import org.rsmod.api.player.output.ClientScripts.mesLayerMode14
 import org.rsmod.api.player.output.ClientScripts.mesLayerMode7
 import org.rsmod.api.player.output.MapFlag
@@ -47,6 +48,7 @@ import org.rsmod.api.player.ui.ifConfirmDestroy
 import org.rsmod.api.player.ui.ifConfirmOverlay
 import org.rsmod.api.player.ui.ifConfirmOverlayClose
 import org.rsmod.api.player.ui.ifDoubleobjbox
+import org.rsmod.api.player.ui.ifMenu
 import org.rsmod.api.player.ui.ifMesbox
 import org.rsmod.api.player.ui.ifObjbox
 import org.rsmod.api.player.ui.ifOpenMain
@@ -1291,6 +1293,45 @@ public class ProtectedAccess(
         player.ifConfirmOverlayClose(eventBus)
         return confirmed
     }
+
+    /**
+     * @param hotkeys if `true` the menu interface will allow number keys to be used to select a
+     *   listed choice.
+     * @return the selected choice subcomponent id ranging from `0` to `127`.
+     * @throws ProtectedAccessLostException if the player could not retain protected access after
+     *   the coroutine suspension.
+     * @throws IllegalArgumentException if [choices] has more than `127` elements.
+     * @see [resumeWithMainModalProtectedAccess]
+     */
+    public suspend fun menu(
+        title: String,
+        hotkeys: Boolean,
+        choices: List<String>,
+        eventBus: EventBus = context.eventBus,
+    ): Int {
+        require(choices.size < 128) { "Can only have up to 127 `choices`. (size=${choices.size})" }
+        player.ifMenu(title, choices.joinToString("|"), hotkeys, eventBus)
+        val modal = player.ui.getModalOrNull(components.main_modal)
+        val input = coroutine.pause(ResumePauseButtonInput::class)
+        chatDefaultRestoreInput(player)
+        return resumeWithMainModalProtectedAccess(input.subcomponent.absoluteValue, modal)
+    }
+
+    /**
+     * @param hotkeys if `true` the menu interface will allow number keys to be used to select a
+     *   listed choice.
+     * @return the selected choice subcomponent id ranging from `0` to `127`.
+     * @throws ProtectedAccessLostException if the player could not retain protected access after
+     *   the coroutine suspension.
+     * @throws IllegalArgumentException if [choices] has more than `127` elements.
+     * @see [resumeWithMainModalProtectedAccess]
+     */
+    public suspend fun menu(
+        title: String,
+        vararg choices: String,
+        hotkeys: Boolean = false,
+        eventBus: EventBus = context.eventBus,
+    ): Int = menu(title, hotkeys, choices.toList(), eventBus)
 
     /**
      * Ensures we can still obtain protected access for [player]. If protected access cannot be

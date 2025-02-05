@@ -23,6 +23,10 @@ public object ClientScripts {
     public fun camForceAngle(player: Player, rate: Int, rate2: Int): Unit =
         player.runClientScript(143, rate, rate2)
 
+    /** @param joinedChoices Menu list choices must be split by the `|` character. */
+    public fun menu(player: Player, title: String, joinedChoices: String, hotkeys: Boolean): Unit =
+        player.runClientScript(217, title, joinedChoices, if (hotkeys) 1 else 0)
+
     /**
      * Switches, or opens, the toplevel side tab. Values for [side] can be found in
      * [org.rsmod.api.config.Constants] prefixed with `toplevel_`. (i.e., `toplevel_attack`)
@@ -58,6 +62,8 @@ public object ClientScripts {
             enumRestriction?.id ?: -1,
             if (showLastSearched) 1 else 0,
         )
+
+    public fun chatDefaultRestoreInput(player: Player): Unit = player.runClientScript(2158)
 
     public fun topLevelMainModalOpen(
         player: Player,

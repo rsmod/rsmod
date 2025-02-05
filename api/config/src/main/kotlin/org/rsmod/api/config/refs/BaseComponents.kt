@@ -58,6 +58,8 @@ object BaseComponents : ComponentReferences() {
 
     val destroy_obj_dialogue_pbutton = find("destroy_item_dialogue_com0", 634370088850376912)
 
+    val menu_list = find("options_menu_dialogue_com3", 5050712558646226874)
+
     val main_modal = find("resizable_pane_com16", 5905850806851984360)
     val side_modal = find("resizable_pane_com74", 8719636644635355055)
 

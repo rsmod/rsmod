@@ -26,6 +26,7 @@ import org.rsmod.api.player.output.ClientScripts.chatboxMultiInit
 import org.rsmod.api.player.output.ClientScripts.confirmDestroyInit
 import org.rsmod.api.player.output.ClientScripts.confirmOverlayInit
 import org.rsmod.api.player.output.ClientScripts.ifSetTextAlign
+import org.rsmod.api.player.output.ClientScripts.menu
 import org.rsmod.api.player.output.ClientScripts.objboxSetButtons
 import org.rsmod.api.player.output.ClientScripts.topLevelChatboxResetBackground
 import org.rsmod.api.player.output.ClientScripts.topLevelMainModalBackground
@@ -466,6 +467,17 @@ internal fun Player.ifConfirmOverlay(
 
 internal fun Player.ifConfirmOverlayClose(eventBus: EventBus): Unit =
     ifCloseOverlay(interfaces.overlay_confirmation, eventBus)
+
+internal fun Player.ifMenu(
+    title: String,
+    joinedChoices: String,
+    hotkeys: Boolean,
+    eventBus: EventBus,
+) {
+    ifOpenMainModal(interfaces.menu, eventBus)
+    menu(this, title, joinedChoices, hotkeys)
+    ifSetEvents(components.menu_list, 0..127, IfEvent.PauseButton)
+}
 
 /** @see [chatboxMultiInit] */
 internal fun Player.ifChoice(

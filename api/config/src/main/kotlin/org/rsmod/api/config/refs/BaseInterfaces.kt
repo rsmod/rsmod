@@ -45,6 +45,7 @@ object BaseInterfaces : InterfaceReferences() {
     val obj_dialogue = find("item_dialogue", 1639203600)
     val double_obj_dialogue = find("double_item_dialogue", 9223372035376440778)
     val destroy_obj_dialogue = find("destroy_item_dialogue", 923450919)
+    val menu = find("options_menu_dialogue", 130230041)
 
     val overlay_confirmation = find("overlay_confirmation", 9223372035707796330)
 }
