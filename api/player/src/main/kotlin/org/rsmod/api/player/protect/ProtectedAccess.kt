@@ -1509,10 +1509,23 @@ public class ProtectedAccess(
         inv: Inventory,
         content: ContentGroupType,
         objTypes: ObjTypeList = context.objTypes,
-    ): Int = inv.count { it != null && objTypes[it].contentGroup == content.id }
+    ): Int {
+        var count = 0
+        for (obj in inv) {
+            val filtered = obj ?: continue
+            val type = objTypes[filtered]
+            if (type.isAssociatedWith(content)) {
+                count += filtered.count
+            }
+        }
+        return count
+    }
 
-    public fun invTotal(inv: Inventory, obj: ObjType): Int =
-        inv.count { it != null && it.id == obj.id }
+    public fun invTotal(
+        inv: Inventory,
+        obj: ObjType,
+        objTypes: ObjTypeList = context.objTypes,
+    ): Int = inv.count(objTypes[obj])
 
     public fun invContains(
         inv: Inventory,
