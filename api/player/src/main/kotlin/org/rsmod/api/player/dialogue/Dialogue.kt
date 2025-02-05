@@ -147,7 +147,14 @@ public class Dialogue(
         for (page in pages) {
             val (pgText, lineCount) = page
             val lineHeight = lineHeight(lineCount)
-            access.chatNpcSpecific(type.name, type, pgText, mesanim, lineCount, lineHeight)
+            access.chatNpcSpecific(
+                type.name,
+                resolvedNpc.type,
+                pgText,
+                mesanim,
+                lineCount,
+                lineHeight,
+            )
         }
     }
 
