@@ -25,6 +25,9 @@ public class Dialogue(
     public val player: Player by access::player
     public val vars: VarPlayerIntMapDelegate by access::vars
 
+    private val resolvedNpc: Npc
+        get() = npc ?: error("`npc` must be set. Use `Dialogues.start(player, npc)` instead.")
+
     public suspend fun mesbox(text: String) {
         val pages = alignment.generatePageList(text)
         for (page in pages) {
@@ -107,7 +110,7 @@ public class Dialogue(
         for (page in pages) {
             val (pgText, lineCount) = page
             val lineHeight = lineHeight(lineCount)
-            access.chatNpc(npc(), pgText, mesanim, lineCount, lineHeight, faceFar = faceFar)
+            access.chatNpc(resolvedNpc, pgText, mesanim, lineCount, lineHeight, faceFar = faceFar)
         }
     }
 
@@ -116,7 +119,7 @@ public class Dialogue(
         for (page in pages) {
             val (pgText, lineCount) = page
             val lineHeight = lineHeight(lineCount)
-            access.chatNpcNoTurn(npc(), pgText, mesanim, lineCount, lineHeight)
+            access.chatNpcNoTurn(resolvedNpc, pgText, mesanim, lineCount, lineHeight)
         }
     }
 
@@ -126,7 +129,7 @@ public class Dialogue(
             val (pgText, lineCount) = page
             val lineHeight = lineHeight(lineCount)
             access.chatNpc(
-                npc = npc(),
+                npc = resolvedNpc,
                 text = pgText,
                 mesanim = null,
                 lineCount = lineCount,
@@ -142,6 +145,15 @@ public class Dialogue(
             val (pgText, lineCount) = page
             val lineHeight = lineHeight(lineCount)
             access.chatNpcSpecific(type.name, type, pgText, mesanim, lineCount, lineHeight)
+        }
+    }
+
+    public suspend fun chatNpcSpecific(title: String, mesanim: MesAnimType, text: String) {
+        val pages = alignment.generatePageList(text)
+        for (page in pages) {
+            val (pgText, lineCount) = page
+            val lineHeight = lineHeight(lineCount)
+            access.chatNpcSpecific(title, resolvedNpc.type, pgText, mesanim, lineCount, lineHeight)
         }
     }
 
@@ -243,9 +255,6 @@ public class Dialogue(
 
     public operator fun Inventory.contains(content: ContentGroupType): Boolean =
         access.invContains(this, content)
-
-    private fun npc(): Npc =
-        npc ?: error("`npc` must be set. Use `Dialogues.start(player, npc)` to start the dialogue.")
 
     private fun lineHeight(lineCount: Int): Int = alignment.lineHeight(lineCount)
 
