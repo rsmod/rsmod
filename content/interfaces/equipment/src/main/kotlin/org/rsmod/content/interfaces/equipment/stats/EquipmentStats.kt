@@ -57,6 +57,9 @@ constructor(
     }
 
     private fun ProtectedAccess.openStats() {
+        stopAction()
+        resetAnim()
+        resetSpotanim()
         invTransmit(inv)
         ifOpenMainSidePair(
             main = equip_interfaces.equipment_stats_main,
