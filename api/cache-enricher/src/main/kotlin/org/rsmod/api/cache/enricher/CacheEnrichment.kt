@@ -2,7 +2,6 @@ package org.rsmod.api.cache.enricher
 
 import jakarta.inject.Inject
 import org.openrs2.cache.Cache
-import org.rsmod.annotations.GameCache
 import org.rsmod.api.cache.enricher.loc.LocCacheEnricher
 import org.rsmod.api.cache.enricher.npc.NpcCacheEnricher
 import org.rsmod.api.cache.enricher.obj.ObjCacheEnricher
@@ -18,7 +17,6 @@ import org.rsmod.game.type.param.ParamTypeList
 public class CacheEnrichment
 @Inject
 constructor(
-    @GameCache private val cache: Cache,
     private val locTypes: LocTypeList,
     private val locEnrichments: Set<LocCacheEnricher>,
     private val npcTypes: NpcTypeList,
@@ -27,9 +25,9 @@ constructor(
     private val objEnrichments: Set<ObjCacheEnricher>,
     private val paramTypes: ParamTypeList,
 ) {
-    public fun encodeAll() {
+    public fun encodeAll(dest: Cache) {
         val encoderContext = EncoderContext(encodeFull = true, paramTypes.filterTransmitKeys())
-        cache.use { cache ->
+        dest.use { cache ->
             val locs = locEnrichments.collect(locTypes).asIterable()
             val npcs = npcEnrichments.collect(npcTypes).asIterable()
             val objs = objEnrichments.collect(objTypes).asIterable()

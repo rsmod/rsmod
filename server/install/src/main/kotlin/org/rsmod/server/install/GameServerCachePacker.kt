@@ -4,9 +4,12 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.main
 import com.google.inject.Guice
 import com.google.inject.Injector
+import com.google.inject.Key
 import java.nio.file.Path
 import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.deleteRecursively
+import org.openrs2.cache.Cache
+import org.rsmod.annotations.GameCache
 import org.rsmod.api.cache.CacheModule
 import org.rsmod.api.cache.enricher.CacheEnricherModule
 import org.rsmod.api.cache.enricher.CacheEnrichment
@@ -61,7 +64,8 @@ class GameServerCachePacker : CliktCommand(name = "cache-pack") {
         val resolved = resolveAllTypes(injector)
         if (resolved) {
             val enricher = injector.getInstance(CacheEnrichment::class.java)
-            enricher.encodeAll()
+            val target = injector.getInstance(Key.get(Cache::class.java, GameCache::class.java))
+            enricher.encodeAll(target)
         }
     }
 
