@@ -134,6 +134,9 @@ public class ObjPluginBuilder(public var internal: String? = null) {
     public val Int.kg: ObjWeight
         get() = ObjWeight.kg(this)
 
+    public val Int.lb: ObjWeight
+        get() = ObjWeight.lb(this)
+
     public var weight: ObjWeight?
         get() = backing.weight?.let { ObjWeight(it) }
         set(value) {
