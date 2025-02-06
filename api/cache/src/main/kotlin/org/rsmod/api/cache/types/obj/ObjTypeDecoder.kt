@@ -50,8 +50,8 @@ public object ObjTypeDecoder {
                 4 -> zoom2d = data.readUnsignedShort()
                 5 -> xan2d = data.readUnsignedShort()
                 6 -> yan2d = data.readUnsignedShort()
-                7 -> xof2d = data.readUnsignedShort()
-                8 -> yof2d = data.readUnsignedShort()
+                7 -> xof2d = data.readShort().toInt()
+                8 -> yof2d = data.readShort().toInt()
                 11 -> stackable = true
                 12 -> cost = data.readInt()
                 13 -> wearpos1 = data.readByte().toInt()
