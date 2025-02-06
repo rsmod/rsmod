@@ -21,15 +21,3 @@ public class Dialogues @Inject constructor(private val alignment: TextAlignment)
         conversation(dialogue)
     }
 }
-
-public suspend fun ProtectedAccess.startDialogue(
-    dialogues: Dialogues,
-    conversation: suspend Dialogue.() -> Unit,
-): Unit = dialogues.start(this, conversation)
-
-public suspend fun ProtectedAccess.startDialogue(
-    dialogues: Dialogues,
-    npc: Npc,
-    faceFar: Boolean = false,
-    conversation: suspend Dialogue.() -> Unit,
-): Unit = dialogues.start(this, npc, faceFar, conversation)

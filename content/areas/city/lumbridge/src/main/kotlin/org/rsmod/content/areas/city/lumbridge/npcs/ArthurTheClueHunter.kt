@@ -3,8 +3,6 @@ package org.rsmod.content.areas.city.lumbridge.npcs
 import jakarta.inject.Inject
 import org.rsmod.api.config.refs.seqs
 import org.rsmod.api.player.dialogue.Dialogue
-import org.rsmod.api.player.dialogue.Dialogues
-import org.rsmod.api.player.dialogue.startDialogue
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.random.GameRandom
 import org.rsmod.api.script.onAiTimer
@@ -16,9 +14,7 @@ import org.rsmod.game.map.Direction
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-class ArthurTheClueHunter
-@Inject
-constructor(private val random: GameRandom, private val dialogues: Dialogues) : PluginScript() {
+class ArthurTheClueHunter @Inject constructor(private val random: GameRandom) : PluginScript() {
     override fun ScriptContext.startUp() {
         onAiTimer(LumbridgeNpcs.arthur_the_clue_hunter) { npc.shout() }
         onOpNpc1(LumbridgeNpcs.arthur_the_clue_hunter) { startDialogue(it.npc) }
@@ -52,7 +48,7 @@ constructor(private val random: GameRandom, private val dialogues: Dialogues) : 
     }
 
     private suspend fun ProtectedAccess.startDialogue(npc: Npc) =
-        startDialogue(dialogues, npc) {
+        startDialogue(npc) {
             chatNpc(neutral, "What can I do for you?")
             mainMenu()
         }

@@ -1,6 +1,7 @@
 package org.rsmod.api.player.protect
 
 import org.rsmod.api.market.MarketPrices
+import org.rsmod.api.player.dialogue.Dialogues
 import org.rsmod.api.player.interact.HeldInteractions
 import org.rsmod.api.player.interact.LocInteractions
 import org.rsmod.api.player.interact.NpcInteractions
@@ -67,6 +68,7 @@ public data class ProtectedAccessContext(
     private val getRandom: () -> GameRandom,
     private val getEventBus: () -> EventBus,
     private val getCollision: () -> CollisionFlagMap,
+    private val getDialogues: () -> Dialogues,
     private val getInvTypes: () -> InvTypeList,
     private val getNpcTypes: () -> NpcTypeList,
     private val getObjTypes: () -> ObjTypeList,
@@ -80,6 +82,7 @@ public data class ProtectedAccessContext(
     public val random: GameRandom by lazyLoad { getRandom() }
     public val eventBus: EventBus by lazyLoad { getEventBus() }
     public val collision: CollisionFlagMap by lazyLoad { getCollision() }
+    public val dialogues: Dialogues by lazyLoad { getDialogues() }
     public val invTypes: InvTypeList by lazyLoad { getInvTypes() }
     public val npcTypes: NpcTypeList by lazyLoad { getNpcTypes() }
     public val objTypes: ObjTypeList by lazyLoad { getObjTypes() }

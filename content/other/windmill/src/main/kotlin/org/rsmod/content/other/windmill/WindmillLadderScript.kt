@@ -1,9 +1,6 @@
 package org.rsmod.content.other.windmill
 
-import jakarta.inject.Inject
 import org.rsmod.api.config.refs.seqs
-import org.rsmod.api.player.dialogue.Dialogues
-import org.rsmod.api.player.dialogue.startDialogue
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.script.onOpLoc1
 import org.rsmod.api.script.onOpLoc2
@@ -11,7 +8,7 @@ import org.rsmod.api.script.onOpLoc3
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-class WindmillLadderScript @Inject constructor(private val dialogues: Dialogues) : PluginScript() {
+class WindmillLadderScript : PluginScript() {
     override fun ScriptContext.startUp() {
         onOpLoc1(WindmillLocs.ladder_down) { climbDown() }
         onOpLoc1(WindmillLocs.ladder_up) { climbUp() }
@@ -34,7 +31,7 @@ class WindmillLadderScript @Inject constructor(private val dialogues: Dialogues)
 
     private suspend fun ProtectedAccess.climbOption() {
         arriveDelay()
-        startDialogue(dialogues) {
+        startDialogue {
             val translate =
                 choice2("Climb Up.", 1, "Climb Down.", -1, title = "Climb up or down the ladder?")
             val dest = player.coords.translateLevel(translate)

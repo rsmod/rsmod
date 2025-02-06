@@ -2,6 +2,7 @@ package org.rsmod.api.player.protect
 
 import jakarta.inject.Inject
 import org.rsmod.api.market.MarketPrices
+import org.rsmod.api.player.dialogue.Dialogues
 import org.rsmod.api.player.interact.HeldInteractions
 import org.rsmod.api.player.interact.LocInteractions
 import org.rsmod.api.player.interact.NpcInteractions
@@ -19,6 +20,7 @@ public class ProtectedAccessContextFactory
 constructor(
     private val random: GameRandom,
     private val collision: CollisionFlagMap,
+    private val dialogues: Dialogues,
     private val eventBus: EventBus,
     private val invTypes: InvTypeList,
     private val npcTypes: NpcTypeList,
@@ -35,6 +37,7 @@ constructor(
             getRandom = { random },
             getEventBus = { eventBus },
             getCollision = { collision },
+            getDialogues = { dialogues },
             getInvTypes = { invTypes },
             getNpcTypes = { npcTypes },
             getObjTypes = { objTypes },
@@ -52,6 +55,7 @@ constructor(
                 getRandom = { error("No game random provided.") },
                 getEventBus = { error("No event bus provided.") },
                 getCollision = { error("No collision map provided.") },
+                getDialogues = { error("No dialogues provided.") },
                 getInvTypes = { error("No inv type list provided.") },
                 getNpcTypes = { error("No npc type list provided.") },
                 getObjTypes = { error("No obj type list provided.") },

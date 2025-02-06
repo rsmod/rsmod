@@ -17,6 +17,8 @@ import org.rsmod.api.invtx.invSwap
 import org.rsmod.api.invtx.invTakeFee
 import org.rsmod.api.invtx.invTransfer
 import org.rsmod.api.market.MarketPrices
+import org.rsmod.api.player.dialogue.Dialogue
+import org.rsmod.api.player.dialogue.Dialogues
 import org.rsmod.api.player.input.ResumePCountDialogInput
 import org.rsmod.api.player.input.ResumePObjDialogInput
 import org.rsmod.api.player.input.ResumePauseButtonInput
@@ -837,6 +839,18 @@ public class ProtectedAccess(
     public fun logOut() {
         // TODO: impl
     }
+
+    public suspend fun startDialogue(
+        npc: Npc,
+        faceFar: Boolean = false,
+        dialogues: Dialogues = context.dialogues,
+        conversation: suspend Dialogue.() -> Unit,
+    ): Unit = dialogues.start(this, npc, faceFar, conversation)
+
+    public suspend fun startDialogue(
+        dialogues: Dialogues = context.dialogues,
+        conversation: suspend Dialogue.() -> Unit,
+    ): Unit = dialogues.start(this, conversation)
 
     /**
      * @throws ProtectedAccessLostException if [regainProtectedAccess] returns false after

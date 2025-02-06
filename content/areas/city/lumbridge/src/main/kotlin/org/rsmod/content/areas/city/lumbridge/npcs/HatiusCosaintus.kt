@@ -1,10 +1,7 @@
 package org.rsmod.content.areas.city.lumbridge.npcs
 
-import jakarta.inject.Inject
 import org.rsmod.api.config.constants
 import org.rsmod.api.player.dialogue.Dialogue
-import org.rsmod.api.player.dialogue.Dialogues
-import org.rsmod.api.player.dialogue.startDialogue
 import org.rsmod.api.player.output.ClientScripts.toplevelSidebuttonSwitch
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.script.onOpNpc1
@@ -13,13 +10,13 @@ import org.rsmod.game.entity.Npc
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-class HatiusCosaintus @Inject constructor(private val dialogues: Dialogues) : PluginScript() {
+class HatiusCosaintus : PluginScript() {
     override fun ScriptContext.startUp() {
         onOpNpc1(LumbridgeNpcs.hatius_cosaintus) { startDialogue(it.npc) }
     }
 
     private suspend fun ProtectedAccess.startDialogue(npc: Npc) =
-        startDialogue(dialogues, npc) {
+        startDialogue(npc) {
             chatNpc(happy, "Good day.")
             mainMenu()
         }

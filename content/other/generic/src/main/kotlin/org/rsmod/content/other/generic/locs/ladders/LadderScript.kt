@@ -1,10 +1,7 @@
 package org.rsmod.content.other.generic.locs.ladders
 
-import jakarta.inject.Inject
 import org.rsmod.api.config.refs.content
 import org.rsmod.api.config.refs.params
-import org.rsmod.api.player.dialogue.Dialogues
-import org.rsmod.api.player.dialogue.startDialogue
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.script.onOpLoc1
 import org.rsmod.api.script.onOpLoc2
@@ -14,7 +11,7 @@ import org.rsmod.game.type.seq.SeqType
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-class LadderScript @Inject constructor(private val dialogues: Dialogues) : PluginScript() {
+class LadderScript : PluginScript() {
     override fun ScriptContext.startUp() {
         onOpLoc1(content.ladder_down) {
             arriveDelay()
@@ -49,15 +46,14 @@ class LadderScript @Inject constructor(private val dialogues: Dialogues) : Plugi
         telejump(dest)
     }
 
-    private suspend fun ProtectedAccess.climbOption(type: UnpackedLocType) =
-        startDialogue(dialogues) {
-            val translate =
-                choice2("Climb-up", 1, "Climb-down", -1, title = "Climb up or down the ladder?")
-            val dest = player.coords.translateLevel(translate)
-            anim(type.climbAnim())
-            delay(2)
-            telejump(dest)
-        }
+    private suspend fun ProtectedAccess.climbOption(type: UnpackedLocType) = startDialogue {
+        val translate =
+            choice2("Climb-up", 1, "Climb-down", -1, title = "Climb up or down the ladder?")
+        val dest = player.coords.translateLevel(translate)
+        anim(type.climbAnim())
+        delay(2)
+        telejump(dest)
+    }
 
     private fun UnpackedLocType.climbAnim(): SeqType = param(params.climb_anim)
 }

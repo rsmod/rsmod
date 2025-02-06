@@ -8,8 +8,6 @@ import org.rsmod.api.config.refs.objs
 import org.rsmod.api.config.refs.synths
 import org.rsmod.api.config.refs.varbits
 import org.rsmod.api.player.dialogue.Dialogue
-import org.rsmod.api.player.dialogue.Dialogues
-import org.rsmod.api.player.dialogue.startDialogue
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.script.onApNpc1
 import org.rsmod.api.script.onApNpc3
@@ -27,7 +25,6 @@ import org.rsmod.plugin.scripts.ScriptContext
 class Banker
 @Inject
 private constructor(
-    private val dialogues: Dialogues,
     private val spaceShop: BankSpaceShop,
     private val tutorial: BankTutorialScript,
 ) : PluginScript() {
@@ -74,7 +71,7 @@ private constructor(
     }
 
     private suspend fun ProtectedAccess.talkToBanker(npc: Npc) {
-        startDialogue(dialogues, npc, faceFar = true) {
+        startDialogue(npc, faceFar = true) {
             if (npc.type.isAssociatedWith(content.banker_tutor)) {
                 talkToBankerTutor()
             } else {

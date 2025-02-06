@@ -1,9 +1,6 @@
 package org.rsmod.content.other.generic.locs.staircase
 
-import jakarta.inject.Inject
 import org.rsmod.api.config.refs.content
-import org.rsmod.api.player.dialogue.Dialogues
-import org.rsmod.api.player.dialogue.startDialogue
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.script.onOpLoc1
 import org.rsmod.api.script.onOpLoc2
@@ -14,7 +11,7 @@ import org.rsmod.map.util.Translation
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-class SpiralStaircaseScript @Inject constructor(private val dialogues: Dialogues) : PluginScript() {
+class SpiralStaircaseScript : PluginScript() {
     override fun ScriptContext.startUp() {
         onOpLoc1(content.spiralstaircase_down) { climbDown(it.bound) }
         onOpLoc1(content.spiralstaircase_up) { climbUp(it.bound) }
@@ -57,7 +54,7 @@ class SpiralStaircaseScript @Inject constructor(private val dialogues: Dialogues
     }
 
     private suspend fun ProtectedAccess.climOption(loc: BoundLocInfo) {
-        startDialogue(dialogues) {
+        startDialogue {
             val translation =
                 choice2(
                     "Climb up the stairs.",

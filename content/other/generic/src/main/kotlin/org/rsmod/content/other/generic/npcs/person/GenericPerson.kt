@@ -1,31 +1,24 @@
 package org.rsmod.content.other.generic.npcs.person
 
-import jakarta.inject.Inject
 import org.rsmod.api.config.refs.content
 import org.rsmod.api.config.refs.objs
 import org.rsmod.api.invtx.invAdd
 import org.rsmod.api.player.dialogue.Dialogue
-import org.rsmod.api.player.dialogue.Dialogues
-import org.rsmod.api.player.dialogue.startDialogue
 import org.rsmod.api.player.protect.ProtectedAccess
-import org.rsmod.api.random.GameRandom
 import org.rsmod.api.script.onOpNpc1
 import org.rsmod.game.entity.Npc
-import org.rsmod.game.entity.Player
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-class GenericPerson
-@Inject
-constructor(private val dialogues: Dialogues, private val random: GameRandom) : PluginScript() {
+class GenericPerson : PluginScript() {
     override fun ScriptContext.startUp() {
         onOpNpc1(content.person) { personDialogue(it.npc) }
     }
 
     private suspend fun ProtectedAccess.personDialogue(npc: Npc) =
-        startDialogue(dialogues, npc) {
+        startDialogue(npc) {
             chatPlayer(happy, "Hello, how's it going?")
-            if (player.rollBobsFlyer(128)) {
+            if (rollBobsFlyer(128)) {
                 giveBobsAxeFlyer()
                 return@startDialogue
             }
@@ -55,7 +48,7 @@ constructor(private val dialogues: Dialogues, private val random: GameRandom) : 
             }
         }
 
-    private fun Player.rollBobsFlyer(rate: Int): Boolean =
+    private fun ProtectedAccess.rollBobsFlyer(rate: Int): Boolean =
         random.randomBoolean(rate) && inv.hasFreeSpace() && objs.bobs_axe_flyer !in inv
 
     private suspend fun Dialogue.giveBobsAxeFlyer() {

@@ -5,8 +5,6 @@ import org.rsmod.api.config.refs.objs
 import org.rsmod.api.invtx.invAddOrDrop
 import org.rsmod.api.invtx.invTakeFee
 import org.rsmod.api.player.dialogue.Dialogue
-import org.rsmod.api.player.dialogue.Dialogues
-import org.rsmod.api.player.dialogue.startDialogue
 import org.rsmod.api.player.output.spam
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.repo.obj.ObjRepository
@@ -18,9 +16,7 @@ import org.rsmod.map.CoordGrid
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-class Bartender
-@Inject
-constructor(private val dialogues: Dialogues, private val objRepo: ObjRepository) : PluginScript() {
+class Bartender @Inject constructor(private val objRepo: ObjRepository) : PluginScript() {
     override fun ScriptContext.startUp() {
         onApNpc1(LumbridgeNpcs.bartender) { apDialogue(it.npc) }
         onOpNpc1(LumbridgeNpcs.bartender) { startDialogue(it.npc) }
@@ -42,7 +38,7 @@ constructor(private val dialogues: Dialogues, private val objRepo: ObjRepository
     }
 
     private suspend fun ProtectedAccess.startDialogue(npc: Npc) =
-        startDialogue(dialogues, npc) {
+        startDialogue(npc) {
             chatNpcNoTurn(happy, "Welcome to the Sheared Ram. What can I do for you?")
             val option =
                 choice3(

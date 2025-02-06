@@ -10,8 +10,6 @@ import org.rsmod.api.config.refs.varbits
 import org.rsmod.api.invtx.invDel
 import org.rsmod.api.market.MarketPrices
 import org.rsmod.api.player.dialogue.Dialogue
-import org.rsmod.api.player.dialogue.Dialogues
-import org.rsmod.api.player.dialogue.startDialogue
 import org.rsmod.api.player.events.interact.HeldContentEvents
 import org.rsmod.api.player.events.interact.HeldDropEvents
 import org.rsmod.api.player.events.interact.HeldObjEvents
@@ -269,7 +267,6 @@ constructor(
     private val eventBus: EventBus,
     private val objRepo: ObjRepository,
     private val marketPrices: MarketPrices,
-    private val dialogues: Dialogues,
 ) {
     suspend fun dropOrDestroy(
         access: ProtectedAccess,
@@ -291,7 +288,7 @@ constructor(
         obj: InvObj,
         type: UnpackedObjType,
     ) {
-        startDialogue(dialogues) { destroyWarning(inventory, dropSlot, obj, type) }
+        startDialogue { destroyWarning(inventory, dropSlot, obj, type) }
     }
 
     private suspend fun Dialogue.destroyWarning(
@@ -333,7 +330,7 @@ constructor(
             release(player, inventory, dropSlot, obj, type)
             return
         }
-        startDialogue(dialogues) { releaseWarning(inventory, dropSlot, obj, type) }
+        startDialogue { releaseWarning(inventory, dropSlot, obj, type) }
     }
 
     private suspend fun Dialogue.releaseWarning(
@@ -423,7 +420,7 @@ constructor(
         obj: InvObj,
         type: UnpackedObjType,
     ) {
-        startDialogue(dialogues) { dropWarning(inventory, dropSlot, obj, type) }
+        startDialogue { dropWarning(inventory, dropSlot, obj, type) }
     }
 
     private suspend fun Dialogue.dropWarning(

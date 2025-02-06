@@ -1,11 +1,8 @@
 package org.rsmod.content.areas.city.lumbridge.npcs
 
-import jakarta.inject.Inject
 import org.rsmod.api.config.refs.BaseVarBits
 import org.rsmod.api.config.refs.BaseVarps
 import org.rsmod.api.player.dialogue.Dialogue
-import org.rsmod.api.player.dialogue.Dialogues
-import org.rsmod.api.player.dialogue.startDialogue
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.script.onOpNpc1
 import org.rsmod.content.areas.city.lumbridge.configs.LumbridgeNpcs
@@ -13,14 +10,14 @@ import org.rsmod.game.entity.Npc
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-class DonieAndGee @Inject constructor(private val dialogues: Dialogues) : PluginScript() {
+class DonieAndGee : PluginScript() {
     override fun ScriptContext.startUp() {
         onOpNpc1(LumbridgeNpcs.gee) { startDialogue(it.npc) }
         onOpNpc1(LumbridgeNpcs.donie) { startDialogue(it.npc) }
     }
 
     private suspend fun ProtectedAccess.startDialogue(npc: Npc) =
-        startDialogue(dialogues, npc) {
+        startDialogue(npc) {
             chatNpc(happy, "Hello there, can I help you?")
             when (random.of(maxExclusive = 5)) {
                 0 -> randomDialogue1()

@@ -1,9 +1,6 @@
 package org.rsmod.content.areas.city.lumbridge.npcs
 
-import jakarta.inject.Inject
 import org.rsmod.api.player.dialogue.Dialogue
-import org.rsmod.api.player.dialogue.Dialogues
-import org.rsmod.api.player.dialogue.startDialogue
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.script.onOpNpc1
 import org.rsmod.api.script.onOpNpc3
@@ -12,14 +9,14 @@ import org.rsmod.game.entity.Npc
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-class Hans @Inject constructor(private val dialogues: Dialogues) : PluginScript() {
+class Hans : PluginScript() {
     override fun ScriptContext.startUp() {
         onOpNpc1(LumbridgeNpcs.hans) { hansDialogue(it.npc) }
         onOpNpc3(LumbridgeNpcs.hans) { hansAgeDialogue(it.npc) }
     }
 
     private suspend fun ProtectedAccess.hansDialogue(npc: Npc) =
-        startDialogue(dialogues, npc) { optionsDialogue(npc) }
+        startDialogue(npc) { optionsDialogue(npc) }
 
     private suspend fun Dialogue.optionsDialogue(npc: Npc) {
         chatNpc(neutral, "Hello. What are you doing here?")
@@ -72,7 +69,7 @@ class Hans @Inject constructor(private val dialogues: Dialogues) : PluginScript(
     }
 
     private suspend fun ProtectedAccess.hansAgeDialogue(npc: Npc) =
-        startDialogue(dialogues, npc) { playtimeDialogue() }
+        startDialogue(npc) { playtimeDialogue() }
 
     private suspend fun Dialogue.playtimeDialogue() {
         // TODO(content): playtime
