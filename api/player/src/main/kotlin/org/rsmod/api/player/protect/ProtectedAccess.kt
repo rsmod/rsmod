@@ -11,6 +11,7 @@ import org.rsmod.api.config.refs.invs
 import org.rsmod.api.config.refs.objs
 import org.rsmod.api.invtx.invAdd
 import org.rsmod.api.invtx.invAddAll
+import org.rsmod.api.invtx.invAddOrDrop
 import org.rsmod.api.invtx.invClear
 import org.rsmod.api.invtx.invMoveAll
 import org.rsmod.api.invtx.invSwap
@@ -72,6 +73,7 @@ import org.rsmod.api.player.vars.varMoveSpeed
 import org.rsmod.api.player.worn.HeldEquipResult
 import org.rsmod.api.player.worn.WornUnequipResult
 import org.rsmod.api.random.GameRandom
+import org.rsmod.api.repo.obj.ObjRepository
 import org.rsmod.api.route.RayCastValidator
 import org.rsmod.api.stats.levelmod.InvisibleLevels
 import org.rsmod.api.utils.skills.SkillingSuccessRate
@@ -557,6 +559,19 @@ public class ProtectedAccess(
             uncert = uncert,
             autoCommit = autoCommit,
         )
+
+    /**
+     * Attempts to add exactly [count] of [obj] into [inv]. If the inventory cannot fit the items,
+     * they will instead be dropped on the floor, with [player] as the "owner," and this function
+     * will return `false`. If the items are successfully placed in [inv], it returns `true`.
+     */
+    public fun invAddOrDrop(
+        repo: ObjRepository,
+        obj: ObjType,
+        count: Int = 1,
+        coords: CoordGrid = this.coords,
+        inv: Inventory = this.inv,
+    ): Boolean = player.invAddOrDrop(repo, obj, count, coords = coords, inv = inv)
 
     public fun invMoveToSlot(
         from: Inventory,
@@ -1486,6 +1501,26 @@ public class ProtectedAccess(
     }
 
     /* Npc helper functions */
+    public fun npcPlayerFaceClose(npc: Npc, target: Player = this.player) {
+        npc.playerFaceClose(target)
+    }
+
+    public fun npcPlayerFace(npc: Npc, target: Player = this.player) {
+        npc.playerFace(target)
+    }
+
+    public fun npcPlayerEscape(npc: Npc, target: Player = this.player) {
+        npc.playerEscape(target)
+    }
+
+    public fun npcResetMode(npc: Npc) {
+        npc.resetMode()
+    }
+
+    public fun npcTransmog(npc: Npc, into: NpcType, npcTypes: NpcTypeList = context.npcTypes) {
+        npc.transmog(npcTypes[into])
+    }
+
     public fun npcVisType(
         npc: Npc,
         interactions: NpcInteractions = context.npcInteractions,

@@ -1,6 +1,7 @@
 package org.rsmod.api.config.aliases
 
 import org.rsmod.game.type.loc.LocType
+import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.type.param.ParamType
@@ -25,6 +26,8 @@ typealias ParamObj = ParamType<ObjType>
 typealias ParamNamedObj = ParamType<UnpackedObjType>
 
 typealias ParamLoc = ParamType<LocType>
+
+typealias ParamNpc = ParamType<NpcType>
 
 typealias ParamSeq = ParamType<SeqType>
 

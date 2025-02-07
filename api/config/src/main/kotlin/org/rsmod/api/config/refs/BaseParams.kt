@@ -5,6 +5,7 @@ package org.rsmod.api.config.refs
 import org.rsmod.api.config.aliases.ParamBool
 import org.rsmod.api.config.aliases.ParamInt
 import org.rsmod.api.config.aliases.ParamLoc
+import org.rsmod.api.config.aliases.ParamNpc
 import org.rsmod.api.config.aliases.ParamObj
 import org.rsmod.api.config.aliases.ParamSeq
 import org.rsmod.api.config.aliases.ParamStat
@@ -49,6 +50,7 @@ object BaseParams : ParamReferences() {
     val item_prayer_bonus: ParamInt = find("item_prayer_bonus", 88687192167)
 
     /* Server-side only types */
+    val next_npc_stage: ParamNpc = find("next_npc_stage")
     val bankside_extraop_flip: ParamBool = find("bankside_extraop_conditional_flip")
     val bankside_extraop_varbit: ParamVarBit = find("bankside_extraop_conditional_varbit")
     val bankside_extraop_bit: ParamInt = find("bankside_extraop_conditional_bit")

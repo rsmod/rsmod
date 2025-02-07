@@ -153,6 +153,7 @@
 1801	slayer_task_boss_displayname
 1802	slayer_task_boss_location
 
+65443	next_npc_stage
 65444	bankside_extraop_conditional_flip
 65445	bankside_extraop_conditional_varbit
 65446	bankside_extraop_conditional_bit

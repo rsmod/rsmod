@@ -14,6 +14,9 @@ public sealed class NpcType(internal var internalId: Int?, internal var internal
     public val id: Int
         get() = internalId ?: error("`internalId` must be set.")
 
+    public val nameValue: String
+        get() = internalName ?: error("`internalName` must not be null.")
+
     public val internalNameGet: String?
         get() = internalName
 }

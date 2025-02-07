@@ -7,6 +7,7 @@ import org.rsmod.api.config.refs.seqs
 import org.rsmod.api.config.refs.synths
 import org.rsmod.api.type.builders.param.ParamBuilder
 import org.rsmod.game.type.loc.LocType
+import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.stat.StatType
@@ -15,6 +16,7 @@ import org.rsmod.game.type.varbit.VarBitType
 
 internal object ParamBuilds : ParamBuilder() {
     init {
+        build<NpcType>("next_npc_stage")
         build<Boolean>("bankside_extraop_conditional_flip") { default = false }
         build<VarBitType>("bankside_extraop_conditional_varbit")
         build<Int>("bankside_extraop_conditional_bit")
