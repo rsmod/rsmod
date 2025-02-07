@@ -13,6 +13,7 @@ import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.copyToRecursively
 import kotlin.io.path.createDirectories
 import kotlin.io.path.exists
+import kotlin.io.path.isDirectory
 import kotlin.io.path.listDirectoryEntries
 import org.openrs2.cache.Cache
 import org.openrs2.cache.Store
@@ -80,111 +81,33 @@ object CacheStoreModule : ExtendedModule() {
     fun vanillaCachePath(@CachePath parentDir: Path): Path = parentDir.resolve("vanilla")
 }
 
-private class GameStoreProvider
-@Inject
-constructor(
-    @GameCache private val gameDir: Path,
-    @VanillaCache private val vanillaDir: Path,
-    @XteaFilePath private val xteaDir: Path,
-) : StoreProvider(gameDir, vanillaDir, xteaDir)
-
-private class Js5StoreProvider
-@Inject
-constructor(
-    @Js5Cache private val js5Dir: Path,
-    @VanillaCache private val vanillaDir: Path,
-    @XteaFilePath private val xteaDir: Path,
-) : StoreProvider(js5Dir, vanillaDir, xteaDir)
-
-private class VanillaStoreProvider
-@Inject
-constructor(@VanillaCache private val dir: Path, @XteaFilePath private val xteaPath: Path) :
+private open class StoreProvider(private val dir: Path, private val copyFrom: Path) :
     Provider<Store> {
-    private val fullInstructions =
-        "\n\n\t\tPlace cache files in ${dir.toAbsolutePath()}" +
-            "\n\t\t\tand `xteas.json` in ${xteaPath.toAbsolutePath()}\n"
-
-    private val cacheInstructions = "\n\n\t\tPlace cache files in ${dir.toAbsolutePath()}\n"
-
-    private val xteaInstructions = "\n\n\t\tPlace `xteas.json` in ${xteaPath.toAbsolutePath()}\n"
-
-    override fun get(): Store =
-        when {
-            !Files.exists(dir) && !Files.exists(xteaPath) -> {
-                throw FileNotFoundException("Cache not found.$fullInstructions")
-            }
-            !Files.exists(dir) -> {
-                throw FileNotFoundException("Cache not found.$cacheInstructions")
-            }
-            !Files.exists(xteaPath) -> {
-                throw FileNotFoundException("XTEAs not found.$xteaInstructions")
-            }
-            else -> Store.open(dir)
-        }
-}
-
-private open class StoreProvider(
-    private val dir: Path,
-    private val copyFrom: Path,
-    private val xteaPath: Path,
-) : Provider<Store> {
-    private val fullInstructions =
-        "\n\n\t\tPlace cache files in ${copyFrom.toAbsolutePath()}" +
-            "\n\t\t\tand `xteas.json` in ${xteaPath.toAbsolutePath()}\n"
-
-    private val cacheInstructions = "\n\n\t\tPlace cache files in ${copyFrom.toAbsolutePath()}\n"
-
-    private val xteaInstructions = "\n\n\t\tPlace `xteas.json` in ${xteaPath.toAbsolutePath()}\n"
-
     override fun get(): Store {
-        validateVanillaFiles()
+        if (!copyFrom.isDirectory()) {
+            throw FileNotFoundException("Base cache not found in dir: ${copyFrom.toAbsolutePath()}")
+        }
+
         if (!dir.exists()) {
             createDirectory()
-        } else if (dir.listDirectoryEntries().isEmpty()) {
+        }
+
+        if (dir.listDirectoryEntries().isEmpty()) {
             copyFiles()
         }
+
         return Store.open(dir)
     }
 
     private fun createDirectory() {
         dir.createDirectories()
-        copyFiles()
     }
 
     @OptIn(ExperimentalPathApi::class)
     private fun copyFiles() {
         copyFrom.copyToRecursively(dir, overwrite = false, followLinks = false)
     }
-
-    private fun validateVanillaFiles() {
-        when {
-            !Files.exists(copyFrom) && !Files.exists(xteaPath) -> {
-                throw FileNotFoundException("Cache not found.$fullInstructions")
-            }
-            !Files.exists(copyFrom) -> {
-                throw FileNotFoundException("Cache not found.$cacheInstructions")
-            }
-            !Files.exists(xteaPath) -> {
-                throw FileNotFoundException("XTEAs not found.$xteaInstructions")
-            }
-        }
-    }
 }
-
-private class GameCacheProvider
-@Inject
-constructor(@GameCache private val store: Store, @GameCache private val dir: Path) :
-    CacheProvider(store, dir)
-
-private class Js5CacheProvider
-@Inject
-constructor(@Js5Cache private val store: Store, @Js5Cache private val dir: Path) :
-    CacheProvider(store, dir)
-
-private class VanillaCacheProvider
-@Inject
-constructor(@VanillaCache private val store: Store, @VanillaCache private val dir: Path) :
-    CacheProvider(store, dir)
 
 private open class CacheProvider(private val store: Store, private val dir: Path) :
     Provider<Cache> {
@@ -193,20 +116,15 @@ private open class CacheProvider(private val store: Store, private val dir: Path
             Cache.open(store)
         } catch (_: FileNotFoundException) {
             throw FileNotFoundException("Cache not found in dir: ${dir.toAbsolutePath()}")
-        } catch (t: Throwable) {
-            throw t
         }
 }
 
 private class XteaMapProvider
 @Inject
-constructor(@CachePath private val cachePath: Path, @Json private val mapper: ObjectMapper) :
+constructor(@XteaFilePath private val file: Path, @Json private val mapper: ObjectMapper) :
     Provider<XteaMap> {
-    private val path: Path
-        get() = cachePath.resolve("xteas.json")
-
     override fun get(): XteaMap {
-        val reader = Files.newBufferedReader(path)
+        val reader = Files.newBufferedReader(file)
         val fileKeys = mapper.readValue(reader, Array<FileXtea>::class.java)
         val keys = fileKeys.associate { MapSquareKey(it.mapsquare) to it.key.toIntArray() }
         return XteaMap(HashMap(keys))
@@ -215,3 +133,33 @@ constructor(@CachePath private val cachePath: Path, @Json private val mapper: Ob
     @JsonIgnoreProperties(ignoreUnknown = true)
     private data class FileXtea(val mapsquare: Int = 0, val key: List<Int> = emptyList())
 }
+
+private class GameStoreProvider
+@Inject
+constructor(@GameCache private val gameDir: Path, @VanillaCache private val copyFrom: Path) :
+    StoreProvider(gameDir, copyFrom)
+
+private class GameCacheProvider
+@Inject
+constructor(@GameCache private val store: Store, @GameCache private val dir: Path) :
+    CacheProvider(store, dir)
+
+private class Js5StoreProvider
+@Inject
+constructor(@Js5Cache private val js5Dir: Path, @VanillaCache private val copyFrom: Path) :
+    StoreProvider(js5Dir, copyFrom)
+
+private class Js5CacheProvider
+@Inject
+constructor(@Js5Cache private val store: Store, @Js5Cache private val dir: Path) :
+    CacheProvider(store, dir)
+
+private class VanillaStoreProvider @Inject constructor(@VanillaCache private val dir: Path) :
+    Provider<Store> {
+    override fun get(): Store = Store.open(dir)
+}
+
+private class VanillaCacheProvider
+@Inject
+constructor(@VanillaCache private val store: Store, @VanillaCache private val dir: Path) :
+    CacheProvider(store, dir)
