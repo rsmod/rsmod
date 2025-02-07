@@ -12,7 +12,7 @@ import org.rsmod.api.player.protect.clearPendingAction
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
-import org.rsmod.game.interact.InteractionNpc
+import org.rsmod.game.interact.InteractionNpcOp
 import org.rsmod.game.interact.InteractionOp
 import org.rsmod.game.movement.RouteRequestPathingEntity
 import org.rsmod.game.type.npc.NpcTypeList
@@ -34,7 +34,7 @@ constructor(
         val opTrigger = hasOpTrigger(player, npc, op)
         val apTrigger = hasApTrigger(player, npc, op)
         val interaction =
-            InteractionNpc(
+            InteractionNpcOp(
                 target = npc,
                 op = op,
                 hasOpTrigger = opTrigger,
@@ -93,9 +93,8 @@ constructor(
         op: InteractionOp,
         type: UnpackedNpcType = npc.visType,
     ): ApEvent? {
-        val multiNpc = multiNpc(type, player.vars)
-        if (multiNpc != null) {
-            val multiNpcType = npcTypes[multiNpc]
+        val multiNpcType = multiNpc(type, player.vars)
+        if (multiNpcType != null) {
             val multiNpcTrigger = apTrigger(player, npc, op, multiNpcType)
             if (multiNpcTrigger != null) {
                 return multiNpcTrigger

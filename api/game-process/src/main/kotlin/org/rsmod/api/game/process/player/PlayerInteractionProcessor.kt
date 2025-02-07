@@ -5,6 +5,7 @@ import org.rsmod.api.config.Constants
 import org.rsmod.api.player.clearInteractionRoute
 import org.rsmod.api.player.interact.LocInteractions
 import org.rsmod.api.player.interact.NpcInteractions
+import org.rsmod.api.player.interact.NpcTInteractions
 import org.rsmod.api.player.interact.ObjInteractions
 import org.rsmod.api.player.output.ChatType
 import org.rsmod.api.player.output.mes
@@ -18,6 +19,8 @@ import org.rsmod.game.entity.Player
 import org.rsmod.game.interact.Interaction
 import org.rsmod.game.interact.InteractionLoc
 import org.rsmod.game.interact.InteractionNpc
+import org.rsmod.game.interact.InteractionNpcOp
+import org.rsmod.game.interact.InteractionNpcT
 import org.rsmod.game.interact.InteractionObj
 import org.rsmod.interact.InteractionStep
 import org.rsmod.interact.InteractionTarget
@@ -35,6 +38,7 @@ constructor(
     private val rayCastValidator: RayCastValidator,
     private val locInteractions: LocInteractions,
     private val npcInteractions: NpcInteractions,
+    private val npcTInteractions: NpcTInteractions,
     private val objInteractions: ObjInteractions,
     private val protectedAccess: ProtectedAccessLauncher,
 ) {
@@ -183,14 +187,16 @@ constructor(
     private fun Player.triggerOp(interaction: Interaction): Unit =
         when (interaction) {
             is InteractionLoc -> triggerOp(this, interaction)
-            is InteractionNpc -> triggerOp(this, interaction)
+            is InteractionNpcOp -> triggerOp(this, interaction)
+            is InteractionNpcT -> triggerOp(this, interaction)
             is InteractionObj -> triggerOp(this, interaction)
         }
 
     private fun Player.triggerAp(interaction: Interaction): Unit =
         when (interaction) {
             is InteractionLoc -> triggerAp(this, interaction)
-            is InteractionNpc -> triggerAp(this, interaction)
+            is InteractionNpcOp -> triggerAp(this, interaction)
+            is InteractionNpcT -> triggerAp(this, interaction)
             is InteractionObj -> triggerAp(this, interaction)
         }
 
@@ -346,7 +352,7 @@ constructor(
         }
     }
 
-    public fun triggerOp(player: Player, interaction: InteractionNpc) {
+    public fun triggerOp(player: Player, interaction: InteractionNpcOp) {
         val npc = interaction.target
         val op = npcInteractions.opTrigger(player, npc, interaction.op)
         if (op != null) {
@@ -354,9 +360,31 @@ constructor(
         }
     }
 
-    public fun triggerAp(player: Player, interaction: InteractionNpc) {
+    public fun triggerAp(player: Player, interaction: InteractionNpcOp) {
         val npc = interaction.target
         val ap = npcInteractions.apTrigger(player, npc, interaction.op)
+        if (ap != null) {
+            protectedAccess.launch(player) { eventBus.publish(this, ap) }
+        }
+    }
+
+    public fun triggerOp(player: Player, interaction: InteractionNpcT) {
+        val npc = interaction.target
+        val comsub = interaction.comsub
+        val component = interaction.component
+        val objType = interaction.objType
+        val op = npcTInteractions.opTrigger(player, npc, component, comsub, objType)
+        if (op != null) {
+            protectedAccess.launch(player) { eventBus.publish(this, op) }
+        }
+    }
+
+    public fun triggerAp(player: Player, interaction: InteractionNpcT) {
+        val npc = interaction.target
+        val comsub = interaction.comsub
+        val component = interaction.component
+        val objType = interaction.objType
+        val ap = npcTInteractions.apTrigger(player, npc, component, comsub, objType)
         if (ap != null) {
             protectedAccess.launch(player) { eventBus.publish(this, ap) }
         }

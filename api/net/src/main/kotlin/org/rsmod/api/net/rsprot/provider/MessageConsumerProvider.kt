@@ -13,6 +13,7 @@ import net.rsprot.protocol.game.incoming.misc.user.MoveGameClick
 import net.rsprot.protocol.game.incoming.misc.user.MoveMinimapClick
 import net.rsprot.protocol.game.incoming.npcs.OpNpc
 import net.rsprot.protocol.game.incoming.npcs.OpNpc6
+import net.rsprot.protocol.game.incoming.npcs.OpNpcT
 import net.rsprot.protocol.game.incoming.objs.OpObj
 import net.rsprot.protocol.game.incoming.objs.OpObj6
 import net.rsprot.protocol.game.incoming.resumed.ResumePCountDialog
@@ -33,6 +34,7 @@ import org.rsmod.api.net.rsprot.handlers.OpLoc6Handler
 import org.rsmod.api.net.rsprot.handlers.OpLocHandler
 import org.rsmod.api.net.rsprot.handlers.OpNpc6Handler
 import org.rsmod.api.net.rsprot.handlers.OpNpcHandler
+import org.rsmod.api.net.rsprot.handlers.OpNpcTHandler
 import org.rsmod.api.net.rsprot.handlers.OpObj6Handler
 import org.rsmod.api.net.rsprot.handlers.OpObjHandler
 import org.rsmod.api.net.rsprot.handlers.ResumePCountDialogHandler
@@ -52,6 +54,7 @@ constructor(
     private val opLoc6: OpLoc6Handler,
     private val clientCheat: ClientCheatHandler,
     private val opNpc: OpNpcHandler,
+    private val opNpcT: OpNpcTHandler,
     private val opNpc6: OpNpc6Handler,
     private val messagePublic: MessagePublicHandler,
     private val if3Button: If3ButtonHandler,
@@ -73,6 +76,7 @@ constructor(
         builder.addListener(OpLoc6::class.java, opLoc6)
         builder.addListener(ClientCheat::class.java, clientCheat)
         builder.addListener(OpNpc::class.java, opNpc)
+        builder.addListener(OpNpcT::class.java, opNpcT)
         builder.addListener(OpNpc6::class.java, opNpc6)
         builder.addListener(MessagePublic::class.java, messagePublic)
         builder.addListener(If3Button::class.java, if3Button)

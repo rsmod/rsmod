@@ -10,7 +10,7 @@ import org.rsmod.api.player.vars.ctrlMoveSpeed
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.NpcList
 import org.rsmod.game.entity.Player
-import org.rsmod.game.interact.InteractionNpc
+import org.rsmod.game.interact.InteractionNpcOp
 import org.rsmod.game.interact.InteractionOp
 import org.rsmod.game.movement.RouteRequestPathingEntity
 
@@ -18,7 +18,7 @@ class OpNpcHandler
 @Inject
 constructor(
     private val eventBus: EventBus,
-    val npcList: NpcList,
+    private val npcList: NpcList,
     private val npcInteractions: NpcInteractions,
 ) : MessageHandler<OpNpc> {
     private val logger = InlineLogger()
@@ -39,26 +39,29 @@ constructor(
             player.clearMapFlag()
             return
         }
+
         val npc = npcList[message.index] ?: return
         val speed = if (message.controlKey) player.ctrlMoveSpeed() else null
         val opTrigger = npcInteractions.hasOpTrigger(player, npc, message.interactionOp)
         val apTrigger = npcInteractions.hasApTrigger(player, npc, message.interactionOp)
         val interaction =
-            InteractionNpc(
+            InteractionNpcOp(
                 target = npc,
                 op = message.interactionOp,
                 hasOpTrigger = opTrigger,
                 hasApTrigger = apTrigger,
             )
         val routeRequest = RouteRequestPathingEntity(npc.avatar)
-        // Op on delayed npcs are discarded.
+
         if (npc.isDelayed) {
             return
         }
+
         if (!npcInteractions.hasOp(npc, player.vars, message.interactionOp)) {
             logger.debug { "OpNpc invalid op blocked: op=${message.op}, npc=$npc" }
             return
         }
+
         player.clearPendingAction(eventBus)
         player.faceNpc(npc)
         player.interaction = interaction
