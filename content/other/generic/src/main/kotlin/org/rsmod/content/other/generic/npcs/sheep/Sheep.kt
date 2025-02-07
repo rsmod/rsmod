@@ -9,6 +9,7 @@ import org.rsmod.api.config.refs.seqs
 import org.rsmod.api.config.refs.synths
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.repo.obj.ObjRepository
+import org.rsmod.api.repo.world.WorldRepository
 import org.rsmod.api.script.onNpcQueue
 import org.rsmod.api.script.onOpNpc1
 import org.rsmod.api.script.onOpNpcU
@@ -16,7 +17,10 @@ import org.rsmod.game.entity.Npc
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-class Sheep @Inject constructor(private val objRepo: ObjRepository) : PluginScript() {
+class Sheep
+@Inject
+constructor(private val objRepo: ObjRepository, private val worldRepo: WorldRepository) :
+    PluginScript() {
     override fun ScriptContext.startUp() {
         onOpNpc1(content.sheep) { shearSheep(it.npc) }
         onOpNpcU(content.sheep, objs.shears) { shearSheep(it.npc) }
@@ -43,7 +47,7 @@ class Sheep @Inject constructor(private val objRepo: ObjRepository) : PluginScri
     }
 
     private fun Npc.queueTransmogReset() {
-        // TODO(content): sound_area(2053, loops = 1, range = 5) "sheep_atmospheric1"
+        worldRepo.soundArea(coords, synths.sheep_atmospheric1)
         resetMode()
         say("Baa!")
         queue(queues.generic_queue2, cycles = 49)
