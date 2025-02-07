@@ -160,7 +160,7 @@ constructor(
             val combined = types.fold(types[0]) { curr, next -> next + curr }
             val cacheType = cacheTypes[id]
             if (cacheType != null) {
-                cacheType + combined
+                combined + cacheType
             } else {
                 combined
             }
@@ -184,7 +184,7 @@ constructor(
             val combined = types.fold(types[0]) { curr, next -> next + curr }
             val cacheType = cacheTypes[id]
             if (cacheType != null) {
-                cacheType + combined
+                combined + cacheType
             } else {
                 combined
             }
@@ -208,7 +208,7 @@ constructor(
             val combined = types.fold(types[0]) { curr, next -> next + curr }
             val cacheType = cacheTypes[id]
             if (cacheType != null) {
-                cacheType + combined
+                combined + cacheType
             } else {
                 combined
             }
@@ -232,7 +232,7 @@ constructor(
             val combined = types.fold(types[0]) { curr, next -> next + curr }
             val cacheType = cacheTypes[id]
             if (cacheType != null) {
-                cacheType + combined
+                combined + cacheType
             } else {
                 combined
             }
@@ -256,7 +256,7 @@ constructor(
             val combined = types.fold(types[0]) { curr, next -> next + curr }
             val cacheType = cacheTypes[id]
             if (cacheType != null) {
-                cacheType + combined
+                combined + cacheType
             } else {
                 combined
             }
@@ -282,7 +282,7 @@ constructor(
             val combined = types.fold(types[0]) { curr, next -> next + curr }
             val cacheType = cacheTypes[id]
             if (cacheType != null) {
-                cacheType + combined
+                combined + cacheType
             } else {
                 combined
             }
@@ -308,7 +308,7 @@ constructor(
             val combined = types.fold(types[0]) { curr, next -> next + curr }
             val cacheType = cacheTypes[id]
             if (cacheType != null) {
-                cacheType + combined
+                combined + cacheType
             } else {
                 combined
             }
@@ -332,7 +332,7 @@ constructor(
             val combined = types.fold(types[0]) { curr, next -> next + curr }
             val cacheType = cacheTypes[id]
             if (cacheType != null) {
-                cacheType + combined
+                combined + cacheType
             } else {
                 combined
             }
