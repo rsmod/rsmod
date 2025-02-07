@@ -312,18 +312,22 @@ constructor(
 
     private fun Player.shouldCancelInteraction(interaction: Interaction): Boolean =
         when (interaction) {
-            is InteractionLoc -> {
-                locRegistry.isInvalid(interaction.target.coords, interaction.target.id)
-            }
-
-            is InteractionNpc -> {
-                !interaction.target.isValidTarget || interaction.target.isDelayed
-            }
-
-            is InteractionObj -> {
-                objRegistry.isInvalid(this, interaction.target)
-            }
+            is InteractionLoc -> interaction.shouldCancelInteraction()
+            is InteractionNpc -> interaction.shouldCancelInteraction()
+            is InteractionObj -> interaction.shouldCancelInteraction(this)
         }
+
+    private fun InteractionLoc.shouldCancelInteraction(): Boolean {
+        return locRegistry.isInvalid(target.coords, target.id)
+    }
+
+    private fun InteractionNpc.shouldCancelInteraction(): Boolean {
+        return !target.isValidTarget || target.isDelayed || type != target.currentType.id
+    }
+
+    private fun InteractionObj.shouldCancelInteraction(observer: Player): Boolean {
+        return objRegistry.isInvalid(observer, target)
+    }
 
     /* Interaction event launch functions */
     public fun triggerOp(player: Player, interaction: InteractionLoc) {
