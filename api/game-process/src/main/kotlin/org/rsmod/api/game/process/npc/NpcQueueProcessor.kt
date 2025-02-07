@@ -49,7 +49,7 @@ public class NpcQueueProcessor @Inject constructor(private val eventBus: EventBu
         }
     }
 
-    private fun Npc.publishEvent(queue: NpcQueueList.Queue, type: UnpackedNpcType = currentType) {
+    private fun Npc.publishEvent(queue: NpcQueueList.Queue, type: UnpackedNpcType = visType) {
         val packedType = (type.id.toLong() shl 32) or queue.id.toLong()
         val typeTrigger = eventBus.keyed[NpcQueueEvents.Type::class.java, packedType]
         if (typeTrigger != null) {

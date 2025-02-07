@@ -31,7 +31,7 @@ constructor(private val mapClock: MapClock, private val eventBus: EventBus) {
         mapClock >= it.value
     }
 
-    private fun Npc.publishEvent(timer: Int, type: UnpackedNpcType = currentType) {
+    private fun Npc.publishEvent(timer: Int, type: UnpackedNpcType = visType) {
         val packedType = (type.id.toLong() shl 32) or timer.toLong()
         val typeTrigger = eventBus.keyed[NpcTimerEvents.Type::class.java, packedType]
         if (typeTrigger != null) {

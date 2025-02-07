@@ -1490,7 +1490,7 @@ public class ProtectedAccess(
         npc: Npc,
         interactions: NpcInteractions = context.npcInteractions,
     ): UnpackedNpcType {
-        val currentType = npc.currentType
+        val currentType = npc.visType
         val multiNpc = interactions.multiNpc(currentType, player.vars)
         return multiNpc ?: currentType
     }

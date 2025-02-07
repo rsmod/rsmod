@@ -25,7 +25,7 @@ public class AITimerProcessor @Inject constructor(private val eventBus: EventBus
         publishEvent()
     }
 
-    private fun Npc.publishEvent(type: UnpackedNpcType = currentType) {
+    private fun Npc.publishEvent(type: UnpackedNpcType = visType) {
         val typeTrigger = eventBus.keyed[NpcAIEvents.Type::class.java, type.id.toLong()]
         if (typeTrigger != null) {
             typeTrigger.invoke(NpcAIEvents.Type(this))

@@ -322,7 +322,7 @@ constructor(
     }
 
     private fun InteractionNpc.shouldCancelInteraction(): Boolean {
-        return !target.isValidTarget || target.isDelayed || type != target.currentType.id
+        return !target.isValidTarget || target.isDelayed || type != target.visType.id
     }
 
     private fun InteractionObj.shouldCancelInteraction(observer: Player): Boolean {

@@ -51,7 +51,7 @@ constructor(
         player: Player,
         npc: Npc,
         op: InteractionOp,
-        type: UnpackedNpcType = npc.currentType,
+        type: UnpackedNpcType = npc.visType,
     ): OpEvent? {
         val multiNpcType = multiNpc(type, player.vars)
         if (multiNpcType != null) {
@@ -91,7 +91,7 @@ constructor(
         player: Player,
         npc: Npc,
         op: InteractionOp,
-        type: UnpackedNpcType = npc.currentType,
+        type: UnpackedNpcType = npc.visType,
     ): ApEvent? {
         val multiNpc = multiNpc(type, player.vars)
         if (multiNpc != null) {
@@ -217,11 +217,11 @@ constructor(
     }
 
     public fun hasOp(npc: Npc, vars: VarPlayerIntMap, op: InteractionOp): Boolean {
-        val multiNpc = multiNpc(npc.currentType, vars)
+        val multiNpc = multiNpc(npc.visType, vars)
         if (multiNpc != null) {
             val multiNpcType = npcTypes[multiNpc]
             return multiNpcType.hasOp(op)
         }
-        return npc.currentType.hasOp(op)
+        return npc.visType.hasOp(op)
     }
 }

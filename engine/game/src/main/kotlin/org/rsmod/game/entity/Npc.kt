@@ -87,7 +87,7 @@ public class Npc(
     public val defaultMode: NpcMode
         get() = type.defaultMode
 
-    public val currentType: UnpackedNpcType
+    public val visType: UnpackedNpcType
         get() = transmog ?: type
 
     public var infoProtocol: NpcInfoProtocol
