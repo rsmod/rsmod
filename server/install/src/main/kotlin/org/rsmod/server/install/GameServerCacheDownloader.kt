@@ -17,6 +17,7 @@ import java.util.zip.ZipInputStream
 import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.createDirectories
 import kotlin.io.path.createTempFile
+import kotlin.io.path.deleteExisting
 import kotlin.io.path.deleteRecursively
 import kotlin.io.path.inputStream
 import kotlin.io.path.listDirectoryEntries
@@ -67,7 +68,7 @@ class GameServerCacheDownloader : CliktCommand(name = "cache-download") {
 
     private fun downloadAndExtractCache(client: OkHttpClient, cacheUrl: String, outputDir: Path) {
         val cacheArchiveFile = createTempArchiveFile(cacheUrl, outputDir)
-        cacheArchiveFile.toFile().deleteOnExit()
+        cacheArchiveFile.toFile()
 
         logger.info { "Downloading cache archive from: $cacheUrl" }
         downloadCache(client, cacheUrl, cacheArchiveFile)
@@ -76,6 +77,8 @@ class GameServerCacheDownloader : CliktCommand(name = "cache-download") {
         logger.info { "Extracting cache archive files to: ${outputDir.toAbsolutePath()}" }
         extractCache(cacheArchiveFile, outputDir)
         logger.info { "Extracted cache archive files." }
+
+        cacheArchiveFile.deleteExisting()
     }
 
     private fun downloadCache(client: OkHttpClient, cacheUrl: String, archiveOutput: Path) {

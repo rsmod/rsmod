@@ -21,7 +21,6 @@ dependencies {
     implementation(projects.engine.events)
     implementation(projects.engine.game)
     implementation(projects.engine.module)
+    implementation(projects.server.logging)
     implementation(projects.server.shared)
 }
-
-

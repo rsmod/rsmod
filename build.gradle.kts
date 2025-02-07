@@ -13,14 +13,12 @@ dependencies {
     implementation(projects.server.install)
 }
 
-tasks.register("install") {
+tasks.register<JavaExec>("install") {
     group = "installation"
     description = "Runs the complete RS Mod server installation task."
 
-    dependsOn(":setupLogbackNovice")
-    dependsOn(":downloadCache")
-    dependsOn(":packCache")
-    dependsOn(":generateRsa")
+    mainClass.set("org.rsmod.server.install.GameServerInstallKt")
+    classpath = sourceSets["main"].runtimeClasspath
 
     doLast { logger.lifecycle("Installation process completed.") }
 }
@@ -73,39 +71,25 @@ tasks.register<JavaExec>("generateRsa") {
     doLast { logger.lifecycle("RSA generation process completed.") }
 }
 
-registerLogbackCopyTask(
-    taskName = "setupLogbackNovice",
-    sourceFileName = "logback.novice.xml",
-    description = "Copy the novice logback format for use."
-)
+tasks.register<JavaExec>("setupLogbackNovice") {
+    description = "Copies the novice logback configuration."
 
-registerLogbackCopyTask(
-    taskName = "setupLogbackAdvanced",
-    sourceFileName = "logback.advanced.xml",
-    description = "Copy the advanced logback format for use."
-)
+    mainClass.set("org.rsmod.server.install.GameServerLogbackCopyKt")
+    classpath = sourceSets["main"].runtimeClasspath
 
-fun registerLogbackCopyTask(taskName: String, sourceFileName: String, description: String) {
-    tasks.register<Copy>(taskName) {
-        this.description = description
+    doFirst { logger.lifecycle("Starting logback copy for novice configuration...") }
+    doLast { logger.lifecycle("Logback novice configuration copied successfully.") }
+}
 
-        val app = project(":server:app")
-        val appDir = app.projectDir
-        val destFileName = "logback.xml"
+tasks.register<JavaExec>("setupLogbackAdvanced") {
+    description = "Copies the novice logback configuration."
 
-        onlyIf("Copies a preset logback file if one does not exist.") {
-            val destFile = file("$appDir/src/main/resources/$destFileName")
-            val fileExists = destFile.exists()
-            if (fileExists) {
-                logger.lifecycle("Skipping $taskName: `$destFileName` already exists.")
-            }
-            !fileExists
-        }
+    mainClass.set("org.rsmod.server.install.GameServerLogbackCopyKt")
+    classpath = sourceSets["main"].runtimeClasspath
+    args = listOf("--advanced-logback")
 
-        from("$appDir/src/main/resources/$sourceFileName")
-        into("$appDir/src/main/resources/")
-        rename(sourceFileName, destFileName)
-    }
+    doFirst { logger.lifecycle("Starting logback copy for advanced configuration...") }
+    doLast { logger.lifecycle("Logback advanced configuration copied successfully.") }
 }
 
 fun getArgsFromProperty(propertyName: String): List<String> {

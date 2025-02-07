@@ -29,5 +29,7 @@ dependencies {
     implementation(projects.engine.routefinder)
     implementation(projects.engine.plugin)
     implementation(projects.engine.scheduler)
+    implementation(projects.server.install)
+    implementation(projects.server.logging)
     implementation(projects.server.shared)
 }

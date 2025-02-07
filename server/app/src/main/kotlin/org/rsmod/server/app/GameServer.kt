@@ -10,6 +10,9 @@ import com.google.inject.Key
 import com.google.inject.util.Modules
 import java.nio.file.Path
 import java.text.DecimalFormat
+import kotlin.io.path.isDirectory
+import kotlin.io.path.isRegularFile
+import kotlin.io.path.listDirectoryEntries
 import kotlin.time.measureTime
 import org.openrs2.cache.Cache
 import org.openrs2.cache.Store
@@ -27,6 +30,10 @@ import org.rsmod.plugin.module.PluginModule
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 import org.rsmod.scheduler.TaskScheduler
+import org.rsmod.server.install.GameNetworkRsaGenerator
+import org.rsmod.server.install.GameServerInstall
+import org.rsmod.server.install.GameServerLogbackCopy
+import org.rsmod.server.shared.DirectoryConstants
 import org.rsmod.server.shared.PluginConstants
 import org.rsmod.server.shared.loader.PluginModuleLoader
 import org.rsmod.server.shared.loader.PluginScriptLoader
@@ -42,7 +49,18 @@ class GameServer : CliktCommand(name = "server") {
     private val pluginPackages: Array<String>
         get() = PluginConstants.searchPackages
 
+    private val cacheDir: Path
+        get() = DirectoryConstants.CACHE_PATH
+
+    private val rsaKey: Path
+        get() = DirectoryConstants.DATA_PATH.resolve("game.key")
+
     override fun run() {
+        ensureProperInstallation()
+        startApplication()
+    }
+
+    private fun startApplication() {
         val injector = createInjector()
         try {
             prepareGame(injector)
@@ -190,7 +208,7 @@ class GameServer : CliktCommand(name = "server") {
             val updater = injector.getInstance(TypeUpdater::class.java)
             updater.updateAll()
             logger.info { "Now restarting game server..." }
-            run()
+            startApplication()
             throw ServerRestartException()
         } else if (verification.isFailure()) {
             throw RuntimeException(verification.formatError())
@@ -241,12 +259,30 @@ class GameServer : CliktCommand(name = "server") {
     }
 
     /**
+     * Checks if all configurations required to run the server properly are in place. If not, the
+     * appropriate installation tasks are run before resuming the normal game app boot-up.
+     */
+    private fun ensureProperInstallation() {
+        val validCacheDir = cacheDir.isDirectory() && cacheDir.listDirectoryEntries().isNotEmpty()
+        val validRsaKey = rsaKey.isRegularFile()
+        if (validCacheDir && validRsaKey) {
+            return
+        }
+        if (validCacheDir) {
+            GameServerLogbackCopy().main(emptyArray())
+            GameNetworkRsaGenerator().main(emptyArray())
+            return
+        }
+        GameServerInstall().main(emptyArray())
+    }
+
+    /**
      * Thrown to immediately abort the current server startup process when a cache update requires a
      * server restart.
      *
-     * After performing the necessary cache update and calling `run` to restart the server, this
-     * exception is thrown to ensure that no further initialization occurs in the current execution
-     * context. It is caught at the top level and safely ignored.
+     * After performing the necessary cache update and calling `startApplication` to restart the
+     * server, this exception is thrown to ensure that no further initialization occurs in the
+     * current execution context. It is caught at the top level and safely ignored.
      */
     private class ServerRestartException : Exception()
 }
