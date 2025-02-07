@@ -2,6 +2,7 @@ package org.rsmod.content.areas.city.lumbridge.npcs
 
 import jakarta.inject.Inject
 import org.rsmod.api.config.refs.seqs
+import org.rsmod.api.config.refs.spotanims
 import org.rsmod.api.player.dialogue.Dialogue
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.random.GameRandom
@@ -38,7 +39,7 @@ class ArthurTheClueHunter @Inject constructor(private val random: GameRandom) : 
             3 -> {
                 say("I've got it!")
                 anim(seqs.emote_lightbulb)
-                // TODO: spotanim(712)
+                spotanim(spotanims.idea_emote)
             }
             4 -> {
                 say("Why is this so hard...")
