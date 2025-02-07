@@ -85,8 +85,6 @@ constructor(private val updates: ZoneUpdateMap, private val objTypes: ObjTypeLis
         return stacks.findAll(coords)
     }
 
-    public fun isInvalid(observer: Player, obj: Obj): Boolean = !isValid(observer, obj)
-
     public fun isValid(observer: Player, obj: Obj): Boolean =
         findAll(obj.coords).any { it.type == obj.type && it.isVisibleTo(observer) }
 
