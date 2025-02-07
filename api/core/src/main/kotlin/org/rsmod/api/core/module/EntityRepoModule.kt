@@ -6,6 +6,7 @@ import org.rsmod.api.repo.loc.LocRepository
 import org.rsmod.api.repo.npc.NpcRepository
 import org.rsmod.api.repo.obj.ObjRepository
 import org.rsmod.api.repo.player.PlayerRepository
+import org.rsmod.api.repo.world.WorldRepository
 import org.rsmod.module.ExtendedModule
 
 public object EntityRepoModule : ExtendedModule() {
@@ -16,5 +17,6 @@ public object EntityRepoModule : ExtendedModule() {
         bindInstance<ObjRepository>()
         bindInstance<PlayerRepository>()
         bindInstance<ControllerRepository>()
+        bindInstance<WorldRepository>()
     }
 }

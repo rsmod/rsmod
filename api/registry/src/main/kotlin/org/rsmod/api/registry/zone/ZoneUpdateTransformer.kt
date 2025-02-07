@@ -7,10 +7,12 @@ import net.rsprot.protocol.game.outgoing.zone.payload.LocDel
 import net.rsprot.protocol.game.outgoing.zone.payload.ObjAdd
 import net.rsprot.protocol.game.outgoing.zone.payload.ObjCount
 import net.rsprot.protocol.game.outgoing.zone.payload.ObjDel
+import net.rsprot.protocol.game.outgoing.zone.payload.SoundArea
 import net.rsprot.protocol.message.ZoneProt
 import org.rsmod.api.registry.loc.LocRegistry
 import org.rsmod.game.loc.LocInfo
 import org.rsmod.game.obj.Obj
+import org.rsmod.map.CoordGrid
 import org.rsmod.map.zone.ZoneGrid
 
 public object ZoneUpdateTransformer {
@@ -89,6 +91,18 @@ public object ZoneUpdateTransformer {
         val zoneGrid = ZoneGrid.from(obj.coords)
         val prot = ObjAdd(obj.type, obj.count, zoneGrid.x, zoneGrid.z, OpFlags.ALL_SHOWN)
         return ObjReveal(obj.copy(), prot)
+    }
+
+    public fun toSoundAreaProt(
+        source: CoordGrid,
+        synth: Int,
+        delay: Int,
+        loops: Int,
+        radius: Int,
+        size: Int,
+    ): ZoneProt {
+        val zoneGrid = ZoneGrid.from(source)
+        return SoundArea(synth, delay, loops, radius, size, zoneGrid.x, zoneGrid.z)
     }
 
     private fun Obj.copy(): Obj = Obj(coords, entity, creationCycle, receiverId)

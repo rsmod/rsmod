@@ -65,6 +65,19 @@ public class ZoneUpdateMap {
         updates += prot
     }
 
+    public fun soundArea(
+        source: CoordGrid,
+        synth: Int,
+        delay: Int,
+        loops: Int,
+        radius: Int,
+        size: Int,
+    ) {
+        val updates = source.getOrPutUpdateList()
+        val prot = ZoneUpdateTransformer.toSoundAreaProt(source, synth, delay, loops, radius, size)
+        updates += prot
+    }
+
     public operator fun get(zone: Int): ZoneUpdateList? = updatedZones.getOrDefault(zone, null)
 
     public operator fun get(zone: ZoneKey): ZoneUpdateList? =
