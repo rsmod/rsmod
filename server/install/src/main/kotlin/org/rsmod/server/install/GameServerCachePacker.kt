@@ -7,8 +7,11 @@ import com.google.inject.Injector
 import com.google.inject.Key
 import java.nio.file.Path
 import kotlin.io.path.ExperimentalPathApi
+import kotlin.io.path.copyToRecursively
+import kotlin.io.path.createParentDirectories
 import kotlin.io.path.deleteRecursively
 import org.openrs2.cache.Cache
+import org.rsmod.annotations.EnrichedCache
 import org.rsmod.annotations.GameCache
 import org.rsmod.api.cache.CacheModule
 import org.rsmod.api.cache.enricher.CacheEnricherModule
@@ -66,6 +69,7 @@ class GameServerCachePacker : CliktCommand(name = "cache-pack") {
             val enricher = injector.getInstance(CacheEnrichment::class.java)
             val target = injector.getInstance(Key.get(Cache::class.java, GameCache::class.java))
             enricher.encodeAll(target)
+            copyEnrichedCache(injector)
         }
     }
 
@@ -95,5 +99,13 @@ class GameServerCachePacker : CliktCommand(name = "cache-pack") {
             throw RuntimeException(verification.formatError())
         }
         return true
+    }
+
+    private fun copyEnrichedCache(injector: Injector) {
+        val source = injector.getInstance(Key.get(Path::class.java, GameCache::class.java))
+        val dest = injector.getInstance(Key.get(Path::class.java, EnrichedCache::class.java))
+        dest.deleteRecursively()
+        dest.createParentDirectories()
+        source.copyToRecursively(dest, followLinks = false)
     }
 }

@@ -8,6 +8,7 @@ import kotlin.io.path.copyToRecursively
 import kotlin.io.path.deleteRecursively
 import kotlin.io.path.exists
 import org.openrs2.cache.Cache
+import org.rsmod.annotations.EnrichedCache
 import org.rsmod.annotations.GameCache
 import org.rsmod.annotations.Js5Cache
 import org.rsmod.annotations.VanillaCache
@@ -46,7 +47,8 @@ import org.rsmod.game.type.varp.VarpTypeBuilder
 public class TypeUpdater
 @Inject
 constructor(
-    @VanillaCache private val vanillaCache: Cache,
+    @EnrichedCache private val enrichedCache: Cache,
+    @EnrichedCache private val enrichedCachePath: Path,
     @VanillaCache private val vanillaCachePath: Path,
     @GameCache private val gameCachePath: Path,
     @Js5Cache private val js5CachePath: Path,
@@ -60,29 +62,26 @@ constructor(
     }
 
     private fun overwriteCachePaths() {
-        deleteExistingCaches(gameCachePath)
-        deleteExistingCaches(js5CachePath)
-        copyVanillaCache(gameCachePath)
-        copyVanillaCache(js5CachePath)
+        deleteExistingCache(gameCachePath)
+        copyCache(enrichedCachePath, gameCachePath)
+
+        deleteExistingCache(js5CachePath)
+        copyCache(vanillaCachePath, js5CachePath)
     }
 
     @OptIn(ExperimentalPathApi::class)
-    private fun deleteExistingCaches(cachePath: Path) {
+    private fun deleteExistingCache(cachePath: Path) {
         cachePath.deleteRecursively()
         check(!cachePath.exists())
     }
 
     @OptIn(ExperimentalPathApi::class)
-    private fun copyVanillaCache(targetCachePath: Path) {
-        vanillaCachePath.copyToRecursively(
-            target = targetCachePath,
-            followLinks = true,
-            overwrite = false,
-        )
+    private fun copyCache(from: Path, dest: Path) {
+        from.copyToRecursively(target = dest, followLinks = true, overwrite = false)
     }
 
     private fun encodeAllCacheTypes() {
-        val configs = TypeListMapDecoder.ofParallel(vanillaCache, names)
+        val configs = TypeListMapDecoder.ofParallel(enrichedCache, names)
         val updates = collectUpdateMap(configs)
         val params = transmitParamKeys(configs.params, updates.params)
         encodeCacheTypes(updates, gameCachePath, EncoderContext(encodeFull = true, params))

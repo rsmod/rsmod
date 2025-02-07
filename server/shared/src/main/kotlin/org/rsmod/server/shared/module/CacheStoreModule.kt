@@ -18,6 +18,7 @@ import kotlin.io.path.listDirectoryEntries
 import org.openrs2.cache.Cache
 import org.openrs2.cache.Store
 import org.rsmod.annotations.CachePath
+import org.rsmod.annotations.EnrichedCache
 import org.rsmod.annotations.GameCache
 import org.rsmod.annotations.Js5Cache
 import org.rsmod.annotations.VanillaCache
@@ -62,6 +63,15 @@ object CacheStoreModule : ExtendedModule() {
             .annotatedWith(VanillaCache::class.java)
             .toProvider(VanillaCacheProvider::class.java)
             .`in`(Scopes.SINGLETON)
+
+        bind(Store::class.java)
+            .annotatedWith(EnrichedCache::class.java)
+            .toProvider(EnrichedStoreProvider::class.java)
+            .`in`(Scopes.SINGLETON)
+        bind(Cache::class.java)
+            .annotatedWith(EnrichedCache::class.java)
+            .toProvider(EnrichedCacheProvider::class.java)
+            .`in`(Scopes.SINGLETON)
     }
 
     @Provides
@@ -79,6 +89,10 @@ object CacheStoreModule : ExtendedModule() {
     @Provides
     @VanillaCache
     fun vanillaCachePath(@CachePath parentDir: Path): Path = parentDir.resolve("vanilla")
+
+    @Provides
+    @EnrichedCache
+    fun enrichedCachePath(@CachePath parentDir: Path): Path = parentDir.resolve("enriched")
 }
 
 private open class StoreProvider(private val dir: Path, private val copyFrom: Path) :
@@ -162,4 +176,16 @@ private class VanillaStoreProvider @Inject constructor(@VanillaCache private val
 private class VanillaCacheProvider
 @Inject
 constructor(@VanillaCache private val store: Store, @VanillaCache private val dir: Path) :
+    CacheProvider(store, dir)
+
+private class EnrichedStoreProvider
+@Inject
+constructor(
+    @EnrichedCache private val enrichedDir: Path,
+    @VanillaCache private val copyFrom: Path,
+) : StoreProvider(enrichedDir, copyFrom)
+
+private class EnrichedCacheProvider
+@Inject
+constructor(@EnrichedCache private val store: Store, @EnrichedCache private val dir: Path) :
     CacheProvider(store, dir)
