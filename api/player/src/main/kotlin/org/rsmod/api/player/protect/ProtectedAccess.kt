@@ -16,7 +16,9 @@ import org.rsmod.api.invtx.invClear
 import org.rsmod.api.invtx.invMoveAll
 import org.rsmod.api.invtx.invSwap
 import org.rsmod.api.invtx.invTakeFee
+import org.rsmod.api.invtx.invTransaction
 import org.rsmod.api.invtx.invTransfer
+import org.rsmod.api.invtx.select
 import org.rsmod.api.market.MarketPrices
 import org.rsmod.api.player.dialogue.Dialogue
 import org.rsmod.api.player.dialogue.Dialogues
@@ -572,6 +574,81 @@ public class ProtectedAccess(
         coords: CoordGrid = this.coords,
         inv: Inventory = this.inv,
     ): Boolean = player.invAddOrDrop(repo, obj, count, coords = coords, inv = inv)
+
+    /**
+     * This transaction will remove the inv obj occupying slot [slot], resulting in failure if there
+     * is no obj in said `slot`, or if there are any other implicit transaction errors.
+     *
+     * _Note: This function will add the new [replacement] obj in the first empty and valid slot. If
+     * you wish to add the item into [slot] instead, use [invReplaceSlot]._
+     *
+     * @see [invReplaceSlot]
+     */
+    public fun invReplace(
+        inv: Inventory,
+        slot: Int,
+        count: Int,
+        replacement: ObjType,
+        vars: Int = 0,
+        autoCommit: Boolean = true,
+    ): TransactionResultList<InvObj> {
+        // The transaction will implicitly fail if the obj is null - no verification is required
+        // at this level.
+        val deleteObj = inv[slot]
+        return player.invTransaction(inv, autoCommit) {
+            val fromInv = select(inv)
+            delete {
+                this.from = fromInv
+                this.obj = deleteObj?.id
+                this.strictCount = count
+                this.strictSlot = slot
+            }
+            insert {
+                this.into = fromInv
+                this.obj = replacement.id
+                this.strictCount = count
+                this.vars = vars
+            }
+        }
+    }
+
+    /**
+     * This transaction will remove the inv obj occupying slot [slot], resulting in failure if there
+     * is no obj in said `slot`, or if there are any other implicit transaction errors.
+     *
+     * _Note: This function will strictly add the new [replacement] obj in the [slot] slot. If you
+     * wish for the obj to take the first available slot instead, use [invReplace]._
+     *
+     * @see [invReplace]
+     */
+    public fun invReplaceSlot(
+        inv: Inventory,
+        slot: Int,
+        count: Int,
+        replacement: ObjType,
+        vars: Int = 0,
+        autoCommit: Boolean = true,
+    ): TransactionResultList<InvObj> {
+        // The transaction will implicitly fail if the obj is null - no verification is required
+        // at this level.
+        val deleteObj = inv[slot]
+        return player.invTransaction(inv, autoCommit) {
+            val fromInv = select(inv)
+            delete {
+                this.from = fromInv
+                this.obj = deleteObj?.id
+                this.strictCount = count
+                this.strictSlot = slot
+            }
+            insert {
+                this.into = fromInv
+                this.obj = replacement.id
+                this.strictSlot = slot
+                this.strictCount = count
+                this.vars = vars
+            }
+        }
+    }
 
     public fun invMoveToSlot(
         from: Inventory,
