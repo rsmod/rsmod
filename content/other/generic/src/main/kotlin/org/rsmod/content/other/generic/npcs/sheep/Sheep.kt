@@ -8,8 +8,10 @@ import org.rsmod.api.config.refs.queues
 import org.rsmod.api.config.refs.seqs
 import org.rsmod.api.config.refs.synths
 import org.rsmod.api.player.protect.ProtectedAccess
+import org.rsmod.api.random.GameRandom
 import org.rsmod.api.repo.obj.ObjRepository
 import org.rsmod.api.repo.world.WorldRepository
+import org.rsmod.api.script.onAiTimer
 import org.rsmod.api.script.onNpcQueue
 import org.rsmod.api.script.onOpNpc1
 import org.rsmod.api.script.onOpNpcU
@@ -19,13 +21,33 @@ import org.rsmod.plugin.scripts.ScriptContext
 
 class Sheep
 @Inject
-constructor(private val objRepo: ObjRepository, private val worldRepo: WorldRepository) :
-    PluginScript() {
+constructor(
+    private val objRepo: ObjRepository,
+    private val worldRepo: WorldRepository,
+    private val random: GameRandom,
+) : PluginScript() {
     override fun ScriptContext.startUp() {
+        onAiTimer(content.sheep) { npc.sheepTimer() }
         onOpNpc1(content.sheep) { shearSheep(it.npc) }
         onOpNpcU(content.sheep, objs.shears) { shearSheep(it.npc) }
+
+        onAiTimer(content.sheared_sheep) { npc.sheepTimer() }
         onNpcQueue(content.sheared_sheep, queues.generic_queue1) { npc.queueTransmogReset() }
         onNpcQueue(content.sheared_sheep, queues.generic_queue2) { npc.transmog(npc.type) }
+    }
+
+    private fun Npc.sheepTimer() {
+        val next = random.of(15..34)
+        aiTimer(next)
+
+        if (random.randomBoolean(4)) {
+            sayFlavourText()
+        }
+    }
+
+    private fun Npc.sayFlavourText() {
+        worldRepo.soundArea(coords, synths.sheep_atmospheric1)
+        say("Baa!")
     }
 
     private suspend fun ProtectedAccess.shearSheep(npc: Npc) {
@@ -47,9 +69,8 @@ constructor(private val objRepo: ObjRepository, private val worldRepo: WorldRepo
     }
 
     private fun Npc.queueTransmogReset() {
-        worldRepo.soundArea(coords, synths.sheep_atmospheric1)
         resetMode()
-        say("Baa!")
+        sayFlavourText()
         queue(queues.generic_queue2, cycles = 49)
     }
 }

@@ -27,8 +27,12 @@ internal object SheepNpcEditor : NpcEditor() {
         edit(unsheared.nameValue) {
             contentGroup = content.sheep
             param[params.next_npc_stage] = sheared
+            timer = 1
         }
-        edit(sheared.nameValue) { contentGroup = content.sheared_sheep }
+        edit(sheared.nameValue) {
+            contentGroup = content.sheared_sheep
+            timer = 1
+        }
     }
 }
 
