@@ -15,6 +15,17 @@ public abstract class HashTypeReferences<T>(type: Class<T>) : TypeReferences<T, 
      * @see [org.rsmod.api.type.symbols.name.NameLoader]
      */
     public abstract fun find(internal: String, hash: Long? = null): T
+
+    /**
+     * Verifies that the "identity hash" of the type associated with [internal] matches the expected
+     * [hash]. Unlike [find], this function does not return the type itself but ensures that its
+     * computed hash is correct.
+     *
+     * Use this when you only need to confirm the identity of a type without retrieving it.
+     */
+    public fun verify(internal: String, hash: Long) {
+        find(internal, hash)
+    }
 }
 
 public abstract class NameTypeReferences<T>(type: Class<T>) : TypeReferences<T, Long>(type) {
