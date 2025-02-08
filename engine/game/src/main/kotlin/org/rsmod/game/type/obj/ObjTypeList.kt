@@ -25,7 +25,7 @@ public data class ObjTypeList(public val types: Map<Int, UnpackedObjType>) :
     }
 
     public fun uncert(type: UnpackedObjType): UnpackedObjType {
-        if (!type.canUncert) {
+        if (!type.isCert) {
             return type
         }
         val link = type.certlink
@@ -47,7 +47,7 @@ public data class ObjTypeList(public val types: Map<Int, UnpackedObjType>) :
     public fun uncert(obj: InvObj): InvObj {
         require(obj.vars == 0) { "Cannot uncert obj with vars: $obj" }
         val type = this[obj]
-        if (!type.canUncert) {
+        if (!type.isCert) {
             return obj
         }
         val link = type.certlink

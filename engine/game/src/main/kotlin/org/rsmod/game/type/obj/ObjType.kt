@@ -156,8 +156,8 @@ public class UnpackedObjType(
     public val canCert: Boolean
         get() = !stackable && certlink > 0 && certtemplate == 0 && objvar.isEmpty()
 
-    public val canUncert: Boolean
-        get() = certlink > 0 && certtemplate > 0
+    public val isCert: Boolean
+        get() = certtemplate != 0
 
     public val hasTransformation: Boolean
         get() = transformlink > 0 && transformtemplate == 0
