@@ -15,7 +15,6 @@ import org.rsmod.api.player.ui.ifSetText
 import org.rsmod.api.player.vars.boolVarp
 import org.rsmod.api.script.onIfClose
 import org.rsmod.api.script.onIfOpen
-import org.rsmod.api.script.onPlayerLogIn
 import org.rsmod.content.interfaces.bank.bankCapacity
 import org.rsmod.content.interfaces.bank.configs.bank_components
 import org.rsmod.content.interfaces.bank.configs.bank_comsubs
@@ -49,16 +48,9 @@ constructor(
     private var Player.withdrawCert by boolVarp(bank_varbits.withdraw_mode)
 
     override fun ScriptContext.startUp() {
-        onPlayerLogIn { player.setDefaultCapacity() }
         // `onBankOpen` occurs on `bank_side` trigger for emulation purposes.
         onIfOpen(interfaces.bank_side) { player.onBankOpen() }
         onIfClose(interfaces.bank_main) { player.onBankClose() }
-    }
-
-    private fun Player.setDefaultCapacity() {
-        if (bankCapacity == 0) {
-            bankCapacity = bank_constants.default_capacity
-        }
     }
 
     private fun Player.onBankOpen() {

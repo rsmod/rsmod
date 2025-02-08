@@ -25,6 +25,7 @@ import org.rsmod.api.player.worn.WornUnequipOp
 import org.rsmod.api.player.worn.WornUnequipResult
 import org.rsmod.api.script.onIfModalButton
 import org.rsmod.api.script.onIfModalDrag
+import org.rsmod.api.script.onPlayerLogIn
 import org.rsmod.api.script.onPlayerQueue
 import org.rsmod.content.interfaces.bank.BankTab
 import org.rsmod.content.interfaces.bank.QuantityMode
@@ -32,6 +33,7 @@ import org.rsmod.content.interfaces.bank.alwaysPlacehold
 import org.rsmod.content.interfaces.bank.bankCapacity
 import org.rsmod.content.interfaces.bank.configs.bank_components
 import org.rsmod.content.interfaces.bank.configs.bank_comsubs
+import org.rsmod.content.interfaces.bank.configs.bank_constants
 import org.rsmod.content.interfaces.bank.configs.bank_enums
 import org.rsmod.content.interfaces.bank.configs.bank_objs
 import org.rsmod.content.interfaces.bank.configs.bank_queues
@@ -49,6 +51,7 @@ import org.rsmod.content.interfaces.bank.util.rightShift
 import org.rsmod.content.interfaces.bank.util.shiftInsert
 import org.rsmod.content.interfaces.bank.withdrawCert
 import org.rsmod.events.EventBus
+import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.obj.InvObj
 import org.rsmod.game.obj.isType
@@ -85,6 +88,8 @@ constructor(
     private val enumResolver: EnumTypeMapResolver,
 ) : PluginScript() {
     override fun ScriptContext.startUp() {
+        onPlayerLogIn { player.setDefaultCapacity() }
+
         onIfModalButton(bank_components.side_inventory) { sideInvOp(it.comsub, it.op) }
         onIfModalButton(bank_components.main_inventory) { mainInvOp(it.comsub, it.op) }
         onIfModalButton(bank_components.worn_inventory) { wornInvOp(it.comsub, it.op) }
@@ -1220,6 +1225,12 @@ constructor(
             val formatCount = if (completed == 1) "bank filler" else "bank fillers"
             access.mes("You add $completed $formatCount to your bank.")
             targetTab.increaseSize(access, completed)
+        }
+    }
+
+    private fun Player.setDefaultCapacity() {
+        if (bankCapacity == 0) {
+            bankCapacity = bank_constants.default_capacity
         }
     }
 }
