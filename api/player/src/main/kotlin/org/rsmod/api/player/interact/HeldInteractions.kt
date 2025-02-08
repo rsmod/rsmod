@@ -13,6 +13,7 @@ import org.rsmod.api.player.dialogue.Dialogue
 import org.rsmod.api.player.events.interact.HeldContentEvents
 import org.rsmod.api.player.events.interact.HeldDropEvents
 import org.rsmod.api.player.events.interact.HeldObjEvents
+import org.rsmod.api.player.output.ChatType
 import org.rsmod.api.player.output.UpdateInventory.resendSlot
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.output.objExamine
@@ -148,7 +149,7 @@ private constructor(
             groupScript(HeldContentEvents.Op1(invSlot, obj, type, inventory))
             return
         }
-        mes(constants.dm_default)
+        mes(constants.dm_default, ChatType.Engine)
         logger.debug { "OpHeld1 for `${type.name}` is not implemented: type=$type" }
     }
 
@@ -169,7 +170,7 @@ private constructor(
             return
         }
         if (!type.isEquipable) {
-            mes(constants.dm_default)
+            mes(constants.dm_default, ChatType.Engine)
             logger.debug { "OpHeld2 for `${type.name}` is not implemented: type=$type" }
             return
         }
@@ -195,7 +196,7 @@ private constructor(
             groupScript(HeldContentEvents.Op3(invSlot, obj, type, inventory))
             return
         }
-        mes(constants.dm_default)
+        mes(constants.dm_default, ChatType.Engine)
         logger.debug { "OpHeld3 for `${type.name}` is not implemented: type=$type" }
     }
 
@@ -215,7 +216,7 @@ private constructor(
             groupScript(HeldContentEvents.Op4(invSlot, obj, type, inventory))
             return
         }
-        mes(constants.dm_default)
+        mes(constants.dm_default, ChatType.Engine)
         logger.debug { "OpHeld4 for `${type.name}` is not implemented: type=$type" }
     }
 

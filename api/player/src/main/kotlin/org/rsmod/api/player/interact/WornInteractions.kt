@@ -7,6 +7,7 @@ import org.rsmod.api.config.refs.params
 import org.rsmod.api.market.MarketPrices
 import org.rsmod.api.player.events.interact.WornObjContentEvents
 import org.rsmod.api.player.events.interact.WornObjEvents
+import org.rsmod.api.player.output.ChatType
 import org.rsmod.api.player.output.UpdateInventory.resendSlot
 import org.rsmod.api.player.output.objExamine
 import org.rsmod.api.player.protect.ProtectedAccess
@@ -138,7 +139,7 @@ constructor(
             groupScript(WornObjContentEvents.Op2(wornSlot, obj, type))
             return
         }
-        mes(constants.dm_default)
+        mes(constants.dm_default, ChatType.Engine)
         logger.debug { "OpWorn2 for `${type.name}` is not implemented: type=$type" }
     }
 
@@ -153,7 +154,7 @@ constructor(
             groupScript(WornObjContentEvents.Op3(wornSlot, obj, type))
             return
         }
-        mes(constants.dm_default)
+        mes(constants.dm_default, ChatType.Engine)
         logger.debug { "OpWorn3 for `${type.name}` is not implemented: type=$type" }
     }
 
@@ -168,7 +169,7 @@ constructor(
             groupScript(WornObjContentEvents.Op4(wornSlot, obj, type))
             return
         }
-        mes(constants.dm_default)
+        mes(constants.dm_default, ChatType.Engine)
         logger.debug { "OpWorn4 for `${type.name}` is not implemented: type=$type" }
     }
 
@@ -183,7 +184,7 @@ constructor(
             groupScript(WornObjContentEvents.Op5(wornSlot, obj, type))
             return
         }
-        mes(constants.dm_default)
+        mes(constants.dm_default, ChatType.Engine)
         logger.debug { "OpWorn5 for `${type.name}` is not implemented: type=$type" }
     }
 
@@ -198,7 +199,7 @@ constructor(
             groupScript(WornObjContentEvents.Op6(wornSlot, obj, type))
             return
         }
-        mes(constants.dm_default)
+        mes(constants.dm_default, ChatType.Engine)
         logger.debug { "OpWorn6 for `${type.name}` is not implemented: type=$type" }
     }
 
@@ -213,7 +214,7 @@ constructor(
             groupScript(WornObjContentEvents.Op7(wornSlot, obj, type))
             return
         }
-        mes(constants.dm_default)
+        mes(constants.dm_default, ChatType.Engine)
         logger.debug { "OpWorn7 for `${type.name}` is not implemented: type=$type" }
     }
 
@@ -228,7 +229,7 @@ constructor(
             groupScript(WornObjContentEvents.Op8(wornSlot, obj, type))
             return
         }
-        mes(constants.dm_default)
+        mes(constants.dm_default, ChatType.Engine)
         logger.debug { "OpWorn8 for `${type.name}` is not implemented: type=$type" }
     }
 
@@ -243,7 +244,7 @@ constructor(
             groupScript(WornObjContentEvents.Op9(wornSlot, obj, type))
             return
         }
-        mes(constants.dm_default)
+        mes(constants.dm_default, ChatType.Engine)
         logger.debug { "OpWorn9 for `${type.name}` is not implemented: type=$type" }
     }
 

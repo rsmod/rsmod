@@ -8,6 +8,7 @@ import org.rsmod.api.player.events.interact.NpcUContentEvents
 import org.rsmod.api.player.events.interact.NpcUDefaultEvents
 import org.rsmod.api.player.events.interact.NpcUEvents
 import org.rsmod.api.player.events.interact.OpEvent
+import org.rsmod.api.player.output.ChatType
 import org.rsmod.api.player.output.UpdateInventory.resendSlot
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.events.EventBus
@@ -60,7 +61,7 @@ private constructor(
             eventBus.publish(this, script)
             return
         }
-        mes(constants.dm_default)
+        mes(constants.dm_default, ChatType.Engine)
         logger.debug {
             "opNpcU for `${objType.name}` on `${npcType.name}` is not implemented: " +
                 "npcType=$npcType, objType=$objType"

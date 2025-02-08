@@ -8,6 +8,7 @@ import org.rsmod.api.player.events.interact.LocUContentEvents
 import org.rsmod.api.player.events.interact.LocUDefaultEvents
 import org.rsmod.api.player.events.interact.LocUEvents
 import org.rsmod.api.player.events.interact.OpEvent
+import org.rsmod.api.player.output.ChatType
 import org.rsmod.api.player.output.UpdateInventory.resendSlot
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.events.EventBus
@@ -61,7 +62,7 @@ private constructor(
             eventBus.publish(this, script)
             return
         }
-        mes(constants.dm_default)
+        mes(constants.dm_default, ChatType.Engine)
         logger.debug {
             "opLocU for `${objType.name}` on `${locType.name}` is not implemented: " +
                 "locType=$locType, objType=$objType"
