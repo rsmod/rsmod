@@ -189,7 +189,7 @@ constructor(
         with(cheat) {
             val typeId = resolveArgTypeId(args[1], names.npcs)
             if (typeId == null) {
-                player.mes("There is no npc mapped to name: `${args[0]}`")
+                player.mes("There is no npc mapped to name: `${args[1]}`")
                 return
             }
             val type = npcTypes[typeId]
