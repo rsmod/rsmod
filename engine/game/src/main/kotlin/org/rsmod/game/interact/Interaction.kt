@@ -43,6 +43,17 @@ public class InteractionLocOp(
     persistent: Boolean = false,
 ) : InteractionLoc(target, hasOpTrigger, hasApTrigger, startApRange, persistent)
 
+public class InteractionLocT(
+    public val objType: ObjType?,
+    public val component: ComponentType,
+    public val comsub: Int,
+    target: BoundLocInfo,
+    hasOpTrigger: Boolean,
+    hasApTrigger: Boolean,
+    startApRange: Int = PathingEntity.DEFAULT_AP_RANGE,
+    persistent: Boolean = false,
+) : InteractionLoc(target, hasOpTrigger, hasApTrigger, startApRange, persistent)
+
 public sealed class InteractionNpc(
     public val target: Npc,
     hasOpTrigger: Boolean,

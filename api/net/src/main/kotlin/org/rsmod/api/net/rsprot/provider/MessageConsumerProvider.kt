@@ -6,6 +6,7 @@ import net.rsprot.protocol.game.incoming.buttons.If3Button
 import net.rsprot.protocol.game.incoming.buttons.IfButtonD
 import net.rsprot.protocol.game.incoming.locs.OpLoc
 import net.rsprot.protocol.game.incoming.locs.OpLoc6
+import net.rsprot.protocol.game.incoming.locs.OpLocT
 import net.rsprot.protocol.game.incoming.messaging.MessagePublic
 import net.rsprot.protocol.game.incoming.misc.user.ClientCheat
 import net.rsprot.protocol.game.incoming.misc.user.CloseModal
@@ -32,6 +33,7 @@ import org.rsmod.api.net.rsprot.handlers.MoveGameClickHandler
 import org.rsmod.api.net.rsprot.handlers.MoveMinimapClickHandler
 import org.rsmod.api.net.rsprot.handlers.OpLoc6Handler
 import org.rsmod.api.net.rsprot.handlers.OpLocHandler
+import org.rsmod.api.net.rsprot.handlers.OpLocTHandler
 import org.rsmod.api.net.rsprot.handlers.OpNpc6Handler
 import org.rsmod.api.net.rsprot.handlers.OpNpcHandler
 import org.rsmod.api.net.rsprot.handlers.OpNpcTHandler
@@ -51,6 +53,7 @@ constructor(
     private val moveGameClick: MoveGameClickHandler,
     private val moveMinimapClick: MoveMinimapClickHandler,
     private val opLoc: OpLocHandler,
+    private val opLocT: OpLocTHandler,
     private val opLoc6: OpLoc6Handler,
     private val clientCheat: ClientCheatHandler,
     private val opNpc: OpNpcHandler,
@@ -73,6 +76,7 @@ constructor(
         builder.addListener(MoveGameClick::class.java, moveGameClick)
         builder.addListener(MoveMinimapClick::class.java, moveMinimapClick)
         builder.addListener(OpLoc::class.java, opLoc)
+        builder.addListener(OpLocT::class.java, opLocT)
         builder.addListener(OpLoc6::class.java, opLoc6)
         builder.addListener(ClientCheat::class.java, clientCheat)
         builder.addListener(OpNpc::class.java, opNpc)

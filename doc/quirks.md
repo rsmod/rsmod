@@ -36,6 +36,12 @@ their primitive form dynamically during runtime.
 This means that calling `delay(1)` will delay the player by 1 tick, not 2.
 `delay(0)` will not delay the player at all.
 - Mention the purpose of each api submodule (in a README within api module).
+- Inconsistency in OpLocHandler debug message vs. LocUInteractions debug
+message. This comes down to the packet handler not having the detailed view of
+the multiloc based on the player's vars. Meanwhile, OpLocU (as well as OpNpcU)
+are handled at the "content-level" due to how they were changed from being
+individual packets. The content-level scripts are exposed to the "visual" type
+for these entities.
 
 ## Types
 ```

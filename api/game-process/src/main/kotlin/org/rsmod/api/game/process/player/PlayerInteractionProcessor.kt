@@ -4,6 +4,7 @@ import jakarta.inject.Inject
 import org.rsmod.api.config.Constants
 import org.rsmod.api.player.clearInteractionRoute
 import org.rsmod.api.player.interact.LocInteractions
+import org.rsmod.api.player.interact.LocTInteractions
 import org.rsmod.api.player.interact.NpcInteractions
 import org.rsmod.api.player.interact.NpcTInteractions
 import org.rsmod.api.player.interact.ObjInteractions
@@ -19,6 +20,7 @@ import org.rsmod.game.entity.Player
 import org.rsmod.game.interact.Interaction
 import org.rsmod.game.interact.InteractionLoc
 import org.rsmod.game.interact.InteractionLocOp
+import org.rsmod.game.interact.InteractionLocT
 import org.rsmod.game.interact.InteractionNpc
 import org.rsmod.game.interact.InteractionNpcOp
 import org.rsmod.game.interact.InteractionNpcT
@@ -38,6 +40,7 @@ constructor(
     private val boundValidator: BoundValidator,
     private val rayCastValidator: RayCastValidator,
     private val locInteractions: LocInteractions,
+    private val locTInteractions: LocTInteractions,
     private val npcInteractions: NpcInteractions,
     private val npcTInteractions: NpcTInteractions,
     private val objInteractions: ObjInteractions,
@@ -188,6 +191,7 @@ constructor(
     private fun Player.triggerOp(interaction: Interaction): Unit =
         when (interaction) {
             is InteractionLocOp -> triggerOp(this, interaction)
+            is InteractionLocT -> triggerOp(this, interaction)
             is InteractionNpcOp -> triggerOp(this, interaction)
             is InteractionNpcT -> triggerOp(this, interaction)
             is InteractionObj -> triggerOp(this, interaction)
@@ -196,6 +200,7 @@ constructor(
     private fun Player.triggerAp(interaction: Interaction): Unit =
         when (interaction) {
             is InteractionLocOp -> triggerAp(this, interaction)
+            is InteractionLocT -> triggerAp(this, interaction)
             is InteractionNpcOp -> triggerAp(this, interaction)
             is InteractionNpcT -> triggerAp(this, interaction)
             is InteractionObj -> triggerAp(this, interaction)
@@ -348,6 +353,28 @@ constructor(
     public fun triggerAp(player: Player, interaction: InteractionLocOp) {
         val loc = interaction.target
         val ap = locInteractions.apTrigger(player, loc, interaction.op)
+        if (ap != null) {
+            protectedAccess.launch(player) { eventBus.publish(this, ap) }
+        }
+    }
+
+    public fun triggerOp(player: Player, interaction: InteractionLocT) {
+        val loc = interaction.target
+        val comsub = interaction.comsub
+        val component = interaction.component
+        val objType = interaction.objType
+        val op = locTInteractions.opTrigger(player, loc, component, comsub, objType)
+        if (op != null) {
+            protectedAccess.launch(player) { eventBus.publish(this, op) }
+        }
+    }
+
+    public fun triggerAp(player: Player, interaction: InteractionLocT) {
+        val loc = interaction.target
+        val comsub = interaction.comsub
+        val component = interaction.component
+        val objType = interaction.objType
+        val ap = locTInteractions.apTrigger(player, loc, component, comsub, objType)
         if (ap != null) {
             protectedAccess.launch(player) { eventBus.publish(this, ap) }
         }

@@ -2,9 +2,17 @@ package org.rsmod.api.script
 
 import org.rsmod.api.player.events.interact.LocContentEvents
 import org.rsmod.api.player.events.interact.LocEvents
+import org.rsmod.api.player.events.interact.LocTContentEvents
+import org.rsmod.api.player.events.interact.LocTDefaultEvents
+import org.rsmod.api.player.events.interact.LocTEvents
+import org.rsmod.api.player.events.interact.LocUContentEvents
+import org.rsmod.api.player.events.interact.LocUDefaultEvents
+import org.rsmod.api.player.events.interact.LocUEvents
 import org.rsmod.api.player.protect.ProtectedAccess
+import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.loc.LocType
+import org.rsmod.game.type.obj.ObjType
 import org.rsmod.plugin.scripts.ScriptContext
 
 /* Op functions */
@@ -58,6 +66,51 @@ public fun ScriptContext.onOpLoc5(
     action: suspend ProtectedAccess.(LocContentEvents.Op5) -> Unit,
 ): Unit = onProtectedEvent(content.id, action)
 
+public fun ScriptContext.onOpLocT(
+    component: ComponentType,
+    action: suspend ProtectedAccess.(LocTDefaultEvents.Op) -> Unit,
+): Unit = onProtectedEvent(component.packed, action)
+
+public fun ScriptContext.onOpLocT(
+    type: LocType,
+    component: ComponentType,
+    action: suspend ProtectedAccess.(LocTEvents.Op) -> Unit,
+): Unit = onProtectedEvent((type.id.toLong() shl 32) or component.packed.toLong(), action)
+
+public fun ScriptContext.onOpLocT(
+    content: ContentGroupType,
+    component: ComponentType,
+    action: suspend ProtectedAccess.(LocTContentEvents.Op) -> Unit,
+): Unit = onProtectedEvent((content.id.toLong() shl 32) or component.packed.toLong(), action)
+
+public fun ScriptContext.onOpLocU(
+    type: LocType,
+    action: suspend ProtectedAccess.(LocUDefaultEvents.OpType) -> Unit,
+): Unit = onProtectedEvent(type.id, action)
+
+public fun ScriptContext.onOpLocU(
+    content: ContentGroupType,
+    action: suspend ProtectedAccess.(LocUDefaultEvents.OpContent) -> Unit,
+): Unit = onProtectedEvent(content.id, action)
+
+public fun ScriptContext.onOpLocU(
+    type: LocType,
+    objType: ObjType,
+    action: suspend ProtectedAccess.(LocUEvents.Op) -> Unit,
+): Unit = onProtectedEvent((type.id.toLong() shl 32) or objType.id.toLong(), action)
+
+public fun ScriptContext.onOpLocU(
+    content: ContentGroupType,
+    objType: ObjType,
+    action: suspend ProtectedAccess.(LocUContentEvents.OpType) -> Unit,
+): Unit = onProtectedEvent((content.id.toLong() shl 32) or objType.id.toLong(), action)
+
+public fun ScriptContext.onOpLocU(
+    locContent: ContentGroupType,
+    objContent: ContentGroupType,
+    action: suspend ProtectedAccess.(LocUContentEvents.OpContent) -> Unit,
+): Unit = onProtectedEvent((locContent.id.toLong() shl 32) or objContent.id.toLong(), action)
+
 /* Ap functions */
 public fun ScriptContext.onApLoc1(
     type: LocType,
@@ -108,3 +161,48 @@ public fun ScriptContext.onApLoc5(
     content: ContentGroupType,
     action: suspend ProtectedAccess.(LocContentEvents.Ap5) -> Unit,
 ): Unit = onProtectedEvent(content.id, action)
+
+public fun ScriptContext.onApLocT(
+    component: ComponentType,
+    action: suspend ProtectedAccess.(LocTDefaultEvents.Ap) -> Unit,
+): Unit = onProtectedEvent(component.packed, action)
+
+public fun ScriptContext.onApLocT(
+    type: LocType,
+    component: ComponentType,
+    action: suspend ProtectedAccess.(LocTEvents.Ap) -> Unit,
+): Unit = onProtectedEvent((type.id.toLong() shl 32) or component.packed.toLong(), action)
+
+public fun ScriptContext.onApLocT(
+    content: ContentGroupType,
+    component: ComponentType,
+    action: suspend ProtectedAccess.(LocTContentEvents.Ap) -> Unit,
+): Unit = onProtectedEvent((content.id.toLong() shl 32) or component.packed.toLong(), action)
+
+public fun ScriptContext.onApLocU(
+    type: LocType,
+    action: suspend ProtectedAccess.(LocUDefaultEvents.ApType) -> Unit,
+): Unit = onProtectedEvent(type.id, action)
+
+public fun ScriptContext.onApLocU(
+    content: ContentGroupType,
+    action: suspend ProtectedAccess.(LocUDefaultEvents.ApContent) -> Unit,
+): Unit = onProtectedEvent(content.id, action)
+
+public fun ScriptContext.onApLocU(
+    type: LocType,
+    objType: ObjType,
+    action: suspend ProtectedAccess.(LocUEvents.Ap) -> Unit,
+): Unit = onProtectedEvent((type.id.toLong() shl 32) or objType.id.toLong(), action)
+
+public fun ScriptContext.onApLocU(
+    content: ContentGroupType,
+    objType: ObjType,
+    action: suspend ProtectedAccess.(LocUContentEvents.ApType) -> Unit,
+): Unit = onProtectedEvent((content.id.toLong() shl 32) or objType.id.toLong(), action)
+
+public fun ScriptContext.onApLocU(
+    locContent: ContentGroupType,
+    objContent: ContentGroupType,
+    action: suspend ProtectedAccess.(LocUContentEvents.ApContent) -> Unit,
+): Unit = onProtectedEvent((locContent.id.toLong() shl 32) or objContent.id.toLong(), action)
