@@ -18,6 +18,7 @@ import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.interact.Interaction
 import org.rsmod.game.interact.InteractionLoc
+import org.rsmod.game.interact.InteractionLocOp
 import org.rsmod.game.interact.InteractionNpc
 import org.rsmod.game.interact.InteractionNpcOp
 import org.rsmod.game.interact.InteractionNpcT
@@ -186,7 +187,7 @@ constructor(
 
     private fun Player.triggerOp(interaction: Interaction): Unit =
         when (interaction) {
-            is InteractionLoc -> triggerOp(this, interaction)
+            is InteractionLocOp -> triggerOp(this, interaction)
             is InteractionNpcOp -> triggerOp(this, interaction)
             is InteractionNpcT -> triggerOp(this, interaction)
             is InteractionObj -> triggerOp(this, interaction)
@@ -194,7 +195,7 @@ constructor(
 
     private fun Player.triggerAp(interaction: Interaction): Unit =
         when (interaction) {
-            is InteractionLoc -> triggerAp(this, interaction)
+            is InteractionLocOp -> triggerAp(this, interaction)
             is InteractionNpcOp -> triggerAp(this, interaction)
             is InteractionNpcT -> triggerAp(this, interaction)
             is InteractionObj -> triggerAp(this, interaction)
@@ -336,7 +337,7 @@ constructor(
     }
 
     /* Interaction event launch functions */
-    public fun triggerOp(player: Player, interaction: InteractionLoc) {
+    public fun triggerOp(player: Player, interaction: InteractionLocOp) {
         val loc = interaction.target
         val op = locInteractions.opTrigger(player, loc, interaction.op)
         if (op != null) {
@@ -344,7 +345,7 @@ constructor(
         }
     }
 
-    public fun triggerAp(player: Player, interaction: InteractionLoc) {
+    public fun triggerAp(player: Player, interaction: InteractionLocOp) {
         val loc = interaction.target
         val ap = locInteractions.apTrigger(player, loc, interaction.op)
         if (ap != null) {

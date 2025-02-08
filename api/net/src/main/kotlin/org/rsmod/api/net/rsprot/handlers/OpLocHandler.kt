@@ -9,7 +9,7 @@ import org.rsmod.api.player.vars.ctrlMoveSpeed
 import org.rsmod.api.registry.loc.LocRegistry
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
-import org.rsmod.game.interact.InteractionLoc
+import org.rsmod.game.interact.InteractionLocOp
 import org.rsmod.game.interact.InteractionOp
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.movement.RouteRequestLoc
@@ -49,7 +49,7 @@ constructor(
         val opTrigger = locInteractions.hasOpTrigger(player, boundLoc, message.interactionOp, type)
         val apTrigger = locInteractions.hasApTrigger(player, boundLoc, message.interactionOp, type)
         val interaction =
-            InteractionLoc(
+            InteractionLocOp(
                 target = boundLoc,
                 op = message.interactionOp,
                 hasOpTrigger = opTrigger,

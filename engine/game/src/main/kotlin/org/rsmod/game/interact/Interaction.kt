@@ -26,14 +26,22 @@ public sealed class Interaction(
             ")"
 }
 
-public class InteractionLoc(
+public sealed class InteractionLoc(
     public val target: BoundLocInfo,
+    hasOpTrigger: Boolean,
+    hasApTrigger: Boolean,
+    startApRange: Int,
+    persistent: Boolean,
+) : Interaction(hasOpTrigger, hasApTrigger, startApRange, persistent)
+
+public class InteractionLocOp(
     public val op: InteractionOp,
+    target: BoundLocInfo,
     hasOpTrigger: Boolean,
     hasApTrigger: Boolean,
     startApRange: Int = PathingEntity.DEFAULT_AP_RANGE,
     persistent: Boolean = false,
-) : Interaction(hasOpTrigger, hasApTrigger, startApRange, persistent)
+) : InteractionLoc(target, hasOpTrigger, hasApTrigger, startApRange, persistent)
 
 public sealed class InteractionNpc(
     public val target: Npc,

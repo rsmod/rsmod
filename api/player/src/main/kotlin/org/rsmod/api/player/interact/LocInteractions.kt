@@ -11,7 +11,7 @@ import org.rsmod.api.player.output.clearMapFlag
 import org.rsmod.api.player.protect.clearPendingAction
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
-import org.rsmod.game.interact.InteractionLoc
+import org.rsmod.game.interact.InteractionLocOp
 import org.rsmod.game.interact.InteractionOp
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.loc.LocEntity
@@ -40,7 +40,7 @@ constructor(
         val opTrigger = hasOpTrigger(player, loc, op, type)
         val apTrigger = hasApTrigger(player, loc, op, type)
         val interaction =
-            InteractionLoc(
+            InteractionLocOp(
                 target = loc,
                 op = op,
                 hasOpTrigger = opTrigger,
