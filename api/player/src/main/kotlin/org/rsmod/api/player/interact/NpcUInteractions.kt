@@ -24,7 +24,7 @@ import org.rsmod.game.type.varp.VarpTypeList
 import org.rsmod.game.vars.VarPlayerIntMap
 import org.rsmod.utils.bits.getBits
 
-public class HeldUInteractions
+public class NpcUInteractions
 @Inject
 private constructor(
     private val eventBus: EventBus,
@@ -45,11 +45,11 @@ private constructor(
     ) {
         val obj = inv[invSlot]
         if (objectVerify(inv, obj, objType)) {
-            access.opHeldU(target, invSlot, npcType, objType)
+            access.opNpcU(target, invSlot, npcType, objType)
         }
     }
 
-    private suspend fun ProtectedAccess.opHeldU(
+    private suspend fun ProtectedAccess.opNpcU(
         target: Npc,
         invSlot: Int,
         npcType: UnpackedNpcType,
@@ -62,7 +62,7 @@ private constructor(
         }
         mes(constants.dm_default)
         logger.debug {
-            "opHeldU for `${objType.name}` on `${npcType.name}` is not implemented: " +
+            "opNpcU for `${objType.name}` on `${npcType.name}` is not implemented: " +
                 "npcType=$npcType, objType=$objType"
         }
     }
@@ -115,11 +115,11 @@ private constructor(
     ) {
         val obj = inv[invSlot]
         if (objectVerify(inv, obj, objType)) {
-            access.apHeldU(target, invSlot, objType)
+            access.apNpcU(target, invSlot, objType)
         }
     }
 
-    private suspend fun ProtectedAccess.apHeldU(
+    private suspend fun ProtectedAccess.apNpcU(
         target: Npc,
         invSlot: Int,
         objType: UnpackedObjType,
@@ -171,14 +171,6 @@ private constructor(
         return null
     }
 
-    private fun objectVerify(inv: Inventory, obj: InvObj?, type: UnpackedObjType): Boolean {
-        if (obj == null || !obj.isType(type)) {
-            resendSlot(inv, 0)
-            return false
-        }
-        return true
-    }
-
     public fun multiNpc(type: UnpackedNpcType, vars: VarPlayerIntMap): UnpackedNpcType? {
         if (type.multiNpc.isEmpty() && type.multiNpcDefault <= 0) {
             return null
@@ -207,5 +199,13 @@ private constructor(
             return packed.getBits(varBit.bits)
         }
         return null
+    }
+
+    private fun objectVerify(inv: Inventory, obj: InvObj?, type: UnpackedObjType): Boolean {
+        if (obj == null || !obj.isType(type)) {
+            resendSlot(inv, 0)
+            return false
+        }
+        return true
     }
 }
