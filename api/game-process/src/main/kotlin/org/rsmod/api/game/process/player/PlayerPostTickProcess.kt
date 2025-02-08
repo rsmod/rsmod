@@ -18,12 +18,14 @@ constructor(
     private val playerList: PlayerList,
     private val playerRegistry: PlayerRegistry,
     private val zoneUpdates: PlayerZoneUpdateProcessor,
+    private val invUpdates: PlayerInvUpdateProcess,
 ) {
     private val logger = InlineLogger()
 
     public fun process() {
         updateZoneRegistry()
         sendZoneUpdates()
+        updateTransmittedInvs()
         finalizePostTick()
     }
 
@@ -49,6 +51,10 @@ constructor(
         }
         zoneUpdates.clearEnclosedBuffers()
         zoneUpdates.clearPendingZoneUpdates()
+    }
+
+    private fun updateTransmittedInvs() {
+        invUpdates.process()
     }
 
     private fun finalizePostTick() {
