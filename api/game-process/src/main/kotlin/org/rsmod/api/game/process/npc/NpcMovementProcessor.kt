@@ -93,12 +93,6 @@ constructor(private val collision: CollisionFlagMap, private val stepFactory: St
         return stepCount
     }
 
-    private fun Npc.resetMovement() {
-        moveSpeed = MoveSpeed.Stationary
-        abortRoute()
-        clearInteraction()
-    }
-
     private fun Npc.addBlockWalkCollision(coords: CoordGrid) {
         addBlockWalkCollision(collision, coords)
     }

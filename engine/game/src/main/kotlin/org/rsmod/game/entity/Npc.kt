@@ -122,6 +122,12 @@ public class Npc(
         mode = null
     }
 
+    public fun resetMovement() {
+        moveSpeed = MoveSpeed.Stationary
+        abortRoute()
+        clearInteraction()
+    }
+
     override fun anim(seq: SeqType, delay: Int, priority: Int) {
         val setSequence = PathingEntityCommon.anim(this, seq, delay, priority)
         if (!setSequence) {
@@ -183,16 +189,22 @@ public class Npc(
         }
 
     public fun playerEscape(target: Player) {
+        resetMovement()
+
         mode = NpcMode.PlayerEscape
         facePlayer(target)
     }
 
     public fun playerFaceClose(target: Player) {
+        resetMovement()
+
         mode = NpcMode.PlayerFaceClose
         facePlayer(target)
     }
 
     public fun playerFace(target: Player) {
+        resetMovement()
+
         mode = NpcMode.PlayerFace
         facePlayer(target)
     }
