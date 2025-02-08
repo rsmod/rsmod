@@ -11,7 +11,16 @@ internal typealias cow_npcs = CowNpcs
 internal typealias cow_queues = CowQueues
 
 object CowNpcs : NpcReferences() {
-    val gillie_groats = find("gillie_groats")
+    init {
+        verify("cow_id_2790", 9193767768860587607)
+        verify("cow_id_2791", 9193767768860587608)
+        verify("cow_id_2793", 9193767768860587610)
+        verify("cow_id_2795", 9193767768860587612)
+        verify("cow_calf_id_2792", 7110258909547774718)
+        verify("cow_calf_id_2794", 7110258909547774720)
+    }
+
+    val gillie_groats = find("gillie_groats", 1639192872950274564)
 }
 
 object CowQueues : QueueReferences() {
@@ -30,9 +39,21 @@ internal object CowNpcEdits : NpcEditor() {
         cow("cow_id_2791")
         cow("cow_id_2793")
         cow("cow_id_2795")
+        calf("cow_calf_id_2792")
+        calf("cow_calf_id_2794")
     }
 
     private fun cow(internal: String) {
-        edit(internal) { contentGroup = content.cow }
+        edit(internal) {
+            contentGroup = content.cow
+            timer = 1
+        }
+    }
+
+    private fun calf(internal: String) {
+        edit(internal) {
+            contentGroup = content.cow_calf
+            timer = 1
+        }
     }
 }
