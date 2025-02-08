@@ -13,6 +13,7 @@ import org.rsmod.api.invtx.invAdd
 import org.rsmod.api.invtx.invAddAll
 import org.rsmod.api.invtx.invAddOrDrop
 import org.rsmod.api.invtx.invClear
+import org.rsmod.api.invtx.invCompress
 import org.rsmod.api.invtx.invMoveAll
 import org.rsmod.api.invtx.invSwap
 import org.rsmod.api.invtx.invTakeFee
@@ -725,6 +726,9 @@ public class ProtectedAccess(
             uncert = uncert,
             autoCommit = autoCommit,
         )
+
+    public fun invCompress(inventory: Inventory): TransactionResultList<InvObj> =
+        player.invCompress(inventory)
 
     public fun invClear(inventory: Inventory) {
         player.invClear(inventory)

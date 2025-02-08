@@ -4,7 +4,6 @@ import jakarta.inject.Inject
 import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.interfaces
 import org.rsmod.api.config.refs.invs
-import org.rsmod.api.invtx.invCompress
 import org.rsmod.api.player.combat.WeaponSpeeds
 import org.rsmod.api.player.combat.WornBonuses
 import org.rsmod.api.player.output.ClientScripts.mesLayerClose
@@ -22,6 +21,7 @@ import org.rsmod.content.interfaces.bank.configs.bank_components
 import org.rsmod.content.interfaces.bank.configs.bank_comsubs
 import org.rsmod.content.interfaces.bank.configs.bank_constants
 import org.rsmod.content.interfaces.bank.configs.bank_interfaces
+import org.rsmod.content.interfaces.bank.configs.bank_queues
 import org.rsmod.content.interfaces.bank.configs.bank_varbits
 import org.rsmod.content.interfaces.bank.disableIfEvents
 import org.rsmod.content.interfaces.bank.highlightNoClickClear
@@ -65,7 +65,6 @@ constructor(
         if (!disableIfEvents) {
             val capacityIncrease = bank_constants.purchasable_capacity
             withdrawCert = false
-            invCompress(bank)
             setBanksideExtraOps(objTypes)
             setBankIfEvents()
             setBankWornBonuses(wornBonuses, weaponSpeeds)
@@ -88,6 +87,7 @@ constructor(
         if (!ui.containsOverlay(bank_interfaces.tutorial_overlay)) {
             highlightNoClickClear()
         }
+        queue(bank_queues.bank_compress, 1)
     }
 
     private fun Player.setBankIfEvents() {

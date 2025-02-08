@@ -25,6 +25,7 @@ import org.rsmod.api.player.worn.WornUnequipOp
 import org.rsmod.api.player.worn.WornUnequipResult
 import org.rsmod.api.script.onIfModalButton
 import org.rsmod.api.script.onIfModalDrag
+import org.rsmod.api.script.onPlayerQueue
 import org.rsmod.content.interfaces.bank.BankTab
 import org.rsmod.content.interfaces.bank.QuantityMode
 import org.rsmod.content.interfaces.bank.alwaysPlacehold
@@ -33,6 +34,7 @@ import org.rsmod.content.interfaces.bank.configs.bank_components
 import org.rsmod.content.interfaces.bank.configs.bank_comsubs
 import org.rsmod.content.interfaces.bank.configs.bank_enums
 import org.rsmod.content.interfaces.bank.configs.bank_objs
+import org.rsmod.content.interfaces.bank.configs.bank_queues
 import org.rsmod.content.interfaces.bank.insertMode
 import org.rsmod.content.interfaces.bank.lastQtyInput
 import org.rsmod.content.interfaces.bank.leftClickQtyMode
@@ -100,6 +102,8 @@ constructor(
         for ((slot, component) in wornComponents) {
             onIfModalButton(component) { wornOp(slot, it.op) }
         }
+
+        onPlayerQueue(bank_queues.bank_compress) { compressBank() }
     }
 
     private suspend fun ProtectedAccess.mainInvOp(slot: Int, op: IfButtonOp) {
@@ -1044,6 +1048,14 @@ constructor(
             val next = BankTab.tabs.getOrNull(index + 1)
             val nextSize = next?.occupiedSpace(this) ?: 0
             vars[curr.sizeVarBit] = nextSize
+        }
+    }
+
+    private fun ProtectedAccess.compressBank() {
+        for (tab in BankTab.entries) {
+            val slots = tab.slotRange(this)
+            compressTabObjs(tab)
+            trimGapsAndReturnTrailingGaps(slots)
         }
     }
 
