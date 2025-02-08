@@ -22,7 +22,7 @@ class Ducks @Inject constructor(private val random: GameRandom, private val npcL
 
     private fun Npc.duckTimer() {
         setNextTimer()
-        queue(queues.generic_queue1, 0)
+        queue(queues.generic_queue1, 1)
     }
 
     private fun Npc.duckSay() {

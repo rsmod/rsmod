@@ -55,10 +55,12 @@ public class Controller(public val coords: CoordGrid, public val type: Controlle
     }
 
     public fun timer(timer: TimerType, cycles: Int) {
+        require(cycles > 0) { "`cycles` must be greater than 0. (cycles=$cycles)" }
         timerMap[timer] = currentMapClock + cycles
     }
 
     public fun queue(queue: QueueType, cycles: Int, args: Any? = null) {
+        require(cycles > 0) { "`cycles` must be greater than 0. (cycles=$cycles)" }
         queueList.add(queue, cycles, args)
     }
 

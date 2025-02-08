@@ -134,34 +134,42 @@ public class Player(
         get() = !shouldHaltMovement
 
     public fun timer(timer: TimerType, cycles: Int) {
+        require(cycles > 0) { "`cycles` must be greater than 0. (cycles=$cycles)" }
         timerMap[timer] = currentMapClock + cycles
     }
 
     public fun softTimer(timer: TimerType, cycles: Int) {
+        require(cycles > 0) { "`cycles` must be greater than 0. (cycles=$cycles)" }
         softTimerMap[timer] = currentMapClock + cycles
     }
 
     public fun weakQueue(queue: QueueType, cycles: Int, args: Any? = null) {
+        require(cycles > 0) { "`cycles` must be greater than 0. (cycles=$cycles)" }
         weakQueueList.add(queue, QueueCategory.Weak, cycles, args)
     }
 
     public fun softQueue(queue: QueueType, cycles: Int, args: Any? = null) {
+        require(cycles > 0) { "`cycles` must be greater than 0. (cycles=$cycles)" }
         queueList.add(queue, QueueCategory.Soft, cycles, args)
     }
 
     public fun queue(queue: QueueType, cycles: Int, args: Any? = null) {
+        require(cycles > 0) { "`cycles` must be greater than 0. (cycles=$cycles)" }
         queueList.add(queue, QueueCategory.Normal, cycles, args)
     }
 
     public fun strongQueue(queue: QueueType, cycles: Int, args: Any? = null) {
+        require(cycles > 0) { "`cycles` must be greater than 0. (cycles=$cycles)" }
         queueList.add(queue, QueueCategory.Strong, cycles, args)
     }
 
     public fun longQueueAccelerate(queue: QueueType, cycles: Int, args: Any? = null) {
+        require(cycles > 0) { "`cycles` must be greater than 0. (cycles=$cycles)" }
         queueList.add(queue, QueueCategory.LongAccelerate, cycles, args)
     }
 
     public fun longQueueDiscard(queue: QueueType, cycles: Int, args: Any? = null) {
+        require(cycles > 0) { "`cycles` must be greater than 0. (cycles=$cycles)" }
         queueList.add(queue, QueueCategory.LongDiscard, cycles, args)
     }
 
