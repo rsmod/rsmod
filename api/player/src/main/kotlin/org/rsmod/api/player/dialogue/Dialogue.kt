@@ -288,6 +288,8 @@ public class Dialogue(
 
     public fun ocCert(type: ObjType): UnpackedObjType = access.ocCert(type)
 
+    public fun ocUncert(type: ObjType): UnpackedObjType = access.ocUncert(type)
+
     private fun lineHeight(lineCount: Int): Int = alignment.lineHeight(lineCount)
 
     private fun resolveNpcVisName(): String {

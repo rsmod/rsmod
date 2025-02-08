@@ -12,12 +12,16 @@ import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.script.onApNpc1
 import org.rsmod.api.script.onApNpc3
 import org.rsmod.api.script.onApNpc4
+import org.rsmod.api.script.onApNpcU
 import org.rsmod.api.script.onOpNpc1
 import org.rsmod.api.script.onOpNpc3
 import org.rsmod.api.script.onOpNpc4
+import org.rsmod.api.script.onOpNpcU
 import org.rsmod.api.utils.format.formatAmount
 import org.rsmod.content.interfaces.bank.scripts.BankTutorialScript
 import org.rsmod.game.entity.Npc
+import org.rsmod.game.obj.isType
+import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.type.util.EnumTypeMapResolver
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
@@ -37,6 +41,8 @@ private constructor(
         onOpNpc3(content.banker) { openBank() }
         onApNpc1(content.banker) { apTalkToBanker(it.npc) }
         onOpNpc1(content.banker) { talkToBanker(it.npc) }
+        onApNpcU(content.banker) { apBanknote(it.npc, it.invSlot, it.objType) }
+        onOpNpcU(content.banker) { banknote(it.npc, it.invSlot, it.objType) }
 
         onApNpc4(content.banker_tutor) { apOpenCollectionBox(it.npc) }
         onOpNpc4(content.banker_tutor) { openCollectionBox() }
@@ -44,6 +50,8 @@ private constructor(
         onOpNpc3(content.banker_tutor) { openBank() }
         onApNpc1(content.banker_tutor) { apTalkToBanker(it.npc) }
         onOpNpc1(content.banker_tutor) { talkToBanker(it.npc) }
+        onApNpcU(content.banker_tutor) { apBanknote(it.npc, it.invSlot, it.objType) }
+        onOpNpcU(content.banker_tutor) { banknote(it.npc, it.invSlot, it.objType) }
 
         spaceShop.startUp()
     }
@@ -572,6 +580,54 @@ private constructor(
 
     private suspend fun Dialogue.goodbye() {
         chatPlayer(neutral, "Goodbye.")
+    }
+
+    private suspend fun ProtectedAccess.apBanknote(
+        npc: Npc,
+        invSlot: Int,
+        objType: UnpackedObjType,
+    ) {
+        if (isWithinApRange(npc, 3)) {
+            banknote(npc, invSlot, objType)
+        }
+    }
+
+    private suspend fun ProtectedAccess.banknote(npc: Npc, invSlot: Int, objType: UnpackedObjType) {
+        if (!objType.isCert) {
+            startDialogue(npc) {
+                chatNpcNoTurn(sad, "Hand me a banknote, and I'll try to convert it to an item.")
+            }
+            return
+        }
+
+        if (inv.isFull()) {
+            startDialogue(npc) { chatNpcNoTurn(sad, "You don't have any inventory space.") }
+            return
+        }
+
+        startDialogue(npc) {
+            val confirmation = choice2("Yes", true, "No", false, "Un-note the banknote?")
+            if (!confirmation) {
+                return@startDialogue
+            }
+
+            val invObj = inv[invSlot]
+            check(invObj.isType(objType)) {
+                "Unexpected `invObj` when un-certifying! (found=$invObj, expectedType=$objType)"
+            }
+
+            val count = min(inv.freeSpace(), invObj.count)
+            if (count == 0) {
+                chatNpcNoTurn(sad, "You don't have any inventory space.")
+                return@startDialogue
+            }
+
+            val uncert = ocUncert(objType)
+            val replace = invReplace(inv, invSlot, count, uncert)
+            if (replace.success) {
+                objbox(uncert, 400, "The bank exchanges your banknote for an item.")
+            }
+        }
     }
 
     private companion object {
