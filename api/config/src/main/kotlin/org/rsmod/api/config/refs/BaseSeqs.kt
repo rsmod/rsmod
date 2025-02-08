@@ -18,6 +18,7 @@ object BaseSeqs : SeqReferences() {
     val human_reachforladddertop = find("human_reachforladddertop", 982512216732930687)
     val human_pickuptable = find("human_pickuptable", 7332159705071832323)
     val human_shearing = find("human_shearing", 5700197172625948143)
+    val human_milk_cow = find("human_milk_cow", 3527024827524784812)
     val human_throwtab = find("human_throwtab", 8066743482506738162)
     val human_tabtele = find("human_tabtele", 740696326631236985)
 

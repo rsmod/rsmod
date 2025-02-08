@@ -50,6 +50,7 @@ object BaseObjs : ObjReferences() {
     val shears = find("shears")
     val knife = find("knife")
     val bucket_empty = find("bucket_empty")
+    val bucket_of_milk = find("bucket_of_milk")
     val pack_bucket = find("pack_bucket")
     val bowl_empty = find("bowl_empty")
     val cake_tin = find("cake_tin")

@@ -13,6 +13,7 @@ import org.rsmod.game.inv.Inventory
 import org.rsmod.game.obj.InvObj
 import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.mesanim.MesAnimType
+import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.npc.UnpackedNpcType
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.UnpackedObjType
@@ -178,12 +179,17 @@ public class Dialogue(
         }
     }
 
-    public suspend fun chatNpcSpecific(title: String, mesanim: MesAnimType, text: String) {
+    public suspend fun chatNpcSpecific(
+        title: String,
+        type: NpcType,
+        mesanim: MesAnimType,
+        text: String,
+    ) {
         val pages = alignment.generatePageList(text)
         for (page in pages) {
             val (pgText, lineCount) = page
             val lineHeight = lineHeight(lineCount)
-            access.chatNpcSpecific(title, resolvedNpc.type, pgText, mesanim, lineCount, lineHeight)
+            access.chatNpcSpecific(title, type, pgText, mesanim, lineCount, lineHeight)
         }
     }
 

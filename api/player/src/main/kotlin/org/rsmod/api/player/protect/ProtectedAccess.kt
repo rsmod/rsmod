@@ -14,6 +14,7 @@ import org.rsmod.api.invtx.invAddAll
 import org.rsmod.api.invtx.invAddOrDrop
 import org.rsmod.api.invtx.invClear
 import org.rsmod.api.invtx.invCompress
+import org.rsmod.api.invtx.invDel
 import org.rsmod.api.invtx.invMoveAll
 import org.rsmod.api.invtx.invSwap
 import org.rsmod.api.invtx.invTakeFee
@@ -116,6 +117,7 @@ import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.type.param.ParamType
+import org.rsmod.game.type.queue.QueueType
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.seq.SeqTypeList
 import org.rsmod.game.type.seq.UnpackedSeqType
@@ -576,6 +578,55 @@ public class ProtectedAccess(
         inv: Inventory = this.inv,
     ): Boolean = player.invAddOrDrop(repo, obj, count, coords = coords, inv = inv)
 
+    public fun invDel(
+        inv: Inventory,
+        type: ObjType,
+        count: Int = 1,
+        slot: Int? = null,
+        strict: Boolean = true,
+        autoCommit: Boolean = true,
+    ): TransactionResultList<InvObj> =
+        player.invDel(
+            inv = inv,
+            type = type,
+            count = count,
+            slot = slot,
+            strict = strict,
+            autoCommit = autoCommit,
+        )
+
+    /**
+     * This transaction will remove the first found inv obj associated with [replace] based on their
+     * slot.
+     *
+     * If [count] amount of the inv obj could not be deleted, this transaction will fail.
+     *
+     * _Note: This function will add the [replacement] obj in the first empty and valid slot._
+     */
+    public fun invReplace(
+        inv: Inventory,
+        replace: ObjType,
+        count: Int,
+        replacement: ObjType,
+        vars: Int = 0,
+        autoCommit: Boolean = true,
+    ): TransactionResultList<InvObj> {
+        return player.invTransaction(inv, autoCommit) {
+            val fromInv = select(inv)
+            delete {
+                this.from = fromInv
+                this.obj = replace.id
+                this.strictCount = count
+            }
+            insert {
+                this.into = fromInv
+                this.obj = replacement.id
+                this.strictCount = count
+                this.vars = vars
+            }
+        }
+    }
+
     /**
      * This transaction will remove the inv obj occupying slot [slot], resulting in failure if there
      * is no obj in said `slot`, or if there are any other implicit transaction errors.
@@ -913,6 +964,30 @@ public class ProtectedAccess(
 
     public fun softTimer(timerType: TimerType, cycles: Int) {
         player.softTimer(timerType, cycles)
+    }
+
+    public fun weakQueue(queue: QueueType, cycles: Int, args: Any? = null) {
+        player.weakQueue(queue, cycles, args)
+    }
+
+    public fun softQueue(queue: QueueType, cycles: Int, args: Any? = null) {
+        player.softQueue(queue, cycles, args)
+    }
+
+    public fun queue(queue: QueueType, cycles: Int, args: Any? = null) {
+        player.queue(queue, cycles, args)
+    }
+
+    public fun strongQueue(queue: QueueType, cycles: Int, args: Any? = null) {
+        player.strongQueue(queue, cycles, args)
+    }
+
+    public fun longQueueAccelerate(queue: QueueType, cycles: Int, args: Any? = null) {
+        player.longQueueAccelerate(queue, cycles, args)
+    }
+
+    public fun longQueueDiscard(queue: QueueType, cycles: Int, args: Any? = null) {
+        player.longQueueDiscard(queue, cycles, args)
     }
 
     public fun clearPendingAction(eventBus: EventBus = context.eventBus) {

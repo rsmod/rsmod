@@ -50,4 +50,6 @@ object BaseContent : ContentReferences() {
     val banker_tutor = find("banker_tutor")
     val sheep = find("sheep")
     val sheared_sheep = find("sheared_sheep")
+    val cow = find("cow")
+    val dairy_cow = find("dairy_cow")
 }
