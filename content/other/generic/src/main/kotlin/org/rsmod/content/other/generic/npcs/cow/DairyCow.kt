@@ -11,6 +11,7 @@ import org.rsmod.api.script.onOpLoc2
 import org.rsmod.api.script.onOpLocU
 import org.rsmod.api.script.onPlayerQueue
 import org.rsmod.game.loc.BoundLocInfo
+import org.rsmod.map.CoordGrid
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
@@ -28,7 +29,11 @@ class DairyCow : PluginScript() {
         arriveDelay()
         faceSquare(loc.coords)
         if (objs.bucket_empty !in inv) {
-            startDialogue { noBucket() }
+            if (loc.coords.isNearGillie()) {
+                startDialogue { noBucket() }
+            } else {
+                mes("You'll need an empty bucket to collect the milk.")
+            }
             return
         }
         weakQueue(cow_queues.milk, 2)
@@ -75,5 +80,9 @@ class DairyCow : PluginScript() {
         arriveDelay()
         faceSquare(loc.coords)
         mesbox("You need to have started the Cold War quest to attempt this.", lineHeight = 0)
+    }
+
+    private fun CoordGrid.isNearGillie(): Boolean {
+        return this == CoordGrid(0, 50, 51, 54, 8) || this == CoordGrid(0, 50, 51, 52, 11)
     }
 }
