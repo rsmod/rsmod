@@ -189,13 +189,15 @@ public class NpcUDefaultEvents {
         public val npc: Npc,
         public val invSlot: Int,
         public val objType: UnpackedObjType,
-    ) : OpEvent(npc.id.toLong())
+        npcType: UnpackedNpcType,
+    ) : OpEvent(npcType.id.toLong())
 
     public class ApType(
         public val npc: Npc,
         public val invSlot: Int,
         public val objType: UnpackedObjType,
-    ) : ApEvent(npc.id.toLong())
+        npcType: UnpackedNpcType,
+    ) : ApEvent(npcType.id.toLong())
 
     public class OpContent(
         public val npc: Npc,

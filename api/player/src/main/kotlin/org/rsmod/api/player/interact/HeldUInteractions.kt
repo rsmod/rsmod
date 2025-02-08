@@ -93,7 +93,7 @@ private constructor(
             return groupScript
         }
 
-        val defaultTypeScript = NpcUDefaultEvents.OpType(target, invSlot, objType)
+        val defaultTypeScript = NpcUDefaultEvents.OpType(target, invSlot, objType, npcType)
         if (eventBus.contains(defaultTypeScript::class.java, defaultTypeScript.id)) {
             return defaultTypeScript
         }
@@ -158,7 +158,7 @@ private constructor(
             return groupScript
         }
 
-        val defaultTypeScript = NpcUDefaultEvents.ApType(target, invSlot, objType)
+        val defaultTypeScript = NpcUDefaultEvents.ApType(target, invSlot, objType, npcType)
         if (eventBus.contains(defaultTypeScript::class.java, defaultTypeScript.id)) {
             return defaultTypeScript
         }
