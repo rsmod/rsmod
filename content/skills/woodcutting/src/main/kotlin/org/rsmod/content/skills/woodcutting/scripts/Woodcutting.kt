@@ -23,6 +23,7 @@ import org.rsmod.api.repo.player.PlayerRepository
 import org.rsmod.api.script.onAiConTimer
 import org.rsmod.api.script.onOpLoc1
 import org.rsmod.api.script.onOpLoc3
+import org.rsmod.api.script.onOpLocU
 import org.rsmod.api.stats.levelmod.InvisibleLevels
 import org.rsmod.api.stats.xpmod.XpModifiers
 import org.rsmod.content.skills.woodcutting.configs.WoodcuttingParams
@@ -64,6 +65,7 @@ constructor(
     override fun ScriptContext.startUp() {
         onOpLoc1(content.tree) { attempt(it.bound, it.type) }
         onOpLoc3(content.tree) { cut(it.bound, it.type) }
+        onOpLocU(content.tree, content.woodcutting_axe) { cut(it.bound, it.type) }
         onAiConTimer(controllers.woodcutting_tree_duration) { controller.treeDespawnTick() }
     }
 

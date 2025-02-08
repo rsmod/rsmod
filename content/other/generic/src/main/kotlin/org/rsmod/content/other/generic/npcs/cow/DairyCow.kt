@@ -8,6 +8,7 @@ import org.rsmod.api.player.dialogue.Dialogue
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.script.onOpLoc1
 import org.rsmod.api.script.onOpLoc2
+import org.rsmod.api.script.onOpLocU
 import org.rsmod.api.script.onPlayerQueue
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.plugin.scripts.PluginScript
@@ -17,6 +18,9 @@ class DairyCow : PluginScript() {
     override fun ScriptContext.startUp() {
         onOpLoc1(content.dairy_cow) { attemptMilkingCow(it.bound) }
         onOpLoc2(content.dairy_cow) { stealCowbell(it.bound) }
+        onOpLocU(content.dairy_cow) { mes("The cow doesn't want that.") }
+        onOpLocU(content.dairy_cow, objs.bucket_empty) { attemptMilkingCow(it.bound) }
+
         onPlayerQueue(cow_queues.milk) { milkCow() }
     }
 
