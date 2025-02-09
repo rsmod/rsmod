@@ -55,7 +55,7 @@ constructor(
             mes("You need a set of shears to do this.")
             return
         }
-        val sheared = npc.visType.param(params.next_npc_stage)
+        val sheared = npcParam(npc, params.next_npc_stage)
         anim(seqs.human_shearing)
         soundSynth(synths.shear_sheep, delay = 10)
         delay(1)

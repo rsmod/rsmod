@@ -1724,7 +1724,19 @@ public class ProtectedAccess(
         )
     }
 
-    /* Npc helper functions */
+    /* Npc helper functions (nc=npc config) */
+    public fun <T : Any> ncParam(
+        type: NpcType,
+        param: ParamType<T>,
+        npcTypes: NpcTypeList = context.npcTypes,
+    ): T = npcTypes[type].param(param)
+
+    public fun <T : Any> ncParamOrNull(
+        type: NpcType,
+        param: ParamType<T>,
+        npcTypes: NpcTypeList = context.npcTypes,
+    ): T? = npcTypes[type].paramOrNull(param)
+
     public fun npcPlayerFaceClose(npc: Npc, target: Player = this.player) {
         npc.playerFaceClose(target)
     }
@@ -1753,6 +1765,27 @@ public class ProtectedAccess(
         val multiNpc = interactions.multiNpc(currentType, player.vars)
         return multiNpc ?: currentType
     }
+
+    /**
+     * Retrieves the [param] value for the base [npc].
+     *
+     * _Note: This retrieves the parameter from the npc's **base** type, ignoring any multinpc or
+     * transmogrification effects._
+     *
+     * @throws IllegalStateException if npc type does not have an associated value for [param] and
+     *   [param] does not have a [ParamType.default] value.
+     */
+    public fun <T : Any> npcParam(npc: Npc, param: ParamType<T>): T = npc.type.param(param)
+
+    /**
+     * Retrieves the [param] value for the base [npc], or returns `null` if the npc's type lacks an
+     * associated value for [param] and [param] does not have a [ParamType.default] value.
+     *
+     * _Note: This retrieves the parameter from the npc's **base** type, ignoring any multinpc or
+     * transmogrification effects._
+     */
+    public fun <T : Any> npcParamOrNull(npc: Npc, param: ParamType<T>): T? =
+        npc.type.paramOrNull(param)
 
     /* Obj helper functions (oc=obj config) */
     public fun ocCert(type: ObjType, objTypes: ObjTypeList = context.objTypes): UnpackedObjType =
