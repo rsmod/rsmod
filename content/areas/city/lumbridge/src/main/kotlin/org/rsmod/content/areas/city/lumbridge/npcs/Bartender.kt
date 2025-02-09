@@ -32,7 +32,7 @@ class Bartender @Inject constructor(private val objRepo: ObjRepository) : Plugin
             return
         }
         delay(1)
-        move(dest)
+        playerMove(dest)
         faceEntitySquare(npc)
         startDialogue(npc)
     }

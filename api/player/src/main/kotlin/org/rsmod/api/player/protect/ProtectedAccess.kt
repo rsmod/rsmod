@@ -158,6 +158,11 @@ public class ProtectedAccess(
 
     private var opHeldCallCount = 0
 
+    public fun walk(dest: CoordGrid) {
+        player.abortRoute()
+        player.routeDestination.add(dest)
+    }
+
     /**
      * Queues a route towards [dest] and delays the player (suspending this call-site) based on the
      * distance to [dest] and the "step rate" of [MoveSpeed.Walk].
@@ -165,7 +170,7 @@ public class ProtectedAccess(
      * @throws ProtectedAccessLostException if the player could not retain protected access after
      *   the coroutine suspension.
      */
-    public suspend fun walk(dest: CoordGrid): Unit = move(dest, MoveSpeed.Walk)
+    public suspend fun playerWalk(dest: CoordGrid): Unit = playerMove(dest, MoveSpeed.Walk)
 
     /**
      * Queues a route towards [dest] and delays the player (suspending this call-site) based on the
@@ -174,7 +179,7 @@ public class ProtectedAccess(
      * @throws ProtectedAccessLostException if the player could not retain protected access after
      *   the coroutine suspension.
      */
-    public suspend fun run(dest: CoordGrid): Unit = move(dest, MoveSpeed.Run)
+    public suspend fun playerRun(dest: CoordGrid): Unit = playerMove(dest, MoveSpeed.Run)
 
     /**
      * Queues a route to [dest] and delays the player (suspending this call-site) based on the
@@ -183,51 +188,55 @@ public class ProtectedAccess(
      * @throws ProtectedAccessLostException if the player could not retain protected access after
      *   the coroutine suspension.
      */
-    public suspend fun move(dest: CoordGrid, moveSpeed: MoveSpeed = player.varMoveSpeed) {
+    public suspend fun playerMove(dest: CoordGrid, moveSpeed: MoveSpeed = player.varMoveSpeed) {
+        if (coords != dest) {
+            walk(dest)
+            player.moveSpeed = moveSpeed
+        }
+
         val distanceDelay = (player.coords.chebyshevDistance(dest) - 1) / max(1, moveSpeed.steps)
-        player.abortRoute()
-        player.moveSpeed = moveSpeed
-        player.routeDestination.add(dest)
         if (distanceDelay > 0) {
             delay(distanceDelay)
         }
     }
 
     /**
-     * Similar to [walk], but ensures a minimum delay of 1 cycle, regardless of distance.
+     * Similar to [playerWalk], but ensures a minimum delay of 1 cycle, regardless of distance.
      *
      * @throws ProtectedAccessLostException if the player could not retain protected access after
      *   the coroutine suspension.
-     * @see [walk]
+     * @see [playerWalk]
      */
-    public suspend fun walkWithMinDelay(dest: CoordGrid): Unit =
-        moveWithMinDelay(dest, MoveSpeed.Walk)
+    public suspend fun playerWalkWithMinDelay(dest: CoordGrid): Unit =
+        playerMoveWithMinDelay(dest, MoveSpeed.Walk)
 
     /**
-     * Similar to [run], but ensures a minimum delay of 1 cycle, regardless of distance.
+     * Similar to [playerRun], but ensures a minimum delay of 1 cycle, regardless of distance.
      *
      * @throws ProtectedAccessLostException if the player could not retain protected access after
      *   the coroutine suspension.
-     * @see [run]
+     * @see [playerRun]
      */
-    public suspend fun runWithMinDelay(dest: CoordGrid): Unit =
-        moveWithMinDelay(dest, MoveSpeed.Run)
+    public suspend fun playerRunWithMinDelay(dest: CoordGrid): Unit =
+        playerMoveWithMinDelay(dest, MoveSpeed.Run)
 
     /**
-     * Similar to [move], but ensures a minimum delay of 1 cycle, regardless of distance.
+     * Similar to [playerMove], but ensures a minimum delay of 1 cycle, regardless of distance.
      *
      * @throws ProtectedAccessLostException if the player could not retain protected access after
      *   the coroutine suspension.
-     * @see [move]
+     * @see [playerMove]
      */
-    public suspend fun moveWithMinDelay(
+    public suspend fun playerMoveWithMinDelay(
         dest: CoordGrid,
         moveSpeed: MoveSpeed = player.varMoveSpeed,
     ) {
+        if (coords != dest) {
+            walk(dest)
+            player.moveSpeed = moveSpeed
+        }
+
         val distanceDelay = (player.coords.chebyshevDistance(dest) - 1) / max(1, moveSpeed.steps)
-        player.abortRoute()
-        player.moveSpeed = moveSpeed
-        player.routeDestination.add(dest)
         delay(max(1, distanceDelay))
     }
 
