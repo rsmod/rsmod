@@ -164,8 +164,8 @@ public class ProtectedAccess(
 
     public suspend fun move(dest: CoordGrid, moveSpeed: MoveSpeed = player.varMoveSpeed) {
         val delay = (player.coords.chebyshevDistance(dest) - 1) / max(1, moveSpeed.steps)
+        player.abortRoute()
         player.moveSpeed = moveSpeed
-        player.routeDestination.clear()
         player.routeDestination.add(dest)
         if (delay > 0) {
             delay(delay)
