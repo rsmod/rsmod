@@ -158,18 +158,77 @@ public class ProtectedAccess(
 
     private var opHeldCallCount = 0
 
+    /**
+     * Queues a route towards [dest] and delays the player (suspending this call-site) based on the
+     * distance to [dest] and the "step rate" of [MoveSpeed.Walk].
+     *
+     * @throws ProtectedAccessLostException if the player could not retain protected access after
+     *   the coroutine suspension.
+     */
     public suspend fun walk(dest: CoordGrid): Unit = move(dest, MoveSpeed.Walk)
 
+    /**
+     * Queues a route towards [dest] and delays the player (suspending this call-site) based on the
+     * distance to [dest] and the "step rate" of [MoveSpeed.Run].
+     *
+     * @throws ProtectedAccessLostException if the player could not retain protected access after
+     *   the coroutine suspension.
+     */
     public suspend fun run(dest: CoordGrid): Unit = move(dest, MoveSpeed.Run)
 
+    /**
+     * Queues a route to [dest] and delays the player (suspending this call-site) based on the
+     * distance to [dest] and the "step rate" of [moveSpeed].
+     *
+     * @throws ProtectedAccessLostException if the player could not retain protected access after
+     *   the coroutine suspension.
+     */
     public suspend fun move(dest: CoordGrid, moveSpeed: MoveSpeed = player.varMoveSpeed) {
-        val delay = (player.coords.chebyshevDistance(dest) - 1) / max(1, moveSpeed.steps)
+        val distanceDelay = (player.coords.chebyshevDistance(dest) - 1) / max(1, moveSpeed.steps)
         player.abortRoute()
         player.moveSpeed = moveSpeed
         player.routeDestination.add(dest)
-        if (delay > 0) {
-            delay(delay)
+        if (distanceDelay > 0) {
+            delay(distanceDelay)
         }
+    }
+
+    /**
+     * Similar to [walk], but ensures a minimum delay of 1 cycle, regardless of distance.
+     *
+     * @throws ProtectedAccessLostException if the player could not retain protected access after
+     *   the coroutine suspension.
+     * @see [walk]
+     */
+    public suspend fun walkWithMinDelay(dest: CoordGrid): Unit =
+        moveWithMinDelay(dest, MoveSpeed.Walk)
+
+    /**
+     * Similar to [run], but ensures a minimum delay of 1 cycle, regardless of distance.
+     *
+     * @throws ProtectedAccessLostException if the player could not retain protected access after
+     *   the coroutine suspension.
+     * @see [run]
+     */
+    public suspend fun runWithMinDelay(dest: CoordGrid): Unit =
+        moveWithMinDelay(dest, MoveSpeed.Run)
+
+    /**
+     * Similar to [move], but ensures a minimum delay of 1 cycle, regardless of distance.
+     *
+     * @throws ProtectedAccessLostException if the player could not retain protected access after
+     *   the coroutine suspension.
+     * @see [move]
+     */
+    public suspend fun moveWithMinDelay(
+        dest: CoordGrid,
+        moveSpeed: MoveSpeed = player.varMoveSpeed,
+    ) {
+        val distanceDelay = (player.coords.chebyshevDistance(dest) - 1) / max(1, moveSpeed.steps)
+        player.abortRoute()
+        player.moveSpeed = moveSpeed
+        player.routeDestination.add(dest)
+        delay(max(1, distanceDelay))
     }
 
     public fun telejump(dest: CoordGrid, collision: CollisionFlagMap = context.collision) {
