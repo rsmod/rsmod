@@ -9,6 +9,7 @@ import org.rsmod.api.player.interact.NpcInteractions
 import org.rsmod.api.player.interact.NpcTInteractions
 import org.rsmod.api.player.interact.ObjInteractions
 import org.rsmod.api.player.output.ChatType
+import org.rsmod.api.player.output.clearMapFlag
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.protect.ProtectedAccessLauncher
 import org.rsmod.api.registry.loc.LocRegistry
@@ -170,7 +171,8 @@ constructor(
     private fun Player.clearFinishedInteraction() {
         val interaction = interaction ?: return
         if (interaction.interacted && !interaction.apRangeCalled && !interaction.persistent) {
-            clearInteractionRoute()
+            clearInteraction()
+            clearMapFlag()
         }
     }
 
