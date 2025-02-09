@@ -5,6 +5,7 @@ plugins {
 
 application {
     mainClass.set("org.rsmod.server.app.GameServerKt")
+    applicationDefaultJvmArgs = listOf("-XX:AutoBoxCacheMax=65535", "-Xms1g")
 }
 
 dependencies {
