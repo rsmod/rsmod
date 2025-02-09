@@ -93,6 +93,7 @@ class GameServerCachePacker : CliktCommand(name = "cache-pack") {
         if (verification.isCacheUpdateRequired()) {
             val updater = injector.getInstance(TypeUpdater::class.java)
             updater.updateAll()
+            closeCaches(injector)
             packEnrichedTypes()
             return false
         } else if (verification.isFailure()) {
@@ -107,5 +108,13 @@ class GameServerCachePacker : CliktCommand(name = "cache-pack") {
         dest.deleteRecursively()
         dest.createParentDirectories()
         source.copyToRecursively(dest, followLinks = false)
+    }
+
+    private fun closeCaches(injector: Injector) {
+        val game = injector.getInstance(Key.get(Cache::class.java, GameCache::class.java))
+        game.close()
+
+        val enriched = injector.getInstance(Key.get(Cache::class.java, EnrichedCache::class.java))
+        enriched.close()
     }
 }
