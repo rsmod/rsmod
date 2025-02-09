@@ -13,6 +13,13 @@ dependencies {
     implementation(projects.server.install)
 }
 
+tasks.register("run") {
+    group = "application"
+    description = "Runs the RS Mod game server"
+
+    dependsOn(":server:app:run")
+}
+
 tasks.register<JavaExec>("install") {
     group = "installation"
     description = "Runs the complete RS Mod server installation task."

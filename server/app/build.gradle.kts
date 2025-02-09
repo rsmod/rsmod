@@ -1,5 +1,10 @@
 plugins {
     id("base-conventions")
+    application
+}
+
+application {
+    mainClass.set("org.rsmod.server.app.GameServerKt")
 }
 
 dependencies {
@@ -32,4 +37,9 @@ dependencies {
     implementation(projects.server.install)
     implementation(projects.server.logging)
     implementation(projects.server.shared)
+}
+
+tasks.named<JavaExec>("run") {
+    description = "Runs the RS Mod game server"
+    workingDir = rootProject.projectDir
 }
