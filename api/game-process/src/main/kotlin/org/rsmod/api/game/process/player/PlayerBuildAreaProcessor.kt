@@ -10,18 +10,10 @@ public class PlayerBuildAreaProcessor {
     }
 
     private fun Player.processBuildAreaChange() {
-        if (refreshBuildArea()) {
+        val rebuildBuildArea = BuildAreaUtils.requiresNewBuildArea(this)
+        if (rebuildBuildArea) {
             enterBuildArea()
         }
-    }
-
-    private fun Player.refreshBuildArea(): Boolean {
-        val dx = coords.x - buildArea.x
-        val dz = coords.z - buildArea.z
-        return dx < BuildAreaUtils.REBUILD_BOUNDARY ||
-            dz < BuildAreaUtils.REBUILD_BOUNDARY ||
-            dx >= BuildAreaUtils.SIZE - BuildAreaUtils.REBUILD_BOUNDARY ||
-            dz >= BuildAreaUtils.SIZE - BuildAreaUtils.REBUILD_BOUNDARY
     }
 
     private fun Player.enterBuildArea() {
