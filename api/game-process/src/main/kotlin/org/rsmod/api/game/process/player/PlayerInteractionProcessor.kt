@@ -172,6 +172,7 @@ constructor(
         val interaction = interaction ?: return
         if (interaction.interacted && !interaction.apRangeCalled && !interaction.persistent) {
             clearInteraction()
+            clearRouteRecalc()
             clearMapFlag()
         }
     }
