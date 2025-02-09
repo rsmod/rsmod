@@ -1,4 +1,5 @@
 255	winch
+312	crop_potato
 355	stack_crate_2
 357	big_crate_2
 358	stack_crate
@@ -6,6 +7,7 @@
 366	big_crate
 380	bookcase
 883	nicepicketgate_left_closed
+1161	crop_cabbage
 1276	regular_tree_1276
 1277	regular_tree_1277
 1278	regular_tree_1278
@@ -57,6 +59,7 @@
 2092	evergreen_tree_2092
 2310	hollow_tree_stump_2310
 3037	arctic_pine_tree_3037
+3366	crop_onion
 3371	achey_tree_stump_3371
 3648	dying_tree_3648
 3649	dying_tree_stump_3649
@@ -107,6 +110,9 @@
 14308	regular_tree_14308
 14309	regular_tree_14309
 14880	lumbridge_kitchen_dungeonladder
+15506	crop_grain_15506
+15507	crop_grain_15507
+15508	crop_grain_15508
 16671	spiralstaircase_up
 16672	spiralstaircase_option
 16673	spiralstaircase_down

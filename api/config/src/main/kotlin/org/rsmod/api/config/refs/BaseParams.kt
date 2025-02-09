@@ -50,6 +50,7 @@ object BaseParams : ParamReferences() {
     val item_prayer_bonus: ParamInt = find("item_prayer_bonus", 88687192167)
 
     /* Server-side only types */
+    val rewarditem: ParamObj = find("rewarditem")
     val next_npc_stage: ParamNpc = find("next_npc_stage")
     val bankside_extraop_flip: ParamBool = find("bankside_extraop_conditional_flip")
     val bankside_extraop_varbit: ParamVarBit = find("bankside_extraop_conditional_varbit")

@@ -53,4 +53,5 @@ object BaseContent : ContentReferences() {
     val cow = find("cow")
     val dairy_cow = find("dairy_cow")
     val cow_calf = find("cow_calf")
+    val pickable_crop = find("pickable_crop")
 }

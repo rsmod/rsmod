@@ -16,6 +16,7 @@ import org.rsmod.game.type.varbit.VarBitType
 
 internal object ParamBuilds : ParamBuilder() {
     init {
+        build<ObjType>("rewarditem")
         build<NpcType>("next_npc_stage")
         build<Boolean>("bankside_extraop_conditional_flip") { default = false }
         build<VarBitType>("bankside_extraop_conditional_varbit")
