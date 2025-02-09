@@ -24,6 +24,7 @@ dependencies {
     implementation(projects.api.type.typeReferences)
     implementation(projects.api.type.typeScriptDsl)
     implementation(projects.api.utils.utilsFormat)
+    implementation(projects.api.utils.utilsMap)
     implementation(projects.api.utils.utilsSkills)
     implementation(projects.api.utils.utilsVars)
     implementation(projects.engine.annotations)

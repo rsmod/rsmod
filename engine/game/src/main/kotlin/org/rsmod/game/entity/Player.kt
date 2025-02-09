@@ -74,6 +74,7 @@ public class Player(
 
     public var buildArea: CoordGrid = CoordGrid.NULL
     public val visibleZoneKeys: IntList = IntArrayList()
+    public var lastMapBuildComplete: Int = Int.MIN_VALUE
 
     public var modGroup: ModGroup? = null
     public var xpRate: Double = 1.0

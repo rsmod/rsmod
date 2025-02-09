@@ -80,6 +80,7 @@ import org.rsmod.api.random.GameRandom
 import org.rsmod.api.repo.obj.ObjRepository
 import org.rsmod.api.route.RayCastValidator
 import org.rsmod.api.stats.levelmod.InvisibleLevels
+import org.rsmod.api.utils.map.BuildAreaUtils
 import org.rsmod.api.utils.skills.SkillingSuccessRate
 import org.rsmod.coroutine.GameCoroutine
 import org.rsmod.events.EventBus
@@ -1129,6 +1130,34 @@ public class ProtectedAccess(
         val ticks = seqTypes[seq].tickDuration
         check(ticks > 0) { "Seq tick duration must be positive: ${seqTypes[seq]}" }
         delay(cycles = ticks)
+    }
+
+    /**
+     * Delays the player for up to `10` cycles or until the `MapBuildComplete` packet is received,
+     * whichever happens first.
+     *
+     * _Note: This function does not delay or suspend if the player's **current** coords do not
+     * require rebuilding their build area._
+     *
+     * @throws ProtectedAccessLostException if [regainProtectedAccess] returns `false` after the
+     *   suspension resumes.
+     * @see [regainProtectedAccess]
+     * @see [BuildAreaUtils.requiresNewBuildArea]
+     */
+    public suspend fun loadDelay() {
+        val requiresBuildAreaRebuild = BuildAreaUtils.requiresNewBuildArea(player)
+        if (!requiresBuildAreaRebuild) {
+            return
+        }
+
+        for (i in 0 until 10) {
+            if (player.lastMapBuildComplete >= mapClock) {
+                break
+            }
+            delay(1)
+        }
+
+        regainProtectedAccess()
     }
 
     /**
