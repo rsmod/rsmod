@@ -128,7 +128,7 @@ public class Player(
         get() = queueList.isNotEmpty || weakQueueList.isNotEmpty
 
     public val shouldHaltMovement: Boolean
-        get() = isBusy && hasPendingQueue
+        get() = ui.modals.isNotEmpty() && hasPendingQueue
 
     public val canProcessMovement: Boolean
         get() = !shouldHaltMovement
