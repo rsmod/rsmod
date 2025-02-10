@@ -110,11 +110,11 @@ constructor(
     public fun findExact(
         coords: CoordGrid,
         content: ContentGroupType,
+        shape: LocShape,
         type: LocType? = null,
-        shape: LocShape? = null,
         angle: LocAngle? = null,
     ): LocInfo? {
-        val loc = registry.findExact(coords, type?.id, shape?.id, angle?.id) ?: return null
+        val loc = registry.findExact(coords, type?.id, shape.id, angle?.id) ?: return null
         return if (locTypes[loc].contentGroup == content.id) {
             loc
         } else {
