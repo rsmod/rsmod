@@ -15,6 +15,7 @@ import org.rsmod.objtx.cert_abyssal_whip
 import org.rsmod.objtx.inv
 import org.rsmod.objtx.purple_sweets
 import org.rsmod.objtx.select
+import org.rsmod.objtx.template_for_cert
 import org.rsmod.objtx.transaction
 
 @Execution(ExecutionMode.SAME_THREAD)
@@ -340,6 +341,43 @@ class InvInsertQueryTest {
             }
         }
         assertEquals(TransactionResult.InvalidCountRequest, transaction.err)
+        assertEquals(0, inventory.occupiedSpace())
+        assertEquals(inventory.size, inventory.freeSpace())
+    }
+
+    @Test
+    fun `fail to insert dummyitem`() {
+        val inventory = inv()
+        val transaction = transaction {
+            val inv = select(inventory)
+            insert {
+                into = inv
+                obj = template_for_cert
+                count = 1
+            }
+        }
+        assertEquals(TransactionResult.RestrictedDummyitem, transaction.err)
+        assertEquals(0, inventory.occupiedSpace())
+        assertEquals(inventory.size, inventory.freeSpace())
+    }
+
+    @Test
+    fun `fail to insert dummyitem alongside normal obj`() {
+        val inventory = inv()
+        val transaction = transaction {
+            val inv = select(inventory)
+            insert {
+                into = inv
+                obj = abyssal_whip
+                count = 1
+            }
+            insert {
+                into = inv
+                obj = template_for_cert
+                count = 1
+            }
+        }
+        assertEquals(TransactionResult.RestrictedDummyitem, transaction.err)
         assertEquals(0, inventory.occupiedSpace())
         assertEquals(inventory.size, inventory.freeSpace())
     }

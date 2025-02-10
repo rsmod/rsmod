@@ -5,6 +5,7 @@ import it.unimi.dsi.fastutil.ints.IntOpenHashSet
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 import org.rsmod.game.obj.InvObj
+import org.rsmod.game.type.obj.Dummyitem
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.type.util.UncheckedType
@@ -19,6 +20,7 @@ public class InvTransactions(
     public val transformLookup: Map<Int, TransactionObjTemplate>,
     public val placeholderLookup: Map<Int, TransactionObjTemplate>,
     public val stackableLookup: Set<Int>,
+    public val dummyitemLookup: Set<Int>,
 ) {
     public fun transaction(
         autoCommit: Boolean,
@@ -32,6 +34,7 @@ public class InvTransactions(
         transaction.transformLookup = transformLookup
         transaction.placeholderLookup = placeholderLookup
         transaction.stackableLookup = stackableLookup
+        transaction.dummyitemLookup = dummyitemLookup
         try {
             transaction.apply(init)
         } catch (_: TransactionCancellation) {
@@ -49,12 +52,14 @@ public class InvTransactions(
             val certLookup = types.values.toCertLookup()
             val transformLookup = types.values.toTransformLookup()
             val placeholderLookup = types.values.toPlaceholderLookup()
-            val stackableLookup = types.values.filter { it.stackable }.map { it.id }
+            val stackableLookup = types.values.toStackableLookup()
+            val dummyitemLookup = types.values.toDummyitemLookup()
             return InvTransactions(
                 certLookup = Int2ObjectOpenHashMap(certLookup),
                 transformLookup = Int2ObjectOpenHashMap(transformLookup),
                 placeholderLookup = Int2ObjectOpenHashMap(placeholderLookup),
                 stackableLookup = IntOpenHashSet(stackableLookup),
+                dummyitemLookup = IntOpenHashSet(dummyitemLookup),
             )
         }
 
@@ -75,6 +80,12 @@ public class InvTransactions(
                 .associate {
                     it.id to TransactionObjTemplate(it.placeholderlink, it.placeholdertemplate)
                 }
+
+        private fun Iterable<UnpackedObjType>.toStackableLookup(): List<Int> =
+            filter(UnpackedObjType::stackable).map(UnpackedObjType::id)
+
+        private fun Iterable<UnpackedObjType>.toDummyitemLookup(): List<Int> =
+            filter { it.resolvedDummyitem == Dummyitem.GraphicOnly }.map(UnpackedObjType::id)
     }
 }
 

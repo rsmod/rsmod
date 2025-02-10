@@ -16,6 +16,8 @@ const val bronze_arrow = 882
 const val placeholder_bronze_arrow = 14572
 const val iron_arrow = 884
 const val placeholder_iron_arrow = 14573
+const val template_for_cert = 799
+const val template_for_placeholder = 14401
 
 private val certLookup =
     hashMapOf(
@@ -45,11 +47,14 @@ private val placeholderLookup =
 
 private val stacksLookup = hashSetOf(purple_sweets, bronze_arrow, iron_arrow)
 
+private val dummyitemLookup = hashSetOf(template_for_cert, template_for_placeholder)
+
 fun transaction(init: Transaction<Obj>.() -> Unit): TransactionResultList<Obj> {
     val transaction = Transaction(input = Obj?::toTransactionObj, output = TransactionObj?::toObj)
     transaction.certLookup = certLookup
     transaction.placeholderLookup = placeholderLookup
     transaction.stackableLookup = stacksLookup
+    transaction.dummyitemLookup = dummyitemLookup
     try {
         transaction.apply(init)
     } catch (_: TransactionCancellation) {}

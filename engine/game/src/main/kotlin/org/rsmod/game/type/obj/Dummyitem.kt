@@ -1,7 +1,5 @@
 package org.rsmod.game.type.obj
 
-// TODO: Restrictions in engine to prohibit the respective parameters. (e.g., cannot add
-//  `GraphicOnly` into inventories)
 public enum class Dummyitem(public val id: Int) {
     /** Cannot be added into inventories or dropped on floor. */
     GraphicOnly(id = 1),

@@ -44,4 +44,6 @@ public sealed class TransactionResult {
     public data object NotEnoughObjCount : Err()
 
     public data object StrictSlotTaken : Err()
+
+    public data object RestrictedDummyitem : Err()
 }

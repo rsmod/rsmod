@@ -15,6 +15,7 @@ public class Transaction<T>(
     public var placeholderLookup: Map<Int, TransactionObjTemplate>? = null
     public var transformLookup: Map<Int, TransactionObjTemplate>? = null
     public var stackableLookup: Set<Int>? = null
+    public var dummyitemLookup: Set<Int>? = null
 
     private val results = mutableListOf<TransactionResult>()
     private val inventories = mutableListOf<TransactionInventory<T>>()
@@ -82,6 +83,11 @@ public class Transaction<T>(
 
     private fun stackable(obj: Int): Boolean {
         val lookup = stackableLookup ?: return false
+        return obj in lookup
+    }
+
+    private fun isDummyitem(obj: Int): Boolean {
+        val lookup = dummyitemLookup ?: return false
         return obj in lookup
     }
 
@@ -200,6 +206,10 @@ public class Transaction<T>(
             count: Int,
             capacity: Int,
         ): TransactionResult {
+            val isDummyitem = this@Transaction.isDummyitem(obj)
+            if (isDummyitem) {
+                return TransactionResult.RestrictedDummyitem
+            }
             val placeholderSlot = if (placeholders) findPlaceholderSlot(obj) else null
             if (placeholderSlot != null) {
                 this[placeholderSlot] = TransactionObj(obj, count)
@@ -234,6 +244,10 @@ public class Transaction<T>(
             count: Int,
             capacity: Int,
         ): TransactionResult {
+            val isDummyitem = this@Transaction.isDummyitem(obj)
+            if (isDummyitem) {
+                return TransactionResult.RestrictedDummyitem
+            }
             val placeholderSlot = if (placeholders) findPlaceholderSlot(obj) else null
             if (placeholderSlot != null) {
                 this[placeholderSlot] = TransactionObj(obj, count, vars)

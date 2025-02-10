@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertInstanceOf
 import org.junit.jupiter.api.parallel.Execution
 import org.junit.jupiter.api.parallel.ExecutionMode
 import org.rsmod.api.config.refs.invs
@@ -16,8 +17,10 @@ import org.rsmod.api.testing.params.TestArgs
 import org.rsmod.api.testing.params.TestArgsProvider
 import org.rsmod.api.testing.params.TestWithArgs
 import org.rsmod.game.obj.InvObj
+import org.rsmod.game.type.obj.Dummyitem
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.Wearpos
+import org.rsmod.objtx.TransactionResult
 import org.rsmod.objtx.isOk
 
 /**
@@ -152,6 +155,19 @@ class InvTransactionsTest {
             assertEquals(item1, inv[slot2])
             assertEquals(2, inv.occupiedSpace())
         }
+    }
+
+    @Test
+    fun GameTestState.`fail to add GraphicOnly dummyitem`() = runGameTest {
+        val graphicOnly =
+            objTypes.values.firstOrNull { it.resolvedDummyitem == Dummyitem.GraphicOnly }
+        checkNotNull(graphicOnly) { "Cannot find valid `GraphicOnly` dummyitem." }
+
+        player.clearAllInvs()
+
+        val transaction = player.invAdd(player.inv, graphicOnly)
+        assertInstanceOf<TransactionResult.RestrictedDummyitem>(transaction.err)
+        assertEquals(0, player.inv.occupiedSpace())
     }
 
     @TestWithArgs(WearposProvider::class)

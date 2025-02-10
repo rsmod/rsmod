@@ -35,6 +35,7 @@ import org.rsmod.map.square.MapSquareGrid
 import org.rsmod.map.square.MapSquareKey
 import org.rsmod.map.zone.ZoneGrid
 import org.rsmod.map.zone.ZoneKey
+import org.rsmod.objtx.TransactionResult
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 import org.rsmod.routefinder.loc.LocLayerConstants
@@ -224,6 +225,10 @@ constructor(
             val count = countArg.toLong().coerceAtMost(Int.MAX_VALUE.toLong()).toInt()
             val objName = type.internalNameGet ?: type.name
             val spawned = player.invAdd(player.inv, resolvedType, count, strict = false)
+            if (spawned.err is TransactionResult.RestrictedDummyitem) {
+                player.mes("You can't spawn this item!")
+                return
+            }
             player.mes("Spawned inv obj `$objName` x ${spawned.completed().formatAmount}")
         }
 
