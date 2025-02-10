@@ -81,9 +81,9 @@ constructor(
             block(this)
         } catch (e: Exception) {
             forceDisconnect()
-            logger.error(e) { "Error processing zone updates for player: $this." }
+            logger.error(e) { "Error processing post-tick for player: $this." }
         } catch (e: NotImplementedError) {
             forceDisconnect()
-            logger.error(e) { "Error processing zone updates for player: $this." }
+            logger.error(e) { "Error processing post-tick for player: $this." }
         }
 }
