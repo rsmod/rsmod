@@ -28,6 +28,12 @@ constructor(
         }
     }
 
+    /**
+     * _Note: This function will implicitly call [Npc.destroy] which will cancel any ongoing
+     * coroutine attached to the [npc]._
+     *
+     * @see [Npc.activeCoroutine]
+     */
     public fun del(npc: Npc, duration: Int) {
         val del = registry.del(npc)
         check(del.isSuccess) { "Failed to delete npc. (result=$del, npc=$npc)" }
@@ -37,6 +43,7 @@ constructor(
         }
     }
 
+    /** _Note: Unlike [del], this function does **not** call [Npc.cancelActiveCoroutine]._ */
     public fun hide(npc: Npc, duration: Int) {
         registry.hide(npc)
         if (duration != Int.MAX_VALUE) {

@@ -45,6 +45,7 @@ constructor(
         npc.removeBlockWalkCollision(collision, npc.coords)
         zoneDel(npc, npc.lastProcessedZone)
         npc.slotId = INVALID_SLOT
+        npc.destroy()
         npc.disableAvatar()
         return NpcRegistryResult.DeleteSuccess
     }
