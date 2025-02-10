@@ -168,6 +168,9 @@ public class UnpackedObjType(
     public val isDummyItem: Boolean
         get() = dummyitem != ObjTypeBuilder.DEFAULT_DUMMYITEM
 
+    public val resolvedDummyitem: Dummyitem?
+        get() = Dummyitem[dummyitem]
+
     public val highAlch: Int
         get() = cost * 60 / 100
 
