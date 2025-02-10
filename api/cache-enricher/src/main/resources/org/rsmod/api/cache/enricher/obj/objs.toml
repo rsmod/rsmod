@@ -32216,6 +32216,16 @@ destroy_note = 'You can get a replacement from Diango.'
 untradable = true
 
 [[config]]
+obj = 'dummyitem_invonly_3639'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_invonly_3996'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'sapphire'
 respawn_timer = 1000
 
@@ -32226,9 +32236,24 @@ destroy_note_alt = 'While still in the passage: You can obtain another from with
 untradable = true
 
 [[config]]
+obj = 'dummyitem_invonly_3976'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'shoes'
 respawn_timer = 1
 untradable = true
+
+[[config]]
+obj = 'dummyitem_invonly_3625'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_invonly_3633'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'sled_4084'
@@ -32264,6 +32289,11 @@ range = 5
 combat_style = 'Thrown'
 
 [[config]]
+obj = 'dummyitem_invonly_3652'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'ancestral_key'
 respawn_timer = 5
 untradable = true
@@ -32293,6 +32323,11 @@ speed = 6
 combat_style = 'Staff'
 
 [[config]]
+obj = 'dummyitem_invonly_9596'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'bone_staff'
 untradable = true
 range = 8
@@ -32310,6 +32345,11 @@ untradable = true
 combat_style = 'Unarmed'
 
 [[config]]
+obj = 'dummyitem_invonly_2764'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'right_boot'
 respawn_timer = 10
 untradable = true
@@ -32317,6 +32357,16 @@ untradable = true
 [[config]]
 obj = 'broken_axe_6741'
 speed = 5
+
+[[config]]
+obj = 'dummyitem_invonly_3644'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_invonly_2763'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'dragonstone_6903'
@@ -32364,6 +32414,16 @@ speed = 5
 combat_style = 'Axe'
 
 [[config]]
+obj = 'dummyitem_invonly_2755'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_invonly_3653'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'stone_ball'
 respawn_timer = 10
 untradable = true
@@ -32374,9 +32434,19 @@ untradable = true
 combat_style = 'Blunt'
 
 [[config]]
+obj = 'dummyitem_invonly_2769'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'pearl_barbarian_rod'
 untradable = true
 combat_style = 'Unarmed'
+
+[[config]]
+obj = 'dummyitem_graphiconly_6195'
+untradable = true
+dummyitem = 1
 
 [[config]]
 obj = 'elias_message'
@@ -32395,6 +32465,11 @@ obj = 'broken_pickaxe_472'
 speed = 5
 
 [[config]]
+obj = 'dummyitem_invonly_3958'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'pearl_fishing_rod'
 untradable = true
 combat_style = 'Unarmed'
@@ -32406,9 +32481,24 @@ destroy_note_alt = 'Active event: - This mulch contains: [ingredient 1], [ingred
 untradable = true
 
 [[config]]
+obj = 'dummyitem_invonly_3950'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'gorilla_greegree'
 untradable = true
 combat_style = 'Unarmed'
+
+[[config]]
+obj = 'dummyitem_invonly_3914'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_invonly_3930'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'broken_pole'
@@ -32422,6 +32512,11 @@ range = 8
 combat_style = 'PoweredStaff'
 
 [[config]]
+obj = 'dummyitem_invonly_2757'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'stone_ball_3110'
 respawn_timer = 10
 untradable = true
@@ -32430,6 +32525,11 @@ untradable = true
 obj = 'wine_of_zamorak_fast_respawn_timer'
 respawn_timer = 10
 untradable = true
+
+[[config]]
+obj = 'dummyitem_invonly_3960'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'morrigans_javelin_bh_inactive'
@@ -32455,6 +32555,11 @@ range = 10
 combat_style = 'Staff'
 
 [[config]]
+obj = 'dummyitem_invonly_3654'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'metal_spade_5587'
 respawn_timer = 10
 untradable = true
@@ -32470,9 +32575,19 @@ speed = 5
 combat_style = 'Axe'
 
 [[config]]
+obj = 'dummyitem_invonly_3646'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'thammarons_sceptre_au'
 speed = 5
 combat_style = 'Staff'
+
+[[config]]
+obj = 'dummyitem_invonly_3635'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'heavy_casket'
@@ -32483,6 +32598,16 @@ combat_style = 'Blunt'
 [[config]]
 obj = 'cooked_chicken'
 respawn_timer = 200
+
+[[config]]
+obj = 'dummyitem_graphiconly_6194'
+untradable = true
+dummyitem = 1
+
+[[config]]
+obj = 'dummyitem_invonly_2765'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'corrupted_volatile_nightmare_staff'
@@ -32504,10 +32629,25 @@ untradable = true
 combat_style = 'Staff'
 
 [[config]]
+obj = 'dummyitem_invonly_3640'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_invonly_3932'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'tree_top'
 destroy_note = 'You can get a replacement from Diango.'
 destroy_note_alt = 'During event: You can make yourself another outfit if you need it.'
 untradable = true
+
+[[config]]
+obj = 'dummyitem_invonly_3645'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'corrupted_voidwaker'
@@ -32521,6 +32661,11 @@ combat_style = 'Claw'
 obj = 'axe_handle_7952'
 speed = 5
 combat_style = 'Unarmed'
+
+[[config]]
+obj = 'dummyitem_graphiconly_6193'
+untradable = true
+dummyitem = 1
 
 [[config]]
 obj = 'vestas_longsword_inactive'
@@ -32537,6 +32682,11 @@ combat_style = 'Unarmed'
 obj = 'stone_ball_3113'
 respawn_timer = 10
 untradable = true
+
+[[config]]
+obj = 'dummyitem_invonly_3634'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'ring_of_recoil'
@@ -32568,6 +32718,11 @@ speed = 5
 combat_style = 'SlashSword'
 
 [[config]]
+obj = 'dummyitem_invonly_2756'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'egg'
 respawn_timer = 25
 
@@ -32583,6 +32738,16 @@ untradable = true
 combat_style = 'Unarmed'
 
 [[config]]
+obj = 'dummyitem_invonly_2770'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'skillguide_hunter_razorbacked_kebbit_1'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'maisas_message'
 destroy_note = 'You have no further need for it, so you can safely destroy it.'
 destroy_note_alt = 'Before reading: Hopefully a messenger will bring you another.'
@@ -32593,9 +32758,19 @@ obj = 'gold_necklace'
 respawn_timer = 500
 
 [[config]]
+obj = 'dummyitem_invonly_3626'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'merfolk_trident'
 speed = 5
 combat_style = 'Spear'
+
+[[config]]
+obj = 'dummyitem_invonly_3978'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'slimy_tablet_part_1'
@@ -32611,6 +32786,11 @@ combat_style = 'Staff'
 [[config]]
 obj = 'iron_bar'
 respawn_timer = 500
+
+[[config]]
+obj = 'dummyitem_invonly_3998'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'crystal_dagger_perfected'
@@ -32644,6 +32824,10 @@ untradable = true
 combat_style = 'Spiked'
 
 [[config]]
+obj = 'template_for_cert'
+dummyitem = 1
+
+[[config]]
 obj = 'volatile_nightmare_staff_deadman'
 untradable = true
 speed = 5
@@ -32652,6 +32836,11 @@ combat_style = 'Staff'
 [[config]]
 obj = 'garlic'
 respawn_timer = 50
+
+[[config]]
+obj = 'dummyitem_invonly_3642'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'ancient_sceptre_l'
@@ -32665,9 +32854,29 @@ speed = 5
 combat_style = 'Pickaxe'
 
 [[config]]
+obj = 'skillguide_hunter_unused_kebbit_2'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_invonly_3630'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'eastfloor_spade'
 destroy_note = 'You can get a replacement from the Easter Bunny.'
 untradable = true
+
+[[config]]
+obj = 'dummyitem_invonly_3940'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_invonly_2761'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'sunlight_spear'
@@ -32691,14 +32900,34 @@ obj = 'grimy_guam_leaf'
 respawn_timer = 200
 
 [[config]]
+obj = 'dummyitem_invonly_3636'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_invonly_3968'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'cooked_meat'
 respawn_timer = 200
+
+[[config]]
+obj = 'dummyitem_invonly_3647'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'mulch'
 destroy_note = 'You discard your left over mulch.'
 destroy_note_alt = 'Active event: - This mulch contains: [ingredient 1], [ingredient 2], [ingredient 3].'
 untradable = true
+
+[[config]]
+obj = 'dummyitem_invonly_2760'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'cosmic_rune'
@@ -32709,6 +32938,11 @@ obj = 'mulch_28649'
 destroy_note = 'You discard your left over mulch.'
 destroy_note_alt = 'Active event: - This mulch contains: [ingredient 1], [ingredient 2], [ingredient 3].'
 untradable = true
+
+[[config]]
+obj = 'dummyitem_invonly_3980'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'zaryte_bow'
@@ -32722,8 +32956,18 @@ speed = 5
 combat_style = 'Blunt'
 
 [[config]]
+obj = 'dummyitem_invonly_2766'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'muddy_rock'
 respawn_timer = 10
+
+[[config]]
+obj = 'burthorpe_games_room_anim_stool'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'glacial_temotli'
@@ -32738,6 +32982,11 @@ untradable = true
 [[config]]
 obj = 'snape_grass'
 respawn_timer = 30
+
+[[config]]
+obj = 'dummyitem_invonly_3631'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'broken_axe'
@@ -32762,9 +33011,29 @@ speed = 5
 combat_style = 'Spiked'
 
 [[config]]
+obj = 'dummyitem_graphiconly_6189'
+untradable = true
+dummyitem = 1
+
+[[config]]
+obj = 'dummyitem_invonly_3627'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'strange_implement'
 respawn_timer = 10
 untradable = true
+
+[[config]]
+obj = 'dummyitem_invonly_3661'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_invonly_3621'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'trailblazer_reloaded_banner'
@@ -32776,6 +33045,11 @@ untradable = true
 combat_style = 'Unarmed'
 
 [[config]]
+obj = 'dummyitem_invonly_3662'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'left_boot'
 respawn_timer = 10
 untradable = true
@@ -32783,6 +33057,11 @@ untradable = true
 [[config]]
 obj = 'burnt_chicken'
 respawn_timer = 200
+
+[[config]]
+obj = 'dummyitem_invonly_2754'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'abyssal_observations'
@@ -32795,9 +33074,19 @@ obj = 'broken_axe_496'
 speed = 5
 
 [[config]]
+obj = 'skillguide_hunter_feldip_weasel_2'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'thunder_khopesh'
 untradable = true
 combat_style = 'SlashSword'
+
+[[config]]
+obj = 'dummyitem_invonly_3984'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'raging_echoes_adamant_trophy'
@@ -32816,6 +33105,11 @@ speed = 5
 combat_style = 'Bulwark'
 
 [[config]]
+obj = 'dummyitem_invonly_2751'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'broken_axe_498'
 speed = 5
 
@@ -32829,6 +33123,11 @@ obj = 'armadyl_godsword_deadman'
 untradable = true
 speed = 6
 combat_style = 'TwoHandedSword'
+
+[[config]]
+obj = 'dummyitem_invonly_3988'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'dragon_claws_cr'
@@ -32870,6 +33169,11 @@ destroy_note_alt = 'Before showing to Wizard Persten: You can obtain another fro
 untradable = true
 
 [[config]]
+obj = 'dummyitem_invonly_3665'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'jangerberries'
 respawn_timer = 30
 
@@ -32883,17 +33187,47 @@ obj = 'big_bones'
 respawn_timer = 50
 
 [[config]]
+obj = 'dummyitem_invonly_2772'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'teasing_stick'
 respawn_timer = 500
+
+[[config]]
+obj = 'dummyitem_invonly_3656'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_invonly_3628'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'holy_handegg'
 combat_style = 'Unarmed'
 
 [[config]]
+obj = 'dummyitem_graphiconly_6191'
+untradable = true
+dummyitem = 1
+
+[[config]]
 obj = 'damp_sticks'
 respawn_timer = 0
 untradable = true
+
+[[config]]
+obj = 'dummyitem_invonly_3624'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_invonly_3986'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'white_berries'
@@ -32931,6 +33265,11 @@ destroy_note_alt = 'During event: You can make yourself another outfit if you ne
 untradable = true
 
 [[config]]
+obj = 'dummyitem_invonly_3944'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'ice_ancient_sceptre_broken'
 untradable = true
 combat_style = 'Staff'
@@ -32942,9 +33281,19 @@ destroy_note_alt = 'First time receiving: The messenger will probably bring you 
 untradable = true
 
 [[config]]
+obj = 'chatbox_footprint_hunter_levelup'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'tiles_5570'
 respawn_timer = 10
 untradable = true
+
+[[config]]
+obj = 'dummyitem_graphiconly_6197'
+untradable = true
+dummyitem = 1
 
 [[config]]
 obj = 'fine_mesh_net'
@@ -32973,13 +33322,38 @@ untradable = true
 combat_style = 'Unarmed'
 
 [[config]]
+obj = 'dummyitem_invonly_2758'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'ancient_sceptre'
 untradable = true
 combat_style = 'Staff'
 
 [[config]]
+obj = 'dummyitem_invonly_3920'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_invonly_3952'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'chaotic_handegg'
 combat_style = 'Unarmed'
+
+[[config]]
+obj = 'dummyitem_invonly_3650'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_invonly_3924'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'broken_axe_506'
@@ -32997,6 +33371,11 @@ untradable = true
 combat_style = 'Staff'
 
 [[config]]
+obj = 'dummyitem_invonly_3938'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'purging_staff'
 untradable = true
 speed = 5
@@ -33008,6 +33387,26 @@ respawn_timer = 10
 untradable = true
 
 [[config]]
+obj = 'dummyitem_invonly_3651'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_invonly_3964'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'skillguide_hunter_polar_kebbit_1'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_invonly_3659'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'nettles'
 respawn_timer = 13
 untradable = true
@@ -33015,6 +33414,21 @@ untradable = true
 [[config]]
 obj = 'bat_bones'
 respawn_timer = 50
+
+[[config]]
+obj = 'dummyitem_invonly_2749'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_graphiconly_6198'
+untradable = true
+dummyitem = 1
+
+[[config]]
+obj = 'dummyitem_invonly_3982'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'keg'
@@ -33033,10 +33447,20 @@ speed = 5
 combat_style = 'StabSword'
 
 [[config]]
+obj = 'dummyitem_invonly_3966'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'holy_water'
 untradable = true
 range = 4
 combat_style = 'Thrown'
+
+[[config]]
+obj = 'dummyitem_invonly_3664'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'the_dogsword'
@@ -33050,6 +33474,11 @@ untradable = true
 combat_style = 'Blunt'
 
 [[config]]
+obj = 'dummyitem_invonly_3906'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'amys_saw'
 untradable = true
 speed = 5
@@ -33058,6 +33487,21 @@ combat_style = 'SlashSword'
 [[config]]
 obj = 'grain'
 respawn_timer = 50
+
+[[config]]
+obj = 'skillguide_hunter_razorbacked_kebbit_2'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_invonly_3619'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_invonly_3918'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'stone_ball_3111'
@@ -33075,6 +33519,11 @@ obj = 'broken_pickaxe_474'
 speed = 5
 
 [[config]]
+obj = 'dummyitem_invonly_3657'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'raging_echoes_rune_trophy'
 untradable = true
 combat_style = 'Blunt'
@@ -33083,6 +33532,11 @@ combat_style = 'Blunt'
 obj = 'pigeon_cage'
 respawn_timer = 90
 untradable = true
+
+[[config]]
+obj = 'skillguide_hunter_polar_kebbit_2'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'blazing_blowpipe_empty'
@@ -33113,6 +33567,11 @@ combat_style = 'Unarmed'
 obj = 'hunters_sunlight_crossbow'
 range = 8
 combat_style = 'Crossbow'
+
+[[config]]
+obj = 'dummyitem_invonly_3649'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'childs_blanket'
@@ -33177,10 +33636,25 @@ speed = 5
 combat_style = 'Axe'
 
 [[config]]
+obj = 'dummyitem_invonly_3904'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_invonly_3936'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'crystal_sceptre'
 untradable = true
 speed = 5
 combat_style = 'Blunt'
+
+[[config]]
+obj = 'skillguide_hunter_unused_kebbit_1'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'log_basket'
@@ -33207,12 +33681,22 @@ range = 10
 combat_style = 'Bow'
 
 [[config]]
+obj = 'skillguide_hunter_common_kebbit_2'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'broken_pickaxe_11923'
 speed = 5
 
 [[config]]
 obj = 'emerald_ring'
 speed = 0
+
+[[config]]
+obj = 'dummyitem_invonly_2752'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'smoke_ancient_sceptre_l'
@@ -33226,6 +33710,21 @@ speed = 5
 combat_style = 'StabSword'
 
 [[config]]
+obj = 'dummyitem_invonly_3658'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'adept_reanimation_spell'
+untradable = true
+dummyitem = 1
+
+[[config]]
+obj = 'dummyitem_invonly_3962'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'sled'
 respawn_timer = 30
 untradable = true
@@ -33234,6 +33733,11 @@ combat_style = 'Unarmed'
 [[config]]
 obj = 'gold_ring'
 respawn_timer = 500
+
+[[config]]
+obj = 'dummyitem_invonly_3934'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'warped_sceptre_uncharged'
@@ -33278,6 +33782,11 @@ destroy_note_alt = 'During quest: Look around the Digsite to obtain another.'
 untradable = true
 
 [[config]]
+obj = 'dummyitem_invonly_3663'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'corrupted_tumekens_shadow_uncharged'
 speed = 5
 range = 8
@@ -33287,6 +33796,11 @@ combat_style = 'PoweredStaff'
 obj = 'tiles_5571'
 respawn_timer = 10
 untradable = true
+
+[[config]]
+obj = 'dummyitem_invonly_3622'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'oily_pearl_fishing_rod'
@@ -33320,6 +33834,11 @@ obj = 'peaceful_handegg'
 combat_style = 'Unarmed'
 
 [[config]]
+obj = 'dummyitem_invonly_3655'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'old_tablet'
 destroy_note = 'You have no further need for it, so you can safely destroy it.'
 destroy_note_alt = 'While still in the passage: You can obtain another from within the Scar.'
@@ -33346,6 +33865,16 @@ obj = 'zuriels_staff_bh_inactive'
 untradable = true
 speed = 5
 combat_style = 'Staff'
+
+[[config]]
+obj = 'dummyitem_invonly_2767'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_invonly_3972'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'open_forestry_basket'
@@ -33388,6 +33917,31 @@ range = 7
 combat_style = 'PoweredStaff'
 
 [[config]]
+obj = 'dummyitem_invonly_3948'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_invonly_3916'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_invonly_3992'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_invonly_3637'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_invonly_3928'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'necklace_mould'
 respawn_timer = 200
 
@@ -33401,6 +33955,11 @@ untradable = true
 obj = 'white_apron_7957'
 respawn_timer = 10
 untradable = true
+
+[[config]]
+obj = 'dummyitem_invonly_3956'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'open_fish_barrel'
@@ -33419,12 +33978,52 @@ untradable = true
 combat_style = 'Staff'
 
 [[config]]
+obj = 'skillguide_hunter_desert_devil_2'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_invonly_2753'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_invonly_3942'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'ring_mould'
 respawn_timer = 200
 
 [[config]]
+obj = 'dummyitem_invonly_3623'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_invonly_3666'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_graphiconly_6192'
+untradable = true
+dummyitem = 1
+
+[[config]]
 obj = 'broken_pickaxe_476'
 speed = 5
+
+[[config]]
+obj = 'dummyitem_invonly_3922'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_invonly_3974'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'wine_of_zamorak'
@@ -33433,6 +34032,16 @@ respawn_timer = 50
 [[config]]
 obj = 'broken_pickaxe_12594'
 speed = 5
+
+[[config]]
+obj = 'dummyitem_invonly_3994'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_invonly_2768'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'infernal_harpoon_or_trailblazer_reloaded'
@@ -33446,6 +34055,16 @@ untradable = true
 combat_style = 'Unarmed'
 
 [[config]]
+obj = 'dummyitem_invonly_3908'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_invonly_3660'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'diary'
 respawn_timer = 30
 untradable = true
@@ -33457,10 +34076,25 @@ destroy_note_alt = 'Before reading: Hopefully a messenger will bring you another
 untradable = true
 
 [[config]]
+obj = 'dummyitem_invonly_2771'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'starface'
 destroy_note = 'You can get a replacement from Diango.'
 destroy_note_alt = 'During event: You can make yourself another outfit if you need it.'
 untradable = true
+
+[[config]]
+obj = 'dummyitem_invonly_3629'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_invonly_3643'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'huntsmans_kit'
@@ -33469,15 +34103,40 @@ destroy_note_alt = "Empty: Your Huntsman's Kit is currently empty, but it can be
 untradable = true
 
 [[config]]
+obj = 'dummyitem_invonly_3632'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'skillguide_hunter_feldip_weasel_1'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_graphiconly_6196'
+untradable = true
+dummyitem = 1
+
+[[config]]
 obj = 'blackstone_fragment_normal'
 destroy_note = 'Ketla in the Lassar Undercity might be able to give you another.'
 untradable = true
+
+[[config]]
+obj = 'dummyitem_invonly_3641'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'tackle_box'
 destroy_note = "Your tackle box contains items. If you destroy it they'll be lost. The box may also be hard to replace."
 destroy_note_alt = 'Empty: Your tackle box is currently empty, but they can be hard to replace.'
 untradable = true
+
+[[config]]
+obj = 'dummyitem_invonly_2762'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'emberlight'
@@ -33489,8 +34148,23 @@ obj = 'broken_axe_502'
 speed = 5
 
 [[config]]
+obj = 'dummyitem_invonly_2759'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_invonly_3912'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'gold_bar'
 respawn_timer = 1500
+
+[[config]]
+obj = 'dummyitem_invonly_3638'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'zombie_monkey_greegree'
@@ -33508,6 +34182,16 @@ respawn_timer = 10
 untradable = true
 
 [[config]]
+obj = 'dummyitem_invonly_3970'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_graphiconly_6190'
+untradable = true
+dummyitem = 1
+
+[[config]]
 obj = 'crystal_trinket'
 destroy_note = 'You can get another from a chest in Lletya.'
 destroy_note_alt = "After Mourning's End Part II: You can get another from Arianwyn in Lletya."
@@ -33519,10 +34203,25 @@ respawn_timer = 95
 untradable = true
 
 [[config]]
+obj = 'dummyitem_invonly_3648'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_invonly_3954'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'gooey_note_part_3'
 destroy_note = 'You have no further need for it, so you can safely destroy it.'
 destroy_note_alt = 'While still in the passage: You can obtain another from within the Scar.'
 untradable = true
+
+[[config]]
+obj = 'dummyitem_invonly_2750'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'zombie_axe'
@@ -33575,6 +34274,21 @@ obj = 'holy_mould'
 respawn_timer = 200
 
 [[config]]
+obj = 'skillguide_hunter_common_kebbit_1'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_invonly_3946'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_invonly_3910'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'trailblazer_reloaded_torch'
 combat_style = 'Spiked'
 
@@ -33582,6 +34296,11 @@ combat_style = 'Spiked'
 obj = 'veracs_flail_0'
 speed = 5
 combat_style = 'Spiked'
+
+[[config]]
+obj = 'dummyitem_invonly_3990'
+untradable = true
+dummyitem = 2
 
 [[config]]
 obj = 'bow_of_faerdhinen_inactive'
@@ -33612,7 +34331,22 @@ obj = 'nature_rune'
 respawn_timer = 200
 
 [[config]]
+obj = 'dummyitem_invonly_3926'
+untradable = true
+dummyitem = 2
+
+[[config]]
+obj = 'dummyitem_invonly_3620'
+untradable = true
+dummyitem = 2
+
+[[config]]
 obj = 'guthans_warspear_0'
 speed = 5
 combat_style = 'Spear'
+
+[[config]]
+obj = 'skillguide_hunter_desert_devil_1'
+untradable = true
+dummyitem = 2
 

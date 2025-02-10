@@ -12,6 +12,7 @@ import org.rsmod.api.parsers.toml.Toml
 import org.rsmod.api.type.script.dsl.ObjPluginBuilder
 import org.rsmod.api.type.symbols.name.NameMapping
 import org.rsmod.api.utils.io.InputStreams
+import org.rsmod.game.type.obj.Dummyitem
 import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.type.seq.SeqTypeList
 import org.rsmod.game.type.synth.SynthType
@@ -48,6 +49,7 @@ constructor(
 
     private fun ObjPluginBuilder.apply(config: ExternalObjConfig): ObjPluginBuilder {
         this.tradeable = config.untradable == null || !config.untradable
+        this.dummyitem = config.dummyitem?.let(Dummyitem::get)
         putSeq(config.walkAnim, params.bas_walk_f)
         putSeq(config.runAnim, params.bas_running)
         putSeq(config.readyAnim, params.bas_readyanim)
@@ -126,6 +128,7 @@ private data class ExternalObjConfig(
     val destroyNoteAlt: String?,
     val respawnTimer: Int?,
     val untradable: Boolean?,
+    val dummyitem: Int?,
     val speed: Int?,
     val range: Int?,
     val combatStyle: String?,
