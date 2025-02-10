@@ -2,6 +2,7 @@ package org.rsmod.api.game.process.npc
 
 import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
+import org.rsmod.api.registry.npc.NpcRegistry
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.NpcList
@@ -10,14 +11,15 @@ import org.rsmod.game.entity.PathingEntity
 public class NpcPreTickProcess
 @Inject
 constructor(
-    private val npcs: NpcList,
+    private val npcList: NpcList,
+    private val registry: NpcRegistry,
     private val hunt: NpcHuntProcessor,
     private val mapClock: MapClock,
 ) {
     private val logger = InlineLogger()
 
     public fun process() {
-        for (npc in npcs) {
+        for (npc in npcList) {
             npc.tryOrDespawn {
                 updateMapClock()
                 huntProcess()
@@ -46,10 +48,10 @@ constructor(
         try {
             block(this)
         } catch (e: Exception) {
-            forceDespawn()
+            registry.del(this)
             logger.error(e) { "Error processing pre-tick for npc: $this." }
         } catch (e: NotImplementedError) {
-            forceDespawn()
+            registry.del(this)
             logger.error(e) { "Error processing pre-tick for npc: $this." }
         }
 }

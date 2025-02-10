@@ -220,10 +220,6 @@ public class Npc(
 
     public fun matches(content: ContentGroupType): Boolean = type.contentGroup == content.id
 
-    public fun forceDespawn() {
-        // TODO: force
-    }
-
     /**
      * Suspends the call site until this [Npc] has gone a cycle without moving. If the npc was not
      * moving when this function was called, the coroutine will not suspend and this function will
