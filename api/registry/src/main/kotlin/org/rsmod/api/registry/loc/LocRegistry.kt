@@ -263,12 +263,13 @@ constructor(
             return false
         }
         removeLocCollision(loc)
-        updates.locDel(loc)
         val maskedStaticLoc = mapLocs[zoneKey]?.getOrDefault(locZoneKey.packed, null)
         if (maskedStaticLoc != null) {
             val maskedLoc = LocInfo(loc.layer, loc.coords, LocEntity(maskedStaticLoc))
             addLocCollision(maskedLoc)
             updates.locAdd(maskedLoc)
+        } else {
+            updates.locDel(loc)
         }
         return true
     }
