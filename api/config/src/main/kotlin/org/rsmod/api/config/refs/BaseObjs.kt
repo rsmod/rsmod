@@ -108,9 +108,9 @@ object BaseObjs : ObjReferences() {
 
     val shrimps = find("shrimps")
 
-    val woodcutting_icon = find("dummyitem_woodcutting_icon", 520313320359048412)
-    val bank_icon = find("dummyitem_bank_icon", 520313320359043779)
-    val furnace_icon = find("dummyitem_furnace_icon", 520313320359043783)
-    val mining_icon = find("dummyitem_mining_icon", 520313320359061270)
-    val smithing_icon = find("dummyitem_smithing_icon", 520313320359061273)
+    val woodcutting_icon = find("dummyitem_woodcutting_icon", 2122627481130992920)
+    val bank_icon = find("dummyitem_bank_icon", 7806876055985215263)
+    val furnace_icon = find("dummyitem_furnace_icon", 937693285129466531)
+    val mining_icon = find("dummyitem_mining_icon", 1887266795659978258)
+    val smithing_icon = find("dummyitem_smithing_icon", 5958751754372942517)
 }

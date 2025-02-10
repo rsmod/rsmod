@@ -220,7 +220,8 @@ public class UnpackedObjType(
         )
 
     public fun computeIdentityHash(): Long {
-        var result = name.hashCode().toLong()
+        var result = (internalId?.hashCode()?.toLong() ?: 0)
+        result = 61 * result + name.hashCode().toLong()
         result = 61 * result + stackable.hashCode()
         result = 61 * result + cost
         result = 61 * result + wearpos1
@@ -244,7 +245,6 @@ public class UnpackedObjType(
         result = 61 * result + tradeable.hashCode()
         result = 61 * result + respawnRate
         result = 61 * result + dummyitem
-        result = 61 * result + (internalId?.hashCode() ?: 0)
         return result and 0x7FFFFFFFFFFFFFFF
     }
 
@@ -409,7 +409,8 @@ public class UnpackedObjType(
     }
 
     override fun hashCode(): Int {
-        var result = name.hashCode()
+        var result = internalId?.hashCode() ?: 0
+        result = 31 * result + name.hashCode()
         result = 31 * result + desc.hashCode()
         result = 31 * result + weaponCategory
         result = 31 * result + model
@@ -481,7 +482,6 @@ public class UnpackedObjType(
         result = 31 * result + contentGroup
         result = 31 * result + transformlink
         result = 31 * result + transformtemplate
-        result = 31 * result + (internalId ?: 0)
         return result
     }
 }
