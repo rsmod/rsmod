@@ -4,8 +4,8 @@ import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
 import kotlinx.coroutines.runBlocking
 import org.rsmod.api.game.process.GameLifecycle
-import org.rsmod.api.player.clearInteractionRoute
 import org.rsmod.api.player.forceDisconnect
+import org.rsmod.api.player.output.clearMapFlag
 import org.rsmod.api.player.ui.closeSubs
 import org.rsmod.api.player.ui.ifClose
 import org.rsmod.events.EventBus
@@ -106,7 +106,9 @@ constructor(
     private fun Player.processInteractionMovementInterference(interaction: Interaction?) {
         val interaction = interaction ?: return
         if (interact.isMovementCancellationRequired(interaction)) {
-            clearInteractionRoute()
+            clearInteraction()
+            clearRouteRecalc()
+            clearMapFlag()
         }
     }
 
