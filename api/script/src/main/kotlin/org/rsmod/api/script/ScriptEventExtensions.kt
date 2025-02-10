@@ -3,6 +3,7 @@ package org.rsmod.api.script
 import org.rsmod.api.cheat.CheatHandlerBuilder
 import org.rsmod.api.cheat.register
 import org.rsmod.api.game.process.GameLifecycle
+import org.rsmod.api.npc.access.StandardNpcAccess
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.events.KeyedEvent
 import org.rsmod.events.SuspendEvent
@@ -27,4 +28,9 @@ public inline fun <reified T : KeyedEvent> ScriptContext.onEvent(
 public inline fun <reified T : SuspendEvent<ProtectedAccess>> ScriptContext.onProtectedEvent(
     id: Number,
     noinline action: suspend ProtectedAccess.(T) -> Unit,
+): Unit = eventBus.subscribe(T::class.java, id, action)
+
+public inline fun <reified T : SuspendEvent<StandardNpcAccess>> ScriptContext.onNpcAccessEvent(
+    id: Number,
+    noinline action: suspend StandardNpcAccess.(T) -> Unit,
 ): Unit = eventBus.subscribe(T::class.java, id, action)

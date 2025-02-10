@@ -7,6 +7,7 @@ import org.rsmod.api.config.refs.params
 import org.rsmod.api.config.refs.queues
 import org.rsmod.api.config.refs.seqs
 import org.rsmod.api.config.refs.synths
+import org.rsmod.api.npc.access.StandardNpcAccess
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.random.GameRandom
 import org.rsmod.api.repo.obj.ObjRepository
@@ -32,8 +33,8 @@ constructor(
         onOpNpcU(content.sheep, objs.shears) { shearSheep(it.npc) }
 
         onAiTimer(content.sheared_sheep) { npc.sheepTimer() }
-        onNpcQueue(content.sheared_sheep, queues.generic_queue1) { npc.queueTransmogReset() }
-        onNpcQueue(content.sheared_sheep, queues.generic_queue2) { npc.transmog(npc.type) }
+        onNpcQueue(content.sheared_sheep, queues.generic_queue1) { queueTransmogReset() }
+        onNpcQueue(content.sheared_sheep, queues.generic_queue2) { transmog(npc.type) }
     }
 
     private fun Npc.sheepTimer() {
@@ -68,9 +69,9 @@ constructor(
         npc.queue(queues.generic_queue1, cycles = 1)
     }
 
-    private fun Npc.queueTransmogReset() {
+    private fun StandardNpcAccess.queueTransmogReset() {
         resetMode()
-        sayFlavourText()
+        npc.sayFlavourText()
         queue(queues.generic_queue2, cycles = 49)
     }
 }

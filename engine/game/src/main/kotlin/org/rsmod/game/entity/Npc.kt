@@ -1,6 +1,5 @@
 package org.rsmod.game.entity
 
-import org.rsmod.coroutine.GameCoroutine
 import org.rsmod.game.entity.npc.NpcInfoProtocol
 import org.rsmod.game.entity.npc.NpcMode
 import org.rsmod.game.entity.shared.PathingEntityCommon
@@ -219,36 +218,6 @@ public class Npc(
         }
 
     public fun isContentType(content: ContentGroupType): Boolean = type.contentGroup == content.id
-
-    /**
-     * Suspends the call site until this [Npc] has gone a cycle without moving. If the npc was not
-     * moving when this function was called, the coroutine will not suspend and this function will
-     * instantly return.
-     *
-     * For similar functionality with a [Player], it must be done with "protected access."
-     *
-     * @see [delay]
-     */
-    public suspend fun GameCoroutine.arriveDelay() {
-        if (!hasMovedThisCycle) {
-            return
-        }
-        delay()
-    }
-
-    /**
-     * Adds a delay to this [Npc] and suspends the coroutine. Once the npc is no longer delayed, the
-     * coroutine will resume.
-     *
-     * For similar functionality with a [Player], it must be done with "protected access."
-     *
-     * @throws IllegalArgumentException if [cycles] is not greater than 0.
-     */
-    public suspend fun GameCoroutine.delay(cycles: Int = 1) {
-        require(cycles > 0) { "`cycles` must be greater than 0. (cycles=$cycles)" }
-        this@Npc.delay(cycles)
-        pause { isNotDelayed }
-    }
 
     override fun toString(): String = "Npc(slot=$slotId, coords=$coords, type=$type)"
 }

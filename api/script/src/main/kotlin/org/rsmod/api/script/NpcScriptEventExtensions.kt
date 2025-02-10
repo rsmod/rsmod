@@ -1,5 +1,6 @@
 package org.rsmod.api.script
 
+import org.rsmod.api.npc.access.StandardNpcAccess
 import org.rsmod.api.npc.events.NpcAIEvents
 import org.rsmod.api.npc.events.NpcQueueEvents
 import org.rsmod.api.npc.events.NpcTimerEvents
@@ -211,52 +212,52 @@ public fun ScriptContext.onAiTimer(
 
 public fun ScriptContext.onNpcTimer(
     timer: TimerType,
-    action: NpcTimerEvents.Default.() -> Unit,
-): Unit = onEvent(timer.id, action)
+    action: suspend StandardNpcAccess.(NpcTimerEvents.Default) -> Unit,
+): Unit = onNpcAccessEvent(timer.id, action)
 
 public fun ScriptContext.onNpcTimer(
     npc: NpcType,
     timer: TimerType,
-    action: NpcTimerEvents.Type.() -> Unit,
-): Unit = onEvent((npc.id.toLong() shl 32) or timer.id.toLong(), action)
+    action: suspend StandardNpcAccess.(NpcTimerEvents.Type) -> Unit,
+): Unit = onNpcAccessEvent((npc.id.toLong() shl 32) or timer.id.toLong(), action)
 
 public fun ScriptContext.onNpcTimer(
     content: ContentGroupType,
     timer: TimerType,
-    action: NpcTimerEvents.Content.() -> Unit,
-): Unit = onEvent((content.id.toLong() shl 32) or timer.id.toLong(), action)
+    action: suspend StandardNpcAccess.(NpcTimerEvents.Content) -> Unit,
+): Unit = onNpcAccessEvent((content.id.toLong() shl 32) or timer.id.toLong(), action)
 
 /* Queue functions */
 public fun ScriptContext.onNpcQueue(
     type: QueueType,
-    action: NpcQueueEvents.Default<Nothing>.() -> Unit,
-): Unit = onEvent(type.id, action)
+    action: suspend StandardNpcAccess.(NpcQueueEvents.Default<Nothing>) -> Unit,
+): Unit = onNpcAccessEvent(type.id, action)
 
 public fun <T> ScriptContext.onNpcQueueWithArgs(
     type: QueueType,
-    action: NpcQueueEvents.Default<T>.() -> Unit,
-): Unit = onEvent(type.id, action)
+    action: suspend StandardNpcAccess.(NpcQueueEvents.Default<T>) -> Unit,
+): Unit = onNpcAccessEvent(type.id, action)
 
 public fun ScriptContext.onNpcQueue(
     type: NpcType,
     queue: QueueType,
-    action: NpcQueueEvents.Type<Nothing>.() -> Unit,
-): Unit = onEvent((type.id.toLong() shl 32) or queue.id.toLong(), action)
+    action: suspend StandardNpcAccess.(NpcQueueEvents.Type<Nothing>) -> Unit,
+): Unit = onNpcAccessEvent((type.id.toLong() shl 32) or queue.id.toLong(), action)
 
 public fun <T> ScriptContext.onNpcQueueWithArgs(
     type: NpcType,
     queue: QueueType,
-    action: NpcQueueEvents.Type<T>.() -> Unit,
-): Unit = onEvent((type.id.toLong() shl 32) or queue.id.toLong(), action)
+    action: suspend StandardNpcAccess.(NpcQueueEvents.Type<T>) -> Unit,
+): Unit = onNpcAccessEvent((type.id.toLong() shl 32) or queue.id.toLong(), action)
 
 public fun ScriptContext.onNpcQueue(
     content: ContentGroupType,
     queue: QueueType,
-    action: NpcQueueEvents.Content<Nothing>.() -> Unit,
-): Unit = onEvent((content.id.toLong() shl 32) or queue.id.toLong(), action)
+    action: suspend StandardNpcAccess.(NpcQueueEvents.Content<Nothing>) -> Unit,
+): Unit = onNpcAccessEvent((content.id.toLong() shl 32) or queue.id.toLong(), action)
 
 public fun <T> ScriptContext.onNpcQueueWithArgs(
     content: ContentGroupType,
     queue: QueueType,
-    action: NpcQueueEvents.Content<T>.() -> Unit,
-): Unit = onEvent((content.id.toLong() shl 32) or queue.id.toLong(), action)
+    action: suspend StandardNpcAccess.(NpcQueueEvents.Content<T>) -> Unit,
+): Unit = onNpcAccessEvent((content.id.toLong() shl 32) or queue.id.toLong(), action)

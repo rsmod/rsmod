@@ -3,6 +3,7 @@ package org.rsmod.content.other.generic.npcs.ducks
 import jakarta.inject.Inject
 import org.rsmod.api.config.refs.content
 import org.rsmod.api.config.refs.queues
+import org.rsmod.api.npc.access.StandardNpcAccess
 import org.rsmod.api.random.GameRandom
 import org.rsmod.api.script.onAiTimer
 import org.rsmod.api.script.onNpcQueue
@@ -16,8 +17,8 @@ class Ducks @Inject constructor(private val random: GameRandom, private val npcL
     override fun ScriptContext.startUp() {
         onAiTimer(content.duck) { npc.duckTimer() }
         onAiTimer(content.duckling) { npc.ducklingTimer() }
-        onNpcQueue(content.duck, queues.generic_queue1) { npc.duckSay() }
-        onNpcQueue(content.duckling, queues.generic_queue1) { npc.ducklingSay() }
+        onNpcQueue(content.duck, queues.generic_queue1) { duckSay() }
+        onNpcQueue(content.duckling, queues.generic_queue1) { ducklingSay() }
     }
 
     private fun Npc.duckTimer() {
@@ -25,7 +26,7 @@ class Ducks @Inject constructor(private val random: GameRandom, private val npcL
         queue(queues.generic_queue1, 1)
     }
 
-    private fun Npc.duckSay() {
+    private fun StandardNpcAccess.duckSay() {
         say("Quack!")
         // TODO: sound_area
     }
@@ -41,7 +42,7 @@ class Ducks @Inject constructor(private val random: GameRandom, private val npcL
         }
     }
 
-    private fun Npc.ducklingSay() {
+    private fun StandardNpcAccess.ducklingSay() {
         say("Eep!")
         // TODO: sound_area
     }

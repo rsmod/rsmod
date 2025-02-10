@@ -1,13 +1,16 @@
 package org.rsmod.api.game.process.npc
 
 import jakarta.inject.Inject
+import org.rsmod.api.npc.access.StandardNpcAccessLauncher
 import org.rsmod.api.npc.events.NpcQueueEvents
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.queue.NpcQueueList
 import org.rsmod.game.type.npc.UnpackedNpcType
 
-public class NpcQueueProcessor @Inject constructor(private val eventBus: EventBus) {
+public class NpcQueueProcessor
+@Inject
+constructor(private val eventBus: EventBus, private val accessLauncher: StandardNpcAccessLauncher) {
     public fun process(npc: Npc) {
         if (npc.queueList.isNotEmpty) {
             npc.decrementQueueDelays()
@@ -51,24 +54,25 @@ public class NpcQueueProcessor @Inject constructor(private val eventBus: EventBu
 
     private fun Npc.publishEvent(queue: NpcQueueList.Queue, type: UnpackedNpcType = visType) {
         val packedType = (type.id.toLong() shl 32) or queue.id.toLong()
-        val typeTrigger = eventBus.keyed[NpcQueueEvents.Type::class.java, packedType]
+        val typeTrigger = eventBus.suspend[NpcQueueEvents.Type::class.java, packedType]
         if (typeTrigger != null) {
-            typeTrigger.invoke(NpcQueueEvents.Type(this, queue.args, queue.id))
+            val event = NpcQueueEvents.Type(this, queue.args, queue.id)
+            accessLauncher.launch(this) { typeTrigger(event) }
             return
         }
 
         if (type.contentGroup != -1) {
             val packedContentGroup = (type.contentGroup.toLong() shl 32) or queue.id.toLong()
             val contentTrigger =
-                eventBus.keyed[NpcQueueEvents.Content::class.java, packedContentGroup]
+                eventBus.suspend[NpcQueueEvents.Content::class.java, packedContentGroup]
             if (contentTrigger != null) {
-                contentTrigger.invoke(
-                    NpcQueueEvents.Content(this, queue.args, type.contentGroup, queue.id)
-                )
+                val event = NpcQueueEvents.Content(this, queue.args, type.contentGroup, queue.id)
+                accessLauncher.launch(this) { contentTrigger(event) }
                 return
             }
         }
 
-        eventBus.publish(NpcQueueEvents.Default(this, queue.args, queue.id))
+        val event = NpcQueueEvents.Default(this, queue.args, queue.id)
+        accessLauncher.launch(this) { eventBus.publish(this, event) }
     }
 }
