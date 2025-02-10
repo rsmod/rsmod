@@ -195,7 +195,12 @@ public class ProtectedAccess(
             player.moveSpeed = moveSpeed
         }
 
-        val distanceDelay = (player.coords.chebyshevDistance(dest) - 1) / max(1, moveSpeed.steps)
+        val distance = coords.chebyshevDistance(dest)
+        if (moveSpeed == MoveSpeed.Run && distance <= 3) {
+            return
+        }
+
+        val distanceDelay = (distance - 1) / max(1, moveSpeed.steps)
         if (distanceDelay > 0) {
             delay(distanceDelay)
         }
@@ -237,7 +242,7 @@ public class ProtectedAccess(
             player.moveSpeed = moveSpeed
         }
 
-        val distanceDelay = (player.coords.chebyshevDistance(dest) - 1) / max(1, moveSpeed.steps)
+        val distanceDelay = (coords.chebyshevDistance(dest) - 1) / max(1, moveSpeed.steps)
         delay(max(1, distanceDelay))
     }
 
