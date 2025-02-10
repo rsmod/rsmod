@@ -10,6 +10,8 @@ public sealed class ObjRegistryResult {
 
     public data class BulkNonStackableLimitExceeded(val requestedCount: Int) : Fail()
 
+    public data object InvalidDummyitem : Fail()
+
     public sealed class Success : ObjRegistryResult()
 
     public class Merge(public val merged: Obj) : Success()

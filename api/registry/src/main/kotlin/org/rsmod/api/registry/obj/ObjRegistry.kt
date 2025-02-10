@@ -16,7 +16,13 @@ constructor(private val updates: ZoneUpdateMap, private val objTypes: ObjTypeLis
     public fun count(): Int = objs.objCount()
 
     public fun add(obj: Obj): ObjRegistryResult {
-        val stackable = obj.isStackable()
+        val type = objTypes[obj]
+
+        if (type.isDummyItem) {
+            return ObjRegistryResult.InvalidDummyitem
+        }
+
+        val stackable = type.isStackable
         if (!stackable && obj.count > MAX_NON_STACK_COUNT_DROP) {
             return ObjRegistryResult.BulkNonStackableLimitExceeded(obj.count)
         }
@@ -87,8 +93,6 @@ constructor(private val updates: ZoneUpdateMap, private val objTypes: ObjTypeLis
 
     public fun isValid(observer: Player, obj: Obj): Boolean =
         findAll(obj.coords).any { it.type == obj.type && it.isVisibleTo(observer) }
-
-    private fun Obj.isStackable(): Boolean = objTypes[type]?.isStackable == true
 
     private fun Obj.canMergeWith(other: Obj, stackable: Boolean): Boolean {
         if (type != other.type) {

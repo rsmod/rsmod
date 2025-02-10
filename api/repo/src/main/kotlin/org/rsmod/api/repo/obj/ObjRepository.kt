@@ -42,6 +42,9 @@ constructor(
             is ObjRegistryResult.Split -> addDurations(register.split, duration, reveal)
             ObjRegistryResult.Stack -> addDuration(obj, duration, reveal)
             is ObjRegistryResult.BulkNonStackableLimitExceeded -> return register
+            is ObjRegistryResult.InvalidDummyitem -> {
+                throw IllegalStateException("Dummyitem cannot be added to registry: $obj")
+            }
         }
         return register
     }
