@@ -15,6 +15,7 @@ object BaseSynths : SynthReferences() {
     val nicedoor_open = find("nicedoor_open")
     val firebreath = find("firebreath")
     val milk_cow = find("milk_cow")
+    val quack = find("quack")
     val shear_sheep = find("shear_sheep")
     val paper_turn = find("paper_turn")
     val sheep_atmospheric1 = find("sheep_atmospheric1")
