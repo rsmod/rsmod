@@ -34,7 +34,7 @@ class Ducks @Inject constructor(private val random: GameRandom, private val npcL
         setNextTimer()
         // TODO: Duckling huntmode for nearby ducks.
         val duck = facingTarget(npcList)
-        if (duck != null && duck.matches(content.duckling)) {
+        if (duck != null && duck.isContentType(content.duckling)) {
             duck.say("Quack?")
             duck.queue(queues.generic_queue1, 2)
             return

@@ -218,7 +218,7 @@ public class Npc(
             playerFaceClose(target)
         }
 
-    public fun matches(content: ContentGroupType): Boolean = type.contentGroup == content.id
+    public fun isContentType(content: ContentGroupType): Boolean = type.contentGroup == content.id
 
     /**
      * Suspends the call site until this [Npc] has gone a cycle without moving. If the npc was not

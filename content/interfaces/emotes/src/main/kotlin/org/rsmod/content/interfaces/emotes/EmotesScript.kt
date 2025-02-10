@@ -327,27 +327,27 @@ private constructor(
     private suspend fun ProtectedAccess.skillCapeEmote() {
         stopAction()
 
-        if (ocMatches(player.back, objs.music_cape, objs.music_cape_t)) {
+        if (ocIsType(player.back, objs.music_cape, objs.music_cape_t)) {
             masteryCapeEmote(seqs.emote_air_guitar, spotanims.air_guitar_emote)
             return
         }
 
-        if (ocMatches(player.back, objs.quest_point_cape, objs.quest_point_cape_t)) {
+        if (ocIsType(player.back, objs.quest_point_cape, objs.quest_point_cape_t)) {
             masteryCapeEmote(seqs.quest_point_cape, spotanims.quest_point_cape)
             return
         }
 
-        if (ocMatches(player.back, objs.achievement_diary_cape, objs.achievement_diary_cape_t)) {
+        if (ocIsType(player.back, objs.achievement_diary_cape, objs.achievement_diary_cape_t)) {
             achievementDiaryCapeEmote()
             return
         }
 
-        if (ocMatches(player.back, content.max_cape)) {
+        if (ocIsContentType(player.back, content.max_cape)) {
             masteryCapeEmote(seqs.max_cape, spotanims.max_cape)
             return
         }
 
-        val skillCape = ocMatches(player.back, content.skill_cape)
+        val skillCape = ocIsContentType(player.back, content.skill_cape)
         if (!skillCape) {
             mes("You need to be wearing a skillcape in order to perform that emote.")
             return

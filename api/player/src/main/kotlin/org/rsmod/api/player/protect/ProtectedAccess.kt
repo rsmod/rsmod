@@ -1824,15 +1824,15 @@ public class ProtectedAccess(
         objTypes: ObjTypeList = context.objTypes,
     ): T? = if (obj == null) null else objTypes[obj].paramOrNull(type)
 
-    public fun ocMatches(
+    public fun ocIsContentType(
         obj: InvObj?,
         content: ContentGroupType,
         objTypes: ObjTypeList = context.objTypes,
     ): Boolean = obj != null && objTypes[obj].contentGroup == content.id
 
-    public fun ocMatches(obj: InvObj?, type: ObjType): Boolean = obj.isType(type)
+    public fun ocIsType(obj: InvObj?, type: ObjType): Boolean = obj.isType(type)
 
-    public fun ocMatches(obj: InvObj?, type: ObjType, vararg others: ObjType): Boolean =
+    public fun ocIsType(obj: InvObj?, type: ObjType, vararg others: ObjType): Boolean =
         obj.isType(type) || others.any(obj::isType)
 
     public fun ocTradable(obj: InvObj, objTypes: ObjTypeList = context.objTypes): Boolean =
