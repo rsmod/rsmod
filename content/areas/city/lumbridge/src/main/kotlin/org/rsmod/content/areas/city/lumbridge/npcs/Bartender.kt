@@ -31,9 +31,9 @@ class Bartender @Inject constructor(private val objRepo: ObjRepository) : Plugin
             startDialogue(npc)
             return
         }
+        walk(coords)
         delay(1)
         playerMove(dest)
-        faceEntitySquare(npc)
         startDialogue(npc)
     }
 
