@@ -1,6 +1,7 @@
 package org.rsmod.api.cache.types
 
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.rsmod.api.testing.GameTestState
 
@@ -10,7 +11,7 @@ class TypeIdentityHashCollisionTest {
         val types = cacheTypes.components.values
         val grouped = types.groupBy { it.computeIdentityHash() }
         val collisions = grouped.filter { it.value.size > 1 }
-        assert(collisions.isEmpty()) { "Type collision detected: $collisions." }
+        assertTrue(collisions.isEmpty()) { "Type collision detected: $collisions." }
         assertEquals(grouped.size, types.size)
     }
 
@@ -19,7 +20,7 @@ class TypeIdentityHashCollisionTest {
         val types = cacheTypes.interfaces.values
         val grouped = types.groupBy { it.computeIdentityHash() }
         val collisions = grouped.filter { it.value.size > 1 }
-        assert(collisions.isEmpty()) { "Type collision detected: $collisions." }
+        assertTrue(collisions.isEmpty()) { "Type collision detected: $collisions." }
         assertEquals(grouped.size, types.size)
     }
 
@@ -28,7 +29,7 @@ class TypeIdentityHashCollisionTest {
         val types = cacheTypes.enums.values
         val grouped = types.groupBy { it.computeIdentityHash() }
         val collisions = grouped.filter { it.value.size > 1 }
-        assert(collisions.isEmpty()) { "Type collision detected: $collisions." }
+        assertTrue(collisions.isEmpty()) { "Type collision detected: $collisions." }
         assertEquals(grouped.size, types.size)
     }
 
@@ -37,7 +38,7 @@ class TypeIdentityHashCollisionTest {
         val types = cacheTypes.locs.values
         val grouped = types.groupBy { it.computeIdentityHash() }
         val collisions = grouped.filter { it.value.size > 1 }
-        assert(collisions.isEmpty()) { "Type collision detected: $collisions." }
+        assertTrue(collisions.isEmpty()) { "Type collision detected: $collisions." }
         assertEquals(grouped.size, types.size)
     }
 
@@ -46,7 +47,7 @@ class TypeIdentityHashCollisionTest {
         val types = cacheTypes.npcs.values
         val grouped = types.groupBy { it.computeIdentityHash() }
         val collisions = grouped.filter { it.value.size > 1 }
-        assert(collisions.isEmpty()) { "Type collision detected: $collisions." }
+        assertTrue(collisions.isEmpty()) { "Type collision detected: $collisions." }
         assertEquals(grouped.size, types.size)
     }
 
@@ -55,7 +56,7 @@ class TypeIdentityHashCollisionTest {
         val types = cacheTypes.objs.values
         val grouped = types.groupBy { it.computeIdentityHash() }
         val collisions = grouped.filter { it.value.size > 1 }
-        assert(collisions.isEmpty()) { "Type collision detected: $collisions." }
+        assertTrue(collisions.isEmpty()) { "Type collision detected: $collisions." }
         assertEquals(grouped.size, types.size)
     }
 
@@ -64,7 +65,7 @@ class TypeIdentityHashCollisionTest {
         val types = cacheTypes.params.values
         val grouped = types.groupBy { it.computeIdentityHash() }
         val collisions = grouped.filter { it.value.size > 1 }
-        assert(collisions.isEmpty()) { "Type collision detected: $collisions." }
+        assertTrue(collisions.isEmpty()) { "Type collision detected: $collisions." }
         assertEquals(grouped.size, types.size)
     }
 
@@ -73,7 +74,7 @@ class TypeIdentityHashCollisionTest {
         val types = cacheTypes.varbits.values
         val grouped = types.groupBy { it.computeIdentityHash() }
         val collisions = grouped.filter { it.value.size > 1 }
-        assert(collisions.isEmpty()) { "Type collision detected: $collisions." }
+        assertTrue(collisions.isEmpty()) { "Type collision detected: $collisions." }
         assertEquals(grouped.size, types.size)
     }
 
@@ -82,7 +83,7 @@ class TypeIdentityHashCollisionTest {
         val types = cacheTypes.varps.values
         val grouped = types.groupBy { it.computeIdentityHash() }
         val collisions = grouped.filter { it.value.size > 1 }
-        assert(collisions.isEmpty()) { "Type collision detected: $collisions." }
+        assertTrue(collisions.isEmpty()) { "Type collision detected: $collisions." }
         assertEquals(grouped.size, types.size)
     }
 
@@ -91,7 +92,7 @@ class TypeIdentityHashCollisionTest {
         val types = cacheTypes.invs.values
         val grouped = types.groupBy { it.computeIdentityHash() }
         val collisions = grouped.filter { it.value.size > 1 }
-        assert(collisions.isEmpty()) { "Type collision detected: $collisions." }
+        assertTrue(collisions.isEmpty()) { "Type collision detected: $collisions." }
         assertEquals(grouped.size, types.size)
     }
 
@@ -100,7 +101,7 @@ class TypeIdentityHashCollisionTest {
         val types = cacheTypes.seqs.values
         val grouped = types.groupBy { it.computeIdentityHash() }
         val collisions = grouped.filter { it.value.size > 1 }
-        assert(collisions.isEmpty()) { "Type collision detected: $collisions." }
+        assertTrue(collisions.isEmpty()) { "Type collision detected: $collisions." }
         assertEquals(grouped.size, types.size)
     }
 
@@ -109,7 +110,7 @@ class TypeIdentityHashCollisionTest {
         val types = cacheTypes.fonts.values
         val grouped = types.groupBy { it.computeIdentityHash() }
         val collisions = grouped.filter { it.value.size > 1 }
-        assert(collisions.isEmpty()) { "Type collision detected: $collisions." }
+        assertTrue(collisions.isEmpty()) { "Type collision detected: $collisions." }
         assertEquals(grouped.size, types.size)
     }
 
@@ -118,7 +119,7 @@ class TypeIdentityHashCollisionTest {
         val types = cacheTypes.structs.values
         val grouped = types.groupBy { it.computeIdentityHash() }
         val collisions = grouped.filter { it.value.size > 1 }
-        assert(collisions.isEmpty()) { "Type collision detected: $collisions." }
+        assertTrue(collisions.isEmpty()) { "Type collision detected: $collisions." }
         assertEquals(grouped.size, types.size)
     }
 
@@ -127,7 +128,7 @@ class TypeIdentityHashCollisionTest {
         val types = cacheTypes.spotanims.values
         val grouped = types.groupBy { it.computeIdentityHash() }
         val collisions = grouped.filter { it.value.size > 1 }
-        assert(collisions.isEmpty()) { "Type collision detected: $collisions." }
+        assertTrue(collisions.isEmpty()) { "Type collision detected: $collisions." }
         assertEquals(grouped.size, types.size)
     }
 }
