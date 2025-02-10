@@ -1139,25 +1139,20 @@ public class ProtectedAccess(
      * _Note: This function does not delay or suspend if the player's **current** coords do not
      * require rebuilding their build area._
      *
-     * @throws ProtectedAccessLostException if [regainProtectedAccess] returns `false` after the
-     *   suspension resumes.
-     * @see [regainProtectedAccess]
      * @see [BuildAreaUtils.requiresNewBuildArea]
+     * @see [delay]
      */
     public suspend fun loadDelay() {
         val requiresBuildAreaRebuild = BuildAreaUtils.requiresNewBuildArea(player)
         if (!requiresBuildAreaRebuild) {
             return
         }
-
         for (i in 0 until 10) {
             if (player.lastMapBuildComplete >= mapClock) {
                 break
             }
             delay(1)
         }
-
-        regainProtectedAccess()
     }
 
     /**
