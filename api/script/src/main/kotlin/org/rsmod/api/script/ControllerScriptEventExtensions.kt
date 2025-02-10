@@ -1,5 +1,6 @@
 package org.rsmod.api.script
 
+import org.rsmod.api.controller.access.StandardConAccess
 import org.rsmod.api.controller.events.ControllerAIEvents
 import org.rsmod.api.controller.events.ControllerQueueEvents
 import org.rsmod.api.controller.events.ControllerTimerEvents
@@ -16,14 +17,14 @@ public fun ScriptContext.onAiConTimer(
 
 public fun ScriptContext.onConTimer(
     type: ControllerType,
-    action: ControllerTimerEvents.Type.() -> Unit,
-): Unit = onEvent(type.id, action)
+    action: suspend StandardConAccess.(ControllerTimerEvents.Type) -> Unit,
+): Unit = onConAccessEvent(type.id, action)
 
 public fun ScriptContext.onConTimer(
     type: ControllerType,
     timer: TimerType,
-    action: ControllerTimerEvents.Type.() -> Unit,
-): Unit = onEvent((type.id.toLong() shl 32) or timer.id.toLong(), action)
+    action: suspend StandardConAccess.(ControllerTimerEvents.Type) -> Unit,
+): Unit = onConAccessEvent((type.id.toLong() shl 32) or timer.id.toLong(), action)
 
 /* Queue functions */
 public fun ScriptContext.onAiConQueue(
@@ -38,22 +39,22 @@ public fun <T> ScriptContext.onAiConQueueWithArgs(
 
 public fun ScriptContext.onConQueue(
     type: QueueType,
-    action: ControllerQueueEvents.Default<Nothing>.() -> Unit,
-): Unit = onEvent(type.id, action)
+    action: suspend StandardConAccess.(ControllerQueueEvents.Default<Nothing>) -> Unit,
+): Unit = onConAccessEvent(type.id, action)
 
 public fun <T> ScriptContext.onConQueueWithArgs(
     type: QueueType,
-    action: ControllerQueueEvents.Default<T>.() -> Unit,
-): Unit = onEvent(type.id, action)
+    action: suspend StandardConAccess.(ControllerQueueEvents.Default<T>) -> Unit,
+): Unit = onConAccessEvent(type.id, action)
 
 public fun ScriptContext.onConQueue(
     type: ControllerType,
     queue: QueueType,
-    action: ControllerQueueEvents.Type<Nothing>.() -> Unit,
-): Unit = onEvent((type.id.toLong() shl 32) or queue.id.toLong(), action)
+    action: suspend StandardConAccess.(ControllerQueueEvents.Type<Nothing>) -> Unit,
+): Unit = onConAccessEvent((type.id.toLong() shl 32) or queue.id.toLong(), action)
 
 public fun <T> ScriptContext.onConQueueWithArgs(
     type: ControllerType,
     queue: QueueType,
-    action: ControllerQueueEvents.Type<T>.() -> Unit,
-): Unit = onEvent((type.id.toLong() shl 32) or queue.id.toLong(), action)
+    action: suspend StandardConAccess.(ControllerQueueEvents.Type<T>) -> Unit,
+): Unit = onConAccessEvent((type.id.toLong() shl 32) or queue.id.toLong(), action)

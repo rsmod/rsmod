@@ -59,6 +59,12 @@ public class Controller(public val coords: CoordGrid, public val type: Controlle
         timerMap[timer] = currentMapClock + cycles
     }
 
+    public fun aiQueue(type: QueueType, cycles: Int, args: Any? = null) {
+        require(cycles > 0) { "`cycles` must be greater than 0. (cycles=$cycles)" }
+        val queue = NpcQueueList.Queue(type.id, cycles, args)
+        this.aiQueue = queue
+    }
+
     public fun queue(queue: QueueType, cycles: Int, args: Any? = null) {
         require(cycles > 0) { "`cycles` must be greater than 0. (cycles=$cycles)" }
         queueList.add(queue, cycles, args)
@@ -94,18 +100,6 @@ public class Controller(public val coords: CoordGrid, public val type: Controlle
     public fun cancelActiveCoroutine() {
         activeCoroutine?.cancel()
         activeCoroutine = null
-    }
-
-    /**
-     * Adds a delay to this [Controller] and suspends the coroutine. Once the controller is no
-     * longer delayed, the coroutine will resume.
-     *
-     * @throws IllegalArgumentException if [cycles] is not greater than 0.
-     */
-    public suspend fun GameCoroutine.delay(cycles: Int = 1) {
-        require(cycles > 0) { "`cycles` must be greater than 0. (cycles=$cycles)" }
-        this@Controller.delay(cycles)
-        pause { isNotDelayed }
     }
 
     public fun bounds(): Bounds = Bounds(coords)
