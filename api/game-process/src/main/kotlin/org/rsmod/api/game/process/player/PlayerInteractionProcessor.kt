@@ -122,6 +122,7 @@ constructor(
                     interacted = true
                 }
                 InteractionStep.TriggerScriptAp -> {
+                    abortRoute()
                     triggerAp(interaction)
                     interacted = true
                 }
@@ -150,6 +151,7 @@ constructor(
                     interacted = true
                 }
                 InteractionStep.TriggerScriptAp -> {
+                    abortRoute()
                     triggerAp(interaction)
                     interacted = true
                 }
