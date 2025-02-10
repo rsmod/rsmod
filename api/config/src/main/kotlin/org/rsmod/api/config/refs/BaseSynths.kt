@@ -28,6 +28,7 @@ object BaseSynths : SynthReferences() {
     val lever = find("lever")
     val pick = find("pick")
     val pick2 = find("pick2")
+    val take_axe = find("take_axe")
     val tree_fall_sound = find("tree_fall_sound")
     val cow_atmospheric = find("cow_atmospheric")
 }
