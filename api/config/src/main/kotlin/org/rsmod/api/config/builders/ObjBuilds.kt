@@ -5,6 +5,6 @@ import org.rsmod.game.type.obj.Dummyitem
 
 internal object ObjBuilds : ObjBuilder() {
     init {
-        build("template_for_transform") { dummyitem = Dummyitem.InvOnly }
+        build("template_for_transform") { dummyitem = Dummyitem.GraphicOnly }
     }
 }
