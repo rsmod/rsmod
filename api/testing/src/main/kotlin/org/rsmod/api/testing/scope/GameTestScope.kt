@@ -10,7 +10,9 @@ import jakarta.inject.Inject
 import kotlin.contracts.contract
 import kotlin.reflect.KClass
 import net.rsprot.protocol.game.incoming.buttons.If3Button
+import net.rsprot.protocol.game.incoming.buttons.IfButtonD
 import net.rsprot.protocol.game.incoming.misc.user.MoveGameClick
+import net.rsprot.protocol.game.incoming.resumed.ResumePCountDialog
 import net.rsprot.protocol.game.outgoing.misc.player.MessageGame
 import net.rsprot.protocol.util.CombinedId
 import org.junit.jupiter.api.Assertions
@@ -20,12 +22,15 @@ import org.rsmod.api.inv.map.InvMapInit
 import org.rsmod.api.market.DefaultMarketPrices
 import org.rsmod.api.market.MarketPrices
 import org.rsmod.api.net.rsprot.handlers.If3ButtonHandler
+import org.rsmod.api.net.rsprot.handlers.IfButtonDHandler
 import org.rsmod.api.net.rsprot.handlers.MoveGameClickHandler
+import org.rsmod.api.net.rsprot.handlers.ResumePCountDialogHandler
 import org.rsmod.api.player.interact.LocInteractions
 import org.rsmod.api.player.interact.NpcInteractions
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.protect.ProtectedAccessLauncher
 import org.rsmod.api.player.protect.clearPendingAction
+import org.rsmod.api.player.ui.ifClose
 import org.rsmod.api.player.ui.ifOpenMain
 import org.rsmod.api.player.ui.ifOpenSub
 import org.rsmod.api.player.vars.varMoveSpeed
@@ -137,7 +142,9 @@ constructor(
     private val invMapInit: InvMapInit,
     private val protectedAccess: ProtectedAccessLauncher,
     private val ifButtonHandler: If3ButtonHandler,
+    private val ifButtonDHandler: IfButtonDHandler,
     private val gameClickHandler: MoveGameClickHandler,
+    private val resumePCountDialog: ResumePCountDialogHandler,
 ) {
     init {
         registerPlayer()
@@ -286,10 +293,8 @@ constructor(
         ifOpenSub(interf, target, IfSubType.Overlay, eventBus)
     }
 
-    public fun Player.moveGameClick(dest: CoordGrid) {
-        allocZoneCollision(dest)
-        val message = MoveGameClick(dest.x, dest.z, keyCombination = 0)
-        captureClient.queue(gameClickHandler, message)
+    public fun Player.ifClose() {
+        ifClose(eventBus)
     }
 
     public fun Player.ifButton(
@@ -301,6 +306,56 @@ constructor(
         val combinedId = CombinedId(type.interfaceId, type.component)
         val message = If3Button(combinedId, comsub ?: -1, obj = obj ?: -1, op = op.slot)
         captureClient.queue(ifButtonHandler, message)
+    }
+
+    public fun Player.ifButtonD(
+        fromComponent: ComponentType,
+        fromComsub: Int,
+        fromObj: ObjType?,
+        intoComponent: ComponentType,
+        intoComsub: Int,
+        intoObj: ObjType?,
+    ) {
+        val fromCombinedId = CombinedId(fromComponent.interfaceId, fromComponent.component)
+        val intoCombinedId = CombinedId(intoComponent.interfaceId, intoComponent.component)
+        val message =
+            IfButtonD(
+                fromCombinedId,
+                fromComsub,
+                fromObj?.id ?: -1,
+                intoCombinedId,
+                intoComsub,
+                intoObj?.id ?: -1,
+            )
+        captureClient.queue(ifButtonDHandler, message)
+    }
+
+    public fun Player.ifButtonD(
+        fromComponent: ComponentType,
+        fromComsub: Int,
+        intoComsub: Int,
+        fromObj: ObjType? = null,
+        intoObj: ObjType? = null,
+    ) {
+        ifButtonD(
+            fromComponent = fromComponent,
+            fromComsub = fromComsub,
+            fromObj = fromObj,
+            intoComponent = fromComponent,
+            intoComsub = intoComsub,
+            intoObj = intoObj,
+        )
+    }
+
+    public fun Player.resumeCountDialog(count: Int) {
+        val message = ResumePCountDialog(count)
+        captureClient.queue(resumePCountDialog, message)
+    }
+
+    public fun Player.moveGameClick(dest: CoordGrid) {
+        allocZoneCollision(dest)
+        val message = MoveGameClick(dest.x, dest.z, keyCombination = 0)
+        captureClient.queue(gameClickHandler, message)
     }
 
     public fun Player.withProtectedAccess(action: suspend ProtectedAccess.() -> Unit) {
