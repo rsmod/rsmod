@@ -22,6 +22,7 @@ dependencies {
     implementation(projects.api.registry)
     implementation(projects.api.repo)
     implementation(projects.api.route)
+    implementation(projects.api.utils.utilsLogging)
     implementation(projects.api.utils.utilsMap)
     implementation(projects.engine.events)
     implementation(projects.engine.game)

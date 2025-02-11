@@ -1,17 +1,17 @@
 package org.rsmod.api.game.process.player
 
-import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
 import kotlin.collections.iterator
 import org.rsmod.api.player.forceDisconnect
 import org.rsmod.api.player.output.UpdateInventory
+import org.rsmod.api.utils.logging.GameExceptionHandler
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.PlayerList
 import org.rsmod.game.inv.Inventory
 
-public class PlayerInvUpdateProcess @Inject constructor(private val players: PlayerList) {
-    private val logger = InlineLogger()
-
+public class PlayerInvUpdateProcess
+@Inject
+constructor(private val players: PlayerList, private val exceptionHandler: GameExceptionHandler) {
     private val processedInvs = hashSetOf<Inventory>()
 
     public fun process() {
@@ -61,9 +61,9 @@ public class PlayerInvUpdateProcess @Inject constructor(private val players: Pla
             block(this)
         } catch (e: Exception) {
             forceDisconnect()
-            logger.error(e) { "Error processing inv updates for player: $this." }
+            exceptionHandler.handle(e) { "Error processing inv updates for player: $this." }
         } catch (e: NotImplementedError) {
             forceDisconnect()
-            logger.error(e) { "Error processing inv updates for player: $this." }
+            exceptionHandler.handle(e) { "Error processing inv updates for player: $this." }
         }
 }

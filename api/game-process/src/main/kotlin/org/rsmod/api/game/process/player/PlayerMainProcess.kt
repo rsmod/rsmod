@@ -1,6 +1,5 @@
 package org.rsmod.api.game.process.player
 
-import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
 import kotlinx.coroutines.runBlocking
 import org.rsmod.api.game.process.GameLifecycle
@@ -8,6 +7,7 @@ import org.rsmod.api.player.forceDisconnect
 import org.rsmod.api.player.output.clearMapFlag
 import org.rsmod.api.player.ui.closeSubs
 import org.rsmod.api.player.ui.ifClose
+import org.rsmod.api.utils.logging.GameExceptionHandler
 import org.rsmod.events.EventBus
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Player
@@ -30,9 +30,8 @@ constructor(
     private val mapSquares: PlayerMapSquareProcessor,
     private val eventBus: EventBus,
     private val mapClock: MapClock,
+    private val exceptionHandler: GameExceptionHandler,
 ) {
-    private val logger = InlineLogger()
-
     public fun process() {
         players.process()
         players.forEach { it.tryOrDisconnect { clientProcess() } }
@@ -137,9 +136,9 @@ constructor(
             block(this)
         } catch (e: Exception) {
             forceDisconnect()
-            logger.error(e) { "Error processing main cycle for player: $this." }
+            exceptionHandler.handle(e) { "Error processing main cycle for player: $this." }
         } catch (e: NotImplementedError) {
             forceDisconnect()
-            logger.error(e) { "Error processing main cycle for player: $this." }
+            exceptionHandler.handle(e) { "Error processing main cycle for player: $this." }
         }
 }

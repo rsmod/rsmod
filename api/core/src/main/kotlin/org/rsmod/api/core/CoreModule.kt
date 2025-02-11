@@ -12,6 +12,7 @@ import org.rsmod.api.game.process.GameCycle
 import org.rsmod.api.market.MarketModule
 import org.rsmod.api.random.RandomModule
 import org.rsmod.api.route.RouteModule
+import org.rsmod.api.utils.logging.ExceptionHandlerModule
 import org.rsmod.game.queue.WorldQueueList
 import org.rsmod.game.type.enums.EnumTypeList
 import org.rsmod.game.type.util.EnumTypeMapResolver
@@ -21,6 +22,7 @@ public object CoreModule : ExtendedModule() {
     override fun bind() {
         install(CacheModule)
         install(EntityRepoModule)
+        install(ExceptionHandlerModule)
         install(GameMapModule)
         install(MarketModule)
         install(PlayerModule)

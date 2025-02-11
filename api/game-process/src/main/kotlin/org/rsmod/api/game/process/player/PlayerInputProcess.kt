@@ -1,8 +1,8 @@
 package org.rsmod.api.game.process.player
 
-import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
 import org.rsmod.api.player.forceDisconnect
+import org.rsmod.api.utils.logging.GameExceptionHandler
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.PathingEntity
 import org.rsmod.game.entity.Player
@@ -10,9 +10,11 @@ import org.rsmod.game.entity.PlayerList
 
 public class PlayerInputProcess
 @Inject
-constructor(private val mapClock: MapClock, private val players: PlayerList) {
-    private val logger = InlineLogger()
-
+constructor(
+    private val mapClock: MapClock,
+    private val players: PlayerList,
+    private val exceptionHandler: GameExceptionHandler,
+) {
     public fun process() {
         players.forEach { player ->
             player.tryOrDisconnect {
@@ -43,9 +45,9 @@ constructor(private val mapClock: MapClock, private val players: PlayerList) {
             block(this)
         } catch (e: Exception) {
             forceDisconnect()
-            logger.error(e) { "Error processing input cycle for player: $this." }
+            exceptionHandler.handle(e) { "Error processing input cycle for player: $this." }
         } catch (e: NotImplementedError) {
             forceDisconnect()
-            logger.error(e) { "Error processing input cycle for player: $this." }
+            exceptionHandler.handle(e) { "Error processing input cycle for player: $this." }
         }
 }

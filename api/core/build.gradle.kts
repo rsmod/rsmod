@@ -25,6 +25,7 @@ dependencies {
     implementation(projects.api.type.typeResolver)
     implementation(projects.api.type.typeUpdater)
     implementation(projects.api.type.typeVerifier)
+    implementation(projects.api.utils.utilsLogging)
     implementation(projects.engine.game)
     implementation(projects.engine.module)
     implementation(projects.engine.routefinder)

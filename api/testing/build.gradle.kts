@@ -42,6 +42,7 @@ dependencies {
     implementation(projects.api.registry)
     implementation(projects.api.stats.levelmod)
     implementation(projects.api.stats.xpmod)
+    implementation(projects.api.utils.utilsLogging)
     implementation(projects.engine.annotations)
     implementation(projects.server.app)
 }

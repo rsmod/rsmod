@@ -1,8 +1,8 @@
 package org.rsmod.api.game.process.controller
 
-import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
 import org.rsmod.api.repo.controller.ControllerRepository
+import org.rsmod.api.utils.logging.GameExceptionHandler
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Controller
 import org.rsmod.game.entity.ControllerList
@@ -16,9 +16,8 @@ constructor(
     private val queues: ControllerQueueProcessor,
     private val timers: ControllerTimerProcessor,
     private val mapClock: MapClock,
+    private val exceptionHandler: GameExceptionHandler,
 ) {
-    private val logger = InlineLogger()
-
     public fun process() {
         for (controller in controllerList) {
             controller.currentMapClock = mapClock.cycle
@@ -54,9 +53,9 @@ constructor(
             block(this)
         } catch (e: Exception) {
             conRepo.del(this)
-            logger.error(e) { "Error processing main cycle for controller: $this." }
+            exceptionHandler.handle(e) { "Error processing main cycle for controller: $this." }
         } catch (e: NotImplementedError) {
             conRepo.del(this)
-            logger.error(e) { "Error processing main cycle for controller: $this." }
+            exceptionHandler.handle(e) { "Error processing main cycle for controller: $this." }
         }
 }

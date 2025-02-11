@@ -1,19 +1,21 @@
 package org.rsmod.api.game.process.player
 
-import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.supervisorScope
 import org.rsmod.api.player.forceDisconnect
+import org.rsmod.api.utils.logging.GameExceptionHandler
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.PlayerList
 
 public class PlayerRouteRequestProcess
 @Inject
-constructor(private val players: PlayerList, private val movement: PlayerMovementProcessor) {
-    private val logger = InlineLogger()
-
+constructor(
+    private val players: PlayerList,
+    private val movement: PlayerMovementProcessor,
+    private val exceptionHandler: GameExceptionHandler,
+) {
     public fun process() {
         players.process()
     }
@@ -37,9 +39,9 @@ constructor(private val players: PlayerList, private val movement: PlayerMovemen
             block(this)
         } catch (e: Exception) {
             forceDisconnect()
-            logger.error(e) { "Error processing route request cycle for player: $this." }
+            exceptionHandler.handle(e) { "Error processing route request cycle for player: $this." }
         } catch (e: NotImplementedError) {
             forceDisconnect()
-            logger.error(e) { "Error processing route request cycle for player: $this." }
+            exceptionHandler.handle(e) { "Error processing route request cycle for player: $this." }
         }
 }

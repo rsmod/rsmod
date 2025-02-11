@@ -1,12 +1,12 @@
 package org.rsmod.api.game.process.player
 
-import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.supervisorScope
 import org.rsmod.api.player.forceDisconnect
 import org.rsmod.api.registry.player.PlayerRegistry
+import org.rsmod.api.utils.logging.GameExceptionHandler
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.PlayerList
 import org.rsmod.game.seq.EntitySeq
@@ -19,9 +19,8 @@ constructor(
     private val playerRegistry: PlayerRegistry,
     private val zoneUpdates: PlayerZoneUpdateProcessor,
     private val invUpdates: PlayerInvUpdateProcess,
+    private val exceptionHandler: GameExceptionHandler,
 ) {
-    private val logger = InlineLogger()
-
     public fun process() {
         updateZoneRegistry()
         sendZoneUpdates()
@@ -81,9 +80,9 @@ constructor(
             block(this)
         } catch (e: Exception) {
             forceDisconnect()
-            logger.error(e) { "Error processing post-tick for player: $this." }
+            exceptionHandler.handle(e) { "Error processing post-tick for player: $this." }
         } catch (e: NotImplementedError) {
             forceDisconnect()
-            logger.error(e) { "Error processing post-tick for player: $this." }
+            exceptionHandler.handle(e) { "Error processing post-tick for player: $this." }
         }
 }

@@ -1,10 +1,10 @@
 package org.rsmod.api.game.process.npc
 
-import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
 import org.rsmod.api.game.process.npc.mode.NpcModeProcessor
 import org.rsmod.api.registry.npc.NpcRegistry
 import org.rsmod.api.repo.NpcRevealProcessor
+import org.rsmod.api.utils.logging.GameExceptionHandler
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.NpcList
@@ -22,9 +22,8 @@ constructor(
     private val modes: NpcModeProcessor,
     private val facing: NpcFaceSquareProcessor,
     private val mapClock: MapClock,
+    private val exceptionHandler: GameExceptionHandler,
 ) {
-    private val logger = InlineLogger()
-
     public fun process() {
         for (npc in npcList) {
             npc.processedMapClock = mapClock.cycle
@@ -83,9 +82,9 @@ constructor(
             block(this)
         } catch (e: Exception) {
             registry.del(this)
-            logger.error(e) { "Error processing main cycle for npc: $this." }
+            exceptionHandler.handle(e) { "Error processing main cycle for npc: $this." }
         } catch (e: NotImplementedError) {
             registry.del(this)
-            logger.error(e) { "Error processing main cycle for npc: $this." }
+            exceptionHandler.handle(e) { "Error processing main cycle for npc: $this." }
         }
 }

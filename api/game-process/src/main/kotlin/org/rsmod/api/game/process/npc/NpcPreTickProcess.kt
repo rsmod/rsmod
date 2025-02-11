@@ -1,8 +1,8 @@
 package org.rsmod.api.game.process.npc
 
-import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
 import org.rsmod.api.registry.npc.NpcRegistry
+import org.rsmod.api.utils.logging.GameExceptionHandler
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.NpcList
@@ -15,9 +15,8 @@ constructor(
     private val registry: NpcRegistry,
     private val hunt: NpcHuntProcessor,
     private val mapClock: MapClock,
+    private val exceptionHandler: GameExceptionHandler,
 ) {
-    private val logger = InlineLogger()
-
     public fun process() {
         for (npc in npcList) {
             npc.tryOrDespawn {
@@ -49,9 +48,9 @@ constructor(
             block(this)
         } catch (e: Exception) {
             registry.del(this)
-            logger.error(e) { "Error processing pre-tick for npc: $this." }
+            exceptionHandler.handle(e) { "Error processing pre-tick for npc: $this." }
         } catch (e: NotImplementedError) {
             registry.del(this)
-            logger.error(e) { "Error processing pre-tick for npc: $this." }
+            exceptionHandler.handle(e) { "Error processing pre-tick for npc: $this." }
         }
 }

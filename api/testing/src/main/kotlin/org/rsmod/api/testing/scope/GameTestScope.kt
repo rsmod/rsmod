@@ -56,9 +56,11 @@ import org.rsmod.api.testing.GameTestState
 import org.rsmod.api.testing.capture.CaptureClient
 import org.rsmod.api.testing.factory.collisionFactory
 import org.rsmod.api.testing.random.SequenceRandom
+import org.rsmod.api.utils.logging.GameExceptionHandler
 import org.rsmod.events.EventBus
 import org.rsmod.game.MapClock
 import org.rsmod.game.cheat.CheatCommandMap
+import org.rsmod.game.client.Client
 import org.rsmod.game.entity.ControllerList
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.NpcList
@@ -176,11 +178,12 @@ constructor(
     public fun registerPlayer(
         coords: CoordGrid = CoordGrid(0, 50, 50, 0, 0),
         player: Player = Player(),
+        slot: Int = players.nextFreeSlot() ?: error("No available slot."),
+        client: Client<Any, Any> = CaptureClient(),
     ): Player {
-        val slot = players.nextFreeSlot() ?: error("No available slot.")
         player.coords = coords
         player.slotId = slot
-        player.client = CaptureClient()
+        player.client = client
         players[slot] = player
         eventBus.publish(SessionStateEvent.Initialize(player))
         if (player.invMap.isEmpty()) {
@@ -298,18 +301,6 @@ constructor(
         val combinedId = CombinedId(type.interfaceId, type.component)
         val message = If3Button(combinedId, comsub ?: -1, obj = obj ?: -1, op = op.slot)
         captureClient.queue(ifButtonHandler, message)
-    }
-
-    /** Note: This button message will be handled _instantly_ when this function is called. */
-    public fun Player.handleIfButton(
-        type: ComponentType,
-        comsub: Int? = null,
-        op: IfButtonOp = IfButtonOp.Op1,
-        obj: Int? = null,
-    ) {
-        val combinedId = CombinedId(type.interfaceId, type.component)
-        val message = If3Button(combinedId, comsub ?: -1, obj = obj ?: -1, op = op.slot)
-        ifButtonHandler.handle(this, message)
     }
 
     public fun Player.withProtectedAccess(action: suspend ProtectedAccess.() -> Unit) {
@@ -498,6 +489,50 @@ constructor(
         }
     }
 
+    /**
+     * This requires a context (`Player` in this case) so that after catching the expected
+     * [Throwable] the entity can be registered into the game world once again if they were
+     * disconnected.
+     */
+    public inline fun <reified T : Throwable> Player.assertThrows(block: () -> Unit): T {
+        val startClient = client
+        val startSlot = slotId
+        val caught: Throwable? =
+            try {
+                client = CaptureClient()
+                block()
+                null
+            } catch (t: Throwable) {
+                t
+            }
+
+        Assertions.assertNotNull(caught) {
+            "Expected ${T::class.java.simpleName} to be thrown, but nothing was thrown."
+        }
+
+        Assertions.assertInstanceOf(T::class.java, caught) {
+            "Expected ${T::class.java.simpleName} to be thrown, " +
+                "but ${caught?.javaClass?.simpleName} was thrown."
+        }
+
+        // We want to restore the player's capture client before any errors occurred.
+        this.client = startClient
+
+        // If player was disconnected due to the error, we should re-register them.
+        if (slotId == PathingEntity.INVALID_SLOT && startSlot != PathingEntity.INVALID_SLOT) {
+            registerPlayer(coords, this, startSlot, startClient)
+        }
+        return caught as T
+    }
+
+    public fun assertDoesNotThrow(msg: String, block: () -> Unit) {
+        Assertions.assertDoesNotThrow({ block() }, msg)
+    }
+
+    public fun assertDoesNotThrow(block: () -> Unit) {
+        Assertions.assertDoesNotThrow { block() }
+    }
+
     private fun allocZoneCollision(coord: CoordGrid) {
         collision.allocateIfAbsent(coord.x, coord.z, coord.level)
     }
@@ -555,6 +590,10 @@ constructor(
                     gameCollisionMap.flags.copyInto(collision.flags)
                     bind(CollisionFlagMap::class.java).toInstance(collision)
                 }
+
+                bind(GameExceptionHandler::class.java)
+                    .to(TestExceptionHandler::class.java)
+                    .`in`(Scopes.SINGLETON)
 
                 bind(GameRandom::class.java)
                     .annotatedWith(CoreRandom::class.java)
@@ -684,6 +723,12 @@ constructor(
                 val xp = PlayerSkillXPTable.getFineXPFromLevel(value)
                 backing.setFineXP(stat, xp)
             }
+        }
+    }
+
+    private class TestExceptionHandler : GameExceptionHandler {
+        override fun handle(t: Throwable, msg: () -> Any?) {
+            throw t
         }
     }
 }
