@@ -7,6 +7,7 @@ kotlin {
 }
 
 dependencies {
+    api(libs.guice)
     api(projects.api.cache)
     api(projects.api.config)
     api(projects.api.random)
