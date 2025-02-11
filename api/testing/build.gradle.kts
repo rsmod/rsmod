@@ -12,6 +12,7 @@ dependencies {
     api(projects.api.random)
     api(projects.api.repo)
     api(projects.api.route)
+    api(projects.api.script)
     api(projects.api.testing.testAssertions)
     api(projects.api.testing.testCapture)
     api(projects.api.testing.testFactory)

@@ -22,11 +22,13 @@ import org.rsmod.api.market.MarketPrices
 import org.rsmod.api.net.rsprot.handlers.If3ButtonHandler
 import org.rsmod.api.net.rsprot.handlers.MoveGameClickHandler
 import org.rsmod.api.player.interact.LocInteractions
+import org.rsmod.api.player.interact.NpcInteractions
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.protect.ProtectedAccessLauncher
 import org.rsmod.api.player.protect.clearPendingAction
 import org.rsmod.api.player.ui.ifOpenMain
 import org.rsmod.api.player.ui.ifOpenSub
+import org.rsmod.api.player.vars.varMoveSpeed
 import org.rsmod.api.random.CoreRandom
 import org.rsmod.api.random.DefaultGameRandom
 import org.rsmod.api.random.GameRandom
@@ -58,6 +60,7 @@ import org.rsmod.events.EventBus
 import org.rsmod.game.MapClock
 import org.rsmod.game.cheat.CheatCommandMap
 import org.rsmod.game.entity.ControllerList
+import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.NpcList
 import org.rsmod.game.entity.PathingEntity
 import org.rsmod.game.entity.Player
@@ -72,6 +75,7 @@ import org.rsmod.game.loc.LocInfo
 import org.rsmod.game.loc.LocShape
 import org.rsmod.game.loc.LocZoneKey
 import org.rsmod.game.map.collision.addLoc
+import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.obj.InvObj
 import org.rsmod.game.stat.PlayerSkillXPTable
 import org.rsmod.game.stat.PlayerStatMap
@@ -90,6 +94,7 @@ import org.rsmod.game.type.loc.LocType
 import org.rsmod.game.type.loc.LocTypeList
 import org.rsmod.game.type.loc.UnpackedLocType
 import org.rsmod.game.type.npc.NpcTypeList
+import org.rsmod.game.type.npc.UnpackedNpcType
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.param.ParamTypeList
@@ -100,6 +105,7 @@ import org.rsmod.game.type.synth.SynthTypeList
 import org.rsmod.game.type.util.EnumTypeMapResolver
 import org.rsmod.game.type.varbit.VarBitTypeList
 import org.rsmod.game.type.varp.VarpTypeList
+import org.rsmod.game.ui.UserInterface
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.zone.ZoneGrid
 import org.rsmod.map.zone.ZoneKey
@@ -123,6 +129,9 @@ constructor(
     private val collision: CollisionFlagMap,
     private val locRegistry: LocRegistry,
     private val locInteractions: LocInteractions,
+    private val npcRegistry: NpcRegistry,
+    private val npcInteractions: NpcInteractions,
+    private val interfaceTypes: InterfaceTypeList,
     private val invMapInit: InvMapInit,
     private val protectedAccess: ProtectedAccessLauncher,
     private val ifButtonHandler: If3ButtonHandler,
@@ -191,6 +200,18 @@ constructor(
         players.remove(slot)
     }
 
+    public fun Player.setMoveSpeed(speed: MoveSpeed) {
+        this.varMoveSpeed = speed
+    }
+
+    public fun Player.enableRun() {
+        setMoveSpeed(MoveSpeed.Run)
+    }
+
+    public fun Player.enableWalk() {
+        setMoveSpeed(MoveSpeed.Walk)
+    }
+
     public fun Player.teleport(dest: CoordGrid) {
         allocZoneCollision(dest)
         coords = dest
@@ -232,6 +253,26 @@ constructor(
 
     public fun Player.opLoc5(loc: BoundLocInfo) {
         locInteractions.interact(this, loc, InteractionOp.Op5)
+    }
+
+    public fun Player.opNpc1(npc: Npc) {
+        npcInteractions.interact(this, npc, InteractionOp.Op1)
+    }
+
+    public fun Player.opNpc2(npc: Npc) {
+        npcInteractions.interact(this, npc, InteractionOp.Op2)
+    }
+
+    public fun Player.opNpc3(npc: Npc) {
+        npcInteractions.interact(this, npc, InteractionOp.Op3)
+    }
+
+    public fun Player.opNpc4(npc: Npc) {
+        npcInteractions.interact(this, npc, InteractionOp.Op4)
+    }
+
+    public fun Player.opNpc5(npc: Npc) {
+        npcInteractions.interact(this, npc, InteractionOp.Op5)
     }
 
     public fun Player.ifOpenMain(interf: InterfaceType) {
@@ -277,6 +318,13 @@ constructor(
 
     public fun Inventory.count(obj: ObjType): Int {
         return count(objTypes[obj])
+    }
+
+    public fun spawnNpc(coords: CoordGrid, type: UnpackedNpcType, init: Npc.() -> Unit = {}): Npc {
+        val npc = Npc(type, coords).apply(init)
+        val add = npcRegistry.add(npc)
+        check(add.isSuccess) { "Could not add npc: result=$add, npc=$npc" }
+        return npc
     }
 
     public fun placeMapLoc(
@@ -332,6 +380,10 @@ constructor(
         predicate: (UnpackedLocType) -> Boolean = { true },
     ): UnpackedLocType = findLocTypes { it.isAssociatedWith(content) && predicate(it) }.first()
 
+    public fun CaptureClient.clear() {
+        clearOutgoing()
+    }
+
     private fun clearCaptureClients() {
         for (player in players) {
             val client = player.captureClient
@@ -364,6 +416,10 @@ constructor(
     public fun assertNotNull(actual: Any?) {
         contract { returns() implies (actual != null) }
         Assertions.assertNotNull(actual)
+    }
+
+    public fun assertEquals(expected: Any?, actual: Any?) {
+        Assertions.assertEquals(expected, actual)
     }
 
     public fun assertContains(inv: Inventory, obj: ObjType) {
@@ -424,16 +480,31 @@ constructor(
         Assertions.assertEquals(emptyList<String>(), messages) { "Messages found:" }
     }
 
+    public fun assertModalOpen(interf: InterfaceType, player: Player = this.player) {
+        Assertions.assertTrue(player.ui.containsModal(interf)) {
+            val openedModals = player.ui.modals.values.map(::UserInterface)
+            "Modal not opened. (expected=$interf) | (found=$openedModals) | (player=$player)"
+        }
+    }
+
+    public fun assertModalNotOpen(interf: InterfaceType, player: Player = this.player) {
+        Assertions.assertFalse(player.ui.containsModal(interf)) {
+            val openedModals = player.ui.modals.values.map(::UserInterface)
+            "Modal is opened. (modal=$interf) | (opened=$openedModals) | (player=$player)"
+        }
+    }
+
     private fun allocZoneCollision(coord: CoordGrid) {
         collision.allocateIfAbsent(coord.x, coord.z, coord.level)
     }
 
     public class Builder(state: GameTestState, private val scripts: Set<KClass<out PluginScript>>) {
         private val cacheTypes: TypeListMap = state.cacheTypes
+        private val collisionMap: CollisionFlagMap = state.collision
         private val eventBus: EventBus by lazy { resolveEventBus(state.eventBus) }
 
         internal fun build(): GameTestScope {
-            val module = TestModule(eventBus, cacheTypes)
+            val module = TestModule(eventBus, cacheTypes, collisionMap)
             val injector = Guice.createInjector(module)
             bindScriptEvents(injector)
             return injector.getInstance(GameTestScope::class.java)
@@ -469,10 +540,17 @@ constructor(
         private class TestModule(
             private val eventBus: EventBus,
             private val cacheTypes: TypeListMap,
+            private val gameCollisionMap: CollisionFlagMap,
         ) : AbstractModule() {
             override fun configure() {
                 bind(EventBus::class.java).toInstance(eventBus)
-                bind(CollisionFlagMap::class.java).toInstance(collisionFactory.borrowSharedMap())
+
+                collisionFactory.borrowSharedMap().let { collision ->
+                    // Copy the original game's collision flag map into the test.
+                    // Important Note: This does _not_ add locs into the loc registry.
+                    gameCollisionMap.flags.copyInto(collision.flags)
+                    bind(CollisionFlagMap::class.java).toInstance(collision)
+                }
 
                 bind(GameRandom::class.java)
                     .annotatedWith(CoreRandom::class.java)
