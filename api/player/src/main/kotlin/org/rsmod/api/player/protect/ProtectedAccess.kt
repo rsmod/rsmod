@@ -2007,8 +2007,9 @@ public class ProtectedAccess(
     public fun setMapFlag(coords: CoordGrid): Unit = MapFlag.setMapFlag(player, coords)
 
     /* Message game helper functions */
-    public fun mes(text: String, type: ChatType = ChatType.GameMessage): Unit =
-        player.mes(text, type)
+    public fun mes(text: String): Unit = player.mes(text, ChatType.GameMessage)
+
+    public fun mes(text: String, type: ChatType): Unit = player.mes(text, type)
 
     public fun spam(text: String): Unit = player.spam(text)
 
