@@ -422,6 +422,10 @@ constructor(
         Assertions.assertEquals(expected, actual)
     }
 
+    public fun assertNotEquals(expected: Any?, actual: Any?) {
+        Assertions.assertNotEquals(expected, actual)
+    }
+
     public fun assertContains(inv: Inventory, obj: ObjType) {
         Assertions.assertTrue(obj in inv) { "Obj not found. (obj=$obj) | (inv=$inv)" }
     }
