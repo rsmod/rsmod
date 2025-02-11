@@ -1,5 +1,6 @@
 package org.rsmod.api.testing.factory.npc
 
+import org.rsmod.game.entity.npc.NpcMode
 import org.rsmod.game.type.npc.NpcTypeBuilder
 import org.rsmod.game.type.npc.UnpackedNpcType
 
@@ -9,6 +10,7 @@ public class TestNpcTypeFactory {
             NpcTypeBuilder().apply {
                 internal = "test_npc_type"
                 desc = "$this"
+                defaultMode = NpcMode.None
             }
         return builder.apply(init).build(id)
     }
