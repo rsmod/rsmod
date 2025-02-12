@@ -128,11 +128,18 @@ public class Player(
     private val hasPendingQueue: Boolean
         get() = queueList.isNotEmpty || weakQueueList.isNotEmpty
 
-    public val shouldHaltMovement: Boolean
-        get() = ui.modals.isNotEmpty() && hasPendingQueue
-
     public val canProcessMovement: Boolean
-        get() = !shouldHaltMovement
+        get() = !isHaltMovementRequired()
+
+    private fun isHaltMovementRequired(): Boolean {
+        // It seems that only "old" interactions (active for > 1 cycle) will bypass this movement
+        // restriction. This can be tested by starting an interaction and opening a modal on the
+        // same cycle while having a pending queue. In that case, movement will be stopped until
+        // the modal is closed. However, if you start an interaction and wait a cycle before
+        // opening the modal, the player will not be halted.
+        val hasOngoingInteraction = interaction != null && hasMovedPreviousCycle
+        return !hasOngoingInteraction && ui.modals.isNotEmpty() && hasPendingQueue
+    }
 
     public fun timer(timer: TimerType, cycles: Int) {
         require(cycles > 0) { "`cycles` must be greater than 0. (cycles=$cycles)" }
