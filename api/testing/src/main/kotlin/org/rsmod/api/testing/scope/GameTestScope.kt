@@ -104,6 +104,7 @@ import org.rsmod.game.type.npc.NpcTypeList
 import org.rsmod.game.type.npc.UnpackedNpcType
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.ObjTypeList
+import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.type.param.ParamTypeList
 import org.rsmod.game.type.seq.SeqTypeList
 import org.rsmod.game.type.stat.StatType
@@ -425,6 +426,22 @@ constructor(
         content: ContentGroupType,
         predicate: (UnpackedLocType) -> Boolean = { true },
     ): UnpackedLocType = findLocTypes { it.isAssociatedWith(content) && predicate(it) }.first()
+
+    public fun findObjType(predicate: (UnpackedObjType) -> Boolean): Sequence<UnpackedObjType> {
+        return sequence {
+            for (type in objTypes.values) {
+                if (predicate(type)) {
+                    yield(type)
+                }
+            }
+        }
+    }
+
+    public fun firstObjType(predicate: (UnpackedObjType) -> Boolean): UnpackedObjType {
+        val filtered = findObjType(predicate)
+        return filtered.firstOrNull()
+            ?: throw NoSuchElementException("No ObjType found with given predicate.")
+    }
 
     public fun CaptureClient.clear() {
         clearOutgoing()

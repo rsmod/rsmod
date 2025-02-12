@@ -24,6 +24,9 @@ val SIDE_INV_DEPOSIT_1 = IfButtonOp.Op3
 val SIDE_INV_DEPOSIT_5 = IfButtonOp.Op4
 val SIDE_INV_DEPOSIT_X = IfButtonOp.Op7
 
+val MAIN_INV_WITHDRAW_1 = IfButtonOp.Op2
+val MAIN_INV_WITHDRAW_X = IfButtonOp.Op6
+
 var Player.bankTabSizeMain by intVarp(BankTab.Main.sizeVarBit)
 var Player.bankTabSize1 by intVarp(BankTab.Tab1.sizeVarBit)
 var Player.bankTabSize2 by intVarp(BankTab.Tab2.sizeVarBit)

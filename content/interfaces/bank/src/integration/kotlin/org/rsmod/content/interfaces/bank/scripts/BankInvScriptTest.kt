@@ -19,7 +19,133 @@ import org.rsmod.game.type.util.UncheckedType
  */
 class BankInvScriptTest {
     @Test
-    fun GameTestState.`deposit single side inv`() =
+    fun GameTestState.`withdraw single obj`() =
+        runGameTest(BankInvScript::class) {
+            val bank = openBank(player)
+            bank[0] = InvObj(1, 1)
+            bank[1] = InvObj(2, 1)
+            bank[3] = InvObj(3, 5)
+            bank[4] = InvObj(4, 1)
+            player.bankTabSizeMain = 5
+
+            player.ifButton(bank_components.main_inventory, comsub = 3, op = MAIN_INV_WITHDRAW_1)
+            advance()
+
+            assertEquals(InvObj(3, 1), player.inv[0])
+            assertEquals(InvObj(3, 4), bank[3])
+
+            // Withdrawing from first slot.
+            player.ifButton(bank_components.main_inventory, comsub = 0, op = MAIN_INV_WITHDRAW_1)
+            advance()
+
+            // Rest of objs should shift to occupy the empty slot.
+            assertEquals(InvObj(1, 1), player.inv[1])
+            assertEquals(InvObj(2, 1), bank[0])
+            assertNull(bank[1])
+            assertEquals(InvObj(3, 4), bank[2])
+            assertEquals(InvObj(4, 1), bank[3])
+        }
+
+    @Test
+    fun GameTestState.`withdraw obj with MAX_VALUE count`() =
+        runGameTest(BankInvScript::class) {
+            val stackable = objTypes.values.firstOrNull { it.isStackable }
+            checkNotNull(stackable) { "Could not find an ObjType with `isStackable` flag." }
+
+            val nonStackable = objTypes.values.firstOrNull { !it.isStackable }
+            checkNotNull(nonStackable) { "Could not find an ObjType without `isStackable` flag." }
+
+            val bank = openBank(player)
+            bank[0] = InvObj(1, 1)
+            bank[1] = InvObj(2, 1)
+            bank[3] = InvObj(nonStackable, 100)
+            bank[4] = InvObj(stackable, 100)
+            player.bankTabSizeMain = 5
+
+            // Withdraw stackable obj.
+            player.ifButton(bank_components.main_inventory, comsub = 4, op = MAIN_INV_WITHDRAW_X)
+            advance()
+
+            player.resumeCountDialog(Int.MAX_VALUE)
+            advance()
+
+            assertEquals(InvObj(stackable, 100), player.inv[0])
+            assertNull(bank[4])
+
+            // Withdraw non-stackable obj.
+            val expectedWithdraw = player.inv.freeSpace()
+            player.ifButton(bank_components.main_inventory, comsub = 3, op = MAIN_INV_WITHDRAW_X)
+            advance()
+
+            player.resumeCountDialog(Int.MAX_VALUE)
+            advance()
+
+            assertEquals(expectedWithdraw, player.inv.count(nonStackable))
+            assertTrue(player.inv.isFull())
+            assertEquals(InvObj(nonStackable, 100 - expectedWithdraw), bank[3])
+
+            assertEquals(InvObj(stackable, 100), player.inv[0])
+            assertNull(bank[4])
+        }
+
+    @Test
+    fun GameTestState.`withdraw un-certifiable obj as cert`() =
+        runGameTest(BankInvScript::class) {
+            val noCert = firstObjType { it.certlink == 0 }
+            val bank = openBank(player)
+            bank[0] = InvObj(noCert, 100)
+            player.bankTabSizeMain = 1
+            player.withdrawCert = true
+
+            player.clearInv()
+            player.ifButton(bank_components.main_inventory, comsub = 0, op = MAIN_INV_WITHDRAW_5)
+            advance()
+
+            assertEquals(InvObj(noCert, 1), player.inv[0])
+            assertEquals(InvObj(noCert, 1), player.inv[1])
+            assertEquals(InvObj(noCert, 1), player.inv[2])
+            assertEquals(InvObj(noCert, 1), player.inv[3])
+            assertEquals(InvObj(noCert, 1), player.inv[4])
+            assertEquals(InvObj(noCert, 95), bank[0])
+        }
+
+    @Test
+    fun GameTestState.`withdraw over non-stackable capacity`() =
+        runGameTest(BankInvScript::class) {
+            val noStack = firstObjType { !it.isStackable }
+            val bank = openBank(player)
+            bank[0] = InvObj(noStack, 100)
+            player.bankTabSizeMain = 1
+
+            player.clearInv()
+            player.ifButton(bank_components.main_inventory, comsub = 0, op = MAIN_INV_WITHDRAW_ALL)
+            advance()
+
+            val expectedInv = player.inv.indices.map { InvObj(noStack, 1) }
+            assertEquals(expectedInv, player.inv.toList())
+            assertEquals(InvObj(noStack, 100 - 28), bank[0])
+        }
+
+    @Test
+    fun GameTestState.`withdraw over stackable capacity`() =
+        runGameTest(BankInvScript::class) {
+            val stackable = firstObjType { it.isStackable }
+            val bank = openBank(player)
+            bank[0] = InvObj(stackable, Int.MAX_VALUE)
+            player.bankTabSizeMain = 1
+
+            player.clearInv()
+            player.inv[0] = InvObj(stackable, 1000)
+
+            player.ifButton(bank_components.main_inventory, comsub = 0, op = MAIN_INV_WITHDRAW_ALL)
+            advance()
+
+            assertEquals(InvObj(stackable, Int.MAX_VALUE), player.inv[0])
+            assertEquals(InvObj(stackable, 1000), bank[0])
+        }
+
+    @Test
+    fun GameTestState.`deposit single obj`() =
         runGameTest(BankInvScript::class) {
             val bank = openBank(player)
             player.inv[0] = InvObj(1, 1)
@@ -40,7 +166,7 @@ class BankInvScriptTest {
         }
 
     @Test
-    fun GameTestState.`deposit MAX_VALUE side inv`() =
+    fun GameTestState.`deposit obj with MAX_VALUE count`() =
         runGameTest(BankInvScript::class) {
             val bank = openBank(player)
             player.inv[0] = InvObj(1, 1)
@@ -100,7 +226,7 @@ class BankInvScriptTest {
         }
 
     @Test
-    fun GameTestState.`deposit single unbankable obj from side inv`() =
+    fun GameTestState.`deposit single unbankable obj`() =
         runGameTest(BankInvScript::class) {
             val unbankable = objTypes.values.firstOrNull { it.param(params.no_bank) != 0 }
             checkNotNull(unbankable) { "Could not find an ObjType with `no_bank` param." }
@@ -142,7 +268,7 @@ class BankInvScriptTest {
         }
 
     @Test
-    fun GameTestState.`deposit side inv into focused tab`() =
+    fun GameTestState.`deposit into focused tab`() =
         runGameTest(BankInvScript::class) {
             val bank = openBank(player)
             player.inv[0] = InvObj(1, 1)
@@ -300,7 +426,7 @@ class BankInvScriptTest {
         }
 
     @Test
-    fun GameTestState.`drag between tabs in main inv`() =
+    fun GameTestState.`drag between tab invs`() =
         runGameTest(BankInvScript::class) {
             val bank = openBank(player)
             check(bank.isEmpty())
@@ -382,7 +508,7 @@ class BankInvScriptTest {
         }
 
     @Test
-    fun GameTestState.`drag main inv from tab to tab`() =
+    fun GameTestState.`drag from tab inv to tab upper component`() =
         runGameTest(BankInvScript::class) {
             val bank = openBank(player)
             check(bank.isEmpty())
@@ -510,6 +636,12 @@ class BankInvScriptTest {
             assertTabSizes(tab1.size, tab2.size, tab3.size)
         }
 
+    /*
+     * It is important for bank to compress on if_close as there are certain mechanics that can
+     * deposit objs into banks without the player opening it. If it did not compress on close, these
+     * objs would take up "empty" slots instead of new slots. (We know this is how it is handled in
+     * the official game)
+     */
     @Test
     fun GameTestState.`compress bank on close`() =
         runGameTest(BankInvScript::class, BankOpenScript::class) {
