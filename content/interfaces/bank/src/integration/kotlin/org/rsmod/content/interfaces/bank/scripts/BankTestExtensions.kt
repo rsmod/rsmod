@@ -23,15 +23,19 @@ typealias bank_varbits = BankVarBits
 val SIDE_INV_DEPOSIT_1 = IfButtonOp.Op3
 val SIDE_INV_DEPOSIT_5 = IfButtonOp.Op4
 val SIDE_INV_DEPOSIT_X = IfButtonOp.Op7
+val SIDE_INV_DEPOSIT_ALL = IfButtonOp.Op8
 
 val MAIN_INV_WITHDRAW_1 = IfButtonOp.Op2
+val MAIN_INV_WITHDRAW_5 = IfButtonOp.Op3
 val MAIN_INV_WITHDRAW_X = IfButtonOp.Op6
+val MAIN_INV_WITHDRAW_ALL = IfButtonOp.Op7
 
 var Player.bankTabSizeMain by intVarp(BankTab.Main.sizeVarBit)
 var Player.bankTabSize1 by intVarp(BankTab.Tab1.sizeVarBit)
 var Player.bankTabSize2 by intVarp(BankTab.Tab2.sizeVarBit)
 var Player.bankTabSize3 by intVarp(BankTab.Tab3.sizeVarBit)
 var Player.insertMode by boolVarp(bank_varbits.rearrange_mode)
+var Player.withdrawCert by boolVarp(bank_varbits.withdraw_mode)
 var Player.selectedTab by enumVarp<BankTab>(bank_varbits.selected_tab)
 
 fun GameTestState.bank(player: Player): Inventory {
