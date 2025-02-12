@@ -42,6 +42,8 @@ the multiloc based on the player's vars. Meanwhile, OpLocU (as well as OpNpcU)
 are handled at the "content-level" due to how they were changed from being
 individual packets. The content-level scripts are exposed to the "visual" type
 for these entities.
+- Tests that involve obj transactions ([org.rsmod.objtx]) are not thread-safe
+and the test class should be marked with `@Execution(ExecutionMode.SAME_THREAD)`
 
 ## Types
 ```
