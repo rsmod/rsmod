@@ -9,6 +9,7 @@ import org.rsmod.api.player.interact.WornInteractions
 import org.rsmod.api.random.GameRandom
 import org.rsmod.events.EventBus
 import org.rsmod.game.type.inv.InvTypeList
+import org.rsmod.game.type.loc.LocTypeList
 import org.rsmod.game.type.npc.NpcTypeList
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.seq.SeqTypeList
@@ -70,6 +71,7 @@ public data class ProtectedAccessContext(
     private val getCollision: () -> CollisionFlagMap,
     private val getDialogues: () -> Dialogues,
     private val getInvTypes: () -> InvTypeList,
+    private val getLocTypes: () -> LocTypeList,
     private val getNpcTypes: () -> NpcTypeList,
     private val getObjTypes: () -> ObjTypeList,
     private val getSeqTypes: () -> SeqTypeList,
@@ -84,6 +86,7 @@ public data class ProtectedAccessContext(
     public val collision: CollisionFlagMap by lazyLoad { getCollision() }
     public val dialogues: Dialogues by lazyLoad { getDialogues() }
     public val invTypes: InvTypeList by lazyLoad { getInvTypes() }
+    public val locTypes: LocTypeList by lazyLoad { getLocTypes() }
     public val npcTypes: NpcTypeList by lazyLoad { getNpcTypes() }
     public val objTypes: ObjTypeList by lazyLoad { getObjTypes() }
     public val seqTypes: SeqTypeList by lazyLoad { getSeqTypes() }

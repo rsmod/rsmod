@@ -39,7 +39,7 @@ class DoubleDoorScript @Inject constructor(private val locRepo: LocRepository) :
                 shape = left.shape,
             )
         right?.let {
-            val openedLoc = locRepo.locParam(it, params.next_loc_stage) ?: return
+            val openedLoc = locParamOrNull(it, params.next_loc_stage) ?: return
             val openedAngle = it.turnAngle(rotations = 1)
             val openedCoords = it.openCoords()
             locRepo.del(it, DoorConstants.DURATION)
@@ -66,7 +66,7 @@ class DoubleDoorScript @Inject constructor(private val locRepo: LocRepository) :
                 shape = right.shape,
             )
         left?.let {
-            val openedLoc = locRepo.locParam(it, params.next_loc_stage) ?: return
+            val openedLoc = locParamOrNull(it, params.next_loc_stage) ?: return
             val openedAngle = it.turnAngle(rotations = 3)
             val openedCoords = it.openCoords()
             locRepo.del(it, DoorConstants.DURATION)
@@ -93,7 +93,7 @@ class DoubleDoorScript @Inject constructor(private val locRepo: LocRepository) :
                 shape = left.shape,
             )
         right?.let {
-            val openedLoc = locRepo.locParam(it, params.next_loc_stage) ?: return
+            val openedLoc = locParamOrNull(it, params.next_loc_stage) ?: return
             val openedAngle = it.turnAngle(rotations = 3)
             val openedCoords = it.closeCoords()
             locRepo.del(it, DoorConstants.DURATION)
@@ -120,7 +120,7 @@ class DoubleDoorScript @Inject constructor(private val locRepo: LocRepository) :
                 shape = right.shape,
             )
         left?.let {
-            val openedLoc = locRepo.locParam(it, params.next_loc_stage) ?: return
+            val openedLoc = locParamOrNull(it, params.next_loc_stage) ?: return
             val openedAngle = it.turnAngle(rotations = 1)
             val openedCoords = it.closeCoordsOpposite()
             locRepo.del(it, DoorConstants.DURATION)

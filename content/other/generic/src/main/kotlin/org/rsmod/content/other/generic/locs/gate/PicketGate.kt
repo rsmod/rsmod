@@ -46,7 +46,7 @@ class PicketGate @Inject constructor(private val locRepo: LocRepository) : Plugi
             locRepo.add(openedCoords, openedLoc, GateConstants.DURATION, openedAngle, it.shape)
         }
         right?.let {
-            val openedLoc = locRepo.locParam(it, params.next_loc_stage) ?: return
+            val openedLoc = locParamOrNull(it, params.next_loc_stage) ?: return
             val openedTranslation = rightGateOpen(it.shape, it.angle)
             val openedCoords = it.coords + openedTranslation
             val openedAngle = it.turnAngle(rotations = 3)
@@ -69,7 +69,7 @@ class PicketGate @Inject constructor(private val locRepo: LocRepository) : Plugi
         right.let { locRepo.del(it, GateConstants.DURATION) }
 
         left?.let {
-            val openedLoc = locRepo.locParam(it, params.next_loc_stage) ?: return@let
+            val openedLoc = locParamOrNull(it, params.next_loc_stage) ?: return@let
             val openedTranslation = leftGateOpen(it.shape, it.angle)
             val openedCoords = it.coords + openedTranslation
             val openedAngle = it.turnAngle(rotations = 3)
@@ -106,7 +106,7 @@ class PicketGate @Inject constructor(private val locRepo: LocRepository) : Plugi
             locRepo.add(closedCoords, closedLoc, GateConstants.DURATION, closedAngle, it.shape)
         }
         right?.let {
-            val closedLoc = locRepo.locParam(it, params.next_loc_stage) ?: return
+            val closedLoc = locParamOrNull(it, params.next_loc_stage) ?: return
             val closedTranslation = rightGateClose(it.shape, it.angle)
             val closedCoords = it.coords + closedTranslation
             val closedAngle = it.turnAngle(rotations = -3)
@@ -129,7 +129,7 @@ class PicketGate @Inject constructor(private val locRepo: LocRepository) : Plugi
         right.let { locRepo.del(it, GateConstants.DURATION) }
 
         left?.let {
-            val openedLoc = locRepo.locParam(it, params.next_loc_stage) ?: return@let
+            val openedLoc = locParamOrNull(it, params.next_loc_stage) ?: return@let
             val openedTranslation = leftGateClose(it.shape, it.angle)
             val openedCoords = it.coords + openedTranslation
             val openedAngle = it.turnAngle(rotations = -3)

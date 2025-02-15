@@ -96,6 +96,7 @@ import org.rsmod.game.interact.HeldOp
 import org.rsmod.game.interact.InteractionOp
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.loc.BoundLocInfo
+import org.rsmod.game.loc.LocInfo
 import org.rsmod.game.map.Direction
 import org.rsmod.game.map.collision.get
 import org.rsmod.game.movement.MoveSpeed
@@ -110,6 +111,8 @@ import org.rsmod.game.type.interf.InterfaceType
 import org.rsmod.game.type.inv.InvType
 import org.rsmod.game.type.inv.InvTypeList
 import org.rsmod.game.type.jingle.JingleType
+import org.rsmod.game.type.loc.LocType
+import org.rsmod.game.type.loc.LocTypeList
 import org.rsmod.game.type.mesanim.MesAnimType
 import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.npc.NpcTypeList
@@ -1752,6 +1755,43 @@ public class ProtectedAccess(
             components.main_modal,
         )
     }
+
+    /* Loc helper functions (lc=loc config) */
+    public fun <T : Any> lcParam(
+        type: LocType,
+        param: ParamType<T>,
+        locTypes: LocTypeList = context.locTypes,
+    ): T = locTypes[type].param(param)
+
+    public fun <T : Any> lcParamOrNull(
+        type: LocType,
+        param: ParamType<T>,
+        locTypes: LocTypeList = context.locTypes,
+    ): T? = locTypes[type].paramOrNull(param)
+
+    public fun <T : Any> locParam(
+        loc: LocInfo,
+        param: ParamType<T>,
+        locTypes: LocTypeList = context.locTypes,
+    ): T = locTypes[loc].param(param)
+
+    public fun <T : Any> locParamOrNull(
+        loc: LocInfo,
+        param: ParamType<T>,
+        locTypes: LocTypeList = context.locTypes,
+    ): T? = locTypes[loc].paramOrNull(param)
+
+    public fun <T : Any> locParam(
+        loc: BoundLocInfo,
+        param: ParamType<T>,
+        locTypes: LocTypeList = context.locTypes,
+    ): T = locTypes[loc].param(param)
+
+    public fun <T : Any> locParamOrNull(
+        loc: BoundLocInfo,
+        param: ParamType<T>,
+        locTypes: LocTypeList = context.locTypes,
+    ): T? = locTypes[loc].paramOrNull(param)
 
     /* Npc helper functions (nc=npc config) */
     public fun <T : Any> ncParam(

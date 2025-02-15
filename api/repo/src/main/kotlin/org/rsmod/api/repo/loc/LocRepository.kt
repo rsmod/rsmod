@@ -13,7 +13,6 @@ import org.rsmod.game.loc.LocShape
 import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.loc.LocType
 import org.rsmod.game.type.loc.LocTypeList
-import org.rsmod.game.type.param.ParamType
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.zone.ZoneKey
 import org.rsmod.routefinder.loc.LocLayerConstants
@@ -60,8 +59,6 @@ constructor(
         return loc
     }
 
-    public fun del(bound: BoundLocInfo, duration: Int): Boolean = del(bound.toLocInfo(), duration)
-
     public fun del(loc: LocInfo, duration: Int): Boolean {
         val delete = locReg.del(loc)
 
@@ -80,15 +77,18 @@ constructor(
         return true
     }
 
-    public fun change(from: BoundLocInfo, into: LocType, duration: Int) {
-        add(from.coords, into, duration, from.angle, from.shape)
+    public fun del(bound: BoundLocInfo, duration: Int): Boolean {
+        val loc = LocInfo(bound.layer, bound.coords, bound.entity)
+        return del(loc, duration)
     }
 
     public fun change(from: LocInfo, into: LocType, duration: Int) {
         add(from.coords, into, duration, from.angle, from.shape)
     }
 
-    private fun BoundLocInfo.toLocInfo(): LocInfo = LocInfo(layer, coords, entity)
+    public fun change(from: BoundLocInfo, into: LocType, duration: Int) {
+        add(from.coords, into, duration, from.angle, from.shape)
+    }
 
     private fun ArrayDeque<LocCycleDuration>.removeExisting(loc: LocInfo) {
         val iterator = iterator()
@@ -123,9 +123,6 @@ constructor(
         val loc = locReg.findExact(coords, type?.id, shape.id, angle?.id) ?: return null
         return loc.takeIf { locTypes[it].contentGroup == content.id }
     }
-
-    public fun <T : Any> locParam(loc: LocInfo, param: ParamType<T>): T? =
-        locTypes[loc].paramOrNull(param)
 
     internal fun processDurations() {
         if (delDurations.isNotEmpty()) {

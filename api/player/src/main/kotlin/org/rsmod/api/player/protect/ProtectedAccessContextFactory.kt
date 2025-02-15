@@ -10,6 +10,7 @@ import org.rsmod.api.player.interact.WornInteractions
 import org.rsmod.api.random.GameRandom
 import org.rsmod.events.EventBus
 import org.rsmod.game.type.inv.InvTypeList
+import org.rsmod.game.type.loc.LocTypeList
 import org.rsmod.game.type.npc.NpcTypeList
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.seq.SeqTypeList
@@ -23,6 +24,7 @@ constructor(
     private val dialogues: Dialogues,
     private val eventBus: EventBus,
     private val invTypes: InvTypeList,
+    private val locTypes: LocTypeList,
     private val npcTypes: NpcTypeList,
     private val objTypes: ObjTypeList,
     private val seqTypes: SeqTypeList,
@@ -39,6 +41,7 @@ constructor(
             getCollision = { collision },
             getDialogues = { dialogues },
             getInvTypes = { invTypes },
+            getLocTypes = { locTypes },
             getNpcTypes = { npcTypes },
             getObjTypes = { objTypes },
             getSeqTypes = { seqTypes },
@@ -57,6 +60,7 @@ constructor(
                 getCollision = { error("No collision map provided.") },
                 getDialogues = { error("No dialogues provided.") },
                 getInvTypes = { error("No inv type list provided.") },
+                getLocTypes = { error("No loc type list provided.") },
                 getNpcTypes = { error("No npc type list provided.") },
                 getObjTypes = { error("No obj type list provided.") },
                 getSeqTypes = { error("No seq type list provided.") },
