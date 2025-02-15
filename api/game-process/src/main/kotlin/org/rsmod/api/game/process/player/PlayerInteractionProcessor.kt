@@ -122,9 +122,15 @@ constructor(
                     interacted = true
                 }
                 InteractionStep.TriggerScriptAp -> {
+                    val cachedWaypoints = routeDestination.waypoints.toList()
                     abortRoute()
+
                     triggerAp(interaction)
                     interacted = true
+
+                    if (apRangeCalled) {
+                        routeDestination.addAll(cachedWaypoints)
+                    }
                 }
                 InteractionStep.TriggerEngineAp -> {
                     apRange = -1
@@ -151,9 +157,15 @@ constructor(
                     interacted = true
                 }
                 InteractionStep.TriggerScriptAp -> {
+                    val cachedWaypoints = routeDestination.waypoints.toList()
                     abortRoute()
+
                     triggerAp(interaction)
                     interacted = true
+
+                    if (apRangeCalled) {
+                        routeDestination.addAll(cachedWaypoints)
+                    }
                 }
                 InteractionStep.TriggerEngineAp -> {
                     apRange = -1
