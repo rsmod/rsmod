@@ -22,7 +22,7 @@ constructor(
     public fun count(): Int = zones.npcCount()
 
     public fun add(npc: Npc): NpcRegistryResult.Add {
-        val slot = npcList.nextFreeSlot() ?: return NpcRegistryResult.AddErrorInvalidSlot
+        val slot = npcList.nextFreeSlot() ?: return NpcRegistryResult.Add.NoAvailableSlot
         npcList[slot] = npc
         npc.slotId = slot
         npc.addBlockWalkCollision(collision, npc.coords)
@@ -30,15 +30,15 @@ constructor(
         eventBus.publish(NpcEvents.Spawn(npc))
         npc.lastProcessedZone = ZoneKey.from(npc.coords)
         zoneAdd(npc, npc.lastProcessedZone)
-        return NpcRegistryResult.AddSuccess
+        return NpcRegistryResult.Add.Success
     }
 
     public fun del(npc: Npc): NpcRegistryResult.Delete {
         val slot = npc.slotId
         if (slot == INVALID_SLOT) {
-            return NpcRegistryResult.DeleteErrorInvalidSlot
+            return NpcRegistryResult.Delete.UnexpectedSlot
         } else if (npcList[slot] != npc) {
-            return NpcRegistryResult.DeleteErrorSlotMismatch(npcList[slot])
+            return NpcRegistryResult.Delete.ListSlotMismatch(npcList[slot])
         }
         npcList.remove(npc.slotId)
         eventBus.publish(NpcEvents.Delete(npc))
@@ -47,7 +47,7 @@ constructor(
         npc.slotId = INVALID_SLOT
         npc.destroy()
         npc.disableAvatar()
-        return NpcRegistryResult.DeleteSuccess
+        return NpcRegistryResult.Delete.Success
     }
 
     public fun hide(npc: Npc) {

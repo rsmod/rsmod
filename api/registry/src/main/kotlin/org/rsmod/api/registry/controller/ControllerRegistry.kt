@@ -16,26 +16,26 @@ constructor(private val mapClock: MapClock, private val controllerList: Controll
 
     public fun add(controller: Controller): ControllerRegistryResult.Add {
         val slot =
-            controllerList.nextFreeSlot() ?: return ControllerRegistryResult.AddErrorInvalidSlot
+            controllerList.nextFreeSlot() ?: return ControllerRegistryResult.Add.NoAvailableSlot
         controllerList[slot] = controller
         controller.slotId = slot
         controller.creationCycle = mapClock.cycle
         zoneAdd(controller, ZoneKey.from(controller.coords))
-        return ControllerRegistryResult.AddSuccess
+        return ControllerRegistryResult.Add.Success
     }
 
     public fun del(controller: Controller): ControllerRegistryResult.Delete {
         val slot = controller.slotId
         if (slot == INVALID_SLOT) {
-            return ControllerRegistryResult.DeleteErrorInvalidSlot
+            return ControllerRegistryResult.Delete.UnexpectedSlot
         } else if (controllerList[slot] != controller) {
-            return ControllerRegistryResult.DeleteErrorSlotMismatch(controllerList[slot])
+            return ControllerRegistryResult.Delete.ListSlotMismatch(controllerList[slot])
         }
         controllerList.remove(controller.slotId)
         zoneDel(controller, ZoneKey.from(controller.coords))
         controller.slotId = INVALID_SLOT
         controller.destroy()
-        return ControllerRegistryResult.DeleteSuccess
+        return ControllerRegistryResult.Delete.Success
     }
 
     public fun findAll(zone: ZoneKey): Sequence<Controller> {

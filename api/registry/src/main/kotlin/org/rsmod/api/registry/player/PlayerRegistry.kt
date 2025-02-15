@@ -23,30 +23,30 @@ constructor(
     public fun add(player: Player): PlayerRegistryResult.Add {
         val slot = player.slotId
         if (slot == INVALID_SLOT) {
-            return PlayerRegistryResult.AddErrorInvalidSlot
+            return PlayerRegistryResult.Add.NoAvailableSlot
         } else if (playerList[slot] != null) {
-            return PlayerRegistryResult.AddErrorSlotInUse(playerList.getValue(slot))
+            return PlayerRegistryResult.Add.ListSlotMismatch(playerList[slot])
         }
         playerList[slot] = player
         player.slotId = slot
         eventBus.publish(SessionStateEvent.Initialize(player))
         eventBus.publish(SessionStateEvent.LogIn(player))
-        return PlayerRegistryResult.AddSuccess
+        return PlayerRegistryResult.Add.Success
     }
 
     public fun del(player: Player): PlayerRegistryResult.Delete {
         val slot = player.slotId
         if (slot == INVALID_SLOT) {
-            return PlayerRegistryResult.DeleteErrorInvalidSlot
+            return PlayerRegistryResult.Delete.UnexpectedSlot
         } else if (playerList[slot] != player) {
-            return PlayerRegistryResult.DeleteErrorSlotMismatch(playerList[slot])
+            return PlayerRegistryResult.Delete.ListSlotMismatch(playerList[slot])
         }
         playerList.remove(slot)
         eventBus.publish(SessionStateEvent.LogOut(player))
         player.removeBlockWalkCollision(collision, player.coords)
         zoneDel(player, ZoneKey.from(player.coords))
         player.slotId = INVALID_SLOT
-        return PlayerRegistryResult.DeleteSuccess
+        return PlayerRegistryResult.Delete.Success
     }
 
     public fun change(player: Player, from: ZoneKey, to: ZoneKey) {

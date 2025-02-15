@@ -3,6 +3,7 @@ package org.rsmod.api.repo.npc
 import it.unimi.dsi.fastutil.objects.ObjectArrayList
 import jakarta.inject.Inject
 import org.rsmod.api.registry.npc.NpcRegistry
+import org.rsmod.api.registry.npc.isSuccess
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.NpcList
@@ -21,7 +22,7 @@ constructor(
 
     public fun add(npc: Npc, duration: Int) {
         val add = registry.add(npc)
-        check(add.isSuccess) { "Failed to add npc. (result=$add, npc=$npc)" }
+        check(add.isSuccess()) { "Failed to add npc. (result=$add, npc=$npc)" }
         if (duration != Int.MAX_VALUE) {
             val deleteCycle = mapClock + duration
             npc.lifecycleDelCycle = deleteCycle
@@ -36,7 +37,7 @@ constructor(
      */
     public fun del(npc: Npc, duration: Int) {
         val del = registry.del(npc)
-        check(del.isSuccess) { "Failed to delete npc. (result=$del, npc=$npc)" }
+        check(del.isSuccess()) { "Failed to delete npc. (result=$del, npc=$npc)" }
         if (duration != Int.MAX_VALUE) {
             val addCycle = mapClock + duration
             npc.lifecycleAddCycle = addCycle

@@ -3,6 +3,7 @@ package org.rsmod.api.repo.controller
 import it.unimi.dsi.fastutil.objects.ObjectArrayList
 import jakarta.inject.Inject
 import org.rsmod.api.registry.controller.ControllerRegistry
+import org.rsmod.api.registry.controller.isSuccess
 import org.rsmod.game.entity.Controller
 import org.rsmod.game.entity.ControllerList
 import org.rsmod.game.type.controller.ControllerType
@@ -16,14 +17,14 @@ constructor(private val registry: ControllerRegistry, private val controllerList
 
     public fun add(controller: Controller, duration: Int) {
         val add = registry.add(controller)
-        check(add.isSuccess) { "Failed to add controller. (result=$add, controller=$controller)" }
+        check(add.isSuccess()) { "Failed to add controller. (result=$add, controller=$controller)" }
         controller.duration(duration)
     }
 
     public fun del(controller: Controller) {
         check(controller.duration > -1) { "Duration must be greater than -1: $controller." }
         val del = registry.del(controller)
-        check(del.isSuccess) {
+        check(del.isSuccess()) {
             "Failed to delete controller. (result=$del, controller=$controller)"
         }
     }

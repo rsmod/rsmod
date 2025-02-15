@@ -15,16 +15,16 @@ constructor(private val updates: ZoneUpdateMap, private val objTypes: ObjTypeLis
 
     public fun count(): Int = objs.objCount()
 
-    public fun add(obj: Obj): ObjRegistryResult {
+    public fun add(obj: Obj): ObjRegistryResult.Add {
         val type = objTypes[obj]
 
         if (type.isDummyItem) {
-            return ObjRegistryResult.InvalidDummyitem
+            return ObjRegistryResult.Add.InvalidDummyitem
         }
 
         val stackable = type.isStackable
         if (!stackable && obj.count > MAX_NON_STACK_COUNT_DROP) {
-            return ObjRegistryResult.BulkNonStackableLimitExceeded(obj.count)
+            return ObjRegistryResult.Add.BulkNonStackableLimitExceeded(obj.count)
         }
 
         val zoneKey = ZoneKey.from(obj.coords)
@@ -36,7 +36,7 @@ constructor(private val updates: ZoneUpdateMap, private val objTypes: ObjTypeLis
             val oldCount = merge.count
             merge.change(merge.count + obj.count)
             updates.objCount(merge, merge.count, oldCount)
-            return ObjRegistryResult.Merge(merge)
+            return ObjRegistryResult.Add.Merge(merge)
         }
 
         val splitCount = !stackable && obj.count > 1
@@ -48,23 +48,23 @@ constructor(private val updates: ZoneUpdateMap, private val objTypes: ObjTypeLis
                 entryList.add(single)
                 updates.objAdd(single)
             }
-            return ObjRegistryResult.Split(split)
+            return ObjRegistryResult.Add.Split(split)
         }
 
         entryList.add(obj)
         updates.objAdd(obj)
-        return ObjRegistryResult.Stack
+        return ObjRegistryResult.Add.Stack
     }
 
-    public fun del(obj: Obj): Boolean {
+    public fun del(obj: Obj): ObjRegistryResult.Delete {
         val zoneKey = ZoneKey.from(obj.coords)
-        val entryList = objs[zoneKey] ?: return false
+        val entryList = objs[zoneKey] ?: return ObjRegistryResult.Delete.InvalidZone
         val removed = entryList.remove(obj)
         if (!removed) {
-            return false
+            return ObjRegistryResult.Delete.NotRegisteredInZone
         }
         updates.objDel(obj)
-        return true
+        return ObjRegistryResult.Delete.Success
     }
 
     public fun reveal(obj: Obj) {

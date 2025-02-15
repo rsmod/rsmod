@@ -41,9 +41,9 @@ constructor(
         addLocCollision(loc)
         updates.locAdd(loc)
         return if (exactMapLocExists) {
-            LocRegistryResult.AddMapLoc
+            LocRegistryResult.Add.SpawnedMapLoc
         } else {
-            LocRegistryResult.AddSpawned
+            LocRegistryResult.Add.SpawnedDynamic
         }
     }
 
@@ -52,12 +52,12 @@ constructor(
         val locZoneKey = loc.toLocZoneGridKey()
         // Deleting spawned locs takes priority over static map locs.
         if (deleteSpawnedLoc(zoneKey, locZoneKey, loc)) {
-            return LocRegistryResult.DeleteSpawned
+            return LocRegistryResult.Delete.RemovedDynamic
         }
         if (deleteStaticLoc(zoneKey, locZoneKey, loc)) {
-            return LocRegistryResult.DeleteMapLoc
+            return LocRegistryResult.Delete.RemovedMapLoc
         }
-        return LocRegistryResult.DeleteFailed
+        return LocRegistryResult.Delete.LocNotFound
     }
 
     // TODO: should have a separate findAllNormal and findAllRegion that this function calls based

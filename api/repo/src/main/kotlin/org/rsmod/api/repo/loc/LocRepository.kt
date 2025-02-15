@@ -3,6 +3,7 @@ package org.rsmod.api.repo.loc
 import jakarta.inject.Inject
 import org.rsmod.api.registry.loc.LocRegistry
 import org.rsmod.api.registry.loc.LocRegistryResult
+import org.rsmod.api.registry.loc.isSuccess
 import org.rsmod.game.MapClock
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.loc.LocAngle
@@ -21,14 +22,19 @@ public class LocRepository
 @Inject
 constructor(
     private val mapClock: MapClock,
-    private val registry: LocRegistry,
     private val locTypes: LocTypeList,
+    private val locReg: LocRegistry,
 ) {
     private val addDurations = ArrayDeque<LocCycleDuration>()
     private val delDurations = ArrayDeque<LocCycleDuration>()
 
-    public fun add(loc: LocInfo, duration: Int) {
-        val add = registry.add(loc)
+    public fun add(loc: LocInfo, duration: Int): Boolean {
+        val add = locReg.add(loc)
+
+        if (!add.isSuccess()) {
+            return false
+        }
+
         if (add.shouldDespawn() && duration != Int.MAX_VALUE) {
             val revertCycle = mapClock + duration
             val locDuration = LocCycleDuration(loc, revertCycle)
@@ -36,16 +42,16 @@ constructor(
             addDurations.removeExisting(loc)
             addDurations.add(locDuration)
         }
-    }
 
-    private fun LocRegistryResult.shouldDespawn(): Boolean = this == LocRegistryResult.AddSpawned
+        return true
+    }
 
     public fun add(
         coords: CoordGrid,
         type: LocType,
         duration: Int,
-        angle: LocAngle = LocAngle.West,
-        shape: LocShape = LocShape.CentrepieceStraight,
+        angle: LocAngle,
+        shape: LocShape,
     ): LocInfo {
         val layer = LocLayerConstants.of(shape.id)
         val entity = LocEntity(type.id, shape.id, angle.id)
@@ -57,10 +63,12 @@ constructor(
     public fun del(bound: BoundLocInfo, duration: Int): Boolean = del(bound.toLocInfo(), duration)
 
     public fun del(loc: LocInfo, duration: Int): Boolean {
-        val delete = registry.del(loc)
-        if (delete == LocRegistryResult.DeleteFailed) {
+        val delete = locReg.del(loc)
+
+        if (!delete.isSuccess()) {
             return false
         }
+
         if (delete.canRespawn() && duration != Int.MAX_VALUE) {
             val revertCycle = mapClock + duration
             val locDuration = LocCycleDuration(loc, revertCycle)
@@ -68,6 +76,7 @@ constructor(
             delDurations.removeExisting(loc)
             delDurations.add(locDuration)
         }
+
         return true
     }
 
@@ -78,8 +87,6 @@ constructor(
     public fun change(from: LocInfo, into: LocType, duration: Int) {
         add(from.coords, into, duration, from.angle, from.shape)
     }
-
-    private fun LocRegistryResult.canRespawn(): Boolean = this == LocRegistryResult.DeleteMapLoc
 
     private fun BoundLocInfo.toLocInfo(): LocInfo = LocInfo(layer, coords, entity)
 
@@ -94,7 +101,7 @@ constructor(
         }
     }
 
-    public fun findAll(zone: ZoneKey): Sequence<LocInfo> = registry.findAll(zone)
+    public fun findAll(zone: ZoneKey): Sequence<LocInfo> = locReg.findAll(zone)
 
     public fun findAll(coords: CoordGrid): Sequence<LocInfo> =
         findAll(ZoneKey.from(coords)).filter { it.coords == coords }
@@ -104,7 +111,7 @@ constructor(
         type: LocType? = null,
         shape: LocShape? = null,
         angle: LocAngle? = null,
-    ): LocInfo? = registry.findExact(coords, type?.id, shape?.id, angle?.id)
+    ): LocInfo? = locReg.findExact(coords, type?.id, shape?.id, angle?.id)
 
     public fun findExact(
         coords: CoordGrid,
@@ -113,12 +120,8 @@ constructor(
         type: LocType? = null,
         angle: LocAngle? = null,
     ): LocInfo? {
-        val loc = registry.findExact(coords, type?.id, shape.id, angle?.id) ?: return null
-        return if (locTypes[loc].contentGroup == content.id) {
-            loc
-        } else {
-            null
-        }
+        val loc = locReg.findExact(coords, type?.id, shape.id, angle?.id) ?: return null
+        return loc.takeIf { locTypes[it].contentGroup == content.id }
     }
 
     public fun <T : Any> locParam(loc: LocInfo, param: ParamType<T>): T? =
@@ -140,7 +143,7 @@ constructor(
             if (!duration.shouldTrigger()) {
                 continue
             }
-            registry.add(duration.loc)
+            locReg.add(duration.loc)
             iterator.remove()
         }
     }
@@ -152,7 +155,7 @@ constructor(
             if (!duration.shouldTrigger()) {
                 continue
             }
-            registry.del(duration.loc)
+            locReg.del(duration.loc)
             iterator.remove()
         }
     }
@@ -160,4 +163,12 @@ constructor(
     private fun LocCycleDuration.shouldTrigger(): Boolean = mapClock >= triggerCycle
 
     private data class LocCycleDuration(val loc: LocInfo, val triggerCycle: Int)
+
+    private companion object {
+        private fun LocRegistryResult.Add.Success.shouldDespawn(): Boolean =
+            this is LocRegistryResult.Add.SpawnedDynamic
+
+        private fun LocRegistryResult.Delete.Success.canRespawn(): Boolean =
+            this is LocRegistryResult.Delete.RemovedMapLoc
+    }
 }

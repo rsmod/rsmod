@@ -40,6 +40,7 @@ import org.rsmod.api.random.GameRandom
 import org.rsmod.api.registry.controller.ControllerRegistry
 import org.rsmod.api.registry.loc.LocRegistry
 import org.rsmod.api.registry.npc.NpcRegistry
+import org.rsmod.api.registry.npc.isSuccess
 import org.rsmod.api.registry.obj.ObjRegistry
 import org.rsmod.api.registry.player.PlayerRegistry
 import org.rsmod.api.repo.controller.ControllerRepository
@@ -370,7 +371,7 @@ constructor(
     public fun spawnNpc(coords: CoordGrid, type: UnpackedNpcType, init: Npc.() -> Unit = {}): Npc {
         val npc = Npc(type, coords).apply(init)
         val add = npcRegistry.add(npc)
-        check(add.isSuccess) { "Could not add npc: result=$add, npc=$npc" }
+        check(add.isSuccess()) { "Could not add npc: result=$add, npc=$npc" }
         return npc
     }
 

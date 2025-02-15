@@ -139,7 +139,7 @@ class LocRegistryDelTest {
         // would cause the registry to perform the lookups with the same local key as `small` would.
         val removed = registry.del(medium)
 
-        assertEquals(LocRegistryResult.DeleteFailed, removed)
+        assertEquals(LocRegistryResult.Delete.LocNotFound, removed)
         assertEquals(0, registry.spawnedLocs.locCount())
 
         // The `small` map loc shouldn't of have been removed.
@@ -169,7 +169,7 @@ class LocRegistryDelTest {
         // would cause the registry to perform the lookups with the same local key as `small` would.
         val removed = registry.del(medium)
 
-        assertEquals(LocRegistryResult.DeleteFailed, removed)
+        assertEquals(LocRegistryResult.Delete.LocNotFound, removed)
 
         // The `small` loc shouldn't of have been removed.
         assertEquals(1, registry.spawnedLocs.locCount())

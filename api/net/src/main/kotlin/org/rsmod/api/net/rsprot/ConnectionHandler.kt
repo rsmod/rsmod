@@ -9,11 +9,12 @@ import net.rsprot.protocol.loginprot.incoming.util.AuthenticationType
 import net.rsprot.protocol.loginprot.incoming.util.LoginBlock
 import net.rsprot.protocol.loginprot.outgoing.LoginResponse
 import net.rsprot.protocol.loginprot.outgoing.util.AuthenticatorResponse
+import org.rsmod.api.config.refs.BaseModGroups
 import org.rsmod.api.net.rsprot.player.SessionEnd
 import org.rsmod.api.net.rsprot.player.SessionStart
 import org.rsmod.api.player.vars.varMoveSpeed
 import org.rsmod.api.registry.player.PlayerRegistry
-import org.rsmod.api.registry.player.PlayerRegistryResult
+import org.rsmod.api.registry.player.isSuccess
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.movement.MoveSpeed
@@ -42,6 +43,7 @@ constructor(private val registry: PlayerRegistry, private val events: EventBus) 
                 username = block.username
                 displayName = username
                 varMoveSpeed = MoveSpeed.Run
+                modGroup = BaseModGroups.owner
                 uuid = username.hashCode().toLong()
                 observerUUID = uuid
             }
@@ -66,7 +68,7 @@ constructor(private val registry: PlayerRegistry, private val events: EventBus) 
         events.publish(SessionStart(player, session))
 
         val add = registry.add(player)
-        if (add is PlayerRegistryResult.AddError) {
+        if (!add.isSuccess()) {
             events.publish(SessionEnd(player, session))
             logger.warn { "Could not register player. (err=$add, player=$player)" }
             session.requestClose()

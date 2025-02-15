@@ -3,6 +3,7 @@ package org.rsmod.api.repo.obj
 import jakarta.inject.Inject
 import org.rsmod.api.registry.obj.ObjRegistry
 import org.rsmod.api.registry.obj.ObjRegistryResult
+import org.rsmod.api.registry.obj.isSuccess
 import org.rsmod.game.MapClock
 import org.rsmod.game.obj.InvObj
 import org.rsmod.game.obj.Obj
@@ -29,20 +30,20 @@ constructor(
         reveal: Int = duration - DEFAULT_REVEAL_DELTA,
     ): Boolean {
         val register = register(obj, duration, reveal)
-        return register.isSuccess
+        return register.isSuccess()
     }
 
-    private fun register(obj: Obj, duration: Int, reveal: Int): ObjRegistryResult {
+    private fun register(obj: Obj, duration: Int, reveal: Int): ObjRegistryResult.Add {
         require(obj.count > 0) { "Obj must have a `count` higher than 0: $obj" }
         val register = registry.add(obj)
         when (register) {
             // TODO: Check how the duration is supposed to be calculated. Does it take the
             //  greater duration comparing the existing obj vs `duration` input from this call?
-            is ObjRegistryResult.Merge -> updateDurations(register.merged, duration, reveal)
-            is ObjRegistryResult.Split -> addDurations(register.split, duration, reveal)
-            ObjRegistryResult.Stack -> addDuration(obj, duration, reveal)
-            is ObjRegistryResult.BulkNonStackableLimitExceeded -> return register
-            is ObjRegistryResult.InvalidDummyitem -> {
+            is ObjRegistryResult.Add.Merge -> updateDurations(register.merged, duration, reveal)
+            is ObjRegistryResult.Add.Split -> addDurations(register.split, duration, reveal)
+            is ObjRegistryResult.Add.Stack -> addDuration(obj, duration, reveal)
+            is ObjRegistryResult.Add.BulkNonStackableLimitExceeded -> return register
+            is ObjRegistryResult.Add.InvalidDummyitem -> {
                 throw IllegalStateException("Dummyitem cannot be added to registry: $obj")
             }
         }
@@ -88,7 +89,7 @@ constructor(
 
     public fun del(obj: Obj, duration: Int = obj.respawnRate()): Boolean {
         val deleted = registry.del(obj)
-        if (!deleted) {
+        if (!deleted.isSuccess()) {
             return false
         }
         if (obj.canRespawn() && duration != Int.MAX_VALUE) {
@@ -149,7 +150,7 @@ constructor(
                 continue
             }
             val result = registry.add(duration.obj)
-            check(result.isSuccess) { "Failed to respawn obj: $duration" }
+            check(result.isSuccess()) { "Failed to respawn obj: $duration" }
             iterator.remove()
         }
     }

@@ -1,17 +1,35 @@
 package org.rsmod.api.registry.loc
 
-public sealed class LocRegistryResult {
-    public sealed class Add : LocRegistryResult()
+import kotlin.contracts.contract
 
-    public data object AddSpawned : Add()
+public fun LocRegistryResult.Add.isSuccess(): Boolean {
+    contract { returns(true) implies (this@isSuccess is LocRegistryResult.Add.Success) }
+    return this is LocRegistryResult.Add.Success
+}
 
-    public data object AddMapLoc : Add()
+public fun LocRegistryResult.Delete.isSuccess(): Boolean {
+    contract { returns(true) implies (this@isSuccess is LocRegistryResult.Delete.Success) }
+    return this is LocRegistryResult.Delete.Success
+}
 
-    public sealed class Delete : LocRegistryResult()
+public class LocRegistryResult {
+    public sealed class Add {
+        public sealed class Success : Add()
 
-    public data object DeleteSpawned : Delete()
+        public data object SpawnedMapLoc : Success()
 
-    public data object DeleteMapLoc : Delete()
+        public data object SpawnedDynamic : Success()
+    }
 
-    public data object DeleteFailed : Delete()
+    public sealed class Delete {
+        public sealed class Success : Delete()
+
+        public data object RemovedMapLoc : Success()
+
+        public data object RemovedDynamic : Success()
+
+        public sealed class Failure : Delete()
+
+        public data object LocNotFound : Failure()
+    }
 }
