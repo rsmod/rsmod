@@ -1,3 +1,3 @@
 package org.rsmod.game.entity
 
-public class NpcList : EntityList<Npc>(capacity = 32767, slotPadding = 0)
+public class NpcList : EntityList<Npc>(capacity = 32767)

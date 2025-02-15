@@ -1,6 +1,6 @@
 package org.rsmod.game.entity
 
-public sealed class EntityList<T>(public val capacity: Int, public val slotPadding: Int) :
+public abstract class EntityList<T>(public val capacity: Int, public val slotPadding: Int = 0) :
     Iterable<T> {
     private val entries: MutableList<T?> = MutableList(capacity) { null }
     private var lastUsedSlot = 0
