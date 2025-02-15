@@ -4,7 +4,6 @@ import net.rsprot.protocol.message.IncomingGameMessage
 import net.rsprot.protocol.message.codec.incoming.MessageConsumer
 import org.rsmod.game.client.Client
 import org.rsmod.game.entity.Player
-import org.rsmod.game.type.obj.ObjTypeList
 
 public class CaptureClient : Client<Any, Any> {
     public var sessionOpened: Boolean = false
@@ -101,10 +100,6 @@ public class CaptureClient : Client<Any, Any> {
     }
 
     override fun flush() {}
-
-    override fun prePlayerCycle(player: Player, objTypes: ObjTypeList) {}
-
-    override fun postPlayerCycle(player: Player) {}
 
     private data class IncomingHandlerMessage<T : IncomingGameMessage>(
         val handler: MessageConsumer<Player, T>,

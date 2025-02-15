@@ -1,7 +1,6 @@
 package org.rsmod.game.client
 
 import org.rsmod.game.entity.Player
-import org.rsmod.game.type.obj.ObjTypeList
 
 public interface Client<S, T> {
     public fun open(service: S, player: Player)
@@ -13,8 +12,10 @@ public interface Client<S, T> {
     public fun read(player: Player)
 
     public fun flush()
+}
 
-    public fun prePlayerCycle(player: Player, objTypes: ObjTypeList)
+public interface ClientCycle {
+    public fun preCycle(player: Player)
 
-    public fun postPlayerCycle(player: Player)
+    public fun postCycle(player: Player)
 }

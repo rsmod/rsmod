@@ -4,7 +4,9 @@ import it.unimi.dsi.fastutil.ints.IntArrayList
 import it.unimi.dsi.fastutil.ints.IntArraySet
 import it.unimi.dsi.fastutil.ints.IntList
 import org.rsmod.game.client.Client
+import org.rsmod.game.client.ClientCycle
 import org.rsmod.game.client.NoopClient
+import org.rsmod.game.client.NoopClientCycle
 import org.rsmod.game.entity.player.Appearance
 import org.rsmod.game.entity.player.PublicMessage
 import org.rsmod.game.entity.shared.PathingEntityCommon
@@ -33,6 +35,7 @@ import org.rsmod.routefinder.flag.CollisionFlag
 
 public class Player(
     public var client: Client<Any, Any> = NoopClient,
+    public var clientCycle: ClientCycle = NoopClientCycle,
     override val avatar: PlayerAvatar = PlayerAvatar(),
 ) : PathingEntity() {
     init {

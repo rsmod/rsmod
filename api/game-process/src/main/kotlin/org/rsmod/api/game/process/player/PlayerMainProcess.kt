@@ -124,11 +124,11 @@ constructor(
         facing.process(this)
         buildAreas.process(this)
         mapSquares.process(this)
-        client.prePlayerCycle(this, objTypes)
+        clientCycle.preCycle(this)
     }
 
     private fun Player.clientPostProcess() {
-        client.postPlayerCycle(this)
+        clientCycle.postCycle(this)
     }
 
     private inline fun Player.tryOrDisconnect(block: Player.() -> Unit) =

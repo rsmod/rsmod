@@ -5,7 +5,7 @@ import net.rsprot.crypto.xtea.XteaKey
 import net.rsprot.protocol.game.outgoing.map.util.XteaProvider
 import org.rsmod.game.map.xtea.XteaMap
 
-class XTEAProvider @Inject constructor(private val xtea: XteaMap) : XteaProvider {
+class SimpleXteaProvider @Inject constructor(private val xtea: XteaMap) : XteaProvider {
     private val keys: Map<Int, XteaKey> by lazy { xtea.toIntMap() }
 
     override fun provide(mapsquareId: Int): XteaKey {

@@ -3,16 +3,18 @@ package org.rsmod.api.net.rsprot
 import jakarta.inject.Inject
 import net.rsprot.protocol.api.NetworkService
 import net.rsprot.protocol.common.RSProtConstants
+import net.rsprot.protocol.common.client.OldSchoolClientType
 import org.rsmod.api.core.Build
 import org.rsmod.api.game.process.GameLifecycle
 import org.rsmod.api.net.rsprot.player.SessionEnd
 import org.rsmod.api.net.rsprot.player.SessionStart
-import org.rsmod.api.net.rsprot.provider.XTEAProvider
+import org.rsmod.api.net.rsprot.provider.SimpleXteaProvider
 import org.rsmod.api.npc.events.NpcEvents
 import org.rsmod.game.MapClock
 import org.rsmod.game.client.Client
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
+import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
@@ -20,9 +22,10 @@ import org.rsmod.plugin.scripts.ScriptContext
 class NetworkScript
 @Inject
 constructor(
-    private val service: NetworkService<Player>,
     private val mapClock: MapClock,
-    private val xteaProvider: XTEAProvider,
+    private val xtea: SimpleXteaProvider,
+    private val service: NetworkService<Player>,
+    private val objTypes: ObjTypeList,
 ) : PluginScript() {
     override fun ScriptContext.startUp() {
         check(RSProtConstants.REVISION == Build.MAJOR) {
@@ -48,9 +51,19 @@ constructor(
 
     @Suppress("UNCHECKED_CAST")
     private fun SessionStart.startSession() {
-        val client = RspClient(session, xteaProvider)
-        player.client = client as Client<Any, Any>
+        val slot = player.slotId
+
+        val playerInfo = service.playerInfoProtocol.alloc(slot, OldSchoolClientType.DESKTOP)
+        val npcInfo = service.npcInfoProtocol.alloc(slot, OldSchoolClientType.DESKTOP)
+
+        val client = RspClient(session, playerInfo, npcInfo) as Client<Any, Any>
+        val cycle = RspCycle(session, playerInfo, npcInfo, xtea, objTypes)
+
+        player.client = client
+        player.clientCycle = cycle
+
         client.open(service, player)
+        cycle.init(player)
     }
 
     private fun SessionEnd.closeSession() {
