@@ -9,7 +9,6 @@ import org.rsmod.game.loc.LocInfo
 import org.rsmod.game.loc.LocZoneKey
 import org.rsmod.game.map.collision.addLoc
 import org.rsmod.game.map.collision.removeLoc
-import org.rsmod.game.region.Region
 import org.rsmod.game.type.loc.LocTypeList
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.zone.ZoneGrid
@@ -147,12 +146,7 @@ constructor(
         id: Int? = null,
         shape: Int? = null,
         angle: Int? = null,
-    ): LocInfo? =
-        if (!Region.inWorkingArea(coords)) {
-            findNormal(coords, id = id, shape = shape, angle = angle)
-        } else {
-            TODO("Find loc within dynamically-built region")
-        }
+    ): LocInfo? = findNormal(coords, id = id, shape = shape, angle = angle)
 
     private fun findNormal(coords: CoordGrid, id: Int?, shape: Int?, angle: Int?): LocInfo? {
         val spawnedLoc = spawnedLocs.find(coords, id, shape, angle, layer = null)
