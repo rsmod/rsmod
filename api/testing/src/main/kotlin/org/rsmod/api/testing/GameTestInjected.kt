@@ -8,7 +8,7 @@ import org.rsmod.api.route.RayCastValidator
 import org.rsmod.api.route.RouteFactory
 import org.rsmod.api.route.StepFactory
 import org.rsmod.events.EventBus
-import org.rsmod.game.map.XteaMap
+import org.rsmod.game.map.xtea.XteaMap
 import org.rsmod.game.type.TypeListMap
 import org.rsmod.routefinder.collision.CollisionFlagMap
 

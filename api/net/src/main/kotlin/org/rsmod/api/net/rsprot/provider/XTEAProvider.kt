@@ -3,7 +3,7 @@ package org.rsmod.api.net.rsprot.provider
 import jakarta.inject.Inject
 import net.rsprot.crypto.xtea.XteaKey
 import net.rsprot.protocol.game.outgoing.map.util.XteaProvider
-import org.rsmod.game.map.XteaMap
+import org.rsmod.game.map.xtea.XteaMap
 
 class XTEAProvider @Inject constructor(private val xtea: XteaMap) : XteaProvider {
     private val keys: Map<Int, XteaKey> by lazy { xtea.toIntMap() }

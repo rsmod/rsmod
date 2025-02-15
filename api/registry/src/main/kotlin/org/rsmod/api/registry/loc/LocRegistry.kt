@@ -7,6 +7,8 @@ import org.rsmod.api.registry.zone.ZoneUpdateMap
 import org.rsmod.game.loc.LocEntity
 import org.rsmod.game.loc.LocInfo
 import org.rsmod.game.loc.LocZoneKey
+import org.rsmod.game.map.LocZoneStorage
+import org.rsmod.game.map.ZoneLocMap
 import org.rsmod.game.map.collision.addLoc
 import org.rsmod.game.map.collision.removeLoc
 import org.rsmod.game.type.loc.LocTypeList
@@ -21,11 +23,10 @@ constructor(
     private val updates: ZoneUpdateMap,
     private val collision: CollisionFlagMap,
     private val locTypes: LocTypeList,
+    private val locZones: LocZoneStorage,
 ) {
-    public val mapLocs: ZoneLocMap = ZoneLocMap()
-    public val spawnedLocs: ZoneLocMap = ZoneLocMap()
-
-    public fun count(): Int = mapLocs.locCount() + spawnedLocs.locCount()
+    private val mapLocs: ZoneLocMap by locZones::mapLocs
+    private val spawnedLocs: ZoneLocMap by locZones::spawnedLocs
 
     public fun add(loc: LocInfo): LocRegistryResult.Add {
         val zoneKey = ZoneKey.from(loc.coords)

@@ -2,7 +2,7 @@ package org.rsmod.api.game.process.player
 
 import net.rsprot.protocol.api.util.ZonePartialEnclosedCacheBuffer
 import net.rsprot.protocol.game.outgoing.zone.header.UpdateZoneFullFollows
-import net.rsprot.protocol.game.outgoing.zone.payload.LocAddChange
+import net.rsprot.protocol.game.outgoing.zone.payload.LocAddChangeV2
 import net.rsprot.protocol.game.outgoing.zone.payload.ObjAdd
 import net.rsprot.protocol.game.outgoing.zone.payload.ObjCount
 import net.rsprot.protocol.game.outgoing.zone.payload.ObjDel
@@ -29,6 +29,7 @@ import org.rsmod.api.utils.map.zone.SharedZoneEnclosedBuffers
 import org.rsmod.game.loc.LocEntity
 import org.rsmod.game.loc.LocInfo
 import org.rsmod.game.loc.LocZoneKey
+import org.rsmod.game.map.LocZoneStorage
 import org.rsmod.game.obj.Obj
 import org.rsmod.game.obj.ObjEntity
 import org.rsmod.game.obj.ObjScope
@@ -45,6 +46,7 @@ class PlayerZoneUpdateProcessorTest {
         val parameters = createZoneProcess()
         val buildProcessor = PlayerBuildAreaProcessor()
         val zoneProcessor = parameters.zoneProcessor
+        val locZones = parameters.locZones
         val locRegistry = parameters.locRegistry
         val objRegistry = parameters.objRegistry
         val standardLoc = parameters.locTypes.smallBlockWalk().id
@@ -89,7 +91,7 @@ class PlayerZoneUpdateProcessorTest {
                 val zoneKey = ZoneKey.from(it.coords)
                 val zoneGrid = ZoneGrid.from(it.coords)
                 val locZoneKey = LocZoneKey(zoneGrid.x, zoneGrid.z, it.layer)
-                locRegistry.mapLocs[zoneKey, locZoneKey] = mapLoc.entity
+                locZones.mapLocs[zoneKey, locZoneKey] = mapLoc.entity
             }
 
             // Spawn a loc in loc registry to be sent as a zone update.
@@ -122,8 +124,8 @@ class PlayerZoneUpdateProcessorTest {
 
             // `processVisibleZoneUpdates`
             assertEquals(2, captured.count { it is ZoneProt })
-            assertEquals(1, captured.countOf<LocAddChange>())
-            assertEquals(standardLoc, captured.singleMapOf(LocAddChange::id))
+            assertEquals(1, captured.countOf<LocAddChangeV2>())
+            assertEquals(standardLoc, captured.singleMapOf(LocAddChangeV2::id))
             assertEquals(1, captured.countOf<ObjAdd>())
             assertEquals(standardObj, captured.singleMapOf(ObjAdd::id))
 
@@ -253,10 +255,11 @@ class PlayerZoneUpdateProcessorTest {
 
     private fun BasicGameTestScope.createZoneProcess(): ZoneProcessParams {
         val zoneUpdates = ZoneUpdateMap()
+        val locZones = LocZoneStorage()
         val collision = collisionFactory.borrowSharedMap()
         val locTypes = locTypeListFactory.createDefault()
         val objTypes = objTypeListFactory.createDefault()
-        val locRegistry = locRegistryFactory.create(collision, zoneUpdates, locTypes)
+        val locRegistry = locRegistryFactory.create(collision, locZones, zoneUpdates, locTypes)
         val objRegistry = objRegistryFactory.create(zoneUpdates, objTypes)
         val enclosedCache = ZonePartialEnclosedCacheBuffer()
         val sharedEnclosed = SharedZoneEnclosedBuffers(playerList, zoneUpdates, enclosedCache)
@@ -264,6 +267,7 @@ class PlayerZoneUpdateProcessorTest {
             PlayerZoneUpdateProcessor(zoneUpdates, locRegistry, objRegistry, sharedEnclosed)
         return ZoneProcessParams(
             collision,
+            locZones,
             locRegistry,
             objRegistry,
             zoneUpdates,
@@ -275,6 +279,7 @@ class PlayerZoneUpdateProcessorTest {
 
     private data class ZoneProcessParams(
         val collision: CollisionFlagMap,
+        val locZones: LocZoneStorage,
         val locRegistry: LocRegistry,
         val objRegistry: ObjRegistry,
         val zoneUpdateMap: ZoneUpdateMap,

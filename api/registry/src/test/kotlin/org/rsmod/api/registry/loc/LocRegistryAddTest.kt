@@ -15,6 +15,7 @@ import org.rsmod.api.testing.factory.smallBlockWalk
 import org.rsmod.game.loc.LocEntity
 import org.rsmod.game.loc.LocShape
 import org.rsmod.game.loc.LocZoneKey
+import org.rsmod.game.map.LocZoneStorage
 import org.rsmod.game.map.collision.get
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.zone.ZoneGrid
@@ -27,14 +28,15 @@ class LocRegistryAddTest {
         val types = locTypeListFactory.createDefault()
         val loc = locFactory.create(types.smallBlockWalk())
 
+        val locZones = LocZoneStorage()
         val collision = collisionFactory.create()
-        val registry = locRegistryFactory.create(collision)
-        check(registry.count() == 0)
+        val registry = locRegistryFactory.create(collision, locZones)
+        check(locZones.totalLocCount() == 0)
 
         registry.add(loc)
 
-        assertEquals(1, registry.count())
-        assertEquals(1, registry.spawnedLocs.locCount())
+        assertEquals(1, locZones.totalLocCount())
+        assertEquals(1, locZones.spawnedLocCount())
         assertEquals(1, registry.findAll(ZoneKey.from(loc.coords)).count())
         assertEquals(loc, registry.findAll(ZoneKey.from(loc.coords)).single())
 
@@ -47,15 +49,16 @@ class LocRegistryAddTest {
         val loc1 = locFactory.create(types.smallBlockWalk(), CoordGrid.ZERO)
         val loc2 = locFactory.create(types.smallBlockWalk(), CoordGrid.ZERO.translateX(1))
 
+        val locZones = LocZoneStorage()
         val collision = collisionFactory.create()
-        val registry = locRegistryFactory.create(collision)
-        check(registry.count() == 0)
+        val registry = locRegistryFactory.create(collision, locZones)
+        check(locZones.totalLocCount() == 0)
 
         registry.add(loc1)
         registry.add(loc2)
 
-        assertEquals(2, registry.count())
-        assertEquals(2, registry.spawnedLocs.locCount())
+        assertEquals(2, locZones.totalLocCount())
+        assertEquals(2, locZones.spawnedLocCount())
         assertEquals(2, registry.findAll(ZoneKey.from(loc1.coords)).count())
         assertEquals(setOf(loc1, loc2), registry.findAll(ZoneKey.from(loc1.coords)).toSet())
 
@@ -69,16 +72,17 @@ class LocRegistryAddTest {
         val loc1 = locFactory.create(types.smallBlockWalk())
         val loc2 = locFactory.create(types.smallBlockRange())
 
+        val locZones = LocZoneStorage()
         val collision = collisionFactory.create()
-        val registry = locRegistryFactory.create(collision)
-        check(registry.count() == 0)
+        val registry = locRegistryFactory.create(collision, locZones)
+        check(locZones.totalLocCount() == 0)
 
         registry.add(loc1)
-        check(registry.count() == 1)
+        check(locZones.totalLocCount() == 1)
         registry.add(loc2)
 
-        assertEquals(1, registry.count())
-        assertEquals(1, registry.spawnedLocs.locCount())
+        assertEquals(1, locZones.totalLocCount())
+        assertEquals(1, locZones.spawnedLocCount())
         assertEquals(1, registry.findAll(ZoneKey.from(loc2.coords)).count())
         assertEquals(loc2, registry.findAll(ZoneKey.from(loc2.coords)).single())
 
@@ -91,16 +95,17 @@ class LocRegistryAddTest {
         val loc1 = locFactory.create(types.smallBlockWalk(), shape = LocShape.GroundDecor)
         val loc2 = locFactory.create(types.smallBlockRange(), shape = LocShape.CentrepieceStraight)
 
+        val locZones = LocZoneStorage()
         val collision = collisionFactory.create()
-        val registry = locRegistryFactory.create(collision)
-        check(registry.count() == 0)
+        val registry = locRegistryFactory.create(collision, locZones)
+        check(locZones.totalLocCount() == 0)
 
         registry.add(loc1)
-        check(registry.count() == 1)
+        check(locZones.totalLocCount() == 1)
         registry.add(loc2)
 
-        assertEquals(2, registry.count())
-        assertEquals(2, registry.spawnedLocs.locCount())
+        assertEquals(2, locZones.totalLocCount())
+        assertEquals(2, locZones.spawnedLocCount())
         assertEquals(2, registry.findAll(ZoneKey.from(loc2.coords)).count())
         assertEquals(setOf(loc1, loc2), registry.findAll(ZoneKey.from(loc1.coords)).toSet())
     }
@@ -108,8 +113,10 @@ class LocRegistryAddTest {
     @Test
     fun `add spawned loc on top of map loc with identical entity metadata`() {
         val types = locTypeListFactory.createDefault()
+
+        val locZones = LocZoneStorage()
         val collision = collisionFactory.create()
-        val registry = locRegistryFactory.create(collision)
+        val registry = locRegistryFactory.create(collision, locZones)
 
         collision.allocateIfAbsent(0, 0, 0)
 
@@ -119,7 +126,7 @@ class LocRegistryAddTest {
         // Manually set the map loc.
         val zoneKey = ZoneKey.from(mapLoc.coords)
         val locZoneKey = LocZoneKey(ZoneGrid.from(mapLoc.coords), mapLoc.layer)
-        registry.mapLocs[zoneKey, locZoneKey] = LocEntity(mapLoc.id, mapLoc.shapeId, mapLoc.angleId)
+        locZones.mapLocs[zoneKey, locZoneKey] = LocEntity(mapLoc.id, mapLoc.shapeId, mapLoc.angleId)
         check(collision[mapLoc.coords] and CollisionFlag.LOC == 0)
 
         registry.add(spawnLoc)
@@ -127,15 +134,17 @@ class LocRegistryAddTest {
         // As `spawnLoc` is the exact same (type, shape, and angle) as the already-existing map loc,
         // we don't want to add it to spawned locs. Though we will still perform other logic, such
         // as applying its collision data.
-        assertEquals(0, registry.spawnedLocs.locCount())
+        assertEquals(0, locZones.spawnedLocCount())
         assertNotEquals(0, collision[mapLoc.coords] and CollisionFlag.LOC)
     }
 
     @Test
     fun `add spawned loc on top of map loc with differing entity metadata`() {
         val types = locTypeListFactory.createDefault()
+
+        val locZones = LocZoneStorage()
         val collision = collisionFactory.create()
-        val registry = locRegistryFactory.create(collision)
+        val registry = locRegistryFactory.create(collision, locZones)
 
         collision.allocateIfAbsent(0, 0, 0)
 
@@ -145,15 +154,15 @@ class LocRegistryAddTest {
         // Manually set the map loc.
         val zoneKey = ZoneKey.from(mapLoc.coords)
         val locZoneKey = LocZoneKey(ZoneGrid.from(mapLoc.coords), mapLoc.layer)
-        registry.mapLocs[zoneKey, locZoneKey] = LocEntity(mapLoc.id, mapLoc.shapeId, mapLoc.angleId)
+        locZones.mapLocs[zoneKey, locZoneKey] = LocEntity(mapLoc.id, mapLoc.shapeId, mapLoc.angleId)
 
         check(collision[mapLoc.coords] and CollisionFlag.LOC == 0)
-        check(registry.spawnedLocs.locCount() == 0)
+        check(locZones.spawnedLocCount() == 0)
         check(registry.findAll(zoneKey).single() == mapLoc)
 
         registry.add(spawnLoc)
 
-        assertEquals(1, registry.spawnedLocs.locCount())
+        assertEquals(1, locZones.spawnedLocCount())
         assertNotEquals(0, collision[mapLoc.coords] and CollisionFlag.LOC)
 
         // Map loc should be masked by newly-spawned loc and be ignored during find lookups.

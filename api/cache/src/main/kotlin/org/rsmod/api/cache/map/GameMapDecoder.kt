@@ -19,10 +19,10 @@ import org.rsmod.api.cache.map.loc.MapLoc
 import org.rsmod.api.cache.map.loc.MapLocDefinition
 import org.rsmod.api.cache.util.InlineByteBuf
 import org.rsmod.api.cache.util.toInlineBuf
-import org.rsmod.api.registry.loc.LocRegistry
 import org.rsmod.game.loc.LocEntity
-import org.rsmod.game.map.XteaMap
+import org.rsmod.game.map.LocZoneStorage
 import org.rsmod.game.map.collision.toggleLoc
+import org.rsmod.game.map.xtea.XteaMap
 import org.rsmod.game.type.loc.LocTypeList
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.square.MapSquareGrid
@@ -38,7 +38,7 @@ public class GameMapDecoder
 constructor(
     @GameCache private val gameCache: Cache,
     private val collision: CollisionFlagMap,
-    private val locReg: LocRegistry,
+    private val locZones: LocZoneStorage,
     private val locTypes: LocTypeList,
     private val xteaMap: XteaMap,
 ) {
@@ -51,7 +51,7 @@ constructor(
             decodedMaps.putMapCollision()
             val locBuilders = decodedMaps.computeLocBuilders()
             for (builder in locBuilders) {
-                locReg.putAll(builder)
+                locZones.putAll(builder)
             }
         }
 
@@ -89,7 +89,7 @@ constructor(
         }
     }
 
-    private fun LocRegistry.putAll(builder: GameMapBuilder) {
+    private fun LocZoneStorage.putAll(builder: GameMapBuilder) {
         for ((zoneKey, zoneBuilder) in builder.zoneBuilders) {
             mapLocs[zoneKey] = zoneBuilder.build()
         }

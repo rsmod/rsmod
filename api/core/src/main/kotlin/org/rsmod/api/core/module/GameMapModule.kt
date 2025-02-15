@@ -7,12 +7,14 @@ import org.rsmod.api.registry.npc.NpcRegistry
 import org.rsmod.api.registry.obj.ObjRegistry
 import org.rsmod.api.registry.player.PlayerRegistry
 import org.rsmod.api.registry.zone.ZoneUpdateMap
+import org.rsmod.game.map.LocZoneStorage
 import org.rsmod.module.ExtendedModule
 import org.rsmod.routefinder.collision.CollisionFlagMap
 
 public object GameMapModule : ExtendedModule() {
     override fun bind() {
         bindInstance<CollisionFlagMap>()
+        bindInstance<LocZoneStorage>()
         bindInstance<LocRegistry>()
         bindInstance<NpcRegistry>()
         bindInstance<ObjRegistry>()

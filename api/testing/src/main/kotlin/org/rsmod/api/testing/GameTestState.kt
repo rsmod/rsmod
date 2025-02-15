@@ -16,7 +16,7 @@ import org.rsmod.api.testing.scope.AdvancedReadOnly
 import org.rsmod.api.testing.scope.BasicGameTestScope
 import org.rsmod.api.testing.scope.GameTestScope
 import org.rsmod.events.EventBus
-import org.rsmod.game.map.XteaMap
+import org.rsmod.game.map.xtea.XteaMap
 import org.rsmod.game.type.TypeListMap
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext

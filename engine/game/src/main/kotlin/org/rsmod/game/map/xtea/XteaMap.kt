@@ -1,4 +1,4 @@
-package org.rsmod.game.map
+package org.rsmod.game.map.xtea
 
 import org.rsmod.map.square.MapSquareKey
 

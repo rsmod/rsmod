@@ -18,13 +18,13 @@ import org.openrs2.cache.Cache
 import org.openrs2.cache.Store
 import org.rsmod.annotations.GameCache
 import org.rsmod.api.cache.map.GameMapDecoder
-import org.rsmod.api.registry.loc.LocRegistry
 import org.rsmod.api.type.resolver.TypeCleanup
 import org.rsmod.api.type.resolver.TypeResolver
 import org.rsmod.api.type.updater.TypeUpdater
 import org.rsmod.api.type.verifier.TypeVerifier
 import org.rsmod.api.type.verifier.isCacheUpdateRequired
 import org.rsmod.api.type.verifier.isFailure
+import org.rsmod.game.map.LocZoneStorage
 import org.rsmod.game.type.TypeListMap
 import org.rsmod.plugin.module.PluginModule
 import org.rsmod.plugin.scripts.PluginScript
@@ -134,9 +134,9 @@ class GameServer : CliktCommand(name = "server") {
             decoder.decodeAll()
         }
         reportDuration {
-            val locRegistry = injector.getInstance(LocRegistry::class.java)
-            val normalZoneCount = locRegistry.mapLocs.zoneCount
-            val normalLocCount = locRegistry.mapLocs.locCount()
+            val locZoneStorage = injector.getInstance(LocZoneStorage::class.java)
+            val normalZoneCount = locZoneStorage.mapZoneCount()
+            val normalLocCount = locZoneStorage.mapLocCount()
             "Loaded ${DecimalFormat().format(normalZoneCount)} static zones and " +
                 "${DecimalFormat().format(normalLocCount)} locs in $duration."
         }

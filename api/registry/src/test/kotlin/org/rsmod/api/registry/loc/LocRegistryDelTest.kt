@@ -15,6 +15,7 @@ import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.loc.LocEntity
 import org.rsmod.game.loc.LocInfo
 import org.rsmod.game.loc.LocZoneKey
+import org.rsmod.game.map.LocZoneStorage
 import org.rsmod.game.map.collision.get
 import org.rsmod.game.map.collision.set
 import org.rsmod.map.zone.ZoneGrid
@@ -28,17 +29,18 @@ class LocRegistryDelTest {
         val types = locTypeListFactory.createDefault()
         val loc = locFactory.create(types.smallBlockWalk())
 
+        val locZones = LocZoneStorage()
         val collision = collisionFactory.create()
-        val registry = locRegistryFactory.create(collision)
-        check(registry.count() == 0)
+        val registry = locRegistryFactory.create(collision, locZones)
+        check(locZones.totalLocCount() == 0)
 
         registry.add(loc)
-        check(registry.count() == 1)
+        check(locZones.totalLocCount() == 1)
         check((collision[loc.coords] and CollisionFlag.LOC) != 0)
 
         registry.del(loc)
-        assertEquals(0, registry.count())
-        assertEquals(0, registry.spawnedLocs.locCount())
+        assertEquals(0, locZones.totalLocCount())
+        assertEquals(0, locZones.spawnedLocCount())
         assertEquals(0, (collision[loc.coords] and CollisionFlag.LOC))
     }
 
@@ -51,19 +53,20 @@ class LocRegistryDelTest {
         val zoneGrid = ZoneGrid.from(mapLoc.coords)
         val locZoneKey = LocZoneKey(zoneGrid.x, zoneGrid.z, mapLoc.layer)
 
+        val locZones = LocZoneStorage()
         val collision = collisionFactory.create()
-        val registry = locRegistryFactory.create(collision)
-        registry.mapLocs[zoneKey, locZoneKey] = mapLoc.entity
-        check(registry.count() == 1)
-        check(registry.mapLocs.locCount() == 1)
+        val registry = locRegistryFactory.create(collision, locZones)
+        locZones.mapLocs[zoneKey, locZoneKey] = mapLoc.entity
+        check(locZones.totalLocCount() == 1)
+        check(locZones.mapLocCount() == 1)
 
         // Manually set the collision flag under the map loc.
         collision[mapLoc.coords] = CollisionFlag.LOC
 
         // "Deleting" map locs consists of spawning a "deleted" loc on top of them.
         registry.del(mapLoc)
-        assertEquals(1, registry.mapLocs.locCount())
-        assertEquals(1, registry.spawnedLocs.locCount())
+        assertEquals(1, locZones.mapLocCount())
+        assertEquals(1, locZones.spawnedLocCount())
 
         // Deleting the map loc should have removed its collision.
         assertEquals(0, collision[mapLoc.coords])
@@ -82,17 +85,18 @@ class LocRegistryDelTest {
         val zoneGrid = ZoneGrid.from(mapLoc.coords)
         val locZoneKey = LocZoneKey(zoneGrid.x, zoneGrid.z, mapLoc.layer)
 
+        val locZones = LocZoneStorage()
         val collision = collisionFactory.create()
-        val registry = locRegistryFactory.create(collision)
+        val registry = locRegistryFactory.create(collision, locZones)
 
-        registry.mapLocs[zoneKey, locZoneKey] = mapLoc.entity
-        check(registry.count() == 1)
-        check(registry.mapLocs.locCount() == 1)
+        locZones.mapLocs[zoneKey, locZoneKey] = mapLoc.entity
+        check(locZones.totalLocCount() == 1)
+        check(locZones.mapLocCount() == 1)
 
         registry.add(spawnLoc)
-        assertEquals(1, registry.spawnedLocs.locCount())
+        assertEquals(1, locZones.spawnedLocCount())
         // Spawning a loc on top of a map loc should not remove it from map locs collection.
-        assertEquals(1, registry.mapLocs.locCount())
+        assertEquals(1, locZones.mapLocCount())
 
         // Collision for spawned loc should be applied.
         val spawnLocBound = boundSpawnLoc.bounds()
@@ -102,8 +106,8 @@ class LocRegistryDelTest {
 
         // Delete spawned loc.
         registry.del(spawnLoc)
-        assertEquals(0, registry.spawnedLocs.locCount())
-        assertEquals(1, registry.mapLocs.locCount())
+        assertEquals(0, locZones.spawnedLocCount())
+        assertEquals(1, locZones.mapLocCount())
 
         // Collision for map loc should be restored.
         val mapLocBound = boundMapLoc.bounds()
@@ -120,8 +124,10 @@ class LocRegistryDelTest {
     @Test
     fun `delete map loc with matching key but mismatching entity metadata`() {
         val types = locTypeListFactory.createDefault()
+
+        val locZones = LocZoneStorage()
         val collision = collisionFactory.create()
-        val registry = locRegistryFactory.create(collision)
+        val registry = locRegistryFactory.create(collision, locZones)
 
         val small = locFactory.create(types.smallBlockWalk())
         val medium = locFactory.create(types.mediumBlockWalk())
@@ -129,7 +135,7 @@ class LocRegistryDelTest {
         // Manually set the map loc and its collision data.
         val zoneKey = ZoneKey.from(small.coords)
         val locZoneKey = LocZoneKey(ZoneGrid.from(small.coords), small.layer)
-        registry.mapLocs[zoneKey, locZoneKey] = LocEntity(small.id, small.shapeId, small.angleId)
+        locZones.mapLocs[zoneKey, locZoneKey] = LocEntity(small.id, small.shapeId, small.angleId)
         collision[small.coords] = CollisionFlag.LOC
 
         // Take a snapshot of the collision data for later.
@@ -140,10 +146,10 @@ class LocRegistryDelTest {
         val removed = registry.del(medium)
 
         assertEquals(LocRegistryResult.Delete.LocNotFound, removed)
-        assertEquals(0, registry.spawnedLocs.locCount())
+        assertEquals(0, locZones.spawnedLocCount())
 
         // The `small` map loc shouldn't of have been removed.
-        assertEquals(1, registry.mapLocs.locCount())
+        assertEquals(1, locZones.mapLocCount())
         assertNotEquals(0, collision[small.coords] and CollisionFlag.LOC)
         assertArrayEquals(expectedCollision.flags, collision.flags)
     }
@@ -151,15 +157,17 @@ class LocRegistryDelTest {
     @Test
     fun `delete spawned loc with matching key but mismatching entity metadata`() {
         val types = locTypeListFactory.createDefault()
+
+        val locZones = LocZoneStorage()
         val collision = collisionFactory.create()
-        val registry = locRegistryFactory.create(collision)
+        val registry = locRegistryFactory.create(collision, locZones)
 
         val small = locFactory.create(types.smallBlockWalk())
         val medium = locFactory.create(types.mediumBlockWalk())
 
         // Add `small` loc into registry.
         registry.add(small)
-        check(registry.spawnedLocs.locCount() == 1)
+        check(locZones.spawnedLocCount() == 1)
         check(collision[small.coords] and CollisionFlag.LOC != 0)
 
         // Take a snapshot of the collision data that was set from `small` being added for later.
@@ -172,7 +180,7 @@ class LocRegistryDelTest {
         assertEquals(LocRegistryResult.Delete.LocNotFound, removed)
 
         // The `small` loc shouldn't of have been removed.
-        assertEquals(1, registry.spawnedLocs.locCount())
+        assertEquals(1, locZones.spawnedLocCount())
         assertNotEquals(0, collision[small.coords] and CollisionFlag.LOC)
         assertArrayEquals(expectedCollision.flags, collision.flags)
     }

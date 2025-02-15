@@ -1,4 +1,4 @@
-package org.rsmod.api.registry.loc
+package org.rsmod.game.map
 
 import it.unimi.dsi.fastutil.bytes.Byte2IntOpenHashMap
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap
@@ -51,8 +51,8 @@ public value class ZoneLocMap(private val entries: Int2ObjectMap<Byte2IntOpenHas
     }
 
     public operator fun contains(loc: LocInfo): Boolean {
-        val zoneKey = ZoneKey.from(loc.coords)
-        val locKey = LocZoneKey(ZoneGrid.from(loc.coords), loc.layer)
+        val zoneKey = ZoneKey.Companion.from(loc.coords)
+        val locKey = LocZoneKey(ZoneGrid.Companion.from(loc.coords), loc.layer)
         return this[zoneKey, locKey] == loc.entity.packed
     }
 

@@ -24,7 +24,7 @@ import org.rsmod.annotations.Js5Cache
 import org.rsmod.annotations.VanillaCache
 import org.rsmod.annotations.XteaFilePath
 import org.rsmod.api.parsers.json.Json
-import org.rsmod.game.map.XteaMap
+import org.rsmod.game.map.xtea.XteaMap
 import org.rsmod.map.square.MapSquareKey
 import org.rsmod.module.ExtendedModule
 import org.rsmod.server.shared.DirectoryConstants

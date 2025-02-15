@@ -82,6 +82,7 @@ import org.rsmod.game.loc.LocEntity
 import org.rsmod.game.loc.LocInfo
 import org.rsmod.game.loc.LocShape
 import org.rsmod.game.loc.LocZoneKey
+import org.rsmod.game.map.LocZoneStorage
 import org.rsmod.game.map.collision.addLoc
 import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.obj.InvObj
@@ -136,6 +137,7 @@ constructor(
     public val conRepo: ControllerRepository,
     private val gameCycle: GameCycle,
     private val collision: CollisionFlagMap,
+    private val locZoneStorage: LocZoneStorage,
     private val locRegistry: LocRegistry,
     private val locInteractions: LocInteractions,
     private val npcRegistry: NpcRegistry,
@@ -389,7 +391,7 @@ constructor(
         val zoneKey = ZoneKey.from(coords)
         val zoneGrid = ZoneGrid.from(coords)
         val locZoneKey = LocZoneKey(zoneGrid, locInfo.layer)
-        locRegistry.mapLocs[zoneKey, locZoneKey] = entity
+        locZoneStorage.mapLocs[zoneKey, locZoneKey] = entity
 
         return boundLoc
     }
@@ -678,6 +680,7 @@ constructor(
                 }
 
                 bind(MapClock::class.java).`in`(Scopes.SINGLETON)
+                bind(LocZoneStorage::class.java).`in`(Scopes.SINGLETON)
 
                 bind(BoundValidator::class.java).`in`(Scopes.SINGLETON)
                 bind(RayCastValidator::class.java).`in`(Scopes.SINGLETON)
