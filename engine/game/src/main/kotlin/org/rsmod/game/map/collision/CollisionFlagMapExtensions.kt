@@ -3,12 +3,18 @@ package org.rsmod.game.map.collision
 import org.rsmod.game.loc.LocInfo
 import org.rsmod.game.type.loc.UnpackedLocType
 import org.rsmod.map.CoordGrid
+import org.rsmod.map.zone.ZoneKey
 import org.rsmod.routefinder.collision.CollisionFlagMap
 import org.rsmod.routefinder.flag.CollisionFlag
 import org.rsmod.routefinder.loc.LocAngleConstants
 import org.rsmod.routefinder.loc.LocShapeConstants
 
 private typealias LocShapes = LocShapeConstants
+
+public fun CollisionFlagMap.isZoneValid(zone: ZoneKey): Boolean = isZoneValid(zone.toCoords())
+
+public fun CollisionFlagMap.isZoneValid(coords: CoordGrid): Boolean =
+    isZoneAllocated(coords.x, coords.z, coords.level)
 
 public operator fun CollisionFlagMap.get(coords: CoordGrid): Int =
     get(coords.x, coords.z, coords.level)

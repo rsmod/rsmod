@@ -3,6 +3,7 @@ package org.rsmod.game.entity.shared
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.PathingEntity
 import org.rsmod.game.entity.Player
+import org.rsmod.game.map.collision.isZoneValid
 import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.movement.RouteRequestCoord
 import org.rsmod.game.seq.EntitySeq
@@ -56,6 +57,10 @@ public object PathingEntityCommon {
     }
 
     public fun telemove(entity: PathingEntity, collision: CollisionFlagMap, dest: CoordGrid) {
+        check(collision.isZoneValid(dest)) {
+            "Entity cannot be moved to an invalid zone: entity=$entity, dest=$dest"
+        }
+
         val start = entity.coords
         entity.coords = dest
         // Need to set move speed so that movement processor knows to consume
