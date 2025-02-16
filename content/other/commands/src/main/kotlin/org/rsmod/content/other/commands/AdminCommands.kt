@@ -63,6 +63,9 @@ constructor(
         onCommand("tele", "Teleport to coordgrid", ::tele) {
             invalidArgs = "Use as ::tele level mx mz lx lz (ex: 0 50 50 0 0)"
         }
+        onCommand("telezone", "Teleport to zone key", ::teleZone) {
+            invalidArgs = "Use as ::telezone zoneX zoneY level (ex: 400 400 0)"
+        }
         onCommand("anim", "Play animation", ::anim)
         onCommand("spot", "Play spotanim", ::spotanim) {
             invalidArgs = "Use as ::spot spotanimDebugNameOrId (ex: emote_party)"
@@ -102,8 +105,21 @@ constructor(
             val lz = args[4].toInt()
             val coords = CoordGrid(level, mx, mz, lx, lz)
             protectedAccess.launch(player) {
-                telejump(coords)
                 player.mes("Teleported to $coords.")
+                telejump(coords)
+            }
+        }
+
+    private fun teleZone(cheat: Cheat) =
+        with(cheat) {
+            val args = if (args.size == 1) args[0].split(",") else args
+            val zoneX = args[0].toInt()
+            val zoneZ = args[1].toInt()
+            val level = args[2].toInt()
+            val coords = ZoneKey(zoneX, zoneZ, level).toCoords()
+            protectedAccess.launch(player) {
+                player.mes("Teleported to $coords.")
+                telejump(coords)
             }
         }
 
