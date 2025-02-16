@@ -11,7 +11,8 @@ import org.rsmod.routefinder.loc.LocLayerConstants
 
 internal fun ZoneLocMap.findShape(coords: CoordGrid, shape: Int): LocInfo? {
     val layer = LocLayerConstants.of(shape)
-    return findLayer(coords, layer)
+    val layerLoc = findLayer(coords, layer) ?: return null
+    return layerLoc.takeIf { it.shapeId == shape }
 }
 
 internal fun ZoneLocMap.findLayer(coords: CoordGrid, layer: Int): LocInfo? {
