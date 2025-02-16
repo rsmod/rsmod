@@ -22,6 +22,11 @@ public value class RegionZoneCopyMap(public val backing: Int2IntMap = Int2IntOpe
     public operator fun contains(regionZone: ZoneKey): Boolean =
         backing.containsKey(regionZone.packed)
 
+    public fun remove(regionZone: ZoneKey): Boolean {
+        val removed = backing.remove(regionZone.packed)
+        return removed != backing.defaultReturnValue()
+    }
+
     public fun translate(base: ZoneKey): RegionZoneCopyMap {
         val translatedZones = Int2IntOpenHashMap()
         for ((packedRegionZone, packedCopyZone) in backing) {

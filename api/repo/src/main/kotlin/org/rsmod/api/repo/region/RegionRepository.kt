@@ -37,6 +37,8 @@ public class RegionRepository @Inject constructor(private val registry: RegionRe
     }
 
     public fun registerSmall(zones: RegionZoneBuilder.() -> Unit): Result.Add {
+        registry.removeInactiveSmallRegions()
+
         val result = registry.registerSmall()
         if (!result.isSuccess()) {
             return Result.Add.RegionCapacityReached
@@ -52,6 +54,8 @@ public class RegionRepository @Inject constructor(private val registry: RegionRe
     }
 
     public fun registerLarge(zones: RegionZoneBuilder.() -> Unit): Result.Add {
+        registry.removeInactiveLargeRegions()
+
         val result = registry.registerLarge()
         if (!result.isSuccess()) {
             return Result.Add.RegionCapacityReached

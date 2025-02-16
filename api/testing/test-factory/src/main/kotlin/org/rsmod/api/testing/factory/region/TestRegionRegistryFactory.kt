@@ -2,6 +2,7 @@ package org.rsmod.api.testing.factory.region
 
 import org.rsmod.api.registry.loc.LocRegistryNormal
 import org.rsmod.api.registry.region.RegionRegistry
+import org.rsmod.api.registry.zone.ZonePlayerActivityBitSet
 import org.rsmod.game.region.RegionListLarge
 import org.rsmod.game.region.RegionListSmall
 import org.rsmod.game.type.loc.LocTypeList
@@ -14,5 +15,7 @@ public class TestRegionRegistryFactory {
         locTypes: LocTypeList,
         smallRegions: RegionListSmall = RegionListSmall(),
         largeRegions: RegionListLarge = RegionListLarge(),
-    ): RegionRegistry = RegionRegistry(smallRegions, largeRegions, locReg, collision, locTypes)
+        zoneActivity: ZonePlayerActivityBitSet = ZonePlayerActivityBitSet(),
+    ): RegionRegistry =
+        RegionRegistry(smallRegions, largeRegions, locReg, collision, locTypes, zoneActivity)
 }

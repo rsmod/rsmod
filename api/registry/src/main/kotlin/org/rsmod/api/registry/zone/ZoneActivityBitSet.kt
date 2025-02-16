@@ -9,6 +9,8 @@ public class ZonePlayerActivityBitSet {
     private val level2: ZoneActivityBitSet = ZoneActivityBitSet()
     private val level3: ZoneActivityBitSet = ZoneActivityBitSet()
 
+    private val all = listOf(level0, level1, level2, level3)
+
     public fun flag(zone: ZoneKey) {
         val bitSet = bitSet(zone)
         bitSet.flag(zone.x, zone.z)
@@ -19,13 +21,26 @@ public class ZonePlayerActivityBitSet {
         bitSet.unflag(zone.x, zone.z)
     }
 
-    private fun bitSet(zone: ZoneKey): ZoneActivityBitSet =
-        when (zone.level) {
+    public fun isFlagged(southWestZone: ZoneKey, northEastZone: ZoneKey, level: Int): Boolean {
+        val bitSet = bitSet(level)
+        return bitSet.isFlagged(southWestZone.x, southWestZone.z, northEastZone.x, northEastZone.z)
+    }
+
+    public fun isAnyLevelFlagged(southWestZone: ZoneKey, northEastZone: ZoneKey): Boolean {
+        return all.any {
+            it.isFlagged(southWestZone.x, southWestZone.z, northEastZone.x, northEastZone.z)
+        }
+    }
+
+    private fun bitSet(zone: ZoneKey): ZoneActivityBitSet = bitSet(zone.level)
+
+    private fun bitSet(level: Int): ZoneActivityBitSet =
+        when (level) {
             0 -> level0
             1 -> level1
             2 -> level2
             3 -> level3
-            else -> throw IllegalArgumentException("Invalid level for zone: $zone")
+            else -> throw IllegalArgumentException("Invalid level for zone: $level")
         }
 }
 

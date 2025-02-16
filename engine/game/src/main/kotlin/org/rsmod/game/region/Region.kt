@@ -16,6 +16,12 @@ public data class Region(
     public val zoneLength: Int
         get() = (northEast.x - southWest.x) / ZoneGrid.LENGTH
 
+    public val southWestZone: ZoneKey
+        get() = ZoneKey.from(southWest)
+
+    public val northEastZone: ZoneKey
+        get() = ZoneKey.from(northEast)
+
     public fun toZoneList(): List<ZoneKey> = buildList {
         addZones(level = 0)
         addZones(level = 1)

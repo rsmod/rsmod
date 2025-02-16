@@ -2,6 +2,7 @@ package org.rsmod.api.registry.region
 
 import jakarta.inject.Inject
 import org.rsmod.api.registry.loc.LocRegistryNormal
+import org.rsmod.api.registry.zone.ZonePlayerActivityBitSet
 import org.rsmod.game.loc.LocEntity
 import org.rsmod.game.map.collision.add
 import org.rsmod.game.map.collision.addLoc
@@ -28,6 +29,7 @@ constructor(
     private val normalLocReg: LocRegistryNormal,
     private val collision: CollisionFlagMap,
     private val locTypes: LocTypeList,
+    private val zoneActivity: ZonePlayerActivityBitSet,
 ) {
     init {
         workingAreaSmall.assertValidBounds(smallRegions.capacity)
@@ -81,9 +83,9 @@ constructor(
             return RegionRegistryResult.Delete.ListSlotMismatch(smallRegions[region.slot])
         }
 
+        clearAllZones(region)
         smallRegions.remove(region.slot)
         region.slot = INVALID_SLOT
-        // TODO: Clear zones
 
         return RegionRegistryResult.Delete.RemoveSmall
     }
@@ -97,11 +99,29 @@ constructor(
             return RegionRegistryResult.Delete.ListSlotMismatch(largeRegions[region.slot])
         }
 
+        clearAllZones(region)
         largeRegions.remove(region.slot)
         region.slot = INVALID_SLOT
-        // TODO: Clear zones
 
         return RegionRegistryResult.Delete.RemoveLarge
+    }
+
+    public fun removeInactiveSmallRegions() {
+        val filtered = smallRegions.filter(::isEmpty)
+        for (region in filtered) {
+            unregisterSmall(region)
+        }
+    }
+
+    public fun removeInactiveLargeRegions() {
+        val filtered = largeRegions.filter(::isEmpty)
+        for (region in filtered) {
+            unregisterLarge(region)
+        }
+    }
+
+    public fun isEmpty(region: Region): Boolean {
+        return !zoneActivity.isAnyLevelFlagged(region.southWestZone, region.northEastZone)
     }
 
     public fun isValid(regionSlot: Int, regionUid: Int): Boolean {
@@ -339,6 +359,19 @@ constructor(
             val coordX = southWest.x + (zoneLength * ZoneGrid.LENGTH)
             val coordZ = southWest.z + (z * ZoneGrid.LENGTH)
             collision.deallocateIfPresent(coordX, coordZ, level)
+        }
+    }
+
+    private fun clearAllZones(region: Region) {
+        // We _are_ iterating two times through the zones list. This is in hopes that the
+        // `collision` operations can benefit from frequent access instead of having to jump
+        // between `zones` map and the internal int array from `collision`.
+        // All in all, if this does require a performance boost (**extremely unlikely**) we should
+        // base our decision off of benchmarks.
+        val regionZones = region.toZoneList().filter(zones::remove)
+        for (zone in regionZones) {
+            val coords = zone.toCoords()
+            collision.deallocateIfPresent(coords.x, coords.z, coords.level)
         }
     }
 
