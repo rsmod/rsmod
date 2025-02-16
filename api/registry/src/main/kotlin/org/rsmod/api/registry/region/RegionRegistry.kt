@@ -186,9 +186,6 @@ constructor(
 
         val rotation = copyZone.rotation
 
-        // Always allocate collision flags for any registered zone.
-        collision.allocateIfAbsent(regionBase.x, regionBase.z, regionBase.level)
-
         // Some collision flags are embedded in the map files within the cache, rather than being
         // applied by spawned locs from the loc files.
         //
