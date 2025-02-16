@@ -55,12 +55,21 @@ constructor(
 
         removeSpawnedLoc(spawnZone, regionLocKey, loc.coords)
 
-        if (!exactMapLocExists) {
+        // If we're restoring an existing map loc, make sure to rotate it accordingly based on the
+        // region zone's rotation.
+        val resolvedLoc: LocInfo
+        if (exactMapLocExists) {
+            val rotatedAngle = (loc.angleId + copiedZone.rotation) and ANGLE_BIT_MASK
+            val rotatedEntity = loc.entity.copy(angle = rotatedAngle)
+            resolvedLoc = loc.copy(entity = rotatedEntity)
+        } else {
             spawnZone[regionLocKey.packed] = loc.entity.packed
+            resolvedLoc = loc
         }
 
-        addLocCollision(loc)
-        updates.locAdd(loc)
+        addLocCollision(resolvedLoc)
+        updates.locAdd(resolvedLoc)
+
         return LocRegistryResult.Add.RegionSpawned(region)
     }
 
