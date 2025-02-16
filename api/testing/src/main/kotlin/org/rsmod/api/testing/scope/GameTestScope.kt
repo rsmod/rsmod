@@ -87,6 +87,8 @@ import org.rsmod.game.map.LocZoneStorage
 import org.rsmod.game.map.collision.addLoc
 import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.obj.InvObj
+import org.rsmod.game.region.RegionListLarge
+import org.rsmod.game.region.RegionListSmall
 import org.rsmod.game.stat.PlayerSkillXPTable
 import org.rsmod.game.stat.PlayerStatMap
 import org.rsmod.game.type.TypeListMap
@@ -700,6 +702,8 @@ constructor(
                 bind(LocRegistry::class.java).`in`(Scopes.SINGLETON)
                 bind(LocRegistryNormal::class.java).`in`(Scopes.SINGLETON)
                 bind(LocRepository::class.java).`in`(Scopes.SINGLETON)
+                bind(RegionListSmall::class.java).`in`(Scopes.SINGLETON)
+                bind(RegionListLarge::class.java).`in`(Scopes.SINGLETON)
                 bind(ObjRegistry::class.java).`in`(Scopes.SINGLETON)
                 bind(ObjRepository::class.java).`in`(Scopes.SINGLETON)
                 bind(WorldRepository::class.java).`in`(Scopes.SINGLETON)

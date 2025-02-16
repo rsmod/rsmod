@@ -11,6 +11,8 @@ import org.rsmod.game.cheat.CheatCommandMap
 import org.rsmod.game.entity.ControllerList
 import org.rsmod.game.entity.NpcList
 import org.rsmod.game.entity.PlayerList
+import org.rsmod.game.region.RegionListLarge
+import org.rsmod.game.region.RegionListSmall
 import org.rsmod.module.ExtendedModule
 import org.rsmod.server.shared.module.EventModule
 
@@ -22,6 +24,8 @@ object GameModule : ExtendedModule() {
         bindInstance<NpcList>()
         bindInstance<PlayerList>()
         bindInstance<ControllerList>()
+        bindInstance<RegionListSmall>()
+        bindInstance<RegionListLarge>()
         bindInstance<KeyedEventBus>()
         bindInstance<SuspendEventBus>()
         bindInstance<UnboundEventBus>()
