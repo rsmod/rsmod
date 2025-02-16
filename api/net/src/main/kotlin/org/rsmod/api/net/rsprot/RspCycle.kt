@@ -48,7 +48,7 @@ class RspCycle(
 
     private var knownRegionUid: Int? = null
 
-    private var cachedRebuildRegion: RebuildRegion? = null
+    private var cachedRegionZoneProvider: RebuildRegion.RebuildRegionZoneProvider? = null
 
     private val playerExtendedInfo: PlayerAvatarExtendedInfo
         get() = playerInfo.avatar.extendedInfo
@@ -134,7 +134,7 @@ class RspCycle(
             session.queue(rebuild)
             knownBuildArea = buildArea
             knownRegionUid = null
-            cachedRebuildRegion = null
+            cachedRegionZoneProvider = null
             return
         }
 
@@ -149,17 +149,18 @@ class RspCycle(
         //  happen in regions such as the Gauntlet. (If we decide to keep this as a cached value
         //  as opposed to reconstructing it every time)
         if (regionUid != knownRegionUid) {
-            cachedRebuildRegion = createRebuildRegion(region)
+            cachedRegionZoneProvider = createRegionZoneProvider(region)
             knownRegionUid = regionUid
         }
 
-        val rebuild = cachedRebuildRegion ?: createRebuildRegion(region)
+        val zoneProvider = cachedRegionZoneProvider ?: createRegionZoneProvider(region)
+        val rebuild = RebuildRegion(x shr 3, z shr 3, true, zoneProvider)
         session.queue(rebuild)
         knownBuildArea = buildArea
-        cachedRebuildRegion = rebuild
+        cachedRegionZoneProvider = zoneProvider
     }
 
-    private fun Player.createRebuildRegion(region: Region): RebuildRegion {
+    private fun createRegionZoneProvider(region: Region): RebuildRegion.RebuildRegionZoneProvider {
         val regionZones = region.toZoneList()
         val rebuildZones =
             regionZones.associateWith { zone ->
@@ -184,7 +185,7 @@ class RspCycle(
                     return rebuildZones[zoneKey]
                 }
             }
-        return RebuildRegion(x shr 3, z shr 3, true, zoneProvider)
+        return zoneProvider
     }
 
     private fun Player.applyPublicMessage() {
