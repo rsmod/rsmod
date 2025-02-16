@@ -41,7 +41,6 @@ constructor(
 
     public fun add(loc: LocInfo): LocRegistryResult.Add {
         val region = regions[loc.coords] ?: return LocRegistryResult.Add.RegionNotRegistered
-
         val regionZone = ZoneKey.from(loc.coords)
         val copiedZone = regions[regionZone]
 
@@ -50,26 +49,23 @@ constructor(
             return LocRegistryResult.Add.RegionZoneNotRegistered
         }
 
-        val regionLocZoneKey = loc.toLocZoneGridKey()
+        val regionLocKey = loc.toLocZoneGridKey()
         val spawnZone = spawnedLocs.getOrPut(regionZone)
+        val exactMapLocExists = mapLocExists(loc, region, copiedZone)
 
-        removeSpawnedLoc(spawnZone, regionLocZoneKey, loc.coords)
+        removeSpawnedLoc(spawnZone, regionLocKey, loc.coords)
 
-        // Normally, we would check `mapLocs` to avoid spawning a loc that already exists in the
-        // default client state. However, since these locs belong to a temporary region that will
-        // eventually be removed, reversing the region rotation to check normal map locs is not
-        // worth the performance or code cost.
-        spawnZone[regionLocZoneKey.packed] = loc.entity.packed
+        if (!exactMapLocExists) {
+            spawnZone[regionLocKey.packed] = loc.entity.packed
+        }
 
         addLocCollision(loc)
         updates.locAdd(loc)
-
         return LocRegistryResult.Add.RegionSpawned(region)
     }
 
     public fun del(loc: LocInfo): LocRegistryResult.Delete {
         val region = regions[loc.coords] ?: return LocRegistryResult.Delete.RegionNotRegistered
-
         val regionZone = ZoneKey.from(loc.coords)
         val copiedZone = regions[regionZone]
 
@@ -78,77 +74,31 @@ constructor(
             return LocRegistryResult.Delete.RegionZoneNotRegistered
         }
 
-        val regionLocZoneKey = loc.toLocZoneGridKey()
+        val regionLocKey = loc.toLocZoneGridKey()
 
         // If the loc was cached and flagged as "remapped", we take priority in looking for the
         // normal loc based on its remapped coordinates.
         val remappedCoords = region.remappedLocCoords(loc.coords)
         if (remappedCoords != null) {
-            val delete =
-                deleteRemappedLoc(
-                    loc = loc,
-                    region = region,
-                    regionZone = regionZone,
-                    regionLocZoneKey = regionLocZoneKey,
-                    copiedZone = copiedZone,
-                    remappedCoords = remappedCoords,
-                )
-            if (delete != null) {
-                return delete
+            val deleteRemappedLoc =
+                deleteRemappedLoc(loc, region, regionZone, regionLocKey, copiedZone, remappedCoords)
+            if (deleteRemappedLoc != null) {
+                return deleteRemappedLoc
             }
         }
 
-        val regionZoneGrid = ZoneGrid.from(loc.coords)
-        val normalZone = copiedZone.normalZone()
-        val normalBase = normalZone.toCoords()
-
-        val inverseRotation = copiedZone.inverseRotation
-
-        // This big blob is "simply" inverting the translation applied to the `loc` when it was
-        // rotated along with the associated region. This step _can_ be skipped if the region
-        // rotation is set to `0`.
-        // However, there is no need to split up the logic as these are, though explicit, fairly
-        // lightweight operations.
-        val locType = locTypes[loc]
-        val normalLocAngle = (loc.angleId - copiedZone.rotation) and ANGLE_BIT_MASK
-        val normalLocWidth = Rotations.rotate(normalLocAngle, locType.width, locType.length)
-        val normalLocLength = Rotations.rotate(normalLocAngle, locType.length, locType.width)
-        val normalTranslation =
-            RegionRotations.translateLoc(
-                regionRot = inverseRotation,
-                locSwGrid = regionZoneGrid,
-                locAdjustedWidth = normalLocWidth,
-                locAdjustedLength = normalLocLength,
-            )
-
-        // Calculate the coord the `loc` should occupy in the `normalZone` based on the translation
-        // that would've been applied during the region building stage.
-        val normalCoord = normalBase.translate(normalTranslation)
-        val normalGrid = ZoneGrid.from(normalCoord)
-        val normalLocZoneKey = LocZoneKey(normalGrid, loc.layer)
-        val translatedNormalZone = ZoneKey.from(normalCoord)
+        // We resolve the "normal" loc by reverting the rotation and translation that was applied
+        // during the region building stage and using the parameters for lookups.
+        val (normalZone, normalLocKey) = resolveNormalMapping(loc, copiedZone)
+        val rotation = copiedZone.rotation
 
         val deletedSpawnedLoc =
-            deleteSpawnedLoc(
-                regionZone = regionZone,
-                regionLocZoneKey = regionLocZoneKey,
-                normalZone = translatedNormalZone,
-                normalLocZoneKey = normalLocZoneKey,
-                regionRot = copiedZone.rotation,
-                loc = loc,
-            )
+            deleteSpawnedLoc(regionZone, regionLocKey, normalZone, normalLocKey, rotation, loc)
         if (deletedSpawnedLoc) {
             return LocRegistryResult.Delete.RegionSpawned(region)
         }
 
-        val deletedMapLoc =
-            deleteStaticLoc(
-                regionZone = regionZone,
-                regionLocZoneKey = regionLocZoneKey,
-                normalZone = translatedNormalZone,
-                normalLocZoneKey = normalLocZoneKey,
-                loc = loc,
-            )
+        val deletedMapLoc = deleteStaticLoc(regionZone, regionLocKey, normalZone, normalLocKey, loc)
         if (deletedMapLoc) {
             return LocRegistryResult.Delete.RegionMapLoc(region)
         }
@@ -160,35 +110,24 @@ constructor(
         loc: LocInfo,
         region: Region,
         regionZone: ZoneKey,
-        regionLocZoneKey: LocZoneKey,
+        regionLocKey: LocZoneKey,
         copiedZone: RegionZoneCopy,
         remappedCoords: CoordGrid,
     ): LocRegistryResult.Delete? {
         val remappedZone = ZoneKey.from(remappedCoords)
-        val remappedZoneGrid = ZoneGrid.from(remappedCoords)
-        val remappedLocZoneKey = LocZoneKey(remappedZoneGrid, loc.layer)
-        val deleteSpawnedLoc =
-            deleteSpawnedLoc(
-                regionZone = regionZone,
-                regionLocZoneKey = regionLocZoneKey,
-                normalZone = remappedZone,
-                normalLocZoneKey = remappedLocZoneKey,
-                regionRot = copiedZone.rotation,
-                loc = loc,
-            )
-        if (deleteSpawnedLoc) {
+        val remappedGrid = ZoneGrid.from(remappedCoords)
+        val remappedLocKey = LocZoneKey(remappedGrid, loc.layer)
+        val rotation = copiedZone.rotation
+
+        val deletedSpawnedLoc =
+            deleteSpawnedLoc(regionZone, regionLocKey, remappedZone, remappedLocKey, rotation, loc)
+        if (deletedSpawnedLoc) {
             return LocRegistryResult.Delete.RegionSpawned(region)
         }
 
-        val deleteMapLoc =
-            deleteStaticLoc(
-                regionZone = regionZone,
-                regionLocZoneKey = regionLocZoneKey,
-                normalZone = remappedZone,
-                normalLocZoneKey = remappedLocZoneKey,
-                loc = loc,
-            )
-        if (deleteMapLoc) {
+        val deletedMapLoc =
+            deleteStaticLoc(regionZone, regionLocKey, remappedZone, remappedLocKey, loc)
+        if (deletedMapLoc) {
             return LocRegistryResult.Delete.RegionMapLoc(region)
         }
 
@@ -440,10 +379,9 @@ constructor(
      * Deletes a spawned loc entity from the [spawnedLocs] map using the given [regionZone] and
      * updates its respective viewable zone.
      *
-     * This function checks if a loc entity exists at the specified [regionZone] and
-     * [regionLocZoneKey]. If found, it removes the entity, its collision data via
-     * [removeLocCollision], _and unlike [removeSpawnedLoc] function, will trigger an update within
-     * [updates]_.
+     * This function checks if a loc entity exists at the specified [regionZone] and [regionLocKey].
+     * If found, it removes the entity, its collision data via [removeLocCollision], _and unlike
+     * [removeSpawnedLoc] function, will trigger an update within [updates]_.
      *
      * Additionally, if a static/map loc was previously masked by the "deleted" loc, this function
      * will reapply its collision data as well as trigger a "loc add" update within [updates].
@@ -453,14 +391,14 @@ constructor(
      */
     private fun deleteSpawnedLoc(
         regionZone: ZoneKey,
-        regionLocZoneKey: LocZoneKey,
+        regionLocKey: LocZoneKey,
         normalZone: ZoneKey,
-        normalLocZoneKey: LocZoneKey,
+        normalLocKey: LocZoneKey,
         regionRot: Int,
         loc: LocInfo,
     ): Boolean {
         val zone = spawnedLocs[regionZone] ?: return false
-        val previousLoc = zone.get(regionLocZoneKey.packed)
+        val previousLoc = zone.get(regionLocKey.packed)
 
         if (previousLoc == zone.defaultReturnValue()) {
             return false
@@ -475,14 +413,14 @@ constructor(
             return false
         }
 
-        val removed = zone.remove(regionLocZoneKey.packed)
+        val removed = zone.remove(regionLocKey.packed)
         if (removed == zone.defaultReturnValue()) {
             return false
         }
 
         removeLocCollision(loc)
 
-        val maskedStaticLoc = mapLocs[normalZone]?.getOrDefault(normalLocZoneKey.packed, null)
+        val maskedStaticLoc = mapLocs[normalZone]?.getOrDefault(normalLocKey.packed, null)
         if (maskedStaticLoc != null) {
             val originalMaskedLoc = LocEntity(maskedStaticLoc)
             val rotatedAngle = (originalMaskedLoc.angle + regionRot) and ANGLE_BIT_MASK
@@ -498,7 +436,7 @@ constructor(
     }
 
     /**
-     * Marks a static location as deleted based on the given [normalZone] and [normalLocZoneKey].
+     * Marks a static location as deleted based on the given [normalZone] and [normalLocKey].
      *
      * This function does not remove the loc entry from [mapLocs]; instead, it replaces the entry
      * with a special "deleted loc" entity (using [DELETED_LOC_ID]). This ensures:
@@ -509,13 +447,13 @@ constructor(
      */
     private fun deleteStaticLoc(
         regionZone: ZoneKey,
-        regionLocZoneKey: LocZoneKey,
+        regionLocKey: LocZoneKey,
         normalZone: ZoneKey,
-        normalLocZoneKey: LocZoneKey,
+        normalLocKey: LocZoneKey,
         loc: LocInfo,
     ): Boolean {
         val staticZone = mapLocs[normalZone] ?: return false
-        val staticLoc = staticZone.getOrDefault(normalLocZoneKey.packed, null) ?: return false
+        val staticLoc = staticZone.getOrDefault(normalLocKey.packed, null) ?: return false
 
         // This makes sure that the [loc] given as input matches the same id, shape, and angle as
         // the loc found in the given zone grid with the same loc layer.
@@ -527,12 +465,62 @@ constructor(
         }
 
         val deletedLoc = LocEntity(staticLoc).copy(id = DELETED_LOC_ID, angle = loc.angleId)
-        spawnedLocs[regionZone, regionLocZoneKey] = deletedLoc
+        spawnedLocs[regionZone, regionLocKey] = deletedLoc
         removeLocCollision(loc)
         updates.locDel(loc)
 
         return true
     }
+
+    private fun mapLocExists(loc: LocInfo, region: Region, copiedZone: RegionZoneCopy): Boolean {
+        val remappedCoords = region.remappedLocCoords(loc.coords)
+        if (remappedCoords != null) {
+            val remappedZone = ZoneKey.from(remappedCoords)
+            val remappedGrid = ZoneGrid.from(remappedCoords)
+            val remappedLocKey = LocZoneKey(remappedGrid, loc.layer)
+
+            val remappedMapLoc = mapLocs[remappedZone]?.getOrDefault(remappedLocKey.packed, null)
+            val remappedEntity = remappedMapLoc?.let(::LocEntity)
+
+            if (remappedEntity?.id == loc.id && remappedEntity.shape == loc.shapeId) {
+                return true
+            }
+        }
+
+        val (normalZone, normalLocKey) = resolveNormalMapping(loc, copiedZone)
+        val normalMapLoc = mapLocs[normalZone]?.getOrDefault(normalLocKey.packed, null)
+        val normalEntity = normalMapLoc?.let(::LocEntity) ?: return false
+
+        return normalEntity.id == loc.id && normalEntity.shape == loc.shapeId
+    }
+
+    private fun resolveNormalMapping(loc: LocInfo, copiedZone: RegionZoneCopy): NormalMapping {
+        val regionZoneGrid = ZoneGrid.from(loc.coords)
+        val knownNormalZone = copiedZone.normalZone()
+        val normalBase = knownNormalZone.toCoords()
+        val inverseRotation = copiedZone.inverseRotation
+
+        val locType = locTypes[loc]
+        val normalLocAngle = (loc.angleId - copiedZone.rotation) and ANGLE_BIT_MASK
+        val normalLocWidth = Rotations.rotate(normalLocAngle, locType.width, locType.length)
+        val normalLocLength = Rotations.rotate(normalLocAngle, locType.length, locType.width)
+        val normalTranslation =
+            RegionRotations.translateLoc(
+                regionRot = inverseRotation,
+                locSwGrid = regionZoneGrid,
+                locAdjustedWidth = normalLocWidth,
+                locAdjustedLength = normalLocLength,
+            )
+
+        val normalCoord = normalBase.translate(normalTranslation)
+        val normalGrid = ZoneGrid.from(normalCoord)
+        val normalLocKey = LocZoneKey(normalGrid, loc.layer)
+        val translatedNormalZone = ZoneKey.from(normalCoord)
+
+        return NormalMapping(translatedNormalZone, normalLocKey)
+    }
+
+    private data class NormalMapping(val normalZone: ZoneKey, val normalLocKey: LocZoneKey)
 
     private fun addLocCollision(loc: LocInfo) {
         val type = locTypes[loc.id] ?: return
