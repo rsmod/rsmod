@@ -9,6 +9,32 @@ import org.rsmod.game.loc.LocZoneKey
 import org.rsmod.map.zone.ZoneGrid
 import org.rsmod.map.zone.ZoneKey
 
+/**
+ * A data structure for storing `LocEntity`s in zones using a compact, bit-packed format for
+ * efficiency.
+ *
+ * This class maintains a mapping of packed `LocZoneKey`-`LocEntity` values to their associated
+ * zone, optimizing both memory usage and lookup performance.
+ *
+ * ### Important Note:
+ * This implementation **does not** support a feature allowed by the client.
+ *
+ * In the client, up to 5 layer-2 (`LocLayer.Ground`) locs can occupy the same coordinate. Once all
+ * 5 "slots" are filled, the oldest loc (tail of the "list") is removed when a new loc is added.
+ *
+ * Normally, if you manually spawn a layer-2 loc on top of another, the existing loc is replaced.
+ * However, with static map zones used to dynamically build regions (instances), certain region
+ * rotation parameters can cause layer-2 locs to overlap. This is where the "5-slot" feature comes
+ * into play.
+ *
+ * Supporting this behavior would significantly increase lookup and modification costs:
+ * - 5x lookup cost increase for every layer-2 loc `get` operation.
+ * - An iteration in `set` operations to find the next available slot.
+ *
+ * Given the performance trade-offs and the extremely niche use case, we are not implementing this
+ * feature at this time. If this behavior becomes necessary in the future, we can revisit the
+ * decision.
+ */
 @JvmInline
 public value class ZoneLocMap(private val entries: Int2ObjectMap<Byte2IntOpenHashMap>) {
     public val zoneCount: Int
