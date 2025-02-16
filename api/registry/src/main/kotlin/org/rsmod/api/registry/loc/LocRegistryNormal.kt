@@ -3,6 +3,7 @@ package org.rsmod.api.registry.loc
 import it.unimi.dsi.fastutil.bytes.Byte2IntOpenHashMap
 import it.unimi.dsi.fastutil.bytes.ByteOpenHashSet
 import jakarta.inject.Inject
+import org.rsmod.api.registry.region.RegionRegistry
 import org.rsmod.api.registry.zone.ZoneUpdateMap
 import org.rsmod.game.loc.LocEntity
 import org.rsmod.game.loc.LocInfo
@@ -28,6 +29,10 @@ constructor(
     private val spawnedLocs: ZoneLocMap by locZones::spawnedLocs
 
     public fun add(loc: LocInfo): LocRegistryResult.Add {
+        check(!RegionRegistry.inWorkingArea(loc.coords)) {
+            "Cannot add loc to region-reserved area with `LocRegistryNormal`."
+        }
+
         val zoneKey = ZoneKey.from(loc.coords)
         val locZoneKey = loc.toLocZoneGridKey()
         val spawnZone = spawnedLocs.getOrPut(zoneKey)

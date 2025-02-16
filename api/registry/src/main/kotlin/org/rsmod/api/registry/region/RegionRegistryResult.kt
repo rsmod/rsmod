@@ -1,6 +1,17 @@
 package org.rsmod.api.registry.region
 
+import kotlin.contracts.contract
 import org.rsmod.game.region.Region
+
+public fun RegionRegistryResult.Add.isSuccess(): Boolean {
+    contract { returns(true) implies (this@isSuccess is RegionRegistryResult.Add.Success) }
+    return this is RegionRegistryResult.Add.Success
+}
+
+public fun RegionRegistryResult.Delete.isSuccess(): Boolean {
+    contract { returns(true) implies (this@isSuccess is RegionRegistryResult.Delete.Success) }
+    return this is RegionRegistryResult.Delete.Success
+}
 
 public class RegionRegistryResult {
     public sealed class Add {

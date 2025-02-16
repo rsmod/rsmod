@@ -50,6 +50,7 @@ import org.rsmod.api.repo.loc.LocRepository
 import org.rsmod.api.repo.npc.NpcRepository
 import org.rsmod.api.repo.obj.ObjRepository
 import org.rsmod.api.repo.player.PlayerRepository
+import org.rsmod.api.repo.region.RegionRepository
 import org.rsmod.api.repo.world.WorldRepository
 import org.rsmod.api.route.BoundValidator
 import org.rsmod.api.route.RayCastFactory
@@ -706,6 +707,7 @@ constructor(
                 bind(RegionListSmall::class.java).`in`(Scopes.SINGLETON)
                 bind(RegionListLarge::class.java).`in`(Scopes.SINGLETON)
                 bind(RegionRegistry::class.java).`in`(Scopes.SINGLETON)
+                bind(RegionRepository::class.java).`in`(Scopes.SINGLETON)
                 bind(ObjRegistry::class.java).`in`(Scopes.SINGLETON)
                 bind(ObjRepository::class.java).`in`(Scopes.SINGLETON)
                 bind(WorldRepository::class.java).`in`(Scopes.SINGLETON)
