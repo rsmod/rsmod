@@ -4,7 +4,7 @@ import org.rsmod.map.util.Translation
 import org.rsmod.map.zone.ZoneGrid
 
 public object RegionRotations {
-    private const val ZONE_LENGTH_EXCLUSIVE: Int = ZoneGrid.Companion.LENGTH - 1
+    private const val ZONE_LENGTH_EXCLUSIVE: Int = ZoneGrid.LENGTH - 1
 
     public fun translateLoc(
         regionRot: Int,
