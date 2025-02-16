@@ -82,7 +82,7 @@ constructor(
 
         // If the loc was cached and flagged as "remapped", we take priority in looking for the
         // normal loc based on its remapped coordinates.
-        val remappedCoords = region.remappedLocCoords(loc.id, loc.coords)
+        val remappedCoords = region.remappedLocCoords(loc.coords)
         if (remappedCoords != null) {
             val delete =
                 deleteRemappedLoc(
@@ -232,7 +232,7 @@ constructor(
 
         // As a workaround for locs that have been translated away from their expected region zone,
         // we store these specialized loc parameters in their associated `Region`.
-        val remappedCoords = region.remappedLocCoords(loc, coords) ?: return null
+        val remappedCoords = region.remappedLocCoords(coords) ?: return null
 
         val remappedLookup = mapLocs.findType(remappedCoords, loc)
         if (remappedLookup != null) {

@@ -204,12 +204,12 @@ constructor(
             val normalGrid = ZoneGrid.from(normalLoc.coords)
             val translation = RegionRotations.translateLoc(rotation, normalGrid, width, length)
 
-            val zoneAngle = (normalLoc.angleId + rotation) and LocEntity.ANGLE_BIT_MASK
-            val zoneEntity = normalLoc.entity.copy(angle = zoneAngle)
-            val zoneCoords = regionBase.translate(translation)
-            val zoneLoc = normalLoc.copy(coords = zoneCoords, entity = zoneEntity)
+            val regionAngle = (normalLoc.angleId + rotation) and LocEntity.ANGLE_BIT_MASK
+            val regionEntity = normalLoc.entity.copy(angle = regionAngle)
+            val regionCoords = regionBase.translate(translation)
+            val regionLoc = normalLoc.copy(coords = regionCoords, entity = regionEntity)
 
-            collision.addLoc(zoneLoc, locType)
+            collision.addLoc(regionLoc, locType)
 
             // Some locs may be translated **out** of the expected region zone given the right
             // combination of their dimensions, angle, and region rotation. Normally, our region
@@ -228,7 +228,7 @@ constructor(
                 // globally in this registry, we would need an additional mechanism to track which
                 // remapped locs belong to which region - either via an explicit mapping or by
                 // iterating through all of them on region deletion.
-                region.remapLocCoords(normalLoc.id, zoneCoords, normalLoc.coords)
+                region.remapLocCoords(regionLoc.coords, normalLoc.coords)
             }
         }
 

@@ -25,19 +25,19 @@ public data class Region(
 
     public fun toZoneList(level: Int): List<ZoneKey> = buildList { addZones(level) }
 
-    public fun remapLocCoords(loc: Int, regionCoords: CoordGrid, normalCoords: CoordGrid) {
+    public fun remapLocCoords(regionCoords: CoordGrid, normalCoords: CoordGrid) {
         val remapped = remappedLocCoords ?: RemappedRegionLocMap()
 
-        remapped[regionCoords, loc] = normalCoords
+        remapped[regionCoords] = normalCoords
 
         if (this.remappedLocCoords == null) {
             this.remappedLocCoords = remapped
         }
     }
 
-    public fun remappedLocCoords(loc: Int, regionCoords: CoordGrid): CoordGrid? {
+    public fun remappedLocCoords(regionCoords: CoordGrid): CoordGrid? {
         val remapped = remappedLocCoords ?: return null
-        return remapped[regionCoords, loc].takeIf { it != CoordGrid.NULL }
+        return remapped[regionCoords].takeIf { it != CoordGrid.NULL }
     }
 
     private fun MutableList<ZoneKey>.addZones(level: Int) {
