@@ -1,19 +1,19 @@
-package org.rsmod.game.region
+package org.rsmod.game.region.util
 
 import org.rsmod.map.util.Translation
 import org.rsmod.map.zone.ZoneGrid
 
-public object RegionRotation {
-    private const val ZONE_LENGTH_EXCLUSIVE: Int = ZoneGrid.LENGTH - 1
+public object RegionRotations {
+    private const val ZONE_LENGTH_EXCLUSIVE: Int = ZoneGrid.Companion.LENGTH - 1
 
-    public fun locTranslation(
+    public fun translateLoc(
         regionRot: Int,
         locSwGrid: ZoneGrid,
         locAdjustedWidth: Int,
         locAdjustedLength: Int,
     ): Translation = translate(regionRot, locSwGrid, locAdjustedWidth, locAdjustedLength)
 
-    public fun coordTranslation(regionRot: Int, coordGrid: ZoneGrid): Translation =
+    public fun translateCoords(regionRot: Int, coordGrid: ZoneGrid): Translation =
         translate(regionRot, coordGrid, width = 1, length = 1)
 
     public fun translate(regionRot: Int, grid: ZoneGrid, width: Int, length: Int): Translation =
