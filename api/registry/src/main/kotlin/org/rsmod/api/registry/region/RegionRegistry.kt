@@ -177,6 +177,7 @@ constructor(
     }
 
     public fun registerZone(region: Region, regionZone: ZoneKey, copyZone: RegionZoneCopy) {
+        require(copyZone != RegionZoneCopy.NULL) { "`copyZone` cannot be null." }
         check(regionZone !in zones) { "Region zone is already occupied: ${zones[regionZone]}" }
 
         val regionBase = regionZone.toCoords()
@@ -184,6 +185,9 @@ constructor(
         val normalBase = normalZone.toCoords()
 
         val rotation = copyZone.rotation
+
+        // Always allocate collision flags for any registered zone.
+        collision.allocateIfAbsent(regionBase.x, regionBase.z, regionBase.level)
 
         // Some collision flags are embedded in the map files within the cache, rather than being
         // applied by spawned locs from the loc files.
