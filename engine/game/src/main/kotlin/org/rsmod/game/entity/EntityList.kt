@@ -25,7 +25,8 @@ public abstract class EntityList<T>(public val capacity: Int, public val slotPad
         entries[slot] = null
     }
 
-    public fun getValue(slot: Int): T = entries[slot] ?: throw IndexOutOfBoundsException()
+    public fun getValue(slot: Int): T =
+        entries[slot] ?: throw NoSuchElementException("Slot $slot is missing in the list.")
 
     public operator fun get(slot: Int): T? = entries.getOrNull(slot)
 
