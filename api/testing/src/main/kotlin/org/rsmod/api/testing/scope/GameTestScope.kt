@@ -409,8 +409,7 @@ constructor(
     public fun findLoc(coords: CoordGrid, type: LocType): LocInfo? =
         findLocs(coords).firstOrNull { it.id == type.id }
 
-    public fun locExists(loc: BoundLocInfo): Boolean =
-        locRegistry.isValid(loc.coords, loc.id, loc.shapeId)
+    public fun locExists(loc: BoundLocInfo): Boolean = locRegistry.isValid(loc.coords, loc.id)
 
     public fun locExists(coords: CoordGrid, type: LocType): Boolean =
         locRegistry.isValid(coords, type.id)

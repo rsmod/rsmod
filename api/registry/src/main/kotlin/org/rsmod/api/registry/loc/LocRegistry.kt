@@ -13,7 +13,6 @@ import org.rsmod.game.map.collision.addLoc
 import org.rsmod.game.map.collision.removeLoc
 import org.rsmod.game.type.loc.LocTypeList
 import org.rsmod.map.CoordGrid
-import org.rsmod.map.zone.ZoneGrid
 import org.rsmod.map.zone.ZoneKey
 import org.rsmod.routefinder.collision.CollisionFlagMap
 
@@ -137,74 +136,41 @@ constructor(
         }
     }
 
-    public fun isValid(coords: CoordGrid, id: Int? = null, shape: Int? = null): Boolean {
-        val found = findExact(coords, id, shape)
-        return found != null && found.entity.id != DELETED_LOC_ID
+    public fun isValid(coords: CoordGrid, id: Int): Boolean {
+        val found = findType(coords, id) ?: return false
+        return found.entity.id != DELETED_LOC_ID
     }
 
-    public fun findExact(
-        coords: CoordGrid,
-        id: Int? = null,
-        shape: Int? = null,
-        angle: Int? = null,
-    ): LocInfo? = findNormal(coords, id = id, shape = shape, angle = angle)
-
-    private fun findNormal(coords: CoordGrid, id: Int?, shape: Int?, angle: Int?): LocInfo? {
-        val spawnedLoc = spawnedLocs.find(coords, id, shape, angle, layer = null)
+    public fun findType(coords: CoordGrid, loc: Int): LocInfo? {
+        val spawnedLoc = spawnedLocs.findType(coords, loc)
         if (spawnedLoc != null) {
-            if (spawnedLoc.entity.id == DELETED_LOC_ID) {
-                return null
-            }
-            return spawnedLoc
+            return spawnedLoc.takeIf { it.entity.id != DELETED_LOC_ID }
         }
 
-        val mapLoc = mapLocs.find(coords, id, shape, angle, layer = null) ?: return null
-
+        val mapLoc = mapLocs.findType(coords, loc) ?: return null
         // Map locs can sometimes be replaced by a spawned loc that occupies the same "layer."
         // Take for example trees being replaced by tree stumps during woodcutting; these will
         // share shape and angle, but are different locs. Without this condition, the original
         // tree would be found in `mapLocs` and would otherwise return as a valid `LocInfo.`
-        val layeredLoc =
-            spawnedLocs.find(coords, id = null, shape = null, angle = null, layer = mapLoc.layer)
-        if (layeredLoc != null) {
-            return null
-        }
+        val layeredLoc = spawnedLocs.findLayer(coords, mapLoc.layer)
 
-        return mapLoc
+        return mapLoc.takeIf { layeredLoc == null }
     }
 
-    private fun ZoneLocMap.find(
-        coords: CoordGrid,
-        id: Int?,
-        shape: Int?,
-        angle: Int?,
-        layer: Int?,
-    ): LocInfo? {
-        val zoneKey = ZoneKey.from(coords)
-        val entries = this[zoneKey]?.byte2IntEntrySet() ?: return null
-        val zoneCoords = zoneKey.toCoords()
-        for (entry in entries) {
-            val locEntity = LocEntity(entry.intValue)
-            if (id != null && locEntity.id != id) {
-                continue
-            }
-            if (shape != null && locEntity.shape != shape) {
-                continue
-            }
-            if (angle != null && locEntity.angle != angle) {
-                continue
-            }
-            val locKey = LocZoneKey(entry.byteKey)
-            if (layer != null && locKey.layer != layer) {
-                continue
-            }
-            val locCoords = zoneCoords.translate(locKey.x, locKey.z)
-            if (locCoords != coords) {
-                continue
-            }
-            return LocInfo(locKey.layer, locCoords, locEntity)
+    public fun findShape(coords: CoordGrid, shape: Int): LocInfo? {
+        val spawnedLoc = spawnedLocs.findShape(coords, shape)
+        if (spawnedLoc != null) {
+            return spawnedLoc.takeIf { it.entity.id != DELETED_LOC_ID }
         }
-        return null
+
+        val mapLoc = mapLocs.findShape(coords, shape) ?: return null
+        // Map locs can sometimes be replaced by a spawned loc that occupies the same "layer."
+        // Take for example trees being replaced by tree stumps during woodcutting; these will
+        // share shape and angle, but are different locs. Without this condition, the original
+        // tree would be found in `mapLocs` and would otherwise return as a valid `LocInfo.`
+        val layeredLoc = spawnedLocs.findLayer(coords, mapLoc.layer)
+
+        return mapLoc.takeIf { layeredLoc == null }
     }
 
     /**
@@ -306,13 +272,6 @@ constructor(
         val type = locTypes[loc.id] ?: return
         collision.removeLoc(loc, type)
     }
-
-    private fun CoordGrid.toLocZoneGridKey(layer: Int): LocZoneKey {
-        val zoneGrid = ZoneGrid.from(this)
-        return LocZoneKey(zoneGrid.x, zoneGrid.z, layer)
-    }
-
-    private fun LocInfo.toLocZoneGridKey(): LocZoneKey = coords.toLocZoneGridKey(layer)
 
     public companion object {
         /**

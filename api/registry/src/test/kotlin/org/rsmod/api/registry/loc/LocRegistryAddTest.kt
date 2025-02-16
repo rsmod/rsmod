@@ -2,7 +2,6 @@ package org.rsmod.api.registry.loc
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotEquals
-import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import org.rsmod.api.testing.factory.collisionFactory
 import org.rsmod.api.testing.factory.locFactory
@@ -169,6 +168,7 @@ class LocRegistryAddTest {
         assertEquals(setOf(spawnLoc), registry.findAll(zoneKey).toSet())
 
         // Map loc should no longer be found via `find` functions.
-        assertNull(registry.findExact(mapLoc.coords, mapLoc.id, mapLoc.shapeId, mapLoc.angleId))
+        assertNotEquals(mapLoc, registry.findType(mapLoc.coords, mapLoc.id))
+        assertNotEquals(mapLoc, registry.findShape(mapLoc.coords, mapLoc.shapeId))
     }
 }

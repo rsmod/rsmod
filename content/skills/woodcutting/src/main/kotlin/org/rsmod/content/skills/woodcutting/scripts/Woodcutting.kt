@@ -163,7 +163,8 @@ constructor(
     }
 
     private fun Controller.treeDespawnTick() {
-        val tree = locRepo.findExact(coords, locTypes[treeLocId])
+        val type = locTypes.getValue(treeLocId)
+        val tree = locRepo.findExact(coords, type)
         if (tree == null) {
             // Make sure the controller has lived beyond a single tick. Otherwise, we can make an
             // educated guess that there's an oversight allowing the tree to recreate controllers

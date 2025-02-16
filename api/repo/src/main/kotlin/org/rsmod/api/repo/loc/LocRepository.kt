@@ -106,21 +106,19 @@ constructor(
     public fun findAll(coords: CoordGrid): Sequence<LocInfo> =
         findAll(ZoneKey.from(coords)).filter { it.coords == coords }
 
-    public fun findExact(
-        coords: CoordGrid,
-        type: LocType? = null,
-        shape: LocShape? = null,
-        angle: LocAngle? = null,
-    ): LocInfo? = locReg.findExact(coords, type?.id, shape?.id, angle?.id)
+    public fun findExact(coords: CoordGrid, type: LocType): LocInfo? =
+        locReg.findType(coords, type.id)
 
-    public fun findExact(
-        coords: CoordGrid,
-        content: ContentGroupType,
-        shape: LocShape,
-        type: LocType? = null,
-        angle: LocAngle? = null,
-    ): LocInfo? {
-        val loc = locReg.findExact(coords, type?.id, shape.id, angle?.id) ?: return null
+    public fun findExact(coords: CoordGrid, shape: LocShape): LocInfo? =
+        locReg.findShape(coords, shape.id)
+
+    public fun findExact(coords: CoordGrid, content: ContentGroupType, shape: LocShape): LocInfo? {
+        val loc = locReg.findShape(coords, shape.id) ?: return null
+        return loc.takeIf { locTypes[it].contentGroup == content.id }
+    }
+
+    public fun findExact(coords: CoordGrid, content: ContentGroupType, type: LocType): LocInfo? {
+        val loc = locReg.findType(coords, type.id) ?: return null
         return loc.takeIf { locTypes[it].contentGroup == content.id }
     }
 

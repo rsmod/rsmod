@@ -41,7 +41,7 @@ constructor(
         }
 
         val coords = CoordGrid(message.x, message.z, player.level)
-        val loc = locRegistry.findExact(coords, id = message.id) ?: return
+        val loc = locRegistry.findType(coords, message.id) ?: return
         val type = locTypes[message.id] ?: return
         val interfaceType = interfaceTypes[message.asComponent]
         val componentType = componentTypes[message.asComponent]
