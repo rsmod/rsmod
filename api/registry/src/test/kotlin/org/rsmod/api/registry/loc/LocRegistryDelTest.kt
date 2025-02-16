@@ -31,7 +31,7 @@ class LocRegistryDelTest {
 
         val locZones = LocZoneStorage()
         val collision = collisionFactory.create()
-        val registry = locRegistryFactory.create(collision, locZones)
+        val registry = locRegistryFactory.createNormal(collision, locZones)
         check(locZones.totalLocCount() == 0)
 
         registry.add(loc)
@@ -55,7 +55,7 @@ class LocRegistryDelTest {
 
         val locZones = LocZoneStorage()
         val collision = collisionFactory.create()
-        val registry = locRegistryFactory.create(collision, locZones)
+        val registry = locRegistryFactory.createNormal(collision, locZones)
         locZones.mapLocs[zoneKey, locZoneKey] = mapLoc.entity
         check(locZones.totalLocCount() == 1)
         check(locZones.mapLocCount() == 1)
@@ -87,7 +87,7 @@ class LocRegistryDelTest {
 
         val locZones = LocZoneStorage()
         val collision = collisionFactory.create()
-        val registry = locRegistryFactory.create(collision, locZones)
+        val registry = locRegistryFactory.createNormal(collision, locZones)
 
         locZones.mapLocs[zoneKey, locZoneKey] = mapLoc.entity
         check(locZones.totalLocCount() == 1)
@@ -127,7 +127,7 @@ class LocRegistryDelTest {
 
         val locZones = LocZoneStorage()
         val collision = collisionFactory.create()
-        val registry = locRegistryFactory.create(collision, locZones)
+        val registry = locRegistryFactory.createNormal(collision, locZones)
 
         val small = locFactory.create(types.smallBlockWalk())
         val medium = locFactory.create(types.mediumBlockWalk())
@@ -160,7 +160,7 @@ class LocRegistryDelTest {
 
         val locZones = LocZoneStorage()
         val collision = collisionFactory.create()
-        val registry = locRegistryFactory.create(collision, locZones)
+        val registry = locRegistryFactory.createNormal(collision, locZones)
 
         val small = locFactory.create(types.smallBlockWalk())
         val medium = locFactory.create(types.mediumBlockWalk())

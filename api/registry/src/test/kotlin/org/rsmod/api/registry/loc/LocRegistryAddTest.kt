@@ -29,7 +29,7 @@ class LocRegistryAddTest {
 
         val locZones = LocZoneStorage()
         val collision = collisionFactory.create()
-        val registry = locRegistryFactory.create(collision, locZones)
+        val registry = locRegistryFactory.createNormal(collision, locZones)
         check(locZones.totalLocCount() == 0)
 
         registry.add(loc)
@@ -50,7 +50,7 @@ class LocRegistryAddTest {
 
         val locZones = LocZoneStorage()
         val collision = collisionFactory.create()
-        val registry = locRegistryFactory.create(collision, locZones)
+        val registry = locRegistryFactory.createNormal(collision, locZones)
         check(locZones.totalLocCount() == 0)
 
         registry.add(loc1)
@@ -73,7 +73,7 @@ class LocRegistryAddTest {
 
         val locZones = LocZoneStorage()
         val collision = collisionFactory.create()
-        val registry = locRegistryFactory.create(collision, locZones)
+        val registry = locRegistryFactory.createNormal(collision, locZones)
         check(locZones.totalLocCount() == 0)
 
         registry.add(loc1)
@@ -96,7 +96,7 @@ class LocRegistryAddTest {
 
         val locZones = LocZoneStorage()
         val collision = collisionFactory.create()
-        val registry = locRegistryFactory.create(collision, locZones)
+        val registry = locRegistryFactory.createNormal(collision, locZones)
         check(locZones.totalLocCount() == 0)
 
         registry.add(loc1)
@@ -115,7 +115,7 @@ class LocRegistryAddTest {
 
         val locZones = LocZoneStorage()
         val collision = collisionFactory.create()
-        val registry = locRegistryFactory.create(collision, locZones)
+        val registry = locRegistryFactory.createNormal(collision, locZones)
 
         collision.allocateIfAbsent(0, 0, 0)
 
@@ -143,7 +143,7 @@ class LocRegistryAddTest {
 
         val locZones = LocZoneStorage()
         val collision = collisionFactory.create()
-        val registry = locRegistryFactory.create(collision, locZones)
+        val registry = locRegistryFactory.createNormal(collision, locZones)
 
         collision.allocateIfAbsent(0, 0, 0)
 

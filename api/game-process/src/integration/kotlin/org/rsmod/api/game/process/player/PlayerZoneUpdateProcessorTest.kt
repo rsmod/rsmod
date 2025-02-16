@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.rsmod.api.game.process.player.PlayerZoneUpdateProcessor.Companion.ZONE_VIEW_RADIUS
 import org.rsmod.api.registry.loc.LocRegistry
+import org.rsmod.api.registry.loc.LocRegistryNormal
 import org.rsmod.api.registry.obj.ObjRegistry
 import org.rsmod.api.registry.zone.ZoneUpdateMap
 import org.rsmod.api.testing.GameTestState
@@ -47,7 +48,7 @@ class PlayerZoneUpdateProcessorTest {
         val buildProcessor = PlayerBuildAreaProcessor()
         val zoneProcessor = parameters.zoneProcessor
         val locZones = parameters.locZones
-        val locRegistry = parameters.locRegistry
+        val locRegistry = parameters.normalLocReg
         val objRegistry = parameters.objRegistry
         val standardLoc = parameters.locTypes.smallBlockWalk().id
         val standardObj = parameters.objTypes.standard1().id
@@ -259,16 +260,18 @@ class PlayerZoneUpdateProcessorTest {
         val collision = collisionFactory.borrowSharedMap()
         val locTypes = locTypeListFactory.createDefault()
         val objTypes = objTypeListFactory.createDefault()
-        val locRegistry = locRegistryFactory.create(collision, locZones, zoneUpdates, locTypes)
         val objRegistry = objRegistryFactory.create(zoneUpdates, objTypes)
+        val normalLocReg =
+            locRegistryFactory.createNormal(collision, locZones, zoneUpdates, locTypes)
         val enclosedCache = ZonePartialEnclosedCacheBuffer()
         val sharedEnclosed = SharedZoneEnclosedBuffers(playerList, zoneUpdates, enclosedCache)
+        val locRegistry = LocRegistry(locZones, normalLocReg)
         val processor =
             PlayerZoneUpdateProcessor(zoneUpdates, locRegistry, objRegistry, sharedEnclosed)
         return ZoneProcessParams(
             collision,
             locZones,
-            locRegistry,
+            normalLocReg,
             objRegistry,
             zoneUpdates,
             processor,
@@ -280,7 +283,7 @@ class PlayerZoneUpdateProcessorTest {
     private data class ZoneProcessParams(
         val collision: CollisionFlagMap,
         val locZones: LocZoneStorage,
-        val locRegistry: LocRegistry,
+        val normalLocReg: LocRegistryNormal,
         val objRegistry: ObjRegistry,
         val zoneUpdateMap: ZoneUpdateMap,
         val zoneProcessor: PlayerZoneUpdateProcessor,

@@ -39,6 +39,7 @@ import org.rsmod.api.random.DefaultGameRandom
 import org.rsmod.api.random.GameRandom
 import org.rsmod.api.registry.controller.ControllerRegistry
 import org.rsmod.api.registry.loc.LocRegistry
+import org.rsmod.api.registry.loc.LocRegistryNormal
 import org.rsmod.api.registry.npc.NpcRegistry
 import org.rsmod.api.registry.npc.isSuccess
 import org.rsmod.api.registry.obj.ObjRegistry
@@ -697,6 +698,7 @@ constructor(
                 bind(NpcRegistry::class.java).`in`(Scopes.SINGLETON)
                 bind(NpcRepository::class.java).`in`(Scopes.SINGLETON)
                 bind(LocRegistry::class.java).`in`(Scopes.SINGLETON)
+                bind(LocRegistryNormal::class.java).`in`(Scopes.SINGLETON)
                 bind(LocRepository::class.java).`in`(Scopes.SINGLETON)
                 bind(ObjRegistry::class.java).`in`(Scopes.SINGLETON)
                 bind(ObjRepository::class.java).`in`(Scopes.SINGLETON)
