@@ -9,6 +9,7 @@ import org.rsmod.api.registry.npc.NpcRegistry
 import org.rsmod.api.registry.obj.ObjRegistry
 import org.rsmod.api.registry.player.PlayerRegistry
 import org.rsmod.api.registry.region.RegionRegistry
+import org.rsmod.api.registry.zone.ZonePlayerActivityBitSet
 import org.rsmod.api.registry.zone.ZoneUpdateMap
 import org.rsmod.game.map.LocZoneStorage
 import org.rsmod.module.ExtendedModule
@@ -26,6 +27,7 @@ public object GameMapModule : ExtendedModule() {
         bindInstance<PlayerRegistry>()
         bindInstance<ControllerRegistry>()
         bindInstance<RegionRegistry>()
+        bindInstance<ZonePlayerActivityBitSet>()
         bindInstance<ZonePartialEnclosedCacheBuffer>()
         bindInstance<ZoneUpdateMap>()
     }

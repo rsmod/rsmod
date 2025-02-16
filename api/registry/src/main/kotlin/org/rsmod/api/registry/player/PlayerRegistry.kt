@@ -1,6 +1,7 @@
 package org.rsmod.api.registry.player
 
 import jakarta.inject.Inject
+import org.rsmod.api.registry.zone.ZonePlayerActivityBitSet
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.PathingEntity.Companion.INVALID_SLOT
 import org.rsmod.game.entity.Player
@@ -14,6 +15,7 @@ public class PlayerRegistry
 constructor(
     private val playerList: PlayerList,
     private val collision: CollisionFlagMap,
+    private val zoneActivity: ZonePlayerActivityBitSet,
     private val eventBus: EventBus,
 ) {
     public val zones: ZonePlayerMap = ZonePlayerMap()
@@ -63,8 +65,12 @@ constructor(
         if (zone == ZoneKey.NULL) {
             return
         }
-        val oldZone = zones[zone]
-        oldZone?.remove(player)
+        val oldZone = zones[zone] ?: return
+        oldZone.remove(player)
+
+        if (oldZone.isEmpty()) {
+            zoneActivity.unflag(zone)
+        }
     }
 
     private fun zoneAdd(player: Player, zone: ZoneKey) {
@@ -74,6 +80,10 @@ constructor(
         val newZone = zones.getOrPut(zone)
         check(player !in newZone) { "Player already registered to zone($zone): $player" }
         newZone.add(player)
+
+        if (newZone.size == 1) {
+            zoneActivity.flag(zone)
+        }
     }
 
     public fun nextFreeSlot(): Int? = playerList.nextFreeSlot()

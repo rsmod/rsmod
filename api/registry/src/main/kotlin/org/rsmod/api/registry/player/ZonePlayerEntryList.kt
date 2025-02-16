@@ -16,4 +16,6 @@ public value class ZonePlayerEntryList(public val entries: ArrayDeque<Player>) {
     public fun remove(entry: Player): Boolean = entries.remove(entry)
 
     public operator fun contains(entry: Player): Boolean = entry in entries
+
+    public fun isEmpty(): Boolean = entries.isEmpty()
 }
