@@ -8,6 +8,7 @@ import org.rsmod.game.entity.PathingEntity
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.shared.PathingEntityCommon
 import org.rsmod.game.loc.BoundLocInfo
+import org.rsmod.game.map.collision.isZoneValid
 import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.npc.NpcTypeList
 import org.rsmod.game.type.npc.UnpackedNpcType
@@ -16,6 +17,7 @@ import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.spot.SpotanimType
 import org.rsmod.game.type.timer.TimerType
 import org.rsmod.map.CoordGrid
+import org.rsmod.routefinder.collision.CollisionFlagMap
 
 /**
  * Manages scoped actions for npcs that implicitly launch a coroutine, allowing functions such as
@@ -46,6 +48,24 @@ public class StandardNpcAccess(
             return
         }
         delay()
+    }
+
+    public fun telejump(dest: CoordGrid, collision: CollisionFlagMap) {
+        if (!collision.isZoneValid(dest)) {
+            // TODO: Decide if we want to silently-fail, log, or let `PathingEntityCommon.telejump`
+            //  error, which will cause the `npc` to be deleted by the engine.
+            return
+        }
+        PathingEntityCommon.telejump(npc, collision, dest)
+    }
+
+    public fun teleport(dest: CoordGrid, collision: CollisionFlagMap) {
+        if (!collision.isZoneValid(dest)) {
+            // TODO: Decide if we want to silently-fail, log, or let `PathingEntityCommon.teleport`
+            //  error, which will cause the `npc` to be deleted by the engine.
+            return
+        }
+        PathingEntityCommon.teleport(npc, collision, dest)
     }
 
     public fun aiTimer(cycles: Int) {

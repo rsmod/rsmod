@@ -3,6 +3,7 @@ package org.rsmod.api.registry.loc
 import it.unimi.dsi.fastutil.bytes.Byte2IntOpenHashMap
 import it.unimi.dsi.fastutil.bytes.ByteOpenHashSet
 import jakarta.inject.Inject
+import org.rsmod.api.registry.region.RegionRegistry
 import org.rsmod.api.registry.zone.ZoneUpdateMap
 import org.rsmod.game.loc.LocEntity
 import org.rsmod.game.loc.LocInfo
@@ -28,6 +29,10 @@ constructor(
     private val spawnedLocs: ZoneLocMap by locZones::spawnedLocs
 
     public fun add(loc: LocInfo): LocRegistryResult.Add {
+        check(!RegionRegistry.inWorkingArea(loc.coords)) {
+            "Cannot add loc to region-reserved area with `LocRegistryNormal`."
+        }
+
         val zoneKey = ZoneKey.from(loc.coords)
         val locZoneKey = loc.toLocZoneGridKey()
         val spawnZone = spawnedLocs.getOrPut(zoneKey)
@@ -44,9 +49,9 @@ constructor(
         updates.locAdd(loc)
 
         return if (exactMapLocExists) {
-            LocRegistryResult.Add.SpawnedMapLoc
+            LocRegistryResult.Add.NormalMapLoc
         } else {
-            LocRegistryResult.Add.SpawnedDynamic
+            LocRegistryResult.Add.NormalSpawned
         }
     }
 
@@ -57,12 +62,12 @@ constructor(
         // Deleting spawned locs takes priority over static map locs.
         val deletedSpawnedLoc = deleteSpawnedLoc(zoneKey, locZoneKey, loc)
         if (deletedSpawnedLoc) {
-            return LocRegistryResult.Delete.RemovedDynamic
+            return LocRegistryResult.Delete.NormalSpawned
         }
 
         val deletedMapLoc = deleteStaticLoc(zoneKey, locZoneKey, loc)
         if (deletedMapLoc) {
-            return LocRegistryResult.Delete.RemovedMapLoc
+            return LocRegistryResult.Delete.NormalMapLoc
         }
 
         return LocRegistryResult.Delete.LocNotFound

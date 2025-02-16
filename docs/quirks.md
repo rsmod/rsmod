@@ -44,6 +44,16 @@ individual packets. The content-level scripts are exposed to the "visual" type
 for these entities.
 - Tests that involve obj transactions ([org.rsmod.objtx]) are not thread-safe
 and the test class should be marked with `@Execution(ExecutionMode.SAME_THREAD)`
+- `LocRegistry.findAll(zoneKey)` performed within a region's zone will not
+return locs that did not originally belong to the copied normal zone. This is
+intentional by design to prevent inconsistencies and unexpected behavior. This
+scenario is rare but can occur under specific conditions - when a loc’s angle,
+dimensions, and the requested region rotation cause it to shift into an
+unexpected region zone. This is an extremely niche case.
+- Similarly, `findAll` performed in a region will skip any locs that have
+shifted into a different zone.
+- Any interaction on locs in region areas that are outside the region's working
+area are discarded/ignored.
 
 ## Types
 ```

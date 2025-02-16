@@ -203,6 +203,7 @@ class NpcWanderProcessorTest {
                 val current = CoordGrid(0, 0, 0, 50, 50)
                 val type = npcTypeFactory.create { this.wanderRange = wanderRange }
                 val npc = npcFactory.create(type, current)
+                it.allocateCollision(MapSquareKey(0, 0))
                 it.blockDirections(current, Direction.CARDINAL)
                 withNpc(npc) {
                     val movement = NpcMovementProcessor(it.collision, it.stepFactory)

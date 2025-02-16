@@ -8,20 +8,26 @@ import net.rsprot.protocol.game.outgoing.info.playerinfo.PlayerInfo
 import net.rsprot.protocol.game.outgoing.info.util.BuildArea
 import net.rsprot.protocol.game.outgoing.map.RebuildLogin
 import net.rsprot.protocol.game.outgoing.map.RebuildNormal
+import net.rsprot.protocol.game.outgoing.map.RebuildRegion
+import net.rsprot.protocol.game.outgoing.map.util.RebuildRegionZone
 import net.rsprot.protocol.game.outgoing.map.util.XteaProvider
 import net.rsprot.protocol.game.outgoing.misc.client.ServerTickEnd
 import net.rsprot.protocol.game.outgoing.worldentity.SetActiveWorld
 import org.rsmod.api.config.refs.baseanimsets
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.player.righthand
+import org.rsmod.api.registry.region.RegionRegistry
 import org.rsmod.game.client.ClientCycle
 import org.rsmod.game.entity.Player
 import org.rsmod.game.movement.MoveSpeed
+import org.rsmod.game.region.Region
+import org.rsmod.game.region.zone.RegionZoneCopy
 import org.rsmod.game.seq.EntitySeq
 import org.rsmod.game.spot.EntitySpotanim
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.obj.Wearpos
 import org.rsmod.map.CoordGrid
+import org.rsmod.map.square.MapSquareKey
 import org.rsmod.map.zone.ZoneKey
 
 class RspCycle(
@@ -30,6 +36,7 @@ class RspCycle(
     private val npcInfo: NpcInfo,
     private val xteaProvider: XteaProvider,
     private val objTypes: ObjTypeList,
+    private val regions: RegionRegistry,
 ) : ClientCycle {
     private var knownCoords: CoordGrid = CoordGrid.ZERO
 
@@ -38,6 +45,10 @@ class RspCycle(
     private var knownCachedSpeed: MoveSpeed = MoveSpeed.Stationary
 
     private var knownFaceEntity: Int? = -1
+
+    private var knownRegionUid: Int? = null
+
+    private var cachedRebuildRegion: RebuildRegion? = null
 
     private val playerExtendedInfo: PlayerAvatarExtendedInfo
         get() = playerInfo.avatar.extendedInfo
@@ -107,14 +118,73 @@ class RspCycle(
             playerInfo.updateBuildArea(worldId, area)
             npcInfo.updateBuildArea(worldId, area)
         }
+
+        if (!recalcBuildArea) {
+            return
+        }
+
         // Skip log-in rebuild as RebuildLogin is already sent.
-        if (recalcBuildArea && knownBuildArea != CoordGrid.NULL) {
+        if (knownBuildArea == CoordGrid.NULL) {
+            knownBuildArea = buildArea
+            return
+        }
+
+        if (regionUid == null) {
             val rebuild = RebuildNormal(x shr 3, z shr 3, worldId, xteaProvider)
             session.queue(rebuild)
             knownBuildArea = buildArea
-        } else if (recalcBuildArea) {
-            knownBuildArea = buildArea
+            knownRegionUid = null
+            cachedRebuildRegion = null
+            return
         }
+
+        val region = regions[coords]
+
+        // The player's region uid should be reassigned every cycle before calling this function,
+        // as such we should expect the region to always be valid at this point.
+        checkNotNull(region) { "Unexpected invalid region: uid=$regionUid, coords=$coords" }
+
+        // TODO: When implementing `net` module properly, figure out what the best way would be to
+        //  "invalidate" the `cachedRebuildRegion` if the region is somehow altered. This can
+        //  happen in regions such as the Gauntlet. (If we decide to keep this as a cached value
+        //  as opposed to reconstructing it every time)
+        if (regionUid != knownRegionUid) {
+            cachedRebuildRegion = createRebuildRegion(region)
+            knownRegionUid = regionUid
+        }
+
+        val rebuild = cachedRebuildRegion ?: createRebuildRegion(region)
+        session.queue(rebuild)
+        knownBuildArea = buildArea
+        cachedRebuildRegion = rebuild
+    }
+
+    private fun Player.createRebuildRegion(region: Region): RebuildRegion {
+        val regionZones = region.toZoneList()
+        val rebuildZones =
+            regionZones.associateWith { zone ->
+                val copyZone = regions[zone]
+                if (copyZone == RegionZoneCopy.NULL) {
+                    return@associateWith null
+                }
+                val mapSquare = MapSquareKey.from(copyZone.normalZone().toCoords())
+                val xtea = xteaProvider.provide(mapSquare.id)
+                RebuildRegionZone(
+                    copyZone.normalX,
+                    copyZone.normalZ,
+                    copyZone.normalLevel,
+                    copyZone.rotation,
+                    xtea,
+                )
+            }
+        val zoneProvider =
+            object : RebuildRegion.RebuildRegionZoneProvider {
+                override fun provide(zoneX: Int, zoneZ: Int, level: Int): RebuildRegionZone? {
+                    val zoneKey = ZoneKey(zoneX, zoneZ, level)
+                    return rebuildZones[zoneKey]
+                }
+            }
+        return RebuildRegion(x shr 3, z shr 3, true, zoneProvider)
     }
 
     private fun Player.applyPublicMessage() {

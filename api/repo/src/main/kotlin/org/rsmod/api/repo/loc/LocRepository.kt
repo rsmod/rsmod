@@ -4,6 +4,7 @@ import jakarta.inject.Inject
 import org.rsmod.api.registry.loc.LocRegistry
 import org.rsmod.api.registry.loc.LocRegistryResult
 import org.rsmod.api.registry.loc.isSuccess
+import org.rsmod.api.registry.region.RegionRegistry
 import org.rsmod.game.MapClock
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.loc.LocAngle
@@ -23,6 +24,7 @@ constructor(
     private val mapClock: MapClock,
     private val locTypes: LocTypeList,
     private val locReg: LocRegistry,
+    private val regionReg: RegionRegistry,
 ) {
     private val addDurations = ArrayDeque<LocCycleDuration>()
     private val delDurations = ArrayDeque<LocCycleDuration>()
@@ -36,7 +38,8 @@ constructor(
 
         if (add.shouldDespawn() && duration != Int.MAX_VALUE) {
             val revertCycle = mapClock + duration
-            val locDuration = LocCycleDuration(loc, revertCycle)
+            val validator = add.regionValidator()
+            val locDuration = LocCycleDuration(loc, revertCycle, validator)
             delDurations.removeExisting(loc)
             addDurations.removeExisting(loc)
             addDurations.add(locDuration)
@@ -68,7 +71,8 @@ constructor(
 
         if (delete.canRespawn() && duration != Int.MAX_VALUE) {
             val revertCycle = mapClock + duration
-            val locDuration = LocCycleDuration(loc, revertCycle)
+            val validator = delete.regionValidator()
+            val locDuration = LocCycleDuration(loc, revertCycle, validator)
             addDurations.removeExisting(loc)
             delDurations.removeExisting(loc)
             delDurations.add(locDuration)
@@ -138,7 +142,9 @@ constructor(
             if (!duration.shouldTrigger()) {
                 continue
             }
-            locReg.add(duration.loc)
+            if (duration.isValid()) {
+                locReg.add(duration.loc)
+            }
             iterator.remove()
         }
     }
@@ -150,20 +156,50 @@ constructor(
             if (!duration.shouldTrigger()) {
                 continue
             }
-            locReg.del(duration.loc)
+            if (duration.isValid()) {
+                locReg.del(duration.loc)
+            }
             iterator.remove()
         }
     }
 
     private fun LocCycleDuration.shouldTrigger(): Boolean = mapClock >= triggerCycle
 
-    private data class LocCycleDuration(val loc: LocInfo, val triggerCycle: Int)
+    private fun LocCycleDuration.isValid(): Boolean {
+        val validator = regionValidator ?: return true
+        val (slot, uid) = validator
+        return regionReg.isValid(slot, uid)
+    }
+
+    private data class LocCycleDuration(
+        val loc: LocInfo,
+        val triggerCycle: Int,
+        val regionValidator: RegionValidator?,
+    )
+
+    private data class RegionValidator(val slot: Int, val uid: Int)
 
     private companion object {
         private fun LocRegistryResult.Add.Success.shouldDespawn(): Boolean =
-            this is LocRegistryResult.Add.SpawnedDynamic
+            this is LocRegistryResult.Add.NormalSpawned ||
+                this is LocRegistryResult.Add.RegionSpawned
 
         private fun LocRegistryResult.Delete.Success.canRespawn(): Boolean =
-            this is LocRegistryResult.Delete.RemovedMapLoc
+            this is LocRegistryResult.Delete.NormalMapLoc ||
+                this is LocRegistryResult.Delete.RegionMapLoc
+
+        private fun LocRegistryResult.Add.Success.regionValidator(): RegionValidator? =
+            if (this is LocRegistryResult.Add.RegionSuccess) {
+                RegionValidator(regionSlot, regionUid)
+            } else {
+                null
+            }
+
+        private fun LocRegistryResult.Delete.Success.regionValidator(): RegionValidator? =
+            if (this is LocRegistryResult.Delete.RegionSuccess) {
+                RegionValidator(regionSlot, regionUid)
+            } else {
+                null
+            }
     }
 }

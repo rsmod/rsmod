@@ -83,6 +83,10 @@ public class Player(
     public var xpRate: Double = 1.0
 
     public var publicMessage: PublicMessage? = null
+    public var regionUid: Int? = null
+
+    // The last coordinates the player has occupied, outside the region working area.
+    public var lastKnownNormalCoord: CoordGrid = CoordGrid(0, 50, 50, 0, 0)
 
     public val invMap: InventoryMap = InventoryMap()
     public val transmittedInvs: IntArraySet = IntArraySet()

@@ -99,6 +99,7 @@ import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.loc.LocInfo
 import org.rsmod.game.map.Direction
 import org.rsmod.game.map.collision.get
+import org.rsmod.game.map.collision.isZoneValid
 import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.obj.InvObj
 import org.rsmod.game.obj.isType
@@ -250,10 +251,20 @@ public class ProtectedAccess(
     }
 
     public fun telejump(dest: CoordGrid, collision: CollisionFlagMap = context.collision) {
+        if (!collision.isZoneValid(dest)) {
+            player.clearMapFlag()
+            mes("Invalid teleport!", ChatType.Engine)
+            return
+        }
         PathingEntityCommon.telejump(player, collision, dest)
     }
 
     public fun teleport(dest: CoordGrid, collision: CollisionFlagMap = context.collision) {
+        if (!collision.isZoneValid(dest)) {
+            player.clearMapFlag()
+            mes("Invalid teleport!", ChatType.Engine)
+            return
+        }
         PathingEntityCommon.teleport(player, collision, dest)
     }
 
