@@ -4,6 +4,7 @@ import net.rsprot.protocol.api.util.ZonePartialEnclosedCacheBuffer
 import org.rsmod.api.registry.controller.ControllerRegistry
 import org.rsmod.api.registry.loc.LocRegistry
 import org.rsmod.api.registry.loc.LocRegistryNormal
+import org.rsmod.api.registry.loc.LocRegistryRegion
 import org.rsmod.api.registry.npc.NpcRegistry
 import org.rsmod.api.registry.obj.ObjRegistry
 import org.rsmod.api.registry.player.PlayerRegistry
@@ -19,6 +20,7 @@ public object GameMapModule : ExtendedModule() {
         bindInstance<LocZoneStorage>()
         bindInstance<LocRegistry>()
         bindInstance<LocRegistryNormal>()
+        bindInstance<LocRegistryRegion>()
         bindInstance<NpcRegistry>()
         bindInstance<ObjRegistry>()
         bindInstance<PlayerRegistry>()

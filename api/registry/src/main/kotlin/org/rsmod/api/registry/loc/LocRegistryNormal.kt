@@ -49,9 +49,9 @@ constructor(
         updates.locAdd(loc)
 
         return if (exactMapLocExists) {
-            LocRegistryResult.Add.SpawnedMapLoc
+            LocRegistryResult.Add.NormalMapLoc
         } else {
-            LocRegistryResult.Add.SpawnedDynamic
+            LocRegistryResult.Add.NormalSpawned
         }
     }
 
@@ -62,12 +62,12 @@ constructor(
         // Deleting spawned locs takes priority over static map locs.
         val deletedSpawnedLoc = deleteSpawnedLoc(zoneKey, locZoneKey, loc)
         if (deletedSpawnedLoc) {
-            return LocRegistryResult.Delete.RemovedDynamic
+            return LocRegistryResult.Delete.NormalSpawned
         }
 
         val deletedMapLoc = deleteStaticLoc(zoneKey, locZoneKey, loc)
         if (deletedMapLoc) {
-            return LocRegistryResult.Delete.RemovedMapLoc
+            return LocRegistryResult.Delete.NormalMapLoc
         }
 
         return LocRegistryResult.Delete.LocNotFound

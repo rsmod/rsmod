@@ -28,6 +28,7 @@ constructor(
     private val facing: PlayerFaceSquareProcessor,
     private val buildAreas: PlayerBuildAreaProcessor,
     private val mapSquares: PlayerMapSquareProcessor,
+    private val regions: PlayerRegionProcessor,
     private val eventBus: EventBus,
     private val mapClock: MapClock,
     private val exceptionHandler: GameExceptionHandler,
@@ -124,6 +125,7 @@ constructor(
         facing.process(this)
         buildAreas.process(this)
         mapSquares.process(this)
+        regions.process(this)
         clientCycle.preCycle(this)
     }
 

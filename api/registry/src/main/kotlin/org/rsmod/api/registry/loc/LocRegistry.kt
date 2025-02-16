@@ -1,6 +1,7 @@
 package org.rsmod.api.registry.loc
 
 import jakarta.inject.Inject
+import org.rsmod.api.registry.region.RegionRegistry
 import org.rsmod.game.loc.LocEntity
 import org.rsmod.game.loc.LocInfo
 import org.rsmod.game.loc.LocZoneKey
@@ -10,38 +11,42 @@ import org.rsmod.map.zone.ZoneKey
 
 public class LocRegistry
 @Inject
-constructor(private val locZones: LocZoneStorage, private val normalReg: LocRegistryNormal) {
+constructor(
+    private val locZones: LocZoneStorage,
+    private val normalReg: LocRegistryNormal,
+    private val regionReg: LocRegistryRegion,
+) {
     public fun add(loc: LocInfo): LocRegistryResult.Add =
         if (inRegionArea(loc.coords)) {
-            normalReg.add(loc)
+            regionReg.add(loc)
         } else {
             normalReg.add(loc)
         }
 
     public fun del(loc: LocInfo): LocRegistryResult.Delete =
         if (inRegionArea(loc.coords)) {
-            normalReg.del(loc)
+            regionReg.del(loc)
         } else {
             normalReg.del(loc)
         }
 
     public fun findType(coords: CoordGrid, loc: Int): LocInfo? =
         if (inRegionArea(coords)) {
-            normalReg.findType(coords, loc)
+            regionReg.findType(coords, loc)
         } else {
             normalReg.findType(coords, loc)
         }
 
     public fun findShape(coords: CoordGrid, shape: Int): LocInfo? =
         if (inRegionArea(coords)) {
-            normalReg.findShape(coords, shape)
+            regionReg.findShape(coords, shape)
         } else {
             normalReg.findShape(coords, shape)
         }
 
     public fun findAll(zone: ZoneKey): Sequence<LocInfo> =
         if (inRegionArea(zone)) {
-            normalReg.findAll(zone)
+            regionReg.findAll(zone)
         } else {
             normalReg.findAll(zone)
         }
@@ -89,8 +94,8 @@ constructor(private val locZones: LocZoneStorage, private val normalReg: LocRegi
          */
         public val DELETED_LOC_ID: Int = LocEntity.NULL.id
 
-        private fun inRegionArea(zone: ZoneKey): Boolean = false
+        private fun inRegionArea(zone: ZoneKey): Boolean = RegionRegistry.inWorkingArea(zone)
 
-        private fun inRegionArea(coords: CoordGrid): Boolean = false
+        private fun inRegionArea(coords: CoordGrid): Boolean = RegionRegistry.inWorkingArea(coords)
     }
 }

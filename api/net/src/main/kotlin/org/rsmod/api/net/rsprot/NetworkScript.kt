@@ -10,6 +10,7 @@ import org.rsmod.api.net.rsprot.player.SessionEnd
 import org.rsmod.api.net.rsprot.player.SessionStart
 import org.rsmod.api.net.rsprot.provider.SimpleXteaProvider
 import org.rsmod.api.npc.events.NpcEvents
+import org.rsmod.api.registry.region.RegionRegistry
 import org.rsmod.game.MapClock
 import org.rsmod.game.client.Client
 import org.rsmod.game.entity.Npc
@@ -26,6 +27,7 @@ constructor(
     private val xtea: SimpleXteaProvider,
     private val service: NetworkService<Player>,
     private val objTypes: ObjTypeList,
+    private val regionReg: RegionRegistry,
 ) : PluginScript() {
     override fun ScriptContext.startUp() {
         check(RSProtConstants.REVISION == Build.MAJOR) {
@@ -57,7 +59,7 @@ constructor(
         val npcInfo = service.npcInfoProtocol.alloc(slot, OldSchoolClientType.DESKTOP)
 
         val client = RspClient(session, playerInfo, npcInfo) as Client<Any, Any>
-        val cycle = RspCycle(session, playerInfo, npcInfo, xtea, objTypes)
+        val cycle = RspCycle(session, playerInfo, npcInfo, xtea, objTypes, regionReg)
 
         player.client = client
         player.clientCycle = cycle
