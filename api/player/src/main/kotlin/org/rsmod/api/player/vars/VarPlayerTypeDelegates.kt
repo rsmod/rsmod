@@ -54,6 +54,16 @@ public inline fun <reified V> enumVarp(
     return VariableTypeIntDelegate(varp, toType, fromType)
 }
 
+public inline fun <reified V> enumVarpOrNull(
+    varp: VarpType,
+    entries: EnumEntries<V> = enumEntries(),
+    nullVarValue: Int = 0,
+): VariableTypeIntDelegate<V?> where V : Enum<V>, V : VarEnumDelegate {
+    val toType: (Int) -> V? = { varValue -> entries.firstOrNull { varValue == it.varValue } }
+    val fromType: (V?) -> Int = { typed -> typed?.varValue ?: nullVarValue }
+    return VariableTypeIntDelegate(varp, toType, fromType)
+}
+
 /* Varbit delegates */
 public fun intVarp(varBit: VarBitType): VariableIntBitsDelegate = VariableIntBitsDelegate(varBit)
 
@@ -75,6 +85,16 @@ public inline fun <reified V> enumVarp(
         entries.firstOrNull { varValue == it.varValue } ?: default
     }
     val fromType: (V) -> Int = { typed -> typed.varValue }
+    return VariableTypeIntBitsDelegate(varBit, toType, fromType)
+}
+
+public inline fun <reified V> enumVarpOrNull(
+    varBit: VarBitType,
+    entries: EnumEntries<V> = enumEntries(),
+    nullVarValue: Int = 0,
+): VariableTypeIntBitsDelegate<V?> where V : Enum<V>, V : VarEnumDelegate {
+    val toType: (Int) -> V? = { varValue -> entries.firstOrNull { varValue == it.varValue } }
+    val fromType: (V?) -> Int = { typed -> typed?.varValue ?: nullVarValue }
     return VariableTypeIntBitsDelegate(varBit, toType, fromType)
 }
 
