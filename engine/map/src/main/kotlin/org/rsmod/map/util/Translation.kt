@@ -45,6 +45,12 @@ public value class Translation(public val packed: Int) {
     public operator fun times(other: Translation): Translation =
         Translation(x = x * other.x, z = z * other.z, level = level * other.level)
 
+    public operator fun component1(): Int = x
+
+    public operator fun component2(): Int = z
+
+    public operator fun component3(): Int = level
+
     override fun toString(): String = "Translation(x=$x, y=$z, level=$level)"
 
     public companion object {

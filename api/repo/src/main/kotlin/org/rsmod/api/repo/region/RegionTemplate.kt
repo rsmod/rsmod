@@ -1,8 +1,10 @@
 package org.rsmod.api.repo.region
 
+import org.rsmod.game.region.util.RegionRotations
 import org.rsmod.game.region.zone.RegionZoneCopy
 import org.rsmod.game.region.zone.RegionZoneCopyMap
 import org.rsmod.map.CoordGrid
+import org.rsmod.map.util.Translation
 import org.rsmod.map.zone.ZoneKey
 
 @DslMarker private annotation class RegionTemplateBuilderDsl
@@ -148,7 +150,14 @@ public class RegionStaticTemplate internal constructor(private val regionZoneLen
                 for (z in 0 until block.zoneLength) {
                     val zone = ZoneKey(copyZoneX + x, copyZoneZ + z, level)
                     val copy = zone.rotate(block.rotation)
-                    this[block.regionZoneX + x, block.regionZoneZ + z, level] = copy
+
+                    // When rotating a block of zones, we must ensure that all zones within the
+                    // block rotate as a cohesive unit. Each zone's relative position must be
+                    // transformed consistently so the block retains its original shape after
+                    // rotation.
+                    val (rx, rz) = block.rotate(x, z)
+
+                    this[block.regionZoneX + rx, block.regionZoneZ + rz, level] = copy
                 }
             }
         }
@@ -170,6 +179,18 @@ public class RegionStaticTemplate internal constructor(private val regionZoneLen
                 "`zoneLength` must be set to amount of vertical zones to copy."
             }
             return this
+        }
+
+        internal fun rotate(localZoneX: Int, localZoneZ: Int): Translation {
+            val translation =
+                RegionRotations.translateZone(
+                    regionRot = rotation,
+                    zoneX = localZoneX,
+                    zoneZ = localZoneZ,
+                    zoneWidth = zoneWidth,
+                    zoneLength = zoneLength,
+                )
+            return translation
         }
     }
 
