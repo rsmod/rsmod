@@ -23,11 +23,11 @@ private constructor(private val interactions: LocUInteractions, private val objT
 
     private suspend fun ProtectedAccess.apLocU(ap: LocTDefaultEvents.Ap) {
         val objType = ap.objType?.let(objTypes::get) ?: return resendSlot(inv, 0)
-        interactions.interactAp(this, ap.bound, inv, ap.comsub, ap.type, objType)
+        interactions.interactAp(this, ap.bound, inv, ap.comsub, ap.multi, ap.type, objType)
     }
 
     private suspend fun ProtectedAccess.opLocU(op: LocTDefaultEvents.Op) {
         val objType = op.objType?.let(objTypes::get) ?: return resendSlot(inv, 0)
-        interactions.interactOp(this, op.bound, inv, op.comsub, op.type, objType)
+        interactions.interactOp(this, op.bound, inv, op.comsub, op.multi, op.type, objType)
     }
 }
