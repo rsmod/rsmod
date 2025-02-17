@@ -1,9 +1,12 @@
 package org.rsmod.game.entity
 
-public abstract class EntityList<T>(public val capacity: Int, public val slotPadding: Int = 0) :
-    Iterable<T> {
+public abstract class EntityList<T>(
+    public val capacity: Int,
+    public val slotPadding: Int = 0,
+    initialLastSlotUsed: Int = 0,
+) : Iterable<T> {
     private val entries: MutableList<T?> = MutableList(capacity) { null }
-    private var lastUsedSlot = 0
+    private var lastUsedSlot = initialLastSlotUsed
 
     public fun nextFreeSlot(): Int? {
         val startSlot = lastUsedSlot + 1
