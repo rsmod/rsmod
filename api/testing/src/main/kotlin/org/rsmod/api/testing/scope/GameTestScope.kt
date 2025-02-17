@@ -434,7 +434,7 @@ constructor(
     public fun findLocType(
         content: ContentGroupType,
         predicate: (UnpackedLocType) -> Boolean = { true },
-    ): UnpackedLocType = findLocTypes { it.isAssociatedWith(content) && predicate(it) }.first()
+    ): UnpackedLocType = findLocTypes { it.isContentType(content) && predicate(it) }.first()
 
     public fun findObjType(predicate: (UnpackedObjType) -> Boolean): Sequence<UnpackedObjType> {
         return sequence {

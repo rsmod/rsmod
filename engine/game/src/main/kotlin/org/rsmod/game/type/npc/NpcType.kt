@@ -121,7 +121,7 @@ public class UnpackedNpcType(
     public val isMultiNpc: Boolean
         get() = multiNpc.isNotEmpty() || multiNpcDefault > 0
 
-    public fun isAssociatedWith(content: ContentGroupType): Boolean = contentGroup == content.id
+    public fun isContentType(content: ContentGroupType): Boolean = contentGroup == content.id
 
     public fun <T : Any> param(type: ParamType<T>): T {
         val params = paramMap

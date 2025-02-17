@@ -1687,8 +1687,7 @@ public class ProtectedAccess(
      * @param expectedModal the [Component] that is expected to be the player's active modal.
      * @throws ProtectedAccessLostException if the player is `delayed`, their active coroutine does
      *   not match this scope's [coroutine], the current modal does not match [expectedModal], or if
-     *   [expectedComponent] `isAssociatedWith` returns `false` for
-     *   [ResumePauseButtonInput.component].
+     *   [expectedComponent] `isType` returns `false` for [ResumePauseButtonInput.component].
      * @see [resumeWithModalProtectedAccess]
      */
     private fun resumePauseButtonWithProtectedAccess(
@@ -1696,7 +1695,7 @@ public class ProtectedAccess(
         expectedModal: Component?,
         expectedComponent: ComponentType,
     ) {
-        if (!expectedComponent.isAssociatedWith(input.component)) {
+        if (!expectedComponent.isType(input.component)) {
             logger.debug {
                 "Protected-access was lost due to unexpected component: " +
                     "player=$player, " +
@@ -1918,7 +1917,7 @@ public class ProtectedAccess(
         for (obj in inv) {
             val filtered = obj ?: continue
             val type = objTypes[filtered]
-            if (type.isAssociatedWith(content)) {
+            if (type.isContentType(content)) {
                 count += filtered.count
             }
         }

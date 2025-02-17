@@ -80,7 +80,7 @@ private constructor(
 
     private suspend fun ProtectedAccess.talkToBanker(npc: Npc) {
         startDialogue(npc, faceFar = true) {
-            if (npc.type.isAssociatedWith(content.banker_tutor)) {
+            if (npc.type.isContentType(content.banker_tutor)) {
                 talkToBankerTutor()
             } else {
                 talkToBanker()

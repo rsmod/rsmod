@@ -21,7 +21,7 @@ public sealed class ComponentType(
     public val internalNameGet: String?
         get() = internalName
 
-    public infix fun isAssociatedWith(type: ComponentType): Boolean = type.internalId == internalId
+    public infix fun isType(other: ComponentType): Boolean = other.internalId == internalId
 }
 
 public class HashedComponentType(

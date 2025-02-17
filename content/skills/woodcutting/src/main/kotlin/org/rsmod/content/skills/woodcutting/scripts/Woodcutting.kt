@@ -272,14 +272,8 @@ constructor(
         }
 
         private fun Player.wornAxe(objTypes: ObjTypeList): InvObj? {
-            return righthand?.let {
-                val type = objTypes[it]
-                if (type.isUsableAxe(woodcuttingLvl)) {
-                    it
-                } else {
-                    null
-                }
-            }
+            val righthand = righthand ?: return null
+            return righthand.takeIf { objTypes[it].isUsableAxe(woodcuttingLvl) }
         }
 
         private fun Player.carriedAxe(objTypes: ObjTypeList): InvObj? {
@@ -288,7 +282,7 @@ constructor(
         }
 
         private fun UnpackedObjType.isUsableAxe(woodcuttingLevel: Int): Boolean =
-            isAssociatedWith(content.woodcutting_axe) && woodcuttingLevel >= axeWoodcuttingReq
+            isContentType(content.woodcutting_axe) && woodcuttingLevel >= axeWoodcuttingReq
 
         private fun UnpackedLocType.resolveRespawnTime(random: GameRandom): Int {
             val fixed = treeRespawnTime

@@ -14,7 +14,7 @@ import org.rsmod.content.skills.woodcutting.scripts.Woodcutting.Companion.cutSuc
 class WoodcuttingConfigTest {
     @Test
     fun GameTestState.`ensure all axe objs have required params`() = runBasicGameTest {
-        val axes = cacheTypes.objs.values.filter { it.isAssociatedWith(content.woodcutting_axe) }
+        val axes = cacheTypes.objs.values.filter { it.isContentType(content.woodcutting_axe) }
         for (axe in axes) {
             val axeParams = axe.paramMap
             assertNotNullContract(axeParams)
@@ -25,7 +25,7 @@ class WoodcuttingConfigTest {
 
     @Test
     fun GameTestState.`ensure all tree locs have required params`() = runBasicGameTest {
-        val trees = cacheTypes.locs.values.filter { it.isAssociatedWith(content.tree) }
+        val trees = cacheTypes.locs.values.filter { it.isContentType(content.tree) }
         for (tree in trees) {
             val treeParams = tree.paramMap
             assertNotNullContract(treeParams)
@@ -68,7 +68,7 @@ class WoodcuttingConfigTest {
         }
 
         // All trees must have all axe success rates defined.
-        val axes = cacheTypes.objs.values.filter { it.isAssociatedWith(content.woodcutting_axe) }
+        val axes = cacheTypes.objs.values.filter { it.isContentType(content.woodcutting_axe) }
         for (tree in trees) {
             val treeParams = checkNotNull(tree.paramMap)
             val enum = checkNotNull(treeParams[WoodcuttingParams.success_rates])

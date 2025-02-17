@@ -9,7 +9,7 @@ import org.rsmod.game.type.util.ParamMap
 
 public infix fun LocType.isAssociatedWith(loc: LocInfo?): Boolean {
     contract { returns(true) implies (loc != null) }
-    return loc != null && loc.isAssociatedWith(this)
+    return loc != null && loc.isType(this)
 }
 
 public sealed class LocType(internal var internalId: Int?, internal var internalName: String?) {
@@ -105,7 +105,7 @@ public class UnpackedLocType(
     internalId: Int,
     internalName: String,
 ) : LocType(internalId, internalName) {
-    public fun isAssociatedWith(content: ContentGroupType): Boolean = contentGroup == content.id
+    public fun isContentType(content: ContentGroupType): Boolean = contentGroup == content.id
 
     public fun <T : Any> param(type: ParamType<T>): T {
         val params = paramMap

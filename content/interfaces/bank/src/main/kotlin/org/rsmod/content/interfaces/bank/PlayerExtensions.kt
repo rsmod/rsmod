@@ -70,8 +70,8 @@ internal fun Player.setBanksideExtraOps(objTypes: ObjTypeList) {
             }
         }
 
-        val foodBit = type.isAssociatedWith(content.food)
-        val potionBit = type.isAssociatedWith(content.potion)
+        val foodBit = type.isContentType(content.food)
+        val potionBit = type.isContentType(content.potion)
 
         val consumableBit = foodBit || potionBit
         if (consumableBit) {

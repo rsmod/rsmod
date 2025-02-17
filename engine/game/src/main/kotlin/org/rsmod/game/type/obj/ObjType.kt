@@ -180,7 +180,7 @@ public class UnpackedObjType(
     public val isEquipable: Boolean
         get() = wearpos1 != -1 && (iop[1] == "Wield" || iop[1] == "Wear")
 
-    public fun isAssociatedWith(content: ContentGroupType): Boolean = contentGroup == content.id
+    public fun isContentType(content: ContentGroupType): Boolean = contentGroup == content.id
 
     public fun <T : Any> param(type: ParamType<T>): T {
         val params = paramMap

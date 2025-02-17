@@ -88,7 +88,7 @@ constructor(
         val update = await(ResumePauseButtonInput::class)
 
         // Verify the pause button input came from items kept on death interface.
-        if (!update.component.isAssociatedWith(equip_components.items_kept_on_death_pbutton)) {
+        if (!update.component.isType(equip_components.items_kept_on_death_pbutton)) {
             ifClose()
             return
         }

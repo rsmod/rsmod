@@ -1123,8 +1123,8 @@ constructor(
             return
         }
 
-        val isFood = type.isAssociatedWith(content.food)
-        val isPotion = type.isAssociatedWith(content.potion)
+        val isFood = type.isContentType(content.food)
+        val isPotion = type.isContentType(content.potion)
 
         val isConsumable = isFood || isPotion
         if (isConsumable) {

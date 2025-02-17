@@ -25,5 +25,5 @@ public data class LocInfo(
 
     public fun turnAngle(rotations: Int = 1): LocAngle = angle.turn(rotations)
 
-    public infix fun isAssociatedWith(type: LocType): Boolean = type.internalId == id
+    public infix fun isType(type: LocType): Boolean = type.internalId == id
 }
