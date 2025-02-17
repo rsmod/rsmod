@@ -3,6 +3,7 @@ package org.rsmod.api.repo.region
 import org.rsmod.game.region.util.RegionRotations
 import org.rsmod.game.region.zone.RegionZoneCopy
 import org.rsmod.game.region.zone.RegionZoneCopyMap
+import org.rsmod.game.region.zone.RegionZoneFlag
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.util.Translation
 import org.rsmod.map.zone.ZoneKey
@@ -25,7 +26,7 @@ public class RegionStaticTemplate internal constructor(private val regionZoneLen
         regionLevel: Int,
         normalZone: ZoneKey,
     ) {
-        val copy = RegionZoneCopy(normalZone, rotation = 0)
+        val copy = RegionZoneCopy(normalZone, rotation = 0, flag = null)
         this[regionZoneX, regionZoneZ, regionLevel] = copy
     }
 
@@ -51,7 +52,87 @@ public class RegionStaticTemplate internal constructor(private val regionZoneLen
 
     private fun ZoneKey.rotate(rotation: Int): RegionZoneCopy {
         require(rotation in 0..3) { "Rotation must be within range [0..3]. (rotation=$rotation)" }
-        return RegionZoneCopy(this, rotation)
+        return RegionZoneCopy(this, rotation, flag = null)
+    }
+
+    /**
+     * Assigns a **unique flag** to this zone key, allowing it to be differentiated from other
+     * instances of the same copied zone.
+     *
+     * Unique flags provide a way to distinguish between identical copied zones that serve different
+     * purposes. This is useful in cases where a single normal zone is placed in multiple regions
+     * but should be treated differently in each.
+     *
+     * For example, a minigame home base may copy the same zone for both a red team and a blue team,
+     * but in separate map sections. Flags allow distinguishing between them.
+     *
+     * ### Example Usage:
+     * ```
+     * val template =
+     *  RegionTemplate.create {
+     *      this[0, 0, 0] = ZoneKey(227, 564, 0) // Default copy (no unique flag)
+     *      this[1, 0, 0] = ZoneKey(227, 564, 0).uniqueFlag(RegionZoneFlag.Flag1)
+     *      this[2, 0, 0] = ZoneKey(227, 564, 0).rotate90().uniqueFlag(RegionZoneFlag.Flag2)
+     *  }
+     * val region = regionRepository.add(template)
+     *
+     * // Resolving normal coordinates to their respective region placements:
+     *
+     * // This returns the relative coordinates for the zone that did NOT call `uniqueFlag` in the
+     * // template.
+     * val nonUniqueCoords = region.normal[0, 28, 70, 25, 35]
+     *
+     * // This returns the relative coordinates for the zone that was assigned `uniqueFlag(Flag1)`.
+     * val uniqueFlag1Coords = region.normal[0, 28, 70, 25, 35, RegionZoneFlag.Flag1]
+     *
+     * // This returns the relative coordinates for the zone that was assigned `uniqueFlag(Flag2)`.
+     * val uniqueFlag2Coords = region.normal[0, 28, 70, 25, 35, RegionZoneFlag.Flag2]
+     * ```
+     *
+     * @see [RegionZoneFlag]
+     */
+    public fun ZoneKey.uniqueFlag(flag: RegionZoneFlag): RegionZoneCopy {
+        return RegionZoneCopy(this, rotation = 0, flag)
+    }
+
+    /**
+     * Assigns a **unique flag** to this zone key, allowing it to be differentiated from other
+     * instances of the same copied zone.
+     *
+     * Unique flags provide a way to distinguish between identical copied zones that serve different
+     * purposes. This is useful in cases where a single normal zone is placed in multiple regions
+     * but should be treated differently in each.
+     *
+     * For example, a minigame home base may copy the same zone for both a red team and a blue team,
+     * but in separate map sections. Flags allow distinguishing between them.
+     *
+     * ### Example Usage:
+     * ```
+     * val template =
+     *  RegionTemplate.create {
+     *      this[0, 0, 0] = ZoneKey(227, 564, 0) // Default copy (no unique flag)
+     *      this[1, 0, 0] = ZoneKey(227, 564, 0).uniqueFlag(RegionZoneFlag.Flag1)
+     *      this[2, 0, 0] = ZoneKey(227, 564, 0).rotate90().uniqueFlag(RegionZoneFlag.Flag2)
+     *  }
+     * val region = regionRepository.add(template)
+     *
+     * // Resolving normal coordinates to their respective region placements:
+     *
+     * // This returns the relative coordinates for the zone that did NOT call `uniqueFlag` in the
+     * // template.
+     * val nonUniqueCoords = region.normal[0, 28, 70, 25, 35]
+     *
+     * // This returns the relative coordinates for the zone that was assigned `uniqueFlag(Flag1)`.
+     * val uniqueFlag1Coords = region.normal[0, 28, 70, 25, 35, RegionZoneFlag.Flag1]
+     *
+     * // This returns the relative coordinates for the zone that was assigned `uniqueFlag(Flag2)`.
+     * val uniqueFlag2Coords = region.normal[0, 28, 70, 25, 35, RegionZoneFlag.Flag2]
+     * ```
+     *
+     * @see [RegionZoneFlag]
+     */
+    public fun RegionZoneCopy.uniqueFlag(flag: RegionZoneFlag): RegionZoneCopy {
+        return RegionZoneCopy(normalZone(), rotation, flag)
     }
 
     /**

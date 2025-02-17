@@ -254,6 +254,9 @@ constructor(
         }
 
         zones[regionZone] = copyZone
+
+        // Trigger the region's zone registration.
+        region.registerZone(copyZone, regionZone)
     }
 
     /**

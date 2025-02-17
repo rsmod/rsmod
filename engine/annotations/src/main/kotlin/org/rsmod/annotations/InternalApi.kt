@@ -11,4 +11,4 @@ package org.rsmod.annotations
     level = RequiresOptIn.Level.ERROR,
     message = "This feature is internal and should be used cautiously.",
 )
-public annotation class InternalApi(val message: String)
+public annotation class InternalApi(val message: String = "")

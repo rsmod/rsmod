@@ -54,6 +54,10 @@ unexpected region zone. This is an extremely niche case.
 shifted into a different zone.
 - Any interaction on locs in region areas that are outside the region's working
 area are discarded/ignored.
+- If multiple zones in a region are copies of the same zone,
+`Region.normal[...]` will resolve to the last one of these registered zones.
+Since regions register zones column by column, from bottom to top, this means
+the zone closest to the north-east boundary takes precedence.
 
 ## Types
 ```
