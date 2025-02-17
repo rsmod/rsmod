@@ -21,7 +21,7 @@ import org.rsmod.api.player.output.runClientScript
 import org.rsmod.api.player.righthand
 import org.rsmod.api.player.startInvTransmit
 import org.rsmod.api.player.ui.PlayerInterfaceUpdates.updateCombatTab
-import org.rsmod.api.player.vars.boolVarp
+import org.rsmod.api.player.vars.boolVarBit
 import org.rsmod.api.player.vars.chatboxUnlocked
 import org.rsmod.api.script.onPlayerLogIn
 import org.rsmod.game.MapClock
@@ -39,7 +39,7 @@ constructor(
     private val statTypes: StatTypeList,
     private val objTypes: ObjTypeList,
 ) : PluginScript() {
-    private var Player.hideRoofs by boolVarp(varbits.hide_roofs)
+    private var Player.hideRoofs by boolVarBit(varbits.hide_roofs)
 
     override fun ScriptContext.startUp() {
         onPlayerLogIn { player.defaultLogIn() }

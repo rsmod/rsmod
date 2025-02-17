@@ -65,18 +65,18 @@ public inline fun <reified V> enumVarpOrNull(
 }
 
 /* Varbit delegates */
-public fun intVarp(varBit: VarBitType): VariableIntBitsDelegate = VariableIntBitsDelegate(varBit)
+public fun intVarBit(varBit: VarBitType): VariableIntBitsDelegate = VariableIntBitsDelegate(varBit)
 
-public fun boolVarp(varBit: VarBitType): VariableTypeIntBitsDelegate<Boolean> =
-    typeIntVarp(varBit, ::boolFromInt, ::boolToInt)
+public fun boolVarBit(varBit: VarBitType): VariableTypeIntBitsDelegate<Boolean> =
+    typeIntVarBit(varBit, ::boolFromInt, ::boolToInt)
 
-public fun <T> typeIntVarp(
+public fun <T> typeIntVarBit(
     varBit: VarBitType,
     toType: (Int) -> T,
     fromType: (T) -> Int,
 ): VariableTypeIntBitsDelegate<T> = VariableTypeIntBitsDelegate(varBit, toType, fromType)
 
-public inline fun <reified V> enumVarp(
+public inline fun <reified V> enumVarBit(
     varBit: VarBitType,
     entries: EnumEntries<V> = enumEntries(),
     default: V = entries.firstOrNull { it.varValue == 0 } ?: entries.first(),
@@ -88,7 +88,7 @@ public inline fun <reified V> enumVarp(
     return VariableTypeIntBitsDelegate(varBit, toType, fromType)
 }
 
-public inline fun <reified V> enumVarpOrNull(
+public inline fun <reified V> enumVarBitOrNull(
     varBit: VarBitType,
     entries: EnumEntries<V> = enumEntries(),
     nullVarValue: Int = 0,

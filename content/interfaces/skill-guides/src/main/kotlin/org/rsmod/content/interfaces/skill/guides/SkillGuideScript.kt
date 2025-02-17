@@ -6,7 +6,7 @@ import org.rsmod.api.player.ui.ifClose
 import org.rsmod.api.player.ui.ifCloseSub
 import org.rsmod.api.player.ui.ifOpenOverlay
 import org.rsmod.api.player.ui.ifSetEvents
-import org.rsmod.api.player.vars.intVarp
+import org.rsmod.api.player.vars.intVarBit
 import org.rsmod.api.script.onIfOverlayButton
 import org.rsmod.content.interfaces.skill.guides.configs.guide_components
 import org.rsmod.content.interfaces.skill.guides.configs.guide_enums
@@ -64,5 +64,5 @@ constructor(
     }
 }
 
-private var Player.selectedSkill by intVarp(guide_varbits.selected_skill)
-private var Player.selectedSubsection by intVarp(guide_varbits.selected_subsection)
+private var Player.selectedSkill by intVarBit(guide_varbits.selected_skill)
+private var Player.selectedSubsection by intVarBit(guide_varbits.selected_subsection)

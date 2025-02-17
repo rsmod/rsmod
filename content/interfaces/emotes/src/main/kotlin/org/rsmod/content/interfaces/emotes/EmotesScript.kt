@@ -16,6 +16,7 @@ import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.protect.ProtectedAccessLauncher
 import org.rsmod.api.player.ui.ifClose
 import org.rsmod.api.player.ui.ifSetEvents
+import org.rsmod.api.player.vars.intVarBit
 import org.rsmod.api.player.vars.intVarp
 import org.rsmod.api.repo.npc.NpcRepository
 import org.rsmod.api.script.onIfOpen
@@ -554,5 +555,5 @@ constructor(private val enumResolver: EnumTypeMapResolver) {
 }
 
 private var Player.premierShieldClock by intVarp(emote_varps.emote_clock_premier_shield)
-private var Player.premierShieldCount by intVarp(emote_varbits.emote_counters_premier_shield)
-private var Player.crazyDanceCount by intVarp(emote_varbits.emote_counters_crazy_dance)
+private var Player.premierShieldCount by intVarBit(emote_varbits.emote_counters_premier_shield)
+private var Player.crazyDanceCount by intVarBit(emote_varbits.emote_counters_crazy_dance)

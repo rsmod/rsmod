@@ -5,7 +5,7 @@ import org.rsmod.api.config.constants
 import org.rsmod.api.player.input.ResumePauseButtonInput
 import org.rsmod.api.player.output.runClientScript
 import org.rsmod.api.player.protect.ProtectedAccess
-import org.rsmod.api.player.vars.intVarp
+import org.rsmod.api.player.vars.intVarBit
 import org.rsmod.api.script.onIfClose
 import org.rsmod.api.script.onIfModalButton
 import org.rsmod.api.script.onIfOverlayButton
@@ -22,8 +22,8 @@ import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
 class BankTutorialScript @Inject constructor(private val eventBus: EventBus) : PluginScript() {
-    private var Player.tutorialPage by intVarp(bank_varbits.tutorial_current_page)
-    private var Player.tutorialTotalPages by intVarp(bank_varbits.tutorial_total_pages)
+    private var Player.tutorialPage by intVarBit(bank_varbits.tutorial_current_page)
+    private var Player.tutorialTotalPages by intVarBit(bank_varbits.tutorial_total_pages)
 
     override fun ScriptContext.startUp() {
         onIfModalButton(bank_components.tutorial_button) { selectTutorial() }

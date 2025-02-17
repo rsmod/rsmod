@@ -8,7 +8,7 @@ import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.type.varbit.VarBitType
 import org.rsmod.game.type.varp.VarpType
 
-public var Player.chatboxUnlocked: Boolean by boolVarp(varbits.chatbox_unlocked)
+public var Player.chatboxUnlocked: Boolean by boolVarBit(varbits.chatbox_unlocked)
 
 private var Player.varSpeed: MoveSpeed by typeIntVarp(varps.player_run, ::getSpeed, ::getSpeedId)
 

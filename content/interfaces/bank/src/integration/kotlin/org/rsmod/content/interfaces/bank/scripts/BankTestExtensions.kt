@@ -1,9 +1,9 @@
 package org.rsmod.content.interfaces.bank.scripts
 
 import org.rsmod.api.config.refs.invs
-import org.rsmod.api.player.vars.boolVarp
-import org.rsmod.api.player.vars.enumVarp
-import org.rsmod.api.player.vars.intVarp
+import org.rsmod.api.player.vars.boolVarBit
+import org.rsmod.api.player.vars.enumVarBit
+import org.rsmod.api.player.vars.intVarBit
 import org.rsmod.api.testing.GameTestState
 import org.rsmod.content.interfaces.bank.BankTab
 import org.rsmod.content.interfaces.bank.configs.BankComponents
@@ -30,13 +30,13 @@ val MAIN_INV_WITHDRAW_5 = IfButtonOp.Op3
 val MAIN_INV_WITHDRAW_X = IfButtonOp.Op6
 val MAIN_INV_WITHDRAW_ALL = IfButtonOp.Op7
 
-var Player.bankTabSizeMain by intVarp(BankTab.Main.sizeVarBit)
-var Player.bankTabSize1 by intVarp(BankTab.Tab1.sizeVarBit)
-var Player.bankTabSize2 by intVarp(BankTab.Tab2.sizeVarBit)
-var Player.bankTabSize3 by intVarp(BankTab.Tab3.sizeVarBit)
-var Player.insertMode by boolVarp(bank_varbits.rearrange_mode)
-var Player.withdrawCert by boolVarp(bank_varbits.withdraw_mode)
-var Player.selectedTab by enumVarp<BankTab>(bank_varbits.selected_tab)
+var Player.bankTabSizeMain by intVarBit(BankTab.Main.sizeVarBit)
+var Player.bankTabSize1 by intVarBit(BankTab.Tab1.sizeVarBit)
+var Player.bankTabSize2 by intVarBit(BankTab.Tab2.sizeVarBit)
+var Player.bankTabSize3 by intVarBit(BankTab.Tab3.sizeVarBit)
+var Player.insertMode by boolVarBit(bank_varbits.rearrange_mode)
+var Player.withdrawCert by boolVarBit(bank_varbits.withdraw_mode)
+var Player.selectedTab by enumVarBit<BankTab>(bank_varbits.selected_tab)
 
 fun GameTestState.bank(player: Player): Inventory {
     val bankType = cacheTypes.invs[invs.bank]

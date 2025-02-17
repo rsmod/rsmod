@@ -12,7 +12,7 @@ import org.rsmod.api.player.startInvTransmit
 import org.rsmod.api.player.stopInvTransmit
 import org.rsmod.api.player.ui.ifSetEvents
 import org.rsmod.api.player.ui.ifSetText
-import org.rsmod.api.player.vars.boolVarp
+import org.rsmod.api.player.vars.boolVarBit
 import org.rsmod.api.script.onIfClose
 import org.rsmod.api.script.onIfOpen
 import org.rsmod.content.interfaces.bank.bankCapacity
@@ -45,7 +45,7 @@ constructor(
     private val Player.bank
         get() = invMap.getOrPut(invTypes[invs.bank])
 
-    private var Player.withdrawCert by boolVarp(bank_varbits.withdraw_mode)
+    private var Player.withdrawCert by boolVarBit(bank_varbits.withdraw_mode)
 
     override fun ScriptContext.startUp() {
         // `onBankOpen` occurs on `bank_side` trigger for emulation purposes.

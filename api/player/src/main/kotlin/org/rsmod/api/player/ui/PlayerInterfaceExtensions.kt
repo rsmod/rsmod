@@ -33,7 +33,7 @@ import org.rsmod.api.player.output.ClientScripts.topLevelMainModalBackground
 import org.rsmod.api.player.output.ClientScripts.topLevelMainModalOpen
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.output.runClientScript
-import org.rsmod.api.player.vars.intVarp
+import org.rsmod.api.player.vars.intVarBit
 import org.rsmod.coroutine.GameCoroutine
 import org.rsmod.coroutine.resume.DeferredResumeCondition
 import org.rsmod.events.EventBus
@@ -56,7 +56,7 @@ private typealias OpenSub = org.rsmod.api.player.ui.IfOpenSub
 
 private typealias CloseSub = org.rsmod.api.player.ui.IfCloseSub
 
-private var Player.modalWidthAndHeightMode: Int by intVarp(varbits.modal_widthandheight_mode)
+private var Player.modalWidthAndHeightMode: Int by intVarBit(varbits.modal_widthandheight_mode)
 
 public fun Player.ifSetObj(target: ComponentType, obj: ObjType, zoomOrCount: Int) {
     client.write(IfSetObject(target.packed, obj.id, zoomOrCount))

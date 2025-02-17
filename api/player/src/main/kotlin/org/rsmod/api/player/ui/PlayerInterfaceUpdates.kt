@@ -3,11 +3,11 @@ package org.rsmod.api.player.ui
 import org.rsmod.api.config.refs.components
 import org.rsmod.api.config.refs.varbits
 import org.rsmod.api.player.output.ClientScripts.pvpIconsComLevelRange
-import org.rsmod.api.player.vars.intVarp
+import org.rsmod.api.player.vars.intVarBit
 import org.rsmod.game.entity.Player
 import org.rsmod.game.type.obj.WeaponCategory
 
-private var Player.combatTabWeaponStyle: Int by intVarp(varbits.combat_tab_weapon_style_type)
+private var Player.combatTabWeaponStyle: Int by intVarBit(varbits.combat_tab_weapon_style_type)
 
 public object PlayerInterfaceUpdates {
     public fun updateCombatTab(

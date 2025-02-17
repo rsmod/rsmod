@@ -11,7 +11,7 @@ import org.rsmod.api.player.ui.ifClose
 import org.rsmod.api.player.ui.ifCloseOverlay
 import org.rsmod.api.player.ui.ifOpenSub
 import org.rsmod.api.player.ui.ifSetEvents
-import org.rsmod.api.player.vars.intVarp
+import org.rsmod.api.player.vars.intVarBit
 import org.rsmod.api.script.onIfClose
 import org.rsmod.api.script.onIfOpen
 import org.rsmod.api.script.onIfOverlayButton
@@ -182,4 +182,4 @@ constructor(
     private fun Prayer.lockedMessage(): String = plainLockedMessage ?: levelReqMessage()
 }
 
-private var Player.selectedQuickPrayers by intVarp(prayer_varbits.selected_quick_prayers)
+private var Player.selectedQuickPrayers by intVarBit(prayer_varbits.selected_quick_prayers)
