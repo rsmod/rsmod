@@ -10,6 +10,7 @@ import org.rsmod.api.invtx.invClear
 import org.rsmod.api.player.output.UpdateStat
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.protect.ProtectedAccessLauncher
+import org.rsmod.api.player.vars.resyncVar
 import org.rsmod.api.repo.loc.LocRepository
 import org.rsmod.api.repo.npc.NpcRepository
 import org.rsmod.api.script.onCommand
@@ -30,6 +31,8 @@ import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.seq.SeqTypeList
 import org.rsmod.game.type.spot.SpotanimTypeList
 import org.rsmod.game.type.stat.StatTypeList
+import org.rsmod.game.type.varbit.VarBitTypeList
+import org.rsmod.game.type.varp.VarpTypeList
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.square.MapSquareGrid
 import org.rsmod.map.square.MapSquareKey
@@ -39,6 +42,7 @@ import org.rsmod.objtx.TransactionResult
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 import org.rsmod.routefinder.loc.LocLayerConstants
+import org.rsmod.utils.bits.withBits
 
 class AdminCommands
 @Inject
@@ -50,6 +54,8 @@ constructor(
     private val locTypes: LocTypeList,
     private val npcTypes: NpcTypeList,
     private val objTypes: ObjTypeList,
+    private val varpTypes: VarpTypeList,
+    private val varBitTypes: VarBitTypeList,
     private val locRepo: LocRepository,
     private val npcRepo: NpcRepository,
     private val names: NameMapping,
@@ -79,6 +85,12 @@ constructor(
         }
         onCommand("invadd", "Spawn obj into inv", ::invAdd)
         onCommand("invclear", "Remove all objs from inv", ::invClear)
+        onCommand("varp", "Set varp value", ::setVarp) {
+            invalidArgs = "Use as ::varp debugNameOrId value (ex: player_run 1)"
+        }
+        onCommand("varbit", "Set varbit value", ::setVarBit) {
+            invalidArgs = "Use as ::varbit debugNameOrId value (ex: smooth_dance_emote 1)"
+        }
     }
 
     private fun master(cheat: Cheat) = with(cheat) { player.setStatLevels(level = 99) }
@@ -249,6 +261,44 @@ constructor(
         }
 
     private fun invClear(cheat: Cheat) = with(cheat) { player.invClear(player.inv) }
+
+    private fun setVarp(cheat: Cheat) =
+        with(cheat) {
+            val typeId = resolveArgTypeId(args[0], names.varps)
+            if (typeId == null) {
+                player.mes("There is no varp mapped to name: `${args[0]}`")
+                return
+            }
+            val type = varpTypes[typeId]
+            if (type == null) {
+                player.mes("That varp does not exist: $typeId")
+                return
+            }
+            val value = args[1].toInt()
+            player.vars.backing[type.id] = value
+            player.resyncVar(type)
+            player.mes("Set varp `${args[0]}` to value: ${player.vars[type]}")
+        }
+
+    private fun setVarBit(cheat: Cheat) =
+        with(cheat) {
+            val typeId = resolveArgTypeId(args[0], names.varbits)
+            if (typeId == null) {
+                player.mes("There is no varbit mapped to name: `${args[0]}`")
+                return
+            }
+            val type = varBitTypes[typeId]
+            if (type == null) {
+                player.mes("That varbit does not exist: $typeId")
+                return
+            }
+            val baseVar = type.baseVar
+            val value = args[1].toInt()
+            val packed = player.vars[baseVar].withBits(type.bits, value)
+            player.vars.backing[baseVar.id] = packed
+            player.resyncVar(baseVar)
+            player.mes("Set varbit `${args[0]}` to value: ${player.vars[type]}")
+        }
 
     private fun Player.setStatLevels(level: Int) {
         val xp = PlayerSkillXPTable.getXPFromLevel(level)
