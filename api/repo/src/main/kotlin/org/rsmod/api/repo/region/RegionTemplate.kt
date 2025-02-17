@@ -60,8 +60,8 @@ public class RegionStaticTemplate internal constructor(private val regionZoneLen
      * instances of the same copied zone.
      *
      * Unique flags provide a way to distinguish between identical copied zones that serve different
-     * purposes. This is useful in cases where a single normal zone is placed in multiple regions
-     * but should be treated differently in each.
+     * purposes. This is useful in cases where a single normal zone is placed in multiple region
+     * zones but should be treated differently in each.
      *
      * For example, a minigame home base may copy the same zone for both a red team and a blue team,
      * but in separate map sections. Flags allow distinguishing between them.
@@ -100,8 +100,8 @@ public class RegionStaticTemplate internal constructor(private val regionZoneLen
      * instances of the same copied zone.
      *
      * Unique flags provide a way to distinguish between identical copied zones that serve different
-     * purposes. This is useful in cases where a single normal zone is placed in multiple regions
-     * but should be treated differently in each.
+     * purposes. This is useful in cases where a single normal zone is placed in multiple region
+     * zones but should be treated differently in each.
      *
      * For example, a minigame home base may copy the same zone for both a red team and a blue team,
      * but in separate map sections. Flags allow distinguishing between them.
