@@ -26,6 +26,12 @@ public class ZoneUpdateMap {
         updates += prot
     }
 
+    public fun locAnim(loc: LocInfo, seq: Int) {
+        val updates = loc.coords.getOrPutUpdateList()
+        val prot = ZoneUpdateTransformer.toLocAnim(loc, seq)
+        updates += prot
+    }
+
     public fun objAdd(obj: Obj) {
         val updates = obj.coords.getOrPutUpdateList()
         val prot = obj.resolveObjAddProt()

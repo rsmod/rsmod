@@ -3,6 +3,7 @@ package org.rsmod.api.registry.zone
 import net.rsprot.protocol.ServerProtCategory
 import net.rsprot.protocol.game.outgoing.util.OpFlags
 import net.rsprot.protocol.game.outgoing.zone.payload.LocAddChangeV2
+import net.rsprot.protocol.game.outgoing.zone.payload.LocAnim
 import net.rsprot.protocol.game.outgoing.zone.payload.LocDel
 import net.rsprot.protocol.game.outgoing.zone.payload.ObjAdd
 import net.rsprot.protocol.game.outgoing.zone.payload.ObjCount
@@ -49,6 +50,11 @@ public object ZoneUpdateTransformer {
     public fun toLocDelProt(loc: LocInfo): ZoneProt {
         val zoneGrid = ZoneGrid.from(loc.coords)
         return LocDel(zoneGrid.x, zoneGrid.z, loc.shapeId, loc.angleId)
+    }
+
+    public fun toLocAnim(loc: LocInfo, seq: Int): ZoneProt {
+        val zoneGrid = ZoneGrid.from(loc.coords)
+        return LocAnim(seq, zoneGrid.x, zoneGrid.z, loc.shapeId, loc.angleId)
     }
 
     public fun toPersistentObjAdd(obj: Obj, observerId: Long?): ZoneProt? =
