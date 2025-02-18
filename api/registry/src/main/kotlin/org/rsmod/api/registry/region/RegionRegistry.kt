@@ -449,22 +449,22 @@ constructor(
 
         public val workingAreaSmall: WorkingArea =
             WorkingArea(
-                horizontalRegionCap = 51,
-                verticalRegionCap = 27,
+                horizontalRegionCap = 19,
+                verticalRegionCap = 85,
                 regionSquareLength = SMALL_REGION_SQUARE_LENGTH,
-                startCoordX = START_COORD_X,
+                startCoordX = START_COORD_X + 3904,
                 startCoordZ = START_COORD_Z,
                 maxCoordX = CoordGrid.MAP_WIDTH,
-                maxCoordZ = 5247,
+                maxCoordZ = CoordGrid.MAP_LENGTH,
             )
 
         public val workingAreaLarge: WorkingArea =
             WorkingArea(
-                horizontalRegionCap = 25,
-                verticalRegionCap = 28,
+                horizontalRegionCap = 10,
+                verticalRegionCap = 42,
                 regionSquareLength = LARGE_REGION_SQUARE_LENGTH,
                 startCoordX = START_COORD_X,
-                startCoordZ = 5248 + PADDING_SQUARES,
+                startCoordZ = START_COORD_Z,
                 maxCoordX = CoordGrid.MAP_WIDTH,
                 maxCoordZ = CoordGrid.MAP_LENGTH,
             )
@@ -472,9 +472,5 @@ constructor(
         public fun inWorkingArea(coords: CoordGrid): Boolean = coords.x >= START_COORD_X
 
         public fun inWorkingArea(key: ZoneKey): Boolean = key.x * ZoneGrid.LENGTH >= START_COORD_X
-
-        public fun inSmallWorkingArea(coords: CoordGrid): Boolean = coords in workingAreaSmall
-
-        public fun inLargeWorkingArea(coords: CoordGrid): Boolean = coords in workingAreaSmall
     }
 }
