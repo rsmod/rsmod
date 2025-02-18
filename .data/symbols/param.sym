@@ -11,6 +11,7 @@
 10	melee_strength
 11	item_prayer_bonus
 12	ranged_strength
+14	attackrate
 41	zamorakitem
 59	no_bank
 65	npc_magic_damage_bonus
@@ -223,7 +224,7 @@
 65509	slashdefence
 65510	rangedefence
 65511	magicdefence
-65512	attackrate
+65512	_removed_65512
 65513	foe_only
 65514	poh_no_roof
 65515	poh_door_north
