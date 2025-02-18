@@ -41,6 +41,8 @@ import org.rsmod.map.zone.ZoneGrid
 import org.rsmod.map.zone.ZoneKey
 import org.rsmod.routefinder.collision.CollisionFlagMap
 
+// TODO: Refactor this into `runGameTest` which will give us access to the appropriate dependencies.
+//  Can then get rid of all the intricate constructors for the required registries and processors.
 class PlayerZoneUpdateProcessorTest {
     @Test
     fun GameTestState.`process zones in a new build area`() = runAdvancedGameTest {

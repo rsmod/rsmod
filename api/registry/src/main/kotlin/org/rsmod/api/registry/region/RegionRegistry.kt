@@ -1,9 +1,16 @@
 package org.rsmod.api.registry.region
 
 import jakarta.inject.Inject
+import org.rsmod.api.registry.controller.ControllerRegistry
+import org.rsmod.api.registry.controller.isSuccess
 import org.rsmod.api.registry.loc.LocRegistryNormal
+import org.rsmod.api.registry.npc.NpcRegistry
+import org.rsmod.api.registry.npc.isSuccess
 import org.rsmod.api.registry.zone.ZonePlayerActivityBitSet
+import org.rsmod.game.entity.Controller
+import org.rsmod.game.entity.Npc
 import org.rsmod.game.loc.LocEntity
+import org.rsmod.game.map.LocZoneStorage
 import org.rsmod.game.map.collision.add
 import org.rsmod.game.map.collision.addLoc
 import org.rsmod.game.region.Region
@@ -29,6 +36,9 @@ constructor(
     private val normalLocReg: LocRegistryNormal,
     private val collision: CollisionFlagMap,
     private val locTypes: LocTypeList,
+    private val locZones: LocZoneStorage,
+    private val npcRegistry: NpcRegistry,
+    private val conRegistry: ControllerRegistry,
     private val zoneActivity: ZonePlayerActivityBitSet,
 ) {
     init {
@@ -367,16 +377,58 @@ constructor(
     }
 
     private fun clearAllZones(region: Region) {
-        // We _are_ iterating two times through the zones list. This is in hopes that the
-        // `collision` operations can benefit from frequent access instead of having to jump
-        // between `zones` map and the internal int array from `collision`.
-        // All in all, if this does require a performance boost (**extremely unlikely**) we should
-        // base our decision off of benchmarks.
-        val regionZones = region.toZoneList().filter(zones::remove)
+        val regionZones = region.toZoneList()
         for (zone in regionZones) {
+            val removed = zones.remove(zone)
+            if (!removed) {
+                continue
+            }
+
+            // No need to manually iterate over spawned locs; `clearZone(zone)` simply removes the
+            // entire zone key from the global `spawnedLocs` map. Any scheduled `LocRepository.add`
+            // or `LocRepository.del` operations automatically become stale, as `LocRepository`
+            // handles validation for locs in deleted regions.
+            locZones.spawnedLocs.clearZone(zone)
+
+            val controllers = conRegistry.findAll(zone)
+            for (controller in controllers) {
+                deleteCon(controller)
+            }
+
+            val npcs = npcRegistry.findAll(zone)
+            for (npc in npcs) {
+                deleteNpc(npc)
+            }
+
             val coords = zone.toCoords()
             collision.deallocateIfPresent(coords.x, coords.z, coords.level)
         }
+    }
+
+    private fun deleteNpc(npc: Npc) {
+        // Pets can be left behind in regions for at least 1 cycle before they process and are able
+        // to discern that they have to teleport.
+        // Note: We may want to teleport the pet to a "secure" location. By simply returning here,
+        // we allow them to stay in a zone that will soon be "invalidated." While this should not
+        // cause issues currently, it's worth noting in case future systems enforce stricter
+        // validation for npcs in invalid zones.
+        if (npc.type.follower) {
+            return
+        }
+        val delete = npcRegistry.del(npc)
+
+        // This should _never_ happen (famous last words), but if a npc cannot be deleted, it's
+        // best to inform the server rather than silently failing. This could be changed to an
+        // assert if needed, but I personally advise keeping it as-is.
+        check(delete.isSuccess()) { "Could not delete npc: $npc (result=$delete)" }
+    }
+
+    private fun deleteCon(controller: Controller) {
+        val delete = conRegistry.del(controller)
+
+        // Similar to `deleteNpc`, this failure should not occur. While it could be suppressed,
+        // it's best to report the error to ensure the server remains aware of unexpected issues.
+        check(delete.isSuccess()) { "Could not delete controller: $controller (result=$delete)" }
     }
 
     public data class WorkingArea(

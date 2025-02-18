@@ -24,7 +24,8 @@ public class TestLocRegistryFactory {
         locZones: LocZoneStorage = LocZoneStorage(),
         zoneUpdates: ZoneUpdateMap = ZoneUpdateMap(),
         locTypes: LocTypeList = createDefaultTypes(),
-        regionReg: RegionRegistry = regionRegistryFactory.create(collision, normalLocReg, locTypes),
+        regionReg: RegionRegistry =
+            regionRegistryFactory.create(collision, normalLocReg, locTypes, locZones),
     ): LocRegistryRegion = LocRegistryRegion(zoneUpdates, collision, locTypes, locZones, regionReg)
 
     private fun createDefaultCollision(): CollisionFlagMap = TestCollisionFactory().create()

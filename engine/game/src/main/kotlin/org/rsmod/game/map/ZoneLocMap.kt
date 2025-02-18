@@ -82,6 +82,10 @@ public value class ZoneLocMap(private val entries: Int2ObjectMap<Byte2IntOpenHas
         return this[zoneKey, locKey] == loc.entity.packed
     }
 
+    public fun clearZone(key: ZoneKey) {
+        entries.remove(key.packed)
+    }
+
     public class ZoneBuilder(private val zone: Byte2IntOpenHashMap) {
         public operator fun set(key: LocZoneKey, entity: LocEntity) {
             zone[key.packed] = entity.packed
