@@ -7,9 +7,16 @@ import org.rsmod.api.type.refs.varp.VarpReferences
 typealias varps = BaseVarps
 
 object BaseVarps : VarpReferences() {
-    val generic_261 = find("generic_varp_261", 59242162)
-    val generic_262 = find("generic_varp_262", 59469143)
-    val generic_263 = find("generic_varp_263", 59696124)
+    /*
+     * These "generic" temporary-state varps are used across multiple features to track temporary
+     * state. Unlike varps tied to a specific piece of content with child varbits, these are more
+     * general-purpose.
+     */
+    val generic_temp_state_261 = find("generic_temp_state_261", 59242162)
+    val generic_temp_state_262 = find("generic_temp_state_262", 59469143)
+    val generic_temp_state_263 = find("generic_temp_state_263", 59696124)
+
+    val temp_state_675 = find("temp_state_675", 153212296)
 
     val player_run = find("player_run", 39271563)
     val player_attack_option = find("player_attack_option", 251271828)

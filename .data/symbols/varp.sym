@@ -11,11 +11,12 @@
 176	dragon_slayer_i_progress
 178	vampyre_slayer_progress
 179	sheep_shearer_progress
-261	generic_varp_261
-262	generic_varp_262
-263	generic_varp_263
+261	generic_temp_state_261
+262	generic_temp_state_262
+263	generic_temp_state_263
 300	sa_energy
 561	jmod_flags
+675	temp_state_675
 1107	player_attack_option
 1306	npc_attack_option
 4130	fortis_colosseum_glory_highscore
