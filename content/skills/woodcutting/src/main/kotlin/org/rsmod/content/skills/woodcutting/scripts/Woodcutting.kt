@@ -156,7 +156,6 @@ constructor(
             resetAnim()
             soundSynth(synths.tree_fall_sound)
             sendLocalOverlayLoc(tree, type, respawnTime)
-            return
         }
 
         opLoc3(tree)
