@@ -14,6 +14,8 @@ private typealias stumps = WoodcuttingStumps
 
 private typealias axe_enums = WoodcuttingEnums
 
+internal typealias woodcutting_locs = WoodcuttingLocs
+
 internal object WoodcuttingTrees : LocEditor() {
     init {
         regular("achey_tree_2023", stumps.achey_stump_3371, objs.achey_tree_logs)
@@ -268,6 +270,11 @@ internal object WoodcuttingTrees : LocEditor() {
             param[success_rates] = axe_enums.hollow_tree_axes
         }
     }
+}
+
+internal object WoodcuttingLocs : LocReferences() {
+    val redwood_tree_29668 = find("redwood_tree_29668")
+    val redwood_tree_29670 = find("redwood_tree_29670")
 }
 
 internal object WoodcuttingStumps : LocReferences() {

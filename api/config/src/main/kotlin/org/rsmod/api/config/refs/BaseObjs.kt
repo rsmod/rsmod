@@ -107,6 +107,8 @@ object BaseObjs : ObjReferences() {
     val crystal_axe = find("crystal_axe")
 
     val shrimps = find("shrimps")
+    val raw_herring = find("raw_herring")
+    val herring = find("herring")
 
     val woodcutting_icon = find("dummyitem_woodcutting_icon", 2122627481130992920)
     val bank_icon = find("dummyitem_bank_icon", 7806876055985215263)
