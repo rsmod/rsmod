@@ -38,7 +38,7 @@ public class VarpTypeBuilder(public var internal: String? = null) {
         public fun merge(edit: UnpackedVarpType, base: UnpackedVarpType): UnpackedVarpType {
             val clientCode = select(edit, base, DEFAULT_CLIENT_CODE) { clientCode }
             val scope = select(edit, base, DEFAULT_SCOPE) { scope }
-            val transmit = select(edit, base, DEFAULT_TRANSMIT) { transmit }
+            val transmit = select(edit, base, null) { transmit }
             val bitProtect = select(edit, base, DEFAULT_BIT_PROTECT) { bitProtect }
             val internalId = select(edit, base, default = null) { internalId }
             val internalName = select(edit, base, default = null) { internalName }

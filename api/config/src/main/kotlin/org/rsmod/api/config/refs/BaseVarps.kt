@@ -7,9 +7,9 @@ import org.rsmod.api.type.refs.varp.VarpReferences
 typealias varps = BaseVarps
 
 object BaseVarps : VarpReferences() {
-    val generic_261 = find("generic_varp_261", 59245883)
-    val generic_262 = find("generic_varp_262", 59472864)
-    val generic_263 = find("generic_varp_263", 59699845)
+    val generic_261 = find("generic_varp_261", 59242162)
+    val generic_262 = find("generic_varp_262", 59469143)
+    val generic_263 = find("generic_varp_263", 59696124)
 
     val player_run = find("player_run", 39271563)
     val player_attack_option = find("player_attack_option", 251271828)

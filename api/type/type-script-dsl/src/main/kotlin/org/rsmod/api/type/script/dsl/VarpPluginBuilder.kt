@@ -1,5 +1,6 @@
 package org.rsmod.api.type.script.dsl
 
+import org.rsmod.annotations.InternalApi
 import org.rsmod.game.type.varp.UnpackedVarpType
 import org.rsmod.game.type.varp.VarpLifetime
 import org.rsmod.game.type.varp.VarpTransmitLevel
@@ -8,7 +9,7 @@ import org.rsmod.game.type.varp.VarpTypeBuilder
 @DslMarker private annotation class VarpBuilderDsl
 
 @VarpBuilderDsl
-public class VarpPluginBuilder(public var internal: String? = null) {
+public class VarpPluginBuilder(@InternalApi public var internal: String? = null) {
     private val backing = VarpTypeBuilder()
 
     public var clientCode: Int? by backing::clientCode
@@ -16,7 +17,7 @@ public class VarpPluginBuilder(public var internal: String? = null) {
     private var scope: VarpLifetime? by backing::scope
 
     // Varps created through this builder are usually server-side only.
-    private var transmit: VarpTransmitLevel = VarpTransmitLevel.Never
+    private var transmit: VarpTransmitLevel? = VarpTransmitLevel.Never
 
     /** If set to `true` this varp will check all associated varbits to detect bit collisions. */
     public var collisionDetection: Boolean = true
@@ -29,7 +30,7 @@ public class VarpPluginBuilder(public var internal: String? = null) {
      *   **is always sent** to the player's client whenever it changes.
      */
     public var transmitNever: Boolean
-        get() = transmit.never
+        get() = transmit?.never == true
         set(value) {
             val transmit = if (value) VarpTransmitLevel.Never else VarpTransmitLevel.OnSetAlways
             this.transmit = transmit
@@ -43,7 +44,7 @@ public class VarpPluginBuilder(public var internal: String? = null) {
      *   never sent** to the player's client.
      */
     public var transmitAlways: Boolean
-        get() = transmit.always
+        get() = transmit?.always == true
         set(value) {
             val transmit = if (value) VarpTransmitLevel.OnSetAlways else VarpTransmitLevel.Never
             this.transmit = transmit
@@ -59,7 +60,7 @@ public class VarpPluginBuilder(public var internal: String? = null) {
      *   same.
      */
     public var transmitOnDiff: Boolean
-        get() = transmit.never
+        get() = transmit?.never == true
         set(value) {
             val transmit =
                 if (value) VarpTransmitLevel.OnSetDifferent else VarpTransmitLevel.OnSetAlways
@@ -92,10 +93,16 @@ public class VarpPluginBuilder(public var internal: String? = null) {
             this.scope = scope
         }
 
+    @InternalApi
     public fun build(id: Int): UnpackedVarpType {
         backing.internal = internal
         backing.transmit = transmit
         backing.bitProtect = collisionDetection
         return backing.build(id)
+    }
+
+    @InternalApi
+    public fun defaultTransmit() {
+        transmit = null
     }
 }

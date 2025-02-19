@@ -12,6 +12,8 @@ import org.rsmod.api.type.editors.obj.ObjEditor
 import org.rsmod.api.type.editors.obj.ObjEditorResolver
 import org.rsmod.api.type.editors.struct.StructEditor
 import org.rsmod.api.type.editors.struct.StructEditorResolver
+import org.rsmod.api.type.editors.varp.VarpEditor
+import org.rsmod.api.type.editors.varp.VarpEditorResolver
 
 public class TypeEditorResolverMap
 @Inject
@@ -21,6 +23,7 @@ constructor(
     private val npcResolver: NpcEditorResolver,
     private val objResolver: ObjEditorResolver,
     private val structResolver: StructEditorResolver,
+    private val varpResolver: VarpEditorResolver,
 ) {
     private val editors = mutableListOf<TypeEditor<*, *>>()
 
@@ -87,6 +90,7 @@ constructor(
                 is NpcEditor -> npcResolver
                 is ObjEditor -> objResolver
                 is StructEditor -> structResolver
+                is VarpEditor -> varpResolver
                 else -> throw NotImplementedError("Resolver not defined for type-editor: $this")
             }
         return resolver as TypeEditorResolver<B, T>
