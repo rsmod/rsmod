@@ -59,6 +59,12 @@ public inline fun <reified V> enumVarpOrNull(
     entries: EnumEntries<V> = enumEntries(),
     nullVarValue: Int = 0,
 ): VariableTypeIntDelegate<V?> where V : Enum<V>, V : VarEnumDelegate {
+    val invalidEntry = entries.firstOrNull { it.varValue == nullVarValue }
+    require(invalidEntry == null) {
+        "Entry found with default var value ($nullVarValue), " +
+            "consider using `enumVarp` instead: $invalidEntry"
+    }
+
     val toType: (Int) -> V? = { varValue -> entries.firstOrNull { varValue == it.varValue } }
     val fromType: (V?) -> Int = { typed -> typed?.varValue ?: nullVarValue }
     return VariableTypeIntDelegate(varp, toType, fromType)
@@ -93,6 +99,12 @@ public inline fun <reified V> enumVarBitOrNull(
     entries: EnumEntries<V> = enumEntries(),
     nullVarValue: Int = 0,
 ): VariableTypeIntBitsDelegate<V?> where V : Enum<V>, V : VarEnumDelegate {
+    val invalidEntry = entries.firstOrNull { it.varValue == nullVarValue }
+    require(invalidEntry == null) {
+        "Entry found with default var value ($nullVarValue), " +
+            "consider using `enumVarBit` instead: $invalidEntry"
+    }
+
     val toType: (Int) -> V? = { varValue -> entries.firstOrNull { varValue == it.varValue } }
     val fromType: (V?) -> Int = { typed -> typed?.varValue ?: nullVarValue }
     return VariableTypeIntBitsDelegate(varBit, toType, fromType)
