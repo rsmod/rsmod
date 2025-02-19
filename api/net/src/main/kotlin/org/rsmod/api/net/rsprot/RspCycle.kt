@@ -12,7 +12,7 @@ import net.rsprot.protocol.game.outgoing.map.RebuildRegion
 import net.rsprot.protocol.game.outgoing.map.util.RebuildRegionZone
 import net.rsprot.protocol.game.outgoing.map.util.XteaProvider
 import net.rsprot.protocol.game.outgoing.misc.client.ServerTickEnd
-import net.rsprot.protocol.game.outgoing.worldentity.SetActiveWorld
+import net.rsprot.protocol.game.outgoing.worldentity.SetActiveWorldV2
 import org.rsmod.api.config.refs.baseanimsets
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.player.righthand
@@ -84,7 +84,7 @@ class RspCycle(
                 player.coords.x - player.buildArea.x,
                 player.coords.z - player.buildArea.z,
             )
-        session.queue(SetActiveWorld(SetActiveWorld.RootWorldType(player.level)))
+        session.queue(SetActiveWorldV2(SetActiveWorldV2.RootWorldType(player.level)))
         session.queue(playerInfo.toPacket())
         session.queue(origin)
         session.queue(npcInfo.toPacket(worldId))
