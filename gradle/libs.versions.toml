@@ -18,7 +18,7 @@ manes-versions = "0.52.0"
 netty = "4.1.109.Final"
 okhttp = "5.0.0-alpha.14"
 openrs2 = "0.1.0-SNAPSHOT"
-rsprot = "1.0.0-ALPHA-20250217"
+rsprot = "1.0.0-ALPHA-20250219"
 spotless = "7.0.2"
 
 [libraries]
