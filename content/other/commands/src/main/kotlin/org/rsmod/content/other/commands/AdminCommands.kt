@@ -43,6 +43,7 @@ import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 import org.rsmod.routefinder.loc.LocLayerConstants
 import org.rsmod.utils.bits.withBits
+import org.simmetrics.metrics.StringMetrics
 
 class AdminCommands
 @Inject
@@ -61,6 +62,8 @@ constructor(
     private val names: NameMapping,
 ) : PluginScript() {
     private val logger = InlineLogger()
+
+    private val levenshteinMetric = StringMetrics.levenshtein()
 
     override fun ScriptContext.startUp() {
         onCommand("master", "Max out all stats", ::master)
@@ -236,7 +239,13 @@ constructor(
     private fun invAdd(cheat: Cheat) =
         with(cheat) {
             val (typeName, countArg) = args.asTypeNameAndNumber(defaultNumber = 1)
-            val resolvedName = typeName.replace("cert_", "")
+            val normalizedName = typeName.replace("cert_", "")
+            val resolvedName =
+                if (normalizedName !in names.objs) {
+                    findClosestNameMatch(normalizedName, names.objs.keys) ?: normalizedName
+                } else {
+                    normalizedName
+                }
             val typeId = resolveArgTypeId(resolvedName, names.objs)
             if (typeId == null) {
                 player.mes("There is no obj mapped to name: `$resolvedName`")
@@ -325,6 +334,35 @@ constructor(
         } else {
             joinToString("_") to defaultNumber.toString()
         }
+
+    /*
+     * Attempts to find the closest matching name from the given `names` iterable using Levenshtein
+     * similarity.
+     *
+     * This function is experimental and currently used for the `invadd` command to determine
+     * whether approximate name matching is useful.
+     *
+     * - This method may be removed if deemed unnecessary.
+     * - No optimizations will be made unless this feature is confirmed to be useful.
+     *
+     * TODO: Evaluate if fuzzy matching is useful for `invadd`. If not, remove this function. If so,
+     *   add to other name-based commands.
+     */
+    private fun findClosestNameMatch(input: String, names: Iterable<String>): String? {
+        val normalizedInput = input.replace("_", " ")
+
+        var bestMatchScore = 0.0f
+        var bestMatchName: String? = null
+        for (name in names) {
+            val score = levenshteinMetric.compare(normalizedInput, name.replace("_", " "))
+            if (score > bestMatchScore) {
+                bestMatchScore = score
+                bestMatchName = name
+            }
+        }
+
+        return if (bestMatchScore >= 0.5) bestMatchName else null
+    }
 
     private fun ScriptContext.onCommand(
         command: String,
