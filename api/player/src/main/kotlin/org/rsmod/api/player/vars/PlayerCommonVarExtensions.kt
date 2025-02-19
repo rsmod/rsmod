@@ -22,9 +22,10 @@ public var Player.varMoveSpeed: MoveSpeed
     }
 
 public fun Player.resyncVar(varp: VarpType) {
-    if (varp.transmit) {
-        VarpSync.writeVarp(client, varp, vars[varp])
+    if (varp.transmit.never) {
+        return
     }
+    VarpSync.writeVarp(client, varp, vars[varp])
 }
 
 public fun Player.resyncVar(varBit: VarBitType): Unit = resyncVar(varBit.baseVar)

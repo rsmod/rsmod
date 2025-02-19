@@ -15,8 +15,14 @@ public class VarPlayerIntMapDelegate(
     public operator fun get(varp: VarpType): Int = vars[varp]
 
     public operator fun set(varp: VarpType, value: Int) {
+        val previous = vars.backing[varp.id]
+
         vars.backing[varp.id] = value
-        if (varp.transmit) {
+
+        val transmit = varp.transmit
+        if (transmit.always) {
+            VarpSync.writeVarp(client, varp, value)
+        } else if (transmit.onDiff && previous != value) {
             VarpSync.writeVarp(client, varp, value)
         }
     }

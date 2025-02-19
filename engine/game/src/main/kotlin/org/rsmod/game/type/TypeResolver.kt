@@ -45,6 +45,8 @@ import org.rsmod.game.type.varcon.VarConType
 import org.rsmod.game.type.varconbit.VarConBitType
 import org.rsmod.game.type.varobjbit.VarObjBitType
 import org.rsmod.game.type.varp.HashedVarpType
+import org.rsmod.game.type.varp.VarpLifetime
+import org.rsmod.game.type.varp.VarpTransmitLevel
 import org.rsmod.game.type.varp.VarpType
 
 public object TypeResolver {
@@ -340,12 +342,12 @@ public object TypeResolver {
         type.internalName = internalName
     }
 
-    public fun setTransmit(type: VarpType, transmit: Boolean) {
-        type.internalTransmit = transmit
+    public fun setScope(type: VarpType, scope: VarpLifetime) {
+        type.internalScope = scope
     }
 
-    public fun setProtect(type: VarpType, protect: Boolean) {
-        type.internalProtect = protect
+    public fun setTransmit(type: VarpType, transmit: VarpTransmitLevel) {
+        type.internalTransmit = transmit
     }
 
     public operator fun set(type: HashedVarpType, identityHash: Long) {

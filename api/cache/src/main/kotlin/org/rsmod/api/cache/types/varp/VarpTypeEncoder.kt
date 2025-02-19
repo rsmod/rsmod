@@ -22,7 +22,7 @@ public object VarpTypeEncoder {
         val packed = mutableListOf<UnpackedVarpType>()
         for (type in types) {
             // Skip server-side varps when packing into the client cache.
-            if (!type.transmit && ctx.clientOnly) {
+            if (type.transmit.never && ctx.clientOnly) {
                 continue
             }
 
@@ -59,14 +59,20 @@ public object VarpTypeEncoder {
 
     public fun encodeGame(type: UnpackedVarpType, data: ByteBuf): Unit =
         with(type) {
-            if (!transmit) {
-                data.writeByte(200)
-            }
-            if (protect) {
-                data.writeByte(201)
-            }
+            // Note: Opcodes 200-201 are free to use.
+
             if (bitProtect) {
                 data.writeByte(202)
+            }
+
+            if (scope != VarpTypeBuilder.DEFAULT_SCOPE) {
+                data.writeByte(203)
+                data.writeByte(scope.id)
+            }
+
+            if (transmit != VarpTypeBuilder.DEFAULT_TRANSMIT) {
+                data.writeByte(204)
+                data.writeByte(transmit.id)
             }
         }
 }

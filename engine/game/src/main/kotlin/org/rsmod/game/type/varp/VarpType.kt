@@ -3,8 +3,8 @@ package org.rsmod.game.type.varp
 public sealed class VarpType(
     internal var internalId: Int?,
     internal var internalName: String?,
-    internal var internalTransmit: Boolean = true,
-    internal var internalProtect: Boolean = false,
+    internal var internalScope: VarpLifetime = VarpLifetime.Perm,
+    internal var internalTransmit: VarpTransmitLevel = VarpTransmitLevel.OnSetAlways,
 ) {
     public val internalNameGet: String?
         get() = internalName
@@ -12,11 +12,11 @@ public sealed class VarpType(
     public val id: Int
         get() = internalId ?: error("`internalId` must not be null.")
 
-    public val transmit: Boolean
+    public val transmit: VarpTransmitLevel
         get() = internalTransmit
 
-    public val protect: Boolean
-        get() = internalProtect
+    public val scope: VarpLifetime
+        get() = internalScope
 }
 
 public class HashedVarpType(
@@ -34,7 +34,7 @@ public class HashedVarpType(
             "internalId=$internalId, " +
             "supposedHash=$supposedHash, " +
             "transmit=$internalTransmit, " +
-            "protect=$internalProtect" +
+            "scope=$internalScope" +
             ")"
 
     override fun equals(other: Any?): Boolean {
@@ -57,16 +57,16 @@ public class HashedVarpType(
 public class UnpackedVarpType(
     public val bitProtect: Boolean,
     public val clientCode: Int,
-    transmit: Boolean,
-    protect: Boolean,
+    scope: VarpLifetime,
+    transmit: VarpTransmitLevel,
     internalId: Int,
     internalName: String,
-) : VarpType(internalId, internalName, transmit, protect) {
+) : VarpType(internalId, internalName, scope, transmit) {
     public fun computeIdentityHash(): Long {
-        var result = clientCode.hashCode().toLong()
-        result = 61 * result + internalTransmit.hashCode()
-        result = 61 * result + internalProtect.hashCode()
-        result = 61 * result + (internalId?.hashCode()?.toLong() ?: 0)
+        var result = internalId?.hashCode()?.toLong() ?: 0L
+        result = 61 * result + scope.id.hashCode()
+        result = 61 * result + internalTransmit.id.hashCode()
+        result = 61 * result + clientCode.hashCode()
         return result and 0x7FFFFFFFFFFFFFFF
     }
 
@@ -77,7 +77,7 @@ public class UnpackedVarpType(
             "bitProtect=$bitProtect, " +
             "clientCode=$clientCode, " +
             "transmit=$internalTransmit, " +
-            "protect=$internalProtect" +
+            "scope=$internalScope" +
             ")"
 
     override fun equals(other: Any?): Boolean {
@@ -87,7 +87,7 @@ public class UnpackedVarpType(
         if (bitProtect != other.bitProtect) return false
         if (clientCode != other.clientCode) return false
         if (internalTransmit != other.internalTransmit) return false
-        if (internalProtect != other.internalProtect) return false
+        if (internalScope != other.internalScope) return false
         if (internalId != other.internalId) return false
 
         return true

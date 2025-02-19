@@ -37,7 +37,7 @@ constructor(private val nameMapping: NameMapping, private val types: VarpTypeLis
         TypeResolver[this] = internalId
 
         val cacheType = types[internalId] ?: return update(CacheTypeNotFound)
-        TypeResolver.setProtect(this, cacheType.protect)
+        TypeResolver.setScope(this, cacheType.scope)
         TypeResolver.setTransmit(this, cacheType.transmit)
 
         val cacheIdentityHash = cacheType.computeIdentityHash()

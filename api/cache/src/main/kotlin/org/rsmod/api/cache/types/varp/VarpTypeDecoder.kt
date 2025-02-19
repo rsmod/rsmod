@@ -10,6 +10,8 @@ import org.rsmod.api.cache.Js5Configs
 import org.rsmod.api.cache.util.TextUtil
 import org.rsmod.game.type.TypeResolver
 import org.rsmod.game.type.varp.UnpackedVarpType
+import org.rsmod.game.type.varp.VarpLifetime
+import org.rsmod.game.type.varp.VarpTransmitLevel
 import org.rsmod.game.type.varp.VarpTypeBuilder
 import org.rsmod.game.type.varp.VarpTypeList
 
@@ -41,9 +43,23 @@ public object VarpTypeDecoder {
         with(builder) {
             when (code) {
                 5 -> clientCode = data.readUnsignedShort()
-                200 -> transmit = false
-                201 -> protect = true
+                // TODO: Remove after a few days/weeks. Just here for backwards-compatability.
+                200 -> transmit = VarpTransmitLevel.Never
                 202 -> bitProtect = true
+                203 -> {
+                    val id = data.readByte().toInt()
+                    val scope = VarpLifetime[id]
+
+                    checkNotNull(scope) { "`VarpLifetime` for id `$id` does not exist." }
+                    this.scope = scope
+                }
+                204 -> {
+                    val id = data.readByte().toInt()
+                    val transmit = VarpTransmitLevel[id]
+
+                    checkNotNull(transmit) { "`VarpTransmitLevel` for id `$id` does not exist." }
+                    this.transmit = transmit
+                }
                 else -> throw IOException("Error unrecognised .varp config code: $code")
             }
         }

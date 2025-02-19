@@ -330,9 +330,15 @@ private fun boolToInt(bool: Boolean): Int = if (bool) 1 else 0
 private fun boolFromInt(int: Int): Boolean = int == 1
 
 private fun Player.syncVarp(varp: VarpType, value: Int) {
+    val previous = vars.backing[varp.id]
+
     vars.backing[varp.id] = value
-    if (varp.transmit) {
-        VarpSync.writeVarp(client, varp, value)
+
+    val transmit = varp.transmit
+    if (transmit.always) {
+        VarpSync.writeVarp(this, varp, value)
+    } else if (transmit.onDiff && previous != value) {
+        VarpSync.writeVarp(this, varp, value)
     }
 }
 
@@ -341,9 +347,15 @@ private fun Player.syncVarpStr(varp: VarpType, value: String?) {
 }
 
 private fun ProtectedAccess.syncVarp(varp: VarpType, value: Int) {
+    val previous = player.vars.backing[varp.id]
+
     player.vars.backing[varp.id] = value
-    if (varp.transmit) {
-        VarpSync.writeVarp(player.client, varp, value)
+
+    val transmit = varp.transmit
+    if (transmit.always) {
+        VarpSync.writeVarp(player, varp, value)
+    } else if (transmit.onDiff && previous != value) {
+        VarpSync.writeVarp(player, varp, value)
     }
 }
 
