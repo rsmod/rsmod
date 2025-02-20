@@ -52,6 +52,7 @@ public enum class ChatType(public val id: Int) {
     ModPrivateChat(7),
     FriendsChat(9),
     FriendsChatNotification(11),
+    TradeSent(12),
     Broadcast(14),
     SnapshotFeedback(26),
     ObjExamine(27),
@@ -78,6 +79,7 @@ public enum class ChatType(public val id: Int) {
     ClanWarsChallenge(110),
     GimFormGroup(111),
     GimGroupWith(112),
+    GimGroupReqTrade(113),
     Dialogue(114),
     Mesbox(115),
 }
