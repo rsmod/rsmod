@@ -11,7 +11,6 @@ import org.rsmod.game.type.inv.InvStackType
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.map.CoordGrid
 import org.rsmod.objtx.Transaction
-import org.rsmod.objtx.TransactionCancellation
 import org.rsmod.objtx.TransactionInventory
 import org.rsmod.objtx.TransactionResult
 import org.rsmod.objtx.TransactionResultList
@@ -464,7 +463,7 @@ private fun Player.denyProtectedAccess(inv: Inventory): Boolean =
 
 private fun Player.protectedAccessException(): TransactionResultList<InvObj> {
     val exception = TransactionResult.Exception("Player does not have protected access: $this")
-    return transactions.transaction(autoCommit = true) { throw TransactionCancellation(exception) }
+    return transactions.transaction(autoCommit = true) { execute { exception } }
 }
 
 private fun InvStackType.toTransactionStackType(): TransactionInventory.StackType =
