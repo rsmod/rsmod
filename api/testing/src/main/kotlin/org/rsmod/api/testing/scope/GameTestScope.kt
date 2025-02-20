@@ -740,7 +740,9 @@ constructor(
                 Multibinder.newSetBinder(binder(), XpMod::class.java)
                 bind(XpModifiers::class.java).`in`(Scopes.SINGLETON)
 
-                bind(MarketPrices::class.java).toInstance(DefaultMarketPrices)
+                bind(MarketPrices::class.java)
+                    .to(DefaultMarketPrices::class.java)
+                    .`in`(Scopes.SINGLETON)
 
                 bind(EnumTypeMapResolver::class.java)
                     .toProvider(EnumTypeMapResolverProvider::class.java)

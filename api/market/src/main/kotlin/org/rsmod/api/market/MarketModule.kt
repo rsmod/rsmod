@@ -1,9 +1,9 @@
 package org.rsmod.api.market
 
-import com.google.inject.AbstractModule
+import org.rsmod.module.ExtendedModule
 
-public object MarketModule : AbstractModule() {
-    override fun configure() {
-        bind(MarketPrices::class.java).toInstance(DefaultMarketPrices)
+public object MarketModule : ExtendedModule() {
+    override fun bind() {
+        bindBaseInstance<MarketPrices, DefaultMarketPrices>()
     }
 }
