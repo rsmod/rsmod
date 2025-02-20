@@ -11,20 +11,20 @@ import org.rsmod.content.generic.locs.gate.GateTranslations.leftGateOpen
 import org.rsmod.content.generic.locs.gate.GateTranslations.leftGateRightPair
 import org.rsmod.content.generic.locs.gate.GateTranslations.rightGateClose
 import org.rsmod.content.generic.locs.gate.GateTranslations.rightGateOpen
-import org.rsmod.game.loc.LocInfo
+import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.type.loc.UnpackedLocType
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
 class PicketGate @Inject constructor(private val locRepo: LocRepository) : PluginScript() {
     override fun ScriptContext.startUp() {
-        onOpLoc1(content.closed_left_picketgate) { openLeftGate(it.loc, it.type) }
-        onOpLoc1(content.closed_right_picketgate) { openRightGate(it.loc, it.type) }
-        onOpLoc1(content.opened_left_picketgate) { closeLeftGate(it.loc, it.type) }
-        onOpLoc1(content.opened_right_picketgate) { closeRightGate(it.loc, it.type) }
+        onOpLoc1(content.closed_left_picketgate) { openLeftGate(it.bound, it.type) }
+        onOpLoc1(content.closed_right_picketgate) { openRightGate(it.bound, it.type) }
+        onOpLoc1(content.opened_left_picketgate) { closeLeftGate(it.bound, it.type) }
+        onOpLoc1(content.opened_right_picketgate) { closeRightGate(it.bound, it.type) }
     }
 
-    private fun ProtectedAccess.openLeftGate(left: LocInfo, type: UnpackedLocType) {
+    private fun ProtectedAccess.openLeftGate(left: BoundLocInfo, type: UnpackedLocType) {
         val sound = type.param(params.opensound)
         soundSynth(sound)
 
@@ -54,7 +54,7 @@ class PicketGate @Inject constructor(private val locRepo: LocRepository) : Plugi
         }
     }
 
-    private fun ProtectedAccess.openRightGate(right: LocInfo, type: UnpackedLocType) {
+    private fun ProtectedAccess.openRightGate(right: BoundLocInfo, type: UnpackedLocType) {
         val sound = type.param(params.opensound)
         soundSynth(sound)
 
@@ -84,7 +84,7 @@ class PicketGate @Inject constructor(private val locRepo: LocRepository) : Plugi
         }
     }
 
-    private fun ProtectedAccess.closeLeftGate(left: LocInfo, type: UnpackedLocType) {
+    private fun ProtectedAccess.closeLeftGate(left: BoundLocInfo, type: UnpackedLocType) {
         val sound = type.param(params.closesound)
         soundSynth(sound)
 
@@ -114,7 +114,7 @@ class PicketGate @Inject constructor(private val locRepo: LocRepository) : Plugi
         }
     }
 
-    private fun ProtectedAccess.closeRightGate(right: LocInfo, type: UnpackedLocType) {
+    private fun ProtectedAccess.closeRightGate(right: BoundLocInfo, type: UnpackedLocType) {
         val sound = type.param(params.closesound)
         soundSynth(sound)
 

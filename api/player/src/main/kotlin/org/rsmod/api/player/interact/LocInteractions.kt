@@ -79,17 +79,17 @@ constructor(
         }
 
         val typeEvent = loc.toOp(type, multi, op)
-        if (eventBus.contains(typeEvent::class.java, type.id)) {
+        if (eventBus.contains(typeEvent::class.java, typeEvent.id)) {
             return typeEvent
         }
 
         val contentEvent = loc.toContentOp(type, multi, type.contentGroup, op)
-        if (eventBus.contains(contentEvent::class.java, type.contentGroup)) {
+        if (eventBus.contains(contentEvent::class.java, contentEvent.id)) {
             return contentEvent
         }
 
         val unimplEvent = loc.toUnimplementedOp(type, op)
-        if (eventBus.contains(unimplEvent::class.java, type.id)) {
+        if (eventBus.contains(unimplEvent::class.java, unimplEvent.id)) {
             return unimplEvent
         }
 
@@ -124,12 +124,12 @@ constructor(
         }
 
         val typeEvent = loc.toAp(type, multi, op)
-        if (eventBus.contains(typeEvent::class.java, type.id)) {
+        if (eventBus.contains(typeEvent::class.java, typeEvent.id)) {
             return typeEvent
         }
 
         val contentEvent = loc.toContentAp(type, multi, type.contentGroup, op)
-        if (eventBus.contains(contentEvent::class.java, type.contentGroup)) {
+        if (eventBus.contains(contentEvent::class.java, contentEvent.id)) {
             return contentEvent
         }
 

@@ -6,8 +6,8 @@ import org.rsmod.api.config.refs.params
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.repo.loc.LocRepository
 import org.rsmod.api.script.onOpLoc1
+import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.loc.LocAngle
-import org.rsmod.game.loc.LocInfo
 import org.rsmod.game.loc.LocShape
 import org.rsmod.game.type.loc.UnpackedLocType
 import org.rsmod.map.CoordGrid
@@ -16,11 +16,11 @@ import org.rsmod.plugin.scripts.ScriptContext
 
 class DoorScript @Inject constructor(private val locRepo: LocRepository) : PluginScript() {
     override fun ScriptContext.startUp() {
-        onOpLoc1(content.closed_single_door) { openDoor(it.loc, it.type) }
-        onOpLoc1(content.opened_single_door) { closeDoor(it.loc, it.type) }
+        onOpLoc1(content.closed_single_door) { openDoor(it.bound, it.type) }
+        onOpLoc1(content.opened_single_door) { closeDoor(it.bound, it.type) }
     }
 
-    private suspend fun ProtectedAccess.openDoor(closed: LocInfo, type: UnpackedLocType) {
+    private suspend fun ProtectedAccess.openDoor(closed: BoundLocInfo, type: UnpackedLocType) {
         val sound = type.param(params.opensound)
         soundSynth(sound)
 
@@ -38,12 +38,12 @@ class DoorScript @Inject constructor(private val locRepo: LocRepository) : Plugi
         locRepo.add(openedCoords, openedLoc, DoorConstants.DURATION, openedAngle, closed.shape)
     }
 
-    private fun LocInfo.openAngle(): LocAngle = turnAngle(rotations = 1)
+    private fun BoundLocInfo.openAngle(): LocAngle = turnAngle(rotations = 1)
 
-    private fun LocInfo.openCoords(): CoordGrid =
+    private fun BoundLocInfo.openCoords(): CoordGrid =
         DoorTranslations.translateOpen(coords, shape, angle)
 
-    private fun LocInfo.openStepAway(openedCoords: CoordGrid): CoordGrid {
+    private fun BoundLocInfo.openStepAway(openedCoords: CoordGrid): CoordGrid {
         if (shape != LocShape.WallDiagonal) {
             return CoordGrid.NULL
         }
@@ -55,7 +55,7 @@ class DoorScript @Inject constructor(private val locRepo: LocRepository) : Plugi
         }
     }
 
-    private suspend fun ProtectedAccess.closeDoor(closed: LocInfo, type: UnpackedLocType) {
+    private suspend fun ProtectedAccess.closeDoor(closed: BoundLocInfo, type: UnpackedLocType) {
         val sound = type.param(params.closesound)
         soundSynth(sound)
 
@@ -73,12 +73,12 @@ class DoorScript @Inject constructor(private val locRepo: LocRepository) : Plugi
         locRepo.add(closedCoords, closedLoc, DoorConstants.DURATION, closedAngle, closed.shape)
     }
 
-    private fun LocInfo.closeAngle(): LocAngle = turnAngle(rotations = -1)
+    private fun BoundLocInfo.closeAngle(): LocAngle = turnAngle(rotations = -1)
 
-    private fun LocInfo.closeCoords(): CoordGrid =
+    private fun BoundLocInfo.closeCoords(): CoordGrid =
         DoorTranslations.translateClose(coords, shape, angle)
 
-    private fun LocInfo.closeStepAway(closedCoords: CoordGrid): CoordGrid {
+    private fun BoundLocInfo.closeStepAway(closedCoords: CoordGrid): CoordGrid {
         if (shape != LocShape.WallDiagonal) {
             return CoordGrid.NULL
         }
