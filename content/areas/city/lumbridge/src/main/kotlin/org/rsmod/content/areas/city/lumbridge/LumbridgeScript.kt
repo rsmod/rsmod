@@ -26,7 +26,7 @@ constructor(
 ) : PluginScript() {
     override fun ScriptContext.startUp() {
         onOpLoc1(lumbridge_locs.winch) { operateWinch() }
-        onOpLoc1(lumbridge_locs.farmerfred_axe_logs) { takeAxeFromLogs(it.bound) }
+        onOpLoc1(lumbridge_locs.farmerfred_axe_logs) { takeAxeFromLogs(it.loc) }
         addSpawns()
     }
 

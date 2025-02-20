@@ -22,8 +22,8 @@ class Pickable
 constructor(private val objRepo: ObjRepository, private val locRepo: LocRepository) :
     PluginScript() {
     override fun ScriptContext.startUp() {
-        onOpLoc2(content.pickable_crop) { pickCrop(it.bound, it.type) }
-        onOpLoc2(pickable_locs.cabbage) { pickCabbage(it.bound, it.type) }
+        onOpLoc2(content.pickable_crop) { pickCrop(it.loc, it.type) }
+        onOpLoc2(pickable_locs.cabbage) { pickCabbage(it.loc, it.type) }
     }
 
     private suspend fun ProtectedAccess.pickCrop(

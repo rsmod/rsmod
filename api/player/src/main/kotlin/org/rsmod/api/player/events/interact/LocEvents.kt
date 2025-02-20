@@ -12,7 +12,7 @@ public data class MultiLocEvent(public val varp: VarpType?, public val varbit: V
 
 public sealed class LocEvents {
     public sealed class Op(
-        public val bound: BoundLocInfo,
+        public val loc: BoundLocInfo,
         public val type: UnpackedLocType,
         public val multi: MultiLocEvent?,
     ) : OpEvent(type.id.toLong())
@@ -33,7 +33,7 @@ public sealed class LocEvents {
         Op(loc, type, multi)
 
     public sealed class Ap(
-        public val bound: BoundLocInfo,
+        public val loc: BoundLocInfo,
         public val type: UnpackedLocType,
         public val multi: MultiLocEvent?,
     ) : ApEvent(type.id.toLong())
@@ -56,7 +56,7 @@ public sealed class LocEvents {
 
 public sealed class LocContentEvents {
     public sealed class Op(
-        public val bound: BoundLocInfo,
+        public val loc: BoundLocInfo,
         public val type: UnpackedLocType,
         public val multi: MultiLocEvent?,
         content: Int,
@@ -98,7 +98,7 @@ public sealed class LocContentEvents {
     ) : Op(loc, type, multi, content)
 
     public sealed class Ap(
-        public val bound: BoundLocInfo,
+        public val loc: BoundLocInfo,
         public val type: UnpackedLocType,
         public val multi: MultiLocEvent?,
         content: Int,
@@ -142,7 +142,7 @@ public sealed class LocContentEvents {
 
 public sealed class LocDefaultEvents {
     public sealed class Op(
-        public val bound: BoundLocInfo,
+        public val loc: BoundLocInfo,
         public val type: UnpackedLocType,
         public val multi: MultiLocEvent?,
     ) : OpDefaultEvent()
@@ -163,7 +163,7 @@ public sealed class LocDefaultEvents {
         Op(loc, type, multi)
 
     public sealed class Ap(
-        public val bound: BoundLocInfo,
+        public val loc: BoundLocInfo,
         public val type: UnpackedLocType,
         public val multi: MultiLocEvent?,
     ) : ApEvent(type.id.toLong())
@@ -185,7 +185,7 @@ public sealed class LocDefaultEvents {
 }
 
 public sealed class LocUnimplementedEvents {
-    public sealed class Op(public val bound: BoundLocInfo, public val type: UnpackedLocType) :
+    public sealed class Op(public val loc: BoundLocInfo, public val type: UnpackedLocType) :
         OpEvent(type.id.toLong())
 
     public class Op1(loc: BoundLocInfo, type: UnpackedLocType) : Op(loc, type)
@@ -201,7 +201,7 @@ public sealed class LocUnimplementedEvents {
 
 public class LocTEvents {
     public class Op(
-        public val bound: BoundLocInfo,
+        public val loc: BoundLocInfo,
         public val type: UnpackedLocType,
         public val multi: MultiLocEvent?,
         public val comsub: Int,
@@ -210,7 +210,7 @@ public class LocTEvents {
     ) : OpEvent((type.id.toLong() shl 32) or component.packed.toLong())
 
     public class Ap(
-        public val bound: BoundLocInfo,
+        public val loc: BoundLocInfo,
         public val type: UnpackedLocType,
         public val multi: MultiLocEvent?,
         public val comsub: Int,
@@ -221,7 +221,7 @@ public class LocTEvents {
 
 public class LocTContentEvents {
     public class Op(
-        public val bound: BoundLocInfo,
+        public val loc: BoundLocInfo,
         public val comsub: Int,
         public val objType: ObjType?,
         component: ComponentType,
@@ -229,7 +229,7 @@ public class LocTContentEvents {
     ) : OpEvent((locContent.toLong() shl 32) or component.packed.toLong())
 
     public class Ap(
-        public val bound: BoundLocInfo,
+        public val loc: BoundLocInfo,
         public val comsub: Int,
         public val objType: ObjType?,
         component: ComponentType,
@@ -239,7 +239,7 @@ public class LocTContentEvents {
 
 public class LocTDefaultEvents {
     public class Op(
-        public val bound: BoundLocInfo,
+        public val loc: BoundLocInfo,
         public val type: UnpackedLocType,
         public val multi: MultiLocEvent?,
         public val comsub: Int,
@@ -248,7 +248,7 @@ public class LocTDefaultEvents {
     ) : OpEvent(component.packed.toLong())
 
     public class Ap(
-        public val bound: BoundLocInfo,
+        public val loc: BoundLocInfo,
         public val type: UnpackedLocType,
         public val multi: MultiLocEvent?,
         public val comsub: Int,
@@ -259,7 +259,7 @@ public class LocTDefaultEvents {
 
 public class LocUEvents {
     public class Op(
-        public val bound: BoundLocInfo,
+        public val loc: BoundLocInfo,
         public val type: UnpackedLocType,
         public val multi: MultiLocEvent?,
         public val invSlot: Int,
@@ -267,7 +267,7 @@ public class LocUEvents {
     ) : OpEvent((type.id.toLong() shl 32) or objType.id.toLong())
 
     public class Ap(
-        public val bound: BoundLocInfo,
+        public val loc: BoundLocInfo,
         public val type: UnpackedLocType,
         public val multi: MultiLocEvent?,
         public val invSlot: Int,
@@ -277,7 +277,7 @@ public class LocUEvents {
 
 public class LocUContentEvents {
     public class OpType(
-        public val bound: BoundLocInfo,
+        public val loc: BoundLocInfo,
         public val type: UnpackedLocType,
         public val multi: MultiLocEvent?,
         public val invSlot: Int,
@@ -286,7 +286,7 @@ public class LocUContentEvents {
     ) : OpEvent((locContent.toLong() shl 32) or objType.id.toLong())
 
     public class ApType(
-        public val bound: BoundLocInfo,
+        public val loc: BoundLocInfo,
         public val type: UnpackedLocType,
         public val multi: MultiLocEvent?,
         public val invSlot: Int,
@@ -295,7 +295,7 @@ public class LocUContentEvents {
     ) : ApEvent((locContent.toLong() shl 32) or objType.id.toLong())
 
     public class OpContent(
-        public val bound: BoundLocInfo,
+        public val loc: BoundLocInfo,
         public val type: UnpackedLocType,
         public val multi: MultiLocEvent?,
         public val invSlot: Int,
@@ -304,7 +304,7 @@ public class LocUContentEvents {
     ) : OpEvent((locContent.toLong() shl 32) or objContent.toLong())
 
     public class ApContent(
-        public val bound: BoundLocInfo,
+        public val loc: BoundLocInfo,
         public val type: UnpackedLocType,
         public val multi: MultiLocEvent?,
         public val invSlot: Int,
@@ -315,7 +315,7 @@ public class LocUContentEvents {
 
 public class LocUDefaultEvents {
     public class OpType(
-        public val bound: BoundLocInfo,
+        public val loc: BoundLocInfo,
         public val type: UnpackedLocType,
         public val multi: MultiLocEvent?,
         public val invSlot: Int,
@@ -323,7 +323,7 @@ public class LocUDefaultEvents {
     ) : OpEvent(type.id.toLong())
 
     public class ApType(
-        public val bound: BoundLocInfo,
+        public val loc: BoundLocInfo,
         public val type: UnpackedLocType,
         public val multi: MultiLocEvent?,
         public val invSlot: Int,
@@ -331,14 +331,14 @@ public class LocUDefaultEvents {
     ) : ApEvent(type.id.toLong())
 
     public class OpContent(
-        public val bound: BoundLocInfo,
+        public val loc: BoundLocInfo,
         public val invSlot: Int,
         public val objType: UnpackedObjType,
         locContent: Int,
     ) : OpEvent(locContent.toLong())
 
     public class ApContent(
-        public val bound: BoundLocInfo,
+        public val loc: BoundLocInfo,
         public val invSlot: Int,
         public val objType: UnpackedObjType,
         locContent: Int,

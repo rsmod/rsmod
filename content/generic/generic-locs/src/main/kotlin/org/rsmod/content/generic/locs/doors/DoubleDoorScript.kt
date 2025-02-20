@@ -15,10 +15,10 @@ import org.rsmod.plugin.scripts.ScriptContext
 
 class DoubleDoorScript @Inject constructor(private val locRepo: LocRepository) : PluginScript() {
     override fun ScriptContext.startUp() {
-        onOpLoc1(content.closed_left_door) { openLeftDoor(it.bound, it.type) }
-        onOpLoc1(content.closed_right_door) { openRightDoor(it.bound, it.type) }
-        onOpLoc1(content.opened_left_door) { closeLeftDoor(it.bound, it.type) }
-        onOpLoc1(content.opened_right_door) { closeRightDoor(it.bound, it.type) }
+        onOpLoc1(content.closed_left_door) { openLeftDoor(it.loc, it.type) }
+        onOpLoc1(content.closed_right_door) { openRightDoor(it.loc, it.type) }
+        onOpLoc1(content.opened_left_door) { closeLeftDoor(it.loc, it.type) }
+        onOpLoc1(content.opened_right_door) { closeRightDoor(it.loc, it.type) }
     }
 
     private fun ProtectedAccess.openLeftDoor(left: BoundLocInfo, type: UnpackedLocType) {

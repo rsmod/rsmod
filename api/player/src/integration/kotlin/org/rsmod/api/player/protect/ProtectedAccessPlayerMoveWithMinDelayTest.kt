@@ -100,7 +100,7 @@ class ProtectedAccessPlayerMoveWithMinDelayTest {
     constructor(private val locRepo: LocRepository, private val objRepo: ObjRepository) :
         PluginScript() {
         override fun ScriptContext.startUp() {
-            onOpLoc2(wheat) { pickCrop(it.bound) }
+            onOpLoc2(wheat) { pickCrop(it.loc) }
         }
 
         private suspend fun ProtectedAccess.pickCrop(loc: BoundLocInfo) {

@@ -16,8 +16,8 @@ import org.rsmod.plugin.scripts.ScriptContext
 
 class DoorScript @Inject constructor(private val locRepo: LocRepository) : PluginScript() {
     override fun ScriptContext.startUp() {
-        onOpLoc1(content.closed_single_door) { openDoor(it.bound, it.type) }
-        onOpLoc1(content.opened_single_door) { closeDoor(it.bound, it.type) }
+        onOpLoc1(content.closed_single_door) { openDoor(it.loc, it.type) }
+        onOpLoc1(content.opened_single_door) { closeDoor(it.loc, it.type) }
     }
 
     private suspend fun ProtectedAccess.openDoor(closed: BoundLocInfo, type: UnpackedLocType) {

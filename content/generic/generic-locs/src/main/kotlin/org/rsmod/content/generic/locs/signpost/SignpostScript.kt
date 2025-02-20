@@ -20,8 +20,8 @@ class SignpostScript @Inject constructor(private val enums: EnumTypeMapResolver)
 
     override fun ScriptContext.startUp() {
         signposts = enums[SignpostEnums.signpost_directions]
-        onApLoc1(SignpostLocs.signpost) { apReadSignpost(it.bound) }
-        onOpLoc1(SignpostLocs.signpost) { readSignpost(it.bound) }
+        onApLoc1(SignpostLocs.signpost) { apReadSignpost(it.loc) }
+        onOpLoc1(SignpostLocs.signpost) { readSignpost(it.loc) }
         onIfClose(SignpostInterfaces.signpost) { player.exitSignpost() }
     }
 

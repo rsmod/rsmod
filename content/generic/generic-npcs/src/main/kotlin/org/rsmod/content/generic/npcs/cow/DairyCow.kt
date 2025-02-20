@@ -17,10 +17,10 @@ import org.rsmod.plugin.scripts.ScriptContext
 
 class DairyCow : PluginScript() {
     override fun ScriptContext.startUp() {
-        onOpLoc1(content.dairy_cow) { attemptMilkingCow(it.bound) }
-        onOpLoc2(content.dairy_cow) { stealCowbell(it.bound) }
+        onOpLoc1(content.dairy_cow) { attemptMilkingCow(it.loc) }
+        onOpLoc2(content.dairy_cow) { stealCowbell(it.loc) }
         onOpLocU(content.dairy_cow) { mes("The cow doesn't want that.") }
-        onOpLocU(content.dairy_cow, objs.bucket_empty) { attemptMilkingCow(it.bound) }
+        onOpLocU(content.dairy_cow, objs.bucket_empty) { attemptMilkingCow(it.loc) }
 
         onPlayerQueue(cow_queues.milk) { milkCow() }
     }

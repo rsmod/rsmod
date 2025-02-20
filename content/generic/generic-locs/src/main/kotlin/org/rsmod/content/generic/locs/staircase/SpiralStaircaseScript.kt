@@ -13,16 +13,16 @@ import org.rsmod.plugin.scripts.ScriptContext
 
 class SpiralStaircaseScript : PluginScript() {
     override fun ScriptContext.startUp() {
-        onOpLoc1(content.spiralstaircase_down) { climbDown(it.bound) }
-        onOpLoc1(content.spiralstaircase_up) { climbUp(it.bound) }
-        onOpLoc1(content.spiralstaircase_option) { climOption(it.bound) }
+        onOpLoc1(content.spiralstaircase_down) { climbDown(it.loc) }
+        onOpLoc1(content.spiralstaircase_up) { climbUp(it.loc) }
+        onOpLoc1(content.spiralstaircase_option) { climOption(it.loc) }
         onOpLoc2(content.spiralstaircase_option) {
             arriveDelay()
-            climbUp(it.bound)
+            climbUp(it.loc)
         }
         onOpLoc3(content.spiralstaircase_option) {
             arriveDelay()
-            climbDown(it.bound)
+            climbDown(it.loc)
         }
     }
 
