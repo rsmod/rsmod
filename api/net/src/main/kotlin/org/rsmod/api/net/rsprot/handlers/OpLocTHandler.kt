@@ -65,9 +65,9 @@ constructor(
         val speed = if (message.controlKey) player.ctrlMoveSpeed() else null
         val boundLoc = BoundLocInfo(loc, type)
         val opTrigger =
-            locInteractions.hasOpTrigger(player, boundLoc, componentType, comsub, objType, type)
+            locInteractions.hasOpTrigger(player, boundLoc, type, objType, componentType, comsub)
         val apTrigger =
-            locInteractions.hasApTrigger(player, boundLoc, componentType, comsub, objType, type)
+            locInteractions.hasApTrigger(player, boundLoc, type, objType, componentType, comsub)
         val interaction =
             InteractionLocT(
                 target = boundLoc,

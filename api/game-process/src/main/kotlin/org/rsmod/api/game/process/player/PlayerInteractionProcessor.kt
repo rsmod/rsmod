@@ -380,7 +380,7 @@ constructor(
         val comsub = interaction.comsub
         val component = interaction.component
         val objType = interaction.objType
-        val op = locTInteractions.opTrigger(player, loc, component, comsub, objType)
+        val op = locTInteractions.opTrigger(player, loc, objType, component, comsub)
         if (op != null) {
             protectedAccess.launch(player) { eventBus.publish(this, op) }
         }
@@ -391,7 +391,7 @@ constructor(
         val comsub = interaction.comsub
         val component = interaction.component
         val objType = interaction.objType
-        val ap = locTInteractions.apTrigger(player, loc, component, comsub, objType)
+        val ap = locTInteractions.apTrigger(player, loc, objType, component, comsub)
         if (ap != null) {
             protectedAccess.launch(player) { eventBus.publish(this, ap) }
         }

@@ -5,7 +5,6 @@ import org.rsmod.api.player.events.interact.ApEvent
 import org.rsmod.api.player.events.interact.LocTContentEvents
 import org.rsmod.api.player.events.interact.LocTDefaultEvents
 import org.rsmod.api.player.events.interact.LocTEvents
-import org.rsmod.api.player.events.interact.MultiLocEvent
 import org.rsmod.api.player.events.interact.OpEvent
 import org.rsmod.api.player.output.clearMapFlag
 import org.rsmod.api.player.protect.clearPendingAction
@@ -35,13 +34,13 @@ constructor(
     public fun interact(
         player: Player,
         loc: BoundLocInfo,
+        type: UnpackedLocType,
+        objType: ObjType?,
         component: ComponentType,
         comsub: Int,
-        objType: ObjType?,
-        type: UnpackedLocType,
     ) {
-        val opTrigger = hasOpTrigger(player, loc, component, comsub, objType, type)
-        val apTrigger = hasApTrigger(player, loc, component, comsub, objType, type)
+        val opTrigger = hasOpTrigger(player, loc, type, objType, component, comsub)
+        val apTrigger = hasApTrigger(player, loc, type, objType, component, comsub)
         val interaction =
             InteractionLocT(
                 target = loc,
@@ -69,34 +68,33 @@ constructor(
     public fun opTrigger(
         player: Player,
         loc: BoundLocInfo,
+        objType: ObjType?,
         component: ComponentType,
         comsub: Int,
-        objType: ObjType?,
         type: UnpackedLocType = locTypes[loc],
-        multi: MultiLocEvent? = null,
+        base: BoundLocInfo = loc,
     ): OpEvent? {
         val multiLoc = multiLoc(loc, type, player.vars)
         if (multiLoc != null) {
             val multiLocType = locTypes[multiLoc]
-            val multiLocVars = type.multiLoc()
             val multiLocTrigger =
-                opTrigger(player, multiLoc, component, comsub, objType, multiLocType, multiLocVars)
+                opTrigger(player, multiLoc, objType, component, comsub, multiLocType, base)
             if (multiLocTrigger != null) {
                 return multiLocTrigger
             }
         }
 
-        val typeEvent = LocTEvents.Op(loc, type, multi, comsub, objType, component)
+        val typeEvent = LocTEvents.Op(loc, type, base, objType, comsub, component)
         if (eventBus.contains(typeEvent::class.java, typeEvent.id)) {
             return typeEvent
         }
 
-        val contentEvent = LocTContentEvents.Op(loc, comsub, objType, component, type.contentGroup)
+        val contentEvent = LocTContentEvents.Op(loc, type, base, objType, comsub, component)
         if (eventBus.contains(contentEvent::class.java, contentEvent.id)) {
             return contentEvent
         }
 
-        val defaultEvent = LocTDefaultEvents.Op(loc, type, multi, comsub, objType, component)
+        val defaultEvent = LocTDefaultEvents.Op(loc, type, base, objType, comsub, component)
         if (eventBus.contains(defaultEvent::class.java, defaultEvent.id)) {
             return defaultEvent
         }
@@ -107,43 +105,42 @@ constructor(
     public fun hasOpTrigger(
         player: Player,
         loc: BoundLocInfo,
+        type: UnpackedLocType,
+        objType: ObjType?,
         component: ComponentType,
         comsub: Int,
-        objType: ObjType?,
-        type: UnpackedLocType,
-    ): Boolean = opTrigger(player, loc, component, comsub, objType, type) != null
+    ): Boolean = opTrigger(player, loc, objType, component, comsub, type) != null
 
     public fun apTrigger(
         player: Player,
         loc: BoundLocInfo,
+        objType: ObjType?,
         component: ComponentType,
         comsub: Int,
-        objType: ObjType?,
         type: UnpackedLocType = locTypes[loc],
-        multi: MultiLocEvent? = null,
+        base: BoundLocInfo = loc,
     ): ApEvent? {
         val multiLoc = multiLoc(loc, type, player.vars)
         if (multiLoc != null) {
             val multiLocType = locTypes[multiLoc]
-            val multiLocVars = type.multiLoc()
             val multiLocTrigger =
-                apTrigger(player, multiLoc, component, comsub, objType, multiLocType, multiLocVars)
+                apTrigger(player, multiLoc, objType, component, comsub, multiLocType, base)
             if (multiLocTrigger != null) {
                 return multiLocTrigger
             }
         }
 
-        val typeEvent = LocTEvents.Ap(loc, type, multi, comsub, objType, component)
+        val typeEvent = LocTEvents.Ap(loc, type, base, objType, comsub, component)
         if (eventBus.contains(typeEvent::class.java, typeEvent.id)) {
             return typeEvent
         }
 
-        val contentEvent = LocTContentEvents.Ap(loc, comsub, objType, component, type.contentGroup)
+        val contentEvent = LocTContentEvents.Ap(loc, type, base, objType, comsub, component)
         if (eventBus.contains(contentEvent::class.java, contentEvent.id)) {
             return contentEvent
         }
 
-        val defaultEvent = LocTDefaultEvents.Ap(loc, type, multi, comsub, objType, component)
+        val defaultEvent = LocTDefaultEvents.Ap(loc, type, base, objType, comsub, component)
         if (eventBus.contains(defaultEvent::class.java, defaultEvent.id)) {
             return defaultEvent
         }
@@ -154,11 +151,11 @@ constructor(
     public fun hasApTrigger(
         player: Player,
         loc: BoundLocInfo,
+        type: UnpackedLocType,
+        objType: ObjType?,
         component: ComponentType,
         comsub: Int,
-        objType: ObjType?,
-        type: UnpackedLocType,
-    ): Boolean = apTrigger(player, loc, component, comsub, objType, type) != null
+    ): Boolean = apTrigger(player, loc, objType, component, comsub, type) != null
 
     public fun multiLoc(
         loc: BoundLocInfo,
@@ -181,15 +178,6 @@ constructor(
             loc.copy(entity = LocEntity(multiLoc, loc.shapeId, loc.angleId))
         }
     }
-
-    private fun UnpackedLocType.multiLoc(): MultiLocEvent? =
-        if (multiVarp > 0) {
-            MultiLocEvent(varpTypes[multiVarp], null)
-        } else if (multiVarBit > 0) {
-            MultiLocEvent(null, varBitTypes[multiVarBit])
-        } else {
-            null
-        }
 
     private fun UnpackedLocType.multiVarValue(vars: VarPlayerIntMap): Int? {
         if (multiVarp > 0) {
