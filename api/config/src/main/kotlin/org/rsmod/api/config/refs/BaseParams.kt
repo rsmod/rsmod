@@ -17,6 +17,7 @@ import org.rsmod.api.type.refs.param.ParamReferences
 typealias params = BaseParams
 
 object BaseParams : ParamReferences() {
+    val attackrate: ParamInt = find("attackrate", 88742575534)
     val wear_op_index: ParamInt = find("wear_op_index", 88714906312)
     val wear_op1: ParamStr = find("wear_op1", 97133155617)
     val wear_op2: ParamStr = find("wear_op2", 97133155618)
@@ -79,7 +80,6 @@ object BaseParams : ParamReferences() {
     val bas_running: ParamSeq = find("bas_running")
     val attack_anim: ParamSeq = find("attack_anim")
     val defend_anim: ParamSeq = find("defend_anim")
-    val attackrate: ParamInt = find("attackrate")
     val equipment_sound: ParamSynth = find("equipment_sound")
     val player_op5_text: ParamStr = find("player_op5_text")
     val release_note_title: ParamStr = find("release_note_title")
