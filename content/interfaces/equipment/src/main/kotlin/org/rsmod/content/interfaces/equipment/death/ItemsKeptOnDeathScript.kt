@@ -87,9 +87,10 @@ constructor(
     private suspend fun ProtectedAccess.initChangeListener(settings: DeathSettings) {
         val update = await(ResumePauseButtonInput::class)
 
+        ifClose()
+
         // Verify the pause button input came from items kept on death interface.
         if (!update.component.isType(equip_components.items_kept_on_death_pbutton)) {
-            ifClose()
             return
         }
 
