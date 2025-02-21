@@ -136,11 +136,11 @@ class CanoeTravelling @Inject private constructor(private val cutscene: CanoeCut
                 "canoe=$canoe, station=$station"
         }
 
-        val wilderness =
-            station.currentLocation() in CanoeDestination.wilderness ||
-                destination in CanoeDestination.wilderness
-        val cutsceneType = if (wilderness) CutsceneType.Wilderness else CutsceneType.Grass
+        val destinationInWilderness = destination in CanoeDestination.wilderness
+        val startingInWilderness = station.currentLocation() in CanoeDestination.wilderness
+        val wilderness = destinationInWilderness || startingInWilderness
 
+        val cutsceneType = if (wilderness) CutsceneType.Wilderness else CutsceneType.Grass
         cutscene.start(this, destination, cutsceneType)
     }
 
