@@ -1,11 +1,11 @@
 package org.rsmod.content.interfaces.bank.scripts
 
 import jakarta.inject.Inject
+import org.rsmod.api.combat.player.WeaponSpeeds
+import org.rsmod.api.combat.player.WornBonuses
 import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.interfaces
 import org.rsmod.api.config.refs.invs
-import org.rsmod.api.player.combat.WeaponSpeeds
-import org.rsmod.api.player.combat.WornBonuses
 import org.rsmod.api.player.output.ClientScripts.mesLayerClose
 import org.rsmod.api.player.output.ClientScripts.tooltip
 import org.rsmod.api.player.startInvTransmit

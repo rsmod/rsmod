@@ -1,9 +1,9 @@
 package org.rsmod.content.interfaces.equipment.stats
 
 import jakarta.inject.Inject
+import org.rsmod.api.combat.player.WeaponSpeeds
+import org.rsmod.api.combat.player.WornBonuses
 import org.rsmod.api.market.MarketPrices
-import org.rsmod.api.player.combat.WeaponSpeeds
-import org.rsmod.api.player.combat.WornBonuses
 import org.rsmod.api.player.interact.WornInteractions
 import org.rsmod.api.player.output.ClientScripts.statGroupTooltip
 import org.rsmod.api.player.output.UpdateInventory.resendSlot

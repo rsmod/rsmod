@@ -4,6 +4,8 @@ import jakarta.inject.Inject
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
+import org.rsmod.api.combat.player.WeaponSpeeds
+import org.rsmod.api.combat.player.WornBonuses
 import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.content
 import org.rsmod.api.config.refs.invs
@@ -12,8 +14,6 @@ import org.rsmod.api.config.refs.synths
 import org.rsmod.api.invtx.invCompress
 import org.rsmod.api.invtx.invTransaction
 import org.rsmod.api.invtx.select
-import org.rsmod.api.player.combat.WeaponSpeeds
-import org.rsmod.api.player.combat.WornBonuses
 import org.rsmod.api.player.events.interact.HeldBanksideEvents
 import org.rsmod.api.player.events.interact.HeldDropEvents
 import org.rsmod.api.player.output.ClientScripts.mesLayerClose

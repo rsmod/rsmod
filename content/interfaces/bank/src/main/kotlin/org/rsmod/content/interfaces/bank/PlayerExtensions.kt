@@ -1,11 +1,11 @@
 package org.rsmod.content.interfaces.bank
 
+import org.rsmod.api.combat.player.WeaponSpeeds
+import org.rsmod.api.combat.player.WornBonuses
 import org.rsmod.api.config.refs.content
 import org.rsmod.api.config.refs.interfaces
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.config.refs.varps
-import org.rsmod.api.player.combat.WeaponSpeeds
-import org.rsmod.api.player.combat.WornBonuses
 import org.rsmod.api.player.output.ClientScripts.statGroupTooltip
 import org.rsmod.api.player.output.runClientScript
 import org.rsmod.api.player.ui.ifOpenMainSidePair

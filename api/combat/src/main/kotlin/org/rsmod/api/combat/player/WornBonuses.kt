@@ -1,4 +1,4 @@
-package org.rsmod.api.player.combat
+package org.rsmod.api.combat.player
 
 import jakarta.inject.Inject
 import org.rsmod.api.config.refs.params
