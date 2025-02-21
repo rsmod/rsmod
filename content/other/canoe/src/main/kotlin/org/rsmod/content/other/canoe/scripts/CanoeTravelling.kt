@@ -132,7 +132,7 @@ class CanoeTravelling @Inject private constructor(private val cutscene: CanoeCut
         val destinations = resolveValidDestinations(station, canoe)
         check(destination in destinations) {
             "Destination should not be available: " +
-                "destination=$destinations, expected=$destinations, " +
+                "destination=$destination, expected=$destinations, " +
                 "canoe=$canoe, station=$station"
         }
 
