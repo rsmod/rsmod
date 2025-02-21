@@ -67,7 +67,7 @@
 167	godwars_snow
 169	underwater
 170	deep_underwater
-174	fade_screen
+174	fade_overlay
 176	weak_snow
 177	medium_snow
 178	bounty_hunter_store

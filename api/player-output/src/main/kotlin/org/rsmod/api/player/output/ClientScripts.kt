@@ -20,6 +20,13 @@ public fun Player.runClientScript(id: Int, args: List<Any>) {
 }
 
 public object ClientScripts {
+    public fun ccDeleteAll(player: Player, component: ComponentType): Unit =
+        player.runClientScript(2249, component.packed)
+
+    public fun highlightingOff(player: Player): Unit = player.runClientScript(5485)
+
+    public fun highlightingOn(player: Player): Unit = player.runClientScript(5487)
+
     public fun camForceAngle(player: Player, rate: Int, rate2: Int): Unit =
         player.runClientScript(143, rate, rate2)
 

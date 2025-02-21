@@ -7,6 +7,12 @@ import org.rsmod.api.type.refs.varbit.VarBitReferences
 typealias varbits = BaseVarBits
 
 object BaseVarBits : VarBitReferences() {
+    val hide_toplevel = find("hide_toplevel", 123046394)
+    val cinematic_view = find("cinematic_view", 1045501021)
+    val minimap_compass_state = find("minimap_compass_state", 1525134627)
+    val hide_health_hud = find("hide_health_hud", 2755416909)
+
+    val accept_aid = find("accept_aid", 948780580)
     val chatbox_unlocked = find("chatbox_unlocked", 1842975981)
     val modal_widthandheight_mode = find("modal_widthandheight_mode", 2421921308)
     val hide_roofs = find("hide_roofs", 2809688060)
@@ -82,6 +88,7 @@ object BaseVarBits : VarBitReferences() {
     val augury_unlocked = find("augury_prayer_unlocked", 1237507976)
 
     /* Server-side only types */
+    val accept_aid_restore = find("accept_aid_restore")
     val bank_capacity = find("bank_capacity")
     val coal_bag_storage_count = find("coal_bag_storage_count")
     val small_pouch_storage_type = find("small_pouch_storage_type")

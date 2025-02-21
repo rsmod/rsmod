@@ -7,6 +7,8 @@ import org.rsmod.api.type.refs.interf.InterfaceReferences
 typealias interfaces = BaseInterfaces
 
 object BaseInterfaces : InterfaceReferences() {
+    val fade_overlay = find("fade_overlay", 9223372035931967580)
+
     val bank_main = find("bank", 261123712)
     val bank_side = find("bank_inventory", 1999686874)
     val bank_pin_settings = find("bank_pin_settings", 642937557)

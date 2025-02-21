@@ -6945,11 +6945,11 @@ prayer_tab:40	prayer_tab_com40
 prayer_tab:41	prayer_tab_com41
 prayer_tab:42	prayer_tab_com42
 party_drop_chest_inventory:0	party_drop_chest_inventory_com0
-fade_screen:0	fade_screen_com0
-fade_screen:1	fade_screen_com1
-fade_screen:2	fade_screen_com2
-fade_screen:3	fade_screen_com3
-fade_screen:4	fade_screen_com4
+fade_overlay:0	fade_overlay_com0
+fade_overlay:1	fade_overlay_com1
+fade_overlay:2	fade_overlay_com2
+fade_overlay:3	fade_overlay_com3
+fade_overlay:4	fade_overlay_com4
 stash_unit:0	stash_unit_com0
 stash_unit:1	stash_unit_com1
 stash_unit:2	stash_unit_com2

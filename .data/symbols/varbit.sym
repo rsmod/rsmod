@@ -49,7 +49,7 @@
 484	south_long_barrows_door
 487	zogre_flesh_eaters
 532	lost_tribe_quest
-542	hide_gameframe
+542	hide_toplevel
 571	the_giant_dwarf
 598	tree_gnome_village_spirit_tree
 607	runecraft_air_ruins_enter
@@ -114,8 +114,12 @@
 1773	travelling_on_carpet
 1782	total_quest_point_count
 1803	fairytale_i_growing_pains
+1839	canoe_state_lumbridge
+1840	canoe_state_champs_guild
+1841	canoe_state_barb_village
+1842	canoe_state_edgeville
 1843	canoe_type
-1844	canoe_being_shaped
+1844	canoe_type_confirmed
 1846	canoe_current_station
 1850	recipe_for_disaster
 1869	carried_rocks_count
@@ -561,7 +565,7 @@
 6608	spellbook_show_spells_lacking_runes
 6609	spellbook_show_teleport_spells
 6718	spellbook_filtering
-6719	minimap_state
+6719	minimap_compass_state
 6905	collection_log_selected_category
 6906	collection_log_selected_element
 6907	gender_female
@@ -649,6 +653,7 @@
 10389	slayer_more_at_stake
 10464	gravestone_multinpc
 10465	gravestone_duration
+10527	canoe_state_ferox_enclave
 10530	ferox_enclave_platform
 10532	ferox_enclave_barrier_warning
 10535	equipment_set_bonus
@@ -776,6 +781,7 @@
 12129	collection_log_element_camdozaal
 12135	side_panel_visual_appearance
 12137	spellbook_show_spells_lacking_requirements
+12139	hide_health_hud
 12233	music_area_mode
 12274	friend_login_and_logout_messages
 12276	a_night_at_the_theatre
@@ -941,7 +947,7 @@
 13982	popout_panel_desktop
 13985	warning_on_wilderness_teleport_levers
 13986	warning_on_wilderness_teleport_levers_on_high_risk_worlds
-13988	warning_on_taking_a_canoe_to_wilderness
+13988	disable_canoe_wild_pond_warning
 14021	gender
 14165	setting_hunter_trap_timers
 14166	setting_desert_water_available
@@ -1021,6 +1027,7 @@
 14604	pollnivneach_npc_name_update
 15322	trick_emote
 
+65517	accept_aid_restore
 65518	bank_capacity
 65519	coal_bag_storage_count
 65520	small_pouch_storage_count

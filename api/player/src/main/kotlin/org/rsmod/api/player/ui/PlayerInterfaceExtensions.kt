@@ -5,6 +5,7 @@ import net.rsprot.protocol.game.outgoing.interfaces.IfOpenSub
 import net.rsprot.protocol.game.outgoing.interfaces.IfOpenTop
 import net.rsprot.protocol.game.outgoing.interfaces.IfSetAnim
 import net.rsprot.protocol.game.outgoing.interfaces.IfSetEvents
+import net.rsprot.protocol.game.outgoing.interfaces.IfSetHide
 import net.rsprot.protocol.game.outgoing.interfaces.IfSetNpcHead
 import net.rsprot.protocol.game.outgoing.interfaces.IfSetNpcHeadActive
 import net.rsprot.protocol.game.outgoing.interfaces.IfSetObject
@@ -113,6 +114,9 @@ public fun Player.ifOpenMainSidePair(
 public fun Player.ifOpenOverlay(interf: InterfaceType, eventBus: EventBus): Unit =
     ifOpenSub(interf, components.overlay_target, IfSubType.Overlay, eventBus)
 
+public fun Player.ifOpenFullOverlay(interf: InterfaceType, eventBus: EventBus): Unit =
+    ifOpenSub(interf, components.fullscreen_overlay_target, IfSubType.Overlay, eventBus)
+
 /**
  * Difference from [ifCloseModals]: this function clears all weak queues for the player and closes
  * any active dialog.
@@ -202,6 +206,10 @@ public fun Player.ifSetEvents(target: ComponentType, range: IntRange, vararg eve
 
 public fun Player.ifSetText(target: ComponentType, text: String) {
     client.write(IfSetText(target.interfaceId, target.component, text))
+}
+
+public fun Player.ifSetHide(target: ComponentType, hide: Boolean) {
+    client.write(IfSetHide(target.interfaceId, target.component, hide))
 }
 
 public fun Player.ifOpenTop(topLevel: InterfaceType, eventBus: EventBus) {

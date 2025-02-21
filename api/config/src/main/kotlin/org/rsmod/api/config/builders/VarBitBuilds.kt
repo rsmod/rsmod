@@ -5,6 +5,12 @@ import org.rsmod.api.type.builders.varbit.VarBitBuilder
 
 internal object VarBitBuilds : VarBitBuilder() {
     init {
+        build("accept_aid_restore") {
+            baseVar = varps.temp_restore_65527
+            startBit = 0
+            endBit = 0
+        }
+
         build("bank_capacity") {
             baseVar = varps.inv_capacity_65530
             startBit = 0

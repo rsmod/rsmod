@@ -38,6 +38,13 @@ object BaseVarps : VarpReferences() {
     val fortis_colosseum_glory_highscore = find("fortis_colosseum_glory_highscore", 937435372)
 
     /* Server-side only types */
+    val generic_temp_coords_65529 = find("generic_temp_coords_65529")
     val inv_capacity_65530 = find("inv_capacity_65530")
     val generic_storage_65531 = find("generic_storage_65531")
+
+    /*
+     * "Restore" varps serve as temporary storage for varps that are modified temporarily and need
+     * to be restored later.
+     */
+    val temp_restore_65527 = find("temp_restore_65527")
 }

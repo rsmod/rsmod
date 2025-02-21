@@ -22,6 +22,10 @@ import org.rsmod.api.invtx.invTransaction
 import org.rsmod.api.invtx.invTransfer
 import org.rsmod.api.invtx.select
 import org.rsmod.api.market.MarketPrices
+import org.rsmod.api.player.cinematic.CameraMode
+import org.rsmod.api.player.cinematic.Cinematic
+import org.rsmod.api.player.cinematic.CompassState
+import org.rsmod.api.player.cinematic.MinimapState
 import org.rsmod.api.player.dialogue.Dialogue
 import org.rsmod.api.player.dialogue.Dialogues
 import org.rsmod.api.player.input.ResumePCountDialogInput
@@ -61,6 +65,7 @@ import org.rsmod.api.player.ui.ifDoubleobjbox
 import org.rsmod.api.player.ui.ifMenu
 import org.rsmod.api.player.ui.ifMesbox
 import org.rsmod.api.player.ui.ifObjbox
+import org.rsmod.api.player.ui.ifOpenFullOverlay
 import org.rsmod.api.player.ui.ifOpenMain
 import org.rsmod.api.player.ui.ifOpenMainModal
 import org.rsmod.api.player.ui.ifOpenMainSidePair
@@ -160,6 +165,7 @@ public class ProtectedAccess(
 
     public var actionDelay: Int by player::actionDelay
     public var skillAnimDelay: Int by player::skillAnimDelay
+    public var refaceDelay: Int by player::refaceDelay
 
     private var opHeldCallCount = 0
 
@@ -294,6 +300,10 @@ public class ProtectedAccess(
 
     public fun resetTransmog() {
         player.transmog = null
+    }
+
+    public fun rebuildAppearance() {
+        player.rebuildAppearance()
     }
 
     public fun isWithinDistance(
@@ -1990,6 +2000,85 @@ public class ProtectedAccess(
 
     public fun camReset(): Unit = Camera.camReset(player)
 
+    /* Cinematic helper functions */
+    public fun camModeClose(): Unit = Cinematic.setCameraMode(player, CameraMode.Close)
+
+    public fun camModeFar(): Unit = Cinematic.setCameraMode(player, CameraMode.Far)
+
+    public fun camModeFixed(): Unit = Cinematic.setCameraMode(player, CameraMode.Fixed)
+
+    public fun camModeReset(): Unit = Cinematic.setCameraMode(player, CameraMode.Normal)
+
+    public fun compassHideOps(): Unit = Cinematic.setCompassState(player, CompassState.HideOps)
+
+    public fun compassUnknown2(): Unit = Cinematic.setCompassState(player, CompassState.Unknown2)
+
+    public fun compassReset(): Unit = Cinematic.setCompassState(player, CompassState.Normal)
+
+    public fun minimapHideFull(): Unit = Cinematic.setMinimapState(player, MinimapState.Disabled)
+
+    public fun minimapNoOps(): Unit = Cinematic.setMinimapState(player, MinimapState.MinimapNoOp)
+
+    public fun minimapHideMap(): Unit =
+        Cinematic.setMinimapState(player, MinimapState.MinimapHidden)
+
+    public fun minimapHideCompass(): Unit =
+        Cinematic.setMinimapState(player, MinimapState.CompassHidden)
+
+    public fun minimapNoOpsHideCompass(): Unit =
+        Cinematic.setMinimapState(player, MinimapState.MinimapNoOpCompassHidden)
+
+    public fun minimapReset(): Unit = Cinematic.setMinimapState(player, MinimapState.Normal)
+
+    public fun hideTopLevel(): Unit = Cinematic.setHideToplevel(player, hide = true)
+
+    public fun showTopLevel(): Unit = Cinematic.setHideToplevel(player, hide = false)
+
+    public fun clearHealthHud(): Unit = Cinematic.clearHealthHud(player)
+
+    public fun hideHealthHud(): Unit = Cinematic.setHideHealthHud(player, hide = true)
+
+    public fun showHealthHud(): Unit = Cinematic.setHideHealthHud(player, hide = false)
+
+    public fun tempDisableAcceptAid(): Unit = Cinematic.disableAcceptAid(player)
+
+    public fun restoreLastAcceptAid(): Unit = Cinematic.restoreAcceptAid(player)
+
+    public fun hideEntityOps(): Unit = Cinematic.setHideEntityOps(player, hide = true)
+
+    public fun showEntityOps(): Unit = Cinematic.setHideEntityOps(player, hide = false)
+
+    public fun closeTopLevelTabs(eventBus: EventBus = context.eventBus): Unit =
+        Cinematic.closeToplevelTabs(player, eventBus)
+
+    public fun closeTopLevelTabsLenient(eventBus: EventBus = context.eventBus): Unit =
+        Cinematic.closeToplevelTabsLenient(player, eventBus)
+
+    public fun openTopLevelTabs(eventBus: EventBus = context.eventBus): Unit =
+        Cinematic.openTopLevelTabs(player, eventBus)
+
+    public fun fadeOverlay(
+        startColour: Int,
+        startTransparency: Int,
+        endColour: Int,
+        endTransparency: Int,
+        clientDuration: Int,
+        eventBus: EventBus = context.eventBus,
+    ): Unit =
+        Cinematic.fadeOverlay(
+            player,
+            startColour,
+            startTransparency,
+            endColour,
+            endTransparency,
+            clientDuration,
+            eventBus,
+        )
+
+    public fun closeFadeOverlay(eventBus: EventBus = context.eventBus) {
+        Cinematic.closeFadeOverlay(player, eventBus)
+    }
+
     /* Interface helper functions */
     public fun ifClose(eventBus: EventBus = context.eventBus): Unit = player.ifClose(eventBus)
 
@@ -2030,6 +2119,11 @@ public class ProtectedAccess(
         target: ComponentType,
         eventBus: EventBus = context.eventBus,
     ): Unit = player.ifOpenSub(interf, target, IfSubType.Overlay, eventBus)
+
+    public fun ifOpenFullOverlay(
+        interf: InterfaceType,
+        eventBus: EventBus = context.eventBus,
+    ): Unit = player.ifOpenFullOverlay(interf, eventBus)
 
     public fun ifOpenSub(
         interf: InterfaceType,

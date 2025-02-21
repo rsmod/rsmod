@@ -7,6 +7,11 @@ import org.rsmod.api.type.refs.comp.ComponentReferences
 typealias components = BaseComponents
 
 object BaseComponents : ComponentReferences() {
+    val fade_overlay_text = find("fade_overlay_com4", 9045250929562636923)
+
+    val hp_hud_com1 = find("hp_hud_com1", 2519922490370555174)
+    val hp_hud_com5 = find("hp_hud_com5", 7938046680512023329)
+
     val steam_side_panel_target = find("resizable_pane_com35", 4430295738042177582)
     val skills_tab_target = find("resizable_pane_com77", 3182435415241880446)
     val emote_tab_target = find("resizable_pane_com88", 3182435415241880457)
@@ -29,6 +34,7 @@ object BaseComponents : ComponentReferences() {
     val hp_hud_target = find("resizable_pane_com2", 4026873813368753075)
     val music_tab_target = find("resizable_pane_com89", 3182435415241880458)
     val overlay_target = find("resizable_pane_com18", 7699969845154582066)
+    val fullscreen_overlay_target = find("resizable_pane_com1", 4026873813368753074)
 
     val chat_dialogue_target = find("chat_com566", 1527608226813778100)
 

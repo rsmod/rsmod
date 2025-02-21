@@ -21,6 +21,9 @@
 1306	npc_attack_option
 4130	fortis_colosseum_glory_highscore
 
+65527	temp_restore_65527
+65528	canoe_station_coords
+65529	generic_temp_coords_65529
 65530	inv_capacity_65530
 65531	generic_storage_65531
 65532	bank_serverside_vars
