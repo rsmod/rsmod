@@ -29,11 +29,11 @@ constructor(
             npc.processedMapClock = mapClock.cycle
             npc.previousCoords = npc.coords
             npc.tryOrDespawn {
-                if (isNotDelayed) {
+                if (canProcess) {
                     resumePausedProcess()
                 }
                 reveal.process(this)
-                if (isNotDelayed) {
+                if (canProcess) {
                     aiTimerProcess()
                     queueProcess()
                     timerProcess()

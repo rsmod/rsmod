@@ -118,6 +118,9 @@ public sealed class PathingEntity {
     public val isNotDelayed: Boolean
         get() = !isDelayed
 
+    public val canProcess: Boolean
+        get() = isNotDelayed && !hidden
+
     public val hasMovedThisCycle: Boolean
         get() = lastMovement >= processedMapClock
 
