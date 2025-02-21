@@ -2,6 +2,7 @@ package org.rsmod.game.entity
 
 import it.unimi.dsi.fastutil.longs.LongArrayList
 import kotlin.coroutines.startCoroutine
+import org.rsmod.annotations.InternalApi
 import org.rsmod.coroutine.GameCoroutine
 import org.rsmod.coroutine.suspension.GameCoroutineSimpleCompletion
 import org.rsmod.game.entity.player.ProtectedAccessLostException
@@ -24,6 +25,7 @@ import org.rsmod.routefinder.collision.CollisionFlagMap
 import org.rsmod.routefinder.collision.CollisionStrategy
 import org.rsmod.routefinder.util.Rotations
 
+@OptIn(InternalApi::class)
 public sealed class PathingEntity {
     public abstract val avatar: PathingEntityAvatar
     public abstract val isBusy: Boolean
@@ -70,6 +72,17 @@ public sealed class PathingEntity {
     public var delay: Int = Int.MIN_VALUE
     public var lastMovement: Int = Int.MIN_VALUE
 
+    /**
+     * **Internal flag** indicating whether the entity is considered hidden.
+     *
+     * **Note:** This does **not** visually hide the entity.
+     * - To visually hide a npc, use [`NpcRepository.hide`](#).
+     * - To visually hide a player, use [`PlayerRepository.hide`](#).
+     */
+    @InternalApi(
+        "This flag is for internal use only and does not visually hide entities. " +
+            "Use `NpcRepository.hide` for npcs and `PlayerRepository.hide` for players."
+    )
     public var hidden: Boolean = false
 
     public var activeCoroutine: GameCoroutine? = null
