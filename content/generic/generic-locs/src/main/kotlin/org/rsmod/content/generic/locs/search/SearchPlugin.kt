@@ -13,6 +13,7 @@ class SearchPlugin : PluginScript() {
     override fun ScriptContext.startUp() {
         onOpLoc1(content.empty_crate) { player.search(it.type) }
         onOpLoc1(content.empty_sacks) { player.search(it.type) }
+        onOpLoc1(content.empty_boxes) { player.search(it.type) }
     }
 
     private fun Player.search(type: UnpackedLocType) {

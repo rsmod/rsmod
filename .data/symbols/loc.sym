@@ -1,8 +1,9 @@
 255	winch
 312	crop_potato
-355	stack_crate_2
-357	big_crate_2
+355	stack_crate_355
+357	big_crate_357
 358	stack_crate
+359	stack_smallboxes_359
 365	sacks
 366	big_crate
 380	bookcase

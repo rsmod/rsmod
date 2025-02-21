@@ -943,7 +943,7 @@ id = 354
 examine = 'A wooden crate for storage.'
 
 [[config]]
-loc = 'stack_crate_2'
+loc = 'stack_crate_355'
 examine = 'A wooden crate for storage.'
 
 [[config]]
@@ -951,7 +951,7 @@ id = 356
 examine = 'An old crate for storage.'
 
 [[config]]
-loc = 'big_crate_2'
+loc = 'big_crate_357'
 examine = 'An old crate for storage.'
 
 [[config]]
