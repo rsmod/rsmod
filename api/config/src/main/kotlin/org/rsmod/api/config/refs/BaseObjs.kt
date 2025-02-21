@@ -67,6 +67,7 @@ object BaseObjs : ObjReferences() {
     val grain = find("grain")
     val potato = find("potato")
     val cabbage_seed = find("cabbage_seed")
+    val egg = find("egg")
 
     val bobs_axe_flyer = find("bobs_axe_flyer")
     val bronze_pickaxe = find("bronze_pickaxe")
