@@ -155,6 +155,13 @@ public object Cinematic {
         )
 
         player.ifOpenSub(
+            interfaces.combat_tab,
+            components.combat_tab_target,
+            IfSubType.Overlay,
+            eventBus,
+        )
+
+        player.ifOpenSub(
             interfaces.skills_tab,
             components.skills_tab_target,
             IfSubType.Overlay,
