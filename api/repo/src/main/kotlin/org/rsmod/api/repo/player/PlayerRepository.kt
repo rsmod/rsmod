@@ -7,6 +7,14 @@ import org.rsmod.map.CoordGrid
 import org.rsmod.map.zone.ZoneKey
 
 public class PlayerRepository @Inject constructor(private val registry: PlayerRegistry) {
+    public fun hide(player: Player) {
+        registry.hide(player)
+    }
+
+    public fun reveal(player: Player) {
+        registry.reveal(player)
+    }
+
     public fun findAll(zone: ZoneKey): Sequence<Player> = registry.findAll(zone)
 
     public fun findAll(coords: CoordGrid): Sequence<Player> =

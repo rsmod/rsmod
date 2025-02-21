@@ -51,6 +51,18 @@ constructor(
         return PlayerRegistryResult.Delete.Success
     }
 
+    public fun hide(player: Player) {
+        player.removeBlockWalkCollision(collision, player.coords)
+        zoneDel(player, ZoneKey.from(player.coords))
+        player.hidden = true
+    }
+
+    public fun reveal(player: Player) {
+        player.addBlockWalkCollision(collision, player.coords)
+        zoneAdd(player, ZoneKey.from(player.coords))
+        player.hidden = false
+    }
+
     public fun change(player: Player, from: ZoneKey, to: ZoneKey) {
         zoneDel(player, from)
         zoneAdd(player, to)
