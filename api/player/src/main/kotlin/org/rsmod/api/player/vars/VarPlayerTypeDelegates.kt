@@ -9,6 +9,7 @@ import org.rsmod.api.utils.vars.VarEnumDelegate
 import org.rsmod.game.entity.Player
 import org.rsmod.game.type.varbit.VarBitType
 import org.rsmod.game.type.varp.VarpType
+import org.rsmod.map.CoordGrid
 import org.rsmod.utils.bits.getBits
 import org.rsmod.utils.bits.withBits
 import org.rsmod.utils.time.InlineLocalDateTime
@@ -29,6 +30,9 @@ public fun boolVarp(varp: VarpType): VariableTypeIntDelegate<Boolean> =
  */
 public fun dateVarp(varp: VarpType): VariableLocalDateTimeDelegate =
     VariableLocalDateTimeDelegate(varp)
+
+public fun typeCoordVarp(varp: VarpType): VariableTypeIntDelegate<CoordGrid> =
+    typeIntVarp(varp, ::CoordGrid, CoordGrid::packed)
 
 public fun <T> typeIntVarp(
     varp: VarpType,
@@ -75,6 +79,16 @@ public fun intVarBit(varBit: VarBitType): VariableIntBitsDelegate = VariableIntB
 
 public fun boolVarBit(varBit: VarBitType): VariableTypeIntBitsDelegate<Boolean> =
     typeIntVarBit(varBit, ::boolFromInt, ::boolToInt)
+
+public fun typeCoordVarBit(varBit: VarBitType): VariableTypeIntBitsDelegate<CoordGrid> {
+    val requiredBits = CoordGrid.LEVEL_BIT_COUNT + CoordGrid.X_BIT_COUNT + CoordGrid.Z_BIT_COUNT
+    val availableBits = varBit.bits.last - varBit.bits.first
+    require(availableBits >= requiredBits - 1) {
+        "VarBit cannot hold packed `CoordGrid` value: " +
+            "required=$requiredBits, available=$availableBits, varBit=$varBit"
+    }
+    return typeIntVarBit(varBit, ::CoordGrid, CoordGrid::packed)
+}
 
 public fun <T> typeIntVarBit(
     varBit: VarBitType,
