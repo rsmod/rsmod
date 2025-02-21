@@ -13,6 +13,7 @@ import org.rsmod.game.loc.LocEntity
 import org.rsmod.game.map.LocZoneStorage
 import org.rsmod.game.map.collision.add
 import org.rsmod.game.map.collision.addLoc
+import org.rsmod.game.map.collision.isZoneValid
 import org.rsmod.game.region.Region
 import org.rsmod.game.region.Region.Companion.INVALID_SLOT
 import org.rsmod.game.region.RegionListLarge
@@ -195,6 +196,14 @@ constructor(
         val normalBase = normalZone.toCoords()
 
         val rotation = copyZone.rotation
+
+        // Allocate collision flags for the region zone if the normal zone collision flags have
+        // been allocated. This ensures factors like underlays, which are not kept in memory,
+        // are still accounted for. Without this, a zone that only has underlays (which is still
+        // a valid zone) would not allocate collision for the region zone, even though it should.
+        if (collision.isZoneValid(normalZone)) {
+            collision.allocateIfAbsent(regionBase.x, regionBase.z, regionBase.level)
+        }
 
         // Some collision flags are embedded in the map files within the cache, rather than being
         // applied by spawned locs from the loc files.
