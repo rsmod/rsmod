@@ -59,13 +59,13 @@ constructor(
     }
 
     private fun Player.selectToggleQuickPrayers() {
-        if (queueList.contains(prayer_queues.quick_prayer)) {
+        if (prayer_queues.quick_prayer in queueList) {
             return
         }
         ifClose(eventBus)
         val toggled = protectedAccess.launch(this) { toggleQuickPrayers() }
         if (!toggled) {
-            queue(prayer_queues.quick_prayer, 1)
+            strongQueue(prayer_queues.quick_prayer, 1)
         }
     }
 

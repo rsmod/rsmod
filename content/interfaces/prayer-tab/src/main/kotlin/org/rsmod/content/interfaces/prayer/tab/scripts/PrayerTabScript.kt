@@ -44,7 +44,7 @@ private constructor(
         }
         val toggled = protectedAccess.launch(this) { togglePrayer(prayer) }
         if (!toggled && canQueuePrayer()) {
-            queue(prayer_queues.toggle, 1, args = prayer)
+            strongQueue(prayer_queues.toggle, 1, args = prayer)
         }
     }
 
