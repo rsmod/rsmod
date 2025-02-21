@@ -8,7 +8,10 @@ import org.rsmod.api.type.editors.npc.NpcEditor
 import org.rsmod.api.type.refs.npc.NpcReferences
 import org.rsmod.map.CoordGrid
 
+typealias lumbridge_npcs = LumbridgeNpcs
+
 object LumbridgeNpcs : NpcReferences() {
+    val barfy_bill = find("barfy_bill", 9056859230362656205)
     val banker = find("banker_multi_id_6520", 6234226215159038166)
     val banker_tutor = find("banker_tutor", 2745924514590361594)
     val shop_keeper = find("shop_keeper_id_2813", 4750494125510652894)
