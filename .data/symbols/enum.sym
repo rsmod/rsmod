@@ -77,6 +77,9 @@
 4664	toa_invocations
 4956	prayer_oc
 
+65514	canoe_shaping_axe_rates
+65515	canoe_shaping_axe_anims
+65516	canoe_station_axe_rates
 65517	bank_space_purchase_block_cost
 65518	skill_guide_section_vars
 65519	skill_guide_button_vars

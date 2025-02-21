@@ -199,4 +199,22 @@
 10796	emote_fortis_salute
 10797	emote_fortis_salute_loop
 
+23	canoe_shape_dragon_axe_or
+2116	canoe_shape_infernal_axe
+3301	human_canoe_push
+3302	human_canoe_paddle
+3304	canoe_fall
+3285	canoe_shape_rune_axe
+3286	canoe_shape_adamant_axe
+3287	canoe_shape_mithril_axe
+3288	canoe_shape_black_axe
+3289	canoe_shape_steel_axe
+3290	canoe_shape_iron_axe
+3291	canoe_shape_bronze_axe
+3292	canoe_shape_dragon_axe
+7263	canoe_shape_3a_axe
+8302	canoe_shape_gilded_axe
+8323	canoe_shape_crystal_axe
+8777	canoe_shape_infernal_axe_or
+
 5854	cow_eat_grass

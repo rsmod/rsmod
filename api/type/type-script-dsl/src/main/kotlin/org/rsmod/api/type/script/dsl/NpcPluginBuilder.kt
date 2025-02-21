@@ -761,6 +761,7 @@ public class NpcPluginBuilder(public var internal: String? = null) {
     public val southeast: Direction = Direction.SouthEast
     public val northeast: Direction = Direction.NorthEast
 
+    public val none: NpcMode = NpcMode.None
     public val wander: NpcMode = NpcMode.Wander
     public val patrol: NpcMode = NpcMode.Patrol
 

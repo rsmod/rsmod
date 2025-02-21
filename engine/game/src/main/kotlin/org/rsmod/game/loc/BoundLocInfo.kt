@@ -58,6 +58,9 @@ public data class BoundLocInfo(
     public val level: Int
         get() = coords.level
 
+    public val adjustedCentre: CoordGrid
+        get() = coords.translate(adjustedWidth / 2, adjustedLength / 2)
+
     /**
      * The width of the loc, adjusted based on its [angleId] and original dimensions ([width] and
      * [length]).

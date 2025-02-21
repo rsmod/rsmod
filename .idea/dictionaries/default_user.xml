@@ -22,6 +22,7 @@
       <w>compactable</w>
       <w>comsub</w>
       <w>coord</w>
+      <w>coordgrid</w>
       <w>delrith</w>
       <w>despawn</w>
       <w>donie</w>
@@ -30,8 +31,10 @@
       <w>droptrigger</w>
       <w>droptriggers</w>
       <w>dummyitem</w>
+      <w>edgeville</w>
       <w>esque</w>
       <w>falador</w>
+      <w>ferox</w>
       <w>firemaking</w>
       <w>fletching</w>
       <w>fontmetrics</w>
