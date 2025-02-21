@@ -9,6 +9,7 @@ import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.components
 import org.rsmod.api.config.refs.invs
 import org.rsmod.api.config.refs.objs
+import org.rsmod.api.config.refs.queues
 import org.rsmod.api.invtx.invAdd
 import org.rsmod.api.invtx.invAddAll
 import org.rsmod.api.invtx.invAddOrDrop
@@ -2075,8 +2076,8 @@ public class ProtectedAccess(
             eventBus,
         )
 
-    public fun closeFadeOverlay(eventBus: EventBus = context.eventBus) {
-        Cinematic.closeFadeOverlay(player, eventBus)
+    public fun closeFadeOverlay() {
+        longQueueDiscard(queues.fade_overlay_close, 2)
     }
 
     /* Interface helper functions */

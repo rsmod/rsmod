@@ -17,4 +17,5 @@ object BaseQueues : QueueReferences() {
     val generic_queue8 = find("generic_queue8")
     val generic_queue9 = find("generic_queue9")
     val generic_queue10 = find("generic_queue10")
+    val fade_overlay_close = find("fade_overlay_close")
 }
