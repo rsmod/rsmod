@@ -2076,8 +2076,8 @@ public class ProtectedAccess(
             eventBus,
         )
 
-    public fun closeFadeOverlay() {
-        longQueueDiscard(queues.fade_overlay_close, 2)
+    public fun closeFadeOverlay(cycles: Int = 3) {
+        longQueueDiscard(queues.fade_overlay_close, cycles)
     }
 
     /* Interface helper functions */
