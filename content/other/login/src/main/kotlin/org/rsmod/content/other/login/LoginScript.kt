@@ -18,16 +18,13 @@ import org.rsmod.api.player.output.MiscOutput
 import org.rsmod.api.player.output.UpdateStat
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.output.runClientScript
-import org.rsmod.api.player.righthand
 import org.rsmod.api.player.startInvTransmit
-import org.rsmod.api.player.ui.PlayerInterfaceUpdates.updateCombatTab
 import org.rsmod.api.player.vars.boolVarBit
 import org.rsmod.api.player.vars.chatboxUnlocked
 import org.rsmod.api.script.onPlayerLogIn
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Player
 import org.rsmod.game.type.obj.ObjTypeList
-import org.rsmod.game.type.obj.WeaponCategory
 import org.rsmod.game.type.stat.StatTypeList
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
@@ -84,7 +81,6 @@ constructor(
         resetCam()
         runClientScript(828, 1)
         runClientScript(5141)
-        updateCombatTab()
         sendPlayerOps()
         runClientScript(876, mapClock.cycle, 0, displayName, "REGULAR")
         sendStats()
@@ -113,16 +109,6 @@ constructor(
     private fun Player.sendRun() {
         client.write(UpdateRunWeight(0))
         client.write(UpdateRunEnergy(10_000))
-    }
-
-    private fun Player.updateCombatTab() {
-        val weaponType = righthand?.let(objTypes::get)
-        if (weaponType == null) {
-            updateCombatTab(this, null, WeaponCategory.Unarmed)
-            return
-        }
-        val category = WeaponCategory[weaponType.weaponCategory] ?: WeaponCategory.Unarmed
-        updateCombatTab(this, weaponType.name, category)
     }
 
     private fun Player.sendPlayerOps() {
