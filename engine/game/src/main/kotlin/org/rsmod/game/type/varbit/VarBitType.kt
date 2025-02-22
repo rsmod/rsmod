@@ -15,6 +15,9 @@ public sealed class VarBitType(
     public val id: Int
         get() = internalId ?: error("`internalId` must not be null.")
 
+    public val nameValue: String
+        get() = internalName ?: error("`internalName` must not be null.")
+
     public val baseVar: VarpType
         get() = internalVarp ?: error("`varp` must not be null.")
 

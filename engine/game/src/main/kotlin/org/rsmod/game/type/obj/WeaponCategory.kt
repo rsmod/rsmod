@@ -29,6 +29,13 @@ public enum class WeaponCategory(public val id: Int, public val text: String) {
     Bulwark(27, "Bulwark");
 
     public companion object {
+        public fun getOrUnarmed(id: Int?): WeaponCategory =
+            if (id == null) {
+                Unarmed
+            } else {
+                this[id] ?: Unarmed
+            }
+
         public operator fun get(id: Int): WeaponCategory? =
             when (id) {
                 Unarmed.id -> Unarmed
