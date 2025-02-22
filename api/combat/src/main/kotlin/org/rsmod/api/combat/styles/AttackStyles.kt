@@ -2,7 +2,7 @@ package org.rsmod.api.combat.styles
 
 import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap
 import jakarta.inject.Inject
-import org.rsmod.api.combat.righthand
+import org.rsmod.api.combat.player.righthand
 import org.rsmod.api.combat.styles.configs.style_enums
 import org.rsmod.api.config.refs.varps
 import org.rsmod.game.entity.Player

@@ -1,4 +1,4 @@
-package org.rsmod.api.combat
+package org.rsmod.api.combat.player
 
 import org.rsmod.game.entity.Player
 import org.rsmod.game.obj.InvObj

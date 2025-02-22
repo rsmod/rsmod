@@ -2,7 +2,6 @@ package org.rsmod.api.combat.player
 
 import jakarta.inject.Inject
 import kotlin.math.max
-import org.rsmod.api.combat.righthand
 import org.rsmod.api.combat.styles.AttackStyle
 import org.rsmod.api.combat.styles.AttackStyles
 import org.rsmod.api.config.constants
