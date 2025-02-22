@@ -42,7 +42,7 @@ constructor(private val objTypes: ObjTypeList, private val enumResolver: EnumTyp
         onIfOverlayButton(combat_components.style1) { player.changeStyle(StyleSelection.Style1) }
         onIfOverlayButton(combat_components.style2) { player.changeStyle(StyleSelection.Style2) }
         onIfOverlayButton(combat_components.style3) { player.changeStyle(StyleSelection.Style3) }
-        onWearposChange { player.onWearposChange(primaryWearpos) }
+        onWearposChange { player.onWearposChange(wearpos) }
     }
 
     private fun Player.updateCombatTab() {
