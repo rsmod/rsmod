@@ -79,6 +79,13 @@ constructor(
 
     private fun ProtectedAccess.enableQuickPrayers() {
         val quickPrayerVars = vars[prayer_varbits.selected_quick_prayers]
+
+        if (quickPrayerVars == 0) {
+            mes("You haven't selected any quick-prayers.")
+            vars[prayer_varbits.using_quick_prayers] = 0
+            return
+        }
+
         vars[prayer_varbits.enabled_prayers] = quickPrayerVars
         disableOverhead()
 
