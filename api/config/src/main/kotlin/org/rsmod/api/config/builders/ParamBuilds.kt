@@ -89,6 +89,5 @@ internal object ParamBuilds : ParamBuilder() {
         build<SeqType>("attack_anim")
         build<SeqType>("defend_anim")
         build<Int>("attackrate") { default = constants.combat_default_attackrate }
-        build<Int>("attackrate_rapid")
     }
 }

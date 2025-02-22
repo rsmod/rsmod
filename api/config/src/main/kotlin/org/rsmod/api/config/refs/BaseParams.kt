@@ -57,7 +57,6 @@ object BaseParams : ParamReferences() {
     val bankside_extraop_varbit: ParamVarBit = find("bankside_extraop_conditional_varbit")
     val bankside_extraop_bit: ParamInt = find("bankside_extraop_conditional_bit")
     val bond_item: ParamBool = find("bond_item")
-    val attackrate_rapid: ParamInt = find("attackrate_rapid")
     val bonus_slayer_meleeonly: ParamBool = find("bonus_slayer_meleeonly")
     val bonus_slayer_buff: ParamInt = find("bonus_slayer_buff")
     val bonus_undead_meleeonly: ParamBool = find("bonus_undead_meleeonly")
