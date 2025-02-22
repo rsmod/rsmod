@@ -76,6 +76,7 @@ public class HeldEquipEvents {
 
     public data class WearposChange(
         public val player: Player,
+        public val primaryWearpos: Wearpos,
         public val primaryObj: UnpackedObjType,
         public val secondaryObjs: Collection<UnpackedObjType?>,
     ) : UnboundEvent

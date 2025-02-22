@@ -53,7 +53,7 @@ constructor(private val objTypes: ObjTypeList, private val eventBus: EventBus) {
             objType: UnpackedObjType,
             eventBus: EventBus,
         ) {
-            val change = HeldEquipEvents.WearposChange(player, objType, emptyList())
+            val change = HeldEquipEvents.WearposChange(player, wearpos, objType, emptyList())
             eventBus.publish(change)
 
             val unequip = HeldEquipEvents.Unequip(player, wearpos, objType)

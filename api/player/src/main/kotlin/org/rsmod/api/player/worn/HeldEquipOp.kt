@@ -84,7 +84,8 @@ constructor(private val objTypes: ObjTypeList, private val eventBus: EventBus) {
                 return HeldEquipResult.Fail.NotEnoughInvSpace(message)
             }
 
-            val change = HeldEquipEvents.WearposChange(player, objType, unequipObjs.values)
+            val change =
+                HeldEquipEvents.WearposChange(player, primaryWearpos, objType, unequipObjs.values)
             eventBus.publish(change)
 
             for ((wearpos, type) in unequipObjs) {
