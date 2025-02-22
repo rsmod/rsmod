@@ -22,11 +22,9 @@ internal object StyleEnumBuilder : EnumBuilder() {
             styles(WeaponCategory.Bow, accurateRanged, rapid, longRange)
             styles(WeaponCategory.Claw, accurate, aggressive, controlled, defensive)
             styles(WeaponCategory.Crossbow, accurateRanged, rapid, longRange)
-            // Salamander has its third style selection as the _actual_ third component
-            // instead of fourth. This is not the case for the other 3-style weapons.
             styles(WeaponCategory.Salamander, aggressive, accurateRanged, defensive, null)
             styles(WeaponCategory.Chinchompas, accurateRanged, rapid, longRange)
-            styles(WeaponCategory.Gun, accurateRanged, aggressive)
+            styles(WeaponCategory.Gun, null, aggressive, null, null)
             styles(WeaponCategory.SlashSword, accurate, aggressive, controlled, defensive)
             styles(WeaponCategory.TwoHandedSword, accurate, aggressive, aggressive, defensive)
             styles(WeaponCategory.Pickaxe, accurate, aggressive, aggressive, defensive)
@@ -76,14 +74,6 @@ internal object StyleEnumBuilder : EnumBuilder() {
         weapon: WeaponCategory,
         one: AttackStyle,
         two: AttackStyle,
-    ) {
-        styles(weapon, one, two, null, null)
-    }
-
-    private fun EnumPluginBuilder<Int, Int>.styles(
-        weapon: WeaponCategory,
-        one: AttackStyle,
-        two: AttackStyle,
         three: AttackStyle,
     ) {
         styles(weapon, one, two, null, three)
@@ -91,12 +81,12 @@ internal object StyleEnumBuilder : EnumBuilder() {
 
     private fun EnumPluginBuilder<Int, Int>.styles(
         weapon: WeaponCategory,
-        one: AttackStyle,
+        one: AttackStyle?,
         two: AttackStyle?,
         three: AttackStyle?,
         four: AttackStyle?,
     ) {
-        val styles = PackedStyles(one.id, two?.id ?: 0, three?.id ?: 0, four?.id ?: 0)
+        val styles = PackedStyles(one?.id ?: 0, two?.id ?: 0, three?.id ?: 0, four?.id ?: 0)
         this[weapon.id] = styles.packed
     }
 }
