@@ -58,6 +58,9 @@ public class EnumTypeNonNullMap<K : Any, V : Any>(
     public val values: Collection<V>
         get() = entries.values
 
+    public val backing: Map<K, V>
+        get() = entries
+
     public fun getOrNull(key: K): V? = entries[key]
 
     public operator fun get(key: K): V =

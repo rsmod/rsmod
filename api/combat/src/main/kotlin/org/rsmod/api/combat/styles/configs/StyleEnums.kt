@@ -1,0 +1,102 @@
+package org.rsmod.api.combat.styles.configs
+
+import org.rsmod.api.combat.styles.AttackStyle
+import org.rsmod.api.combat.styles.PackedStyles
+import org.rsmod.api.type.builders.enums.EnumBuilder
+import org.rsmod.api.type.refs.enums.EnumReferences
+import org.rsmod.api.type.script.dsl.EnumPluginBuilder
+import org.rsmod.game.type.obj.WeaponCategory
+
+internal typealias style_enums = StyleEnums
+
+internal object StyleEnums : EnumReferences() {
+    val weapon_attack_styles = find<Int, Int>("weapon_attack_styles")
+}
+
+internal object StyleEnumBuilder : EnumBuilder() {
+    init {
+        build<Int, Int>("weapon_attack_styles") {
+            styles(WeaponCategory.Unarmed, accurate, aggressive, defensive)
+            styles(WeaponCategory.Axe, accurate, aggressive, aggressive, defensive)
+            styles(WeaponCategory.Blunt, accurate, aggressive, defensive)
+            styles(WeaponCategory.Bow, accurateRanged, rapid, longRange)
+            styles(WeaponCategory.Claw, accurate, aggressive, controlled, defensive)
+            styles(WeaponCategory.Crossbow, accurateRanged, rapid, longRange)
+            // Salamander has its third style selection as the _actual_ third component
+            // instead of fourth. This is not the case for the other 3-style weapons.
+            styles(WeaponCategory.Salamander, aggressive, accurateRanged, defensive, null)
+            styles(WeaponCategory.Chinchompas, accurateRanged, rapid, longRange)
+            styles(WeaponCategory.Gun, accurateRanged, aggressive)
+            styles(WeaponCategory.SlashSword, accurate, aggressive, controlled, defensive)
+            styles(WeaponCategory.TwoHandedSword, accurate, aggressive, aggressive, defensive)
+            styles(WeaponCategory.Pickaxe, accurate, aggressive, aggressive, defensive)
+            styles(WeaponCategory.Polearm, controlled, aggressive, defensive)
+            styles(WeaponCategory.Polestaff, accurate, aggressive, defensive)
+            styles(WeaponCategory.Scythe, accurate, aggressive, aggressive, defensive)
+            styles(WeaponCategory.Spear, controlled, controlled, controlled, defensive)
+            styles(WeaponCategory.Spiked, accurate, aggressive, controlled, defensive)
+            styles(WeaponCategory.StabSword, accurate, aggressive, aggressive, defensive)
+            styles(WeaponCategory.Staff, accurate, aggressive, defensive)
+            styles(WeaponCategory.Thrown, accurateRanged, rapid, longRange)
+            styles(WeaponCategory.Whip, accurate, controlled, defensive)
+            styles(WeaponCategory.BladedStaff, accurate, aggressive, defensive)
+            styles(WeaponCategory.Banner, accurate, aggressive, aggressive, defensive)
+            styles(WeaponCategory.PoweredStaff, accurate, accurate, longRange)
+            styles(WeaponCategory.Bludgeon, aggressive, aggressive, aggressive)
+            styles(WeaponCategory.Bulwark, accurate)
+        }
+    }
+
+    private val accurate
+        get() = AttackStyle.AccurateMelee
+
+    private val aggressive
+        get() = AttackStyle.AggressiveMelee
+
+    private val defensive
+        get() = AttackStyle.DefensiveMelee
+
+    private val controlled
+        get() = AttackStyle.ControlledMelee
+
+    private val accurateRanged
+        get() = AttackStyle.AccurateRanged
+
+    private val rapid
+        get() = AttackStyle.RapidRanged
+
+    private val longRange
+        get() = AttackStyle.LongRangeRanged
+
+    private fun EnumPluginBuilder<Int, Int>.styles(weapon: WeaponCategory, one: AttackStyle) {
+        styles(weapon, one, null, null, null)
+    }
+
+    private fun EnumPluginBuilder<Int, Int>.styles(
+        weapon: WeaponCategory,
+        one: AttackStyle,
+        two: AttackStyle,
+    ) {
+        styles(weapon, one, two, null, null)
+    }
+
+    private fun EnumPluginBuilder<Int, Int>.styles(
+        weapon: WeaponCategory,
+        one: AttackStyle,
+        two: AttackStyle,
+        three: AttackStyle,
+    ) {
+        styles(weapon, one, two, null, three)
+    }
+
+    private fun EnumPluginBuilder<Int, Int>.styles(
+        weapon: WeaponCategory,
+        one: AttackStyle,
+        two: AttackStyle?,
+        three: AttackStyle?,
+        four: AttackStyle?,
+    ) {
+        val styles = PackedStyles(one.id, two?.id ?: 0, three?.id ?: 0, four?.id ?: 0)
+        this[weapon.id] = styles.packed
+    }
+}

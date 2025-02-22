@@ -7,10 +7,15 @@ kotlin {
 }
 
 dependencies {
+    implementation(libs.fastutil)
     implementation(libs.guice)
     implementation(projects.api.config)
-    implementation(projects.api.player)
+    implementation(projects.api.script)
+    implementation(projects.api.type.typeBuilders)
+    implementation(projects.api.type.typeReferences)
+    implementation(projects.api.type.typeScriptDsl)
+    implementation(projects.api.utils.utilsVars)
     implementation(projects.engine.game)
     implementation(projects.engine.map)
-    implementation(projects.api.type.typeReferences)
+    implementation(projects.engine.plugin)
 }
