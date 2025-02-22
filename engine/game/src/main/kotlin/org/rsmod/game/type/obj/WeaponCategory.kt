@@ -26,7 +26,7 @@ public enum class WeaponCategory(public val id: Int, public val text: String) {
     Banner(22, "Banner"),
     PoweredStaff(23, "Powered Staff"),
     Bludgeon(26, "Bludgeon"),
-    Bulwark(27, "Bulwark");
+    Bulwark(28, "Bulwark");
 
     public companion object {
         public fun getOrUnarmed(id: Int?): WeaponCategory =
