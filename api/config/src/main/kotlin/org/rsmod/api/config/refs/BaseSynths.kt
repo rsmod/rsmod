@@ -27,6 +27,7 @@ object BaseSynths : SynthReferences() {
     val pillory_wrong = find("pillory_wrong")
     val put_down = find("put_down")
     val lever = find("lever")
+    val clobber = find("clobber")
     val pick = find("pick")
     val pick2 = find("pick2")
     val take_axe = find("take_axe")

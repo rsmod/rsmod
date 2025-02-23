@@ -2,6 +2,7 @@
 86	poof_disappear
 320	zombie_hand_emote
 323	achievement_diary_emote
+479	spec_lumber_up_red
 574	blow_kiss_emote
 678	teletab_suck_in
 712	idea_emote
@@ -36,6 +37,7 @@
 1412	premier_shield_emote_bronze
 1413	premier_shield_emote_silver
 1414	premier_shield_emote_gold
+1689	spec_lumber_up_silver
 1749	twisted_relic_unlock
 1835	trailblazer_relic_unlock
 2365	emote_party
