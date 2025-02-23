@@ -44,14 +44,14 @@ class NpcFaceSquareProcessorTest {
 
                 walk(moveDest)
                 faceSquare(faceTarget, targetWidth = 1, targetLength = 1)
-                check(faceAngle == 0)
+                check(pendingFaceAngle == 0)
 
                 process()
                 // After processing, the npc should have moved. This means the face angle should not
                 // be calculated yet, and pending face square should remain as its initial value.
                 check(routeDestination.lastOrNull() == moveDest)
                 check(hasMovedThisCycle)
-                assertEquals(-1, faceAngle)
+                assertEquals(-1, pendingFaceAngle)
                 assertEquals(faceTarget, pendingFaceSquare)
 
                 processUntilArrival(moveDest)
@@ -60,7 +60,7 @@ class NpcFaceSquareProcessorTest {
                 // angle is set due to the `hasMovedThisTick` condition.
                 process()
 
-                assertEquals(Direction.East.angle, faceAngle)
+                assertEquals(Direction.East.angle, pendingFaceAngle)
                 assertEquals(CoordGrid.NULL, pendingFaceSquare)
             }
         }
@@ -83,7 +83,7 @@ class NpcFaceSquareProcessorTest {
             faceSquare(CoordGrid(0, 0, 0, 1, 1), targetWidth = 1, targetLength = 1)
 
             process()
-            assertNotEquals(-1, faceAngle)
+            assertNotEquals(-1, pendingFaceAngle)
             assertEquals(CoordGrid.NULL, pendingFaceSquare)
         }
     }
@@ -104,15 +104,15 @@ class NpcFaceSquareProcessorTest {
                         processedMapClock++
                         facing.process(this)
                     }
-                    check(faceAngle == 0)
+                    check(pendingFaceAngle == 0)
 
                     // Set the _pending_ face square to target.
                     faceSquare(target, targetWidth = 1, targetLength = 1)
-                    check(faceAngle == 0)
+                    check(pendingFaceAngle == 0)
 
                     process()
 
-                    assertEquals(dir.angle, faceAngle)
+                    assertEquals(dir.angle, pendingFaceAngle)
                     assertEquals(CoordGrid.NULL, pendingFaceSquare)
                 }
             }

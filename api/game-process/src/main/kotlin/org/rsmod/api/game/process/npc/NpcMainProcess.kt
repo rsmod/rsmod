@@ -72,7 +72,7 @@ constructor(
     private fun Npc.faceSquareProcess() {
         val pending = pendingFaceSquare
         facing.process(this)
-        if (faceAngle != -1) {
+        if (pendingFaceAngle != -1) {
             infoProtocol.setFaceSquare(pending.x, pending.z, instant = false)
         }
     }

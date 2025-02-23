@@ -11,7 +11,7 @@ public class PlayerFaceSquareProcessor {
     }
 
     private fun Player.processFaceSquare() {
-        faceAngle = -1
+        pendingFaceAngle = -1
         if (!hasMovedThisCycle && pendingFaceSquare != CoordGrid.NULL) {
             // Seems like face angle is not transmitted if face pathing entity is set on the same
             // cycle. This can be tested by speaking to an NPC (that starts with a chatNpc dialogue)
@@ -22,7 +22,7 @@ public class PlayerFaceSquareProcessor {
             // diagonal to the npc)
             if (faceEntitySlot == -1) {
                 val angle = calculateAngle(pendingFaceSquare, pendingFaceWidth, pendingFaceLength)
-                faceAngle = angle ?: -1
+                pendingFaceAngle = angle ?: -1
             }
             resetPendingFaceSquare()
         }

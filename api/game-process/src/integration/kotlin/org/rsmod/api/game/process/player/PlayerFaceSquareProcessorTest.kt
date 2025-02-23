@@ -40,7 +40,7 @@ class PlayerFaceSquareProcessorTest {
 
                 walk(moveDest)
                 faceSquare(faceTarget, targetWidth = 1, targetLength = 1)
-                check(faceAngle == 0)
+                check(pendingFaceAngle == 0)
 
                 process()
                 // After processing, the player should have moved. This means the face angle should
@@ -48,7 +48,7 @@ class PlayerFaceSquareProcessorTest {
                 // value.
                 check(routeDestination.lastOrNull() == moveDest)
                 check(hasMovedThisCycle)
-                assertEquals(-1, faceAngle)
+                assertEquals(-1, pendingFaceAngle)
                 assertEquals(faceTarget, pendingFaceSquare)
 
                 processUntilArrival(moveDest)
@@ -58,7 +58,7 @@ class PlayerFaceSquareProcessorTest {
                 // angle is set due to the `hasMovedThisTick` condition.
                 process()
 
-                assertEquals(Direction.East.angle, faceAngle)
+                assertEquals(Direction.East.angle, pendingFaceAngle)
                 assertEquals(CoordGrid.NULL, pendingFaceSquare)
             }
         }
@@ -74,11 +74,11 @@ class PlayerFaceSquareProcessorTest {
                 processedMapClock++
                 facing.process(this)
             }
-            check(faceAngle == 0)
+            check(pendingFaceAngle == 0)
             check(pendingFaceSquare == CoordGrid.ZERO)
 
             process()
-            assertEquals(0, faceAngle)
+            assertEquals(0, pendingFaceAngle)
         }
     }
 
@@ -97,7 +97,7 @@ class PlayerFaceSquareProcessorTest {
             faceSquare(CoordGrid(0, 0, 0, 1, 1), targetWidth = 1, targetLength = 1)
 
             process()
-            assertNotEquals(-1, faceAngle)
+            assertNotEquals(-1, pendingFaceAngle)
             assertEquals(CoordGrid.NULL, pendingFaceSquare)
         }
     }
@@ -116,15 +116,15 @@ class PlayerFaceSquareProcessorTest {
                         processedMapClock++
                         facing.process(this)
                     }
-                    check(faceAngle == 0)
+                    check(pendingFaceAngle == 0)
 
                     // Set the _pending_ face square to target.
                     faceSquare(target, targetWidth = 1, targetLength = 1)
-                    check(faceAngle == 0)
+                    check(pendingFaceAngle == 0)
 
                     process()
 
-                    assertEquals(dir.angle, faceAngle)
+                    assertEquals(dir.angle, pendingFaceAngle)
                     assertEquals(CoordGrid.NULL, pendingFaceSquare)
                 }
             }

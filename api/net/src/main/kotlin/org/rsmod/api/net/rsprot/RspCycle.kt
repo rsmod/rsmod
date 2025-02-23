@@ -211,8 +211,8 @@ class RspCycle(
     }
 
     private fun Player.applyFaceAngle() {
-        if (faceAngle != -1) {
-            playerExtendedInfo.setFaceAngle(faceAngle)
+        if (pendingFaceAngle != -1) {
+            playerExtendedInfo.setFaceAngle(pendingFaceAngle)
         }
     }
 

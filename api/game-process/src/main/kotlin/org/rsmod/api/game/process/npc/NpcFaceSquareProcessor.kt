@@ -11,10 +11,10 @@ public class NpcFaceSquareProcessor {
     }
 
     private fun Npc.processFaceSquare() {
-        faceAngle = -1
+        pendingFaceAngle = -1
         if (!hasMovedThisCycle && pendingFaceSquare != CoordGrid.NULL) {
             val angle = calculateAngle(pendingFaceSquare, pendingFaceWidth, pendingFaceLength)
-            faceAngle = angle ?: -1
+            pendingFaceAngle = angle ?: -1
             resetPendingFaceSquare()
         }
     }
