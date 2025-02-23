@@ -9,6 +9,7 @@ import org.rsmod.game.client.NoopClient
 import org.rsmod.game.client.NoopClientCycle
 import org.rsmod.game.entity.player.Appearance
 import org.rsmod.game.entity.player.PublicMessage
+import org.rsmod.game.entity.util.EntityFaceAngle
 import org.rsmod.game.entity.util.PathingEntityCommon
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.inv.InventoryMap
@@ -39,7 +40,7 @@ public class Player(
     override val avatar: PlayerAvatar = PlayerAvatar(),
 ) : PathingEntity() {
     init {
-        pendingFaceSquare = CoordGrid.ZERO
+        pendingFaceAngle = EntityFaceAngle.ZERO
         pendingSequence = EntitySeq.ZERO
     }
 

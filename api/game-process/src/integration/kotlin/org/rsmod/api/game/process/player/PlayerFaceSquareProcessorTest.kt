@@ -21,6 +21,10 @@ class PlayerFaceSquareProcessorTest {
             val faceTarget = CoordGrid(0, 0, 0, 15, 15)
             it.allocateCollision(MapSquareKey(0, 0))
             withPlayer(start) {
+                // `pendingFaceAngle` is set to zero in the player init block to emulate
+                // the face-south behavior on log-in. We do not need that for this test.
+                pendingFaceAngle = EntityFaceAngle.NULL
+
                 val move = PlayerMovementProcessor(it.collision, it.routeFactory, it.stepFactory)
                 val face = PlayerFaceSquareProcessor()
                 fun process() {
@@ -75,8 +79,8 @@ class PlayerFaceSquareProcessorTest {
                 processedMapClock++
                 facing.process(this)
             }
-            check(pendingFaceAngle == EntityFaceAngle.NULL)
-            check(pendingFaceSquare == CoordGrid.ZERO)
+            check(pendingFaceSquare == CoordGrid.NULL)
+            check(pendingFaceAngle == EntityFaceAngle.ZERO)
 
             process()
             assertEquals(EntityFaceAngle.ZERO, pendingFaceAngle)
@@ -93,7 +97,7 @@ class PlayerFaceSquareProcessorTest {
                 processedMapClock++
                 facing.process(this)
             }
-            check(pendingFaceSquare != CoordGrid.NULL)
+            pendingFaceSquare = CoordGrid.ZERO
 
             faceSquare(CoordGrid(0, 0, 0, 1, 1), targetWidth = 1, targetLength = 1)
 
@@ -110,6 +114,10 @@ class PlayerFaceSquareProcessorTest {
                 val start = CoordGrid(0, 0, 0, 16, 16)
                 val target = start.translate(dir.xOff * 5, dir.zOff * 5)
                 withPlayer(start) {
+                    // `pendingFaceAngle` is set to zero in the player init block to emulate
+                    // the face-south behavior on log-in. We do not need that for this test.
+                    pendingFaceAngle = EntityFaceAngle.NULL
+
                     val facing = PlayerFaceSquareProcessor()
                     fun process() {
                         previousCoords = coords
@@ -117,7 +125,6 @@ class PlayerFaceSquareProcessorTest {
                         processedMapClock++
                         facing.process(this)
                     }
-                    check(pendingFaceAngle == EntityFaceAngle.NULL)
 
                     // Set the _pending_ face square to target.
                     faceSquare(target, targetWidth = 1, targetLength = 1)
