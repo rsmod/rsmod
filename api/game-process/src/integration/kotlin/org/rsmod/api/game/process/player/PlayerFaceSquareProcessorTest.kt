@@ -7,6 +7,7 @@ import org.rsmod.api.testing.GameTestState
 import org.rsmod.api.testing.params.TestArgs
 import org.rsmod.api.testing.params.TestArgsProvider
 import org.rsmod.api.testing.params.TestWithArgs
+import org.rsmod.game.face.EntityFaceAngle
 import org.rsmod.game.map.Direction
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.square.MapSquareKey
@@ -40,7 +41,7 @@ class PlayerFaceSquareProcessorTest {
 
                 walk(moveDest)
                 faceSquare(faceTarget, targetWidth = 1, targetLength = 1)
-                check(pendingFaceAngle == -1)
+                check(pendingFaceAngle == EntityFaceAngle.NULL)
 
                 process()
                 // After processing, the player should have moved. This means the face angle should
@@ -48,7 +49,7 @@ class PlayerFaceSquareProcessorTest {
                 // value.
                 check(routeDestination.lastOrNull() == moveDest)
                 check(hasMovedThisCycle)
-                assertEquals(-1, pendingFaceAngle)
+                assertEquals(EntityFaceAngle.NULL, pendingFaceAngle)
                 assertEquals(faceTarget, pendingFaceSquare)
 
                 processUntilArrival(moveDest)
@@ -58,7 +59,7 @@ class PlayerFaceSquareProcessorTest {
                 // angle is set due to the `hasMovedThisTick` condition.
                 process()
 
-                assertEquals(Direction.East.angle, pendingFaceAngle)
+                assertEquals(Direction.East.angle, pendingFaceAngle.intValue)
                 assertEquals(CoordGrid.NULL, pendingFaceSquare)
             }
         }
@@ -74,11 +75,11 @@ class PlayerFaceSquareProcessorTest {
                 processedMapClock++
                 facing.process(this)
             }
-            check(pendingFaceAngle == -1)
+            check(pendingFaceAngle == EntityFaceAngle.NULL)
             check(pendingFaceSquare == CoordGrid.ZERO)
 
             process()
-            assertEquals(0, pendingFaceAngle)
+            assertEquals(EntityFaceAngle.ZERO, pendingFaceAngle)
         }
     }
 
@@ -97,7 +98,7 @@ class PlayerFaceSquareProcessorTest {
             faceSquare(CoordGrid(0, 0, 0, 1, 1), targetWidth = 1, targetLength = 1)
 
             process()
-            assertNotEquals(-1, pendingFaceAngle)
+            assertNotEquals(EntityFaceAngle.NULL, pendingFaceAngle)
             assertEquals(CoordGrid.NULL, pendingFaceSquare)
         }
     }
@@ -116,15 +117,15 @@ class PlayerFaceSquareProcessorTest {
                         processedMapClock++
                         facing.process(this)
                     }
-                    check(pendingFaceAngle == -1)
+                    check(pendingFaceAngle == EntityFaceAngle.NULL)
 
                     // Set the _pending_ face square to target.
                     faceSquare(target, targetWidth = 1, targetLength = 1)
-                    check(pendingFaceAngle == -1)
+                    check(pendingFaceAngle == EntityFaceAngle.NULL)
 
                     process()
 
-                    assertEquals(dir.angle, pendingFaceAngle)
+                    assertEquals(dir.angle, pendingFaceAngle.intValue)
                     assertEquals(CoordGrid.NULL, pendingFaceSquare)
                 }
             }

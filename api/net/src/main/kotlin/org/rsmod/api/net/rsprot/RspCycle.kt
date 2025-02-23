@@ -19,6 +19,7 @@ import org.rsmod.api.player.righthand
 import org.rsmod.api.registry.region.RegionRegistry
 import org.rsmod.game.client.ClientCycle
 import org.rsmod.game.entity.Player
+import org.rsmod.game.face.EntityFaceAngle
 import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.region.Region
 import org.rsmod.game.region.zone.RegionZoneCopy
@@ -211,8 +212,8 @@ class RspCycle(
     }
 
     private fun Player.applyFaceAngle() {
-        if (pendingFaceAngle != -1) {
-            playerExtendedInfo.setFaceAngle(pendingFaceAngle)
+        if (pendingFaceAngle != EntityFaceAngle.NULL) {
+            playerExtendedInfo.setFaceAngle(pendingFaceAngle.intValue)
         }
     }
 

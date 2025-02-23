@@ -1,6 +1,7 @@
 package org.rsmod.api.game.process.npc
 
 import org.rsmod.game.entity.Npc
+import org.rsmod.game.face.EntityFaceAngle
 import org.rsmod.game.map.Direction
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.util.Bounds
@@ -13,7 +14,7 @@ public class NpcFaceSquareProcessor {
     private fun Npc.processFaceSquare() {
         if (!hasMovedThisCycle && pendingFaceSquare != CoordGrid.NULL) {
             val angle = calculateAngle(pendingFaceSquare, pendingFaceWidth, pendingFaceLength)
-            pendingFaceAngle = angle ?: -1
+            pendingFaceAngle = EntityFaceAngle.fromOrNull(angle)
             resetPendingFaceSquare()
         }
     }

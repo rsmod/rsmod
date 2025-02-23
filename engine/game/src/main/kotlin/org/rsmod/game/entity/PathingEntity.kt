@@ -6,6 +6,7 @@ import org.rsmod.annotations.InternalApi
 import org.rsmod.coroutine.GameCoroutine
 import org.rsmod.coroutine.suspension.GameCoroutineSimpleCompletion
 import org.rsmod.game.entity.player.ProtectedAccessLostException
+import org.rsmod.game.face.EntityFaceAngle
 import org.rsmod.game.face.EntityFaceTarget
 import org.rsmod.game.interact.Interaction
 import org.rsmod.game.loc.BoundLocInfo
@@ -97,7 +98,7 @@ public sealed class PathingEntity {
     public var lastProcessedZone: ZoneKey = ZoneKey.NULL
 
     public var faceEntity: EntityFaceTarget = EntityFaceTarget.NULL
-    public var pendingFaceAngle: Int = -1
+    public var pendingFaceAngle: EntityFaceAngle = EntityFaceAngle.NULL
 
     public var pendingFaceSquare: CoordGrid = CoordGrid.NULL
     public var pendingFaceWidth: Int = 1
