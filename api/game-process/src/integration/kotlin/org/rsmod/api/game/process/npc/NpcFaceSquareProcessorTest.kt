@@ -44,7 +44,7 @@ class NpcFaceSquareProcessorTest {
 
                 walk(moveDest)
                 faceSquare(faceTarget, targetWidth = 1, targetLength = 1)
-                check(pendingFaceAngle == 0)
+                check(pendingFaceAngle == -1)
 
                 process()
                 // After processing, the npc should have moved. This means the face angle should not
@@ -104,11 +104,11 @@ class NpcFaceSquareProcessorTest {
                         processedMapClock++
                         facing.process(this)
                     }
-                    check(pendingFaceAngle == 0)
+                    check(pendingFaceAngle == -1)
 
                     // Set the _pending_ face square to target.
                     faceSquare(target, targetWidth = 1, targetLength = 1)
-                    check(pendingFaceAngle == 0)
+                    check(pendingFaceAngle == -1)
 
                     process()
 

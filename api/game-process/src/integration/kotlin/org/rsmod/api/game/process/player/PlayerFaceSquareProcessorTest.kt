@@ -40,7 +40,7 @@ class PlayerFaceSquareProcessorTest {
 
                 walk(moveDest)
                 faceSquare(faceTarget, targetWidth = 1, targetLength = 1)
-                check(pendingFaceAngle == 0)
+                check(pendingFaceAngle == -1)
 
                 process()
                 // After processing, the player should have moved. This means the face angle should
@@ -74,7 +74,7 @@ class PlayerFaceSquareProcessorTest {
                 processedMapClock++
                 facing.process(this)
             }
-            check(pendingFaceAngle == 0)
+            check(pendingFaceAngle == -1)
             check(pendingFaceSquare == CoordGrid.ZERO)
 
             process()
@@ -116,11 +116,11 @@ class PlayerFaceSquareProcessorTest {
                         processedMapClock++
                         facing.process(this)
                     }
-                    check(pendingFaceAngle == 0)
+                    check(pendingFaceAngle == -1)
 
                     // Set the _pending_ face square to target.
                     faceSquare(target, targetWidth = 1, targetLength = 1)
-                    check(pendingFaceAngle == 0)
+                    check(pendingFaceAngle == -1)
 
                     process()
 

@@ -39,6 +39,7 @@ constructor(
     }
 
     private fun Npc.cleanUpPendingUpdates() {
+        pendingFaceAngle = -1
         pendingSequence = EntitySeq.NULL
         pendingSpotanims.clear()
     }

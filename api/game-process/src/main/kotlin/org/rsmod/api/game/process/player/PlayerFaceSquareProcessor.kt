@@ -11,7 +11,6 @@ public class PlayerFaceSquareProcessor {
     }
 
     private fun Player.processFaceSquare() {
-        pendingFaceAngle = -1
         if (!hasMovedThisCycle && pendingFaceSquare != CoordGrid.NULL) {
             // Seems like face angle is not transmitted if face pathing entity is set on the same
             // cycle. This can be tested by speaking to an NPC (that starts with a chatNpc dialogue)

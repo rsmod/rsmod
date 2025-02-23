@@ -70,6 +70,7 @@ constructor(
     }
 
     private fun Player.cleanUpPendingUpdates() {
+        pendingFaceAngle = -1
         pendingSequence = EntitySeq.NULL
         pendingSpotanims.clear()
         appearance.clearRebuildFlag()

@@ -101,7 +101,7 @@ public sealed class PathingEntity {
     public var pendingFaceSquare: CoordGrid = CoordGrid.NULL
     public var pendingFaceWidth: Int = 1
     public var pendingFaceLength: Int = 1
-    public var pendingFaceAngle: Int = 0
+    public var pendingFaceAngle: Int = -1
 
     public var pendingSequence: EntitySeq = EntitySeq.NULL
     public val pendingSpotanims: LongArrayList = LongArrayList()

@@ -11,7 +11,6 @@ public class NpcFaceSquareProcessor {
     }
 
     private fun Npc.processFaceSquare() {
-        pendingFaceAngle = -1
         if (!hasMovedThisCycle && pendingFaceSquare != CoordGrid.NULL) {
             val angle = calculateAngle(pendingFaceSquare, pendingFaceWidth, pendingFaceLength)
             pendingFaceAngle = angle ?: -1
