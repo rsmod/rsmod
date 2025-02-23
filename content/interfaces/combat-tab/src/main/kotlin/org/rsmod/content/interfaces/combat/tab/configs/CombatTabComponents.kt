@@ -10,4 +10,7 @@ object CombatTabComponents : ComponentReferences() {
     val style2 = find("combat_tab_com13", 4786378263585440964)
     val style3 = find("combat_tab_com17", 4365604003166348602)
     val auto_retaliate = find("combat_tab_com31", 6232502627085836658)
+    val special_attack = find("combat_tab_com38", 5418117387536405546)
+
+    val special_attack_orb = find("orbs_com35", 4900391869574997453)
 }
