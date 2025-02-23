@@ -1,9 +1,8 @@
-package org.rsmod.game.entity.shared
+package org.rsmod.game.entity.util
 
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.PathingEntity
 import org.rsmod.game.entity.Player
-import org.rsmod.game.face.EntityFaceTarget
 import org.rsmod.game.map.collision.isZoneValid
 import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.movement.RouteRequestCoord

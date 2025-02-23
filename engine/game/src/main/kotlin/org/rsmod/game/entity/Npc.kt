@@ -2,7 +2,7 @@ package org.rsmod.game.entity
 
 import org.rsmod.game.entity.npc.NpcInfoProtocol
 import org.rsmod.game.entity.npc.NpcMode
-import org.rsmod.game.entity.shared.PathingEntityCommon
+import org.rsmod.game.entity.util.PathingEntityCommon
 import org.rsmod.game.map.Direction
 import org.rsmod.game.movement.BlockWalk
 import org.rsmod.game.movement.MoveRestrict

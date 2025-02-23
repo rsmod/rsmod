@@ -1,7 +1,7 @@
 package org.rsmod.api.game.process.npc
 
 import org.rsmod.game.entity.Npc
-import org.rsmod.game.face.EntityFaceAngle
+import org.rsmod.game.entity.util.EntityFaceAngle
 import org.rsmod.game.map.Direction
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.util.Bounds

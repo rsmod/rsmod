@@ -1,4 +1,4 @@
-package org.rsmod.game.face
+package org.rsmod.game.entity.util
 
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player

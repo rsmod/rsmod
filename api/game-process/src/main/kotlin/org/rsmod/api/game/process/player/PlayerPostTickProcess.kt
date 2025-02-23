@@ -9,7 +9,7 @@ import org.rsmod.api.registry.player.PlayerRegistry
 import org.rsmod.api.utils.logging.GameExceptionHandler
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.PlayerList
-import org.rsmod.game.face.EntityFaceAngle
+import org.rsmod.game.entity.util.EntityFaceAngle
 import org.rsmod.game.seq.EntitySeq
 import org.rsmod.map.zone.ZoneKey
 

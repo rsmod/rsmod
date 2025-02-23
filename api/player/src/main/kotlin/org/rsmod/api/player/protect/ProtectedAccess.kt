@@ -98,7 +98,7 @@ import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.PathingEntity
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.player.ProtectedAccessLostException
-import org.rsmod.game.entity.shared.PathingEntityCommon
+import org.rsmod.game.entity.util.PathingEntityCommon
 import org.rsmod.game.interact.HeldOp
 import org.rsmod.game.interact.InteractionOp
 import org.rsmod.game.inv.Inventory

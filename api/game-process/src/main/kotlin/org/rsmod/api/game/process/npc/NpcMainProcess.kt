@@ -8,7 +8,7 @@ import org.rsmod.api.utils.logging.GameExceptionHandler
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.NpcList
-import org.rsmod.game.face.EntityFaceAngle
+import org.rsmod.game.entity.util.EntityFaceAngle
 
 public class NpcMainProcess
 @Inject

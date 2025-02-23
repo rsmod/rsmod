@@ -1,4 +1,4 @@
-package org.rsmod.game.face
+package org.rsmod.game.entity.util
 
 @JvmInline
 public value class EntityFaceAngle(public val intValue: Int) {

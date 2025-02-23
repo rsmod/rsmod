@@ -6,8 +6,8 @@ import org.rsmod.annotations.InternalApi
 import org.rsmod.coroutine.GameCoroutine
 import org.rsmod.coroutine.suspension.GameCoroutineSimpleCompletion
 import org.rsmod.game.entity.player.ProtectedAccessLostException
-import org.rsmod.game.face.EntityFaceAngle
-import org.rsmod.game.face.EntityFaceTarget
+import org.rsmod.game.entity.util.EntityFaceAngle
+import org.rsmod.game.entity.util.EntityFaceTarget
 import org.rsmod.game.interact.Interaction
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.loc.LocInfo

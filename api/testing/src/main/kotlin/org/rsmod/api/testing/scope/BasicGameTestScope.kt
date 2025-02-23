@@ -22,7 +22,7 @@ import org.rsmod.game.entity.PathingEntityAvatar
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.PlayerList
 import org.rsmod.game.entity.player.SessionStateEvent
-import org.rsmod.game.entity.shared.PathingEntityCommon
+import org.rsmod.game.entity.util.PathingEntityCommon
 import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.movement.RouteRequestPathingEntity
 import org.rsmod.map.CoordGrid

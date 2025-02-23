@@ -9,7 +9,7 @@ import org.rsmod.api.testing.factory.npcTypeFactory
 import org.rsmod.api.testing.params.TestArgs
 import org.rsmod.api.testing.params.TestArgsProvider
 import org.rsmod.api.testing.params.TestWithArgs
-import org.rsmod.game.face.EntityFaceAngle
+import org.rsmod.game.entity.util.EntityFaceAngle
 import org.rsmod.game.map.Direction
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.square.MapSquareKey

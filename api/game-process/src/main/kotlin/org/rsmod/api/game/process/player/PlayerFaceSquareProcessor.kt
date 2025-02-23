@@ -1,8 +1,8 @@
 package org.rsmod.api.game.process.player
 
 import org.rsmod.game.entity.Player
-import org.rsmod.game.face.EntityFaceAngle
-import org.rsmod.game.face.EntityFaceTarget
+import org.rsmod.game.entity.util.EntityFaceAngle
+import org.rsmod.game.entity.util.EntityFaceTarget
 import org.rsmod.game.map.Direction
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.util.Bounds

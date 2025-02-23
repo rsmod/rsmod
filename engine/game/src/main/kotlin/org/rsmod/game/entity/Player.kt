@@ -9,7 +9,7 @@ import org.rsmod.game.client.NoopClient
 import org.rsmod.game.client.NoopClientCycle
 import org.rsmod.game.entity.player.Appearance
 import org.rsmod.game.entity.player.PublicMessage
-import org.rsmod.game.entity.shared.PathingEntityCommon
+import org.rsmod.game.entity.util.PathingEntityCommon
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.inv.InventoryMap
 import org.rsmod.game.queue.PlayerQueueList
