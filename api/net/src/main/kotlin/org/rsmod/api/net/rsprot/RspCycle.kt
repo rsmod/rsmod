@@ -75,6 +75,7 @@ class RspCycle(
         player.applyFaceAngle()
         player.applyAnim()
         player.applySpotanims()
+        player.applySay()
         player.syncAppearance(objTypes)
     }
 
@@ -231,6 +232,12 @@ class RspCycle(
             val (id, delay, height, slot) = EntitySpotanim(packed)
             playerExtendedInfo.setSpotAnim(slot, id, delay, height)
         }
+    }
+
+    private fun Player.applySay() {
+        val text = pendingSay ?: return
+        pendingSay = null
+        playerExtendedInfo.setSay(text)
     }
 
     private fun Player.syncAppearance(objTypes: ObjTypeList) {

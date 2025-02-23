@@ -83,6 +83,7 @@ public class Player(
     public var xpRate: Double = 1.0
 
     public var publicMessage: PublicMessage? = null
+    public var pendingSay: String? = null
     public var regionUid: Int? = null
 
     // The last coordinates the player has occupied, outside the region working area.
@@ -202,6 +203,10 @@ public class Player(
     public fun faceNpc(target: Npc): Unit = PathingEntityCommon.faceNpc(this, target)
 
     public fun resetFaceEntity(): Unit = PathingEntityCommon.resetFaceEntity(this)
+
+    public fun say(text: String) {
+        this.pendingSay = text
+    }
 
     public fun rebuildAppearance() {
         appearance.rebuild = true

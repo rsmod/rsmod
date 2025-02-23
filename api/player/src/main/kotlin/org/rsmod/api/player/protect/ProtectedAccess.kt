@@ -295,6 +295,10 @@ public class ProtectedAccess(
         player.spotanim(spot, delay, height, slot)
     }
 
+    public fun say(text: String) {
+        player.say(text)
+    }
+
     public fun transmog(npcType: NpcType, npcTypeList: NpcTypeList = context.npcTypes) {
         player.transmog = npcTypeList[npcType]
     }
