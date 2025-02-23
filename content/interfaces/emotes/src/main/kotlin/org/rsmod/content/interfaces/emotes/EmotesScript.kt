@@ -369,6 +369,7 @@ private constructor(
 
         playAnim(seq, spotanim)
         delay(seq)
+        rebuildAppearance()
     }
 
     private suspend fun ProtectedAccess.achievementDiaryCapeEmote() {
@@ -392,6 +393,7 @@ private constructor(
         npcRepo.add(npc, duration = 30)
         npc.anim(seqs.achievement_diary_cape_npc_anim)
         delay(31)
+        rebuildAppearance()
     }
 
     private fun ProtectedAccess.airGuitarEmote() {
