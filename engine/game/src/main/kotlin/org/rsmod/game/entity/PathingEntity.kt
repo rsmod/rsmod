@@ -98,6 +98,8 @@ public sealed class PathingEntity {
     public var lastProcessedZone: ZoneKey = ZoneKey.NULL
 
     public var faceEntity: EntityFaceTarget = EntityFaceTarget.NULL
+    public var lastFaceEntity: Int = Int.MIN_VALUE
+
     public var pendingFaceAngle: EntityFaceAngle = EntityFaceAngle.NULL
 
     public var pendingFaceSquare: CoordGrid = CoordGrid.NULL

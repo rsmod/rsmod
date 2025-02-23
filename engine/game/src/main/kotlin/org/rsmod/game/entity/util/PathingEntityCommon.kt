@@ -75,10 +75,12 @@ public object PathingEntityCommon {
 
     public fun facePlayer(entity: PathingEntity, target: Player) {
         entity.faceEntity = EntityFaceTarget(target)
+        entity.lastFaceEntity = entity.currentMapClock
     }
 
     public fun faceNpc(entity: PathingEntity, target: Npc) {
         entity.faceEntity = EntityFaceTarget(target)
+        entity.lastFaceEntity = entity.currentMapClock
     }
 
     public fun resetFaceEntity(entity: PathingEntity) {
