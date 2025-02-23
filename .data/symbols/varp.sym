@@ -17,6 +17,7 @@
 262	generic_temp_state_262
 263	generic_temp_state_263
 300	sa_energy
+301	sa_type
 561	jmod_flags
 675	temp_state_675
 1107	player_attack_option

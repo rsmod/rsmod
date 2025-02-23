@@ -58,6 +58,9 @@ public class EnumTypeNonNullMap<K : Any, V : Any>(
     public val values: Collection<V>
         get() = entries.values
 
+    public val size: Int
+        get() = entries.size
+
     public val backing: Map<K, V>
         get() = entries
 

@@ -22,6 +22,7 @@
 867	prayer_strength_collisions
 868	prayer_defence_collisions
 869	prayer_overhead_collisions
+906	sa_energy_requirements
 982	rune_pouch_index_to_rune
 983	rune_pouch_air_runes
 987	rune_pouch_water_runes
@@ -48,6 +49,7 @@
 1562	advanced_settings_controls
 1564	advanced_settings_gameplay
 1697	world_map_dropdown_list
+1739	sa_descriptions
 1745	mobile_pane_redirect
 1981	spellbooks
 1982	normal_spellbook

@@ -20,6 +20,9 @@ object BaseVarps : VarpReferences() {
 
     val attackstyle = find("attackstyle", 9764025)
     val auto_retaliate = find("auto_retaliate", 39044574)
+    val sa_energy = find("sa_energy", 68098142)
+    val sa_type = find("sa_type", 68325123)
+
     val player_run = find("player_run", 39271563)
     val player_attack_option = find("player_attack_option", 251271828)
     val npc_attack_option = find("npc_attack_option", 296441051)
