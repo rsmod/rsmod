@@ -39,6 +39,7 @@ import org.rsmod.game.type.varbit.VarBitType
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
+// TODO: Walk trigger for emotes.
 class EmotesScript
 @Inject
 private constructor(
