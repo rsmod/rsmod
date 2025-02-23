@@ -1,6 +1,5 @@
 package org.rsmod.game.type.spot
 
-import org.rsmod.game.entity.shared.PathingEntityCommon.anim
 import org.rsmod.game.type.util.CompactableIntArray
 import org.rsmod.game.type.util.GenericPropertySelector.select
 import org.rsmod.game.type.util.GenericPropertySelector.selectShortArray

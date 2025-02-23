@@ -6,7 +6,7 @@ import org.rsmod.coroutine.GameCoroutine
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.PathingEntity
 import org.rsmod.game.entity.Player
-import org.rsmod.game.entity.shared.PathingEntityCommon
+import org.rsmod.game.entity.util.PathingEntityCommon
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.map.collision.isZoneValid
 import org.rsmod.game.type.npc.NpcType

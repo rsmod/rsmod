@@ -8,6 +8,7 @@ import org.rsmod.api.utils.logging.GameExceptionHandler
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.NpcList
+import org.rsmod.game.entity.util.EntityFaceAngle
 
 public class NpcMainProcess
 @Inject
@@ -72,7 +73,7 @@ constructor(
     private fun Npc.faceSquareProcess() {
         val pending = pendingFaceSquare
         facing.process(this)
-        if (faceAngle != -1) {
+        if (pendingFaceAngle != EntityFaceAngle.NULL) {
             infoProtocol.setFaceSquare(pending.x, pending.z, instant = false)
         }
     }

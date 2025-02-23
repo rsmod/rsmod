@@ -7,6 +7,7 @@ import org.rsmod.api.testing.GameTestState
 import org.rsmod.api.testing.params.TestArgs
 import org.rsmod.api.testing.params.TestArgsProvider
 import org.rsmod.api.testing.params.TestWithArgs
+import org.rsmod.game.entity.util.EntityFaceAngle
 import org.rsmod.game.map.Direction
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.square.MapSquareKey
@@ -20,6 +21,10 @@ class PlayerFaceSquareProcessorTest {
             val faceTarget = CoordGrid(0, 0, 0, 15, 15)
             it.allocateCollision(MapSquareKey(0, 0))
             withPlayer(start) {
+                // `pendingFaceAngle` is set to zero in the player init block to emulate
+                // the face-south behavior on log-in. We do not need that for this test.
+                pendingFaceAngle = EntityFaceAngle.NULL
+
                 val move = PlayerMovementProcessor(it.collision, it.routeFactory, it.stepFactory)
                 val face = PlayerFaceSquareProcessor()
                 fun process() {
@@ -40,7 +45,7 @@ class PlayerFaceSquareProcessorTest {
 
                 walk(moveDest)
                 faceSquare(faceTarget, targetWidth = 1, targetLength = 1)
-                check(faceAngle == 0)
+                check(pendingFaceAngle == EntityFaceAngle.NULL)
 
                 process()
                 // After processing, the player should have moved. This means the face angle should
@@ -48,7 +53,7 @@ class PlayerFaceSquareProcessorTest {
                 // value.
                 check(routeDestination.lastOrNull() == moveDest)
                 check(hasMovedThisCycle)
-                assertEquals(-1, faceAngle)
+                assertEquals(EntityFaceAngle.NULL, pendingFaceAngle)
                 assertEquals(faceTarget, pendingFaceSquare)
 
                 processUntilArrival(moveDest)
@@ -58,7 +63,7 @@ class PlayerFaceSquareProcessorTest {
                 // angle is set due to the `hasMovedThisTick` condition.
                 process()
 
-                assertEquals(Direction.East.angle, faceAngle)
+                assertEquals(Direction.East.angle, pendingFaceAngle.intValue)
                 assertEquals(CoordGrid.NULL, pendingFaceSquare)
             }
         }
@@ -74,11 +79,11 @@ class PlayerFaceSquareProcessorTest {
                 processedMapClock++
                 facing.process(this)
             }
-            check(faceAngle == 0)
-            check(pendingFaceSquare == CoordGrid.ZERO)
+            check(pendingFaceSquare == CoordGrid.NULL)
+            check(pendingFaceAngle == EntityFaceAngle.ZERO)
 
             process()
-            assertEquals(0, faceAngle)
+            assertEquals(EntityFaceAngle.ZERO, pendingFaceAngle)
         }
     }
 
@@ -92,12 +97,12 @@ class PlayerFaceSquareProcessorTest {
                 processedMapClock++
                 facing.process(this)
             }
-            check(pendingFaceSquare != CoordGrid.NULL)
+            pendingFaceSquare = CoordGrid.ZERO
 
             faceSquare(CoordGrid(0, 0, 0, 1, 1), targetWidth = 1, targetLength = 1)
 
             process()
-            assertNotEquals(-1, faceAngle)
+            assertNotEquals(EntityFaceAngle.NULL, pendingFaceAngle)
             assertEquals(CoordGrid.NULL, pendingFaceSquare)
         }
     }
@@ -109,6 +114,10 @@ class PlayerFaceSquareProcessorTest {
                 val start = CoordGrid(0, 0, 0, 16, 16)
                 val target = start.translate(dir.xOff * 5, dir.zOff * 5)
                 withPlayer(start) {
+                    // `pendingFaceAngle` is set to zero in the player init block to emulate
+                    // the face-south behavior on log-in. We do not need that for this test.
+                    pendingFaceAngle = EntityFaceAngle.NULL
+
                     val facing = PlayerFaceSquareProcessor()
                     fun process() {
                         previousCoords = coords
@@ -116,15 +125,14 @@ class PlayerFaceSquareProcessorTest {
                         processedMapClock++
                         facing.process(this)
                     }
-                    check(faceAngle == 0)
 
                     // Set the _pending_ face square to target.
                     faceSquare(target, targetWidth = 1, targetLength = 1)
-                    check(faceAngle == 0)
+                    check(pendingFaceAngle == EntityFaceAngle.NULL)
 
                     process()
 
-                    assertEquals(dir.angle, faceAngle)
+                    assertEquals(dir.angle, pendingFaceAngle.intValue)
                     assertEquals(CoordGrid.NULL, pendingFaceSquare)
                 }
             }

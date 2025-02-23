@@ -5,6 +5,7 @@ import org.rsmod.api.registry.npc.NpcRegistry
 import org.rsmod.api.utils.logging.GameExceptionHandler
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.NpcList
+import org.rsmod.game.entity.util.EntityFaceAngle
 import org.rsmod.game.seq.EntitySeq
 import org.rsmod.map.zone.ZoneKey
 
@@ -39,6 +40,7 @@ constructor(
     }
 
     private fun Npc.cleanUpPendingUpdates() {
+        pendingFaceAngle = EntityFaceAngle.NULL
         pendingSequence = EntitySeq.NULL
         pendingSpotanims.clear()
     }
