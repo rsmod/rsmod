@@ -44,6 +44,7 @@ import org.rsmod.api.player.output.ClientScripts.mesLayerMode14
 import org.rsmod.api.player.output.ClientScripts.mesLayerMode7
 import org.rsmod.api.player.output.MapFlag
 import org.rsmod.api.player.output.UpdateInventory.resendSlot
+import org.rsmod.api.player.output.UpdateStat
 import org.rsmod.api.player.output.clearMapFlag
 import org.rsmod.api.player.output.jingle
 import org.rsmod.api.player.output.mes
@@ -941,6 +942,7 @@ public class ProtectedAccess(
         val cappedLevel = min(255, calculated)
 
         player.statMap.setCurrentLevel(stat, cappedLevel.toByte())
+        updateStat(stat)
 
         if (cappedLevel != current) {
             // TODO: Engine queue for changestat
@@ -962,7 +964,10 @@ public class ProtectedAccess(
         val base = player.statMap.getBaseLevel(stat).toInt()
         val boost = constant + (base * percent) / 100
 
-        statAdd(stat, boost, 0)
+        val current = player.statMap.getCurrentLevel(stat).toInt()
+        val cappedBoost = min(base + boost, current + boost) - current
+
+        statAdd(stat, cappedBoost, 0)
     }
 
     /**
@@ -984,6 +989,7 @@ public class ProtectedAccess(
         val cappedLevel = max(0, calculated)
 
         player.statMap.setCurrentLevel(stat, cappedLevel.toByte())
+        updateStat(stat)
 
         if (cappedLevel != current) {
             // TODO: Engine queue for changestat
@@ -1005,7 +1011,10 @@ public class ProtectedAccess(
         val base = player.statMap.getBaseLevel(stat).toInt()
         val drain = constant + (base * percent) / 100
 
-        statSub(stat, drain, 0)
+        val current = player.statMap.getCurrentLevel(stat).toInt()
+        val cappedDrain = current - min(base - drain, current - drain)
+
+        statSub(stat, cappedDrain, 0)
     }
 
     /**
@@ -1035,9 +1044,18 @@ public class ProtectedAccess(
         val calculated = current + (constant + (current * percent) / 100)
         val cappedLevel = calculated.coerceIn(current, base)
 
+        player.statMap.setCurrentLevel(stat, cappedLevel.toByte())
+        updateStat(stat)
+
         if (cappedLevel != current) {
             // TODO: Engine queue for changestat
         }
+    }
+
+    private fun updateStat(stat: StatType) {
+        val currXp = player.statMap.getXP(stat)
+        val currLvl = player.statMap.getCurrentLevel(stat).toInt()
+        UpdateStat.update(player, stat, currXp, currLvl, currLvl)
     }
 
     public fun rollSuccessRate(low: Int, high: Int, level: Int, maxLevel: Int): Boolean {
