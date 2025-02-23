@@ -2,9 +2,7 @@ package org.rsmod.api.game.process.player
 
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.util.EntityFaceAngle
-import org.rsmod.game.map.Direction
 import org.rsmod.map.CoordGrid
-import org.rsmod.map.util.Bounds
 
 public class PlayerFaceSquareProcessor {
     public fun process(player: Player) {
@@ -28,14 +26,4 @@ public class PlayerFaceSquareProcessor {
             resetPendingFaceSquare()
         }
     }
-
-    private fun Player.calculateAngle(target: CoordGrid, width: Int, length: Int): Int? =
-        when (target) {
-            CoordGrid.ZERO -> 0
-            coords -> null
-            else -> {
-                val targetBounds = Bounds(target, width, length)
-                Direction.angleBetween(bounds(), targetBounds)
-            }
-        }
 }

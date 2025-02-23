@@ -403,6 +403,16 @@ public sealed class PathingEntity {
         return x in southWest.x..northEast.x && z in southWest.z..northEast.z
     }
 
+    public fun calculateAngle(target: CoordGrid, width: Int, length: Int): Int? =
+        when (target) {
+            CoordGrid.ZERO -> 0
+            coords -> null
+            else -> {
+                val targetBounds = Bounds(target, width, length)
+                Direction.angleBetween(bounds(), targetBounds)
+            }
+        }
+
     public fun bounds(): Bounds = avatar.bounds()
 
     public fun addBlockWalkCollision(collision: CollisionFlagMap, base: CoordGrid) {
