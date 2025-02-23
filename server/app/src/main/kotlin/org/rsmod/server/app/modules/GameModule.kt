@@ -30,6 +30,6 @@ object GameModule : ExtendedModule() {
         bindInstance<SuspendEventBus>()
         bindInstance<UnboundEventBus>()
         bindInstance<CheatCommandMap>()
-        bindBaseInstance<GameProcess, MainGameProcess>()
+        bindBaseInstance<GameProcess>(MainGameProcess::class.java)
     }
 }

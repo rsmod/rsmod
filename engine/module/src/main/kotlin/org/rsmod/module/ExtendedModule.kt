@@ -24,8 +24,13 @@ public abstract class ExtendedModule : AbstractModule() {
         bind(T::class.java).toProvider(provider).`in`(Scopes.SINGLETON)
     }
 
-    protected inline fun <reified P, reified C : P> bindBaseInstance() {
-        bind(P::class.java).to(C::class.java).`in`(Scopes.SINGLETON)
+    protected inline fun <reified P> bindBaseInstance(impl: Class<out P>) {
+        bindBaseInstance(P::class.java, impl)
+    }
+
+    @PublishedApi
+    internal fun <P, C : P> bindBaseInstance(base: Class<P>, impl: Class<C>) {
+        bind(base).to(impl).`in`(Scopes.SINGLETON)
     }
 
     protected inline fun <reified P> addSetBinding(impl: Class<out P>) {
