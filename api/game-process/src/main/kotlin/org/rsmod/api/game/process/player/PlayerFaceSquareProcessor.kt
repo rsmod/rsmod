@@ -1,6 +1,7 @@
 package org.rsmod.api.game.process.player
 
 import org.rsmod.game.entity.Player
+import org.rsmod.game.face.EntityFaceTarget
 import org.rsmod.game.map.Direction
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.util.Bounds
@@ -19,7 +20,7 @@ public class PlayerFaceSquareProcessor {
             // However, the face square is not actually transmitted. This is not the case if you
             // go anywhere that'll take at least 1 cycle to reach op distance. (including being
             // diagonal to the npc)
-            if (faceEntitySlot == -1) {
+            if (faceEntity == EntityFaceTarget.NULL) {
                 val angle = calculateAngle(pendingFaceSquare, pendingFaceWidth, pendingFaceLength)
                 pendingFaceAngle = angle ?: -1
             }

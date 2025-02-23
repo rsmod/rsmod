@@ -152,17 +152,17 @@ public class Npc(
 
     public fun facePlayer(target: Player) {
         PathingEntityCommon.facePlayer(this, target)
-        infoProtocol.setFacePathingEntity(faceEntitySlot)
+        infoProtocol.setFacePathingEntity(faceEntity.entitySlot)
     }
 
     public fun faceNpc(target: Npc) {
         PathingEntityCommon.faceNpc(this, target)
-        infoProtocol.setFacePathingEntity(faceEntitySlot)
+        infoProtocol.setFacePathingEntity(faceEntity.entitySlot)
     }
 
     public fun resetFaceEntity() {
         PathingEntityCommon.resetFaceEntity(this)
-        infoProtocol.setFacePathingEntity(faceEntitySlot)
+        infoProtocol.setFacePathingEntity(faceEntity.entitySlot)
     }
 
     public fun transmog(type: UnpackedNpcType) {
@@ -177,14 +177,14 @@ public class Npc(
 
     public fun facingTarget(playerList: PlayerList): Player? =
         if (isFacingPlayer) {
-            playerList[faceEntitySlot - PathingEntityCommon.FACE_PLAYER_START_SLOT]
+            playerList[faceEntity.playerSlot]
         } else {
             null
         }
 
     public fun facingTarget(npcList: NpcList): Npc? =
         if (isFacingNpc) {
-            npcList[faceEntitySlot]
+            npcList[faceEntity.npcSlot]
         } else {
             null
         }

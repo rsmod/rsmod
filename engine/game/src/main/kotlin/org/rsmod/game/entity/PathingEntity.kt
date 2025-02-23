@@ -6,7 +6,7 @@ import org.rsmod.annotations.InternalApi
 import org.rsmod.coroutine.GameCoroutine
 import org.rsmod.coroutine.suspension.GameCoroutineSimpleCompletion
 import org.rsmod.game.entity.player.ProtectedAccessLostException
-import org.rsmod.game.entity.shared.PathingEntityCommon
+import org.rsmod.game.face.EntityFaceTarget
 import org.rsmod.game.interact.Interaction
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.loc.LocInfo
@@ -96,12 +96,12 @@ public sealed class PathingEntity {
 
     public var lastProcessedZone: ZoneKey = ZoneKey.NULL
 
-    public var faceEntitySlot: Int = -1
+    public var faceEntity: EntityFaceTarget = EntityFaceTarget.NULL
+    public var pendingFaceAngle: Int = -1
 
     public var pendingFaceSquare: CoordGrid = CoordGrid.NULL
     public var pendingFaceWidth: Int = 1
     public var pendingFaceLength: Int = 1
-    public var pendingFaceAngle: Int = -1
 
     public var pendingSequence: EntitySeq = EntitySeq.NULL
     public val pendingSpotanims: LongArrayList = LongArrayList()
@@ -159,13 +159,13 @@ public sealed class PathingEntity {
         get() = !isBusy2
 
     public val isFacingEntity: Boolean
-        get() = faceEntitySlot != -1
+        get() = faceEntity != EntityFaceTarget.NULL
 
     public val isFacingPlayer: Boolean
-        get() = faceEntitySlot >= PathingEntityCommon.FACE_PLAYER_START_SLOT
+        get() = faceEntity.isPlayer
 
     public val isFacingNpc: Boolean
-        get() = faceEntitySlot in 0 until PathingEntityCommon.FACE_PLAYER_START_SLOT
+        get() = faceEntity.isNpc
 
     public var coords: CoordGrid
         get() = avatar.coords

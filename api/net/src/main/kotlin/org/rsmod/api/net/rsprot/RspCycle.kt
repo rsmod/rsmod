@@ -203,7 +203,7 @@ class RspCycle(
     }
 
     private fun Player.applyFacePathingEntity() {
-        val slot = faceEntitySlot
+        val slot = faceEntity.entitySlot
         if (knownFaceEntity != slot) {
             playerExtendedInfo.setFacePathingEntity(slot)
             knownFaceEntity = slot

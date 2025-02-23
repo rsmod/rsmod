@@ -3,6 +3,7 @@ package org.rsmod.game.entity.shared
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.PathingEntity
 import org.rsmod.game.entity.Player
+import org.rsmod.game.face.EntityFaceTarget
 import org.rsmod.game.map.collision.isZoneValid
 import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.movement.RouteRequestCoord
@@ -34,13 +35,6 @@ import org.rsmod.routefinder.collision.CollisionFlagMap
  * implementations.
  */
 public object PathingEntityCommon {
-    // We don't declare or use [org.rsmod.game.entity.NpcList]'s capacity because some developers
-    // will more than likely be tempted to fiddle with that npc list capacity at some point. In that
-    // case, we do not want the npc list capacity, whether lower or higher, to affect this value
-    // used for facing entities.
-    private const val NPC_LIMIT = 65535
-    public const val FACE_PLAYER_START_SLOT: Int = NPC_LIMIT + 1
-
     public fun walk(entity: PathingEntity, dest: CoordGrid) {
         val request = RouteRequestCoord(dest)
         entity.routeRequest = request
@@ -81,15 +75,15 @@ public object PathingEntityCommon {
     }
 
     public fun facePlayer(entity: PathingEntity, target: Player) {
-        entity.faceEntitySlot = target.slotId or FACE_PLAYER_START_SLOT
+        entity.faceEntity = EntityFaceTarget(target)
     }
 
     public fun faceNpc(entity: PathingEntity, target: Npc) {
-        entity.faceEntitySlot = target.slotId
+        entity.faceEntity = EntityFaceTarget(target)
     }
 
     public fun resetFaceEntity(entity: PathingEntity) {
-        entity.faceEntitySlot = -1
+        entity.faceEntity = EntityFaceTarget.NULL
     }
 
     public fun anim(entity: PathingEntity, seq: SeqType, delay: Int, priority: Int): Boolean {
