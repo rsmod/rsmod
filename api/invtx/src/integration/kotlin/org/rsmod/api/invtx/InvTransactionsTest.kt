@@ -45,7 +45,7 @@ class InvTransactionsTest {
     @Test
     fun GameTestState.`delete obj successfully`() = runBasicGameTest {
         withPlayerInit {
-            inv[5] = objs.fire_cape.obj()
+            inv[5] = InvObj(objs.fire_cape)
             val transaction = invDel(inv, objs.fire_cape, count = 2, strict = false).single()
             assertTrueContract(transaction.isOk())
             assertTrue(transaction.partialSuccess)
@@ -61,7 +61,7 @@ class InvTransactionsTest {
         val toSlot = 4
         withPlayerInit {
             check(inv.isEmpty())
-            inv[fromSlot] = objs.coins.obj(100_000)
+            inv[fromSlot] = InvObj(objs.coins, 100_000)
             val transaction = invSwap(inv, fromSlot = fromSlot, intoSlot = toSlot).single()
             assertTrueContract(transaction.isOk())
             assertTrue(transaction.fullSuccess)
@@ -77,8 +77,8 @@ class InvTransactionsTest {
         withPlayerInit {
             check(inv.isEmpty())
             val bank = invMap.getOrPut(cacheTypes.invs[invs.bank])
-            inv[0] = objs.abyssal_whip.obj()
-            inv[1] = objs.abyssal_whip.obj()
+            inv[0] = InvObj(objs.abyssal_whip)
+            inv[1] = InvObj(objs.abyssal_whip)
             val transaction = invTransfer(inv, fromSlot = 0, count = 2, into = bank).single()
             assertTrueContract(transaction.isOk())
             assertTrue(transaction.fullSuccess)
@@ -96,16 +96,16 @@ class InvTransactionsTest {
             check(inv.isEmpty())
             val placeholder = cacheTypes.objs[objs.abyssal_whip].placeholderlink
             val bank = invMap.getOrPut(cacheTypes.invs[invs.bank])
-            bank[0] = objs.rune_arrow.obj(500)
-            bank[1] = objs.abyssal_whip.obj()
+            bank[0] = InvObj(objs.rune_arrow, 500)
+            bank[1] = InvObj(objs.abyssal_whip)
             val transaction =
                 invTransfer(bank, fromSlot = 1, count = 1, into = inv, placehold = true).single()
             assertTrueContract(transaction.isOk())
             assertTrue(transaction.fullSuccess)
-            assertEquals(objs.abyssal_whip.obj(), inv[0])
+            assertEquals(InvObj(objs.abyssal_whip), inv[0])
             assertNotNull(bank[1])
             assertEquals(placeholder, bank[1]?.id)
-            assertEquals(objs.rune_arrow.obj(500), bank[0])
+            assertEquals(InvObj(objs.rune_arrow, 500), bank[0])
             assertEquals(2, bank.occupiedSpace())
         }
     }
@@ -115,9 +115,9 @@ class InvTransactionsTest {
         withPlayerInit {
             check(worn.isEmpty())
             check(inv.isEmpty())
-            val addArrows = objs.rune_arrow.obj(5000)
+            val addArrows = InvObj(objs.rune_arrow, 5000)
             inv[3] = addArrows
-            worn[Wearpos.Quiver.slot] = objs.rune_arrow.obj(Int.MAX_VALUE - 1000)
+            worn[Wearpos.Quiver.slot] = InvObj(objs.rune_arrow, Int.MAX_VALUE - 1000)
             val transaction =
                 invSwap(
                         from = inv,
@@ -130,7 +130,7 @@ class InvTransactionsTest {
             val quiver = worn[Wearpos.Quiver.slot]
             assertTrueContract(transaction.isOk())
             assertTrue(transaction.partialSuccess)
-            assertEquals(objs.rune_arrow.obj(4000), inv[3])
+            assertEquals(InvObj(objs.rune_arrow, 4000), inv[3])
             assertNotNull(quiver)
             assertEquals(Int.MAX_VALUE, quiver?.count)
         }
@@ -140,8 +140,8 @@ class InvTransactionsTest {
     fun GameTestState.`swap inv obj slots`() = runBasicGameTest {
         withPlayerInit {
             check(inv.isEmpty())
-            val item1 = objs.berserker_ring.obj()
-            val item2 = objs.coins.obj(100_000)
+            val item1 = InvObj(objs.berserker_ring)
+            val item2 = InvObj(objs.coins, 100_000)
             val slot1 = 2
             val slot2 = 5
             inv[slot1] = item1
@@ -177,7 +177,7 @@ class InvTransactionsTest {
             withPlayerInit {
                 check(worn.isEmpty())
                 check(inv.isEmpty())
-                inv[invSlot] = type.obj(count)
+                inv[invSlot] = InvObj(type, count)
                 val transaction =
                     invSwap(
                             from = inv,

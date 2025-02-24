@@ -6,7 +6,7 @@ import org.rsmod.game.type.struct.StructType
 
 public abstract class StructReferences : HashTypeReferences<StructType>(StructType::class.java) {
     override fun find(internal: String, hash: Long?): StructType {
-        val type = HashedStructType(hash, internalName = internal)
+        val type = HashedStructType(hash, internal)
         cache += type
         return type
     }

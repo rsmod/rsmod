@@ -64,7 +64,7 @@ public class EnumTypeBuilder<K : Any, V : Any>(
             val transmit = select(edit, base, DEFAULT_TRANSMIT) { transmit }
             val internalId = select(edit, base, default = null) { internalId }
             val internalName = select(edit, base, default = null) { internalName }
-            return UnpackedEnumType<Any, Any>(
+            return UnpackedEnumType(
                 keyType = keyType,
                 valType = valType,
                 keyLiteral = keyLiteral,
@@ -75,8 +75,8 @@ public class EnumTypeBuilder<K : Any, V : Any>(
                 default = default,
                 typedMap = typedMap ?: emptyMap(),
                 transmit = transmit,
-                internalId = internalId ?: -1,
-                internalName = internalName ?: "",
+                internalId = internalId,
+                internalName = internalName,
             )
         }
     }

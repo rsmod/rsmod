@@ -36,7 +36,7 @@ public abstract class EnumReferences :
         internal: String,
         hash: Long? = null,
     ): EnumType<K, V> {
-        val type = HashedEnumType(key, value, hash, internalName = internal)
+        val type = HashedEnumType(key, value, hash, internal)
         cache += type
         return type
     }

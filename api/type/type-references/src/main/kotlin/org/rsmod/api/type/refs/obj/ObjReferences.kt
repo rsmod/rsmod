@@ -6,7 +6,7 @@ import org.rsmod.game.type.obj.ObjType
 
 public abstract class ObjReferences : HashTypeReferences<ObjType>(ObjType::class.java) {
     override fun find(internal: String, hash: Long?): ObjType {
-        val type = HashedObjType(hash, internalName = internal)
+        val type = HashedObjType(hash, internal)
         cache += type
         return type
     }

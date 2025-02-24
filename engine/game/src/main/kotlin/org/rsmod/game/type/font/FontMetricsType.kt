@@ -1,24 +1,16 @@
 package org.rsmod.game.type.font
 
-public sealed class FontMetricsType(
-    internal var internalId: Int?,
-    internal var internalName: String?,
-) {
-    public val id: Int
-        get() = internalId ?: error("`internalId` must not be null.")
+import org.rsmod.game.type.CacheType
+import org.rsmod.game.type.HashedCacheType
 
-    public val internalNameGet: String?
-        get() = internalName
-}
+public sealed class FontMetricsType : CacheType()
 
-public class HashedFontMetricsType(
-    internal var startHash: Long? = null,
-    internalId: Int? = null,
-    internalName: String? = null,
-    public val autoResolve: Boolean = startHash == null,
-) : FontMetricsType(internalId, internalName) {
-    public val supposedHash: Long?
-        get() = startHash
+public data class HashedFontMetricsType(
+    override var startHash: Long?,
+    override var internalName: String?,
+    override var internalId: Int? = null,
+) : HashedCacheType, FontMetricsType() {
+    public val autoResolve: Boolean = startHash == null
 
     override fun toString(): String =
         "FontMetricsType(" +
@@ -30,11 +22,8 @@ public class HashedFontMetricsType(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is HashedFontMetricsType) return false
-
         if (startHash != other.startHash) return false
         if (internalId != other.internalId) return false
-        if (internalName != other.internalName) return false
-
         return true
     }
 
@@ -45,18 +34,18 @@ public class HashedFontMetricsType(
     }
 }
 
-public class UnpackedFontMetricsType(
+public data class UnpackedFontMetricsType(
     public val glyphAdvances: IntArray,
     public val ascent: Int,
     public val kerning: ByteArray,
-    internalId: Int,
-    internalName: String,
-) : FontMetricsType(internalId, internalName) {
+    override var internalId: Int?,
+    override var internalName: String?,
+) : FontMetricsType() {
     public fun computeIdentityHash(): Long {
-        var result = glyphAdvances.contentHashCode().toLong()
+        var result = (internalId?.hashCode()?.toLong() ?: 0)
+        result = 61 * result + glyphAdvances.contentHashCode().toLong()
         result = 61 * result + kerning.contentHashCode()
         result = 61 * result + ascent
-        result = 61 * result + (internalId?.hashCode() ?: 0)
         return result and 0x7FFFFFFFFFFFFFFF
     }
 
@@ -70,21 +59,19 @@ public class UnpackedFontMetricsType(
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as UnpackedFontMetricsType
-
-        if (glyphAdvances != other.glyphAdvances) return false
-        if (kerning != other.kerning) return false
+        if (other !is UnpackedFontMetricsType) return false
         if (ascent != other.ascent) return false
-
+        if (!glyphAdvances.contentEquals(other.glyphAdvances)) return false
+        if (!kerning.contentEquals(other.kerning)) return false
+        if (internalId != other.internalId) return false
         return true
     }
 
     override fun hashCode(): Int {
-        var result = glyphAdvances.contentHashCode()
-        result = 31 * result + kerning.contentHashCode()
+        var result = (internalId ?: 0)
         result = 31 * result + ascent
+        result = 31 * result + glyphAdvances.contentHashCode()
+        result = 31 * result + kerning.contentHashCode()
         return result
     }
 }

@@ -192,7 +192,7 @@ constructor(
             val layer = LocLayerConstants.of(shape)
             val loc = LocInfo(layer, player.coords, LocEntity(type.id, shape, angle))
             locRepo.add(loc, duration)
-            player.mes("Spawned loc `${type.internalNameGet}` (duration: $duration cycles)")
+            player.mes("Spawned loc `${type.internalName}` (duration: $duration cycles)")
             logger.debug { "Spawned loc: loc=$loc, type=$type" }
         }
 
@@ -213,7 +213,7 @@ constructor(
             }
             val type = locTypes[loc]
             locRepo.del(loc, duration)
-            player.mes("Deleted loc `${type.internalNameGet}` (duration: $duration cycles)")
+            player.mes("Deleted loc `${type.internalName}` (duration: $duration cycles)")
             logger.debug { "Deleted loc: loc=$loc, type=$type" }
         }
 
@@ -233,7 +233,7 @@ constructor(
             val npc = Npc(type, player.coords)
             npc.mode = NpcMode.None
             npcRepo.add(npc, duration)
-            player.mes("Spawned npc `${type.internalNameGet}` (duration: $duration cycles)")
+            player.mes("Spawned npc `${type.internalName}` (duration: $duration cycles)")
         }
 
     private fun invAdd(cheat: Cheat) =
@@ -260,7 +260,7 @@ constructor(
             val resolvedType =
                 if (spawnCert && type.canCert) objTypes.getValue(type.certlink) else type
             val count = countArg.toLong().coerceAtMost(Int.MAX_VALUE.toLong()).toInt()
-            val objName = type.internalNameGet ?: type.name
+            val objName = type.internalName ?: type.name
             val spawned = player.invAdd(player.inv, resolvedType, count, strict = false)
             if (spawned.err is TransactionResult.RestrictedDummyitem) {
                 player.mes("You can't spawn this item!")

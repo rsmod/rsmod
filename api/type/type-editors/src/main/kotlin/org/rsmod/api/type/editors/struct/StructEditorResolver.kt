@@ -30,7 +30,7 @@ constructor(private val types: StructTypeList, private val nameMapping: NameMapp
     ): List<TypeEditorResult> = editors.cache.map { it.resolve() }
 
     private fun UnpackedStructType.resolve(): TypeEditorResult {
-        val internalId = names[internalNameGet] ?: return err(NameNotFound(internalNameGet))
+        val internalId = names[internalName] ?: return err(NameNotFound(internalName))
         val cacheType = types[internalId]
 
         TypeResolver[this] = internalId

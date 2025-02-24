@@ -21,8 +21,8 @@ public class VarpTypeBuilder(public var internal: String? = null) {
         return UnpackedVarpType(
             bitProtect = bitProtect,
             clientCode = clientCode,
-            scope = scope,
-            transmit = transmit,
+            internalScope = scope,
+            internalTransmit = transmit,
             internalId = id,
             internalName = internal,
         )
@@ -45,10 +45,10 @@ public class VarpTypeBuilder(public var internal: String? = null) {
             return UnpackedVarpType(
                 bitProtect = bitProtect,
                 clientCode = clientCode,
-                scope = scope,
-                transmit = transmit,
-                internalId = internalId ?: -1,
-                internalName = internalName ?: "",
+                internalScope = scope,
+                internalTransmit = transmit,
+                internalId = internalId,
+                internalName = internalName,
             )
         }
     }

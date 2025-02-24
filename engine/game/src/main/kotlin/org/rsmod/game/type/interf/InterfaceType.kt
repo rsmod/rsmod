@@ -1,44 +1,31 @@
 package org.rsmod.game.type.interf
 
 import kotlin.contracts.contract
+import org.rsmod.game.type.CacheType
+import org.rsmod.game.type.HashedCacheType
 import org.rsmod.game.type.comp.ComponentType
 
-public infix fun InterfaceType?.isType(other: InterfaceType): Boolean {
-    contract { returns(true) implies (this@isType != null) }
-    return this != null && this.id == other.id
-}
+public sealed class InterfaceType : CacheType()
 
-public sealed class InterfaceType(
-    internal var internalId: Int?,
-    internal var internalName: String?,
-) {
-    public val id: Int
-        get() = internalId ?: error("`internalId` must not be null.")
-
-    public val internalNameGet: String?
-        get() = internalName
-}
-
-public class HashedInterfaceType(
-    internal var startHash: Long? = null,
-    internalId: Int? = null,
-    internalName: String? = null,
-    public val autoResolve: Boolean = startHash == null,
-) : InterfaceType(internalId, internalName) {
-    public val supposedHash: Long?
-        get() = startHash
+public data class HashedInterfaceType(
+    override var startHash: Long?,
+    override var internalName: String?,
+    override var internalId: Int? = null,
+) : HashedCacheType, InterfaceType() {
+    public val autoResolve: Boolean = startHash == null
 
     override fun toString(): String =
-        "InterfaceType(internalName='$internalName', internalId=$internalId, " +
-            "supposedHash=$supposedHash)"
+        "InterfaceType(" +
+            "internalName='$internalName', " +
+            "internalId=$internalId, " +
+            "supposedHash=$supposedHash" +
+            ")"
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is HashedInterfaceType) return false
-
         if (startHash != other.startHash) return false
         if (internalId != other.internalId) return false
-
         return true
     }
 
@@ -49,11 +36,11 @@ public class HashedInterfaceType(
     }
 }
 
-public class UnpackedInterfaceType(
+public data class UnpackedInterfaceType(
     public val components: List<ComponentType>,
-    internalName: String,
-    id: Int,
-) : InterfaceType(id, internalName) {
+    override var internalId: Int?,
+    override var internalName: String?,
+) : InterfaceType() {
     public fun computeIdentityHash(): Long {
         var result = internalId?.hashCode()?.toLong() ?: 0
         result = 61 * result + components.hashCode()
@@ -69,4 +56,9 @@ public class UnpackedInterfaceType(
     }
 
     override fun hashCode(): Int = computeIdentityHash().toInt()
+}
+
+public infix fun InterfaceType?.isType(other: InterfaceType): Boolean {
+    contract { returns(true) implies (this@isType != null) }
+    return this != null && this.id == other.id
 }

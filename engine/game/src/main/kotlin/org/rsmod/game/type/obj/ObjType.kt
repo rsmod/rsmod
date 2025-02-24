@@ -4,45 +4,21 @@ import kotlin.contracts.contract
 import org.rsmod.game.interact.HeldOp
 import org.rsmod.game.interact.InteractionOp
 import org.rsmod.game.obj.InvObj
+import org.rsmod.game.type.CacheType
+import org.rsmod.game.type.HashedCacheType
 import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.param.ParamType
 import org.rsmod.game.type.util.ParamMap
+import org.rsmod.game.type.util.resolve
 
-public infix fun ObjType.isAssociatedWith(obj: InvObj?): Boolean {
-    contract { returns(true) implies (obj != null) }
-    return obj != null && obj.id == id
-}
+public sealed class ObjType : CacheType()
 
-public infix fun ObjType?.isType(other: ObjType): Boolean {
-    contract { returns(true) implies (this@isType != null) }
-    return this != null && this.id == other.id
-}
-
-public sealed class ObjType(internal var internalId: Int?, internal var internalName: String?) {
-    public val id: Int
-        get() = internalId ?: error("`internalId` must not be null.")
-
-    public val nameValue: String
-        get() = internalName ?: error("`internalName` must not be null.")
-
-    public val internalNameGet: String?
-        get() = internalName
-
-    public fun obj(count: Int = 1, vars: Int = 0): InvObj = InvObj(this, count, vars)
-
-    public fun certName(): String = "cert_$internalNameGet"
-
-    public fun placeholderName(): String = "placeholder_$internalNameGet"
-}
-
-public class HashedObjType(
-    internal var startHash: Long? = null,
-    internalId: Int? = null,
-    internalName: String? = null,
-    public val autoResolve: Boolean = startHash == null,
-) : ObjType(internalId, internalName) {
-    public val supposedHash: Long?
-        get() = startHash
+public data class HashedObjType(
+    override var startHash: Long?,
+    override var internalName: String?,
+    override var internalId: Int? = null,
+) : HashedCacheType, ObjType() {
+    public val autoResolve: Boolean = startHash == null
 
     override fun toString(): String =
         "ObjType(internalName='$internalName', internalId=$internalId, supposedHash=$supposedHash)"
@@ -50,11 +26,8 @@ public class HashedObjType(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is HashedObjType) return false
-
         if (startHash != other.startHash) return false
         if (internalId != other.internalId) return false
-        if (internalName != other.internalName) return false
-
         return true
     }
 
@@ -65,7 +38,7 @@ public class HashedObjType(
     }
 }
 
-public class UnpackedObjType(
+public data class UnpackedObjType(
     public val name: String,
     public val desc: String,
     public val model: Int,
@@ -138,9 +111,11 @@ public class UnpackedObjType(
     public val weaponCategory: Int,
     public val transformlink: Int,
     public val transformtemplate: Int,
-    internalId: Int,
-    internalName: String,
-) : ObjType(internalId, internalName) {
+    override var internalId: Int?,
+    override var internalName: String?,
+) : ObjType() {
+    private val identityHash by lazy { computeIdentityHash() }
+
     public val lowercaseName: String
         get() = name.lowercase()
 
@@ -180,20 +155,7 @@ public class UnpackedObjType(
     public val isEquipable: Boolean
         get() = wearpos1 != -1 && (iop[1] == "Wield" || iop[1] == "Wear")
 
-    public fun isContentType(content: ContentGroupType): Boolean = contentGroup == content.id
-
-    public fun <T : Any> param(type: ParamType<T>): T {
-        val params = paramMap
-        if (params == null) {
-            return type.typedDefault
-                ?: error("Param `$type` does not have a default value. Use `paramOrNull` instead.")
-        }
-        val value = params[type]
-        if (value != null) {
-            return value
-        }
-        return type.typedDefault ?: error("ObjType does not have no-default param `$type` defined.")
-    }
+    public fun <T : Any> param(type: ParamType<T>): T = paramMap.resolve(type)
 
     public fun <T : Any> paramOrNull(type: ParamType<T>): T? = paramMap?.get(type)
 
@@ -205,18 +167,24 @@ public class UnpackedObjType(
         return !invalid
     }
 
-    public fun hasInvOp(invOp: HeldOp): Boolean = hasInvOp(invOp.slot)
-
     public fun hasInvOp(slot: Int): Boolean {
         val text = iop.getOrNull(slot - 1) ?: return false
         return text.isNotBlank()
     }
 
+    public fun hasInvOp(invOp: HeldOp): Boolean {
+        return hasInvOp(invOp.slot)
+    }
+
+    public fun isContentType(content: ContentGroupType): Boolean {
+        return contentGroup == content.id
+    }
+
     public fun toHashedType(): HashedObjType =
         HashedObjType(
-            internalId = internalId,
+            startHash = identityHash,
             internalName = internalName,
-            startHash = computeIdentityHash(),
+            internalId = internalId,
         )
 
     public fun computeIdentityHash(): Long {
@@ -484,4 +452,14 @@ public class UnpackedObjType(
         result = 31 * result + transformtemplate
         return result
     }
+}
+
+public infix fun ObjType.isAssociatedWith(obj: InvObj?): Boolean {
+    contract { returns(true) implies (obj != null) }
+    return obj != null && obj.id == id
+}
+
+public infix fun ObjType?.isType(other: ObjType): Boolean {
+    contract { returns(true) implies (this@isType != null) }
+    return this != null && this.id == other.id
 }

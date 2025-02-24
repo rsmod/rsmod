@@ -22,7 +22,7 @@ public class BasBuilderResolver @Inject constructor(private val nameMapping: Nam
         builders.cache.map { it.resolve() }
 
     private fun BasType.resolve(): TypeBuilderResult {
-        val internalId = names[internalNameGet] ?: return err(NameNotFound(internalNameGet))
+        val internalId = names[internalName] ?: return err(NameNotFound(internalName))
         TypeResolver[this] = internalId
         return ok(FullSuccess)
     }

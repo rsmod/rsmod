@@ -30,7 +30,7 @@ internal object CanoeNpcEditor : NpcEditor() {
     }
 
     private fun scenery(npc: NpcType) {
-        edit(npc.nameValue) {
+        edit(npc.internalNameValue) {
             defaultMode = none
             moveRestrict = passthru
             respawnDir = north

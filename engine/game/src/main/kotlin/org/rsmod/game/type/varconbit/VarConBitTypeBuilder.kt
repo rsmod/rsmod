@@ -18,9 +18,9 @@ public class VarConBitTypeBuilder(public var internal: String? = null) {
         val msb = checkNotNull(msb) { "`msb` must be set." }
         return UnpackedVarConBitType(
             varconId = baseVar,
+            varcon = varcon,
             lsb = lsb,
             msb = msb,
-            varcon = varcon,
             internalId = id,
             internalName = internal,
         )

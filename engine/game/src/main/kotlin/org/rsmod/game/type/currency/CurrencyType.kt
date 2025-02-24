@@ -1,12 +1,9 @@
 package org.rsmod.game.type.currency
 
-public class CurrencyType(internal var internalId: Int?, internal val internalName: String) {
-    public val id: Int
-        get() = internalId ?: error("`internalId` must not be null.")
+import org.rsmod.game.type.CacheType
 
-    public val internalNameGet: String
-        get() = internalName
-
+public data class CurrencyType(override var internalId: Int?, override var internalName: String?) :
+    CacheType() {
     override fun toString(): String =
         "CurrencyType(internalName='$internalName', internalId=$internalId)"
 }

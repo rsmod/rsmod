@@ -23,7 +23,7 @@ public class VarObjBitBuilderResolver @Inject constructor(private val nameMappin
     ): List<TypeBuilderResult> = builders.cache.map { it.resolve() }
 
     private fun UnpackedVarObjBitType.resolve(): TypeBuilderResult {
-        val internalId = names[internalNameGet] ?: return err(NameNotFound(internalNameGet))
+        val internalId = names[internalName] ?: return err(NameNotFound(internalName))
         TypeResolver[this] = internalId
         return ok(FullSuccess)
     }

@@ -7,7 +7,7 @@ import org.rsmod.game.type.interf.InterfaceType
 public abstract class InterfaceReferences :
     HashTypeReferences<InterfaceType>(InterfaceType::class.java) {
     override fun find(internal: String, hash: Long?): InterfaceType {
-        val type = HashedInterfaceType(hash, internalName = internal)
+        val type = HashedInterfaceType(hash, internal)
         cache += type
         return type
     }

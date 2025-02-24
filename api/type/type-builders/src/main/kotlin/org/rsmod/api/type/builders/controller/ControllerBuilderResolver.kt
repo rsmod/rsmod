@@ -23,7 +23,7 @@ public class ControllerBuilderResolver @Inject constructor(private val nameMappi
     ): List<TypeBuilderResult> = builders.cache.map { it.resolve() }
 
     private fun ControllerType.resolve(): TypeBuilderResult {
-        val internalId = names[internalNameGet] ?: return err(NameNotFound(internalNameGet))
+        val internalId = names[internalName] ?: return err(NameNotFound(internalName))
         TypeResolver[this] = internalId
         return ok(FullSuccess)
     }

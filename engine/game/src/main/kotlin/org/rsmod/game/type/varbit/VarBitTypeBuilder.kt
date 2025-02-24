@@ -19,9 +19,9 @@ public class VarBitTypeBuilder(public var internal: String? = null) {
         val msb = checkNotNull(msb) { "`msb` must be set." }
         return UnpackedVarBitType(
             varpId = baseVar,
-            lsb = lsb,
-            msb = msb,
-            varp = varp,
+            internalVarp = varp,
+            internalLsb = lsb,
+            internalMsb = msb,
             internalId = id,
             internalName = internal,
         )
@@ -30,18 +30,18 @@ public class VarBitTypeBuilder(public var internal: String? = null) {
     public companion object {
         public fun merge(edit: UnpackedVarBitType, base: UnpackedVarBitType): UnpackedVarBitType {
             val varpId = select(edit, base, default = -1) { varpId }
-            val lsb = select(edit, base, default = -1) { lsb }
-            val msb = select(edit, base, default = -1) { msb }
-            val varp = select(edit, base, default = null) { varp }
+            val lsb = select(edit, base, default = -1) { internalLsb }
+            val msb = select(edit, base, default = -1) { internalMsb }
+            val varp = select(edit, base, default = null) { internalVarp }
             val internalId = select(edit, base, default = null) { internalId }
             val internalName = select(edit, base, default = null) { internalName }
             return UnpackedVarBitType(
                 varpId = varpId,
-                lsb = lsb,
-                msb = msb,
-                varp = varp,
-                internalId = internalId ?: -1,
-                internalName = internalName ?: "",
+                internalVarp = varp,
+                internalLsb = lsb,
+                internalMsb = msb,
+                internalId = internalId,
+                internalName = internalName,
             )
         }
     }

@@ -29,7 +29,7 @@ constructor(private val types: EnumTypeList, private val nameMapping: NameMappin
     ): List<TypeBuilderResult> = builders.cache.map { it.resolve() }
 
     private fun UnpackedEnumType<*, *>.resolve(): TypeBuilderResult {
-        val internalId = names[internalNameGet] ?: return err(NameNotFound(internalNameGet))
+        val internalId = names[internalName] ?: return err(NameNotFound(internalName))
         val cacheType = types[internalId]
 
         TypeResolver[this] = internalId

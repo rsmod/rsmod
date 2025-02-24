@@ -71,7 +71,7 @@ public class SeqTypeBuilder(public var internal: String? = null) {
             keyframeRangeStart = keyframeRangeStart,
             keyframeRangeEnd = keyframeRangeEnd,
             keyframeWalkMerge = keyframeWalkMerge,
-            priority = priority,
+            internalPriority = priority,
             internalId = id,
             internalName = internal,
         )

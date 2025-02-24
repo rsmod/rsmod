@@ -12,9 +12,9 @@ public class WalkTriggerTypeBuilder(public var internalName: String? = null) {
         val internalName = checkNotNull(internalName) { "`internalName` must be set." }
         val priority = priority ?: DEFAULT_PRIORITY
         return WalkTriggerType(
+            internalPriority = priority,
             internalId = id,
             internalName = internalName,
-            internalPriority = priority,
         )
     }
 
@@ -26,9 +26,9 @@ public class WalkTriggerTypeBuilder(public var internalName: String? = null) {
             val internalId = select(edit, base, default = null) { internalId }
             val internalName = select(edit, base, default = null) { internalName }
             return WalkTriggerType(
-                internalId = internalId ?: -1,
-                internalName = internalName,
                 internalPriority = priority,
+                internalId = internalId,
+                internalName = internalName,
             )
         }
     }

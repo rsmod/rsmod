@@ -22,14 +22,14 @@ public class ParamMap(
 
     public fun isNotEmpty(): Boolean = !isEmpty()
 
+    public operator fun <T : Any> contains(param: ParamType<T>): Boolean =
+        checkedTypedMap.containsKey(param.id)
+
     @Suppress("UNCHECKED_CAST")
     public fun <T : Any> getOrNull(param: ParamType<T>): T? = checkedTypedMap[param.id] as? T
 
     public operator fun <T : Any> get(param: ParamType<T>): T? =
         getOrNull(param) ?: param.typedDefault
-
-    public operator fun <T : Any> contains(param: ParamType<T>): Boolean =
-        checkedTypedMap.containsKey(param.id)
 
     public operator fun plus(other: ParamMap): ParamMap {
         val otherTypedMap = other.typedMap
@@ -56,4 +56,25 @@ public class ParamMap(
     override fun hashCode(): Int = primitiveMap.entries.hashCode()
 
     override fun toString(): String = typedMap?.toString() ?: primitiveMap.toString()
+}
+
+public fun <T : Any> ParamMap?.resolve(param: ParamType<T>): T {
+    if (this == null) {
+        val default = param.typedDefault
+        checkNotNull(default) {
+            "Param `$param` does not have a default value. Use `paramOrNull` instead."
+        }
+        return default
+    }
+
+    val value = this[param]
+    if (value != null) {
+        return value
+    }
+
+    val default = param.typedDefault
+    checkNotNull(default) {
+        "Param `$param` does not have a default value. Use `paramOrNull` instead."
+    }
+    return default
 }

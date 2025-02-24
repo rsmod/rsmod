@@ -34,7 +34,7 @@ import org.rsmod.game.entity.Player
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.obj.InvObj
 import org.rsmod.game.type.enums.EnumTypeList
-import org.rsmod.game.type.enums.findValue
+import org.rsmod.game.type.enums.find
 import org.rsmod.game.type.loc.LocType
 import org.rsmod.game.type.loc.LocTypeList
 import org.rsmod.game.type.loc.UnpackedLocType
@@ -297,7 +297,7 @@ constructor(
             enumTypes: EnumTypeList,
         ): Pair<Int, Int> {
             val axes = treeType.param(WoodcuttingParams.success_rates)
-            val rates = enumTypes[axes].findValue(axe)
+            val rates = enumTypes[axes].find(axe)
             val low = rates shr 16
             val high = rates and 0xFFFF
             return low to high

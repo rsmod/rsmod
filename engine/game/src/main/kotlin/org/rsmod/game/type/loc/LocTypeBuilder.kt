@@ -301,8 +301,8 @@ public class LocTypeBuilder(public var internal: String? = null) {
                 fixLocAnimAfterLocChange = fixLocAnimAfterLocChange,
                 paramMap = paramMap,
                 contentGroup = contentGroup,
-                internalId = internalId ?: -1,
-                internalName = internalName ?: "",
+                internalId = internalId,
+                internalName = internalName,
             )
         }
     }

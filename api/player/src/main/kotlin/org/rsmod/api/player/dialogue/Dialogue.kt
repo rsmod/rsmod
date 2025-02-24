@@ -12,7 +12,7 @@ import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.obj.InvObj
 import org.rsmod.game.type.content.ContentGroupType
-import org.rsmod.game.type.mesanim.MesAnimType
+import org.rsmod.game.type.mesanim.UnpackedMesAnimType
 import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.npc.UnpackedNpcType
 import org.rsmod.game.type.obj.ObjType
@@ -95,7 +95,7 @@ public class Dialogue(
         }
     }
 
-    public suspend fun chatPlayer(mesanim: MesAnimType, text: String) {
+    public suspend fun chatPlayer(mesanim: UnpackedMesAnimType, text: String) {
         val pages = alignment.generatePageList(text)
         for (page in pages) {
             val (pgText, lineCount) = page
@@ -113,7 +113,7 @@ public class Dialogue(
         }
     }
 
-    public suspend fun chatNpc(mesanim: MesAnimType, text: String) {
+    public suspend fun chatNpc(mesanim: UnpackedMesAnimType, text: String) {
         val pages = alignment.generatePageList(text)
         for (page in pages) {
             val (pgText, lineCount) = page
@@ -130,7 +130,7 @@ public class Dialogue(
         }
     }
 
-    public suspend fun chatNpcNoTurn(mesanim: MesAnimType, text: String) {
+    public suspend fun chatNpcNoTurn(mesanim: UnpackedMesAnimType, text: String) {
         val pages = alignment.generatePageList(text)
         for (page in pages) {
             val (pgText, lineCount) = page
@@ -163,7 +163,11 @@ public class Dialogue(
         }
     }
 
-    public suspend fun chatNpcSpecific(type: UnpackedNpcType, mesanim: MesAnimType, text: String) {
+    public suspend fun chatNpcSpecific(
+        type: UnpackedNpcType,
+        mesanim: UnpackedMesAnimType,
+        text: String,
+    ) {
         val pages = alignment.generatePageList(text)
         for (page in pages) {
             val (pgText, lineCount) = page
@@ -182,7 +186,7 @@ public class Dialogue(
     public suspend fun chatNpcSpecific(
         title: String,
         type: NpcType,
-        mesanim: MesAnimType,
+        mesanim: UnpackedMesAnimType,
         text: String,
     ) {
         val pages = alignment.generatePageList(text)
@@ -307,20 +311,20 @@ public class Dialogue(
         return visType.name
     }
 
-    public val quiz: MesAnimType = BaseMesAnims.quiz
-    public val bored: MesAnimType = BaseMesAnims.bored
-    public val short: MesAnimType = BaseMesAnims.short
-    public val happy: MesAnimType = BaseMesAnims.happy
-    public val shocked: MesAnimType = BaseMesAnims.shocked
-    public val confused: MesAnimType = BaseMesAnims.confused
-    public val silent: MesAnimType = BaseMesAnims.silent
-    public val neutral: MesAnimType = BaseMesAnims.neutral
-    public val shifty: MesAnimType = BaseMesAnims.shifty
-    public val worried: MesAnimType = BaseMesAnims.worried
-    public val drunk: MesAnimType = BaseMesAnims.drunk
-    public val verymad: MesAnimType = BaseMesAnims.very_mad
-    public val laugh: MesAnimType = BaseMesAnims.laugh
-    public val madlaugh: MesAnimType = BaseMesAnims.mad_laugh
-    public val sad: MesAnimType = BaseMesAnims.sad
-    public val angry: MesAnimType = BaseMesAnims.angry
+    public val quiz: UnpackedMesAnimType = BaseMesAnims.quiz
+    public val bored: UnpackedMesAnimType = BaseMesAnims.bored
+    public val short: UnpackedMesAnimType = BaseMesAnims.short
+    public val happy: UnpackedMesAnimType = BaseMesAnims.happy
+    public val shocked: UnpackedMesAnimType = BaseMesAnims.shocked
+    public val confused: UnpackedMesAnimType = BaseMesAnims.confused
+    public val silent: UnpackedMesAnimType = BaseMesAnims.silent
+    public val neutral: UnpackedMesAnimType = BaseMesAnims.neutral
+    public val shifty: UnpackedMesAnimType = BaseMesAnims.shifty
+    public val worried: UnpackedMesAnimType = BaseMesAnims.worried
+    public val drunk: UnpackedMesAnimType = BaseMesAnims.drunk
+    public val verymad: UnpackedMesAnimType = BaseMesAnims.very_mad
+    public val laugh: UnpackedMesAnimType = BaseMesAnims.laugh
+    public val madlaugh: UnpackedMesAnimType = BaseMesAnims.mad_laugh
+    public val sad: UnpackedMesAnimType = BaseMesAnims.sad
+    public val angry: UnpackedMesAnimType = BaseMesAnims.angry
 }
