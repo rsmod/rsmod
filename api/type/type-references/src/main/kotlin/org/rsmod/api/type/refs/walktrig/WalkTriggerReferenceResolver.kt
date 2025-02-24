@@ -6,6 +6,7 @@ import org.rsmod.api.type.refs.resolver.TypeReferenceResolver
 import org.rsmod.api.type.refs.resolver.TypeReferenceResult
 import org.rsmod.api.type.refs.resolver.TypeReferenceResult.CacheTypeNotFound
 import org.rsmod.api.type.refs.resolver.TypeReferenceResult.FullSuccess
+import org.rsmod.api.type.refs.resolver.TypeReferenceResult.InvalidImplicitName
 import org.rsmod.api.type.refs.resolver.TypeReferenceResult.NameNotFound
 import org.rsmod.api.type.refs.resolver.err
 import org.rsmod.api.type.refs.resolver.ok
@@ -27,7 +28,7 @@ constructor(private val nameMapping: NameMapping, private val types: WalkTrigger
     ): List<TypeReferenceResult> = refs.cache.map { it.resolve() }
 
     private fun WalkTriggerType.resolve(): TypeReferenceResult {
-        val name = internalNameGet
+        val name = internalName ?: return err(InvalidImplicitName)
         val internalId = names[name] ?: return err(NameNotFound(name, null))
         TypeResolver[this] = internalId
 

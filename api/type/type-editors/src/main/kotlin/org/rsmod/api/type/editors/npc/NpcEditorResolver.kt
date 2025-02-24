@@ -30,7 +30,7 @@ constructor(private val types: NpcTypeList, private val nameMapping: NameMapping
     ): List<TypeEditorResult> = editors.cache.map { it.resolve() }
 
     private fun UnpackedNpcType.resolve(): TypeEditorResult {
-        val internalId = names[internalNameGet] ?: return err(NameNotFound(internalNameGet))
+        val internalId = names[internalName] ?: return err(NameNotFound(internalName))
         val cacheType = types[internalId]
 
         TypeResolver[this] = internalId

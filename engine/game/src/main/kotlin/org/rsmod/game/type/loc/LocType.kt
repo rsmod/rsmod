@@ -3,31 +3,21 @@ package org.rsmod.game.type.loc
 import kotlin.contracts.contract
 import org.rsmod.game.interact.InteractionOp
 import org.rsmod.game.loc.LocInfo
+import org.rsmod.game.type.CacheType
+import org.rsmod.game.type.HashedCacheType
 import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.param.ParamType
 import org.rsmod.game.type.util.ParamMap
+import org.rsmod.game.type.util.resolve
 
-public infix fun LocType.isAssociatedWith(loc: LocInfo?): Boolean {
-    contract { returns(true) implies (loc != null) }
-    return loc != null && loc.isType(this)
-}
+public sealed class LocType : CacheType()
 
-public sealed class LocType(internal var internalId: Int?, internal var internalName: String?) {
-    public val id: Int
-        get() = internalId ?: error("`internalId` must not be null.")
-
-    public val internalNameGet: String?
-        get() = internalName
-}
-
-public class HashedLocType(
-    internal var startHash: Long? = null,
-    internalId: Int? = null,
-    internalName: String? = null,
-    public val autoResolve: Boolean = startHash == null,
-) : LocType(internalId, internalName) {
-    public val supposedHash: Long?
-        get() = startHash
+public data class HashedLocType(
+    override var startHash: Long?,
+    override var internalName: String?,
+    override var internalId: Int? = null,
+) : HashedCacheType, LocType() {
+    public val autoResolve: Boolean = startHash == null
 
     override fun toString(): String =
         "LocType(internalName='$internalName', internalId=$internalId, supposedHash=$supposedHash)"
@@ -35,11 +25,8 @@ public class HashedLocType(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is HashedLocType) return false
-
         if (startHash != other.startHash) return false
         if (internalId != other.internalId) return false
-        if (internalName != other.internalName) return false
-
         return true
     }
 
@@ -50,7 +37,7 @@ public class HashedLocType(
     }
 }
 
-public class UnpackedLocType(
+public data class UnpackedLocType(
     public val models: IntArray,
     public val shapes: ByteArray,
     public val name: String,
@@ -102,23 +89,10 @@ public class UnpackedLocType(
     public val fixLocAnimAfterLocChange: Boolean,
     public val paramMap: ParamMap?,
     public val contentGroup: Int,
-    internalId: Int,
-    internalName: String,
-) : LocType(internalId, internalName) {
-    public fun isContentType(content: ContentGroupType): Boolean = contentGroup == content.id
-
-    public fun <T : Any> param(type: ParamType<T>): T {
-        val params = paramMap
-        if (params == null) {
-            return type.typedDefault
-                ?: error("Param `$type` does not have a default value. Use `paramOrNull` instead.")
-        }
-        val value = params[type]
-        if (value != null) {
-            return value
-        }
-        return type.typedDefault ?: error("LocType does not have no-default param `$type` defined.")
-    }
+    override var internalId: Int?,
+    override var internalName: String?,
+) : LocType() {
+    public fun <T : Any> param(type: ParamType<T>): T = paramMap.resolve(type)
 
     public fun <T : Any> paramOrNull(type: ParamType<T>): T? = paramMap?.get(type)
 
@@ -128,6 +102,10 @@ public class UnpackedLocType(
         val text = op.getOrNull(interactionOp.slot - 1) ?: return false
         val invalid = text.isBlank() || text.equals("hidden", ignoreCase = true)
         return !invalid
+    }
+
+    public fun isContentType(content: ContentGroupType): Boolean {
+        return contentGroup == content.id
     }
 
     public fun toHashedType(): HashedLocType =
@@ -328,4 +306,9 @@ public class UnpackedLocType(
         result = 31 * result + (internalId ?: 0)
         return result
     }
+}
+
+public infix fun LocType.isAssociatedWith(loc: LocInfo?): Boolean {
+    contract { returns(true) implies (loc != null) }
+    return loc != null && loc.isType(this)
 }

@@ -1,31 +1,23 @@
 package org.rsmod.game.type.seq
 
 import kotlin.math.ceil
+import org.rsmod.game.type.CacheType
+import org.rsmod.game.type.HashedCacheType
 
-public sealed class SeqType(
-    internal var internalId: Int?,
-    internal var internalName: String?,
-    internal var internalPriority: Int,
-) {
-    public val id: Int
-        get() = internalId ?: error("`internalId` must not be null.")
-
-    public val internalNameGet: String?
-        get() = internalName
+public sealed class SeqType : CacheType() {
+    internal abstract var internalPriority: Int
 
     public val priority: Int
         get() = internalPriority
 }
 
-public class HashedSeqType(
-    internal var startHash: Long? = null,
-    internalId: Int? = null,
-    internalName: String? = null,
-    priority: Int = 0,
-    public val autoResolve: Boolean = startHash == null,
-) : SeqType(internalId, internalName, priority) {
-    public val supposedHash: Long?
-        get() = startHash
+public data class HashedSeqType(
+    override var startHash: Long?,
+    override var internalName: String?,
+    override var internalId: Int? = null,
+    override var internalPriority: Int = 0,
+) : HashedCacheType, SeqType() {
+    public val autoResolve: Boolean = startHash == null
 
     override fun toString(): String =
         "SeqType(internalId=$internalId, internalName=$internalName, supposedHash=$supposedHash)"
@@ -33,10 +25,8 @@ public class HashedSeqType(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is HashedSeqType) return false
-
         if (startHash != other.startHash) return false
         if (internalId != other.internalId) return false
-
         return true
     }
 
@@ -47,7 +37,7 @@ public class HashedSeqType(
     }
 }
 
-public class UnpackedSeqType(
+public data class UnpackedSeqType(
     public val frameGroup: ShortArray,
     public val frameIndex: ShortArray,
     public val delay: ShortArray,
@@ -70,16 +60,18 @@ public class UnpackedSeqType(
     public val keyframeWalkMerge: BooleanArray,
     public val totalDelay: Int = delay.sum(),
     public val tickDuration: Int = delay.tickDuration(),
-    priority: Int,
-    internalId: Int,
-    internalName: String,
-) : SeqType(internalId, internalName, priority) {
+    override var internalPriority: Int,
+    override var internalId: Int?,
+    override var internalName: String?,
+) : SeqType() {
+    private val identityHash by lazy { computeIdentityHash() }
+
     public fun toHashedType(): HashedSeqType =
         HashedSeqType(
-            internalId = internalId,
+            startHash = identityHash,
             internalName = internalName,
-            startHash = computeIdentityHash(),
-            priority = priority,
+            internalId = internalId,
+            internalPriority = priority,
         )
 
     public fun computeIdentityHash(): Long {

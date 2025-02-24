@@ -6,29 +6,21 @@ import org.rsmod.game.interact.InteractionOp
 import org.rsmod.game.map.Direction
 import org.rsmod.game.movement.BlockWalk
 import org.rsmod.game.movement.MoveRestrict
+import org.rsmod.game.type.CacheType
+import org.rsmod.game.type.HashedCacheType
 import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.param.ParamType
 import org.rsmod.game.type.util.ParamMap
+import org.rsmod.game.type.util.resolve
 
-public sealed class NpcType(internal var internalId: Int?, internal var internalName: String?) {
-    public val id: Int
-        get() = internalId ?: error("`internalId` must be set.")
-
-    public val nameValue: String
-        get() = internalName ?: error("`internalName` must not be null.")
-
-    public val internalNameGet: String?
-        get() = internalName
-}
+public sealed class NpcType : CacheType()
 
 public class HashedNpcType(
-    internal var startHash: Long? = null,
-    internalId: Int? = null,
-    internalName: String? = null,
-    public val autoResolve: Boolean = startHash == null,
-) : NpcType(internalId, internalName) {
-    public val supposedHash: Long?
-        get() = startHash
+    override var startHash: Long?,
+    override var internalName: String?,
+    override var internalId: Int? = null,
+) : HashedCacheType, NpcType() {
+    public val autoResolve: Boolean = startHash == null
 
     override fun toString(): String =
         "NpcType(internalName='$internalName', internalId=$internalId, supposedHash=$supposedHash)"
@@ -36,10 +28,8 @@ public class HashedNpcType(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is HashedNpcType) return false
-
         if (startHash != other.startHash) return false
         if (internalId != other.internalId) return false
-
         return true
     }
 
@@ -50,7 +40,7 @@ public class HashedNpcType(
     }
 }
 
-public class UnpackedNpcType(
+public data class UnpackedNpcType(
     public val name: String,
     public val desc: String,
     public val models: IntArray,
@@ -115,26 +105,13 @@ public class UnpackedNpcType(
     public val respawnDir: Direction,
     public val patrol: NpcPatrol?,
     public val contentGroup: Int,
-    internalId: Int,
-    internalName: String,
-) : NpcType(internalId, internalName) {
+    override var internalId: Int?,
+    override var internalName: String?,
+) : NpcType() {
     public val isMultiNpc: Boolean
         get() = multiNpc.isNotEmpty() || multiNpcDefault > 0
 
-    public fun isContentType(content: ContentGroupType): Boolean = contentGroup == content.id
-
-    public fun <T : Any> param(type: ParamType<T>): T {
-        val params = paramMap
-        if (params == null) {
-            return type.typedDefault
-                ?: error("Param `$type` does not have a default value. Use `paramOrNull` instead.")
-        }
-        val value = params[type]
-        if (value != null) {
-            return value
-        }
-        return type.typedDefault ?: error("NpcType does not have no-default param `$type` defined.")
-    }
+    public fun <T : Any> param(type: ParamType<T>): T = paramMap.resolve(type)
 
     public fun <T : Any> paramOrNull(type: ParamType<T>): T? = paramMap?.get(type)
 
@@ -144,6 +121,10 @@ public class UnpackedNpcType(
         val text = op.getOrNull(interactionOp.slot - 1) ?: return false
         val invalid = text.isBlank() || text.equals("hidden", ignoreCase = true)
         return !invalid
+    }
+
+    public fun isContentType(content: ContentGroupType): Boolean {
+        return contentGroup == content.id
     }
 
     public fun toHashedType(): HashedNpcType =

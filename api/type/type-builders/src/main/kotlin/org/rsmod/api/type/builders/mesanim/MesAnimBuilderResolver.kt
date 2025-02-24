@@ -11,19 +11,19 @@ import org.rsmod.api.type.builders.resolver.ok
 import org.rsmod.api.type.script.dsl.MesAnimPluginBuilder
 import org.rsmod.api.type.symbols.name.NameMapping
 import org.rsmod.game.type.TypeResolver
-import org.rsmod.game.type.mesanim.MesAnimType
+import org.rsmod.game.type.mesanim.UnpackedMesAnimType
 
 public class MesAnimBuilderResolver @Inject constructor(private val nameMapping: NameMapping) :
-    TypeBuilderResolver<MesAnimPluginBuilder, MesAnimType> {
+    TypeBuilderResolver<MesAnimPluginBuilder, UnpackedMesAnimType> {
     private val names: Map<String, Int>
         get() = nameMapping.mesanims
 
     override fun resolve(
-        builders: TypeBuilder<MesAnimPluginBuilder, MesAnimType>
+        builders: TypeBuilder<MesAnimPluginBuilder, UnpackedMesAnimType>
     ): List<TypeBuilderResult> = builders.cache.map { it.resolve() }
 
-    private fun MesAnimType.resolve(): TypeBuilderResult {
-        val internalId = names[internalNameGet] ?: return err(NameNotFound(internalNameGet))
+    private fun UnpackedMesAnimType.resolve(): TypeBuilderResult {
+        val internalId = names[internalName] ?: return err(NameNotFound(internalName))
         TypeResolver[this] = internalId
         return ok(FullSuccess)
     }

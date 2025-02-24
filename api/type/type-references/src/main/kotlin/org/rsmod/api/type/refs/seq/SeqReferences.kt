@@ -6,7 +6,7 @@ import org.rsmod.game.type.seq.SeqType
 
 public abstract class SeqReferences : HashTypeReferences<SeqType>(SeqType::class.java) {
     override fun find(internal: String, hash: Long?): SeqType {
-        val type = HashedSeqType(hash, internalName = internal)
+        val type = HashedSeqType(hash, internal)
         cache += type
         return type
     }

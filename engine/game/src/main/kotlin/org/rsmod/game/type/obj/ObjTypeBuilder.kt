@@ -438,8 +438,8 @@ public class ObjTypeBuilder(public var internal: String? = null) {
                 weaponCategory = weaponCategory,
                 transformlink = transformlink,
                 transformtemplate = transformtemplate,
-                internalId = internalId ?: -1,
-                internalName = internalName ?: "",
+                internalId = internalId,
+                internalName = internalName,
             )
         }
     }

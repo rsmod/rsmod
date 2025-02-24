@@ -8,5 +8,5 @@ internal var Player.clueScrollDisableVessels by
     boolVarBit(LumbridgeVarBits.skill_challenge_disable_vessels)
 
 internal object LumbridgeVarBits : VarBitReferences() {
-    val skill_challenge_disable_vessels = find("skill_challenge_disable_vessels", 2125764051)
+    val skill_challenge_disable_vessels = find("skill_challenge_disable_vessels", 56930885826258)
 }

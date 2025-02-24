@@ -23,7 +23,7 @@ public class VarConBuilderResolver @Inject constructor(private val nameMapping: 
     ): List<TypeBuilderResult> = builders.cache.map { it.resolve() }
 
     private fun UnpackedVarConType.resolve(): TypeBuilderResult {
-        val internalId = names[internalNameGet] ?: return err(NameNotFound(internalNameGet))
+        val internalId = names[internalName] ?: return err(NameNotFound(internalName))
         TypeResolver[this] = internalId
         return ok(FullSuccess)
     }

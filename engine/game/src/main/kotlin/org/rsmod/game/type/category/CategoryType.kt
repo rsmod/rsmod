@@ -1,12 +1,9 @@
 package org.rsmod.game.type.category
 
-public class CategoryType(internal var internalId: Int?, internal val internalName: String) {
-    public val id: Int
-        get() = internalId ?: error("`internalId` must not be null.")
+import org.rsmod.game.type.CacheType
 
-    public val internalNameGet: String
-        get() = internalName
-
+public data class CategoryType(override var internalId: Int?, override var internalName: String?) :
+    CacheType() {
     override fun toString(): String =
         "CategoryType(internalName='$internalName', internalId=$internalId)"
 }

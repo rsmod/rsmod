@@ -29,7 +29,7 @@ constructor(private val types: InvTypeList, private val nameMapping: NameMapping
     ): List<TypeEditorResult> = editors.cache.map { it.resolve() }
 
     private fun UnpackedInvType.resolve(): TypeEditorResult {
-        val internalId = names[internalNameGet] ?: return err(NameNotFound(internalNameGet))
+        val internalId = names[internalName] ?: return err(NameNotFound(internalName))
         val cacheType = types[internalId]
 
         TypeResolver[this] = internalId

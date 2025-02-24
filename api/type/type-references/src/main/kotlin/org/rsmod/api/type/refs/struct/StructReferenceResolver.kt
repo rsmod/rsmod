@@ -32,7 +32,7 @@ constructor(private val nameMapping: NameMapping, private val types: StructTypeL
         refs.cache.map { it.resolve() }
 
     private fun HashedStructType.resolve(): TypeReferenceResult {
-        val name = internalNameGet ?: return err(InvalidImplicitName)
+        val name = internalName ?: return err(InvalidImplicitName)
         val internalId = names[name] ?: return err(ImplicitNameNotFound(name))
         TypeResolver[this] = internalId
 

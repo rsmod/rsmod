@@ -1,6 +1,6 @@
 package org.rsmod.game.entity.player
 
-import org.rsmod.game.type.bas.BasType
+import org.rsmod.game.type.bas.UnpackedBasType
 import org.rsmod.game.type.npc.UnpackedNpcType
 
 public class Appearance {
@@ -11,7 +11,7 @@ public class Appearance {
     public var rebuild: Boolean = true
         internal set
 
-    public var bas: BasType? = null
+    public var bas: UnpackedBasType? = null
         set(value) {
             field = value
             rebuild = true

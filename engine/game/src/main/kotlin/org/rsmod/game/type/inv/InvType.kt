@@ -1,21 +1,16 @@
 package org.rsmod.game.type.inv
 
-public sealed class InvType(internal var internalId: Int?, internal var internalName: String?) {
-    public val internalNameGet: String?
-        get() = internalName
+import org.rsmod.game.type.CacheType
+import org.rsmod.game.type.HashedCacheType
 
-    public val id: Int
-        get() = internalId ?: error("`internalId` must not be null.")
-}
+public sealed class InvType : CacheType()
 
-public class HashedInvType(
-    internal var startHash: Long? = null,
-    internalId: Int? = null,
-    internalName: String? = null,
-    public val autoResolve: Boolean = startHash == null,
-) : InvType(internalId, internalName) {
-    public val supposedHash: Long?
-        get() = startHash
+public data class HashedInvType(
+    override var startHash: Long?,
+    override var internalName: String?,
+    override var internalId: Int? = null,
+) : HashedCacheType, InvType() {
+    public val autoResolve: Boolean = startHash == null
 
     override fun toString(): String =
         "InvType(" +
@@ -27,10 +22,8 @@ public class HashedInvType(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is HashedInvType) return false
-
         if (startHash != other.startHash) return false
         if (internalId != other.internalId) return false
-
         return true
     }
 
@@ -41,15 +34,15 @@ public class HashedInvType(
     }
 }
 
-public class UnpackedInvType(
+public data class UnpackedInvType(
     public val scope: InvScope,
     public val stack: InvStackType,
     public val size: Int,
     public val flags: Int,
     public val stock: Array<InvStock?>?,
-    internalId: Int,
-    internalName: String,
-) : InvType(internalId, internalName) {
+    override var internalId: Int?,
+    override var internalName: String?,
+) : InvType() {
     public val restock: Boolean
         get() = flags and RESTOCK_FLAG != 0
 
@@ -109,8 +102,8 @@ public class UnpackedInvType(
         return result and 0x7FFFFFFFFFFFFFFF
     }
 
-    override fun toString(): String {
-        return "UnpackedInvType(" +
+    override fun toString(): String =
+        "UnpackedInvType(" +
             "internalName='$internalName', " +
             "internalId=$internalId, " +
             "scope=$scope, " +
@@ -125,7 +118,6 @@ public class UnpackedInvType(
             "placeholders=$placeholders, " +
             "stock=${stock?.contentToString()}" +
             ")"
-    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

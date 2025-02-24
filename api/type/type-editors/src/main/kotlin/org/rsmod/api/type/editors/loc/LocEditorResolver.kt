@@ -30,7 +30,7 @@ constructor(private val types: LocTypeList, private val nameMapping: NameMapping
     ): List<TypeEditorResult> = editors.cache.map { it.resolve() }
 
     private fun UnpackedLocType.resolve(): TypeEditorResult {
-        val internalId = names[internalNameGet] ?: return err(NameNotFound(internalNameGet))
+        val internalId = names[internalName] ?: return err(NameNotFound(internalName))
         val cacheType = types[internalId]
 
         TypeResolver[this] = internalId

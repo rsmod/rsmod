@@ -89,8 +89,8 @@ public class InvTypeBuilder(public var internal: String? = null) {
                 size = size,
                 flags = flags,
                 stock = stock,
-                internalId = internalId ?: -1,
-                internalName = internalName ?: "",
+                internalId = internalId,
+                internalName = internalName,
             )
         }
     }

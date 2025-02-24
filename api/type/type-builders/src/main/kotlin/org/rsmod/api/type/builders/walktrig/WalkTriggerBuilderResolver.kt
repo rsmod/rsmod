@@ -28,7 +28,7 @@ constructor(private val types: WalkTriggerTypeList, private val nameMapping: Nam
     ): List<TypeBuilderResult> = builders.cache.map { it.resolve() }
 
     private fun WalkTriggerType.resolve(): TypeBuilderResult {
-        val internalId = names[internalNameGet] ?: return err(NameNotFound(internalNameGet))
+        val internalId = names[internalName] ?: return err(NameNotFound(internalName))
         val cacheType = types[internalId]
 
         TypeResolver[this] = internalId

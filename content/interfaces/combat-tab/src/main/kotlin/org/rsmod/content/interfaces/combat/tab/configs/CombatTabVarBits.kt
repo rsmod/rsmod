@@ -67,7 +67,7 @@ object CombatTabVarBitBuilder : VarBitBuilder() {
     }
 
     private fun style1(type: VarBitType, bits: IntRange) {
-        build(type.nameValue) {
+        build(type.internalNameValue) {
             baseVar = combat_varps.saved_attackstyle1
             startBit = bits.first
             endBit = bits.last
@@ -75,7 +75,7 @@ object CombatTabVarBitBuilder : VarBitBuilder() {
     }
 
     private fun style2(type: VarBitType, bits: IntRange) {
-        build(type.nameValue) {
+        build(type.internalNameValue) {
             baseVar = combat_varps.saved_attackstyle2
             startBit = bits.first
             endBit = bits.last

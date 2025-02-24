@@ -21,7 +21,7 @@ public class SynthReferenceResolver @Inject constructor(private val nameMapping:
         refs.cache.map { it.resolve() }
 
     private fun SynthType.resolve(): TypeReferenceResult {
-        val internalId = names[internalNameGet] ?: return err(ImplicitNameNotFound(internalNameGet))
+        val internalId = names[internalName] ?: return err(ImplicitNameNotFound(internalName))
         TypeResolver[this] = internalId
         return ok(FullSuccess)
     }

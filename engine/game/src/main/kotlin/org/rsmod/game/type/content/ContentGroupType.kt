@@ -1,12 +1,11 @@
 package org.rsmod.game.type.content
 
-public class ContentGroupType(internal var internalId: Int?, internal val internalName: String) {
-    public val id: Int
-        get() = internalId ?: error("`internalId` must not be null.")
+import org.rsmod.game.type.CacheType
 
-    public val internalNameGet: String
-        get() = internalName
-
+public data class ContentGroupType(
+    override var internalId: Int?,
+    override var internalName: String?,
+) : CacheType() {
     override fun toString(): String =
         "ContentGroupType(internalName='$internalName', internalId=$internalId)"
 }

@@ -1,14 +1,13 @@
 package org.rsmod.game.type.comp
 
+import org.rsmod.game.type.CacheType
+import org.rsmod.game.type.HashedCacheType
 import org.rsmod.game.ui.Component.Companion.CHILD_BIT_MASK
 import org.rsmod.game.ui.Component.Companion.CHILD_BIT_OFFSET
 import org.rsmod.game.ui.Component.Companion.PARENT_BIT_MASK
 import org.rsmod.game.ui.Component.Companion.PARENT_BIT_OFFSET
 
-public sealed class ComponentType(
-    internal var internalId: Int?,
-    internal var internalName: String?,
-) {
+public sealed class ComponentType : CacheType() {
     public val packed: Int
         get() = internalId ?: error("`internalId` must not be null.")
 
@@ -18,35 +17,29 @@ public sealed class ComponentType(
     public val component: Int
         get() = (packed shr CHILD_BIT_OFFSET) and CHILD_BIT_MASK
 
-    public val internalNameGet: String?
-        get() = internalName
-
-    public infix fun isType(other: ComponentType): Boolean = other.internalId == internalId
+    public fun isType(other: ComponentType): Boolean = other.internalId == internalId
 }
 
-public class HashedComponentType(
-    internal var startHash: Long? = null,
-    internalId: Int? = null,
-    internalName: String? = null,
-    public val autoResolve: Boolean = startHash == null,
-) : ComponentType(internalId, internalName) {
-    public val supposedHash: Long?
-        get() = startHash
+public data class HashedComponentType(
+    override var startHash: Long?,
+    override var internalName: String?,
+    override var internalId: Int? = null,
+) : HashedCacheType, ComponentType() {
+    public val autoResolve: Boolean = startHash == null
 
     override fun toString(): String =
-        if (internalId != null) {
-            "ComponentType(internalName='$internalName', component=$interfaceId:$component, combinedId=$internalId)"
-        } else {
-            "ComponentType(internalName='$internalName', supposedHash=$startHash)"
-        }
+        "ComponentType(" +
+            "internalName='$internalName', " +
+            "component=$interfaceId:$component, " +
+            "combinedId=$internalId, " +
+            "supposedHash=$supposedHash" +
+            ")"
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is HashedComponentType) return false
-
         if (startHash != other.startHash) return false
         if (internalId != other.internalId) return false
-
         return true
     }
 
@@ -57,7 +50,7 @@ public class HashedComponentType(
     }
 }
 
-public class UnpackedComponentType(
+public data class UnpackedComponentType(
     public val v3: Boolean,
     public val type: Int,
     public val buttonType: Int,
@@ -146,14 +139,16 @@ public class UnpackedComponentType(
     public val onVarTransmitList: IntArray?,
     public val onInvTransmitList: IntArray?,
     public val onStatTransmitList: IntArray?,
-    internalId: Int,
-    internalName: String,
-) : ComponentType(internalId, internalName) {
+    override var internalId: Int?,
+    override var internalName: String?,
+) : ComponentType() {
+    private val identityHash by lazy { computeIdentityHash() }
+
     public fun toHashedType(): HashedComponentType =
         HashedComponentType(
             internalId = internalId,
             internalName = internalName,
-            startHash = computeIdentityHash(),
+            startHash = identityHash,
         )
 
     public fun computeIdentityHash(): Long {
@@ -515,10 +510,8 @@ public class UnpackedComponentType(
 
     override fun hashCode(): Int = computeIdentityHash().toInt()
 
-    private companion object {
-        private fun Array<IntArray>.contentsFormat() =
-            joinToString(separator = ", ", prefix = "[", postfix = "]") {
-                it.joinToString(separator = ", ", prefix = "[", postfix = "]")
-            }
-    }
+    private fun Array<IntArray>.contentsFormat() =
+        joinToString(separator = ", ", prefix = "[", postfix = "]") {
+            it.joinToString(separator = ", ", prefix = "[", postfix = "]")
+        }
 }

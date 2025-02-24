@@ -1,23 +1,17 @@
 package org.rsmod.game.type.struct
 
+import org.rsmod.game.type.CacheType
+import org.rsmod.game.type.HashedCacheType
 import org.rsmod.game.type.util.ParamMap
 
-public sealed class StructType(internal var internalId: Int?, internal var internalName: String?) {
-    public val id: Int
-        get() = internalId ?: error("`internalId` must not be null.")
+public sealed class StructType : CacheType()
 
-    public val internalNameGet: String?
-        get() = internalName
-}
-
-public class HashedStructType(
-    internal var startHash: Long? = null,
-    internalId: Int? = null,
-    internalName: String? = null,
-    public val autoResolve: Boolean = startHash == null,
-) : StructType(internalId, internalName) {
-    public val supposedHash: Long?
-        get() = startHash
+public data class HashedStructType(
+    override var startHash: Long?,
+    override var internalName: String?,
+    override var internalId: Int? = null,
+) : HashedCacheType, StructType() {
+    public val autoResolve: Boolean = startHash == null
 
     override fun toString(): String =
         "StructType(" +
@@ -29,10 +23,8 @@ public class HashedStructType(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is HashedStructType) return false
-
         if (startHash != other.startHash) return false
         if (internalId != other.internalId) return false
-
         return true
     }
 
@@ -43,11 +35,11 @@ public class HashedStructType(
     }
 }
 
-public class UnpackedStructType(
+public data class UnpackedStructType(
     public val paramMap: ParamMap?,
-    internalId: Int,
-    internalName: String,
-) : StructType(internalId, internalName) {
+    override var internalId: Int?,
+    override var internalName: String?,
+) : StructType() {
     public fun computeIdentityHash(): Long {
         val result = internalId.hashCode().toLong()
         return result and 0x7FFFFFFFFFFFFFFF
@@ -63,10 +55,8 @@ public class UnpackedStructType(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is UnpackedStructType) return false
-
         if (paramMap != other.paramMap) return false
         if (internalId != other.internalId) return false
-
         return true
     }
 

@@ -83,16 +83,16 @@ internal object ObjEdits : ObjEditor() {
     }
 
     private fun maxCape(hood: ObjType, wornCape: ObjType, invCape: ObjType) {
-        edit(invCape.nameValue) {
+        edit(invCape.internalNameValue) {
             contentGroup = content.max_cape
             transformlink = wornCape
         }
-        edit(wornCape.nameValue) {
+        edit(wornCape.internalNameValue) {
             contentGroup = content.max_cape
             transformlink = invCape
             transformtemplate = objs.template_for_transform
         }
-        edit(hood.nameValue) { contentGroup = content.max_hood }
+        edit(hood.internalNameValue) { contentGroup = content.max_hood }
     }
 
     private fun editGeneralStorage() {

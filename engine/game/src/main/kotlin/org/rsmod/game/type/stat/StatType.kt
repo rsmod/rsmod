@@ -1,16 +1,12 @@
 package org.rsmod.game.type.stat
 
-public sealed class StatType(
-    internal var internalId: Int?,
-    internal var internalName: String?,
-    internal var internalMaxLevel: Int? = null,
-    internal var internalDisplayName: String? = null,
-) {
-    public val id: Int
-        get() = internalId ?: error("`internalId` must not be null.")
+import org.rsmod.game.type.CacheType
+import org.rsmod.game.type.HashedCacheType
 
-    public val internalNameGet: String?
-        get() = internalName
+public sealed class StatType : CacheType() {
+    internal abstract var internalMaxLevel: Int?
+
+    internal abstract var internalDisplayName: String?
 
     public val maxLevel: Int
         get() = internalMaxLevel ?: error("`internalMaxLevel` must not be null.")
@@ -19,16 +15,14 @@ public sealed class StatType(
         get() = internalDisplayName ?: error("`internalDisplayName` must not be null.")
 }
 
-public class HashedStatType(
-    internal var startHash: Long? = null,
-    internalId: Int? = null,
-    internalName: String? = null,
-    internalMaxLevel: Int? = null,
-    internalDisplayName: String? = null,
-    public val autoResolve: Boolean = startHash == null,
-) : StatType(internalId, internalName, internalMaxLevel, internalDisplayName) {
-    public val supposedHash: Long?
-        get() = startHash
+public data class HashedStatType(
+    override var startHash: Long?,
+    override var internalName: String?,
+    override var internalId: Int? = null,
+    override var internalMaxLevel: Int? = null,
+    override var internalDisplayName: String? = null,
+) : HashedCacheType, StatType() {
+    public val autoResolve: Boolean = startHash == null
 
     override fun toString(): String =
         "StatType(internalName='$internalName', internalId=$internalId, supposedHash=$supposedHash)"
@@ -36,11 +30,8 @@ public class HashedStatType(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is HashedStatType) return false
-
         if (startHash != other.startHash) return false
         if (internalId != other.internalId) return false
-        if (internalName != other.internalName) return false
-
         return true
     }
 
@@ -51,18 +42,20 @@ public class HashedStatType(
     }
 }
 
-public class UnpackedStatType(
+public data class UnpackedStatType(
     public val unreleased: Boolean,
-    maxLevel: Int,
-    displayName: String,
-    internalId: Int,
-    internalName: String,
-) : StatType(internalId, internalName, maxLevel, displayName) {
+    override var internalMaxLevel: Int?,
+    override var internalDisplayName: String?,
+    override var internalId: Int?,
+    override var internalName: String?,
+) : StatType() {
+    private val identityHash by lazy { computeIdentityHash() }
+
     public fun toHashedType(): HashedStatType =
         HashedStatType(
-            internalId = internalId,
+            startHash = identityHash,
             internalName = internalName,
-            startHash = computeIdentityHash(),
+            internalId = internalId,
             internalMaxLevel = internalMaxLevel,
             internalDisplayName = displayName,
         )
@@ -84,15 +77,11 @@ public class UnpackedStatType(
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as UnpackedStatType
-
+        if (other !is UnpackedStatType) return false
         if (unreleased != other.unreleased) return false
         if (maxLevel != other.maxLevel) return false
         if (displayName != other.displayName) return false
         if (internalId != other.internalId) return false
-
         return true
     }
 

@@ -17,8 +17,8 @@ public class StatTypeBuilder(public var internalName: String? = null) {
         val unreleased = unreleased ?: false
         return UnpackedStatType(
             unreleased = unreleased,
-            maxLevel = maxLevel,
-            displayName = displayName,
+            internalMaxLevel = maxLevel,
+            internalDisplayName = displayName,
             internalId = id,
             internalName = internalName,
         )
@@ -37,10 +37,10 @@ public class StatTypeBuilder(public var internalName: String? = null) {
             val internalName = select(edit, base, default = null) { internalName }
             return UnpackedStatType(
                 unreleased = unreleased,
-                maxLevel = maxLevel,
-                displayName = displayName,
-                internalId = internalId ?: -1,
-                internalName = internalName ?: "",
+                internalMaxLevel = maxLevel,
+                internalDisplayName = displayName,
+                internalId = internalId,
+                internalName = internalName,
             )
         }
     }

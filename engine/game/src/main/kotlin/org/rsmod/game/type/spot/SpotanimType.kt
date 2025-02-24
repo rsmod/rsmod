@@ -1,24 +1,16 @@
 package org.rsmod.game.type.spot
 
-public sealed class SpotanimType(
-    internal var internalId: Int?,
-    internal var internalName: String?,
-) {
-    public val id: Int
-        get() = internalId ?: error("`internalId` must not be null.")
+import org.rsmod.game.type.CacheType
+import org.rsmod.game.type.HashedCacheType
 
-    public val internalNameGet: String?
-        get() = internalName
-}
+public sealed class SpotanimType : CacheType()
 
-public class HashedSpotanimType(
-    internal var startHash: Long? = null,
-    internalId: Int? = null,
-    internalName: String? = null,
-    public val autoResolve: Boolean = startHash == null,
-) : SpotanimType(internalId, internalName) {
-    public val supposedHash: Long?
-        get() = startHash
+public data class HashedSpotanimType(
+    override var startHash: Long?,
+    override var internalName: String?,
+    override var internalId: Int? = null,
+) : HashedCacheType, SpotanimType() {
+    public val autoResolve: Boolean = startHash == null
 
     override fun toString(): String =
         "SpotanimType(" +
@@ -42,7 +34,7 @@ public class HashedSpotanimType(
     }
 }
 
-public class UnpackedSpotanimType(
+public data class UnpackedSpotanimType(
     public val model: Int,
     public val anim: Int,
     public val ambient: Int,
@@ -54,14 +46,16 @@ public class UnpackedSpotanimType(
     public val recolD: ShortArray,
     public val retexS: ShortArray,
     public val retexD: ShortArray,
-    internalId: Int,
-    internalName: String,
-) : SpotanimType(internalId, internalName) {
+    override var internalId: Int?,
+    override var internalName: String?,
+) : SpotanimType() {
+    private val identityHash by lazy { computeIdentityHash() }
+
     public fun toHashedType(): HashedSpotanimType =
         HashedSpotanimType(
-            internalId = internalId,
+            startHash = identityHash,
             internalName = internalName,
-            startHash = computeIdentityHash(),
+            internalId = internalId,
         )
 
     public fun computeIdentityHash(): Long {
@@ -90,10 +84,7 @@ public class UnpackedSpotanimType(
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as UnpackedSpotanimType
-
+        if (other !is UnpackedSpotanimType) return false
         if (model != other.model) return false
         if (anim != other.anim) return false
         if (ambient != other.ambient) return false
@@ -106,7 +97,6 @@ public class UnpackedSpotanimType(
         if (!retexS.contentEquals(other.retexS)) return false
         if (!retexD.contentEquals(other.retexD)) return false
         if (internalId != other.internalId) return false
-
         return true
     }
 

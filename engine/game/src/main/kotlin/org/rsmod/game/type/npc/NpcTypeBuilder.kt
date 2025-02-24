@@ -377,8 +377,8 @@ public class NpcTypeBuilder(public var internal: String? = null) {
                 respawnDir = respawnDir,
                 patrol = patrol,
                 contentGroup = contentGroup,
-                internalId = internalId ?: -1,
-                internalName = internalName ?: "",
+                internalId = internalId,
+                internalName = internalName,
             )
         }
     }

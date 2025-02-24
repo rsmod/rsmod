@@ -32,7 +32,7 @@ constructor(private val nameMapping: NameMapping, private val types: SeqTypeList
         refs.cache.map { it.resolve() }
 
     private fun HashedSeqType.resolve(): TypeReferenceResult {
-        val name = internalNameGet ?: return err(InvalidImplicitName)
+        val name = internalName ?: return err(InvalidImplicitName)
         val internalId = names[name] ?: return err(NameNotFound(name, supposedHash))
         TypeResolver[this] = internalId
 

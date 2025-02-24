@@ -22,7 +22,7 @@ public class ModGroupPluginBuilder(private var internal: String? = null) {
         val moderator = clientModerator == true
         val administrator = clientAdministrator == true
         val modLevels = modLevels ?: emptySet()
-        return ModGroup(id, internal, moderator, administrator, modLevels)
+        return ModGroup(modLevels, moderator, administrator, id, internal)
     }
 
     public operator fun ModLevel.plus(other: ModLevel): Set<ModLevel> = setOf(this, other)
