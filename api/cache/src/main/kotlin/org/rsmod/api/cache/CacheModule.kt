@@ -25,6 +25,7 @@ import org.rsmod.game.type.struct.StructTypeList
 import org.rsmod.game.type.synth.SynthTypeList
 import org.rsmod.game.type.varbit.VarBitTypeList
 import org.rsmod.game.type.varp.VarpTypeList
+import org.rsmod.game.type.walktrig.WalkTriggerTypeList
 import org.rsmod.module.ExtendedModule
 
 public object CacheModule : ExtendedModule() {
@@ -65,6 +66,9 @@ public object CacheModule : ExtendedModule() {
     @Provides public fun spotanimTypeList(map: TypeListMap): SpotanimTypeList = map.spotanims
 
     @Provides public fun jingleTypeList(map: TypeListMap): JingleTypeList = map.jingles
+
+    @Provides
+    public fun walkTriggerTypeList(map: TypeListMap): WalkTriggerTypeList = map.walkTriggers
 }
 
 private class ConfigTypeListMapProvider

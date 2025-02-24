@@ -44,7 +44,7 @@ class PlayerFaceSquareProcessorTest {
                     }
                 }
 
-                walk(moveDest)
+                move(moveDest)
                 faceSquare(faceTarget, targetWidth = 1, targetLength = 1)
                 check(pendingFaceAngle == EntityFaceAngle.NULL)
 

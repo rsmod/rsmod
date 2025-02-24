@@ -151,6 +151,11 @@ public class Player(
         return !hasOngoingInteraction && ui.modals.isNotEmpty() && hasPendingQueue
     }
 
+    public fun walk(dest: CoordGrid) {
+        abortRoute()
+        routeDestination.add(dest)
+    }
+
     public fun timer(timer: TimerType, cycles: Int) {
         require(cycles > 0) { "`cycles` must be greater than 0. (cycles=$cycles)" }
         timerMap[timer] = currentMapClock + cycles

@@ -42,7 +42,7 @@ class PlayerMovementProcessorTest {
                     movement.process(this)
                 }
 
-                walk(target)
+                move(target)
                 tempMoveSpeed = MoveSpeed.Walk
 
                 // Go over the next few steps to assert route is iterating as expected.
@@ -109,7 +109,7 @@ class PlayerMovementProcessorTest {
                     movement.process(this)
                 }
 
-                walk(target)
+                move(target)
 
                 // Go over the next few steps to assert route is iterating as expected.
                 repeat(3) { index ->
@@ -195,7 +195,7 @@ class PlayerMovementProcessorTest {
                     movement.process(this)
                 }
 
-                walk(target)
+                move(target)
 
                 // On the first process, our route request should have filled the player's route
                 // destination, and should contain a total of 3 waypoints to reach the target.

@@ -22,6 +22,7 @@ import org.rsmod.api.cache.types.param.ParamTypeEncoder
 import org.rsmod.api.cache.types.stat.StatTypeEncoder
 import org.rsmod.api.cache.types.varbit.VarBitTypeEncoder
 import org.rsmod.api.cache.types.varp.VarpTypeEncoder
+import org.rsmod.api.cache.types.walktrig.WalkTriggerTypeEncoder
 import org.rsmod.api.cache.util.EncoderContext
 import org.rsmod.api.type.builders.resolver.TypeBuilderResolverMap
 import org.rsmod.api.type.editors.resolver.TypeEditorResolverMap
@@ -46,6 +47,8 @@ import org.rsmod.game.type.varbit.UnpackedVarBitType
 import org.rsmod.game.type.varbit.VarBitTypeBuilder
 import org.rsmod.game.type.varp.UnpackedVarpType
 import org.rsmod.game.type.varp.VarpTypeBuilder
+import org.rsmod.game.type.walktrig.WalkTriggerType
+import org.rsmod.game.type.walktrig.WalkTriggerTypeBuilder
 
 public class TypeUpdater
 @Inject
@@ -127,7 +130,8 @@ constructor(
         val enums = mergeEnums(builders.enums, editors.enums, vanilla.enums)
         val varps = mergeVarps(builders.varps, editors.varps, vanilla.varps)
         val varbits = mergeVarBits(builders.varbits, editors.varbits, vanilla.varbits)
-        return UpdateMap(invs, locs, npcs, objs, stats, params, enums, varps, varbits)
+        val walkTrig = mergeWalkTriggers(builders.walkTrig, editors.walkTrig, vanilla.walkTriggers)
+        return UpdateMap(invs, locs, npcs, objs, stats, params, enums, varps, varbits, walkTrig)
     }
 
     private data class UpdateMap(
@@ -140,6 +144,7 @@ constructor(
         val enums: List<UnpackedEnumType<*, *>>,
         val varps: List<UnpackedVarpType>,
         val varbits: List<UnpackedVarBitType>,
+        val walkTrig: List<WalkTriggerType>,
     )
 
     private fun List<*>.toUpdateMap(): UpdateMap {
@@ -152,7 +157,8 @@ constructor(
         val enums = filterIsInstance<UnpackedEnumType<*, *>>()
         val varps = filterIsInstance<UnpackedVarpType>()
         val varbits = filterIsInstance<UnpackedVarBitType>()
-        return UpdateMap(invs, locs, npcs, objs, stats, params, enums, varps, varbits)
+        val walkTrig = filterIsInstance<WalkTriggerType>()
+        return UpdateMap(invs, locs, npcs, objs, stats, params, enums, varps, varbits, walkTrig)
     }
 
     private fun mergeInvs(
@@ -375,6 +381,30 @@ constructor(
             this
         }
 
+    private fun mergeWalkTriggers(
+        builders: List<WalkTriggerType>,
+        editors: List<WalkTriggerType>,
+        cacheTypes: Map<Int, WalkTriggerType>,
+    ): List<WalkTriggerType> {
+        val merged = (builders + editors).groupBy { it.id }
+        return merged.map { (id, types) ->
+            val combined = types.fold(types[0]) { curr, next -> next + curr }
+            val cacheType = cacheTypes[id]
+            if (cacheType != null) {
+                combined + cacheType
+            } else {
+                combined
+            }
+        }
+    }
+
+    private operator fun WalkTriggerType.plus(other: WalkTriggerType?): WalkTriggerType =
+        if (other != null) {
+            WalkTriggerTypeBuilder.merge(edit = this, base = other)
+        } else {
+            this
+        }
+
     private fun encodeCacheTypes(updates: UpdateMap, cachePath: Path, ctx: EncoderContext) {
         Cache.open(cachePath).use { cache ->
             ParamTypeEncoder.encodeAll(cache, updates.params, ctx)
@@ -386,6 +416,7 @@ constructor(
             StatTypeEncoder.encodeAll(cache, updates.stats, ctx)
             VarpTypeEncoder.encodeAll(cache, updates.varps, ctx)
             VarBitTypeEncoder.encodeAll(cache, updates.varbits, ctx)
+            WalkTriggerTypeEncoder.encodeAll(cache, updates.walkTrig, ctx)
         }
     }
 }

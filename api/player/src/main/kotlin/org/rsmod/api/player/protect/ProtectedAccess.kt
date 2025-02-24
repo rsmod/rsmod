@@ -10,7 +10,6 @@ import org.rsmod.api.config.refs.components
 import org.rsmod.api.config.refs.invs
 import org.rsmod.api.config.refs.objs
 import org.rsmod.api.config.refs.queues
-import org.rsmod.api.config.refs.walktriggers
 import org.rsmod.api.invtx.invAdd
 import org.rsmod.api.invtx.invAddAll
 import org.rsmod.api.invtx.invAddOrDrop
@@ -138,8 +137,8 @@ import org.rsmod.game.type.spot.SpotanimType
 import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.synth.SynthType
 import org.rsmod.game.type.timer.TimerType
+import org.rsmod.game.type.walktrig.WalkTriggerPriority
 import org.rsmod.game.type.walktrig.WalkTriggerType
-import org.rsmod.game.type.walktrig.isType
 import org.rsmod.game.ui.Component
 import org.rsmod.game.vars.VarPlayerStrMap
 import org.rsmod.map.CoordGrid
@@ -175,8 +174,7 @@ public class ProtectedAccess(
     private var opHeldCallCount = 0
 
     public fun walk(dest: CoordGrid) {
-        player.abortRoute()
-        player.routeDestination.add(dest)
+        player.walk(dest)
     }
 
     /**
@@ -1118,25 +1116,57 @@ public class ProtectedAccess(
         player.clearPendingAction(eventBus)
     }
 
+    /**
+     * Sets the player's `walkTrigger` to [trigger], allowing the underlying [Player.walkTrigger]
+     * function to determine if the change is permitted based on the [WalkTriggerType.priority]
+     * rules.
+     *
+     * Unlike [trySetWalkTrigger], this function does *not* return a success status. If it is
+     * important to know whether the trigger was applied, use [trySetWalkTrigger] instead.
+     *
+     * **See:** Documentation in [WalkTriggerPriority] for priority rules.
+     *
+     * @see [WalkTriggerPriority.None]
+     * @see [WalkTriggerPriority.Low]
+     * @see [WalkTriggerPriority.High]
+     */
     public fun walkTrigger(trigger: WalkTriggerType) {
         player.walkTrigger(trigger)
     }
 
-    public fun walkTriggerAttempt(trigger: WalkTriggerType): Boolean {
-        if (hasHighPriorityWalkTrigger()) {
-            return false
-        }
-        walkTrigger(trigger)
-        return true
+    /**
+     * Checks whether [trigger] can replace the player's current walk trigger, based on the
+     * [WalkTriggerType.priority] rules.
+     *
+     * This does *not* modify the player's walk trigger.
+     *
+     * **See:** Documentation in [WalkTriggerPriority] for priority rules.
+     *
+     * @see [WalkTriggerPriority.None]
+     * @see [WalkTriggerPriority.Low]
+     * @see [WalkTriggerPriority.High]
+     */
+    public fun canSetWalkTrigger(trigger: WalkTriggerType): Boolean {
+        val current = player.walkTrigger ?: return true
+        return trigger.priority.canOverwrite(current.priority)
     }
 
-    public fun hasHighPriorityWalkTrigger(): Boolean {
-        val walkTrigger = player.walkTrigger ?: return false
-        // TODO: When we add support for packing custom types into cache, we can add a flag or
-        //  number priority to walk triggers and use it here.
-        return walkTrigger.isType(walktriggers.frozen) ||
-            walkTrigger.isType(walktriggers.pvp_frozen) ||
-            walkTrigger.isType(walktriggers.stunned)
+    /**
+     * Attempts to set the players `walkTrigger` to [trigger], ensuring that walk trigger priority
+     * rules are respected.
+     *
+     * If the existing walk trigger cannot be overwritten due to its priority, the update is
+     * **rejected**, and this function returns `false`. Otherwise, the trigger is updated, and
+     * `true` is returned.
+     *
+     * **See:** Documentation in [WalkTriggerPriority] for priority rules.
+     *
+     * @see [WalkTriggerPriority.None]
+     * @see [WalkTriggerPriority.Low]
+     * @see [WalkTriggerPriority.High]
+     */
+    public fun trySetWalkTrigger(trigger: WalkTriggerType): Boolean {
+        return player.walkTrigger(trigger)
     }
 
     public fun publish(event: UnboundEvent, eventBus: EventBus = context.eventBus) {

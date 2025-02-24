@@ -11,6 +11,7 @@ import org.rsmod.api.type.refs.comp.ComponentReferences
 import org.rsmod.api.type.refs.enums.EnumReferences
 import org.rsmod.api.type.refs.varbit.VarBitReferences
 import org.rsmod.api.type.refs.varp.VarpReferences
+import org.rsmod.api.type.refs.walktrig.WalkTriggerReferences
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.spot.SpotanimType
 import org.rsmod.game.type.stat.StatType
@@ -45,8 +46,8 @@ internal object EmoteVarBits : VarBitReferences() {
     val emote_counters_premier_shield = find("emote_counters_premier_shield")
 }
 
-internal object EmoteWalkTriggers : WalkTriggerBuilder() {
-    val cancelanim = build("emote_cancelanim")
+internal object EmoteWalkTriggers : WalkTriggerReferences() {
+    val cancelanim = find("emote_cancelanim")
 }
 
 internal object EmoteEnumBuilds : EnumBuilder() {
@@ -125,5 +126,11 @@ internal object EmoteVarBitBuilds : VarBitBuilder() {
             startBit = 1
             endBit = 2
         }
+    }
+}
+
+internal object EmoteWalkTriggerBuilds : WalkTriggerBuilder() {
+    init {
+        build("emote_cancelanim")
     }
 }
