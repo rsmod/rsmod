@@ -67,10 +67,6 @@ public object TypeResolver {
         type.internalTransmit = transmit
     }
 
-    public operator fun set(type: WalkTriggerType, priority: WalkTriggerPriority) {
-        type.internalPriority = priority
-    }
-
     public operator fun set(type: WalkTriggerType, internalName: String) {
         type.internalName = internalName
     }
