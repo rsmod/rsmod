@@ -103,9 +103,9 @@ public class BasicGameTestScope(private val eventBus: EventBus) {
         block: suspend ProtectedAccess.() -> Unit,
     ): Boolean = ProtectedAccessLauncher.withProtectedAccess(this, context, null, block)
 
-    public fun PathingEntity.walk(dest: CoordGrid): Unit = PathingEntityCommon.walk(this, dest)
+    public fun PathingEntity.move(dest: CoordGrid): Unit = PathingEntityCommon.walk(this, dest)
 
-    public fun PathingEntity.walk(target: PathingEntityAvatar, speed: MoveSpeed? = null) {
+    public fun PathingEntity.move(target: PathingEntityAvatar, speed: MoveSpeed? = null) {
         val request = RouteRequestPathingEntity(target)
         routeRequest = request
         tempMoveSpeed = speed

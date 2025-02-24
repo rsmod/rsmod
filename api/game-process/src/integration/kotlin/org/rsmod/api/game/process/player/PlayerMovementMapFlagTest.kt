@@ -30,7 +30,7 @@ class PlayerMovementMapFlagTest {
             movement.process(player)
         }
 
-        player.walk(player.coords)
+        player.move(player.coords)
         process()
 
         assertEquals(1, captured.countOf<SetMapFlag>())
@@ -62,7 +62,7 @@ class PlayerMovementMapFlagTest {
             varMoveSpeed = MoveSpeed.Walk
 
             val expectedDestination = startCoords.translateZ(1)
-            walk(expectedDestination)
+            move(expectedDestination)
 
             process()
 
@@ -75,7 +75,7 @@ class PlayerMovementMapFlagTest {
             coords = startCoords
             varMoveSpeed = MoveSpeed.Run
 
-            walk(expectedDestination)
+            move(expectedDestination)
 
             process()
 
@@ -103,7 +103,7 @@ class PlayerMovementMapFlagTest {
             varMoveSpeed = MoveSpeed.Walk
 
             val expectedDestination = startCoords.translateZ(2)
-            walk(expectedDestination)
+            move(expectedDestination)
 
             process()
 
@@ -121,7 +121,7 @@ class PlayerMovementMapFlagTest {
             coords = startCoords
             varMoveSpeed = MoveSpeed.Run
 
-            walk(expectedDestination)
+            move(expectedDestination)
 
             process()
 
@@ -149,7 +149,7 @@ class PlayerMovementMapFlagTest {
             varMoveSpeed = MoveSpeed.Walk
 
             val expectedDestination = startCoords.translateZ(3)
-            walk(expectedDestination)
+            move(expectedDestination)
 
             process()
 
@@ -173,7 +173,7 @@ class PlayerMovementMapFlagTest {
             coords = startCoords
             varMoveSpeed = MoveSpeed.Run
 
-            walk(expectedDestination)
+            move(expectedDestination)
 
             process()
 
@@ -206,7 +206,7 @@ class PlayerMovementMapFlagTest {
             varMoveSpeed = MoveSpeed.Walk
 
             val expectedDestination = startCoords.translateZ(4)
-            walk(expectedDestination)
+            move(expectedDestination)
 
             process()
 
@@ -236,7 +236,7 @@ class PlayerMovementMapFlagTest {
             coords = startCoords
             varMoveSpeed = MoveSpeed.Run
 
-            walk(expectedDestination)
+            move(expectedDestination)
 
             process()
 
@@ -288,7 +288,7 @@ class PlayerMovementMapFlagTest {
         }
 
         // Route player to destination.
-        player.walk(expectedCoordinates.last())
+        player.move(expectedCoordinates.last())
 
         // Ensure the map flag is set on the first process.
         process()

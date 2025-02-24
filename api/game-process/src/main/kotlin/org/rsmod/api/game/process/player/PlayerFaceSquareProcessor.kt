@@ -11,14 +11,14 @@ public class PlayerFaceSquareProcessor {
 
     private fun Player.processFaceSquare() {
         if (!hasMovedThisCycle && pendingFaceSquare != CoordGrid.NULL) {
-            // Seems like face angle is not transmitted if face pathing entity is set on the same
-            // cycle. This can be tested by speaking to a npc (that starts with a chatNpc dialogue)
-            // while being cardinally adjacent to them. In this example, the face pathing entity is
-            // sent on the first cycle, as well as the face square (as you're within op distance).
-            // However, the face square is not actually transmitted.
+            // Face angle is not transmitted when `face_pathingentity` is sent on the same cycle.
+            // This can be tested by speaking to a npc that starts with a `chatNpc` dialogue
+            // while standing cardinally adjacent to them. In this case, since you're within op
+            // distance, both the face pathing entity and the face square should be sent on the
+            // first cycle. However, only the face pathing entity is sent, and the face square
+            // is _not_ transmitted.
             //
-            // This is not the case if you go anywhere that'll take at least 1 cycle to reach op
-            // distance. (including being diagonal to the npc)
+            // This does not occur when it takes more than one cycle to reach the npc.
             if (lastFaceEntity != currentMapClock) {
                 val angle = calculateAngle(pendingFaceSquare, pendingFaceWidth, pendingFaceLength)
                 pendingFaceAngle = EntityFaceAngle.fromOrNull(angle)

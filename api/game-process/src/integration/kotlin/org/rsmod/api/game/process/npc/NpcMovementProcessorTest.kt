@@ -48,7 +48,7 @@ class NpcMovementProcessorTest {
                         movement.process(this)
                     }
 
-                    walk(target)
+                    move(target)
 
                     // Walk until npc reaches loc.
                     repeat(2) { index ->

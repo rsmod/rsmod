@@ -70,4 +70,12 @@ public object TypeResolver {
     public operator fun set(type: WalkTriggerType, priority: WalkTriggerPriority) {
         type.internalPriority = priority
     }
+
+    public operator fun set(type: WalkTriggerType, internalName: String) {
+        type.internalName = internalName
+    }
+
+    public operator fun set(type: WalkTriggerType, priority: WalkTriggerPriority) {
+        type.internalPriority = priority
+    }
 }
