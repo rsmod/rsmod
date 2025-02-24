@@ -16,6 +16,7 @@ import org.rsmod.game.type.seq.HashedSeqType
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.spot.HashedSpotanimType
 import org.rsmod.game.type.spot.SpotanimType
+import org.rsmod.game.type.stat.HashedStatType
 import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.synth.SynthType
 import org.rsmod.game.type.varbit.HashedVarBitType
@@ -47,6 +48,7 @@ public object CacheVarTypeMap {
             UnpackedObjType::class to CacheVarLiteral.NAMEDOBJ,
             String::class to CacheVarLiteral.STRING,
             StatType::class to CacheVarLiteral.STAT,
+            HashedStatType::class to CacheVarLiteral.STAT,
             SynthType::class to CacheVarLiteral.SYNTH,
             VarBitType::class to CacheVarLiteral.VARBIT,
             HashedVarBitType::class to CacheVarLiteral.VARBIT,
@@ -76,6 +78,7 @@ public object CacheVarTypeMap {
             UnpackedObjType::class to CacheVarNamedObjCodec,
             String::class to CacheVarStringCodec,
             StatType::class to CacheVarStatCodec,
+            HashedStatType::class to CacheVarStatCodec,
             SynthType::class to CacheVarSynthCodec,
             VarBitType::class to CacheVarVarBitCodec,
             HashedVarBitType::class to CacheVarVarBitCodec,

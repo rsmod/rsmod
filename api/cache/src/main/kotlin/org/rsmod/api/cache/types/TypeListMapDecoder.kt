@@ -43,7 +43,7 @@ public object TypeListMapDecoder {
         val invs = decode { InvTypeDecoder.decodeAll(cache) }
         val seqs = decode { SeqTypeDecoder.decodeAll(cache) }
         val fonts = decode { FontMetricsDecoder.decodeAll(cache) }
-        val stats = StatTypeDecoder.decodeAll(names)
+        val stats = decode { StatTypeDecoder.decodeAll(cache, names.stats) }
         val synths = SynthTypeDecoder.decodeAll(names)
         val structs = decode { StructTypeDecoder.decodeAll(cache) }
         val spotanims = decode { SpotanimTypeDecoder.decodeAll(cache) }
@@ -61,7 +61,7 @@ public object TypeListMapDecoder {
                 invs = invs.await(),
                 seqs = seqs.await(),
                 fonts = fonts.await(),
-                stats = stats,
+                stats = stats.await(),
                 spotanims = spotanims.await(),
                 synths = synths,
                 structs = structs.await(),
@@ -81,6 +81,7 @@ public object TypeListMapDecoder {
                 VarBitTypeDecoder.assignBaseVars(this.varbits, this.varps)
                 SeqTypeDecoder.assignInternal(this.seqs, names.seqs)
                 SpotanimTypeDecoder.assignInternal(this.spotanims, names.spotanims)
+                StatTypeDecoder.assignInternal(this.stats, names.stats)
                 StructTypeDecoder.assignInternal(this.structs, names.structs)
                 FontMetricsDecoder.assignInternal(this.fonts, names.fonts)
                 ComplexTypeDecoder.decodeAll(this)

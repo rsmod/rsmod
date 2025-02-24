@@ -34,6 +34,7 @@ import org.rsmod.game.type.seq.HashedSeqType
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.spot.HashedSpotanimType
 import org.rsmod.game.type.spot.SpotanimType
+import org.rsmod.game.type.stat.HashedStatType
 import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.struct.HashedStructType
 import org.rsmod.game.type.struct.StructType
@@ -265,6 +266,22 @@ public object TypeResolver {
 
     public operator fun set(type: StatType, id: Int) {
         type.internalId = id
+    }
+
+    public operator fun set(type: StatType, internalName: String) {
+        type.internalName = internalName
+    }
+
+    public operator fun set(type: HashedStatType, identityHash: Long) {
+        type.startHash = identityHash
+    }
+
+    public fun setDisplayName(type: StatType, displayName: String) {
+        type.internalDisplayName = displayName
+    }
+
+    public fun setMaxLevel(type: StatType, maxLevel: Int) {
+        type.internalMaxLevel = maxLevel
     }
 
     public operator fun get(type: StructType): Int? = type.internalId

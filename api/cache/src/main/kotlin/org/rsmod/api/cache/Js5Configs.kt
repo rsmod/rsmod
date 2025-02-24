@@ -22,4 +22,7 @@ public object Js5Configs {
     public const val STRUCT: Int = 34
     public const val MAPELEMENT: Int = 35
     public const val GAMELOGEVENT: Int = 70
+
+    /* Custom server-side configs */
+    public const val STAT: Int = 200
 }

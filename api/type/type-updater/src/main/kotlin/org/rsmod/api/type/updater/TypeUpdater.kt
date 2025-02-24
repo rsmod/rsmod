@@ -19,6 +19,7 @@ import org.rsmod.api.cache.types.loc.LocTypeEncoder
 import org.rsmod.api.cache.types.npc.NpcTypeEncoder
 import org.rsmod.api.cache.types.obj.ObjTypeEncoder
 import org.rsmod.api.cache.types.param.ParamTypeEncoder
+import org.rsmod.api.cache.types.stat.StatTypeEncoder
 import org.rsmod.api.cache.types.varbit.VarBitTypeEncoder
 import org.rsmod.api.cache.types.varp.VarpTypeEncoder
 import org.rsmod.api.cache.util.EncoderContext
@@ -39,6 +40,8 @@ import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.type.param.ParamTypeBuilder
 import org.rsmod.game.type.param.ParamTypeList
 import org.rsmod.game.type.param.UnpackedParamType
+import org.rsmod.game.type.stat.StatTypeBuilder
+import org.rsmod.game.type.stat.UnpackedStatType
 import org.rsmod.game.type.varbit.UnpackedVarBitType
 import org.rsmod.game.type.varbit.VarBitTypeBuilder
 import org.rsmod.game.type.varp.UnpackedVarpType
@@ -119,11 +122,12 @@ constructor(
         val locs = mergeLocs(builders.locs, editors.locs, vanilla.locs)
         val npcs = mergeNpcs(builders.npcs, editors.npcs, vanilla.npcs)
         val objs = mergeObjs(builders.objs, editors.objs, vanilla.objs)
+        val stats = mergeStats(builders.stats, editors.stats, vanilla.stats)
         val params = mergeParams(builders.params, editors.params, vanilla.params)
         val enums = mergeEnums(builders.enums, editors.enums, vanilla.enums)
         val varps = mergeVarps(builders.varps, editors.varps, vanilla.varps)
         val varbits = mergeVarBits(builders.varbits, editors.varbits, vanilla.varbits)
-        return UpdateMap(invs, locs, npcs, objs, params, enums, varps, varbits)
+        return UpdateMap(invs, locs, npcs, objs, stats, params, enums, varps, varbits)
     }
 
     private data class UpdateMap(
@@ -131,6 +135,7 @@ constructor(
         val locs: List<UnpackedLocType>,
         val npcs: List<UnpackedNpcType>,
         val objs: List<UnpackedObjType>,
+        val stats: List<UnpackedStatType>,
         val params: List<UnpackedParamType<*>>,
         val enums: List<UnpackedEnumType<*, *>>,
         val varps: List<UnpackedVarpType>,
@@ -142,11 +147,12 @@ constructor(
         val locs = filterIsInstance<UnpackedLocType>()
         val npcs = filterIsInstance<UnpackedNpcType>()
         val objs = filterIsInstance<UnpackedObjType>()
+        val stats = filterIsInstance<UnpackedStatType>()
         val params = filterIsInstance<UnpackedParamType<*>>()
         val enums = filterIsInstance<UnpackedEnumType<*, *>>()
         val varps = filterIsInstance<UnpackedVarpType>()
         val varbits = filterIsInstance<UnpackedVarBitType>()
-        return UpdateMap(invs, locs, npcs, objs, params, enums, varps, varbits)
+        return UpdateMap(invs, locs, npcs, objs, stats, params, enums, varps, varbits)
     }
 
     private fun mergeInvs(
@@ -241,6 +247,30 @@ constructor(
     private operator fun UnpackedObjType.plus(other: UnpackedObjType?): UnpackedObjType =
         if (other != null) {
             ObjTypeBuilder.merge(edit = this, base = other)
+        } else {
+            this
+        }
+
+    private fun mergeStats(
+        builders: List<UnpackedStatType>,
+        editors: List<UnpackedStatType>,
+        cacheTypes: Map<Int, UnpackedStatType>,
+    ): List<UnpackedStatType> {
+        val merged = (builders + editors).groupBy { it.id }
+        return merged.map { (id, types) ->
+            val combined = types.fold(types[0]) { curr, next -> next + curr }
+            val cacheType = cacheTypes[id]
+            if (cacheType != null) {
+                combined + cacheType
+            } else {
+                combined
+            }
+        }
+    }
+
+    private operator fun UnpackedStatType.plus(other: UnpackedStatType?): UnpackedStatType =
+        if (other != null) {
+            StatTypeBuilder.merge(edit = this, base = other)
         } else {
             this
         }
@@ -353,6 +383,7 @@ constructor(
             LocTypeEncoder.encodeAll(cache, updates.locs, ctx)
             NpcTypeEncoder.encodeAll(cache, updates.npcs, ctx)
             ObjTypeEncoder.encodeAll(cache, updates.objs, ctx)
+            StatTypeEncoder.encodeAll(cache, updates.stats, ctx)
             VarpTypeEncoder.encodeAll(cache, updates.varps, ctx)
             VarBitTypeEncoder.encodeAll(cache, updates.varbits, ctx)
         }

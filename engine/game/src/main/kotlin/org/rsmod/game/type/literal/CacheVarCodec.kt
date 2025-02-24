@@ -104,7 +104,8 @@ public object CacheVarEnumCodec : BaseIntVarCodec<EnumType<*, *>>(EnumType::clas
 }
 
 public object CacheVarStatCodec : BaseIntVarCodec<StatType>(StatType::class) {
-    override fun decode(types: TypeListMap, value: Int): StatType? = types.stats[value]
+    override fun decode(types: TypeListMap, value: Int): StatType? =
+        types.stats[value]?.toHashedType()
 
     override fun encode(value: StatType): Int = value.id
 }
