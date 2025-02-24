@@ -6,7 +6,7 @@ import org.rsmod.game.type.stat.StatType
 
 public abstract class StatReferences : HashTypeReferences<StatType>(StatType::class.java) {
     override fun find(internal: String, hash: Long?): StatType {
-        val type = HashedStatType(hash, internalName = internal)
+        val type = HashedStatType(hash, internal)
         cache += type
         return type
     }

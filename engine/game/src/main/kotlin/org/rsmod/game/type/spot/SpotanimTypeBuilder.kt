@@ -87,8 +87,8 @@ public class SpotanimTypeBuilder(public var internal: String? = null) {
                 recolD = recolD,
                 retexS = retexS,
                 retexD = retexD,
-                internalId = internalId ?: -1,
-                internalName = internalName ?: "",
+                internalId = internalId,
+                internalName = internalName,
             )
         }
     }

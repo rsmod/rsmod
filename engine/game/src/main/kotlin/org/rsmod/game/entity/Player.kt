@@ -19,7 +19,7 @@ import org.rsmod.game.seq.EntitySeq
 import org.rsmod.game.shop.Shop
 import org.rsmod.game.stat.PlayerStatMap
 import org.rsmod.game.timer.PlayerTimerMap
-import org.rsmod.game.type.bas.BasType
+import org.rsmod.game.type.bas.UnpackedBasType
 import org.rsmod.game.type.droptrig.DropTriggerType
 import org.rsmod.game.type.mod.ModGroup
 import org.rsmod.game.type.npc.UnpackedNpcType
@@ -106,7 +106,7 @@ public class Player(
     public var lootDropDuration: Int? = null
 
     public val appearance: Appearance = Appearance()
-    public var bas: BasType? by appearance::bas
+    public var bas: UnpackedBasType? by appearance::bas
     public var transmog: UnpackedNpcType? by appearance::transmog
     public var skullIcon: Int? by appearance::skullIcon
     public var overheadIcon: Int? by appearance::overheadIcon

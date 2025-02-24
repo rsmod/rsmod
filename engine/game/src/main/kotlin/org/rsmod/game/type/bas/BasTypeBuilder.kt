@@ -14,7 +14,7 @@ public class BasTypeBuilder(public var internal: String? = null) {
     public var walkAnimRight: SeqType? = null
     public var runAnim: SeqType? = null
 
-    public fun build(id: Int): BasType {
+    public fun build(id: Int): UnpackedBasType {
         val internal = checkNotNull(internal) { "`internal` must be set. (id=$id)" }
         val readyAnim = checkNotNull(readyAnim) { "`readyAnim` must be set. (id=$id)" }
         val turnAnim = checkNotNull(turnAnim) { "`turnAnim` must be set. (id=$id)" }
@@ -23,7 +23,7 @@ public class BasTypeBuilder(public var internal: String? = null) {
         val walkAnimLeft = checkNotNull(walkAnimLeft) { "`walkAnimLeft` must be set. (id=$id)" }
         val walkAnimRight = checkNotNull(walkAnimRight) { "`walkAnimRight` must be set. (id=$id)" }
         val runAnim = checkNotNull(runAnim) { "`runAnim` must be set. (id=$id)" }
-        return BasType(
+        return UnpackedBasType(
             readyAnim = readyAnim,
             turnOnSpot = turnAnim,
             walkForward = walkAnim,

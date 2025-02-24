@@ -1,11 +1,8 @@
 package org.rsmod.game.type.mod
 
-public class ModLevel(internal var internalId: Int, internal var internalName: String) {
-    public val id: Int
-        get() = internalId
+import org.rsmod.game.type.CacheType
 
-    public val internalNameGet: String
-        get() = internalName
-
+public data class ModLevel(override var internalId: Int?, override var internalName: String?) :
+    CacheType() {
     override fun toString(): String = "ModLevel(internalId=$internalId, internalName=$internalName)"
 }

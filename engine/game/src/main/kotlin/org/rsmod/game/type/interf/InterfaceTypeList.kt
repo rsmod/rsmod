@@ -19,7 +19,7 @@ public data class InterfaceTypeList(public val types: MutableMap<Int, UnpackedIn
             val grouped = components.sortedBy { it.layer }.groupBy { it.interfaceId }
             val mapped =
                 grouped.mapValues { (interfaceId, components) ->
-                    UnpackedInterfaceType(components, "", interfaceId)
+                    UnpackedInterfaceType(components, interfaceId, "")
                 }
             return InterfaceTypeList(mapped.toMutableMap())
         }

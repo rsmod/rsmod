@@ -1,19 +1,12 @@
 package org.rsmod.game.type.varconbit
 
+import org.rsmod.game.type.CacheType
 import org.rsmod.game.type.varcon.VarConType
 
-public sealed class VarConBitType(
-    internal var internalId: Int?,
-    internal var internalName: String,
-    internal var varcon: VarConType? = null,
-    internal var lsb: Int? = null,
-    internal var msb: Int? = null,
-) {
-    public val id: Int
-        get() = internalId ?: error("`internalId` must not be null.")
-
-    public val internalNameGet: String
-        get() = internalName
+public sealed class VarConBitType : CacheType() {
+    internal abstract var varcon: VarConType?
+    internal abstract var lsb: Int?
+    internal abstract var msb: Int?
 
     public val baseVar: VarConType
         get() = varcon ?: error("`varcon` must not be null.")
@@ -28,14 +21,14 @@ public sealed class VarConBitType(
     }
 }
 
-public class UnpackedVarConBitType(
+public data class UnpackedVarConBitType(
     public val varconId: Int,
-    lsb: Int,
-    msb: Int,
-    varcon: VarConType?,
-    internalId: Int,
-    internalName: String,
-) : VarConBitType(internalId, internalName, varcon, lsb, msb) {
+    override var varcon: VarConType?,
+    override var lsb: Int?,
+    override var msb: Int?,
+    override var internalId: Int?,
+    override var internalName: String?,
+) : VarConBitType() {
     public fun hashCodeLong(): Long {
         var result = varconId.hashCode().toLong()
         result = 61 * result + (lsb?.hashCode() ?: 0)
@@ -56,12 +49,10 @@ public class UnpackedVarConBitType(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is UnpackedVarConBitType) return false
-
         if (varconId != other.varconId) return false
         if (lsb != other.lsb) return false
         if (msb != other.msb) return false
         if (internalId != other.internalId) return false
-
         return true
     }
 

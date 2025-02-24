@@ -1,50 +1,40 @@
 package org.rsmod.game.type.param
 
 import kotlin.reflect.KClass
+import org.rsmod.game.type.CacheType
+import org.rsmod.game.type.HashedCacheType
 import org.rsmod.game.type.literal.CacheVarLiteral
 
-public sealed class ParamType<T>(
-    internal var internalId: Int?,
-    internal var internalName: String?,
-    internal var typedDefault: T?,
-) {
-    public val id: Int
-        get() = internalId ?: error("`internalId` must not be null.")
-
-    public val internalNameGet: String?
-        get() = internalName
+public sealed class ParamType<T> : CacheType() {
+    internal abstract var typedDefault: T?
 
     public val default: T?
         get() = typedDefault
 }
 
-public class HashedParamType<T : Any>(
+public data class HashedParamType<T : Any>(
     public val type: KClass<T>,
-    internal var startHash: Long? = null,
-    typedDefault: T?,
-    internalId: Int? = null,
-    internalName: String? = null,
-    public val autoResolve: Boolean = startHash == null,
-) : ParamType<T>(internalId, internalName, typedDefault) {
-    public val supposedHash: Long?
-        get() = startHash
+    override var startHash: Long?,
+    override var typedDefault: T?,
+    override var internalName: String?,
+    override var internalId: Int? = null,
+) : HashedCacheType, ParamType<T>() {
+    public val autoResolve: Boolean = startHash == null
 
     override fun toString(): String =
         "ParamType(" +
             "internalName='$internalName', " +
             "internalId=$internalId, " +
             "supposedHash=$supposedHash, " +
-            "givenType=${type.simpleName}" +
+            "supposedType=${type.simpleName}" +
             ")"
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is HashedParamType<*>) return false
-
         if (startHash != other.startHash) return false
         if (internalId != other.internalId) return false
         if (type != other.type) return false
-
         return true
     }
 
@@ -56,17 +46,17 @@ public class HashedParamType<T : Any>(
     }
 }
 
-public class UnpackedParamType<T : Any>(
+public data class UnpackedParamType<T : Any>(
     public val type: KClass<T>?,
     public val typeLiteral: CacheVarLiteral?,
     public val defaultInt: Int?,
     public val defaultStr: String?,
     public val autoDisable: Boolean,
     public val transmit: Boolean,
-    typedDefault: T?,
-    internalId: Int,
-    internalName: String,
-) : ParamType<T>(internalId, internalName, typedDefault) {
+    override var typedDefault: T?,
+    override var internalId: Int?,
+    override var internalName: String?,
+) : ParamType<T>() {
     public fun computeIdentityHash(): Long {
         var result = (typeLiteral?.char?.hashCode()?.toLong() ?: 0)
         result = 61 * result + (defaultInt?.hashCode() ?: 0)
@@ -92,14 +82,12 @@ public class UnpackedParamType<T : Any>(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is UnpackedParamType<*>) return false
-
         if (typeLiteral != other.typeLiteral) return false
         if (defaultInt != other.defaultInt) return false
         if (defaultStr != other.defaultStr) return false
         if (autoDisable != other.autoDisable) return false
         if (transmit != other.transmit) return false
         if (internalId != other.internalId) return false
-
         return true
     }
 

@@ -22,8 +22,8 @@ public class StructTypeBuilder(public var internal: String? = null) {
             val internalName = select(edit, base, default = null) { internalName }
             return UnpackedStructType(
                 paramMap = paramMap,
-                internalId = internalId ?: -1,
-                internalName = internalName ?: "",
+                internalId = internalId,
+                internalName = internalName,
             )
         }
     }

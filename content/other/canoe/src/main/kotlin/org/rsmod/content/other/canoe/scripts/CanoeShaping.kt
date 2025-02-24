@@ -18,7 +18,7 @@ import org.rsmod.content.other.canoe.configs.canoe_locs
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.loc.LocShape
 import org.rsmod.game.type.enums.EnumTypeList
-import org.rsmod.game.type.enums.findValue
+import org.rsmod.game.type.enums.find
 import org.rsmod.game.type.interf.IfEvent
 import org.rsmod.game.type.loc.LocTypeList
 import org.rsmod.game.type.obj.ObjTypeList
@@ -128,7 +128,7 @@ constructor(
 
         if (skillAnimDelay == mapClock && actionDelay >= mapClock) {
             val axeEnum = enumTypes[canoe_enums.shaping_axe_anims]
-            val axeSeq = axeEnum.findValue(axe)
+            val axeSeq = axeEnum.find(axe)
             anim(axeSeq)
         }
 

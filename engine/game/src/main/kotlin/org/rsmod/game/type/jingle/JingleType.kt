@@ -1,12 +1,9 @@
 package org.rsmod.game.type.jingle
 
-public class JingleType(internal var internalId: Int?, internal val internalName: String) {
-    public val id: Int
-        get() = internalId ?: error("`internalId` must not be null.")
+import org.rsmod.game.type.CacheType
 
-    public val internalNameGet: String
-        get() = internalName
-
+public data class JingleType(override var internalId: Int?, override var internalName: String?) :
+    CacheType() {
     override fun toString(): String =
         "JingleType(internalName='$internalName', internalId=$internalId)"
 }

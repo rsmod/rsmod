@@ -60,8 +60,8 @@ public class ParamTypeBuilder<T : Any>(
                 autoDisable = autoDisable,
                 transmit = transmit,
                 typedDefault = null,
-                internalId = internalId ?: -1,
-                internalName = internalName ?: "",
+                internalId = internalId,
+                internalName = internalName,
             )
         }
     }

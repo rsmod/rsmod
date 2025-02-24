@@ -7,7 +7,7 @@ import org.rsmod.game.type.spot.SpotanimType
 public abstract class SpotanimReferences :
     HashTypeReferences<SpotanimType>(SpotanimType::class.java) {
     override fun find(internal: String, hash: Long?): SpotanimType {
-        val type = HashedSpotanimType(hash, internalName = internal)
+        val type = HashedSpotanimType(hash, internal)
         cache += type
         return type
     }

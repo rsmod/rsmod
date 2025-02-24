@@ -122,7 +122,7 @@ import org.rsmod.game.type.inv.InvTypeList
 import org.rsmod.game.type.jingle.JingleType
 import org.rsmod.game.type.loc.LocType
 import org.rsmod.game.type.loc.LocTypeList
-import org.rsmod.game.type.mesanim.MesAnimType
+import org.rsmod.game.type.mesanim.UnpackedMesAnimType
 import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.npc.NpcTypeList
 import org.rsmod.game.type.npc.UnpackedNpcType
@@ -1472,7 +1472,7 @@ public class ProtectedAccess(
      */
     public suspend fun chatPlayer(
         text: String,
-        mesanim: MesAnimType?,
+        mesanim: UnpackedMesAnimType?,
         lineCount: Int,
         lineHeight: Int,
         title: String = player.displayName,
@@ -1495,7 +1495,7 @@ public class ProtectedAccess(
         title: String,
         npc: Npc,
         text: String,
-        mesanim: MesAnimType?,
+        mesanim: UnpackedMesAnimType?,
         lineCount: Int,
         lineHeight: Int,
         faceFar: Boolean = false,
@@ -1522,7 +1522,7 @@ public class ProtectedAccess(
         title: String,
         npc: Npc,
         text: String,
-        mesanim: MesAnimType?,
+        mesanim: UnpackedMesAnimType?,
         lineCount: Int,
         lineHeight: Int,
         pauseText: String = constants.cm_pausebutton,
@@ -1547,7 +1547,7 @@ public class ProtectedAccess(
         title: String,
         type: NpcType,
         text: String,
-        mesanim: MesAnimType?,
+        mesanim: UnpackedMesAnimType?,
         lineCount: Int,
         lineHeight: Int,
         pauseText: String = constants.cm_pausebutton,
@@ -1756,8 +1756,8 @@ public class ProtectedAccess(
             logger.debug {
                 "Protected-access was lost due to unexpected component: " +
                     "player=$player, " +
-                    "received=${input.component.internalNameGet ?: input}, " +
-                    "expected=${expectedComponent.internalNameGet ?: expectedComponent}"
+                    "received=${input.component.internalName ?: input}, " +
+                    "expected=${expectedComponent.internalName ?: expectedComponent}"
             }
             throw ProtectedAccessLostException()
         }
@@ -2235,7 +2235,7 @@ public class ProtectedAccess(
 
 private fun <T> lazy(init: () -> T): Lazy<T> = lazy(LazyThreadSafetyMode.NONE, init)
 
-private fun MesAnimType.splitGetAnim(lines: Int) =
+private fun UnpackedMesAnimType.splitGetAnim(lines: Int) =
     when (lines) {
         1 -> len1
         2 -> len2

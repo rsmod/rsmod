@@ -1,21 +1,15 @@
 package org.rsmod.game.type.varobjbit
 
-public sealed class VarObjBitType(
-    internal var internalId: Int?,
-    internal var internalName: String,
-) {
-    public val internalNameGet: String
-        get() = internalName
+import org.rsmod.game.type.CacheType
 
-    override fun toString(): String = "VarObjBitType(internalId=$internalId)"
-}
+public sealed class VarObjBitType : CacheType()
 
 public class UnpackedVarObjBitType(
     public val startBit: Int,
     public val endBit: Int,
-    internalId: Int,
-    internalName: String,
-) : VarObjBitType(internalId, internalName) {
+    override var internalId: Int?,
+    override var internalName: String?,
+) : VarObjBitType() {
     public fun hashCodeLong(): Long {
         var result = 61 * (internalId?.hashCode()?.toLong() ?: 0)
         result = 61 * result + startBit
@@ -34,11 +28,9 @@ public class UnpackedVarObjBitType(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is UnpackedVarObjBitType) return false
-
         if (startBit != other.startBit) return false
         if (endBit != other.endBit) return false
         if (internalId != other.internalId) return false
-
         return true
     }
 

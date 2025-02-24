@@ -36,7 +36,7 @@ public sealed class TypeReferenceResult {
 
     public data object InvalidImplicitName : StatusErr()
 
-    public data class ImplicitNameNotFound(val name: String) : StatusErr()
+    public data class ImplicitNameNotFound(val name: String?) : StatusErr()
 
     public data object CacheTypeNotFound : StatusUpdate()
 

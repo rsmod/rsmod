@@ -10,6 +10,7 @@ import org.rsmod.api.config.refs.params
 import org.rsmod.api.testing.GameTestState
 import org.rsmod.api.testing.assertions.assertNotNullContract
 import org.rsmod.content.skills.woodcutting.scripts.Woodcutting.Companion.cutSuccessRates
+import org.rsmod.game.obj.InvObj
 
 class WoodcuttingConfigTest {
     @Test
@@ -77,7 +78,7 @@ class WoodcuttingConfigTest {
             for (axe in axes) {
                 val (lowRate, highRate) =
                     assertDoesNotThrow("Axe success rates not defined: axe=$axe, tree=$tree") {
-                        cutSuccessRates(tree, axe.obj(), cacheTypes.enums)
+                        cutSuccessRates(tree, InvObj(axe), cacheTypes.enums)
                     }
                 assertTrue(lowRate > 0)
                 assertTrue(highRate > 0)

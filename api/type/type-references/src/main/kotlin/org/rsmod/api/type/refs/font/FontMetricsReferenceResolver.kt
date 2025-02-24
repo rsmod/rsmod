@@ -33,7 +33,7 @@ constructor(private val nameMapping: NameMapping, private val types: FontMetrics
     ): List<TypeReferenceResult> = refs.cache.map { it.resolve() }
 
     private fun HashedFontMetricsType.resolve(): TypeReferenceResult {
-        val name = internalNameGet ?: return err(InvalidImplicitName)
+        val name = internalName ?: return err(InvalidImplicitName)
         val internalId = names[name] ?: return err(NameNotFound(name, supposedHash))
         TypeResolver[this] = internalId
 

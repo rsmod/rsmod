@@ -30,7 +30,7 @@ constructor(private val types: VarpTypeList, private val nameMapping: NameMappin
     ): List<TypeEditorResult> = editors.cache.map { it.resolve() }
 
     private fun UnpackedVarpType.resolve(): TypeEditorResult {
-        val internalId = names[internalNameGet] ?: return err(NameNotFound(internalNameGet))
+        val internalId = names[internalName] ?: return err(NameNotFound(internalName))
         val cacheType = types[internalId]
 
         TypeResolver[this] = internalId

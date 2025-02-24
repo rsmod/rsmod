@@ -41,7 +41,7 @@ constructor(
 
     @Suppress("UNCHECKED_CAST")
     private fun HashedParamType<*>.resolve(): TypeReferenceResult {
-        val name = internalNameGet ?: return err(InvalidImplicitName)
+        val name = internalName ?: return err(InvalidImplicitName)
         val internalId = names[name] ?: return err(NameNotFound(name, supposedHash))
         TypeResolver[this] = internalId
 

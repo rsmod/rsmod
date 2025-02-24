@@ -29,7 +29,7 @@ constructor(private val types: ParamTypeList, private val nameMapping: NameMappi
     ): List<TypeBuilderResult> = builders.cache.map { it.resolve() }
 
     private fun UnpackedParamType<*>.resolve(): TypeBuilderResult {
-        val internalId = names[internalNameGet] ?: return err(NameNotFound(internalNameGet))
+        val internalId = names[internalName] ?: return err(NameNotFound(internalName))
         val cacheType = types[internalId]
 
         TypeResolver[this] = internalId
