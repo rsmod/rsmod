@@ -21,6 +21,7 @@ import org.rsmod.api.player.vars.intVarp
 import org.rsmod.api.repo.npc.NpcRepository
 import org.rsmod.api.script.onIfOpen
 import org.rsmod.api.script.onIfOverlayButton
+import org.rsmod.api.script.onPlayerWalkTrigger
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
@@ -39,7 +40,6 @@ import org.rsmod.game.type.varbit.VarBitType
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-// TODO: Walk trigger for emotes.
 class EmotesScript
 @Inject
 private constructor(
@@ -58,6 +58,7 @@ private constructor(
         loadSkillCapeEmotes()
         onIfOpen(interfaces.emote_tab) { player.onTabOpen() }
         onIfOverlayButton(emote_components.emote_list) { player.selectEmote(comsub, op) }
+        onPlayerWalkTrigger(emote_walktriggers.cancelanim) { player.resetAnim() }
     }
 
     private fun loadEmotesEnum() {
@@ -288,6 +289,10 @@ private constructor(
     private fun ProtectedAccess.simpleAnim(seq: SeqType, spot: SpotanimType? = null) {
         stopAction()
         playAnim(seq, spot)
+
+        if (seq.requiresWalkTrigger()) {
+            walkTriggerAttempt(emote_walktriggers.cancelanim)
+        }
     }
 
     private fun ProtectedAccess.loopAnim(seqOp1: SeqType, seqOp2: SeqType, op: IfButtonOp) {
@@ -534,6 +539,17 @@ private constructor(
             seqs.emote_crazy_dance1
         }
     }
+
+    private fun SeqType.requiresWalkTrigger(): Boolean =
+        when (this) {
+            seqs.emote_dance_loop,
+            seqs.emote_fortis_salute_loop,
+            seqs.emote_headbang_loop,
+            seqs.emote_jig_loop,
+            seqs.emote_lean_loop,
+            seqs.emote_sit_down_loop -> true
+            else -> false
+        }
 }
 
 private class SkillCapeEmoteResolver

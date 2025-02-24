@@ -10,6 +10,7 @@ import org.rsmod.api.config.refs.components
 import org.rsmod.api.config.refs.invs
 import org.rsmod.api.config.refs.objs
 import org.rsmod.api.config.refs.queues
+import org.rsmod.api.config.refs.walktriggers
 import org.rsmod.api.invtx.invAdd
 import org.rsmod.api.invtx.invAddAll
 import org.rsmod.api.invtx.invAddOrDrop
@@ -137,6 +138,8 @@ import org.rsmod.game.type.spot.SpotanimType
 import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.synth.SynthType
 import org.rsmod.game.type.timer.TimerType
+import org.rsmod.game.type.walktrig.WalkTriggerType
+import org.rsmod.game.type.walktrig.isType
 import org.rsmod.game.ui.Component
 import org.rsmod.game.vars.VarPlayerStrMap
 import org.rsmod.map.CoordGrid
@@ -1113,6 +1116,27 @@ public class ProtectedAccess(
 
     public fun clearPendingAction(eventBus: EventBus = context.eventBus) {
         player.clearPendingAction(eventBus)
+    }
+
+    public fun walkTrigger(trigger: WalkTriggerType) {
+        player.walkTrigger(trigger)
+    }
+
+    public fun walkTriggerAttempt(trigger: WalkTriggerType): Boolean {
+        if (hasHighPriorityWalkTrigger()) {
+            return false
+        }
+        walkTrigger(trigger)
+        return true
+    }
+
+    public fun hasHighPriorityWalkTrigger(): Boolean {
+        val walkTrigger = player.walkTrigger ?: return false
+        // TODO: When we add support for packing custom types into cache, we can add a flag or
+        //  number priority to walk triggers and use it here.
+        return walkTrigger.isType(walktriggers.frozen) ||
+            walkTrigger.isType(walktriggers.pvp_frozen) ||
+            walkTrigger.isType(walktriggers.stunned)
     }
 
     public fun publish(event: UnboundEvent, eventBus: EventBus = context.eventBus) {

@@ -6,6 +6,7 @@ import org.rsmod.api.config.refs.stats
 import org.rsmod.api.type.builders.enums.EnumBuilder
 import org.rsmod.api.type.builders.varbit.VarBitBuilder
 import org.rsmod.api.type.builders.varp.VarpBuilder
+import org.rsmod.api.type.builders.walktrig.WalkTriggerBuilder
 import org.rsmod.api.type.refs.comp.ComponentReferences
 import org.rsmod.api.type.refs.enums.EnumReferences
 import org.rsmod.api.type.refs.varbit.VarBitReferences
@@ -21,6 +22,8 @@ typealias emote_enums = EmoteEnums
 internal typealias emote_varps = EmoteVarps
 
 internal typealias emote_varbits = EmoteVarBits
+
+internal typealias emote_walktriggers = EmoteWalkTriggers
 
 object EmoteComponents : ComponentReferences() {
     val emote_list = find("emote_tab_com2", 904485991309646478)
@@ -40,6 +43,10 @@ internal object EmoteVarps : VarpReferences() {
 internal object EmoteVarBits : VarBitReferences() {
     val emote_counters_crazy_dance = find("emote_counters_crazy_dance")
     val emote_counters_premier_shield = find("emote_counters_premier_shield")
+}
+
+internal object EmoteWalkTriggers : WalkTriggerBuilder() {
+    val cancelanim = build("emote_cancelanim")
 }
 
 internal object EmoteEnumBuilds : EnumBuilder() {
