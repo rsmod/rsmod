@@ -19,6 +19,7 @@ import org.rsmod.game.seq.EntitySeq
 import org.rsmod.game.spot.EntitySpotanim
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.spot.SpotanimType
+import org.rsmod.game.type.walktrig.WalkTriggerPriority
 import org.rsmod.game.type.walktrig.WalkTriggerType
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.util.Bounds
@@ -443,16 +444,26 @@ public sealed class PathingEntity {
     }
 
     /**
-     * Sets [walkTrigger] to [trigger].
+     * Attempts to set [walkTrigger] to [trigger], ensuring that walk trigger priority rules are
+     * respected.
      *
-     * **Important Note**: This function does *not* account for existing "high-priority" walk
-     * triggers (such as `frozen`). Callers must ensure they do not overwrite an important trigger
-     * when invoking this function.
+     * If the existing walk trigger cannot be overwritten due to its priority, the update is
+     * **rejected**, and this function returns `false`. Otherwise, the trigger is updated, and
+     * `true` is returned.
      *
-     * @see [org.rsmod.game.type.walktrig.isType]
+     * **See:** Documentation in [WalkTriggerPriority] for priority rules.
+     *
+     * @see [WalkTriggerPriority.None]
+     * @see [WalkTriggerPriority.Low]
+     * @see [WalkTriggerPriority.High]
      */
-    public fun walkTrigger(trigger: WalkTriggerType) {
+    public fun walkTrigger(trigger: WalkTriggerType): Boolean {
+        val previous = walkTrigger?.priority
+        if (!trigger.priority.canOverwrite(previous)) {
+            return false
+        }
         walkTrigger = trigger
+        return true
     }
 
     public fun clearWalkTrigger() {

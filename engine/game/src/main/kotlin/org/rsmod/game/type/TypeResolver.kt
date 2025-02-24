@@ -49,6 +49,7 @@ import org.rsmod.game.type.varp.HashedVarpType
 import org.rsmod.game.type.varp.VarpLifetime
 import org.rsmod.game.type.varp.VarpTransmitLevel
 import org.rsmod.game.type.varp.VarpType
+import org.rsmod.game.type.walktrig.WalkTriggerPriority
 import org.rsmod.game.type.walktrig.WalkTriggerType
 
 public object TypeResolver {
@@ -403,5 +404,13 @@ public object TypeResolver {
 
     public operator fun set(type: WalkTriggerType, id: Int) {
         type.internalId = id
+    }
+
+    public operator fun set(type: WalkTriggerType, internalName: String) {
+        type.internalName = internalName
+    }
+
+    public operator fun set(type: WalkTriggerType, priority: WalkTriggerPriority) {
+        type.internalPriority = priority
     }
 }
