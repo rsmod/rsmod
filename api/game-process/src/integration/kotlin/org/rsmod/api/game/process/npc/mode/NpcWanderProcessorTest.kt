@@ -28,7 +28,7 @@ class NpcWanderProcessorTest {
             val npc = npcFactory.create(type, CoordGrid(0, 0, 0, 50, 50))
             it.allocateCollision(MapSquareKey(0, 0))
             withNpc(npc) {
-                val movement = NpcMovementProcessor(it.collision, it.stepFactory)
+                val movement = NpcMovementProcessor(it.collision, it.stepFactory, eventBus)
                 val mode = NpcWanderModeProcessor(random, it.collision)
                 fun process() {
                     previousCoords = coords
@@ -157,7 +157,7 @@ class NpcWanderProcessorTest {
             val npc = npcFactory.create(type, spawn)
             it.allocateCollision(MapSquareKey(0, 0))
             withNpc(npc) {
-                val movement = NpcMovementProcessor(it.collision, it.stepFactory)
+                val movement = NpcMovementProcessor(it.collision, it.stepFactory, eventBus)
                 val mode = NpcWanderModeProcessor(DefaultGameRandom(), it.collision)
                 fun process() {
                     previousCoords = coords
@@ -206,7 +206,8 @@ class NpcWanderProcessorTest {
                 it.allocateCollision(MapSquareKey(0, 0))
                 it.blockDirections(current, Direction.CARDINAL)
                 withNpc(npc) {
-                    val movement = NpcMovementProcessor(it.collision, it.stepFactory)
+                    val eventBus = state.eventBus
+                    val movement = NpcMovementProcessor(it.collision, it.stepFactory, eventBus)
                     val mode = NpcWanderModeProcessor(DefaultGameRandom(), it.collision)
                     fun process() {
                         previousCoords = coords

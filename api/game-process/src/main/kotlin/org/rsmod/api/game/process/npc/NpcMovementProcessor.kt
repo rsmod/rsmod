@@ -1,7 +1,9 @@
 package org.rsmod.api.game.process.npc
 
 import jakarta.inject.Inject
+import org.rsmod.api.npc.events.NpcMovementEvent
 import org.rsmod.api.route.StepFactory
+import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.movement.RouteRequest
@@ -16,7 +18,11 @@ import org.rsmod.routefinder.collision.CollisionStrategy
 
 public class NpcMovementProcessor
 @Inject
-constructor(private val collision: CollisionFlagMap, private val stepFactory: StepFactory) {
+constructor(
+    private val collision: CollisionFlagMap,
+    private val stepFactory: StepFactory,
+    private val eventBus: EventBus,
+) {
     public fun process(npc: Npc) {
         npc.routeRequest?.let { consumeRequest(npc, it) }
         npc.routeRequest = null
@@ -50,10 +56,14 @@ constructor(private val collision: CollisionFlagMap, private val stepFactory: St
         if (!moveSpeed.processRouteDestination) {
             return
         }
+
         if (routeDestination.isEmpty()) {
             moveSpeed = MoveSpeed.Stationary
             return
         }
+
+        processWalkTrigger()
+
         val steps = move(moveSpeed.steps, collision)
         if (steps > 0) {
             moveSpeed = speedOffset(moveSpeed, steps)
@@ -147,6 +157,13 @@ constructor(private val collision: CollisionFlagMap, private val stepFactory: St
                     .toCoordGrid()
             is RouteRequestLoc -> destination
         }
+
+    private fun Npc.processWalkTrigger() {
+        val trigger = walkTrigger ?: return
+        clearWalkTrigger()
+        val event = NpcMovementEvent.WalkTrigger(this, trigger)
+        eventBus.publish(event)
+    }
 
     private companion object {
         private fun speedOffset(previous: MoveSpeed, steps: Int): MoveSpeed =

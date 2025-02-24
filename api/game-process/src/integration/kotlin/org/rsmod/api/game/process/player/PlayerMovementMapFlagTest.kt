@@ -11,6 +11,7 @@ import org.rsmod.api.testing.GameTestState
 import org.rsmod.api.testing.capture.attachClientCapture
 import org.rsmod.api.testing.factory.collisionFactory
 import org.rsmod.api.testing.factory.playerFactory
+import org.rsmod.events.EventBus
 import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.map.CoordGrid
 
@@ -48,7 +49,7 @@ class PlayerMovementMapFlagTest {
             val startCoords = CoordGrid(0, 0, 0, 0, 0)
             val captured = attachClientCapture()
 
-            val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory)
+            val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory, eventBus)
             fun process() {
                 captured.clearOutgoing()
                 previousCoords = coords
@@ -89,7 +90,7 @@ class PlayerMovementMapFlagTest {
             val startCoords = CoordGrid(0, 0, 0, 0, 0)
             val captured = attachClientCapture()
 
-            val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory)
+            val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory, eventBus)
             fun process() {
                 captured.clearOutgoing()
                 previousCoords = coords
@@ -135,7 +136,7 @@ class PlayerMovementMapFlagTest {
             val startCoords = CoordGrid(0, 0, 0, 0, 0)
             val captured = attachClientCapture()
 
-            val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory)
+            val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory, eventBus)
             fun process() {
                 captured.clearOutgoing()
                 previousCoords = coords
@@ -192,7 +193,7 @@ class PlayerMovementMapFlagTest {
             val startCoords = CoordGrid(0, 0, 0, 0, 0)
             val captured = attachClientCapture()
 
-            val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory)
+            val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory, eventBus)
             fun process() {
                 captured.clearOutgoing()
                 previousCoords = coords
@@ -273,7 +274,7 @@ class PlayerMovementMapFlagTest {
         player.buildArea = CoordGrid(0, 49, 49, 32, 32)
         player.varMoveSpeed = MoveSpeed.Walk
 
-        val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory)
+        val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory, eventBus)
         fun process() {
             captured.clearOutgoing()
             player.previousCoords = player.coords
@@ -314,7 +315,7 @@ class PlayerMovementMapFlagTest {
         collision.allocateIfAbsent(0, 0, 0)
         val routeFactory = RouteFactory(collision)
         val stepFactory = StepFactory(collision)
-        return PlayerMovementProcessor(collision, routeFactory, stepFactory)
+        return PlayerMovementProcessor(collision, routeFactory, stepFactory, EventBus())
     }
 }
 

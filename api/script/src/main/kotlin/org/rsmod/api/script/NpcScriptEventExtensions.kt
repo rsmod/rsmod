@@ -2,6 +2,7 @@ package org.rsmod.api.script
 
 import org.rsmod.api.npc.access.StandardNpcAccess
 import org.rsmod.api.npc.events.NpcAIEvents
+import org.rsmod.api.npc.events.NpcMovementEvent
 import org.rsmod.api.npc.events.NpcQueueEvents
 import org.rsmod.api.npc.events.NpcTimerEvents
 import org.rsmod.api.player.events.interact.NpcContentEvents
@@ -19,6 +20,7 @@ import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.queue.QueueType
 import org.rsmod.game.type.timer.TimerType
+import org.rsmod.game.type.walktrig.WalkTriggerType
 import org.rsmod.plugin.scripts.ScriptContext
 
 /* Op functions */
@@ -261,3 +263,9 @@ public fun <T> ScriptContext.onNpcQueueWithArgs(
     queue: QueueType,
     action: suspend StandardNpcAccess.(NpcQueueEvents.Content<T>) -> Unit,
 ): Unit = onNpcAccessEvent((content.id.toLong() shl 32) or queue.id.toLong(), action)
+
+/* Walk trigger functions */
+public fun ScriptContext.onNpcWalkTrigger(
+    trigger: WalkTriggerType,
+    action: NpcMovementEvent.WalkTrigger.() -> Unit,
+): Unit = onEvent(trigger.id, action)

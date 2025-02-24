@@ -1,11 +1,13 @@
 package org.rsmod.api.game.process.player
 
 import jakarta.inject.Inject
+import org.rsmod.api.player.events.PlayerMovementEvent
 import org.rsmod.api.player.output.MapFlag.setMapFlag
 import org.rsmod.api.player.output.clearMapFlag
 import org.rsmod.api.player.vars.varMoveSpeed
 import org.rsmod.api.route.RouteFactory
 import org.rsmod.api.route.StepFactory
+import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.movement.RouteDestination
@@ -21,6 +23,7 @@ constructor(
     private val collision: CollisionFlagMap,
     private val routeFactory: RouteFactory,
     private val stepFactory: StepFactory,
+    private val eventBus: EventBus,
 ) {
     public fun process(player: Player) {
         player.routeRequest?.let { consumeRequest(player, it) }
@@ -72,11 +75,15 @@ constructor(
         if (!moveSpeed.processRouteDestination) {
             return
         }
+
         if (routeDestination.isEmpty()) {
             moveSpeed = MoveSpeed.Stationary
             return
         }
+
         if (canProcessMovement) {
+            processWalkTrigger()
+
             val steps = move(moveSpeed.steps)
             if (steps > 0) {
                 moveSpeed = speedOffset(moveSpeed, steps)
@@ -161,6 +168,16 @@ constructor(
         if (currentWaypoint != CoordGrid.ZERO) return
         moveSpeed = MoveSpeed.Walk
         routeDestination.add(CoordGrid.ZERO)
+    }
+
+    private fun Player.processWalkTrigger() {
+        val trigger = walkTrigger ?: return
+        if (isBusy) {
+            return
+        }
+        clearWalkTrigger()
+        val event = PlayerMovementEvent.WalkTrigger(this, trigger)
+        eventBus.publish(event)
     }
 
     private companion object {

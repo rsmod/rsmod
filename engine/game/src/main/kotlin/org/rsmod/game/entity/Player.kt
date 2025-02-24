@@ -124,7 +124,7 @@ public class Player(
      * minigame - there is no guarantee that the drop trigger will not become "out-of-date" until
      * the player drops an inventory object.
      *
-     * _Note: Use the [dropTrigger] function to set this value._
+     * _Note: Use the [Player.dropTrigger] function to set this value._
      */
     public var dropTrigger: DropTriggerType? = null
         private set

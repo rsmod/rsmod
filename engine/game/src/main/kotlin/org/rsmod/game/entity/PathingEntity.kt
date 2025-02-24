@@ -19,6 +19,7 @@ import org.rsmod.game.seq.EntitySeq
 import org.rsmod.game.spot.EntitySpotanim
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.spot.SpotanimType
+import org.rsmod.game.type.walktrig.WalkTriggerType
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.util.Bounds
 import org.rsmod.map.zone.ZoneKey
@@ -110,6 +111,14 @@ public sealed class PathingEntity {
     public val pendingSpotanims: LongArrayList = LongArrayList()
 
     public var interaction: Interaction? = null
+
+    /**
+     * The currently active [WalkTriggerType].
+     *
+     * _Note: Use the [PathingEntity.walkTrigger] function to set this value._
+     */
+    public var walkTrigger: WalkTriggerType? = null
+        private set
 
     internal var animProtect: Boolean = false
 
@@ -431,6 +440,23 @@ public sealed class PathingEntity {
                 collision.remove(base.x + x, base.z + z, base.level, collisionFlag)
             }
         }
+    }
+
+    /**
+     * Sets [walkTrigger] to [trigger].
+     *
+     * **Important Note**: This function does *not* account for existing "high-priority" walk
+     * triggers (such as `frozen`). Callers must ensure they do not overwrite an important trigger
+     * when invoking this function.
+     *
+     * @see [org.rsmod.game.type.walktrig.isType]
+     */
+    public fun walkTrigger(trigger: WalkTriggerType) {
+        walkTrigger = trigger
+    }
+
+    public fun clearWalkTrigger() {
+        walkTrigger = null
     }
 
     /**

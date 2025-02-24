@@ -25,7 +25,8 @@ class PlayerFaceSquareProcessorTest {
                 // the face-south behavior on log-in. We do not need that for this test.
                 pendingFaceAngle = EntityFaceAngle.NULL
 
-                val move = PlayerMovementProcessor(it.collision, it.routeFactory, it.stepFactory)
+                val move =
+                    PlayerMovementProcessor(it.collision, it.routeFactory, it.stepFactory, eventBus)
                 val face = PlayerFaceSquareProcessor()
                 fun process() {
                     previousCoords = coords

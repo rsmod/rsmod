@@ -21,7 +21,8 @@ class PlayerRouteRequestTest {
         val start = CoordGrid(3200, 3200)
         val dest = CoordGrid(3205, 3202)
         withCollisionState {
-            val movement = PlayerMovementProcessor(it.collision, it.routeFactory, it.stepFactory)
+            val movement =
+                PlayerMovementProcessor(it.collision, it.routeFactory, it.stepFactory, eventBus)
             it.collision.allocateIfAbsent(start.x, start.x, start.level)
             it.collision.allocateIfAbsent(dest.x, dest.z, dest.level)
             withPlayer {
@@ -41,7 +42,8 @@ class PlayerRouteRequestTest {
         val dest = CoordGrid(3203, 3207)
         val target = entityFactory.createAvatar(dest)
         withCollisionState {
-            val movement = PlayerMovementProcessor(it.collision, it.routeFactory, it.stepFactory)
+            val movement =
+                PlayerMovementProcessor(it.collision, it.routeFactory, it.stepFactory, eventBus)
             val validator = it.boundValidator
             it.collision.allocateIfAbsent(start.x, start.x, start.level)
             it.collision.allocateIfAbsent(target.coords.x, target.coords.z, target.coords.level)
@@ -70,7 +72,8 @@ class PlayerRouteRequestTest {
                 length = 2
             }
         withCollisionState {
-            val movement = PlayerMovementProcessor(it.collision, it.routeFactory, it.stepFactory)
+            val movement =
+                PlayerMovementProcessor(it.collision, it.routeFactory, it.stepFactory, eventBus)
             val validator = it.boundValidator
             it.collision.allocateIfAbsent(start.x, start.x, start.level)
             it.collision.addLoc(target, type)

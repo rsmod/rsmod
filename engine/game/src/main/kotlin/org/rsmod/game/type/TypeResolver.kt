@@ -48,6 +48,7 @@ import org.rsmod.game.type.varp.HashedVarpType
 import org.rsmod.game.type.varp.VarpLifetime
 import org.rsmod.game.type.varp.VarpTransmitLevel
 import org.rsmod.game.type.varp.VarpType
+import org.rsmod.game.type.walktrig.WalkTriggerType
 
 public object TypeResolver {
     public operator fun get(type: BasType): Int = type.internalId
@@ -379,5 +380,11 @@ public object TypeResolver {
 
     public fun <T : Any> setDefault(type: ParamType<T>, default: T?) {
         type.typedDefault = default
+    }
+
+    public operator fun get(type: WalkTriggerType): Int? = type.internalId
+
+    public operator fun set(type: WalkTriggerType, id: Int) {
+        type.internalId = id
     }
 }

@@ -23,7 +23,8 @@ class PlayerMovementProcessorTest {
     @Test
     fun GameTestState.`reset temp speed only when destination queue is empty`() = runBasicGameTest {
         withCollisionState {
-            val movement = PlayerMovementProcessor(it.collision, it.routeFactory, it.stepFactory)
+            val movement =
+                PlayerMovementProcessor(it.collision, it.routeFactory, it.stepFactory, eventBus)
             val sourceCoords = CoordGrid(0, 0, 0, 0, 0)
             val targetCoords = CoordGrid(0, 0, 0, 0, 7)
             val target = entityFactory.createAvatar(targetCoords)
@@ -89,7 +90,8 @@ class PlayerMovementProcessorTest {
     @Test
     fun GameTestState.`only recalc while not busy`() = runBasicGameTest {
         withCollisionState {
-            val movement = PlayerMovementProcessor(it.collision, it.routeFactory, it.stepFactory)
+            val movement =
+                PlayerMovementProcessor(it.collision, it.routeFactory, it.stepFactory, eventBus)
             val sourceCoords = CoordGrid(0, 0, 0, 0, 0)
             val targetCoords = CoordGrid(0, 0, 0, 0, 7)
             val target = entityFactory.createAvatar(targetCoords)
@@ -178,7 +180,8 @@ class PlayerMovementProcessorTest {
                 it.collision.add(CoordGrid(x = 1, dz), CollisionFlag.LOC)
                 it.collision.add(CoordGrid(x = 6, dz), CollisionFlag.LOC)
             }
-            val movement = PlayerMovementProcessor(it.collision, it.routeFactory, it.stepFactory)
+            val movement =
+                PlayerMovementProcessor(it.collision, it.routeFactory, it.stepFactory, eventBus)
             withPlayer {
                 coords = sourceStart
                 varMoveSpeed = MoveSpeed.Walk
@@ -252,7 +255,7 @@ class PlayerMovementProcessorTest {
 
     @Test
     fun GameTestState.`walk towards waypoints`() = runBasicGameTest {
-        val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory)
+        val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory, eventBus)
         val start = CoordGrid(3194, 3199)
         val waypoints =
             listOf(
@@ -289,7 +292,7 @@ class PlayerMovementProcessorTest {
      */
     @Test
     fun GameTestState.`consume waypoints only on arrival`() = runBasicGameTest {
-        val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory)
+        val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory, eventBus)
         // North of Lumbridge fountain.
         val start = CoordGrid(3221, 3228)
         val dest = CoordGrid(3220, 3226)
@@ -311,7 +314,7 @@ class PlayerMovementProcessorTest {
      */
     @Test
     fun GameTestState.`finish off walking when coords are odd-tiles away`() = runBasicGameTest {
-        val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory)
+        val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory, eventBus)
         val start = CoordGrid(3200, 3200)
         /* verify running > 1 tile does _not_ queue extended-info update */
         withPlayer {
@@ -337,7 +340,7 @@ class PlayerMovementProcessorTest {
 
     @Test
     fun GameTestState.`emulate initial log-in fail route mechanic`() = runBasicGameTest {
-        val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory)
+        val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory, eventBus)
         val startCoords = CoordGrid(3357, 3141)
         val destination = CoordGrid(3384, 3155)
         withPlayer {
@@ -402,8 +405,9 @@ class PlayerMovementProcessorTest {
                 val startCoords = CoordGrid(3200, 3200, 0)
                 // Allocate an empty zone with no collision flags.
                 it.collision.allocateIfAbsent(startCoords.x, startCoords.z, startCoords.level)
+                val eventBus = state.eventBus
                 val movement =
-                    PlayerMovementProcessor(it.collision, it.routeFactory, it.stepFactory)
+                    PlayerMovementProcessor(it.collision, it.routeFactory, it.stepFactory, eventBus)
                 // If we want to support more than 7 steps, allocate
                 // neighbouring zones.
                 check(speed.steps < 8)

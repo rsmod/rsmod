@@ -36,6 +36,8 @@ import org.rsmod.api.type.builders.varobjbit.VarObjBitBuilder
 import org.rsmod.api.type.builders.varobjbit.VarObjBitBuilderResolver
 import org.rsmod.api.type.builders.varp.VarpBuilder
 import org.rsmod.api.type.builders.varp.VarpBuilderResolver
+import org.rsmod.api.type.builders.walktrig.WalkTriggerBuilder
+import org.rsmod.api.type.builders.walktrig.WalkTriggerBuilderResolver
 
 public class TypeBuilderResolverMap
 @Inject
@@ -57,6 +59,7 @@ constructor(
     private val varConBitResolver: VarConBitBuilderResolver,
     private val varObjBitResolver: VarObjBitBuilderResolver,
     private val varpResolver: VarpBuilderResolver,
+    private val walkTriggerResolver: WalkTriggerBuilderResolver,
 ) {
     private val builders = mutableListOf<TypeBuilder<*, *>>()
 
@@ -135,6 +138,7 @@ constructor(
                 is VarConBitBuilder -> varConBitResolver
                 is VarObjBitBuilder -> varObjBitResolver
                 is VarpBuilder -> varpResolver
+                is WalkTriggerBuilder -> walkTriggerResolver
                 else -> throw NotImplementedError("Resolver not defined for type-builder: $this")
             }
         return resolver as TypeBuilderResolver<B, T>

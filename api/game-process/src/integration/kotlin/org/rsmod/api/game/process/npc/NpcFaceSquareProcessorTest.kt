@@ -25,7 +25,7 @@ class NpcFaceSquareProcessorTest {
             val type = npcTypeFactory.create()
             val npc = npcFactory.create(type, start)
             withNpc(npc) {
-                val move = NpcMovementProcessor(it.collision, it.stepFactory)
+                val move = NpcMovementProcessor(it.collision, it.stepFactory, eventBus)
                 val face = NpcFaceSquareProcessor()
                 fun process() {
                     previousCoords = coords

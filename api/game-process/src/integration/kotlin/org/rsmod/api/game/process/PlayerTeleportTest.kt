@@ -25,7 +25,7 @@ class PlayerTeleportTest {
     @Test
     fun GameTestState.`teleport flags player with walk movespeed`() = runBasicGameTest {
         withPlayer {
-            val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory)
+            val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory, eventBus)
             val dest = CoordGrid(0, 50, 50, 9, 10)
             coords = CoordGrid(0, 50, 50, 10, 10)
             protectedTeleport(collision, dest)
@@ -56,7 +56,7 @@ class PlayerTeleportTest {
     @Test
     fun GameTestState.`telejump flags player with stationary movespeed`() = runBasicGameTest {
         withPlayer {
-            val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory)
+            val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory, eventBus)
             val dest = CoordGrid(0, 50, 50, 9, 10)
             coords = CoordGrid(0, 50, 50, 10, 10)
             check(!isAccessProtected)
