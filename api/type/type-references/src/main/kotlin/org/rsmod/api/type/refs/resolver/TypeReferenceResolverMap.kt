@@ -48,6 +48,8 @@ import org.rsmod.api.type.refs.varbit.VarBitReferenceResolver
 import org.rsmod.api.type.refs.varbit.VarBitReferences
 import org.rsmod.api.type.refs.varp.VarpReferenceResolver
 import org.rsmod.api.type.refs.varp.VarpReferences
+import org.rsmod.api.type.refs.walktrig.WalkTriggerReferenceResolver
+import org.rsmod.api.type.refs.walktrig.WalkTriggerReferences
 
 public class TypeReferenceResolverMap
 @Inject
@@ -75,6 +77,7 @@ constructor(
     private val timerResolver: TimerReferenceResolver,
     private val varBitResolver: VarBitReferenceResolver,
     private val varpResolver: VarpReferenceResolver,
+    private val walkTriggerResolver: WalkTriggerReferenceResolver,
 ) {
     private val references = mutableListOf<TypeReferences<*, *>>()
     private val _errors = mutableListOf<TypeReferenceResult.Error<*>>()
@@ -157,6 +160,7 @@ constructor(
                 is TimerReferences -> timerResolver
                 is VarBitReferences -> varBitResolver
                 is VarpReferences -> varpResolver
+                is WalkTriggerReferences -> walkTriggerResolver
                 else -> throw NotImplementedError("Resolver not defined for type-reference: $this")
             }
         return resolver as TypeReferenceResolver<T, I>

@@ -17,6 +17,7 @@ import org.rsmod.game.type.struct.StructTypeList
 import org.rsmod.game.type.synth.SynthTypeList
 import org.rsmod.game.type.varbit.VarBitTypeList
 import org.rsmod.game.type.varp.VarpTypeList
+import org.rsmod.game.type.walktrig.WalkTriggerTypeList
 
 public data class TypeListMap(
     public val locs: LocTypeList,
@@ -36,4 +37,5 @@ public data class TypeListMap(
     public val synths: SynthTypeList,
     public val structs: StructTypeList,
     public val jingles: JingleTypeList,
+    public val walkTriggers: WalkTriggerTypeList,
 )

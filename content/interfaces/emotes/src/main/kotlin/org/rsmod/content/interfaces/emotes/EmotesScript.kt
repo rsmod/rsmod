@@ -287,12 +287,11 @@ private constructor(
     }
 
     private fun ProtectedAccess.simpleAnim(seq: SeqType, spot: SpotanimType? = null) {
+        if (seq.requiresWalkTrigger() && !trySetWalkTrigger(emote_walktriggers.cancelanim)) {
+            return
+        }
         stopAction()
         playAnim(seq, spot)
-
-        if (seq.requiresWalkTrigger()) {
-            walkTriggerAttempt(emote_walktriggers.cancelanim)
-        }
     }
 
     private fun ProtectedAccess.loopAnim(seqOp1: SeqType, seqOp2: SeqType, op: IfButtonOp) {

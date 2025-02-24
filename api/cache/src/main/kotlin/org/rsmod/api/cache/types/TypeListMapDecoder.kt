@@ -21,6 +21,7 @@ import org.rsmod.api.cache.types.struct.StructTypeDecoder
 import org.rsmod.api.cache.types.synth.SynthTypeDecoder
 import org.rsmod.api.cache.types.varbit.VarBitTypeDecoder
 import org.rsmod.api.cache.types.varp.VarpTypeDecoder
+import org.rsmod.api.cache.types.walktrig.WalkTriggerTypeDecoder
 import org.rsmod.api.cache.util.ComplexTypeDecoder
 import org.rsmod.api.type.symbols.name.NameMapping
 import org.rsmod.game.type.TypeListMap
@@ -48,6 +49,7 @@ public object TypeListMapDecoder {
         val structs = decode { StructTypeDecoder.decodeAll(cache) }
         val spotanims = decode { SpotanimTypeDecoder.decodeAll(cache) }
         val jingles = JingleTypeDecoder.decodeAll(names)
+        val walkTriggers = decode { WalkTriggerTypeDecoder.decodeAll(cache, names.walkTriggers) }
         TypeListMap(
                 locs = locs.await(),
                 objs = objs.await(),
@@ -66,6 +68,7 @@ public object TypeListMapDecoder {
                 synths = synths,
                 structs = structs.await(),
                 jingles = jingles,
+                walkTriggers = walkTriggers.await(),
             )
             .apply {
                 ObjTypeDecoder.assignInternal(this.objs, names.objs)
@@ -84,6 +87,7 @@ public object TypeListMapDecoder {
                 StatTypeDecoder.assignInternal(this.stats, names.stats)
                 StructTypeDecoder.assignInternal(this.structs, names.structs)
                 FontMetricsDecoder.assignInternal(this.fonts, names.fonts)
+                WalkTriggerTypeDecoder.assignInternal(this.walkTriggers, names.walkTriggers)
                 ComplexTypeDecoder.decodeAll(this)
             }
     }
