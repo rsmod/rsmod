@@ -136,11 +136,15 @@ constructor(
         )
 
     private fun Player.addBlockWalkCollision(coords: CoordGrid) {
-        addBlockWalkCollision(collision, coords)
+        if (!hidden) {
+            addBlockWalkCollision(collision, coords)
+        }
     }
 
     private fun Player.removeBlockWalkCollision(coords: CoordGrid) {
-        removeBlockWalkCollision(collision, coords)
+        if (!hidden) {
+            removeBlockWalkCollision(collision, coords)
+        }
     }
 
     private fun Player.resetTempSpeed() {
