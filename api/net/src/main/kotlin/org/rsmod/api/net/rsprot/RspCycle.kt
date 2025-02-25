@@ -330,7 +330,7 @@ class RspCycle(
             runAnim = runningAnim,
         )
 
-        for (wearpos in Wearpos.PLAYER_INFO_WEARPOS) {
+        for (wearpos in Wearpos.visibleWearpos) {
             val obj = worn[wearpos.slot]
             if (obj == null) {
                 info.setWornObj(wearpos.slot, -1, -1, -1)

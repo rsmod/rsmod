@@ -20,7 +20,7 @@ public enum class Wearpos(public val slot: Int) {
         get() = this == Arms || this == Head || this == Jaw
 
     public companion object {
-        public val PLAYER_INFO_WEARPOS: List<Wearpos> =
+        public val visibleWearpos: List<Wearpos> =
             listOf(Hat, Back, Front, RightHand, Torso, LeftHand, Legs, Hands, Feet)
 
         public operator fun get(slot: Int): Wearpos? =
