@@ -7,11 +7,11 @@ import org.rsmod.map.zone.ZoneKey
 @JvmInline
 public value class RegionZoneCopyMap(public val backing: Int2IntMap = Int2IntOpenHashMap()) {
     public operator fun get(regionZone: ZoneKey): RegionZoneCopy {
-        val regionKey = backing[regionZone.packed]
-        return if (regionKey == backing.defaultReturnValue()) {
+        val copiedZone = backing[regionZone.packed]
+        return if (copiedZone == backing.defaultReturnValue()) {
             RegionZoneCopy.NULL
         } else {
-            RegionZoneCopy(regionKey)
+            RegionZoneCopy(copiedZone)
         }
     }
 
