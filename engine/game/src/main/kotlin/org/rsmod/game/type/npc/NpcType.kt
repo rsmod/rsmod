@@ -108,6 +108,8 @@ public data class UnpackedNpcType(
     override var internalId: Int?,
     override var internalName: String?,
 ) : NpcType() {
+    private val identityHash by lazy { computeIdentityHash() }
+
     public val isMultiNpc: Boolean
         get() = multiNpc.isNotEmpty() || multiNpcDefault > 0
 
@@ -129,9 +131,9 @@ public data class UnpackedNpcType(
 
     public fun toHashedType(): HashedNpcType =
         HashedNpcType(
-            internalId = internalId,
+            startHash = identityHash,
             internalName = internalName,
-            startHash = computeIdentityHash(),
+            internalId = internalId,
         )
 
     public fun computeIdentityHash(): Long {

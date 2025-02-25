@@ -146,9 +146,9 @@ public data class UnpackedComponentType(
 
     public fun toHashedType(): HashedComponentType =
         HashedComponentType(
-            internalId = internalId,
-            internalName = internalName,
             startHash = identityHash,
+            internalName = internalName,
+            internalId = internalId,
         )
 
     public fun computeIdentityHash(): Long {

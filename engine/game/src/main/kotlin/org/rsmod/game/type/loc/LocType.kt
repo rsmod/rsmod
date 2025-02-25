@@ -92,6 +92,8 @@ public data class UnpackedLocType(
     override var internalId: Int?,
     override var internalName: String?,
 ) : LocType() {
+    private val identityHash by lazy { computeIdentityHash() }
+
     public fun <T : Any> param(type: ParamType<T>): T = paramMap.resolve(type)
 
     public fun <T : Any> paramOrNull(type: ParamType<T>): T? = paramMap?.get(type)
@@ -110,9 +112,9 @@ public data class UnpackedLocType(
 
     public fun toHashedType(): HashedLocType =
         HashedLocType(
-            internalId = internalId,
+            startHash = identityHash,
             internalName = internalName,
-            startHash = computeIdentityHash(),
+            internalId = internalId,
         )
 
     public fun computeIdentityHash(): Long {
