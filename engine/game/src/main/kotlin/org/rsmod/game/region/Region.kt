@@ -15,10 +15,10 @@ public data class Region(
     public var slot: Int,
 ) {
     private var remappedLocCoords: RemappedRegionLocMap? = null
-    private val normalCoords: NormalRegionZoneMap = NormalRegionZoneMap()
+    private val normalZones: NormalRegionZoneMap = NormalRegionZoneMap()
 
     public val normal: NormalRegionZoneMap.ReadOnly
-        get() = NormalRegionZoneMap.ReadOnly(normalCoords)
+        get() = NormalRegionZoneMap.ReadOnly(normalZones)
 
     public val zoneLength: Int
         get() = (northEast.x - southWest.x) / ZoneGrid.LENGTH
@@ -61,7 +61,7 @@ public data class Region(
     }
 
     private fun cacheNormalZone(normalZone: RegionZoneCopy, regionZone: ZoneKey) {
-        normalCoords[normalZone] = regionZone
+        normalZones[normalZone] = regionZone
     }
 
     private fun MutableList<ZoneKey>.addZones(level: Int) {
