@@ -2,6 +2,7 @@ package org.rsmod.game.timer
 
 import it.unimi.dsi.fastutil.shorts.Short2IntOpenHashMap
 import java.util.Collections
+import org.rsmod.annotations.InternalApi
 import org.rsmod.game.type.timer.TimerType
 
 public class NpcTimerMap(private var timers: Short2IntOpenHashMap? = null) :
@@ -15,7 +16,9 @@ public class NpcTimerMap(private var timers: Short2IntOpenHashMap? = null) :
     public fun getOrDefault(timer: TimerType, default: Int): Int =
         timers?.getOrDefault(timer.id.toShort(), default) ?: default
 
-    // Should only be used internally by the system responsible for executing expired timers.
+    @InternalApi(
+        "Should only be used internally by the system responsible for executing expired timers."
+    )
     public operator fun minusAssign(id: Short) {
         timers?.remove(id)
     }
