@@ -102,7 +102,6 @@ public class Obj(
             ")"
 
     public companion object {
-        public const val NO_DESPAWN_CLOCK: Int = -1
         public const val NULL_RECEIVER_ID: Long = Long.MIN_VALUE
 
         private fun entity(type: ObjType, count: Int, scope: ObjScope): ObjEntity =

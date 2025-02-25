@@ -18,9 +18,9 @@ public class Controller(public val coords: CoordGrid, public val type: Controlle
     public val queueList: NpcQueueList = NpcQueueList()
     public val vars: VarConIntMap by lazy { VarConIntMap() }
 
+    public var slotId: Int = INVALID_SLOT
     public var durationStart: Int = -1
     public var duration: Int = -1
-    public var slotId: Int = INVALID_SLOT
     public var delay: Int = -1
     public var creationCycle: Int = -1
 
@@ -114,7 +114,7 @@ public class Controller(public val coords: CoordGrid, public val type: Controlle
      * @return true if the [target] is within [distance] tiles from [coords] _and_ the [target]'s
      *   [Bounds.level] is equal to this [CoordGrid.level].
      *
-     * This takes into account width and length dimensions for both [target] and this avatar.
+     * This takes into account the width and length dimensions of [target].
      */
     public fun isWithinDistance(target: Bounds, distance: Int): Boolean =
         coords.level == target.level && bounds().isWithinDistance(target, distance)

@@ -10,16 +10,19 @@ public abstract class EntityList<T>(
 
     public fun nextFreeSlot(): Int? {
         val startSlot = lastUsedSlot + 1
+
         for (slot in startSlot until capacity) {
             if (this[slot] == null) {
                 return slot
             }
         }
+
         for (slot in slotPadding until startSlot) {
             if (this[slot] == null) {
                 return slot
             }
         }
+
         return null
     }
 
@@ -28,20 +31,16 @@ public abstract class EntityList<T>(
         entries[slot] = null
     }
 
-    public fun getValue(slot: Int): T =
-        entries[slot] ?: throw NoSuchElementException("Slot $slot is missing in the list.")
-
-    public operator fun get(slot: Int): T? = entries.getOrNull(slot)
-
     public operator fun set(slot: Int, entity: T) {
         assertSlot(slot)
         lastUsedSlot = slot
         entries[slot] = entity
     }
 
-    override fun iterator(): Iterator<T> {
-        return EntityListIterator()
-    }
+    public fun getValue(slot: Int): T =
+        entries[slot] ?: throw NoSuchElementException("Slot $slot is missing in the list.")
+
+    public operator fun get(slot: Int): T? = entries.getOrNull(slot)
 
     private fun assertSlot(slot: Int) {
         if (slot in entries.indices) {
@@ -51,6 +50,8 @@ public abstract class EntityList<T>(
             "Slot out of bounds (slot=$slot, valid=${entries.indices})."
         )
     }
+
+    override fun iterator(): Iterator<T> = EntityListIterator()
 
     private inner class EntityListIterator : Iterator<T> {
         private var cursor = 0
