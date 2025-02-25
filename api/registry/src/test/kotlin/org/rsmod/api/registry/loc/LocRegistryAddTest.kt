@@ -2,6 +2,7 @@ package org.rsmod.api.registry.loc
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotEquals
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import org.rsmod.api.testing.factory.collisionFactory
 import org.rsmod.api.testing.factory.locFactory
@@ -107,6 +108,38 @@ class LocRegistryAddTest {
         assertEquals(2, locZones.spawnedLocCount())
         assertEquals(2, registry.findAll(ZoneKey.from(loc2.coords)).count())
         assertEquals(setOf(loc1, loc2), registry.findAll(ZoneKey.from(loc1.coords)).toSet())
+    }
+
+    @Test
+    fun `add spawned loc on top of map loc with different shape but same layer`() {
+        val types = locTypeListFactory.createDefault()
+
+        val locZones = LocZoneStorage()
+        val collision = collisionFactory.create()
+        val registry = locRegistryFactory.createNormal(collision, locZones)
+
+        collision.allocateIfAbsent(0, 0, 0)
+
+        val mapLoc = locFactory.create(types.smallBlockWalk(), shape = LocShape.CentrepieceStraight)
+        val spawnLoc =
+            locFactory.create(types.mediumBlockWalk(), shape = LocShape.CentrepieceDiagonal)
+
+        // Manually set the map loc.
+        val zoneKey = ZoneKey.from(mapLoc.coords)
+        val locZoneKey = LocZoneKey(ZoneGrid.from(mapLoc.coords), mapLoc.layer)
+        locZones.mapLocs[zoneKey, locZoneKey] = LocEntity(mapLoc.id, mapLoc.shapeId, mapLoc.angleId)
+        check(collision[mapLoc.coords] and CollisionFlag.LOC == 0)
+
+        registry.add(spawnLoc)
+
+        // The spawned loc should "mask" the map loc.
+        assertEquals(1, registry.findAll(ZoneKey.from(spawnLoc.coords)).count())
+        assertEquals(spawnLoc, registry.findAll(ZoneKey.from(spawnLoc.coords)).single())
+
+        // `find` functions should be able to discern that the map loc is currently "masked"
+        // by the spawned loc on top of it.
+        assertNull(registry.findType(mapLoc.coords, mapLoc.id))
+        assertNull(registry.findShape(mapLoc.coords, mapLoc.shapeId))
     }
 
     @Test
