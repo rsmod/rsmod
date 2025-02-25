@@ -18,12 +18,24 @@ public data class UserInterfaceMap(
     public val closeQueue: IntArraySet = IntArraySet(),
     public var closeModal: Boolean = false,
 ) {
+    public var resumeInput: ResumeInput? = null
+        private set
+
     public fun queueClose(target: Component) {
         closeQueue.add(target.packed)
     }
 
     public fun removeQueuedCloseSub(target: ComponentType) {
         closeQueue.remove(target.packed)
+    }
+
+    public fun queueResumeButton(component: ComponentType, comsub: Int) {
+        val input = ResumeInput(component, comsub)
+        this.resumeInput = input
+    }
+
+    public fun clearResumeButton() {
+        this.resumeInput = null
     }
 
     public operator fun contains(type: InterfaceType): Boolean {
@@ -62,4 +74,6 @@ public data class UserInterfaceMap(
         val packed = getOrDefault(key.packed, null) ?: return Component.NULL
         return Component(packed)
     }
+
+    public data class ResumeInput(val component: ComponentType, val comsub: Int)
 }

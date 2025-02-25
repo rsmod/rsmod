@@ -2,7 +2,6 @@ package org.rsmod.api.net.rsprot.handlers
 
 import jakarta.inject.Inject
 import net.rsprot.protocol.game.incoming.resumed.ResumePauseButton
-import org.rsmod.api.player.input.ResumePauseButtonInput
 import org.rsmod.game.entity.Player
 import org.rsmod.game.type.comp.ComponentTypeList
 import org.rsmod.game.type.interf.InterfaceTypeList
@@ -21,20 +20,19 @@ constructor(
     override fun handle(player: Player, message: ResumePauseButton) {
         val componentType = componentTypes[message.asComponent]
         val interfaceType = interfaceTypes[message.asComponent]
-        val input = ResumePauseButtonInput(componentType, message.sub)
         val userInterface = UserInterface(interfaceType)
 
         val modal = player.ui.modals.getComponent(userInterface)
         if (modal != null) {
             player.ui.queueClose(modal)
-            player.resumeActiveCoroutine(input)
+            player.ui.queueResumeButton(componentType, message.sub)
             return
         }
 
         val overlay = player.ui.overlays.getComponent(userInterface)
         if (overlay != null) {
             player.ui.queueClose(overlay)
-            player.resumeActiveCoroutine(input)
+            player.ui.queueResumeButton(componentType, message.sub)
             return
         }
     }
