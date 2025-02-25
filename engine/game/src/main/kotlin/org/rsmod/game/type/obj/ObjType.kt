@@ -454,12 +454,12 @@ public data class UnpackedObjType(
     }
 }
 
-public infix fun ObjType.isAssociatedWith(obj: InvObj?): Boolean {
+public fun ObjType.isAssociatedWith(obj: InvObj?): Boolean {
     contract { returns(true) implies (obj != null) }
     return obj != null && obj.id == id
 }
 
-public infix fun ObjType?.isType(other: ObjType): Boolean {
+public fun ObjType?.isType(other: ObjType): Boolean {
     contract { returns(true) implies (this@isType != null) }
     return this != null && this.id == other.id
 }

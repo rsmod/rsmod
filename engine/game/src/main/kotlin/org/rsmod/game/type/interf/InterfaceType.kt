@@ -58,7 +58,7 @@ public data class UnpackedInterfaceType(
     override fun hashCode(): Int = computeIdentityHash().toInt()
 }
 
-public infix fun InterfaceType?.isType(other: InterfaceType): Boolean {
+public fun InterfaceType?.isType(other: InterfaceType): Boolean {
     contract { returns(true) implies (this@isType != null) }
     return this != null && this.id == other.id
 }

@@ -49,7 +49,7 @@ public data class ModGroup(
     }
 }
 
-public infix fun ModGroup?.hasAccessTo(level: ModLevel): Boolean {
+public fun ModGroup?.hasAccessTo(level: ModLevel): Boolean {
     contract { returns(true) implies (this@hasAccessTo != null) }
     return this != null && level in levels
 }

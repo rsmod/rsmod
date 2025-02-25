@@ -13,7 +13,7 @@ constructor(public val id: Int, public val count: Int, public val vars: Int = 0)
     public constructor(type: ObjType, count: Int = 1, vars: Int = 0) : this(type.id, count, vars)
 }
 
-public infix fun InvObj?.isType(type: ObjType): Boolean {
+public fun InvObj?.isType(type: ObjType): Boolean {
     contract { returns(true) implies (this@isType != null) }
     return this != null && type.id == id
 }

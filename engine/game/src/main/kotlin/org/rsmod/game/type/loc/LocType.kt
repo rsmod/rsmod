@@ -310,7 +310,7 @@ public data class UnpackedLocType(
     }
 }
 
-public infix fun LocType.isAssociatedWith(loc: LocInfo?): Boolean {
+public fun LocType.isAssociatedWith(loc: LocInfo?): Boolean {
     contract { returns(true) implies (loc != null) }
     return loc != null && loc.isType(this)
 }
