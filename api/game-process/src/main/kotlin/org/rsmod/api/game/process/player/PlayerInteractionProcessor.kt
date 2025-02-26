@@ -351,7 +351,7 @@ constructor(
     }
 
     private fun InteractionNpc.isValid(): Boolean {
-        return target.isValidTarget && target.isNotDelayed && type == target.visType.id
+        return target.isValidTarget && target.isNotDelayed && uid == target.uid
     }
 
     private fun InteractionObj.isValid(observer: Player): Boolean {

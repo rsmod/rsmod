@@ -1,5 +1,6 @@
 package org.rsmod.api.testing.scope
 
+import org.rsmod.annotations.InternalApi
 import org.rsmod.api.npc.events.NpcEvents
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.protect.ProtectedAccessContext
@@ -71,6 +72,7 @@ public class BasicGameTestScope(private val eventBus: EventBus) {
         playerList.remove(slot)
     }
 
+    @OptIn(InternalApi::class)
     public fun withNpc(npc: Npc, action: Npc.() -> Unit) {
         val slot = npcList.nextFreeSlot() ?: error("No available slot.")
         npc.slotId = slot
@@ -78,6 +80,7 @@ public class BasicGameTestScope(private val eventBus: EventBus) {
         eventBus.publish(NpcEvents.Spawn(npc))
         action(npc)
         npc.slotId = -1
+        npc.clearUid()
         npc.destroy()
         npcList.remove(slot)
     }

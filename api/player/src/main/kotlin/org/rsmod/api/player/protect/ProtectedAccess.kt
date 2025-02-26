@@ -5,6 +5,7 @@ import kotlin.math.absoluteValue
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.reflect.KClass
+import org.rsmod.annotations.InternalApi
 import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.components
 import org.rsmod.api.config.refs.invs
@@ -1919,8 +1920,10 @@ public class ProtectedAccess(
         npc.resetMode()
     }
 
+    @OptIn(InternalApi::class)
     public fun npcTransmog(npc: Npc, into: NpcType, npcTypes: NpcTypeList = context.npcTypes) {
         npc.transmog(npcTypes[into])
+        npc.assignUid()
     }
 
     public fun npcVisType(

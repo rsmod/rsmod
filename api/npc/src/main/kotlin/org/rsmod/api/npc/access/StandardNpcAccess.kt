@@ -122,14 +122,17 @@ public class StandardNpcAccess(
 
     public fun transmog(type: NpcType, typeList: NpcTypeList) {
         npc.transmog(typeList[type])
+        npc.assignUid()
     }
 
     public fun transmog(type: UnpackedNpcType) {
         npc.transmog(type)
+        npc.assignUid()
     }
 
     public fun resetTransmog() {
         npc.resetTransmog()
+        npc.assignUid()
     }
 
     public fun isWithinDistance(

@@ -25,6 +25,7 @@ constructor(
         val slot = npcList.nextFreeSlot() ?: return NpcRegistryResult.Add.NoAvailableSlot
         npcList[slot] = npc
         npc.slotId = slot
+        npc.assignUid()
         npc.addBlockWalkCollision(collision, npc.coords)
         eventBus.publish(NpcEvents.Create(npc))
         eventBus.publish(NpcEvents.Spawn(npc))
@@ -45,6 +46,7 @@ constructor(
         npc.removeBlockWalkCollision(collision, npc.coords)
         zoneDel(npc, npc.lastProcessedZone)
         npc.slotId = INVALID_SLOT
+        npc.clearUid()
         npc.destroy()
         npc.disableAvatar()
         return NpcRegistryResult.Delete.Success

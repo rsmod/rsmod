@@ -1,7 +1,9 @@
 package org.rsmod.game.entity
 
+import org.rsmod.annotations.InternalApi
 import org.rsmod.game.entity.npc.NpcInfoProtocol
 import org.rsmod.game.entity.npc.NpcMode
+import org.rsmod.game.entity.npc.NpcUid
 import org.rsmod.game.entity.util.PathingEntityCommon
 import org.rsmod.game.map.Direction
 import org.rsmod.game.movement.BlockWalk
@@ -45,6 +47,9 @@ public class Npc(
 
     public val timerMap: NpcTimerMap = NpcTimerMap()
     public val queueList: NpcQueueList = NpcQueueList()
+
+    public var uid: NpcUid = NpcUid.NULL
+        private set
 
     public var spawnCoords: CoordGrid = coords
     public var defaultMoveSpeed: MoveSpeed = MoveSpeed.Walk
@@ -94,6 +99,17 @@ public class Npc(
         set(value) {
             avatar.infoProtocol = value
         }
+
+    @InternalApi
+    public fun assignUid() {
+        check(slotId != INVALID_SLOT) { "`slotId` must be set before assigning a uid." }
+        this.uid = NpcUid(slotId, visType.id)
+    }
+
+    @InternalApi
+    public fun clearUid() {
+        this.uid = NpcUid.NULL
+    }
 
     public fun walk(dest: CoordGrid): Unit = PathingEntityCommon.walk(this, dest)
 
@@ -219,5 +235,5 @@ public class Npc(
 
     public fun isContentType(content: ContentGroupType): Boolean = type.contentGroup == content.id
 
-    override fun toString(): String = "Npc(slot=$slotId, coords=$coords, type=$type)"
+    override fun toString(): String = "Npc(uid=$uid, slot=$slotId, coords=$coords, type=$type)"
 }

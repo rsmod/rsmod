@@ -2,6 +2,7 @@ package org.rsmod.game.interact
 
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.PathingEntity
+import org.rsmod.game.entity.npc.NpcUid
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.obj.Obj
 import org.rsmod.game.type.comp.ComponentType
@@ -72,7 +73,11 @@ public sealed class InteractionNpc(
     startApRange: Int,
     persistent: Boolean,
 ) : Interaction(hasOpTrigger, hasApTrigger, startApRange, persistent) {
-    public val type: Int = target.visType.id
+    public val uid: NpcUid = target.uid
+
+    init {
+        check(uid != NpcUid.NULL) { "Npc does not have a proper uid: $target" }
+    }
 
     override fun toString(): String =
         "InteractionNpc(" +
