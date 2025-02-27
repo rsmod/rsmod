@@ -282,13 +282,20 @@ constructor(
     private fun Player.isWithinOpRange(interaction: InteractionNpc): Boolean =
         boundValidator.touches(source = avatar, target = interaction.target.avatar)
 
-    private fun Player.isWithinApRange(interaction: InteractionNpc): Boolean =
-        isValidApRange(
-            target = interaction.target.coords,
-            width = interaction.target.size,
-            length = interaction.target.size,
-            distance = interaction.apRange,
-        )
+    private fun Player.isWithinApRange(interaction: InteractionNpc): Boolean {
+        val isUnderTarget = boundValidator.collides(avatar, interaction.target.avatar)
+        if (isUnderTarget) {
+            return false
+        }
+        val isWithinApRange =
+            isValidApRange(
+                target = interaction.target.coords,
+                width = interaction.target.size,
+                length = interaction.target.size,
+                distance = interaction.apRange,
+            )
+        return isWithinApRange
+    }
 
     /* Obj interactions */
     private fun Player.preMovementStep(interaction: InteractionObj): InteractionStep =
