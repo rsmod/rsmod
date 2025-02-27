@@ -31,8 +31,10 @@ public fun boolVarp(varp: VarpType): VariableTypeIntDelegate<Boolean> =
 public fun dateVarp(varp: VarpType): VariableLocalDateTimeDelegate =
     VariableLocalDateTimeDelegate(varp)
 
-public fun typeCoordVarp(varp: VarpType): VariableTypeIntDelegate<CoordGrid> =
-    typeIntVarp(varp, ::CoordGrid, CoordGrid::packed)
+public fun typeCoordVarp(varp: VarpType): VariableTypeIntDelegate<CoordGrid?> {
+    val fromType: (CoordGrid?) -> Int = { typed -> typed?.packed ?: CoordGrid.NULL.packed }
+    return typeIntVarp(varp, ::CoordGrid, fromType)
+}
 
 public fun <T> typeIntVarp(
     varp: VarpType,

@@ -94,6 +94,7 @@ constructor(
             return
         }
 
+        val stationCoords = checkNotNull(stationCoords) { "Expected valid station coords." }
         val station = locRepo.findExact(stationCoords, LocShape.CentrepieceStraight)
         checkNotNull(station) { "Expected canoe station loc: coords=$stationCoords" }
 
