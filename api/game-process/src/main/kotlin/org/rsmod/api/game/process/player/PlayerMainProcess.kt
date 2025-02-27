@@ -4,7 +4,6 @@ import jakarta.inject.Inject
 import kotlinx.coroutines.runBlocking
 import org.rsmod.api.game.process.GameLifecycle
 import org.rsmod.api.player.forceDisconnect
-import org.rsmod.api.player.input.ResumePauseButtonInput
 import org.rsmod.api.player.output.clearMapFlag
 import org.rsmod.api.player.ui.closeSubs
 import org.rsmod.api.player.ui.ifClose
@@ -47,7 +46,8 @@ constructor(
             player.tryOrDisconnect {
                 resumePausedProcess()
                 refreshFaceEntity()
-                processIfRequests()
+                processIfCloseQueue()
+                processIfCloseModal()
                 processQueues()
                 processTimers()
                 processMovementSequence()
@@ -66,21 +66,6 @@ constructor(
         if (interaction == null) {
             resetFaceEntity()
         }
-    }
-
-    private fun Player.processIfRequests() {
-        processIfResumeInput()
-        processIfCloseQueue()
-        processIfCloseModal()
-    }
-
-    private fun Player.processIfResumeInput() {
-        val input = ui.resumeInput ?: return
-        ui.clearResumeButton()
-
-        val (component, comsub) = input
-        val resume = ResumePauseButtonInput(component, comsub)
-        resumeActiveCoroutine(resume)
     }
 
     private fun Player.processIfCloseQueue() {
