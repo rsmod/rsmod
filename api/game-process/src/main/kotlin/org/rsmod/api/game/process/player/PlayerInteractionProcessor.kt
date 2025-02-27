@@ -123,12 +123,14 @@ constructor(
                 }
                 InteractionStep.TriggerScriptAp -> {
                     val cachedWaypoints = routeDestination.waypoints.toList()
+                    val cachedRecalc = routeDestination.recalcRequest
                     abortRoute()
 
                     triggerAp(interaction)
                     interacted = true
 
                     if (apRangeCalled) {
+                        routeDestination.recalcRequest = cachedRecalc
                         routeDestination.addAll(cachedWaypoints)
                     }
                 }
@@ -158,12 +160,14 @@ constructor(
                 }
                 InteractionStep.TriggerScriptAp -> {
                     val cachedWaypoints = routeDestination.waypoints.toList()
+                    val cachedRecalc = routeDestination.recalcRequest
                     abortRoute()
 
                     triggerAp(interaction)
                     interacted = true
 
                     if (apRangeCalled) {
+                        routeDestination.recalcRequest = cachedRecalc
                         routeDestination.addAll(cachedWaypoints)
                     }
                 }
