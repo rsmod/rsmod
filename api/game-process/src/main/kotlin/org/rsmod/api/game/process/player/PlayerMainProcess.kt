@@ -4,7 +4,6 @@ import jakarta.inject.Inject
 import kotlinx.coroutines.runBlocking
 import org.rsmod.api.game.process.GameLifecycle
 import org.rsmod.api.player.forceDisconnect
-import org.rsmod.api.player.output.clearMapFlag
 import org.rsmod.api.player.ui.closeSubs
 import org.rsmod.api.player.ui.ifClose
 import org.rsmod.api.utils.logging.GameExceptionHandler
@@ -93,7 +92,6 @@ constructor(
 
     private fun Player.processMovementSequence() {
         preMovementInteraction(interaction)
-        processInteractionMovementInterference(interaction)
         movementProcess()
         postMovementInteraction(interaction)
     }
@@ -101,15 +99,6 @@ constructor(
     private fun Player.preMovementInteraction(interaction: Interaction?) {
         val interaction = interaction ?: return
         interact.processPreMovement(this, interaction)
-    }
-
-    private fun Player.processInteractionMovementInterference(interaction: Interaction?) {
-        val interaction = interaction ?: return
-        if (interact.isMovementCancellationRequired(interaction)) {
-            clearInteraction()
-            clearRouteRecalc()
-            clearMapFlag()
-        }
     }
 
     private fun Player.movementProcess() {

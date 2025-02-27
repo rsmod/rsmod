@@ -48,29 +48,42 @@ constructor(
     private val protectedAccess: ProtectedAccessLauncher,
 ) {
     public fun processPreMovement(player: Player, interaction: Interaction) {
+        // While the player is busy, interactions should not be canceled by
+        // [shouldCancelInteraction].
         if (player.isBusy) {
             return
         }
+
+        // Ensure the interaction target is still valid before proceeding.
         if (player.shouldCancelInteraction(interaction)) {
             player.clearInteractionRoute()
             return
         }
+
         player.preMovementInteraction(interaction)
     }
 
-    public fun isMovementCancellationRequired(interaction: Interaction): Boolean =
-        interaction.interacted && !interaction.apRangeCalled
-
     public fun processPostMovement(player: Player, interaction: Interaction) {
+        // If the player is busy, interactions should not be canceled by [shouldCancelInteraction].
+        // However, if an interaction was completed during the pre-movement step, clear it.
         if (player.isBusy) {
             player.clearFinishedInteraction()
             return
         }
+
+        // Ensure the interaction target is still valid before proceeding.
         if (player.shouldCancelInteraction(interaction)) {
             player.clearInteractionRoute()
             return
         }
-        player.postMovementInteraction(interaction)
+
+        // If the interaction was not completed during pre-movement, attempt to complete it now
+        // after the player's movement has been processed.
+        if (!interaction.isCompleted()) {
+            player.postMovementInteraction(interaction)
+        }
+
+        // Clear the interaction if it's deemed "completed."
         player.clearFinishedInteraction()
     }
 
@@ -78,33 +91,16 @@ constructor(
         with(interaction) {
             interacted = false
             apRangeCalled = false
+
             val step = determinePreMovementStep(this)
             processPreMovementStep(interaction, step)
         }
 
     private fun Player.postMovementInteraction(interaction: Interaction): Unit =
         with(interaction) {
-            if (!interacted || apRangeCalled) {
-                // `apRangeCalled` being reset here is _not_ part of the original interaction model.
-                // It is _a_ solution to the scenario where `TriggerEngineAp` pre-movement step is
-                // followed-up by a `TriggerEngineOp` post-movement step. In said situation,
-                // `apRangeCalled` would be true; `TriggerEngineOp` would set `interacted` to true;
-                // `dm_default` engine message would be sent. However, since the `apRangeCalled`
-                // flag is true, the interaction would not be reset that cycle. It would instead be
-                // reset the following cycle, but not before sending an extra `dm_default` message
-                // due to the next steps: `Continue` and `TriggerEngineOp`.
-                // Ex:
-                // - Player is next to a door without a defined script op/ap
-                // - Player operates door
-                // - Pre-movement step = TriggerEngineAp > `apRange = -1; apRangeCalled = true`
-                // - Post-movement step = TriggerEngineOp > `mes(dm_default); interacted = true`
-                // - Condition to clear interaction = `interacted && !apRangeCalled`
-                // - Condition fails due to `apRangeCalled = true`
-                interacted = false
-                apRangeCalled = false
-                val step = determinePostMovementStep(this)
-                processPostMovementStep(this, step)
-            }
+            val step = determinePostMovementStep(this)
+            processPostMovementStep(this, step)
+
             if (!interaction.interacted && routeDestination.isEmpty() && !hasMovedThisCycle) {
                 mes(Constants.dm_reach, ChatType.Engine)
                 clearInteractionRoute()
@@ -126,6 +122,7 @@ constructor(
                     val cachedRecalc = routeDestination.recalcRequest
                     abortRoute()
 
+                    apRangeCalled = false
                     triggerAp(interaction)
                     interacted = true
 
@@ -136,7 +133,6 @@ constructor(
                 }
                 InteractionStep.TriggerEngineAp -> {
                     apRange = -1
-                    apRangeCalled = true
                 }
                 InteractionStep.TriggerEngineOp -> {
                     mes(Constants.dm_default, ChatType.Engine)
@@ -163,6 +159,7 @@ constructor(
                     val cachedRecalc = routeDestination.recalcRequest
                     abortRoute()
 
+                    apRangeCalled = false
                     triggerAp(interaction)
                     interacted = true
 
@@ -173,8 +170,6 @@ constructor(
                 }
                 InteractionStep.TriggerEngineAp -> {
                     apRange = -1
-                    apRangeCalled = true
-                    interacted = true
                 }
                 InteractionStep.TriggerEngineOp -> {
                     mes(Constants.dm_default, ChatType.Engine)
@@ -188,12 +183,14 @@ constructor(
 
     private fun Player.clearFinishedInteraction() {
         val interaction = interaction ?: return
-        if (interaction.interacted && !interaction.apRangeCalled && !interaction.persistent) {
+        if (interaction.isCompleted()) {
             clearInteraction()
             clearRouteRecalc()
             clearMapFlag()
         }
     }
+
+    private fun Interaction.isCompleted(): Boolean = interacted && !apRangeCalled && !persistent
 
     private fun Player.determinePreMovementStep(interaction: Interaction): InteractionStep =
         when (interaction) {
