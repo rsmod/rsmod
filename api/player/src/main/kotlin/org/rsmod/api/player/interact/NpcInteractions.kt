@@ -38,7 +38,10 @@ constructor(
                 hasOpTrigger = opTrigger,
                 hasApTrigger = apTrigger,
             )
-        val routeRequest = RouteRequestPathingEntity(npc.avatar)
+        // Note: Whether route recalc occurs when called through content (this function) is
+        // **unproven**. There is currently no evidence supporting or refuting this; this
+        // assumption is based purely on a hunch.
+        val routeRequest = RouteRequestPathingEntity(npc.avatar, recalc = false)
         player.interaction = interaction
         player.routeRequest = routeRequest
     }
