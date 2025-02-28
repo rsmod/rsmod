@@ -48,6 +48,7 @@ constructor(
         player.removeBlockWalkCollision(collision, player.coords)
         zoneDel(player, ZoneKey.from(player.coords))
         player.slotId = INVALID_SLOT
+        player.destroy()
         return PlayerRegistryResult.Delete.Success
     }
 
