@@ -4,7 +4,7 @@ import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.loc.LocInfo
 import org.rsmod.game.type.TypeResolver
 
-public data class LocTypeList(public val types: Map<Int, UnpackedLocType>) :
+public data class LocTypeList(public val types: MutableMap<Int, UnpackedLocType>) :
     Map<Int, UnpackedLocType> by types {
     public operator fun get(type: LocType): UnpackedLocType =
         types[TypeResolver[type]]

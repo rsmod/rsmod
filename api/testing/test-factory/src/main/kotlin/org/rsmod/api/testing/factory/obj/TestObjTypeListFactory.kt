@@ -12,7 +12,7 @@ public class TestObjTypeListFactory {
         val cert1 = factory.create(CERT_OBJ_1_ID) { certtemplate = 799 }
         val cert2 = factory.create(CERT_OBJ_2_ID) { certtemplate = 799 }
         val map =
-            mapOf(
+            mutableMapOf(
                 STANDARD_OBJ_1_ID to standard1,
                 STANDARD_OBJ_2_ID to standard2,
                 STACKABLE_OBJ_1_ID to stack1,

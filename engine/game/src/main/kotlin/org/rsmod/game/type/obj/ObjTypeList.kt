@@ -4,7 +4,7 @@ import org.rsmod.game.obj.InvObj
 import org.rsmod.game.obj.Obj
 import org.rsmod.game.type.TypeResolver
 
-public data class ObjTypeList(public val types: Map<Int, UnpackedObjType>) :
+public data class ObjTypeList(public val types: MutableMap<Int, UnpackedObjType>) :
     Map<Int, UnpackedObjType> by types {
     public operator fun get(type: ObjType): UnpackedObjType =
         types[TypeResolver[type]]

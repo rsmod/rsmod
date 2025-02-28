@@ -400,6 +400,14 @@ constructor(
         val locZoneKey = LocZoneKey(zoneGrid, locInfo.layer)
         locZoneStorage.mapLocs[zoneKey, locZoneKey] = entity
 
+        // Since packet handlers check for valid interactions with `locInfo`, we need to register
+        // the [UnpackedLocType] in the test-injected [LocTypeList].
+        // Without this, [LocInteractions.hasOp] will return `false`, blocking the interaction
+        // at the packet-handler level.
+        // Note that this mutation affects only _this test scope's_ [LocTypeList] and does
+        // not alter any other instance.
+        locTypes.types[type.id] = type
+
         return boundLoc
     }
 
@@ -716,15 +724,31 @@ constructor(
                 bind(ObjRepository::class.java).`in`(Scopes.SINGLETON)
                 bind(WorldRepository::class.java).`in`(Scopes.SINGLETON)
 
-                bind(TypeListMap::class.java).toInstance(cacheTypes)
+                // These type lists can be modified by tests to ensure interactions pass
+                // validation checks. Tests need the flexibility to create and modify these
+                // types. Without this, interactions with custom "test types" would likely
+                // fail at the packet-handler level, as the associated `UnpackedXType.op`
+                // is checked for validity.
+                //
+                // The word "likely" is used because the id of a test type may conflict with
+                // an existing type that has the required op, causing the interaction to pass
+                // the validity check by coincidence.
+                bind(LocTypeList::class.java).toInstance(cacheTypes.locs.copy())
+                bind(ObjTypeList::class.java).toInstance(cacheTypes.objs.copy())
+
+                // Though similar, the npc type list **does not** require this flexibility.
+                // Each `Npc` stores a reference to its `UnpackedNpcType` upon creation,
+                // ensuring that any test type used to spawn a npc will automatically pass
+                // the op validity check. It is safe to share the same `NpcTypeList`.
+                bind(NpcTypeList::class.java).toInstance(cacheTypes.npcs)
+
+                // Currently, there is no need to mutate the following type lists.
+                // Therefore, we can reuse their shared instance across test scopes.
                 bind(ComponentTypeList::class.java).toInstance(cacheTypes.components)
                 bind(EnumTypeList::class.java).toInstance(cacheTypes.enums)
                 bind(FontMetricsTypeList::class.java).toInstance(cacheTypes.fonts)
                 bind(InterfaceTypeList::class.java).toInstance(cacheTypes.interfaces)
                 bind(InvTypeList::class.java).toInstance(cacheTypes.invs)
-                bind(LocTypeList::class.java).toInstance(cacheTypes.locs)
-                bind(NpcTypeList::class.java).toInstance(cacheTypes.npcs)
-                bind(ObjTypeList::class.java).toInstance(cacheTypes.objs)
                 bind(ParamTypeList::class.java).toInstance(cacheTypes.params)
                 bind(SeqTypeList::class.java).toInstance(cacheTypes.seqs)
                 bind(StatTypeList::class.java).toInstance(cacheTypes.stats)

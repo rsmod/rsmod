@@ -30,7 +30,7 @@ public class TestLocTypeListFactory {
                 blockRange = true
             }
         val map =
-            mapOf(
+            mutableMapOf(
                 SMALL_LOC_BLOCK_WALK_ID to small1,
                 MEDIUM_LOC_BLOCK_WALK_ID to medium1,
                 SMALL_LOC_BLOCK_RANGE_ID to small2,
