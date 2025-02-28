@@ -644,10 +644,9 @@ constructor(
     public class Builder(state: GameTestState, private val scripts: Set<KClass<out PluginScript>>) {
         private val cacheTypes: TypeListMap = state.cacheTypes
         private val collisionMap: CollisionFlagMap = state.collision
-        private val eventBus: EventBus by lazy { resolveEventBus(state.eventBus) }
 
         internal fun build(): GameTestScope {
-            val module = TestModule(eventBus, cacheTypes, collisionMap)
+            val module = TestModule(cacheTypes, collisionMap)
             val injector = Guice.createInjector(module)
             bindScriptEvents(injector)
             return injector.getInstance(GameTestScope::class.java)
@@ -661,33 +660,11 @@ constructor(
             }
         }
 
-        /**
-         * Resolves the appropriate [EventBus] for the current test scope.
-         *
-         * If specific [PluginScript] classes are provided via [Builder.scripts], a new, isolated
-         * [EventBus] instance is created to ensure that events are bound exclusively for the
-         * current test scope. This prevents cross-contamination, where events from unrelated
-         * plugins might interfere with this test scope, potentially causing unexpected results.
-         *
-         * If no plugins are specified, the default [EventBus] from the test state is used. This
-         * default instance includes events bound by all available plugins.
-         */
-        private fun resolveEventBus(defaultEventBus: EventBus): EventBus {
-            return if (scripts.isNotEmpty()) {
-                EventBus()
-            } else {
-                defaultEventBus
-            }
-        }
-
         private class TestModule(
-            private val eventBus: EventBus,
             private val cacheTypes: TypeListMap,
             private val gameCollisionMap: CollisionFlagMap,
         ) : AbstractModule() {
             override fun configure() {
-                bind(EventBus::class.java).toInstance(eventBus)
-
                 collisionFactory.borrowSharedMap().let { collision ->
                     // Copy the original game's collision flag map into the test.
                     // Important Note: This does _not_ add locs into the loc registry.
@@ -708,6 +685,7 @@ constructor(
                     bind(VariableGameRandom::class.java).toInstance(random)
                 }
 
+                bind(EventBus::class.java).`in`(Scopes.SINGLETON)
                 bind(MapClock::class.java).`in`(Scopes.SINGLETON)
                 bind(LocZoneStorage::class.java).`in`(Scopes.SINGLETON)
 

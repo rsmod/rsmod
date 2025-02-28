@@ -42,19 +42,25 @@ public class GameTestState {
     private val logger = InlineLogger()
 
     /**
-     * @param scripts Associated [PluginScript] classes relevant to the newly created [scope]. If
-     *   one or more scripts are provided, the test is run given isolated [ScriptContext]s that are
-     *   only available to the specified scripts. Otherwise, the default [ScriptContext] is used,
-     *   which includes a globally shared [EventBus] and events registered by all available
-     *   [PluginScript]s.
+     * Runs a game test with optional isolated script contexts.
      *
-     *   This is useful when you want to ignore scripts that are irrelevant to the current test case
-     *   but might cause cross-contamination or unexpected failures. For example, when presetting a
-     *   [GameTestScope.random] sequence for a woodcutting test, an unrelated plugin such as a "get
-     *   a random reward after 30 seconds of playtime" script could consume and reset the random
-     *   value before the woodcutting script executes. In such cases, you can specify the relevant
-     *   script like so: `runGameTest(WoodcuttingScript::class) { ... }`
+     * If one or more [scripts] are provided, the test runs with isolated [ScriptContext]s that bind
+     * events only for the specified scripts. If no scripts are provided, the test runs **without
+     * any plugin-specific events**, ensuring a clean execution environment.
      *
+     * ### Why This Matters
+     * Isolating scripts prevents unintended interactions from unrelated scripts. For example,
+     * suppose you're testing a woodcutting script that relies on a preset [GameTestScope.random]
+     * sequence. Without isolation, an unrelated script, such as one granting a random reward after
+     * 30 seconds, might consume the random value before the woodcutting script executes.
+     *
+     * To prevent such interference, we explicitly specify the relevant script:
+     * ```
+     * runGameTest(WoodcuttingScript::class) { ... }
+     * ```
+     *
+     * @param scripts The [PluginScript] classes relevant to the test scope. If specified, only
+     *   these script's events will be loaded. Otherwise, no plugin events are registered.
      * @see [GameTestScope]
      */
     public fun runGameTest(
