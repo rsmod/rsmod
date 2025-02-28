@@ -24,8 +24,8 @@ public enum class WeaponCategory(public val id: Int, public val text: String) {
     Whip(20, "Whip"),
     BladedStaff(21, "Bladed Staff"),
     Banner(22, "Banner"),
-    PoweredStaff(23, "Powered Staff"),
-    Bludgeon(26, "Bludgeon"),
+    PoweredStaff(24, "Powered Staff"),
+    Bludgeon(27, "Bludgeon"),
     Bulwark(28, "Bulwark");
 
     public companion object {
