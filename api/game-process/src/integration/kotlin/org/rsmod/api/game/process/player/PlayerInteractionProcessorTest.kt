@@ -1,6 +1,7 @@
 package org.rsmod.api.game.process.player
 
 import org.junit.jupiter.api.Test
+import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.interfaces
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.ui.ifClose
@@ -8,6 +9,7 @@ import org.rsmod.api.script.onApLoc1
 import org.rsmod.api.script.onOpLoc1
 import org.rsmod.api.testing.GameTestState
 import org.rsmod.api.testing.factory.locTypeFactory
+import org.rsmod.api.testing.factory.npcTypeFactory
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.map.CoordGrid
@@ -36,6 +38,31 @@ class PlayerInteractionProcessorTest {
         assertTrue(route.isEmpty())
         assertNull(player.interaction)
         assertNotEquals(player.coords, dest)
+    }
+
+    /**
+     * This test scenario occurs when a player clicks a npc that is actively moving, but the route
+     * waypoints were processed while the npc was within operable distance to the player.
+     *
+     * In this case, an empty route is detected during early [PlayerRouteRequestProcess] processing.
+     * If the recalc request is cleared and the npc moves later in the same game cycle (which it
+     * will, since it's actively moving), then the player will _not_ move, even though the npc is no
+     * longer within reach.
+     *
+     * This unintended behavior causes the interaction model to send the `I can't reach that!`
+     * message.
+     */
+    @Test
+    fun GameTestState.`recalc request should not be cleared on empty route`() = runGameTest {
+        val npc = spawnNpc(CoordGrid(0, 49, 50, 57, 62), sheep)
+        player.teleport(CoordGrid(0, 49, 50, 58, 62))
+        player.enableRun()
+        player.opNpc1(npc)
+
+        npc.walk(npc.coords.translateZ(-1))
+
+        advance(ticks = 1)
+        assertMessageNotSent(constants.dm_reach)
     }
 
     /**
@@ -184,6 +211,13 @@ class PlayerInteractionProcessorTest {
                 op[0] = "Read"
                 width = 2
                 length = 2
+            }
+
+        private val sheep =
+            npcTypeFactory.create {
+                name = "Sheep"
+                op[0] = "Shear"
+                size = 1
             }
     }
 }
