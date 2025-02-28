@@ -3,6 +3,8 @@ package org.rsmod.api.combat.scripts
 import jakarta.inject.Inject
 import org.rsmod.api.combat.NpcCombat
 import org.rsmod.api.combat.magic.MagicSpell
+import org.rsmod.api.combat.npc.aggressivePlayer
+import org.rsmod.api.combat.npc.lastCombat
 import org.rsmod.api.combat.player.ACTIVE_COMBAT_DELAY
 import org.rsmod.api.combat.player.aggressiveNpc
 import org.rsmod.api.combat.player.attackRange
@@ -98,12 +100,12 @@ constructor(
                 }
             }
 
-            // TODO: Check if npc is already attacking someone.
-            //  This is also how npcs such as barrows reject attacks from players that didn't
-            //  summon them.
-            if (false) {
-                mes("Someone else is fighting that.")
-                return false
+            // TODO: Support for npcs that only target a single player, such as barrows.
+            if (npc.lastCombat + ACTIVE_COMBAT_DELAY > mapClock) {
+                if (npc.aggressivePlayer != null && npc.aggressivePlayer != player.uid) {
+                    mes("Someone else is fighting that.")
+                    return false
+                }
             }
         }
         return true

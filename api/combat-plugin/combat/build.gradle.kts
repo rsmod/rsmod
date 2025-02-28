@@ -12,6 +12,7 @@ dependencies {
     implementation(projects.api.combatPlugin.combatMagic)
     implementation(projects.api.combatPlugin.combatWeapon)
     implementation(projects.api.config)
+    implementation(projects.api.npc)
     implementation(projects.api.player)
     implementation(projects.api.scriptAdvanced)
     implementation(projects.api.specials)
