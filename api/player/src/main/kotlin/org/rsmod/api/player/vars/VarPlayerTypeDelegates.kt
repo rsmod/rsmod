@@ -8,6 +8,7 @@ import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.utils.vars.VarEnumDelegate
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.npc.NpcUid
+import org.rsmod.game.entity.player.PlayerUid
 import org.rsmod.game.type.varbit.VarBitType
 import org.rsmod.game.type.varp.VarpType
 import org.rsmod.map.CoordGrid
@@ -40,6 +41,11 @@ public fun typeCoordVarp(varp: VarpType): VariableTypeIntDelegate<CoordGrid?> {
 public fun typeNpcUidVarp(varp: VarpType): VariableTypeIntDelegate<NpcUid?> {
     val fromType: (NpcUid?) -> Int = { typed -> typed?.packed ?: NpcUid.NULL.packed }
     return typeIntVarp(varp, ::NpcUid, fromType)
+}
+
+public fun typePlayerUidVarp(varp: VarpType): VariableTypeIntDelegate<PlayerUid?> {
+    val fromType: (PlayerUid?) -> Int = { typed -> typed?.packed ?: PlayerUid.NULL.packed }
+    return typeIntVarp(varp, ::PlayerUid, fromType)
 }
 
 public fun <T> typeIntVarp(

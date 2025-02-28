@@ -3,6 +3,7 @@ package org.rsmod.api.npc.vars
 import kotlin.reflect.KProperty
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.npc.NpcUid
+import org.rsmod.game.entity.player.PlayerUid
 import org.rsmod.game.type.varn.VarnType
 import org.rsmod.game.type.varnbit.VarnBitType
 import org.rsmod.map.CoordGrid
@@ -23,6 +24,11 @@ public fun typeCoordVarp(varn: VarnType): NpcVariableTypeIntDelegate<CoordGrid?>
 public fun typeNpcUidVarp(varn: VarnType): NpcVariableTypeIntDelegate<NpcUid?> {
     val fromType: (NpcUid?) -> Int = { typed -> typed?.packed ?: NpcUid.NULL.packed }
     return typeIntVarn(varn, ::NpcUid, fromType)
+}
+
+public fun typePlayerUidVarp(varn: VarnType): NpcVariableTypeIntDelegate<PlayerUid?> {
+    val fromType: (PlayerUid?) -> Int = { typed -> typed?.packed ?: PlayerUid.NULL.packed }
+    return typeIntVarn(varn, ::PlayerUid, fromType)
 }
 
 public fun <T> typeIntVarn(
