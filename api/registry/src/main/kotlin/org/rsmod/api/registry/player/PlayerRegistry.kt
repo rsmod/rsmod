@@ -31,6 +31,7 @@ constructor(
         }
         playerList[slot] = player
         player.slotId = slot
+        player.assignUid()
         eventBus.publish(SessionStateEvent.Initialize(player))
         eventBus.publish(SessionStateEvent.LogIn(player))
         return PlayerRegistryResult.Add.Success
@@ -48,6 +49,7 @@ constructor(
         player.removeBlockWalkCollision(collision, player.coords)
         zoneDel(player, ZoneKey.from(player.coords))
         player.slotId = INVALID_SLOT
+        player.clearUid()
         player.destroy()
         return PlayerRegistryResult.Delete.Success
     }

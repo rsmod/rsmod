@@ -3,11 +3,13 @@ package org.rsmod.game.entity
 import it.unimi.dsi.fastutil.ints.IntArrayList
 import it.unimi.dsi.fastutil.ints.IntArraySet
 import it.unimi.dsi.fastutil.ints.IntList
+import org.rsmod.annotations.InternalApi
 import org.rsmod.game.client.Client
 import org.rsmod.game.client.ClientCycle
 import org.rsmod.game.client.NoopClient
 import org.rsmod.game.client.NoopClientCycle
 import org.rsmod.game.entity.player.Appearance
+import org.rsmod.game.entity.player.PlayerUid
 import org.rsmod.game.entity.player.PublicMessage
 import org.rsmod.game.entity.util.EntityFaceAngle
 import org.rsmod.game.entity.util.PathingEntityCommon
@@ -66,12 +68,23 @@ public class Player(
      * remain persistent forever.
      */
     public var uuid: Long? = null
+
     /**
      * A unique identifier, typically the same as [uuid], but differs under certain conditions, such
      * as when the player is part of a group. It is specifically used to control visibility for
      * "hidden" entities, like objs that are only visible to certain players.
      */
     public var observerUUID: Long? = null
+
+    /**
+     * A dynamic identifier that is unique within the current session but not globally persistent.
+     * It is used for things such as interactions and temporary tracking.
+     *
+     * This uid is derived from [slotId] and [uuid]. As such, it **must not be used for anything
+     * that requires persistence**.
+     */
+    public var uid: PlayerUid = PlayerUid.NULL
+        private set
 
     public var username: String = ""
     public var displayName: String by avatar::name
@@ -149,6 +162,18 @@ public class Player(
         // opening the modal, the player will not be halted.
         val hasOngoingInteraction = interaction != null && hasMovedPreviousCycle
         return !hasOngoingInteraction && ui.modals.isNotEmpty() && hasPendingQueue
+    }
+
+    @InternalApi
+    public fun assignUid() {
+        check(slotId != INVALID_SLOT) { "`slotId` must be set before assigning a uid." }
+        val uuid = checkNotNull(uuid) { "`uuid` must be set before assigning a uid." }
+        this.uid = PlayerUid(slotId, uuid)
+    }
+
+    @InternalApi
+    public fun clearUid() {
+        this.uid = PlayerUid.NULL
     }
 
     public fun walk(dest: CoordGrid) {
