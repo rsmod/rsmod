@@ -91,6 +91,10 @@ constructor(
     }
 
     private fun Player.processMovementSequence() {
+        // Store the current interaction at this stage to ensure that if an interaction triggers a
+        // new one (e.g., combat calling `opnpc2`), the original interaction completes before the
+        // new one is processed.
+        val interaction = interaction
         preMovementInteraction(interaction)
         movementProcess()
         postMovementInteraction(interaction)

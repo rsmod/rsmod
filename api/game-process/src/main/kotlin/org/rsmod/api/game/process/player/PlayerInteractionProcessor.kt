@@ -93,13 +93,13 @@ constructor(
             apRangeCalled = false
 
             val step = determinePreMovementStep(this)
-            processPreMovementStep(interaction, step)
+            processInteractionStep(interaction, step)
         }
 
     private fun Player.postMovementInteraction(interaction: Interaction): Unit =
         with(interaction) {
             val step = determinePostMovementStep(this)
-            processPostMovementStep(this, step)
+            processInteractionStep(this, step)
 
             if (!interaction.interacted && routeDestination.isEmpty() && !hasMovedThisCycle) {
                 mes(Constants.dm_reach, ChatType.Engine)
@@ -107,7 +107,7 @@ constructor(
             }
         }
 
-    private fun Player.processPreMovementStep(
+    private fun Player.processInteractionStep(
         interaction: Interaction,
         step: InteractionStep,
     ): Any =
@@ -126,44 +126,10 @@ constructor(
                     triggerAp(interaction)
                     interacted = true
 
-                    if (apRangeCalled) {
-                        routeDestination.recalcRequest = cachedRecalc
-                        routeDestination.addAll(cachedWaypoints)
-                    }
-                }
-                InteractionStep.TriggerEngineAp -> {
-                    apRange = -1
-                }
-                InteractionStep.TriggerEngineOp -> {
-                    mes(Constants.dm_default, ChatType.Engine)
-                    interacted = true
-                }
-                InteractionStep.Continue -> {
-                    /* no-op */
-                }
-            }
-        }
-
-    private fun Player.processPostMovementStep(
-        interaction: Interaction,
-        step: InteractionStep,
-    ): Any =
-        with(interaction) {
-            when (step) {
-                InteractionStep.TriggerScriptOp -> {
-                    triggerOp(interaction)
-                    interacted = true
-                }
-                InteractionStep.TriggerScriptAp -> {
-                    val cachedWaypoints = routeDestination.waypoints.toList()
-                    val cachedRecalc = routeDestination.recalcRequest
-                    abortRoute()
-
-                    apRangeCalled = false
-                    triggerAp(interaction)
-                    interacted = true
-
-                    if (apRangeCalled) {
+                    val newInteractionSet = this@processInteractionStep.interaction != interaction
+                    if (newInteractionSet) {
+                        abortRoute()
+                    } else if (apRangeCalled) {
                         routeDestination.recalcRequest = cachedRecalc
                         routeDestination.addAll(cachedWaypoints)
                     }
