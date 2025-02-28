@@ -71,6 +71,9 @@
 616	chat_angry3
 617	chat_angry4
 
+422	human_unarmedpunch
+423	human_unarmedkick
+424	human_unarmedblock
 808	human_ready
 819	human_walk_f
 820	human_walk_b
@@ -83,9 +86,11 @@
 832	human_pickuptable
 893	human_shearing
 2305	human_milk_cow
-2876	spec_lumber_up
 4069	human_throwtab
 4071	human_tabtele
+
+1058	spec_dragon_longsword
+2876	spec_lumber_up
 
 24	human_woodcutting_dragon_axe_or
 867	human_woodcutting_rune_axe

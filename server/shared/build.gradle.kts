@@ -3,6 +3,9 @@ plugins {
 }
 
 dependencies {
+    api(projects.api.combatPlugin.combat)
+    api(projects.api.combatPlugin.combatMagic)
+    api(projects.api.combatPlugin.combatWeapon)
     api(projects.api.config)
     api(projects.api.type.typeScriptDsl)
     api(projects.api.type.typeSymbols)

@@ -26,6 +26,10 @@ public class SpecialAttackEnergy {
         return false
     }
 
+    public fun isSpecializedRequirement(energyInHundreds: Int): Boolean {
+        return energyInHundreds < 10
+    }
+
     public companion object {
         public const val MAX_ENERGY: Int = 1000
     }

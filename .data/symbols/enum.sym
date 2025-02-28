@@ -81,7 +81,7 @@
 
 65511	weapon_attack_types
 65512	weapon_attack_styles
-65513	weapon_categories_last_style_varbit
+65513	weapon_last_stance_varbits
 65514	canoe_shaping_axe_rates
 65515	canoe_shaping_axe_anims
 65516	canoe_station_axe_rates

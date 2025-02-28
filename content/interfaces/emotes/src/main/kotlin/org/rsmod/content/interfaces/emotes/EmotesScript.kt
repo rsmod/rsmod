@@ -359,7 +359,7 @@ private constructor(
             return
         }
 
-        val stat = ocParam(player.back, params.statreq1_skill)
+        val stat = ocParamOrNull(player.back, params.statreq1_skill)
         if (stat == null || stat !in skillCapeEmotes) {
             mes("You need to be wearing a skillcape in order to perform that emote.")
             return

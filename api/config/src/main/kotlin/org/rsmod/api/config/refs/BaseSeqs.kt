@@ -7,6 +7,10 @@ import org.rsmod.api.type.refs.seq.SeqReferences
 typealias seqs = BaseSeqs
 
 object BaseSeqs : SeqReferences() {
+    val human_unarmedpunch = find("human_unarmedpunch", 9177673340848147639)
+    val human_unarmedkick = find("human_unarmedkick", 8313886959249754803)
+    val human_unarmedblock = find("human_unarmedblock", 3547443896181896144)
+
     val human_ready = find("human_ready", 4127162069539886750)
     val human_walk_f = find("human_walk_f", 1752230606361787679)
     val human_walk_b = find("human_walk_b", 7514774383724251256)

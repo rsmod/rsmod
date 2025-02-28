@@ -10,22 +10,32 @@ public class SpecialAttackRegistry @Inject constructor(private val weapons: Spec
 
     public operator fun get(obj: InvObj): SpecialAttack? = specials[obj.id]
 
-    public fun add(obj: ObjType, spec: CombatSpecialAttack): Result.Add {
-        if (obj.id in specials) {
-            return Result.Add.AlreadyAdded
-        }
-        val energy = weapons.getSpecialEnergy(obj) ?: return Result.Add.SpecialEnergyNotMapped
-        val special = SpecialAttack.Combat(energy, spec)
-        specials[obj.id] = special
-        return Result.Add.Success
-    }
-
     public fun add(obj: ObjType, spec: InstantSpecialAttack): Result.Add {
         if (obj.id in specials) {
             return Result.Add.AlreadyAdded
         }
         val energy = weapons.getSpecialEnergy(obj) ?: return Result.Add.SpecialEnergyNotMapped
         val special = SpecialAttack.Instant(energy, spec)
+        specials[obj.id] = special
+        return Result.Add.Success
+    }
+
+    public fun add(obj: ObjType, spec: MeleeSpecialAttack): Result.Add {
+        if (obj.id in specials) {
+            return Result.Add.AlreadyAdded
+        }
+        val energy = weapons.getSpecialEnergy(obj) ?: return Result.Add.SpecialEnergyNotMapped
+        val special = SpecialAttack.Melee(energy, spec)
+        specials[obj.id] = special
+        return Result.Add.Success
+    }
+
+    public fun add(obj: ObjType, spec: RangedSpecialAttack): Result.Add {
+        if (obj.id in specials) {
+            return Result.Add.AlreadyAdded
+        }
+        val energy = weapons.getSpecialEnergy(obj) ?: return Result.Add.SpecialEnergyNotMapped
+        val special = SpecialAttack.Ranged(energy, spec)
         specials[obj.id] = special
         return Result.Add.Success
     }

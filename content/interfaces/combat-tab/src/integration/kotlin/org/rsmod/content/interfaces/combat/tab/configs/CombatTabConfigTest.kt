@@ -7,11 +7,12 @@ import org.rsmod.game.type.obj.WeaponCategory
 
 class CombatTabConfigTest {
     @Test
-    fun GameTestState.`ensure all weapon categories have a style-save varbit`() = runBasicGameTest {
-        val enum = cacheTypes.enums[combat_enums.weapons_last_style]
-        val missing = WeaponCategory.entries.filter { it.id !in enum.keys }
-        assertEquals(emptyList<WeaponCategory>(), missing) {
-            "Found missing weapon categories in `weapons_last_style` enum:"
+    fun GameTestState.`ensure all weapon categories have a stance-save varbit`() =
+        runBasicGameTest {
+            val enum = cacheTypes.enums[combat_enums.weapons_last_stance]
+            val missing = WeaponCategory.entries.filter { it.id !in enum.keys }
+            assertEquals(emptyList<WeaponCategory>(), missing) {
+                "Found missing weapon categories in `weapons_last_stance` enum:"
+            }
         }
-    }
 }

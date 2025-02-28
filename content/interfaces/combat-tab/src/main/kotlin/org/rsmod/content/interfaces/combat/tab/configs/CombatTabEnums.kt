@@ -9,12 +9,12 @@ import org.rsmod.game.type.varbit.VarBitType
 typealias combat_enums = CombatTabEnums
 
 object CombatTabEnums : EnumReferences() {
-    val weapons_last_style = find<Int, VarBitType>("weapon_categories_last_style_varbit")
+    val weapons_last_stance = find<Int, VarBitType>("weapon_last_stance_varbits")
 }
 
 object CombatTabEnumBuilder : EnumBuilder() {
     init {
-        build<Int, VarBitType>("weapon_categories_last_style_varbit") {
+        build<Int, VarBitType>("weapon_last_stance_varbits") {
             this[WeaponCategory.Unarmed] = combat_varbits.last_style_unarmed
             this[WeaponCategory.Axe] = combat_varbits.last_style_axe
             this[WeaponCategory.Blunt] = combat_varbits.last_style_blunt

@@ -7,6 +7,9 @@ kotlin {
 }
 
 dependencies {
+    api(projects.api.combatPlugin.combatCommons)
+    api(projects.api.combatPlugin.combatWeapon)
+
     implementation(libs.guice)
     implementation(projects.api.config)
     implementation(projects.api.player)

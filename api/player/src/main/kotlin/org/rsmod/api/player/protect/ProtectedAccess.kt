@@ -492,6 +492,18 @@ public class ProtectedAccess(
         interactions: LocInteractions = context.locInteractions,
     ): Unit = interactions.interact(player, loc, InteractionOp.Op4)
 
+    public fun opNpc1(npc: Npc, interactions: NpcInteractions = context.npcInteractions): Unit =
+        interactions.interact(player, npc, InteractionOp.Op1)
+
+    public fun opNpc2(npc: Npc, interactions: NpcInteractions = context.npcInteractions): Unit =
+        interactions.interact(player, npc, InteractionOp.Op2)
+
+    public fun opNpc3(npc: Npc, interactions: NpcInteractions = context.npcInteractions): Unit =
+        interactions.interact(player, npc, InteractionOp.Op3)
+
+    public fun opNpc4(npc: Npc, interactions: NpcInteractions = context.npcInteractions): Unit =
+        interactions.interact(player, npc, InteractionOp.Op4)
+
     /**
      * @throws IllegalStateException if [checkOpHeldCallLimit] exceeds the safety net threshold.
      * @see [checkOpHeldCallLimit]
@@ -1964,6 +1976,12 @@ public class ProtectedAccess(
         objTypes.uncert(objTypes[type])
 
     public fun <T : Any> ocParam(
+        obj: InvObj,
+        type: ParamType<T>,
+        objTypes: ObjTypeList = context.objTypes,
+    ): T = objTypes[obj].param(type)
+
+    public fun <T : Any> ocParamOrNull(
         obj: InvObj?,
         type: ParamType<T>,
         objTypes: ObjTypeList = context.objTypes,

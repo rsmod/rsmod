@@ -12,6 +12,10 @@ public abstract class SpecialAttackMap(ctx: Context) {
 
     public abstract fun SpecialAttackRepository.register()
 
+    public fun ProtectedAccess.setNextAttackDelay(cycles: Int) {
+        actionDelay = mapClock + cycles
+    }
+
     public fun ProtectedAccess.hasSpecialEnergy(energyInHundreds: Int): Boolean {
         return energy.hasSpecialEnergy(player, energyInHundreds)
     }

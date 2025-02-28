@@ -1,0 +1,30 @@
+package org.rsmod.api.combat.commons
+
+import org.rsmod.api.combat.magic.MagicSpell
+import org.rsmod.api.combat.weapon.styles.MeleeAttackStyle
+import org.rsmod.api.combat.weapon.styles.RangedAttackStyle
+import org.rsmod.api.combat.weapon.types.MeleeAttackType
+import org.rsmod.api.combat.weapon.types.RangedAttackType
+import org.rsmod.game.obj.InvObj
+
+public sealed class CombatAttack {
+    public data class Melee(
+        val weapon: InvObj?,
+        val type: MeleeAttackType?,
+        val style: MeleeAttackStyle?,
+        val stance: CombatStance,
+    ) : CombatAttack()
+
+    public data class Ranged(
+        val weapon: InvObj,
+        val type: RangedAttackType?,
+        val style: RangedAttackStyle?,
+    ) : CombatAttack()
+
+    public sealed class Magic : CombatAttack()
+
+    public data class Spell(val weapon: InvObj?, val spell: MagicSpell, val defensive: Boolean) :
+        Magic()
+
+    public data class Staff(val weapon: InvObj, val defensive: Boolean) : Magic()
+}

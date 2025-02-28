@@ -43,6 +43,9 @@ object BaseVarps : VarpReferences() {
     val fortis_colosseum_glory_highscore = find("fortis_colosseum_glory_highscore", 937435372)
 
     /* Server-side only types */
+    val lastcombat = find("lastcombat")
+    val lastcombat_pvp = find("lastcombat_pvp")
+    val aggressive_npc = find("aggressive_npc")
     val generic_temp_coords_65529 = find("generic_temp_coords_65529")
     val inv_capacity_65530 = find("inv_capacity_65530")
     val generic_storage_65531 = find("generic_storage_65531")

@@ -7,6 +7,9 @@ import org.rsmod.api.type.refs.varbit.VarBitReferences
 typealias varbits = BaseVarBits
 
 object BaseVarBits : VarBitReferences() {
+    val autocast_spell = find("autocast_spell", 5565072497878)
+    val defensive_casting_mode = find("defensive_casting_mode", 22618316438405)
+
     val hide_toplevel = find("hide_toplevel", 52603174306817)
     val cinematic_view = find("cinematic_view", 52603174314724)
     val minimap_compass_state = find("minimap_compass_state", 52603174339590)

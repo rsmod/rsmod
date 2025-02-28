@@ -7,6 +7,7 @@ import org.rsmod.api.player.output.VarpSync
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.utils.vars.VarEnumDelegate
 import org.rsmod.game.entity.Player
+import org.rsmod.game.entity.npc.NpcUid
 import org.rsmod.game.type.varbit.VarBitType
 import org.rsmod.game.type.varp.VarpType
 import org.rsmod.map.CoordGrid
@@ -34,6 +35,11 @@ public fun dateVarp(varp: VarpType): VariableLocalDateTimeDelegate =
 public fun typeCoordVarp(varp: VarpType): VariableTypeIntDelegate<CoordGrid?> {
     val fromType: (CoordGrid?) -> Int = { typed -> typed?.packed ?: CoordGrid.NULL.packed }
     return typeIntVarp(varp, ::CoordGrid, fromType)
+}
+
+public fun typeNpcUidVarp(varp: VarpType): VariableTypeIntDelegate<NpcUid?> {
+    val fromType: (NpcUid?) -> Int = { typed -> typed?.packed ?: NpcUid.NULL.packed }
+    return typeIntVarp(varp, ::NpcUid, fromType)
 }
 
 public fun <T> typeIntVarp(

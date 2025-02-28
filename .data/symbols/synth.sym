@@ -18,6 +18,9 @@
 2277	pillory_wrong
 2400	lever
 2531	clobber
+2564	human_unarmedpunch
+2565	human_unarmedkick
+2566	human_unarmedblock
 2581	pick
 2582	pick2
 2663	prayer_disable

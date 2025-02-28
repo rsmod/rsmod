@@ -12,6 +12,14 @@ constructor(private val enumResolver: EnumTypeMapResolver) {
     private lateinit var energyRequirements: Map<Int, Int>
     private lateinit var descriptions: Map<Int, String>
 
+    /**
+     * Returns the special attack energy requirement for [objType] from the `energy_requirements`
+     * enum.
+     *
+     * @return the special attack energy requirement for [objType] in the range of `1` to
+     *   [MAX_ENERGY] (`1000`), or `null` if [objType] does not have an associated special attack.
+     * @see [loadEnergyRequirements]
+     */
     public fun getSpecialEnergy(objType: ObjType): Int? = energyRequirements[objType.id]
 
     public fun getSpecialDescription(objType: ObjType): String? = descriptions[objType.id]

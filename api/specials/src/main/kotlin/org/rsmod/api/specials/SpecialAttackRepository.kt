@@ -13,18 +13,10 @@ constructor(private val registry: SpecialAttackRegistry) {
      * triggers immediately when the player enables it.
      *
      * The special attack energy requirement is determined by
-     * [SpecialAttackEnergyEnums.energy_requirements] and is deducted from the player's special
-     * attack energy when used.
+     * [SpecialAttackWeapons.getSpecialEnergy] and is deducted from the player's special attack
+     * energy when used.
      *
-     * This does not account for additional energy costs that some special attacks impose. For
-     * example, the Dragon hasta's special attack may consume more than the standard required
-     * amount. Any extra energy cost can be managed via [SpecialAttackMap.takeSpecialEnergy].
-     *
-     * Throws an [IllegalStateException] if [specWeapon] is already registered with any special
-     * attack.
-     *
-     * @see [SpecialAttackMap.hasSpecialEnergy]
-     * @see [SpecialAttackMap.takeSpecialEnergy]
+     * @throws IllegalStateException if [specWeapon] is already registered with any special attack.
      */
     public fun registerInstant(specWeapon: ObjType, special: InstantSpecialAttack) {
         val result = registry.add(specWeapon, special)
@@ -32,56 +24,179 @@ constructor(private val registry: SpecialAttackRegistry) {
     }
 
     /**
-     * Registers the [specWeapon] special attack ([special]) as a [CombatSpecialAttack], which
-     * activates on the player's next attack in combat.
+     * Registers the [specWeapon] special attack ([special]) as a [MeleeSpecialAttack], which
+     * activates on the player's next melee-based attack in combat.
+     *
+     * The combat style in use _before_ the special activates determines whether it is a
+     * "melee-based" special attack. For example, a Voidwaker special remains melee-based even
+     * though it deals magic damage.
+     *
+     * ### Important Note
      *
      * The special attack energy requirement is determined by
-     * [SpecialAttackEnergyEnums.energy_requirements] and is deducted from the player's special
-     * attack energy when used.
+     * [SpecialAttackWeapons.getSpecialEnergy] and is deducted from the player's special attack
+     * energy when used.
      *
-     * This does not account for additional energy costs that some special attacks impose. For
-     * example, the Dragon hasta's special attack may consume more than the standard required
-     * amount. Any extra energy cost can be managed via [SpecialAttackMap.takeSpecialEnergy].
+     * If the special attack energy requirement is defined as less than `10` (with the standard max
+     * energy being `1000`), this indicates a specialized requirement that is **not** automatically
+     * checked or deducted before activation.
      *
-     * Throws an [IllegalStateException] if [specWeapon] is already registered with any special
-     * attack.
+     * For example, the Soulreaper Axe has a requirement of `1`, meaning the engine will **not**
+     * deduct or check it automatically. Instead, it must be validated within [special], returning
+     * `false` if the player lacks the required soul stacks.
      *
+     * If `special` returns `false`, the player's normal combat attack will proceed as if the
+     * special attack was never activated.
+     *
+     * ### Additional Energy Costs
+     *
+     * Some special attacks may impose additional energy costs beyond the standard requirement. For
+     * example, the Dragon Hasta's special attack may consume more energy than usual. Any extra
+     * energy cost can be managed via [SpecialAttackMap.takeSpecialEnergy].
+     *
+     * @throws IllegalStateException if [specWeapon] is already registered with any special attack.
      * @see [SpecialAttackMap.hasSpecialEnergy]
      * @see [SpecialAttackMap.takeSpecialEnergy]
      */
-    public fun registerAttack(specWeapon: ObjType, special: CombatSpecialAttack) {
+    public fun registerMelee(specWeapon: ObjType, special: MeleeSpecialAttack) {
         val result = registry.add(specWeapon, special)
         assertValidResult(specWeapon, result)
     }
 
     /**
      * Registers the [specWeapon] special attacks ([playerSpecial] and [npcSpecial]) as a
-     * [CombatSpecialAttack], which activates on the player's next attack in combat.
+     * [MeleeSpecialAttack], which activates on the player's next melee-based attack in combat.
      *
-     * This function is a convenience wrapper that combines [playerSpecial] and [npcSpecial] into a
-     * single [CombatSpecialAttack] via [CombatSpecialAttack.from] before registering it.
+     * The combat style in use _before_ the special activates determines whether it is a
+     * "melee-based" special attack. For example, a Voidwaker special remains melee-based even
+     * though it deals magic damage.
+     *
+     * ### Important Note
      *
      * The special attack energy requirement is determined by
-     * [SpecialAttackEnergyEnums.energy_requirements] and is deducted from the player's special
-     * attack energy when used.
+     * [SpecialAttackWeapons.getSpecialEnergy] and is deducted from the player's special attack
+     * energy when used.
      *
-     * This does not account for additional energy costs that some special attacks impose. For
-     * example, the Dragon hasta's special attack may consume more than the standard required
-     * amount. Any extra energy cost can be managed via [SpecialAttackMap.takeSpecialEnergy].
+     * If the special attack energy requirement is defined as less than `10` (with the standard max
+     * energy being `1000`), this indicates a specialized requirement that is **not** automatically
+     * checked or deducted before activation.
      *
-     * Throws an [IllegalStateException] if [specWeapon] is already registered with any special
-     * attack.
+     * For example, the Soulreaper Axe has a requirement of `1`, meaning the engine will **not**
+     * deduct or check it automatically. Instead, it must be validated within [playerSpecial] and
+     * [npcSpecial], returning `false` if the player lacks the required soul stacks.
      *
+     * If `special` returns `false`, the player's normal combat attack will proceed as if the
+     * special attack was never activated.
+     *
+     * ### Additional Energy Costs
+     *
+     * Some special attacks may impose additional energy costs beyond the standard requirement. For
+     * example, the Dragon Hasta's special attack may consume more energy than usual. Any extra
+     * energy cost can be managed via [SpecialAttackMap.takeSpecialEnergy].
+     *
+     * ### Wrapper Function
+     *
+     * This function is a convenience wrapper that combines [playerSpecial] and [npcSpecial] into a
+     * [MeleeSpecialAttack] via [MeleeSpecialAttack.from] before registering it.
+     *
+     * @throws IllegalStateException if [specWeapon] is already registered with any special attack.
      * @see [SpecialAttackMap.hasSpecialEnergy]
      * @see [SpecialAttackMap.takeSpecialEnergy]
      */
-    public fun registerAttack(
+    public fun registerMelee(
         specWeapon: ObjType,
-        playerSpecial: CombatSpecialAttack.PlayerSpecific,
-        npcSpecial: CombatSpecialAttack.NpcSpecific,
+        playerSpecial: MeleeSpecialAttack.PlayerSpecific,
+        npcSpecial: MeleeSpecialAttack.NpcSpecific,
     ) {
-        val combatSpec = CombatSpecialAttack.from(playerSpecial, npcSpecial)
-        registerAttack(specWeapon, combatSpec)
+        val combatSpec = MeleeSpecialAttack.from(playerSpecial, npcSpecial)
+        registerMelee(specWeapon, combatSpec)
+    }
+
+    /**
+     * Registers the [specWeapon] special attack ([special]) as a [RangedSpecialAttack], which
+     * activates on the player's next ranged-based attack in combat.
+     *
+     * The combat style in use _before_ the special activates determines whether it is a
+     * "ranged-based" special attack.
+     *
+     * ### Important Note
+     *
+     * The special attack energy requirement is determined by
+     * [SpecialAttackWeapons.getSpecialEnergy] and is deducted from the player's special attack
+     * energy when used.
+     *
+     * If the special attack energy requirement is defined as less than `10` (with the standard max
+     * energy being `1000`), this indicates a specialized requirement that is **not** automatically
+     * checked or deducted before activation.
+     *
+     * For example, the Soulreaper Axe has a requirement of `1`, meaning the engine will **not**
+     * deduct or check it automatically. Instead, it must be validated within [special], returning
+     * `false` if the player lacks the required soul stacks.
+     *
+     * If `special` returns `false`, the player's normal combat attack will proceed as if the
+     * special attack was never activated.
+     *
+     * ### Additional Energy Costs
+     *
+     * Some special attacks may impose additional energy costs beyond the standard requirement. For
+     * example, the Dragon Hasta's special attack may consume more energy than usual. Any extra
+     * energy cost can be managed via [SpecialAttackMap.takeSpecialEnergy].
+     *
+     * @throws IllegalStateException if [specWeapon] is already registered with any special attack.
+     * @see [SpecialAttackMap.hasSpecialEnergy]
+     * @see [SpecialAttackMap.takeSpecialEnergy]
+     */
+    public fun registerRanged(specWeapon: ObjType, special: RangedSpecialAttack) {
+        val result = registry.add(specWeapon, special)
+        assertValidResult(specWeapon, result)
+    }
+
+    /**
+     * Registers the [specWeapon] special attacks ([playerSpecial] and [npcSpecial]) as a
+     * [RangedSpecialAttack], which activates on the player's next ranged-based attack in combat.
+     *
+     * The combat style in use _before_ the special activates determines whether it is a
+     * "ranged-based" special attack.
+     *
+     * ### Important Note
+     *
+     * The special attack energy requirement is determined by
+     * [SpecialAttackWeapons.getSpecialEnergy] and is deducted from the player's special attack
+     * energy when used.
+     *
+     * If the special attack energy requirement is defined as less than `10` (with the standard max
+     * energy being `1000`), this indicates a specialized requirement that is **not** automatically
+     * checked or deducted before activation.
+     *
+     * For example, the Soulreaper Axe has a requirement of `1`, meaning the engine will **not**
+     * deduct or check it automatically. Instead, it must be validated within [playerSpecial] and
+     * [npcSpecial], returning `false` if the player lacks the required soul stacks.
+     *
+     * If `special` returns `false`, the player's normal combat attack will proceed as if the
+     * special attack was never activated.
+     *
+     * ### Additional Energy Costs
+     *
+     * Some special attacks may impose additional energy costs beyond the standard requirement. For
+     * example, the Dragon Hasta's special attack may consume more energy than usual. Any extra
+     * energy cost can be managed via [SpecialAttackMap.takeSpecialEnergy].
+     *
+     * ### Wrapper Function
+     *
+     * This function is a convenience wrapper that combines [playerSpecial] and [npcSpecial] into a
+     * [RangedSpecialAttack] via [RangedSpecialAttack.from] before registering it.
+     *
+     * @throws IllegalStateException if [specWeapon] is already registered with any special attack.
+     * @see [SpecialAttackMap.hasSpecialEnergy]
+     * @see [SpecialAttackMap.takeSpecialEnergy]
+     */
+    public fun registerRanged(
+        specWeapon: ObjType,
+        playerSpecial: RangedSpecialAttack.PlayerSpecific,
+        npcSpecial: RangedSpecialAttack.NpcSpecific,
+    ) {
+        val combatSpec = RangedSpecialAttack.from(playerSpecial, npcSpecial)
+        registerRanged(specWeapon, combatSpec)
     }
 
     private fun assertValidResult(specWeapon: ObjType, result: SpecialAttackRegistry.Result.Add) {
