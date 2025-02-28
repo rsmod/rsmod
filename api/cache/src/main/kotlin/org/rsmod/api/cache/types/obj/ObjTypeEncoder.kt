@@ -378,5 +378,10 @@ public object ObjTypeEncoder {
                 data.writeByte(211)
                 data.writeShort(transformtemplate)
             }
+
+            if (weaponCategory != ObjTypeBuilder.DEFAULT_WEAPON_CATEGORY) {
+                data.writeByte(212)
+                data.writeByte(weaponCategory)
+            }
         }
 }

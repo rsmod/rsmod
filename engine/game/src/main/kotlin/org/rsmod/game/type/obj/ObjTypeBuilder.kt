@@ -143,7 +143,7 @@ public class ObjTypeBuilder(public var internal: String? = null) {
         val respawnRate = respawnRate ?: DEFAULT_RESPAWN_RATE
         val dummyitem = dummyitem ?: DEFAULT_DUMMYITEM
         val contentGroup = contentGroup ?: DEFAULT_CONTENT_GROUP
-        val weaponCategory = weaponCategory ?: defaultWeaponCategory().id
+        val weaponCategory = weaponCategory ?: DEFAULT_WEAPON_CATEGORY
         val transformlink = transformlink ?: 0
         val transformtemplate = transformtemplate ?: 0
         return UnpackedObjType(
@@ -224,40 +224,6 @@ public class ObjTypeBuilder(public var internal: String? = null) {
         )
     }
 
-    private fun defaultWeaponCategory(): WeaponCategory {
-        if (wearpos1 != Wearpos.RightHand.slot) {
-            return WeaponCategory.Unarmed
-        }
-        return when (category) {
-            21 -> WeaponCategory.SlashSword
-            25 -> WeaponCategory.StabSword
-            24 -> WeaponCategory.Thrown
-            37 -> WeaponCategory.Crossbow
-            567 -> WeaponCategory.Crossbow
-            26 -> WeaponCategory.Blunt
-            55 -> WeaponCategory.Blunt
-            64 -> WeaponCategory.Bow
-            106 -> WeaponCategory.Bow
-            36 -> WeaponCategory.Spear
-            67 -> WeaponCategory.Pickaxe
-            61 -> WeaponCategory.TwoHandedSword
-            35 -> WeaponCategory.Axe
-            1 -> WeaponCategory.Staff
-            1193 -> WeaponCategory.Scythe
-            39 -> WeaponCategory.Spiked
-            65 -> WeaponCategory.Claw
-            66 -> WeaponCategory.Polearm
-            42 -> WeaponCategory.Banner
-            150 -> WeaponCategory.Whip
-            96 -> WeaponCategory.Gun
-            92 -> WeaponCategory.Polestaff
-            572 -> WeaponCategory.Chinchompas
-            586 -> WeaponCategory.Salamander
-            1014 -> WeaponCategory.Bulwark
-            else -> WeaponCategory.Unarmed
-        }
-    }
-
     public companion object {
         public const val DEFAULT_NAME: String = "null"
         public const val DEFAULT_ZOOM2D: Int = 2000
@@ -284,6 +250,7 @@ public class ObjTypeBuilder(public var internal: String? = null) {
         public const val DEFAULT_RESPAWN_RATE: Int = 100
         public const val DEFAULT_DUMMYITEM: Int = -1
         public const val DEFAULT_CONTENT_GROUP: Int = -1
+        public val DEFAULT_WEAPON_CATEGORY: Int = WeaponCategory.Unarmed.id
 
         public const val OP_CAPACITY: Int = 5
         public const val IOP_CAPACITY: Int = 5
