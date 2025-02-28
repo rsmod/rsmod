@@ -16,17 +16,17 @@ public fun intVarn(varn: VarnType): NpcVariableIntDelegate = NpcVariableIntDeleg
 public fun boolVarn(varn: VarnType): NpcVariableTypeIntDelegate<Boolean> =
     typeIntVarn(varn, ::boolFromInt, ::boolToInt)
 
-public fun typeCoordVarp(varn: VarnType): NpcVariableTypeIntDelegate<CoordGrid?> {
+public fun typeCoordVarn(varn: VarnType): NpcVariableTypeIntDelegate<CoordGrid?> {
     val fromType: (CoordGrid?) -> Int = { typed -> typed?.packed ?: CoordGrid.NULL.packed }
     return typeIntVarn(varn, ::CoordGrid, fromType)
 }
 
-public fun typeNpcUidVarp(varn: VarnType): NpcVariableTypeIntDelegate<NpcUid?> {
+public fun typeNpcUidVarn(varn: VarnType): NpcVariableTypeIntDelegate<NpcUid?> {
     val fromType: (NpcUid?) -> Int = { typed -> typed?.packed ?: NpcUid.NULL.packed }
     return typeIntVarn(varn, ::NpcUid, fromType)
 }
 
-public fun typePlayerUidVarp(varn: VarnType): NpcVariableTypeIntDelegate<PlayerUid?> {
+public fun typePlayerUidVarn(varn: VarnType): NpcVariableTypeIntDelegate<PlayerUid?> {
     val fromType: (PlayerUid?) -> Int = { typed -> typed?.packed ?: PlayerUid.NULL.packed }
     return typeIntVarn(varn, ::PlayerUid, fromType)
 }
