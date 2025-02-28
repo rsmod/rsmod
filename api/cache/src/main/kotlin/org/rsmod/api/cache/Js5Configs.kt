@@ -26,4 +26,5 @@ public object Js5Configs {
     /* Custom server-side configs */
     public const val STAT: Int = 200
     public const val WALKTRIGGER: Int = 201
+    public const val VARNPC: Int = 202
 }

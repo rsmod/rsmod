@@ -21,6 +21,7 @@ import org.rsmod.api.cache.types.obj.ObjTypeEncoder
 import org.rsmod.api.cache.types.param.ParamTypeEncoder
 import org.rsmod.api.cache.types.stat.StatTypeEncoder
 import org.rsmod.api.cache.types.varbit.VarBitTypeEncoder
+import org.rsmod.api.cache.types.varn.VarnTypeEncoder
 import org.rsmod.api.cache.types.varp.VarpTypeEncoder
 import org.rsmod.api.cache.types.walktrig.WalkTriggerTypeEncoder
 import org.rsmod.api.cache.util.EncoderContext
@@ -45,6 +46,8 @@ import org.rsmod.game.type.stat.StatTypeBuilder
 import org.rsmod.game.type.stat.UnpackedStatType
 import org.rsmod.game.type.varbit.UnpackedVarBitType
 import org.rsmod.game.type.varbit.VarBitTypeBuilder
+import org.rsmod.game.type.varn.UnpackedVarnType
+import org.rsmod.game.type.varn.VarnTypeBuilder
 import org.rsmod.game.type.varp.UnpackedVarpType
 import org.rsmod.game.type.varp.VarpTypeBuilder
 import org.rsmod.game.type.walktrig.WalkTriggerType
@@ -130,8 +133,21 @@ constructor(
         val enums = mergeEnums(builders.enums, editors.enums, vanilla.enums)
         val varps = mergeVarps(builders.varps, editors.varps, vanilla.varps)
         val varbits = mergeVarBits(builders.varbits, editors.varbits, vanilla.varbits)
+        val varns = mergeVarns(builders.varns, editors.varns, vanilla.varns)
         val walkTrig = mergeWalkTriggers(builders.walkTrig, editors.walkTrig, vanilla.walkTriggers)
-        return UpdateMap(invs, locs, npcs, objs, stats, params, enums, varps, varbits, walkTrig)
+        return UpdateMap(
+            invs,
+            locs,
+            npcs,
+            objs,
+            stats,
+            params,
+            enums,
+            varps,
+            varbits,
+            varns,
+            walkTrig,
+        )
     }
 
     private data class UpdateMap(
@@ -144,6 +160,7 @@ constructor(
         val enums: List<UnpackedEnumType<*, *>>,
         val varps: List<UnpackedVarpType>,
         val varbits: List<UnpackedVarBitType>,
+        val varns: List<UnpackedVarnType>,
         val walkTrig: List<WalkTriggerType>,
     )
 
@@ -157,8 +174,21 @@ constructor(
         val enums = filterIsInstance<UnpackedEnumType<*, *>>()
         val varps = filterIsInstance<UnpackedVarpType>()
         val varbits = filterIsInstance<UnpackedVarBitType>()
+        val varns = filterIsInstance<UnpackedVarnType>()
         val walkTrig = filterIsInstance<WalkTriggerType>()
-        return UpdateMap(invs, locs, npcs, objs, stats, params, enums, varps, varbits, walkTrig)
+        return UpdateMap(
+            invs,
+            locs,
+            npcs,
+            objs,
+            stats,
+            params,
+            enums,
+            varps,
+            varbits,
+            varns,
+            walkTrig,
+        )
     }
 
     private fun mergeInvs(
@@ -381,6 +411,30 @@ constructor(
             this
         }
 
+    private fun mergeVarns(
+        builders: List<UnpackedVarnType>,
+        editors: List<UnpackedVarnType>,
+        cacheTypes: Map<Int, UnpackedVarnType>,
+    ): List<UnpackedVarnType> {
+        val merged = (builders + editors).groupBy { it.id }
+        return merged.map { (id, types) ->
+            val combined = types.fold(types[0]) { curr, next -> next + curr }
+            val cacheType = cacheTypes[id]
+            if (cacheType != null) {
+                combined + cacheType
+            } else {
+                combined
+            }
+        }
+    }
+
+    private operator fun UnpackedVarnType.plus(other: UnpackedVarnType?): UnpackedVarnType =
+        if (other != null) {
+            VarnTypeBuilder.merge(edit = this, base = other)
+        } else {
+            this
+        }
+
     private fun mergeWalkTriggers(
         builders: List<WalkTriggerType>,
         editors: List<WalkTriggerType>,
@@ -416,6 +470,7 @@ constructor(
             StatTypeEncoder.encodeAll(cache, updates.stats, ctx)
             VarpTypeEncoder.encodeAll(cache, updates.varps, ctx)
             VarBitTypeEncoder.encodeAll(cache, updates.varbits, ctx)
+            VarnTypeEncoder.encodeAll(cache, updates.varns, ctx)
             WalkTriggerTypeEncoder.encodeAll(cache, updates.walkTrig, ctx)
         }
     }

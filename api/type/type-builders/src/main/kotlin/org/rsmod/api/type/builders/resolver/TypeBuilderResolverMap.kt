@@ -34,6 +34,8 @@ import org.rsmod.api.type.builders.varcon.VarConBuilder
 import org.rsmod.api.type.builders.varcon.VarConBuilderResolver
 import org.rsmod.api.type.builders.varconbit.VarConBitBuilder
 import org.rsmod.api.type.builders.varconbit.VarConBitBuilderResolver
+import org.rsmod.api.type.builders.varn.VarnBuilder
+import org.rsmod.api.type.builders.varn.VarnBuilderResolver
 import org.rsmod.api.type.builders.varobjbit.VarObjBitBuilder
 import org.rsmod.api.type.builders.varobjbit.VarObjBitBuilderResolver
 import org.rsmod.api.type.builders.varp.VarpBuilder
@@ -60,6 +62,7 @@ constructor(
     private val varBitResolver: VarBitBuilderResolver,
     private val varConResolver: VarConBuilderResolver,
     private val varConBitResolver: VarConBitBuilderResolver,
+    private val varnResolver: VarnBuilderResolver,
     private val varObjBitResolver: VarObjBitBuilderResolver,
     private val varpResolver: VarpBuilderResolver,
     private val walkTriggerResolver: WalkTriggerBuilderResolver,
@@ -140,6 +143,7 @@ constructor(
                 is VarBitBuilder -> varBitResolver
                 is VarConBuilder -> varConResolver
                 is VarConBitBuilder -> varConBitResolver
+                is VarnBuilder -> varnResolver
                 is VarObjBitBuilder -> varObjBitResolver
                 is VarpBuilder -> varpResolver
                 is WalkTriggerBuilder -> walkTriggerResolver

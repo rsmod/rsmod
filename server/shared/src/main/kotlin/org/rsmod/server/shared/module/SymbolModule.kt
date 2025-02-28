@@ -54,6 +54,7 @@ private class NameMappingProvider : Provider<NameMapping> {
         val varconbits = dirs.readSymbols("varconbit")
         val varbits = dirs.readSymbols("varbit")
         val varobjbits = dirs.readSymbols("varobj")
+        val varns = dirs.readSymbols("varn")
         val varps = dirs.readSymbols("varp")
         val walkTriggers = dirs.readSymbols("walktrigger")
         return NameMapping(
@@ -89,6 +90,7 @@ private class NameMappingProvider : Provider<NameMapping> {
             spotanims = spotanims,
             jingles = jingles,
             walkTriggers = walkTriggers,
+            varns = varns,
         )
     }
 
