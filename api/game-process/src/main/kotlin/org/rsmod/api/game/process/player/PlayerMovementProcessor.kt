@@ -61,6 +61,7 @@ constructor(
         routeDestination.clear()
         routeDestination.addAll(route)
         if (route.isEmpty()) {
+            clearRouteRecalc()
             clearMapFlag()
         } else {
             val dest = route.last()
