@@ -2,6 +2,12 @@ package org.rsmod.game.entity.npc
 
 @JvmInline
 public value class NpcUid(public val packed: Int) {
+    public val slotId: Int
+        get() = (packed shr SLOT_BIT_OFFSET) and SLOT_BIT_MASK
+
+    public val type: Int
+        get() = (packed shr TYPE_BIT_OFFSET) and TYPE_BIT_MASK
+
     public constructor(slot: Int, type: Int) : this(pack(slot, type))
 
     public companion object {
