@@ -13,7 +13,7 @@ public fun intVarCon(varcon: VarConType): ControllerVariableIntDelegate =
     ControllerVariableIntDelegate(varcon)
 
 public fun boolVarCon(varcon: VarConType): ControllerVariableTypeIntDelegate<Boolean> =
-    typedIntVarCon(varcon, ::boolFromInt, ::boolToInt)
+    typeIntVarCon(varcon, ::boolFromInt, ::boolToInt)
 
 /**
  * Important to note that this local date time variant does not allow for years before
@@ -24,23 +24,23 @@ public fun boolVarCon(varcon: VarConType): ControllerVariableTypeIntDelegate<Boo
 public fun dateVarCon(varcon: VarConType): ControllerVariableLocalDateTimeDelegate =
     ControllerVariableLocalDateTimeDelegate(varcon)
 
-public fun <T> typedIntVarCon(
+public fun <T> typeIntVarCon(
     varcon: VarConType,
-    toType: (Int?) -> T,
+    toType: (Int) -> T,
     fromType: (T) -> Int,
 ): ControllerVariableTypeIntDelegate<T> =
     ControllerVariableTypeIntDelegate(varcon, toType, fromType)
 
 /* Varconbit delegates */
-public fun intVarCon(varconbit: VarConBitType): ControllerVariableIntBitsDelegate =
+public fun intVarConBit(varconbit: VarConBitType): ControllerVariableIntBitsDelegate =
     ControllerVariableIntBitsDelegate(varconbit)
 
-public fun boolVarCon(varconbit: VarConBitType): ControllerVariableTypeIntBitsDelegate<Boolean> =
-    typedIntVarCon(varconbit, ::boolFromInt, ::boolToInt)
+public fun boolVarConBit(varconbit: VarConBitType): ControllerVariableTypeIntBitsDelegate<Boolean> =
+    typeIntVarConBit(varconbit, ::boolFromInt, ::boolToInt)
 
-public fun <T> typedIntVarCon(
+public fun <T> typeIntVarConBit(
     varconbit: VarConBitType,
-    toType: (Int?) -> T,
+    toType: (Int) -> T,
     fromType: (T) -> Int,
 ): ControllerVariableTypeIntBitsDelegate<T> =
     ControllerVariableTypeIntBitsDelegate(varconbit, toType, fromType)
@@ -58,7 +58,7 @@ public class ControllerVariableIntDelegate(private val varcon: VarConType) {
 
 public class ControllerVariableTypeIntDelegate<T>(
     private val varcon: VarConType,
-    public val toType: (Int?) -> T,
+    public val toType: (Int) -> T,
     public val fromType: (T) -> Int,
 ) {
     public operator fun getValue(thisRef: Controller, property: KProperty<*>): T {
@@ -76,12 +76,12 @@ public class ControllerVariableTypeIntDelegate<T>(
     }
 }
 
-public class ControllerVariableIntBitsDelegate(private val varbit: VarConBitType) {
+public class ControllerVariableIntBitsDelegate(private val varconbit: VarConBitType) {
     private val baseVar: VarConType
-        get() = varbit.baseVar
+        get() = varconbit.baseVar
 
     private val bitRange: IntRange
-        get() = varbit.bits
+        get() = varconbit.bits
 
     public operator fun getValue(thisRef: Controller, property: KProperty<*>): Int {
         val mappedValue = thisRef.vars[baseVar]
@@ -97,15 +97,15 @@ public class ControllerVariableIntBitsDelegate(private val varbit: VarConBitType
 }
 
 public class ControllerVariableTypeIntBitsDelegate<T>(
-    private val varbit: VarConBitType,
-    public val toType: (Int?) -> T,
+    private val varconbit: VarConBitType,
+    public val toType: (Int) -> T,
     public val fromType: (T) -> Int,
 ) {
     private val baseVar: VarConType
-        get() = varbit.baseVar
+        get() = varconbit.baseVar
 
     private val bitRange: IntRange
-        get() = varbit.bits
+        get() = varconbit.bits
 
     public operator fun getValue(thisRef: Controller, property: KProperty<*>): T {
         val mappedValue = thisRef.vars[baseVar]
