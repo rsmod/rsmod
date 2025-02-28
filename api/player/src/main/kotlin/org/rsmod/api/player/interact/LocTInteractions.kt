@@ -6,8 +6,6 @@ import org.rsmod.api.player.events.interact.LocTContentEvents
 import org.rsmod.api.player.events.interact.LocTDefaultEvents
 import org.rsmod.api.player.events.interact.LocTEvents
 import org.rsmod.api.player.events.interact.OpEvent
-import org.rsmod.api.player.output.clearMapFlag
-import org.rsmod.api.player.protect.clearPendingAction
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.interact.InteractionLocT
@@ -59,8 +57,6 @@ constructor(
                 angle = loc.entity.angle,
                 forceApproachFlags = type.forceApproachFlags,
             )
-        player.clearPendingAction(eventBus)
-        player.clearMapFlag()
         player.interaction = interaction
         player.routeRequest = routeRequest
     }

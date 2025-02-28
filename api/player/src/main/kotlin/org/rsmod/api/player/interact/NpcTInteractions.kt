@@ -6,8 +6,6 @@ import org.rsmod.api.player.events.interact.NpcTContentEvents
 import org.rsmod.api.player.events.interact.NpcTDefaultEvents
 import org.rsmod.api.player.events.interact.NpcTEvents
 import org.rsmod.api.player.events.interact.OpEvent
-import org.rsmod.api.player.output.clearMapFlag
-import org.rsmod.api.player.protect.clearPendingAction
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
@@ -49,8 +47,6 @@ constructor(
                 hasApTrigger = apTrigger,
             )
         val routeRequest = RouteRequestPathingEntity(npc.avatar)
-        player.clearPendingAction(eventBus)
-        player.clearMapFlag()
         player.interaction = interaction
         player.routeRequest = routeRequest
     }

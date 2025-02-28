@@ -73,7 +73,6 @@ constructor(
 
         // Ensure the interaction target is still valid before proceeding.
         if (player.shouldCancelInteraction(interaction)) {
-            player.clearInteractionRoute()
             return
         }
 

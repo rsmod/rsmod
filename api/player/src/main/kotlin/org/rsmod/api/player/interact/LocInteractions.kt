@@ -7,15 +7,13 @@ import org.rsmod.api.player.events.interact.LocDefaultEvents
 import org.rsmod.api.player.events.interact.LocEvents
 import org.rsmod.api.player.events.interact.LocUnimplementedEvents
 import org.rsmod.api.player.events.interact.OpEvent
-import org.rsmod.api.player.output.clearMapFlag
-import org.rsmod.api.player.protect.clearPendingAction
+import org.rsmod.api.route.BoundValidator
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.interact.InteractionLocOp
 import org.rsmod.game.interact.InteractionOp
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.loc.LocEntity
-import org.rsmod.game.movement.RouteRequestLoc
 import org.rsmod.game.type.loc.LocTypeList
 import org.rsmod.game.type.loc.UnpackedLocType
 import org.rsmod.game.type.varbit.VarBitTypeList
@@ -29,6 +27,7 @@ constructor(
     private val locTypes: LocTypeList,
     private val varpTypes: VarpTypeList,
     private val varBitTypes: VarBitTypeList,
+    private val boundValidator: BoundValidator,
     private val eventBus: EventBus,
 ) {
     public fun interact(
@@ -46,20 +45,19 @@ constructor(
                 hasOpTrigger = opTrigger,
                 hasApTrigger = apTrigger,
             )
-        val routeRequest =
-            RouteRequestLoc(
-                destination = loc.coords,
-                width = type.width,
-                length = type.length,
-                shape = loc.entity.shape,
-                angle = loc.entity.angle,
-                forceApproachFlags = type.forceApproachFlags,
-            )
-        player.clearPendingAction(eventBus)
-        player.clearMapFlag()
         player.interaction = interaction
-        player.routeRequest = routeRequest
+
+        // The _current_ multiloc dimensions are used for the op range condition here. However,
+        // at the engine-interaction level, this is **not** the case - it uses the base loc for
+        // distance checks.
+        val visLoc = multiLoc(loc, type, player.vars) ?: loc
+        if (!player.isWithinOpRange(visLoc)) {
+            player.walk(visLoc.coords)
+        }
     }
+
+    private fun Player.isWithinOpRange(loc: BoundLocInfo): Boolean =
+        boundValidator.collides(avatar, loc) || boundValidator.touches(avatar, loc)
 
     public fun opTrigger(
         player: Player,

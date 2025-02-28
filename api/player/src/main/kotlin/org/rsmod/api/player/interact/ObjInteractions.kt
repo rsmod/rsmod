@@ -6,13 +6,10 @@ import org.rsmod.api.player.events.interact.ObjContentEvents
 import org.rsmod.api.player.events.interact.ObjDefaultEvents
 import org.rsmod.api.player.events.interact.ObjEvents
 import org.rsmod.api.player.events.interact.OpEvent
-import org.rsmod.api.player.output.clearMapFlag
-import org.rsmod.api.player.protect.clearPendingAction
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.interact.InteractionObj
 import org.rsmod.game.interact.InteractionOp
-import org.rsmod.game.movement.RouteRequestCoord
 import org.rsmod.game.obj.Obj
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.obj.UnpackedObjType
@@ -35,11 +32,8 @@ constructor(private val objTypes: ObjTypeList, private val eventBus: EventBus) {
                 hasOpTrigger = opTrigger,
                 hasApTrigger = apTrigger,
             )
-        val routeRequest = RouteRequestCoord(obj.coords)
-        player.clearPendingAction(eventBus)
-        player.clearMapFlag()
         player.interaction = interaction
-        player.routeRequest = routeRequest
+        player.walk(obj.coords)
     }
 
     public fun opTrigger(
