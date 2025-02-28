@@ -28,7 +28,7 @@ constructor(
     public fun process(player: Player) {
         player.routeRequest?.let { consumeRequest(player, it) }
         player.routeRequest = null
-        player.recalcRequests()
+        player.processRouteRecalc()
         player.processMoveSpeed()
         player.resetTempSpeed()
     }
@@ -37,14 +37,10 @@ constructor(
         player.routeTo(request)
     }
 
-    private fun Player.recalcRequests() {
-        val destination = routeDestination
-        if (destination.size <= 1 && !isBusy) {
-            val recalc = destination.recalcRequest
-            recalc?.let {
-                destination.clear()
-                routeTo(it)
-            }
+    private fun Player.processRouteRecalc() {
+        val recalc = routeDestination.recalcRequest ?: return
+        if (routeDestination.size <= 1 && !isBusy) {
+            routeTo(recalc)
         }
     }
 
