@@ -103,7 +103,7 @@ class PlayerInteractionProcessorTest {
         runGameTest(ApTestScript::class) {
             val loc = placeMapLoc(CoordGrid(0, 50, 50, 35, 28), signpost)
             val start = CoordGrid(0, 50, 50, 34, 20)
-            player.moveSpeed = MoveSpeed.Walk
+            player.enableWalk()
             player.teleport(start)
             player.opLoc1(loc)
 
@@ -146,7 +146,7 @@ class PlayerInteractionProcessorTest {
         runGameTest(ApTestScript::class) {
             val loc = placeMapLoc(CoordGrid(0, 50, 50, 35, 28), signpost)
             val start = CoordGrid(0, 50, 50, 34, 25)
-            player.moveSpeed = MoveSpeed.Walk
+            player.enableWalk()
             player.teleport(start)
             player.opLoc1(loc)
 
@@ -181,6 +181,7 @@ class PlayerInteractionProcessorTest {
         private val signpost =
             locTypeFactory.create {
                 name = "Signpost"
+                op[0] = "Read"
                 width = 2
                 length = 2
             }

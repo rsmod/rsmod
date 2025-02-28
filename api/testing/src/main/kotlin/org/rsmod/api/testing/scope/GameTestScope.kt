@@ -11,7 +11,9 @@ import kotlin.contracts.contract
 import kotlin.reflect.KClass
 import net.rsprot.protocol.game.incoming.buttons.If3Button
 import net.rsprot.protocol.game.incoming.buttons.IfButtonD
+import net.rsprot.protocol.game.incoming.locs.OpLoc
 import net.rsprot.protocol.game.incoming.misc.user.MoveGameClick
+import net.rsprot.protocol.game.incoming.npcs.OpNpc
 import net.rsprot.protocol.game.incoming.resumed.ResumePCountDialog
 import net.rsprot.protocol.game.outgoing.misc.player.MessageGame
 import net.rsprot.protocol.util.CombinedId
@@ -24,6 +26,8 @@ import org.rsmod.api.market.MarketPrices
 import org.rsmod.api.net.rsprot.handlers.If3ButtonHandler
 import org.rsmod.api.net.rsprot.handlers.IfButtonDHandler
 import org.rsmod.api.net.rsprot.handlers.MoveGameClickHandler
+import org.rsmod.api.net.rsprot.handlers.OpLocHandler
+import org.rsmod.api.net.rsprot.handlers.OpNpcHandler
 import org.rsmod.api.net.rsprot.handlers.ResumePCountDialogHandler
 import org.rsmod.api.player.interact.LocInteractions
 import org.rsmod.api.player.interact.NpcInteractions
@@ -79,7 +83,6 @@ import org.rsmod.game.entity.PathingEntity
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.PlayerList
 import org.rsmod.game.entity.player.SessionStateEvent
-import org.rsmod.game.interact.InteractionOp
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.loc.LocAngle
@@ -156,6 +159,8 @@ constructor(
     private val ifButtonDHandler: IfButtonDHandler,
     private val gameClickHandler: MoveGameClickHandler,
     private val resumePCountDialog: ResumePCountDialogHandler,
+    private val opLocHandler: OpLocHandler,
+    private val opNpcHandler: OpNpcHandler,
 ) {
     init {
         registerPlayer()
@@ -256,44 +261,54 @@ constructor(
         invMap.values.forEach(Inventory::fillNulls)
     }
 
-    public fun Player.opLoc1(loc: BoundLocInfo) {
-        locInteractions.interact(this, loc, InteractionOp.Op1)
+    public fun Player.opLoc1(loc: BoundLocInfo, controlKey: Boolean = false) {
+        val message = OpLoc(loc.id, loc.x, loc.z, controlKey, op = 1)
+        captureClient.queue(opLocHandler, message)
     }
 
-    public fun Player.opLoc2(loc: BoundLocInfo) {
-        locInteractions.interact(this, loc, InteractionOp.Op2)
+    public fun Player.opLoc2(loc: BoundLocInfo, controlKey: Boolean = false) {
+        val message = OpLoc(loc.id, loc.x, loc.z, controlKey, op = 2)
+        captureClient.queue(opLocHandler, message)
     }
 
-    public fun Player.opLoc3(loc: BoundLocInfo) {
-        locInteractions.interact(this, loc, InteractionOp.Op3)
+    public fun Player.opLoc3(loc: BoundLocInfo, controlKey: Boolean = false) {
+        val message = OpLoc(loc.id, loc.x, loc.z, controlKey, op = 3)
+        captureClient.queue(opLocHandler, message)
     }
 
-    public fun Player.opLoc4(loc: BoundLocInfo) {
-        locInteractions.interact(this, loc, InteractionOp.Op4)
+    public fun Player.opLoc4(loc: BoundLocInfo, controlKey: Boolean = false) {
+        val message = OpLoc(loc.id, loc.x, loc.z, controlKey, op = 4)
+        captureClient.queue(opLocHandler, message)
     }
 
-    public fun Player.opLoc5(loc: BoundLocInfo) {
-        locInteractions.interact(this, loc, InteractionOp.Op5)
+    public fun Player.opLoc5(loc: BoundLocInfo, controlKey: Boolean = false) {
+        val message = OpLoc(loc.id, loc.x, loc.z, controlKey, op = 5)
+        captureClient.queue(opLocHandler, message)
     }
 
-    public fun Player.opNpc1(npc: Npc) {
-        npcInteractions.interact(this, npc, InteractionOp.Op1)
+    public fun Player.opNpc1(npc: Npc, controlKey: Boolean = false) {
+        val message = OpNpc(npc.slotId, controlKey, op = 1)
+        captureClient.queue(opNpcHandler, message)
     }
 
-    public fun Player.opNpc2(npc: Npc) {
-        npcInteractions.interact(this, npc, InteractionOp.Op2)
+    public fun Player.opNpc2(npc: Npc, controlKey: Boolean = false) {
+        val message = OpNpc(npc.slotId, controlKey, op = 2)
+        captureClient.queue(opNpcHandler, message)
     }
 
-    public fun Player.opNpc3(npc: Npc) {
-        npcInteractions.interact(this, npc, InteractionOp.Op3)
+    public fun Player.opNpc3(npc: Npc, controlKey: Boolean = false) {
+        val message = OpNpc(npc.slotId, controlKey, op = 3)
+        captureClient.queue(opNpcHandler, message)
     }
 
-    public fun Player.opNpc4(npc: Npc) {
-        npcInteractions.interact(this, npc, InteractionOp.Op4)
+    public fun Player.opNpc4(npc: Npc, controlKey: Boolean = false) {
+        val message = OpNpc(npc.slotId, controlKey, op = 4)
+        captureClient.queue(opNpcHandler, message)
     }
 
-    public fun Player.opNpc5(npc: Npc) {
-        npcInteractions.interact(this, npc, InteractionOp.Op5)
+    public fun Player.opNpc5(npc: Npc, controlKey: Boolean = false) {
+        val message = OpNpc(npc.slotId, controlKey, op = 5)
+        captureClient.queue(opNpcHandler, message)
     }
 
     public fun Player.ifOpenMain(interf: InterfaceType) {

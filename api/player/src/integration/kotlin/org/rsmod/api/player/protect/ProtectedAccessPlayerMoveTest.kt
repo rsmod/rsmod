@@ -164,6 +164,7 @@ class ProtectedAccessPlayerMoveTest {
         private val bartender =
             npcTypeFactory.create {
                 name = "Bartender"
+                op[0] = "Talk-to"
                 size = 1
             }
     }
