@@ -14,6 +14,7 @@ import org.rsmod.api.type.symbols.name.NameMapping
 import org.rsmod.api.utils.io.InputStreams
 import org.rsmod.game.type.obj.Dummyitem
 import org.rsmod.game.type.obj.UnpackedObjType
+import org.rsmod.game.type.obj.WeaponCategory
 import org.rsmod.game.type.seq.SeqTypeList
 import org.rsmod.game.type.synth.SynthType
 
@@ -57,14 +58,14 @@ constructor(
         putSeq(config.walkAnimBack, params.bas_walk_b)
         putSeq(config.walkAnimLeft, params.bas_walk_l)
         putSeq(config.walkAnimRight, params.bas_walk_r)
-        putSeq(config.accurateAnim, params.attack_anim_accurate)
-        putSeq(config.aggressiveAnim, params.attack_anim_aggressive)
-        putSeq(config.controlledAnim, params.attack_anim_controlled)
-        putSeq(config.defensiveAnim, params.attack_anim_defensive)
-        putSynth(config.accurateSound, params.attack_sound_accurate)
-        putSynth(config.aggressiveSound, params.attack_sound_aggressive)
-        putSynth(config.controlledSound, params.attack_sound_controlled)
-        putSynth(config.defensiveSound, params.attack_sound_defensive)
+        putSeq(config.animStance1, params.attack_anim_stance1)
+        putSeq(config.animStance2, params.attack_anim_stance2)
+        putSeq(config.animStance3, params.attack_anim_stance3)
+        putSeq(config.animStance4, params.attack_anim_stance4)
+        putSynth(config.soundStance1, params.attack_sound_stance1)
+        putSynth(config.soundStance2, params.attack_sound_stance2)
+        putSynth(config.soundStance3, params.attack_sound_stance3)
+        putSynth(config.soundStance4, params.attack_sound_stance4)
         putSeq(config.blockAnim, params.defend_anim)
         putSynth(config.equipmentSound, params.equipment_sound)
         putStr(config.destroyHeader, params.destroy_note_title)
@@ -72,6 +73,7 @@ constructor(
         putInt(config.respawnTimer, params.respawn_time)
         putInt(config.speed, params.attackrate)
         putInt(config.range, params.attackrange)
+        putWeaponCategory(config.weaponCategory)
         return this
     }
 
@@ -99,6 +101,15 @@ constructor(
         }
     }
 
+    private fun ObjPluginBuilder.putWeaponCategory(categoryIdentifier: String?) {
+        // Note: This assumes `WeaponCategory` entry names match `weapon_category` strings in
+        // `ExternalObjConfig`.
+        val weaponCategory = categoryIdentifier?.let(WeaponCategory::valueOf)
+        if (weaponCategory != null && weaponCategory != WeaponCategory.Unarmed) {
+            this.weaponCategory = weaponCategory.id
+        }
+    }
+
     private companion object {
         const val CONFIG_MAP_KEY: String = "config"
     }
@@ -113,14 +124,14 @@ private data class ExternalObjConfig(
     val walkAnimBack: Int?,
     val walkAnimLeft: Int?,
     val walkAnimRight: Int?,
-    val accurateAnim: Int?,
-    val accurateSound: Int?,
-    val aggressiveAnim: Int?,
-    val aggressiveSound: Int?,
-    val controlledAnim: Int?,
-    val controlledSound: Int?,
-    val defensiveAnim: Int?,
-    val defensiveSound: Int?,
+    val animStance1: Int?,
+    val soundStance1: Int?,
+    val animStance2: Int?,
+    val soundStance2: Int?,
+    val animStance3: Int?,
+    val soundStance3: Int?,
+    val animStance4: Int?,
+    val soundStance4: Int?,
     val blockAnim: Int?,
     val equipmentSound: Int?,
     val destroyHeader: String?,
@@ -131,5 +142,5 @@ private data class ExternalObjConfig(
     val dummyitem: Int?,
     val speed: Int?,
     val range: Int?,
-    val combatStyle: String?,
+    val weaponCategory: String?,
 )
