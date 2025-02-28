@@ -17,6 +17,7 @@ import org.rsmod.game.type.struct.StructTypeList
 import org.rsmod.game.type.synth.SynthTypeList
 import org.rsmod.game.type.varbit.VarBitTypeList
 import org.rsmod.game.type.varn.VarnTypeList
+import org.rsmod.game.type.varnbit.VarnBitTypeList
 import org.rsmod.game.type.varp.VarpTypeList
 import org.rsmod.game.type.walktrig.WalkTriggerTypeList
 
@@ -31,6 +32,7 @@ public data class TypeListMap(
     public val varps: VarpTypeList,
     public val varbits: VarBitTypeList,
     public val varns: VarnTypeList,
+    public val varnbits: VarnBitTypeList,
     public val invs: InvTypeList,
     public val seqs: SeqTypeList,
     public val spotanims: SpotanimTypeList,

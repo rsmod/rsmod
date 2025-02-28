@@ -25,6 +25,7 @@ import org.rsmod.game.type.struct.StructTypeList
 import org.rsmod.game.type.synth.SynthTypeList
 import org.rsmod.game.type.varbit.VarBitTypeList
 import org.rsmod.game.type.varn.VarnTypeList
+import org.rsmod.game.type.varnbit.VarnBitTypeList
 import org.rsmod.game.type.varp.VarpTypeList
 import org.rsmod.game.type.walktrig.WalkTriggerTypeList
 import org.rsmod.module.ExtendedModule
@@ -72,6 +73,8 @@ public object CacheModule : ExtendedModule() {
     public fun walkTriggerTypeList(map: TypeListMap): WalkTriggerTypeList = map.walkTriggers
 
     @Provides public fun varnTypeList(map: TypeListMap): VarnTypeList = map.varns
+
+    @Provides public fun varnBitTypeList(map: TypeListMap): VarnBitTypeList = map.varnbits
 }
 
 private class ConfigTypeListMapProvider

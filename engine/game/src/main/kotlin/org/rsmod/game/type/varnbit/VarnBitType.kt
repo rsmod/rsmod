@@ -1,16 +1,16 @@
-package org.rsmod.game.type.varbit
+package org.rsmod.game.type.varnbit
 
 import org.rsmod.game.type.CacheType
 import org.rsmod.game.type.HashedCacheType
-import org.rsmod.game.type.varp.VarpType
+import org.rsmod.game.type.varn.VarnType
 
-public sealed class VarBitType : CacheType() {
-    internal abstract var internalVarp: VarpType?
+public sealed class VarnBitType : CacheType() {
+    internal abstract var internalVarn: VarnType?
     internal abstract var internalLsb: Int?
     internal abstract var internalMsb: Int?
 
-    public val baseVar: VarpType
-        get() = internalVarp ?: error("`internalVarp` must not be null.")
+    public val baseVar: VarnType
+        get() = internalVarn ?: error("`internalVarn` must not be null.")
 
     public val lsb: Int
         get() = internalLsb ?: error("`internalLsb` must not be null.")
@@ -22,28 +22,28 @@ public sealed class VarBitType : CacheType() {
         get() = lsb..msb
 }
 
-public data class HashedVarBitType(
+public data class HashedVarnBitType(
     override var startHash: Long?,
     override var internalName: String?,
     override var internalId: Int? = null,
-    override var internalVarp: VarpType? = null,
+    override var internalVarn: VarnType? = null,
     override var internalLsb: Int? = null,
     override var internalMsb: Int? = null,
-) : HashedCacheType, VarBitType() {
+) : HashedCacheType, VarnBitType() {
     public val autoResolve: Boolean = startHash == null
 
     override fun toString(): String =
-        "VarBitType(" +
+        "VarnBitType(" +
             "internalName='$internalName', " +
             "internalId=$internalId, " +
-            "baseVar=$internalVarp, " +
+            "baseVar=$internalVarn, " +
             "bits=$bits, " +
             "supposedHash=$supposedHash" +
             ")"
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (other !is HashedVarBitType) return false
+        if (other !is HashedVarnBitType) return false
         if (startHash != other.startHash) return false
         if (internalId != other.internalId) return false
         return true
@@ -56,39 +56,37 @@ public data class HashedVarBitType(
     }
 }
 
-public data class UnpackedVarBitType(
-    public val varpId: Int,
-    override var internalVarp: VarpType?,
+public data class UnpackedVarnBitType(
+    public val varnId: Int,
+    override var internalVarn: VarnType?,
     override var internalLsb: Int?,
     override var internalMsb: Int?,
     override var internalId: Int?,
     override var internalName: String?,
-) : VarBitType() {
-    public fun computeIdentityHash(): Long {
-        var result = internalVarp?.hashCode()?.toLong() ?: 0L
-        result = 61 * result + (internalLsb?.hashCode() ?: 0)
-        result = 61 * result + (internalMsb?.hashCode() ?: 0)
-        result = 61 * result + (internalId?.hashCode() ?: 0)
-        return result and 0x7FFFFFFFFFFFFFFF
-    }
-
+) : VarnBitType() {
     override fun toString(): String =
         "UnpackedVarBitType(" +
             "internalName='$internalName', " +
             "internalId=$internalId, " +
-            "baseVar=$internalVarp, " +
+            "baseVar=$internalVarn, " +
             "bits=$bits" +
             ")"
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (other !is UnpackedVarBitType) return false
-        if (varpId != other.varpId) return false
-        if (lsb != other.lsb) return false
-        if (msb != other.msb) return false
+        if (other !is UnpackedVarnBitType) return false
+        if (varnId != other.varnId) return false
+        if (internalLsb != other.internalLsb) return false
+        if (internalMsb != other.internalMsb) return false
         if (internalId != other.internalId) return false
         return true
     }
 
-    override fun hashCode(): Int = computeIdentityHash().toInt()
+    override fun hashCode(): Int {
+        var result = internalVarn?.hashCode() ?: 0
+        result = 31 * result + (internalLsb ?: 0)
+        result = 31 * result + (internalMsb ?: 0)
+        result = 31 * result + (internalId ?: 0)
+        return result
+    }
 }

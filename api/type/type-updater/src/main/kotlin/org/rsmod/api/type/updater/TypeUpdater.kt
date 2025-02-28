@@ -22,6 +22,7 @@ import org.rsmod.api.cache.types.param.ParamTypeEncoder
 import org.rsmod.api.cache.types.stat.StatTypeEncoder
 import org.rsmod.api.cache.types.varbit.VarBitTypeEncoder
 import org.rsmod.api.cache.types.varn.VarnTypeEncoder
+import org.rsmod.api.cache.types.varnbit.VarnBitTypeEncoder
 import org.rsmod.api.cache.types.varp.VarpTypeEncoder
 import org.rsmod.api.cache.types.walktrig.WalkTriggerTypeEncoder
 import org.rsmod.api.cache.util.EncoderContext
@@ -48,6 +49,8 @@ import org.rsmod.game.type.varbit.UnpackedVarBitType
 import org.rsmod.game.type.varbit.VarBitTypeBuilder
 import org.rsmod.game.type.varn.UnpackedVarnType
 import org.rsmod.game.type.varn.VarnTypeBuilder
+import org.rsmod.game.type.varnbit.UnpackedVarnBitType
+import org.rsmod.game.type.varnbit.VarnBitTypeBuilder
 import org.rsmod.game.type.varp.UnpackedVarpType
 import org.rsmod.game.type.varp.VarpTypeBuilder
 import org.rsmod.game.type.walktrig.WalkTriggerType
@@ -134,19 +137,22 @@ constructor(
         val varps = mergeVarps(builders.varps, editors.varps, vanilla.varps)
         val varbits = mergeVarBits(builders.varbits, editors.varbits, vanilla.varbits)
         val varns = mergeVarns(builders.varns, editors.varns, vanilla.varns)
+        val varnbits = mergeVarnBits(builders.varnbits, editors.varnbits, vanilla.varnbits)
         val walkTrig = mergeWalkTriggers(builders.walkTrig, editors.walkTrig, vanilla.walkTriggers)
+
         return UpdateMap(
-            invs,
-            locs,
-            npcs,
-            objs,
-            stats,
-            params,
-            enums,
-            varps,
-            varbits,
-            varns,
-            walkTrig,
+            invs = invs,
+            locs = locs,
+            npcs = npcs,
+            objs = objs,
+            stats = stats,
+            params = params,
+            enums = enums,
+            varps = varps,
+            varbits = varbits,
+            varns = varns,
+            varnbits = varnbits,
+            walkTrig = walkTrig,
         )
     }
 
@@ -161,6 +167,7 @@ constructor(
         val varps: List<UnpackedVarpType>,
         val varbits: List<UnpackedVarBitType>,
         val varns: List<UnpackedVarnType>,
+        val varnbits: List<UnpackedVarnBitType>,
         val walkTrig: List<WalkTriggerType>,
     )
 
@@ -175,19 +182,22 @@ constructor(
         val varps = filterIsInstance<UnpackedVarpType>()
         val varbits = filterIsInstance<UnpackedVarBitType>()
         val varns = filterIsInstance<UnpackedVarnType>()
+        val varnbits = filterIsInstance<UnpackedVarnBitType>()
         val walkTrig = filterIsInstance<WalkTriggerType>()
+
         return UpdateMap(
-            invs,
-            locs,
-            npcs,
-            objs,
-            stats,
-            params,
-            enums,
-            varps,
-            varbits,
-            varns,
-            walkTrig,
+            invs = invs,
+            locs = locs,
+            npcs = npcs,
+            objs = objs,
+            stats = stats,
+            params = params,
+            enums = enums,
+            varps = varps,
+            varbits = varbits,
+            varns = varns,
+            varnbits = varnbits,
+            walkTrig = walkTrig,
         )
     }
 
@@ -435,6 +445,32 @@ constructor(
             this
         }
 
+    private fun mergeVarnBits(
+        builders: List<UnpackedVarnBitType>,
+        editors: List<UnpackedVarnBitType>,
+        cacheTypes: Map<Int, UnpackedVarnBitType>,
+    ): List<UnpackedVarnBitType> {
+        val merged = (builders + editors).groupBy { it.id }
+        return merged.map { (id, types) ->
+            val combined = types.fold(types[0]) { curr, next -> next + curr }
+            val cacheType = cacheTypes[id]
+            if (cacheType != null) {
+                combined + cacheType
+            } else {
+                combined
+            }
+        }
+    }
+
+    private operator fun UnpackedVarnBitType.plus(
+        other: UnpackedVarnBitType?
+    ): UnpackedVarnBitType =
+        if (other != null) {
+            VarnBitTypeBuilder.merge(edit = this, base = other)
+        } else {
+            this
+        }
+
     private fun mergeWalkTriggers(
         builders: List<WalkTriggerType>,
         editors: List<WalkTriggerType>,
@@ -471,6 +507,7 @@ constructor(
             VarpTypeEncoder.encodeAll(cache, updates.varps, ctx)
             VarBitTypeEncoder.encodeAll(cache, updates.varbits, ctx)
             VarnTypeEncoder.encodeAll(cache, updates.varns, ctx)
+            VarnBitTypeEncoder.encodeAll(cache, updates.varnbits, ctx)
             WalkTriggerTypeEncoder.encodeAll(cache, updates.walkTrig, ctx)
         }
     }

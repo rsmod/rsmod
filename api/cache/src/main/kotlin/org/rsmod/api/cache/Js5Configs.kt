@@ -27,4 +27,5 @@ public object Js5Configs {
     public const val STAT: Int = 200
     public const val WALKTRIGGER: Int = 201
     public const val VARNPC: Int = 202
+    public const val VARNBIT: Int = 203
 }
