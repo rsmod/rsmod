@@ -14,6 +14,8 @@ import org.rsmod.api.type.refs.enums.EnumReferenceResolver
 import org.rsmod.api.type.refs.enums.EnumReferences
 import org.rsmod.api.type.refs.font.FontMetricsReferenceResolver
 import org.rsmod.api.type.refs.font.FontMetricsReferences
+import org.rsmod.api.type.refs.hitmark.HitmarkReferenceResolver
+import org.rsmod.api.type.refs.hitmark.HitmarkReferences
 import org.rsmod.api.type.refs.interf.InterfaceReferenceResolver
 import org.rsmod.api.type.refs.interf.InterfaceReferences
 import org.rsmod.api.type.refs.inv.InvReferenceResolver
@@ -64,6 +66,7 @@ constructor(
     private val currencyResolver: CurrencyReferenceResolver,
     private val enumResolver: EnumReferenceResolver,
     private val fontMetricsResolver: FontMetricsReferenceResolver,
+    private val hitmarkResolver: HitmarkReferenceResolver,
     private val interfaceResolver: InterfaceReferenceResolver,
     private val invResolver: InvReferenceResolver,
     private val jingleResolver: JingleReferenceResolver,
@@ -149,6 +152,7 @@ constructor(
                 is CurrencyReferences -> currencyResolver
                 is EnumReferences -> enumResolver
                 is FontMetricsReferences -> fontMetricsResolver
+                is HitmarkReferences -> hitmarkResolver
                 is InterfaceReferences -> interfaceResolver
                 is InvReferences -> invResolver
                 is JingleReferences -> jingleResolver

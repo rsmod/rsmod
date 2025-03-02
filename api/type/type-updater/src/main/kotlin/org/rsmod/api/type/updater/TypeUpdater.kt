@@ -14,6 +14,7 @@ import org.rsmod.annotations.Js5Cache
 import org.rsmod.annotations.VanillaCache
 import org.rsmod.api.cache.types.TypeListMapDecoder
 import org.rsmod.api.cache.types.enums.EnumTypeEncoder
+import org.rsmod.api.cache.types.hitmark.HitmarkTypeEncoder
 import org.rsmod.api.cache.types.inv.InvTypeEncoder
 import org.rsmod.api.cache.types.loc.LocTypeEncoder
 import org.rsmod.api.cache.types.npc.NpcTypeEncoder
@@ -32,6 +33,8 @@ import org.rsmod.api.type.symbols.name.NameMapping
 import org.rsmod.game.type.TypeListMap
 import org.rsmod.game.type.enums.EnumTypeBuilder
 import org.rsmod.game.type.enums.UnpackedEnumType
+import org.rsmod.game.type.hitmark.HitmarkTypeBuilder
+import org.rsmod.game.type.hitmark.UnpackedHitmarkType
 import org.rsmod.game.type.inv.InvTypeBuilder
 import org.rsmod.game.type.inv.UnpackedInvType
 import org.rsmod.game.type.loc.LocTypeBuilder
@@ -138,6 +141,7 @@ constructor(
         val varbits = mergeVarBits(builders.varbits, editors.varbits, vanilla.varbits)
         val varns = mergeVarns(builders.varns, editors.varns, vanilla.varns)
         val varnbits = mergeVarnBits(builders.varnbits, editors.varnbits, vanilla.varnbits)
+        val hitmarks = mergeHitmarks(builders.hitmarks, editors.hitmarks, vanilla.hitmarks)
         val walkTrig = mergeWalkTriggers(builders.walkTrig, editors.walkTrig, vanilla.walkTriggers)
 
         return UpdateMap(
@@ -152,6 +156,7 @@ constructor(
             varbits = varbits,
             varns = varns,
             varnbits = varnbits,
+            hitmarks = hitmarks,
             walkTrig = walkTrig,
         )
     }
@@ -168,6 +173,7 @@ constructor(
         val varbits: List<UnpackedVarBitType>,
         val varns: List<UnpackedVarnType>,
         val varnbits: List<UnpackedVarnBitType>,
+        val hitmarks: List<UnpackedHitmarkType>,
         val walkTrig: List<WalkTriggerType>,
     )
 
@@ -183,6 +189,7 @@ constructor(
         val varbits = filterIsInstance<UnpackedVarBitType>()
         val varns = filterIsInstance<UnpackedVarnType>()
         val varnbits = filterIsInstance<UnpackedVarnBitType>()
+        val hitmarks = filterIsInstance<UnpackedHitmarkType>()
         val walkTrig = filterIsInstance<WalkTriggerType>()
 
         return UpdateMap(
@@ -197,6 +204,7 @@ constructor(
             varbits = varbits,
             varns = varns,
             varnbits = varnbits,
+            hitmarks = hitmarks,
             walkTrig = walkTrig,
         )
     }
@@ -471,6 +479,32 @@ constructor(
             this
         }
 
+    private fun mergeHitmarks(
+        builders: List<UnpackedHitmarkType>,
+        editors: List<UnpackedHitmarkType>,
+        cacheTypes: Map<Int, UnpackedHitmarkType>,
+    ): List<UnpackedHitmarkType> {
+        val merged = (builders + editors).groupBy { it.id }
+        return merged.map { (id, types) ->
+            val combined = types.fold(types[0]) { curr, next -> next + curr }
+            val cacheType = cacheTypes[id]
+            if (cacheType != null) {
+                combined + cacheType
+            } else {
+                combined
+            }
+        }
+    }
+
+    private operator fun UnpackedHitmarkType.plus(
+        other: UnpackedHitmarkType?
+    ): UnpackedHitmarkType =
+        if (other != null) {
+            HitmarkTypeBuilder.merge(edit = this, base = other)
+        } else {
+            this
+        }
+
     private fun mergeWalkTriggers(
         builders: List<WalkTriggerType>,
         editors: List<WalkTriggerType>,
@@ -508,6 +542,7 @@ constructor(
             VarBitTypeEncoder.encodeAll(cache, updates.varbits, ctx)
             VarnTypeEncoder.encodeAll(cache, updates.varns, ctx)
             VarnBitTypeEncoder.encodeAll(cache, updates.varnbits, ctx)
+            HitmarkTypeEncoder.encodeAll(cache, updates.hitmarks)
             WalkTriggerTypeEncoder.encodeAll(cache, updates.walkTrig, ctx)
         }
     }

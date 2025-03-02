@@ -66,6 +66,11 @@ public fun ByteBuf.readIncrUnsignedShortSmart(): Int {
     return value
 }
 
+public fun ByteBuf.writeNullableShort(value: Int?): ByteBuf {
+    writeShort(value ?: 65535)
+    return this
+}
+
 public fun ByteBuf.readUnsignedShortOrNull(): Int? {
     val value = readUnsignedShort()
     return if (value == 65535) null else value
@@ -78,6 +83,7 @@ public fun ByteBuf.writeNullableLargeSmart(value: Int?): ByteBuf =
         else -> writeInt(value)
     }
 
+// Also known as `gSmart2or4s`.
 public fun ByteBuf.readNullableLargeSmart(): Int? =
     if (getByte(readerIndex()) < 0) {
         readInt() and Integer.MAX_VALUE

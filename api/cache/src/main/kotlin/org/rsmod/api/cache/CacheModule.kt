@@ -11,6 +11,7 @@ import org.rsmod.game.type.TypeListMap
 import org.rsmod.game.type.comp.ComponentTypeList
 import org.rsmod.game.type.enums.EnumTypeList
 import org.rsmod.game.type.font.FontMetricsTypeList
+import org.rsmod.game.type.hitmark.HitmarkTypeList
 import org.rsmod.game.type.interf.InterfaceTypeList
 import org.rsmod.game.type.inv.InvTypeList
 import org.rsmod.game.type.jingle.JingleTypeList
@@ -75,6 +76,8 @@ public object CacheModule : ExtendedModule() {
     @Provides public fun varnTypeList(map: TypeListMap): VarnTypeList = map.varns
 
     @Provides public fun varnBitTypeList(map: TypeListMap): VarnBitTypeList = map.varnbits
+
+    @Provides public fun hitmarkTypeList(map: TypeListMap): HitmarkTypeList = map.hitmarks
 }
 
 private class ConfigTypeListMapProvider

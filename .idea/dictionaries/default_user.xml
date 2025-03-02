@@ -45,6 +45,7 @@
       <w>hasta</w>
       <w>herblore</w>
       <w>hitmark</w>
+      <w>hitmarks</w>
       <w>hitpoint</w>
       <w>hitpoints</w>
       <w>ifevent</w>
@@ -124,6 +125,7 @@
       <w>transformtemplate</w>
       <w>transmog</w>
       <w>uncert</w>
+      <w>uncharge</w>
       <w>unequip</w>
       <w>unimpl</w>
       <w>unplacehold</w>
@@ -153,10 +155,12 @@
       <w>walktrigger</w>
       <w>walktriggers</w>
       <w>wearpos</w>
+      <w>wintertodt</w>
       <w>womanhead</w>
       <w>womanwear</w>
       <w>xtea</w>
       <w>zaff</w>
+      <w>zalcano</w>
     </words>
   </dictionary>
 </component>

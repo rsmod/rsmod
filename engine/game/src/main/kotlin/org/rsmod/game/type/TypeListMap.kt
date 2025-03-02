@@ -3,6 +3,7 @@ package org.rsmod.game.type
 import org.rsmod.game.type.comp.ComponentTypeList
 import org.rsmod.game.type.enums.EnumTypeList
 import org.rsmod.game.type.font.FontMetricsTypeList
+import org.rsmod.game.type.hitmark.HitmarkTypeList
 import org.rsmod.game.type.interf.InterfaceTypeList
 import org.rsmod.game.type.inv.InvTypeList
 import org.rsmod.game.type.jingle.JingleTypeList
@@ -42,4 +43,5 @@ public data class TypeListMap(
     public val structs: StructTypeList,
     public val jingles: JingleTypeList,
     public val walkTriggers: WalkTriggerTypeList,
+    public val hitmarks: HitmarkTypeList,
 )

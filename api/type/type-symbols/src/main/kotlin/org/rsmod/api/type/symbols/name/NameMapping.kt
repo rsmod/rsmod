@@ -37,4 +37,5 @@ public data class NameMapping(
     public val fonts: Map<String, Int> = mutableMapOf(),
     public val queues: Map<String, Int> = mutableMapOf(),
     public val walkTriggers: Map<String, Int> = mutableMapOf(),
+    public val hitmarks: Map<String, Int> = mutableMapOf(),
 )

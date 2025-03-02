@@ -10,6 +10,8 @@ import org.rsmod.api.type.builders.droptrig.DropTriggerBuilder
 import org.rsmod.api.type.builders.droptrig.DropTriggerBuilderResolver
 import org.rsmod.api.type.builders.enums.EnumBuilder
 import org.rsmod.api.type.builders.enums.EnumBuilderResolver
+import org.rsmod.api.type.builders.hitmark.HitmarkBuilder
+import org.rsmod.api.type.builders.hitmark.HitmarkBuilderResolver
 import org.rsmod.api.type.builders.inv.InvBuilder
 import org.rsmod.api.type.builders.inv.InvBuilderResolver
 import org.rsmod.api.type.builders.loc.LocBuilder
@@ -52,6 +54,7 @@ constructor(
     private val conResolver: ControllerBuilderResolver,
     private val dropTriggerResolver: DropTriggerBuilderResolver,
     private val enumResolver: EnumBuilderResolver,
+    private val hitmarkResolver: HitmarkBuilderResolver,
     private val invResolver: InvBuilderResolver,
     private val locResolver: LocBuilderResolver,
     private val mesAnimResolver: MesAnimBuilderResolver,
@@ -134,6 +137,7 @@ constructor(
                 is ControllerBuilder -> conResolver
                 is DropTriggerBuilder -> dropTriggerResolver
                 is EnumBuilder -> enumResolver
+                is HitmarkBuilder -> hitmarkResolver
                 is InvBuilder -> invResolver
                 is LocBuilder -> locResolver
                 is MesAnimBuilder -> mesAnimResolver
