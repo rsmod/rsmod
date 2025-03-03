@@ -3,18 +3,7 @@ plugins {
 }
 
 dependencies {
-    api(projects.api.combatPlugin.combat)
-    api(projects.api.combatPlugin.combatMagic)
-    api(projects.api.combatPlugin.combatWeapon)
-    api(projects.api.config)
-    api(projects.api.type.typeScriptDsl)
-    api(projects.api.type.typeSymbols)
-    api(projects.api.type.typeBuilders)
-    api(projects.api.type.typeEditors)
-    api(projects.api.type.typeReferences)
-    api(projects.api.type.typeResolver)
-    api(projects.api.type.typeUpdater)
-    api(projects.api.type.typeVerifier)
+    findValidApiSubProjects().forEach { api(it) }
     findPlugins().forEach { api(it) }
     implementation(libs.classgraph)
     implementation(libs.guice)
@@ -30,6 +19,11 @@ dependencies {
     implementation(projects.engine.plugin)
 }
 
-fun findPlugins(): List<Project> {
-    return project(":content").subprojects.filter { it.buildFile.exists() }
-}
+fun findPlugins(): List<Project> =
+    project(":content").subprojects.filter { it.buildFile.exists() }
+
+fun findValidApiSubProjects(): List<Project> =
+    project(":api").subprojects.filter { it.buildFile.exists() && !filteredApiSubProject(it) }
+
+fun filteredApiSubProject(project: Project): Boolean =
+    project.name == "testing" || project.parent?.name == "testing"

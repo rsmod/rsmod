@@ -14,6 +14,7 @@ dependencies {
     implementation(projects.api.config)
     implementation(projects.api.npc)
     implementation(projects.api.player)
+    implementation(projects.api.random)
     implementation(projects.api.scriptAdvanced)
     implementation(projects.api.specials)
     implementation(projects.api.type.typeBuilders)
@@ -21,5 +22,6 @@ dependencies {
     implementation(projects.api.utils.utilsVars)
     implementation(projects.engine.events)
     implementation(projects.engine.game)
+    implementation(projects.engine.map)
     implementation(projects.engine.plugin)
 }

@@ -20,6 +20,7 @@ import org.rsmod.api.registry.region.RegionRegistry
 import org.rsmod.game.client.ClientCycle
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.util.EntityFaceAngle
+import org.rsmod.game.hit.Hitmark
 import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.region.Region
 import org.rsmod.game.region.zone.RegionZoneCopy
@@ -77,6 +78,7 @@ class RspCycle(
         player.applyAnim()
         player.applySpotanims()
         player.applySay()
+        player.applyHitmarks()
         player.syncAppearance(objTypes)
     }
 
@@ -239,6 +241,20 @@ class RspCycle(
         val text = pendingSay ?: return
         pendingSay = null
         playerExtendedInfo.setSay(text)
+    }
+
+    private fun Player.applyHitmarks() {
+        for (packedHitmark in activeHitmarks.longIterator()) {
+            val hitmark = Hitmark(packedHitmark)
+            playerExtendedInfo.addHitMark(
+                sourceIndex = if (hitmark.isNoSource) -1 else hitmark.sourceSlot,
+                selfType = hitmark.self,
+                sourceType = hitmark.source,
+                otherType = if (hitmark.isPrivate) -1 else hitmark.public,
+                value = hitmark.damage,
+                delay = hitmark.delay,
+            )
+        }
     }
 
     private fun Player.syncAppearance(objTypes: ObjTypeList) {

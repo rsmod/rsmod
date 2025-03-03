@@ -34,6 +34,12 @@ import org.rsmod.routefinder.collision.CollisionFlagMap
  * implementations.
  */
 public object PathingEntityCommon {
+    // We don't declare or use [org.rsmod.game.entity.NpcList]'s capacity because some
+    // developers will more than likely be tempted to fiddle with that npc list capacity
+    // at some point. In that case, we do not want the npc list capacity, whether lower
+    // or higher, to affect this value used for internal systems.
+    internal const val INTERNAL_NPC_LIMIT = 65535
+
     public fun walk(entity: PathingEntity, dest: CoordGrid) {
         val request = RouteRequestCoord(dest)
         entity.routeRequest = request

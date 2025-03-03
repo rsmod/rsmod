@@ -1,5 +1,8 @@
 package org.rsmod.game.entity.npc
 
+import org.rsmod.game.entity.Npc
+import org.rsmod.game.entity.NpcList
+
 @JvmInline
 public value class NpcUid(public val packed: Int) {
     public val slotId: Int
@@ -9,6 +12,8 @@ public value class NpcUid(public val packed: Int) {
         get() = (packed shr TYPE_BIT_OFFSET) and TYPE_BIT_MASK
 
     public constructor(slot: Int, type: Int) : this(pack(slot, type))
+
+    public fun resolve(list: NpcList): Npc? = list[slotId]?.takeIf { it.uid == this }
 
     public companion object {
         public val NULL: NpcUid = NpcUid(-1)

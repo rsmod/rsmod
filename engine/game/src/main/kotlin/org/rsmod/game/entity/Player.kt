@@ -3,6 +3,7 @@ package org.rsmod.game.entity
 import it.unimi.dsi.fastutil.ints.IntArrayList
 import it.unimi.dsi.fastutil.ints.IntArraySet
 import it.unimi.dsi.fastutil.ints.IntList
+import it.unimi.dsi.fastutil.longs.LongArrayList
 import org.rsmod.annotations.InternalApi
 import org.rsmod.game.client.Client
 import org.rsmod.game.client.ClientCycle
@@ -13,6 +14,7 @@ import org.rsmod.game.entity.player.PlayerUid
 import org.rsmod.game.entity.player.PublicMessage
 import org.rsmod.game.entity.util.EntityFaceAngle
 import org.rsmod.game.entity.util.PathingEntityCommon
+import org.rsmod.game.hit.Hitmark
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.inv.InventoryMap
 import org.rsmod.game.queue.PlayerQueueList
@@ -98,6 +100,8 @@ public class Player(
 
     public var publicMessage: PublicMessage? = null
     public var pendingSay: String? = null
+    public val activeHitmarks: LongArrayList = LongArrayList()
+
     public var regionUid: Int? = null
 
     // The last coordinates the player has occupied, outside the region working area.
@@ -237,6 +241,10 @@ public class Player(
 
     public fun say(text: String) {
         this.pendingSay = text
+    }
+
+    public fun showHitmark(hitmark: Hitmark) {
+        activeHitmarks.add(hitmark.packed)
     }
 
     public fun rebuildAppearance() {

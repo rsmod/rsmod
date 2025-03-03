@@ -5,6 +5,7 @@ import org.rsmod.game.entity.npc.NpcInfoProtocol
 import org.rsmod.game.entity.npc.NpcMode
 import org.rsmod.game.entity.npc.NpcUid
 import org.rsmod.game.entity.util.PathingEntityCommon
+import org.rsmod.game.hit.Hitmark
 import org.rsmod.game.map.Direction
 import org.rsmod.game.movement.BlockWalk
 import org.rsmod.game.movement.MoveRestrict
@@ -164,6 +165,10 @@ public class Npc(
 
     public fun say(text: String) {
         infoProtocol.setSay(text)
+    }
+
+    public fun showHitmark(hitmark: Hitmark) {
+        infoProtocol.showHitmark(hitmark)
     }
 
     public fun facePlayer(target: Player) {

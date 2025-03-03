@@ -7,7 +7,9 @@ import kotlin.math.min
 import kotlin.reflect.KClass
 import org.rsmod.annotations.InternalApi
 import org.rsmod.api.config.constants
+import org.rsmod.api.config.refs.BaseHitmarkGroups
 import org.rsmod.api.config.refs.components
+import org.rsmod.api.config.refs.hitmarks
 import org.rsmod.api.config.refs.invs
 import org.rsmod.api.config.refs.objs
 import org.rsmod.api.config.refs.queues
@@ -30,6 +32,16 @@ import org.rsmod.api.player.cinematic.CompassState
 import org.rsmod.api.player.cinematic.MinimapState
 import org.rsmod.api.player.dialogue.Dialogue
 import org.rsmod.api.player.dialogue.Dialogues
+import org.rsmod.api.player.hit.modifier.HitModifierPlayer
+import org.rsmod.api.player.hit.modifier.NoopPlayerHitModifier
+import org.rsmod.api.player.hit.modifier.StandardPlayerHitModifier
+import org.rsmod.api.player.hit.processQueuedHit
+import org.rsmod.api.player.hit.processor.DamageOnlyPlayerHitProcessor
+import org.rsmod.api.player.hit.processor.InstantPlayerHitProcessor
+import org.rsmod.api.player.hit.processor.StandardPlayerHitProcessor
+import org.rsmod.api.player.hit.queueHit
+import org.rsmod.api.player.hit.queueImpactHit
+import org.rsmod.api.player.hit.takeInstantHit
 import org.rsmod.api.player.input.ResumePCountDialogInput
 import org.rsmod.api.player.input.ResumePObjDialogInput
 import org.rsmod.api.player.input.ResumePauseButtonInput
@@ -100,6 +112,9 @@ import org.rsmod.game.entity.PathingEntity
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.player.ProtectedAccessLostException
 import org.rsmod.game.entity.util.PathingEntityCommon
+import org.rsmod.game.hit.Hit
+import org.rsmod.game.hit.HitBuilder
+import org.rsmod.game.hit.HitType
 import org.rsmod.game.interact.HeldOp
 import org.rsmod.game.interact.InteractionOp
 import org.rsmod.game.inv.Inventory
@@ -114,6 +129,7 @@ import org.rsmod.game.obj.isType
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.enums.EnumType
+import org.rsmod.game.type.hitmark.HitmarkTypeGroup
 import org.rsmod.game.type.interf.IfEvent
 import org.rsmod.game.type.interf.IfSubType
 import org.rsmod.game.type.interf.InterfaceType
@@ -1092,6 +1108,385 @@ public class ProtectedAccess(
         val invisibleBoost = invisibleLevels.get(player, stat)
         return rollSuccessRate(low, high, stat, invisibleBoost)
     }
+
+    /**
+     * Queues a hit dealt by [source] with an impact cycle delay of [delay] before the hit is
+     * displayed and health is deducted from the player.
+     *
+     * _[modifier] is applied immediately when this function is called (via
+     * [HitModifierPlayer.modify]). This means that effects like prayer protection reducing damage
+     * are handled at this point and **not** on impact._
+     *
+     * If you want the modifier to be applied on impact, use [queueImpactHit] instead.
+     *
+     * **Notes:**
+     * - [damage] is capped to the [player]'s current health at the time this function is called.
+     *   This ensures that the "tick-eating" mechanic is possible.
+     * - [StandardPlayerHitProcessor] is invoked when the cycle [delay] completes and the hit takes
+     *   effect. It is responsible for reducing the [player]'s health, handling armour degradation,
+     *   recoil damage, displaying the hitsplat, and other related mechanics. This behavior **cannot
+     *   be bypassed** when using this function; however, it can be changed when using
+     *   [takeInstantHit].
+     * - As the hit is immediately modified, this function **returns an accurate** [Hit]
+     *   representation of what will be dealt once the cycle [delay] passes. The only exception is
+     *   if the [player]'s respective queue list is cleared, which would remove the hit before it
+     *   has been processed.
+     *
+     * @param damage The initial damage intended for the [player]. This value may change based on
+     *   various factors from [modifier].
+     * @param hitmark The hitmark group used for the visual hitsplat. See [BaseHitmarkGroups] or
+     *   reference [hitmarks] for a list of available hitmark groups.
+     * @param specific If `true`, only the [player] will see the hitsplat; this does not affect
+     *   actual damage calculations.
+     * @param sourceWeapon An optional [ObjType] reference of a "weapon" used by the [source] that
+     *   hit modifiers and/or processors can use for specialized logic. Typically unnecessary when
+     *   [source] is an [Npc], though there may be niche use cases.
+     * @param sourceSecondary Similar to [sourceWeapon], except this refers to objs that are **not**
+     *   the primary weapon, such as ammunition for ranged attacks or objs tied to magic spells.
+     * @param modifier A [HitModifierPlayer] used to adjust damage and other hit properties. By
+     *   default, this is set to [StandardPlayerHitModifier], which applies standard modifications,
+     *   such as damage reduction from protection prayers.
+     * @see [BaseHitmarkGroups]
+     */
+    public fun queueHit(
+        source: Npc,
+        delay: Int,
+        type: HitType,
+        damage: Int,
+        hitmark: HitmarkTypeGroup = hitmarks.regular_damage,
+        specific: Boolean = false,
+        sourceWeapon: ObjType? = null,
+        sourceSecondary: ObjType? = null,
+        modifier: HitModifierPlayer = StandardPlayerHitModifier,
+    ): Hit =
+        player.queueHit(
+            source = source,
+            delay = delay,
+            type = type,
+            damage = damage,
+            hitmark = hitmark,
+            specific = specific,
+            sourceWeapon = sourceWeapon,
+            sourceSecondary = sourceSecondary,
+            modifier = modifier,
+        )
+
+    /**
+     * Queues a hit dealt by [source] with an impact cycle delay of [delay] before the hit is
+     * displayed and health is deducted from the player.
+     *
+     * _[modifier] is applied immediately when this function is called (via
+     * [HitModifierPlayer.modify]). This means that effects like prayer protection reducing damage
+     * are handled at this point and **not** on impact._
+     *
+     * If you want the modifier to be applied on impact, use [queueImpactHit] instead.
+     *
+     * **Notes:**
+     * - The [Hit.righthandObj] is implicitly set based on the `righthand` obj equipped in
+     *   [Player.worn] for [source]. This behavior is not configurable to ensure consistency across
+     *   systems such as [modifier] and other processors.
+     * - [StandardPlayerHitProcessor] is invoked when the cycle [delay] completes and the hit takes
+     *   effect. It is responsible for reducing the [player]'s health, handling armour degradation,
+     *   recoil damage, displaying the hitsplat, and other related mechanics. This behavior **cannot
+     *   be bypassed** when using this function; however, it can be changed when using
+     *   [takeInstantHit].
+     * - As the hit is immediately modified, this function **returns an accurate** [Hit]
+     *   representation of what will be dealt once the cycle [delay] passes. The only exception is
+     *   if the [player]'s respective queue list is cleared, which would remove the hit before it
+     *   has been processed.
+     *
+     * @param damage The initial damage intended for the [player]. This value may change based on
+     *   various factors from [modifier].
+     * @param hitmark The hitmark group used for the visual hitsplat. See [BaseHitmarkGroups] or
+     *   reference [hitmarks] for a list of available hitmark groups.
+     * @param sourceSecondary The "secondary" obj used in the attack by [source]. If the hit is from
+     *   a ranged attack, this should be set to the ammunition obj (if applicable). If the attack is
+     *   from a magic spell, this should be the associated spell obj.
+     * @param modifier A [HitModifierPlayer] used to adjust damage and other hit properties. By
+     *   default, this is set to [StandardPlayerHitModifier], which applies standard modifications,
+     *   such as damage reduction from protection prayers.
+     * @see [BaseHitmarkGroups]
+     */
+    public fun queueHit(
+        source: Player,
+        delay: Int,
+        type: HitType,
+        damage: Int,
+        hitmark: HitmarkTypeGroup = hitmarks.regular_damage,
+        sourceSecondary: ObjType? = null,
+        modifier: HitModifierPlayer = StandardPlayerHitModifier,
+    ): Hit =
+        player.queueHit(
+            source = source,
+            delay = delay,
+            type = type,
+            damage = damage,
+            hitmark = hitmark,
+            sourceSecondary = sourceSecondary,
+            modifier = modifier,
+        )
+
+    /**
+     * Queues a hit that does not originate from either a [Player] or an [Npc], with an impact cycle
+     * delay of [delay] before the hit is displayed and health is deducted from the player.
+     *
+     * _[modifier] is applied immediately when this function is called (via
+     * [HitModifierPlayer.modify]). This means that effects like prayer protection reducing damage
+     * are handled at this point and **not** on impact._
+     *
+     * If you want the modifier to be applied on impact, use [queueImpactHit] instead.
+     *
+     * **Notes:**
+     * - [StandardPlayerHitProcessor] is invoked when the cycle [delay] completes and the hit takes
+     *   effect. It is responsible for reducing the [player]'s health, handling armour degradation,
+     *   recoil damage, displaying the hitsplat, and other related mechanics. This behavior **cannot
+     *   be bypassed** when using this function; however, it can be changed when using
+     *   [takeInstantHit].
+     * - As the hit is immediately modified, this function **returns an accurate** [Hit]
+     *   representation of what will be dealt once the cycle [delay] passes. The only exception is
+     *   if the [player]'s respective queue list is cleared, which would remove the hit before it
+     *   has been processed.
+     *
+     * @param damage The initial damage intended for the [player]. This value may change based on
+     *   various factors from [modifier].
+     * @param hitmark The hitmark group used for the visual hitsplat. See [BaseHitmarkGroups] or
+     *   reference [hitmarks] for a list of available hitmark groups.
+     * @param specific If `true`, only the [player] will see the hitsplat; this does not affect
+     *   actual damage calculations.
+     * @param modifier A [HitModifierPlayer] used to adjust damage and other hit properties. By
+     *   default, this is set to [StandardPlayerHitModifier], which applies standard modifications,
+     *   such as damage reduction from protection prayers.
+     * @param strongQueue If `false`, the hit will be queued through [Player.queue] instead of
+     *   [Player.strongQueue]. This is `true` by default. Currently, the only known case for setting
+     *   this to `false` is for 'Ring of Recoil' damage, but other use cases may exist.
+     * @see [BaseHitmarkGroups]
+     */
+    public fun queueHit(
+        delay: Int,
+        type: HitType,
+        damage: Int,
+        hitmark: HitmarkTypeGroup = hitmarks.regular_damage,
+        specific: Boolean = false,
+        modifier: HitModifierPlayer = StandardPlayerHitModifier,
+        strongQueue: Boolean = true,
+    ): Hit =
+        player.queueHit(
+            delay = delay,
+            type = type,
+            damage = damage,
+            hitmark = hitmark,
+            specific = specific,
+            modifier = modifier,
+            strongQueue = strongQueue,
+        )
+
+    /**
+     * Instantly applies [damage] to [player]. By default, this function applies no modification to
+     * the hit ([NoopPlayerHitModifier]) unless explicitly provided through [modifier].
+     *
+     * @param damage The initial damage intended for the [player]. This value may be adjusted by
+     *   [modifier] based on various factors.
+     * @param hitmark The hitmark group used for the visual hitsplat. See [BaseHitmarkGroups] or
+     *   reference [hitmarks] for a list of available hitmark groups.
+     * @param specific If `true`, only the [player] will see the hitsplat; this does not affect
+     *   actual damage calculations.
+     * @param modifier A [HitModifierPlayer] that modifies the damage and other properties.
+     * @param processor A [InstantPlayerHitProcessor] that processes the [Hit] instantly. Defaults
+     *   to [DamageOnlyPlayerHitProcessor], meaning effects such as degradation and recoil damage
+     *   **will not** apply.
+     */
+    public fun takeInstantHit(
+        type: HitType,
+        damage: Int,
+        hitmark: HitmarkTypeGroup = hitmarks.regular_damage,
+        specific: Boolean = false,
+        modifier: HitModifierPlayer = NoopPlayerHitModifier,
+        processor: InstantPlayerHitProcessor = DamageOnlyPlayerHitProcessor,
+    ): Hit =
+        player.takeInstantHit(
+            type = type,
+            damage = damage,
+            hitmark = hitmark,
+            specific = specific,
+            modifier = modifier,
+            processor = processor,
+        )
+
+    /**
+     * Queues a hit dealt by [source] with an impact cycle delay of [delay] before the hit is
+     * displayed and health is deducted from the player.
+     *
+     * _[modifier] is applied **on impact** (via [HitModifierPlayer.modify]). This means that
+     * effects like prayer protection reducing damage are handled right before the hit damage is
+     * reduced from the player's health._
+     *
+     * If you want to apply the modifier as soon as the hit is queued, use [queueHit] instead.
+     *
+     * **Notes:**
+     * - [damage] is **not** capped based on the [player]'s current health.
+     * - [StandardPlayerHitProcessor] is invoked when the cycle [delay] completes and the hit takes
+     *   effect. It is responsible for reducing the [player]'s health, handling armour degradation,
+     *   recoil damage, displaying the hitsplat, and other related mechanics. This behavior **cannot
+     *   be bypassed** when using this function; however, it can be changed when using
+     *   [takeInstantHit].
+     * - Unlike the [queueHit] variants, this function **cannot** return an accurate [Hit]
+     *   representation (and thus does not return one at all). This is because the hit is scheduled
+     *   for modification only _after_ [delay] cycles have passed, and the only way to retrieve the
+     *   modified value would be by suspending execution - something we do not do here for multiple
+     *   reasons.
+     *
+     * @param damage The initial damage intended for the [player]. This value may change based on
+     *   various factors from [modifier].
+     * @param hitmark The hitmark group used for the visual hitsplat. See [BaseHitmarkGroups] or
+     *   reference [hitmarks] for a list of available hitmark groups.
+     * @param specific If `true`, only the [player] will see the hitsplat; this does not affect
+     *   actual damage calculations.
+     * @param sourceWeapon An optional [ObjType] reference of a "weapon" used by the [source] that
+     *   hit modifiers and/or processors can use for specialized logic. Typically unnecessary when
+     *   [source] is an [Npc], though there may be niche use cases.
+     * @param sourceSecondary Similar to [sourceWeapon], except this refers to objs that are **not**
+     *   the primary weapon, such as ammunition for ranged attacks or objs tied to magic spells.
+     * @param modifier A [HitModifierPlayer] used to adjust damage and other hit properties. By
+     *   default, this is set to [StandardPlayerHitModifier], which applies standard modifications,
+     *   such as damage reduction from protection prayers.
+     * @see [BaseHitmarkGroups]
+     */
+    public fun queueImpactHit(
+        source: Npc,
+        delay: Int,
+        type: HitType,
+        damage: Int,
+        hitmark: HitmarkTypeGroup = hitmarks.regular_damage,
+        specific: Boolean = false,
+        sourceWeapon: ObjType? = null,
+        sourceSecondary: ObjType? = null,
+        modifier: HitModifierPlayer = StandardPlayerHitModifier,
+    ): Unit =
+        player.queueImpactHit(
+            source = source,
+            delay = delay,
+            type = type,
+            damage = damage,
+            hitmark = hitmark,
+            specific = specific,
+            sourceWeapon = sourceWeapon,
+            sourceSecondary = sourceSecondary,
+            modifier = modifier,
+        )
+
+    /**
+     * Queues a hit dealt by [source] with an impact cycle delay of [delay] before the hit is
+     * displayed and health is deducted from the player.
+     *
+     * _[modifier] is applied **on impact** (via [HitModifierPlayer.modify]). This means that
+     * effects like prayer protection reducing damage are handled right before the hit damage is
+     * reduced from the player's health._
+     *
+     * If you want to apply the modifier as soon as the hit is queued, use [queueHit] instead.
+     *
+     * **Notes:**
+     * - The [Hit.righthandObj] is implicitly set based on the `righthand` obj equipped in
+     *   [Player.worn] for [source]. This behavior is not configurable to ensure consistency across
+     *   systems such as [modifier] and other processors.
+     * - [StandardPlayerHitProcessor] is invoked when the cycle [delay] completes and the hit takes
+     *   effect. It is responsible for reducing the [player]'s health, handling armour degradation,
+     *   recoil damage, displaying the hitsplat, and other related mechanics. This behavior **cannot
+     *   be bypassed** when using this function; however, it can be changed when using
+     *   [takeInstantHit].
+     * - Unlike the [queueHit] variants, this function **cannot** return an accurate [Hit]
+     *   representation (and thus does not return one at all). This is because the hit is scheduled
+     *   for modification only _after_ [delay] cycles have passed, and the only way to retrieve the
+     *   modified value would be by suspending execution - something we do not do here for multiple
+     *   reasons.
+     *
+     * @param damage The initial damage intended for the [player]. This value may change based on
+     *   various factors from [modifier].
+     * @param hitmark The hitmark group used for the visual hitsplat. See [BaseHitmarkGroups] or
+     *   reference [hitmarks] for a list of available hitmark groups.
+     * @param sourceSecondary The "secondary" obj used in the attack by [source]. If the hit is from
+     *   a ranged attack, this should be set to the ammunition obj (if applicable). If the attack is
+     *   from a magic spell, this should be the associated spell obj.
+     * @param modifier A [HitModifierPlayer] used to adjust damage and other hit properties. By
+     *   default, this is set to [StandardPlayerHitModifier], which applies standard modifications,
+     *   such as damage reduction from protection prayers.
+     * @see [BaseHitmarkGroups]
+     */
+    public fun queueImpactHit(
+        source: Player,
+        delay: Int,
+        type: HitType,
+        damage: Int,
+        hitmark: HitmarkTypeGroup = hitmarks.regular_damage,
+        sourceSecondary: ObjType? = null,
+        modifier: HitModifierPlayer = StandardPlayerHitModifier,
+    ): Unit =
+        player.queueImpactHit(
+            source = source,
+            delay = delay,
+            type = type,
+            damage = damage,
+            hitmark = hitmark,
+            sourceSecondary = sourceSecondary,
+            modifier = modifier,
+        )
+
+    /**
+     * Queues a hit that does not originate from either a [Player] or an [Npc], with an impact cycle
+     * delay of [delay] before the hit is displayed and health is deducted from the player.
+     *
+     * _[modifier] is applied **on impact** (via [HitModifierPlayer.modify]). This means that
+     * effects like prayer protection reducing damage are handled right before the hit damage is
+     * reduced from the player's health._
+     *
+     * If you want to apply the modifier as soon as the hit is queued, use [queueHit] instead.
+     *
+     * **Notes:**
+     * - [StandardPlayerHitProcessor] is invoked when the cycle [delay] completes and the hit takes
+     *   effect. It is responsible for reducing the [player]'s health, handling armour degradation,
+     *   recoil damage, displaying the hitsplat, and other related mechanics. This behavior **cannot
+     *   be bypassed** when using this function; however, it can be changed when using
+     *   [takeInstantHit].
+     * - Unlike the [queueHit] variants, this function **cannot** return an accurate [Hit]
+     *   representation (and thus does not return one at all). This is because the hit is scheduled
+     *   for modification only _after_ [delay] cycles have passed, and the only way to retrieve the
+     *   modified value would be by suspending execution - something we do not do here for multiple
+     *   reasons.
+     *
+     * @param damage The initial damage intended for the [player]. This value may change based on
+     *   various factors from [modifier].
+     * @param hitmark The hitmark group used for the visual hitsplat. See [BaseHitmarkGroups] or
+     *   reference [hitmarks] for a list of available hitmark groups.
+     * @param specific If `true`, only the [player] will see the hitsplat; this does not affect
+     *   actual damage calculations.
+     * @param modifier A [HitModifierPlayer] used to adjust damage and other hit properties. By
+     *   default, this is set to [StandardPlayerHitModifier], which applies standard modifications,
+     *   such as damage reduction from protection prayers.
+     * @see [BaseHitmarkGroups]
+     */
+    public fun queueImpactHit(
+        delay: Int,
+        type: HitType,
+        damage: Int,
+        hitmark: HitmarkTypeGroup = hitmarks.regular_damage,
+        specific: Boolean = false,
+        modifier: HitModifierPlayer = StandardPlayerHitModifier,
+    ): Unit =
+        player.queueImpactHit(
+            delay = delay,
+            type = type,
+            damage = damage,
+            hitmark = hitmark,
+            specific = specific,
+            modifier = modifier,
+            strongQueue = true,
+        )
+
+    @InternalApi
+    public fun processQueuedHit(hit: Hit): Unit = processQueuedHit(hit, StandardPlayerHitProcessor)
+
+    @InternalApi
+    public fun processQueuedHit(builder: HitBuilder, modifier: HitModifierPlayer): Unit =
+        processQueuedHit(builder, modifier, StandardPlayerHitProcessor)
 
     public fun timer(timerType: TimerType, cycles: Int) {
         player.timer(timerType, cycles)

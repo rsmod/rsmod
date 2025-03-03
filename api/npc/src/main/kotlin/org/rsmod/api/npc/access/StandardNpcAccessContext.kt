@@ -1,5 +1,6 @@
 package org.rsmod.api.npc.access
 
+import org.rsmod.api.npc.hit.processor.StandardNpcHitProcessor
 import org.rsmod.api.random.GameRandom
 
 /**
@@ -24,8 +25,12 @@ import org.rsmod.api.random.GameRandom
  *   what this class provides, it is recommended to inject those directly into the plugin script
  *   handling the npc logic rather than expanding this context.
  */
-public data class StandardNpcAccessContext(private val getRandom: () -> GameRandom) {
+public data class StandardNpcAccessContext(
+    private val getRandom: () -> GameRandom,
+    private val getHitProcessor: () -> StandardNpcHitProcessor,
+) {
     public val random: GameRandom by lazyLoad { getRandom() }
+    public val hitProcessor: StandardNpcHitProcessor by lazyLoad { getHitProcessor() }
 }
 
 private fun <T> lazyLoad(init: () -> T): Lazy<T> = lazy(LazyThreadSafetyMode.NONE, init)

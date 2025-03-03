@@ -1,5 +1,8 @@
 package org.rsmod.game.entity.player
 
+import org.rsmod.game.entity.Player
+import org.rsmod.game.entity.PlayerList
+
 @JvmInline
 public value class PlayerUid(public val packed: Int) {
     public val slotId: Int
@@ -9,6 +12,8 @@ public value class PlayerUid(public val packed: Int) {
         get() = (packed shr UUID_BIT_OFFSET) and UUID_BIT_MASK
 
     public constructor(slot: Int, uuid: Long) : this(pack(slot, uuid.extractUuidBits()))
+
+    public fun resolve(list: PlayerList): Player? = list[slotId]?.takeIf { it.uid == this }
 
     public companion object {
         public val NULL: PlayerUid = PlayerUid(-1)

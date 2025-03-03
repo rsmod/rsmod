@@ -8,7 +8,11 @@ kotlin {
 
 dependencies {
     implementation(libs.guice)
+    implementation(projects.api.config)
     implementation(projects.api.random)
+    implementation(projects.api.type.typeBuilders)
+    implementation(projects.api.type.typeReferences)
+    implementation(projects.engine.annotations)
     implementation(projects.engine.coroutine)
     implementation(projects.engine.events)
     implementation(projects.engine.game)

@@ -21,7 +21,7 @@ public val Player.strengthLvl: Int
 public val Player.baseStrengthLvl: Int
     get() = statMap.getBaseLevel(stats.strength).toInt()
 
-public val Player.hitpointsLvl: Int
+public val Player.hitpoints: Int
     get() = statMap.getCurrentLevel(stats.hitpoints).toInt()
 
 public val Player.baseHitpointsLvl: Int

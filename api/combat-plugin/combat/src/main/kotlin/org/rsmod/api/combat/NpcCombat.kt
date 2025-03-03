@@ -3,17 +3,21 @@ package org.rsmod.api.combat
 import jakarta.inject.Inject
 import org.rsmod.api.combat.commons.CombatAttack
 import org.rsmod.api.combat.fx.MeleeAnimationAndSound
+import org.rsmod.api.combat.npc.aggressivePlayer
+import org.rsmod.api.combat.npc.lastCombat
 import org.rsmod.api.combat.player.canPerformMeleeSpecial
 import org.rsmod.api.combat.player.canPerformShieldSpecial
 import org.rsmod.api.combat.player.specialAttackType
 import org.rsmod.api.combat.weapon.WeaponSpeeds
 import org.rsmod.api.config.refs.params
+import org.rsmod.api.npc.hit.queueHit
 import org.rsmod.api.player.lefthand
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.specials.SpecialAttackRegistry
 import org.rsmod.api.specials.SpecialAttackType
 import org.rsmod.api.specials.energy.SpecialAttackEnergy
 import org.rsmod.game.entity.Npc
+import org.rsmod.game.hit.HitType
 import org.rsmod.game.interact.InteractionOp
 
 internal class NpcCombat
@@ -24,7 +28,6 @@ constructor(
     private val specialEnergy: SpecialAttackEnergy,
 ) {
     suspend fun attack(access: ProtectedAccess, target: Npc, attack: CombatAttack) {
-        println("attack with $attack")
         when (attack) {
             is CombatAttack.Melee -> access.attackMelee(target, attack)
             is CombatAttack.Ranged -> access.attackRanged(target, attack)
@@ -82,13 +85,20 @@ constructor(
         anim(attackAnim)
         soundSynth(attackSound)
 
+        // TODO: Replace with max hit formula result. Also set a var to the max hit.
+        val damage = random.of(0..50)
+        npc.queueHit(player, 1, HitType.Melee, damage)
+
         // val defendSound = npcParam(target, params.defend_sound) // TODO
         val defendAnim = npcParamOrNull(npc, params.defend_anim)
         if (defendAnim != null) {
             npc.anim(defendAnim)
         }
+        npc.aggressivePlayer = player.uid
+        npc.lastCombat = mapClock
 
-        npc.playerFaceClose(player) // TODO: Replace with npc retaliate
+        // TODO: Remove once npc auto-retaliate works.
+        npc.playerFaceClose(player)
 
         opNpc2(npc)
     }
