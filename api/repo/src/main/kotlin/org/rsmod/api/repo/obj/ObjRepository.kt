@@ -5,6 +5,7 @@ import org.rsmod.api.registry.obj.ObjRegistry
 import org.rsmod.api.registry.obj.ObjRegistryResult
 import org.rsmod.api.registry.obj.isSuccess
 import org.rsmod.game.MapClock
+import org.rsmod.game.entity.Player
 import org.rsmod.game.obj.InvObj
 import org.rsmod.game.obj.Obj
 import org.rsmod.game.obj.ObjEntity
@@ -54,13 +55,13 @@ constructor(
         type: ObjType,
         coords: CoordGrid,
         duration: Int,
+        receiver: Player? = null,
         count: Int = 1,
         reveal: Int = duration - DEFAULT_REVEAL_DELTA,
-        receiverId: Long? = null,
     ): Obj {
         val obj =
-            if (receiverId != null) {
-                Obj(coords, type, count, mapClock.cycle, receiverId)
+            if (receiver != null) {
+                Obj(coords, type, count, mapClock.cycle, receiver)
             } else {
                 Obj(coords, type, count, mapClock.cycle)
             }
@@ -72,13 +73,13 @@ constructor(
         invObj: InvObj,
         coords: CoordGrid,
         duration: Int,
+        receiver: Player? = null,
         reveal: Int = duration - DEFAULT_REVEAL_DELTA,
-        receiverId: Long? = null,
     ): Obj {
         val obj =
-            if (receiverId != null) {
+            if (receiver != null) {
                 val entity = ObjEntity(invObj.id, invObj.count, ObjScope.Private.id)
-                Obj(coords, entity, mapClock.cycle, receiverId)
+                Obj(coords, entity, mapClock.cycle, receiver)
             } else {
                 val entity = ObjEntity(invObj.id, invObj.count, ObjScope.Temp.id)
                 Obj(coords, entity, mapClock.cycle, Obj.NULL_RECEIVER_ID)

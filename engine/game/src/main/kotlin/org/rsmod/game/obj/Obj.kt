@@ -55,6 +55,13 @@ public class Obj(
 
     public constructor(
         coords: CoordGrid,
+        entity: ObjEntity,
+        creationCycle: Int,
+        receiver: Player,
+    ) : this(coords, entity, creationCycle, receiver.observerId())
+
+    public constructor(
+        coords: CoordGrid,
         type: ObjType,
         count: Int,
         creationCycle: Int,
