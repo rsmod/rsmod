@@ -100,6 +100,7 @@ constructor(
         // TODO: Remove once npc auto-retaliate works.
         npc.playerFaceClose(player)
 
+        // TODO: This is sending two setmapflag(null) at the moment when it should only be one.
         opNpc2(npc)
     }
 
