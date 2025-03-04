@@ -1,5 +1,6 @@
 package org.rsmod.api.player
 
+import org.rsmod.api.player.hit.configs.hit_queues
 import org.rsmod.api.player.output.UpdateInventory
 import org.rsmod.api.player.output.clearMapFlag
 import org.rsmod.api.player.output.mes
@@ -16,6 +17,11 @@ public fun Player.clearInteractionRoute() {
     clearInteraction()
     abortRoute()
     clearMapFlag()
+}
+
+public fun Player.combatClearQueue() {
+    clearQueue(hit_queues.standard)
+    clearQueue(hit_queues.impact)
 }
 
 public fun Player.startInvTransmit(inv: Inventory) {

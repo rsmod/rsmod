@@ -202,6 +202,10 @@ public class Player(
         weakQueueList.add(queue, QueueCategory.Weak, cycles, args)
     }
 
+    public fun clearWeakQueue(queue: QueueType) {
+        weakQueueList.removeAll(queue)
+    }
+
     public fun softQueue(queue: QueueType, cycles: Int, args: Any? = null) {
         require(cycles > 0) { "`cycles` must be greater than 0. (cycles=$cycles)" }
         queueList.add(queue, QueueCategory.Soft, cycles, args)
@@ -225,6 +229,10 @@ public class Player(
     public fun longQueueDiscard(queue: QueueType, cycles: Int, args: Any? = null) {
         require(cycles > 0) { "`cycles` must be greater than 0. (cycles=$cycles)" }
         queueList.add(queue, QueueCategory.LongDiscard, cycles, args)
+    }
+
+    public fun clearQueue(queue: QueueType) {
+        queueList.removeAll(queue)
     }
 
     override fun anim(seq: SeqType, delay: Int, priority: Int) {

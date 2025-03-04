@@ -30,6 +30,7 @@ import org.rsmod.api.player.cinematic.CameraMode
 import org.rsmod.api.player.cinematic.Cinematic
 import org.rsmod.api.player.cinematic.CompassState
 import org.rsmod.api.player.cinematic.MinimapState
+import org.rsmod.api.player.combatClearQueue
 import org.rsmod.api.player.dialogue.Dialogue
 import org.rsmod.api.player.dialogue.Dialogues
 import org.rsmod.api.player.hit.modifier.HitModifierPlayer
@@ -1500,6 +1501,10 @@ public class ProtectedAccess(
         player.weakQueue(queue, cycles, args)
     }
 
+    public fun clearWeakQueue(queue: QueueType) {
+        player.clearWeakQueue(queue)
+    }
+
     public fun softQueue(queue: QueueType, cycles: Int, args: Any? = null) {
         player.softQueue(queue, cycles, args)
     }
@@ -1518,6 +1523,14 @@ public class ProtectedAccess(
 
     public fun longQueueDiscard(queue: QueueType, cycles: Int, args: Any? = null) {
         player.longQueueDiscard(queue, cycles, args)
+    }
+
+    public fun clearQueue(queue: QueueType) {
+        player.clearQueue(queue)
+    }
+
+    public fun combatClearQueue() {
+        player.combatClearQueue()
     }
 
     public fun clearPendingAction(eventBus: EventBus = context.eventBus) {

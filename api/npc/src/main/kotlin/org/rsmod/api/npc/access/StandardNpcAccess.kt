@@ -4,6 +4,7 @@ import kotlin.getValue
 import org.rsmod.annotations.InternalApi
 import org.rsmod.api.config.refs.BaseHitmarkGroups
 import org.rsmod.api.config.refs.hitmarks
+import org.rsmod.api.npc.combatClearQueue
 import org.rsmod.api.npc.hit.modifier.HitModifierNpc
 import org.rsmod.api.npc.hit.modifier.StandardNpcHitModifier
 import org.rsmod.api.npc.hit.process
@@ -254,6 +255,14 @@ public class StandardNpcAccess(
 
     public fun queue(queue: QueueType, cycles: Int, args: Any? = null) {
         npc.queue(queue, cycles, args)
+    }
+
+    public fun clearQueue(queue: QueueType) {
+        npc.clearQueue(queue)
+    }
+
+    public fun combatClearQueue() {
+        npc.combatClearQueue()
     }
 
     public fun say(text: String) {

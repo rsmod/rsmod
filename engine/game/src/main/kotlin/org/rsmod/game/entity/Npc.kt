@@ -152,6 +152,10 @@ public class Npc(
         queueList.add(queue, cycles, args)
     }
 
+    public fun clearQueue(queue: QueueType) {
+        queueList.removeAll(queue)
+    }
+
     public fun resetMode() {
         resetFaceEntity()
         mode = null
