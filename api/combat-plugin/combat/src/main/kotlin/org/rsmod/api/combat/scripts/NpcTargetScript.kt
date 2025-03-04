@@ -42,7 +42,8 @@ constructor(
 
         // Weapons such as salamanders have an attack range of `1` but can attack with both ranged
         // and magic. These attacks should be treated as ap range, not op.
-        if (attackRange == 1 && type?.isMelee == true) {
+        val isMeleeAttackType = type == null || type.isMelee
+        if (attackRange == 1 && isMeleeAttackType) {
             apRange(-1)
             return
         }
