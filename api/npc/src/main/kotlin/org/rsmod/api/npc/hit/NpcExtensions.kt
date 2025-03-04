@@ -178,7 +178,6 @@ public fun Npc.queueHit(
             secondaryObj = null,
             hitmark = hitmark,
             clientDelay = 0,
-            specific = false,
         )
     return modifyAndQueueHit(delay, builder, modifier)
 }

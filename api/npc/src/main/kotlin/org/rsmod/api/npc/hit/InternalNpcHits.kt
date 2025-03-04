@@ -76,7 +76,6 @@ internal object InternalNpcHits {
         secondaryObj: ObjType?,
         hitmark: HitmarkTypeGroup,
         clientDelay: Int,
-        specific: Boolean,
     ): HitBuilder {
         val righthand = righthand?.id
         val secondary = secondaryObj?.id
@@ -91,7 +90,7 @@ internal object InternalNpcHits {
             sourceNpcSlot = null,
             sourcePlayerSlot = null,
             clientDelay = clientDelay,
-            isPrivateHit = specific,
+            isPrivateHit = false,
         )
     }
 
