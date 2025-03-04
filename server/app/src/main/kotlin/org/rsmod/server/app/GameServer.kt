@@ -12,7 +12,6 @@ import java.nio.file.Path
 import java.text.DecimalFormat
 import kotlin.io.path.isDirectory
 import kotlin.io.path.isRegularFile
-import kotlin.io.path.listDirectoryEntries
 import kotlin.time.measureTime
 import org.openrs2.cache.Cache
 import org.openrs2.cache.Store
@@ -31,6 +30,7 @@ import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 import org.rsmod.scheduler.TaskScheduler
 import org.rsmod.server.install.GameNetworkRsaGenerator
+import org.rsmod.server.install.GameServerCachePacker
 import org.rsmod.server.install.GameServerInstall
 import org.rsmod.server.install.GameServerLogbackCopy
 import org.rsmod.server.shared.DirectoryConstants
@@ -49,8 +49,11 @@ class GameServer : CliktCommand(name = "server") {
     private val pluginPackages: Array<String>
         get() = PluginConstants.searchPackages
 
-    private val cacheDir: Path
-        get() = DirectoryConstants.CACHE_PATH
+    private val vanillaCacheDir: Path
+        get() = DirectoryConstants.CACHE_PATH.resolve("vanilla")
+
+    private val gameCacheDir: Path
+        get() = DirectoryConstants.CACHE_PATH.resolve("game")
 
     private val rsaKey: Path
         get() = DirectoryConstants.DATA_PATH.resolve("game.key")
@@ -263,17 +266,27 @@ class GameServer : CliktCommand(name = "server") {
      * appropriate installation tasks are run before resuming the normal game app boot-up.
      */
     private fun ensureProperInstallation() {
-        val validCacheDir = cacheDir.isDirectory() && cacheDir.listDirectoryEntries().isNotEmpty()
+        val gameCacheDirExists = gameCacheDir.isDirectory()
+        val vanillaCacheDirExists = vanillaCacheDir.isDirectory()
         val validRsaKey = rsaKey.isRegularFile()
-        if (validCacheDir && validRsaKey) {
+
+        if (!vanillaCacheDirExists) {
+            GameServerInstall().main(emptyArray())
             return
         }
-        if (validCacheDir) {
+
+        if (!gameCacheDirExists) {
+            GameServerLogbackCopy().main(emptyArray())
+            GameServerCachePacker().main(emptyArray())
+            GameNetworkRsaGenerator().main(emptyArray())
+            return
+        }
+
+        if (!validRsaKey) {
             GameServerLogbackCopy().main(emptyArray())
             GameNetworkRsaGenerator().main(emptyArray())
             return
         }
-        GameServerInstall().main(emptyArray())
     }
 
     /**
