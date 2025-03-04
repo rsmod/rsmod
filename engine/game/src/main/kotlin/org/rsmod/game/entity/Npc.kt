@@ -68,6 +68,20 @@ public class Npc(
     public var lifecycleDelCycle: Int = -1
     public var lifecycleRevealCycle: Int = -1
 
+    public var attackLvl: Int = type.attack
+    public var strengthLvl: Int = type.strength
+    public var defenceLvl: Int = type.defence
+    public var hitpoints: Int = type.hitpoints
+    public var rangedLvl: Int = type.ranged
+    public var magicLvl: Int = type.magic
+
+    public var baseAttackLvl: Int = type.attack
+    public var baseStrengthLvl: Int = type.strength
+    public var baseDefenceLvl: Int = type.defence
+    public var baseHitpointsLvl: Int = type.hitpoints
+    public var baseRangedLvl: Int = type.ranged
+    public var baseMagicLvl: Int = type.magic
+
     public var patrolWaypointIndex: Int = 0
     public var patrolIdleCycles: Int = -1
     public var patrolPauseCycles: Int = 0
@@ -201,6 +215,29 @@ public class Npc(
     public fun resetTransmog() {
         transmog = null
         infoProtocol.resetTransmog(originalType = id)
+    }
+
+    public fun copyStats(from: UnpackedNpcType) {
+        copyBaseStats(from)
+        copyCurrentStats(from)
+    }
+
+    public fun copyBaseStats(from: UnpackedNpcType) {
+        baseAttackLvl = from.attack
+        baseStrengthLvl = from.strength
+        baseDefenceLvl = from.defence
+        baseHitpointsLvl = from.hitpoints
+        baseRangedLvl = from.ranged
+        baseMagicLvl = from.magic
+    }
+
+    public fun copyCurrentStats(from: UnpackedNpcType) {
+        attackLvl = from.attack
+        strengthLvl = from.strength
+        defenceLvl = from.defence
+        hitpoints = from.hitpoints
+        rangedLvl = from.ranged
+        magicLvl = from.magic
     }
 
     public fun facingTarget(playerList: PlayerList): Player? =

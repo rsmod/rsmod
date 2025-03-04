@@ -131,6 +131,7 @@ public class NpcTypeBuilder(public var internal: String? = null) {
         val strength = strength ?: DEFAULT_STAT_LEVEL
         val defence = defence ?: DEFAULT_STAT_LEVEL
         val hitpoints = hitpoints ?: DEFAULT_HITPOINTS
+        check(hitpoints > 0) { "Hitpoints cannot be less than `1`. (id=$id, hitpoints=$hitpoints)" }
         val ranged = ranged ?: DEFAULT_STAT_LEVEL
         val magic = magic ?: DEFAULT_STAT_LEVEL
         val timer = timer ?: DEFAULT_TIMER
