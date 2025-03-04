@@ -5,6 +5,7 @@ import org.rsmod.game.entity.npc.NpcInfoProtocol
 import org.rsmod.game.entity.npc.NpcMode
 import org.rsmod.game.entity.npc.NpcUid
 import org.rsmod.game.entity.util.PathingEntityCommon
+import org.rsmod.game.headbar.Headbar
 import org.rsmod.game.hit.Hitmark
 import org.rsmod.game.map.Direction
 import org.rsmod.game.movement.BlockWalk
@@ -14,7 +15,9 @@ import org.rsmod.game.queue.NpcQueueList
 import org.rsmod.game.seq.EntitySeq
 import org.rsmod.game.timer.NpcTimerMap
 import org.rsmod.game.type.content.ContentGroupType
+import org.rsmod.game.type.headbar.HeadbarType
 import org.rsmod.game.type.npc.UnpackedNpcType
+import org.rsmod.game.type.param.ParamType
 import org.rsmod.game.type.queue.QueueType
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.spot.SpotanimType
@@ -167,6 +170,10 @@ public class Npc(
         infoProtocol.setSay(text)
     }
 
+    public fun showHeadbar(headbar: Headbar) {
+        infoProtocol.showHeadbar(headbar)
+    }
+
     public fun showHitmark(hitmark: Hitmark) {
         infoProtocol.showHitmark(hitmark)
     }
@@ -237,6 +244,35 @@ public class Npc(
         } else {
             playerFaceClose(target)
         }
+
+    /**
+     * Returns the headbar associated with [headbar] param for the **current** npc [visType].
+     *
+     * @throws IllegalStateException if [visType] does not have a value associated with the headbar
+     *   [param] and [param] does not have a non-null `default` [HeadbarType] value.
+     */
+    public fun visHeadbar(headbar: ParamType<HeadbarType>): HeadbarType = visType.param(headbar)
+
+    /**
+     * Returns the param value associated with [param] from the **base** npc [type], or `null` if
+     * the type does not have a value associated with [param] and [param] does not have a non-null
+     * `default` value.
+     *
+     * If you wish to retrieve the param value for the current (transmog) type, use [visType] to
+     * retrieve it.
+     */
+    public fun <T : Any> paramOrNull(param: ParamType<T>): T? = type.paramOrNull(param)
+
+    /**
+     * Returns the param value associated with [param] from the **base** npc [type].
+     *
+     * If you wish to retrieve the param value for the current (transmog) type, use [visType] to
+     * retrieve it.
+     *
+     * @throws IllegalStateException if the type does not have a value associated with [param] and
+     *   [param] does not have a non-null `default` value.
+     */
+    public fun <T : Any> param(param: ParamType<T>): T = type.param(param)
 
     public fun isContentType(content: ContentGroupType): Boolean = type.contentGroup == content.id
 

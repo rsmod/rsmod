@@ -14,6 +14,7 @@ import org.rsmod.game.entity.player.PlayerUid
 import org.rsmod.game.entity.player.PublicMessage
 import org.rsmod.game.entity.util.EntityFaceAngle
 import org.rsmod.game.entity.util.PathingEntityCommon
+import org.rsmod.game.headbar.Headbar
 import org.rsmod.game.hit.Hitmark
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.inv.InventoryMap
@@ -101,6 +102,7 @@ public class Player(
     public var publicMessage: PublicMessage? = null
     public var pendingSay: String? = null
     public val activeHitmarks: LongArrayList = LongArrayList()
+    public val activeHeadbars: LongArrayList = LongArrayList()
 
     public var regionUid: Int? = null
 
@@ -241,6 +243,10 @@ public class Player(
 
     public fun say(text: String) {
         this.pendingSay = text
+    }
+
+    public fun showHeadbar(headbar: Headbar) {
+        activeHeadbars.add(headbar.packed)
     }
 
     public fun showHitmark(hitmark: Hitmark) {

@@ -37,6 +37,8 @@ constructor(private val nameMapping: NameMapping, private val types: HeadbarType
         TypeResolver[this] = internalId
 
         val cacheType = types[internalId] ?: return update(CacheTypeNotFound)
+        TypeResolver.setSegments(this, cacheType.segments)
+
         val cacheIdentityHash = cacheType.computeIdentityHash()
         if (autoResolve) {
             TypeResolver[this] = cacheIdentityHash

@@ -20,6 +20,7 @@ import org.rsmod.api.registry.region.RegionRegistry
 import org.rsmod.game.client.ClientCycle
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.util.EntityFaceAngle
+import org.rsmod.game.headbar.Headbar
 import org.rsmod.game.hit.Hitmark
 import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.region.Region
@@ -78,6 +79,7 @@ class RspCycle(
         player.applyAnim()
         player.applySpotanims()
         player.applySay()
+        player.applyHeadbars()
         player.applyHitmarks()
         player.syncAppearance(objTypes)
     }
@@ -241,6 +243,21 @@ class RspCycle(
         val text = pendingSay ?: return
         pendingSay = null
         playerExtendedInfo.setSay(text)
+    }
+
+    private fun Player.applyHeadbars() {
+        for (packedHeadbar in activeHeadbars.longIterator()) {
+            val headbar = Headbar(packedHeadbar)
+            playerExtendedInfo.addHeadBar(
+                sourceIndex = if (headbar.isNoSource) -1 else headbar.sourceSlot,
+                selfType = headbar.self,
+                otherType = if (headbar.isPrivate) -1 else headbar.public,
+                startFill = headbar.startFill,
+                endFill = headbar.endFill,
+                startTime = headbar.startTime,
+                endTime = headbar.endTime,
+            )
+        }
     }
 
     private fun Player.applyHitmarks() {

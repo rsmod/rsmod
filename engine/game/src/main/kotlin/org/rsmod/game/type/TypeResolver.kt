@@ -1,6 +1,7 @@
 package org.rsmod.game.type
 
 import org.rsmod.game.type.enums.UnpackedEnumType
+import org.rsmod.game.type.headbar.HeadbarType
 import org.rsmod.game.type.param.ParamType
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.stat.StatType
@@ -32,6 +33,10 @@ public object TypeResolver {
 
     public fun <K : Any, V : Any> setDefault(type: UnpackedEnumType<K, V>, default: V?) {
         type.default = default
+    }
+
+    public fun setSegments(type: HeadbarType, segments: Int) {
+        type.internalSegments = segments
     }
 
     public fun setPriority(type: SeqType, priority: Int) {

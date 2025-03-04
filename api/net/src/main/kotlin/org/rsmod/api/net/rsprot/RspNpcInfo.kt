@@ -2,6 +2,7 @@ package org.rsmod.api.net.rsprot
 
 import net.rsprot.protocol.game.outgoing.info.npcinfo.NpcAvatar
 import org.rsmod.game.entity.npc.NpcInfoProtocol
+import org.rsmod.game.headbar.Headbar
 import org.rsmod.game.hit.Hitmark
 
 class RspNpcInfo(val rspAvatar: NpcAvatar) : NpcInfoProtocol {
@@ -33,6 +34,18 @@ class RspNpcInfo(val rspAvatar: NpcAvatar) : NpcInfoProtocol {
     override fun resetTransmog(originalType: Int) {
         rspAvatar.setId(originalType)
         rspAvatar.extendedInfo.setTransmogrification(-1)
+    }
+
+    override fun showHeadbar(headbar: Headbar) {
+        rspAvatar.extendedInfo.addHeadBar(
+            sourceIndex = if (headbar.isNoSource) -1 else headbar.sourceSlot,
+            selfType = headbar.self,
+            otherType = if (headbar.isPrivate) -1 else headbar.public,
+            startFill = headbar.startFill,
+            endFill = headbar.endFill,
+            startTime = headbar.startTime,
+            endTime = headbar.endTime,
+        )
     }
 
     override fun showHitmark(hitmark: Hitmark) {

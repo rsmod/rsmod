@@ -36,8 +36,8 @@ public class HeadbarTypeBuilder(public var internal: String? = null) {
             unknown6 = unknown6,
             full = full,
             empty = empty,
-            segments = segments,
             padding = padding,
+            internalSegments = segments,
             internalId = id,
             internalName = internal,
         )
@@ -77,8 +77,8 @@ public class HeadbarTypeBuilder(public var internal: String? = null) {
                 unknown6 = unknown6,
                 full = full,
                 empty = empty,
-                segments = segments,
                 padding = padding,
+                internalSegments = segments,
                 internalId = internalId,
                 internalName = internalName,
             )

@@ -74,6 +74,7 @@ constructor(
         pendingFaceAngle = EntityFaceAngle.NULL
         pendingSequence = EntitySeq.NULL
         pendingSpotanims.clear()
+        activeHeadbars.clear()
         activeHitmarks.clear()
         appearance.clearRebuildFlag()
     }

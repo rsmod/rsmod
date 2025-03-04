@@ -1,5 +1,6 @@
 package org.rsmod.game.entity.npc
 
+import org.rsmod.game.headbar.Headbar
 import org.rsmod.game.hit.Hitmark
 
 public interface NpcInfoProtocol {
@@ -16,6 +17,8 @@ public interface NpcInfoProtocol {
     public fun setTransmog(type: Int)
 
     public fun resetTransmog(originalType: Int)
+
+    public fun showHeadbar(headbar: Headbar)
 
     public fun showHitmark(hitmark: Hitmark)
 
@@ -36,6 +39,8 @@ public data object NoopNpcInfo : NpcInfoProtocol {
     override fun setSpotanim(spotanim: Int, delay: Int, height: Int, slot: Int) {}
 
     override fun setSay(text: String) {}
+
+    override fun showHeadbar(headbar: Headbar) {}
 
     override fun showHitmark(hitmark: Hitmark) {}
 

@@ -16,7 +16,7 @@ public value class Hitmark(public val packed: Long) {
     public val public: Int
         get() = ((packed shr HITMARK_PUBLIC_BIT_OFFSET) and HITMARK_ID_BIT_MASK).toInt()
 
-    /** Returns `true` when hitmark should only be visible to "self" and "source." */
+    /** Returns `true` when the hitmark should only be visible to "self" and "source." */
     public val isPrivate: Boolean
         get() = public == HITMARK_ID_BIT_MASK.toInt()
 
@@ -70,8 +70,8 @@ public value class Hitmark(public val packed: Long) {
             "selfHitmark=$self, " +
             "sourceHitmark=$source, " +
             "publicHitmark=$public, " +
-            "playerSlot=${if (isPlayerSource) playerSlot else null}, " +
             "npcSlot=${if (isNpcSource) npcSlot else null}, " +
+            "playerSlot=${if (isPlayerSource) playerSlot else null}, " +
             "sourceSlot=$sourceSlot, " +
             "packed=$packed" +
             ")"

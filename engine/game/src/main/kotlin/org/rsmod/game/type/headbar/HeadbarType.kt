@@ -3,12 +3,18 @@ package org.rsmod.game.type.headbar
 import org.rsmod.game.type.CacheType
 import org.rsmod.game.type.HashedCacheType
 
-public sealed class HeadbarType : CacheType()
+public sealed class HeadbarType : CacheType() {
+    internal abstract var internalSegments: Int?
+
+    public val segments: Int
+        get() = internalSegments ?: error("`internalSegments` must not be null.")
+}
 
 public data class HashedHeadbarType(
     override var startHash: Long?,
     override var internalName: String?,
     override var internalId: Int? = null,
+    override var internalSegments: Int? = null,
 ) : HashedCacheType, HeadbarType() {
     public val autoResolve: Boolean = startHash == null
 
@@ -43,8 +49,8 @@ public data class UnpackedHeadbarType(
     public val unknown6: Int,
     public val full: Int?,
     public val empty: Int?,
-    public val segments: Int,
     public val padding: Int,
+    override var internalSegments: Int?,
     override var internalId: Int?,
     override var internalName: String?,
 ) : HeadbarType() {
@@ -55,6 +61,7 @@ public data class UnpackedHeadbarType(
             startHash = identityHash,
             internalName = internalName,
             internalId = internalId,
+            internalSegments = internalSegments,
         )
 
     public fun computeIdentityHash(): Long {
@@ -64,7 +71,7 @@ public data class UnpackedHeadbarType(
         result = 61 * result + stickTime
         result = 61 * result + (full ?: 0)
         result = 61 * result + (empty ?: 0)
-        result = 61 * result + segments
+        result = 61 * result + (internalSegments ?: 0)
         result = 61 * result + (internalId ?: 0)
         return result
     }
@@ -81,7 +88,7 @@ public data class UnpackedHeadbarType(
         if (unknown6 != other.unknown6) return false
         if (full != other.full) return false
         if (empty != other.empty) return false
-        if (segments != other.segments) return false
+        if (internalSegments != other.internalSegments) return false
         if (padding != other.padding) return false
         return true
     }
@@ -95,7 +102,7 @@ public data class UnpackedHeadbarType(
         result = 31 * result + unknown6
         result = 31 * result + (full ?: 0)
         result = 31 * result + (empty ?: 0)
-        result = 31 * result + segments
+        result = 31 * result + (internalSegments ?: 0)
         result = 31 * result + padding
         result = 31 * result + (internalId ?: 0)
         return result
