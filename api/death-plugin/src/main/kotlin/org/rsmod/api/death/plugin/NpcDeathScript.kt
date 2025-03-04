@@ -4,11 +4,11 @@ import jakarta.inject.Inject
 import org.rsmod.api.config.refs.queues
 import org.rsmod.api.config.refs.varnbits
 import org.rsmod.api.death.NpcDeath
-import org.rsmod.api.npc.events.NpcEvents
 import org.rsmod.api.npc.vars.boolVarnBit
 import org.rsmod.api.script.onEvent
 import org.rsmod.api.script.onNpcQueue
 import org.rsmod.game.entity.Npc
+import org.rsmod.game.entity.npc.NpcStateEvents
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
@@ -17,7 +17,7 @@ public class NpcDeathScript @Inject constructor(private val death: NpcDeath) : P
 
     override fun ScriptContext.startUp() {
         onNpcQueue(queues.death) { death.deathWithDrops(this) }
-        onEvent<NpcEvents.Reveal> { npc.respawn() }
+        onEvent<NpcStateEvents.Reveal> { npc.respawn() }
     }
 
     private fun Npc.respawn() {

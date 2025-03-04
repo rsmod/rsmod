@@ -1,7 +1,6 @@
 package org.rsmod.api.testing.scope
 
 import org.rsmod.annotations.InternalApi
-import org.rsmod.api.npc.events.NpcEvents
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.protect.ProtectedAccessContext
 import org.rsmod.api.player.protect.ProtectedAccessContextFactory
@@ -22,6 +21,7 @@ import org.rsmod.game.entity.PathingEntity
 import org.rsmod.game.entity.PathingEntityAvatar
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.PlayerList
+import org.rsmod.game.entity.npc.NpcStateEvents
 import org.rsmod.game.entity.player.SessionStateEvent
 import org.rsmod.game.entity.util.PathingEntityCommon
 import org.rsmod.game.movement.MoveSpeed
@@ -77,7 +77,7 @@ public class BasicGameTestScope(private val eventBus: EventBus) {
         val slot = npcList.nextFreeSlot() ?: error("No available slot.")
         npc.slotId = slot
         npcList[slot] = npc
-        eventBus.publish(NpcEvents.Spawn(npc))
+        eventBus.publish(NpcStateEvents.Spawn(npc))
         action(npc)
         npc.slotId = -1
         npc.clearUid()

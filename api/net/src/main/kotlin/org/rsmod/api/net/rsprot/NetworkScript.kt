@@ -9,12 +9,12 @@ import org.rsmod.api.game.process.GameLifecycle
 import org.rsmod.api.net.rsprot.player.SessionEnd
 import org.rsmod.api.net.rsprot.player.SessionStart
 import org.rsmod.api.net.rsprot.provider.SimpleXteaProvider
-import org.rsmod.api.npc.events.NpcEvents
 import org.rsmod.api.registry.region.RegionRegistry
 import org.rsmod.game.MapClock
 import org.rsmod.game.client.Client
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
+import org.rsmod.game.entity.npc.NpcStateEvents
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
@@ -38,8 +38,8 @@ constructor(
         eventBus.subscribe<GameLifecycle.PlayersProcessed> { updateService() }
         eventBus.subscribe<SessionStart> { startSession() }
         eventBus.subscribe<SessionEnd> { closeSession() }
-        eventBus.subscribe<NpcEvents.Create> { createNpcAvatar(npc) }
-        eventBus.subscribe<NpcEvents.Delete> { deleteNpcAvatar(npc) }
+        eventBus.subscribe<NpcStateEvents.Create> { createNpcAvatar(npc) }
+        eventBus.subscribe<NpcStateEvents.Delete> { deleteNpcAvatar(npc) }
     }
 
     private fun startService() {

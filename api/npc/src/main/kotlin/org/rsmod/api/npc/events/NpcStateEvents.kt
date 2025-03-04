@@ -6,18 +6,6 @@ import org.rsmod.events.SuspendEvent
 import org.rsmod.events.UnboundEvent
 import org.rsmod.game.entity.Npc
 
-public class NpcEvents {
-    public data class Create(val npc: Npc) : UnboundEvent
-
-    public data class Spawn(val npc: Npc) : UnboundEvent
-
-    public data class Delete(val npc: Npc) : UnboundEvent
-
-    public data class Hide(val npc: Npc) : UnboundEvent
-
-    public data class Reveal(val npc: Npc) : UnboundEvent
-}
-
 public class NpcAIEvents {
     public class Default(public val npc: Npc) : UnboundEvent
 

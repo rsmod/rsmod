@@ -1,11 +1,11 @@
 package org.rsmod.api.registry.npc
 
 import jakarta.inject.Inject
-import org.rsmod.api.npc.events.NpcEvents
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.NpcList
 import org.rsmod.game.entity.PathingEntity.Companion.INVALID_SLOT
+import org.rsmod.game.entity.npc.NpcStateEvents
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.zone.ZoneKey
 import org.rsmod.routefinder.collision.CollisionFlagMap
@@ -27,8 +27,8 @@ constructor(
         npc.slotId = slot
         npc.assignUid()
         npc.addBlockWalkCollision(collision, npc.coords)
-        eventBus.publish(NpcEvents.Create(npc))
-        eventBus.publish(NpcEvents.Spawn(npc))
+        eventBus.publish(NpcStateEvents.Create(npc))
+        eventBus.publish(NpcStateEvents.Spawn(npc))
         npc.lastProcessedZone = ZoneKey.from(npc.coords)
         zoneAdd(npc, npc.lastProcessedZone)
         return NpcRegistryResult.Add.Success
@@ -42,7 +42,7 @@ constructor(
             return NpcRegistryResult.Delete.ListSlotMismatch(npcList[slot])
         }
         npcList.remove(npc.slotId)
-        eventBus.publish(NpcEvents.Delete(npc))
+        eventBus.publish(NpcStateEvents.Delete(npc))
         npc.removeBlockWalkCollision(collision, npc.coords)
         zoneDel(npc, npc.lastProcessedZone)
         npc.slotId = INVALID_SLOT
@@ -55,7 +55,7 @@ constructor(
     public fun hide(npc: Npc) {
         // Note that the event is published _before_ the npc is fully removed from the zone, in case
         // said information is required by the listeners.
-        eventBus.publish(NpcEvents.Hide(npc))
+        eventBus.publish(NpcStateEvents.Hide(npc))
 
         // Remove the npc from their respective zone.
         npc.removeBlockWalkCollision(collision, npc.coords)
@@ -73,7 +73,7 @@ constructor(
 
         // Note that the event is published _after_ the npc is registered to the zone, in case said
         // information is required by the listeners.
-        eventBus.publish(NpcEvents.Reveal(npc))
+        eventBus.publish(NpcStateEvents.Reveal(npc))
 
         // Reveal the npc client avatar.
         npc.hidden = false
