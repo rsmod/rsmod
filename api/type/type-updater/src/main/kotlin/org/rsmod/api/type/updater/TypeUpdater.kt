@@ -31,6 +31,7 @@ import org.rsmod.api.cache.util.EncoderContext
 import org.rsmod.api.type.builders.resolver.TypeBuilderResolverMap
 import org.rsmod.api.type.editors.resolver.TypeEditorResolverMap
 import org.rsmod.api.type.symbols.name.NameMapping
+import org.rsmod.game.type.CacheType
 import org.rsmod.game.type.TypeListMap
 import org.rsmod.game.type.enums.EnumTypeBuilder
 import org.rsmod.game.type.enums.UnpackedEnumType
@@ -51,6 +52,7 @@ import org.rsmod.game.type.param.ParamTypeList
 import org.rsmod.game.type.param.UnpackedParamType
 import org.rsmod.game.type.stat.StatTypeBuilder
 import org.rsmod.game.type.stat.UnpackedStatType
+import org.rsmod.game.type.util.MergeableCacheBuilder
 import org.rsmod.game.type.varbit.UnpackedVarBitType
 import org.rsmod.game.type.varbit.VarBitTypeBuilder
 import org.rsmod.game.type.varn.UnpackedVarnType
@@ -130,23 +132,30 @@ constructor(
     }
 
     private fun collectUpdateMap(vanilla: TypeListMap): UpdateMap {
-        val builders = builders.resultValues.toUpdateMap()
-        val editors = editors.resultValues.toUpdateMap()
+        val build = builders.resultValues.toUpdateMap()
+        val edit = editors.resultValues.toUpdateMap()
 
-        val invs = mergeInvs(builders.invs, editors.invs, vanilla.invs)
-        val locs = mergeLocs(builders.locs, editors.locs, vanilla.locs)
-        val npcs = mergeNpcs(builders.npcs, editors.npcs, vanilla.npcs)
-        val objs = mergeObjs(builders.objs, editors.objs, vanilla.objs)
-        val stats = mergeStats(builders.stats, editors.stats, vanilla.stats)
-        val params = mergeParams(builders.params, editors.params, vanilla.params)
-        val enums = mergeEnums(builders.enums, editors.enums, vanilla.enums)
-        val varps = mergeVarps(builders.varps, editors.varps, vanilla.varps)
-        val varbits = mergeVarBits(builders.varbits, editors.varbits, vanilla.varbits)
-        val varns = mergeVarns(builders.varns, editors.varns, vanilla.varns)
-        val varnbits = mergeVarnBits(builders.varnbits, editors.varnbits, vanilla.varnbits)
-        val headbars = mergeHeadbars(builders.headbars, editors.headbars, vanilla.headbars)
-        val hitmarks = mergeHitmarks(builders.hitmarks, editors.hitmarks, vanilla.hitmarks)
-        val walkTrig = mergeWalkTriggers(builders.walkTrig, editors.walkTrig, vanilla.walkTriggers)
+        val invs = merge(build.invs, edit.invs, vanilla.invs, InvTypeBuilder)
+        val locs = merge(build.locs, edit.locs, vanilla.locs, LocTypeBuilder)
+        val npcs = merge(build.npcs, edit.npcs, vanilla.npcs, NpcTypeBuilder)
+        val objs = merge(build.objs, edit.objs, vanilla.objs, ObjTypeBuilder)
+        val enums = merge(build.enums, edit.enums, vanilla.enums, EnumTypeBuilder)
+        val stats = merge(build.stats, edit.stats, vanilla.stats, StatTypeBuilder)
+        val varns = merge(build.varns, edit.varns, vanilla.varns, VarnTypeBuilder)
+        val varps = merge(build.varps, edit.varps, vanilla.varps, VarpTypeBuilder)
+        val params = merge(build.params, edit.params, vanilla.params, ParamTypeBuilder)
+        val varbits = merge(build.varbits, edit.varbits, vanilla.varbits, VarBitTypeBuilder)
+        val varnbits = merge(build.varnbits, edit.varnbits, vanilla.varnbits, VarnBitTypeBuilder)
+        val headbars = merge(build.headbars, edit.headbars, vanilla.headbars, HeadbarTypeBuilder)
+        val hitmarks = merge(build.hitmarks, edit.hitmarks, vanilla.hitmarks, HitmarkTypeBuilder)
+
+        val walkTriggers =
+            merge(
+                build.walkTriggers,
+                edit.walkTriggers,
+                vanilla.walkTriggers,
+                WalkTriggerTypeBuilder,
+            )
 
         return UpdateMap(
             invs = invs,
@@ -162,7 +171,7 @@ constructor(
             varnbits = varnbits,
             headbars = headbars,
             hitmarks = hitmarks,
-            walkTrig = walkTrig,
+            walkTriggers = walkTriggers,
         )
     }
 
@@ -180,7 +189,7 @@ constructor(
         val varnbits: List<UnpackedVarnBitType>,
         val headbars: List<UnpackedHeadbarType>,
         val hitmarks: List<UnpackedHitmarkType>,
-        val walkTrig: List<WalkTriggerType>,
+        val walkTriggers: List<WalkTriggerType>,
     )
 
     private fun List<*>.toUpdateMap(): UpdateMap {
@@ -213,355 +222,27 @@ constructor(
             varnbits = varnbits,
             headbars = headbars,
             hitmarks = hitmarks,
-            walkTrig = walkTrig,
+            walkTriggers = walkTrig,
         )
     }
 
-    private fun mergeInvs(
-        builders: List<UnpackedInvType>,
-        editors: List<UnpackedInvType>,
-        cacheTypes: Map<Int, UnpackedInvType>,
-    ): List<UnpackedInvType> {
+    private fun <T : CacheType> merge(
+        builders: List<T>,
+        editors: List<T>,
+        cacheTypes: Map<Int, T>,
+        merger: MergeableCacheBuilder<T>,
+    ): List<T> {
         val merged = (builders + editors).groupBy { it.id }
         return merged.map { (id, types) ->
-            val combined = types.fold(types[0]) { curr, next -> next + curr }
+            val combined = types.fold(types[0]) { curr, next -> merger.merge(next, curr) }
             val cacheType = cacheTypes[id]
             if (cacheType != null) {
-                combined + cacheType
+                merger.merge(combined, cacheType)
             } else {
                 combined
             }
         }
     }
-
-    private operator fun UnpackedInvType.plus(other: UnpackedInvType?): UnpackedInvType =
-        if (other != null) {
-            InvTypeBuilder.merge(edit = this, base = other)
-        } else {
-            this
-        }
-
-    private fun mergeLocs(
-        builders: List<UnpackedLocType>,
-        editors: List<UnpackedLocType>,
-        cacheTypes: Map<Int, UnpackedLocType>,
-    ): List<UnpackedLocType> {
-        val merged = (builders + editors).groupBy { it.id }
-        return merged.map { (id, types) ->
-            val combined = types.fold(types[0]) { curr, next -> next + curr }
-            val cacheType = cacheTypes[id]
-            if (cacheType != null) {
-                combined + cacheType
-            } else {
-                combined
-            }
-        }
-    }
-
-    private operator fun UnpackedLocType.plus(other: UnpackedLocType?): UnpackedLocType =
-        if (other != null) {
-            LocTypeBuilder.merge(edit = this, base = other)
-        } else {
-            this
-        }
-
-    private fun mergeNpcs(
-        builders: List<UnpackedNpcType>,
-        editors: List<UnpackedNpcType>,
-        cacheTypes: Map<Int, UnpackedNpcType>,
-    ): List<UnpackedNpcType> {
-        val merged = (builders + editors).groupBy { it.id }
-        return merged.map { (id, types) ->
-            val combined = types.fold(types[0]) { curr, next -> next + curr }
-            val cacheType = cacheTypes[id]
-            if (cacheType != null) {
-                combined + cacheType
-            } else {
-                combined
-            }
-        }
-    }
-
-    private operator fun UnpackedNpcType.plus(other: UnpackedNpcType?): UnpackedNpcType =
-        if (other != null) {
-            NpcTypeBuilder.merge(edit = this, base = other)
-        } else {
-            this
-        }
-
-    private fun mergeObjs(
-        builders: List<UnpackedObjType>,
-        editors: List<UnpackedObjType>,
-        cacheTypes: Map<Int, UnpackedObjType>,
-    ): List<UnpackedObjType> {
-        val merged = (builders + editors).groupBy { it.id }
-        return merged.map { (id, types) ->
-            val combined = types.fold(types[0]) { curr, next -> next + curr }
-            val cacheType = cacheTypes[id]
-            if (cacheType != null) {
-                combined + cacheType
-            } else {
-                combined
-            }
-        }
-    }
-
-    private operator fun UnpackedObjType.plus(other: UnpackedObjType?): UnpackedObjType =
-        if (other != null) {
-            ObjTypeBuilder.merge(edit = this, base = other)
-        } else {
-            this
-        }
-
-    private fun mergeStats(
-        builders: List<UnpackedStatType>,
-        editors: List<UnpackedStatType>,
-        cacheTypes: Map<Int, UnpackedStatType>,
-    ): List<UnpackedStatType> {
-        val merged = (builders + editors).groupBy { it.id }
-        return merged.map { (id, types) ->
-            val combined = types.fold(types[0]) { curr, next -> next + curr }
-            val cacheType = cacheTypes[id]
-            if (cacheType != null) {
-                combined + cacheType
-            } else {
-                combined
-            }
-        }
-    }
-
-    private operator fun UnpackedStatType.plus(other: UnpackedStatType?): UnpackedStatType =
-        if (other != null) {
-            StatTypeBuilder.merge(edit = this, base = other)
-        } else {
-            this
-        }
-
-    private fun mergeParams(
-        builders: List<UnpackedParamType<*>>,
-        editors: List<UnpackedParamType<*>>,
-        cacheTypes: Map<Int, UnpackedParamType<*>>,
-    ): List<UnpackedParamType<*>> {
-        val merged = (builders + editors).groupBy { it.id }
-        return merged.map { (id, types) ->
-            val combined = types.fold(types[0]) { curr, next -> next + curr }
-            val cacheType = cacheTypes[id]
-            if (cacheType != null) {
-                combined + cacheType
-            } else {
-                combined
-            }
-        }
-    }
-
-    private operator fun UnpackedParamType<*>.plus(
-        other: UnpackedParamType<*>?
-    ): UnpackedParamType<*> =
-        if (other != null) {
-            ParamTypeBuilder.merge(edit = this, base = other)
-        } else {
-            this
-        }
-
-    private fun mergeEnums(
-        builders: List<UnpackedEnumType<*, *>>,
-        editors: List<UnpackedEnumType<*, *>>,
-        cacheTypes: Map<Int, UnpackedEnumType<*, *>>,
-    ): List<UnpackedEnumType<*, *>> {
-        val merged = (builders + editors).groupBy { it.id }
-        return merged.map { (id, types) ->
-            val combined = types.fold(types[0]) { curr, next -> next + curr }
-            val cacheType = cacheTypes[id]
-            if (cacheType != null) {
-                combined + cacheType
-            } else {
-                combined
-            }
-        }
-    }
-
-    private operator fun UnpackedEnumType<*, *>.plus(
-        other: UnpackedEnumType<*, *>?
-    ): UnpackedEnumType<*, *> =
-        if (other != null) {
-            EnumTypeBuilder.merge(edit = this, base = other)
-        } else {
-            this
-        }
-
-    private fun mergeVarBits(
-        builders: List<UnpackedVarBitType>,
-        editors: List<UnpackedVarBitType>,
-        cacheTypes: Map<Int, UnpackedVarBitType>,
-    ): List<UnpackedVarBitType> {
-        val merged = (builders + editors).groupBy { it.id }
-        return merged.map { (id, types) ->
-            val combined = types.fold(types[0]) { curr, next -> next + curr }
-            val cacheType = cacheTypes[id]
-            if (cacheType != null) {
-                combined + cacheType
-            } else {
-                combined
-            }
-        }
-    }
-
-    private operator fun UnpackedVarBitType.plus(other: UnpackedVarBitType?): UnpackedVarBitType =
-        if (other != null) {
-            VarBitTypeBuilder.merge(edit = this, base = other)
-        } else {
-            this
-        }
-
-    private fun mergeVarps(
-        builders: List<UnpackedVarpType>,
-        editors: List<UnpackedVarpType>,
-        cacheTypes: Map<Int, UnpackedVarpType>,
-    ): List<UnpackedVarpType> {
-        val merged = (builders + editors).groupBy { it.id }
-        return merged.map { (id, types) ->
-            val combined = types.fold(types[0]) { curr, next -> next + curr }
-            val cacheType = cacheTypes[id]
-            if (cacheType != null) {
-                combined + cacheType
-            } else {
-                combined
-            }
-        }
-    }
-
-    private operator fun UnpackedVarpType.plus(other: UnpackedVarpType?): UnpackedVarpType =
-        if (other != null) {
-            VarpTypeBuilder.merge(edit = this, base = other)
-        } else {
-            this
-        }
-
-    private fun mergeVarns(
-        builders: List<UnpackedVarnType>,
-        editors: List<UnpackedVarnType>,
-        cacheTypes: Map<Int, UnpackedVarnType>,
-    ): List<UnpackedVarnType> {
-        val merged = (builders + editors).groupBy { it.id }
-        return merged.map { (id, types) ->
-            val combined = types.fold(types[0]) { curr, next -> next + curr }
-            val cacheType = cacheTypes[id]
-            if (cacheType != null) {
-                combined + cacheType
-            } else {
-                combined
-            }
-        }
-    }
-
-    private operator fun UnpackedVarnType.plus(other: UnpackedVarnType?): UnpackedVarnType =
-        if (other != null) {
-            VarnTypeBuilder.merge(edit = this, base = other)
-        } else {
-            this
-        }
-
-    private fun mergeVarnBits(
-        builders: List<UnpackedVarnBitType>,
-        editors: List<UnpackedVarnBitType>,
-        cacheTypes: Map<Int, UnpackedVarnBitType>,
-    ): List<UnpackedVarnBitType> {
-        val merged = (builders + editors).groupBy { it.id }
-        return merged.map { (id, types) ->
-            val combined = types.fold(types[0]) { curr, next -> next + curr }
-            val cacheType = cacheTypes[id]
-            if (cacheType != null) {
-                combined + cacheType
-            } else {
-                combined
-            }
-        }
-    }
-
-    private operator fun UnpackedVarnBitType.plus(
-        other: UnpackedVarnBitType?
-    ): UnpackedVarnBitType =
-        if (other != null) {
-            VarnBitTypeBuilder.merge(edit = this, base = other)
-        } else {
-            this
-        }
-
-    private fun mergeHeadbars(
-        builders: List<UnpackedHeadbarType>,
-        editors: List<UnpackedHeadbarType>,
-        cacheTypes: Map<Int, UnpackedHeadbarType>,
-    ): List<UnpackedHeadbarType> {
-        val merged = (builders + editors).groupBy { it.id }
-        return merged.map { (id, types) ->
-            val combined = types.fold(types[0]) { curr, next -> next + curr }
-            val cacheType = cacheTypes[id]
-            if (cacheType != null) {
-                combined + cacheType
-            } else {
-                combined
-            }
-        }
-    }
-
-    private operator fun UnpackedHeadbarType.plus(
-        other: UnpackedHeadbarType?
-    ): UnpackedHeadbarType =
-        if (other != null) {
-            HeadbarTypeBuilder.merge(edit = this, base = other)
-        } else {
-            this
-        }
-
-    private fun mergeHitmarks(
-        builders: List<UnpackedHitmarkType>,
-        editors: List<UnpackedHitmarkType>,
-        cacheTypes: Map<Int, UnpackedHitmarkType>,
-    ): List<UnpackedHitmarkType> {
-        val merged = (builders + editors).groupBy { it.id }
-        return merged.map { (id, types) ->
-            val combined = types.fold(types[0]) { curr, next -> next + curr }
-            val cacheType = cacheTypes[id]
-            if (cacheType != null) {
-                combined + cacheType
-            } else {
-                combined
-            }
-        }
-    }
-
-    private operator fun UnpackedHitmarkType.plus(
-        other: UnpackedHitmarkType?
-    ): UnpackedHitmarkType =
-        if (other != null) {
-            HitmarkTypeBuilder.merge(edit = this, base = other)
-        } else {
-            this
-        }
-
-    private fun mergeWalkTriggers(
-        builders: List<WalkTriggerType>,
-        editors: List<WalkTriggerType>,
-        cacheTypes: Map<Int, WalkTriggerType>,
-    ): List<WalkTriggerType> {
-        val merged = (builders + editors).groupBy { it.id }
-        return merged.map { (id, types) ->
-            val combined = types.fold(types[0]) { curr, next -> next + curr }
-            val cacheType = cacheTypes[id]
-            if (cacheType != null) {
-                combined + cacheType
-            } else {
-                combined
-            }
-        }
-    }
-
-    private operator fun WalkTriggerType.plus(other: WalkTriggerType?): WalkTriggerType =
-        if (other != null) {
-            WalkTriggerTypeBuilder.merge(edit = this, base = other)
-        } else {
-            this
-        }
 
     private fun encodeCacheTypes(updates: UpdateMap, cachePath: Path, ctx: EncoderContext) {
         Cache.open(cachePath).use { cache ->
@@ -578,7 +259,7 @@ constructor(
             VarnBitTypeEncoder.encodeAll(cache, updates.varnbits, ctx)
             HeadbarTypeEncoder.encodeAll(cache, updates.headbars)
             HitmarkTypeEncoder.encodeAll(cache, updates.hitmarks)
-            WalkTriggerTypeEncoder.encodeAll(cache, updates.walkTrig, ctx)
+            WalkTriggerTypeEncoder.encodeAll(cache, updates.walkTriggers, ctx)
         }
     }
 }

@@ -1,6 +1,7 @@
 package org.rsmod.game.type.varnbit
 
 import org.rsmod.game.type.util.GenericPropertySelector.select
+import org.rsmod.game.type.util.MergeableCacheBuilder
 import org.rsmod.game.type.varn.VarnType
 
 @DslMarker private annotation class VarnBitBuilderDsl
@@ -34,8 +35,8 @@ public class VarnBitTypeBuilder(public var internal: String? = null) {
         return build(id)
     }
 
-    public companion object {
-        public fun merge(
+    public companion object : MergeableCacheBuilder<UnpackedVarnBitType> {
+        override fun merge(
             edit: UnpackedVarnBitType,
             base: UnpackedVarnBitType,
         ): UnpackedVarnBitType {

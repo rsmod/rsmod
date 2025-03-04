@@ -4,6 +4,7 @@ import kotlin.reflect.KClass
 import org.rsmod.game.type.literal.CacheVarLiteral
 import org.rsmod.game.type.util.GenericPropertySelector.select
 import org.rsmod.game.type.util.GenericPropertySelector.selectMap
+import org.rsmod.game.type.util.MergeableCacheBuilder
 
 @DslMarker private annotation class EnumBuilderDsl
 
@@ -45,10 +46,10 @@ public class EnumTypeBuilder<K : Any, V : Any>(
         )
     }
 
-    public companion object {
+    public companion object : MergeableCacheBuilder<UnpackedEnumType<*, *>> {
         public const val DEFAULT_TRANSMIT: Boolean = true
 
-        public fun merge(
+        override fun merge(
             edit: UnpackedEnumType<*, *>,
             base: UnpackedEnumType<*, *>,
         ): UnpackedEnumType<Any, Any> {

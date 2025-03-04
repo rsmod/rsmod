@@ -1,6 +1,7 @@
 package org.rsmod.game.type.varp
 
 import org.rsmod.game.type.util.GenericPropertySelector.select
+import org.rsmod.game.type.util.MergeableCacheBuilder
 
 @DslMarker private annotation class VarpBuilderDsl
 
@@ -28,14 +29,14 @@ public class VarpTypeBuilder(public var internal: String? = null) {
         )
     }
 
-    public companion object {
+    public companion object : MergeableCacheBuilder<UnpackedVarpType> {
         public const val DEFAULT_CLIENT_CODE: Int = -1
         public const val DEFAULT_BIT_PROTECT: Boolean = false
 
         public val DEFAULT_SCOPE: VarpLifetime = VarpLifetime.Perm
         public val DEFAULT_TRANSMIT: VarpTransmitLevel = VarpTransmitLevel.OnSetAlways
 
-        public fun merge(edit: UnpackedVarpType, base: UnpackedVarpType): UnpackedVarpType {
+        override fun merge(edit: UnpackedVarpType, base: UnpackedVarpType): UnpackedVarpType {
             val clientCode = select(edit, base, DEFAULT_CLIENT_CODE) { clientCode }
             val scope = select(edit, base, DEFAULT_SCOPE) { scope }
             val transmit = select(edit, base, null) { transmit }

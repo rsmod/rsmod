@@ -1,6 +1,7 @@
 package org.rsmod.game.type.stat
 
 import org.rsmod.game.type.util.GenericPropertySelector.select
+import org.rsmod.game.type.util.MergeableCacheBuilder
 
 @DslMarker private annotation class StatBuilderDsl
 
@@ -26,10 +27,10 @@ public class StatTypeBuilder(public var internalName: String? = null) {
 
     private fun String.toDisplayName(): String = replaceFirstChar(Char::titlecase)
 
-    public companion object {
+    public companion object : MergeableCacheBuilder<UnpackedStatType> {
         public const val DEFAULT_MAX_LEVEL: Int = 99
 
-        public fun merge(edit: UnpackedStatType, base: UnpackedStatType): UnpackedStatType {
+        override fun merge(edit: UnpackedStatType, base: UnpackedStatType): UnpackedStatType {
             val maxLevel = select(edit, base, DEFAULT_MAX_LEVEL) { maxLevel }
             val displayName = select(edit, base, default = null) { displayName }
             val unreleased = select(edit, base, default = false) { unreleased }

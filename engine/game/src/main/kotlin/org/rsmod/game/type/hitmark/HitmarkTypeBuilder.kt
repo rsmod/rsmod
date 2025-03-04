@@ -1,6 +1,7 @@
 package org.rsmod.game.type.hitmark
 
 import org.rsmod.game.type.util.GenericPropertySelector.select
+import org.rsmod.game.type.util.MergeableCacheBuilder
 
 @DslMarker private annotation class HitmarkBuilderDsl
 
@@ -62,7 +63,7 @@ public class HitmarkTypeBuilder(public var internal: String? = null) {
         )
     }
 
-    public companion object {
+    public companion object : MergeableCacheBuilder<UnpackedHitmarkType> {
         public const val DEFAULT_DAMAGE_FONT: Int = -1
         public const val DEFAULT_DAMAGE_COLOUR: Int = 16777215
         public const val DEFAULT_STICK_TIME: Int = 70
@@ -74,7 +75,7 @@ public class HitmarkTypeBuilder(public var internal: String? = null) {
         public const val DEFAULT_DAMAGE_FORMAT: String = ""
         public const val DEFAULT_REPLACE_MODE: Int = -1
 
-        public fun merge(
+        override fun merge(
             edit: UnpackedHitmarkType,
             base: UnpackedHitmarkType,
         ): UnpackedHitmarkType {

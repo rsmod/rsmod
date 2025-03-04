@@ -6,6 +6,7 @@ import org.rsmod.game.type.util.GenericPropertySelector.selectIntArray
 import org.rsmod.game.type.util.GenericPropertySelector.selectParamMap
 import org.rsmod.game.type.util.GenericPropertySelector.selectPredicate
 import org.rsmod.game.type.util.GenericPropertySelector.selectShortArray
+import org.rsmod.game.type.util.MergeableCacheBuilder
 import org.rsmod.game.type.util.ParamMap
 
 @DslMarker private annotation class ObjBuilderDsl
@@ -224,7 +225,7 @@ public class ObjTypeBuilder(public var internal: String? = null) {
         )
     }
 
-    public companion object {
+    public companion object : MergeableCacheBuilder<UnpackedObjType> {
         public const val DEFAULT_NAME: String = "null"
         public const val DEFAULT_ZOOM2D: Int = 2000
         public const val DEFAULT_COST: Int = 1
@@ -257,7 +258,7 @@ public class ObjTypeBuilder(public var internal: String? = null) {
         public const val COUNT_CAPACITY: Int = 10
         public const val RECOL_CAPACITY: Int = 15
 
-        public fun merge(edit: UnpackedObjType, base: UnpackedObjType): UnpackedObjType {
+        override fun merge(edit: UnpackedObjType, base: UnpackedObjType): UnpackedObjType {
             val name = select(edit, base, DEFAULT_NAME) { name }
             val desc = selectPredicate(edit.desc, base.desc) { edit.desc.isNotBlank() }
             val model = select(edit, base, default = 0) { model }

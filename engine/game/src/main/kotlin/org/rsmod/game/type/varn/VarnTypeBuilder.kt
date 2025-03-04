@@ -1,6 +1,7 @@
 package org.rsmod.game.type.varn
 
 import org.rsmod.game.type.util.GenericPropertySelector.select
+import org.rsmod.game.type.util.MergeableCacheBuilder
 
 @DslMarker private annotation class VarnBuilderDsl
 
@@ -15,10 +16,10 @@ public class VarnTypeBuilder(public var internal: String? = null) {
         return UnpackedVarnType(bitProtect = bitProtect, internalId = id, internalName = internal)
     }
 
-    public companion object {
+    public companion object : MergeableCacheBuilder<UnpackedVarnType> {
         public const val DEFAULT_BIT_PROTECT: Boolean = true
 
-        public fun merge(edit: UnpackedVarnType, base: UnpackedVarnType): UnpackedVarnType {
+        override fun merge(edit: UnpackedVarnType, base: UnpackedVarnType): UnpackedVarnType {
             val bitProtect = select(edit, base, DEFAULT_BIT_PROTECT) { bitProtect }
             val internalId = select(edit, base, default = null) { internalId }
             val internalName = select(edit, base, default = null) { internalName }

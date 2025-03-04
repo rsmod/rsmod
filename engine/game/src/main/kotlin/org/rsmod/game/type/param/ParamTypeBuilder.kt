@@ -3,6 +3,7 @@ package org.rsmod.game.type.param
 import kotlin.reflect.KClass
 import org.rsmod.game.type.literal.CacheVarLiteral
 import org.rsmod.game.type.util.GenericPropertySelector.select
+import org.rsmod.game.type.util.MergeableCacheBuilder
 
 @DslMarker private annotation class ParamBuilderDsl
 
@@ -36,11 +37,11 @@ public class ParamTypeBuilder<T : Any>(
         )
     }
 
-    public companion object {
+    public companion object : MergeableCacheBuilder<UnpackedParamType<*>> {
         public const val DEFAULT_AUTO_DISABLE: Boolean = true
         public const val DEFAULT_TRANSMIT: Boolean = true
 
-        public fun merge(
+        override fun merge(
             edit: UnpackedParamType<*>,
             base: UnpackedParamType<*>,
         ): UnpackedParamType<*> {

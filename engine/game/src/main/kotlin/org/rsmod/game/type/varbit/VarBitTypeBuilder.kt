@@ -1,6 +1,7 @@
 package org.rsmod.game.type.varbit
 
 import org.rsmod.game.type.util.GenericPropertySelector.select
+import org.rsmod.game.type.util.MergeableCacheBuilder
 import org.rsmod.game.type.varp.VarpType
 
 @DslMarker private annotation class VarBitBuilderDsl
@@ -27,8 +28,8 @@ public class VarBitTypeBuilder(public var internal: String? = null) {
         )
     }
 
-    public companion object {
-        public fun merge(edit: UnpackedVarBitType, base: UnpackedVarBitType): UnpackedVarBitType {
+    public companion object : MergeableCacheBuilder<UnpackedVarBitType> {
+        override fun merge(edit: UnpackedVarBitType, base: UnpackedVarBitType): UnpackedVarBitType {
             val varpId = select(edit, base, default = -1) { varpId }
             val lsb = select(edit, base, default = -1) { internalLsb }
             val msb = select(edit, base, default = -1) { internalMsb }

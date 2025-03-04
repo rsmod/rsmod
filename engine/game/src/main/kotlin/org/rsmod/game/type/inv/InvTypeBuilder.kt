@@ -1,6 +1,7 @@
 package org.rsmod.game.type.inv
 
 import org.rsmod.game.type.util.GenericPropertySelector.select
+import org.rsmod.game.type.util.MergeableCacheBuilder
 
 @DslMarker private annotation class InvBuilderDsl
 
@@ -58,7 +59,7 @@ public class InvTypeBuilder(public var internal: String? = null) {
         }
     }
 
-    public companion object {
+    public companion object : MergeableCacheBuilder<UnpackedInvType> {
         public const val DEFAULT_SIZE: Int = 1
         public const val DEFAULT_PROTECT: Boolean = true
         public val DEFAULT_SCOPE: InvScope = InvScope.Temp
@@ -75,7 +76,7 @@ public class InvTypeBuilder(public var internal: String? = null) {
                 placeholders = false,
             )
 
-        public fun merge(edit: UnpackedInvType, base: UnpackedInvType): UnpackedInvType {
+        override fun merge(edit: UnpackedInvType, base: UnpackedInvType): UnpackedInvType {
             val scope = select(edit, base, DEFAULT_SCOPE) { scope }
             val stack = select(edit, base, DEFAULT_STACK) { stack }
             val size = select(edit, base, DEFAULT_SIZE) { size }

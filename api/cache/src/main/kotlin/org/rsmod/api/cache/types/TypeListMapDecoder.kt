@@ -55,7 +55,7 @@ public object TypeListMapDecoder {
         val jingles = JingleTypeDecoder.decodeAll(names)
         val walkTriggers = decode { WalkTriggerTypeDecoder.decodeAll(cache, names.walkTriggers) }
         val varns = decode { VarnTypeDecoder.decodeAll(cache, names.varns) }
-        val varnbits = decode { VarnBitTypeDecoder.decodeAll(cache, names.varnbits) }
+        val varnbits = decode { VarnBitTypeDecoder.decodeAll(cache) }
         val hitmarks = decode { HitmarkTypeDecoder.decodeAll(cache) }
         val headbars = decode { HeadbarTypeDecoder.decodeAll(cache) }
         TypeListMap(

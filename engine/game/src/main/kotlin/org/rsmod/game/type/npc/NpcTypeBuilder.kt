@@ -11,6 +11,7 @@ import org.rsmod.game.type.util.GenericPropertySelector.selectIntArray
 import org.rsmod.game.type.util.GenericPropertySelector.selectParamMap
 import org.rsmod.game.type.util.GenericPropertySelector.selectPredicate
 import org.rsmod.game.type.util.GenericPropertySelector.selectShortArray
+import org.rsmod.game.type.util.MergeableCacheBuilder
 import org.rsmod.game.type.util.ParamMap
 
 @DslMarker private annotation class NpcBuilderDsl
@@ -210,7 +211,7 @@ public class NpcTypeBuilder(public var internal: String? = null) {
         )
     }
 
-    public companion object {
+    public companion object : MergeableCacheBuilder<UnpackedNpcType> {
         public const val DEFAULT_NAME: String = "null"
         public const val DEFAULT_SIZE: Int = 1
         public const val DEFAULT_ANIM: Int = -1
@@ -246,7 +247,7 @@ public class NpcTypeBuilder(public var internal: String? = null) {
         public val DEFAULT_MOVE_RESTRICT: MoveRestrict = MoveRestrict.Normal
         public val DEFAULT_RESPAWN_DIR: Direction = Direction.South
 
-        public fun merge(edit: UnpackedNpcType, base: UnpackedNpcType): UnpackedNpcType {
+        override fun merge(edit: UnpackedNpcType, base: UnpackedNpcType): UnpackedNpcType {
             val name = select(edit, base, DEFAULT_NAME) { name }
             val desc = selectPredicate(edit.desc, base.desc) { edit.desc.isNotBlank() }
             val models = selectIntArray(edit, base) { models }

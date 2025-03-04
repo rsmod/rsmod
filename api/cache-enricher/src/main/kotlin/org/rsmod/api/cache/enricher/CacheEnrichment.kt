@@ -9,10 +9,15 @@ import org.rsmod.api.cache.types.loc.LocTypeEncoder
 import org.rsmod.api.cache.types.npc.NpcTypeEncoder
 import org.rsmod.api.cache.types.obj.ObjTypeEncoder
 import org.rsmod.api.cache.util.EncoderContext
+import org.rsmod.game.type.CacheType
+import org.rsmod.game.type.loc.LocTypeBuilder
 import org.rsmod.game.type.loc.LocTypeList
+import org.rsmod.game.type.npc.NpcTypeBuilder
 import org.rsmod.game.type.npc.NpcTypeList
+import org.rsmod.game.type.obj.ObjTypeBuilder
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.param.ParamTypeList
+import org.rsmod.game.type.util.MergeableCacheBuilder
 
 public class CacheEnrichment
 @Inject
@@ -28,33 +33,31 @@ constructor(
     public fun encodeAll(dest: Cache) {
         val encoderContext = EncoderContext(encodeFull = true, paramTypes.filterTransmitKeys())
         dest.use { cache ->
-            val locs = locEnrichments.collect(locTypes).asIterable()
-            val npcs = npcEnrichments.collect(npcTypes).asIterable()
-            val objs = objEnrichments.collect(objTypes).asIterable()
+            val locs = locEnrichments.collect(locTypes, LocTypeBuilder).asIterable()
+            val npcs = npcEnrichments.collect(npcTypes, NpcTypeBuilder).asIterable()
+            val objs = objEnrichments.collect(objTypes, ObjTypeBuilder).asIterable()
             LocTypeEncoder.encodeAll(cache, locs, encoderContext)
             NpcTypeEncoder.encodeAll(cache, npcs, encoderContext)
             ObjTypeEncoder.encodeAll(cache, objs, encoderContext)
         }
     }
 
-    private fun <T, E : CacheEnricher<T>> Set<E>.collect(
+    private fun <T : CacheType, E : CacheEnricher<T>> Set<E>.collect(
         cacheTypes: Map<Int, T>,
-        reference: CacheEnricher<T> = first(),
+        merger: MergeableCacheBuilder<T>,
     ): Map<Int, T> {
         val list = map(CacheEnricher<T>::generate).flatten()
-        val grouped = list.groupBy(reference::idOf)
+        val grouped = list.groupBy(CacheType::id)
         val merged = mutableMapOf<Int, T>()
         for ((id, types) in grouped) {
-            check(types.isNotEmpty()) {
-                "Grouped types for enricher must not be empty: enricher=$reference"
-            }
+            check(types.isNotEmpty()) { "Grouped types for enricher must not be empty." }
             val cacheType = cacheTypes[id] ?: continue // Skip types not in cache.
             if (types.size == 1) {
-                merged[id] = reference.merge(cacheType, types[0])
+                merged[id] = merger.merge(cacheType, types[0])
                 continue
             }
-            val folded = types.fold(types[0]) { curr, next -> reference.merge(next, curr) }
-            merged[id] = reference.merge(cacheType, folded)
+            val folded = types.fold(types[0]) { curr, next -> merger.merge(next, curr) }
+            merged[id] = merger.merge(cacheType, folded)
         }
         return merged
     }

@@ -1,6 +1,7 @@
 package org.rsmod.game.type.headbar
 
 import org.rsmod.game.type.util.GenericPropertySelector.select
+import org.rsmod.game.type.util.MergeableCacheBuilder
 
 @DslMarker private annotation class HeadbarBuilderDsl
 
@@ -43,7 +44,7 @@ public class HeadbarTypeBuilder(public var internal: String? = null) {
         )
     }
 
-    public companion object {
+    public companion object : MergeableCacheBuilder<UnpackedHeadbarType> {
         public const val DEFAULT_UNKNOWN1: Int = 0
         public const val DEFAULT_SHOW_PRIORITY: Int = 255
         public const val DEFAULT_HIDE_PRIORITY: Int = 255
@@ -52,7 +53,7 @@ public class HeadbarTypeBuilder(public var internal: String? = null) {
         public const val DEFAULT_UNKNOWN6: Int = 0
         public const val DEFAULT_SEGMENTS: Int = 30
 
-        public fun merge(
+        override fun merge(
             edit: UnpackedHeadbarType,
             base: UnpackedHeadbarType,
         ): UnpackedHeadbarType {

@@ -7,6 +7,7 @@ import org.rsmod.game.type.util.GenericPropertySelector.selectIntArray
 import org.rsmod.game.type.util.GenericPropertySelector.selectParamMap
 import org.rsmod.game.type.util.GenericPropertySelector.selectPredicate
 import org.rsmod.game.type.util.GenericPropertySelector.selectShortArray
+import org.rsmod.game.type.util.MergeableCacheBuilder
 import org.rsmod.game.type.util.ParamMap
 
 @DslMarker private annotation class LocBuilderDsl
@@ -166,7 +167,7 @@ public class LocTypeBuilder(public var internal: String? = null) {
         )
     }
 
-    public companion object {
+    public companion object : MergeableCacheBuilder<UnpackedLocType> {
         public const val DEFAULT_NAME: String = "null"
         public const val DEFAULT_WIDTH: Int = 1
         public const val DEFAULT_LENGTH: Int = 1
@@ -194,7 +195,7 @@ public class LocTypeBuilder(public var internal: String? = null) {
         public const val OP_CAPACITY: Int = 5
         public const val RECOL_CAPACITY: Int = 15
 
-        public fun merge(edit: UnpackedLocType, base: UnpackedLocType): UnpackedLocType {
+        override fun merge(edit: UnpackedLocType, base: UnpackedLocType): UnpackedLocType {
             val name = select(edit, base, DEFAULT_NAME) { name }
             val desc = selectPredicate(edit.desc, base.desc) { edit.desc.isNotBlank() }
             val width = select(edit, base, DEFAULT_WIDTH) { width }
