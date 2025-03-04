@@ -58,7 +58,7 @@ public class StandardNpcHitProcessor @Inject constructor(private val eventBus: E
 
         npc.hitpoints -= hit.damage
 
-        val queueDeath = npc.hitpoints <= 0 && queues.death !in npc.queueList
+        val queueDeath = npc.hitpoints == 0 && queues.death !in npc.queueList
         if (queueDeath) {
             queueDeath()
         }
