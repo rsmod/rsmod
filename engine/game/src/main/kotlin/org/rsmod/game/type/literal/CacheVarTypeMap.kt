@@ -5,6 +5,8 @@ import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.comp.HashedComponentType
 import org.rsmod.game.type.enums.EnumType
 import org.rsmod.game.type.enums.HashedEnumType
+import org.rsmod.game.type.headbar.HashedHeadbarType
+import org.rsmod.game.type.headbar.HeadbarType
 import org.rsmod.game.type.loc.HashedLocType
 import org.rsmod.game.type.loc.LocType
 import org.rsmod.game.type.npc.HashedNpcType
@@ -35,6 +37,8 @@ public object CacheVarTypeMap {
             CoordGrid::class to CacheVarLiteral.COORDGRID,
             EnumType::class to CacheVarLiteral.ENUM,
             HashedEnumType::class to CacheVarLiteral.ENUM,
+            HeadbarType::class to CacheVarLiteral.HEADBAR,
+            HashedHeadbarType::class to CacheVarLiteral.HEADBAR,
             LocType::class to CacheVarLiteral.LOC,
             HashedLocType::class to CacheVarLiteral.LOC,
             NpcType::class to CacheVarLiteral.NPC,
@@ -65,6 +69,8 @@ public object CacheVarTypeMap {
             CoordGrid::class to CacheVarCoordGridCodec,
             EnumType::class to CacheVarEnumCodec,
             HashedEnumType::class to CacheVarEnumCodec,
+            HeadbarType::class to CacheVarHeadbarCodec,
+            HashedHeadbarType::class to CacheVarHeadbarCodec,
             LocType::class to CacheVarLocCodec,
             HashedLocType::class to CacheVarLocCodec,
             NpcType::class to CacheVarNpcCodec,
@@ -128,7 +134,7 @@ public object CacheVarTypeMap {
                 CacheVarLiteral.CHAR -> Int::class
                 CacheVarLiteral.MAPELEMENT -> Int::class
                 CacheVarLiteral.HITMARK -> Int::class
-                CacheVarLiteral.HEADBAR -> Int::class
+                CacheVarLiteral.HEADBAR -> HeadbarType::class
                 CacheVarLiteral.STRINGVECTOR -> Int::class
                 CacheVarLiteral.DBTABLE -> Int::class
                 CacheVarLiteral.DBROW -> Int::class

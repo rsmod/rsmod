@@ -3,6 +3,7 @@
 package org.rsmod.api.config.refs
 
 import org.rsmod.api.config.aliases.ParamBool
+import org.rsmod.api.config.aliases.ParamHeadbar
 import org.rsmod.api.config.aliases.ParamInt
 import org.rsmod.api.config.aliases.ParamLoc
 import org.rsmod.api.config.aliases.ParamNpc
@@ -51,6 +52,7 @@ object BaseParams : ParamReferences() {
     val item_prayer_bonus: ParamInt = find("item_prayer_bonus", 88687192167)
 
     /* Server-side only types */
+    val headbar: ParamHeadbar = find("headbar")
     val rewarditem: ParamObj = find("rewarditem")
     val next_npc_stage: ParamNpc = find("next_npc_stage")
     val bankside_extraop_flip: ParamBool = find("bankside_extraop_conditional_flip")

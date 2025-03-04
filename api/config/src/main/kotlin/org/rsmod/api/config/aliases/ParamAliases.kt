@@ -1,5 +1,6 @@
 package org.rsmod.api.config.aliases
 
+import org.rsmod.game.type.headbar.HeadbarType
 import org.rsmod.game.type.loc.LocType
 import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.obj.ObjType
@@ -20,6 +21,8 @@ typealias ParamStr = ParamType<String>
 typealias ParamBool = ParamType<Boolean>
 
 typealias ParamCoord = ParamType<CoordGrid>
+
+typealias ParamHeadbar = ParamType<HeadbarType>
 
 typealias ParamObj = ParamType<ObjType>
 

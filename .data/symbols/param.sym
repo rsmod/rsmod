@@ -154,6 +154,7 @@
 1801	slayer_task_boss_displayname
 1802	slayer_task_boss_location
 
+65441	headbar
 65442	rewarditem
 65443	next_npc_stage
 65444	bankside_extraop_conditional_flip

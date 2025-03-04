@@ -4,6 +4,7 @@ import kotlin.reflect.KClass
 import org.rsmod.game.type.TypeListMap
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.enums.EnumType
+import org.rsmod.game.type.headbar.HeadbarType
 import org.rsmod.game.type.loc.LocType
 import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.obj.ObjType
@@ -54,6 +55,13 @@ public object CacheVarComponentCodec : BaseIntVarCodec<ComponentType>(ComponentT
         types.components[value]?.toHashedType()
 
     override fun encode(value: ComponentType): Int = value.packed
+}
+
+public object CacheVarHeadbarCodec : BaseIntVarCodec<HeadbarType>(HeadbarType::class) {
+    override fun decode(types: TypeListMap, value: Int): HeadbarType? =
+        types.headbars[value]?.toHashedType()
+
+    override fun encode(value: HeadbarType): Int = value.id
 }
 
 public object CacheVarNamedObjCodec : BaseIntVarCodec<ObjType>(ObjType::class) {
