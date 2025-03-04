@@ -133,6 +133,15 @@ class TypeIdentityHashCollisionTest {
     }
 
     @Test
+    fun GameTestState.`detect headbar type collisions`() = runBasicGameTest {
+        val types = cacheTypes.headbars.values
+        val grouped = types.groupBy { it.computeIdentityHash() }
+        val collisions = grouped.filter { it.value.size > 1 }
+        assertTrue(collisions.isEmpty()) { "Type collision detected: $collisions." }
+        assertEquals(grouped.size, types.size)
+    }
+
+    @Test
     fun GameTestState.`detect hitmark type collisions`() = runBasicGameTest {
         val types = cacheTypes.hitmarks.values
         val grouped = types.groupBy { it.computeIdentityHash() }

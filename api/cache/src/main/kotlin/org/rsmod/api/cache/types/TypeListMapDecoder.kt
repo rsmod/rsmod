@@ -8,6 +8,7 @@ import org.openrs2.cache.Cache
 import org.rsmod.api.cache.types.comp.ComponentTypeDecoder
 import org.rsmod.api.cache.types.enums.EnumTypeDecoder
 import org.rsmod.api.cache.types.font.FontMetricsDecoder
+import org.rsmod.api.cache.types.headbar.HeadbarTypeDecoder
 import org.rsmod.api.cache.types.hitmark.HitmarkTypeDecoder
 import org.rsmod.api.cache.types.inv.InvTypeDecoder
 import org.rsmod.api.cache.types.jingle.JingleTypeDecoder
@@ -56,6 +57,7 @@ public object TypeListMapDecoder {
         val varns = decode { VarnTypeDecoder.decodeAll(cache, names.varns) }
         val varnbits = decode { VarnBitTypeDecoder.decodeAll(cache, names.varnbits) }
         val hitmarks = decode { HitmarkTypeDecoder.decodeAll(cache) }
+        val headbars = decode { HeadbarTypeDecoder.decodeAll(cache) }
         TypeListMap(
                 locs = locs.await(),
                 objs = objs.await(),
@@ -78,6 +80,7 @@ public object TypeListMapDecoder {
                 varns = varns.await(),
                 varnbits = varnbits.await(),
                 hitmarks = hitmarks.await(),
+                headbars = headbars.await(),
             )
             .apply {
                 ObjTypeDecoder.assignInternal(this.objs, names.objs)
@@ -100,6 +103,7 @@ public object TypeListMapDecoder {
                 VarnTypeDecoder.assignInternal(this.varns, names.varns)
                 VarnBitTypeDecoder.assignInternal(this.varnbits, names.varnbits)
                 HitmarkTypeDecoder.assignInternal(this.hitmarks, names.hitmarks)
+                HeadbarTypeDecoder.assignInternal(this.headbars, names.headbars)
                 ComplexTypeDecoder.decodeAll(this)
             }
     }

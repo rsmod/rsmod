@@ -128,6 +128,7 @@ public object CacheVarTypeMap {
                 CacheVarLiteral.CHAR -> Int::class
                 CacheVarLiteral.MAPELEMENT -> Int::class
                 CacheVarLiteral.HITMARK -> Int::class
+                CacheVarLiteral.HEADBAR -> Int::class
                 CacheVarLiteral.STRINGVECTOR -> Int::class
                 CacheVarLiteral.DBTABLE -> Int::class
                 CacheVarLiteral.DBROW -> Int::class

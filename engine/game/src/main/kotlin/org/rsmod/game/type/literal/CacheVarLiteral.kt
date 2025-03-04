@@ -49,6 +49,7 @@ public enum class CacheVarLiteral(
     CHAR('z'),
     MAPELEMENT('µ'),
     HITMARK('×'),
+    HEADBAR('¯'),
     STRINGVECTOR('¸'),
     DBTABLE('Ø'),
     DBROW('Ð'),

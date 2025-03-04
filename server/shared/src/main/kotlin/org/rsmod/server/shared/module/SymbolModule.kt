@@ -34,6 +34,7 @@ private class NameMappingProvider : Provider<NameMapping> {
         val dropTriggers = dirs.readSymbols("droptrigger")
         val enums = dirs.readSymbols("enum")
         val fonts = dirs.readSymbols("font")
+        val headbars = dirs.readSymbols("headbar")
         val hitmarks = dirs.readSymbols("hitmark")
         val invs = dirs.readSymbols("inv")
         val jingles = dirs.readSymbols("jingle")
@@ -95,6 +96,7 @@ private class NameMappingProvider : Provider<NameMapping> {
             varns = varns,
             varnbits = varnbits,
             hitmarks = hitmarks,
+            headbars = headbars,
         )
     }
 

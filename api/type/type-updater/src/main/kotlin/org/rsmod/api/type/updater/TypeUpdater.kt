@@ -14,6 +14,7 @@ import org.rsmod.annotations.Js5Cache
 import org.rsmod.annotations.VanillaCache
 import org.rsmod.api.cache.types.TypeListMapDecoder
 import org.rsmod.api.cache.types.enums.EnumTypeEncoder
+import org.rsmod.api.cache.types.headbar.HeadbarTypeEncoder
 import org.rsmod.api.cache.types.hitmark.HitmarkTypeEncoder
 import org.rsmod.api.cache.types.inv.InvTypeEncoder
 import org.rsmod.api.cache.types.loc.LocTypeEncoder
@@ -33,6 +34,8 @@ import org.rsmod.api.type.symbols.name.NameMapping
 import org.rsmod.game.type.TypeListMap
 import org.rsmod.game.type.enums.EnumTypeBuilder
 import org.rsmod.game.type.enums.UnpackedEnumType
+import org.rsmod.game.type.headbar.HeadbarTypeBuilder
+import org.rsmod.game.type.headbar.UnpackedHeadbarType
 import org.rsmod.game.type.hitmark.HitmarkTypeBuilder
 import org.rsmod.game.type.hitmark.UnpackedHitmarkType
 import org.rsmod.game.type.inv.InvTypeBuilder
@@ -141,6 +144,7 @@ constructor(
         val varbits = mergeVarBits(builders.varbits, editors.varbits, vanilla.varbits)
         val varns = mergeVarns(builders.varns, editors.varns, vanilla.varns)
         val varnbits = mergeVarnBits(builders.varnbits, editors.varnbits, vanilla.varnbits)
+        val headbars = mergeHeadbars(builders.headbars, editors.headbars, vanilla.headbars)
         val hitmarks = mergeHitmarks(builders.hitmarks, editors.hitmarks, vanilla.hitmarks)
         val walkTrig = mergeWalkTriggers(builders.walkTrig, editors.walkTrig, vanilla.walkTriggers)
 
@@ -156,6 +160,7 @@ constructor(
             varbits = varbits,
             varns = varns,
             varnbits = varnbits,
+            headbars = headbars,
             hitmarks = hitmarks,
             walkTrig = walkTrig,
         )
@@ -173,6 +178,7 @@ constructor(
         val varbits: List<UnpackedVarBitType>,
         val varns: List<UnpackedVarnType>,
         val varnbits: List<UnpackedVarnBitType>,
+        val headbars: List<UnpackedHeadbarType>,
         val hitmarks: List<UnpackedHitmarkType>,
         val walkTrig: List<WalkTriggerType>,
     )
@@ -189,6 +195,7 @@ constructor(
         val varbits = filterIsInstance<UnpackedVarBitType>()
         val varns = filterIsInstance<UnpackedVarnType>()
         val varnbits = filterIsInstance<UnpackedVarnBitType>()
+        val headbars = filterIsInstance<UnpackedHeadbarType>()
         val hitmarks = filterIsInstance<UnpackedHitmarkType>()
         val walkTrig = filterIsInstance<WalkTriggerType>()
 
@@ -204,6 +211,7 @@ constructor(
             varbits = varbits,
             varns = varns,
             varnbits = varnbits,
+            headbars = headbars,
             hitmarks = hitmarks,
             walkTrig = walkTrig,
         )
@@ -479,6 +487,32 @@ constructor(
             this
         }
 
+    private fun mergeHeadbars(
+        builders: List<UnpackedHeadbarType>,
+        editors: List<UnpackedHeadbarType>,
+        cacheTypes: Map<Int, UnpackedHeadbarType>,
+    ): List<UnpackedHeadbarType> {
+        val merged = (builders + editors).groupBy { it.id }
+        return merged.map { (id, types) ->
+            val combined = types.fold(types[0]) { curr, next -> next + curr }
+            val cacheType = cacheTypes[id]
+            if (cacheType != null) {
+                combined + cacheType
+            } else {
+                combined
+            }
+        }
+    }
+
+    private operator fun UnpackedHeadbarType.plus(
+        other: UnpackedHeadbarType?
+    ): UnpackedHeadbarType =
+        if (other != null) {
+            HeadbarTypeBuilder.merge(edit = this, base = other)
+        } else {
+            this
+        }
+
     private fun mergeHitmarks(
         builders: List<UnpackedHitmarkType>,
         editors: List<UnpackedHitmarkType>,
@@ -542,6 +576,7 @@ constructor(
             VarBitTypeEncoder.encodeAll(cache, updates.varbits, ctx)
             VarnTypeEncoder.encodeAll(cache, updates.varns, ctx)
             VarnBitTypeEncoder.encodeAll(cache, updates.varnbits, ctx)
+            HeadbarTypeEncoder.encodeAll(cache, updates.headbars)
             HitmarkTypeEncoder.encodeAll(cache, updates.hitmarks)
             WalkTriggerTypeEncoder.encodeAll(cache, updates.walkTrig, ctx)
         }
