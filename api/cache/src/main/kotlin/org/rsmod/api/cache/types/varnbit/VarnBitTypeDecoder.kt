@@ -9,6 +9,7 @@ import org.rsmod.api.cache.Js5Archives
 import org.rsmod.api.cache.Js5Configs
 import org.rsmod.api.cache.util.TextUtil
 import org.rsmod.game.type.TypeResolver
+import org.rsmod.game.type.varn.VarnTypeList
 import org.rsmod.game.type.varnbit.UnpackedVarnBitType
 import org.rsmod.game.type.varnbit.VarnBitTypeBuilder
 import org.rsmod.game.type.varnbit.VarnBitTypeList
@@ -62,11 +63,21 @@ public object VarnBitTypeDecoder {
         }
     }
 
+    public fun assignBaseVars(varnbits: VarnBitTypeList, varns: VarnTypeList) {
+        val grouped = varnbits.values.groupBy { it.varnId }
+        for ((baseVar, children) in grouped) {
+            val varn = varns[baseVar] ?: error("VarnType with id `$baseVar` does not exist.")
+            for (varnbit in children) {
+                TypeResolver.setBaseVar(varnbit, varn)
+            }
+        }
+    }
+
     private fun createDefaultTypeList(symbols: Map<String, Int>): VarnBitTypeList {
         val types = Int2ObjectOpenHashMap<UnpackedVarnBitType>()
         for ((name, id) in symbols) {
             val builder = VarnBitTypeBuilder(name)
-            types[id] = builder.build(id)
+            types[id] = builder.buildDefault(id)
         }
         return VarnBitTypeList(types)
     }

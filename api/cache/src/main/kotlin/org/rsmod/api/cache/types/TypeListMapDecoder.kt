@@ -102,6 +102,7 @@ public object TypeListMapDecoder {
                 WalkTriggerTypeDecoder.assignInternal(this.walkTriggers, names.walkTriggers)
                 VarnTypeDecoder.assignInternal(this.varns, names.varns)
                 VarnBitTypeDecoder.assignInternal(this.varnbits, names.varnbits)
+                VarnBitTypeDecoder.assignBaseVars(this.varnbits, this.varns)
                 HitmarkTypeDecoder.assignInternal(this.hitmarks, names.hitmarks)
                 HeadbarTypeDecoder.assignInternal(this.headbars, names.headbars)
                 ComplexTypeDecoder.decodeAll(this)

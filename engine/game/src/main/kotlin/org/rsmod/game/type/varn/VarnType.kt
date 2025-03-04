@@ -36,10 +36,10 @@ public data class UnpackedVarnType(
     override var internalName: String?,
 ) : VarnType() {
     override fun toString(): String =
-        "UnpackedVarpType(" +
+        "UnpackedVarnType(" +
             "internalName='$internalName', " +
             "internalId=$internalId, " +
-            "bitProtect=$bitProtect, " +
+            "bitProtect=$bitProtect" +
             ")"
 
     override fun equals(other: Any?): Boolean {

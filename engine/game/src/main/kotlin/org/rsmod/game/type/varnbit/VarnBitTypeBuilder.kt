@@ -27,6 +27,13 @@ public class VarnBitTypeBuilder(public var internal: String? = null) {
         )
     }
 
+    public fun buildDefault(id: Int): UnpackedVarnBitType {
+        baseVar = -1
+        lsb = -1
+        msb = -1
+        return build(id)
+    }
+
     public companion object {
         public fun merge(
             edit: UnpackedVarnBitType,

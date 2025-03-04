@@ -6,6 +6,8 @@ import org.rsmod.game.type.param.ParamType
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.varbit.VarBitType
+import org.rsmod.game.type.varn.VarnType
+import org.rsmod.game.type.varnbit.VarnBitType
 import org.rsmod.game.type.varp.VarpLifetime
 import org.rsmod.game.type.varp.VarpTransmitLevel
 import org.rsmod.game.type.varp.VarpType
@@ -53,6 +55,15 @@ public object TypeResolver {
 
     public fun <T : Any> setDefault(type: ParamType<T>, default: T?) {
         type.typedDefault = default
+    }
+
+    public fun setBaseVar(type: VarnBitType, baseVar: VarnType) {
+        type.internalVarn = baseVar
+    }
+
+    public fun setBits(type: VarnBitType, bitRange: IntRange) {
+        type.internalLsb = bitRange.first
+        type.internalMsb = bitRange.last
     }
 
     public operator fun set(type: VarBitType, baseVar: VarpType) {

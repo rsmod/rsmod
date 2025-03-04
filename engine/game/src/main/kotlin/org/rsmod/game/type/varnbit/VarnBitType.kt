@@ -65,7 +65,7 @@ public data class UnpackedVarnBitType(
     override var internalName: String?,
 ) : VarnBitType() {
     override fun toString(): String =
-        "UnpackedVarBitType(" +
+        "UnpackedVarnBitType(" +
             "internalName='$internalName', " +
             "internalId=$internalId, " +
             "baseVar=$internalVarn, " +

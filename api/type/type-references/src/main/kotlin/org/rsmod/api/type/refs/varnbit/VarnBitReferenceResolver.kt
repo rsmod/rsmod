@@ -31,11 +31,10 @@ constructor(private val nameMapping: NameMapping, private val types: VarnBitType
         val internalId = names[name] ?: return err(ImplicitNameNotFound(name))
         TypeResolver[this] = internalId
 
-        val cacheType = types[internalId]
-        return if (cacheType == null) {
-            update(CacheTypeNotFound)
-        } else {
-            ok(FullSuccess)
-        }
+        val cacheType = types[internalId] ?: return update(CacheTypeNotFound)
+        TypeResolver.setBits(this, cacheType.bits)
+        TypeResolver.setBaseVar(this, cacheType.baseVar)
+
+        return ok(FullSuccess)
     }
 }
