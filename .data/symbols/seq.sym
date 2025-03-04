@@ -84,6 +84,7 @@
 827	human_pickupfloor
 828	human_reachforladddertop
 832	human_pickuptable
+836	human_death
 893	human_shearing
 2305	human_milk_cow
 4069	human_throwtab

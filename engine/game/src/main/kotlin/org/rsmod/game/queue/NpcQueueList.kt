@@ -75,6 +75,28 @@ public class NpcQueueList {
         return count
     }
 
+    public operator fun contains(type: QueueType): Boolean {
+        if (isEmpty) {
+            return false
+        }
+
+        var current = first
+        while (current != null) {
+            if (current.queue.id == type.id) {
+                return true
+            }
+            current = current.next ?: break
+        }
+        return false
+    }
+
+    public fun clear() {
+        iterator?.cleanUp()
+        first = null
+        last = null
+        size = 0
+    }
+
     override fun toString(): String = "NpcQueueList(size=$size, first=$first, last=$last)"
 
     internal data class Node(val queue: Queue, var prev: Node?, var next: Node? = null)

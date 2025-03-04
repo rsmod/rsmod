@@ -81,6 +81,8 @@ object BaseParams : ParamReferences() {
     val bas_running: ParamSeq = find("bas_running")
     val attack_anim: ParamSeq = find("attack_anim")
     val defend_anim: ParamSeq = find("defend_anim")
+    val death_anim: ParamSeq = find("death_anim")
+    val death_sound: ParamSynth = find("death_sound")
     val equipment_sound: ParamSynth = find("equipment_sound")
     val player_op5_text: ParamStr = find("player_op5_text")
     val release_note_title: ParamStr = find("release_note_title")

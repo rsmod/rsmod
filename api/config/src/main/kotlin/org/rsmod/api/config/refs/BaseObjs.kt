@@ -13,6 +13,7 @@ object BaseObjs : ObjReferences() {
     val null_item_placeholder = find("null_item_placeholder")
 
     val coins = find("coins")
+    val bones = find("bones")
 
     val music_cape = find("music_cape")
     val music_cape_t = find("music_cape_t")
@@ -43,6 +44,7 @@ object BaseObjs : ObjReferences() {
     val rune_kiteshield = find("rune_kiteshield")
     val dragon_claws = find("dragon_claws")
     val crystal_shield = find("crystal_shield")
+    val dragon_longsword = find("dragon_longsword")
 
     val pot_empty = find("pot_empty")
     val jug_empty = find("jug_empty")

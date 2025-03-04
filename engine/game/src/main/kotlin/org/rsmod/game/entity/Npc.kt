@@ -58,6 +58,7 @@ public class Npc(
     public var spawnCoords: CoordGrid = coords
     public var defaultMoveSpeed: MoveSpeed = MoveSpeed.Walk
     public var respawnDir: Direction = type.respawnDir
+    public var respawns: Boolean = false
 
     public var mode: NpcMode? = type.defaultMode
 
@@ -129,6 +130,8 @@ public class Npc(
         this.uid = NpcUid.NULL
     }
 
+    // TODO: This function should not work like this. (probably? requires more investigation)
+    //  Assume it should be similar to [Player.walk].
     public fun walk(dest: CoordGrid): Unit = PathingEntityCommon.walk(this, dest)
 
     public fun teleport(collision: CollisionFlagMap, dest: CoordGrid): Unit =
@@ -156,9 +159,22 @@ public class Npc(
         queueList.removeAll(queue)
     }
 
-    public fun resetMode() {
+    @InternalApi
+    public fun setRespawnValues() {
+        coords = spawnCoords
+        transmog = null
+        assignUid()
+        // TODO: Are these two face resets required? Should they not be reset on death as opposed to
+        //  on respawn?
+        resetPendingFaceSquare()
         resetFaceEntity()
-        mode = null
+        resetAnim()
+        copyStats(type)
+        // TODO: Reset "hero points."
+        queueList.clear()
+        vars.backing.clear()
+        strVars.backing.clear()
+        defaultMode()
     }
 
     public fun resetMovement() {
@@ -257,6 +273,24 @@ public class Npc(
         } else {
             null
         }
+
+    public fun resetMode() {
+        resetFaceEntity()
+        mode = null
+    }
+
+    public fun defaultMode() {
+        clearInteraction()
+
+        mode = defaultMode
+    }
+
+    public fun noneMode() {
+        resetMovement()
+        resetFaceEntity()
+
+        mode = NpcMode.None
+    }
 
     public fun playerEscape(target: Player) {
         resetMovement()

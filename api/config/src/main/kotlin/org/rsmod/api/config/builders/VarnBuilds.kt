@@ -6,5 +6,6 @@ internal object VarnBuilds : VarnBuilder() {
     init {
         build("lastcombat")
         build("aggressive_player")
+        build("generic_state_2")
     }
 }

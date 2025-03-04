@@ -20,18 +20,26 @@ constructor(
     private val addNpcs = ObjectArrayList<Npc>()
     private val delNpcs = ObjectArrayList<Npc>()
 
+    /**
+     * **Note:** If [duration] is equal to [Int.MAX_VALUE], the [npc] will have its `respawn` flag
+     * set to `true` and will respawn on death.
+     */
     public fun add(npc: Npc, duration: Int) {
         val add = registry.add(npc)
         check(add.isSuccess()) { "Failed to add npc. (result=$add, npc=$npc)" }
-        if (duration != Int.MAX_VALUE) {
+
+        val permanentSpawn = duration == Int.MAX_VALUE
+        npc.respawns = permanentSpawn
+
+        if (!permanentSpawn) {
             val deleteCycle = mapClock + duration
             npc.lifecycleDelCycle = deleteCycle
         }
     }
 
     /**
-     * _Note: This function will implicitly call [Npc.destroy] which will cancel any ongoing
-     * coroutine attached to the [npc]._
+     * **Note:** This function will implicitly call [Npc.destroy] which will cancel any ongoing
+     * coroutine attached to the [npc].
      *
      * @see [Npc.activeCoroutine]
      */
@@ -44,7 +52,7 @@ constructor(
         }
     }
 
-    /** _Note: Unlike [del], this function does **not** call [Npc.cancelActiveCoroutine]._ */
+    /** **Note:** Unlike [del], this function does **not** call [Npc.cancelActiveCoroutine]. */
     public fun hide(npc: Npc, duration: Int) {
         registry.hide(npc)
         if (duration != Int.MAX_VALUE) {

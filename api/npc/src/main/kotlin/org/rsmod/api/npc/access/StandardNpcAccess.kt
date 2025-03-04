@@ -11,6 +11,7 @@ import org.rsmod.api.npc.hit.process
 import org.rsmod.api.npc.hit.processor.QueuedNpcHitProcessor
 import org.rsmod.api.npc.hit.processor.StandardNpcHitProcessor
 import org.rsmod.api.npc.hit.queueHit
+import org.rsmod.api.npc.queueDeath
 import org.rsmod.api.random.GameRandom
 import org.rsmod.coroutine.GameCoroutine
 import org.rsmod.game.entity.Npc
@@ -26,8 +27,11 @@ import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.npc.NpcTypeList
 import org.rsmod.game.type.npc.UnpackedNpcType
 import org.rsmod.game.type.obj.ObjType
+import org.rsmod.game.type.param.ParamType
 import org.rsmod.game.type.queue.QueueType
 import org.rsmod.game.type.seq.SeqType
+import org.rsmod.game.type.seq.SeqTypeList
+import org.rsmod.game.type.seq.UnpackedSeqType
 import org.rsmod.game.type.spot.SpotanimType
 import org.rsmod.game.type.timer.TimerType
 import org.rsmod.map.CoordGrid
@@ -51,6 +55,14 @@ public class StandardNpcAccess(
     public val coords: CoordGrid by npc::coords
     public val mapClock: Int by npc::currentMapClock
 
+    // TODO: Go over the [Npc.walk] implementation. It should not work as it currently does, but
+    //  some tests currently rely on it working as it does. Once we decide on that, replace this
+    //  logic with `npc.walk`.
+    public fun walk(dest: CoordGrid) {
+        npc.abortRoute()
+        npc.routeDestination.add(dest)
+    }
+
     public suspend fun delay(cycles: Int = 1) {
         require(cycles > 0) { "`cycles` must be greater than 0. (cycles=$cycles)" }
         npc.delay(cycles)
@@ -62,6 +74,28 @@ public class StandardNpcAccess(
             return
         }
         delay()
+    }
+
+    /**
+     * Delays the npc for a number of ticks equal to the time duration of [seq].
+     *
+     * @param seq The seq type whose tick duration determines the delay.
+     * @throws IllegalStateException if [UnpackedSeqType.tickDuration] is `0`.
+     */
+    public suspend fun delay(seq: SeqType, seqTypes: SeqTypeList) {
+        delay(seqTypes[seq])
+    }
+
+    /**
+     * Delays the npc for a number of ticks equal to the time duration of [seq].
+     *
+     * @param seq The seq type whose tick duration determines the delay.
+     * @throws IllegalStateException if [UnpackedSeqType.tickDuration] is `0`.
+     */
+    public suspend fun delay(seq: UnpackedSeqType) {
+        val ticks = seq.tickDuration
+        check(ticks > 0) { "Seq tick duration must be positive: $seq" }
+        delay(cycles = ticks)
     }
 
     public fun telejump(dest: CoordGrid, collision: CollisionFlagMap) {
@@ -80,6 +114,10 @@ public class StandardNpcAccess(
             return
         }
         PathingEntityCommon.teleport(npc, collision, dest)
+    }
+
+    public fun queueDeath() {
+        npc.queueDeath()
     }
 
     /**
@@ -273,6 +311,14 @@ public class StandardNpcAccess(
         npc.resetMode()
     }
 
+    public fun defaultMode() {
+        npc.defaultMode()
+    }
+
+    public fun noneMode() {
+        npc.noneMode()
+    }
+
     public fun playerEscape(target: Player) {
         npc.playerEscape(target)
     }
@@ -345,6 +391,27 @@ public class StandardNpcAccess(
     public fun distanceTo(other: PathingEntity): Int = npc.distanceTo(other)
 
     public fun distanceTo(loc: BoundLocInfo): Int = npc.distanceTo(loc)
+
+    /**
+     * Returns the param value associated with [param] from the **base** `npc` [Npc.type], or `null`
+     * if the type does not have a value associated with [param] and [param] does not have a
+     * non-null `default` value.
+     *
+     * If you wish to retrieve the param value for the current (transmog) type, use [Npc.visType] to
+     * retrieve it.
+     */
+    public fun <T : Any> paramOrNull(param: ParamType<T>): T? = npc.paramOrNull(param)
+
+    /**
+     * Returns the param value associated with [param] from the **base** npc` [Npc.type].
+     *
+     * If you wish to retrieve the param value for the current (transmog) type, use [Npc.visType] to
+     * retrieve it.
+     *
+     * @throws IllegalStateException if the type does not have a value associated with [param] and
+     *   [param] does not have a non-null `default` value.
+     */
+    public fun <T : Any> param(param: ParamType<T>): T = npc.param(param)
 
     override fun toString(): String = "StandardNpcAccess(npc=$npc, coroutine=$coroutine)"
 }

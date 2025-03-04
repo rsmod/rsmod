@@ -10,6 +10,7 @@ dependencies {
     api(projects.api.combatPlugin.combatWeapon)
     api(projects.api.config)
     api(projects.api.controller)
+    api(projects.api.death)
     api(projects.api.gameProcess)
     api(projects.api.invtx)
     api(projects.api.market)
