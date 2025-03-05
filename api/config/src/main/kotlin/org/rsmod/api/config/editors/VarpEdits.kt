@@ -4,6 +4,7 @@ import org.rsmod.api.type.editors.varp.VarpEditor
 
 object VarpEdits : VarpEditor() {
     init {
+        edit("attackstyle_melee") { transmitOnDiff = true }
         edit("generic_temp_state_261") { temporary = true }
         edit("generic_temp_state_262") { temporary = true }
         edit("generic_temp_state_263") { temporary = true }

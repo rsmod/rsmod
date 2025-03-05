@@ -19,6 +19,10 @@ object BaseVarps : VarpReferences() {
     val temp_state_675 = find("temp_state_675", 153212296)
 
     val attackstyle = find("attackstyle", 9764025)
+    // Note: This varp seems to only be transmitted while wielding melee weapons and correlates to
+    // Controlled (0), Accurate (1), Aggressive (2), and Defensive (3).
+    // Though it may be the case that it actually represents the current "XP" type being granted.
+    val attackstyle_melee = find("attackstyle_melee", 10444907)
     val auto_retaliate = find("auto_retaliate", 39044574)
     val sa_energy = find("sa_energy", 68098142)
     val sa_type = find("sa_type", 68325123)
