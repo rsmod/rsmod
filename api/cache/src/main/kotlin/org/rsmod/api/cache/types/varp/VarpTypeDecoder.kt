@@ -43,8 +43,6 @@ public object VarpTypeDecoder {
         with(builder) {
             when (code) {
                 5 -> clientCode = data.readUnsignedShort()
-                // TODO: Remove after a few days/weeks. Just here for backwards-compatability.
-                200 -> transmit = VarpTransmitLevel.Never
                 202 -> bitProtect = true
                 203 -> {
                     val id = data.readByte().toInt()
