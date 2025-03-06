@@ -37,7 +37,7 @@ public data class HashedVarBitType(
             "internalName='$internalName', " +
             "internalId=$internalId, " +
             "baseVar=$internalVarp, " +
-            "bits=$bits, " +
+            "bits=$internalLsb..$internalMsb, " +
             "supposedHash=$supposedHash" +
             ")"
 
