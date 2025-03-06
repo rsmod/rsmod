@@ -6,6 +6,16 @@ import org.rsmod.game.type.varbit.VarBitType
 import org.rsmod.game.type.varp.VarpType
 import org.rsmod.utils.bits.getBits
 
+/**
+ * A map for storing integer-based player variables (varps and varbits).
+ *
+ * This class **does not provide `set` operators** in order to prevent direct modifications. Player
+ * varps must be kept in sync with the client immediately when changed.
+ *
+ * Since the networking layer should **not** be mixed with the model layer, this map relies on
+ * separate systems to handle synchronization. These systems should ensure that any changes here are
+ * properly transmitted to the client as needed.
+ */
 @JvmInline
 public value class VarPlayerIntMap(public val backing: Int2IntMap = Int2IntOpenHashMap()) {
     public operator fun get(key: VarpType): Int = backing.getOrDefault(key.id, 0)

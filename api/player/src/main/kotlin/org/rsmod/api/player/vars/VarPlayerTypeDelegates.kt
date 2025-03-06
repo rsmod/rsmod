@@ -3,7 +3,6 @@ package org.rsmod.api.player.vars
 import kotlin.enums.EnumEntries
 import kotlin.enums.enumEntries
 import kotlin.reflect.KProperty
-import org.rsmod.api.player.output.VarpSync
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.utils.vars.VarEnumDelegate
 import org.rsmod.game.entity.Player
@@ -358,16 +357,7 @@ private fun boolToInt(bool: Boolean): Int = if (bool) 1 else 0
 private fun boolFromInt(int: Int): Boolean = int == 1
 
 private fun Player.syncVarp(varp: VarpType, value: Int) {
-    val previous = vars.backing[varp.id]
-
-    vars.backing[varp.id] = value
-
-    val transmit = varp.transmit
-    if (transmit.always) {
-        VarpSync.writeVarp(this, varp, value)
-    } else if (transmit.onDiff && previous != value) {
-        VarpSync.writeVarp(this, varp, value)
-    }
+    VarPlayerIntMapSetter.set(this, varp, value)
 }
 
 private fun Player.syncVarpStr(varp: VarpType, value: String?) {
@@ -375,16 +365,7 @@ private fun Player.syncVarpStr(varp: VarpType, value: String?) {
 }
 
 private fun ProtectedAccess.syncVarp(varp: VarpType, value: Int) {
-    val previous = player.vars.backing[varp.id]
-
-    player.vars.backing[varp.id] = value
-
-    val transmit = varp.transmit
-    if (transmit.always) {
-        VarpSync.writeVarp(player, varp, value)
-    } else if (transmit.onDiff && previous != value) {
-        VarpSync.writeVarp(player, varp, value)
-    }
+    VarPlayerIntMapSetter.set(player, varp, value)
 }
 
 private fun ProtectedAccess.syncVarpStr(varp: VarpType, value: String?) {
