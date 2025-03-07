@@ -18,11 +18,13 @@
 2277	pillory_wrong
 2400	lever
 2531	clobber
+2538	rampage
 2564	human_unarmedpunch
 2565	human_unarmedkick
 2566	human_unarmedblock
 2581	pick
 2582	pick2
+2655	found_gem
 2663	prayer_disable
 2728	canoe_paddle
 2731	canoe_pushed

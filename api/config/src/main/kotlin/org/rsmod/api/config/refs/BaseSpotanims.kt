@@ -9,6 +9,8 @@ typealias spotanims = BaseSpotanims
 object BaseSpotanims : SpotanimReferences() {
     val banana_cape_emote = find("banana_cape_emote", 53731913)
     val poof_disappear = find("poof_disappear", 11485776)
+    val portal_red = find("portal_red", 8689879)
+
     val zombie_hand_emote = find("zombie_hand_emote", 81323324)
     val achievement_diary_emote = find("achievement_diary_emote", 108696894)
     val blow_kiss_emote = find("blow_kiss_emote", 18465091)

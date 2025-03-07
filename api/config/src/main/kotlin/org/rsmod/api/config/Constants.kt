@@ -21,6 +21,9 @@ object Constants {
     const val lootdrop_duration: Int = 200
     const val shop_default_size: Int = 40
 
+    // Common designated spotanim slots.
+    const val spotanim_slot_sa: Int = 1
+
     const val ge_ratelimit_combatkit_uncommon: Int = 15
     const val ge_ratelimit_combatkit_rare: Int = 8
 

@@ -72,7 +72,6 @@ object BaseObjs : ObjReferences() {
     val egg = find("egg")
 
     val bobs_axe_flyer = find("bobs_axe_flyer")
-    val bronze_pickaxe = find("bronze_pickaxe")
     val iron_battleaxe = find("iron_battleaxe")
     val steel_battleaxe = find("steel_battleaxe")
     val mithril_battleaxe = find("mithril_battleaxe")
@@ -108,6 +107,25 @@ object BaseObjs : ObjReferences() {
     val infernal_axe = find("infernal_axe")
     val infernal_axe_or = find("infernal_axe_or")
     val crystal_axe = find("crystal_axe")
+
+    val bronze_pickaxe = find("bronze_pickaxe")
+    val dragon_pickaxe = find("dragon_pickaxe")
+    val dragon_pickaxe_upgraded = find("dragon_pickaxe_upgraded")
+    val dragon_pickaxe_or_trailblazer = find("dragon_pickaxe_or")
+    val dragon_pickaxe_or_zalcano = find("dragon_pickaxe_or_zalcano")
+    val infernal_pickaxe = find("infernal_pickaxe")
+    val infernal_pickaxe_uncharged = find("infernal_pickaxe_uncharged")
+    val infernal_pickaxe_or = find("infernal_pickaxe_or")
+    val infernal_pickaxe_or_uncharged = find("infernal_pickaxe_or_uncharged")
+    val third_age_pickaxe = find("3rd_age_pickaxe")
+    val crystal_pickaxe = find("crystal_pickaxe")
+
+    val dragon_harpoon = find("dragon_harpoon")
+    val dragon_harpoon_or = find("dragon_harpoon_or")
+    val infernal_harpoon = find("infernal_harpoon")
+    val infernal_harpoon_or = find("infernal_harpoon_or")
+    val infernal_harpoon_or_uncharged = find("infernal_harpoon_or_uncharged")
+    val crystal_harpoon = find("crystal_harpoon")
 
     val shrimps = find("shrimps")
     val raw_herring = find("raw_herring")

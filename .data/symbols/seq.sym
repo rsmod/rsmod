@@ -90,9 +90,6 @@
 4069	human_throwtab
 4071	human_tabtele
 
-1058	spec_dragon_longsword
-2876	spec_lumber_up
-
 24	human_woodcutting_dragon_axe_or
 867	human_woodcutting_rune_axe
 869	human_woodcutting_adamant_axe
@@ -108,6 +105,20 @@
 8303	human_woodcutting_gilded_axe
 8324	human_woodcutting_crystal_axe
 12026	human_woodcutting_infernal_axe_or
+
+334	spec_rock_knocker_dragon_pickaxe_upgraded
+1058	spec_dragon_longsword
+2876	spec_lumber_up
+3410	spec_rock_knocker_infernal_pickaxe
+7138	spec_rock_knocker_dragon_pickaxe
+7267	spec_rock_knocker_3rd_age_pickaxe
+7393	spec_fishstabber_dragon_harpoon
+7394	spec_fishstabber_infernal_harpoon
+8329	spec_rock_knocker_crystal_pickaxe
+8330	spec_rock_knocker_dragon_pickaxe_or_zalcano
+8333	spec_fishstabber_crystal_harpoon
+11821	spec_rock_knocker_dragon_pickaxe_or_trailblazer
+11823	spec_fishstabber_infernal_harpoon_or
 
 855	emote_yes
 856	emote_no
