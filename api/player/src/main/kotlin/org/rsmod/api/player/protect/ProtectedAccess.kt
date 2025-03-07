@@ -99,6 +99,7 @@ import org.rsmod.api.player.worn.HeldEquipResult
 import org.rsmod.api.player.worn.WornUnequipResult
 import org.rsmod.api.random.GameRandom
 import org.rsmod.api.repo.obj.ObjRepository
+import org.rsmod.api.repo.world.WorldRepository
 import org.rsmod.api.route.RayCastValidator
 import org.rsmod.api.stats.levelmod.InvisibleLevels
 import org.rsmod.api.utils.map.BuildAreaUtils
@@ -2274,192 +2275,6 @@ public class ProtectedAccess(
         )
     }
 
-    /* Loc helper functions (lc=loc config) */
-    public fun <T : Any> lcParam(
-        type: LocType,
-        param: ParamType<T>,
-        locTypes: LocTypeList = context.locTypes,
-    ): T = locTypes[type].param(param)
-
-    public fun <T : Any> lcParamOrNull(
-        type: LocType,
-        param: ParamType<T>,
-        locTypes: LocTypeList = context.locTypes,
-    ): T? = locTypes[type].paramOrNull(param)
-
-    public fun <T : Any> locParam(
-        loc: LocInfo,
-        param: ParamType<T>,
-        locTypes: LocTypeList = context.locTypes,
-    ): T = locTypes[loc].param(param)
-
-    public fun <T : Any> locParamOrNull(
-        loc: LocInfo,
-        param: ParamType<T>,
-        locTypes: LocTypeList = context.locTypes,
-    ): T? = locTypes[loc].paramOrNull(param)
-
-    public fun <T : Any> locParam(
-        loc: BoundLocInfo,
-        param: ParamType<T>,
-        locTypes: LocTypeList = context.locTypes,
-    ): T = locTypes[loc].param(param)
-
-    public fun <T : Any> locParamOrNull(
-        loc: BoundLocInfo,
-        param: ParamType<T>,
-        locTypes: LocTypeList = context.locTypes,
-    ): T? = locTypes[loc].paramOrNull(param)
-
-    /* Npc helper functions (nc=npc config) */
-    public fun <T : Any> ncParam(
-        type: NpcType,
-        param: ParamType<T>,
-        npcTypes: NpcTypeList = context.npcTypes,
-    ): T = npcTypes[type].param(param)
-
-    public fun <T : Any> ncParamOrNull(
-        type: NpcType,
-        param: ParamType<T>,
-        npcTypes: NpcTypeList = context.npcTypes,
-    ): T? = npcTypes[type].paramOrNull(param)
-
-    public fun npcPlayerFaceClose(npc: Npc, target: Player = this.player) {
-        npc.playerFaceClose(target)
-    }
-
-    public fun npcPlayerFace(npc: Npc, target: Player = this.player) {
-        npc.playerFace(target)
-    }
-
-    public fun npcPlayerEscape(npc: Npc, target: Player = this.player) {
-        npc.playerEscape(target)
-    }
-
-    public fun npcResetMode(npc: Npc) {
-        npc.resetMode()
-    }
-
-    @OptIn(InternalApi::class)
-    public fun npcTransmog(npc: Npc, into: NpcType, npcTypes: NpcTypeList = context.npcTypes) {
-        npc.transmog(npcTypes[into])
-        npc.assignUid()
-    }
-
-    public fun npcVisType(
-        npc: Npc,
-        interactions: NpcInteractions = context.npcInteractions,
-    ): UnpackedNpcType {
-        val currentType = npc.visType
-        val multiNpc = interactions.multiNpc(currentType, player.vars)
-        return multiNpc ?: currentType
-    }
-
-    /**
-     * Retrieves the [param] value for the base [npc].
-     *
-     * _Note: This retrieves the parameter from the npc's **base** type, ignoring any multinpc or
-     * transmogrification effects._
-     *
-     * @throws IllegalStateException if npc type does not have an associated value for [param] and
-     *   [param] does not have a [ParamType.default] value.
-     */
-    public fun <T : Any> npcParam(npc: Npc, param: ParamType<T>): T = npc.type.param(param)
-
-    /**
-     * Retrieves the [param] value for the base [npc], or returns `null` if the npc's type lacks an
-     * associated value for [param] and [param] does not have a [ParamType.default] value.
-     *
-     * _Note: This retrieves the parameter from the npc's **base** type, ignoring any multinpc or
-     * transmogrification effects._
-     */
-    public fun <T : Any> npcParamOrNull(npc: Npc, param: ParamType<T>): T? =
-        npc.type.paramOrNull(param)
-
-    /* Obj helper functions (oc=obj config) */
-    public fun ocCert(type: ObjType, objTypes: ObjTypeList = context.objTypes): UnpackedObjType =
-        objTypes.cert(objTypes[type])
-
-    public fun ocUncert(type: ObjType, objTypes: ObjTypeList = context.objTypes): UnpackedObjType =
-        objTypes.uncert(objTypes[type])
-
-    public fun <T : Any> ocParam(
-        obj: InvObj,
-        type: ParamType<T>,
-        objTypes: ObjTypeList = context.objTypes,
-    ): T = objTypes[obj].param(type)
-
-    public fun <T : Any> ocParamOrNull(
-        obj: InvObj?,
-        type: ParamType<T>,
-        objTypes: ObjTypeList = context.objTypes,
-    ): T? = if (obj == null) null else objTypes[obj].paramOrNull(type)
-
-    public fun ocIsContentType(
-        obj: InvObj?,
-        content: ContentGroupType,
-        objTypes: ObjTypeList = context.objTypes,
-    ): Boolean = obj != null && objTypes[obj].contentGroup == content.id
-
-    public fun ocIsType(obj: InvObj?, type: ObjType): Boolean = obj.isType(type)
-
-    public fun ocIsType(obj: InvObj?, type: ObjType, vararg others: ObjType): Boolean =
-        obj.isType(type) || others.any(obj::isType)
-
-    public fun ocTradable(obj: InvObj, objTypes: ObjTypeList = context.objTypes): Boolean =
-        objTypes[obj].tradeable
-
-    /* Seq helper functions */
-    /** Returns the total time duration of [seq] in _**client frames**_. */
-    public fun seqLength(seq: SeqType, seqTypes: SeqTypeList = context.seqTypes): Int =
-        seqTypes[seq].totalDelay
-
-    /** Returns the total time duration of [seq] in _**server ticks**_. */
-    public fun seqTicks(seq: SeqType, seqTypes: SeqTypeList = context.seqTypes): Int =
-        seqTypes[seq].tickDuration
-
-    /* Inventory helper functions */
-    public fun invTakeFee(fee: Int, inv: Inventory = this.inv): Boolean =
-        player.invTakeFee(fee, inv)
-
-    public fun invCoinTotal(inv: Inventory = this.inv): Int = invTotal(inv, objs.coins)
-
-    public fun invTotal(
-        inv: Inventory,
-        content: ContentGroupType,
-        objTypes: ObjTypeList = context.objTypes,
-    ): Int {
-        var count = 0
-        for (obj in inv) {
-            val filtered = obj ?: continue
-            val type = objTypes[filtered]
-            if (type.isContentType(content)) {
-                count += filtered.count
-            }
-        }
-        return count
-    }
-
-    public fun invTotal(
-        inv: Inventory,
-        obj: ObjType,
-        objTypes: ObjTypeList = context.objTypes,
-    ): Int = inv.count(objTypes[obj])
-
-    public fun invContains(
-        inv: Inventory,
-        content: ContentGroupType,
-        objTypes: ObjTypeList = context.objTypes,
-    ): Boolean = inv.any { it != null && objTypes[it].contentGroup == content.id }
-
-    public operator fun Inventory.contains(content: ContentGroupType): Boolean =
-        invContains(this, content)
-
-    public fun inv(inv: InvType, invTypes: InvTypeList = context.invTypes): Inventory {
-        val type = invTypes[inv]
-        return player.invMap.getOrPut(type)
-    }
-
     /* Client script helper functions */
     public fun runClientScript(id: Int, vararg args: Any): Unit = player.runClientScript(id, *args)
 
@@ -2653,6 +2468,96 @@ public class ProtectedAccess(
     public fun ifSetObj(target: ComponentType, obj: ObjType, zoom: Int): Unit =
         player.ifSetObj(target, obj, zoom)
 
+    /* Inventory helper functions */
+    public fun invTakeFee(fee: Int, inv: Inventory = this.inv): Boolean =
+        player.invTakeFee(fee, inv)
+
+    public fun invCoinTotal(inv: Inventory = this.inv): Int = invTotal(inv, objs.coins)
+
+    public fun invTotal(
+        inv: Inventory,
+        content: ContentGroupType,
+        objTypes: ObjTypeList = context.objTypes,
+    ): Int {
+        var count = 0
+        for (obj in inv) {
+            val filtered = obj ?: continue
+            val type = objTypes[filtered]
+            if (type.isContentType(content)) {
+                count += filtered.count
+            }
+        }
+        return count
+    }
+
+    public fun invTotal(
+        inv: Inventory,
+        obj: ObjType,
+        objTypes: ObjTypeList = context.objTypes,
+    ): Int = inv.count(objTypes[obj])
+
+    public fun invContains(
+        inv: Inventory,
+        content: ContentGroupType,
+        objTypes: ObjTypeList = context.objTypes,
+    ): Boolean = inv.any { it != null && objTypes[it].contentGroup == content.id }
+
+    public fun inv(inv: InvType, invTypes: InvTypeList = context.invTypes): Inventory {
+        val type = invTypes[inv]
+        return player.invMap.getOrPut(type)
+    }
+
+    public operator fun Inventory.contains(content: ContentGroupType): Boolean =
+        invContains(this, content)
+
+    /* Jingle helper functions */
+    public fun jingle(jingle: JingleType): Unit = player.jingle(jingle)
+
+    /* Loc helper functions (lc=loc config) */
+    public fun <T : Any> lcParam(
+        type: LocType,
+        param: ParamType<T>,
+        locTypes: LocTypeList = context.locTypes,
+    ): T = locTypes[type].param(param)
+
+    public fun <T : Any> lcParamOrNull(
+        type: LocType,
+        param: ParamType<T>,
+        locTypes: LocTypeList = context.locTypes,
+    ): T? = locTypes[type].paramOrNull(param)
+
+    public fun <T : Any> locParam(
+        loc: LocInfo,
+        param: ParamType<T>,
+        locTypes: LocTypeList = context.locTypes,
+    ): T = locTypes[loc].param(param)
+
+    public fun <T : Any> locParamOrNull(
+        loc: LocInfo,
+        param: ParamType<T>,
+        locTypes: LocTypeList = context.locTypes,
+    ): T? = locTypes[loc].paramOrNull(param)
+
+    public fun <T : Any> locParam(
+        loc: BoundLocInfo,
+        param: ParamType<T>,
+        locTypes: LocTypeList = context.locTypes,
+    ): T = locTypes[loc].param(param)
+
+    public fun <T : Any> locParamOrNull(
+        loc: BoundLocInfo,
+        param: ParamType<T>,
+        locTypes: LocTypeList = context.locTypes,
+    ): T? = locTypes[loc].paramOrNull(param)
+
+    public fun locAnim(repo: WorldRepository, loc: LocInfo, seq: SeqType) {
+        repo.locAnim(loc, seq)
+    }
+
+    public fun locAnim(repo: WorldRepository, loc: BoundLocInfo, seq: SeqType) {
+        repo.locAnim(loc, seq)
+    }
+
     /* Map flag helper functions */
     public fun setMapFlag(coords: CoordGrid): Unit = MapFlag.setMapFlag(player, coords)
 
@@ -2663,11 +2568,139 @@ public class ProtectedAccess(
 
     public fun spam(text: String): Unit = player.spam(text)
 
+    /* Npc helper functions (nc=npc config) */
+    public fun <T : Any> ncParam(
+        type: NpcType,
+        param: ParamType<T>,
+        npcTypes: NpcTypeList = context.npcTypes,
+    ): T = npcTypes[type].param(param)
+
+    public fun <T : Any> ncParamOrNull(
+        type: NpcType,
+        param: ParamType<T>,
+        npcTypes: NpcTypeList = context.npcTypes,
+    ): T? = npcTypes[type].paramOrNull(param)
+
+    public fun npcPlayerFaceClose(npc: Npc, target: Player = this.player) {
+        npc.playerFaceClose(target)
+    }
+
+    public fun npcPlayerFace(npc: Npc, target: Player = this.player) {
+        npc.playerFace(target)
+    }
+
+    public fun npcPlayerEscape(npc: Npc, target: Player = this.player) {
+        npc.playerEscape(target)
+    }
+
+    public fun npcResetMode(npc: Npc) {
+        npc.resetMode()
+    }
+
+    @OptIn(InternalApi::class)
+    public fun npcTransmog(npc: Npc, into: NpcType, npcTypes: NpcTypeList = context.npcTypes) {
+        npc.transmog(npcTypes[into])
+        npc.assignUid()
+    }
+
+    public fun npcVisType(
+        npc: Npc,
+        interactions: NpcInteractions = context.npcInteractions,
+    ): UnpackedNpcType {
+        val currentType = npc.visType
+        val multiNpc = interactions.multiNpc(currentType, player.vars)
+        return multiNpc ?: currentType
+    }
+
+    /**
+     * Retrieves the [param] value for the base [npc].
+     *
+     * _Note: This retrieves the parameter from the npc's **base** type, ignoring any multinpc or
+     * transmogrification effects._
+     *
+     * @throws IllegalStateException if npc type does not have an associated value for [param] and
+     *   [param] does not have a [ParamType.default] value.
+     */
+    public fun <T : Any> npcParam(npc: Npc, param: ParamType<T>): T = npc.type.param(param)
+
+    /**
+     * Retrieves the [param] value for the base [npc], or returns `null` if the npc's type lacks an
+     * associated value for [param] and [param] does not have a [ParamType.default] value.
+     *
+     * _Note: This retrieves the parameter from the npc's **base** type, ignoring any multinpc or
+     * transmogrification effects._
+     */
+    public fun <T : Any> npcParamOrNull(npc: Npc, param: ParamType<T>): T? =
+        npc.type.paramOrNull(param)
+
+    /* Obj helper functions (oc=obj config) */
+    public fun ocCert(type: ObjType, objTypes: ObjTypeList = context.objTypes): UnpackedObjType =
+        objTypes.cert(objTypes[type])
+
+    public fun ocUncert(type: ObjType, objTypes: ObjTypeList = context.objTypes): UnpackedObjType =
+        objTypes.uncert(objTypes[type])
+
+    public fun <T : Any> ocParam(
+        obj: InvObj,
+        type: ParamType<T>,
+        objTypes: ObjTypeList = context.objTypes,
+    ): T = objTypes[obj].param(type)
+
+    public fun <T : Any> ocParamOrNull(
+        obj: InvObj?,
+        type: ParamType<T>,
+        objTypes: ObjTypeList = context.objTypes,
+    ): T? = if (obj == null) null else objTypes[obj].paramOrNull(type)
+
+    public fun ocIsContentType(
+        obj: InvObj?,
+        content: ContentGroupType,
+        objTypes: ObjTypeList = context.objTypes,
+    ): Boolean = obj != null && objTypes[obj].contentGroup == content.id
+
+    public fun ocIsType(obj: InvObj?, type: ObjType): Boolean = obj.isType(type)
+
+    public fun ocIsType(obj: InvObj?, type: ObjType, vararg others: ObjType): Boolean =
+        obj.isType(type) || others.any(obj::isType)
+
+    public fun ocTradable(obj: InvObj, objTypes: ObjTypeList = context.objTypes): Boolean =
+        objTypes[obj].tradeable
+
+    /* Seq helper functions */
+    /** Returns the total time duration of [seq] in _**client frames**_. */
+    public fun seqLength(seq: SeqType, seqTypes: SeqTypeList = context.seqTypes): Int =
+        seqTypes[seq].totalDelay
+
+    /** Returns the total time duration of [seq] in _**server ticks**_. */
+    public fun seqTicks(seq: SeqType, seqTypes: SeqTypeList = context.seqTypes): Int =
+        seqTypes[seq].tickDuration
+
     /* Sound helper functions */
     public fun soundSynth(synth: SynthType, loops: Int = 1, delay: Int = 0): Unit =
         player.soundSynth(synth, loops, delay)
 
-    public fun jingle(jingle: JingleType): Unit = player.jingle(jingle)
+    public fun soundArea(
+        repo: WorldRepository,
+        source: CoordGrid,
+        synth: SynthType,
+        delay: Int = 0,
+        loops: Int = 1,
+        radius: Int = 5,
+        size: Int = 0,
+    ) {
+        repo.soundArea(source, synth, delay, loops, radius, size)
+    }
+
+    public fun soundArea(
+        repo: WorldRepository,
+        source: PathingEntity,
+        synth: SynthType,
+        delay: Int = 0,
+        loops: Int = 1,
+        radius: Int = 5,
+    ) {
+        repo.soundArea(source, synth, delay, loops, radius)
+    }
 
     /**
      * Increments [opHeldCallCount] counter and throws [IllegalStateException] if the call count
