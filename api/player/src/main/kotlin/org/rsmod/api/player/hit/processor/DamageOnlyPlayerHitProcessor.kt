@@ -5,8 +5,8 @@ import org.rsmod.game.hit.Hit
 
 public object DamageOnlyPlayerHitProcessor : InstantPlayerHitProcessor {
     override fun Player.process(hit: Hit) {
-        // TODO: Reduce target health.
-        // TODO: Show health bar.
+        // TODO(combat): Reduce target health.
+        // TODO(combat): Show health bar.
         showHitmark(hit.hitmark)
     }
 }

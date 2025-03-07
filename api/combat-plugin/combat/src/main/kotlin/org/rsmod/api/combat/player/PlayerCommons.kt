@@ -84,7 +84,7 @@ internal fun ProtectedAccess.resolveCombatAttack(
         }
     }
 
-// TODO: Multi combat areas
+// TODO(combat): Multi combat areas
 internal fun ProtectedAccess.inMultiCombatArea(): Boolean {
     return false
 }
@@ -97,7 +97,6 @@ internal suspend fun ProtectedAccess.canPerformMeleeSpecial(
 ): Boolean {
     val weapon = attack.weapon ?: return false
     val special = specials[weapon] ?: return false
-
     if (special !is SpecialAttack.Melee) {
         return false
     }
@@ -121,7 +120,6 @@ internal suspend fun ProtectedAccess.canPerformRangedSpecial(
     energy: SpecialAttackEnergy,
 ): Boolean {
     val special = specials[attack.weapon] ?: return false
-
     if (special !is SpecialAttack.Ranged) {
         return false
     }

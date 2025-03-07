@@ -5,6 +5,6 @@ import org.rsmod.game.hit.HitBuilder
 
 public object StandardNpcHitModifier : HitModifierNpc {
     override fun HitBuilder.modify(target: Npc) {
-        // TODO: Protection prayers based on npc type pre-defined overheads.
+        // TODO(combat): Protection prayers based on npc type pre-defined overheads.
     }
 }

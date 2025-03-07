@@ -142,10 +142,10 @@ internal object InternalPlayerHits {
     private fun HitmarkTypeGroup.isRegularDamage(): Boolean =
         isAssociatedWith(hitmarks.regular_damage)
 
-    private fun Player.currentMaxHit(): Int = 30 // TODO: Base on cached var
+    private fun Player.currentMaxHit(): Int = 30 // TODO(combat): Base on cached var
 
     private fun Player.maxDamageLitThreshold(sourceMaxHit: Int): Int? {
-        val minThreshold = 35 // TODO: Base on var
+        val minThreshold = 35 // TODO(combat): Base on var
         val threshold = max(minThreshold, sourceMaxHit)
         return if (threshold == 0) {
             null

@@ -130,8 +130,8 @@ public class Npc(
         this.uid = NpcUid.NULL
     }
 
-    // TODO: This function should not work like this. (probably? requires more investigation)
-    //  Assume it should be similar to [Player.walk].
+    // TODO(combat): This function should not work like this. (probably? requires more
+    //  investigation) Assume it should be similar to [Player.walk].
     public fun walk(dest: CoordGrid): Unit = PathingEntityCommon.walk(this, dest)
 
     public fun teleport(collision: CollisionFlagMap, dest: CoordGrid): Unit =
@@ -164,13 +164,13 @@ public class Npc(
         coords = spawnCoords
         transmog = null
         assignUid()
-        // TODO: Are these two face resets required? Should they not be reset on death as opposed to
-        //  on respawn?
+        // TODO(combat): Are these two face resets required? Should they not be reset on death as
+        //  opposed to on respawn?
         resetPendingFaceSquare()
         resetFaceEntity()
         resetAnim()
         copyStats(type)
-        // TODO: Reset "hero points."
+        // TODO(combat): Reset "hero points."
         queueList.clear()
         vars.backing.clear()
         strVars.backing.clear()

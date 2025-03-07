@@ -47,9 +47,9 @@ constructor(
             return
         }
 
-        // As a quality-of-life feature, set the next attack clock _before_ performing special
-        // attacks. This ensures that, by default, specials do not need to handle attack timing
-        // themselves, while still allowing them to override it if necessary.
+        // As a quality-of-life improvement for special attack scripts, set the next attack clock
+        // before executing the special attack. This ensures that specials, by default, do not need
+        // to handle attack timing themselves but can still override it if needed.
         val attackRate = speeds.actual(player)
         actionDelay = mapClock + attackRate
 
@@ -58,7 +58,9 @@ constructor(
 
             val activatedSpec = canPerformMeleeSpecial(npc, attack, specialsReg, specialEnergy)
             if (activatedSpec) {
-                opNpc2(npc)
+                // Each special attack must call `opnpc2` to re-engage in combat. If this is
+                // not done, the player will not continue attacking after the special, except
+                // via auto-retaliation.
                 return
             }
         }
@@ -69,7 +71,8 @@ constructor(
             val shield = player.lefthand
             val activatedSpec = canPerformShieldSpecial(npc, shield, specialsReg)
             if (activatedSpec) {
-                opNpc2(npc)
+                // Like weapon special attacks, shield special attacks must explicitly
+                // call `opnpc2(target)` to continue combat.
                 return
             }
         }
@@ -85,7 +88,7 @@ constructor(
         anim(attackAnim)
         soundSynth(attackSound)
 
-        // TODO: Replace with max hit formula result. Also set a var to the max hit.
+        // TODO(combat): Replace with max hit formula result. Also set a var to the max hit.
         val damage = random.of(0..50)
         npc.queueHit(player, 1, HitType.Melee, damage)
 
@@ -97,10 +100,11 @@ constructor(
         npc.aggressivePlayer = player.uid
         npc.lastCombat = mapClock
 
-        // TODO: Remove once npc auto-retaliate works.
+        // TODO(combat): Remove once npc auto-retaliate works.
         npc.playerFaceClose(player)
 
-        // TODO: This is sending two setmapflag(null) at the moment when it should only be one.
+        // TODO(combat): This is sending two setmapflag(null) at the moment when it should only be
+        // one.
         opNpc2(npc)
     }
 

@@ -44,9 +44,7 @@ constructor(
     }
 
     private fun Npc.spawnDeathDrops(dropCoords: CoordGrid) {
-        // TODO: Actual death drops, drop tables, and "npc_findhero" implementation.
-        //  `aggressivePlayer` is cleared on death, so this is simply a placeholder until the above
-        //  note is done:
+        // TODO(combat): Actual death drops, drop tables, and "npc_findhero" implementation.
         val heroUid = aggressivePlayer
         val hero = heroUid?.resolve(players)
         if (hero != null) {
@@ -91,7 +89,7 @@ public suspend fun StandardNpcAccess.death(
     noneMode()
     arriveDelay()
 
-    // TODO: Should we call combatClearQueue() here? Should pending hit queues go through?
+    // TODO(combat): Should we call combatClearQueue() here? Should pending hit queues go through?
     //  They will all deal 0 damage if they do regardless.
 
     val aggressivePlayer = npc.aggressivePlayer
@@ -102,6 +100,9 @@ public suspend fun StandardNpcAccess.death(
         if (deathSound != null && player != null) {
             player.soundSynth(deathSound)
         }
+
+        // TODO(combat): Should we assert that npc.uid will always match player.aggressiveNpc at
+        // this point?
 
         if (player != null && player.aggressiveNpc == npc.uid) {
             player.aggressiveNpc = null

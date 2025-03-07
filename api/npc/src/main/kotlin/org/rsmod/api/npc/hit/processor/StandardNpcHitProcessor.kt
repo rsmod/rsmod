@@ -14,15 +14,16 @@ import org.rsmod.game.type.headbar.HeadbarType
 public class StandardNpcHitProcessor @Inject constructor(private val eventBus: EventBus) :
     QueuedNpcHitProcessor {
     override fun StandardNpcAccess.process(hit: Hit) {
-        // TODO: Show ironman_blocked hitmark if source is an ironman and target has been damaged
-        //  by other sources.
+        // TODO(combat): Show ironman_blocked hitmark if source is an ironman and target has been
+        // damaged by other sources.
 
         var changedDamage: Int? = null
         if (hit.damage > npc.hitpoints) {
             changedDamage = npc.hitpoints
         }
 
-        // TODO: Check a "min_health" varn that won't allow target to fall below certain threshold.
+        // TODO(combat): Check a "min_health" varn that won't allow target to fall below certain
+        // threshold.
 
         if (changedDamage == 0) {
             val modifiedHitmark =
@@ -53,8 +54,8 @@ public class StandardNpcHitProcessor @Inject constructor(private val eventBus: E
                 "health=${npc.hitpoints}, hit=$hit"
         }
 
-        // TODO: Process recoils, retribution?, hero points, etc.
-        // TODO: onNpcHit script
+        // TODO(combat): Process recoils, retribution?, hero points, etc.
+        // TODO(combat): onNpcHit script
 
         npc.hitpoints -= hit.damage
 

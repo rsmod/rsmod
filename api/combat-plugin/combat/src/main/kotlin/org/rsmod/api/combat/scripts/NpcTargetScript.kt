@@ -58,7 +58,7 @@ constructor(
         }
 
         val weapon = player.righthand
-        val spell: MagicSpell? = null // TODO: Resolve spell based on auto cast id.
+        val spell: MagicSpell? = null // TODO(combat): Resolve spell based on auto cast id.
         val attack = resolveCombatAttack(weapon, type, style, spell)
 
         combat.attack(this, target, attack)
@@ -73,14 +73,14 @@ constructor(
         val style = styles.get(player)
         val weapon = player.righthand
 
-        val spell: MagicSpell? = null // TODO: Resolve spell based on auto cast id.
+        val spell: MagicSpell? = null // TODO(combat): Resolve spell based on auto cast id.
         val attack = resolveCombatAttack(weapon, type, style, spell)
 
         combat.attack(this, target, attack)
     }
 
     private fun ProtectedAccess.canAttack(npc: Npc): Boolean {
-        // TODO: Handle "can attack hooks" here. Seems like the ones that give dialogues
+        // TODO(combat): Handle "can attack hooks" here. Seems like the ones that give dialogues
         //  have a cool-down period, but it's more than likely something hardcoded into
         //  their specific conditions. Some npcs like the mage arena (wilderness) npcs
         //  don't give any sort of message, but simply won't allow players to melee them.
@@ -89,7 +89,7 @@ constructor(
         val singleCombat = !inMultiCombatArea()
         if (singleCombat) {
             if (lastCombatPvp + ACTIVE_COMBAT_DELAY > mapClock) {
-                // TODO: Is this also a spam type message for pvp?
+                // TODO(combat): Is this also a spam type message for pvp?
                 spam("I'm already under attack.")
                 return false
             }
@@ -101,7 +101,7 @@ constructor(
                 }
             }
 
-            // TODO: Support for npcs that only target a single player, such as barrows.
+            // TODO(combat): Support for npcs that only target a single player, such as barrows.
             if (npc.lastCombat + ACTIVE_COMBAT_DELAY > mapClock) {
                 if (npc.aggressivePlayer != null && npc.aggressivePlayer != player.uid) {
                     mes("Someone else is fighting that.")
