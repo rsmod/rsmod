@@ -7,6 +7,7 @@
       <w>anim</w>
       <w>anims</w>
       <w>attackstyle</w>
+      <w>autocast</w>
       <w>bgsound</w>
       <w>blockednormal</w>
       <w>boughtlink</w>
@@ -42,6 +43,7 @@
       <w>fontmetrics</w>
       <w>gameframe</w>
       <w>gielinor</w>
+      <w>godsword</w>
       <w>hasta</w>
       <w>headbar</w>
       <w>headbars</w>
@@ -84,6 +86,19 @@
       <w>objvar</w>
       <w>objvars</w>
       <w>oddenstein</w>
+      <w>opheld</w>
+      <w>oploc</w>
+      <w>oploct</w>
+      <w>oplocu</w>
+      <w>opnpc</w>
+      <w>opnpct</w>
+      <w>opnpcu</w>
+      <w>opobj</w>
+      <w>opobjt</w>
+      <w>opobju</w>
+      <w>opplayer</w>
+      <w>opplayert</w>
+      <w>opplayeru</w>
       <w>passthru</w>
       <w>pbutton</w>
       <w>pheld</w>

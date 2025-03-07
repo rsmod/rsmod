@@ -7,6 +7,9 @@ import org.rsmod.api.type.refs.varbit.VarBitReferences
 typealias varbits = BaseVarBits
 
 object BaseVarBits : VarBitReferences() {
+    val combat_level = find("combat_level", 56930885834068)
+    val combat_level_decimal = find("combat_level_decimal", 116230836668633)
+    val autocast_enabled = find("autocast_enabled", 5565072492265)
     val autocast_spell = find("autocast_spell", 5565072497878)
     val defensive_casting_mode = find("defensive_casting_mode", 22618316438405)
 
@@ -91,6 +94,10 @@ object BaseVarBits : VarBitReferences() {
     val augury_unlocked = find("augury_prayer_unlocked", 73623487035887)
 
     /* Server-side only types */
+    val saved_autocast_spell_staff = find("saved_autocast_spell_staff")
+    val saved_defensive_casting_staff = find("saved_defensive_casting_staff")
+    val saved_autocast_spell_bladed_staff = find("saved_autocast_spell_bladed_staff")
+    val saved_defensive_casting_bladed_staff = find("saved_defensive_casting_bladed_staff")
     val accept_aid_restore = find("accept_aid_restore")
     val bank_capacity = find("bank_capacity")
     val coal_bag_storage_count = find("coal_bag_storage_count")

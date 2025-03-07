@@ -8,14 +8,12 @@ import org.rsmod.api.invtx.swap
 import org.rsmod.api.invtx.transfer
 import org.rsmod.api.player.events.interact.HeldEquipEvents
 import org.rsmod.api.player.righthand
-import org.rsmod.api.player.ui.PlayerInterfaceUpdates
 import org.rsmod.api.utils.format.addArticle
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.obj.UnpackedObjType
-import org.rsmod.game.type.obj.WeaponCategory
 import org.rsmod.game.type.obj.Wearpos
 import org.rsmod.game.type.stat.StatType
 import org.rsmod.objtx.TransactionResult
@@ -102,9 +100,6 @@ constructor(private val objTypes: ObjTypeList, private val eventBus: EventBus) {
             eventBus.publish(equip)
 
             player.rebuildAppearance()
-
-            val righthand = player.righthand?.let(objTypes::get)
-            player.updateCombatTab(righthand)
         }
 
         return result
@@ -182,10 +177,5 @@ constructor(private val objTypes: ObjTypeList, private val eventBus: EventBus) {
 
         private const val DEFAULT_STAT_MESSAGE2 =
             "You need to have {skill1} level of {level1} and {skill2} level of {level2}."
-
-        private fun Player.updateCombatTab(righthand: UnpackedObjType?) {
-            val category = WeaponCategory.getOrUnarmed(righthand?.weaponCategory)
-            PlayerInterfaceUpdates.updateCombatTab(this, righthand?.name, category)
-        }
     }
 }

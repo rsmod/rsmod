@@ -38,6 +38,7 @@ object CombatTabEnumBuilder : EnumBuilder() {
             this[WeaponCategory.Whip] = combat_varbits.last_style_whip
             this[WeaponCategory.BladedStaff] = combat_varbits.last_style_bladed_staff
             this[WeaponCategory.Banner] = combat_varbits.last_style_banner
+            this[WeaponCategory.GodSword] = combat_varbits.last_style_godsword
             this[WeaponCategory.PoweredStaff] = combat_varbits.last_style_powered_staff
             this[WeaponCategory.Bludgeon] = combat_varbits.last_style_bludgeon
             this[WeaponCategory.Bulwark] = combat_varbits.last_style_bulwark

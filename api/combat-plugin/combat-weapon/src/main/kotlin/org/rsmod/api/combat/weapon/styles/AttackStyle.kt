@@ -1,11 +1,13 @@
 package org.rsmod.api.combat.weapon.styles
 
+import org.rsmod.api.utils.vars.VarEnumDelegate
+
 public enum class AttackStyle(public val id: Int) {
     /* `id` 0 is reserved for "null" value. */
-    AccurateMelee(1),
-    AggressiveMelee(2),
-    DefensiveMelee(3),
-    ControlledMelee(4),
+    ControlledMelee(1),
+    AccurateMelee(2),
+    AggressiveMelee(3),
+    DefensiveMelee(4),
     AccurateRanged(5),
     RapidRanged(6),
     LongRangeRanged(7);
@@ -28,19 +30,19 @@ public enum class AttackStyle(public val id: Int) {
     }
 }
 
-public enum class MeleeAttackStyle {
-    Accurate,
-    Aggressive,
-    Defensive,
-    Controlled;
+public enum class MeleeAttackStyle(override val varValue: Int) : VarEnumDelegate {
+    Controlled(0),
+    Accurate(1),
+    Aggressive(2),
+    Defensive(3);
 
     public companion object {
         public fun from(style: AttackStyle?): MeleeAttackStyle? =
             when (style) {
+                AttackStyle.ControlledMelee -> Controlled
                 AttackStyle.AccurateMelee -> Accurate
                 AttackStyle.AggressiveMelee -> Aggressive
                 AttackStyle.DefensiveMelee -> Defensive
-                AttackStyle.ControlledMelee -> Controlled
                 else -> null
             }
     }

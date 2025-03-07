@@ -30,6 +30,7 @@ object CombatTabVarBits : VarBitReferences() {
     val last_style_whip = find("saved_attackstyle_whip")
     val last_style_bladed_staff = find("saved_attackstyle_bladed_staff")
     val last_style_banner = find("saved_attackstyle_banner")
+    val last_style_godsword = find("saved_attackstyle_godsword")
     val last_style_powered_staff = find("saved_attackstyle_powered_staff")
     val last_style_bludgeon = find("saved_attackstyle_bludgeon")
     val last_style_bulwark = find("saved_attackstyle_bulwark")
@@ -64,6 +65,7 @@ object CombatTabVarBitBuilder : VarBitBuilder() {
         style2(combat_varbits.last_style_powered_staff, 14..15)
         style2(combat_varbits.last_style_bludgeon, 16..17)
         style2(combat_varbits.last_style_bulwark, 18..19)
+        style2(combat_varbits.last_style_godsword, 20..21)
     }
 
     private fun style1(type: VarBitType, bits: IntRange) {

@@ -25,6 +25,8 @@
 1306	npc_attack_option
 4130	fortis_colosseum_glory_highscore
 
+65520	saved_autocast_state_staff
+65521	saved_autocast_state_bladed_staff
 65522	lastcombat
 65523	lastcombat_pvp
 65524	aggressive_npc

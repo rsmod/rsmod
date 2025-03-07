@@ -153,7 +153,11 @@
 1800	slayer_task_boss_name
 1801	slayer_task_boss_displayname
 1802	slayer_task_boss_location
+1935	spell_autocast_id
 
+65438	additional_spell_autocast1
+65439	additional_spell_autocast2
+65440	additional_spell_autocast3
 65441	headbar
 65442	rewarditem
 65443	next_npc_stage

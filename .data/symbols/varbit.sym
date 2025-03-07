@@ -8,6 +8,7 @@
 240	slayer_stop_the_wyvern
 247	setting_cannon_hud
 260	mountain_daughter
+275	autocast_enabled
 276	autocast_spell
 278	darkness_level
 282	lightsource_flare
@@ -860,7 +861,7 @@
 12983	enable_minimap_zoom
 12985	remaining_ammo
 13006	low_life_effect
-13027	combat_level_varbit
+13027	combat_level
 13035	mount_karuulm_notes_received
 13036	show_the_store_button_on_mobile
 13037	money_pouch
@@ -1025,8 +1026,14 @@
 14541	toa_selected_preset
 14582	journal_tab_kourend_favour
 14604	pollnivneach_npc_name_update
+14811	combat_level_decimal
 15322	trick_emote
 
+65486	saved_autocast_spell_staff
+65487	saved_defensive_casting_staff
+65488	saved_autocast_spell_bladed_staff
+65489	saved_defensive_casting_bladed_staff
+65490	saved_attackstyle_godsword
 65491	saved_attackstyle_unarmed
 65492	saved_attackstyle_axe
 65493	saved_attackstyle_blunt

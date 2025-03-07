@@ -4,6 +4,8 @@ import org.rsmod.api.type.builders.varp.VarpBuilder
 
 internal object VarpBuilds : VarpBuilder() {
     init {
+        build("saved_autocast_state_staff")
+        build("saved_autocast_state_bladed_staff")
         build("lastcombat") { temporary = true }
         build("lastcombat_pvp") { temporary = true }
         build("aggressive_npc") { temporary = true }

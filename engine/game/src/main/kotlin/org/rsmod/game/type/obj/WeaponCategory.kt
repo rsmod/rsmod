@@ -24,6 +24,9 @@ public enum class WeaponCategory(public val id: Int, public val text: String) {
     Whip(20, "Whip"),
     BladedStaff(21, "Bladed Staff"),
     Banner(22, "Banner"),
+    // When swapping to a godsword, the associated op content script seems to explicitly re-set varp
+    // 357 (current weapon category for the tab interface) from `10` to `23`.
+    GodSword(23, "2h sword"),
     PoweredStaff(24, "Powered Staff"),
     Bludgeon(27, "Bludgeon"),
     Bulwark(28, "Bulwark");
@@ -61,6 +64,7 @@ public enum class WeaponCategory(public val id: Int, public val text: String) {
                 Whip.id -> Whip
                 BladedStaff.id -> BladedStaff
                 Banner.id -> Banner
+                GodSword.id -> GodSword
                 PoweredStaff.id -> PoweredStaff
                 Bludgeon.id -> Bludgeon
                 Bulwark.id -> Bulwark

@@ -5,6 +5,30 @@ import org.rsmod.api.type.builders.varbit.VarBitBuilder
 
 internal object VarBitBuilds : VarBitBuilder() {
     init {
+        build("saved_defensive_casting_staff") {
+            baseVar = varps.saved_autocast_state_staff
+            startBit = 0
+            endBit = 0
+        }
+
+        build("saved_autocast_spell_staff") {
+            baseVar = varps.saved_autocast_state_staff
+            startBit = 1
+            endBit = 31
+        }
+
+        build("saved_defensive_casting_bladed_staff") {
+            baseVar = varps.saved_autocast_state_bladed_staff
+            startBit = 0
+            endBit = 0
+        }
+
+        build("saved_autocast_spell_bladed_staff") {
+            baseVar = varps.saved_autocast_state_bladed_staff
+            startBit = 1
+            endBit = 31
+        }
+
         build("accept_aid_restore") {
             baseVar = varps.temp_restore_65527
             startBit = 0

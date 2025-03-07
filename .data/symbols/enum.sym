@@ -56,7 +56,7 @@
 1983	ancient_spellbook
 1984	lunar_spellbook
 1985	arceuus_spellbook
-1986	autocastable_spells
+1986	autocast_spells
 2323	gnome_cocktails
 2775	equipment_tab_to_slots_map
 2776	equipment_stats_to_slots_map
@@ -79,6 +79,7 @@
 4664	toa_invocations
 4956	prayer_oc
 
+65510	autocast_restricted_spells
 65511	weapon_attack_types
 65512	weapon_attack_styles
 65513	weapon_last_stance_varbits
