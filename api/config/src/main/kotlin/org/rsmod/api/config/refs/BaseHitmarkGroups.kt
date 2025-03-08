@@ -2,84 +2,82 @@ package org.rsmod.api.config.refs
 
 import org.rsmod.game.type.hitmark.HitmarkTypeGroup
 
-typealias hitmarks = BaseHitmarkGroups
-
-private typealias basehits = BaseHitmarks
+typealias hitmark_groups = BaseHitmarkGroups
 
 object BaseHitmarkGroups {
-    val corruption = HitmarkTypeGroup(basehits.corruption)
-    val ironman_blocked = HitmarkTypeGroup(basehits.ironman_blocked)
-    val disease = HitmarkTypeGroup(basehits.disease)
-    val venom = HitmarkTypeGroup(basehits.venom)
-    val heal = HitmarkTypeGroup(basehits.heal)
+    val corruption = HitmarkTypeGroup(hitmarks.corruption)
+    val ironman_blocked = HitmarkTypeGroup(hitmarks.ironman_blocked)
+    val disease = HitmarkTypeGroup(hitmarks.disease)
+    val venom = HitmarkTypeGroup(hitmarks.venom)
+    val heal = HitmarkTypeGroup(hitmarks.heal)
 
     val alt_charge =
-        HitmarkTypeGroup(lit = basehits.alt_charge_lit, tint = basehits.alt_charge_tint)
+        HitmarkTypeGroup(lit = hitmarks.alt_charge_lit, tint = hitmarks.alt_charge_tint)
 
     val zero_damage =
-        HitmarkTypeGroup(lit = basehits.zero_damage_lit, tint = basehits.zero_damage_tint)
+        HitmarkTypeGroup(lit = hitmarks.zero_damage_lit, tint = hitmarks.zero_damage_tint)
 
     val alt_uncharge =
-        HitmarkTypeGroup(lit = basehits.alt_uncharge_lit, tint = basehits.alt_uncharge_tint)
+        HitmarkTypeGroup(lit = hitmarks.alt_uncharge_lit, tint = hitmarks.alt_uncharge_tint)
 
     val regular_damage =
         HitmarkTypeGroup(
-            lit = basehits.regular_damage_lit,
-            tint = basehits.regular_damage_tint,
-            max = basehits.regular_damage_max,
+            lit = hitmarks.regular_damage_lit,
+            tint = hitmarks.regular_damage_tint,
+            max = hitmarks.regular_damage_max,
         )
 
     val shield_damage =
         HitmarkTypeGroup(
-            lit = basehits.shield_damage_lit,
-            tint = basehits.shield_damage_tint,
-            max = basehits.shield_damage_max,
+            lit = hitmarks.shield_damage_lit,
+            tint = hitmarks.shield_damage_tint,
+            max = hitmarks.shield_damage_max,
         )
 
     val zalcano_armour_damage =
         HitmarkTypeGroup(
-            lit = basehits.zalcano_armour_damage_lit,
-            tint = basehits.zalcano_armour_damage_tint,
-            max = basehits.zalcano_armour_damage_max,
+            lit = hitmarks.zalcano_armour_damage_lit,
+            tint = hitmarks.zalcano_armour_damage_tint,
+            max = hitmarks.zalcano_armour_damage_max,
         )
 
     val nightmare_totem_charge =
         HitmarkTypeGroup(
-            lit = basehits.nightmare_totem_charge_lit,
-            tint = basehits.nightmare_totem_charge_tint,
-            max = basehits.nightmare_totem_charge_max,
+            lit = hitmarks.nightmare_totem_charge_lit,
+            tint = hitmarks.nightmare_totem_charge_tint,
+            max = hitmarks.nightmare_totem_charge_max,
         )
 
     val nightmare_totem_uncharge =
         HitmarkTypeGroup(
-            lit = basehits.nightmare_totem_uncharge_lit,
-            tint = basehits.nightmare_totem_uncharge_tint,
-            max = basehits.nightmare_totem_uncharge_max,
+            lit = hitmarks.nightmare_totem_uncharge_lit,
+            tint = hitmarks.nightmare_totem_uncharge_tint,
+            max = hitmarks.nightmare_totem_uncharge_max,
         )
 
     val poise_damage =
         HitmarkTypeGroup(
-            lit = basehits.poise_damage_lit,
-            tint = basehits.poise_damage_tint,
-            max = basehits.poise_damage_max,
+            lit = hitmarks.poise_damage_lit,
+            tint = hitmarks.poise_damage_tint,
+            max = hitmarks.poise_damage_max,
         )
 
     val prayer_drain =
         HitmarkTypeGroup(
-            lit = basehits.prayer_drain_lit,
-            tint = basehits.prayer_drain_tint,
-            max = basehits.prayer_drain_max,
+            lit = hitmarks.prayer_drain_lit,
+            tint = hitmarks.prayer_drain_tint,
+            max = hitmarks.prayer_drain_max,
         )
 
     val poison_damage =
-        HitmarkTypeGroup(lit = basehits.poison_damage_lit, tint = basehits.poison_damage_tint)
+        HitmarkTypeGroup(lit = hitmarks.poison_damage_lit, tint = hitmarks.poison_damage_tint)
 
-    val bleed = HitmarkTypeGroup(basehits.bleed)
-    val sanity_drain = HitmarkTypeGroup(basehits.sanity_drain)
-    val sanity_restore = HitmarkTypeGroup(basehits.sanity_restore)
-    val doom = HitmarkTypeGroup(basehits.doom)
-    val burn = HitmarkTypeGroup(basehits.burn)
+    val bleed = HitmarkTypeGroup(hitmarks.bleed)
+    val sanity_drain = HitmarkTypeGroup(hitmarks.sanity_drain)
+    val sanity_restore = HitmarkTypeGroup(hitmarks.sanity_restore)
+    val doom = HitmarkTypeGroup(hitmarks.doom)
+    val burn = HitmarkTypeGroup(hitmarks.burn)
 
     val wintertodt_drain =
-        HitmarkTypeGroup(lit = basehits.wintertodt_drain_lit, tint = basehits.wintertodt_drain_tint)
+        HitmarkTypeGroup(lit = hitmarks.wintertodt_drain_lit, tint = hitmarks.wintertodt_drain_tint)
 }

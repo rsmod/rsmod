@@ -16,6 +16,7 @@ import org.rsmod.game.seq.EntitySeq
 import org.rsmod.game.timer.NpcTimerMap
 import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.headbar.HeadbarType
+import org.rsmod.game.type.hitmark.HitmarkTypeGroup
 import org.rsmod.game.type.npc.UnpackedNpcType
 import org.rsmod.game.type.param.ParamType
 import org.rsmod.game.type.queue.QueueType
@@ -92,6 +93,8 @@ public class Npc(
     public var transmog: UnpackedNpcType? = null
         private set
 
+    public var cachedHitmark: HitmarkTypeGroup? = null
+
     public val id: Int
         get() = type.id
 
@@ -163,6 +166,7 @@ public class Npc(
     public fun setRespawnValues() {
         coords = spawnCoords
         transmog = null
+        cachedHitmark = null
         assignUid()
         // TODO(combat): Are these two face resets required? Should they not be reset on death as
         //  opposed to on respawn?
@@ -228,11 +232,13 @@ public class Npc(
     }
 
     public fun transmog(type: UnpackedNpcType) {
+        cachedHitmark = null
         transmog = type
         infoProtocol.setTransmog(type.id)
     }
 
     public fun resetTransmog() {
+        cachedHitmark = null
         transmog = null
         infoProtocol.resetTransmog(originalType = id)
     }

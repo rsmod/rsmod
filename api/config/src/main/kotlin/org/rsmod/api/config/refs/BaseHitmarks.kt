@@ -2,6 +2,8 @@ package org.rsmod.api.config.refs
 
 import org.rsmod.api.type.refs.hitmark.HitmarkReferences
 
+typealias hitmarks = BaseHitmarks
+
 object BaseHitmarks : HitmarkReferences() {
     val corruption = find("corruption")
     val ironman_blocked = find("ironman_blocked")

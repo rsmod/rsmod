@@ -1,7 +1,7 @@
 package org.rsmod.api.npc.hit.processor
 
 import jakarta.inject.Inject
-import org.rsmod.api.config.refs.hitmarks
+import org.rsmod.api.config.refs.hitmark_groups
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.config.refs.queues
 import org.rsmod.api.npc.access.StandardNpcAccess
@@ -26,11 +26,12 @@ public class StandardNpcHitProcessor @Inject constructor(private val eventBus: E
         // threshold.
 
         if (changedDamage == 0) {
+            val zeroDamageHitmark = hitmark_groups.zero_damage
             val modifiedHitmark =
                 hit.hitmark.copy(
-                    self = hitmarks.zero_damage.lit.id,
-                    source = hitmarks.zero_damage.lit.id,
-                    public = if (hit.hitmark.isPrivate) null else hitmarks.zero_damage.tint?.id,
+                    self = zeroDamageHitmark.lit.id,
+                    source = zeroDamageHitmark.lit.id,
+                    public = if (hit.hitmark.isPrivate) null else zeroDamageHitmark.tint?.id,
                     damage = changedDamage,
                 )
             val modifiedHit = hit.copy(hitmark = modifiedHitmark)

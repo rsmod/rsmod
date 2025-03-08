@@ -3,7 +3,7 @@ package org.rsmod.api.npc.access
 import kotlin.getValue
 import org.rsmod.annotations.InternalApi
 import org.rsmod.api.config.refs.BaseHitmarkGroups
-import org.rsmod.api.config.refs.hitmarks
+import org.rsmod.api.config.refs.hitmark_groups
 import org.rsmod.api.npc.combatClearQueue
 import org.rsmod.api.npc.hit.modifier.HitModifierNpc
 import org.rsmod.api.npc.hit.modifier.StandardNpcHitModifier
@@ -143,7 +143,7 @@ public class StandardNpcAccess(
      * @param damage The initial damage intended for the [npc]. This value may change based on
      *   various factors from [modifier] and [StandardNpcHitProcessor].
      * @param hitmark The hitmark group used for the visual hitsplat. See [BaseHitmarkGroups] or
-     *   reference [hitmarks] for a list of available hitmark groups.
+     *   reference [hitmark_groups] for a list of available hitmark groups.
      * @param sourceWeapon An optional [ObjType] reference of a "weapon" used by the [source] that
      *   hit modifiers and/or processors can use for specialized logic. Typically unnecessary when
      *   [source] is an [Npc], though there may be niche use cases.
@@ -159,7 +159,7 @@ public class StandardNpcAccess(
         delay: Int,
         type: HitType,
         damage: Int,
-        hitmark: HitmarkTypeGroup = hitmarks.regular_damage,
+        hitmark: HitmarkTypeGroup = hitmark_groups.regular_damage,
         sourceWeapon: ObjType? = null,
         sourceSecondary: ObjType? = null,
         modifier: HitModifierNpc = StandardNpcHitModifier,
@@ -201,7 +201,7 @@ public class StandardNpcAccess(
      * @param damage The initial damage intended for the [npc]. This value may change based on
      *   various factors from [modifier] and [StandardNpcHitProcessor].
      * @param hitmark The hitmark group used for the visual hitsplat. See [BaseHitmarkGroups] or
-     *   reference [hitmarks] for a list of available hitmark groups.
+     *   reference [hitmark_groups] for a list of available hitmark groups.
      * @param specific If `true`, only [source] will see the hitsplat; this does not affect actual
      *   damage calculations.
      * @param sourceSecondary The "secondary" obj used in the attack by [source]. If the hit is from
@@ -217,7 +217,7 @@ public class StandardNpcAccess(
         delay: Int,
         type: HitType,
         damage: Int,
-        hitmark: HitmarkTypeGroup = hitmarks.regular_damage,
+        hitmark: HitmarkTypeGroup = hitmark_groups.regular_damage,
         specific: Boolean = false,
         sourceSecondary: ObjType? = null,
         modifier: HitModifierNpc = StandardNpcHitModifier,
@@ -256,7 +256,7 @@ public class StandardNpcAccess(
      * @param damage The initial damage intended for the [npc]. This value may change based on
      *   various factors from [modifier] and [StandardNpcHitProcessor].
      * @param hitmark The hitmark group used for the visual hitsplat. See [BaseHitmarkGroups] or
-     *   reference [hitmarks] for a list of available hitmark groups.
+     *   reference [hitmark_groups] for a list of available hitmark groups.
      * @param modifier A [HitModifierNpc] used to adjust damage and other hit properties. By
      *   default, this is set to [StandardNpcHitModifier], which applies standard modifications,
      *   such as damage reduction from npc protection prayers.
@@ -266,7 +266,7 @@ public class StandardNpcAccess(
         delay: Int,
         type: HitType,
         damage: Int,
-        hitmark: HitmarkTypeGroup = hitmarks.regular_damage,
+        hitmark: HitmarkTypeGroup = hitmark_groups.regular_damage,
         modifier: HitModifierNpc = StandardNpcHitModifier,
     ): Hit =
         npc.queueHit(

@@ -1,7 +1,8 @@
 package org.rsmod.api.npc.hit
 
 import org.rsmod.api.config.refs.BaseHitmarkGroups
-import org.rsmod.api.config.refs.hitmarks
+import org.rsmod.api.config.refs.hitmark_groups
+import org.rsmod.api.config.refs.params
 import org.rsmod.api.npc.access.StandardNpcAccess
 import org.rsmod.api.npc.hit.configs.hit_queues
 import org.rsmod.api.npc.hit.modifier.HitModifierNpc
@@ -40,7 +41,7 @@ import org.rsmod.game.type.obj.ObjType
  * @param damage The initial damage intended for this [Npc]. This value may change based on various
  *   factors from [modifier] and [StandardNpcHitProcessor].
  * @param hitmark The hitmark group used for the visual hitsplat. See [BaseHitmarkGroups] or
- *   reference [hitmarks] for a list of available hitmark groups.
+ *   reference [hitmark_groups] for a list of available hitmark groups.
  * @param sourceWeapon An optional [ObjType] reference of a "weapon" used by the [source] that hit
  *   modifiers and/or processors can use for specialized logic. Typically unnecessary when [source]
  *   is an [Npc], though there may be niche use cases.
@@ -56,7 +57,7 @@ public fun Npc.queueHit(
     delay: Int,
     type: HitType,
     damage: Int,
-    hitmark: HitmarkTypeGroup = hitmarks.regular_damage,
+    hitmark: HitmarkTypeGroup = visHitmark(),
     sourceWeapon: ObjType? = null,
     sourceSecondary: ObjType? = null,
     modifier: HitModifierNpc = StandardNpcHitModifier,
@@ -100,7 +101,7 @@ public fun Npc.queueHit(
  * @param damage The initial damage intended for this [Npc]. This value may change based on various
  *   factors from [modifier] and [StandardNpcHitProcessor].
  * @param hitmark The hitmark group used for the visual hitsplat. See [BaseHitmarkGroups] or
- *   reference [hitmarks] for a list of available hitmark groups.
+ *   reference [hitmark_groups] for a list of available hitmark groups.
  * @param specific If `true`, only [source] will see the hitsplat; this does not affect actual
  *   damage calculations.
  * @param sourceSecondary The "secondary" obj used in the attack by [source]. If the hit is from a
@@ -116,7 +117,7 @@ public fun Npc.queueHit(
     delay: Int,
     type: HitType,
     damage: Int,
-    hitmark: HitmarkTypeGroup = hitmarks.regular_damage,
+    hitmark: HitmarkTypeGroup = visHitmark(),
     specific: Boolean = false,
     sourceSecondary: ObjType? = null,
     modifier: HitModifierNpc = StandardNpcHitModifier,
@@ -157,7 +158,7 @@ public fun Npc.queueHit(
  * @param damage The initial damage intended for this [Npc]. This value may change based on various
  *   factors from [modifier] and [StandardNpcHitProcessor].
  * @param hitmark The hitmark group used for the visual hitsplat. See [BaseHitmarkGroups] or
- *   reference [hitmarks] for a list of available hitmark groups.
+ *   reference [hitmark_groups] for a list of available hitmark groups.
  * @param modifier A [HitModifierNpc] used to adjust damage and other hit properties. By default,
  *   this is set to [StandardNpcHitModifier], which applies standard modifications, such as damage
  *   reduction from npc protection prayers.
@@ -167,7 +168,7 @@ public fun Npc.queueHit(
     delay: Int,
     type: HitType,
     damage: Int,
-    hitmark: HitmarkTypeGroup = hitmarks.regular_damage,
+    hitmark: HitmarkTypeGroup = visHitmark(),
     modifier: HitModifierNpc = StandardNpcHitModifier,
 ): Hit {
     val builder =
@@ -180,6 +181,30 @@ public fun Npc.queueHit(
             clientDelay = 0,
         )
     return modifyAndQueueHit(delay, builder, modifier)
+}
+
+/**
+ * Returns the current [HitmarkTypeGroup] for this npc based on its [Npc.visType] params:
+ * `hitmark_lit`, `hitmark_tint`, and `hitmark_max`.
+ *
+ * If the params are not explicitly set, they default to the equivalent of the hitmark types in
+ * [BaseHitmarkGroups.regular_damage].
+ *
+ * The result is cached to avoid creating a new instance every time. The cached value stays accurate
+ * because [Npc.cachedHitmark] is reset automatically when needed (e.g., on respawn, transmog,
+ * etc.).
+ */
+public fun Npc.visHitmark(): HitmarkTypeGroup {
+    val current = cachedHitmark
+    if (current != null) {
+        return current
+    }
+    val lit = visType.param(params.hitmark_lit)
+    val tint = visType.param(params.hitmark_tint)
+    val max = visType.param(params.hitmark_max)
+    val hitmark = HitmarkTypeGroup(lit, tint, max)
+    this.cachedHitmark = hitmark
+    return hitmark
 }
 
 private fun Npc.modifyAndQueueHit(delay: Int, builder: HitBuilder, modifier: HitModifierNpc): Hit {

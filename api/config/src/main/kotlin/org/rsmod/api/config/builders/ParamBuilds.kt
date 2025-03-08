@@ -4,10 +4,12 @@ package org.rsmod.api.config.builders
 
 import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.headbars
+import org.rsmod.api.config.refs.hitmarks
 import org.rsmod.api.config.refs.seqs
 import org.rsmod.api.config.refs.synths
 import org.rsmod.api.type.builders.param.ParamBuilder
 import org.rsmod.game.type.headbar.HeadbarType
+import org.rsmod.game.type.hitmark.HitmarkType
 import org.rsmod.game.type.loc.LocType
 import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.obj.ObjType
@@ -18,7 +20,12 @@ import org.rsmod.game.type.varbit.VarBitType
 
 internal object ParamBuilds : ParamBuilder() {
     init {
+        build<HitmarkType>("hitmark_lit") { default = hitmarks.regular_damage_lit }
+        build<HitmarkType>("hitmark_tint") { default = hitmarks.regular_damage_tint }
+        build<HitmarkType>("hitmark_max") { default = hitmarks.regular_damage_max }
+
         build<HeadbarType>("headbar") { default = headbars.health_30 }
+
         build<ObjType>("rewarditem")
         build<NpcType>("next_npc_stage")
         build<Boolean>("bankside_extraop_conditional_flip") { default = false }

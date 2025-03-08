@@ -155,6 +155,9 @@
 1802	slayer_task_boss_location
 1935	spell_autocast_id
 
+65435	hitmark_lit
+65436	hitmark_tint
+65437	hitmark_max
 65438	additional_spell_autocast1
 65439	additional_spell_autocast2
 65440	additional_spell_autocast3

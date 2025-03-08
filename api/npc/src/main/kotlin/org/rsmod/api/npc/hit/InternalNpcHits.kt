@@ -1,7 +1,7 @@
 package org.rsmod.api.npc.hit
 
 import kotlin.math.max
-import org.rsmod.api.config.refs.hitmarks
+import org.rsmod.api.config.refs.hitmark_groups
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.game.hit.HitBuilder
@@ -113,7 +113,7 @@ internal object InternalNpcHits {
                 hitmark.tint != null -> hitmark.tint?.id
                 else -> hitmark.lit.id
             }
-        val zeroDamageHitmarks = if (hitmark.isRegularDamage()) hitmarks.zero_damage else null
+        val zeroDamageHitmarks = if (hitmark.isRegularDamage()) hitmark_groups.zero_damage else null
         return HitBuilder(
             type = type,
             damage = damage,
@@ -136,7 +136,7 @@ internal object InternalNpcHits {
     }
 
     private fun HitmarkTypeGroup.isRegularDamage(): Boolean =
-        isAssociatedWith(hitmarks.regular_damage)
+        isAssociatedWith(hitmark_groups.regular_damage)
 
     private fun Player.currentMaxHit(): Int = 30 // TODO(combat): Base on cached var
 

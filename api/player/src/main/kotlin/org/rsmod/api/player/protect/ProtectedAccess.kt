@@ -9,7 +9,7 @@ import org.rsmod.annotations.InternalApi
 import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.BaseHitmarkGroups
 import org.rsmod.api.config.refs.components
-import org.rsmod.api.config.refs.hitmarks
+import org.rsmod.api.config.refs.hitmark_groups
 import org.rsmod.api.config.refs.invs
 import org.rsmod.api.config.refs.objs
 import org.rsmod.api.config.refs.queues
@@ -1137,7 +1137,7 @@ public class ProtectedAccess(
      * @param damage The initial damage intended for the [player]. This value may change based on
      *   various factors from [modifier].
      * @param hitmark The hitmark group used for the visual hitsplat. See [BaseHitmarkGroups] or
-     *   reference [hitmarks] for a list of available hitmark groups.
+     *   reference [hitmark_groups] for a list of available hitmark groups.
      * @param specific If `true`, only the [player] will see the hitsplat; this does not affect
      *   actual damage calculations.
      * @param sourceWeapon An optional [ObjType] reference of a "weapon" used by the [source] that
@@ -1155,7 +1155,7 @@ public class ProtectedAccess(
         delay: Int,
         type: HitType,
         damage: Int,
-        hitmark: HitmarkTypeGroup = hitmarks.regular_damage,
+        hitmark: HitmarkTypeGroup = hitmark_groups.regular_damage,
         specific: Boolean = false,
         sourceWeapon: ObjType? = null,
         sourceSecondary: ObjType? = null,
@@ -1200,7 +1200,7 @@ public class ProtectedAccess(
      * @param damage The initial damage intended for the [player]. This value may change based on
      *   various factors from [modifier].
      * @param hitmark The hitmark group used for the visual hitsplat. See [BaseHitmarkGroups] or
-     *   reference [hitmarks] for a list of available hitmark groups.
+     *   reference [hitmark_groups] for a list of available hitmark groups.
      * @param sourceSecondary The "secondary" obj used in the attack by [source]. If the hit is from
      *   a ranged attack, this should be set to the ammunition obj (if applicable). If the attack is
      *   from a magic spell, this should be the associated spell obj.
@@ -1214,7 +1214,7 @@ public class ProtectedAccess(
         delay: Int,
         type: HitType,
         damage: Int,
-        hitmark: HitmarkTypeGroup = hitmarks.regular_damage,
+        hitmark: HitmarkTypeGroup = hitmark_groups.regular_damage,
         sourceSecondary: ObjType? = null,
         modifier: HitModifierPlayer = StandardPlayerHitModifier,
     ): Hit =
@@ -1252,7 +1252,7 @@ public class ProtectedAccess(
      * @param damage The initial damage intended for the [player]. This value may change based on
      *   various factors from [modifier].
      * @param hitmark The hitmark group used for the visual hitsplat. See [BaseHitmarkGroups] or
-     *   reference [hitmarks] for a list of available hitmark groups.
+     *   reference [hitmark_groups] for a list of available hitmark groups.
      * @param specific If `true`, only the [player] will see the hitsplat; this does not affect
      *   actual damage calculations.
      * @param modifier A [HitModifierPlayer] used to adjust damage and other hit properties. By
@@ -1267,7 +1267,7 @@ public class ProtectedAccess(
         delay: Int,
         type: HitType,
         damage: Int,
-        hitmark: HitmarkTypeGroup = hitmarks.regular_damage,
+        hitmark: HitmarkTypeGroup = hitmark_groups.regular_damage,
         specific: Boolean = false,
         modifier: HitModifierPlayer = StandardPlayerHitModifier,
         strongQueue: Boolean = true,
@@ -1289,7 +1289,7 @@ public class ProtectedAccess(
      * @param damage The initial damage intended for the [player]. This value may be adjusted by
      *   [modifier] based on various factors.
      * @param hitmark The hitmark group used for the visual hitsplat. See [BaseHitmarkGroups] or
-     *   reference [hitmarks] for a list of available hitmark groups.
+     *   reference [hitmark_groups] for a list of available hitmark groups.
      * @param specific If `true`, only the [player] will see the hitsplat; this does not affect
      *   actual damage calculations.
      * @param modifier A [HitModifierPlayer] that modifies the damage and other properties.
@@ -1300,7 +1300,7 @@ public class ProtectedAccess(
     public fun takeInstantHit(
         type: HitType,
         damage: Int,
-        hitmark: HitmarkTypeGroup = hitmarks.regular_damage,
+        hitmark: HitmarkTypeGroup = hitmark_groups.regular_damage,
         specific: Boolean = false,
         modifier: HitModifierPlayer = NoopPlayerHitModifier,
         processor: InstantPlayerHitProcessor = DamageOnlyPlayerHitProcessor,
@@ -1340,7 +1340,7 @@ public class ProtectedAccess(
      * @param damage The initial damage intended for the [player]. This value may change based on
      *   various factors from [modifier].
      * @param hitmark The hitmark group used for the visual hitsplat. See [BaseHitmarkGroups] or
-     *   reference [hitmarks] for a list of available hitmark groups.
+     *   reference [hitmark_groups] for a list of available hitmark groups.
      * @param specific If `true`, only the [player] will see the hitsplat; this does not affect
      *   actual damage calculations.
      * @param sourceWeapon An optional [ObjType] reference of a "weapon" used by the [source] that
@@ -1358,7 +1358,7 @@ public class ProtectedAccess(
         delay: Int,
         type: HitType,
         damage: Int,
-        hitmark: HitmarkTypeGroup = hitmarks.regular_damage,
+        hitmark: HitmarkTypeGroup = hitmark_groups.regular_damage,
         specific: Boolean = false,
         sourceWeapon: ObjType? = null,
         sourceSecondary: ObjType? = null,
@@ -1404,7 +1404,7 @@ public class ProtectedAccess(
      * @param damage The initial damage intended for the [player]. This value may change based on
      *   various factors from [modifier].
      * @param hitmark The hitmark group used for the visual hitsplat. See [BaseHitmarkGroups] or
-     *   reference [hitmarks] for a list of available hitmark groups.
+     *   reference [hitmark_groups] for a list of available hitmark groups.
      * @param sourceSecondary The "secondary" obj used in the attack by [source]. If the hit is from
      *   a ranged attack, this should be set to the ammunition obj (if applicable). If the attack is
      *   from a magic spell, this should be the associated spell obj.
@@ -1418,7 +1418,7 @@ public class ProtectedAccess(
         delay: Int,
         type: HitType,
         damage: Int,
-        hitmark: HitmarkTypeGroup = hitmarks.regular_damage,
+        hitmark: HitmarkTypeGroup = hitmark_groups.regular_damage,
         sourceSecondary: ObjType? = null,
         modifier: HitModifierPlayer = StandardPlayerHitModifier,
     ): Unit =
@@ -1457,7 +1457,7 @@ public class ProtectedAccess(
      * @param damage The initial damage intended for the [player]. This value may change based on
      *   various factors from [modifier].
      * @param hitmark The hitmark group used for the visual hitsplat. See [BaseHitmarkGroups] or
-     *   reference [hitmarks] for a list of available hitmark groups.
+     *   reference [hitmark_groups] for a list of available hitmark groups.
      * @param specific If `true`, only the [player] will see the hitsplat; this does not affect
      *   actual damage calculations.
      * @param modifier A [HitModifierPlayer] used to adjust damage and other hit properties. By
@@ -1469,7 +1469,7 @@ public class ProtectedAccess(
         delay: Int,
         type: HitType,
         damage: Int,
-        hitmark: HitmarkTypeGroup = hitmarks.regular_damage,
+        hitmark: HitmarkTypeGroup = hitmark_groups.regular_damage,
         specific: Boolean = false,
         modifier: HitModifierPlayer = StandardPlayerHitModifier,
     ): Unit =

@@ -5,6 +5,7 @@ import org.rsmod.game.type.TypeListMap
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.enums.EnumType
 import org.rsmod.game.type.headbar.HeadbarType
+import org.rsmod.game.type.hitmark.HitmarkType
 import org.rsmod.game.type.loc.LocType
 import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.obj.ObjType
@@ -62,6 +63,13 @@ public object CacheVarHeadbarCodec : BaseIntVarCodec<HeadbarType>(HeadbarType::c
         types.headbars[value]?.toHashedType()
 
     override fun encode(value: HeadbarType): Int = value.id
+}
+
+public object CacheVarHitmarkCodec : BaseIntVarCodec<HitmarkType>(HitmarkType::class) {
+    override fun decode(types: TypeListMap, value: Int): HitmarkType? =
+        types.hitmarks[value]?.toHashedType()
+
+    override fun encode(value: HitmarkType): Int = value.id
 }
 
 public object CacheVarNamedObjCodec : BaseIntVarCodec<ObjType>(ObjType::class) {

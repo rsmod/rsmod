@@ -7,6 +7,8 @@ import org.rsmod.game.type.enums.EnumType
 import org.rsmod.game.type.enums.HashedEnumType
 import org.rsmod.game.type.headbar.HashedHeadbarType
 import org.rsmod.game.type.headbar.HeadbarType
+import org.rsmod.game.type.hitmark.HashedHitmarkType
+import org.rsmod.game.type.hitmark.HitmarkType
 import org.rsmod.game.type.loc.HashedLocType
 import org.rsmod.game.type.loc.LocType
 import org.rsmod.game.type.npc.HashedNpcType
@@ -39,6 +41,8 @@ public object CacheVarTypeMap {
             HashedEnumType::class to CacheVarLiteral.ENUM,
             HeadbarType::class to CacheVarLiteral.HEADBAR,
             HashedHeadbarType::class to CacheVarLiteral.HEADBAR,
+            HitmarkType::class to CacheVarLiteral.HITMARK,
+            HashedHitmarkType::class to CacheVarLiteral.HITMARK,
             LocType::class to CacheVarLiteral.LOC,
             HashedLocType::class to CacheVarLiteral.LOC,
             NpcType::class to CacheVarLiteral.NPC,
@@ -71,6 +75,8 @@ public object CacheVarTypeMap {
             HashedEnumType::class to CacheVarEnumCodec,
             HeadbarType::class to CacheVarHeadbarCodec,
             HashedHeadbarType::class to CacheVarHeadbarCodec,
+            HitmarkType::class to CacheVarHitmarkCodec,
+            HashedHitmarkType::class to CacheVarHitmarkCodec,
             LocType::class to CacheVarLocCodec,
             HashedLocType::class to CacheVarLocCodec,
             NpcType::class to CacheVarNpcCodec,
@@ -133,7 +139,7 @@ public object CacheVarTypeMap {
                 CacheVarLiteral.CATEGORY -> Int::class
                 CacheVarLiteral.CHAR -> Int::class
                 CacheVarLiteral.MAPELEMENT -> Int::class
-                CacheVarLiteral.HITMARK -> Int::class
+                CacheVarLiteral.HITMARK -> HitmarkType::class
                 CacheVarLiteral.HEADBAR -> HeadbarType::class
                 CacheVarLiteral.STRINGVECTOR -> Int::class
                 CacheVarLiteral.DBTABLE -> Int::class
