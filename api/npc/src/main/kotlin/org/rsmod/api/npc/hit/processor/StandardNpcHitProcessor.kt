@@ -72,34 +72,6 @@ public class StandardNpcHitProcessor @Inject constructor(private val eventBus: E
         npc.showHeadbar(headbar)
     }
 
-    private fun Hit.createHeadbar(currHp: Int, maxHp: Int, headbar: HeadbarType): Headbar {
-        return when {
-            isFromNpc ->
-                InternalNpcHeadbars.createNpcSource(
-                    sourceSlot = hitmark.npcSlot,
-                    currHp = currHp,
-                    maxHp = maxHp,
-                    headbar = headbar,
-                    clientDelay = hitmark.delay,
-                )
-
-            isFromPlayer ->
-                InternalNpcHeadbars.createPlayerSource(
-                    sourceSlot = hitmark.playerSlot,
-                    currHp = currHp,
-                    maxHp = maxHp,
-                    headbar = headbar,
-                    clientDelay = hitmark.delay,
-                    specific = hitmark.isPrivate,
-                )
-
-            else ->
-                InternalNpcHeadbars.createNoSource(
-                    currHp = currHp,
-                    maxHp = maxHp,
-                    headbar = headbar,
-                    clientDelay = hitmark.delay,
-                )
-        }
-    }
+    private fun Hit.createHeadbar(currHp: Int, maxHp: Int, headbar: HeadbarType): Headbar =
+        InternalNpcHeadbars.createFromHitmark(hitmark, currHp, maxHp, headbar)
 }
