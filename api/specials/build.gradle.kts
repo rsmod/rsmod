@@ -12,6 +12,7 @@ dependencies {
 
     implementation(libs.guice)
     implementation(projects.api.config)
+    implementation(projects.api.npc)
     implementation(projects.api.player)
     implementation(projects.api.type.typeBuilders)
     implementation(projects.api.type.typeReferences)

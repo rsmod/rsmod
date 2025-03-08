@@ -1,12 +1,15 @@
 package org.rsmod.api.specials
 
 import jakarta.inject.Inject
+import org.rsmod.api.specials.combat.MeleeSpecialAttack
+import org.rsmod.api.specials.combat.RangedSpecialAttack
+import org.rsmod.api.specials.instant.InstantSpecialAttack
 import org.rsmod.api.specials.weapon.SpecialAttackWeapons
 import org.rsmod.game.obj.InvObj
 import org.rsmod.game.type.obj.ObjType
 
 public class SpecialAttackRegistry @Inject constructor(private val weapons: SpecialAttackWeapons) {
-    private val specials: MutableMap<Int, SpecialAttack> = mutableMapOf()
+    private val specials = hashMapOf<Int, SpecialAttack>()
 
     public operator fun get(obj: InvObj): SpecialAttack? = specials[obj.id]
 

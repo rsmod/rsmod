@@ -8,6 +8,7 @@ import org.rsmod.api.config.refs.stats
 import org.rsmod.api.config.refs.synths
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.repo.world.WorldRepository
+import org.rsmod.api.specials.SpecialAttackManager
 import org.rsmod.api.specials.SpecialAttackMap
 import org.rsmod.api.specials.SpecialAttackRepository
 import org.rsmod.content.other.special.attacks.configs.special_seqs
@@ -15,10 +16,9 @@ import org.rsmod.content.other.special.attacks.configs.special_spots
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.spot.SpotanimType
 
-class StatBoostSpecialAttacks
-@Inject
-constructor(private val worldRepo: WorldRepository, ctx: Context) : SpecialAttackMap(ctx) {
-    override fun SpecialAttackRepository.register() {
+class StatBoostSpecialAttacks @Inject constructor(private val worldRepo: WorldRepository) :
+    SpecialAttackMap {
+    override fun SpecialAttackRepository.register(manager: SpecialAttackManager) {
         registerInstant(objs.dragon_axe, ::lumberUpRed)
         registerInstant(objs.dragon_axe_or, ::lumberUpRed)
         registerInstant(objs.third_age_axe, ::lumberUpSilver)

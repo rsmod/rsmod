@@ -1,6 +1,7 @@
 package org.rsmod.api.specials.scripts
 
 import jakarta.inject.Inject
+import org.rsmod.api.specials.SpecialAttackManager
 import org.rsmod.api.specials.SpecialAttackMap
 import org.rsmod.api.specials.SpecialAttackRepository
 import org.rsmod.api.specials.weapon.SpecialAttackWeapons
@@ -11,6 +12,7 @@ internal class SpecialAttackScript
 @Inject
 constructor(
     private val repo: SpecialAttackRepository,
+    private val manager: SpecialAttackManager,
     private val weapons: SpecialAttackWeapons,
     private val specials: Set<SpecialAttackMap>,
 ) : PluginScript() {
@@ -25,5 +27,5 @@ constructor(
         }
     }
 
-    private fun SpecialAttackMap.register(): Unit = repo.register()
+    private fun SpecialAttackMap.register(): Unit = repo.register(manager)
 }

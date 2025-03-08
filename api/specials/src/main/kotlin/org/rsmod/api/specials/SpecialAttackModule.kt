@@ -7,9 +7,11 @@ import org.rsmod.plugin.module.PluginModule
 public class SpecialAttackModule : PluginModule() {
     override fun bind() {
         bindInstance<SpecialAttackEnergy>()
+        bindInstance<SpecialAttackManager>()
         bindInstance<SpecialAttackRegistry>()
         bindInstance<SpecialAttackRepository>()
         bindInstance<SpecialAttackWeapons>()
+
         newSetBinding<SpecialAttackMap>()
     }
 }
