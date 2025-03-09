@@ -281,7 +281,7 @@ public class StandardNpcAccess(
     public fun processQueuedHit(
         hit: Hit,
         processor: QueuedNpcHitProcessor = context.hitProcessor,
-    ): Unit = context.hitProcessor.process(this, hit)
+    ): Unit = processor.process(this, hit)
 
     public fun aiTimer(cycles: Int) {
         npc.aiTimer(cycles)
