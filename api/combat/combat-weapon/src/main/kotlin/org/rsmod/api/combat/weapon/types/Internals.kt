@@ -1,5 +1,7 @@
 package org.rsmod.api.combat.weapon.types
 
+import org.rsmod.api.combat.commons.types.AttackType
+
 internal typealias PackedTypes = TypeInternals.PackedTypes
 
 public object TypeInternals {

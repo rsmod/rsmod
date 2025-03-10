@@ -2,13 +2,13 @@ package org.rsmod.api.combat.player
 
 import kotlin.math.min
 import org.rsmod.api.combat.commons.CombatAttack
-import org.rsmod.api.combat.magic.MagicSpell
-import org.rsmod.api.combat.weapon.styles.AttackStyle
-import org.rsmod.api.combat.weapon.styles.MeleeAttackStyle
-import org.rsmod.api.combat.weapon.styles.RangedAttackStyle
-import org.rsmod.api.combat.weapon.types.AttackType
-import org.rsmod.api.combat.weapon.types.MeleeAttackType
-import org.rsmod.api.combat.weapon.types.RangedAttackType
+import org.rsmod.api.combat.commons.magic.MagicSpell
+import org.rsmod.api.combat.commons.styles.AttackStyle
+import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
+import org.rsmod.api.combat.commons.styles.RangedAttackStyle
+import org.rsmod.api.combat.commons.types.AttackType
+import org.rsmod.api.combat.commons.types.MeleeAttackType
+import org.rsmod.api.combat.commons.types.RangedAttackType
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.righthand

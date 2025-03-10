@@ -1,5 +1,7 @@
 package org.rsmod.api.combat.weapon.styles
 
+import org.rsmod.api.combat.commons.styles.AttackStyle
+
 internal typealias PackedStyles = StyleInternals.PackedStyles
 
 public object StyleInternals {

@@ -1,7 +1,7 @@
 package org.rsmod.api.combat.commons
 
-import org.rsmod.api.combat.weapon.styles.AttackStyle
-import org.rsmod.api.combat.weapon.types.AttackType
+import org.rsmod.api.combat.commons.styles.AttackStyle
+import org.rsmod.api.combat.commons.types.AttackType
 import org.rsmod.api.utils.vars.VarEnumDelegate
 
 /**

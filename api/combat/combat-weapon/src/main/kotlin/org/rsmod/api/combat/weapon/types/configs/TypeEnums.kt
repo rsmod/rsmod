@@ -1,6 +1,6 @@
 package org.rsmod.api.combat.weapon.types.configs
 
-import org.rsmod.api.combat.weapon.types.AttackType
+import org.rsmod.api.combat.commons.types.AttackType
 import org.rsmod.api.combat.weapon.types.TypeInternals.PackedTypes
 import org.rsmod.api.type.builders.enums.EnumBuilder
 import org.rsmod.api.type.refs.enums.EnumReferences

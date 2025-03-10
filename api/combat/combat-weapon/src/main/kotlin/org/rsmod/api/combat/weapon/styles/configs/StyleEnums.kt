@@ -1,6 +1,6 @@
 package org.rsmod.api.combat.weapon.styles.configs
 
-import org.rsmod.api.combat.weapon.styles.AttackStyle
+import org.rsmod.api.combat.commons.styles.AttackStyle
 import org.rsmod.api.combat.weapon.styles.PackedStyles
 import org.rsmod.api.type.builders.enums.EnumBuilder
 import org.rsmod.api.type.refs.enums.EnumReferences

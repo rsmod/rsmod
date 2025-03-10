@@ -1,4 +1,4 @@
-package org.rsmod.api.combat.weapon.types
+package org.rsmod.api.combat.commons.types
 
 public enum class AttackType(public val id: Int) {
     /* `id` 0 is reserved for "null" value. */
@@ -29,38 +29,6 @@ public enum class AttackType(public val id: Int) {
                 Light.id -> Light
                 Standard.id -> Standard
                 Heavy.id -> Heavy
-                else -> null
-            }
-    }
-}
-
-public enum class MeleeAttackType {
-    Stab,
-    Slash,
-    Crush;
-
-    public companion object {
-        public fun from(type: AttackType?): MeleeAttackType? =
-            when (type) {
-                AttackType.Stab -> Stab
-                AttackType.Slash -> Slash
-                AttackType.Crush -> Crush
-                else -> null
-            }
-    }
-}
-
-public enum class RangedAttackType {
-    Light,
-    Standard,
-    Heavy;
-
-    public companion object {
-        public fun from(type: AttackType?): RangedAttackType? =
-            when (type) {
-                AttackType.Light -> Light
-                AttackType.Standard -> Standard
-                AttackType.Heavy -> Heavy
                 else -> null
             }
     }

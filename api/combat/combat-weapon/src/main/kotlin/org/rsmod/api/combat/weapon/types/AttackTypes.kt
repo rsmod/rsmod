@@ -2,6 +2,7 @@ package org.rsmod.api.combat.weapon.types
 
 import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap
 import jakarta.inject.Inject
+import org.rsmod.api.combat.commons.types.AttackType
 import org.rsmod.api.combat.weapon.righthand
 import org.rsmod.api.combat.weapon.types.configs.type_enums
 import org.rsmod.api.config.refs.varps
