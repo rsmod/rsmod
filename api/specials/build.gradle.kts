@@ -7,8 +7,8 @@ kotlin {
 }
 
 dependencies {
-    api(projects.api.combatPlugin.combatCommons)
-    api(projects.api.combatPlugin.combatWeapon)
+    api(projects.api.combat.combatCommons)
+    api(projects.api.combat.combatWeapon)
 
     implementation(libs.guice)
     implementation(projects.api.config)
@@ -17,6 +17,7 @@ dependencies {
     implementation(projects.api.type.typeBuilders)
     implementation(projects.api.type.typeReferences)
     implementation(projects.api.utils.utilsVars)
+    implementation(projects.engine.events)
     implementation(projects.engine.game)
     implementation(projects.engine.plugin)
 }

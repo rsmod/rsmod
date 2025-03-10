@@ -8,9 +8,9 @@ kotlin {
 
 dependencies {
     implementation(libs.guice)
-    implementation(projects.api.combatPlugin.combatCommons)
-    implementation(projects.api.combatPlugin.combatMagic)
-    implementation(projects.api.combatPlugin.combatWeapon)
+    implementation(projects.api.combat.combatCommons)
+    implementation(projects.api.combat.combatMagic)
+    implementation(projects.api.combat.combatWeapon)
     implementation(projects.api.config)
     implementation(projects.api.npc)
     implementation(projects.api.player)
