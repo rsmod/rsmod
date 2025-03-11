@@ -42,6 +42,8 @@ object Constants {
     const val toplevel_details: Int = 2
     const val toplevel_prayer: Int = 5
 
+    const val setting_lit_maxhit_min_threshold = 10
+
     const val overlay_timer_woodcutting: Int = 2
 
     const val combat_default_attackrate = 4

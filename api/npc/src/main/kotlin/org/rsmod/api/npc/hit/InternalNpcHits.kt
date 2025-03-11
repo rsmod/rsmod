@@ -1,7 +1,9 @@
 package org.rsmod.api.npc.hit
 
 import kotlin.math.max
+import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.hitmark_groups
+import org.rsmod.api.config.refs.varbits
 import org.rsmod.api.config.refs.varps
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
@@ -142,12 +144,13 @@ internal object InternalNpcHits {
     private fun Player.currentMaxHit(): Int = vars[varps.com_maxhit]
 
     private fun Player.maxDamageLitThreshold(sourceMaxHit: Int): Int? {
-        val minThreshold = 35 // TODO(combat): Base on setting var
+        val varThreshold = vars[varbits.setting_max_hit_hitsplats_threshold]
+        val minThreshold = max(constants.setting_lit_maxhit_min_threshold, varThreshold)
         val threshold = max(minThreshold, sourceMaxHit)
         return if (threshold == 0) {
             null
         } else {
-            minThreshold
+            threshold
         }
     }
 }

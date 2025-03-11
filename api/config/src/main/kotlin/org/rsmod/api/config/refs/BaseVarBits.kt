@@ -93,6 +93,9 @@ object BaseVarBits : VarBitReferences() {
     val rigour_unlocked = find("rigour_prayer_unlocked", 73623487032104)
     val augury_unlocked = find("augury_prayer_unlocked", 73623487035887)
 
+    val setting_max_hit_hitsplats_threshold =
+        find("setting_max_hit_hitsplats_threshold", 183001241817303)
+
     /* Server-side only types */
     val saved_autocast_spell_staff = find("saved_autocast_spell_staff")
     val saved_defensive_casting_staff = find("saved_defensive_casting_staff")
