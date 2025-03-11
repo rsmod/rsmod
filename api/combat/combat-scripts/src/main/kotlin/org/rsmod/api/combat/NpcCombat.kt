@@ -2,6 +2,7 @@ package org.rsmod.api.combat
 
 import jakarta.inject.Inject
 import org.rsmod.api.combat.commons.CombatAttack
+import org.rsmod.api.combat.formulas.MaxHitFormulas
 import org.rsmod.api.combat.fx.MeleeAnimationAndSound
 import org.rsmod.api.combat.npc.aggressivePlayer
 import org.rsmod.api.combat.npc.lastCombat
@@ -28,6 +29,7 @@ constructor(
     private val specialsReg: SpecialAttackRegistry,
     private val specialEnergy: SpecialAttackEnergy,
     private val hitModifier: NpcHitModifier,
+    private val maxHits: MaxHitFormulas,
 ) {
     suspend fun attack(access: ProtectedAccess, target: Npc, attack: CombatAttack) {
         when (attack) {
@@ -79,6 +81,9 @@ constructor(
             }
         }
 
+        // TODO(combat): "WeaponAttack" handling for specialized weapon attacks, such as Scythe of
+        //  Vitur attacks which follows specific logic when performing a standard attack.
+
         val (weapon, type, style, stance) = attack
 
         val animAndSound = MeleeAnimationAndSound.from(stance)
@@ -90,9 +95,12 @@ constructor(
         anim(attackAnim)
         soundSynth(attackSound)
 
-        // TODO(combat): Replace with max hit formula result. Also set a var to the max hit.
-        val damage = random.of(0..50)
+        val maxHit = maxHits.getMeleeMaxHit(player, npc)
+        val damage = random.of(0..maxHit)
+
         npc.queueHit(player, 1, HitType.Melee, damage, hitModifier)
+        // TODO(combat): Add hero points. For emulation purposes, I'm pretty certain hero points
+        //  are added here instead of during hit processing due to legacy/technical reasons.
 
         // val defendSound = npcParam(target, params.defend_sound) // TODO
         val defendAnim = npcParamOrNull(npc, params.defend_anim)

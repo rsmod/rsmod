@@ -8,6 +8,7 @@ import org.rsmod.api.combat.commons.types.AttackType
 import org.rsmod.api.combat.formulas.EquipmentChecks
 import org.rsmod.api.combat.formulas.attributes.CombatNpcAttributes
 import org.rsmod.api.combat.formulas.attributes.CombatWornAttributes
+import org.rsmod.api.combat.maxhit.npc.NpcMeleeMaxHit
 import org.rsmod.api.combat.maxhit.player.PlayerMeleeMaxHit
 import org.rsmod.api.combat.weapon.WeaponSpeeds
 import org.rsmod.api.combat.weapon.styles.AttackStyles
@@ -89,7 +90,7 @@ constructor(
         return finalMaxHit
     }
 
-    public fun calculateEffectiveStrength(player: Player, attackStyle: AttackStyle?): Int {
+    private fun calculateEffectiveStrength(player: Player, attackStyle: AttackStyle?): Int {
         val meleeAttackStyle = MeleeAttackStyle.from(attackStyle)
         return MeleeMaxHitOperations.calculateEffectiveStrength(player, meleeAttackStyle)
     }
@@ -348,5 +349,18 @@ constructor(
     private fun Player.isSlayerTask(type: UnpackedNpcType): Boolean {
         // TODO(combat): Resolve if type is slayer task.
         return false
+    }
+
+    public fun getMaxHit(npc: Npc): Int {
+        val effectiveStrength = calculateEffectiveStrength(npc)
+        // The melee strength is extracted from the `visType` to account for transmog
+        // changes. This is a bit obscure, but hopefully the toplevel `Npc.meleeStrength`
+        // property helps. We do not depend on the `npc` module here, so we cannot call it.
+        val strengthBonus = npc.visType.param(params.melee_strength)
+        return NpcMeleeMaxHit.calculateBaseDamage(effectiveStrength, strengthBonus)
+    }
+
+    private fun calculateEffectiveStrength(npc: Npc): Int {
+        return NpcMeleeMaxHit.calculateEffectiveStrength(npc.strengthLvl)
     }
 }
