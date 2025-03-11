@@ -12,8 +12,10 @@ dependencies {
 
     implementation(libs.guice)
     implementation(projects.api.config)
+    implementation(projects.api.combat.combatFormulas)
     implementation(projects.api.npc)
     implementation(projects.api.player)
+    implementation(projects.api.random)
     implementation(projects.api.type.typeBuilders)
     implementation(projects.api.type.typeReferences)
     implementation(projects.api.utils.utilsVars)

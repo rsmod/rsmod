@@ -4,10 +4,12 @@ import jakarta.inject.Inject
 import org.rsmod.api.combat.commons.CombatAttack
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
 import org.rsmod.api.combat.commons.types.MeleeAttackType
+import org.rsmod.api.combat.formulas.MaxHitFormulas
 import org.rsmod.api.npc.hit.modifier.NpcHitModifier
 import org.rsmod.api.npc.hit.queueHit
 import org.rsmod.api.player.hit.queueHit
 import org.rsmod.api.player.protect.ProtectedAccess
+import org.rsmod.api.random.GameRandom
 import org.rsmod.api.specials.energy.SpecialAttackEnergy
 import org.rsmod.api.specials.weapon.SpecialAttackWeapons
 import org.rsmod.game.entity.Npc
@@ -19,8 +21,10 @@ import org.rsmod.game.type.obj.ObjType
 public class SpecialAttackManager
 @Inject
 constructor(
+    private val random: GameRandom,
     private val energy: SpecialAttackEnergy,
     private val weapons: SpecialAttackWeapons,
+    private val maxHits: MaxHitFormulas,
     private val npcHitModifier: NpcHitModifier,
 ) {
     public fun setNextAttackDelay(source: ProtectedAccess, cycles: Int) {
@@ -90,8 +94,20 @@ constructor(
         target: PathingEntity,
         percentBoost: Int,
     ): Int {
-        // TODO(combat): Damage formula
-        return 0
+        val maxHit = calculateMeleeMaxHit(source, target, percentBoost)
+        return random.of(0, maxHit)
+    }
+
+    public fun calculateMeleeMaxHit(
+        source: ProtectedAccess,
+        target: PathingEntity,
+        percentBoost: Int,
+    ): Int {
+        val specMultiplier = 1 + (percentBoost / 100.0)
+        return when (target) {
+            is Npc -> maxHits.getMeleeMaxHit(source.player, target, specMultiplier)
+            is Player -> TODO() // TODO(combat)
+        }
     }
 
     public fun queueMeleeHit(
