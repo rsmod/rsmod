@@ -125,6 +125,10 @@ public data class UnpackedNpcType(
         return !invalid
     }
 
+    public fun isType(other: NpcType): Boolean {
+        return id == other.id
+    }
+
     public fun isContentType(content: ContentGroupType): Boolean {
         return contentGroup == content.id
     }

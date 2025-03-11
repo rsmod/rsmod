@@ -17,6 +17,7 @@
 65	npc_magic_damage_bonus
 148	wear_op_index
 189	additive_ranged_strength
+190	draconic
 295	no_alchemy
 299	magic_damage
 336	spell_spellbook
@@ -100,6 +101,7 @@
 1119	settings_setting_description_hide
 1157	settings_setting_enhanced_client
 1158	settings_setting_name_custom_extra
+1178	golem
 1186	settings_setting_mobile_always_enabled
 1187	spell_drain_stat
 1188	spell_drain_stat_amount
@@ -145,6 +147,7 @@
 1337	ca_tier_reward_obj3_primary
 1338	ca_tier_reward_obj3_secondary
 1339	ca_tier_reward_desc_enum3
+1353	kalphite
 1751	prayer_component
 1752	prayer_name
 1753	prayer_levelreq
@@ -155,6 +158,18 @@
 1802	slayer_task_boss_location
 1935	spell_autocast_id
 
+65423	td_shield_active
+65424	tormented_demon
+65425	shade
+65426	demonbane_resistant
+65427	corpbane
+65428	slayer_helm
+65429	blackmask
+65430	leafy
+65431	rat
+65432	demon
+65433	revenant
+65434	undead
 65435	hitmark_lit
 65436	hitmark_tint
 65437	hitmark_max

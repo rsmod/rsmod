@@ -6,8 +6,10 @@
       <w>amascut</w>
       <w>anim</w>
       <w>anims</w>
+      <w>arclight</w>
       <w>attackstyle</w>
       <w>autocast</w>
+      <w>barronite</w>
       <w>bgsound</w>
       <w>blockednormal</w>
       <w>boughtlink</w>
@@ -26,9 +28,13 @@
       <w>coord</w>
       <w>coordgrid</w>
       <w>delrith</w>
+      <w>demonbane</w>
       <w>despawn</w>
+      <w>dharok</w>
+      <w>dharoks</w>
       <w>donie</w>
       <w>doubleobjbox</w>
+      <w>draconic</w>
       <w>draynor</w>
       <w>droptrig</w>
       <w>droptrigger</w>
@@ -43,6 +49,8 @@
       <w>fishstabber</w>
       <w>fletching</w>
       <w>fontmetrics</w>
+      <w>forinthry</w>
+	  <w>gadderhammer</w>
       <w>gameframe</w>
       <w>gielinor</w>
       <w>godsword</w>
@@ -60,6 +68,8 @@
       <w>interf</w>
       <w>invs</w>
       <w>isubop</w>
+      <w>kalphite</w>
+      <w>keris</w>
       <w>konsist</w>
       <w>konsist's</w>
       <w>ktfmt</w>
@@ -71,6 +81,7 @@
       <w>manhead</w>
       <w>manwear</w>
       <w>mapscene</w>
+      <w>maxhit</w>
       <w>mesanim</w>
       <w>mesanims</w>
       <w>mesbox</w>
@@ -101,6 +112,8 @@
       <w>opplayer</w>
       <w>opplayert</w>
       <w>opplayeru</w>
+      <w>osmumten</w>
+      <w>osmumtens</w>
       <w>passthru</w>
       <w>pbutton</w>
       <w>pheld</w>
@@ -129,9 +142,12 @@
       <w>setevent</w>
       <w>shiftclickiop</w>
       <w>sidebutton</w>
+      <w>silverlight</w>
       <w>skillcape</w>
       <w>skilling</w>
       <w>smithing</w>
+      <w>soulreaper</w>
+      <w>soulstack</w>
       <w>spellbook</w>
       <w>spotanim</w>
       <w>spotanims</w>

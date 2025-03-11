@@ -20,6 +20,21 @@ import org.rsmod.game.type.varbit.VarBitType
 
 internal object ParamBuilds : ParamBuilder() {
     init {
+        build<Boolean>("td_shield_active") { default = true }
+        build<Int>("tormented_demon") { default = 0 }
+
+        build<Int>("demonbane_resistant") { default = 0 }
+        build<Int>("corpbane") { default = 0 }
+        build<Int>("slayer_helm") { default = 0 }
+        build<Int>("blackmask") { default = 0 }
+
+        build<Int>("shade") { default = 0 }
+        build<Int>("leafy") { default = 0 }
+        build<Int>("rat") { default = 0 }
+        build<Int>("demon") { default = 0 }
+        build<Int>("revenant") { default = 0 }
+        build<Int>("undead") { default = 0 }
+
         build<HitmarkType>("hitmark_lit") { default = hitmarks.regular_damage_lit }
         build<HitmarkType>("hitmark_tint") { default = hitmarks.regular_damage_tint }
         build<HitmarkType>("hitmark_max") { default = hitmarks.regular_damage_max }

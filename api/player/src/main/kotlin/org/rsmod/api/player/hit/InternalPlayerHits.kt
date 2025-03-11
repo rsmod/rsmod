@@ -2,6 +2,7 @@ package org.rsmod.api.player.hit
 
 import kotlin.math.max
 import org.rsmod.api.config.refs.hitmark_groups
+import org.rsmod.api.config.refs.varps
 import org.rsmod.api.player.righthand
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
@@ -142,10 +143,10 @@ internal object InternalPlayerHits {
     private fun HitmarkTypeGroup.isRegularDamage(): Boolean =
         isAssociatedWith(hitmark_groups.regular_damage)
 
-    private fun Player.currentMaxHit(): Int = 30 // TODO(combat): Base on cached var
+    private fun Player.currentMaxHit(): Int = vars[varps.com_maxhit]
 
     private fun Player.maxDamageLitThreshold(sourceMaxHit: Int): Int? {
-        val minThreshold = 35 // TODO(combat): Base on var
+        val minThreshold = 35 // TODO(combat): Base on setting var
         val threshold = max(minThreshold, sourceMaxHit)
         return if (threshold == 0) {
             null

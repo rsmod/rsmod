@@ -9,6 +9,26 @@ import org.rsmod.game.type.obj.ObjTypeList
 public class WornBonuses @Inject constructor(private val objTypes: ObjTypeList) {
     public fun calculate(player: Player): Bonuses = calculate(player.worn)
 
+    // Note(combat): We should consider caching these bonuses and recalculating them only when
+    // necessary. This should be simple as most equipment changes will go through 2 functions
+    // which both post WearposChange events. The only exception would be when the worn inventory
+    // is manually modified (e.g., worn[1] = null), in which case we should provide and make note
+    // of a function that should be used to invalidate any cached bonuses.
+    public fun strengthBonus(player: Player): Int {
+        val bonuses = calculate(player)
+        return bonuses.meleeStr
+    }
+
+    public fun rangedStrengthBonus(player: Player): Int {
+        val bonuses = calculate(player)
+        return bonuses.rangedStr
+    }
+
+    public fun magicDamageBonus(player: Player): Int {
+        val bonuses = calculate(player)
+        return bonuses.magicDmg
+    }
+
     public fun calculate(inventory: Inventory): Bonuses {
         var offStab = 0
         var offSlash = 0

@@ -37,3 +37,8 @@ public fun InvObj?.isAnyType(
     contract { returns(true) implies (this@isAnyType != null) }
     return this != null && (type1.id == id || type2.id == id || type3.id == id || type4.id == id)
 }
+
+public fun InvObj?.isAnyType(type1: ObjType, type2: ObjType, vararg types: ObjType): Boolean {
+    contract { returns(true) implies (this@isAnyType != null) }
+    return this != null && (type1.id == id || type2.id == id || types.any { it.id == id })
+}

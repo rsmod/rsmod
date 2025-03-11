@@ -17,4 +17,5 @@ object BaseNpcs : NpcReferences() {
     val uri_emote_1 = find("uri_id_7311", 6933328106101356804)
     val uri_emote_2 = find("uri_id_7313", 3261198768067748848)
     val achievement_diary_cape_emote = find("achievement_diary_cape_emote", 7192532245563114635)
+    val corporeal_beast = find("corporeal_beast", 2078733078440046002)
 }

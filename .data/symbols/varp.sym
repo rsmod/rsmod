@@ -23,8 +23,11 @@
 675	temp_state_675
 1107	player_attack_option
 1306	npc_attack_option
+3784	soulreaper_axe_soul_stack
 4130	fortis_colosseum_glory_highscore
 
+65518	com_maxhit
+65519	forinthry_surge_expiration
 65520	saved_autocast_state_staff
 65521	saved_autocast_state_bladed_staff
 65522	lastcombat

@@ -26,6 +26,7 @@ object BaseVarps : VarpReferences() {
     val auto_retaliate = find("auto_retaliate", 39044574)
     val sa_energy = find("sa_energy", 68098142)
     val sa_type = find("sa_type", 68325123)
+    val soulreaper_souls = find("soulreaper_axe_soul_stack", 858899946)
 
     val player_run = find("player_run", 39271563)
     val player_attack_option = find("player_attack_option", 251271828)
@@ -47,6 +48,8 @@ object BaseVarps : VarpReferences() {
     val fortis_colosseum_glory_highscore = find("fortis_colosseum_glory_highscore", 937435372)
 
     /* Server-side only types */
+    val com_maxhit = find("com_maxhit")
+    val forinthry_surge_expiration = find("forinthry_surge_expiration")
     val saved_autocast_state_staff = find("saved_autocast_state_staff")
     val saved_autocast_state_bladed_staff = find("saved_autocast_state_bladed_staff")
     val lastcombat = find("lastcombat")

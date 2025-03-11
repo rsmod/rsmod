@@ -46,6 +46,11 @@ object Constants {
 
     const val combat_default_attackrate = 4
 
+    const val skullicon_default = 0
+    const val skullicon_red = 1
+    const val skullicon_highrisk_world = 2
+    const val skullicon_forinthry_surge = 3
+
     const val setpos_abs_top = 0
     const val setpos_abs_left = 0
     const val setpos_abs_centre = 1
