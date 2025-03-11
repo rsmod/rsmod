@@ -29,6 +29,10 @@ import org.rsmod.api.net.rsprot.handlers.MoveGameClickHandler
 import org.rsmod.api.net.rsprot.handlers.OpLocHandler
 import org.rsmod.api.net.rsprot.handlers.OpNpcHandler
 import org.rsmod.api.net.rsprot.handlers.ResumePCountDialogHandler
+import org.rsmod.api.npc.hit.modifier.NpcHitModifier
+import org.rsmod.api.npc.hit.modifier.StandardNpcHitModifier
+import org.rsmod.api.npc.hit.processor.NpcHitProcessor
+import org.rsmod.api.npc.hit.processor.StandardNpcHitProcessor
 import org.rsmod.api.player.interact.LocInteractions
 import org.rsmod.api.player.interact.NpcInteractions
 import org.rsmod.api.player.protect.ProtectedAccess
@@ -764,6 +768,9 @@ constructor(
                 bind(EnumTypeMapResolver::class.java)
                     .toProvider(EnumTypeMapResolverProvider::class.java)
                     .`in`(Scopes.SINGLETON)
+
+                bind(NpcHitModifier::class.java).to(StandardNpcHitModifier::class.java)
+                bind(NpcHitProcessor::class.java).to(StandardNpcHitProcessor::class.java)
             }
         }
 

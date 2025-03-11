@@ -10,6 +10,7 @@ import org.rsmod.api.combat.player.canPerformShieldSpecial
 import org.rsmod.api.combat.player.specialAttackType
 import org.rsmod.api.combat.weapon.WeaponSpeeds
 import org.rsmod.api.config.refs.params
+import org.rsmod.api.npc.hit.modifier.HitModifierNpc
 import org.rsmod.api.npc.hit.queueHit
 import org.rsmod.api.player.lefthand
 import org.rsmod.api.player.protect.ProtectedAccess
@@ -26,6 +27,7 @@ constructor(
     private val speeds: WeaponSpeeds,
     private val specialsReg: SpecialAttackRegistry,
     private val specialEnergy: SpecialAttackEnergy,
+    private val hitModifier: HitModifierNpc,
 ) {
     suspend fun attack(access: ProtectedAccess, target: Npc, attack: CombatAttack) {
         when (attack) {
@@ -90,7 +92,7 @@ constructor(
 
         // TODO(combat): Replace with max hit formula result. Also set a var to the max hit.
         val damage = random.of(0..50)
-        npc.queueHit(player, 1, HitType.Melee, damage)
+        npc.queueHit(player, 1, HitType.Melee, damage, hitModifier)
 
         // val defendSound = npcParam(target, params.defend_sound) // TODO
         val defendAnim = npcParamOrNull(npc, params.defend_anim)

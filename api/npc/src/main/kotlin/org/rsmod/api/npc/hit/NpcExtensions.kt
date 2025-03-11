@@ -6,7 +6,6 @@ import org.rsmod.api.config.refs.params
 import org.rsmod.api.npc.access.StandardNpcAccess
 import org.rsmod.api.npc.hit.configs.hit_queues
 import org.rsmod.api.npc.hit.modifier.HitModifierNpc
-import org.rsmod.api.npc.hit.modifier.StandardNpcHitModifier
 import org.rsmod.api.npc.hit.processor.QueuedNpcHitProcessor
 import org.rsmod.api.npc.hit.processor.StandardNpcHitProcessor
 import org.rsmod.game.entity.Npc
@@ -47,9 +46,7 @@ import org.rsmod.game.type.obj.ObjType
  *   is an [Npc], though there may be niche use cases.
  * @param sourceSecondary Similar to [sourceWeapon], except this refers to objs that are **not** the
  *   primary weapon, such as ammunition for ranged attacks or objs tied to magic spells.
- * @param modifier A [HitModifierNpc] used to adjust damage and other hit properties. By default,
- *   this is set to [StandardNpcHitModifier], which applies standard modifications, such as damage
- *   reduction from npc protection prayers.
+ * @param modifier A [HitModifierNpc] used to adjust damage and other hit properties.
  * @see [BaseHitmarkGroups]
  */
 public fun Npc.queueHit(
@@ -57,10 +54,10 @@ public fun Npc.queueHit(
     delay: Int,
     type: HitType,
     damage: Int,
+    modifier: HitModifierNpc,
     hitmark: HitmarkTypeGroup = visHitmark(),
     sourceWeapon: ObjType? = null,
     sourceSecondary: ObjType? = null,
-    modifier: HitModifierNpc = StandardNpcHitModifier,
 ): Hit {
     val builder =
         InternalNpcHits.createBuilder(
@@ -107,9 +104,7 @@ public fun Npc.queueHit(
  * @param sourceSecondary The "secondary" obj used in the attack by [source]. If the hit is from a
  *   ranged attack, this should be set to the ammunition obj (if applicable). If the attack is from
  *   a magic spell, this should be the associated spell obj.
- * @param modifier A [HitModifierNpc] used to adjust damage and other hit properties. By default,
- *   this is set to [StandardNpcHitModifier], which applies standard modifications, such as damage
- *   reduction from npc protection prayers.
+ * @param modifier A [HitModifierNpc] used to adjust damage and other hit properties.
  * @see [BaseHitmarkGroups]
  */
 public fun Npc.queueHit(
@@ -117,10 +112,10 @@ public fun Npc.queueHit(
     delay: Int,
     type: HitType,
     damage: Int,
+    modifier: HitModifierNpc,
     hitmark: HitmarkTypeGroup = visHitmark(),
     specific: Boolean = false,
     sourceSecondary: ObjType? = null,
-    modifier: HitModifierNpc = StandardNpcHitModifier,
 ): Hit {
     val builder =
         InternalNpcHits.createBuilder(
@@ -159,17 +154,15 @@ public fun Npc.queueHit(
  *   factors from [modifier] and [StandardNpcHitProcessor].
  * @param hitmark The hitmark group used for the visual hitsplat. See [BaseHitmarkGroups] or
  *   reference [hitmark_groups] for a list of available hitmark groups.
- * @param modifier A [HitModifierNpc] used to adjust damage and other hit properties. By default,
- *   this is set to [StandardNpcHitModifier], which applies standard modifications, such as damage
- *   reduction from npc protection prayers.
+ * @param modifier A [HitModifierNpc] used to adjust damage and other hit properties.
  * @see [BaseHitmarkGroups]
  */
 public fun Npc.queueHit(
     delay: Int,
     type: HitType,
     damage: Int,
+    modifier: HitModifierNpc,
     hitmark: HitmarkTypeGroup = visHitmark(),
-    modifier: HitModifierNpc = StandardNpcHitModifier,
 ): Hit {
     val builder =
         InternalNpcHits.createBuilder(

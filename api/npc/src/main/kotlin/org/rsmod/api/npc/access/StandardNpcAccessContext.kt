@@ -1,6 +1,7 @@
 package org.rsmod.api.npc.access
 
-import org.rsmod.api.npc.hit.processor.StandardNpcHitProcessor
+import org.rsmod.api.npc.hit.modifier.HitModifierNpc
+import org.rsmod.api.npc.hit.processor.QueuedNpcHitProcessor
 import org.rsmod.api.random.GameRandom
 
 /**
@@ -27,10 +28,12 @@ import org.rsmod.api.random.GameRandom
  */
 public data class StandardNpcAccessContext(
     private val getRandom: () -> GameRandom,
-    private val getHitProcessor: () -> StandardNpcHitProcessor,
+    private val getHitModifier: () -> HitModifierNpc,
+    private val getHitProcessor: () -> QueuedNpcHitProcessor,
 ) {
     public val random: GameRandom by lazyLoad { getRandom() }
-    public val hitProcessor: StandardNpcHitProcessor by lazyLoad { getHitProcessor() }
+    public val hitModifier: HitModifierNpc by lazyLoad { getHitModifier() }
+    public val hitProcessor: QueuedNpcHitProcessor by lazyLoad { getHitProcessor() }
 }
 
 private fun <T> lazyLoad(init: () -> T): Lazy<T> = lazy(LazyThreadSafetyMode.NONE, init)

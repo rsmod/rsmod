@@ -162,7 +162,7 @@ public class StandardNpcAccess(
         hitmark: HitmarkTypeGroup = hitmark_groups.regular_damage,
         sourceWeapon: ObjType? = null,
         sourceSecondary: ObjType? = null,
-        modifier: HitModifierNpc = StandardNpcHitModifier,
+        modifier: HitModifierNpc = context.hitModifier,
     ): Hit =
         npc.queueHit(
             source = source,
@@ -220,7 +220,7 @@ public class StandardNpcAccess(
         hitmark: HitmarkTypeGroup = hitmark_groups.regular_damage,
         specific: Boolean = false,
         sourceSecondary: ObjType? = null,
-        modifier: HitModifierNpc = StandardNpcHitModifier,
+        modifier: HitModifierNpc = context.hitModifier,
     ): Hit =
         npc.queueHit(
             source = source,
@@ -267,7 +267,7 @@ public class StandardNpcAccess(
         type: HitType,
         damage: Int,
         hitmark: HitmarkTypeGroup = hitmark_groups.regular_damage,
-        modifier: HitModifierNpc = StandardNpcHitModifier,
+        modifier: HitModifierNpc = context.hitModifier,
     ): Hit =
         npc.queueHit(
             delay = delay,

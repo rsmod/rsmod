@@ -4,6 +4,7 @@ import jakarta.inject.Inject
 import org.rsmod.api.combat.commons.CombatAttack
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
 import org.rsmod.api.combat.commons.types.MeleeAttackType
+import org.rsmod.api.npc.hit.modifier.HitModifierNpc
 import org.rsmod.api.npc.hit.queueHit
 import org.rsmod.api.player.hit.queueHit
 import org.rsmod.api.player.protect.ProtectedAccess
@@ -17,7 +18,11 @@ import org.rsmod.game.type.obj.ObjType
 
 public class SpecialAttackManager
 @Inject
-constructor(private val energy: SpecialAttackEnergy, private val weapons: SpecialAttackWeapons) {
+constructor(
+    private val energy: SpecialAttackEnergy,
+    private val weapons: SpecialAttackWeapons,
+    private val npcHitModifier: HitModifierNpc,
+) {
     public fun setNextAttackDelay(source: ProtectedAccess, cycles: Int) {
         source.actionDelay = source.mapClock + cycles
     }
@@ -96,7 +101,7 @@ constructor(private val energy: SpecialAttackEnergy, private val weapons: Specia
         delay: Int,
     ) {
         when (target) {
-            is Npc -> target.queueHit(source.player, delay, HitType.Melee, damage)
+            is Npc -> target.queueHit(source.player, delay, HitType.Melee, damage, npcHitModifier)
             is Player -> target.queueHit(source.player, delay, HitType.Melee, damage)
         }
     }
