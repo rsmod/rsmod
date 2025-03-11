@@ -4,7 +4,7 @@ import jakarta.inject.Inject
 import org.rsmod.api.combat.commons.CombatAttack
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
 import org.rsmod.api.combat.commons.types.MeleeAttackType
-import org.rsmod.api.npc.hit.modifier.HitModifierNpc
+import org.rsmod.api.npc.hit.modifier.NpcHitModifier
 import org.rsmod.api.npc.hit.queueHit
 import org.rsmod.api.player.hit.queueHit
 import org.rsmod.api.player.protect.ProtectedAccess
@@ -21,7 +21,7 @@ public class SpecialAttackManager
 constructor(
     private val energy: SpecialAttackEnergy,
     private val weapons: SpecialAttackWeapons,
-    private val npcHitModifier: HitModifierNpc,
+    private val npcHitModifier: NpcHitModifier,
 ) {
     public fun setNextAttackDelay(source: ProtectedAccess, cycles: Int) {
         source.actionDelay = source.mapClock + cycles

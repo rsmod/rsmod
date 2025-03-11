@@ -10,7 +10,7 @@ public data class StandardPlayerHitPrayerModifier(
     private val reductionPercentFromNpc: Int,
     private val reductionPercentFromPlayer: Int,
     private val reductionPercentFromNoSource: Int,
-) : HitModifierPlayer {
+) : PlayerHitModifier {
     private val Player.protectFromMagic by boolVarBit(varbits.protect_from_magic)
     private val Player.protectFromRanged by boolVarBit(varbits.protect_from_missiles)
     private val Player.protectFromMelee by boolVarBit(varbits.protect_from_melee)

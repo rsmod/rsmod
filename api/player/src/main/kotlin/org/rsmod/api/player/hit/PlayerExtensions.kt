@@ -4,8 +4,8 @@ import kotlin.math.min
 import org.rsmod.api.config.refs.BaseHitmarkGroups
 import org.rsmod.api.config.refs.hitmark_groups
 import org.rsmod.api.player.hit.configs.hit_queues
-import org.rsmod.api.player.hit.modifier.HitModifierPlayer
 import org.rsmod.api.player.hit.modifier.NoopPlayerHitModifier
+import org.rsmod.api.player.hit.modifier.PlayerHitModifier
 import org.rsmod.api.player.hit.modifier.StandardPlayerHitModifier
 import org.rsmod.api.player.hit.processor.DamageOnlyPlayerHitProcessor
 import org.rsmod.api.player.hit.processor.InstantPlayerHitProcessor
@@ -26,7 +26,7 @@ import org.rsmod.game.type.obj.ObjType
  * Queues a hit dealt by [source] with an impact cycle delay of [delay] before the hit is displayed
  * and health is deducted from the player.
  *
- * _[modifier] is applied immediately when this function is called (via [HitModifierPlayer.modify]).
+ * _[modifier] is applied immediately when this function is called (via [PlayerHitModifier.modify]).
  * This means that effects like prayer protection reducing damage are handled at this point and
  * **not** on impact._
  *
@@ -54,7 +54,7 @@ import org.rsmod.game.type.obj.ObjType
  *   is an [Npc], though there may be niche use cases.
  * @param sourceSecondary Similar to [sourceWeapon], except this refers to objs that are **not** the
  *   primary weapon, such as ammunition for ranged attacks or objs tied to magic spells.
- * @param modifier A [HitModifierPlayer] used to adjust damage and other hit properties. By default,
+ * @param modifier A [PlayerHitModifier] used to adjust damage and other hit properties. By default,
  *   this is set to [StandardPlayerHitModifier], which applies standard modifications, such as
  *   damage reduction from protection prayers.
  * @see [BaseHitmarkGroups]
@@ -68,7 +68,7 @@ public fun Player.queueHit(
     specific: Boolean = false,
     sourceWeapon: ObjType? = null,
     sourceSecondary: ObjType? = null,
-    modifier: HitModifierPlayer = StandardPlayerHitModifier,
+    modifier: PlayerHitModifier = StandardPlayerHitModifier,
 ): Hit {
     val cappedDamage = min(hitpoints, damage)
     val builder =
@@ -89,7 +89,7 @@ public fun Player.queueHit(
  * Queues a hit dealt by [source] with an impact cycle delay of [delay] before the hit is displayed
  * and health is deducted from the player.
  *
- * _[modifier] is applied immediately when this function is called (via [HitModifierPlayer.modify]).
+ * _[modifier] is applied immediately when this function is called (via [PlayerHitModifier.modify]).
  * This means that effects like prayer protection reducing damage are handled at this point and
  * **not** on impact._
  *
@@ -114,7 +114,7 @@ public fun Player.queueHit(
  * @param sourceSecondary The "secondary" obj used in the attack by [source]. If the hit is from a
  *   ranged attack, this should be set to the ammunition obj (if applicable). If the attack is from
  *   a magic spell, this should be the associated spell obj.
- * @param modifier A [HitModifierPlayer] used to adjust damage and other hit properties. By default,
+ * @param modifier A [PlayerHitModifier] used to adjust damage and other hit properties. By default,
  *   this is set to [StandardPlayerHitModifier], which applies standard modifications, such as
  *   damage reduction from protection prayers.
  * @see [BaseHitmarkGroups]
@@ -126,7 +126,7 @@ public fun Player.queueHit(
     damage: Int,
     hitmark: HitmarkTypeGroup = hitmark_groups.regular_damage,
     sourceSecondary: ObjType? = null,
-    modifier: HitModifierPlayer = StandardPlayerHitModifier,
+    modifier: PlayerHitModifier = StandardPlayerHitModifier,
 ): Hit {
     val builder =
         InternalPlayerHits.createBuilder(
@@ -146,7 +146,7 @@ public fun Player.queueHit(
  * Queues a hit that does not originate from either a [Player] or an [Npc], with an impact cycle
  * delay of [delay] before the hit is displayed and health is deducted from the player.
  *
- * _[modifier] is applied immediately when this function is called (via [HitModifierPlayer.modify]).
+ * _[modifier] is applied immediately when this function is called (via [PlayerHitModifier.modify]).
  * This means that effects like prayer protection reducing damage are handled at this point and
  * **not** on impact._
  *
@@ -167,7 +167,7 @@ public fun Player.queueHit(
  *   reference [hitmark_groups] for a list of available hitmark groups.
  * @param specific If `true`, only this [Player] will see the hitsplat; this does not affect actual
  *   damage calculations.
- * @param modifier A [HitModifierPlayer] used to adjust damage and other hit properties. By default,
+ * @param modifier A [PlayerHitModifier] used to adjust damage and other hit properties. By default,
  *   this is set to [StandardPlayerHitModifier], which applies standard modifications, such as
  *   damage reduction from protection prayers.
  * @param strongQueue If `false`, the hit will be queued through [Player.queue] instead of
@@ -181,7 +181,7 @@ public fun Player.queueHit(
     damage: Int,
     hitmark: HitmarkTypeGroup = hitmark_groups.regular_damage,
     specific: Boolean = false,
-    modifier: HitModifierPlayer = StandardPlayerHitModifier,
+    modifier: PlayerHitModifier = StandardPlayerHitModifier,
     strongQueue: Boolean = true,
 ): Hit {
     val builder =
@@ -204,7 +204,7 @@ public fun Player.queueHit(
 private fun Player.modifyAndStrongQueueHit(
     delay: Int,
     builder: HitBuilder,
-    modifier: HitModifierPlayer,
+    modifier: PlayerHitModifier,
 ): Hit {
     modifier.modify(builder, this)
     val hit = builder.build()
@@ -215,7 +215,7 @@ private fun Player.modifyAndStrongQueueHit(
 private fun Player.modifyAndQueueHit(
     delay: Int,
     builder: HitBuilder,
-    modifier: HitModifierPlayer,
+    modifier: PlayerHitModifier,
 ): Hit {
     modifier.modify(builder, this)
     val hit = builder.build()
@@ -234,7 +234,7 @@ private fun Player.modifyAndQueueHit(
  *   reference [hitmark_groups] for a list of available hitmark groups.
  * @param specific If `true`, only this [Player] will see the hitsplat; this does not affect actual
  *   damage calculations.
- * @param modifier A [HitModifierPlayer] that modifies the damage and other properties.
+ * @param modifier A [PlayerHitModifier] that modifies the damage and other properties.
  * @param processor A [InstantPlayerHitProcessor] that processes the [Hit] instantly. Defaults to
  *   [DamageOnlyPlayerHitProcessor], meaning effects such as degradation and recoil damage **will
  *   not** apply.
@@ -244,7 +244,7 @@ public fun Player.takeInstantHit(
     damage: Int,
     hitmark: HitmarkTypeGroup = hitmark_groups.regular_damage,
     specific: Boolean = false,
-    modifier: HitModifierPlayer = NoopPlayerHitModifier,
+    modifier: PlayerHitModifier = NoopPlayerHitModifier,
     processor: InstantPlayerHitProcessor = DamageOnlyPlayerHitProcessor,
 ): Hit {
     val builder =
@@ -270,7 +270,7 @@ public fun Player.takeInstantHit(
  * Queues a hit dealt by [source] with an impact cycle delay of [delay] before the hit is displayed
  * and health is deducted from the player.
  *
- * _[modifier] is applied **on impact** (via [HitModifierPlayer.modify]). This means that effects
+ * _[modifier] is applied **on impact** (via [PlayerHitModifier.modify]). This means that effects
  * like prayer protection reducing damage are handled right before the hit damage is reduced from
  * the player's health._
  *
@@ -298,7 +298,7 @@ public fun Player.takeInstantHit(
  *   is an [Npc], though there may be niche use cases.
  * @param sourceSecondary Similar to [sourceWeapon], except this refers to objs that are **not** the
  *   primary weapon, such as ammunition for ranged attacks or objs tied to magic spells.
- * @param modifier A [HitModifierPlayer] used to adjust damage and other hit properties. By default,
+ * @param modifier A [PlayerHitModifier] used to adjust damage and other hit properties. By default,
  *   this is set to [StandardPlayerHitModifier], which applies standard modifications, such as
  *   damage reduction from protection prayers.
  * @see [BaseHitmarkGroups]
@@ -312,7 +312,7 @@ public fun Player.queueImpactHit(
     specific: Boolean = false,
     sourceWeapon: ObjType? = null,
     sourceSecondary: ObjType? = null,
-    modifier: HitModifierPlayer = StandardPlayerHitModifier,
+    modifier: PlayerHitModifier = StandardPlayerHitModifier,
 ) {
     val builder =
         InternalPlayerHits.createBuilder(
@@ -332,7 +332,7 @@ public fun Player.queueImpactHit(
  * Queues a hit dealt by [source] with an impact cycle delay of [delay] before the hit is displayed
  * and health is deducted from the player.
  *
- * _[modifier] is applied **on impact** (via [HitModifierPlayer.modify]). This means that effects
+ * _[modifier] is applied **on impact** (via [PlayerHitModifier.modify]). This means that effects
  * like prayer protection reducing damage are handled right before the hit damage is reduced from
  * the player's health._
  *
@@ -358,7 +358,7 @@ public fun Player.queueImpactHit(
  * @param sourceSecondary The "secondary" obj used in the attack by [source]. If the hit is from a
  *   ranged attack, this should be set to the ammunition obj (if applicable). If the attack is from
  *   a magic spell, this should be the associated spell obj.
- * @param modifier A [HitModifierPlayer] used to adjust damage and other hit properties. By default,
+ * @param modifier A [PlayerHitModifier] used to adjust damage and other hit properties. By default,
  *   this is set to [StandardPlayerHitModifier], which applies standard modifications, such as
  *   damage reduction from protection prayers.
  * @see [BaseHitmarkGroups]
@@ -370,7 +370,7 @@ public fun Player.queueImpactHit(
     damage: Int,
     hitmark: HitmarkTypeGroup = hitmark_groups.regular_damage,
     sourceSecondary: ObjType? = null,
-    modifier: HitModifierPlayer = StandardPlayerHitModifier,
+    modifier: PlayerHitModifier = StandardPlayerHitModifier,
 ) {
     val builder =
         InternalPlayerHits.createBuilder(
@@ -390,7 +390,7 @@ public fun Player.queueImpactHit(
  * Queues a hit that does not originate from either a [Player] or an [Npc], with an impact cycle
  * delay of [delay] before the hit is displayed and health is deducted from the player.
  *
- * _[modifier] is applied **on impact** (via [HitModifierPlayer.modify]). This means that effects
+ * _[modifier] is applied **on impact** (via [PlayerHitModifier.modify]). This means that effects
  * like prayer protection reducing damage are handled right before the hit damage is reduced from
  * the player's health._
  *
@@ -412,7 +412,7 @@ public fun Player.queueImpactHit(
  *   reference [hitmark_groups] for a list of available hitmark groups.
  * @param specific If `true`, only this [Player] will see the hitsplat; this does not affect actual
  *   damage calculations.
- * @param modifier A [HitModifierPlayer] used to adjust damage and other hit properties. By default,
+ * @param modifier A [PlayerHitModifier] used to adjust damage and other hit properties. By default,
  *   this is set to [StandardPlayerHitModifier], which applies standard modifications, such as
  *   damage reduction from protection prayers.
  * @see [BaseHitmarkGroups]
@@ -423,7 +423,7 @@ public fun Player.queueImpactHit(
     damage: Int,
     hitmark: HitmarkTypeGroup = hitmark_groups.regular_damage,
     specific: Boolean = false,
-    modifier: HitModifierPlayer = StandardPlayerHitModifier,
+    modifier: PlayerHitModifier = StandardPlayerHitModifier,
     strongQueue: Boolean = true,
 ) {
     val builder =
@@ -446,13 +446,13 @@ public fun Player.queueImpactHit(
 private fun Player.strongQueueImpactHit(
     delay: Int,
     builder: HitBuilder,
-    modifier: HitModifierPlayer,
+    modifier: PlayerHitModifier,
 ) {
     val deferred = DeferredPlayerHit(builder, modifier)
     strongQueue(hit_queues.impact, delay, deferred)
 }
 
-private fun Player.queueImpactHit(delay: Int, builder: HitBuilder, modifier: HitModifierPlayer) {
+private fun Player.queueImpactHit(delay: Int, builder: HitBuilder, modifier: PlayerHitModifier) {
     val deferred = DeferredPlayerHit(builder, modifier)
     queue(hit_queues.impact, delay, deferred)
 }
@@ -464,7 +464,7 @@ internal fun ProtectedAccess.processQueuedHit(hit: Hit, processor: QueuedPlayerH
 
 internal fun ProtectedAccess.processQueuedHit(
     builder: HitBuilder,
-    modifier: HitModifierPlayer,
+    modifier: PlayerHitModifier,
     processor: QueuedPlayerHitProcessor,
 ) {
     modifier.modify(builder, player)
@@ -474,7 +474,7 @@ internal fun ProtectedAccess.processQueuedHit(
 }
 
 /* Hit modifier helper functions. */
-public fun HitModifierPlayer.modify(builder: HitBuilder, target: Player): Unit =
+public fun PlayerHitModifier.modify(builder: HitBuilder, target: Player): Unit =
     builder.modify(target)
 
 /* Hit processor helper functions. */

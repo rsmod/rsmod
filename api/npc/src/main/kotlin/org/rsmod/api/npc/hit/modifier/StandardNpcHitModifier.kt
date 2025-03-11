@@ -6,7 +6,7 @@ import org.rsmod.game.entity.Npc
 import org.rsmod.game.hit.HitBuilder
 
 public class StandardNpcHitModifier @Inject constructor(private val eventBus: EventBus) :
-    HitModifierNpc {
+    NpcHitModifier {
     override fun HitBuilder.modify(target: Npc) {
         // TODO(combat): Protection prayers based on npc type pre-defined overheads.
     }

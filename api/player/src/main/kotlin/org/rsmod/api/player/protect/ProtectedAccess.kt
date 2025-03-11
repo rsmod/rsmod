@@ -33,8 +33,8 @@ import org.rsmod.api.player.cinematic.MinimapState
 import org.rsmod.api.player.combatClearQueue
 import org.rsmod.api.player.dialogue.Dialogue
 import org.rsmod.api.player.dialogue.Dialogues
-import org.rsmod.api.player.hit.modifier.HitModifierPlayer
 import org.rsmod.api.player.hit.modifier.NoopPlayerHitModifier
+import org.rsmod.api.player.hit.modifier.PlayerHitModifier
 import org.rsmod.api.player.hit.modifier.StandardPlayerHitModifier
 import org.rsmod.api.player.hit.processQueuedHit
 import org.rsmod.api.player.hit.processor.DamageOnlyPlayerHitProcessor
@@ -1116,7 +1116,7 @@ public class ProtectedAccess(
      * displayed and health is deducted from the player.
      *
      * _[modifier] is applied immediately when this function is called (via
-     * [HitModifierPlayer.modify]). This means that effects like prayer protection reducing damage
+     * [PlayerHitModifier.modify]). This means that effects like prayer protection reducing damage
      * are handled at this point and **not** on impact._
      *
      * If you want the modifier to be applied on impact, use [queueImpactHit] instead.
@@ -1145,7 +1145,7 @@ public class ProtectedAccess(
      *   [source] is an [Npc], though there may be niche use cases.
      * @param sourceSecondary Similar to [sourceWeapon], except this refers to objs that are **not**
      *   the primary weapon, such as ammunition for ranged attacks or objs tied to magic spells.
-     * @param modifier A [HitModifierPlayer] used to adjust damage and other hit properties. By
+     * @param modifier A [PlayerHitModifier] used to adjust damage and other hit properties. By
      *   default, this is set to [StandardPlayerHitModifier], which applies standard modifications,
      *   such as damage reduction from protection prayers.
      * @see [BaseHitmarkGroups]
@@ -1159,7 +1159,7 @@ public class ProtectedAccess(
         specific: Boolean = false,
         sourceWeapon: ObjType? = null,
         sourceSecondary: ObjType? = null,
-        modifier: HitModifierPlayer = StandardPlayerHitModifier,
+        modifier: PlayerHitModifier = StandardPlayerHitModifier,
     ): Hit =
         player.queueHit(
             source = source,
@@ -1178,7 +1178,7 @@ public class ProtectedAccess(
      * displayed and health is deducted from the player.
      *
      * _[modifier] is applied immediately when this function is called (via
-     * [HitModifierPlayer.modify]). This means that effects like prayer protection reducing damage
+     * [PlayerHitModifier.modify]). This means that effects like prayer protection reducing damage
      * are handled at this point and **not** on impact._
      *
      * If you want the modifier to be applied on impact, use [queueImpactHit] instead.
@@ -1204,7 +1204,7 @@ public class ProtectedAccess(
      * @param sourceSecondary The "secondary" obj used in the attack by [source]. If the hit is from
      *   a ranged attack, this should be set to the ammunition obj (if applicable). If the attack is
      *   from a magic spell, this should be the associated spell obj.
-     * @param modifier A [HitModifierPlayer] used to adjust damage and other hit properties. By
+     * @param modifier A [PlayerHitModifier] used to adjust damage and other hit properties. By
      *   default, this is set to [StandardPlayerHitModifier], which applies standard modifications,
      *   such as damage reduction from protection prayers.
      * @see [BaseHitmarkGroups]
@@ -1216,7 +1216,7 @@ public class ProtectedAccess(
         damage: Int,
         hitmark: HitmarkTypeGroup = hitmark_groups.regular_damage,
         sourceSecondary: ObjType? = null,
-        modifier: HitModifierPlayer = StandardPlayerHitModifier,
+        modifier: PlayerHitModifier = StandardPlayerHitModifier,
     ): Hit =
         player.queueHit(
             source = source,
@@ -1233,7 +1233,7 @@ public class ProtectedAccess(
      * delay of [delay] before the hit is displayed and health is deducted from the player.
      *
      * _[modifier] is applied immediately when this function is called (via
-     * [HitModifierPlayer.modify]). This means that effects like prayer protection reducing damage
+     * [PlayerHitModifier.modify]). This means that effects like prayer protection reducing damage
      * are handled at this point and **not** on impact._
      *
      * If you want the modifier to be applied on impact, use [queueImpactHit] instead.
@@ -1255,7 +1255,7 @@ public class ProtectedAccess(
      *   reference [hitmark_groups] for a list of available hitmark groups.
      * @param specific If `true`, only the [player] will see the hitsplat; this does not affect
      *   actual damage calculations.
-     * @param modifier A [HitModifierPlayer] used to adjust damage and other hit properties. By
+     * @param modifier A [PlayerHitModifier] used to adjust damage and other hit properties. By
      *   default, this is set to [StandardPlayerHitModifier], which applies standard modifications,
      *   such as damage reduction from protection prayers.
      * @param strongQueue If `false`, the hit will be queued through [Player.queue] instead of
@@ -1269,7 +1269,7 @@ public class ProtectedAccess(
         damage: Int,
         hitmark: HitmarkTypeGroup = hitmark_groups.regular_damage,
         specific: Boolean = false,
-        modifier: HitModifierPlayer = StandardPlayerHitModifier,
+        modifier: PlayerHitModifier = StandardPlayerHitModifier,
         strongQueue: Boolean = true,
     ): Hit =
         player.queueHit(
@@ -1292,7 +1292,7 @@ public class ProtectedAccess(
      *   reference [hitmark_groups] for a list of available hitmark groups.
      * @param specific If `true`, only the [player] will see the hitsplat; this does not affect
      *   actual damage calculations.
-     * @param modifier A [HitModifierPlayer] that modifies the damage and other properties.
+     * @param modifier A [PlayerHitModifier] that modifies the damage and other properties.
      * @param processor A [InstantPlayerHitProcessor] that processes the [Hit] instantly. Defaults
      *   to [DamageOnlyPlayerHitProcessor], meaning effects such as degradation and recoil damage
      *   **will not** apply.
@@ -1302,7 +1302,7 @@ public class ProtectedAccess(
         damage: Int,
         hitmark: HitmarkTypeGroup = hitmark_groups.regular_damage,
         specific: Boolean = false,
-        modifier: HitModifierPlayer = NoopPlayerHitModifier,
+        modifier: PlayerHitModifier = NoopPlayerHitModifier,
         processor: InstantPlayerHitProcessor = DamageOnlyPlayerHitProcessor,
     ): Hit =
         player.takeInstantHit(
@@ -1318,7 +1318,7 @@ public class ProtectedAccess(
      * Queues a hit dealt by [source] with an impact cycle delay of [delay] before the hit is
      * displayed and health is deducted from the player.
      *
-     * _[modifier] is applied **on impact** (via [HitModifierPlayer.modify]). This means that
+     * _[modifier] is applied **on impact** (via [PlayerHitModifier.modify]). This means that
      * effects like prayer protection reducing damage are handled right before the hit damage is
      * reduced from the player's health._
      *
@@ -1348,7 +1348,7 @@ public class ProtectedAccess(
      *   [source] is an [Npc], though there may be niche use cases.
      * @param sourceSecondary Similar to [sourceWeapon], except this refers to objs that are **not**
      *   the primary weapon, such as ammunition for ranged attacks or objs tied to magic spells.
-     * @param modifier A [HitModifierPlayer] used to adjust damage and other hit properties. By
+     * @param modifier A [PlayerHitModifier] used to adjust damage and other hit properties. By
      *   default, this is set to [StandardPlayerHitModifier], which applies standard modifications,
      *   such as damage reduction from protection prayers.
      * @see [BaseHitmarkGroups]
@@ -1362,7 +1362,7 @@ public class ProtectedAccess(
         specific: Boolean = false,
         sourceWeapon: ObjType? = null,
         sourceSecondary: ObjType? = null,
-        modifier: HitModifierPlayer = StandardPlayerHitModifier,
+        modifier: PlayerHitModifier = StandardPlayerHitModifier,
     ): Unit =
         player.queueImpactHit(
             source = source,
@@ -1380,7 +1380,7 @@ public class ProtectedAccess(
      * Queues a hit dealt by [source] with an impact cycle delay of [delay] before the hit is
      * displayed and health is deducted from the player.
      *
-     * _[modifier] is applied **on impact** (via [HitModifierPlayer.modify]). This means that
+     * _[modifier] is applied **on impact** (via [PlayerHitModifier.modify]). This means that
      * effects like prayer protection reducing damage are handled right before the hit damage is
      * reduced from the player's health._
      *
@@ -1408,7 +1408,7 @@ public class ProtectedAccess(
      * @param sourceSecondary The "secondary" obj used in the attack by [source]. If the hit is from
      *   a ranged attack, this should be set to the ammunition obj (if applicable). If the attack is
      *   from a magic spell, this should be the associated spell obj.
-     * @param modifier A [HitModifierPlayer] used to adjust damage and other hit properties. By
+     * @param modifier A [PlayerHitModifier] used to adjust damage and other hit properties. By
      *   default, this is set to [StandardPlayerHitModifier], which applies standard modifications,
      *   such as damage reduction from protection prayers.
      * @see [BaseHitmarkGroups]
@@ -1420,7 +1420,7 @@ public class ProtectedAccess(
         damage: Int,
         hitmark: HitmarkTypeGroup = hitmark_groups.regular_damage,
         sourceSecondary: ObjType? = null,
-        modifier: HitModifierPlayer = StandardPlayerHitModifier,
+        modifier: PlayerHitModifier = StandardPlayerHitModifier,
     ): Unit =
         player.queueImpactHit(
             source = source,
@@ -1436,7 +1436,7 @@ public class ProtectedAccess(
      * Queues a hit that does not originate from either a [Player] or an [Npc], with an impact cycle
      * delay of [delay] before the hit is displayed and health is deducted from the player.
      *
-     * _[modifier] is applied **on impact** (via [HitModifierPlayer.modify]). This means that
+     * _[modifier] is applied **on impact** (via [PlayerHitModifier.modify]). This means that
      * effects like prayer protection reducing damage are handled right before the hit damage is
      * reduced from the player's health._
      *
@@ -1460,7 +1460,7 @@ public class ProtectedAccess(
      *   reference [hitmark_groups] for a list of available hitmark groups.
      * @param specific If `true`, only the [player] will see the hitsplat; this does not affect
      *   actual damage calculations.
-     * @param modifier A [HitModifierPlayer] used to adjust damage and other hit properties. By
+     * @param modifier A [PlayerHitModifier] used to adjust damage and other hit properties. By
      *   default, this is set to [StandardPlayerHitModifier], which applies standard modifications,
      *   such as damage reduction from protection prayers.
      * @see [BaseHitmarkGroups]
@@ -1471,7 +1471,7 @@ public class ProtectedAccess(
         damage: Int,
         hitmark: HitmarkTypeGroup = hitmark_groups.regular_damage,
         specific: Boolean = false,
-        modifier: HitModifierPlayer = StandardPlayerHitModifier,
+        modifier: PlayerHitModifier = StandardPlayerHitModifier,
     ): Unit =
         player.queueImpactHit(
             delay = delay,
@@ -1487,7 +1487,7 @@ public class ProtectedAccess(
     public fun processQueuedHit(hit: Hit): Unit = processQueuedHit(hit, StandardPlayerHitProcessor)
 
     @InternalApi
-    public fun processQueuedHit(builder: HitBuilder, modifier: HitModifierPlayer): Unit =
+    public fun processQueuedHit(builder: HitBuilder, modifier: PlayerHitModifier): Unit =
         processQueuedHit(builder, modifier, StandardPlayerHitProcessor)
 
     public fun timer(timerType: TimerType, cycles: Int) {

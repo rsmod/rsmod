@@ -5,8 +5,8 @@ import org.rsmod.api.config.refs.hitmark_groups
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.npc.access.StandardNpcAccess
 import org.rsmod.api.npc.hit.configs.hit_queues
-import org.rsmod.api.npc.hit.modifier.HitModifierNpc
-import org.rsmod.api.npc.hit.processor.QueuedNpcHitProcessor
+import org.rsmod.api.npc.hit.modifier.NpcHitModifier
+import org.rsmod.api.npc.hit.processor.NpcHitProcessor
 import org.rsmod.api.npc.hit.processor.StandardNpcHitProcessor
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
@@ -21,7 +21,7 @@ import org.rsmod.game.type.obj.ObjType
  * Queues a hit dealt by [source] with an impact cycle delay of [delay] before the hit is displayed
  * and health is deducted from the npc.
  *
- * _[modifier] is applied immediately when this function is called (via [HitModifierNpc.modify]).
+ * _[modifier] is applied immediately when this function is called (via [NpcHitModifier.modify]).
  * This means that effects like npc prayer protection reducing damage are handled at this point and
  * **not** on impact._
  *
@@ -46,7 +46,12 @@ import org.rsmod.game.type.obj.ObjType
  *   is an [Npc], though there may be niche use cases.
  * @param sourceSecondary Similar to [sourceWeapon], except this refers to objs that are **not** the
  *   primary weapon, such as ammunition for ranged attacks or objs tied to magic spells.
- * @param modifier A [HitModifierNpc] used to adjust damage and other hit properties.
+ * @param modifier An [NpcHitModifier] used to adjust damage and other hit properties. Usually,
+ *   you'd want to inject the default `NpcHitModifier` as such:
+ * ```
+ * class Foo @Inject constructor(val npcHitModifier: NpcHitModifier)
+ * ```
+ *
  * @see [BaseHitmarkGroups]
  */
 public fun Npc.queueHit(
@@ -54,7 +59,7 @@ public fun Npc.queueHit(
     delay: Int,
     type: HitType,
     damage: Int,
-    modifier: HitModifierNpc,
+    modifier: NpcHitModifier,
     hitmark: HitmarkTypeGroup = visHitmark(),
     sourceWeapon: ObjType? = null,
     sourceSecondary: ObjType? = null,
@@ -76,7 +81,7 @@ public fun Npc.queueHit(
  * Queues a hit dealt by [source] with an impact cycle delay of [delay] before the hit is displayed
  * and health is deducted from the npc.
  *
- * _[modifier] is applied immediately when this function is called (via [HitModifierNpc.modify]).
+ * _[modifier] is applied immediately when this function is called (via [NpcHitModifier.modify]).
  * This means that effects like npc prayer protection reducing damage are handled at this point and
  * **not** on impact._
  *
@@ -104,7 +109,12 @@ public fun Npc.queueHit(
  * @param sourceSecondary The "secondary" obj used in the attack by [source]. If the hit is from a
  *   ranged attack, this should be set to the ammunition obj (if applicable). If the attack is from
  *   a magic spell, this should be the associated spell obj.
- * @param modifier A [HitModifierNpc] used to adjust damage and other hit properties.
+ * @param modifier An [NpcHitModifier] used to adjust damage and other hit properties. Usually,
+ *   you'd want to inject the default `NpcHitModifier` as such:
+ * ```
+ * class Foo @Inject constructor(val npcHitModifier: NpcHitModifier)
+ * ```
+ *
  * @see [BaseHitmarkGroups]
  */
 public fun Npc.queueHit(
@@ -112,7 +122,7 @@ public fun Npc.queueHit(
     delay: Int,
     type: HitType,
     damage: Int,
-    modifier: HitModifierNpc,
+    modifier: NpcHitModifier,
     hitmark: HitmarkTypeGroup = visHitmark(),
     specific: Boolean = false,
     sourceSecondary: ObjType? = null,
@@ -134,7 +144,7 @@ public fun Npc.queueHit(
  * Queues a hit that does not originate from either a [Player] or an [Npc], with an impact cycle
  * delay of [delay] before the hit is displayed and health is deducted from the npc.
  *
- * _[modifier] is applied immediately when this function is called (via [HitModifierNpc.modify]).
+ * _[modifier] is applied immediately when this function is called (via [NpcHitModifier.modify]).
  * This means that effects like npc prayer protection reducing damage are handled at this point and
  * **not** on impact._
  *
@@ -154,14 +164,19 @@ public fun Npc.queueHit(
  *   factors from [modifier] and [StandardNpcHitProcessor].
  * @param hitmark The hitmark group used for the visual hitsplat. See [BaseHitmarkGroups] or
  *   reference [hitmark_groups] for a list of available hitmark groups.
- * @param modifier A [HitModifierNpc] used to adjust damage and other hit properties.
+ * @param modifier An [NpcHitModifier] used to adjust damage and other hit properties. Usually,
+ *   you'd want to inject the default `NpcHitModifier` as such:
+ * ```
+ * class Foo @Inject constructor(val npcHitModifier: NpcHitModifier)
+ * ```
+ *
  * @see [BaseHitmarkGroups]
  */
 public fun Npc.queueHit(
     delay: Int,
     type: HitType,
     damage: Int,
-    modifier: HitModifierNpc,
+    modifier: NpcHitModifier,
     hitmark: HitmarkTypeGroup = visHitmark(),
 ): Hit {
     val builder =
@@ -200,7 +215,7 @@ public fun Npc.visHitmark(): HitmarkTypeGroup {
     return hitmark
 }
 
-private fun Npc.modifyAndQueueHit(delay: Int, builder: HitBuilder, modifier: HitModifierNpc): Hit {
+private fun Npc.modifyAndQueueHit(delay: Int, builder: HitBuilder, modifier: NpcHitModifier): Hit {
     modifier.modify(builder, this)
     val hit = builder.build()
     queue(hit_queues.standard, delay, hit)
@@ -208,9 +223,9 @@ private fun Npc.modifyAndQueueHit(delay: Int, builder: HitBuilder, modifier: Hit
 }
 
 /* Hit modifier helper functions. */
-public fun HitModifierNpc.modify(builder: HitBuilder, target: Npc): Unit = builder.modify(target)
+public fun NpcHitModifier.modify(builder: HitBuilder, target: Npc): Unit = builder.modify(target)
 
 /* Hit processor helper functions. */
-internal fun QueuedNpcHitProcessor.process(access: StandardNpcAccess, hit: Hit) {
+internal fun NpcHitProcessor.process(access: StandardNpcAccess, hit: Hit) {
     access.process(hit)
 }

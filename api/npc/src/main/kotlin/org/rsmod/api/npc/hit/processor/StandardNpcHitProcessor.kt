@@ -12,7 +12,7 @@ import org.rsmod.game.hit.Hit
 import org.rsmod.game.type.headbar.HeadbarType
 
 public class StandardNpcHitProcessor @Inject constructor(private val eventBus: EventBus) :
-    QueuedNpcHitProcessor {
+    NpcHitProcessor {
     override fun StandardNpcAccess.process(hit: Hit) {
         // TODO(combat): Show ironman_blocked hitmark if source is an ironman and target has been
         // damaged by other sources.

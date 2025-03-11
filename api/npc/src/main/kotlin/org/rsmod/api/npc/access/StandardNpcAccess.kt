@@ -5,10 +5,10 @@ import org.rsmod.annotations.InternalApi
 import org.rsmod.api.config.refs.BaseHitmarkGroups
 import org.rsmod.api.config.refs.hitmark_groups
 import org.rsmod.api.npc.combatClearQueue
-import org.rsmod.api.npc.hit.modifier.HitModifierNpc
+import org.rsmod.api.npc.hit.modifier.NpcHitModifier
 import org.rsmod.api.npc.hit.modifier.StandardNpcHitModifier
 import org.rsmod.api.npc.hit.process
-import org.rsmod.api.npc.hit.processor.QueuedNpcHitProcessor
+import org.rsmod.api.npc.hit.processor.NpcHitProcessor
 import org.rsmod.api.npc.hit.processor.StandardNpcHitProcessor
 import org.rsmod.api.npc.hit.queueHit
 import org.rsmod.api.npc.queueDeath
@@ -125,7 +125,7 @@ public class StandardNpcAccess(
      * displayed and health is deducted from the npc.
      *
      * _[modifier] is applied immediately when this function is called (via
-     * [HitModifierNpc.modify]). This means that effects like npc prayer protection reducing damage
+     * [NpcHitModifier.modify]). This means that effects like npc prayer protection reducing damage
      * are handled at this point and **not** on impact._
      *
      * **Notes:**
@@ -149,7 +149,7 @@ public class StandardNpcAccess(
      *   [source] is an [Npc], though there may be niche use cases.
      * @param sourceSecondary Similar to [sourceWeapon], except this refers to objs that are **not**
      *   the primary weapon, such as ammunition for ranged attacks or objs tied to magic spells.
-     * @param modifier A [HitModifierNpc] used to adjust damage and other hit properties. By
+     * @param modifier A [NpcHitModifier] used to adjust damage and other hit properties. By
      *   default, this is set to [StandardNpcHitModifier], which applies standard modifications,
      *   such as damage reduction from npc protection prayers.
      * @see [BaseHitmarkGroups]
@@ -162,7 +162,7 @@ public class StandardNpcAccess(
         hitmark: HitmarkTypeGroup = hitmark_groups.regular_damage,
         sourceWeapon: ObjType? = null,
         sourceSecondary: ObjType? = null,
-        modifier: HitModifierNpc = context.hitModifier,
+        modifier: NpcHitModifier = context.hitModifier,
     ): Hit =
         npc.queueHit(
             source = source,
@@ -180,7 +180,7 @@ public class StandardNpcAccess(
      * displayed and health is deducted from the npc.
      *
      * _[modifier] is applied immediately when this function is called (via
-     * [HitModifierNpc.modify]). This means that effects like npc prayer protection reducing damage
+     * [NpcHitModifier.modify]). This means that effects like npc prayer protection reducing damage
      * are handled at this point and **not** on impact._
      *
      * **Notes:**
@@ -207,7 +207,7 @@ public class StandardNpcAccess(
      * @param sourceSecondary The "secondary" obj used in the attack by [source]. If the hit is from
      *   a ranged attack, this should be set to the ammunition obj (if applicable). If the attack is
      *   from a magic spell, this should be the associated spell obj.
-     * @param modifier A [HitModifierNpc] used to adjust damage and other hit properties. By
+     * @param modifier A [NpcHitModifier] used to adjust damage and other hit properties. By
      *   default, this is set to [StandardNpcHitModifier], which applies standard modifications,
      *   such as damage reduction from npc protection prayers.
      * @see [BaseHitmarkGroups]
@@ -220,7 +220,7 @@ public class StandardNpcAccess(
         hitmark: HitmarkTypeGroup = hitmark_groups.regular_damage,
         specific: Boolean = false,
         sourceSecondary: ObjType? = null,
-        modifier: HitModifierNpc = context.hitModifier,
+        modifier: NpcHitModifier = context.hitModifier,
     ): Hit =
         npc.queueHit(
             source = source,
@@ -238,7 +238,7 @@ public class StandardNpcAccess(
      * delay of [delay] before the hit is displayed and health is deducted from the npc.
      *
      * _[modifier] is applied immediately when this function is called (via
-     * [HitModifierNpc.modify]). This means that effects like npc prayer protection reducing damage
+     * [NpcHitModifier.modify]). This means that effects like npc prayer protection reducing damage
      * are handled at this point and **not** on impact._
      *
      * **Notes:**
@@ -257,7 +257,7 @@ public class StandardNpcAccess(
      *   various factors from [modifier] and [StandardNpcHitProcessor].
      * @param hitmark The hitmark group used for the visual hitsplat. See [BaseHitmarkGroups] or
      *   reference [hitmark_groups] for a list of available hitmark groups.
-     * @param modifier A [HitModifierNpc] used to adjust damage and other hit properties. By
+     * @param modifier A [NpcHitModifier] used to adjust damage and other hit properties. By
      *   default, this is set to [StandardNpcHitModifier], which applies standard modifications,
      *   such as damage reduction from npc protection prayers.
      * @see [BaseHitmarkGroups]
@@ -267,7 +267,7 @@ public class StandardNpcAccess(
         type: HitType,
         damage: Int,
         hitmark: HitmarkTypeGroup = hitmark_groups.regular_damage,
-        modifier: HitModifierNpc = context.hitModifier,
+        modifier: NpcHitModifier = context.hitModifier,
     ): Hit =
         npc.queueHit(
             delay = delay,
@@ -278,10 +278,8 @@ public class StandardNpcAccess(
         )
 
     @InternalApi
-    public fun processQueuedHit(
-        hit: Hit,
-        processor: QueuedNpcHitProcessor = context.hitProcessor,
-    ): Unit = processor.process(this, hit)
+    public fun processQueuedHit(hit: Hit, processor: NpcHitProcessor = context.hitProcessor): Unit =
+        processor.process(this, hit)
 
     public fun aiTimer(cycles: Int) {
         npc.aiTimer(cycles)
