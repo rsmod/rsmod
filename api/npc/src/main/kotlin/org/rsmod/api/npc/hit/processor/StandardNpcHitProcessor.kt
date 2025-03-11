@@ -5,8 +5,10 @@ import org.rsmod.api.config.refs.hitmark_groups
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.config.refs.queues
 import org.rsmod.api.npc.access.StandardNpcAccess
+import org.rsmod.api.npc.events.NpcHitEvents
 import org.rsmod.api.npc.headbar.InternalNpcHeadbars
 import org.rsmod.events.EventBus
+import org.rsmod.game.entity.Npc
 import org.rsmod.game.headbar.Headbar
 import org.rsmod.game.hit.Hit
 import org.rsmod.game.type.headbar.HeadbarType
@@ -56,7 +58,6 @@ public class StandardNpcHitProcessor @Inject constructor(private val eventBus: E
         }
 
         // TODO(combat): Process recoils, retribution?, hero points, etc.
-        // TODO(combat): onNpcHit script
 
         npc.hitpoints -= hit.damage
 
@@ -70,8 +71,15 @@ public class StandardNpcHitProcessor @Inject constructor(private val eventBus: E
         val visHeadbar = npc.visHeadbar(params.headbar)
         val headbar = hit.createHeadbar(npc.hitpoints, npc.baseHitpointsLvl, visHeadbar)
         npc.showHeadbar(headbar)
+
+        npc.publishHitEvent(hit)
     }
 
     private fun Hit.createHeadbar(currHp: Int, maxHp: Int, headbar: HeadbarType): Headbar =
         InternalNpcHeadbars.createFromHitmark(hitmark, currHp, maxHp, headbar)
+
+    private fun Npc.publishHitEvent(hit: Hit) {
+        val event = NpcHitEvents.Impact(this, hit)
+        eventBus.publish(event)
+    }
 }

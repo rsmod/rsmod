@@ -2,6 +2,7 @@ package org.rsmod.api.script
 
 import org.rsmod.api.npc.access.StandardNpcAccess
 import org.rsmod.api.npc.events.NpcAIEvents
+import org.rsmod.api.npc.events.NpcHitEvents
 import org.rsmod.api.npc.events.NpcMovementEvent
 import org.rsmod.api.npc.events.NpcQueueEvents
 import org.rsmod.api.npc.events.NpcTimerEvents
@@ -269,3 +270,19 @@ public fun ScriptContext.onNpcWalkTrigger(
     trigger: WalkTriggerType,
     action: NpcMovementEvent.WalkTrigger.() -> Unit,
 ): Unit = onEvent(trigger.id, action)
+
+/* Hit functions */
+/**
+ * Registers a script to modify any **incoming** hit **before** it is applied to the associated npc.
+ */
+public fun ScriptContext.onModifyNpcHit(
+    type: NpcType,
+    action: NpcHitEvents.Modify.() -> Unit,
+): Unit = onEvent(type.id, action)
+
+/**
+ * Registers a script that triggers when the associated npc receives a hit (when the hitsplat is
+ * displayed).
+ */
+public fun ScriptContext.onNpcHit(type: NpcType, action: NpcHitEvents.Impact.() -> Unit): Unit =
+    onEvent(type.id, action)
