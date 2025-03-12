@@ -64,6 +64,7 @@ import org.rsmod.api.player.output.objExamine
 import org.rsmod.api.player.output.runClientScript
 import org.rsmod.api.player.output.soundSynth
 import org.rsmod.api.player.output.spam
+import org.rsmod.api.player.queueDeath
 import org.rsmod.api.player.startInvTransmit
 import org.rsmod.api.player.stat.stat
 import org.rsmod.api.player.stat.statAdd
@@ -72,6 +73,8 @@ import org.rsmod.api.player.stat.statBase
 import org.rsmod.api.player.stat.statBoost
 import org.rsmod.api.player.stat.statDrain
 import org.rsmod.api.player.stat.statHeal
+import org.rsmod.api.player.stat.statRestore
+import org.rsmod.api.player.stat.statRestoreAll
 import org.rsmod.api.player.stat.statSub
 import org.rsmod.api.player.stopInvTransmit
 import org.rsmod.api.player.ui.ifChatNpcSpecific
@@ -99,6 +102,8 @@ import org.rsmod.api.player.ui.ifSetObj
 import org.rsmod.api.player.ui.ifSetPlayerHead
 import org.rsmod.api.player.ui.ifSetText
 import org.rsmod.api.player.vars.VarPlayerIntMapDelegate
+import org.rsmod.api.player.vars.enabledPrayers
+import org.rsmod.api.player.vars.usingQuickPrayers
 import org.rsmod.api.player.vars.varMoveSpeed
 import org.rsmod.api.player.worn.HeldEquipResult
 import org.rsmod.api.player.worn.WornUnequipResult
@@ -283,7 +288,7 @@ public class ProtectedAccess(
         delay(max(1, distanceDelay))
     }
 
-    public fun telejump(dest: CoordGrid, collision: CollisionFlagMap = context.collision) {
+    public fun telejump(dest: CoordGrid, collision: CollisionFlagMap) {
         if (!collision.isZoneValid(dest)) {
             player.clearMapFlag()
             mes("Invalid teleport!", ChatType.Engine)
@@ -292,7 +297,9 @@ public class ProtectedAccess(
         PathingEntityCommon.telejump(player, collision, dest)
     }
 
-    public fun teleport(dest: CoordGrid, collision: CollisionFlagMap = context.collision) {
+    public fun telejump(dest: CoordGrid): Unit = telejump(dest, context.collision)
+
+    public fun teleport(dest: CoordGrid, collision: CollisionFlagMap) {
         if (!collision.isZoneValid(dest)) {
             player.clearMapFlag()
             mes("Invalid teleport!", ChatType.Engine)
@@ -300,6 +307,8 @@ public class ProtectedAccess(
         }
         PathingEntityCommon.teleport(player, collision, dest)
     }
+
+    public fun teleport(dest: CoordGrid): Unit = teleport(dest, context.collision)
 
     public fun anim(seq: SeqType, delay: Int = 0) {
         player.anim(seq, delay)
@@ -656,7 +665,11 @@ public class ProtectedAccess(
     public fun faceEntitySquare(target: PathingEntity): Unit =
         player.facePathingEntitySquare(target)
 
-    public fun stopAction(eventBus: EventBus = context.eventBus) {
+    public fun stopAction() {
+        stopAction(context.eventBus)
+    }
+
+    public fun stopAction(eventBus: EventBus) {
         player.clearPendingAction(eventBus)
         player.resetFaceEntity()
         player.clearMapFlag()
@@ -952,6 +965,18 @@ public class ProtectedAccess(
         return player.statBase(stat)
     }
 
+    /** @see [org.rsmod.api.player.stat.statRestore] */
+    public fun statRestore(
+        stat: StatType,
+        invisibleLevels: InvisibleLevels = context.invisibleLevels,
+    ): Unit = player.statRestore(stat, invisibleLevels)
+
+    /** @see [org.rsmod.api.player.stat.statRestoreAll] */
+    public fun statRestoreAll(
+        stats: Iterable<StatType>,
+        invisibleLevels: InvisibleLevels = context.invisibleLevels,
+    ): Unit = player.statRestoreAll(stats, invisibleLevels)
+
     /** @see [org.rsmod.api.player.stat.statAdvance] */
     public fun statAdvance(
         stat: StatType,
@@ -1020,6 +1045,10 @@ public class ProtectedAccess(
     ): Boolean {
         val invisibleBoost = invisibleLevels.get(player, stat)
         return rollSuccessRate(low, high, stat, invisibleBoost)
+    }
+
+    public fun queueDeath() {
+        player.queueDeath()
     }
 
     /**
@@ -1400,6 +1429,18 @@ public class ProtectedAccess(
     @InternalApi
     public fun processQueuedHit(builder: HitBuilder, modifier: PlayerHitModifier): Unit =
         processQueuedHit(builder, modifier, StandardPlayerHitProcessor)
+
+    public fun disablePrayers() {
+        player.enabledPrayers = 0
+        player.usingQuickPrayers = false
+    }
+
+    public fun restoreToplevelTabs(tabTargets: Iterable<ComponentType>) {
+        // TODO(combat): Publish gameframe-related event for `restoretabs`.
+    }
+
+    public fun restoreToplevelTabs(vararg tabTarget: ComponentType): Unit =
+        restoreToplevelTabs(tabTarget.toList())
 
     public fun timer(timerType: TimerType, cycles: Int) {
         player.timer(timerType, cycles)

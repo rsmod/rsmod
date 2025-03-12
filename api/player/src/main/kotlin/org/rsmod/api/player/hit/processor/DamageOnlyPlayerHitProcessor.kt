@@ -6,6 +6,7 @@ import org.rsmod.api.config.refs.headbars
 import org.rsmod.api.config.refs.queues
 import org.rsmod.api.config.refs.stats
 import org.rsmod.api.player.headbar.InternalPlayerHeadbars
+import org.rsmod.api.player.queueDeath
 import org.rsmod.api.player.stat.baseHitpointsLvl
 import org.rsmod.api.player.stat.hitpoints
 import org.rsmod.api.player.stat.statSub
@@ -25,7 +26,7 @@ constructor(private val invisibleLevels: InvisibleLevels) : InstantPlayerHitProc
 
         val queueDeath = hitpoints == 0 && queues.death !in queueList
         if (queueDeath) {
-            // TODO(combat): queue death
+            queueDeath()
         }
 
         showHitmark(hit.hitmark)

@@ -296,7 +296,7 @@
 4095	slayer_watch_the_birdie
 4099	godwars_altar_minutes
 4101	prayer_enabled_full
-4102	quickprayer_enabled_full
+4102	selected_quick_prayers
 4103	using_quick_prayers
 4104	prayer_thick_skin
 4105	prayer_burst_of_strength

@@ -10,6 +10,9 @@ import org.rsmod.game.type.varp.VarpType
 
 public var Player.chatboxUnlocked: Boolean by boolVarBit(varbits.chatbox_unlocked)
 
+internal var Player.enabledPrayers by intVarBit(varbits.enabled_prayers)
+internal var Player.usingQuickPrayers by boolVarBit(varbits.using_quick_prayers)
+
 private var Player.varSpeed: MoveSpeed by typeIntVarp(varps.player_run, ::getSpeed, ::getSpeedId)
 
 public var Player.varMoveSpeed: MoveSpeed

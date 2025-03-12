@@ -12,7 +12,5 @@ object PrayerTabVarBits : VarBitReferences() {
         find("prayer_filter_show_prayers_without_level", 153119424728983)
     val filter_show_prayers_fail_req =
         find("prayer_filter_show_prayers_without_requirements", 153119424732766)
-    val enabled_prayers = find("prayer_enabled_full", 4277063138774)
-    val selected_quick_prayers = find("quickprayer_enabled_full", 4328583513136)
-    val using_quick_prayers = find("using_quick_prayers", 19321012450480)
+    val selected_quick_prayers = find("selected_quick_prayers", 4328583513136)
 }

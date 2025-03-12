@@ -1,5 +1,6 @@
 package org.rsmod.api.player
 
+import org.rsmod.api.config.refs.queues
 import org.rsmod.api.player.hit.configs.hit_queues
 import org.rsmod.api.player.output.UpdateInventory
 import org.rsmod.api.player.output.clearMapFlag
@@ -18,6 +19,10 @@ public fun Player.clearInteractionRoute() {
     clearInteraction()
     abortRoute()
     clearMapFlag()
+}
+
+public fun Player.queueDeath() {
+    queue(queues.death, 1)
 }
 
 public fun Player.combatClearQueue() {

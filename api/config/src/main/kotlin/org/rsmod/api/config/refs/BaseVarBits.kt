@@ -60,6 +60,9 @@ object BaseVarBits : VarBitReferences() {
     val relic_unlock_emote = find("relic_unlock_emote", 148688672513070)
     val trick_emote = find("trick_emote", 16126749334521)
 
+    val enabled_prayers = find("prayer_enabled_full", 4277063138774)
+    val using_quick_prayers = find("using_quick_prayers", 19321012450480)
+
     val thick_skin = find("prayer_thick_skin", 4277063137069)
     val burst_of_strength = find("prayer_burst_of_strength", 4277063140852)
     val clarity_of_thought = find("prayer_clarity_of_thought", 4277063144635)

@@ -1,6 +1,7 @@
 package org.rsmod.content.interfaces.prayer.tab.scripts
 
 import jakarta.inject.Inject
+import org.rsmod.api.config.refs.varbits
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.output.soundSynth
 import org.rsmod.api.player.protect.ProtectedAccess
@@ -13,7 +14,6 @@ import org.rsmod.content.interfaces.prayer.tab.Prayer
 import org.rsmod.content.interfaces.prayer.tab.PrayerRepository
 import org.rsmod.content.interfaces.prayer.tab.configs.prayer_queues
 import org.rsmod.content.interfaces.prayer.tab.configs.prayer_sounds
-import org.rsmod.content.interfaces.prayer.tab.configs.prayer_varbits
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.plugin.scripts.PluginScript
@@ -30,7 +30,7 @@ private constructor(
         for ((component, prayer) in repo.prayerComponents) {
             onIfOverlayButton(component) { player.selectPrayer(prayer) }
         }
-        onPlayerQueueWithArgs<Prayer>(prayer_queues.toggle) { togglePrayer(it.args) }
+        onPlayerQueueWithArgs(prayer_queues.toggle) { togglePrayer(it.args) }
     }
 
     private fun Player.selectPrayer(prayer: Prayer) {
@@ -80,8 +80,8 @@ private constructor(
         }
 
         // When all prayers are manually disabled, quick prayer flag should also be disabled.
-        if (vars[prayer_varbits.enabled_prayers] == 0) {
-            vars[prayer_varbits.using_quick_prayers] = 0
+        if (vars[varbits.enabled_prayers] == 0) {
+            vars[varbits.using_quick_prayers] = 0
         }
     }
 

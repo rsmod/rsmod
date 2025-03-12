@@ -1,5 +1,6 @@
 package org.rsmod.api.player.stat
 
+import kotlin.math.absoluteValue
 import kotlin.math.max
 import kotlin.math.min
 import org.rsmod.api.player.output.UpdateStat
@@ -16,6 +17,35 @@ public fun Player.stat(stat: StatType): Int {
 /** Returns the **base** level for [stat], based on its xp without any boosts. */
 public fun Player.statBase(stat: StatType): Int {
     return statMap.getBaseLevel(stat).toInt()
+}
+
+/**
+ * Restores the current level of [stat] to its base level.
+ *
+ * **Notes:**
+ * - This function resets the current level to the base level, whether it is above or below it.
+ * - If the current level is already equal to the base level, this function does nothing.
+ */
+public fun Player.statRestore(stat: StatType, invisibleLevels: InvisibleLevels) {
+    val currLevel = stat(stat)
+    val baseLevel = statBase(stat)
+    val delta = baseLevel - currLevel
+    when {
+        delta == 0 -> return
+        delta < 0 -> statSub(stat, delta.absoluteValue, percent = 0, invisibleLevels)
+        else -> statAdd(stat, delta, percent = 0, invisibleLevels)
+    }
+}
+
+/**
+ * Calls [statRestore] for every [StatType] in [stats].
+ *
+ * @see [statRestore]
+ */
+public fun Player.statRestoreAll(stats: Iterable<StatType>, invisibleLevels: InvisibleLevels) {
+    for (stat in stats) {
+        statRestore(stat, invisibleLevels)
+    }
 }
 
 public fun Player.statAdvance(

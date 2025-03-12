@@ -13,6 +13,7 @@ dependencies {
     implementation(projects.api.player)
     implementation(projects.api.playerOutput)
     implementation(projects.api.repo)
+    implementation(projects.api.route)
     implementation(projects.api.type.typeReferences)
     implementation(projects.engine.game)
     implementation(projects.engine.map)

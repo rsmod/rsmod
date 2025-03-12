@@ -49,6 +49,8 @@ object Constants {
     const val combat_default_attackrate = 4
     const val combat_activecombat_delay = 8
 
+    const val sa_default_energy = 1000
+
     const val skullicon_default = 0
     const val skullicon_red = 1
     const val skullicon_highrisk_world = 2

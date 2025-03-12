@@ -22,7 +22,7 @@ public object StandardPlayerHitProcessor : QueuedPlayerHitProcessor {
 
         val queueDeath = player.hitpoints == 0 && queues.death !in player.queueList
         if (queueDeath) {
-            // TODO(combat): queue death
+            queueDeath()
         }
 
         player.showHitmark(hit.hitmark)
