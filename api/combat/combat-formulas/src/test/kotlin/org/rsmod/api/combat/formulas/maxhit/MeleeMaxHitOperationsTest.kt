@@ -110,6 +110,8 @@ class MeleeMaxHitOperationsTest {
 
         fun withSpecMultiplier(specMultiplier: Double) = copy(specMultiplier = specMultiplier)
 
+        fun withAttackRate(attackRate: Int) = copy(attackRate = attackRate)
+
         fun withHp(currHp: Int, maxHp: Int) = copy(currHp = currHp, maxHp = maxHp)
     }
 
@@ -256,6 +258,17 @@ class MeleeMaxHitOperationsTest {
                     .withWornAttributes(WornAttr.CorpBaneWeapon)
                     .withNpcAttributes(NpcAttr.CorporealBeast),
                 /* Highest max hit Loadouts */
+                Loadout(baseDamage = 42, modifiedMaxHit = 65, finalMaxHit = 195)
+                    .withAggressiveStyle()
+                    .withDragonBattleaxeSpec()
+                    .withPiety()
+                    .withStrengthBonus(bonus = 106)
+                    .withWornAttributes(
+                        WornAttr.BlackMask,
+                        WornAttr.KerisWeapon,
+                        WornAttr.KerisProc,
+                    )
+                    .withNpcAttributes(NpcAttr.Kalphite, NpcAttr.SlayerTask),
                 Loadout(baseDamage = 58, modifiedMaxHit = 69, finalMaxHit = 75)
                     .withAggressiveStyle()
                     .withSuperStrPotion()
@@ -264,6 +277,18 @@ class MeleeMaxHitOperationsTest {
                     .withWornAttributes(WornAttr.SalveAmuletE)
                     .withNpcAttributes(NpcAttr.Undead)
                     .withSpecMultiplier(specMultiplier = 1.1),
+                // Wiki page listing the highest known max hits shows the following scenario as 139,
+                // however the wiki dps calculator shows 171. It is more likely the wiki page is
+                // outdated (or incorrect).
+                Loadout(baseDamage = 54, modifiedMaxHit = 54, finalMaxHit = 171)
+                    .withAggressiveStyle()
+                    .withDragonBattleaxeSpec()
+                    .withPiety()
+                    .withStrengthBonus(bonus = 156)
+                    .withWornAttributes(WornAttr.Dharoks, WornAttr.Crush)
+                    .withNpcAttributes(NpcAttr.TormentedDemonUnshielded)
+                    .withAttackRate(attackRate = 7)
+                    .withHp(currHp = 1, maxHp = 99),
                 Loadout(baseDamage = 51, modifiedMaxHit = 61, finalMaxHit = 120)
                     .withAggressiveStyle()
                     .withDragonBattleaxeSpec()
