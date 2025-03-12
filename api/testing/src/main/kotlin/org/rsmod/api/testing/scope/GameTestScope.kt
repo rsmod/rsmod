@@ -33,6 +33,8 @@ import org.rsmod.api.npc.hit.modifier.NpcHitModifier
 import org.rsmod.api.npc.hit.modifier.StandardNpcHitModifier
 import org.rsmod.api.npc.hit.processor.NpcHitProcessor
 import org.rsmod.api.npc.hit.processor.StandardNpcHitProcessor
+import org.rsmod.api.player.hit.processor.DamageOnlyPlayerHitProcessor
+import org.rsmod.api.player.hit.processor.InstantPlayerHitProcessor
 import org.rsmod.api.player.interact.LocInteractions
 import org.rsmod.api.player.interact.NpcInteractions
 import org.rsmod.api.player.protect.ProtectedAccess
@@ -771,6 +773,8 @@ constructor(
 
                 bind(NpcHitModifier::class.java).to(StandardNpcHitModifier::class.java)
                 bind(NpcHitProcessor::class.java).to(StandardNpcHitProcessor::class.java)
+                bind(InstantPlayerHitProcessor::class.java)
+                    .to(DamageOnlyPlayerHitProcessor::class.java)
             }
         }
 
