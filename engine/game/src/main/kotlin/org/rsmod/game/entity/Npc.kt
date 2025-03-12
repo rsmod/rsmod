@@ -283,6 +283,7 @@ public class Npc(
         }
 
     public fun resetMode() {
+        clearInteraction()
         resetFaceEntity()
         mode = null
     }
