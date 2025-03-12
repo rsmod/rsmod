@@ -24,9 +24,6 @@ public class StandardNpcHitProcessor @Inject constructor(private val eventBus: E
             changedDamage = npc.hitpoints
         }
 
-        // TODO(combat): Check a "min_health" varn that won't allow target to fall below certain
-        // threshold.
-
         if (changedDamage == 0) {
             val zeroDamageHitmark = hitmark_groups.zero_damage
             val modifiedHitmark =
@@ -57,7 +54,7 @@ public class StandardNpcHitProcessor @Inject constructor(private val eventBus: E
                 "health=${npc.hitpoints}, hit=$hit"
         }
 
-        // TODO(combat): Process recoils, retribution?, hero points, etc.
+        // TODO(combat): Process recoils, retribution(?), etc.
 
         npc.hitpoints -= hit.damage
 
