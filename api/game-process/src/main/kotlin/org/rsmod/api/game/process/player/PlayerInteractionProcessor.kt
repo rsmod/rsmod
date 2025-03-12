@@ -2,6 +2,7 @@ package org.rsmod.api.game.process.player
 
 import jakarta.inject.Inject
 import org.rsmod.api.config.Constants
+import org.rsmod.api.npc.isValidTarget
 import org.rsmod.api.player.clearInteractionRoute
 import org.rsmod.api.player.interact.LocInteractions
 import org.rsmod.api.player.interact.LocTInteractions
@@ -324,7 +325,7 @@ constructor(
     }
 
     private fun InteractionNpc.isValid(): Boolean {
-        return target.isValidTarget && target.isNotDelayed && uid == target.uid
+        return target.isValidTarget() && uid == target.uid
     }
 
     private fun InteractionObj.isValid(observer: Player): Boolean {

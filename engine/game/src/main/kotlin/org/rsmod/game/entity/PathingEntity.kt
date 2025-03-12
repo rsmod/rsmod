@@ -132,9 +132,6 @@ public sealed class PathingEntity {
     public val isVisible: Boolean
         get() = !hidden
 
-    public val isValidTarget: Boolean
-        get() = isSlotAssigned && isVisible
-
     public val size: Int
         get() = avatar.size
 

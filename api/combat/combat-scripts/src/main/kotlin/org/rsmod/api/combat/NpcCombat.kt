@@ -13,6 +13,7 @@ import org.rsmod.api.combat.weapon.WeaponSpeeds
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.npc.hit.modifier.NpcHitModifier
 import org.rsmod.api.npc.hit.queueHit
+import org.rsmod.api.npc.isValidTarget
 import org.rsmod.api.player.lefthand
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.specials.SpecialAttackRegistry
@@ -131,7 +132,7 @@ constructor(
     }
 
     private fun ProtectedAccess.canAttack(npc: Npc): Boolean {
-        if (!npc.isValidTarget) {
+        if (!npc.isValidTarget()) {
             return false
         }
 

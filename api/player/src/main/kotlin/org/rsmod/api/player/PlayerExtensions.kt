@@ -4,6 +4,7 @@ import org.rsmod.api.player.hit.configs.hit_queues
 import org.rsmod.api.player.output.UpdateInventory
 import org.rsmod.api.player.output.clearMapFlag
 import org.rsmod.api.player.output.mes
+import org.rsmod.api.player.stat.hitpoints
 import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.type.inv.InvScope
@@ -22,6 +23,10 @@ public fun Player.clearInteractionRoute() {
 public fun Player.combatClearQueue() {
     clearQueue(hit_queues.standard)
     clearQueue(hit_queues.impact)
+}
+
+public fun Player.isValidTarget(): Boolean {
+    return isSlotAssigned && isVisible && hitpoints > 0
 }
 
 public fun Player.startInvTransmit(inv: Inventory) {

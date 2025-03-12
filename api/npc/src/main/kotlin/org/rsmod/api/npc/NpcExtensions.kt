@@ -11,3 +11,7 @@ public fun Npc.queueDeath() {
 public fun Npc.combatClearQueue() {
     clearQueue(hit_queues.standard)
 }
+
+public fun Npc.isValidTarget(): Boolean {
+    return isSlotAssigned && isVisible && isNotDelayed && hitpoints > 0
+}
