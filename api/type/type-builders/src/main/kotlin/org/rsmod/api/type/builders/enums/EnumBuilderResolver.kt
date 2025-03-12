@@ -1,7 +1,6 @@
 package org.rsmod.api.type.builders.enums
 
 import jakarta.inject.Inject
-import kotlin.collections.get
 import org.rsmod.api.type.builders.TypeBuilder
 import org.rsmod.api.type.builders.resolver.TypeBuilderResolver
 import org.rsmod.api.type.builders.resolver.TypeBuilderResult

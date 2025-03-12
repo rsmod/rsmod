@@ -2,7 +2,6 @@ package org.rsmod.api.cache.types.walktrig
 
 import io.netty.buffer.ByteBuf
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap
-import kotlin.collections.get
 import org.openrs2.buffer.use
 import org.openrs2.cache.Cache
 import org.rsmod.api.cache.Js5Archives
