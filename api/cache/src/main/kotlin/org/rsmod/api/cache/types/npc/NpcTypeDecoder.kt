@@ -199,7 +199,7 @@ public object NpcTypeDecoder {
                     }
                     this.patrol = NpcPatrol(waypoints)
                 }
-                204 -> respawnRate = data.readUnsignedByte().toInt()
+                204 -> respawnRate = data.readUnsignedShort()
                 205 -> maxRange = data.readUnsignedByte().toInt()
                 206 -> wanderRange = data.readUnsignedByte().toInt()
                 207 -> attackRange = data.readUnsignedByte().toInt()

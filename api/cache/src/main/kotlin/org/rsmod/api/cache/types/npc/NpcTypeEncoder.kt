@@ -333,9 +333,8 @@ public object NpcTypeEncoder {
             }
 
             if (respawnRate != NpcTypeBuilder.DEFAULT_RESPAWN_RATE) {
-                check(respawnRate < 256) { "`respawnRate` cannot be over 255." }
                 data.writeByte(204)
-                data.writeByte(respawnRate)
+                data.writeShort(respawnRate)
             }
 
             if (maxRange != NpcTypeBuilder.DEFAULT_MAX_RANGE) {
