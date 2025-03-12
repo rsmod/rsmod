@@ -10,7 +10,7 @@ public value class ZoneNpcEntryList(public val entries: ArrayDeque<Npc>) {
     public constructor() : this(ArrayDeque())
 
     public fun add(entry: Npc) {
-        entries.addFirst(entry)
+        entries.addLast(entry)
     }
 
     public fun remove(entry: Npc): Boolean = entries.remove(entry)

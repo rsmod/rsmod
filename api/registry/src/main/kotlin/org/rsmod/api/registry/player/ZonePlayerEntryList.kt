@@ -10,7 +10,7 @@ public value class ZonePlayerEntryList(public val entries: ArrayDeque<Player>) {
     public constructor() : this(ArrayDeque())
 
     public fun add(entry: Player) {
-        entries.addFirst(entry)
+        entries.addLast(entry)
     }
 
     public fun remove(entry: Player): Boolean = entries.remove(entry)

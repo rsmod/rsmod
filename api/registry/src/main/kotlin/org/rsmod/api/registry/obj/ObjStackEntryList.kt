@@ -13,7 +13,7 @@ public value class ObjStackEntryList(public val entries: ArrayDeque<ObjStackEntr
     public constructor() : this(ArrayDeque())
 
     public fun add(entry: ObjStackEntry) {
-        entries.addFirst(entry)
+        entries.addLast(entry)
     }
 
     public fun remove(entry: ObjStackEntry): Boolean = entries.remove(entry)
