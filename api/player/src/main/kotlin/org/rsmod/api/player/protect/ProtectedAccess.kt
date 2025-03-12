@@ -1204,7 +1204,7 @@ public class ProtectedAccess(
      * @param specific If `true`, only the [player] will see the hitsplat; this does not affect
      *   actual damage calculations.
      * @param modifier A [PlayerHitModifier] that modifies the damage and other properties.
-     * @param processor A [InstantPlayerHitProcessor] that processes the [Hit] instantly. Defaults
+     * @param processor An [InstantPlayerHitProcessor] that processes the [Hit] instantly. Defaults
      *   to [DamageOnlyPlayerHitProcessor], meaning effects such as degradation and recoil damage
      *   **will not** apply.
      */
@@ -1214,7 +1214,7 @@ public class ProtectedAccess(
         hitmark: HitmarkTypeGroup = hitmark_groups.regular_damage,
         specific: Boolean = false,
         modifier: PlayerHitModifier = NoopPlayerHitModifier,
-        processor: InstantPlayerHitProcessor = DamageOnlyPlayerHitProcessor,
+        processor: InstantPlayerHitProcessor = context.instantHitProcessor,
     ): Hit =
         player.takeInstantHit(
             type = type,

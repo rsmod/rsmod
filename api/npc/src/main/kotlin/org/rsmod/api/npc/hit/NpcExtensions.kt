@@ -6,6 +6,7 @@ import org.rsmod.api.config.refs.params
 import org.rsmod.api.npc.access.StandardNpcAccess
 import org.rsmod.api.npc.hit.configs.hit_queues
 import org.rsmod.api.npc.hit.modifier.NpcHitModifier
+import org.rsmod.api.npc.hit.modifier.StandardNpcHitModifier
 import org.rsmod.api.npc.hit.processor.NpcHitProcessor
 import org.rsmod.api.npc.hit.processor.StandardNpcHitProcessor
 import org.rsmod.game.entity.Npc
@@ -51,6 +52,8 @@ import org.rsmod.game.type.obj.ObjType
  * ```
  * class Foo @Inject constructor(val npcHitModifier: NpcHitModifier)
  * ```
+ *
+ * _This defaults to [StandardNpcHitModifier]._
  *
  * @see [BaseHitmarkGroups]
  */
@@ -115,6 +118,8 @@ public fun Npc.queueHit(
  * class Foo @Inject constructor(val npcHitModifier: NpcHitModifier)
  * ```
  *
+ * _This defaults to [StandardNpcHitModifier]._
+ *
  * @see [BaseHitmarkGroups]
  */
 public fun Npc.queueHit(
@@ -169,6 +174,8 @@ public fun Npc.queueHit(
  * ```
  * class Foo @Inject constructor(val npcHitModifier: NpcHitModifier)
  * ```
+ *
+ * _This defaults to [StandardNpcHitModifier]._
  *
  * @see [BaseHitmarkGroups]
  */

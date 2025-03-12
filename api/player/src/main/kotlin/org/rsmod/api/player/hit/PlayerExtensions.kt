@@ -235,17 +235,21 @@ private fun Player.modifyAndQueueHit(
  * @param specific If `true`, only this [Player] will see the hitsplat; this does not affect actual
  *   damage calculations.
  * @param modifier A [PlayerHitModifier] that modifies the damage and other properties.
- * @param processor A [InstantPlayerHitProcessor] that processes the [Hit] instantly. Defaults to
- *   [DamageOnlyPlayerHitProcessor], meaning effects such as degradation and recoil damage **will
- *   not** apply.
+ * @param processor An [InstantPlayerHitProcessor] that processes the [Hit] instantly. Usually,
+ *   you'd want to inject the default `InstantPlayerHitProcessor` as such:
+ * ```
+ * class Foo @Inject constructor(val hitProcessor: InstantPlayerHitProcessor)
+ * ```
+ *
+ * _This defaults to [DamageOnlyPlayerHitProcessor]._
  */
 public fun Player.takeInstantHit(
     type: HitType,
     damage: Int,
+    processor: InstantPlayerHitProcessor,
     hitmark: HitmarkTypeGroup = hitmark_groups.regular_damage,
     specific: Boolean = false,
     modifier: PlayerHitModifier = NoopPlayerHitModifier,
-    processor: InstantPlayerHitProcessor = DamageOnlyPlayerHitProcessor,
 ): Hit {
     val builder =
         InternalPlayerHits.createBuilder(

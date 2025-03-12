@@ -3,6 +3,7 @@ package org.rsmod.api.player.protect
 import jakarta.inject.Inject
 import org.rsmod.api.market.MarketPrices
 import org.rsmod.api.player.dialogue.Dialogues
+import org.rsmod.api.player.hit.processor.InstantPlayerHitProcessor
 import org.rsmod.api.player.interact.HeldInteractions
 import org.rsmod.api.player.interact.LocInteractions
 import org.rsmod.api.player.interact.NpcInteractions
@@ -35,6 +36,7 @@ constructor(
     private val wornInteractions: WornInteractions,
     private val marketPrices: MarketPrices,
     private val invisibleLevels: InvisibleLevels,
+    private val instantHitProcessor: InstantPlayerHitProcessor,
 ) {
     public fun create(): ProtectedAccessContext =
         ProtectedAccessContext(
@@ -53,6 +55,7 @@ constructor(
             getWornInteractions = { wornInteractions },
             getMarketPrices = { marketPrices },
             getInvisibleLevels = { invisibleLevels },
+            getInstantHitProcessor = { instantHitProcessor },
         )
 
     public companion object {
@@ -73,6 +76,7 @@ constructor(
                 getWornInteractions = { error("No worn interactions provided.") },
                 getMarketPrices = { error("No market prices provided.") },
                 getInvisibleLevels = { error("No invisible levels provided.") },
+                getInstantHitProcessor = { error("No instant hit processor provided.") },
             )
 
         /**

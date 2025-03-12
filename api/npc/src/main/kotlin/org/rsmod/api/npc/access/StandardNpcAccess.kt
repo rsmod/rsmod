@@ -154,7 +154,7 @@ public class StandardNpcAccess(
      *   [source] is an [Npc], though there may be niche use cases.
      * @param sourceSecondary Similar to [sourceWeapon], except this refers to objs that are **not**
      *   the primary weapon, such as ammunition for ranged attacks or objs tied to magic spells.
-     * @param modifier A [NpcHitModifier] used to adjust damage and other hit properties. By
+     * @param modifier An [NpcHitModifier] used to adjust damage and other hit properties. By
      *   default, this is set to [StandardNpcHitModifier], which applies standard modifications,
      *   such as damage reduction from npc protection prayers.
      * @see [BaseHitmarkGroups]
@@ -212,7 +212,7 @@ public class StandardNpcAccess(
      * @param sourceSecondary The "secondary" obj used in the attack by [source]. If the hit is from
      *   a ranged attack, this should be set to the ammunition obj (if applicable). If the attack is
      *   from a magic spell, this should be the associated spell obj.
-     * @param modifier A [NpcHitModifier] used to adjust damage and other hit properties. By
+     * @param modifier An [NpcHitModifier] used to adjust damage and other hit properties. By
      *   default, this is set to [StandardNpcHitModifier], which applies standard modifications,
      *   such as damage reduction from npc protection prayers.
      * @see [BaseHitmarkGroups]
@@ -262,7 +262,7 @@ public class StandardNpcAccess(
      *   various factors from [modifier] and [StandardNpcHitProcessor].
      * @param hitmark The hitmark group used for the visual hitsplat. See [BaseHitmarkGroups] or
      *   reference [hitmark_groups] for a list of available hitmark groups.
-     * @param modifier A [NpcHitModifier] used to adjust damage and other hit properties. By
+     * @param modifier An [NpcHitModifier] used to adjust damage and other hit properties. By
      *   default, this is set to [StandardNpcHitModifier], which applies standard modifications,
      *   such as damage reduction from npc protection prayers.
      * @see [BaseHitmarkGroups]

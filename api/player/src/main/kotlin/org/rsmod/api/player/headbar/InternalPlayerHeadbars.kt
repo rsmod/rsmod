@@ -1,10 +1,10 @@
-package org.rsmod.api.npc.headbar
+package org.rsmod.api.player.headbar
 
 import org.rsmod.game.headbar.Headbar
 import org.rsmod.game.hit.Hitmark
 import org.rsmod.game.type.headbar.HeadbarType
 
-internal object InternalNpcHeadbars {
+internal object InternalPlayerHeadbars {
     fun createFromHitmark(
         hitmark: Hitmark,
         currHp: Int,
