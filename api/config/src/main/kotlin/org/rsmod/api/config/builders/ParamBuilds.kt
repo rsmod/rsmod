@@ -117,6 +117,7 @@ internal object ParamBuilds : ParamBuilder() {
         build<SeqType>("defend_anim") { default = seqs.human_unarmedblock }
         build<SeqType>("death_anim") { default = seqs.human_death }
         build<SynthType>("attack_sound")
+        build<SynthType>("defend_sound")
         build<SynthType>("death_sound")
         build<Int>("attackrate") { default = constants.combat_default_attackrate }
     }

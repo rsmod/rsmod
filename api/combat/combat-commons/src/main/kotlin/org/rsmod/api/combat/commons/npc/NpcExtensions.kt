@@ -12,7 +12,6 @@ import org.rsmod.api.player.output.soundSynth
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.npc.NpcMode
-import org.rsmod.game.type.synth.SynthType
 
 private var Npc.lastCombat: Int by intVarn(varns.lastcombat)
 private var Npc.lastAttack by intVarn(varns.lastattack)
@@ -86,8 +85,7 @@ public fun Npc.combatPlayDefendFx(source: Player) {
         anim(defendAnim)
     }
 
-    val defendSound: SynthType? = null // TODO(combat): param(params.defend_sound)
-    @Suppress("KotlinConstantConditions")
+    val defendSound = visType.paramOrNull(params.defend_sound)
     if (defendSound != null) {
         source.soundSynth(defendSound)
     }

@@ -1977,6 +1977,13 @@ examine = 'He works evil magic.'
 [[config]]
 npc = 'mugger_id_513'
 examine = 'He jumps out and attacks people.'
+attack_type = 'Crush'
+attack_anim = 422
+attack_sound = 2566
+defend_anim = 424
+defend_sound = 513
+death_anim = 836
+death_sound = 512
 
 [[config]]
 npc = 'witch_id_514'
@@ -4437,10 +4444,38 @@ examine = 'An unusually aggressive cleric.'
 [[config]]
 npc = 'chicken_id_1173'
 examine = 'Yep. Definitely a chicken.'
+attack_type = 'Stab'
+respawn_rate = 25
+slayer_xp = 3.0
+defence_light = -42
+defence_standard = -42
+defence_heavy = -42
+poison_immunity = true
+venom_immunity = 'Immune'
+attack_anim = 5387
+attack_sound = 355
+defend_anim = 5388
+defend_sound = 357
+death_anim = 5389
+death_sound = 356
 
 [[config]]
 npc = 'chicken_id_1174'
 examine = 'Yep. Definitely a chicken.'
+attack_type = 'Stab'
+respawn_rate = 25
+slayer_xp = 3.0
+defence_light = -42
+defence_standard = -42
+defence_heavy = -42
+poison_immunity = true
+venom_immunity = 'Immune'
+attack_anim = 5387
+attack_sound = 355
+defend_anim = 5388
+defend_sound = 357
+death_anim = 5389
+death_sound = 356
 
 [[config]]
 npc = 'rooster_id_1175'
@@ -4717,14 +4752,47 @@ examine = 'Freshly sheared.'
 [[config]]
 npc = 'ram_id_1262'
 examine = 'White and fluffy.'
+attack_type = 'Crush'
+respawn_rate = 45
+defence_light = -21
+defence_standard = -21
+defence_heavy = -21
+attack_anim = 5338
+attack_sound = 757
+defend_anim = 5337
+defend_sound = 759
+death_anim = 5336
+death_sound = 758
 
 [[config]]
 npc = 'ram_id_1263'
 examine = 'White and fluffy.'
+attack_type = 'Crush'
+respawn_rate = 45
+defence_light = -21
+defence_standard = -21
+defence_heavy = -21
+attack_anim = 5338
+attack_sound = 757
+defend_anim = 5337
+defend_sound = 759
+death_anim = 5336
+death_sound = 758
 
 [[config]]
 npc = 'ram_id_1264'
 examine = 'White and fluffy.'
+attack_type = 'Crush'
+respawn_rate = 45
+defence_light = -21
+defence_standard = -21
+defence_heavy = -21
+attack_anim = 5338
+attack_sound = 757
+defend_anim = 5337
+defend_sound = 759
+death_anim = 5336
+death_sound = 758
 
 [[config]]
 npc = 'ram_id_1265'
@@ -6877,10 +6945,34 @@ examine = 'A highly enlightened being.'
 [[config]]
 npc = 'duck_id_1838'
 examine = 'Quackers.'
+attack_type = 'Stab'
+respawn_rate = 25
+slayer_xp = 3.0
+defence_light = -42
+defence_standard = -42
+defence_heavy = -42
+poison_immunity = true
+venom_immunity = 'Immune'
+attack_anim = 3467
+defend_sound = 412
+death_anim = 3468
+death_sound = 411
 
 [[config]]
 npc = 'duck_id_1839'
 examine = 'She quackers.'
+attack_type = 'Stab'
+respawn_rate = 25
+slayer_xp = 3.0
+defence_light = -42
+defence_standard = -42
+defence_heavy = -42
+poison_immunity = true
+venom_immunity = 'Immune'
+attack_anim = 3467
+defend_sound = 412
+death_anim = 3468
+death_sound = 411
 
 [[config]]
 npc = 'fairy_godfather_id_1840'
@@ -7389,6 +7481,16 @@ examine = 'A dwarven trader from Keldagrim.'
 [[config]]
 npc = 'duckling'
 examine = 'Mini quackers.'
+attack_type = 'Stab'
+respawn_rate = 25
+slayer_xp = 3.0
+defence_light = -42
+defence_standard = -42
+defence_heavy = -42
+attack_anim = 3467
+defend_sound = 412
+death_anim = 3468
+death_sound = 411
 
 [[config]]
 npc = 'ducklings'
@@ -10445,22 +10547,92 @@ examine = 'White and shaggy.'
 [[config]]
 npc = 'cow_id_2790'
 examine = 'Converts grass to beef.'
+attack_type = 'Crush'
+respawn_rate = 45
+slayer_xp = 8.0
+defence_light = -21
+defence_standard = -21
+defence_heavy = -21
+poison_immunity = true
+venom_immunity = 'Immune'
+attack_anim = 5849
+attack_sound = 369
+defend_anim = 5850
+defend_sound = 371
+death_anim = 5851
+death_sound = 370
 
 [[config]]
 npc = 'cow_id_2791'
 examine = 'Beefy.'
+attack_type = 'Crush'
+respawn_rate = 45
+slayer_xp = 8.0
+defence_light = -21
+defence_standard = -21
+defence_heavy = -21
+poison_immunity = true
+venom_immunity = 'Immune'
+attack_anim = 5849
+attack_sound = 369
+defend_anim = 5850
+defend_sound = 371
+death_anim = 5851
+death_sound = 370
 
 [[config]]
 npc = 'cow_calf_id_2792'
 examine = 'Prelude to a steak.'
+attack_type = 'Crush'
+respawn_rate = 45
+slayer_xp = 6.0
+defence_light = -26
+defence_standard = -26
+defence_heavy = -26
+poison_immunity = true
+venom_immunity = 'Immune'
+attack_anim = 5849
+attack_sound = 366
+defend_anim = 5850
+defend_sound = 368
+death_anim = 5851
+death_sound = 367
 
 [[config]]
 npc = 'cow_id_2793'
 examine = 'Where beef comes from.'
+attack_type = 'Crush'
+respawn_rate = 45
+slayer_xp = 8.0
+defence_light = -21
+defence_standard = -21
+defence_heavy = -21
+poison_immunity = true
+venom_immunity = 'Immune'
+attack_anim = 5849
+attack_sound = 369
+defend_anim = 5850
+defend_sound = 371
+death_anim = 5851
+death_sound = 370
 
 [[config]]
 npc = 'cow_calf_id_2794'
 examine = 'Young and tender; nearly ready for the slaughter.'
+attack_type = 'Crush'
+respawn_rate = 45
+slayer_xp = 6.0
+defence_light = -26
+defence_standard = -26
+defence_heavy = -26
+poison_immunity = true
+venom_immunity = 'Immune'
+attack_anim = 5849
+attack_sound = 366
+defend_anim = 5850
+defend_sound = 368
+death_anim = 5851
+death_sound = 367
 
 [[config]]
 npc = 'cow_id_2795'
@@ -10629,6 +10801,14 @@ examine = 'A creature made from clay.'
 [[config]]
 npc = 'unicorn_vislevel_15'
 examine = 'Horse with a horn.'
+attack_type = 'Stab'
+respawn_rate = 90
+attack_anim = 6376
+attack_sound = 369
+defend_anim = 6375
+defend_sound = 371
+death_anim = 6377
+death_sound = 370
 
 [[config]]
 npc = 'grizzly_bear_id_2838'
@@ -10697,6 +10877,18 @@ examine = "A fighter from the supernatural world. He's a shadow of his former se
 [[config]]
 npc = 'rat_id_2854'
 examine = 'A popular dwarven delicacy.'
+attack_type = 'Crush'
+respawn_rate = 2
+slayer_xp = 2.0
+defence_light = -42
+defence_standard = -42
+defence_heavy = -42
+attack_anim = 2705
+attack_sound = 710
+defend_anim = 2706
+defend_sound = 713
+death_anim = 2707
+death_sound = 711
 
 [[config]]
 npc = 'rat_id_2855'
@@ -10705,6 +10897,15 @@ examine = 'A popular dwarven delicacy.'
 [[config]]
 npc = 'giant_rat_id_2856'
 examine = 'Overgrown vermin.'
+attack_type = 'Stab'
+respawn_rate = 30
+slayer_xp = 5.0
+attack_anim = 4933
+attack_sound = 710
+defend_anim = 4934
+defend_sound = 713
+death_anim = 4935
+death_sound = 711
 
 [[config]]
 npc = 'giant_rat_id_2857'
@@ -10717,14 +10918,41 @@ examine = 'Overgrown vermin.'
 [[config]]
 npc = 'giant_rat_id_2859'
 examine = 'Overgrown vermin.'
+attack_type = 'Stab'
+respawn_rate = 30
+slayer_xp = 5.0
+attack_anim = 4933
+attack_sound = 710
+defend_anim = 4934
+defend_sound = 713
+death_anim = 4935
+death_sound = 711
 
 [[config]]
 npc = 'giant_rat_id_2860'
 examine = 'Overgrown vermin.'
+attack_type = 'Stab'
+respawn_rate = 30
+slayer_xp = 5.0
+attack_anim = 4933
+attack_sound = 710
+defend_anim = 4934
+defend_sound = 713
+death_anim = 4935
+death_sound = 711
 
 [[config]]
 npc = 'giant_rat_id_2861'
 examine = 'Overgrown vermin.'
+attack_type = 'Stab'
+respawn_rate = 30
+slayer_xp = 5.0
+attack_anim = 4933
+attack_sound = 710
+defend_anim = 4934
+defend_sound = 713
+death_anim = 4935
+death_sound = 711
 
 [[config]]
 npc = 'giant_rat_id_2862'
@@ -10733,10 +10961,28 @@ examine = 'Overgrown vermin.'
 [[config]]
 npc = 'giant_rat_id_2863'
 examine = 'Overgrown vermin.'
+attack_type = 'Stab'
+respawn_rate = 30
+slayer_xp = 10.0
+attack_anim = 4933
+attack_sound = 710
+defend_anim = 4934
+defend_sound = 713
+death_anim = 4935
+death_sound = 711
 
 [[config]]
 npc = 'giant_rat_id_2864'
 examine = 'Overgrown vermin.'
+attack_type = 'Stab'
+respawn_rate = 30
+slayer_xp = 10.0
+attack_anim = 4933
+attack_sound = 710
+defend_anim = 4934
+defend_sound = 713
+death_anim = 4935
+death_sound = 711
 
 [[config]]
 npc = 'dungeon_rat_id_2865'
@@ -11253,6 +11499,20 @@ examine = 'Is it a spider or is it a shadow?'
 [[config]]
 npc = 'giant_spider_id_3017'
 examine = 'I think this spider has been genetically modified.'
+attack_type = 'Stab'
+respawn_rate = 30
+slayer_xp = 5.0
+defence_light = -10
+defence_standard = -10
+defence_heavy = -10
+elemental_weakness_type = 'Fire'
+elemental_weakness_percent = 50
+attack_anim = 5327
+attack_sound = 537
+defend_anim = 5328
+defend_sound = 539
+death_anim = 5329
+death_sound = 538
 
 [[config]]
 npc = 'giant_spider_id_3018'
@@ -11261,6 +11521,20 @@ examine = 'I think this spider has been genetically modified.'
 [[config]]
 npc = 'spider_id_3019'
 examine = 'Incey wincey.'
+attack_type = 'Stab'
+respawn_rate = 35
+slayer_xp = 2.0
+defence_light = -53
+defence_standard = -53
+defence_heavy = -53
+elemental_weakness_type = 'Fire'
+elemental_weakness_percent = 50
+attack_anim = 6249
+attack_sound = 3604
+defend_anim = 6250
+defend_sound = 3609
+death_anim = 6251
+death_sound = 3608
 
 [[config]]
 npc = 'jungle_spider_id_3020'
@@ -11301,34 +11575,130 @@ examine = 'An ugly green creature.'
 [[config]]
 npc = 'goblin_id_3029'
 examine = 'An ugly green creature.'
+attack_type = 'Crush'
+respawn_rate = 35
+slayer_xp = 5.0
+defence_light = -15
+defence_standard = -15
+defence_heavy = -15
+attack_anim = 6184
+attack_sound = 469
+defend_anim = 6183
+defend_sound = 472
+death_anim = 6182
+death_sound = 471
 
 [[config]]
 npc = 'goblin_id_3030'
 examine = 'An ugly green creature.'
+attack_type = 'Crush'
+respawn_rate = 35
+slayer_xp = 5.0
+defence_light = -15
+defence_standard = -15
+defence_heavy = -15
+attack_anim = 6184
+attack_sound = 469
+defend_anim = 6183
+defend_sound = 472
+death_anim = 6182
+death_sound = 471
 
 [[config]]
 npc = 'goblin_id_3031'
 examine = 'An ugly green creature.'
+attack_type = 'Crush'
+respawn_rate = 35
+slayer_xp = 5.0
+defence_light = -15
+defence_standard = -15
+defence_heavy = -15
+attack_anim = 6184
+attack_sound = 469
+defend_anim = 6183
+defend_sound = 472
+death_anim = 6182
+death_sound = 471
 
 [[config]]
 npc = 'goblin_id_3032'
 examine = 'An ugly green creature.'
+attack_type = 'Crush'
+respawn_rate = 35
+slayer_xp = 5.0
+defence_light = -15
+defence_standard = -15
+defence_heavy = -15
+attack_anim = 6184
+attack_sound = 469
+defend_anim = 6183
+defend_sound = 472
+death_anim = 6182
+death_sound = 471
 
 [[config]]
 npc = 'goblin_id_3033'
 examine = 'An ugly green creature.'
+attack_type = 'Crush'
+respawn_rate = 35
+slayer_xp = 5.0
+defence_light = -15
+defence_standard = -15
+defence_heavy = -15
+attack_anim = 6184
+attack_sound = 469
+defend_anim = 6183
+defend_sound = 472
+death_anim = 6182
+death_sound = 471
 
 [[config]]
 npc = 'goblin_id_3034'
 examine = 'An ugly green creature.'
+attack_type = 'Crush'
+respawn_rate = 35
+slayer_xp = 5.0
+defence_light = -15
+defence_standard = -15
+defence_heavy = -15
+attack_anim = 6184
+attack_sound = 469
+defend_anim = 6183
+defend_sound = 472
+death_anim = 6182
+death_sound = 471
 
 [[config]]
 npc = 'goblin_id_3035'
 examine = 'An ugly green creature.'
+attack_type = 'Crush'
+respawn_rate = 35
+slayer_xp = 5.0
+defence_light = -15
+defence_standard = -15
+defence_heavy = -15
+attack_anim = 6184
+attack_sound = 469
+defend_anim = 6183
+defend_sound = 472
+death_anim = 6182
+death_sound = 471
 
 [[config]]
 npc = 'goblin_id_3036'
 examine = 'An ugly green creature.'
+attack_type = 'Crush'
+respawn_rate = 35
+slayer_xp = 5.0
+defence_light = -15
+defence_standard = -15
+defence_heavy = -15
+attack_anim = 6184
+attack_sound = 469
+defend_anim = 6183
+defend_sound = 472
+death_anim = 6182
+death_sound = 471
 
 [[config]]
 npc = 'goblin_id_3037'
@@ -11365,6 +11735,15 @@ examine = 'An ugly green creature.'
 [[config]]
 npc = 'goblin_id_3045'
 examine = 'An ugly green creature.'
+attack_type = 'Crush'
+respawn_rate = 35
+slayer_xp = 12.0
+attack_anim = 6188
+attack_sound = 3520
+defend_anim = 6189
+defend_sound = 472
+death_anim = 6190
+death_sound = 471
 
 [[config]]
 npc = 'goblin_id_3046'
@@ -11477,6 +11856,15 @@ examine = 'Sieglinde, a muscular barbarian warrior.'
 [[config]]
 npc = 'goblin_id_3073'
 examine = 'An ugly green creature.'
+attack_type = 'Crush'
+respawn_rate = 35
+slayer_xp = 12.0
+attack_anim = 6188
+attack_sound = 3520
+defend_anim = 6189
+defend_sound = 472
+death_anim = 6190
+death_sound = 471
 
 [[config]]
 npc = 'goblin_id_3074'
@@ -11597,14 +11985,47 @@ examine = 'Servant of the Duke of Lumbridge.'
 [[config]]
 npc = 'man_id_3106'
 examine = "One of Gielinor's many citizens."
+attack_type = 'Crush'
+respawn_rate = 25
+defence_light = -21
+defence_standard = -21
+defence_heavy = -21
+attack_anim = 422
+attack_sound = 2566
+defend_anim = 425
+defend_sound = 513
+death_anim = 836
+death_sound = 512
 
 [[config]]
 npc = 'man_id_3107'
 examine = "One of Gielinor's many citizens."
+attack_type = 'Crush'
+respawn_rate = 25
+defence_light = -21
+defence_standard = -21
+defence_heavy = -21
+attack_anim = 422
+attack_sound = 2566
+defend_anim = 425
+defend_sound = 513
+death_anim = 836
+death_sound = 512
 
 [[config]]
 npc = 'man_id_3108'
 examine = "One of Gielinor's many citizens."
+attack_type = 'Crush'
+respawn_rate = 25
+defence_light = -21
+defence_standard = -21
+defence_heavy = -21
+attack_anim = 422
+attack_sound = 2566
+defend_anim = 425
+defend_sound = 513
+death_anim = 836
+death_sound = 512
 
 [[config]]
 npc = 'man_id_3109'
@@ -11617,18 +12038,59 @@ examine = "One of Gielinor's many citizens, apparently trying to be an explorer.
 [[config]]
 npc = 'woman_id_3111'
 examine = "One of Gielinor's many citizens."
+attack_type = 'Crush'
+respawn_rate = 25
+defence_light = -21
+defence_standard = -21
+defence_heavy = -21
+attack_anim = 422
+attack_sound = 2566
+defend_anim = 425
+defend_sound = 506
+death_anim = 836
+death_sound = 505
 
 [[config]]
 npc = 'woman_id_3112'
 examine = "One of Gielinor's many citizens."
+attack_type = 'Crush'
+respawn_rate = 25
+defence_light = -21
+defence_standard = -21
+defence_heavy = -21
+attack_anim = 422
+attack_sound = 2566
+defend_anim = 425
+defend_sound = 506
+death_anim = 836
+death_sound = 505
 
 [[config]]
 npc = 'woman_id_3113'
 examine = "One of Gielinor's many citizens."
+attack_type = 'Crush'
+respawn_rate = 25
+defence_light = -21
+defence_standard = -21
+defence_heavy = -21
+attack_anim = 422
+attack_sound = 2566
+defend_anim = 425
+defend_sound = 506
+death_anim = 836
+death_sound = 505
 
 [[config]]
 npc = 'farmer_id_3114'
 examine = 'He grows the crops in this area.'
+attack_type = 'Stab'
+respawn_rate = 25
+attack_anim = 433
+attack_sound = 2517
+defend_anim = 434
+defend_sound = 513
+death_anim = 836
+death_sound = 512
 
 [[config]]
 npc = 'farid_morrisane_(ores_and_bars)'
@@ -12121,10 +12583,26 @@ examine = 'In his former life an expert brewer.'
 [[config]]
 npc = 'farmer_id_3243'
 examine = 'He grows the crops in this area.'
+attack_type = 'Stab'
+respawn_rate = 25
+attack_anim = 433
+attack_sound = 2517
+defend_anim = 434
+defend_sound = 513
+death_anim = 836
+death_sound = 512
 
 [[config]]
 npc = 'farmer_id_3244'
 examine = 'He grows the crops in this area.'
+attack_type = 'Stab'
+respawn_rate = 25
+attack_anim = 433
+attack_sound = 2517
+defend_anim = 434
+defend_sound = 513
+death_anim = 836
+death_sound = 512
 
 [[config]]
 npc = 'farmer_id_3245'
@@ -18749,6 +19227,17 @@ examine = 'Master of imps.'
 [[config]]
 npc = 'imp_id_5007'
 examine = 'A cheeky little imp.'
+attack_type = 'Stab'
+respawn_rate = 50
+defence_light = -42
+defence_standard = -42
+defence_heavy = -42
+attack_anim = 169
+attack_sound = 534
+defend_anim = 170
+defend_sound = 536
+death_anim = 172
+death_sound = 535
 
 [[config]]
 npc = "lil'_destructor_id_5008"
@@ -19525,6 +20014,12 @@ examine = 'An empowered woman.'
 [[config]]
 npc = 'weaponsmaster'
 examine = 'Looks kind of obsessive...'
+attack_anim = 390
+attack_sound = 2500
+defend_anim = 383
+defend_sound = 15
+death_anim = 836
+death_sound = 512
 
 [[config]]
 npc = 'straven'
@@ -24849,6 +25344,17 @@ examine = 'A long-legged bird that likes to fish.'
 [[config]]
 npc = 'man_id_6818'
 examine = "One of Gielinor's many citizens."
+attack_type = 'Crush'
+respawn_rate = 25
+defence_light = -21
+defence_standard = -21
+defence_heavy = -21
+attack_anim = 422
+attack_sound = 2566
+defend_anim = 425
+defend_sound = 513
+death_anim = 836
+death_sound = 512
 
 [[config]]
 npc = 'town_crier_id_6823'
@@ -31333,14 +31839,38 @@ examine = "Worldly riches don't seem to be much use to him anymore."
 [[config]]
 npc = 'giant_frog_vislevel_13'
 examine = "It didn't get that big eating flies."
+attack_type = 'Crush'
+respawn_rate = 50
+attack_anim = 1793
+attack_sound = 838
+defend_anim = 1794
+defend_sound = 840
+death_anim = 1795
+death_sound = 839
 
 [[config]]
 npc = 'big_frog_vislevel_10'
 examine = "It didn't get that big eating flies."
+attack_type = 'Crush'
+respawn_rate = 50
+attack_anim = 1793
+attack_sound = 842
+defend_anim = 1794
+defend_sound = 844
+death_anim = 1795
+death_sound = 843
 
 [[config]]
 npc = 'frog_id_8702'
 examine = 'It eats flies.'
+attack_type = 'Crush'
+respawn_rate = 50
+attack_anim = 1793
+attack_sound = 842
+defend_anim = 1794
+defend_sound = 844
+death_anim = 1795
+death_sound = 843
 
 [[config]]
 npc = 'temple_spider'
@@ -40505,18 +41035,50 @@ examine = "He tries to keep order around here. His bizarre uniform isn't helping
 [[config]]
 npc = 'farmer_id_11918'
 examine = 'She grows the crops in this area.'
+attack_type = 'Stab'
+respawn_rate = 25
+attack_anim = 386
+attack_sound = 2517
+defend_anim = 387
+defend_sound = 506
+death_anim = 836
+death_sound = 512
 
 [[config]]
 npc = 'farmer_id_11919'
 examine = 'She grows the crops in this area.'
+attack_type = 'Stab'
+respawn_rate = 25
+attack_anim = 386
+attack_sound = 2517
+defend_anim = 387
+defend_sound = 506
+death_anim = 836
+death_sound = 512
 
 [[config]]
 npc = 'farmer_id_11920'
 examine = 'She grows the crops in this area.'
+attack_type = 'Stab'
+respawn_rate = 25
+attack_anim = 386
+attack_sound = 2517
+defend_anim = 387
+defend_sound = 506
+death_anim = 836
+death_sound = 512
 
 [[config]]
 npc = 'farmer_id_11921'
 examine = 'He grows the crops in this area.'
+attack_type = 'Stab'
+respawn_rate = 25
+attack_anim = 433
+attack_sound = 2517
+defend_anim = 434
+defend_sound = 513
+death_anim = 836
+death_sound = 512
 
 [[config]]
 npc = 'guard_id_11922'
