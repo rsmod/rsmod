@@ -80,6 +80,33 @@ constructor(
         npc.revealAvatar()
     }
 
+    public fun despawn(npc: Npc) {
+        // Remove the npc from their respective zone.
+        npc.removeBlockWalkCollision(collision, npc.coords)
+        zoneDel(npc, npc.lastProcessedZone)
+
+        // Hide the npc client avatar.
+        npc.hidden = true
+        npc.hideAvatar()
+    }
+
+    public fun respawn(npc: Npc) {
+        npc.coords = npc.spawnCoords
+        npc.lastProcessedZone = ZoneKey.from(npc.coords)
+
+        // Add the npc to the corresponding zone.
+        npc.addBlockWalkCollision(collision, npc.coords)
+        zoneAdd(npc, npc.lastProcessedZone)
+
+        // Note that the event is published _after_ the npc is registered to the zone, in case said
+        // information is required by the listeners.
+        eventBus.publish(NpcStateEvents.Respawn(npc))
+
+        // Reveal the npc client avatar.
+        npc.hidden = false
+        npc.revealAvatar()
+    }
+
     public fun change(npc: Npc, from: ZoneKey, to: ZoneKey) {
         zoneDel(npc, from)
         zoneAdd(npc, to)

@@ -5,11 +5,9 @@ import jakarta.inject.Singleton
 import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.objs
 import org.rsmod.api.config.refs.params
-import org.rsmod.api.config.refs.varnbits
 import org.rsmod.api.config.refs.varns
 import org.rsmod.api.config.refs.varps
 import org.rsmod.api.npc.access.StandardNpcAccess
-import org.rsmod.api.npc.vars.boolVarnBit
 import org.rsmod.api.npc.vars.typePlayerUidVarn
 import org.rsmod.api.player.output.soundSynth
 import org.rsmod.api.player.vars.typeNpcUidVarp
@@ -63,7 +61,6 @@ constructor(
 
 private var Player.aggressiveNpc: NpcUid? by typeNpcUidVarp(varps.aggressive_npc)
 private var Npc.aggressivePlayer by typePlayerUidVarn(varns.aggressive_player)
-private var Npc.pendingRespawn by boolVarnBit(varnbits.respawn_pending)
 
 /**
  * Handles the death sequence of this [StandardNpcAccess.npc], including clearing interactions and
@@ -114,11 +111,7 @@ public suspend fun StandardNpcAccess.death(
     delay(seqTypes[deathAnim])
 
     if (npc.respawns) {
-        // As a simple and easy way to differentiate this `npc_hide` as one triggered by death,
-        // we set a "pending respawn" varnbit that can be checked during the `Reveal` script.
-        npc.pendingRespawn = true
-
-        npcRepo.hide(npc, npc.type.respawnRate)
+        npcRepo.despawn(npc, npc.type.respawnRate)
         return
     }
 

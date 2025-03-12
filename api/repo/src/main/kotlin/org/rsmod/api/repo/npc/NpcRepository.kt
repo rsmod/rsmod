@@ -7,6 +7,7 @@ import org.rsmod.api.registry.npc.isSuccess
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.NpcList
+import org.rsmod.game.entity.npc.NpcStateEvents
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.zone.ZoneKey
 
@@ -54,10 +55,35 @@ constructor(
 
     /** **Note:** Unlike [del], this function does **not** call [Npc.cancelActiveCoroutine]. */
     public fun hide(npc: Npc, duration: Int) {
+        check(mapClock > npc.lifecycleRespawnCycle) {
+            "Cannot hide npc while it is respawning. (npc=$npc)"
+        }
+
         registry.hide(npc)
         if (duration != Int.MAX_VALUE) {
             val revealCycle = mapClock + duration
             npc.lifecycleRevealCycle = revealCycle
+        }
+    }
+
+    /**
+     * Similar to [hide], but this function is specifically for handling npc deaths.
+     *
+     * Calling this function will eventually trigger [NpcRegistry.respawn], which:
+     * - Publishes the [NpcStateEvents.Respawn] event.
+     * - Resets the npc's [Npc.coords] to its original [Npc.spawnCoords].
+     *
+     * **Note:** Unlike [del], this function does **not** call [Npc.cancelActiveCoroutine].
+     */
+    public fun despawn(npc: Npc, duration: Int) {
+        // We do not want previously-queued `hide` operations to go through in the
+        // middle of the respawn.
+        npc.lifecycleRevealCycle = 0
+
+        registry.despawn(npc)
+        if (duration != Int.MAX_VALUE) {
+            val revealCycle = mapClock + duration
+            npc.lifecycleRespawnCycle = revealCycle
         }
     }
 
@@ -79,7 +105,9 @@ constructor(
     }
 
     internal fun processReveal(npc: Npc) {
-        if (shouldTrigger(npc.lifecycleRevealCycle)) {
+        if (shouldTrigger(npc.lifecycleRespawnCycle)) {
+            registry.respawn(npc)
+        } else if (shouldTrigger(npc.lifecycleRevealCycle)) {
             registry.reveal(npc)
         }
     }

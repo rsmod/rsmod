@@ -11,6 +11,8 @@ public class NpcStateEvents {
 
     public data class Reveal(val npc: Npc) : UnboundEvent
 
+    public data class Respawn(val npc: Npc) : UnboundEvent
+
     public data class Hide(val npc: Npc) : KeyedEvent {
         override val id: Long = npc.id.toLong()
     }

@@ -69,6 +69,7 @@ public class Npc(
     public var lifecycleAddCycle: Int = -1
     public var lifecycleDelCycle: Int = -1
     public var lifecycleRevealCycle: Int = -1
+    public var lifecycleRespawnCycle: Int = -1
 
     public var attackLvl: Int = type.attack
     public var strengthLvl: Int = type.strength
@@ -166,7 +167,6 @@ public class Npc(
 
     @InternalApi
     public fun setRespawnValues() {
-        coords = spawnCoords
         transmog = null
         cachedHitmark = null
         assignUid()
