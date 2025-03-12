@@ -9,14 +9,19 @@ import org.rsmod.api.type.verifier.TypeVerifier.Verification
 public class ReferenceVerifier
 @Inject
 constructor(private val references: TypeReferenceResolverMap) {
-    public fun verifyAll(): Verification {
+    public fun verifyAll(verifyIdentityHashes: Boolean): Verification {
         val updates = references.updates
         if (updates.isNotEmpty()) {
             val error = updates.toUpdateError()
             return Verification.CacheUpdateRequired(error)
         }
 
-        val issues = references.issues
+        val issues =
+            if (!verifyIdentityHashes) {
+                references.issues.filter { it.status !is TypeReferenceResult.CacheTypeHashMismatch }
+            } else {
+                references.issues
+            }
         if (issues.isNotEmpty()) {
             val error = issues.toIssueError()
             return Verification.Failure(error)
@@ -29,33 +34,6 @@ constructor(private val references: TypeReferenceResolverMap) {
         }
 
         return Verification.FullSuccess
-    }
-
-    public fun verifyUpdates(): Verification? {
-        val updates = references.updates
-        if (updates.isEmpty()) {
-            return null
-        }
-        val error = updates.toUpdateError()
-        return Verification.CacheUpdateRequired(error)
-    }
-
-    public fun verifyIssues(): Verification? {
-        val issues = references.issues
-        if (issues.isEmpty()) {
-            return null
-        }
-        val error = issues.toIssueError()
-        return Verification.Failure(error)
-    }
-
-    public fun verifyErrors(): Verification? {
-        val errors = references.errors
-        if (errors.isEmpty()) {
-            return null
-        }
-        val error = errors.toError()
-        return Verification.Failure(error)
     }
 
     private fun List<TypeReferenceResult.Update<*>>.toUpdateError(): ResolutionError {

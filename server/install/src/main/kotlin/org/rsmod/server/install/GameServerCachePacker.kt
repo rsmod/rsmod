@@ -89,7 +89,7 @@ class GameServerCachePacker : CliktCommand(name = "cache-pack") {
         resolver.resolveEditors()
 
         val verifier = injector.getInstance(TypeVerifier::class.java)
-        val verification = verifier.verifyAll()
+        val verification = verifier.verifyAll(verifyIdentityHashes = false)
         if (verification.isCacheUpdateRequired()) {
             val updater = injector.getInstance(TypeUpdater::class.java)
             updater.updateAll()

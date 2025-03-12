@@ -13,8 +13,8 @@ constructor(
     private val builders: TypeBuilderResolverMap,
     private val editors: TypeEditorResolverMap,
 ) {
-    public fun verifyAll(): Verification {
-        val reference = verifyReferences()
+    public fun verifyAll(verifyIdentityHashes: Boolean = true): Verification {
+        val reference = verifyReferences(verifyIdentityHashes)
         val builder = verifyBuilders()
         val editor = verifyEditors()
 
@@ -38,9 +38,9 @@ constructor(
         return Verification.FullSuccess
     }
 
-    public fun verifyReferences(): Verification {
+    public fun verifyReferences(verifyIdentityHashes: Boolean): Verification {
         val verifier = ReferenceVerifier(references)
-        return verifier.verifyAll()
+        return verifier.verifyAll(verifyIdentityHashes)
     }
 
     public fun verifyEditors(): Verification {
