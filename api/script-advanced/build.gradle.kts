@@ -7,6 +7,7 @@ kotlin {
 }
 
 dependencies {
+    implementation(projects.api.npc)
     implementation(projects.api.player)
     implementation(projects.api.script)
     implementation(projects.engine.events)

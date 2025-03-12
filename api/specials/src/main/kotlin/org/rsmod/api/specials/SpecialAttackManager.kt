@@ -4,7 +4,7 @@ import jakarta.inject.Inject
 import org.rsmod.api.combat.commons.CombatAttack
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
 import org.rsmod.api.combat.commons.types.MeleeAttackType
-import org.rsmod.api.combat.formulas.MaxHitFormulas
+import org.rsmod.api.combat.formulas.MaxHitFormulae
 import org.rsmod.api.npc.hit.modifier.NpcHitModifier
 import org.rsmod.api.npc.hit.queueHit
 import org.rsmod.api.player.hit.queueHit
@@ -24,7 +24,7 @@ constructor(
     private val random: GameRandom,
     private val energy: SpecialAttackEnergy,
     private val weapons: SpecialAttackWeapons,
-    private val maxHits: MaxHitFormulas,
+    private val maxHits: MaxHitFormulae,
     private val npcHitModifier: NpcHitModifier,
 ) {
     public fun setNextAttackDelay(source: ProtectedAccess, cycles: Int) {

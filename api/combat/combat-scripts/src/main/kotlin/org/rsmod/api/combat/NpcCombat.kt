@@ -2,15 +2,14 @@ package org.rsmod.api.combat
 
 import jakarta.inject.Inject
 import org.rsmod.api.combat.commons.CombatAttack
-import org.rsmod.api.combat.formulas.MaxHitFormulas
+import org.rsmod.api.combat.commons.npc.combatPlayDefendFx
+import org.rsmod.api.combat.commons.npc.queueCombatRetaliate
+import org.rsmod.api.combat.formulas.MaxHitFormulae
 import org.rsmod.api.combat.fx.MeleeAnimationAndSound
-import org.rsmod.api.combat.npc.aggressivePlayer
-import org.rsmod.api.combat.npc.lastCombat
 import org.rsmod.api.combat.player.canPerformMeleeSpecial
 import org.rsmod.api.combat.player.canPerformShieldSpecial
 import org.rsmod.api.combat.player.specialAttackType
 import org.rsmod.api.combat.weapon.WeaponSpeeds
-import org.rsmod.api.config.refs.params
 import org.rsmod.api.npc.hit.modifier.NpcHitModifier
 import org.rsmod.api.npc.hit.queueHit
 import org.rsmod.api.npc.isValidTarget
@@ -30,7 +29,7 @@ constructor(
     private val specialsReg: SpecialAttackRegistry,
     private val specialEnergy: SpecialAttackEnergy,
     private val hitModifier: NpcHitModifier,
-    private val maxHits: MaxHitFormulas,
+    private val maxHits: MaxHitFormulae,
 ) {
     suspend fun attack(access: ProtectedAccess, target: Npc, attack: CombatAttack) {
         when (attack) {
@@ -48,7 +47,6 @@ constructor(
         }
 
         if (actionDelay > mapClock) {
-            opNpc2(npc)
             return
         }
 
@@ -96,6 +94,7 @@ constructor(
         anim(attackAnim)
         soundSynth(attackSound)
 
+        // TODO(combat): Accuracy roll
         val maxHit = maxHits.getMeleeMaxHit(player, npc)
         val damage = random.of(0..maxHit)
 
@@ -103,20 +102,8 @@ constructor(
         // TODO(combat): Add hero points. For emulation purposes, I'm pretty certain hero points
         //  are added here instead of during hit processing due to legacy/technical reasons.
 
-        // val defendSound = npcParam(target, params.defend_sound) // TODO
-        val defendAnim = npcParamOrNull(npc, params.defend_anim)
-        if (defendAnim != null) {
-            npc.anim(defendAnim)
-        }
-        npc.aggressivePlayer = player.uid
-        npc.lastCombat = mapClock
-
-        // TODO(combat): Remove once npc auto-retaliate works.
-        npc.playerFaceClose(player)
-
-        // TODO(combat): This is sending two setmapflag(null) at the moment when it should only be
-        // one.
-        opNpc2(npc)
+        npc.combatPlayDefendFx(player)
+        npc.queueCombatRetaliate(player)
     }
 
     private suspend fun ProtectedAccess.attackRanged(target: Npc, attack: CombatAttack.Ranged) {

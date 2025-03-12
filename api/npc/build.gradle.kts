@@ -7,9 +7,11 @@ kotlin {
 }
 
 dependencies {
+    implementation(libs.bundles.logging)
     implementation(libs.guice)
     implementation(projects.api.config)
     implementation(projects.api.random)
+    implementation(projects.api.route)
     implementation(projects.api.type.typeBuilders)
     implementation(projects.api.type.typeReferences)
     implementation(projects.engine.annotations)

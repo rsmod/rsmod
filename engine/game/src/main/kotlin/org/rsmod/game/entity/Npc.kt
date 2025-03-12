@@ -90,6 +90,8 @@ public class Npc(
 
     public var wanderIdleCycles: Int = -1
 
+    public var actionDelay: Int = -1
+
     public var transmog: UnpackedNpcType? = null
         private set
 

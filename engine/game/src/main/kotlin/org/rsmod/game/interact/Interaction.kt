@@ -2,7 +2,9 @@ package org.rsmod.game.interact
 
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.PathingEntity
+import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.npc.NpcUid
+import org.rsmod.game.entity.player.PlayerUid
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.obj.Obj
 import org.rsmod.game.type.comp.ComponentType
@@ -21,9 +23,9 @@ public sealed class Interaction(
             "hasOpTrigger=$hasOpTrigger, " +
             "hasApTrigger=$hasApTrigger, " +
             "apRange=$apRange, " +
-            "persistent=$persistent, " +
             "apRangeCalled=$apRangeCalled, " +
-            "interacted=$interacted" +
+            "interacted=$interacted, " +
+            "persistent=$persistent" +
             ")"
 }
 
@@ -40,9 +42,9 @@ public sealed class InteractionLoc(
             "hasOpTrigger=$hasOpTrigger, " +
             "hasApTrigger=$hasApTrigger, " +
             "apRange=$apRange, " +
-            "persistent=$persistent, " +
             "apRangeCalled=$apRangeCalled, " +
-            "interacted=$interacted" +
+            "interacted=$interacted, " +
+            "persistent=$persistent" +
             ")"
 }
 
@@ -85,9 +87,9 @@ public sealed class InteractionNpc(
             "hasOpTrigger=$hasOpTrigger, " +
             "hasApTrigger=$hasApTrigger, " +
             "apRange=$apRange, " +
-            "persistent=$persistent, " +
             "apRangeCalled=$apRangeCalled, " +
-            "interacted=$interacted" +
+            "interacted=$interacted, " +
+            "persistent=$persistent" +
             ")"
 }
 
@@ -125,8 +127,42 @@ public class InteractionObj(
             "hasOpTrigger=$hasOpTrigger, " +
             "hasApTrigger=$hasApTrigger, " +
             "apRange=$apRange, " +
-            "persistent=$persistent, " +
             "apRangeCalled=$apRangeCalled, " +
-            "interacted=$interacted" +
+            "interacted=$interacted, " +
+            "persistent=$persistent" +
             ")"
 }
+
+public sealed class InteractionPlayer(
+    public val target: Player,
+    hasOpTrigger: Boolean,
+    hasApTrigger: Boolean,
+    startApRange: Int,
+    persistent: Boolean,
+) : Interaction(hasOpTrigger, hasApTrigger, startApRange, persistent) {
+    public val uid: PlayerUid = target.uid
+
+    init {
+        check(uid != PlayerUid.NULL) { "Target does not have a proper uid: $target" }
+    }
+
+    override fun toString(): String =
+        "InteractionPlayer(" +
+            "target=$target, " +
+            "hasOpTrigger=$hasOpTrigger, " +
+            "hasApTrigger=$hasApTrigger, " +
+            "apRange=$apRange, " +
+            "apRangeCalled=$apRangeCalled, " +
+            "interacted=$interacted, " +
+            "persistent=$persistent" +
+            ")"
+}
+
+public class InteractionPlayerOp(
+    public val op: InteractionOp,
+    target: Player,
+    hasOpTrigger: Boolean,
+    hasApTrigger: Boolean,
+    startApRange: Int = PathingEntity.DEFAULT_AP_RANGE,
+    persistent: Boolean = false,
+) : InteractionPlayer(target, hasOpTrigger, hasApTrigger, startApRange, persistent)

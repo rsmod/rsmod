@@ -1,7 +1,6 @@
 package org.rsmod.api.script
 
 import org.rsmod.api.npc.access.StandardNpcAccess
-import org.rsmod.api.npc.events.NpcAIEvents
 import org.rsmod.api.npc.events.NpcHitEvents
 import org.rsmod.api.npc.events.NpcMovementEvent
 import org.rsmod.api.npc.events.NpcQueueEvents
@@ -205,14 +204,6 @@ public fun ScriptContext.onApNpcU(
 ): Unit = onProtectedEvent((content.id.toLong() shl 32) or objType.id.toLong(), action)
 
 /* Timer functions */
-public fun ScriptContext.onAiTimer(type: NpcType, action: NpcAIEvents.Type.() -> Unit): Unit =
-    onEvent(type.id, action)
-
-public fun ScriptContext.onAiTimer(
-    content: ContentGroupType,
-    action: NpcAIEvents.Content.() -> Unit,
-): Unit = onEvent(content.id, action)
-
 public fun ScriptContext.onNpcTimer(
     timer: TimerType,
     action: suspend StandardNpcAccess.(NpcTimerEvents.Default) -> Unit,

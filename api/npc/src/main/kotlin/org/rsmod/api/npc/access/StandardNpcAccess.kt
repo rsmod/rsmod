@@ -1,6 +1,7 @@
 package org.rsmod.api.npc.access
 
 import kotlin.getValue
+import kotlin.setValue
 import org.rsmod.annotations.InternalApi
 import org.rsmod.api.config.refs.BaseHitmarkGroups
 import org.rsmod.api.config.refs.hitmark_groups
@@ -11,6 +12,8 @@ import org.rsmod.api.npc.hit.process
 import org.rsmod.api.npc.hit.processor.NpcHitProcessor
 import org.rsmod.api.npc.hit.processor.StandardNpcHitProcessor
 import org.rsmod.api.npc.hit.queueHit
+import org.rsmod.api.npc.interact.AiPlayerInteractions
+import org.rsmod.api.npc.opPlayer2
 import org.rsmod.api.npc.queueDeath
 import org.rsmod.api.random.GameRandom
 import org.rsmod.coroutine.GameCoroutine
@@ -54,6 +57,8 @@ public class StandardNpcAccess(
 
     public val coords: CoordGrid by npc::coords
     public val mapClock: Int by npc::currentMapClock
+
+    public var actionDelay: Int by npc::actionDelay
 
     // TODO(combat): Go over the [Npc.walk] implementation. It should not work as it currently does,
     //  but some tests currently rely on it working as it does. Once we decide on that, replace this
@@ -329,6 +334,10 @@ public class StandardNpcAccess(
         npc.playerFace(target)
     }
 
+    public fun opPlayer2(target: Player, interactions: AiPlayerInteractions) {
+        npc.opPlayer2(target, interactions)
+    }
+
     public fun anim(seq: SeqType, delay: Int = 0) {
         npc.anim(seq, delay)
     }
@@ -389,6 +398,33 @@ public class StandardNpcAccess(
     public fun distanceTo(other: PathingEntity): Int = npc.distanceTo(other)
 
     public fun distanceTo(loc: BoundLocInfo): Int = npc.distanceTo(loc)
+
+    public fun apRange(distance: Int) {
+        val interaction = npc.interaction ?: return
+        interaction.apRange = distance
+        interaction.apRangeCalled = true
+    }
+
+    public fun isWithinApRange(loc: BoundLocInfo, distance: Int): Boolean {
+        if (!isWithinDistance(loc, distance)) {
+            apRange(distance)
+            return false
+        }
+        return true
+    }
+
+    public fun isWithinApRange(target: PathingEntity, distance: Int): Boolean {
+        if (!isWithinDistance(target, distance)) {
+            apRange(distance)
+            return false
+        }
+        return true
+    }
+
+    public fun persistentInteraction() {
+        val interaction = npc.interaction ?: return
+        interaction.persistent = true
+    }
 
     /**
      * Returns the param value associated with [param] from the **base** `npc` [Npc.type], or `null`

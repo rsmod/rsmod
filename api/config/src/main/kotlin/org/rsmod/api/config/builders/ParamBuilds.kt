@@ -20,6 +20,8 @@ import org.rsmod.game.type.varbit.VarBitType
 
 internal object ParamBuilds : ParamBuilder() {
     init {
+        build<Int>("retreat") { default = -1 }
+
         build<Boolean>("td_shield_active") { default = true }
         build<Int>("tormented_demon") { default = 0 }
 
@@ -111,9 +113,10 @@ internal object ParamBuilds : ParamBuilder() {
         build<SeqType>("bas_walk_l") { default = seqs.human_walk_l }
         build<SeqType>("bas_walk_r") { default = seqs.human_walk_r }
         build<SeqType>("bas_running") { default = seqs.human_running }
-        build<SeqType>("attack_anim")
-        build<SeqType>("defend_anim")
+        build<SeqType>("attack_anim") { default = seqs.human_unarmedpunch }
+        build<SeqType>("defend_anim") { default = seqs.human_unarmedblock }
         build<SeqType>("death_anim") { default = seqs.human_death }
+        build<SynthType>("attack_sound")
         build<SynthType>("death_sound")
         build<Int>("attackrate") { default = constants.combat_default_attackrate }
     }

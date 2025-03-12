@@ -1,14 +1,14 @@
 package org.rsmod.api.combat.scripts
 
 import jakarta.inject.Inject
+import org.rsmod.api.combat.ACTIVE_COMBAT_DELAY
 import org.rsmod.api.combat.NpcCombat
 import org.rsmod.api.combat.commons.magic.MagicSpell
+import org.rsmod.api.combat.inMultiCombatArea
 import org.rsmod.api.combat.npc.aggressivePlayer
 import org.rsmod.api.combat.npc.lastCombat
-import org.rsmod.api.combat.player.ACTIVE_COMBAT_DELAY
 import org.rsmod.api.combat.player.aggressiveNpc
 import org.rsmod.api.combat.player.attackRange
-import org.rsmod.api.combat.player.inMultiCombatArea
 import org.rsmod.api.combat.player.lastCombat
 import org.rsmod.api.combat.player.lastCombatPvp
 import org.rsmod.api.combat.player.resolveCombatAttack
@@ -61,6 +61,7 @@ constructor(
         val spell: MagicSpell? = null // TODO(combat): Resolve spell based on auto cast id.
         val attack = resolveCombatAttack(weapon, type, style, spell)
 
+        persistentInteraction()
         combat.attack(this, target, attack)
     }
 
@@ -76,6 +77,7 @@ constructor(
         val spell: MagicSpell? = null // TODO(combat): Resolve spell based on auto cast id.
         val attack = resolveCombatAttack(weapon, type, style, spell)
 
+        persistentInteraction()
         combat.attack(this, target, attack)
     }
 

@@ -1,6 +1,8 @@
 package org.rsmod.api.combat.player
 
 import kotlin.math.min
+import org.rsmod.api.combat.MAGIC_ATTACK_RANGE
+import org.rsmod.api.combat.MAX_ATTACK_RANGE
 import org.rsmod.api.combat.commons.CombatAttack
 import org.rsmod.api.combat.commons.magic.MagicSpell
 import org.rsmod.api.combat.commons.styles.AttackStyle
@@ -17,11 +19,6 @@ import org.rsmod.api.specials.SpecialAttackRegistry
 import org.rsmod.api.specials.energy.SpecialAttackEnergy
 import org.rsmod.game.entity.PathingEntity
 import org.rsmod.game.obj.InvObj
-
-internal const val ACTIVE_COMBAT_DELAY = 8
-
-internal const val MAX_ATTACK_RANGE = 10
-internal const val MAGIC_ATTACK_RANGE = MAX_ATTACK_RANGE
 
 internal fun ProtectedAccess.attackRange(style: AttackStyle?): Int =
     if (autoCastSpell > 0) {
@@ -83,11 +80,6 @@ internal fun ProtectedAccess.resolveCombatAttack(
             CombatAttack.Melee(weapon, meleeType, meleeStyle, combatStance)
         }
     }
-
-// TODO(combat): Multi combat areas
-internal fun ProtectedAccess.inMultiCombatArea(): Boolean {
-    return false
-}
 
 internal suspend fun ProtectedAccess.canPerformMeleeSpecial(
     target: PathingEntity,

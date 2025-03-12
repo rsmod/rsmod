@@ -47,6 +47,7 @@ object Constants {
     const val overlay_timer_woodcutting: Int = 2
 
     const val combat_default_attackrate = 4
+    const val combat_activecombat_delay = 8
 
     const val skullicon_default = 0
     const val skullicon_red = 1

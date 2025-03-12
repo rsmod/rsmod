@@ -1,26 +1,23 @@
-package org.rsmod.api.game.process.player
+package org.rsmod.api.game.process.npc
 
 import jakarta.inject.Inject
-import org.rsmod.api.config.Constants
+import org.rsmod.api.npc.access.StandardNpcAccessLauncher
+import org.rsmod.api.npc.clearInteractionRoute
+import org.rsmod.api.npc.interact.AiLocInteractions
+import org.rsmod.api.npc.interact.AiLocTInteractions
+import org.rsmod.api.npc.interact.AiNpcInteractions
+import org.rsmod.api.npc.interact.AiNpcTInteractions
+import org.rsmod.api.npc.interact.AiObjInteractions
+import org.rsmod.api.npc.interact.AiPlayerInteractions
 import org.rsmod.api.npc.isValidTarget
-import org.rsmod.api.player.clearInteractionRoute
-import org.rsmod.api.player.interact.LocInteractions
-import org.rsmod.api.player.interact.LocTInteractions
-import org.rsmod.api.player.interact.NpcInteractions
-import org.rsmod.api.player.interact.NpcTInteractions
-import org.rsmod.api.player.interact.ObjInteractions
-import org.rsmod.api.player.interact.PlayerInteractions
 import org.rsmod.api.player.isValidTarget
-import org.rsmod.api.player.output.ChatType
-import org.rsmod.api.player.output.clearMapFlag
-import org.rsmod.api.player.output.mes
-import org.rsmod.api.player.protect.ProtectedAccessLauncher
 import org.rsmod.api.registry.loc.LocRegistry
 import org.rsmod.api.registry.obj.ObjRegistry
 import org.rsmod.api.route.BoundValidator
 import org.rsmod.api.route.RayCastValidator
 import org.rsmod.events.EventBus
-import org.rsmod.game.entity.Player
+import org.rsmod.game.entity.Npc
+import org.rsmod.game.entity.PathingEntity
 import org.rsmod.game.interact.Interaction
 import org.rsmod.game.interact.InteractionLoc
 import org.rsmod.game.interact.InteractionLocOp
@@ -38,7 +35,7 @@ import org.rsmod.interact.Interactions
 import org.rsmod.map.CoordGrid
 import org.rsmod.routefinder.flag.CollisionFlag
 
-public class PlayerInteractionProcessor
+public class NpcInteractionProcessor
 @Inject
 constructor(
     private val eventBus: EventBus,
@@ -46,57 +43,57 @@ constructor(
     private val objRegistry: ObjRegistry,
     private val boundValidator: BoundValidator,
     private val rayCastValidator: RayCastValidator,
-    private val locInteractions: LocInteractions,
-    private val locTInteractions: LocTInteractions,
-    private val npcInteractions: NpcInteractions,
-    private val npcTInteractions: NpcTInteractions,
-    private val objInteractions: ObjInteractions,
-    private val playerInteractions: PlayerInteractions,
-    private val protectedAccess: ProtectedAccessLauncher,
+    private val locInteractions: AiLocInteractions,
+    private val locTInteractions: AiLocTInteractions,
+    private val npcInteractions: AiNpcInteractions,
+    private val npcTInteractions: AiNpcTInteractions,
+    private val objInteractions: AiObjInteractions,
+    private val playerInteractions: AiPlayerInteractions,
+    private val accessLauncher: StandardNpcAccessLauncher,
 ) {
-    public fun processPreMovement(player: Player, interaction: Interaction) {
-        // While the player is busy, interactions should not be canceled by
+    public fun processPreMovement(npc: Npc, interaction: Interaction) {
+        // While the npc is busy, interactions should not be canceled by
         // [shouldCancelInteraction].
-        if (player.isBusy) {
+        if (npc.isBusy) {
             return
         }
 
         // Ensure the interaction target is still valid before proceeding.
-        if (player.shouldCancelInteraction(interaction)) {
-            player.clearInteractionRoute()
+        if (npc.shouldCancelInteraction(interaction)) {
+            npc.clearInteractionRoute()
             return
         }
 
         if (interaction.persistent) {
-            player.routeTo(interaction)
+            npc.routeTo(interaction)
         }
-        player.preMovementInteraction(interaction)
+        npc.preMovementInteraction(interaction)
     }
 
-    public fun processPostMovement(player: Player, interaction: Interaction) {
-        // If the player is busy, interactions should not be canceled by [shouldCancelInteraction].
+    public fun processPostMovement(npc: Npc, interaction: Interaction) {
+        // If the npc is busy, interactions should not be canceled by [shouldCancelInteraction].
         // However, if an interaction was completed during the pre-movement step, clear it.
-        if (player.isBusy) {
-            player.clearFinishedInteraction()
+        if (npc.isBusy) {
+            npc.clearFinishedInteraction()
             return
         }
 
         // Ensure the interaction target is still valid before proceeding.
-        if (player.shouldCancelInteraction(interaction)) {
+        if (npc.shouldCancelInteraction(interaction)) {
             return
         }
 
         // If the interaction was not completed during pre-movement, attempt to complete it now
-        // after the player's movement has been processed.
+        // after the npc's movement has been processed.
         if (!interaction.isCompleted()) {
-            player.postMovementInteraction(interaction)
+            npc.postMovementInteraction(interaction)
         }
 
         // Clear the interaction if it's deemed "completed."
-        player.clearFinishedInteraction()
+        npc.clearFinishedInteraction()
     }
 
-    private fun Player.preMovementInteraction(interaction: Interaction): Unit =
+    private fun Npc.preMovementInteraction(interaction: Interaction): Unit =
         with(interaction) {
             interacted = false
             apRangeCalled = false
@@ -105,21 +102,13 @@ constructor(
             processInteractionStep(interaction, step)
         }
 
-    private fun Player.postMovementInteraction(interaction: Interaction): Unit =
+    private fun Npc.postMovementInteraction(interaction: Interaction): Unit =
         with(interaction) {
             val step = determinePostMovementStep(this)
             processInteractionStep(this, step)
-
-            if (!interaction.interacted && routeDestination.isEmpty() && !hasMovedThisCycle) {
-                mes(Constants.dm_reach, ChatType.Engine)
-                clearInteractionRoute()
-            }
         }
 
-    private fun Player.processInteractionStep(
-        interaction: Interaction,
-        step: InteractionStep,
-    ): Any =
+    private fun Npc.processInteractionStep(interaction: Interaction, step: InteractionStep): Any =
         with(interaction) {
             when (step) {
                 InteractionStep.TriggerScriptOp -> {
@@ -149,7 +138,6 @@ constructor(
                     apRange = -1
                 }
                 InteractionStep.TriggerEngineOp -> {
-                    mes(Constants.dm_default, ChatType.Engine)
                     interacted = true
                 }
                 InteractionStep.Continue -> {
@@ -158,18 +146,17 @@ constructor(
             }
         }
 
-    private fun Player.clearFinishedInteraction() {
+    private fun Npc.clearFinishedInteraction() {
         val interaction = interaction ?: return
-        if (interaction.isCompleted() && !interaction.persistent) {
+        if (interaction.isCompleted()) {
             clearInteraction()
             clearRouteRecalc()
-            clearMapFlag()
         }
     }
 
-    private fun Interaction.isCompleted(): Boolean = interacted && !apRangeCalled
+    private fun Interaction.isCompleted(): Boolean = interacted && !apRangeCalled && !persistent
 
-    private fun Player.routeTo(interaction: Interaction): Unit =
+    private fun Npc.routeTo(interaction: Interaction): Unit =
         when (interaction) {
             is InteractionLoc -> routeTo(interaction)
             is InteractionNpc -> routeTo(interaction)
@@ -177,7 +164,7 @@ constructor(
             is InteractionPlayer -> routeTo(interaction)
         }
 
-    private fun Player.determinePreMovementStep(interaction: Interaction): InteractionStep =
+    private fun Npc.determinePreMovementStep(interaction: Interaction): InteractionStep =
         when (interaction) {
             is InteractionLoc -> preMovementStep(interaction)
             is InteractionNpc -> preMovementStep(interaction)
@@ -185,7 +172,7 @@ constructor(
             is InteractionPlayer -> preMovementStep(interaction)
         }
 
-    private fun Player.determinePostMovementStep(interaction: Interaction): InteractionStep =
+    private fun Npc.determinePostMovementStep(interaction: Interaction): InteractionStep =
         when (interaction) {
             is InteractionLoc -> postMovementStep(interaction)
             is InteractionNpc -> postMovementStep(interaction)
@@ -193,17 +180,17 @@ constructor(
             is InteractionPlayer -> postMovementStep(interaction)
         }
 
-    private fun Player.triggerOp(interaction: Interaction): Unit =
+    private fun Npc.triggerOp(interaction: Interaction): Unit =
         when (interaction) {
             is InteractionLocOp -> triggerOp(this, interaction)
             is InteractionLocT -> triggerOp(this, interaction)
             is InteractionNpcOp -> triggerOp(this, interaction)
             is InteractionNpcT -> triggerOp(this, interaction)
             is InteractionObj -> triggerOp(this, interaction)
-            is InteractionPlayerOp -> triggerAp(this, interaction)
+            is InteractionPlayerOp -> triggerOp(this, interaction)
         }
 
-    private fun Player.triggerAp(interaction: Interaction): Unit =
+    private fun Npc.triggerAp(interaction: Interaction): Unit =
         when (interaction) {
             is InteractionLocOp -> triggerAp(this, interaction)
             is InteractionLocT -> triggerAp(this, interaction)
@@ -214,7 +201,7 @@ constructor(
         }
 
     /* Loc interactions */
-    private fun Player.preMovementStep(interaction: InteractionLoc): InteractionStep =
+    private fun Npc.preMovementStep(interaction: InteractionLoc): InteractionStep =
         Interactions.earlyStep(
             target = InteractionTarget.Static,
             hasScriptOp = interaction.hasOpTrigger,
@@ -223,7 +210,7 @@ constructor(
             validApLine = isWithinApRange(interaction),
         )
 
-    private fun Player.postMovementStep(interaction: InteractionLoc): InteractionStep =
+    private fun Npc.postMovementStep(interaction: InteractionLoc): InteractionStep =
         Interactions.lateStep(
             hasMoved = hasMovedThisCycle,
             target = InteractionTarget.Static,
@@ -233,11 +220,11 @@ constructor(
             validApLine = isWithinApRange(interaction),
         )
 
-    private fun Player.isWithinOpRange(interaction: InteractionLoc): Boolean =
+    private fun Npc.isWithinOpRange(interaction: InteractionLoc): Boolean =
         boundValidator.collides(source = avatar, target = interaction.target) ||
             boundValidator.touches(source = avatar, target = interaction.target)
 
-    private fun Player.isWithinApRange(interaction: InteractionLoc): Boolean =
+    private fun Npc.isWithinApRange(interaction: InteractionLoc): Boolean =
         isValidApRange(
             target = interaction.target.coords,
             width = interaction.target.adjustedWidth,
@@ -245,7 +232,7 @@ constructor(
             distance = interaction.apRange,
         )
 
-    private fun Player.routeTo(interaction: InteractionLoc) {
+    private fun Npc.routeTo(interaction: InteractionLoc) {
         if (isWithinOpRange(interaction)) {
             return
         }
@@ -253,7 +240,7 @@ constructor(
     }
 
     /* Npc interactions */
-    private fun Player.preMovementStep(interaction: InteractionNpc): InteractionStep =
+    private fun Npc.preMovementStep(interaction: InteractionNpc): InteractionStep =
         Interactions.earlyStep(
             target = InteractionTarget.Pathing,
             hasScriptOp = interaction.hasOpTrigger,
@@ -262,7 +249,7 @@ constructor(
             validApLine = isWithinApRange(interaction),
         )
 
-    private fun Player.postMovementStep(interaction: InteractionNpc): InteractionStep =
+    private fun Npc.postMovementStep(interaction: InteractionNpc): InteractionStep =
         Interactions.lateStep(
             hasMoved = hasMovedThisCycle,
             target = InteractionTarget.Pathing,
@@ -272,10 +259,10 @@ constructor(
             validApLine = isWithinApRange(interaction),
         )
 
-    private fun Player.isWithinOpRange(interaction: InteractionNpc): Boolean =
+    private fun Npc.isWithinOpRange(interaction: InteractionNpc): Boolean =
         boundValidator.touches(source = avatar, target = interaction.target.avatar)
 
-    private fun Player.isWithinApRange(interaction: InteractionNpc): Boolean {
+    private fun Npc.isWithinApRange(interaction: InteractionNpc): Boolean {
         val isUnderTarget = boundValidator.collides(avatar, interaction.target.avatar)
         if (isUnderTarget) {
             return false
@@ -290,7 +277,7 @@ constructor(
         return isWithinApRange
     }
 
-    private fun Player.routeTo(interaction: InteractionNpc) {
+    private fun Npc.routeTo(interaction: InteractionNpc) {
         if (isWithinOpRange(interaction)) {
             return
         }
@@ -299,7 +286,7 @@ constructor(
     }
 
     /* Obj interactions */
-    private fun Player.preMovementStep(interaction: InteractionObj): InteractionStep =
+    private fun Npc.preMovementStep(interaction: InteractionObj): InteractionStep =
         Interactions.earlyStep(
             target = InteractionTarget.Static,
             hasScriptOp = interaction.hasOpTrigger,
@@ -308,7 +295,7 @@ constructor(
             validApLine = isWithinApRange(interaction),
         )
 
-    private fun Player.postMovementStep(interaction: InteractionObj): InteractionStep =
+    private fun Npc.postMovementStep(interaction: InteractionObj): InteractionStep =
         Interactions.lateStep(
             hasMoved = hasMovedThisCycle,
             target = InteractionTarget.Static,
@@ -318,10 +305,10 @@ constructor(
             validApLine = isWithinApRange(interaction),
         )
 
-    private fun Player.isWithinOpRange(interaction: InteractionObj): Boolean =
+    private fun Npc.isWithinOpRange(interaction: InteractionObj): Boolean =
         boundValidator.touches(source = avatar, target = interaction.target)
 
-    private fun Player.isWithinApRange(interaction: InteractionObj): Boolean =
+    private fun Npc.isWithinApRange(interaction: InteractionObj): Boolean =
         isValidApRange(
             target = interaction.target.coords,
             width = 1,
@@ -329,7 +316,7 @@ constructor(
             distance = interaction.apRange,
         )
 
-    private fun Player.routeTo(interaction: InteractionObj) {
+    private fun Npc.routeTo(interaction: InteractionObj) {
         if (coords == interaction.target.coords) {
             return
         }
@@ -337,7 +324,7 @@ constructor(
     }
 
     /* Player interactions */
-    private fun Player.preMovementStep(interaction: InteractionPlayer): InteractionStep =
+    private fun Npc.preMovementStep(interaction: InteractionPlayer): InteractionStep =
         Interactions.earlyStep(
             target = InteractionTarget.Pathing,
             hasScriptOp = interaction.hasOpTrigger,
@@ -346,7 +333,7 @@ constructor(
             validApLine = isWithinApRange(interaction),
         )
 
-    private fun Player.postMovementStep(interaction: InteractionPlayer): InteractionStep =
+    private fun Npc.postMovementStep(interaction: InteractionPlayer): InteractionStep =
         Interactions.lateStep(
             hasMoved = hasMovedThisCycle,
             target = InteractionTarget.Pathing,
@@ -356,10 +343,10 @@ constructor(
             validApLine = isWithinApRange(interaction),
         )
 
-    private fun Player.isWithinOpRange(interaction: InteractionPlayer): Boolean =
+    private fun Npc.isWithinOpRange(interaction: InteractionPlayer): Boolean =
         boundValidator.touches(source = avatar, target = interaction.target.avatar)
 
-    private fun Player.isWithinApRange(interaction: InteractionPlayer): Boolean {
+    private fun Npc.isWithinApRange(interaction: InteractionPlayer): Boolean {
         val isUnderTarget = boundValidator.collides(avatar, interaction.target.avatar)
         if (isUnderTarget) {
             return false
@@ -374,7 +361,7 @@ constructor(
         return isWithinApRange
     }
 
-    private fun Player.routeTo(interaction: InteractionPlayer) {
+    private fun Npc.routeTo(interaction: InteractionPlayer) {
         if (isWithinOpRange(interaction)) {
             return
         }
@@ -383,7 +370,7 @@ constructor(
     }
 
     /* Utility functions */
-    private fun Player.isValidApRange(
+    private fun Npc.isValidApRange(
         target: CoordGrid,
         width: Int,
         length: Int,
@@ -399,133 +386,153 @@ constructor(
                 destination = target,
                 destWidth = width,
                 destLength = length,
-                extraFlag = CollisionFlag.BLOCK_PLAYERS,
+                extraFlag = CollisionFlag.BLOCK_NPCS,
             )
         return hasLos
     }
 
-    private fun Player.shouldCancelInteraction(interaction: Interaction): Boolean =
+    private fun Npc.shouldCancelInteraction(interaction: Interaction): Boolean =
         when (interaction) {
-            is InteractionLoc -> !interaction.isValid()
-            is InteractionNpc -> !interaction.isValid()
+            is InteractionLoc -> !interaction.isValid(this)
+            is InteractionNpc -> !interaction.isValid(this)
             is InteractionObj -> !interaction.isValid(this)
-            is InteractionPlayer -> !interaction.isValid()
+            is InteractionPlayer -> !interaction.isValid(this)
         }
 
-    private fun InteractionLoc.isValid(): Boolean {
+    private fun InteractionLoc.isValid(npc: Npc): Boolean {
+        if (!npc.isWithinMaxOpRange(target.coords)) {
+            return false
+        }
         return locRegistry.isValid(target.coords, target.id)
     }
 
-    private fun InteractionNpc.isValid(): Boolean {
+    private fun InteractionNpc.isValid(npc: Npc): Boolean {
+        if (!npc.isWithinMaxOpRange(target)) {
+            return false
+        }
         return target.isValidTarget() && uid == target.uid
     }
 
-    private fun InteractionObj.isValid(observer: Player): Boolean {
-        return objRegistry.isValid(observer, target)
+    private fun InteractionObj.isValid(npc: Npc): Boolean {
+        if (!npc.isWithinMaxOpRange(target.coords)) {
+            return false
+        }
+        return objRegistry.isPublicAndValid(target)
     }
 
-    private fun InteractionPlayer.isValid(): Boolean {
+    private fun InteractionPlayer.isValid(npc: Npc): Boolean {
+        if (!npc.isWithinMaxOpRange(target)) {
+            return false
+        }
         return target.isValidTarget() && uid == target.uid
+    }
+
+    private fun Npc.isWithinMaxOpRange(target: CoordGrid): Boolean {
+        return spawnCoords.chebyshevDistance(target) <= type.maxRange
+    }
+
+    private fun Npc.isWithinMaxOpRange(target: PathingEntity): Boolean {
+        return spawnCoords.chebyshevDistance(target.coords) <= type.maxRange + type.attackRange
     }
 
     /* Interaction event launch functions */
-    public fun triggerOp(player: Player, interaction: InteractionLocOp) {
-        val op = locInteractions.opTrigger(player, interaction.target, interaction.op)
+    public fun triggerOp(npc: Npc, interaction: InteractionLocOp) {
+        val op = locInteractions.opTrigger(interaction.target, interaction.op)
         if (op != null) {
-            protectedAccess.launch(player) { eventBus.publish(this, op) }
+            accessLauncher.launch(npc) { eventBus.publish(this, op) }
         }
     }
 
-    public fun triggerAp(player: Player, interaction: InteractionLocOp) {
-        val ap = locInteractions.apTrigger(player, interaction.target, interaction.op)
+    public fun triggerAp(npc: Npc, interaction: InteractionLocOp) {
+        val ap = locInteractions.apTrigger(interaction.target, interaction.op)
         if (ap != null) {
-            protectedAccess.launch(player) { eventBus.publish(this, ap) }
+            accessLauncher.launch(npc) { eventBus.publish(this, ap) }
         }
     }
 
-    public fun triggerOp(player: Player, interaction: InteractionLocT) {
+    public fun triggerOp(npc: Npc, interaction: InteractionLocT) {
         val loc = interaction.target
         val comsub = interaction.comsub
         val component = interaction.component
         val objType = interaction.objType
-        val op = locTInteractions.opTrigger(player, loc, objType, component, comsub)
+        val op = locTInteractions.opTrigger(loc, objType, component, comsub)
         if (op != null) {
-            protectedAccess.launch(player) { eventBus.publish(this, op) }
+            accessLauncher.launch(npc) { eventBus.publish(this, op) }
         }
     }
 
-    public fun triggerAp(player: Player, interaction: InteractionLocT) {
+    public fun triggerAp(npc: Npc, interaction: InteractionLocT) {
         val loc = interaction.target
         val comsub = interaction.comsub
         val component = interaction.component
         val objType = interaction.objType
-        val ap = locTInteractions.apTrigger(player, loc, objType, component, comsub)
+        val ap = locTInteractions.apTrigger(loc, objType, component, comsub)
         if (ap != null) {
-            protectedAccess.launch(player) { eventBus.publish(this, ap) }
+            accessLauncher.launch(npc) { eventBus.publish(this, ap) }
         }
     }
 
-    public fun triggerOp(player: Player, interaction: InteractionNpcOp) {
-        val op = npcInteractions.opTrigger(player, interaction.target, interaction.op)
+    public fun triggerOp(npc: Npc, interaction: InteractionNpcOp) {
+        val op = npcInteractions.opTrigger(interaction.target, interaction.op)
         if (op != null) {
-            protectedAccess.launch(player) { eventBus.publish(this, op) }
+            accessLauncher.launch(npc) { eventBus.publish(this, op) }
         }
     }
 
-    public fun triggerAp(player: Player, interaction: InteractionNpcOp) {
-        val ap = npcInteractions.apTrigger(player, interaction.target, interaction.op)
+    public fun triggerAp(npc: Npc, interaction: InteractionNpcOp) {
+        val ap = npcInteractions.apTrigger(interaction.target, interaction.op)
         if (ap != null) {
-            protectedAccess.launch(player) { eventBus.publish(this, ap) }
+            accessLauncher.launch(npc) { eventBus.publish(this, ap) }
         }
     }
 
-    public fun triggerOp(player: Player, interaction: InteractionNpcT) {
-        val npc = interaction.target
+    public fun triggerOp(npc: Npc, interaction: InteractionNpcT) {
+        val target = interaction.target
         val comsub = interaction.comsub
         val component = interaction.component
         val objType = interaction.objType
-        val op = npcTInteractions.opTrigger(player, npc, component, comsub, objType)
+        val op = npcTInteractions.opTrigger(target, component, comsub, objType)
         if (op != null) {
-            protectedAccess.launch(player) { eventBus.publish(this, op) }
+            accessLauncher.launch(npc) { eventBus.publish(this, op) }
         }
     }
 
-    public fun triggerAp(player: Player, interaction: InteractionNpcT) {
-        val npc = interaction.target
+    public fun triggerAp(npc: Npc, interaction: InteractionNpcT) {
+        val target = interaction.target
         val comsub = interaction.comsub
         val component = interaction.component
         val objType = interaction.objType
-        val ap = npcTInteractions.apTrigger(player, npc, component, comsub, objType)
+        val ap = npcTInteractions.apTrigger(target, component, comsub, objType)
         if (ap != null) {
-            protectedAccess.launch(player) { eventBus.publish(this, ap) }
+            accessLauncher.launch(npc) { eventBus.publish(this, ap) }
         }
     }
 
-    private fun triggerOp(player: Player, interaction: InteractionObj) {
+    private fun triggerOp(npc: Npc, interaction: InteractionObj) {
         val op = objInteractions.opTrigger(interaction.target, interaction.op)
         if (op != null) {
-            protectedAccess.launch(player) { eventBus.publish(this, op) }
+            accessLauncher.launch(npc) { eventBus.publish(this, op) }
         }
     }
 
-    public fun triggerAp(player: Player, interaction: InteractionObj) {
+    public fun triggerAp(npc: Npc, interaction: InteractionObj) {
         val ap = objInteractions.apTrigger(interaction.target, interaction.op)
         if (ap != null) {
-            protectedAccess.launch(player) { eventBus.publish(this, ap) }
+            accessLauncher.launch(npc) { eventBus.publish(this, ap) }
         }
     }
 
-    public fun triggerOp(player: Player, interaction: InteractionPlayerOp) {
-        val op = playerInteractions.opTrigger(interaction.target, interaction.op)
+    public fun triggerOp(npc: Npc, interaction: InteractionPlayerOp) {
+        val op = playerInteractions.opTrigger(npc, interaction.target, interaction.op)
         if (op != null) {
-            protectedAccess.launch(player) { eventBus.publish(this, op) }
+            accessLauncher.launch(npc) { eventBus.publish(this, op) }
         }
     }
 
-    public fun triggerAp(player: Player, interaction: InteractionPlayerOp) {
-        val ap = playerInteractions.apTrigger(interaction.target, interaction.op)
+    public fun triggerAp(npc: Npc, interaction: InteractionPlayerOp) {
+        val ap = playerInteractions.apTrigger(npc, interaction.target, interaction.op)
         if (ap != null) {
-            protectedAccess.launch(player) { eventBus.publish(this, ap) }
+            accessLauncher.launch(npc) { eventBus.publish(this, ap) }
         }
     }
 }

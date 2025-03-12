@@ -56,6 +56,7 @@ object BaseParams : ParamReferences() {
     val kalphite: ParamInt = find("kalphite", 88687193509)
 
     /* Server-side only types */
+    val retreat: ParamInt = find("retreat")
     val td_shield_active: ParamBool = find("td_shield_active")
     val tormented_demon: ParamInt = find("tormented_demon")
     val shade: ParamInt = find("shade")
@@ -101,6 +102,7 @@ object BaseParams : ParamReferences() {
     val attack_anim: ParamSeq = find("attack_anim")
     val defend_anim: ParamSeq = find("defend_anim")
     val death_anim: ParamSeq = find("death_anim")
+    val attack_sound: ParamSynth = find("attack_sound")
     val death_sound: ParamSynth = find("death_sound")
     val equipment_sound: ParamSynth = find("equipment_sound")
     val player_op5_text: ParamStr = find("player_op5_text")

@@ -94,6 +94,9 @@ constructor(private val updates: ZoneUpdateMap, private val objTypes: ObjTypeLis
     public fun isValid(observer: Player, obj: Obj): Boolean =
         findAll(obj.coords).any { it.type == obj.type && it.isVisibleTo(observer) }
 
+    public fun isPublicAndValid(obj: Obj): Boolean =
+        findAll(obj.coords).any { it.type == obj.type && it.isVisibleTo(null) }
+
     private fun Obj.canMergeWith(other: Obj, stackable: Boolean): Boolean {
         if (type != other.type) {
             return false
