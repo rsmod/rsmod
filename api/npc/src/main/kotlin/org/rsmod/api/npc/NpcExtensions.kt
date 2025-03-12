@@ -28,7 +28,7 @@ public fun Npc.isValidTarget(): Boolean {
 }
 
 public fun Npc.isInCombat(): Boolean {
-    if (vars[varns.lastcombat] + constants.combat_default_attackrate >= currentMapClock) {
+    if (vars[varns.lastattack] + constants.combat_default_attackrate >= currentMapClock) {
         return true
     }
     return mode == NpcMode.OpPlayer2 || mode == NpcMode.ApPlayer2 || mode == NpcMode.PlayerEscape
