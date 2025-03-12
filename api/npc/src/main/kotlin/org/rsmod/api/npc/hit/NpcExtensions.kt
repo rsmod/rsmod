@@ -223,7 +223,7 @@ private fun Npc.modifyAndQueueHit(delay: Int, builder: HitBuilder, modifier: Npc
 }
 
 /* Hit modifier helper functions. */
-public fun NpcHitModifier.modify(builder: HitBuilder, target: Npc): Unit = builder.modify(target)
+private fun NpcHitModifier.modify(builder: HitBuilder, target: Npc): Unit = builder.modify(target)
 
 /* Hit processor helper functions. */
 internal fun NpcHitProcessor.process(access: StandardNpcAccess, hit: Hit) {
