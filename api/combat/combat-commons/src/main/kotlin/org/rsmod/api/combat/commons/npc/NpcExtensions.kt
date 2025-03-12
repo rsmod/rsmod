@@ -70,8 +70,10 @@ private fun Npc.retaliate(target: Player, interactions: AiPlayerInteractions) {
 }
 
 public fun Npc.queueCombatRetaliate(source: Player) {
-    clearQueue(queues.com_retaliate)
-    queue(queues.com_retaliate, 1)
+    clearQueue(queues.com_retaliate_npc)
+    clearQueue(queues.com_retaliate_player)
+
+    queue(queues.com_retaliate_player, 1)
     // TODO(combat): Apparently in single combat areas, if npc is currently attacking a different
     //  player, its actionDelay is incremented by 8 (cycles).
     aggressivePlayer = source.uid

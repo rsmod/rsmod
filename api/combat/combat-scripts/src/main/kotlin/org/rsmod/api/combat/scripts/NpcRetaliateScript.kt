@@ -13,10 +13,10 @@ internal class NpcRetaliateScript
 @Inject
 constructor(private val interactions: AiPlayerInteractions) : PluginScript() {
     override fun ScriptContext.startUp() {
-        onNpcQueue(queues.com_retaliate) { autoRetaliate() }
+        onNpcQueue(queues.com_retaliate_player) { autoRetaliatePlayer() }
     }
 
-    private fun StandardNpcAccess.autoRetaliate() {
+    private fun StandardNpcAccess.autoRetaliatePlayer() {
         npc.combatDefaultRetaliateOp(interactions)
     }
 }

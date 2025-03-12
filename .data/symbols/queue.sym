@@ -18,4 +18,5 @@
 17	impact_hit
 18	death
 19	attackstyle_change
-20	com_retaliate
+20	com_retaliate_npc
+21	com_retaliate_player
