@@ -22,9 +22,9 @@ import org.rsmod.api.player.startInvTransmit
 import org.rsmod.api.player.vars.boolVarBit
 import org.rsmod.api.player.vars.chatboxUnlocked
 import org.rsmod.api.script.onPlayerLogIn
+import org.rsmod.api.stats.levelmod.InvisibleLevels
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Player
-import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.stat.StatTypeList
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
@@ -34,7 +34,7 @@ class LoginScript
 constructor(
     private val mapClock: MapClock,
     private val statTypes: StatTypeList,
-    private val objTypes: ObjTypeList,
+    private val invisibleLevels: InvisibleLevels,
 ) : PluginScript() {
     private var Player.hideRoofs by boolVarBit(varbits.hide_roofs)
 
@@ -102,7 +102,8 @@ constructor(
         for (stat in statTypes.values) {
             val currXp = statMap.getXP(stat)
             val currLvl = statMap.getCurrentLevel(stat).toInt()
-            UpdateStat.update(this, stat, currXp, currLvl, currLvl)
+            val hiddenLvl = currLvl + invisibleLevels.get(this, stat)
+            UpdateStat.update(this, stat, currXp, currLvl, hiddenLvl)
         }
     }
 
