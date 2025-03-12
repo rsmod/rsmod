@@ -3,7 +3,6 @@ package org.rsmod.api.player.protect
 import com.github.michaelbull.logging.InlineLogger
 import kotlin.math.absoluteValue
 import kotlin.math.max
-import kotlin.math.min
 import kotlin.reflect.KClass
 import org.rsmod.annotations.InternalApi
 import org.rsmod.api.config.constants
@@ -58,7 +57,6 @@ import org.rsmod.api.player.output.ClientScripts.mesLayerMode14
 import org.rsmod.api.player.output.ClientScripts.mesLayerMode7
 import org.rsmod.api.player.output.MapFlag
 import org.rsmod.api.player.output.UpdateInventory.resendSlot
-import org.rsmod.api.player.output.UpdateStat
 import org.rsmod.api.player.output.clearMapFlag
 import org.rsmod.api.player.output.jingle
 import org.rsmod.api.player.output.mes
@@ -67,7 +65,14 @@ import org.rsmod.api.player.output.runClientScript
 import org.rsmod.api.player.output.soundSynth
 import org.rsmod.api.player.output.spam
 import org.rsmod.api.player.startInvTransmit
-import org.rsmod.api.player.stat.PlayerSkillXP
+import org.rsmod.api.player.stat.stat
+import org.rsmod.api.player.stat.statAdd
+import org.rsmod.api.player.stat.statAdvance
+import org.rsmod.api.player.stat.statBase
+import org.rsmod.api.player.stat.statBoost
+import org.rsmod.api.player.stat.statDrain
+import org.rsmod.api.player.stat.statHeal
+import org.rsmod.api.player.stat.statSub
 import org.rsmod.api.player.stopInvTransmit
 import org.rsmod.api.player.ui.ifChatNpcSpecific
 import org.rsmod.api.player.ui.ifChatPlayer
@@ -937,163 +942,64 @@ public class ProtectedAccess(
         player.objExamine(normalized, obj.count, marketPrices[normalized] ?: 0)
     }
 
+    /** @see [org.rsmod.api.player.stat.stat] */
     public fun stat(stat: StatType): Int {
-        return player.statMap.getCurrentLevel(stat).toInt()
+        return player.stat(stat)
     }
 
+    /** @see [org.rsmod.api.player.stat.statBase] */
     public fun statBase(stat: StatType): Int {
-        return player.statMap.getBaseLevel(stat).toInt()
+        return player.statBase(stat)
     }
 
+    /** @see [org.rsmod.api.player.stat.statAdvance] */
     public fun statAdvance(
         stat: StatType,
         xp: Double,
         rate: Double = player.xpRate,
         eventBus: EventBus = context.eventBus,
-    ): Int {
-        val startLevel = player.statMap.getBaseLevel(stat)
-        val addedXp = PlayerSkillXP.internalAddXP(player, stat, xp, rate, eventBus)
-        val endLevel = player.statMap.getBaseLevel(stat)
-        if (startLevel != endLevel) {
-            // TODO: Engine queue for changestat
-        }
-        return addedXp
-    }
+        invisibleLevels: InvisibleLevels = context.invisibleLevels,
+    ): Int = player.statAdvance(stat, xp, eventBus, invisibleLevels, rate)
 
-    /**
-     * #### Warning
-     * Increases the player's stat level based on their **current** level. Use [statBoost] if you
-     * wish to increase levels based on the **base** level instead.
-     *
-     * Note: This function ensures that the player's stat level does not exceed `255`.
-     *
-     * @throws IllegalArgumentException if [constant] is negative (use `statSub` instead), or if
-     *   [percent] is not within the range `0..100`.
-     */
-    public fun statAdd(stat: StatType, constant: Int, percent: Int) {
-        require(constant >= 0) { "Constant `$constant` must be positive. Use `statSub` instead." }
-        require(percent in 0..100) { "Percent must be an integer from 0-100. (0%-100%)" }
+    /** @see [org.rsmod.api.player.stat.statAdd] */
+    public fun statAdd(
+        stat: StatType,
+        constant: Int,
+        percent: Int,
+        invisibleLevels: InvisibleLevels = context.invisibleLevels,
+    ): Unit = player.statAdd(stat, constant, percent, invisibleLevels)
 
-        val current = player.statMap.getCurrentLevel(stat).toInt()
-        val calculated = current + (constant + (current * percent) / 100)
-        val cappedLevel = min(255, calculated)
+    /** @see [org.rsmod.api.player.stat.statBoost] */
+    public fun statBoost(
+        stat: StatType,
+        constant: Int,
+        percent: Int,
+        invisibleLevels: InvisibleLevels = context.invisibleLevels,
+    ): Unit = player.statBoost(stat, constant, percent, invisibleLevels)
 
-        player.statMap.setCurrentLevel(stat, cappedLevel.toByte())
-        updateStat(stat)
+    /** @see [org.rsmod.api.player.stat.statSub] */
+    public fun statSub(
+        stat: StatType,
+        constant: Int,
+        percent: Int,
+        invisibleLevels: InvisibleLevels = context.invisibleLevels,
+    ): Unit = player.statSub(stat, constant, percent, invisibleLevels)
 
-        if (cappedLevel != current) {
-            // TODO: Engine queue for changestat
-        }
-    }
+    /** @see [org.rsmod.api.player.stat.statDrain] */
+    public fun statDrain(
+        stat: StatType,
+        constant: Int,
+        percent: Int,
+        invisibleLevels: InvisibleLevels = context.invisibleLevels,
+    ): Unit = player.statDrain(stat, constant, percent, invisibleLevels)
 
-    /**
-     * Increases the player's stat level based on their **base** level.
-     *
-     * Note: This function ensures that the player's stat level does not exceed `255`.
-     *
-     * @throws IllegalArgumentException if [constant] is negative (use `statDrain` if required), or
-     *   if [percent] is not within range of `0` to `100`.
-     */
-    public fun statBoost(stat: StatType, constant: Int, percent: Int) {
-        require(constant >= 0) { "Constant `$constant` must be positive. Use `statDrain` instead." }
-        require(percent in 0..100) { "Percent must be an integer from 0-100. (0%-100%)" }
-
-        val base = player.statMap.getBaseLevel(stat).toInt()
-        val boost = constant + (base * percent) / 100
-
-        val current = player.statMap.getCurrentLevel(stat).toInt()
-        val cappedBoost = min(base + boost, current + boost) - current
-
-        statAdd(stat, cappedBoost, 0)
-    }
-
-    /**
-     * #### Warning
-     * Decreases the player's stat level based on their **current** level. Use [statDrain] if you
-     * wish to decrease levels based on the **base** level instead.
-     *
-     * Note: This function ensures that the player's stat level does not fall below `0`.
-     *
-     * @throws IllegalArgumentException if [constant] is negative, or if [percent] is not within the
-     *   range `0..100`.
-     */
-    public fun statSub(stat: StatType, constant: Int, percent: Int) {
-        require(constant >= 0) { "Constant `$constant` must be positive." }
-        require(percent in 0..100) { "Percent must be an integer from 0-100. (0%-100%)" }
-
-        val current = player.statMap.getCurrentLevel(stat).toInt()
-        val calculated = current - (constant + (current * percent) / 100)
-        val cappedLevel = max(0, calculated)
-
-        player.statMap.setCurrentLevel(stat, cappedLevel.toByte())
-        updateStat(stat)
-
-        if (cappedLevel != current) {
-            // TODO: Engine queue for changestat
-        }
-    }
-
-    /**
-     * Decreases the player's stat level based on their **base** level.
-     *
-     * Note: This function ensures that the player's stat level does not fall below `0`.
-     *
-     * @throws IllegalArgumentException if [constant] is negative (use `statAdd` if required), or if
-     *   [percent] is not within range of `0` to `100`.
-     */
-    public fun statDrain(stat: StatType, constant: Int, percent: Int) {
-        require(constant >= 0) { "Constant `$constant` must be positive." }
-        require(percent in 0..100) { "Percent must be an integer from 0-100. (0%-100%)" }
-
-        val base = player.statMap.getBaseLevel(stat).toInt()
-        val drain = constant + (base * percent) / 100
-
-        val current = player.statMap.getCurrentLevel(stat).toInt()
-        val cappedDrain = current - min(base - drain, current - drain)
-
-        statSub(stat, cappedDrain, 0)
-    }
-
-    /**
-     * Restores the player's stat level towards their **base** level.
-     *
-     * This function increases the player's stat level by a combination of a constant value and a
-     * percentage of their **current** level. The restored level will never exceed the player's base
-     * level and will not decrease their current level.
-     *
-     * Note: This function is commonly used to recover from temporary stat reductions or provide
-     * partial stat restoration.
-     *
-     * #### Example
-     * If a player's base level for a stat is `99` and their current level is `80`, calling
-     * `statHeal(stat, constant = 10, percent = 20)` will restore the stat by `10 + (80 * 20%) =
-     * 26`, but it will be capped at the base level of `99`.
-     *
-     * @throws IllegalArgumentException if [constant] is negative, or if [percent] is not within the
-     *   range `0..100`.
-     */
-    public fun statHeal(stat: StatType, constant: Int, percent: Int) {
-        require(constant >= 0) { "Constant `$constant` must be positive." }
-        require(percent in 0..100) { "Percent must be an integer from 0-100. (0%-100%)" }
-
-        val base = player.statMap.getBaseLevel(stat).toInt()
-        val current = player.statMap.getCurrentLevel(stat).toInt()
-        val calculated = current + (constant + (current * percent) / 100)
-        val cappedLevel = calculated.coerceIn(current, base)
-
-        player.statMap.setCurrentLevel(stat, cappedLevel.toByte())
-        updateStat(stat)
-
-        if (cappedLevel != current) {
-            // TODO: Engine queue for changestat
-        }
-    }
-
-    private fun updateStat(stat: StatType) {
-        val currXp = player.statMap.getXP(stat)
-        val currLvl = player.statMap.getCurrentLevel(stat).toInt()
-        UpdateStat.update(player, stat, currXp, currLvl, currLvl)
-    }
+    /** @see [org.rsmod.api.player.stat.statHeal] */
+    public fun statHeal(
+        stat: StatType,
+        constant: Int,
+        percent: Int,
+        invisibleLevels: InvisibleLevels = context.invisibleLevels,
+    ): Unit = player.statHeal(stat, constant, percent, invisibleLevels)
 
     public fun rollSuccessRate(low: Int, high: Int, level: Int, maxLevel: Int): Boolean {
         val rate = SkillingSuccessRate.successRate(low, high, level, maxLevel)
@@ -1110,7 +1016,7 @@ public class ProtectedAccess(
         low: Int,
         high: Int,
         stat: StatType,
-        invisibleLevels: InvisibleLevels,
+        invisibleLevels: InvisibleLevels = context.invisibleLevels,
     ): Boolean {
         val invisibleBoost = invisibleLevels.get(player, stat)
         return rollSuccessRate(low, high, stat, invisibleBoost)

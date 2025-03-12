@@ -2,6 +2,7 @@ package org.rsmod.api.player.stat
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import org.rsmod.api.stats.levelmod.InvisibleLevels
 import org.rsmod.api.testing.factory.player.TestPlayerFactory
 import org.rsmod.api.testing.factory.stat.TestStatTypeFactory
 import org.rsmod.api.testing.params.TestArgs
@@ -23,7 +24,7 @@ class PlayerSkillXPTest {
 
         val addXp = 500_000_000.0
         val expectedXp = PlayerStatMap.MAX_XP
-        PlayerSkillXP.internalAddXP(player, stat, addXp, rate = 1.0, eventBus())
+        PlayerSkillXP.internalAddXP(player, stat, addXp, rate = 1.0, eventBus(), invisLvls())
 
         assertEquals(expectedXp, player.statMap.getXP(stat))
     }
@@ -33,7 +34,7 @@ class PlayerSkillXPTest {
         val player = TestPlayerFactory().create()
         check(player.statMap.getBaseLevel(stat).toInt() == 1)
 
-        PlayerSkillXP.internalAddXP(player, stat, xp, xpRate, eventBus())
+        PlayerSkillXP.internalAddXP(player, stat, xp, xpRate, eventBus(), invisLvls())
 
         val expectedXp = xp * xpRate
         assertEquals(expectedXp, player.statMap.getXP(stat).toDouble())
@@ -57,4 +58,6 @@ class PlayerSkillXPTest {
     }
 
     private fun eventBus() = EventBus(UnboundEventBus(), KeyedEventBus(), SuspendEventBus())
+
+    private fun invisLvls() = InvisibleLevels(emptySet())
 }

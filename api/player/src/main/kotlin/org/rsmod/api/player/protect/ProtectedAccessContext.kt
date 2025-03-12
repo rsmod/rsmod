@@ -7,6 +7,7 @@ import org.rsmod.api.player.interact.LocInteractions
 import org.rsmod.api.player.interact.NpcInteractions
 import org.rsmod.api.player.interact.WornInteractions
 import org.rsmod.api.random.GameRandom
+import org.rsmod.api.stats.levelmod.InvisibleLevels
 import org.rsmod.events.EventBus
 import org.rsmod.game.type.inv.InvTypeList
 import org.rsmod.game.type.loc.LocTypeList
@@ -80,6 +81,7 @@ public data class ProtectedAccessContext(
     private val getHeldInteractions: () -> HeldInteractions,
     private val getWornInteractions: () -> WornInteractions,
     private val getMarketPrices: () -> MarketPrices,
+    private val getInvisibleLevels: () -> InvisibleLevels,
 ) {
     public val random: GameRandom by lazyLoad { getRandom() }
     public val eventBus: EventBus by lazyLoad { getEventBus() }
@@ -95,6 +97,7 @@ public data class ProtectedAccessContext(
     public val heldInteractions: HeldInteractions by lazyLoad { getHeldInteractions() }
     public val wornInteractions: WornInteractions by lazyLoad { getWornInteractions() }
     public val marketPrices: MarketPrices by lazyLoad { getMarketPrices() }
+    public val invisibleLevels: InvisibleLevels by lazyLoad { getInvisibleLevels() }
 }
 
 private fun <T> lazyLoad(init: () -> T): Lazy<T> = lazy(LazyThreadSafetyMode.NONE, init)

@@ -8,6 +8,7 @@ import org.rsmod.api.player.interact.LocInteractions
 import org.rsmod.api.player.interact.NpcInteractions
 import org.rsmod.api.player.interact.WornInteractions
 import org.rsmod.api.random.GameRandom
+import org.rsmod.api.stats.levelmod.InvisibleLevels
 import org.rsmod.events.EventBus
 import org.rsmod.game.type.inv.InvTypeList
 import org.rsmod.game.type.loc.LocTypeList
@@ -33,6 +34,7 @@ constructor(
     private val heldInteractions: HeldInteractions,
     private val wornInteractions: WornInteractions,
     private val marketPrices: MarketPrices,
+    private val invisibleLevels: InvisibleLevels,
 ) {
     public fun create(): ProtectedAccessContext =
         ProtectedAccessContext(
@@ -50,6 +52,7 @@ constructor(
             getHeldInteractions = { heldInteractions },
             getWornInteractions = { wornInteractions },
             getMarketPrices = { marketPrices },
+            getInvisibleLevels = { invisibleLevels },
         )
 
     public companion object {
@@ -69,6 +72,7 @@ constructor(
                 getHeldInteractions = { error("No held interactions provided.") },
                 getWornInteractions = { error("No worn interactions provided.") },
                 getMarketPrices = { error("No market prices provided.") },
+                getInvisibleLevels = { error("No invisible levels provided.") },
             )
 
         /**

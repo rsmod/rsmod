@@ -1,7 +1,7 @@
 package org.rsmod.api.player.stat
 
 import kotlin.math.min
-import org.rsmod.api.player.output.UpdateStat
+import org.rsmod.api.stats.levelmod.InvisibleLevels
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.stat.PlayerSkillXPTable
@@ -15,9 +15,16 @@ public object PlayerSkillXP {
         xp: Double,
         rate: Double,
         eventBus: EventBus,
-    ): Int = player.addXP(stat, xp, rate, eventBus)
+        invisibleLevels: InvisibleLevels,
+    ): Int = player.addXP(stat, xp, rate, eventBus, invisibleLevels)
 
-    private fun Player.addXP(stat: StatType, xp: Double, rate: Double, eventBus: EventBus): Int {
+    private fun Player.addXP(
+        stat: StatType,
+        xp: Double,
+        rate: Double,
+        eventBus: EventBus,
+        invisibleLevels: InvisibleLevels,
+    ): Int {
         val fineXp = PlayerStatMap.toFineXP(xp * rate)
         if (fineXp.isInfinite()) {
             throw IllegalArgumentException("Total XP being added is too high! (xp=$xp, rate=$rate)")
@@ -25,11 +32,11 @@ public object PlayerSkillXP {
         val addedFineXp = statMap.addXP(stat, fineXp)
         if (addedFineXp == 0) {
             // UpdateStat packet is sent even if stat is maxed.
-            updateStat(stat)
+            updateStat(stat, invisibleLevels)
             return 0
         }
         checkLevelUp(stat, eventBus)
-        updateStat(stat)
+        updateStat(stat, invisibleLevels)
         return PlayerStatMap.normalizeFineXP(addedFineXp)
     }
 
@@ -62,11 +69,5 @@ public object PlayerSkillXP {
             val levelUp = AdvanceStatEvent(this, stat, baseLevel.toInt(), newLevel)
             eventBus.publish(levelUp)
         }
-    }
-
-    private fun Player.updateStat(stat: StatType) {
-        val currXp = statMap.getXP(stat)
-        val currLvl = statMap.getCurrentLevel(stat).toInt()
-        UpdateStat.update(this, stat, currXp, currLvl, currLvl)
     }
 }
