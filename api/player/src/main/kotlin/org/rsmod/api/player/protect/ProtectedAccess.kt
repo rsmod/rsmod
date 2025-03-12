@@ -48,6 +48,7 @@ import org.rsmod.api.player.input.ResumePauseButtonInput
 import org.rsmod.api.player.interact.HeldInteractions
 import org.rsmod.api.player.interact.LocInteractions
 import org.rsmod.api.player.interact.NpcInteractions
+import org.rsmod.api.player.interact.PlayerInteractions
 import org.rsmod.api.player.interact.WornInteractions
 import org.rsmod.api.player.output.Camera
 import org.rsmod.api.player.output.ChatType
@@ -540,6 +541,9 @@ public class ProtectedAccess(
 
     public fun opNpc4(npc: Npc, interactions: NpcInteractions = context.npcInteractions): Unit =
         interactions.interact(player, npc, InteractionOp.Op4)
+
+    public fun opPlayer2(target: Player, interactions: PlayerInteractions): Unit =
+        interactions.interact(player, target, InteractionOp.Op2)
 
     /**
      * @throws IllegalStateException if [checkOpHeldCallLimit] exceeds the safety net threshold.

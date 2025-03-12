@@ -2,12 +2,15 @@ package org.rsmod.api.specials
 
 import jakarta.inject.Inject
 import org.rsmod.api.combat.commons.CombatAttack
+import org.rsmod.api.combat.commons.npc.combatPlayDefendFx
+import org.rsmod.api.combat.commons.npc.queueCombatRetaliate
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
 import org.rsmod.api.combat.commons.types.MeleeAttackType
 import org.rsmod.api.combat.formulas.MaxHitFormulae
 import org.rsmod.api.npc.hit.modifier.NpcHitModifier
 import org.rsmod.api.npc.hit.queueHit
 import org.rsmod.api.player.hit.queueHit
+import org.rsmod.api.player.interact.PlayerInteractions
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.random.GameRandom
 import org.rsmod.api.specials.energy.SpecialAttackEnergy
@@ -26,7 +29,18 @@ constructor(
     private val weapons: SpecialAttackWeapons,
     private val maxHits: MaxHitFormulae,
     private val npcHitModifier: NpcHitModifier,
+    private val playerInteractions: PlayerInteractions,
 ) {
+    public fun hasSpecialEnergy(source: ProtectedAccess, energyInHundreds: Int): Boolean {
+        return energy.hasSpecialEnergy(source.player, energyInHundreds)
+    }
+
+    public fun takeSpecialEnergy(source: ProtectedAccess, energyInHundreds: Int) {
+        energy.takeSpecialEnergy(source.player, energyInHundreds)
+    }
+
+    public fun getSpecialEnergyRequirement(obj: ObjType): Int? = weapons.getSpecialEnergy(obj)
+
     public fun setNextAttackDelay(source: ProtectedAccess, cycles: Int) {
         source.actionDelay = source.mapClock + cycles
     }
@@ -41,7 +55,7 @@ constructor(
     }
 
     public fun continueCombat(source: ProtectedAccess, target: Player) {
-        // TODO(combat): opplayer2
+        source.opPlayer2(target, playerInteractions)
     }
 
     public fun rollMeleeDamage(
@@ -117,18 +131,19 @@ constructor(
         delay: Int,
     ) {
         when (target) {
-            is Npc -> target.queueHit(source.player, delay, HitType.Melee, damage, npcHitModifier)
-            is Player -> target.queueHit(source.player, delay, HitType.Melee, damage)
+            is Npc -> queueMeleeHit(source, target, damage, delay)
+            is Player -> queueMeleeHit(source, target, damage, delay)
         }
     }
 
-    public fun hasSpecialEnergy(source: ProtectedAccess, energyInHundreds: Int): Boolean {
-        return energy.hasSpecialEnergy(source.player, energyInHundreds)
+    private fun queueMeleeHit(source: ProtectedAccess, target: Npc, damage: Int, delay: Int) {
+        target.queueHit(source.player, delay, HitType.Melee, damage, npcHitModifier)
+        target.combatPlayDefendFx(source.player)
+        target.queueCombatRetaliate(source.player)
     }
 
-    public fun takeSpecialEnergy(source: ProtectedAccess, energyInHundreds: Int) {
-        energy.takeSpecialEnergy(source.player, energyInHundreds)
+    private fun queueMeleeHit(source: ProtectedAccess, target: Player, damage: Int, delay: Int) {
+        target.queueHit(source.player, delay, HitType.Melee, damage)
+        // TODO(combat): defend fx + retaliate
     }
-
-    public fun getSpecialEnergyRequirement(obj: ObjType): Int? = weapons.getSpecialEnergy(obj)
 }
