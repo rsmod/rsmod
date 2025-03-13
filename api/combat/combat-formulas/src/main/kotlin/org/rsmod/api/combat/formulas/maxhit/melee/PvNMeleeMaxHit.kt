@@ -2,13 +2,11 @@ package org.rsmod.api.combat.formulas.maxhit.melee
 
 import jakarta.inject.Inject
 import java.util.EnumSet
-import org.rsmod.api.combat.commons.styles.AttackStyle
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
 import org.rsmod.api.combat.commons.types.AttackType
 import org.rsmod.api.combat.formulas.EquipmentChecks
 import org.rsmod.api.combat.formulas.attributes.CombatNpcAttributes
 import org.rsmod.api.combat.formulas.attributes.CombatWornAttributes
-import org.rsmod.api.combat.maxhit.npc.NpcMeleeMaxHit
 import org.rsmod.api.combat.maxhit.player.PlayerMeleeMaxHit
 import org.rsmod.api.combat.weapon.WeaponSpeeds
 import org.rsmod.api.combat.weapon.styles.AttackStyles
@@ -30,7 +28,7 @@ import org.rsmod.game.type.npc.UnpackedNpcType
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.obj.Wearpos
 
-public class MeleeMaxHit
+public class PvNMeleeMaxHit
 @Inject
 constructor(
     private val random: GameRandom,
@@ -43,56 +41,64 @@ constructor(
     private var Player.maxHit by intVarp(varps.com_maxhit)
 
     /**
-     * Computes and returns the maximum melee hit for [player] against [target], applying the
-     * [specialMultiplier] special attack multiplier before [modifyPostSpec].
+     * Computes the maximum melee hit for [player] against [target], applying the
+     * [specialMultiplier] before passing the result to [modifyPostSpec].
      *
-     * _Note: This function should be used instead of [compute] to ensure consistency in how max hit
-     * is determined. Future optimizations, such as caching, may rely on this function as the main
-     * entry point._
+     * **Notes:**
+     * - This function should be used instead of [computeMaxHit] in most cases to ensure consistency
+     *   in max hit calculations. Future optimizations, such as caching, may depend on this function
+     *   as the main entry point.
+     * - The `com_maxhit` varp for [player] is updated with the computed max hit.
      */
     public fun getMaxHit(player: Player, target: Npc, specialMultiplier: Double): Int {
         // Currently, we recalculate the max hit on every call to ensure the result reflects
         // the latest player state. If profiling shows this calculation becomes a performance
         // bottleneck, we can plan to optimize by using the cached `com_maxhit` varp while
         // adding safeguards to prevent stale data.
-        return computeAndCacheVar(player, target.visType, specialMultiplier)
-    }
-
-    private fun computeAndCacheVar(
-        player: Player,
-        target: UnpackedNpcType,
-        specialMultiplier: Double,
-    ): Int {
-        val maxHit = compute(player, target, specialMultiplier)
+        val maxHit = computeMaxHit(player, target.visType, specialMultiplier)
         player.maxHit = maxHit
         return maxHit
     }
 
-    public fun compute(source: Player, target: UnpackedNpcType, specialMultiplier: Double): Int {
+    public fun computeMaxHit(
+        source: Player,
+        target: UnpackedNpcType,
+        specialMultiplier: Double,
+    ): Int {
         val wornAttributes = collectWornAttributes(source)
         addProcAttributes(wornAttributes)
 
         val npcAttributes = collectNpcAttributes(target)
-        if (source.isSlayerTask(target)) {
+        if (target.isSlayerTask(source)) {
             npcAttributes += CombatNpcAttributes.SlayerTask
         }
 
+        val modifiedDamage = computeModifiedDamage(source, wornAttributes, npcAttributes)
+        val specMaxHit = (modifiedDamage * specialMultiplier).toInt()
+        return modifyPostSpec(source, specMaxHit, wornAttributes, npcAttributes)
+    }
+
+    /**
+     * Computes and returns the modified base damage **before** applying [modifyPostSpec] or any
+     * special attack multipliers.
+     *
+     * This is particularly useful for attacks like the `Voidwaker` special, where the **Magic**
+     * attack is based on the **Melee** max hit. In this case, the melee max hit is used as a base,
+     * but damage reductions (such as from `Corporeal Beast`) are **not** applied.
+     */
+    public fun computeModifiedDamage(
+        source: Player,
+        wornAttributes: EnumSet<CombatWornAttributes>,
+        npcAttributes: EnumSet<CombatNpcAttributes>,
+    ): Int {
         val attackStyle = attackStyles.get(source)
-        val effectiveStrength = calculateEffectiveStrength(source, attackStyle)
+        val meleeAttackStyle = MeleeAttackStyle.from(attackStyle)
+        val effectiveStrength =
+            MeleeMaxHitOperations.calculateEffectiveStrength(source, meleeAttackStyle)
 
         val strengthBonus = bonuses.strengthBonus(source)
         val baseDamage = PlayerMeleeMaxHit.calculateBaseDamage(effectiveStrength, strengthBonus)
-        val modifiedDamage = modifyBaseDamage(baseDamage, wornAttributes, npcAttributes)
-
-        val specMaxHit = (modifiedDamage * specialMultiplier).toInt()
-        val finalMaxHit = modifyPostSpec(source, specMaxHit, wornAttributes, npcAttributes)
-
-        return finalMaxHit
-    }
-
-    private fun calculateEffectiveStrength(player: Player, attackStyle: AttackStyle?): Int {
-        val meleeAttackStyle = MeleeAttackStyle.Companion.from(attackStyle)
-        return MeleeMaxHitOperations.calculateEffectiveStrength(player, meleeAttackStyle)
+        return modifyBaseDamage(baseDamage, wornAttributes, npcAttributes)
     }
 
     public fun modifyBaseDamage(
@@ -346,21 +352,8 @@ constructor(
         return npcAttributes
     }
 
-    private fun Player.isSlayerTask(type: UnpackedNpcType): Boolean {
+    private fun UnpackedNpcType.isSlayerTask(player: Player): Boolean {
         // TODO(combat): Resolve if type is slayer task.
         return false
-    }
-
-    public fun getMaxHit(npc: Npc): Int {
-        val effectiveStrength = calculateEffectiveStrength(npc)
-        // The melee strength is extracted from the `visType` to account for transmog
-        // changes. This is a bit obscure, but hopefully the toplevel `Npc.meleeStrength`
-        // property helps. We do not depend on the `npc` module here, so we cannot call it.
-        val strengthBonus = npc.visType.param(params.melee_strength)
-        return NpcMeleeMaxHit.calculateBaseDamage(effectiveStrength, strengthBonus)
-    }
-
-    private fun calculateEffectiveStrength(npc: Npc): Int {
-        return NpcMeleeMaxHit.calculateEffectiveStrength(npc.strengthLvl)
     }
 }
