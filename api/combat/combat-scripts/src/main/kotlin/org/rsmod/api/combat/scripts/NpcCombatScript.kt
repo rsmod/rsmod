@@ -2,7 +2,7 @@ package org.rsmod.api.combat.scripts
 
 import jakarta.inject.Inject
 import org.rsmod.api.combat.ACTIVE_COMBAT_DELAY
-import org.rsmod.api.combat.PlayerCombat
+import org.rsmod.api.combat.NpcCombat
 import org.rsmod.api.combat.commons.CombatAttack
 import org.rsmod.api.combat.commons.types.MeleeAttackType
 import org.rsmod.api.combat.inMultiCombatArea
@@ -15,8 +15,7 @@ import org.rsmod.game.entity.Player
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-internal class PlayerTargetScript @Inject constructor(private val combat: PlayerCombat) :
-    PluginScript() {
+internal class NpcCombatScript @Inject constructor(private val combat: NpcCombat) : PluginScript() {
     override fun ScriptContext.startUp() {
         onDefaultAiOpPlayer2 { attemptCombatOp(it.target) }
     }

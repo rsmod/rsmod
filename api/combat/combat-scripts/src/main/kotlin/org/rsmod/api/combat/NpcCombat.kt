@@ -2,47 +2,33 @@ package org.rsmod.api.combat
 
 import jakarta.inject.Inject
 import org.rsmod.api.combat.commons.CombatAttack
-import org.rsmod.api.combat.commons.npc.combatPlayDefendFx
-import org.rsmod.api.combat.commons.npc.queueCombatRetaliate
+import org.rsmod.api.combat.commons.npc.attackRate
+import org.rsmod.api.combat.commons.player.combatPlayDefendFx
+import org.rsmod.api.combat.commons.player.queueCombatRetaliate
 import org.rsmod.api.combat.formulas.MaxHitFormulae
-import org.rsmod.api.combat.fx.MeleeAnimationAndSound
-import org.rsmod.api.combat.player.canPerformMeleeSpecial
-import org.rsmod.api.combat.player.canPerformShieldSpecial
-import org.rsmod.api.combat.player.specialAttackType
-import org.rsmod.api.combat.weapon.WeaponSpeeds
-import org.rsmod.api.npc.hit.modifier.NpcHitModifier
-import org.rsmod.api.npc.hit.queueHit
-import org.rsmod.api.npc.isValidTarget
-import org.rsmod.api.player.lefthand
-import org.rsmod.api.player.protect.ProtectedAccess
-import org.rsmod.api.specials.SpecialAttackRegistry
-import org.rsmod.api.specials.SpecialAttackType
-import org.rsmod.api.specials.energy.SpecialAttackEnergy
-import org.rsmod.game.entity.Npc
+import org.rsmod.api.config.refs.params
+import org.rsmod.api.npc.access.StandardNpcAccess
+import org.rsmod.api.player.hit.queueHit
+import org.rsmod.api.player.isValidTarget
+import org.rsmod.api.player.output.soundSynth
+import org.rsmod.game.entity.Player
 import org.rsmod.game.hit.HitType
-import org.rsmod.game.interact.InteractionOp
+import org.rsmod.game.type.obj.ObjTypeList
 
 internal class NpcCombat
 @Inject
-constructor(
-    private val speeds: WeaponSpeeds,
-    private val specialsReg: SpecialAttackRegistry,
-    private val specialEnergy: SpecialAttackEnergy,
-    private val hitModifier: NpcHitModifier,
-    private val maxHits: MaxHitFormulae,
-) {
-    suspend fun attack(access: ProtectedAccess, target: Npc, attack: CombatAttack.PlayerAttack) {
+constructor(private val maxHits: MaxHitFormulae, private val objTypes: ObjTypeList) {
+    fun attack(access: StandardNpcAccess, target: Player, attack: CombatAttack.NpcAttack) {
         when (attack) {
-            is CombatAttack.Melee -> access.attackMelee(target, attack)
-            is CombatAttack.Ranged -> access.attackRanged(target, attack)
-            is CombatAttack.Spell -> access.attackMagicSpell(target, attack)
-            is CombatAttack.Staff -> access.attackMagicStaff(target, attack)
+            is CombatAttack.NpcMelee -> access.attackMelee(target, attack)
+            is CombatAttack.NpcRanged -> access.attackRanged(target, attack)
+            is CombatAttack.NpcMagic -> access.attackMagic(target, attack)
         }
     }
 
-    private suspend fun ProtectedAccess.attackMelee(npc: Npc, attack: CombatAttack.Melee) {
-        if (!canAttack(npc)) {
-            stopAction()
+    private fun StandardNpcAccess.attackMelee(target: Player, attack: CombatAttack.NpcMelee) {
+        if (!canAttack(target)) {
+            resetMode()
             return
         }
 
@@ -50,85 +36,33 @@ constructor(
             return
         }
 
-        // As a quality-of-life improvement for special attack scripts, set the next attack clock
-        // before executing the special attack. This ensures that specials, by default, do not need
-        // to handle attack timing themselves but can still override it if needed.
-        val attackRate = speeds.actual(player)
+        val attackRate = npc.attackRate()
         actionDelay = mapClock + attackRate
 
-        if (specialAttackType == SpecialAttackType.Weapon) {
-            specialAttackType = SpecialAttackType.None
-
-            val activatedSpec = canPerformMeleeSpecial(npc, attack, specialsReg, specialEnergy)
-            if (activatedSpec) {
-                // Each special attack must call `opnpc2` to re-engage in combat. If this is
-                // not done, the player will not continue attacking after the special, except
-                // via auto-retaliation.
-                return
-            }
-        }
-
-        if (specialAttackType == SpecialAttackType.Shield) {
-            specialAttackType = SpecialAttackType.None
-
-            val shield = player.lefthand
-            val activatedSpec = canPerformShieldSpecial(npc, shield, specialsReg)
-            if (activatedSpec) {
-                // Like weapon special attacks, shield special attacks must explicitly
-                // call `opnpc2(target)` to continue combat.
-                return
-            }
-        }
-
-        // TODO(combat): "WeaponAttack" handling for specialized weapon attacks, such as Scythe of
-        //  Vitur attacks which follows specific logic when performing a standard attack.
-
-        val (weapon, type, style, stance) = attack
-
-        val animAndSound = MeleeAnimationAndSound.from(stance)
-        val (animParam, soundParam, defaultAnim, defaultSound) = animAndSound
-
-        val attackAnim = ocParamOrNull(weapon, animParam) ?: defaultAnim
-        val attackSound = ocParamOrNull(weapon, soundParam) ?: defaultSound
+        val attackAnim = npc.visType.param(params.attack_anim)
+        val attackSound = npc.visType.paramOrNull(params.attack_sound)
 
         anim(attackAnim)
-        soundSynth(attackSound)
+        attackSound?.let(target::soundSynth)
 
         // TODO(combat): Accuracy roll
-        val maxHit = maxHits.getMeleeMaxHit(player, npc, type, style)
+        val maxHit = maxHits.getMeleeMaxHit(npc, target, attack.type)
         val damage = random.of(0..maxHit)
 
-        npc.queueHit(player, 1, HitType.Melee, damage, hitModifier)
-        // TODO(combat): Add hero points. For emulation purposes, I'm pretty certain hero points
-        //  are added here instead of during hit processing due to legacy/technical reasons.
-
-        npc.combatPlayDefendFx(player)
-        npc.queueCombatRetaliate(player)
+        target.queueHit(npc, 1, HitType.Melee, damage)
+        target.combatPlayDefendFx(damage, objTypes)
+        target.queueCombatRetaliate(npc)
     }
 
-    private suspend fun ProtectedAccess.attackRanged(target: Npc, attack: CombatAttack.Ranged) {
+    private fun StandardNpcAccess.attackRanged(target: Player, attack: CombatAttack.NpcRanged) {
         TODO()
     }
 
-    private suspend fun ProtectedAccess.attackMagicSpell(target: Npc, attack: CombatAttack.Spell) {
+    private fun StandardNpcAccess.attackMagic(target: Player, attack: CombatAttack.NpcMagic) {
         TODO()
     }
 
-    private suspend fun ProtectedAccess.attackMagicStaff(target: Npc, attack: CombatAttack.Staff) {
-        TODO()
-    }
-
-    private fun ProtectedAccess.canAttack(npc: Npc): Boolean {
-        if (!npc.isValidTarget()) {
-            return false
-        }
-
-        val hasAttackOp = npc.visType.hasOp(InteractionOp.Op2)
-        if (!hasAttackOp) {
-            mes("You can't attack this npc.")
-            return false
-        }
-
-        return true
+    private fun canAttack(target: Player): Boolean {
+        return target.isValidTarget()
     }
 }
