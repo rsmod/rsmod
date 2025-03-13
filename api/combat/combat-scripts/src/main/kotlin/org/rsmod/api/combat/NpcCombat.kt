@@ -31,7 +31,7 @@ constructor(
     private val hitModifier: NpcHitModifier,
     private val maxHits: MaxHitFormulae,
 ) {
-    suspend fun attack(access: ProtectedAccess, target: Npc, attack: CombatAttack) {
+    suspend fun attack(access: ProtectedAccess, target: Npc, attack: CombatAttack.PlayerAttack) {
         when (attack) {
             is CombatAttack.Melee -> access.attackMelee(target, attack)
             is CombatAttack.Ranged -> access.attackRanged(target, attack)

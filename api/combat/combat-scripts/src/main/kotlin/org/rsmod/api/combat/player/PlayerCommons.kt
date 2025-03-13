@@ -49,7 +49,7 @@ internal fun ProtectedAccess.resolveCombatAttack(
     type: AttackType?,
     style: AttackStyle?,
     spell: MagicSpell?,
-): CombatAttack =
+): CombatAttack.PlayerAttack =
     when {
         spell != null -> {
             CombatAttack.Spell(weapon, spell, defensiveCasting)

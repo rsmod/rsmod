@@ -4,8 +4,6 @@ import jakarta.inject.Inject
 import org.rsmod.api.combat.ACTIVE_COMBAT_DELAY
 import org.rsmod.api.combat.PlayerCombat
 import org.rsmod.api.combat.commons.CombatAttack
-import org.rsmod.api.combat.commons.CombatStance
-import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
 import org.rsmod.api.combat.commons.types.MeleeAttackType
 import org.rsmod.api.combat.inMultiCombatArea
 import org.rsmod.api.combat.player.aggressiveNpc
@@ -28,16 +26,8 @@ internal class PlayerTargetScript @Inject constructor(private val combat: Player
             resetMode()
             return
         }
-
-        // TODO(combat): What should the defaults be? Is it worth separating npc attacks into their
-        //  own [CombatAttack]s?
-        val attack =
-            CombatAttack.Melee(
-                weapon = null,
-                MeleeAttackType.Slash,
-                MeleeAttackStyle.Controlled,
-                CombatStance.Stance1,
-            )
+        // TODO(combat): Use proper/active npc attack type.
+        val attack = CombatAttack.NpcMelee(MeleeAttackType.Slash)
 
         persistentInteraction()
         combat.attack(this, target, attack)

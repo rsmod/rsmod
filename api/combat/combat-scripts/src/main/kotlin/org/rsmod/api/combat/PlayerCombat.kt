@@ -23,16 +23,15 @@ constructor(
     private val maxHits: MaxHitFormulae,
     private val objTypes: ObjTypeList,
 ) {
-    fun attack(access: StandardNpcAccess, target: Player, attack: CombatAttack) {
+    fun attack(access: StandardNpcAccess, target: Player, attack: CombatAttack.NpcAttack) {
         when (attack) {
-            is CombatAttack.Melee -> access.attackMelee(target, attack)
-            is CombatAttack.Ranged -> access.attackRanged(target, attack)
-            is CombatAttack.Spell -> access.attackMagicSpell(target, attack)
-            is CombatAttack.Staff -> access.attackMagicStaff(target, attack)
+            is CombatAttack.NpcMelee -> access.attackMelee(target, attack)
+            is CombatAttack.NpcRanged -> access.attackRanged(target, attack)
+            is CombatAttack.NpcMagic -> access.attackMagic(target, attack)
         }
     }
 
-    private fun StandardNpcAccess.attackMelee(target: Player, attack: CombatAttack.Melee) {
+    private fun StandardNpcAccess.attackMelee(target: Player, attack: CombatAttack.NpcMelee) {
         if (!canAttack(target)) {
             resetMode()
             return
@@ -60,15 +59,11 @@ constructor(
         target.queueCombatRetaliate(npc)
     }
 
-    private fun StandardNpcAccess.attackRanged(target: Player, attack: CombatAttack.Ranged) {
+    private fun StandardNpcAccess.attackRanged(target: Player, attack: CombatAttack.NpcRanged) {
         TODO()
     }
 
-    private fun StandardNpcAccess.attackMagicSpell(target: Player, attack: CombatAttack.Spell) {
-        TODO()
-    }
-
-    private fun StandardNpcAccess.attackMagicStaff(target: Player, attack: CombatAttack.Staff) {
+    private fun StandardNpcAccess.attackMagic(target: Player, attack: CombatAttack.NpcMagic) {
         TODO()
     }
 
