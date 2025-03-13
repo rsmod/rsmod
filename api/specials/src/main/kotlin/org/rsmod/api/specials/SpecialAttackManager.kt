@@ -12,6 +12,7 @@ import org.rsmod.api.combat.formulas.MaxHitFormulae
 import org.rsmod.api.npc.hit.modifier.NpcHitModifier
 import org.rsmod.api.npc.hit.queueHit
 import org.rsmod.api.player.hit.queueHit
+import org.rsmod.api.player.interact.NpcInteractions
 import org.rsmod.api.player.interact.PlayerInteractions
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.random.GameRandom
@@ -33,6 +34,7 @@ constructor(
     private val weapons: SpecialAttackWeapons,
     private val maxHits: MaxHitFormulae,
     private val npcHitModifier: NpcHitModifier,
+    private val npcInteractions: NpcInteractions,
     private val playerInteractions: PlayerInteractions,
 ) {
     public fun hasSpecialEnergy(source: ProtectedAccess, energyInHundreds: Int): Boolean {
@@ -55,7 +57,7 @@ constructor(
     }
 
     public fun continueCombat(source: ProtectedAccess, target: Npc) {
-        source.opNpc2(target)
+        source.opNpc2(target, npcInteractions)
     }
 
     public fun continueCombat(source: ProtectedAccess, target: Player) {
@@ -68,18 +70,18 @@ constructor(
         attack: CombatAttack.Melee,
         accuracyBoost: Int,
         damageBoost: Int,
-        blockAttackType: MeleeAttackType? = attack.type,
         hitAttackType: MeleeAttackType? = attack.type,
         hitAttackStyle: MeleeAttackStyle? = attack.style,
+        blockAttackType: MeleeAttackType? = attack.type,
     ): Int {
         val successfulAccuracyRoll =
             rollMeleeAccuracy(
                 source = source,
                 target = target,
                 percentBoost = accuracyBoost,
-                blockAttackType = blockAttackType,
                 hitAttackType = hitAttackType,
                 hitAttackStyle = hitAttackStyle,
+                blockAttackType = blockAttackType,
             )
         if (!successfulAccuracyRoll) {
             return 0
@@ -91,9 +93,9 @@ constructor(
         source: ProtectedAccess,
         target: PathingEntity,
         percentBoost: Int,
-        blockAttackType: MeleeAttackType?,
         hitAttackType: MeleeAttackType?,
         hitAttackStyle: MeleeAttackStyle?,
+        blockAttackType: MeleeAttackType?,
     ): Boolean {
         // TODO(combat): Accuracy formula
         return true
