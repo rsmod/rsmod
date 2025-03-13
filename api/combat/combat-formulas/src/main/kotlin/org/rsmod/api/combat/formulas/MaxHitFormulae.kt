@@ -1,6 +1,7 @@
 package org.rsmod.api.combat.formulas
 
 import jakarta.inject.Inject
+import org.rsmod.api.combat.commons.types.MeleeAttackType
 import org.rsmod.api.combat.formulas.maxhit.melee.NvPMeleeMaxHit
 import org.rsmod.api.combat.formulas.maxhit.melee.PvNMeleeMaxHit
 import org.rsmod.game.entity.Npc
@@ -16,7 +17,7 @@ constructor(
         return pvnMeleeMaxHit.getMaxHit(player, target, specMultiplier)
     }
 
-    public fun getMeleeMaxHit(npc: Npc): Int {
-        return nvpMeleeMaxHit.getMaxHit(npc)
+    public fun getMeleeMaxHit(npc: Npc, target: Player, attackType: MeleeAttackType?): Int {
+        return nvpMeleeMaxHit.getMaxHit(npc, target, attackType)
     }
 }

@@ -12,6 +12,7 @@ dependencies {
     implementation(projects.api.combat.combatCommons)
     implementation(projects.api.combat.combatWeapon)
     implementation(projects.api.config)
+    implementation(projects.api.npc)
     implementation(projects.api.player)
     implementation(projects.api.random)
     implementation(projects.api.type.typeReferences)

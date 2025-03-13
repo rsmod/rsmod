@@ -29,6 +29,31 @@ public class WornBonuses @Inject constructor(private val objTypes: ObjTypeList) 
         return bonuses.magicDmg
     }
 
+    public fun defensiveCrushBonus(player: Player): Int {
+        val bonuses = calculate(player)
+        return bonuses.defCrush
+    }
+
+    public fun defensiveStabBonus(player: Player): Int {
+        val bonuses = calculate(player)
+        return bonuses.defStab
+    }
+
+    public fun defensiveSlashBonus(player: Player): Int {
+        val bonuses = calculate(player)
+        return bonuses.defSlash
+    }
+
+    public fun defensiveMagic(player: Player): Int {
+        val bonuses = calculate(player)
+        return bonuses.defMagic
+    }
+
+    public fun defensiveRangedBonus(player: Player): Int {
+        val bonuses = calculate(player)
+        return bonuses.defRange
+    }
+
     public fun calculate(inventory: Inventory): Bonuses {
         var offStab = 0
         var offSlash = 0

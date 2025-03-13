@@ -80,4 +80,9 @@ internal object EquipmentChecks {
                 objs.dharoks_greataxe_50,
                 objs.dharoks_greataxe_25,
             )
+
+    fun isJusticiarSet(helm: InvObj?, top: InvObj?, legs: InvObj?): Boolean =
+        helm.isType(objs.justiciar_faceguard) &&
+            top.isType(objs.justiciar_chestguard) &&
+            legs.isType(objs.justiciar_legguards)
 }

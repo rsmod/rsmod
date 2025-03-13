@@ -6,6 +6,7 @@ import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
 import org.rsmod.api.combat.formulas.EquipmentChecks
 import org.rsmod.api.combat.formulas.attributes.CombatNpcAttributes
 import org.rsmod.api.combat.formulas.attributes.CombatWornAttributes
+import org.rsmod.api.combat.formulas.attributes.DamageReductionAttributes
 import org.rsmod.api.combat.formulas.scale
 import org.rsmod.api.combat.maxhit.player.PlayerMeleeMaxHit
 import org.rsmod.api.config.refs.stats
@@ -180,6 +181,31 @@ public object MeleeMaxHitOperations {
         // if it were to be handled via a script.
         if (NpcAttr.CorporealBeast in npcAttributes && WornAttr.CorpBaneWeapon !in wornAttributes) {
             modified /= 2
+        }
+
+        return modified
+    }
+
+    public fun applyDamageReductions(
+        startDamage: Int,
+        activeDefenceBonus: Int,
+        reductionAttributes: EnumSet<DamageReductionAttributes>,
+    ): Int {
+        var modified = startDamage
+
+        if (DamageReductionAttributes.ElysianProc in reductionAttributes) {
+            modified = scale(modified, multiplier = 3, divisor = 4)
+        }
+
+        if (DamageReductionAttributes.DinhsBlock in reductionAttributes) {
+            modified = scale(modified, multiplier = 4, divisor = 5)
+        }
+
+        if (DamageReductionAttributes.Justiciar in reductionAttributes) {
+            val factor = activeDefenceBonus / 3000.0
+            // Damage reduction effect will always reduce at least `1`.
+            val reduction = max(1, (modified * factor).toInt())
+            modified = max(0, modified - reduction)
         }
 
         return modified

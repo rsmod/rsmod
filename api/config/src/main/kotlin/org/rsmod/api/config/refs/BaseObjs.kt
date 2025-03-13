@@ -184,11 +184,18 @@ object BaseObjs : ObjReferences() {
     val colossal_blade = find("colossal_blade")
     val bone_mace = find("bone_mace")
     val gadderhammer = find("gadderhammer")
+    val elysian_spirit_shield = find("elysian_spirit_shield")
+    val dinhs_bulwark = find("dinhs_bulwark")
+    val dinhs_blazing_bulwark = find("dinhs_blazing_bulwark")
 
     val inquisitors_great_helm = find("inquisitors_great_helm")
     val inquisitors_hauberk = find("inquisitors_hauberk")
     val inquisitors_plateskirt = find("inquisitors_plateskirt")
     val inquisitors_mace = find("inquisitors_mace")
+
+    val justiciar_faceguard = find("justiciar_faceguard")
+    val justiciar_chestguard = find("justiciar_chestguard")
+    val justiciar_legguards = find("justiciar_legguards")
 
     val keris = find("keris")
     val keris_p = find("keris_p")

@@ -52,7 +52,7 @@ constructor(
         attackSound?.let(target::soundSynth)
 
         // TODO(combat): Accuracy roll
-        val maxHit = maxHits.getMeleeMaxHit(npc)
+        val maxHit = maxHits.getMeleeMaxHit(npc, target, attack.type)
         val damage = random.of(0..maxHit)
 
         target.queueHit(npc, 1, HitType.Melee, damage)
