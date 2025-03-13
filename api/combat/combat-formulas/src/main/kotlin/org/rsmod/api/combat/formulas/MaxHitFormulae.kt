@@ -1,7 +1,7 @@
 package org.rsmod.api.combat.formulas
 
 import jakarta.inject.Inject
-import org.rsmod.api.combat.formulas.maxhit.MeleeMaxHit
+import org.rsmod.api.combat.formulas.maxhit.melee.MeleeMaxHit
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 

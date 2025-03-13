@@ -1,4 +1,4 @@
-package org.rsmod.api.combat.formulas.maxhit
+package org.rsmod.api.combat.formulas.maxhit.melee
 
 import jakarta.inject.Inject
 import java.util.EnumSet
@@ -91,7 +91,7 @@ constructor(
     }
 
     private fun calculateEffectiveStrength(player: Player, attackStyle: AttackStyle?): Int {
-        val meleeAttackStyle = MeleeAttackStyle.from(attackStyle)
+        val meleeAttackStyle = MeleeAttackStyle.Companion.from(attackStyle)
         return MeleeMaxHitOperations.calculateEffectiveStrength(player, meleeAttackStyle)
     }
 

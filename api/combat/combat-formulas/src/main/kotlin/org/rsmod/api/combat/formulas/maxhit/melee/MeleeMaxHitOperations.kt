@@ -1,4 +1,4 @@
-package org.rsmod.api.combat.formulas.maxhit
+package org.rsmod.api.combat.formulas.maxhit.melee
 
 import java.util.EnumSet
 import kotlin.math.max
