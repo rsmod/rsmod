@@ -44,8 +44,8 @@ public class LineRouteFinding(private val flags: CollisionFlagMap) {
         destX: Int,
         destZ: Int,
         srcSize: Int = 1,
-        destWidth: Int = 0,
-        destLength: Int = 0,
+        destWidth: Int = 1,
+        destLength: Int = 1,
         extraFlag: Int = 0,
     ): RayCast =
         rayCast(
@@ -74,8 +74,8 @@ public class LineRouteFinding(private val flags: CollisionFlagMap) {
         destX: Int,
         destZ: Int,
         srcSize: Int = 1,
-        destWidth: Int = 0,
-        destLength: Int = 0,
+        destWidth: Int = 1,
+        destLength: Int = 1,
         extraFlag: Int = 0,
     ): RayCast =
         rayCast(

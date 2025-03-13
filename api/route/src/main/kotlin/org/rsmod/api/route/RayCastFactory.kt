@@ -13,12 +13,15 @@ public class RayCastFactory @Inject constructor(flags: CollisionFlagMap) {
         source: CoordGrid,
         destination: CoordGrid,
         srcSize: Int = 1,
-        destWidth: Int = 0,
-        destLength: Int = 0,
+        destWidth: Int = 1,
+        destLength: Int = 1,
         extraFlag: Int = 0,
     ): RayCast {
         require(source.level == destination.level) {
             "`source` and `destination` must be on same level."
+        }
+        require(destWidth > 0 && destLength > 0) {
+            "Dest width and length should always be > 0. (dimensions=${destWidth}x${destLength})"
         }
         return linePathFinder.lineOfSight(
             level = source.level,
@@ -37,12 +40,15 @@ public class RayCastFactory @Inject constructor(flags: CollisionFlagMap) {
         source: CoordGrid,
         destination: CoordGrid,
         srcSize: Int = 1,
-        destWidth: Int = 0,
-        destLength: Int = 0,
+        destWidth: Int = 1,
+        destLength: Int = 1,
         extraFlag: Int = 0,
     ): RayCast {
         require(source.level == destination.level) {
             "`source` and `destination` must be on same level."
+        }
+        require(destWidth > 0 && destLength > 0) {
+            "Dest width and length should always be > 0. (dimensions=${destWidth}x${destLength})"
         }
         return linePathFinder.lineOfWalk(
             level = source.level,

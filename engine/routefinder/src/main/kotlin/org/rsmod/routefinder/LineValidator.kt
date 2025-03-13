@@ -46,8 +46,8 @@ public class LineValidator(private val flags: CollisionFlagMap) {
         destX: Int,
         destZ: Int,
         srcSize: Int = 1,
-        destWidth: Int = 0,
-        destLength: Int = 0,
+        destWidth: Int = 1,
+        destLength: Int = 1,
         extraFlag: Int = 0,
     ): Boolean {
         return rayCast(
@@ -77,8 +77,8 @@ public class LineValidator(private val flags: CollisionFlagMap) {
         destX: Int,
         destZ: Int,
         srcSize: Int = 1,
-        destWidth: Int = 0,
-        destLength: Int = 0,
+        destWidth: Int = 1,
+        destLength: Int = 1,
         extraFlag: Int = 0,
     ): Boolean {
         return rayCast(
