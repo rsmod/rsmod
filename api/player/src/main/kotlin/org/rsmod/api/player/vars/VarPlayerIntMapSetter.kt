@@ -4,6 +4,7 @@ import org.rsmod.api.player.output.VarpSync
 import org.rsmod.game.entity.Player
 import org.rsmod.game.type.varbit.VarBitType
 import org.rsmod.game.type.varp.VarpType
+import org.rsmod.game.vars.VarPlayerIntMap
 import org.rsmod.utils.bits.withBits
 
 /**
@@ -14,8 +15,8 @@ import org.rsmod.utils.bits.withBits
  * dynamically-resolved varbit and varp types must be used.
  *
  * ### When to Use:
- * If a varbit type needs to be resolved dynamically (e.g., retrieved from a function) before being
- * set for a player, this utility provides a way to do so.
+ * If a varp or varbit type needs to be resolved dynamically (e.g., retrieved from a function)
+ * before being set for a player, this utility provides a way to do so.
  *
  * #### Example Usage:
  * ```
@@ -25,6 +26,8 @@ import org.rsmod.utils.bits.withBits
  *
  * VarPlayerIntMapSetter.set(player, resolvedVarBit, 1) // Allowed
  * ```
+ *
+ * @see [VarPlayerIntMap]
  */
 public object VarPlayerIntMapSetter {
     public fun set(player: Player, varp: VarpType, value: Int) {
