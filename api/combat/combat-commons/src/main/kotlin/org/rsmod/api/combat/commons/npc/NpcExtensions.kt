@@ -19,6 +19,14 @@ private var Npc.lastAttack by intVarn(varns.lastattack)
 private var Npc.aggressivePlayer by typePlayerUidVarn(varns.aggressive_player)
 private var Npc.attackingPlayer by typePlayerUidVarn(varns.attacking_player)
 
+public fun Npc.queueCombatRetaliate(source: Player, delay: Int = 1) {
+    queue(queues.com_retaliate_player, delay)
+    // TODO(combat): Apparently in single combat areas, if npc is currently attacking a different
+    //  player, its actionDelay is incremented by 8 (cycles).
+    aggressivePlayer = source.uid
+    lastCombat = currentMapClock
+}
+
 public fun Npc.combatDefaultRetaliateOp(interactions: AiPlayerInteractions) {
     val targetUid = aggressivePlayer
 
@@ -67,17 +75,6 @@ private fun Npc.retaliate(target: Player, interactions: AiPlayerInteractions) {
             opPlayer2(target, interactions)
         }
     }
-}
-
-public fun Npc.queueCombatRetaliate(source: Player) {
-    clearQueue(queues.com_retaliate_npc)
-    clearQueue(queues.com_retaliate_player)
-
-    queue(queues.com_retaliate_player, 1)
-    // TODO(combat): Apparently in single combat areas, if npc is currently attacking a different
-    //  player, its actionDelay is incremented by 8 (cycles).
-    aggressivePlayer = source.uid
-    lastCombat = currentMapClock
 }
 
 public fun Npc.combatPlayDefendFx(source: Player) {

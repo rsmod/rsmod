@@ -22,6 +22,7 @@ public class PlayerInteractions @Inject constructor(private val eventBus: EventB
                 hasApTrigger = apTrigger,
             )
         val routeRequest = RouteRequestPathingEntity(target.avatar)
+        player.facePlayer(target)
         player.interaction = interaction
         player.routeRequest = routeRequest
     }

@@ -56,6 +56,9 @@ object Constants {
     const val skullicon_highrisk_world = 2
     const val skullicon_forinthry_surge = 3
 
+    const val bodytype_a = 0
+    const val bodytype_b = 1
+
     const val setpos_abs_top = 0
     const val setpos_abs_left = 0
     const val setpos_abs_centre = 1

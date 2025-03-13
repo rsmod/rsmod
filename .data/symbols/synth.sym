@@ -7,6 +7,14 @@
 159	firebreath
 372	milk_cow
 413	quack
+509	female_hit_1
+510	female_hit_2
+511	human_block_1
+512	human_death
+518	human_hit_1
+519	human_hit_2
+520	human_hit_3
+521	human_hit_4
 761	shear_sheep
 1413	paper_turn
 2053	sheep_atmospheric1

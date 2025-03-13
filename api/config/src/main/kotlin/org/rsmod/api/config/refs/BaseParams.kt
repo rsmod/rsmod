@@ -56,6 +56,11 @@ object BaseParams : ParamReferences() {
     val kalphite: ParamInt = find("kalphite", 88687193509)
 
     /* Server-side only types */
+    val item_block_sound1: ParamSynth = find("item_block_sound1")
+    val item_block_sound2: ParamSynth = find("item_block_sound2")
+    val item_block_sound3: ParamSynth = find("item_block_sound3")
+    val item_block_sound4: ParamSynth = find("item_block_sound4")
+    val item_block_sound5: ParamSynth = find("item_block_sound5")
     val retreat: ParamInt = find("retreat")
     val td_shield_active: ParamBool = find("td_shield_active")
     val tormented_demon: ParamInt = find("tormented_demon")

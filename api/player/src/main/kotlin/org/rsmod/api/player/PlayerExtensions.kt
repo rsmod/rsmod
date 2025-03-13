@@ -26,6 +26,8 @@ public fun Player.queueDeath() {
 }
 
 public fun Player.combatClearQueue() {
+    clearQueue(queues.com_retaliate_npc)
+    clearQueue(queues.com_retaliate_player)
     clearQueue(hit_queues.standard)
     clearQueue(hit_queues.impact)
 }

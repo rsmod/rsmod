@@ -47,6 +47,7 @@ constructor(
                 hasApTrigger = apTrigger,
             )
         val routeRequest = RouteRequestPathingEntity(npc.avatar)
+        player.faceNpc(npc)
         player.interaction = interaction
         player.routeRequest = routeRequest
     }

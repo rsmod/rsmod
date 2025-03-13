@@ -4,6 +4,8 @@ import jakarta.inject.Inject
 import org.rsmod.api.combat.commons.CombatAttack
 import org.rsmod.api.combat.commons.npc.combatPlayDefendFx
 import org.rsmod.api.combat.commons.npc.queueCombatRetaliate
+import org.rsmod.api.combat.commons.player.combatPlayDefendFx
+import org.rsmod.api.combat.commons.player.queueCombatRetaliate
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
 import org.rsmod.api.combat.commons.types.MeleeAttackType
 import org.rsmod.api.combat.formulas.MaxHitFormulae
@@ -20,11 +22,13 @@ import org.rsmod.game.entity.PathingEntity
 import org.rsmod.game.entity.Player
 import org.rsmod.game.hit.HitType
 import org.rsmod.game.type.obj.ObjType
+import org.rsmod.game.type.obj.ObjTypeList
 
 public class SpecialAttackManager
 @Inject
 constructor(
     private val random: GameRandom,
+    private val objTypes: ObjTypeList,
     private val energy: SpecialAttackEnergy,
     private val weapons: SpecialAttackWeapons,
     private val maxHits: MaxHitFormulae,
@@ -144,6 +148,7 @@ constructor(
 
     private fun queueMeleeHit(source: ProtectedAccess, target: Player, damage: Int, delay: Int) {
         target.queueHit(source.player, delay, HitType.Melee, damage)
-        // TODO(combat): defend fx + retaliate
+        target.combatPlayDefendFx(source.player, damage, objTypes)
+        target.queueCombatRetaliate(source.player)
     }
 }

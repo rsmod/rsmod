@@ -3,6 +3,8 @@ package org.rsmod.api.combat
 import jakarta.inject.Inject
 import org.rsmod.api.combat.commons.CombatAttack
 import org.rsmod.api.combat.commons.npc.attackRate
+import org.rsmod.api.combat.commons.player.combatPlayDefendFx
+import org.rsmod.api.combat.commons.player.queueCombatRetaliate
 import org.rsmod.api.combat.formulas.MaxHitFormulae
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.npc.access.StandardNpcAccess
@@ -12,10 +14,15 @@ import org.rsmod.api.player.isValidTarget
 import org.rsmod.api.player.output.soundSynth
 import org.rsmod.game.entity.Player
 import org.rsmod.game.hit.HitType
+import org.rsmod.game.type.obj.ObjTypeList
 
 internal class PlayerCombat
 @Inject
-constructor(private val aiInteractions: AiPlayerInteractions, private val maxHits: MaxHitFormulae) {
+constructor(
+    private val aiInteractions: AiPlayerInteractions,
+    private val maxHits: MaxHitFormulae,
+    private val objTypes: ObjTypeList,
+) {
     fun attack(access: StandardNpcAccess, target: Player, attack: CombatAttack) {
         when (attack) {
             is CombatAttack.Melee -> access.attackMelee(target, attack)
@@ -49,10 +56,8 @@ constructor(private val aiInteractions: AiPlayerInteractions, private val maxHit
         val damage = random.of(0..maxHit)
 
         target.queueHit(npc, 1, HitType.Melee, damage)
-
-        // TODO(combat): Player version of these?
-        // npc.combatPlayDefendFx(player)
-        // npc.queueCombatRetaliate(player)
+        target.combatPlayDefendFx(damage, objTypes)
+        target.queueCombatRetaliate(npc)
     }
 
     private fun StandardNpcAccess.attackRanged(target: Player, attack: CombatAttack.Ranged) {

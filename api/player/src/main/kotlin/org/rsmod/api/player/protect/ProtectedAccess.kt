@@ -188,6 +188,7 @@ public class ProtectedAccess(
 
     public val coords: CoordGrid by player::coords
     public val mapClock: Int by player::currentMapClock
+    public val isBusy2: Boolean by player::isBusy2
 
     public val inv: Inventory by player::inv
     public val worn: Inventory by player::worn

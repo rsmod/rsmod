@@ -20,6 +20,12 @@ import org.rsmod.game.type.varbit.VarBitType
 
 internal object ParamBuilds : ParamBuilder() {
     init {
+        build<SynthType>("item_block_sound1")
+        build<SynthType>("item_block_sound2")
+        build<SynthType>("item_block_sound3")
+        build<SynthType>("item_block_sound4")
+        build<SynthType>("item_block_sound5")
+
         build<Int>("retreat") { default = -1 }
 
         build<Boolean>("td_shield_active") { default = true }

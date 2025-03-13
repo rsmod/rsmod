@@ -9,6 +9,8 @@ public sealed class SeqType : CacheType() {
 
     public val priority: Int
         get() = internalPriority
+
+    public fun isType(other: SeqType): Boolean = other.internalId == internalId
 }
 
 public data class HashedSeqType(

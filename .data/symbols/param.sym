@@ -158,6 +158,11 @@
 1802	slayer_task_boss_location
 1935	spell_autocast_id
 
+65417	item_block_sound1
+65418	item_block_sound2
+65419	item_block_sound3
+65420	item_block_sound4
+65421	item_block_sound5
 65422	retreat
 65423	td_shield_active
 65424	tormented_demon
