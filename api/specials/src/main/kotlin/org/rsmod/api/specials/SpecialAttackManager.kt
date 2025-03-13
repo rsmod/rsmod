@@ -18,6 +18,7 @@ import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.random.GameRandom
 import org.rsmod.api.specials.energy.SpecialAttackEnergy
 import org.rsmod.api.specials.weapon.SpecialAttackWeapons
+import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.PathingEntity
 import org.rsmod.game.entity.Player
@@ -29,6 +30,7 @@ public class SpecialAttackManager
 @Inject
 constructor(
     private val random: GameRandom,
+    private val eventBus: EventBus,
     private val objTypes: ObjTypeList,
     private val energy: SpecialAttackEnergy,
     private val weapons: SpecialAttackWeapons,
@@ -51,17 +53,44 @@ constructor(
         source.actionDelay = source.mapClock + cycles
     }
 
-    public fun resetCombat(source: ProtectedAccess) {
-        source.stopAction()
+    /**
+     * Cancels the combat interaction while keeping the associated [Player.actionDelay] set to the
+     * preset delay determined by the combat weapon's attack rate.
+     *
+     * This ensures that the player's action delay remains consistent with their last attack.
+     *
+     * This should be used when a special attack was performed successfully. If the special attack
+     * could not be performed, consider using [clearCombat] instead.
+     *
+     * **Important Note:** When calling this function, ensure that the `attack` function returns
+     * `true`. This signals to the combat script that the special attack was properly handled. If
+     * `attack` returns `false`, the regular combat attack will still be processed **for one cycle**
+     * because the combat script is already in progress. However, after that cycle, the interaction
+     * will become invalid and will not execute again.
+     *
+     * @see clearCombat
+     */
+    public fun stopCombat(source: ProtectedAccess) {
+        source.stopAction(eventBus)
+    }
+
+    /**
+     * Similar to [stopCombat], but resets the associated [Player.actionDelay] to the current map
+     * clock.
+     *
+     * This should be used when a special attack could not be performed and the combat interaction
+     * needs to be terminated. Since the player did not actually attack, their action delay should
+     * be updated to reflect that.
+     *
+     * **Important Note:** When calling this function, ensure that the `attack` function returns
+     * `true`. This signals to the combat script that the special attack was properly handled. If
+     * `attack` returns `false`, the regular combat attack will still be processed **for one cycle**
+     * because the combat script is already in progress. However, after that cycle, the interaction
+     * will become invalid and will not execute again.
+     */
+    public fun clearCombat(source: ProtectedAccess) {
+        source.stopAction(eventBus)
         setNextAttackDelay(source, 0)
-    }
-
-    public fun continueCombat(source: ProtectedAccess, target: Npc) {
-        source.opNpc2(target, npcInteractions)
-    }
-
-    public fun continueCombat(source: ProtectedAccess, target: Player) {
-        source.opPlayer2(target, playerInteractions)
     }
 
     public fun rollMeleeDamage(

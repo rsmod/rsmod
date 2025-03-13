@@ -26,7 +26,6 @@ class DragonLongswordSpecialAttack : SpecialAttackMap {
             attack: CombatAttack.Melee,
         ): Boolean {
             cleave(target, attack)
-            manager.continueCombat(this, target)
             return true
         }
 
@@ -35,7 +34,6 @@ class DragonLongswordSpecialAttack : SpecialAttackMap {
             attack: CombatAttack.Melee,
         ): Boolean {
             cleave(target, attack)
-            manager.continueCombat(this, target)
             return true
         }
 

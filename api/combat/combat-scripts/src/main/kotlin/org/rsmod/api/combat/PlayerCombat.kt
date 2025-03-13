@@ -61,9 +61,6 @@ constructor(
 
             val activatedSpec = canPerformMeleeSpecial(npc, attack, specialsReg, specialEnergy)
             if (activatedSpec) {
-                // Each special attack must call `opnpc2` to re-engage in combat. If this is
-                // not done, the player will not continue attacking after the special, except
-                // via auto-retaliation.
                 return
             }
         }
@@ -74,8 +71,6 @@ constructor(
             val shield = player.lefthand
             val activatedSpec = canPerformShieldSpecial(npc, shield, specialsReg)
             if (activatedSpec) {
-                // Like weapon special attacks, shield special attacks must explicitly
-                // call `opnpc2(target)` to continue combat.
                 return
             }
         }
