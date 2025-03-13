@@ -71,37 +71,29 @@ constructor(
         blockAttackType: MeleeAttackType? = attack.type,
         hitAttackType: MeleeAttackType? = attack.type,
         hitAttackStyle: MeleeAttackStyle? = attack.style,
-    ): Int =
-        rollMeleeDamage(
-            source,
-            target,
-            blockAttackType,
-            hitAttackType,
-            hitAttackStyle,
-            accuracyBoost,
-            damageBoost,
-        )
-
-    private fun rollMeleeDamage(
-        source: ProtectedAccess,
-        target: PathingEntity,
-        blockAttackType: MeleeAttackType?,
-        hitAttackType: MeleeAttackType?,
-        hitAttackStyle: MeleeAttackStyle?,
-        accuracyBoost: Int,
-        damageBoost: Int,
     ): Int {
-        if (!rollMeleeAccuracy(source, target, accuracyBoost, blockAttackType)) {
+        val successfulAccuracyRoll =
+            rollMeleeAccuracy(
+                source = source,
+                target = target,
+                percentBoost = accuracyBoost,
+                blockAttackType = blockAttackType,
+                hitAttackType = hitAttackType,
+                hitAttackStyle = hitAttackStyle,
+            )
+        if (!successfulAccuracyRoll) {
             return 0
         }
-        return rollMeleeMaxHit(source, target, damageBoost)
+        return rollMeleeMaxHit(source, target, hitAttackType, hitAttackStyle, damageBoost)
     }
 
     public fun rollMeleeAccuracy(
         source: ProtectedAccess,
         target: PathingEntity,
         percentBoost: Int,
-        rollDefenceAgainst: MeleeAttackType?,
+        blockAttackType: MeleeAttackType?,
+        hitAttackType: MeleeAttackType?,
+        hitAttackStyle: MeleeAttackStyle?,
     ): Boolean {
         // TODO(combat): Accuracy formula
         return true
@@ -110,23 +102,43 @@ constructor(
     public fun rollMeleeMaxHit(
         source: ProtectedAccess,
         target: PathingEntity,
+        attackType: MeleeAttackType?,
+        attackStyle: MeleeAttackStyle?,
         percentBoost: Int,
     ): Int {
-        val maxHit = calculateMeleeMaxHit(source, target, percentBoost)
+        val maxHit = calculateMeleeMaxHit(source, target, attackType, attackStyle, percentBoost)
         return random.of(0, maxHit)
     }
 
     public fun calculateMeleeMaxHit(
         source: ProtectedAccess,
         target: PathingEntity,
+        attackType: MeleeAttackType?,
+        attackStyle: MeleeAttackStyle?,
         percentBoost: Int,
     ): Int {
-        val specMultiplier = 1 + (percentBoost / 100.0)
+        val multiplier = 1 + (percentBoost / 100.0)
         return when (target) {
-            is Npc -> maxHits.getMeleeMaxHit(source.player, target, specMultiplier)
-            is Player -> TODO() // TODO(combat)
+            is Npc -> calculateMeleeMaxHit(source, target, attackType, attackStyle, multiplier)
+            is Player -> calculateMeleeMaxHit(source, target, attackType, attackStyle, multiplier)
         }
     }
+
+    private fun calculateMeleeMaxHit(
+        source: ProtectedAccess,
+        target: Npc,
+        attackType: MeleeAttackType?,
+        attackStyle: MeleeAttackStyle?,
+        specMultiplier: Double,
+    ): Int = maxHits.getMeleeMaxHit(source.player, target, attackType, attackStyle, specMultiplier)
+
+    private fun calculateMeleeMaxHit(
+        source: ProtectedAccess,
+        target: Player,
+        attackType: MeleeAttackType?,
+        attackStyle: MeleeAttackStyle?,
+        specMultiplier: Double,
+    ): Int = TODO() // TODO(combat)
 
     public fun queueMeleeHit(
         source: ProtectedAccess,

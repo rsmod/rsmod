@@ -3,14 +3,12 @@ package org.rsmod.api.combat.formulas.maxhit.melee
 import jakarta.inject.Inject
 import java.util.EnumSet
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
-import org.rsmod.api.combat.commons.types.AttackType
+import org.rsmod.api.combat.commons.types.MeleeAttackType
 import org.rsmod.api.combat.formulas.EquipmentChecks
 import org.rsmod.api.combat.formulas.attributes.CombatNpcAttributes
 import org.rsmod.api.combat.formulas.attributes.CombatWornAttributes
 import org.rsmod.api.combat.maxhit.player.PlayerMeleeMaxHit
 import org.rsmod.api.combat.weapon.WeaponSpeeds
-import org.rsmod.api.combat.weapon.styles.AttackStyles
-import org.rsmod.api.combat.weapon.types.AttackTypes
 import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.npcs
 import org.rsmod.api.config.refs.objs
@@ -33,8 +31,6 @@ public class PvNMeleeMaxHit
 constructor(
     private val random: GameRandom,
     private val objTypes: ObjTypeList,
-    private val attackStyles: AttackStyles,
-    private val attackTypes: AttackTypes,
     private val weaponSpeeds: WeaponSpeeds,
     private val bonuses: WornBonuses,
 ) {
@@ -50,12 +46,19 @@ constructor(
      *   as the main entry point.
      * - The `com_maxhit` varp for [player] is updated with the computed max hit.
      */
-    public fun getMaxHit(player: Player, target: Npc, specialMultiplier: Double): Int {
+    public fun getMaxHit(
+        player: Player,
+        target: Npc,
+        attackType: MeleeAttackType?,
+        attackStyle: MeleeAttackStyle?,
+        specialMultiplier: Double,
+    ): Int {
         // Currently, we recalculate the max hit on every call to ensure the result reflects
         // the latest player state. If profiling shows this calculation becomes a performance
         // bottleneck, we can plan to optimize by using the cached `com_maxhit` varp while
         // adding safeguards to prevent stale data.
-        val maxHit = computeMaxHit(player, target.visType, specialMultiplier)
+        val maxHit =
+            computeMaxHit(player, target.visType, attackType, attackStyle, specialMultiplier)
         player.maxHit = maxHit
         return maxHit
     }
@@ -63,9 +66,11 @@ constructor(
     public fun computeMaxHit(
         source: Player,
         target: UnpackedNpcType,
+        attackType: MeleeAttackType?,
+        attackStyle: MeleeAttackStyle?,
         specialMultiplier: Double,
     ): Int {
-        val wornAttributes = collectWornAttributes(source)
+        val wornAttributes = collectWornAttributes(source, attackType)
         addProcAttributes(wornAttributes)
 
         val npcAttributes = collectNpcAttributes(target)
@@ -73,7 +78,8 @@ constructor(
             npcAttributes += CombatNpcAttributes.SlayerTask
         }
 
-        val modifiedDamage = computeModifiedDamage(source, wornAttributes, npcAttributes)
+        val modifiedDamage =
+            computeModifiedDamage(source, attackStyle, wornAttributes, npcAttributes)
         val specMaxHit = (modifiedDamage * specialMultiplier).toInt()
         return modifyPostSpec(source, specMaxHit, wornAttributes, npcAttributes)
     }
@@ -88,14 +94,12 @@ constructor(
      */
     public fun computeModifiedDamage(
         source: Player,
+        attackStyle: MeleeAttackStyle?,
         wornAttributes: EnumSet<CombatWornAttributes>,
         npcAttributes: EnumSet<CombatNpcAttributes>,
     ): Int {
-        val attackStyle = attackStyles.get(source)
-        val meleeAttackStyle = MeleeAttackStyle.from(attackStyle)
         val effectiveStrength =
-            MeleeMaxHitOperations.calculateEffectiveStrength(source, meleeAttackStyle)
-
+            MeleeMaxHitOperations.calculateEffectiveStrength(source, attackStyle)
         val strengthBonus = bonuses.strengthBonus(source)
         val baseDamage = PlayerMeleeMaxHit.calculateBaseDamage(effectiveStrength, strengthBonus)
         return modifyBaseDamage(baseDamage, wornAttributes, npcAttributes)
@@ -126,11 +130,13 @@ constructor(
         )
     }
 
-    private fun collectWornAttributes(player: Player): EnumSet<CombatWornAttributes> {
+    private fun collectWornAttributes(
+        player: Player,
+        attackType: MeleeAttackType?,
+    ): EnumSet<CombatWornAttributes> {
         val wornAttributes = EnumSet.noneOf(CombatWornAttributes::class.java)
 
-        val attackType = attackTypes.get(player)
-        if (attackType == AttackType.Crush) {
+        if (attackType == MeleeAttackType.Crush) {
             wornAttributes += CombatWornAttributes.Crush
         }
 
