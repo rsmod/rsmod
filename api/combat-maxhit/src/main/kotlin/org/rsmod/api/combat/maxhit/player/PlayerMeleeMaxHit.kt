@@ -57,7 +57,7 @@ public object PlayerMeleeMaxHit {
             effectiveLevel = scaleByPercent(effectiveLevel, prayerPercent)
         }
 
-        // `weaponPercent` calculation is based off the base `visibleStrengthLevel`.
+        // `weaponPercent` calculation is based off the base `visibleStrengthLvl`.
         effectiveLevel += scaleByPercent(visibleStrengthLvl, weaponPercent)
         effectiveLevel += styleBonus
         effectiveLevel = scaleByPercent(effectiveLevel, voidPercent)
