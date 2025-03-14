@@ -20,7 +20,7 @@ import org.rsmod.map.zone.ZoneKey
 
 class ObjRegistryTest {
     @Test
-    fun `delete last standard obj added`() {
+    fun `delete oldest standard obj added`() {
         val types = objTypeListFactory.createDefault()
         val type = types.standard1()
 
@@ -38,7 +38,7 @@ class ObjRegistryTest {
         registry.del(find)
 
         assertEquals(1, registry.count())
-        assertEquals(obj1, registry.findAll(CoordGrid.ZERO).single())
+        assertEquals(obj2, registry.findAll(CoordGrid.ZERO).single())
     }
 
     @Test

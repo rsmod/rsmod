@@ -10,7 +10,7 @@ import org.rsmod.map.CoordGrid
 
 class ObjStackEntryListTest {
     @Test
-    fun `stack is last-in-first-out`() {
+    fun `stack is first-in-last-out`() {
         val list = ObjStackEntryList()
         check(list.size == 0)
 
@@ -23,8 +23,8 @@ class ObjStackEntryListTest {
 
         list.add(second)
         assertEquals(2, list.size)
-        assertEquals(second, list.findAll(first.coords).first())
-        assertEquals(first, list.findAll(first.coords).last())
+        assertEquals(first, list.findAll(first.coords).first())
+        assertEquals(second, list.findAll(first.coords).last())
     }
 
     @Test
