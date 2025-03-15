@@ -1,5 +1,6 @@
 package org.rsmod.api.combat.formulas
 
+import org.rsmod.api.combat.formulas.accuracy.melee.PvNMeleeAccuracy
 import org.rsmod.api.combat.formulas.attributes.collector.CombatNpcAttributeCollector
 import org.rsmod.api.combat.formulas.attributes.collector.DamageReductionAttributeCollector
 import org.rsmod.api.combat.formulas.attributes.collector.MeleeWornAttributeCollector
@@ -13,9 +14,12 @@ public class CombatFormulaModule : PluginModule() {
         bindInstance<DamageReductionAttributeCollector>()
         bindInstance<MeleeWornAttributeCollector>()
 
+        bindInstance<PvNMeleeAccuracy>()
+
         bindInstance<NvPMeleeMaxHit>()
         bindInstance<PvNMeleeMaxHit>()
 
+        bindInstance<AccuracyFormulae>()
         bindInstance<MaxHitFormulae>()
     }
 }

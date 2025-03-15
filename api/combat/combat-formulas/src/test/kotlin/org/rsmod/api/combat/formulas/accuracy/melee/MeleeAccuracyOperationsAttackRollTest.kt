@@ -16,7 +16,7 @@ class MeleeAccuracyOperationsAttackRollTest {
         val npcAttributes = loadout.npcAttributes
 
         val modifiedAttackRoll =
-            MeleeAccuracyOperations.modifyBaseAttackRoll(
+            MeleeAccuracyOperations.modifyAttackRoll(
                 attackRoll = baseAttackRoll,
                 wornAttributes = wornAttributes,
                 npcAttributes = npcAttributes,

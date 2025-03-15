@@ -3,9 +3,18 @@ package org.rsmod.api.combat.formulas.accuracy.melee
 import java.util.EnumSet
 import kotlin.math.min
 import kotlin.math.roundToInt
+import org.rsmod.api.combat.accuracy.player.PlayerMeleeAccuracy
+import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
+import org.rsmod.api.combat.formulas.EquipmentChecks
 import org.rsmod.api.combat.formulas.attributes.CombatNpcAttributes
 import org.rsmod.api.combat.formulas.attributes.CombatWornAttributes
 import org.rsmod.api.combat.formulas.scale
+import org.rsmod.api.config.refs.stats
+import org.rsmod.api.config.refs.varbits
+import org.rsmod.game.entity.Player
+import org.rsmod.game.inv.Inventory
+import org.rsmod.game.type.obj.Wearpos
+import org.rsmod.game.vars.VarPlayerIntMap
 
 private typealias WornAttr = CombatWornAttributes
 
@@ -19,7 +28,7 @@ public object MeleeAccuracyOperations {
      */
     public const val HIT_CHANCE_SCALE: Int = 10_000
 
-    public fun modifyBaseAttackRoll(
+    public fun modifyAttackRoll(
         attackRoll: Int,
         wornAttributes: EnumSet<CombatWornAttributes>,
         npcAttributes: EnumSet<CombatNpcAttributes>,
@@ -109,6 +118,20 @@ public object MeleeAccuracyOperations {
             if (multiplierAdditive > 0) {
                 modified = scale(modified, multiplier = 200 + multiplierAdditive, divisor = 200)
             }
+        }
+
+        return modified
+    }
+
+    public fun modifyDefenceRoll(
+        defenceRoll: Int,
+        amascutInvocationLvl: Int,
+        npcAttributes: EnumSet<CombatNpcAttributes>,
+    ): Int {
+        var modified = defenceRoll
+
+        if (NpcAttr.Amascut in npcAttributes) {
+            modified = scale(modified, multiplier = 250 + amascutInvocationLvl, divisor = 250)
         }
 
         return modified
@@ -221,5 +244,73 @@ public object MeleeAccuracyOperations {
         // which is typically done in these combat formulas. Since our test cases are
         // based on its calculations, we match its behavior to maintain consistency.
         return (result * HIT_CHANCE_SCALE).roundToInt()
+    }
+
+    public fun calculateEffectiveAttack(player: Player, attackStyle: MeleeAttackStyle?): Int {
+        val attackLevel = player.statMap.getCurrentLevel(stats.attack).toInt()
+        return calculateEffectiveAttack(
+            visLevel = attackLevel,
+            vars = player.vars,
+            worn = player.worn,
+            attackStyle = attackStyle,
+        )
+    }
+
+    private fun calculateEffectiveAttack(
+        visLevel: Int,
+        vars: VarPlayerIntMap,
+        worn: Inventory,
+        attackStyle: MeleeAttackStyle?,
+    ): Int {
+        val styleBonus = attackStyle.styleBonus()
+        val prayerBonus = vars.prayerBonus()
+        val voidBonus = worn.voidBonus()
+        return PlayerMeleeAccuracy.calculateEffectiveAttack(
+            visibleAttackLvl = visLevel,
+            styleBonus = styleBonus,
+            prayerBonus = prayerBonus,
+            voidBonus = voidBonus,
+        )
+    }
+
+    private fun MeleeAttackStyle?.styleBonus(): Int =
+        when (this) {
+            MeleeAttackStyle.Controlled -> 9
+            MeleeAttackStyle.Accurate -> 11
+            else -> 8
+        }
+
+    private fun VarPlayerIntMap.prayerBonus(): Double =
+        when {
+            this[varbits.clarity_of_thought] == 1 -> 1.05
+            this[varbits.improved_reflexes] == 1 -> 1.1
+            this[varbits.incredible_reflexes] == 1 -> 1.15
+            this[varbits.chivalry] == 1 -> 1.15
+            this[varbits.piety] == 1 -> 1.20
+            else -> 1.0
+        }
+
+    private fun Inventory.voidBonus(): Double {
+        val helm = this[Wearpos.Hat.slot]
+        if (!EquipmentChecks.isVoidMeleeHelm(helm)) {
+            return 1.0
+        }
+
+        val top = this[Wearpos.Torso.slot]
+        if (!EquipmentChecks.isVoidTop(top)) {
+            return 1.0
+        }
+
+        val legs = this[Wearpos.Legs.slot]
+        if (!EquipmentChecks.isVoidRobe(legs)) {
+            return 1.0
+        }
+
+        val gloves = this[Wearpos.Hands.slot]
+        if (!EquipmentChecks.isVoidGloves(gloves)) {
+            return 1.0
+        }
+
+        return 1.1
     }
 }

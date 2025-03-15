@@ -8,6 +8,7 @@ kotlin {
 
 dependencies {
     implementation(libs.guice)
+    implementation(projects.api.combatAccuracy)
     implementation(projects.api.combatMaxhit)
     implementation(projects.api.combat.combatCommons)
     implementation(projects.api.combat.combatWeapon)

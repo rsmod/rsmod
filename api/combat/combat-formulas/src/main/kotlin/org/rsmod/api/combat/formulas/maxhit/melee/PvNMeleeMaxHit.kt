@@ -101,14 +101,8 @@ constructor(
             MeleeMaxHitOperations.calculateEffectiveStrength(source, attackStyle)
         val strengthBonus = bonuses.strengthBonus(source)
         val baseDamage = PlayerMeleeMaxHit.calculateBaseDamage(effectiveStrength, strengthBonus)
-        return modifyBaseDamage(baseDamage, wornAttributes, npcAttributes)
+        return MeleeMaxHitOperations.modifyBaseDamage(baseDamage, wornAttributes, npcAttributes)
     }
-
-    public fun modifyBaseDamage(
-        baseDamage: Int,
-        wornAttributes: EnumSet<CombatWornAttributes>,
-        npcAttributes: EnumSet<CombatNpcAttributes>,
-    ): Int = MeleeMaxHitOperations.modifyBaseDamage(baseDamage, wornAttributes, npcAttributes)
 
     public fun modifyPostSpec(
         source: Player,
