@@ -658,6 +658,19 @@ constructor(
             return injector.getInstance(GameTestScope::class.java)
         }
 
+        internal fun buildInjector(optionalChildModule: AbstractModule?): Injector {
+            val module = TestModule(cacheTypes, collisionMap)
+            val parentInjector = Guice.createInjector(module)
+            val injector =
+                if (optionalChildModule != null) {
+                    parentInjector.createChildInjector(optionalChildModule)
+                } else {
+                    parentInjector
+                }
+            bindScriptEvents(injector)
+            return injector
+        }
+
         private fun bindScriptEvents(injector: Injector) {
             val context = injector.getInstance(ScriptContext::class.java)
             for (clazz in scripts) {
@@ -665,117 +678,116 @@ constructor(
                 with(script) { context.startUp() }
             }
         }
+    }
 
-        private class TestModule(
-            private val cacheTypes: TypeListMap,
-            private val gameCollisionMap: CollisionFlagMap,
-        ) : AbstractModule() {
-            override fun configure() {
-                collisionFactory.borrowSharedMap().let { collision ->
-                    // Copy the original game's collision flag map into the test.
-                    // Important Note: This does _not_ add locs into the loc registry.
-                    gameCollisionMap.flags.copyInto(collision.flags)
-                    bind(CollisionFlagMap::class.java).toInstance(collision)
-                }
-
-                bind(GameExceptionHandler::class.java)
-                    .to(TestExceptionHandler::class.java)
-                    .`in`(Scopes.SINGLETON)
-
-                bind(GameRandom::class.java)
-                    .annotatedWith(CoreRandom::class.java)
-                    .toInstance(DefaultGameRandom(seed = 123456))
-
-                VariableGameRandom().let { random ->
-                    bind(GameRandom::class.java).toInstance(random.impl)
-                    bind(VariableGameRandom::class.java).toInstance(random)
-                }
-
-                bind(EventBus::class.java).`in`(Scopes.SINGLETON)
-                bind(MapClock::class.java).`in`(Scopes.SINGLETON)
-                bind(LocZoneStorage::class.java).`in`(Scopes.SINGLETON)
-
-                bind(BoundValidator::class.java).`in`(Scopes.SINGLETON)
-                bind(RayCastValidator::class.java).`in`(Scopes.SINGLETON)
-                bind(RayCastFactory::class.java).`in`(Scopes.SINGLETON)
-                bind(RouteFactory::class.java).`in`(Scopes.SINGLETON)
-                bind(StepFactory::class.java).`in`(Scopes.SINGLETON)
-
-                bind(ControllerList::class.java).`in`(Scopes.SINGLETON)
-                bind(ControllerRegistry::class.java).`in`(Scopes.SINGLETON)
-                bind(ControllerRepository::class.java).`in`(Scopes.SINGLETON)
-                bind(PlayerList::class.java).`in`(Scopes.SINGLETON)
-                bind(PlayerRegistry::class.java).`in`(Scopes.SINGLETON)
-                bind(PlayerRepository::class.java).`in`(Scopes.SINGLETON)
-                bind(ZonePlayerActivityBitSet::class.java).`in`(Scopes.SINGLETON)
-                bind(NpcList::class.java).`in`(Scopes.SINGLETON)
-                bind(NpcRegistry::class.java).`in`(Scopes.SINGLETON)
-                bind(NpcRepository::class.java).`in`(Scopes.SINGLETON)
-                bind(LocRegistry::class.java).`in`(Scopes.SINGLETON)
-                bind(LocRegistryNormal::class.java).`in`(Scopes.SINGLETON)
-                bind(LocRegistryRegion::class.java).`in`(Scopes.SINGLETON)
-                bind(LocRepository::class.java).`in`(Scopes.SINGLETON)
-                bind(RegionListSmall::class.java).`in`(Scopes.SINGLETON)
-                bind(RegionListLarge::class.java).`in`(Scopes.SINGLETON)
-                bind(RegionRegistry::class.java).`in`(Scopes.SINGLETON)
-                bind(RegionRepository::class.java).`in`(Scopes.SINGLETON)
-                bind(ObjRegistry::class.java).`in`(Scopes.SINGLETON)
-                bind(ObjRepository::class.java).`in`(Scopes.SINGLETON)
-                bind(WorldRepository::class.java).`in`(Scopes.SINGLETON)
-
-                // These type lists can be modified by tests to ensure interactions pass
-                // validation checks. Tests need the flexibility to create and modify these
-                // types. Without this, interactions with custom "test types" would likely
-                // fail at the packet-handler level, as the associated `UnpackedXType.op`
-                // is checked for validity.
-                //
-                // The word "likely" is used because the id of a test type may conflict with
-                // an existing type that has the required op, causing the interaction to pass
-                // the validity check by coincidence.
-                bind(LocTypeList::class.java).toInstance(cacheTypes.locs.copy())
-                bind(ObjTypeList::class.java).toInstance(cacheTypes.objs.copy())
-
-                // Though similar, the npc type list **does not** require this flexibility.
-                // Each `Npc` stores a reference to its `UnpackedNpcType` upon creation,
-                // ensuring that any test type used to spawn a npc will automatically pass
-                // the op validity check. It is safe to share the same `NpcTypeList`.
-                bind(NpcTypeList::class.java).toInstance(cacheTypes.npcs)
-
-                // Currently, there is no need to mutate the following type lists.
-                // Therefore, we can reuse their shared instance across test scopes.
-                bind(ComponentTypeList::class.java).toInstance(cacheTypes.components)
-                bind(EnumTypeList::class.java).toInstance(cacheTypes.enums)
-                bind(FontMetricsTypeList::class.java).toInstance(cacheTypes.fonts)
-                bind(InterfaceTypeList::class.java).toInstance(cacheTypes.interfaces)
-                bind(InvTypeList::class.java).toInstance(cacheTypes.invs)
-                bind(ParamTypeList::class.java).toInstance(cacheTypes.params)
-                bind(SeqTypeList::class.java).toInstance(cacheTypes.seqs)
-                bind(StatTypeList::class.java).toInstance(cacheTypes.stats)
-                bind(SynthTypeList::class.java).toInstance(cacheTypes.synths)
-                bind(VarBitTypeList::class.java).toInstance(cacheTypes.varbits)
-                bind(VarpTypeList::class.java).toInstance(cacheTypes.varps)
-
-                bind(CheatCommandMap::class.java).`in`(Scopes.SINGLETON)
-
-                Multibinder.newSetBinder(binder(), InvisibleLevelMod::class.java)
-                bind(InvisibleLevels::class.java).`in`(Scopes.SINGLETON)
-
-                Multibinder.newSetBinder(binder(), XpMod::class.java)
-                bind(XpModifiers::class.java).`in`(Scopes.SINGLETON)
-
-                bind(MarketPrices::class.java)
-                    .to(DefaultMarketPrices::class.java)
-                    .`in`(Scopes.SINGLETON)
-
-                bind(EnumTypeMapResolver::class.java)
-                    .toProvider(EnumTypeMapResolverProvider::class.java)
-                    .`in`(Scopes.SINGLETON)
-
-                bind(NpcHitModifier::class.java).to(StandardNpcHitModifier::class.java)
-                bind(NpcHitProcessor::class.java).to(StandardNpcHitProcessor::class.java)
-                bind(InstantPlayerHitProcessor::class.java)
-                    .to(DamageOnlyPlayerHitProcessor::class.java)
+    private class TestModule(
+        private val cacheTypes: TypeListMap,
+        private val gameCollisionMap: CollisionFlagMap,
+    ) : AbstractModule() {
+        override fun configure() {
+            collisionFactory.borrowSharedMap().let { collision ->
+                // Copy the original game's collision flag map into the test.
+                // Important Note: This does _not_ add locs into the loc registry.
+                gameCollisionMap.flags.copyInto(collision.flags)
+                bind(CollisionFlagMap::class.java).toInstance(collision)
             }
+
+            bind(GameExceptionHandler::class.java)
+                .to(TestExceptionHandler::class.java)
+                .`in`(Scopes.SINGLETON)
+
+            bind(GameRandom::class.java)
+                .annotatedWith(CoreRandom::class.java)
+                .toInstance(DefaultGameRandom(seed = 123456))
+
+            VariableGameRandom().let { random ->
+                bind(GameRandom::class.java).toInstance(random.impl)
+                bind(VariableGameRandom::class.java).toInstance(random)
+            }
+
+            bind(EventBus::class.java).`in`(Scopes.SINGLETON)
+            bind(MapClock::class.java).`in`(Scopes.SINGLETON)
+            bind(LocZoneStorage::class.java).`in`(Scopes.SINGLETON)
+
+            bind(BoundValidator::class.java).`in`(Scopes.SINGLETON)
+            bind(RayCastValidator::class.java).`in`(Scopes.SINGLETON)
+            bind(RayCastFactory::class.java).`in`(Scopes.SINGLETON)
+            bind(RouteFactory::class.java).`in`(Scopes.SINGLETON)
+            bind(StepFactory::class.java).`in`(Scopes.SINGLETON)
+
+            bind(ControllerList::class.java).`in`(Scopes.SINGLETON)
+            bind(ControllerRegistry::class.java).`in`(Scopes.SINGLETON)
+            bind(ControllerRepository::class.java).`in`(Scopes.SINGLETON)
+            bind(PlayerList::class.java).`in`(Scopes.SINGLETON)
+            bind(PlayerRegistry::class.java).`in`(Scopes.SINGLETON)
+            bind(PlayerRepository::class.java).`in`(Scopes.SINGLETON)
+            bind(ZonePlayerActivityBitSet::class.java).`in`(Scopes.SINGLETON)
+            bind(NpcList::class.java).`in`(Scopes.SINGLETON)
+            bind(NpcRegistry::class.java).`in`(Scopes.SINGLETON)
+            bind(NpcRepository::class.java).`in`(Scopes.SINGLETON)
+            bind(LocRegistry::class.java).`in`(Scopes.SINGLETON)
+            bind(LocRegistryNormal::class.java).`in`(Scopes.SINGLETON)
+            bind(LocRegistryRegion::class.java).`in`(Scopes.SINGLETON)
+            bind(LocRepository::class.java).`in`(Scopes.SINGLETON)
+            bind(RegionListSmall::class.java).`in`(Scopes.SINGLETON)
+            bind(RegionListLarge::class.java).`in`(Scopes.SINGLETON)
+            bind(RegionRegistry::class.java).`in`(Scopes.SINGLETON)
+            bind(RegionRepository::class.java).`in`(Scopes.SINGLETON)
+            bind(ObjRegistry::class.java).`in`(Scopes.SINGLETON)
+            bind(ObjRepository::class.java).`in`(Scopes.SINGLETON)
+            bind(WorldRepository::class.java).`in`(Scopes.SINGLETON)
+
+            // These type lists can be modified by tests to ensure interactions pass
+            // validation checks. Tests need the flexibility to create and modify these
+            // types. Without this, interactions with custom "test types" would likely
+            // fail at the packet-handler level, as the associated `UnpackedXType.op`
+            // is checked for validity.
+            //
+            // The word "likely" is used because the id of a test type may conflict with
+            // an existing type that has the required op, causing the interaction to pass
+            // the validity check by coincidence.
+            bind(LocTypeList::class.java).toInstance(cacheTypes.locs.copy())
+            bind(ObjTypeList::class.java).toInstance(cacheTypes.objs.copy())
+
+            // Though similar, the npc type list **does not** require this flexibility.
+            // Each `Npc` stores a reference to its `UnpackedNpcType` upon creation,
+            // ensuring that any test type used to spawn a npc will automatically pass
+            // the op validity check. It is safe to share the same `NpcTypeList`.
+            bind(NpcTypeList::class.java).toInstance(cacheTypes.npcs)
+
+            // Currently, there is no need to mutate the following type lists.
+            // Therefore, we can reuse their shared instance across test scopes.
+            bind(ComponentTypeList::class.java).toInstance(cacheTypes.components)
+            bind(EnumTypeList::class.java).toInstance(cacheTypes.enums)
+            bind(FontMetricsTypeList::class.java).toInstance(cacheTypes.fonts)
+            bind(InterfaceTypeList::class.java).toInstance(cacheTypes.interfaces)
+            bind(InvTypeList::class.java).toInstance(cacheTypes.invs)
+            bind(ParamTypeList::class.java).toInstance(cacheTypes.params)
+            bind(SeqTypeList::class.java).toInstance(cacheTypes.seqs)
+            bind(StatTypeList::class.java).toInstance(cacheTypes.stats)
+            bind(SynthTypeList::class.java).toInstance(cacheTypes.synths)
+            bind(VarBitTypeList::class.java).toInstance(cacheTypes.varbits)
+            bind(VarpTypeList::class.java).toInstance(cacheTypes.varps)
+
+            bind(CheatCommandMap::class.java).`in`(Scopes.SINGLETON)
+
+            Multibinder.newSetBinder(binder(), InvisibleLevelMod::class.java)
+            bind(InvisibleLevels::class.java).`in`(Scopes.SINGLETON)
+
+            Multibinder.newSetBinder(binder(), XpMod::class.java)
+            bind(XpModifiers::class.java).`in`(Scopes.SINGLETON)
+
+            bind(MarketPrices::class.java)
+                .to(DefaultMarketPrices::class.java)
+                .`in`(Scopes.SINGLETON)
+
+            bind(EnumTypeMapResolver::class.java)
+                .toProvider(EnumTypeMapResolverProvider::class.java)
+                .`in`(Scopes.SINGLETON)
+
+            bind(NpcHitModifier::class.java).to(StandardNpcHitModifier::class.java)
+            bind(NpcHitProcessor::class.java).to(StandardNpcHitProcessor::class.java)
+            bind(InstantPlayerHitProcessor::class.java).to(DamageOnlyPlayerHitProcessor::class.java)
         }
 
         private class EnumTypeMapResolverProvider
@@ -842,6 +854,20 @@ constructor(
                 val xp = PlayerSkillXPTable.getFineXPFromLevel(value)
                 backing.setFineXP(stat, xp)
             }
+        }
+
+        public fun setBaseLevel(stat: StatType, value: Int) {
+            backing.setBaseLevel(stat, value.toByte())
+            if (value <= 0) {
+                backing.setFineXP(stat, 0)
+            } else {
+                val xp = PlayerSkillXPTable.getFineXPFromLevel(value)
+                backing.setFineXP(stat, xp)
+            }
+        }
+
+        public fun setCurrentLevel(stat: StatType, value: Int) {
+            backing.setCurrentLevel(stat, value.toByte())
         }
     }
 

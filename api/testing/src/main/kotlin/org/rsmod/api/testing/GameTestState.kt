@@ -1,6 +1,7 @@
 package org.rsmod.api.testing
 
 import com.github.michaelbull.logging.InlineLogger
+import com.google.inject.AbstractModule
 import com.google.inject.Injector
 import kotlin.jvm.optionals.getOrNull
 import kotlin.reflect.KClass
@@ -59,8 +60,8 @@ public class GameTestState {
      * runGameTest(WoodcuttingScript::class) { ... }
      * ```
      *
-     * @param scripts The [PluginScript] classes relevant to the test scope. If specified, only
-     *   these script's events will be loaded. Otherwise, no plugin events are registered.
+     * @param scripts The [PluginScript] classes relevant to the test scope. If specified, only the
+     *   events for these scripts will be loaded. Otherwise, no plugin events are registered.
      * @see [GameTestScope]
      */
     public fun runGameTest(
@@ -68,6 +69,71 @@ public class GameTestState {
         scope: GameTestScope = GameTestScope.Builder(this, scripts.toSet()).build(),
         testBody: GameTestScope.() -> Unit,
     ): Unit = testBody(scope)
+
+    /**
+     * Runs a game test with optional isolated script contexts and an injected dependency.
+     *
+     * This function allows for injecting a **single test-specific dependency** via an optional
+     * child module, while also providing script isolation similar to the simpler [runGameTest]. The
+     * injected dependency acts as a **wrapper** around one or more required dependencies, avoiding
+     * the need for multiple dependency parameters.
+     *
+     * ### Why This Matters
+     * Some tests require specialized dependencies that do not belong in [GameTestScope]. Instead of
+     * modifying `GameTestScope` for every unique test case, this function lets you supply a custom
+     * dependency through an optional **child module** and a **dependency wrapper class**. If no
+     * child module is provided, the parent's injector is used.
+     *
+     * **Example Usage:**
+     *
+     * ```
+     * object MeleeAccuracyTestModule : AbstractModule() {
+     *   override fun configure() {
+     *      bind(PvnMeleeAccuracy::class.java).`in`(Scopes.SINGLETON)
+     *   }
+     * }
+     * ```
+     * ```
+     * class MeleeAccuracyTestDependencies @Inject constructor(val accuracy: PvNMeleeAccuracy)
+     * ```
+     * ```
+     * runInjectedGameTest(
+     *  // Wrapper to be injected that contains sub-dependencies.
+     *  MeleeAccuracyTestDependencies::class,
+     *  // Optional child module for additional test-specific bindings. (Required in this example)
+     *  childModule = MeleeAccuracyTestModule,
+     * ) { deps -> // `deps` = the injected `MeleeAccuracyTestDependencies`.
+     *  val accuracy = deps.accuracy
+     *  val npc = npcFactory.create(...)
+     *  val hitChance = accuracy.getHitChance(player, npc, ...)
+     *  assertEquals(5000, hitChance)
+     * }
+     * ```
+     *
+     * **Why Use a "Dependency Wrapper" Class?**
+     * - Allowing multiple direct dependency parameters would necessitate a second vararg, making
+     *   the API messy and error-prone.
+     * - A wrapper class keeps the test API clean while still providing the flexibility needed for
+     *   injecting multiple related dependencies.
+     *
+     * @param dependency The class type of the **dependency wrapper** to be injected.
+     * @param childModule An optional [AbstractModule] that provides additional, test-specific
+     *   dependency bindings. If not provided, the parent's injector bindings will be used.
+     * @param scripts The [PluginScript] classes relevant to the test scope. If specified, only the
+     *   events for these scripts will be loaded; otherwise, no plugin events are registered.
+     * @see [GameTestScope]
+     */
+    public fun <T : Any> runInjectedGameTest(
+        dependency: KClass<T>,
+        childModule: AbstractModule? = null,
+        vararg scripts: KClass<out PluginScript>,
+        testBody: GameTestScope.(dependency: T) -> Unit,
+    ) {
+        val injector = GameTestScope.Builder(this, scripts.toSet()).buildInjector(childModule)
+        val scope = injector.getInstance(GameTestScope::class.java)
+        val injectedDependency = injector.getInstance(dependency.java)
+        testBody(scope, injectedDependency)
+    }
 
     /**
      * Runs a loosely-coupled test using the [BasicGameTestScope], which provides basic properties
