@@ -249,11 +249,11 @@
 65505	defend_sound
 65506	death_sound
 65507	slayer_category
-65508	stabdefence
-65509	slashdefence
-65510	rangedefence
-65511	magicdefence
-65512	_removed_param_65512
+65508	_removed_param_65508
+65509	_removed_param_65509
+65510	_removed_param_65510
+65511	_removed_param_65511
+65512	attack_melee
 65513	foe_only
 65514	poh_no_roof
 65515	poh_door_north

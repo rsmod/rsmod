@@ -13,7 +13,6 @@ import org.rsmod.api.combat.formulas.attributes.collector.MeleeWornAttributeColl
 import org.rsmod.api.combat.formulas.isSlayerTask
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.player.bonus.WornBonuses
-import org.rsmod.api.random.GameRandom
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.game.type.npc.UnpackedNpcType
@@ -25,13 +24,6 @@ constructor(
     private val npcCollector: CombatNpcAttributeCollector,
     private val wornCollector: MeleeWornAttributeCollector,
 ) {
-    // TODO(combat): Consider moving this as an internal top level function instead. Depends
-    //  on how ranged and magic hit chances are calculated.
-    public fun isSuccessfulHit(hitChance: Int, random: GameRandom): Boolean {
-        val randomRoll = random.of(maxExclusive = MeleeAccuracyOperations.HIT_CHANCE_SCALE)
-        return hitChance > randomRoll
-    }
-
     public fun getHitChance(
         player: Player,
         target: Npc,
@@ -41,11 +33,14 @@ constructor(
         specialMultiplier: Double,
     ): Int {
         // TODO(combat): npc param for "forced hit chance."
+
+        // TODO(combat): bool param for npcs that use their magic level as their "defence" level.
+        val targetDefence = target.defenceLvl
         val hitChance =
             computeHitChance(
                 source = player,
                 target = target.visType,
-                targetDefence = target.defenceLvl,
+                targetDefence = targetDefence,
                 targetCurrHp = target.hitpoints,
                 targetMaxHp = target.baseHitpointsLvl,
                 attackType = attackType,

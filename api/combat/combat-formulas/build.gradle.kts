@@ -23,6 +23,7 @@ dependencies {
     implementation(projects.engine.module)
     implementation(projects.engine.plugin)
     integrationImplementation(projects.api.combat.combatCommons)
+    integrationImplementation(projects.api.combat.combatWeapon)
     testImplementation(projects.api.combatMaxhit)
     testImplementation(projects.api.testing.testParams)
 }

@@ -33,6 +33,7 @@ object BaseObjs : ObjReferences() {
     val fire_cape = find("fire_cape")
     val amulet_of_fury = find("amulet_of_fury")
     val abyssal_whip = find("abyssal_whip")
+    val fighter_torso = find("fighter_torso")
     val bandos_chestplate = find("bandos_chestplate")
     val dragon_defender = find("dragon_defender")
     val bandos_tassets = find("bandos_tassets")
@@ -275,6 +276,26 @@ object BaseObjs : ObjReferences() {
     val dharoks_greataxe_50 = find("dharoks_greataxe_50")
     val dharoks_greataxe_25 = find("dharoks_greataxe_25")
 
+    val torags_helm_100 = find("torags_helm_100")
+    val torags_helm_75 = find("torags_helm_75")
+    val torags_helm_50 = find("torags_helm_50")
+    val torags_helm_25 = find("torags_helm_25")
+
+    val torags_platebody_100 = find("torags_platebody_100")
+    val torags_platebody_75 = find("torags_platebody_75")
+    val torags_platebody_50 = find("torags_platebody_50")
+    val torags_platebody_25 = find("torags_platebody_25")
+
+    val torags_platelegs_100 = find("torags_platelegs_100")
+    val torags_platelegs_75 = find("torags_platelegs_75")
+    val torags_platelegs_50 = find("torags_platelegs_50")
+    val torags_platelegs_25 = find("torags_platelegs_25")
+
+    val torags_hammers_100 = find("torags_hammers_100")
+    val torags_hammers_75 = find("torags_hammers_75")
+    val torags_hammers_50 = find("torags_hammers_50")
+    val torags_hammers_25 = find("torags_hammers_25")
+
     val veracs_helm_100 = find("veracs_helm_100")
     val veracs_helm_75 = find("veracs_helm_75")
     val veracs_helm_50 = find("veracs_helm_50")
@@ -294,6 +315,8 @@ object BaseObjs : ObjReferences() {
     val veracs_flail_75 = find("veracs_flail_75")
     val veracs_flail_50 = find("veracs_flail_50")
     val veracs_flail_25 = find("veracs_flail_25")
+
+    val amulet_of_the_damned_full = find("amulet_of_the_damned_full")
 
     val woodcutting_icon = find("dummyitem_woodcutting_icon", 2122627481130992920)
     val bank_icon = find("dummyitem_bank_icon", 7806876055985215263)

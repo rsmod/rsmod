@@ -4,15 +4,26 @@ import java.util.EnumSet
 import kotlin.math.min
 import kotlin.math.roundToInt
 import org.rsmod.api.combat.accuracy.player.PlayerMeleeAccuracy
+import org.rsmod.api.combat.commons.styles.AttackStyle
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
 import org.rsmod.api.combat.formulas.EquipmentChecks
+import org.rsmod.api.combat.formulas.HIT_CHANCE_SCALE
 import org.rsmod.api.combat.formulas.attributes.CombatNpcAttributes
 import org.rsmod.api.combat.formulas.attributes.CombatWornAttributes
 import org.rsmod.api.combat.formulas.scale
+import org.rsmod.api.config.refs.objs
 import org.rsmod.api.config.refs.stats
 import org.rsmod.api.config.refs.varbits
+import org.rsmod.api.player.front
+import org.rsmod.api.player.hat
+import org.rsmod.api.player.legs
+import org.rsmod.api.player.righthand
+import org.rsmod.api.player.stat.baseHitpointsLvl
+import org.rsmod.api.player.stat.hitpoints
+import org.rsmod.api.player.torso
 import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.Inventory
+import org.rsmod.game.obj.isType
 import org.rsmod.game.type.obj.Wearpos
 import org.rsmod.game.vars.VarPlayerIntMap
 
@@ -21,13 +32,6 @@ private typealias WornAttr = CombatWornAttributes
 private typealias NpcAttr = CombatNpcAttributes
 
 public object MeleeAccuracyOperations {
-    /**
-     * The hit chance formulas ([calculateHitRoll] and [calculateFangHitRoll]) internally use
-     * decimals (e.g., `1%` = `0.01`, `100%` = `1.0`). To maintain consistency with other combat
-     * formulas that use whole integers, we scale them using this constant.
-     */
-    public const val HIT_CHANCE_SCALE: Int = 10_000
-
     public fun modifyAttackRoll(
         attackRoll: Int,
         wornAttributes: EnumSet<CombatWornAttributes>,
@@ -262,9 +266,9 @@ public object MeleeAccuracyOperations {
         worn: Inventory,
         attackStyle: MeleeAttackStyle?,
     ): Int {
-        val styleBonus = attackStyle.styleBonus()
-        val prayerBonus = vars.prayerBonus()
-        val voidBonus = worn.voidBonus()
+        val styleBonus = attackStyle.offensiveStyleBonus()
+        val prayerBonus = vars.offensivePrayerBonus()
+        val voidBonus = worn.offensiveVoidBonus()
         return PlayerMeleeAccuracy.calculateEffectiveAttack(
             visibleAttackLvl = visLevel,
             styleBonus = styleBonus,
@@ -273,14 +277,14 @@ public object MeleeAccuracyOperations {
         )
     }
 
-    private fun MeleeAttackStyle?.styleBonus(): Int =
+    private fun MeleeAttackStyle?.offensiveStyleBonus(): Int =
         when (this) {
             MeleeAttackStyle.Controlled -> 9
             MeleeAttackStyle.Accurate -> 11
             else -> 8
         }
 
-    private fun VarPlayerIntMap.prayerBonus(): Double =
+    private fun VarPlayerIntMap.offensivePrayerBonus(): Double =
         when {
             this[varbits.clarity_of_thought] == 1 -> 1.05
             this[varbits.improved_reflexes] == 1 -> 1.1
@@ -290,7 +294,7 @@ public object MeleeAccuracyOperations {
             else -> 1.0
         }
 
-    private fun Inventory.voidBonus(): Double {
+    private fun Inventory.offensiveVoidBonus(): Double {
         val helm = this[Wearpos.Hat.slot]
         if (!EquipmentChecks.isVoidMeleeHelm(helm)) {
             return 1.0
@@ -312,5 +316,66 @@ public object MeleeAccuracyOperations {
         }
 
         return 1.1
+    }
+
+    public fun calculateEffectiveDefence(player: Player, attackStyle: AttackStyle?): Int {
+        val defenceLevel = player.statMap.getCurrentLevel(stats.defence).toInt()
+        val armourBonus = player.defensiveArmourBonus()
+        return calculateEffectiveDefence(
+            visLevel = defenceLevel,
+            armourBonus = armourBonus,
+            vars = player.vars,
+            attackStyle = attackStyle,
+        )
+    }
+
+    private fun calculateEffectiveDefence(
+        visLevel: Int,
+        armourBonus: Double,
+        vars: VarPlayerIntMap,
+        attackStyle: AttackStyle?,
+    ): Int {
+        val styleBonus = attackStyle.defensiveStyleBonus()
+        val prayerBonus = vars.defensivePrayerBonus()
+        return PlayerMeleeAccuracy.calculateEffectiveDefence(
+            visibleDefenceLvl = visLevel,
+            styleBonus = styleBonus,
+            prayerBonus = prayerBonus,
+            armourBonus = armourBonus,
+        )
+    }
+
+    private fun AttackStyle?.defensiveStyleBonus(): Int =
+        when (this) {
+            AttackStyle.LongRangeRanged -> 11
+            AttackStyle.DefensiveMelee -> 11
+            AttackStyle.ControlledMelee -> 9
+            else -> 8
+        }
+
+    private fun VarPlayerIntMap.defensivePrayerBonus(): Double =
+        when {
+            this[varbits.thick_skin] == 1 -> 1.05
+            this[varbits.rock_skin] == 1 -> 1.1
+            this[varbits.steel_skin] == 1 -> 1.15
+            this[varbits.chivalry] == 1 -> 1.20
+            this[varbits.piety] == 1 -> 1.25
+            else -> 1.0
+        }
+
+    private fun Player.defensiveArmourBonus(): Double {
+        if (!front.isType(objs.amulet_of_the_damned_full)) {
+            return 1.0
+        }
+
+        if (!EquipmentChecks.isToragSet(hat, torso, legs, righthand)) {
+            return 1.0
+        }
+
+        val currHitpoints = hitpoints
+        val maxHitpoints = baseHitpointsLvl
+        val missingPercent = (maxHitpoints - currHitpoints).toDouble() / maxHitpoints
+
+        return 1.0 + missingPercent
     }
 }

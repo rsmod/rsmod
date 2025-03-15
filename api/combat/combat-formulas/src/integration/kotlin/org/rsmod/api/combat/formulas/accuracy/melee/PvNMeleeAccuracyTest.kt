@@ -99,7 +99,7 @@ class PvNMeleeAccuracyTest {
         val attackStyle: MeleeAttackStyle? = null,
         val specMultiplier: Double = 1.0,
     ) {
-        fun againstNpc(npc: UnpackedNpcType) = copy(npc = npc)
+        fun withNpcTarget(npc: UnpackedNpcType) = copy(npc = npc)
 
         fun withNpcHp(currHp: Int, maxHp: Int) = copy(npcCurrHp = currHp, npcMaxHp = maxHp)
 
@@ -196,7 +196,7 @@ class PvNMeleeAccuracyTest {
                 Matchup(expectedAccuracy = 96.93)
                     .withAttackType(MeleeAttackType.Crush)
                     .withAttackStyle(MeleeAttackStyle.Accurate)
-                    .againstNpc(man),
+                    .withNpcTarget(man),
                 Matchup(expectedAccuracy = 46.57)
                     .withAttackType(MeleeAttackType.Stab)
                     .withAttackStyle(MeleeAttackStyle.Accurate)
@@ -210,7 +210,7 @@ class PvNMeleeAccuracyTest {
                     .withFeet(objs.primordial_boots)
                     .withRing(objs.ultor_ring)
                     .withPrayers(varbits.piety)
-                    .againstNpc(corporealBeast),
+                    .withNpcTarget(corporealBeast),
                 Matchup(expectedAccuracy = 92.86)
                     .withAttackType(MeleeAttackType.Stab)
                     .withAttackStyle(MeleeAttackStyle.Aggressive)
@@ -224,7 +224,7 @@ class PvNMeleeAccuracyTest {
                     .withFeet(objs.primordial_boots)
                     .withRing(objs.ultor_ring)
                     .withPrayers(varbits.chivalry)
-                    .againstNpc(abyssalDemon),
+                    .withNpcTarget(abyssalDemon),
                 Matchup(expectedAccuracy = 96.83)
                     .withAttackType(MeleeAttackType.Stab)
                     .withAttackStyle(MeleeAttackStyle.Aggressive)
@@ -239,7 +239,7 @@ class PvNMeleeAccuracyTest {
                     .withRing(objs.ultor_ring)
                     .withPrayers(varbits.chivalry)
                     .withSpecMultiplier(1.5)
-                    .againstNpc(abyssalDemon),
+                    .withNpcTarget(abyssalDemon),
             )
         }
     }
@@ -249,7 +249,7 @@ class PvNMeleeAccuracyTest {
     private companion object {
         val man =
             npcTypeFactory.create {
-                name = "Man (Green)"
+                name = "Man"
                 hitpoints = 7
                 paramMap = buildParams {
                     this[params.defence_stab] = -21

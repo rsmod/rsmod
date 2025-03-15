@@ -81,6 +81,32 @@ internal object EquipmentChecks {
                 objs.dharoks_greataxe_25,
             )
 
+    fun isToragSet(helm: InvObj?, top: InvObj?, legs: InvObj?, weapon: InvObj?): Boolean =
+        helm.isAnyType(
+            objs.torags_helm_100,
+            objs.torags_helm_75,
+            objs.torags_helm_50,
+            objs.torags_helm_25,
+        ) &&
+            top.isAnyType(
+                objs.torags_platebody_100,
+                objs.torags_platebody_75,
+                objs.torags_platebody_50,
+                objs.torags_platebody_25,
+            ) &&
+            legs.isAnyType(
+                objs.torags_platelegs_100,
+                objs.torags_platelegs_75,
+                objs.torags_platelegs_50,
+                objs.torags_platelegs_25,
+            ) &&
+            weapon.isAnyType(
+                objs.torags_hammers_100,
+                objs.torags_hammers_75,
+                objs.torags_hammers_50,
+                objs.torags_hammers_25,
+            )
+
     fun isJusticiarSet(helm: InvObj?, top: InvObj?, legs: InvObj?): Boolean =
         helm.isType(objs.justiciar_faceguard) &&
             top.isType(objs.justiciar_chestguard) &&

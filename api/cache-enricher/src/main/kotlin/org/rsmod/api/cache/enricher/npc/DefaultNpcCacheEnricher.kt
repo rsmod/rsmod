@@ -3,6 +3,7 @@ package org.rsmod.api.cache.enricher.npc
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.inject.Inject
+import org.rsmod.api.config.aliases.ParamInt
 import org.rsmod.api.config.aliases.ParamSeq
 import org.rsmod.api.config.aliases.ParamSynth
 import org.rsmod.api.config.refs.params
@@ -54,6 +55,7 @@ constructor(
         putSynth(config.attackSound, params.attack_sound)
         putSynth(config.defendSound, params.defend_sound)
         putSynth(config.deathSound, params.death_sound)
+        putInt(config.attackMelee, params.attack_melee)
         return this
     }
 
@@ -67,6 +69,12 @@ constructor(
         val id = sound ?: return
         val synth = SynthType(id, "synth_$id")
         param[paramType] = synth
+    }
+
+    private fun NpcPluginBuilder.putInt(value: Int?, paramType: ParamInt) {
+        if (value != null) {
+            param[paramType] = value
+        }
     }
 
     private companion object {
@@ -83,6 +91,7 @@ private data class ExternalNpcConfig(
     val bonusXp: Double?,
     val slayerReq: Int?,
     val slayerXp: Double?,
+    val attackMelee: Int?,
     val defenceLight: Int?,
     val defenceStandard: Int?,
     val defenceHeavy: Int?,

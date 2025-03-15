@@ -5,6 +5,7 @@ import org.rsmod.api.combat.commons.CombatAttack
 import org.rsmod.api.combat.commons.npc.attackRate
 import org.rsmod.api.combat.commons.player.combatPlayDefendFx
 import org.rsmod.api.combat.commons.player.queueCombatRetaliate
+import org.rsmod.api.combat.formulas.AccuracyFormulae
 import org.rsmod.api.combat.formulas.MaxHitFormulae
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.npc.access.StandardNpcAccess
@@ -17,7 +18,11 @@ import org.rsmod.game.type.obj.ObjTypeList
 
 internal class NpcCombat
 @Inject
-constructor(private val maxHits: MaxHitFormulae, private val objTypes: ObjTypeList) {
+constructor(
+    private val accuracy: AccuracyFormulae,
+    private val maxHits: MaxHitFormulae,
+    private val objTypes: ObjTypeList,
+) {
     fun attack(access: StandardNpcAccess, target: Player, attack: CombatAttack.NpcAttack) {
         when (attack) {
             is CombatAttack.NpcMelee -> access.attackMelee(target, attack)
@@ -45,9 +50,15 @@ constructor(private val maxHits: MaxHitFormulae, private val objTypes: ObjTypeLi
         anim(attackAnim)
         attackSound?.let(target::soundSynth)
 
-        // TODO(combat): Accuracy roll
-        val maxHit = maxHits.getMeleeMaxHit(npc, target, attack.type)
-        val damage = random.of(0..maxHit)
+        val successfulHit = accuracy.rollMeleeAccuracy(npc, target, attack.type, random)
+
+        val damage =
+            if (successfulHit) {
+                val maxHit = maxHits.getMeleeMaxHit(npc, target, attack.type)
+                random.of(0..maxHit)
+            } else {
+                0
+            }
 
         target.queueHit(npc, 1, HitType.Melee, damage)
         target.combatPlayDefendFx(damage, objTypes)
