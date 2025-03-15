@@ -81,8 +81,10 @@ public class GameTestState {
      * ### Why This Matters
      * Some tests require specialized dependencies that do not belong in [GameTestScope]. Instead of
      * modifying `GameTestScope` for every unique test case, this function lets you supply a custom
-     * dependency through an optional **child module** and a **dependency wrapper class**. If no
-     * child module is provided, the parent's injector is used.
+     * dependency through an optional **child module** and a **dependency wrapper class**. When no
+     * child module is provided, only the parent's injector bindings are used; when a child module
+     * is provided, its additional (or overriding) bindings are merged with the parent's
+     * configuration.
      *
      * **Example Usage:**
      *
@@ -102,7 +104,7 @@ public class GameTestState {
      *  MeleeAccuracyTestDependencies::class,
      *  // Optional child module for additional test-specific bindings. (Required in this example)
      *  childModule = MeleeAccuracyTestModule,
-     * ) { deps -> // `deps` = the injected `MeleeAccuracyTestDependencies`.
+     * ) { deps -> // `deps` is the injected `MeleeAccuracyTestDependencies`.
      *  val accuracy = deps.accuracy
      *  val npc = npcFactory.create(...)
      *  val hitChance = accuracy.getHitChance(player, npc, ...)
@@ -117,8 +119,9 @@ public class GameTestState {
      *   injecting multiple related dependencies.
      *
      * @param dependency The class type of the **dependency wrapper** to be injected.
-     * @param childModule An optional [AbstractModule] that provides additional, test-specific
-     *   dependency bindings. If not provided, the parent's injector bindings will be used.
+     * @param childModule An optional [AbstractModule] that provides additional or overriding
+     *   test-specific dependency bindings. If omitted, only the parent's injector bindings are
+     *   used.
      * @param scripts The [PluginScript] classes relevant to the test scope. If specified, only the
      *   events for these scripts will be loaded; otherwise, no plugin events are registered.
      * @see [GameTestScope]
