@@ -19,4 +19,6 @@ public enum class CombatNpcAttributes {
     Shade,
     TormentedDemonUnshielded,
     CorporealBeast,
+    Amascut,
+    QuarterHealth,
 }

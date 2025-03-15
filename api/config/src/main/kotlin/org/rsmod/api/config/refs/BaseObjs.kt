@@ -187,6 +187,8 @@ object BaseObjs : ObjReferences() {
     val elysian_spirit_shield = find("elysian_spirit_shield")
     val dinhs_bulwark = find("dinhs_bulwark")
     val dinhs_blazing_bulwark = find("dinhs_blazing_bulwark")
+    val osmumtens_fang = find("osmumtens_fang")
+    val osmumtens_fang_or = find("osmumtens_fang_or")
 
     val inquisitors_great_helm = find("inquisitors_great_helm")
     val inquisitors_hauberk = find("inquisitors_hauberk")
@@ -261,6 +263,26 @@ object BaseObjs : ObjReferences() {
     val dharoks_greataxe_75 = find("dharoks_greataxe_75")
     val dharoks_greataxe_50 = find("dharoks_greataxe_50")
     val dharoks_greataxe_25 = find("dharoks_greataxe_25")
+
+    val veracs_helm_100 = find("veracs_helm_100")
+    val veracs_helm_75 = find("veracs_helm_75")
+    val veracs_helm_50 = find("veracs_helm_50")
+    val veracs_helm_25 = find("veracs_helm_25")
+
+    val veracs_brassard_100 = find("veracs_brassard_100")
+    val veracs_brassard_75 = find("veracs_brassard_75")
+    val veracs_brassard_50 = find("veracs_brassard_50")
+    val veracs_brassard_25 = find("veracs_brassard_25")
+
+    val veracs_plateskirt_100 = find("veracs_plateskirt_100")
+    val veracs_plateskirt_75 = find("veracs_plateskirt_75")
+    val veracs_plateskirt_50 = find("veracs_plateskirt_50")
+    val veracs_plateskirt_25 = find("veracs_plateskirt_25")
+
+    val veracs_flail_100 = find("veracs_flail_100")
+    val veracs_flail_75 = find("veracs_flail_75")
+    val veracs_flail_50 = find("veracs_flail_50")
+    val veracs_flail_25 = find("veracs_flail_25")
 
     val woodcutting_icon = find("dummyitem_woodcutting_icon", 2122627481130992920)
     val bank_icon = find("dummyitem_bank_icon", 7806876055985215263)

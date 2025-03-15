@@ -7,8 +7,17 @@ import org.rsmod.api.config.refs.params
 import org.rsmod.game.type.npc.UnpackedNpcType
 
 public class CombatNpcAttributeCollector {
-    public fun collect(type: UnpackedNpcType, slayerTask: Boolean): EnumSet<CombatNpcAttributes> {
+    public fun collect(
+        type: UnpackedNpcType,
+        currHp: Int,
+        maxHp: Int,
+        slayerTask: Boolean,
+    ): EnumSet<CombatNpcAttributes> {
         val npcAttributes = EnumSet.noneOf(CombatNpcAttributes::class.java)
+
+        if (currHp < maxHp / 4) {
+            npcAttributes += CombatNpcAttributes.QuarterHealth
+        }
 
         if (slayerTask) {
             npcAttributes += CombatNpcAttributes.SlayerTask
@@ -80,6 +89,11 @@ public class CombatNpcAttributeCollector {
 
         if (type.isType(npcs.corporeal_beast)) {
             npcAttributes += CombatNpcAttributes.CorporealBeast
+        }
+
+        val amascutNpc = false // TODO(combat): param(params.tomb_of_amascut)
+        if (amascutNpc) {
+            npcAttributes += CombatNpcAttributes.Amascut
         }
 
         return npcAttributes

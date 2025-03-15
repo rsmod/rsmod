@@ -37,8 +37,8 @@ constructor(
      *
      * **Notes:**
      * - This function should be used instead of [computeMaxHit] in most cases to ensure consistency
-     *   in max hit calculations. Future optimizations, such as caching, may depend on this function
-     *   as the main entry point.
+     *   in max hit calculations. Future optimizations may depend on this function as the main entry
+     *   point.
      * - The `com_maxhit` varp for [player] is updated with the computed max hit.
      */
     public fun getMaxHit(
@@ -48,12 +48,16 @@ constructor(
         attackStyle: MeleeAttackStyle?,
         specialMultiplier: Double,
     ): Int {
-        // Currently, we recalculate the max hit on every call to ensure the result reflects
-        // the latest player state. If profiling shows this calculation becomes a performance
-        // bottleneck, we can plan to optimize by using the cached `com_maxhit` varp while
-        // adding safeguards to prevent stale data.
         val maxHit =
-            computeMaxHit(player, target.visType, attackType, attackStyle, specialMultiplier)
+            computeMaxHit(
+                source = player,
+                target = target.visType,
+                targetCurrHp = target.hitpoints,
+                targetMaxHp = target.baseHitpointsLvl,
+                attackType = attackType,
+                attackStyle = attackStyle,
+                specialMultiplier = specialMultiplier,
+            )
         player.maxHit = maxHit
         return maxHit
     }
@@ -61,6 +65,8 @@ constructor(
     public fun computeMaxHit(
         source: Player,
         target: UnpackedNpcType,
+        targetCurrHp: Int,
+        targetMaxHp: Int,
         attackType: MeleeAttackType?,
         attackStyle: MeleeAttackStyle?,
         specialMultiplier: Double,
@@ -69,7 +75,7 @@ constructor(
         addProcAttributes(wornAttributes)
 
         val slayerTask = target.isSlayerTask(source)
-        val npcAttributes = npcCollector.collect(target, slayerTask)
+        val npcAttributes = npcCollector.collect(target, targetCurrHp, targetMaxHp, slayerTask)
 
         val modifiedDamage =
             computeModifiedDamage(source, attackStyle, wornAttributes, npcAttributes)
@@ -124,7 +130,7 @@ constructor(
     }
 
     private fun addProcAttributes(attribs: EnumSet<CombatWornAttributes>) {
-        if (CombatWornAttributes.KerisWeapon in attribs && random.randomBoolean(51)) {
+        if (attribs.containsKerisWeaponAttr() && random.randomBoolean(51)) {
             attribs += CombatWornAttributes.KerisProc
         }
 
@@ -132,4 +138,9 @@ constructor(
             attribs += CombatWornAttributes.GadderhammerProc
         }
     }
+
+    private fun EnumSet<CombatWornAttributes>.containsKerisWeaponAttr(): Boolean =
+        CombatWornAttributes.KerisWeapon in this ||
+            CombatWornAttributes.KerisBreachPartisan in this ||
+            CombatWornAttributes.KerisSunPartisan in this
 }

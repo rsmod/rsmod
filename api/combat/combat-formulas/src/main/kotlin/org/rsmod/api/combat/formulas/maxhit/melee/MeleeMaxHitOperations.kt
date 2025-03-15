@@ -62,11 +62,23 @@ public object MeleeMaxHitOperations {
             modified += baseDamage / 10
         }
 
-        if (WornAttr.DragonHunterWeapon in wornAttributes && NpcAttr.Draconic in npcAttributes) {
+        if (WornAttr.DragonHunterLance in wornAttributes && NpcAttr.Draconic in npcAttributes) {
+            modified = scale(modified, multiplier = 6, divisor = 5)
+        }
+
+        if (WornAttr.DragonHunterWand in wornAttributes && NpcAttr.Draconic in npcAttributes) {
             modified = scale(modified, multiplier = 6, divisor = 5)
         }
 
         if (WornAttr.KerisWeapon in wornAttributes && NpcAttr.Kalphite in npcAttributes) {
+            modified = scale(modified, multiplier = 133, divisor = 100)
+        }
+
+        if (WornAttr.KerisBreachPartisan in wornAttributes && NpcAttr.Kalphite in npcAttributes) {
+            modified = scale(modified, multiplier = 133, divisor = 100)
+        }
+
+        if (WornAttr.KerisSunPartisan in wornAttributes && NpcAttr.Kalphite in npcAttributes) {
             modified = scale(modified, multiplier = 133, divisor = 100)
         }
 

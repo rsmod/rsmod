@@ -23,6 +23,8 @@ public class MeleeWornAttributeCollector @Inject constructor(private val objType
 
         if (attackType == MeleeAttackType.Crush) {
             wornAttributes += CombatWornAttributes.Crush
+        } else if (attackType == MeleeAttackType.Stab) {
+            wornAttributes += CombatWornAttributes.Stab
         }
 
         if (player.skullIcon == constants.skullicon_forinthry_surge) {
@@ -71,8 +73,20 @@ public class MeleeWornAttributeCollector @Inject constructor(private val objType
                     CombatWornAttributes.TzHaarWeapon
                 }
 
-                weapon.isAnyType(objs.dragon_hunter_lance, objs.dragon_hunter_wand) -> {
-                    CombatWornAttributes.DragonHunterWeapon
+                weapon.isType(objs.dragon_hunter_lance) -> {
+                    CombatWornAttributes.DragonHunterLance
+                }
+
+                weapon.isType(objs.dragon_hunter_wand) -> {
+                    CombatWornAttributes.DragonHunterWand
+                }
+
+                weapon.isType(objs.keris_partisan_of_breaching) -> {
+                    CombatWornAttributes.KerisBreachPartisan
+                }
+
+                weapon.isType(objs.keris_partisan_of_the_sun) -> {
+                    CombatWornAttributes.KerisSunPartisan
                 }
 
                 weapon.isAnyType(
@@ -81,9 +95,7 @@ public class MeleeWornAttributeCollector @Inject constructor(private val objType
                     objs.keris_p_plus,
                     objs.keris_p_plus_plus,
                     objs.keris_partisan,
-                    objs.keris_partisan_of_breaching,
                     objs.keris_partisan_of_corruption,
-                    objs.keris_partisan_of_the_sun,
                 ) -> {
                     CombatWornAttributes.KerisWeapon
                 }
@@ -118,6 +130,10 @@ public class MeleeWornAttributeCollector @Inject constructor(private val objType
 
                 weapon.isType(objs.inquisitors_mace) -> {
                     CombatWornAttributes.InquisitorWeapon
+                }
+
+                weapon.isAnyType(objs.osmumtens_fang, objs.osmumtens_fang_or) -> {
+                    CombatWornAttributes.OsmumtensFang
                 }
 
                 weapon.isType(objs.gadderhammer) -> {

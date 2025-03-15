@@ -2,6 +2,7 @@ package org.rsmod.api.combat.formulas.attributes
 
 public enum class CombatWornAttributes {
     Crush,
+    Stab,
     AmuletOfAvarice,
     SalveAmulet,
     SalveAmuletE,
@@ -10,8 +11,11 @@ public enum class CombatWornAttributes {
     BurningClaws,
     Obsidian,
     TzHaarWeapon,
-    DragonHunterWeapon,
+    DragonHunterLance,
+    DragonHunterWand,
     KerisWeapon,
+    KerisBreachPartisan,
+    KerisSunPartisan,
     BarroniteMaceWeapon,
     ForinthrySurge,
     RevenantMeleeWeapon,
