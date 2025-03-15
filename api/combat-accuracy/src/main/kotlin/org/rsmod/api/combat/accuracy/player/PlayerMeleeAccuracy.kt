@@ -1,6 +1,6 @@
 package org.rsmod.api.combat.accuracy.player
 
-import org.rsmod.api.combat.accuracy.PERCENT_SCALE
+import org.rsmod.api.combat.accuracy.safePercentScale
 import org.rsmod.api.combat.accuracy.scaleByPercent
 
 public object PlayerMeleeAccuracy {
@@ -36,8 +36,8 @@ public object PlayerMeleeAccuracy {
         require(prayerBonus >= 1.0) { "Prayer bonus must be greater or equal to 1." }
         require(voidBonus >= 1.0) { "Void bonus must be greater or equal to 1." }
 
-        val prayerPercent = (prayerBonus * PERCENT_SCALE).toInt()
-        val voidPercent = (voidBonus * PERCENT_SCALE).toInt()
+        val prayerPercent = safePercentScale(prayerBonus)
+        val voidPercent = safePercentScale(voidBonus)
 
         var effectiveLevel = visibleAttackLvl
         effectiveLevel = scaleByPercent(effectiveLevel, prayerPercent)
@@ -79,11 +79,11 @@ public object PlayerMeleeAccuracy {
         require(prayerBonus >= 1.0) { "Prayer bonus must be greater or equal to 1." }
         require(armourBonus >= 1.0) { "Armour bonus must be greater or equal to 1." }
 
-        val prayerPercent = (prayerBonus * PERCENT_SCALE).toInt()
+        val prayerPercent = safePercentScale(prayerBonus)
         // This could be declared similar to `prayerPercent` for this use case, however we are
         // keeping it consistent with `weaponPercent` from melee max hit as they are similar
         // concepts.
-        val armourPercent = ((armourBonus - 1.0) * PERCENT_SCALE).toInt()
+        val armourPercent = safePercentScale(armourBonus - 1.0)
 
         var effectiveLevel = visibleDefenceLvl
         effectiveLevel = scaleByPercent(effectiveLevel, prayerPercent)

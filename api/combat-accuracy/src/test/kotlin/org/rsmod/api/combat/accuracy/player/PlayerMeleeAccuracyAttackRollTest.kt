@@ -58,6 +58,8 @@ class PlayerMeleeAccuracyAttackRollTest {
 
         fun withClarityOfThought() = copy(prayerBonus = 1.05)
 
+        fun withChivalry() = copy(prayerBonus = 1.15)
+
         fun withPiety() = copy(prayerBonus = 1.2)
     }
 
@@ -135,6 +137,17 @@ class PlayerMeleeAccuracyAttackRollTest {
                     .withSmellingSalts()
                     .withPiety()
                     .withAttackBonus(bonus = 141),
+                /* Loadout Group */
+                Loadout(expectedAttackRoll = 36693)
+                    .withDefensiveStyle()
+                    .withSmellingSalts()
+                    .withChivalry()
+                    .withAttackBonus(bonus = 179),
+                Loadout(expectedAttackRoll = 37422)
+                    .withAccurateStyle()
+                    .withSmellingSalts()
+                    .withChivalry()
+                    .withAttackBonus(bonus = 179),
             )
     }
 }

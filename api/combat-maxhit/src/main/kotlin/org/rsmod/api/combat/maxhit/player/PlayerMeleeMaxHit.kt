@@ -1,6 +1,6 @@
 package org.rsmod.api.combat.maxhit.player
 
-import org.rsmod.api.combat.maxhit.PERCENT_SCALE
+import org.rsmod.api.combat.maxhit.safePercentScale
 import org.rsmod.api.combat.maxhit.scaleByPercent
 
 public object PlayerMeleeMaxHit {
@@ -41,9 +41,9 @@ public object PlayerMeleeMaxHit {
         require(voidBonus >= 1.0) { "Void bonus must be greater or equal to 1." }
         require(weaponBonus >= 1.0) { "Weapon bonus must be greater or equal to 1." }
 
-        val prayerPercent = (prayerBonus * PERCENT_SCALE).toInt()
-        val voidPercent = (voidBonus * PERCENT_SCALE).toInt()
-        val weaponPercent = ((weaponBonus - 1.0) * PERCENT_SCALE).toInt()
+        val prayerPercent = safePercentScale(prayerBonus)
+        val voidPercent = safePercentScale(voidBonus)
+        val weaponPercent = safePercentScale(weaponBonus - 1.0)
 
         var effectiveLevel = visibleStrengthLvl
 

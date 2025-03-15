@@ -1,6 +1,6 @@
 package org.rsmod.api.combat.accuracy.player
 
-import org.rsmod.api.combat.accuracy.PERCENT_SCALE
+import org.rsmod.api.combat.accuracy.safePercentScale
 import org.rsmod.api.combat.accuracy.scaleByPercent
 
 public object PlayerMagicAccuracy {
@@ -35,8 +35,8 @@ public object PlayerMagicAccuracy {
         require(prayerBonus >= 1.0) { "Prayer bonus must be greater or equal to 1." }
         require(voidBonus >= 1.0) { "Void bonus must be greater or equal to 1." }
 
-        val prayerPercent = (prayerBonus * PERCENT_SCALE).toInt()
-        val voidPercent = (voidBonus * PERCENT_SCALE).toInt()
+        val prayerPercent = safePercentScale(prayerBonus)
+        val voidPercent = safePercentScale(voidBonus)
 
         var effectiveLevel = visibleMagicLvl
         effectiveLevel = scaleByPercent(effectiveLevel, prayerPercent)
@@ -93,13 +93,13 @@ public object PlayerMagicAccuracy {
         require(magicPrayerBonus >= 1.0) { "Magic prayer bonus must be greater or equal to 1." }
         require(armourBonus >= 1.0) { "Armour bonus must be greater or equal to 1." }
 
-        val defPrayerPercent = (defencePrayerBonus * PERCENT_SCALE).toInt()
-        val armourPercent = ((armourBonus - 1.0) * PERCENT_SCALE).toInt()
+        val defPrayerPercent = safePercentScale(defencePrayerBonus)
+        val armourPercent = safePercentScale(armourBonus - 1.0)
         var effectiveDefenceLevel = visibleDefenceLvl
         effectiveDefenceLevel = scaleByPercent(effectiveDefenceLevel, defPrayerPercent)
         effectiveDefenceLevel += scaleByPercent(effectiveDefenceLevel, armourPercent)
 
-        val magicPrayerPercent = (magicPrayerBonus * PERCENT_SCALE).toInt()
+        val magicPrayerPercent = safePercentScale(magicPrayerBonus)
         var effectiveMagicLevel = visibleMagicLvl
         effectiveMagicLevel = scaleByPercent(effectiveMagicLevel, magicPrayerPercent)
         effectiveDefenceLevel = (effectiveMagicLevel * 7 / 10) + (effectiveDefenceLevel * 3 / 10)
