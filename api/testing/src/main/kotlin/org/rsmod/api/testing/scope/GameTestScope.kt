@@ -43,6 +43,7 @@ import org.rsmod.api.player.protect.clearPendingAction
 import org.rsmod.api.player.ui.ifClose
 import org.rsmod.api.player.ui.ifOpenMain
 import org.rsmod.api.player.ui.ifOpenSub
+import org.rsmod.api.player.vars.VarPlayerIntMapSetter
 import org.rsmod.api.player.vars.varMoveSpeed
 import org.rsmod.api.random.CoreRandom
 import org.rsmod.api.random.DefaultGameRandom
@@ -129,7 +130,9 @@ import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.stat.StatTypeList
 import org.rsmod.game.type.synth.SynthTypeList
 import org.rsmod.game.type.util.EnumTypeMapResolver
+import org.rsmod.game.type.varbit.VarBitType
 import org.rsmod.game.type.varbit.VarBitTypeList
+import org.rsmod.game.type.varp.VarpType
 import org.rsmod.game.type.varp.VarpTypeList
 import org.rsmod.game.ui.UserInterface
 import org.rsmod.map.CoordGrid
@@ -230,6 +233,22 @@ constructor(
         player.slotId = -1
         player.destroy()
         players.remove(slot)
+    }
+
+    public fun Player.setVarp(varp: VarpType, value: Int) {
+        VarPlayerIntMapSetter.set(this, varp, value)
+    }
+
+    public fun Player.setVarBit(varbit: VarBitType, value: Int) {
+        VarPlayerIntMapSetter.set(this, varbit, value)
+    }
+
+    public fun Player.setCurrentLevel(stat: StatType, level: Int) {
+        stats.setCurrentLevel(stat, level)
+    }
+
+    public fun Player.setBaseLevel(stat: StatType, level: Int) {
+        stats.setBaseLevel(stat, level)
     }
 
     public fun Player.setMoveSpeed(speed: MoveSpeed) {
