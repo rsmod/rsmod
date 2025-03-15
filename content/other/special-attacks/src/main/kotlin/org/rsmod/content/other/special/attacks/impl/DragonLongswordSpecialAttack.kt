@@ -48,7 +48,7 @@ class DragonLongswordSpecialAttack : SpecialAttackMap {
                     attack = attack,
                     accuracyBoost = 25,
                     damageBoost = 25,
-                    blockAttackType = MeleeAttackType.Slash,
+                    blockType = MeleeAttackType.Slash,
                 )
             manager.queueMeleeHit(this, target, damage, delay = 1)
         }

@@ -4,6 +4,7 @@ import jakarta.inject.Inject
 import org.rsmod.api.combat.commons.CombatAttack
 import org.rsmod.api.combat.commons.npc.combatPlayDefendFx
 import org.rsmod.api.combat.commons.npc.queueCombatRetaliate
+import org.rsmod.api.combat.formulas.AccuracyFormulae
 import org.rsmod.api.combat.formulas.MaxHitFormulae
 import org.rsmod.api.combat.fx.MeleeAnimationAndSound
 import org.rsmod.api.combat.player.canPerformMeleeSpecial
@@ -29,6 +30,7 @@ constructor(
     private val specialsReg: SpecialAttackRegistry,
     private val specialEnergy: SpecialAttackEnergy,
     private val hitModifier: NpcHitModifier,
+    private val accuracy: AccuracyFormulae,
     private val maxHits: MaxHitFormulae,
 ) {
     suspend fun attack(access: ProtectedAccess, target: Npc, attack: CombatAttack.PlayerAttack) {
@@ -89,9 +91,24 @@ constructor(
         anim(attackAnim)
         soundSynth(attackSound)
 
-        // TODO(combat): Accuracy roll
-        val maxHit = maxHits.getMeleeMaxHit(player, npc, type, style)
-        val damage = random.of(0..maxHit)
+        val successfulHit =
+            accuracy.rollMeleeAccuracy(
+                player = player,
+                target = npc,
+                attackType = type,
+                attackStyle = style,
+                blockType = type,
+                specMultiplier = 1.0,
+                random = random,
+            )
+
+        val damage =
+            if (successfulHit) {
+                val maxHit = maxHits.getMeleeMaxHit(player, npc, type, style)
+                random.of(0..maxHit)
+            } else {
+                0
+            }
 
         npc.queueHit(player, 1, HitType.Melee, damage, hitModifier)
         // TODO(combat): Add hero points. For emulation purposes, I'm pretty certain hero points

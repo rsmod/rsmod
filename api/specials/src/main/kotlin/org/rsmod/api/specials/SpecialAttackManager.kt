@@ -8,6 +8,7 @@ import org.rsmod.api.combat.commons.player.combatPlayDefendFx
 import org.rsmod.api.combat.commons.player.queueCombatRetaliate
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
 import org.rsmod.api.combat.commons.types.MeleeAttackType
+import org.rsmod.api.combat.formulas.AccuracyFormulae
 import org.rsmod.api.combat.formulas.MaxHitFormulae
 import org.rsmod.api.npc.hit.modifier.NpcHitModifier
 import org.rsmod.api.npc.hit.queueHit
@@ -34,6 +35,7 @@ constructor(
     private val objTypes: ObjTypeList,
     private val energy: SpecialAttackEnergy,
     private val weapons: SpecialAttackWeapons,
+    private val accuracy: AccuracyFormulae,
     private val maxHits: MaxHitFormulae,
     private val npcHitModifier: NpcHitModifier,
     private val npcInteractions: NpcInteractions,
@@ -99,36 +101,70 @@ constructor(
         attack: CombatAttack.Melee,
         accuracyBoost: Int,
         damageBoost: Int,
-        hitAttackType: MeleeAttackType? = attack.type,
-        hitAttackStyle: MeleeAttackStyle? = attack.style,
-        blockAttackType: MeleeAttackType? = attack.type,
+        attackType: MeleeAttackType? = attack.type,
+        attackStyle: MeleeAttackStyle? = attack.style,
+        blockType: MeleeAttackType? = attack.type,
     ): Int {
         val successfulAccuracyRoll =
             rollMeleeAccuracy(
                 source = source,
                 target = target,
                 percentBoost = accuracyBoost,
-                hitAttackType = hitAttackType,
-                hitAttackStyle = hitAttackStyle,
-                blockAttackType = blockAttackType,
+                attackType = attackType,
+                attackStyle = attackStyle,
+                blockType = blockType,
             )
         if (!successfulAccuracyRoll) {
             return 0
         }
-        return rollMeleeMaxHit(source, target, hitAttackType, hitAttackStyle, damageBoost)
+        return rollMeleeMaxHit(source, target, attackType, attackStyle, damageBoost)
     }
 
     public fun rollMeleeAccuracy(
         source: ProtectedAccess,
         target: PathingEntity,
+        attackType: MeleeAttackType?,
+        attackStyle: MeleeAttackStyle?,
+        blockType: MeleeAttackType?,
         percentBoost: Int,
-        hitAttackType: MeleeAttackType?,
-        hitAttackStyle: MeleeAttackStyle?,
-        blockAttackType: MeleeAttackType?,
     ): Boolean {
-        // TODO(combat): Accuracy formula
-        return true
+        val multiplier = 1 + (percentBoost / 100.0)
+        return when (target) {
+            is Npc -> {
+                rollMeleeAccuracy(source, target, attackType, attackStyle, blockType, multiplier)
+            }
+            is Player -> {
+                rollMeleeAccuracy(source, target, attackType, attackStyle, blockType, multiplier)
+            }
+        }
     }
+
+    private fun rollMeleeAccuracy(
+        source: ProtectedAccess,
+        target: Npc,
+        attackType: MeleeAttackType?,
+        attackStyle: MeleeAttackStyle?,
+        blockType: MeleeAttackType?,
+        specMultiplier: Double,
+    ): Boolean =
+        accuracy.rollMeleeAccuracy(
+            player = source.player,
+            target = target,
+            attackType = attackType,
+            attackStyle = attackStyle,
+            blockType = blockType,
+            specMultiplier = specMultiplier,
+            random = random,
+        )
+
+    private fun rollMeleeAccuracy(
+        source: ProtectedAccess,
+        target: Player,
+        attackType: MeleeAttackType?,
+        attackStyle: MeleeAttackStyle?,
+        blockType: MeleeAttackType?,
+        specMultiplier: Double,
+    ): Boolean = TODO() // TODO(combat): pvp accuracy
 
     public fun rollMeleeMaxHit(
         source: ProtectedAccess,

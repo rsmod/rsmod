@@ -40,6 +40,7 @@ constructor(
         blockType: MeleeAttackType?,
         specialMultiplier: Double,
     ): Int {
+        // TODO(combat): npc param for "forced hit chance."
         val hitChance =
             computeHitChance(
                 source = player,
