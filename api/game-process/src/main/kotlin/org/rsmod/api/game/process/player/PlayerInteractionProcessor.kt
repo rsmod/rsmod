@@ -31,7 +31,6 @@ import org.rsmod.game.interact.InteractionNpcT
 import org.rsmod.game.interact.InteractionObj
 import org.rsmod.game.interact.InteractionPlayer
 import org.rsmod.game.interact.InteractionPlayerOp
-import org.rsmod.game.movement.RouteRequestPathingEntity
 import org.rsmod.interact.InteractionStep
 import org.rsmod.interact.InteractionTarget
 import org.rsmod.interact.Interactions
@@ -55,8 +54,7 @@ constructor(
     private val protectedAccess: ProtectedAccessLauncher,
 ) {
     public fun processPreMovement(player: Player, interaction: Interaction) {
-        // While the player is busy, interactions should not be canceled by
-        // [shouldCancelInteraction].
+        // If the player is busy, interactions should not be canceled by [shouldCancelInteraction].
         if (player.isBusy) {
             return
         }
@@ -67,9 +65,6 @@ constructor(
             return
         }
 
-        if (interaction.persistent) {
-            player.routeTo(interaction)
-        }
         player.preMovementInteraction(interaction)
     }
 
@@ -136,13 +131,11 @@ constructor(
                     interacted = true
 
                     val newInteractionSet = this@processInteractionStep.interaction != interaction
-                    when {
-                        newInteractionSet -> abortRoute()
-                        apRangeCalled -> {
-                            routeDestination.recalcRequest = cachedRecalc
-                            routeDestination.addAll(cachedWaypoints)
-                        }
-                        persistent -> walk(coords)
+                    if (newInteractionSet) {
+                        abortRoute()
+                    } else if (apRangeCalled) {
+                        routeDestination.recalcRequest = cachedRecalc
+                        routeDestination.addAll(cachedWaypoints)
                     }
                 }
                 InteractionStep.TriggerEngineAp -> {
@@ -160,7 +153,7 @@ constructor(
 
     private fun Player.clearFinishedInteraction() {
         val interaction = interaction ?: return
-        if (interaction.isCompleted() && !interaction.persistent) {
+        if (interaction.isCompleted()) {
             clearInteraction()
             clearRouteRecalc()
             clearMapFlag()
@@ -168,14 +161,6 @@ constructor(
     }
 
     private fun Interaction.isCompleted(): Boolean = interacted && !apRangeCalled
-
-    private fun Player.routeTo(interaction: Interaction): Unit =
-        when (interaction) {
-            is InteractionLoc -> routeTo(interaction)
-            is InteractionNpc -> routeTo(interaction)
-            is InteractionObj -> routeTo(interaction)
-            is InteractionPlayer -> routeTo(interaction)
-        }
 
     private fun Player.determinePreMovementStep(interaction: Interaction): InteractionStep =
         when (interaction) {
@@ -245,13 +230,6 @@ constructor(
             distance = interaction.apRange,
         )
 
-    private fun Player.routeTo(interaction: InteractionLoc) {
-        if (isWithinOpRange(interaction)) {
-            return
-        }
-        walk(interaction.target.coords)
-    }
-
     /* Npc interactions */
     private fun Player.preMovementStep(interaction: InteractionNpc): InteractionStep =
         Interactions.earlyStep(
@@ -290,14 +268,6 @@ constructor(
         return isWithinApRange
     }
 
-    private fun Player.routeTo(interaction: InteractionNpc) {
-        if (isWithinOpRange(interaction)) {
-            return
-        }
-        val routeRequest = RouteRequestPathingEntity(interaction.target.avatar)
-        this.routeRequest = routeRequest
-    }
-
     /* Obj interactions */
     private fun Player.preMovementStep(interaction: InteractionObj): InteractionStep =
         Interactions.earlyStep(
@@ -328,13 +298,6 @@ constructor(
             length = 1,
             distance = interaction.apRange,
         )
-
-    private fun Player.routeTo(interaction: InteractionObj) {
-        if (coords == interaction.target.coords) {
-            return
-        }
-        walk(interaction.target.coords)
-    }
 
     /* Player interactions */
     private fun Player.preMovementStep(interaction: InteractionPlayer): InteractionStep =
@@ -372,14 +335,6 @@ constructor(
                 distance = interaction.apRange,
             )
         return isWithinApRange
-    }
-
-    private fun Player.routeTo(interaction: InteractionPlayer) {
-        if (isWithinOpRange(interaction)) {
-            return
-        }
-        val routeRequest = RouteRequestPathingEntity(interaction.target.avatar)
-        this.routeRequest = routeRequest
     }
 
     /* Utility functions */

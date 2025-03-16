@@ -61,7 +61,6 @@ constructor(
         val spell: MagicSpell? = null // TODO(combat): Resolve spell based on auto cast id.
         val attack = resolveCombatAttack(weapon, type, style, spell)
 
-        persistentInteraction()
         combat.attack(this, target, attack)
     }
 
@@ -77,7 +76,6 @@ constructor(
         val spell: MagicSpell? = null // TODO(combat): Resolve spell based on auto cast id.
         val attack = resolveCombatAttack(weapon, type, style, spell)
 
-        persistentInteraction()
         combat.attack(this, target, attack)
     }
 

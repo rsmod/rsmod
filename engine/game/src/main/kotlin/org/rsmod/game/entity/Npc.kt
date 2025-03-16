@@ -290,6 +290,7 @@ public class Npc(
 
     public fun defaultMode() {
         clearInteraction()
+        resetFaceEntity()
 
         mode = defaultMode
     }

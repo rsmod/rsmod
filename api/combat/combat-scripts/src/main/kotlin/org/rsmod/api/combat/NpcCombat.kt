@@ -37,6 +37,8 @@ constructor(
             return
         }
 
+        // Note: We do not need to explicitly call `opplayer2` because npcs will automatically
+        // repeat their last interaction until it is canceled (e.g., by changing their `npcmode`).
         if (actionDelay > mapClock) {
             return
         }

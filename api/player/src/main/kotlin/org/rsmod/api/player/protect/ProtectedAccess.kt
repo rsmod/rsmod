@@ -393,11 +393,6 @@ public class ProtectedAccess(
         return true
     }
 
-    public fun persistentInteraction() {
-        val interaction = player.interaction ?: return
-        interaction.persistent = true
-    }
-
     public fun mapFindSquareLineOfWalk(
         centre: CoordGrid,
         minRadius: Int,

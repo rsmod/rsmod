@@ -55,6 +55,21 @@ constructor(
         source.actionDelay = source.mapClock + cycles
     }
 
+    public fun continueCombat(source: ProtectedAccess, target: PathingEntity) {
+        when (target) {
+            is Npc -> continueCombat(source, target)
+            is Player -> continueCombat(source, target)
+        }
+    }
+
+    public fun continueCombat(source: ProtectedAccess, target: Npc) {
+        source.opNpc2(target, npcInteractions)
+    }
+
+    public fun continueCombat(source: ProtectedAccess, target: Player) {
+        source.opPlayer2(target, playerInteractions)
+    }
+
     /**
      * Cancels the combat interaction while keeping the associated [Player.actionDelay] set to the
      * preset delay determined by the combat weapon's attack rate.

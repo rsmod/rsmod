@@ -28,7 +28,6 @@ internal class NpcCombatScript @Inject constructor(private val combat: NpcCombat
         // TODO(combat): Use proper/active npc attack type.
         val attack = CombatAttack.NpcMelee(MeleeAttackType.Slash)
 
-        persistentInteraction()
         combat.attack(this, target, attack)
     }
 

@@ -26,7 +26,7 @@ public fun Npc.isInCombat(): Boolean {
     if (vars[varns.lastattack] + constants.combat_default_attackrate >= currentMapClock) {
         return true
     }
-    return mode == NpcMode.OpPlayer2 || mode == NpcMode.ApPlayer2 || mode == NpcMode.PlayerEscape
+    return mode == NpcMode.OpPlayer2 || mode == NpcMode.OpNpc2 || mode == NpcMode.PlayerEscape
 }
 
 public fun Npc.isOutOfCombat(): Boolean = !isInCombat()

@@ -14,7 +14,6 @@ public sealed class Interaction(
     public val hasOpTrigger: Boolean,
     public val hasApTrigger: Boolean,
     public var apRange: Int,
-    public var persistent: Boolean,
     public var apRangeCalled: Boolean = false,
     public var interacted: Boolean = false,
 ) {
@@ -24,8 +23,7 @@ public sealed class Interaction(
             "hasApTrigger=$hasApTrigger, " +
             "apRange=$apRange, " +
             "apRangeCalled=$apRangeCalled, " +
-            "interacted=$interacted, " +
-            "persistent=$persistent" +
+            "interacted=$interacted" +
             ")"
 }
 
@@ -34,8 +32,7 @@ public sealed class InteractionLoc(
     hasOpTrigger: Boolean,
     hasApTrigger: Boolean,
     startApRange: Int,
-    persistent: Boolean,
-) : Interaction(hasOpTrigger, hasApTrigger, startApRange, persistent) {
+) : Interaction(hasOpTrigger, hasApTrigger, startApRange) {
     override fun toString(): String =
         "InteractionLoc(" +
             "target=$target, " +
@@ -43,8 +40,7 @@ public sealed class InteractionLoc(
             "hasApTrigger=$hasApTrigger, " +
             "apRange=$apRange, " +
             "apRangeCalled=$apRangeCalled, " +
-            "interacted=$interacted, " +
-            "persistent=$persistent" +
+            "interacted=$interacted" +
             ")"
 }
 
@@ -54,8 +50,7 @@ public class InteractionLocOp(
     hasOpTrigger: Boolean,
     hasApTrigger: Boolean,
     startApRange: Int = PathingEntity.DEFAULT_AP_RANGE,
-    persistent: Boolean = false,
-) : InteractionLoc(target, hasOpTrigger, hasApTrigger, startApRange, persistent)
+) : InteractionLoc(target, hasOpTrigger, hasApTrigger, startApRange)
 
 public class InteractionLocT(
     public val objType: ObjType?,
@@ -65,16 +60,14 @@ public class InteractionLocT(
     hasOpTrigger: Boolean,
     hasApTrigger: Boolean,
     startApRange: Int = PathingEntity.DEFAULT_AP_RANGE,
-    persistent: Boolean = false,
-) : InteractionLoc(target, hasOpTrigger, hasApTrigger, startApRange, persistent)
+) : InteractionLoc(target, hasOpTrigger, hasApTrigger, startApRange)
 
 public sealed class InteractionNpc(
     public val target: Npc,
     hasOpTrigger: Boolean,
     hasApTrigger: Boolean,
     startApRange: Int,
-    persistent: Boolean,
-) : Interaction(hasOpTrigger, hasApTrigger, startApRange, persistent) {
+) : Interaction(hasOpTrigger, hasApTrigger, startApRange) {
     public val uid: NpcUid = target.uid
 
     init {
@@ -88,8 +81,7 @@ public sealed class InteractionNpc(
             "hasApTrigger=$hasApTrigger, " +
             "apRange=$apRange, " +
             "apRangeCalled=$apRangeCalled, " +
-            "interacted=$interacted, " +
-            "persistent=$persistent" +
+            "interacted=$interacted" +
             ")"
 }
 
@@ -99,8 +91,7 @@ public class InteractionNpcOp(
     hasOpTrigger: Boolean,
     hasApTrigger: Boolean,
     startApRange: Int = PathingEntity.DEFAULT_AP_RANGE,
-    persistent: Boolean = false,
-) : InteractionNpc(target, hasOpTrigger, hasApTrigger, startApRange, persistent)
+) : InteractionNpc(target, hasOpTrigger, hasApTrigger, startApRange)
 
 public class InteractionNpcT(
     public val objType: ObjType?,
@@ -110,8 +101,7 @@ public class InteractionNpcT(
     hasOpTrigger: Boolean,
     hasApTrigger: Boolean,
     startApRange: Int = PathingEntity.DEFAULT_AP_RANGE,
-    persistent: Boolean = false,
-) : InteractionNpc(target, hasOpTrigger, hasApTrigger, startApRange, persistent)
+) : InteractionNpc(target, hasOpTrigger, hasApTrigger, startApRange)
 
 public class InteractionObj(
     public val target: Obj,
@@ -119,8 +109,7 @@ public class InteractionObj(
     hasOpTrigger: Boolean,
     hasApTrigger: Boolean,
     startApRange: Int = PathingEntity.DEFAULT_AP_RANGE,
-    persistent: Boolean = false,
-) : Interaction(hasOpTrigger, hasApTrigger, startApRange, persistent) {
+) : Interaction(hasOpTrigger, hasApTrigger, startApRange) {
     override fun toString(): String =
         "InteractionObj(" +
             "target=$target, " +
@@ -128,8 +117,7 @@ public class InteractionObj(
             "hasApTrigger=$hasApTrigger, " +
             "apRange=$apRange, " +
             "apRangeCalled=$apRangeCalled, " +
-            "interacted=$interacted, " +
-            "persistent=$persistent" +
+            "interacted=$interacted" +
             ")"
 }
 
@@ -138,8 +126,7 @@ public sealed class InteractionPlayer(
     hasOpTrigger: Boolean,
     hasApTrigger: Boolean,
     startApRange: Int,
-    persistent: Boolean,
-) : Interaction(hasOpTrigger, hasApTrigger, startApRange, persistent) {
+) : Interaction(hasOpTrigger, hasApTrigger, startApRange) {
     public val uid: PlayerUid = target.uid
 
     init {
@@ -153,8 +140,7 @@ public sealed class InteractionPlayer(
             "hasApTrigger=$hasApTrigger, " +
             "apRange=$apRange, " +
             "apRangeCalled=$apRangeCalled, " +
-            "interacted=$interacted, " +
-            "persistent=$persistent" +
+            "interacted=$interacted" +
             ")"
 }
 
@@ -164,5 +150,4 @@ public class InteractionPlayerOp(
     hasOpTrigger: Boolean,
     hasApTrigger: Boolean,
     startApRange: Int = PathingEntity.DEFAULT_AP_RANGE,
-    persistent: Boolean = false,
-) : InteractionPlayer(target, hasOpTrigger, hasApTrigger, startApRange, persistent)
+) : InteractionPlayer(target, hasOpTrigger, hasApTrigger, startApRange)

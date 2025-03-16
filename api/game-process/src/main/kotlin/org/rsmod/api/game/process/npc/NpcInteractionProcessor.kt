@@ -28,7 +28,6 @@ import org.rsmod.game.interact.InteractionNpcT
 import org.rsmod.game.interact.InteractionObj
 import org.rsmod.game.interact.InteractionPlayer
 import org.rsmod.game.interact.InteractionPlayerOp
-import org.rsmod.game.movement.RouteRequestPathingEntity
 import org.rsmod.interact.InteractionStep
 import org.rsmod.interact.InteractionTarget
 import org.rsmod.interact.Interactions
@@ -52,8 +51,7 @@ constructor(
     private val accessLauncher: StandardNpcAccessLauncher,
 ) {
     public fun processPreMovement(npc: Npc, interaction: Interaction) {
-        // While the npc is busy, interactions should not be canceled by
-        // [shouldCancelInteraction].
+        // If the npc is busy, interactions should not be canceled by [shouldCancelInteraction].
         if (npc.isBusy) {
             return
         }
@@ -61,36 +59,32 @@ constructor(
         // Ensure the interaction target is still valid before proceeding.
         if (npc.shouldCancelInteraction(interaction)) {
             npc.clearInteractionRoute()
+            npc.defaultMode()
             return
         }
 
-        if (interaction.persistent) {
-            npc.routeTo(interaction)
-        }
         npc.preMovementInteraction(interaction)
     }
 
     public fun processPostMovement(npc: Npc, interaction: Interaction) {
         // If the npc is busy, interactions should not be canceled by [shouldCancelInteraction].
-        // However, if an interaction was completed during the pre-movement step, clear it.
         if (npc.isBusy) {
-            npc.clearFinishedInteraction()
             return
         }
 
         // Ensure the interaction target is still valid before proceeding.
         if (npc.shouldCancelInteraction(interaction)) {
+            npc.defaultMode()
             return
         }
 
-        // If the interaction was not completed during pre-movement, attempt to complete it now
-        // after the npc's movement has been processed.
-        if (!interaction.isCompleted()) {
-            npc.postMovementInteraction(interaction)
+        // Npcs that have `givechase = no` should cancel any interaction if they have moved.
+        if (npc.shouldCancelChase()) {
+            npc.defaultMode()
+            return
         }
 
-        // Clear the interaction if it's deemed "completed."
-        npc.clearFinishedInteraction()
+        npc.postMovementInteraction(interaction)
     }
 
     private fun Npc.preMovementInteraction(interaction: Interaction): Unit =
@@ -116,52 +110,20 @@ constructor(
                     interacted = true
                 }
                 InteractionStep.TriggerScriptAp -> {
-                    val cachedWaypoints = routeDestination.waypoints.toList()
-                    val cachedRecalc = routeDestination.recalcRequest
-                    abortRoute()
-
-                    apRangeCalled = false
                     triggerAp(interaction)
                     interacted = true
-
-                    val newInteractionSet = this@processInteractionStep.interaction != interaction
-                    when {
-                        newInteractionSet -> abortRoute()
-                        apRangeCalled -> {
-                            routeDestination.recalcRequest = cachedRecalc
-                            routeDestination.addAll(cachedWaypoints)
-                        }
-                        persistent -> walk(coords)
-                    }
                 }
                 InteractionStep.TriggerEngineAp -> {
-                    apRange = -1
+                    /* no-op */
                 }
                 InteractionStep.TriggerEngineOp -> {
+                    defaultMode()
                     interacted = true
                 }
                 InteractionStep.Continue -> {
                     /* no-op */
                 }
             }
-        }
-
-    private fun Npc.clearFinishedInteraction() {
-        val interaction = interaction ?: return
-        if (interaction.isCompleted()) {
-            clearInteraction()
-            clearRouteRecalc()
-        }
-    }
-
-    private fun Interaction.isCompleted(): Boolean = interacted && !apRangeCalled && !persistent
-
-    private fun Npc.routeTo(interaction: Interaction): Unit =
-        when (interaction) {
-            is InteractionLoc -> routeTo(interaction)
-            is InteractionNpc -> routeTo(interaction)
-            is InteractionObj -> routeTo(interaction)
-            is InteractionPlayer -> routeTo(interaction)
         }
 
     private fun Npc.determinePreMovementStep(interaction: Interaction): InteractionStep =
@@ -232,13 +194,6 @@ constructor(
             distance = interaction.apRange,
         )
 
-    private fun Npc.routeTo(interaction: InteractionLoc) {
-        if (isWithinOpRange(interaction)) {
-            return
-        }
-        walk(interaction.target.coords)
-    }
-
     /* Npc interactions */
     private fun Npc.preMovementStep(interaction: InteractionNpc): InteractionStep =
         Interactions.earlyStep(
@@ -277,14 +232,6 @@ constructor(
         return isWithinApRange
     }
 
-    private fun Npc.routeTo(interaction: InteractionNpc) {
-        if (isWithinOpRange(interaction)) {
-            return
-        }
-        val routeRequest = RouteRequestPathingEntity(interaction.target.avatar)
-        this.routeRequest = routeRequest
-    }
-
     /* Obj interactions */
     private fun Npc.preMovementStep(interaction: InteractionObj): InteractionStep =
         Interactions.earlyStep(
@@ -315,13 +262,6 @@ constructor(
             length = 1,
             distance = interaction.apRange,
         )
-
-    private fun Npc.routeTo(interaction: InteractionObj) {
-        if (coords == interaction.target.coords) {
-            return
-        }
-        walk(interaction.target.coords)
-    }
 
     /* Player interactions */
     private fun Npc.preMovementStep(interaction: InteractionPlayer): InteractionStep =
@@ -359,14 +299,6 @@ constructor(
                 distance = interaction.apRange,
             )
         return isWithinApRange
-    }
-
-    private fun Npc.routeTo(interaction: InteractionPlayer) {
-        if (isWithinOpRange(interaction)) {
-            return
-        }
-        val routeRequest = RouteRequestPathingEntity(interaction.target.avatar)
-        this.routeRequest = routeRequest
     }
 
     /* Utility functions */
@@ -428,11 +360,21 @@ constructor(
     }
 
     private fun Npc.isWithinMaxOpRange(target: CoordGrid): Boolean {
+        if (level != target.level) {
+            return false
+        }
         return spawnCoords.chebyshevDistance(target) <= type.maxRange
     }
 
     private fun Npc.isWithinMaxOpRange(target: PathingEntity): Boolean {
+        if (level != target.level) {
+            return false
+        }
         return spawnCoords.chebyshevDistance(target.coords) <= type.maxRange + type.attackRange
+    }
+
+    private fun Npc.shouldCancelChase(): Boolean {
+        return hasMovedThisCycle && !visType.giveChase
     }
 
     /* Interaction event launch functions */

@@ -39,6 +39,7 @@ constructor(
                     aiTimerProcess()
                     queueProcess()
                     timerProcess()
+                    modeProcess()
                     movementSequence()
                     faceSquareProcess()
                 }
@@ -62,13 +63,20 @@ constructor(
         timers.process(this)
     }
 
+    private fun Npc.modeProcess() {
+        modes.process(this)
+    }
+
     private fun Npc.movementSequence() {
         // Store the current interaction at this stage to ensure that if an interaction triggers a
-        // new one (e.g., combat calling `opplayer2`), the original interaction completes before the
-        // new one is processed.
+        // new one, the original interaction completes before the new one is processed.
         val interaction = interaction
-        modes.process(this, interaction)
+        if (interaction != null) {
+            interactions.processPreMovement(this, interaction)
+        }
+
         movement.process(this)
+
         if (interaction != null) {
             interactions.processPostMovement(this, interaction)
         }

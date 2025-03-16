@@ -416,11 +416,6 @@ public class StandardNpcAccess(
         return true
     }
 
-    public fun persistentInteraction() {
-        val interaction = npc.interaction ?: return
-        interaction.persistent = true
-    }
-
     /**
      * Returns the param value associated with [param] from the **base** `npc` [Npc.type], or `null`
      * if the type does not have a value associated with [param] and [param] does not have a

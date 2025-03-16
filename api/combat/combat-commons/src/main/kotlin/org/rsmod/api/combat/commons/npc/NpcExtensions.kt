@@ -58,7 +58,7 @@ public fun Npc.combatDefaultRetaliateAp(interactions: AiPlayerInteractions) {
         return
     }
 
-    if (target != null && mode != NpcMode.ApPlayer2) {
+    if (target != null && mode != NpcMode.OpPlayer2) {
         retaliate(target, interactions)
     }
 }

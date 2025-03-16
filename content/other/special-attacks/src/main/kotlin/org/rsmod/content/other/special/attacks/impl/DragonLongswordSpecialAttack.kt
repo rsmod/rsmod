@@ -51,6 +51,7 @@ class DragonLongswordSpecialAttack : SpecialAttackMap {
                     blockType = MeleeAttackType.Slash,
                 )
             manager.queueMeleeHit(this, target, damage, delay = 1)
+            manager.continueCombat(this, target)
         }
     }
 }

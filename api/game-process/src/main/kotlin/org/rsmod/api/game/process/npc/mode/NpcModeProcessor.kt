@@ -1,10 +1,9 @@
 package org.rsmod.api.game.process.npc.mode
 
 import jakarta.inject.Inject
-import org.rsmod.api.game.process.npc.NpcInteractionProcessor
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.npc.NpcMode
-import org.rsmod.game.interact.Interaction
+import org.rsmod.game.interact.InteractionOp
 
 public class NpcModeProcessor
 @Inject
@@ -15,15 +14,18 @@ constructor(
     private val playerFaceMode: NpcPlayerFaceModeProcessor,
     private val playerFollowMode: NpcPlayerFollowModeProcessor,
     private val playerEscapeMode: NpcPlayerEscapeModeProcessor,
-    private val interactions: NpcInteractionProcessor,
+    private val aiPlayerMode: AiPlayerModeProcessor,
+    private val aiNpcMode: AiNpcModeProcessor,
+    private val aiLocMode: AiLocModeProcessor,
+    private val aiObjMode: AiObjModeProcessor,
 ) {
-    public fun process(npc: Npc, interaction: Interaction?) {
+    public fun process(npc: Npc) {
         val mode = npc.mode ?: npc.defaultMode
         npc.mode = mode
-        npc.processMode(mode, interaction)
+        npc.processMode(mode)
     }
 
-    private fun Npc.processMode(mode: NpcMode, interaction: Interaction?): Unit =
+    private fun Npc.processMode(mode: NpcMode): Unit =
         when (mode) {
             NpcMode.None -> clearInteraction()
             NpcMode.Wander -> wanderMode.process(this)
@@ -32,59 +34,25 @@ constructor(
             NpcMode.PlayerFollow -> playerFollowMode.process(this)
             NpcMode.PlayerFace -> playerFaceMode.process(this)
             NpcMode.PlayerFaceClose -> playerFaceCloseMode.process(this)
-            NpcMode.OpPlayer1 -> processInteraction(interaction)
-            NpcMode.OpPlayer2 -> processInteraction(interaction)
-            NpcMode.OpPlayer3 -> processInteraction(interaction)
-            NpcMode.OpPlayer4 -> processInteraction(interaction)
-            NpcMode.OpPlayer5 -> processInteraction(interaction)
-            NpcMode.OpPlayer6 -> processInteraction(interaction)
-            NpcMode.OpPlayer7 -> processInteraction(interaction)
-            NpcMode.OpPlayer8 -> processInteraction(interaction)
-            NpcMode.ApPlayer1 -> processInteraction(interaction)
-            NpcMode.ApPlayer2 -> processInteraction(interaction)
-            NpcMode.ApPlayer3 -> processInteraction(interaction)
-            NpcMode.ApPlayer4 -> processInteraction(interaction)
-            NpcMode.ApPlayer5 -> processInteraction(interaction)
-            NpcMode.ApPlayer6 -> processInteraction(interaction)
-            NpcMode.ApPlayer7 -> processInteraction(interaction)
-            NpcMode.ApPlayer8 -> processInteraction(interaction)
-            NpcMode.OpNpc1 -> processInteraction(interaction)
-            NpcMode.OpNpc2 -> processInteraction(interaction)
-            NpcMode.OpNpc3 -> processInteraction(interaction)
-            NpcMode.OpNpc4 -> processInteraction(interaction)
-            NpcMode.OpNpc5 -> processInteraction(interaction)
-            NpcMode.ApNpc1 -> processInteraction(interaction)
-            NpcMode.ApNpc2 -> processInteraction(interaction)
-            NpcMode.ApNpc3 -> processInteraction(interaction)
-            NpcMode.ApNpc4 -> processInteraction(interaction)
-            NpcMode.ApNpc5 -> processInteraction(interaction)
-            NpcMode.OpLoc1 -> processInteraction(interaction)
-            NpcMode.OpLoc2 -> processInteraction(interaction)
-            NpcMode.OpLoc3 -> processInteraction(interaction)
-            NpcMode.OpLoc4 -> processInteraction(interaction)
-            NpcMode.OpLoc5 -> processInteraction(interaction)
-            NpcMode.ApLoc1 -> processInteraction(interaction)
-            NpcMode.ApLoc2 -> processInteraction(interaction)
-            NpcMode.ApLoc3 -> processInteraction(interaction)
-            NpcMode.ApLoc4 -> processInteraction(interaction)
-            NpcMode.ApLoc5 -> processInteraction(interaction)
-            NpcMode.OpObj1 -> processInteraction(interaction)
-            NpcMode.OpObj2 -> processInteraction(interaction)
-            NpcMode.OpObj3 -> processInteraction(interaction)
-            NpcMode.OpObj4 -> processInteraction(interaction)
-            NpcMode.OpObj5 -> processInteraction(interaction)
-            NpcMode.ApObj1 -> processInteraction(interaction)
-            NpcMode.ApObj2 -> processInteraction(interaction)
-            NpcMode.ApObj3 -> processInteraction(interaction)
-            NpcMode.ApObj4 -> processInteraction(interaction)
-            NpcMode.ApObj5 -> processInteraction(interaction)
+            NpcMode.OpPlayer1 -> aiPlayerMode.process(this, InteractionOp.Op1)
+            NpcMode.OpPlayer2 -> aiPlayerMode.process(this, InteractionOp.Op2)
+            NpcMode.OpPlayer3 -> aiPlayerMode.process(this, InteractionOp.Op3)
+            NpcMode.OpPlayer4 -> aiPlayerMode.process(this, InteractionOp.Op4)
+            NpcMode.OpPlayer5 -> aiPlayerMode.process(this, InteractionOp.Op5)
+            NpcMode.OpNpc1 -> aiNpcMode.process(this, InteractionOp.Op1)
+            NpcMode.OpNpc2 -> aiNpcMode.process(this, InteractionOp.Op2)
+            NpcMode.OpNpc3 -> aiNpcMode.process(this, InteractionOp.Op3)
+            NpcMode.OpNpc4 -> aiNpcMode.process(this, InteractionOp.Op4)
+            NpcMode.OpNpc5 -> aiNpcMode.process(this, InteractionOp.Op5)
+            NpcMode.OpLoc1 -> aiLocMode.process(this, InteractionOp.Op1)
+            NpcMode.OpLoc2 -> aiLocMode.process(this, InteractionOp.Op2)
+            NpcMode.OpLoc3 -> aiLocMode.process(this, InteractionOp.Op3)
+            NpcMode.OpLoc4 -> aiLocMode.process(this, InteractionOp.Op4)
+            NpcMode.OpLoc5 -> aiLocMode.process(this, InteractionOp.Op5)
+            NpcMode.OpObj1 -> aiObjMode.process(this, InteractionOp.Op1)
+            NpcMode.OpObj2 -> aiObjMode.process(this, InteractionOp.Op2)
+            NpcMode.OpObj3 -> aiObjMode.process(this, InteractionOp.Op3)
+            NpcMode.OpObj4 -> aiObjMode.process(this, InteractionOp.Op4)
+            NpcMode.OpObj5 -> aiObjMode.process(this, InteractionOp.Op5)
         }
-
-    private fun Npc.processInteraction(interaction: Interaction?) {
-        if (interaction == null) {
-            resetMode()
-            return
-        }
-        interactions.processPreMovement(this, interaction)
-    }
 }
