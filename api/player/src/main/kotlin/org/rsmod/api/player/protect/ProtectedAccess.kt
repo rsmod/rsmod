@@ -56,7 +56,6 @@ import org.rsmod.api.player.output.ClientScripts
 import org.rsmod.api.player.output.ClientScripts.chatDefaultRestoreInput
 import org.rsmod.api.player.output.ClientScripts.mesLayerMode14
 import org.rsmod.api.player.output.ClientScripts.mesLayerMode7
-import org.rsmod.api.player.output.MapFlag
 import org.rsmod.api.player.output.UpdateInventory.resendSlot
 import org.rsmod.api.player.output.clearMapFlag
 import org.rsmod.api.player.output.jingle
@@ -393,6 +392,21 @@ public class ProtectedAccess(
         return true
     }
 
+    /**
+     * Searches for and returns a validated coordinate within a [minRadius] to [maxRadius] tile
+     * radius of [centre].
+     *
+     * A coordinate is considered valid if:
+     * - It has a valid line-of-walk from [centre].
+     * - It does **not** have the [CollisionFlag.BLOCK_PLAYERS] or [CollisionFlag.BLOCK_WALK]
+     *   collision flags set.
+     *
+     * This function calls [validatedLineOfWalkSquares], which **randomizes** the order of candidate
+     * coordinates before validation. The first valid coordinate from the shuffled list is returned.
+     *
+     * @return A randomly selected, **validated** coordinate within range, or `null` if none are
+     *   found.
+     */
     public fun mapFindSquareLineOfWalk(
         centre: CoordGrid,
         minRadius: Int,
@@ -403,6 +417,21 @@ public class ProtectedAccess(
         return squares.firstOrNull()
     }
 
+    /**
+     * Searches for and returns a validated coordinate within a [minRadius] to [maxRadius] tile
+     * radius of [centre].
+     *
+     * A coordinate is considered valid if:
+     * - It has a valid line-of-sight from [centre].
+     * - It does **not** have the [CollisionFlag.BLOCK_PLAYERS] or [CollisionFlag.BLOCK_WALK]
+     *   collision flags set.
+     *
+     * This function calls [validatedLineOfWalkSquares], which **randomizes** the order of candidate
+     * coordinates before validation. The first valid coordinate from the shuffled list is returned.
+     *
+     * @return A randomly selected, **validated** coordinate within range, or `null` if none are
+     *   found.
+     */
     public fun mapFindSquareLineOfSight(
         centre: CoordGrid,
         minRadius: Int,
@@ -413,6 +442,17 @@ public class ProtectedAccess(
         return squares.firstOrNull()
     }
 
+    /**
+     * Returns a sequence of **shuffled** and **validated** coordinates centered around [centre],
+     * within a radius of [minRadius] to [maxRadius] tiles.
+     *
+     * A coordinate is considered valid if:
+     * - It has a valid line-of-walk from [centre].
+     * - It does **not** have the [CollisionFlag.BLOCK_PLAYERS] or [CollisionFlag.BLOCK_WALK]
+     *   collision flags set.
+     *
+     * @return A **shuffled** and **validated** [Sequence] of coordinates within range.
+     */
     public fun validatedLineOfWalkSquares(
         centre: CoordGrid,
         minRadius: Int,
@@ -425,6 +465,17 @@ public class ProtectedAccess(
         }
     }
 
+    /**
+     * Returns a sequence of **shuffled** and **validated** coordinates centered around [centre],
+     * within a radius of [minRadius] to [maxRadius] tiles.
+     *
+     * A coordinate is considered valid if:
+     * - It has a valid line-of-sight from [centre].
+     * - It does **not** have the [CollisionFlag.BLOCK_PLAYERS] or [CollisionFlag.BLOCK_WALK]
+     *   collision flags set.
+     *
+     * @return A **shuffled** and **validated** [Sequence] of coordinates within range.
+     */
     public fun validatedLineOfSightSquares(
         centre: CoordGrid,
         minRadius: Int,
@@ -437,6 +488,15 @@ public class ProtectedAccess(
         }
     }
 
+    /**
+     * Returns a sequence of **shuffled** and **validated** coordinates centered around [centre],
+     * within a radius of [minRadius] to [maxRadius] tiles.
+     *
+     * A coordinate is considered valid if it does **not** have the [CollisionFlag.BLOCK_WALK]
+     * collision flag set.
+     *
+     * @return A **shuffled** and **validated** [Sequence] of coordinates within range.
+     */
     public fun validatedSquares(
         centre: CoordGrid,
         minRadius: Int,
@@ -464,12 +524,14 @@ public class ProtectedAccess(
         return bounds.shuffled().filter { centre.chebyshevDistance(it) >= minRadius }
     }
 
+    /** Returns `true` if there is a valid line-of-walk from [from] to [to] */
     public fun lineOfWalk(
         from: CoordGrid,
         to: CoordGrid,
         validator: RayCastValidator = RayCastValidator(context.collision),
     ): Boolean = validator.hasLineOfWalk(from, to, extraFlag = CollisionFlag.BLOCK_PLAYERS)
 
+    /** Returns `true` if there is a valid line-of-sight from [from] to [to] */
     public fun lineOfSight(
         from: CoordGrid,
         to: CoordGrid,
@@ -477,7 +539,7 @@ public class ProtectedAccess(
     ): Boolean = validator.hasLineOfSight(from, to, extraFlag = CollisionFlag.BLOCK_PLAYERS)
 
     /**
-     * Returns `true` if there is a valid line of walk from [from] to **every** coordinate occupied
+     * Returns `true` if there is a valid line-of-walk from [from] to **every** coordinate occupied
      * by [bounds]; otherwise, returns `false`.
      */
     public fun lineOfWalk(
@@ -492,7 +554,7 @@ public class ProtectedAccess(
     }
 
     /**
-     * Returns `true` if there is a valid line of sight from [from] to **every** coordinate occupied
+     * Returns `true` if there is a valid line-of-sight from [from] to **every** coordinate occupied
      * by [bounds]; otherwise, returns `false`.
      */
     public fun lineOfSight(
@@ -1585,7 +1647,9 @@ public class ProtectedAccess(
     }
 
     /**
-     * @throws ProtectedAccessLostException if [regainProtectedAccess] returns false after
+     * Delays the [player] for a single cycle **only if** they moved in the previous cycle.
+     *
+     * @throws ProtectedAccessLostException if [regainProtectedAccess] returns `false` after
      *   suspension resumes.
      * @see [regainProtectedAccess]
      */
@@ -1636,9 +1700,18 @@ public class ProtectedAccess(
     }
 
     /**
-     * Suspends the [coroutine] until the player receives the respective [input].
+     * Suspends the [coroutine] until the player receives the expected [input].
      *
-     * _Note: This does not `delay` the player._
+     * **Notes:**
+     * - This does not `delay` the player.
+     * - This function is niche and only required in specific scenarios. For example, certain modals
+     *   suspend while waiting for a "non-traditional" [ResumePauseButtonInput] - such as one sent
+     *   from an `IfButton` click. Examples include the bank tutorial and the items-kept-on-death
+     *   interfaces.
+     * - Since this function calls [resumeWithMainModalProtectedAccess], the player's currently
+     *   opened modal (if any) **must remain unchanged** from the start of this call until the
+     *   suspension ends. Otherwise, the [ProtectedAccess] scope will terminate itself from
+     *   [ProtectedAccessLostException].
      *
      * @param input the expected input type to suspend on, provided as a [KClass].
      * @return the input value of type [T] once received.
@@ -2016,6 +2089,8 @@ public class ProtectedAccess(
     }
 
     /**
+     * Returns `true` if the player selects the "Yes" confirmation to destroy the specified obj.
+     *
      * @throws ProtectedAccessLostException if the player could not retain protected access after
      *   the coroutine suspension.
      * @see [resumePauseButtonWithProtectedAccess]
@@ -2039,6 +2114,8 @@ public class ProtectedAccess(
     }
 
     /**
+     * Returns `true` if the player selects the [confirm] option.
+     *
      * @throws ProtectedAccessLostException if the player could not retain protected access after
      *   the coroutine suspension.
      * @see [resumeWithMainModalProtectedAccess]
@@ -2060,9 +2137,11 @@ public class ProtectedAccess(
     }
 
     /**
-     * @param hotkeys if `true` the menu interface will allow number keys to be used to select a
+     * Opens a list selection modal, suspending until the [player] selects one of the [choices].
+     *
+     * @param hotkeys If `true` the menu interface will allow number keys to be used to select a
      *   listed choice.
-     * @return the selected choice subcomponent id ranging from `0` to `127`.
+     * @return The selected choice subcomponent id ranging from `0` to `127`.
      * @throws ProtectedAccessLostException if the player could not retain protected access after
      *   the coroutine suspension.
      * @throws IllegalArgumentException if [choices] has more than `127` elements.
@@ -2083,9 +2162,11 @@ public class ProtectedAccess(
     }
 
     /**
-     * @param hotkeys if `true` the menu interface will allow number keys to be used to select a
+     * Opens a list selection modal, suspending until the [player] selects one of the [choices].
+     *
+     * @param hotkeys If `true` the menu interface will allow number keys to be used to select a
      *   listed choice.
-     * @return the selected choice subcomponent id ranging from `0` to `127`.
+     * @return The selected choice subcomponent id ranging from `0` to `127`.
      * @throws ProtectedAccessLostException if the player could not retain protected access after
      *   the coroutine suspension.
      * @throws IllegalArgumentException if [choices] has more than `127` elements.
@@ -2510,9 +2591,6 @@ public class ProtectedAccess(
         repo.locAnim(loc, seq)
     }
 
-    /* Map flag helper functions */
-    public fun setMapFlag(coords: CoordGrid): Unit = MapFlag.setMapFlag(player, coords)
-
     /* Message game helper functions */
     public fun mes(text: String): Unit = player.mes(text, ChatType.GameMessage)
 
@@ -2549,12 +2627,21 @@ public class ProtectedAccess(
         npc.resetMode()
     }
 
+    /**
+     * Transmogrifies the [npc] into [into], reassigning its internal `uid`. Since npc interactions
+     * validate `uid`s before processing, this will automatically cancel any ongoing interactions
+     * with this [npc].
+     */
     @OptIn(InternalApi::class)
     public fun npcTransmog(npc: Npc, into: NpcType, npcTypes: NpcTypeList = context.npcTypes) {
         npc.transmog(npcTypes[into])
         npc.assignUid()
     }
 
+    /**
+     * Returns the current npc type for [npc], considering `multinpc` from the [player]'s vars and
+     * any transmogrification the npc may have undergone.
+     */
     public fun npcVisType(
         npc: Npc,
         interactions: NpcInteractions = context.npcInteractions,
@@ -2567,7 +2654,7 @@ public class ProtectedAccess(
     /**
      * Retrieves the [param] value for the base [npc].
      *
-     * _Note: This retrieves the parameter from the npc's **base** type, ignoring any multinpc or
+     * _Note: This retrieves the parameter from the npc's **base** type, ignoring any `multinpc` or
      * transmogrification effects._
      *
      * @throws IllegalStateException if npc type does not have an associated value for [param] and
@@ -2579,7 +2666,7 @@ public class ProtectedAccess(
      * Retrieves the [param] value for the base [npc], or returns `null` if the npc's type lacks an
      * associated value for [param] and [param] does not have a [ParamType.default] value.
      *
-     * _Note: This retrieves the parameter from the npc's **base** type, ignoring any multinpc or
+     * _Note: This retrieves the parameter from the npc's **base** type, ignoring any `multinpc` or
      * transmogrification effects._
      */
     public fun <T : Any> npcParamOrNull(npc: Npc, param: ParamType<T>): T? =
