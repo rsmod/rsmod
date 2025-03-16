@@ -86,9 +86,6 @@ public suspend fun StandardNpcAccess.death(
     noneMode()
     arriveDelay()
 
-    // TODO(combat): Should we call combatClearQueue() here? Should pending hit queues go through?
-    //  They will all deal 0 damage if they do regardless.
-
     val aggressivePlayer = npc.aggressivePlayer
     if (aggressivePlayer != null) {
         val player = aggressivePlayer.resolve(players)
