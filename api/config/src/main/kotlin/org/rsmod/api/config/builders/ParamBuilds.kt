@@ -125,6 +125,9 @@ internal object ParamBuilds : ParamBuilder() {
         build<SynthType>("attack_sound")
         build<SynthType>("defend_sound")
         build<SynthType>("death_sound")
+        build<Int>("forcehitchance_melee")
+        build<Int>("forcehitchance_magic")
+        build<Int>("forcehitchance_range")
         build<Int>("attack_melee") { default = 0 }
         build<Int>("attackrate") { default = constants.combat_default_attackrate }
     }

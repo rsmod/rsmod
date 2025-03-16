@@ -2,10 +2,12 @@ package org.rsmod.api.combat.formulas.accuracy.melee
 
 import jakarta.inject.Inject
 import java.util.EnumSet
+import kotlin.math.min
 import org.rsmod.api.combat.accuracy.npc.NpcMeleeAccuracy
 import org.rsmod.api.combat.accuracy.player.PlayerMeleeAccuracy
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
 import org.rsmod.api.combat.commons.types.MeleeAttackType
+import org.rsmod.api.combat.formulas.HIT_CHANCE_SCALE
 import org.rsmod.api.combat.formulas.attributes.CombatNpcAttributes
 import org.rsmod.api.combat.formulas.attributes.CombatWornAttributes
 import org.rsmod.api.combat.formulas.attributes.collector.CombatNpcAttributeCollector
@@ -32,15 +34,17 @@ constructor(
         blockType: MeleeAttackType?,
         specialMultiplier: Double,
     ): Int {
-        // TODO(combat): npc param for "forced hit chance."
-
-        // TODO(combat): bool param for npcs that use their magic level as their "defence" level.
-        val targetDefence = target.defenceLvl
-        val hitChance =
+        val forced = target.visType.paramOrNull(params.forcehitchance_melee)
+        check(forced == null || forced >= 0) {
+            "Forced hit chance value should be >= 0: $forced (npc=${target.visType})"
+        }
+        return if (forced != null) {
+            min(forced, HIT_CHANCE_SCALE)
+        } else {
             computeHitChance(
                 source = player,
                 target = target.visType,
-                targetDefence = targetDefence,
+                targetDefence = target.defenceLvl,
                 targetCurrHp = target.hitpoints,
                 targetMaxHp = target.baseHitpointsLvl,
                 attackType = attackType,
@@ -48,8 +52,7 @@ constructor(
                 blockType = blockType,
                 specialMultiplier = specialMultiplier,
             )
-        // player.hitChance = hitChance // TODO(combat): Track with varp
-        return hitChance
+        }
     }
 
     public fun computeHitChance(
