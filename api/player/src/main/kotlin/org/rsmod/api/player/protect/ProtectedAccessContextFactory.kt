@@ -11,6 +11,7 @@ import org.rsmod.api.player.interact.WornInteractions
 import org.rsmod.api.random.GameRandom
 import org.rsmod.api.stats.levelmod.InvisibleLevels
 import org.rsmod.events.EventBus
+import org.rsmod.game.entity.NpcList
 import org.rsmod.game.type.inv.InvTypeList
 import org.rsmod.game.type.loc.LocTypeList
 import org.rsmod.game.type.npc.NpcTypeList
@@ -22,9 +23,10 @@ public class ProtectedAccessContextFactory
 @Inject
 constructor(
     private val random: GameRandom,
+    private val eventBus: EventBus,
+    private val npcList: NpcList,
     private val collision: CollisionFlagMap,
     private val dialogues: Dialogues,
-    private val eventBus: EventBus,
     private val invTypes: InvTypeList,
     private val locTypes: LocTypeList,
     private val npcTypes: NpcTypeList,
@@ -42,6 +44,7 @@ constructor(
         ProtectedAccessContext(
             getRandom = { random },
             getEventBus = { eventBus },
+            getNpcList = { npcList },
             getCollision = { collision },
             getDialogues = { dialogues },
             getInvTypes = { invTypes },
@@ -63,6 +66,7 @@ constructor(
             ProtectedAccessContext(
                 getRandom = { error("No game random provided.") },
                 getEventBus = { error("No event bus provided.") },
+                getNpcList = { error("No npc list provided.") },
                 getCollision = { error("No collision map provided.") },
                 getDialogues = { error("No dialogues provided.") },
                 getInvTypes = { error("No inv type list provided.") },

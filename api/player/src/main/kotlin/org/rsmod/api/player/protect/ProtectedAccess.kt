@@ -120,8 +120,12 @@ import org.rsmod.events.KeyedEvent
 import org.rsmod.events.SuspendEvent
 import org.rsmod.events.UnboundEvent
 import org.rsmod.game.entity.Npc
+import org.rsmod.game.entity.NpcList
 import org.rsmod.game.entity.PathingEntity
 import org.rsmod.game.entity.Player
+import org.rsmod.game.entity.PlayerList
+import org.rsmod.game.entity.npc.NpcUid
+import org.rsmod.game.entity.player.PlayerUid
 import org.rsmod.game.entity.player.ProtectedAccessLostException
 import org.rsmod.game.entity.util.PathingEntityCommon
 import org.rsmod.game.hit.Hit
@@ -390,6 +394,22 @@ public class ProtectedAccess(
             return false
         }
         return true
+    }
+
+    /**
+     * Returns a [Player] from [playerList] whose [Player.uid] matches [uid], or `null` if no match
+     * is found.
+     */
+    public fun findUid(uid: PlayerUid, playerList: PlayerList): Player? {
+        return uid.resolve(playerList)
+    }
+
+    /**
+     * Returns an [Npc] from [npcList] whose [Npc.uid] matches [uid], or `null` if no match is
+     * found.
+     */
+    public fun findUid(uid: NpcUid, npcList: NpcList = context.npcList): Npc? {
+        return uid.resolve(npcList)
     }
 
     /**
@@ -1484,6 +1504,10 @@ public class ProtectedAccess(
             modifier = modifier,
             strongQueue = true,
         )
+
+    internal fun findHitNpcSource(hit: Hit, npcList: NpcList = context.npcList): Npc? {
+        return hit.resolveNpcSource(npcList)
+    }
 
     @InternalApi
     public fun processQueuedHit(hit: Hit): Unit = processQueuedHit(hit, StandardPlayerHitProcessor)
