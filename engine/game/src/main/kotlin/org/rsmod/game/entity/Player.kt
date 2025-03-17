@@ -125,6 +125,9 @@ public class Player(
     public lateinit var inv: Inventory
     public lateinit var worn: Inventory
 
+    public var preventLogoutMessage: String? = null
+    public var preventLogoutUntil: Int? = null
+
     public var actionDelay: Int = -1
     public var skillAnimDelay: Int = -1
     public var refaceDelay: Int = -1

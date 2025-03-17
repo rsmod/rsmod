@@ -64,7 +64,7 @@ public fun ProtectedAccess.combatRetaliate(
     playerList: PlayerList,
     interactions: PlayerInteractions,
 ) {
-    // TODO(combat): Set `p_preventlogout` for 16 ticks
+    preventLogout("You can't log out until 10 seconds after the end of combat.", 16)
     if (!autoRetaliate || isBusy2) {
         return
     }

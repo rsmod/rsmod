@@ -1667,6 +1667,12 @@ public class ProtectedAccess(
         // TODO: impl
     }
 
+    // TODO: Make use of these values when log out handling is implemented.
+    public fun preventLogout(message: String, cycles: Int) {
+        player.preventLogoutMessage = message
+        player.preventLogoutUntil = mapClock + cycles
+    }
+
     public suspend fun startDialogue(
         npc: Npc,
         faceFar: Boolean = false,
