@@ -22,6 +22,7 @@ constructor(
     private val players: PlayerList,
     private val queues: PlayerQueueProcessor,
     private val timers: PlayerTimerProcessor,
+    private val engineQueues: PlayerEngineQueueProcessor,
     private val interact: PlayerInteractionProcessor,
     private val movement: PlayerMovementProcessor,
     private val facing: PlayerFaceSquareProcessor,
@@ -49,6 +50,7 @@ constructor(
                 processIfCloseModal()
                 processQueues()
                 processTimers()
+                processEngineQueues()
                 processMovementSequence()
             }
         }
@@ -88,6 +90,10 @@ constructor(
 
     private fun Player.processTimers() {
         timers.process(this)
+    }
+
+    private fun Player.processEngineQueues() {
+        engineQueues.process(this)
     }
 
     private fun Player.processMovementSequence() {

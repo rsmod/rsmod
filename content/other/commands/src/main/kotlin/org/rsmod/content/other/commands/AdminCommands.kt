@@ -3,19 +3,24 @@ package org.rsmod.content.other.commands
 import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
 import kotlin.math.min
+import org.rsmod.annotations.InternalApi
 import org.rsmod.api.cheat.CheatHandlerBuilder
 import org.rsmod.api.config.refs.modlevels
 import org.rsmod.api.invtx.invAdd
 import org.rsmod.api.invtx.invClear
-import org.rsmod.api.player.output.UpdateStat
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.protect.ProtectedAccessLauncher
+import org.rsmod.api.player.stat.stat
+import org.rsmod.api.player.stat.statAdvance
+import org.rsmod.api.player.stat.statSub
 import org.rsmod.api.player.vars.resyncVar
 import org.rsmod.api.repo.loc.LocRepository
 import org.rsmod.api.repo.npc.NpcRepository
 import org.rsmod.api.script.onCommand
+import org.rsmod.api.stats.levelmod.InvisibleLevels
 import org.rsmod.api.type.symbols.name.NameMapping
 import org.rsmod.api.utils.format.formatAmount
+import org.rsmod.events.EventBus
 import org.rsmod.game.cheat.Cheat
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
@@ -30,6 +35,7 @@ import org.rsmod.game.type.npc.NpcTypeList
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.seq.SeqTypeList
 import org.rsmod.game.type.spot.SpotanimTypeList
+import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.stat.StatTypeList
 import org.rsmod.game.type.varbit.VarBitTypeList
 import org.rsmod.game.type.varp.VarpTypeList
@@ -48,6 +54,7 @@ import org.simmetrics.metrics.StringMetrics
 class AdminCommands
 @Inject
 constructor(
+    private val eventBus: EventBus,
     private val protectedAccess: ProtectedAccessLauncher,
     private val statTypes: StatTypeList,
     private val seqTypes: SeqTypeList,
@@ -60,6 +67,7 @@ constructor(
     private val locRepo: LocRepository,
     private val npcRepo: NpcRepository,
     private val names: NameMapping,
+    private val invisibleLevels: InvisibleLevels,
 ) : PluginScript() {
     private val logger = InlineLogger()
 
@@ -312,11 +320,25 @@ constructor(
     private fun Player.setStatLevels(level: Int) {
         val xp = PlayerSkillXPTable.getXPFromLevel(level)
         for (stat in statTypes.values) {
-            statMap.setXP(stat, xp)
-            statMap.setBaseLevel(stat, level.toByte())
-            statMap.setCurrentLevel(stat, level.toByte())
-            UpdateStat.update(this, stat, xp, level, level)
+            val xpDelta = xp - statMap.getXP(stat)
+            if (xpDelta < 0) {
+                statRevert(stat, level, xp)
+                continue
+            }
+            statAdvance(stat, xpDelta.toDouble(), eventBus, invisibleLevels, rate = 1.0)
         }
+    }
+
+    // There is, by design, no helper function to decrease stat xp, as xp reduction is not a
+    // standard operation in normal gameplay.
+    @OptIn(InternalApi::class)
+    private fun Player.statRevert(stat: StatType, targetLevel: Int, targetXp: Int) {
+        statMap.setCurrentLevel(stat, statMap.getBaseLevel(stat))
+        val levelDelta = stat(stat) - targetLevel
+        require(levelDelta > 0) { "This function can only be used to reduce stat levels." }
+        statMap.setXP(stat, targetXp)
+        statMap.setBaseLevel(stat, targetLevel.toByte())
+        statSub(stat, constant = levelDelta, percent = 0, invisibleLevels)
     }
 
     private fun resolveArgTypeId(arg: String, names: Map<String, Int>): Int? {

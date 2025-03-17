@@ -19,6 +19,8 @@ import org.rsmod.game.hero.HeroPoints
 import org.rsmod.game.hit.Hitmark
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.inv.InventoryMap
+import org.rsmod.game.queue.EngineQueueList
+import org.rsmod.game.queue.EngineQueueType
 import org.rsmod.game.queue.PlayerQueueList
 import org.rsmod.game.queue.QueueCategory
 import org.rsmod.game.seq.EntitySeq
@@ -69,6 +71,7 @@ public class Player(
     public val softTimerMap: PlayerTimerMap = PlayerTimerMap()
     public val queueList: PlayerQueueList = PlayerQueueList()
     public val weakQueueList: PlayerQueueList = PlayerQueueList()
+    public val engineQueueList: EngineQueueList = EngineQueueList()
 
     /**
      * A unique identifier that should be generated when the player's account is created and then
@@ -159,7 +162,7 @@ public class Player(
         get() = isDelayed || activeCoroutine?.isSuspended == true
 
     private val hasPendingQueue: Boolean
-        get() = queueList.isNotEmpty || weakQueueList.isNotEmpty
+        get() = queueList.isNotEmpty || weakQueueList.isNotEmpty || engineQueueList.isNotEmpty
 
     public val canProcessMovement: Boolean
         get() = !isHaltMovementRequired()
@@ -239,6 +242,10 @@ public class Player(
         queueList.removeAll(queue)
     }
 
+    public fun changeStat(stat: StatType) {
+        engineQueueList.add(EngineQueueType.ChangeStat, args = stat)
+    }
+
     override fun anim(seq: SeqType, delay: Int, priority: Int) {
         PathingEntityCommon.anim(this, seq, delay, priority)
     }
@@ -267,10 +274,6 @@ public class Player(
 
     public fun rebuildAppearance() {
         appearance.rebuild = true
-    }
-
-    public fun changeStat(stat: StatType) {
-        // TODO: Engine queue for changestat
     }
 
     /**
