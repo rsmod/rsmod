@@ -15,6 +15,7 @@ import org.rsmod.game.entity.player.PublicMessage
 import org.rsmod.game.entity.util.EntityFaceAngle
 import org.rsmod.game.entity.util.PathingEntityCommon
 import org.rsmod.game.headbar.Headbar
+import org.rsmod.game.hero.HeroPoints
 import org.rsmod.game.hit.Hitmark
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.inv.InventoryMap
@@ -55,6 +56,8 @@ public class Player(
     override val collisionStrategy: CollisionStrategy = CollisionStrategy.Normal
 
     override val blockWalkCollisionFlag: Int = CollisionFlag.BLOCK_NPCS
+
+    override val heroPoints: HeroPoints = HeroPoints(size = 16)
 
     public val vars: VarPlayerIntMap = VarPlayerIntMap()
     public val strVars: VarPlayerStrMap = VarPlayerStrMap()

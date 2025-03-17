@@ -3,6 +3,8 @@ package org.rsmod.api.player.stat
 import kotlin.math.absoluteValue
 import kotlin.math.max
 import kotlin.math.min
+import org.rsmod.annotations.InternalApi
+import org.rsmod.api.config.refs.stats
 import org.rsmod.api.player.output.UpdateStat
 import org.rsmod.api.stats.levelmod.InvisibleLevels
 import org.rsmod.events.EventBus
@@ -69,11 +71,16 @@ public fun Player.statAdvance(
  * Increases the player's stat level based on their **current** level. Use [statBoost] if you wish
  * to increase levels based on the **base** level instead.
  *
- * Note: This function ensures that the player's stat level does not exceed `255`.
+ * This function ensures that the player's stat level does not exceed `255`.
+ *
+ * #### Hero Points
+ * If [stat] is `hitpoints` and the resulting [hitpoints] level is greater than or equal to
+ * [baseHitpointsLvl], [Player.heroPoints] is automatically cleared.
  *
  * @throws IllegalArgumentException if [constant] is negative (use `statSub` instead), or if
  *   [percent] is not within the range `0..100`.
  */
+@OptIn(InternalApi::class)
 public fun Player.statAdd(
     stat: StatType,
     constant: Int,
@@ -90,6 +97,11 @@ public fun Player.statAdd(
     statMap.setCurrentLevel(stat, cappedLevel.toByte())
     updateStat(stat, invisibleLevels)
 
+    val clearHeroPoints = stat.isType(stats.hitpoints) && hitpoints >= baseHitpointsLvl
+    if (clearHeroPoints) {
+        clearHeroPoints()
+    }
+
     if (cappedLevel != current) {
         // TODO: Engine queue for changestat
     }
@@ -98,7 +110,7 @@ public fun Player.statAdd(
 /**
  * Increases the player's stat level based on their **base** level.
  *
- * Note: This function ensures that the player's stat level does not exceed `255`.
+ * This function ensures that the player's stat level does not exceed `255`.
  *
  * @throws IllegalArgumentException if [constant] is negative (use `statDrain` if required), or if
  *   [percent] is not within range of `0` to `100`.
@@ -126,7 +138,7 @@ public fun Player.statBoost(
  * Decreases the player's stat level based on their **current** level. Use [statDrain] if you wish
  * to decrease levels based on the **base** level instead.
  *
- * Note: This function ensures that the player's stat level does not fall below `0`.
+ * This function ensures that the player's stat level does not fall below `0`.
  *
  * @throws IllegalArgumentException if [constant] is negative, or if [percent] is not within the
  *   range `0..100`.
@@ -155,7 +167,7 @@ public fun Player.statSub(
 /**
  * Decreases the player's stat level based on their **base** level.
  *
- * Note: This function ensures that the player's stat level does not fall below `0`.
+ * This function ensures that the player's stat level does not fall below `0`.
  *
  * @throws IllegalArgumentException if [constant] is negative (use `statAdd` if required), or if
  *   [percent] is not within range of `0` to `100`.
@@ -185,8 +197,11 @@ public fun Player.statDrain(
  * percentage of their **current** level. The restored level will never exceed the player's base
  * level and will not decrease their current level.
  *
- * Note: This function is commonly used to recover from temporary stat reductions or provide partial
- * stat restoration.
+ * Commonly used to recover from temporary stat reductions or provide partial stat restoration.
+ *
+ * #### Hero Points
+ * If [stat] is `hitpoints` and the resulting [hitpoints] level is greater than or equal to
+ * [baseHitpointsLvl], [Player.heroPoints] is automatically cleared.
  *
  * #### Example
  * If a player's base level for a stat is `99` and their current level is `80`, calling
@@ -196,6 +211,7 @@ public fun Player.statDrain(
  * @throws IllegalArgumentException if [constant] is negative, or if [percent] is not within the
  *   range `0..100`.
  */
+@OptIn(InternalApi::class)
 public fun Player.statHeal(
     stat: StatType,
     constant: Int,
@@ -212,6 +228,11 @@ public fun Player.statHeal(
 
     statMap.setCurrentLevel(stat, cappedLevel.toByte())
     updateStat(stat, invisibleLevels)
+
+    val clearHeroPoints = stat.isType(stats.hitpoints) && hitpoints >= baseHitpointsLvl
+    if (clearHeroPoints) {
+        clearHeroPoints()
+    }
 
     if (cappedLevel != current) {
         // TODO: Engine queue for changestat

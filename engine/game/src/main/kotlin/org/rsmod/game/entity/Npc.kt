@@ -6,6 +6,7 @@ import org.rsmod.game.entity.npc.NpcMode
 import org.rsmod.game.entity.npc.NpcUid
 import org.rsmod.game.entity.util.PathingEntityCommon
 import org.rsmod.game.headbar.Headbar
+import org.rsmod.game.hero.HeroPoints
 import org.rsmod.game.hit.Hitmark
 import org.rsmod.game.map.Direction
 import org.rsmod.game.movement.BlockWalk
@@ -46,6 +47,8 @@ public class Npc(
 
     override val collisionStrategy: CollisionStrategy?
         get() = moveRestrict.collisionStrategy
+
+    override val heroPoints: HeroPoints = HeroPoints(type.heroCount)
 
     public val vars: VarNpcIntMap = VarNpcIntMap()
     public val strVars: VarNpcStrMap = VarNpcStrMap()
@@ -176,7 +179,7 @@ public class Npc(
         resetFaceEntity()
         resetAnim()
         copyStats(type)
-        // TODO(combat): Reset "hero points."
+        clearHeroPoints()
         queueList.clear()
         vars.backing.clear()
         strVars.backing.clear()

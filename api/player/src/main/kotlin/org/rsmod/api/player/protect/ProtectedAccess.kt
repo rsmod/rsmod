@@ -1568,6 +1568,27 @@ public class ProtectedAccess(
         player.clearQueue(queue)
     }
 
+    /**
+     * Adds "hero points" (also known as kill credits) for [source], where [points] typically
+     * represent the amount of damage dealt to [player].
+     */
+    public fun heroPoints(source: Player, points: Int) {
+        player.heroPoints(source, points)
+    }
+
+    /**
+     * Finds the player with the highest "hero points" stored in this [Player.heroPoints].
+     *
+     * **Notes:**
+     * - Only players who have dealt damage greater than `0` can occupy an entry.
+     * - [Player.heroPoints] is limited to `16` entries by default. Once all entries are occupied,
+     *   no additional players can accrue kill credit (hero points) for this [player] until their
+     *   hero points are cleared.
+     */
+    public fun findHero(playerList: PlayerList): Player? {
+        return player.findHero(playerList)
+    }
+
     public fun combatClearQueue() {
         player.combatClearQueue()
     }

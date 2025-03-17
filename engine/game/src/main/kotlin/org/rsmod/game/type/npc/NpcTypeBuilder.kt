@@ -82,6 +82,7 @@ public class NpcTypeBuilder(public var internal: String? = null) {
     public var timer: Int? = null
     public var respawnDir: Direction? = null
     public var contentGroup: Int? = null
+    public var heroCount: Int? = null
 
     public fun build(id: Int): UnpackedNpcType {
         val internal = checkNotNull(internal) { "`internal` must be set." }
@@ -141,6 +142,7 @@ public class NpcTypeBuilder(public var internal: String? = null) {
             "`patrol` must be either null, or have at least one element."
         }
         val contentGroup = contentGroup ?: DEFAULT_CONTENT_GROUP
+        val heroCount = heroCount ?: DEFAULT_HERO_COUNT
         return UnpackedNpcType(
             name = name,
             desc = desc,
@@ -206,6 +208,7 @@ public class NpcTypeBuilder(public var internal: String? = null) {
             respawnDir = respawnDir,
             patrol = patrol,
             contentGroup = contentGroup,
+            heroCount = heroCount,
             internalId = id,
             internalName = internal,
         )
@@ -238,6 +241,7 @@ public class NpcTypeBuilder(public var internal: String? = null) {
         public const val DEFAULT_STAT_LEVEL: Int = 1
         public const val DEFAULT_TIMER: Int = -1
         public const val DEFAULT_CONTENT_GROUP: Int = -1
+        public const val DEFAULT_HERO_COUNT: Int = 16
 
         public const val OP_CAPACITY: Int = 5
         public const val RECOL_CAPACITY: Int = 15
@@ -312,6 +316,7 @@ public class NpcTypeBuilder(public var internal: String? = null) {
             val respawnDir = select(edit, base, DEFAULT_RESPAWN_DIR) { respawnDir }
             val patrol = select(edit, base, default = null) { patrol }
             val contentGroup = select(edit, base, DEFAULT_CONTENT_GROUP) { contentGroup }
+            val heroCount = select(edit, base, DEFAULT_HERO_COUNT) { heroCount }
             val internalId = select(edit, base, default = null) { internalId }
             val internalName = select(edit, base, default = null) { internalName }
             return UnpackedNpcType(
@@ -379,6 +384,7 @@ public class NpcTypeBuilder(public var internal: String? = null) {
                 respawnDir = respawnDir,
                 patrol = patrol,
                 contentGroup = contentGroup,
+                heroCount = heroCount,
                 internalId = internalId,
                 internalName = internalName,
             )

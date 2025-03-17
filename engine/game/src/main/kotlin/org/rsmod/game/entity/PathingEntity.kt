@@ -8,6 +8,7 @@ import org.rsmod.coroutine.suspension.GameCoroutineSimpleCompletion
 import org.rsmod.game.entity.player.ProtectedAccessLostException
 import org.rsmod.game.entity.util.EntityFaceAngle
 import org.rsmod.game.entity.util.EntityFaceTarget
+import org.rsmod.game.hero.HeroPoints
 import org.rsmod.game.interact.Interaction
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.loc.LocInfo
@@ -27,6 +28,7 @@ import org.rsmod.map.zone.ZoneKey
 import org.rsmod.routefinder.collision.CollisionFlagMap
 import org.rsmod.routefinder.collision.CollisionStrategy
 import org.rsmod.routefinder.util.Rotations
+import org.rsmod.utils.sorting.QuickSort
 
 @OptIn(InternalApi::class)
 public sealed class PathingEntity {
@@ -35,6 +37,8 @@ public sealed class PathingEntity {
 
     public abstract val collisionStrategy: CollisionStrategy?
     public abstract val blockWalkCollisionFlag: Int?
+
+    public abstract val heroPoints: HeroPoints
 
     public var slotId: Int = INVALID_SLOT
 
@@ -465,6 +469,31 @@ public sealed class PathingEntity {
 
     public fun clearWalkTrigger() {
         walkTrigger = null
+    }
+
+    public fun heroPoints(source: Player, points: Int) {
+        if (points <= 0) {
+            return
+        }
+        val uuid = source.uuid ?: error("Unexpected null uuid for player: $source")
+        heroPoints.add(uuid, points)
+    }
+
+    public fun findHero(playerList: PlayerList): Player? {
+        val heroes = heroPoints.toMutableList()
+        if (heroes.isEmpty()) {
+            return null
+        }
+
+        QuickSort.alternating(heroes) { a, b -> b.points - a.points }
+
+        val hero = heroes[0]
+        return playerList.firstOrNull { it.uuid == hero.uuid }
+    }
+
+    @InternalApi
+    public fun clearHeroPoints() {
+        heroPoints.clear()
     }
 
     /**

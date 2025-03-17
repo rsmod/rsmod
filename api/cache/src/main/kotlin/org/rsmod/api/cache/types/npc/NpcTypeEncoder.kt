@@ -381,5 +381,10 @@ public object NpcTypeEncoder {
                 data.writeByte(213)
                 data.writeShort(contentGroup)
             }
+
+            if (heroCount != NpcTypeBuilder.DEFAULT_HERO_COUNT) {
+                data.writeByte(214)
+                data.writeShort(heroCount)
+            }
         }
 }

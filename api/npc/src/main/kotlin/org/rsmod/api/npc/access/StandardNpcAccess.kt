@@ -19,6 +19,7 @@ import org.rsmod.coroutine.GameCoroutine
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.PathingEntity
 import org.rsmod.game.entity.Player
+import org.rsmod.game.entity.PlayerList
 import org.rsmod.game.entity.util.PathingEntityCommon
 import org.rsmod.game.hit.Hit
 import org.rsmod.game.hit.HitType
@@ -299,6 +300,29 @@ public class StandardNpcAccess(
 
     public fun clearQueue(queue: QueueType) {
         npc.clearQueue(queue)
+    }
+
+    /**
+     * Adds "hero points" (also known as kill credits) for [source], where [points] typically
+     * represent the amount of damage dealt to [npc].
+     */
+    public fun heroPoints(source: Player, points: Int) {
+        npc.heroPoints(source, points)
+    }
+
+    /**
+     * Finds the player with the highest "hero points" stored in this [Npc.heroPoints].
+     *
+     * **Notes:**
+     * - Only players who have dealt damage greater than `0` can occupy an entry.
+     * - [Npc.heroPoints] is limited to `16` entries by default. Once all entries are occupied, no
+     *   additional players can accrue kill credit (hero points) for this [npc] until its hero
+     *   points are cleared.
+     * - Npcs can override the default hero points entry limit by modifying their
+     *   [UnpackedNpcType.heroCount].
+     */
+    public fun findHero(playerList: PlayerList): Player? {
+        return npc.findHero(playerList)
     }
 
     public fun say(text: String) {

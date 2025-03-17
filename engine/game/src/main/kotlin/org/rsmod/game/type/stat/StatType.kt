@@ -13,6 +13,8 @@ public sealed class StatType : CacheType() {
 
     public val displayName: String
         get() = internalDisplayName ?: error("`internalDisplayName` must not be null.")
+
+    public fun isType(other: StatType): Boolean = other.internalId == internalId
 }
 
 public data class HashedStatType(

@@ -213,6 +213,7 @@ public object NpcTypeDecoder {
                     respawnDir = dir
                 }
                 213 -> contentGroup = data.readUnsignedShort()
+                214 -> heroCount = data.readUnsignedShort()
                 249 -> paramMap = ParamMap(data.readRawParams())
                 else -> throw IOException("Error unrecognised .npc config code: $code")
             }
