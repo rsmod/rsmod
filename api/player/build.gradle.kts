@@ -37,6 +37,7 @@ dependencies {
     implementation(projects.engine.routefinder)
     implementation(projects.engine.utilsBits)
     implementation(projects.engine.utilsTime)
+    integrationImplementation(projects.api.hitPlugin)
     integrationImplementation(projects.api.net)
     integrationImplementation(projects.engine.coroutine)
     testImplementation(projects.api.testing.testFactory)
