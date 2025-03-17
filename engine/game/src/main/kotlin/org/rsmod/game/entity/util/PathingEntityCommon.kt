@@ -5,7 +5,6 @@ import org.rsmod.game.entity.PathingEntity
 import org.rsmod.game.entity.Player
 import org.rsmod.game.map.collision.isZoneValid
 import org.rsmod.game.movement.MoveSpeed
-import org.rsmod.game.movement.RouteRequestCoord
 import org.rsmod.game.seq.EntitySeq
 import org.rsmod.game.spot.EntitySpotanim
 import org.rsmod.game.type.seq.SeqType
@@ -39,11 +38,6 @@ public object PathingEntityCommon {
     // at some point. In that case, we do not want the npc list capacity, whether lower
     // or higher, to affect this value used for internal systems.
     internal const val INTERNAL_NPC_LIMIT = 65535
-
-    public fun walk(entity: PathingEntity, dest: CoordGrid) {
-        val request = RouteRequestCoord(dest)
-        entity.routeRequest = request
-    }
 
     public fun telejump(entity: PathingEntity, collision: CollisionFlagMap, dest: CoordGrid) {
         telemove(entity, collision, dest)

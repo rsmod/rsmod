@@ -60,12 +60,8 @@ public class StandardNpcAccess(
 
     public var actionDelay: Int by npc::actionDelay
 
-    // TODO(combat): Go over the [Npc.walk] implementation. It should not work as it currently does,
-    //  but some tests currently rely on it working as it does. Once we decide on that, replace this
-    //  logic with `npc.walk`.
     public fun walk(dest: CoordGrid) {
-        npc.abortRoute()
-        npc.routeDestination.add(dest)
+        npc.walk(dest)
     }
 
     public suspend fun delay(cycles: Int = 1) {

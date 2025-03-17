@@ -23,8 +23,8 @@ import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.PlayerList
 import org.rsmod.game.entity.npc.NpcStateEvents
 import org.rsmod.game.entity.player.SessionStateEvent
-import org.rsmod.game.entity.util.PathingEntityCommon
 import org.rsmod.game.movement.MoveSpeed
+import org.rsmod.game.movement.RouteRequestCoord
 import org.rsmod.game.movement.RouteRequestPathingEntity
 import org.rsmod.map.CoordGrid
 import org.rsmod.routefinder.collision.CollisionFlagMap
@@ -106,7 +106,10 @@ public class BasicGameTestScope(private val eventBus: EventBus) {
         block: suspend ProtectedAccess.() -> Unit,
     ): Boolean = ProtectedAccessLauncher.withProtectedAccess(this, context, null, block)
 
-    public fun PathingEntity.move(dest: CoordGrid): Unit = PathingEntityCommon.walk(this, dest)
+    public fun PathingEntity.move(dest: CoordGrid) {
+        val request = RouteRequestCoord(dest)
+        routeRequest = request
+    }
 
     public fun PathingEntity.move(target: PathingEntityAvatar, speed: MoveSpeed? = null) {
         val request = RouteRequestPathingEntity(target)

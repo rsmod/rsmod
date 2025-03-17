@@ -139,9 +139,11 @@ public class Npc(
         this.uid = NpcUid.NULL
     }
 
-    // TODO(combat): This function should not work like this. (probably? requires more
-    //  investigation) Assume it should be similar to [Player.walk].
-    public fun walk(dest: CoordGrid): Unit = PathingEntityCommon.walk(this, dest)
+    public fun walk(dest: CoordGrid) {
+        abortRoute()
+        moveSpeed = defaultMoveSpeed
+        routeDestination.add(dest)
+    }
 
     public fun teleport(collision: CollisionFlagMap, dest: CoordGrid): Unit =
         PathingEntityCommon.teleport(this, collision, dest)
