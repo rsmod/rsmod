@@ -44,7 +44,7 @@ constructor(
 
     private fun ProtectedAccess.flinchDelay(): Int {
         val attackStyle = attackStyles.get(player)
-        val attackRate = weaponSpeeds.actual(player, attackStyle)
+        val attackRate = weaponSpeeds.base(player)
         return (attackRate / 2) - (if (attackStyle == AttackStyle.RapidRanged) 1 else 0)
     }
 }
