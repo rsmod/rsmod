@@ -32,6 +32,7 @@ import org.rsmod.game.type.npc.UnpackedNpcType
 import org.rsmod.game.type.queue.QueueType
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.spot.SpotanimType
+import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.timer.TimerType
 import org.rsmod.game.ui.UserInterfaceMap
 import org.rsmod.game.vars.VarPlayerIntMap
@@ -266,6 +267,10 @@ public class Player(
 
     public fun rebuildAppearance() {
         appearance.rebuild = true
+    }
+
+    public fun changeStat(stat: StatType) {
+        // TODO: Engine queue for changestat
     }
 
     /**

@@ -63,7 +63,7 @@ public fun Player.statAdvance(
     val addedXp = PlayerSkillXP.internalAddXP(this, stat, xp, rate, eventBus, invisibleLevels)
     val endLevel = statBase(stat)
     if (startLevel != endLevel) {
-        // TODO: Engine queue for changestat
+        changeStat(stat)
     }
     return addedXp
 }
@@ -104,13 +104,14 @@ public fun Player.statAdd(
     statMap.setCurrentLevel(stat, cappedLevel.toByte())
     updateStat(stat, invisibleLevels)
 
+    // TODO(combat): This might need to be moved to be handled in changestat.
     val clearHeroPoints = stat.isType(stats.hitpoints) && hitpoints >= baseHitpointsLvl
     if (clearHeroPoints) {
         clearHeroPoints()
     }
 
     if (cappedLevel != current) {
-        // TODO: Engine queue for changestat
+        changeStat(stat)
     }
 }
 
@@ -181,7 +182,7 @@ public fun Player.statSub(
     updateStat(stat, invisibleLevels)
 
     if (cappedLevel != current) {
-        // TODO: Engine queue for changestat
+        changeStat(stat)
     }
 }
 
@@ -261,13 +262,14 @@ public fun Player.statHeal(
     statMap.setCurrentLevel(stat, cappedLevel.toByte())
     updateStat(stat, invisibleLevels)
 
+    // TODO(combat): This might need to be moved to be handled in changestat.
     val clearHeroPoints = stat.isType(stats.hitpoints) && hitpoints >= baseHitpointsLvl
     if (clearHeroPoints) {
         clearHeroPoints()
     }
 
     if (cappedLevel != current) {
-        // TODO: Engine queue for changestat
+        changeStat(stat)
     }
 }
 
