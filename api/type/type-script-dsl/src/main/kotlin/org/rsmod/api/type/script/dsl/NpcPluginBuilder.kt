@@ -82,6 +82,7 @@ public class NpcPluginBuilder(public var internal: String? = null) {
     public var magic: Int? by backing::magic
     public var timer: Int? by backing::timer
     public var respawnDir: Direction? by backing::respawnDir
+    public var heroCount: Int? by backing::heroCount
 
     private var contentGroupId: Int? by backing::contentGroup
 
