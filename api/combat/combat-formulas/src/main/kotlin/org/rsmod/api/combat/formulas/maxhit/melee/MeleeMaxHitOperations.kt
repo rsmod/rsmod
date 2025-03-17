@@ -12,6 +12,7 @@ import org.rsmod.api.combat.maxhit.player.PlayerMeleeMaxHit
 import org.rsmod.api.config.refs.stats
 import org.rsmod.api.config.refs.varbits
 import org.rsmod.api.config.refs.varps
+import org.rsmod.api.player.stat.stat
 import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.type.obj.Wearpos
@@ -224,7 +225,7 @@ public object MeleeMaxHitOperations {
     }
 
     public fun calculateEffectiveStrength(player: Player, attackStyle: MeleeAttackStyle?): Int {
-        val strengthLevel = player.statMap.getCurrentLevel(stats.strength).toInt()
+        val strengthLevel = player.stat(stats.strength)
         val soulreaperAxe = EquipmentChecks.isSoulreaperAxe(player.worn[Wearpos.RightHand.slot])
         val soulStackBonus = if (soulreaperAxe) player.vars.soulStackBonus() else 1.0
         return calculateEffectiveStrength(

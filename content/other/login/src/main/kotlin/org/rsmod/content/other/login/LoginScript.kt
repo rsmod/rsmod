@@ -19,6 +19,7 @@ import org.rsmod.api.player.output.UpdateStat
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.output.runClientScript
 import org.rsmod.api.player.startInvTransmit
+import org.rsmod.api.player.stat.stat
 import org.rsmod.api.player.vars.boolVarBit
 import org.rsmod.api.player.vars.chatboxUnlocked
 import org.rsmod.api.script.onPlayerLogIn
@@ -101,7 +102,7 @@ constructor(
     private fun Player.sendStats() {
         for (stat in statTypes.values) {
             val currXp = statMap.getXP(stat)
-            val currLvl = statMap.getCurrentLevel(stat).toInt()
+            val currLvl = stat(stat)
             val hiddenLvl = currLvl + invisibleLevels.get(this, stat)
             UpdateStat.update(this, stat, currXp, currLvl, hiddenLvl)
         }

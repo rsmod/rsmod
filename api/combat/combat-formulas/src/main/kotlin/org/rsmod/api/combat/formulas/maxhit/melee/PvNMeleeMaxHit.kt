@@ -14,6 +14,8 @@ import org.rsmod.api.combat.weapon.WeaponSpeeds
 import org.rsmod.api.config.refs.stats
 import org.rsmod.api.config.refs.varps
 import org.rsmod.api.player.bonus.WornBonuses
+import org.rsmod.api.player.stat.stat
+import org.rsmod.api.player.stat.statBase
 import org.rsmod.api.player.vars.intVarp
 import org.rsmod.api.random.GameRandom
 import org.rsmod.game.entity.Npc
@@ -111,8 +113,8 @@ constructor(
         npcAttributes: EnumSet<CombatNpcAttributes>,
     ): Int {
         val attackRate = weaponSpeeds.actual(source)
-        val currHp = source.statMap.getCurrentLevel(stats.hitpoints).toInt()
-        val maxHp = source.statMap.getBaseLevel(stats.hitpoints).toInt()
+        val currHp = source.stat(stats.hitpoints)
+        val maxHp = source.statBase(stats.hitpoints)
         return MeleeMaxHitOperations.modifyPostSpec(
             modifiedDamage,
             attackRate,

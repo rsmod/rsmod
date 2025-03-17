@@ -1114,7 +1114,7 @@ public class ProtectedAccess(
     }
 
     public fun rollSuccessRate(low: Int, high: Int, stat: StatType, invisibleBoost: Int): Boolean {
-        val visibleLevel = player.statMap.getCurrentLevel(stat).toInt()
+        val visibleLevel = player.stat(stat)
         val level = visibleLevel.coerceIn(1, stat.maxLevel) + invisibleBoost
         return rollSuccessRate(low, high, level, stat.maxLevel)
     }

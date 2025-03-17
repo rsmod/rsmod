@@ -8,6 +8,7 @@ import org.rsmod.api.invtx.swap
 import org.rsmod.api.invtx.transfer
 import org.rsmod.api.player.events.interact.HeldEquipEvents
 import org.rsmod.api.player.righthand
+import org.rsmod.api.player.stat.statBase
 import org.rsmod.api.utils.format.addArticle
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
@@ -107,7 +108,7 @@ constructor(private val objTypes: ObjTypeList, private val eventBus: EventBus) {
 
     private fun equip(player: Player, type: UnpackedObjType): HeldEquipResult {
         val statRequirements =
-            type.statRequirements().filter { player.statMap.getBaseLevel(it.stat) < it.level }
+            type.statRequirements().filter { player.statBase(it.stat) < it.level }
         if (statRequirements.isNotEmpty()) {
             val messages = type.toMessages(statRequirements)
             return HeldEquipResult.Fail.StatRequirements(messages)

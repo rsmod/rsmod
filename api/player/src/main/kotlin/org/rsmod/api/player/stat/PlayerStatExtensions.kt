@@ -12,11 +12,13 @@ import org.rsmod.game.entity.Player
 import org.rsmod.game.type.stat.StatType
 
 /** Returns the **current**, **visible** level for [stat]. */
+@OptIn(InternalApi::class)
 public fun Player.stat(stat: StatType): Int {
     return statMap.getCurrentLevel(stat).toInt() and 0xFF
 }
 
 /** Returns the **base** level for [stat], based on its xp without any boosts. */
+@OptIn(InternalApi::class)
 public fun Player.statBase(stat: StatType): Int {
     return statMap.getBaseLevel(stat).toInt() and 0xFF
 }
@@ -57,9 +59,9 @@ public fun Player.statAdvance(
     invisibleLevels: InvisibleLevels,
     rate: Double = xpRate,
 ): Int {
-    val startLevel = statMap.getBaseLevel(stat)
+    val startLevel = statBase(stat)
     val addedXp = PlayerSkillXP.internalAddXP(this, stat, xp, rate, eventBus, invisibleLevels)
-    val endLevel = statMap.getBaseLevel(stat)
+    val endLevel = statBase(stat)
     if (startLevel != endLevel) {
         // TODO: Engine queue for changestat
     }

@@ -2,6 +2,7 @@ package org.rsmod.game.stat
 
 import it.unimi.dsi.fastutil.bytes.Byte2ByteOpenHashMap
 import it.unimi.dsi.fastutil.bytes.Byte2IntOpenHashMap
+import org.rsmod.annotations.InternalApi
 import org.rsmod.game.type.stat.StatType
 
 public class PlayerStatMap(
@@ -24,12 +25,14 @@ public class PlayerStatMap(
         this.xp[stat.id.toByte()] = xp
     }
 
+    @InternalApi
     public fun getBaseLevel(stat: StatType): Byte = baseLevels.getOrDefault(stat.id.toByte(), 1)
 
     public fun setBaseLevel(stat: StatType, level: Byte) {
         this.baseLevels[stat.id.toByte()] = level
     }
 
+    @InternalApi
     public fun getCurrentLevel(stat: StatType): Byte = currLevels.getOrDefault(stat.id.toByte(), 1)
 
     public fun setCurrentLevel(stat: StatType, level: Byte) {

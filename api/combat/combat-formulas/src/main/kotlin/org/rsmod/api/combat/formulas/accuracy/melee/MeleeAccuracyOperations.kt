@@ -20,6 +20,7 @@ import org.rsmod.api.player.legs
 import org.rsmod.api.player.righthand
 import org.rsmod.api.player.stat.baseHitpointsLvl
 import org.rsmod.api.player.stat.hitpoints
+import org.rsmod.api.player.stat.stat
 import org.rsmod.api.player.torso
 import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.Inventory
@@ -251,7 +252,7 @@ public object MeleeAccuracyOperations {
     }
 
     public fun calculateEffectiveAttack(player: Player, attackStyle: MeleeAttackStyle?): Int {
-        val attackLevel = player.statMap.getCurrentLevel(stats.attack).toInt()
+        val attackLevel = player.stat(stats.attack)
         return calculateEffectiveAttack(
             visLevel = attackLevel,
             vars = player.vars,
@@ -319,7 +320,7 @@ public object MeleeAccuracyOperations {
     }
 
     public fun calculateEffectiveDefence(player: Player, attackStyle: AttackStyle?): Int {
-        val defenceLevel = player.statMap.getCurrentLevel(stats.defence).toInt()
+        val defenceLevel = player.stat(stats.defence)
         val armourBonus = player.defensiveArmourBonus()
         return calculateEffectiveDefence(
             visLevel = defenceLevel,

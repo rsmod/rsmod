@@ -2,6 +2,7 @@ package org.rsmod.api.player.stat
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import org.rsmod.annotations.InternalApi
 import org.rsmod.api.stats.levelmod.InvisibleLevels
 import org.rsmod.api.testing.factory.player.TestPlayerFactory
 import org.rsmod.api.testing.factory.stat.TestStatTypeFactory
@@ -15,6 +16,7 @@ import org.rsmod.events.UnboundEventBus
 import org.rsmod.game.stat.PlayerStatMap
 import org.rsmod.game.type.stat.StatType
 
+@OptIn(InternalApi::class)
 class PlayerSkillXPTest {
     @Test
     fun `add over max xp`() {

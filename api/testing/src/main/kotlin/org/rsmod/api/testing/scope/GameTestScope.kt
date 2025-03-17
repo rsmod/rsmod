@@ -18,6 +18,7 @@ import net.rsprot.protocol.game.incoming.resumed.ResumePCountDialog
 import net.rsprot.protocol.game.outgoing.misc.player.MessageGame
 import net.rsprot.protocol.util.CombinedId
 import org.junit.jupiter.api.Assertions
+import org.rsmod.annotations.InternalApi
 import org.rsmod.api.config.refs.objs
 import org.rsmod.api.game.process.GameCycle
 import org.rsmod.api.inv.map.InvMapInit
@@ -862,7 +863,9 @@ constructor(
     }
 
     public class StatsDelegate(private val backing: PlayerStatMap) {
-        public operator fun get(stat: StatType): Int = backing.getCurrentLevel(stat).toInt()
+        @OptIn(InternalApi::class)
+        public operator fun get(stat: StatType): Int =
+            backing.getCurrentLevel(stat).toInt() and 0xFF
 
         public operator fun set(stat: StatType, value: Int) {
             backing.setBaseLevel(stat, value.toByte())

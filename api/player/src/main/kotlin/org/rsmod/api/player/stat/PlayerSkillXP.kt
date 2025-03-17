@@ -51,7 +51,7 @@ public object PlayerSkillXP {
     }
 
     private fun Player.checkLevelUp(stat: StatType, eventBus: EventBus) {
-        val baseLevel = statMap.getBaseLevel(stat)
+        val baseLevel = statBase(stat)
         if (baseLevel >= stat.maxLevel) {
             return
         }
@@ -61,12 +61,12 @@ public object PlayerSkillXP {
             val newLevel = min(stat.maxLevel, PlayerSkillXPTable.getLevelFromXP(currentXp))
             statMap.setBaseLevel(stat, newLevel.toByte())
 
-            val setCurrLevel = statMap.getCurrentLevel(stat) == baseLevel
+            val setCurrLevel = stat(stat) == baseLevel
             if (setCurrLevel) {
                 statMap.setCurrentLevel(stat, newLevel.toByte())
             }
 
-            val levelUp = AdvanceStatEvent(this, stat, baseLevel.toInt(), newLevel)
+            val levelUp = AdvanceStatEvent(this, stat, baseLevel, newLevel)
             eventBus.publish(levelUp)
         }
     }
