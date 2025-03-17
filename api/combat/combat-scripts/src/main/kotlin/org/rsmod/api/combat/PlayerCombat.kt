@@ -116,10 +116,8 @@ constructor(
                 0
             }
 
-        npc.queueHit(player, 1, HitType.Melee, damage, hitModifier)
-        // TODO(combat): Add hero points. For emulation purposes, I'm pretty certain hero points
-        //  are added here instead of during hit processing due to legacy/technical reasons.
-
+        val hit = npc.queueHit(player, 1, HitType.Melee, damage, hitModifier)
+        npc.heroPoints(player, hit.damage)
         npc.combatPlayDefendFx(player)
         npc.queueCombatRetaliate(player)
 

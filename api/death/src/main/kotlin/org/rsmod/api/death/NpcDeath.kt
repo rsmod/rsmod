@@ -42,9 +42,8 @@ constructor(
     }
 
     private fun Npc.spawnDeathDrops(dropCoords: CoordGrid) {
-        // TODO(combat): Actual death drops, drop tables, and "npc_findhero" implementation.
-        val heroUid = aggressivePlayer
-        val hero = heroUid?.resolve(players)
+        // TODO(combat): Drop tables.
+        val hero = findHero(players)
         if (hero != null) {
             val duration = hero.lootDropDuration ?: constants.lootdrop_duration
             objRepo.add(objs.bones, dropCoords, duration, hero)
