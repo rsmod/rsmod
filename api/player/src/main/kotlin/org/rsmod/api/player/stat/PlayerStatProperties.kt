@@ -4,139 +4,139 @@ import org.rsmod.api.config.refs.stats
 import org.rsmod.game.entity.Player
 
 public val Player.attackLvl: Int
-    get() = statMap.getCurrentLevel(stats.attack).toInt()
+    get() = stat(stats.attack)
 
 public val Player.baseAttackLvl: Int
-    get() = statMap.getBaseLevel(stats.attack).toInt()
+    get() = statBase(stats.attack)
 
 public val Player.defenceLvl: Int
-    get() = statMap.getCurrentLevel(stats.defence).toInt()
+    get() = stat(stats.defence)
 
 public val Player.baseDefenceLvl: Int
-    get() = statMap.getBaseLevel(stats.defence).toInt()
+    get() = statBase(stats.defence)
 
 public val Player.strengthLvl: Int
-    get() = statMap.getCurrentLevel(stats.strength).toInt()
+    get() = stat(stats.strength)
 
 public val Player.baseStrengthLvl: Int
-    get() = statMap.getBaseLevel(stats.strength).toInt()
+    get() = statBase(stats.strength)
 
 public val Player.hitpoints: Int
-    get() = statMap.getCurrentLevel(stats.hitpoints).toInt()
+    get() = stat(stats.hitpoints)
 
 public val Player.baseHitpointsLvl: Int
-    get() = statMap.getBaseLevel(stats.hitpoints).toInt()
+    get() = statBase(stats.hitpoints)
 
 public val Player.rangedLvl: Int
-    get() = statMap.getCurrentLevel(stats.ranged).toInt()
+    get() = stat(stats.ranged)
 
 public val Player.baseRangedLvl: Int
-    get() = statMap.getBaseLevel(stats.ranged).toInt()
+    get() = statBase(stats.ranged)
 
 public val Player.prayerLvl: Int
-    get() = statMap.getCurrentLevel(stats.prayer).toInt()
+    get() = stat(stats.prayer)
 
 public val Player.basePrayerLvl: Int
-    get() = statMap.getBaseLevel(stats.prayer).toInt()
+    get() = statBase(stats.prayer)
 
 public val Player.magicLvl: Int
-    get() = statMap.getCurrentLevel(stats.magic).toInt()
+    get() = stat(stats.magic)
 
 public val Player.baseMagicLvl: Int
-    get() = statMap.getBaseLevel(stats.magic).toInt()
+    get() = statBase(stats.magic)
 
 public val Player.cookingLvl: Int
-    get() = statMap.getCurrentLevel(stats.cooking).toInt()
+    get() = stat(stats.cooking)
 
 public val Player.baseCookingLvl: Int
-    get() = statMap.getBaseLevel(stats.cooking).toInt()
+    get() = statBase(stats.cooking)
 
 public val Player.woodcuttingLvl: Int
-    get() = statMap.getCurrentLevel(stats.woodcutting).toInt()
+    get() = stat(stats.woodcutting)
 
 public val Player.baseWoodcuttingLvl: Int
-    get() = statMap.getBaseLevel(stats.woodcutting).toInt()
+    get() = statBase(stats.woodcutting)
 
 public val Player.fletchingLvl: Int
-    get() = statMap.getCurrentLevel(stats.fletching).toInt()
+    get() = stat(stats.fletching)
 
 public val Player.baseFletchingLvl: Int
-    get() = statMap.getBaseLevel(stats.fletching).toInt()
+    get() = statBase(stats.fletching)
 
 public val Player.fishingLvl: Int
-    get() = statMap.getCurrentLevel(stats.fishing).toInt()
+    get() = stat(stats.fishing)
 
 public val Player.baseFishingLvl: Int
-    get() = statMap.getBaseLevel(stats.fishing).toInt()
+    get() = statBase(stats.fishing)
 
 public val Player.firemakingLvl: Int
-    get() = statMap.getCurrentLevel(stats.firemaking).toInt()
+    get() = stat(stats.firemaking)
 
 public val Player.baseFiremakingLvl: Int
-    get() = statMap.getBaseLevel(stats.firemaking).toInt()
+    get() = statBase(stats.firemaking)
 
 public val Player.craftingLvl: Int
-    get() = statMap.getCurrentLevel(stats.crafting).toInt()
+    get() = stat(stats.crafting)
 
 public val Player.baseCraftingLvl: Int
-    get() = statMap.getBaseLevel(stats.crafting).toInt()
+    get() = statBase(stats.crafting)
 
 public val Player.smithingLvl: Int
-    get() = statMap.getCurrentLevel(stats.smithing).toInt()
+    get() = stat(stats.smithing)
 
 public val Player.baseSmithingLvl: Int
-    get() = statMap.getBaseLevel(stats.smithing).toInt()
+    get() = statBase(stats.smithing)
 
 public val Player.miningLvl: Int
-    get() = statMap.getCurrentLevel(stats.mining).toInt()
+    get() = stat(stats.mining)
 
 public val Player.baseMiningLvl: Int
-    get() = statMap.getBaseLevel(stats.mining).toInt()
+    get() = statBase(stats.mining)
 
 public val Player.herbloreLvl: Int
-    get() = statMap.getCurrentLevel(stats.herblore).toInt()
+    get() = stat(stats.herblore)
 
 public val Player.baseHerbloreLvl: Int
-    get() = statMap.getBaseLevel(stats.herblore).toInt()
+    get() = statBase(stats.herblore)
 
 public val Player.agilityLvl: Int
-    get() = statMap.getCurrentLevel(stats.agility).toInt()
+    get() = stat(stats.agility)
 
 public val Player.baseAgilityLvl: Int
-    get() = statMap.getBaseLevel(stats.agility).toInt()
+    get() = statBase(stats.agility)
 
 public val Player.thievingLvl: Int
-    get() = statMap.getCurrentLevel(stats.thieving).toInt()
+    get() = stat(stats.thieving)
 
 public val Player.baseThievingLvl: Int
-    get() = statMap.getBaseLevel(stats.thieving).toInt()
+    get() = statBase(stats.thieving)
 
 public val Player.slayerLvl: Int
-    get() = statMap.getCurrentLevel(stats.slayer).toInt()
+    get() = stat(stats.slayer)
 
 public val Player.baseSlayerLvl: Int
-    get() = statMap.getBaseLevel(stats.slayer).toInt()
+    get() = statBase(stats.slayer)
 
 public val Player.farmingLvl: Int
-    get() = statMap.getCurrentLevel(stats.farming).toInt()
+    get() = stat(stats.farming)
 
 public val Player.baseFarmingLvl: Int
-    get() = statMap.getBaseLevel(stats.farming).toInt()
+    get() = statBase(stats.farming)
 
 public val Player.runecraftingLvl: Int
-    get() = statMap.getCurrentLevel(stats.runecrafting).toInt()
+    get() = stat(stats.runecrafting)
 
 public val Player.baseRunecraftingLvl: Int
-    get() = statMap.getBaseLevel(stats.runecrafting).toInt()
+    get() = statBase(stats.runecrafting)
 
 public val Player.hunterLvl: Int
-    get() = statMap.getCurrentLevel(stats.hunter).toInt()
+    get() = stat(stats.hunter)
 
 public val Player.baseHunterLvl: Int
-    get() = statMap.getBaseLevel(stats.hunter).toInt()
+    get() = statBase(stats.hunter)
 
 public val Player.constructionLvl: Int
-    get() = statMap.getCurrentLevel(stats.construction).toInt()
+    get() = stat(stats.construction)
 
 public val Player.baseConstructionLvl: Int
-    get() = statMap.getBaseLevel(stats.construction).toInt()
+    get() = statBase(stats.construction)

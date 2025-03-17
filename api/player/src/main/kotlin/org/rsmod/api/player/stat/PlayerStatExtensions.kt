@@ -13,12 +13,12 @@ import org.rsmod.game.type.stat.StatType
 
 /** Returns the **current**, **visible** level for [stat]. */
 public fun Player.stat(stat: StatType): Int {
-    return statMap.getCurrentLevel(stat).toInt()
+    return statMap.getCurrentLevel(stat).toInt() and 0xFF
 }
 
 /** Returns the **base** level for [stat], based on its xp without any boosts. */
 public fun Player.statBase(stat: StatType): Int {
-    return statMap.getBaseLevel(stat).toInt()
+    return statMap.getBaseLevel(stat).toInt() and 0xFF
 }
 
 /**
@@ -67,16 +67,20 @@ public fun Player.statAdvance(
 }
 
 /**
- * #### Warning
- * Increases the player's stat level based on their **current** level. Use [statBoost] if you wish
- * to increase levels based on the **base** level instead.
+ * Increases the player's current [stat] level.
  *
- * This function ensures that the player's stat level does not exceed `255`.
+ * **Notes:**
+ * - Repeatedly calling this function will continue increasing the stat level, regardless of its
+ *   current level, until it reaches `255`.
+ * - Use [statBoost] instead if you want the increase to be capped relative to the player's **base**
+ *   stat level.
  *
  * #### Hero Points
  * If [stat] is `hitpoints` and the resulting [hitpoints] level is greater than or equal to
  * [baseHitpointsLvl], [Player.heroPoints] is automatically cleared.
  *
+ * @param constant The fixed amount to add to the player's current stat level.
+ * @param percent The percentage (`0`-`100`) of the player's **base** stat level to add.
  * @throws IllegalArgumentException if [constant] is negative (use `statSub` instead), or if
  *   [percent] is not within the range `0..100`.
  */
@@ -90,8 +94,9 @@ public fun Player.statAdd(
     require(constant >= 0) { "Constant `$constant` must be positive. Use `statSub` instead." }
     require(percent in 0..100) { "Percent must be an integer from 0-100. (0%-100%)" }
 
-    val current = statMap.getCurrentLevel(stat).toInt()
-    val calculated = current + (constant + (current * percent) / 100)
+    val base = statBase(stat)
+    val current = stat(stat)
+    val calculated = current + (constant + (base * percent) / 100)
     val cappedLevel = min(255, calculated)
 
     statMap.setCurrentLevel(stat, cappedLevel.toByte())
@@ -108,12 +113,21 @@ public fun Player.statAdd(
 }
 
 /**
- * Increases the player's stat level based on their **base** level.
+ * Increases the player's current [stat] level while ensuring it does not exceed a calculated
+ * threshold.
  *
- * This function ensures that the player's stat level does not exceed `255`.
+ * Unlike [statAdd], this function prevents the stat level from increasing beyond the sum of the
+ * player's **base** stat level and the calculated boost.
  *
- * @throws IllegalArgumentException if [constant] is negative (use `statDrain` if required), or if
- *   [percent] is not within range of `0` to `100`.
+ * **Notes:**
+ * - Repeatedly calling this function will continue increasing the stat level, regardless of its
+ *   current level, until it reaches the calculated threshold.
+ * - Use [statAdd] instead if you want the stat level to continue increasing without an upper cap.
+ *
+ * @param constant The fixed amount to add to the player's current stat level.
+ * @param percent The percentage (`0`-`100`) of the player's **base** stat level to add.
+ * @throws IllegalArgumentException if [constant] is negative (use `statSub` instead), or if
+ *   [percent] is not within the range `0..100`.
  */
 public fun Player.statBoost(
     stat: StatType,
@@ -124,22 +138,26 @@ public fun Player.statBoost(
     require(constant >= 0) { "Constant `$constant` must be positive. Use `statDrain` instead." }
     require(percent in 0..100) { "Percent must be an integer from 0-100. (0%-100%)" }
 
-    val base = statMap.getBaseLevel(stat).toInt()
+    val base = statBase(stat)
     val boost = constant + (base * percent) / 100
 
-    val current = statMap.getCurrentLevel(stat).toInt()
+    val current = stat(stat)
     val cappedBoost = min(base + boost, current + boost) - current
 
     statAdd(stat, cappedBoost, 0, invisibleLevels)
 }
 
 /**
- * #### Warning
- * Decreases the player's stat level based on their **current** level. Use [statDrain] if you wish
- * to decrease levels based on the **base** level instead.
+ * Decreases the player's current [stat] level.
  *
- * This function ensures that the player's stat level does not fall below `0`.
+ * **Notes:**
+ * - Repeatedly calling this function will continue subtracting from the stat level, regardless of
+ *   its current level, until it reaches `0`.
+ * - Use [statDrain] instead if you want the subtraction to be capped based on the outcome of the
+ *   [constant] and [percent] calculation.
  *
+ * @param constant The fixed amount to subtract from the player's current stat level.
+ * @param percent The percentage (`0`-`100`) of the player's **base** stat level to subtract.
  * @throws IllegalArgumentException if [constant] is negative, or if [percent] is not within the
  *   range `0..100`.
  */
@@ -152,8 +170,9 @@ public fun Player.statSub(
     require(constant >= 0) { "Constant `$constant` must be positive." }
     require(percent in 0..100) { "Percent must be an integer from 0-100. (0%-100%)" }
 
-    val current = statMap.getCurrentLevel(stat).toInt()
-    val calculated = current - (constant + (current * percent) / 100)
+    val base = statBase(stat)
+    val current = stat(stat)
+    val calculated = current - (constant + (base * percent) / 100)
     val cappedLevel = max(0, calculated)
 
     statMap.setCurrentLevel(stat, cappedLevel.toByte())
@@ -165,10 +184,19 @@ public fun Player.statSub(
 }
 
 /**
- * Decreases the player's stat level based on their **base** level.
+ * Decreases the player's current [stat] level while ensuring it does not fall below a calculated
+ * threshold.
  *
- * This function ensures that the player's stat level does not fall below `0`.
+ * Unlike [statSub], this function prevents the stat level from dropping below the result of the
+ * [constant] and [percent] calculation.
  *
+ * **Notes:**
+ * - This function ensures that the player's stat level does not fall below `0`.
+ * - Use [statSub] instead if you want the stat level to keep decreasing with repeated calls, even
+ *   if it falls below the calculated threshold.
+ *
+ * @param constant The fixed amount to subtract from the player's current stat level.
+ * @param percent The percentage of the player's **base** stat level to subtract.
  * @throws IllegalArgumentException if [constant] is negative (use `statAdd` if required), or if
  *   [percent] is not within range of `0` to `100`.
  */
@@ -181,10 +209,10 @@ public fun Player.statDrain(
     require(constant >= 0) { "Constant `$constant` must be positive." }
     require(percent in 0..100) { "Percent must be an integer from 0-100. (0%-100%)" }
 
-    val base = statMap.getBaseLevel(stat).toInt()
+    val base = statBase(stat)
     val drain = constant + (base * percent) / 100
 
-    val current = statMap.getCurrentLevel(stat).toInt()
+    val current = stat(stat)
     val cappedDrain = current - min(base - drain, current - drain)
 
     statSub(stat, cappedDrain, 0, invisibleLevels)
@@ -194,8 +222,8 @@ public fun Player.statDrain(
  * Restores the player's stat level towards their **base** level.
  *
  * This function increases the player's stat level by a combination of a constant value and a
- * percentage of their **current** level. The restored level will never exceed the player's base
- * level and will not decrease their current level.
+ * percentage of their **base** level. The restored level will never exceed the player's base level
+ * and will not decrease their current level.
  *
  * Commonly used to recover from temporary stat reductions or provide partial stat restoration.
  *
@@ -204,10 +232,12 @@ public fun Player.statDrain(
  * [baseHitpointsLvl], [Player.heroPoints] is automatically cleared.
  *
  * #### Example
- * If a player's base level for a stat is `99` and their current level is `80`, calling
- * `statHeal(stat, constant = 10, percent = 20)` will restore the stat by `10 + (80 * 20%) = 26`,
- * but it will be capped at the base level of `99`.
+ * If a player's base level for a stat is `80` and their current level is `50`, calling
+ * `statHeal(stat, constant = 25, percent = 20)` will restore the stat by `25 + (80 * 20%) = 42`,
+ * but it will be capped at the base level of `80` as opposed to `92`.
  *
+ * @param constant The fixed amount to add to the player's current stat level.
+ * @param percent The percentage (`0`-`100`) of the player's **base** stat level to add.
  * @throws IllegalArgumentException if [constant] is negative, or if [percent] is not within the
  *   range `0..100`.
  */
@@ -221,9 +251,9 @@ public fun Player.statHeal(
     require(constant >= 0) { "Constant `$constant` must be positive." }
     require(percent in 0..100) { "Percent must be an integer from 0-100. (0%-100%)" }
 
-    val base = statMap.getBaseLevel(stat).toInt()
-    val current = statMap.getCurrentLevel(stat).toInt()
-    val calculated = current + (constant + (current * percent) / 100)
+    val base = statBase(stat)
+    val current = stat(stat)
+    val calculated = current + (constant + (base * percent) / 100)
     val cappedLevel = calculated.coerceIn(current, base)
 
     statMap.setCurrentLevel(stat, cappedLevel.toByte())
@@ -241,7 +271,7 @@ public fun Player.statHeal(
 
 internal fun Player.updateStat(stat: StatType, invisibleLevels: InvisibleLevels) {
     val currXp = statMap.getXP(stat)
-    val currLvl = statMap.getCurrentLevel(stat).toInt()
+    val currLvl = stat(stat)
     val hiddenLevel = currLvl + invisibleLevels.get(this, stat)
     UpdateStat.update(this, stat, currXp, currLvl, hiddenLevel)
 }

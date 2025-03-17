@@ -39,6 +39,7 @@ dependencies {
     implementation(projects.engine.utilsTime)
     integrationImplementation(projects.api.hitPlugin)
     integrationImplementation(projects.api.net)
+    integrationImplementation(projects.api.stats.levelmod)
     integrationImplementation(projects.engine.coroutine)
     testImplementation(projects.api.testing.testFactory)
     testImplementation(projects.api.testing.testParams)
