@@ -86,7 +86,7 @@ constructor(
     private fun ProtectedAccess.selectCanoe(canoe: Canoe) {
         ifClose()
 
-        if (player.woodcuttingLvl < lcParam(canoe.loc, params.skill_levelreq)) {
+        if (player.woodcuttingLvl < lcParam(canoe.loc, params.levelrequire)) {
             // Cs2 removes "Make" option on canoes when player does not meet their level
             // requirement. No need for a message as this is not meant to be possible.
             // Could in theory test what is _meant_ to happen by faking an if_button packet

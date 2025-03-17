@@ -101,7 +101,7 @@ internal object WoodcuttingTrees : LocEditor() {
             param[params.respawn_time] = 0
             param[params.respawn_time_low] = 60
             param[params.respawn_time_high] = 100
-            param[params.skill_levelreq] = 1
+            param[params.levelrequire] = 1
             param[params.skill_xp] = PlayerStatMap.toFineXP(25.0).toInt()
             param[params.skill_productitem] = logs
             param[params.next_loc_stage] = stump
@@ -130,7 +130,7 @@ internal object WoodcuttingTrees : LocEditor() {
             contentGroup = content.tree
             param[params.despawn_time] = 45
             param[params.respawn_time] = 15
-            param[params.skill_levelreq] = 15
+            param[params.levelrequire] = 15
             param[params.skill_xp] = PlayerStatMap.toFineXP(37.5).toInt()
             param[params.skill_productitem] = objs.oak_logs
             param[params.next_loc_stage] = stump
@@ -143,7 +143,7 @@ internal object WoodcuttingTrees : LocEditor() {
             contentGroup = content.tree
             param[params.despawn_time] = 50
             param[params.respawn_time] = 15
-            param[params.skill_levelreq] = 30
+            param[params.levelrequire] = 30
             param[params.skill_xp] = PlayerStatMap.toFineXP(67.5).toInt()
             param[params.skill_productitem] = objs.willow_logs
             param[params.next_loc_stage] = stump
@@ -156,7 +156,7 @@ internal object WoodcuttingTrees : LocEditor() {
             contentGroup = content.tree
             param[params.despawn_time] = 50
             param[params.respawn_time] = 16
-            param[params.skill_levelreq] = 35
+            param[params.levelrequire] = 35
             param[params.skill_xp] = PlayerStatMap.toFineXP(85.0).toInt()
             param[params.skill_productitem] = objs.teak_logs
             param[params.next_loc_stage] = stump
@@ -170,7 +170,7 @@ internal object WoodcuttingTrees : LocEditor() {
             contentGroup = content.tree
             param[params.deplete_chance] = 16
             param[params.respawn_time] = 15
-            param[params.skill_levelreq] = 42
+            param[params.levelrequire] = 42
             param[params.skill_xp] = PlayerStatMap.toFineXP(35.0).toInt()
             param[params.skill_productitem] = objs.juniper_logs
             param[params.next_loc_stage] = stump
@@ -183,7 +183,7 @@ internal object WoodcuttingTrees : LocEditor() {
             contentGroup = content.tree
             param[params.despawn_time] = 100
             param[params.respawn_time] = 60
-            param[params.skill_levelreq] = 45
+            param[params.levelrequire] = 45
             param[params.skill_xp] = PlayerStatMap.toFineXP(100.0).toInt()
             param[params.skill_productitem] = objs.maple_logs
             param[params.next_loc_stage] = stump
@@ -197,7 +197,7 @@ internal object WoodcuttingTrees : LocEditor() {
             contentGroup = content.tree
             param[params.despawn_time] = 140
             param[params.respawn_time] = 15
-            param[params.skill_levelreq] = 54
+            param[params.levelrequire] = 54
             param[params.skill_xp] = PlayerStatMap.toFineXP(40.0).toInt()
             param[params.skill_productitem] = objs.arctic_pine_logs
             param[params.next_loc_stage] = stump
@@ -210,7 +210,7 @@ internal object WoodcuttingTrees : LocEditor() {
             contentGroup = content.tree
             param[params.despawn_time] = 100
             param[params.respawn_time] = 15
-            param[params.skill_levelreq] = 50
+            param[params.levelrequire] = 50
             param[params.skill_xp] = PlayerStatMap.toFineXP(125.0).toInt()
             param[params.skill_productitem] = objs.mahogany_logs
             param[params.next_loc_stage] = stump
@@ -223,7 +223,7 @@ internal object WoodcuttingTrees : LocEditor() {
             contentGroup = content.tree
             param[params.despawn_time] = 190
             param[params.respawn_time] = 100
-            param[params.skill_levelreq] = 60
+            param[params.levelrequire] = 60
             param[params.skill_xp] = PlayerStatMap.toFineXP(175.0).toInt()
             param[params.skill_productitem] = objs.yew_logs
             param[params.next_loc_stage] = stump
@@ -237,7 +237,7 @@ internal object WoodcuttingTrees : LocEditor() {
             contentGroup = content.tree
             param[params.despawn_time] = 390
             param[params.respawn_time] = 200
-            param[params.skill_levelreq] = 75
+            param[params.levelrequire] = 75
             param[params.skill_xp] = PlayerStatMap.toFineXP(250.0).toInt()
             param[params.skill_productitem] = objs.magic_logs
             param[params.next_loc_stage] = stump
@@ -250,7 +250,7 @@ internal object WoodcuttingTrees : LocEditor() {
             contentGroup = content.tree
             param[params.despawn_time] = 440
             param[params.respawn_time] = 200
-            param[params.skill_levelreq] = 90
+            param[params.levelrequire] = 90
             param[params.skill_xp] = PlayerStatMap.toFineXP(380.0).toInt()
             param[params.skill_productitem] = objs.redwood_logs
             param[params.next_loc_stage] = stump
@@ -263,7 +263,7 @@ internal object WoodcuttingTrees : LocEditor() {
             contentGroup = content.tree
             param[params.despawn_time] = 60
             param[params.respawn_time] = 43
-            param[params.skill_levelreq] = 45
+            param[params.levelrequire] = 45
             param[params.skill_xp] = PlayerStatMap.toFineXP(82.5).toInt()
             param[params.skill_productitem] = objs.bark
             param[params.next_loc_stage] = stump

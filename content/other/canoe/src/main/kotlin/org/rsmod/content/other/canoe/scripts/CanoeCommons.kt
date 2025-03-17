@@ -152,7 +152,7 @@ internal fun axeSuccessRates(
     return AxeSuccessRate(low, high)
 }
 
-internal val UnpackedObjType.axeWoodcuttingReq: Int by objParam(params.skill_levelreq)
+internal val UnpackedObjType.axeWoodcuttingReq: Int by objParam(params.levelrequire)
 
 internal fun findAxe(player: Player, objTypes: ObjTypeList): InvObj? {
     val worn = player.wornAxe(objTypes)

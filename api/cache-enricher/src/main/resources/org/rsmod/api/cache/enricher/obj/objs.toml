@@ -399,6 +399,8 @@ weapon_category = 'Bow'
 
 [[config]]
 obj = 'oak_shortbow'
+req_stat1 = 'ranged'
+req_level1 = 5
 anim_stance1 = 426
 sound_stance1 = 2693
 anim_stance2 = 426
@@ -411,6 +413,8 @@ weapon_category = 'Bow'
 
 [[config]]
 obj = 'oak_longbow'
+req_stat1 = 'ranged'
+req_level1 = 5
 anim_stance1 = 426
 sound_stance1 = 2700
 anim_stance2 = 426
@@ -424,6 +428,8 @@ weapon_category = 'Bow'
 
 [[config]]
 obj = 'willow_longbow'
+req_stat1 = 'ranged'
+req_level1 = 20
 anim_stance1 = 426
 sound_stance1 = 2700
 anim_stance2 = 426
@@ -437,6 +443,8 @@ weapon_category = 'Bow'
 
 [[config]]
 obj = 'willow_shortbow'
+req_stat1 = 'ranged'
+req_level1 = 20
 anim_stance1 = 426
 sound_stance1 = 2693
 anim_stance2 = 426
@@ -449,6 +457,8 @@ weapon_category = 'Bow'
 
 [[config]]
 obj = 'maple_longbow'
+req_stat1 = 'ranged'
+req_level1 = 30
 anim_stance1 = 426
 sound_stance1 = 2700
 anim_stance2 = 426
@@ -462,6 +472,8 @@ weapon_category = 'Bow'
 
 [[config]]
 obj = 'maple_shortbow'
+req_stat1 = 'ranged'
+req_level1 = 30
 anim_stance1 = 426
 sound_stance1 = 2693
 anim_stance2 = 426
@@ -474,6 +486,8 @@ weapon_category = 'Bow'
 
 [[config]]
 obj = 'yew_longbow'
+req_stat1 = 'ranged'
+req_level1 = 40
 anim_stance1 = 426
 sound_stance1 = 2700
 anim_stance2 = 426
@@ -487,6 +501,8 @@ weapon_category = 'Bow'
 
 [[config]]
 obj = 'yew_shortbow'
+req_stat1 = 'ranged'
+req_level1 = 40
 anim_stance1 = 426
 sound_stance1 = 2693
 anim_stance2 = 426
@@ -499,6 +515,8 @@ weapon_category = 'Bow'
 
 [[config]]
 obj = 'magic_longbow'
+req_stat1 = 'ranged'
+req_level1 = 50
 anim_stance1 = 426
 sound_stance1 = 2700
 anim_stance2 = 426
@@ -512,6 +530,8 @@ weapon_category = 'Bow'
 
 [[config]]
 obj = 'magic_shortbow'
+req_stat1 = 'ranged'
+req_level1 = 50
 anim_stance1 = 426
 sound_stance1 = 2693
 anim_stance2 = 426
@@ -2737,6 +2757,8 @@ weapon_category = 'Blunt'
 
 [[config]]
 obj = 'ogre_bow'
+req_stat1 = 'ranged'
+req_level1 = 30
 anim_stance1 = 426
 sound_stance1 = 2693
 anim_stance2 = 426
@@ -3644,6 +3666,8 @@ weapon_category = 'Bow'
 
 [[config]]
 obj = 'signed_oak_bow'
+req_stat1 = 'ranged'
+req_level1 = 5
 anim_stance1 = 426
 sound_stance1 = 2700
 anim_stance2 = 426
@@ -3926,6 +3950,8 @@ weapon_category = 'Spiked'
 
 [[config]]
 obj = 'comp_ogre_bow'
+req_stat1 = 'ranged'
+req_level1 = 30
 anim_stance1 = 426
 sound_stance1 = 2693
 anim_stance2 = 426
@@ -5946,6 +5972,8 @@ weapon_category = 'Blunt'
 
 [[config]]
 obj = 'seercull'
+req_stat1 = 'ranged'
+req_level1 = 50
 anim_stance1 = 426
 sound_stance1 = 2693
 anim_stance2 = 426
@@ -7791,6 +7819,8 @@ weapon_category = 'Crossbow'
 
 [[config]]
 obj = 'willow_comp_bow'
+req_stat1 = 'ranged'
+req_level1 = 20
 walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
@@ -7812,6 +7842,8 @@ weapon_category = 'Bow'
 
 [[config]]
 obj = 'yew_comp_bow'
+req_stat1 = 'ranged'
+req_level1 = 40
 walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
@@ -7833,6 +7865,8 @@ weapon_category = 'Bow'
 
 [[config]]
 obj = 'magic_comp_bow'
+req_stat1 = 'ranged'
+req_level1 = 50
 walk_anim = 1205
 run_anim = 1210
 ready_anim = 813
@@ -8181,6 +8215,8 @@ weapon_category = 'Thrown'
 
 [[config]]
 obj = 'dark_bow'
+req_stat1 = 'ranged'
+req_level1 = 60
 anim_stance1 = 426
 sound_stance1 = 3731
 anim_stance2 = 426
@@ -9772,6 +9808,8 @@ weapon_category = 'Staff'
 
 [[config]]
 obj = '3rd_age_bow'
+req_stat1 = 'ranged'
+req_level1 = 65
 anim_stance1 = 426
 sound_stance1 = 2693
 anim_stance2 = 426
@@ -9941,6 +9979,8 @@ weapon_category = 'Whip'
 
 [[config]]
 obj = 'magic_shortbow_i'
+req_stat1 = 'ranged'
+req_level1 = 50
 anim_stance1 = 426
 sound_stance1 = 2693
 anim_stance2 = 426
@@ -11771,6 +11811,8 @@ weapon_category = 'Thrown'
 
 [[config]]
 obj = 'twisted_bow'
+req_stat1 = 'ranged'
+req_level1 = 85
 anim_stance1 = 426
 sound_stance1 = 2700
 anim_stance2 = 426
@@ -12488,6 +12530,8 @@ weapon_category = 'Spiked'
 
 [[config]]
 obj = 'craws_bow_u'
+req_stat1 = 'ranged'
+req_level1 = 60
 anim_stance1 = 426
 sound_stance1 = 2693
 anim_stance2 = 426
@@ -12501,6 +12545,8 @@ weapon_category = 'Bow'
 
 [[config]]
 obj = 'craws_bow'
+req_stat1 = 'ranged'
+req_level1 = 60
 anim_stance1 = 426
 sound_stance1 = 2693
 anim_stance2 = 426
@@ -13851,6 +13897,8 @@ weapon_category = 'Bow'
 
 [[config]]
 obj = 'crystal_bow'
+req_stat1 = 'ranged'
+req_level1 = 70
 anim_stance1 = 426
 sound_stance1 = 1352
 anim_stance2 = 426
@@ -13866,6 +13914,8 @@ weapon_category = 'Bow'
 
 [[config]]
 obj = 'crystal_bow_inactive'
+req_stat1 = 'ranged'
+req_level1 = 70
 anim_stance1 = 426
 sound_stance1 = 1352
 anim_stance2 = 426
@@ -15080,6 +15130,8 @@ weapon_category = 'Scythe'
 
 [[config]]
 obj = 'bow_of_faerdhinen'
+req_stat1 = 'ranged'
+req_level1 = 80
 anim_stance1 = 426
 sound_stance1 = 1352
 anim_stance2 = 426
@@ -15094,6 +15146,8 @@ weapon_category = 'Bow'
 
 [[config]]
 obj = 'bow_of_faerdhinen_c_hefin'
+req_stat1 = 'ranged'
+req_level1 = 80
 anim_stance1 = 426
 sound_stance1 = 1352
 anim_stance2 = 426
@@ -15213,6 +15267,8 @@ weapon_category = 'SlashSword'
 
 [[config]]
 obj = 'bow_of_faerdhinen_c_ithell'
+req_stat1 = 'ranged'
+req_level1 = 80
 anim_stance1 = 426
 sound_stance1 = 1352
 anim_stance2 = 426
@@ -15227,6 +15283,8 @@ weapon_category = 'Bow'
 
 [[config]]
 obj = 'bow_of_faerdhinen_c_iorwerth'
+req_stat1 = 'ranged'
+req_level1 = 80
 anim_stance1 = 426
 sound_stance1 = 1352
 anim_stance2 = 426
@@ -15241,6 +15299,8 @@ weapon_category = 'Bow'
 
 [[config]]
 obj = 'bow_of_faerdhinen_c_trahaearn'
+req_stat1 = 'ranged'
+req_level1 = 80
 anim_stance1 = 426
 sound_stance1 = 1352
 anim_stance2 = 426
@@ -15255,6 +15315,8 @@ weapon_category = 'Bow'
 
 [[config]]
 obj = 'bow_of_faerdhinen_c_cadarn'
+req_stat1 = 'ranged'
+req_level1 = 80
 anim_stance1 = 426
 sound_stance1 = 1352
 anim_stance2 = 426
@@ -15269,6 +15331,8 @@ weapon_category = 'Bow'
 
 [[config]]
 obj = 'bow_of_faerdhinen_c_crwys'
+req_stat1 = 'ranged'
+req_level1 = 80
 anim_stance1 = 426
 sound_stance1 = 1352
 anim_stance2 = 426
@@ -15283,6 +15347,8 @@ weapon_category = 'Bow'
 
 [[config]]
 obj = 'bow_of_faerdhinen_c_meilyr'
+req_stat1 = 'ranged'
+req_level1 = 80
 anim_stance1 = 426
 sound_stance1 = 1352
 anim_stance2 = 426
@@ -15297,6 +15363,8 @@ weapon_category = 'Bow'
 
 [[config]]
 obj = 'bow_of_faerdhinen_c_amlodd'
+req_stat1 = 'ranged'
+req_level1 = 80
 anim_stance1 = 426
 sound_stance1 = 1352
 anim_stance2 = 426
@@ -15883,6 +15951,8 @@ weapon_category = 'PoweredStaff'
 
 [[config]]
 obj = 'venator_bow'
+req_stat1 = 'ranged'
+req_level1 = 80
 walk_anim = 9859
 run_anim = 9860
 ready_anim = 9857
@@ -15905,6 +15975,8 @@ weapon_category = 'Bow'
 
 [[config]]
 obj = 'venator_bow_uncharged'
+req_stat1 = 'ranged'
+req_level1 = 80
 walk_anim = 9859
 run_anim = 9860
 ready_anim = 9857
@@ -15926,6 +15998,8 @@ weapon_category = 'Bow'
 
 [[config]]
 obj = 'webweaver_bow_u'
+req_stat1 = 'ranged'
+req_level1 = 70
 anim_stance1 = 426
 sound_stance1 = 2693
 anim_stance2 = 426
@@ -15939,6 +16013,8 @@ weapon_category = 'Bow'
 
 [[config]]
 obj = 'webweaver_bow'
+req_stat1 = 'ranged'
+req_level1 = 70
 anim_stance1 = 426
 sound_stance1 = 2693
 anim_stance2 = 426
@@ -16083,6 +16159,8 @@ weapon_category = 'Staff'
 
 [[config]]
 obj = 'dark_bow_bh'
+req_stat1 = 'ranged'
+req_level1 = 60
 anim_stance1 = 426
 sound_stance1 = 3731
 anim_stance2 = 426
@@ -23553,6 +23631,8 @@ weapon_category = 'Spiked'
 
 [[config]]
 obj = 'bone_shortbow'
+req_stat1 = 'ranged'
+req_level1 = 50
 equipment_sound = 2244
 untradable = true
 range = 7
@@ -33676,6 +33756,8 @@ untradable = true
 
 [[config]]
 obj = 'corrupted_twisted_bow'
+req_stat1 = 'ranged'
+req_level1 = 85
 speed = 6
 range = 10
 weapon_category = 'Bow'
@@ -34304,6 +34386,8 @@ dummyitem = 2
 
 [[config]]
 obj = 'bow_of_faerdhinen_inactive'
+req_stat1 = 'ranged'
+req_level1 = 80
 speed = 5
 range = 10
 weapon_category = 'Bow'

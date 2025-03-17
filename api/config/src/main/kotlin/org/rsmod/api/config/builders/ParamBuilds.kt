@@ -73,7 +73,6 @@ internal object ParamBuilds : ParamBuilder() {
         build<Boolean>("shop_sale_restricted") { default = false }
 
         build<SeqType>("skill_anim")
-        build<Int>("skill_levelreq")
         build<Int>("skill_xp")
         build<ObjType>("skill_productitem")
         build<SynthType>("skill_sound")

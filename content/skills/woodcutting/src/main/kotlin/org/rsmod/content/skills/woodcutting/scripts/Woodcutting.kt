@@ -242,10 +242,10 @@ constructor(
         var Controller.treeLastCut: Int by intVarCon(varcons.woodcutting_tree_last_cut)
         var Controller.treeLocId: Int by intVarCon(varcons.woodcutting_tree_loc)
 
-        val UnpackedObjType.axeWoodcuttingReq: Int by objParam(params.skill_levelreq)
+        val UnpackedObjType.axeWoodcuttingReq: Int by objParam(params.levelrequire)
         val UnpackedObjType.axeWoodcuttingAnim: SeqType by objParam(params.skill_anim)
 
-        val UnpackedLocType.treeLevelReq: Int by locParam(params.skill_levelreq)
+        val UnpackedLocType.treeLevelReq: Int by locParam(params.levelrequire)
         val UnpackedLocType.treeLogs: ObjType by locParam(params.skill_productitem)
         val UnpackedLocType.treeXp: Double by locXpParam(params.skill_xp)
         val UnpackedLocType.treeStump: LocType by locParam(params.next_loc_stage)

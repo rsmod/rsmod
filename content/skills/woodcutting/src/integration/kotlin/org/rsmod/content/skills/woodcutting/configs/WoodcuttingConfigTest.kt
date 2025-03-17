@@ -19,7 +19,7 @@ class WoodcuttingConfigTest {
         for (axe in axes) {
             val axeParams = axe.paramMap
             assertNotNullContract(axeParams)
-            assertTrue(params.skill_levelreq in axeParams)
+            assertTrue(params.levelrequire in axeParams)
             assertTrue(params.skill_anim in axeParams)
         }
     }
@@ -30,7 +30,7 @@ class WoodcuttingConfigTest {
         for (tree in trees) {
             val treeParams = tree.paramMap
             assertNotNullContract(treeParams)
-            assertTrue(params.skill_levelreq in treeParams)
+            assertTrue(params.levelrequire in treeParams)
             assertTrue(params.skill_productitem in treeParams)
             assertTrue(params.skill_xp in treeParams)
             assertTrue(params.next_loc_stage in treeParams)

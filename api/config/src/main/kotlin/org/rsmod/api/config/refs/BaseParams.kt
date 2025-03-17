@@ -34,6 +34,14 @@ object BaseParams : ParamReferences() {
     val statreq1_level: ParamInt = find("statreq1_level", 88687192592)
     val statreq2_skill: ParamStat = find("statreq2_skill", 70092228128)
     val statreq2_level: ParamInt = find("statreq2_level", 88687192593)
+    /**
+     * Unlike [statreq1_level] and [statreq2_level], this level requirement is not used when
+     * equipping objs but applies to specific skill-related actions.
+     *
+     * For example, arrows can be wielded without meeting a ranged level requirement, but they
+     * cannot be used in combat unless the equipped bow meets this `levelrequire` threshold.
+     */
+    val levelrequire: ParamInt = find("levelrequire", 88687192179)
     val no_bank: ParamInt = find("no_bank", 88687214541)
     val no_alchemy: ParamInt = find("no_alchemy", 88687192451)
     val attack_stab: ParamInt = find("attack_stab", 88687192156)
@@ -133,7 +141,6 @@ object BaseParams : ParamReferences() {
     val skill_productitem: ParamObj = find("skill_productitem")
     val skill_xp: ParamInt = find("skill_xp")
     val skill_anim: ParamSeq = find("skill_anim")
-    val skill_levelreq: ParamInt = find("skill_levelreq")
     val game_message: ParamStr = find("game_message")
     val game_message2: ParamStr = find("game_message2")
     val climb_anim: ParamSeq = find("climb_anim")

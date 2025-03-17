@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.inject.Inject
 import org.rsmod.api.config.aliases.ParamInt
 import org.rsmod.api.config.aliases.ParamSeq
+import org.rsmod.api.config.aliases.ParamStat
 import org.rsmod.api.config.aliases.ParamStr
 import org.rsmod.api.config.aliases.ParamSynth
 import org.rsmod.api.config.refs.params
@@ -16,6 +17,7 @@ import org.rsmod.game.type.obj.Dummyitem
 import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.type.obj.WeaponCategory
 import org.rsmod.game.type.seq.SeqTypeList
+import org.rsmod.game.type.stat.StatTypeList
 import org.rsmod.game.type.synth.SynthType
 
 public class DefaultObjCacheEnricher
@@ -24,6 +26,7 @@ constructor(
     @Toml private val mapper: ObjectMapper,
     private val nameMapping: NameMapping,
     private val seqTypes: SeqTypeList,
+    private val statTypes: StatTypeList,
 ) : ObjCacheEnricher {
     private val names: Map<String, Int>
         get() = nameMapping.objs
@@ -73,6 +76,8 @@ constructor(
         putInt(config.respawnTimer, params.respawn_time)
         putInt(config.speed, params.attackrate)
         putInt(config.range, params.attackrange)
+        putStatReq(config.reqStat1, params.statreq1_skill, config.reqLevel1, params.statreq1_level)
+        putStatReq(config.reqStat2, params.statreq2_skill, config.reqLevel2, params.statreq2_level)
         putWeaponCategory(config.weaponCategory)
         return this
     }
@@ -101,6 +106,20 @@ constructor(
         }
     }
 
+    private fun ObjPluginBuilder.putStatReq(
+        stat: String?,
+        statParam: ParamStat,
+        level: Int?,
+        levelParam: ParamInt,
+    ) {
+        if (stat == null) {
+            return
+        }
+        val statType = statTypes.values.firstOrNull { it.internalName == stat }?.toHashedType()
+        param[statParam] = statType ?: error("Invalid stat name: $stat")
+        param[levelParam] = level ?: error("Invalid null level: '$name' ($levelParam, $statParam)")
+    }
+
     private fun ObjPluginBuilder.putWeaponCategory(categoryIdentifier: String?) {
         // Note: This assumes `WeaponCategory` entry names match `weapon_category` strings in
         // `ExternalObjConfig`.
@@ -117,6 +136,10 @@ constructor(
 
 private data class ExternalObjConfig(
     val obj: String,
+    val reqStat1: String?,
+    val reqLevel1: Int?,
+    val reqStat2: String?,
+    val reqLevel2: Int?,
     val walkAnim: Int?,
     val runAnim: Int?,
     val readyAnim: Int?,

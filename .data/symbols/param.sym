@@ -12,6 +12,7 @@
 11	item_prayer_bonus
 12	ranged_strength
 14	attackrate
+23	levelrequire
 41	zamorakitem
 59	no_bank
 65	npc_magic_damage_bonus
@@ -236,7 +237,7 @@
 65492	skill_productitem
 65493	skill_xp
 65494	skill_anim
-65495	skill_levelreq
+65495	_removed_param_65495
 65496	shop_sale_restricted
 65497	shop_sell_percentage
 65498	shop_buy_percentage
