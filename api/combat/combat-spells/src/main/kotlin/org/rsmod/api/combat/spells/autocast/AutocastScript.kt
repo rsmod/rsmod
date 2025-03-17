@@ -1,4 +1,4 @@
-package org.rsmod.api.combat.magic.autocast
+package org.rsmod.api.combat.spells.autocast
 
 import jakarta.inject.Inject
 import org.rsmod.plugin.scripts.PluginScript

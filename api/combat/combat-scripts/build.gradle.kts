@@ -10,7 +10,7 @@ dependencies {
     implementation(libs.guice)
     implementation(projects.api.combat.combatCommons)
     implementation(projects.api.combat.combatFormulas)
-    implementation(projects.api.combat.combatMagic)
+    implementation(projects.api.combat.combatSpells)
     implementation(projects.api.combat.combatWeapon)
     implementation(projects.api.config)
     implementation(projects.api.npc)

@@ -1,8 +1,8 @@
-package org.rsmod.api.combat.magic.autocast
+package org.rsmod.api.combat.spells.autocast
 
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
-import org.rsmod.api.combat.magic.autocast.configs.autocast_params
+import org.rsmod.api.combat.spells.autocast.configs.autocast_params
 import org.rsmod.api.config.refs.varbits
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.vars.VarPlayerIntMapSetter

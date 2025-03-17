@@ -3,7 +3,7 @@ package org.rsmod.content.interfaces.combat.tab
 import jakarta.inject.Inject
 import org.rsmod.api.combat.commons.CombatStance
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
-import org.rsmod.api.combat.magic.autocast.AutocastWeapons
+import org.rsmod.api.combat.spells.autocast.AutocastWeapons
 import org.rsmod.api.combat.weapon.styles.AttackStyles
 import org.rsmod.api.config.refs.interfaces
 import org.rsmod.api.config.refs.varbits

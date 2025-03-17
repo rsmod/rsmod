@@ -1,8 +1,8 @@
-package org.rsmod.api.combat.magic.autocast
+package org.rsmod.api.combat.spells.autocast
 
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
-import org.rsmod.api.combat.magic.autocast.configs.autocast_enums
+import org.rsmod.api.combat.spells.autocast.configs.autocast_enums
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.util.EnumTypeMapResolver

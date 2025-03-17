@@ -1,4 +1,4 @@
-package org.rsmod.api.combat.magic.autocast.configs
+package org.rsmod.api.combat.spells.autocast.configs
 
 import org.rsmod.api.config.refs.objs
 import org.rsmod.api.type.builders.enums.EnumBuilder

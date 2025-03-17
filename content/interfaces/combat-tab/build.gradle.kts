@@ -5,8 +5,8 @@ plugins {
 
 dependencies {
     implementation(libs.fastutil)
+    implementation(projects.api.combat.combatSpells)
     implementation(projects.api.combat.combatWeapon)
-    implementation(projects.api.combat.combatMagic)
     implementation(projects.api.pluginCommons)
     implementation(projects.api.scriptAdvanced)
     implementation(projects.api.specials)
