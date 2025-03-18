@@ -5,6 +5,7 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import org.openrs2.cache.Cache
+import org.rsmod.api.cache.types.category.CategoryTypeDecoder
 import org.rsmod.api.cache.types.comp.ComponentTypeDecoder
 import org.rsmod.api.cache.types.enums.EnumTypeDecoder
 import org.rsmod.api.cache.types.font.FontMetricsDecoder
@@ -58,6 +59,7 @@ public object TypeListMapDecoder {
         val varnbits = decode { VarnBitTypeDecoder.decodeAll(cache) }
         val hitmarks = decode { HitmarkTypeDecoder.decodeAll(cache) }
         val headbars = decode { HeadbarTypeDecoder.decodeAll(cache) }
+        val categories = CategoryTypeDecoder.decodeAll(names)
         TypeListMap(
                 locs = locs.await(),
                 objs = objs.await(),
@@ -81,6 +83,7 @@ public object TypeListMapDecoder {
                 varnbits = varnbits.await(),
                 hitmarks = hitmarks.await(),
                 headbars = headbars.await(),
+                categories = categories,
             )
             .apply {
                 ObjTypeDecoder.assignInternal(this.objs, names.objs)

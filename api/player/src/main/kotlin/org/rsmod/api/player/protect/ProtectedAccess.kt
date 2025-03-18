@@ -142,6 +142,8 @@ import org.rsmod.game.map.collision.isZoneValid
 import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.obj.InvObj
 import org.rsmod.game.obj.isType
+import org.rsmod.game.type.category.CategoryType
+import org.rsmod.game.type.category.CategoryTypeList
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.enums.EnumType
@@ -2755,6 +2757,21 @@ public class ProtectedAccess(
 
     public fun ocTradable(obj: InvObj, objTypes: ObjTypeList = context.objTypes): Boolean =
         objTypes[obj].tradeable
+
+    public fun ocCategory(type: UnpackedObjType, catTypes: CategoryTypeList): CategoryType? =
+        catTypes[type.category]
+
+    public fun ocCategory(
+        type: ObjType,
+        catTypes: CategoryTypeList,
+        objTypes: ObjTypeList = context.objTypes,
+    ): CategoryType? = ocCategory(objTypes[type], catTypes)
+
+    public fun ocCategory(
+        obj: InvObj?,
+        catTypes: CategoryTypeList,
+        objTypes: ObjTypeList = context.objTypes,
+    ): CategoryType? = if (obj == null) null else ocCategory(objTypes[obj], catTypes)
 
     /* Seq helper functions */
     /** Returns the total time duration of [seq] in _**client frames**_. */

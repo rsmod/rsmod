@@ -1,6 +1,7 @@
 package org.rsmod.game.type.literal
 
 import kotlin.reflect.KClass
+import org.rsmod.game.type.category.CategoryType
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.comp.HashedComponentType
 import org.rsmod.game.type.enums.EnumType
@@ -36,6 +37,7 @@ public object CacheVarTypeMap {
             ComponentType::class to CacheVarLiteral.COMPONENT,
             HashedComponentType::class to CacheVarLiteral.COMPONENT,
             Int::class to CacheVarLiteral.INT,
+            CategoryType::class to CacheVarLiteral.CATEGORY,
             CoordGrid::class to CacheVarLiteral.COORDGRID,
             EnumType::class to CacheVarLiteral.ENUM,
             HashedEnumType::class to CacheVarLiteral.ENUM,
@@ -67,6 +69,7 @@ public object CacheVarTypeMap {
     public val codecMap: Map<KClass<*>, CacheVarCodec<*, *>> =
         hashMapOf(
             Boolean::class to CacheVarBoolCodec,
+            CategoryType::class to CacheVarCategoryCodec,
             ComponentType::class to CacheVarComponentCodec,
             HashedComponentType::class to CacheVarComponentCodec,
             Int::class to CacheVarIntCodec,
@@ -136,7 +139,7 @@ public object CacheVarTypeMap {
                 CacheVarLiteral.NPCUID -> Int::class
                 CacheVarLiteral.INV -> Int::class
                 CacheVarLiteral.TEXTURE -> Int::class
-                CacheVarLiteral.CATEGORY -> Int::class
+                CacheVarLiteral.CATEGORY -> CategoryType::class
                 CacheVarLiteral.CHAR -> Int::class
                 CacheVarLiteral.MAPELEMENT -> Int::class
                 CacheVarLiteral.HITMARK -> HitmarkType::class

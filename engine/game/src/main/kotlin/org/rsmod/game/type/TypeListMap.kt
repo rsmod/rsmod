@@ -1,5 +1,6 @@
 package org.rsmod.game.type
 
+import org.rsmod.game.type.category.CategoryTypeList
 import org.rsmod.game.type.comp.ComponentTypeList
 import org.rsmod.game.type.enums.EnumTypeList
 import org.rsmod.game.type.font.FontMetricsTypeList
@@ -46,4 +47,5 @@ public data class TypeListMap(
     public val walkTriggers: WalkTriggerTypeList,
     public val hitmarks: HitmarkTypeList,
     public val headbars: HeadbarTypeList,
+    public val categories: CategoryTypeList,
 )

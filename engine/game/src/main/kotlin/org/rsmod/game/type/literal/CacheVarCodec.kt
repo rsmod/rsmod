@@ -2,6 +2,7 @@ package org.rsmod.game.type.literal
 
 import kotlin.reflect.KClass
 import org.rsmod.game.type.TypeListMap
+import org.rsmod.game.type.category.CategoryType
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.enums.EnumType
 import org.rsmod.game.type.headbar.HeadbarType
@@ -43,6 +44,17 @@ public object CacheVarBoolCodec : BaseIntVarCodec<Boolean>(Boolean::class) {
     override fun decode(types: TypeListMap, value: Int): Boolean = value == 1
 
     override fun encode(value: Boolean): Int = if (value) 1 else 0
+}
+
+public object CacheVarCategoryCodec : BaseIntVarCodec<CategoryType>(CategoryType::class) {
+    // Note: Not every referenced category requires a symbol name. If a category is not
+    // found in the predefined list, we create a new `CategoryType`.
+    // This behavior may change in the future if we decide to enforce that every referenced
+    // category (e.g., in enum or param types) must have a defined symbol.
+    override fun decode(types: TypeListMap, value: Int): CategoryType? =
+        types.categories[value] ?: CategoryType(value, "unnamed_category_$value")
+
+    override fun encode(value: CategoryType): Int = value.id
 }
 
 public object CacheVarCoordGridCodec : BaseIntVarCodec<CoordGrid>(CoordGrid::class) {
@@ -127,6 +139,10 @@ public object CacheVarStatCodec : BaseIntVarCodec<StatType>(StatType::class) {
 }
 
 public object CacheVarSynthCodec : BaseIntVarCodec<SynthType>(SynthType::class) {
+    // Note: Not every referenced synth requires a symbol name. If a synth is not found in
+    // the predefined list, we create a new `SynthType`.
+    // This behavior may change in the future if we decide to enforce that every referenced
+    // synth (e.g., in enum or param types) must have a defined symbol.
     override fun decode(types: TypeListMap, value: Int): SynthType =
         types.synths[value] ?: SynthType(value, "unnamed_synth_$value")
 

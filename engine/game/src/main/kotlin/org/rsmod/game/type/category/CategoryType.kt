@@ -6,4 +6,6 @@ public data class CategoryType(override var internalId: Int?, override var inter
     CacheType() {
     override fun toString(): String =
         "CategoryType(internalName='$internalName', internalId=$internalId)"
+
+    public fun isType(other: CategoryType): Boolean = other.internalId == internalId
 }
