@@ -55,7 +55,7 @@ constructor(
 ) {
     public fun processPreMovement(player: Player, interaction: Interaction) {
         // If the player is busy, interactions should not be canceled by [shouldCancelInteraction].
-        if (player.isBusy) {
+        if (player.isAccessProtected) {
             return
         }
 
@@ -71,7 +71,7 @@ constructor(
     public fun processPostMovement(player: Player, interaction: Interaction) {
         // If the player is busy, interactions should not be canceled by [shouldCancelInteraction].
         // However, if an interaction was completed during the pre-movement step, clear it.
-        if (player.isBusy) {
+        if (player.isAccessProtected) {
             player.clearFinishedInteraction()
             return
         }
