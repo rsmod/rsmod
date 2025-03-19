@@ -21,7 +21,7 @@ class ProtectedAccessPlayerMoveWithMinDelayTest {
         runGameTest(WheatTestScript::class) {
             val loc = placeMapLoc(CoordGrid(0, 49, 51, 25, 28), wheat)
             val start = loc.coords.translateX(1)
-            player.teleport(start)
+            player.placeAt(start)
             player.enableRun()
             player.opLoc2(loc)
             player.clearInv()
@@ -40,7 +40,7 @@ class ProtectedAccessPlayerMoveWithMinDelayTest {
         runGameTest(WheatTestScript::class) {
             val loc = placeMapLoc(CoordGrid(0, 49, 51, 26, 29), wheat)
             val start = loc.coords.translate(-1, -1)
-            player.teleport(start)
+            player.placeAt(start)
             player.enableRun()
             player.opLoc2(loc)
             player.clearInv()
@@ -66,7 +66,7 @@ class ProtectedAccessPlayerMoveWithMinDelayTest {
     fun GameTestState.`pick grain on same coord with full inv`() =
         runGameTest(WheatTestScript::class) {
             val loc = placeMapLoc(CoordGrid(0, 49, 51, 25, 28), wheat)
-            player.teleport(loc.coords)
+            player.placeAt(loc.coords)
             player.enableRun()
             player.opLoc2(loc)
             player.fillInv()
@@ -81,7 +81,7 @@ class ProtectedAccessPlayerMoveWithMinDelayTest {
     fun GameTestState.`pick grain from neighbouring coord with full inv`() =
         runGameTest(WheatTestScript::class) {
             val loc = placeMapLoc(CoordGrid(0, 49, 51, 25, 28), wheat)
-            player.teleport(loc.coords.translateX(1))
+            player.placeAt(loc.coords.translateX(1))
             player.enableRun()
             player.opLoc2(loc)
             player.fillInv()

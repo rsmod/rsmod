@@ -276,10 +276,25 @@ constructor(
         setMoveSpeed(MoveSpeed.Walk)
     }
 
+    /**
+     * Instantly sets the [Player]'s coordinates to [dest] without performing any of the updates or
+     * side effects that normal teleport functions handle (such as updating the collision flag map).
+     *
+     * This function is intended for test setup only. It exists because using [teleport] or
+     * [telejump] in tests would require calling [advance] to fully process the teleport logic and
+     * any side effects, which can be unnecessary or cumbersome during test initialization.
+     *
+     * To simulate actual gameplay behavior during tests, use [teleport] or [telejump], as they
+     * accurately reflect in-game mechanics and processing.
+     */
+    public fun Player.placeAt(dest: CoordGrid) {
+        allocZoneCollision(dest)
+        coords = dest
+    }
+
     public fun Player.teleport(dest: CoordGrid) {
         allocZoneCollision(dest)
-        // TODO: Change this to use [PathingEntityCommon.teleport] instead.
-        coords = dest
+        PathingEntityCommon.teleport(this, collision, dest)
     }
 
     public fun Player.telejump(dest: CoordGrid) {
