@@ -34,6 +34,8 @@ import org.rsmod.api.npc.hit.modifier.NpcHitModifier
 import org.rsmod.api.npc.hit.modifier.StandardNpcHitModifier
 import org.rsmod.api.npc.hit.processor.NpcHitProcessor
 import org.rsmod.api.npc.hit.processor.StandardNpcHitProcessor
+import org.rsmod.api.npc.interact.AiPlayerInteractions
+import org.rsmod.api.npc.opPlayer2
 import org.rsmod.api.player.hit.processor.DamageOnlyPlayerHitProcessor
 import org.rsmod.api.player.hit.processor.InstantPlayerHitProcessor
 import org.rsmod.api.player.interact.LocInteractions
@@ -91,6 +93,7 @@ import org.rsmod.game.entity.PathingEntity
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.PlayerList
 import org.rsmod.game.entity.player.SessionStateEvent
+import org.rsmod.game.entity.util.PathingEntityCommon
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.loc.LocAngle
@@ -171,6 +174,7 @@ constructor(
     private val resumePCountDialog: ResumePCountDialogHandler,
     private val opLocHandler: OpLocHandler,
     private val opNpcHandler: OpNpcHandler,
+    private val aiPlayerInteractions: AiPlayerInteractions,
 ) {
     init {
         registerPlayer()
@@ -184,6 +188,8 @@ constructor(
 
     public val Player.stats: StatsDelegate
         get() = StatsDelegate(statMap)
+
+    private var playerUuidCounter = 0L
 
     public fun advance(ticks: Int = 1) {
         repeat(ticks) {
@@ -208,15 +214,19 @@ constructor(
         throw IllegalStateException(message)
     }
 
+    @OptIn(InternalApi::class)
     public fun registerPlayer(
         coords: CoordGrid = CoordGrid(0, 50, 50, 0, 0),
         player: Player = Player(),
         slot: Int = players.nextFreeSlot() ?: error("No available slot."),
         client: Client<Any, Any> = CaptureClient(),
+        uuid: Long? = null,
     ): Player {
         player.coords = coords
         player.slotId = slot
         player.client = client
+        player.uuid = uuid ?: playerUuidCounter++
+        player.assignUid()
         players[slot] = player
         eventBus.publish(SessionStateEvent.Initialize(player))
         if (player.invMap.isEmpty()) {
@@ -226,12 +236,14 @@ constructor(
         return player
     }
 
+    @OptIn(InternalApi::class)
     public fun unregisterPlayer(player: Player) {
         require(player.slotId != PathingEntity.INVALID_SLOT) {
             "Invalid `slotId` for player: $player"
         }
         val slot = player.slotId
         player.slotId = -1
+        player.clearUid()
         player.destroy()
         players.remove(slot)
     }
@@ -266,7 +278,13 @@ constructor(
 
     public fun Player.teleport(dest: CoordGrid) {
         allocZoneCollision(dest)
+        // TODO: Change this to use [PathingEntityCommon.teleport] instead.
         coords = dest
+    }
+
+    public fun Player.telejump(dest: CoordGrid) {
+        allocZoneCollision(dest)
+        PathingEntityCommon.telejump(this, collision, dest)
     }
 
     public fun Player.clearPendingAction() {
@@ -404,9 +422,9 @@ constructor(
         captureClient.queue(resumePCountDialog, message)
     }
 
-    public fun Player.moveGameClick(dest: CoordGrid) {
+    public fun Player.moveGameClick(dest: CoordGrid, keyCombination: Int = 0) {
         allocZoneCollision(dest)
-        val message = MoveGameClick(dest.x, dest.z, keyCombination = 0)
+        val message = MoveGameClick(dest.x, dest.z, keyCombination)
         captureClient.queue(gameClickHandler, message)
     }
 
@@ -414,8 +432,16 @@ constructor(
         protectedAccess.launch(this) { action() }
     }
 
+    public fun Npc.opPlayer2(target: Player) {
+        opPlayer2(target, aiPlayerInteractions)
+    }
+
     public fun Inventory.count(obj: ObjType): Int {
         return count(objTypes[obj])
+    }
+
+    public fun allocZoneCollision(coord: CoordGrid) {
+        collision.allocateIfAbsent(coord.x, coord.z, coord.level)
     }
 
     public fun spawnNpc(coords: CoordGrid, type: UnpackedNpcType, init: Npc.() -> Unit = {}): Npc {
@@ -627,6 +653,7 @@ constructor(
     public inline fun <reified T : Throwable> Player.assertThrows(block: () -> Unit): T {
         val startClient = client
         val startSlot = slotId
+        val startUuid = uuid
         val caught: Throwable? =
             try {
                 client = CaptureClient()
@@ -650,7 +677,7 @@ constructor(
 
         // If player was disconnected due to the error, we should re-register them.
         if (slotId == PathingEntity.INVALID_SLOT && startSlot != PathingEntity.INVALID_SLOT) {
-            registerPlayer(coords, this, startSlot, startClient)
+            registerPlayer(coords, this, startSlot, startClient, startUuid)
         }
         return caught as T
     }
@@ -661,10 +688,6 @@ constructor(
 
     public fun assertDoesNotThrow(block: () -> Unit) {
         Assertions.assertDoesNotThrow { block() }
-    }
-
-    private fun allocZoneCollision(coord: CoordGrid) {
-        collision.allocateIfAbsent(coord.x, coord.z, coord.level)
     }
 
     public class Builder(state: GameTestState, private val scripts: Set<KClass<out PluginScript>>) {
