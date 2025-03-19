@@ -19,6 +19,7 @@ import org.rsmod.game.hero.HeroPoints
 import org.rsmod.game.hit.Hitmark
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.inv.InventoryMap
+import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.queue.EngineQueueList
 import org.rsmod.game.queue.EngineQueueType
 import org.rsmod.game.queue.PlayerQueueList
@@ -194,6 +195,7 @@ public class Player(
 
     public fun walk(dest: CoordGrid) {
         abortRoute()
+        moveSpeed = MoveSpeed.Walk
         routeDestination.add(dest)
     }
 

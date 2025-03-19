@@ -334,7 +334,6 @@ class PlayerInteractionProcessorTest {
             assertMessageSent("Receive attack.")
 
             // Move player out of the default max ap range from npc.
-            player.moveSpeed = MoveSpeed.Walk
             player.walk(player.coords.translateX(3))
 
             // Npc still within valid reroute script ap range.
