@@ -30,6 +30,7 @@ internal object ObjEdits : ObjEditor() {
         editSkillCapes()
         editMaxCapes()
         editGeneralStorage()
+        editBoneWeapons()
     }
 
     private fun editSkillCapes() {
@@ -147,5 +148,20 @@ internal object ObjEdits : ObjEditor() {
             param[params.bankside_extraop_varbit] = varbits.coal_bag_storage_count
             param[params.bankside_extraop_flip] = true
         }
+    }
+
+    private fun editBoneWeapons() {
+        boneWeapon("bone_dagger")
+        boneWeapon("bone_dagger_p")
+        boneWeapon("bone_dagger_p_plus")
+        boneWeapon("bone_dagger_p_plus_plus")
+        boneWeapon("bone_spear")
+        boneWeapon("bone_club")
+        boneWeapon("dorgeshuun_crossbow")
+        boneWeapon("bone_bolts")
+    }
+
+    private fun boneWeapon(internal: String) {
+        edit(internal) { param[params.bone_weapon] = 1 }
     }
 }

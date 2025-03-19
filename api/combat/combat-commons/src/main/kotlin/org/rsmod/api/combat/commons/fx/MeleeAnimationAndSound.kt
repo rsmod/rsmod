@@ -1,4 +1,4 @@
-package org.rsmod.api.combat.fx
+package org.rsmod.api.combat.commons.fx
 
 import org.rsmod.api.combat.commons.CombatStance
 import org.rsmod.api.config.aliases.ParamSeq
@@ -9,13 +9,13 @@ import org.rsmod.api.config.refs.synths
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.synth.SynthType
 
-internal data class MeleeAnimationAndSound(
+public data class MeleeAnimationAndSound(
     val animParam: ParamSeq,
     val soundParam: ParamSynth,
     val defaultAnim: SeqType,
     val defaultSound: SynthType,
 ) {
-    companion object {
+    public companion object {
         private val stance1 =
             MeleeAnimationAndSound(
                 animParam = params.attack_anim_stance1,
@@ -48,7 +48,7 @@ internal data class MeleeAnimationAndSound(
                 defaultSound = synths.human_unarmedpunch,
             )
 
-        fun from(stance: CombatStance?): MeleeAnimationAndSound =
+        public fun from(stance: CombatStance?): MeleeAnimationAndSound =
             when (stance) {
                 CombatStance.Stance1 -> stance1
                 CombatStance.Stance2 -> stance2

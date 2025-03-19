@@ -52,6 +52,7 @@ constructor(private val objTypes: ObjTypeList, private val eventBus: EventBus) {
             wearpos: Wearpos,
             objType: UnpackedObjType,
             eventBus: EventBus,
+            rebuildAppearance: Boolean = true,
         ) {
             val change = HeldEquipEvents.WearposChange(player, wearpos, objType)
             eventBus.publish(change)
@@ -59,7 +60,9 @@ constructor(private val objTypes: ObjTypeList, private val eventBus: EventBus) {
             val unequip = HeldEquipEvents.Unequip(player, wearpos, objType)
             eventBus.publish(unequip)
 
-            player.rebuildAppearance()
+            if (rebuildAppearance) {
+                player.rebuildAppearance()
+            }
         }
     }
 }

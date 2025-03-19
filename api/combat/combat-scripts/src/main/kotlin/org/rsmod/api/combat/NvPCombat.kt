@@ -16,7 +16,7 @@ import org.rsmod.game.entity.Player
 import org.rsmod.game.hit.HitType
 import org.rsmod.game.type.obj.ObjTypeList
 
-internal class NpcCombat
+internal class NvPCombat
 @Inject
 constructor(
     private val accuracy: AccuracyFormulae,

@@ -8,6 +8,7 @@ import org.rsmod.api.config.refs.hitmarks
 import org.rsmod.api.config.refs.seqs
 import org.rsmod.api.config.refs.synths
 import org.rsmod.api.type.builders.param.ParamBuilder
+import org.rsmod.game.type.category.CategoryType
 import org.rsmod.game.type.headbar.HeadbarType
 import org.rsmod.game.type.hitmark.HitmarkType
 import org.rsmod.game.type.loc.LocType
@@ -20,6 +21,11 @@ import org.rsmod.game.type.varbit.VarBitType
 
 internal object ParamBuilds : ParamBuilder() {
     init {
+        build<Boolean>("metallic_interference") { default = false }
+        build<Int>("ammo_recover_rate")
+        build<CategoryType>("required_ammo")
+        build<Int>("bone_weapon") { default = 0 }
+
         build<SynthType>("item_block_sound1")
         build<SynthType>("item_block_sound2")
         build<SynthType>("item_block_sound3")

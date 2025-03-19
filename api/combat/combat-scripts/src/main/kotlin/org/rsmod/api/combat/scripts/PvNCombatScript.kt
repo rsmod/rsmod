@@ -2,7 +2,7 @@ package org.rsmod.api.combat.scripts
 
 import jakarta.inject.Inject
 import org.rsmod.api.combat.ACTIVE_COMBAT_DELAY
-import org.rsmod.api.combat.PlayerCombat
+import org.rsmod.api.combat.PvNCombat
 import org.rsmod.api.combat.commons.magic.MagicSpell
 import org.rsmod.api.combat.inMultiCombatArea
 import org.rsmod.api.combat.npc.aggressivePlayer
@@ -22,12 +22,12 @@ import org.rsmod.game.entity.Npc
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-internal class PlayerCombatScript
+internal class PvNCombatScript
 @Inject
 constructor(
     private val styles: AttackStyles,
     private val types: AttackTypes,
-    private val combat: PlayerCombat,
+    private val combat: PvNCombat,
 ) : PluginScript() {
     override fun ScriptContext.startUp() {
         onDefaultApNpc2 { attemptCombatAp(it.npc) }

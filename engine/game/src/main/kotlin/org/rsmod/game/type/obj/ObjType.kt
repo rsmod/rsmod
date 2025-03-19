@@ -6,6 +6,7 @@ import org.rsmod.game.interact.InteractionOp
 import org.rsmod.game.obj.InvObj
 import org.rsmod.game.type.CacheType
 import org.rsmod.game.type.HashedCacheType
+import org.rsmod.game.type.category.CategoryType
 import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.param.ParamType
 import org.rsmod.game.type.util.ParamMap
@@ -178,6 +179,10 @@ public data class UnpackedObjType(
 
     public fun isContentType(content: ContentGroupType): Boolean {
         return contentGroup == content.id
+    }
+
+    public fun isCategoryType(cat: CategoryType): Boolean {
+        return category == cat.internalId
     }
 
     public fun toHashedType(): HashedObjType =

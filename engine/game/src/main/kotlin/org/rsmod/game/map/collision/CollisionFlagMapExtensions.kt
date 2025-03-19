@@ -16,6 +16,9 @@ public fun CollisionFlagMap.isZoneValid(zone: ZoneKey): Boolean = isZoneValid(zo
 public fun CollisionFlagMap.isZoneValid(coords: CoordGrid): Boolean =
     isZoneAllocated(coords.x, coords.z, coords.level)
 
+public fun CollisionFlagMap.isWalkBlocked(coords: CoordGrid): Boolean =
+    this[coords] and CollisionFlag.BLOCK_WALK != 0
+
 public operator fun CollisionFlagMap.get(coords: CoordGrid): Int =
     get(coords.x, coords.z, coords.level)
 

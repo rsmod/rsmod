@@ -19,6 +19,7 @@ object Constants {
     const val cm_obj: String = "Select an item:"
 
     const val lootdrop_duration: Int = 200
+    const val ammodrop_duration: Int = 100
     const val shop_default_size: Int = 40
 
     // Common designated spotanim slots.

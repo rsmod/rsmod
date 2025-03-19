@@ -159,6 +159,8 @@
 1802	slayer_task_boss_location
 1935	spell_autocast_id
 
+65415	required_ammo
+65416	bone_weapon
 65417	item_block_sound1
 65418	item_block_sound2
 65419	item_block_sound3
@@ -237,7 +239,7 @@
 65492	skill_productitem
 65493	skill_xp
 65494	skill_anim
-65495	_removed_param_65495
+65495	metallic_interference
 65496	shop_sale_restricted
 65497	shop_sell_percentage
 65498	shop_buy_percentage
@@ -250,7 +252,7 @@
 65505	defend_sound
 65506	death_sound
 65507	slayer_category
-65508	_removed_param_65508
+65508	ammo_recover_rate
 65509	forcehitchance_melee
 65510	forcehitchance_magic
 65511	forcehitchance_range

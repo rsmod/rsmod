@@ -3,6 +3,7 @@
 package org.rsmod.api.config.refs
 
 import org.rsmod.api.config.aliases.ParamBool
+import org.rsmod.api.config.aliases.ParamCategory
 import org.rsmod.api.config.aliases.ParamHeadbar
 import org.rsmod.api.config.aliases.ParamHitmark
 import org.rsmod.api.config.aliases.ParamInt
@@ -64,6 +65,10 @@ object BaseParams : ParamReferences() {
     val kalphite: ParamInt = find("kalphite", 88687193509)
 
     /* Server-side only types */
+    val metallic_interference: ParamBool = find("metallic_interference")
+    val ammo_recover_rate: ParamInt = find("ammo_recover_rate")
+    val required_ammo: ParamCategory = find("required_ammo")
+    val bone_weapon: ParamInt = find("bone_weapon")
     val item_block_sound1: ParamSynth = find("item_block_sound1")
     val item_block_sound2: ParamSynth = find("item_block_sound2")
     val item_block_sound3: ParamSynth = find("item_block_sound3")

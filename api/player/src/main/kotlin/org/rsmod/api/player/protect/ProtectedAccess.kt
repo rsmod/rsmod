@@ -138,6 +138,7 @@ import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.loc.LocInfo
 import org.rsmod.game.map.Direction
 import org.rsmod.game.map.collision.get
+import org.rsmod.game.map.collision.isWalkBlocked
 import org.rsmod.game.map.collision.isZoneValid
 import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.obj.InvObj
@@ -562,7 +563,7 @@ public class ProtectedAccess(
 
     /**
      * Returns `true` if there is a valid line-of-walk from [from] to **every** coordinate occupied
-     * by [bounds]; otherwise, returns `false`.
+     * by [bounds].
      */
     public fun lineOfWalk(
         from: CoordGrid,
@@ -577,7 +578,7 @@ public class ProtectedAccess(
 
     /**
      * Returns `true` if there is a valid line-of-sight from [from] to **every** coordinate occupied
-     * by [bounds]; otherwise, returns `false`.
+     * by [bounds].
      */
     public fun lineOfSight(
         from: CoordGrid,
@@ -589,6 +590,12 @@ public class ProtectedAccess(
             validator.hasLineOfSight(from, it, extraFlag = CollisionFlag.BLOCK_PLAYERS)
         }
     }
+
+    /** Returns `true` if [coord] has the [CollisionFlag.BLOCK_WALK] collision flag set. */
+    public fun mapBlocked(
+        coord: CoordGrid,
+        collision: CollisionFlagMap = context.collision,
+    ): Boolean = collision.isWalkBlocked(coord)
 
     public fun opLoc1(
         loc: BoundLocInfo,
@@ -2758,20 +2765,8 @@ public class ProtectedAccess(
     public fun ocTradable(obj: InvObj, objTypes: ObjTypeList = context.objTypes): Boolean =
         objTypes[obj].tradeable
 
-    public fun ocCategory(type: UnpackedObjType, catTypes: CategoryTypeList): CategoryType? =
-        catTypes[type.category]
-
-    public fun ocCategory(
-        type: ObjType,
-        catTypes: CategoryTypeList,
-        objTypes: ObjTypeList = context.objTypes,
-    ): CategoryType? = ocCategory(objTypes[type], catTypes)
-
-    public fun ocCategory(
-        obj: InvObj?,
-        catTypes: CategoryTypeList,
-        objTypes: ObjTypeList = context.objTypes,
-    ): CategoryType? = if (obj == null) null else ocCategory(objTypes[obj], catTypes)
+    public fun ocCategory(type: UnpackedObjType?, catTypes: CategoryTypeList): CategoryType? =
+        if (type == null) null else catTypes[type.category]
 
     /* Seq helper functions */
     /** Returns the total time duration of [seq] in _**client frames**_. */
