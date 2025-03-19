@@ -2,8 +2,8 @@ package org.rsmod.api.combat.formulas.attributes.collector
 
 import jakarta.inject.Inject
 import java.util.EnumSet
+import org.rsmod.api.combat.commons.equip.EquipmentChecks
 import org.rsmod.api.combat.commons.types.MeleeAttackType
-import org.rsmod.api.combat.formulas.EquipmentChecks
 import org.rsmod.api.combat.formulas.attributes.CombatMeleeAttributes
 import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.objs

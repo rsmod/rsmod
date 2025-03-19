@@ -2,7 +2,7 @@ package org.rsmod.api.combat.formulas.attributes.collector
 
 import jakarta.inject.Inject
 import java.util.EnumSet
-import org.rsmod.api.combat.formulas.EquipmentChecks
+import org.rsmod.api.combat.commons.equip.EquipmentChecks
 import org.rsmod.api.combat.formulas.attributes.DamageReductionAttributes
 import org.rsmod.api.combat.weapon.styles.AttackStyles
 import org.rsmod.api.config.refs.objs

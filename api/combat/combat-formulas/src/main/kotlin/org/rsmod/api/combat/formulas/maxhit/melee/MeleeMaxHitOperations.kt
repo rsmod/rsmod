@@ -2,8 +2,8 @@ package org.rsmod.api.combat.formulas.maxhit.melee
 
 import java.util.EnumSet
 import kotlin.math.max
+import org.rsmod.api.combat.commons.equip.EquipmentChecks
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
-import org.rsmod.api.combat.formulas.EquipmentChecks
 import org.rsmod.api.combat.formulas.attributes.CombatMeleeAttributes
 import org.rsmod.api.combat.formulas.attributes.CombatNpcAttributes
 import org.rsmod.api.combat.formulas.attributes.DamageReductionAttributes

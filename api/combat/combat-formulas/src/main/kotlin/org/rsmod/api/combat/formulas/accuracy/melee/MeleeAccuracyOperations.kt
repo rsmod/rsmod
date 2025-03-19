@@ -4,9 +4,9 @@ import java.util.EnumSet
 import kotlin.math.min
 import kotlin.math.roundToInt
 import org.rsmod.api.combat.accuracy.player.PlayerMeleeAccuracy
+import org.rsmod.api.combat.commons.equip.EquipmentChecks
 import org.rsmod.api.combat.commons.styles.AttackStyle
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
-import org.rsmod.api.combat.formulas.EquipmentChecks
 import org.rsmod.api.combat.formulas.HIT_CHANCE_SCALE
 import org.rsmod.api.combat.formulas.attributes.CombatMeleeAttributes
 import org.rsmod.api.combat.formulas.attributes.CombatNpcAttributes
