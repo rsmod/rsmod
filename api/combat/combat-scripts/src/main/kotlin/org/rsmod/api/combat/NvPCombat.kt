@@ -23,12 +23,8 @@ constructor(
     private val maxHits: MaxHitFormulae,
     private val objTypes: ObjTypeList,
 ) {
-    fun attack(access: StandardNpcAccess, target: Player, attack: CombatAttack.NpcAttack) {
-        when (attack) {
-            is CombatAttack.NpcMelee -> access.attackMelee(target, attack)
-            is CombatAttack.NpcRanged -> access.attackRanged(target, attack)
-            is CombatAttack.NpcMagic -> access.attackMagic(target, attack)
-        }
+    fun attack(access: StandardNpcAccess, target: Player, attack: CombatAttack.NpcMelee) {
+        access.attackMelee(target, attack)
     }
 
     private fun StandardNpcAccess.attackMelee(target: Player, attack: CombatAttack.NpcMelee) {
@@ -65,14 +61,6 @@ constructor(
         target.queueHit(npc, 1, HitType.Melee, damage)
         target.combatPlayDefendFx(damage, objTypes)
         target.queueCombatRetaliate(npc)
-    }
-
-    private fun StandardNpcAccess.attackRanged(target: Player, attack: CombatAttack.NpcRanged) {
-        TODO()
-    }
-
-    private fun StandardNpcAccess.attackMagic(target: Player, attack: CombatAttack.NpcMagic) {
-        TODO()
     }
 
     private fun canAttack(target: Player): Boolean {
