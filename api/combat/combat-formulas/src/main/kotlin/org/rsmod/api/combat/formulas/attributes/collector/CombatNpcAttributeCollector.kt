@@ -13,14 +13,14 @@ public class CombatNpcAttributeCollector {
         maxHp: Int,
         slayerTask: Boolean,
     ): EnumSet<CombatNpcAttributes> {
-        val npcAttributes = EnumSet.noneOf(CombatNpcAttributes::class.java)
+        val attributes = EnumSet.noneOf(CombatNpcAttributes::class.java)
 
         if (currHp < maxHp / 4) {
-            npcAttributes += CombatNpcAttributes.QuarterHealth
+            attributes += CombatNpcAttributes.QuarterHealth
         }
 
         if (slayerTask) {
-            npcAttributes += CombatNpcAttributes.SlayerTask
+            attributes += CombatNpcAttributes.SlayerTask
         }
 
         // TODO(combat): "In wilderness" area check.
@@ -40,62 +40,62 @@ public class CombatNpcAttributeCollector {
             }
 
         if (sizeAttribute != null) {
-            npcAttributes += sizeAttribute
+            attributes += sizeAttribute
         }
 
         if (type.param(params.revenant) != 0) {
-            npcAttributes += CombatNpcAttributes.Revenant
+            attributes += CombatNpcAttributes.Revenant
         }
 
         if (type.param(params.undead) != 0) {
-            npcAttributes += CombatNpcAttributes.Undead
+            attributes += CombatNpcAttributes.Undead
         }
 
         if (type.param(params.demon) != 0) {
-            npcAttributes += CombatNpcAttributes.Demon
+            attributes += CombatNpcAttributes.Demon
         }
 
         if (type.param(params.demonbane_resistant) != 0) {
-            npcAttributes += CombatNpcAttributes.DemonbaneResistance
+            attributes += CombatNpcAttributes.DemonbaneResistance
         }
 
         if (type.param(params.draconic) != 0) {
-            npcAttributes += CombatNpcAttributes.Draconic
+            attributes += CombatNpcAttributes.Draconic
         }
 
         if (type.param(params.kalphite) != 0) {
-            npcAttributes += CombatNpcAttributes.Kalphite
+            attributes += CombatNpcAttributes.Kalphite
         }
 
         if (type.param(params.golem) != 0) {
-            npcAttributes += CombatNpcAttributes.Golem
+            attributes += CombatNpcAttributes.Golem
         }
 
         if (type.param(params.leafy) != 0) {
-            npcAttributes += CombatNpcAttributes.Leafy
+            attributes += CombatNpcAttributes.Leafy
         }
 
         if (type.param(params.rat) != 0) {
-            npcAttributes += CombatNpcAttributes.Rat
+            attributes += CombatNpcAttributes.Rat
         }
 
         if (type.param(params.shade) != 0) {
-            npcAttributes += CombatNpcAttributes.Shade
+            attributes += CombatNpcAttributes.Shade
         }
 
         if (type.param(params.tormented_demon) != 0 && !type.param(params.td_shield_active)) {
-            npcAttributes += CombatNpcAttributes.TormentedDemonUnshielded
+            attributes += CombatNpcAttributes.TormentedDemonUnshielded
         }
 
         if (type.isType(npcs.corporeal_beast)) {
-            npcAttributes += CombatNpcAttributes.CorporealBeast
+            attributes += CombatNpcAttributes.CorporealBeast
         }
 
         val amascutNpc = false // TODO(combat): param(params.tomb_of_amascut)
         if (amascutNpc) {
-            npcAttributes += CombatNpcAttributes.Amascut
+            attributes += CombatNpcAttributes.Amascut
         }
 
-        return npcAttributes
+        return attributes
     }
 }

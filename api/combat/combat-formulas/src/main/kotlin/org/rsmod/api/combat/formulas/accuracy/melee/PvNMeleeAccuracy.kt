@@ -8,10 +8,10 @@ import org.rsmod.api.combat.accuracy.player.PlayerMeleeAccuracy
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
 import org.rsmod.api.combat.commons.types.MeleeAttackType
 import org.rsmod.api.combat.formulas.HIT_CHANCE_SCALE
+import org.rsmod.api.combat.formulas.attributes.CombatMeleeAttributes
 import org.rsmod.api.combat.formulas.attributes.CombatNpcAttributes
-import org.rsmod.api.combat.formulas.attributes.CombatWornAttributes
+import org.rsmod.api.combat.formulas.attributes.collector.CombatMeleeAttributeCollector
 import org.rsmod.api.combat.formulas.attributes.collector.CombatNpcAttributeCollector
-import org.rsmod.api.combat.formulas.attributes.collector.MeleeWornAttributeCollector
 import org.rsmod.api.combat.formulas.isSlayerTask
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.player.bonus.WornBonuses
@@ -23,8 +23,8 @@ public class PvNMeleeAccuracy
 @Inject
 constructor(
     private val bonuses: WornBonuses,
-    private val npcCollector: CombatNpcAttributeCollector,
-    private val wornCollector: MeleeWornAttributeCollector,
+    private val npcAttributes: CombatNpcAttributeCollector,
+    private val meleeAttributes: CombatMeleeAttributeCollector,
 ) {
     public fun getHitChance(
         player: Player,
@@ -66,13 +66,13 @@ constructor(
         blockType: MeleeAttackType?,
         specialMultiplier: Double,
     ): Int {
-        val wornAttributes = wornCollector.collect(source, attackType)
+        val meleeAttributes = meleeAttributes.collect(source, attackType)
 
         val slayerTask = target.isSlayerTask(source)
-        val npcAttributes = npcCollector.collect(target, targetCurrHp, targetMaxHp, slayerTask)
+        val npcAttributes = npcAttributes.collect(target, targetCurrHp, targetMaxHp, slayerTask)
 
         val baseAttackRoll =
-            computeAttackRoll(source, attackType, attackStyle, wornAttributes, npcAttributes)
+            computeAttackRoll(source, attackType, attackStyle, meleeAttributes, npcAttributes)
         val attackRoll = (baseAttackRoll * specialMultiplier).toInt()
 
         val amascutInvocationLvl = 0 // TODO(combat): Decide if we want this to be varp or varn.
@@ -90,7 +90,7 @@ constructor(
             hitChance = hitChance,
             attackRoll = attackRoll,
             defenceRoll = defenceRoll,
-            wornAttributes = wornAttributes,
+            meleeAttributes = meleeAttributes,
             npcAttributes = npcAttributes,
         )
     }
@@ -99,13 +99,13 @@ constructor(
         source: Player,
         attackType: MeleeAttackType?,
         attackStyle: MeleeAttackStyle?,
-        wornAttributes: EnumSet<CombatWornAttributes>,
+        meleeAttributes: EnumSet<CombatMeleeAttributes>,
         npcAttributes: EnumSet<CombatNpcAttributes>,
     ): Int {
         val effectiveAttack = MeleeAccuracyOperations.calculateEffectiveAttack(source, attackStyle)
         val attackBonus = source.getAttackBonus(attackType)
         val attackRoll = PlayerMeleeAccuracy.calculateBaseAttackRoll(effectiveAttack, attackBonus)
-        return MeleeAccuracyOperations.modifyAttackRoll(attackRoll, wornAttributes, npcAttributes)
+        return MeleeAccuracyOperations.modifyAttackRoll(attackRoll, meleeAttributes, npcAttributes)
     }
 
     private fun Player.getAttackBonus(attackType: MeleeAttackType?): Int =

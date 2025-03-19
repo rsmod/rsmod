@@ -1,6 +1,6 @@
 package org.rsmod.api.combat.formulas.attributes
 
-public enum class CombatWornAttributes {
+public enum class CombatMeleeAttributes {
     Crush,
     Stab,
     AmuletOfAvarice,
@@ -18,7 +18,7 @@ public enum class CombatWornAttributes {
     KerisSunPartisan,
     BarroniteMaceWeapon,
     ForinthrySurge,
-    RevenantMeleeWeapon,
+    RevenantWeapon,
     Silverlight,
     LeafBladed,
     ColossalBlade,

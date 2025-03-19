@@ -4,10 +4,10 @@ import jakarta.inject.Inject
 import java.util.EnumSet
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
 import org.rsmod.api.combat.commons.types.MeleeAttackType
+import org.rsmod.api.combat.formulas.attributes.CombatMeleeAttributes
 import org.rsmod.api.combat.formulas.attributes.CombatNpcAttributes
-import org.rsmod.api.combat.formulas.attributes.CombatWornAttributes
+import org.rsmod.api.combat.formulas.attributes.collector.CombatMeleeAttributeCollector
 import org.rsmod.api.combat.formulas.attributes.collector.CombatNpcAttributeCollector
-import org.rsmod.api.combat.formulas.attributes.collector.MeleeWornAttributeCollector
 import org.rsmod.api.combat.formulas.isSlayerTask
 import org.rsmod.api.combat.maxhit.player.PlayerMeleeMaxHit
 import org.rsmod.api.combat.weapon.WeaponSpeeds
@@ -28,8 +28,8 @@ constructor(
     private val random: GameRandom,
     private val bonuses: WornBonuses,
     private val weaponSpeeds: WeaponSpeeds,
-    private val npcCollector: CombatNpcAttributeCollector,
-    private val wornCollector: MeleeWornAttributeCollector,
+    private val npcAttributes: CombatNpcAttributeCollector,
+    private val meleeAttributes: CombatMeleeAttributeCollector,
 ) {
     private var Player.maxHit by intVarp(varps.com_maxhit)
 
@@ -73,16 +73,16 @@ constructor(
         attackStyle: MeleeAttackStyle?,
         specialMultiplier: Double,
     ): Int {
-        val wornAttributes = wornCollector.collect(source, attackType)
-        addProcAttributes(wornAttributes)
+        val meleeAttributes = meleeAttributes.collect(source, attackType)
+        addProcAttributes(meleeAttributes)
 
         val slayerTask = target.isSlayerTask(source)
-        val npcAttributes = npcCollector.collect(target, targetCurrHp, targetMaxHp, slayerTask)
+        val npcAttributes = npcAttributes.collect(target, targetCurrHp, targetMaxHp, slayerTask)
 
         val modifiedDamage =
-            computeModifiedDamage(source, attackStyle, wornAttributes, npcAttributes)
+            computeModifiedDamage(source, attackStyle, meleeAttributes, npcAttributes)
         val specMaxHit = (modifiedDamage * specialMultiplier).toInt()
-        return modifyPostSpec(source, specMaxHit, wornAttributes, npcAttributes)
+        return modifyPostSpec(source, specMaxHit, meleeAttributes, npcAttributes)
     }
 
     /**
@@ -96,20 +96,20 @@ constructor(
     public fun computeModifiedDamage(
         source: Player,
         attackStyle: MeleeAttackStyle?,
-        wornAttributes: EnumSet<CombatWornAttributes>,
+        meleeAttributes: EnumSet<CombatMeleeAttributes>,
         npcAttributes: EnumSet<CombatNpcAttributes>,
     ): Int {
         val effectiveStrength =
             MeleeMaxHitOperations.calculateEffectiveStrength(source, attackStyle)
         val strengthBonus = bonuses.strengthBonus(source)
         val baseDamage = PlayerMeleeMaxHit.calculateBaseDamage(effectiveStrength, strengthBonus)
-        return MeleeMaxHitOperations.modifyBaseDamage(baseDamage, wornAttributes, npcAttributes)
+        return MeleeMaxHitOperations.modifyBaseDamage(baseDamage, meleeAttributes, npcAttributes)
     }
 
     public fun modifyPostSpec(
         source: Player,
         modifiedDamage: Int,
-        wornAttributes: EnumSet<CombatWornAttributes>,
+        meleeAttributes: EnumSet<CombatMeleeAttributes>,
         npcAttributes: EnumSet<CombatNpcAttributes>,
     ): Int {
         val attackRate = weaponSpeeds.actual(source)
@@ -120,23 +120,23 @@ constructor(
             attackRate,
             currHp,
             maxHp,
-            wornAttributes,
+            meleeAttributes,
             npcAttributes,
         )
     }
 
-    private fun addProcAttributes(attribs: EnumSet<CombatWornAttributes>) {
+    private fun addProcAttributes(attribs: EnumSet<CombatMeleeAttributes>) {
         if (attribs.containsKerisWeaponAttr() && random.randomBoolean(51)) {
-            attribs += CombatWornAttributes.KerisProc
+            attribs += CombatMeleeAttributes.KerisProc
         }
 
-        if (CombatWornAttributes.Gadderhammer in attribs && random.randomBoolean(20)) {
-            attribs += CombatWornAttributes.GadderhammerProc
+        if (CombatMeleeAttributes.Gadderhammer in attribs && random.randomBoolean(20)) {
+            attribs += CombatMeleeAttributes.GadderhammerProc
         }
     }
 
-    private fun EnumSet<CombatWornAttributes>.containsKerisWeaponAttr(): Boolean =
-        CombatWornAttributes.KerisWeapon in this ||
-            CombatWornAttributes.KerisBreachPartisan in this ||
-            CombatWornAttributes.KerisSunPartisan in this
+    private fun EnumSet<CombatMeleeAttributes>.containsKerisWeaponAttr(): Boolean =
+        CombatMeleeAttributes.KerisWeapon in this ||
+            CombatMeleeAttributes.KerisBreachPartisan in this ||
+            CombatMeleeAttributes.KerisSunPartisan in this
 }

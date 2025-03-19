@@ -15,7 +15,7 @@ class MeleeAccuracyOperationsHitChanceTest {
         val expectedAccuracy = rolls.expectedAccuracy
         // Attributes are only used for "modifyHitChance" in this test, as such the only
         // attribute that currently affects the results is osmumten's fang.
-        val wornAttributes = rolls.wornAttributes
+        val meleeAttributes = rolls.meleeAttributes
         val npcAttributes = rolls.npcAttributes
 
         val hitChance = MeleeAccuracyOperations.calculateHitChance(attackRoll, defenceRoll)
@@ -24,7 +24,7 @@ class MeleeAccuracyOperationsHitChanceTest {
                 hitChance = hitChance,
                 attackRoll = attackRoll,
                 defenceRoll = defenceRoll,
-                wornAttributes = wornAttributes,
+                meleeAttributes = meleeAttributes,
                 npcAttributes = npcAttributes,
             )
         assertEquals(expectedAccuracy, modified / 100.0)
@@ -34,11 +34,11 @@ class MeleeAccuracyOperationsHitChanceTest {
         val attackRoll: Int,
         val defenceRoll: Int,
         val expectedAccuracy: Double,
-        val wornAttributes: EnumSet<WornAttr> = EnumSet.noneOf(WornAttr::class.java),
+        val meleeAttributes: EnumSet<MeleeAttr> = EnumSet.noneOf(MeleeAttr::class.java),
         val npcAttributes: EnumSet<NpcAttr> = EnumSet.noneOf(NpcAttr::class.java),
     ) {
-        fun withWornAttributes(vararg attributes: WornAttr) =
-            copy(wornAttributes = EnumSet.copyOf(attributes.toSet()))
+        fun withMeleeAttributes(vararg attributes: MeleeAttr) =
+            copy(meleeAttributes = EnumSet.copyOf(attributes.toSet()))
 
         fun withNpcAttributes(vararg attributes: NpcAttr) =
             copy(npcAttributes = EnumSet.copyOf(attributes.toSet()))
@@ -55,14 +55,14 @@ class MeleeAccuracyOperationsHitChanceTest {
                 Rolls(attackRoll = 18054, defenceRoll = 5760, expectedAccuracy = 84.04),
                 Rolls(attackRoll = 13068, defenceRoll = 24192, expectedAccuracy = 27.01),
                 Rolls(attackRoll = 18590, defenceRoll = 11036, expectedAccuracy = 91.19)
-                    .withWornAttributes(WornAttr.Stab, WornAttr.OsmumtensFang)
+                    .withMeleeAttributes(MeleeAttr.Stab, MeleeAttr.OsmumtensFang)
                     .withNpcAttributes(NpcAttr.Amascut),
                 Rolls(attackRoll = 18590, defenceRoll = 26936, expectedAccuracy = 46.01)
-                    .withWornAttributes(WornAttr.Stab, WornAttr.OsmumtensFang),
+                    .withMeleeAttributes(MeleeAttr.Stab, MeleeAttr.OsmumtensFang),
                 Rolls(attackRoll = 46207, defenceRoll = 5760, expectedAccuracy = 99.48)
-                    .withWornAttributes(WornAttr.Stab, WornAttr.OsmumtensFang),
+                    .withMeleeAttributes(MeleeAttr.Stab, MeleeAttr.OsmumtensFang),
                 Rolls(attackRoll = 46207, defenceRoll = 340, expectedAccuracy = 100.0)
-                    .withWornAttributes(WornAttr.Stab, WornAttr.OsmumtensFang),
+                    .withMeleeAttributes(MeleeAttr.Stab, MeleeAttr.OsmumtensFang),
                 /* Boundary test rolls */
                 Rolls(
                     attackRoll = Int.MAX_VALUE,

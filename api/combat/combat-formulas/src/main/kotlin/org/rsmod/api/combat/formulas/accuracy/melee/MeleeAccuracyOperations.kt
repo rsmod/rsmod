@@ -8,8 +8,8 @@ import org.rsmod.api.combat.commons.styles.AttackStyle
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
 import org.rsmod.api.combat.formulas.EquipmentChecks
 import org.rsmod.api.combat.formulas.HIT_CHANCE_SCALE
+import org.rsmod.api.combat.formulas.attributes.CombatMeleeAttributes
 import org.rsmod.api.combat.formulas.attributes.CombatNpcAttributes
-import org.rsmod.api.combat.formulas.attributes.CombatWornAttributes
 import org.rsmod.api.combat.formulas.scale
 import org.rsmod.api.config.refs.objs
 import org.rsmod.api.config.refs.stats
@@ -28,38 +28,38 @@ import org.rsmod.game.obj.isType
 import org.rsmod.game.type.obj.Wearpos
 import org.rsmod.game.vars.VarPlayerIntMap
 
-private typealias WornAttr = CombatWornAttributes
+private typealias MeleeAttr = CombatMeleeAttributes
 
 private typealias NpcAttr = CombatNpcAttributes
 
 public object MeleeAccuracyOperations {
     public fun modifyAttackRoll(
         attackRoll: Int,
-        wornAttributes: EnumSet<CombatWornAttributes>,
+        meleeAttributes: EnumSet<CombatMeleeAttributes>,
         npcAttributes: EnumSet<CombatNpcAttributes>,
     ): Int {
         var modified = attackRoll
 
-        if (WornAttr.AmuletOfAvarice in wornAttributes && NpcAttr.Revenant in npcAttributes) {
-            val multiplier = if (WornAttr.ForinthrySurge in wornAttributes) 27 else 24
+        if (MeleeAttr.AmuletOfAvarice in meleeAttributes && NpcAttr.Revenant in npcAttributes) {
+            val multiplier = if (MeleeAttr.ForinthrySurge in meleeAttributes) 27 else 24
             modified = scale(modified, multiplier, divisor = 20)
-        } else if (WornAttr.SalveAmuletE in wornAttributes && NpcAttr.Undead in npcAttributes) {
+        } else if (MeleeAttr.SalveAmuletE in meleeAttributes && NpcAttr.Undead in npcAttributes) {
             modified = scale(modified, multiplier = 6, divisor = 5)
-        } else if (WornAttr.SalveAmulet in wornAttributes && NpcAttr.Undead in npcAttributes) {
+        } else if (MeleeAttr.SalveAmulet in meleeAttributes && NpcAttr.Undead in npcAttributes) {
             modified = scale(modified, multiplier = 7, divisor = 6)
-        } else if (WornAttr.BlackMask in wornAttributes && NpcAttr.SlayerTask in npcAttributes) {
+        } else if (MeleeAttr.BlackMask in meleeAttributes && NpcAttr.SlayerTask in npcAttributes) {
             modified = scale(modified, multiplier = 7, divisor = 6)
         }
 
-        if (WornAttr.Obsidian in wornAttributes && WornAttr.TzHaarWeapon in wornAttributes) {
+        if (MeleeAttr.Obsidian in meleeAttributes && MeleeAttr.TzHaarWeapon in meleeAttributes) {
             modified += attackRoll / 10
         }
 
-        if (WornAttr.RevenantMeleeWeapon in wornAttributes && NpcAttr.Wilderness in npcAttributes) {
+        if (MeleeAttr.RevenantWeapon in meleeAttributes && NpcAttr.Wilderness in npcAttributes) {
             modified = scale(modified, multiplier = 3, divisor = 2)
         }
 
-        if (WornAttr.Arclight in wornAttributes && NpcAttr.Demon in npcAttributes) {
+        if (MeleeAttr.Arclight in meleeAttributes && NpcAttr.Demon in npcAttributes) {
             modified =
                 if (NpcAttr.DemonbaneResistance in npcAttributes) {
                     scale(modified, multiplier = 149, divisor = 100)
@@ -68,7 +68,7 @@ public object MeleeAccuracyOperations {
                 }
         }
 
-        if (WornAttr.BurningClaws in wornAttributes && NpcAttr.Demon in npcAttributes) {
+        if (MeleeAttr.BurningClaws in meleeAttributes && NpcAttr.Demon in npcAttributes) {
             modified =
                 if (NpcAttr.DemonbaneResistance in npcAttributes) {
                     scale(modified, multiplier = 207, divisor = 200)
@@ -77,19 +77,19 @@ public object MeleeAccuracyOperations {
                 }
         }
 
-        if (WornAttr.DragonHunterLance in wornAttributes && NpcAttr.Draconic in npcAttributes) {
+        if (MeleeAttr.DragonHunterLance in meleeAttributes && NpcAttr.Draconic in npcAttributes) {
             modified = scale(modified, multiplier = 6, divisor = 5)
         }
 
-        if (WornAttr.DragonHunterWand in wornAttributes && NpcAttr.Draconic in npcAttributes) {
+        if (MeleeAttr.DragonHunterWand in meleeAttributes && NpcAttr.Draconic in npcAttributes) {
             modified = scale(modified, multiplier = 3, divisor = 2)
         }
 
-        if (WornAttr.KerisBreachPartisan in wornAttributes && NpcAttr.Kalphite in npcAttributes) {
+        if (MeleeAttr.KerisBreachPartisan in meleeAttributes && NpcAttr.Kalphite in npcAttributes) {
             modified = scale(modified, multiplier = 133, divisor = 100)
         }
 
-        if (WornAttr.KerisSunPartisan in wornAttributes && NpcAttr.Amascut in npcAttributes) {
+        if (MeleeAttr.KerisSunPartisan in meleeAttributes && NpcAttr.Amascut in npcAttributes) {
             if (NpcAttr.QuarterHealth in npcAttributes) {
                 modified = scale(modified, multiplier = 5, divisor = 4)
             }
@@ -97,22 +97,22 @@ public object MeleeAccuracyOperations {
 
         // TODO(combat): Vampyre mods
 
-        if (WornAttr.Crush in wornAttributes) {
+        if (MeleeAttr.Crush in meleeAttributes) {
             var inquisitorPieces = 0
-            if (WornAttr.InquisitorHelm in wornAttributes) {
+            if (MeleeAttr.InquisitorHelm in meleeAttributes) {
                 inquisitorPieces++
             }
-            if (WornAttr.InquisitorTop in wornAttributes) {
+            if (MeleeAttr.InquisitorTop in meleeAttributes) {
                 inquisitorPieces++
             }
-            if (WornAttr.InquisitorBottom in wornAttributes) {
+            if (MeleeAttr.InquisitorBottom in meleeAttributes) {
                 inquisitorPieces++
             }
 
             val multiplierAdditive =
                 if (inquisitorPieces == 0) {
                     0
-                } else if (WornAttr.InquisitorWeapon in wornAttributes) {
+                } else if (MeleeAttr.InquisitorWeapon in meleeAttributes) {
                     inquisitorPieces * 5
                 } else if (inquisitorPieces == 3) {
                     5
@@ -157,12 +157,12 @@ public object MeleeAccuracyOperations {
         hitChance: Int,
         attackRoll: Int,
         defenceRoll: Int,
-        wornAttributes: EnumSet<CombatWornAttributes>,
+        meleeAttributes: EnumSet<CombatMeleeAttributes>,
         npcAttributes: EnumSet<CombatNpcAttributes>,
     ): Int {
         var modified = hitChance
 
-        if (WornAttr.OsmumtensFang in wornAttributes && WornAttr.Stab in wornAttributes) {
+        if (MeleeAttr.OsmumtensFang in meleeAttributes && MeleeAttr.Stab in meleeAttributes) {
             modified =
                 if (NpcAttr.Amascut in npcAttributes) {
                     val scale = HIT_CHANCE_SCALE

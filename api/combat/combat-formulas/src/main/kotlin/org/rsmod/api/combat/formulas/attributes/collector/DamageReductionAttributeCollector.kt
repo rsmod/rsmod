@@ -18,18 +18,18 @@ constructor(private val attackStyles: AttackStyles) {
     // `random` is an explicit parameter to indicate that this function relies on randomness
     // for certain effects, such as the Elysian spirit shield proc.
     public fun collect(player: Player, random: GameRandom): EnumSet<DamageReductionAttributes> {
-        val reductionAttributes = EnumSet.noneOf(DamageReductionAttributes::class.java)
+        val attributes = EnumSet.noneOf(DamageReductionAttributes::class.java)
 
         val shield = player.worn[Wearpos.LeftHand.slot]
         if (shield.isType(objs.elysian_spirit_shield) && random.of(maxExclusive = 10) < 7) {
-            reductionAttributes += DamageReductionAttributes.ElysianProc
+            attributes += DamageReductionAttributes.ElysianProc
         }
 
         if (shield.isAnyType(objs.dinhs_bulwark, objs.dinhs_blazing_bulwark)) {
             val attackStyle = attackStyles.get(player)
             // Dinh's bulwark "Block" style is considered a "None" attack style, aka `null`.
             if (attackStyle == null) {
-                reductionAttributes += DamageReductionAttributes.DinhsBlock
+                attributes += DamageReductionAttributes.DinhsBlock
             }
         }
 
@@ -37,9 +37,9 @@ constructor(private val attackStyles: AttackStyles) {
         val top = player.worn[Wearpos.Torso.slot]
         val legs = player.worn[Wearpos.Legs.slot]
         if (EquipmentChecks.isJusticiarSet(helm, top, legs)) {
-            reductionAttributes += DamageReductionAttributes.Justiciar
+            attributes += DamageReductionAttributes.Justiciar
         }
 
-        return reductionAttributes
+        return attributes
     }
 }

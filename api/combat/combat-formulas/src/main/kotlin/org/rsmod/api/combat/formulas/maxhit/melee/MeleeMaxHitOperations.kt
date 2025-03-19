@@ -4,8 +4,8 @@ import java.util.EnumSet
 import kotlin.math.max
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
 import org.rsmod.api.combat.formulas.EquipmentChecks
+import org.rsmod.api.combat.formulas.attributes.CombatMeleeAttributes
 import org.rsmod.api.combat.formulas.attributes.CombatNpcAttributes
-import org.rsmod.api.combat.formulas.attributes.CombatWornAttributes
 import org.rsmod.api.combat.formulas.attributes.DamageReductionAttributes
 import org.rsmod.api.combat.formulas.scale
 import org.rsmod.api.combat.maxhit.player.PlayerMeleeMaxHit
@@ -18,30 +18,30 @@ import org.rsmod.game.inv.Inventory
 import org.rsmod.game.type.obj.Wearpos
 import org.rsmod.game.vars.VarPlayerIntMap
 
-private typealias WornAttr = CombatWornAttributes
+private typealias MeleeAttr = CombatMeleeAttributes
 
 private typealias NpcAttr = CombatNpcAttributes
 
 public object MeleeMaxHitOperations {
     public fun modifyBaseDamage(
         baseDamage: Int,
-        wornAttributes: EnumSet<CombatWornAttributes>,
+        meleeAttributes: EnumSet<CombatMeleeAttributes>,
         npcAttributes: EnumSet<CombatNpcAttributes>,
     ): Int {
         var modified = baseDamage
 
-        if (WornAttr.AmuletOfAvarice in wornAttributes && NpcAttr.Revenant in npcAttributes) {
-            val multiplier = if (WornAttr.ForinthrySurge in wornAttributes) 27 else 24
+        if (MeleeAttr.AmuletOfAvarice in meleeAttributes && NpcAttr.Revenant in npcAttributes) {
+            val multiplier = if (MeleeAttr.ForinthrySurge in meleeAttributes) 27 else 24
             modified = scale(modified, multiplier, divisor = 20)
-        } else if (WornAttr.SalveAmuletE in wornAttributes && NpcAttr.Undead in npcAttributes) {
+        } else if (MeleeAttr.SalveAmuletE in meleeAttributes && NpcAttr.Undead in npcAttributes) {
             modified = scale(modified, multiplier = 6, divisor = 5)
-        } else if (WornAttr.SalveAmulet in wornAttributes && NpcAttr.Undead in npcAttributes) {
+        } else if (MeleeAttr.SalveAmulet in meleeAttributes && NpcAttr.Undead in npcAttributes) {
             modified = scale(modified, multiplier = 7, divisor = 6)
-        } else if (WornAttr.BlackMask in wornAttributes && NpcAttr.SlayerTask in npcAttributes) {
+        } else if (MeleeAttr.BlackMask in meleeAttributes && NpcAttr.SlayerTask in npcAttributes) {
             modified = scale(modified, multiplier = 7, divisor = 6)
         }
 
-        if (WornAttr.Arclight in wornAttributes && NpcAttr.Demon in npcAttributes) {
+        if (MeleeAttr.Arclight in meleeAttributes && NpcAttr.Demon in npcAttributes) {
             modified =
                 if (NpcAttr.DemonbaneResistance in npcAttributes) {
                     scale(modified, multiplier = 149, divisor = 100)
@@ -50,7 +50,7 @@ public object MeleeMaxHitOperations {
                 }
         }
 
-        if (WornAttr.BurningClaws in wornAttributes && NpcAttr.Demon in npcAttributes) {
+        if (MeleeAttr.BurningClaws in meleeAttributes && NpcAttr.Demon in npcAttributes) {
             modified =
                 if (NpcAttr.DemonbaneResistance in npcAttributes) {
                     scale(modified, multiplier = 207, divisor = 200)
@@ -59,39 +59,39 @@ public object MeleeMaxHitOperations {
                 }
         }
 
-        if (WornAttr.Obsidian in wornAttributes && WornAttr.TzHaarWeapon in wornAttributes) {
+        if (MeleeAttr.Obsidian in meleeAttributes && MeleeAttr.TzHaarWeapon in meleeAttributes) {
             modified += baseDamage / 10
         }
 
-        if (WornAttr.DragonHunterLance in wornAttributes && NpcAttr.Draconic in npcAttributes) {
+        if (MeleeAttr.DragonHunterLance in meleeAttributes && NpcAttr.Draconic in npcAttributes) {
             modified = scale(modified, multiplier = 6, divisor = 5)
         }
 
-        if (WornAttr.DragonHunterWand in wornAttributes && NpcAttr.Draconic in npcAttributes) {
+        if (MeleeAttr.DragonHunterWand in meleeAttributes && NpcAttr.Draconic in npcAttributes) {
             modified = scale(modified, multiplier = 6, divisor = 5)
         }
 
-        if (WornAttr.KerisWeapon in wornAttributes && NpcAttr.Kalphite in npcAttributes) {
+        if (MeleeAttr.KerisWeapon in meleeAttributes && NpcAttr.Kalphite in npcAttributes) {
             modified = scale(modified, multiplier = 133, divisor = 100)
         }
 
-        if (WornAttr.KerisBreachPartisan in wornAttributes && NpcAttr.Kalphite in npcAttributes) {
+        if (MeleeAttr.KerisBreachPartisan in meleeAttributes && NpcAttr.Kalphite in npcAttributes) {
             modified = scale(modified, multiplier = 133, divisor = 100)
         }
 
-        if (WornAttr.KerisSunPartisan in wornAttributes && NpcAttr.Kalphite in npcAttributes) {
+        if (MeleeAttr.KerisSunPartisan in meleeAttributes && NpcAttr.Kalphite in npcAttributes) {
             modified = scale(modified, multiplier = 133, divisor = 100)
         }
 
-        if (WornAttr.BarroniteMaceWeapon in wornAttributes && NpcAttr.Golem in npcAttributes) {
+        if (MeleeAttr.BarroniteMaceWeapon in meleeAttributes && NpcAttr.Golem in npcAttributes) {
             modified = scale(modified, multiplier = 23, divisor = 20)
         }
 
-        if (WornAttr.RevenantMeleeWeapon in wornAttributes && NpcAttr.Wilderness in npcAttributes) {
+        if (MeleeAttr.RevenantWeapon in meleeAttributes && NpcAttr.Wilderness in npcAttributes) {
             modified = scale(modified, multiplier = 3, divisor = 2)
         }
 
-        if (WornAttr.Silverlight in wornAttributes && NpcAttr.Demon in npcAttributes) {
+        if (MeleeAttr.Silverlight in meleeAttributes && NpcAttr.Demon in npcAttributes) {
             modified =
                 if (NpcAttr.DemonbaneResistance in npcAttributes) {
                     scale(modified, multiplier = 71, divisor = 50)
@@ -100,11 +100,11 @@ public object MeleeMaxHitOperations {
                 }
         }
 
-        if (WornAttr.LeafBladed in wornAttributes && NpcAttr.Leafy in npcAttributes) {
+        if (MeleeAttr.LeafBladed in meleeAttributes && NpcAttr.Leafy in npcAttributes) {
             modified = scale(modified, multiplier = 47, divisor = 40)
         }
 
-        if (WornAttr.ColossalBlade in wornAttributes) {
+        if (MeleeAttr.ColossalBlade in meleeAttributes) {
             val additive =
                 when {
                     NpcAttr.Size2 in npcAttributes -> 4
@@ -116,26 +116,26 @@ public object MeleeMaxHitOperations {
             modified += additive
         }
 
-        if (WornAttr.RatBoneWeapon in wornAttributes && NpcAttr.Rat in npcAttributes) {
+        if (MeleeAttr.RatBoneWeapon in meleeAttributes && NpcAttr.Rat in npcAttributes) {
             modified += 10
         }
 
-        if (WornAttr.Crush in wornAttributes) {
+        if (MeleeAttr.Crush in meleeAttributes) {
             var inquisitorPieces = 0
-            if (WornAttr.InquisitorHelm in wornAttributes) {
+            if (MeleeAttr.InquisitorHelm in meleeAttributes) {
                 inquisitorPieces++
             }
-            if (WornAttr.InquisitorTop in wornAttributes) {
+            if (MeleeAttr.InquisitorTop in meleeAttributes) {
                 inquisitorPieces++
             }
-            if (WornAttr.InquisitorBottom in wornAttributes) {
+            if (MeleeAttr.InquisitorBottom in meleeAttributes) {
                 inquisitorPieces++
             }
 
             val multiplierAdditive =
                 if (inquisitorPieces == 0) {
                     0
-                } else if (WornAttr.InquisitorWeapon in wornAttributes) {
+                } else if (MeleeAttr.InquisitorWeapon in meleeAttributes) {
                     inquisitorPieces * 5
                 } else if (inquisitorPieces == 3) {
                     5
@@ -156,32 +156,36 @@ public object MeleeMaxHitOperations {
         attackRate: Int,
         currHp: Int,
         maxHp: Int,
-        wornAttributes: EnumSet<CombatWornAttributes>,
+        meleeAttributes: EnumSet<CombatMeleeAttributes>,
         npcAttributes: EnumSet<CombatNpcAttributes>,
     ): Int {
         var modified = modifiedDamage
 
-        if (WornAttr.GadderhammerProc in wornAttributes && NpcAttr.Shade in npcAttributes) {
+        if (MeleeAttr.GadderhammerProc in meleeAttributes && NpcAttr.Shade in npcAttributes) {
             modified *= 2
-        } else if (WornAttr.Gadderhammer in wornAttributes && NpcAttr.Shade in npcAttributes) {
+        } else if (MeleeAttr.Gadderhammer in meleeAttributes && NpcAttr.Shade in npcAttributes) {
             modified = scale(modified, multiplier = 5, divisor = 4)
         }
 
-        if (WornAttr.KerisProc in wornAttributes && NpcAttr.Kalphite in npcAttributes) {
+        if (MeleeAttr.KerisProc in meleeAttributes && NpcAttr.Kalphite in npcAttributes) {
             modified *= 3
         }
 
-        if (WornAttr.Crush in wornAttributes && NpcAttr.TormentedDemonUnshielded in npcAttributes) {
+        val unshieldedTormentedDemon =
+            MeleeAttr.Crush in meleeAttributes && NpcAttr.TormentedDemonUnshielded in npcAttributes
+        if (unshieldedTormentedDemon) {
             val bonusDamage = max(0, (attackRate * attackRate) - 16)
             modified += bonusDamage
         }
 
-        if (WornAttr.Dharoks in wornAttributes) {
+        if (MeleeAttr.Dharoks in meleeAttributes) {
             val multiplier = (maxHp - currHp) * maxHp
             modified += scale(modified, multiplier, divisor = 10_000)
         }
 
-        if (WornAttr.BerserkerNeck in wornAttributes && WornAttr.TzHaarWeapon in wornAttributes) {
+        val berserkerNecklacePassive =
+            MeleeAttr.BerserkerNeck in meleeAttributes && MeleeAttr.TzHaarWeapon in meleeAttributes
+        if (berserkerNecklacePassive) {
             modified = scale(modified, multiplier = 6, divisor = 5)
         }
 
@@ -192,7 +196,9 @@ public object MeleeMaxHitOperations {
         // `onModifyNpcHit(corporeal_beast)` script. Though this is for Melee max hit, this should
         // be consistent throughout all combat styles to avoid any conflict or hardcoded checks
         // if it were to be handled via a script.
-        if (NpcAttr.CorporealBeast in npcAttributes && WornAttr.CorpBaneWeapon !in wornAttributes) {
+        val corpBeastReduction =
+            NpcAttr.CorporealBeast in npcAttributes && MeleeAttr.CorpBaneWeapon !in meleeAttributes
+        if (corpBeastReduction) {
             modified /= 2
         }
 

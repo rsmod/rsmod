@@ -4,7 +4,7 @@ import jakarta.inject.Inject
 import java.util.EnumSet
 import org.rsmod.api.combat.commons.types.MeleeAttackType
 import org.rsmod.api.combat.formulas.EquipmentChecks
-import org.rsmod.api.combat.formulas.attributes.CombatWornAttributes
+import org.rsmod.api.combat.formulas.attributes.CombatMeleeAttributes
 import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.objs
 import org.rsmod.api.config.refs.params
@@ -14,51 +14,51 @@ import org.rsmod.game.obj.isType
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.obj.Wearpos
 
-public class MeleeWornAttributeCollector @Inject constructor(private val objTypes: ObjTypeList) {
+public class CombatMeleeAttributeCollector @Inject constructor(private val objTypes: ObjTypeList) {
     public fun collect(
         player: Player,
         attackType: MeleeAttackType?,
-    ): EnumSet<CombatWornAttributes> {
-        val wornAttributes = EnumSet.noneOf(CombatWornAttributes::class.java)
+    ): EnumSet<CombatMeleeAttributes> {
+        val attributes = EnumSet.noneOf(CombatMeleeAttributes::class.java)
 
         if (attackType == MeleeAttackType.Crush) {
-            wornAttributes += CombatWornAttributes.Crush
+            attributes += CombatMeleeAttributes.Crush
         } else if (attackType == MeleeAttackType.Stab) {
-            wornAttributes += CombatWornAttributes.Stab
+            attributes += CombatMeleeAttributes.Stab
         }
 
         if (player.skullIcon == constants.skullicon_forinthry_surge) {
-            wornAttributes += CombatWornAttributes.ForinthrySurge
+            attributes += CombatMeleeAttributes.ForinthrySurge
         }
 
         val amulet = player.worn[Wearpos.Front.slot]
         if (amulet.isType(objs.amulet_of_avarice)) {
-            wornAttributes += CombatWornAttributes.AmuletOfAvarice
+            attributes += CombatMeleeAttributes.AmuletOfAvarice
         } else if (amulet.isAnyType(objs.salve_amulet_e, objs.salve_amulet_ei)) {
-            wornAttributes += CombatWornAttributes.SalveAmuletE
+            attributes += CombatMeleeAttributes.SalveAmuletE
         } else if (amulet.isAnyType(objs.salve_amulet, objs.salve_amulet_i)) {
-            wornAttributes += CombatWornAttributes.SalveAmulet
+            attributes += CombatMeleeAttributes.SalveAmulet
         }
 
         val helm = player.worn[Wearpos.Hat.slot]
         val helmType = helm?.let(objTypes::get)
         if (helmType != null) {
             if (helmType.param(params.blackmask) != 0 || helmType.param(params.slayer_helm) != 0) {
-                wornAttributes += CombatWornAttributes.BlackMask
+                attributes += CombatMeleeAttributes.BlackMask
             }
         }
 
         val weapon = player.worn[Wearpos.RightHand.slot]
         if (weapon.isType(objs.arclight)) {
-            wornAttributes += CombatWornAttributes.Arclight
+            attributes += CombatMeleeAttributes.Arclight
         } else if (weapon.isType(objs.burning_claws)) {
-            wornAttributes += CombatWornAttributes.BurningClaws
+            attributes += CombatMeleeAttributes.BurningClaws
         }
 
         val top = player.worn[Wearpos.Torso.slot]
         val legs = player.worn[Wearpos.Legs.slot]
         if (EquipmentChecks.isObsidianSet(helm, top, legs)) {
-            wornAttributes += CombatWornAttributes.Obsidian
+            attributes += CombatMeleeAttributes.Obsidian
         }
 
         val weaponAttribute =
@@ -70,23 +70,23 @@ public class MeleeWornAttributeCollector @Inject constructor(private val objType
                     objs.tzhaar_ket_om,
                     objs.tzhaar_ket_om_t,
                 ) -> {
-                    CombatWornAttributes.TzHaarWeapon
+                    CombatMeleeAttributes.TzHaarWeapon
                 }
 
                 weapon.isType(objs.dragon_hunter_lance) -> {
-                    CombatWornAttributes.DragonHunterLance
+                    CombatMeleeAttributes.DragonHunterLance
                 }
 
                 weapon.isType(objs.dragon_hunter_wand) -> {
-                    CombatWornAttributes.DragonHunterWand
+                    CombatMeleeAttributes.DragonHunterWand
                 }
 
                 weapon.isType(objs.keris_partisan_of_breaching) -> {
-                    CombatWornAttributes.KerisBreachPartisan
+                    CombatMeleeAttributes.KerisBreachPartisan
                 }
 
                 weapon.isType(objs.keris_partisan_of_the_sun) -> {
-                    CombatWornAttributes.KerisSunPartisan
+                    CombatMeleeAttributes.KerisSunPartisan
                 }
 
                 weapon.isAnyType(
@@ -97,19 +97,19 @@ public class MeleeWornAttributeCollector @Inject constructor(private val objType
                     objs.keris_partisan,
                     objs.keris_partisan_of_corruption,
                 ) -> {
-                    CombatWornAttributes.KerisWeapon
+                    CombatMeleeAttributes.KerisWeapon
                 }
 
                 weapon.isAnyType(objs.barronite_mace, objs.barronite_mace_l) -> {
-                    CombatWornAttributes.BarroniteMaceWeapon
+                    CombatMeleeAttributes.BarroniteMaceWeapon
                 }
 
                 weapon.isAnyType(objs.viggoras_chainmace, objs.ursine_chainmace) -> {
-                    CombatWornAttributes.RevenantMeleeWeapon
+                    CombatMeleeAttributes.RevenantWeapon
                 }
 
                 weapon.isType(objs.silverlight) -> {
-                    CombatWornAttributes.Silverlight
+                    CombatMeleeAttributes.Silverlight
                 }
 
                 weapon.isAnyType(
@@ -117,61 +117,61 @@ public class MeleeWornAttributeCollector @Inject constructor(private val objType
                     objs.leafbladed_spear,
                     objs.leafbladed_battleaxe,
                 ) -> {
-                    CombatWornAttributes.LeafBladed
+                    CombatMeleeAttributes.LeafBladed
                 }
 
                 weapon.isType(objs.colossal_blade) -> {
-                    CombatWornAttributes.ColossalBlade
+                    CombatMeleeAttributes.ColossalBlade
                 }
 
                 weapon.isType(objs.bone_mace) -> {
-                    CombatWornAttributes.RatBoneWeapon
+                    CombatMeleeAttributes.RatBoneWeapon
                 }
 
                 weapon.isType(objs.inquisitors_mace) -> {
-                    CombatWornAttributes.InquisitorWeapon
+                    CombatMeleeAttributes.InquisitorWeapon
                 }
 
                 weapon.isAnyType(objs.osmumtens_fang, objs.osmumtens_fang_or) -> {
-                    CombatWornAttributes.OsmumtensFang
+                    CombatMeleeAttributes.OsmumtensFang
                 }
 
                 weapon.isType(objs.gadderhammer) -> {
-                    CombatWornAttributes.Gadderhammer
+                    CombatMeleeAttributes.Gadderhammer
                 }
 
                 else -> null
             }
 
         if (weaponAttribute != null) {
-            wornAttributes += weaponAttribute
+            attributes += weaponAttribute
         }
 
         if (helm.isType(objs.inquisitors_great_helm)) {
-            wornAttributes += CombatWornAttributes.InquisitorHelm
+            attributes += CombatMeleeAttributes.InquisitorHelm
         }
 
         if (top.isType(objs.inquisitors_hauberk)) {
-            wornAttributes += CombatWornAttributes.InquisitorTop
+            attributes += CombatMeleeAttributes.InquisitorTop
         }
 
         if (legs.isType(objs.inquisitors_plateskirt)) {
-            wornAttributes += CombatWornAttributes.InquisitorBottom
+            attributes += CombatMeleeAttributes.InquisitorBottom
         }
 
         if (EquipmentChecks.isDharokSet(helm, top, legs, weapon)) {
-            wornAttributes += CombatWornAttributes.Dharoks
+            attributes += CombatMeleeAttributes.Dharoks
         }
 
         if (amulet.isAnyType(objs.berserker_necklace, objs.berserker_necklace_or)) {
-            wornAttributes += CombatWornAttributes.BerserkerNeck
+            attributes += CombatMeleeAttributes.BerserkerNeck
         }
 
         val weaponType = weapon?.let(objTypes::get)
         if (weaponType != null && weaponType.param(params.corpbane) != 0) {
-            wornAttributes += CombatWornAttributes.CorpBaneWeapon
+            attributes += CombatMeleeAttributes.CorpBaneWeapon
         }
 
-        return wornAttributes
+        return attributes
     }
 }

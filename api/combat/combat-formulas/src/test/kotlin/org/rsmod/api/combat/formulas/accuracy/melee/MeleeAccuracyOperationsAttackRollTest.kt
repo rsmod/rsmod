@@ -12,13 +12,13 @@ class MeleeAccuracyOperationsAttackRollTest {
     fun `calculate hit chance based on loadout`(loadout: Loadout) {
         val baseAttackRoll = loadout.baseAttackRoll
         val finalAttackRoll = loadout.finalAttackRoll
-        val wornAttributes = loadout.wornAttributes
+        val meleeAttributes = loadout.meleeAttributes
         val npcAttributes = loadout.npcAttributes
 
         val modifiedAttackRoll =
             MeleeAccuracyOperations.modifyAttackRoll(
                 attackRoll = baseAttackRoll,
-                wornAttributes = wornAttributes,
+                meleeAttributes = meleeAttributes,
                 npcAttributes = npcAttributes,
             )
         assertEquals(finalAttackRoll, modifiedAttackRoll)
@@ -27,11 +27,11 @@ class MeleeAccuracyOperationsAttackRollTest {
     data class Loadout(
         val baseAttackRoll: Int,
         val finalAttackRoll: Int,
-        val wornAttributes: EnumSet<WornAttr> = EnumSet.noneOf(WornAttr::class.java),
+        val meleeAttributes: EnumSet<MeleeAttr> = EnumSet.noneOf(MeleeAttr::class.java),
         val npcAttributes: EnumSet<NpcAttr> = EnumSet.noneOf(NpcAttr::class.java),
     ) {
-        fun withWornAttributes(vararg attributes: WornAttr) =
-            copy(wornAttributes = EnumSet.copyOf(attributes.toSet()))
+        fun withMeleeAttributes(vararg attributes: MeleeAttr) =
+            copy(meleeAttributes = EnumSet.copyOf(attributes.toSet()))
 
         fun withNpcAttributes(vararg attributes: NpcAttr) =
             copy(npcAttributes = EnumSet.copyOf(attributes.toSet()))
@@ -41,34 +41,34 @@ class MeleeAccuracyOperationsAttackRollTest {
         override fun args(): List<TestArgs> {
             return testArgsOfSingleParam(
                 Loadout(baseAttackRoll = 2280, finalAttackRoll = 2736)
-                    .withWornAttributes(WornAttr.AmuletOfAvarice)
+                    .withMeleeAttributes(MeleeAttr.AmuletOfAvarice)
                     .withNpcAttributes(NpcAttr.Revenant),
                 Loadout(baseAttackRoll = 1608, finalAttackRoll = 2733)
-                    .withWornAttributes(WornAttr.Arclight)
+                    .withMeleeAttributes(MeleeAttr.Arclight)
                     .withNpcAttributes(NpcAttr.Demon),
                 Loadout(baseAttackRoll = 1608, finalAttackRoll = 2395)
-                    .withWornAttributes(WornAttr.Arclight)
+                    .withMeleeAttributes(MeleeAttr.Arclight)
                     .withNpcAttributes(NpcAttr.Demon, NpcAttr.DemonbaneResistance),
                 Loadout(baseAttackRoll = 1800, finalAttackRoll = 1890)
-                    .withWornAttributes(WornAttr.BurningClaws)
+                    .withMeleeAttributes(MeleeAttr.BurningClaws)
                     .withNpcAttributes(NpcAttr.Demon),
                 Loadout(baseAttackRoll = 1800, finalAttackRoll = 1863)
-                    .withWornAttributes(WornAttr.BurningClaws)
+                    .withMeleeAttributes(MeleeAttr.BurningClaws)
                     .withNpcAttributes(NpcAttr.Demon, NpcAttr.DemonbaneResistance),
                 Loadout(baseAttackRoll = 2136, finalAttackRoll = 3738)
-                    .withWornAttributes(WornAttr.BlackMask, WornAttr.RevenantMeleeWeapon)
+                    .withMeleeAttributes(MeleeAttr.BlackMask, MeleeAttr.RevenantWeapon)
                     .withNpcAttributes(NpcAttr.Wilderness, NpcAttr.SlayerTask),
                 Loadout(baseAttackRoll = 1848, finalAttackRoll = 2310)
-                    .withWornAttributes(WornAttr.KerisSunPartisan)
+                    .withMeleeAttributes(MeleeAttr.KerisSunPartisan)
                     .withNpcAttributes(NpcAttr.Amascut, NpcAttr.QuarterHealth),
                 Loadout(baseAttackRoll = 1710, finalAttackRoll = 2462)
-                    .withWornAttributes(WornAttr.SalveAmuletE, WornAttr.DragonHunterLance)
+                    .withMeleeAttributes(MeleeAttr.SalveAmuletE, MeleeAttr.DragonHunterLance)
                     .withNpcAttributes(NpcAttr.Undead, NpcAttr.Draconic),
                 Loadout(baseAttackRoll = 1476, finalAttackRoll = 1918)
-                    .withWornAttributes(
-                        WornAttr.SalveAmuletE,
-                        WornAttr.Obsidian,
-                        WornAttr.TzHaarWeapon,
+                    .withMeleeAttributes(
+                        MeleeAttr.SalveAmuletE,
+                        MeleeAttr.Obsidian,
+                        MeleeAttr.TzHaarWeapon,
                     )
                     .withNpcAttributes(NpcAttr.Undead),
             )
