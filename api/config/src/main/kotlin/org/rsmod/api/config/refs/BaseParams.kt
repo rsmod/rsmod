@@ -79,7 +79,6 @@ object BaseParams : ParamReferences() {
     val tormented_demon: ParamInt = find("tormented_demon")
     val shade: ParamInt = find("shade")
     val demonbane_resistant: ParamInt = find("demonbane_resistant")
-    val corpbane: ParamInt = find("corpbane")
     val slayer_helm: ParamInt = find("slayer_helm")
     val blackmask: ParamInt = find("blackmask")
     val leafy: ParamInt = find("leafy")

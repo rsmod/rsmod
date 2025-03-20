@@ -5,6 +5,7 @@
 31	kitten
 32	lazy_cat
 33	wily_cat
+36	spear
 37	crossbow
 38	rack_bolts
 46	easy_skill
@@ -16,6 +17,7 @@
 62	arrows
 63	crossbow_bolt
 64	bow
+66	halberd
 71	ogre_arrows
 85	balloon_toad
 106	chargebow

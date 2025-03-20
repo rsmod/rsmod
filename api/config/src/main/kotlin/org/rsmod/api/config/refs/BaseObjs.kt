@@ -198,6 +198,7 @@ object BaseObjs : ObjReferences() {
     val ultor_ring = find("ultor_ring")
     val ghrazi_rapier = find("ghrazi_rapier")
     val tumekens_shadow = find("tumekens_shadow")
+    val blue_moon_spear = find("blue_moon_spear")
 
     val inquisitors_great_helm = find("inquisitors_great_helm")
     val inquisitors_hauberk = find("inquisitors_hauberk")

@@ -8,11 +8,13 @@ typealias categories = BaseCategories
 
 object BaseCategories : CategoryReferences() {
     val throwing_weapon = find("throwing_weapon")
+    val spear = find("spear")
     val crossbow = find("crossbow")
     val rack_bolts = find("rack_bolts")
     val arrows = find("arrows")
     val crossbow_bolt = find("crossbow_bolt")
     val bow = find("bow")
+    val halberd = find("halberd")
     val ogre_arrows = find("ogre_arrows")
     val chargebow = find("chargebow")
     val arrows_training = find("arrows_training")
