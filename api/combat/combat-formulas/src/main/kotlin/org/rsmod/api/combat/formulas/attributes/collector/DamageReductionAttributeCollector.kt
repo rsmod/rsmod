@@ -24,7 +24,11 @@ public class DamageReductionAttributeCollector
 constructor(private val attackStyles: AttackStyles, private val objTypes: ObjTypeList) {
     // `random` is an explicit parameter to indicate that this function relies on randomness
     // for certain effects, such as the Elysian spirit shield proc.
-    public fun collect(player: Player, random: GameRandom): EnumSet<DamageReductionAttributes> {
+    public fun collect(
+        player: Player,
+        pvp: Boolean,
+        random: GameRandom,
+    ): EnumSet<DamageReductionAttributes> {
         val attributes = EnumSet.noneOf(DamageReductionAttributes::class.java)
 
         val shield = player.lefthand
@@ -32,17 +36,21 @@ constructor(private val attackStyles: AttackStyles, private val objTypes: ObjTyp
             attributes += DamageReductionAttributes.ElysianProc
         }
 
-        val weaponType = player.righthand?.let(objTypes::get)
-        if (weaponType != null && weaponType.isCategoryType(categories.dinhs_bulwark)) {
-            val attackStyle = attackStyles.get(player)
-            val isPassiveDelayed = player.currentMapClock < player.vars[varps.dinhs_passive_delay]
-            if (attackStyle == AttackStyle.DefensiveMelee && !isPassiveDelayed) {
-                attributes += DamageReductionAttributes.DinhsBlock
-            }
-        }
+        if (!pvp) {
+            val weaponType = player.righthand?.let(objTypes::get)
 
-        if (EquipmentChecks.isJusticiarSet(player.hat, player.torso, player.legs)) {
-            attributes += DamageReductionAttributes.Justiciar
+            if (weaponType != null && weaponType.isCategoryType(categories.dinhs_bulwark)) {
+                val attackStyle = attackStyles.get(player)
+                val passiveDelay = player.vars[varps.dinhs_passive_delay]
+                val isPassiveDelayed = player.currentMapClock < passiveDelay
+                if (attackStyle == AttackStyle.DefensiveMelee && !isPassiveDelayed) {
+                    attributes += DamageReductionAttributes.DinhsBlock
+                }
+            }
+
+            if (EquipmentChecks.isJusticiarSet(player.hat, player.torso, player.legs)) {
+                attributes += DamageReductionAttributes.Justiciar
+            }
         }
 
         return attributes

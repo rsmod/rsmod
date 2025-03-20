@@ -26,7 +26,7 @@ constructor(
         val baseDamage = NpcMeleeMaxHit.calculateBaseDamage(effectiveStrength, npc.meleeStrength)
 
         val defenceBonus = target.getDefenceBonus(attackType)
-        val reductionAttributes = reductions.collect(target, random)
+        val reductionAttributes = reductions.collect(target, pvp = false, random)
         return MeleeMaxHitOperations.applyDamageReductions(
             baseDamage,
             defenceBonus,
