@@ -197,6 +197,7 @@ object BaseObjs : ObjReferences() {
     val ferocious_gloves = find("ferocious_gloves")
     val ultor_ring = find("ultor_ring")
     val ghrazi_rapier = find("ghrazi_rapier")
+    val tumekens_shadow = find("tumekens_shadow")
 
     val inquisitors_great_helm = find("inquisitors_great_helm")
     val inquisitors_hauberk = find("inquisitors_hauberk")
@@ -210,6 +211,14 @@ object BaseObjs : ObjReferences() {
     val torva_full_helm = find("torva_full_helm")
     val torva_platebody = find("torva_platebody")
     val torva_platelegs = find("torva_platelegs")
+
+    val virtus_mask = find("virtus_mask")
+    val virtus_robe_top = find("virtus_robe_top")
+    val virtus_robe_bottom = find("virtus_robe_bottoms")
+
+    val echo_virtus_mask = find("echo_virtus_mask")
+    val echo_virtus_robe_top = find("echo_virtus_robe_top")
+    val echo_virtus_robe_bottom = find("echo_virtus_robe_bottom")
 
     val keris = find("keris")
     val keris_p = find("keris_p")

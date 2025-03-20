@@ -2,12 +2,12 @@ package org.rsmod.api.combat.formulas.attributes.collector
 
 import jakarta.inject.Inject
 import java.util.EnumSet
-import org.rsmod.api.combat.commons.equip.EquipmentChecks
 import org.rsmod.api.combat.commons.types.MeleeAttackType
 import org.rsmod.api.combat.formulas.attributes.CombatMeleeAttributes
 import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.objs
 import org.rsmod.api.config.refs.params
+import org.rsmod.api.player.worn.EquipmentChecks
 import org.rsmod.game.entity.Player
 import org.rsmod.game.obj.isAnyType
 import org.rsmod.game.obj.isType
@@ -167,6 +167,9 @@ public class CombatMeleeAttributeCollector @Inject constructor(private val objTy
             attributes += CombatMeleeAttributes.BerserkerNeck
         }
 
+        // TODO(combat): We may be able to deduce if weapon is "corpbane" based on other data
+        //  instead of using a param.
+        // https://github.com/weirdgloop/osrs-dps-calc/blob/475b0b1228688734d81ed1dd6db5933c5a80835f/src/lib/BaseCalc.ts#L498
         val weaponType = weapon?.let(objTypes::get)
         if (weaponType != null && weaponType.param(params.corpbane) != 0) {
             attributes += CombatMeleeAttributes.CorpBaneWeapon

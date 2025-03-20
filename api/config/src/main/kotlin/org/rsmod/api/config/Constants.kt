@@ -57,6 +57,9 @@ object Constants {
     const val skullicon_highrisk_world = 2
     const val skullicon_forinthry_surge = 3
 
+    const val dinhs_attackstyle_pummel = 0
+    const val dinhs_attackstyle_block = 1
+
     const val bodytype_a = 0
     const val bodytype_b = 1
 

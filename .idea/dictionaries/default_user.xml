@@ -18,6 +18,8 @@
       <w>boughttemplate</w>
       <w>certlink</w>
       <w>certtemplate</w>
+      <w>chargebow</w>
+      <w>chargebows</w>
       <w>chatanim</w>
       <w>chatbox</w>
       <w>chinchompa</w>
@@ -39,6 +41,7 @@
       <w>donie</w>
       <w>doubleobjbox</w>
       <w>draconic</w>
+      <w>dragonbane</w>
       <w>draynor</w>
       <w>droptrig</w>
       <w>droptrigger</w>
@@ -137,6 +140,7 @@
       <w>preanim</w>
       <w>prot</w>
       <w>prots</w>
+      <w>ralos</w>
       <w>recalc</w>
       <w>recol</w>
       <w>reprioritise</w>
@@ -166,12 +170,15 @@
       <w>tele</w>
       <w>telejump</w>
       <w>telemove</w>
+      <w>tonalztics</w>
       <w>torag</w>
       <w>torags</w>
       <w>tradeable</w>
       <w>transformlink</w>
       <w>transformtemplate</w>
       <w>transmog</w>
+      <w>tumeken</w>
+      <w>tumekens</w>
       <w>uncert</w>
       <w>uncharge</w>
       <w>unequip</w>
@@ -200,6 +207,7 @@
       <w>varrock</w>
       <w>verac</w>
       <w>veracs</w>
+      <w>virtus</w>
       <w>vislevel</w>
       <w>walktrig</w>
       <w>walktrigger</w>
@@ -208,6 +216,7 @@
       <w>wintertodt</w>
       <w>womanhead</w>
       <w>womanwear</w>
+      <w>xerician</w>
       <w>xtea</w>
       <w>zaff</w>
       <w>zalcano</w>

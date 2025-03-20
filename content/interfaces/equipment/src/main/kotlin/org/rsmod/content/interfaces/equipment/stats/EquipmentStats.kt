@@ -89,6 +89,8 @@ constructor(
         val stats = wornBonuses.calculate(player)
         val speedBase = weaponSpeeds.base(player)
         val speedActual = weaponSpeeds.actual(player)
+        val magicDmg = stats.finalMagicDmg
+        val magicDmgSuffix = stats.magicDmgSuffix
         val undeadSuffix = stats.undeadSuffix
         val slayerSuffix = stats.slayerSuffix
         ifSetText(comps.equipment_stats_off_stab, "Stab: ${stats.offStab.signed}")
@@ -105,7 +107,7 @@ constructor(
         ifSetText(comps.equipment_stats_def_magic, "Magic: ${stats.defMagic.signed}")
         ifSetText(comps.equipment_stats_melee_str, "Melee STR: ${stats.meleeStr.signed}")
         ifSetText(comps.equipment_stats_ranged_str, "Ranged STR: ${stats.rangedStr.signed}")
-        ifSetText(comps.equipment_stats_magic_dmg, "Magic DMG: ${stats.magicDmg.formatPercent}")
+        ifSetText(comps.equipment_stats_magic_dmg, "Magic DMG: $magicDmg$magicDmgSuffix")
         ifSetText(comps.equipment_stats_prayer, "Prayer: ${stats.prayer.signed}")
         ifSetText(
             comps.equipment_stats_undead,
@@ -184,6 +186,12 @@ private val Int.formatWholePercent: String
 
 private val Int.tickToSecs: String
     get() = "${(this * 600) / 1000.0}s"
+
+private val WornBonuses.Bonuses.finalMagicDmg: String
+    get() = multipliedMagicDmg.formatPercent
+
+private val WornBonuses.Bonuses.magicDmgSuffix: String
+    get() = if (magicDmgAdditive == 0) "" else "<col=be66f4> ($magicDmgAdditive%)</col>"
 
 // Undead bonus has a trailing whitespace when bonus is at 0.
 private val WornBonuses.Bonuses.undeadSuffix: String

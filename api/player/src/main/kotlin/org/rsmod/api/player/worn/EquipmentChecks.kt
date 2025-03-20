@@ -1,4 +1,4 @@
-package org.rsmod.api.combat.commons.equip
+package org.rsmod.api.player.worn
 
 import org.rsmod.api.config.refs.objs
 import org.rsmod.game.obj.InvObj
@@ -8,10 +8,21 @@ import org.rsmod.game.obj.isType
 public object EquipmentChecks {
     public fun isSoulreaperAxe(obj: InvObj?): Boolean = obj.isType(objs.soulreaper_axe)
 
+    public fun isTumekensShadow(obj: InvObj?): Boolean = obj.isType(objs.tumekens_shadow)
+
     public fun isObsidianSet(helm: InvObj?, top: InvObj?, legs: InvObj?): Boolean =
         helm.isType(objs.obsidian_helmet) &&
             top.isType(objs.obsidian_platebody) &&
             legs.isType(objs.obsidian_platelegs)
+
+    public fun isVirtusMask(obj: InvObj?): Boolean =
+        obj.isAnyType(objs.virtus_mask, objs.echo_virtus_mask)
+
+    public fun isVirtusRobeTop(obj: InvObj?): Boolean =
+        obj.isAnyType(objs.virtus_robe_top, objs.echo_virtus_robe_top)
+
+    public fun isVirtusRobeBottom(obj: InvObj?): Boolean =
+        obj.isAnyType(objs.virtus_robe_bottom, objs.echo_virtus_robe_bottom)
 
     public fun isVoidMeleeHelm(obj: InvObj?): Boolean =
         obj.isAnyType(
@@ -19,6 +30,14 @@ public object EquipmentChecks {
             objs.void_melee_helm_l,
             objs.void_melee_helm_or,
             objs.void_melee_helm_l_or,
+        )
+
+    public fun isVoidMageHelm(obj: InvObj?): Boolean =
+        obj.isAnyType(
+            objs.void_mage_helm,
+            objs.void_mage_helm_l,
+            objs.void_mage_helm_or,
+            objs.void_mage_helm_l_or,
         )
 
     public fun isVoidTop(obj: InvObj?): Boolean = isRegularVoidTop(obj) || isEliteVoidTop(obj)
