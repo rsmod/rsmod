@@ -44,6 +44,7 @@ object BaseSpotanims : SpotanimReferences() {
     val air_guitar_emote = find("air_guitar_emote", 109372226)
     val max_cape = find("max_cape", 110670231)
     val uri_emote_start = find("uri_emote_start", 119193476)
+    val dinhs_bulwark_eye = find("dinhs_bulwark_eye", 121939665)
     val premier_shield_emote_bronze = find("premier_shield_emote_bronze", 127434804)
     val premier_shield_emote_silver = find("premier_shield_emote_silver", 127438526)
     val premier_shield_emote_gold = find("premier_shield_emote_gold", 127442248)

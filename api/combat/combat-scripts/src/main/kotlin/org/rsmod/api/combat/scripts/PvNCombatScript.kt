@@ -4,6 +4,7 @@ import jakarta.inject.Inject
 import org.rsmod.api.combat.ACTIVE_COMBAT_DELAY
 import org.rsmod.api.combat.PvNCombat
 import org.rsmod.api.combat.commons.magic.MagicSpell
+import org.rsmod.api.combat.commons.styles.AttackStyle
 import org.rsmod.api.combat.inMultiCombatArea
 import org.rsmod.api.combat.npc.aggressivePlayer
 import org.rsmod.api.combat.npc.lastCombat
@@ -14,17 +15,21 @@ import org.rsmod.api.combat.player.lastCombatPvp
 import org.rsmod.api.combat.player.resolveCombatAttack
 import org.rsmod.api.combat.weapon.styles.AttackStyles
 import org.rsmod.api.combat.weapon.types.AttackTypes
+import org.rsmod.api.config.refs.categories
+import org.rsmod.api.config.refs.queues
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.righthand
 import org.rsmod.api.script.advanced.onDefaultApNpc2
 import org.rsmod.api.script.advanced.onDefaultOpNpc2
 import org.rsmod.game.entity.Npc
+import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
 internal class PvNCombatScript
 @Inject
 constructor(
+    private val objTypes: ObjTypeList,
     private val styles: AttackStyles,
     private val types: AttackTypes,
     private val combat: PvNCombat,
@@ -86,6 +91,25 @@ constructor(
         //  don't give any sort of message, but simply won't allow players to melee them.
         //  (Will stop at ap range, doesn't drag you into melee range)
 
+        // Note: Dinh's bulwark conditions occur _before_ multi-combat area checks.
+        val weapon = player.righthand?.let(objTypes::get)
+        if (weapon != null && weapon.isCategoryType(categories.dinhs_bulwark)) {
+            val attackStyle = styles.get(player)
+            if (attackStyle == AttackStyle.DefensiveMelee) {
+                mes("Your bulwark gets in the way.")
+                clearPendingAction()
+                return false
+            }
+        }
+
+        // Dinh's bulwark style-switching delay is added to a queue and is applied globally during
+        // this condition check. This means even if you quickly change to another melee weapon and
+        // re-interact with a target, you will _not_ move into op range.
+        if (queues.dinhs_combat_delay in player.queueList) {
+            clearPendingAction()
+            return false
+        }
+
         val singleCombat = !inMultiCombatArea()
         if (singleCombat) {
             if (lastCombatPvp + ACTIVE_COMBAT_DELAY > mapClock) {
@@ -109,6 +133,7 @@ constructor(
                 }
             }
         }
+
         return true
     }
 }

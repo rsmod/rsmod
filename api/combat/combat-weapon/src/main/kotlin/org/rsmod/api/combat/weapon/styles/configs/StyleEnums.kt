@@ -41,7 +41,7 @@ internal object StyleEnumBuilder : EnumBuilder() {
             styles(WeaponCategory.Banner, accurate, aggressive, aggressive, defensive)
             styles(WeaponCategory.PoweredStaff, accurateRanged, accurateRanged, longRange)
             styles(WeaponCategory.Bludgeon, aggressive, aggressive, aggressive)
-            styles(WeaponCategory.Bulwark, accurate)
+            styles(WeaponCategory.Bulwark, accurate, null, null, defensive)
         }
     }
 
@@ -65,10 +65,6 @@ internal object StyleEnumBuilder : EnumBuilder() {
 
     private val longRange
         get() = AttackStyle.LongRangeRanged
-
-    private fun EnumPluginBuilder<Int, Int>.styles(weapon: WeaponCategory, one: AttackStyle) {
-        styles(weapon, one, null, null, null)
-    }
 
     private fun EnumPluginBuilder<Int, Int>.styles(
         weapon: WeaponCategory,

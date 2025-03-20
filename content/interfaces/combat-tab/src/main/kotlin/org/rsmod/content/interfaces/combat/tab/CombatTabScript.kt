@@ -5,7 +5,9 @@ import org.rsmod.api.combat.commons.CombatStance
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
 import org.rsmod.api.combat.spells.autocast.AutocastWeapons
 import org.rsmod.api.combat.weapon.styles.AttackStyles
+import org.rsmod.api.config.refs.categories
 import org.rsmod.api.config.refs.interfaces
+import org.rsmod.api.config.refs.queues
 import org.rsmod.api.config.refs.varbits
 import org.rsmod.api.config.refs.varps
 import org.rsmod.api.player.output.mes
@@ -33,6 +35,7 @@ import org.rsmod.content.interfaces.combat.tab.configs.combat_queues
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.type.obj.ObjTypeList
+import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.type.obj.WeaponCategory
 import org.rsmod.game.type.obj.Wearpos
 import org.rsmod.game.type.util.EnumTypeMapResolver
@@ -197,9 +200,25 @@ constructor(
     }
 
     private fun Player.setStance(stance: CombatStance) {
+        val weapon = righthand?.let(objTypes::get)
+        applyDinhsBulwarkDelay(weapon, stance)
         setWeaponStance(stance)
-        validateChangedStanceStyle()
+        validateChangedStanceStyle(weapon)
         saveCurrentStanceStyle()
+    }
+
+    private fun Player.applyDinhsBulwarkDelay(weapon: UnpackedObjType?, stance: CombatStance) {
+        if (weapon == null || !weapon.isCategoryType(categories.dinhs_bulwark)) {
+            return
+        }
+
+        // When going from `Block` to `Pummel` while using Dinh's bulwark, there is an 8-cycle
+        // delay added to combat (handled through a special queue).
+        val wasBlocking = combatStance == CombatStance.Stance4
+        if (wasBlocking && combatStance != stance) {
+            clearQueue(queues.dinhs_combat_delay)
+            longQueueDiscard(queues.dinhs_combat_delay, 8)
+        }
     }
 
     private fun Player.setWeaponStance(stance: CombatStance) {
@@ -207,11 +226,10 @@ constructor(
         PlayerInterfaceUpdates.updateWeaponCategoryText(this, objTypes)
     }
 
-    private fun Player.validateChangedStanceStyle() {
-        val weaponType = righthand?.let(objTypes::get)
+    private fun Player.validateChangedStanceStyle(weapon: UnpackedObjType?) {
         val startStance = combatStance
 
-        val attackStyle = weaponStyles.resolve(weaponType, startStance.varValue)
+        val attackStyle = weaponStyles.resolve(weapon, startStance.varValue)
         val validated = if (attackStyle == null) CombatStance.Stance1 else startStance
         setWeaponStance(validated)
 

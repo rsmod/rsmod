@@ -48,6 +48,7 @@ object BaseVarps : VarpReferences() {
     val fortis_colosseum_glory_highscore = find("fortis_colosseum_glory_highscore", 937435372)
 
     /* Server-side only types */
+    val dinhs_passive_delay = find("dinhs_passive_delay")
     val com_maxhit = find("com_maxhit")
     val forinthry_surge_expiration = find("forinthry_surge_expiration")
     val saved_autocast_state_staff = find("saved_autocast_state_staff")

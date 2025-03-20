@@ -2,13 +2,16 @@ package org.rsmod.api.combat.formulas.attributes.collector
 
 import jakarta.inject.Inject
 import java.util.EnumSet
+import org.rsmod.api.combat.commons.styles.AttackStyle
 import org.rsmod.api.combat.formulas.attributes.DamageReductionAttributes
 import org.rsmod.api.combat.weapon.styles.AttackStyles
 import org.rsmod.api.config.refs.categories
 import org.rsmod.api.config.refs.objs
+import org.rsmod.api.config.refs.varps
 import org.rsmod.api.player.hat
 import org.rsmod.api.player.lefthand
 import org.rsmod.api.player.legs
+import org.rsmod.api.player.righthand
 import org.rsmod.api.player.torso
 import org.rsmod.api.player.worn.EquipmentChecks
 import org.rsmod.api.random.GameRandom
@@ -29,13 +32,11 @@ constructor(private val attackStyles: AttackStyles, private val objTypes: ObjTyp
             attributes += DamageReductionAttributes.ElysianProc
         }
 
-        val shieldType = shield?.let(objTypes::get)
-        if (shieldType != null && shieldType.isCategoryType(categories.dinhs_bulwark)) {
-            // TODO(combat): There is an 8-tick delay when switching to dinhs bulwark before
-            //  this passive applies.
+        val weaponType = player.righthand?.let(objTypes::get)
+        if (weaponType != null && weaponType.isCategoryType(categories.dinhs_bulwark)) {
             val attackStyle = attackStyles.get(player)
-            // Dinh's bulwark "Block" style is considered a "None" attack style, aka `null`.
-            if (attackStyle == null) {
+            val isPassiveDelayed = player.currentMapClock < player.vars[varps.dinhs_passive_delay]
+            if (attackStyle == AttackStyle.DefensiveMelee && !isPassiveDelayed) {
                 attributes += DamageReductionAttributes.DinhsBlock
             }
         }
