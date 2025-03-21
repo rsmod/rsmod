@@ -72,7 +72,7 @@ constructor(
         attackType: MeleeAttackType?,
         attackStyle: MeleeAttackStyle?,
         blockType: MeleeAttackType?,
-        specMultiplier: Double = 1.0,
+        specMultiplier: Double,
     ): Int =
         pvnMeleeAccuracy.getHitChance(
             player,

@@ -121,7 +121,7 @@ constructor(
 
         val damage =
             if (successfulHit) {
-                val maxHit = maxHits.getMeleeMaxHit(player, npc, type, style)
+                val maxHit = maxHits.getMeleeMaxHit(player, npc, type, style, specMultiplier = 1.0)
                 random.of(0..maxHit)
             } else {
                 0
@@ -236,7 +236,7 @@ constructor(
 
         val damage =
             if (successfulHit) {
-                val maxHit = maxHits.getRangedMaxHit(player, npc, type, style)
+                val maxHit = maxHits.getRangedMaxHit(player, npc, type, style, specMultiplier = 1.0)
                 random.of(0..maxHit)
             } else {
                 0

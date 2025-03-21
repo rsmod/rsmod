@@ -23,7 +23,7 @@ constructor(
         target: Npc,
         attackType: MeleeAttackType?,
         attackStyle: MeleeAttackStyle?,
-        specMultiplier: Double = 1.0,
+        specMultiplier: Double,
     ): Int =
         pvnMeleeMaxHit.getMaxHit(
             player = player,
@@ -41,7 +41,7 @@ constructor(
         target: Npc,
         attackType: RangedAttackType?,
         attackStyle: RangedAttackStyle?,
-        specMultiplier: Double = 1.0,
+        specMultiplier: Double,
         boltSpecDamage: Int = 0,
     ): Int =
         pvnRangedMaxHit.getMaxHit(
