@@ -2691,10 +2691,18 @@ public class ProtectedAccess(
      * Transmogrifies the [npc] into [into], reassigning its internal `uid`. Since npc interactions
      * validate `uid`s before processing, this will automatically cancel any ongoing interactions
      * with this [npc].
+     *
+     * @param duration The cycle duration that the [npc] will remain as [into] before automatically
+     *   changing back to its original type. Set to `Int.MAX_VALUE` to bypass this behavior.
      */
     @OptIn(InternalApi::class)
-    public fun npcTransmog(npc: Npc, into: NpcType, npcTypes: NpcTypeList = context.npcTypes) {
-        npc.transmog(npcTypes[into])
+    public fun npcChangeType(
+        npc: Npc,
+        into: NpcType,
+        duration: Int,
+        npcTypes: NpcTypeList = context.npcTypes,
+    ) {
+        npc.transmog(npcTypes[into], duration)
         npc.assignUid()
     }
 

@@ -373,21 +373,31 @@ public class StandardNpcAccess(
         npc.spotanim(spot, delay, height, slot)
     }
 
+    /**
+     * Transmogrifies the [npc] into [type], reassigning its internal `uid`. Since npc interactions
+     * validate `uid`s before processing, this will automatically cancel any ongoing interactions
+     * with this [npc].
+     *
+     * @param duration The cycle duration that the [npc] will remain as [type] before automatically
+     *   changing back to its original type. Set to `Int.MAX_VALUE` to bypass this behavior.
+     */
     @OptIn(InternalApi::class)
-    public fun transmog(type: NpcType, typeList: NpcTypeList) {
-        npc.transmog(typeList[type])
+    public fun changeType(type: NpcType, duration: Int, typeList: NpcTypeList) {
+        npc.transmog(typeList[type], duration)
         npc.assignUid()
     }
 
+    /**
+     * Transmogrifies the [npc] into [type], reassigning its internal `uid`. Since npc interactions
+     * validate `uid`s before processing, this will automatically cancel any ongoing interactions
+     * with this [npc].
+     *
+     * @param duration The cycle duration that the [npc] will remain as [type] before automatically
+     *   changing back to its original type. Set to `Int.MAX_VALUE` to bypass this behavior.
+     */
     @OptIn(InternalApi::class)
-    public fun transmog(type: UnpackedNpcType) {
-        npc.transmog(type)
-        npc.assignUid()
-    }
-
-    @OptIn(InternalApi::class)
-    public fun resetTransmog() {
-        npc.resetTransmog()
+    public fun changeType(type: UnpackedNpcType, duration: Int) {
+        npc.transmog(type, duration)
         npc.assignUid()
     }
 

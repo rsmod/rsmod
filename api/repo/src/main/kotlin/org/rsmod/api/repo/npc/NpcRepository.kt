@@ -126,6 +126,9 @@ constructor(
             if (shouldTrigger(npc.lifecycleAddCycle)) {
                 addNpcs.add(npc)
             }
+            if (shouldTrigger(npc.lifecycleChangeCycle)) {
+                npc.resetTransmog()
+            }
         }
     }
 

@@ -73,6 +73,7 @@ public class Npc(
     public var lifecycleDelCycle: Int = -1
     public var lifecycleRevealCycle: Int = -1
     public var lifecycleRespawnCycle: Int = -1
+    public var lifecycleChangeCycle: Int = -1
 
     public var attackLvl: Int = type.attack
     public var strengthLvl: Int = type.strength
@@ -238,15 +239,17 @@ public class Npc(
         infoProtocol.setFacePathingEntity(faceEntity.entitySlot)
     }
 
-    public fun transmog(type: UnpackedNpcType) {
+    public fun transmog(type: UnpackedNpcType, duration: Int) {
         cachedHitmark = null
         transmog = type
+        lifecycleChangeCycle = if (duration == Int.MAX_VALUE) -1 else currentMapClock + duration
         infoProtocol.setTransmog(type.id)
     }
 
     public fun resetTransmog() {
         cachedHitmark = null
         transmog = null
+        lifecycleChangeCycle = -1
         infoProtocol.resetTransmog(originalType = id)
     }
 

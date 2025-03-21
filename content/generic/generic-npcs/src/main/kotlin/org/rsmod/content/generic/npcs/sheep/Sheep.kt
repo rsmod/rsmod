@@ -34,7 +34,6 @@ constructor(
 
         onAiTimer(content.sheared_sheep) { npc.sheepTimer() }
         onNpcQueue(content.sheared_sheep, queues.generic_queue1) { queueTransmogReset() }
-        onNpcQueue(content.sheared_sheep, queues.generic_queue2) { transmog(npc.type) }
     }
 
     private fun Npc.sheepTimer() {
@@ -63,7 +62,7 @@ constructor(
         delay(1)
         npcPlayerFaceClose(npc)
         delay(1)
-        npcTransmog(npc, sheared)
+        npcChangeType(npc, sheared, duration = 50)
         mes("You get some wool.")
         invAddOrDrop(objRepo, objs.wool)
         npc.queue(queues.generic_queue1, cycles = 1)
@@ -72,6 +71,5 @@ constructor(
     private fun StandardNpcAccess.queueTransmogReset() {
         resetMode()
         npc.sayFlavourText()
-        queue(queues.generic_queue2, cycles = 49)
     }
 }
