@@ -8,12 +8,17 @@ import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.categories
 import org.rsmod.api.config.refs.objs
 import org.rsmod.api.config.refs.params
+import org.rsmod.api.player.front
+import org.rsmod.api.player.hat
+import org.rsmod.api.player.legs
+import org.rsmod.api.player.righthand
+import org.rsmod.api.player.torso
 import org.rsmod.api.player.worn.EquipmentChecks
 import org.rsmod.game.entity.Player
 import org.rsmod.game.obj.isAnyType
 import org.rsmod.game.obj.isType
 import org.rsmod.game.type.obj.ObjTypeList
-import org.rsmod.game.type.obj.Wearpos
+import org.rsmod.game.type.obj.UnpackedObjType
 
 public class CombatMeleeAttributeCollector @Inject constructor(private val objTypes: ObjTypeList) {
     public fun collect(
@@ -32,7 +37,7 @@ public class CombatMeleeAttributeCollector @Inject constructor(private val objTy
             attributes += CombatMeleeAttributes.ForinthrySurge
         }
 
-        val amulet = player.worn[Wearpos.Front.slot]
+        val amulet = player.front
         if (amulet.isType(objs.amulet_of_avarice)) {
             attributes += CombatMeleeAttributes.AmuletOfAvarice
         } else if (amulet.isAnyType(objs.salve_amulet_e, objs.salve_amulet_ei)) {
@@ -41,23 +46,21 @@ public class CombatMeleeAttributeCollector @Inject constructor(private val objTy
             attributes += CombatMeleeAttributes.SalveAmulet
         }
 
-        val helm = player.worn[Wearpos.Hat.slot]
+        val helm = player.hat
         val helmType = helm?.let(objTypes::get)
-        if (helmType != null) {
-            if (helmType.param(params.blackmask) != 0 || helmType.param(params.slayer_helm) != 0) {
-                attributes += CombatMeleeAttributes.BlackMask
-            }
+        if (helmType != null && helmType.hasBlackMaskAttribute()) {
+            attributes += CombatMeleeAttributes.BlackMask
         }
 
-        val weapon = player.worn[Wearpos.RightHand.slot]
+        val weapon = player.righthand
         if (weapon.isType(objs.arclight)) {
             attributes += CombatMeleeAttributes.Arclight
         } else if (weapon.isType(objs.burning_claws)) {
             attributes += CombatMeleeAttributes.BurningClaws
         }
 
-        val top = player.worn[Wearpos.Torso.slot]
-        val legs = player.worn[Wearpos.Legs.slot]
+        val top = player.torso
+        val legs = player.legs
         if (EquipmentChecks.isObsidianSet(helm, top, legs)) {
             attributes += CombatMeleeAttributes.Obsidian
         }
@@ -182,4 +185,10 @@ public class CombatMeleeAttributeCollector @Inject constructor(private val objTy
 
         return attributes
     }
+
+    private fun UnpackedObjType.hasBlackMaskAttribute(): Boolean =
+        param(params.blackmask) != 0 ||
+            param(params.slayer_helm) != 0 ||
+            param(params.blackmask_imbued) != 0 ||
+            param(params.slayer_helm_imbued) != 0
 }

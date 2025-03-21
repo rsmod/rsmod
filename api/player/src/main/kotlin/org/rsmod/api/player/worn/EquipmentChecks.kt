@@ -10,6 +10,58 @@ public object EquipmentChecks {
 
     public fun isTumekensShadow(obj: InvObj?): Boolean = obj.isType(objs.tumekens_shadow)
 
+    public fun isTwistedBow(obj: InvObj?): Boolean = obj.isType(objs.twisted_bow)
+
+    public fun isCrystalBow(obj: InvObj?): Boolean =
+        obj.isAnyType(
+            objs.crystal_bow,
+            objs.bow_of_faerdhinen,
+            objs.bow_of_faerdhinen_c_hefin,
+            objs.bow_of_faerdhinen_c_ithell,
+            objs.bow_of_faerdhinen_c_iorwerth,
+            objs.bow_of_faerdhinen_c_trahaearn,
+            objs.bow_of_faerdhinen_c_cadarn,
+            objs.bow_of_faerdhinen_c_crwys,
+            objs.bow_of_faerdhinen_c_meilyr,
+            objs.bow_of_faerdhinen_c_amlodd,
+        )
+
+    public fun isCrystalHelm(obj: InvObj?): Boolean =
+        obj.isAnyType(
+            objs.crystal_helm_hefin,
+            objs.crystal_helm_ithell,
+            objs.crystal_helm_iorwerth,
+            objs.crystal_helm_trahaearn,
+            objs.crystal_helm_cadarn,
+            objs.crystal_helm_crwys,
+            objs.crystal_helm_meilyr,
+            objs.crystal_helm_amlodd,
+        )
+
+    public fun isCrystalBody(obj: InvObj?): Boolean =
+        obj.isAnyType(
+            objs.crystal_body_hefin,
+            objs.crystal_body_ithell,
+            objs.crystal_body_iorwerth,
+            objs.crystal_body_trahaearn,
+            objs.crystal_body_cadarn,
+            objs.crystal_body_crwys,
+            objs.crystal_body_meilyr,
+            objs.crystal_body_amlodd,
+        )
+
+    public fun isCrystalLegs(obj: InvObj?): Boolean =
+        obj.isAnyType(
+            objs.crystal_legs_hefin,
+            objs.crystal_legs_ithell,
+            objs.crystal_legs_iorwerth,
+            objs.crystal_legs_trahaearn,
+            objs.crystal_legs_cadarn,
+            objs.crystal_legs_crwys,
+            objs.crystal_legs_meilyr,
+            objs.crystal_legs_amlodd,
+        )
+
     public fun isObsidianSet(helm: InvObj?, top: InvObj?, legs: InvObj?): Boolean =
         helm.isType(objs.obsidian_helmet) &&
             top.isType(objs.obsidian_platebody) &&

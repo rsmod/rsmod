@@ -3,6 +3,7 @@ package org.rsmod.api.combat.formulas.maxhit.melee
 import jakarta.inject.Inject
 import org.rsmod.api.combat.commons.types.MeleeAttackType
 import org.rsmod.api.combat.formulas.attributes.collector.DamageReductionAttributeCollector
+import org.rsmod.api.combat.formulas.maxhit.MaxHitOperations
 import org.rsmod.api.combat.maxhit.npc.NpcMeleeMaxHit
 import org.rsmod.api.npc.meleeStrength
 import org.rsmod.api.player.bonus.WornBonuses
@@ -27,11 +28,7 @@ constructor(
 
         val defenceBonus = target.getDefenceBonus(attackType)
         val reductionAttributes = reductions.collect(target, pvp = false, random)
-        return MeleeMaxHitOperations.applyDamageReductions(
-            baseDamage,
-            defenceBonus,
-            reductionAttributes,
-        )
+        return MaxHitOperations.applyDamageReductions(baseDamage, defenceBonus, reductionAttributes)
     }
 
     private fun Player.getDefenceBonus(attackType: MeleeAttackType?): Int =

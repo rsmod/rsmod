@@ -38,8 +38,12 @@ internal object ParamBuilds : ParamBuilder() {
         build<Int>("tormented_demon") { default = 0 }
 
         build<Int>("demonbane_resistant") { default = 0 }
+
         build<Int>("slayer_helm") { default = 0 }
+        build<Int>("slayer_helm_imbued") { default = 0 }
+
         build<Int>("blackmask") { default = 0 }
+        build<Int>("blackmask_imbued") { default = 0 }
 
         build<Int>("shade") { default = 0 }
         build<Int>("leafy") { default = 0 }

@@ -5,12 +5,12 @@ import kotlin.math.max
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
 import org.rsmod.api.combat.formulas.attributes.CombatMeleeAttributes
 import org.rsmod.api.combat.formulas.attributes.CombatNpcAttributes
-import org.rsmod.api.combat.formulas.attributes.DamageReductionAttributes
 import org.rsmod.api.combat.formulas.scale
 import org.rsmod.api.combat.maxhit.player.PlayerMeleeMaxHit
 import org.rsmod.api.config.refs.stats
 import org.rsmod.api.config.refs.varbits
 import org.rsmod.api.config.refs.varps
+import org.rsmod.api.player.righthand
 import org.rsmod.api.player.stat.stat
 import org.rsmod.api.player.worn.EquipmentChecks
 import org.rsmod.game.entity.Player
@@ -191,11 +191,10 @@ public object MeleeMaxHitOperations {
 
         // TODO(combat): Vampyre mods
 
-        // Corporeal beast damage reduction is apparently applied _before_ ruby bolt proc, but
-        // _after_ other bolt procs. This is why this is handled here instead of in a specialized
-        // `onModifyNpcHit(corporeal_beast)` script. Though this is for Melee max hit, this should
-        // be consistent throughout all combat styles to avoid any conflict or hardcoded checks
-        // if it were to be handled via a script.
+        // Corporeal beast damage reduction is applied _after_ bolt proc multipliers. This is why we
+        // handle it here instead of in a specialized `onModifyNpcHit(corp_beast)` script. Though
+        // this is for Melee max hit, this should be consistent throughout all combat styles to
+        // avoid any conflict or hardcoded checks if it were to be handled in a script.
         val corpBeastReduction =
             NpcAttr.CorporealBeast in npcAttributes && MeleeAttr.CorpBaneWeapon !in meleeAttributes
         if (corpBeastReduction) {
@@ -205,34 +204,9 @@ public object MeleeMaxHitOperations {
         return modified
     }
 
-    public fun applyDamageReductions(
-        startDamage: Int,
-        activeDefenceBonus: Int,
-        reductionAttributes: EnumSet<DamageReductionAttributes>,
-    ): Int {
-        var modified = startDamage
-
-        if (DamageReductionAttributes.ElysianProc in reductionAttributes) {
-            modified = scale(modified, multiplier = 3, divisor = 4)
-        }
-
-        if (DamageReductionAttributes.DinhsBlock in reductionAttributes) {
-            modified = scale(modified, multiplier = 4, divisor = 5)
-        }
-
-        if (DamageReductionAttributes.Justiciar in reductionAttributes) {
-            val factor = activeDefenceBonus / 3000.0
-            // Damage reduction effect will always reduce at least `1`.
-            val reduction = max(1, (modified * factor).toInt())
-            modified = max(0, modified - reduction)
-        }
-
-        return modified
-    }
-
     public fun calculateEffectiveStrength(player: Player, attackStyle: MeleeAttackStyle?): Int {
         val strengthLevel = player.stat(stats.strength)
-        val soulreaperAxe = EquipmentChecks.isSoulreaperAxe(player.worn[Wearpos.RightHand.slot])
+        val soulreaperAxe = EquipmentChecks.isSoulreaperAxe(player.righthand)
         val soulStackBonus = if (soulreaperAxe) player.vars.soulStackBonus() else 1.0
         return calculateEffectiveStrength(
             visLevel = strengthLevel,

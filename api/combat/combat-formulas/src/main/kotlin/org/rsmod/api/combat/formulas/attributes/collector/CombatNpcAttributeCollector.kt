@@ -91,6 +91,11 @@ public class CombatNpcAttributeCollector {
             attributes += CombatNpcAttributes.CorporealBeast
         }
 
+        val xerician = false // TODO(combat): param(params.chambers_of_xeric)
+        if (xerician) {
+            attributes += CombatNpcAttributes.Xerician
+        }
+
         val amascutNpc = false // TODO(combat): param(params.tomb_of_amascut)
         if (amascutNpc) {
             attributes += CombatNpcAttributes.Amascut

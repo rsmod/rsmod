@@ -4,6 +4,7 @@ import org.rsmod.api.combat.formulas.accuracy.melee.NvPMeleeAccuracy
 import org.rsmod.api.combat.formulas.accuracy.melee.PvNMeleeAccuracy
 import org.rsmod.api.combat.formulas.attributes.collector.CombatMeleeAttributeCollector
 import org.rsmod.api.combat.formulas.attributes.collector.CombatNpcAttributeCollector
+import org.rsmod.api.combat.formulas.attributes.collector.CombatRangedAttributeCollector
 import org.rsmod.api.combat.formulas.attributes.collector.DamageReductionAttributeCollector
 import org.rsmod.api.combat.formulas.maxhit.melee.NvPMeleeMaxHit
 import org.rsmod.api.combat.formulas.maxhit.melee.PvNMeleeMaxHit
@@ -13,6 +14,7 @@ public class CombatFormulaModule : PluginModule() {
     override fun bind() {
         bindInstance<CombatMeleeAttributeCollector>()
         bindInstance<CombatNpcAttributeCollector>()
+        bindInstance<CombatRangedAttributeCollector>()
         bindInstance<DamageReductionAttributeCollector>()
 
         bindInstance<NvPMeleeAccuracy>()
