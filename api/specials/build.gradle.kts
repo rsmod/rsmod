@@ -9,13 +9,11 @@ kotlin {
 dependencies {
     api(projects.api.combat.combatCommons)
     api(projects.api.combat.combatWeapon)
-
     implementation(libs.guice)
     implementation(projects.api.config)
-    implementation(projects.api.combat.combatFormulas)
+    implementation(projects.api.combat.combatManager)
     implementation(projects.api.npc)
     implementation(projects.api.player)
-    implementation(projects.api.random)
     implementation(projects.api.type.typeBuilders)
     implementation(projects.api.type.typeReferences)
     implementation(projects.api.utils.utilsVars)
