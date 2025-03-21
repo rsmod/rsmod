@@ -77,15 +77,15 @@ private fun Npc.retaliate(target: Player, interactions: AiPlayerInteractions) {
     }
 }
 
-public fun Npc.combatPlayDefendFx(source: Player) {
+public fun Npc.combatPlayDefendFx(source: Player, delay: Int = 0) {
     val defendAnim = visType.paramOrNull(params.defend_anim)
     if (defendAnim != null) {
-        anim(defendAnim)
+        anim(defendAnim, delay * 30)
     }
 
     val defendSound = visType.paramOrNull(params.defend_sound)
     if (defendSound != null) {
-        source.soundSynth(defendSound)
+        source.soundSynth(defendSound, delay = delay * 30)
     }
 }
 

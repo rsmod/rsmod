@@ -232,6 +232,22 @@ constructor(
         anim(attackAnim)
         attackSound?.let(::soundSynth)
 
+        val successfulHit = true // TODO(combat): Ranged accuracy
+
+        val damage =
+            if (successfulHit) {
+                val maxHit = maxHits.getRangedMaxHit(player, npc, type, style)
+                random.of(0..maxHit)
+            } else {
+                0
+            }
+
+        // TODO(combat): Verify all timings with rs.
+        val hit = npc.queueHit(player, delay, HitType.Ranged, damage, hitModifier)
+        npc.heroPoints(player, hit.damage)
+        npc.combatPlayDefendFx(player, delay)
+        npc.queueCombatRetaliate(player, delay)
+
         if (usingThrown && player.righthand == null) {
             mes("That was your last one!")
             return
