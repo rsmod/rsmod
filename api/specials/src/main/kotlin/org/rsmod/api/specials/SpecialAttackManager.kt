@@ -4,7 +4,7 @@ import jakarta.inject.Inject
 import org.rsmod.api.combat.commons.CombatAttack
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
 import org.rsmod.api.combat.commons.types.MeleeAttackType
-import org.rsmod.api.combat.manager.CombatAttackManager
+import org.rsmod.api.combat.manager.PlayerAttackManager
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.specials.energy.SpecialAttackEnergy
 import org.rsmod.api.specials.weapon.SpecialAttackWeapons
@@ -19,7 +19,7 @@ public class SpecialAttackManager
 constructor(
     private val energy: SpecialAttackEnergy,
     private val weapons: SpecialAttackWeapons,
-    private val manager: CombatAttackManager,
+    private val manager: PlayerAttackManager,
 ) {
     public fun hasSpecialEnergy(source: ProtectedAccess, energyInHundreds: Int): Boolean {
         return energy.hasSpecialEnergy(source.player, energyInHundreds)
@@ -31,22 +31,22 @@ constructor(
 
     public fun getSpecialEnergyRequirement(obj: ObjType): Int? = weapons.getSpecialEnergy(obj)
 
-    /** @see [CombatAttackManager.setNextAttackDelay] */
+    /** @see [PlayerAttackManager.setNextAttackDelay] */
     public fun setNextAttackDelay(source: ProtectedAccess, cycles: Int) {
         manager.setNextAttackDelay(source, cycles)
     }
 
-    /** @see [CombatAttackManager.continueCombat] */
+    /** @see [PlayerAttackManager.continueCombat] */
     public fun continueCombat(source: ProtectedAccess, target: PathingEntity) {
         manager.continueCombat(source, target)
     }
 
-    /** @see [CombatAttackManager.continueCombat] */
+    /** @see [PlayerAttackManager.continueCombat] */
     public fun continueCombat(source: ProtectedAccess, target: Npc) {
         manager.continueCombat(source, target)
     }
 
-    /** @see [CombatAttackManager.continueCombat] */
+    /** @see [PlayerAttackManager.continueCombat] */
     public fun continueCombat(source: ProtectedAccess, target: Player) {
         manager.continueCombat(source, target)
     }
@@ -86,7 +86,7 @@ constructor(
      */
     public fun clearCombat(source: ProtectedAccess): Unit = manager.clearCombat(source)
 
-    /** @see [CombatAttackManager.rollMeleeDamage] */
+    /** @see [PlayerAttackManager.rollMeleeDamage] */
     public fun rollMeleeDamage(
         source: ProtectedAccess,
         target: PathingEntity,
@@ -108,7 +108,7 @@ constructor(
             blockType,
         )
 
-    /** @see [CombatAttackManager.rollMeleeAccuracy] */
+    /** @see [PlayerAttackManager.rollMeleeAccuracy] */
     public fun rollMeleeAccuracy(
         source: ProtectedAccess,
         target: PathingEntity,
@@ -119,7 +119,7 @@ constructor(
     ): Boolean =
         manager.rollMeleeAccuracy(source, target, attackType, attackStyle, blockType, percentBoost)
 
-    /** @see [CombatAttackManager.rollMeleeMaxHit] */
+    /** @see [PlayerAttackManager.rollMeleeMaxHit] */
     public fun rollMeleeMaxHit(
         source: ProtectedAccess,
         target: PathingEntity,
@@ -128,7 +128,7 @@ constructor(
         percentBoost: Int,
     ): Int = manager.rollMeleeMaxHit(source, target, attackType, attackStyle, percentBoost)
 
-    /** @see [CombatAttackManager.calculateMeleeMaxHit] */
+    /** @see [PlayerAttackManager.calculateMeleeMaxHit] */
     public fun calculateMeleeMaxHit(
         source: ProtectedAccess,
         target: PathingEntity,
@@ -137,7 +137,7 @@ constructor(
         percentBoost: Int,
     ): Int = manager.calculateMeleeMaxHit(source, target, attackType, attackStyle, percentBoost)
 
-    /** @see [CombatAttackManager.queueMeleeHit] */
+    /** @see [PlayerAttackManager.queueMeleeHit] */
     public fun queueMeleeHit(
         source: ProtectedAccess,
         target: PathingEntity,

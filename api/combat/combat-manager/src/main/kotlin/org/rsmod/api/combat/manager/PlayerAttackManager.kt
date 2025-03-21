@@ -25,7 +25,7 @@ import org.rsmod.game.hit.Hit
 import org.rsmod.game.hit.HitType
 import org.rsmod.game.type.obj.ObjTypeList
 
-public class CombatAttackManager
+public class PlayerAttackManager
 @Inject
 constructor(
     private val random: GameRandom,
