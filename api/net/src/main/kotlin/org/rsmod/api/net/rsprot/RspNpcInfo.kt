@@ -33,7 +33,7 @@ class RspNpcInfo(val rspAvatar: NpcAvatar) : NpcInfoProtocol {
 
     override fun resetTransmog(originalType: Int) {
         rspAvatar.setId(originalType)
-        rspAvatar.extendedInfo.setTransmogrification(-1)
+        rspAvatar.extendedInfo.setTransmogrification(originalType)
     }
 
     override fun showHeadbar(headbar: Headbar) {
