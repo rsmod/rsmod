@@ -23,7 +23,7 @@ object BaseVarps : VarpReferences() {
     // Controlled (0), Accurate (1), Aggressive (2), and Defensive (3).
     // Though it may be the case that it actually represents the current "XP" type being granted.
     val attackstyle_melee = find("attackstyle_melee", 10444968)
-    val auto_retaliate = find("auto_retaliate", 39044574)
+    val auto_retaliate_disabled = find("auto_retaliate_disabled", 39044574)
     val sa_energy = find("sa_energy", 68098142)
     val sa_type = find("sa_type", 68325123)
     val soulreaper_souls = find("soulreaper_axe_soul_stack", 858899946)

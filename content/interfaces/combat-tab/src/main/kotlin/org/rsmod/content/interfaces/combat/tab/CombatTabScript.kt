@@ -64,8 +64,8 @@ constructor(
 ) : PluginScript() {
     private var Player.combatStance by enumVarp<CombatStance>(varps.attackstyle)
     private var Player.meleeStyle by enumVarp<MeleeAttackStyle>(varps.attackstyle_melee)
-    private var Player.autoRetaliate by boolVarp(varps.auto_retaliate)
     private var Player.specialType by enumVarp<SpecialAttackType>(varps.sa_type)
+    private var Player.autoRetaliateDisabled by boolVarp(varps.auto_retaliate_disabled)
 
     private var Player.autocastEnabled by boolVarBit(varbits.autocast_enabled)
     private var Player.autocastSpell by intVarBit(varbits.autocast_spell)
@@ -184,7 +184,7 @@ constructor(
             return
         }
 
-        autoRetaliate = !autoRetaliate
+        autoRetaliateDisabled = !autoRetaliateDisabled
     }
 
     private fun Player.selectStance(stance: CombatStance) {

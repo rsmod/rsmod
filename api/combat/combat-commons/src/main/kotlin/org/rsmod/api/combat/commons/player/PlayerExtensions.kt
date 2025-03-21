@@ -20,7 +20,7 @@ import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.type.seq.SeqType
 
-private val ProtectedAccess.autoRetaliate by boolVarp(varps.auto_retaliate)
+private val ProtectedAccess.autoRetaliateDisabled by boolVarp(varps.auto_retaliate_disabled)
 
 public fun Player.queueCombatRetaliate(source: Npc, delay: Int = 1) {
     strongQueue(queues.com_retaliate_npc, delay, source.uid)
@@ -32,7 +32,7 @@ public fun ProtectedAccess.combatRetaliate(
     npcList: NpcList,
     interactions: NpcInteractions,
 ) {
-    if (!autoRetaliate || isBusy2) {
+    if (autoRetaliateDisabled || isBusy2) {
         return
     }
     val source = uid.resolve(npcList) ?: return
@@ -55,7 +55,7 @@ public fun ProtectedAccess.combatRetaliate(
     interactions: PlayerInteractions,
 ) {
     preventLogout("You can't log out until 10 seconds after the end of combat.", 16)
-    if (!autoRetaliate || isBusy2) {
+    if (autoRetaliateDisabled || isBusy2) {
         return
     }
     val source = uid.resolve(playerList) ?: return
