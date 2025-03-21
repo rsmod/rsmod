@@ -95,7 +95,7 @@ constructor(
         val weapon = player.righthand?.let(objTypes::get)
         if (weapon != null && weapon.isCategoryType(categories.dinhs_bulwark)) {
             val attackStyle = styles.get(player)
-            if (attackStyle == AttackStyle.DefensiveMelee) {
+            if (attackStyle == AttackStyle.AggressiveMelee) {
                 mes("Your bulwark gets in the way.")
                 clearPendingAction()
                 return false

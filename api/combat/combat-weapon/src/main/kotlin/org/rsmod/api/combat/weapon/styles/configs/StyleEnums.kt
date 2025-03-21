@@ -41,7 +41,7 @@ internal object StyleEnumBuilder : EnumBuilder() {
             styles(WeaponCategory.Banner, accurate, aggressive, aggressive, defensive)
             styles(WeaponCategory.PoweredStaff, accurateRanged, accurateRanged, longRange)
             styles(WeaponCategory.Bludgeon, aggressive, aggressive, aggressive)
-            styles(WeaponCategory.Bulwark, accurate, null, null, defensive)
+            styles(WeaponCategory.Bulwark, accurate, null, null, aggressive)
         }
     }
 

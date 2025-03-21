@@ -3,6 +3,7 @@ package org.rsmod.api.combat.formulas.accuracy.melee
 import com.google.inject.AbstractModule
 import com.google.inject.Scopes
 import jakarta.inject.Inject
+import org.rsmod.api.combat.commons.CombatStance
 import org.rsmod.api.combat.commons.types.MeleeAttackType
 import org.rsmod.api.combat.weapon.scripts.WeaponAttackStylesScript
 import org.rsmod.api.combat.weapon.styles.AttackStyles
@@ -10,6 +11,7 @@ import org.rsmod.api.config.refs.objs
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.config.refs.stats
 import org.rsmod.api.config.refs.varbits
+import org.rsmod.api.config.refs.varps
 import org.rsmod.api.player.back
 import org.rsmod.api.player.feet
 import org.rsmod.api.player.front
@@ -48,6 +50,7 @@ class NvPMeleeAccuracyTest {
             player.setBaseLevel(stats.defence, matchup.baseDefenceLvl)
             player.setCurrentLevel(stats.hitpoints, matchup.hitpoints)
             player.setBaseLevel(stats.hitpoints, matchup.baseHitpointsLvl)
+            player.setVarp(varps.attackstyle, matchup.blockStance.varValue)
 
             player.hat = matchup.hat
             player.back = matchup.back
@@ -74,6 +77,7 @@ class NvPMeleeAccuracyTest {
         val expectedAccuracy: Double,
         val npc: UnpackedNpcType = man,
         val attackType: MeleeAttackType? = null,
+        val blockStance: CombatStance = CombatStance.Stance1,
         val hat: InvObj? = null,
         val back: InvObj? = null,
         val front: InvObj? = null,
@@ -93,6 +97,8 @@ class NvPMeleeAccuracyTest {
         fun withNpcSource(npc: UnpackedNpcType) = copy(npc = npc)
 
         fun withAttackType(attackType: MeleeAttackType?) = copy(attackType = attackType)
+
+        fun withBlockStance(stance: CombatStance) = copy(blockStance = stance)
 
         fun withHelm(obj: ObjType?) = copy(hat = obj?.let(::InvObj))
 
@@ -187,6 +193,18 @@ class NvPMeleeAccuracyTest {
                     .withFeet(objs.dragon_boots)
                     .withRing(objs.berserker_ring)
                     .withDefenceLevel(defenceLvl = 99),
+                Matchup(expectedAccuracy = 67.2)
+                    .withNpcSource(glod)
+                    .withAttackType(MeleeAttackType.Crush)
+                    .withBlockStance(CombatStance.Stance1) // Dinh's "Pummel" stance.
+                    .withWeapon(objs.dinhs_bulwark)
+                    .withDefenceLevel(defenceLvl = 50),
+                Matchup(expectedAccuracy = 67.2)
+                    .withNpcSource(glod)
+                    .withAttackType(MeleeAttackType.Crush)
+                    .withBlockStance(CombatStance.Stance4) // Dinh's "Block" stance.
+                    .withWeapon(objs.dinhs_bulwark)
+                    .withDefenceLevel(defenceLvl = 50),
             )
         }
     }

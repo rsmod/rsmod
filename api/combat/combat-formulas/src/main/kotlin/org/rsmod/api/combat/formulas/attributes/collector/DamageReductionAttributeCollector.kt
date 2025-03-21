@@ -43,7 +43,7 @@ constructor(private val attackStyles: AttackStyles, private val objTypes: ObjTyp
                 val attackStyle = attackStyles.get(player)
                 val passiveDelay = player.vars[varps.dinhs_passive_delay]
                 val isPassiveDelayed = player.currentMapClock < passiveDelay
-                if (attackStyle == AttackStyle.DefensiveMelee && !isPassiveDelayed) {
+                if (attackStyle == AttackStyle.AggressiveMelee && !isPassiveDelayed) {
                     attributes += DamageReductionAttributes.DinhsBlock
                 }
             }
