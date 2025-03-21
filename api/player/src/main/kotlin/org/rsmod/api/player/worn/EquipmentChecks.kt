@@ -84,6 +84,14 @@ public object EquipmentChecks {
             objs.void_melee_helm_l_or,
         )
 
+    public fun isVoidRangerHelm(obj: InvObj?): Boolean =
+        obj.isAnyType(
+            objs.void_ranger_helm,
+            objs.void_ranger_helm_l,
+            objs.void_ranger_helm_or,
+            objs.void_ranger_helm_l_or,
+        )
+
     public fun isVoidMageHelm(obj: InvObj?): Boolean =
         obj.isAnyType(
             objs.void_mage_helm,

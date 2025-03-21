@@ -3,9 +3,19 @@ package org.rsmod.api.combat.formulas.maxhit.ranged
 import java.util.EnumSet
 import kotlin.math.max
 import kotlin.math.min
+import org.rsmod.api.combat.commons.styles.RangedAttackStyle
 import org.rsmod.api.combat.formulas.attributes.CombatNpcAttributes
 import org.rsmod.api.combat.formulas.attributes.CombatRangedAttributes
 import org.rsmod.api.combat.formulas.scale
+import org.rsmod.api.combat.maxhit.player.PlayerRangedMaxHit
+import org.rsmod.api.config.refs.stats
+import org.rsmod.api.config.refs.varbits
+import org.rsmod.api.player.stat.stat
+import org.rsmod.api.player.worn.EquipmentChecks
+import org.rsmod.game.entity.Player
+import org.rsmod.game.inv.Inventory
+import org.rsmod.game.type.obj.Wearpos
+import org.rsmod.game.vars.VarPlayerIntMap
 
 private typealias RangeAttr = CombatRangedAttributes
 
@@ -133,5 +143,71 @@ public object RangedMaxHitOperations {
         }
 
         return modified
+    }
+
+    public fun calculateEffectiveRanged(player: Player, attackStyle: RangedAttackStyle?): Int =
+        calculateEffectiveRanged(
+            visLevel = player.stat(stats.ranged),
+            vars = player.vars,
+            worn = player.worn,
+            attackStyle = attackStyle,
+        )
+
+    private fun calculateEffectiveRanged(
+        visLevel: Int,
+        vars: VarPlayerIntMap,
+        worn: Inventory,
+        attackStyle: RangedAttackStyle?,
+    ): Int {
+        val styleBonus = attackStyle.styleBonus()
+        val prayerBonus = vars.prayerBonus()
+        val voidBonus = worn.voidBonus()
+        return PlayerRangedMaxHit.calculateEffectiveRanged(
+            visibleRangedLvl = visLevel,
+            styleBonus = styleBonus,
+            prayerBonus = prayerBonus,
+            voidBonus = voidBonus,
+        )
+    }
+
+    private fun RangedAttackStyle?.styleBonus(): Int =
+        when (this) {
+            RangedAttackStyle.Accurate -> 11
+            else -> 8
+        }
+
+    private fun VarPlayerIntMap.prayerBonus(): Double =
+        when {
+            this[varbits.sharp_eye] == 1 -> 1.05
+            this[varbits.hawk_eye] == 1 -> 1.1
+            this[varbits.eagle_eye] == 1 -> 1.15
+            // this[varbits.deadeye] == 1 -> 1.18 // TODO(combat)
+            this[varbits.rigour] == 1 -> 1.23
+            else -> 1.0
+        }
+
+    private fun Inventory.voidBonus(): Double {
+        val helm = this[Wearpos.Hat.slot]
+        if (!EquipmentChecks.isVoidRangerHelm(helm)) {
+            return 1.0
+        }
+
+        val gloves = this[Wearpos.Hands.slot]
+        if (!EquipmentChecks.isVoidGloves(gloves)) {
+            return 1.0
+        }
+
+        val top = this[Wearpos.Torso.slot]
+        val legs = this[Wearpos.Legs.slot]
+
+        if (EquipmentChecks.isEliteVoidTop(top) && EquipmentChecks.isEliteVoidRobe(legs)) {
+            return 1.125
+        }
+
+        if (EquipmentChecks.isRegularVoidTop(top) && EquipmentChecks.isRegularVoidRobe(legs)) {
+            return 1.1
+        }
+
+        return 1.0
     }
 }
