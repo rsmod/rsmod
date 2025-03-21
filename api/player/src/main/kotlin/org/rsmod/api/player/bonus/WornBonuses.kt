@@ -112,7 +112,7 @@ public class WornBonuses @Inject constructor(private val objTypes: ObjTypeList) 
         val usingThrown = weapon != null && weapon.isCategoryType(categories.throwing_weapon)
         val ignoreQuiverBonuses = usingChargebow || usingThrown
 
-        for (wearpos in Wearpos.visibleWearpos) {
+        for (wearpos in Wearpos.entries) {
             val obj = player.worn[wearpos.slot] ?: continue
 
             if (wearpos == Wearpos.Quiver && ignoreQuiverBonuses) {
@@ -132,6 +132,7 @@ public class WornBonuses @Inject constructor(private val objTypes: ObjTypeList) 
             defMagic += type.param(params.defence_magic)
             meleeStr += type.param(params.melee_strength)
             rangedStr += type.param(params.ranged_strength)
+            rangedStr += type.param(params.additive_ranged_strength)
             magicDmg += type.param(params.magic_damage)
             prayer += type.param(params.item_prayer_bonus)
             undead += type.param(params.bonus_undead_buff)
