@@ -36,7 +36,7 @@ public data class Hit(
 
     public fun resolveNpcSource(npcList: NpcList): Npc? {
         val uid = checkNotNull(sourceUid) { "Hit did not originate from a source: $this" }
-        check(hitmark.isNpcSource) { "Hit did not originate from an npc: $this" }
+        check(isFromNpc) { "Hit did not originate from an npc: $this" }
 
         val npcUid = NpcUid(uid)
         return npcUid.resolve(npcList)
@@ -44,7 +44,7 @@ public data class Hit(
 
     public fun resolvePlayerSource(playerList: PlayerList): Player? {
         val uid = checkNotNull(sourceUid) { "Hit did not originate from a source: $this" }
-        check(hitmark.isPlayerSource) { "Hit did not originate from a player: $this" }
+        check(isFromPlayer) { "Hit did not originate from a player: $this" }
 
         val playerUid = PlayerUid(uid)
         return playerUid.resolve(playerList)
