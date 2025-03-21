@@ -1514,9 +1514,13 @@ public class ProtectedAccess(
             strongQueue = true,
         )
 
-    internal fun findHitNpcSource(hit: Hit, npcList: NpcList = context.npcList): Npc? {
-        return hit.resolveNpcSource(npcList)
-    }
+    internal fun findHitNpcSource(hit: Hit, npcList: NpcList = context.npcList): Npc? =
+        hit.resolveNpcSource(npcList)
+
+    internal fun findHitPlayerSource(
+        hit: Hit,
+        playerList: PlayerList = context.playerList,
+    ): Player? = hit.resolvePlayerSource(playerList)
 
     @InternalApi
     public fun processQueuedHit(hit: Hit): Unit = processQueuedHit(hit, StandardPlayerHitProcessor)
@@ -2775,6 +2779,11 @@ public class ProtectedAccess(
 
     public fun ocCategory(type: UnpackedObjType?, catTypes: CategoryTypeList): CategoryType? =
         if (type == null) null else catTypes[type.category]
+
+    // TODO: Decide if we either want to keep this and make it public; or remove it and refactor
+    //  its usage (only called in one place as of now due to laziness).
+    internal fun ocType(obj: InvObj?): UnpackedObjType? =
+        if (obj == null) null else context.objTypes[obj]
 
     /* Seq helper functions */
     /** Returns the total time duration of [seq] in _**client frames**_. */

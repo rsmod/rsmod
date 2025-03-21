@@ -3,7 +3,7 @@ package org.rsmod.api.combat
 import jakarta.inject.Inject
 import org.rsmod.api.combat.commons.CombatAttack
 import org.rsmod.api.combat.commons.npc.attackRate
-import org.rsmod.api.combat.commons.player.combatPlayDefendFx
+import org.rsmod.api.combat.commons.player.combatPlayDefendAnim
 import org.rsmod.api.combat.commons.player.queueCombatRetaliate
 import org.rsmod.api.combat.formulas.AccuracyFormulae
 import org.rsmod.api.combat.formulas.MaxHitFormulae
@@ -59,7 +59,7 @@ constructor(
             }
 
         target.queueHit(npc, 1, HitType.Melee, damage)
-        target.combatPlayDefendFx(damage, objTypes)
+        target.combatPlayDefendAnim(objTypes)
         target.queueCombatRetaliate(npc)
     }
 

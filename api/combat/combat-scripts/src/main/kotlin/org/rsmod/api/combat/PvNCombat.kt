@@ -3,7 +3,7 @@ package org.rsmod.api.combat
 import jakarta.inject.Inject
 import org.rsmod.api.combat.commons.CombatAttack
 import org.rsmod.api.combat.commons.fx.MeleeAnimationAndSound
-import org.rsmod.api.combat.commons.npc.combatPlayDefendFx
+import org.rsmod.api.combat.commons.npc.combatPlayDefendAnim
 import org.rsmod.api.combat.commons.npc.queueCombatRetaliate
 import org.rsmod.api.combat.commons.ranged.RangedAmmunition
 import org.rsmod.api.combat.formulas.AccuracyFormulae
@@ -20,7 +20,6 @@ import org.rsmod.api.npc.hit.modifier.NpcHitModifier
 import org.rsmod.api.npc.hit.queueHit
 import org.rsmod.api.npc.isValidTarget
 import org.rsmod.api.player.lefthand
-import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.quiver
 import org.rsmod.api.player.righthand
@@ -129,7 +128,7 @@ constructor(
 
         val hit = npc.queueHit(player, 1, HitType.Melee, damage, hitModifier)
         npc.heroPoints(player, hit.damage)
-        npc.combatPlayDefendFx(player)
+        npc.combatPlayDefendAnim()
         npc.queueCombatRetaliate(player)
 
         // TODO(combat): This is sending two `setmapflag(null)` packets when it is meant to only
@@ -187,7 +186,9 @@ constructor(
             return
         }
 
-        val delay = 2 // TODO(combat): Projectiles and proper impact delay calc.
+        // TODO(combat): Projectiles and proper impact delay calc.
+        val clientDelay = 46 + (5 * player.distanceTo(npc.coords))
+        val delay = 1 + (clientDelay / 30)
 
         val usingThrown = weaponType.isCategoryType(categories.throwing_weapon)
         val removeAmmoType = if (usingThrown) weaponType else quiverType
@@ -245,7 +246,7 @@ constructor(
         // TODO(combat): Verify all timings with rs.
         val hit = npc.queueHit(player, delay, HitType.Ranged, damage, hitModifier)
         npc.heroPoints(player, hit.damage)
-        npc.combatPlayDefendFx(player, delay)
+        npc.combatPlayDefendAnim(clientDelay)
         npc.queueCombatRetaliate(player, delay)
 
         if (usingThrown && player.righthand == null) {

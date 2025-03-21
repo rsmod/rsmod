@@ -2,9 +2,9 @@ package org.rsmod.api.combat.manager
 
 import jakarta.inject.Inject
 import org.rsmod.api.combat.commons.CombatAttack
-import org.rsmod.api.combat.commons.npc.combatPlayDefendFx
+import org.rsmod.api.combat.commons.npc.combatPlayDefendAnim
 import org.rsmod.api.combat.commons.npc.queueCombatRetaliate
-import org.rsmod.api.combat.commons.player.combatPlayDefendFx
+import org.rsmod.api.combat.commons.player.combatPlayDefendAnim
 import org.rsmod.api.combat.commons.player.queueCombatRetaliate
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
 import org.rsmod.api.combat.commons.types.MeleeAttackType
@@ -329,7 +329,7 @@ constructor(
 
     private fun queueMeleeHit(source: ProtectedAccess, target: Npc, damage: Int, delay: Int): Hit {
         val hit = target.queueHit(source.player, delay, HitType.Melee, damage, npcHitModifier)
-        target.combatPlayDefendFx(source.player)
+        target.combatPlayDefendAnim()
         target.queueCombatRetaliate(source.player)
         return hit
     }
@@ -341,7 +341,7 @@ constructor(
         delay: Int,
     ): Hit {
         val hit = target.queueHit(source.player, delay, HitType.Melee, damage)
-        target.combatPlayDefendFx(source.player, damage, objTypes)
+        target.combatPlayDefendAnim(objTypes)
         target.queueCombatRetaliate(source.player)
         return hit
     }

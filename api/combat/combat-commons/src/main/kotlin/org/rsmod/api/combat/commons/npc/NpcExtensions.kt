@@ -8,7 +8,6 @@ import org.rsmod.api.npc.isOutOfCombat
 import org.rsmod.api.npc.opPlayer2
 import org.rsmod.api.npc.vars.intVarn
 import org.rsmod.api.npc.vars.typePlayerUidVarn
-import org.rsmod.api.player.output.soundSynth
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.npc.NpcMode
@@ -77,15 +76,10 @@ private fun Npc.retaliate(target: Player, interactions: AiPlayerInteractions) {
     }
 }
 
-public fun Npc.combatPlayDefendFx(source: Player, delay: Int = 0) {
+public fun Npc.combatPlayDefendAnim(clientDelay: Int = 0) {
     val defendAnim = visType.paramOrNull(params.defend_anim)
     if (defendAnim != null) {
-        anim(defendAnim, delay * 30)
-    }
-
-    val defendSound = visType.paramOrNull(params.defend_sound)
-    if (defendSound != null) {
-        source.soundSynth(defendSound, delay = delay * 30)
+        anim(defendAnim, delay = clientDelay)
     }
 }
 

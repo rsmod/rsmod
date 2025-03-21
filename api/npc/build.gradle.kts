@@ -10,6 +10,7 @@ dependencies {
     implementation(libs.bundles.logging)
     implementation(libs.guice)
     implementation(projects.api.config)
+    implementation(projects.api.playerOutput)
     implementation(projects.api.random)
     implementation(projects.api.route)
     implementation(projects.api.type.typeBuilders)

@@ -7,14 +7,17 @@ import org.rsmod.api.config.refs.queues
 import org.rsmod.api.npc.access.StandardNpcAccess
 import org.rsmod.api.npc.events.NpcHitEvents
 import org.rsmod.api.npc.headbar.InternalNpcHeadbars
+import org.rsmod.api.player.output.soundSynth
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Npc
+import org.rsmod.game.entity.PlayerList
 import org.rsmod.game.headbar.Headbar
 import org.rsmod.game.hit.Hit
 import org.rsmod.game.type.headbar.HeadbarType
 
-public class StandardNpcHitProcessor @Inject constructor(private val eventBus: EventBus) :
-    NpcHitProcessor {
+public class StandardNpcHitProcessor
+@Inject
+constructor(private val playerList: PlayerList, private val eventBus: EventBus) : NpcHitProcessor {
     override fun StandardNpcAccess.process(hit: Hit) {
         // TODO(combat): Show ironman_blocked hitmark if source is an ironman and target has been
         // damaged by other sources.
@@ -53,10 +56,10 @@ public class StandardNpcHitProcessor @Inject constructor(private val eventBus: E
             "Expected hit damage to be less than or equal to available hitpoints: " +
                 "health=${npc.hitpoints}, hit=$hit"
         }
-
         // TODO(combat): Process recoils, retribution(?), etc.
-
         npc.hitpoints -= hit.damage
+
+        playDefendSound(hit)
 
         val queueDeath = npc.hitpoints == 0 && queues.death !in npc.queueList
         if (queueDeath) {
@@ -70,6 +73,15 @@ public class StandardNpcHitProcessor @Inject constructor(private val eventBus: E
         npc.showHeadbar(headbar)
 
         npc.publishHitEvent(hit)
+    }
+
+    private fun StandardNpcAccess.playDefendSound(hit: Hit) {
+        val source = if (hit.isFromPlayer) hit.resolvePlayerSource(playerList) else null
+        if (source == null) {
+            return
+        }
+        val defendSound = npc.visType.paramOrNull(params.defend_sound) ?: return
+        source.soundSynth(defendSound)
     }
 
     private fun Hit.createHeadbar(currHp: Int, maxHp: Int, headbar: HeadbarType): Headbar =

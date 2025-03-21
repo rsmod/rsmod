@@ -12,6 +12,7 @@ import org.rsmod.api.random.GameRandom
 import org.rsmod.api.stats.levelmod.InvisibleLevels
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.NpcList
+import org.rsmod.game.entity.PlayerList
 import org.rsmod.game.type.inv.InvTypeList
 import org.rsmod.game.type.loc.LocTypeList
 import org.rsmod.game.type.npc.NpcTypeList
@@ -25,6 +26,7 @@ constructor(
     private val random: GameRandom,
     private val eventBus: EventBus,
     private val npcList: NpcList,
+    private val playerList: PlayerList,
     private val collision: CollisionFlagMap,
     private val dialogues: Dialogues,
     private val invTypes: InvTypeList,
@@ -45,6 +47,7 @@ constructor(
             getRandom = { random },
             getEventBus = { eventBus },
             getNpcList = { npcList },
+            getPlayerList = { playerList },
             getCollision = { collision },
             getDialogues = { dialogues },
             getInvTypes = { invTypes },
@@ -67,6 +70,7 @@ constructor(
                 getRandom = { error("No game random provided.") },
                 getEventBus = { error("No event bus provided.") },
                 getNpcList = { error("No npc list provided.") },
+                getPlayerList = { error("No player list provided.") },
                 getCollision = { error("No collision map provided.") },
                 getDialogues = { error("No dialogues provided.") },
                 getInvTypes = { error("No inv type list provided.") },
