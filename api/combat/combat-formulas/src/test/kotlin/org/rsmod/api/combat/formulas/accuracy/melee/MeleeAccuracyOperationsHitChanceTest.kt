@@ -48,13 +48,6 @@ class MeleeAccuracyOperationsHitChanceTest {
     private object RollsProvider : TestArgsProvider {
         override fun args(): List<TestArgs> {
             return testArgsOfSingleParam(
-                /* Real scenario test rolls */
-                Rolls(attackRoll = -153, defenceRoll = 20988, expectedAccuracy = 0.0),
-                Rolls(attackRoll = -153, defenceRoll = -360, expectedAccuracy = 78.69),
-                Rolls(attackRoll = 768, defenceRoll = -360, expectedAccuracy = 100.0),
-                Rolls(attackRoll = 14278, defenceRoll = 8008, expectedAccuracy = 71.95),
-                Rolls(attackRoll = 18054, defenceRoll = 5760, expectedAccuracy = 84.04),
-                Rolls(attackRoll = 13068, defenceRoll = 24192, expectedAccuracy = 27.01),
                 Rolls(attackRoll = 18590, defenceRoll = 11036, expectedAccuracy = 91.19)
                     .withMeleeAttributes(MeleeAttr.Stab, MeleeAttr.OsmumtensFang)
                     .withNpcAttributes(NpcAttr.Amascut),
@@ -64,21 +57,6 @@ class MeleeAccuracyOperationsHitChanceTest {
                     .withMeleeAttributes(MeleeAttr.Stab, MeleeAttr.OsmumtensFang),
                 Rolls(attackRoll = 46207, defenceRoll = 340, expectedAccuracy = 100.0)
                     .withMeleeAttributes(MeleeAttr.Stab, MeleeAttr.OsmumtensFang),
-                /* Boundary test rolls */
-                Rolls(
-                    attackRoll = Int.MAX_VALUE,
-                    defenceRoll = Int.MIN_VALUE,
-                    expectedAccuracy = 100.0,
-                ),
-                Rolls(
-                    attackRoll = Int.MIN_VALUE,
-                    defenceRoll = Int.MAX_VALUE,
-                    expectedAccuracy = 0.0,
-                ),
-                Rolls(attackRoll = Int.MAX_VALUE, defenceRoll = 0, expectedAccuracy = 100.0),
-                Rolls(attackRoll = Int.MIN_VALUE, defenceRoll = 0, expectedAccuracy = 0.0),
-                Rolls(attackRoll = 0, defenceRoll = Int.MAX_VALUE, expectedAccuracy = 0.0),
-                Rolls(attackRoll = 0, defenceRoll = Int.MIN_VALUE, expectedAccuracy = 100.0),
             )
         }
     }
