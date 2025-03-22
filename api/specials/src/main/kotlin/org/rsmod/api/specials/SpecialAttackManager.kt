@@ -31,24 +31,37 @@ constructor(
 
     public fun getSpecialEnergyRequirement(obj: ObjType): Int? = weapons.getSpecialEnergy(obj)
 
-    /** @see [PlayerAttackManager.setNextAttackDelay] */
-    public fun setNextAttackDelay(source: ProtectedAccess, cycles: Int) {
-        manager.setNextAttackDelay(source, cycles)
+    /**
+     * Sets [Player.actionDelay] to the current map clock + [cycles].
+     *
+     * This determines the delay before the player's next attack (after the current one completes).
+     * For example, setting [cycles] to `2` allows the player to perform their next attack in `2`
+     * cycles.
+     *
+     * **Note:** Systems that use this special attack manager should preemptively apply the delay
+     * based on the `attackrate` of the weapon being used, eliminating the need for manual
+     * adjustments. This function is intended for special cases where fine-tuning or custom attack
+     * delays are required after a special attack.
+     *
+     * @param cycles The number of cycles to wait before the next attack can be performed.
+     */
+    public fun setNextAttackDelay(access: ProtectedAccess, cycles: Int) {
+        manager.setNextAttackDelay(access.player, cycles)
     }
 
     /** @see [PlayerAttackManager.continueCombat] */
     public fun continueCombat(source: ProtectedAccess, target: PathingEntity) {
-        manager.continueCombat(source, target)
+        manager.continueCombat(source.player, target)
     }
 
     /** @see [PlayerAttackManager.continueCombat] */
     public fun continueCombat(source: ProtectedAccess, target: Npc) {
-        manager.continueCombat(source, target)
+        manager.continueCombat(source.player, target)
     }
 
     /** @see [PlayerAttackManager.continueCombat] */
     public fun continueCombat(source: ProtectedAccess, target: Player) {
-        manager.continueCombat(source, target)
+        manager.continueCombat(source.player, target)
     }
 
     /**
@@ -68,7 +81,7 @@ constructor(
      *
      * @see [clearCombat]
      */
-    public fun stopCombat(source: ProtectedAccess): Unit = manager.stopCombat(source)
+    public fun stopCombat(access: ProtectedAccess): Unit = manager.stopCombat(access.player)
 
     /**
      * Similar to [stopCombat], but resets the associated [Player.actionDelay] to the current map
@@ -84,7 +97,7 @@ constructor(
      * because the combat script is already in progress. However, after that cycle, the interaction
      * will become invalid and will not execute again.
      */
-    public fun clearCombat(source: ProtectedAccess): Unit = manager.clearCombat(source)
+    public fun clearCombat(access: ProtectedAccess): Unit = manager.clearCombat(access.player)
 
     /** @see [PlayerAttackManager.rollMeleeDamage] */
     public fun rollMeleeDamage(
@@ -92,20 +105,20 @@ constructor(
         target: PathingEntity,
         attack: CombatAttack.Melee,
         accuracyBoost: Int,
-        damageBoost: Int,
+        maxHitBoost: Int,
         attackType: MeleeAttackType? = attack.type,
         attackStyle: MeleeAttackStyle? = attack.style,
         blockType: MeleeAttackType? = attack.type,
     ): Int =
         manager.rollMeleeDamage(
-            source,
-            target,
-            attack,
-            accuracyBoost,
-            damageBoost,
-            attackType,
-            attackStyle,
-            blockType,
+            source = source.player,
+            target = target,
+            attack = attack,
+            accuracyBoost = accuracyBoost,
+            maxHitBoost = maxHitBoost,
+            attackType = attackType,
+            attackStyle = attackStyle,
+            blockType = blockType,
         )
 
     /** @see [PlayerAttackManager.rollMeleeAccuracy] */
@@ -117,7 +130,14 @@ constructor(
         blockType: MeleeAttackType?,
         percentBoost: Int,
     ): Boolean =
-        manager.rollMeleeAccuracy(source, target, attackType, attackStyle, blockType, percentBoost)
+        manager.rollMeleeAccuracy(
+            source = source.player,
+            target = target,
+            attackType = attackType,
+            attackStyle = attackStyle,
+            blockType = blockType,
+            percentBoost = percentBoost,
+        )
 
     /** @see [PlayerAttackManager.rollMeleeMaxHit] */
     public fun rollMeleeMaxHit(
@@ -126,7 +146,7 @@ constructor(
         attackType: MeleeAttackType?,
         attackStyle: MeleeAttackStyle?,
         percentBoost: Int,
-    ): Int = manager.rollMeleeMaxHit(source, target, attackType, attackStyle, percentBoost)
+    ): Int = manager.rollMeleeMaxHit(source.player, target, attackType, attackStyle, percentBoost)
 
     /** @see [PlayerAttackManager.calculateMeleeMaxHit] */
     public fun calculateMeleeMaxHit(
@@ -135,13 +155,14 @@ constructor(
         attackType: MeleeAttackType?,
         attackStyle: MeleeAttackStyle?,
         percentBoost: Int,
-    ): Int = manager.calculateMeleeMaxHit(source, target, attackType, attackStyle, percentBoost)
+    ): Int =
+        manager.calculateMeleeMaxHit(source.player, target, attackType, attackStyle, percentBoost)
 
     /** @see [PlayerAttackManager.queueMeleeHit] */
     public fun queueMeleeHit(
         source: ProtectedAccess,
         target: PathingEntity,
         damage: Int,
-        delay: Int,
-    ): Hit = manager.queueMeleeHit(source, target, damage, delay)
+        delay: Int = 1,
+    ): Hit = manager.queueMeleeHit(source.player, target, damage, delay)
 }

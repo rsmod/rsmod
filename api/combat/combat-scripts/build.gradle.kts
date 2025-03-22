@@ -11,6 +11,7 @@ dependencies {
     implementation(libs.guice)
     implementation(projects.api.combat.combatCommons)
     implementation(projects.api.combat.combatFormulas)
+    implementation(projects.api.combat.combatManager)
     implementation(projects.api.combat.combatSpells)
     implementation(projects.api.combat.combatWeapon)
     implementation(projects.api.config)
