@@ -95,6 +95,7 @@ constructor(
         val weapon = player.righthand?.let(objTypes::get)
         if (weapon != null && weapon.isCategoryType(categories.dinhs_bulwark)) {
             val attackStyle = styles.get(player)
+            // Dinh's "Block" attack style uses `AggressiveMelee` as its "placeholder" attack style.
             if (attackStyle == AttackStyle.AggressiveMelee) {
                 mes("Your bulwark gets in the way.")
                 clearPendingAction()
