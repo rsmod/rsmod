@@ -159,6 +159,9 @@
 1802	slayer_task_boss_location
 1935	spell_autocast_id
 
+65412	defence_light
+65413	defence_standard
+65414	defence_heavy
 65415	required_ammo
 65416	bone_weapon
 65417	item_block_sound1

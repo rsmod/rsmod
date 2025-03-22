@@ -2,9 +2,13 @@ package org.rsmod.api.combat.formulas
 
 import jakarta.inject.Inject
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
+import org.rsmod.api.combat.commons.styles.RangedAttackStyle
 import org.rsmod.api.combat.commons.types.MeleeAttackType
+import org.rsmod.api.combat.commons.types.RangedAttackType
 import org.rsmod.api.combat.formulas.accuracy.melee.NvPMeleeAccuracy
 import org.rsmod.api.combat.formulas.accuracy.melee.PvNMeleeAccuracy
+import org.rsmod.api.combat.formulas.accuracy.ranged.NvPRangedAccuracy
+import org.rsmod.api.combat.formulas.accuracy.ranged.PvNRangedAccuracy
 import org.rsmod.api.random.GameRandom
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
@@ -14,6 +18,8 @@ public class AccuracyFormulae
 constructor(
     private val nvpMeleeAccuracy: NvPMeleeAccuracy,
     private val pvnMeleeAccuracy: PvNMeleeAccuracy,
+    private val nvpRangedAccuracy: NvPRangedAccuracy,
+    private val pvnRangedAccuracy: PvNRangedAccuracy,
 ) {
     /**
      * Rolls for melee accuracy to determine if an attack from a [player] against a [target] npc is
@@ -75,12 +81,12 @@ constructor(
         specMultiplier: Double,
     ): Int =
         pvnMeleeAccuracy.getHitChance(
-            player,
-            target,
-            attackType,
-            attackStyle,
-            blockType,
-            specMultiplier,
+            player = player,
+            target = target,
+            attackType = attackType,
+            attackStyle = attackStyle,
+            blockType = blockType,
+            specialMultiplier = specMultiplier,
         )
 
     /**
@@ -117,7 +123,100 @@ constructor(
      *   represents a `0.01%` hit chance, and `10,000` represents a `100%` hit chance.
      */
     public fun getMeleeHitChance(npc: Npc, target: Player, attackType: MeleeAttackType?): Int =
-        nvpMeleeAccuracy.getHitChance(npc = npc, target = target, attackType = attackType)
+        nvpMeleeAccuracy.getHitChance(npc, target, attackType)
+
+    /**
+     * Rolls for ranged accuracy to determine if an attack from a [player] against a [target] npc is
+     * successful.
+     *
+     * This function calculates the hit chance based on the player's attack roll and the npc's
+     * defence roll, then uses a value from the random number generator ([random]) to determine if
+     * the attack hits.
+     *
+     * @param attackType The [RangedAttackType] used for the attack roll, usually derived from the
+     *   player's current stance.
+     * @param attackStyle The [RangedAttackStyle] used for the attack roll, usually derived from the
+     *   player's current stance.
+     * @param blockType The [RangedAttackType] used for the defence roll. In most cases, this
+     *   matches [attackType], but certain special attacks may use a different type.
+     * @param specMultiplier A multiplier applied to the hit chance, typically used for special
+     *   attacks.
+     * @param random A [GameRandom] instance used to generate a random number for the hit roll.
+     * @return `true` if the attack is successful (i.e., the hit chance exceeds the random roll),
+     *   `false` otherwise.
+     */
+    public fun rollRangedAccuracy(
+        player: Player,
+        target: Npc,
+        attackType: RangedAttackType?,
+        attackStyle: RangedAttackStyle?,
+        blockType: RangedAttackType?,
+        specMultiplier: Double,
+        random: GameRandom,
+    ): Boolean {
+        val hitChance =
+            getRangedHitChance(player, target, attackType, attackStyle, blockType, specMultiplier)
+        return isSuccessfulHit(hitChance, random)
+    }
+
+    /**
+     * Calculates the ranged hit chance based on the [player]'s attack roll and the [target]'s
+     * defence roll.
+     *
+     * @param attackType The [RangedAttackType] used for the attack roll, usually derived from the
+     *   [player]'s current stance.
+     * @param attackStyle The [RangedAttackStyle] used for the attack roll, usually derived from the
+     *   [player]'s current stance.
+     * @param blockType The [RangedAttackType] used for the defence roll. In most cases, this
+     *   matches [attackType], but certain special attacks may use a different type.
+     * @param specMultiplier A multiplier applied to the hit chance, typically used for special
+     *   attacks.
+     * @return An integer between `0` and `10,000`, where `0` represents a `0%` hit chance, `1`
+     *   represents a `0.01%` hit chance, and `10,000` represents a `100%` hit chance.
+     */
+    public fun getRangedHitChance(
+        player: Player,
+        target: Npc,
+        attackType: RangedAttackType?,
+        attackStyle: RangedAttackStyle?,
+        blockType: RangedAttackType?,
+        specMultiplier: Double,
+    ): Int =
+        pvnRangedAccuracy.getHitChance(
+            player = player,
+            target = target,
+            attackType = attackType,
+            attackStyle = attackStyle,
+            blockType = blockType,
+            specialMultiplier = specMultiplier,
+        )
+
+    /**
+     * Rolls for ranged accuracy to determine if an attack from an [npc] against a [target] player
+     * is successful.
+     *
+     * This function calculates the hit chance based on the npc's attack roll and the player's
+     * defence roll, then uses a value from the random number generator ([random]) to determine if
+     * the attack hits.
+     *
+     * @param random A [GameRandom] instance used to generate a random number for the hit roll.
+     * @return `true` if the attack is successful (i.e., the hit chance exceeds the random roll),
+     *   `false` otherwise.
+     */
+    public fun rollRangedAccuracy(npc: Npc, target: Player, random: GameRandom): Boolean {
+        val hitChance = getRangedHitChance(npc, target)
+        return isSuccessfulHit(hitChance, random)
+    }
+
+    /**
+     * Calculates the ranged hit chance based on the [npc]'s attack roll and the [target]'s defence
+     * roll.
+     *
+     * @return An integer between `0` and `10,000`, where `0` represents a `0%` hit chance, `1`
+     *   represents a `0.01%` hit chance, and `10,000` represents a `100%` hit chance.
+     */
+    public fun getRangedHitChance(npc: Npc, target: Player): Int =
+        nvpRangedAccuracy.getHitChance(npc, target)
 
     public companion object {
         public fun isSuccessfulHit(hitChance: Int, random: GameRandom): Boolean {

@@ -1028,6 +1028,8 @@
 14604	pollnivneach_npc_name_update
 14811	combat_level_decimal
 15322	trick_emote
+16097	deadeye_unlocked
+16098	mystic_vigour_unlocked
 
 65486	saved_autocast_spell_staff
 65487	saved_defensive_casting_staff

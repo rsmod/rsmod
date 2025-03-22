@@ -95,6 +95,8 @@ object BaseVarBits : VarBitReferences() {
     val preserve_unlocked = find("preserve_prayer_unlocked", 73623487039670)
     val rigour_unlocked = find("rigour_prayer_unlocked", 73623487032104)
     val augury_unlocked = find("augury_prayer_unlocked", 73623487035887)
+    val deadeye_unlocked = find("deadeye_unlocked", 239828214727554)
+    val mystic_vigour_unlocked = find("mystic_vigour_unlocked", 239828214731337)
 
     val setting_max_hit_hitsplats_threshold =
         find("setting_max_hit_hitsplats_threshold", 183001241817303)

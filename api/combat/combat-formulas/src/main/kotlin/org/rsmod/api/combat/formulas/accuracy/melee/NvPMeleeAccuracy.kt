@@ -4,6 +4,7 @@ import jakarta.inject.Inject
 import org.rsmod.api.combat.accuracy.npc.NpcMeleeAccuracy
 import org.rsmod.api.combat.accuracy.player.PlayerMeleeAccuracy
 import org.rsmod.api.combat.commons.types.MeleeAttackType
+import org.rsmod.api.combat.formulas.accuracy.AccuracyOperations
 import org.rsmod.api.combat.weapon.styles.AttackStyles
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.player.bonus.WornBonuses
@@ -30,14 +31,13 @@ constructor(private val bonuses: WornBonuses, private val attackStyles: AttackSt
     ): Int {
         val attackRoll = computeAttackRoll(source, sourceType)
         val defenceRoll = computeDefenceRoll(target, attackType)
-        return MeleeAccuracyOperations.calculateHitChance(attackRoll, defenceRoll)
+        return AccuracyOperations.calculateHitChance(attackRoll, defenceRoll)
     }
 
     public fun computeAttackRoll(source: Npc, sourceType: UnpackedNpcType): Int {
         val effectiveAttack = NpcMeleeAccuracy.calculateEffectiveAttack(source.attackLvl)
         val attackBonus = sourceType.param(params.attack_melee)
-        val attackRoll = NpcMeleeAccuracy.calculateBaseAttackRoll(effectiveAttack, attackBonus)
-        return attackRoll
+        return NpcMeleeAccuracy.calculateBaseAttackRoll(effectiveAttack, attackBonus)
     }
 
     public fun computeDefenceRoll(target: Player, attackType: MeleeAttackType?): Int {

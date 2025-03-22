@@ -2,9 +2,11 @@ package org.rsmod.api.combat.formulas.attributes.collector
 
 import jakarta.inject.Inject
 import java.util.EnumSet
+import org.rsmod.api.combat.commons.styles.RangedAttackStyle
 import org.rsmod.api.combat.commons.types.RangedAttackType
 import org.rsmod.api.combat.formulas.attributes.CombatRangedAttributes
 import org.rsmod.api.config.constants
+import org.rsmod.api.config.refs.categories
 import org.rsmod.api.config.refs.objs
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.player.front
@@ -23,6 +25,7 @@ public class CombatRangedAttributeCollector @Inject constructor(private val objT
     public fun collect(
         player: Player,
         attackType: RangedAttackType?,
+        attackStyle: RangedAttackStyle?,
     ): EnumSet<CombatRangedAttributes> {
         val attributes = EnumSet.noneOf(CombatRangedAttributes::class.java)
 
@@ -31,6 +34,21 @@ public class CombatRangedAttributeCollector @Inject constructor(private val objT
         }
 
         val weapon = player.righthand
+        val weaponType = weapon?.let(objTypes::get)
+        if (weaponType != null && weaponType.isCategoryType(categories.chinchompa)) {
+            val chinchompaFuse =
+                when (attackStyle) {
+                    RangedAttackStyle.Accurate -> CombatRangedAttributes.ShortFuse
+                    RangedAttackStyle.Rapid -> CombatRangedAttributes.MediumFuse
+                    RangedAttackStyle.LongRange -> CombatRangedAttributes.LongFuse
+                    null -> null
+                }
+
+            if (chinchompaFuse != null) {
+                attributes += chinchompaFuse
+            }
+        }
+
         if (EquipmentChecks.isCrystalBow(weapon)) {
             attributes += CombatRangedAttributes.CrystalBow
         }

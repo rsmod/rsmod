@@ -21,6 +21,10 @@ import org.rsmod.game.type.varbit.VarBitType
 
 internal object ParamBuilds : ParamBuilder() {
     init {
+        build<Int>("defence_light") { default = 0 }
+        build<Int>("defence_standard") { default = 0 }
+        build<Int>("defence_heavy") { default = 0 }
+
         build<Boolean>("metallic_interference") { default = false }
         build<Int>("ammo_recover_rate")
         build<CategoryType>("required_ammo")

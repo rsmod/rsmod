@@ -8,6 +8,7 @@ import org.rsmod.api.combat.accuracy.player.PlayerMeleeAccuracy
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
 import org.rsmod.api.combat.commons.types.MeleeAttackType
 import org.rsmod.api.combat.formulas.HIT_CHANCE_SCALE
+import org.rsmod.api.combat.formulas.accuracy.AccuracyOperations
 import org.rsmod.api.combat.formulas.attributes.CombatMeleeAttributes
 import org.rsmod.api.combat.formulas.attributes.CombatNpcAttributes
 import org.rsmod.api.combat.formulas.attributes.collector.CombatMeleeAttributeCollector
@@ -34,6 +35,7 @@ constructor(
         blockType: MeleeAttackType?,
         specialMultiplier: Double,
     ): Int {
+        // TODO(combat): Remove `forcehitchance` params. They're not consistent enough to be useful.
         val forced = target.visType.paramOrNull(params.forcehitchance_melee)
         check(forced == null || forced >= 0) {
             "Forced hit chance value should be >= 0: $forced (npc=${target.visType})"
@@ -75,7 +77,7 @@ constructor(
             computeAttackRoll(source, attackType, attackStyle, meleeAttributes, npcAttributes)
         val attackRoll = (baseAttackRoll * specialMultiplier).toInt()
 
-        val amascutInvocationLvl = 0 // TODO(combat): Decide if we want this to be varp or varn.
+        val amascutInvocationLvl = 0 // TODO(combat): Create varp.
         val defenceRoll =
             computeDefenceRoll(
                 target = target,
@@ -85,7 +87,7 @@ constructor(
                 npcAttributes = npcAttributes,
             )
 
-        val hitChance = MeleeAccuracyOperations.calculateHitChance(attackRoll, defenceRoll)
+        val hitChance = AccuracyOperations.calculateHitChance(attackRoll, defenceRoll)
         return MeleeAccuracyOperations.modifyHitChance(
             hitChance = hitChance,
             attackRoll = attackRoll,
@@ -126,7 +128,7 @@ constructor(
         val effectiveDefence = NpcMeleeAccuracy.calculateEffectiveDefence(targetDefence)
         val defenceBonus = target.getDefenceBonus(blockType)
         val defenceRoll = NpcMeleeAccuracy.calculateBaseDefenceRoll(effectiveDefence, defenceBonus)
-        return MeleeAccuracyOperations.modifyDefenceRoll(
+        return AccuracyOperations.modifyDefenceRoll(
             defenceRoll = defenceRoll,
             amascutInvocationLvl = amascutInvocationLvl,
             npcAttributes = npcAttributes,

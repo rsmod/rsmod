@@ -56,6 +56,9 @@ constructor(
         putSynth(config.defendSound, params.defend_sound)
         putSynth(config.deathSound, params.death_sound)
         putInt(config.attackMelee, params.attack_melee)
+        putInt(config.defenceLight, params.defence_light)
+        putInt(config.defenceStandard, params.defence_standard)
+        putInt(config.defenceHeavy, params.defence_heavy)
         return this
     }
 

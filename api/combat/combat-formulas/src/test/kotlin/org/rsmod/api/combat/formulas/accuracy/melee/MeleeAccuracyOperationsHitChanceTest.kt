@@ -2,6 +2,7 @@ package org.rsmod.api.combat.formulas.accuracy.melee
 
 import java.util.EnumSet
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.rsmod.api.combat.formulas.accuracy.AccuracyOperations
 import org.rsmod.api.testing.params.TestArgs
 import org.rsmod.api.testing.params.TestArgsProvider
 import org.rsmod.api.testing.params.TestWithArgs
@@ -18,7 +19,7 @@ class MeleeAccuracyOperationsHitChanceTest {
         val meleeAttributes = rolls.meleeAttributes
         val npcAttributes = rolls.npcAttributes
 
-        val hitChance = MeleeAccuracyOperations.calculateHitChance(attackRoll, defenceRoll)
+        val hitChance = AccuracyOperations.calculateHitChance(attackRoll, defenceRoll)
         val modified =
             MeleeAccuracyOperations.modifyHitChance(
                 hitChance = hitChance,

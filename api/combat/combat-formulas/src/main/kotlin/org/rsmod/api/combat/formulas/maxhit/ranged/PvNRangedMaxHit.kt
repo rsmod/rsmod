@@ -69,7 +69,7 @@ constructor(
         specialMultiplier: Double,
         boltSpecDamage: Int,
     ): Int {
-        val rangeAttributes = rangedAttributes.collect(source, attackType)
+        val rangeAttributes = rangedAttributes.collect(source, attackType, attackStyle)
 
         val slayerTask = target.isSlayerTask(source)
         val npcAttributes = npcAttributes.collect(target, targetCurrHp, targetMaxHp, slayerTask)

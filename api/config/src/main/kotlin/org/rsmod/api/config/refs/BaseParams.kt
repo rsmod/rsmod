@@ -65,6 +65,9 @@ object BaseParams : ParamReferences() {
     val kalphite: ParamInt = find("kalphite", 88687193509)
 
     /* Server-side only types */
+    val defence_light: ParamInt = find("defence_light")
+    val defence_standard: ParamInt = find("defence_standard")
+    val defence_heavy: ParamInt = find("defence_heavy")
     val slayer_helm_imbued: ParamInt = find("slayer_helm_imbued")
     val blackmask_imbued: ParamInt = find("blackmask_imbued")
     val metallic_interference: ParamBool = find("metallic_interference")

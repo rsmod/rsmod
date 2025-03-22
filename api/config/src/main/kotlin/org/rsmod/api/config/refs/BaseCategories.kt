@@ -18,6 +18,7 @@ object BaseCategories : CategoryReferences() {
     val ogre_arrows = find("ogre_arrows")
     val chargebow = find("chargebow")
     val arrows_training = find("arrows_training")
+    val chinchompa = find("chinchompa")
     val kebbit_bolts = find("kebbit_bolts")
     val dragon_arrow = find("dragon_arrow")
     val dinhs_bulwark = find("dinhs_bulwark")

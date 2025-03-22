@@ -20,6 +20,7 @@ dependencies {
     implementation(projects.api.type.typeReferences)
     implementation(projects.api.utils.utilsVars)
     implementation(projects.engine.game)
+    implementation(projects.engine.map)
     implementation(projects.engine.module)
     implementation(projects.engine.plugin)
     integrationImplementation(projects.api.combat.combatCommons)

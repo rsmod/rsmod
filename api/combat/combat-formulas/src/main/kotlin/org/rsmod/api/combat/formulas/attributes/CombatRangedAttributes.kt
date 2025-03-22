@@ -2,6 +2,9 @@ package org.rsmod.api.combat.formulas.attributes
 
 public enum class CombatRangedAttributes {
     Heavy,
+    ShortFuse,
+    MediumFuse,
+    LongFuse,
     CrystalBow,
     CrystalHelm,
     CrystalLegs,

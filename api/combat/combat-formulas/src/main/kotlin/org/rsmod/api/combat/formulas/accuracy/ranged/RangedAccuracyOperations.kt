@@ -1,16 +1,18 @@
-package org.rsmod.api.combat.formulas.maxhit.ranged
+package org.rsmod.api.combat.formulas.accuracy.ranged
 
 import java.util.EnumSet
-import kotlin.math.max
 import kotlin.math.min
+import org.rsmod.api.combat.accuracy.player.PlayerMeleeAccuracy
+import org.rsmod.api.combat.accuracy.player.PlayerRangedAccuracy
+import org.rsmod.api.combat.commons.styles.AttackStyle
 import org.rsmod.api.combat.commons.styles.RangedAttackStyle
+import org.rsmod.api.combat.formulas.accuracy.AccuracyOperations
 import org.rsmod.api.combat.formulas.attributes.CombatNpcAttributes
 import org.rsmod.api.combat.formulas.attributes.CombatRangedAttributes
 import org.rsmod.api.combat.formulas.scale
-import org.rsmod.api.combat.maxhit.player.PlayerRangedMaxHit
-import org.rsmod.api.config.refs.stats
 import org.rsmod.api.config.refs.varbits
-import org.rsmod.api.player.stat.stat
+import org.rsmod.api.player.stat.defenceLvl
+import org.rsmod.api.player.stat.rangedLvl
 import org.rsmod.api.player.worn.EquipmentChecks
 import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.Inventory
@@ -21,33 +23,29 @@ private typealias RangeAttr = CombatRangedAttributes
 
 private typealias NpcAttr = CombatNpcAttributes
 
-public object RangedMaxHitOperations {
+public object RangedAccuracyOperations {
     /**
      * @param targetMagic The target's magic level or magic bonus, whichever of the two is greater.
      *   Required for the Twisted bow modifier.
+     * @param targetDistance The chebyshev distance between the attacker's south-west coord and
+     *   target's south-west coord. Required for the Chinchompa-fuse modifier.
      */
-    public fun modifyBaseDamage(
-        baseDamage: Int,
+    public fun modifyAttackRoll(
+        attackRoll: Int,
         targetMagic: Int,
+        targetDistance: Int,
         rangeAttributes: EnumSet<CombatRangedAttributes>,
         npcAttributes: EnumSet<CombatNpcAttributes>,
     ): Int {
-        var modified = baseDamage
+        var modified = attackRoll
 
         if (RangeAttr.CrystalBow in rangeAttributes) {
             val helmAdditive = if (RangeAttr.CrystalHelm in rangeAttributes) 1 else 0
             val bodyAdditive = if (RangeAttr.CrystalBody in rangeAttributes) 3 else 0
             val legsAdditive = if (RangeAttr.CrystalLegs in rangeAttributes) 2 else 0
             val armourAdditive = helmAdditive + bodyAdditive + legsAdditive
-            modified = scale(modified, multiplier = 40 + armourAdditive, divisor = 40)
+            modified = scale(modified, multiplier = 20 + armourAdditive, divisor = 20)
         }
-
-        var applyRevWeaponMod =
-            RangeAttr.RevenantWeapon in rangeAttributes && NpcAttr.Wilderness in npcAttributes
-        var applyDragonbaneMod =
-            RangeAttr.DragonHunterCrossbow in rangeAttributes && NpcAttr.Draconic in npcAttributes
-        var applyDemonbaneMod =
-            RangeAttr.ScorchingBow in rangeAttributes && NpcAttr.Demon in npcAttributes
 
         if (RangeAttr.AmuletOfAvarice in rangeAttributes && NpcAttr.Revenant in npcAttributes) {
             val multiplier = if (RangeAttr.ForinthrySurge in rangeAttributes) 27 else 24
@@ -57,32 +55,15 @@ public object RangedMaxHitOperations {
         } else if (RangeAttr.SalveAmuletI in rangeAttributes && NpcAttr.Undead in npcAttributes) {
             modified = scale(modified, multiplier = 7, divisor = 6)
         } else if (RangeAttr.BlackMaskI in rangeAttributes && NpcAttr.SlayerTask in npcAttributes) {
-            var multiplier = 23
-
-            if (applyRevWeaponMod) {
-                applyRevWeaponMod = false
-                multiplier += 10
-            }
-
-            if (applyDragonbaneMod) {
-                applyDragonbaneMod = false
-                multiplier += 5
-            }
-
-            if (applyDemonbaneMod) {
-                applyDemonbaneMod = false
-                multiplier += 6
-            }
-
-            modified = scale(modified, multiplier, divisor = 20)
+            modified = scale(modified, multiplier = 23, divisor = 20)
         }
 
         if (RangeAttr.TwistedBow in rangeAttributes) {
             val cap = if (NpcAttr.Xerician in npcAttributes) 350 else 250
             val magic = min(cap, targetMagic)
 
-            val factor = 14
-            val base = 250
+            val factor = 10
+            val base = 140
 
             val linearBonus = (3 * magic - factor) / 100
             val deviation = (3 * magic / 10) - (10 * factor)
@@ -92,15 +73,44 @@ public object RangedMaxHitOperations {
             modified = scale(modified, multiplier, divisor = 100)
         }
 
-        if (applyRevWeaponMod) {
+        if (RangeAttr.RevenantWeapon in rangeAttributes && NpcAttr.Wilderness in npcAttributes) {
             modified = scale(modified, multiplier = 3, divisor = 2)
         }
 
-        if (applyDragonbaneMod) {
-            modified = scale(modified, multiplier = 5, divisor = 4)
+        val dragonbaneMod =
+            RangeAttr.DragonHunterCrossbow in rangeAttributes && NpcAttr.Draconic in npcAttributes
+        if (dragonbaneMod) {
+            modified = scale(modified, multiplier = 13, divisor = 10)
         }
 
-        if (applyDemonbaneMod) {
+        when {
+            RangeAttr.ShortFuse in rangeAttributes -> {
+                val multiplier =
+                    when {
+                        targetDistance >= 7 -> 2
+                        targetDistance >= 4 -> 3
+                        else -> 4
+                    }
+                modified = scale(modified, multiplier, divisor = 4)
+            }
+
+            RangeAttr.MediumFuse in rangeAttributes -> {
+                val multiplier = if (targetDistance < 4 || targetDistance >= 7) 3 else 4
+                modified = scale(modified, multiplier, divisor = 4)
+            }
+
+            RangeAttr.LongFuse in rangeAttributes -> {
+                val multiplier =
+                    when {
+                        targetDistance < 4 -> 2
+                        targetDistance < 7 -> 3
+                        else -> 4
+                    }
+                modified = scale(modified, multiplier, divisor = 4)
+            }
+        }
+
+        if (RangeAttr.ScorchingBow in rangeAttributes && NpcAttr.Demon in npcAttributes) {
             modified =
                 if (NpcAttr.DemonbaneResistance in npcAttributes) {
                     scale(modified, multiplier = 121, divisor = 100)
@@ -109,45 +119,12 @@ public object RangedMaxHitOperations {
                 }
         }
 
-        if (RangeAttr.RatBoneWeapon in rangeAttributes && NpcAttr.Rat in npcAttributes) {
-            modified += 10
-        }
-
-        return modified
-    }
-
-    public fun modifyPostSpec(
-        modifiedDamage: Int,
-        boltSpecDamage: Int,
-        attackRate: Int,
-        rangeAttributes: EnumSet<CombatRangedAttributes>,
-        npcAttributes: EnumSet<CombatNpcAttributes>,
-    ): Int {
-        var modified = modifiedDamage
-
-        val unshieldedTormentedDemon =
-            RangeAttr.Heavy in rangeAttributes && NpcAttr.TormentedDemonUnshielded in npcAttributes
-        if (unshieldedTormentedDemon) {
-            val bonusDamage = max(0, (attackRate * attackRate) - 16)
-            modified += bonusDamage
-        }
-
-        // TODO(combat): Vampyre mods
-
-        modified += boltSpecDamage
-
-        val corpBeastReduction =
-            NpcAttr.CorporealBeast in npcAttributes && RangeAttr.CorpBaneWeapon !in rangeAttributes
-        if (corpBeastReduction) {
-            modified /= 2
-        }
-
         return modified
     }
 
     public fun calculateEffectiveRanged(player: Player, attackStyle: RangedAttackStyle?): Int =
         calculateEffectiveRanged(
-            visLevel = player.stat(stats.ranged),
+            visLevel = player.rangedLvl,
             vars = player.vars,
             worn = player.worn,
             attackStyle = attackStyle,
@@ -159,10 +136,10 @@ public object RangedMaxHitOperations {
         worn: Inventory,
         attackStyle: RangedAttackStyle?,
     ): Int {
-        val styleBonus = attackStyle.styleBonus()
-        val prayerBonus = vars.prayerBonus()
-        val voidBonus = worn.voidBonus()
-        return PlayerRangedMaxHit.calculateEffectiveRanged(
+        val styleBonus = attackStyle.offensiveStyleBonus()
+        val prayerBonus = vars.offensivePrayerBonus()
+        val voidBonus = worn.offensiveVoidBonus()
+        return PlayerRangedAccuracy.calculateEffectiveRanged(
             visibleRangedLvl = visLevel,
             styleBonus = styleBonus,
             prayerBonus = prayerBonus,
@@ -170,26 +147,36 @@ public object RangedMaxHitOperations {
         )
     }
 
-    private fun RangedAttackStyle?.styleBonus(): Int =
+    private fun RangedAttackStyle?.offensiveStyleBonus(): Int =
         when (this) {
             RangedAttackStyle.Accurate -> 11
             else -> 8
         }
 
-    private fun VarPlayerIntMap.prayerBonus(): Double =
+    private fun VarPlayerIntMap.offensivePrayerBonus(): Double =
         when {
             this[varbits.sharp_eye] == 1 -> 1.05
             this[varbits.hawk_eye] == 1 -> 1.1
             this[varbits.eagle_eye] == 1 -> {
                 if (this[varbits.deadeye_unlocked] == 1) 1.18 else 1.15
             }
-            this[varbits.rigour] == 1 -> 1.23
+            this[varbits.rigour] == 1 -> 1.2
             else -> 1.0
         }
 
-    private fun Inventory.voidBonus(): Double {
+    private fun Inventory.offensiveVoidBonus(): Double {
         val helm = this[Wearpos.Hat.slot]
         if (!EquipmentChecks.isVoidRangerHelm(helm)) {
+            return 1.0
+        }
+
+        val top = this[Wearpos.Torso.slot]
+        if (!EquipmentChecks.isVoidTop(top)) {
+            return 1.0
+        }
+
+        val legs = this[Wearpos.Legs.slot]
+        if (!EquipmentChecks.isVoidRobe(legs)) {
             return 1.0
         }
 
@@ -198,17 +185,32 @@ public object RangedMaxHitOperations {
             return 1.0
         }
 
-        val top = this[Wearpos.Torso.slot]
-        val legs = this[Wearpos.Legs.slot]
+        return 1.1
+    }
 
-        if (EquipmentChecks.isEliteVoidTop(top) && EquipmentChecks.isEliteVoidRobe(legs)) {
-            return 1.125
-        }
+    public fun calculateEffectiveDefence(player: Player, attackStyle: AttackStyle?): Int {
+        val armourBonus = AccuracyOperations.defensiveArmourBonus(player)
+        return calculateEffectiveDefence(
+            visLevel = player.defenceLvl,
+            armourBonus = armourBonus,
+            vars = player.vars,
+            attackStyle = attackStyle,
+        )
+    }
 
-        if (EquipmentChecks.isRegularVoidTop(top) && EquipmentChecks.isRegularVoidRobe(legs)) {
-            return 1.1
-        }
-
-        return 1.0
+    private fun calculateEffectiveDefence(
+        visLevel: Int,
+        armourBonus: Double,
+        vars: VarPlayerIntMap,
+        attackStyle: AttackStyle?,
+    ): Int {
+        val styleBonus = AccuracyOperations.defensiveStyleBonus(attackStyle)
+        val prayerBonus = AccuracyOperations.defensivePrayerBonus(vars)
+        return PlayerMeleeAccuracy.calculateEffectiveDefence(
+            visibleDefenceLvl = visLevel,
+            styleBonus = styleBonus,
+            prayerBonus = prayerBonus,
+            armourBonus = armourBonus,
+        )
     }
 }
