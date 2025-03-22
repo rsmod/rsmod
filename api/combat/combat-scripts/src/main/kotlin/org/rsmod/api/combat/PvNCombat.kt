@@ -70,8 +70,8 @@ constructor(
             return
         }
 
-        // Set the next attack clock before executing the special attack, ensuring specials default
-        // to the weapon's standard attack delay.
+        // Set the next attack clock before executing any special attack, ensuring specials default
+        // to the weapon's standard attack delay. (When applicable)
         val attackRate = speeds.actual(player)
         actionDelay = mapClock + attackRate
 
@@ -147,8 +147,8 @@ constructor(
             return
         }
 
-        // Set the next attack clock before executing the special attack, ensuring specials default
-        // to the weapon's standard attack delay.
+        // Set the next attack clock before executing any special attack, ensuring specials default
+        // to the weapon's standard attack delay. (When applicable)
         val attackRate = speeds.actual(player)
         actionDelay = mapClock + attackRate
 
@@ -190,6 +190,17 @@ constructor(
         val clientDelay = 46 + (5 * player.distanceTo(npc.coords))
         val delay = 1 + (clientDelay / 30)
 
+        val attackAnim = ocParamOrNull(weapon, params.attack_anim_stance1)
+        val attackSound = ocParamOrNull(weapon, params.attack_sound_stance1)
+
+        if (attackAnim == null) {
+            mes("The bow appears to be broken.")
+            return
+        }
+
+        anim(attackAnim)
+        attackSound?.let(::soundSynth)
+
         val usingThrown = weaponType.isCategoryType(categories.throwing_weapon)
         val removeAmmoType = if (usingThrown) weaponType else quiverType
         if (removeAmmoType != null) {
@@ -221,17 +232,6 @@ constructor(
                 )
             }
         }
-
-        val attackAnim = ocParamOrNull(weapon, params.attack_anim_stance1)
-        val attackSound = ocParamOrNull(weapon, params.attack_sound_stance1)
-
-        if (attackAnim == null) {
-            mes("The bow appears to be broken.")
-            return
-        }
-
-        anim(attackAnim)
-        attackSound?.let(::soundSynth)
 
         val successfulHit = true // TODO(combat): Ranged accuracy
 
