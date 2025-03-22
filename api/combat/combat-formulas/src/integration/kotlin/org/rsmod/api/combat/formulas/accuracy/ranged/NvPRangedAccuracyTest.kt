@@ -1,12 +1,16 @@
-package org.rsmod.api.combat.formulas.accuracy.melee
+package org.rsmod.api.combat.formulas.accuracy.ranged
 
-import com.google.inject.Inject
-import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
-import org.rsmod.api.combat.commons.types.MeleeAttackType
+import com.google.inject.AbstractModule
+import com.google.inject.Scopes
+import jakarta.inject.Inject
+import org.rsmod.api.combat.commons.CombatStance
 import org.rsmod.api.combat.formulas.test_npcs
+import org.rsmod.api.combat.weapon.scripts.WeaponAttackStylesScript
+import org.rsmod.api.combat.weapon.styles.AttackStyles
 import org.rsmod.api.config.refs.objs
 import org.rsmod.api.config.refs.stats
 import org.rsmod.api.config.refs.varbits
+import org.rsmod.api.config.refs.varps
 import org.rsmod.api.player.back
 import org.rsmod.api.player.feet
 import org.rsmod.api.player.front
@@ -28,16 +32,21 @@ import org.rsmod.game.type.npc.UnpackedNpcType
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.varbit.VarBitType
 
-class PvNMeleeAccuracyTest {
+class NvPRangedAccuracyTest {
     @TestWithArgs(MatchupProvider::class)
     fun `calculate matchup hit chance`(matchup: Matchup, state: GameTestState) =
-        state.runInjectedGameTest(MeleeAccuracyTestDependencies::class) {
+        state.runInjectedGameTest(
+            RangedAccuracyTestDependencies::class,
+            RangedAccuracyTestModule,
+            WeaponAttackStylesScript::class,
+        ) {
             val accuracy = it.accuracy
 
-            player.setCurrentLevel(stats.attack, matchup.attackLvl)
-            player.setBaseLevel(stats.attack, matchup.baseAttackLvl)
+            player.setCurrentLevel(stats.defence, matchup.defenceLvl)
+            player.setBaseLevel(stats.defence, matchup.baseDefenceLvl)
             player.setCurrentLevel(stats.hitpoints, matchup.hitpoints)
             player.setBaseLevel(stats.hitpoints, matchup.baseHitpointsLvl)
+            player.setVarp(varps.attackstyle, matchup.blockStance.varValue)
 
             player.hat = matchup.hat
             player.back = matchup.back
@@ -55,27 +64,14 @@ class PvNMeleeAccuracyTest {
             }
 
             val npc = Npc(matchup.npc)
-            npc.hitpoints = matchup.npcCurrHp
-            npc.baseHitpointsLvl = matchup.npcMaxHp
-
-            val accuracyRoll =
-                accuracy.getHitChance(
-                    player = player,
-                    target = npc,
-                    attackType = matchup.attackType,
-                    attackStyle = matchup.attackStyle,
-                    blockType = matchup.blockType ?: matchup.attackType,
-                    specialMultiplier = matchup.specMultiplier,
-                )
+            val accuracyRoll = accuracy.getHitChance(npc = npc, target = player)
             assertEquals(matchup.expectedAccuracy, accuracyRoll / 100.0)
         }
 
     data class Matchup(
         val expectedAccuracy: Double,
         val npc: UnpackedNpcType = test_npcs.man,
-        val npcCurrHp: Int = 1,
-        val npcMaxHp: Int = 1,
-        val blockType: MeleeAttackType? = null,
+        val blockStance: CombatStance = CombatStance.Stance1,
         val hat: InvObj? = null,
         val back: InvObj? = null,
         val front: InvObj? = null,
@@ -86,16 +82,13 @@ class PvNMeleeAccuracyTest {
         val hands: InvObj? = null,
         val feet: InvObj? = null,
         val ring: InvObj? = null,
-        val attackLvl: Int = 99,
-        val baseAttackLvl: Int = 99,
+        val defenceLvl: Int = 99,
+        val baseDefenceLvl: Int = 99,
         val hitpoints: Int = 99,
         val baseHitpointsLvl: Int = 99,
         val prayers: Set<VarBitType> = emptySet(),
-        val attackType: MeleeAttackType? = null,
-        val attackStyle: MeleeAttackStyle? = null,
-        val specMultiplier: Double = 1.0,
     ) {
-        fun withNpcTarget(npc: UnpackedNpcType) = copy(npc = npc)
+        fun withNpcSource(npc: UnpackedNpcType) = copy(npc = npc)
 
         fun withHelm(obj: ObjType?) = copy(hat = obj?.let(::InvObj))
 
@@ -107,6 +100,8 @@ class PvNMeleeAccuracyTest {
 
         fun withBody(obj: ObjType?) = copy(torso = obj?.let(::InvObj))
 
+        fun withShield(obj: ObjType?) = copy(lefthand = obj?.let(::InvObj))
+
         fun withLegs(obj: ObjType?) = copy(legs = obj?.let(::InvObj))
 
         fun withGloves(obj: ObjType?) = copy(hands = obj?.let(::InvObj))
@@ -115,13 +110,9 @@ class PvNMeleeAccuracyTest {
 
         fun withRing(obj: ObjType?) = copy(ring = obj?.let(::InvObj))
 
+        fun withDefenceLevel(defenceLvl: Int) = copy(defenceLvl = defenceLvl)
+
         fun withPrayers(vararg prayers: VarBitType) = copy(prayers = prayers.toSet())
-
-        fun withAttackType(attackType: MeleeAttackType?) = copy(attackType = attackType)
-
-        fun withAttackStyle(attackStyle: MeleeAttackStyle?) = copy(attackStyle = attackStyle)
-
-        fun withSpecMultiplier(specMultiplier: Double) = copy(specMultiplier = specMultiplier)
 
         override fun toString(): String =
             "Matchup(" +
@@ -131,26 +122,18 @@ class PvNMeleeAccuracyTest {
                 ")"
 
         private inner class NpcStatFormat {
-            override fun toString(): String =
-                "Npc(" +
-                    "name=${npc.name}, " +
-                    "hitpoints=$npcCurrHp / $npcMaxHp, " +
-                    "blockType=${blockType ?: attackType}" +
-                    ")"
+            override fun toString(): String = "Npc(name=${npc.name})"
         }
 
         private inner class PlayerStatFormat {
-            override fun toString(): String {
-                return "Player(" +
-                    "attackType=$attackType, " +
-                    "attackStyle=$attackStyle, " +
-                    "specMultiplier=$specMultiplier, " +
-                    "attackLevel=$attackLvl / $baseAttackLvl, " +
+            override fun toString(): String =
+                "Player(" +
+                    "blockStance=$blockStance, " +
+                    "defenceLevel=$defenceLvl / $baseDefenceLvl, " +
                     "hitpoints=$hitpoints / $baseHitpointsLvl, " +
                     "prayers=${concatenatePrayers()}, " +
                     "worn=[${concatenateWorn()}]" +
                     ")"
-            }
 
             private fun concatenateWorn(): String {
                 val filteredWorn =
@@ -183,56 +166,65 @@ class PvNMeleeAccuracyTest {
     private object MatchupProvider : TestArgsProvider {
         override fun args(): List<TestArgs> {
             return testArgsOfSingleParam(
-                Matchup(expectedAccuracy = 96.93)
-                    .withAttackType(MeleeAttackType.Crush)
-                    .withAttackStyle(MeleeAttackStyle.Accurate)
-                    .withNpcTarget(test_npcs.man),
-                Matchup(expectedAccuracy = 46.57)
-                    .withAttackType(MeleeAttackType.Stab)
-                    .withAttackStyle(MeleeAttackStyle.Accurate)
+                Matchup(expectedAccuracy = 69.93)
+                    .withNpcSource(test_npcs.gnome_archer)
+                    .withDefenceLevel(defenceLvl = 1),
+                Matchup(expectedAccuracy = 12.93)
+                    .withNpcSource(test_npcs.gnome_archer)
+                    .withDefenceLevel(defenceLvl = 50),
+                Matchup(expectedAccuracy = 7.01)
+                    .withNpcSource(test_npcs.gnome_archer)
+                    .withDefenceLevel(defenceLvl = 99),
+                Matchup(expectedAccuracy = 98.29)
+                    .withNpcSource(test_npcs.dagannoth_supreme)
+                    .withDefenceLevel(defenceLvl = 1),
+                Matchup(expectedAccuracy = 79.73)
+                    .withNpcSource(test_npcs.dagannoth_supreme)
+                    .withDefenceLevel(defenceLvl = 99),
+                Matchup(expectedAccuracy = 17.78)
+                    .withNpcSource(test_npcs.dagannoth_supreme)
                     .withHelm(objs.torva_full_helm)
                     .withBody(objs.torva_platebody)
                     .withLegs(objs.torva_platelegs)
                     .withCape(objs.infernal_cape)
                     .withAmulet(objs.amulet_of_rancour)
-                    .withWeapon(objs.ghrazi_rapier)
                     .withGloves(objs.ferocious_gloves)
                     .withFeet(objs.primordial_boots)
                     .withRing(objs.ultor_ring)
-                    .withPrayers(varbits.piety)
-                    .withNpcTarget(test_npcs.corporeal_beast),
-                Matchup(expectedAccuracy = 92.86)
-                    .withAttackType(MeleeAttackType.Stab)
-                    .withAttackStyle(MeleeAttackStyle.Aggressive)
-                    .withHelm(objs.torva_full_helm)
-                    .withBody(objs.torva_platebody)
-                    .withLegs(objs.torva_platelegs)
+                    .withPrayers(varbits.chivalry),
+                Matchup(expectedAccuracy = 13.39)
+                    .withNpcSource(test_npcs.flockleader_geerin)
+                    .withHelm(objs.justiciar_faceguard)
+                    .withBody(objs.justiciar_chestguard)
+                    .withLegs(objs.justiciar_legguards)
                     .withCape(objs.infernal_cape)
-                    .withAmulet(objs.amulet_of_rancour)
-                    .withWeapon(objs.osmumtens_fang)
-                    .withGloves(objs.ferocious_gloves)
-                    .withFeet(objs.primordial_boots)
-                    .withRing(objs.ultor_ring)
-                    .withPrayers(varbits.chivalry)
-                    .withNpcTarget(test_npcs.abyssal_demon),
-                Matchup(expectedAccuracy = 96.83)
-                    .withAttackType(MeleeAttackType.Stab)
-                    .withAttackStyle(MeleeAttackStyle.Aggressive)
-                    .withHelm(objs.torva_full_helm)
-                    .withBody(objs.torva_platebody)
-                    .withLegs(objs.torva_platelegs)
-                    .withCape(objs.infernal_cape)
-                    .withAmulet(objs.amulet_of_rancour)
-                    .withWeapon(objs.osmumtens_fang)
-                    .withGloves(objs.ferocious_gloves)
-                    .withFeet(objs.primordial_boots)
-                    .withRing(objs.ultor_ring)
-                    .withPrayers(varbits.chivalry)
-                    .withSpecMultiplier(1.5)
-                    .withNpcTarget(test_npcs.abyssal_demon),
+                    .withAmulet(objs.amulet_of_fury)
+                    .withGloves(objs.barrows_gloves)
+                    .withWeapon(objs.dinhs_bulwark)
+                    .withPrayers(varbits.piety),
+                Matchup(expectedAccuracy = 11.05)
+                    .withNpcSource(test_npcs.iorwerth_archer)
+                    .withHelm(objs.helm_of_neitiznot)
+                    .withBody(objs.fighter_torso)
+                    .withLegs(objs.obsidian_platelegs)
+                    .withCape(objs.fire_cape)
+                    .withAmulet(objs.amulet_of_fury)
+                    .withShield(objs.dragon_defender)
+                    .withGloves(objs.barrows_gloves)
+                    .withFeet(objs.dragon_boots)
+                    .withRing(objs.berserker_ring)
+                    .withPrayers(varbits.steel_skin),
             )
         }
     }
 
-    private class MeleeAccuracyTestDependencies @Inject constructor(val accuracy: PvNMeleeAccuracy)
+    private class RangedAccuracyTestDependencies
+    @Inject
+    constructor(val accuracy: NvPRangedAccuracy)
+
+    private object RangedAccuracyTestModule : AbstractModule() {
+        override fun configure() {
+            bind(AttackStyles::class.java).`in`(Scopes.SINGLETON)
+        }
+    }
 }

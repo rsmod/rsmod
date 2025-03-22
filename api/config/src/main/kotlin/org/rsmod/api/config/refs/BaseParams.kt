@@ -59,6 +59,7 @@ object BaseParams : ParamReferences() {
     val ranged_strength: ParamInt = find("ranged_strength", 88687192168)
     val additive_ranged_strength: ParamInt = find("additive_ranged_strength", 88687192345)
     val magic_damage: ParamInt = find("magic_damage", 88687192455)
+    val npc_magic_damage_bonus: ParamInt = find("npc_magic_damage_bonus", 88687192221)
     val item_prayer_bonus: ParamInt = find("item_prayer_bonus", 88687192167)
     val draconic: ParamInt = find("draconic", 88687192346)
     val golem: ParamInt = find("golem", 88687193334)
