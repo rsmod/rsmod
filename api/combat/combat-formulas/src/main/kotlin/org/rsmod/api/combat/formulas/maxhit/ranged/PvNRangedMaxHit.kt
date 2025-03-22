@@ -32,6 +32,19 @@ constructor(
 ) {
     private var Player.maxHit by intVarp(varps.com_maxhit)
 
+    /**
+     * Computes the maximum ranged hit for [player] against [target], applying the
+     * [specialMultiplier] before passing the result to [modifyPostSpec].
+     *
+     * **Notes:**
+     * - This function should be used instead of [computeMaxHit] in most cases to ensure consistency
+     *   in max hit calculations. Future optimizations may depend on this function as the main entry
+     *   point.
+     * - The `com_maxhit` varp for [player] is updated with the computed max hit.
+     *
+     * @param boltSpecDamage The additive bonus damage from bolt proc special attacks. For example,
+     *   Opal bolts (e) special should set this value to `visible ranged level * 10%, rounded down`.
+     */
     public fun getMaxHit(
         player: Player,
         target: Npc,

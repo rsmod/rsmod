@@ -20,6 +20,7 @@ constructor(
     private val pvnRangedMaxHit: PvNRangedMaxHit,
     private val nvpRangedMaxHit: NvPRangedMaxHit,
 ) {
+    /** @see [PvNMeleeMaxHit.getMaxHit] */
     public fun getMeleeMaxHit(
         player: Player,
         target: Npc,
@@ -38,6 +39,7 @@ constructor(
     public fun getMeleeMaxHit(npc: Npc, target: Player, attackType: MeleeAttackType?): Int =
         nvpMeleeMaxHit.getMaxHit(npc, target, attackType)
 
+    /** @see [PvNRangedMaxHit.getMaxHit] */
     public fun getRangedMaxHit(
         player: Player,
         target: Npc,
