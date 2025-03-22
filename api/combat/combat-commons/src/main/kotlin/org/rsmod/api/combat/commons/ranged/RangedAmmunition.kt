@@ -12,6 +12,7 @@ import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.map.collision.isWalkBlocked
 import org.rsmod.game.obj.Obj
+import org.rsmod.game.obj.isType
 import org.rsmod.game.queue.WorldQueueList
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.ObjTypeList
@@ -115,7 +116,9 @@ public object RangedAmmunition {
         eventBus: EventBus,
     ) {
         val startObj = player.worn[wearpos.slot]
-        checkNotNull(startObj) { "Expected valid player-worn obj in slot: $wearpos" }
+        check(startObj.isType(wornType)) {
+            "Expected worn obj to match `wornType`: wearpos=$wearpos, obj=$startObj, type=$wornType"
+        }
 
         val oldCount = startObj.count
         check(oldCount >= detract) { "Unexpected low worn count: $oldCount (expected=$detract)" }
