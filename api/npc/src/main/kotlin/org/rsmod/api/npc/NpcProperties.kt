@@ -5,3 +5,6 @@ import org.rsmod.game.entity.Npc
 
 public val Npc.meleeStrength: Int
     get() = visType.param(params.melee_strength)
+
+public val Npc.rangedStrength: Int
+    get() = visType.param(params.ranged_strength)
