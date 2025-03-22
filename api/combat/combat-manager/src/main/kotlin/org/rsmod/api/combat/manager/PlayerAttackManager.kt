@@ -329,6 +329,7 @@ constructor(
 
     private fun queueMeleeHit(source: ProtectedAccess, target: Npc, damage: Int, delay: Int): Hit {
         val hit = target.queueHit(source.player, delay, HitType.Melee, damage, npcHitModifier)
+        target.heroPoints(source.player, hit.damage)
         target.combatPlayDefendAnim()
         target.queueCombatRetaliate(source.player)
         return hit
@@ -341,6 +342,7 @@ constructor(
         delay: Int,
     ): Hit {
         val hit = target.queueHit(source.player, delay, HitType.Melee, damage)
+        target.heroPoints(source.player, hit.damage)
         target.combatPlayDefendAnim(objTypes)
         target.queueCombatRetaliate(source.player)
         return hit
