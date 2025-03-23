@@ -21,6 +21,7 @@ import org.rsmod.api.cache.types.loc.LocTypeEncoder
 import org.rsmod.api.cache.types.npc.NpcTypeEncoder
 import org.rsmod.api.cache.types.obj.ObjTypeEncoder
 import org.rsmod.api.cache.types.param.ParamTypeEncoder
+import org.rsmod.api.cache.types.proj.ProjAnimTypeEncoder
 import org.rsmod.api.cache.types.stat.StatTypeEncoder
 import org.rsmod.api.cache.types.varbit.VarBitTypeEncoder
 import org.rsmod.api.cache.types.varn.VarnTypeEncoder
@@ -50,6 +51,8 @@ import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.type.param.ParamTypeBuilder
 import org.rsmod.game.type.param.ParamTypeList
 import org.rsmod.game.type.param.UnpackedParamType
+import org.rsmod.game.type.proj.ProjAnimTypeBuilder
+import org.rsmod.game.type.proj.UnpackedProjAnimType
 import org.rsmod.game.type.stat.StatTypeBuilder
 import org.rsmod.game.type.stat.UnpackedStatType
 import org.rsmod.game.type.util.MergeableCacheBuilder
@@ -149,6 +152,9 @@ constructor(
         val headbars = merge(build.headbars, edit.headbars, vanilla.headbars, HeadbarTypeBuilder)
         val hitmarks = merge(build.hitmarks, edit.hitmarks, vanilla.hitmarks, HitmarkTypeBuilder)
 
+        val projanims =
+            merge(build.projanims, edit.projanims, vanilla.projanims, ProjAnimTypeBuilder)
+
         val walkTriggers =
             merge(
                 build.walkTriggers,
@@ -171,6 +177,7 @@ constructor(
             varnbits = varnbits,
             headbars = headbars,
             hitmarks = hitmarks,
+            projanims = projanims,
             walkTriggers = walkTriggers,
         )
     }
@@ -189,6 +196,7 @@ constructor(
         val varnbits: List<UnpackedVarnBitType>,
         val headbars: List<UnpackedHeadbarType>,
         val hitmarks: List<UnpackedHitmarkType>,
+        val projanims: List<UnpackedProjAnimType>,
         val walkTriggers: List<WalkTriggerType>,
     )
 
@@ -206,6 +214,7 @@ constructor(
         val varnbits = filterIsInstance<UnpackedVarnBitType>()
         val headbars = filterIsInstance<UnpackedHeadbarType>()
         val hitmarks = filterIsInstance<UnpackedHitmarkType>()
+        val projanims = filterIsInstance<UnpackedProjAnimType>()
         val walkTrig = filterIsInstance<WalkTriggerType>()
 
         return UpdateMap(
@@ -222,6 +231,7 @@ constructor(
             varnbits = varnbits,
             headbars = headbars,
             hitmarks = hitmarks,
+            projanims = projanims,
             walkTriggers = walkTrig,
         )
     }
@@ -259,6 +269,7 @@ constructor(
             VarnBitTypeEncoder.encodeAll(cache, updates.varnbits, ctx)
             HeadbarTypeEncoder.encodeAll(cache, updates.headbars)
             HitmarkTypeEncoder.encodeAll(cache, updates.hitmarks)
+            ProjAnimTypeEncoder.encodeAll(cache, updates.projanims, ctx)
             WalkTriggerTypeEncoder.encodeAll(cache, updates.walkTriggers, ctx)
         }
     }

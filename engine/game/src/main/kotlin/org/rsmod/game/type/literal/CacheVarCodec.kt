@@ -10,6 +10,7 @@ import org.rsmod.game.type.hitmark.HitmarkType
 import org.rsmod.game.type.loc.LocType
 import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.obj.ObjType
+import org.rsmod.game.type.proj.ProjAnimType
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.spot.SpotanimType
 import org.rsmod.game.type.stat.StatType
@@ -129,6 +130,13 @@ public object CacheVarEnumCodec : BaseIntVarCodec<EnumType<*, *>>(EnumType::clas
     override fun decode(types: TypeListMap, value: Int): EnumType<Any, Any>? = types.enums[value]
 
     override fun encode(value: EnumType<*, *>): Int = value.id
+}
+
+public object CacheVarProjAnimCodec : BaseIntVarCodec<ProjAnimType>(ProjAnimType::class) {
+    override fun decode(types: TypeListMap, value: Int): ProjAnimType? =
+        types.projanims[value]?.toHashedType()
+
+    override fun encode(value: ProjAnimType): Int = value.id
 }
 
 public object CacheVarStatCodec : BaseIntVarCodec<StatType>(StatType::class) {

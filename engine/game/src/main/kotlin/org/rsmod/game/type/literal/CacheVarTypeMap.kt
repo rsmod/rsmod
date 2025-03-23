@@ -17,6 +17,8 @@ import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.obj.HashedObjType
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.UnpackedObjType
+import org.rsmod.game.type.proj.HashedProjAnimType
+import org.rsmod.game.type.proj.ProjAnimType
 import org.rsmod.game.type.seq.HashedSeqType
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.spot.HashedSpotanimType
@@ -51,6 +53,8 @@ public object CacheVarTypeMap {
             HashedNpcType::class to CacheVarLiteral.NPC,
             ObjType::class to CacheVarLiteral.OBJ,
             HashedObjType::class to CacheVarLiteral.OBJ,
+            ProjAnimType::class to CacheVarLiteral.PROJANIM,
+            HashedProjAnimType::class to CacheVarLiteral.PROJANIM,
             SeqType::class to CacheVarLiteral.SEQ,
             HashedSeqType::class to CacheVarLiteral.SEQ,
             SpotanimType::class to CacheVarLiteral.SPOTANIM,
@@ -86,6 +90,8 @@ public object CacheVarTypeMap {
             HashedNpcType::class to CacheVarNpcCodec,
             ObjType::class to CacheVarObjCodec,
             HashedObjType::class to CacheVarObjCodec,
+            ProjAnimType::class to CacheVarProjAnimCodec,
+            HashedProjAnimType::class to CacheVarProjAnimCodec,
             SeqType::class to CacheVarSeqCodec,
             HashedSeqType::class to CacheVarSeqCodec,
             SpotanimType::class to CacheVarSpotanimCodec,
@@ -150,6 +156,7 @@ public object CacheVarTypeMap {
                 CacheVarLiteral.MOVESPEED -> Int::class
                 CacheVarLiteral.VARBIT -> VarBitType::class
                 CacheVarLiteral.VARP -> VarpType::class
+                CacheVarLiteral.PROJANIM -> ProjAnimType::class
             }
 
     public fun <K, V : Any> findCodec(literal: CacheVarLiteral): CacheVarCodec<K, V> =

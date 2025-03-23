@@ -45,6 +45,7 @@ private class NameMappingProvider : Provider<NameMapping> {
         val npcs = dirs.readSymbols("npc")
         val objs = dirs.readSymbols("obj")
         val params = dirs.readSymbols("param")
+        val projanims = dirs.readSymbols("projanim")
         val queues = dirs.readSymbols("queue")
         val seqs = dirs.readSymbols("seq")
         val spotanims = dirs.readSymbols("spotanim")
@@ -97,6 +98,7 @@ private class NameMappingProvider : Provider<NameMapping> {
             varnbits = varnbits,
             hitmarks = hitmarks,
             headbars = headbars,
+            projanims = projanims,
         )
     }
 

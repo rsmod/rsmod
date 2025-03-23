@@ -13,6 +13,7 @@ import org.rsmod.game.type.loc.LocTypeList
 import org.rsmod.game.type.npc.NpcTypeList
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.param.ParamTypeList
+import org.rsmod.game.type.proj.ProjAnimTypeList
 import org.rsmod.game.type.seq.SeqTypeList
 import org.rsmod.game.type.spot.SpotanimTypeList
 import org.rsmod.game.type.stat.StatTypeList
@@ -48,4 +49,5 @@ public data class TypeListMap(
     public val hitmarks: HitmarkTypeList,
     public val headbars: HeadbarTypeList,
     public val categories: CategoryTypeList,
+    public val projanims: ProjAnimTypeList,
 )

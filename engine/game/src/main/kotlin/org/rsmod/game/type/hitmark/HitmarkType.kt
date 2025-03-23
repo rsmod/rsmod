@@ -118,8 +118,6 @@ public data class UnpackedHitmarkType(
         result = 31 * result + (multiVarp?.hashCode() ?: 0)
         result = 31 * result + (multiVarBit?.hashCode() ?: 0)
         result = 31 * result + (multiMark?.contentHashCode() ?: 0)
-        result = 31 * result + (internalName?.hashCode() ?: 0)
-        result = 31 * result + identityHash.hashCode()
         return result
     }
 }

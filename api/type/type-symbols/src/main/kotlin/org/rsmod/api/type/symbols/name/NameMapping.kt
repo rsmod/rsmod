@@ -39,4 +39,5 @@ public data class NameMapping(
     public val walkTriggers: Map<String, Int> = mutableMapOf(),
     public val hitmarks: Map<String, Int> = mutableMapOf(),
     public val headbars: Map<String, Int> = mutableMapOf(),
+    public val projanims: Map<String, Int> = mutableMapOf(),
 )

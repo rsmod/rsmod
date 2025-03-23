@@ -21,6 +21,7 @@ import org.rsmod.game.type.loc.LocTypeList
 import org.rsmod.game.type.npc.NpcTypeList
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.param.ParamTypeList
+import org.rsmod.game.type.proj.ProjAnimTypeList
 import org.rsmod.game.type.seq.SeqTypeList
 import org.rsmod.game.type.spot.SpotanimTypeList
 import org.rsmod.game.type.stat.StatTypeList
@@ -84,6 +85,8 @@ public object CacheModule : ExtendedModule() {
     @Provides public fun hitmarkTypeList(map: TypeListMap): HitmarkTypeList = map.hitmarks
 
     @Provides public fun categoryTypeList(map: TypeListMap): CategoryTypeList = map.categories
+
+    @Provides public fun projAnimTypeList(map: TypeListMap): ProjAnimTypeList = map.projanims
 }
 
 private class ConfigTypeListMapProvider

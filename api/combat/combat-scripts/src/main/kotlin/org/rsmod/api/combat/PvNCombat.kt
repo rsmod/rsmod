@@ -177,7 +177,7 @@ constructor(
 
         // TODO(combat): Projectiles and proper impact delay calc.
         val distance = player.distanceTo(npc)
-        // delay + lengthAdjustment + (stepMultiplier * distance)
+        // delay + progress + (stepMultiplier * distance)
         val clientDelay = 41 + 5 + (5 * distance)
         val hitDelay = 1 + (clientDelay / 30)
 

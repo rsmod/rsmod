@@ -55,7 +55,8 @@ public enum class CacheVarLiteral(
     DBROW('Ð'),
     MOVESPEED('Ý'),
     VARP('7'),
-    VARBIT(']');
+    VARBIT(']'),
+    PROJANIM('[');
 
     public companion object {
         public fun forCharId(char: Char?): CacheVarLiteral? =

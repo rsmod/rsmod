@@ -28,6 +28,8 @@ import org.rsmod.api.type.builders.obj.ObjBuilder
 import org.rsmod.api.type.builders.obj.ObjBuilderResolver
 import org.rsmod.api.type.builders.param.ParamBuilder
 import org.rsmod.api.type.builders.param.ParamBuilderResolver
+import org.rsmod.api.type.builders.proj.ProjAnimBuilder
+import org.rsmod.api.type.builders.proj.ProjAnimBuilderResolver
 import org.rsmod.api.type.builders.stat.StatBuilder
 import org.rsmod.api.type.builders.stat.StatBuilderResolver
 import org.rsmod.api.type.builders.struct.StructBuilder
@@ -65,6 +67,7 @@ constructor(
     private val npcResolver: NpcBuilderResolver,
     private val objResolver: ObjBuilderResolver,
     private val paramResolver: ParamBuilderResolver,
+    private val projAnimResolver: ProjAnimBuilderResolver,
     private val statResolver: StatBuilderResolver,
     private val structResolver: StructBuilderResolver,
     private val varBitResolver: VarBitBuilderResolver,
@@ -149,6 +152,7 @@ constructor(
                 is NpcBuilder -> npcResolver
                 is ObjBuilder -> objResolver
                 is ParamBuilder -> paramResolver
+                is ProjAnimBuilder -> projAnimResolver
                 is StatBuilder -> statResolver
                 is StructBuilder -> structResolver
                 is VarBitBuilder -> varBitResolver

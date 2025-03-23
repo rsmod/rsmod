@@ -139,6 +139,8 @@
       <w>polestaff</w>
       <w>postanim</w>
       <w>preanim</w>
+      <w>projanim</w>
+      <w>projanims</w>
       <w>prot</w>
       <w>prots</w>
       <w>ralos</w>
@@ -171,6 +173,7 @@
       <w>tele</w>
       <w>telejump</w>
       <w>telemove</w>
+      <w>toktz</w>
       <w>tonalztics</w>
       <w>torag</w>
       <w>torags</w>
@@ -210,6 +213,7 @@
       <w>veracs</w>
       <w>virtus</w>
       <w>vislevel</w>
+      <w>vitur</w>
       <w>walktrig</w>
       <w>walktrigger</w>
       <w>walktriggers</w>
