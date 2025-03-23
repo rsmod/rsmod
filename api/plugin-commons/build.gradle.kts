@@ -7,6 +7,7 @@ dependencies {
     api(libs.bundles.logging)
     api(projects.api.cache)
     api(projects.api.cheat)
+    api(projects.api.combat.combatCommons)
     api(projects.api.combat.combatWeapon)
     api(projects.api.config)
     api(projects.api.controller)
