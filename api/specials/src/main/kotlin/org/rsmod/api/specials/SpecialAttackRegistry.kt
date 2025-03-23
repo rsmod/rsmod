@@ -49,9 +49,9 @@ public class SpecialAttackRegistry @Inject constructor(private val weapons: Spec
 
             public sealed class Failure : Add()
 
-            public data object AlreadyAdded : Add()
+            public data object AlreadyAdded : Failure()
 
-            public data object SpecialEnergyNotMapped : Add()
+            public data object SpecialEnergyNotMapped : Failure()
         }
     }
 }

@@ -2,7 +2,6 @@ package org.rsmod.api.combat
 
 import jakarta.inject.Inject
 import org.rsmod.api.combat.commons.CombatAttack
-import org.rsmod.api.combat.commons.fx.MeleeAnimationAndSound
 import org.rsmod.api.combat.manager.PlayerAttackManager
 import org.rsmod.api.combat.manager.RangedAmmoManager
 import org.rsmod.api.combat.player.canPerformMeleeSpecial
@@ -11,7 +10,6 @@ import org.rsmod.api.combat.player.canPerformShieldSpecial
 import org.rsmod.api.combat.player.specialAttackType
 import org.rsmod.api.combat.weapon.WeaponSpeeds
 import org.rsmod.api.config.refs.categories
-import org.rsmod.api.config.refs.params
 import org.rsmod.api.npc.isValidTarget
 import org.rsmod.api.player.lefthand
 import org.rsmod.api.player.protect.ProtectedAccess
@@ -20,6 +18,8 @@ import org.rsmod.api.player.righthand
 import org.rsmod.api.specials.SpecialAttackRegistry
 import org.rsmod.api.specials.SpecialAttackType
 import org.rsmod.api.specials.energy.SpecialAttackEnergy
+import org.rsmod.api.weapons.WeaponRegistry
+import org.rsmod.api.weapons.attack
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.interact.InteractionOp
 import org.rsmod.game.type.obj.ObjTypeList
@@ -31,6 +31,7 @@ constructor(
     private val speeds: WeaponSpeeds,
     private val specialsReg: SpecialAttackRegistry,
     private val specialEnergy: SpecialAttackEnergy,
+    private val weaponsReg: WeaponRegistry,
     private val manager: PlayerAttackManager,
     private val ammunition: RangedAmmoManager,
 ) {
@@ -76,17 +77,17 @@ constructor(
             }
         }
 
-        // TODO(combat): "WeaponAttack" handling for specialized weapon attacks, such as Scythe of
-        //  Vitur attacks which follows specific logic when performing a standard attack.
+        // Important: Weapon attack handlers are responsible for explicitly calling `opnpc2` (or a
+        // helper function that does so) to re-engage combat after performing their attack.
+        val specializedWeapon = weaponsReg.getMelee(attack.weapon)
+        if (specializedWeapon != null) {
+            val attackHandled = specializedWeapon.attack(this, npc, attack)
+            if (attackHandled) {
+                return
+            }
+        }
 
-        val animAndSound = MeleeAnimationAndSound.from(attack.stance)
-        val (animParam, soundParam, defaultAnim, defaultSound) = animAndSound
-
-        val attackAnim = ocParamOrNull(attack.weapon, animParam) ?: defaultAnim
-        val attackSound = ocParamOrNull(attack.weapon, soundParam) ?: defaultSound
-
-        anim(attackAnim)
-        soundSynth(attackSound)
+        manager.playWeaponFx(player, attack)
 
         val damage = manager.rollMeleeDamage(player, npc, attack)
         manager.queueMeleeHit(player, npc, damage)
@@ -132,36 +133,47 @@ constructor(
 
         val weaponType = objTypes[attack.weapon]
 
+        // Important: Weapon attack handlers are responsible for explicitly calling `opnpc2` (or a
+        // helper function that does so) to re-engage combat after performing their attack.
+        val specializedWeapon = weaponsReg.getRanged(attack.weapon)
+        if (specializedWeapon != null) {
+            val attackHandled = specializedWeapon.attack(this, npc, attack)
+            if (attackHandled) {
+                return
+            }
+        }
+
+        // `chargebows` are specialized and not worth trying to have as a generic system. As such,
+        // they are required to be registered in `WeaponRegistry` and will return early if they
+        // have reached this point (not handled by previous `specializedWeapon` block).
         val usingChargeBow = weaponType.isCategoryType(categories.chargebow)
-        // TODO(combat): Handle weapon attacks and also enforce all chargebows to have one.
+        if (usingChargeBow) {
+            manager.resetAttackDelay(player)
+            mes("The bow appears to have malfunctioned.")
+            return
+        }
 
         val quiver = player.quiver
         val quiverType = objTypes.getOrNull(quiver)
 
         val canUseAmmo = ammunition.attemptAmmoUsage(player, weaponType, quiverType)
         if (!canUseAmmo) {
-            // Reset the previously assigned action delay as the attack cannot be performed.
             manager.resetAttackDelay(player)
             return
         }
 
-        val attackAnim = ocParamOrNull(attack.weapon, params.attack_anim_stance1)
-        val attackSound = ocParamOrNull(attack.weapon, params.attack_sound_stance1)
-
-        if (attackAnim == null) {
+        val playedAnim = manager.playWeaponFx(player, attack)
+        if (!playedAnim) {
+            manager.resetAttackDelay(player)
             mes("The bow appears to be broken.")
             return
         }
 
-        anim(attackAnim)
-        attackSound?.let(::soundSynth)
-
         // Note: Some weapons are categorized as `throwing_weapon` but do not behave like standard
         // throwing weapons. For example, the Toxic blowpipe falls under this category but requires
-        // special handling. Such weapons should be managed via the `WeaponAttack` system to ensure
+        // special handling. Such weapons should be managed via the `Weapon` system to ensure
         // correct behavior and avoid unintended side effects.
         val usingThrown = weaponType.isCategoryType(categories.throwing_weapon)
-        val ammoType = if (usingThrown) weaponType else quiverType
 
         // TODO(combat): Projectiles and proper impact delay calc.
         val distance = player.distanceTo(npc)

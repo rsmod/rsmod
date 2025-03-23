@@ -2,6 +2,7 @@ package org.rsmod.api.combat.manager
 
 import jakarta.inject.Inject
 import org.rsmod.api.combat.commons.CombatAttack
+import org.rsmod.api.combat.commons.fx.MeleeAnimationAndSound
 import org.rsmod.api.combat.commons.npc.combatPlayDefendAnim
 import org.rsmod.api.combat.commons.npc.queueCombatRetaliate
 import org.rsmod.api.combat.commons.player.combatPlayDefendAnim
@@ -12,11 +13,13 @@ import org.rsmod.api.combat.commons.types.MeleeAttackType
 import org.rsmod.api.combat.commons.types.RangedAttackType
 import org.rsmod.api.combat.formulas.AccuracyFormulae
 import org.rsmod.api.combat.formulas.MaxHitFormulae
+import org.rsmod.api.config.refs.params
 import org.rsmod.api.npc.hit.modifier.NpcHitModifier
 import org.rsmod.api.npc.hit.queueHit
 import org.rsmod.api.player.hit.queueHit
 import org.rsmod.api.player.interact.NpcInteractions
 import org.rsmod.api.player.interact.PlayerInteractions
+import org.rsmod.api.player.output.soundSynth
 import org.rsmod.api.player.protect.clearPendingAction
 import org.rsmod.api.random.GameRandom
 import org.rsmod.events.EventBus
@@ -152,6 +155,46 @@ constructor(
     public fun clearCombat(player: Player) {
         player.clearPendingAction(eventBus)
         setNextAttackDelay(player, 0)
+    }
+
+    /**
+     * Plays the animation and sound effects for the given [attack], using the
+     * [CombatAttack.Melee.weapon] obj type params and the [CombatAttack.Melee.stance] to determine
+     * which effects to play.
+     *
+     * If no specific params are found on the weapon, default animations and sounds for the stance
+     * are used.
+     */
+    public fun playWeaponFx(player: Player, attack: CombatAttack.Melee) {
+        val weapon = objTypes.getOrNull(attack.weapon)
+
+        val fx = MeleeAnimationAndSound.from(attack.stance)
+        val (animParam, soundParam, defaultAnim, defaultSound) = fx
+
+        val attackAnim = weapon?.paramOrNull(animParam) ?: defaultAnim
+        val attackSound = weapon?.paramOrNull(soundParam) ?: defaultSound
+
+        player.anim(attackAnim)
+        player.soundSynth(attackSound)
+    }
+
+    /**
+     * Plays the animation and sound effects for the given [attack], using the
+     * [CombatAttack.Ranged.weapon] obj type params to determine which effects to play.
+     *
+     * If the weapon does not define an attack animation param (`attack_anim_stance1`), this
+     * function will return `false` to indicate that the weapon is considered "broken" or invalid in
+     * this context, and no effects will be played.
+     *
+     * @return `true` if the ranged weapon has an anim associated with param `attack_anim_stance1`.
+     */
+    public fun playWeaponFx(player: Player, attack: CombatAttack.Ranged): Boolean {
+        val weapon = objTypes[attack.weapon]
+        val attackAnim = weapon.paramOrNull(params.attack_anim_stance1) ?: return false
+        val attackSound = weapon.paramOrNull(params.attack_sound_stance1)
+        player.anim(attackAnim)
+        attackSound?.let(player::soundSynth)
+        return true
     }
 
     /**

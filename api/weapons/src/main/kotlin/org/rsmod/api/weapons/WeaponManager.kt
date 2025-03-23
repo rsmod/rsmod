@@ -1,4 +1,4 @@
-package org.rsmod.api.specials
+package org.rsmod.api.weapons
 
 import jakarta.inject.Inject
 import org.rsmod.api.combat.commons.CombatAttack
@@ -8,31 +8,16 @@ import org.rsmod.api.combat.commons.types.MeleeAttackType
 import org.rsmod.api.combat.commons.types.RangedAttackType
 import org.rsmod.api.combat.manager.PlayerAttackManager
 import org.rsmod.api.player.protect.ProtectedAccess
-import org.rsmod.api.specials.energy.SpecialAttackEnergy
-import org.rsmod.api.specials.weapon.SpecialAttackWeapons
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.PathingEntity
 import org.rsmod.game.entity.Player
 import org.rsmod.game.hit.Hit
 import org.rsmod.game.type.obj.ObjType
+import org.rsmod.game.type.obj.ObjTypeList
 
-public class SpecialAttackManager
+public class WeaponManager
 @Inject
-constructor(
-    private val energy: SpecialAttackEnergy,
-    private val weapons: SpecialAttackWeapons,
-    private val manager: PlayerAttackManager,
-) {
-    public fun hasSpecialEnergy(source: ProtectedAccess, energyInHundreds: Int): Boolean {
-        return energy.hasSpecialEnergy(source.player, energyInHundreds)
-    }
-
-    public fun takeSpecialEnergy(source: ProtectedAccess, energyInHundreds: Int) {
-        energy.takeSpecialEnergy(source.player, energyInHundreds)
-    }
-
-    public fun getSpecialEnergyRequirement(obj: ObjType): Int? = weapons.getSpecialEnergy(obj)
-
+constructor(private val objTypes: ObjTypeList, private val manager: PlayerAttackManager) {
     /**
      * Sets [Player.actionDelay] to the current map clock + [cycles].
      *
@@ -40,10 +25,10 @@ constructor(
      * For example, setting [cycles] to `2` allows the player to perform their next attack in `2`
      * cycles.
      *
-     * **Note:** Systems that use this special attack manager should preemptively apply the delay
-     * based on the `attackrate` of the weapon being used, eliminating the need for manual
-     * adjustments. This function is intended for special cases where fine-tuning or custom attack
-     * delays are required after a special attack.
+     * **Note:** Systems that use this weapon manager should preemptively apply the delay based on
+     * the `attackrate` of the weapon being used, eliminating the need for manual adjustments. This
+     * function is intended for special cases where fine-tuning or custom attack delays are required
+     * after a weapon attack.
      *
      * @param cycles The number of cycles to wait before the next attack can be performed.
      */
@@ -72,11 +57,11 @@ constructor(
      *
      * This ensures that the player's action delay remains consistent with their last attack.
      *
-     * This should be used when a special attack was performed successfully. If the special attack
-     * could not be performed, consider using [clearCombat] instead.
+     * This should be used when a weapon attack was performed successfully. If the attack could not
+     * be performed, consider using [clearCombat] instead.
      *
      * **Important Note:** When calling this function, ensure that the `attack` function returns
-     * `true`. This signals to the combat script that the special attack was properly handled. If
+     * `true`. This signals to the combat script that the weapon attack was properly handled. If
      * `attack` returns `false`, the regular combat attack will still be processed **for one cycle**
      * because the combat script is already in progress. However, after that cycle, the interaction
      * will become invalid and will not execute again.
@@ -89,17 +74,39 @@ constructor(
      * Similar to [stopCombat], but resets the associated [Player.actionDelay] to the current map
      * clock.
      *
-     * This should be used when a special attack could not be performed and the combat interaction
+     * This should be used when a weapon attack could not be performed and the combat interaction
      * needs to be terminated. Since the player did not actually attack, their action delay should
      * be updated to reflect that.
      *
      * **Important Note:** When calling this function, ensure that the `attack` function returns
-     * `true`. This signals to the combat script that the special attack was properly handled. If
+     * `true`. This signals to the combat script that the weapon attack was properly handled. If
      * `attack` returns `false`, the regular combat attack will still be processed **for one cycle**
      * because the combat script is already in progress. However, after that cycle, the interaction
      * will become invalid and will not execute again.
      */
     public fun clearCombat(access: ProtectedAccess): Unit = manager.clearCombat(access.player)
+
+    /**
+     * Calls the `PlayerAttackManager.playWeaponFx(player, attack: CombatAttack.Melee)` overload.
+     *
+     * _Note: KDoc does not currently support linking specific overloads._
+     *
+     * @see [PlayerAttackManager.playWeaponFx]
+     */
+    public fun playWeaponFx(access: ProtectedAccess, attack: CombatAttack.Melee) {
+        manager.playWeaponFx(access.player, attack)
+    }
+
+    /**
+     * Calls the `PlayerAttackManager.playWeaponFx(player, attack: CombatAttack.Ranged)` overload.
+     *
+     * _Note: KDoc does not currently support linking specific overloads._
+     *
+     * @see [PlayerAttackManager.playWeaponFx]
+     */
+    public fun playWeaponFx(access: ProtectedAccess, attack: CombatAttack.Ranged) {
+        manager.playWeaponFx(access.player, attack)
+    }
 
     /** @see [PlayerAttackManager.rollMeleeDamage] */
     public fun rollMeleeDamage(
