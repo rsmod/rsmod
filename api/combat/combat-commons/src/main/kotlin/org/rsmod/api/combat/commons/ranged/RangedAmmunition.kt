@@ -25,12 +25,15 @@ public object RangedAmmunition {
     /** The default chance for standard ammunition to drop on the ground instead of disappearing. */
     public const val DEFAULT_AMMO_DROP_RATE: Int = 5
 
+    /** The obj spawn duration when an ammunition is dropped on the ground after being fired. */
+    public const val DEFAULT_AMMO_DROP_DURATION: Int = 100
+
     /**
      * Verifies that [weapon] can use [ammo] as valid ammunition and sends an appropriate error
      * message to the [player] if it cannot.
      *
-     * This function only performs validation and messaging. It does **not** remove ammunition or
-     * attempt to drop it - use [detractAmmo] and [attemptAmmoDrop] for that behavior.
+     * **Note:** This function only performs validation and messaging. It does **not** remove
+     * ammunition or attempt to drop it - use [detractAmmo] and [attemptAmmoDrop] for that behavior.
      *
      * @return `true` if the [ammo] is valid for the given [weapon], or if the [weapon] does not
      *   require specific ammunition

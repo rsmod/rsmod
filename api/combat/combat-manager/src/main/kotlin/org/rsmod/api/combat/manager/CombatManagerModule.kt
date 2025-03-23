@@ -5,5 +5,6 @@ import org.rsmod.plugin.module.PluginModule
 public class CombatManagerModule : PluginModule() {
     override fun bind() {
         bindInstance<PlayerAttackManager>()
+        bindInstance<RangedAmmoManager>()
     }
 }

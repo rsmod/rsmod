@@ -3,14 +3,13 @@ package org.rsmod.api.combat
 import jakarta.inject.Inject
 import org.rsmod.api.combat.commons.CombatAttack
 import org.rsmod.api.combat.commons.fx.MeleeAnimationAndSound
-import org.rsmod.api.combat.commons.ranged.RangedAmmunition
 import org.rsmod.api.combat.manager.PlayerAttackManager
+import org.rsmod.api.combat.manager.RangedAmmoManager
 import org.rsmod.api.combat.player.canPerformMeleeSpecial
 import org.rsmod.api.combat.player.canPerformRangedSpecial
 import org.rsmod.api.combat.player.canPerformShieldSpecial
 import org.rsmod.api.combat.player.specialAttackType
 import org.rsmod.api.combat.weapon.WeaponSpeeds
-import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.categories
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.npc.isValidTarget
@@ -18,30 +17,22 @@ import org.rsmod.api.player.lefthand
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.quiver
 import org.rsmod.api.player.righthand
-import org.rsmod.api.repo.obj.ObjRepository
 import org.rsmod.api.specials.SpecialAttackRegistry
 import org.rsmod.api.specials.SpecialAttackType
 import org.rsmod.api.specials.energy.SpecialAttackEnergy
-import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.interact.InteractionOp
-import org.rsmod.game.queue.WorldQueueList
 import org.rsmod.game.type.obj.ObjTypeList
-import org.rsmod.game.type.obj.Wearpos
-import org.rsmod.routefinder.collision.CollisionFlagMap
 
 internal class PvNCombat
 @Inject
 constructor(
-    private val eventBus: EventBus,
     private val objTypes: ObjTypeList,
-    private val collision: CollisionFlagMap,
-    private val objRepo: ObjRepository,
-    private val worldQueues: WorldQueueList,
     private val speeds: WeaponSpeeds,
     private val specialsReg: SpecialAttackRegistry,
     private val specialEnergy: SpecialAttackEnergy,
     private val manager: PlayerAttackManager,
+    private val ammunition: RangedAmmoManager,
 ) {
     suspend fun attack(access: ProtectedAccess, target: Npc, attack: CombatAttack.PlayerAttack) {
         when (attack) {
@@ -98,7 +89,7 @@ constructor(
         soundSynth(attackSound)
 
         val damage = manager.rollMeleeDamage(player, npc, attack)
-        manager.queueMeleeHit(player, npc, damage, delay = 1)
+        manager.queueMeleeHit(player, npc, damage)
 
         // TODO(combat): This is sending two `setmapflag(null)` packets when it is meant to only
         //  send one. This is due to the `consumeRoute` and `routeTo` in player movement processor.
@@ -145,9 +136,9 @@ constructor(
         // TODO(combat): Handle weapon attacks and also enforce all chargebows to have one.
 
         val quiver = player.quiver
-        val quiverType = quiver?.let(objTypes::get)
+        val quiverType = objTypes.getOrNull(quiver)
 
-        val canUseAmmo = RangedAmmunition.attemptAmmoUsage(player, weaponType, quiverType)
+        val canUseAmmo = ammunition.attemptAmmoUsage(player, weaponType, quiverType)
         if (!canUseAmmo) {
             // Reset the previously assigned action delay as the attack cannot be performed.
             manager.resetAttackDelay(player)
@@ -173,39 +164,15 @@ constructor(
         val ammoType = if (usingThrown) weaponType else quiverType
 
         // TODO(combat): Projectiles and proper impact delay calc.
-        val distance = player.coords.chebyshevDistance(npc.coords)
+        val distance = player.distanceTo(npc)
         // delay + lengthAdjustment + (stepMultiplier * distance)
         val clientDelay = 41 + 5 + (5 * distance)
         val hitDelay = 1 + (clientDelay / 30)
 
-        if (ammoType != null) {
-            val conserve = RangedAmmunition.conserveAmmo(player, objTypes, random)
-            val removeWearpos = if (usingThrown) Wearpos.RightHand else Wearpos.Quiver
-
-            if (!conserve) {
-                RangedAmmunition.detractAmmo(
-                    player = player,
-                    wearpos = removeWearpos,
-                    wornType = ammoType,
-                    detract = 1,
-                    eventBus = eventBus,
-                )
-            }
-
-            if (!conserve && random.randomBoolean(RangedAmmunition.DEFAULT_AMMO_DROP_RATE)) {
-                RangedAmmunition.attemptAmmoDrop(
-                    player = player,
-                    delay = hitDelay,
-                    ammoType = ammoType,
-                    ammoCount = 1,
-                    dropCoord = npc.coords,
-                    // TODO(combat): Verify duration. Do they stay longer in raids?
-                    dropDuration = constants.ammodrop_duration,
-                    collision = collision,
-                    worldQueues = worldQueues,
-                    objRepo = objRepo,
-                )
-            }
+        if (usingThrown) {
+            ammunition.useThrownWeapon(player, weaponType, npc.coords, dropDelay = hitDelay)
+        } else if (quiverType != null) {
+            ammunition.useQuiverAmmo(player, quiverType, npc.coords, dropDelay = hitDelay)
         }
 
         val damage = manager.rollRangedDamage(player, npc, attack)

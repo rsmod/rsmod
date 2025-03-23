@@ -13,7 +13,10 @@ dependencies {
     implementation(projects.api.npc)
     implementation(projects.api.player)
     implementation(projects.api.random)
+    implementation(projects.api.repo)
     implementation(projects.engine.events)
     implementation(projects.engine.game)
+    implementation(projects.engine.map)
     implementation(projects.engine.plugin)
+    implementation(projects.engine.routefinder)
 }

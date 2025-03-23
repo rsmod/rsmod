@@ -19,7 +19,6 @@ dependencies {
     implementation(projects.api.player)
     implementation(projects.api.playerOutput)
     implementation(projects.api.random)
-    implementation(projects.api.repo)
     implementation(projects.api.script)
     implementation(projects.api.scriptAdvanced)
     implementation(projects.api.specials)
@@ -30,5 +29,4 @@ dependencies {
     implementation(projects.engine.game)
     implementation(projects.engine.map)
     implementation(projects.engine.plugin)
-    implementation(projects.engine.routefinder)
 }
