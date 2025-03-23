@@ -52,16 +52,6 @@ public object WalkTriggerTypeDecoder {
             }
         }
 
-    public fun assignInternal(list: WalkTriggerTypeList, names: Map<String, Int>) {
-        val reversedLookup = names.entries.associate { it.value to it.key }
-        val types = list.values
-        for (type in types) {
-            val id = TypeResolver[type]
-            val name = reversedLookup[id] ?: continue
-            TypeResolver[type] = name
-        }
-    }
-
     private fun createDefaultWalkTriggerTypeList(symbols: Map<String, Int>): WalkTriggerTypeList {
         val walkTriggers = Int2ObjectOpenHashMap<WalkTriggerType>()
         for ((name, id) in symbols) {

@@ -50,16 +50,6 @@ public object VarBitTypeDecoder {
             }
         }
 
-    public fun assignInternal(list: VarBitTypeList, names: Map<String, Int>) {
-        val reversedLookup = names.entries.associate { it.value to it.key }
-        val types = list.values
-        for (type in types) {
-            val id = TypeResolver[type]
-            val name = reversedLookup[id] ?: continue
-            TypeResolver[type] = name
-        }
-    }
-
     public fun assignBaseVars(varbits: VarBitTypeList, varps: VarpTypeList) {
         val grouped = varbits.values.groupBy { it.varpId }
         for ((baseVar, children) in grouped) {

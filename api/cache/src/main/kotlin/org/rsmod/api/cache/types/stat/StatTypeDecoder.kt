@@ -53,16 +53,6 @@ public object StatTypeDecoder {
             }
         }
 
-    public fun assignInternal(list: StatTypeList, names: Map<String, Int>) {
-        val reversedLookup = names.entries.associate { it.value to it.key }
-        val types = list.values
-        for (type in types) {
-            val id = TypeResolver[type]
-            val name = reversedLookup[id] ?: continue
-            TypeResolver[type] = name
-        }
-    }
-
     private fun createDefaultStatTypeList(symbols: Map<String, Int>): StatTypeList {
         val stats = Int2ObjectOpenHashMap<UnpackedStatType>()
         for ((name, id) in symbols) {

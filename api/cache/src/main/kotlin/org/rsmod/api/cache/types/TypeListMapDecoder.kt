@@ -29,7 +29,9 @@ import org.rsmod.api.cache.types.varp.VarpTypeDecoder
 import org.rsmod.api.cache.types.walktrig.WalkTriggerTypeDecoder
 import org.rsmod.api.cache.util.ComplexTypeDecoder
 import org.rsmod.api.type.symbols.name.NameMapping
+import org.rsmod.game.type.CacheType
 import org.rsmod.game.type.TypeListMap
+import org.rsmod.game.type.TypeResolver
 import org.rsmod.game.type.interf.InterfaceTypeList
 
 public object TypeListMapDecoder {
@@ -86,31 +88,41 @@ public object TypeListMapDecoder {
                 categories = categories,
             )
             .apply {
-                ObjTypeDecoder.assignInternal(this.objs, names.objs)
-                LocTypeDecoder.assignInternal(this.locs, names.locs)
-                NpcTypeDecoder.assignInternal(this.npcs, names.npcs)
-                ParamTypeDecoder.assignInternal(this.params, names.params)
-                EnumTypeDecoder.assignInternal(this.enums, names.enums)
-                ComponentTypeDecoder.assignInternal(this.components, names.components)
-                InterfaceTypeList.assignInternal(this.interfaces, names.interfaces)
-                InvTypeDecoder.assignInternal(this.invs, names.invs)
-                VarpTypeDecoder.assignInternal(this.varps, names.varps)
-                VarBitTypeDecoder.assignInternal(this.varbits, names.varbits)
+                assignInternal(this.objs, names.objs)
+                assignInternal(this.locs, names.locs)
+                assignInternal(this.npcs, names.npcs)
+                assignInternal(this.params, names.params)
+                assignInternal(this.enums, names.enums)
+                assignInternal(this.components, names.components)
+                assignInternal(this.interfaces, names.interfaces)
+                assignInternal(this.invs, names.invs)
+                assignInternal(this.varps, names.varps)
+                assignInternal(this.varbits, names.varbits)
                 VarBitTypeDecoder.assignBaseVars(this.varbits, this.varps)
-                SeqTypeDecoder.assignInternal(this.seqs, names.seqs)
-                SpotanimTypeDecoder.assignInternal(this.spotanims, names.spotanims)
-                StatTypeDecoder.assignInternal(this.stats, names.stats)
-                StructTypeDecoder.assignInternal(this.structs, names.structs)
-                FontMetricsDecoder.assignInternal(this.fonts, names.fonts)
-                WalkTriggerTypeDecoder.assignInternal(this.walkTriggers, names.walkTriggers)
-                VarnTypeDecoder.assignInternal(this.varns, names.varns)
-                VarnBitTypeDecoder.assignInternal(this.varnbits, names.varnbits)
+                assignInternal(this.seqs, names.seqs)
+                assignInternal(this.spotanims, names.spotanims)
+                assignInternal(this.stats, names.stats)
+                assignInternal(this.structs, names.structs)
+                assignInternal(this.fonts, names.fonts)
+                assignInternal(this.walkTriggers, names.walkTriggers)
+                assignInternal(this.varns, names.varns)
+                assignInternal(this.varnbits, names.varnbits)
                 VarnBitTypeDecoder.assignBaseVars(this.varnbits, this.varns)
-                HitmarkTypeDecoder.assignInternal(this.hitmarks, names.hitmarks)
-                HeadbarTypeDecoder.assignInternal(this.headbars, names.headbars)
+                assignInternal(this.hitmarks, names.hitmarks)
+                assignInternal(this.headbars, names.headbars)
                 ComplexTypeDecoder.decodeAll(this)
             }
     }
 
     private fun <T> CoroutineScope.decode(decode: suspend () -> T): Deferred<T> = async { decode() }
+
+    private fun assignInternal(list: Map<Int, CacheType>, names: Map<String, Int>) {
+        val reversedLookup = names.entries.associate { it.value to it.key }
+        val types = list.values
+        for (type in types) {
+            val id = TypeResolver[type]
+            val name = reversedLookup[id] ?: continue
+            TypeResolver[type] = name
+        }
+    }
 }

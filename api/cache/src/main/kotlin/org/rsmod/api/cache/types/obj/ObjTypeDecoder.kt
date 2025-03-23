@@ -163,14 +163,4 @@ public object ObjTypeDecoder {
                 else -> throw IOException("Error unrecognised .obj config code: $code")
             }
         }
-
-    public fun assignInternal(list: ObjTypeList, names: Map<String, Int>) {
-        val reversedLookup = names.entries.associate { it.value to it.key }
-        val types = list.values
-        for (type in types) {
-            val id = TypeResolver[type]
-            val name = reversedLookup[id] ?: continue
-            TypeResolver[type] = name
-        }
-    }
 }

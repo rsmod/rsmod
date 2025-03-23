@@ -71,14 +71,4 @@ public object EnumTypeDecoder {
                 else -> throw IOException("Error unrecognised .enum config code: $code")
             }
         }
-
-    public fun assignInternal(list: EnumTypeList, names: Map<String, Int>) {
-        val reversedLookup = names.entries.associate { it.value to it.key }
-        val types = list.values
-        for (type in types) {
-            val id = TypeResolver[type]
-            val name = reversedLookup[id] ?: continue
-            TypeResolver[type] = name
-        }
-    }
 }
