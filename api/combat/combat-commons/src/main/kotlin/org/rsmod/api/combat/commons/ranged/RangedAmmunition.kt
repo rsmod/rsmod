@@ -90,7 +90,7 @@ public object RangedAmmunition {
     }
 
     public fun conserveAmmo(player: Player, objTypes: ObjTypeList, random: GameRandom): Boolean {
-        val cape = player.back?.let(objTypes::get)
+        val cape = objTypes.getOrNull(player.back)
         if (cape != null) {
             // TODO(combat): Fill out `ammo_recover_rate` for ava devices and
             //  `metallic_interference` for applicable torso armour.
@@ -98,7 +98,7 @@ public object RangedAmmunition {
 
             val recoveryRate = cape.paramOrNull(params.ammo_recover_rate) ?: return false
 
-            val body = player.torso?.let(objTypes::get)
+            val body = objTypes.getOrNull(player.torso)
             if (body != null && body.param(params.metallic_interference)) {
                 return false
             }

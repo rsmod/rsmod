@@ -65,7 +65,7 @@ public class WearposScript @Inject constructor(private val objTypes: ObjTypeList
         val sound = type.paramOrNull(params.equipment_sound)
         sound?.let(::soundSynth)
 
-        val righthand = this.righthand?.let(objTypes::get)
+        val righthand = objTypes.getOrNull(this.righthand)
         val playerOp5 = righthand?.paramOrNull(params.player_op5_text)
         setPlayerOp(this, slot = 5, op = playerOp5, priority = playerOp5 != null)
     }
@@ -75,7 +75,7 @@ public class WearposScript @Inject constructor(private val objTypes: ObjTypeList
             return
         }
 
-        val righthand = this.righthand?.let(objTypes::get)
+        val righthand = objTypes.getOrNull(this.righthand)
         val isTwoHanded = righthand?.isTwoHanded() ?: false
         val isRighthand = wearpos == Wearpos.RightHand
 

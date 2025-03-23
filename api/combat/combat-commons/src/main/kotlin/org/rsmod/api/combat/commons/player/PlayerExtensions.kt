@@ -68,8 +68,8 @@ public fun ProtectedAccess.combatRetaliate(
 }
 
 public fun Player.combatPlayDefendAnim(objTypes: ObjTypeList, clientDelay: Int = 0) {
-    val righthandType = righthand?.let(objTypes::get)
-    val lefthandType = lefthand?.let(objTypes::get)
+    val righthandType = objTypes.getOrNull(righthand)
+    val lefthandType = objTypes.getOrNull(lefthand)
     val defendAnim = resolveDefendAnim(righthandType, lefthandType)
     anim(defendAnim, delay = clientDelay)
 }

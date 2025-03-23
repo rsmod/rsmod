@@ -47,7 +47,7 @@ public class CombatMeleeAttributeCollector @Inject constructor(private val objTy
         }
 
         val helm = player.hat
-        val helmType = helm?.let(objTypes::get)
+        val helmType = objTypes.getOrNull(helm)
         if (helmType != null && helmType.hasBlackMaskAttribute()) {
             attributes += CombatMeleeAttributes.BlackMask
         }
@@ -171,7 +171,7 @@ public class CombatMeleeAttributeCollector @Inject constructor(private val objTy
             attributes += CombatMeleeAttributes.BerserkerNeck
         }
 
-        val weaponType = weapon?.let(objTypes::get)
+        val weaponType = objTypes.getOrNull(weapon)
         if (weaponType != null && attackType == MeleeAttackType.Stab) {
             val isCorpbaneWeapon =
                 weaponType.isCategoryType(categories.halberd) ||

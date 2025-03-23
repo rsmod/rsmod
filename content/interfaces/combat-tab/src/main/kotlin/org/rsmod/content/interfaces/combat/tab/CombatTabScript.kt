@@ -106,7 +106,7 @@ constructor(
     }
 
     private fun Player.loadSavedWeaponStance() {
-        val weaponType = righthand?.let(objTypes::get)
+        val weaponType = objTypes.getOrNull(righthand)
         val weaponCategory = WeaponCategory.getOrUnarmed(weaponType?.weaponCategory)
 
         val varbit = stanceSaveVarBits.getOrNull(weaponCategory.id)
@@ -122,7 +122,7 @@ constructor(
     }
 
     private fun Player.loadSavedMagicAutocast() {
-        val weaponType = righthand?.let(objTypes::get)
+        val weaponType = objTypes.getOrNull(righthand)
         val weaponCategory = WeaponCategory.getOrUnarmed(weaponType?.weaponCategory)
         val autocastVarBits = autocast.getVarBits(weaponCategory)
 
@@ -162,7 +162,7 @@ constructor(
     }
 
     private fun Player.validateStanceStyle() {
-        val weaponType = righthand?.let(objTypes::get)
+        val weaponType = objTypes.getOrNull(righthand)
         val startStance = combatStance
 
         val weaponStyle = weaponStyles.resolve(weaponType, startStance.varValue)
@@ -200,7 +200,7 @@ constructor(
     }
 
     private fun Player.setStance(stance: CombatStance) {
-        val weapon = righthand?.let(objTypes::get)
+        val weapon = objTypes.getOrNull(righthand)
         applyDinhsBulwarkDelay(weapon, stance)
         setWeaponStance(stance)
         validateChangedStanceStyle(weapon)
@@ -242,7 +242,7 @@ constructor(
     }
 
     private fun Player.saveCurrentStanceStyle() {
-        val weaponType = righthand?.let(objTypes::get)
+        val weaponType = objTypes.getOrNull(righthand)
         val weaponCategory = WeaponCategory.getOrUnarmed(weaponType?.weaponCategory)
 
         val varbit = stanceSaveVarBits.getOrNull(weaponCategory.id)

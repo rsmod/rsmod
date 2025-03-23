@@ -18,7 +18,7 @@ constructor(private val objTypes: ObjTypeList, private val enumResolver: EnumTyp
     private lateinit var weaponTypes: WeaponTypeMap
 
     public fun get(player: Player): AttackType? {
-        val type = player.righthand?.let(objTypes::get)
+        val type = objTypes.getOrNull(player.righthand)
         val stance = player.vars[varps.attackstyle]
         return resolve(type = type, combatStance = stance)
     }

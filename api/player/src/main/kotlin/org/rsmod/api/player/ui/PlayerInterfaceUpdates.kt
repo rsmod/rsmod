@@ -28,13 +28,13 @@ public object PlayerInterfaceUpdates {
     }
 
     public fun updateCombatTab(player: Player, objTypes: ObjTypeList) {
-        val righthandType = player.righthand?.let(objTypes::get)
+        val righthandType = objTypes.getOrNull(player.righthand)
         val weaponCategory = WeaponCategory.getOrUnarmed(righthandType?.weaponCategory)
         updateCombatTab(player, righthandType?.name, weaponCategory.id, weaponCategory.text)
     }
 
     public fun updateWeaponCategoryText(player: Player, objTypes: ObjTypeList) {
-        val righthandType = player.righthand?.let(objTypes::get)
+        val righthandType = objTypes.getOrNull(player.righthand)
         val weaponCategory = WeaponCategory.getOrUnarmed(righthandType?.weaponCategory)
         player.ifSetText(components.combat_tab_weapon_category, "Category: ${weaponCategory.text}")
     }

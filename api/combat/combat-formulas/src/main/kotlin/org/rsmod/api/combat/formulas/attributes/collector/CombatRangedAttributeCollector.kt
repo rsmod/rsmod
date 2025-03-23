@@ -34,7 +34,7 @@ public class CombatRangedAttributeCollector @Inject constructor(private val objT
         }
 
         val weapon = player.righthand
-        val weaponType = weapon?.let(objTypes::get)
+        val weaponType = objTypes.getOrNull(weapon)
         if (weaponType != null && weaponType.isCategoryType(categories.chinchompa)) {
             val chinchompaFuse =
                 when (attackStyle) {
@@ -81,7 +81,7 @@ public class CombatRangedAttributeCollector @Inject constructor(private val objT
             attributes += CombatRangedAttributes.SalveAmuletI
         }
 
-        val helmType = helm?.let(objTypes::get)
+        val helmType = objTypes.getOrNull(helm)
         if (helmType != null && helmType.hasImbuedBlackMaskAttribute()) {
             attributes += CombatRangedAttributes.BlackMaskI
         }

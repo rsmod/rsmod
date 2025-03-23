@@ -37,7 +37,7 @@ constructor(private val attackStyles: AttackStyles, private val objTypes: ObjTyp
         }
 
         if (!pvp) {
-            val weaponType = player.righthand?.let(objTypes::get)
+            val weaponType = objTypes.getOrNull(player.righthand)
 
             if (weaponType != null && weaponType.isCategoryType(categories.dinhs_bulwark)) {
                 val attackStyle = attackStyles.get(player)

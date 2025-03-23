@@ -10,11 +10,13 @@ public data class ObjTypeList(public val types: MutableMap<Int, UnpackedObjType>
         types[TypeResolver[type]]
             ?: throw NoSuchElementException("Type is missing in the map: $type.")
 
+    public operator fun get(obj: Obj): UnpackedObjType =
+        types[obj.type] ?: throw NoSuchElementException("Type is missing in the map: $obj.")
+
     public operator fun get(obj: InvObj): UnpackedObjType =
         types[obj.id] ?: throw NoSuchElementException("Type is missing in the map: $obj.")
 
-    public operator fun get(obj: Obj): UnpackedObjType =
-        types[obj.type] ?: throw NoSuchElementException("Type is missing in the map: $obj.")
+    public fun getOrNull(obj: InvObj?): UnpackedObjType? = if (obj == null) null else get(obj)
 
     public fun cert(type: UnpackedObjType): UnpackedObjType {
         if (!type.canCert) {

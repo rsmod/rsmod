@@ -92,7 +92,7 @@ constructor(
         //  (Will stop at ap range, doesn't drag you into melee range)
 
         // Note: Dinh's bulwark conditions occur _before_ multi-combat area checks.
-        val weapon = player.righthand?.let(objTypes::get)
+        val weapon = objTypes.getOrNull(player.righthand)
         if (weapon != null && weapon.isCategoryType(categories.dinhs_bulwark)) {
             val attackStyle = styles.get(player)
             // Dinh's "Block" attack style uses `AggressiveMelee` as its "placeholder" attack style.

@@ -412,7 +412,7 @@ constructor(
 
         val uniqueInvObjs = mutableSetOf<Int>()
         for (invObj in from) {
-            val type = invObj?.let(objTypes::get) ?: continue
+            val type = objTypes.getOrNull(invObj) ?: continue
             val uncert = objTypes.uncert(type)
             if (uncert.param(params.no_bank) != 0) {
                 continue

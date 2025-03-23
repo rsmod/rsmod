@@ -116,7 +116,7 @@ public class WornBonuses @Inject constructor(private val objTypes: ObjTypeList) 
         var undeadMeleeOnly = false
         var slayerMeleeOnly = false
 
-        val weapon = player.righthand?.let(objTypes::get)
+        val weapon = objTypes.getOrNull(player.righthand)
 
         val usingChargebow = weapon != null && weapon.isCategoryType(categories.chargebow)
         val usingThrown = weapon != null && weapon.isCategoryType(categories.throwing_weapon)
@@ -162,7 +162,7 @@ public class WornBonuses @Inject constructor(private val objTypes: ObjTypeList) 
             offMagic = (offMagic * multiplier).toInt()
         }
 
-        val shield = player.lefthand?.let(objTypes::get)
+        val shield = objTypes.getOrNull(player.lefthand)
         val attackStyle = player.vars[varps.attackstyle]
 
         val usingDinhsBulwark = shield != null && shield.isCategoryType(categories.dinhs_bulwark)
