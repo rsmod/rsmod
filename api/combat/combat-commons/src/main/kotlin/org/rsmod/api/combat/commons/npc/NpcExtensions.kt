@@ -1,7 +1,9 @@
 package org.rsmod.api.combat.commons.npc
 
+import org.rsmod.api.config.refs.categories
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.config.refs.queues
+import org.rsmod.api.config.refs.spotanims
 import org.rsmod.api.config.refs.varns
 import org.rsmod.api.npc.interact.AiPlayerInteractions
 import org.rsmod.api.npc.isOutOfCombat
@@ -11,6 +13,8 @@ import org.rsmod.api.npc.vars.typePlayerUidVarn
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.npc.NpcMode
+import org.rsmod.game.type.obj.ObjType
+import org.rsmod.game.type.obj.ObjTypeList
 
 private var Npc.lastCombat: Int by intVarn(varns.lastcombat)
 private var Npc.lastAttack by intVarn(varns.lastattack)
@@ -81,6 +85,14 @@ public fun Npc.combatPlayDefendAnim(clientDelay: Int = 0) {
     if (defendAnim != null) {
         anim(defendAnim, delay = clientDelay)
     }
+}
+
+public fun Npc.combatPlayDefendSpot(objTypes: ObjTypeList, ammo: ObjType?, clientDelay: Int) {
+    val type = ammo?.let(objTypes::get) ?: return
+    if (!type.isCategoryType(categories.javelin)) {
+        return
+    }
+    spotanim(spotanims.javelin_hit, delay = clientDelay, height = 146)
 }
 
 public fun Npc.attackRate(): Int = visType.param(params.attackrate)

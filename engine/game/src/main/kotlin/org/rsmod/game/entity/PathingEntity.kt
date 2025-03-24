@@ -276,10 +276,10 @@ public sealed class PathingEntity {
 
     public abstract fun anim(seq: SeqType, delay: Int = 0, priority: Int = seq.priority)
 
-    public fun resetSpotanim() {
+    public fun resetSpotanim(height: Int = 0, slot: Int = 0) {
         pendingSpotanims.clear()
 
-        val spotanim = EntitySpotanim(65535, 0, 0, 0)
+        val spotanim = EntitySpotanim(65535, 0, height, slot)
         pendingSpotanims.add(spotanim.packed)
     }
 

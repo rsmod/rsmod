@@ -208,7 +208,7 @@ public class Npc(
     }
 
     override fun spotanim(spot: SpotanimType, delay: Int, height: Int, slot: Int) {
-        PathingEntityCommon.spotanim(this, spot, delay, height, slot)
+        PathingEntityCommon.spotanim(this, spot.id, delay, height, slot)
         infoProtocol.setSpotanim(spot.id, delay, height, slot)
     }
 

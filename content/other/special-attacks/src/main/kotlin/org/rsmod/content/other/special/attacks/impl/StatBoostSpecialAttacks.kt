@@ -57,7 +57,7 @@ class StatBoostSpecialAttacks @Inject constructor(private val worldRepo: WorldRe
         statBoost(stats.woodcutting, constant = 3, percent = 0)
         say("Chop chop!")
         anim(special_seqs.lumber_up)
-        spotanim(spot, height = 96, slot = constants.spotanim_slot_sa)
+        spotanim(spot, height = 96, slot = constants.spotanim_slot_combat)
         soundArea(worldRepo, coords, synths.clobber, radius = 1)
     }
 

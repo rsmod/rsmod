@@ -75,6 +75,7 @@ anim_stance4 = 7552
 sound_stance4 = 2695
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'bolt'
 speed = 6
 range = 5
 weapon_category = 'Crossbow'
@@ -109,6 +110,9 @@ anim_stance4 = 7617
 sound_stance4 = 2706
 block_anim = 424
 equipment_sound = 2232
+proj_anim = 'thrown'
+projectile_travel = 36
+projectile_launch = 43
 speed = 5
 range = 4
 weapon_category = 'Thrown'
@@ -123,6 +127,9 @@ anim_stance4 = 7617
 sound_stance4 = 2706
 block_anim = 424
 equipment_sound = 2232
+proj_anim = 'thrown'
+projectile_travel = 35
+projectile_launch = 42
 speed = 5
 range = 4
 weapon_category = 'Thrown'
@@ -137,6 +144,9 @@ anim_stance4 = 7617
 sound_stance4 = 2706
 block_anim = 424
 equipment_sound = 2232
+proj_anim = 'thrown'
+projectile_travel = 37
+projectile_launch = 44
 speed = 5
 range = 4
 weapon_category = 'Thrown'
@@ -151,6 +161,9 @@ anim_stance4 = 7617
 sound_stance4 = 2706
 block_anim = 424
 equipment_sound = 2232
+proj_anim = 'thrown'
+projectile_travel = 38
+projectile_launch = 45
 speed = 5
 range = 4
 weapon_category = 'Thrown'
@@ -165,6 +178,9 @@ anim_stance4 = 7617
 sound_stance4 = 2706
 block_anim = 424
 equipment_sound = 2232
+proj_anim = 'thrown'
+projectile_travel = 39
+projectile_launch = 46
 speed = 5
 range = 4
 weapon_category = 'Thrown'
@@ -179,6 +195,9 @@ anim_stance4 = 7617
 sound_stance4 = 2706
 block_anim = 424
 equipment_sound = 2232
+proj_anim = 'thrown'
+projectile_travel = 41
+projectile_launch = 48
 speed = 5
 range = 4
 weapon_category = 'Thrown'
@@ -193,6 +212,9 @@ anim_stance4 = 7554
 sound_stance4 = 2696
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 226
+projectile_launch = 232
 speed = 3
 range = 3
 weapon_category = 'Thrown'
@@ -207,6 +229,9 @@ anim_stance4 = 7554
 sound_stance4 = 2696
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 227
+projectile_launch = 233
 speed = 3
 range = 3
 weapon_category = 'Thrown'
@@ -221,6 +246,9 @@ anim_stance4 = 7554
 sound_stance4 = 2696
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 228
+projectile_launch = 234
 speed = 3
 range = 3
 weapon_category = 'Thrown'
@@ -235,6 +263,9 @@ anim_stance4 = 7554
 sound_stance4 = 2696
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 229
+projectile_launch = 235
 speed = 3
 range = 3
 weapon_category = 'Thrown'
@@ -249,6 +280,9 @@ anim_stance4 = 7554
 sound_stance4 = 2696
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 230
+projectile_launch = 236
 speed = 3
 range = 3
 weapon_category = 'Thrown'
@@ -263,6 +297,9 @@ anim_stance4 = 7554
 sound_stance4 = 2696
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 231
+projectile_launch = 237
 speed = 3
 range = 3
 weapon_category = 'Thrown'
@@ -277,6 +314,9 @@ anim_stance4 = 7554
 sound_stance4 = 2696
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 226
+projectile_launch = 232
 speed = 3
 range = 3
 weapon_category = 'Thrown'
@@ -291,6 +331,9 @@ anim_stance4 = 7554
 sound_stance4 = 2696
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 227
+projectile_launch = 233
 speed = 3
 range = 3
 weapon_category = 'Thrown'
@@ -305,6 +348,9 @@ anim_stance4 = 7554
 sound_stance4 = 2696
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 228
+projectile_launch = 234
 speed = 3
 range = 3
 weapon_category = 'Thrown'
@@ -319,6 +365,9 @@ anim_stance4 = 7554
 sound_stance4 = 2696
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 229
+projectile_launch = 235
 speed = 3
 range = 3
 weapon_category = 'Thrown'
@@ -333,6 +382,9 @@ anim_stance4 = 7554
 sound_stance4 = 2696
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 230
+projectile_launch = 236
 speed = 3
 range = 3
 weapon_category = 'Thrown'
@@ -347,6 +399,9 @@ anim_stance4 = 7554
 sound_stance4 = 2696
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 231
+projectile_launch = 237
 speed = 3
 range = 3
 weapon_category = 'Thrown'
@@ -366,6 +421,7 @@ sound_stance4 = 2695
 block_anim = 424
 equipment_sound = 2244
 respawn_timer = 500
+proj_anim = 'bolt'
 speed = 6
 range = 10
 weapon_category = 'Crossbow'
@@ -380,6 +436,7 @@ anim_stance4 = 426
 sound_stance4 = 2700
 block_anim = 424
 respawn_timer = 200
+proj_anim = 'arrow'
 speed = 6
 range = 10
 weapon_category = 'Bow'
@@ -394,6 +451,7 @@ anim_stance4 = 426
 sound_stance4 = 2693
 block_anim = 424
 respawn_timer = 200
+proj_anim = 'arrow'
 range = 7
 weapon_category = 'Bow'
 
@@ -408,6 +466,7 @@ sound_stance2 = 2693
 anim_stance4 = 426
 sound_stance4 = 2693
 block_anim = 424
+proj_anim = 'arrow'
 range = 7
 weapon_category = 'Bow'
 
@@ -422,6 +481,7 @@ sound_stance2 = 2700
 anim_stance4 = 426
 sound_stance4 = 2700
 block_anim = 424
+proj_anim = 'arrow'
 speed = 6
 range = 10
 weapon_category = 'Bow'
@@ -437,6 +497,7 @@ sound_stance2 = 2700
 anim_stance4 = 426
 sound_stance4 = 2700
 block_anim = 424
+proj_anim = 'arrow'
 speed = 6
 range = 10
 weapon_category = 'Bow'
@@ -452,6 +513,7 @@ sound_stance2 = 2693
 anim_stance4 = 426
 sound_stance4 = 2693
 block_anim = 424
+proj_anim = 'arrow'
 range = 7
 weapon_category = 'Bow'
 
@@ -466,6 +528,7 @@ sound_stance2 = 2700
 anim_stance4 = 426
 sound_stance4 = 2700
 block_anim = 424
+proj_anim = 'arrow'
 speed = 6
 range = 10
 weapon_category = 'Bow'
@@ -481,6 +544,7 @@ sound_stance2 = 2693
 anim_stance4 = 426
 sound_stance4 = 2693
 block_anim = 424
+proj_anim = 'arrow'
 range = 7
 weapon_category = 'Bow'
 
@@ -495,6 +559,7 @@ sound_stance2 = 2700
 anim_stance4 = 426
 sound_stance4 = 2700
 block_anim = 424
+proj_anim = 'arrow'
 speed = 6
 range = 10
 weapon_category = 'Bow'
@@ -510,6 +575,7 @@ sound_stance2 = 2693
 anim_stance4 = 426
 sound_stance4 = 2693
 block_anim = 424
+proj_anim = 'arrow'
 range = 7
 weapon_category = 'Bow'
 
@@ -524,6 +590,7 @@ sound_stance2 = 2700
 anim_stance4 = 426
 sound_stance4 = 2700
 block_anim = 424
+proj_anim = 'arrow'
 speed = 6
 range = 10
 weapon_category = 'Bow'
@@ -539,6 +606,7 @@ sound_stance2 = 2693
 anim_stance4 = 426
 sound_stance4 = 2693
 block_anim = 424
+proj_anim = 'arrow'
 range = 7
 weapon_category = 'Bow'
 
@@ -552,6 +620,9 @@ anim_stance4 = 7617
 sound_stance4 = 2707
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 213
+projectile_launch = 220
 speed = 3
 range = 4
 weapon_category = 'Thrown'
@@ -566,6 +637,9 @@ anim_stance4 = 7617
 sound_stance4 = 2707
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 212
+projectile_launch = 219
 speed = 3
 range = 4
 weapon_category = 'Thrown'
@@ -580,6 +654,9 @@ anim_stance4 = 7617
 sound_stance4 = 2707
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 214
+projectile_launch = 221
 speed = 3
 range = 4
 weapon_category = 'Thrown'
@@ -594,6 +671,9 @@ anim_stance4 = 7617
 sound_stance4 = 2707
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 216
+projectile_launch = 223
 speed = 3
 range = 4
 weapon_category = 'Thrown'
@@ -608,6 +688,9 @@ anim_stance4 = 7617
 sound_stance4 = 2707
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 217
+projectile_launch = 224
 speed = 3
 range = 4
 weapon_category = 'Thrown'
@@ -622,6 +705,9 @@ anim_stance4 = 7617
 sound_stance4 = 2707
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 218
+projectile_launch = 225
 speed = 3
 range = 4
 weapon_category = 'Thrown'
@@ -636,6 +722,9 @@ anim_stance4 = 7617
 sound_stance4 = 2707
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 215
+projectile_launch = 222
 speed = 3
 range = 4
 weapon_category = 'Thrown'
@@ -650,6 +739,9 @@ anim_stance4 = 7617
 sound_stance4 = 2707
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 212
+projectile_launch = 219
 speed = 3
 range = 4
 weapon_category = 'Thrown'
@@ -664,6 +756,9 @@ anim_stance4 = 7617
 sound_stance4 = 2707
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 213
+projectile_launch = 220
 speed = 3
 range = 4
 weapon_category = 'Thrown'
@@ -678,6 +773,9 @@ anim_stance4 = 7617
 sound_stance4 = 2707
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 214
+projectile_launch = 221
 speed = 3
 range = 4
 weapon_category = 'Thrown'
@@ -692,6 +790,9 @@ anim_stance4 = 7617
 sound_stance4 = 2707
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 216
+projectile_launch = 223
 speed = 3
 range = 4
 weapon_category = 'Thrown'
@@ -706,6 +807,9 @@ anim_stance4 = 7617
 sound_stance4 = 2707
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 215
+projectile_launch = 222
 speed = 3
 range = 4
 weapon_category = 'Thrown'
@@ -720,6 +824,9 @@ anim_stance4 = 7617
 sound_stance4 = 2707
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 217
+projectile_launch = 224
 speed = 3
 range = 4
 weapon_category = 'Thrown'
@@ -734,6 +841,9 @@ anim_stance4 = 7617
 sound_stance4 = 2707
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 218
+projectile_launch = 225
 speed = 3
 range = 4
 weapon_category = 'Thrown'
@@ -2768,6 +2878,7 @@ sound_stance4 = 2693
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'arrow'
 speed = 8
 range = 10
 weapon_category = 'Bow'
@@ -2868,6 +2979,9 @@ anim_stance4 = 7554
 sound_stance4 = 2696
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 34
+projectile_launch = 273
 speed = 3
 range = 3
 weapon_category = 'Thrown'
@@ -2882,6 +2996,9 @@ anim_stance4 = 7554
 sound_stance4 = 2696
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 34
+projectile_launch = 273
 speed = 3
 range = 3
 weapon_category = 'Thrown'
@@ -3510,6 +3627,7 @@ anim_stance4 = 426
 sound_stance4 = 1352
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -3525,6 +3643,7 @@ sound_stance4 = 1352
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -3540,6 +3659,7 @@ sound_stance4 = 1352
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -3555,6 +3675,7 @@ sound_stance4 = 1352
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -3570,6 +3691,7 @@ sound_stance4 = 1352
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -3585,6 +3707,7 @@ sound_stance4 = 1352
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -3600,6 +3723,7 @@ sound_stance4 = 1352
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -3615,6 +3739,7 @@ sound_stance4 = 1352
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -3630,6 +3755,7 @@ sound_stance4 = 1352
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -3645,6 +3771,7 @@ sound_stance4 = 1352
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -3660,6 +3787,7 @@ sound_stance4 = 1352
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -3677,6 +3805,7 @@ sound_stance4 = 2700
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'arrow'
 speed = 6
 range = 10
 weapon_category = 'Bow'
@@ -3913,6 +4042,7 @@ anim_stance4 = 2075
 sound_stance4 = 2695
 block_anim = 424
 equipment_sound = 2241
+proj_anim = 'bolt'
 range = 8
 weapon_category = 'Crossbow'
 
@@ -3960,6 +4090,7 @@ anim_stance4 = 426
 sound_stance4 = 2693
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'arrow'
 speed = 5
 range = 5
 weapon_category = 'Bow'
@@ -4241,6 +4372,7 @@ sound_stance4 = 2695
 block_anim = 424
 equipment_sound = 2241
 untradable = true
+proj_anim = 'bolt'
 range = 8
 weapon_category = 'Crossbow'
 
@@ -4261,6 +4393,7 @@ sound_stance4 = 2695
 block_anim = 424
 equipment_sound = 2241
 untradable = true
+proj_anim = 'bolt'
 range = 8
 weapon_category = 'Crossbow'
 
@@ -4281,6 +4414,7 @@ sound_stance4 = 2695
 block_anim = 424
 equipment_sound = 2241
 untradable = true
+proj_anim = 'bolt'
 range = 8
 weapon_category = 'Crossbow'
 
@@ -4301,6 +4435,7 @@ sound_stance4 = 2695
 block_anim = 424
 equipment_sound = 2241
 untradable = true
+proj_anim = 'bolt'
 range = 8
 weapon_category = 'Crossbow'
 
@@ -4496,6 +4631,9 @@ anim_stance4 = 7554
 sound_stance4 = 2696
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 226
+projectile_launch = 232
 speed = 3
 range = 3
 weapon_category = 'Thrown'
@@ -4510,6 +4648,9 @@ anim_stance4 = 7554
 sound_stance4 = 2696
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 227
+projectile_launch = 233
 speed = 3
 range = 3
 weapon_category = 'Thrown'
@@ -4524,6 +4665,9 @@ anim_stance4 = 7554
 sound_stance4 = 2696
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 228
+projectile_launch = 234
 speed = 3
 range = 3
 weapon_category = 'Thrown'
@@ -4538,6 +4682,9 @@ anim_stance4 = 7554
 sound_stance4 = 2696
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 34
+projectile_launch = 273
 speed = 3
 range = 3
 weapon_category = 'Thrown'
@@ -4552,6 +4699,9 @@ anim_stance4 = 7554
 sound_stance4 = 2696
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 229
+projectile_launch = 235
 speed = 3
 range = 3
 weapon_category = 'Thrown'
@@ -4566,6 +4716,9 @@ anim_stance4 = 7554
 sound_stance4 = 2696
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 230
+projectile_launch = 236
 speed = 3
 range = 3
 weapon_category = 'Thrown'
@@ -4580,6 +4733,9 @@ anim_stance4 = 7554
 sound_stance4 = 2696
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 231
+projectile_launch = 237
 speed = 3
 range = 3
 weapon_category = 'Thrown'
@@ -4594,6 +4750,9 @@ anim_stance4 = 7554
 sound_stance4 = 2696
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 226
+projectile_launch = 232
 speed = 3
 range = 3
 weapon_category = 'Thrown'
@@ -4608,6 +4767,9 @@ anim_stance4 = 7554
 sound_stance4 = 2696
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 227
+projectile_launch = 233
 speed = 3
 range = 3
 weapon_category = 'Thrown'
@@ -4622,6 +4784,9 @@ anim_stance4 = 7554
 sound_stance4 = 2696
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 228
+projectile_launch = 234
 speed = 3
 range = 3
 weapon_category = 'Thrown'
@@ -4636,6 +4801,9 @@ anim_stance4 = 7554
 sound_stance4 = 2696
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 34
+projectile_launch = 273
 speed = 3
 range = 3
 weapon_category = 'Thrown'
@@ -4650,6 +4818,9 @@ anim_stance4 = 7554
 sound_stance4 = 2696
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 229
+projectile_launch = 235
 speed = 3
 range = 3
 weapon_category = 'Thrown'
@@ -4664,6 +4835,9 @@ anim_stance4 = 7554
 sound_stance4 = 2696
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 230
+projectile_launch = 236
 speed = 3
 range = 3
 weapon_category = 'Thrown'
@@ -4678,6 +4852,9 @@ anim_stance4 = 7554
 sound_stance4 = 2696
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 231
+projectile_launch = 237
 speed = 3
 range = 3
 weapon_category = 'Thrown'
@@ -4692,6 +4869,9 @@ anim_stance4 = 7617
 sound_stance4 = 2707
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 212
+projectile_launch = 219
 speed = 3
 range = 4
 weapon_category = 'Thrown'
@@ -4706,6 +4886,9 @@ anim_stance4 = 7617
 sound_stance4 = 2707
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 213
+projectile_launch = 220
 speed = 3
 range = 4
 weapon_category = 'Thrown'
@@ -4720,6 +4903,9 @@ anim_stance4 = 7617
 sound_stance4 = 2707
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 214
+projectile_launch = 221
 speed = 3
 range = 4
 weapon_category = 'Thrown'
@@ -4734,6 +4920,9 @@ anim_stance4 = 7617
 sound_stance4 = 2707
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 216
+projectile_launch = 223
 speed = 3
 range = 4
 weapon_category = 'Thrown'
@@ -4748,6 +4937,9 @@ anim_stance4 = 7617
 sound_stance4 = 2707
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 215
+projectile_launch = 222
 speed = 3
 range = 4
 weapon_category = 'Thrown'
@@ -4762,6 +4954,9 @@ anim_stance4 = 7617
 sound_stance4 = 2707
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 217
+projectile_launch = 224
 speed = 3
 range = 4
 weapon_category = 'Thrown'
@@ -4776,6 +4971,9 @@ anim_stance4 = 7617
 sound_stance4 = 2707
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 218
+projectile_launch = 225
 speed = 3
 range = 4
 weapon_category = 'Thrown'
@@ -4790,6 +4988,9 @@ anim_stance4 = 7617
 sound_stance4 = 2707
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 212
+projectile_launch = 219
 speed = 3
 range = 4
 weapon_category = 'Thrown'
@@ -4804,6 +5005,9 @@ anim_stance4 = 7617
 sound_stance4 = 2707
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 213
+projectile_launch = 220
 speed = 3
 range = 4
 weapon_category = 'Thrown'
@@ -4818,6 +5022,9 @@ anim_stance4 = 7617
 sound_stance4 = 2707
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 214
+projectile_launch = 221
 speed = 3
 range = 4
 weapon_category = 'Thrown'
@@ -4832,6 +5039,9 @@ anim_stance4 = 7617
 sound_stance4 = 2707
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 216
+projectile_launch = 223
 speed = 3
 range = 4
 weapon_category = 'Thrown'
@@ -4846,6 +5056,9 @@ anim_stance4 = 7617
 sound_stance4 = 2707
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 215
+projectile_launch = 222
 speed = 3
 range = 4
 weapon_category = 'Thrown'
@@ -4860,6 +5073,9 @@ anim_stance4 = 7617
 sound_stance4 = 2707
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 217
+projectile_launch = 224
 speed = 3
 range = 4
 weapon_category = 'Thrown'
@@ -4874,6 +5090,9 @@ anim_stance4 = 7617
 sound_stance4 = 2707
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 218
+projectile_launch = 225
 speed = 3
 range = 4
 weapon_category = 'Thrown'
@@ -5621,6 +5840,8 @@ sound_stance2 = 2706
 anim_stance4 = 7558
 sound_stance4 = 2706
 block_anim = 424
+proj_anim = 'thrown'
+projectile_travel = 442
 range = 7
 weapon_category = 'Thrown'
 
@@ -5982,6 +6203,7 @@ anim_stance4 = 426
 sound_stance4 = 2693
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'arrow'
 speed = 5
 range = 8
 weapon_category = 'Bow'
@@ -6388,6 +6610,7 @@ anim_stance1 = 2779
 anim_stance2 = 2779
 anim_stance4 = 2779
 block_anim = 3176
+proj_anim = 'thrown'
 range = 6
 weapon_category = 'Thrown'
 
@@ -7162,6 +7385,7 @@ anim_stance4 = 7552
 sound_stance4 = 1081
 block_anim = 424
 equipment_sound = 2235
+proj_anim = 'bolt'
 speed = 5
 range = 6
 weapon_category = 'Crossbow'
@@ -7471,6 +7695,7 @@ anim_stance4 = 7552
 sound_stance4 = 2695
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'bolt'
 speed = 6
 range = 7
 weapon_category = 'Crossbow'
@@ -7490,6 +7715,7 @@ sound_stance4 = 2695
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'bolt'
 speed = 6
 range = 7
 weapon_category = 'Crossbow'
@@ -7508,6 +7734,7 @@ anim_stance4 = 7552
 sound_stance4 = 2695
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'bolt'
 speed = 6
 range = 7
 weapon_category = 'Crossbow'
@@ -7526,6 +7753,7 @@ anim_stance4 = 7552
 sound_stance4 = 2695
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'bolt'
 speed = 6
 range = 7
 weapon_category = 'Crossbow'
@@ -7544,6 +7772,7 @@ anim_stance4 = 7552
 sound_stance4 = 2695
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'bolt'
 speed = 6
 range = 7
 weapon_category = 'Crossbow'
@@ -7562,6 +7791,7 @@ anim_stance4 = 7552
 sound_stance4 = 2695
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'bolt'
 speed = 6
 range = 7
 weapon_category = 'Crossbow'
@@ -7580,6 +7810,7 @@ anim_stance4 = 7552
 sound_stance4 = 2695
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'bolt'
 speed = 6
 range = 7
 weapon_category = 'Crossbow'
@@ -7612,6 +7843,7 @@ block_anim = 424
 equipment_sound = 2244
 destroy_note = 'You can get another Training bow by talking to the Ranged Combat skill tutor north of Lumbridge Castle.'
 untradable = true
+proj_anim = 'arrow'
 range = 7
 weapon_category = 'Bow'
 
@@ -7683,6 +7915,8 @@ anim_stance1 = 7618
 anim_stance2 = 7618
 anim_stance4 = 7618
 block_anim = 3176
+proj_anim = 'chinchompa'
+projectile_travel = 908
 range = 9
 weapon_category = 'Chinchompas'
 
@@ -7699,6 +7933,8 @@ anim_stance1 = 7618
 anim_stance2 = 7618
 anim_stance4 = 7618
 block_anim = 3176
+proj_anim = 'chinchompa'
+projectile_travel = 909
 range = 9
 weapon_category = 'Chinchompas'
 
@@ -7814,6 +8050,7 @@ anim_stance4 = 7552
 sound_stance4 = 2695
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'bolt'
 range = 8
 weapon_category = 'Crossbow'
 
@@ -7836,6 +8073,7 @@ anim_stance4 = 426
 sound_stance4 = 2700
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -7859,6 +8097,7 @@ anim_stance4 = 426
 sound_stance4 = 2700
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -7882,6 +8121,7 @@ anim_stance4 = 426
 sound_stance4 = 2700
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -8167,6 +8407,9 @@ anim_stance4 = 7554
 sound_stance4 = 2696
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 1122
+projectile_launch = 1123
 speed = 3
 range = 3
 weapon_category = 'Thrown'
@@ -8181,6 +8424,9 @@ anim_stance4 = 7554
 sound_stance4 = 2696
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 1122
+projectile_launch = 1123
 speed = 3
 range = 3
 weapon_category = 'Thrown'
@@ -8195,6 +8441,9 @@ anim_stance4 = 7554
 sound_stance4 = 2696
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 1122
+projectile_launch = 1123
 speed = 3
 range = 3
 weapon_category = 'Thrown'
@@ -8209,6 +8458,9 @@ anim_stance4 = 7554
 sound_stance4 = 2696
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 1122
+projectile_launch = 1123
 speed = 3
 range = 3
 weapon_category = 'Thrown'
@@ -8225,6 +8477,7 @@ anim_stance4 = 426
 sound_stance4 = 3731
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'doublearrow_one'
 speed = 9
 range = 10
 weapon_category = 'Bow'
@@ -8945,6 +9198,7 @@ anim_stance4 = 426
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'arrow'
 speed = 6
 range = 6
 weapon_category = 'Bow'
@@ -9043,6 +9297,7 @@ sound_stance4 = 1352
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -9058,6 +9313,7 @@ sound_stance4 = 1352
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -9073,6 +9329,7 @@ sound_stance4 = 1352
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -9088,6 +9345,7 @@ sound_stance4 = 1352
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -9103,6 +9361,7 @@ sound_stance4 = 1352
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -9118,6 +9377,7 @@ sound_stance4 = 1352
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -9133,6 +9393,7 @@ sound_stance4 = 1352
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -9148,6 +9409,7 @@ sound_stance4 = 1352
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -9163,6 +9425,7 @@ sound_stance4 = 1352
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -9178,6 +9441,7 @@ sound_stance4 = 1352
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -9193,6 +9457,7 @@ sound_stance4 = 1352
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -9211,6 +9476,7 @@ anim_stance4 = 7552
 sound_stance4 = 2695
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'bolt'
 speed = 6
 range = 8
 weapon_category = 'Crossbow'
@@ -9563,6 +9829,8 @@ anim_stance1 = 7618
 anim_stance2 = 7618
 anim_stance4 = 7618
 block_anim = 3176
+proj_anim = 'chinchompa'
+projectile_travel = 1272
 range = 9
 weapon_category = 'Chinchompas'
 
@@ -9818,6 +10086,7 @@ anim_stance4 = 426
 sound_stance4 = 2693
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'arrow'
 range = 9
 weapon_category = 'Bow'
 
@@ -9892,6 +10161,7 @@ sound_stance4 = 3731
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'doublearrow_one'
 speed = 9
 range = 10
 weapon_category = 'Bow'
@@ -9907,6 +10177,7 @@ sound_stance4 = 3731
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'doublearrow_one'
 speed = 9
 range = 10
 weapon_category = 'Bow'
@@ -9922,6 +10193,7 @@ sound_stance4 = 3731
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'doublearrow_one'
 speed = 9
 range = 10
 weapon_category = 'Bow'
@@ -9937,6 +10209,7 @@ sound_stance4 = 3731
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'doublearrow_one'
 speed = 9
 range = 10
 weapon_category = 'Bow'
@@ -9989,6 +10262,7 @@ anim_stance4 = 426
 sound_stance4 = 2693
 block_anim = 424
 untradable = true
+proj_anim = 'arrow'
 range = 7
 weapon_category = 'Bow'
 
@@ -10209,6 +10483,7 @@ anim_stance4 = 5061
 sound_stance4 = 2696
 block_anim = 430
 untradable = true
+proj_anim = 'thrown'
 speed = 3
 range = 5
 weapon_category = 'Thrown'
@@ -10902,6 +11177,7 @@ sound_stance2 = 2699
 anim_stance4 = 7555
 sound_stance4 = 2699
 block_anim = 7219
+proj_anim = 'bolt'
 speed = 7
 range = 9
 weapon_category = 'Crossbow'
@@ -10921,6 +11197,7 @@ sound_stance2 = 2699
 anim_stance4 = 7555
 sound_stance4 = 2699
 block_anim = 7219
+proj_anim = 'bolt'
 speed = 7
 range = 9
 weapon_category = 'Crossbow'
@@ -11398,6 +11675,7 @@ sound_stance4 = 3731
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'doublearrow_one'
 speed = 9
 range = 10
 weapon_category = 'Bow'
@@ -11805,6 +12083,9 @@ anim_stance4 = 7617
 sound_stance4 = 2706
 block_anim = 424
 equipment_sound = 2232
+proj_anim = 'thrown'
+projectile_travel = 1319
+projectile_launch = 1320
 speed = 5
 range = 4
 weapon_category = 'Thrown'
@@ -11821,6 +12102,7 @@ anim_stance4 = 426
 sound_stance4 = 2700
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'arrow'
 speed = 6
 range = 10
 weapon_category = 'Bow'
@@ -11891,6 +12173,7 @@ anim_stance4 = 7552
 sound_stance4 = 2695
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'bolt'
 speed = 6
 range = 7
 weapon_category = 'Crossbow'
@@ -12138,6 +12421,7 @@ anim_stance4 = 7552
 sound_stance4 = 2695
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'bolt'
 speed = 6
 range = 7
 weapon_category = 'Crossbow'
@@ -12318,6 +12602,7 @@ block_anim = 424
 equipment_sound = 2244
 destroy_note = 'You can get another from a starter pack.'
 untradable = true
+proj_anim = 'arrow'
 range = 7
 weapon_category = 'Bow'
 
@@ -12540,6 +12825,7 @@ anim_stance4 = 426
 sound_stance4 = 2693
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'arrow'
 range = 9
 weapon_category = 'Bow'
 
@@ -12556,6 +12842,7 @@ sound_stance4 = 2693
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'arrow'
 range = 9
 weapon_category = 'Bow'
 
@@ -12652,6 +12939,9 @@ anim_stance4 = 929
 sound_stance4 = 2706
 block_anim = 424
 equipment_sound = 2232
+proj_anim = 'thrown'
+projectile_travel = 1623
+projectile_launch = 1624
 speed = 5
 range = 4
 weapon_category = 'Thrown'
@@ -12666,6 +12956,9 @@ anim_stance4 = 929
 sound_stance4 = 2699
 block_anim = 424
 equipment_sound = 2247
+proj_anim = 'thrown'
+projectile_travel = 1620
+projectile_launch = 1619
 speed = 6
 weapon_category = 'Thrown'
 
@@ -12812,6 +13105,8 @@ anim_stance4 = 8194
 sound_stance4 = 2707
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 28
 speed = 3
 range = 4
 weapon_category = 'Thrown'
@@ -12826,6 +13121,8 @@ anim_stance4 = 8194
 sound_stance4 = 2707
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 697
 speed = 3
 range = 4
 weapon_category = 'Thrown'
@@ -12840,6 +13137,8 @@ anim_stance4 = 8194
 sound_stance4 = 2707
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 697
 speed = 3
 range = 4
 weapon_category = 'Thrown'
@@ -12854,6 +13153,8 @@ anim_stance4 = 8195
 sound_stance4 = 2707
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'thrown'
+projectile_travel = 697
 speed = 3
 range = 4
 weapon_category = 'Thrown'
@@ -13093,6 +13394,7 @@ anim_stance4 = 426
 sound_stance4 = 2693
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'arrow'
 range = 7
 weapon_category = 'Bow'
 
@@ -13169,6 +13471,7 @@ sound_stance4 = 2695
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'bolt'
 speed = 6
 range = 7
 weapon_category = 'Crossbow'
@@ -13188,6 +13491,7 @@ sound_stance4 = 2695
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'bolt'
 speed = 6
 range = 8
 weapon_category = 'Crossbow'
@@ -13254,6 +13558,7 @@ sound_stance4 = 2699
 block_anim = 424
 equipment_sound = 2247
 untradable = true
+proj_anim = 'thrown'
 speed = 6
 range = 5
 weapon_category = 'Thrown'
@@ -13324,6 +13629,7 @@ anim_stance4 = 7555
 sound_stance4 = 2699
 block_anim = 7219
 untradable = true
+proj_anim = 'bolt'
 speed = 7
 range = 9
 weapon_category = 'Crossbow'
@@ -13643,6 +13949,7 @@ sound_stance4 = 1352
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -13658,6 +13965,7 @@ sound_stance4 = 1352
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -13673,6 +13981,7 @@ sound_stance4 = 1352
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -13861,6 +14170,7 @@ sound_stance4 = 1352
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -13876,6 +14186,7 @@ sound_stance4 = 1352
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -13891,6 +14202,7 @@ sound_stance4 = 1352
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -13908,6 +14220,7 @@ sound_stance4 = 1352
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -13925,6 +14238,7 @@ sound_stance4 = 1352
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -14026,6 +14340,7 @@ sound_stance4 = 1352
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -15140,6 +15455,7 @@ anim_stance4 = 426
 sound_stance4 = 1352
 block_anim = 424
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -15156,6 +15472,7 @@ anim_stance4 = 426
 sound_stance4 = 1352
 block_anim = 424
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -15277,6 +15594,7 @@ anim_stance4 = 426
 sound_stance4 = 1352
 block_anim = 424
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -15293,6 +15611,7 @@ anim_stance4 = 426
 sound_stance4 = 1352
 block_anim = 424
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -15309,6 +15628,7 @@ anim_stance4 = 426
 sound_stance4 = 1352
 block_anim = 424
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -15325,6 +15645,7 @@ anim_stance4 = 426
 sound_stance4 = 1352
 block_anim = 424
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -15341,6 +15662,7 @@ anim_stance4 = 426
 sound_stance4 = 1352
 block_anim = 424
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -15357,6 +15679,7 @@ anim_stance4 = 426
 sound_stance4 = 1352
 block_anim = 424
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -15373,6 +15696,7 @@ anim_stance4 = 426
 sound_stance4 = 1352
 block_anim = 424
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -15392,6 +15716,7 @@ sound_stance4 = 2695
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'bolt'
 speed = 6
 range = 7
 weapon_category = 'Crossbow'
@@ -15411,6 +15736,7 @@ sound_stance4 = 2695
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'bolt'
 speed = 6
 range = 7
 weapon_category = 'Crossbow'
@@ -15514,6 +15840,7 @@ anim_stance4 = 9168
 sound_stance4 = 2695
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'bolt'
 speed = 6
 range = 8
 weapon_category = 'Crossbow'
@@ -15590,6 +15917,7 @@ sound_stance4 = 2695
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'bolt'
 speed = 6
 range = 7
 weapon_category = 'Crossbow'
@@ -15733,6 +16061,7 @@ anim_stance4 = 7555
 sound_stance4 = 2699
 block_anim = 7219
 untradable = true
+proj_anim = 'bolt'
 speed = 7
 range = 9
 weapon_category = 'Crossbow'
@@ -15824,6 +16153,7 @@ sound_stance4 = 2707
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'thrown'
 speed = 3
 range = 4
 weapon_category = 'Thrown'
@@ -15866,6 +16196,7 @@ sound_stance4 = 2695
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'bolt'
 speed = 6
 range = 8
 weapon_category = 'Crossbow'
@@ -15886,6 +16217,7 @@ anim_stance4 = 7555
 sound_stance4 = 2699
 block_anim = 7219
 untradable = true
+proj_anim = 'bolt'
 speed = 7
 range = 9
 weapon_category = 'Crossbow'
@@ -15969,6 +16301,7 @@ sound_stance4 = 2693
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 6
 weapon_category = 'Bow'
@@ -15992,6 +16325,7 @@ anim_stance4 = 9858
 sound_stance4 = 2693
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'arrow'
 speed = 5
 range = 6
 weapon_category = 'Bow'
@@ -16008,6 +16342,7 @@ anim_stance4 = 426
 sound_stance4 = 2693
 block_anim = 424
 equipment_sound = 2244
+proj_anim = 'arrow'
 range = 9
 weapon_category = 'Bow'
 
@@ -16024,6 +16359,7 @@ sound_stance4 = 2693
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'arrow'
 range = 9
 weapon_category = 'Bow'
 
@@ -16170,6 +16506,7 @@ sound_stance4 = 3731
 block_anim = 424
 equipment_sound = 2244
 untradable = true
+proj_anim = 'doublearrow_one'
 speed = 9
 range = 10
 weapon_category = 'Bow'
@@ -16365,6 +16702,7 @@ sound_stance4 = 2706
 block_anim = 424
 equipment_sound = 2232
 untradable = true
+proj_anim = 'thrown'
 speed = 5
 range = 4
 weapon_category = 'Thrown'
@@ -16380,6 +16718,7 @@ sound_stance4 = 2699
 block_anim = 424
 equipment_sound = 2247
 untradable = true
+proj_anim = 'thrown'
 speed = 6
 range = 5
 weapon_category = 'Thrown'
@@ -16435,6 +16774,7 @@ anim_stance4 = 10656
 sound_stance4 = 2696
 block_anim = 430
 untradable = true
+proj_anim = 'thrown'
 speed = 3
 range = 5
 weapon_category = 'Thrown'
@@ -16465,6 +16805,7 @@ anim_stance4 = 10922
 sound_stance4 = 7940
 block_anim = 424
 equipment_sound = 2232
+proj_anim = 'thrown'
 speed = 7
 range = 5
 weapon_category = 'Thrown'
@@ -16480,6 +16821,7 @@ sound_stance4 = 7940
 block_anim = 424
 equipment_sound = 2232
 untradable = true
+proj_anim = 'thrown'
 speed = 7
 range = 5
 weapon_category = 'Thrown'
@@ -16537,6 +16879,7 @@ anim_stance4 = 11057
 sound_stance4 = 2699
 block_anim = 424
 equipment_sound = 2247
+proj_anim = 'arrow'
 range = 5
 weapon_category = 'Bow'
 
@@ -16615,6 +16958,7 @@ sound_stance4 = 2699
 block_anim = 424
 equipment_sound = 2247
 untradable = true
+proj_anim = 'arrow'
 range = 5
 weapon_category = 'Bow'
 
@@ -16632,6 +16976,9 @@ untradable = true
 obj = 'ice_arrows'
 equipment_sound = 2244
 untradable = true
+projectile_travel = 16
+projectile_launch = 25
+projectile_launch_double = 1110
 
 [[config]]
 obj = 'boots_of_lightness_inv'
@@ -16704,32 +17051,39 @@ untradable = true
 obj = 'poisoned_dart_p'
 equipment_sound = 2244
 untradable = true
+proj_anim = 'thrown'
 speed = 3
 weapon_category = 'Thrown'
 
 [[config]]
 obj = 'bronze_javelin'
 equipment_sound = 2244
+projectile_travel = 200
 
 [[config]]
 obj = 'iron_javelin'
 equipment_sound = 2244
+projectile_travel = 201
 
 [[config]]
 obj = 'steel_javelin'
 equipment_sound = 2244
+projectile_travel = 202
 
 [[config]]
 obj = 'mithril_javelin'
 equipment_sound = 2244
+projectile_travel = 203
 
 [[config]]
 obj = 'adamant_javelin'
 equipment_sound = 2244
+projectile_travel = 204
 
 [[config]]
 obj = 'rune_javelin'
 equipment_sound = 2244
+projectile_travel = 205
 
 [[config]]
 obj = 'bronze_javelin_p'
@@ -16758,18 +17112,22 @@ equipment_sound = 2244
 [[config]]
 obj = 'bronze_bolts'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'bronze_bolts_p'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'opal_bolts'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'pearl_bolts'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'barbed_bolts'
@@ -16778,50 +17136,86 @@ equipment_sound = 2244
 [[config]]
 obj = 'bronze_arrow'
 equipment_sound = 2244
+projectile_travel = 10
+projectile_launch = 19
+projectile_launch_double = 1104
 
 [[config]]
 obj = 'bronze_arrow_p'
 equipment_sound = 2244
+projectile_travel = 10
+projectile_launch = 19
+projectile_launch_double = 1104
 
 [[config]]
 obj = 'iron_arrow'
 equipment_sound = 2244
+projectile_travel = 9
+projectile_launch = 18
+projectile_launch_double = 1105
 
 [[config]]
 obj = 'iron_arrow_p'
 equipment_sound = 2244
+projectile_travel = 9
+projectile_launch = 18
+projectile_launch_double = 1105
 
 [[config]]
 obj = 'steel_arrow'
 equipment_sound = 2244
+projectile_travel = 11
+projectile_launch = 20
+projectile_launch_double = 1106
 
 [[config]]
 obj = 'steel_arrow_p'
 equipment_sound = 2244
+projectile_travel = 11
+projectile_launch = 20
+projectile_launch_double = 1106
 
 [[config]]
 obj = 'mithril_arrow'
 equipment_sound = 2244
+projectile_travel = 12
+projectile_launch = 21
+projectile_launch_double = 1107
 
 [[config]]
 obj = 'mithril_arrow_p'
 equipment_sound = 2244
+projectile_travel = 12
+projectile_launch = 21
+projectile_launch_double = 1107
 
 [[config]]
 obj = 'adamant_arrow'
 equipment_sound = 2244
+projectile_travel = 13
+projectile_launch = 22
+projectile_launch_double = 1108
 
 [[config]]
 obj = 'adamant_arrow_p'
 equipment_sound = 2244
+projectile_travel = 13
+projectile_launch = 22
+projectile_launch_double = 1108
 
 [[config]]
 obj = 'rune_arrow'
 equipment_sound = 2244
+projectile_travel = 15
+projectile_launch = 24
+projectile_launch_double = 1109
 
 [[config]]
 obj = 'rune_arrow_p'
 equipment_sound = 2244
+projectile_travel = 15
+projectile_launch = 24
+projectile_launch_double = 1109
 
 [[config]]
 obj = 'bronze_fire_arrow_lit'
@@ -17388,6 +17782,8 @@ equipment_sound = 2245
 [[config]]
 obj = 'ogre_arrow'
 equipment_sound = 2244
+projectile_travel = 242
+projectile_launch = 243
 
 [[config]]
 obj = 'elemental_shield'
@@ -17665,6 +18061,8 @@ equipment_sound = 2245
 obj = 'broad_arrows'
 equipment_sound = 2244
 untradable = true
+projectile_travel = 326
+projectile_launch = 325
 
 [[config]]
 obj = 'new_crystal_bow_4213'
@@ -17844,6 +18242,7 @@ equipment_sound = 2241
 [[config]]
 obj = 'bolt_rack'
 equipment_sound = 2244
+projectile_travel = 993
 
 [[config]]
 obj = 'torags_helm'
@@ -18239,50 +18638,86 @@ equipment_sound = 2242
 [[config]]
 obj = 'bronze_arrow_p_plus'
 equipment_sound = 2244
+projectile_travel = 10
+projectile_launch = 19
+projectile_launch_double = 1104
 
 [[config]]
 obj = 'iron_arrow_p_plus'
 equipment_sound = 2244
+projectile_travel = 9
+projectile_launch = 18
+projectile_launch_double = 1105
 
 [[config]]
 obj = 'steel_arrow_p_plus'
 equipment_sound = 2244
+projectile_travel = 11
+projectile_launch = 20
+projectile_launch_double = 1106
 
 [[config]]
 obj = 'mithril_arrow_p_plus'
 equipment_sound = 2244
+projectile_travel = 12
+projectile_launch = 21
+projectile_launch_double = 1107
 
 [[config]]
 obj = 'adamant_arrow_p_plus'
 equipment_sound = 2244
+projectile_travel = 13
+projectile_launch = 22
+projectile_launch_double = 1108
 
 [[config]]
 obj = 'rune_arrow_p_plus'
 equipment_sound = 2244
+projectile_travel = 15
+projectile_launch = 24
+projectile_launch_double = 1109
 
 [[config]]
 obj = 'bronze_arrow_p_plus_plus'
 equipment_sound = 2244
+projectile_travel = 10
+projectile_launch = 19
+projectile_launch_double = 1104
 
 [[config]]
 obj = 'iron_arrow_p_plus_plus'
 equipment_sound = 2244
+projectile_travel = 9
+projectile_launch = 18
+projectile_launch_double = 1105
 
 [[config]]
 obj = 'steel_arrow_p_plus_plus'
 equipment_sound = 2244
+projectile_travel = 11
+projectile_launch = 20
+projectile_launch_double = 1106
 
 [[config]]
 obj = 'mithril_arrow_p_plus_plus'
 equipment_sound = 2244
+projectile_travel = 12
+projectile_launch = 21
+projectile_launch_double = 1107
 
 [[config]]
 obj = 'adamant_arrow_p_plus_plus'
 equipment_sound = 2244
+projectile_travel = 13
+projectile_launch = 22
+projectile_launch_double = 1108
 
 [[config]]
 obj = 'rune_arrow_p_plus_plus'
 equipment_sound = 2244
+projectile_travel = 15
+projectile_launch = 24
+projectile_launch_double = 1109
 
 [[config]]
 obj = 'bronze_javelin_p_plus'
@@ -18347,10 +18782,12 @@ weapon_category = 'StabSword'
 [[config]]
 obj = 'bronze_bolts_p_plus'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'bronze_bolts_p_plus_plus'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'mourner_gloves'
@@ -19226,6 +19663,7 @@ untradable = true
 [[config]]
 obj = 'bone_bolts'
 equipment_sound = 2235
+projectile_travel = 696
 
 [[config]]
 obj = 'fancy_boots'
@@ -19295,22 +19733,27 @@ untradable = true
 [[config]]
 obj = 'iron_bolts'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'steel_bolts'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'mithril_bolts'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'adamant_bolts'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'runite_bolts'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'silver_bolts'
@@ -19319,43 +19762,53 @@ equipment_sound = 2244
 [[config]]
 obj = 'opal_bolts_e'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'jade_bolts_e'
 equipment_sound = 2244
 untradable = true
+projectile_travel = 27
 
 [[config]]
 obj = 'pearl_bolts_e'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'topaz_bolts_e'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'sapphire_bolts_e'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'emerald_bolts_e'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'ruby_bolts_e'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'diamond_bolts_e'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'dragonstone_bolts_e'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'onyx_bolts_e'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'blurite_bolts_p'
@@ -19365,22 +19818,27 @@ untradable = true
 [[config]]
 obj = 'iron_bolts_p'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'steel_bolts_p'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'mithril_bolts_p'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'adamant_bolts_p'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'runite_bolts_p'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'silver_bolts_p'
@@ -19394,22 +19852,27 @@ untradable = true
 [[config]]
 obj = 'iron_bolts_p_plus'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'steel_bolts_p_plus'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'mithril_bolts_p_plus'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'adamant_bolts_p_plus'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'runite_bolts_p_plus'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'silver_bolts_p_plus'
@@ -19423,22 +19886,27 @@ untradable = true
 [[config]]
 obj = 'iron_bolts_p_plus_plus'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'steel_bolts_p_plus_plus'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'mithril_bolts_p_plus_plus'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'adamant_bolts_p_plus_plus'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'runite_bolts_p_plus_plus'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'silver_bolts_p_plus_plus'
@@ -19448,34 +19916,42 @@ equipment_sound = 2244
 obj = 'jade_bolts'
 equipment_sound = 2244
 untradable = true
+projectile_travel = 27
 
 [[config]]
 obj = 'topaz_bolts'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'sapphire_bolts'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'emerald_bolts'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'ruby_bolts'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'diamond_bolts'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'dragonstone_bolts'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'onyx_bolts'
 equipment_sound = 2244
+projectile_travel = 27
 
 [[config]]
 obj = 'tyras_helm'
@@ -19831,6 +20307,9 @@ equipment_sound = 2240
 [[config]]
 obj = 'dragon_arrow'
 equipment_sound = 2244
+projectile_travel = 1120
+projectile_launch = 1116
+projectile_launch_double = 1111
 
 [[config]]
 obj = 'dragon_fire_arrow'
@@ -19843,14 +20322,23 @@ equipment_sound = 2244
 [[config]]
 obj = 'dragon_arrow_p'
 equipment_sound = 2244
+projectile_travel = 1120
+projectile_launch = 1116
+projectile_launch_double = 1111
 
 [[config]]
 obj = 'dragon_arrow_p_plus'
 equipment_sound = 2244
+projectile_travel = 1120
+projectile_launch = 1116
+projectile_launch_double = 1111
 
 [[config]]
 obj = 'dragon_arrow_p_plus_plus'
 equipment_sound = 2244
+projectile_travel = 1120
+projectile_launch = 1116
+projectile_launch_double = 1111
 
 [[config]]
 obj = 'dragonfire_shield'
@@ -20773,6 +21261,7 @@ equipment_sound = 2247
 [[config]]
 obj = 'dragon_javelin'
 equipment_sound = 2244
+projectile_travel = 1301
 
 [[config]]
 obj = 'dragon_javelin_p'
@@ -21216,6 +21705,9 @@ equipment_sound = 2244
 [[config]]
 obj = 'amethyst_arrow'
 equipment_sound = 2244
+projectile_travel = 1384
+projectile_launch = 1385
+projectile_launch_double = 1383
 
 [[config]]
 obj = 'amethyst_fire_arrow'
@@ -21228,14 +21720,23 @@ equipment_sound = 2244
 [[config]]
 obj = 'amethyst_arrow_p'
 equipment_sound = 2244
+projectile_travel = 1384
+projectile_launch = 1385
+projectile_launch_double = 1383
 
 [[config]]
 obj = 'amethyst_arrow_p_plus'
 equipment_sound = 2244
+projectile_travel = 1384
+projectile_launch = 1385
+projectile_launch_double = 1383
 
 [[config]]
 obj = 'amethyst_arrow_p_plus_plus'
 equipment_sound = 2244
+projectile_travel = 1384
+projectile_launch = 1385
+projectile_launch_double = 1383
 
 [[config]]
 obj = 'mining_gloves'
@@ -21312,98 +21813,122 @@ equipment_sound = 2245
 [[config]]
 obj = 'dragon_bolts'
 equipment_sound = 2244
+projectile_travel = 1468
 
 [[config]]
 obj = 'dragon_bolts_p'
 equipment_sound = 2244
+projectile_travel = 1468
 
 [[config]]
 obj = 'dragon_bolts_p_plus'
 equipment_sound = 2244
+projectile_travel = 1468
 
 [[config]]
 obj = 'dragon_bolts_p_plus_plus'
 equipment_sound = 2244
+projectile_travel = 1468
 
 [[config]]
 obj = 'opal_dragon_bolts_e'
 equipment_sound = 2244
+projectile_travel = 1468
 
 [[config]]
 obj = 'jade_dragon_bolts_e'
 equipment_sound = 2244
+projectile_travel = 1468
 
 [[config]]
 obj = 'pearl_dragon_bolts_e'
 equipment_sound = 2244
+projectile_travel = 1468
 
 [[config]]
 obj = 'topaz_dragon_bolts_e'
 equipment_sound = 2244
+projectile_travel = 1468
 
 [[config]]
 obj = 'sapphire_dragon_bolts_e'
 equipment_sound = 2244
+projectile_travel = 1468
 
 [[config]]
 obj = 'emerald_dragon_bolts_e'
 equipment_sound = 2244
+projectile_travel = 1468
 
 [[config]]
 obj = 'ruby_dragon_bolts_e'
 equipment_sound = 2244
+projectile_travel = 1468
 
 [[config]]
 obj = 'diamond_dragon_bolts_e'
 equipment_sound = 2244
+projectile_travel = 1468
 
 [[config]]
 obj = 'dragonstone_dragon_bolts_e'
 equipment_sound = 2244
+projectile_travel = 1468
 
 [[config]]
 obj = 'onyx_dragon_bolts_e'
 equipment_sound = 2244
+projectile_travel = 1468
 
 [[config]]
 obj = 'opal_dragon_bolts'
 equipment_sound = 2244
+projectile_travel = 1468
 
 [[config]]
 obj = 'jade_dragon_bolts'
 equipment_sound = 2244
+projectile_travel = 1468
 
 [[config]]
 obj = 'pearl_dragon_bolts'
 equipment_sound = 2244
+projectile_travel = 1468
 
 [[config]]
 obj = 'topaz_dragon_bolts'
 equipment_sound = 2244
+projectile_travel = 1468
 
 [[config]]
 obj = 'sapphire_dragon_bolts'
 equipment_sound = 2244
+projectile_travel = 1468
 
 [[config]]
 obj = 'emerald_dragon_bolts'
 equipment_sound = 2244
+projectile_travel = 1468
 
 [[config]]
 obj = 'ruby_dragon_bolts'
 equipment_sound = 2244
+projectile_travel = 1468
 
 [[config]]
 obj = 'diamond_dragon_bolts'
 equipment_sound = 2244
+projectile_travel = 1468
 
 [[config]]
 obj = 'dragonstone_dragon_bolts'
 equipment_sound = 2244
+projectile_travel = 1468
 
 [[config]]
 obj = 'onyx_dragon_bolts'
 equipment_sound = 2244
+projectile_travel = 1468
 
 [[config]]
 obj = 'dragonfire_ward'
@@ -22572,6 +23097,7 @@ weapon_category = 'Banner'
 [[config]]
 obj = 'amethyst_dart'
 equipment_sound = 2244
+proj_anim = 'thrown'
 speed = 3
 range = 3
 weapon_category = 'Thrown'
@@ -22579,6 +23105,7 @@ weapon_category = 'Thrown'
 [[config]]
 obj = 'amethyst_dart_p'
 equipment_sound = 2244
+proj_anim = 'thrown'
 speed = 3
 range = 3
 weapon_category = 'Thrown'
@@ -22586,6 +23113,7 @@ weapon_category = 'Thrown'
 [[config]]
 obj = 'amethyst_dart_p_plus'
 equipment_sound = 2244
+proj_anim = 'thrown'
 speed = 3
 range = 3
 weapon_category = 'Thrown'
@@ -22593,6 +23121,7 @@ weapon_category = 'Thrown'
 [[config]]
 obj = 'amethyst_dart_p_plus_plus'
 equipment_sound = 2244
+proj_anim = 'thrown'
 speed = 3
 range = 3
 weapon_category = 'Thrown'
@@ -23478,6 +24007,7 @@ weapon_category = 'TwoHandedSword'
 obj = 'dragon_crossbow_cr'
 equipment_sound = 2244
 untradable = true
+proj_anim = 'bolt'
 speed = 6
 range = 7
 weapon_category = 'Crossbow'
@@ -23635,6 +24165,7 @@ req_stat1 = 'ranged'
 req_level1 = 50
 equipment_sound = 2244
 untradable = true
+proj_anim = 'arrow'
 range = 7
 weapon_category = 'Bow'
 
@@ -30762,6 +31293,7 @@ untradable = true
 [[config]]
 obj = 'sages_axe'
 untradable = true
+proj_anim = 'thrown'
 speed = 3
 range = 5
 weapon_category = 'Thrown'
@@ -32359,11 +32891,13 @@ weapon_category = 'Blunt'
 [[config]]
 obj = 'zaryte_bow_uncharged'
 untradable = true
+proj_anim = 'arrow'
 range = 9
 weapon_category = 'Bow'
 
 [[config]]
 obj = 'hunters_spear'
+proj_anim = 'thrown'
 speed = 6
 range = 5
 weapon_category = 'Thrown'
@@ -32478,6 +33012,7 @@ untradable = true
 [[config]]
 obj = 'echo_venator_bow'
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 6
 weapon_category = 'Bow'
@@ -32614,6 +33149,7 @@ dummyitem = 2
 [[config]]
 obj = 'morrigans_javelin_bh_inactive'
 untradable = true
+proj_anim = 'thrown'
 speed = 6
 range = 5
 weapon_category = 'Thrown'
@@ -32895,6 +33431,7 @@ weapon_category = 'Spiked'
 [[config]]
 obj = 'atlatl_dart_29852'
 untradable = true
+proj_anim = 'arrow'
 range = 5
 weapon_category = 'Bow'
 
@@ -33027,6 +33564,7 @@ dummyitem = 2
 [[config]]
 obj = 'zaryte_bow'
 untradable = true
+proj_anim = 'arrow'
 range = 9
 weapon_category = 'Bow'
 
@@ -33075,6 +33613,7 @@ speed = 5
 [[config]]
 obj = 'drygore_blowpipe_empty'
 untradable = true
+proj_anim = 'thrown'
 speed = 3
 range = 6
 weapon_category = 'Thrown'
@@ -33324,6 +33863,7 @@ weapon_category = 'Blunt'
 
 [[config]]
 obj = 'toxic_blowpipe_empty'
+proj_anim = 'thrown'
 speed = 3
 range = 5
 weapon_category = 'Thrown'
@@ -33335,6 +33875,7 @@ weapon_category = 'Unarmed'
 
 [[config]]
 obj = 'karils_crossbow_0'
+proj_anim = 'bolt'
 range = 8
 weapon_category = 'Crossbow'
 
@@ -33534,6 +34075,7 @@ dummyitem = 2
 [[config]]
 obj = 'holy_water'
 untradable = true
+proj_anim = 'thrown'
 range = 4
 weapon_category = 'Thrown'
 
@@ -33621,6 +34163,7 @@ dummyitem = 2
 [[config]]
 obj = 'blazing_blowpipe_empty'
 untradable = true
+proj_anim = 'thrown'
 speed = 3
 range = 5
 weapon_category = 'Thrown'
@@ -33645,6 +34188,7 @@ weapon_category = 'Unarmed'
 
 [[config]]
 obj = 'hunters_sunlight_crossbow'
+proj_anim = 'bolt'
 range = 8
 weapon_category = 'Crossbow'
 
@@ -33672,6 +34216,7 @@ untradable = true
 [[config]]
 obj = 'dark_bow_deadman'
 untradable = true
+proj_anim = 'doublearrow_one'
 speed = 9
 range = 10
 weapon_category = 'Bow'
@@ -33685,6 +34230,7 @@ untradable = true
 [[config]]
 obj = 'drygore_blowpipe'
 untradable = true
+proj_anim = 'thrown'
 speed = 3
 range = 6
 weapon_category = 'Thrown'
@@ -33758,6 +34304,7 @@ untradable = true
 obj = 'corrupted_twisted_bow'
 req_stat1 = 'ranged'
 req_level1 = 85
+proj_anim = 'arrow'
 speed = 6
 range = 10
 weapon_category = 'Bow'
@@ -33938,6 +34485,7 @@ speed = 0
 
 [[config]]
 obj = 'corrupted_dark_bow'
+proj_anim = 'arrow'
 speed = 6
 range = 10
 weapon_category = 'Bow'
@@ -33984,6 +34532,7 @@ weapon_category = 'Staff'
 [[config]]
 obj = 'morrigans_throwing_axe_bh_inactive'
 untradable = true
+proj_anim = 'thrown'
 speed = 5
 range = 4
 weapon_category = 'Thrown'
@@ -34342,6 +34891,7 @@ respawn_timer = 1000
 [[config]]
 obj = 'scorching_bow'
 untradable = true
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'
@@ -34388,6 +34938,7 @@ dummyitem = 2
 obj = 'bow_of_faerdhinen_inactive'
 req_stat1 = 'ranged'
 req_level1 = 80
+proj_anim = 'arrow'
 speed = 5
 range = 10
 weapon_category = 'Bow'

@@ -334,7 +334,11 @@ public class ProtectedAccess(
         player.resetSpotanim()
     }
 
-    public fun spotanim(spot: SpotanimType, delay: Int = 0, height: Int = 0, slot: Int = 0) {
+    public fun spotanim(spot: SpotanimType?, delay: Int = 0, height: Int = 0, slot: Int = 0) {
+        if (spot == null) {
+            player.resetSpotanim(height = height, slot = slot)
+            return
+        }
         player.spotanim(spot, delay, height, slot)
     }
 

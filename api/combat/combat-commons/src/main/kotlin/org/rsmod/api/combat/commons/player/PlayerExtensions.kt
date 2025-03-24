@@ -1,8 +1,10 @@
 package org.rsmod.api.combat.commons.player
 
+import org.rsmod.api.config.refs.categories
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.config.refs.queues
 import org.rsmod.api.config.refs.seqs
+import org.rsmod.api.config.refs.spotanims
 import org.rsmod.api.config.refs.varps
 import org.rsmod.api.player.interact.NpcInteractions
 import org.rsmod.api.player.interact.PlayerInteractions
@@ -16,6 +18,7 @@ import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.PlayerList
 import org.rsmod.game.entity.npc.NpcUid
 import org.rsmod.game.entity.player.PlayerUid
+import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.type.seq.SeqType
@@ -82,4 +85,12 @@ private fun resolveDefendAnim(righthand: UnpackedObjType?, lefthand: UnpackedObj
         righthandAnim != null -> righthandAnim
         else -> seqs.human_unarmedblock
     }
+}
+
+public fun Player.combatPlayDefendSpot(objTypes: ObjTypeList, ammo: ObjType?, clientDelay: Int) {
+    val type = ammo?.let(objTypes::get) ?: return
+    if (!type.isCategoryType(categories.javelin)) {
+        return
+    }
+    spotanim(spotanims.javelin_hit, delay = clientDelay, height = 146)
 }

@@ -9,7 +9,9 @@ import org.rsmod.api.combat.player.canPerformRangedSpecial
 import org.rsmod.api.combat.player.canPerformShieldSpecial
 import org.rsmod.api.combat.player.specialAttackType
 import org.rsmod.api.combat.weapon.WeaponSpeeds
+import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.categories
+import org.rsmod.api.config.refs.params
 import org.rsmod.api.npc.isValidTarget
 import org.rsmod.api.player.lefthand
 import org.rsmod.api.player.protect.ProtectedAccess
@@ -87,11 +89,9 @@ constructor(
             }
         }
 
-        manager.playWeaponFx(player, attack)
-
         val damage = manager.rollMeleeDamage(player, npc, attack)
+        manager.playWeaponFx(player, attack)
         manager.queueMeleeHit(player, npc, damage)
-
         // TODO(combat): This is sending two `setmapflag(null)` packets when it is meant to only
         //  send one. This is due to the `consumeRoute` and `routeTo` in player movement processor.
         //  Will have to review that processor soon to get it to match rs.
@@ -131,7 +131,7 @@ constructor(
             }
         }
 
-        val weaponType = objTypes[attack.weapon]
+        val righthandType = objTypes[attack.weapon]
 
         // Important: Weapon attack handlers are responsible for explicitly calling `opnpc2` (or a
         // helper function that does so) to re-engage combat after performing their attack.
@@ -146,7 +146,7 @@ constructor(
         // `chargebows` are specialized and not worth trying to have as a generic system. As such,
         // they are required to be registered in `WeaponRegistry` and will return early if they
         // have reached this point (not handled by previous `specializedWeapon` block).
-        val usingChargeBow = weaponType.isCategoryType(categories.chargebow)
+        val usingChargeBow = righthandType.isCategoryType(categories.chargebow)
         if (usingChargeBow) {
             manager.resetAttackDelay(player)
             mes("The bow appears to have malfunctioned.")
@@ -156,16 +156,9 @@ constructor(
         val quiver = player.quiver
         val quiverType = objTypes.getOrNull(quiver)
 
-        val canUseAmmo = ammunition.attemptAmmoUsage(player, weaponType, quiverType)
+        val canUseAmmo = ammunition.attemptAmmoUsage(player, righthandType, quiverType)
         if (!canUseAmmo) {
             manager.resetAttackDelay(player)
-            return
-        }
-
-        val playedAnim = manager.playWeaponFx(player, attack)
-        if (!playedAnim) {
-            manager.resetAttackDelay(player)
-            mes("The bow appears to be broken.")
             return
         }
 
@@ -173,24 +166,51 @@ constructor(
         // throwing weapons. For example, the Toxic blowpipe falls under this category but requires
         // special handling. Such weapons should be managed via the `Weapon` system to ensure
         // correct behavior and avoid unintended side effects.
-        val usingThrown = weaponType.isCategoryType(categories.throwing_weapon)
+        val usingThrown = righthandType.isCategoryType(categories.throwing_weapon)
 
-        // TODO(combat): Projectiles and proper impact delay calc.
-        val distance = player.distanceTo(npc)
-        // delay + progress + (stepMultiplier * distance)
-        val clientDelay = 41 + 5 + (5 * distance)
-        val hitDelay = 1 + (clientDelay / 30)
+        val weaponType = if (usingThrown) righthandType else quiverType
+        checkNotNull(weaponType) {
+            "Unexpected null weapon type: righthand=$righthandType, quiver=$quiverType"
+        }
 
+        val projanimType = righthandType.paramOrNull(params.proj_type)
+        val travelSpotanim = weaponType.paramOrNull(params.proj_travel)
+
+        // All valid ammunition requires a `proj_travel` spotanim type and `proj_type` projanim type
+        // param so that the projectile can be created and referenced for its proper delays.
+        if (projanimType == null || travelSpotanim == null) {
+            manager.resetAttackDelay(player)
+            mes("Your ammunition appears to be stuck.")
+            return
+        }
+
+        // All valid ranged weapons require a `attack_anim_stance1` seq type param in order to be
+        // used in combat.
+        val playedAnim = manager.playWeaponFx(player, attack)
+        if (!playedAnim) {
+            manager.resetAttackDelay(player)
+            mes("The bow appears to be broken.")
+            return
+        }
+
+        // Official behavior: If the weapon (quiver or righthand, based on thrown weapon flag) has
+        // no `proj_launch` param, a "null" (-1) spotanim will still be sent in the same slot and
+        // height as usual.
+        val launchSpotanim = weaponType.paramOrNull(params.proj_launch)
+        spotanim(launchSpotanim, height = 96, slot = constants.spotanim_slot_combat)
+
+        val projanim = manager.spawnProjectile(player, npc, travelSpotanim, projanimType)
+
+        val hitDelay = projanim.serverCycles
         if (usingThrown) {
-            ammunition.useThrownWeapon(player, weaponType, npc.coords, dropDelay = hitDelay)
+            ammunition.useThrownWeapon(player, righthandType, npc.coords, dropDelay = hitDelay)
         } else if (quiverType != null) {
             ammunition.useQuiverAmmo(player, quiverType, npc.coords, dropDelay = hitDelay)
         }
 
         val damage = manager.rollRangedDamage(player, npc, attack)
-
         val hitAmmoObj = if (usingThrown) null else quiverType
-        manager.queueRangedHit(player, npc, hitAmmoObj, damage, clientDelay, hitDelay)
+        manager.queueRangedProjectileHit(player, npc, hitAmmoObj, damage, projanim)
 
         if (usingThrown && player.righthand == null) {
             mes("That was your last one!")

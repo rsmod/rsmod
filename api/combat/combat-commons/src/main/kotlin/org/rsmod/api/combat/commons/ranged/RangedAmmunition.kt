@@ -56,6 +56,10 @@ public object RangedAmmunition {
                     player.mes("You can't use that ammo with your crossbow.")
                     false
                 }
+                is Validation.Invalid.BoneWeaponIncorrectAmmo -> {
+                    player.mes("You can't use that ammo with your bone crossbow.")
+                    false
+                }
                 is Validation.Invalid.ExpectedBoneWeapon -> {
                     player.mes("Bone bolts are only usable with a bone crossbow.")
                     false
@@ -83,6 +87,23 @@ public object RangedAmmunition {
                 }
                 is Validation.Invalid.LevelTooHigh -> {
                     player.mes("Your bow isn't powerful enough for those arrows.")
+                    false
+                }
+                is Validation.Valid -> true
+            }
+        }
+
+        val ballista = weapon.isCategoryType(categories.ballista)
+        if (ballista) {
+            if (ammo == null) {
+                player.mes("There are no javelins in your quiver.")
+                return false
+            }
+
+            val ammoValidation = validateJavelins(weapon, ammo)
+            return when (ammoValidation) {
+                is Validation.Invalid -> {
+                    player.mes("You can't use that ammo with your ballista.")
                     false
                 }
                 is Validation.Valid -> true
@@ -191,7 +212,11 @@ public object RangedAmmunition {
     public fun validateBolts(weapon: UnpackedObjType, ammo: UnpackedObjType): Validation {
         val requiredAmmo = weapon.paramOrNull(params.required_ammo) ?: categories.crossbow_bolt
         if (!ammo.isCategoryType(requiredAmmo)) {
-            return Validation.Invalid.IncorrectAmmo
+            return if (weapon.param(params.bone_weapon) != 0) {
+                Validation.Invalid.BoneWeaponIncorrectAmmo
+            } else {
+                Validation.Invalid.IncorrectAmmo
+            }
         }
 
         if (ammo.param(params.bone_weapon) != 0 && weapon.param(params.bone_weapon) == 0) {
@@ -205,6 +230,15 @@ public object RangedAmmunition {
         return Validation.Valid
     }
 
+    public fun validateJavelins(weapon: UnpackedObjType, ammo: UnpackedObjType): Validation {
+        val requiredAmmo = weapon.paramOrNull(params.required_ammo) ?: categories.javelin
+        return if (!ammo.isCategoryType(requiredAmmo)) {
+            Validation.Invalid.IncorrectAmmo
+        } else {
+            return Validation.Valid
+        }
+    }
+
     public sealed class Validation {
         public data object Valid : Validation()
 
@@ -214,6 +248,8 @@ public object RangedAmmunition {
             public sealed class Ammo : Invalid()
 
             public data object IncorrectAmmo : Ammo()
+
+            public data object BoneWeaponIncorrectAmmo : Ammo()
 
             public data object ExpectedBoneWeapon : Ammo()
         }

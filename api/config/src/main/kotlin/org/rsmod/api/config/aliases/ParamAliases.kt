@@ -8,6 +8,7 @@ import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.type.param.ParamType
+import org.rsmod.game.type.proj.ProjAnimType
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.spot.SpotanimType
 import org.rsmod.game.type.stat.StatType
@@ -37,6 +38,8 @@ typealias ParamNamedObj = ParamType<UnpackedObjType>
 typealias ParamLoc = ParamType<LocType>
 
 typealias ParamNpc = ParamType<NpcType>
+
+typealias ParamProj = ParamType<ProjAnimType>
 
 typealias ParamSeq = ParamType<SeqType>
 

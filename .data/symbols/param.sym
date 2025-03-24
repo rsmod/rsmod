@@ -159,6 +159,10 @@
 1802	slayer_task_boss_location
 1935	spell_autocast_id
 
+65408	proj_type
+65409	proj_travel
+65410	proj_launch
+65411	proj_launch_double
 65412	defence_light
 65413	defence_standard
 65414	defence_heavy

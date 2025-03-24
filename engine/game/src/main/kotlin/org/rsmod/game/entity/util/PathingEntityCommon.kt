@@ -8,7 +8,6 @@ import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.seq.EntitySeq
 import org.rsmod.game.spot.EntitySpotanim
 import org.rsmod.game.type.seq.SeqType
-import org.rsmod.game.type.spot.SpotanimType
 import org.rsmod.map.CoordGrid
 import org.rsmod.routefinder.collision.CollisionFlagMap
 
@@ -115,14 +114,8 @@ public object PathingEntityCommon {
         entity.animProtect = animProtect
     }
 
-    public fun spotanim(
-        entity: PathingEntity,
-        spot: SpotanimType,
-        delay: Int,
-        height: Int,
-        slot: Int,
-    ) {
-        val spotanim = EntitySpotanim(spot.id, delay, height, slot)
+    public fun spotanim(entity: PathingEntity, spot: Int, delay: Int, height: Int, slot: Int) {
+        val spotanim = EntitySpotanim(spot, delay, height, slot)
         entity.pendingSpotanims.add(spotanim.packed)
     }
 }

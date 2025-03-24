@@ -14,13 +14,20 @@ import org.rsmod.game.type.hitmark.HitmarkType
 import org.rsmod.game.type.loc.LocType
 import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.obj.ObjType
+import org.rsmod.game.type.proj.ProjAnimType
 import org.rsmod.game.type.seq.SeqType
+import org.rsmod.game.type.spot.SpotanimType
 import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.synth.SynthType
 import org.rsmod.game.type.varbit.VarBitType
 
 internal object ParamBuilds : ParamBuilder() {
     init {
+        build<ProjAnimType>("proj_type")
+        build<SpotanimType>("proj_travel")
+        build<SpotanimType>("proj_launch")
+        build<SpotanimType>("proj_launch_double")
+
         build<Int>("defence_light") { default = 0 }
         build<Int>("defence_standard") { default = 0 }
         build<Int>("defence_heavy") { default = 0 }

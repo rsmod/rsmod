@@ -39,7 +39,11 @@ class DragonLongswordSpecialAttack : SpecialAttackMap {
 
         private fun ProtectedAccess.cleave(target: PathingEntity, attack: CombatAttack.Melee) {
             anim(special_seqs.dragon_longsword)
-            spotanim(special_spots.dragon_longsword, height = 96, slot = constants.spotanim_slot_sa)
+            spotanim(
+                spot = special_spots.dragon_longsword,
+                slot = constants.spotanim_slot_combat,
+                height = 96,
+            )
 
             val damage =
                 manager.rollMeleeDamage(

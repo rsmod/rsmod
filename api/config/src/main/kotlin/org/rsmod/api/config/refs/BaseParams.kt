@@ -10,7 +10,9 @@ import org.rsmod.api.config.aliases.ParamInt
 import org.rsmod.api.config.aliases.ParamLoc
 import org.rsmod.api.config.aliases.ParamNpc
 import org.rsmod.api.config.aliases.ParamObj
+import org.rsmod.api.config.aliases.ParamProj
 import org.rsmod.api.config.aliases.ParamSeq
+import org.rsmod.api.config.aliases.ParamSpot
 import org.rsmod.api.config.aliases.ParamStat
 import org.rsmod.api.config.aliases.ParamStr
 import org.rsmod.api.config.aliases.ParamSynth
@@ -66,6 +68,10 @@ object BaseParams : ParamReferences() {
     val kalphite: ParamInt = find("kalphite", 88687193509)
 
     /* Server-side only types */
+    val proj_type: ParamProj = find("proj_type")
+    val proj_travel: ParamSpot = find("proj_travel")
+    val proj_launch: ParamSpot = find("proj_launch")
+    val proj_launch_double: ParamSpot = find("proj_launch_double")
     val defence_light: ParamInt = find("defence_light")
     val defence_standard: ParamInt = find("defence_standard")
     val defence_heavy: ParamInt = find("defence_heavy")

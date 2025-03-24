@@ -4,8 +4,10 @@ import jakarta.inject.Inject
 import org.rsmod.api.combat.commons.CombatAttack
 import org.rsmod.api.combat.commons.fx.MeleeAnimationAndSound
 import org.rsmod.api.combat.commons.npc.combatPlayDefendAnim
+import org.rsmod.api.combat.commons.npc.combatPlayDefendSpot
 import org.rsmod.api.combat.commons.npc.queueCombatRetaliate
 import org.rsmod.api.combat.commons.player.combatPlayDefendAnim
+import org.rsmod.api.combat.commons.player.combatPlayDefendSpot
 import org.rsmod.api.combat.commons.player.queueCombatRetaliate
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
 import org.rsmod.api.combat.commons.styles.RangedAttackStyle
@@ -22,6 +24,7 @@ import org.rsmod.api.player.interact.PlayerInteractions
 import org.rsmod.api.player.output.soundSynth
 import org.rsmod.api.player.protect.clearPendingAction
 import org.rsmod.api.random.GameRandom
+import org.rsmod.api.repo.world.WorldRepository
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.PathingEntity
@@ -29,8 +32,11 @@ import org.rsmod.game.entity.Player
 import org.rsmod.game.hit.Hit
 import org.rsmod.game.hit.HitType
 import org.rsmod.game.interact.InteractionOp
+import org.rsmod.game.proj.ProjAnim
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.ObjTypeList
+import org.rsmod.game.type.proj.ProjAnimType
+import org.rsmod.game.type.spot.SpotanimType
 
 public class PlayerAttackManager
 @Inject
@@ -38,6 +44,7 @@ constructor(
     private val random: GameRandom,
     private val eventBus: EventBus,
     private val objTypes: ObjTypeList,
+    private val worldRepo: WorldRepository,
     private val accuracy: AccuracyFormulae,
     private val maxHits: MaxHitFormulae,
     private val npcHitModifier: NpcHitModifier,
@@ -643,6 +650,22 @@ constructor(
     ): Int = TODO() // TODO(combat)
 
     /**
+     * Queues a ranged hit on [target] using [proj] to determine the client and hit delays.
+     *
+     * This is a convenience function that calls [queueRangedHit] with [ProjAnim.clientCycles] and
+     * [ProjAnim.serverCycles] as the delay values.
+     *
+     * @see [queueRangedHit]
+     */
+    public fun queueRangedProjectileHit(
+        source: Player,
+        target: PathingEntity,
+        ammo: ObjType?,
+        damage: Int,
+        proj: ProjAnim,
+    ): Hit = queueRangedHit(source, target, ammo, damage, proj.clientCycles, proj.serverCycles)
+
+    /**
      * Queues a ranged hit on [target], applying damage after the specified [hitDelay].
      *
      * In addition to scheduling the hit, this also triggers the appropriate defensive animations
@@ -701,6 +724,7 @@ constructor(
             )
         target.heroPoints(source, hit.damage)
         target.combatPlayDefendAnim(clientDelay)
+        target.combatPlayDefendSpot(objTypes, ammo, clientDelay)
         target.queueCombatRetaliate(source, hitDelay)
         return hit
     }
@@ -723,7 +747,22 @@ constructor(
             )
         target.heroPoints(source, hit.damage)
         target.combatPlayDefendAnim(objTypes, clientDelay)
+        target.combatPlayDefendSpot(objTypes, ammo, clientDelay)
         target.queueCombatRetaliate(source, hitDelay)
         return hit
     }
+
+    public fun spawnProjectile(
+        source: Player,
+        target: Npc,
+        spotanim: SpotanimType,
+        projanim: ProjAnimType,
+    ): ProjAnim = worldRepo.projAnim(source, target, spotanim, projanim)
+
+    public fun spawnProjectile(
+        source: Player,
+        target: Player,
+        spotanim: SpotanimType,
+        projanim: ProjAnimType,
+    ): ProjAnim = worldRepo.projAnim(source, target, spotanim, projanim)
 }
