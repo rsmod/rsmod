@@ -34,6 +34,7 @@ import org.rsmod.api.npc.hit.modifier.NpcHitModifier
 import org.rsmod.api.npc.hit.modifier.StandardNpcHitModifier
 import org.rsmod.api.npc.hit.processor.NpcHitProcessor
 import org.rsmod.api.npc.hit.processor.StandardNpcHitProcessor
+import org.rsmod.api.npc.hit.queueHit
 import org.rsmod.api.npc.interact.AiPlayerInteractions
 import org.rsmod.api.npc.opPlayer2
 import org.rsmod.api.player.hit.processor.DamageOnlyPlayerHitProcessor
@@ -94,6 +95,7 @@ import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.PlayerList
 import org.rsmod.game.entity.player.SessionStateEvent
 import org.rsmod.game.entity.util.PathingEntityCommon
+import org.rsmod.game.hit.HitType
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.loc.LocAngle
@@ -129,6 +131,7 @@ import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.type.param.ParamTypeList
+import org.rsmod.game.type.proj.ProjAnimTypeList
 import org.rsmod.game.type.seq.SeqTypeList
 import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.stat.StatTypeList
@@ -175,6 +178,7 @@ constructor(
     private val opLocHandler: OpLocHandler,
     private val opNpcHandler: OpNpcHandler,
     private val aiPlayerInteractions: AiPlayerInteractions,
+    private val npcHitModifier: NpcHitModifier,
 ) {
     init {
         registerPlayer()
@@ -449,6 +453,10 @@ constructor(
 
     public fun Npc.opPlayer2(target: Player) {
         opPlayer2(target, aiPlayerInteractions)
+    }
+
+    public fun Npc.queueHit(source: Player, delay: Int, type: HitType, damage: Int) {
+        queueHit(source, delay, type, damage, npcHitModifier)
     }
 
     public fun Inventory.count(obj: ObjType): Int {
@@ -820,6 +828,7 @@ constructor(
             bind(FontMetricsTypeList::class.java).toInstance(cacheTypes.fonts)
             bind(InterfaceTypeList::class.java).toInstance(cacheTypes.interfaces)
             bind(InvTypeList::class.java).toInstance(cacheTypes.invs)
+            bind(ProjAnimTypeList::class.java).toInstance(cacheTypes.projanims)
             bind(ParamTypeList::class.java).toInstance(cacheTypes.params)
             bind(SeqTypeList::class.java).toInstance(cacheTypes.seqs)
             bind(StatTypeList::class.java).toInstance(cacheTypes.stats)

@@ -16,24 +16,8 @@ constructor(private val eventBus: EventBus, private val protectedAccess: Protect
         if (player.queueList.strongQueues > 0) {
             player.ifClose(eventBus)
         }
-
-        if (player.queueList.isNotEmpty) {
-            player.queueList.decrementDelays()
-            player.publishExpiredQueues()
-        }
-
-        if (player.weakQueueList.isNotEmpty) {
-            player.weakQueueList.decrementDelays()
-            player.publishExpiredWeakQueues()
-        }
-    }
-
-    private fun PlayerQueueList.decrementDelays() {
-        val iterator = iterator() ?: return
-        while (iterator.hasNext()) {
-            val queue = iterator.next()
-            queue.remainingCycles--
-        }
+        player.publishExpiredQueues()
+        player.publishExpiredWeakQueues()
     }
 
     private fun Player.publishExpiredQueues() {
@@ -48,6 +32,11 @@ constructor(private val eventBus: EventBus, private val protectedAccess: Protect
                     ifClose(eventBus)
                 }
 
+                if (queue.processedCycle != currentMapClock) {
+                    queue.processedCycle = currentMapClock
+                    queue.remainingCycles--
+                }
+
                 if (queue.remainingCycles > 0) {
                     continue
                 }
@@ -60,7 +49,7 @@ constructor(private val eventBus: EventBus, private val protectedAccess: Protect
             }
             iterator.cleanUp()
 
-            if (processedNone) {
+            if (processedNone || queueList.size == 1) {
                 break
             }
         }
@@ -94,6 +83,11 @@ constructor(private val eventBus: EventBus, private val protectedAccess: Protect
             while (iterator.hasNext()) {
                 val queue = iterator.next()
 
+                if (queue.processedCycle != currentMapClock) {
+                    queue.processedCycle = currentMapClock
+                    queue.remainingCycles--
+                }
+
                 if (queue.remainingCycles > 0) {
                     continue
                 }
@@ -106,7 +100,7 @@ constructor(private val eventBus: EventBus, private val protectedAccess: Protect
             }
             iterator.cleanUp()
 
-            if (processedNone) {
+            if (processedNone || queueList.size == 1) {
                 break
             }
         }

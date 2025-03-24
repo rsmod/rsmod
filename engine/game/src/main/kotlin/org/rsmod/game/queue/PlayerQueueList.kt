@@ -150,13 +150,14 @@ public class PlayerQueueList {
 
     override fun toString(): String = "PlayerQueueList(size=$size, first=$first, last=$last)"
 
-    internal data class Node(val queue: Queue, var prev: Node?, var next: Node? = null)
+    internal class Node(val queue: Queue, var prev: Node?, var next: Node? = null)
 
     public data class Queue(
         public val id: Int,
         public val category: Int,
         public var remainingCycles: Int,
         public val args: Any?,
+        public var processedCycle: Int = -1,
     )
 
     public fun iterator(): QueueIterator? {

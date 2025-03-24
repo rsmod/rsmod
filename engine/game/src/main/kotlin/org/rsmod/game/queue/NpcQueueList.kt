@@ -99,9 +99,14 @@ public class NpcQueueList {
 
     override fun toString(): String = "NpcQueueList(size=$size, first=$first, last=$last)"
 
-    internal data class Node(val queue: Queue, var prev: Node?, var next: Node? = null)
+    internal class Node(val queue: Queue, var prev: Node?, var next: Node? = null)
 
-    public data class Queue(val id: Int, var remainingCycles: Int, val args: Any?)
+    public data class Queue(
+        public val id: Int,
+        public var remainingCycles: Int,
+        public val args: Any?,
+        public var processedCycle: Int = -1,
+    )
 
     public fun iterator(): QueueIterator? {
         if (isEmpty) {

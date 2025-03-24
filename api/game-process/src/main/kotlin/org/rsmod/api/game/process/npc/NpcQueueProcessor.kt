@@ -12,18 +12,7 @@ public class NpcQueueProcessor
 @Inject
 constructor(private val eventBus: EventBus, private val accessLauncher: StandardNpcAccessLauncher) {
     public fun process(npc: Npc) {
-        if (npc.queueList.isNotEmpty) {
-            npc.decrementQueueDelays()
-            npc.publishExpiredQueues()
-        }
-    }
-
-    private fun Npc.decrementQueueDelays() {
-        val iterator = queueList.iterator() ?: return
-        while (iterator.hasNext()) {
-            val queue = iterator.next()
-            queue.remainingCycles--
-        }
+        npc.publishExpiredQueues()
     }
 
     private fun Npc.publishExpiredQueues() {
@@ -33,6 +22,11 @@ constructor(private val eventBus: EventBus, private val accessLauncher: Standard
             val iterator = queueList.iterator() ?: break
             while (iterator.hasNext()) {
                 val queue = iterator.next()
+
+                if (queue.processedCycle != currentMapClock) {
+                    queue.processedCycle = currentMapClock
+                    queue.remainingCycles--
+                }
 
                 if (queue.remainingCycles > 0) {
                     continue
@@ -46,7 +40,7 @@ constructor(private val eventBus: EventBus, private val accessLauncher: Standard
             }
             iterator.cleanUp()
 
-            if (processedNone) {
+            if (processedNone || queueList.size == 1) {
                 break
             }
         }
