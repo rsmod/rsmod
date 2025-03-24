@@ -4,6 +4,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap
 import net.rsprot.protocol.message.ZoneProt
 import org.rsmod.game.loc.LocInfo
 import org.rsmod.game.obj.Obj
+import org.rsmod.game.proj.ProjAnim
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.zone.ZoneKey
 
@@ -81,6 +82,12 @@ public class ZoneUpdateMap {
     ) {
         val updates = source.getOrPutUpdateList()
         val prot = ZoneUpdateTransformer.toSoundAreaProt(source, synth, delay, loops, radius, size)
+        updates += prot
+    }
+
+    public fun mapProjAnim(projAnim: ProjAnim) {
+        val updates = projAnim.startCoord.getOrPutUpdateList()
+        val prot = ZoneUpdateTransformer.toMapProjAnim(projAnim)
         updates += prot
     }
 

@@ -5,6 +5,7 @@ import net.rsprot.protocol.game.outgoing.util.OpFlags
 import net.rsprot.protocol.game.outgoing.zone.payload.LocAddChangeV2
 import net.rsprot.protocol.game.outgoing.zone.payload.LocAnim
 import net.rsprot.protocol.game.outgoing.zone.payload.LocDel
+import net.rsprot.protocol.game.outgoing.zone.payload.MapProjAnim
 import net.rsprot.protocol.game.outgoing.zone.payload.ObjAdd
 import net.rsprot.protocol.game.outgoing.zone.payload.ObjCount
 import net.rsprot.protocol.game.outgoing.zone.payload.ObjDel
@@ -13,6 +14,7 @@ import net.rsprot.protocol.message.ZoneProt
 import org.rsmod.api.registry.loc.LocRegistry
 import org.rsmod.game.loc.LocInfo
 import org.rsmod.game.obj.Obj
+import org.rsmod.game.proj.ProjAnim
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.zone.ZoneGrid
 
@@ -109,6 +111,24 @@ public object ZoneUpdateTransformer {
     ): ZoneProt {
         val zoneGrid = ZoneGrid.from(source)
         return SoundArea(synth, delay, loops, radius, size, zoneGrid.x, zoneGrid.z)
+    }
+
+    public fun toMapProjAnim(projAnim: ProjAnim): ZoneProt {
+        return MapProjAnim(
+            id = projAnim.spotanim,
+            startHeight = projAnim.startHeight,
+            endHeight = projAnim.endHeight,
+            startTime = projAnim.startTime,
+            endTime = projAnim.endTime,
+            angle = projAnim.angle,
+            progress = projAnim.progress,
+            sourceIndex = projAnim.sourceIndex,
+            targetIndex = projAnim.targetIndex,
+            xInZone = projAnim.zoneGridX,
+            zInZone = projAnim.zoneGridZ,
+            deltaX = projAnim.deltaX,
+            deltaZ = projAnim.deltaZ,
+        )
     }
 
     private fun Obj.copy(): Obj = Obj(coords, entity, creationCycle, receiverId)
