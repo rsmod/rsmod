@@ -1,4 +1,4 @@
-package org.rsmod.content.other.special.attacks.impl
+package org.rsmod.content.other.special.attacks.boost
 
 import jakarta.inject.Inject
 import org.rsmod.api.config.constants

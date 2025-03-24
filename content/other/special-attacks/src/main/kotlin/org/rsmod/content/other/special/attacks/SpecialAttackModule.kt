@@ -1,8 +1,8 @@
 package org.rsmod.content.other.special.attacks
 
 import org.rsmod.api.specials.SpecialAttackMap
-import org.rsmod.content.other.special.attacks.impl.DragonLongswordSpecialAttack
-import org.rsmod.content.other.special.attacks.impl.StatBoostSpecialAttacks
+import org.rsmod.content.other.special.attacks.boost.StatBoostSpecialAttacks
+import org.rsmod.content.other.special.attacks.melee.DragonLongswordSpecialAttack
 import org.rsmod.plugin.module.PluginModule
 
 class SpecialAttackModule : PluginModule() {

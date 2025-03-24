@@ -1,4 +1,4 @@
-package org.rsmod.content.other.special.attacks.impl
+package org.rsmod.content.other.special.attacks.melee
 
 import org.rsmod.api.combat.commons.CombatAttack
 import org.rsmod.api.combat.commons.types.MeleeAttackType
