@@ -16121,6 +16121,9 @@ sound_stance2 = 2555
 anim_stance4 = 414
 sound_stance4 = 2555
 block_anim = 415
+untradable = true
+speed = 5
+weapon_category = 'Polestaff'
 
 [[config]]
 obj = 'elder_maul_or'
@@ -29662,18 +29665,22 @@ untradable = true
 [[config]]
 obj = 'loot_key_two'
 destroy_note = 'The loot inside will be destroyed with it!'
+untradable = true
 
 [[config]]
 obj = 'loot_key_three'
 destroy_note = 'The loot inside will be destroyed with it!'
+untradable = true
 
 [[config]]
 obj = 'loot_key_four'
 destroy_note = 'The loot inside will be destroyed with it!'
+untradable = true
 
 [[config]]
 obj = 'loot_key_five'
 destroy_note = 'The loot inside will be destroyed with it!'
+untradable = true
 
 [[config]]
 obj = 'abyssal_lantern_normal_logs'
@@ -30474,22 +30481,27 @@ untradable = true
 [[config]]
 obj = 'oldschool_jumper_yellow'
 destroy_note = 'You can get a replacement from Diango.'
+untradable = true
 
 [[config]]
 obj = 'oldschool_jumper_blue'
 destroy_note = 'You can get a replacement from Diango.'
+untradable = true
 
 [[config]]
 obj = 'oldschool_jumper_purple'
 destroy_note = 'You can get a replacement from Diango.'
+untradable = true
 
 [[config]]
 obj = 'oldschool_jumper_green'
 destroy_note = 'You can get a replacement from Diango.'
+untradable = true
 
 [[config]]
 obj = 'oldschool_jumper_white'
 destroy_note = 'You can get a replacement from Diango.'
+untradable = true
 
 [[config]]
 obj = 'silver_partyhat'
@@ -30788,6 +30800,7 @@ untradable = true
 [[config]]
 obj = 'perfected_shadow_torch_schematic_2'
 destroy_note = 'You might be able to find another within the Lassar Undercity.'
+untradable = true
 
 [[config]]
 obj = 'potion_note'
@@ -31192,14 +31205,17 @@ untradable = true
 [[config]]
 obj = 'quest_lamp_28552'
 destroy_note = 'Are you sure you want to destroy the quest lamp? You can only claim it once from any Combat Tutor in Lumbridge.'
+untradable = true
 
 [[config]]
 obj = 'quest_lamp_28553'
 destroy_note = 'Are you sure you want to destroy the quest lamp? You can only claim it once from any Combat Tutor in Lumbridge.'
+untradable = true
 
 [[config]]
 obj = 'quest_lamp_28554'
 destroy_note = 'Are you sure you want to destroy the quest lamp? You can only claim it once from any Combat Tutor in Lumbridge.'
+untradable = true
 
 [[config]]
 obj = 'crystal_chime_seed'
@@ -32219,6 +32235,8 @@ weapon_category = 'Unarmed'
 [[config]]
 obj = 'butlers_tray_29913'
 destroy_note = 'You can get another from the Villa Lucens Head Butler.'
+untradable = true
+weapon_category = 'Unarmed'
 
 [[config]]
 obj = 'butlers_uniform'
@@ -32233,10 +32251,12 @@ untradable = true
 [[config]]
 obj = 'butlers_uniform_29916'
 destroy_note = 'You can get another from Villa Lucens on Aldarin.'
+untradable = true
 
 [[config]]
 obj = 'butlers_uniform_29918'
 destroy_note = 'You can get another from Villa Lucens on Aldarin.'
+untradable = true
 
 [[config]]
 obj = 'costume_needle'
@@ -32291,22 +32311,27 @@ untradable = true
 [[config]]
 obj = 'ram_mask_29934'
 destroy_note = 'You can get another from the Villa Lucens Head Butler.'
+untradable = true
 
 [[config]]
 obj = 'wolf_mask_29936'
 destroy_note = 'You can get another from the Villa Lucens Head Butler.'
+untradable = true
 
 [[config]]
 obj = 'bird_mask_29938'
 destroy_note = 'You can get another from the Villa Lucens Head Butler.'
+untradable = true
 
 [[config]]
 obj = 'jaguar_mask_29940'
 destroy_note = 'You can get another from the Villa Lucens Head Butler.'
+untradable = true
 
 [[config]]
 obj = 'snake_mask_29942'
 destroy_note = 'You can get another from the Villa Lucens Head Butler.'
+untradable = true
 
 [[config]]
 obj = 'reagent_pouch'
@@ -32436,10 +32461,14 @@ untradable = true
 [[config]]
 obj = 'butlers_tray_30156'
 destroy_note = 'You can get another from the Villa Lucens Head Butler.'
+untradable = true
+weapon_category = 'Unarmed'
 
 [[config]]
 obj = 'butlers_tray_30157'
 destroy_note = 'You can get another from the Villa Lucens Head Butler.'
+untradable = true
+weapon_category = 'Unarmed'
 
 [[config]]
 obj = 'scarecrow_shirt'
@@ -33520,6 +33549,8 @@ weapon_category = 'Pickaxe'
 
 [[config]]
 obj = 'masori_assembler_l'
+req_stat1 = 'ranged'
+req_level1 = 70
 untradable = true
 ammo_recovery_rate = 80
 
@@ -33590,6 +33621,12 @@ dummyitem = 2
 
 [[config]]
 obj = 'mulch'
+destroy_note = 'You discard your left over mulch.'
+destroy_note_alt = 'Active event: - This mulch contains: [ingredient 1], [ingredient 2], [ingredient 3].'
+untradable = true
+
+[[config]]
+obj = 'mulch_28648'
 destroy_note = 'You discard your left over mulch.'
 destroy_note_alt = 'Active event: - This mulch contains: [ingredient 1], [ingredient 2], [ingredient 3].'
 untradable = true
@@ -34126,6 +34163,8 @@ untradable = true
 
 [[config]]
 obj = 'avas_assembler'
+req_stat1 = 'ranged'
+req_level1 = 70
 untradable = true
 ammo_recovery_rate = 80
 
@@ -34195,6 +34234,8 @@ dummyitem = 2
 
 [[config]]
 obj = 'avas_attractor'
+req_stat1 = 'ranged'
+req_level1 = 50
 untradable = true
 ammo_recovery_rate = 60
 
@@ -34257,6 +34298,8 @@ weapon_category = 'Unarmed'
 
 [[config]]
 obj = 'avas_accumulator'
+req_stat1 = 'ranged'
+req_level1 = 50
 untradable = true
 ammo_recovery_rate = 72
 
@@ -34647,6 +34690,8 @@ dummyitem = 2
 
 [[config]]
 obj = 'masori_assembler'
+req_stat1 = 'ranged'
+req_level1 = 70
 untradable = true
 ammo_recovery_rate = 80
 
