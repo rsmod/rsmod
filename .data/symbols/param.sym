@@ -260,9 +260,9 @@
 65506	death_sound
 65507	slayer_category
 65508	ammo_recovery_rate
-65509	forcehitchance_melee
-65510	forcehitchance_magic
-65511	forcehitchance_range
+65509	_removed_param_65509
+65510	_removed_param_65510
+65511	_removed_param_65511
 65512	attack_melee
 65513	foe_only
 65514	poh_no_roof

@@ -2,12 +2,10 @@ package org.rsmod.api.combat.formulas.accuracy.melee
 
 import jakarta.inject.Inject
 import java.util.EnumSet
-import kotlin.math.min
 import org.rsmod.api.combat.accuracy.npc.NpcMeleeAccuracy
 import org.rsmod.api.combat.accuracy.player.PlayerMeleeAccuracy
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
 import org.rsmod.api.combat.commons.types.MeleeAttackType
-import org.rsmod.api.combat.formulas.HIT_CHANCE_SCALE
 import org.rsmod.api.combat.formulas.accuracy.AccuracyOperations
 import org.rsmod.api.combat.formulas.attributes.CombatMeleeAttributes
 import org.rsmod.api.combat.formulas.attributes.CombatNpcAttributes
@@ -34,28 +32,18 @@ constructor(
         attackStyle: MeleeAttackStyle?,
         blockType: MeleeAttackType?,
         specialMultiplier: Double,
-    ): Int {
-        // TODO(combat): Remove `forcehitchance` params. They're not consistent enough to be useful.
-        val forced = target.visType.paramOrNull(params.forcehitchance_melee)
-        check(forced == null || forced >= 0) {
-            "Forced hit chance value should be >= 0: $forced (npc=${target.visType})"
-        }
-        return if (forced != null) {
-            min(forced, HIT_CHANCE_SCALE)
-        } else {
-            computeHitChance(
-                source = player,
-                target = target.visType,
-                targetDefence = target.defenceLvl,
-                targetCurrHp = target.hitpoints,
-                targetMaxHp = target.baseHitpointsLvl,
-                attackType = attackType,
-                attackStyle = attackStyle,
-                blockType = blockType,
-                specialMultiplier = specialMultiplier,
-            )
-        }
-    }
+    ): Int =
+        computeHitChance(
+            source = player,
+            target = target.visType,
+            targetDefence = target.defenceLvl,
+            targetCurrHp = target.hitpoints,
+            targetMaxHp = target.baseHitpointsLvl,
+            attackType = attackType,
+            attackStyle = attackStyle,
+            blockType = blockType,
+            specialMultiplier = specialMultiplier,
+        )
 
     public fun computeHitChance(
         source: Player,
