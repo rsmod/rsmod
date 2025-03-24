@@ -3,6 +3,7 @@ package org.rsmod.api.cache.enricher.obj
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.inject.Inject
+import org.rsmod.api.config.aliases.ParamBool
 import org.rsmod.api.config.aliases.ParamInt
 import org.rsmod.api.config.aliases.ParamSeq
 import org.rsmod.api.config.aliases.ParamSpot
@@ -79,11 +80,13 @@ constructor(
         putSpot(config.projectileTravel, params.proj_travel)
         putSpot(config.projectileLaunch, params.proj_launch)
         putSpot(config.projectileLaunchDouble, params.proj_launch_double)
+        putBool(config.metallicInterference, params.metallic_interference)
         putStr(config.destroyHeader, params.destroy_note_title)
         putStr(config.destroyNote, params.destroy_note_desc)
         putInt(config.respawnTimer, params.respawn_time)
         putInt(config.speed, params.attackrate)
         putInt(config.range, params.attackrange)
+        putInt(config.ammoRecoveryRate, params.ammo_recovery_rate)
         putStatReq(config.reqStat1, params.statreq1_skill, config.reqLevel1, params.statreq1_level)
         putStatReq(config.reqStat2, params.statreq2_skill, config.reqLevel2, params.statreq2_level)
         putWeaponCategory(config.weaponCategory)
@@ -107,6 +110,12 @@ constructor(
         val id = sound ?: return
         val synth = SynthType(id, "synth_$id")
         param[paramType] = synth
+    }
+
+    private fun ObjPluginBuilder.putBool(value: Boolean?, paramType: ParamBool) {
+        if (value != null) {
+            param[paramType] = value
+        }
     }
 
     private fun ObjPluginBuilder.putInt(value: Int?, paramType: ParamInt) {
@@ -188,6 +197,8 @@ private data class ExternalObjConfig(
     val respawnTimer: Int?,
     val untradable: Boolean?,
     val dummyitem: Int?,
+    val metallicInterference: Boolean?,
+    val ammoRecoveryRate: Int?,
     val projAnim: String?,
     val projectileTravel: Int?,
     val projectileLaunch: Int?,

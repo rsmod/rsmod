@@ -33,7 +33,7 @@ internal object ParamBuilds : ParamBuilder() {
         build<Int>("defence_heavy") { default = 0 }
 
         build<Boolean>("metallic_interference") { default = false }
-        build<Int>("ammo_recover_rate")
+        build<Int>("ammo_recovery_rate")
         build<CategoryType>("required_ammo")
         build<Int>("bone_weapon") { default = 0 }
 

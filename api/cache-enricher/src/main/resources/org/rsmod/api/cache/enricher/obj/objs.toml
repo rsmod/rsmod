@@ -17309,6 +17309,7 @@ equipment_sound = 2241
 [[config]]
 obj = 'iron_chainbody'
 equipment_sound = 2234
+metallic_interference = true
 
 [[config]]
 obj = 'bronze_chainbody'
@@ -17322,23 +17323,28 @@ equipment_sound = 2234
 [[config]]
 obj = 'black_chainbody'
 equipment_sound = 2234
+metallic_interference = true
 
 [[config]]
 obj = 'mithril_chainbody'
 equipment_sound = 2234
+metallic_interference = true
 
 [[config]]
 obj = 'adamant_chainbody'
 equipment_sound = 2234
+metallic_interference = true
 
 [[config]]
 obj = 'rune_chainbody'
 equipment_sound = 2234
+metallic_interference = true
 
 [[config]]
 obj = 'iron_platebody'
 equipment_sound = 2234
 respawn_timer = 1500
+metallic_interference = true
 
 [[config]]
 obj = 'bronze_platebody'
@@ -17348,22 +17354,27 @@ equipment_sound = 2234
 obj = 'steel_platebody'
 equipment_sound = 2234
 respawn_timer = 2000
+metallic_interference = true
 
 [[config]]
 obj = 'mithril_platebody'
 equipment_sound = 2234
+metallic_interference = true
 
 [[config]]
 obj = 'adamant_platebody'
 equipment_sound = 2234
+metallic_interference = true
 
 [[config]]
 obj = 'black_platebody'
 equipment_sound = 2234
+metallic_interference = true
 
 [[config]]
 obj = 'rune_platebody'
 equipment_sound = 2234
+metallic_interference = true
 
 [[config]]
 obj = 'leather_body'
@@ -17638,6 +17649,7 @@ equipment_sound = 2237
 [[config]]
 obj = 'black_platebody_t'
 equipment_sound = 2234
+metallic_interference = true
 
 [[config]]
 obj = 'black_platelegs_t'
@@ -17654,6 +17666,7 @@ equipment_sound = 2245
 [[config]]
 obj = 'black_platebody_g'
 equipment_sound = 2234
+metallic_interference = true
 
 [[config]]
 obj = 'black_platelegs_g'
@@ -17670,6 +17683,7 @@ equipment_sound = 2245
 [[config]]
 obj = 'adamant_platebody_t'
 equipment_sound = 2234
+metallic_interference = true
 
 [[config]]
 obj = 'adamant_platelegs_t'
@@ -17686,6 +17700,7 @@ equipment_sound = 2240
 [[config]]
 obj = 'adamant_platebody_g'
 equipment_sound = 2234
+metallic_interference = true
 
 [[config]]
 obj = 'adamant_platelegs_g'
@@ -17702,6 +17717,7 @@ equipment_sound = 2240
 [[config]]
 obj = 'rune_platebody_g'
 equipment_sound = 2234
+metallic_interference = true
 
 [[config]]
 obj = 'rune_platelegs_g'
@@ -17718,6 +17734,7 @@ equipment_sound = 2245
 [[config]]
 obj = 'rune_platebody_t'
 equipment_sound = 2234
+metallic_interference = true
 
 [[config]]
 obj = 'rune_platelegs_t'
@@ -17734,6 +17751,7 @@ equipment_sound = 2245
 [[config]]
 obj = 'zamorak_platebody'
 equipment_sound = 2234
+metallic_interference = true
 
 [[config]]
 obj = 'zamorak_platelegs'
@@ -17750,6 +17768,7 @@ equipment_sound = 2245
 [[config]]
 obj = 'saradomin_platebody'
 equipment_sound = 2234
+metallic_interference = true
 
 [[config]]
 obj = 'saradomin_platelegs'
@@ -17914,6 +17933,7 @@ equipment_sound = 2242
 [[config]]
 obj = 'gilded_platebody'
 equipment_sound = 2234
+metallic_interference = true
 
 [[config]]
 obj = 'gilded_platelegs'
@@ -17981,6 +18001,7 @@ weapon_category = 'SlashSword'
 obj = 'decorative_body_red'
 equipment_sound = 2234
 untradable = true
+metallic_interference = true
 
 [[config]]
 obj = 'decorative_legs_red'
@@ -18147,6 +18168,7 @@ weapon_category = 'SlashSword'
 obj = 'decorative_body_white'
 equipment_sound = 2234
 untradable = true
+metallic_interference = true
 
 [[config]]
 obj = 'decorative_legs_white'
@@ -18222,6 +18244,7 @@ equipment_sound = 2240
 [[config]]
 obj = 'guthans_platebody'
 equipment_sound = 2234
+metallic_interference = true
 
 [[config]]
 obj = 'guthans_chainskirt'
@@ -18251,6 +18274,7 @@ equipment_sound = 2240
 [[config]]
 obj = 'torags_platebody'
 equipment_sound = 2234
+metallic_interference = true
 
 [[config]]
 obj = 'torags_platelegs'
@@ -18263,6 +18287,7 @@ equipment_sound = 2240
 [[config]]
 obj = 'veracs_brassard'
 equipment_sound = 2241
+metallic_interference = true
 
 [[config]]
 obj = 'veracs_plateskirt'
@@ -18380,21 +18405,25 @@ untradable = true
 obj = 'guthans_platebody_100'
 equipment_sound = 2234
 untradable = true
+metallic_interference = true
 
 [[config]]
 obj = 'guthans_platebody_75'
 equipment_sound = 2234
 untradable = true
+metallic_interference = true
 
 [[config]]
 obj = 'guthans_platebody_50'
 equipment_sound = 2234
 untradable = true
+metallic_interference = true
 
 [[config]]
 obj = 'guthans_platebody_25'
 equipment_sound = 2234
 untradable = true
+metallic_interference = true
 
 [[config]]
 obj = 'guthans_chainskirt_100'
@@ -18500,21 +18529,25 @@ untradable = true
 obj = 'torags_platebody_100'
 equipment_sound = 2234
 untradable = true
+metallic_interference = true
 
 [[config]]
 obj = 'torags_platebody_75'
 equipment_sound = 2234
 untradable = true
+metallic_interference = true
 
 [[config]]
 obj = 'torags_platebody_50'
 equipment_sound = 2234
 untradable = true
+metallic_interference = true
 
 [[config]]
 obj = 'torags_platebody_25'
 equipment_sound = 2234
 untradable = true
+metallic_interference = true
 
 [[config]]
 obj = 'torags_platelegs_100'
@@ -18560,21 +18593,25 @@ untradable = true
 obj = 'veracs_brassard_100'
 equipment_sound = 2241
 untradable = true
+metallic_interference = true
 
 [[config]]
 obj = 'veracs_brassard_75'
 equipment_sound = 2241
 untradable = true
+metallic_interference = true
 
 [[config]]
 obj = 'veracs_brassard_50'
 equipment_sound = 2241
 untradable = true
+metallic_interference = true
 
 [[config]]
 obj = 'veracs_brassard_25'
 equipment_sound = 2241
 untradable = true
+metallic_interference = true
 
 [[config]]
 obj = 'veracs_plateskirt_100'
@@ -21805,6 +21842,7 @@ untradable = true
 [[config]]
 obj = 'dragon_platebody'
 equipment_sound = 2234
+metallic_interference = true
 
 [[config]]
 obj = 'dragon_kiteshield'
@@ -23833,6 +23871,7 @@ untradable = true
 obj = 'statiuss_platebody_bh'
 equipment_sound = 2234
 untradable = true
+metallic_interference = true
 
 [[config]]
 obj = 'statiuss_platelegs_bh'
@@ -32874,6 +32913,10 @@ untradable = true
 weapon_category = 'Unarmed'
 
 [[config]]
+obj = 'veracs_brassard_0'
+metallic_interference = true
+
+[[config]]
 obj = 'armadyl_communiqu'
 destroy_note = 'You have no further need for it, so you can safely destroy it.'
 destroy_note_alt = 'Unread: Hopefully a Guardian of Armadyl will bring you another.'
@@ -32986,6 +33029,11 @@ dummyitem = 2
 obj = 'dragonstone_6903'
 respawn_timer = 800
 untradable = true
+
+[[config]]
+obj = 'accumulator_max_cape'
+untradable = true
+ammo_recovery_rate = 72
 
 [[config]]
 obj = 'blood_ancient_sceptre_l'
@@ -33471,6 +33519,11 @@ speed = 5
 weapon_category = 'Pickaxe'
 
 [[config]]
+obj = 'masori_assembler_l'
+untradable = true
+ammo_recovery_rate = 80
+
+[[config]]
 obj = 'skillguide_hunter_unused_kebbit_2'
 untradable = true
 dummyitem = 2
@@ -33630,6 +33683,11 @@ speed = 5
 weapon_category = 'Spiked'
 
 [[config]]
+obj = 'masori_assembler_max_cape_l'
+untradable = true
+ammo_recovery_rate = 80
+
+[[config]]
 obj = 'dummyitem_graphiconly_6189'
 untradable = true
 dummyitem = 1
@@ -33752,6 +33810,11 @@ dummyitem = 2
 obj = 'dragon_claws_cr'
 untradable = true
 weapon_category = 'Claw'
+
+[[config]]
+obj = 'assembler_max_cape_l'
+untradable = true
+ammo_recovery_rate = 80
 
 [[config]]
 obj = 'death_rune'
@@ -33977,6 +34040,11 @@ untradable = true
 dummyitem = 2
 
 [[config]]
+obj = 'assembler_max_cape'
+untradable = true
+ammo_recovery_rate = 80
+
+[[config]]
 obj = 'broken_axe_506'
 speed = 5
 
@@ -34057,6 +34125,11 @@ respawn_timer = 20
 untradable = true
 
 [[config]]
+obj = 'avas_assembler'
+untradable = true
+ammo_recovery_rate = 80
+
+[[config]]
 obj = 'kruk_monkey_greegree'
 untradable = true
 weapon_category = 'Unarmed'
@@ -34121,6 +34194,11 @@ untradable = true
 dummyitem = 2
 
 [[config]]
+obj = 'avas_attractor'
+untradable = true
+ammo_recovery_rate = 60
+
+[[config]]
 obj = 'dummyitem_invonly_3918'
 untradable = true
 dummyitem = 2
@@ -34176,6 +34254,11 @@ weapon_category = 'Staff'
 [[config]]
 obj = 'pugel'
 weapon_category = 'Unarmed'
+
+[[config]]
+obj = 'avas_accumulator'
+untradable = true
+ammo_recovery_rate = 72
 
 [[config]]
 obj = 'amulet_mould'
@@ -34270,6 +34353,11 @@ dummyitem = 2
 obj = 'dummyitem_invonly_3936'
 untradable = true
 dummyitem = 2
+
+[[config]]
+obj = 'masori_assembler_max_cape'
+untradable = true
+ammo_recovery_rate = 80
 
 [[config]]
 obj = 'crystal_sceptre'
@@ -34558,6 +34646,11 @@ untradable = true
 dummyitem = 2
 
 [[config]]
+obj = 'masori_assembler'
+untradable = true
+ammo_recovery_rate = 80
+
+[[config]]
 obj = 'dummyitem_invonly_3992'
 untradable = true
 dummyitem = 2
@@ -34670,6 +34763,10 @@ untradable = true
 dummyitem = 2
 
 [[config]]
+obj = 'justiciar_chestguard'
+metallic_interference = true
+
+[[config]]
 obj = 'dummyitem_invonly_2768'
 untradable = true
 dummyitem = 2
@@ -34739,6 +34836,10 @@ untradable = true
 dummyitem = 2
 
 [[config]]
+obj = 'torags_platebody_0'
+metallic_interference = true
+
+[[config]]
 obj = 'skillguide_hunter_feldip_weasel_1'
 untradable = true
 dummyitem = 2
@@ -34763,6 +34864,10 @@ obj = 'tackle_box'
 destroy_note = "Your tackle box contains items. If you destroy it they'll be lost. The box may also be hard to replace."
 destroy_note_alt = 'Empty: Your tackle box is currently empty, but they can be hard to replace.'
 untradable = true
+
+[[config]]
+obj = 'guthans_platebody_0'
+metallic_interference = true
 
 [[config]]
 obj = 'dummyitem_invonly_2762'

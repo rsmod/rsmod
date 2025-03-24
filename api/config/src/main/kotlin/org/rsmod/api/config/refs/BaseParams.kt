@@ -78,7 +78,7 @@ object BaseParams : ParamReferences() {
     val slayer_helm_imbued: ParamInt = find("slayer_helm_imbued")
     val blackmask_imbued: ParamInt = find("blackmask_imbued")
     val metallic_interference: ParamBool = find("metallic_interference")
-    val ammo_recover_rate: ParamInt = find("ammo_recover_rate")
+    val ammo_recovery_rate: ParamInt = find("ammo_recovery_rate")
     val required_ammo: ParamCategory = find("required_ammo")
     val bone_weapon: ParamInt = find("bone_weapon")
     val item_block_sound1: ParamSynth = find("item_block_sound1")

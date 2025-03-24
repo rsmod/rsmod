@@ -259,7 +259,7 @@
 65505	defend_sound
 65506	death_sound
 65507	slayer_category
-65508	ammo_recover_rate
+65508	ammo_recovery_rate
 65509	forcehitchance_melee
 65510	forcehitchance_magic
 65511	forcehitchance_range

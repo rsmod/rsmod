@@ -116,18 +116,14 @@ public object RangedAmmunition {
     public fun conserveAmmo(player: Player, objTypes: ObjTypeList, random: GameRandom): Boolean {
         val cape = objTypes.getOrNull(player.back)
         if (cape != null) {
-            // TODO(combat): Fill out `ammo_recover_rate` for ava devices and
-            //  `metallic_interference` for applicable torso armour.
-            //  https://oldschool.runescape.wiki/w/Ava%27s_device
-
-            val recoveryRate = cape.paramOrNull(params.ammo_recover_rate) ?: return false
+            val recoveryRate = cape.paramOrNull(params.ammo_recovery_rate) ?: return false
 
             val body = objTypes.getOrNull(player.torso)
             if (body != null && body.param(params.metallic_interference)) {
                 return false
             }
 
-            return random.of(maxExclusive = 100) < recoveryRate
+            return recoveryRate > random.of(maxExclusive = 100)
         }
         return false
     }
