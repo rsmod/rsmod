@@ -77,19 +77,6 @@ constructor(
     }
 
     /**
-     * Resets the player's attack delay to the current map clock.
-     *
-     * This effectively cancels any previously set attack delay, allowing the player to attempt
-     * another attack immediately.
-     *
-     * This should be used in scenarios where an attack was initiated but could not be completed
-     * (e.g., due to missing ammunition), ensuring the player is not unnecessarily delayed.
-     */
-    public fun resetAttackDelay(player: Player) {
-        player.actionDelay = player.currentMapClock
-    }
-
-    /**
      * Maintains combat engagement with the given [target] by calling the appropriate interaction
      * function.
      *
@@ -650,22 +637,6 @@ constructor(
     ): Int = TODO() // TODO(combat)
 
     /**
-     * Queues a ranged hit on [target] using [proj] to determine the client and hit delays.
-     *
-     * This is a convenience function that calls [queueRangedHit] with [ProjAnim.clientCycles] and
-     * [ProjAnim.serverCycles] as the delay values.
-     *
-     * @see [queueRangedHit]
-     */
-    public fun queueRangedProjectileHit(
-        source: Player,
-        target: PathingEntity,
-        ammo: ObjType?,
-        damage: Int,
-        proj: ProjAnim,
-    ): Hit = queueRangedHit(source, target, ammo, damage, proj.clientCycles, proj.serverCycles)
-
-    /**
      * Queues a ranged hit on [target], applying damage after the specified [hitDelay].
      *
      * In addition to scheduling the hit, this also triggers the appropriate defensive animations
@@ -751,6 +722,97 @@ constructor(
         target.queueCombatRetaliate(source, hitDelay)
         return hit
     }
+
+    /**
+     * Queues a ranged hit on [target] using [proj] to determine the client and hit delays.
+     *
+     * This is a convenience function that calls [queueRangedHit] with [ProjAnim.clientCycles] and
+     * [ProjAnim.serverCycles] as the delay values.
+     *
+     * @see [queueRangedHit]
+     */
+    public fun queueRangedProjectileHit(
+        source: Player,
+        target: PathingEntity,
+        ammo: ObjType?,
+        damage: Int,
+        proj: ProjAnim,
+    ): Hit = queueRangedHit(source, target, ammo, damage, proj.clientCycles, proj.serverCycles)
+
+    /**
+     * Queues a ranged hit on [target], applying damage after the specified [hitDelay].
+     *
+     * Unlike [queueRangedHit], this function **does not** trigger any block animations, visual
+     * effects, or retaliation behavior from the [target]. It simply applies the damage after the
+     * delay, while also awarding hero points to [source] based on the damage.
+     *
+     * This is useful for situations where damage should occur silently or as part of a scripted
+     * sequence where no defensive behavior from the target is required (e.g., secondary hits from
+     * Dark bow).
+     *
+     * @see [queueRangedHit]
+     */
+    public fun queueRangedDamage(
+        source: Player,
+        target: PathingEntity,
+        ammo: ObjType?,
+        damage: Int,
+        hitDelay: Int,
+    ): Hit =
+        when (target) {
+            is Npc -> queueRangedDamage(source, target, ammo, damage, hitDelay)
+            is Player -> queueRangedDamage(source, target, ammo, damage, hitDelay)
+        }
+
+    private fun queueRangedDamage(
+        source: Player,
+        target: Player,
+        ammo: ObjType?,
+        damage: Int,
+        hitDelay: Int,
+    ): Hit {
+        val hit =
+            target.queueHit(
+                source = source,
+                delay = hitDelay,
+                type = HitType.Ranged,
+                damage = damage,
+                sourceSecondary = ammo,
+            )
+        target.heroPoints(source, hit.damage)
+        return hit
+    }
+
+    private fun queueRangedDamage(
+        source: Player,
+        target: Npc,
+        ammo: ObjType?,
+        damage: Int,
+        hitDelay: Int,
+    ): Hit {
+        val hit =
+            target.queueHit(
+                source = source,
+                delay = hitDelay,
+                type = HitType.Ranged,
+                damage = damage,
+                modifier = npcHitModifier,
+                sourceSecondary = ammo,
+            )
+        target.heroPoints(source, hit.damage)
+        return hit
+    }
+
+    public fun spawnProjectile(
+        source: Player,
+        target: PathingEntity,
+        spotanim: SpotanimType,
+        projanim: ProjAnimType,
+    ): ProjAnim =
+        when (target) {
+            is Npc -> spawnProjectile(source, target, spotanim, projanim)
+            is Player -> spawnProjectile(source, target, spotanim, projanim)
+        }
 
     public fun spawnProjectile(
         source: Player,

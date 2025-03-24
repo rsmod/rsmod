@@ -12,8 +12,11 @@ import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.PathingEntity
 import org.rsmod.game.entity.Player
 import org.rsmod.game.hit.Hit
+import org.rsmod.game.proj.ProjAnim
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.ObjTypeList
+import org.rsmod.game.type.proj.ProjAnimType
+import org.rsmod.game.type.spot.SpotanimType
 
 public class WeaponManager
 @Inject
@@ -270,4 +273,36 @@ constructor(private val objTypes: ObjTypeList, private val manager: PlayerAttack
             clientDelay = clientDelay,
             hitDelay = hitDelay,
         )
+
+    /** @see [PlayerAttackManager.queueRangedProjectileHit] */
+    public fun queueRangedProjectileHit(
+        source: ProtectedAccess,
+        target: PathingEntity,
+        ammo: ObjType?,
+        damage: Int,
+        proj: ProjAnim,
+    ): Hit = manager.queueRangedProjectileHit(source.player, target, ammo, damage, proj)
+
+    /** @see [PlayerAttackManager.queueRangedDamage] */
+    public fun queueRangedDamage(
+        source: ProtectedAccess,
+        target: PathingEntity,
+        ammo: ObjType?,
+        damage: Int,
+        hitDelay: Int,
+    ): Hit =
+        manager.queueRangedDamage(
+            source = source.player,
+            target = target,
+            ammo = ammo,
+            damage = damage,
+            hitDelay = hitDelay,
+        )
+
+    public fun spawnProjectile(
+        source: ProtectedAccess,
+        target: PathingEntity,
+        spotanim: SpotanimType,
+        projanim: ProjAnimType,
+    ): ProjAnim = manager.spawnProjectile(source.player, target, spotanim, projanim)
 }

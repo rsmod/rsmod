@@ -147,6 +147,13 @@ object BaseObjs : ObjReferences() {
     val shortbow = find("shortbow")
     val magic_shortbow = find("magic_shortbow")
 
+    val dark_bow = find("dark_bow")
+    val dark_bow_green = find("dark_bow_green")
+    val dark_bow_blue = find("dark_bow_blue")
+    val dark_bow_yellow = find("dark_bow_yellow")
+    val dark_bow_white = find("dark_bow_white")
+    val dark_bow_bh = find("dark_bow_bh")
+
     val armadyl_helmet = find("armadyl_helmet")
     val armadyl_chestplate = find("armadyl_chestplate")
     val armadyl_chainskirt = find("armadyl_chainskirt")
@@ -266,6 +273,7 @@ object BaseObjs : ObjReferences() {
 
     val tumekens_shadow = find("tumekens_shadow")
     val twisted_bow = find("twisted_bow")
+    val scythe_of_vitur = find("scythe_of_vitur")
 
     val scorching_bow = find("scorching_bow")
     val blue_moon_spear = find("blue_moon_spear")

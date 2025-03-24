@@ -148,7 +148,7 @@ constructor(
         // have reached this point (not handled by previous `specializedWeapon` block).
         val usingChargeBow = righthandType.isCategoryType(categories.chargebow)
         if (usingChargeBow) {
-            manager.resetAttackDelay(player)
+            manager.clearCombat(player)
             mes("The bow appears to have malfunctioned.")
             return
         }
@@ -158,7 +158,7 @@ constructor(
 
         val canUseAmmo = ammunition.attemptAmmoUsage(player, righthandType, quiverType)
         if (!canUseAmmo) {
-            manager.resetAttackDelay(player)
+            manager.clearCombat(player)
             return
         }
 
@@ -179,7 +179,7 @@ constructor(
         // All valid ammunition requires a `proj_travel` spotanim type and `proj_type` projanim type
         // param so that the projectile can be created and referenced for its proper delays.
         if (projanimType == null || travelSpotanim == null) {
-            manager.resetAttackDelay(player)
+            manager.clearCombat(player)
             mes("Your ammunition appears to be stuck.")
             return
         }
@@ -188,7 +188,7 @@ constructor(
         // used in combat.
         val playedAnim = manager.playWeaponFx(player, attack)
         if (!playedAnim) {
-            manager.resetAttackDelay(player)
+            manager.clearCombat(player)
             mes("The bow appears to be broken.")
             return
         }

@@ -74,6 +74,7 @@
 422	human_unarmedpunch
 423	human_unarmedkick
 424	human_unarmedblock
+426	human_bow_attack
 808	human_ready
 819	human_walk_f
 820	human_walk_b
