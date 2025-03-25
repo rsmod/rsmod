@@ -1,7 +1,7 @@
 package org.rsmod.api.weapons.scripts
 
 import jakarta.inject.Inject
-import org.rsmod.api.weapons.WeaponManager
+import org.rsmod.api.weapons.WeaponAttackManager
 import org.rsmod.api.weapons.WeaponMap
 import org.rsmod.api.weapons.WeaponRepository
 import org.rsmod.plugin.scripts.PluginScript
@@ -11,7 +11,7 @@ internal class WeaponScript
 @Inject
 constructor(
     private val repo: WeaponRepository,
-    private val manager: WeaponManager,
+    private val manager: WeaponAttackManager,
     private val weapons: Set<WeaponMap>,
 ) : PluginScript() {
     override fun ScriptContext.startUp() {

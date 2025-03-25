@@ -12,7 +12,7 @@ import org.rsmod.api.config.refs.synths
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.quiver
 import org.rsmod.api.weapons.RangedWeapon
-import org.rsmod.api.weapons.WeaponManager
+import org.rsmod.api.weapons.WeaponAttackManager
 import org.rsmod.api.weapons.WeaponMap
 import org.rsmod.api.weapons.WeaponRepository
 import org.rsmod.game.entity.Npc
@@ -26,7 +26,7 @@ class DarkBowWeapons
 @Inject
 constructor(private val objTypes: ObjTypeList, private val ammunition: RangedAmmoManager) :
     WeaponMap {
-    override fun WeaponRepository.register(manager: WeaponManager) {
+    override fun WeaponRepository.register(manager: WeaponAttackManager) {
         register(objs.dark_bow, DarkBow(manager, ammunition, objTypes))
         register(objs.dark_bow_green, DarkBow(manager, ammunition, objTypes))
         register(objs.dark_bow_blue, DarkBow(manager, ammunition, objTypes))
@@ -36,7 +36,7 @@ constructor(private val objTypes: ObjTypeList, private val ammunition: RangedAmm
     }
 
     private class DarkBow(
-        private val manager: WeaponManager,
+        private val manager: WeaponAttackManager,
         private val ammunition: RangedAmmoManager,
         private val objTypes: ObjTypeList,
     ) : RangedWeapon {

@@ -19,7 +19,7 @@ import org.rsmod.game.type.proj.ProjAnimType
 import org.rsmod.game.type.spot.SpotanimType
 import org.rsmod.game.type.synth.SynthType
 
-public class WeaponManager
+public class WeaponAttackManager
 @Inject
 constructor(private val objTypes: ObjTypeList, private val manager: PlayerAttackManager) {
     /**

@@ -4,7 +4,7 @@ import org.rsmod.plugin.module.PluginModule
 
 public class WeaponModule : PluginModule() {
     override fun bind() {
-        bindInstance<WeaponManager>()
+        bindInstance<WeaponAttackManager>()
         bindInstance<WeaponRegistry>()
         bindInstance<WeaponRepository>()
 
