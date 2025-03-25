@@ -32,7 +32,7 @@ to deal with until those systems are in place.
 - Decision to not make ClientScript arguments type-safe. Just not worth it,
 especially if you consider that the arguments would have to be converted to
 their primitive form dynamically during runtime.
-- `delay` functions, AKA `p_delay`, does _not_ follow the "official" convention.
+- `delay` functions, AKA `p_delay`, do _not_ follow the "official" convention.
 This means that calling `delay(1)` will delay the player by 1 tick, not 2.
 `delay(0)` will not delay the player at all.
 - Mention the purpose of each api submodule (in a README within api module).
@@ -58,6 +58,13 @@ area are discarded/ignored.
 `Region.normal[...]` will resolve to the last one of these registered zones.
 Since regions register zones column by column, from bottom to top, this means
 the zone closest to the north-east boundary takes precedence.
+- Zone update processing occurs in a fixed order, from the bottom-left build
+area zone to the top-right zone. This means all `ZoneProt` updates are sent in
+a predictable order, rather than in the order the updates occurred. For
+example, if `zone(0, 1, 0)` receives a `soundarea` update first and
+`zone(0, 0, 0)` receives one afterward, the latter will still be sent first due
+to fixed iteration order; whereas the official game would send `zone(0, 1, 0)`
+first since it was the earliest update.
 
 ## Types
 ```
