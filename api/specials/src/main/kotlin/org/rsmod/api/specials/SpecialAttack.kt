@@ -3,6 +3,7 @@ package org.rsmod.api.specials
 import org.rsmod.api.combat.commons.CombatAttack
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.specials.combat.CombatSpecialAttack
+import org.rsmod.api.specials.combat.MagicSpecialAttack
 import org.rsmod.api.specials.combat.MeleeSpecialAttack
 import org.rsmod.api.specials.combat.RangedSpecialAttack
 import org.rsmod.api.specials.instant.InstantSpecialAttack
@@ -67,6 +68,33 @@ public sealed class SpecialAttack {
             access: ProtectedAccess,
             target: PathingEntity,
             attack: CombatAttack.Ranged,
+        ): Boolean =
+            when (target) {
+                is Npc -> attack(access, target, attack)
+                is Player -> attack(access, target, attack)
+            }
+    }
+
+    public data class Magic(
+        public val energyInHundreds: Int,
+        public val special: MagicSpecialAttack,
+    ) : Combat() {
+        public suspend fun attack(
+            access: ProtectedAccess,
+            target: Npc,
+            attack: CombatAttack.Staff,
+        ): Boolean = special.attack(access, target, attack)
+
+        public suspend fun attack(
+            access: ProtectedAccess,
+            target: Player,
+            attack: CombatAttack.Staff,
+        ): Boolean = special.attack(access, target, attack)
+
+        public suspend fun attack(
+            access: ProtectedAccess,
+            target: PathingEntity,
+            attack: CombatAttack.Staff,
         ): Boolean =
             when (target) {
                 is Npc -> attack(access, target, attack)

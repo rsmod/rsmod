@@ -14,3 +14,5 @@ public interface CombatSpecialAttack<T : CombatAttack> {
 public interface MeleeSpecialAttack : CombatSpecialAttack<CombatAttack.Melee>
 
 public interface RangedSpecialAttack : CombatSpecialAttack<CombatAttack.Ranged>
+
+public interface MagicSpecialAttack : CombatSpecialAttack<CombatAttack.Staff>

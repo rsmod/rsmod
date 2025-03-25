@@ -18,6 +18,11 @@ public class WeaponRegistry {
         return weapon as? RangedWeapon
     }
 
+    public fun getMagic(obj: InvObj): MagicWeapon? {
+        val weapon = this[obj] ?: return null
+        return weapon as? MagicWeapon
+    }
+
     public fun add(obj: ObjType, weapon: Weapon<*>): Result.Add {
         if (obj.id in weapons) {
             return Result.Add.AlreadyAdded

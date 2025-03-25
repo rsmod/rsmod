@@ -1,6 +1,8 @@
 package org.rsmod.api.specials
 
 import jakarta.inject.Inject
+import org.rsmod.api.combat.commons.CombatAttack
+import org.rsmod.api.specials.combat.MagicSpecialAttack
 import org.rsmod.api.specials.combat.MeleeSpecialAttack
 import org.rsmod.api.specials.combat.RangedSpecialAttack
 import org.rsmod.api.specials.configs.SpecialAttackEnergyEnums
@@ -101,6 +103,49 @@ constructor(private val registry: SpecialAttackRegistry) {
      * @see [SpecialAttackManager.takeSpecialEnergy]
      */
     public fun registerRanged(specWeapon: ObjType, special: RangedSpecialAttack) {
+        val result = registry.add(specWeapon, special)
+        assertValidResult(specWeapon, result)
+    }
+
+    /**
+     * Registers the [specWeapon] special attack ([special]) as a [MagicSpecialAttack], which
+     * activates on the player's next magic staff-based attack in combat.
+     *
+     * These special attacks are specifically designed to trigger with [CombatAttack.Staff] attacks,
+     * and not [CombatAttack.Spell] attacks. In other words, the special will only activate if the
+     * player is using a magic staff-based combat style, rather than casting standalone spells.
+     *
+     * The combat style in use _before_ the special activates determines whether it is a
+     * "magic-based" special attack.
+     *
+     * ### Important Note
+     *
+     * The special attack energy requirement is determined by
+     * [SpecialAttackWeapons.getSpecialEnergy] and is deducted from the player's special attack
+     * energy when used.
+     *
+     * If the special attack energy requirement is defined as less than `10` (with the standard max
+     * energy being `1000`), this indicates a specialized requirement that is **not** automatically
+     * checked or deducted before activation.
+     *
+     * For example, the Soulreaper Axe has a requirement of `1`, meaning the engine will **not**
+     * deduct or check it automatically. Instead, it must be validated within [special], returning
+     * `false` if the player lacks the required soul stacks.
+     *
+     * If `special` returns `false`, the player's normal combat attack will proceed as if the
+     * special attack was never activated.
+     *
+     * ### Additional Energy Costs
+     *
+     * Some special attacks may impose additional energy costs beyond the standard requirement. For
+     * example, the Dragon hasta's special attack may consume more energy than usual. Any extra
+     * energy cost can be managed via [SpecialAttackManager.takeSpecialEnergy].
+     *
+     * @throws IllegalStateException if [specWeapon] is already registered with any special attack.
+     * @see [SpecialAttackManager.hasSpecialEnergy]
+     * @see [SpecialAttackManager.takeSpecialEnergy]
+     */
+    public fun registerMagic(specWeapon: ObjType, special: MagicSpecialAttack) {
         val result = registry.add(specWeapon, special)
         assertValidResult(specWeapon, result)
     }

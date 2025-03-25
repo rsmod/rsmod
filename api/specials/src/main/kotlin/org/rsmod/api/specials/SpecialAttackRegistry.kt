@@ -1,6 +1,7 @@
 package org.rsmod.api.specials
 
 import jakarta.inject.Inject
+import org.rsmod.api.specials.combat.MagicSpecialAttack
 import org.rsmod.api.specials.combat.MeleeSpecialAttack
 import org.rsmod.api.specials.combat.RangedSpecialAttack
 import org.rsmod.api.specials.instant.InstantSpecialAttack
@@ -39,6 +40,16 @@ public class SpecialAttackRegistry @Inject constructor(private val weapons: Spec
         }
         val energy = weapons.getSpecialEnergy(obj) ?: return Result.Add.SpecialEnergyNotMapped
         val special = SpecialAttack.Ranged(energy, spec)
+        specials[obj.id] = special
+        return Result.Add.Success
+    }
+
+    public fun add(obj: ObjType, spec: MagicSpecialAttack): Result.Add {
+        if (obj.id in specials) {
+            return Result.Add.AlreadyAdded
+        }
+        val energy = weapons.getSpecialEnergy(obj) ?: return Result.Add.SpecialEnergyNotMapped
+        val special = SpecialAttack.Magic(energy, spec)
         specials[obj.id] = special
         return Result.Add.Success
     }

@@ -4,6 +4,7 @@ import jakarta.inject.Inject
 import org.rsmod.api.combat.commons.CombatAttack
 import org.rsmod.api.combat.manager.PlayerAttackManager
 import org.rsmod.api.combat.manager.RangedAmmoManager
+import org.rsmod.api.combat.player.canPerformMagicSpecial
 import org.rsmod.api.combat.player.canPerformMeleeSpecial
 import org.rsmod.api.combat.player.canPerformRangedSpecial
 import org.rsmod.api.combat.player.canPerformShieldSpecial
@@ -56,8 +57,8 @@ constructor(
             return
         }
 
-        // Set the next attack clock before executing any special attack, ensuring specials default
-        // to the weapon's standard attack delay. (When applicable)
+        // Set the next attack clock before executing any special attack, ensuring all attacks
+        // default to the weapon's standard attack delay.
         val attackRate = speeds.actual(player)
         manager.setNextAttackDelay(player, attackRate)
 
@@ -108,8 +109,8 @@ constructor(
             return
         }
 
-        // Set the next attack clock before executing any special attack, ensuring specials default
-        // to the weapon's standard attack delay. (When applicable)
+        // Set the next attack clock before executing any special attack, ensuring all attacks
+        // default to the weapon's standard attack delay.
         val attackRate = speeds.actual(player)
         manager.setNextAttackDelay(player, attackRate)
 
@@ -220,12 +221,58 @@ constructor(
         manager.continueCombat(player, npc)
     }
 
-    private suspend fun ProtectedAccess.attackMagicSpell(target: Npc, attack: CombatAttack.Spell) {
+    private suspend fun ProtectedAccess.attackMagicSpell(npc: Npc, attack: CombatAttack.Spell) {
         TODO()
     }
 
-    private suspend fun ProtectedAccess.attackMagicStaff(target: Npc, attack: CombatAttack.Staff) {
-        TODO()
+    private suspend fun ProtectedAccess.attackMagicStaff(npc: Npc, attack: CombatAttack.Staff) {
+        if (!canAttack(npc)) {
+            return
+        }
+
+        if (manager.isAttackDelayed(player)) {
+            manager.continueCombat(player, npc)
+            return
+        }
+
+        // Set the next attack clock before executing any special attack, ensuring all attacks
+        // default to the weapon's standard attack delay.
+        val attackRate = MAGIC_STAFF_ATTACK_RATE
+        manager.setNextAttackDelay(player, attackRate)
+
+        // Important: Special attack handlers are responsible for explicitly calling `opnpc2` (or a
+        // helper function that does so) to re-engage combat after performing the special attack.
+        if (specialAttackType == SpecialAttackType.Weapon) {
+            specialAttackType = SpecialAttackType.None
+            val activatedSpec = canPerformMagicSpecial(npc, attack, specialsReg, specialEnergy)
+            if (activatedSpec) {
+                return
+            }
+        }
+
+        if (specialAttackType == SpecialAttackType.Shield) {
+            specialAttackType = SpecialAttackType.None
+            val activatedSpec = canPerformShieldSpecial(npc, player.lefthand, specialsReg)
+            if (activatedSpec) {
+                return
+            }
+        }
+
+        // Important: Weapon attack handlers are responsible for explicitly calling `opnpc2` (or a
+        // helper function that does so) to re-engage combat after performing their attack.
+        val specializedWeapon = weaponsReg.getMagic(attack.weapon)
+        if (specializedWeapon != null) {
+            val attackHandled = specializedWeapon.attack(this, npc, attack)
+            if (attackHandled) {
+                return
+            }
+        }
+
+        // Since most (if not all) powered staves require specialized attack handling logic, they
+        // are expected to be registered as separate weapons in the `WeaponRegistry`. This ensures
+        // their unique behavior is handled explicitly rather than relying on fallback logic.
+        manager.clearCombat(player)
+        mes("Your staff fails to respond.")
     }
 
     private fun ProtectedAccess.canAttack(npc: Npc): Boolean {

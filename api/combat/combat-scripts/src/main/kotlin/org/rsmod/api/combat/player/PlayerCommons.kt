@@ -130,11 +130,26 @@ internal suspend fun ProtectedAccess.canPerformRangedSpecial(
 
 internal suspend fun ProtectedAccess.canPerformMagicSpecial(
     target: PathingEntity,
-    weapon: InvObj,
     attack: CombatAttack.Staff,
     specials: SpecialAttackRegistry,
     energy: SpecialAttackEnergy,
-): Boolean = TODO()
+): Boolean {
+    val special = specials[attack.weapon] ?: return false
+    if (special !is SpecialAttack.Magic) {
+        return false
+    }
+
+    val specializedEnergyReq = energy.isSpecializedRequirement(special.energyInHundreds)
+    if (!specializedEnergyReq) {
+        val energyReduced = energy.takeSpecialEnergyAttempt(player, special.energyInHundreds)
+        if (!energyReduced) {
+            mes("You don't have enough power left.")
+            return false
+        }
+    }
+
+    return special.attack(this, target, attack)
+}
 
 internal suspend fun ProtectedAccess.canPerformShieldSpecial(
     target: PathingEntity,
