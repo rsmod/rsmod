@@ -37,6 +37,8 @@ import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.proj.ProjAnimType
 import org.rsmod.game.type.spot.SpotanimType
+import org.rsmod.game.type.synth.SynthType
+import org.rsmod.map.CoordGrid
 
 public class PlayerAttackManager
 @Inject
@@ -843,4 +845,21 @@ constructor(
         spotanim: SpotanimType,
         projanim: ProjAnimType,
     ): ProjAnim = worldRepo.projAnim(source, target, spotanim, projanim)
+
+    public fun soundArea(
+        source: CoordGrid,
+        synth: SynthType,
+        delay: Int,
+        loops: Int,
+        radius: Int,
+        size: Int,
+    ): Unit =
+        worldRepo.soundArea(
+            source,
+            synth,
+            delay = delay,
+            loops = loops,
+            radius = radius,
+            size = size,
+        )
 }

@@ -48,5 +48,8 @@ object BaseSynths : SynthReferences() {
     val tree_fall_sound = find("tree_fall_sound")
     val cow_atmospheric = find("cow_atmospheric")
     val darkbow_doublefire = find("darkbow_doublefire")
+    val darkbow_dragon_attack = find("darkbow_dragon_attack")
     val darkbow_fire = find("darkbow_fire")
+    val darkbow_shadow_attack = find("darkbow_shadow_attack")
+    val darkbow_shadow_impact = find("darkbow_shadow_impact")
 }

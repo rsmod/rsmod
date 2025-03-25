@@ -17,6 +17,7 @@ import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.proj.ProjAnimType
 import org.rsmod.game.type.spot.SpotanimType
+import org.rsmod.game.type.synth.SynthType
 
 public class WeaponManager
 @Inject
@@ -305,4 +306,13 @@ constructor(private val objTypes: ObjTypeList, private val manager: PlayerAttack
         spotanim: SpotanimType,
         projanim: ProjAnimType,
     ): ProjAnim = manager.spawnProjectile(source.player, target, spotanim, projanim)
+
+    public fun soundArea(
+        source: PathingEntity,
+        synth: SynthType,
+        delay: Int = 0,
+        loops: Int = 1,
+        radius: Int = 5,
+        size: Int = 0,
+    ): Unit = manager.soundArea(source.coords, synth, delay, loops, radius, size)
 }

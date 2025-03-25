@@ -114,6 +114,10 @@
 909	red_chinchompa_travel
 955	hunter_xbow_launch
 993	bolt_rack_launch
+1099	darkbow_dragon_travel
+1100	darkbow_dragon_impact
+1101	darkbow_shadow_travel
+1103	darkbow_shadow_impact
 1104	double_bronze_arrow_launch
 1105	double_iron_arrow_launch
 1106	double_steel_arrow_launch

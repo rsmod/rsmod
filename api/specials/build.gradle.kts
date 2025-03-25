@@ -19,5 +19,6 @@ dependencies {
     implementation(projects.api.utils.utilsVars)
     implementation(projects.engine.events)
     implementation(projects.engine.game)
+    implementation(projects.engine.map)
     implementation(projects.engine.plugin)
 }

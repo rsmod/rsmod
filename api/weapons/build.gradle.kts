@@ -12,5 +12,6 @@ dependencies {
     implementation(projects.api.combat.combatManager)
     implementation(projects.api.player)
     implementation(projects.engine.game)
+    implementation(projects.engine.map)
     implementation(projects.engine.plugin)
 }
