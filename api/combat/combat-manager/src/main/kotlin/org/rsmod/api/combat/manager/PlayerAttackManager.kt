@@ -398,18 +398,26 @@ constructor(
         }
 
     private fun queueMeleeHit(source: Player, target: Npc, damage: Int, delay: Int): Hit {
+        // Note: Retaliation must be queued _before_ the hit. If queued after, every hit would
+        // trigger the "speed-up" death mechanic, since the hit queues would no longer be the
+        // last entries in the queue list at the time of processing.
+        target.queueCombatRetaliate(source)
+
         val hit = target.queueHit(source, delay, HitType.Melee, damage, npcHitModifier)
         target.heroPoints(source, hit.damage)
         target.combatPlayDefendAnim()
-        target.queueCombatRetaliate(source)
         return hit
     }
 
     private fun queueMeleeHit(source: Player, target: Player, damage: Int, delay: Int): Hit {
+        // Note: Retaliation must be queued _before_ the hit. If queued after, every hit would
+        // trigger the "speed-up" death mechanic, since the hit queues would no longer be the
+        // last entries in the queue list at the time of processing.
+        target.queueCombatRetaliate(source)
+
         val hit = target.queueHit(source, delay, HitType.Melee, damage)
         target.heroPoints(source, hit.damage)
         target.combatPlayDefendAnim(objTypes)
-        target.queueCombatRetaliate(source)
         return hit
     }
 
@@ -684,6 +692,11 @@ constructor(
         clientDelay: Int,
         hitDelay: Int,
     ): Hit {
+        // Note: Retaliation must be queued _before_ the hit. If queued after, every hit would
+        // trigger the "speed-up" death mechanic, since the hit queues would no longer be the
+        // last entries in the queue list at the time of processing.
+        target.queueCombatRetaliate(source, hitDelay)
+
         val hit =
             target.queueHit(
                 source = source,
@@ -696,7 +709,6 @@ constructor(
         target.heroPoints(source, hit.damage)
         target.combatPlayDefendAnim(clientDelay)
         target.combatPlayDefendSpot(objTypes, ammo, clientDelay)
-        target.queueCombatRetaliate(source, hitDelay)
         return hit
     }
 
@@ -708,6 +720,11 @@ constructor(
         clientDelay: Int,
         hitDelay: Int,
     ): Hit {
+        // Note: Retaliation must be queued _before_ the hit. If queued after, every hit would
+        // trigger the "speed-up" death mechanic, since the hit queues would no longer be the
+        // last entries in the queue list at the time of processing.
+        target.queueCombatRetaliate(source, hitDelay)
+
         val hit =
             target.queueHit(
                 source = source,
@@ -719,7 +736,6 @@ constructor(
         target.heroPoints(source, hit.damage)
         target.combatPlayDefendAnim(objTypes, clientDelay)
         target.combatPlayDefendSpot(objTypes, ammo, clientDelay)
-        target.queueCombatRetaliate(source, hitDelay)
         return hit
     }
 

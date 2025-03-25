@@ -58,9 +58,13 @@ constructor(
                 0
             }
 
+        // Note: Retaliation must be queued _before_ the hit. If queued after, every hit would
+        // trigger the "speed-up" death mechanic, since the hit queues would no longer be the
+        // last entries in the queue list at the time of processing.
+        target.queueCombatRetaliate(npc)
+
         target.queueHit(npc, 1, HitType.Melee, damage)
         target.combatPlayDefendAnim(objTypes)
-        target.queueCombatRetaliate(npc)
     }
 
     private fun canAttack(target: Player): Boolean {
