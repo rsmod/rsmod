@@ -224,6 +224,15 @@ public class Npc(
         infoProtocol.showHitmark(hitmark)
     }
 
+    // TODO: Should facing a pathing entity be deferred to later in the tick, similar to how it's
+    //  done for players?
+    //  The reason to consider this: if an npc is first engaged and dies via a "speed-up" death
+    //  queue scenario (e.g., two hits land in the same tick, and the first hit kills the npc),
+    //  it should not transmit a face_pathingentity(null) update - even though the retaliation
+    //  queue should have been processed _before_ the killing hit. As far as I understand, the
+    //  retaliation queue action should be responsible for setting the face_pathingentity flag.
+    //  There's also a chance that facing is handled via npc mode or interaction logic instead of
+    //  directly at the time of retaliation - though this is purely speculative.
     public fun facePlayer(target: Player) {
         PathingEntityCommon.facePlayer(this, target)
         infoProtocol.setFacePathingEntity(faceEntity.entitySlot)
