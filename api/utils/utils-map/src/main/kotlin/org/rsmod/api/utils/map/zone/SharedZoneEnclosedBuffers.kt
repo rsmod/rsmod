@@ -3,8 +3,6 @@ package org.rsmod.api.utils.map.zone
 import io.netty.buffer.ByteBuf
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap
-import it.unimi.dsi.fastutil.ints.IntOpenHashSet
-import it.unimi.dsi.fastutil.ints.IntSet
 import jakarta.inject.Inject
 import java.util.EnumMap
 import net.rsprot.protocol.api.util.ZonePartialEnclosedCacheBuffer
@@ -24,14 +22,9 @@ constructor(
     public val buffers: Int2ObjectMap<EnumMap<OldSchoolClientType, ByteBuf>> =
         Int2ObjectOpenHashMap()
 
-    public val activeZones: IntSet = IntOpenHashSet()
-
     public fun computeSharedBuffers() {
-        for (player in players) {
-            activeZones.addAll(player.visibleZoneKeys)
-        }
-        for (zone in activeZones.intIterator()) {
-            val updates = zoneUpdates[zone] ?: continue
+        val activeZones = zoneUpdates.updatedZones
+        for ((zone, updates) in activeZones.int2ObjectEntrySet()) {
             val protList = ZoneUpdateTransformer.collectEnclosedProtList(updates)
             // Some zone prots are always sent alongside `UpdateZonePartialFollows`, such as any
             // privately-owned obj `ObjAdd` updates.
@@ -44,7 +37,6 @@ constructor(
     }
 
     public fun clear() {
-        activeZones.clear()
         buffers.clear()
         enclosedCache.releaseBuffers()
     }
