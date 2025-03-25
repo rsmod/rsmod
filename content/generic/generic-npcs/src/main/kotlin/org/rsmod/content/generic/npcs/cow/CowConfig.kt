@@ -12,15 +12,15 @@ internal typealias cow_queues = CowQueues
 
 object CowNpcs : NpcReferences() {
     init {
-        verify("cow_id_2790", 9199579679251503295)
-        verify("cow_id_2791", 9199579679251503296)
-        verify("cow_id_2793", 9199579679251503298)
-        verify("cow_id_2795", 9193767768860587612)
-        verify("cow_calf_id_2792", 7116067471114356941)
-        verify("cow_calf_id_2794", 7116067471114356943)
+        verify("cow_id_2790", 2721165461787568938)
+        verify("cow_id_2791", 2721165461787568939)
+        verify("cow_id_2793", 2721165461787568941)
+        verify("cow_id_2795", 2721165461787568943)
+        verify("cow_calf_id_2792", 1174981414091770174)
+        verify("cow_calf_id_2794", 1174981414091770176)
     }
 
-    val gillie_groats = find("gillie_groats", 1639192872950274564)
+    val gillie_groats = find("gillie_groats", 5923782005100507456)
 }
 
 object CowQueues : QueueReferences() {

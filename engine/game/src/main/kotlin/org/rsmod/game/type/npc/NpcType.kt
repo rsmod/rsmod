@@ -155,7 +155,6 @@ public data class UnpackedNpcType(
         result = 61 * result + active.hashCode()
         result = 61 * result + follower.hashCode()
         result = 61 * result + lowPriorityOps.hashCode()
-        result = 61 * result + (paramMap?.hashCode() ?: 0)
         result = 61 * result + moveRestrict.id
         result = 61 * result + defaultMode.id
         result = 61 * result + blockWalk.id

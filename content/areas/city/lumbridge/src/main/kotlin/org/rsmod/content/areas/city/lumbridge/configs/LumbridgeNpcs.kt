@@ -11,21 +11,21 @@ import org.rsmod.map.CoordGrid
 typealias lumbridge_npcs = LumbridgeNpcs
 
 object LumbridgeNpcs : NpcReferences() {
-    val barfy_bill = find("barfy_bill", 9056859230362656205)
-    val banker = find("banker_multi_id_6520", 6234226215159038166)
-    val banker_tutor = find("banker_tutor", 2745924514590361594)
-    val shop_keeper = find("shop_keeper_id_2813", 4750494125510652894)
-    val shop_assistant = find("shop_assistant_id_2814", 7175769830569298007)
-    val gee = find("gee", 4562549981157667997)
-    val donie = find("donie", 8328767713494932046)
-    val hans = find("hans", 3939300316871989450)
-    val bartender = find("bartender_id_7546", 325196120220401239)
-    val arthur_the_clue_hunter = find("arthur_the_clue_hunter", 6533328399600640885)
-    val prayer_tutor = find("prayer_tutor", 8388572464855062601)
-    val hatius_cosaintus = find("hatius_cosaintus", 3864914163306269512)
-    val bob = find("bob_id_10619", 8634932672814888402)
-    val woodsman_tutor = find("woodsman_tutor", 271199259888530822)
-    val smithing_apprentice = find("smithing_apprentice", 6197725326458585267)
+    val barfy_bill = find("barfy_bill", 4835760530716474293)
+    val banker = find("banker_multi_id_6520", 1463025812257320618)
+    val banker_tutor = find("banker_tutor", 2615463100687965410)
+    val shop_keeper = find("shop_keeper_id_2813", 1438702337870086626)
+    val shop_assistant = find("shop_assistant_id_2814", 4200111720959342523)
+    val gee = find("gee", 3552460767699378141)
+    val donie = find("donie", 5126230244763061230)
+    val hans = find("hans", 2483823770976949698)
+    val bartender = find("bartender_id_7546", 156533904228193047)
+    val arthur_the_clue_hunter = find("arthur_the_clue_hunter", 7969650398637600801)
+    val prayer_tutor = find("prayer_tutor", 8000064238265165217)
+    val hatius_cosaintus = find("hatius_cosaintus", 4750646677158177000)
+    val bob = find("bob_id_10619", 5887098795660136180)
+    val woodsman_tutor = find("woodsman_tutor", 3633313576151598194)
+    val smithing_apprentice = find("smithing_apprentice", 857616158419739967)
 }
 
 internal object LumbridgeNpcEditor : NpcEditor() {
