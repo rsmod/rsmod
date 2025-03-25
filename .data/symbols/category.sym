@@ -35,3 +35,7 @@
 1176	cannonball
 1582	araxyte
 1915	atlatl_dart
+
+65532	attacktype_stab
+65533	attacktype_slash
+65534	attacktype_crush

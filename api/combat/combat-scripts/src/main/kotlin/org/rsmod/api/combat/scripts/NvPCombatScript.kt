@@ -9,9 +9,13 @@ import org.rsmod.api.combat.inMultiCombatArea
 import org.rsmod.api.combat.player.aggressiveNpc
 import org.rsmod.api.combat.player.lastCombat
 import org.rsmod.api.combat.player.lastCombatPvp
+import org.rsmod.api.config.refs.categories
+import org.rsmod.api.config.refs.params
 import org.rsmod.api.npc.access.StandardNpcAccess
 import org.rsmod.api.script.advanced.onDefaultAiOpPlayer2
+import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
+import org.rsmod.game.type.category.isType
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
@@ -25,8 +29,8 @@ internal class NvPCombatScript @Inject constructor(private val combat: NvPCombat
             resetMode()
             return
         }
-        // TODO(combat): Use proper/active npc attack type.
-        val attack = CombatAttack.NpcMelee(MeleeAttackType.Slash)
+        val attackType = npc.resolveMeleeAttackType()
+        val attack = CombatAttack.NpcMelee(attackType)
         combat.attack(this, target, attack)
     }
 
@@ -44,5 +48,14 @@ internal class NvPCombatScript @Inject constructor(private val combat: NvPCombat
             }
         }
         return true
+    }
+
+    private fun Npc.resolveMeleeAttackType(): MeleeAttackType {
+        val category = visType.paramOrNull(params.npc_attack_type)
+        return when {
+            category.isType(categories.attacktype_stab) -> MeleeAttackType.Stab
+            category.isType(categories.attacktype_slash) -> MeleeAttackType.Slash
+            else -> MeleeAttackType.Crush
+        }
     }
 }

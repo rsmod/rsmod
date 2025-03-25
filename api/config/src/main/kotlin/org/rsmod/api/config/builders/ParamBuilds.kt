@@ -23,6 +23,7 @@ import org.rsmod.game.type.varbit.VarBitType
 
 internal object ParamBuilds : ParamBuilder() {
     init {
+        build<CategoryType>("npc_attack_type")
         build<ProjAnimType>("proj_type")
         build<SpotanimType>("proj_travel")
         build<SpotanimType>("proj_launch")

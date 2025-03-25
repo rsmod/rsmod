@@ -3,9 +3,11 @@ package org.rsmod.api.cache.enricher.npc
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.inject.Inject
+import org.rsmod.api.config.aliases.ParamCategory
 import org.rsmod.api.config.aliases.ParamInt
 import org.rsmod.api.config.aliases.ParamSeq
 import org.rsmod.api.config.aliases.ParamSynth
+import org.rsmod.api.config.refs.categories
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.parsers.toml.Toml
 import org.rsmod.api.type.script.dsl.NpcPluginBuilder
@@ -59,6 +61,7 @@ constructor(
         putInt(config.defenceLight, params.defence_light)
         putInt(config.defenceStandard, params.defence_standard)
         putInt(config.defenceHeavy, params.defence_heavy)
+        putAttackType(config.attackType, params.npc_attack_type)
         return this
     }
 
@@ -77,6 +80,19 @@ constructor(
     private fun NpcPluginBuilder.putInt(value: Int?, paramType: ParamInt) {
         if (value != null) {
             param[paramType] = value
+        }
+    }
+
+    private fun NpcPluginBuilder.putAttackType(value: String?, paramType: ParamCategory) {
+        val category =
+            when (value?.lowercase()) {
+                "stab" -> categories.attacktype_stab
+                "slash" -> categories.attacktype_slash
+                "crush" -> categories.attacktype_crush
+                else -> null
+            }
+        if (category != null) {
+            param[paramType] = category
         }
     }
 

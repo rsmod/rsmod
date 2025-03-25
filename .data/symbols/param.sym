@@ -159,6 +159,7 @@
 1802	slayer_task_boss_location
 1935	spell_autocast_id
 
+65407	npc_attack_type
 65408	proj_type
 65409	proj_travel
 65410	proj_launch
