@@ -70,7 +70,7 @@ constructor(private val objTypes: ObjTypeList, private val ammunition: RangedAmm
             val travelSpotanim = quiverType?.paramOrNull(params.proj_travel)
             if (travelSpotanim == null) {
                 manager.clearCombat(this)
-                mes("Your ammunition appears to be stuck.")
+                mes("You are unable to fire your ammunition.")
                 return
             }
 

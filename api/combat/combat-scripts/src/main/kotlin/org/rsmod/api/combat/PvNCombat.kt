@@ -150,7 +150,7 @@ constructor(
         val usingChargeBow = righthandType.isCategoryType(categories.chargebow)
         if (usingChargeBow) {
             manager.clearCombat(player)
-            mes("The bow appears to have malfunctioned.")
+            mes("The bow refuses to fire.")
             return
         }
 
@@ -181,7 +181,7 @@ constructor(
         // param so that the projectile can be created and referenced for its proper delays.
         if (projanimType == null || travelSpotanim == null) {
             manager.clearCombat(player)
-            mes("Your ammunition appears to be stuck.")
+            mes("You are unable to fire your ammunition.")
             return
         }
 
@@ -190,7 +190,7 @@ constructor(
         val playedAnim = manager.playWeaponFx(player, attack)
         if (!playedAnim) {
             manager.clearCombat(player)
-            mes("The bow appears to be broken.")
+            mes("The bow fails to fire.")
             return
         }
 
