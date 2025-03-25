@@ -22,9 +22,6 @@ constructor(private val playerList: PlayerList, private val eventBus: EventBus) 
         // TODO(combat): Show ironman_blocked hitmark if source is an ironman and target has been
         // damaged by other sources.
 
-        // TODO(combat): Need to verify what actually happens when an npc gets hit while they have
-        //  0 hp. I was initially under the impression that the hit is simply changed to `0` damage,
-        //  however, it seems that (at least ranged) hits will simply not render when that occurs.
         var changedDamage: Int? = null
         if (hit.damage > npc.hitpoints) {
             changedDamage = npc.hitpoints
