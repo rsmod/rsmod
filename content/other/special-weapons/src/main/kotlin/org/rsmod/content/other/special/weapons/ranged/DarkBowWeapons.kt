@@ -128,7 +128,9 @@ constructor(private val objTypes: ObjTypeList, private val ammunition: RangedAmm
             spotanim(launchSpot, height = 96, slot = constants.spotanim_slot_combat)
 
             val proj1 = manager.spawnProjectile(this, target, travelSpot, projanims.doublearrow_one)
+            val proj2 = manager.spawnProjectile(this, target, travelSpot, projanims.doublearrow_two)
             val hitDelay1 = proj1.serverCycles
+            val hitDelay2 = proj2.serverCycles
 
             ammunition.useQuiverAmmo(
                 player = player,
@@ -138,11 +140,7 @@ constructor(private val objTypes: ObjTypeList, private val ammunition: RangedAmm
             )
 
             val damage1 = manager.rollRangedDamage(this, target, attack)
-            manager.queueRangedDamage(this, target, quiverType, damage1, hitDelay1)
-
-            val proj2 = manager.spawnProjectile(this, target, travelSpot, projanims.doublearrow_two)
-            val clientDelay2 = proj2.clientCycles
-            val hitDelay2 = proj2.serverCycles
+            manager.queueRangedHit(this, target, quiverType, damage1, proj2.clientCycles, hitDelay1)
 
             ammunition.useQuiverAmmo(
                 player = player,
@@ -152,7 +150,7 @@ constructor(private val objTypes: ObjTypeList, private val ammunition: RangedAmm
             )
 
             val damage2 = manager.rollRangedDamage(this, target, attack)
-            manager.queueRangedHit(this, target, quiverType, damage2, clientDelay2, hitDelay2)
+            manager.queueRangedDamage(this, target, quiverType, damage2, hitDelay2)
 
             if (player.quiver?.count == 1) {
                 mes("You now have only 1 arrow left in your quiver.")
