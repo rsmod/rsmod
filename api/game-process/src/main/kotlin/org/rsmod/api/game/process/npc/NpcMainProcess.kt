@@ -16,7 +16,7 @@ constructor(
     private val npcList: NpcList,
     private val registry: NpcRegistry,
     private val reveal: NpcRevealProcessor,
-    private val aiTimers: AITimerProcessor,
+    private val aiTimers: AiTimerProcessor,
     private val timers: NpcTimerProcessor,
     private val queues: NpcQueueProcessor,
     private val movement: NpcMovementProcessor,

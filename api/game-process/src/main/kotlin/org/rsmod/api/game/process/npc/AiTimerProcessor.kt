@@ -6,7 +6,7 @@ import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.type.npc.UnpackedNpcType
 
-public class AITimerProcessor @Inject constructor(private val eventBus: EventBus) {
+public class AiTimerProcessor @Inject constructor(private val eventBus: EventBus) {
     public fun process(npc: Npc) {
         if (npc.aiTimer <= 0) {
             return
