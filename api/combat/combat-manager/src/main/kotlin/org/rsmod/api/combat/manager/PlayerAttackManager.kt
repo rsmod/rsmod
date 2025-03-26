@@ -234,7 +234,8 @@ constructor(
     }
 
     /**
-     * Calculates and grants combat experience based on the given [attack] and [damage].
+     * Calculates and grants combat experience based on the given [attack], [damage], and the
+     * [target]'s predefined combat xp multiplier.
      *
      * @param damage The damage rolled to be inflicted on [target]. This value is implicitly capped
      *   to the [target]'s remaining hitpoints.
@@ -310,7 +311,8 @@ constructor(
     }
 
     /**
-     * Calculates and grants combat experience based on the given [attack] and [damage].
+     * Calculates and grants combat experience based on the given [attack], [damage], and the
+     * [target]'s predefined combat xp multiplier.
      *
      * @param damage The damage rolled to be inflicted on [target]. This value is implicitly capped
      *   to the [target]'s remaining hitpoints.
@@ -382,7 +384,8 @@ constructor(
     }
 
     /**
-     * Calculates and grants combat experience based on the given [attack] and [damage].
+     * Calculates and grants combat experience based on the given [attack], [damage], and the
+     * [target]'s predefined combat xp multiplier.
      *
      * @param damage The damage rolled to be inflicted on [target]. This value is implicitly capped
      *   to the [target]'s remaining hitpoints.
@@ -685,7 +688,7 @@ constructor(
         target.queueCombatRetaliate(source)
 
         val hit = target.queueHit(source, delay, HitType.Melee, damage, npcHitModifier)
-        target.heroPoints(source, hit.damage)
+        target.heroPoints(source, min(hit.damage, target.hitpoints))
         target.combatPlayDefendAnim()
         return hit
     }
@@ -697,7 +700,7 @@ constructor(
         target.queueCombatRetaliate(source)
 
         val hit = target.queueHit(source, delay, HitType.Melee, damage)
-        target.heroPoints(source, hit.damage)
+        target.heroPoints(source, min(hit.damage, target.hitpoints))
         target.combatPlayDefendAnim(objTypes)
         return hit
     }
@@ -987,7 +990,7 @@ constructor(
                 modifier = npcHitModifier,
                 sourceSecondary = ammo,
             )
-        target.heroPoints(source, hit.damage)
+        target.heroPoints(source, min(hit.damage, target.hitpoints))
         target.combatPlayDefendAnim(clientDelay)
         target.combatPlayDefendSpot(objTypes, ammo, clientDelay)
         return hit
@@ -1014,7 +1017,7 @@ constructor(
                 damage = damage,
                 sourceSecondary = ammo,
             )
-        target.heroPoints(source, hit.damage)
+        target.heroPoints(source, min(hit.damage, target.hitpoints))
         target.combatPlayDefendAnim(objTypes, clientDelay)
         target.combatPlayDefendSpot(objTypes, ammo, clientDelay)
         return hit
@@ -1076,7 +1079,7 @@ constructor(
                 damage = damage,
                 sourceSecondary = ammo,
             )
-        target.heroPoints(source, hit.damage)
+        target.heroPoints(source, min(hit.damage, target.hitpoints))
         return hit
     }
 
@@ -1096,7 +1099,7 @@ constructor(
                 modifier = npcHitModifier,
                 sourceSecondary = ammo,
             )
-        target.heroPoints(source, hit.damage)
+        target.heroPoints(source, min(hit.damage, target.hitpoints))
         return hit
     }
 
