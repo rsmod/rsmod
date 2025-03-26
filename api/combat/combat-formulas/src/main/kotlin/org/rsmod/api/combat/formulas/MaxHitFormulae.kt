@@ -7,6 +7,7 @@ import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
 import org.rsmod.api.combat.commons.styles.RangedAttackStyle
 import org.rsmod.api.combat.commons.types.MeleeAttackType
 import org.rsmod.api.combat.commons.types.RangedAttackType
+import org.rsmod.api.combat.formulas.maxhit.magic.NvPMagicMaxHit
 import org.rsmod.api.combat.formulas.maxhit.magic.PvNMagicMaxHit
 import org.rsmod.api.combat.formulas.maxhit.melee.NvPMeleeMaxHit
 import org.rsmod.api.combat.formulas.maxhit.melee.PvNMeleeMaxHit
@@ -19,6 +20,7 @@ public class MaxHitFormulae
 @Inject
 constructor(
     private val pvnMagicMaxHit: PvNMagicMaxHit,
+    private val nvpMagicMaxHit: NvPMagicMaxHit,
     private val pvnMeleeMaxHit: PvNMeleeMaxHit,
     private val nvpMeleeMaxHit: NvPMeleeMaxHit,
     private val pvnRangedMaxHit: PvNRangedMaxHit,
@@ -78,4 +80,6 @@ constructor(
             magicSpell = magicSpell,
             usedSunfireRune = usedSunfireRune,
         )
+
+    public fun getMagicMaxHit(npc: Npc, target: Player): Int = nvpMagicMaxHit.getMaxHit(npc, target)
 }
