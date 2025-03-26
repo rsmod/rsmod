@@ -317,14 +317,17 @@ constructor(
             player.mes("Set varbit `${args[0]}` to value: ${player.vars[type]}")
         }
 
+    @OptIn(InternalApi::class)
     private fun Player.setStatLevels(level: Int) {
         val xp = PlayerSkillXPTable.getXPFromLevel(level)
         for (stat in statTypes.values) {
-            val xpDelta = xp - statMap.getXP(stat)
-            if (xpDelta < 0) {
+            val baseLevel = statMap.getBaseLevel(stat)
+            if (baseLevel > level) {
                 statRevert(stat, level, xp)
                 continue
             }
+            val xpDelta = xp - statMap.getXP(stat)
+            statMap.setCurrentLevel(stat, level.toByte())
             statAdvance(stat, xpDelta.toDouble(), eventBus, invisibleLevels, rate = 1.0)
         }
     }
