@@ -3,6 +3,7 @@ package org.rsmod.api.cache.enricher.npc
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.inject.Inject
+import kotlin.math.round
 import org.rsmod.api.config.aliases.ParamCategory
 import org.rsmod.api.config.aliases.ParamInt
 import org.rsmod.api.config.aliases.ParamSeq
@@ -50,7 +51,7 @@ constructor(
     private fun NpcPluginBuilder.apply(config: ExternalNpcConfig): NpcPluginBuilder {
         desc = config.examine
         respawnRate = config.respawnRate
-        // TODO(combat): Create npc type fields for rest of [ExternalNpcConfig] values.
+        // TODO(combat): Create params for rest of [ExternalNpcConfig] values.
         putSeq(config.attackAnim, params.attack_anim)
         putSeq(config.defendAnim, params.defend_anim)
         putSeq(config.deathAnim, params.death_anim)
@@ -61,6 +62,7 @@ constructor(
         putInt(config.defenceLight, params.defence_light)
         putInt(config.defenceStandard, params.defence_standard)
         putInt(config.defenceHeavy, params.defence_heavy)
+        putCombatXpMod(config.bonusXp, params.npc_com_xp_multiplier)
         putAttackType(config.attackType, params.npc_attack_type)
         return this
     }
@@ -80,6 +82,15 @@ constructor(
     private fun NpcPluginBuilder.putInt(value: Int?, paramType: ParamInt) {
         if (value != null) {
             param[paramType] = value
+        }
+    }
+
+    private fun NpcPluginBuilder.putCombatXpMod(value: Double?, paramType: ParamInt) {
+        if (value != null) {
+            // `bonusXp` in npc config file is represented as `+bonus%` (e.g., 7.5 for +7.5%).
+            // We scale that percent by 10 and add 1000 to represent the multiplier.
+            // Example: 7.5% becomes 1000 + 75 = 1075.
+            param[paramType] = 1000 + round(value * 10.0).toInt()
         }
     }
 

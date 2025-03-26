@@ -89,6 +89,12 @@ public class Npc(
     public var baseRangedLvl: Int = type.ranged
     public var baseMagicLvl: Int = type.magic
 
+    /**
+     * The combat xp multiplier stored as an integer, with the decimal value scaled by `1000`. For
+     * example, a value of `1075` represents a `1.075x` multiplier (`+7.5%`).
+     */
+    public var combatXpMultiplier: Int = 0
+
     public var patrolWaypointIndex: Int = 0
     public var patrolIdleCycles: Int = -1
     public var patrolPauseCycles: Int = 0

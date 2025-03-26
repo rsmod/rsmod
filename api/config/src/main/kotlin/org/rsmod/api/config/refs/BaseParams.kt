@@ -68,6 +68,7 @@ object BaseParams : ParamReferences() {
     val kalphite: ParamInt = find("kalphite", 88687193509)
 
     /* Server-side only types */
+    val npc_com_xp_multiplier: ParamInt = find("npc_com_xp_multiplier")
     val npc_attack_type: ParamCategory = find("npc_attack_type")
     val proj_type: ParamProj = find("proj_type")
     val proj_travel: ParamSpot = find("proj_travel")

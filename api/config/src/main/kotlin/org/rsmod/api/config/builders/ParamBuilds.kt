@@ -23,6 +23,10 @@ import org.rsmod.game.type.varbit.VarBitType
 
 internal object ParamBuilds : ParamBuilder() {
     init {
+        // This value represents a decimal xp multiplier, scaled by 1000. For example, a
+        // value of 1000 equals a 1.0x multiplier, and 1075 would equal 1.075x (+7.5%).
+        build<Int>("npc_com_xp_multiplier")
+
         build<CategoryType>("npc_attack_type")
         build<ProjAnimType>("proj_type")
         build<SpotanimType>("proj_travel")
