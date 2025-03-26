@@ -53,6 +53,9 @@ constructor(private val attackStyles: AttackStyles, private val objTypes: ObjTyp
             }
         }
 
+        // TODO(combat): Slayer monster damage reductions from slayer equipment.
+        //  https://github.com/weirdgloop/osrs-dps-calc/blob/main/src/lib/NPCVsPlayerCalc.ts#L227
+
         return attributes
     }
 }
