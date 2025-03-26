@@ -1,0 +1,28 @@
+package org.rsmod.api.combat.formulas.attributes
+
+public enum class CombatSpellAttributes {
+    StandardBook,
+    WindSpell,
+    WaterSpell,
+    EarthSpell,
+    FireSpell,
+    MagicDart,
+    SlayerStaffE,
+    ChaosGauntlets,
+    BoltSpell,
+    ChargeSpell,
+    SmokeStaff,
+    SalveAmuletI,
+    SalveAmuletEi,
+    AmuletOfAvarice,
+    ForinthrySurge,
+    BlackMaskI,
+    DragonHunterWand,
+    DragonHunterLance,
+    DragonHunterCrossbow,
+    RevenantWeapon,
+    WaterTome,
+    EarthTome,
+    FireTome,
+    SunfireRunePassive,
+}

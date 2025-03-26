@@ -159,6 +159,8 @@
 1802	slayer_task_boss_location
 1935	spell_autocast_id
 
+65404	elemental_weakness_type
+65405	elemental_weakness_percent
 65406	npc_com_xp_multiplier
 65407	npc_attack_type
 65408	proj_type

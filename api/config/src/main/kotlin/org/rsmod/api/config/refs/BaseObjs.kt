@@ -114,12 +114,21 @@ object BaseObjs : ObjReferences() {
     val raw_herring = find("raw_herring")
     val herring = find("herring")
 
+    val sunfire_rune = find("sunfire_rune")
+
+    val chaos_gauntlets = find("chaos_gauntlets")
+    val tome_of_water = find("tome_of_water")
+    val tome_of_earth = find("tome_of_earth")
+    val tome_of_fire = find("tome_of_fire")
+
     val skull_sceptre_i = find("skull_sceptre_i")
     val ibans_staff = find("ibans_staff")
     val ibans_staff_u = find("ibans_staff_u")
     val slayers_staff = find("slayers_staff")
     val slayers_staff_e = find("slayers_staff_e")
+    val thammarons_sceptre = find("thammarons_sceptre")
     val thammarons_sceptre_a = find("thammarons_sceptre_a")
+    val accursed_sceptre = find("accursed_sceptre")
     val accursed_sceptre_a = find("accursed_sceptre_a")
     val staff_of_the_dead = find("staff_of_the_dead")
     val toxic_staff_of_the_dead = find("toxic_staff_of_the_dead")
@@ -127,6 +136,8 @@ object BaseObjs : ObjReferences() {
     val staff_of_balance = find("staff_of_balance")
     val void_knight_mace = find("void_knight_mace")
     val void_knight_mace_l = find("void_knight_mace_l")
+    val smoke_battlestaff = find("smoke_battlestaff")
+    val mystic_smoke_staff = find("mystic_smoke_staff")
 
     val spell_crumble_undead = find("crumble_undead_spell")
     val spell_iban_blast = find("iban_blast_spell")
@@ -134,6 +145,31 @@ object BaseObjs : ObjReferences() {
     val spell_flames_of_zamorak = find("flames_of_zamorak_spell")
     val spell_saradomin_strike = find("saradomin_strike_spell")
     val spell_claws_of_guthix = find("claws_of_guthix_spell")
+
+    val spell_wind_strike = find("wind_strike_spell")
+    val spell_water_strike = find("water_strike_spell")
+    val spell_earth_strike = find("earth_strike_spell")
+    val spell_fire_strike = find("fire_strike_spell")
+
+    val spell_wind_bolt = find("wind_bolt_spell")
+    val spell_water_bolt = find("water_bolt_spell")
+    val spell_earth_bolt = find("earth_bolt_spell")
+    val spell_fire_bolt = find("fire_bolt_spell")
+
+    val spell_wind_blast = find("wind_blast_spell")
+    val spell_water_blast = find("water_blast_spell")
+    val spell_earth_blast = find("earth_blast_spell")
+    val spell_fire_blast = find("fire_blast_spell")
+
+    val spell_wind_wave = find("wind_wave_spell")
+    val spell_water_wave = find("water_wave_spell")
+    val spell_earth_wave = find("earth_wave_spell")
+    val spell_fire_wave = find("fire_wave_spell")
+
+    val spell_wind_surge = find("wind_surge_spell")
+    val spell_water_surge = find("water_surge_spell")
+    val spell_earth_surge = find("earth_surge_spell")
+    val spell_fire_surge = find("fire_surge_spell")
 
     val bronze_arrow = find("bronze_arrow")
     val adamant_arrow = find("adamant_arrow")

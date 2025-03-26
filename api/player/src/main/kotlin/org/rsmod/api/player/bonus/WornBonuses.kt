@@ -39,7 +39,7 @@ public class WornBonuses @Inject constructor(private val objTypes: ObjTypeList) 
      * For example, Virtus equipment displays a `+3%` magic damage bonus even when the player is not
      * on the Ancient spellbook - a restriction that should be applied in the actual combat formula.
      */
-    public fun magicDamageBonus(player: Player): Int {
+    public fun magicDamageBonusBase(player: Player): Int {
         val bonuses = calculate(player)
         return bonuses.magicDmg
     }
@@ -154,7 +154,9 @@ public class WornBonuses @Inject constructor(private val objTypes: ObjTypeList) 
         // TODO: Apply toxic blowpipe dart bonuses.
 
         if (EquipmentChecks.isTumekensShadow(player.righthand)) {
-            val multiplier = 3.0 // TODO: 4.0 while in tombs of amascut.
+            // TODO: 4.0 while in tombs of amascut. This is purely for the visual bonus, the actual
+            //  combat formula should use a separate resolved multiplier that matches.
+            val multiplier = 3.0
             magicDmgMultiplier = multiplier
 
             // Note: Multiplying `offMagic` here means it will affect magic accuracy even in pvp.

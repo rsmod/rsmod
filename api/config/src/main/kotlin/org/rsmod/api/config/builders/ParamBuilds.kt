@@ -23,6 +23,9 @@ import org.rsmod.game.type.varbit.VarBitType
 
 internal object ParamBuilds : ParamBuilder() {
     init {
+        build<Int>("elemental_weakness_type")
+        build<Int>("elemental_weakness_percent") { default = 0 }
+
         // This value represents a decimal xp multiplier, scaled by 1000. For example, a
         // value of 1000 equals a 1.0x multiplier, and 1075 would equal 1.075x (+7.5%).
         build<Int>("npc_com_xp_multiplier")

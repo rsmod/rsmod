@@ -22,4 +22,8 @@ public enum class CombatNpcAttributes {
     Xerician,
     Amascut,
     QuarterHealth,
+    WindWeakness,
+    WaterWeakness,
+    EarthWeakness,
+    FireWeakness,
 }

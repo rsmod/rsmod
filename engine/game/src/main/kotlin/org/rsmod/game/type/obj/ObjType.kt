@@ -468,3 +468,28 @@ public fun ObjType?.isType(other: ObjType): Boolean {
     contract { returns(true) implies (this@isType != null) }
     return this != null && this.id == other.id
 }
+
+public fun ObjType?.isAnyType(type1: ObjType, type2: ObjType): Boolean {
+    contract { returns(true) implies (this@isAnyType != null) }
+    return this != null && (type1.id == id || type2.id == id)
+}
+
+public fun ObjType?.isAnyType(type1: ObjType, type2: ObjType, type3: ObjType): Boolean {
+    contract { returns(true) implies (this@isAnyType != null) }
+    return this != null && (type1.id == id || type2.id == id || type3.id == id)
+}
+
+public fun ObjType?.isAnyType(
+    type1: ObjType,
+    type2: ObjType,
+    type3: ObjType,
+    type4: ObjType,
+): Boolean {
+    contract { returns(true) implies (this@isAnyType != null) }
+    return this != null && (type1.id == id || type2.id == id || type3.id == id || type4.id == id)
+}
+
+public fun ObjType?.isAnyType(type1: ObjType, type2: ObjType, vararg types: ObjType): Boolean {
+    contract { returns(true) implies (this@isAnyType != null) }
+    return this != null && (type1.id == id || type2.id == id || types.any { it.id == id })
+}

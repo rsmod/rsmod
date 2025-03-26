@@ -49,6 +49,11 @@ object Constants {
     const val combat_default_attackrate = 4
     const val combat_activecombat_delay = 8
 
+    const val elemental_weakness_wind = 0
+    const val elemental_weakness_water = 1
+    const val elemental_weakness_earth = 2
+    const val elemental_weakness_fire = 3
+
     const val sa_default_energy = 1000
 
     const val skullicon_default = 0

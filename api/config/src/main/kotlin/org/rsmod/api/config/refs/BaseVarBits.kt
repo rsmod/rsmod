@@ -7,6 +7,8 @@ import org.rsmod.api.type.refs.varbit.VarBitReferences
 typealias varbits = BaseVarBits
 
 object BaseVarBits : VarBitReferences() {
+    val charge_buff_duration = find("charge_buff_duration", 158374502881764)
+
     val combat_level = find("combat_level", 56930885834068)
     val combat_level_decimal = find("combat_level_decimal", 116230836668633)
     val autocast_enabled = find("autocast_enabled", 5565072492265)

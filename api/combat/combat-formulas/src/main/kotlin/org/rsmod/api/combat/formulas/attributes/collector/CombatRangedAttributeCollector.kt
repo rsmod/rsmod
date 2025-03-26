@@ -96,11 +96,7 @@ public class CombatRangedAttributeCollector @Inject constructor(private val objT
                     CombatRangedAttributes.RevenantWeapon
                 }
 
-                weapon.isAnyType(
-                    objs.dragon_hunter_crossbow,
-                    objs.dragon_hunter_crossbow_t,
-                    objs.dragon_hunter_crossbow_b,
-                ) -> {
+                EquipmentChecks.isDragonHunterCrossbow(weapon) -> {
                     CombatRangedAttributes.DragonHunterCrossbow
                 }
 

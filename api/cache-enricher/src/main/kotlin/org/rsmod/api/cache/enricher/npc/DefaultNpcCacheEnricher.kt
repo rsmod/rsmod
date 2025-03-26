@@ -8,6 +8,7 @@ import org.rsmod.api.config.aliases.ParamCategory
 import org.rsmod.api.config.aliases.ParamInt
 import org.rsmod.api.config.aliases.ParamSeq
 import org.rsmod.api.config.aliases.ParamSynth
+import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.categories
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.parsers.toml.Toml
@@ -64,6 +65,7 @@ constructor(
         putInt(config.defenceHeavy, params.defence_heavy)
         putCombatXpMod(config.bonusXp, params.npc_com_xp_multiplier)
         putAttackType(config.attackType, params.npc_attack_type)
+        putElementalWeakness(config.elementalWeaknessType, config.elementalWeaknessPercent)
         return this
     }
 
@@ -105,6 +107,23 @@ constructor(
         if (category != null) {
             param[paramType] = category
         }
+    }
+
+    private fun NpcPluginBuilder.putElementalWeakness(type: String?, percent: Int?) {
+        if (type == null) {
+            return
+        }
+        check(percent != null) { "Unexpected null `percent` value: '$name' (element=$type)" }
+        val weaknessType =
+            when (type.lowercase()) {
+                "air" -> constants.elemental_weakness_wind
+                "water" -> constants.elemental_weakness_water
+                "earth" -> constants.elemental_weakness_earth
+                "fire" -> constants.elemental_weakness_fire
+                else -> error("Unexpected weakness type name: $type")
+            }
+        param[params.elemental_weakness_type] = weaknessType
+        param[params.elemental_weakness_percent] = percent
     }
 
     private companion object {
