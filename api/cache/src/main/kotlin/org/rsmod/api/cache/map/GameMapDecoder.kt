@@ -106,11 +106,6 @@ constructor(
             for (level in 0 until CoordGrid.LEVEL_COUNT) {
                 for (x in 0 until MapSquareGrid.LENGTH) {
                     for (z in 0 until MapSquareGrid.LENGTH) {
-                        // As an optimization, we use the `SimpleMapDefinition.BRIDGE` flag to
-                        // make sure we don't add collision for tiles such as, and primarily,
-                        // bridges. If for some reason we'd like to remove the custom `BRIDGE`
-                        // flag, we have to use the `rule` function for `flags` here, so that
-                        // the above tile flags are taken into account when applicable.
                         val flags = mapDef[x, z, level].toInt()
                         if (flags == 0) {
                             continue
@@ -141,9 +136,9 @@ constructor(
             square: MapSquareKey,
             mapDef: SimpleMapDefinition,
             locDef: MapLocDefinition,
-        ): Unit =
+        ) {
             with(mapBuilder) {
-                for (packedLoc in locDef) {
+                for (packedLoc in locDef.locs.longIterator()) {
                     val loc = MapLoc(packedLoc)
                     val local = MapSquareGrid(loc.localX, loc.localZ, loc.level)
                     val tileFlags = mapDef[local.x, local.z, local.level].toInt()
@@ -194,6 +189,7 @@ constructor(
                     )
                 }
             }
+        }
     }
 }
 
