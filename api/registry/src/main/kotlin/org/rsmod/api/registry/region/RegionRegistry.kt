@@ -167,7 +167,7 @@ constructor(
      * - Registers all valid zones within the region using [registerZones].
      * - Clears any collision flags from **unoccupied zones** within the region using
      *   [clearNullRegionZones].
-     * - Removes any **bordering zones** that were allocated but are not part of the region’s usable
+     * - Removes any **bordering zones** that were allocated but are not part of the region's usable
      *   area using [clearNullBorderZones].
      */
     public fun build(region: Region, copyZones: RegionZoneCopyMap) {
