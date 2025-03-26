@@ -220,27 +220,13 @@ constructor(
             is Player -> giveCombatXp(player, target, attack, damage)
         }
 
-    /**
-     * Calculates and grants combat experience based on the given [attack], [damage], and the
-     * [target]'s predefined combat xp multiplier.
-     *
-     * @param damage The damage rolled to be inflicted on [target]. This value is implicitly capped
-     *   to the [target]'s remaining hitpoints.
-     */
-    public fun giveCombatXp(player: Player, target: Npc, attack: CombatAttack.Melee, damage: Int) {
+    private fun giveCombatXp(player: Player, target: Npc, attack: CombatAttack.Melee, damage: Int) {
         val cappedDamage = min(damage, target.hitpoints)
         val multiplier = target.resolveCombatXpMultiplier()
         giveCombatXp(player, attack, cappedDamage, multiplier)
     }
 
-    /**
-     * Calculates and grants combat experience based on the given [attack], [damage], and the
-     * [target]'s predefined combat xp multiplier.
-     *
-     * @param damage The damage rolled to be inflicted on [target]. This value is implicitly capped
-     *   to the [target]'s remaining hitpoints.
-     */
-    public fun giveCombatXp(
+    private fun giveCombatXp(
         player: Player,
         target: Player,
         attack: CombatAttack.Melee,
@@ -297,27 +283,18 @@ constructor(
             is Player -> giveCombatXp(player, target, attack, damage)
         }
 
-    /**
-     * Calculates and grants combat experience based on the given [attack], [damage], and the
-     * [target]'s predefined combat xp multiplier.
-     *
-     * @param damage The damage rolled to be inflicted on [target]. This value is implicitly capped
-     *   to the [target]'s remaining hitpoints.
-     */
-    public fun giveCombatXp(player: Player, target: Npc, attack: CombatAttack.Ranged, damage: Int) {
+    private fun giveCombatXp(
+        player: Player,
+        target: Npc,
+        attack: CombatAttack.Ranged,
+        damage: Int,
+    ) {
         val cappedDamage = min(damage, target.hitpoints)
         val multiplier = target.resolveCombatXpMultiplier()
         giveCombatXp(player, attack, cappedDamage, multiplier)
     }
 
-    /**
-     * Calculates and grants combat experience based on the given [attack], [damage], and the
-     * [target]'s predefined combat xp multiplier.
-     *
-     * @param damage The damage rolled to be inflicted on [target]. This value is implicitly capped
-     *   to the [target]'s remaining hitpoints.
-     */
-    public fun giveCombatXp(
+    private fun giveCombatXp(
         player: Player,
         target: Player,
         attack: CombatAttack.Ranged,
@@ -370,27 +347,13 @@ constructor(
             is Player -> giveCombatXp(player, target, attack, damage)
         }
 
-    /**
-     * Calculates and grants combat experience based on the given [attack], [damage], and the
-     * [target]'s predefined combat xp multiplier.
-     *
-     * @param damage The damage rolled to be inflicted on [target]. This value is implicitly capped
-     *   to the [target]'s remaining hitpoints.
-     */
-    public fun giveCombatXp(player: Player, target: Npc, attack: CombatAttack.Spell, damage: Int) {
+    private fun giveCombatXp(player: Player, target: Npc, attack: CombatAttack.Spell, damage: Int) {
         val cappedDamage = min(damage, target.hitpoints)
         val multiplier = target.resolveCombatXpMultiplier()
         giveCombatXp(player, attack, cappedDamage, multiplier)
     }
 
-    /**
-     * Calculates and grants combat experience based on the given [attack], [damage], and the
-     * [target]'s predefined combat xp multiplier.
-     *
-     * @param damage The damage rolled to be inflicted on [target]. This value is implicitly capped
-     *   to the [target]'s remaining hitpoints.
-     */
-    public fun giveCombatXp(
+    private fun giveCombatXp(
         player: Player,
         target: Player,
         attack: CombatAttack.Spell,
@@ -434,28 +397,15 @@ constructor(
             is Player -> giveCombatXp(player, target, attack, damage)
         }
 
-    /**
-     * Calculates and grants combat experience based on the given [damage] and the [target]'s
-     * predefined combat xp multiplier.
-     *
-     * @param damage The damage rolled to be inflicted on [target]. This value is implicitly capped
-     *   to the [target]'s remaining hitpoints.
-     */
     @Suppress("unused")
-    public fun giveCombatXp(player: Player, target: Npc, attack: CombatAttack.Staff, damage: Int) {
+    private fun giveCombatXp(player: Player, target: Npc, attack: CombatAttack.Staff, damage: Int) {
         val cappedDamage = min(damage, target.hitpoints)
         val multiplier = target.resolveCombatXpMultiplier()
         giveStaffCombatXp(player, cappedDamage, multiplier)
     }
 
-    /**
-     * Calculates and grants combat experience based on the given [damage].
-     *
-     * @param damage The damage rolled to be inflicted on [target]. This value is implicitly capped
-     *   to the [target]'s remaining hitpoints.
-     */
     @Suppress("unused")
-    public fun giveCombatXp(
+    private fun giveCombatXp(
         player: Player,
         target: Player,
         attack: CombatAttack.Staff,
