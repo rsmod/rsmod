@@ -33,8 +33,7 @@ constructor(
     private var Player.maxHit by intVarp(varps.com_maxhit)
 
     /**
-     * Computes the maximum melee hit for [player] against [target], applying the
-     * [specialMultiplier] before passing the result to [modifyPostSpec].
+     * Computes the maximum melee hit for [player] against [target].
      *
      * **Notes:**
      * - This function should be used instead of [computeMaxHit] in most cases to ensure consistency

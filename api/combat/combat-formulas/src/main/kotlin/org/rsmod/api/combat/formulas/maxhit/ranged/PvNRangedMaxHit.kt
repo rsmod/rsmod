@@ -16,7 +16,6 @@ import org.rsmod.api.config.refs.params
 import org.rsmod.api.config.refs.varps
 import org.rsmod.api.player.bonus.WornBonuses
 import org.rsmod.api.player.vars.intVarp
-import org.rsmod.api.random.GameRandom
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.game.type.npc.UnpackedNpcType
@@ -24,7 +23,6 @@ import org.rsmod.game.type.npc.UnpackedNpcType
 public class PvNRangedMaxHit
 @Inject
 constructor(
-    private val random: GameRandom,
     private val bonuses: WornBonuses,
     private val weaponSpeeds: WeaponSpeeds,
     private val npcAttributes: CombatNpcAttributeCollector,
@@ -33,8 +31,7 @@ constructor(
     private var Player.maxHit by intVarp(varps.com_maxhit)
 
     /**
-     * Computes the maximum ranged hit for [player] against [target], applying the
-     * [specialMultiplier] before passing the result to [modifyPostSpec].
+     * Computes the maximum ranged hit for [player] against [target].
      *
      * **Notes:**
      * - This function should be used instead of [computeMaxHit] in most cases to ensure consistency

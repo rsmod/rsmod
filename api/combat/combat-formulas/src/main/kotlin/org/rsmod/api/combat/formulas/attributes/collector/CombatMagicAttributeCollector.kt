@@ -3,7 +3,6 @@ package org.rsmod.api.combat.formulas.attributes.collector
 import jakarta.inject.Inject
 import java.util.EnumSet
 import kotlin.collections.plusAssign
-import org.rsmod.api.combat.commons.magic.MagicSpell
 import org.rsmod.api.combat.commons.magic.MagicSpellChecks
 import org.rsmod.api.combat.commons.magic.Spellbook
 import org.rsmod.api.combat.formulas.attributes.CombatSpellAttributes
@@ -21,6 +20,7 @@ import org.rsmod.api.player.worn.EquipmentChecks
 import org.rsmod.game.entity.Player
 import org.rsmod.game.obj.isAnyType
 import org.rsmod.game.obj.isType
+import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.type.obj.isType
@@ -28,17 +28,15 @@ import org.rsmod.game.type.obj.isType
 public class CombatMagicAttributeCollector @Inject constructor(private val objTypes: ObjTypeList) {
     public fun spellCollect(
         player: Player,
+        spell: ObjType,
         spellbook: Spellbook,
-        magicSpell: MagicSpell,
-        usedSunfireRunes: Boolean,
+        usedSunfireRune: Boolean,
     ): EnumSet<CombatSpellAttributes> {
         val attributes = EnumSet.noneOf(CombatSpellAttributes::class.java)
 
         if (spellbook == Spellbook.Standard) {
             attributes += CombatSpellAttributes.StandardBook
         }
-
-        val spell = magicSpell.obj
 
         val spellAttribute =
             when {
@@ -138,7 +136,7 @@ public class CombatMagicAttributeCollector @Inject constructor(private val objTy
             attributes += shieldAttribute
         }
 
-        if (MagicSpellChecks.isFireSpell(spell) && usedSunfireRunes) {
+        if (MagicSpellChecks.isFireSpell(spell) && usedSunfireRune) {
             attributes += CombatSpellAttributes.SunfireRunePassive
         }
 

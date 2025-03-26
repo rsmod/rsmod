@@ -106,11 +106,11 @@ constructor(
         val rangedBonus = bonuses.offensiveRangedBonus(source)
         val attackRoll = PlayerRangedAccuracy.calculateBaseAttackRoll(effectiveRanged, rangedBonus)
         return RangedAccuracyOperations.modifyAttackRoll(
-            attackRoll,
-            targetMagic,
-            targetDistance,
-            rangeAttributes,
-            npcAttributes,
+            attackRoll = attackRoll,
+            targetMagic = targetMagic,
+            targetDistance = targetDistance,
+            rangeAttributes = rangeAttributes,
+            npcAttributes = npcAttributes,
         )
     }
 

@@ -1,10 +1,13 @@
 package org.rsmod.api.combat.formulas
 
 import jakarta.inject.Inject
+import org.rsmod.api.combat.commons.magic.MagicSpell
+import org.rsmod.api.combat.commons.magic.Spellbook
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
 import org.rsmod.api.combat.commons.styles.RangedAttackStyle
 import org.rsmod.api.combat.commons.types.MeleeAttackType
 import org.rsmod.api.combat.commons.types.RangedAttackType
+import org.rsmod.api.combat.formulas.maxhit.magic.PvNMagicMaxHit
 import org.rsmod.api.combat.formulas.maxhit.melee.NvPMeleeMaxHit
 import org.rsmod.api.combat.formulas.maxhit.melee.PvNMeleeMaxHit
 import org.rsmod.api.combat.formulas.maxhit.ranged.NvPRangedMaxHit
@@ -15,6 +18,7 @@ import org.rsmod.game.entity.Player
 public class MaxHitFormulae
 @Inject
 constructor(
+    private val pvnMagicMaxHit: PvNMagicMaxHit,
     private val pvnMeleeMaxHit: PvNMeleeMaxHit,
     private val nvpMeleeMaxHit: NvPMeleeMaxHit,
     private val pvnRangedMaxHit: PvNRangedMaxHit,
@@ -59,4 +63,19 @@ constructor(
 
     public fun getRangedMaxHit(npc: Npc, target: Player): Int =
         nvpRangedMaxHit.getMaxHit(npc, target)
+
+    public fun getMagicSpellMaxHitRange(
+        player: Player,
+        target: Npc,
+        spellbook: Spellbook,
+        magicSpell: MagicSpell,
+        usedSunfireRune: Boolean,
+    ): IntRange =
+        pvnMagicMaxHit.getSpellMaxHit(
+            player = player,
+            target = target,
+            spellbook = spellbook,
+            magicSpell = magicSpell,
+            usedSunfireRune = usedSunfireRune,
+        )
 }
