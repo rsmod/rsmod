@@ -1,5 +1,6 @@
 package org.rsmod.api.combat.commons.player
 
+import kotlin.math.min
 import org.rsmod.api.config.refs.categories
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.config.refs.queues
@@ -94,3 +95,5 @@ public fun Player.combatPlayDefendSpot(objTypes: ObjTypeList, ammo: ObjType?, cl
     }
     spotanim(spotanims.javelin_hit, delay = clientDelay, height = 146)
 }
+
+public fun Player.resolveCombatXpMultiplier(): Double = min(1.125, 1 + (0.025 * (combatLevel / 20)))

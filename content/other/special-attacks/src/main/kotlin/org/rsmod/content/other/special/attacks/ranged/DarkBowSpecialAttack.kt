@@ -130,6 +130,8 @@ constructor(private val objTypes: ObjTypeList, private val ammunition: RangedAmm
             val hitDelay1 = proj1.serverCycles
             val hitDelay2 = proj2.serverCycles
 
+            manager.giveCombatXp(this, target, attack, damage.total)
+
             ammunition.useQuiverAmmo(
                 player = player,
                 quiverType = quiverType,
@@ -185,6 +187,8 @@ constructor(private val objTypes: ObjTypeList, private val ammunition: RangedAmm
             val hitDelay1 = proj1.serverCycles
             val hitDelay2 = proj2.serverCycles
 
+            manager.giveCombatXp(this, target, attack, damage.total)
+
             ammunition.useQuiverAmmo(
                 player = player,
                 quiverType = quiverType,
@@ -229,6 +233,9 @@ constructor(private val objTypes: ObjTypeList, private val ammunition: RangedAmm
         }
 
         private data class DescentHit(val first: Int, val second: Int) {
+            val total: Int
+                get() = first + second
+
             operator fun get(index: Int): Int =
                 when (index) {
                     0 -> first

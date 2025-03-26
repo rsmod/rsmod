@@ -59,7 +59,7 @@ internal fun ProtectedAccess.resolveCombatAttack(
             checkNotNull(weapon) {
                 "Expected valid weapon for magic-staff-based attack: style=$style, type=$type"
             }
-            CombatAttack.Staff(weapon, defensiveCasting)
+            CombatAttack.Staff(weapon)
         }
 
         type?.isRanged == true -> {

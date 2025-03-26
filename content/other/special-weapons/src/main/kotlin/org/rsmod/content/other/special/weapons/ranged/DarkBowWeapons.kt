@@ -113,6 +113,7 @@ constructor(private val objTypes: ObjTypeList, private val ammunition: RangedAmm
             )
 
             val damage = manager.rollRangedDamage(this, target, attack)
+            manager.giveCombatXp(this, target, attack, damage)
             manager.queueRangedProjectileHit(this, target, quiverType, damage, projanim)
         }
 
@@ -140,6 +141,10 @@ constructor(private val objTypes: ObjTypeList, private val ammunition: RangedAmm
             )
 
             val damage1 = manager.rollRangedDamage(this, target, attack)
+            val damage2 = manager.rollRangedDamage(this, target, attack)
+            val totalDamage = damage1 + damage2
+
+            manager.giveCombatXp(this, target, attack, totalDamage)
             manager.queueRangedHit(this, target, quiverType, damage1, proj2.clientCycles, hitDelay1)
 
             ammunition.useQuiverAmmo(
@@ -149,7 +154,6 @@ constructor(private val objTypes: ObjTypeList, private val ammunition: RangedAmm
                 dropDelay = hitDelay2,
             )
 
-            val damage2 = manager.rollRangedDamage(this, target, attack)
             manager.queueRangedDamage(this, target, quiverType, damage2, hitDelay2)
 
             if (player.quiver?.count == 1) {

@@ -105,6 +105,38 @@ constructor(
      */
     public fun clearCombat(access: ProtectedAccess): Unit = manager.clearCombat(access.player)
 
+    /** @see [PlayerAttackManager.giveCombatXp] */
+    public fun giveCombatXp(
+        source: ProtectedAccess,
+        target: PathingEntity,
+        attack: CombatAttack.Melee,
+        damage: Int,
+    ): Unit = manager.giveCombatXp(source.player, target, attack, damage)
+
+    /** @see [PlayerAttackManager.giveCombatXp] */
+    public fun giveCombatXp(
+        source: ProtectedAccess,
+        target: PathingEntity,
+        attack: CombatAttack.Ranged,
+        damage: Int,
+    ): Unit = manager.giveCombatXp(source.player, target, attack, damage)
+
+    /** @see [PlayerAttackManager.giveCombatXp] */
+    public fun giveCombatXp(
+        source: ProtectedAccess,
+        target: PathingEntity,
+        attack: CombatAttack.Spell,
+        damage: Int,
+    ): Unit = manager.giveCombatXp(source.player, target, attack, damage)
+
+    /** @see [PlayerAttackManager.giveCombatXp] */
+    public fun giveCombatXp(
+        source: ProtectedAccess,
+        target: PathingEntity,
+        attack: CombatAttack.Staff,
+        damage: Int,
+    ): Unit = manager.giveCombatXp(source.player, target, attack, damage)
+
     /** @see [PlayerAttackManager.rollMeleeDamage] */
     public fun rollMeleeDamage(
         source: ProtectedAccess,

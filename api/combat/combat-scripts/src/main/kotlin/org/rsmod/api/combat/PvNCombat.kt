@@ -91,6 +91,7 @@ constructor(
         }
 
         val damage = manager.rollMeleeDamage(player, npc, attack)
+        manager.giveCombatXp(player, npc, attack, damage)
         manager.playWeaponFx(player, attack)
         manager.queueMeleeHit(player, npc, damage)
         // TODO(combat): This is sending two `setmapflag(null)` packets when it is meant to only
@@ -210,6 +211,8 @@ constructor(
         }
 
         val damage = manager.rollRangedDamage(player, npc, attack)
+        manager.giveCombatXp(player, npc, attack, damage)
+
         val hitAmmoObj = if (usingThrown) null else quiverType
         manager.queueRangedProjectileHit(player, npc, hitAmmoObj, damage, projanim)
 

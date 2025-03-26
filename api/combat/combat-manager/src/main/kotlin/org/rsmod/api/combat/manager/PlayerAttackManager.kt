@@ -1,14 +1,17 @@
 package org.rsmod.api.combat.manager
 
 import jakarta.inject.Inject
+import kotlin.math.min
 import org.rsmod.api.combat.commons.CombatAttack
 import org.rsmod.api.combat.commons.fx.MeleeAnimationAndSound
 import org.rsmod.api.combat.commons.npc.combatPlayDefendAnim
 import org.rsmod.api.combat.commons.npc.combatPlayDefendSpot
 import org.rsmod.api.combat.commons.npc.queueCombatRetaliate
+import org.rsmod.api.combat.commons.npc.resolveCombatXpMultiplier
 import org.rsmod.api.combat.commons.player.combatPlayDefendAnim
 import org.rsmod.api.combat.commons.player.combatPlayDefendSpot
 import org.rsmod.api.combat.commons.player.queueCombatRetaliate
+import org.rsmod.api.combat.commons.player.resolveCombatXpMultiplier
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
 import org.rsmod.api.combat.commons.styles.RangedAttackStyle
 import org.rsmod.api.combat.commons.types.MeleeAttackType
@@ -16,6 +19,7 @@ import org.rsmod.api.combat.commons.types.RangedAttackType
 import org.rsmod.api.combat.formulas.AccuracyFormulae
 import org.rsmod.api.combat.formulas.MaxHitFormulae
 import org.rsmod.api.config.refs.params
+import org.rsmod.api.config.refs.stats
 import org.rsmod.api.npc.hit.modifier.NpcHitModifier
 import org.rsmod.api.npc.hit.queueHit
 import org.rsmod.api.player.hit.queueHit
@@ -23,8 +27,11 @@ import org.rsmod.api.player.interact.NpcInteractions
 import org.rsmod.api.player.interact.PlayerInteractions
 import org.rsmod.api.player.output.soundSynth
 import org.rsmod.api.player.protect.clearPendingAction
+import org.rsmod.api.player.stat.hitpoints
+import org.rsmod.api.player.stat.statAdvance
 import org.rsmod.api.random.GameRandom
 import org.rsmod.api.repo.world.WorldRepository
+import org.rsmod.api.stats.levelmod.InvisibleLevels
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.PathingEntity
@@ -37,6 +44,7 @@ import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.proj.ProjAnimType
 import org.rsmod.game.type.spot.SpotanimType
+import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.synth.SynthType
 import org.rsmod.map.CoordGrid
 
@@ -52,6 +60,7 @@ constructor(
     private val npcHitModifier: NpcHitModifier,
     private val npcInteractions: NpcInteractions,
     private val playerInteractions: PlayerInteractions,
+    private val invisibleLevel: InvisibleLevels,
 ) {
     /**
      * Determines if the player is still under an active attack delay.
@@ -191,6 +200,276 @@ constructor(
         player.anim(attackAnim)
         attackSound?.let(player::soundSynth)
         return true
+    }
+
+    /**
+     * Calculates and grants combat experience based on the given [attack], [damage], and the
+     * [target]'s predefined combat xp multiplier.
+     *
+     * @param damage The damage rolled to be inflicted on [target]. This value is implicitly capped
+     *   to the [target]'s remaining hitpoints.
+     */
+    public fun giveCombatXp(
+        player: Player,
+        target: PathingEntity,
+        attack: CombatAttack.Melee,
+        damage: Int,
+    ): Unit =
+        when (target) {
+            is Npc -> giveCombatXp(player, target, attack, damage)
+            is Player -> giveCombatXp(player, target, attack, damage)
+        }
+
+    /**
+     * Calculates and grants combat experience based on the given [attack], [damage], and the
+     * [target]'s predefined combat xp multiplier.
+     *
+     * @param damage The damage rolled to be inflicted on [target]. This value is implicitly capped
+     *   to the [target]'s remaining hitpoints.
+     */
+    public fun giveCombatXp(player: Player, target: Npc, attack: CombatAttack.Melee, damage: Int) {
+        val cappedDamage = min(damage, target.hitpoints)
+        val multiplier = target.resolveCombatXpMultiplier()
+        giveCombatXp(player, attack, cappedDamage, multiplier)
+    }
+
+    /**
+     * Calculates and grants combat experience based on the given [attack] and [damage].
+     *
+     * @param damage The damage rolled to be inflicted on [target]. This value is implicitly capped
+     *   to the [target]'s remaining hitpoints.
+     */
+    public fun giveCombatXp(
+        player: Player,
+        target: Player,
+        attack: CombatAttack.Melee,
+        damage: Int,
+    ) {
+        val cappedDamage = min(damage, target.hitpoints)
+        val multiplier = target.resolveCombatXpMultiplier()
+        giveCombatXp(player, attack, cappedDamage, multiplier)
+    }
+
+    private fun giveCombatXp(
+        player: Player,
+        attack: CombatAttack.Melee,
+        damage: Int,
+        multiplier: Double = 1.0,
+    ) {
+        when (attack.style) {
+            MeleeAttackStyle.Controlled -> {
+                statAdvance(player, stats.attack, damage * 1.33, multiplier)
+                statAdvance(player, stats.strength, damage * 1.33, multiplier)
+                statAdvance(player, stats.defence, damage * 1.33, multiplier)
+            }
+            MeleeAttackStyle.Accurate -> {
+                statAdvance(player, stats.attack, damage * 4.0, multiplier)
+            }
+            MeleeAttackStyle.Aggressive -> {
+                statAdvance(player, stats.strength, damage * 4.0, multiplier)
+            }
+            MeleeAttackStyle.Defensive -> {
+                statAdvance(player, stats.defence, damage * 4.0, multiplier)
+            }
+            null -> {
+                /* no-op */
+            }
+        }
+        statAdvance(player, stats.hitpoints, damage * 1.33, multiplier)
+    }
+
+    /**
+     * Calculates and grants combat experience based on the given [attack], [damage], and the
+     * [target]'s predefined combat xp multiplier.
+     *
+     * @param damage The damage rolled to be inflicted on [target]. This value is implicitly capped
+     *   to the [target]'s remaining hitpoints.
+     */
+    public fun giveCombatXp(
+        player: Player,
+        target: PathingEntity,
+        attack: CombatAttack.Ranged,
+        damage: Int,
+    ): Unit =
+        when (target) {
+            is Npc -> giveCombatXp(player, target, attack, damage)
+            is Player -> giveCombatXp(player, target, attack, damage)
+        }
+
+    /**
+     * Calculates and grants combat experience based on the given [attack], [damage], and the
+     * [target]'s predefined combat xp multiplier.
+     *
+     * @param damage The damage rolled to be inflicted on [target]. This value is implicitly capped
+     *   to the [target]'s remaining hitpoints.
+     */
+    public fun giveCombatXp(player: Player, target: Npc, attack: CombatAttack.Ranged, damage: Int) {
+        val cappedDamage = min(damage, target.hitpoints)
+        val multiplier = target.resolveCombatXpMultiplier()
+        giveCombatXp(player, attack, cappedDamage, multiplier)
+    }
+
+    /**
+     * Calculates and grants combat experience based on the given [attack] and [damage].
+     *
+     * @param damage The damage rolled to be inflicted on [target]. This value is implicitly capped
+     *   to the [target]'s remaining hitpoints.
+     */
+    public fun giveCombatXp(
+        player: Player,
+        target: Player,
+        attack: CombatAttack.Ranged,
+        damage: Int,
+    ) {
+        val cappedDamage = min(damage, target.hitpoints)
+        val multiplier = target.resolveCombatXpMultiplier()
+        giveCombatXp(player, attack, cappedDamage, multiplier)
+    }
+
+    private fun giveCombatXp(
+        player: Player,
+        attack: CombatAttack.Ranged,
+        damage: Int,
+        multiplier: Double,
+    ) {
+        when (attack.style) {
+            RangedAttackStyle.Accurate -> {
+                statAdvance(player, stats.ranged, damage * 4.0, multiplier)
+            }
+            RangedAttackStyle.Rapid -> {
+                statAdvance(player, stats.ranged, damage * 4.0, multiplier)
+            }
+            RangedAttackStyle.LongRange -> {
+                statAdvance(player, stats.ranged, damage * 2.0, multiplier)
+                statAdvance(player, stats.defence, damage * 2.0, multiplier)
+            }
+            null -> {
+                /* no-op */
+            }
+        }
+        statAdvance(player, stats.hitpoints, damage * 1.33, multiplier)
+    }
+
+    /**
+     * Calculates and grants combat experience based on the given [attack], [damage], and the
+     * [target]'s predefined combat xp multiplier.
+     *
+     * @param damage The damage rolled to be inflicted on [target]. This value is implicitly capped
+     *   to the [target]'s remaining hitpoints.
+     */
+    public fun giveCombatXp(
+        player: Player,
+        target: PathingEntity,
+        attack: CombatAttack.Spell,
+        damage: Int,
+    ): Unit =
+        when (target) {
+            is Npc -> giveCombatXp(player, target, attack, damage)
+            is Player -> giveCombatXp(player, target, attack, damage)
+        }
+
+    /**
+     * Calculates and grants combat experience based on the given [attack], [damage], and the
+     * [target]'s predefined combat xp multiplier.
+     *
+     * @param damage The damage rolled to be inflicted on [target]. This value is implicitly capped
+     *   to the [target]'s remaining hitpoints.
+     */
+    public fun giveCombatXp(player: Player, target: Npc, attack: CombatAttack.Spell, damage: Int) {
+        val cappedDamage = min(damage, target.hitpoints)
+        val multiplier = target.resolveCombatXpMultiplier()
+        giveCombatXp(player, attack, cappedDamage, multiplier)
+    }
+
+    /**
+     * Calculates and grants combat experience based on the given [attack] and [damage].
+     *
+     * @param damage The damage rolled to be inflicted on [target]. This value is implicitly capped
+     *   to the [target]'s remaining hitpoints.
+     */
+    public fun giveCombatXp(
+        player: Player,
+        target: Player,
+        attack: CombatAttack.Spell,
+        damage: Int,
+    ) {
+        val cappedDamage = min(damage, target.hitpoints)
+        val multiplier = target.resolveCombatXpMultiplier()
+        giveCombatXp(player, attack, cappedDamage, multiplier)
+    }
+
+    private fun giveCombatXp(
+        player: Player,
+        attack: CombatAttack.Spell,
+        damage: Int,
+        multiplier: Double,
+    ) {
+        if (attack.defensive) {
+            statAdvance(player, stats.magic, damage * 1.33, multiplier)
+            statAdvance(player, stats.defence, damage.toDouble(), multiplier)
+        } else {
+            statAdvance(player, stats.magic, damage * 2.0, multiplier)
+        }
+        statAdvance(player, stats.hitpoints, damage * 1.33, multiplier)
+    }
+
+    /**
+     * Calculates and grants combat experience based on the given [damage] and the [target]'s
+     * predefined combat xp multiplier.
+     *
+     * @param damage The damage rolled to be inflicted on [target]. This value is implicitly capped
+     *   to the [target]'s remaining hitpoints.
+     */
+    public fun giveCombatXp(
+        player: Player,
+        target: PathingEntity,
+        attack: CombatAttack.Staff,
+        damage: Int,
+    ): Unit =
+        when (target) {
+            is Npc -> giveCombatXp(player, target, attack, damage)
+            is Player -> giveCombatXp(player, target, attack, damage)
+        }
+
+    /**
+     * Calculates and grants combat experience based on the given [damage] and the [target]'s
+     * predefined combat xp multiplier.
+     *
+     * @param damage The damage rolled to be inflicted on [target]. This value is implicitly capped
+     *   to the [target]'s remaining hitpoints.
+     */
+    @Suppress("unused")
+    public fun giveCombatXp(player: Player, target: Npc, attack: CombatAttack.Staff, damage: Int) {
+        val cappedDamage = min(damage, target.hitpoints)
+        val multiplier = target.resolveCombatXpMultiplier()
+        giveStaffCombatXp(player, cappedDamage, multiplier)
+    }
+
+    /**
+     * Calculates and grants combat experience based on the given [damage].
+     *
+     * @param damage The damage rolled to be inflicted on [target]. This value is implicitly capped
+     *   to the [target]'s remaining hitpoints.
+     */
+    @Suppress("unused")
+    public fun giveCombatXp(
+        player: Player,
+        target: Player,
+        attack: CombatAttack.Staff,
+        damage: Int,
+    ) {
+        val cappedDamage = min(damage, target.hitpoints)
+        val multiplier = target.resolveCombatXpMultiplier()
+        giveStaffCombatXp(player, cappedDamage, multiplier)
+    }
+
+    private fun giveStaffCombatXp(player: Player, damage: Int, multiplier: Double) {
+        statAdvance(player, stats.magic, damage * 2.0, multiplier)
+        statAdvance(player, stats.hitpoints, damage * 1.33, multiplier)
+    }
+
+    private fun statAdvance(player: Player, stat: StatType, baseXp: Double, multiplier: Double) {
+        player.statAdvance(stat, baseXp * multiplier, eventBus, invisibleLevel)
     }
 
     /**

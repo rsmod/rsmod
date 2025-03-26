@@ -17,6 +17,8 @@ dependencies {
     implementation(projects.api.random)
     implementation(projects.api.repo)
     implementation(projects.api.type.typeReferences)
+    implementation(projects.api.stats.levelmod)
+    implementation(projects.api.utils.utilsVars)
     implementation(projects.engine.events)
     implementation(projects.engine.game)
     implementation(projects.engine.map)

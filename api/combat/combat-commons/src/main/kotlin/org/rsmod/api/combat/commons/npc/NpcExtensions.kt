@@ -98,3 +98,5 @@ public fun Npc.combatPlayDefendSpot(objTypes: ObjTypeList, ammo: ObjType?, clien
 public fun Npc.attackRate(): Int = visType.param(params.attackrate)
 
 public fun Npc.aggressionRange(): Int = visType.maxRange + visType.attackRange
+
+public fun Npc.resolveCombatXpMultiplier(): Double = combatXpMultiplier / 1000.0

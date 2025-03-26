@@ -28,7 +28,7 @@ public sealed class CombatAttack {
     public data class Spell(val weapon: InvObj?, val spell: MagicSpell, val defensive: Boolean) :
         Magic()
 
-    public data class Staff(val weapon: InvObj, val defensive: Boolean) : Magic()
+    public data class Staff(val weapon: InvObj) : Magic()
 
     public sealed class NpcAttack : CombatAttack()
 
