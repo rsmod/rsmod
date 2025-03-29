@@ -17,7 +17,6 @@ import org.rsmod.api.player.vars.resyncVar
 import org.rsmod.api.repo.loc.LocRepository
 import org.rsmod.api.repo.npc.NpcRepository
 import org.rsmod.api.script.onCommand
-import org.rsmod.api.stats.levelmod.InvisibleLevels
 import org.rsmod.api.type.symbols.name.NameMapping
 import org.rsmod.api.utils.format.formatAmount
 import org.rsmod.events.EventBus
@@ -67,7 +66,6 @@ constructor(
     private val locRepo: LocRepository,
     private val npcRepo: NpcRepository,
     private val names: NameMapping,
-    private val invisibleLevels: InvisibleLevels,
 ) : PluginScript() {
     private val logger = InlineLogger()
 
@@ -328,7 +326,7 @@ constructor(
             }
             val xpDelta = xp - statMap.getXP(stat)
             statMap.setCurrentLevel(stat, level.toByte())
-            statAdvance(stat, xpDelta.toDouble(), eventBus, invisibleLevels, rate = 1.0)
+            statAdvance(stat, xpDelta.toDouble(), rate = 1.0)
         }
     }
 
@@ -341,7 +339,7 @@ constructor(
         require(levelDelta > 0) { "This function can only be used to reduce stat levels." }
         statMap.setXP(stat, targetXp)
         statMap.setBaseLevel(stat, targetLevel.toByte())
-        statSub(stat, constant = levelDelta, percent = 0, invisibleLevels)
+        statSub(stat, constant = levelDelta, percent = 0)
     }
 
     private fun resolveArgTypeId(arg: String, names: Map<String, Int>): Int? {

@@ -2,30 +2,25 @@ package org.rsmod.api.game.process.player
 
 import jakarta.inject.Inject
 import kotlin.collections.iterator
-import org.rsmod.api.player.forceDisconnect
 import org.rsmod.api.player.output.UpdateInventory
 import org.rsmod.api.utils.logging.GameExceptionHandler
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.PlayerList
 import org.rsmod.game.inv.Inventory
 
-public class PlayerInvUpdateProcess
+public class PlayerInvUpdateProcessor
 @Inject
 constructor(private val players: PlayerList, private val exceptionHandler: GameExceptionHandler) {
     private val processedInvs = hashSetOf<Inventory>()
 
-    public fun process() {
-        players.process()
-        resetProcessedInvs()
+    public fun process(player: Player) {
+        player.updateTransmittedInvs()
+        player.processQueuedTransmissions()
     }
 
-    private fun PlayerList.process() {
-        for (player in this) {
-            player.tryOrDisconnect {
-                updateTransmittedInvs()
-                processQueuedTransmissions()
-            }
-        }
+    public fun cleanUp() {
+        processedInvs.forEach(Inventory::clearModifiedSlots)
+        processedInvs.clear()
     }
 
     private fun Player.updateTransmittedInvs() {
@@ -50,20 +45,4 @@ constructor(private val players: PlayerList, private val exceptionHandler: GameE
         }
         transmittedInvAddQueue.clear()
     }
-
-    private fun resetProcessedInvs() {
-        processedInvs.forEach(Inventory::clearModifiedSlots)
-        processedInvs.clear()
-    }
-
-    private inline fun Player.tryOrDisconnect(block: Player.() -> Unit) =
-        try {
-            block(this)
-        } catch (e: Exception) {
-            forceDisconnect()
-            exceptionHandler.handle(e) { "Error processing inv updates for player: $this." }
-        } catch (e: NotImplementedError) {
-            forceDisconnect()
-            exceptionHandler.handle(e) { "Error processing inv updates for player: $this." }
-        }
 }

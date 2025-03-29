@@ -1,30 +1,16 @@
 package org.rsmod.api.player.stat
 
 import kotlin.math.min
-import org.rsmod.api.stats.levelmod.InvisibleLevels
-import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.stat.PlayerSkillXPTable
 import org.rsmod.game.stat.PlayerStatMap
 import org.rsmod.game.type.stat.StatType
 
 public object PlayerSkillXP {
-    public fun internalAddXP(
-        player: Player,
-        stat: StatType,
-        xp: Double,
-        rate: Double,
-        eventBus: EventBus,
-        invisibleLevels: InvisibleLevels,
-    ): Int = player.addXP(stat, xp, rate, eventBus, invisibleLevels)
+    public fun internalAddXP(player: Player, stat: StatType, xp: Double, rate: Double): Int =
+        player.addXP(stat, xp, rate)
 
-    private fun Player.addXP(
-        stat: StatType,
-        xp: Double,
-        rate: Double,
-        eventBus: EventBus,
-        invisibleLevels: InvisibleLevels,
-    ): Int {
+    private fun Player.addXP(stat: StatType, xp: Double, rate: Double): Int {
         val fineXp = PlayerStatMap.toFineXP(xp * rate)
         if (fineXp.isInfinite()) {
             throw IllegalArgumentException("Total XP being added is too high! (xp=$xp, rate=$rate)")
@@ -32,11 +18,11 @@ public object PlayerSkillXP {
         val addedFineXp = statMap.addXP(stat, fineXp)
         if (addedFineXp == 0) {
             // UpdateStat packet is sent even if stat is maxed.
-            updateStat(stat, invisibleLevels)
+            updateStat(stat)
             return 0
         }
-        checkLevelUp(stat, eventBus)
-        updateStat(stat, invisibleLevels)
+        checkLevelUp(stat)
+        updateStat(stat)
         return PlayerStatMap.normalizeFineXP(addedFineXp)
     }
 
@@ -50,7 +36,7 @@ public object PlayerSkillXP {
         return addedXp
     }
 
-    private fun Player.checkLevelUp(stat: StatType, eventBus: EventBus) {
+    private fun Player.checkLevelUp(stat: StatType) {
         val baseLevel = statBase(stat)
         if (baseLevel >= stat.maxLevel) {
             return
@@ -66,8 +52,7 @@ public object PlayerSkillXP {
                 statMap.setCurrentLevel(stat, newLevel.toByte())
             }
 
-            val levelUp = AdvanceStatEvent(this, stat, baseLevel, newLevel)
-            eventBus.publish(levelUp)
+            changeStat(stat)
         }
     }
 }

@@ -33,7 +33,6 @@ import org.rsmod.api.player.stat.hitpoints
 import org.rsmod.api.player.stat.statAdvance
 import org.rsmod.api.random.GameRandom
 import org.rsmod.api.repo.world.WorldRepository
-import org.rsmod.api.stats.levelmod.InvisibleLevels
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.PathingEntity
@@ -63,7 +62,6 @@ constructor(
     private val npcInteractions: NpcInteractions,
     private val npcTInteractions: NpcTInteractions,
     private val playerInteractions: PlayerInteractions,
-    private val invisibleLevel: InvisibleLevels,
 ) {
     /**
      * Determines if the player is still under an active attack delay.
@@ -433,14 +431,8 @@ constructor(
         statAdvance(player, stats.hitpoints, damage * 1.33, multiplier)
     }
 
-    /**
-     * Advances the [player]'s [stat] by the given [baseXp], applying a [multiplier].
-     *
-     * Primarily intended for use by higher-level managers to avoid manually managing dependencies
-     * like [eventBus].
-     */
-    public fun statAdvance(player: Player, stat: StatType, baseXp: Double, multiplier: Double) {
-        player.statAdvance(stat, baseXp * multiplier, eventBus, invisibleLevel)
+    private fun statAdvance(player: Player, stat: StatType, baseXp: Double, multiplier: Double) {
+        player.statAdvance(stat, baseXp * multiplier)
     }
 
     /**

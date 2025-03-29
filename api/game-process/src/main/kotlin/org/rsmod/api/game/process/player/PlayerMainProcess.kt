@@ -18,6 +18,8 @@ import org.rsmod.game.ui.Component
 public class PlayerMainProcess
 @Inject
 constructor(
+    private val mapClock: MapClock,
+    private val eventBus: EventBus,
     private val objTypes: ObjTypeList,
     private val players: PlayerList,
     private val queues: PlayerQueueProcessor,
@@ -29,8 +31,6 @@ constructor(
     private val buildAreas: PlayerBuildAreaProcessor,
     private val mapSquares: PlayerMapSquareProcessor,
     private val regions: PlayerRegionProcessor,
-    private val eventBus: EventBus,
-    private val mapClock: MapClock,
     private val exceptionHandler: GameExceptionHandler,
 ) {
     public fun process() {

@@ -9,7 +9,6 @@ import org.rsmod.api.player.interact.LocInteractions
 import org.rsmod.api.player.interact.NpcInteractions
 import org.rsmod.api.player.interact.WornInteractions
 import org.rsmod.api.random.GameRandom
-import org.rsmod.api.stats.levelmod.InvisibleLevels
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.NpcList
 import org.rsmod.game.entity.PlayerList
@@ -39,7 +38,6 @@ constructor(
     private val heldInteractions: HeldInteractions,
     private val wornInteractions: WornInteractions,
     private val marketPrices: MarketPrices,
-    private val invisibleLevels: InvisibleLevels,
     private val instantHitProcessor: InstantPlayerHitProcessor,
 ) {
     public fun create(): ProtectedAccessContext =
@@ -60,7 +58,6 @@ constructor(
             getHeldInteractions = { heldInteractions },
             getWornInteractions = { wornInteractions },
             getMarketPrices = { marketPrices },
-            getInvisibleLevels = { invisibleLevels },
             getInstantHitProcessor = { instantHitProcessor },
         )
 
@@ -83,7 +80,6 @@ constructor(
                 getHeldInteractions = { error("No held interactions provided.") },
                 getWornInteractions = { error("No worn interactions provided.") },
                 getMarketPrices = { error("No market prices provided.") },
-                getInvisibleLevels = { error("No invisible levels provided.") },
                 getInstantHitProcessor = { error("No instant hit processor provided.") },
             )
 

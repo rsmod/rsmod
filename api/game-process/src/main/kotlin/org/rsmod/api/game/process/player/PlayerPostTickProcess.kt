@@ -19,13 +19,14 @@ constructor(
     private val playerList: PlayerList,
     private val playerRegistry: PlayerRegistry,
     private val zoneUpdates: PlayerZoneUpdateProcessor,
-    private val invUpdates: PlayerInvUpdateProcess,
+    private val invUpdates: PlayerInvUpdateProcessor,
+    private val statUpdates: PlayerStatUpdateProcessor,
     private val exceptionHandler: GameExceptionHandler,
 ) {
     public fun process() {
         updateZoneRegistry()
         sendZoneUpdates()
-        updateTransmittedInvs()
+        processPostTick()
         finalizePostTick()
     }
 
@@ -53,17 +54,23 @@ constructor(
         zoneUpdates.clearPendingZoneUpdates()
     }
 
-    private fun updateTransmittedInvs() {
-        invUpdates.process()
-    }
-
-    private fun finalizePostTick() {
+    private fun processPostTick() {
         for (player in playerList) {
             player.tryOrDisconnect {
+                updateTransmittedInvs()
+                updatePendingStats()
                 flushClient()
                 cleanUpPendingUpdates()
             }
         }
+    }
+
+    private fun Player.updateTransmittedInvs() {
+        invUpdates.process(this)
+    }
+
+    private fun Player.updatePendingStats() {
+        statUpdates.process(this)
     }
 
     private fun Player.flushClient() {
@@ -77,6 +84,10 @@ constructor(
         activeHeadbars.clear()
         activeHitmarks.clear()
         appearance.clearRebuildFlag()
+    }
+
+    private fun finalizePostTick() {
+        invUpdates.cleanUp()
     }
 
     private inline fun Player.tryOrDisconnect(block: Player.() -> Unit) =

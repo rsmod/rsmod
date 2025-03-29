@@ -5,9 +5,6 @@ import kotlin.math.max
 import kotlin.math.min
 import org.rsmod.annotations.InternalApi
 import org.rsmod.api.config.refs.stats
-import org.rsmod.api.player.output.UpdateStat
-import org.rsmod.api.stats.levelmod.InvisibleLevels
-import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.type.stat.StatType
 
@@ -30,14 +27,14 @@ public fun Player.statBase(stat: StatType): Int {
  * - This function resets the current level to the base level, whether it is above or below it.
  * - If the current level is already equal to the base level, this function does nothing.
  */
-public fun Player.statRestore(stat: StatType, invisibleLevels: InvisibleLevels) {
+public fun Player.statRestore(stat: StatType) {
     val currLevel = stat(stat)
     val baseLevel = statBase(stat)
     val delta = baseLevel - currLevel
     when {
         delta == 0 -> return
-        delta < 0 -> statSub(stat, delta.absoluteValue, percent = 0, invisibleLevels)
-        else -> statAdd(stat, delta, percent = 0, invisibleLevels)
+        delta < 0 -> statSub(stat, delta.absoluteValue, percent = 0)
+        else -> statAdd(stat, delta, percent = 0)
     }
 }
 
@@ -46,26 +43,14 @@ public fun Player.statRestore(stat: StatType, invisibleLevels: InvisibleLevels) 
  *
  * @see [statRestore]
  */
-public fun Player.statRestoreAll(stats: Iterable<StatType>, invisibleLevels: InvisibleLevels) {
+public fun Player.statRestoreAll(stats: Iterable<StatType>) {
     for (stat in stats) {
-        statRestore(stat, invisibleLevels)
+        statRestore(stat)
     }
 }
 
-public fun Player.statAdvance(
-    stat: StatType,
-    xp: Double,
-    eventBus: EventBus,
-    invisibleLevels: InvisibleLevels,
-    rate: Double = xpRate,
-): Int {
-    val startLevel = statBase(stat)
-    val addedXp = PlayerSkillXP.internalAddXP(this, stat, xp, rate, eventBus, invisibleLevels)
-    val endLevel = statBase(stat)
-    if (startLevel != endLevel) {
-        changeStat(stat)
-    }
-    return addedXp
+public fun Player.statAdvance(stat: StatType, xp: Double, rate: Double = xpRate): Int {
+    return PlayerSkillXP.internalAddXP(this, stat, xp, rate)
 }
 
 /**
@@ -87,12 +72,7 @@ public fun Player.statAdvance(
  *   [percent] is not within the range `0..100`.
  */
 @OptIn(InternalApi::class)
-public fun Player.statAdd(
-    stat: StatType,
-    constant: Int,
-    percent: Int,
-    invisibleLevels: InvisibleLevels,
-) {
+public fun Player.statAdd(stat: StatType, constant: Int, percent: Int) {
     require(constant >= 0) { "Constant `$constant` must be positive. Use `statSub` instead." }
     require(percent in 0..100) { "Percent must be an integer from 0-100. (0%-100%)" }
 
@@ -102,7 +82,7 @@ public fun Player.statAdd(
     val cappedLevel = min(255, calculated)
 
     statMap.setCurrentLevel(stat, cappedLevel.toByte())
-    updateStat(stat, invisibleLevels)
+    updateStat(stat)
 
     // TODO(combat): This might need to be moved to be handled in changestat.
     val clearHeroPoints = stat.isType(stats.hitpoints) && hitpoints >= baseHitpointsLvl
@@ -132,12 +112,7 @@ public fun Player.statAdd(
  * @throws IllegalArgumentException if [constant] is negative (use `statSub` instead), or if
  *   [percent] is not within the range `0..100`.
  */
-public fun Player.statBoost(
-    stat: StatType,
-    constant: Int,
-    percent: Int,
-    invisibleLevels: InvisibleLevels,
-) {
+public fun Player.statBoost(stat: StatType, constant: Int, percent: Int) {
     require(constant >= 0) { "Constant `$constant` must be positive. Use `statDrain` instead." }
     require(percent in 0..100) { "Percent must be an integer from 0-100. (0%-100%)" }
 
@@ -147,7 +122,7 @@ public fun Player.statBoost(
     val current = stat(stat)
     val cappedBoost = min(base + boost, current + boost) - current
 
-    statAdd(stat, cappedBoost, 0, invisibleLevels)
+    statAdd(stat, cappedBoost, 0)
 }
 
 /**
@@ -164,12 +139,7 @@ public fun Player.statBoost(
  * @throws IllegalArgumentException if [constant] is negative, or if [percent] is not within the
  *   range `0..100`.
  */
-public fun Player.statSub(
-    stat: StatType,
-    constant: Int,
-    percent: Int,
-    invisibleLevels: InvisibleLevels,
-) {
+public fun Player.statSub(stat: StatType, constant: Int, percent: Int) {
     require(constant >= 0) { "Constant `$constant` must be positive." }
     require(percent in 0..100) { "Percent must be an integer from 0-100. (0%-100%)" }
 
@@ -179,7 +149,7 @@ public fun Player.statSub(
     val cappedLevel = max(0, calculated)
 
     statMap.setCurrentLevel(stat, cappedLevel.toByte())
-    updateStat(stat, invisibleLevels)
+    updateStat(stat)
 
     if (cappedLevel != current) {
         changeStat(stat)
@@ -203,12 +173,7 @@ public fun Player.statSub(
  * @throws IllegalArgumentException if [constant] is negative (use `statAdd` if required), or if
  *   [percent] is not within range of `0` to `100`.
  */
-public fun Player.statDrain(
-    stat: StatType,
-    constant: Int,
-    percent: Int,
-    invisibleLevels: InvisibleLevels,
-) {
+public fun Player.statDrain(stat: StatType, constant: Int, percent: Int) {
     require(constant >= 0) { "Constant `$constant` must be positive." }
     require(percent in 0..100) { "Percent must be an integer from 0-100. (0%-100%)" }
 
@@ -218,7 +183,7 @@ public fun Player.statDrain(
     val current = stat(stat)
     val cappedDrain = current - min(base - drain, current - drain)
 
-    statSub(stat, cappedDrain, 0, invisibleLevels)
+    statSub(stat, cappedDrain, 0)
 }
 
 /**
@@ -245,12 +210,7 @@ public fun Player.statDrain(
  *   range `0..100`.
  */
 @OptIn(InternalApi::class)
-public fun Player.statHeal(
-    stat: StatType,
-    constant: Int,
-    percent: Int,
-    invisibleLevels: InvisibleLevels,
-) {
+public fun Player.statHeal(stat: StatType, constant: Int, percent: Int) {
     require(constant >= 0) { "Constant `$constant` must be positive." }
     require(percent in 0..100) { "Percent must be an integer from 0-100. (0%-100%)" }
 
@@ -260,7 +220,7 @@ public fun Player.statHeal(
     val cappedLevel = calculated.coerceIn(current, base)
 
     statMap.setCurrentLevel(stat, cappedLevel.toByte())
-    updateStat(stat, invisibleLevels)
+    updateStat(stat)
 
     // TODO(combat): This might need to be moved to be handled in changestat.
     val clearHeroPoints = stat.isType(stats.hitpoints) && hitpoints >= baseHitpointsLvl
@@ -273,9 +233,4 @@ public fun Player.statHeal(
     }
 }
 
-internal fun Player.updateStat(stat: StatType, invisibleLevels: InvisibleLevels) {
-    val currXp = statMap.getXP(stat)
-    val currLvl = stat(stat)
-    val hiddenLevel = currLvl + invisibleLevels.get(this, stat)
-    UpdateStat.update(this, stat, currXp, currLvl, hiddenLevel)
-}
+@OptIn(InternalApi::class) internal fun Player.updateStat(stat: StatType) = markStatUpdate(stat)

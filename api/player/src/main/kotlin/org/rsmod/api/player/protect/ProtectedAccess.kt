@@ -1061,65 +1061,34 @@ public class ProtectedAccess(
     }
 
     /** @see [org.rsmod.api.player.stat.statRestore] */
-    public fun statRestore(
-        stat: StatType,
-        invisibleLevels: InvisibleLevels = context.invisibleLevels,
-    ): Unit = player.statRestore(stat, invisibleLevels)
+    public fun statRestore(stat: StatType): Unit = player.statRestore(stat)
 
     /** @see [org.rsmod.api.player.stat.statRestoreAll] */
-    public fun statRestoreAll(
-        stats: Iterable<StatType>,
-        invisibleLevels: InvisibleLevels = context.invisibleLevels,
-    ): Unit = player.statRestoreAll(stats, invisibleLevels)
+    public fun statRestoreAll(stats: Iterable<StatType>): Unit = player.statRestoreAll(stats)
 
     /** @see [org.rsmod.api.player.stat.statAdvance] */
-    public fun statAdvance(
-        stat: StatType,
-        xp: Double,
-        rate: Double = player.xpRate,
-        eventBus: EventBus = context.eventBus,
-        invisibleLevels: InvisibleLevels = context.invisibleLevels,
-    ): Int = player.statAdvance(stat, xp, eventBus, invisibleLevels, rate)
+    public fun statAdvance(stat: StatType, xp: Double, rate: Double = player.xpRate): Int =
+        player.statAdvance(stat, xp, rate)
 
     /** @see [org.rsmod.api.player.stat.statAdd] */
-    public fun statAdd(
-        stat: StatType,
-        constant: Int,
-        percent: Int,
-        invisibleLevels: InvisibleLevels = context.invisibleLevels,
-    ): Unit = player.statAdd(stat, constant, percent, invisibleLevels)
+    public fun statAdd(stat: StatType, constant: Int, percent: Int): Unit =
+        player.statAdd(stat, constant, percent)
 
     /** @see [org.rsmod.api.player.stat.statBoost] */
-    public fun statBoost(
-        stat: StatType,
-        constant: Int,
-        percent: Int,
-        invisibleLevels: InvisibleLevels = context.invisibleLevels,
-    ): Unit = player.statBoost(stat, constant, percent, invisibleLevels)
+    public fun statBoost(stat: StatType, constant: Int, percent: Int): Unit =
+        player.statBoost(stat, constant, percent)
 
     /** @see [org.rsmod.api.player.stat.statSub] */
-    public fun statSub(
-        stat: StatType,
-        constant: Int,
-        percent: Int,
-        invisibleLevels: InvisibleLevels = context.invisibleLevels,
-    ): Unit = player.statSub(stat, constant, percent, invisibleLevels)
+    public fun statSub(stat: StatType, constant: Int, percent: Int): Unit =
+        player.statSub(stat, constant, percent)
 
     /** @see [org.rsmod.api.player.stat.statDrain] */
-    public fun statDrain(
-        stat: StatType,
-        constant: Int,
-        percent: Int,
-        invisibleLevels: InvisibleLevels = context.invisibleLevels,
-    ): Unit = player.statDrain(stat, constant, percent, invisibleLevels)
+    public fun statDrain(stat: StatType, constant: Int, percent: Int): Unit =
+        player.statDrain(stat, constant, percent)
 
     /** @see [org.rsmod.api.player.stat.statHeal] */
-    public fun statHeal(
-        stat: StatType,
-        constant: Int,
-        percent: Int,
-        invisibleLevels: InvisibleLevels = context.invisibleLevels,
-    ): Unit = player.statHeal(stat, constant, percent, invisibleLevels)
+    public fun statHeal(stat: StatType, constant: Int, percent: Int): Unit =
+        player.statHeal(stat, constant, percent)
 
     public fun rollSuccessRate(low: Int, high: Int, level: Int, maxLevel: Int): Boolean {
         val rate = SkillingSuccessRate.successRate(low, high, level, maxLevel)
@@ -1136,7 +1105,7 @@ public class ProtectedAccess(
         low: Int,
         high: Int,
         stat: StatType,
-        invisibleLevels: InvisibleLevels = context.invisibleLevels,
+        invisibleLevels: InvisibleLevels,
     ): Boolean {
         val invisibleBoost = invisibleLevels.get(player, stat)
         return rollSuccessRate(low, high, stat, invisibleBoost)

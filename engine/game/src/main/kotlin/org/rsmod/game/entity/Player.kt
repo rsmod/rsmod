@@ -4,6 +4,7 @@ import it.unimi.dsi.fastutil.ints.IntArrayList
 import it.unimi.dsi.fastutil.ints.IntArraySet
 import it.unimi.dsi.fastutil.ints.IntList
 import it.unimi.dsi.fastutil.longs.LongArrayList
+import java.util.BitSet
 import org.rsmod.annotations.InternalApi
 import org.rsmod.game.client.Client
 import org.rsmod.game.client.ClientCycle
@@ -109,6 +110,7 @@ public class Player(
 
     public var publicMessage: PublicMessage? = null
     public var pendingSay: String? = null
+    public val pendingStatUpdates: BitSet = BitSet()
     public val activeHitmarks: LongArrayList = LongArrayList()
     public val activeHeadbars: LongArrayList = LongArrayList()
 
@@ -249,6 +251,11 @@ public class Player(
 
     public fun changeStat(stat: StatType) {
         engineQueueList.add(EngineQueueType.ChangeStat, args = stat)
+    }
+
+    @InternalApi
+    public fun markStatUpdate(stat: StatType) {
+        pendingStatUpdates.set(stat.id)
     }
 
     override fun anim(seq: SeqType, delay: Int, priority: Int) {

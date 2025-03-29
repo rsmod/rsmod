@@ -50,7 +50,7 @@ constructor(private val manager: PlayerAttackManager, private val runes: MagicRu
      * [CombatAttack.Spell.spell].
      */
     public fun giveCastXp(access: ProtectedAccess, attack: CombatAttack.Spell) {
-        manager.statAdvance(access.player, stats.magic, attack.spell.castXp, multiplier = 1.0)
+        access.statAdvance(stats.magic, attack.spell.castXp)
     }
 
     /**
