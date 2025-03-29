@@ -1,6 +1,8 @@
 package org.rsmod.content.skills.magic.spell.attacks.standard
 
 import org.rsmod.api.combat.commons.CombatAttack
+import org.rsmod.api.combat.manager.MagicRuneManager.Companion.consumedRune
+import org.rsmod.api.combat.manager.MagicRuneManager.Companion.isFailure
 import org.rsmod.api.config.refs.objs
 import org.rsmod.api.config.refs.projanims
 import org.rsmod.api.config.refs.seqs
@@ -113,8 +115,8 @@ class ElementalSpells : SpellAttackMap {
         }
 
         private fun ProtectedAccess.cast(target: PathingEntity, attack: CombatAttack.Spell) {
-            val canCast = manager.attemptCast(this, attack)
-            if (!canCast) {
+            val castResult = manager.attemptCast(this, attack)
+            if (castResult.isFailure()) {
                 return
             }
             manager.giveCastXp(this, attack)
@@ -128,7 +130,6 @@ class ElementalSpells : SpellAttackMap {
             spotanim(launch, height = 92)
 
             val splash = false // TODO(combat): Accuracy roll.
-            val damage = baseMaxHit // TODO(combat): Max hit roll.
             val spell = attack.spell.obj
 
             if (splash) {
@@ -137,6 +138,9 @@ class ElementalSpells : SpellAttackMap {
                 manager.continueCombatIfAutocast(this, target)
                 return
             }
+
+            val damage = baseMaxHit // TODO(combat): Max hit roll.
+            val sunfire = castResult.consumedRune() && castResult.usedSunfire
 
             manager.playHitFx(
                 source = this,

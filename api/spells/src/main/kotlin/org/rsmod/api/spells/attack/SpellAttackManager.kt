@@ -4,6 +4,7 @@ import jakarta.inject.Inject
 import org.rsmod.api.combat.commons.CombatAttack
 import org.rsmod.api.combat.commons.magic.MagicSpell
 import org.rsmod.api.combat.manager.MagicRuneManager
+import org.rsmod.api.combat.manager.MagicRuneManager.Companion.isFailure
 import org.rsmod.api.combat.manager.PlayerAttackManager
 import org.rsmod.api.config.refs.stats
 import org.rsmod.api.config.refs.varbits
@@ -23,22 +24,40 @@ constructor(private val manager: PlayerAttackManager, private val runes: MagicRu
     private val ProtectedAccess.autocastEnabled by boolVarBit(varbits.autocast_enabled)
 
     /**
-     * Checks and consumes any requirements for [CombatAttack.Spell.spell], delegating to
-     * [MagicRuneManager.attemptCast] to determine success.
+     * Checks and **consumes** any requirements for [CombatAttack.Spell.spell], delegating to
+     * [MagicRuneManager.attemptCast].
      *
-     * _Note: If the spell cannot be cast, this function will implicitly call [clearCombat],
-     * resetting the player's attack delay since the cast should not proceed._
+     * _Note: If the spell cannot be cast, this function will automatically call [clearCombat] to
+     * reset the player's attack delay, since the cast should not proceed._
+     *
+     * This function returns a [MagicRuneManager.CastResult], providing useful context. For example,
+     * if the result is an instance of [MagicRuneManager.CastResult.Success.Consumed], it can be
+     * used to check whether a Sunfire rune was used.
+     *
+     * #### Example Usage:
+     * ```
+     * val castResult = attemptCast(this, attack)
+     * if (castResult.isFailure()) {
+     *  // Combat is cleared inside `attemptCast`, so we can just return.
+     *  return
+     * }
+     * // `consumedRune` casts `castResult` to `CastResult.Success.Consumed` (via Kotlin contracts)
+     * // if applicable, allowing `usedSunfire` to be accessed safely.
+     * val usedSunfireRune = castResult.consumedRune() && castResult.usedSunfire
+     * ```
      *
      * @see [MagicRuneManager.attemptCast]
      * @see [clearCombat]
      */
-    public fun attemptCast(source: ProtectedAccess, attack: CombatAttack.Spell): Boolean {
-        val canCast = runes.attemptCast(source.player, attack.spell)
-        if (!canCast) {
+    public fun attemptCast(
+        source: ProtectedAccess,
+        attack: CombatAttack.Spell,
+    ): MagicRuneManager.CastResult {
+        val castResult = runes.attemptCast(source.player, attack.spell)
+        if (castResult.isFailure()) {
             clearCombat(source)
-            return false
         }
-        return true
+        return castResult
     }
 
     /**

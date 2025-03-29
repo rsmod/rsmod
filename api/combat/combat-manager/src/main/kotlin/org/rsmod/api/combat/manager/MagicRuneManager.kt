@@ -1,6 +1,7 @@
 package org.rsmod.api.combat.manager
 
 import jakarta.inject.Inject
+import kotlin.contracts.contract
 import org.rsmod.api.combat.commons.magic.MagicSpell
 import org.rsmod.api.combat.commons.magic.Spellbook
 import org.rsmod.api.config.refs.categories
@@ -41,23 +42,24 @@ constructor(
      * Attempts to cast [spell] by first verifying the player meets all requirements, and then
      * consuming the necessary objs and/or varp values.
      *
-     * This combines the checks from [canCastSpell] and the consumption logic from [delReqs]. If any
-     * requirement is not met or cannot be consumed, the appropriate failure message is sent to the
-     * player, and the function returns `false`.
+     * This combines the checks from [validateAccess] and the obj requirement check and consumption
+     * logic from [delReqs]. If any requirement is not met or cannot be consumed, the appropriate
+     * failure message is sent to the player, and a failure result is returned.
      *
      * _This function does **not** perform the actual effects of the spell._
+     *
+     * @return A [CastResult] indicating whether the requirements were successfully removed. Returns
+     *   [CastResult.Success] if all objs and/or vars were removed, or [CastResult.Failure] if
+     *   something went wrong.
      */
     public fun attemptCast(
         player: Player,
         spell: MagicSpell,
         book: Spellbook = player.spellbook,
-    ): Boolean {
-        // Note: This function currently generates the validation list twice (once in
-        // `canCastSpell`, and again in `delReqs`), which can be wasteful. In the future,
-        // we could refactor this to accept a precomputed validation list instead.
-        val canCast = canCastSpell(player, spell, book)
-        if (!canCast) {
-            return false
+    ): CastResult {
+        val accessFailure = validateAccess(player, spell, book)
+        if (accessFailure != null) {
+            return accessFailure
         }
         return delReqs(player, spell)
     }
@@ -75,12 +77,8 @@ constructor(
         spell: MagicSpell,
         book: Spellbook = player.spellbook,
     ): Boolean {
-        if (spell.spellbook != book) {
-            // Official behavior: This does not send a message - it simply no-ops.
-            return false
-        }
-        if (player.magicLvl < spell.levelReq) {
-            player.mes("Your Magic level is not high enough for this spell.")
+        val accessFailure = validateAccess(player, spell, book)
+        if (accessFailure != null) {
             return false
         }
         return hasRunes(player, spell)
@@ -101,14 +99,19 @@ constructor(
     }
 
     /**
-     * Attempts to delete all objs required to cast [spell], as defined by [MagicSpell.objReqs]. If
-     * one or more requirements cannot be removed, an appropriate message is sent to [player], and
-     * this function returns `false`.
+     * Attempts to delete all objs required to cast [spell], as defined by [MagicSpell.objReqs].
      *
-     * This function delegates to [delAll], which includes additional safeguards to ensure the
-     * player has enough of each requirement before any removal occurs.
+     * If one or more requirements cannot be removed, the appropriate message is sent to [player],
+     * and this function returns [CastResult.Failure].
+     *
+     * This function delegates to [delAll], which includes safeguards to ensure that the player has
+     * enough of each requirement before any removals occur.
+     *
+     * @return A [CastResult] indicating whether the requirements were successfully removed. Returns
+     *   [CastResult.Success] if all objs and/or vars were removed, or [CastResult.Failure] if
+     *   something went wrong.
      */
-    public fun delReqs(player: Player, spell: MagicSpell): Boolean {
+    public fun delReqs(player: Player, spell: MagicSpell): CastResult {
         val validations = validateSpell(player, spell).toList()
         val valid = validations.filterIsInstance<MagicRunes.Validation.Valid>()
 
@@ -119,13 +122,13 @@ constructor(
                 val message = invalid.requirementMessage()
                 player.mes(message)
             }
-            return false
+            return CastResult.Failure.MissingObjRequirements
         }
 
         return delAll(player, valid)
     }
 
-    private fun delAll(player: Player, validations: List<MagicRunes.Validation.Valid>): Boolean {
+    private fun delAll(player: Player, validations: List<MagicRunes.Validation.Valid>): CastResult {
         require(validations.isNotEmpty()) { "`validations` should not be empty." }
 
         val sourced = validations.filterIsInstance<MagicRunes.Validation.Valid.HasEnough>()
@@ -135,7 +138,7 @@ constructor(
         // anything, so we can return `true` early.
         val allUnlimitedSources = sourced.isEmpty()
         if (allUnlimitedSources) {
-            return true
+            return CastResult.Success.AllUnlimited
         }
 
         val sources = sourced.flatMap { it.sources }
@@ -144,11 +147,11 @@ constructor(
         val varbits = sources.filterIsInstance<MagicRunes.Source.VarBitSource>()
         val enoughVarBits = varbits.all { player.vars[it.varbit] >= it.count }
         if (!enoughVarBits) {
-            return false
+            return CastResult.Failure.NotEnoughVarBit
         }
 
         val invs = sources.filterIsInstance<MagicRunes.Source.InvSource>()
-        val objs =
+        val validatedObjs =
             invs.mapNotNull { (type, slot, count) ->
                 val invObj = player.inv[slot]
                 if (!invObj.isType(type) || invObj.count < count) {
@@ -157,14 +160,14 @@ constructor(
                 invObj.copy(count = count)
             }
 
-        val enoughObjs = objs.size == invs.size
+        val enoughObjs = validatedObjs.size == invs.size
         if (!enoughObjs) {
-            return false
+            return CastResult.Failure.NotEnoughInvObj
         }
 
-        val transaction = player.invDelAll(player.inv, objs, strict = true)
+        val transaction = player.invDelAll(player.inv, validatedObjs, strict = true)
         if (!transaction.success) {
-            return false
+            return CastResult.Failure.NotEnoughInvObj
         }
 
         for (source in varbits) {
@@ -176,7 +179,8 @@ constructor(
             VarPlayerIntMapSetter.set(player, source.varbit, result)
         }
 
-        return true
+        val usedSunfire = validatedObjs.any { it.isType(objs.sunfire_rune) }
+        return CastResult.Success.Consumed(usedSunfire)
     }
 
     public fun validateSpell(player: Player, spell: MagicSpell): Sequence<MagicRunes.Validation> =
@@ -227,6 +231,22 @@ constructor(
             combos = combos,
             fakes = fakes,
         )
+
+    private fun validateAccess(
+        player: Player,
+        spell: MagicSpell,
+        book: Spellbook,
+    ): CastResult.Failure? {
+        if (spell.spellbook != book) {
+            // Official behavior: This does not send a message - it simply no-ops.
+            return CastResult.Failure.IncorrectSpellbook
+        }
+        if (player.magicLvl < spell.levelReq) {
+            player.mes("Your Magic level is not high enough for this spell.")
+            return CastResult.Failure.MissingLevelRequirement
+        }
+        return null
+    }
 
     private fun Player.useFakeRunes(): Boolean {
         return vars[varbits.in_ba_game] == 1 || vars[varbits.in_lms_game] == 1
@@ -284,6 +304,48 @@ constructor(
                 "You need to be wielding a suitable staff to cast this spell."
             }
             else -> "You need a $name to cast this spell."
+        }
+    }
+
+    public sealed class CastResult {
+        public sealed class Success : CastResult() {
+            public object AllUnlimited : Success()
+
+            public data class Consumed(val usedSunfire: Boolean) : Success()
+        }
+
+        public sealed class Failure : CastResult() {
+            public object NotEnoughVarBit : Failure()
+
+            public object NotEnoughInvObj : Failure()
+
+            /**
+             * Unlike [NotEnoughVarBit] and [NotEnoughInvObj], this failure occurs before any
+             * consumption is attempted. It indicates a lower-level validation failure from
+             * [MagicRunes].
+             */
+            public object MissingObjRequirements : Failure()
+
+            public object MissingLevelRequirement : Failure()
+
+            public object IncorrectSpellbook : Failure()
+        }
+    }
+
+    public companion object {
+        public fun CastResult.isFailure(): Boolean {
+            contract { returns(true) implies (this@isFailure is CastResult.Failure) }
+            return this is CastResult.Failure
+        }
+
+        public fun CastResult.isSuccess(): Boolean {
+            contract { returns(true) implies (this@isSuccess is CastResult.Success) }
+            return this is CastResult.Success
+        }
+
+        public fun CastResult.consumedRune(): Boolean {
+            contract { returns(true) implies (this@consumedRune is CastResult.Success.Consumed) }
+            return this is CastResult.Success.Consumed
         }
     }
 }
