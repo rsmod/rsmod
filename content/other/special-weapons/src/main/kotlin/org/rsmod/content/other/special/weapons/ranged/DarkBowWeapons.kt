@@ -104,6 +104,7 @@ constructor(private val objTypes: ObjTypeList, private val ammunition: RangedAmm
             spotanim(launchSpot, height = 96, slot = constants.spotanim_slot_combat)
 
             val projanim = manager.spawnProjectile(this, target, travelSpot, projanims.arrow)
+            val (serverDelay, clientDelay) = projanim.durations
 
             ammunition.useQuiverAmmo(
                 player = player,
@@ -114,7 +115,7 @@ constructor(private val objTypes: ObjTypeList, private val ammunition: RangedAmm
 
             val damage = manager.rollRangedDamage(this, target, attack)
             manager.giveCombatXp(this, target, attack, damage)
-            manager.queueRangedProjectileHit(this, target, quiverType, damage, projanim)
+            manager.queueRangedHit(this, target, quiverType, damage, clientDelay, serverDelay)
         }
 
         private fun ProtectedAccess.shootDoubleArrow(

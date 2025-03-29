@@ -992,22 +992,6 @@ constructor(
     }
 
     /**
-     * Queues a ranged hit on [target] using [proj] to determine the client and hit delays.
-     *
-     * This is a convenience function that calls [queueRangedHit] with [ProjAnim.clientCycles] and
-     * [ProjAnim.serverCycles] as the delay values.
-     *
-     * @see [queueRangedHit]
-     */
-    public fun queueRangedProjectileHit(
-        source: Player,
-        target: PathingEntity,
-        ammo: ObjType?,
-        damage: Int,
-        proj: ProjAnim,
-    ): Hit = queueRangedHit(source, target, ammo, damage, proj.clientCycles, proj.serverCycles)
-
-    /**
      * Queues a ranged hit on [target], applying damage after the specified [hitDelay].
      *
      * Unlike [queueRangedHit], this function **does not** trigger any block animations, visual

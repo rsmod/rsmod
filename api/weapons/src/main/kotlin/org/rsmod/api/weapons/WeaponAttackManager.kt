@@ -307,15 +307,6 @@ constructor(private val objTypes: ObjTypeList, private val manager: PlayerAttack
             hitDelay = hitDelay,
         )
 
-    /** @see [PlayerAttackManager.queueRangedProjectileHit] */
-    public fun queueRangedProjectileHit(
-        source: ProtectedAccess,
-        target: PathingEntity,
-        ammo: ObjType?,
-        damage: Int,
-        proj: ProjAnim,
-    ): Hit = manager.queueRangedProjectileHit(source.player, target, ammo, damage, proj)
-
     /** @see [PlayerAttackManager.queueRangedDamage] */
     public fun queueRangedDamage(
         source: ProtectedAccess,

@@ -205,19 +205,19 @@ constructor(
         spotanim(launchSpotanim, height = 96, slot = constants.spotanim_slot_combat)
 
         val projanim = manager.spawnProjectile(player, npc, travelSpotanim, projanimType)
+        val (serverDelay, clientDelay) = projanim.durations
 
-        val hitDelay = projanim.serverCycles
         if (usingThrown) {
-            ammunition.useThrownWeapon(player, righthandType, npc.coords, dropDelay = hitDelay)
+            ammunition.useThrownWeapon(player, righthandType, npc.coords, dropDelay = serverDelay)
         } else if (quiverType != null) {
-            ammunition.useQuiverAmmo(player, quiverType, npc.coords, dropDelay = hitDelay)
+            ammunition.useQuiverAmmo(player, quiverType, npc.coords, dropDelay = serverDelay)
         }
 
         val damage = manager.rollRangedDamage(player, npc, attack)
         manager.giveCombatXp(player, npc, attack, damage)
 
         val hitAmmoObj = if (usingThrown) null else quiverType
-        manager.queueRangedProjectileHit(player, npc, hitAmmoObj, damage, projanim)
+        manager.queueRangedHit(player, npc, hitAmmoObj, damage, clientDelay, serverDelay)
 
         if (usingThrown && player.righthand == null) {
             mes("That was your last one!")
