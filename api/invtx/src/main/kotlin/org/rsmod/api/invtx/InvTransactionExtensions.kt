@@ -216,13 +216,13 @@ public fun Player.invDelAll(
 ): TransactionResultList<InvObj> =
     invTransaction(inv, autoCommit) {
         val targetInv = select(inv)
-        var targetSlot = startSlot ?: 0
+        var targetSlot = startSlot
         for (obj in objs) {
             delete(
                 inv = targetInv,
                 obj = obj.id,
                 count = obj.count,
-                slot = targetSlot++,
+                slot = if (targetSlot != null) targetSlot++ else null,
                 strict = strict,
                 placehold = placehold,
             )
