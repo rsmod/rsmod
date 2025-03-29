@@ -54,6 +54,7 @@ class DragonLongswordSpecialAttack : SpecialAttackMap {
                     maxHitBoost = 25,
                     blockType = MeleeAttackType.Slash,
                 )
+            manager.giveCombatXp(this, target, attack, damage)
             manager.queueMeleeHit(this, target, damage)
             manager.continueCombat(this, target)
         }
