@@ -39,6 +39,11 @@ public data class ProjAnim(
     public val serverCycles: Int
         get() = 1 + (endTime / 30)
 
+    public val durations: Duration
+        get() = Duration(serverDelay = serverCycles, clientDelay = clientCycles)
+
+    public data class Duration(val serverDelay: Int, val clientDelay: Int)
+
     public companion object {
         private val noSourceSlot: Int
             get() = 0
