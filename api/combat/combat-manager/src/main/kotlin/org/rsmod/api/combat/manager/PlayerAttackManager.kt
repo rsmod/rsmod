@@ -620,12 +620,15 @@ constructor(
      * and retaliation behavior for the [target].
      *
      * The returned [Hit] represents the pending hit that will be applied to [target]. For [Npc]
-     * targets, the final hit **may be modified** during **processing**, meaning the returned value
-     * is not always guaranteed to match the final damage dealt. In contrast, hits against [Player]
+     * targets, the final hit **may be modified** during **processing**, so the returned value is
+     * not always guaranteed to match the final damage dealt. In contrast, hits against [Player]
      * targets are much more accurate and will only differ in rare situations (e.g., if the target
      * dies before the hit is applied).
      *
-     * This function also awards hero points to the [source] player based on the hit damage.
+     * **Notes:**
+     * - This function awards hero points to the [source] player based on the hit damage.
+     * - This function **does not** grant combat experience to [source]. To apply experience, call
+     *   [giveCombatXp] separately.
      *
      * @param damage The damage to apply to [target]. This value may still be modified during hit
      *   processing.
@@ -897,12 +900,15 @@ constructor(
      * and retaliation behavior for the [target].
      *
      * The returned [Hit] represents the pending hit that will be applied to [target]. For [Npc]
-     * targets, the final hit **may be modified** during **processing**, meaning the returned value
-     * is not always guaranteed to match the final damage dealt. In contrast, hits against [Player]
+     * targets, the final hit **may be modified** during **processing**, so the returned value is
+     * not always guaranteed to match the final damage dealt. In contrast, hits against [Player]
      * targets are much more accurate and will only differ in rare situations (e.g., if the target
      * dies before the hit is applied).
      *
-     * This function also awards hero points to the [source] player based on the hit damage.
+     * **Notes:**
+     * - This function awards hero points to the [source] player based on the hit damage.
+     * - This function **does not** grant combat experience to [source]. To apply experience, call
+     *   [giveCombatXp] separately.
      *
      * @param ammo Sets the [Hit.secondaryObj] to the provided value. Some hit scripts may rely on
      *   this for special logic. For ranged attacks, this should be the ammunition used by [source]
