@@ -157,8 +157,9 @@
 1800	slayer_task_boss_name
 1801	slayer_task_boss_displayname
 1802	slayer_task_boss_location
-1935	spell_autocast_id
+1935	spell_maxhit
 
+65403	spell_worn_req_message
 65404	elemental_weakness_type
 65405	elemental_weakness_percent
 65406	npc_com_xp_multiplier

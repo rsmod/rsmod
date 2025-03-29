@@ -23,6 +23,8 @@ import org.rsmod.game.type.varbit.VarBitType
 
 internal object ParamBuilds : ParamBuilder() {
     init {
+        build<String>("spell_worn_req_message")
+
         build<Int>("elemental_weakness_type")
         build<Int>("elemental_weakness_percent") { default = 0 }
 

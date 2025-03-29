@@ -33,6 +33,7 @@ constructor(
         target: Npc,
         spellbook: Spellbook,
         magicSpell: MagicSpell,
+        baseMaxHit: Int,
         usedSunfireRune: Boolean,
     ): IntRange {
         val targetType = target.visType
@@ -45,7 +46,7 @@ constructor(
                 targetMaxHp = target.baseHitpointsLvl,
                 targetWeaknessPercent = elementalWeakness,
                 spellObj = magicSpell.obj,
-                spellMaxHit = magicSpell.maxHit,
+                baseMaxHit = baseMaxHit,
                 spellbook = spellbook,
                 usedSunfireRune = usedSunfireRune,
             )
@@ -60,7 +61,7 @@ constructor(
         targetMaxHp: Int,
         targetWeaknessPercent: Int,
         spellObj: ObjType,
-        spellMaxHit: Int,
+        baseMaxHit: Int,
         spellbook: Spellbook,
         usedSunfireRune: Boolean,
     ): IntRange {
@@ -71,10 +72,10 @@ constructor(
         val npcAttributes = npcAttributes.collect(target, targetCurrHp, targetMaxHp, slayerTask)
 
         val modifiedDamage =
-            computeSpellModifiedDamage(source, spellMaxHit, spellAttributes, npcAttributes)
+            computeSpellModifiedDamage(source, baseMaxHit, spellAttributes, npcAttributes)
         return modifySpellPostSpec(
             modifiedDamage = modifiedDamage,
-            baseDamage = spellMaxHit,
+            baseDamage = baseMaxHit,
             targetWeaknessPercent = targetWeaknessPercent,
             spellAttributes = spellAttributes,
             npcAttributes = npcAttributes,

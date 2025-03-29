@@ -21,6 +21,8 @@ import org.rsmod.api.player.righthand
 import org.rsmod.api.specials.SpecialAttackRegistry
 import org.rsmod.api.specials.SpecialAttackType
 import org.rsmod.api.specials.energy.SpecialAttackEnergy
+import org.rsmod.api.spells.attack.SpellAttackRegistry
+import org.rsmod.api.spells.attack.attack
 import org.rsmod.api.weapons.WeaponRegistry
 import org.rsmod.api.weapons.attack
 import org.rsmod.game.entity.Npc
@@ -37,6 +39,7 @@ constructor(
     private val weaponsReg: WeaponRegistry,
     private val manager: PlayerAttackManager,
     private val ammunition: RangedAmmoManager,
+    private val spellsReg: SpellAttackRegistry,
 ) {
     suspend fun attack(access: ProtectedAccess, target: Npc, attack: CombatAttack.PlayerAttack) {
         when (attack) {
@@ -225,7 +228,27 @@ constructor(
     }
 
     private suspend fun ProtectedAccess.attackMagicSpell(npc: Npc, attack: CombatAttack.Spell) {
-        TODO()
+        if (!canAttack(npc)) {
+            return
+        }
+
+        if (manager.isAttackDelayed(player)) {
+            manager.continueCombat(player, npc, attack.spell)
+            return
+        }
+
+        val attackRate = MAGIC_SPELL_ATTACK_RATE
+        manager.setNextAttackDelay(player, attackRate)
+
+        val spell = spellsReg[attack.spell.obj]
+        if (spell != null) {
+            spell.attack(this, npc, attack)
+            return
+        }
+
+        // All magic spell attacks must be registered in `SpellAttackRegistry`.
+        manager.clearCombat(player)
+        mes("You attempt to cast the spell, but nothing happens.")
     }
 
     private suspend fun ProtectedAccess.attackMagicStaff(npc: Npc, attack: CombatAttack.Staff) {

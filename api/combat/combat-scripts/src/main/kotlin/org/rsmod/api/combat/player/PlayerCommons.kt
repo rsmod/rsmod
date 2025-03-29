@@ -11,17 +11,21 @@ import org.rsmod.api.combat.commons.styles.RangedAttackStyle
 import org.rsmod.api.combat.commons.types.AttackType
 import org.rsmod.api.combat.commons.types.MeleeAttackType
 import org.rsmod.api.combat.commons.types.RangedAttackType
+import org.rsmod.api.combat.manager.MagicRuneManager
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.righthand
 import org.rsmod.api.specials.SpecialAttack
 import org.rsmod.api.specials.SpecialAttackRegistry
 import org.rsmod.api.specials.energy.SpecialAttackEnergy
+import org.rsmod.api.spells.MagicSpellRegistry
+import org.rsmod.api.spells.autocast.AutocastWeapons
 import org.rsmod.game.entity.PathingEntity
 import org.rsmod.game.obj.InvObj
+import org.rsmod.game.type.obj.ObjTypeList
 
 internal fun ProtectedAccess.attackRange(style: AttackStyle?): Int =
-    if (autoCastSpell > 0) {
+    if (autocastSpell > 0) {
         MAGIC_ATTACK_RANGE
     } else {
         weaponAttackRange(style)
@@ -80,6 +84,48 @@ internal fun ProtectedAccess.resolveCombatAttack(
             CombatAttack.Melee(weapon, meleeType, meleeStyle, combatStance)
         }
     }
+
+internal fun ProtectedAccess.resolveAutocastSpell(
+    objTypes: ObjTypeList,
+    spells: MagicSpellRegistry,
+    runes: MagicRuneManager,
+    autocast: AutocastWeapons,
+): MagicSpell? {
+    if (!autocastEnabled) {
+        return null
+    }
+    val weapon = player.righthand ?: return null
+
+    val spell = spells.getAutocastSpell(autocastSpell)
+    if (spell == null) {
+        return null
+    }
+
+    val weaponType = objTypes[weapon]
+
+    if (spell.spellbook != spellbook) {
+        mes("You can't autocast that spell with your current active spellbook.")
+
+        autocastEnabled = false
+        autocast.reset(player, weaponType)
+        return null
+    }
+
+    val isValidStaff = autocast.canStaffAutocast(player, weaponType, autocastSpell)
+    if (!isValidStaff) {
+        return null
+    }
+
+    val canCastSpell = runes.canCastSpell(player, spell)
+    if (!canCastSpell) {
+        // TODO(combat): Should this fully reset autocast or simply toggle autocastEnabled?
+        autocastEnabled = false
+        autocast.reset(player, weaponType)
+        return null
+    }
+
+    return spell
+}
 
 internal suspend fun ProtectedAccess.canPerformMeleeSpecial(
     target: PathingEntity,

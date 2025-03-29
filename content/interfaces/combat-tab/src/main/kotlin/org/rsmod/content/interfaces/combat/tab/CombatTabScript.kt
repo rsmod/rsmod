@@ -3,7 +3,7 @@ package org.rsmod.content.interfaces.combat.tab
 import jakarta.inject.Inject
 import org.rsmod.api.combat.commons.CombatStance
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
-import org.rsmod.api.combat.spells.autocast.AutocastWeapons
+import org.rsmod.api.combat.manager.MagicRuneManager
 import org.rsmod.api.combat.weapon.styles.AttackStyles
 import org.rsmod.api.config.refs.categories
 import org.rsmod.api.config.refs.interfaces
@@ -29,6 +29,8 @@ import org.rsmod.api.specials.SpecialAttack
 import org.rsmod.api.specials.SpecialAttackRegistry
 import org.rsmod.api.specials.SpecialAttackType
 import org.rsmod.api.specials.energy.SpecialAttackEnergy
+import org.rsmod.api.spells.MagicSpellRegistry
+import org.rsmod.api.spells.autocast.AutocastWeapons
 import org.rsmod.content.interfaces.combat.tab.configs.combat_components
 import org.rsmod.content.interfaces.combat.tab.configs.combat_enums
 import org.rsmod.content.interfaces.combat.tab.configs.combat_queues
@@ -57,6 +59,8 @@ constructor(
     private val objTypes: ObjTypeList,
     private val enumResolver: EnumTypeMapResolver,
     private val weaponStyles: AttackStyles,
+    private val spells: MagicSpellRegistry,
+    private val runes: MagicRuneManager,
     private val autocast: AutocastWeapons,
     private val energy: SpecialAttackEnergy,
     private val specialReg: SpecialAttackRegistry,
@@ -134,21 +138,30 @@ constructor(
         }
 
         val savedAutocastId = vars[autocastVarBits.autocastId]
-        if (savedAutocastId == 0) {
+        val savedAutocastSpell = spells.getAutocastSpell(savedAutocastId)
+        if (savedAutocastId == 0 || savedAutocastSpell == null) {
             autocastEnabled = false
             autocastSpell = 0
             defensiveCasting = false
             return
         }
 
-        // It is worth noting that as of writing this logic, the official game does _not_ check
-        // that the spell's magic spellbook param matches the player's current magic spellbook
-        // when switching weapons.
+        // Note: As of writing this logic, the official game does _not_ check that the spell's
+        // spellbook param matches the player's current spellbook when switching weapons.
 
-        val canAutocast = autocast.canAutocast(this, weaponType, savedAutocastId)
-        if (!canAutocast) {
+        // `canStaffAutocast` is responsible for sending the "error" message to the player.
+        val isValidStaff = autocast.canStaffAutocast(this, weaponType, savedAutocastId)
+        if (!isValidStaff) {
+            autocastEnabled = false
+            autocastSpell = 0
+            defensiveCasting = false
+            return
+        }
+
+        // `hasRunes` is responsible for sending the "error" message to the player.
+        val hasRunes = runes.hasRunes(this, savedAutocastSpell)
+        if (!hasRunes) {
             autocast.reset(this, autocastVarBits)
-
             autocastEnabled = false
             autocastSpell = 0
             defensiveCasting = false

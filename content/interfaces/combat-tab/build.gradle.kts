@@ -5,10 +5,11 @@ plugins {
 
 dependencies {
     implementation(libs.fastutil)
-    implementation(projects.api.combat.combatSpells)
     implementation(projects.api.combat.combatWeapon)
     implementation(projects.api.pluginCommons)
     implementation(projects.api.scriptAdvanced)
     implementation(projects.api.specials)
+    implementation(projects.api.spells)
+    implementation(projects.api.spellsAutocast)
     implementation(projects.engine.utilsBits)
 }

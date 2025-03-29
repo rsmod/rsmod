@@ -27,5 +27,5 @@ constructor(
         }
     }
 
-    private fun SpecialAttackMap.register(): Unit = repo.register(manager)
+    private fun SpecialAttackMap.register() = repo.register(manager)
 }

@@ -24,5 +24,5 @@ constructor(
         }
     }
 
-    private fun WeaponMap.register(): Unit = repo.register(manager)
+    private fun WeaponMap.register() = repo.register(manager)
 }

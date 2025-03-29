@@ -4,6 +4,7 @@ import jakarta.inject.Inject
 import kotlin.math.min
 import org.rsmod.api.combat.commons.CombatAttack
 import org.rsmod.api.combat.commons.fx.MeleeAnimationAndSound
+import org.rsmod.api.combat.commons.magic.MagicSpell
 import org.rsmod.api.combat.commons.npc.combatPlayDefendAnim
 import org.rsmod.api.combat.commons.npc.combatPlayDefendSpot
 import org.rsmod.api.combat.commons.npc.queueCombatRetaliate
@@ -24,6 +25,7 @@ import org.rsmod.api.npc.hit.modifier.NpcHitModifier
 import org.rsmod.api.npc.hit.queueHit
 import org.rsmod.api.player.hit.queueHit
 import org.rsmod.api.player.interact.NpcInteractions
+import org.rsmod.api.player.interact.NpcTInteractions
 import org.rsmod.api.player.interact.PlayerInteractions
 import org.rsmod.api.player.output.soundSynth
 import org.rsmod.api.player.protect.clearPendingAction
@@ -59,6 +61,7 @@ constructor(
     private val maxHits: MaxHitFormulae,
     private val npcHitModifier: NpcHitModifier,
     private val npcInteractions: NpcInteractions,
+    private val npcTInteractions: NpcTInteractions,
     private val playerInteractions: PlayerInteractions,
     private val invisibleLevel: InvisibleLevels,
 ) {
@@ -108,9 +111,8 @@ constructor(
     /**
      * Maintains combat engagement with the given [Npc] by invoking `opnpc2`.
      *
-     * This ensures that the combat interaction between [source] and [target] remains active after a
-     * successful attack. If not called, [source] may unintentionally break off combat engagement
-     * with the npc.
+     * This ensures that the combat interaction between [source] and [target] remains active. If not
+     * called, [source] may unintentionally break off combat engagement with the npc.
      */
     public fun continueCombat(source: Player, target: Npc) {
         npcInteractions.interact(source, target, InteractionOp.Op2)
@@ -119,12 +121,22 @@ constructor(
     /**
      * Maintains combat engagement with the given [Player] by invoking `opplayer2`.
      *
-     * This ensures that the combat interaction between [source] and [target] remains active after a
-     * successful attack. If not called, [source] may unintentionally break off combat engagement
-     * with the player.
+     * This ensures that the combat interaction between [source] and [target] remains active. If not
+     * called, [source] may unintentionally break off combat engagement with the player.
      */
     public fun continueCombat(source: Player, target: Player) {
         playerInteractions.interact(source, target, InteractionOp.Op2)
+    }
+
+    /**
+     * Maintains combat engagement with the given [Npc] by invoking `opnpct` using the given
+     * [MagicSpell.component] as the interaction component.
+     *
+     * This ensures that the combat interaction between [source] and [target] remains active. If not
+     * called, [source] may unintentionally break off combat engagement with the npc.
+     */
+    public fun continueCombat(source: Player, target: Npc, spell: MagicSpell) {
+        npcTInteractions.interact(source, target, spell.component, comsub = -1, null)
     }
 
     /**

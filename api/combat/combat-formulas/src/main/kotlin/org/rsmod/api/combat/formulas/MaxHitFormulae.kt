@@ -71,6 +71,7 @@ constructor(
         target: Npc,
         spellbook: Spellbook,
         magicSpell: MagicSpell,
+        baseMaxHit: Int,
         usedSunfireRune: Boolean,
     ): IntRange =
         pvnMagicMaxHit.getSpellMaxHit(
@@ -78,6 +79,7 @@ constructor(
             target = target,
             spellbook = spellbook,
             magicSpell = magicSpell,
+            baseMaxHit = baseMaxHit,
             usedSunfireRune = usedSunfireRune,
         )
 

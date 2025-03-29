@@ -7,6 +7,23 @@ import org.rsmod.api.type.refs.varbit.VarBitReferences
 typealias varbits = BaseVarBits
 
 object BaseVarBits : VarBitReferences() {
+    val rune_pouch_compactid1 = find("rune_pouch_compactid1", 58682578458515)
+    val rune_pouch_count1 = find("rune_pouch_count1", 58682578528674)
+    val rune_pouch_compactid2 = find("rune_pouch_compactid2", 58682578482800)
+    val rune_pouch_count2 = find("rune_pouch_count2", 58734098834960)
+    val rune_pouch_compactid3 = find("rune_pouch_compactid3", 58682578505493)
+    val rune_pouch_count3 = find("rune_pouch_count3", 58734098887909)
+    val rune_pouch_compactid4 = find("rune_pouch_compactid4", 184134690041806)
+    val rune_pouch_count4 = find("rune_pouch_count4", 184134690064987)
+
+    val fountain_of_rune = find("fountain_of_rune", 19321012454304)
+    val in_ba_game = find("in_barbarian_assault_game", 32870870952627)
+    val in_lms_game = find("in_last_man_standing", 70944427565195)
+    // Note: This is probably some sort of "pvp-enabled" flag, but for now this is our only known
+    // use case. Can rename later if necessary.
+    val allow_blighted_sacks = find("allow_blighted_sacks", 68007766345792)
+
+    val spellbook = find("spellbook", 22618316409612)
     val charge_buff_duration = find("charge_buff_duration", 158374502881764)
 
     val combat_level = find("combat_level", 56930885834068)

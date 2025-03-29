@@ -1,10 +1,12 @@
 package org.rsmod.api.combat.player
 
 import org.rsmod.api.combat.commons.CombatStance
+import org.rsmod.api.combat.commons.magic.Spellbook
 import org.rsmod.api.config.refs.varbits
 import org.rsmod.api.config.refs.varps
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.vars.boolVarBit
+import org.rsmod.api.player.vars.enumVarBit
 import org.rsmod.api.player.vars.enumVarp
 import org.rsmod.api.player.vars.intVarBit
 import org.rsmod.api.player.vars.intVarp
@@ -13,7 +15,9 @@ import org.rsmod.api.specials.SpecialAttackType
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.npc.NpcUid
 
-internal val ProtectedAccess.autoCastSpell by intVarBit(varbits.autocast_spell)
+internal val ProtectedAccess.spellbook by enumVarBit<Spellbook>(varbits.spellbook)
+internal var ProtectedAccess.autocastEnabled by boolVarBit(varbits.autocast_enabled)
+internal val ProtectedAccess.autocastSpell by intVarBit(varbits.autocast_spell)
 internal val ProtectedAccess.defensiveCasting by boolVarBit(varbits.defensive_casting_mode)
 internal var ProtectedAccess.combatStance by enumVarp<CombatStance>(varps.attackstyle)
 

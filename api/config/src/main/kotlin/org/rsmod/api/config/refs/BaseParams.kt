@@ -4,6 +4,7 @@ package org.rsmod.api.config.refs
 
 import org.rsmod.api.config.aliases.ParamBool
 import org.rsmod.api.config.aliases.ParamCategory
+import org.rsmod.api.config.aliases.ParamComponent
 import org.rsmod.api.config.aliases.ParamHeadbar
 import org.rsmod.api.config.aliases.ParamHitmark
 import org.rsmod.api.config.aliases.ParamInt
@@ -22,6 +23,22 @@ import org.rsmod.api.type.refs.param.ParamReferences
 typealias params = BaseParams
 
 object BaseParams : ParamReferences() {
+    val spell_spellbook: ParamInt = find("spell_spellbook", 88673368977)
+    val spell_runetype_1: ParamObj = find("spell_runetype_1", 93740946812)
+    val spell_runecount_1: ParamInt = find("spell_runecount_1", 88687214848)
+    val spell_runetype_2: ParamObj = find("spell_runetype_2", 93740946814)
+    val spell_runecount_2: ParamInt = find("spell_runecount_2", 88687214850)
+    val spell_runetype_3: ParamObj = find("spell_runetype_3", 93740946816)
+    val spell_runecount_3: ParamInt = find("spell_runecount_3", 88687214852)
+    val spell_button: ParamComponent = find("spell_button", 61646287605)
+    val spell_name: ParamStr = find("spell_name", 18275894384405)
+    val spell_levelreq: ParamInt = find("spell_levelreq", 88687215086)
+    val spell_type: ParamInt = find("spell_type", 88673369246)
+    val spell_runetype_4: ParamObj = find("spell_runetype_4", 93740947053)
+    val spell_runecount_4: ParamInt = find("spell_runecount_4", 88687215089)
+    val spell_drain_stat: ParamStat = find("spell_drain_stat", 70092251206)
+    val spell_drain_stat_amount: ParamInt = find("spell_drain_stat_amount", 88687215670)
+    val spell_maxhit: ParamInt = find("spell_maxhit", 88701062258)
     val attackrate: ParamInt = find("attackrate", 88742575534)
     val wear_op_index: ParamInt = find("wear_op_index", 88714906312)
     val wear_op1: ParamStr = find("wear_op1", 97133155617)
@@ -68,6 +85,7 @@ object BaseParams : ParamReferences() {
     val kalphite: ParamInt = find("kalphite", 88687193509)
 
     /* Server-side only types */
+    val spell_worn_req_message: ParamStr = find("spell_worn_req_message")
     val elemental_weakness_type: ParamInt = find("elemental_weakness_type")
     val elemental_weakness_percent: ParamInt = find("elemental_weakness_percent")
     val npc_com_xp_multiplier: ParamInt = find("npc_com_xp_multiplier")

@@ -1,6 +1,6 @@
 24	stamina_effect_remaining_cycles
 25	stamina_effect_enabled
-29	rune_pouch_first_rune_index
+29	rune_pouch_compactid1
 34	horror_from_the_deep
 217	ghosts_ahoy
 223	disable_quest_list_text_shadows
@@ -105,11 +105,11 @@
 1465	devious_minds
 1527	the_hand_in_the_sand
 1560	enakhras_lament
-1622	rune_pouch_second_rune_index
-1623	rune_pouch_third_rune_index
-1624	rune_pouch_first_rune_amount
-1625	rune_pouch_second_rune_amount
-1626	rune_pouch_third_rune_amount
+1622	rune_pouch_compactid2
+1623	rune_pouch_compactid3
+1624	rune_pouch_count1
+1625	rune_pouch_count2
+1626	rune_pouch_count3
 1627	friend_login_and_logout_message_timeout
 1770	ogre_spitroast_cooking
 1773	travelling_on_carpet
@@ -671,6 +671,7 @@
 10748	rt7_enabled
 10749	rt7_mode
 10750	rt7_enabled2
+11028	allow_blighted_sacks
 11437	bank_always_deposit_to_potion_store
 11697	journal_tab_fresh_start_worlds
 11705	attached_kalphite_lair_bottom_rope
@@ -979,8 +980,8 @@
 14196	setting_max_hit_hitsplats_disabled
 14197	setting_baba_yaga_camera_effects
 14198	setting_barrows_camera_effects
-14285	rune_pouch_fourth_rune_index
-14286	rune_pouch_fourth_rune_amount
+14285	rune_pouch_compactid4
+14286	rune_pouch_count4
 14287	setting_menaphite_remedy_duration
 14288	setting_apmekens_sight
 14289	setting_akkhas_burn_duration
