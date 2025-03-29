@@ -918,8 +918,8 @@ constructor(
      * @param clientDelay The delay in client cycles (`20ms` per cycle) before the projectile
      *   visually lands on the target. This is usually derived from the projectile's metadata and
      *   determines when the [target]'s block animation should play.
-     * @param hitDelay The number of server cycles to wait before applying the hit. By default, this
-     *   is calculated as `1 + (clientDelay / 30)`.
+     * @param hitDelay The number of server cycles to wait before applying the hit, usually
+     *   calculated as `1 + (clientDelay / 30)`.
      */
     public fun queueRangedHit(
         source: Player,
@@ -927,7 +927,7 @@ constructor(
         ammo: ObjType?,
         damage: Int,
         clientDelay: Int,
-        hitDelay: Int = 1 + (clientDelay / 30),
+        hitDelay: Int,
     ): Hit =
         when (target) {
             is Npc -> queueRangedHit(source, target, ammo, damage, clientDelay, hitDelay)
@@ -1082,8 +1082,8 @@ constructor(
      * @param clientDelay The delay in client cycles (`20ms` per cycle) before the projectile
      *   visually lands on the target. This is usually derived from the projectile's metadata and
      *   determines when the [target]'s block animation should play.
-     * @param hitDelay The number of server cycles to wait before applying the hit. By default, this
-     *   is calculated as `1 + (clientDelay / 30)`.
+     * @param hitDelay The number of server cycles to wait before applying the hit, usually
+     *   calculated as `1 + (clientDelay / 30)`.
      * @param retaliationDelay The number of server cycles to set as the retaliation queue delay for
      *   the [target]. By default, this matches [hitDelay]. When the magic hit "splashes," this is
      *   often set to `1` to trigger faster retaliation.
@@ -1094,7 +1094,7 @@ constructor(
         spell: ObjType?,
         damage: Int,
         clientDelay: Int,
-        hitDelay: Int = 1 + (clientDelay / 30),
+        hitDelay: Int,
         retaliationDelay: Int = hitDelay,
     ): Hit =
         when (target) {
