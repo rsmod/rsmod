@@ -433,7 +433,13 @@ constructor(
         statAdvance(player, stats.hitpoints, damage * 1.33, multiplier)
     }
 
-    private fun statAdvance(player: Player, stat: StatType, baseXp: Double, multiplier: Double) {
+    /**
+     * Advances the [player]'s [stat] by the given [baseXp], applying a [multiplier].
+     *
+     * Primarily intended for use by higher-level managers to avoid manually managing dependencies
+     * like [eventBus].
+     */
+    public fun statAdvance(player: Player, stat: StatType, baseXp: Double, multiplier: Double) {
         player.statAdvance(stat, baseXp * multiplier, eventBus, invisibleLevel)
     }
 
@@ -1052,6 +1058,128 @@ constructor(
                 sourceSecondary = ammo,
             )
         target.heroPoints(source, min(hit.damage, target.hitpoints))
+        return hit
+    }
+
+    /**
+     * Queues a magic hit on [target], applying damage after the specified [hitDelay].
+     *
+     * In addition to scheduling the hit, this also triggers the appropriate defensive animations
+     * and retaliation behavior for the [target].
+     *
+     * The returned [Hit] represents the pending hit that will be applied to [target]. For [Npc]
+     * targets, the final hit **may be modified** during **processing**, so the returned value is
+     * not always guaranteed to match the final damage dealt. In contrast, hits against [Player]
+     * targets are much more accurate and will only differ in rare situations (e.g., if the target
+     * dies before the hit is applied).
+     *
+     * **Notes:**
+     * - This function awards hero points to the [source] player based on the hit damage.
+     * - This function **does not** grant combat experience to [source]. To apply experience, call
+     *   [giveCombatXp] separately.
+     * - This function **does not** handle splash sounds or visual effects on the [target], as these
+     *   fall outside the scope of this class. They should be handled by a magic-specific attack
+     *   manager.
+     *
+     * @param spell Sets the [Hit.secondaryObj] to the provided value. Some hit scripts may rely on
+     *   this for special logic. For magic attacks, this should be the spell-associated obj used by
+     *   [source] for the attack. For example, if the player attacks with the Wind strike spell,
+     *   this should be set to `objs.spell_wind_strike`.
+     * @param damage The damage to apply to [target]. This value may still be modified during hit
+     *   processing.
+     * @param clientDelay The delay in client cycles (`20ms` per cycle) before the projectile
+     *   visually lands on the target. This is usually derived from the projectile's metadata and
+     *   determines when the [target]'s block animation should play.
+     * @param hitDelay The number of server cycles to wait before applying the hit. By default, this
+     *   is calculated as `1 + (clientDelay / 30)`.
+     * @param retaliationDelay The number of server cycles to set as the retaliation queue delay for
+     *   the [target]. By default, this matches [hitDelay]. When the magic hit "splashes," this is
+     *   often set to `1` to trigger faster retaliation.
+     */
+    public fun queueMagicHit(
+        source: Player,
+        target: PathingEntity,
+        spell: ObjType?,
+        damage: Int,
+        clientDelay: Int,
+        hitDelay: Int = 1 + (clientDelay / 30),
+        retaliationDelay: Int = hitDelay,
+    ): Hit =
+        when (target) {
+            is Npc ->
+                queueMagicHit(
+                    source = source,
+                    target = target,
+                    spell = spell,
+                    damage = damage,
+                    clientDelay = clientDelay,
+                    hitDelay = hitDelay,
+                    retaliationDelay = retaliationDelay,
+                )
+            is Player ->
+                queueMagicHit(
+                    source = source,
+                    target = target,
+                    spell = spell,
+                    damage = damage,
+                    clientDelay = clientDelay,
+                    hitDelay = hitDelay,
+                    retaliationDelay = retaliationDelay,
+                )
+        }
+
+    private fun queueMagicHit(
+        source: Player,
+        target: Npc,
+        spell: ObjType?,
+        damage: Int,
+        clientDelay: Int,
+        hitDelay: Int,
+        retaliationDelay: Int,
+    ): Hit {
+        // Note: Retaliation must be queued _before_ the hit. If queued after, every hit would
+        // trigger the "speed-up" death mechanic, since the hit queues would no longer be the
+        // last entries in the queue list at the time of processing.
+        target.queueCombatRetaliate(source, retaliationDelay)
+
+        val hit =
+            target.queueHit(
+                source = source,
+                delay = hitDelay,
+                type = HitType.Magic,
+                damage = damage,
+                modifier = npcHitModifier,
+                sourceSecondary = spell,
+            )
+        target.heroPoints(source, min(hit.damage, target.hitpoints))
+        target.combatPlayDefendAnim(clientDelay)
+        return hit
+    }
+
+    private fun queueMagicHit(
+        source: Player,
+        target: Player,
+        spell: ObjType?,
+        damage: Int,
+        clientDelay: Int,
+        hitDelay: Int,
+        retaliationDelay: Int,
+    ): Hit {
+        // Note: Retaliation must be queued _before_ the hit. If queued after, every hit would
+        // trigger the "speed-up" death mechanic, since the hit queues would no longer be the
+        // last entries in the queue list at the time of processing.
+        target.queueCombatRetaliate(source, retaliationDelay)
+
+        val hit =
+            target.queueHit(
+                source = source,
+                delay = hitDelay,
+                type = HitType.Magic,
+                damage = damage,
+                sourceSecondary = spell,
+            )
+        target.heroPoints(source, min(hit.damage, target.hitpoints))
+        target.combatPlayDefendAnim(objTypes, clientDelay)
         return hit
     }
 

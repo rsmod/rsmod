@@ -323,6 +323,24 @@ constructor(private val objTypes: ObjTypeList, private val manager: PlayerAttack
             hitDelay = hitDelay,
         )
 
+    /** @see [PlayerAttackManager.queueMagicHit] */
+    public fun queueMagicHit(
+        source: ProtectedAccess,
+        target: PathingEntity,
+        damage: Int,
+        clientDelay: Int,
+        hitDelay: Int = 1 + (clientDelay / 30),
+        spell: ObjType? = null,
+    ): Hit =
+        manager.queueMagicHit(
+            source = source.player,
+            target = target,
+            spell = spell,
+            damage = damage,
+            clientDelay = clientDelay,
+            hitDelay = hitDelay,
+        )
+
     /** @see [PlayerAttackManager.spawnProjectile] */
     public fun spawnProjectile(
         source: ProtectedAccess,

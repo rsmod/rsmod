@@ -80,6 +80,7 @@ constructor(private val objTypes: ObjTypeList, private val enumResolver: EnumTyp
         val button = unpacked.param(params.spell_button)
         val maxHit = unpacked.param(params.spell_maxhit)
         val levelReq = unpacked.param(params.spell_levelreq)
+        val experience = 0 // TODO(combat): Pack xp in an enum? Doesn't seem to be transmitted data.
 
         val objReqs = buildList {
             fun addRequirement(objParam: ParamObj, countParam: ParamInt) {
@@ -119,6 +120,7 @@ constructor(private val objTypes: ObjTypeList, private val enumResolver: EnumTyp
             type = spellType,
             maxHit = maxHit,
             levelReq = levelReq,
+            castXp = experience / 10.0,
             objReqs = sortedObjReqs,
         )
     }

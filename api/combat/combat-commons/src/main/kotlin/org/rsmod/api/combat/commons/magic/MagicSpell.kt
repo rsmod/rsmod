@@ -11,6 +11,7 @@ public data class MagicSpell(
     public val type: MagicSpellType,
     public val maxHit: Int,
     public val levelReq: Int,
+    public val castXp: Double,
     public val objReqs: List<ObjRequirement>,
 ) {
     public data class ObjRequirement(val obj: ObjType, val count: Int, val wornSlot: Int?)
