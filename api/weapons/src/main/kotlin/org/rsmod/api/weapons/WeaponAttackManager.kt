@@ -332,6 +332,7 @@ constructor(private val objTypes: ObjTypeList, private val manager: PlayerAttack
             hitDelay = hitDelay,
         )
 
+    /** @see [PlayerAttackManager.spawnProjectile] */
     public fun spawnProjectile(
         source: ProtectedAccess,
         target: PathingEntity,
@@ -339,6 +340,7 @@ constructor(private val objTypes: ObjTypeList, private val manager: PlayerAttack
         projanim: ProjAnimType,
     ): ProjAnim = manager.spawnProjectile(source.player, target, spotanim, projanim)
 
+    /** @see [PlayerAttackManager.soundArea] */
     public fun soundArea(
         source: PathingEntity,
         synth: SynthType,
