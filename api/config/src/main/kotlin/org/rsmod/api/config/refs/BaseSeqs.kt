@@ -28,6 +28,8 @@ object BaseSeqs : SeqReferences() {
     val human_throwtab = find("human_throwtab", 2922113110586613810)
     val human_tabtele = find("human_tabtele", 762546241074929929)
 
+    val human_caststrike = find("human_caststrike", 615950436437545798)
+
     val human_woodcutting_bronze_axe = find("human_woodcutting_bronze_axe", 1396217663673896270)
     val human_woodcutting_iron_axe = find("human_woodcutting_iron_axe", 1396217661984703666)
     val human_woodcutting_steel_axe = find("human_woodcutting_steel_axe", 1396217665363088868)
