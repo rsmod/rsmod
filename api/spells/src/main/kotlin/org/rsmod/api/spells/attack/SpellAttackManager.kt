@@ -5,15 +5,11 @@ import org.rsmod.api.combat.commons.CombatAttack
 import org.rsmod.api.combat.commons.magic.MagicSpell
 import org.rsmod.api.combat.manager.MagicRuneManager
 import org.rsmod.api.combat.manager.PlayerAttackManager
-import org.rsmod.api.config.refs.spotanims
 import org.rsmod.api.config.refs.stats
-import org.rsmod.api.config.refs.synths
 import org.rsmod.api.config.refs.varbits
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.vars.boolVarBit
-import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.PathingEntity
-import org.rsmod.game.entity.Player
 import org.rsmod.game.hit.Hit
 import org.rsmod.game.proj.ProjAnim
 import org.rsmod.game.type.obj.ObjType
@@ -111,14 +107,7 @@ constructor(private val manager: PlayerAttackManager, private val runes: MagicRu
             retaliationDelay = hitDelay,
         )
 
-    /**
-     * Queues a **splash** hit on [target]. Unlike non-splash hits, this will queue auto-retaliation
-     * with an "immediate" delay (i.e., after 1 server cycle).
-     *
-     * _To queue a non-splash hit, use [queueMagicHit]._
-     *
-     * @see [PlayerAttackManager.queueMagicHit]
-     */
+    /** @see [PlayerAttackManager.queueSplashHit] */
     public fun queueSplashHit(
         source: ProtectedAccess,
         target: PathingEntity,
@@ -126,23 +115,15 @@ constructor(private val manager: PlayerAttackManager, private val runes: MagicRu
         clientDelay: Int,
         hitDelay: Int = 1 + (clientDelay / 30),
     ): Hit =
-        manager.queueMagicHit(
+        manager.queueSplashHit(
             source = source.player,
             target = target,
             spell = spell,
-            damage = 0,
             clientDelay = clientDelay,
             hitDelay = hitDelay,
-            retaliationDelay = 1,
         )
 
-    /**
-     * Plays the cast sound, hit spotanim, and hit sound effects for a successful (non-splash) hit
-     * on [target].
-     *
-     * This includes visual and sound effects timed according to [clientDelay], using [castSound],
-     * [hitSpot], and [hitSound] if they are not `null`.
-     */
+    /** @see [PlayerAttackManager.playMagicHitFx] */
     public fun playHitFx(
         source: ProtectedAccess,
         target: PathingEntity,
@@ -153,82 +134,18 @@ constructor(private val manager: PlayerAttackManager, private val runes: MagicRu
         hitSpotHeight: Int,
         hitSound: SynthType?,
     ): Unit =
-        when (target) {
-            is Npc ->
-                playHitFx(
-                    source = source,
-                    target = target,
-                    clientDelay = clientDelay,
-                    castSound = castSound,
-                    hitSpot = hitSpot,
-                    hitSpotHeight = hitSpotHeight,
-                    hitSound = hitSound,
-                )
-            is Player ->
-                playHitFx(
-                    source = source,
-                    target = target,
-                    clientDelay = clientDelay,
-                    castSound = castSound,
-                    soundRadius = soundRadius,
-                    hitSpot = hitSpot,
-                    hitSpotHeight = hitSpotHeight,
-                    hitSound = hitSound,
-                )
-        }
+        manager.playMagicHitFx(
+            source = source.player,
+            target = target,
+            clientDelay = clientDelay,
+            castSound = castSound,
+            soundRadius = soundRadius,
+            hitSpot = hitSpot,
+            hitSpotHeight = hitSpotHeight,
+            hitSound = hitSound,
+        )
 
-    private fun playHitFx(
-        source: ProtectedAccess,
-        target: Npc,
-        clientDelay: Int,
-        castSound: SynthType?,
-        hitSpot: SpotanimType?,
-        hitSpotHeight: Int,
-        hitSound: SynthType?,
-    ) {
-        if (castSound != null) {
-            source.soundSynth(castSound)
-        }
-
-        if (hitSpot != null) {
-            target.spotanim(hitSpot, delay = clientDelay, height = hitSpotHeight)
-        }
-
-        if (hitSound != null) {
-            soundArea(target, hitSound, delay = clientDelay, radius = 10)
-        }
-    }
-
-    private fun playHitFx(
-        source: ProtectedAccess,
-        target: Player,
-        clientDelay: Int,
-        castSound: SynthType?,
-        soundRadius: Int,
-        hitSpot: SpotanimType?,
-        hitSpotHeight: Int,
-        hitSound: SynthType?,
-    ) {
-        if (castSound != null) {
-            soundArea(source.player, castSound, radius = soundRadius)
-        }
-
-        if (hitSpot != null) {
-            target.spotanim(hitSpot, delay = clientDelay, height = hitSpotHeight)
-        }
-
-        if (hitSound != null) {
-            soundArea(target, hitSound, delay = clientDelay, radius = 10)
-        }
-    }
-
-    /**
-     * Plays the cast sound, splash spotanim, and splash sound effects for a missed hit (splash) on
-     * [target].
-     *
-     * This includes visual and sound effects timed according to [clientDelay], using [castSound] if
-     * not `null`.
-     */
+    /** @see [PlayerAttackManager.playMagicSplashFx] */
     public fun playSplashFx(
         source: ProtectedAccess,
         target: PathingEntity,
@@ -236,50 +153,13 @@ constructor(private val manager: PlayerAttackManager, private val runes: MagicRu
         castSound: SynthType?,
         soundRadius: Int,
     ): Unit =
-        when (target) {
-            is Npc ->
-                playSplashFx(
-                    source = source,
-                    target = target,
-                    clientDelay = clientDelay,
-                    castSound = castSound,
-                )
-            is Player ->
-                playSplashFx(
-                    source = source,
-                    target = target,
-                    clientDelay = clientDelay,
-                    castSound = castSound,
-                    soundRadius = soundRadius,
-                )
-        }
-
-    private fun playSplashFx(
-        source: ProtectedAccess,
-        target: Npc,
-        clientDelay: Int,
-        castSound: SynthType?,
-    ) {
-        if (castSound != null) {
-            source.soundSynth(castSound)
-        }
-        target.spotanim(spotanims.splash, delay = clientDelay, height = 124)
-        soundArea(target, synths.spellfail, delay = clientDelay, radius = 10)
-    }
-
-    private fun playSplashFx(
-        source: ProtectedAccess,
-        target: Player,
-        clientDelay: Int,
-        castSound: SynthType?,
-        soundRadius: Int,
-    ) {
-        if (castSound != null) {
-            soundArea(source.player, castSound, radius = soundRadius)
-        }
-        target.spotanim(spotanims.splash, delay = clientDelay, height = 124)
-        soundArea(target, synths.spellfail, delay = clientDelay, radius = 10)
-    }
+        manager.playMagicSplashFx(
+            source = source.player,
+            target = target,
+            clientDelay = clientDelay,
+            castSound = castSound,
+            soundRadius = soundRadius,
+        )
 
     /** @see [PlayerAttackManager.spawnProjectile] */
     public fun spawnProjectile(
