@@ -19,11 +19,11 @@ internal object StyleEnumBuilder : EnumBuilder() {
             styles(WeaponCategory.Unarmed, accurate, aggressive, defensive)
             styles(WeaponCategory.Axe, accurate, aggressive, aggressive, defensive)
             styles(WeaponCategory.Blunt, accurate, aggressive, defensive)
-            styles(WeaponCategory.Bow, accurateRanged, rapid, longRange)
+            styles(WeaponCategory.Bow, accurateRanged, rapid, longrangeRanged)
             styles(WeaponCategory.Claw, accurate, aggressive, controlled, defensive)
-            styles(WeaponCategory.Crossbow, accurateRanged, rapid, longRange)
+            styles(WeaponCategory.Crossbow, accurateRanged, rapid, longrangeRanged)
             styles(WeaponCategory.Salamander, aggressive, rapid, defensive, null)
-            styles(WeaponCategory.Chinchompas, accurateRanged, rapid, longRange)
+            styles(WeaponCategory.Chinchompas, accurateRanged, rapid, longrangeRanged)
             styles(WeaponCategory.Gun, null, aggressive, null, null)
             styles(WeaponCategory.SlashSword, accurate, aggressive, controlled, defensive)
             styles(WeaponCategory.TwoHandedSword, accurate, aggressive, aggressive, defensive)
@@ -35,11 +35,11 @@ internal object StyleEnumBuilder : EnumBuilder() {
             styles(WeaponCategory.Spiked, accurate, aggressive, controlled, defensive)
             styles(WeaponCategory.StabSword, accurate, aggressive, aggressive, defensive)
             styles(WeaponCategory.Staff, accurate, aggressive, defensive)
-            styles(WeaponCategory.Thrown, accurateRanged, rapid, longRange)
+            styles(WeaponCategory.Thrown, accurateRanged, rapid, longrangeRanged)
             styles(WeaponCategory.Whip, accurate, controlled, defensive)
             styles(WeaponCategory.BladedStaff, accurate, aggressive, defensive)
             styles(WeaponCategory.Banner, accurate, aggressive, aggressive, defensive)
-            styles(WeaponCategory.PoweredStaff, accurateRanged, accurateRanged, longRange)
+            styles(WeaponCategory.PoweredStaff, accurateMagic, accurateMagic, longrangeMagic)
             styles(WeaponCategory.Bludgeon, aggressive, aggressive, aggressive)
             styles(WeaponCategory.Bulwark, accurate, null, null, aggressive)
         }
@@ -63,8 +63,14 @@ internal object StyleEnumBuilder : EnumBuilder() {
     private val rapid
         get() = AttackStyle.RapidRanged
 
-    private val longRange
-        get() = AttackStyle.LongRangeRanged
+    private val longrangeRanged
+        get() = AttackStyle.LongrangeRanged
+
+    private val accurateMagic
+        get() = AttackStyle.AccurateMagic
+
+    private val longrangeMagic
+        get() = AttackStyle.LongrangeMagic
 
     private fun EnumPluginBuilder<Int, Int>.styles(
         weapon: WeaponCategory,

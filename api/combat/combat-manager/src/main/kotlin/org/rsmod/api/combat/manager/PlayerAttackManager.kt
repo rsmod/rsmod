@@ -330,7 +330,7 @@ constructor(
             RangedAttackStyle.Rapid -> {
                 statAdvance(player, stats.ranged, damage * 4.0, multiplier)
             }
-            RangedAttackStyle.LongRange -> {
+            RangedAttackStyle.Longrange -> {
                 statAdvance(player, stats.ranged, damage * 2.0, multiplier)
                 statAdvance(player, stats.defence, damage * 2.0, multiplier)
             }

@@ -6,6 +6,7 @@ public enum class CombatSpellAttributes {
     WaterSpell,
     EarthSpell,
     FireSpell,
+    BindSpell,
     MagicDart,
     SlayerStaffE,
     ChaosGauntlets,
@@ -25,4 +26,10 @@ public enum class CombatSpellAttributes {
     EarthTome,
     FireTome,
     SunfireRunePassive,
+    EfaritaysAid,
+    MarkOfDarkness,
+    Demonbane,
+    PurgingStaff,
+    AhrimPassive,
+    BrimstonePassive,
 }

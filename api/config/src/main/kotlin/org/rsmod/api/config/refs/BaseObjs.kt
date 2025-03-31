@@ -114,6 +114,13 @@ object BaseObjs : ObjReferences() {
     val raw_herring = find("raw_herring")
     val herring = find("herring")
 
+    val nose_peg = find("nose_peg")
+    val facemask = find("facemask")
+    val earmuffs = find("earmuffs")
+    val spiny_helmet = find("spiny_helmet")
+    val reinforced_goggles = find("reinforced_goggles")
+    val neitiznot_shield = find("neitiznot_shield")
+
     val rune_pouch = find("rune_pouch")
     val rune_pouch_l = find("rune_pouch_l")
     val divine_rune_pouch = find("divine_rune_pouch")
@@ -189,6 +196,7 @@ object BaseObjs : ObjReferences() {
     val void_knight_mace = find("void_knight_mace")
     val void_knight_mace_l = find("void_knight_mace_l")
     val bryophytas_staff = find("bryophytas_staff")
+    val purging_staff = find("purging_staff")
 
     val saradomin_staff = find("saradomin_staff")
     val zamorak_staff = find("zamorak_staff")
@@ -268,6 +276,10 @@ object BaseObjs : ObjReferences() {
     val spell_vengeance = find("vengeance_spell")
     val spell_vengeance_other = find("vengeance_other_spell")
 
+    val spell_inferior_demonbane = find("inferior_demonbane_spell")
+    val spell_superior_demonbane = find("superior_demonbane_spell")
+    val spell_dark_demonbane = find("dark_demonbane_spell")
+
     val blighted_ancient_ice_sack = find("blighted_ancient_ice_sack")
     val blighted_entangle_sack = find("blighted_entangle_sack")
     val blighted_teleport_spell_sack = find("blighted_teleport_spell_sack")
@@ -302,16 +314,30 @@ object BaseObjs : ObjReferences() {
 
     val pegasian_boots = find("pegasian_boots")
     val primordial_boots = find("primordial_boots")
+    val eternal_boots = find("eternal_boots")
 
     val berserker_ring = find("berserker_ring")
     val archers_ring_i = find("archers_ring_i")
+    val seers_ring_i = find("seers_ring_i")
+    val brimstone_ring = find("brimstone_ring")
+
+    val ultor_ring = find("ultor_ring")
+    val venator_ring = find("venator_ring")
+    val magus_ring = find("magus_ring")
 
     val amulet_of_fury = find("amulet_of_fury")
     val necklace_of_anguish = find("necklace_of_anguish")
+    val occult_necklace = find("occult_necklace")
+
+    val tormented_bracelet = find("tormented_bracelet")
+
+    val imbued_saradomin_cape = find("imbued_saradomin_cape")
+    val infinity_boots = find("infinity_boots")
 
     val dragonfire_ward = find("dragonfire_ward")
     val helm_of_neitiznot = find("helm_of_neitiznot")
     val fire_cape = find("fire_cape")
+    val infernal_cape = find("infernal_cape")
     val abyssal_whip = find("abyssal_whip")
     val fighter_torso = find("fighter_torso")
     val dragon_defender = find("dragon_defender")
@@ -401,14 +427,10 @@ object BaseObjs : ObjReferences() {
     val dinhs_blazing_bulwark = find("dinhs_blazing_bulwark")
     val osmumtens_fang = find("osmumtens_fang")
     val osmumtens_fang_or = find("osmumtens_fang_or")
-    val infernal_cape = find("infernal_cape")
     val amulet_of_rancour = find("amulet_of_rancour")
     val radas_blessing_4 = find("radas_blessing_4")
     val ferocious_gloves = find("ferocious_gloves")
     val ghrazi_rapier = find("ghrazi_rapier")
-
-    val ultor_ring = find("ultor_ring")
-    val venator_ring = find("venator_ring")
 
     val tumekens_shadow = find("tumekens_shadow")
     val twisted_bow = find("twisted_bow")
@@ -440,6 +462,10 @@ object BaseObjs : ObjReferences() {
     val echo_virtus_mask = find("echo_virtus_mask")
     val echo_virtus_robe_top = find("echo_virtus_robe_top")
     val echo_virtus_robe_bottom = find("echo_virtus_robe_bottom")
+
+    val ancestral_hat = find("ancestral_hat")
+    val ancestral_robe_top = find("ancestral_robe_top")
+    val ancestral_robe_bottom = find("ancestral_robe_bottom")
 
     val keris = find("keris")
     val keris_p = find("keris_p")
@@ -546,7 +572,29 @@ object BaseObjs : ObjReferences() {
     val veracs_flail_50 = find("veracs_flail_50")
     val veracs_flail_25 = find("veracs_flail_25")
 
+    val ahrims_hood_100 = find("ahrims_hood_100")
+    val ahrims_hood_75 = find("ahrims_hood_75")
+    val ahrims_hood_50 = find("ahrims_hood_50")
+    val ahrims_hood_25 = find("ahrims_hood_25")
+
+    val ahrims_robetop_100 = find("ahrims_robetop_100")
+    val ahrims_robetop_75 = find("ahrims_robetop_75")
+    val ahrims_robetop_50 = find("ahrims_robetop_50")
+    val ahrims_robetop_25 = find("ahrims_robetop_25")
+
+    val ahrims_robeskirt_100 = find("ahrims_robeskirt_100")
+    val ahrims_robeskirt_75 = find("ahrims_robeskirt_75")
+    val ahrims_robeskirt_50 = find("ahrims_robeskirt_50")
+    val ahrims_robeskirt_25 = find("ahrims_robeskirt_25")
+
+    val ahrims_staff_100 = find("ahrims_staff_100")
+    val ahrims_staff_75 = find("ahrims_staff_75")
+    val ahrims_staff_50 = find("ahrims_staff_50")
+    val ahrims_staff_25 = find("ahrims_staff_25")
+
     val amulet_of_the_damned_full = find("amulet_of_the_damned_full")
+
+    val efaritays_aid = find("efaritays_aid")
 
     val woodcutting_icon = find("dummyitem_woodcutting_icon", 2122627481130992920)
     val bank_icon = find("dummyitem_bank_icon", 7806876055985215263)

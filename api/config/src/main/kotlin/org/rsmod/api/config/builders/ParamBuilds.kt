@@ -23,6 +23,7 @@ import org.rsmod.game.type.varbit.VarBitType
 
 internal object ParamBuilds : ParamBuilder() {
     init {
+        build<Boolean>("magic_defence_uses_defence_level") { default = false }
         build<String>("spell_worn_req_message")
 
         build<Int>("elemental_weakness_type")

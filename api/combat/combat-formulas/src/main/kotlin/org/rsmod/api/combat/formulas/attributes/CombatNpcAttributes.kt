@@ -17,6 +17,7 @@ public enum class CombatNpcAttributes {
     Size4,
     Size5OrMore,
     Shade,
+    Vampyre,
     TormentedDemonUnshielded,
     CorporealBeast,
     Xerician,

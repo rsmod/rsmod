@@ -6,6 +6,7 @@ import org.rsmod.api.combat.MAX_ATTACK_RANGE
 import org.rsmod.api.combat.commons.CombatAttack
 import org.rsmod.api.combat.commons.magic.MagicSpell
 import org.rsmod.api.combat.commons.styles.AttackStyle
+import org.rsmod.api.combat.commons.styles.MagicAttackStyle
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
 import org.rsmod.api.combat.commons.styles.RangedAttackStyle
 import org.rsmod.api.combat.commons.types.AttackType
@@ -37,7 +38,7 @@ internal fun ProtectedAccess.weaponAttackRange(style: AttackStyle?): Int {
     val weapon = player.righthand
     if (weapon != null) {
         val weaponRange = ocParam(weapon, params.attackrange)
-        val increase = if (style == AttackStyle.LongRangeRanged) 2 else 0
+        val increase = if (style == AttackStyle.LongrangeRanged) 2 else 0
         attackRange = weaponRange + increase
     }
 
@@ -60,10 +61,14 @@ internal fun ProtectedAccess.resolveCombatAttack(
         }
 
         type?.isMagic == true -> {
+            check(style == null || style.isMagic) {
+                "Expected attack style to be magic-based: style=$style, type=$type, weapon=$weapon"
+            }
             checkNotNull(weapon) {
                 "Expected valid weapon for magic-staff-based attack: style=$style, type=$type"
             }
-            CombatAttack.Staff(weapon)
+            val magicStyle = MagicAttackStyle.from(style)
+            CombatAttack.Staff(weapon, magicStyle)
         }
 
         type?.isRanged == true -> {

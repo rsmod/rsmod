@@ -145,7 +145,7 @@ public object AccuracyOperations {
 
     internal fun defensiveStyleBonus(attackStyle: AttackStyle?): Int =
         when (attackStyle) {
-            AttackStyle.LongRangeRanged -> 11
+            AttackStyle.LongrangeRanged -> 11
             AttackStyle.DefensiveMelee -> 11
             AttackStyle.ControlledMelee -> 9
             else -> 8

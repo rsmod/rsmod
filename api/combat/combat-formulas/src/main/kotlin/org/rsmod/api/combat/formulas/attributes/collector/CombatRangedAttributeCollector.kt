@@ -40,7 +40,7 @@ public class CombatRangedAttributeCollector @Inject constructor(private val objT
                 when (attackStyle) {
                     RangedAttackStyle.Accurate -> CombatRangedAttributes.ShortFuse
                     RangedAttackStyle.Rapid -> CombatRangedAttributes.MediumFuse
-                    RangedAttackStyle.LongRange -> CombatRangedAttributes.LongFuse
+                    RangedAttackStyle.Longrange -> CombatRangedAttributes.LongFuse
                     null -> null
                 }
 

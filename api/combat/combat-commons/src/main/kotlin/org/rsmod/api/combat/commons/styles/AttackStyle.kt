@@ -8,10 +8,15 @@ public enum class AttackStyle(public val id: Int) {
     DefensiveMelee(4),
     AccurateRanged(5),
     RapidRanged(6),
-    LongRangeRanged(7);
+    LongrangeRanged(7),
+    AccurateMagic(8),
+    LongrangeMagic(9);
 
     public val isRanged: Boolean
-        get() = this == AccurateRanged || this == RapidRanged || this == LongRangeRanged
+        get() = this == AccurateRanged || this == RapidRanged || this == LongrangeRanged
+
+    public val isMagic: Boolean
+        get() = this == AccurateMagic || this == LongrangeMagic
 
     public companion object {
         public operator fun get(id: Int): AttackStyle? =
@@ -22,7 +27,9 @@ public enum class AttackStyle(public val id: Int) {
                 ControlledMelee.id -> ControlledMelee
                 AccurateRanged.id -> AccurateRanged
                 RapidRanged.id -> RapidRanged
-                LongRangeRanged.id -> LongRangeRanged
+                LongrangeRanged.id -> LongrangeRanged
+                AccurateMagic.id -> AccurateMagic
+                LongrangeMagic.id -> LongrangeMagic
                 else -> null
             }
     }

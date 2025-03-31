@@ -85,6 +85,7 @@ object BaseParams : ParamReferences() {
     val kalphite: ParamInt = find("kalphite", 88687193509)
 
     /* Server-side only types */
+    val magic_defence_uses_defence_level: ParamBool = find("magic_defence_uses_defence_level")
     val spell_worn_req_message: ParamStr = find("spell_worn_req_message")
     val elemental_weakness_type: ParamInt = find("elemental_weakness_type")
     val elemental_weakness_percent: ParamInt = find("elemental_weakness_percent")

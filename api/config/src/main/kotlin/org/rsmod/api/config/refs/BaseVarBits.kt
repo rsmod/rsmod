@@ -25,6 +25,7 @@ object BaseVarBits : VarBitReferences() {
 
     val spellbook = find("spellbook", 22618316409612)
     val charge_buff_duration = find("charge_buff_duration", 158374502881764)
+    val mark_of_darkness_active = find("mark_of_darkness_active", 158426023244829)
 
     val combat_level = find("combat_level", 56930885834068)
     val combat_level_decimal = find("combat_level_decimal", 116230836668633)

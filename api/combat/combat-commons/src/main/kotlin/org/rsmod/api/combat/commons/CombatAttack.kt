@@ -1,6 +1,7 @@
 package org.rsmod.api.combat.commons
 
 import org.rsmod.api.combat.commons.magic.MagicSpell
+import org.rsmod.api.combat.commons.styles.MagicAttackStyle
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
 import org.rsmod.api.combat.commons.styles.RangedAttackStyle
 import org.rsmod.api.combat.commons.types.MeleeAttackType
@@ -28,7 +29,7 @@ public sealed class CombatAttack {
     public data class Spell(val weapon: InvObj?, val spell: MagicSpell, val defensive: Boolean) :
         Magic()
 
-    public data class Staff(val weapon: InvObj) : Magic()
+    public data class Staff(val weapon: InvObj, val style: MagicAttackStyle?) : Magic()
 
     public sealed class NpcAttack : CombatAttack()
 

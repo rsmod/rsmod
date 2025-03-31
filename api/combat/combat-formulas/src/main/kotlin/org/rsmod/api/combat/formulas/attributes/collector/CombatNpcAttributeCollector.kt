@@ -3,6 +3,7 @@ package org.rsmod.api.combat.formulas.attributes.collector
 import java.util.EnumSet
 import org.rsmod.api.combat.formulas.attributes.CombatNpcAttributes
 import org.rsmod.api.config.constants
+import org.rsmod.api.config.refs.categories
 import org.rsmod.api.config.refs.npcs
 import org.rsmod.api.config.refs.params
 import org.rsmod.game.type.npc.UnpackedNpcType
@@ -95,6 +96,10 @@ public class CombatNpcAttributeCollector {
 
         if (type.param(params.shade) != 0) {
             attributes += CombatNpcAttributes.Shade
+        }
+
+        if (type.isCategoryType(categories.vampyres)) {
+            attributes += CombatNpcAttributes.Vampyre
         }
 
         if (type.param(params.tormented_demon) != 0 && !type.param(params.td_shield_active)) {

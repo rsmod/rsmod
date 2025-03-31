@@ -159,6 +159,7 @@
 1802	slayer_task_boss_location
 1935	spell_maxhit
 
+65402	magic_defence_uses_defence_level
 65403	spell_worn_req_message
 65404	elemental_weakness_type
 65405	elemental_weakness_percent

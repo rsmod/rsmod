@@ -1,6 +1,7 @@
 package org.rsmod.api.combat.formulas.maxhit.magic
 
 import java.util.EnumSet
+import kotlin.math.max
 import org.rsmod.api.combat.formulas.attributes.CombatNpcAttributes
 import org.rsmod.api.combat.formulas.attributes.CombatSpellAttributes
 import org.rsmod.api.combat.formulas.attributes.CombatStaffAttributes
@@ -107,6 +108,7 @@ public object MagicMaxHitOperations {
     public fun modifySpellPostSpec(
         modifiedDamage: Int,
         baseDamage: Int,
+        attackRate: Int,
         targetWeaknessPercent: Int,
         spellAttributes: EnumSet<CombatSpellAttributes>,
         npcAttributes: EnumSet<CombatNpcAttributes>,
@@ -136,6 +138,26 @@ public object MagicMaxHitOperations {
 
         if (applyTomeMod) {
             modifiedMax = scale(modifiedMax, multiplier = 11, divisor = 10)
+        }
+
+        val applyMarkOfDarknessMod =
+            SpellAttr.MarkOfDarkness in spellAttributes &&
+                SpellAttr.Demonbane in spellAttributes &&
+                NpcAttr.Demon in npcAttributes
+        if (applyMarkOfDarknessMod) {
+            val multiplier = if (SpellAttr.PurgingStaff in spellAttributes) 50 else 25
+            modifiedMax = scale(modifiedMax, multiplier = 100 + multiplier, divisor = 100)
+        }
+
+        // TODO(combat): Twinflame mod here.
+
+        if (SpellAttr.AhrimPassive in spellAttributes) {
+            modifiedMax = scale(modifiedMax, multiplier = 13, divisor = 10)
+        }
+
+        if (NpcAttr.TormentedDemonUnshielded in npcAttributes) {
+            val bonusDamage = max(0, (attackRate * attackRate) - 16)
+            modifiedMax += bonusDamage
         }
 
         return modifiedMin..modifiedMax

@@ -15,8 +15,12 @@ import org.rsmod.api.player.front
 import org.rsmod.api.player.hands
 import org.rsmod.api.player.hat
 import org.rsmod.api.player.lefthand
+import org.rsmod.api.player.legs
 import org.rsmod.api.player.righthand
+import org.rsmod.api.player.ring
+import org.rsmod.api.player.torso
 import org.rsmod.api.player.worn.EquipmentChecks
+import org.rsmod.api.random.GameRandom
 import org.rsmod.game.entity.Player
 import org.rsmod.game.obj.isAnyType
 import org.rsmod.game.obj.isType
@@ -26,11 +30,14 @@ import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.type.obj.isType
 
 public class CombatMagicAttributeCollector @Inject constructor(private val objTypes: ObjTypeList) {
+    // `random` is an explicit parameter to indicate that this function relies on randomness
+    // for certain effects, such as the Brimstone ring proc.
     public fun spellCollect(
         player: Player,
         spell: ObjType,
         spellbook: Spellbook,
         usedSunfireRune: Boolean,
+        random: GameRandom,
     ): EnumSet<CombatSpellAttributes> {
         val attributes = EnumSet.noneOf(CombatSpellAttributes::class.java)
 
@@ -44,6 +51,7 @@ public class CombatMagicAttributeCollector @Inject constructor(private val objTy
                 MagicSpellChecks.isWaterSpell(spell) -> CombatSpellAttributes.WaterSpell
                 MagicSpellChecks.isEarthSpell(spell) -> CombatSpellAttributes.EarthSpell
                 MagicSpellChecks.isFireSpell(spell) -> CombatSpellAttributes.FireSpell
+                MagicSpellChecks.isBindSpell(spell) -> CombatSpellAttributes.BindSpell
                 spell.isType(objs.spell_magic_dart) -> CombatSpellAttributes.MagicDart
                 else -> null
             }
@@ -52,7 +60,29 @@ public class CombatMagicAttributeCollector @Inject constructor(private val objTy
             attributes += spellAttribute
         }
 
+        val helm = player.hat
+        val body = player.torso
+        val legs = player.legs
         val weapon = player.righthand
+        val amulet = player.front
+
+        val hasImprovedAhrimPassive =
+            EquipmentChecks.isAhrimSet(helm, body, legs, weapon) &&
+                amulet.isType(objs.amulet_of_the_damned_full)
+
+        if (hasImprovedAhrimPassive && random.randomBoolean(4)) {
+            attributes += CombatSpellAttributes.AhrimPassive
+        }
+
+        val ring = player.ring
+        if (ring.isType(objs.brimstone_ring) && random.randomBoolean(4)) {
+            attributes += CombatSpellAttributes.BrimstonePassive
+        }
+
+        if (player.vars[varbits.mark_of_darkness_active] == 1) {
+            attributes += CombatSpellAttributes.MarkOfDarkness
+        }
+
         if (weapon.isType(objs.slayers_staff_e)) {
             attributes += CombatSpellAttributes.SlayerStaffE
         }
@@ -70,6 +100,10 @@ public class CombatMagicAttributeCollector @Inject constructor(private val objTy
             attributes += CombatSpellAttributes.ChargeSpell
         }
 
+        if (MagicSpellChecks.isDemonbaneSpell(spell)) {
+            attributes += CombatSpellAttributes.Demonbane
+        }
+
         if (EquipmentChecks.isSmokeStaff(weapon)) {
             attributes += CombatSpellAttributes.SmokeStaff
         }
@@ -78,7 +112,6 @@ public class CombatMagicAttributeCollector @Inject constructor(private val objTy
             attributes += CombatSpellAttributes.ForinthrySurge
         }
 
-        val amulet = player.front
         if (amulet.isType(objs.amulet_of_avarice)) {
             attributes += CombatSpellAttributes.AmuletOfAvarice
         } else if (amulet.isType(objs.salve_amulet_ei)) {
@@ -115,6 +148,10 @@ public class CombatMagicAttributeCollector @Inject constructor(private val objTy
                     CombatSpellAttributes.RevenantWeapon
                 }
 
+                weapon.isType(objs.purging_staff) -> {
+                    CombatSpellAttributes.PurgingStaff
+                }
+
                 else -> null
             }
 
@@ -138,6 +175,10 @@ public class CombatMagicAttributeCollector @Inject constructor(private val objTy
 
         if (MagicSpellChecks.isFireSpell(spell) && usedSunfireRune) {
             attributes += CombatSpellAttributes.SunfireRunePassive
+        }
+
+        if (ring.isType(objs.efaritays_aid)) {
+            attributes += CombatSpellAttributes.EfaritaysAid
         }
 
         return attributes

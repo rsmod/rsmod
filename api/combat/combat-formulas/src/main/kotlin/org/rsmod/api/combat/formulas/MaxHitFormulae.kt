@@ -1,7 +1,6 @@
 package org.rsmod.api.combat.formulas
 
 import jakarta.inject.Inject
-import org.rsmod.api.combat.commons.magic.MagicSpell
 import org.rsmod.api.combat.commons.magic.Spellbook
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
 import org.rsmod.api.combat.commons.styles.RangedAttackStyle
@@ -15,6 +14,7 @@ import org.rsmod.api.combat.formulas.maxhit.ranged.NvPRangedMaxHit
 import org.rsmod.api.combat.formulas.maxhit.ranged.PvNRangedMaxHit
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
+import org.rsmod.game.type.obj.ObjType
 
 public class MaxHitFormulae
 @Inject
@@ -69,17 +69,19 @@ constructor(
     public fun getMagicSpellMaxHitRange(
         player: Player,
         target: Npc,
+        spell: ObjType,
         spellbook: Spellbook,
-        magicSpell: MagicSpell,
         baseMaxHit: Int,
+        attackRate: Int,
         usedSunfireRune: Boolean,
     ): IntRange =
         pvnMagicMaxHit.getSpellMaxHit(
             player = player,
             target = target,
             spellbook = spellbook,
-            magicSpell = magicSpell,
+            spell = spell,
             baseMaxHit = baseMaxHit,
+            attackRate = attackRate,
             usedSunfireRune = usedSunfireRune,
         )
 

@@ -35,7 +35,7 @@ public object StyleInternals {
         public operator fun component4(): AttackStyle? = style4
 
         private companion object {
-            const val STYLE_BIT_COUNT: Int = 3
+            const val STYLE_BIT_COUNT: Int = 4
             const val STYLE_BIT_MASK = (1 shl STYLE_BIT_COUNT) - 1
 
             const val STYLE_1_BIT_OFFSET = 0

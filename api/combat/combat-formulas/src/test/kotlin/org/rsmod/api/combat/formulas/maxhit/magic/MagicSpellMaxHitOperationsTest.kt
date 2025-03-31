@@ -39,6 +39,7 @@ class MagicSpellMaxHitOperationsTest {
             MagicMaxHitOperations.modifySpellPostSpec(
                 modifiedDamage = modifiedMaxHit,
                 baseDamage = loadout.spellMaxHit,
+                attackRate = loadout.attackRate,
                 targetWeaknessPercent = elementalWeakness,
                 spellAttributes = spellAttributes,
                 npcAttributes = npcAttributes,
@@ -58,6 +59,7 @@ class MagicSpellMaxHitOperationsTest {
         val spellAttributes: EnumSet<SpellAttr> = EnumSet.noneOf(SpellAttr::class.java),
         val npcAttributes: EnumSet<NpcAttr> = EnumSet.noneOf(NpcAttr::class.java),
         val elementalWeaknessPercent: Int = 0,
+        val attackRate: Int = 5,
     ) {
         fun withSaturatedHeart(): Loadout {
             val add = 4 + (magicLevel * 0.1).toInt()

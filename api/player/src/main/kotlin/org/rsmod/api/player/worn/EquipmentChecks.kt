@@ -197,6 +197,32 @@ public object EquipmentChecks {
                 objs.torags_hammers_25,
             )
 
+    public fun isAhrimSet(helm: InvObj?, top: InvObj?, legs: InvObj?, weapon: InvObj?): Boolean =
+        helm.isAnyType(
+            objs.ahrims_hood_100,
+            objs.ahrims_hood_75,
+            objs.ahrims_hood_50,
+            objs.ahrims_hood_25,
+        ) &&
+            top.isAnyType(
+                objs.ahrims_robetop_100,
+                objs.ahrims_robetop_75,
+                objs.ahrims_robetop_50,
+                objs.ahrims_robetop_25,
+            ) &&
+            legs.isAnyType(
+                objs.ahrims_robeskirt_100,
+                objs.ahrims_robeskirt_75,
+                objs.ahrims_robeskirt_50,
+                objs.ahrims_robeskirt_25,
+            ) &&
+            weapon.isAnyType(
+                objs.ahrims_staff_100,
+                objs.ahrims_staff_75,
+                objs.ahrims_staff_50,
+                objs.ahrims_staff_25,
+            )
+
     public fun isJusticiarSet(helm: InvObj?, top: InvObj?, legs: InvObj?): Boolean =
         helm.isType(objs.justiciar_faceguard) &&
             top.isType(objs.justiciar_chestguard) &&

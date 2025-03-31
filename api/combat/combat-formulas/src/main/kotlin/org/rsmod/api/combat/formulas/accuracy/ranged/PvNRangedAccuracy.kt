@@ -24,7 +24,7 @@ public class PvNRangedAccuracy
 constructor(
     private val bonuses: WornBonuses,
     private val npcAttributes: CombatNpcAttributeCollector,
-    private val rangedAttributeCollector: CombatRangedAttributeCollector,
+    private val rangedAttributes: CombatRangedAttributeCollector,
 ) {
     public fun getHitChance(
         player: Player,
@@ -65,7 +65,7 @@ constructor(
         blockType: RangedAttackType?,
         specialMultiplier: Double,
     ): Int {
-        val rangeAttributes = rangedAttributeCollector.collect(source, attackType, attackStyle)
+        val rangeAttributes = rangedAttributes.collect(source, attackType, attackStyle)
 
         val slayerTask = target.isSlayerTask(source)
         val npcAttributes = npcAttributes.collect(target, targetCurrHp, targetMaxHp, slayerTask)
