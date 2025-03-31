@@ -5,21 +5,29 @@ import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.util.EnumTypeMapResolver
 
 public class ComboRuneRepository {
-    private lateinit var combos: Map<Int, Set<ObjType>>
+    private lateinit var combos: Map<Int, ComboRune>
+    public lateinit var comboRunes: List<ComboRune>
+        private set
 
-    public operator fun get(rune: ObjType): Set<ObjType> = combos[rune.id] ?: emptySet()
+    public operator fun get(comboRune: ObjType): ComboRune? = combos[comboRune.id]
+
+    internal fun init(combos: Map<ObjType, ComboRune>) {
+        this.combos = combos.entries.associate { it.key.id to it.value }
+        this.comboRunes = combos.values.toList()
+    }
 
     internal fun init(resolver: EnumTypeMapResolver) {
         val combos = loadComboRunes(resolver)
-        this.combos = combos
+        init(combos)
     }
 
-    private fun loadComboRunes(resolver: EnumTypeMapResolver): Map<Int, Set<ObjType>> {
-        val mapped = mutableMapOf<Int, Set<ObjType>>()
+    private fun loadComboRunes(resolver: EnumTypeMapResolver): Map<ObjType, ComboRune> {
+        val mapped = hashMapOf<ObjType, ComboRune>()
         val comboRuneList = resolver[combo_enums.combos].filterValuesNotNull()
         for ((rune, comboRunesEnum) in comboRuneList) {
-            val comboRunes = resolver[comboRunesEnum].filterValuesNotNull()
-            mapped[rune.id] = comboRunes.map { it.value }.toHashSet()
+            val runeList = resolver[comboRunesEnum].filterValuesNotNull().values.toList()
+            check(runeList.size == 2) { "Expected 2 rune values: $runeList (enum=$comboRunesEnum)" }
+            mapped[rune] = ComboRune(rune, runeList[0], runeList[1])
         }
         return mapped
     }

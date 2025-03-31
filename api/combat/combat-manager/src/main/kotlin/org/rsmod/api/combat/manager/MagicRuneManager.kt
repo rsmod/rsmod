@@ -1,6 +1,7 @@
 package org.rsmod.api.combat.manager
 
 import jakarta.inject.Inject
+import kotlin.collections.any
 import kotlin.contracts.contract
 import org.rsmod.api.combat.commons.magic.MagicSpell
 import org.rsmod.api.combat.commons.magic.Spellbook
@@ -20,11 +21,14 @@ import org.rsmod.api.spells.runes.fake.FakeRuneRepository
 import org.rsmod.api.spells.runes.staves.StaffSubstituteRepository
 import org.rsmod.api.spells.runes.unlimited.UnlimitedRuneRepository
 import org.rsmod.game.entity.Player
+import org.rsmod.game.obj.InvObj
+import org.rsmod.game.obj.isAnyType
 import org.rsmod.game.obj.isType
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.type.obj.isType
+import org.rsmod.game.type.varbit.VarBitType
 
 public class MagicRuneManager
 @Inject
@@ -144,33 +148,30 @@ constructor(
         val sources = sourced.flatMap { it.sources }
 
         // Ensure player has enough varbits to be removed.
-        val varbits = sources.filterIsInstance<MagicRunes.Source.VarBitSource>()
-        val enoughVarBits = varbits.all { player.vars[it.varbit] >= it.count }
+        val varbitSources = sources.filterIsInstance<MagicRunes.Source.VarBitSource>()
+        val enoughVarBits = varbitSources.all { player.vars[it.varbit] >= it.count }
         if (!enoughVarBits) {
             return CastResult.Failure.NotEnoughVarBit
         }
 
-        val invs = sources.filterIsInstance<MagicRunes.Source.InvSource>()
-        val validatedObjs =
-            invs.mapNotNull { (type, slot, count) ->
-                val invObj = player.inv[slot]
-                if (!invObj.isType(type) || invObj.count < count) {
-                    return@mapNotNull null
-                }
-                invObj.copy(count = count)
-            }
+        val invSources = sources.filterIsInstance<MagicRunes.Source.InvSource>()
 
-        val enoughObjs = validatedObjs.size == invs.size
-        if (!enoughObjs) {
-            return CastResult.Failure.NotEnoughInvObj
+        val consume = ArrayList<InvObj>(invSources.size)
+        for (source in invSources) {
+            val (type, slot, required) = source
+            val invObj = player.inv[slot]
+            if (!invObj.isType(type)) {
+                continue
+            }
+            consume += invObj.copy(count = required)
         }
 
-        val transaction = player.invDelAll(player.inv, validatedObjs, strict = true)
+        val transaction = player.invDelAll(player.inv, consume, strict = true)
         if (!transaction.success) {
             return CastResult.Failure.NotEnoughInvObj
         }
 
-        for (source in varbits) {
+        for (source in varbitSources) {
             val result = player.vars[source.varbit] - source.count
             check(result >= 0) {
                 "Expected result to be positive: " +
@@ -179,31 +180,20 @@ constructor(
             VarPlayerIntMapSetter.set(player, source.varbit, result)
         }
 
-        val usedSunfire = validatedObjs.any { it.isType(objs.sunfire_rune) }
+        val usedSunfire = consume.any { it.isType(objs.sunfire_rune) }
         return CastResult.Success.Consumed(usedSunfire)
     }
 
-    public fun validateSpell(player: Player, spell: MagicSpell): Sequence<MagicRunes.Validation> =
-        sequence {
-            val runePack = validateRunePack(player, spell.obj)
-            if (runePack != null) {
-                yield(runePack)
-                return@sequence
-            }
-
-            for (req in spell.objReqs) {
-                val (obj, count, wornSlot) = req
-                val validation =
-                    if (wornSlot != null) {
-                        validateWorn(player, obj, wornSlot)
-                    } else {
-                        validateRune(player, obj, count)
-                    }
-                yield(validation)
-            }
+    public fun validateSpell(player: Player, spell: MagicSpell): List<MagicRunes.Validation> {
+        val runePack = validateRunePack(player, spell.obj)
+        return if (runePack != null) {
+            listOf(runePack)
+        } else {
+            validateReqs(player, spell.objReqs)
         }
+    }
 
-    public fun validateRunePack(player: Player, spell: ObjType): MagicRunes.Validation.Valid? =
+    private fun validateRunePack(player: Player, spell: ObjType): MagicRunes.Validation.Valid? =
         MagicRunes.validateRunePack(
             player = player,
             spell = spell,
@@ -211,27 +201,28 @@ constructor(
             allowBlighted = player.allowBlighted(),
         )
 
-    public fun validateWorn(player: Player, obj: ObjType, wornSlot: Int): MagicRunes.Validation =
-        MagicRunes.validateWorn(
-            player = player,
-            obj = obj,
-            wornSlot = wornSlot,
-            staffSubs = staffSubs,
-        )
-
-    public fun validateRune(player: Player, rune: ObjType, count: Int): MagicRunes.Validation =
-        MagicRunes.validateRune(
-            player = player,
-            rune = rune,
-            required = count,
+    private fun validateReqs(
+        player: Player,
+        reqs: List<MagicSpell.ObjRequirement>,
+    ): List<MagicRunes.Validation> =
+        MagicRunes.validateRequirements(
+            inv = player.inv,
+            worn = player.worn,
+            pouch = player.currentRunePouch(),
+            requirements = MagicRunes.RequirementList.from(reqs),
             useFakeRunes = player.useFakeRunes(),
             runeFountain = player.nearFountainOfRune(),
             compact = compact,
             unlimited = unlimited,
             combos = combos,
             fakes = fakes,
+            staffSubs = staffSubs,
         )
 
+    /**
+     * Verifies that the player meets the magic level requirement to cast [spell], and that the
+     * provided [book] matches the spell's [MagicSpell.spellbook].
+     */
     private fun validateAccess(
         player: Player,
         spell: MagicSpell,
@@ -259,6 +250,52 @@ constructor(
     private fun Player.nearFountainOfRune(): Boolean {
         return vars[varbits.fountain_of_rune] == 1
     }
+
+    private fun Player.currentRunePouch(): MagicRunes.RunePouch? {
+        val hasRunePouch = inv.any { it.isRegularRunePouch() || it.isDivineRunePouch() }
+        if (!hasRunePouch) {
+            return null
+        }
+        val hasDivineRunePouch = inv.any { it.isDivineRunePouch() }
+
+        val pouchCompactRune1 = vars[varbits.rune_pouch_compactid1]
+        val pouchCompactRune2 = vars[varbits.rune_pouch_compactid2]
+        val pouchCompactRune3 = vars[varbits.rune_pouch_compactid3]
+        val pouchCountVarBit1 = varbits.rune_pouch_count1
+        val pouchCountVarBit2 = varbits.rune_pouch_count2
+        val pouchCountVarBit3 = varbits.rune_pouch_count3
+
+        val pouchCompactRune4: Int
+        val pouchCountVarBit4: VarBitType?
+        if (hasDivineRunePouch) {
+            pouchCompactRune4 = vars[varbits.rune_pouch_compactid4]
+            pouchCountVarBit4 = varbits.rune_pouch_count4
+        } else {
+            pouchCompactRune4 = 0
+            pouchCountVarBit4 = null
+        }
+
+        return MagicRunes.RunePouch(
+            compactId1 = pouchCompactRune1,
+            compactId2 = pouchCompactRune2,
+            compactId3 = pouchCompactRune3,
+            compactId4 = pouchCompactRune4,
+            countVarBit1 = pouchCountVarBit1,
+            countVarBit2 = pouchCountVarBit2,
+            countVarBit3 = pouchCountVarBit3,
+            countVarBit4 = pouchCountVarBit4,
+            count1 = vars[pouchCountVarBit1],
+            count2 = vars[pouchCountVarBit2],
+            count3 = vars[pouchCountVarBit3],
+            count4 = pouchCountVarBit4?.let(vars::get) ?: 0,
+        )
+    }
+
+    private fun InvObj?.isRegularRunePouch(): Boolean =
+        isAnyType(objs.rune_pouch, objs.rune_pouch_l)
+
+    private fun InvObj?.isDivineRunePouch(): Boolean =
+        isAnyType(objs.divine_rune_pouch, objs.divine_rune_pouch_l)
 
     private fun MagicRunes.Validation.requirementMessage(): String =
         when (this) {

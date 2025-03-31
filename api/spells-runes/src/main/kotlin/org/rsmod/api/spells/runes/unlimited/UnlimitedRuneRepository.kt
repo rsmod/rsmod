@@ -14,23 +14,29 @@ public class UnlimitedRuneRepository {
     private lateinit var highPriority: Map<Int, Set<Int>>
     private lateinit var lowPriority: Map<Int, Set<Int>>
 
-    public fun hasHighPrioritySource(
-        rune: ObjType,
-        righthand: InvObj?,
-        lefthand: InvObj?,
-    ): Boolean {
+    public fun isHighPrioritySource(rune: ObjType, righthand: InvObj?, lefthand: InvObj?): Boolean {
         val sources = highPriority[rune.id] ?: return false
         return righthand?.id in sources || lefthand?.id in sources
     }
 
-    public fun hasLowPrioritySource(rune: ObjType, righthand: InvObj?, lefthand: InvObj?): Boolean {
+    public fun isLowPrioritySource(rune: ObjType, righthand: InvObj?, lefthand: InvObj?): Boolean {
         val sources = lowPriority[rune.id] ?: return false
         return righthand?.id in sources || lefthand?.id in sources
     }
 
+    public fun isSource(rune: ObjType, righthand: InvObj?, lefthand: InvObj?): Boolean =
+        isHighPrioritySource(rune, righthand, lefthand) ||
+            isLowPrioritySource(rune, righthand, lefthand)
+
+    internal fun init(highPriority: Map<Int, Set<Int>>, lowPriority: Map<Int, Set<Int>>) {
+        this.highPriority = highPriority
+        this.lowPriority = lowPriority
+    }
+
     internal fun init(resolver: EnumTypeMapResolver) {
-        highPriority = loadHighPriority(resolver)
-        lowPriority = loadLowPriority(resolver)
+        val highPriority = loadHighPriority(resolver)
+        val lowPriority = loadLowPriority(resolver)
+        init(highPriority, lowPriority)
     }
 
     private fun loadHighPriority(resolver: EnumTypeMapResolver): Map<Int, Set<Int>> {

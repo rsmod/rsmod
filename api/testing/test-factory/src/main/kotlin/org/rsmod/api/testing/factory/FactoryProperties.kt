@@ -16,6 +16,7 @@ import org.rsmod.api.testing.factory.obj.TestObjTypeFactory
 import org.rsmod.api.testing.factory.obj.TestObjTypeListFactory
 import org.rsmod.api.testing.factory.player.TestPlayerFactory
 import org.rsmod.api.testing.factory.region.TestRegionRegistryFactory
+import org.rsmod.api.testing.factory.varbit.TestVarBitTypeFactory
 
 /* Entity factory properties */
 public val entityFactory: TestPathingEntityFactory
@@ -72,3 +73,7 @@ public val playerFactory: TestPlayerFactory
 /* Region factory properties */
 public val regionRegistryFactory: TestRegionRegistryFactory
     get() = TestRegionRegistryFactory()
+
+/* Varplayer factory properties */
+public val varBitTypeFactory: TestVarBitTypeFactory
+    get() = TestVarBitTypeFactory()

@@ -125,10 +125,12 @@ object BaseObjs : ObjReferences() {
     val water_rune = find("water_rune")
     val earth_rune = find("earth_rune")
     val fire_rune = find("fire_rune")
+    val mind_rune = find("mind_rune")
     val chaos_rune = find("chaos_rune")
     val death_rune = find("chaos_rune")
     val blood_rune = find("blood_rune")
     val nature_rune = find("nature_rune")
+    val law_rune = find("law_rune")
     val smoke_rune = find("smoke_rune")
     val mist_rune = find("mist_rune")
     val dust_rune = find("dust_rune")
@@ -192,6 +194,8 @@ object BaseObjs : ObjReferences() {
     val zamorak_staff = find("zamorak_staff")
     val guthix_staff = find("guthix_staff")
     val guthix_staff_rune = find("guthix_staff_rune")
+
+    val spell_lumbridge_teleport = find("lumbridge_teleport_spell")
 
     val spell_tele_block = find("tele_block_spell")
     val spell_teleport_to_target = find("teleport_to_target_spell")
