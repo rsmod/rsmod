@@ -8,7 +8,6 @@ import org.rsmod.api.config.refs.params
 import org.rsmod.api.config.refs.varps
 import org.rsmod.api.player.hands
 import org.rsmod.api.player.hat
-import org.rsmod.api.player.lefthand
 import org.rsmod.api.player.legs
 import org.rsmod.api.player.righthand
 import org.rsmod.api.player.torso
@@ -164,10 +163,8 @@ public class WornBonuses @Inject constructor(private val objTypes: ObjTypeList) 
             offMagic = (offMagic * multiplier).toInt()
         }
 
-        val shield = objTypes.getOrNull(player.lefthand)
         val attackStyle = player.vars[varps.attackstyle]
-
-        val usingDinhsBulwark = shield != null && shield.isCategoryType(categories.dinhs_bulwark)
+        val usingDinhsBulwark = weapon != null && weapon.isCategoryType(categories.dinhs_bulwark)
         if (usingDinhsBulwark && attackStyle == constants.dinhs_attackstyle_pummel) {
             val relativeDefenceBonuses = defStab + defSlash + defCrush + defRange
             val meleeStrIncrease = ((relativeDefenceBonuses - 800) / 12) - 38
