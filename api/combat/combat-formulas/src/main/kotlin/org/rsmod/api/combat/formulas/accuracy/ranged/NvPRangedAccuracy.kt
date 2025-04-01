@@ -1,8 +1,8 @@
 package org.rsmod.api.combat.formulas.accuracy.ranged
 
 import jakarta.inject.Inject
-import org.rsmod.api.combat.accuracy.npc.NpcMeleeAccuracy
 import org.rsmod.api.combat.accuracy.npc.NpcRangedAccuracy
+import org.rsmod.api.combat.accuracy.player.PlayerRangedAccuracy
 import org.rsmod.api.combat.formulas.accuracy.AccuracyOperations
 import org.rsmod.api.combat.weapon.styles.AttackStyles
 import org.rsmod.api.config.refs.params
@@ -34,6 +34,6 @@ constructor(private val bonuses: WornBonuses, private val attackStyles: AttackSt
         val effectiveDefence =
             RangedAccuracyOperations.calculateEffectiveDefence(target, targetAttackStyle)
         val defenceBonus = bonuses.defensiveRangedBonus(target)
-        return NpcMeleeAccuracy.calculateBaseDefenceRoll(effectiveDefence, defenceBonus)
+        return PlayerRangedAccuracy.calculateBaseDefenceRoll(effectiveDefence, defenceBonus)
     }
 }

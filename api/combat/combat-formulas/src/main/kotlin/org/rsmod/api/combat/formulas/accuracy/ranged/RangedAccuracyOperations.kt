@@ -2,7 +2,6 @@ package org.rsmod.api.combat.formulas.accuracy.ranged
 
 import java.util.EnumSet
 import kotlin.math.min
-import org.rsmod.api.combat.accuracy.player.PlayerMeleeAccuracy
 import org.rsmod.api.combat.accuracy.player.PlayerRangedAccuracy
 import org.rsmod.api.combat.commons.styles.AttackStyle
 import org.rsmod.api.combat.commons.styles.RangedAttackStyle
@@ -206,7 +205,7 @@ public object RangedAccuracyOperations {
     ): Int {
         val styleBonus = AccuracyOperations.defensiveStyleBonus(attackStyle)
         val prayerBonus = AccuracyOperations.defensivePrayerBonus(vars)
-        return PlayerMeleeAccuracy.calculateEffectiveDefence(
+        return PlayerRangedAccuracy.calculateEffectiveDefence(
             visibleDefenceLvl = visLevel,
             styleBonus = styleBonus,
             prayerBonus = prayerBonus,
