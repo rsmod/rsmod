@@ -117,6 +117,39 @@ public object MagicAccuracyOperations {
         return modified
     }
 
+    public fun modifyStaffAttackRoll(
+        attackRoll: Int,
+        staffAttributes: EnumSet<CombatStaffAttributes>,
+        npcAttributes: EnumSet<CombatNpcAttributes>,
+    ): Int {
+        var modified = attackRoll
+
+        var additiveBonus = 0
+        var applyBlackMaskMod = false
+
+        if (StaffAttr.AmuletOfAvarice in staffAttributes && NpcAttr.Revenant in npcAttributes) {
+            additiveBonus += if (StaffAttr.ForinthrySurge in staffAttributes) 35 else 20
+        } else if (StaffAttr.SalveAmuletEi in staffAttributes && NpcAttr.Undead in npcAttributes) {
+            additiveBonus += 20
+        } else if (StaffAttr.SalveAmuletI in staffAttributes && NpcAttr.Undead in npcAttributes) {
+            additiveBonus += 15
+        } else if (StaffAttr.BlackMaskI in staffAttributes && NpcAttr.SlayerTask in npcAttributes) {
+            applyBlackMaskMod = true
+        }
+
+        modified = scale(modified, 100 + additiveBonus, 100)
+
+        if (applyBlackMaskMod) {
+            modified = scale(modified, multiplier = 23, divisor = 20)
+        }
+
+        if (StaffAttr.RevenantWeapon in staffAttributes && NpcAttr.Revenant in npcAttributes) {
+            modified = scale(modified, multiplier = 3, divisor = 2)
+        }
+
+        return modified
+    }
+
     public fun calculateEffectiveMagic(player: Player, attackStyle: MagicAttackStyle?): Int =
         calculateEffectiveMagic(
             visLevel = player.magicLvl,

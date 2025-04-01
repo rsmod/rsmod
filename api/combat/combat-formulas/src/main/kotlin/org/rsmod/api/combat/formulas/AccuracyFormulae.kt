@@ -278,6 +278,33 @@ constructor(
             usedSunfireRune = usedSunfireRune,
         )
 
+    /**
+     * Rolls for powered magic staff accuracy to determine if the built-in spell used by a [player]
+     * against a [target] npc is successful.
+     *
+     * This function calculates the hit chance based on the player's magic accuracy and the target
+     * npc's magic defence, then uses a value from the random number generator ([random]) to
+     * determine whether the built-in spell hits.
+     *
+     * @param random A [GameRandom] instance used to generate a random number for the hit roll.
+     * @return `true` if the attack is successful (i.e., the hit chance exceeds the random roll),
+     *   `false` otherwise.
+     */
+    public fun rollStaffAccuracy(player: Player, target: Npc, random: GameRandom): Boolean {
+        val hitChance = getStaffHitChance(player, target)
+        return isSuccessfulHit(hitChance, random)
+    }
+
+    /**
+     * Calculates the powered magic staff hit chance based on the [player]'s magic attack roll and
+     * the [target]'s magic defence roll.
+     *
+     * @return An integer between `0` and `10,000`, where `0` represents a `0%` hit chance, `1`
+     *   represents a `0.01%` hit chance, and `10,000` represents a `100%` hit chance.
+     */
+    public fun getStaffHitChance(player: Player, target: Npc): Int =
+        pvnMagicAccuracy.getStaffHitChance(player = player, target = target)
+
     public companion object {
         public fun isSuccessfulHit(hitChance: Int, random: GameRandom): Boolean {
             val randomRoll = random.of(maxExclusive = HIT_CHANCE_SCALE)

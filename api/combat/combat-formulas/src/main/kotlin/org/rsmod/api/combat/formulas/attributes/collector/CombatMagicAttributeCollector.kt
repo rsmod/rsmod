@@ -184,8 +184,13 @@ public class CombatMagicAttributeCollector @Inject constructor(private val objTy
         return attributes
     }
 
-    public fun staffCollect(player: Player): EnumSet<CombatStaffAttributes> {
+    public fun staffCollect(player: Player, random: GameRandom): EnumSet<CombatStaffAttributes> {
         val attributes = EnumSet.noneOf(CombatStaffAttributes::class.java)
+
+        val ring = player.ring
+        if (ring.isType(objs.brimstone_ring) && random.randomBoolean(4)) {
+            attributes += CombatStaffAttributes.BrimstonePassive
+        }
 
         if (player.skullIcon == constants.skullicon_forinthry_surge) {
             attributes += CombatStaffAttributes.ForinthrySurge

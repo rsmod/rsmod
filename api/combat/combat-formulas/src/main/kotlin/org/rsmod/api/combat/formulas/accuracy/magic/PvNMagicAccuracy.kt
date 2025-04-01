@@ -8,9 +8,11 @@ import org.rsmod.api.combat.commons.magic.Spellbook
 import org.rsmod.api.combat.formulas.accuracy.AccuracyOperations
 import org.rsmod.api.combat.formulas.attributes.CombatNpcAttributes
 import org.rsmod.api.combat.formulas.attributes.CombatSpellAttributes
+import org.rsmod.api.combat.formulas.attributes.CombatStaffAttributes
 import org.rsmod.api.combat.formulas.attributes.collector.CombatMagicAttributeCollector
 import org.rsmod.api.combat.formulas.attributes.collector.CombatNpcAttributeCollector
 import org.rsmod.api.combat.formulas.isSlayerTask
+import org.rsmod.api.combat.formulas.scale
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.player.bonus.WornBonuses
 import org.rsmod.api.random.GameRandom
@@ -77,7 +79,7 @@ constructor(
             )
 
         val amascutInvocationLvl = 0 // TODO(combat): Create varp.
-        val defenceRoll =
+        val baseDefenceRoll =
             computeDefenceRoll(
                 target = target,
                 targetDefence = targetDefence,
@@ -85,6 +87,7 @@ constructor(
                 amascutInvocationLvl = amascutInvocationLvl,
                 npcAttributes = npcAttributes,
             )
+        val defenceRoll = modifySpellDefenceRoll(baseDefenceRoll, spellAttributes)
 
         return AccuracyOperations.calculateHitChance(attackRoll, defenceRoll)
     }
@@ -102,6 +105,60 @@ constructor(
             attackRoll = attackRoll,
             targetWeaknessPercent = targetWeaknessPercent,
             spellAttributes = spellAttributes,
+            npcAttributes = npcAttributes,
+        )
+    }
+
+    public fun getStaffHitChance(player: Player, target: Npc): Int =
+        computeStaffHitChance(
+            source = player,
+            target = target.visType,
+            targetDefence = target.defenceLvl,
+            targetCurrHp = target.hitpoints,
+            targetMaxHp = target.baseHitpointsLvl,
+            targetMagic = target.magicLvl,
+        )
+
+    public fun computeStaffHitChance(
+        source: Player,
+        target: UnpackedNpcType,
+        targetDefence: Int,
+        targetCurrHp: Int,
+        targetMaxHp: Int,
+        targetMagic: Int,
+    ): Int {
+        val staffAttributes = magicAttributes.staffCollect(source, random)
+
+        val slayerTask = target.isSlayerTask(source)
+        val npcAttributes = npcAttributes.collect(target, targetCurrHp, targetMaxHp, slayerTask)
+
+        val attackRoll = computeStaffAttackRoll(source, staffAttributes, npcAttributes)
+
+        val amascutInvocationLvl = 0 // TODO(combat): Create varp.
+        val baseDefenceRoll =
+            computeDefenceRoll(
+                target = target,
+                targetDefence = targetDefence,
+                targetMagic = targetMagic,
+                amascutInvocationLvl = amascutInvocationLvl,
+                npcAttributes = npcAttributes,
+            )
+        val defenceRoll = modifyStaffDefenceRoll(baseDefenceRoll, staffAttributes)
+
+        return AccuracyOperations.calculateHitChance(attackRoll, defenceRoll)
+    }
+
+    public fun computeStaffAttackRoll(
+        source: Player,
+        staffAttributes: EnumSet<CombatStaffAttributes>,
+        npcAttributes: EnumSet<CombatNpcAttributes>,
+    ): Int {
+        val effectiveMagic = MagicAccuracyOperations.calculateEffectiveMagic(source, null)
+        val magicBonus = bonuses.offensiveMagicBonus(source)
+        val attackRoll = PlayerMagicAccuracy.calculateBaseAttackRoll(effectiveMagic, magicBonus)
+        return MagicAccuracyOperations.modifyStaffAttackRoll(
+            attackRoll = attackRoll,
+            staffAttributes = staffAttributes,
             npcAttributes = npcAttributes,
         )
     }
@@ -127,5 +184,31 @@ constructor(
             amascutInvocationLvl = amascutInvocationLvl,
             npcAttributes = npcAttributes,
         )
+    }
+
+    private fun modifyDefenceRoll(defenceRoll: Int, brimstonePassive: Boolean): Int {
+        var modified = defenceRoll
+
+        if (brimstonePassive) {
+            modified = scale(modified, multiplier = 9, divisor = 10)
+        }
+
+        return modified
+    }
+
+    private fun modifySpellDefenceRoll(
+        defenceRoll: Int,
+        spellAttributes: EnumSet<CombatSpellAttributes>,
+    ): Int {
+        val brimstonePassive = CombatSpellAttributes.BrimstonePassive in spellAttributes
+        return modifyDefenceRoll(defenceRoll, brimstonePassive)
+    }
+
+    private fun modifyStaffDefenceRoll(
+        defenceRoll: Int,
+        spellAttributes: EnumSet<CombatStaffAttributes>,
+    ): Int {
+        val brimstonePassive = CombatStaffAttributes.BrimstonePassive in spellAttributes
+        return modifyDefenceRoll(defenceRoll, brimstonePassive)
     }
 }

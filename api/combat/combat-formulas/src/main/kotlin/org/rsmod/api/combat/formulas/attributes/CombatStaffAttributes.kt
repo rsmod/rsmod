@@ -8,4 +8,5 @@ public enum class CombatStaffAttributes {
     BlackMaskI,
     TumekensShadow,
     RevenantWeapon,
+    BrimstonePassive,
 }

@@ -1228,6 +1228,27 @@ constructor(
     ): IntRange = TODO() // TODO(combat)
 
     /**
+     * Determines whether the **built-in spell** from a **powered staff** used by [source] will
+     * successfully hit [target].
+     *
+     * This function performs an accuracy roll by comparing [source]'s magic attack roll with
+     * [target]'s magic defence roll.
+     *
+     * @return `true` if the accuracy roll succeeds (the spell will "land"), `false` otherwise.
+     */
+    public fun rollStaffAccuracy(source: Player, target: PathingEntity): Boolean =
+        when (target) {
+            is Npc -> rollStaffAccuracy(source, target)
+            is Player -> rollStaffAccuracy(source, target)
+        }
+
+    private fun rollStaffAccuracy(source: Player, target: Npc): Boolean =
+        accuracy.rollStaffAccuracy(player = source, target = target, random)
+
+    private fun rollStaffAccuracy(source: Player, target: Player): Boolean =
+        TODO() // TODO(combat): pvp accuracy
+
+    /**
      * Queues a magic hit on [target], applying damage after the specified [hitDelay].
      *
      * In addition to scheduling the hit, this also triggers the appropriate defensive animations
