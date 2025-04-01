@@ -66,11 +66,11 @@ constructor(
     public fun getRangedMaxHit(npc: Npc, target: Player): Int =
         nvpRangedMaxHit.getMaxHit(npc, target)
 
-    public fun getMagicSpellMaxHitRange(
+    public fun getSpellMaxHitRange(
         player: Player,
         target: Npc,
         spell: ObjType,
-        spellbook: Spellbook,
+        spellbook: Spellbook?,
         baseMaxHit: Int,
         attackRate: Int,
         usedSunfireRune: Boolean,

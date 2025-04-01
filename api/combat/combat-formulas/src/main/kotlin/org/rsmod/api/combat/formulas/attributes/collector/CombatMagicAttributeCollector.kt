@@ -35,7 +35,7 @@ public class CombatMagicAttributeCollector @Inject constructor(private val objTy
     public fun spellCollect(
         player: Player,
         spell: ObjType,
-        spellbook: Spellbook,
+        spellbook: Spellbook?,
         usedSunfireRune: Boolean,
         random: GameRandom,
     ): EnumSet<CombatSpellAttributes> {

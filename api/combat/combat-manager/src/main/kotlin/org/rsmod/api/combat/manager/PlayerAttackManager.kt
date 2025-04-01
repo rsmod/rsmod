@@ -5,6 +5,7 @@ import kotlin.math.min
 import org.rsmod.api.combat.commons.CombatAttack
 import org.rsmod.api.combat.commons.fx.MeleeAnimationAndSound
 import org.rsmod.api.combat.commons.magic.MagicSpell
+import org.rsmod.api.combat.commons.magic.Spellbook
 import org.rsmod.api.combat.commons.npc.combatPlayDefendAnim
 import org.rsmod.api.combat.commons.npc.combatPlayDefendSpot
 import org.rsmod.api.combat.commons.npc.queueCombatRetaliate
@@ -129,7 +130,7 @@ constructor(
     }
 
     /**
-     * Maintains combat engagement with the given [Npc] by invoking `opnpct` using the given
+     * Maintains combat engagement with the given [Npc] by invoking `opnpct` using the
      * [MagicSpell.component] as the interaction component.
      *
      * This ensures that the combat interaction between [source] and [target] remains active. If not
@@ -1054,6 +1055,177 @@ constructor(
         target.heroPoints(source, min(hit.damage, target.hitpoints))
         return hit
     }
+
+    /**
+     * Determines whether a magic spell cast by [source] will successfully hit [target].
+     *
+     * This function performs an accuracy roll by comparing [source]'s magic attack roll with
+     * [target]'s magic defence roll.
+     *
+     * @param spell The [ObjType] representing the spell being cast (e.g., `objs.spell_wind_strike`
+     *   for the Wind Strike spell).
+     * @param spellbook The [Spellbook] the spell belongs to (e.g., Standard or Ancients), usually
+     *   derived from the player's current spellbook.
+     * @param sunfireRune Set to `true` if the spell was cast using a Sunfire rune.
+     * @return `true` if the accuracy roll succeeds (the spell will "land"), `false` otherwise.
+     */
+    public fun rollSpellAccuracy(
+        source: Player,
+        target: PathingEntity,
+        spell: ObjType,
+        spellbook: Spellbook?,
+        sunfireRune: Boolean,
+    ): Boolean =
+        when (target) {
+            is Npc -> rollSpellAccuracy(source, target, spell, spellbook, sunfireRune)
+            is Player -> rollSpellAccuracy(source, target, spell, spellbook, sunfireRune)
+        }
+
+    private fun rollSpellAccuracy(
+        source: Player,
+        target: Npc,
+        spell: ObjType,
+        spellbook: Spellbook?,
+        sunfireRune: Boolean,
+    ): Boolean =
+        accuracy.rollSpellAccuracy(
+            player = source,
+            target = target,
+            spell = spell,
+            spellbook = spellbook,
+            usedSunfireRune = sunfireRune,
+            random = random,
+        )
+
+    private fun rollSpellAccuracy(
+        source: Player,
+        target: Player,
+        spell: ObjType,
+        spellbook: Spellbook?,
+        sunfireRune: Boolean,
+    ): Boolean = TODO() // TODO(combat): pvp accuracy
+
+    /**
+     * Rolls a magic spell damage value between the minimum and maximum possible spell hit.
+     *
+     * This function first calculates the minimum and maximum hit by calling [calculateSpellMaxHit],
+     * then rolls a random value within that range. The minimum hit is usually `0`; however, certain
+     * modifiers - such as one enabled through [sunfireRune] - can affect this value.
+     *
+     * @param spell The [ObjType] representing the spell being cast (e.g., `objs.spell_wind_strike`
+     *   for the Wind strike spell).
+     * @param spellbook The [Spellbook] the spell belongs to (e.g., Standard or Ancients), usually
+     *   derived from the player's current spellbook.
+     * @param baseMaxHit The spell's base max hit, used as a baseline for calculating the maximum
+     *   (and minimum, when applicable) hit.
+     * @param attackRate The delay in server cycles at which the player is currently attacking. This
+     *   is usually `5` for spell attacks.
+     * @param sunfireRune Set to `true` if the spell was cast using a Sunfire rune. Sunfire runes
+     *   apply modifiers, such as increasing the minimum hit for Fire-based spells.
+     * @return A random damage value between the calculated minimum and maximum hit.
+     */
+    public fun rollSpellMaxHit(
+        source: Player,
+        target: PathingEntity,
+        spell: ObjType,
+        spellbook: Spellbook?,
+        baseMaxHit: Int,
+        attackRate: Int,
+        sunfireRune: Boolean,
+    ): Int {
+        val hitRange =
+            calculateSpellMaxHit(
+                source = source,
+                target = target,
+                spell = spell,
+                spellbook = spellbook,
+                baseMaxHit = baseMaxHit,
+                attackRate = attackRate,
+                sunfireRune = sunfireRune,
+            )
+        return random.of(hitRange)
+    }
+
+    /**
+     * Calculates the minimum and maximum magic spell hit that [source] can deal to [target].
+     *
+     * The hit range is determined based on the spell's base max hit, the player's attack speed,
+     * spellbook, and other modifiers - such as the use of a Sunfire rune. The minimum hit is
+     * usually `0`; however, modifiers like Sunfire runes can increase the lower bound for certain
+     * spells.
+     *
+     * @param spell The [ObjType] representing the spell being cast (e.g., `objs.spell_wind_strike`
+     *   for the Wind Strike spell).
+     * @param spellbook The [Spellbook] the spell belongs to (e.g., Standard or Ancients), usually
+     *   derived from the player's current spellbook.
+     * @param baseMaxHit The spell's base max hit, used as a baseline for calculating the maximum
+     *   (and minimum, when applicable) hit.
+     * @param attackRate The delay in server cycles at which the player is currently attacking. This
+     *   is usually `5` for spell attacks.
+     * @param sunfireRune Set to `true` if the spell was cast using a Sunfire rune. Sunfire runes
+     *   apply modifiers, such as increasing the minimum hit for Fire-based spells.
+     * @return A range representing the minimum and maximum possible hit values for the spell.
+     */
+    public fun calculateSpellMaxHit(
+        source: Player,
+        target: PathingEntity,
+        spell: ObjType,
+        spellbook: Spellbook?,
+        baseMaxHit: Int,
+        attackRate: Int,
+        sunfireRune: Boolean,
+    ): IntRange =
+        when (target) {
+            is Npc ->
+                calculateSpellMaxHit(
+                    source = source,
+                    target = target,
+                    spell = spell,
+                    spellbook = spellbook,
+                    baseMaxHit = baseMaxHit,
+                    attackRate = attackRate,
+                    sunfireRune = sunfireRune,
+                )
+            is Player ->
+                calculateSpellMaxHit(
+                    source = source,
+                    target = target,
+                    spell = spell,
+                    spellbook = spellbook,
+                    baseMaxHit = baseMaxHit,
+                    attackRate = attackRate,
+                    sunfireRune = sunfireRune,
+                )
+        }
+
+    private fun calculateSpellMaxHit(
+        source: Player,
+        target: Npc,
+        spell: ObjType,
+        spellbook: Spellbook?,
+        baseMaxHit: Int,
+        attackRate: Int,
+        sunfireRune: Boolean,
+    ): IntRange =
+        maxHits.getSpellMaxHitRange(
+            player = source,
+            target = target,
+            spell = spell,
+            spellbook = spellbook,
+            baseMaxHit = baseMaxHit,
+            attackRate = attackRate,
+            usedSunfireRune = sunfireRune,
+        )
+
+    private fun calculateSpellMaxHit(
+        source: Player,
+        target: Player,
+        spell: ObjType,
+        spellbook: Spellbook?,
+        baseMaxHit: Int,
+        attackRate: Int,
+        sunfireRune: Boolean,
+    ): IntRange = TODO() // TODO(combat)
 
     /**
      * Queues a magic hit on [target], applying damage after the specified [hitDelay].

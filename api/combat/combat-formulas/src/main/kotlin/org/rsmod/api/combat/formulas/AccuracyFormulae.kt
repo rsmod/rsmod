@@ -230,24 +230,24 @@ constructor(
      * npc's magic defence, then uses a value from the random number generator ([random]) to
      * determine if the spell hits.
      *
-     * @param spell The [ObjType] representing the spell being cast. (e.g., `objs.spell_wind_strike`
-     *   for the Wind strike spell)
-     * @param spellbook The [Spellbook] the spell belongs to, e.g., Standard or Ancients, usually
+     * @param spell The [ObjType] representing the spell being cast (e.g., `objs.spell_wind_strike`
+     *   for the Wind strike spell).
+     * @param spellbook The [Spellbook] the spell belongs to (e.g., Standard or Ancients), usually
      *   derived from the player's current spellbook.
      * @param usedSunfireRune Whether the player used a Sunfire rune for the spell.
      * @param random A [GameRandom] instance used to generate a random number for the hit roll.
      * @return `true` if the attack is successful (i.e., the hit chance exceeds the random roll),
      *   `false` otherwise.
      */
-    public fun rollMagicSpellAccuracy(
+    public fun rollSpellAccuracy(
         player: Player,
         target: Npc,
         spell: ObjType,
-        spellbook: Spellbook,
+        spellbook: Spellbook?,
         usedSunfireRune: Boolean,
         random: GameRandom,
     ): Boolean {
-        val hitChance = getMagicSpellHitChance(player, target, spell, spellbook, usedSunfireRune)
+        val hitChance = getSpellHitChance(player, target, spell, spellbook, usedSunfireRune)
         return isSuccessfulHit(hitChance, random)
     }
 
@@ -255,19 +255,19 @@ constructor(
      * Calculates the magic spell hit chance based on the [player]'s magic attack roll and the
      * [target]'s magic defence roll.
      *
-     * @param spell The [ObjType] representing the spell being cast. (e.g., `objs.spell_wind_strike`
-     *   for the Wind strike spell)
-     * @param spellbook The [Spellbook] the spell belongs to, e.g., Standard or Ancients, usually
+     * @param spell The [ObjType] representing the spell being cast (e.g., `objs.spell_wind_strike`
+     *   for the Wind strike spell).
+     * @param spellbook The [Spellbook] the spell belongs to (e.g., Standard or Ancients), usually
      *   derived from the player's current spellbook.
      * @param usedSunfireRune Whether the player used a Sunfire rune for the spell.
      * @return An integer between `0` and `10,000`, where `0` represents a `0%` hit chance, `1`
      *   represents a `0.01%` hit chance, and `10,000` represents a `100%` hit chance.
      */
-    public fun getMagicSpellHitChance(
+    public fun getSpellHitChance(
         player: Player,
         target: Npc,
         spell: ObjType,
-        spellbook: Spellbook,
+        spellbook: Spellbook?,
         usedSunfireRune: Boolean,
     ): Int =
         pvnMagicAccuracy.getSpellHitChance(

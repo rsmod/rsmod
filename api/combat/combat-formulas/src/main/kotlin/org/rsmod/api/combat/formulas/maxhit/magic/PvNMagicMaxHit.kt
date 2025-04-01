@@ -33,7 +33,7 @@ constructor(
         player: Player,
         target: Npc,
         spell: ObjType,
-        spellbook: Spellbook,
+        spellbook: Spellbook?,
         baseMaxHit: Int,
         attackRate: Int,
         usedSunfireRune: Boolean,
@@ -66,7 +66,7 @@ constructor(
         targetWeaknessPercent: Int,
         baseMaxHit: Int,
         attackRate: Int,
-        spellbook: Spellbook,
+        spellbook: Spellbook?,
         usedSunfireRune: Boolean,
     ): IntRange {
         val spellAttributes =

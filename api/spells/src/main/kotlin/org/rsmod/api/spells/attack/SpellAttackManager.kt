@@ -4,8 +4,10 @@ import jakarta.inject.Inject
 import org.rsmod.api.combat.commons.CombatAttack
 import org.rsmod.api.combat.commons.magic.MagicSpell
 import org.rsmod.api.combat.manager.MagicRuneManager
+import org.rsmod.api.combat.manager.MagicRuneManager.Companion.consumedRune
 import org.rsmod.api.combat.manager.MagicRuneManager.Companion.isFailure
 import org.rsmod.api.combat.manager.PlayerAttackManager
+import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.stats
 import org.rsmod.api.config.refs.varbits
 import org.rsmod.api.player.protect.ProtectedAccess
@@ -99,6 +101,59 @@ constructor(private val manager: PlayerAttackManager, private val runes: MagicRu
     ) {
         manager.giveCombatXp(source.player, target, attack, damage)
     }
+
+    /** @see [PlayerAttackManager.rollSpellAccuracy] */
+    public fun rollSpellAccuracy(
+        source: ProtectedAccess,
+        target: PathingEntity,
+        attack: CombatAttack.Spell,
+        castResult: MagicRuneManager.CastResult,
+    ): Boolean =
+        manager.rollSpellAccuracy(
+            source = source.player,
+            target = target,
+            spell = attack.spell.obj,
+            spellbook = attack.spell.spellbook,
+            sunfireRune = castResult.consumedRune() && castResult.usedSunfire,
+        )
+
+    /** @see [PlayerAttackManager.rollSpellMaxHit] */
+    public fun rollSpellMaxHit(
+        source: ProtectedAccess,
+        target: PathingEntity,
+        attack: CombatAttack.Spell,
+        castResult: MagicRuneManager.CastResult,
+        baseMaxHit: Int,
+        attackRate: Int = constants.combat_spell_attackrate,
+    ): Int =
+        manager.rollSpellMaxHit(
+            source = source.player,
+            target = target,
+            spell = attack.spell.obj,
+            spellbook = attack.spell.spellbook,
+            baseMaxHit = baseMaxHit,
+            attackRate = attackRate,
+            sunfireRune = castResult.consumedRune() && castResult.usedSunfire,
+        )
+
+    /** @see [PlayerAttackManager.calculateSpellMaxHit] */
+    public fun calculateSpellMaxHit(
+        source: ProtectedAccess,
+        target: PathingEntity,
+        attack: CombatAttack.Spell,
+        cast: MagicRuneManager.CastResult,
+        baseMaxHit: Int,
+        attackRate: Int = constants.combat_spell_attackrate,
+    ): IntRange =
+        manager.calculateSpellMaxHit(
+            source = source.player,
+            target = target,
+            spell = attack.spell.obj,
+            spellbook = attack.spell.spellbook,
+            baseMaxHit = baseMaxHit,
+            attackRate = attackRate,
+            sunfireRune = cast.consumedRune() && cast.usedSunfire,
+        )
 
     /**
      * Queues a **non-splash** hit on [target]. Unlike splash hits, this will queue auto-retaliation

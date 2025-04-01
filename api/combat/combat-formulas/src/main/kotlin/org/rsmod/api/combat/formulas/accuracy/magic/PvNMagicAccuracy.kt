@@ -31,7 +31,7 @@ constructor(
         player: Player,
         target: Npc,
         spell: ObjType,
-        spellbook: Spellbook,
+        spellbook: Spellbook?,
         usedSunfireRune: Boolean,
     ): Int {
         val targetType = target.visType
@@ -59,7 +59,7 @@ constructor(
         targetMaxHp: Int,
         targetMagic: Int,
         targetWeaknessPercent: Int,
-        spellbook: Spellbook,
+        spellbook: Spellbook?,
         usedSunfireRune: Boolean,
     ): Int {
         val spellAttributes =
