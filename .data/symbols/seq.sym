@@ -92,7 +92,6 @@
 4071	human_tabtele
 
 24	human_woodcutting_dragon_axe_or
-711	human_caststrike
 867	human_woodcutting_rune_axe
 869	human_woodcutting_adamant_axe
 871	human_woodcutting_mithril_axe
@@ -107,6 +106,12 @@
 8303	human_woodcutting_gilded_axe
 8324	human_woodcutting_crystal_axe
 12026	human_woodcutting_infernal_axe_or
+
+711	human_caststrike
+727	human_castwave
+1162	staff_caststrike
+1167	staff_castwave
+7855	human_castsurge
 
 334	spec_rock_knocker_dragon_pickaxe_upgraded
 1058	spec_dragon_longsword

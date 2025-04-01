@@ -29,12 +29,16 @@ constructor(private val manager: PlayerAttackManager, private val runes: MagicRu
      * Checks and **consumes** any requirements for [CombatAttack.Spell.spell], delegating to
      * [MagicRuneManager.attemptCast].
      *
-     * _Note: If the spell cannot be cast, this function will automatically call [clearCombat] to
-     * reset the player's attack delay, since the cast should not proceed._
-     *
-     * This function returns a [MagicRuneManager.CastResult], providing useful context. For example,
-     * if the result is an instance of [MagicRuneManager.CastResult.Success.Consumed], it can be
-     * used to check whether a Sunfire rune was used.
+     * **Notes:**
+     * - If the spell cannot be cast, this function automatically calls [clearCombat] to reset the
+     *   player's attack delay, since the cast should not proceed.
+     * - If the spell can be cast, this function automatically calls [giveCastXp], awarding the
+     *   player the [MagicSpell.castXp] cast experience from [attack].
+     * - This does **not** include the experience for any damage that should be dealt to the target.
+     *   That is handled separately by calling [giveCombatXp].
+     * - This function returns a [MagicRuneManager.CastResult], providing useful context. For
+     *   example, if the result is an instance of [MagicRuneManager.CastResult.Success.Consumed], it
+     *   can be used to check whether a Sunfire rune was used.
      *
      * #### Example Usage:
      * ```
@@ -56,9 +60,13 @@ constructor(private val manager: PlayerAttackManager, private val runes: MagicRu
         attack: CombatAttack.Spell,
     ): MagicRuneManager.CastResult {
         val castResult = runes.attemptCast(source.player, attack.spell)
+
         if (castResult.isFailure()) {
             clearCombat(source)
+            return castResult
         }
+
+        giveCastXp(source, attack)
         return castResult
     }
 
@@ -102,6 +110,21 @@ constructor(private val manager: PlayerAttackManager, private val runes: MagicRu
         manager.giveCombatXp(source.player, target, attack, damage)
     }
 
+    /**
+     * Determines whether the magic spell cast by [source] will splash on [target].
+     *
+     * This is a helper function that inverts the result of [rollSpellAccuracy], returning `true` if
+     * the spell misses (i.e., "splashes") and `false` if it hits successfully.
+     *
+     * @see rollSpellAccuracy
+     */
+    public fun rollSplash(
+        source: ProtectedAccess,
+        target: PathingEntity,
+        attack: CombatAttack.Spell,
+        castResult: MagicRuneManager.CastResult,
+    ): Boolean = !rollSpellAccuracy(source, target, attack, castResult)
+
     /** @see [PlayerAttackManager.rollSpellAccuracy] */
     public fun rollSpellAccuracy(
         source: ProtectedAccess,
@@ -118,7 +141,7 @@ constructor(private val manager: PlayerAttackManager, private val runes: MagicRu
         )
 
     /** @see [PlayerAttackManager.rollSpellMaxHit] */
-    public fun rollSpellMaxHit(
+    public fun rollMaxHit(
         source: ProtectedAccess,
         target: PathingEntity,
         attack: CombatAttack.Spell,
@@ -137,7 +160,7 @@ constructor(private val manager: PlayerAttackManager, private val runes: MagicRu
         )
 
     /** @see [PlayerAttackManager.calculateSpellMaxHit] */
-    public fun calculateSpellMaxHit(
+    public fun calculateMaxHit(
         source: ProtectedAccess,
         target: PathingEntity,
         attack: CombatAttack.Spell,
@@ -242,22 +265,4 @@ constructor(private val manager: PlayerAttackManager, private val runes: MagicRu
         spotanim: SpotanimType,
         projanim: ProjAnimType,
     ): ProjAnim = manager.spawnProjectile(source.player, target, spotanim, projanim)
-
-    /** @see [PlayerAttackManager.soundArea] */
-    public fun soundArea(
-        source: PathingEntity,
-        synth: SynthType,
-        delay: Int = 0,
-        loops: Int = 1,
-        radius: Int = 5,
-        size: Int = 0,
-    ): Unit =
-        manager.soundArea(
-            source.coords,
-            synth = synth,
-            delay = delay,
-            loops = loops,
-            radius = radius,
-            size = size,
-        )
 }

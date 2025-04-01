@@ -174,3 +174,11 @@
 3734	darkbow_fire
 3736	darkbow_shadow_attack
 3737	darkbow_shadow_impact
+4025	earthsurge_cast_and_fire
+4026	earthsurge_hit
+4027	windsurge_hit
+4028	windsurge_cast_and_fire
+4029	watersurge_hit
+4030	watersurge_cast_and_fire
+4031	firesurge_hit
+4032	firesurge_cast_and_fire

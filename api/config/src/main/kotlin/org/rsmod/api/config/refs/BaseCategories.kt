@@ -7,6 +7,7 @@ import org.rsmod.api.type.refs.category.CategoryReferences
 typealias categories = BaseCategories
 
 object BaseCategories : CategoryReferences() {
+    val staff = find("staff")
     val throwing_weapon = find("throwing_weapon")
     val spear = find("spear")
     val crossbow = find("crossbow")

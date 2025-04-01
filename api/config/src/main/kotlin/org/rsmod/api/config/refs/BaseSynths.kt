@@ -179,4 +179,12 @@ object BaseSynths : SynthReferences() {
     val darkbow_fire = find("darkbow_fire")
     val darkbow_shadow_attack = find("darkbow_shadow_attack")
     val darkbow_shadow_impact = find("darkbow_shadow_impact")
+    val earthsurge_cast_and_fire = find("earthsurge_cast_and_fire")
+    val earthsurge_hit = find("earthsurge_hit")
+    val windsurge_hit = find("windsurge_hit")
+    val windsurge_cast_and_fire = find("windsurge_cast_and_fire")
+    val watersurge_hit = find("watersurge_hit")
+    val watersurge_cast_and_fire = find("watersurge_cast_and_fire")
+    val firesurge_hit = find("firesurge_hit")
+    val firesurge_cast_and_fire = find("firesurge_cast_and_fire")
 }
