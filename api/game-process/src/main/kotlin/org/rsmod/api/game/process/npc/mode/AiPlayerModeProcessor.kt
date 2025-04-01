@@ -11,13 +11,22 @@ import org.rsmod.game.interact.InteractionPlayer
 public class AiPlayerModeProcessor
 @Inject
 constructor(private val playerList: PlayerList, private val interactions: AiPlayerInteractions) {
-    public fun process(npc: Npc, op: InteractionOp) {
+    public fun processOp(npc: Npc, op: InteractionOp) {
         val target = npc.resolveTarget()
         if (target == null) {
             npc.resetMode()
             return
         }
-        interactions.interact(npc, target, op)
+        interactions.interactOp(npc, target, op)
+    }
+
+    public fun processAp(npc: Npc, op: InteractionOp) {
+        val target = npc.resolveTarget()
+        if (target == null) {
+            npc.resetMode()
+            return
+        }
+        interactions.interactAp(npc, target, op)
     }
 
     private fun Npc.resolveTarget(): Player? {

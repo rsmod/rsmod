@@ -28,7 +28,6 @@ import org.rsmod.game.interact.InteractionNpcT
 import org.rsmod.game.interact.InteractionObj
 import org.rsmod.game.interact.InteractionPlayer
 import org.rsmod.game.interact.InteractionPlayerOp
-import org.rsmod.game.movement.RouteRequestPathingEntity
 import org.rsmod.interact.InteractionStep
 import org.rsmod.interact.InteractionTarget
 import org.rsmod.interact.Interactions
@@ -85,7 +84,11 @@ constructor(
             return
         }
 
-        npc.postMovementInteraction(interaction)
+        // If the interaction did not go through during pre-movement, attempt to complete it now
+        // after the npc's movement has been processed.
+        if (!interaction.interacted) {
+            npc.postMovementInteraction(interaction)
+        }
     }
 
     private fun Npc.preMovementInteraction(interaction: Interaction): Unit =
@@ -95,13 +98,6 @@ constructor(
 
             val step = determinePreMovementStep(this)
             processInteractionStep(interaction, step)
-
-            // It is important to re-route towards pathing entity targets. Without this,
-            // interactions such as combat ap will not continue "following" a moving
-            // target that steps out of the valid ap range.
-            if (!interaction.interacted) {
-                routeToPathingTarget(interaction)
-            }
         }
 
     private fun Npc.postMovementInteraction(interaction: Interaction): Unit =
@@ -118,25 +114,12 @@ constructor(
                     interacted = true
                 }
                 InteractionStep.TriggerScriptAp -> {
-                    val cachedWaypoints = routeDestination.waypoints.toList()
-                    val cachedRecalc = routeDestination.recalcRequest
                     abortRoute()
-
-                    apRangeCalled = false
                     triggerAp(interaction)
                     interacted = true
-
-                    val newInteractionSet = this@processInteractionStep.interaction != interaction
-                    if (newInteractionSet) {
-                        abortRoute()
-                    } else if (apRangeCalled) {
-                        routeDestination.recalcRequest = cachedRecalc
-                        routeDestination.addAll(cachedWaypoints)
-                        interacted = false
-                    }
                 }
                 InteractionStep.TriggerEngineAp -> {
-                    apRange = -1
+                    /* no-op */
                 }
                 InteractionStep.TriggerEngineOp -> {
                     defaultMode()
@@ -145,18 +128,6 @@ constructor(
                 InteractionStep.Continue -> {
                     /* no-op */
                 }
-            }
-        }
-
-    private fun Npc.routeToPathingTarget(interaction: Interaction): Unit =
-        when (interaction) {
-            is InteractionNpc -> routeTo(interaction)
-            is InteractionPlayer -> routeTo(interaction)
-            is InteractionLoc -> {
-                /* no-op */
-            }
-            is InteractionObj -> {
-                /* no-op */
             }
         }
 
@@ -266,14 +237,6 @@ constructor(
         return isWithinApRange
     }
 
-    private fun Npc.routeTo(interaction: InteractionNpc) {
-        if (isWithinOpRange(interaction)) {
-            return
-        }
-        val routeRequest = RouteRequestPathingEntity(interaction.target.avatar)
-        this.routeRequest = routeRequest
-    }
-
     /* Obj interactions */
     private fun Npc.preMovementStep(interaction: InteractionObj): InteractionStep =
         Interactions.earlyStep(
@@ -341,14 +304,6 @@ constructor(
                 distance = interaction.apRange,
             )
         return isWithinApRange
-    }
-
-    private fun Npc.routeTo(interaction: InteractionPlayer) {
-        if (isWithinOpRange(interaction)) {
-            return
-        }
-        val routeRequest = RouteRequestPathingEntity(interaction.target.avatar)
-        this.routeRequest = routeRequest
     }
 
     /* Utility functions */

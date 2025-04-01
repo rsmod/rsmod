@@ -424,28 +424,6 @@ public class StandardNpcAccess(
 
     public fun distanceTo(loc: BoundLocInfo): Int = npc.distanceTo(loc)
 
-    public fun apRange(distance: Int) {
-        val interaction = npc.interaction ?: return
-        interaction.apRange = distance
-        interaction.apRangeCalled = true
-    }
-
-    public fun isWithinApRange(loc: BoundLocInfo, distance: Int): Boolean {
-        if (!isWithinDistance(loc, distance)) {
-            apRange(distance)
-            return false
-        }
-        return true
-    }
-
-    public fun isWithinApRange(target: PathingEntity, distance: Int): Boolean {
-        if (!isWithinDistance(target, distance)) {
-            apRange(distance)
-            return false
-        }
-        return true
-    }
-
     /**
      * Returns the param value associated with [param] from the **base** `npc` [Npc.type], or `null`
      * if the type does not have a value associated with [param] and [param] does not have a

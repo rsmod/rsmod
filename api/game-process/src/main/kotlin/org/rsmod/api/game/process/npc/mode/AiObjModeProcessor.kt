@@ -8,13 +8,22 @@ import org.rsmod.game.interact.InteractionOp
 import org.rsmod.game.obj.Obj
 
 public class AiObjModeProcessor @Inject constructor(private val interactions: AiObjInteractions) {
-    public fun process(npc: Npc, op: InteractionOp) {
+    public fun processOp(npc: Npc, op: InteractionOp) {
         val target = npc.resolveTarget()
         if (target == null) {
             npc.resetMode()
             return
         }
-        interactions.interact(npc, target, op)
+        interactions.interactOp(npc, target, op)
+    }
+
+    public fun processAp(npc: Npc, op: InteractionOp) {
+        val target = npc.resolveTarget()
+        if (target == null) {
+            npc.resetMode()
+            return
+        }
+        interactions.interactAp(npc, target, op)
     }
 
     private fun Npc.resolveTarget(): Obj? {

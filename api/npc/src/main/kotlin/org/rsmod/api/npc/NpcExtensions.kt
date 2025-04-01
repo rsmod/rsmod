@@ -33,7 +33,12 @@ public fun Npc.isOutOfCombat(): Boolean = !isInCombat()
 
 public fun Npc.opPlayer2(target: Player, interactions: AiPlayerInteractions) {
     opPlayer(target, NpcMode.OpPlayer2)
-    interactions.interact(this, target, InteractionOp.Op2)
+    interactions.interactOp(this, target, InteractionOp.Op2)
+}
+
+public fun Npc.apPlayer2(target: Player, interactions: AiPlayerInteractions) {
+    opPlayer(target, NpcMode.ApPlayer2)
+    interactions.interactAp(this, target, InteractionOp.Op2)
 }
 
 private fun Npc.opPlayer(target: Player, mode: NpcMode) {

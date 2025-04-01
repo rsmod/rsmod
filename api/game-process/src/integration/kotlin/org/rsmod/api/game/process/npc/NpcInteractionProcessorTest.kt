@@ -38,7 +38,7 @@ class NpcInteractionProcessorTest {
             val npc = spawnNpc(npcCoord, man)
             player.varMoveSpeed = MoveSpeed.Walk
             player.teleport(playerCoord)
-            npc.opPlayer2(player)
+            npc.apPlayer2(player)
 
             // Easy way of keeping track of target player for npc ap script.
             npc.vars.backing[0] = player.slotId
@@ -115,11 +115,10 @@ class NpcInteractionProcessorTest {
             val target = playerList[targetSlot]
 
             checkNotNull(target) { "Invalid target with assigned target slot: $targetSlot" }
+            check(isWithinDistance(target, 7)) { "Expected ap distance to be 7." }
 
-            if (isWithinApRange(target, distance = 7)) {
-                target.mes("Receive attack.")
-                // Npc interactions automatically persist and repeat without `opX` calls.
-            }
+            // Npc interactions automatically persist and repeat without `opX` calls.
+            target.mes("Receive attack.")
         }
     }
 
@@ -129,6 +128,7 @@ class NpcInteractionProcessorTest {
                 name = "Man"
                 op[1] = "Attack"
                 size = 1
+                attackRange = 7
                 maxRange = 100
             }
     }

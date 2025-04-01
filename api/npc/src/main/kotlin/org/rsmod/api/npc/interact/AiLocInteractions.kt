@@ -23,20 +23,30 @@ constructor(
     private val boundValidator: BoundValidator,
     private val eventBus: EventBus,
 ) {
-    public fun interact(
+    public fun interactOp(
         npc: Npc,
         loc: BoundLocInfo,
         op: InteractionOp,
         type: UnpackedLocType = locTypes[loc],
     ) {
         val opTrigger = hasOpTrigger(loc, op, type)
-        val apTrigger = hasApTrigger(loc, op, type)
+        val interaction =
+            InteractionLocOp(target = loc, op = op, hasOpTrigger = opTrigger, hasApTrigger = false)
+        npc.interaction = interaction
+        if (!npc.isWithinOpRange(loc)) {
+            npc.walk(loc.coords)
+        }
+    }
+
+    public fun interactAp(npc: Npc, loc: BoundLocInfo, op: InteractionOp) {
+        val apRange = npc.visType.attackRange
         val interaction =
             InteractionLocOp(
                 target = loc,
                 op = op,
-                hasOpTrigger = opTrigger,
-                hasApTrigger = apTrigger,
+                hasOpTrigger = false,
+                hasApTrigger = true,
+                startApRange = apRange,
             )
         npc.interaction = interaction
         if (!npc.isWithinOpRange(loc)) {
@@ -102,12 +112,6 @@ constructor(
 
         return null
     }
-
-    public fun hasApTrigger(
-        loc: BoundLocInfo,
-        op: InteractionOp,
-        type: UnpackedLocType = locTypes[loc],
-    ): Boolean = apTrigger(loc, op, type) != null
 
     private fun BoundLocInfo.toOp(type: UnpackedLocType, op: InteractionOp): AiLocEvents.Op =
         when (op) {

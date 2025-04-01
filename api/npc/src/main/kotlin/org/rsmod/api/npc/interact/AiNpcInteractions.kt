@@ -18,15 +18,29 @@ import org.rsmod.game.type.npc.UnpackedNpcType
 public class AiNpcInteractions
 @Inject
 constructor(private val npcTypes: NpcTypeList, private val eventBus: EventBus) {
-    public fun interact(npc: Npc, target: Npc, op: InteractionOp) {
+    public fun interactOp(npc: Npc, target: Npc, op: InteractionOp) {
         val opTrigger = hasOpTrigger(target, op)
-        val apTrigger = hasApTrigger(target, op)
         val interaction =
             InteractionNpcOp(
                 target = target,
                 op = op,
                 hasOpTrigger = opTrigger,
-                hasApTrigger = apTrigger,
+                hasApTrigger = false,
+            )
+        val routeRequest = RouteRequestPathingEntity(target.avatar)
+        npc.interaction = interaction
+        npc.routeRequest = routeRequest
+    }
+
+    public fun interactAp(npc: Npc, target: Npc, op: InteractionOp) {
+        val apRange = npc.visType.attackRange
+        val interaction =
+            InteractionNpcOp(
+                target = target,
+                op = op,
+                hasOpTrigger = false,
+                hasApTrigger = true,
+                startApRange = apRange,
             )
         val routeRequest = RouteRequestPathingEntity(target.avatar)
         npc.interaction = interaction
@@ -85,8 +99,6 @@ constructor(private val npcTypes: NpcTypeList, private val eventBus: EventBus) {
 
         return null
     }
-
-    public fun hasApTrigger(target: Npc, op: InteractionOp): Boolean = apTrigger(target, op) != null
 
     private fun Npc.toOp(op: InteractionOp): AiNpcEvents.Op =
         when (op) {

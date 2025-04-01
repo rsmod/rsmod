@@ -30,6 +30,7 @@ import org.rsmod.api.net.rsprot.handlers.MoveGameClickHandler
 import org.rsmod.api.net.rsprot.handlers.OpLocHandler
 import org.rsmod.api.net.rsprot.handlers.OpNpcHandler
 import org.rsmod.api.net.rsprot.handlers.ResumePCountDialogHandler
+import org.rsmod.api.npc.apPlayer2
 import org.rsmod.api.npc.hit.modifier.NpcHitModifier
 import org.rsmod.api.npc.hit.modifier.StandardNpcHitModifier
 import org.rsmod.api.npc.hit.processor.NpcHitProcessor
@@ -453,6 +454,10 @@ constructor(
 
     public fun Npc.opPlayer2(target: Player) {
         opPlayer2(target, aiPlayerInteractions)
+    }
+
+    public fun Npc.apPlayer2(target: Player) {
+        apPlayer2(target, aiPlayerInteractions)
     }
 
     public fun Npc.queueHit(source: Player, delay: Int, type: HitType, damage: Int) {

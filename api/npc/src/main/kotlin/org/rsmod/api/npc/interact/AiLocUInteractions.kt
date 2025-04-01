@@ -112,12 +112,8 @@ private constructor(
         objType: UnpackedObjType,
         invSlot: Int,
     ) {
-        val script = apTrigger(target, locType, objType, invSlot)
-        if (script != null) {
-            eventBus.publish(this, script)
-            return
-        }
-        apRange(-1)
+        val script = apTrigger(target, locType, objType, invSlot) ?: return
+        eventBus.publish(this, script)
     }
 
     private fun apTrigger(

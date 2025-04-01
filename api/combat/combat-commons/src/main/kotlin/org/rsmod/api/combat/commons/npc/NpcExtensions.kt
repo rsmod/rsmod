@@ -5,6 +5,7 @@ import org.rsmod.api.config.refs.params
 import org.rsmod.api.config.refs.queues
 import org.rsmod.api.config.refs.spotanims
 import org.rsmod.api.config.refs.varns
+import org.rsmod.api.npc.apPlayer2
 import org.rsmod.api.npc.interact.AiPlayerInteractions
 import org.rsmod.api.npc.isOutOfCombat
 import org.rsmod.api.npc.opPlayer2
@@ -56,12 +57,12 @@ public fun Npc.combatDefaultRetaliateAp(interactions: AiPlayerInteractions) {
         attackingPlayer = targetUid
         lastAttack = currentMapClock
         if (target != null) {
-            opPlayer2(target, interactions)
+            apPlayer2(target, interactions)
         }
         return
     }
 
-    if (target != null && mode != NpcMode.OpPlayer2) {
+    if (target != null && mode != NpcMode.ApPlayer2) {
         retaliate(target, interactions)
     }
 }

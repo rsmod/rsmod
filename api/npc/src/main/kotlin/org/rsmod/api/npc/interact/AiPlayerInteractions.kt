@@ -17,15 +17,29 @@ import org.rsmod.game.movement.RouteRequestPathingEntity
 public class AiPlayerInteractions
 @Inject
 constructor(private val eventBus: EventBus, private val playerList: PlayerList) {
-    public fun interact(npc: Npc, target: Player, op: InteractionOp) {
+    public fun interactOp(npc: Npc, target: Player, op: InteractionOp) {
         val opTrigger = hasOpTrigger(npc, target, op)
-        val apTrigger = hasApTrigger(npc, target, op)
         val interaction =
             InteractionPlayerOp(
                 target = target,
                 op = op,
                 hasOpTrigger = opTrigger,
-                hasApTrigger = apTrigger,
+                hasApTrigger = false,
+            )
+        val routeRequest = RouteRequestPathingEntity(target.avatar)
+        npc.interaction = interaction
+        npc.routeRequest = routeRequest
+    }
+
+    public fun interactAp(npc: Npc, target: Player, op: InteractionOp) {
+        val apRange = npc.visType.attackRange
+        val interaction =
+            InteractionPlayerOp(
+                target = target,
+                op = op,
+                hasOpTrigger = false,
+                hasApTrigger = true,
+                startApRange = apRange,
             )
         val routeRequest = RouteRequestPathingEntity(target.avatar)
         npc.interaction = interaction
@@ -62,9 +76,6 @@ constructor(private val eventBus: EventBus, private val playerList: PlayerList) 
 
         return null
     }
-
-    public fun hasApTrigger(npc: Npc, target: Player, op: InteractionOp): Boolean =
-        apTrigger(npc, target, op) != null
 
     private fun Player.toOp(npc: Npc, op: InteractionOp): AiPlayerEvents.Op =
         when (op) {

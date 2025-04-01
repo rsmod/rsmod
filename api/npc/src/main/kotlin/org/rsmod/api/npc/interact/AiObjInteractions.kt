@@ -17,20 +17,28 @@ import org.rsmod.game.type.obj.UnpackedObjType
 public class AiObjInteractions
 @Inject
 constructor(private val objTypes: ObjTypeList, private val eventBus: EventBus) {
-    public fun interact(
+    public fun interactOp(
         npc: Npc,
         obj: Obj,
         op: InteractionOp,
         type: UnpackedObjType = objTypes[obj],
     ) {
         val opTrigger = hasOpTrigger(obj, op, type)
-        val apTrigger = hasApTrigger(obj, op, type)
+        val interaction =
+            InteractionObj(target = obj, op = op, hasOpTrigger = opTrigger, hasApTrigger = false)
+        npc.interaction = interaction
+        npc.walk(obj.coords)
+    }
+
+    public fun interactAp(npc: Npc, obj: Obj, op: InteractionOp) {
+        val apRange = npc.visType.attackRange
         val interaction =
             InteractionObj(
                 target = obj,
                 op = op,
-                hasOpTrigger = opTrigger,
-                hasApTrigger = apTrigger,
+                hasOpTrigger = false,
+                hasApTrigger = true,
+                startApRange = apRange,
             )
         npc.interaction = interaction
         npc.walk(obj.coords)
