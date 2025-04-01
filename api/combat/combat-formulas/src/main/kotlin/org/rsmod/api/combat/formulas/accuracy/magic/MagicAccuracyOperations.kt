@@ -2,12 +2,15 @@ package org.rsmod.api.combat.formulas.accuracy.magic
 
 import java.util.EnumSet
 import org.rsmod.api.combat.accuracy.player.PlayerMagicAccuracy
+import org.rsmod.api.combat.commons.styles.AttackStyle
 import org.rsmod.api.combat.commons.styles.MagicAttackStyle
+import org.rsmod.api.combat.formulas.accuracy.AccuracyOperations
 import org.rsmod.api.combat.formulas.attributes.CombatNpcAttributes
 import org.rsmod.api.combat.formulas.attributes.CombatSpellAttributes
 import org.rsmod.api.combat.formulas.attributes.CombatStaffAttributes
 import org.rsmod.api.combat.formulas.scale
 import org.rsmod.api.config.refs.varbits
+import org.rsmod.api.player.stat.defenceLvl
 import org.rsmod.api.player.stat.magicLvl
 import org.rsmod.api.player.worn.EquipmentChecks
 import org.rsmod.game.entity.Player
@@ -215,4 +218,37 @@ public object MagicAccuracyOperations {
 
         return 1.45
     }
+
+    public fun calculateEffectiveDefence(player: Player, attackStyle: AttackStyle?): Int {
+        val armourBonus = AccuracyOperations.defensiveArmourBonus(player)
+        return calculateEffectiveDefence(
+            visDefenceLevel = player.defenceLvl,
+            visMagicLevel = player.magicLvl,
+            armourBonus = armourBonus,
+            vars = player.vars,
+            attackStyle = attackStyle,
+        )
+    }
+
+    private fun calculateEffectiveDefence(
+        visDefenceLevel: Int,
+        visMagicLevel: Int,
+        armourBonus: Double,
+        vars: VarPlayerIntMap,
+        attackStyle: AttackStyle?,
+    ): Int {
+        val styleBonus = AccuracyOperations.defensiveStyleBonus(attackStyle)
+        val defencePrayerBonus = AccuracyOperations.defensivePrayerBonus(vars)
+        val magicPrayerBonus = vars.magicDefencePrayerBonus()
+        return PlayerMagicAccuracy.calculateEffectiveDefence(
+            visibleDefenceLvl = visDefenceLevel,
+            visibleMagicLvl = visMagicLevel,
+            styleBonus = styleBonus,
+            defencePrayerBonus = defencePrayerBonus,
+            magicPrayerBonus = magicPrayerBonus,
+            armourBonus = armourBonus,
+        )
+    }
+
+    private fun VarPlayerIntMap.magicDefencePrayerBonus(): Double = offensivePrayerBonus()
 }

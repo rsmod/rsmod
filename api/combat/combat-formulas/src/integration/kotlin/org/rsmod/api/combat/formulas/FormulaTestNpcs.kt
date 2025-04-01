@@ -119,6 +119,26 @@ object FormulaTestNpcs {
             }
         }
 
+    val dagannoth_prime =
+        npcTypeFactory.create {
+            name = "Dagannoth Prime"
+            hitpoints = 255
+            attack = 255
+            strength = 255
+            defence = 255
+            magic = 255
+            ranged = 0
+            paramMap = buildParams {
+                this[params.defence_stab] = 255
+                this[params.defence_slash] = 255
+                this[params.defence_crush] = 255
+                this[params.defence_magic] = 255
+                this[params.defence_light] = 10
+                this[params.defence_standard] = 10
+                this[params.defence_heavy] = 10
+            }
+        }
+
     val glod =
         npcTypeFactory.create {
             name = "Glod (Hard)"

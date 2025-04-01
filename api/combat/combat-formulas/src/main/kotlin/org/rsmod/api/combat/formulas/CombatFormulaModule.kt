@@ -1,5 +1,6 @@
 package org.rsmod.api.combat.formulas
 
+import org.rsmod.api.combat.formulas.accuracy.magic.NvPMagicAccuracy
 import org.rsmod.api.combat.formulas.accuracy.magic.PvNMagicAccuracy
 import org.rsmod.api.combat.formulas.accuracy.melee.NvPMeleeAccuracy
 import org.rsmod.api.combat.formulas.accuracy.melee.PvNMeleeAccuracy
@@ -27,6 +28,7 @@ public class CombatFormulaModule : PluginModule() {
         bindInstance<DamageReductionAttributeCollector>()
 
         bindInstance<PvNMagicAccuracy>()
+        bindInstance<NvPMagicAccuracy>()
         bindInstance<NvPMeleeAccuracy>()
         bindInstance<PvNMeleeAccuracy>()
         bindInstance<NvPRangedAccuracy>()
