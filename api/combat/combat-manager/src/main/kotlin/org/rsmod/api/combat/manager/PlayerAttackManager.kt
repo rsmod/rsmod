@@ -1249,6 +1249,45 @@ constructor(
         TODO() // TODO(combat): pvp accuracy
 
     /**
+     * Rolls a random damage value between `0` and the maximum possible hit for a powered staff's
+     * built-in spell.
+     *
+     * This function first calculates the maximum magic hit for the built-in spell by calling
+     * [calculateStaffMaxHit], and then rolls a random value within that range.
+     *
+     * @param baseMaxHit The base max hit of the powered staff's built-in spell before any modifiers
+     *   are applied.
+     * @return A random damage value between `0` and the calculated max hit.
+     */
+    public fun rollStaffMaxHit(source: Player, target: PathingEntity, baseMaxHit: Int): Int {
+        val maxHit = calculateStaffMaxHit(source, target, baseMaxHit = baseMaxHit)
+        return random.of(0..maxHit)
+    }
+
+    /**
+     * Calculates the maximum magic hit that a **powered staff**'s built-in spell can deal to
+     * [target] from [source].
+     *
+     * The maximum hit is determined based on the [source]'s magic stats, the [target]'s relevant
+     * magic and defence stats, and the provided [baseMaxHit] of the staff's built-in spell.
+     *
+     * @param baseMaxHit The base max hit of the powered staff's built-in spell before any modifiers
+     *   are applied.
+     * @return The calculated maximum possible hit.
+     */
+    public fun calculateStaffMaxHit(source: Player, target: PathingEntity, baseMaxHit: Int): Int =
+        when (target) {
+            is Npc -> calculateSpellMaxHit(source, target, baseMaxHit)
+            is Player -> calculateSpellMaxHit(source, target, baseMaxHit)
+        }
+
+    private fun calculateSpellMaxHit(source: Player, target: Npc, baseMaxHit: Int): Int =
+        maxHits.getStaffMaxHitRange(source, target, baseMaxHit = baseMaxHit)
+
+    private fun calculateSpellMaxHit(source: Player, target: Player, baseMaxHit: Int): Int =
+        TODO() // TODO(combat)
+
+    /**
      * Queues a magic hit on [target], applying damage after the specified [hitDelay].
      *
      * In addition to scheduling the hit, this also triggers the appropriate defensive animations

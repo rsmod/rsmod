@@ -66,6 +66,7 @@ constructor(
     public fun getRangedMaxHit(npc: Npc, target: Player): Int =
         nvpRangedMaxHit.getMaxHit(npc, target)
 
+    /** @see [PvNMagicMaxHit.getSpellMaxHit] */
     public fun getSpellMaxHitRange(
         player: Player,
         target: Npc,
@@ -84,6 +85,10 @@ constructor(
             attackRate = attackRate,
             usedSunfireRune = usedSunfireRune,
         )
+
+    /** @see [PvNMagicMaxHit.getStaffMaxHit] */
+    public fun getStaffMaxHitRange(player: Player, target: Npc, baseMaxHit: Int): Int =
+        pvnMagicMaxHit.getStaffMaxHit(player, target, baseMaxHit = baseMaxHit)
 
     public fun getMagicMaxHit(npc: Npc, target: Player): Int = nvpMagicMaxHit.getMaxHit(npc, target)
 }

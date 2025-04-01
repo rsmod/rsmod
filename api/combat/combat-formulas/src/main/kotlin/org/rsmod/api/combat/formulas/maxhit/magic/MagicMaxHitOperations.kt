@@ -18,7 +18,8 @@ private typealias NpcAttr = CombatNpcAttributes
 
 public object MagicMaxHitOperations {
     /**
-     * @param sourceMagic The source's **current** magic level.
+     * @param sourceMagic The source's **current** magic level. Required for the Magic dart
+     *   modifier.
      * @param sourceBaseMagicDmgBonus The source's base magic damage bonus as calculated by
      *   [WornBonuses.magicDamageBonusBase].
      * @param sourceMagicPrayerBonus The source's current prayer magic damage bonus as calculated by
