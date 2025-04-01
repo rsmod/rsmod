@@ -79,6 +79,13 @@
 4664	toa_invocations
 4956	prayer_oc
 
+65478	blood_rune_substitutes
+65479	death_rune_substitutes
+65480	chaos_rune_substitutes
+65481	fire_rune_substitutes
+65482	earth_rune_substitutes
+65483	water_rune_substitutes
+65484	air_rune_substitutes
 65485	nature_unlimited_runes_loprio
 65486	fire_unlimited_runes_loprio
 65487	fire_unlimited_runes_hiprio
@@ -96,7 +103,7 @@
 65499	zamorak_staff_substitutes
 65500	guthix_staff_substitutes
 65501	staff_substitutes
-65502	_removed_enum_65502
+65502	rune_substitutes
 65503	combo_rune_lava
 65504	combo_rune_steam
 65505	combo_rune_smoke

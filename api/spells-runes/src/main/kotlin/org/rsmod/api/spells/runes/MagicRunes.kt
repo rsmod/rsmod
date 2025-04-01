@@ -8,6 +8,7 @@ import org.rsmod.api.spells.runes.combo.ComboRuneRepository
 import org.rsmod.api.spells.runes.compact.CompactRuneRepository
 import org.rsmod.api.spells.runes.fake.FakeRuneRepository
 import org.rsmod.api.spells.runes.staves.StaffSubstituteRepository
+import org.rsmod.api.spells.runes.subs.RuneSubstituteRepository
 import org.rsmod.api.spells.runes.unlimited.UnlimitedRuneRepository
 import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.Inventory
@@ -44,6 +45,7 @@ public object MagicRunes {
         unlimited: UnlimitedRuneRepository,
         combos: ComboRuneRepository,
         fakes: FakeRuneRepository,
+        runeSubs: RuneSubstituteRepository,
         staffSubs: StaffSubstituteRepository,
     ): List<Validation> {
         val validationList = mutableListOf<Validation>()
@@ -83,6 +85,7 @@ public object MagicRunes {
                     runeFountain = runeFountain,
                     compact = compact,
                     unlimited = unlimited,
+                    subs = runeSubs,
                     fakes = fakes,
                 )
             if (validation.isValid) {
@@ -118,6 +121,7 @@ public object MagicRunes {
                     runeFountain = runeFountain,
                     compact = compact,
                     unlimited = unlimited,
+                    subs = runeSubs,
                     fakes = fakes,
                 )
 
@@ -159,6 +163,7 @@ public object MagicRunes {
                     runeFountain = runeFountain,
                     compact = compact,
                     unlimited = unlimited,
+                    subs = runeSubs,
                     fakes = fakes,
                 )
 
@@ -200,7 +205,6 @@ public object MagicRunes {
         }
     }
 
-    // TODO(combat): Requires support for nz runes.
     public fun validateRune(
         inv: Inventory,
         righthand: InvObj?,
@@ -212,6 +216,7 @@ public object MagicRunes {
         runeFountain: Boolean,
         compact: CompactRuneRepository,
         unlimited: UnlimitedRuneRepository,
+        subs: RuneSubstituteRepository,
         fakes: FakeRuneRepository,
     ): Validation {
         require(required > 0) { "`required` must be greater than 0. (required=$required)" }
@@ -266,47 +271,80 @@ public object MagicRunes {
             sources += Source.InvSource(rune, invRuneSlot, invRuneObj.count)
         }
 
-        // If player does not have a rune pouch in inv, we can return early with a failure result.
-        if (pouch == null) {
-            return Validation.Invalid.NotEnoughRunes(rune)
+        if (pouch != null) {
+            val pouchCompactRune1 = pouch.compactId1
+            val pouchCompactRune2 = pouch.compactId2
+            val pouchCompactRune3 = pouch.compactId3
+            val pouchCompactRune4 = pouch.compactId4
+
+            val pouchRuneCount: Int
+            val pouchCountVarBit: VarBitType?
+            when {
+                pouchCompactRune1 == compactId -> {
+                    pouchRuneCount = pouch.count1
+                    pouchCountVarBit = pouch.countVarBit1
+                }
+
+                pouchCompactRune2 == compactId -> {
+                    pouchRuneCount = pouch.count2
+                    pouchCountVarBit = pouch.countVarBit2
+                }
+
+                pouchCompactRune3 == compactId -> {
+                    pouchRuneCount = pouch.count3
+                    pouchCountVarBit = pouch.countVarBit3
+                }
+
+                pouchCompactRune4 == compactId -> {
+                    pouchRuneCount = pouch.count4
+                    pouchCountVarBit = pouch.countVarBit4
+                }
+
+                else -> {
+                    pouchRuneCount = 0
+                    pouchCountVarBit = null
+                }
+            }
+
+            if (pouchCountVarBit != null && pouchRuneCount >= remaining) {
+                sources += Source.VarBitSource(pouchCountVarBit, remaining)
+                return Validation.Valid.HasEnough(sources)
+            }
         }
-        val pouchCompactRune1 = pouch.compactId1
-        val pouchCompactRune2 = pouch.compactId2
-        val pouchCompactRune3 = pouch.compactId3
-        val pouchCompactRune4 = pouch.compactId4
 
-        val pouchRuneCount: Int
-        val pouchCountVarBit: VarBitType?
-        when {
-            pouchCompactRune1 == compactId -> {
-                pouchRuneCount = pouch.count1
-                pouchCountVarBit = pouch.countVarBit1
+        val substitutes = subs[rune]
+        if (substitutes != null) {
+            for (sub in substitutes) {
+                val validate =
+                    validateRune(
+                        inv = inv,
+                        righthand = righthand,
+                        lefthand = lefthand,
+                        pouch = pouch,
+                        rune = sub,
+                        required = remaining,
+                        useFakeRunes = useFakeRunes,
+                        runeFountain = runeFountain,
+                        compact = compact,
+                        unlimited = unlimited,
+                        subs = subs,
+                        fakes = fakes,
+                    )
+                val validResult = validate as? Validation.Valid ?: continue
+                return when (validResult) {
+                    // If the substitute rune has an unlimited source, return it as `Unlimited`
+                    // so that the base rune is not consumed.
+                    is Validation.Valid.Unlimited -> {
+                        Validation.Valid.Unlimited
+                    }
+                    // If the substitute rune has enough to satisfy the remaining amount, merge
+                    // its sources into the current list and return a `HasEnough` result.
+                    is Validation.Valid.HasEnough -> {
+                        sources += validResult.sources
+                        Validation.Valid.HasEnough(sources)
+                    }
+                }
             }
-
-            pouchCompactRune2 == compactId -> {
-                pouchRuneCount = pouch.count2
-                pouchCountVarBit = pouch.countVarBit2
-            }
-
-            pouchCompactRune3 == compactId -> {
-                pouchRuneCount = pouch.count3
-                pouchCountVarBit = pouch.countVarBit3
-            }
-
-            pouchCompactRune4 == compactId -> {
-                pouchRuneCount = pouch.count4
-                pouchCountVarBit = pouch.countVarBit4
-            }
-
-            else -> {
-                pouchRuneCount = 0
-                pouchCountVarBit = null
-            }
-        }
-
-        if (pouchCountVarBit != null && pouchRuneCount >= remaining) {
-            sources += Source.VarBitSource(pouchCountVarBit, remaining)
-            return Validation.Valid.HasEnough(sources)
         }
 
         return Validation.Invalid.NotEnoughRunes(rune)

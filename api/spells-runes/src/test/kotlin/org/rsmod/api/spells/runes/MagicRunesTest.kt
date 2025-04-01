@@ -7,6 +7,7 @@ import org.rsmod.api.spells.runes.combo.ComboRuneRepository
 import org.rsmod.api.spells.runes.compact.CompactRuneRepository
 import org.rsmod.api.spells.runes.fake.FakeRuneRepository
 import org.rsmod.api.spells.runes.staves.StaffSubstituteRepository
+import org.rsmod.api.spells.runes.subs.RuneSubstituteRepository
 import org.rsmod.api.spells.runes.unlimited.UnlimitedRuneRepository
 import org.rsmod.api.testing.factory.invFactory
 import org.rsmod.api.testing.factory.objTypeFactory
@@ -26,12 +27,12 @@ class MagicRunesTest {
     fun `cast spell with required rune in rune pouch`() {
         val inv = invFactory.createInv()
         val worn = invFactory.createWorn()
-        val compact = createCompactRepo()
-
-        val pouch = createRunePouch(compact, Rune(air_rune, 1))
-        inv[0] = InvObj(mind_rune, 1)
 
         val requirements = requirementsOf(requirement(air_rune, 1), requirement(mind_rune, 1))
+
+        val compact = createCompactRepo()
+        val pouch = createRunePouch(compact, Rune(air_rune, 1))
+        inv[0] = InvObj(mind_rune, 1)
 
         val validation =
             MagicRunes.validateRequirements(
@@ -45,6 +46,7 @@ class MagicRunesTest {
                 unlimited = createUnlimitedRepo(),
                 combos = createComboRepo(),
                 fakes = createFakeRepo(),
+                runeSubs = createRuneSubRepo(),
                 staffSubs = createStaffSubRepo(),
             )
 
@@ -58,15 +60,22 @@ class MagicRunesTest {
     }
 
     @Test
-    fun `fail cast with incorrect rune in rune pouch`() {
+    fun `cast spell with substitute rune in rune pouch`() {
         val inv = invFactory.createInv()
         val worn = invFactory.createWorn()
+
+        val requirements =
+            requirementsOf(
+                requirement(wrath_rune, 1),
+                requirement(fire_rune, 10),
+                requirement(air_rune, 7),
+            )
+
         val compact = createCompactRepo()
-
-        val pouch = createRunePouch(compact, Rune(fire_rune, 1))
-        inv[0] = InvObj(mind_rune, 1)
-
-        val requirements = requirementsOf(requirement(air_rune, 1), requirement(mind_rune, 1))
+        val pouch = createRunePouch(compact, Rune(sunfire_rune, 5))
+        inv[0] = InvObj(wrath_rune, 1)
+        inv[1] = InvObj(fire_rune, 7)
+        inv[2] = InvObj(air_rune, 7)
 
         val validation =
             MagicRunes.validateRequirements(
@@ -80,6 +89,44 @@ class MagicRunesTest {
                 unlimited = createUnlimitedRepo(),
                 combos = createComboRepo(),
                 fakes = createFakeRepo(),
+                runeSubs = createRuneSubRepo(),
+                staffSubs = createStaffSubRepo(),
+            )
+
+        val expected =
+            listOf(
+                hasEnough(invSource(wrath_rune, slot = 0, count = 1)),
+                hasEnough(invSource(fire_rune, slot = 1, count = 7), varBitSource(pouch_count1, 3)),
+                hasEnough(invSource(air_rune, slot = 2, count = 7)),
+            )
+
+        assertEquals(expected, validation)
+    }
+
+    @Test
+    fun `fail cast with incorrect rune in rune pouch`() {
+        val inv = invFactory.createInv()
+        val worn = invFactory.createWorn()
+
+        val requirements = requirementsOf(requirement(air_rune, 1), requirement(mind_rune, 1))
+
+        val compact = createCompactRepo()
+        val pouch = createRunePouch(compact, Rune(fire_rune, 1))
+        inv[0] = InvObj(mind_rune, 1)
+
+        val validation =
+            MagicRunes.validateRequirements(
+                inv = inv,
+                worn = worn,
+                pouch = pouch,
+                requirements = requirements,
+                useFakeRunes = false,
+                runeFountain = false,
+                compact = createCompactRepo(),
+                unlimited = createUnlimitedRepo(),
+                combos = createComboRepo(),
+                fakes = createFakeRepo(),
+                runeSubs = createRuneSubRepo(),
                 staffSubs = createStaffSubRepo(),
             )
 
@@ -112,6 +159,7 @@ class MagicRunesTest {
                 unlimited = createUnlimitedRepo(),
                 combos = createComboRepo(),
                 fakes = createFakeRepo(),
+                runeSubs = createRuneSubRepo(),
                 staffSubs = createStaffSubRepo(),
             )
 
@@ -136,6 +184,7 @@ class MagicRunesTest {
                 unlimited = createUnlimitedRepo(),
                 combos = createComboRepo(),
                 fakes = createFakeRepo(),
+                runeSubs = createRuneSubRepo(),
                 staffSubs = createStaffSubRepo(),
             )
 
@@ -345,6 +394,30 @@ class MagicRunesTest {
                         this += hasEnough(invSource(smoke_rune, slot = 0, count = 3))
                     }
                 },
+                SpellCast.create("Fire Surge with partial Sunfire rune") {
+                    require {
+                        this += requirement(wrath_rune, 1)
+                        this += requirement(fire_rune, 10)
+                        this += requirement(air_rune, 7)
+                    }
+
+                    setup {
+                        inv[0] = InvObj(wrath_rune, 10)
+                        inv[1] = InvObj(fire_rune, 5)
+                        inv[2] = InvObj(air_rune, 10)
+                        inv[3] = InvObj(sunfire_rune, 10)
+                    }
+
+                    expect {
+                        this += hasEnough(invSource(wrath_rune, slot = 0, count = 1))
+                        this +=
+                            hasEnough(
+                                invSource(fire_rune, slot = 1, count = 5),
+                                invSource(sunfire_rune, slot = 3, count = 5),
+                            )
+                        this += hasEnough(invSource(air_rune, slot = 2, count = 7))
+                    }
+                },
                 SpellCast.create("Saradomin Strike") {
                     require {
                         this += staffRequirement(saradomin_staff)
@@ -482,6 +555,14 @@ class MagicRunesTest {
 
         val saradomin_staff = createObjType(33, "Saradomin staff")
 
+        val air_rune_nz = createObjType(40, "Air rune (nz)")
+        val water_rune_nz = createObjType(41, "Water rune (nz)")
+        val earth_rune_nz = createObjType(42, "Earth rune (nz)")
+        val fire_rune_nz = createObjType(43, "Fire rune (nz)")
+        val chaos_rune_nz = createObjType(44, "Chaos rune (nz)")
+        val death_rune_nz = createObjType(45, "Death rune (nz)")
+        val blood_rune_nz = createObjType(46, "Blood rune (nz)")
+
         private fun createCompactRepo(): CompactRuneRepository {
             val compact: Map<ObjType, Int> =
                 mapOf(
@@ -548,6 +629,23 @@ class MagicRunesTest {
 
         // For now, we will not be testing staff substitutes.
         private fun createStaffSubRepo(): StaffSubstituteRepository = StaffSubstituteRepository()
+
+        private fun createRuneSubRepo(): RuneSubstituteRepository {
+            val substitutes =
+                mapOf(
+                    air_rune to listOf(air_rune_nz),
+                    water_rune to listOf(water_rune_nz),
+                    earth_rune to listOf(earth_rune_nz),
+                    fire_rune to listOf(fire_rune_nz, sunfire_rune),
+                    chaos_rune to listOf(chaos_rune_nz),
+                    death_rune to listOf(death_rune_nz),
+                    blood_rune to listOf(blood_rune_nz),
+                )
+            val mapped = substitutes.entries.associate { it.key.id to it.value }
+            val repo = RuneSubstituteRepository()
+            repo.init(mapped)
+            return repo
+        }
 
         private fun createRunePouch(
             compact: CompactRuneRepository,

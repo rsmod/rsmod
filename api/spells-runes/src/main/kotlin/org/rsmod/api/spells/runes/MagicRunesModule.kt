@@ -4,6 +4,7 @@ import org.rsmod.api.spells.runes.combo.ComboRuneRepository
 import org.rsmod.api.spells.runes.compact.CompactRuneRepository
 import org.rsmod.api.spells.runes.fake.FakeRuneRepository
 import org.rsmod.api.spells.runes.staves.StaffSubstituteRepository
+import org.rsmod.api.spells.runes.subs.RuneSubstituteRepository
 import org.rsmod.api.spells.runes.unlimited.UnlimitedRuneRepository
 import org.rsmod.plugin.module.PluginModule
 
@@ -12,6 +13,7 @@ internal class MagicRunesModule : PluginModule() {
         bindInstance<ComboRuneRepository>()
         bindInstance<CompactRuneRepository>()
         bindInstance<FakeRuneRepository>()
+        bindInstance<RuneSubstituteRepository>()
         bindInstance<StaffSubstituteRepository>()
         bindInstance<UnlimitedRuneRepository>()
     }
