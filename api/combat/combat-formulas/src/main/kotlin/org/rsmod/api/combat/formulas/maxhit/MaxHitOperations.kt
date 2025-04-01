@@ -8,7 +8,7 @@ import org.rsmod.api.combat.formulas.scale
 internal object MaxHitOperations {
     fun applyDamageReductions(
         startDamage: Int,
-        activeDefenceBonus: Int,
+        activeDefenceBonus: Int?,
         reductionAttributes: EnumSet<DamageReductionAttributes>,
     ): Int {
         var modified = startDamage
@@ -22,7 +22,7 @@ internal object MaxHitOperations {
         }
 
         if (DamageReductionAttributes.Justiciar in reductionAttributes) {
-            val factor = activeDefenceBonus / 3000.0
+            val factor = checkNotNull(activeDefenceBonus) / 3000.0
             // Damage reduction effect will always reduce at least `1`.
             val reduction = max(1, (modified * factor).toInt())
             modified = max(0, modified - reduction)
