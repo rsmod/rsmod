@@ -23,10 +23,11 @@ public value class Headbar(public val packed: Long) {
         get() = ((packed shr END_FILL_BIT_OFFSET) and END_FILL_BIT_MASK).toInt()
 
     public val startTime: Int
-        get() = ((packed shr START_TIME_BIT_OFFSET) and START_TIME_BIT_MASK).toInt()
+        get() =
+            ((packed shr START_TIME_BIT_OFFSET) and START_TIME_BIT_MASK).toInt() * TIME_UNIT_STRIDE
 
     public val endTime: Int
-        get() = ((packed shr END_TIME_BIT_OFFSET) and END_TIME_BIT_MASK).toInt()
+        get() = ((packed shr END_TIME_BIT_OFFSET) and END_TIME_BIT_MASK).toInt() * TIME_UNIT_STRIDE
 
     public val sourceSlot: Int
         get() = ((packed shr SOURCE_SLOT_BIT_OFFSET) and SOURCE_SLOT_BIT_MASK).toInt()
@@ -103,6 +104,14 @@ public value class Headbar(public val packed: Long) {
         public const val END_TIME_BIT_MASK: Long = (1L shl END_TIME_BIT_COUNT) - 1
         public const val SOURCE_SLOT_BIT_MASK: Long = (1L shl SOURCE_SLOT_BIT_COUNT) - 1
 
+        // Each unit in the packed time bits represents 5 actual cycles. This allows us to fit
+        // larger time values within the limited bit count. Official `endtime` values have been
+        // observed reaching up to ~500, and all values appear to be in intervals of 5.
+        // This stride value was chosen to match that pattern. If this ever becomes insufficient,
+        // we should replace the value class with a proper data class. For now, this solution is
+        // quick and easy.
+        private const val TIME_UNIT_STRIDE = 5
+
         private fun pack(
             self: Int,
             public: Int,
@@ -128,12 +137,16 @@ public value class Headbar(public val packed: Long) {
                 "`endFill` must be between [0..$END_FILL_BIT_MASK]. (endFill=$endFill)"
             }
 
-            require(startTime in 0..START_TIME_BIT_MASK) {
-                "`startTime` must be between [0..$START_TIME_BIT_MASK]. (startTime=$startTime)"
+            val scaledStartTime = startTime.toLong() / TIME_UNIT_STRIDE
+            val maxStartTime = START_TIME_BIT_MASK * TIME_UNIT_STRIDE
+            require(startTime in 0..maxStartTime) {
+                "`startTime` must be between [0..$maxStartTime]. (startTime=$startTime)"
             }
 
-            require(endTime in 0..END_TIME_BIT_MASK) {
-                "`endTime` must be between [0..$END_TIME_BIT_MASK]. (endTime=$endTime)"
+            val scaledEndTime = endTime.toLong() / TIME_UNIT_STRIDE
+            val maxEndTime = END_TIME_BIT_MASK * TIME_UNIT_STRIDE
+            require(endTime in 0..maxEndTime) {
+                "`endTime` must be between [0..$maxEndTime]. (endTime=$endTime)"
             }
 
             require(sourceSlot in 0..SOURCE_SLOT_BIT_MASK) {
@@ -144,8 +157,8 @@ public value class Headbar(public val packed: Long) {
                 ((public.toLong() and HEADBAR_ID_BIT_MASK) shl HEADBAR_PUBLIC_BIT_OFFSET) or
                 ((startFill.toLong() and START_FILL_BIT_MASK) shl START_FILL_BIT_OFFSET) or
                 ((endFill.toLong() and END_FILL_BIT_MASK) shl END_FILL_BIT_OFFSET) or
-                ((startTime.toLong() and START_TIME_BIT_MASK) shl START_TIME_BIT_OFFSET) or
-                ((endTime.toLong() and END_TIME_BIT_MASK) shl END_TIME_BIT_OFFSET) or
+                ((scaledStartTime and START_TIME_BIT_MASK) shl START_TIME_BIT_OFFSET) or
+                ((scaledEndTime and END_TIME_BIT_MASK) shl END_TIME_BIT_OFFSET) or
                 ((sourceSlot.toLong() and SOURCE_SLOT_BIT_MASK) shl SOURCE_SLOT_BIT_OFFSET)
         }
 
