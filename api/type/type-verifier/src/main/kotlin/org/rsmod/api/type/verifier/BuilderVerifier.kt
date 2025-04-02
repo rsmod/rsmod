@@ -8,6 +8,12 @@ import org.rsmod.api.type.verifier.TypeVerifier.Verification
 
 public class BuilderVerifier @Inject constructor(private val builders: TypeBuilderResolverMap) {
     public fun verifyAll(): Verification {
+        val symbols = builders.symbolErrors
+        if (symbols.isNotEmpty()) {
+            val error = symbols.toError()
+            return Verification.MissingSymbol(error)
+        }
+
         val updates = builders.updates
         if (updates.isNotEmpty()) {
             val error = updates.toUpdateError()
@@ -21,24 +27,6 @@ public class BuilderVerifier @Inject constructor(private val builders: TypeBuild
         }
 
         return Verification.FullSuccess
-    }
-
-    public fun verifyUpdates(): Verification? {
-        val updates = builders.updates
-        if (updates.isEmpty()) {
-            return null
-        }
-        val error = updates.toUpdateError()
-        return Verification.CacheUpdateRequired(error)
-    }
-
-    public fun verifyErrors(): Verification? {
-        val errors = builders.errors
-        if (errors.isEmpty()) {
-            return null
-        }
-        val error = errors.toError()
-        return Verification.Failure(error)
     }
 
     private fun List<TypeBuilderResult.Update<*>>.toUpdateError(): ResolutionError {

@@ -34,8 +34,9 @@ constructor(
     private val editors = mutableListOf<TypeEditor<*, *>>()
 
     private val _resultValues = mutableListOf<Any>()
-    private val _errors = mutableListOf<TypeEditorResult.Error<*>>()
     private val _updates = mutableListOf<TypeEditorResult.Update<*>>()
+    private val _errors = mutableListOf<TypeEditorResult.Error<*>>()
+    private val _symbolErrors = mutableListOf<TypeEditorResult.Error<*>>()
 
     public val size: Int
         get() = editors.size
@@ -43,11 +44,14 @@ constructor(
     public val resultValues: List<Any>
         get() = _resultValues
 
+    public val updates: List<TypeEditorResult.Update<*>>
+        get() = _updates
+
     public val errors: List<TypeEditorResult.Error<*>>
         get() = _errors
 
-    public val updates: List<TypeEditorResult.Update<*>>
-        get() = _updates
+    public val symbolErrors: List<TypeEditorResult.Error<*>>
+        get() = _symbolErrors
 
     public operator fun plusAssign(editors: Collection<TypeEditor<*, *>>) {
         this.editors += editors
@@ -71,6 +75,9 @@ constructor(
         val errors = resolved.filterIsInstance<TypeEditorResult.Error<Any>>()
         _errors += errors
 
+        val symbolErrors = errors.filter { it.status is TypeEditorResult.NameNotFound }
+        _symbolErrors += symbolErrors
+
         val success = resolved.filterIsInstance<TypeEditorResult.Success<Any>>()
         val results = updates.map { it.value } + errors.map { it.value } + success.map { it.value }
         _resultValues.addAll(results)
@@ -82,8 +89,9 @@ constructor(
      */
     public fun clear() {
         editors.clear()
-        _errors.clear()
         _updates.clear()
+        _errors.clear()
+        _symbolErrors.clear()
         _resultValues.clear()
     }
 

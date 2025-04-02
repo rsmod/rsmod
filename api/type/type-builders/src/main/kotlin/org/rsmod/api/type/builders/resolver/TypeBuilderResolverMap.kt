@@ -82,8 +82,9 @@ constructor(
     private val builders = mutableListOf<TypeBuilder<*, *>>()
 
     private val _resultValues = mutableListOf<Any>()
-    private val _errors = mutableListOf<TypeBuilderResult.Error<*>>()
     private val _updates = mutableListOf<TypeBuilderResult.Update<*>>()
+    private val _errors = mutableListOf<TypeBuilderResult.Error<*>>()
+    private val _symbolErrors = mutableListOf<TypeBuilderResult.Error<*>>()
 
     public val size: Int
         get() = builders.size
@@ -91,11 +92,14 @@ constructor(
     public val resultValues: List<Any>
         get() = _resultValues
 
+    public val updates: List<TypeBuilderResult.Update<*>>
+        get() = _updates
+
     public val errors: List<TypeBuilderResult.Error<*>>
         get() = _errors
 
-    public val updates: List<TypeBuilderResult.Update<*>>
-        get() = _updates
+    public val symbolErrors: List<TypeBuilderResult.Error<*>>
+        get() = _symbolErrors
 
     public operator fun plusAssign(builders: Collection<TypeBuilder<*, *>>) {
         this.builders += builders
@@ -119,6 +123,9 @@ constructor(
         val errors = resolved.filterIsInstance<TypeBuilderResult.Error<Any>>()
         _errors += errors
 
+        val symbolErrors = errors.filter { it.status is TypeBuilderResult.NameNotFound }
+        _symbolErrors += symbolErrors
+
         val success = resolved.filterIsInstance<TypeBuilderResult.Success<Any>>()
         val results = updates.map { it.value } + errors.map { it.value } + success.map { it.value }
         _resultValues.addAll(results)
@@ -130,8 +137,9 @@ constructor(
      */
     public fun clear() {
         builders.clear()
-        _errors.clear()
         _updates.clear()
+        _errors.clear()
+        _symbolErrors.clear()
         _resultValues.clear()
     }
 

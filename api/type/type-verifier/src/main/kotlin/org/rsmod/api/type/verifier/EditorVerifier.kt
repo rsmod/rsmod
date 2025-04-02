@@ -8,6 +8,12 @@ import org.rsmod.api.type.verifier.TypeVerifier.Verification
 
 public class EditorVerifier @Inject constructor(private val editors: TypeEditorResolverMap) {
     public fun verifyAll(): Verification {
+        val symbols = editors.symbolErrors
+        if (symbols.isNotEmpty()) {
+            val error = symbols.toError()
+            return Verification.MissingSymbol(error)
+        }
+
         val updates = editors.updates
         if (updates.isNotEmpty()) {
             val error = updates.toUpdateError()
@@ -21,24 +27,6 @@ public class EditorVerifier @Inject constructor(private val editors: TypeEditorR
         }
 
         return Verification.FullSuccess
-    }
-
-    public fun verifyUpdates(): Verification? {
-        val updates = editors.updates
-        if (updates.isEmpty()) {
-            return null
-        }
-        val error = updates.toUpdateError()
-        return Verification.CacheUpdateRequired(error)
-    }
-
-    public fun verifyErrors(): Verification? {
-        val errors = editors.errors
-        if (errors.isEmpty()) {
-            return null
-        }
-        val error = errors.toError()
-        return Verification.Failure(error)
     }
 
     private fun List<TypeEditorResult.Update<*>>.toUpdateError(): ResolutionError {

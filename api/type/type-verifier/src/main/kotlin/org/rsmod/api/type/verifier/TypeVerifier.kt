@@ -21,6 +21,13 @@ constructor(
         // Order is important - we want cache updates from builders and editors be returned first.
         val verifications = listOf(builder, editor, reference)
 
+        val symbols = verifications.filterIsInstance<Verification.MissingSymbol>()
+        if (symbols.isNotEmpty()) {
+            val errorMessage =
+                symbols.joinToString(separator = System.lineSeparator()) { it.error.message }
+            return Verification.Failure(ResolutionError(errorMessage))
+        }
+
         val updates = verifications.filterIsInstance<Verification.CacheUpdateRequired>()
         if (updates.isNotEmpty()) {
             val errorMessage =
@@ -59,6 +66,10 @@ constructor(
 
     public sealed class Verification {
         public class Failure(public val error: ResolutionError) : Verification() {
+            public fun formatError(): String = System.lineSeparator() + error.toString()
+        }
+
+        public class MissingSymbol(public val error: ResolutionError) : Verification() {
             public fun formatError(): String = System.lineSeparator() + error.toString()
         }
 
