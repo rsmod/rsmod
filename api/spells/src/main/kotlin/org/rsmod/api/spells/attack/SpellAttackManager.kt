@@ -116,7 +116,7 @@ constructor(private val manager: PlayerAttackManager, private val runes: MagicRu
      * This is a helper function that inverts the result of [rollSpellAccuracy], returning `true` if
      * the spell misses (i.e., "splashes") and `false` if it hits successfully.
      *
-     * @see rollSpellAccuracy
+     * @see [rollSpellAccuracy]
      */
     public fun rollSplash(
         source: ProtectedAccess,

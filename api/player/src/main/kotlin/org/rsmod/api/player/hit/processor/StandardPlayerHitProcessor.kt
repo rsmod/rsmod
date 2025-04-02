@@ -14,6 +14,7 @@ import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.stat.baseHitpointsLvl
 import org.rsmod.api.player.stat.hitpoints
 import org.rsmod.api.player.torso
+import org.rsmod.api.random.GameRandom
 import org.rsmod.game.headbar.Headbar
 import org.rsmod.game.hit.Hit
 import org.rsmod.game.hit.HitType
@@ -37,7 +38,7 @@ public object StandardPlayerHitProcessor : QueuedPlayerHitProcessor {
             statSub(stats.hitpoints, constant = damage, percent = 0)
         }
 
-        playDefendSound(hit)
+        playDefendSound(hit, random)
 
         val queueDeath = player.hitpoints == 0 && queues.death !in player.queueList
         if (queueDeath) {
@@ -65,12 +66,12 @@ public object StandardPlayerHitProcessor : QueuedPlayerHitProcessor {
         return npc.hitpoints > 0
     }
 
-    private fun ProtectedAccess.playDefendSound(hit: Hit) {
+    private fun ProtectedAccess.playDefendSound(hit: Hit, random: GameRandom) {
         val lefthandType = player.lefthand?.let(::ocType)
         val torsoType = player.torso?.let(::ocType)
         val bodyType = player.appearance.bodyType
 
-        val defendSound = resolveDefendSound(lefthandType, torsoType, hit.damage, bodyType)
+        val defendSound = resolveDefendSound(lefthandType, torsoType, hit.damage, bodyType, random)
         soundSynth(defendSound, delay = 20)
 
         val playerSource = if (hit.isFromPlayer) findHitPlayerSource(hit) else null
@@ -82,21 +83,26 @@ public object StandardPlayerHitProcessor : QueuedPlayerHitProcessor {
         torso: UnpackedObjType?,
         damage: Int,
         bodyType: Int,
+        random: GameRandom,
     ): SynthType =
         when {
-            damage == 0 -> resolveBlockSound(lefthand, torso)
-            bodyType == constants.bodytype_a -> hitSoundsBodyA.random()
-            bodyType == constants.bodytype_b -> hitSoundsBodyB.random()
+            damage == 0 -> resolveBlockSound(lefthand, torso, random)
+            bodyType == constants.bodytype_a -> random.pick(hitSoundsBodyA)
+            bodyType == constants.bodytype_b -> random.pick(hitSoundsBodyB)
             else -> throw NotImplementedError("Sound for body type is not implemented: $bodyType")
         }
 
-    private fun resolveBlockSound(lefthand: UnpackedObjType?, torso: UnpackedObjType?): SynthType {
-        val lefthandSound = lefthand?.randomBlockSound()
+    private fun resolveBlockSound(
+        lefthand: UnpackedObjType?,
+        torso: UnpackedObjType?,
+        random: GameRandom,
+    ): SynthType {
+        val lefthandSound = lefthand?.randomBlockSound(random)
         if (lefthandSound != null) {
             return lefthandSound
         }
 
-        val torsoSound = torso?.randomBlockSound()
+        val torsoSound = torso?.randomBlockSound(random)
         if (torsoSound != null) {
             return torsoSound
         }
@@ -104,7 +110,7 @@ public object StandardPlayerHitProcessor : QueuedPlayerHitProcessor {
         return synths.human_block_1
     }
 
-    private fun UnpackedObjType.randomBlockSound(): SynthType? {
+    private fun UnpackedObjType.randomBlockSound(random: GameRandom): SynthType? {
         val sounds =
             listOfNotNull(
                 paramOrNull(params.item_block_sound1),
@@ -113,7 +119,7 @@ public object StandardPlayerHitProcessor : QueuedPlayerHitProcessor {
                 paramOrNull(params.item_block_sound4),
                 paramOrNull(params.item_block_sound5),
             )
-        return sounds.randomOrNull()
+        return random.pickOrNull(sounds)
     }
 
     private fun Hit.createHeadbar(currHp: Int, maxHp: Int): Headbar =
