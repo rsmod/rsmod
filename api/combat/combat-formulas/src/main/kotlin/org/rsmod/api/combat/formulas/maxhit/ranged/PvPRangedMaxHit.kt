@@ -72,7 +72,7 @@ constructor(
         val npcAttributes = EnumSet.noneOf(CombatNpcAttributes::class.java)
         val rangeAttributes = rangedAttributes.collect(source, attackType, attackStyle)
 
-        val modifiedDamage = computeModifiedDamage(source, attackStyle)
+        val modifiedDamage = computeModifiedDamage(source, attackStyle, rangeAttributes)
         val specMaxHit = (modifiedDamage * specialMultiplier).toInt()
         val finalMaxHit =
             modifyPostSpec(source, specMaxHit, boltSpecDamage, rangeAttributes, npcAttributes)
@@ -81,15 +81,15 @@ constructor(
         return MaxHitOperations.applyDamageReductions(finalMaxHit, null, reductionAttributes)
     }
 
-    // Note: This currently does _not_ take modifiers into account.
-    // For max hits, all modifiers - except the Twisted bow - are restricted behind npc attributes.
-    // If a modifier is ever found to work against both npcs and players, we will need to revisit
-    // this. In the worst case, we can add a new function to `RangedMaxHitOperations` that does
-    // not rely on npc attributes, and use it for pvp.
-    public fun computeModifiedDamage(source: Player, attackStyle: RangedAttackStyle?): Int {
+    public fun computeModifiedDamage(
+        source: Player,
+        attackStyle: RangedAttackStyle?,
+        rangeAttributes: EnumSet<CombatRangedAttributes>,
+    ): Int {
         val effectiveRanged = RangedMaxHitOperations.calculateEffectiveRanged(source, attackStyle)
         val rangedBonus = bonuses.rangedStrengthBonus(source)
-        return PlayerRangedMaxHit.calculateBaseDamage(effectiveRanged, rangedBonus)
+        val baseDamage = PlayerRangedMaxHit.calculateBaseDamage(effectiveRanged, rangedBonus)
+        return RangedMaxHitOperations.modifyBaseDamage(baseDamage, rangeAttributes)
     }
 
     public fun modifyPostSpec(

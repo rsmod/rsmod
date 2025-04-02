@@ -763,7 +763,7 @@ constructor(
             is Npc -> {
                 rollRangedAccuracy(source, target, attackType, attackStyle, blockType, multiplier)
             }
-            is Player -> rollRangedAccuracy(source, target, attackStyle, multiplier)
+            is Player -> rollRangedAccuracy(source, target, attackType, attackStyle, multiplier)
         }
     }
 
@@ -788,12 +788,14 @@ constructor(
     private fun rollRangedAccuracy(
         source: Player,
         target: Player,
+        attackType: RangedAttackType?,
         attackStyle: RangedAttackStyle?,
         specMultiplier: Double,
     ): Boolean =
         accuracy.rollRangedAccuracy(
             player = source,
             target = target,
+            attackType = attackType,
             attackStyle = attackStyle,
             specMultiplier = specMultiplier,
             random = random,

@@ -116,6 +116,23 @@ public object RangedMaxHitOperations {
         return modified
     }
 
+    public fun modifyBaseDamage(
+        baseDamage: Int,
+        rangeAttributes: EnumSet<CombatRangedAttributes>,
+    ): Int {
+        var modified = baseDamage
+
+        if (RangeAttr.CrystalBow in rangeAttributes) {
+            val helmAdditive = if (RangeAttr.CrystalHelm in rangeAttributes) 1 else 0
+            val bodyAdditive = if (RangeAttr.CrystalBody in rangeAttributes) 3 else 0
+            val legsAdditive = if (RangeAttr.CrystalLegs in rangeAttributes) 2 else 0
+            val armourAdditive = helmAdditive + bodyAdditive + legsAdditive
+            modified = scale(modified, multiplier = 40 + armourAdditive, divisor = 40)
+        }
+
+        return modified
+    }
+
     public fun modifyPostSpec(
         modifiedDamage: Int,
         boltSpecDamage: Int,

@@ -318,6 +318,8 @@ constructor(
      * defence roll, then uses a value from the random number generator ([random]) to determine if
      * the attack hits.
      *
+     * @param attackType The [RangedAttackType] used for the attack roll, usually derived from the
+     *   player's current stance.
      * @param attackStyle The [RangedAttackStyle] used for the attack roll, usually derived from the
      *   player's current stance.
      * @param specMultiplier A multiplier applied to the hit chance, typically used for special
@@ -329,11 +331,12 @@ constructor(
     public fun rollRangedAccuracy(
         player: Player,
         target: Player,
+        attackType: RangedAttackType?,
         attackStyle: RangedAttackStyle?,
         specMultiplier: Double,
         random: GameRandom,
     ): Boolean {
-        val hitChance = getRangedHitChance(player, target, attackStyle, specMultiplier)
+        val hitChance = getRangedHitChance(player, target, attackType, attackStyle, specMultiplier)
         return isSuccessfulHit(hitChance, random)
     }
 
@@ -341,6 +344,8 @@ constructor(
      * Calculates the ranged hit chance based on the [player]'s attack roll and the [target]'s
      * defence roll.
      *
+     * @param attackType The [RangedAttackType] used for the attack roll, usually derived from the
+     *   player's current stance.
      * @param attackStyle The [RangedAttackStyle] used for the attack roll, usually derived from the
      *   [player]'s current stance.
      * @param specMultiplier A multiplier applied to the hit chance, typically used for special
@@ -351,12 +356,14 @@ constructor(
     public fun getRangedHitChance(
         player: Player,
         target: Player,
+        attackType: RangedAttackType?,
         attackStyle: RangedAttackStyle?,
         specMultiplier: Double,
     ): Int =
         pvpRangedAccuracy.getHitChance(
             player = player,
             target = target,
+            attackType = attackType,
             attackStyle = attackStyle,
             specialMultiplier = specMultiplier,
         )

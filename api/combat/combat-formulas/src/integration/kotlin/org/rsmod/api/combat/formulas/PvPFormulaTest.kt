@@ -88,6 +88,7 @@ class PvPFormulaTest {
                     deps.rangedAccuracy.getHitChance(
                         this,
                         defender,
+                        rangedAttackType,
                         rangedAttackStyle,
                         accuracyBoost,
                     )

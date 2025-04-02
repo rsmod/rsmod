@@ -121,6 +121,51 @@ public object RangedAccuracyOperations {
         return modified
     }
 
+    public fun modifyAttackRoll(
+        attackRoll: Int,
+        targetDistance: Int,
+        rangeAttributes: EnumSet<CombatRangedAttributes>,
+    ): Int {
+        var modified = attackRoll
+
+        if (RangeAttr.CrystalBow in rangeAttributes) {
+            val helmAdditive = if (RangeAttr.CrystalHelm in rangeAttributes) 1 else 0
+            val bodyAdditive = if (RangeAttr.CrystalBody in rangeAttributes) 3 else 0
+            val legsAdditive = if (RangeAttr.CrystalLegs in rangeAttributes) 2 else 0
+            val armourAdditive = helmAdditive + bodyAdditive + legsAdditive
+            modified = scale(modified, multiplier = 20 + armourAdditive, divisor = 20)
+        }
+
+        when {
+            RangeAttr.ShortFuse in rangeAttributes -> {
+                val multiplier =
+                    when {
+                        targetDistance >= 7 -> 2
+                        targetDistance >= 4 -> 3
+                        else -> 4
+                    }
+                modified = scale(modified, multiplier, divisor = 4)
+            }
+
+            RangeAttr.MediumFuse in rangeAttributes -> {
+                val multiplier = if (targetDistance < 4 || targetDistance >= 7) 3 else 4
+                modified = scale(modified, multiplier, divisor = 4)
+            }
+
+            RangeAttr.LongFuse in rangeAttributes -> {
+                val multiplier =
+                    when {
+                        targetDistance < 4 -> 2
+                        targetDistance < 7 -> 3
+                        else -> 4
+                    }
+                modified = scale(modified, multiplier, divisor = 4)
+            }
+        }
+
+        return modified
+    }
+
     public fun calculateEffectiveRanged(player: Player, attackStyle: RangedAttackStyle?): Int =
         calculateEffectiveRanged(
             visLevel = player.rangedLvl,
