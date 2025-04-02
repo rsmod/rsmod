@@ -3,30 +3,25 @@ package org.rsmod.api.combat.formulas.maxhit.magic
 import jakarta.inject.Inject
 import java.util.EnumSet
 import org.rsmod.api.combat.commons.magic.Spellbook
-import org.rsmod.api.combat.formulas.attributes.CombatNpcAttributes
 import org.rsmod.api.combat.formulas.attributes.CombatSpellAttributes
-import org.rsmod.api.combat.formulas.attributes.CombatStaffAttributes
 import org.rsmod.api.combat.formulas.attributes.collector.CombatMagicAttributeCollector
-import org.rsmod.api.combat.formulas.attributes.collector.CombatNpcAttributeCollector
-import org.rsmod.api.combat.formulas.isSlayerTask
-import org.rsmod.api.config.refs.params
+import org.rsmod.api.combat.formulas.attributes.collector.DamageReductionAttributeCollector
+import org.rsmod.api.combat.formulas.maxhit.MaxHitOperations
 import org.rsmod.api.config.refs.varps
 import org.rsmod.api.player.bonus.WornBonuses
 import org.rsmod.api.player.stat.magicLvl
 import org.rsmod.api.player.vars.intVarp
 import org.rsmod.api.random.GameRandom
-import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
-import org.rsmod.game.type.npc.UnpackedNpcType
 import org.rsmod.game.type.obj.ObjType
 
-public class PvNMagicMaxHit
+public class PvPMagicMaxHit
 @Inject
 constructor(
     private val random: GameRandom,
     private val bonuses: WornBonuses,
-    private val npcAttributes: CombatNpcAttributeCollector,
     private val magicAttributes: CombatMagicAttributeCollector,
+    private val reductions: DamageReductionAttributeCollector,
 ) {
     private var Player.maxHit by intVarp(varps.com_maxhit)
 
@@ -45,30 +40,22 @@ constructor(
      *   derived from the player's current spellbook.
      * @param baseMaxHit The spell's base max hit, used as a baseline for calculating the maximum
      *   (and minimum, when applicable) hit.
-     * @param attackRate The number of server cycles between each spell attack. This is usually `5`.
      * @param usedSunfireRune Whether the player used a Sunfire rune for this cast.
      */
     public fun getSpellMaxHit(
         player: Player,
-        target: Npc,
+        target: Player,
         spell: ObjType,
         spellbook: Spellbook?,
         baseMaxHit: Int,
-        attackRate: Int,
         usedSunfireRune: Boolean,
     ): IntRange {
-        val targetType = target.visType
-        val elementalWeakness = targetType.param(params.elemental_weakness_percent)
         val maxHit =
             computeSpellMaxHit(
                 source = player,
-                target = targetType,
+                target = target,
                 spell = spell,
-                targetCurrHp = target.hitpoints,
-                targetMaxHp = target.baseHitpointsLvl,
-                targetWeaknessPercent = elementalWeakness,
                 baseMaxHit = baseMaxHit,
-                attackRate = attackRate,
                 spellbook = spellbook,
                 usedSunfireRune = usedSunfireRune,
             )
@@ -78,39 +65,48 @@ constructor(
 
     public fun computeSpellMaxHit(
         source: Player,
-        target: UnpackedNpcType,
+        target: Player,
         spell: ObjType,
-        targetCurrHp: Int,
-        targetMaxHp: Int,
-        targetWeaknessPercent: Int,
         baseMaxHit: Int,
-        attackRate: Int,
         spellbook: Spellbook?,
         usedSunfireRune: Boolean,
     ): IntRange {
         val spellAttributes =
             magicAttributes.spellCollect(source, spell, spellbook, usedSunfireRune, random)
 
-        val slayerTask = target.isSlayerTask(source)
-        val npcAttributes = npcAttributes.collect(target, targetCurrHp, targetMaxHp, slayerTask)
+        val modifiedDamage = computeSpellModifiedDamage(source, baseMaxHit, spellAttributes)
+        val modifiedDamageRange =
+            MagicMaxHitOperations.modifySpellDamageRange(modifiedDamage, spellAttributes)
 
-        val modifiedDamage =
-            computeSpellModifiedDamage(source, baseMaxHit, spellAttributes, npcAttributes)
-        return MagicMaxHitOperations.modifySpellDamageRange(
-            modifiedDamage = modifiedDamage,
-            baseDamage = baseMaxHit,
-            attackRate = attackRate,
-            targetWeaknessPercent = targetWeaknessPercent,
-            spellAttributes = spellAttributes,
-            npcAttributes = npcAttributes,
-        )
+        val defenceBonus = bonuses.defensiveMagicBonus(target)
+        val reductionAttributes = reductions.collectPvP(target, random)
+
+        // We could add a fast-path here and return early if `reductionAttributes` is empty.
+        // However, avoiding branching can sometimes be preferable, as it may prevent subtle,
+        // hard-to-detect bugs. Since `applyDamageReductions` is (currently) cheap, this is
+        // one of those cases.
+
+        val reducedMinHit =
+            MaxHitOperations.applyDamageReductions(
+                startDamage = modifiedDamageRange.first,
+                activeDefenceBonus = defenceBonus,
+                reductionAttributes = reductionAttributes,
+            )
+
+        val reducedMaxHit =
+            MaxHitOperations.applyDamageReductions(
+                startDamage = modifiedDamageRange.last,
+                activeDefenceBonus = defenceBonus,
+                reductionAttributes = reductionAttributes,
+            )
+
+        return reducedMinHit..reducedMaxHit
     }
 
     public fun computeSpellModifiedDamage(
         source: Player,
         baseDamage: Int,
         spellAttributes: EnumSet<CombatSpellAttributes>,
-        npcAttributes: EnumSet<CombatNpcAttributes>,
     ): Int {
         val magicDmgBonus = bonuses.magicDamageBonusBase(source)
         val prayerDmgBonus = MagicMaxHitOperations.getMagicDamagePrayerBonus(source)
@@ -120,7 +116,6 @@ constructor(
             sourceBaseMagicDmgBonus = magicDmgBonus,
             sourceMagicPrayerBonus = prayerDmgBonus,
             spellAttributes = spellAttributes,
-            npcAttributes = npcAttributes,
         )
     }
 
@@ -139,55 +134,41 @@ constructor(
      */
     public fun getStaffMaxHit(
         player: Player,
-        target: Npc,
+        target: Player,
         baseMaxHit: Int,
         specialMultiplier: Double,
     ): Int {
-        val maxHit =
-            computeStaffMaxHit(
-                source = player,
-                target = target.visType,
-                targetCurrHp = target.hitpoints,
-                targetMaxHp = target.baseHitpointsLvl,
-                baseMaxHit = baseMaxHit,
-                specialMultiplier = specialMultiplier,
-            )
+        val maxHit = computeStaffMaxHit(player, target, baseMaxHit, specialMultiplier)
         player.maxHit = maxHit
         return maxHit
     }
 
     public fun computeStaffMaxHit(
         source: Player,
-        target: UnpackedNpcType,
-        targetCurrHp: Int,
-        targetMaxHp: Int,
+        target: Player,
         baseMaxHit: Int,
         specialMultiplier: Double,
     ): Int {
-        val staffAttributes = magicAttributes.staffCollect(source, random)
+        val modifiedDamage = computeStaffModifiedDamage(source, baseMaxHit)
+        val specMaxHit = (modifiedDamage * specialMultiplier).toInt()
 
-        val slayerTask = target.isSlayerTask(source)
-        val npcAttributes = npcAttributes.collect(target, targetCurrHp, targetMaxHp, slayerTask)
+        val defenceBonus = bonuses.defensiveMagicBonus(target)
+        val reductionAttributes = reductions.collectPvP(target, random)
 
-        val modifiedDamage =
-            computeStaffModifiedDamage(source, baseMaxHit, staffAttributes, npcAttributes)
-        return (modifiedDamage * specialMultiplier).toInt()
+        return MaxHitOperations.applyDamageReductions(
+            startDamage = specMaxHit,
+            activeDefenceBonus = defenceBonus,
+            reductionAttributes = reductionAttributes,
+        )
     }
 
-    public fun computeStaffModifiedDamage(
-        source: Player,
-        baseDamage: Int,
-        staffAttributes: EnumSet<CombatStaffAttributes>,
-        npcAttributes: EnumSet<CombatNpcAttributes>,
-    ): Int {
+    public fun computeStaffModifiedDamage(source: Player, baseDamage: Int): Int {
         val magicDmgBonus = bonuses.magicDamageBonusBase(source)
         val prayerDmgBonus = MagicMaxHitOperations.getMagicDamagePrayerBonus(source)
         return MagicMaxHitOperations.modifyStaffBaseDamage(
             baseDamage = baseDamage,
             sourceBaseMagicDmgBonus = magicDmgBonus,
             sourceMagicPrayerBonus = prayerDmgBonus,
-            staffAttributes = staffAttributes,
-            npcAttributes = npcAttributes,
         )
     }
 }

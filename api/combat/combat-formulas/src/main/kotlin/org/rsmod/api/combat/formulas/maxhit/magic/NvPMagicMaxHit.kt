@@ -17,16 +17,14 @@ constructor(
     private val bonuses: WornBonuses,
     private val reductions: DamageReductionAttributeCollector,
 ) {
-    public fun getMaxHit(npc: Npc, target: Player): Int {
-        return computeMaxHit(npc, target)
-    }
+    public fun getMaxHit(npc: Npc, target: Player): Int = computeMaxHit(npc, target)
 
     public fun computeMaxHit(npc: Npc, target: Player): Int {
         val effectiveMagic = NpcMagicMaxHit.calculateEffectiveMagic(npc.magicLvl)
         val baseDamage = NpcMagicMaxHit.calculateBaseDamage(effectiveMagic, npc.magicStrength)
 
         val defenceBonus = bonuses.defensiveMagicBonus(target)
-        val reductionAttributes = reductions.collect(target, pvp = false, random)
+        val reductionAttributes = reductions.collectNvP(target, random)
         return MaxHitOperations.applyDamageReductions(baseDamage, defenceBonus, reductionAttributes)
     }
 }

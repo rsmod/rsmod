@@ -26,7 +26,7 @@ constructor(
         val baseDamage = NpcRangedMaxHit.calculateBaseDamage(effectiveRanged, npc.rangedStrength)
 
         val defenceBonus = bonuses.defensiveRangedBonus(target)
-        val reductionAttributes = reductions.collect(target, pvp = false, random)
+        val reductionAttributes = reductions.collectNvP(target, random)
         return MaxHitOperations.applyDamageReductions(baseDamage, defenceBonus, reductionAttributes)
     }
 }

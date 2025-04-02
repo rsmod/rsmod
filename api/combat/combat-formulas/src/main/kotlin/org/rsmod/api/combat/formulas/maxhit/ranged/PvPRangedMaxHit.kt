@@ -77,7 +77,7 @@ constructor(
         val finalMaxHit =
             modifyPostSpec(source, specMaxHit, boltSpecDamage, rangeAttributes, npcAttributes)
 
-        val reductionAttributes = reductions.collect(target, pvp = true, random)
+        val reductionAttributes = reductions.collectPvP(target, random)
         return MaxHitOperations.applyDamageReductions(finalMaxHit, null, reductionAttributes)
     }
 

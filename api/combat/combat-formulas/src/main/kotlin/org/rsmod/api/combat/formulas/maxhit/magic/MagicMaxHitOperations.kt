@@ -102,11 +102,55 @@ public object MagicMaxHitOperations {
     }
 
     /**
+     * @param sourceMagic The source's **current** magic level. Required for the Magic dart
+     *   modifier.
+     * @param sourceBaseMagicDmgBonus The source's base magic damage bonus as calculated by
+     *   [WornBonuses.magicDamageBonusBase].
+     * @param sourceMagicPrayerBonus The source's current prayer magic damage bonus as calculated by
+     *   [getMagicDamagePrayerBonus].
+     */
+    public fun modifySpellBaseDamage(
+        baseDamage: Int,
+        sourceMagic: Int,
+        sourceBaseMagicDmgBonus: Int,
+        sourceMagicPrayerBonus: Int,
+        spellAttributes: EnumSet<CombatSpellAttributes>,
+    ): Int {
+        var modified = baseDamage
+
+        if (SpellAttr.MagicDart in spellAttributes) {
+            modified = 10 + (sourceMagic / 10)
+        }
+
+        if (SpellAttr.ChaosGauntlets in spellAttributes && SpellAttr.BoltSpell in spellAttributes) {
+            modified += 3
+        }
+
+        if (SpellAttr.ChargeSpell in spellAttributes) {
+            modified += 10
+        }
+
+        var modifiedMagicDmgBonus = sourceBaseMagicDmgBonus
+
+        if (SpellAttr.SmokeStaff in spellAttributes && SpellAttr.StandardBook in spellAttributes) {
+            modifiedMagicDmgBonus += 100
+        }
+
+        modifiedMagicDmgBonus += sourceMagicPrayerBonus
+
+        val maxAdditive = scale(modified, multiplier = modifiedMagicDmgBonus, divisor = 1000)
+
+        modified += maxAdditive
+
+        return modified
+    }
+
+    /**
      * @param baseDamage The initial base damage as input into [modifySpellBaseDamage]. Required for
      *   elemental weakness modifiers.
      * @param targetWeaknessPercent The target's elemental weakness percentage (e.g., `1` = `1%`).
      */
-    public fun modifySpellPostSpec(
+    public fun modifySpellDamageRange(
         modifiedDamage: Int,
         baseDamage: Int,
         attackRate: Int,
@@ -164,6 +208,35 @@ public object MagicMaxHitOperations {
         return modifiedMin..modifiedMax
     }
 
+    public fun modifySpellDamageRange(
+        modifiedDamage: Int,
+        spellAttributes: EnumSet<CombatSpellAttributes>,
+    ): IntRange {
+        var modifiedMin = 0
+        var modifiedMax = modifiedDamage
+
+        if (SpellAttr.SunfireRunePassive in spellAttributes) {
+            modifiedMin = modifiedMax / 10
+        }
+
+        val applyTomeMod =
+            SpellAttr.EarthTome in spellAttributes && SpellAttr.EarthSpell in spellAttributes ||
+                SpellAttr.WaterTome in spellAttributes && SpellAttr.WaterSpell in spellAttributes ||
+                SpellAttr.FireTome in spellAttributes && SpellAttr.FireSpell in spellAttributes
+
+        if (applyTomeMod) {
+            modifiedMax = scale(modifiedMax, multiplier = 12, divisor = 10)
+        }
+
+        // TODO(combat): Twinflame mod here.
+
+        if (SpellAttr.AhrimPassive in spellAttributes) {
+            modifiedMax = scale(modifiedMax, multiplier = 13, divisor = 10)
+        }
+
+        return modifiedMin..modifiedMax
+    }
+
     /**
      * @param sourceBaseMagicDmgBonus The source's base magic damage bonus as calculated by
      *   [WornBonuses.magicDamageBonusBase].
@@ -212,6 +285,23 @@ public object MagicMaxHitOperations {
         if (StaffAttr.RevenantWeapon in staffAttributes && NpcAttr.Wilderness in npcAttributes) {
             modified = scale(modified, multiplier = 3, divisor = 2)
         }
+
+        return modified
+    }
+
+    public fun modifyStaffBaseDamage(
+        baseDamage: Int,
+        sourceBaseMagicDmgBonus: Int,
+        sourceMagicPrayerBonus: Int,
+    ): Int {
+        var modified = baseDamage
+
+        var modifiedMagicDmgBonus = sourceBaseMagicDmgBonus
+        modifiedMagicDmgBonus += sourceMagicPrayerBonus
+
+        val maxAdditive = scale(modified, multiplier = modifiedMagicDmgBonus, divisor = 1000)
+
+        modified += maxAdditive
 
         return modified
     }

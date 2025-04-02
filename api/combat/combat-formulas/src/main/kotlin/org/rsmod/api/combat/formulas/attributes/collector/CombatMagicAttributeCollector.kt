@@ -184,6 +184,8 @@ public class CombatMagicAttributeCollector @Inject constructor(private val objTy
         return attributes
     }
 
+    // `random` is an explicit parameter to indicate that this function relies on randomness
+    // for certain effects, such as the Brimstone ring proc.
     public fun staffCollect(player: Player, random: GameRandom): EnumSet<CombatStaffAttributes> {
         val attributes = EnumSet.noneOf(CombatStaffAttributes::class.java)
 

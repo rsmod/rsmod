@@ -24,11 +24,7 @@ public class DamageReductionAttributeCollector
 constructor(private val attackStyles: AttackStyles, private val objTypes: ObjTypeList) {
     // `random` is an explicit parameter to indicate that this function relies on randomness
     // for certain effects, such as the Elysian spirit shield proc.
-    public fun collect(
-        player: Player,
-        pvp: Boolean,
-        random: GameRandom,
-    ): EnumSet<DamageReductionAttributes> {
+    public fun collectNvP(player: Player, random: GameRandom): EnumSet<DamageReductionAttributes> {
         val attributes = EnumSet.noneOf(DamageReductionAttributes::class.java)
 
         val shield = player.lefthand
@@ -36,21 +32,31 @@ constructor(private val attackStyles: AttackStyles, private val objTypes: ObjTyp
             attributes += DamageReductionAttributes.ElysianProc
         }
 
-        if (!pvp) {
-            val weaponType = objTypes.getOrNull(player.righthand)
-
-            if (weaponType != null && weaponType.isCategoryType(categories.dinhs_bulwark)) {
-                val attackStyle = attackStyles.get(player)
-                val passiveDelay = player.vars[varps.dinhs_passive_delay]
-                val isPassiveDelayed = player.currentMapClock < passiveDelay
-                if (attackStyle == AttackStyle.AggressiveMelee && !isPassiveDelayed) {
-                    attributes += DamageReductionAttributes.DinhsBlock
-                }
+        val weaponType = objTypes.getOrNull(player.righthand)
+        if (weaponType != null && weaponType.isCategoryType(categories.dinhs_bulwark)) {
+            val attackStyle = attackStyles.get(player)
+            val passiveDelay = player.vars[varps.dinhs_passive_delay]
+            val isPassiveDelayed = player.currentMapClock < passiveDelay
+            if (attackStyle == AttackStyle.AggressiveMelee && !isPassiveDelayed) {
+                attributes += DamageReductionAttributes.DinhsBlock
             }
+        }
 
-            if (EquipmentChecks.isJusticiarSet(player.hat, player.torso, player.legs)) {
-                attributes += DamageReductionAttributes.Justiciar
-            }
+        if (EquipmentChecks.isJusticiarSet(player.hat, player.torso, player.legs)) {
+            attributes += DamageReductionAttributes.Justiciar
+        }
+
+        return attributes
+    }
+
+    // `random` is an explicit parameter to indicate that this function relies on randomness
+    // for certain effects, such as the Elysian spirit shield proc.
+    public fun collectPvP(player: Player, random: GameRandom): EnumSet<DamageReductionAttributes> {
+        val attributes = EnumSet.noneOf(DamageReductionAttributes::class.java)
+
+        val shield = player.lefthand
+        if (shield.isType(objs.elysian_spirit_shield) && random.of(maxExclusive = 10) < 7) {
+            attributes += DamageReductionAttributes.ElysianProc
         }
 
         return attributes

@@ -92,6 +92,9 @@ public object MagicAccuracyOperations {
             modified = scale(modified, multiplier = 3, divisor = 2)
         }
 
+        // Note: The wiki states that the Tome of water boosts water combat spell accuracy by 10%
+        // against npcs; however, the dps calculator uses 20% alongside bind spells. Since we have
+        // aligned all other values with the dps calculator, we are keeping it at 20% here.
         val applyWaterTomeMod =
             SpellAttr.WaterSpell in spellAttributes || SpellAttr.BindSpell in spellAttributes
         if (SpellAttr.WaterTome in spellAttributes && applyWaterTomeMod) {
@@ -116,6 +119,28 @@ public object MagicAccuracyOperations {
         }
 
         // TODO(combat): Vampyre mods? Do magic spells have a mod if a silver staff weapon is used?
+
+        return modified
+    }
+
+    public fun modifySpellAttackRoll(
+        attackRoll: Int,
+        spellAttributes: EnumSet<CombatSpellAttributes>,
+    ): Int {
+        var modified = attackRoll
+
+        var additiveBonus = 0
+        if (SpellAttr.SmokeStaff in spellAttributes && SpellAttr.StandardBook in spellAttributes) {
+            additiveBonus += 10
+        }
+
+        modified = scale(modified, 100 + additiveBonus, 100)
+
+        val applyWaterTomeMod =
+            SpellAttr.WaterSpell in spellAttributes || SpellAttr.BindSpell in spellAttributes
+        if (SpellAttr.WaterTome in spellAttributes && applyWaterTomeMod) {
+            modified = scale(modified, multiplier = 6, divisor = 5)
+        }
 
         return modified
     }
@@ -152,6 +177,10 @@ public object MagicAccuracyOperations {
 
         return modified
     }
+
+    // Note: Though currently empty, this serves as the attack roll modifier for pvp as a way to
+    // differentiate between player and npc targets.
+    public fun modifyStaffAttackRoll(attackRoll: Int): Int = attackRoll
 
     public fun calculateEffectiveMagic(player: Player, attackStyle: MagicAttackStyle?): Int =
         calculateEffectiveMagic(

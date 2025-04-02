@@ -36,7 +36,7 @@ class MagicSpellMaxHitOperationsTest {
         assertEquals(expectedModifiedMaxHit, modifiedMaxHit)
 
         val finalMaxHit =
-            MagicMaxHitOperations.modifySpellPostSpec(
+            MagicMaxHitOperations.modifySpellDamageRange(
                 modifiedDamage = modifiedMaxHit,
                 baseDamage = loadout.spellMaxHit,
                 attackRate = loadout.attackRate,

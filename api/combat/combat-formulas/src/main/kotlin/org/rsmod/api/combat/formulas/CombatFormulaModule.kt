@@ -2,6 +2,7 @@ package org.rsmod.api.combat.formulas
 
 import org.rsmod.api.combat.formulas.accuracy.magic.NvPMagicAccuracy
 import org.rsmod.api.combat.formulas.accuracy.magic.PvNMagicAccuracy
+import org.rsmod.api.combat.formulas.accuracy.magic.PvPMagicAccuracy
 import org.rsmod.api.combat.formulas.accuracy.melee.NvNMeleeAccuracy
 import org.rsmod.api.combat.formulas.accuracy.melee.NvPMeleeAccuracy
 import org.rsmod.api.combat.formulas.accuracy.melee.PvNMeleeAccuracy
@@ -17,6 +18,7 @@ import org.rsmod.api.combat.formulas.attributes.collector.CombatRangedAttributeC
 import org.rsmod.api.combat.formulas.attributes.collector.DamageReductionAttributeCollector
 import org.rsmod.api.combat.formulas.maxhit.magic.NvPMagicMaxHit
 import org.rsmod.api.combat.formulas.maxhit.magic.PvNMagicMaxHit
+import org.rsmod.api.combat.formulas.maxhit.magic.PvPMagicMaxHit
 import org.rsmod.api.combat.formulas.maxhit.melee.NvNMeleeMaxHit
 import org.rsmod.api.combat.formulas.maxhit.melee.NvPMeleeMaxHit
 import org.rsmod.api.combat.formulas.maxhit.melee.PvNMeleeMaxHit
@@ -39,9 +41,11 @@ public class CombatFormulaModule : PluginModule() {
         bindInstance<MaxHitFormulae>()
 
         bindInstance<PvNMagicAccuracy>()
+        bindInstance<PvPMagicAccuracy>()
         bindInstance<NvPMagicAccuracy>()
-        bindInstance<PvNMagicMaxHit>()
         bindInstance<NvPMagicMaxHit>()
+        bindInstance<PvNMagicMaxHit>()
+        bindInstance<PvPMagicMaxHit>()
 
         bindInstance<NvPMeleeAccuracy>()
         bindInstance<NvNMeleeAccuracy>()

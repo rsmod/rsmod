@@ -68,7 +68,7 @@ constructor(
         val specMaxHit = (modifiedDamage * specialMultiplier).toInt()
         val postSpecDamage = modifyPostSpec(source, specMaxHit, meleeAttributes, npcAttributes)
 
-        val reductionAttributes = reductions.collect(target, pvp = true, random)
+        val reductionAttributes = reductions.collectPvP(target, random)
         return MaxHitOperations.applyDamageReductions(
             startDamage = postSpecDamage,
             activeDefenceBonus = null,

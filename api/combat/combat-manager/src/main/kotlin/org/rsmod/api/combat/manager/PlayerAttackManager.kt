@@ -1292,10 +1292,16 @@ constructor(
      *
      * @param baseMaxHit The base max hit of the powered staff's built-in spell before any modifiers
      *   are applied.
+     * @param percentBoost Percentage boost to max hit (`0` = `+0%` boost, `100` = `+100%` boost).
      * @return A random damage value between `0` and the calculated max hit.
      */
-    public fun rollStaffMaxHit(source: Player, target: PathingEntity, baseMaxHit: Int): Int {
-        val maxHit = calculateStaffMaxHit(source, target, baseMaxHit = baseMaxHit)
+    public fun rollStaffMaxHit(
+        source: Player,
+        target: PathingEntity,
+        baseMaxHit: Int,
+        percentBoost: Int,
+    ): Int {
+        val maxHit = calculateStaffMaxHit(source, target, baseMaxHit, percentBoost = percentBoost)
         return random.of(0..maxHit)
     }
 
@@ -1308,19 +1314,41 @@ constructor(
      *
      * @param baseMaxHit The base max hit of the powered staff's built-in spell before any modifiers
      *   are applied.
+     * @param percentBoost Percentage boost to max hit (`0` = `+0%` boost, `100` = `+100%` boost).
      * @return The calculated maximum possible hit.
      */
-    public fun calculateStaffMaxHit(source: Player, target: PathingEntity, baseMaxHit: Int): Int =
-        when (target) {
-            is Npc -> calculateSpellMaxHit(source, target, baseMaxHit)
-            is Player -> calculateSpellMaxHit(source, target, baseMaxHit)
+    public fun calculateStaffMaxHit(
+        source: Player,
+        target: PathingEntity,
+        baseMaxHit: Int,
+        percentBoost: Int,
+    ): Int {
+        val multiplier = 1 + (percentBoost / 100.0)
+        return when (target) {
+            is Npc -> calculateSpellMaxHit(source, target, baseMaxHit, multiplier)
+            is Player -> calculateSpellMaxHit(source, target, baseMaxHit, multiplier)
         }
+    }
 
-    private fun calculateSpellMaxHit(source: Player, target: Npc, baseMaxHit: Int): Int =
-        maxHits.getStaffMaxHitRange(source, target, baseMaxHit = baseMaxHit)
+    private fun calculateSpellMaxHit(
+        source: Player,
+        target: Npc,
+        baseMaxHit: Int,
+        specMultiplier: Double,
+    ): Int =
+        maxHits.getStaffMaxHit(
+            source,
+            target,
+            baseMaxHit = baseMaxHit,
+            specialMultiplier = specMultiplier,
+        )
 
-    private fun calculateSpellMaxHit(source: Player, target: Player, baseMaxHit: Int): Int =
-        TODO() // TODO(combat)
+    private fun calculateSpellMaxHit(
+        source: Player,
+        target: Player,
+        baseMaxHit: Int,
+        specMultiplier: Double,
+    ): Int = TODO() // TODO(combat)
 
     /**
      * Queues a magic hit on [target], applying damage after the specified [hitDelay].

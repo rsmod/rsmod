@@ -9,6 +9,7 @@ import org.rsmod.api.combat.commons.types.MeleeAttackType
 import org.rsmod.api.combat.commons.types.RangedAttackType
 import org.rsmod.api.combat.formulas.accuracy.magic.NvPMagicAccuracy
 import org.rsmod.api.combat.formulas.accuracy.magic.PvNMagicAccuracy
+import org.rsmod.api.combat.formulas.accuracy.magic.PvPMagicAccuracy
 import org.rsmod.api.combat.formulas.accuracy.melee.NvNMeleeAccuracy
 import org.rsmod.api.combat.formulas.accuracy.melee.NvPMeleeAccuracy
 import org.rsmod.api.combat.formulas.accuracy.melee.PvNMeleeAccuracy
@@ -27,6 +28,7 @@ public class AccuracyFormulae
 constructor(
     private val nvpMagicAccuracy: NvPMagicAccuracy,
     private val pvnMagicAccuracy: PvNMagicAccuracy,
+    private val pvpMagicAccuracy: PvPMagicAccuracy,
     private val nvpMeleeAccuracy: NvPMeleeAccuracy,
     private val nvnMeleeAccuracy: NvNMeleeAccuracy,
     private val pvnMeleeAccuracy: PvNMeleeAccuracy,
@@ -479,6 +481,62 @@ constructor(
         )
 
     /**
+     * Rolls for magic spell accuracy to determine if a spell cast by a [player] against a [target]
+     * player is successful.
+     *
+     * This function calculates the hit chance based on the player's magic accuracy and the target
+     * player's magic defence, then uses a value from the random number generator ([random]) to
+     * determine if the spell hits.
+     *
+     * @param spell The [ObjType] representing the spell being cast (e.g., `objs.spell_wind_strike`
+     *   for the Wind strike spell).
+     * @param spellbook The [Spellbook] the spell belongs to (e.g., Standard or Ancients), usually
+     *   derived from the player's current spellbook.
+     * @param usedSunfireRune Whether the player used a Sunfire rune for the spell.
+     * @param random A [GameRandom] instance used to generate a random number for the hit roll.
+     * @return `true` if the attack is successful (i.e., the hit chance exceeds the random roll),
+     *   `false` otherwise.
+     */
+    public fun rollSpellAccuracy(
+        player: Player,
+        target: Player,
+        spell: ObjType,
+        spellbook: Spellbook?,
+        usedSunfireRune: Boolean,
+        random: GameRandom,
+    ): Boolean {
+        val hitChance = getSpellHitChance(player, target, spell, spellbook, usedSunfireRune)
+        return isSuccessfulHit(hitChance, random)
+    }
+
+    /**
+     * Calculates the magic spell hit chance based on the [player]'s magic attack roll and the
+     * [target]'s magic defence roll.
+     *
+     * @param spell The [ObjType] representing the spell being cast (e.g., `objs.spell_wind_strike`
+     *   for the Wind strike spell).
+     * @param spellbook The [Spellbook] the spell belongs to (e.g., Standard or Ancients), usually
+     *   derived from the player's current spellbook.
+     * @param usedSunfireRune Whether the player used a Sunfire rune for the spell.
+     * @return An integer between `0` and `10,000`, where `0` represents a `0%` hit chance, `1`
+     *   represents a `0.01%` hit chance, and `10,000` represents a `100%` hit chance.
+     */
+    public fun getSpellHitChance(
+        player: Player,
+        target: Player,
+        spell: ObjType,
+        spellbook: Spellbook?,
+        usedSunfireRune: Boolean,
+    ): Int =
+        pvpMagicAccuracy.getSpellHitChance(
+            player = player,
+            target = target,
+            spell = spell,
+            spellbook = spellbook,
+            usedSunfireRune = usedSunfireRune,
+        )
+
+    /**
      * Rolls for powered magic staff accuracy to determine if the built-in spell used by a [player]
      * against a [target] npc is successful.
      *
@@ -513,6 +571,45 @@ constructor(
      */
     public fun getStaffHitChance(player: Player, target: Npc, attackStyle: MagicAttackStyle?): Int =
         pvnMagicAccuracy.getStaffHitChance(player = player, target = target, attackStyle)
+
+    /**
+     * Rolls for powered magic staff accuracy to determine if the built-in spell used by a [player]
+     * against a [target] player is successful.
+     *
+     * This function calculates the hit chance based on the player's magic accuracy and the target
+     * magic defence, then uses a value from the random number generator ([random]) to determine
+     * whether the built-in spell hits.
+     *
+     * @param attackStyle The [MagicAttackStyle] used for the attack roll, usually derived from the
+     *   [player]'s current stance.
+     * @param random A [GameRandom] instance used to generate a random number for the hit roll.
+     * @return `true` if the attack is successful (i.e., the hit chance exceeds the random roll),
+     *   `false` otherwise.
+     */
+    public fun rollStaffAccuracy(
+        player: Player,
+        target: Player,
+        attackStyle: MagicAttackStyle?,
+        random: GameRandom,
+    ): Boolean {
+        val hitChance = getStaffHitChance(player, target, attackStyle)
+        return isSuccessfulHit(hitChance, random)
+    }
+
+    /**
+     * Calculates the powered magic staff hit chance based on the [player]'s magic attack roll and
+     * the [target]'s magic defence roll.
+     *
+     * @param attackStyle The [MagicAttackStyle] used for the attack roll, usually derived from the
+     *   [player]'s current stance.
+     * @return An integer between `0` and `10,000`, where `0` represents a `0%` hit chance, `1`
+     *   represents a `0.01%` hit chance, and `10,000` represents a `100%` hit chance.
+     */
+    public fun getStaffHitChance(
+        player: Player,
+        target: Player,
+        attackStyle: MagicAttackStyle?,
+    ): Int = pvpMagicAccuracy.getStaffHitChance(player = player, target = target, attackStyle)
 
     /**
      * Rolls for magic accuracy to determine if an attack from an [npc] against a [target] player is
