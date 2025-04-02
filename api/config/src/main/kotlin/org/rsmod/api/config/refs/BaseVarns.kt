@@ -10,4 +10,5 @@ object BaseVarns : VarnReferences() {
     val generic_state_2 = find("generic_state_2")
     val attacking_player = find("attacking_player")
     val lastattack = find("lastattack")
+    val flat_armour = find("flat_armour")
 }

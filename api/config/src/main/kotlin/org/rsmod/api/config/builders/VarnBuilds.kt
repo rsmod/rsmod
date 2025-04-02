@@ -9,5 +9,6 @@ internal object VarnBuilds : VarnBuilder() {
         build("generic_state_2")
         build("attacking_player")
         build("lastattack")
+        build("flat_armour")
     }
 }
