@@ -6,9 +6,8 @@ import org.rsmod.game.obj.isAnyType
 import org.rsmod.game.obj.isType
 
 public object EquipmentChecks {
-    // TODO(combat): Twinflame staff
     public fun isSmokeStaff(obj: InvObj?): Boolean =
-        obj.isAnyType(objs.smoke_battlestaff, objs.mystic_smoke_staff)
+        obj.isAnyType(objs.smoke_battlestaff, objs.mystic_smoke_staff, objs.twinflame_staff)
 
     public fun isSoulreaperAxe(obj: InvObj?): Boolean = obj.isType(objs.soulreaper_axe)
 

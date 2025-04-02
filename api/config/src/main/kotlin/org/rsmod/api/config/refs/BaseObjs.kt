@@ -176,6 +176,7 @@ object BaseObjs : ObjReferences() {
     val mystic_mist_staff = find("mystic_mist_staff")
     val dust_battlestaff = find("dust_battlestaff")
     val mystic_dust_staff = find("mystic_dust_staff")
+    val twinflame_staff = find("twinflame_staff")
 
     val ancient_staff = find("ancient_staff")
     val skull_sceptre_i = find("skull_sceptre_i")

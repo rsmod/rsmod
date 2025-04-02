@@ -194,8 +194,6 @@ public object MagicMaxHitOperations {
             modifiedMax = scale(modifiedMax, multiplier = 100 + multiplier, divisor = 100)
         }
 
-        // TODO(combat): Twinflame mod here.
-
         if (SpellAttr.AhrimPassive in spellAttributes) {
             modifiedMax = scale(modifiedMax, multiplier = 13, divisor = 10)
         }
@@ -227,8 +225,6 @@ public object MagicMaxHitOperations {
         if (applyTomeMod) {
             modifiedMax = scale(modifiedMax, multiplier = 12, divisor = 10)
         }
-
-        // TODO(combat): Twinflame mod here.
 
         if (SpellAttr.AhrimPassive in spellAttributes) {
             modifiedMax = scale(modifiedMax, multiplier = 13, divisor = 10)
