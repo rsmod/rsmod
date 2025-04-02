@@ -40,4 +40,5 @@ public data class NameMapping(
     public val hitmarks: Map<String, Int> = mutableMapOf(),
     public val headbars: Map<String, Int> = mutableMapOf(),
     public val projanims: Map<String, Int> = mutableMapOf(),
+    public val midis: Map<String, Int> = mutableMapOf(),
 )

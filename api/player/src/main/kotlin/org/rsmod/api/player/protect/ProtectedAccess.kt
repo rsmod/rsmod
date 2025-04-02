@@ -60,6 +60,7 @@ import org.rsmod.api.player.output.UpdateInventory.resendSlot
 import org.rsmod.api.player.output.clearMapFlag
 import org.rsmod.api.player.output.jingle
 import org.rsmod.api.player.output.mes
+import org.rsmod.api.player.output.midiSong
 import org.rsmod.api.player.output.objExamine
 import org.rsmod.api.player.output.runClientScript
 import org.rsmod.api.player.output.soundSynth
@@ -158,6 +159,7 @@ import org.rsmod.game.type.jingle.JingleType
 import org.rsmod.game.type.loc.LocType
 import org.rsmod.game.type.loc.LocTypeList
 import org.rsmod.game.type.mesanim.UnpackedMesAnimType
+import org.rsmod.game.type.midi.MidiType
 import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.npc.NpcTypeList
 import org.rsmod.game.type.npc.UnpackedNpcType
@@ -2580,9 +2582,6 @@ public class ProtectedAccess(
     public operator fun Inventory.contains(content: ContentGroupType): Boolean =
         invContains(this, content)
 
-    /* Jingle helper functions */
-    public fun jingle(jingle: JingleType): Unit = player.jingle(jingle)
-
     /* Loc helper functions (lc=loc config) */
     public fun <T : Any> lcParam(
         type: LocType,
@@ -2634,6 +2633,11 @@ public class ProtectedAccess(
     public fun mes(text: String, type: ChatType): Unit = player.mes(text, type)
 
     public fun spam(text: String): Unit = player.spam(text)
+
+    /* Midi helper functions */
+    public fun jingle(jingle: JingleType): Unit = player.jingle(jingle)
+
+    public fun midiSong(midi: MidiType): Unit = player.midiSong(midi)
 
     /* Npc helper functions (nc=npc config) */
     public fun <T : Any> ncParam(

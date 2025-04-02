@@ -39,6 +39,7 @@ private class NameMappingProvider : Provider<NameMapping> {
         val invs = dirs.readSymbols("inv")
         val jingles = dirs.readSymbols("jingle")
         val locs = dirs.readSymbols("loc")
+        val midis = dirs.readSymbols("midi")
         val mesanims = dirs.readSymbols("mesanim")
         val modLevels = dirs.readSymbols("modlevel")
         val modGroups = dirs.readSymbols("modgroup")
@@ -99,6 +100,7 @@ private class NameMappingProvider : Provider<NameMapping> {
             hitmarks = hitmarks,
             headbars = headbars,
             projanims = projanims,
+            midis = midis,
         )
     }
 

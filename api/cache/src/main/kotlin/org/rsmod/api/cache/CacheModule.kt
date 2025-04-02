@@ -18,6 +18,7 @@ import org.rsmod.game.type.interf.InterfaceTypeList
 import org.rsmod.game.type.inv.InvTypeList
 import org.rsmod.game.type.jingle.JingleTypeList
 import org.rsmod.game.type.loc.LocTypeList
+import org.rsmod.game.type.midi.MidiTypeList
 import org.rsmod.game.type.npc.NpcTypeList
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.param.ParamTypeList
@@ -87,6 +88,8 @@ public object CacheModule : ExtendedModule() {
     @Provides public fun categoryTypeList(map: TypeListMap): CategoryTypeList = map.categories
 
     @Provides public fun projAnimTypeList(map: TypeListMap): ProjAnimTypeList = map.projanims
+
+    @Provides public fun midiTypeList(map: TypeListMap): MidiTypeList = map.midis
 }
 
 private class ConfigTypeListMapProvider

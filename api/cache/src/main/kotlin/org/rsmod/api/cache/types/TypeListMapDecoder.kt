@@ -14,6 +14,7 @@ import org.rsmod.api.cache.types.hitmark.HitmarkTypeDecoder
 import org.rsmod.api.cache.types.inv.InvTypeDecoder
 import org.rsmod.api.cache.types.jingle.JingleTypeDecoder
 import org.rsmod.api.cache.types.loc.LocTypeDecoder
+import org.rsmod.api.cache.types.midi.MidiTypeDecoder
 import org.rsmod.api.cache.types.npc.NpcTypeDecoder
 import org.rsmod.api.cache.types.obj.ObjTypeDecoder
 import org.rsmod.api.cache.types.param.ParamTypeDecoder
@@ -64,6 +65,7 @@ public object TypeListMapDecoder {
         val headbars = decode { HeadbarTypeDecoder.decodeAll(cache) }
         val categories = CategoryTypeDecoder.decodeAll(names)
         val projanims = decode { ProjAnimTypeDecoder.decodeAll(cache) }
+        val midis = MidiTypeDecoder.decodeAll(names)
         TypeListMap(
                 locs = locs.await(),
                 objs = objs.await(),
@@ -89,6 +91,7 @@ public object TypeListMapDecoder {
                 headbars = headbars.await(),
                 categories = categories,
                 projanims = projanims.await(),
+                midis = midis,
             )
             .apply {
                 assignInternal(this.objs, names.objs)
@@ -114,6 +117,7 @@ public object TypeListMapDecoder {
                 assignInternal(this.hitmarks, names.hitmarks)
                 assignInternal(this.headbars, names.headbars)
                 assignInternal(this.projanims, names.projanims)
+                assignInternal(this.midis, names.midis)
                 ComplexTypeDecoder.decodeAll(this)
             }
     }

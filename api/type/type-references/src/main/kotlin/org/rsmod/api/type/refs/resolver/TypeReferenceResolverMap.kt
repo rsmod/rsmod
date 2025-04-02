@@ -26,6 +26,8 @@ import org.rsmod.api.type.refs.jingle.JingleReferenceResolver
 import org.rsmod.api.type.refs.jingle.JingleReferences
 import org.rsmod.api.type.refs.loc.LocReferenceResolver
 import org.rsmod.api.type.refs.loc.LocReferences
+import org.rsmod.api.type.refs.midi.MidiReferenceResolver
+import org.rsmod.api.type.refs.midi.MidiReferences
 import org.rsmod.api.type.refs.mod.ModLevelReferenceResolver
 import org.rsmod.api.type.refs.mod.ModLevelReferences
 import org.rsmod.api.type.refs.npc.NpcReferenceResolver
@@ -76,6 +78,7 @@ constructor(
     private val invResolver: InvReferenceResolver,
     private val jingleResolver: JingleReferenceResolver,
     private val locResolver: LocReferenceResolver,
+    private val midiResolver: MidiReferenceResolver,
     private val modLevelResolver: ModLevelReferenceResolver,
     private val npcResolver: NpcReferenceResolver,
     private val objResolver: ObjReferenceResolver,
@@ -164,6 +167,7 @@ constructor(
                 is InvReferences -> invResolver
                 is JingleReferences -> jingleResolver
                 is LocReferences -> locResolver
+                is MidiReferences -> midiResolver
                 is ModLevelReferences -> modLevelResolver
                 is NpcReferences -> npcResolver
                 is ObjReferences -> objResolver

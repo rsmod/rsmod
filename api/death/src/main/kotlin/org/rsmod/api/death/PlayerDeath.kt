@@ -5,6 +5,7 @@ import jakarta.inject.Singleton
 import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.components
 import org.rsmod.api.config.refs.jingles
+import org.rsmod.api.config.refs.midis
 import org.rsmod.api.config.refs.queues
 import org.rsmod.api.config.refs.seqs
 import org.rsmod.api.config.refs.varps
@@ -32,7 +33,7 @@ public class PlayerDeath @Inject constructor(private val statTypes: StatTypeList
         delay(4)
         combatClearQueue()
         clearQueue(queues.death)
-        // TODO(combat): mini_song(stop_music)
+        midiSong(midis.stop_music)
         jingle(jingles.death_jingle_2)
         mes("Oh dear, you are dead!")
         telejump(randomRespawn ?: respawn)
@@ -49,7 +50,7 @@ public class PlayerDeath @Inject constructor(private val statTypes: StatTypeList
             components.friend_list_tab_target,
             components.account_management_tab_target,
             components.chat_header_target,
-            // components.logout_tab_target, // TODO(combat)
+            // components.logout_tab_target, // TODO
             components.settings_tab_target,
             components.emote_tab_target,
             components.music_tab_target,
