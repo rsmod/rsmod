@@ -2,6 +2,7 @@ package org.rsmod.api.specials
 
 import jakarta.inject.Inject
 import org.rsmod.api.combat.commons.CombatAttack
+import org.rsmod.api.combat.commons.styles.MagicAttackStyle
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
 import org.rsmod.api.combat.commons.styles.RangedAttackStyle
 import org.rsmod.api.combat.commons.types.MeleeAttackType
@@ -314,6 +315,48 @@ constructor(
             ammo = ammo,
             damage = damage,
             hitDelay = hitDelay,
+        )
+
+    /** @see [PlayerAttackManager.rollStaffAccuracy] */
+    public fun rollStaffAccuracy(
+        source: ProtectedAccess,
+        target: PathingEntity,
+        attackStyle: MagicAttackStyle?,
+        percentBoost: Int,
+    ): Boolean =
+        manager.rollStaffAccuracy(
+            source = source.player,
+            target = target,
+            attackStyle = attackStyle,
+            percentBoost = percentBoost,
+        )
+
+    /** @see [PlayerAttackManager.rollStaffMaxHit] */
+    public fun rollStaffMaxHit(
+        source: ProtectedAccess,
+        target: PathingEntity,
+        baseMaxHit: Int,
+        percentBoost: Int,
+    ): Int =
+        manager.rollStaffMaxHit(
+            source = source.player,
+            target = target,
+            baseMaxHit = baseMaxHit,
+            percentBoost = percentBoost,
+        )
+
+    /** @see [PlayerAttackManager.calculateStaffMaxHit] */
+    public fun calculateStaffMaxHit(
+        source: ProtectedAccess,
+        target: PathingEntity,
+        baseMaxHit: Int,
+        percentBoost: Int,
+    ): Int =
+        manager.calculateStaffMaxHit(
+            source = source.player,
+            target = target,
+            baseMaxHit = baseMaxHit,
+            percentBoost = percentBoost,
         )
 
     /** @see [PlayerAttackManager.queueMagicHit] */
