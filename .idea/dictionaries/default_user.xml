@@ -110,6 +110,7 @@
       <w>modgroups</w>
       <w>modlevels</w>
       <w>nomove</w>
+      <w>notimmune</w>
       <w>npc's</w>
       <w>npcmode</w>
       <w>npcs</w>
@@ -141,6 +142,7 @@
       <w>placeholdertemplate</w>
       <w>platebody</w>
       <w>platelegs</w>
+      <w>poisonsinstead</w>
       <w>polearm</w>
       <w>polestaff</w>
       <w>postanim</w>

@@ -85,6 +85,14 @@ object BaseParams : ParamReferences() {
     val kalphite: ParamInt = find("kalphite", 88687193509)
 
     /* Server-side only types */
+    val poison_immunity: ParamInt = find("poison_immunity")
+    val cannon_immunity: ParamInt = find("cannon_immunity")
+    val thrall_immunity: ParamInt = find("thrall_immunity")
+    val venom_immunity: ParamInt = find("venom_immunity")
+    val burn_immunity: ParamInt = find("burn_immunity")
+    val freeze_resistance: ParamInt = find("freeze_resistance")
+    val slayer_experience: ParamInt = find("slayer_experience")
+    val slayer_levelrequire: ParamInt = find("slayer_levelrequire")
     val magic_defence_uses_defence_level: ParamBool = find("magic_defence_uses_defence_level")
     val spell_worn_req_message: ParamStr = find("spell_worn_req_message")
     val elemental_weakness_type: ParamInt = find("elemental_weakness_type")

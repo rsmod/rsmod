@@ -159,6 +159,14 @@
 1802	slayer_task_boss_location
 1935	spell_maxhit
 
+65394	poison_immunity
+65395	cannon_immunity
+65396	thrall_immunity
+65397	venom_immunity
+65398	burn_immunity
+65399	freeze_resistance
+65400	slayer_experience
+65401	slayer_levelrequire
 65402	magic_defence_uses_defence_level
 65403	spell_worn_req_message
 65404	elemental_weakness_type

@@ -51,6 +51,10 @@ object Constants {
     const val combat_spell_attackrate = 5
     const val combat_activecombat_delay = 8
 
+    const val npc_immunity_none = 0
+    const val npc_venom_partial_immunity = 1
+    const val npc_venom_full_immunity = 2
+
     const val elemental_weakness_wind = 0
     const val elemental_weakness_water = 1
     const val elemental_weakness_earth = 2

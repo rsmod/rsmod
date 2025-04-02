@@ -52,7 +52,6 @@ constructor(
     private fun NpcPluginBuilder.apply(config: ExternalNpcConfig): NpcPluginBuilder {
         desc = config.examine
         respawnRate = config.respawnRate
-        // TODO(combat): Create params for rest of [ExternalNpcConfig] values.
         putSeq(config.attackAnim, params.attack_anim)
         putSeq(config.defendAnim, params.defend_anim)
         putSeq(config.deathAnim, params.death_anim)
@@ -63,9 +62,16 @@ constructor(
         putInt(config.defenceLight, params.defence_light)
         putInt(config.defenceStandard, params.defence_standard)
         putInt(config.defenceHeavy, params.defence_heavy)
+        putInt(config.poisonImmunity, params.poison_immunity)
+        putInt(config.cannonImmunity, params.cannon_immunity)
+        putInt(config.thrallImmunity, params.thrall_immunity)
+        putInt(config.burnImmunity, params.burn_immunity)
+        putInt(config.slayerReq, params.slayer_levelrequire)
+        putSlayerXpMod(config.slayerXp, params.slayer_experience)
         putCombatXpMod(config.bonusXp, params.npc_com_xp_multiplier)
         putAttackType(config.attackType, params.npc_attack_type)
         putElementalWeakness(config.elementalWeaknessType, config.elementalWeaknessPercent)
+        putVenomImmunity(config.venomImmunity)
         return this
     }
 
@@ -87,12 +93,24 @@ constructor(
         }
     }
 
+    private fun NpcPluginBuilder.putInt(value: Boolean?, paramType: ParamInt) {
+        if (value != null) {
+            param[paramType] = if (value) 1 else 0
+        }
+    }
+
     private fun NpcPluginBuilder.putCombatXpMod(value: Double?, paramType: ParamInt) {
         if (value != null) {
             // `bonusXp` in npc config file is represented as `+bonus%` (e.g., 7.5 for +7.5%).
             // We scale that percent by 10 and add 1000 to represent the multiplier.
             // Example: 7.5% becomes 1000 + 75 = 1075.
             param[paramType] = 1000 + round(value * 10.0).toInt()
+        }
+    }
+
+    private fun NpcPluginBuilder.putSlayerXpMod(value: Double?, paramType: ParamInt) {
+        if (value != null) {
+            param[paramType] = (value * 10).toInt()
         }
     }
 
@@ -124,6 +142,19 @@ constructor(
             }
         param[params.elemental_weakness_type] = weaknessType
         param[params.elemental_weakness_percent] = percent
+    }
+
+    private fun NpcPluginBuilder.putVenomImmunity(type: String?) {
+        if (type == null) {
+            return
+        }
+        val id =
+            when (type.lowercase()) {
+                "immune" -> constants.npc_venom_full_immunity
+                "poisonsinstead" -> constants.npc_venom_partial_immunity
+                else -> error("Unexpected venom immunity type name: $type")
+            }
+        param[params.venom_immunity] = id
     }
 
     private companion object {

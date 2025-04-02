@@ -23,6 +23,17 @@ import org.rsmod.game.type.varbit.VarBitType
 
 internal object ParamBuilds : ParamBuilder() {
     init {
+        build<Int>("poison_immunity") { default = 0 }
+        build<Int>("cannon_immunity") { default = 0 }
+        build<Int>("thrall_immunity") { default = 0 }
+        build<Int>("venom_immunity") { default = 0 }
+        build<Int>("burn_immunity") { default = 0 }
+
+        build<Int>("freeze_resistance") { default = 0 }
+
+        build<Int>("slayer_experience") { default = 0 }
+        build<Int>("slayer_levelrequire") { default = 0 }
+
         build<Boolean>("magic_defence_uses_defence_level") { default = false }
         build<String>("spell_worn_req_message")
 
