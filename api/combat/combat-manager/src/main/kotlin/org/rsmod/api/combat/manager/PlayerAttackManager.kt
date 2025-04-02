@@ -14,6 +14,7 @@ import org.rsmod.api.combat.commons.player.combatPlayDefendAnim
 import org.rsmod.api.combat.commons.player.combatPlayDefendSpot
 import org.rsmod.api.combat.commons.player.queueCombatRetaliate
 import org.rsmod.api.combat.commons.player.resolveCombatXpMultiplier
+import org.rsmod.api.combat.commons.styles.MagicAttackStyle
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
 import org.rsmod.api.combat.commons.styles.RangedAttackStyle
 import org.rsmod.api.combat.commons.types.MeleeAttackType
@@ -1254,19 +1255,31 @@ constructor(
      * This function performs an accuracy roll by comparing [source]'s magic attack roll with
      * [target]'s magic defence roll.
      *
+     * @param attackStyle The [MagicAttackStyle] used for the [source]'s accuracy calculation.
+     *   Usually based on the current `CombatAttack.Staff` attack but can be overridden.
      * @return `true` if the accuracy roll succeeds (the spell will "land"), `false` otherwise.
      */
-    public fun rollStaffAccuracy(source: Player, target: PathingEntity): Boolean =
+    public fun rollStaffAccuracy(
+        source: Player,
+        target: PathingEntity,
+        attackStyle: MagicAttackStyle?,
+    ): Boolean =
         when (target) {
-            is Npc -> rollStaffAccuracy(source, target)
-            is Player -> rollStaffAccuracy(source, target)
+            is Npc -> rollStaffAccuracy(source, target, attackStyle)
+            is Player -> rollStaffAccuracy(source, target, attackStyle)
         }
 
-    private fun rollStaffAccuracy(source: Player, target: Npc): Boolean =
-        accuracy.rollStaffAccuracy(player = source, target = target, random)
+    private fun rollStaffAccuracy(
+        source: Player,
+        target: Npc,
+        attackStyle: MagicAttackStyle?,
+    ): Boolean = accuracy.rollStaffAccuracy(player = source, target = target, attackStyle, random)
 
-    private fun rollStaffAccuracy(source: Player, target: Player): Boolean =
-        TODO() // TODO(combat): pvp accuracy
+    private fun rollStaffAccuracy(
+        source: Player,
+        target: Player,
+        attackStyle: MagicAttackStyle?,
+    ): Boolean = TODO() // TODO(combat): pvp accuracy
 
     /**
      * Rolls a random damage value between `0` and the maximum possible hit for a powered staff's

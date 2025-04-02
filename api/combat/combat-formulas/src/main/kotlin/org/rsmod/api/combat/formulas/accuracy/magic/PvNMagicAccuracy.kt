@@ -5,6 +5,7 @@ import java.util.EnumSet
 import org.rsmod.api.combat.accuracy.npc.NpcMagicAccuracy
 import org.rsmod.api.combat.accuracy.player.PlayerMagicAccuracy
 import org.rsmod.api.combat.commons.magic.Spellbook
+import org.rsmod.api.combat.commons.styles.MagicAttackStyle
 import org.rsmod.api.combat.formulas.accuracy.AccuracyOperations
 import org.rsmod.api.combat.formulas.attributes.CombatNpcAttributes
 import org.rsmod.api.combat.formulas.attributes.CombatSpellAttributes
@@ -109,7 +110,7 @@ constructor(
         )
     }
 
-    public fun getStaffHitChance(player: Player, target: Npc): Int =
+    public fun getStaffHitChance(player: Player, target: Npc, attackStyle: MagicAttackStyle?): Int =
         computeStaffHitChance(
             source = player,
             target = target.visType,
@@ -117,6 +118,7 @@ constructor(
             targetCurrHp = target.hitpoints,
             targetMaxHp = target.baseHitpointsLvl,
             targetMagic = target.magicLvl,
+            attackStyle = attackStyle,
         )
 
     public fun computeStaffHitChance(
@@ -126,13 +128,14 @@ constructor(
         targetCurrHp: Int,
         targetMaxHp: Int,
         targetMagic: Int,
+        attackStyle: MagicAttackStyle?,
     ): Int {
         val staffAttributes = magicAttributes.staffCollect(source, random)
 
         val slayerTask = target.isSlayerTask(source)
         val npcAttributes = npcAttributes.collect(target, targetCurrHp, targetMaxHp, slayerTask)
 
-        val attackRoll = computeStaffAttackRoll(source, staffAttributes, npcAttributes)
+        val attackRoll = computeStaffAttackRoll(source, attackStyle, staffAttributes, npcAttributes)
 
         val amascutInvocationLvl = 0 // TODO(combat): Create varp.
         val baseDefenceRoll =
@@ -150,10 +153,11 @@ constructor(
 
     public fun computeStaffAttackRoll(
         source: Player,
+        attackStyle: MagicAttackStyle?,
         staffAttributes: EnumSet<CombatStaffAttributes>,
         npcAttributes: EnumSet<CombatNpcAttributes>,
     ): Int {
-        val effectiveMagic = MagicAccuracyOperations.calculateEffectiveMagic(source, null)
+        val effectiveMagic = MagicAccuracyOperations.calculateEffectiveMagic(source, attackStyle)
         val magicBonus = bonuses.offensiveMagicBonus(source)
         val attackRoll = PlayerMagicAccuracy.calculateBaseAttackRoll(effectiveMagic, magicBonus)
         return MagicAccuracyOperations.modifyStaffAttackRoll(

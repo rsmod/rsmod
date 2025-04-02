@@ -2,6 +2,7 @@ package org.rsmod.api.combat.formulas
 
 import jakarta.inject.Inject
 import org.rsmod.api.combat.commons.magic.Spellbook
+import org.rsmod.api.combat.commons.styles.MagicAttackStyle
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
 import org.rsmod.api.combat.commons.styles.RangedAttackStyle
 import org.rsmod.api.combat.commons.types.MeleeAttackType
@@ -478,12 +479,19 @@ constructor(
      * npc's magic defence, then uses a value from the random number generator ([random]) to
      * determine whether the built-in spell hits.
      *
+     * @param attackStyle The [MagicAttackStyle] used for the attack roll, usually derived from the
+     *   [player]'s current stance.
      * @param random A [GameRandom] instance used to generate a random number for the hit roll.
      * @return `true` if the attack is successful (i.e., the hit chance exceeds the random roll),
      *   `false` otherwise.
      */
-    public fun rollStaffAccuracy(player: Player, target: Npc, random: GameRandom): Boolean {
-        val hitChance = getStaffHitChance(player, target)
+    public fun rollStaffAccuracy(
+        player: Player,
+        target: Npc,
+        attackStyle: MagicAttackStyle?,
+        random: GameRandom,
+    ): Boolean {
+        val hitChance = getStaffHitChance(player, target, attackStyle)
         return isSuccessfulHit(hitChance, random)
     }
 
@@ -491,11 +499,13 @@ constructor(
      * Calculates the powered magic staff hit chance based on the [player]'s magic attack roll and
      * the [target]'s magic defence roll.
      *
+     * @param attackStyle The [MagicAttackStyle] used for the attack roll, usually derived from the
+     *   [player]'s current stance.
      * @return An integer between `0` and `10,000`, where `0` represents a `0%` hit chance, `1`
      *   represents a `0.01%` hit chance, and `10,000` represents a `100%` hit chance.
      */
-    public fun getStaffHitChance(player: Player, target: Npc): Int =
-        pvnMagicAccuracy.getStaffHitChance(player = player, target = target)
+    public fun getStaffHitChance(player: Player, target: Npc, attackStyle: MagicAttackStyle?): Int =
+        pvnMagicAccuracy.getStaffHitChance(player = player, target = target, attackStyle)
 
     /**
      * Rolls for magic accuracy to determine if an attack from an [npc] against a [target] player is
