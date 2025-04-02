@@ -14,6 +14,7 @@ import org.rsmod.api.combat.formulas.accuracy.melee.PvNMeleeAccuracy
 import org.rsmod.api.combat.formulas.accuracy.melee.PvPMeleeAccuracy
 import org.rsmod.api.combat.formulas.accuracy.ranged.NvPRangedAccuracy
 import org.rsmod.api.combat.formulas.accuracy.ranged.PvNRangedAccuracy
+import org.rsmod.api.combat.formulas.accuracy.ranged.PvPRangedAccuracy
 import org.rsmod.api.random.GameRandom
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
@@ -30,6 +31,7 @@ constructor(
     private val pvpMeleeAccuracy: PvPMeleeAccuracy,
     private val nvpRangedAccuracy: NvPRangedAccuracy,
     private val pvnRangedAccuracy: PvNRangedAccuracy,
+    private val pvpRangedAccuracy: PvPRangedAccuracy,
 ) {
     /**
      * Rolls for melee accuracy to determine if an attack from a [player] against a [target] npc is
@@ -302,6 +304,57 @@ constructor(
             attackType = attackType,
             attackStyle = attackStyle,
             blockType = blockType,
+            specialMultiplier = specMultiplier,
+        )
+
+    /**
+     * Rolls for ranged accuracy to determine if an attack from a [player] against a [target] player
+     * is successful.
+     *
+     * This function calculates the hit chance based on the player's attack roll and the player's
+     * defence roll, then uses a value from the random number generator ([random]) to determine if
+     * the attack hits.
+     *
+     * @param attackStyle The [RangedAttackStyle] used for the attack roll, usually derived from the
+     *   player's current stance.
+     * @param specMultiplier A multiplier applied to the hit chance, typically used for special
+     *   attacks.
+     * @param random A [GameRandom] instance used to generate a random number for the hit roll.
+     * @return `true` if the attack is successful (i.e., the hit chance exceeds the random roll),
+     *   `false` otherwise.
+     */
+    public fun rollRangedAccuracy(
+        player: Player,
+        target: Player,
+        attackStyle: RangedAttackStyle?,
+        specMultiplier: Double,
+        random: GameRandom,
+    ): Boolean {
+        val hitChance = getRangedHitChance(player, target, attackStyle, specMultiplier)
+        return isSuccessfulHit(hitChance, random)
+    }
+
+    /**
+     * Calculates the ranged hit chance based on the [player]'s attack roll and the [target]'s
+     * defence roll.
+     *
+     * @param attackStyle The [RangedAttackStyle] used for the attack roll, usually derived from the
+     *   [player]'s current stance.
+     * @param specMultiplier A multiplier applied to the hit chance, typically used for special
+     *   attacks.
+     * @return An integer between `0` and `10,000`, where `0` represents a `0%` hit chance, `1`
+     *   represents a `0.01%` hit chance, and `10,000` represents a `100%` hit chance.
+     */
+    public fun getRangedHitChance(
+        player: Player,
+        target: Player,
+        attackStyle: RangedAttackStyle?,
+        specMultiplier: Double,
+    ): Int =
+        pvpRangedAccuracy.getHitChance(
+            player = player,
+            target = target,
+            attackStyle = attackStyle,
             specialMultiplier = specMultiplier,
         )
 

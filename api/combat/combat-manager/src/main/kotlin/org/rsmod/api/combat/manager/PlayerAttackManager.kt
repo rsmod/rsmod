@@ -545,7 +545,16 @@ constructor(
         attackStyle: MeleeAttackStyle?,
         blockType: MeleeAttackType?,
         specMultiplier: Double,
-    ): Boolean = TODO() // TODO(combat): pvp accuracy
+    ): Boolean =
+        accuracy.rollMeleeAccuracy(
+            player = source,
+            target = target,
+            attackType = attackType,
+            attackStyle = attackStyle,
+            blockType = blockType,
+            specMultiplier = specMultiplier,
+            random = random,
+        )
 
     /**
      * Rolls a random damage value between `0` and the maximum possible melee hit.
@@ -612,7 +621,7 @@ constructor(
         attackType: MeleeAttackType?,
         attackStyle: MeleeAttackStyle?,
         specMultiplier: Double,
-    ): Int = TODO() // TODO(combat)
+    ): Int = maxHits.getMeleeMaxHit(source, target, attackType, attackStyle, specMultiplier)
 
     /**
      * Queues a melee hit on [target], applying damage after the specified [delay].
@@ -753,9 +762,7 @@ constructor(
             is Npc -> {
                 rollRangedAccuracy(source, target, attackType, attackStyle, blockType, multiplier)
             }
-            is Player -> {
-                rollRangedAccuracy(source, target, attackType, attackStyle, blockType, multiplier)
-            }
+            is Player -> rollRangedAccuracy(source, target, attackStyle, multiplier)
         }
     }
 
@@ -780,11 +787,16 @@ constructor(
     private fun rollRangedAccuracy(
         source: Player,
         target: Player,
-        attackType: RangedAttackType?,
         attackStyle: RangedAttackStyle?,
-        blockType: RangedAttackType?,
         specMultiplier: Double,
-    ): Boolean = TODO() // TODO(combat): pvp accuracy
+    ): Boolean =
+        accuracy.rollRangedAccuracy(
+            player = source,
+            target = target,
+            attackStyle = attackStyle,
+            specMultiplier = specMultiplier,
+            random = random,
+        )
 
     /**
      * Rolls a random damage value between `0` and the maximum possible ranged hit.
@@ -892,7 +904,15 @@ constructor(
         attackStyle: RangedAttackStyle?,
         specMultiplier: Double,
         boltSpecDamage: Int,
-    ): Int = TODO() // TODO(combat)
+    ): Int =
+        maxHits.getRangedMaxHit(
+            player = source,
+            target = target,
+            attackType = attackType,
+            attackStyle = attackStyle,
+            specMultiplier = specMultiplier,
+            boltSpecDamage = boltSpecDamage,
+        )
 
     /**
      * Queues a ranged hit on [target], applying damage after the specified [hitDelay].

@@ -14,6 +14,7 @@ import org.rsmod.api.combat.formulas.maxhit.melee.PvNMeleeMaxHit
 import org.rsmod.api.combat.formulas.maxhit.melee.PvPMeleeMaxHit
 import org.rsmod.api.combat.formulas.maxhit.ranged.NvPRangedMaxHit
 import org.rsmod.api.combat.formulas.maxhit.ranged.PvNRangedMaxHit
+import org.rsmod.api.combat.formulas.maxhit.ranged.PvPRangedMaxHit
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.game.type.obj.ObjType
@@ -28,6 +29,7 @@ constructor(
     private val nvnMeleeMaxHit: NvNMeleeMaxHit,
     private val nvpMeleeMaxHit: NvPMeleeMaxHit,
     private val pvnRangedMaxHit: PvNRangedMaxHit,
+    private val pvpRangedMaxHit: PvPRangedMaxHit,
     private val nvpRangedMaxHit: NvPRangedMaxHit,
 ) {
     /** @see [PvNMeleeMaxHit.getMaxHit] */
@@ -76,9 +78,27 @@ constructor(
         attackType: RangedAttackType?,
         attackStyle: RangedAttackStyle?,
         specMultiplier: Double,
-        boltSpecDamage: Int = 0,
+        boltSpecDamage: Int,
     ): Int =
         pvnRangedMaxHit.getMaxHit(
+            player = player,
+            target = target,
+            attackType = attackType,
+            attackStyle = attackStyle,
+            specialMultiplier = specMultiplier,
+            boltSpecDamage = boltSpecDamage,
+        )
+
+    /** @see [PvPRangedMaxHit.getMaxHit] */
+    public fun getRangedMaxHit(
+        player: Player,
+        target: Player,
+        attackType: RangedAttackType?,
+        attackStyle: RangedAttackStyle?,
+        specMultiplier: Double,
+        boltSpecDamage: Int,
+    ): Int =
+        pvpRangedMaxHit.getMaxHit(
             player = player,
             target = target,
             attackType = attackType,
