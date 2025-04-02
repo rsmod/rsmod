@@ -8,6 +8,7 @@ import org.rsmod.api.combat.commons.types.MeleeAttackType
 import org.rsmod.api.combat.commons.types.RangedAttackType
 import org.rsmod.api.combat.formulas.accuracy.magic.NvPMagicAccuracy
 import org.rsmod.api.combat.formulas.accuracy.magic.PvNMagicAccuracy
+import org.rsmod.api.combat.formulas.accuracy.melee.NvNMeleeAccuracy
 import org.rsmod.api.combat.formulas.accuracy.melee.NvPMeleeAccuracy
 import org.rsmod.api.combat.formulas.accuracy.melee.PvNMeleeAccuracy
 import org.rsmod.api.combat.formulas.accuracy.melee.PvPMeleeAccuracy
@@ -24,6 +25,7 @@ constructor(
     private val nvpMagicAccuracy: NvPMagicAccuracy,
     private val pvnMagicAccuracy: PvNMagicAccuracy,
     private val nvpMeleeAccuracy: NvPMeleeAccuracy,
+    private val nvnMeleeAccuracy: NvNMeleeAccuracy,
     private val pvnMeleeAccuracy: PvNMeleeAccuracy,
     private val pvpMeleeAccuracy: PvPMeleeAccuracy,
     private val nvpRangedAccuracy: NvPRangedAccuracy,
@@ -200,6 +202,42 @@ constructor(
      */
     public fun getMeleeHitChance(npc: Npc, target: Player, attackType: MeleeAttackType?): Int =
         nvpMeleeAccuracy.getHitChance(npc, target, attackType)
+
+    /**
+     * Rolls for melee accuracy to determine if an attack from an [npc] against a [target] npc is
+     * successful.
+     *
+     * This function calculates the hit chance based on the npc's attack roll and the target npc's
+     * defence roll, then uses a value from the random number generator ([random]) to determine if
+     * the attack hits.
+     *
+     * @param attackType The [MeleeAttackType] used for the attack roll, typically based on the
+     *   npc's current type of attack.
+     * @param random A [GameRandom] instance used to generate a random number for the hit roll.
+     * @return `true` if the attack is successful (i.e., the hit chance exceeds the random roll),
+     *   `false` otherwise.
+     */
+    public fun rollMeleeAccuracy(
+        npc: Npc,
+        target: Npc,
+        attackType: MeleeAttackType?,
+        random: GameRandom,
+    ): Boolean {
+        val hitChance = getMeleeHitChance(npc, target, attackType)
+        return isSuccessfulHit(hitChance, random)
+    }
+
+    /**
+     * Calculates the melee hit chance based on the [npc]'s attack roll and the [target]'s defence
+     * roll.
+     *
+     * @param attackType The [MeleeAttackType] used for the attack roll, typically based on the
+     *   [npc]'s current type of attack.
+     * @return An integer between `0` and `10,000`, where `0` represents a `0%` hit chance, `1`
+     *   represents a `0.01%` hit chance, and `10,000` represents a `100%` hit chance.
+     */
+    public fun getMeleeHitChance(npc: Npc, target: Npc, attackType: MeleeAttackType?): Int =
+        nvnMeleeAccuracy.getHitChance(npc, target, attackType)
 
     /**
      * Rolls for ranged accuracy to determine if an attack from a [player] against a [target] npc is

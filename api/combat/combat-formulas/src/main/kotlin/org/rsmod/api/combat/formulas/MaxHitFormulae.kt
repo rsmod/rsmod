@@ -8,6 +8,7 @@ import org.rsmod.api.combat.commons.types.MeleeAttackType
 import org.rsmod.api.combat.commons.types.RangedAttackType
 import org.rsmod.api.combat.formulas.maxhit.magic.NvPMagicMaxHit
 import org.rsmod.api.combat.formulas.maxhit.magic.PvNMagicMaxHit
+import org.rsmod.api.combat.formulas.maxhit.melee.NvNMeleeMaxHit
 import org.rsmod.api.combat.formulas.maxhit.melee.NvPMeleeMaxHit
 import org.rsmod.api.combat.formulas.maxhit.melee.PvNMeleeMaxHit
 import org.rsmod.api.combat.formulas.maxhit.melee.PvPMeleeMaxHit
@@ -24,6 +25,7 @@ constructor(
     private val nvpMagicMaxHit: NvPMagicMaxHit,
     private val pvnMeleeMaxHit: PvNMeleeMaxHit,
     private val pvpMeleeMaxHit: PvPMeleeMaxHit,
+    private val nvnMeleeMaxHit: NvNMeleeMaxHit,
     private val nvpMeleeMaxHit: NvPMeleeMaxHit,
     private val pvnRangedMaxHit: PvNRangedMaxHit,
     private val nvpRangedMaxHit: NvPRangedMaxHit,
@@ -63,6 +65,9 @@ constructor(
     /** @see [NvPMeleeMaxHit.getMaxHit] */
     public fun getMeleeMaxHit(npc: Npc, target: Player, attackType: MeleeAttackType?): Int =
         nvpMeleeMaxHit.getMaxHit(npc, target, attackType)
+
+    /** @see [NvNMeleeMaxHit.getMaxHit] */
+    public fun getMeleeMaxHit(npc: Npc): Int = nvnMeleeMaxHit.getMaxHit(npc)
 
     /** @see [PvNRangedMaxHit.getMaxHit] */
     public fun getRangedMaxHit(
