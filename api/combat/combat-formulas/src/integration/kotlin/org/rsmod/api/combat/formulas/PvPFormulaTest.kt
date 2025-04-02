@@ -4,12 +4,16 @@ import com.google.inject.AbstractModule
 import com.google.inject.Scopes
 import jakarta.inject.Inject
 import org.rsmod.api.combat.commons.CombatStance
+import org.rsmod.api.combat.commons.magic.Spellbook
+import org.rsmod.api.combat.commons.styles.MagicAttackStyle
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
 import org.rsmod.api.combat.commons.styles.RangedAttackStyle
 import org.rsmod.api.combat.commons.types.MeleeAttackType
 import org.rsmod.api.combat.commons.types.RangedAttackType
+import org.rsmod.api.combat.formulas.accuracy.magic.PvPMagicAccuracy
 import org.rsmod.api.combat.formulas.accuracy.melee.PvPMeleeAccuracy
 import org.rsmod.api.combat.formulas.accuracy.ranged.PvPRangedAccuracy
+import org.rsmod.api.combat.formulas.maxhit.magic.PvPMagicMaxHit
 import org.rsmod.api.combat.formulas.maxhit.melee.PvPMeleeMaxHit
 import org.rsmod.api.combat.formulas.maxhit.ranged.PvPRangedMaxHit
 import org.rsmod.api.combat.weapon.scripts.WeaponAttackStylesScript
@@ -45,21 +49,8 @@ class PvPFormulaTest {
             val attacker = registerPlayer().also { a -> copy(a, matchup.attacker) }
             val defender = registerPlayer().also { d -> copy(d, matchup.defender) }
 
-            val attackerResults =
-                attacker.calculateRolls(
-                    deps = it,
-                    defender = defender,
-                    accuracyBoost = matchup.attacker.specialAccuracy,
-                    damageBoost = matchup.attacker.specialDamage,
-                )
-
-            val defenderResults =
-                defender.calculateRolls(
-                    deps = it,
-                    defender = attacker,
-                    accuracyBoost = matchup.defender.specialAccuracy,
-                    damageBoost = matchup.defender.specialDamage,
-                )
+            val attackerResults = attacker.calculateRolls(it, defender, matchup.attacker)
+            val defenderResults = defender.calculateRolls(it, attacker, matchup.defender)
 
             assertEquals(matchup.attackerRolls.accuracy, attackerResults.accuracy / 100.0)
             assertEquals(matchup.attackerRolls.maxHit, attackerResults.maxHit)
@@ -71,15 +62,49 @@ class PvPFormulaTest {
     private fun Player.calculateRolls(
         deps: TestDependencies,
         defender: Player,
-        accuracyBoost: Double,
-        damageBoost: Double,
+        mp: Matchup.MatchupPlayer,
     ): Result {
+        val accuracyBoost = mp.specialAccuracy
+        val damageBoost = mp.specialDamage
+        val spell = mp.castSpell
+
         val attackType = deps.types.get(this)
         val attackStyle = deps.styles.get(this)
         return when {
+            spell != null -> {
+                val baseMaxHit = checkNotNull(mp.spellMaxHit)
+                val accuracy =
+                    deps.magicAccuracy.getSpellHitChance(
+                        this,
+                        defender,
+                        spell,
+                        mp.spellbook,
+                        usedSunfireRune = false,
+                    )
+                val maxHit =
+                    deps.magicMaxHit.getSpellMaxHit(
+                        this,
+                        defender,
+                        spell,
+                        mp.spellbook,
+                        baseMaxHit,
+                        usedSunfireRune = false,
+                    )
+                Result(accuracy, maxHit.last)
+            }
             attackType?.isMagic == true -> {
-                // TODO(combat): Implement when magic pvp is supported.
-                TODO()
+                val magicAttackStyle = MagicAttackStyle.from(attackStyle)
+                val baseMaxHit = checkNotNull(mp.staffMaxHit)
+                val accuracy =
+                    deps.magicAccuracy.getStaffHitChance(
+                        this,
+                        defender,
+                        magicAttackStyle,
+                        accuracyBoost,
+                    )
+                val maxHit =
+                    deps.magicMaxHit.getStaffMaxHit(this, defender, baseMaxHit, damageBoost)
+                Result(accuracy, maxHit)
             }
             attackType?.isRanged == true -> {
                 val rangedAttackType = RangedAttackType.from(attackType)
@@ -195,6 +220,10 @@ class PvPFormulaTest {
             var magicLvl: Int = 99,
             var hitpoints: Int = 99,
             val vars: MutableMap<VarBitType, Int> = mutableMapOf(),
+            var spellbook: Spellbook = Spellbook.Standard,
+            var castSpell: ObjType? = null,
+            var spellMaxHit: Int? = null,
+            var staffMaxHit: Int? = null,
             var specialAccuracy: Double = 1.0,
             var specialDamage: Double = 1.0,
         )
@@ -220,6 +249,10 @@ class PvPFormulaTest {
         }
     }
 
+    // Note: The dps calculator we used as a reference for these formulae does not support pvp.
+    // There is another calculator that does, and their results mostly align - except for magic,
+    // where results are slightly skewed (even in pvm). Because of this discrepancy, we currently
+    // exclude magic from our test cases until a reliable source becomes available.
     private object MatchupProvider : TestArgsProvider {
         override fun args(): List<TestArgs> {
             return testArgsOfSingleParam(
@@ -492,10 +525,12 @@ class PvPFormulaTest {
     private class TestDependencies
     @Inject
     constructor(
-        val meleeAccuracy: PvPMeleeAccuracy,
-        val rangedAccuracy: PvPRangedAccuracy,
         val meleeMaxHit: PvPMeleeMaxHit,
+        val meleeAccuracy: PvPMeleeAccuracy,
         val rangedMaxHit: PvPRangedMaxHit,
+        val rangedAccuracy: PvPRangedAccuracy,
+        val magicMaxHit: PvPMagicMaxHit,
+        val magicAccuracy: PvPMagicAccuracy,
         val types: AttackTypes,
         val styles: AttackStyles,
     )
