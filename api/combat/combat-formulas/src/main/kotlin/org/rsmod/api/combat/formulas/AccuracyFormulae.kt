@@ -12,6 +12,7 @@ import org.rsmod.api.combat.formulas.accuracy.melee.NvNMeleeAccuracy
 import org.rsmod.api.combat.formulas.accuracy.melee.NvPMeleeAccuracy
 import org.rsmod.api.combat.formulas.accuracy.melee.PvNMeleeAccuracy
 import org.rsmod.api.combat.formulas.accuracy.melee.PvPMeleeAccuracy
+import org.rsmod.api.combat.formulas.accuracy.ranged.NvNRangedAccuracy
 import org.rsmod.api.combat.formulas.accuracy.ranged.NvPRangedAccuracy
 import org.rsmod.api.combat.formulas.accuracy.ranged.PvNRangedAccuracy
 import org.rsmod.api.combat.formulas.accuracy.ranged.PvPRangedAccuracy
@@ -30,6 +31,7 @@ constructor(
     private val pvnMeleeAccuracy: PvNMeleeAccuracy,
     private val pvpMeleeAccuracy: PvPMeleeAccuracy,
     private val nvpRangedAccuracy: NvPRangedAccuracy,
+    private val nvnRangedAccuracy: NvNRangedAccuracy,
     private val pvnRangedAccuracy: PvNRangedAccuracy,
     private val pvpRangedAccuracy: PvPRangedAccuracy,
 ) {
@@ -384,6 +386,33 @@ constructor(
      */
     public fun getRangedHitChance(npc: Npc, target: Player): Int =
         nvpRangedAccuracy.getHitChance(npc, target)
+
+    /**
+     * Rolls for ranged accuracy to determine if an attack from an [npc] against a [target] npc is
+     * successful.
+     *
+     * This function calculates the hit chance based on the npc's attack roll and the player's
+     * defence roll, then uses a value from the random number generator ([random]) to determine if
+     * the attack hits.
+     *
+     * @param random A [GameRandom] instance used to generate a random number for the hit roll.
+     * @return `true` if the attack is successful (i.e., the hit chance exceeds the random roll),
+     *   `false` otherwise.
+     */
+    public fun rollRangedAccuracy(npc: Npc, target: Npc, random: GameRandom): Boolean {
+        val hitChance = getRangedHitChance(npc, target)
+        return isSuccessfulHit(hitChance, random)
+    }
+
+    /**
+     * Calculates the ranged hit chance based on the [npc]'s attack roll and the [target]'s defence
+     * roll.
+     *
+     * @return An integer between `0` and `10,000`, where `0` represents a `0%` hit chance, `1`
+     *   represents a `0.01%` hit chance, and `10,000` represents a `100%` hit chance.
+     */
+    public fun getRangedHitChance(npc: Npc, target: Npc): Int =
+        nvnRangedAccuracy.getHitChance(npc, target)
 
     /**
      * Rolls for magic spell accuracy to determine if a spell cast by a [player] against a [target]

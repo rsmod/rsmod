@@ -12,6 +12,7 @@ import org.rsmod.api.combat.formulas.maxhit.melee.NvNMeleeMaxHit
 import org.rsmod.api.combat.formulas.maxhit.melee.NvPMeleeMaxHit
 import org.rsmod.api.combat.formulas.maxhit.melee.PvNMeleeMaxHit
 import org.rsmod.api.combat.formulas.maxhit.melee.PvPMeleeMaxHit
+import org.rsmod.api.combat.formulas.maxhit.ranged.NvNRangedMaxHit
 import org.rsmod.api.combat.formulas.maxhit.ranged.NvPRangedMaxHit
 import org.rsmod.api.combat.formulas.maxhit.ranged.PvNRangedMaxHit
 import org.rsmod.api.combat.formulas.maxhit.ranged.PvPRangedMaxHit
@@ -31,6 +32,7 @@ constructor(
     private val pvnRangedMaxHit: PvNRangedMaxHit,
     private val pvpRangedMaxHit: PvPRangedMaxHit,
     private val nvpRangedMaxHit: NvPRangedMaxHit,
+    private val nvnRangedMaxHit: NvNRangedMaxHit,
 ) {
     /** @see [PvNMeleeMaxHit.getMaxHit] */
     public fun getMeleeMaxHit(
@@ -110,6 +112,9 @@ constructor(
     /** @see [NvPRangedMaxHit.getMaxHit] */
     public fun getRangedMaxHit(npc: Npc, target: Player): Int =
         nvpRangedMaxHit.getMaxHit(npc, target)
+
+    /** @see [NvNRangedMaxHit.getMaxHit] */
+    public fun getRangedMaxHit(npc: Npc): Int = nvnRangedMaxHit.getMaxHit(npc)
 
     /** @see [PvNMagicMaxHit.getSpellMaxHit] */
     public fun getSpellMaxHitRange(
