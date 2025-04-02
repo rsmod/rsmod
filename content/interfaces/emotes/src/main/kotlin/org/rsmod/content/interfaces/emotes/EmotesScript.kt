@@ -413,7 +413,7 @@ private constructor(
         }
         // TODO(content): Under combat check ("You can't perform that emote now.")
 
-        jingle(jingles.emote_air_guitar)
+        midiJingle(jingles.emote_air_guitar)
         playAnim(seqs.emote_air_guitar, spotanims.air_guitar_emote)
     }
 

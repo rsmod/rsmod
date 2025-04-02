@@ -58,8 +58,8 @@ import org.rsmod.api.player.output.ClientScripts.mesLayerMode14
 import org.rsmod.api.player.output.ClientScripts.mesLayerMode7
 import org.rsmod.api.player.output.UpdateInventory.resendSlot
 import org.rsmod.api.player.output.clearMapFlag
-import org.rsmod.api.player.output.jingle
 import org.rsmod.api.player.output.mes
+import org.rsmod.api.player.output.midiJingle
 import org.rsmod.api.player.output.midiSong
 import org.rsmod.api.player.output.objExamine
 import org.rsmod.api.player.output.runClientScript
@@ -2635,7 +2635,7 @@ public class ProtectedAccess(
     public fun spam(text: String): Unit = player.spam(text)
 
     /* Midi helper functions */
-    public fun jingle(jingle: JingleType): Unit = player.jingle(jingle)
+    public fun midiJingle(jingle: JingleType): Unit = player.midiJingle(jingle)
 
     public fun midiSong(midi: MidiType): Unit = player.midiSong(midi)
 

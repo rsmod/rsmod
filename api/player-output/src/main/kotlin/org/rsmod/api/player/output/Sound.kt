@@ -14,7 +14,7 @@ public fun Player.soundSynth(synth: SynthType, loops: Int = 1, delay: Int = 0) {
 }
 
 /** @see [MidiJingle] */
-public fun Player.jingle(jingle: JingleType) {
+public fun Player.midiJingle(jingle: JingleType) {
     client.write(MidiJingle(jingle.id))
 }
 

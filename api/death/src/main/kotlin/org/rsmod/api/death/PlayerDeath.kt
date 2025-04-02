@@ -34,7 +34,7 @@ public class PlayerDeath @Inject constructor(private val statTypes: StatTypeList
         combatClearQueue()
         clearQueue(queues.death)
         midiSong(midis.stop_music)
-        jingle(jingles.death_jingle_2)
+        midiJingle(jingles.death_jingle_2)
         mes("Oh dear, you are dead!")
         telejump(randomRespawn ?: respawn)
         resetAnim()
