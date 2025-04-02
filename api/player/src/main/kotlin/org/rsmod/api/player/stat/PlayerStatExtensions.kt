@@ -84,7 +84,6 @@ public fun Player.statAdd(stat: StatType, constant: Int, percent: Int) {
     statMap.setCurrentLevel(stat, cappedLevel.toByte())
     updateStat(stat)
 
-    // TODO(combat): This might need to be moved to be handled in changestat.
     val clearHeroPoints = stat.isType(stats.hitpoints) && hitpoints >= baseHitpointsLvl
     if (clearHeroPoints) {
         clearHeroPoints()
@@ -222,7 +221,6 @@ public fun Player.statHeal(stat: StatType, constant: Int, percent: Int) {
     statMap.setCurrentLevel(stat, cappedLevel.toByte())
     updateStat(stat)
 
-    // TODO(combat): This might need to be moved to be handled in changestat.
     val clearHeroPoints = stat.isType(stats.hitpoints) && hitpoints >= baseHitpointsLvl
     if (clearHeroPoints) {
         clearHeroPoints()
