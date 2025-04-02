@@ -4,8 +4,6 @@ import kotlin.reflect.KProperty
 import org.rsmod.game.entity.Controller
 import org.rsmod.game.type.varcon.VarConType
 import org.rsmod.game.type.varconbit.VarConBitType
-import org.rsmod.utils.bits.getBits
-import org.rsmod.utils.bits.withBits
 import org.rsmod.utils.time.InlineLocalDateTime
 
 /* Varcon delegates */
@@ -77,22 +75,12 @@ public class ControllerVariableTypeIntDelegate<T>(
 }
 
 public class ControllerVariableIntBitsDelegate(private val varconbit: VarConBitType) {
-    private val baseVar: VarConType
-        get() = varconbit.baseVar
-
-    private val bitRange: IntRange
-        get() = varconbit.bits
-
     public operator fun getValue(thisRef: Controller, property: KProperty<*>): Int {
-        val mappedValue = thisRef.vars[baseVar]
-        val extracted = mappedValue.getBits(bitRange)
-        return extracted
+        return thisRef.vars[varconbit]
     }
 
     public operator fun setValue(thisRef: Controller, property: KProperty<*>, value: Int) {
-        val mappedValue = thisRef.vars[baseVar]
-        val packedValue = mappedValue.withBits(bitRange, value)
-        thisRef.vars[baseVar] = packedValue
+        thisRef.vars[varconbit] = value
     }
 }
 
@@ -101,23 +89,14 @@ public class ControllerVariableTypeIntBitsDelegate<T>(
     public val toType: (Int) -> T,
     public val fromType: (T) -> Int,
 ) {
-    private val baseVar: VarConType
-        get() = varconbit.baseVar
-
-    private val bitRange: IntRange
-        get() = varconbit.bits
-
     public operator fun getValue(thisRef: Controller, property: KProperty<*>): T {
-        val mappedValue = thisRef.vars[baseVar]
-        val extracted = mappedValue.getBits(bitRange)
-        return toType(extracted)
+        val varValue = thisRef.vars[varconbit]
+        return toType(varValue)
     }
 
     public operator fun setValue(thisRef: Controller, property: KProperty<*>, value: T?) {
         val varValue = value?.let(fromType) ?: 0
-        val mappedValue = thisRef.vars[baseVar]
-        val packedValue = mappedValue.withBits(bitRange, varValue)
-        thisRef.vars[baseVar] = packedValue
+        thisRef.vars[varconbit] = varValue
     }
 }
 

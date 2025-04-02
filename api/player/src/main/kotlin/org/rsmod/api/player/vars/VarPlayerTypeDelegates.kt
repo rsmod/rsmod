@@ -10,8 +10,8 @@ import org.rsmod.game.entity.npc.NpcUid
 import org.rsmod.game.entity.player.PlayerUid
 import org.rsmod.game.type.varbit.VarBitType
 import org.rsmod.game.type.varp.VarpType
+import org.rsmod.game.vars.VarPlayerIntMap
 import org.rsmod.map.CoordGrid
-import org.rsmod.utils.bits.getBits
 import org.rsmod.utils.bits.withBits
 import org.rsmod.utils.time.InlineLocalDateTime
 
@@ -198,24 +198,22 @@ public class VariableIntBitsDelegate(private val varbit: VarBitType) {
         get() = varbit.bits
 
     public operator fun getValue(thisRef: Player, property: KProperty<*>): Int {
-        val mappedValue = thisRef.vars[baseVar]
-        val extracted = mappedValue.getBits(bitRange)
-        return extracted
+        return thisRef.vars[varbit]
     }
 
     public operator fun setValue(thisRef: Player, property: KProperty<*>, value: Int) {
+        VarPlayerIntMap.assertVarBitBounds(varbit, value)
         val mappedValue = thisRef.vars[baseVar]
         val packedValue = mappedValue.withBits(bitRange, value)
         thisRef.syncVarp(baseVar, packedValue)
     }
 
     public operator fun getValue(thisRef: ProtectedAccess, property: KProperty<*>): Int {
-        val mappedValue = thisRef.player.vars[baseVar]
-        val extracted = mappedValue.getBits(bitRange)
-        return extracted
+        return thisRef.player.vars[varbit]
     }
 
     public operator fun setValue(thisRef: ProtectedAccess, property: KProperty<*>, value: Int) {
+        VarPlayerIntMap.assertVarBitBounds(varbit, value)
         val mappedValue = thisRef.player.vars[baseVar]
         val packedValue = mappedValue.withBits(bitRange, value)
         thisRef.syncVarp(baseVar, packedValue)
@@ -234,26 +232,26 @@ public class VariableTypeIntBitsDelegate<T>(
         get() = varbit.bits
 
     public operator fun getValue(thisRef: Player, property: KProperty<*>): T {
-        val mappedValue = thisRef.vars[baseVar]
-        val extracted = mappedValue.getBits(bitRange)
-        return toType(extracted)
+        val varValue = thisRef.vars[varbit]
+        return toType(varValue)
     }
 
     public operator fun setValue(thisRef: Player, property: KProperty<*>, value: T?) {
         val varValue = value?.let(fromType) ?: 0
+        VarPlayerIntMap.assertVarBitBounds(varbit, varValue)
         val mappedValue = thisRef.vars[baseVar]
         val packedValue = mappedValue.withBits(bitRange, varValue)
         thisRef.syncVarp(baseVar, packedValue)
     }
 
     public operator fun getValue(thisRef: ProtectedAccess, property: KProperty<*>): T {
-        val mappedValue = thisRef.player.vars[baseVar]
-        val extracted = mappedValue.getBits(bitRange)
-        return toType(extracted)
+        val varValue = thisRef.player.vars[varbit]
+        return toType(varValue)
     }
 
     public operator fun setValue(thisRef: ProtectedAccess, property: KProperty<*>, value: T?) {
         val varValue = value?.let(fromType) ?: 0
+        VarPlayerIntMap.assertVarBitBounds(varbit, varValue)
         val mappedValue = thisRef.player.vars[baseVar]
         val packedValue = mappedValue.withBits(bitRange, varValue)
         thisRef.syncVarp(baseVar, packedValue)

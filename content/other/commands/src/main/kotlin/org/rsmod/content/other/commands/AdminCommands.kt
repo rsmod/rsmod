@@ -13,13 +13,13 @@ import org.rsmod.api.player.protect.ProtectedAccessLauncher
 import org.rsmod.api.player.stat.stat
 import org.rsmod.api.player.stat.statAdvance
 import org.rsmod.api.player.stat.statSub
+import org.rsmod.api.player.vars.VarPlayerIntMapSetter
 import org.rsmod.api.player.vars.resyncVar
 import org.rsmod.api.repo.loc.LocRepository
 import org.rsmod.api.repo.npc.NpcRepository
 import org.rsmod.api.script.onCommand
 import org.rsmod.api.type.symbols.name.NameMapping
 import org.rsmod.api.utils.format.formatAmount
-import org.rsmod.events.EventBus
 import org.rsmod.game.cheat.Cheat
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
@@ -47,13 +47,11 @@ import org.rsmod.objtx.TransactionResult
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 import org.rsmod.routefinder.loc.LocLayerConstants
-import org.rsmod.utils.bits.withBits
 import org.simmetrics.metrics.StringMetrics
 
 class AdminCommands
 @Inject
 constructor(
-    private val eventBus: EventBus,
     private val protectedAccess: ProtectedAccessLauncher,
     private val statTypes: StatTypeList,
     private val seqTypes: SeqTypeList,
@@ -307,11 +305,8 @@ constructor(
                 player.mes("That varbit does not exist: $typeId")
                 return
             }
-            val baseVar = type.baseVar
             val value = args[1].toInt()
-            val packed = player.vars[baseVar].withBits(type.bits, value)
-            player.vars.backing[baseVar.id] = packed
-            player.resyncVar(baseVar)
+            VarPlayerIntMapSetter.set(player, type, value)
             player.mes("Set varbit `${args[0]}` to value: ${player.vars[type]}")
         }
 

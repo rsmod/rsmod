@@ -11,5 +11,4 @@ dependencies {
     implementation(projects.api.specials)
     implementation(projects.api.spells)
     implementation(projects.api.spellsAutocast)
-    implementation(projects.engine.utilsBits)
 }

@@ -16,6 +16,7 @@ import org.rsmod.api.player.protect.ProtectedAccessLauncher
 import org.rsmod.api.player.righthand
 import org.rsmod.api.player.ui.PlayerInterfaceUpdates
 import org.rsmod.api.player.ui.ifClose
+import org.rsmod.api.player.vars.VarPlayerIntMapSetter
 import org.rsmod.api.player.vars.boolVarBit
 import org.rsmod.api.player.vars.boolVarp
 import org.rsmod.api.player.vars.enumVarp
@@ -45,7 +46,6 @@ import org.rsmod.game.type.util.EnumTypeNonNullMap
 import org.rsmod.game.type.varbit.VarBitType
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
-import org.rsmod.utils.bits.withBits
 
 /*
  * Note: The logic and execution order in this script are designed for emulation accuracy. While
@@ -257,12 +257,8 @@ constructor(
     private fun Player.saveCurrentStanceStyle() {
         val weaponType = objTypes.getOrNull(righthand)
         val weaponCategory = WeaponCategory.getOrUnarmed(weaponType?.weaponCategory)
-
-        val varbit = stanceSaveVarBits.getOrNull(weaponCategory.id)
-        if (varbit != null) {
-            val packed = vars[varbit.baseVar].withBits(varbit.bits, combatStance.varValue)
-            vars.backing[varbit.baseVar.id] = packed
-        }
+        val varbit = stanceSaveVarBits.getOrNull(weaponCategory.id) ?: return
+        VarPlayerIntMapSetter.set(this, varbit, combatStance.varValue)
     }
 
     private fun Player.toggleSpecialAttack() {

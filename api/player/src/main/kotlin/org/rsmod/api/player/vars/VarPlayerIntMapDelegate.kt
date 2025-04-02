@@ -30,6 +30,7 @@ public class VarPlayerIntMapDelegate(
     public operator fun get(varp: VarBitType): Int = vars[varp]
 
     public operator fun set(varp: VarBitType, value: Int) {
+        VarPlayerIntMap.assertVarBitBounds(varp, value)
         val mappedValue = vars[varp.baseVar]
         val packedValue = mappedValue.withBits(varp.bits, value)
         set(varp.baseVar, packedValue)

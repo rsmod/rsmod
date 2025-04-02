@@ -4,6 +4,7 @@ import it.unimi.dsi.fastutil.ints.Int2IntMap
 import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap
 import org.rsmod.game.type.varbit.VarBitType
 import org.rsmod.game.type.varp.VarpType
+import org.rsmod.utils.bits.bitMask
 import org.rsmod.utils.bits.getBits
 
 /**
@@ -29,4 +30,16 @@ public value class VarPlayerIntMap(public val backing: Int2IntMap = Int2IntOpenH
     public operator fun contains(key: VarpType): Boolean = backing.containsKey(key.id)
 
     override fun toString(): String = backing.toString()
+
+    public companion object {
+        public fun assertVarBitBounds(varp: VarBitType, value: Int) {
+            val maxValue = varp.maxValue()
+            require(value in 0..maxValue) {
+                "Varbit overflow on varbit ${varp.internalId} " +
+                    "Value $value is outside the range 0-$maxValue (type=$varp)"
+            }
+        }
+
+        private fun VarBitType.maxValue(): Long = bits.bitMask
+    }
 }

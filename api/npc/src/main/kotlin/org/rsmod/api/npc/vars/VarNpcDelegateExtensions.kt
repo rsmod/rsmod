@@ -7,8 +7,6 @@ import org.rsmod.game.entity.player.PlayerUid
 import org.rsmod.game.type.varn.VarnType
 import org.rsmod.game.type.varnbit.VarnBitType
 import org.rsmod.map.CoordGrid
-import org.rsmod.utils.bits.getBits
-import org.rsmod.utils.bits.withBits
 
 /* Varnpc delegates */
 public fun intVarn(varn: VarnType): NpcVariableIntDelegate = NpcVariableIntDelegate(varn)
@@ -82,22 +80,12 @@ public class NpcVariableTypeIntDelegate<T>(
 }
 
 public class NpcVariableIntBitsDelegate(private val varnbit: VarnBitType) {
-    private val baseVar: VarnType
-        get() = varnbit.baseVar
-
-    private val bitRange: IntRange
-        get() = varnbit.bits
-
     public operator fun getValue(thisRef: Npc, property: KProperty<*>): Int {
-        val mappedValue = thisRef.vars[baseVar]
-        val extracted = mappedValue.getBits(bitRange)
-        return extracted
+        return thisRef.vars[varnbit]
     }
 
     public operator fun setValue(thisRef: Npc, property: KProperty<*>, value: Int) {
-        val mappedValue = thisRef.vars[baseVar]
-        val packedValue = mappedValue.withBits(bitRange, value)
-        thisRef.vars[baseVar] = packedValue
+        thisRef.vars[varnbit] = value
     }
 }
 
@@ -106,23 +94,14 @@ public class NpcVariableTypeIntBitsDelegate<T>(
     public val toType: (Int) -> T,
     public val fromType: (T) -> Int,
 ) {
-    private val baseVar: VarnType
-        get() = varnbit.baseVar
-
-    private val bitRange: IntRange
-        get() = varnbit.bits
-
     public operator fun getValue(thisRef: Npc, property: KProperty<*>): T {
-        val mappedValue = thisRef.vars[baseVar]
-        val extracted = mappedValue.getBits(bitRange)
-        return toType(extracted)
+        val varValue = thisRef.vars[varnbit]
+        return toType(varValue)
     }
 
     public operator fun setValue(thisRef: Npc, property: KProperty<*>, value: T?) {
         val varValue = value?.let(fromType) ?: 0
-        val mappedValue = thisRef.vars[baseVar]
-        val packedValue = mappedValue.withBits(bitRange, varValue)
-        thisRef.vars[baseVar] = packedValue
+        thisRef.vars[varnbit] = varValue
     }
 }
 

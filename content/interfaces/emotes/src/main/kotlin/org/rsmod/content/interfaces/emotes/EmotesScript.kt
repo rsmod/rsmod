@@ -460,12 +460,13 @@ private constructor(
         }
 
         val spot =
-            when (player.premierShieldCount++) {
+            when (player.premierShieldCount) {
                 1 -> spotanims.premier_shield_emote_silver
                 2 -> spotanims.premier_shield_emote_gold
                 else -> spotanims.premier_shield_emote_bronze
             }
 
+        player.premierShieldCount = (player.premierShieldCount + 1) % 3
         player.premierShieldClock = mapClock
         playAnim(seqs.emote_premier_shield, spot)
     }
@@ -532,10 +533,11 @@ private constructor(
     }
 
     private fun ProtectedAccess.crazyDanceEmoteSelector(): SeqType {
-        return if (player.crazyDanceCount++ % 2 == 0) {
-            seqs.emote_crazy_dance2
-        } else {
+        player.crazyDanceCount = (player.crazyDanceCount + 1) % 2
+        return if (player.crazyDanceCount == 0) {
             seqs.emote_crazy_dance1
+        } else {
+            seqs.emote_crazy_dance2
         }
     }
 

@@ -44,6 +44,7 @@ public object VarPlayerIntMapSetter {
     }
 
     public fun set(player: Player, varbit: VarBitType, value: Int) {
+        VarPlayerIntMap.assertVarBitBounds(varbit, value)
         val mappedValue = player.vars[varbit.baseVar]
         val packedValue = mappedValue.withBits(varbit.bits, value)
         set(player, varbit.baseVar, packedValue)
