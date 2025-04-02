@@ -137,7 +137,6 @@ constructor(
         val singleCombat = !inMultiCombatArea()
         if (singleCombat) {
             if (lastCombatPvp + ACTIVE_COMBAT_DELAY > mapClock) {
-                // TODO(combat): Is this also a spam type message for pvp?
                 spam("I'm already under attack.")
                 return false
             }
@@ -148,6 +147,8 @@ constructor(
                     return false
                 }
             }
+
+            // TODO: mes("playername is fighting another player.") for pvp.
 
             // TODO(combat): Support for npcs that only target a single player, such as barrows.
             if (npc.lastCombat + ACTIVE_COMBAT_DELAY > mapClock) {

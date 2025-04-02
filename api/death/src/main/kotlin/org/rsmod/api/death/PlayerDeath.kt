@@ -37,7 +37,7 @@ public class PlayerDeath @Inject constructor(private val statTypes: StatTypeList
         mes("Oh dear, you are dead!")
         telejump(randomRespawn ?: respawn)
         resetAnim()
-        // TODO(combat): Drop death invs, etc.
+        // TODO: Drop death invs, etc.
         resetPlayerState(statTypes)
         restoreToplevelTabs(
             components.wilderness_overlay_target,
