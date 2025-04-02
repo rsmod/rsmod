@@ -20,9 +20,13 @@ import org.rsmod.game.type.spot.SpotanimType
 import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.synth.SynthType
 import org.rsmod.game.type.varbit.VarBitType
+import org.rsmod.map.CoordGrid
 
 internal object ParamBuilds : ParamBuilder() {
     init {
+        build<CoordGrid>("spell_telecoord")
+        build<Int>("spell_castxp")
+
         build<Int>("amascutnpc") { default = 0 }
         build<Int>("xerician") { default = 0 }
 

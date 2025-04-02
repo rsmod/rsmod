@@ -5,6 +5,7 @@ package org.rsmod.api.config.refs
 import org.rsmod.api.config.aliases.ParamBool
 import org.rsmod.api.config.aliases.ParamCategory
 import org.rsmod.api.config.aliases.ParamComponent
+import org.rsmod.api.config.aliases.ParamCoord
 import org.rsmod.api.config.aliases.ParamHeadbar
 import org.rsmod.api.config.aliases.ParamHitmark
 import org.rsmod.api.config.aliases.ParamInt
@@ -85,6 +86,8 @@ object BaseParams : ParamReferences() {
     val kalphite: ParamInt = find("kalphite", 88687193509)
 
     /* Server-side only types */
+    val spell_telecoord: ParamCoord = find("spell_telecoord")
+    val spell_castxp: ParamInt = find("spell_castxp")
     val amascutnpc: ParamInt = find("amascutnpc")
     val xerician: ParamInt = find("xerician")
     val poison_immunity: ParamInt = find("poison_immunity")

@@ -1565,7 +1565,7 @@
 2524	black_toy_horsey
 2526	grey_toy_horsey
 2528	lamp
-2529	recharge_dragonstone
+2529	recharge_dragonstone_spell
 2530	bones_2530
 2532	iron_fire_arrow
 2533	iron_fire_arrow_lit
@@ -3123,7 +3123,7 @@
 4643	dareeyak_teleport_spell
 4644	blood_blitz_spell
 4645	ice_blitz_spell
-4646	carrallangar_teleport_spell
+4646	carrallanger_teleport_spell
 4647	smoke_barrage_spell
 4648	shadow_barrage_spell
 4649	annakarl_teleport_spell
@@ -4662,7 +4662,7 @@
 6793	ballad
 6794	chocice
 6796	lamp_6796
-6797	tool_leprechaun_interface_watering_can
+6797	geomancy_spell
 6798	earth_warrior_champion_scroll
 6799	ghoul_champion_scroll
 6800	giant_champion_scroll
@@ -5264,7 +5264,7 @@
 7616	gravedigger_interface_symbol_3
 7617	gravedigger_interface_symbol_4
 7618	gravedigger_interface_symbol_5
-7619	normal_ape_atoll_teleport_spell
+7619	ape_atoll_teleport_spell
 7620	dummyitem_invonly_7620
 7622	bucket_of_rubble
 7624	bucket_of_rubble_7624
@@ -9011,7 +9011,7 @@
 12773	volcanic_abyssal_whip
 12774	frozen_abyssal_whip
 12775	annakarl_teleport
-12776	carrallangar_teleport
+12776	carrallanger_teleport
 12777	dareeyak_teleport
 12778	ghorrock_teleport
 12779	kharyrll_teleport
@@ -12435,6 +12435,7 @@
 24607	blighted_ancient_ice_sack
 24609	null_24609
 24611	null_24611
+24612	civitas_illa_fortis_teleport_spell
 24613	blighted_entangle_sack
 24615	blighted_teleport_spell_sack
 24617	vestas_blighted_longsword
@@ -13884,6 +13885,7 @@
 27052	group_iron_platebody_unranked_four
 27054	group_iron_platebody_unranked_five
 27086	rune_pouch_emirs_arena
+27089	view_jewellery_enchantment_spells
 27098	elder_maul_ornament_kit
 27100	elder_maul_or
 27110	mithril_gloves_wrapped

@@ -159,6 +159,8 @@
 1802	slayer_task_boss_location
 1935	spell_maxhit
 
+65390	spell_telecoord
+65391	spell_castxp
 65392	amascutnpc
 65393	xerician
 65394	poison_immunity
