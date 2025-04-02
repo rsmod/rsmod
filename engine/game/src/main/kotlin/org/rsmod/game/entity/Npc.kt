@@ -4,6 +4,7 @@ import org.rsmod.annotations.InternalApi
 import org.rsmod.game.entity.npc.NpcInfoProtocol
 import org.rsmod.game.entity.npc.NpcMode
 import org.rsmod.game.entity.npc.NpcUid
+import org.rsmod.game.entity.npc.OpVisibility
 import org.rsmod.game.entity.util.PathingEntityCommon
 import org.rsmod.game.headbar.Headbar
 import org.rsmod.game.hero.HeroPoints
@@ -187,6 +188,7 @@ public class Npc(
         clearFaceEntity()
         resetPendingFaceSquare()
         resetAnim()
+        showAllOps()
         copyStats(type)
         clearHeroPoints()
         queueList.clear()
@@ -232,6 +234,14 @@ public class Npc(
 
     public fun showHitmark(hitmark: Hitmark) {
         infoProtocol.showHitmark(hitmark)
+    }
+
+    public fun showAllOps() {
+        infoProtocol.toggleOps(OpVisibility.showAll())
+    }
+
+    public fun hideAllOps() {
+        infoProtocol.toggleOps(OpVisibility.hideAll())
     }
 
     // TODO: Should facing a pathing entity be deferred to later in the tick, similar to how it's

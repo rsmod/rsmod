@@ -2,6 +2,7 @@ package org.rsmod.api.net.rsprot
 
 import net.rsprot.protocol.game.outgoing.info.npcinfo.NpcAvatar
 import org.rsmod.game.entity.npc.NpcInfoProtocol
+import org.rsmod.game.entity.npc.OpVisibility
 import org.rsmod.game.headbar.Headbar
 import org.rsmod.game.hit.Hitmark
 
@@ -56,6 +57,10 @@ class RspNpcInfo(val rspAvatar: NpcAvatar) : NpcInfoProtocol {
             value = hitmark.damage,
             delay = hitmark.delay,
         )
+    }
+
+    override fun toggleOps(ops: OpVisibility) {
+        rspAvatar.extendedInfo.setVisibleOps(ops.packed)
     }
 
     override fun walk(deltaX: Int, deltaZ: Int) {

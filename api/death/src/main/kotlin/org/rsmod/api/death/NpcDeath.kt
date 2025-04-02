@@ -83,6 +83,7 @@ public suspend fun StandardNpcAccess.death(
 ) {
     walk(coords)
     noneMode()
+    hideAllOps()
     arriveDelay()
 
     val aggressivePlayer = npc.aggressivePlayer

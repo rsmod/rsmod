@@ -22,6 +22,8 @@ public interface NpcInfoProtocol {
 
     public fun showHitmark(hitmark: Hitmark)
 
+    public fun toggleOps(ops: OpVisibility)
+
     public fun walk(deltaX: Int, deltaZ: Int)
 
     public fun teleport(x: Int, z: Int, level: Int, jump: Boolean)
@@ -40,10 +42,6 @@ public data object NoopNpcInfo : NpcInfoProtocol {
 
     override fun setSay(text: String) {}
 
-    override fun showHeadbar(headbar: Headbar) {}
-
-    override fun showHitmark(hitmark: Hitmark) {}
-
     override fun setFacePathingEntity(slot: Int) {}
 
     override fun setFaceSquare(x: Int, z: Int, instant: Boolean) {}
@@ -51,6 +49,12 @@ public data object NoopNpcInfo : NpcInfoProtocol {
     override fun setTransmog(type: Int) {}
 
     override fun resetTransmog(originalType: Int) {}
+
+    override fun showHeadbar(headbar: Headbar) {}
+
+    override fun showHitmark(hitmark: Hitmark) {}
+
+    override fun toggleOps(ops: OpVisibility) {}
 
     override fun walk(deltaX: Int, deltaZ: Int) {}
 

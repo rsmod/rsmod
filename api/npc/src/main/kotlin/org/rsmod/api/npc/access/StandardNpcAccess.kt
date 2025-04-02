@@ -369,6 +369,14 @@ public class StandardNpcAccess(
         npc.spotanim(spot, delay, height, slot)
     }
 
+    public fun showAllOps() {
+        npc.showAllOps()
+    }
+
+    public fun hideAllOps() {
+        npc.hideAllOps()
+    }
+
     /**
      * Transmogrifies the [npc] into [type], reassigning its internal `uid`. Since npc interactions
      * validate `uid`s before processing, this will automatically cancel any ongoing interactions
