@@ -181,18 +181,17 @@ public class Npc(
     public fun setRespawnValues() {
         transmog = null
         cachedHitmark = null
+        mode = defaultMode
         assignUid()
-        // TODO(combat): Are these two face resets required? Should they not be reset on death as
-        //  opposed to on respawn?
+        clearInteraction()
+        clearFaceEntity()
         resetPendingFaceSquare()
-        resetFaceEntity()
         resetAnim()
         copyStats(type)
         clearHeroPoints()
         queueList.clear()
         vars.backing.clear()
         strVars.backing.clear()
-        defaultMode()
     }
 
     public fun resetMovement() {
@@ -211,6 +210,11 @@ public class Npc(
         } else {
             infoProtocol.setSequence(pendingSequence.id, pendingSequence.delay)
         }
+    }
+
+    override fun resetAnim() {
+        pendingSequence = EntitySeq.ZERO
+        infoProtocol.setSequence(-1, 0)
     }
 
     override fun spotanim(spot: SpotanimType, delay: Int, height: Int, slot: Int) {
@@ -252,6 +256,10 @@ public class Npc(
     public fun resetFaceEntity() {
         PathingEntityCommon.resetFaceEntity(this)
         infoProtocol.setFacePathingEntity(faceEntity.entitySlot)
+    }
+
+    private fun clearFaceEntity() {
+        PathingEntityCommon.resetFaceEntity(this)
     }
 
     public fun transmog(type: UnpackedNpcType, duration: Int) {

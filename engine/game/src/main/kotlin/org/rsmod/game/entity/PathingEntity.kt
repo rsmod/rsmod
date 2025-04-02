@@ -17,7 +17,6 @@ import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.movement.RouteDestination
 import org.rsmod.game.movement.RouteRequest
 import org.rsmod.game.seq.EntitySeq
-import org.rsmod.game.spot.EntitySpotanim
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.spot.SpotanimType
 import org.rsmod.game.type.walktrig.WalkTriggerPriority
@@ -270,18 +269,9 @@ public sealed class PathingEntity {
         interaction = null
     }
 
-    public fun resetAnim() {
-        pendingSequence = EntitySeq.ZERO
-    }
-
     public abstract fun anim(seq: SeqType, delay: Int = 0, priority: Int = seq.priority)
 
-    public fun resetSpotanim(height: Int = 0, slot: Int = 0) {
-        pendingSpotanims.clear()
-
-        val spotanim = EntitySpotanim(65535, 0, height, slot)
-        pendingSpotanims.add(spotanim.packed)
-    }
+    public abstract fun resetAnim()
 
     public abstract fun spotanim(spot: SpotanimType, delay: Int = 0, height: Int = 0, slot: Int = 0)
 

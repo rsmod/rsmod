@@ -365,10 +365,6 @@ public class StandardNpcAccess(
         PathingEntityCommon.setAnimProtect(npc, animProtect)
     }
 
-    public fun resetSpotanim() {
-        npc.resetSpotanim()
-    }
-
     public fun spotanim(spot: SpotanimType, delay: Int = 0, height: Int = 0, slot: Int = 0) {
         npc.spotanim(spot, delay, height, slot)
     }

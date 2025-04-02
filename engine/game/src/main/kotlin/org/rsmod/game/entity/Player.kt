@@ -27,6 +27,7 @@ import org.rsmod.game.queue.PlayerQueueList
 import org.rsmod.game.queue.QueueCategory
 import org.rsmod.game.seq.EntitySeq
 import org.rsmod.game.shop.Shop
+import org.rsmod.game.spot.EntitySpotanim
 import org.rsmod.game.stat.PlayerStatMap
 import org.rsmod.game.timer.PlayerTimerMap
 import org.rsmod.game.type.bas.UnpackedBasType
@@ -263,8 +264,19 @@ public class Player(
         PathingEntityCommon.anim(this, seq, delay, priority)
     }
 
+    override fun resetAnim() {
+        pendingSequence = EntitySeq.ZERO
+    }
+
     override fun spotanim(spot: SpotanimType, delay: Int, height: Int, slot: Int) {
         PathingEntityCommon.spotanim(this, spot.id, delay, height, slot)
+    }
+
+    public fun resetSpotanim(height: Int = 0, slot: Int = 0) {
+        pendingSpotanims.clear()
+
+        val spotanim = EntitySpotanim(65535, 0, height, slot)
+        pendingSpotanims.add(spotanim.packed)
     }
 
     public fun facePlayer(target: Player): Unit = PathingEntityCommon.facePlayer(this, target)
