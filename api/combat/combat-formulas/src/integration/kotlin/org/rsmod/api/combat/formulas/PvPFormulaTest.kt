@@ -5,9 +5,13 @@ import com.google.inject.Scopes
 import jakarta.inject.Inject
 import org.rsmod.api.combat.commons.CombatStance
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
+import org.rsmod.api.combat.commons.styles.RangedAttackStyle
 import org.rsmod.api.combat.commons.types.MeleeAttackType
+import org.rsmod.api.combat.commons.types.RangedAttackType
 import org.rsmod.api.combat.formulas.accuracy.melee.PvPMeleeAccuracy
+import org.rsmod.api.combat.formulas.accuracy.ranged.PvPRangedAccuracy
 import org.rsmod.api.combat.formulas.maxhit.melee.PvPMeleeMaxHit
+import org.rsmod.api.combat.formulas.maxhit.ranged.PvPRangedMaxHit
 import org.rsmod.api.combat.weapon.scripts.WeaponAttackStylesScript
 import org.rsmod.api.combat.weapon.scripts.WeaponAttackTypesScript
 import org.rsmod.api.combat.weapon.styles.AttackStyles
@@ -78,8 +82,25 @@ class PvPFormulaTest {
                 TODO()
             }
             attackType?.isRanged == true -> {
-                // TODO(combat): Implement when ranged pvp is supported.
-                TODO()
+                val rangedAttackType = RangedAttackType.from(attackType)
+                val rangedAttackStyle = RangedAttackStyle.from(attackStyle)
+                val accuracy =
+                    deps.rangedAccuracy.getHitChance(
+                        this,
+                        defender,
+                        rangedAttackStyle,
+                        accuracyBoost,
+                    )
+                val maxHit =
+                    deps.rangedMaxHit.getMaxHit(
+                        this,
+                        defender,
+                        rangedAttackType,
+                        rangedAttackStyle,
+                        damageBoost,
+                        boltSpecDamage = 0,
+                    )
+                Result(accuracy, maxHit)
             }
             else -> {
                 val meleeAttackType = MeleeAttackType.from(attackType)
@@ -158,7 +179,7 @@ class PvPFormulaTest {
             var helm: ObjType? = null,
             var cape: ObjType? = null,
             var amulet: ObjType? = null,
-            var ammo: InvObj? = null,
+            var ammo: ObjType? = null,
             var weapon: ObjType? = null,
             var body: ObjType? = null,
             var shield: ObjType? = null,
@@ -383,6 +404,50 @@ class PvPFormulaTest {
                         }
                     }
                 },
+                Matchup.create("Magic shortbow vs Welfare") {
+                    setup {
+                        attacker {
+                            rangedLvl = 112
+                            ammo = objs.rune_arrow
+                            weapon = objs.magic_shortbow
+                            amulet = objs.amulet_of_fury
+                            helm = objs.helm_of_neitiznot
+                            body = objs.black_dhide_body
+                            legs = objs.black_dhide_chaps
+                            cape = objs.avas_assembler
+                            feet = objs.pegasian_boots
+                            gloves = objs.barrows_gloves
+                            ring = objs.archers_ring_i
+                            vars[varbits.rigour] = 1
+                        }
+
+                        defender {
+                            defenceLvl = 80
+                            ammo = objs.rune_arrow
+                            weapon = objs.magic_shortbow
+                            amulet = objs.amulet_of_glory_4
+                            helm = objs.helm_of_neitiznot
+                            body = objs.black_dhide_body
+                            legs = objs.rune_platelegs
+                            cape = objs.avas_accumulator
+                            feet = objs.snakeskin_boots
+                            gloves = objs.barrows_gloves
+                            vars[varbits.eagle_eye] = 1
+                        }
+                    }
+
+                    expect {
+                        attacker {
+                            accuracy = 72.56
+                            maxHit = 27
+                        }
+
+                        defender {
+                            accuracy = 40.41
+                            maxHit = 22
+                        }
+                    }
+                },
             )
         }
     }
@@ -427,7 +492,9 @@ class PvPFormulaTest {
     @Inject
     constructor(
         val meleeAccuracy: PvPMeleeAccuracy,
+        val rangedAccuracy: PvPRangedAccuracy,
         val meleeMaxHit: PvPMeleeMaxHit,
+        val rangedMaxHit: PvPRangedMaxHit,
         val types: AttackTypes,
         val styles: AttackStyles,
     )

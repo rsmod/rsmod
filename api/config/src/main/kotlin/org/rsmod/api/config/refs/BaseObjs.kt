@@ -293,6 +293,7 @@ object BaseObjs : ObjReferences() {
 
     val runite_bolts = find("runite_bolts")
 
+    val avas_accumulator = find("avas_accumulator")
     val avas_assembler = find("avas_assembler")
 
     val shortbow = find("shortbow")
@@ -328,12 +329,18 @@ object BaseObjs : ObjReferences() {
     val amulet_of_fury = find("amulet_of_fury")
     val necklace_of_anguish = find("necklace_of_anguish")
     val occult_necklace = find("occult_necklace")
+    val amulet_of_glory_4 = find("amulet_of_glory_4")
 
     val tormented_bracelet = find("tormented_bracelet")
 
     val imbued_saradomin_cape = find("imbued_saradomin_cape")
     val infinity_boots = find("infinity_boots")
 
+    val black_dhide_body = find("black_dhide_body")
+    val black_dhide_chaps = find("black_dhide_chaps")
+    val snakeskin_boots = find("snakeskin_boots")
+    val rune_platebody = find("rune_platebody")
+    val rune_platelegs = find("rune_platelegs")
     val armadyl_godsword = find("armadyl_godsword")
     val dragonfire_ward = find("dragonfire_ward")
     val helm_of_neitiznot = find("helm_of_neitiznot")
