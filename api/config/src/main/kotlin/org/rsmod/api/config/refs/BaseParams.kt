@@ -85,6 +85,8 @@ object BaseParams : ParamReferences() {
     val kalphite: ParamInt = find("kalphite", 88687193509)
 
     /* Server-side only types */
+    val amascutnpc: ParamInt = find("amascutnpc")
+    val xerician: ParamInt = find("xerician")
     val poison_immunity: ParamInt = find("poison_immunity")
     val cannon_immunity: ParamInt = find("cannon_immunity")
     val thrall_immunity: ParamInt = find("thrall_immunity")

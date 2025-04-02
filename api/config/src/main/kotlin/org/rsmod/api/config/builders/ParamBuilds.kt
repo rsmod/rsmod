@@ -23,6 +23,9 @@ import org.rsmod.game.type.varbit.VarBitType
 
 internal object ParamBuilds : ParamBuilder() {
     init {
+        build<Int>("amascutnpc") { default = 0 }
+        build<Int>("xerician") { default = 0 }
+
         build<Int>("poison_immunity") { default = 0 }
         build<Int>("cannon_immunity") { default = 0 }
         build<Int>("thrall_immunity") { default = 0 }
