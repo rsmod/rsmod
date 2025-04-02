@@ -1126,7 +1126,15 @@ constructor(
         spell: ObjType,
         spellbook: Spellbook?,
         sunfireRune: Boolean,
-    ): Boolean = TODO() // TODO(combat): pvp accuracy
+    ): Boolean =
+        accuracy.rollSpellAccuracy(
+            player = source,
+            target = target,
+            spell = spell,
+            spellbook = spellbook,
+            usedSunfireRune = sunfireRune,
+            random = random,
+        )
 
     /**
      * Rolls a magic spell damage value between the minimum and maximum possible spell hit.
@@ -1216,7 +1224,6 @@ constructor(
                     spell = spell,
                     spellbook = spellbook,
                     baseMaxHit = baseMaxHit,
-                    attackRate = attackRate,
                     sunfireRune = sunfireRune,
                 )
         }
@@ -1246,9 +1253,16 @@ constructor(
         spell: ObjType,
         spellbook: Spellbook?,
         baseMaxHit: Int,
-        attackRate: Int,
         sunfireRune: Boolean,
-    ): IntRange = TODO() // TODO(combat)
+    ): IntRange =
+        maxHits.getSpellMaxHitRange(
+            player = source,
+            target = target,
+            spell = spell,
+            spellbook = spellbook,
+            baseMaxHit = baseMaxHit,
+            usedSunfireRune = sunfireRune,
+        )
 
     /**
      * Determines whether the **built-in spell** from a **powered staff** used by [source] will
@@ -1357,8 +1371,8 @@ constructor(
         specMultiplier: Double,
     ): Int =
         maxHits.getStaffMaxHit(
-            source,
-            target,
+            player = source,
+            target = target,
             baseMaxHit = baseMaxHit,
             specialMultiplier = specMultiplier,
         )
@@ -1368,7 +1382,13 @@ constructor(
         target: Player,
         baseMaxHit: Int,
         specMultiplier: Double,
-    ): Int = TODO() // TODO(combat)
+    ): Int =
+        maxHits.getStaffMaxHit(
+            player = source,
+            target = target,
+            baseMaxHit = baseMaxHit,
+            specialMultiplier = specMultiplier,
+        )
 
     /**
      * Queues a magic hit on [target], applying damage after the specified [hitDelay].
