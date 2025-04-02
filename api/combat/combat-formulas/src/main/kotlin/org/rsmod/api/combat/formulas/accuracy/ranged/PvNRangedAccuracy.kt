@@ -14,6 +14,7 @@ import org.rsmod.api.combat.formulas.attributes.collector.CombatNpcAttributeColl
 import org.rsmod.api.combat.formulas.attributes.collector.CombatRangedAttributeCollector
 import org.rsmod.api.combat.formulas.isSlayerTask
 import org.rsmod.api.config.refs.params
+import org.rsmod.api.config.refs.varbits
 import org.rsmod.api.player.bonus.WornBonuses
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
@@ -81,7 +82,7 @@ constructor(
             )
         val attackRoll = (baseAttackRoll * specialMultiplier).toInt()
 
-        val amascutInvocationLvl = 0 // TODO(combat): Create varp.
+        val amascutInvocationLvl = source.vars[varbits.toa_raid_level]
         val defenceRoll =
             computeDefenceRoll(
                 target = target,

@@ -118,6 +118,8 @@ object BaseVarBits : VarBitReferences() {
     val deadeye_unlocked = find("deadeye_unlocked", 239828214727554)
     val mystic_vigour_unlocked = find("mystic_vigour_unlocked", 239828214731337)
 
+    val toa_raid_level = find("toa_raid_level", 185062056826088)
+
     val setting_max_hit_hitsplats_threshold =
         find("setting_max_hit_hitsplats_threshold", 183001241817303)
 
