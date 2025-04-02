@@ -7,6 +7,7 @@ import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
 import org.rsmod.api.combat.commons.styles.RangedAttackStyle
 import org.rsmod.api.combat.commons.types.MeleeAttackType
 import org.rsmod.api.combat.commons.types.RangedAttackType
+import org.rsmod.api.combat.formulas.accuracy.magic.NvNMagicAccuracy
 import org.rsmod.api.combat.formulas.accuracy.magic.NvPMagicAccuracy
 import org.rsmod.api.combat.formulas.accuracy.magic.PvNMagicAccuracy
 import org.rsmod.api.combat.formulas.accuracy.magic.PvPMagicAccuracy
@@ -27,6 +28,7 @@ public class AccuracyFormulae
 @Inject
 constructor(
     private val nvpMagicAccuracy: NvPMagicAccuracy,
+    private val nvnMagicAccuracy: NvNMagicAccuracy,
     private val pvnMagicAccuracy: PvNMagicAccuracy,
     private val pvpMagicAccuracy: PvPMagicAccuracy,
     private val nvpMeleeAccuracy: NvPMeleeAccuracy,
@@ -664,6 +666,33 @@ constructor(
      */
     public fun getMagicHitChance(npc: Npc, target: Player): Int =
         nvpMagicAccuracy.getHitChance(npc, target)
+
+    /**
+     * Rolls for magic accuracy to determine if an attack from an [npc] against a [target] npc is
+     * successful.
+     *
+     * This function calculates the hit chance based on the npc's attack roll and the target npc's
+     * defence roll, then uses a value from the random number generator ([random]) to determine if
+     * the attack hits.
+     *
+     * @param random A [GameRandom] instance used to generate a random number for the hit roll.
+     * @return `true` if the attack is successful (i.e., the hit chance exceeds the random roll),
+     *   `false` otherwise.
+     */
+    public fun rollMagicAccuracy(npc: Npc, target: Npc, random: GameRandom): Boolean {
+        val hitChance = getMagicHitChance(npc, target)
+        return isSuccessfulHit(hitChance, random)
+    }
+
+    /**
+     * Calculates the magic hit chance based on the [npc]'s attack roll and the [target]'s defence
+     * roll.
+     *
+     * @return An integer between `0` and `10,000`, where `0` represents a `0%` hit chance, `1`
+     *   represents a `0.01%` hit chance, and `10,000` represents a `100%` hit chance.
+     */
+    public fun getMagicHitChance(npc: Npc, target: Npc): Int =
+        nvnMagicAccuracy.getHitChance(npc, target)
 
     public companion object {
         public fun isSuccessfulHit(hitChance: Int, random: GameRandom): Boolean {

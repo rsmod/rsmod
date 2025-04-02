@@ -1,5 +1,6 @@
 package org.rsmod.api.combat.formulas
 
+import org.rsmod.api.combat.formulas.accuracy.magic.NvNMagicAccuracy
 import org.rsmod.api.combat.formulas.accuracy.magic.NvPMagicAccuracy
 import org.rsmod.api.combat.formulas.accuracy.magic.PvNMagicAccuracy
 import org.rsmod.api.combat.formulas.accuracy.magic.PvPMagicAccuracy
@@ -16,6 +17,7 @@ import org.rsmod.api.combat.formulas.attributes.collector.CombatMeleeAttributeCo
 import org.rsmod.api.combat.formulas.attributes.collector.CombatNpcAttributeCollector
 import org.rsmod.api.combat.formulas.attributes.collector.CombatRangedAttributeCollector
 import org.rsmod.api.combat.formulas.attributes.collector.DamageReductionAttributeCollector
+import org.rsmod.api.combat.formulas.maxhit.magic.NvNMagicMaxHit
 import org.rsmod.api.combat.formulas.maxhit.magic.NvPMagicMaxHit
 import org.rsmod.api.combat.formulas.maxhit.magic.PvNMagicMaxHit
 import org.rsmod.api.combat.formulas.maxhit.magic.PvPMagicMaxHit
@@ -40,28 +42,33 @@ public class CombatFormulaModule : PluginModule() {
         bindInstance<AccuracyFormulae>()
         bindInstance<MaxHitFormulae>()
 
+        bindInstance<NvNMagicAccuracy>()
+        bindInstance<NvPMagicAccuracy>()
         bindInstance<PvNMagicAccuracy>()
         bindInstance<PvPMagicAccuracy>()
-        bindInstance<NvPMagicAccuracy>()
+
+        bindInstance<NvNMagicMaxHit>()
         bindInstance<NvPMagicMaxHit>()
         bindInstance<PvNMagicMaxHit>()
         bindInstance<PvPMagicMaxHit>()
 
-        bindInstance<NvPMeleeAccuracy>()
         bindInstance<NvNMeleeAccuracy>()
+        bindInstance<NvPMeleeAccuracy>()
         bindInstance<PvNMeleeAccuracy>()
         bindInstance<PvPMeleeAccuracy>()
-        bindInstance<NvPMeleeMaxHit>()
+
         bindInstance<NvNMeleeMaxHit>()
+        bindInstance<NvPMeleeMaxHit>()
         bindInstance<PvNMeleeMaxHit>()
         bindInstance<PvPMeleeMaxHit>()
 
-        bindInstance<NvPRangedAccuracy>()
         bindInstance<NvNRangedAccuracy>()
+        bindInstance<NvPRangedAccuracy>()
         bindInstance<PvNRangedAccuracy>()
         bindInstance<PvPRangedAccuracy>()
-        bindInstance<NvPRangedMaxHit>()
+
         bindInstance<NvNRangedMaxHit>()
+        bindInstance<NvPRangedMaxHit>()
         bindInstance<PvNRangedMaxHit>()
         bindInstance<PvPRangedMaxHit>()
     }
