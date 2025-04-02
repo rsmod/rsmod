@@ -546,6 +546,8 @@ constructor(
      *
      * @param attackStyle The [MagicAttackStyle] used for the attack roll, usually derived from the
      *   [player]'s current stance.
+     * @param specMultiplier A multiplier applied to the hit chance, typically used for special
+     *   attacks.
      * @param random A [GameRandom] instance used to generate a random number for the hit roll.
      * @return `true` if the attack is successful (i.e., the hit chance exceeds the random roll),
      *   `false` otherwise.
@@ -554,9 +556,10 @@ constructor(
         player: Player,
         target: Npc,
         attackStyle: MagicAttackStyle?,
+        specMultiplier: Double,
         random: GameRandom,
     ): Boolean {
-        val hitChance = getStaffHitChance(player, target, attackStyle)
+        val hitChance = getStaffHitChance(player, target, attackStyle, specMultiplier)
         return isSuccessfulHit(hitChance, random)
     }
 
@@ -566,11 +569,23 @@ constructor(
      *
      * @param attackStyle The [MagicAttackStyle] used for the attack roll, usually derived from the
      *   [player]'s current stance.
+     * @param specMultiplier A multiplier applied to the hit chance, typically used for special
+     *   attacks.
      * @return An integer between `0` and `10,000`, where `0` represents a `0%` hit chance, `1`
      *   represents a `0.01%` hit chance, and `10,000` represents a `100%` hit chance.
      */
-    public fun getStaffHitChance(player: Player, target: Npc, attackStyle: MagicAttackStyle?): Int =
-        pvnMagicAccuracy.getStaffHitChance(player = player, target = target, attackStyle)
+    public fun getStaffHitChance(
+        player: Player,
+        target: Npc,
+        attackStyle: MagicAttackStyle?,
+        specMultiplier: Double,
+    ): Int =
+        pvnMagicAccuracy.getStaffHitChance(
+            player = player,
+            target = target,
+            attackStyle = attackStyle,
+            specialMultiplier = specMultiplier,
+        )
 
     /**
      * Rolls for powered magic staff accuracy to determine if the built-in spell used by a [player]
@@ -582,6 +597,8 @@ constructor(
      *
      * @param attackStyle The [MagicAttackStyle] used for the attack roll, usually derived from the
      *   [player]'s current stance.
+     * @param specMultiplier A multiplier applied to the hit chance, typically used for special
+     *   attacks.
      * @param random A [GameRandom] instance used to generate a random number for the hit roll.
      * @return `true` if the attack is successful (i.e., the hit chance exceeds the random roll),
      *   `false` otherwise.
@@ -590,9 +607,10 @@ constructor(
         player: Player,
         target: Player,
         attackStyle: MagicAttackStyle?,
+        specMultiplier: Double,
         random: GameRandom,
     ): Boolean {
-        val hitChance = getStaffHitChance(player, target, attackStyle)
+        val hitChance = getStaffHitChance(player, target, attackStyle, specMultiplier)
         return isSuccessfulHit(hitChance, random)
     }
 
@@ -602,6 +620,8 @@ constructor(
      *
      * @param attackStyle The [MagicAttackStyle] used for the attack roll, usually derived from the
      *   [player]'s current stance.
+     * @param specMultiplier A multiplier applied to the hit chance, typically used for special
+     *   attacks.
      * @return An integer between `0` and `10,000`, where `0` represents a `0%` hit chance, `1`
      *   represents a `0.01%` hit chance, and `10,000` represents a `100%` hit chance.
      */
@@ -609,7 +629,14 @@ constructor(
         player: Player,
         target: Player,
         attackStyle: MagicAttackStyle?,
-    ): Int = pvpMagicAccuracy.getStaffHitChance(player = player, target = target, attackStyle)
+        specMultiplier: Double,
+    ): Int =
+        pvpMagicAccuracy.getStaffHitChance(
+            player = player,
+            target = target,
+            attackStyle = attackStyle,
+            specialMultiplier = specMultiplier,
+        )
 
     /**
      * Rolls for magic accuracy to determine if an attack from an [npc] against a [target] player is

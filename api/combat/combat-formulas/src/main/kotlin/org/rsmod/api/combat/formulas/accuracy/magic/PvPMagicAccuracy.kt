@@ -65,14 +65,17 @@ constructor(
         player: Player,
         target: Player,
         attackStyle: MagicAttackStyle?,
-    ): Int = computeStaffHitChance(player, target, attackStyle)
+        specialMultiplier: Double,
+    ): Int = computeStaffHitChance(player, target, attackStyle, specialMultiplier)
 
     public fun computeStaffHitChance(
         source: Player,
         target: Player,
         attackStyle: MagicAttackStyle?,
+        specialMultiplier: Double,
     ): Int {
-        val attackRoll = computeStaffAttackRoll(source, attackStyle)
+        val baseAttackRoll = computeStaffAttackRoll(source, attackStyle)
+        val attackRoll = (baseAttackRoll * specialMultiplier).toInt()
         val defenceRoll = computeDefenceRoll(target)
         return AccuracyOperations.calculateHitChance(attackRoll, defenceRoll)
     }

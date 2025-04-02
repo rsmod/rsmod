@@ -96,11 +96,13 @@ public object PlayerMagicAccuracy {
         val defPrayerPercent = safePercentScale(defencePrayerBonus)
         val armourPercent = safePercentScale(armourBonus - 1.0)
         var effectiveDefenceLevel = visibleDefenceLvl
+
         effectiveDefenceLevel = scaleByPercent(effectiveDefenceLevel, defPrayerPercent)
         effectiveDefenceLevel += scaleByPercent(effectiveDefenceLevel, armourPercent)
 
         val magicPrayerPercent = safePercentScale(magicPrayerBonus)
         var effectiveMagicLevel = visibleMagicLvl
+
         effectiveMagicLevel = scaleByPercent(effectiveMagicLevel, magicPrayerPercent)
         effectiveDefenceLevel = (effectiveMagicLevel * 7 / 10) + (effectiveDefenceLevel * 3 / 10)
 

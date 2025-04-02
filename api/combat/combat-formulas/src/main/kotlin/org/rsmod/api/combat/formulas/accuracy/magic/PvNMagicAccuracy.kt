@@ -110,7 +110,12 @@ constructor(
         )
     }
 
-    public fun getStaffHitChance(player: Player, target: Npc, attackStyle: MagicAttackStyle?): Int =
+    public fun getStaffHitChance(
+        player: Player,
+        target: Npc,
+        attackStyle: MagicAttackStyle?,
+        specialMultiplier: Double,
+    ): Int =
         computeStaffHitChance(
             source = player,
             target = target.visType,
@@ -119,6 +124,7 @@ constructor(
             targetMaxHp = target.baseHitpointsLvl,
             targetMagic = target.magicLvl,
             attackStyle = attackStyle,
+            specialMultiplier = specialMultiplier,
         )
 
     public fun computeStaffHitChance(
@@ -129,13 +135,16 @@ constructor(
         targetMaxHp: Int,
         targetMagic: Int,
         attackStyle: MagicAttackStyle?,
+        specialMultiplier: Double,
     ): Int {
         val staffAttributes = magicAttributes.staffCollect(source, random)
 
         val slayerTask = target.isSlayerTask(source)
         val npcAttributes = npcAttributes.collect(target, targetCurrHp, targetMaxHp, slayerTask)
 
-        val attackRoll = computeStaffAttackRoll(source, attackStyle, staffAttributes, npcAttributes)
+        val baseAttackRoll =
+            computeStaffAttackRoll(source, attackStyle, staffAttributes, npcAttributes)
+        val attackRoll = (baseAttackRoll * specialMultiplier).toInt()
 
         val amascutInvocationLvl = 0 // TODO(combat): Create varp.
         val baseDefenceRoll =

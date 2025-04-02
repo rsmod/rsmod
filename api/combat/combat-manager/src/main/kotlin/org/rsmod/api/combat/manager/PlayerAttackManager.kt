@@ -1259,29 +1259,49 @@ constructor(
      *
      * @param attackStyle The [MagicAttackStyle] used for the [source]'s accuracy calculation.
      *   Usually based on the current `CombatAttack.Staff` attack but can be overridden.
+     * @param percentBoost Percentage boost to accuracy (`0` = `+0%` boost, `100` = `+100%` boost).
      * @return `true` if the accuracy roll succeeds (the spell will "land"), `false` otherwise.
      */
     public fun rollStaffAccuracy(
         source: Player,
         target: PathingEntity,
         attackStyle: MagicAttackStyle?,
-    ): Boolean =
-        when (target) {
-            is Npc -> rollStaffAccuracy(source, target, attackStyle)
-            is Player -> rollStaffAccuracy(source, target, attackStyle)
+        percentBoost: Int,
+    ): Boolean {
+        val multiplier = 1 + (percentBoost / 100.0)
+        return when (target) {
+            is Npc -> rollStaffAccuracy(source, target, attackStyle, multiplier)
+            is Player -> rollStaffAccuracy(source, target, attackStyle, multiplier)
         }
+    }
 
     private fun rollStaffAccuracy(
         source: Player,
         target: Npc,
         attackStyle: MagicAttackStyle?,
-    ): Boolean = accuracy.rollStaffAccuracy(player = source, target = target, attackStyle, random)
+        specMultiplier: Double,
+    ): Boolean =
+        accuracy.rollStaffAccuracy(
+            player = source,
+            target = target,
+            attackStyle,
+            specMultiplier,
+            random,
+        )
 
     private fun rollStaffAccuracy(
         source: Player,
         target: Player,
         attackStyle: MagicAttackStyle?,
-    ): Boolean = TODO() // TODO(combat): pvp accuracy
+        specMultiplier: Double,
+    ): Boolean =
+        accuracy.rollStaffAccuracy(
+            player = source,
+            target = target,
+            attackStyle,
+            specMultiplier,
+            random,
+        )
 
     /**
      * Rolls a random damage value between `0` and the maximum possible hit for a powered staff's
