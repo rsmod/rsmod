@@ -26,7 +26,7 @@ public object RangedAmmunition {
     public const val DEFAULT_AMMO_DROP_RATE: Int = 5
 
     /** The obj spawn duration when an ammunition is dropped on the ground after being fired. */
-    public const val DEFAULT_AMMO_DROP_DURATION: Int = 100
+    public const val DEFAULT_AMMO_DROP_DURATION: Int = 200
 
     /**
      * Verifies that [weapon] can use [ammo] as valid ammunition and sends an appropriate error

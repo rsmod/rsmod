@@ -139,13 +139,11 @@ constructor(
         }
 
         if (!conserve && random.randomBoolean(dropChance)) {
-            // TODO(combat): Verify duration. Do they stay longer in raids?
-            // TODO(combat): Can this have a chance of dropping 2 for bows such as the dark bow?
             RangedAmmunition.attemptAmmoDrop(
                 player = player,
                 delay = dropDelay,
                 ammoType = ammoType,
-                ammoCount = 1,
+                ammoCount = ammoCount,
                 dropCoord = dropCoord,
                 dropDuration = dropDuration,
                 collision = collision,
