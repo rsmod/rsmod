@@ -334,6 +334,7 @@ object BaseObjs : ObjReferences() {
     val imbued_saradomin_cape = find("imbued_saradomin_cape")
     val infinity_boots = find("infinity_boots")
 
+    val armadyl_godsword = find("armadyl_godsword")
     val dragonfire_ward = find("dragonfire_ward")
     val helm_of_neitiznot = find("helm_of_neitiznot")
     val fire_cape = find("fire_cape")
