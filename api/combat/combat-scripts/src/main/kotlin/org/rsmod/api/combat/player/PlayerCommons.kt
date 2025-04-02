@@ -123,7 +123,6 @@ internal fun ProtectedAccess.resolveAutocastSpell(
 
     val canCastSpell = runes.canCastSpell(player, spell)
     if (!canCastSpell) {
-        // TODO(combat): Should this fully reset autocast or simply toggle autocastEnabled?
         autocastEnabled = false
         autocast.reset(player, weaponType)
         return null
