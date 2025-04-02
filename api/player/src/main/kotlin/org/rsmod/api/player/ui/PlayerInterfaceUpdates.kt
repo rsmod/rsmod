@@ -41,6 +41,6 @@ public object PlayerInterfaceUpdates {
 
     public fun updateCombatLevel(player: Player) {
         player.combatLvlWhole = player.combatLevel
-        player.combatLvlDecimal = 0 // TODO(combat)
+        player.combatLvlDecimal = player.combatLevelDecimal
     }
 }

@@ -143,6 +143,7 @@ public class Player(
     public var skullIcon: Int? by appearance::skullIcon
     public var overheadIcon: Int? by appearance::overheadIcon
     public val combatLevel: Int by appearance::combatLevel
+    public var combatLevelDecimal: Int = 0
 
     /**
      * Drop triggers enable extensibility for inv obj drop prevention.
