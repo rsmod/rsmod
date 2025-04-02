@@ -42,7 +42,7 @@ constructor(
     }
 
     private fun Npc.spawnDeathDrops(dropCoords: CoordGrid) {
-        // TODO(combat): Drop tables.
+        // TODO: Drop tables.
         val hero = findHero(players)
         if (hero != null) {
             val duration = hero.lootDropDuration ?: constants.lootdrop_duration
