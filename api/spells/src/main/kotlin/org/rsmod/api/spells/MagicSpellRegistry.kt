@@ -152,6 +152,6 @@ constructor(private val objTypes: ObjTypeList, private val enumResolver: EnumTyp
         }
 
     public class ButtonLookup(private val spells: Map<Int, MagicSpell>) {
-        public operator fun get(obj: ObjType): MagicSpell? = spells[obj.id]
+        public operator fun get(obj: ObjType): ComponentType? = spells[obj.id]?.component
     }
 }
