@@ -11,8 +11,6 @@ import org.rsmod.api.combat.npc.aggressivePlayer
 import org.rsmod.api.combat.npc.lastCombat
 import org.rsmod.api.combat.player.aggressiveNpc
 import org.rsmod.api.combat.player.attackRange
-import org.rsmod.api.combat.player.lastCombat
-import org.rsmod.api.combat.player.lastCombatPvp
 import org.rsmod.api.combat.player.resolveAutocastSpell
 import org.rsmod.api.combat.player.resolveCombatAttack
 import org.rsmod.api.combat.weapon.styles.AttackStyles
@@ -136,12 +134,12 @@ constructor(
 
         val singleCombat = !inMultiCombatArea()
         if (singleCombat) {
-            if (lastCombatPvp + ACTIVE_COMBAT_DELAY > mapClock) {
+            if (isInPvpCombat()) {
                 spam("I'm already under attack.")
                 return false
             }
 
-            if (lastCombat + ACTIVE_COMBAT_DELAY > mapClock) {
+            if (isInPvnCombat()) {
                 if (aggressiveNpc != null && aggressiveNpc != npc.uid) {
                     spam("I'm already under attack.")
                     return false

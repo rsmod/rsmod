@@ -50,6 +50,10 @@ import org.rsmod.api.player.interact.LocInteractions
 import org.rsmod.api.player.interact.NpcInteractions
 import org.rsmod.api.player.interact.PlayerInteractions
 import org.rsmod.api.player.interact.WornInteractions
+import org.rsmod.api.player.isInCombat
+import org.rsmod.api.player.isInPvnCombat
+import org.rsmod.api.player.isInPvpCombat
+import org.rsmod.api.player.isOutOfCombat
 import org.rsmod.api.player.output.Camera
 import org.rsmod.api.player.output.ChatType
 import org.rsmod.api.player.output.ClientScripts
@@ -125,6 +129,7 @@ import org.rsmod.game.entity.NpcList
 import org.rsmod.game.entity.PathingEntity
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.PlayerList
+import org.rsmod.game.entity.npc.NpcMode
 import org.rsmod.game.entity.npc.NpcUid
 import org.rsmod.game.entity.player.PlayerUid
 import org.rsmod.game.entity.player.ProtectedAccessLostException
@@ -1113,6 +1118,14 @@ public class ProtectedAccess(
         return rollSuccessRate(low, high, stat, invisibleBoost)
     }
 
+    public fun isInCombat(): Boolean = player.isInCombat()
+
+    public fun isInPvpCombat(): Boolean = player.isInPvpCombat()
+
+    public fun isInPvnCombat(): Boolean = player.isInPvnCombat()
+
+    public fun isOutOfCombat(): Boolean = player.isOutOfCombat()
+
     public fun queueDeath() {
         player.queueDeath()
     }
@@ -2018,7 +2031,10 @@ public class ProtectedAccess(
         pauseText: String = constants.cm_pausebutton,
         eventBus: EventBus = context.eventBus,
     ) {
-        npc.playerFace(player, faceFar = faceFar)
+        val inCombatMode = npc.mode == NpcMode.OpPlayer2 || npc.mode == NpcMode.ApPlayer2
+        if (!inCombatMode) {
+            npc.playerFace(player, faceFar = faceFar)
+        }
         player.facePathingEntitySquare(npc)
 
         val chatanim = mesanim?.splitGetAnim(lineCount)

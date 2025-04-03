@@ -1,6 +1,8 @@
 package org.rsmod.api.player
 
+import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.queues
+import org.rsmod.api.config.refs.varps
 import org.rsmod.api.player.hit.configs.hit_queues
 import org.rsmod.api.player.output.UpdateInventory
 import org.rsmod.api.player.output.clearMapFlag
@@ -34,6 +36,18 @@ public fun Player.combatClearQueue() {
 
 public fun Player.isValidTarget(): Boolean {
     return isSlotAssigned && isVisible && hitpoints > 0
+}
+
+public fun Player.isOutOfCombat(): Boolean = !isInCombat()
+
+public fun Player.isInCombat(): Boolean = isInPvpCombat() || isInPvnCombat()
+
+public fun Player.isInPvpCombat(): Boolean {
+    return vars[varps.lastcombat_pvp] + constants.combat_activecombat_delay >= currentMapClock
+}
+
+public fun Player.isInPvnCombat(): Boolean {
+    return vars[varps.lastcombat] + constants.combat_activecombat_delay >= currentMapClock
 }
 
 public fun Player.startInvTransmit(inv: Inventory) {

@@ -22,14 +22,14 @@ public fun Npc.isValidTarget(): Boolean {
     return isSlotAssigned && isVisible && isNotDelayed && hitpoints > 0
 }
 
+public fun Npc.isOutOfCombat(): Boolean = !isInCombat()
+
 public fun Npc.isInCombat(): Boolean {
-    if (vars[varns.lastattack] + constants.combat_default_attackrate >= currentMapClock) {
+    if (vars[varns.lastattack] + constants.combat_activecombat_delay >= currentMapClock) {
         return true
     }
-    return mode == NpcMode.OpPlayer2 || mode == NpcMode.OpNpc2 || mode == NpcMode.PlayerEscape
+    return mode == NpcMode.OpPlayer2 || mode == NpcMode.ApPlayer2 || mode == NpcMode.PlayerEscape
 }
-
-public fun Npc.isOutOfCombat(): Boolean = !isInCombat()
 
 public fun Npc.opPlayer2(target: Player, interactions: AiPlayerInteractions) {
     opPlayer(target, NpcMode.OpPlayer2)

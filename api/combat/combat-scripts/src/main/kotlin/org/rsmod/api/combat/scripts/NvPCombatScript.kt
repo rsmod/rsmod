@@ -1,17 +1,16 @@
 package org.rsmod.api.combat.scripts
 
 import jakarta.inject.Inject
-import org.rsmod.api.combat.ACTIVE_COMBAT_DELAY
 import org.rsmod.api.combat.NvPCombat
 import org.rsmod.api.combat.commons.CombatAttack
 import org.rsmod.api.combat.commons.types.MeleeAttackType
 import org.rsmod.api.combat.inMultiCombatArea
 import org.rsmod.api.combat.player.aggressiveNpc
-import org.rsmod.api.combat.player.lastCombat
-import org.rsmod.api.combat.player.lastCombatPvp
 import org.rsmod.api.config.refs.categories
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.npc.access.StandardNpcAccess
+import org.rsmod.api.player.isInPvnCombat
+import org.rsmod.api.player.isInPvpCombat
 import org.rsmod.api.script.advanced.onDefaultAiOpPlayer2
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
@@ -37,11 +36,11 @@ internal class NvPCombatScript @Inject constructor(private val combat: NvPCombat
     private fun StandardNpcAccess.canAttack(target: Player): Boolean {
         val singleCombat = !inMultiCombatArea()
         if (singleCombat) {
-            if (target.lastCombatPvp + ACTIVE_COMBAT_DELAY > mapClock) {
+            if (target.isInPvpCombat()) {
                 return false
             }
 
-            if (target.lastCombat + ACTIVE_COMBAT_DELAY > mapClock) {
+            if (target.isInPvnCombat()) {
                 if (target.aggressiveNpc != null && target.aggressiveNpc != npc.uid) {
                     return false
                 }

@@ -7,6 +7,10 @@ import org.rsmod.api.combat.commons.player.combatPlayDefendAnim
 import org.rsmod.api.combat.commons.player.queueCombatRetaliate
 import org.rsmod.api.combat.formulas.AccuracyFormulae
 import org.rsmod.api.combat.formulas.MaxHitFormulae
+import org.rsmod.api.combat.npc.attackingPlayer
+import org.rsmod.api.combat.npc.lastAttack
+import org.rsmod.api.combat.player.aggressiveNpc
+import org.rsmod.api.combat.player.lastCombat
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.npc.access.StandardNpcAccess
 import org.rsmod.api.player.hit.queueHit
@@ -58,6 +62,8 @@ constructor(
                 0
             }
 
+        setAttackVars(target)
+
         // Note: Retaliation must be queued _before_ the hit. If queued after, every hit would
         // trigger the "speed-up" death mechanic, since the hit queues would no longer be the
         // last entries in the queue list at the time of processing.
@@ -69,5 +75,12 @@ constructor(
 
     private fun canAttack(target: Player): Boolean {
         return target.isValidTarget()
+    }
+
+    private fun StandardNpcAccess.setAttackVars(target: Player) {
+        npc.lastAttack = mapClock
+        npc.attackingPlayer = target.uid
+        target.lastCombat = mapClock
+        target.aggressiveNpc = npc.uid
     }
 }
