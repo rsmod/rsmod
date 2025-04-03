@@ -347,7 +347,7 @@ class PlayerMovementProcessorTest {
             coords = startCoords
             varMoveSpeed = MoveSpeed.Run
             routeRequest = RouteRequestCoord(destination = destination)
-            check(currentWaypoint == CoordGrid.ZERO)
+            check(lastWaypoint == CoordGrid.ZERO)
             assertEquals(startCoords, coords)
             // Path blocked by a plant!
             val expectedDest = CoordGrid(3275, 3059)
@@ -370,8 +370,8 @@ class PlayerMovementProcessorTest {
             coords = startCoords
             varMoveSpeed = MoveSpeed.Run
             routeRequest = RouteRequestCoord(destination)
-            // Set `lastStep` to a valid coordinate
-            currentWaypoint = coords
+            // Set `lastWaypoint` to a valid coordinate
+            lastWaypoint = coords
             assertEquals(startCoords, coords)
             repeat(8) {
                 movement.process(this)

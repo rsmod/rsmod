@@ -119,7 +119,7 @@ constructor(
             clearMapFlag()
         }
         coords = current
-        currentWaypoint = target
+        lastWaypoint = target
         return stepCount
     }
 
@@ -165,7 +165,7 @@ constructor(
      * @see [Route.failed]
      */
     private fun Player.emulateLogInWalkTo() {
-        if (currentWaypoint != CoordGrid.ZERO) return
+        if (lastWaypoint != CoordGrid.ZERO) return
         moveSpeed = MoveSpeed.Walk
         routeDestination.add(CoordGrid.ZERO)
     }
