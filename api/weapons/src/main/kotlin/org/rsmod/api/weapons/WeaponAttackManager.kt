@@ -329,13 +329,12 @@ constructor(private val objTypes: ObjTypeList, private val manager: PlayerAttack
         source: ProtectedAccess,
         target: PathingEntity,
         attackStyle: MagicAttackStyle?,
-        percentBoost: Int,
     ): Boolean =
         manager.rollStaffAccuracy(
             source = source.player,
             target = target,
             attackStyle = attackStyle,
-            percentBoost = percentBoost,
+            percentBoost = 0,
         )
 
     /** @see [PlayerAttackManager.rollStaffMaxHit] */
@@ -343,13 +342,12 @@ constructor(private val objTypes: ObjTypeList, private val manager: PlayerAttack
         source: ProtectedAccess,
         target: PathingEntity,
         baseMaxHit: Int,
-        percentBoost: Int,
     ): Int =
         manager.rollStaffMaxHit(
             source = source.player,
             target = target,
             baseMaxHit = baseMaxHit,
-            percentBoost = percentBoost,
+            percentBoost = 0,
         )
 
     /** @see [PlayerAttackManager.calculateStaffMaxHit] */
@@ -357,13 +355,12 @@ constructor(private val objTypes: ObjTypeList, private val manager: PlayerAttack
         source: ProtectedAccess,
         target: PathingEntity,
         baseMaxHit: Int,
-        percentBoost: Int,
     ): Int =
         manager.calculateStaffMaxHit(
             source = source.player,
             target = target,
             baseMaxHit = baseMaxHit,
-            percentBoost = percentBoost,
+            percentBoost = 0,
         )
 
     /** @see [PlayerAttackManager.queueMagicHit] */
