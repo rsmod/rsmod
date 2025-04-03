@@ -42,7 +42,6 @@ public class GameTestState {
 
     private val logger = InlineLogger()
 
-    @Suppress("konsist.test see tag references are formatted correctly")
     /**
      * Runs a game test with optional isolated script contexts.
      *
