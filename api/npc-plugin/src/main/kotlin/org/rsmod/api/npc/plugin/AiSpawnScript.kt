@@ -32,20 +32,20 @@ public class AiSpawnScript : PluginScript() {
         val attackBonus = type.param(params.attack_melee)
         val strengthBonus = type.param(params.melee_strength)
         val scaledVariables =
-            (averageLevel * (averageDefBonus + strengthBonus + attackBonus) / 5120).toInt()
+            (averageLevel * (averageDefBonus + strengthBonus + attackBonus)) / 5120
         val multiplier = 1 + (0.025 * scaledVariables)
         return round(multiplier * 1000.0).toInt()
     }
 
-    private fun Npc.averageLevel(): Double {
+    private fun Npc.averageLevel(): Int {
         val cappedHitpoints = min(2000, baseHitpointsLvl)
-        return (baseAttackLvl + baseStrengthLvl + baseDefenceLvl + cappedHitpoints) / 4.0
+        return (baseAttackLvl + baseStrengthLvl + baseDefenceLvl + cappedHitpoints) / 4
     }
 
-    private fun Npc.averageDefBonus(): Double {
+    private fun Npc.averageDefBonus(): Int {
         val stabDefence = type.param(params.defence_stab)
         val slashDefence = type.param(params.defence_slash)
         val crushDefence = type.param(params.defence_crush)
-        return (stabDefence + slashDefence + crushDefence) / 3.0
+        return (stabDefence + slashDefence + crushDefence) / 3
     }
 }
