@@ -9,7 +9,6 @@ plugins {
 
 testing.suites {
     val integration by registering(JvmTestSuite::class) {
-        testType = TestSuiteType.INTEGRATION_TEST
         useJUnitJupiter(junitVersion)
         targets.all {
             dependencies {

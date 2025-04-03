@@ -9,7 +9,6 @@ plugins {
 
 testing.suites {
     val docTest by registering(JvmTestSuite::class) {
-        testType.set("documentation-unit-test")
         useJUnitJupiter(junitVersion)
         targets.all {
             dependencies {
@@ -26,7 +25,6 @@ testing.suites {
     }
 
     val konsistTest by registering(JvmTestSuite::class) {
-        testType.set("konsist-unit-test")
         useJUnitJupiter(junitVersion)
         targets.all {
             testTask.configure {
