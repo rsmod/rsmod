@@ -370,16 +370,20 @@ private constructor(
     }
 
     private suspend fun ProtectedAccess.masteryCapeEmote(seq: SeqType, spotanim: SpotanimType) {
-        // TODO: Under combat check ("You can't perform that emote now.")
-
+        if (isInCombat()) {
+            mes("You can't perform that emote now.")
+            return
+        }
         playAnim(seq, spotanim)
         delay(seq)
         rebuildAppearance()
     }
 
     private suspend fun ProtectedAccess.achievementDiaryCapeEmote() {
-        // TODO: Under combat check ("You can't perform that emote now.")
-
+        if (isInCombat()) {
+            mes("You can't perform that emote now.")
+            return
+        }
         val southWest = coords.translate(Direction.SouthWest)
         val npc =
             Npc(npcTypes[npcs.achievement_diary_cape_emote], southWest).apply {
@@ -411,8 +415,10 @@ private constructor(
             )
             return
         }
-        // TODO(content): Under combat check ("You can't perform that emote now.")
-
+        if (isInCombat()) {
+            mes("You can't perform that emote now.")
+            return
+        }
         midiJingle(jingles.emote_air_guitar)
         playAnim(seqs.emote_air_guitar, spotanims.air_guitar_emote)
     }
@@ -427,8 +433,10 @@ private constructor(
             )
             return
         }
-        // TODO(content): Under combat check ("You can't perform that emote now.")
-
+        if (isInCombat()) {
+            mes("You can't perform that emote now.")
+            return
+        }
         spotanim(spotanims.poof_disappear, height = 92)
         transmog(npcs.uri_emote_1)
         delay(1)
@@ -482,8 +490,10 @@ private constructor(
             )
             return
         }
-        // TODO: Under combat check ("You can't perform that emote now.")
-
+        if (isInCombat()) {
+            mes("You can't perform that emote now.")
+            return
+        }
         anim(seqs.emote_relic_unlock)
         if (vars[varbits.relic_unlock_emote] == 3) {
             spotanim(spotanims.twisted_relic_unlock, height = 92)

@@ -1,5 +1,6 @@
 package org.rsmod.content.generic.npcs.person
 
+import org.rsmod.api.combat.commons.npc.queueCombatRetaliate
 import org.rsmod.api.config.refs.content
 import org.rsmod.api.config.refs.objs
 import org.rsmod.api.invtx.invAdd
@@ -40,7 +41,7 @@ class GenericPerson : PluginScript() {
                 14 -> randomGenericDialogue15()
                 15 -> randomGenericDialogue16()
                 16 -> randomGenericDialogue17()
-                17 -> randomGenericDialogue18()
+                17 -> randomGenericDialogue18(npc)
                 18 -> randomGenericDialogue19()
                 19 -> randomGenericDialogue20()
                 20 -> randomGenericDialogue21()
@@ -159,10 +160,9 @@ class GenericPerson : PluginScript() {
         chatNpc(neutral, "I'm busy right now.")
     }
 
-    private suspend fun Dialogue.randomGenericDialogue18() {
+    private suspend fun Dialogue.randomGenericDialogue18(npc: Npc) {
         chatNpc(angry, "Are you asking for a fight?")
-        // TODO(content): attack player here. seems like this should be skipped under certain
-        //  circumstances. might be an indoor check.
+        npc.queueCombatRetaliate(player)
     }
 
     private suspend fun Dialogue.randomGenericDialogue19() {
