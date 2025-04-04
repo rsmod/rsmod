@@ -42,7 +42,6 @@ constructor(
         }
     }
 
-    @Suppress("DeferredResultUnused")
     private fun sendZoneUpdates() = runBlocking {
         zoneUpdates.computeEnclosedBuffers()
         supervisorScope {

@@ -31,9 +31,7 @@ class PlayerTeleportTest {
             protectedTeleport(collision, dest)
             assertEquals(dest, coords)
             assertEquals(MoveSpeed.Walk, moveSpeed)
-            // After a cycle, the player will have their move speed set back to stationary.
             movement.process(this)
-            assertEquals(MoveSpeed.Stationary, moveSpeed)
         }
     }
 

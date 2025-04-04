@@ -65,11 +65,7 @@ constructor(
     }
 
     private fun Player.processMoveSpeed() {
-        if (routeDestination.isEmpty()) {
-            moveSpeed = MoveSpeed.Stationary
-            return
-        }
-        if (!canProcessMovement) {
+        if (routeDestination.isEmpty() || !canProcessMovement) {
             return
         }
         processWalkTrigger()

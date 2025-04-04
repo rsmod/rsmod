@@ -53,7 +53,6 @@ constructor(
 
     private fun Npc.processMoveSpeed(collision: CollisionStrategy) {
         if (routeDestination.isEmpty()) {
-            moveSpeed = MoveSpeed.Stationary
             return
         }
         processWalkTrigger()
