@@ -74,6 +74,7 @@ constructor(
     }
 
     private fun Player.flushClient() {
+        clientCycle.postCycle(this)
         client.flush()
     }
 

@@ -37,7 +37,6 @@ constructor(
         players.process()
         players.forEach { it.tryOrDisconnect { clientProcess() } }
         eventBus.publish(GameLifecycle.PlayersProcessed)
-        players.forEach { it.tryOrDisconnect { clientPostProcess() } }
     }
 
     private fun PlayerList.process() = runBlocking {
@@ -126,10 +125,6 @@ constructor(
         mapSquares.process(this)
         regions.process(this)
         clientCycle.preCycle(this)
-    }
-
-    private fun Player.clientPostProcess() {
-        clientCycle.postCycle(this)
     }
 
     private inline fun Player.tryOrDisconnect(block: Player.() -> Unit) =
