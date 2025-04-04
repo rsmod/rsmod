@@ -79,6 +79,9 @@ constructor(
     }
 
     private fun Player.cleanUpPendingUpdates() {
+        pendingStepCount = 0
+        pendingTeleport = false
+        pendingTelejump = false
         pendingFaceAngle = EntityFaceAngle.NULL
         pendingSequence = EntitySeq.NULL
         pendingSpotanims.clear()

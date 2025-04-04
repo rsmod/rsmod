@@ -65,40 +65,46 @@ constructor(
     }
 
     private fun Player.processMoveSpeed() {
-        if (!moveSpeed.processRouteDestination) {
-            return
-        }
-
         if (routeDestination.isEmpty()) {
             moveSpeed = MoveSpeed.Stationary
             return
         }
+        if (!canProcessMovement) {
+            return
+        }
+        processWalkTrigger()
 
-        if (canProcessMovement) {
-            processWalkTrigger()
+        val completeCrawlStep = moveSpeed == MoveSpeed.Crawl && !hasMovedPreviousCycle
+        val steps = if (completeCrawlStep) 1 else moveSpeed.steps
+        move(steps)
 
-            val steps = move(moveSpeed.steps)
-            if (steps > 0) {
-                moveSpeed = speedOffset(moveSpeed, steps)
-            }
+        val forceWalk = moveSpeed == MoveSpeed.Run && pendingStepCount == 1
+        if (forceWalk) {
+            moveSpeed = MoveSpeed.Walk
         }
     }
 
-    private fun Player.move(steps: Int): Int {
+    private fun Player.move(steps: Int) {
         val destination = routeDestination
-        val waypoint = destination.peekFirst() ?: return 0
+        val waypoint = destination.peekFirst() ?: return
         val start = coords
         var current = start
         var target = waypoint
         var stepCount = 0
+        lastProcessedCoord = start
         removeBlockWalkCollision(current)
         for (i in 0 until steps) {
+            // Important to set this before `current` is assigned for this iteration. This serves
+            // as a way to track the intermediate coord when running.
+            lastProcessedCoord = current
+
             if (current == target) {
                 target = destination.pollFirst() ?: break
                 if (current == target) {
                     target = destination.peekFirst() ?: break
                 }
             }
+
             val step = validatedStep(current, target)
             if (step == CoordGrid.NULL) {
                 break
@@ -106,17 +112,17 @@ constructor(
             current = step
             stepCount++
         }
-        addBlockWalkCollision(current)
-        updateMovementClock(current, start)
-        // If last step in on waypoint destination, remove it from queue.
         if (current == target) {
+            // If last step in on waypoint destination, remove it from queue.
             destination.pollFirst()
         }
         if (destination.isEmpty()) {
             clearMapFlag()
         }
+        addBlockWalkCollision(current)
+        updateMovementClock(current, start)
+        pendingStepCount = stepCount
         coords = current
-        return stepCount
     }
 
     private fun Player.validatedStep(current: CoordGrid, target: CoordGrid): CoordGrid =
@@ -165,13 +171,5 @@ constructor(
         private fun RouteDestination.addAll(route: Route) {
             this += route.map { CoordGrid(it.x, it.z, it.level) }
         }
-
-        private fun speedOffset(previous: MoveSpeed, steps: Int): MoveSpeed =
-            when {
-                steps == 0 && previous == MoveSpeed.Crawl -> MoveSpeed.Crawl
-                steps == 1 -> MoveSpeed.Walk
-                steps == 2 -> MoveSpeed.Run
-                else -> MoveSpeed.Stationary
-            }
     }
 }
