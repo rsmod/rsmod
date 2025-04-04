@@ -40,24 +40,24 @@ public object PathingEntityCommon {
 
     public fun telejump(entity: PathingEntity, collision: CollisionFlagMap, dest: CoordGrid) {
         telemove(entity, collision, dest)
+        entity.pendingTelejump = true
         entity.moveSpeed = MoveSpeed.Stationary
     }
 
     public fun teleport(entity: PathingEntity, collision: CollisionFlagMap, dest: CoordGrid) {
         telemove(entity, collision, dest)
+        entity.pendingTeleport = true
+        entity.moveSpeed = MoveSpeed.Walk
         entity.lastMovement = entity.currentMapClock
     }
 
-    public fun telemove(entity: PathingEntity, collision: CollisionFlagMap, dest: CoordGrid) {
+    private fun telemove(entity: PathingEntity, collision: CollisionFlagMap, dest: CoordGrid) {
         check(collision.isZoneValid(dest)) {
             "Entity cannot be moved to an invalid zone: entity=$entity, dest=$dest"
         }
 
         val start = entity.coords
         entity.coords = dest
-        // Need to set move speed so that movement processor knows to consume
-        // steps for this entity.
-        entity.moveSpeed = MoveSpeed.Walk
         // Reset any ongoing movement and/or interaction.
         entity.abortRoute()
         entity.clearInteraction()

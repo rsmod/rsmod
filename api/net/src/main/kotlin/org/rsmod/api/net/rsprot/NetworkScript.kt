@@ -35,7 +35,7 @@ constructor(
                 "(rsmod=${Build.MAJOR}, rsprot=${RSProtConstants.REVISION})"
         }
         eventBus.subscribe<GameLifecycle.BootUp> { startService() }
-        eventBus.subscribe<GameLifecycle.PlayersProcessed> { updateService() }
+        eventBus.subscribe<GameLifecycle.UpdateInfo> { updateService() }
         eventBus.subscribe<SessionStart> { startSession() }
         eventBus.subscribe<SessionEnd> { closeSession() }
         eventBus.subscribe<NpcStateEvents.Create> { createNpcAvatar(npc) }

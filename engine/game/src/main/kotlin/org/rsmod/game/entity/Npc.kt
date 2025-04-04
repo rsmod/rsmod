@@ -180,6 +180,7 @@ public class Npc(
 
     @InternalApi
     public fun setRespawnValues() {
+        pendingTelejump = true
         transmog = null
         cachedHitmark = null
         mode = defaultMode

@@ -2,7 +2,6 @@ package org.rsmod.api.game.process.player
 
 import jakarta.inject.Inject
 import kotlinx.coroutines.runBlocking
-import org.rsmod.api.game.process.GameLifecycle
 import org.rsmod.api.player.forceDisconnect
 import org.rsmod.api.player.ui.closeSubs
 import org.rsmod.api.player.ui.ifClose
@@ -34,13 +33,11 @@ constructor(
     private val exceptionHandler: GameExceptionHandler,
 ) {
     public fun process() {
-        players.process()
-        players.forEach { it.tryOrDisconnect { clientProcess() } }
-        eventBus.publish(GameLifecycle.PlayersProcessed)
+        processAll()
     }
 
-    private fun PlayerList.process() = runBlocking {
-        for (player in this@process) {
+    private fun processAll() = runBlocking {
+        for (player in players) {
             player.processedMapClock = mapClock.cycle
             player.tryOrDisconnect {
                 resumePausedProcess()
@@ -52,6 +49,9 @@ constructor(
                 processEngineQueues()
                 processMovementSequence()
             }
+        }
+        for (player in players) {
+            player.tryOrDisconnect { clientProcess() }
         }
     }
 

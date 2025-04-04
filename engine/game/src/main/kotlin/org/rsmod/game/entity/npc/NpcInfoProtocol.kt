@@ -24,7 +24,11 @@ public interface NpcInfoProtocol {
 
     public fun toggleOps(ops: OpVisibility)
 
+    public fun crawl(deltaX: Int, deltaZ: Int)
+
     public fun walk(deltaX: Int, deltaZ: Int)
+
+    public fun run(deltaX1: Int, deltaZ1: Int, deltaX2: Int, deltaZ2: Int)
 
     public fun teleport(x: Int, z: Int, level: Int, jump: Boolean)
 
@@ -56,7 +60,11 @@ public data object NoopNpcInfo : NpcInfoProtocol {
 
     override fun toggleOps(ops: OpVisibility) {}
 
+    override fun crawl(deltaX: Int, deltaZ: Int) {}
+
     override fun walk(deltaX: Int, deltaZ: Int) {}
+
+    override fun run(deltaX1: Int, deltaZ1: Int, deltaX2: Int, deltaZ2: Int) {}
 
     override fun teleport(x: Int, z: Int, level: Int, jump: Boolean) {}
 

@@ -100,6 +100,10 @@ public sealed class PathingEntity {
     public var cachedMoveSpeed: MoveSpeed = MoveSpeed.Stationary
 
     public var lastProcessedZone: ZoneKey = ZoneKey.NULL
+    public var lastProcessedCoord: CoordGrid = CoordGrid.NULL
+    public var pendingTeleport: Boolean = false
+    public var pendingTelejump: Boolean = false
+    public var pendingStepCount: Int = 0
 
     public var faceEntity: EntityFaceTarget = EntityFaceTarget.NULL
     public var lastFaceEntity: Int = Int.MIN_VALUE
@@ -254,6 +258,7 @@ public sealed class PathingEntity {
     }
 
     public fun abortRoute() {
+        pendingStepCount = 0
         routeRequest = null
         tempMoveSpeed = null
         routeDestination.abort()

@@ -54,6 +54,7 @@ constructor(
      */
     private fun postTick() {
         worldPostTick.process()
+        eventBus.publish(GameLifecycle.UpdateInfo)
         playerPostTick.process()
     }
 }

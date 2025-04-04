@@ -63,8 +63,17 @@ class RspNpcInfo(val rspAvatar: NpcAvatar) : NpcInfoProtocol {
         rspAvatar.extendedInfo.setVisibleOps(ops.packed)
     }
 
+    override fun crawl(deltaX: Int, deltaZ: Int) {
+        rspAvatar.crawl(deltaX, deltaZ)
+    }
+
     override fun walk(deltaX: Int, deltaZ: Int) {
         rspAvatar.walk(deltaX, deltaZ)
+    }
+
+    override fun run(deltaX1: Int, deltaZ1: Int, deltaX2: Int, deltaZ2: Int) {
+        rspAvatar.walk(deltaX1, deltaZ1)
+        rspAvatar.walk(deltaX2, deltaZ2)
     }
 
     override fun teleport(x: Int, z: Int, level: Int, jump: Boolean) {

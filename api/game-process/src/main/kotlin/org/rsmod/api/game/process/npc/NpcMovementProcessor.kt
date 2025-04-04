@@ -27,7 +27,6 @@ constructor(
         npc.routeRequest?.let { consumeRequest(npc, it) }
         npc.routeRequest = null
         npc.processMovement()
-        npc.updateRspAvatar()
         npc.resetTempSpeed()
     }
 
@@ -53,38 +52,38 @@ constructor(
     }
 
     private fun Npc.processMoveSpeed(collision: CollisionStrategy) {
-        if (!moveSpeed.processRouteDestination) {
-            return
-        }
-
         if (routeDestination.isEmpty()) {
             moveSpeed = MoveSpeed.Stationary
             return
         }
-
         processWalkTrigger()
 
-        val steps = move(moveSpeed.steps, collision)
-        if (steps > 0) {
-            moveSpeed = speedOffset(moveSpeed, steps)
-        }
+        val completeCrawlStep = moveSpeed == MoveSpeed.Crawl && !hasMovedPreviousCycle
+        val steps = if (completeCrawlStep) 1 else moveSpeed.steps
+        move(steps, collision)
     }
 
-    private fun Npc.move(steps: Int, collision: CollisionStrategy): Int {
+    private fun Npc.move(steps: Int, collision: CollisionStrategy) {
         val destination = routeDestination
-        val waypoint = destination.peekFirst() ?: return 0
+        val waypoint = destination.peekFirst() ?: return
         val start = coords
         var current = start
         var target = waypoint
         var stepCount = 0
+        lastProcessedCoord = start
         removeBlockWalkCollision(current)
         for (i in 0 until steps) {
+            // Important to set this before `current` is assigned for this iteration. This serves
+            // as a way to track the intermediate coord when running.
+            lastProcessedCoord = current
+
             if (current == target) {
                 target = destination.pollFirst() ?: break
                 if (current == target) {
                     target = destination.peekFirst() ?: break
                 }
             }
+
             val step = stepFactory.validated(this, current, target, collision)
             if (step == CoordGrid.NULL) {
                 break
@@ -92,14 +91,14 @@ constructor(
             current = step
             stepCount++
         }
-        addBlockWalkCollision(current)
-        updateMovementClock(current, start)
-        // If last step in on waypoint destination, remove it from queue.
         if (current == target) {
+            // If last step in on waypoint destination, remove it from the queue.
             destination.pollFirst()
         }
+        addBlockWalkCollision(current)
+        updateMovementClock(current, start)
+        pendingStepCount = stepCount
         coords = current
-        return stepCount
     }
 
     private fun Npc.addBlockWalkCollision(coords: CoordGrid) {
@@ -108,23 +107,6 @@ constructor(
 
     private fun Npc.removeBlockWalkCollision(coords: CoordGrid) {
         removeBlockWalkCollision(collision, coords)
-    }
-
-    // TODO: Use actual movement direction opcodes instead of distance to avoid sync issues with
-    //  client route finder.
-    private fun Npc.updateRspAvatar() {
-        if (previousCoords == coords) {
-            return
-        }
-        val prevCoords = previousCoords
-        val deltaX = coords.x - prevCoords.x
-        val deltaZ = coords.z - prevCoords.z
-        val distance = coords.chebyshevDistance(prevCoords)
-        when (distance) {
-            0 -> return
-            1 -> infoProtocol.walk(deltaX, deltaZ)
-            else -> infoProtocol.teleport(coords.x, coords.z, coords.level, jump = false)
-        }
     }
 
     private fun Npc.resetTempSpeed() {
@@ -165,14 +147,6 @@ constructor(
     }
 
     private companion object {
-        private fun speedOffset(previous: MoveSpeed, steps: Int): MoveSpeed =
-            when {
-                steps == 0 && previous == MoveSpeed.Crawl -> MoveSpeed.Crawl
-                steps == 1 -> MoveSpeed.Walk
-                steps == 2 -> MoveSpeed.Run
-                else -> MoveSpeed.Stationary
-            }
-
         private fun RouteCoordinates.toCoordGrid() = CoordGrid(x, z, level)
     }
 }
