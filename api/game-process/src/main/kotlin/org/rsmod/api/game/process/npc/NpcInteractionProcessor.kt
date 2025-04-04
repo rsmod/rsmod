@@ -317,13 +317,12 @@ constructor(
         if (!withinDistance) {
             return false
         }
-        // Note: We intentionally do not set `extraFlag` to `BLOCK_NPCS` for the line-of-sight
-        // check. If included, the check would almost always fail, since the npc's current
-        // coord has the `BLOCK_NPCS` flag set (npcs set this flag on the coords they occupy).
+        // Note: We intentionally use the same line-of-sight validation that player -> npc
+        // interactions use. This avoids possible one-way safe-spots for npcs targeting players.
         val hasLos =
             rayCastValidator.hasLineOfSight(
-                source = coords,
-                destination = target,
+                source = target,
+                destination = coords,
                 destWidth = width,
                 destLength = length,
                 extraFlag = CollisionFlag.BLOCK_PLAYERS,
