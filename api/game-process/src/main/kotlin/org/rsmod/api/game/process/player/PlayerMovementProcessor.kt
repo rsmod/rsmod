@@ -62,9 +62,6 @@ constructor(
             val dest = route.last()
             setMapFlag(this, dest.x, dest.z)
         }
-        if (route.failed) {
-            emulateLogInWalkTo()
-        }
     }
 
     private fun Player.processMoveSpeed() {
@@ -119,7 +116,6 @@ constructor(
             clearMapFlag()
         }
         coords = current
-        lastWaypoint = target
         return stepCount
     }
 
@@ -153,21 +149,6 @@ constructor(
         if (current != previous) {
             lastMovement = currentMapClock
         }
-    }
-
-    /**
-     * This emulates an edge-case mechanic (bug).
-     *
-     * The bug occurs on the first player route request after log-in, as long as they have _not_
-     * moved at all (or teleported). If the route request _fails_, the player will begin _walking_
-     * towards coordinates [0,0]; only stopping if the path is blocked along the way.
-     *
-     * @see [Route.failed]
-     */
-    private fun Player.emulateLogInWalkTo() {
-        if (lastWaypoint != CoordGrid.ZERO) return
-        moveSpeed = MoveSpeed.Walk
-        routeDestination.add(CoordGrid.ZERO)
     }
 
     private fun Player.processWalkTrigger() {

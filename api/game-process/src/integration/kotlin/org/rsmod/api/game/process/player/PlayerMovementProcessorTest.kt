@@ -1,7 +1,6 @@
 package org.rsmod.api.game.process.player
 
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -335,64 +334,6 @@ class PlayerMovementProcessorTest {
             movement.process(this)
             assertEquals(MoveSpeed.Walk, moveSpeed)
             assertEquals(start.translateX(1), coords)
-        }
-    }
-
-    @Test
-    fun GameTestState.`emulate initial log-in fail route mechanic`() = runBasicGameTest {
-        val movement = PlayerMovementProcessor(collision, routeFactory, stepFactory, eventBus)
-        val startCoords = CoordGrid(3357, 3141)
-        val destination = CoordGrid(3384, 3155)
-        withPlayer {
-            coords = startCoords
-            varMoveSpeed = MoveSpeed.Run
-            routeRequest = RouteRequestCoord(destination = destination)
-            check(lastWaypoint == CoordGrid.ZERO)
-            assertEquals(startCoords, coords)
-            // Path blocked by a plant!
-            val expectedDest = CoordGrid(3275, 3059)
-            val expectedSteps = 82
-            repeat(expectedSteps) {
-                movement.process(this)
-                assertEquals(MoveSpeed.Walk, moveSpeed)
-            }
-            assertEquals(expectedDest, coords)
-            // Though the next tile in the path is blocked, the destination waypoint
-            // should not be cleared until properly "interrupted," or reached.
-            repeat(8) {
-                movement.process(this)
-                assertEquals(expectedDest, coords)
-                assertFalse(routeDestination.isEmpty())
-            }
-        }
-        // Mechanic should only be valid on first ever step after log-in
-        withPlayer {
-            coords = startCoords
-            varMoveSpeed = MoveSpeed.Run
-            routeRequest = RouteRequestCoord(destination)
-            // Set `lastWaypoint` to a valid coordinate
-            lastWaypoint = coords
-            assertEquals(startCoords, coords)
-            repeat(8) {
-                movement.process(this)
-                assertTrue(routeDestination.isEmpty())
-            }
-            // Player should not of have moved
-            assertEquals(startCoords, coords)
-        }
-        withPlayer {
-            coords = startCoords
-            varMoveSpeed = MoveSpeed.Run
-            routeRequest = RouteRequestCoord(destination)
-            // Teleporting should also set `lastStep`
-            withProtectedAccess { telejump(startCoords, collision) }
-            assertEquals(startCoords, coords)
-            repeat(8) {
-                movement.process(this)
-                assertTrue(routeDestination.isEmpty())
-            }
-            // Player should not of have moved
-            assertEquals(startCoords, coords)
         }
     }
 

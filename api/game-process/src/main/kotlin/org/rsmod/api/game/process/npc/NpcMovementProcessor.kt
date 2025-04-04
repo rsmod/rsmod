@@ -99,7 +99,6 @@ constructor(
             destination.pollFirst()
         }
         coords = current
-        lastWaypoint = target
         return stepCount
     }
 
