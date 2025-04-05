@@ -2,7 +2,6 @@ package org.rsmod.api.weapons
 
 import jakarta.inject.Inject
 import org.rsmod.api.combat.commons.CombatAttack
-import org.rsmod.api.combat.commons.styles.MagicAttackStyle
 import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
 import org.rsmod.api.combat.commons.styles.RangedAttackStyle
 import org.rsmod.api.combat.commons.types.MeleeAttackType
@@ -324,16 +323,30 @@ constructor(private val objTypes: ObjTypeList, private val manager: PlayerAttack
             hitDelay = hitDelay,
         )
 
+    /**
+     * Determines whether the staff built-in spell cast by [source] will splash on [target].
+     *
+     * This is a helper function that inverts the result of [rollStaffAccuracy], returning `true` if
+     * the hit misses (i.e., "splashes") and `false` if it hits successfully.
+     *
+     * @see [PlayerAttackManager.rollStaffAccuracy]
+     */
+    public fun rollStaffSplash(
+        source: ProtectedAccess,
+        target: PathingEntity,
+        attack: CombatAttack.Staff,
+    ): Boolean = !rollStaffAccuracy(source, target, attack)
+
     /** @see [PlayerAttackManager.rollStaffAccuracy] */
     public fun rollStaffAccuracy(
         source: ProtectedAccess,
         target: PathingEntity,
-        attackStyle: MagicAttackStyle?,
+        attack: CombatAttack.Staff,
     ): Boolean =
         manager.rollStaffAccuracy(
             source = source.player,
             target = target,
-            attackStyle = attackStyle,
+            attackStyle = attack.style,
             percentBoost = 0,
         )
 
@@ -379,6 +392,60 @@ constructor(private val objTypes: ObjTypeList, private val manager: PlayerAttack
             damage = damage,
             clientDelay = clientDelay,
             hitDelay = hitDelay,
+        )
+
+    /** @see [PlayerAttackManager.queueSplashHit] */
+    public fun queueSplashHit(
+        source: ProtectedAccess,
+        target: PathingEntity,
+        clientDelay: Int,
+        hitDelay: Int = 1 + (clientDelay / 30),
+        spell: ObjType? = null,
+    ): Hit =
+        manager.queueSplashHit(
+            source = source.player,
+            target = target,
+            spell = spell,
+            clientDelay = clientDelay,
+            hitDelay = hitDelay,
+        )
+
+    /** @see [PlayerAttackManager.playMagicHitFx] */
+    public fun playHitFx(
+        source: ProtectedAccess,
+        target: PathingEntity,
+        clientDelay: Int,
+        castSound: SynthType?,
+        soundRadius: Int,
+        hitSpot: SpotanimType?,
+        hitSpotHeight: Int,
+        hitSound: SynthType?,
+    ): Unit =
+        manager.playMagicHitFx(
+            source = source.player,
+            target = target,
+            clientDelay = clientDelay,
+            castSound = castSound,
+            soundRadius = soundRadius,
+            hitSpot = hitSpot,
+            hitSpotHeight = hitSpotHeight,
+            hitSound = hitSound,
+        )
+
+    /** @see [PlayerAttackManager.playMagicSplashFx] */
+    public fun playSplashFx(
+        source: ProtectedAccess,
+        target: PathingEntity,
+        clientDelay: Int,
+        castSound: SynthType?,
+        soundRadius: Int,
+    ): Unit =
+        manager.playMagicSplashFx(
+            source = source.player,
+            target = target,
+            clientDelay = clientDelay,
+            castSound = castSound,
+            soundRadius = soundRadius,
         )
 
     /** @see [PlayerAttackManager.spawnProjectile] */

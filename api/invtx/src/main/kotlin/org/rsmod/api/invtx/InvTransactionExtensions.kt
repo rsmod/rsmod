@@ -184,6 +184,74 @@ public fun Player.invDel(
         autoCommit = autoCommit,
     )
 
+public fun Player.invDel(
+    inv: Inventory,
+    type1: ObjType,
+    count1: Int,
+    type2: ObjType,
+    count2: Int,
+    strict: Boolean = true,
+    autoCommit: Boolean = true,
+): TransactionResultList<InvObj> =
+    invTransaction(inv, autoCommit) {
+        val targetInv = select(inv)
+        delete(
+            inv = targetInv,
+            obj = type1.id,
+            count = count1,
+            slot = null,
+            strict = strict,
+            placehold = false,
+        )
+        delete(
+            inv = targetInv,
+            obj = type2.id,
+            count = count2,
+            slot = null,
+            strict = strict,
+            placehold = false,
+        )
+    }
+
+public fun Player.invDel(
+    inv: Inventory,
+    type1: ObjType,
+    count1: Int,
+    type2: ObjType,
+    count2: Int,
+    type3: ObjType,
+    count3: Int,
+    strict: Boolean = true,
+    autoCommit: Boolean = true,
+): TransactionResultList<InvObj> =
+    invTransaction(inv, autoCommit) {
+        val targetInv = select(inv)
+        delete(
+            inv = targetInv,
+            obj = type1.id,
+            count = count1,
+            slot = null,
+            strict = strict,
+            placehold = false,
+        )
+        delete(
+            inv = targetInv,
+            obj = type2.id,
+            count = count2,
+            slot = null,
+            strict = strict,
+            placehold = false,
+        )
+        delete(
+            inv = targetInv,
+            obj = type3.id,
+            count = count3,
+            slot = null,
+            strict = strict,
+            placehold = false,
+        )
+    }
+
 public fun Transaction<InvObj>.delete(
     inv: TransactionInventory<InvObj>,
     obj: Int,

@@ -153,6 +153,7 @@ object BaseSynths : SynthReferences() {
     val human_hit_4 = find("human_hit_4")
     val shear_sheep = find("shear_sheep")
     val paper_turn = find("paper_turn")
+    val contact_darkness_impact = find("contact_darkness_impact")
     val sheep_atmospheric1 = find("sheep_atmospheric1")
     val coins_jingle_1 = find("coins_jingle_1")
     val default_equipment = find("default_equipment")
@@ -187,4 +188,5 @@ object BaseSynths : SynthReferences() {
     val watersurge_cast_and_fire = find("watersurge_cast_and_fire")
     val firesurge_hit = find("firesurge_hit")
     val firesurge_cast_and_fire = find("firesurge_cast_and_fire")
+    val toa_shadow_weapon_cast_fire_01 = find("toa_shadow_weapon_cast_fire_01")
 }

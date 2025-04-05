@@ -857,6 +857,48 @@ public class ProtectedAccess(
             autoCommit = autoCommit,
         )
 
+    public fun invDel(
+        inv: Inventory,
+        type1: ObjType,
+        count1: Int,
+        type2: ObjType,
+        count2: Int,
+        strict: Boolean = true,
+        autoCommit: Boolean = true,
+    ): TransactionResultList<InvObj> =
+        player.invDel(
+            inv = inv,
+            type1 = type1,
+            count1 = count1,
+            type2 = type2,
+            count2 = count2,
+            strict = strict,
+            autoCommit = autoCommit,
+        )
+
+    public fun invDel(
+        inv: Inventory,
+        type1: ObjType,
+        count1: Int,
+        type2: ObjType,
+        count2: Int,
+        type3: ObjType,
+        count3: Int,
+        strict: Boolean = true,
+        autoCommit: Boolean = true,
+    ): TransactionResultList<InvObj> =
+        player.invDel(
+            inv = inv,
+            type1 = type1,
+            count1 = count1,
+            type2 = type2,
+            count2 = count2,
+            type3 = type3,
+            count3 = count3,
+            strict = strict,
+            autoCommit = autoCommit,
+        )
+
     /**
      * This transaction will remove the first found inv obj associated with [replace] based on their
      * slot.

@@ -155,5 +155,15 @@ object ProjAnimBuilds : ProjAnimBuilder() {
             progress = 64
             stepMultiplier = 10
         }
+
+        build("tumekens_shadow") {
+            startHeight = 62
+            endHeight = 31
+            delay = 56
+            angle = 32
+            lengthAdjustment = 16
+            progress = 40
+            stepMultiplier = 10
+        }
     }
 }

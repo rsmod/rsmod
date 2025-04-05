@@ -144,6 +144,7 @@
 521	human_hit_4
 761	shear_sheep
 1413	paper_turn
+1460	contact_darkness_impact
 2053	sheep_atmospheric1
 2114	coins_jingle_1
 2238	default_equipment
@@ -182,3 +183,4 @@
 4030	watersurge_cast_and_fire
 4031	firesurge_hit
 4032	firesurge_cast_and_fire
+6410	toa_shadow_weapon_cast_fire_01

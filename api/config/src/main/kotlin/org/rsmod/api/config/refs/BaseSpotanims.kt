@@ -277,4 +277,8 @@ object BaseSpotanims : SpotanimReferences() {
     val fire_surge_launch = find("fire_surge_launch", 129290598)
     val fire_surge_travel = find("fire_surge_travel", 129294259)
     val fire_surge_hit = find("fire_surge_hit", 11638375)
+
+    val tumekens_shadow_launch = find("tumekens_shadow_launch", 169100896)
+    val tumekens_shadow_travel = find("tumekens_shadow_travel", 168395493)
+    val tumekens_shadow_hit = find("tumekens_shadow_hit", 168399276)
 }

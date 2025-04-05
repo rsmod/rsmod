@@ -13,6 +13,12 @@ object BaseVarObjBits : VarObjBitBuilder() {
             endBit = 13
         }
 
+    val tumeken_charges =
+        build("tumeken_charges") {
+            startBit = 0
+            endBit = 14
+        }
+
     val snakeboss_blowpipe_darrtype =
         build("snakeboss_blowpipe_darttype") {
             startBit = 0

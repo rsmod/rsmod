@@ -22,4 +22,5 @@ object BaseProjAnims : ProjAnimReferences() {
     val enfeeble = find("enfeeble")
     val confuse = find("confuse")
     val bind = find("bind")
+    val tumekens_shadow = find("tumekens_shadow")
 }

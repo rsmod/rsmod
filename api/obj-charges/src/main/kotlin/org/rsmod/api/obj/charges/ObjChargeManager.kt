@@ -124,6 +124,45 @@ public class ObjChargeManager @Inject constructor(private val objTypes: ObjTypeL
         return Uncharge.Success(decrementedVarValue)
     }
 
+    /**
+     * Removes all charges from the obj in the given [slot] of the provided [inventory].
+     *
+     * The obj will always be replaced with its uncharged variant, regardless of the current charge
+     * value. This requires the obj type to define an `uncharged_variant` param; otherwise, an
+     * [IllegalStateException] is thrown.
+     *
+     * This function assumes that a valid obj exists in the given [slot].
+     *
+     * _Note: Only the [varobj] var is reset to `0`. All other varobj values on the obj will
+     * persist._
+     *
+     * @return The number of charges the obj had before being reset. This may be `0` if the obj was
+     *   already uncharged.
+     * @throws IllegalStateException if the obj does not define an `uncharged_variant` param.
+     * @throws NoSuchElementException if no obj exists in the given [inventory] slot.
+     */
+    public fun removeAllCharges(
+        inventory: Inventory,
+        slot: Int,
+        varobj: UnpackedVarObjBitType,
+    ): Int {
+        val obj = inventory.getValue(slot) // Should not call this without a valid obj in `slot`.
+        val type = objTypes[obj]
+
+        val uncharged = type.paramOrNull(params.uncharged_variant)
+        if (uncharged == null) {
+            val message = "Obj missing `uncharged_variant` param: $obj (type=$type)"
+            throw IllegalStateException(message)
+        }
+
+        val previousCharges = obj.vars.getBits(varobj.bits)
+
+        val resetVarValue = obj.vars.withBits(varobj.bits, 0)
+        inventory[slot] = InvObj(uncharged, vars = resetVarValue)
+
+        return previousCharges
+    }
+
     public sealed class Charge {
         public sealed class Success : Charge() {
             public abstract val added: Int

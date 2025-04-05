@@ -49,6 +49,7 @@ public fun ScriptContext.onOpHeld4(
     action: suspend ProtectedAccess.(HeldObjEvents.Op4) -> Unit,
 ): Unit = onProtectedEvent(type.id, action)
 
+/** **Important Note:** This replaces the default drop op handling for obj [type]. */
 public fun ScriptContext.onOpHeld5(
     type: ObjType,
     action: suspend ProtectedAccess.(HeldObjEvents.Op5) -> Unit,
@@ -78,6 +79,7 @@ public fun ScriptContext.onOpHeld4(
     action: suspend ProtectedAccess.(HeldContentEvents.Op4) -> Unit,
 ): Unit = onProtectedEvent(content.id, action)
 
+/** **Important Note:** This replaces the default drop op handling for content group [content]. */
 public fun ScriptContext.onOpHeld5(
     content: ContentGroupType,
     action: suspend ProtectedAccess.(HeldContentEvents.Op5) -> Unit,

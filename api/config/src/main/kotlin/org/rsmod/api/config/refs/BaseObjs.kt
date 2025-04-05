@@ -144,6 +144,7 @@ object BaseObjs : ObjReferences() {
     val steam_rune = find("steam_rune")
     val lava_rune = find("lava_rune")
     val mud_rune = find("mud_rune")
+    val soul_rune = find("soul_rune")
     val sunfire_rune = find("sunfire_rune")
 
     val air_rune_nz = find("air_rune_nz")
@@ -442,6 +443,7 @@ object BaseObjs : ObjReferences() {
     val ferocious_gloves = find("ferocious_gloves")
     val ghrazi_rapier = find("ghrazi_rapier")
 
+    val tumekens_shadow_uncharged = find("tumekens_shadow_uncharged")
     val tumekens_shadow = find("tumekens_shadow")
     val twisted_bow = find("twisted_bow")
     val scythe_of_vitur = find("scythe_of_vitur")
