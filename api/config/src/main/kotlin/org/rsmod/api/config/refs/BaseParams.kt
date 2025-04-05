@@ -86,6 +86,8 @@ object BaseParams : ParamReferences() {
     val kalphite: ParamInt = find("kalphite", 88687193509)
 
     /* Server-side only types */
+    val charged_variant: ParamObj = find("charged_variant")
+    val uncharged_variant: ParamObj = find("uncharged_variant")
     val spell_telecoord: ParamCoord = find("spell_telecoord")
     val spell_castxp: ParamInt = find("spell_castxp")
     val amascutnpc: ParamInt = find("amascutnpc")

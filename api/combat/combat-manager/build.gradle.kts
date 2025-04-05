@@ -13,6 +13,7 @@ dependencies {
     implementation(projects.api.config)
     implementation(projects.api.invtx)
     implementation(projects.api.npc)
+    implementation(projects.api.objCharges)
     implementation(projects.api.player)
     implementation(projects.api.playerOutput)
     implementation(projects.api.random)

@@ -10,6 +10,9 @@ public class UnpackedVarObjBitType(
     override var internalId: Int?,
     override var internalName: String?,
 ) : VarObjBitType() {
+    public val bits: IntRange
+        get() = startBit..endBit
+
     public fun hashCodeLong(): Long {
         var result = 61 * (internalId?.hashCode()?.toLong() ?: 0)
         result = 61 * result + startBit

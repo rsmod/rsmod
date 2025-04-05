@@ -24,6 +24,9 @@ import org.rsmod.map.CoordGrid
 
 internal object ParamBuilds : ParamBuilder() {
     init {
+        build<ObjType>("charged_variant")
+        build<ObjType>("uncharged_variant")
+
         build<CoordGrid>("spell_telecoord")
         build<Int>("spell_castxp")
 

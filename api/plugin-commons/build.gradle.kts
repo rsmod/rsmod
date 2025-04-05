@@ -18,6 +18,7 @@ dependencies {
     api(projects.api.market)
     api(projects.api.npc)
     api(projects.api.npcSpawns)
+    api(projects.api.objCharges)
     api(projects.api.objSpawns)
     api(projects.api.player)
     api(projects.api.playerOutput)
