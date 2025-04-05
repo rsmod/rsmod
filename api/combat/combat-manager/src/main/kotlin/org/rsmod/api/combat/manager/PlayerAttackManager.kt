@@ -1343,8 +1343,8 @@ constructor(
      * Calculates the maximum magic hit that a **powered staff**'s built-in spell can deal to
      * [target] from [source].
      *
-     * The maximum hit is determined based on the [source]'s magic stats, the [target]'s relevant
-     * magic and defence stats, and the provided [baseMaxHit] of the staff's built-in spell.
+     * The maximum hit is determined based on the [source]'s magic stats and the provided
+     * [baseMaxHit] of the staff's built-in spell.
      *
      * @param baseMaxHit The base max hit of the powered staff's built-in spell before any modifiers
      *   are applied.
