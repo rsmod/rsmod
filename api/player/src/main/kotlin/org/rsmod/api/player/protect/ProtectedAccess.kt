@@ -664,6 +664,7 @@ public class ProtectedAccess(
      * @see [checkOpHeldCallLimit]
      * @see [HeldOp.Op2]
      */
+    // TODO: Add specialized `HeldInteractions.opHeld2` function that returns a result type.
     public suspend fun opHeld2(
         invSlot: Int,
         inv: Inventory = player.inv,

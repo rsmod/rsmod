@@ -20,7 +20,6 @@ import org.rsmod.api.player.output.ClientScripts.mesLayerClose
 import org.rsmod.api.player.output.UpdateInventory.resendSlot
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.ui.IfModalDrag
-import org.rsmod.api.player.worn.HeldEquipResult
 import org.rsmod.api.player.worn.WornUnequipOp
 import org.rsmod.api.player.worn.WornUnequipResult
 import org.rsmod.api.script.onIfModalButton
@@ -307,7 +306,7 @@ constructor(
         return true
     }
 
-    private fun ProtectedAccess.wornInvOp(slot: Int, op: IfButtonOp) {
+    private suspend fun ProtectedAccess.wornInvOp(slot: Int, op: IfButtonOp) {
         if (op == IfButtonOp.Op10) {
             objExamine(inv, slot)
             return
@@ -322,13 +321,13 @@ constructor(
         if (op == IfButtonOp.Op1) {
             val type = objTypes[obj]
             if (type.wearpos1 != -1) {
-                val result = invEquip(slot)
-                if (result is HeldEquipResult.Fail) {
-                    result.messages.forEach(::mes)
-                    return
+                val previous = worn[type.wearpos1]
+                opHeld2(slot)
+                val replacedPrevious = worn[type.wearpos1] !== previous
+                if (replacedPrevious) {
+                    setBanksideExtraOps()
+                    setBankWornBonuses()
                 }
-                setBanksideExtraOps()
-                setBankWornBonuses()
             }
             return
         }
@@ -1112,13 +1111,13 @@ constructor(
             val wearOpIndex = type.param(params.wear_op_index)
             val hasWearOp = type.hasInvOp(wearOpIndex)
             if (hasWearOp) {
-                val result = invEquip(slot)
-                if (result is HeldEquipResult.Fail) {
-                    result.messages.forEach(::mes)
-                    return
+                val previous = worn[type.wearpos1]
+                opHeld2(slot)
+                val replacedPrevious = worn[type.wearpos1] !== previous
+                if (replacedPrevious) {
+                    setBanksideExtraOps()
+                    setBankWornBonuses()
                 }
-                setBanksideExtraOps()
-                setBankWornBonuses()
             }
             return
         }
