@@ -394,24 +394,8 @@ constructor(private val objTypes: ObjTypeList, private val manager: PlayerAttack
             hitDelay = hitDelay,
         )
 
-    /** @see [PlayerAttackManager.queueSplashHit] */
-    public fun queueSplashHit(
-        source: ProtectedAccess,
-        target: PathingEntity,
-        clientDelay: Int,
-        hitDelay: Int = 1 + (clientDelay / 30),
-        spell: ObjType? = null,
-    ): Hit =
-        manager.queueSplashHit(
-            source = source.player,
-            target = target,
-            spell = spell,
-            clientDelay = clientDelay,
-            hitDelay = hitDelay,
-        )
-
     /** @see [PlayerAttackManager.playMagicHitFx] */
-    public fun playHitFx(
+    public fun playMagicHitFx(
         source: ProtectedAccess,
         target: PathingEntity,
         clientDelay: Int,
@@ -430,6 +414,22 @@ constructor(private val objTypes: ObjTypeList, private val manager: PlayerAttack
             hitSpot = hitSpot,
             hitSpotHeight = hitSpotHeight,
             hitSound = hitSound,
+        )
+
+    /** @see [PlayerAttackManager.queueSplashHit] */
+    public fun queueSplashHit(
+        source: ProtectedAccess,
+        target: PathingEntity,
+        clientDelay: Int,
+        hitDelay: Int = 1 + (clientDelay / 30),
+        spell: ObjType? = null,
+    ): Hit =
+        manager.queueSplashHit(
+            source = source.player,
+            target = target,
+            spell = spell,
+            clientDelay = clientDelay,
+            hitDelay = hitDelay,
         )
 
     /** @see [PlayerAttackManager.playMagicSplashFx] */

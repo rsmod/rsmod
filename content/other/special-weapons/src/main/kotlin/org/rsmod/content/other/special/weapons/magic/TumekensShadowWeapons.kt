@@ -77,7 +77,7 @@ class TumekensShadowWeapons @Inject constructor(private val charges: CombatCharg
             } else {
                 val baseMaxHit = getMaxHit(player.magicLvl)
                 val damage = manager.rollStaffMaxHit(this, target, baseMaxHit)
-                manager.playHitFx(
+                manager.playMagicHitFx(
                     source = this,
                     target = target,
                     clientDelay = clientDelay,
