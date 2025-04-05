@@ -5,15 +5,30 @@ import java.util.Deque
 import org.rsmod.map.CoordGrid
 
 public data class RouteDestination(
-    public val waypoints: Deque<CoordGrid> = ArrayDeque<CoordGrid>(),
-    public var recalcRequest: RouteRequest? = null,
-) : Deque<CoordGrid> by waypoints {
-    internal fun abort() {
-        waypoints.clear()
-        recalcRequest = null
+    private val waypoints: Deque<CoordGrid> = ArrayDeque<CoordGrid>()
+) {
+    public val size: Int
+        get() = waypoints.size
+
+    public fun add(coord: CoordGrid) {
+        waypoints.add(coord)
     }
 
-    internal fun clearRecalc() {
-        recalcRequest = null
+    public fun addAll(coords: Iterable<CoordGrid>) {
+        waypoints.addAll(coords)
     }
+
+    public fun clear() {
+        waypoints.clear()
+    }
+
+    public fun peekFirst(): CoordGrid? = waypoints.peekFirst()
+
+    public fun pollFirst(): CoordGrid? = waypoints.pollFirst()
+
+    public fun isEmpty(): Boolean = waypoints.isEmpty()
+
+    public fun isNotEmpty(): Boolean = waypoints.isNotEmpty()
+
+    public fun toList(): List<CoordGrid> = waypoints.toList()
 }

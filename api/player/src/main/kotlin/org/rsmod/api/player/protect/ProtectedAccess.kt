@@ -2855,5 +2855,4 @@ public fun Player.clearPendingAction(eventBus: EventBus) {
     ifClose(eventBus)
     cancelActiveCoroutine()
     clearInteraction()
-    clearRouteRecalc()
 }

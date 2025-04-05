@@ -15,7 +15,6 @@ import org.rsmod.routefinder.collision.CollisionStrategy
 public class RouteFactory @Inject constructor(flags: CollisionFlagMap) {
     private val routeFinding = RouteFinding(flags)
     private val threadLocalRouteFinding = ThreadLocal.withInitial { RouteFinding(flags) }
-    private var asynchronous: Boolean = false
 
     private fun routeFinder(async: Boolean): RouteFinding =
         if (async) {
@@ -25,32 +24,11 @@ public class RouteFactory @Inject constructor(flags: CollisionFlagMap) {
         }
 
     public fun create(
-        source: CoordGrid,
-        destination: CoordGrid,
-        collision: CollisionStrategy = CollisionStrategy.Normal,
-        async: Boolean = asynchronous,
-    ): Route =
-        with(routeFinder(async)) {
-            findRoute(
-                level = source.level,
-                srcX = source.x,
-                srcZ = source.z,
-                destX = destination.x,
-                destZ = destination.z,
-                srcSize = 1,
-                destWidth = 1,
-                destLength = 1,
-                collision = collision,
-            )
-        }
-
-    public fun create(
         source: PathingEntityAvatar,
         destination: CoordGrid,
         collision: CollisionStrategy = CollisionStrategy.Normal,
-        async: Boolean = asynchronous,
     ): Route =
-        with(routeFinder(async)) {
+        with(routeFinder(async = true)) {
             findRoute(
                 level = source.coords.level,
                 srcX = source.coords.x,
@@ -68,9 +46,8 @@ public class RouteFactory @Inject constructor(flags: CollisionFlagMap) {
         source: PathingEntityAvatar,
         destination: PathingEntityAvatar,
         collision: CollisionStrategy = CollisionStrategy.Normal,
-        async: Boolean = asynchronous,
     ): Route =
-        with(routeFinder(async)) {
+        with(routeFinder(async = false)) {
             findRoute(
                 level = source.coords.level,
                 srcX = source.coords.x,
@@ -91,7 +68,7 @@ public class RouteFactory @Inject constructor(flags: CollisionFlagMap) {
         collision: CollisionStrategy = CollisionStrategy.Normal,
     ): Route {
         with(request) {
-            val routeFinder = routeFinder(request.async)
+            val routeFinder = routeFinder(async = true)
             return routeFinder.findRoute(
                 level = source.coords.level,
                 srcX = source.coords.x,
@@ -111,16 +88,12 @@ public class RouteFactory @Inject constructor(flags: CollisionFlagMap) {
 
     public fun create(source: PathingEntityAvatar, request: RouteRequest): Route =
         when (request) {
-            is RouteRequestCoord -> create(source, request.destination, async = request.async)
-            is RouteRequestPathingEntity ->
-                create(source, request.destination, async = request.async)
+            is RouteRequestCoord -> create(source, request.destination)
+            is RouteRequestPathingEntity -> create(source, request.destination)
             is RouteRequestLoc -> create(source, request)
         }
 
     public companion object {
         private const val RECTANGLE_EXCLUSIVE_STRATEGY: Int = -2
-
-        private val RouteRequest.async: Boolean
-            get() = !recalc
     }
 }

@@ -97,9 +97,6 @@ constructor(
         manager.giveCombatXp(player, npc, attack, damage)
         manager.playWeaponFx(player, attack)
         manager.queueMeleeHit(player, npc, damage)
-        // TODO(combat): This is sending two `setmapflag(null)` packets when it is meant to only
-        //  send one. This is due to the `consumeRoute` and `routeTo` in player movement processor.
-        //  Will have to review that processor soon to get it to match rs.
         manager.continueCombat(player, npc)
     }
 

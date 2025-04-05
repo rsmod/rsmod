@@ -103,7 +103,7 @@ constructor(
             // It is important to re-route towards pathing entity targets. Without this,
             // interactions such as combat ap will not continue "following" a moving
             // target that steps out of the valid ap range.
-            if (!interaction.interacted) {
+            if (!interacted && routeDestination.size <= 1) {
                 routeToPathingTarget(interaction)
             }
         }
@@ -130,8 +130,7 @@ constructor(
                     interacted = true
                 }
                 InteractionStep.TriggerScriptAp -> {
-                    val cachedWaypoints = routeDestination.waypoints.toList()
-                    val cachedRecalc = routeDestination.recalcRequest
+                    val cachedWaypoints = routeDestination.toList()
                     abortRoute()
 
                     apRangeCalled = false
@@ -142,7 +141,6 @@ constructor(
                     if (newInteractionSet) {
                         abortRoute()
                     } else if (apRangeCalled) {
-                        routeDestination.recalcRequest = cachedRecalc
                         routeDestination.addAll(cachedWaypoints)
                         interacted = false
                     }
@@ -164,7 +162,6 @@ constructor(
         val interaction = interaction ?: return
         if (interaction.isCompleted()) {
             clearInteraction()
-            clearRouteRecalc()
             clearMapFlag()
         }
     }

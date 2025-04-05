@@ -261,11 +261,7 @@ public sealed class PathingEntity {
         pendingStepCount = 0
         routeRequest = null
         tempMoveSpeed = null
-        routeDestination.abort()
-    }
-
-    public fun clearRouteRecalc() {
-        routeDestination.clearRecalc()
+        routeDestination.clear()
     }
 
     public fun clearInteraction() {

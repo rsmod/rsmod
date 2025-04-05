@@ -28,7 +28,6 @@ constructor(
     public fun process(player: Player) {
         player.routeRequest?.let { consumeRequest(player, it) }
         player.routeRequest = null
-        player.processRouteRecalc()
         player.processMoveSpeed()
         player.resetTempSpeed()
     }
@@ -37,17 +36,8 @@ constructor(
         player.routeTo(request)
     }
 
-    private fun Player.processRouteRecalc() {
-        val recalc = routeDestination.recalcRequest ?: return
-        if (routeDestination.size <= 1 && !isBusy) {
-            routeTo(recalc)
-        }
-    }
-
     private fun Player.routeTo(request: RouteRequest) {
         val route = routeFactory.create(avatar, request)
-        val recalc = if (request.recalc) request else null
-        routeDestination.recalcRequest = recalc
         cachedMoveSpeed = tempMoveSpeed ?: varMoveSpeed
         moveSpeed = cachedMoveSpeed
         consumeRoute(route)
@@ -165,7 +155,9 @@ constructor(
 
     private companion object {
         private fun RouteDestination.addAll(route: Route) {
-            this += route.map { CoordGrid(it.x, it.z, it.level) }
+            for (coord in route) {
+                add(CoordGrid(coord.x, coord.z, coord.level))
+            }
         }
     }
 }
