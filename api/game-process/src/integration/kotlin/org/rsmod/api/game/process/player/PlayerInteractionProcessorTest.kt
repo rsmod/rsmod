@@ -69,6 +69,92 @@ class PlayerInteractionProcessorTest {
     }
 
     /**
+     * Test that pathing-entity-target interactions recalculate their route based on the target's
+     * latest position, but only during the last waypoint before reaching the initial destination.
+     *
+     * Scenario in this test where blue tiles are blocked and red tiles are the source and target:
+     *
+     * @see <img width=240 height=239 src="https://i.imgur.com/iniC8VQ.png">
+     */
+    @Test
+    fun GameTestState.`recalculate route during last waypoint stretch`() = runGameTest {
+        val base = CoordGrid(0, 1, 1, 0, 0)
+        val sourceStart = base.translate(7, 6)
+        val targetStart = base.translate(0, 7)
+        val targetEnd = base.translate(7, 7)
+        val target = spawnNpc(targetStart, dummy)
+        for (dx in 1..6) {
+            placeMapLoc(base.translate(dx, 1), crate)
+            placeMapLoc(base.translate(dx, 1), crate)
+            placeMapLoc(base.translate(dx, 7), crate)
+        }
+        for (dz in 1..7) {
+            placeMapLoc(base.translate(1, dz), crate)
+            placeMapLoc(base.translate(6, dz), crate)
+        }
+
+        player.coords = sourceStart
+        player.varMoveSpeed = MoveSpeed.Walk
+        check(player.routeDestination.isEmpty())
+        check(target.coords == targetStart)
+        player.opNpc1(target)
+
+        // On the first process, our route request should have filled the player's route
+        // destination, and should contain a total of 3 waypoints to reach the target.
+        advance(ticks = 1)
+        checkNotNull(player.interaction)
+        assertEquals(3, player.routeDestination.size)
+
+        // As the waypoints have been calculated, we can now move the target.
+        target.coords = targetEnd
+
+        // Iterate over the next 5 steps, asserting the player's coords and current
+        // route destination waypoint count.
+        repeat(4) { i ->
+            // We take into account the first step taken, and then the steps that will be
+            // taken after these process calls.
+            val travelled = 1 + (i + 1)
+            advance(ticks = 1)
+            assertEquals(3, player.routeDestination.size)
+            assertEquals(sourceStart.translateZ(-travelled), player.coords)
+        }
+
+        // On the 7th step, the player will have reached the first waypoint.
+        advance(ticks = 1)
+        assertEquals(2, player.routeDestination.size)
+        assertEquals(base.translate(0, 0), player.routeDestination.peekFirst())
+        assertEquals(base.translate(7, 0), player.coords)
+
+        // Iterate over the next 6 steps, asserting the player's coords and current
+        // route destination waypoint count.
+        repeat(6) { i ->
+            val travelled = i + 1
+            advance(ticks = 1)
+            assertEquals(2, player.routeDestination.size)
+            assertEquals(sourceStart.translate(-travelled, -6), player.coords)
+        }
+
+        // After 6 steps, the destination from the initial route should still be valid.
+        assertEquals(base.translate(0, 0), player.routeDestination.peekFirst())
+
+        // Take the 7th step now, which should lead to the current waypoint being removed.
+        advance(ticks = 1)
+        assertEquals(1, player.routeDestination.size)
+        assertEquals(base.translate(0, 0), player.coords)
+
+        // Process the next step, which should now insert all new waypoints to reach the
+        // updated target position.
+        advance(ticks = 1)
+        assertEquals(base.translate(7, 0), player.routeDestination.peekFirst())
+        assertEquals(base.translate(7, 6), player.routeDestination.peekLast())
+        assertEquals(2, player.routeDestination.size)
+
+        // At this point, we _could_ assert that the rest of steps are completed... but that
+        // is out of scope of this test. By now, we have made sure the path was recalculated
+        // and only done so during the final waypoint "line."
+    }
+
+    /**
      * This test ensures that interaction verification is skipped while the player is flagged as
      * busy.
      *
@@ -320,6 +406,22 @@ class PlayerInteractionProcessorTest {
                 op[1] = "Attack"
                 size = 1
                 maxRange = 100
+            }
+
+        private val dummy =
+            npcTypeFactory.create {
+                name = "Dummy"
+                op[0] = "Talk-to"
+                size = 1
+                wanderRange = 0
+            }
+
+        private val crate =
+            locTypeFactory.create {
+                name = "Crate"
+                op[0] = "Search"
+                width = 1
+                length = 1
             }
     }
 }

@@ -11,12 +11,10 @@ import org.rsmod.api.testing.params.TestArgs
 import org.rsmod.api.testing.params.TestArgsProvider
 import org.rsmod.api.testing.params.TestWithArgs
 import org.rsmod.api.testing.params.testArgsOfSingleParam
-import org.rsmod.game.map.collision.add
 import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.movement.RouteRequestCoord
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.zone.ZoneKey
-import org.rsmod.routefinder.flag.CollisionFlag
 
 class PlayerMovementProcessorTest {
     @Test
@@ -56,198 +54,13 @@ class PlayerMovementProcessorTest {
                     assertEquals(MoveSpeed.Walk, tempMoveSpeed)
                 }
 
-                // Cache the coords where the player was before the route was changed.
-                val recalcSpot = coords
-
-                // Before the player reaches the destination, let's move the target so that the
-                // route has to be recalculated. This should still keep the temp move speed intact.
-                target.coords = CoordGrid(0, 0, 0, 0, 0)
-
-                repeat(3) { index ->
-                    val steps = 1 + index
-                    process()
-                    // Destination should be right above the target's new position.
-                    assertEquals(target.coords.translateZ(1), routeDestination.peekLast())
-                    // Temp move speed should not have been reset as the waypoint queue never
-                    // reached the point of being empty.
-                    assertEquals(MoveSpeed.Walk, tempMoveSpeed)
-                    // The player should be walking towards new destination.
-                    assertEquals(recalcSpot.translateZ(-steps), coords)
-                }
-
                 // After this process, the player should have reached the waypoint destination
                 // and be next to the target.
                 process()
-                assertEquals(target.coords.translateZ(1), coords)
+                assertEquals(target.coords.translateZ(-1), coords)
                 assertTrue(routeDestination.isEmpty())
                 // Now the temp move speed should have been reset.
                 assertNull(tempMoveSpeed)
-            }
-        }
-    }
-
-    @Test
-    fun GameTestState.`only recalc while not busy`() = runBasicGameTest {
-        withCollisionState {
-            val movement =
-                PlayerMovementProcessor(it.collision, it.routeFactory, it.stepFactory, eventBus)
-            val sourceCoords = CoordGrid(0, 0, 0, 0, 0)
-            val targetCoords = CoordGrid(0, 0, 0, 0, 7)
-            val target = entityFactory.createAvatar(targetCoords)
-            it.allocateCollision(ZoneKey(0, 0, 0))
-            withPlayer {
-                coords = sourceCoords
-                varMoveSpeed = MoveSpeed.Walk
-                check(target.coords == targetCoords)
-                check(routeDestination.isEmpty())
-
-                fun process() {
-                    previousCoords = coords
-                    currentMapClock++
-                    processedMapClock++
-                    movement.process(this)
-                }
-
-                move(target)
-
-                // Go over the next few steps to assert route is iterating as expected.
-                repeat(3) { index ->
-                    val steps = 1 + index
-                    process()
-                    assertTrue(routeDestination.isNotEmpty())
-                    assertEquals(sourceCoords.translateZ(steps), coords)
-                    assertEquals(targetCoords.translateZ(-1), routeDestination.peekLast())
-                    // Clear waypoints as they should be restored by the recalculated request upon
-                    // every step in this waypoint.
-                    routeDestination.clear()
-                }
-
-                // Take the 4th step to assert that the route destination waypoints get restored
-                // from the recalculated route.
-                process()
-                assertTrue(routeDestination.isNotEmpty())
-                assertEquals(targetCoords.translateZ(-1), routeDestination.peekLast())
-                assertEquals(sourceCoords.translateZ(4), coords)
-
-                // Now let's delay the player and clear the route destination waypoints.
-                delay(2)
-                routeDestination.clear()
-
-                // We move the target now for future assert conditions.
-                target.coords = CoordGrid(0, 0, 0, 0, 0)
-
-                // This 5th step should be null-and-void as the `delay` will make the `isBusy`
-                // property return true. The busy flag should pause recalculations from occurring.
-                process()
-                assertTrue(routeDestination.isEmpty())
-                assertEquals(sourceCoords.translateZ(4), coords)
-
-                // The player should no longer be delayed after 1 clock has passed.
-                process()
-                // Route should have now recalculated based on the target's new position.
-                assertTrue(routeDestination.isNotEmpty())
-                // The new route destination should end up just one coord above the target.
-                assertEquals(target.coords.translateZ(1), routeDestination.peekLast())
-                // Player should have also moved one tile this clock.
-                assertEquals(sourceCoords.translateZ(3), coords)
-            }
-        }
-    }
-
-    /**
-     * Test that routes with [org.rsmod.game.movement.RouteRequest.recalc] enabled will recalculate
-     * based on the target's latest position, but only during the last waypoint before reaching the
-     * initial destination.
-     *
-     * Scenario in this test where blue tiles are blocked and red tiles are the source and target:
-     *
-     * @see <img width=240 height=239 src="https://i.imgur.com/JUEY1Uv.png">
-     */
-    @Test
-    fun GameTestState.`recalculate route during last waypoint stretch`() = runBasicGameTest {
-        withCollisionState {
-            val sourceStart = CoordGrid(0, 0, 0, 7, 7)
-            val targetStart = CoordGrid(0, 0, 0, 0, 7)
-            val targetEnd = CoordGrid(0, 0, 0, 7, 7)
-            val target = entityFactory.createAvatar(targetStart)
-            it.allocateCollision(CoordGrid(0, 0, 0))
-            for (dx in 1..6) {
-                it.collision.add(CoordGrid(dx, z = 1), CollisionFlag.LOC)
-                it.collision.add(CoordGrid(dx, z = 7), CollisionFlag.LOC)
-            }
-            for (dz in 1..7) {
-                it.collision.add(CoordGrid(x = 1, dz), CollisionFlag.LOC)
-                it.collision.add(CoordGrid(x = 6, dz), CollisionFlag.LOC)
-            }
-            val movement =
-                PlayerMovementProcessor(it.collision, it.routeFactory, it.stepFactory, eventBus)
-            withPlayer {
-                coords = sourceStart
-                varMoveSpeed = MoveSpeed.Walk
-                check(routeDestination.isEmpty())
-                check(target.coords == targetStart)
-
-                fun process() {
-                    previousCoords = coords
-                    currentMapClock++
-                    processedMapClock++
-                    movement.process(this)
-                }
-
-                move(target)
-
-                // On the first process, our route request should have filled the player's route
-                // destination, and should contain a total of 3 waypoints to reach the target.
-                process()
-                assertEquals(3, routeDestination.size)
-
-                // As the waypoints have been calculated, we can now move the target.
-                target.coords = targetEnd
-
-                // Iterate over the next 5 steps, asserting the player's coords and current
-                // route destination waypoint count.
-                repeat(5) { i ->
-                    // We take into account the first step taken, and then the steps that will be
-                    // taken after these process calls.
-                    val travelled = 1 + (i + 1)
-                    process()
-                    assertEquals(3, routeDestination.size)
-                    assertEquals(sourceStart.translateZ(-travelled), coords)
-                }
-
-                // On the 7th step, the player will have reached the first waypoint.
-                process()
-                assertEquals(2, routeDestination.size)
-                assertEquals(CoordGrid(0, 0, 0, 0, 0), routeDestination.peekFirst())
-                assertEquals(CoordGrid(0, 0, 0, 7, 0), coords)
-
-                // Iterate over the next 6 steps, asserting the player's coords and current
-                // route destination waypoint count.
-                repeat(6) { i ->
-                    val travelled = i + 1
-                    process()
-                    assertEquals(2, routeDestination.size)
-                    assertEquals(sourceStart.translate(-travelled, -7), coords)
-                }
-
-                // After 6 steps, the destination from the initial route should still be valid.
-                assertEquals(CoordGrid(0, 0, 0, 0, 0), routeDestination.peekFirst())
-
-                // Take the 7th step now, which should lead to the current waypoint being removed.
-                process()
-                assertEquals(1, routeDestination.size)
-                assertEquals(CoordGrid(0, 0, 0, 0, 0), coords)
-
-                // Process the next step, which should now insert all new waypoints to reach the
-                // updated target position.
-                process()
-                assertEquals(CoordGrid(0, 0, 0, 7, 0), routeDestination.peekFirst())
-                assertEquals(CoordGrid(0, 0, 0, 7, 6), routeDestination.peekLast())
-                assertEquals(2, routeDestination.size)
-
-                // At this point, we _could_ assert that the rest of steps are completed... but that
-                // is out of scope of this test. By now, we have made sure the path was recalculated
-                // and only done so during the final waypoint "line."
             }
         }
     }

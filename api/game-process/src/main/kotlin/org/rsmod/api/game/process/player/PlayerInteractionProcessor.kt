@@ -100,9 +100,8 @@ constructor(
             val step = determinePreMovementStep(this)
             processInteractionStep(interaction, step)
 
-            // It is important to re-route towards pathing entity targets. Without this,
-            // interactions such as combat ap will not continue "following" a moving
-            // target that steps out of the valid ap range.
+            // Interaction routes are recalculated during their last waypoint when targeting
+            // pathing entities.
             if (!interacted && routeDestination.size <= 1) {
                 routeToPathingTarget(interaction)
             }
