@@ -26,9 +26,21 @@ public data class RouteDestination(
 
     public fun pollFirst(): CoordGrid? = waypoints.pollFirst()
 
+    public fun peekLast(): CoordGrid? = waypoints.peekLast()
+
+    public fun lastOrNull(): CoordGrid? = waypoints.lastOrNull()
+
     public fun isEmpty(): Boolean = waypoints.isEmpty()
 
     public fun isNotEmpty(): Boolean = waypoints.isNotEmpty()
 
     public fun toList(): List<CoordGrid> = waypoints.toList()
+
+    public operator fun plusAssign(coord: CoordGrid) {
+        add(coord)
+    }
+
+    public operator fun plusAssign(coords: Iterable<CoordGrid>) {
+        addAll(coords)
+    }
 }
