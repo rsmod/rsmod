@@ -12,6 +12,7 @@ import org.rsmod.api.script.onOpHeld2
 import org.rsmod.api.script.onOpHeld3
 import org.rsmod.api.script.onOpHeld4
 import org.rsmod.api.script.onOpHeld5
+import org.rsmod.api.script.onOpHeldU
 import org.rsmod.api.script.onOpWorn2
 import org.rsmod.api.utils.format.formatAmount
 import org.rsmod.game.inv.Inventory
@@ -26,13 +27,21 @@ class TumekensShadowCharging
 constructor(private val charges: ObjChargeManager, private val objRepo: ObjRepository) :
     PluginScript() {
     override fun ScriptContext.startUp() {
-        // TODO(content): Using chaos/soul rune on tumeken's shadow for charges.
         onOpHeld2(objs.tumekens_shadow_uncharged) { wieldUncharged() }
         onOpHeld3(objs.tumekens_shadow_uncharged) { charge(it.inventory, it.slot, it.type) }
         onOpHeld4(objs.tumekens_shadow) { charge(it.inventory, it.slot, it.type) }
-        onOpHeld5(objs.tumekens_shadow) { uncharge(it.inventory, it.slot, it.type) }
+        onOpHeld5(objs.tumekens_shadow) { uncharge(it.inventory, it.slot) }
         onOpHeld3(objs.tumekens_shadow) { checkCharges(it.inventory[it.slot]) }
         onOpWorn2(objs.tumekens_shadow) { checkCharges(player.righthand) }
+
+        onOpHeldU(objs.tumekens_shadow, objs.soul_rune) { charge(inv, it.firstSlot, it.first) }
+        onOpHeldU(objs.tumekens_shadow, objs.chaos_rune) { charge(inv, it.firstSlot, it.first) }
+        onOpHeldU(objs.tumekens_shadow_uncharged, objs.soul_rune) {
+            charge(inv, it.firstSlot, it.first)
+        }
+        onOpHeldU(objs.tumekens_shadow_uncharged, objs.chaos_rune) {
+            charge(inv, it.firstSlot, it.first)
+        }
     }
 
     private fun ProtectedAccess.wieldUncharged() {
@@ -102,7 +111,7 @@ constructor(private val charges: ObjChargeManager, private val objRepo: ObjRepos
         mes("Tumeken's shadow has $charges charges remaining.")
     }
 
-    private suspend fun ProtectedAccess.uncharge(inventory: Inventory, invSlot: Int, obj: ObjType) {
+    private suspend fun ProtectedAccess.uncharge(inventory: Inventory, invSlot: Int) {
         val currCharges = charges.getCharges(inventory[invSlot], varobjs.tumeken_charges)
         if (currCharges == 0) {
             charges.removeAllCharges(inventory, invSlot, varobjs.tumeken_charges)
