@@ -9,6 +9,7 @@ import org.rsmod.api.core.module.GameMapModule
 import org.rsmod.api.core.module.PlayerModule
 import org.rsmod.api.core.module.StatModModule
 import org.rsmod.api.core.module.TypeModule
+import org.rsmod.api.db.DatabaseModule
 import org.rsmod.api.game.process.GameCycle
 import org.rsmod.api.market.MarketModule
 import org.rsmod.api.random.RandomModule
@@ -22,6 +23,7 @@ import org.rsmod.module.ExtendedModule
 public object CoreModule : ExtendedModule() {
     override fun bind() {
         install(CacheModule)
+        install(DatabaseModule)
         install(EntityHitModule)
         install(EntityRepoModule)
         install(ExceptionHandlerModule)

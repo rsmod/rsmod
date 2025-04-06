@@ -2,6 +2,7 @@
 classgraph = "4.8.179"
 clikt = "5.0.3"
 fastutil = "8.5.15"
+flyway = "9.22.3"
 gradle-download = "5.6.0"
 guava = "33.4.6-jre"
 guice = "7.0.0"
@@ -20,11 +21,13 @@ okhttp = "5.0.0-alpha.14"
 openrs2 = "0.1.0-SNAPSHOT"
 rsprot = "1.0.0-ALPHA-20250328"
 spotless = "7.0.2"
+sqlite = "3.49.1.0"
 
 [libraries]
 classgraph = { module = "io.github.classgraph:classgraph", version.ref = "classgraph" }
 clikt = { module = "com.github.ajalt.clikt:clikt", version.ref = "clikt" }
 fastutil = { module = "it.unimi.dsi:fastutil", version.ref = "fastutil" }
+flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
 guice = { module = "com.google.inject:guice", version.ref = "guice" }
 jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
@@ -47,6 +50,7 @@ openrs2-cache = { module = "org.openrs2:openrs2-cache", version.ref = "openrs2" 
 rsprot-api = { module = "net.rsprot:osrs-229-api", version.ref = "rsprot" }
 rsprot-shared = { module = "net.rsprot:osrs-229-shared", version.ref = "rsprot" }
 spotless-gradle-plugin = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless" }
+sqlite-jdbc = { module = "org.xerial:sqlite-jdbc", version.ref = "sqlite" }
 
 [bundles]
 logging = ["logback-classic", "kotlin-inline-logger"]

@@ -11,6 +11,7 @@
     <appender-ref ref="STDOUT" />
   </root>
 
-  <logger name="org.openrs2.compress.bzip2" level="warn" additivity="false" />
   <logger name="io.netty" level="warn" additivity="false" />
+  <logger name="org.flywaydb.core" level="warn" additivity="false" />
+  <logger name="org.openrs2.compress.bzip2" level="warn" additivity="false" />
 </configuration>

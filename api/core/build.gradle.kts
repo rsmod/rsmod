@@ -10,6 +10,7 @@ dependencies {
     implementation(libs.guice)
     implementation(libs.rsprot.api)
     implementation(projects.api.cache)
+    implementation(projects.api.db)
     implementation(projects.api.gameProcess)
     implementation(projects.api.market)
     implementation(projects.api.npc)
