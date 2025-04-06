@@ -4,6 +4,9 @@ import org.rsmod.api.player.events.interact.HeldContentEvents
 import org.rsmod.api.player.events.interact.HeldDropEvents
 import org.rsmod.api.player.events.interact.HeldEquipEvents
 import org.rsmod.api.player.events.interact.HeldObjEvents
+import org.rsmod.api.player.events.interact.HeldUContentEvents
+import org.rsmod.api.player.events.interact.HeldUDefaultEvents
+import org.rsmod.api.player.events.interact.HeldUEvents
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.droptrig.DropTriggerType
@@ -84,3 +87,99 @@ public fun ScriptContext.onOpHeld5(
     content: ContentGroupType,
     action: suspend ProtectedAccess.(HeldContentEvents.Op5) -> Unit,
 ): Unit = onProtectedEvent(content.id, action)
+
+/* HeldU (inv obj on inv obj) functions */
+/**
+ * Registers a script that triggers when an inventory obj ([first]) is used on another inventory obj
+ * ([second]).
+ *
+ * The [HeldUEvents.Type.first] and [HeldUEvents.Type.second] values passed to the script will
+ * **always match** the registration order in this function. That is, [first] will always correspond
+ * to `HeldUEvents.Type.first`, and [second] to `HeldUEvents.Type.second`, regardless of which obj
+ * the player uses on the other in-game.
+ */
+public fun ScriptContext.onOpHeldU(
+    first: ObjType,
+    second: ObjType,
+    action: suspend ProtectedAccess.(HeldUEvents.Type) -> Unit,
+) {
+    // Note: We preserve the order of `first` and `second` when registering to expose a predictable
+    // and fixed order in the respective script. Because of this, we can't rely on the event bus to
+    // catch duplicate registrations - we must manually check that the reversed combination has
+    // not already been registered.
+    val opposite = (second.id.toLong() shl 32) or first.id.toLong()
+    val registeredOpposite = eventBus.suspend.contains(HeldUEvents.Type::class.java, opposite)
+    if (registeredOpposite) {
+        val message = "OpHeldU for combination already registered: first=$first, second=$second"
+        throw IllegalStateException(message)
+    }
+    onProtectedEvent((first.id.toLong() shl 32) or second.id.toLong(), action)
+}
+
+/**
+ * Registers a script that triggers when an inventory obj ([first]) is used on another inventory obj
+ * ([second]).
+ *
+ * The [HeldUContentEvents.Type.first] and [HeldUContentEvents.Type.second] values passed to the
+ * script will **always match** the registration order in this function. That is, [first] will
+ * always correspond to `HeldUContentEvents.Type.first`, and [second] to
+ * `HeldUContentEvents.Type.second`, regardless of which obj the player uses on the other in-game.
+ */
+public fun ScriptContext.onOpHeldU(
+    first: ContentGroupType,
+    second: ObjType,
+    action: suspend ProtectedAccess.(HeldUContentEvents.Type) -> Unit,
+): Unit = onProtectedEvent((first.id.toLong() shl 32) or second.id.toLong(), action)
+
+/**
+ * Registers a script that triggers when an inventory obj ([first]) is used on another inventory obj
+ * ([second]).
+ *
+ * The [HeldUContentEvents.Content.first] and [HeldUContentEvents.Content.second] values passed to
+ * the script will **always match** the registration order in this function. That is, [first] will
+ * always correspond to `HeldUContentEvents.Content.first`, and [second] to
+ * `HeldUContentEvents.Content.second`, regardless of which obj the player uses on the other
+ * in-game.
+ */
+public fun ScriptContext.onOpHeldU(
+    first: ContentGroupType,
+    second: ContentGroupType,
+    action: suspend ProtectedAccess.(HeldUContentEvents.Content) -> Unit,
+) {
+    // Note: We preserve the order of `first` and `second` when registering to expose a predictable
+    // and fixed order in the respective script. Because of this, we can't rely on the event bus to
+    // catch duplicate registrations - we must manually check that the reversed combination has
+    // not already been registered.
+    val opposite = (second.id.toLong() shl 32) or first.id.toLong()
+    val registeredOpposite =
+        eventBus.suspend.contains(HeldUContentEvents.Content::class.java, opposite)
+    if (registeredOpposite) {
+        val message = "OpHeldU for combination already registered: first=$first, second=$second"
+        throw IllegalStateException(message)
+    }
+    onProtectedEvent((first.id.toLong() shl 32) or second.id.toLong(), action)
+}
+
+/**
+ * Registers a script that triggers when an inventory obj ([first]) is used on _any other_ inventory
+ * obj.
+ *
+ * The [HeldUDefaultEvents.Type.first] value passed to the script will **always** be [first], while
+ * the target obj will be [HeldUDefaultEvents.Type.second].
+ */
+public fun ScriptContext.onOpHeldU(
+    first: ObjType,
+    action: suspend ProtectedAccess.(HeldUDefaultEvents.Type) -> Unit,
+): Unit = onProtectedEvent(first.id.toLong(), action)
+
+/**
+ * Registers a script that triggers when an inventory obj ([first]) is used on _any other_ inventory
+ * obj.
+ *
+ * The [HeldUDefaultEvents.Content.first] value passed to the script will **always** be [first],
+ * while the target obj will be [HeldUDefaultEvents.Content.second].
+ */
+public fun ScriptContext.onOpHeldU(
+    first: ContentGroupType,
+    action: suspend ProtectedAccess.(HeldUDefaultEvents.Content) -> Unit,
+): Unit = onProtectedEvent(first.id.toLong(), action)

@@ -30,6 +30,15 @@ private constructor(
         onIfOverlayDrag(components.inv_inv) { dragHeldButton() }
     }
 
+    private fun IfOverlayButton.opHeldButton() {
+        if (op == IfButtonOp.Op10) {
+            interactions.examine(player, player.inv, comsub)
+            return
+        }
+        val heldOp = op.toHeldOp() ?: throw IllegalStateException("Op not supported: $this")
+        player.opHeld(comsub, heldOp)
+    }
+
     private fun Player.opHeld(invSlot: Int, op: HeldOp) {
         clearPendingAction(eventBus)
         resetFaceEntity()
@@ -40,6 +49,12 @@ private constructor(
         protectedAccess.launch(this) { interactions.interact(this, inv, invSlot, op) }
     }
 
+    private fun IfOverlayDrag.dragHeldButton() {
+        val fromSlot = selectedSlot ?: return
+        val intoSlot = targetSlot ?: return
+        player.dragHeld(fromSlot, intoSlot)
+    }
+
     private fun Player.dragHeld(fromSlot: Int, intoSlot: Int) {
         ifClose(eventBus)
         if (isAccessProtected) {
@@ -47,21 +62,6 @@ private constructor(
             return
         }
         protectedAccess.launch(this) { invMoveToSlot(inv, inv, fromSlot, intoSlot) }
-    }
-
-    private fun IfOverlayButton.opHeldButton() {
-        if (op == IfButtonOp.Op10) {
-            interactions.examine(player, player.inv, comsub)
-            return
-        }
-        val heldOp = op.toHeldOp() ?: throw IllegalStateException("Op not supported: $this")
-        player.opHeld(comsub, heldOp)
-    }
-
-    private fun IfOverlayDrag.dragHeldButton() {
-        val fromSlot = selectedSlot ?: return
-        val intoSlot = targetSlot ?: return
-        player.dragHeld(fromSlot, intoSlot)
     }
 
     private fun IfButtonOp.toHeldOp(): HeldOp? =

@@ -2,30 +2,31 @@ package org.rsmod.api.net.rsprot.handlers
 
 import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
-import net.rsprot.protocol.game.incoming.buttons.IfButtonD
+import net.rsprot.protocol.game.incoming.buttons.IfButtonT
 import org.rsmod.annotations.InternalApi
-import org.rsmod.api.config.refs.objs
 import org.rsmod.api.player.protect.ProtectedAccessLauncher
-import org.rsmod.api.player.ui.IfModalDrag
-import org.rsmod.api.player.ui.IfOverlayDrag
+import org.rsmod.api.player.ui.IfModalButtonT
+import org.rsmod.api.player.ui.IfOverlayButtonT
 import org.rsmod.api.player.ui.ifCloseInputDialog
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.type.interf.InterfaceTypeList
 import org.rsmod.game.type.interf.isType
+import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.ui.Component
 
-class IfButtonDHandler
+class IfButtonTHandler
 @Inject
 constructor(
     private val eventBus: EventBus,
+    private val objTypes: ObjTypeList,
     private val interfaceTypes: InterfaceTypeList,
     private val protectedAccess: ProtectedAccessLauncher,
-) : MessageHandler<IfButtonD> {
+) : MessageHandler<IfButtonT> {
     private val logger = InlineLogger()
 
     @OptIn(InternalApi::class)
-    override fun handle(player: Player, message: IfButtonD) {
+    override fun handle(player: Player, message: IfButtonT) {
         val selectedComponent = Component(message.selectedInterfaceId, message.selectedComponentId)
         val selectedInterface = interfaceTypes[selectedComponent]
         val targetComponent = Component(message.targetInterfaceId, message.targetComponentId)
@@ -39,7 +40,7 @@ constructor(
             return
         }
 
-        // No need to verify again if dragging objs on the same interface.
+        // No need to verify again if both objs belong to the same interface.
         val skipTargetVerification = selectedInterface.isType(targetInterface)
         if (!skipTargetVerification) {
             val isTargetOpenedModal = ui.containsModal(targetInterface)
@@ -50,18 +51,16 @@ constructor(
             }
         }
 
-        // TODO: Verify `IfSetEvent` for dragging has been enabled for the components. This requires
-        //  us to store the state of IfSetEvents for the player.
+        // TODO: Verify `IfSetEvent` for the respective targeting has been enabled for the
+        //  components. This requires us to store the state of IfSetEvents for the player.
 
-        // Client replaces empty obj ids with `6512`. To make life easier, we simply replace those
-        // with null obj types as that's what associated scripts should treat them as.
-        val selectedObjType = convertNullReplacement(message.selectedObj)
-        val targetObjType = convertNullReplacement(message.targetObj)
+        val selectedObjType = objTypes[message.selectedObj]
+        val targetObjType = objTypes[message.targetObj]
 
         val isSelectedOverlay = !isSelectedOpenedModal
         if (isSelectedOverlay) {
-            val overlayDrag =
-                IfOverlayDrag(
+            val overlayButton =
+                IfOverlayButtonT(
                     player = player,
                     selectedSlot = message.selectedSub,
                     selectedObj = selectedObjType,
@@ -70,13 +69,13 @@ constructor(
                     selectedComponent = selectedComponent,
                     targetComponent = targetComponent,
                 )
-            logger.debug { "[Overlay] IfButtonD: $message (overlayDrag=$overlayDrag)" }
-            eventBus.publish(overlayDrag)
+            logger.debug { "[Overlay] IfButtonT: $message (overlayButton=$overlayButton)" }
+            eventBus.publish(overlayButton)
             return
         }
 
-        val modalDrag =
-            IfModalDrag(
+        val modalButton =
+            IfModalButtonT(
                 selectedSlot = message.selectedSub,
                 selectedObj = selectedObjType,
                 targetSlot = message.targetSub,
@@ -86,18 +85,10 @@ constructor(
             )
         player.ifCloseInputDialog()
         if (player.isModalButtonProtected) {
-            logger.debug { "[Modal][BLOCKED] IfButtonD: $message (modalDrag=$modalDrag)" }
+            logger.debug { "[Modal][BLOCKED] IfButtonT: $message (modalButton=$modalButton)" }
             return
         }
-        logger.debug { "[Modal] IfButtonD: $message (modalDrag=$modalDrag)" }
-        protectedAccess.launchLenient(player) { eventBus.publish(this, modalDrag) }
-    }
-
-    private fun convertNullReplacement(type: Int?): Int? {
-        return if (type == objs.null_item_placeholder.id) {
-            null
-        } else {
-            type
-        }
+        logger.debug { "[Modal] IfButtonT: $message (modalButton=$modalButton)" }
+        protectedAccess.launchLenient(player) { eventBus.publish(this, modalButton) }
     }
 }
