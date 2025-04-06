@@ -106,22 +106,24 @@ public class ObjChargeManager @Inject constructor(private val objTypes: ObjTypeL
             throw IllegalStateException(message)
         }
 
-        val currVarValue = obj.vars.getBits(varobj.bits)
-        if (currVarValue < decrement) {
-            if (currVarValue == 0) {
-                player.worn[wearpos.slot] = InvObj(uncharged)
+        val currentCharges = obj.vars.getBits(varobj.bits)
+        if (currentCharges < decrement) {
+            if (currentCharges == 0) {
+                player.worn[wearpos.slot] = InvObj(uncharged, vars = obj.vars)
             }
             return Uncharge.Failure.NotEnoughCharges
         }
 
-        val decrementedVarValue = currVarValue.withBits(varobj.bits, currVarValue - decrement)
-        if (decrementedVarValue == 0) {
-            player.worn[wearpos.slot] = InvObj(uncharged)
+        val decrementedCharges = currentCharges - decrement
+        val decrementedPackedVars = obj.vars.withBits(varobj.bits, decrementedCharges)
+
+        if (decrementedCharges == 0) {
+            player.worn[wearpos.slot] = InvObj(uncharged, vars = decrementedPackedVars)
         } else {
-            player.worn[wearpos.slot] = obj.copy(vars = decrementedVarValue)
+            player.worn[wearpos.slot] = obj.copy(vars = decrementedPackedVars)
         }
 
-        return Uncharge.Success(decrementedVarValue)
+        return Uncharge.Success(chargesLeft = decrementedCharges)
     }
 
     /**
