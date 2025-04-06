@@ -35,7 +35,7 @@ constructor(
         val isSelectedOpenedModal = ui.containsModal(selectedInterface)
         val isSelectedOpened = isSelectedOpenedModal || ui.containsOverlay(selectedInterface)
         if (!isSelectedOpened) {
-            logger.debug { "Selected interface is not opened: message=$message, player=$player" }
+            logger.debug { "Selected interface is not open: message=$message, player=$player" }
             return
         }
 
@@ -45,7 +45,7 @@ constructor(
             val isTargetOpenedModal = ui.containsModal(targetInterface)
             val targetOpened = isTargetOpenedModal || ui.containsOverlay(targetInterface)
             if (!targetOpened) {
-                logger.debug { "Target interface is not opened: message=$message, player=$player" }
+                logger.debug { "Target interface is not open: message=$message, player=$player" }
                 return
             }
         }
