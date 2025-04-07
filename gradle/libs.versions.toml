@@ -1,10 +1,10 @@
 [versions]
+bouncycastle = "1.80"
 classgraph = "4.8.179"
 clikt = "5.0.3"
 fastutil = "8.5.15"
 flyway = "9.22.3"
 gradle-download = "5.6.0"
-guava = "33.4.6-jre"
 guice = "7.0.0"
 inline-logger = "1.0.6"
 jackson = "2.18.3"
@@ -19,16 +19,16 @@ manes-versions = "0.52.0"
 netty = "4.1.109.Final"
 okhttp = "5.0.0-alpha.14"
 openrs2 = "0.1.0-SNAPSHOT"
-rsprot = "1.0.0-ALPHA-20250328"
+rsprot = "1.0.0-ALPHA-20250407"
 spotless = "7.0.2"
 sqlite = "3.49.1.0"
 
 [libraries]
+bouncycastle-provider = { module = "org.bouncycastle:bcprov-jdk18on", version.ref = "bouncycastle" }
 classgraph = { module = "io.github.classgraph:classgraph", version.ref = "classgraph" }
 clikt = { module = "com.github.ajalt.clikt:clikt", version.ref = "clikt" }
 fastutil = { module = "it.unimi.dsi:fastutil", version.ref = "fastutil" }
 flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
-guava = { module = "com.google.guava:guava", version.ref = "guava" }
 guice = { module = "com.google.inject:guice", version.ref = "guice" }
 jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
 jackson-dataformat-toml = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-toml", version.ref = "jackson" }

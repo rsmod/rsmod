@@ -1,11 +1,12 @@
 package org.rsmod.api.db.sqlite
 
-import com.google.common.util.concurrent.AbstractService
+import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
 import java.nio.file.Path
 import kotlin.io.path.createParentDirectories
 import org.rsmod.api.db.DatabaseConfig
 import org.rsmod.api.db.migration.FlywayMigration
+import org.rsmod.server.services.Service
 
 public class SqliteService
 @Inject
@@ -14,8 +15,10 @@ constructor(
     private val migration: FlywayMigration,
     private val connection: SqliteConnection,
     private val database: SqliteDatabase,
-) : AbstractService() {
-    override fun doStart() {
+) : Service {
+    private val logger = InlineLogger()
+
+    override suspend fun startup() {
         createNecessaryPaths()
         executeMigrations()
         connectDataSource()
@@ -30,8 +33,14 @@ constructor(
         database.setupConnection(connection)
     }
 
-    override fun doStop() {
-        database.closeConnection()
+    override suspend fun shutdown() {
+        logger.info { "Attempting to shut down sqlite service." }
+        try {
+            database.closeConnection()
+            logger.info { "Sqlite service successfully shut down." }
+        } catch (t: Throwable) {
+            logger.error(t) { "Sqlite service failed to shut down." }
+        }
     }
 
     private fun createNecessaryPaths() {

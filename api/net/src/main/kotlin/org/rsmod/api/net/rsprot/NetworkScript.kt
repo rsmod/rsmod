@@ -34,16 +34,11 @@ constructor(
             "RSProt and RSMod have mismatching revision builds! " +
                 "(rsmod=${Build.MAJOR}, rsprot=${RSProtConstants.REVISION})"
         }
-        eventBus.subscribe<GameLifecycle.BootUp> { startService() }
         eventBus.subscribe<GameLifecycle.UpdateInfo> { updateService() }
         eventBus.subscribe<SessionStart> { startSession() }
         eventBus.subscribe<SessionEnd> { closeSession() }
         eventBus.subscribe<NpcStateEvents.Create> { createNpcAvatar(npc) }
         eventBus.subscribe<NpcStateEvents.Delete> { deleteNpcAvatar(npc) }
-    }
-
-    private fun startService() {
-        service.start()
     }
 
     private fun updateService() {

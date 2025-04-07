@@ -1,30 +1,37 @@
 package org.rsmod.server.app
 
-import com.google.common.util.concurrent.Service
-import com.google.common.util.concurrent.ServiceManager
 import jakarta.inject.Inject
+import org.rsmod.server.services.Service
+import org.rsmod.server.services.ServiceManager
 
 class GameBootstrap @Inject constructor(services: Set<Service>) {
-    private val serviceManager = ServiceManager(services)
+    private val serviceManager = ServiceManager.create(services)
 
     fun startUp() {
-        serviceManager.startAsync()
-        try {
-            serviceManager.awaitHealthy()
-        } catch (t: Throwable) {
-            serviceManager.stopAsync().awaitStopped()
-            throw t.unwrapCause()
+        val startupResult = serviceManager.awaitStartup()
+        if (startupResult is ServiceManager.StartResult.Error) {
+            throw startupResult.throwable
         }
-        val shutdown = Thread(::shutdown, "ShutdownHook")
-        Runtime.getRuntime().addShutdownHook(shutdown)
-        serviceManager.awaitStopped()
-        Runtime.getRuntime().removeShutdownHook(shutdown)
+        val runtime = Runtime.getRuntime()
+        val shutdownHook = Thread(::shutdown, "ShutdownHook")
+        runtime.addShutdownHook(shutdownHook)
+        serviceManager.awaitShutdownOrThrow()
+        try {
+            runtime.removeShutdownHook(shutdownHook)
+        } catch (_: IllegalStateException) {
+            // Virtual machine is already in the process of shutting down - can safely noop.
+        }
     }
 
     private fun shutdown() {
-        serviceManager.stopAsync().awaitStopped()
+        serviceManager.shutdown()
+        serviceManager.awaitShutdownOrThrow()
     }
 
-    private fun Throwable.unwrapCause(): Throwable =
-        suppressedExceptions.firstOrNull()?.cause ?: this
+    private fun ServiceManager.awaitShutdownOrThrow() {
+        val result = awaitShutdown()
+        if (result is ServiceManager.ShutdownResult.Report && result.errors.isNotEmpty()) {
+            throw result.errors.first()
+        }
+    }
 }

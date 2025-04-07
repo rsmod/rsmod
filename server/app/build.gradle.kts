@@ -11,7 +11,6 @@ application {
 dependencies {
     implementation(libs.bundles.logging)
     implementation(libs.clikt)
-    implementation(libs.guava)
     implementation(libs.guice)
     implementation(libs.kotlin.coroutines.core)
     implementation(libs.openrs2.cache)
@@ -37,6 +36,7 @@ dependencies {
     implementation(projects.engine.scheduler)
     implementation(projects.server.install)
     implementation(projects.server.logging)
+    implementation(projects.server.services)
     implementation(projects.server.shared)
 }
 

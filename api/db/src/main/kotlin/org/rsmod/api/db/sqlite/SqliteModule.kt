@@ -1,9 +1,9 @@
 package org.rsmod.api.db.sqlite
 
-import com.google.common.util.concurrent.Service
 import org.rsmod.api.db.Database
 import org.rsmod.api.db.DatabaseConfig
 import org.rsmod.module.ExtendedModule
+import org.rsmod.server.services.Service
 
 public object SqliteModule : ExtendedModule() {
     override fun bind() {

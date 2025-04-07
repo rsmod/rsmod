@@ -3,6 +3,7 @@ plugins {
 }
 
 dependencies {
+    implementation(libs.bouncycastle.provider)
     implementation(libs.bundles.logging)
     implementation(libs.fastutil)
     implementation(libs.guice)
@@ -29,5 +30,5 @@ dependencies {
     implementation(projects.engine.map)
     implementation(projects.engine.routefinder)
     implementation(projects.engine.plugin)
-    implementation("org.bouncycastle:bcprov-jdk18on:1.80")
+    implementation(projects.server.services)
 }

@@ -103,7 +103,8 @@ class GameServer : CliktCommand(name = "server") {
             modules = PluginModuleLoader.load(PluginModule::class.java, pluginPackages)
         }
         reportDuration {
-            "Loaded ${modules.size} plugin module${if (modules.size == 1) "" else "s"} in $duration."
+            "Loaded ${modules.size} plugin module${if (modules.size == 1) "" else "s"} " +
+                "in $duration."
         }
         return modules
     }
