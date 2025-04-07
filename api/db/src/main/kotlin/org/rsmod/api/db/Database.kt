@@ -8,6 +8,4 @@ public interface Database {
         backoff: Long = 10L,
         block: (Connection) -> T,
     ): T
-
-    public fun isClosed(): Boolean
 }

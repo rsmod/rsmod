@@ -38,10 +38,8 @@ public class SqliteDatabase : Database {
         return block(connection)
     }
 
-    override fun isClosed(): Boolean = connection.isClosed
-
     private fun assertValidConnection() {
-        check(::connection.isInitialized) { "Connection was never initialized." }
-        check(!isClosed()) { "Connection is closed." }
+        check(::connection.isInitialized) { "Connection was not initialized." }
+        check(!connection.isClosed) { "Connection is closed." }
     }
 }
