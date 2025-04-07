@@ -198,8 +198,8 @@ private constructor(
     }
 
     private fun cleanupResources() {
-        val active = activeCoroutineJobs.filter(Job::isActive)
-        active.forEach(Job::cancel)
+        val activeJobs = activeCoroutineJobs.filter(Job::isActive)
+        activeJobs.forEach(Job::cancel)
         activeExecutors.forEach(::safeShutdown)
         scheduledErrors.clear()
     }
