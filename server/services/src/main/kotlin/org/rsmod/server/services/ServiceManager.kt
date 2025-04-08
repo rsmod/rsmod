@@ -9,10 +9,12 @@ import java.util.concurrent.atomic.AtomicBoolean
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.isActive
+import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.supervisorScope
@@ -112,19 +114,21 @@ private constructor(
      * Blocks the current thread until a shutdown signal is received via [shutdown].
      *
      * Once triggered, this method will:
-     * - Call [Service.shutdown] on all registered services concurrently.
      * - Cancel all active [ScheduledService] coroutine jobs.
      * - Shut down all [ScheduledService] executors.
+     * - Call [Service.shutdown] on all registered services concurrently.
      *
      * If any service throws an exception during its shutdown call, the error will be captured and
      * returned as part of the resulting [ShutdownResult.Report].
      *
-     * This method may only be executed once. Subsequent calls will return
-     * [ShutdownResult.AlreadyShutDown].
+     * _This method may only be executed once. Subsequent calls will return
+     * [ShutdownResult.AlreadyShutDown]._
      *
-     * @param timeoutSecs the number of seconds to wait for all [Service.shutdown] calls to
-     *   complete. If the timeout is exceeded, this method may return before all services have fully
-     *   shut down.
+     * @param timeoutSecs the number of seconds to wait for coroutine cleanup and service shutdown.
+     *   The timeout is applied separately to each phase: first to the cancellation and joining of
+     *   all active [ScheduledService] coroutines and shutdown of their executors, and then to the
+     *   shutdown of all registered services. If either phase exceeds its timeout, the failure will
+     *   be recorded.
      * @return [ShutdownResult] representing the outcome of the shutdown process.
      */
     public fun awaitShutdown(timeoutSecs: Int = 30): ShutdownResult {
@@ -135,16 +139,11 @@ private constructor(
             return ShutdownResult.AlreadyShutDown
         }
 
-        runBlocking {
-            withTimeout(timeoutSecs * 1000L) {
-                val shutdownJobs = services.map { service -> async { service.shutdown() } }
-                shutdownJobs.awaitAll()
-            }
-        }
+        val timeoutMillis = timeoutSecs * 1000L
+        cleanupThreads(timeoutMillis)
+        shutdownServices(timeoutMillis)
 
-        val errors = scheduledErrors.toList()
-        cleanupResources()
-
+        val errors = scheduledErrors
         return if (errors.isNotEmpty()) {
             ShutdownResult.Report(errors)
         } else {
@@ -157,9 +156,9 @@ private constructor(
      *
      * This method signals the manager to begin shutting down. It unblocks any thread waiting on
      * [awaitShutdown] and triggers the cleanup process, which includes:
-     * - Shutting down all registered services.
      * - Canceling active coroutine jobs.
      * - Shutting down executor services.
+     * - Shutting down all registered services.
      *
      * If shutdown has already been requested, subsequent calls to this method will no-op.
      *
@@ -198,11 +197,26 @@ private constructor(
             }
     }
 
-    private fun cleanupResources() {
+    private fun cleanupThreads(timeoutMillis: Long) = runBlocking {
         val activeJobs = activeCoroutineJobs.filter(Job::isActive)
         activeJobs.forEach(Job::cancel)
         activeExecutors.forEach(::safeShutdown)
-        scheduledErrors.clear()
+        try {
+            withTimeout(timeoutMillis) { activeCoroutineJobs.joinAll() }
+        } catch (t: TimeoutCancellationException) {
+            scheduledErrors += t
+        }
+    }
+
+    private fun shutdownServices(timeoutMillis: Long) = runBlocking {
+        try {
+            withTimeout(timeoutMillis) {
+                val shutdownJobs = services.map { service -> async { service.shutdown() } }
+                shutdownJobs.awaitAll()
+            }
+        } catch (t: Throwable) {
+            scheduledErrors += t
+        }
     }
 
     private fun safeShutdown(executor: ExecutorService, timeoutSecs: Long = 15L) {
