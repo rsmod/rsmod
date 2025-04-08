@@ -187,6 +187,7 @@ private constructor(
         activeCoroutineJobs +=
             coroutineScope.launch {
                 try {
+                    service.setup()
                     while (isActive && !shutdownRequest.get()) {
                         service.run()
                     }

@@ -7,9 +7,13 @@ import org.rsmod.server.services.Service
  * A long-lived service that runs scheduled work on a dedicated thread, managed by the
  * [org.rsmod.server.services.ServiceManager].
  *
- * In addition to [startup] and [shutdown], the [run] function is invoked repeatedly on a coroutine
- * launched with the executor returned by [createExecutor]. This allows the service to perform
- * scheduled or continuous work independently of other services.
+ * This service defines three lifecycle phases:
+ * - [startup] and [shutdown]: called on the **main application thread**.
+ * - [setup]: invoked once on the **executor thread**, before the run loop begins.
+ * - [run]: repeatedly called on the **executor thread** until shutdown.
+ *
+ * _Note: [setup] runs once before the first [run] call. This is useful for initializing resources
+ * that must exist on the same thread as [run]._
  *
  * The [run] function is expected to include cooperative suspension points (e.g. `delay(...)`) to
  * avoid tight loops and to yield control appropriately. If an uncaught exception occurs during
@@ -34,9 +38,17 @@ public interface ScheduledService : Service {
      *
      * This method **must return a new instance** each time it is called and must not return a
      * shared or cached executor. The returned executor will be used exclusively by the system to
-     * run [run] and will be shut down automatically when the service is stopped.
+     * invoke [run] and will be shut down automatically when the service is stopped.
      *
      * Avoid caching or reusing the executor within the [ScheduledService] implementation.
      */
     public fun createExecutor(): ExecutorService
+
+    /**
+     * Sets up one-time state before entering the [run] loop.
+     *
+     * This method runs once, on the executor created by [createExecutor], before the service enters
+     * its scheduled [run] cycle.
+     */
+    public suspend fun setup()
 }

@@ -17,11 +17,12 @@ public interface Service {
     /**
      * Initializes any resources required for the service.
      *
-     * This method is executed on a separate thread during application startup. The application will
-     * block until all services have completed their startup.
+     * This method is executed in a coroutine launched by the **main application thread** during
+     * startup. The application will **block** until all services have completed their startup
+     * routines.
      *
-     * _Any exceptions **should be thrown and not suppressed** - they will be caught by the parent
-     * [ServiceManager] and propagated back to the caller as part of the error reporting flow._
+     * _Exceptions thrown during this phase should **not** be suppressed. They will be caught by the
+     * [ServiceManager] and reported to the caller as part of the startup error flow._
      */
     public suspend fun startup()
 
