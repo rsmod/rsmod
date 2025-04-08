@@ -1,6 +1,7 @@
 package org.rsmod.server.services
 
 import java.util.Queue
+import java.util.concurrent.CancellationException
 import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.ExecutorService
@@ -190,6 +191,8 @@ private constructor(
                     while (isActive && !shutdownRequest.get()) {
                         service.run()
                     }
+                } catch (_: CleanupException) {
+                    // Noop - This is a controlled shutdown signal.
                 } catch (t: Throwable) {
                     scheduledErrors += t
                     shutdown()
@@ -199,7 +202,7 @@ private constructor(
 
     private fun cleanupThreads(timeoutMillis: Long) = runBlocking {
         val activeJobs = activeCoroutineJobs.filter(Job::isActive)
-        activeJobs.forEach(Job::cancel)
+        activeJobs.forEach(::safeCancel)
         activeExecutors.forEach(::safeShutdown)
         try {
             withTimeout(timeoutMillis) { activeCoroutineJobs.joinAll() }
@@ -211,12 +214,22 @@ private constructor(
     private fun shutdownServices(timeoutMillis: Long) = runBlocking {
         try {
             withTimeout(timeoutMillis) {
-                val shutdownJobs = services.map { service -> async { service.shutdown() } }
-                shutdownJobs.awaitAll()
+                supervisorScope {
+                    try {
+                        val shutdownJobs = services.map { service -> async { service.shutdown() } }
+                        shutdownJobs.awaitAll()
+                    } catch (t: Throwable) {
+                        scheduledErrors += t
+                    }
+                }
             }
-        } catch (t: Throwable) {
+        } catch (t: TimeoutCancellationException) {
             scheduledErrors += t
         }
+    }
+
+    private fun safeCancel(job: Job) {
+        job.cancel(CleanupException())
     }
 
     private fun safeShutdown(executor: ExecutorService, timeoutSecs: Long = 15L) {
@@ -256,6 +269,8 @@ private constructor(
 
         public data class Report(val errors: Collection<Throwable>) : ShutdownResult()
     }
+
+    private class CleanupException : CancellationException("Coroutine cancelled by ServiceManager")
 
     public companion object {
         /**
