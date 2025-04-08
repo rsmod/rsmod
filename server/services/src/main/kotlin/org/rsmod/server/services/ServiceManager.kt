@@ -173,13 +173,13 @@ private constructor(
     }
 
     private fun CoroutineScope.startService(service: Service, started: Queue<Service>) = async {
-        started += service
+        started.add(service)
         service.startup()
     }
 
     private fun CoroutineScope.stopService(service: Service, started: Queue<Service>) = async {
         service.shutdown()
-        started -= service
+        started.remove(service)
     }
 
     private fun scheduleService(service: ScheduledService, executor: ExecutorService) {
