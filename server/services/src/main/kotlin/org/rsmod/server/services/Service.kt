@@ -12,6 +12,10 @@ package org.rsmod.server.services
  *
  * Both functions may suspend to accommodate asynchronous work such as I/O, logging, or thread
  * coordination.
+ *
+ * _Note: If your [Service] implementation manages its own threads or task scheduling, it is
+ * expected to handle any exceptions that may occur within those threads. The [ServiceManager] only
+ * provides error handling guarantees for exceptions thrown by [startup] and [shutdown]._
  */
 public interface Service {
     /**

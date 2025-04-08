@@ -20,9 +20,14 @@ import org.rsmod.server.services.Service
  * [run], the error will be surfaced by the [org.rsmod.server.services.ServiceManager], triggering
  * application shutdown and propagating the error to the caller.
  *
- * Use [createExecutor] to define the thread context in which [run] is executed. While a
- * single-threaded executor is commonly used for deterministic or stateful logic, other types of
- * executors may be appropriate depending on the nature of the task.
+ * **Important:** [ScheduledService] is designed for single-threaded use. The [run] method is
+ * invoked exactly once, on a coroutine bound to the thread returned by [createExecutor]. If your
+ * service requires a thread pool or the ability to handle multiple concurrent tasks, consider using
+ * a standard [Service] implementation and managing your executor directly.
+ *
+ * The [createExecutor] method **must return a new instance** on each call, and must not return a
+ * cached or shared executor. The returned executor is owned by the system and will be shut down
+ * when the service is stopped.
  */
 public interface ScheduledService : Service {
     /**
@@ -36,11 +41,12 @@ public interface ScheduledService : Service {
     /**
      * Creates and returns a new [ExecutorService] for running this service.
      *
-     * This method **must return a new instance** each time it is called and must not return a
-     * shared or cached executor. The returned executor will be used exclusively by the system to
-     * invoke [run] and will be shut down automatically when the service is stopped.
+     * This executor is used to run both [setup] and the coroutine that repeatedly invokes [run].
+     * The returned executor should typically be single-threaded, as only one coroutine is launched
+     * and expected to remain active until shutdown.
      *
-     * Avoid caching or reusing the executor within the [ScheduledService] implementation.
+     * Avoid returning a shared or cached executor. The returned executor will be shut down
+     * automatically when the service is stopped.
      */
     public fun createExecutor(): ExecutorService
 
