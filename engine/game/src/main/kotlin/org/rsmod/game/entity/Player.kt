@@ -4,7 +4,10 @@ import it.unimi.dsi.fastutil.ints.IntArrayList
 import it.unimi.dsi.fastutil.ints.IntArraySet
 import it.unimi.dsi.fastutil.ints.IntList
 import it.unimi.dsi.fastutil.longs.LongArrayList
+import java.time.LocalDateTime
 import java.util.BitSet
+import java.util.concurrent.atomic.AtomicBoolean
+import kotlin.properties.Delegates
 import org.rsmod.annotations.InternalApi
 import org.rsmod.game.client.Client
 import org.rsmod.game.client.ClientCycle
@@ -99,8 +102,44 @@ public class Player(
     public var uid: PlayerUid = PlayerUid.NULL
         private set
 
+    /**
+     * A unique and persistent identifier for the player within a specific realm.
+     *
+     * The same player logging into different realms (e.g., main vs. dmm) should have a
+     * **different** account hash.
+     *
+     * This value should **never** collide with other players.
+     */
+    public var accountHash: Long? = null
+
+    /**
+     * A unique and persistent identifier for the player.
+     *
+     * The same player logging into different realms (e.g., main vs. dmm) should have the **same**
+     * user id.
+     *
+     * This value should **never** collide with other players.
+     */
+    public var userId: Long? = null
+
+    /**
+     * A unique and persistent identifier for the player.
+     *
+     * Similar to [userId], but explicitly defined as a 32-bit integer and strictly used for
+     * server-side operations (i.e., not sent in the login block).
+     *
+     * For example, when loading from a database, this typically corresponds to the player's unique
+     * `character_id` row.
+     */
+    public var characterId: Int by Delegates.notNull()
+
     public var username: String = ""
     public var displayName: String by avatar::name
+
+    public val disconnected: AtomicBoolean = AtomicBoolean(false)
+    public var disconnectedCycles: Int = 0
+    public var forceDisconnect: Boolean = false
+    public var pendingLogout: Boolean = false
 
     public var buildArea: CoordGrid = CoordGrid.NULL
     public val visibleZoneKeys: IntList = IntArrayList()
@@ -128,6 +167,8 @@ public class Player(
     /* Cache for commonly-accessed Invs */
     public lateinit var inv: Inventory
     public lateinit var worn: Inventory
+
+    public var lastLogin: LocalDateTime = LocalDateTime.now()
 
     public var preventLogoutMessage: String? = null
     public var preventLogoutUntil: Int? = null

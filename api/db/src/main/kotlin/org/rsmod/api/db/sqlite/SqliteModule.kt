@@ -10,7 +10,7 @@ public object SqliteModule : ExtendedModule() {
         bind(DatabaseConfig::class.java).toInstance(DatabaseConfig.createSqlite())
 
         bindInstance<SqliteConnection>()
-        bindBaseInstance<Database>(SqliteDatabase::class.java)
+        bindBaseAndImpl<Database>(SqliteDatabase::class.java)
         addSetBinding<Service>(SqliteService::class.java)
     }
 }

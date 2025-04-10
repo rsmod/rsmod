@@ -13,6 +13,7 @@
       <w>attackstyle</w>
       <w>autocast</w>
       <w>barronite</w>
+      <w>baselevel</w>
       <w>battlestaff</w>
       <w>bgsound</w>
       <w>blockednormal</w>
@@ -194,6 +195,7 @@
       <w>transmog</w>
       <w>tumeken</w>
       <w>tumekens</w>
+      <w>twofa</w>
       <w>uncert</w>
       <w>uncharge</w>
       <w>unequip</w>

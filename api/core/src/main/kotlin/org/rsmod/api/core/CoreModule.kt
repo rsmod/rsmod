@@ -2,6 +2,7 @@ package org.rsmod.api.core
 
 import com.google.inject.Provider
 import jakarta.inject.Inject
+import org.rsmod.api.account.AccountModule
 import org.rsmod.api.cache.CacheModule
 import org.rsmod.api.core.module.EntityHitModule
 import org.rsmod.api.core.module.EntityRepoModule
@@ -22,6 +23,7 @@ import org.rsmod.module.ExtendedModule
 
 public object CoreModule : ExtendedModule() {
     override fun bind() {
+        install(AccountModule)
         install(CacheModule)
         install(DatabaseModule)
         install(EntityHitModule)

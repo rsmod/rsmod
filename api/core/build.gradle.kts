@@ -9,6 +9,7 @@ kotlin {
 dependencies {
     implementation(libs.guice)
     implementation(libs.rsprot.api)
+    implementation(projects.api.account)
     implementation(projects.api.cache)
     implementation(projects.api.db)
     implementation(projects.api.gameProcess)

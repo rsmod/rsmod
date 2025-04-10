@@ -33,6 +33,16 @@ public abstract class ExtendedModule : AbstractModule() {
         bind(base).to(impl).`in`(Scopes.SINGLETON)
     }
 
+    protected inline fun <reified P> bindBaseAndImpl(impl: Class<out P>) {
+        bindBaseAndImpl(P::class.java, impl)
+    }
+
+    @PublishedApi
+    internal fun <P, C : P> bindBaseAndImpl(base: Class<P>, impl: Class<C>) {
+        bind(impl).`in`(Scopes.SINGLETON)
+        bind(base).to(impl)
+    }
+
     /**
      * Declares a set binding for implementations of [P].
      *
