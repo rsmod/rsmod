@@ -268,7 +268,7 @@ constructor(
 
         /**
          * Soft cap for the number of account load requests that can be queued at once. Requests
-         * beyond this threshold will be rejected or de-prioritized.
+         * beyond this threshold will be rejected.
          */
         private const val MAX_REQUEST_SOFT_CAP = 2000
 
