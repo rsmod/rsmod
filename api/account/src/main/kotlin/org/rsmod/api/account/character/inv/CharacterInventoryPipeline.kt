@@ -100,12 +100,18 @@ constructor(private val applier: CharacterInventoryApplier) : CharacterDataStage
                     .trimIndent()
             )
 
+        // Note: Not all database engines support `ON CONFLICT`. This syntax works with our current
+        // database setup (sqlite), but may need to be adapted for others (e.g., mysql uses
+        // `ON DUPLICATE KEY UPDATE` for similar functionality).
         val upsert =
             database.prepareStatement(
                 """
-                    INSERT OR REPLACE INTO
-                        inventory_objs (inventories_id, slot, obj, count, vars)
+                    INSERT INTO inventory_objs (inventories_id, slot, obj, count, vars)
                     VALUES (?, ?, ?, ?, ?)
+                    ON CONFLICT(inventories_id, slot) DO UPDATE SET
+                        obj = excluded.obj,
+                        count = excluded.count,
+                        vars = excluded.vars
                 """
                     .trimIndent()
             )
@@ -188,11 +194,15 @@ constructor(private val applier: CharacterInventoryApplier) : CharacterDataStage
         characterId: Int,
         invType: Int,
     ): Int? {
+        // Note: Not all database engines support `ON CONFLICT`. This syntax works with our current
+        // database setup (sqlite), but may need to be adapted for others (e.g., mysql uses
+        // `INSERT IGNORE`).
         val insert =
             database.prepareStatement(
                 """
-                    INSERT OR IGNORE INTO inventories (character_id, inv_type)
+                    INSERT INTO inventories (character_id, inv_type)
                     VALUES (?, ?)
+                    ON CONFLICT(character_id, inv_type) DO NOTHING
                 """
                     .trimIndent()
             )

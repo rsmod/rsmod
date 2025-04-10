@@ -29,11 +29,15 @@ constructor(
         loginName: String,
         hashedPassword: String,
     ): Int? {
+        // Note: Not all database engines support `ON CONFLICT`. This syntax works with our current
+        // database setup (sqlite), but may need to be adapted for others (e.g., mysql uses
+        // `INSERT IGNORE`).
         val insert =
             database.prepareStatement(
                 """
-                    INSERT OR IGNORE INTO accounts (login_username, hashed_password)
+                    INSERT INTO accounts (login_username, hashed_password)
                     VALUES (?, ?)
+                    ON CONFLICT(login_username) DO NOTHING
                 """
                     .trimIndent()
             )
