@@ -5,9 +5,9 @@ import jakarta.inject.Inject
 import org.rsmod.api.account.AccountModule
 import org.rsmod.api.cache.CacheModule
 import org.rsmod.api.core.module.EntityHitModule
-import org.rsmod.api.core.module.EntityRepoModule
 import org.rsmod.api.core.module.GameMapModule
 import org.rsmod.api.core.module.PlayerModule
+import org.rsmod.api.core.module.RegistryModule
 import org.rsmod.api.core.module.StatModModule
 import org.rsmod.api.core.module.TypeModule
 import org.rsmod.api.db.DatabaseModule
@@ -27,12 +27,12 @@ public object CoreModule : ExtendedModule() {
         install(CacheModule)
         install(DatabaseModule)
         install(EntityHitModule)
-        install(EntityRepoModule)
         install(ExceptionHandlerModule)
         install(GameMapModule)
         install(MarketModule)
         install(PlayerModule)
         install(RandomModule)
+        install(RegistryModule)
         install(RouteModule)
         install(StatModModule)
         install(TypeModule)
