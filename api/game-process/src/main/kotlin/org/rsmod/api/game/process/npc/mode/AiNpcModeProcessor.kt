@@ -16,6 +16,7 @@ constructor(private val npcList: NpcList, private val interactions: AiNpcInterac
             npc.resetMode()
             return
         }
+        npc.faceNpc(target)
         interactions.interactOp(npc, target, op)
     }
 
@@ -25,6 +26,7 @@ constructor(private val npcList: NpcList, private val interactions: AiNpcInterac
             npc.resetMode()
             return
         }
+        npc.faceNpc(target)
         interactions.interactAp(npc, target, op)
     }
 

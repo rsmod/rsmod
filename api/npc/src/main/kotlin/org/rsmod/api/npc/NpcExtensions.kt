@@ -32,18 +32,16 @@ public fun Npc.isInCombat(): Boolean {
 }
 
 public fun Npc.opPlayer2(target: Player, interactions: AiPlayerInteractions) {
-    opPlayer(target, NpcMode.OpPlayer2)
+    opPlayer(NpcMode.OpPlayer2)
     interactions.interactOp(this, target, InteractionOp.Op2)
 }
 
 public fun Npc.apPlayer2(target: Player, interactions: AiPlayerInteractions) {
-    opPlayer(target, NpcMode.ApPlayer2)
+    opPlayer(NpcMode.ApPlayer2)
     interactions.interactAp(this, target, InteractionOp.Op2)
 }
 
-private fun Npc.opPlayer(target: Player, mode: NpcMode) {
+private fun Npc.opPlayer(mode: NpcMode) {
     resetMovement()
-
     this.mode = mode
-    facePlayer(target)
 }
