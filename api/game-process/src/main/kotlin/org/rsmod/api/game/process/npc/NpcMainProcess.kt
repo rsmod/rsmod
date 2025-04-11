@@ -31,62 +31,76 @@ constructor(
             npc.processedMapClock = mapClock.cycle
             npc.previousCoords = npc.coords
             npc.tryOrDespawn {
-                if (canProcess) {
-                    resumePausedProcess()
-                }
-                reveal.process(this)
-                if (canProcess) {
-                    aiTimerProcess()
-                    queueProcess()
-                    timerProcess()
-                    modeProcess()
-                    movementSequence()
-                    faceSquareProcess()
-                }
+                resumePausedProcess()
+                revealProcess()
+                aiTimerProcess()
+                queueProcess()
+                timerProcess()
+                modeProcess()
+                movementSequence()
+                faceSquareProcess()
             }
         }
     }
 
     private fun Npc.resumePausedProcess() {
-        advanceActiveCoroutine()
+        if (canProcess) {
+            advanceActiveCoroutine()
+        }
+    }
+
+    private fun Npc.revealProcess() {
+        reveal.process(this)
     }
 
     private fun Npc.aiTimerProcess() {
-        aiTimers.process(this)
+        if (canProcess) {
+            aiTimers.process(this)
+        }
     }
 
     private fun Npc.queueProcess() {
-        queues.process(this)
+        if (canProcess) {
+            queues.process(this)
+        }
     }
 
     private fun Npc.timerProcess() {
-        timers.process(this)
+        if (canProcess) {
+            timers.process(this)
+        }
     }
 
     private fun Npc.modeProcess() {
-        modes.process(this)
+        if (canProcess) {
+            modes.process(this)
+        }
     }
 
     private fun Npc.movementSequence() {
-        // Store the current interaction at this stage to ensure that if an interaction triggers a
-        // new one, the original interaction completes before the new one is processed.
-        val interaction = interaction
-        if (interaction != null) {
-            interactions.processPreMovement(this, interaction)
-        }
+        if (canProcess) {
+            // Store the current interaction at this stage to ensure that if an interaction triggers
+            // a new one, the original interaction completes before the new one is processed.
+            val interaction = interaction
+            if (interaction != null) {
+                interactions.processPreMovement(this, interaction)
+            }
 
-        movement.process(this)
+            movement.process(this)
 
-        if (interaction != null) {
-            interactions.processPostMovement(this, interaction)
+            if (interaction != null) {
+                interactions.processPostMovement(this, interaction)
+            }
         }
     }
 
     private fun Npc.faceSquareProcess() {
-        val pending = pendingFaceSquare
-        facing.process(this)
-        if (pendingFaceAngle != EntityFaceAngle.NULL) {
-            infoProtocol.setFaceSquare(pending.x, pending.z, instant = false)
+        if (canProcess) {
+            val pending = pendingFaceSquare
+            facing.process(this)
+            if (pendingFaceAngle != EntityFaceAngle.NULL) {
+                infoProtocol.setFaceSquare(pending.x, pending.z, instant = false)
+            }
         }
     }
 
