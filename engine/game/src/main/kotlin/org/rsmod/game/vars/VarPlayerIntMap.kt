@@ -31,6 +31,8 @@ public value class VarPlayerIntMap(public val backing: Int2IntMap = Int2IntOpenH
 
     override fun toString(): String = backing.toString()
 
+    public operator fun iterator(): Iterator<Map.Entry<Int, Int>> = backing.iterator()
+
     public companion object {
         public fun assertVarBitBounds(varp: VarBitType, value: Int) {
             val maxValue = varp.maxValue()

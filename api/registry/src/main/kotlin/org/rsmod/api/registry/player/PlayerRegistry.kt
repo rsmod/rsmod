@@ -102,4 +102,6 @@ constructor(
     }
 
     public fun nextFreeSlot(): Int? = playerList.nextFreeSlot()
+
+    public fun isOnline(userId: Long): Boolean = playerList.any { it.userId == userId }
 }

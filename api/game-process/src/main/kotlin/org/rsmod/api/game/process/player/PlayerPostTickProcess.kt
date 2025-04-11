@@ -5,6 +5,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.supervisorScope
 import org.rsmod.api.player.forceDisconnect
+import org.rsmod.api.registry.account.AccountRegistry
 import org.rsmod.api.registry.player.PlayerRegistry
 import org.rsmod.api.utils.logging.GameExceptionHandler
 import org.rsmod.game.entity.Player
@@ -18,6 +19,7 @@ public class PlayerPostTickProcess
 constructor(
     private val playerList: PlayerList,
     private val playerRegistry: PlayerRegistry,
+    private val accountRegistry: AccountRegistry,
     private val zoneUpdates: PlayerZoneUpdateProcessor,
     private val invUpdates: PlayerInvUpdateProcessor,
     private val statUpdates: PlayerStatUpdateProcessor,
@@ -56,12 +58,40 @@ constructor(
     private fun processPostTick() {
         for (player in playerList) {
             player.tryOrDisconnect {
-                updateTransmittedInvs()
-                updatePendingStats()
+                checkForcedDisconnect()
+                if (isDisconnectionQueued()) {
+                    countDisconnectedCycle()
+                } else {
+                    clearDisconnection()
+                    updateTransmittedInvs()
+                    updatePendingStats()
+                }
                 flushClient()
                 cleanUpPendingUpdates()
             }
         }
+    }
+
+    private fun Player.checkForcedDisconnect() {
+        if (forceDisconnect && !pendingLogout) {
+            queueLogout()
+            forceDisconnect = false
+        }
+    }
+
+    private fun Player.isDisconnectionQueued(): Boolean = disconnected.get()
+
+    private fun Player.countDisconnectedCycle() {
+        if (!pendingLogout) {
+            if (disconnectedCycles == RECONNECT_GRACE_PERIOD) {
+                queueLogout()
+            }
+            disconnectedCycles++
+        }
+    }
+
+    private fun Player.clearDisconnection() {
+        disconnectedCycles = 0
     }
 
     private fun Player.updateTransmittedInvs() {
@@ -93,6 +123,11 @@ constructor(
         invUpdates.cleanUp()
     }
 
+    private fun Player.queueLogout() {
+        pendingLogout = true
+        accountRegistry.queueLogout(this)
+    }
+
     private inline fun Player.tryOrDisconnect(block: Player.() -> Unit) =
         try {
             block(this)
@@ -103,4 +138,13 @@ constructor(
             forceDisconnect()
             exceptionHandler.handle(e) { "Error processing post-tick for player: $this." }
         }
+
+    private companion object {
+        /**
+         * The grace period (in server cycles) during which a disconnected player is allowed to
+         * remain in the world before their logout is queued. This gives them a chance to reconnect
+         * in time, based on this constant.
+         */
+        private const val RECONNECT_GRACE_PERIOD: Int = 10
+    }
 }

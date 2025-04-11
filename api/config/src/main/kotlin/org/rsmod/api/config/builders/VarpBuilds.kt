@@ -4,6 +4,7 @@ import org.rsmod.api.type.builders.varp.VarpBuilder
 
 internal object VarpBuilds : VarpBuilder() {
     init {
+        build("generic_temp_state_65516") { temporary = true }
         build("dinhs_passive_delay") { temporary = true }
         build("com_maxhit")
         build("forinthry_surge_expiration")

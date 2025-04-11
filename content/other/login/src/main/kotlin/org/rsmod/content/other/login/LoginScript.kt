@@ -22,11 +22,13 @@ import org.rsmod.api.player.startInvTransmit
 import org.rsmod.api.player.stat.stat
 import org.rsmod.api.player.vars.boolVarBit
 import org.rsmod.api.player.vars.chatboxUnlocked
+import org.rsmod.api.player.vars.resyncVar
 import org.rsmod.api.script.onPlayerLogIn
 import org.rsmod.api.stats.levelmod.InvisibleLevels
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Player
 import org.rsmod.game.type.stat.StatTypeList
+import org.rsmod.game.type.varp.VarpTypeList
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
@@ -34,6 +36,7 @@ class LoginScript
 @Inject
 constructor(
     private val mapClock: MapClock,
+    private val varpTypes: VarpTypeList,
     private val statTypes: StatTypeList,
     private val invisibleLevels: InvisibleLevels,
 ) : PluginScript() {
@@ -73,6 +76,10 @@ constructor(
         client.write(VarpReset)
         chatboxUnlocked = true
         hideRoofs = true
+        for ((varp, _) in vars) {
+            val type = varpTypes[varp] ?: continue
+            resyncVar(type)
+        }
     }
 
     private fun Player.sendLowPriority() {

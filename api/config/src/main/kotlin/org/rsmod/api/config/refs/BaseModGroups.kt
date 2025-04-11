@@ -4,6 +4,8 @@ package org.rsmod.api.config.refs
 
 import org.rsmod.api.type.builders.mod.ModGroupBuilder
 
+typealias modgroups = BaseModGroups
+
 object BaseModGroups : ModGroupBuilder() {
     val player = build("player") { modLevel = BaseModLevels.player }
 

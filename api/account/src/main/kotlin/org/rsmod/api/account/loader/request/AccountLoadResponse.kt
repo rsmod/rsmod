@@ -5,15 +5,18 @@ import org.rsmod.api.account.character.main.CharacterAccountData
 
 public sealed class AccountLoadResponse {
     public sealed class Ok : AccountLoadResponse() {
+        public abstract val auth: AccountLoadAuth
         public abstract val account: CharacterAccountData
         public abstract val transforms: List<CharacterDataTransformer<*>>
 
         public data class NewAccount(
+            override val auth: AccountLoadAuth,
             override val account: CharacterAccountData,
             override val transforms: List<CharacterDataTransformer<*>>,
         ) : Ok()
 
         public data class LoadAccount(
+            override val auth: AccountLoadAuth,
             override val account: CharacterAccountData,
             override val transforms: List<CharacterDataTransformer<*>>,
         ) : Ok()

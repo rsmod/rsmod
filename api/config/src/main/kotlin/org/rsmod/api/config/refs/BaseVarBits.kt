@@ -124,6 +124,7 @@ object BaseVarBits : VarBitReferences() {
         find("setting_max_hit_hitsplats_threshold", 183001241817303)
 
     /* Server-side only types */
+    val new_player_account = find("new_player_account")
     val saved_autocast_spell_staff = find("saved_autocast_spell_staff")
     val saved_defensive_casting_staff = find("saved_defensive_casting_staff")
     val saved_autocast_spell_bladed_staff = find("saved_autocast_spell_bladed_staff")

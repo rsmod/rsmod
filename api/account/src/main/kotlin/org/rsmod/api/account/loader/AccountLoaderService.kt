@@ -196,7 +196,9 @@ constructor(
         for (pipeline in pipelines) {
             pipeline.append(database, metadataList)
         }
-        request.callback(AccountLoadResponse.Ok.LoadAccount(metadataList.accountData, metadataList))
+        val response =
+            AccountLoadResponse.Ok.LoadAccount(request.auth, metadataList.accountData, metadataList)
+        request.callback(response)
     }
 
     private suspend fun accountNotFoundResponse(request: AccountLoadRequest) =
@@ -210,7 +212,7 @@ constructor(
     ): AccountLoadResponse =
         try {
             val metadataList = createMetadataList(request.loginName, request.hashedPassword())
-            AccountLoadResponse.Ok.NewAccount(metadataList.accountData, metadataList)
+            AccountLoadResponse.Ok.NewAccount(request.auth, metadataList.accountData, metadataList)
         } catch (e: Exception) {
             AccountLoadResponse.Err.Exception(e)
         }

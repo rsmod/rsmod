@@ -9,4 +9,6 @@ public sealed class SessionStateEvent : UnboundEvent {
     public data class LogIn(val player: Player) : SessionStateEvent()
 
     public data class LogOut(val player: Player) : SessionStateEvent()
+
+    public data class Terminate(val player: Player) : SessionStateEvent()
 }

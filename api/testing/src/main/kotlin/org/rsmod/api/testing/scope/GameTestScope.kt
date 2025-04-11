@@ -53,6 +53,7 @@ import org.rsmod.api.player.vars.varMoveSpeed
 import org.rsmod.api.random.CoreRandom
 import org.rsmod.api.random.DefaultGameRandom
 import org.rsmod.api.random.GameRandom
+import org.rsmod.api.registry.account.AccountRegistry
 import org.rsmod.api.registry.controller.ControllerRegistry
 import org.rsmod.api.registry.loc.LocRegistry
 import org.rsmod.api.registry.loc.LocRegistryNormal
@@ -786,6 +787,7 @@ constructor(
             bind(RouteFactory::class.java).`in`(Scopes.SINGLETON)
             bind(StepFactory::class.java).`in`(Scopes.SINGLETON)
 
+            bind(AccountRegistry::class.java).`in`(Scopes.SINGLETON)
             bind(ControllerList::class.java).`in`(Scopes.SINGLETON)
             bind(ControllerRegistry::class.java).`in`(Scopes.SINGLETON)
             bind(ControllerRepository::class.java).`in`(Scopes.SINGLETON)

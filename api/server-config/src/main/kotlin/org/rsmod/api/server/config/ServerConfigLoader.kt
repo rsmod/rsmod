@@ -36,7 +36,13 @@ public class ServerConfigLoader @Inject constructor(@Toml private val objectMapp
     private fun createDefault(): ServerConfig =
         ServerConfig(
             name = DEFAULT_NAME,
-            world = WorldConfig(DEFAULT_REALM, DEFAULT_WORLD),
+            world =
+                WorldConfig(
+                    realm = DEFAULT_REALM,
+                    worldId = DEFAULT_WORLD,
+                    requireRegistration = false,
+                    ignorePasswords = true,
+                ),
             game =
                 GameConfig(
                     xpRate = DEFAULT_XP_RATE,

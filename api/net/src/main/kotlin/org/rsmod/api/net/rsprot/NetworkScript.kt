@@ -6,7 +6,6 @@ import net.rsprot.protocol.common.RSProtConstants
 import net.rsprot.protocol.common.client.OldSchoolClientType
 import org.rsmod.api.core.Build
 import org.rsmod.api.game.process.GameLifecycle
-import org.rsmod.api.net.rsprot.player.SessionEnd
 import org.rsmod.api.net.rsprot.player.SessionStart
 import org.rsmod.api.net.rsprot.provider.SimpleXteaProvider
 import org.rsmod.api.registry.region.RegionRegistry
@@ -15,6 +14,7 @@ import org.rsmod.game.client.Client
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.npc.NpcStateEvents
+import org.rsmod.game.entity.player.SessionStateEvent
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
@@ -34,11 +34,16 @@ constructor(
             "RSProt and RSMod have mismatching revision builds! " +
                 "(rsmod=${Build.MAJOR}, rsprot=${RSProtConstants.REVISION})"
         }
+        eventBus.subscribe<GameLifecycle.BootUp> { initService() }
         eventBus.subscribe<GameLifecycle.UpdateInfo> { updateService() }
         eventBus.subscribe<SessionStart> { startSession() }
-        eventBus.subscribe<SessionEnd> { closeSession() }
+        eventBus.subscribe<SessionStateEvent.Terminate> { closeSession() }
         eventBus.subscribe<NpcStateEvents.Create> { createNpcAvatar(npc) }
         eventBus.subscribe<NpcStateEvents.Delete> { deleteNpcAvatar(npc) }
+    }
+
+    private fun initService() {
+        service.setCommunicationThread(Thread.currentThread())
     }
 
     private fun updateService() {
@@ -63,7 +68,7 @@ constructor(
         cycle.init(player)
     }
 
-    private fun SessionEnd.closeSession() {
+    private fun SessionStateEvent.Terminate.closeSession() {
         val client = player.client as RspClient
         client.close(service, player)
     }

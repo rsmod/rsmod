@@ -1,4 +1,6 @@
 [versions]
+apache-commons = "1.18.0"
+argon2-jvm = "2.12"
 bouncycastle = "1.80"
 classgraph = "4.8.179"
 clikt = "5.0.3"
@@ -18,12 +20,15 @@ logback = "1.5.18"
 manes-versions = "0.52.0"
 netty = "4.1.109.Final"
 okhttp = "5.0.0-alpha.14"
+otp-kotlin = "2.4.1"
 openrs2 = "0.1.0-SNAPSHOT"
-rsprot = "1.0.0-ALPHA-20250407"
+rsprot = "1.0.0-ALPHA-20250409"
 spotless = "7.0.2"
 sqlite = "3.49.1.0"
 
 [libraries]
+apache-commons = { module = "commons-codec:commons-codec", version.ref = "apache-commons" }
+argon2-jvm = { module = "de.mkammerer:argon2-jvm", version.ref = "argon2-jvm" }
 bouncycastle-provider = { module = "org.bouncycastle:bcprov-jdk18on", version.ref = "bouncycastle" }
 classgraph = { module = "io.github.classgraph:classgraph", version.ref = "classgraph" }
 clikt = { module = "com.github.ajalt.clikt:clikt", version.ref = "clikt" }
@@ -45,6 +50,7 @@ kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref =
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 netty-buffer = { module = "io.netty:netty-buffer", version.ref = "netty" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+otp-kotlin = { module = "dev.turingcomplete:kotlin-onetimepassword", version.ref = "otp-kotlin" }
 openrs2-buffer = { module = "org.openrs2:openrs2-buffer", version.ref = "openrs2" }
 openrs2-cache = { module = "org.openrs2:openrs2-cache", version.ref = "openrs2" }
 rsprot-api = { module = "net.rsprot:osrs-229-api", version.ref = "rsprot" }

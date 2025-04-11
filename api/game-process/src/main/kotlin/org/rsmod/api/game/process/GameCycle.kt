@@ -5,6 +5,8 @@ import org.rsmod.api.game.process.controller.ControllerMainProcess
 import org.rsmod.api.game.process.npc.NpcMainProcess
 import org.rsmod.api.game.process.npc.NpcPreTickProcess
 import org.rsmod.api.game.process.player.PlayerInputProcess
+import org.rsmod.api.game.process.player.PlayerLoginProcess
+import org.rsmod.api.game.process.player.PlayerLogoutProcess
 import org.rsmod.api.game.process.player.PlayerMainProcess
 import org.rsmod.api.game.process.player.PlayerPostTickProcess
 import org.rsmod.api.game.process.player.PlayerRouteRequestProcess
@@ -18,6 +20,7 @@ public data class GameCycle
 constructor(
     public val eventBus: EventBus,
     public val mapClock: MapClock,
+    public val playerLogin: PlayerLoginProcess,
     public val worldQueue: WorldQueueListProcess,
     public val npcPreTick: NpcPreTickProcess,
     public val playerInput: PlayerInputProcess,
@@ -25,6 +28,7 @@ constructor(
     public val npcMain: NpcMainProcess,
     public val controllerMain: ControllerMainProcess,
     public val playerMain: PlayerMainProcess,
+    public val playerLogout: PlayerLogoutProcess,
     public val worldPostTick: WorldPostTickProcess,
     public val playerPostTick: PlayerPostTickProcess,
 ) {
@@ -38,6 +42,7 @@ constructor(
     }
 
     private fun preTick() {
+        playerLogin.process()
         worldQueue.process()
         npcPreTick.process()
         playerInput.process()
@@ -45,6 +50,7 @@ constructor(
         npcMain.process()
         controllerMain.process()
         playerMain.process()
+        playerLogout.process()
     }
 
     /*

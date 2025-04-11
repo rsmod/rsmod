@@ -22,13 +22,14 @@ CREATE TABLE accounts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     login_username TEXT NOT NULL UNIQUE,
     display_name TEXT UNIQUE,
-    hashed_password TEXT NOT NULL,
+    password_hash TEXT NOT NULL,
     email TEXT UNIQUE,
     members BOOLEAN NOT NULL DEFAULT 0,
     mod_group INTEGER,
     twofa_enabled BOOLEAN NOT NULL DEFAULT 0,
     twofa_secret TEXT,
     twofa_last_verified TIMESTAMP,
+    known_device INTEGER,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

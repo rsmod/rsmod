@@ -108,9 +108,10 @@ public class Player(
      * The same player logging into different realms (e.g., main vs. dmm) should have a
      * **different** account hash.
      *
-     * This value should **never** collide with other players.
+     * _This value should **never** collide with other players and is **always** expected to be set
+     * on login._
      */
-    public var accountHash: Long? = null
+    public var accountHash: Long by Delegates.notNull()
 
     /**
      * A unique and persistent identifier for the player.
@@ -118,9 +119,10 @@ public class Player(
      * The same player logging into different realms (e.g., main vs. dmm) should have the **same**
      * user id.
      *
-     * This value should **never** collide with other players.
+     * _This value should **never** collide with other players and is **always** expected to be set
+     * on login._
      */
-    public var userId: Long? = null
+    public var userId: Long by Delegates.notNull()
 
     /**
      * A unique and persistent identifier for the player.
@@ -129,12 +131,34 @@ public class Player(
      * server-side operations (i.e., not sent in the login block).
      *
      * For example, when loading from a database, this typically corresponds to the player's unique
+     * `account_id` row.
+     *
+     * _This value is **always** expected to be set on login._
+     */
+    public var accountId: Int by Delegates.notNull()
+
+    /**
+     * A unique and persistent identifier for the player.
+     *
+     * Similar to [accountHash], but explicitly defined as a 32-bit integer and strictly used for
+     * server-side operations (i.e., not sent in the login block).
+     *
+     * For example, when loading from a database, this typically corresponds to the player's unique
      * `character_id` row.
+     *
+     * _This value is **always** expected to be set on login._
      */
     public var characterId: Int by Delegates.notNull()
 
+    // Currently unsure of the exact requirements for this value's use case, however, it should
+    // **always** be set on log in (like the other player identifiers).
+    /** _This value is **always** expected to be set on login._ */
+    public var userHash: Long by Delegates.notNull()
+
     public var username: String = ""
     public var displayName: String by avatar::name
+    public var members: Boolean = false
+    public var lastKnownDevice: Int? = null
 
     public val disconnected: AtomicBoolean = AtomicBoolean(false)
     public var disconnectedCycles: Int = 0

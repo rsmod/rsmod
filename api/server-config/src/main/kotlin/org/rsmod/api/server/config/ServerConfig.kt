@@ -19,7 +19,19 @@ public data class ServerConfig(
             ")"
 }
 
-public data class WorldConfig(val realm: Realm, val worldId: Int)
+/**
+ * @param requireRegistration If `true`, players must have a pre-registered account in the database
+ *   to log in. If `false`, new accounts will be automatically created on first login.
+ * @param ignorePasswords If `true`, any password will be accepted for any account without
+ *   verification. Note: This flag may only take effect in certain environments (e.g., when [realm]
+ *   is [Realm.Dev]), depending on the login server's safeguards.
+ */
+public data class WorldConfig(
+    val realm: Realm,
+    val worldId: Int,
+    val requireRegistration: Boolean,
+    val ignorePasswords: Boolean,
+)
 
 public data class GameConfig(val xpRate: Int, val spawn: CoordGrid, val respawn: CoordGrid)
 
@@ -28,3 +40,7 @@ public data class GameConfig(val xpRate: Int, val spawn: CoordGrid, val respawn:
  *   one is created.
  */
 public data class MetaConfig(val firstLaunch: Boolean)
+
+// Declared as an extension to avoid `JsonIgnore` annotations.
+public val WorldConfig.isDevRealm: Boolean
+    get() = realm.isDev

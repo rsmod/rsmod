@@ -10,6 +10,7 @@ dependencies {
     implementation(libs.guice)
     implementation(libs.fastutil)
     implementation(libs.rsprot.api)
+    implementation(projects.api.account)
     implementation(projects.engine.events)
     implementation(projects.engine.game)
     implementation(projects.engine.map)

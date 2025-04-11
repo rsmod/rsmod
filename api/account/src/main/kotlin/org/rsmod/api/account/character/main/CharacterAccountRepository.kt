@@ -7,22 +7,25 @@ import org.rsmod.api.account.character.CharacterMetadataList
 import org.rsmod.api.db.Database
 import org.rsmod.api.db.util.getLocalDateTime
 import org.rsmod.api.db.util.prepareStatement
+import org.rsmod.api.db.util.setNullableInt
 import org.rsmod.api.db.util.setSqliteTimestamp
 import org.rsmod.api.parsers.jackson.readReifiedValue
 import org.rsmod.api.parsers.json.Json
+import org.rsmod.api.server.config.WorldConfig
 import org.rsmod.game.entity.Player
 import org.rsmod.game.type.varp.VarpLifetime
 import org.rsmod.game.type.varp.VarpTypeList
-import org.rsmod.game.vars.VarPlayerIntMap
 
 public class CharacterAccountRepository
 @Inject
 constructor(
     @Json private val objectMapper: ObjectMapper,
+    private val worldConfig: WorldConfig,
     private val applier: CharacterAccountApplier,
     private val varpTypes: VarpTypeList,
 ) {
-    private val realm: Int = 1 // TODO: Set properly from an injected config.
+    private val realm: Int
+        get() = worldConfig.realm.id
 
     public suspend fun insertOrSelectAccountId(
         database: Database,
@@ -35,7 +38,7 @@ constructor(
         val insert =
             database.prepareStatement(
                 """
-                    INSERT INTO accounts (login_username, hashed_password)
+                    INSERT INTO accounts (login_username, password_hash)
                     VALUES (?, ?)
                     ON CONFLICT(login_username) DO NOTHING
                 """
@@ -104,13 +107,14 @@ constructor(
                         a.id AS account_id,
                         a.login_username,
                         a.display_name,
-                        a.hashed_password,
+                        a.password_hash,
                         a.email,
                         a.members,
                         a.mod_group,
                         a.twofa_enabled,
                         a.twofa_secret,
                         a.twofa_last_verified,
+                        a.known_device,
                         c.id AS character_id,
                         c.world_id,
                         c.x,
@@ -139,13 +143,14 @@ constructor(
                     val characterId = resultSet.getInt("character_id")
                     val username = resultSet.getString("login_username").lowercase()
                     val displayName = resultSet.getString("display_name")
-                    val hashedPassword = resultSet.getString("hashed_password")
+                    val hashedPassword = resultSet.getString("password_hash")
                     val email = resultSet.getString("email")
                     val members = resultSet.getBoolean("members")
                     val modGroup = resultSet.getInt("mod_group").takeUnless { resultSet.wasNull() }
                     val twofaEnabled = resultSet.getBoolean("twofa_enabled")
                     val twofaSecret = resultSet.getString("twofa_secret")
                     val twofaLastVerified = resultSet.getLocalDateTime("twofa_last_verified")
+                    val device = resultSet.getInt("known_device").takeUnless { resultSet.wasNull() }
                     val worldId = resultSet.getInt("world_id").takeUnless { resultSet.wasNull() }
                     val coordX = resultSet.getInt("x")
                     val coordZ = resultSet.getInt("z")
@@ -171,6 +176,7 @@ constructor(
                             twofaEnabled = twofaEnabled,
                             twofaSecret = twofaSecret,
                             twofaLastVerified = twofaLastVerified,
+                            knownDevice = device,
                             worldId = worldId,
                             coordX = coordX,
                             coordZ = coordZ,
@@ -192,8 +198,8 @@ constructor(
         return null
     }
 
-    public suspend fun save(database: Database, player: Player, characterId: Int) {
-        val update =
+    public suspend fun save(database: Database, player: Player, accountId: Int, characterId: Int) {
+        val updateCharacter =
             database.prepareStatement(
                 """
                     UPDATE characters
@@ -204,8 +210,9 @@ constructor(
                     .trimIndent()
             )
 
-        update.use {
-            val persistentVarps = player.vars.toPersistentVarps()
+        updateCharacter.use {
+            val persistentVarps =
+                player.vars.backing.filterKeys { id -> varpTypes[id]?.scope == VarpLifetime.Perm }
             val varpsJson = objectMapper.writeValueAsString(persistentVarps)
             it.setInt(1, player.x)
             it.setInt(2, player.z)
@@ -215,10 +222,26 @@ constructor(
             it.setInt(6, characterId)
             it.executeUpdate()
         }
-    }
 
-    private fun VarPlayerIntMap.toPersistentVarps(): Map<Int, Int> {
-        // TODO: Log any varps in `backing` that cannot be found in `varpTypes`.
-        return backing.filterKeys { varpTypes[it]?.scope == VarpLifetime.Perm }
+        // Note: This update is intentionally done at the "account" level. Logging into a different
+        // "realm" (e.g., main -> dmm) should not trigger a new 2fa prompt - the known device should
+        // persist across realms.
+        // It might be worth marking the player as needing their `known_device` updated and only
+        // executing this query when it is set, but for now, we are keeping it simple.
+        val updateAccount =
+            database.prepareStatement(
+                """
+                    UPDATE accounts
+                    SET known_device = ?
+                    WHERE id = ?
+                """
+                    .trimIndent()
+            )
+
+        updateAccount.use {
+            it.setNullableInt(1, player.lastKnownDevice)
+            it.setInt(2, accountId)
+            it.executeUpdate()
+        }
     }
 }

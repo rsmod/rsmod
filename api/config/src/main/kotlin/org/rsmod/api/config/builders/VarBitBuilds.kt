@@ -5,6 +5,12 @@ import org.rsmod.api.type.builders.varbit.VarBitBuilder
 
 internal object VarBitBuilds : VarBitBuilder() {
     init {
+        build("new_player_account") {
+            baseVar = varps.generic_temp_state_65516
+            startBit = 0
+            endBit = 0
+        }
+
         build("saved_defensive_casting_staff") {
             baseVar = varps.saved_autocast_state_staff
             startBit = 0

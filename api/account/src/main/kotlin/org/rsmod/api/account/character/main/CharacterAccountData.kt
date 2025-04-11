@@ -16,6 +16,7 @@ public data class CharacterAccountData(
     val twofaEnabled: Boolean,
     val twofaSecret: String?,
     val twofaLastVerified: LocalDateTime?,
+    val knownDevice: Int?,
     val worldId: Int?,
     val coordX: Int,
     val coordZ: Int,
@@ -26,4 +27,28 @@ public data class CharacterAccountData(
     val lastLogout: LocalDateTime?,
     val mutedUntil: LocalDateTime?,
     val bannedUntil: LocalDateTime?,
-) : CharacterDataStage.Segment
+) : CharacterDataStage.Segment {
+    // Do not include sensitive fields (e.g., password hash, 2fa secret, known device).
+    override fun toString(): String =
+        "AccountData(" +
+            "realm=$realm, " +
+            "accountId=$accountId, " +
+            "characterId=$characterId, " +
+            "loginName=$loginName, " +
+            "displayName=$displayName, " +
+            "email=$email, " +
+            "members=$members, " +
+            "modGroup=$modGroup, " +
+            "twofaEnabled=$twofaEnabled, " +
+            "twofaLastVerified=$twofaLastVerified, " +
+            "worldId=$worldId, " +
+            "coordX=$coordX, " +
+            "coordZ=$coordZ, " +
+            "coordLevel=$coordLevel, " +
+            "createdAt=$createdAt, " +
+            "lastLogin=$lastLogin, " +
+            "lastLogout=$lastLogout, " +
+            "mutedUntil=$mutedUntil, " +
+            "bannedUntil=$bannedUntil, " +
+            ")"
+}

@@ -16,7 +16,7 @@ constructor(
     private val exceptionHandler: GameExceptionHandler,
 ) {
     public fun process() {
-        players.forEach { player ->
+        for (player in players) {
             player.tryOrDisconnect {
                 updateMapClock()
                 readClientInput()

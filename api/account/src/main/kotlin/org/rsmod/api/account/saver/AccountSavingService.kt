@@ -91,7 +91,7 @@ constructor(
     }
 
     private suspend fun saveSegments(request: AccountSaveRequest) {
-        repository.save(database, request.player, request.characterId)
+        repository.save(database, request.player, request.accountId, request.characterId)
         for (pipeline in pipelines) {
             pipeline.save(database, request.player, request.characterId)
         }

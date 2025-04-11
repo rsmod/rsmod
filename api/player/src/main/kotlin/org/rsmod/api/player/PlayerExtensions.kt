@@ -6,15 +6,13 @@ import org.rsmod.api.config.refs.varps
 import org.rsmod.api.player.hit.configs.hit_queues
 import org.rsmod.api.player.output.UpdateInventory
 import org.rsmod.api.player.output.clearMapFlag
-import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.stat.hitpoints
 import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.type.inv.InvScope
 
 public fun Player.forceDisconnect() {
-    // TODO: disconnect player
-    mes("TODO: Get Disconnected!")
+    forceDisconnect = true
 }
 
 public fun Player.clearInteractionRoute() {
