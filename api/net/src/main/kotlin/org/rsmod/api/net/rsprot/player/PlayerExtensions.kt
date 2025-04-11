@@ -19,14 +19,6 @@ internal fun Player.protectedTelejump(collision: CollisionFlagMap, dest: CoordGr
     return true
 }
 
-/**
- * Returns the temp move speed that should be used when the player has used the meta key combination
- * to teleport during [net.rsprot.protocol.game.incoming.misc.user.MoveGameClick] or
- * [net.rsprot.protocol.game.incoming.misc.user.MoveMinimapClick].
- */
-// TODO: app config concept to switch "development mode" flag. Can remove the flag arg from here
-//  then and simply have it as a branch where if dev mode is on it'll just return Stationary move
-//  speed instead of even calling this method.
 internal fun Player.modLevelTeleMoveSpeed(developmentMode: Boolean): MoveSpeed? =
     if (modGroup?.isClientAdmin == true || developmentMode) {
         MoveSpeed.Stationary
