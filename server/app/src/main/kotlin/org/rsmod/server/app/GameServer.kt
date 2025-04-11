@@ -17,6 +17,7 @@ import org.openrs2.cache.Cache
 import org.openrs2.cache.Store
 import org.rsmod.annotations.GameCache
 import org.rsmod.api.cache.map.GameMapDecoder
+import org.rsmod.api.server.config.ServerConfig
 import org.rsmod.api.type.resolver.TypeCleanup
 import org.rsmod.api.type.resolver.TypeResolver
 import org.rsmod.api.type.updater.TypeUpdater
@@ -81,6 +82,7 @@ class GameServer : CliktCommand(name = "server") {
         loadCache(injector)
         loadMap(injector)
         loadTypeResolver(injector)
+        loadConfig(injector)
         loadScripts(injector)
         executeScheduledIO(injector)
     }
@@ -222,6 +224,13 @@ class GameServer : CliktCommand(name = "server") {
     private fun cleanUpTypeResolver(injector: Injector) {
         val cleanup = injector.getInstance(TypeCleanup::class.java)
         cleanup.clearAll()
+    }
+
+    private fun loadConfig(injector: Injector) {
+        logger.info { "Loading server config..." }
+        val config: ServerConfig
+        val duration = measureTime { config = injector.getInstance(ServerConfig::class.java) }
+        reportDuration { "Loaded server config in $duration: $config" }
     }
 
     private fun loadScripts(injector: Injector) {

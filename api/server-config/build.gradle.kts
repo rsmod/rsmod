@@ -7,9 +7,9 @@ kotlin {
 }
 
 dependencies {
+    implementation(libs.bundles.logging)
     implementation(libs.guice)
-    implementation(libs.jackson.databind)
-    implementation(libs.jackson.module.kotlin)
+    implementation(projects.api.parsers.toml)
     implementation(projects.api.realm)
     implementation(projects.engine.map)
     implementation(projects.engine.module)

@@ -25,6 +25,7 @@ dependencies {
     api(projects.api.random)
     api(projects.api.repo)
     api(projects.api.route)
+    api(projects.api.serverConfig)
     api(projects.api.script)
     api(projects.api.shops)
     api(projects.api.stats.levelmod)
