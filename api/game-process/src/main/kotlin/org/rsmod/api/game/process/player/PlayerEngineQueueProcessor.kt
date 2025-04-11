@@ -14,26 +14,16 @@ constructor(private val eventBus: EventBus, private val protectedAccess: Protect
         player.publishQueues()
     }
 
-    // TODO: Should engine queues have the same iteration logic as normal queues?
     private fun Player.publishQueues() {
-        while (engineQueueList.isNotEmpty) {
-            var processedNone = true
-
-            val iterator = engineQueueList.iterator() ?: break
-            while (iterator.hasNext()) {
-                val queue = iterator.next()
-                if (!isAccessProtected) {
-                    processedNone = false
-                    iterator.remove()
-                    publish(queue)
-                }
-            }
-            iterator.cleanUp()
-
-            if (processedNone) {
-                break
+        val iterator = engineQueueList.iterator() ?: return
+        while (iterator.hasNext()) {
+            val queue = iterator.next()
+            if (!isAccessProtected) {
+                iterator.remove()
+                publish(queue)
             }
         }
+        iterator.cleanUp()
     }
 
     private fun Player.publish(queue: EngineQueueList.Queue) {
