@@ -145,8 +145,8 @@ internal suspend fun ProtectedAccess.activateMeleeSpecial(
 
     val specializedEnergy = energy.isSpecializedRequirement(special.energyInHundreds)
     if (!specializedEnergy) {
-        val energyReduced = energy.hasSpecialEnergy(player, special.energyInHundreds)
-        if (!energyReduced) {
+        val hasRequiredEnergy = energy.hasSpecialEnergy(player, special.energyInHundreds)
+        if (!hasRequiredEnergy) {
             mes("You don't have enough power left.")
             return false
         }
@@ -176,8 +176,8 @@ internal suspend fun ProtectedAccess.activateRangedSpecial(
 
     val specializedEnergyReq = energy.isSpecializedRequirement(special.energyInHundreds)
     if (!specializedEnergyReq) {
-        val energyReduced = energy.hasSpecialEnergy(player, special.energyInHundreds)
-        if (!energyReduced) {
+        val hasRequiredEnergy = energy.hasSpecialEnergy(player, special.energyInHundreds)
+        if (!hasRequiredEnergy) {
             mes("You don't have enough power left.")
             return false
         }
@@ -207,8 +207,8 @@ internal suspend fun ProtectedAccess.activateMagicSpecial(
 
     val specializedEnergyReq = energy.isSpecializedRequirement(special.energyInHundreds)
     if (!specializedEnergyReq) {
-        val energyReduced = energy.hasSpecialEnergy(player, special.energyInHundreds)
-        if (!energyReduced) {
+        val hasRequiredEnergy = energy.hasSpecialEnergy(player, special.energyInHundreds)
+        if (!hasRequiredEnergy) {
             mes("You don't have enough power left.")
             return false
         }
