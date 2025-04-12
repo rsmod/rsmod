@@ -48,6 +48,7 @@ constructor(
                 processTimers()
                 processEngineQueues()
                 processMovementSequence()
+                processIfCloseDisconnect()
             }
         }
         for (player in players) {
@@ -119,6 +120,12 @@ constructor(
         interact.processPostMovement(this, interaction)
     }
 
+    private fun Player.processIfCloseDisconnect() {
+        if (isPendingDisconnect()) {
+            ifClose(eventBus)
+        }
+    }
+
     private fun Player.clientProcess() {
         facing.process(this)
         buildAreas.process(this)
@@ -126,6 +133,8 @@ constructor(
         regions.process(this)
         clientCycle.preCycle(this)
     }
+
+    private fun Player.isPendingDisconnect(): Boolean = disconnected.get() || forceDisconnect
 
     private inline fun Player.tryOrDisconnect(block: Player.() -> Unit) =
         try {
