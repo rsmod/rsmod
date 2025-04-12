@@ -6,12 +6,6 @@ import org.rsmod.game.client.Client
 import org.rsmod.game.entity.Player
 
 public class CaptureClient : Client<Any, Any> {
-    public var sessionOpened: Boolean = false
-        private set
-
-    public var sessionClosed: Boolean = false
-        private set
-
     private val _outgoingMessages: MutableList<Any> = mutableListOf()
     public val outgoingMessages: List<Any>
         get() = _outgoingMessages
@@ -81,13 +75,7 @@ public class CaptureClient : Client<Any, Any> {
         _incomingHandlers += handlerMessage
     }
 
-    override fun open(service: Any, player: Player) {
-        sessionOpened = true
-    }
-
-    override fun close(service: Any, player: Player) {
-        sessionClosed = true
-    }
+    override fun close() {}
 
     override fun write(message: Any) {
         _outgoingMessages += message
@@ -100,6 +88,8 @@ public class CaptureClient : Client<Any, Any> {
     }
 
     override fun flush() {}
+
+    override fun unregister(service: Any, player: Player) {}
 
     private data class IncomingHandlerMessage<T : IncomingGameMessage>(
         val handler: MessageConsumer<Player, T>,

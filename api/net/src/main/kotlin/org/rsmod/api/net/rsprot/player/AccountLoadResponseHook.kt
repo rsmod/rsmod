@@ -22,7 +22,6 @@ import org.rsmod.api.server.config.WorldConfig
 import org.rsmod.api.server.config.isDevRealm
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
-import org.rsmod.game.entity.player.SessionStateEvent
 import org.rsmod.game.type.mod.ModGroup
 
 class AccountLoadResponseHook(
@@ -214,7 +213,6 @@ class AccountLoadResponseHook(
         eventBus.publish(SessionStart(player, session))
         val register = playerRegistry.add(player)
         if (!register.isSuccess()) {
-            eventBus.publish(SessionStateEvent.Terminate(player))
             logger.warn { "Failed to register player: $register (player=$player)" }
             session.requestClose()
         }

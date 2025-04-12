@@ -17,11 +17,8 @@ class RspClient(
     private val playerInfo: PlayerInfo,
     private val npcInfo: NpcInfo,
 ) : Client<Service, OutgoingGameMessage> {
-    override fun open(service: Service, player: Player) {}
-
-    override fun close(service: Service, player: Player) {
-        service.playerInfoProtocol.dealloc(playerInfo)
-        service.npcInfoProtocol.dealloc(npcInfo)
+    override fun close() {
+        session.requestClose()
     }
 
     override fun write(message: OutgoingGameMessage) {
@@ -34,5 +31,10 @@ class RspClient(
 
     override fun flush() {
         session.flush()
+    }
+
+    override fun unregister(service: Service, player: Player) {
+        service.playerInfoProtocol.dealloc(playerInfo)
+        service.npcInfoProtocol.dealloc(npcInfo)
     }
 }

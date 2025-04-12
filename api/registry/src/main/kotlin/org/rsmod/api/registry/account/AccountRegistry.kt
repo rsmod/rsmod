@@ -8,7 +8,6 @@ import org.rsmod.api.account.saver.request.AccountSaveResponse
 import org.rsmod.api.registry.player.PlayerRegistry
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
-import org.rsmod.game.entity.player.SessionStateEvent
 
 public class AccountRegistry
 @Inject
@@ -63,7 +62,6 @@ constructor(
 
     private fun handleLogout(player: Player) {
         playerRegistry.del(player)
-        eventBus.publish(SessionStateEvent.Terminate(player))
     }
 
     private fun saveEmergencyBackup(player: Player) {

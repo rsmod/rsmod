@@ -37,7 +37,7 @@ constructor(
         eventBus.subscribe<GameLifecycle.BootUp> { initService() }
         eventBus.subscribe<GameLifecycle.UpdateInfo> { updateService() }
         eventBus.subscribe<SessionStart> { startSession() }
-        eventBus.subscribe<SessionStateEvent.Terminate> { closeSession() }
+        eventBus.subscribe<SessionStateEvent.LogOut> { closeSession() }
         eventBus.subscribe<NpcStateEvents.Create> { createNpcAvatar(npc) }
         eventBus.subscribe<NpcStateEvents.Delete> { deleteNpcAvatar(npc) }
     }
@@ -64,13 +64,12 @@ constructor(
         player.client = client
         player.clientCycle = cycle
 
-        client.open(service, player)
         cycle.init(player)
     }
 
-    private fun SessionStateEvent.Terminate.closeSession() {
-        val client = player.client as RspClient
-        client.close(service, player)
+    private fun SessionStateEvent.LogOut.closeSession() {
+        val client = player.client as? RspClient ?: return
+        client.unregister(service, player)
     }
 
     private fun createNpcAvatar(npc: Npc) {

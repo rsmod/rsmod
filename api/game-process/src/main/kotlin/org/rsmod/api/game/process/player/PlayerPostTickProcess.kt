@@ -5,6 +5,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.supervisorScope
 import org.rsmod.api.player.forceDisconnect
+import org.rsmod.api.player.output.LogoutPacket
 import org.rsmod.api.registry.account.AccountRegistry
 import org.rsmod.api.registry.player.PlayerRegistry
 import org.rsmod.api.utils.logging.GameExceptionHandler
@@ -75,6 +76,7 @@ constructor(
     private fun Player.checkForcedDisconnect() {
         if (forceDisconnect && !pendingLogout) {
             queueLogout()
+            closeClient()
             forceDisconnect = false
         }
     }
@@ -126,6 +128,11 @@ constructor(
     private fun Player.queueLogout() {
         pendingLogout = true
         accountRegistry.queueLogout(this)
+    }
+
+    private fun Player.closeClient() {
+        LogoutPacket.logout(this)
+        client.close()
     }
 
     private inline fun Player.tryOrDisconnect(block: Player.() -> Unit) =
