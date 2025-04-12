@@ -4,10 +4,10 @@ import jakarta.inject.Inject
 import org.rsmod.api.combat.commons.CombatAttack
 import org.rsmod.api.combat.manager.PlayerAttackManager
 import org.rsmod.api.combat.manager.RangedAmmoManager
-import org.rsmod.api.combat.player.canPerformMagicSpecial
-import org.rsmod.api.combat.player.canPerformMeleeSpecial
-import org.rsmod.api.combat.player.canPerformRangedSpecial
-import org.rsmod.api.combat.player.canPerformShieldSpecial
+import org.rsmod.api.combat.player.activateMagicSpecial
+import org.rsmod.api.combat.player.activateMeleeSpecial
+import org.rsmod.api.combat.player.activateRangedSpecial
+import org.rsmod.api.combat.player.activateShieldSpecial
 import org.rsmod.api.combat.player.specialAttackType
 import org.rsmod.api.combat.weapon.WeaponSpeeds
 import org.rsmod.api.config.constants
@@ -69,7 +69,7 @@ constructor(
         // helper function that does so) to re-engage combat after performing the special attack.
         if (specialAttackType == SpecialAttackType.Weapon) {
             specialAttackType = SpecialAttackType.None
-            val activatedSpec = canPerformMeleeSpecial(npc, attack, specialsReg, specialEnergy)
+            val activatedSpec = activateMeleeSpecial(npc, attack, specialsReg, specialEnergy)
             if (activatedSpec) {
                 return
             }
@@ -77,7 +77,7 @@ constructor(
 
         if (specialAttackType == SpecialAttackType.Shield) {
             specialAttackType = SpecialAttackType.None
-            val activatedSpec = canPerformShieldSpecial(npc, player.lefthand, specialsReg)
+            val activatedSpec = activateShieldSpecial(npc, player.lefthand, specialsReg)
             if (activatedSpec) {
                 return
             }
@@ -119,7 +119,7 @@ constructor(
         // helper function that does so) to re-engage combat after performing the special attack.
         if (specialAttackType == SpecialAttackType.Weapon) {
             specialAttackType = SpecialAttackType.None
-            val activatedSpec = canPerformRangedSpecial(npc, attack, specialsReg, specialEnergy)
+            val activatedSpec = activateRangedSpecial(npc, attack, specialsReg, specialEnergy)
             if (activatedSpec) {
                 return
             }
@@ -127,7 +127,7 @@ constructor(
 
         if (specialAttackType == SpecialAttackType.Shield) {
             specialAttackType = SpecialAttackType.None
-            val activatedSpec = canPerformShieldSpecial(npc, player.lefthand, specialsReg)
+            val activatedSpec = activateShieldSpecial(npc, player.lefthand, specialsReg)
             if (activatedSpec) {
                 return
             }
@@ -267,7 +267,7 @@ constructor(
         // helper function that does so) to re-engage combat after performing the special attack.
         if (specialAttackType == SpecialAttackType.Weapon) {
             specialAttackType = SpecialAttackType.None
-            val activatedSpec = canPerformMagicSpecial(npc, attack, specialsReg, specialEnergy)
+            val activatedSpec = activateMagicSpecial(npc, attack, specialsReg, specialEnergy)
             if (activatedSpec) {
                 return
             }
@@ -275,7 +275,7 @@ constructor(
 
         if (specialAttackType == SpecialAttackType.Shield) {
             specialAttackType = SpecialAttackType.None
-            val activatedSpec = canPerformShieldSpecial(npc, player.lefthand, specialsReg)
+            val activatedSpec = activateShieldSpecial(npc, player.lefthand, specialsReg)
             if (activatedSpec) {
                 return
             }

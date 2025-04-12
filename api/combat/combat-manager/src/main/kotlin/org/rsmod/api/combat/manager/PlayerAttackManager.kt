@@ -145,7 +145,7 @@ constructor(
      * Cancels the combat interaction while keeping the associated [Player.actionDelay] set to the
      * preset delay determined by the combat weapon's attack rate.
      *
-     * This ensures that the player's action delay remains consistent with their last attack.
+     * This ensures that the player's action delay remains consistent with their last action.
      */
     public fun stopCombat(player: Player) {
         player.clearPendingAction(eventBus)

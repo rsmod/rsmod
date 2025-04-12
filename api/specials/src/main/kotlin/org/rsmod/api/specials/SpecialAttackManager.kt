@@ -71,18 +71,7 @@ constructor(
         manager.continueCombat(source.player, target)
     }
 
-    /**
-     * Cancels the combat interaction while keeping the associated [Player.actionDelay] set to the
-     * preset delay determined by the combat weapon's attack rate.
-     *
-     * This ensures that the player's action delay remains consistent with their last attack.
-     *
-     * **Important Note:** When calling this function, ensure that the `attack` function returns
-     * `true`. This signals to the combat script that the special attack was properly handled. If
-     * `attack` returns `false`, the regular combat attack will still be processed **for one cycle**
-     * because the combat script is already in progress. However, after that cycle, the interaction
-     * will become invalid and will not execute again.
-     */
+    /** @see [PlayerAttackManager.stopCombat] */
     public fun stopCombat(access: ProtectedAccess): Unit = manager.stopCombat(access.player)
 
     /** @see [PlayerAttackManager.giveCombatXp] */

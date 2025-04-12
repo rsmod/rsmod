@@ -45,30 +45,24 @@ constructor(private val objTypes: ObjTypeList, private val ammunition: RangedAmm
         override suspend fun ProtectedAccess.attack(
             target: Npc,
             attack: CombatAttack.Ranged,
-        ): Boolean {
-            selectAndShootSpecial(target, attack)
-            return true
-        }
+        ): Boolean = selectAndShootSpecial(target, attack)
 
         override suspend fun ProtectedAccess.attack(
             target: Player,
             attack: CombatAttack.Ranged,
-        ): Boolean {
-            selectAndShootSpecial(target, attack)
-            return true
-        }
+        ): Boolean = selectAndShootSpecial(target, attack)
 
         private fun ProtectedAccess.selectAndShootSpecial(
             target: PathingEntity,
             attack: CombatAttack.Ranged,
-        ) {
+        ): Boolean {
             val righthandType = objTypes[attack.weapon]
             val quiverType = objTypes.getOrNull(player.quiver)
 
             val canUseAmmo = ammunition.attemptAmmoUsage(player, righthandType, quiverType)
             if (!canUseAmmo) {
                 manager.stopCombat(this)
-                return
+                return false
             }
 
             // All valid ammunition requires a `proj_travel` param to build the projectiles.
@@ -76,25 +70,26 @@ constructor(private val objTypes: ObjTypeList, private val ammunition: RangedAmm
             if (travelSpotanim == null) {
                 manager.stopCombat(this)
                 mes("You are unable to fire your ammunition.")
-                return
+                return false
             }
 
             val quiverCount = player.quiver?.count ?: 0
             if (quiverCount < 2) {
                 manager.stopCombat(this)
                 mes("You need to have at least 2 arrows in your quiver for this special attack.")
-                return
+                return false
             }
 
             val descentOfDragons = quiverType.isCategoryType(categories.dragon_arrow)
             if (descentOfDragons) {
                 descentOfDragons(target, attack, quiverType, travelSpotanim)
                 manager.continueCombat(this, target)
-                return
+                return true
             }
 
             descentOfDarkness(target, attack, quiverType, travelSpotanim)
             manager.continueCombat(this, target)
+            return true
         }
 
         private fun ProtectedAccess.descentOfDarkness(

@@ -22,12 +22,8 @@ constructor(private val registry: SpecialAttackRegistry) {
      * energy **only if** `special.activate` returns `true`.
      *
      * This means that when the special is executed, the player will still have their full energy
-     * amount available during the execution of [special]. It is the responsibility of the special
-     * implementation to return `false` if activation should be canceled - for example, due to unmet
-     * requirements such as missing charges or other special conditions.
+     * amount available during the execution of [special].
      *
-     * @return `true` if the special attack was activated successfully; otherwise, `false`, which
-     *   prevents the standard special attack energy from being deducted.
      * @throws IllegalStateException if [specWeapon] is already registered with any special attack.
      */
     public fun registerInstant(specWeapon: ObjType, special: InstantSpecialAttack) {
@@ -43,22 +39,22 @@ constructor(private val registry: SpecialAttackRegistry) {
      * "melee-based" special attack. For example, a Voidwaker special remains melee-based even
      * though it deals magic damage.
      *
-     * ### Important Note
+     * ### Important Notes
      *
      * The special attack energy requirement is determined by
      * [SpecialAttackWeapons.getSpecialEnergy] and is deducted from the player's special attack
-     * energy when used.
+     * energy **only after** `special.attack` returns `true`. This means that during execution of
+     * the special attack logic, the player will still have their **pre-deduction** energy amount.
+     *
+     * This detail is important for special attacks that reference the player's remaining energy for
+     * internal logic or conditions.
      *
      * If the special attack energy requirement is defined as less than `10` (with the standard max
      * energy being `1000`), this indicates a specialized requirement that is **not** automatically
-     * checked or deducted before activation.
+     * checked or deducted after activation.
      *
      * For example, the Soulreaper Axe has a requirement of `1`, meaning the engine will **not**
-     * deduct or check it automatically. Instead, it must be validated within [special], returning
-     * `false` if the player lacks the required soul stacks.
-     *
-     * If `special` returns `false`, the player's normal combat attack will proceed as if the
-     * special attack was never activated.
+     * deduct or check it automatically. Instead, it must be validated within [special].
      *
      * ### Additional Energy Costs
      *
@@ -82,22 +78,22 @@ constructor(private val registry: SpecialAttackRegistry) {
      * The combat style in use _before_ the special activates determines whether it is a
      * "ranged-based" special attack.
      *
-     * ### Important Note
+     * ### Important Notes
      *
      * The special attack energy requirement is determined by
      * [SpecialAttackWeapons.getSpecialEnergy] and is deducted from the player's special attack
-     * energy when used.
+     * energy **only after** `special.attack` returns `true`. This means that during execution of
+     * the special attack logic, the player will still have their **pre-deduction** energy amount.
+     *
+     * This detail is important for special attacks that reference the player's remaining energy for
+     * internal logic or conditions.
      *
      * If the special attack energy requirement is defined as less than `10` (with the standard max
      * energy being `1000`), this indicates a specialized requirement that is **not** automatically
-     * checked or deducted before activation.
+     * checked or deducted after activation.
      *
      * For example, the Soulreaper Axe has a requirement of `1`, meaning the engine will **not**
-     * deduct or check it automatically. Instead, it must be validated within [special], returning
-     * `false` if the player lacks the required soul stacks.
-     *
-     * If `special` returns `false`, the player's normal combat attack will proceed as if the
-     * special attack was never activated.
+     * deduct or check it automatically. Instead, it must be validated within [special].
      *
      * ### Additional Energy Costs
      *
@@ -125,22 +121,22 @@ constructor(private val registry: SpecialAttackRegistry) {
      * The combat style in use _before_ the special activates determines whether it is a
      * "magic-based" special attack.
      *
-     * ### Important Note
+     * ### Important Notes
      *
      * The special attack energy requirement is determined by
      * [SpecialAttackWeapons.getSpecialEnergy] and is deducted from the player's special attack
-     * energy when used.
+     * energy **only after** `special.attack` returns `true`. This means that during execution of
+     * the special attack logic, the player will still have their **pre-deduction** energy amount.
+     *
+     * This detail is important for special attacks that reference the player's remaining energy for
+     * internal logic or conditions.
      *
      * If the special attack energy requirement is defined as less than `10` (with the standard max
      * energy being `1000`), this indicates a specialized requirement that is **not** automatically
-     * checked or deducted before activation.
+     * checked or deducted after activation.
      *
      * For example, the Soulreaper Axe has a requirement of `1`, meaning the engine will **not**
-     * deduct or check it automatically. Instead, it must be validated within [special], returning
-     * `false` if the player lacks the required soul stacks.
-     *
-     * If `special` returns `false`, the player's normal combat attack will proceed as if the
-     * special attack was never activated.
+     * deduct or check it automatically. Instead, it must be validated within [special].
      *
      * ### Additional Energy Costs
      *

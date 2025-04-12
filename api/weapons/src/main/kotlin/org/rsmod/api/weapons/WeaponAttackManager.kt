@@ -59,7 +59,7 @@ constructor(private val objTypes: ObjTypeList, private val manager: PlayerAttack
      * Cancels the combat interaction while keeping the associated [Player.actionDelay] set to the
      * preset delay determined by the combat weapon's attack rate.
      *
-     * This ensures that the player's action delay remains consistent with their last attack.
+     * This ensures that the player's action delay remains consistent with their last action.
      *
      * **Important Note:** When calling this function, ensure that the `attack` function returns
      * `true`. This signals to the combat script that the weapon attack was properly handled. If

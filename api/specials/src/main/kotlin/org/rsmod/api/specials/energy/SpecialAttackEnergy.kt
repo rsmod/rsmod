@@ -18,14 +18,6 @@ public class SpecialAttackEnergy {
         player.specialEnergy -= energyInHundreds
     }
 
-    public fun takeSpecialEnergyAttempt(player: Player, energyInHundreds: Int): Boolean {
-        if (hasSpecialEnergy(player, energyInHundreds)) {
-            takeSpecialEnergy(player, energyInHundreds)
-            return true
-        }
-        return false
-    }
-
     public fun isSpecializedRequirement(energyInHundreds: Int): Boolean {
         return energyInHundreds < 10
     }

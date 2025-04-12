@@ -131,7 +131,7 @@ internal fun ProtectedAccess.resolveAutocastSpell(
     return spell
 }
 
-internal suspend fun ProtectedAccess.canPerformMeleeSpecial(
+internal suspend fun ProtectedAccess.activateMeleeSpecial(
     target: PathingEntity,
     attack: CombatAttack.Melee,
     specials: SpecialAttackRegistry,
@@ -145,17 +145,25 @@ internal suspend fun ProtectedAccess.canPerformMeleeSpecial(
 
     val specializedEnergy = energy.isSpecializedRequirement(special.energyInHundreds)
     if (!specializedEnergy) {
-        val energyReduced = energy.takeSpecialEnergyAttempt(player, special.energyInHundreds)
+        val energyReduced = energy.hasSpecialEnergy(player, special.energyInHundreds)
         if (!energyReduced) {
             mes("You don't have enough power left.")
             return false
         }
     }
 
-    return special.attack(this, target, attack)
+    // Official behavior: If a special attack reaches this point, the attack delay is always
+    // applied. That is, even if the special fails (e.g., due to an unmet condition), the
+    // interaction will either be canceled entirely or proceed with the delay.
+
+    val reduceEnergy = special.attack(this, target, attack)
+    if (reduceEnergy) {
+        energy.takeSpecialEnergy(player, special.energyInHundreds)
+    }
+    return true
 }
 
-internal suspend fun ProtectedAccess.canPerformRangedSpecial(
+internal suspend fun ProtectedAccess.activateRangedSpecial(
     target: PathingEntity,
     attack: CombatAttack.Ranged,
     specials: SpecialAttackRegistry,
@@ -168,17 +176,25 @@ internal suspend fun ProtectedAccess.canPerformRangedSpecial(
 
     val specializedEnergyReq = energy.isSpecializedRequirement(special.energyInHundreds)
     if (!specializedEnergyReq) {
-        val energyReduced = energy.takeSpecialEnergyAttempt(player, special.energyInHundreds)
+        val energyReduced = energy.hasSpecialEnergy(player, special.energyInHundreds)
         if (!energyReduced) {
             mes("You don't have enough power left.")
             return false
         }
     }
 
-    return special.attack(this, target, attack)
+    // Official behavior: If a special attack reaches this point, the attack delay is always
+    // applied. That is, even if the special fails (e.g., due to an unmet condition), the
+    // interaction will either be canceled entirely or proceed with the delay.
+
+    val reduceEnergy = special.attack(this, target, attack)
+    if (reduceEnergy) {
+        energy.takeSpecialEnergy(player, special.energyInHundreds)
+    }
+    return true
 }
 
-internal suspend fun ProtectedAccess.canPerformMagicSpecial(
+internal suspend fun ProtectedAccess.activateMagicSpecial(
     target: PathingEntity,
     attack: CombatAttack.Staff,
     specials: SpecialAttackRegistry,
@@ -191,17 +207,25 @@ internal suspend fun ProtectedAccess.canPerformMagicSpecial(
 
     val specializedEnergyReq = energy.isSpecializedRequirement(special.energyInHundreds)
     if (!specializedEnergyReq) {
-        val energyReduced = energy.takeSpecialEnergyAttempt(player, special.energyInHundreds)
+        val energyReduced = energy.hasSpecialEnergy(player, special.energyInHundreds)
         if (!energyReduced) {
             mes("You don't have enough power left.")
             return false
         }
     }
 
-    return special.attack(this, target, attack)
+    // Official behavior: If a special attack reaches this point, the attack delay is always
+    // applied. That is, even if the special fails (e.g., due to an unmet condition), the
+    // interaction will either be canceled entirely or proceed with the delay.
+
+    val reduceEnergy = special.attack(this, target, attack)
+    if (reduceEnergy) {
+        energy.takeSpecialEnergy(player, special.energyInHundreds)
+    }
+    return true
 }
 
-internal suspend fun ProtectedAccess.canPerformShieldSpecial(
+internal suspend fun ProtectedAccess.activateShieldSpecial(
     target: PathingEntity,
     shield: InvObj?,
     specials: SpecialAttackRegistry,
