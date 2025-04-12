@@ -150,7 +150,7 @@ constructor(
         // have reached this point (not handled by previous `specializedWeapon` block).
         val usingChargeBow = righthandType.isCategoryType(categories.chargebow)
         if (usingChargeBow) {
-            manager.clearCombat(player)
+            manager.stopCombat(player)
             mes("The bow refuses to fire.")
             return
         }
@@ -160,7 +160,7 @@ constructor(
 
         val canUseAmmo = ammunition.attemptAmmoUsage(player, righthandType, quiverType)
         if (!canUseAmmo) {
-            manager.clearCombat(player)
+            manager.stopCombat(player)
             return
         }
 
@@ -181,7 +181,7 @@ constructor(
         // All valid ammunition requires a `proj_travel` spotanim type and `proj_type` projanim type
         // param so that the projectile can be created and referenced for its proper delays.
         if (projanimType == null || travelSpotanim == null) {
-            manager.clearCombat(player)
+            manager.stopCombat(player)
             mes("You are unable to fire your ammunition.")
             return
         }
@@ -190,7 +190,7 @@ constructor(
         // used in combat.
         val playedAnim = manager.playWeaponFx(player, attack)
         if (!playedAnim) {
-            manager.clearCombat(player)
+            manager.stopCombat(player)
             mes("The bow fails to fire.")
             return
         }
@@ -244,7 +244,7 @@ constructor(
         }
 
         // All magic spell attacks must be registered in `SpellAttackRegistry`.
-        manager.clearCombat(player)
+        manager.stopCombat(player)
         mes("You attempt to cast the spell, but nothing happens.")
     }
 
@@ -294,7 +294,7 @@ constructor(
         // Since most (if not all) powered staves require specialized attack handling logic, they
         // are expected to be registered as separate weapons in the `WeaponRegistry`. This ensures
         // their unique behavior is handled explicitly rather than relying on fallback logic.
-        manager.clearCombat(player)
+        manager.stopCombat(player)
         mes("Your staff fails to respond.")
     }
 

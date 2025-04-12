@@ -30,8 +30,8 @@ constructor(private val manager: PlayerAttackManager, private val runes: MagicRu
      * [MagicRuneManager.attemptCast].
      *
      * **Notes:**
-     * - If the spell cannot be cast, this function automatically calls [clearCombat] to reset the
-     *   player's attack delay, since the cast should not proceed.
+     * - If the spell cannot be cast, this function automatically calls [stopCombat] to avoid any
+     *   lingering combat interactions.
      * - If the spell can be cast, this function automatically calls [giveCastXp], awarding the
      *   player the [MagicSpell.castXp] cast experience from [attack].
      * - This does **not** include the experience for any damage that should be dealt to the target.
@@ -53,7 +53,7 @@ constructor(private val manager: PlayerAttackManager, private val runes: MagicRu
      * ```
      *
      * @see [MagicRuneManager.attemptCast]
-     * @see [clearCombat]
+     * @see [stopCombat]
      */
     public fun attemptCast(
         source: ProtectedAccess,
@@ -62,7 +62,7 @@ constructor(private val manager: PlayerAttackManager, private val runes: MagicRu
         val castResult = runes.attemptCast(source.player, attack.spell)
 
         if (castResult.isFailure()) {
-            clearCombat(source)
+            stopCombat(source)
             return castResult
         }
 
@@ -95,9 +95,9 @@ constructor(private val manager: PlayerAttackManager, private val runes: MagicRu
         manager.continueCombat(source.player, target)
     }
 
-    /** @see [PlayerAttackManager.clearCombat] */
-    public fun clearCombat(access: ProtectedAccess) {
-        manager.clearCombat(access.player)
+    /** @see [PlayerAttackManager.stopCombat] */
+    public fun stopCombat(access: ProtectedAccess) {
+        manager.stopCombat(access.player)
     }
 
     /** @see [PlayerAttackManager.giveCombatXp] */

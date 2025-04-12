@@ -146,34 +146,9 @@ constructor(
      * preset delay determined by the combat weapon's attack rate.
      *
      * This ensures that the player's action delay remains consistent with their last attack.
-     *
-     * This should be used when an attack was performed successfully. If the attack could not be
-     * performed, consider using [clearCombat] instead.
-     *
-     * @see [clearCombat]
      */
     public fun stopCombat(player: Player) {
         player.clearPendingAction(eventBus)
-    }
-
-    /**
-     * Similar to [stopCombat], but resets the associated [Player.actionDelay] to the current map
-     * clock.
-     *
-     * This should be used when an attack could not be performed and the combat interaction needs to
-     * be terminated. Since the player did not actually attack, their action delay should be updated
-     * to reflect that.
-     *
-     * **Warning:** This function forcibly resets the player's action delay without safeguards. If
-     * the player currently has an active delay set by another mechanic, calling this will
-     * incorrectly clear it. Consider checking [isAttackDelayed] and ensuring it returns `false`
-     * before using this function. This is usually safe to call within combat attack logic; however,
-     * anywhere outside of that (including initial ap/op engagement scripts for combat) should take
-     * this warning into account.
-     */
-    public fun clearCombat(player: Player) {
-        player.clearPendingAction(eventBus)
-        setNextAttackDelay(player, 0)
     }
 
     /**

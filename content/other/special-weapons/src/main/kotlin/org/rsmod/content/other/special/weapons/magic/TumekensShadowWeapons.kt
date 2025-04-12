@@ -50,7 +50,7 @@ class TumekensShadowWeapons @Inject constructor(private val charges: CombatCharg
         private fun ProtectedAccess.cast(target: PathingEntity, attack: CombatAttack.Staff) {
             val chargeResult = charges.attemptDetractWeapon(player, varobjs.tumeken_charges)
             if (chargeResult.isFailure()) {
-                manager.clearCombat(this)
+                manager.stopCombat(this)
                 return
             }
             // Tumeken's Shadow has an attack rate of 5, unlike standard powered staves which
@@ -124,7 +124,7 @@ class TumekensShadowWeapons @Inject constructor(private val charges: CombatCharg
                 "Tumeken's Shadow has no charges! You need to " +
                     "charge it with soul runes and chaos runes."
             )
-            manager.clearCombat(this)
+            manager.stopCombat(this)
         }
     }
 }

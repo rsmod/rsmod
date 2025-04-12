@@ -61,34 +61,13 @@ constructor(private val objTypes: ObjTypeList, private val manager: PlayerAttack
      *
      * This ensures that the player's action delay remains consistent with their last attack.
      *
-     * This should be used when a weapon attack was performed successfully. If the attack could not
-     * be performed, consider using [clearCombat] instead.
-     *
      * **Important Note:** When calling this function, ensure that the `attack` function returns
      * `true`. This signals to the combat script that the weapon attack was properly handled. If
      * `attack` returns `false`, the regular combat attack will still be processed **for one cycle**
      * because the combat script is already in progress. However, after that cycle, the interaction
      * will become invalid and will not execute again.
-     *
-     * @see [clearCombat]
      */
     public fun stopCombat(access: ProtectedAccess): Unit = manager.stopCombat(access.player)
-
-    /**
-     * Similar to [stopCombat], but resets the associated [Player.actionDelay] to the current map
-     * clock.
-     *
-     * This should be used when a weapon attack could not be performed and the combat interaction
-     * needs to be terminated. Since the player did not actually attack, their action delay should
-     * be updated to reflect that.
-     *
-     * **Important Note:** When calling this function, ensure that the `attack` function returns
-     * `true`. This signals to the combat script that the weapon attack was properly handled. If
-     * `attack` returns `false`, the regular combat attack will still be processed **for one cycle**
-     * because the combat script is already in progress. However, after that cycle, the interaction
-     * will become invalid and will not execute again.
-     */
-    public fun clearCombat(access: ProtectedAccess): Unit = manager.clearCombat(access.player)
 
     /**
      * Calls the `PlayerAttackManager.playWeaponFx(player, attack: CombatAttack.Melee)` overload.

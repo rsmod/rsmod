@@ -67,21 +67,21 @@ constructor(private val objTypes: ObjTypeList, private val ammunition: RangedAmm
 
             val canUseAmmo = ammunition.attemptAmmoUsage(player, righthandType, quiverType)
             if (!canUseAmmo) {
-                manager.clearCombat(this)
+                manager.stopCombat(this)
                 return
             }
 
             // All valid ammunition requires a `proj_travel` param to build the projectiles.
             val travelSpotanim = quiverType?.paramOrNull(params.proj_travel)
             if (travelSpotanim == null) {
-                manager.clearCombat(this)
+                manager.stopCombat(this)
                 mes("You are unable to fire your ammunition.")
                 return
             }
 
             val quiverCount = player.quiver?.count ?: 0
             if (quiverCount < 2) {
-                manager.clearCombat(this)
+                manager.stopCombat(this)
                 mes("You need to have at least 2 arrows in your quiver for this special attack.")
                 return
             }
