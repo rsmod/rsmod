@@ -19,8 +19,15 @@ constructor(private val registry: SpecialAttackRegistry) {
      *
      * The special attack energy requirement is determined by
      * [SpecialAttackWeapons.getSpecialEnergy] and is deducted from the player's special attack
-     * energy when used.
+     * energy **only if** `special.activate` returns `true`.
      *
+     * This means that when the special is executed, the player will still have their full energy
+     * amount available during the execution of [special]. It is the responsibility of the special
+     * implementation to return `false` if activation should be canceled - for example, due to unmet
+     * requirements such as missing charges or other special conditions.
+     *
+     * @return `true` if the special attack was activated successfully; otherwise, `false`, which
+     *   prevents the standard special attack energy from being deducted.
      * @throws IllegalStateException if [specWeapon] is already registered with any special attack.
      */
     public fun registerInstant(specWeapon: ObjType, special: InstantSpecialAttack) {

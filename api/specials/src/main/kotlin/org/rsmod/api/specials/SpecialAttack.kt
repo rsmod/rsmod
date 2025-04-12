@@ -14,9 +14,7 @@ import org.rsmod.game.entity.Player
 public sealed class SpecialAttack {
     public data class Instant(val energyInHundreds: Int, val special: InstantSpecialAttack) :
         SpecialAttack() {
-        public suspend fun activate(access: ProtectedAccess) {
-            special.activate(access)
-        }
+        public suspend fun activate(access: ProtectedAccess): Boolean = special.activate(access)
     }
 
     public sealed class Combat : SpecialAttack()
@@ -103,9 +101,7 @@ public sealed class SpecialAttack {
     }
 }
 
-private suspend fun InstantSpecialAttack.activate(access: ProtectedAccess) {
-    access.activate()
-}
+private suspend fun InstantSpecialAttack.activate(access: ProtectedAccess) = access.activate()
 
 private suspend fun <T : CombatAttack> CombatSpecialAttack<T>.attack(
     access: ProtectedAccess,

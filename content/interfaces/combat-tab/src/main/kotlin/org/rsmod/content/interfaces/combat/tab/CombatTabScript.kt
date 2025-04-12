@@ -313,14 +313,17 @@ constructor(
 
         val specializedEnergyReq = energy.isSpecializedRequirement(special.energyInHundreds)
         if (!specializedEnergyReq) {
-            val energyReduced = energy.takeSpecialEnergyAttempt(player, special.energyInHundreds)
+            val energyReduced = energy.hasSpecialEnergy(player, special.energyInHundreds)
             if (!energyReduced) {
                 mes("You don't have enough power left.")
                 return
             }
         }
 
-        special.activate(this)
+        val activated = special.activate(this)
+        if (!specializedEnergyReq && activated) {
+            energy.takeSpecialEnergy(player, special.energyInHundreds)
+        }
     }
 
     private fun Player.resetSpecialType() {
