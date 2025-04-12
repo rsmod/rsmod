@@ -19,6 +19,7 @@ import net.rsprot.protocol.game.outgoing.misc.player.MessageGame
 import net.rsprot.protocol.util.CombinedId
 import org.junit.jupiter.api.Assertions
 import org.rsmod.annotations.InternalApi
+import org.rsmod.api.account.character.CharacterDataStage
 import org.rsmod.api.config.refs.objs
 import org.rsmod.api.game.process.GameCycle
 import org.rsmod.api.inv.map.InvMapInit
@@ -76,6 +77,7 @@ import org.rsmod.api.route.RayCastFactory
 import org.rsmod.api.route.RayCastValidator
 import org.rsmod.api.route.RouteFactory
 import org.rsmod.api.route.StepFactory
+import org.rsmod.api.server.config.ServerConfigModule
 import org.rsmod.api.stats.levelmod.InvisibleLevelMod
 import org.rsmod.api.stats.levelmod.InvisibleLevels
 import org.rsmod.api.stats.xpmod.XpMod
@@ -151,6 +153,7 @@ import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 import org.rsmod.routefinder.collision.CollisionFlagMap
 import org.rsmod.routefinder.loc.LocLayerConstants
+import org.rsmod.server.app.modules.ParserModule
 
 public class GameTestScope
 @Inject
@@ -228,10 +231,15 @@ constructor(
         client: Client<Any, Any> = CaptureClient(),
         uuid: Long? = null,
     ): Player {
+        val resolvedUuid = uuid ?: playerUuidCounter++
         player.coords = coords
         player.slotId = slot
         player.client = client
-        player.uuid = uuid ?: playerUuidCounter++
+        player.uuid = resolvedUuid
+        player.accountId = resolvedUuid.toInt()
+        player.characterId = resolvedUuid.toInt()
+        player.accountHash = resolvedUuid
+        player.userId = resolvedUuid
         player.assignUid()
         players[slot] = player
         eventBus.publish(SessionStateEvent.Initialize(player))
@@ -757,6 +765,11 @@ constructor(
         private val gameCollisionMap: CollisionFlagMap,
     ) : AbstractModule() {
         override fun configure() {
+            bindInstances()
+            installModules()
+        }
+
+        private fun bindInstances() {
             collisionFactory.borrowSharedMap().let { collision ->
                 // Copy the original game's collision flag map into the test.
                 // Important Note: This does _not_ add locs into the loc registry.
@@ -862,6 +875,13 @@ constructor(
             bind(NpcHitModifier::class.java).to(StandardNpcHitModifier::class.java)
             bind(NpcHitProcessor::class.java).to(StandardNpcHitProcessor::class.java)
             bind(InstantPlayerHitProcessor::class.java).to(DamageOnlyPlayerHitProcessor::class.java)
+
+            Multibinder.newSetBinder(binder(), CharacterDataStage.Pipeline::class.java)
+        }
+
+        private fun installModules() {
+            install(ParserModule)
+            install(ServerConfigModule)
         }
 
         private class EnumTypeMapResolverProvider
