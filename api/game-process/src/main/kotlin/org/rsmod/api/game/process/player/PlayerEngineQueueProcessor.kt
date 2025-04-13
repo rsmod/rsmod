@@ -27,7 +27,24 @@ constructor(private val eventBus: EventBus, private val protectedAccess: Protect
     }
 
     private fun Player.publish(queue: EngineQueueList.Queue) {
-        val event = PlayerQueueEvents.Engine(queue.args, queue.id)
-        protectedAccess.launch(this) { eventBus.publish(this, event) }
+        // A "label" provides a secondary identifier within an engine queue, allowing for
+        // more specific bindings. For example, this lets a script bind to `[advancestat,attack]`
+        // even if there is already a more general `[advancestat,_]` binding.
+        val label = queue.label
+        if (label != null) {
+            val packed = (label.toLong() shl 32) or queue.type.toLong()
+            val trigger = eventBus.suspend[PlayerQueueEvents.EngineLabelled::class.java, packed]
+            if (trigger != null) {
+                val event = PlayerQueueEvents.EngineLabelled(packed)
+                protectedAccess.launch(this) { eventBus.publish(this, event) }
+                return
+            }
+        }
+
+        val trigger = eventBus.suspend[PlayerQueueEvents.EngineDefault::class.java, queue.type]
+        if (trigger != null) {
+            val event = PlayerQueueEvents.EngineDefault(queue.type)
+            protectedAccess.launch(this) { eventBus.publish(this, event) }
+        }
     }
 }

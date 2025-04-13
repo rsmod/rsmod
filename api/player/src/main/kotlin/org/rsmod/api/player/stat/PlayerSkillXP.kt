@@ -1,6 +1,7 @@
 package org.rsmod.api.player.stat
 
 import kotlin.math.min
+import org.rsmod.annotations.InternalApi
 import org.rsmod.game.entity.Player
 import org.rsmod.game.stat.PlayerSkillXPTable
 import org.rsmod.game.stat.PlayerStatMap
@@ -36,6 +37,7 @@ public object PlayerSkillXP {
         return addedXp
     }
 
+    @OptIn(InternalApi::class)
     private fun Player.checkLevelUp(stat: StatType) {
         val baseLevel = statBase(stat)
         if (baseLevel >= stat.maxLevel) {
@@ -52,7 +54,8 @@ public object PlayerSkillXP {
                 statMap.setCurrentLevel(stat, newLevel.toByte())
             }
 
-            changeStat(stat)
+            engineQueueChangeStat(stat)
+            engineQueueAdvanceStat(stat)
         }
     }
 }

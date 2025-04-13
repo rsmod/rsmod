@@ -46,6 +46,8 @@ import org.rsmod.game.ui.UserInterfaceMap
 import org.rsmod.game.vars.VarPlayerIntMap
 import org.rsmod.game.vars.VarPlayerStrMap
 import org.rsmod.map.CoordGrid
+import org.rsmod.map.square.MapSquareKey
+import org.rsmod.map.zone.ZoneKey
 import org.rsmod.routefinder.collision.CollisionStrategy
 import org.rsmod.routefinder.flag.CollisionFlag
 
@@ -316,8 +318,34 @@ public class Player(
         queueList.removeAll(queue)
     }
 
-    public fun changeStat(stat: StatType) {
-        engineQueueList.add(EngineQueueType.ChangeStat, args = stat)
+    @InternalApi
+    public fun engineQueueChangeStat(stat: StatType) {
+        engineQueueList.add(EngineQueueType.ChangeStat, label = stat.id)
+    }
+
+    @InternalApi
+    public fun engineQueueAdvanceStat(stat: StatType) {
+        engineQueueList.add(EngineQueueType.AdvanceStat, label = stat.id)
+    }
+
+    @InternalApi
+    public fun engineQueueMapzone(square: MapSquareKey) {
+        engineQueueList.add(EngineQueueType.Mapzone, label = square.id)
+    }
+
+    @InternalApi
+    public fun engineQueueMapzoneExit(square: MapSquareKey) {
+        engineQueueList.add(EngineQueueType.MapzoneExit, label = square.id)
+    }
+
+    @InternalApi
+    public fun engineQueueZone(zone: ZoneKey) {
+        engineQueueList.add(EngineQueueType.Zone, label = zone.packed)
+    }
+
+    @InternalApi
+    public fun engineQueueZoneExit(zone: ZoneKey) {
+        engineQueueList.add(EngineQueueType.ZoneExit, label = zone.packed)
     }
 
     @InternalApi

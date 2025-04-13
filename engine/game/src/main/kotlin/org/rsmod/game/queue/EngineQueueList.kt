@@ -14,8 +14,8 @@ public class EngineQueueList {
     public val isNotEmpty: Boolean
         get() = size > 0
 
-    internal fun add(type: EngineQueueType, args: Any? = null) {
-        val queue = Queue(type.id, args)
+    internal fun add(type: EngineQueueType, label: Int?) {
+        val queue = Queue(type = type.id, label = label)
         val node = Node(queue, prev = last)
         add(node)
     }
@@ -64,7 +64,12 @@ public class EngineQueueList {
 
     internal data class Node(val queue: Queue, var prev: Node?, var next: Node? = null)
 
-    public data class Queue(public val id: Int, public val args: Any?)
+    /**
+     * @param type The [EngineQueueType.id].
+     * @param label An optional id that provides a more granular scope for queue scripts. (e.g., the
+     *   `stat` id for `AdvanceStat` queue)
+     */
+    public data class Queue(public val type: Int, public val label: Int?)
 
     public fun iterator(): QueueIterator? {
         if (isEmpty) {

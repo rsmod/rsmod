@@ -90,7 +90,7 @@ public fun Player.statAdd(stat: StatType, constant: Int, percent: Int) {
     }
 
     if (cappedLevel != current) {
-        changeStat(stat)
+        engineQueueChangeStat(stat)
     }
 }
 
@@ -138,6 +138,7 @@ public fun Player.statBoost(stat: StatType, constant: Int, percent: Int) {
  * @throws IllegalArgumentException if [constant] is negative, or if [percent] is not within the
  *   range `0..100`.
  */
+@OptIn(InternalApi::class)
 public fun Player.statSub(stat: StatType, constant: Int, percent: Int) {
     require(constant >= 0) { "Constant `$constant` must be positive." }
     require(percent in 0..100) { "Percent must be an integer from 0-100. (0%-100%)" }
@@ -151,7 +152,7 @@ public fun Player.statSub(stat: StatType, constant: Int, percent: Int) {
     updateStat(stat)
 
     if (cappedLevel != current) {
-        changeStat(stat)
+        engineQueueChangeStat(stat)
     }
 }
 
@@ -227,7 +228,7 @@ public fun Player.statHeal(stat: StatType, constant: Int, percent: Int) {
     }
 
     if (cappedLevel != current) {
-        changeStat(stat)
+        engineQueueChangeStat(stat)
     }
 }
 

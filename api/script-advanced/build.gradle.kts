@@ -11,6 +11,7 @@ dependencies {
     implementation(projects.api.player)
     implementation(projects.api.script)
     implementation(projects.engine.events)
+    implementation(projects.engine.map)
     implementation(projects.engine.plugin)
     implementation(projects.engine.game)
 }
