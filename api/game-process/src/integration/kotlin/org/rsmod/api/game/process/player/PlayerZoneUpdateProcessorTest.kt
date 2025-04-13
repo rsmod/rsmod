@@ -26,7 +26,7 @@ import org.rsmod.api.testing.factory.smallBlockWalk
 import org.rsmod.api.testing.factory.stackable1
 import org.rsmod.api.testing.factory.standard1
 import org.rsmod.api.testing.scope.BasicGameTestScope
-import org.rsmod.api.utils.map.zone.SharedZoneEnclosedBuffers
+import org.rsmod.api.utils.zone.SharedZoneEnclosedBuffers
 import org.rsmod.game.loc.LocEntity
 import org.rsmod.game.loc.LocInfo
 import org.rsmod.game.loc.LocZoneKey

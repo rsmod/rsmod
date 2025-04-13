@@ -15,7 +15,7 @@ public object NoopClient : Client<Any, Any> {
 }
 
 public object NoopClientCycle : ClientCycle {
-    override fun preCycle(player: Player) {}
+    override fun update(player: Player) {}
 
-    override fun postCycle(player: Player) {}
+    override fun flush(player: Player) {}
 }

@@ -1,4 +1,4 @@
-package org.rsmod.api.utils.map.zone
+package org.rsmod.api.utils.zone
 
 import io.netty.buffer.ByteBuf
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap

@@ -11,7 +11,6 @@ import net.rsprot.protocol.game.outgoing.map.RebuildNormal
 import net.rsprot.protocol.game.outgoing.map.RebuildRegion
 import net.rsprot.protocol.game.outgoing.map.util.RebuildRegionZone
 import net.rsprot.protocol.game.outgoing.map.util.XteaProvider
-import net.rsprot.protocol.game.outgoing.misc.client.ServerTickEnd
 import net.rsprot.protocol.game.outgoing.worldentity.SetActiveWorldV2
 import org.rsmod.api.config.refs.baseanimsets
 import org.rsmod.api.config.refs.params
@@ -69,7 +68,7 @@ class RspCycle(
         session.queue(rebuild)
     }
 
-    override fun preCycle(player: Player) {
+    override fun update(player: Player) {
         player.updateMoveSpeed()
         player.updateCoords()
         player.rebuildArea()
@@ -84,7 +83,7 @@ class RspCycle(
         player.syncAppearance(objTypes)
     }
 
-    override fun postCycle(player: Player) {
+    override fun flush(player: Player) {
         val origin =
             SetNpcUpdateOrigin(
                 player.coords.x - player.buildArea.x,
@@ -94,7 +93,6 @@ class RspCycle(
         session.queue(playerInfo.toPacket())
         session.queue(origin)
         session.queue(npcInfo.toPacket(worldId))
-        session.queue(ServerTickEnd)
     }
 
     private fun Player.updateMoveSpeed() {

@@ -26,10 +26,6 @@ constructor(
     private val engineQueues: PlayerEngineQueueProcessor,
     private val interact: PlayerInteractionProcessor,
     private val movement: PlayerMovementProcessor,
-    private val facing: PlayerFaceSquareProcessor,
-    private val buildAreas: PlayerBuildAreaProcessor,
-    private val mapSquares: PlayerMapSquareProcessor,
-    private val regions: PlayerRegionProcessor,
     private val exceptionHandler: GameExceptionHandler,
 ) {
     public fun process() {
@@ -50,9 +46,6 @@ constructor(
                 processMovementSequence()
                 processIfCloseDisconnect()
             }
-        }
-        for (player in players) {
-            player.tryOrDisconnect { clientProcess() }
         }
     }
 
@@ -124,14 +117,6 @@ constructor(
         if (isPendingDisconnect()) {
             ifClose(eventBus)
         }
-    }
-
-    private fun Player.clientProcess() {
-        facing.process(this)
-        buildAreas.process(this)
-        mapSquares.process(this)
-        regions.process(this)
-        clientCycle.preCycle(this)
     }
 
     private fun Player.isPendingDisconnect(): Boolean = disconnected.get() || forceDisconnect

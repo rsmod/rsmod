@@ -13,7 +13,7 @@ import org.rsmod.api.registry.obj.ObjRegistry
 import org.rsmod.api.registry.zone.ZoneUpdateMap
 import org.rsmod.api.registry.zone.ZoneUpdateTransformer
 import org.rsmod.api.utils.map.BuildAreaUtils
-import org.rsmod.api.utils.map.zone.SharedZoneEnclosedBuffers
+import org.rsmod.api.utils.zone.SharedZoneEnclosedBuffers
 import org.rsmod.game.entity.Player
 import org.rsmod.game.loc.LocInfo
 import org.rsmod.game.obj.Obj

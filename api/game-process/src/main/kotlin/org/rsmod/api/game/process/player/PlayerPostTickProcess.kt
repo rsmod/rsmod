@@ -4,73 +4,94 @@ import jakarta.inject.Inject
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.supervisorScope
+import org.rsmod.api.game.process.GameLifecycle
 import org.rsmod.api.player.forceDisconnect
-import org.rsmod.api.player.output.LogoutPacket
+import org.rsmod.api.player.output.MiscOutput
 import org.rsmod.api.registry.account.AccountRegistry
-import org.rsmod.api.registry.player.PlayerRegistry
 import org.rsmod.api.utils.logging.GameExceptionHandler
+import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.PlayerList
 import org.rsmod.game.entity.util.EntityFaceAngle
 import org.rsmod.game.seq.EntitySeq
-import org.rsmod.map.zone.ZoneKey
 
 public class PlayerPostTickProcess
 @Inject
 constructor(
+    private val eventBus: EventBus,
     private val playerList: PlayerList,
-    private val playerRegistry: PlayerRegistry,
     private val accountRegistry: AccountRegistry,
     private val zoneUpdates: PlayerZoneUpdateProcessor,
+    private val buildAreas: PlayerBuildAreaProcessor,
+    private val regions: PlayerRegionProcessor,
+    private val facing: PlayerFaceSquareProcessor,
+    private val mapUpdates: PlayerMapUpdateProcessor,
     private val invUpdates: PlayerInvUpdateProcessor,
     private val statUpdates: PlayerStatUpdateProcessor,
     private val exceptionHandler: GameExceptionHandler,
 ) {
     public fun process() {
-        updateZoneRegistry()
-        sendZoneUpdates()
+        computeSharedBuffers()
+        updateProtocolInfo()
+        processClientOutAsync()
         processPostTick()
         finalizePostTick()
     }
 
-    private fun updateZoneRegistry() {
+    private fun computeSharedBuffers() {
+        zoneUpdates.computeEnclosedBuffers()
+    }
+
+    private fun updateProtocolInfo() {
         for (player in playerList) {
             player.tryOrDisconnect {
-                val currZone = ZoneKey.from(coords)
-                val prevZone = lastProcessedZone
-                if (currZone != prevZone) {
-                    playerRegistry.change(this, prevZone, currZone)
+                facing.process(this)
+                regions.process(this)
+                buildAreas.process(this)
+                clientCycle.update(this)
+            }
+        }
+        eventBus.publish(GameLifecycle.UpdateInfo)
+    }
+
+    private fun processClientOutAsync() = runBlocking {
+        supervisorScope {
+            for (player in playerList) {
+                async {
+                    player.tryOrDisconnect {
+                        clientCycle.flush(this)
+                        zoneUpdates.process(this)
+                    }
                 }
             }
         }
     }
 
-    private fun sendZoneUpdates() = runBlocking {
-        zoneUpdates.computeEnclosedBuffers()
-        supervisorScope {
-            for (player in playerList) {
-                async { player.tryOrDisconnect { zoneUpdates.process(this) } }
-            }
-        }
-        zoneUpdates.clearEnclosedBuffers()
-        zoneUpdates.clearPendingZoneUpdates()
-    }
-
+    // Ideally, this entire loop would be part of `processClientOutAsync`, but inventory updates
+    // are currently not thread-safe. This is due to shared inventories requiring mutation: they
+    // must be added to a collection and have their "modified slots" cleared afterward.
+    // It is not a major issue for now, but we should eventually resolve this so the two loops
+    // can be combined under the async processing phase.
     private fun processPostTick() {
         for (player in playerList) {
             player.tryOrDisconnect {
-                checkForcedDisconnect()
-                if (isDisconnectionQueued()) {
-                    countDisconnectedCycle()
-                } else {
-                    clearDisconnection()
-                    updateTransmittedInvs()
-                    updatePendingStats()
-                }
+                processDisconnection()
+                processMapChanges()
+                processInvUpdates()
+                processStatUpdates()
                 flushClient()
                 cleanUpPendingUpdates()
             }
         }
+    }
+
+    private fun Player.processDisconnection() {
+        checkForcedDisconnect()
+        if (!disconnected.get()) {
+            disconnectedCycles = 0
+            return
+        }
+        countDisconnectedCycle()
     }
 
     private fun Player.checkForcedDisconnect() {
@@ -81,8 +102,6 @@ constructor(
         }
     }
 
-    private fun Player.isDisconnectionQueued(): Boolean = disconnected.get()
-
     private fun Player.countDisconnectedCycle() {
         if (!pendingLogout) {
             if (disconnectedCycles == RECONNECT_GRACE_PERIOD) {
@@ -92,20 +111,30 @@ constructor(
         }
     }
 
-    private fun Player.clearDisconnection() {
-        disconnectedCycles = 0
+    private fun Player.queueLogout() {
+        pendingLogout = true
+        accountRegistry.queueLogout(this)
     }
 
-    private fun Player.updateTransmittedInvs() {
+    private fun Player.closeClient() {
+        MiscOutput.logout(this)
+        client.close()
+    }
+
+    private fun Player.processMapChanges() {
+        mapUpdates.process(this)
+    }
+
+    private fun Player.processInvUpdates() {
         invUpdates.process(this)
     }
 
-    private fun Player.updatePendingStats() {
+    private fun Player.processStatUpdates() {
         statUpdates.process(this)
     }
 
     private fun Player.flushClient() {
-        clientCycle.postCycle(this)
+        MiscOutput.serverTickEnd(this)
         client.flush()
     }
 
@@ -122,17 +151,9 @@ constructor(
     }
 
     private fun finalizePostTick() {
+        zoneUpdates.clearEnclosedBuffers()
+        zoneUpdates.clearPendingZoneUpdates()
         invUpdates.cleanUp()
-    }
-
-    private fun Player.queueLogout() {
-        pendingLogout = true
-        accountRegistry.queueLogout(this)
-    }
-
-    private fun Player.closeClient() {
-        LogoutPacket.logout(this)
-        client.close()
     }
 
     private inline fun Player.tryOrDisconnect(block: Player.() -> Unit) =

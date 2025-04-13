@@ -42,7 +42,6 @@ constructor(
     }
 
     private fun preTick() {
-        playerLogin.process()
         worldQueue.process()
         npcPreTick.process()
         playerInput.process()
@@ -51,6 +50,7 @@ constructor(
         controllerMain.process()
         playerMain.process()
         playerLogout.process()
+        playerLogin.process()
     }
 
     /*
@@ -60,7 +60,6 @@ constructor(
      */
     private fun postTick() {
         worldPostTick.process()
-        eventBus.publish(GameLifecycle.UpdateInfo)
         playerPostTick.process()
     }
 }

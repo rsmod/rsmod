@@ -15,7 +15,7 @@ public interface Client<S, T> {
 }
 
 public interface ClientCycle {
-    public fun preCycle(player: Player)
+    public fun update(player: Player)
 
-    public fun postCycle(player: Player)
+    public fun flush(player: Player)
 }
