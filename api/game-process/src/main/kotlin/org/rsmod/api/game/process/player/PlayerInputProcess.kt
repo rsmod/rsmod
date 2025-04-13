@@ -19,6 +19,7 @@ constructor(
         for (player in players) {
             player.tryOrDisconnect {
                 updateMapClock()
+                assignPrevCoords()
                 readClientInput()
             }
         }
@@ -34,6 +35,10 @@ constructor(
      */
     private fun Player.updateMapClock() {
         currentMapClock = mapClock.cycle
+    }
+
+    private fun Player.assignPrevCoords() {
+        previousCoords = coords
     }
 
     private fun Player.readClientInput() {

@@ -24,7 +24,6 @@ constructor(
     private fun PlayerList.process() = runBlocking {
         supervisorScope {
             for (player in this@process) {
-                player.previousCoords = player.coords
                 val request = player.routeRequest
                 if (request != null) {
                     player.routeRequest = null
