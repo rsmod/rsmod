@@ -180,7 +180,7 @@ public class GameTestState {
     internal fun initialize() {
         logger.info { "Setting up game-test state..." }
         val duration = measureTime {
-            val server = GameServer()
+            val server = GameServer(skipTypeVerificationOverride = false)
             val injector = initializeGameInjector(server)
             injected = injector.getInstance(GameTestInjected::class.java)
             readOnly = injector.getInstance(AdvancedReadOnly::class.java)

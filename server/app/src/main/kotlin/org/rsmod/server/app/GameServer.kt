@@ -2,6 +2,8 @@ package org.rsmod.server.app
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.main
+import com.github.ajalt.clikt.parameters.options.flag
+import com.github.ajalt.clikt.parameters.options.option
 import com.github.michaelbull.logging.InlineLogger
 import com.google.inject.AbstractModule
 import com.google.inject.Guice
@@ -44,7 +46,8 @@ import org.rsmod.server.shared.loader.TypeReferencesLoader
 
 fun main(args: Array<String>): Unit = GameServer().main(args)
 
-class GameServer : CliktCommand(name = "server") {
+class GameServer(private val skipTypeVerificationOverride: Boolean? = null) :
+    CliktCommand(name = "server") {
     private val logger = InlineLogger()
 
     private val pluginPackages: Array<String>
@@ -58,6 +61,19 @@ class GameServer : CliktCommand(name = "server") {
 
     private val rsaKey: Path
         get() = DirectoryConstants.DATA_PATH.resolve("game.key")
+
+    private val skipTypeVerificationOption: Boolean by
+        option(
+                "--skip-type-verification",
+                help = "Skip identity hash verification for cache type resolver.",
+            )
+            .flag(default = false)
+
+    // When the app is run in integration tests, the GameServer is constructed directly and Clikt
+    // args are not parsed. In that case, we fall back to the explicit override to avoid accessing
+    // the uninitialized `skipTypeVerificationOption` delegate.
+    private val skipTypeVerification: Boolean
+        get() = skipTypeVerificationOverride ?: skipTypeVerificationOption
 
     override fun run() {
         ensureProperInstallation()
@@ -207,7 +223,7 @@ class GameServer : CliktCommand(name = "server") {
 
     private fun verifyTypeResolver(injector: Injector) {
         val verifier = injector.getInstance(TypeVerifier::class.java)
-        val verification = verifier.verifyAll()
+        val verification = verifier.verifyAll(verifyIdentityHashes = !skipTypeVerification)
         if (verification.isCacheUpdateRequired()) {
             logger.debug { verification.formatError() }
             logger.info { "Packing latest cache additions and restarting server..." }
