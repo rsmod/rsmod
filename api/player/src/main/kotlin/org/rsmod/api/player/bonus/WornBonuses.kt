@@ -163,7 +163,7 @@ public class WornBonuses @Inject constructor(private val objTypes: ObjTypeList) 
             offMagic = (offMagic * multiplier).toInt()
         }
 
-        val attackStyle = player.vars[varps.attackstyle]
+        val attackStyle = player.vars[varps.com_mode]
         val usingDinhsBulwark = weapon != null && weapon.isCategoryType(categories.dinhs_bulwark)
         if (usingDinhsBulwark && attackStyle == constants.dinhs_attackstyle_pummel) {
             val relativeDefenceBonuses = defStab + defSlash + defCrush + defRange

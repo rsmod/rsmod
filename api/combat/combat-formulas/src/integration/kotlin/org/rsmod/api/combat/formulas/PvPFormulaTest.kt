@@ -487,7 +487,7 @@ class PvPFormulaTest {
     }
 
     private fun GameTestScope.copy(player: Player, matchup: Matchup.MatchupPlayer) {
-        player.setVarp(varps.attackstyle, matchup.stance.varValue)
+        player.setVarp(varps.com_mode, matchup.stance.varValue)
 
         player.setBaseLevel(stats.attack, matchup.attackLvl)
         player.setBaseLevel(stats.defence, matchup.defenceLvl)

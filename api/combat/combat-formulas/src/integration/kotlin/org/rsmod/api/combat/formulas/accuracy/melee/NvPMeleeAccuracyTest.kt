@@ -47,7 +47,7 @@ class NvPMeleeAccuracyTest {
             player.setBaseLevel(stats.defence, matchup.baseDefenceLvl)
             player.setCurrentLevel(stats.hitpoints, matchup.hitpoints)
             player.setBaseLevel(stats.hitpoints, matchup.baseHitpointsLvl)
-            player.setVarp(varps.attackstyle, matchup.blockStance.varValue)
+            player.setVarp(varps.com_mode, matchup.blockStance.varValue)
 
             player.hat = matchup.hat
             player.back = matchup.back

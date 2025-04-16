@@ -24,7 +24,7 @@ import org.rsmod.plugin.scripts.ScriptContext
  * a measurable impact on real-world performance.
  */
 public class WearposScript @Inject constructor(private val objTypes: ObjTypeList) : PluginScript() {
-    private var Player.specialType by enumVarp<SpecialAttackType>(varps.sa_type)
+    private var Player.specialType by enumVarp<SpecialAttackType>(varps.sa_attack)
 
     private val Player.weaponSpecialActive: Boolean
         get() = specialType == SpecialAttackType.Weapon
@@ -86,7 +86,7 @@ public class WearposScript @Inject constructor(private val objTypes: ObjTypeList
         val clearPendingSpec = isRighthand && !isTwoHanded
 
         if (updateCombatVars) {
-            resyncVar(varps.attackstyle)
+            resyncVar(varps.com_mode)
         }
 
         if (clearPendingSpec) {

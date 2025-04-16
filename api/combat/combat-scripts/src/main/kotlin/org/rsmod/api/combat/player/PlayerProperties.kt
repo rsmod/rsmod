@@ -19,11 +19,11 @@ internal val ProtectedAccess.spellbook by enumVarBit<Spellbook>(varbits.spellboo
 internal var ProtectedAccess.autocastEnabled by boolVarBit(varbits.autocast_enabled)
 internal val ProtectedAccess.autocastSpell by intVarBit(varbits.autocast_spell)
 internal val ProtectedAccess.defensiveCasting by boolVarBit(varbits.defensive_casting_mode)
-internal var ProtectedAccess.combatStance by enumVarp<CombatStance>(varps.attackstyle)
+internal var ProtectedAccess.combatStance by enumVarp<CombatStance>(varps.com_mode)
 
 internal var ProtectedAccess.aggressiveNpc: NpcUid? by typeNpcUidVarp(varps.aggressive_npc)
 
-internal var ProtectedAccess.specialAttackType by enumVarp<SpecialAttackType>(varps.sa_type)
+internal var ProtectedAccess.specialAttackType by enumVarp<SpecialAttackType>(varps.sa_attack)
 
 internal var Player.lastCombat: Int by intVarp(varps.lastcombat)
 internal var Player.aggressiveNpc: NpcUid? by typeNpcUidVarp(varps.aggressive_npc)

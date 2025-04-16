@@ -13,7 +13,7 @@ public var Player.chatboxUnlocked: Boolean by boolVarBit(varbits.chatbox_unlocke
 internal var Player.enabledPrayers by intVarBit(varbits.enabled_prayers)
 internal var Player.usingQuickPrayers by boolVarBit(varbits.using_quick_prayers)
 
-private var Player.varSpeed: MoveSpeed by typeIntVarp(varps.player_run, ::getSpeed, ::getSpeedId)
+private var Player.varSpeed: MoveSpeed by typeIntVarp(varps.option_run, ::getSpeed, ::getSpeedId)
 
 public var Player.varMoveSpeed: MoveSpeed
     get() = varSpeed

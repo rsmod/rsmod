@@ -16,9 +16,9 @@ import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.type.obj.ObjTypeList
 
-private var Player.extraOpsSpecialBits by intVarp(varps.generic_temp_state_261)
-private var Player.extraOpsWearBits by intVarp(varps.generic_temp_state_262)
-private var Player.extraOpsConsumableBits by intVarp(varps.generic_temp_state_263)
+private var Player.extraOpsSpecialBits by intVarp(varps.if1)
+private var Player.extraOpsWearBits by intVarp(varps.if2)
+private var Player.extraOpsConsumableBits by intVarp(varps.if3)
 
 fun Player.openBank(eventBus: EventBus) {
     ifOpenMainSidePair(interfaces.bank_main, interfaces.bank_side, -1, -2, eventBus)

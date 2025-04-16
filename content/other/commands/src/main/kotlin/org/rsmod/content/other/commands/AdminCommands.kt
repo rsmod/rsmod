@@ -93,7 +93,7 @@ constructor(
         onCommand("invadd", "Spawn obj into inv", ::invAdd)
         onCommand("invclear", "Remove all objs from inv", ::invClear)
         onCommand("varp", "Set varp value", ::setVarp) {
-            invalidArgs = "Use as ::varp debugNameOrId value (ex: player_run 1)"
+            invalidArgs = "Use as ::varp debugNameOrId value (ex: option_run 1)"
         }
         onCommand("varbit", "Set varbit value", ::setVarBit) {
             invalidArgs = "Use as ::varbit debugNameOrId value (ex: smooth_dance_emote 1)"

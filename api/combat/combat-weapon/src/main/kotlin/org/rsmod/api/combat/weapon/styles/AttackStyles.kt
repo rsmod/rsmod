@@ -19,7 +19,7 @@ constructor(private val objTypes: ObjTypeList, private val enumResolver: EnumTyp
 
     public fun get(player: Player): AttackStyle? {
         val type = objTypes.getOrNull(player.righthand)
-        val stance = player.vars[varps.attackstyle]
+        val stance = player.vars[varps.com_mode]
         return resolve(type = type, combatStance = stance)
     }
 

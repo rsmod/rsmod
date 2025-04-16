@@ -18,7 +18,7 @@ import org.rsmod.map.CoordGrid
 @Singleton
 public class PlayerDeath @Inject constructor(private val statTypes: StatTypeList) {
     private var Player.specialAttackEnergy by intVarp(varps.sa_energy)
-    private var Player.specialAttackType by intVarp(varps.sa_type)
+    private var Player.specialAttackType by intVarp(varps.sa_attack)
 
     public suspend fun death(access: ProtectedAccess) {
         access.deathSequence()

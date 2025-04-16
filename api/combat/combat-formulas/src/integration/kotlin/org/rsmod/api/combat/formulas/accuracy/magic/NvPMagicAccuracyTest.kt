@@ -48,7 +48,7 @@ class NvPMagicAccuracyTest {
             player.setBaseLevel(stats.hitpoints, matchup.baseHitpointsLvl)
             player.setCurrentLevel(stats.magic, matchup.magicLvl)
             player.setBaseLevel(stats.magic, matchup.baseMagicLvl)
-            player.setVarp(varps.attackstyle, matchup.blockStance.varValue)
+            player.setVarp(varps.com_mode, matchup.blockStance.varValue)
 
             player.hat = matchup.hat
             player.back = matchup.back

@@ -66,10 +66,10 @@ constructor(
     private val specialReg: SpecialAttackRegistry,
     private val protectedAccess: ProtectedAccessLauncher,
 ) : PluginScript() {
-    private var Player.combatStance by enumVarp<CombatStance>(varps.attackstyle)
-    private var Player.meleeStyle by enumVarp<MeleeAttackStyle>(varps.attackstyle_melee)
-    private var Player.specialType by enumVarp<SpecialAttackType>(varps.sa_type)
-    private var Player.autoRetaliateDisabled by boolVarp(varps.auto_retaliate_disabled)
+    private var Player.combatStance by enumVarp<CombatStance>(varps.com_mode)
+    private var Player.meleeStyle by enumVarp<MeleeAttackStyle>(varps.com_stance)
+    private var Player.specialType by enumVarp<SpecialAttackType>(varps.sa_attack)
+    private var Player.autoRetaliateDisabled by boolVarp(varps.option_nodef)
 
     private var Player.autocastEnabled by boolVarBit(varbits.autocast_enabled)
     private var Player.autocastSpell by intVarBit(varbits.autocast_spell)
@@ -192,7 +192,7 @@ constructor(
         ifClose(eventBus)
 
         if (isAccessProtected) {
-            // Unlike changing attackstyle, this does not queue the toggle; the click is
+            // Unlike changing com_mode, this does not queue the toggle; the click is
             // simply discarded.
             return
         }

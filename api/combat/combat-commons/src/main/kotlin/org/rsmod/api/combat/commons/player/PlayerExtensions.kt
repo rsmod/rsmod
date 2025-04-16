@@ -24,7 +24,7 @@ import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.type.seq.SeqType
 
-private val ProtectedAccess.autoRetaliateDisabled by boolVarp(varps.auto_retaliate_disabled)
+private val ProtectedAccess.autoRetaliateDisabled by boolVarp(varps.option_nodef)
 
 public fun Player.queueCombatRetaliate(source: Npc, delay: Int = 1) {
     strongQueue(queues.com_retaliate_npc, delay, source.uid)

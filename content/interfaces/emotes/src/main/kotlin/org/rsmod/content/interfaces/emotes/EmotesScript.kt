@@ -505,7 +505,7 @@ private constructor(
     }
 
     private suspend fun ProtectedAccess.fortisSaluteEmote(loop: Boolean) {
-        val unlocked = vars[varps.fortis_colosseum_glory_highscore] >= 20_000
+        val unlocked = vars[varps.colosseum_glory] >= 20_000
         if (!unlocked) {
             mesbox(
                 "This emote is unlocked by reaching <col=ff0000>" +
