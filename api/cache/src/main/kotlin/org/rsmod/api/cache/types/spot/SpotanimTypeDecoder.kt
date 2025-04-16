@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap
 import java.io.IOException
 import kotlin.collections.iterator
+import org.openrs2.buffer.readString
 import org.openrs2.buffer.use
 import org.openrs2.cache.Cache
 import org.rsmod.api.cache.Js5Archives
@@ -50,6 +51,7 @@ public object SpotanimTypeDecoder {
                 6 -> rotation = data.readUnsignedShort()
                 7 -> ambient = data.readUnsignedByte().toInt()
                 8 -> contrast = data.readUnsignedByte().toInt()
+                9 -> debugName = data.readString()
                 40,
                 41 -> {
                     val count = data.readUnsignedByte().toInt()

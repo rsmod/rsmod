@@ -60,6 +60,7 @@ public data class UnpackedSeqType(
     public val keyframeRangeStart: Int,
     public val keyframeRangeEnd: Int,
     public val keyframeWalkMerge: BooleanArray,
+    public val debugName: String?,
     public val totalDelay: Int = delay.sum(),
     public val tickDuration: Int = delay.tickDuration(),
     override var internalPriority: Int,

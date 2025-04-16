@@ -15,6 +15,7 @@ public class SpotanimTypeBuilder(public var internal: String? = null) {
     public var rotation: Int? = null
     public var resizeH: Int? = null
     public var resizeV: Int? = null
+    public var debugName: String? = null
 
     public var recolS: CompactableIntArray = CompactableIntArray(RECOL_CAPACITY)
     public var recolD: CompactableIntArray = CompactableIntArray(RECOL_CAPACITY)
@@ -42,6 +43,7 @@ public class SpotanimTypeBuilder(public var internal: String? = null) {
             rotation = rotation,
             resizeH = resizeH,
             resizeV = resizeV,
+            debugName = debugName,
             recolS = recolS,
             recolD = recolD,
             retexS = retexS,
@@ -69,6 +71,7 @@ public class SpotanimTypeBuilder(public var internal: String? = null) {
             val rotation = select(edit, base, default = 0) { rotation }
             val resizeH = select(edit, base, DEFAULT_RESIZE_H) { resizeH }
             val resizeV = select(edit, base, DEFAULT_RESIZE_V) { resizeV }
+            val debugName = select(edit, base, default = null) { debugName }
             val recolS = selectShortArray(edit, base) { recolS }
             val recolD = selectShortArray(edit, base) { recolD }
             val retexS = selectShortArray(edit, base) { retexS }
@@ -83,6 +86,7 @@ public class SpotanimTypeBuilder(public var internal: String? = null) {
                 rotation = rotation,
                 resizeH = resizeH,
                 resizeV = resizeV,
+                debugName = debugName,
                 recolS = recolS,
                 recolD = recolD,
                 retexS = retexS,

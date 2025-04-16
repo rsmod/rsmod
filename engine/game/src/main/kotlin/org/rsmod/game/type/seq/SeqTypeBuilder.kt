@@ -26,6 +26,7 @@ public class SeqTypeBuilder(public var internal: String? = null) {
     public var keyframeRangeStart: Int? = null
     public var keyframeRangeEnd: Int? = null
     public var keyframeWalkMerge: BooleanArray? = null
+    public var debugName: String? = null
 
     public fun build(id: Int): UnpackedSeqType {
         val internal = checkNotNull(internal) { "`internal` must be set. (id=$id)" }
@@ -71,6 +72,7 @@ public class SeqTypeBuilder(public var internal: String? = null) {
             keyframeRangeStart = keyframeRangeStart,
             keyframeRangeEnd = keyframeRangeEnd,
             keyframeWalkMerge = keyframeWalkMerge,
+            debugName = debugName,
             internalPriority = priority,
             internalId = id,
             internalName = internal,

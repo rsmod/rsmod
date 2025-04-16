@@ -24,6 +24,9 @@ class SpiralStaircaseScript : PluginScript() {
             arriveDelay()
             climbDown(it.loc)
         }
+
+        onOpLoc2(staircase_locs.lumbridge_spiral_bottom) { climbLumbridgeTop(it.loc) }
+        onOpLoc2(staircase_locs.lumbridge_spiral_top) { climbLumbridgeBottom(it.loc) }
     }
 
     private fun ProtectedAccess.climbDown(loc: BoundLocInfo) =
@@ -66,5 +69,13 @@ class SpiralStaircaseScript : PluginScript() {
             val dest = loc.coords.translate(translation)
             telejump(dest)
         }
+    }
+
+    private fun ProtectedAccess.climbLumbridgeTop(loc: BoundLocInfo) {
+        climb(loc, loc.climbUpTranslation().copy(level = 2))
+    }
+
+    private fun ProtectedAccess.climbLumbridgeBottom(loc: BoundLocInfo) {
+        climb(loc, loc.climbDownTranslation().copy(level = -2))
     }
 }

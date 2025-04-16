@@ -10,7 +10,6 @@ import net.rsprot.protocol.game.outgoing.misc.player.ChatFilterSettings
 import net.rsprot.protocol.game.outgoing.misc.player.UpdateRunEnergy
 import net.rsprot.protocol.game.outgoing.misc.player.UpdateRunWeight
 import net.rsprot.protocol.game.outgoing.varp.VarpReset
-import net.rsprot.protocol.game.outgoing.worldentity.ClearEntities
 import org.rsmod.api.config.refs.varbits
 import org.rsmod.api.player.output.Camera
 import org.rsmod.api.player.output.ChatType
@@ -83,7 +82,6 @@ constructor(
     }
 
     private fun Player.sendLowPriority() {
-        client.write(ClearEntities)
         sendInvs()
         runClientScript(2498, 1, 0, 0)
         resetCam()

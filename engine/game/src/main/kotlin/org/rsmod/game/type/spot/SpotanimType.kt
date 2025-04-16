@@ -42,6 +42,7 @@ public data class UnpackedSpotanimType(
     public val rotation: Int,
     public val resizeH: Int,
     public val resizeV: Int,
+    public val debugName: String?,
     public val recolS: ShortArray,
     public val recolD: ShortArray,
     public val retexS: ShortArray,
@@ -92,6 +93,7 @@ public data class UnpackedSpotanimType(
         if (rotation != other.rotation) return false
         if (resizeH != other.resizeH) return false
         if (resizeV != other.resizeV) return false
+        if (debugName != other.debugName) return false
         if (!recolS.contentEquals(other.recolS)) return false
         if (!recolD.contentEquals(other.recolD)) return false
         if (!retexS.contentEquals(other.retexS)) return false

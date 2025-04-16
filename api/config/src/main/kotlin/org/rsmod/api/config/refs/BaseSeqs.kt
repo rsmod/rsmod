@@ -157,8 +157,8 @@ object BaseSeqs : SeqReferences() {
     val emote_yawn = find("emote_yawn", 8882086986843780959)
     val emote_salute = find("emote_salute", 5084269640647739167)
     val emote_shrug = find("emote_shrug", 5117983468318410101)
-    val emote_goblin_bow = find("emote_goblin_bow", 8279062974991575351)
-    val emote_goblin_salute = find("emote_goblin_salute", 7819532424992011162)
+    val emote_goblin_bow = find("emote_goblin_bow", 8279062974992029313)
+    val emote_goblin_salute = find("emote_goblin_salute", 7819532424992465124)
     val achievement_diary_cape_npc_anim =
         find("achievement_diary_cape_npc_anim", 1046987389675073387)
     val emote_achievement_diary = find("emote_achievement_diary", 6791595768949783970)
@@ -221,8 +221,8 @@ object BaseSeqs : SeqReferences() {
     val emote_sit_down_loop = find("emote_sit_down_loop", 3972778066261739958)
     val emote_lean_loop = find("emote_lean_loop", 8338167809129511662)
     val emote_trick = find("emote_trick", 7267332313681955035)
-    val emote_fortis_salute = find("emote_fortis_salute", 7246467433788388516)
-    val emote_fortis_salute_loop = find("emote_fortis_salute_loop", 5016367684387103921)
+    val emote_fortis_salute = find("emote_fortis_salute", 7246467433788849920)
+    val emote_fortis_salute_loop = find("emote_fortis_salute_loop", 5016367684387565325)
 
     val cow_eat_grass = find("cow_eat_grass", 1478576823858649669)
 }

@@ -9,7 +9,7 @@ typealias interfaces = BaseInterfaces
 object BaseInterfaces : InterfaceReferences() {
     val fade_overlay = find("fade_overlay", 9223372035931967580)
 
-    val bank_main = find("bank", 261123712)
+    val bank_main = find("bank", 479914382)
     val bank_side = find("bank_inventory", 1999686874)
     val bank_pin_settings = find("bank_pin_settings", 642937557)
 
@@ -38,7 +38,7 @@ object BaseInterfaces : InterfaceReferences() {
     val music_tab = find("music_tab", 9223372035640978172)
     val chat_channel_tab = find("chat_channel_tab", 555490233)
     val world_switcher = find("world_switcher", 770239458)
-    val combat_tab = find("combat_tab", 9223372036611818538)
+    val combat_tab = find("combat_tab", 1281353796)
     val hp_hud = find("hp_hud", 9223372036744970435)
 
     val player_dialogue = find("player_dialogue", 1128178504)

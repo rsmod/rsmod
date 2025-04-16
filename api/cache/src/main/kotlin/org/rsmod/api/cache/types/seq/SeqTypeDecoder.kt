@@ -3,6 +3,7 @@ package org.rsmod.api.cache.types.seq
 import io.netty.buffer.ByteBuf
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap
 import java.io.IOException
+import org.openrs2.buffer.readString
 import org.openrs2.buffer.use
 import org.openrs2.cache.Cache
 import org.rsmod.api.cache.Js5Archives
@@ -137,6 +138,7 @@ public object SeqTypeDecoder {
                     }
                     this.keyframeWalkMerge = keyframeWalkMerge
                 }
+                18 -> debugName = data.readString()
                 else -> throw IOException("Error unrecognised .seq config code: $code")
             }
         }
