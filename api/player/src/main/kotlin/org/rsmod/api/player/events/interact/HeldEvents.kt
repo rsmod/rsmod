@@ -1,6 +1,7 @@
 package org.rsmod.api.player.events.interact
 
 import org.rsmod.api.player.protect.ProtectedAccess
+import org.rsmod.events.EventBus
 import org.rsmod.events.KeyedEvent
 import org.rsmod.events.SuspendEvent
 import org.rsmod.events.UnboundEvent
@@ -164,7 +165,7 @@ public class HeldUEvents {
         public val second: UnpackedObjType,
         public val secondSlot: Int,
     ) : SuspendEvent<ProtectedAccess> {
-        override val id: Long = (first.id.toLong() shl 32) or second.id.toLong()
+        override val id: Long = EventBus.composeLongKey(first.id, second.id)
     }
 }
 
@@ -175,7 +176,7 @@ public class HeldUContentEvents {
         public val second: UnpackedObjType,
         public val secondSlot: Int,
     ) : SuspendEvent<ProtectedAccess> {
-        override val id: Long = (first.contentGroup.toLong() shl 32) or second.id.toLong()
+        override val id: Long = EventBus.composeLongKey(first.contentGroup, second.id)
     }
 
     public class Content(
@@ -184,7 +185,7 @@ public class HeldUContentEvents {
         public val second: UnpackedObjType,
         public val secondSlot: Int,
     ) : SuspendEvent<ProtectedAccess> {
-        override val id: Long = (first.contentGroup.toLong() shl 32) or second.contentGroup.toLong()
+        override val id: Long = EventBus.composeLongKey(first.contentGroup, second.contentGroup)
     }
 }
 

@@ -1,6 +1,7 @@
 package org.rsmod.api.controller.events
 
 import org.rsmod.api.controller.access.StandardConAccess
+import org.rsmod.events.EventBus
 import org.rsmod.events.KeyedEvent
 import org.rsmod.events.SuspendEvent
 import org.rsmod.game.entity.Controller
@@ -23,7 +24,7 @@ public class ControllerTimerEvents {
 
     public class Type(public val controller: Controller, timerType: Int) :
         SuspendEvent<StandardConAccess> {
-        override val id: Long = (controller.id.toLong() shl 32) or timerType.toLong()
+        override val id: Long = EventBus.composeLongKey(controller.id, timerType)
     }
 }
 
@@ -35,6 +36,6 @@ public class ControllerQueueEvents {
 
     public class Type<T>(public val controller: Controller, public val args: T, queueType: Int) :
         SuspendEvent<StandardConAccess> {
-        override val id: Long = (controller.id.toLong() shl 32) or queueType.toLong()
+        override val id: Long = EventBus.composeLongKey(controller.id, queueType)
     }
 }

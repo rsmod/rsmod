@@ -36,7 +36,7 @@ constructor(
     }
 
     private fun Controller.publishEvent(timer: Int) {
-        val packedType = (id.toLong() shl 32) or timer.toLong()
+        val packedType = EventBus.composeLongKey(id, timer)
         val typeTrigger = eventBus.suspend[ControllerTimerEvents.Type::class.java, packedType]
         if (typeTrigger != null) {
             val event = ControllerTimerEvents.Type(this, timer)

@@ -14,6 +14,7 @@ import org.rsmod.api.player.events.interact.NpcUContentEvents
 import org.rsmod.api.player.events.interact.NpcUDefaultEvents
 import org.rsmod.api.player.events.interact.NpcUEvents
 import org.rsmod.api.player.protect.ProtectedAccess
+import org.rsmod.events.EventBus
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.npc.NpcType
@@ -83,13 +84,13 @@ public fun ScriptContext.onOpNpcT(
     type: NpcType,
     component: ComponentType,
     action: suspend ProtectedAccess.(NpcTEvents.Op) -> Unit,
-): Unit = onProtectedEvent((type.id.toLong() shl 32) or component.packed.toLong(), action)
+): Unit = onProtectedEvent(EventBus.composeLongKey(type.id, component.packed), action)
 
 public fun ScriptContext.onOpNpcT(
     content: ContentGroupType,
     component: ComponentType,
     action: suspend ProtectedAccess.(NpcTContentEvents.Op) -> Unit,
-): Unit = onProtectedEvent((content.id.toLong() shl 32) or component.packed.toLong(), action)
+): Unit = onProtectedEvent(EventBus.composeLongKey(content.id, component.packed), action)
 
 public fun ScriptContext.onOpNpcU(
     npcType: NpcType,
@@ -105,13 +106,13 @@ public fun ScriptContext.onOpNpcU(
     npcType: NpcType,
     objType: ObjType,
     action: suspend ProtectedAccess.(NpcUEvents.Op) -> Unit,
-): Unit = onProtectedEvent((npcType.id.toLong() shl 32) or objType.id.toLong(), action)
+): Unit = onProtectedEvent(EventBus.composeLongKey(npcType.id, objType.id), action)
 
 public fun ScriptContext.onOpNpcU(
     content: ContentGroupType,
     objType: ObjType,
     action: suspend ProtectedAccess.(NpcUContentEvents.Op) -> Unit,
-): Unit = onProtectedEvent((content.id.toLong() shl 32) or objType.id.toLong(), action)
+): Unit = onProtectedEvent(EventBus.composeLongKey(content.id, objType.id), action)
 
 /* Ap functions */
 public fun ScriptContext.onApNpc1(
@@ -173,13 +174,13 @@ public fun ScriptContext.onApNpcT(
     type: NpcType,
     component: ComponentType,
     action: suspend ProtectedAccess.(NpcTEvents.Ap) -> Unit,
-): Unit = onProtectedEvent((type.id.toLong() shl 32) or component.packed.toLong(), action)
+): Unit = onProtectedEvent(EventBus.composeLongKey(type.id, component.packed), action)
 
 public fun ScriptContext.onApNpcT(
     content: ContentGroupType,
     component: ComponentType,
     action: suspend ProtectedAccess.(NpcTContentEvents.Ap) -> Unit,
-): Unit = onProtectedEvent((content.id.toLong() shl 32) or component.packed.toLong(), action)
+): Unit = onProtectedEvent(EventBus.composeLongKey(content.id, component.packed), action)
 
 public fun ScriptContext.onApNpcU(
     npcType: NpcType,
@@ -195,13 +196,13 @@ public fun ScriptContext.onApNpcU(
     npcType: NpcType,
     objType: ObjType,
     action: suspend ProtectedAccess.(NpcUEvents.Ap) -> Unit,
-): Unit = onProtectedEvent((npcType.id.toLong() shl 32) or objType.id.toLong(), action)
+): Unit = onProtectedEvent(EventBus.composeLongKey(npcType.id, objType.id), action)
 
 public fun ScriptContext.onApNpcU(
     content: ContentGroupType,
     objType: ObjType,
     action: suspend ProtectedAccess.(NpcUContentEvents.Ap) -> Unit,
-): Unit = onProtectedEvent((content.id.toLong() shl 32) or objType.id.toLong(), action)
+): Unit = onProtectedEvent(EventBus.composeLongKey(content.id, objType.id), action)
 
 /* Timer functions */
 public fun ScriptContext.onNpcTimer(
@@ -213,13 +214,13 @@ public fun ScriptContext.onNpcTimer(
     npc: NpcType,
     timer: TimerType,
     action: suspend StandardNpcAccess.(NpcTimerEvents.Type) -> Unit,
-): Unit = onNpcAccessEvent((npc.id.toLong() shl 32) or timer.id.toLong(), action)
+): Unit = onNpcAccessEvent(EventBus.composeLongKey(npc.id, timer.id), action)
 
 public fun ScriptContext.onNpcTimer(
     content: ContentGroupType,
     timer: TimerType,
     action: suspend StandardNpcAccess.(NpcTimerEvents.Content) -> Unit,
-): Unit = onNpcAccessEvent((content.id.toLong() shl 32) or timer.id.toLong(), action)
+): Unit = onNpcAccessEvent(EventBus.composeLongKey(content.id, timer.id), action)
 
 /* Queue functions */
 public fun ScriptContext.onNpcQueue(
@@ -236,25 +237,25 @@ public fun ScriptContext.onNpcQueue(
     type: NpcType,
     queue: QueueType,
     action: suspend StandardNpcAccess.(NpcQueueEvents.Type<Nothing>) -> Unit,
-): Unit = onNpcAccessEvent((type.id.toLong() shl 32) or queue.id.toLong(), action)
+): Unit = onNpcAccessEvent(EventBus.composeLongKey(type.id, queue.id), action)
 
 public fun <T> ScriptContext.onNpcQueueWithArgs(
     type: NpcType,
     queue: QueueType,
     action: suspend StandardNpcAccess.(NpcQueueEvents.Type<T>) -> Unit,
-): Unit = onNpcAccessEvent((type.id.toLong() shl 32) or queue.id.toLong(), action)
+): Unit = onNpcAccessEvent(EventBus.composeLongKey(type.id, queue.id), action)
 
 public fun ScriptContext.onNpcQueue(
     content: ContentGroupType,
     queue: QueueType,
     action: suspend StandardNpcAccess.(NpcQueueEvents.Content<Nothing>) -> Unit,
-): Unit = onNpcAccessEvent((content.id.toLong() shl 32) or queue.id.toLong(), action)
+): Unit = onNpcAccessEvent(EventBus.composeLongKey(content.id, queue.id), action)
 
 public fun <T> ScriptContext.onNpcQueueWithArgs(
     content: ContentGroupType,
     queue: QueueType,
     action: suspend StandardNpcAccess.(NpcQueueEvents.Content<T>) -> Unit,
-): Unit = onNpcAccessEvent((content.id.toLong() shl 32) or queue.id.toLong(), action)
+): Unit = onNpcAccessEvent(EventBus.composeLongKey(content.id, queue.id), action)
 
 /* Walk trigger functions */
 public fun ScriptContext.onNpcWalkTrigger(

@@ -43,7 +43,7 @@ public class EventBus(
     ) {
         val previous = suspend.putIfAbsent(type, id, action)
         if (previous != null) {
-            error("Event with id already registered: type=$type, id=$id, type=$type")
+            error("Event with id already registered: id=$id, type=$type")
         }
     }
 
@@ -53,5 +53,11 @@ public class EventBus(
 
     public fun <T : SuspendEvent<*>> contains(type: Class<T>, key: Int): Boolean {
         return suspend.contains(type, key.toLong())
+    }
+
+    public companion object {
+        public fun composeLongKey(high: Int, low: Int): Long {
+            return (high.toLong() shl 32) or low.toLong()
+        }
     }
 }

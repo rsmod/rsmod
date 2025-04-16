@@ -72,7 +72,7 @@ constructor(private val eventBus: EventBus, private val accessLauncher: Standard
     }
 
     private fun Controller.publishEvent(queue: NpcQueueList.Queue) {
-        val packedType = (id.toLong() shl 32) or queue.id.toLong()
+        val packedType = EventBus.composeLongKey(id, queue.id)
         val typeTrigger = eventBus.suspend[ControllerQueueEvents.Type::class.java, packedType]
         if (typeTrigger != null) {
             val event = ControllerQueueEvents.Type(this, queue.args, queue.id)

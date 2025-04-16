@@ -37,7 +37,7 @@ constructor(
     }
 
     private fun Npc.publishEvent(timer: Int, type: UnpackedNpcType = visType) {
-        val packedType = (type.id.toLong() shl 32) or timer.toLong()
+        val packedType = EventBus.composeLongKey(type.id, timer)
         val typeTrigger = eventBus.suspend[NpcTimerEvents.Type::class.java, packedType]
         if (typeTrigger != null) {
             val event = NpcTimerEvents.Type(this, timer)
@@ -46,7 +46,7 @@ constructor(
         }
 
         if (type.contentGroup != -1) {
-            val packedContentGroup = (type.contentGroup.toLong() shl 32) or timer.toLong()
+            val packedContentGroup = EventBus.composeLongKey(type.contentGroup, timer)
             val contentTrigger =
                 eventBus.suspend[NpcTimerEvents.Content::class.java, packedContentGroup]
             if (contentTrigger != null) {

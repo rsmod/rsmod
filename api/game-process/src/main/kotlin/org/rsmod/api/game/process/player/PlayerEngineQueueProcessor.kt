@@ -32,7 +32,7 @@ constructor(private val eventBus: EventBus, private val protectedAccess: Protect
         // even if there is already a more general `[advancestat,_]` binding.
         val label = queue.label
         if (label != null) {
-            val packed = (label.toLong() shl 32) or queue.type.toLong()
+            val packed = EventBus.composeLongKey(label, queue.type)
             val trigger = eventBus.suspend[PlayerQueueEvents.EngineLabelled::class.java, packed]
             if (trigger != null) {
                 val event = PlayerQueueEvents.EngineLabelled(packed)

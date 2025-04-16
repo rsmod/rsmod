@@ -9,6 +9,7 @@ import org.rsmod.api.player.ui.IfOpenSub
 import org.rsmod.api.player.ui.IfOverlayButton
 import org.rsmod.api.player.ui.IfOverlayButtonT
 import org.rsmod.api.player.ui.IfOverlayDrag
+import org.rsmod.events.EventBus
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.interf.InterfaceType
 import org.rsmod.plugin.scripts.ScriptContext
@@ -37,7 +38,7 @@ public fun ScriptContext.onIfOverlayButtonT(
     targetComponent: ComponentType = selectedComponent,
     action: IfOverlayButtonT.() -> Unit,
 ) {
-    val packed = (selectedComponent.packed.toLong() shl 32) or targetComponent.packed.toLong()
+    val packed = EventBus.composeLongKey(selectedComponent.packed, targetComponent.packed)
     onEvent(packed, action)
 }
 
@@ -49,7 +50,7 @@ public fun ScriptContext.onIfModalButtonT(
     targetComponent: ComponentType = selectedComponent,
     action: suspend ProtectedAccess.(IfModalButtonT) -> Unit,
 ) {
-    val packed = (selectedComponent.packed.toLong() shl 32) or targetComponent.packed.toLong()
+    val packed = EventBus.composeLongKey(selectedComponent.packed, targetComponent.packed)
     onProtectedEvent(packed, action)
 }
 
@@ -58,7 +59,7 @@ public fun ScriptContext.onIfOverlayDrag(
     targetComponent: ComponentType = selectedComponent,
     action: IfOverlayDrag.() -> Unit,
 ) {
-    val packed = (selectedComponent.packed.toLong() shl 32) or targetComponent.packed.toLong()
+    val packed = EventBus.composeLongKey(selectedComponent.packed, targetComponent.packed)
     onEvent(packed, action)
 }
 
@@ -67,6 +68,6 @@ public fun ScriptContext.onIfModalDrag(
     targetComponent: ComponentType = selectedComponent,
     action: suspend ProtectedAccess.(IfModalDrag) -> Unit,
 ) {
-    val packed = (selectedComponent.packed.toLong() shl 32) or targetComponent.packed.toLong()
+    val packed = EventBus.composeLongKey(selectedComponent.packed, targetComponent.packed)
     onProtectedEvent(packed, action)
 }

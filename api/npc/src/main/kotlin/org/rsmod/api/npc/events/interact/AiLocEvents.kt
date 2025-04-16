@@ -1,5 +1,6 @@
 package org.rsmod.api.npc.events.interact
 
+import org.rsmod.events.EventBus
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.loc.UnpackedLocType
@@ -128,7 +129,7 @@ public class AiLocTEvents {
         public val objType: ObjType?,
         public val comsub: Int,
         component: ComponentType,
-    ) : OpEvent((type.id.toLong() shl 32) or component.packed.toLong())
+    ) : OpEvent(EventBus.composeLongKey(type.id, component.packed))
 
     public class Ap(
         public val loc: BoundLocInfo,
@@ -136,7 +137,7 @@ public class AiLocTEvents {
         public val objType: ObjType?,
         public val comsub: Int,
         component: ComponentType,
-    ) : ApEvent((type.id.toLong() shl 32) or component.packed.toLong())
+    ) : ApEvent(EventBus.composeLongKey(type.id, component.packed))
 }
 
 public class AiLocTContentEvents {
@@ -147,7 +148,7 @@ public class AiLocTContentEvents {
         public val comsub: Int,
         component: ComponentType,
         locContent: Int = type.contentGroup,
-    ) : OpEvent((locContent.toLong() shl 32) or component.packed.toLong())
+    ) : OpEvent(EventBus.composeLongKey(locContent, component.packed))
 
     public class Ap(
         public val loc: BoundLocInfo,
@@ -156,7 +157,7 @@ public class AiLocTContentEvents {
         public val comsub: Int,
         component: ComponentType,
         locContent: Int = type.contentGroup,
-    ) : ApEvent((locContent.toLong() shl 32) or component.packed.toLong())
+    ) : ApEvent(EventBus.composeLongKey(locContent, component.packed))
 }
 
 public class AiLocTDefaultEvents {
@@ -183,14 +184,14 @@ public class AiLocUEvents {
         public val type: UnpackedLocType,
         public val objType: UnpackedObjType,
         public val invSlot: Int,
-    ) : OpEvent((type.id.toLong() shl 32) or objType.id.toLong())
+    ) : OpEvent(EventBus.composeLongKey(type.id, objType.id))
 
     public class Ap(
         public val loc: BoundLocInfo,
         public val type: UnpackedLocType,
         public val objType: UnpackedObjType,
         public val invSlot: Int,
-    ) : ApEvent((type.id.toLong() shl 32) or objType.id.toLong())
+    ) : ApEvent(EventBus.composeLongKey(type.id, objType.id))
 }
 
 public class AiLocUContentEvents {
@@ -200,7 +201,7 @@ public class AiLocUContentEvents {
         public val objType: UnpackedObjType,
         public val invSlot: Int,
         locContent: Int = type.contentGroup,
-    ) : OpEvent((locContent.toLong() shl 32) or objType.id.toLong())
+    ) : OpEvent(EventBus.composeLongKey(locContent, objType.id))
 
     public class ApType(
         public val loc: BoundLocInfo,
@@ -208,7 +209,7 @@ public class AiLocUContentEvents {
         public val objType: UnpackedObjType,
         public val invSlot: Int,
         locContent: Int = type.contentGroup,
-    ) : ApEvent((locContent.toLong() shl 32) or objType.id.toLong())
+    ) : ApEvent(EventBus.composeLongKey(locContent, objType.id))
 
     public class OpContent(
         public val loc: BoundLocInfo,
@@ -217,7 +218,7 @@ public class AiLocUContentEvents {
         public val invSlot: Int,
         objContent: Int = objType.contentGroup,
         locContent: Int = type.contentGroup,
-    ) : OpEvent((locContent.toLong() shl 32) or objContent.toLong())
+    ) : OpEvent(EventBus.composeLongKey(locContent, objContent))
 
     public class ApContent(
         public val loc: BoundLocInfo,
@@ -226,7 +227,7 @@ public class AiLocUContentEvents {
         public val invSlot: Int,
         objContent: Int = objType.contentGroup,
         locContent: Int = type.contentGroup,
-    ) : ApEvent((locContent.toLong() shl 32) or objContent.toLong())
+    ) : ApEvent(EventBus.composeLongKey(locContent, objContent))
 }
 
 public class AiLocUDefaultEvents {

@@ -8,6 +8,7 @@ import org.rsmod.api.player.events.interact.HeldUContentEvents
 import org.rsmod.api.player.events.interact.HeldUDefaultEvents
 import org.rsmod.api.player.events.interact.HeldUEvents
 import org.rsmod.api.player.protect.ProtectedAccess
+import org.rsmod.events.EventBus
 import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.droptrig.DropTriggerType
 import org.rsmod.game.type.obj.ObjType
@@ -107,13 +108,13 @@ public fun ScriptContext.onOpHeldU(
     // and fixed order in the respective script. Because of this, we can't rely on the event bus to
     // catch duplicate registrations - we must manually check that the reversed combination has
     // not already been registered.
-    val opposite = (second.id.toLong() shl 32) or first.id.toLong()
+    val opposite = EventBus.composeLongKey(second.id, first.id)
     val registeredOpposite = eventBus.contains(HeldUEvents.Type::class.java, opposite)
     if (registeredOpposite) {
-        val message = "OpHeldU for combination already registered: first=$first, second=$second"
+        val message = "OpHeldU for combination already registered: first=$second, second=$first"
         throw IllegalStateException(message)
     }
-    onProtectedEvent((first.id.toLong() shl 32) or second.id.toLong(), action)
+    onProtectedEvent(EventBus.composeLongKey(first.id, second.id), action)
 }
 
 /**
@@ -129,7 +130,7 @@ public fun ScriptContext.onOpHeldU(
     first: ContentGroupType,
     second: ObjType,
     action: suspend ProtectedAccess.(HeldUContentEvents.Type) -> Unit,
-): Unit = onProtectedEvent((first.id.toLong() shl 32) or second.id.toLong(), action)
+): Unit = onProtectedEvent(EventBus.composeLongKey(first.id, second.id), action)
 
 /**
  * Registers a script that triggers when an inventory obj ([first]) is used on another inventory obj
@@ -150,13 +151,13 @@ public fun ScriptContext.onOpHeldU(
     // and fixed order in the respective script. Because of this, we can't rely on the event bus to
     // catch duplicate registrations - we must manually check that the reversed combination has
     // not already been registered.
-    val opposite = (second.id.toLong() shl 32) or first.id.toLong()
+    val opposite = EventBus.composeLongKey(second.id, first.id)
     val registeredOpposite = eventBus.contains(HeldUContentEvents.Content::class.java, opposite)
     if (registeredOpposite) {
-        val message = "OpHeldU for combination already registered: first=$first, second=$second"
+        val message = "OpHeldU for combination already registered: first=$second, second=$first"
         throw IllegalStateException(message)
     }
-    onProtectedEvent((first.id.toLong() shl 32) or second.id.toLong(), action)
+    onProtectedEvent(EventBus.composeLongKey(first.id, second.id), action)
 }
 
 /**

@@ -1,6 +1,7 @@
 package org.rsmod.api.npc.events
 
 import org.rsmod.api.npc.access.StandardNpcAccess
+import org.rsmod.events.EventBus
 import org.rsmod.events.KeyedEvent
 import org.rsmod.events.SuspendEvent
 import org.rsmod.events.UnboundEvent
@@ -24,12 +25,12 @@ public class NpcTimerEvents {
     }
 
     public class Type(public val npc: Npc, timerType: Int) : SuspendEvent<StandardNpcAccess> {
-        override val id: Long = (npc.id.toLong() shl 32) or timerType.toLong()
+        override val id: Long = EventBus.composeLongKey(npc.id, timerType)
     }
 
     public class Content(public val npc: Npc, contentGroup: Int, timerType: Int) :
         SuspendEvent<StandardNpcAccess> {
-        override val id: Long = (contentGroup.toLong() shl 32) or timerType.toLong()
+        override val id: Long = EventBus.composeLongKey(contentGroup, timerType)
     }
 }
 
@@ -41,7 +42,7 @@ public class NpcQueueEvents {
 
     public class Type<T>(public val npc: Npc, public val args: T, queueType: Int) :
         SuspendEvent<StandardNpcAccess> {
-        override val id: Long = (npc.id.toLong() shl 32) or queueType.toLong()
+        override val id: Long = EventBus.composeLongKey(npc.id, queueType)
     }
 
     public class Content<T>(
@@ -50,6 +51,6 @@ public class NpcQueueEvents {
         contentGroup: Int,
         queueType: Int,
     ) : SuspendEvent<StandardNpcAccess> {
-        override val id: Long = (contentGroup.toLong() shl 32) or queueType.toLong()
+        override val id: Long = EventBus.composeLongKey(contentGroup, queueType)
     }
 }

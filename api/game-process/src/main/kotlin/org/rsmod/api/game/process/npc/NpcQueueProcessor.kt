@@ -47,7 +47,7 @@ constructor(private val eventBus: EventBus, private val accessLauncher: Standard
     }
 
     private fun Npc.publishEvent(queue: NpcQueueList.Queue, type: UnpackedNpcType = visType) {
-        val packedType = (type.id.toLong() shl 32) or queue.id.toLong()
+        val packedType = EventBus.composeLongKey(type.id, queue.id)
         val typeTrigger = eventBus.suspend[NpcQueueEvents.Type::class.java, packedType]
         if (typeTrigger != null) {
             val event = NpcQueueEvents.Type(this, queue.args, queue.id)
@@ -56,7 +56,7 @@ constructor(private val eventBus: EventBus, private val accessLauncher: Standard
         }
 
         if (type.contentGroup != -1) {
-            val packedContentGroup = (type.contentGroup.toLong() shl 32) or queue.id.toLong()
+            val packedContentGroup = EventBus.composeLongKey(type.contentGroup, queue.id)
             val contentTrigger =
                 eventBus.suspend[NpcQueueEvents.Content::class.java, packedContentGroup]
             if (contentTrigger != null) {

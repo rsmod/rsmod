@@ -1,6 +1,7 @@
 package org.rsmod.api.player.ui
 
 import org.rsmod.api.player.protect.ProtectedAccess
+import org.rsmod.events.EventBus
 import org.rsmod.events.KeyedEvent
 import org.rsmod.events.SuspendEvent
 import org.rsmod.game.entity.Player
@@ -57,7 +58,7 @@ public class IfModalButtonT(
     targetComponent: Component,
 ) : SuspendEvent<ProtectedAccess> {
     override val id: Long =
-        (selectedComponent.packed.toLong() shl 32) or targetComponent.packed.toLong()
+        EventBus.composeLongKey(selectedComponent.packed, targetComponent.packed)
 
     override fun toString(): String =
         "IfModalButtonT(" +
@@ -78,7 +79,7 @@ public class IfOverlayButtonT(
     targetComponent: Component,
 ) : KeyedEvent {
     override val id: Long =
-        (selectedComponent.packed.toLong() shl 32) or targetComponent.packed.toLong()
+        EventBus.composeLongKey(selectedComponent.packed, targetComponent.packed)
 
     override fun toString(): String =
         "IfOverlayButtonT(" +
@@ -99,7 +100,7 @@ public class IfModalDrag(
     targetComponent: Component,
 ) : SuspendEvent<ProtectedAccess> {
     override val id: Long =
-        (selectedComponent.packed.toLong() shl 32) or targetComponent.packed.toLong()
+        EventBus.composeLongKey(selectedComponent.packed, targetComponent.packed)
 
     override fun toString(): String =
         "IfModalDrag(" +
@@ -120,7 +121,7 @@ public class IfOverlayDrag(
     targetComponent: Component,
 ) : KeyedEvent {
     override val id: Long =
-        (selectedComponent.packed.toLong() shl 32) or targetComponent.packed.toLong()
+        EventBus.composeLongKey(selectedComponent.packed, targetComponent.packed)
 
     override fun toString(): String =
         "IfOverlayDrag(" +

@@ -1,5 +1,6 @@
 package org.rsmod.api.player.events.interact
 
+import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.npc.UnpackedNpcType
@@ -105,7 +106,7 @@ public class NpcTEvents {
         public val objType: ObjType?,
         npcType: UnpackedNpcType,
         component: ComponentType,
-    ) : OpEvent((npcType.id.toLong() shl 32) or component.packed.toLong())
+    ) : OpEvent(EventBus.composeLongKey(npcType.id, component.packed))
 
     public class Ap(
         public val npc: Npc,
@@ -113,7 +114,7 @@ public class NpcTEvents {
         public val objType: ObjType?,
         npcType: UnpackedNpcType,
         component: ComponentType,
-    ) : ApEvent((npcType.id.toLong() shl 32) or component.packed.toLong())
+    ) : ApEvent(EventBus.composeLongKey(npcType.id, component.packed))
 }
 
 public class NpcTContentEvents {
@@ -123,7 +124,7 @@ public class NpcTContentEvents {
         public val objType: ObjType?,
         component: ComponentType,
         content: Int,
-    ) : OpEvent((content.toLong() shl 32) or component.packed.toLong())
+    ) : OpEvent(EventBus.composeLongKey(content, component.packed))
 
     public class Ap(
         public val npc: Npc,
@@ -131,7 +132,7 @@ public class NpcTContentEvents {
         public val objType: ObjType?,
         component: ComponentType,
         content: Int,
-    ) : ApEvent((content.toLong() shl 32) or component.packed.toLong())
+    ) : ApEvent(EventBus.composeLongKey(content, component.packed))
 }
 
 public class NpcTDefaultEvents {
@@ -158,14 +159,14 @@ public class NpcUEvents {
         public val invSlot: Int,
         public val objType: UnpackedObjType,
         npcType: UnpackedNpcType,
-    ) : OpEvent((npcType.id.toLong() shl 32) or objType.id.toLong())
+    ) : OpEvent(EventBus.composeLongKey(npcType.id, objType.id))
 
     public class Ap(
         public val npc: Npc,
         public val invSlot: Int,
         public val objType: UnpackedObjType,
         npcType: UnpackedNpcType,
-    ) : ApEvent((npcType.id.toLong() shl 32) or objType.id.toLong())
+    ) : ApEvent(EventBus.composeLongKey(npcType.id, objType.id))
 }
 
 public class NpcUContentEvents {
@@ -174,14 +175,14 @@ public class NpcUContentEvents {
         public val invSlot: Int,
         public val objType: UnpackedObjType,
         content: Int,
-    ) : OpEvent((content.toLong() shl 32) or objType.id.toLong())
+    ) : OpEvent(EventBus.composeLongKey(content, objType.id))
 
     public class Ap(
         public val npc: Npc,
         public val invSlot: Int,
         public val objType: UnpackedObjType,
         content: Int,
-    ) : ApEvent((content.toLong() shl 32) or objType.id.toLong())
+    ) : ApEvent(EventBus.composeLongKey(content, objType.id))
 }
 
 public class NpcUDefaultEvents {
