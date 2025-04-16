@@ -7,12 +7,12 @@ import org.rsmod.game.type.inv.InvScope
 import org.rsmod.game.type.inv.InvStackType
 
 object LumbridgeInvs : InvReferences() {
-    val bobs_brilliant_axes = find("bobs_brilliant_axes")
+    val axeshop = find("axeshop")
 }
 
 object LumbridgeInvBuilder : InvEditor() {
     init {
-        edit("bobs_brilliant_axes") {
+        edit("axeshop") {
             scope = InvScope.Shared
             stack = InvStackType.Always
             autoSize = true

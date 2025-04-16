@@ -206,7 +206,7 @@ public class ProtectedAccess(
     public val inv: Inventory by player::inv
     public val worn: Inventory by player::worn
     public val bank: Inventory by lazy { inv(invs.bank) }
-    public val tempInv: Inventory by lazy { inv(invs.tempinv) }
+    public val tempInv: Inventory by lazy { inv(invs.tradeoffer) }
 
     public val vars: VarPlayerIntMapDelegate by lazy { VarPlayerIntMapDelegate.from(player) }
     public val strVars: VarPlayerStrMap by player::strVars

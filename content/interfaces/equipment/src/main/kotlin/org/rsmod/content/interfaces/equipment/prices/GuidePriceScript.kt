@@ -100,7 +100,7 @@ constructor(
 
     private fun Player.updateGuidePrices() {
         val tempInv =
-            checkNotNull(invMap[invs.tempinv]) {
+            checkNotNull(invMap[invs.tradeoffer]) {
                 "`tempInv` must be transmitted. (`startInvTransmit`)"
             }
         val priceList = tempInv.toPriceList()
@@ -222,7 +222,7 @@ constructor(
         }
 
     private fun Player.closeGuide() {
-        val tempInv = invMap[invs.tempinv] ?: return
+        val tempInv = invMap[invs.tradeoffer] ?: return
         val result = invMoveAll(from = tempInv, into = inv)
         check(result.success) { "Could not move `tempInv` into `inv`: $tempInv" }
     }

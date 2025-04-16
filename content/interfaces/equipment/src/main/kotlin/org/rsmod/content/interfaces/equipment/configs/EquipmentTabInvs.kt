@@ -7,13 +7,14 @@ import org.rsmod.game.type.inv.InvStackType
 internal typealias equip_invs = EquipmentTabInvs
 
 object EquipmentTabInvs : InvReferences() {
-    val death_data = find("items_kept_on_death_data_transmission", 11353239)
-    val death = find("items_kept_on_death", 11353355)
-    val kept = find("items_kept_on_death_kept", 28603796)
+    // TODO: Fix incorrect inv types.
+    val death_data = find("diango_hols_sack", 11353239)
+    val death = find("deathkeep_items", 11353355)
+    val kept = find("skill_guide_hunting_tracking", 28603796)
 }
 
 internal object EquipmentTabInvEdit : InvEditor() {
     init {
-        edit("items_kept_on_death_kept") { stack = InvStackType.Never }
+        edit("skill_guide_hunting_tracking") { stack = InvStackType.Never }
     }
 }

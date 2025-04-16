@@ -24,7 +24,7 @@ class Bob @Inject constructor(private val shops: Shops, private val dialogues: D
     }
 
     private fun Player.openShop(npc: Npc) {
-        shops.open(this, npc, "Bob's Brilliant Axes", LumbridgeInvs.bobs_brilliant_axes)
+        shops.open(this, npc, "Bob's Brilliant Axes", LumbridgeInvs.axeshop)
     }
 
     private suspend fun ProtectedAccess.startDialogue(npc: Npc) {

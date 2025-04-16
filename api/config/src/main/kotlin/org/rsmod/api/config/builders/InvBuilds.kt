@@ -31,7 +31,7 @@ internal object InvBuilds : InvBuilder() {
             stock15 = stock(objs.sos_security_book, count = 5, restockCycles = 100)
         }
 
-        build("tempinv") {
+        build("tradeoffer") {
             scope = InvScope.Perm
             protect = false
             size = 28
