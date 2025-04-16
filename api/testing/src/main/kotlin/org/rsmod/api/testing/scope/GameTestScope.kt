@@ -111,6 +111,7 @@ import org.rsmod.game.map.LocZoneStorage
 import org.rsmod.game.map.collision.addLoc
 import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.obj.InvObj
+import org.rsmod.game.queue.EngineQueueCache
 import org.rsmod.game.region.RegionListLarge
 import org.rsmod.game.region.RegionListSmall
 import org.rsmod.game.stat.PlayerSkillXPTable
@@ -857,6 +858,7 @@ constructor(
             bind(VarpTypeList::class.java).toInstance(cacheTypes.varps)
 
             bind(CheatCommandMap::class.java).`in`(Scopes.SINGLETON)
+            bind(EngineQueueCache::class.java).`in`(Scopes.SINGLETON)
 
             Multibinder.newSetBinder(binder(), InvisibleLevelMod::class.java)
             bind(InvisibleLevels::class.java).`in`(Scopes.SINGLETON)
