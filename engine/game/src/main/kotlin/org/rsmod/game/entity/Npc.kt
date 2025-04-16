@@ -368,6 +368,12 @@ public class Npc(
             playerFaceClose(target)
         }
 
+    @InternalApi
+    public fun clearIdleCycles() {
+        wanderIdleCycles = -1
+        patrolIdleCycles = -1
+    }
+
     /**
      * Returns the headbar associated with [headbar] param for the **current** npc [visType].
      *

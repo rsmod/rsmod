@@ -17,6 +17,7 @@ constructor(private val playerList: PlayerList, private val interactions: AiPlay
             npc.resetMode()
             return
         }
+        npc.clearIdleCycles()
         npc.facePlayer(target)
         interactions.interactOp(npc, target, op)
     }
@@ -27,6 +28,7 @@ constructor(private val playerList: PlayerList, private val interactions: AiPlay
             npc.resetMode()
             return
         }
+        npc.clearIdleCycles()
         npc.facePlayer(target)
         interactions.interactAp(npc, target, op)
     }

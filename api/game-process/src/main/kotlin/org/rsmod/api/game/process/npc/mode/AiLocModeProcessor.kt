@@ -14,6 +14,7 @@ public class AiLocModeProcessor @Inject constructor(private val interactions: Ai
             npc.resetMode()
             return
         }
+        npc.clearIdleCycles()
         interactions.interactOp(npc, target, op)
     }
 
@@ -23,6 +24,7 @@ public class AiLocModeProcessor @Inject constructor(private val interactions: Ai
             npc.resetMode()
             return
         }
+        npc.clearIdleCycles()
         interactions.interactAp(npc, target, op)
     }
 
