@@ -9,6 +9,7 @@ import org.rsmod.api.cache.types.category.CategoryTypeDecoder
 import org.rsmod.api.cache.types.comp.ComponentTypeDecoder
 import org.rsmod.api.cache.types.enums.EnumTypeDecoder
 import org.rsmod.api.cache.types.font.FontMetricsDecoder
+import org.rsmod.api.cache.types.gameval.GameValDecoder
 import org.rsmod.api.cache.types.headbar.HeadbarTypeDecoder
 import org.rsmod.api.cache.types.hitmark.HitmarkTypeDecoder
 import org.rsmod.api.cache.types.inv.InvTypeDecoder
@@ -66,6 +67,7 @@ public object TypeListMapDecoder {
         val categories = CategoryTypeDecoder.decodeAll(names)
         val projanims = decode { ProjAnimTypeDecoder.decodeAll(cache) }
         val midis = MidiTypeDecoder.decodeAll(names)
+        val gameVals = GameValDecoder.decodeAll(cache)
         TypeListMap(
                 locs = locs.await(),
                 objs = objs.await(),
@@ -92,6 +94,7 @@ public object TypeListMapDecoder {
                 categories = categories,
                 projanims = projanims.await(),
                 midis = midis,
+                gameVals = gameVals,
             )
             .apply {
                 assignInternal(this.objs, names.objs)

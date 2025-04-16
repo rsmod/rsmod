@@ -12,6 +12,7 @@ import org.rsmod.game.type.category.CategoryTypeList
 import org.rsmod.game.type.comp.ComponentTypeList
 import org.rsmod.game.type.enums.EnumTypeList
 import org.rsmod.game.type.font.FontMetricsTypeList
+import org.rsmod.game.type.gameval.GameValNameMap
 import org.rsmod.game.type.headbar.HeadbarTypeList
 import org.rsmod.game.type.hitmark.HitmarkTypeList
 import org.rsmod.game.type.interf.InterfaceTypeList
@@ -90,6 +91,8 @@ public object CacheModule : ExtendedModule() {
     @Provides public fun projAnimTypeList(map: TypeListMap): ProjAnimTypeList = map.projanims
 
     @Provides public fun midiTypeList(map: TypeListMap): MidiTypeList = map.midis
+
+    @Provides public fun gameValNameMap(map: TypeListMap): GameValNameMap = map.gameVals
 }
 
 private class ConfigTypeListMapProvider

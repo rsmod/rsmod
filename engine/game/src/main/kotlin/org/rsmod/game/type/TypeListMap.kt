@@ -4,6 +4,7 @@ import org.rsmod.game.type.category.CategoryTypeList
 import org.rsmod.game.type.comp.ComponentTypeList
 import org.rsmod.game.type.enums.EnumTypeList
 import org.rsmod.game.type.font.FontMetricsTypeList
+import org.rsmod.game.type.gameval.GameValNameMap
 import org.rsmod.game.type.headbar.HeadbarTypeList
 import org.rsmod.game.type.hitmark.HitmarkTypeList
 import org.rsmod.game.type.interf.InterfaceTypeList
@@ -52,4 +53,5 @@ public data class TypeListMap(
     public val categories: CategoryTypeList,
     public val projanims: ProjAnimTypeList,
     public val midis: MidiTypeList,
+    public val gameVals: GameValNameMap,
 )

@@ -14,9 +14,9 @@ import org.rsmod.game.type.font.UnpackedFontMetricsType
 public object FontMetricsDecoder {
     public fun decodeAll(cache: Cache): FontMetricsTypeList {
         val types = Int2ObjectOpenHashMap<UnpackedFontMetricsType>()
-        val groups = cache.list(Js5Archives.FONT_METRICS)
+        val groups = cache.list(Js5Archives.FONTMETRICS)
         for (group in groups) {
-            val data = cache.read(Js5Archives.FONT_METRICS, group.id, file = 0)
+            val data = cache.read(Js5Archives.FONTMETRICS, group.id, file = 0)
             val type = data.use { decode(it).build(group.id) }
             types[group.id] = type.apply { TypeResolver[this] = group.id }
         }
