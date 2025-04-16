@@ -71,9 +71,9 @@ constructor(
     private var Player.specialType by enumVarp<SpecialAttackType>(varps.sa_attack)
     private var Player.autoRetaliateDisabled by boolVarp(varps.option_nodef)
 
-    private var Player.autocastEnabled by boolVarBit(varbits.autocast_enabled)
+    private var Player.autocastEnabled by boolVarBit(varbits.autocast_set)
     private var Player.autocastSpell by intVarBit(varbits.autocast_spell)
-    private var Player.defensiveCasting by boolVarBit(varbits.defensive_casting_mode)
+    private var Player.defensiveCasting by boolVarBit(varbits.autocast_defmode)
 
     private lateinit var stanceSaveVarBits: EnumTypeNonNullMap<Int, VarBitType>
 

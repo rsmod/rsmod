@@ -79,9 +79,9 @@ private constructor(
             player.overheadIcon = null
         }
 
-        // When all prayers are manually disabled, quick prayer flag should also be disabled.
+        // When all prayers are manually disabled, the quick prayer flag should also be disabled.
         if (vars[varbits.enabled_prayers] == 0) {
-            vars[varbits.using_quick_prayers] = 0
+            vars[varbits.quickprayer_active] = 0
         }
     }
 

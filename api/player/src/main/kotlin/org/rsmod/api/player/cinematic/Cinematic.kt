@@ -21,11 +21,11 @@ import org.rsmod.game.entity.Player
 import org.rsmod.game.type.interf.IfSubType
 
 public object Cinematic {
-    private var Player.camMode by enumVarBit<CameraMode>(varbits.cinematic_view)
-    private var Player.compass by enumVarBit<CompassState>(varbits.minimap_compass_state)
-    private var Player.hideTop by boolVarBit(varbits.hide_toplevel)
-    private var Player.hideHud by boolVarBit(varbits.hide_health_hud)
-    private var Player.acceptAid by boolVarBit(varbits.accept_aid)
+    private var Player.camMode by enumVarBit<CameraMode>(varbits.fov_clamp)
+    private var Player.compass by enumVarBit<CompassState>(varbits.minimap_state)
+    private var Player.hideTop by boolVarBit(varbits.cutscene_status)
+    private var Player.hideHud by boolVarBit(varbits.gravestone_tli_hide)
+    private var Player.acceptAid by boolVarBit(varbits.option_acceptaid)
     private var Player.acceptAidRestore by boolVarBit(varbits.accept_aid_restore)
 
     public fun setCameraMode(player: Player, mode: CameraMode) {

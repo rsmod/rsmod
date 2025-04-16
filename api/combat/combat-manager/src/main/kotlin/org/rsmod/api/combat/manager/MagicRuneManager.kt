@@ -247,11 +247,11 @@ constructor(
     }
 
     private fun Player.allowBlighted(): Boolean {
-        return vars[varbits.allow_blighted_sacks] == 1
+        return vars[varbits.blighted_items_allowed] == 1
     }
 
     private fun Player.nearFountainOfRune(): Boolean {
-        return vars[varbits.fountain_of_rune] == 1
+        return vars[varbits.fountain_of_rune_active] == 1
     }
 
     private fun Player.currentRunePouch(): MagicRunes.RunePouch? {
@@ -261,18 +261,18 @@ constructor(
         }
         val hasDivineRunePouch = inv.any { it.isDivineRunePouch() }
 
-        val pouchCompactRune1 = vars[varbits.rune_pouch_compactid1]
-        val pouchCompactRune2 = vars[varbits.rune_pouch_compactid2]
-        val pouchCompactRune3 = vars[varbits.rune_pouch_compactid3]
-        val pouchCountVarBit1 = varbits.rune_pouch_count1
-        val pouchCountVarBit2 = varbits.rune_pouch_count2
-        val pouchCountVarBit3 = varbits.rune_pouch_count3
+        val pouchCompactRune1 = vars[varbits.rune_pouch_type_1]
+        val pouchCompactRune2 = vars[varbits.rune_pouch_type_2]
+        val pouchCompactRune3 = vars[varbits.rune_pouch_type_3]
+        val pouchCountVarBit1 = varbits.rune_pouch_quantity_1
+        val pouchCountVarBit2 = varbits.rune_pouch_quantity_2
+        val pouchCountVarBit3 = varbits.rune_pouch_quantity_3
 
         val pouchCompactRune4: Int
         val pouchCountVarBit4: VarBitType?
         if (hasDivineRunePouch) {
-            pouchCompactRune4 = vars[varbits.rune_pouch_compactid4]
-            pouchCountVarBit4 = varbits.rune_pouch_count4
+            pouchCompactRune4 = vars[varbits.rune_pouch_type_4]
+            pouchCountVarBit4 = varbits.rune_pouch_quantity_4
         } else {
             pouchCompactRune4 = 0
             pouchCountVarBit4 = null

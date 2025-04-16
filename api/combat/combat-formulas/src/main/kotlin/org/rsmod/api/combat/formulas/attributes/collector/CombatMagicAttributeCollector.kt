@@ -79,7 +79,7 @@ public class CombatMagicAttributeCollector @Inject constructor(private val objTy
             attributes += CombatSpellAttributes.BrimstonePassive
         }
 
-        if (player.vars[varbits.mark_of_darkness_active] == 1) {
+        if (player.vars[varbits.buff_mark_of_darkness_disabled] == 1) {
             attributes += CombatSpellAttributes.MarkOfDarkness
         }
 
@@ -96,7 +96,8 @@ public class CombatMagicAttributeCollector @Inject constructor(private val objTy
             attributes += CombatSpellAttributes.BoltSpell
         }
 
-        if (MagicSpellChecks.isGodSpell(spell) && player.vars[varbits.charge_buff_duration] > 0) {
+        val chargeBuffCooldown = player.vars[varbits.buff_charge_spell_disabled]
+        if (MagicSpellChecks.isGodSpell(spell) && chargeBuffCooldown > 0) {
             attributes += CombatSpellAttributes.ChargeSpell
         }
 

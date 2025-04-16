@@ -71,7 +71,7 @@ constructor(
     }
 
     private fun ProtectedAccess.toggleQuickPrayers() {
-        if (vars[varbits.using_quick_prayers] != 0) {
+        if (vars[varbits.quickprayer_active] != 0) {
             disableQuickPrayers()
         } else {
             enableQuickPrayers()
@@ -79,18 +79,18 @@ constructor(
     }
 
     private fun ProtectedAccess.enableQuickPrayers() {
-        val quickPrayerVars = vars[prayer_varbits.selected_quick_prayers]
+        val quickPrayerVars = vars[prayer_varbits.quickprayer_selected]
 
         if (quickPrayerVars == 0) {
             mes("You haven't selected any quick-prayers.")
-            vars[varbits.using_quick_prayers] = 0
+            vars[varbits.quickprayer_active] = 0
             return
         }
 
         vars[varbits.enabled_prayers] = quickPrayerVars
         disableOverhead()
 
-        vars[varbits.using_quick_prayers] = 1
+        vars[varbits.quickprayer_active] = 1
 
         val quickPrayers = quickPrayerVars.toPrayerList()
         for (prayer in quickPrayers) {
@@ -105,7 +105,7 @@ constructor(
     private fun ProtectedAccess.disableQuickPrayers() {
         disableOverhead()
         vars[varbits.enabled_prayers] = 0
-        vars[varbits.using_quick_prayers] = 0
+        vars[varbits.quickprayer_active] = 0
         soundSynth(prayer_sounds.disable)
     }
 
@@ -190,4 +190,4 @@ constructor(
     private fun Prayer.lockedMessage(): String = plainLockedMessage ?: levelReqMessage()
 }
 
-private var Player.selectedQuickPrayers by intVarBit(prayer_varbits.selected_quick_prayers)
+private var Player.selectedQuickPrayers by intVarBit(prayer_varbits.quickprayer_selected)

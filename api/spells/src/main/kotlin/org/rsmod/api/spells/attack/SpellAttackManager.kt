@@ -23,7 +23,7 @@ import org.rsmod.game.type.synth.SynthType
 public class SpellAttackManager
 @Inject
 constructor(private val manager: PlayerAttackManager, private val runes: MagicRuneManager) {
-    private val ProtectedAccess.autocastEnabled by boolVarBit(varbits.autocast_enabled)
+    private val ProtectedAccess.autocastEnabled by boolVarBit(varbits.autocast_set)
 
     /**
      * Checks and **consumes** any requirements for [CombatAttack.Spell.spell], delegating to

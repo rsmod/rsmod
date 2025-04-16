@@ -160,8 +160,12 @@ public object AccuracyOperations {
             vars[varbits.steel_skin] == 1 -> 1.15
             vars[varbits.rock_skin] == 1 -> 1.10
             vars[varbits.thick_skin] == 1 -> 1.05
-            vars[varbits.hawk_eye] == 1 && vars[varbits.deadeye_unlocked] == 1 -> 1.05
-            vars[varbits.mystic_might] == 1 && vars[varbits.mystic_vigour_unlocked] == 1 -> 1.05
+            vars[varbits.hawk_eye] == 1 && vars[varbits.prayer_deadeye_unlocked] == 1 -> {
+                1.05
+            }
+            vars[varbits.mystic_might] == 1 && vars[varbits.prayer_mystic_vigour_unlocked] == 1 -> {
+                1.05
+            }
             else -> 1.0
         }
 }

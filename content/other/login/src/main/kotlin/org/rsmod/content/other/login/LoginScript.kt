@@ -39,7 +39,7 @@ constructor(
     private val statTypes: StatTypeList,
     private val invisibleLevels: InvisibleLevels,
 ) : PluginScript() {
-    private var Player.hideRoofs by boolVarBit(varbits.hide_roofs)
+    private var Player.hideRoofs by boolVarBit(varbits.option_hide_rooftops)
 
     override fun ScriptContext.startUp() {
         onPlayerLogIn { player.defaultLogIn() }

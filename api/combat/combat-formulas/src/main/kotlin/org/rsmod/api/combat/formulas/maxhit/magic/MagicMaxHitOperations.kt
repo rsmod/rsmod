@@ -306,7 +306,7 @@ public object MagicMaxHitOperations {
         when {
             player.vars[varbits.mystic_lore] == 1 -> 10
             player.vars[varbits.mystic_might] == 1 -> {
-                if (player.vars[varbits.mystic_vigour_unlocked] == 1) 30 else 20
+                if (player.vars[varbits.prayer_mystic_vigour_unlocked] == 1) 30 else 20
             }
             player.vars[varbits.augury] == 1 -> 40
             else -> 0

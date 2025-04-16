@@ -202,7 +202,7 @@ public object RangedAccuracyOperations {
             this[varbits.sharp_eye] == 1 -> 1.05
             this[varbits.hawk_eye] == 1 -> 1.1
             this[varbits.eagle_eye] == 1 -> {
-                if (this[varbits.deadeye_unlocked] == 1) 1.18 else 1.15
+                if (this[varbits.prayer_deadeye_unlocked] == 1) 1.18 else 1.15
             }
             this[varbits.rigour] == 1 -> 1.2
             else -> 1.0

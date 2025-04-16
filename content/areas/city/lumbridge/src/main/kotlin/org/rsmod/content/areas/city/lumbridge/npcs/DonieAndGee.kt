@@ -210,8 +210,8 @@ private suspend fun Dialogue.bigScaryDemonQuests() {
             "kind of greater evil.. sounds demon-like if you ask me.",
     )
     chatNpc(quiz, "Perhaps you could check it out if you are as brave as you say?")
-    // Note: dialogue should be different when quest has been started, but not completed.
-    val progress = vars[BaseVarBits.demon_slayer_progress]
+    // Note: dialogue should be different when the quest has been started but not completed.
+    val progress = vars[BaseVarBits.demonslayer_main]
     if (progress == 0) {
         chatPlayer(happy, "Thanks for the tip, perhaps I will.")
     } else {

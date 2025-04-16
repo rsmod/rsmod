@@ -119,119 +119,119 @@ private constructor(
             "Glass Box" ->
                 lockedAnimDialog(
                     seqs.emote_glass_box,
-                    varbits.glass_box_emote,
+                    varbits.emote_glassbox,
                     "This emote can be unlocked during the mime random event.",
                 )
             "Climb Rope" ->
                 lockedAnimDialog(
                     seqs.emote_climb_rope,
-                    varbits.climb_rope_emote,
+                    varbits.emote_climbrope,
                     "This emote can be unlocked during the mime random event.",
                 )
             "Lean" ->
                 lockedLoopAnimDialog(
                     seqs.emote_lean,
                     seqs.emote_lean_loop,
-                    varbits.lean_emote,
+                    varbits.emote_lean,
                     "This emote can be unlocked during the mime random event.",
                     op,
                 )
             "Glass Wall" ->
                 lockedAnimDialog(
                     seqs.emote_glass_wall,
-                    varbits.glass_wall_emote,
+                    varbits.emote_glasswall,
                     "This emote can be unlocked during the mime random event.",
                 )
             "Idea" ->
                 lockedAnimDialog(
                     seqs.emote_lightbulb,
-                    varbits.idea_emote,
+                    varbits.sos_emote_idea,
                     "You can't use that emote yet - visit the Stronghold of Security to unlock it.",
                     spot = spotanims.idea_emote,
                 )
             "Stamp" ->
                 lockedAnimDialog(
                     seqs.emote_stampfeet,
-                    varbits.stamp_emote,
+                    varbits.sos_emote_stamp,
                     "You can't use that emote yet - visit the Stronghold of Security to unlock it.",
                     spot = spotanims.stampfeet_emote,
                 )
             "Flap" ->
                 lockedAnimDialog(
                     flapEmoteSelector(),
-                    varbits.flap_emote,
+                    varbits.sos_emote_flap,
                     "You can't use that emote yet - visit the Stronghold of Security to unlock it.",
                 )
             "Slap Head" ->
                 lockedAnimDialog(
-                    seqs.emote_lightbulb,
-                    varbits.idea_emote,
+                    seqs.emote_slap_head,
+                    varbits.sos_emote_idea,
                     "You can't use that emote yet - visit the Stronghold of Security to unlock it.",
                 )
             "Zombie Walk" ->
                 lockedAnimDialog(
                     seqs.emote_zombie_walk,
-                    varbits.zombie_walk_emote,
+                    varbits.emote_zombie_walk,
                     "This emote can be unlocked during the gravedigger random event.",
                 )
             "Zombie Dance" ->
                 lockedAnimDialog(
                     seqs.emote_zombie_dance,
-                    varbits.zombie_dance_emote,
+                    varbits.emote_zombie_dance,
                     "This emote can be unlocked during the gravedigger random event.",
                 )
             "Scared" ->
                 lockedAnimDialog(
                     seqs.emote_scared,
-                    varbits.scared_emote,
+                    varbits.emote_terrified,
                     "This emote can be unlocked by doing a Halloween seasonal event.",
                 )
             "Rabbit Hop" ->
                 lockedAnimDialog(
                     seqs.emote_rabbit_hop,
-                    varbits.rabbit_hop_emote,
+                    varbits.emote_bunny_hop,
                     "This emote can be unlocked by doing an Easter seasonal event.",
                 )
             "Sit up" ->
                 lockedAnimDialog(
                     seqs.emote_sit_up,
-                    varbits.drill_demon_emotes,
+                    varbits.emote_drilldemon,
                     "You can't use that emote yet - complete the Drill Demon event to unlock them.",
                 )
             "Push up" ->
                 lockedAnimDialog(
                     seqs.emote_push_up,
-                    varbits.drill_demon_emotes,
+                    varbits.emote_drilldemon,
                     "You can't use that emote yet - complete the Drill Demon event to unlock them.",
                 )
             "Star jump" ->
                 lockedAnimDialog(
                     seqs.emote_star_jump,
-                    varbits.drill_demon_emotes,
+                    varbits.emote_drilldemon,
                     "You can't use that emote yet - complete the Drill Demon event to unlock them.",
                 )
             "Jog" ->
                 lockedAnimDialog(
                     seqs.emote_jog,
-                    varbits.drill_demon_emotes,
+                    varbits.emote_drilldemon,
                     "You can't use that emote yet - complete the Drill Demon event to unlock them.",
                 )
             "Flex" ->
                 lockedAnimDialog(
                     seqs.emote_flex,
-                    varbits.flex_emote,
+                    varbits.emote_flex,
                     "You can unlock this emote by completing Checkal's task in Below Ice Mountain.",
                 )
             "Zombie Hand" ->
                 lockedAnimDialog(
                     seqs.emote_zombie_hand,
-                    varbits.zombie_hand_emote,
+                    varbits.emote_zombie_hand,
                     "This emote can be unlocked by doing a Halloween seasonal event.",
                 )
             "Hypermobile Drinker" ->
                 lockedAnimDialog(
                     seqs.emote_hypermobile_drinker,
-                    varbits.hypermobile_drinker_emote,
+                    varbits.emote_ash,
                     "This emote can be unlocked by doing a Halloween seasonal event.",
                 )
             "Skill Cape" -> skillCapeEmote()
@@ -240,40 +240,40 @@ private constructor(
             "Smooth dance" ->
                 lockedAnimDialog(
                     seqs.emote_smooth_dance,
-                    varbits.smooth_dance_emote,
+                    varbits.emote_hotline_bling,
                     "This emote can be unlocked by doing a birthday event.",
                 )
             "Crazy dance" ->
                 lockedAnimDialog(
                     crazyDanceEmoteSelector(),
-                    varbits.crazy_dance_emote,
+                    varbits.emote_gangnam,
                     "This emote can be unlocked by doing a birthday event.",
                 )
             "Premier Shield" -> premierShieldEmote()
             "Explore" ->
                 lockedAnimDialog(
                     seqs.emote_explore,
-                    varbits.explore_emote,
+                    varbits.emote_explore,
                     "This emote can be unlocked by completing at least 600 beginner clue scrolls.",
                 )
             "Relic unlock" -> relicUnlockEmote()
             "Party" ->
                 lockedAnimDialog(
                     seqs.emote_party,
-                    varbits.party_emote,
+                    varbits.emote_party,
                     "This emote can be unlocked by doing a birthday event.",
                     spot = spotanims.emote_party,
                 )
             "Trick" ->
                 lockedAnimDialog(
                     seqs.emote_trick,
-                    varbits.trick_emote,
+                    varbits.emote_trick,
                     "This emote can be unlocked by doing a Halloween event.",
                     spot = spotanims.emote_trick,
                 )
             "Fortis Salute" -> fortisSaluteEmote(loop = op == IfButtonOp.Op2)
             "Crab dance" -> {
-                /* Emote is not available in tab. */
+                /* Emote is not available in the tab. */
             }
             "Sit down" -> loopAnim(seqs.emote_sit_down_loop, seqs.emote_sit_down, op)
             else -> throw NotImplementedError("Emote not implemented: $emote")
@@ -407,7 +407,7 @@ private constructor(
 
     private fun ProtectedAccess.airGuitarEmote() {
         stopAction()
-        val unlocked = vars[varbits.air_guitar_emote] != 0
+        val unlocked = vars[varbits.emote_musiccape] != 0
         if (!unlocked) {
             mes(
                 "You need to have bought a music cape and have all music tracks " +
@@ -425,7 +425,7 @@ private constructor(
 
     private suspend fun ProtectedAccess.uriTransformEmote() {
         stopAction()
-        val unlocked = vars[varbits.uri_transform_emote] != 0
+        val unlocked = vars[varbits.emote_uri_transform] != 0
         if (!unlocked) {
             mesbox(
                 "This emote can be unlocked by completing at least 300 hard clue scrolls.",
@@ -457,7 +457,7 @@ private constructor(
 
     private suspend fun ProtectedAccess.premierShieldEmote() {
         stopAction()
-        if (vars[varbits.premier_shield_emote] < 1) {
+        if (vars[varbits.emote_premier_club_2018] < 1) {
             mesbox("This emote is unlocked upon creating an account.", lineHeight = 31)
             return
         }
@@ -481,7 +481,7 @@ private constructor(
 
     private suspend fun ProtectedAccess.relicUnlockEmote() {
         stopAction()
-        val unlocked = vars[varbits.relic_unlock_emote] != 0
+        val unlocked = vars[varbits.poh_leaguehall_outfitstand_relichunter_type] != 0
         if (!unlocked) {
             mes(
                 "You can't use that emote unless you have stored a " +
@@ -495,7 +495,7 @@ private constructor(
             return
         }
         anim(seqs.emote_relic_unlock)
-        if (vars[varbits.relic_unlock_emote] == 3) {
+        if (vars[varbits.poh_leaguehall_outfitstand_relichunter_type] == 3) {
             spotanim(spotanims.twisted_relic_unlock, height = 92)
         } else {
             spotanim(spotanims.trailblazer_relic_unlock, height = 92)

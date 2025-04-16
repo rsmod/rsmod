@@ -66,7 +66,7 @@ constructor(
             computeAttackRoll(source, attackType, attackStyle, meleeAttributes, npcAttributes)
         val attackRoll = (baseAttackRoll * specialMultiplier).toInt()
 
-        val amascutInvocationLvl = source.vars[varbits.toa_raid_level]
+        val amascutInvocationLvl = source.vars[varbits.toa_client_raid_level]
         val defenceRoll =
             computeDefenceRoll(
                 target = target,

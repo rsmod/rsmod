@@ -96,7 +96,7 @@ constructor(
             invalidArgs = "Use as ::varp debugNameOrId value (ex: option_run 1)"
         }
         onCommand("varbit", "Set varbit value", ::setVarBit) {
-            invalidArgs = "Use as ::varbit debugNameOrId value (ex: smooth_dance_emote 1)"
+            invalidArgs = "Use as ::varbit debugNameOrId value (ex: emote_hotline_bling 1)"
         }
     }
 

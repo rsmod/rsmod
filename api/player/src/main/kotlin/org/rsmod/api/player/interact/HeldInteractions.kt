@@ -386,9 +386,9 @@ constructor(
             return
         }
 
-        val thresholdWarning = player.vars[varbits.drop_item_warning] == 1
+        val thresholdWarning = player.vars[varbits.option_dropwarning_on] == 1
         if (thresholdWarning) {
-            val threshold = player.vars[varbits.drop_item_minimum_value]
+            val threshold = player.vars[varbits.option_dropwarning_value]
             val cost = (marketPrices[type] ?: 0) * obj.count
             if (cost >= threshold) {
                 access.dropWithWarning(inventory, dropSlot, obj, type)

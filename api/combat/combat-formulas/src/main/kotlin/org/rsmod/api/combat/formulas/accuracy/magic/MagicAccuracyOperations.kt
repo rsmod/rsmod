@@ -218,7 +218,7 @@ public object MagicAccuracyOperations {
             this[varbits.mystic_will] == 1 -> 1.05
             this[varbits.mystic_lore] == 1 -> 1.1
             this[varbits.mystic_might] == 1 -> {
-                if (this[varbits.mystic_vigour_unlocked] == 1) 1.18 else 1.15
+                if (this[varbits.prayer_mystic_vigour_unlocked] == 1) 1.18 else 1.15
             }
             this[varbits.augury] == 1 -> 1.25
             else -> 1.0

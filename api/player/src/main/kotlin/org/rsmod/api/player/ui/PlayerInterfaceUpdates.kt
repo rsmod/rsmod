@@ -9,9 +9,9 @@ import org.rsmod.game.entity.Player
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.obj.WeaponCategory
 
-private var Player.combatTabWeaponStyle: Int by intVarBit(varbits.combat_tab_weapon_style_type)
-private var Player.combatLvlWhole: Int by intVarBit(varbits.combat_level)
-private var Player.combatLvlDecimal: Int by intVarBit(varbits.combat_level_decimal)
+private var Player.combatTabWeaponStyle: Int by intVarBit(varbits.combat_weapon_category)
+private var Player.combatLvlWhole: Int by intVarBit(varbits.combatlevel_transmit)
+private var Player.combatLvlDecimal: Int by intVarBit(varbits.combatlevel_decimal_transmit)
 
 public object PlayerInterfaceUpdates {
     public fun updateCombatTab(

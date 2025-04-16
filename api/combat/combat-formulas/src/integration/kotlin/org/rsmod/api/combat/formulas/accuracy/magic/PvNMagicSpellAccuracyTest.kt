@@ -208,7 +208,7 @@ class PvNMagicSpellAccuracyTest {
                     .withGloves(objs.barrows_gloves)
                     .withFeet(objs.infinity_boots)
                     .withRing(objs.seers_ring_i)
-                    .withPrayers(varbits.mystic_vigour_unlocked, varbits.mystic_might)
+                    .withPrayers(varbits.prayer_mystic_vigour_unlocked, varbits.mystic_might)
                     .withNpcTarget(test_npcs.dagannoth_rex),
                 Matchup(expectedAccuracy = 14.76)
                     .withSpell(objs.spell_wind_strike)

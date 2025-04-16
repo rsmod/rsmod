@@ -148,7 +148,7 @@ internal object InternalPlayerHits {
     private fun Player.currentMaxHit(): Int = vars[varps.com_maxhit]
 
     private fun Player.maxDamageLitThreshold(sourceMaxHit: Int): Int? {
-        val varThreshold = vars[varbits.setting_max_hit_hitsplats_threshold]
+        val varThreshold = vars[varbits.settings_hitsplat_threshold]
         val minThreshold = max(constants.setting_lit_maxhit_min_threshold, varThreshold)
         val threshold = max(minThreshold, sourceMaxHit)
         return if (threshold == 0) {

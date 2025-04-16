@@ -79,7 +79,7 @@ enum class StationState(val varValue: Int) {
 }
 
 /* Canoe helpers */
-var ProtectedAccess.confirmedCanoeType by boolVarBit(canoe_varbits.canoe_type_confirmed)
+var ProtectedAccess.confirmedCanoeType by boolVarBit(canoe_varbits.canoe_avoid_if)
 var ProtectedAccess.canoeType by enumVarBitOrNull<Canoe>(canoe_varbits.canoe_type)
 
 internal operator fun ProtectedAccess.set(station: Station, canoe: Canoe, state: CanoeState) {

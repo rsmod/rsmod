@@ -16,9 +16,9 @@ import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.npc.NpcUid
 
 internal val ProtectedAccess.spellbook by enumVarBit<Spellbook>(varbits.spellbook)
-internal var ProtectedAccess.autocastEnabled by boolVarBit(varbits.autocast_enabled)
+internal var ProtectedAccess.autocastEnabled by boolVarBit(varbits.autocast_set)
 internal val ProtectedAccess.autocastSpell by intVarBit(varbits.autocast_spell)
-internal val ProtectedAccess.defensiveCasting by boolVarBit(varbits.defensive_casting_mode)
+internal val ProtectedAccess.defensiveCasting by boolVarBit(varbits.autocast_defmode)
 internal var ProtectedAccess.combatStance by enumVarp<CombatStance>(varps.com_mode)
 
 internal var ProtectedAccess.aggressiveNpc: NpcUid? by typeNpcUidVarp(varps.aggressive_npc)

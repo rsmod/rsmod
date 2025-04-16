@@ -80,7 +80,7 @@ constructor(
                 npcAttributes = npcAttributes,
             )
 
-        val amascutInvocationLvl = source.vars[varbits.toa_raid_level]
+        val amascutInvocationLvl = source.vars[varbits.toa_client_raid_level]
         val baseDefenceRoll =
             computeDefenceRoll(
                 target = target,
@@ -147,7 +147,7 @@ constructor(
             computeStaffAttackRoll(source, attackStyle, staffAttributes, npcAttributes)
         val attackRoll = (baseAttackRoll * specialMultiplier).toInt()
 
-        val amascutInvocationLvl = source.vars[varbits.toa_raid_level]
+        val amascutInvocationLvl = source.vars[varbits.toa_client_raid_level]
         val baseDefenceRoll =
             computeDefenceRoll(
                 target = target,

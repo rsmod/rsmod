@@ -55,7 +55,7 @@ internal object PrayerTabObjEditor : ObjEditor() {
         prayer(
             "prayer_chivalry",
             varbits.chivalry,
-            unlock = varbits.kings_ransom_progress,
+            unlock = varbits.kr_knightwaves_state,
             unlockState = 8,
             defenceReq = 65,
             "You need a <col=000080>Prayer</col> level of 60, a " +
@@ -66,7 +66,7 @@ internal object PrayerTabObjEditor : ObjEditor() {
         prayer(
             "prayer_piety",
             varbits.piety,
-            unlock = varbits.kings_ransom_progress,
+            unlock = varbits.kr_knightwaves_state,
             unlockState = 8,
             defenceReq = 70,
             "You need a <col=000080>Prayer</col> level of 70, a " +

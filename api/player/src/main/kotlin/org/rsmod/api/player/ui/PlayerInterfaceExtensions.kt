@@ -57,7 +57,7 @@ private typealias OpenSub = org.rsmod.api.player.ui.IfOpenSub
 
 private typealias CloseSub = org.rsmod.api.player.ui.IfCloseSub
 
-private var Player.modalWidthAndHeightMode: Int by intVarBit(varbits.modal_widthandheight_mode)
+private var Player.chatModalUnclamp: Int by intVarBit(varbits.chatmodal_unclamp)
 
 public fun Player.ifSetObj(target: ComponentType, obj: ObjType, zoomOrCount: Int) {
     client.write(IfSetObject(target.packed, obj.id, zoomOrCount))
@@ -559,7 +559,7 @@ internal fun Player.ifChatNpcSpecific(
 }
 
 internal fun Player.ifOpenChat(interf: InterfaceType, widthAndHeightMode: Int, eventBus: EventBus) {
-    modalWidthAndHeightMode = widthAndHeightMode
+    chatModalUnclamp = widthAndHeightMode
     topLevelChatboxResetBackground(this)
     openModal(interf, components.chat_dialogue_target, eventBus)
 }
