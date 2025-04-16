@@ -31,6 +31,11 @@ constructor(private val eventBus: EventBus, private val objTypes: ObjTypeList) {
         targetObjType: UnpackedObjType,
         targetSlot: Int,
     ) {
+        if (selectedSlot == targetSlot) {
+            resendSlot(inventory, 0)
+            return
+        }
+
         val selectedObj = inventory[selectedSlot]
         if (!objectVerify(inventory, selectedObj, selectedObjType)) {
             return
