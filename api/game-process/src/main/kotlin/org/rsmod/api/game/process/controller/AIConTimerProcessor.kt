@@ -25,7 +25,7 @@ public class AIConTimerProcessor @Inject constructor(private val eventBus: Event
     }
 
     private fun Controller.publishEvent() {
-        val trigger = eventBus.keyed[ControllerAIEvents.Timer::class.java, id.toLong()]
+        val trigger = eventBus.keyed[ControllerAIEvents.Timer::class.java, id]
         trigger?.invoke(ControllerAIEvents.Timer(this))
     }
 }

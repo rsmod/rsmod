@@ -26,7 +26,7 @@ constructor(private val eventBus: EventBus, private val accessLauncher: Standard
     }
 
     private fun Controller.publishAiEvent(queue: NpcQueueList.Queue) {
-        val trigger = eventBus.keyed[ControllerAIEvents.Queue::class.java, id.toLong()]
+        val trigger = eventBus.keyed[ControllerAIEvents.Queue::class.java, id]
         trigger?.invoke(ControllerAIEvents.Queue(this, queue.args))
     }
 

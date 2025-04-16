@@ -1,60 +1,57 @@
 package org.rsmod.events
 
 public class EventBus(
-    public val unbound: UnboundEventBus = UnboundEventBus(),
-    public val keyed: KeyedEventBus = KeyedEventBus(),
-    public val suspend: SuspendEventBus = SuspendEventBus(),
+    public val unbound: UnboundEventMap = UnboundEventMap(),
+    public val keyed: KeyedEventMap = KeyedEventMap(),
+    public val suspend: SuspendEventMap = SuspendEventMap(),
 ) {
-    /* Keyed events */
+    public fun <T : UnboundEvent> publish(event: T): Boolean {
+        val actions = unbound[event::class.java] ?: return false
+        for (action in actions) {
+            action(event)
+        }
+        return true
+    }
+
+    public fun <T : UnboundEvent> subscribeUnbound(type: Class<T>, action: T.() -> Unit) {
+        unbound.add(type, action)
+    }
+
     public fun <T : KeyedEvent> publish(event: T): Boolean {
-        val map = keyed[event::class.java] ?: return false
-        val action = map[event.id] ?: return false
+        val action = keyed[event::class.java, event.id] ?: return false
         action(event)
         return true
     }
 
-    public inline fun <reified T : KeyedEvent> subscribe(
-        id: Number,
-        noinline action: T.() -> Unit,
-    ) {
-        if (keyed.contains(T::class.java, id.toLong())) {
-            error("Event type `${T::class.java.simpleName}` with id `$id` was already subscribed.")
+    public fun <T : KeyedEvent> subscribeKeyed(type: Class<T>, id: Long, action: T.() -> Unit) {
+        val previous = keyed.putIfAbsent(type, id, action)
+        if (previous != null) {
+            error("Event with id already registered: id=$id, type=${type.simpleName}")
         }
-        keyed[T::class.java, id.toLong()] = action
     }
 
-    /* Suspend events */
-    public fun <T : SuspendEvent<*>> contains(type: Class<T>, key: Number): Boolean =
-        suspend.contains(type, key.toLong())
-
-    public fun <K, T : SuspendEvent<K>> subscribe(
-        type: Class<T>,
-        id: Number,
-        action: suspend K.(T) -> Unit,
-    ) {
-        if (suspend.contains(type, id.toLong())) {
-            error("Event type `${type.simpleName}` with id `$id` was already subscribed.")
-        }
-        suspend.set(type, id.toLong(), action)
-    }
-
-    public suspend fun <K, T : SuspendEvent<K>> publish(receiver: K, event: T): Boolean {
-        val map = suspend[event::class.java] ?: return false
-        val action = map[event.id] ?: return false
+    public suspend fun <R, T : SuspendEvent<R>> publish(receiver: R, event: T): Boolean {
+        val action = suspend[event::class.java, event.id] ?: return false
         action(receiver, event)
         return true
     }
 
-    /* Unbound events */
-    public fun <T : UnboundEvent> contains(type: Class<T>): Boolean = unbound.contains(type)
-
-    public fun <T : UnboundEvent> publish(event: T): Boolean {
-        val actions = unbound[event::class.java] ?: return false
-        actions.forEach { action -> action(event) }
-        return true
+    public fun <R, T : SuspendEvent<R>> subscribeSuspend(
+        type: Class<T>,
+        id: Long,
+        action: suspend R.(T) -> Unit,
+    ) {
+        val previous = suspend.putIfAbsent(type, id, action)
+        if (previous != null) {
+            error("Event with id already registered: type=$type, id=$id, type=$type")
+        }
     }
 
-    public inline fun <reified T : UnboundEvent> subscribe(noinline action: T.() -> Unit) {
-        unbound.add(T::class.java, action)
+    public fun <T : SuspendEvent<*>> contains(type: Class<T>, key: Long): Boolean {
+        return suspend.contains(type, key)
+    }
+
+    public fun <T : SuspendEvent<*>> contains(type: Class<T>, key: Int): Boolean {
+        return suspend.contains(type, key.toLong())
     }
 }

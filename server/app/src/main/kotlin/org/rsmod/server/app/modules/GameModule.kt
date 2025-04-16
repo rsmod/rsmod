@@ -2,9 +2,9 @@ package org.rsmod.server.app.modules
 
 import org.rsmod.api.core.CoreModule
 import org.rsmod.api.game.process.MainGameProcess
-import org.rsmod.events.KeyedEventBus
-import org.rsmod.events.SuspendEventBus
-import org.rsmod.events.UnboundEventBus
+import org.rsmod.events.KeyedEventMap
+import org.rsmod.events.SuspendEventMap
+import org.rsmod.events.UnboundEventMap
 import org.rsmod.game.GameProcess
 import org.rsmod.game.MapClock
 import org.rsmod.game.cheat.CheatCommandMap
@@ -26,9 +26,9 @@ object GameModule : ExtendedModule() {
         bindInstance<ControllerList>()
         bindInstance<RegionListSmall>()
         bindInstance<RegionListLarge>()
-        bindInstance<KeyedEventBus>()
-        bindInstance<SuspendEventBus>()
-        bindInstance<UnboundEventBus>()
+        bindInstance<KeyedEventMap>()
+        bindInstance<SuspendEventMap>()
+        bindInstance<UnboundEventMap>()
         bindInstance<CheatCommandMap>()
         bindBaseInstance<GameProcess>(MainGameProcess::class.java)
     }

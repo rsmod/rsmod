@@ -3,6 +3,7 @@ package org.rsmod.api.npc.plugin
 import kotlin.math.min
 import kotlin.math.round
 import org.rsmod.api.config.refs.params
+import org.rsmod.api.script.onEvent
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.npc.NpcStateEvents
 import org.rsmod.plugin.scripts.PluginScript
@@ -15,7 +16,7 @@ public class AiSpawnScript : PluginScript() {
         // applied. This behavior was eventually abused and subsequently patched. It's unclear
         // exactly how it was fixed. Here, we simply use an `npc_spawn`-equivalent event to assign
         // the multiplier.
-        eventBus.subscribe<NpcStateEvents.Create> { npc.assignCombatXpMultiplier() }
+        onEvent<NpcStateEvents.Create> { npc.assignCombatXpMultiplier() }
     }
 
     private fun Npc.assignCombatXpMultiplier() {

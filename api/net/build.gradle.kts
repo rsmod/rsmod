@@ -22,6 +22,7 @@ dependencies {
     implementation(projects.api.playerOutput)
     implementation(projects.api.pwHash)
     implementation(projects.api.registry)
+    implementation(projects.api.script)
     implementation(projects.api.serverConfig)
     implementation(projects.api.totp)
     implementation(projects.api.type.typeReferences)

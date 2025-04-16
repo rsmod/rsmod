@@ -9,6 +9,7 @@ import org.rsmod.api.game.process.GameLifecycle
 import org.rsmod.api.net.rsprot.player.SessionStart
 import org.rsmod.api.net.rsprot.provider.SimpleXteaProvider
 import org.rsmod.api.registry.region.RegionRegistry
+import org.rsmod.api.script.onEvent
 import org.rsmod.game.MapClock
 import org.rsmod.game.client.Client
 import org.rsmod.game.entity.Npc
@@ -34,12 +35,12 @@ constructor(
             "RSProt and RSMod have mismatching revision builds! " +
                 "(rsmod=${Build.MAJOR}, rsprot=${RSProtConstants.REVISION})"
         }
-        eventBus.subscribe<GameLifecycle.BootUp> { initService() }
-        eventBus.subscribe<GameLifecycle.UpdateInfo> { updateService() }
-        eventBus.subscribe<SessionStart> { startSession() }
-        eventBus.subscribe<SessionStateEvent.LogOut> { closeSession() }
-        eventBus.subscribe<NpcStateEvents.Create> { createNpcAvatar(npc) }
-        eventBus.subscribe<NpcStateEvents.Delete> { deleteNpcAvatar(npc) }
+        onEvent<GameLifecycle.BootUp> { initService() }
+        onEvent<GameLifecycle.UpdateInfo> { updateService() }
+        onEvent<SessionStart> { startSession() }
+        onEvent<SessionStateEvent.LogOut> { closeSession() }
+        onEvent<NpcStateEvents.Create> { createNpcAvatar(npc) }
+        onEvent<NpcStateEvents.Delete> { deleteNpcAvatar(npc) }
     }
 
     private fun initService() {

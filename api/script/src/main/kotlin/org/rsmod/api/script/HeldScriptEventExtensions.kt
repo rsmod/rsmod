@@ -108,7 +108,7 @@ public fun ScriptContext.onOpHeldU(
     // catch duplicate registrations - we must manually check that the reversed combination has
     // not already been registered.
     val opposite = (second.id.toLong() shl 32) or first.id.toLong()
-    val registeredOpposite = eventBus.suspend.contains(HeldUEvents.Type::class.java, opposite)
+    val registeredOpposite = eventBus.contains(HeldUEvents.Type::class.java, opposite)
     if (registeredOpposite) {
         val message = "OpHeldU for combination already registered: first=$first, second=$second"
         throw IllegalStateException(message)
@@ -151,8 +151,7 @@ public fun ScriptContext.onOpHeldU(
     // catch duplicate registrations - we must manually check that the reversed combination has
     // not already been registered.
     val opposite = (second.id.toLong() shl 32) or first.id.toLong()
-    val registeredOpposite =
-        eventBus.suspend.contains(HeldUContentEvents.Content::class.java, opposite)
+    val registeredOpposite = eventBus.contains(HeldUContentEvents.Content::class.java, opposite)
     if (registeredOpposite) {
         val message = "OpHeldU for combination already registered: first=$first, second=$second"
         throw IllegalStateException(message)

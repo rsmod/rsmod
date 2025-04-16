@@ -26,15 +26,14 @@ public class AiTimerProcessor @Inject constructor(private val eventBus: EventBus
     }
 
     private fun Npc.publishEvent(type: UnpackedNpcType = visType) {
-        val typeTrigger = eventBus.keyed[NpcAIEvents.Type::class.java, type.id.toLong()]
+        val typeTrigger = eventBus.keyed[NpcAIEvents.Type::class.java, type.id]
         if (typeTrigger != null) {
             typeTrigger.invoke(NpcAIEvents.Type(this))
             return
         }
 
         if (type.contentGroup != -1) {
-            val contentTrigger =
-                eventBus.keyed[NpcAIEvents.Content::class.java, type.contentGroup.toLong()]
+            val contentTrigger = eventBus.keyed[NpcAIEvents.Content::class.java, type.contentGroup]
             if (contentTrigger != null) {
                 contentTrigger.invoke(NpcAIEvents.Content(this, type.contentGroup))
                 return
