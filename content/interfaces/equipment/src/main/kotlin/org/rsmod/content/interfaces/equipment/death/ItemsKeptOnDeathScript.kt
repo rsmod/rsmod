@@ -161,7 +161,7 @@ constructor(
         return overall
             .asSequence()
             .filterNot { objTypes[it].param(params.bond_item) }
-            .sortedByDescending(::marketPrice)
+            .sortedByDescending(::marketPriceSingle)
     }
 
     private fun MutableList<InvObj>.partition(keepCount: Int): Pair<List<InvObj>, List<InvObj>> {
@@ -194,7 +194,7 @@ constructor(
         if (obj == null) {
             return InvObj(equip_objs.deleted)
         }
-        val type = objTypes.uncert(objTypes[obj])
+        val type = objTypes[obj]
         val price = marketPrices[type] ?: type.cost
         val fee = calculateFee(price)
         return InvObj(equip_objs.gravestone, fee + 1)
@@ -208,16 +208,18 @@ constructor(
             else -> 100_000
         }
 
-    private fun marketPrice(obj: InvObj?): Long {
+    private fun marketPriceSingle(obj: InvObj?): Long {
         if (obj == null) {
             return 0
         }
-        val type = objTypes.uncert(objTypes[obj])
+        val type = objTypes[obj]
         val price = marketPrices[type] ?: 1
-        return price.toLong() * obj.count
+        return price.toLong()
     }
 
-    private fun DeathInventory.calculateRisk(): Long = lost.sumOf(::marketPrice)
+    private fun marketPriceTotal(obj: InvObj?): Long = marketPriceSingle(obj) * (obj?.count ?: 0)
+
+    private fun DeathInventory.calculateRisk(): Long = lost.sumOf(::marketPriceTotal)
 
     private data class DeathInventory(
         val kept: Inventory,
