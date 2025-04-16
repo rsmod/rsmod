@@ -14,12 +14,4 @@ public class PlayerQueueEvents {
     public class Protected<T>(public val args: T, queueType: Int) : SuspendEvent<ProtectedAccess> {
         override val id: Long = queueType.toLong()
     }
-
-    public class EngineLabelled(packedLabel: Long) : SuspendEvent<ProtectedAccess> {
-        override val id: Long = packedLabel
-    }
-
-    public class EngineDefault(queueType: Int) : SuspendEvent<ProtectedAccess> {
-        override val id: Long = queueType.toLong()
-    }
 }

@@ -320,32 +320,32 @@ public class Player(
 
     @InternalApi
     public fun engineQueueChangeStat(stat: StatType) {
-        engineQueueList.add(EngineQueueType.ChangeStat, label = stat.id)
+        engineQueueList.add(EngineQueueType.ChangeStat, args = stat, label = stat.id)
     }
 
     @InternalApi
     public fun engineQueueAdvanceStat(stat: StatType) {
-        engineQueueList.add(EngineQueueType.AdvanceStat, label = stat.id)
+        engineQueueList.add(EngineQueueType.AdvanceStat, args = stat, label = stat.id)
     }
 
     @InternalApi
     public fun engineQueueMapzone(square: MapSquareKey) {
-        engineQueueList.add(EngineQueueType.Mapzone, label = square.id)
+        engineQueueList.add(EngineQueueType.Mapzone, args = square, label = square.id)
     }
 
     @InternalApi
     public fun engineQueueMapzoneExit(square: MapSquareKey) {
-        engineQueueList.add(EngineQueueType.MapzoneExit, label = square.id)
+        engineQueueList.add(EngineQueueType.MapzoneExit, args = square, label = square.id)
     }
 
     @InternalApi
     public fun engineQueueZone(zone: ZoneKey) {
-        engineQueueList.add(EngineQueueType.Zone, label = zone.packed)
+        engineQueueList.add(EngineQueueType.Zone, args = zone, label = zone.packed)
     }
 
     @InternalApi
     public fun engineQueueZoneExit(zone: ZoneKey) {
-        engineQueueList.add(EngineQueueType.ZoneExit, label = zone.packed)
+        engineQueueList.add(EngineQueueType.ZoneExit, args = zone, label = zone.packed)
     }
 
     @InternalApi
