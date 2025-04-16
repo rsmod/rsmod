@@ -47,11 +47,15 @@ public data class ObjTypeList(public val types: MutableMap<Int, UnpackedObjType>
     }
 
     public fun uncert(obj: InvObj): InvObj {
-        require(obj.vars == 0) { "Cannot uncert obj with vars: $obj" }
+        if (obj.vars != 0) {
+            return obj
+        }
+
         val type = this[obj]
         if (!type.isCert) {
             return obj
         }
+
         val link = type.certlink
         val uncertType =
             types[link] ?: throw NoSuchElementException("Type is missing in the map: $link.")
