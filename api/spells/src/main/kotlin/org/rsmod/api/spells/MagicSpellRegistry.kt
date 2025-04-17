@@ -9,7 +9,6 @@ import org.rsmod.api.config.aliases.ParamObj
 import org.rsmod.api.config.refs.objs
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.spells.configs.spell_enums
-import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.obj.isType
@@ -20,20 +19,6 @@ public class MagicSpellRegistry
 constructor(private val objTypes: ObjTypeList, private val enumResolver: EnumTypeMapResolver) {
     private lateinit var objSpells: Map<Int, MagicSpell>
     private lateinit var autocastSpells: Map<Int, MagicSpell>
-
-    /**
-     * Convenience wrapper to look up the [ComponentType] associated with an [ObjType] spell.
-     *
-     * For example:
-     * ```
-     * val lumbridgeTeleportButton = spellRegistry.buttons[objs.spell_lumbridge_teleport]
-     * ```
-     *
-     * This returns the component associated with the Lumbridge Teleport spell, or `null` if not
-     * found.
-     */
-    public val buttons: ButtonLookup
-        get() = ButtonLookup(objSpells)
 
     public fun getObjSpell(obj: ObjType): MagicSpell? = objSpells[obj.id]
 
@@ -150,8 +135,4 @@ constructor(private val objTypes: ObjTypeList, private val enumResolver: EnumTyp
         } else {
             this
         }
-
-    public class ButtonLookup(private val spells: Map<Int, MagicSpell>) {
-        public operator fun get(obj: ObjType): ComponentType? = spells[obj.id]?.component
-    }
 }
