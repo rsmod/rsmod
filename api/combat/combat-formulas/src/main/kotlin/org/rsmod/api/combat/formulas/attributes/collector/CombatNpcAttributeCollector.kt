@@ -106,7 +106,7 @@ public class CombatNpcAttributeCollector {
             attributes += CombatNpcAttributes.TormentedDemonUnshielded
         }
 
-        if (type.isType(npcs.corporeal_beast)) {
+        if (type.isType(npcs.corp_beast)) {
             attributes += CombatNpcAttributes.CorporealBeast
         }
 

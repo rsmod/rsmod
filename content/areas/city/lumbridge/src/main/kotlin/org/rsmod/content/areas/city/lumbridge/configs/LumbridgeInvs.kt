@@ -6,6 +6,8 @@ import org.rsmod.api.type.refs.inv.InvReferences
 import org.rsmod.game.type.inv.InvScope
 import org.rsmod.game.type.inv.InvStackType
 
+typealias lumbridge_invs = LumbridgeInvs
+
 object LumbridgeInvs : InvReferences() {
     val axeshop = find("axeshop")
 }

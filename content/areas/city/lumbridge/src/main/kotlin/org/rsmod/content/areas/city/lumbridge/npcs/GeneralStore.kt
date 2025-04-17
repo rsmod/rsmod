@@ -7,7 +7,7 @@ import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.script.onOpNpc1
 import org.rsmod.api.script.onOpNpc3
 import org.rsmod.api.shops.Shops
-import org.rsmod.content.areas.city.lumbridge.configs.LumbridgeNpcs
+import org.rsmod.content.areas.city.lumbridge.configs.lumbridge_npcs
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.plugin.scripts.PluginScript
@@ -15,10 +15,10 @@ import org.rsmod.plugin.scripts.ScriptContext
 
 class GeneralStore @Inject constructor(private val shops: Shops) : PluginScript() {
     override fun ScriptContext.startUp() {
-        onOpNpc1(LumbridgeNpcs.shop_keeper) { shopDialogue(it.npc) }
-        onOpNpc3(LumbridgeNpcs.shop_keeper) { player.openGeneralStore(it.npc) }
-        onOpNpc1(LumbridgeNpcs.shop_assistant) { shopDialogue(it.npc) }
-        onOpNpc3(LumbridgeNpcs.shop_assistant) { player.openGeneralStore(it.npc) }
+        onOpNpc1(lumbridge_npcs.shop_keeper) { shopDialogue(it.npc) }
+        onOpNpc3(lumbridge_npcs.shop_keeper) { player.openGeneralStore(it.npc) }
+        onOpNpc1(lumbridge_npcs.shop_assistant) { shopDialogue(it.npc) }
+        onOpNpc3(lumbridge_npcs.shop_assistant) { player.openGeneralStore(it.npc) }
     }
 
     private fun Player.openGeneralStore(npc: Npc) {

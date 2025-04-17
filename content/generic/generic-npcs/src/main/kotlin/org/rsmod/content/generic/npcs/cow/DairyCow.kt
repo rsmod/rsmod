@@ -53,14 +53,14 @@ class DairyCow : PluginScript() {
     private suspend fun Dialogue.noBucket() {
         chatNpcSpecific(
             "Gillie Groats the Milkmaid",
-            cow_npcs.gillie_groats,
+            cow_npcs.gillie_the_milkmaid,
             laugh,
             "Tee hee! You've never milked a cow before, have you?",
         )
         chatPlayer(quiz, "Erm... No. How could you tell?")
         chatNpcSpecific(
             "Gillie Groats the Milkmaid",
-            cow_npcs.gillie_groats,
+            cow_npcs.gillie_the_milkmaid,
             laugh,
             "Because you're spilling milk all over the floor. What a " +
                 "waste! You need something to hold the milk.",
@@ -68,7 +68,7 @@ class DairyCow : PluginScript() {
         chatPlayer(neutral, "Ah yes, I really should have guessed that one, shouldn't I?")
         chatNpcSpecific(
             "Gillie Groats the Milkmaid",
-            cow_npcs.gillie_groats,
+            cow_npcs.gillie_the_milkmaid,
             laugh,
             "You're from the city, aren't you... Try it again with an empty bucket.",
         )

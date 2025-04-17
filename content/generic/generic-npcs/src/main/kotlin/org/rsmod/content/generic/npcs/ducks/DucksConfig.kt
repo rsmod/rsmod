@@ -3,8 +3,8 @@ package org.rsmod.content.generic.npcs.ducks
 import org.rsmod.api.config.refs.content
 import org.rsmod.api.type.editors.npc.NpcEditor
 
-private val ducks = setOf("duck_id_1838", "duck_id_1839")
-private val ducklings = setOf("ducklings")
+private val ducks = setOf("duck", "duck_female")
+private val ducklings = setOf("duck_update_ducklings")
 
 internal object NpcEdits : NpcEditor() {
     init {

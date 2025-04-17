@@ -8,14 +8,14 @@ import org.rsmod.api.player.dialogue.Dialogues
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.stat.baseSmithingLvl
 import org.rsmod.api.script.onOpNpc1
-import org.rsmod.content.areas.city.lumbridge.configs.LumbridgeNpcs
+import org.rsmod.content.areas.city.lumbridge.configs.lumbridge_npcs
 import org.rsmod.game.entity.Npc
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
 class SmithingApprentice @Inject constructor(private val dialogues: Dialogues) : PluginScript() {
     override fun ScriptContext.startUp() {
-        onOpNpc1(LumbridgeNpcs.smithing_apprentice) { startDialogue(it.npc) }
+        onOpNpc1(lumbridge_npcs.smithing_apprentice) { startDialogue(it.npc) }
     }
 
     private suspend fun ProtectedAccess.startDialogue(npc: Npc) {

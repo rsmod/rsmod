@@ -8,8 +8,8 @@ import org.rsmod.api.script.advanced.onUnimplementedOpNpc4
 import org.rsmod.api.script.onOpNpc1
 import org.rsmod.api.script.onOpNpc3
 import org.rsmod.api.shops.Shops
-import org.rsmod.content.areas.city.lumbridge.configs.LumbridgeInvs
-import org.rsmod.content.areas.city.lumbridge.configs.LumbridgeNpcs
+import org.rsmod.content.areas.city.lumbridge.configs.lumbridge_invs
+import org.rsmod.content.areas.city.lumbridge.configs.lumbridge_npcs
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.plugin.scripts.PluginScript
@@ -18,13 +18,13 @@ import org.rsmod.plugin.scripts.ScriptContext
 class Bob @Inject constructor(private val shops: Shops, private val dialogues: Dialogues) :
     PluginScript() {
     override fun ScriptContext.startUp() {
-        onOpNpc1(LumbridgeNpcs.bob) { startDialogue(it.npc) }
-        onOpNpc3(LumbridgeNpcs.bob) { player.openShop(it.npc) }
-        onUnimplementedOpNpc4(LumbridgeNpcs.bob) { repairOp(it.npc) }
+        onOpNpc1(lumbridge_npcs.bob) { startDialogue(it.npc) }
+        onOpNpc3(lumbridge_npcs.bob) { player.openShop(it.npc) }
+        onUnimplementedOpNpc4(lumbridge_npcs.bob) { repairOp(it.npc) }
     }
 
     private fun Player.openShop(npc: Npc) {
-        shops.open(this, npc, "Bob's Brilliant Axes", LumbridgeInvs.axeshop)
+        shops.open(this, npc, "Bob's Brilliant Axes", lumbridge_invs.axeshop)
     }
 
     private suspend fun ProtectedAccess.startDialogue(npc: Npc) {

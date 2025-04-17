@@ -388,7 +388,7 @@ private constructor(
         }
         val southWest = coords.translate(Direction.SouthWest)
         val npc =
-            Npc(npcTypes[npcs.achievement_diary_cape_emote], southWest).apply {
+            Npc(npcTypes[npcs.diary_emote_npc], southWest).apply {
                 respawnDir = Direction.South
                 mode = NpcMode.None
             }

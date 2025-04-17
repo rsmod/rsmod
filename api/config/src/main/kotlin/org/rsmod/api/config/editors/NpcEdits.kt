@@ -2,9 +2,9 @@ package org.rsmod.api.config.editors
 
 import org.rsmod.api.type.editors.npc.NpcEditor
 
-private val shopKeepers = setOf("shop_keeper_id_2813", "shop_assistant_id_2814")
-private val fishingSpots = setOf("rod_fishing_spot_id_1527", "fishing_spot_id_1530")
-private val imps = setOf("imp_id_5007")
+private val shopKeepers = setOf("generalshopkeeper1", "generalassistant1")
+private val fishingSpots = setOf("0_50_50_freshfish", "0_50_49_saltfish")
+private val imps = setOf("imp")
 
 internal object NpcEdits : NpcEditor() {
     init {
@@ -12,7 +12,7 @@ internal object NpcEdits : NpcEditor() {
         imps.forEach(::imp)
         shopKeepers.forEach(::shopKeeper)
 
-        edit("tool_leprechaun_id_0") {
+        edit("farming_tools_leprechaun") {
             respawnDir = south
             wanderRange = 0
         }

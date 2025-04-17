@@ -8,8 +8,8 @@ import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.random.GameRandom
 import org.rsmod.api.script.onAiTimer
 import org.rsmod.api.script.onOpNpc1
-import org.rsmod.content.areas.city.lumbridge.configs.LumbridgeNpcs
 import org.rsmod.content.areas.city.lumbridge.configs.clueScrollDisableVessels
+import org.rsmod.content.areas.city.lumbridge.configs.lumbridge_npcs
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.map.Direction
 import org.rsmod.plugin.scripts.PluginScript
@@ -17,8 +17,8 @@ import org.rsmod.plugin.scripts.ScriptContext
 
 class ArthurTheClueHunter @Inject constructor(private val random: GameRandom) : PluginScript() {
     override fun ScriptContext.startUp() {
-        onAiTimer(LumbridgeNpcs.arthur_the_clue_hunter) { npc.shout() }
-        onOpNpc1(LumbridgeNpcs.arthur_the_clue_hunter) { startDialogue(it.npc) }
+        onAiTimer(lumbridge_npcs.arthur_the_clue_hunter) { npc.shout() }
+        onOpNpc1(lumbridge_npcs.arthur_the_clue_hunter) { startDialogue(it.npc) }
     }
 
     private fun Npc.shout() {

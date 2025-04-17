@@ -5,15 +5,15 @@ import org.rsmod.api.config.refs.BaseVarps
 import org.rsmod.api.player.dialogue.Dialogue
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.script.onOpNpc1
-import org.rsmod.content.areas.city.lumbridge.configs.LumbridgeNpcs
+import org.rsmod.content.areas.city.lumbridge.configs.lumbridge_npcs
 import org.rsmod.game.entity.Npc
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
 class DonieAndGee : PluginScript() {
     override fun ScriptContext.startUp() {
-        onOpNpc1(LumbridgeNpcs.gee) { startDialogue(it.npc) }
-        onOpNpc1(LumbridgeNpcs.donie) { startDialogue(it.npc) }
+        onOpNpc1(lumbridge_npcs.gee) { startDialogue(it.npc) }
+        onOpNpc1(lumbridge_npcs.donie) { startDialogue(it.npc) }
     }
 
     private suspend fun ProtectedAccess.startDialogue(npc: Npc) =

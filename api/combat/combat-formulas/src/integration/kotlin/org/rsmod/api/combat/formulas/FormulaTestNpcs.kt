@@ -41,7 +41,7 @@ object FormulaTestNpcs {
         }
 
     val corporeal_beast =
-        npcTypeFactory.create(npcs.corporeal_beast.id) {
+        npcTypeFactory.create(npcs.corp_beast.id) {
             name = "Corporeal Beast"
             size = 5
             hitpoints = 2000

@@ -11,30 +11,30 @@ import org.rsmod.map.CoordGrid
 typealias lumbridge_npcs = LumbridgeNpcs
 
 object LumbridgeNpcs : NpcReferences() {
-    val barfy_bill = find("barfy_bill", 4835760530716474293)
-    val banker = find("banker_multi_id_6520", 1463025812257320618)
-    val banker_tutor = find("banker_tutor", 2615463100687965410)
-    val shop_keeper = find("shop_keeper_id_2813", 1438702337870086626)
-    val shop_assistant = find("shop_assistant_id_2814", 4200111720959342523)
-    val gee = find("gee", 3552460767699378141)
-    val donie = find("donie", 5126230244763061230)
+    val barfy_bill = find("canoeing_bill", 4835760530716474293)
+    val banker = find("deadman_banker_blue_south", 1463025812257320618)
+    val banker_tutor = find("aide_tutor_banker", 2615463100687965410)
+    val shop_keeper = find("generalshopkeeper1", 1438702337870086626)
+    val shop_assistant = find("generalassistant1", 4200111720959342523)
+    val gee = find("lumbridge_guide2_man", 3552460767699378141)
+    val donie = find("lumbridge_guide2_woman", 5126230244763061230)
     val hans = find("hans", 2483823770976949698)
-    val bartender = find("bartender_id_7546", 156533904228193047)
-    val arthur_the_clue_hunter = find("arthur_the_clue_hunter", 7969650398637600801)
-    val prayer_tutor = find("prayer_tutor", 8000064238265165217)
-    val hatius_cosaintus = find("hatius_cosaintus", 4750646677158177000)
-    val bob = find("bob_id_10619", 5887098795660136180)
-    val woodsman_tutor = find("woodsman_tutor", 3633313576151598194)
-    val smithing_apprentice = find("smithing_apprentice", 857616158419739967)
+    val bartender = find("ram_bartender", 156533904228193047)
+    val arthur_the_clue_hunter = find("aide_tutor_clues", 7969650398637600801)
+    val prayer_tutor = find("aide_tutor_prayer", 8000064238265165217)
+    val hatius_lumbridge_diary = find("hatius_lumbridge_diary", 4750646677158177000)
+    val bob = find("bob", 5887098795660136180)
+    val woodsman_tutor = find("aide_tutor_woodsman", 3633313576151598194)
+    val smithing_apprentice = find("aide_tutor_smithing_apprentice", 857616158419739967)
 }
 
 internal object LumbridgeNpcEditor : NpcEditor() {
     init {
-        edit("banker_multi_id_6520") { contentGroup = content.banker }
+        edit("deadman_banker_blue_south") { contentGroup = content.banker }
 
-        edit("banker_tutor") { contentGroup = content.banker_tutor }
+        edit("aide_tutor_banker") { contentGroup = content.banker_tutor }
 
-        edit("prayer_tutor") { moveRestrict = indoors }
+        edit("aide_tutor_prayer") { moveRestrict = indoors }
 
         edit("father_aereck") { moveRestrict = indoors }
 
@@ -53,73 +53,73 @@ internal object LumbridgeNpcEditor : NpcEditor() {
             maxRange = 40
         }
 
-        edit("cook_id_4626") { moveRestrict = indoors }
+        edit("cook") { moveRestrict = indoors }
 
-        edit("perdu_multi_id_7457") {
+        edit("lost_property_merchant_standard") {
             respawnDir = west
             wanderRange = 0
         }
 
-        edit("lumbridge_guide_id_306") {
+        edit("lumbridge_guide") {
             respawnDir = west
             wanderRange = 0
         }
 
-        edit("doomsayer_multi") {
+        edit("cws_doomsayer") {
             respawnDir = east
             wanderRange = 0
         }
 
-        edit("abigaila") {
+        edit("tob_spectator_misthalin") {
             respawnDir = south
             wanderRange = 0
         }
 
-        edit("count_check_id_7414") {
+        edit("count_check") {
             respawnDir = east
             wanderRange = 0
         }
 
-        edit("arthur_the_clue_hunter") {
+        edit("aide_tutor_clues") {
             respawnDir = north
             wanderRange = 0
             timer = 20
         }
 
-        edit("bartender_id_7546") {
+        edit("ram_bartender") {
             respawnDir = west
             wanderRange = 0
         }
 
-        edit("smithing_apprentice") { moveRestrict = indoors }
+        edit("aide_tutor_smithing_apprentice") { moveRestrict = indoors }
 
-        edit("veos_multi_id_8632") {
+        edit("veos_lumbridge") {
             respawnDir = south
             wanderRange = 0
         }
 
-        edit("adventurer_jon_multi") {
+        edit("ap_guide_parent") {
             respawnDir = south
             wanderRange = 0
         }
 
-        edit("hewey_multi") {
+        edit("mistmyst_hewey") {
             respawnDir = east
             wanderRange = 0
         }
 
-        edit("fishing_tutor") {
+        edit("aide_tutor_fishing") {
             respawnDir = east
             wanderRange = 0
         }
 
-        edit("bob_id_10619") {
+        edit("bob") {
             moveRestrict = indoors
             param[ShopParams.shop_sell_percentage] = 1000
             param[ShopParams.shop_buy_percentage] = 600
             param[ShopParams.shop_change_percentage] = 20
         }
 
-        edit("millie_miller") { wanderRange = 1 }
+        edit("millie_the_miller") { wanderRange = 1 }
     }
 }
