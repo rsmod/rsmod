@@ -23,6 +23,7 @@ okhttp = "5.0.0-alpha.14"
 otp-kotlin = "2.4.1"
 openrs2 = "0.1.0-SNAPSHOT"
 rsprot = "1.0.0-ALPHA-20250416"
+simmetrics = "4.1.1"
 spotless = "7.0.2"
 sqlite = "3.49.1.0"
 
@@ -55,6 +56,7 @@ openrs2-buffer = { module = "org.openrs2:openrs2-buffer", version.ref = "openrs2
 openrs2-cache = { module = "org.openrs2:openrs2-cache", version.ref = "openrs2" }
 rsprot-api = { module = "net.rsprot:osrs-230-api", version.ref = "rsprot" }
 rsprot-shared = { module = "net.rsprot:osrs-230-shared", version.ref = "rsprot" }
+simmetrics-core = { module = "com.github.mpkorstanje:simmetrics-core", version.ref = "simmetrics" }
 spotless-gradle-plugin = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless" }
 sqlite-jdbc = { module = "org.xerial:sqlite-jdbc", version.ref = "sqlite" }
 

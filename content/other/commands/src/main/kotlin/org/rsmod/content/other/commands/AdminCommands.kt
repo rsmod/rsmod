@@ -144,9 +144,10 @@ constructor(
 
     private fun anim(cheat: Cheat) =
         with(cheat) {
-            val typeId = resolveArgTypeId(args[0], names.seqs)
+            val resolvedName = resolveTypeName(args.asTypeName(), names.seqs)
+            val typeId = resolveArgTypeId(resolvedName, names.seqs)
             if (typeId == null) {
-                player.mes("There is no seq mapped to: `${args[0]}`")
+                player.mes("There is no seq mapped to: '$resolvedName'")
                 return
             }
             val type = seqTypes[typeId]
@@ -155,16 +156,17 @@ constructor(
                 return
             }
             player.anim(type)
-            player.mes("Anim: ${type.id} (priority=${type.priority})")
+            player.mes("Anim: '${type.internalName}' (priority=${type.priority})")
             logger.debug { "Anim: $type" }
         }
 
     private fun spotanim(cheat: Cheat) =
         with(cheat) {
             val (typeName, heightArg) = args.asTypeNameAndNumber(defaultNumber = 0)
-            val typeId = resolveArgTypeId(typeName, names.spotanims)
+            val resolvedName = resolveTypeName(typeName, names.spotanims)
+            val typeId = resolveArgTypeId(resolvedName, names.spotanims)
             if (typeId == null) {
-                player.mes("There is no spotanim mapped to: `$typeName`")
+                player.mes("There is no spotanim mapped to: '$resolvedName'")
                 return
             }
             val type = spotTypes[typeId]
@@ -174,15 +176,16 @@ constructor(
             }
             val height = min(heightArg.toInt(), Short.MAX_VALUE.toInt())
             player.spotanim(type, delay = 0, height = height, slot = 0)
-            player.mes("Spotanim: ${type.id} (height=$height)")
+            player.mes("Spotanim: '${type.internalName}' (height=$height)")
             logger.debug { "Spotanim: $type" }
         }
 
     private fun locAdd(cheat: Cheat) =
         with(cheat) {
-            val typeId = resolveArgTypeId(args[1], names.locs)
+            val resolvedName = resolveTypeName(args[1], names.locs)
+            val typeId = resolveArgTypeId(resolvedName, names.locs)
             if (typeId == null) {
-                player.mes("There is no loc mapped to name: `${args[0]}`")
+                player.mes("There is no loc mapped to name: '$resolvedName'")
                 return
             }
             val type = locTypes[typeId]
@@ -196,7 +199,7 @@ constructor(
             val layer = LocLayerConstants.of(shape)
             val loc = LocInfo(layer, player.coords, LocEntity(type.id, shape, angle))
             locRepo.add(loc, duration)
-            player.mes("Spawned loc `${type.internalName}` (duration: $duration cycles)")
+            player.mes("Spawned loc '${type.internalName}' (duration: $duration cycles)")
             logger.debug { "Spawned loc: loc=$loc, type=$type" }
         }
 
@@ -223,9 +226,10 @@ constructor(
 
     private fun npcAdd(cheat: Cheat) =
         with(cheat) {
-            val typeId = resolveArgTypeId(args[1], names.npcs)
+            val resolvedName = resolveTypeName(args[1], names.npcs)
+            val typeId = resolveArgTypeId(resolvedName, names.npcs)
             if (typeId == null) {
-                player.mes("There is no npc mapped to name: `${args[1]}`")
+                player.mes("There is no npc mapped to name: '$resolvedName'")
                 return
             }
             val type = npcTypes[typeId]
@@ -244,15 +248,10 @@ constructor(
         with(cheat) {
             val (typeName, countArg) = args.asTypeNameAndNumber(defaultNumber = 1)
             val normalizedName = typeName.replace("cert_", "")
-            val resolvedName =
-                if (normalizedName !in names.objs) {
-                    findClosestNameMatch(normalizedName, names.objs.keys) ?: normalizedName
-                } else {
-                    normalizedName
-                }
+            val resolvedName = resolveTypeName(normalizedName, names.objs)
             val typeId = resolveArgTypeId(resolvedName, names.objs)
             if (typeId == null) {
-                player.mes("There is no obj mapped to name: `$resolvedName`")
+                player.mes("There is no obj mapped to name: '$resolvedName'")
                 return
             }
             val type = objTypes[typeId]
@@ -277,9 +276,10 @@ constructor(
 
     private fun setVarp(cheat: Cheat) =
         with(cheat) {
-            val typeId = resolveArgTypeId(args[0], names.varps)
+            val resolvedName = resolveTypeName(args[0], names.varps)
+            val typeId = resolveArgTypeId(resolvedName, names.varps)
             if (typeId == null) {
-                player.mes("There is no varp mapped to name: `${args[0]}`")
+                player.mes("There is no varp mapped to name: '$resolvedName'")
                 return
             }
             val type = varpTypes[typeId]
@@ -290,14 +290,15 @@ constructor(
             val value = args[1].toInt()
             player.vars.backing[type.id] = value
             player.resyncVar(type)
-            player.mes("Set varp `${args[0]}` to value: ${player.vars[type]}")
+            player.mes("Set varp '${type.internalName}' to value: ${player.vars[type]}")
         }
 
     private fun setVarBit(cheat: Cheat) =
         with(cheat) {
-            val typeId = resolveArgTypeId(args[0], names.varbits)
+            val resolvedName = resolveTypeName(args[0], names.varbits)
+            val typeId = resolveArgTypeId(resolvedName, names.varbits)
             if (typeId == null) {
-                player.mes("There is no varbit mapped to name: `${args[0]}`")
+                player.mes("There is no varbit mapped to name: '$resolvedName'")
                 return
             }
             val type = varBitTypes[typeId]
@@ -307,7 +308,7 @@ constructor(
             }
             val value = args[1].toInt()
             VarPlayerIntMapSetter.set(player, type, value)
-            player.mes("Set varbit `${args[0]}` to value: ${player.vars[type]}")
+            player.mes("Set varbit '${type.internalName}' to value: ${player.vars[type]}")
         }
 
     @OptIn(InternalApi::class)
@@ -338,13 +339,16 @@ constructor(
     }
 
     private fun resolveArgTypeId(arg: String, names: Map<String, Int>): Int? {
-        val argAsInt = arg.toIntOrNull()
-        if (argAsInt != null) {
-            return argAsInt
-        }
         val sanitized = arg.replace("-", "_")
         return names[sanitized]
     }
+
+    private fun resolveTypeName(name: String, names: Map<String, Int>): String =
+        when {
+            name in names -> name
+            name.toIntOrNull() != null -> name
+            else -> findClosestNameMatch(name, names.keys) ?: name
+        }
 
     private fun List<String>.asTypeNameAndNumber(defaultNumber: Number): Pair<String, String> =
         if (size > 1 && last().toLongOrNull() != null) {
@@ -353,19 +357,8 @@ constructor(
             joinToString("_") to defaultNumber.toString()
         }
 
-    /*
-     * Attempts to find the closest matching name from the given `names` iterable using Levenshtein
-     * similarity.
-     *
-     * This function is experimental and currently used for the `invadd` command to determine
-     * whether approximate name matching is useful.
-     *
-     * - This method may be removed if deemed unnecessary.
-     * - No optimizations will be made unless this feature is confirmed to be useful.
-     *
-     * TODO: Evaluate if fuzzy matching is useful for `invadd`. If not, remove this function. If so,
-     *   add to other name-based commands.
-     */
+    private fun List<String>.asTypeName(): String = joinToString("_")
+
     private fun findClosestNameMatch(input: String, names: Iterable<String>): String? {
         val normalizedInput = input.replace("_", " ")
 
