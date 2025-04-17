@@ -148,7 +148,7 @@ constructor(
         this[station] = StationState.StationFalling
         resetAnim()
         soundSynth(synths.tree_fall_sound)
-        worldRepo.locAnim(loc, canoe_seqs.canoe_fall)
+        worldRepo.locAnim(loc, canoe_seqs.canoeing_station_animations)
         delay(1)
         this[station] = StationState.StationReadyToShape
     }

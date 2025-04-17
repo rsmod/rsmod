@@ -24,7 +24,7 @@ class WindmillLadderScript : PluginScript() {
     private suspend fun ProtectedAccess.climb(translateLevel: Int) {
         arriveDelay()
         val dest = player.coords.translateLevel(translateLevel)
-        anim(seqs.human_reachforladddertop)
+        anim(seqs.human_reachforladder)
         delay(1)
         telejump(dest)
     }
@@ -35,7 +35,7 @@ class WindmillLadderScript : PluginScript() {
             val translate =
                 choice2("Climb Up.", 1, "Climb Down.", -1, title = "Climb up or down the ladder?")
             val dest = player.coords.translateLevel(translate)
-            anim(seqs.human_reachforladddertop)
+            anim(seqs.human_reachforladder)
             delay(2)
             telejump(dest)
         }

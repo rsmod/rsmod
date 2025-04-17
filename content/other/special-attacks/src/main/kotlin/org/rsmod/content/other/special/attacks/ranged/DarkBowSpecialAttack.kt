@@ -99,7 +99,7 @@ constructor(private val objTypes: ObjTypeList, private val ammunition: RangedAmm
             travelSpot: SpotanimType,
         ) {
             val launchSpot = quiverType.paramOrNull(params.proj_launch_double)
-            anim(seqs.human_bow_attack)
+            anim(seqs.human_bow)
             soundSynth(synths.darkbow_doublefire)
             soundSynth(synths.darkbow_shadow_attack)
             spotanim(launchSpot, height = 96, slot = constants.spotanim_slot_combat)
@@ -157,7 +157,7 @@ constructor(private val objTypes: ObjTypeList, private val ammunition: RangedAmm
             travelSpot: SpotanimType,
         ) {
             val launchSpot = quiverType.paramOrNull(params.proj_launch_double)
-            anim(seqs.human_bow_attack)
+            anim(seqs.human_bow)
             soundSynth(synths.darkbow_doublefire)
             soundSynth(synths.darkbow_dragon_attack)
             spotanim(launchSpot, height = 96, slot = constants.spotanim_slot_combat)

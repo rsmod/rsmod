@@ -35,6 +35,6 @@ constructor(private val worldRepo: WorldRepository, private val random: GameRand
     private fun Npc.sayFlavourText() {
         worldRepo.soundArea(coords, synths.cow_atmospheric, radius = 10)
         say("Moo")
-        anim(seqs.cow_eat_grass)
+        anim(seqs.cow_update_graze)
     }
 }

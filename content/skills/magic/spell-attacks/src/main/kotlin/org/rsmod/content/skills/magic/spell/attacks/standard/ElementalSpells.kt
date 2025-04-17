@@ -48,7 +48,7 @@ class ElementalSpells @Inject constructor(private val objTypes: ObjTypeList) : S
                 ElementalSpellAttack(
                     objTypes = objTypes,
                     manager = manager,
-                    staffAnim = seqs.staff_caststrike,
+                    staffAnim = seqs.human_caststrike_staff,
                     unarmedAnim = seqs.human_caststrike,
                     launch = spotanims.wind_strike_launch,
                     travel = spotanims.wind_strike_travel,
@@ -65,7 +65,7 @@ class ElementalSpells @Inject constructor(private val objTypes: ObjTypeList) : S
                 ElementalSpellAttack(
                     objTypes = objTypes,
                     manager = manager,
-                    staffAnim = seqs.staff_caststrike,
+                    staffAnim = seqs.human_caststrike_staff,
                     unarmedAnim = seqs.human_caststrike,
                     launch = spotanims.water_strike_launch,
                     travel = spotanims.water_strike_travel,
@@ -82,7 +82,7 @@ class ElementalSpells @Inject constructor(private val objTypes: ObjTypeList) : S
                 ElementalSpellAttack(
                     objTypes = objTypes,
                     manager = manager,
-                    staffAnim = seqs.staff_caststrike,
+                    staffAnim = seqs.human_caststrike_staff,
                     unarmedAnim = seqs.human_caststrike,
                     launch = spotanims.earth_strike_launch,
                     travel = spotanims.earth_strike_travel,
@@ -99,7 +99,7 @@ class ElementalSpells @Inject constructor(private val objTypes: ObjTypeList) : S
                 ElementalSpellAttack(
                     objTypes = objTypes,
                     manager = manager,
-                    staffAnim = seqs.staff_caststrike,
+                    staffAnim = seqs.human_caststrike_staff,
                     unarmedAnim = seqs.human_caststrike,
                     launch = spotanims.fire_strike_launch,
                     travel = spotanims.fire_strike_travel,
@@ -126,7 +126,7 @@ class ElementalSpells @Inject constructor(private val objTypes: ObjTypeList) : S
                 ElementalSpellAttack(
                     objTypes = objTypes,
                     manager = manager,
-                    staffAnim = seqs.staff_caststrike,
+                    staffAnim = seqs.human_caststrike_staff,
                     unarmedAnim = seqs.human_caststrike,
                     launch = spotanims.wind_bolt_launch,
                     travel = spotanims.wind_bolt_travel,
@@ -143,7 +143,7 @@ class ElementalSpells @Inject constructor(private val objTypes: ObjTypeList) : S
                 ElementalSpellAttack(
                     objTypes = objTypes,
                     manager = manager,
-                    staffAnim = seqs.staff_caststrike,
+                    staffAnim = seqs.human_caststrike_staff,
                     unarmedAnim = seqs.human_caststrike,
                     launch = spotanims.water_bolt_launch,
                     travel = spotanims.water_bolt_travel,
@@ -160,7 +160,7 @@ class ElementalSpells @Inject constructor(private val objTypes: ObjTypeList) : S
                 ElementalSpellAttack(
                     objTypes = objTypes,
                     manager = manager,
-                    staffAnim = seqs.staff_caststrike,
+                    staffAnim = seqs.human_caststrike_staff,
                     unarmedAnim = seqs.human_caststrike,
                     launch = spotanims.earth_bolt_launch,
                     travel = spotanims.earth_bolt_travel,
@@ -177,7 +177,7 @@ class ElementalSpells @Inject constructor(private val objTypes: ObjTypeList) : S
                 ElementalSpellAttack(
                     objTypes = objTypes,
                     manager = manager,
-                    staffAnim = seqs.staff_caststrike,
+                    staffAnim = seqs.human_caststrike_staff,
                     unarmedAnim = seqs.human_caststrike,
                     launch = spotanims.fire_bolt_launch,
                     travel = spotanims.fire_bolt_travel,
@@ -204,7 +204,7 @@ class ElementalSpells @Inject constructor(private val objTypes: ObjTypeList) : S
                 ElementalSpellAttack(
                     objTypes = objTypes,
                     manager = manager,
-                    staffAnim = seqs.staff_caststrike,
+                    staffAnim = seqs.human_caststrike_staff,
                     unarmedAnim = seqs.human_caststrike,
                     launch = spotanims.wind_blast_launch,
                     travel = spotanims.wind_blast_travel,
@@ -221,7 +221,7 @@ class ElementalSpells @Inject constructor(private val objTypes: ObjTypeList) : S
                 ElementalSpellAttack(
                     objTypes = objTypes,
                     manager = manager,
-                    staffAnim = seqs.staff_caststrike,
+                    staffAnim = seqs.human_caststrike_staff,
                     unarmedAnim = seqs.human_caststrike,
                     launch = spotanims.water_blast_launch,
                     travel = spotanims.water_blast_travel,
@@ -238,7 +238,7 @@ class ElementalSpells @Inject constructor(private val objTypes: ObjTypeList) : S
                 ElementalSpellAttack(
                     objTypes = objTypes,
                     manager = manager,
-                    staffAnim = seqs.staff_caststrike,
+                    staffAnim = seqs.human_caststrike_staff,
                     unarmedAnim = seqs.human_caststrike,
                     launch = spotanims.earth_blast_launch,
                     travel = spotanims.earth_blast_travel,
@@ -255,7 +255,7 @@ class ElementalSpells @Inject constructor(private val objTypes: ObjTypeList) : S
                 ElementalSpellAttack(
                     objTypes = objTypes,
                     manager = manager,
-                    staffAnim = seqs.staff_caststrike,
+                    staffAnim = seqs.human_caststrike_staff,
                     unarmedAnim = seqs.human_caststrike,
                     launch = spotanims.fire_blast_launch,
                     travel = spotanims.fire_blast_travel,
@@ -282,7 +282,7 @@ class ElementalSpells @Inject constructor(private val objTypes: ObjTypeList) : S
                 ElementalSpellAttack(
                     objTypes = objTypes,
                     manager = manager,
-                    staffAnim = seqs.staff_castwave,
+                    staffAnim = seqs.human_castwave_staff,
                     unarmedAnim = seqs.human_castwave,
                     launch = spotanims.wind_wave_launch,
                     travel = spotanims.wind_wave_travel,
@@ -299,7 +299,7 @@ class ElementalSpells @Inject constructor(private val objTypes: ObjTypeList) : S
                 ElementalSpellAttack(
                     objTypes = objTypes,
                     manager = manager,
-                    staffAnim = seqs.staff_castwave,
+                    staffAnim = seqs.human_castwave_staff,
                     unarmedAnim = seqs.human_castwave,
                     launch = spotanims.water_wave_launch,
                     travel = spotanims.water_wave_travel,
@@ -316,7 +316,7 @@ class ElementalSpells @Inject constructor(private val objTypes: ObjTypeList) : S
                 ElementalSpellAttack(
                     objTypes = objTypes,
                     manager = manager,
-                    staffAnim = seqs.staff_castwave,
+                    staffAnim = seqs.human_castwave_staff,
                     unarmedAnim = seqs.human_castwave,
                     launch = spotanims.earth_wave_launch,
                     travel = spotanims.earth_wave_travel,
@@ -333,7 +333,7 @@ class ElementalSpells @Inject constructor(private val objTypes: ObjTypeList) : S
                 ElementalSpellAttack(
                     objTypes = objTypes,
                     manager = manager,
-                    staffAnim = seqs.staff_castwave,
+                    staffAnim = seqs.human_castwave_staff,
                     unarmedAnim = seqs.human_castwave,
                     launch = spotanims.fire_wave_launch,
                     travel = spotanims.fire_wave_travel,
@@ -360,8 +360,8 @@ class ElementalSpells @Inject constructor(private val objTypes: ObjTypeList) : S
                 ElementalSpellAttack(
                     objTypes = objTypes,
                     manager = manager,
-                    staffAnim = seqs.human_castsurge,
-                    unarmedAnim = seqs.human_castsurge,
+                    staffAnim = seqs.human_cast_surge,
+                    unarmedAnim = seqs.human_cast_surge,
                     launch = spotanims.wind_surge_launch,
                     travel = spotanims.wind_surge_travel,
                     impact = spotanims.wind_surge_hit,
@@ -377,8 +377,8 @@ class ElementalSpells @Inject constructor(private val objTypes: ObjTypeList) : S
                 ElementalSpellAttack(
                     objTypes = objTypes,
                     manager = manager,
-                    staffAnim = seqs.human_castsurge,
-                    unarmedAnim = seqs.human_castsurge,
+                    staffAnim = seqs.human_cast_surge,
+                    unarmedAnim = seqs.human_cast_surge,
                     launch = spotanims.water_surge_launch,
                     travel = spotanims.water_surge_travel,
                     impact = spotanims.water_surge_hit,
@@ -394,8 +394,8 @@ class ElementalSpells @Inject constructor(private val objTypes: ObjTypeList) : S
                 ElementalSpellAttack(
                     objTypes = objTypes,
                     manager = manager,
-                    staffAnim = seqs.human_castsurge,
-                    unarmedAnim = seqs.human_castsurge,
+                    staffAnim = seqs.human_cast_surge,
+                    unarmedAnim = seqs.human_cast_surge,
                     launch = spotanims.earth_surge_launch,
                     travel = spotanims.earth_surge_travel,
                     impact = spotanims.earth_surge_hit,
@@ -411,8 +411,8 @@ class ElementalSpells @Inject constructor(private val objTypes: ObjTypeList) : S
                 ElementalSpellAttack(
                     objTypes = objTypes,
                     manager = manager,
-                    staffAnim = seqs.human_castsurge,
-                    unarmedAnim = seqs.human_castsurge,
+                    staffAnim = seqs.human_cast_surge,
+                    unarmedAnim = seqs.human_cast_surge,
                     launch = spotanims.fire_surge_launch,
                     travel = spotanims.fire_surge_travel,
                     impact = spotanims.fire_surge_hit,

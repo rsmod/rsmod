@@ -9,137 +9,137 @@ typealias mesanims = BaseMesAnims
 object BaseMesAnims : MesAnimBuilder() {
     val quiz =
         build("quiz") {
-            len1 = seqs.chat_quiz1
-            len2 = seqs.chat_quiz2
-            len3 = seqs.chat_quiz3
-            len4 = seqs.chat_quiz4
+            len1 = seqs.chatquiz1
+            len2 = seqs.chatquiz2
+            len3 = seqs.chatquiz3
+            len4 = seqs.chatquiz4
         }
 
     val bored =
         build("bored") {
-            len1 = seqs.chat_bored1
-            len2 = seqs.chat_bored2
-            len3 = seqs.chat_bored3
-            len4 = seqs.chat_bored4
+            len1 = seqs.chatbored1
+            len2 = seqs.chatbored2
+            len3 = seqs.chatbored3
+            len4 = seqs.chatbored4
         }
 
     val short =
         build("short") {
-            len1 = seqs.chat_short
-            len2 = seqs.chat_short
-            len3 = seqs.chat_short
-            len4 = seqs.chat_short
+            len1 = seqs.shortchatneu1
+            len2 = seqs.shortchatneu1
+            len3 = seqs.shortchatneu1
+            len4 = seqs.shortchatneu1
         }
 
     val happy =
         build("happy") {
-            len1 = seqs.chat_happy1
-            len2 = seqs.chat_happy2
-            len3 = seqs.chat_happy3
-            len4 = seqs.chat_happy4
+            len1 = seqs.chathap1
+            len2 = seqs.chathap2
+            len3 = seqs.chathap3
+            len4 = seqs.chathap4
         }
 
     val shocked =
         build("shocked") {
-            len1 = seqs.chat_happy1
-            len2 = seqs.chat_happy2
-            len3 = seqs.chat_happy3
-            len4 = seqs.chat_happy4
+            len1 = seqs.chathap1
+            len2 = seqs.chathap2
+            len3 = seqs.chathap3
+            len4 = seqs.chathap4
         }
 
     val confused =
         build("confused") {
-            len1 = seqs.chat_confused1
-            len2 = seqs.chat_confused2
-            len3 = seqs.chat_confused3
-            len4 = seqs.chat_confused4
+            len1 = seqs.chatcon1
+            len2 = seqs.chatcon2
+            len3 = seqs.chatcon3
+            len4 = seqs.chatcon4
         }
 
     val silent =
         build("silent") {
-            len1 = seqs.chat_silent
-            len2 = seqs.chat_silent
-            len3 = seqs.chat_silent
-            len4 = seqs.chat_silent
+            len1 = seqs.chatidleneu1
+            len2 = seqs.chatidleneu1
+            len3 = seqs.chatidleneu1
+            len4 = seqs.chatidleneu1
         }
 
     val goblin =
         build("goblin") {
-            len1 = seqs.chat_goblin1
-            len2 = seqs.chat_goblin2
-            len3 = seqs.chat_goblin3
-            len4 = seqs.chat_goblin4
+            len1 = seqs.chatgoblin1
+            len2 = seqs.chatgoblin2
+            len3 = seqs.chatgoblin3
+            len4 = seqs.chatgoblin4
         }
 
     val neutral =
         build("neutral") {
-            len1 = seqs.chat_neutral1
-            len2 = seqs.chat_neutral2
-            len3 = seqs.chat_neutral3
-            len4 = seqs.chat_default
+            len1 = seqs.chatneu1
+            len2 = seqs.chatneu2
+            len3 = seqs.chatneu3
+            len4 = seqs.chatneu4
         }
 
     val shifty =
         build("shifty") {
-            len1 = seqs.chat_shifty1
-            len2 = seqs.chat_shifty2
-            len3 = seqs.chat_shifty3
-            len4 = seqs.chat_shifty4
+            len1 = seqs.chatshifty1
+            len2 = seqs.chatshifty2
+            len3 = seqs.chatshifty3
+            len4 = seqs.chatshifty4
         }
 
     val worried =
         build("worried") {
-            len1 = seqs.chat_worried1
-            len2 = seqs.chat_worried2
-            len3 = seqs.chat_worried3
-            len4 = seqs.chat_worried4
+            len1 = seqs.chatscared1
+            len2 = seqs.chatscared2
+            len3 = seqs.chatscared3
+            len4 = seqs.chatscared4
         }
 
     val drunk =
         build("drunk") {
-            len1 = seqs.chat_drunk1
-            len2 = seqs.chat_drunk2
-            len3 = seqs.chat_drunk3
-            len4 = seqs.chat_drunk4
+            len1 = seqs.chatdrunk1
+            len2 = seqs.chatdrunk2
+            len3 = seqs.chatdrunk3
+            len4 = seqs.chatdrunk4
         }
 
     val very_mad =
         build("very_mad") {
-            len1 = seqs.chat_verymad
-            len2 = seqs.chat_verymad
-            len3 = seqs.chat_verymad
-            len4 = seqs.chat_verymad
+            len1 = seqs.evilidle1
+            len2 = seqs.evilidle1
+            len3 = seqs.evilidle1
+            len4 = seqs.evilidle1
         }
 
     val laugh =
         build("laugh") {
-            len1 = seqs.chat_laugh1
-            len2 = seqs.chat_laugh2
-            len3 = seqs.chat_laugh3
-            len4 = seqs.chat_laugh4
+            len1 = seqs.chatlaugh1
+            len2 = seqs.chatlaugh2
+            len3 = seqs.chatlaugh3
+            len4 = seqs.chatlaugh4
         }
 
     val mad_laugh =
         build("mad_laugh") {
-            len1 = seqs.chat_madlaugh
-            len2 = seqs.chat_madlaugh
-            len3 = seqs.chat_madlaugh
-            len4 = seqs.chat_madlaugh
+            len1 = seqs.evillaugh1
+            len2 = seqs.evillaugh1
+            len3 = seqs.evillaugh1
+            len4 = seqs.evillaugh1
         }
 
     val sad =
         build("sad") {
-            len1 = seqs.chat_sad1
-            len2 = seqs.chat_sad2
-            len3 = seqs.chat_sad3
-            len4 = seqs.chat_sad4
+            len1 = seqs.chatsad1
+            len2 = seqs.chatsad2
+            len3 = seqs.chatsad3
+            len4 = seqs.chatsad4
         }
 
     val angry =
         build("angry") {
-            len1 = seqs.chat_angry1
-            len2 = seqs.chat_angry2
-            len3 = seqs.chat_angry3
-            len4 = seqs.chat_angry4
+            len1 = seqs.chatang1
+            len2 = seqs.chatang2
+            len3 = seqs.chatang3
+            len4 = seqs.chatang4
         }
 }

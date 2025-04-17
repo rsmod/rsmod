@@ -83,7 +83,7 @@ private constructor(
             "Yes" -> simpleAnim(seqs.emote_yes)
             "No" -> simpleAnim(seqs.emote_no)
             "Bow" -> simpleAnim(seqs.emote_bow)
-            "Angry" -> simpleAnim(seqs.emote_beckon)
+            "Angry" -> simpleAnim(seqs.emote_angry)
             "Think" -> simpleAnim(seqs.emote_think)
             "Wave" -> simpleAnim(seqs.emote_wave)
             "Shrug" -> simpleAnim(seqs.emote_shrug)
@@ -93,25 +93,25 @@ private constructor(
             "Jump for Joy" -> simpleAnim(seqs.emote_jump_with_joy)
             "Yawn" -> simpleAnim(seqs.emote_yawn)
             "Dance" -> loopAnim(seqs.emote_dance, seqs.emote_dance_loop, op)
-            "Jig" -> loopAnim(seqs.emote_jig, seqs.emote_jig_loop, op)
-            "Spin" -> simpleAnim(seqs.emote_spin)
-            "Headbang" -> loopAnim(seqs.emote_headbang, seqs.emote_headbang_loop, op)
+            "Jig" -> loopAnim(seqs.emote_dance_scottish, seqs.emote_dance_scottish_loop, op)
+            "Spin" -> simpleAnim(seqs.emote_dance_spin)
+            "Headbang" -> loopAnim(seqs.emote_dance_headbang, seqs.emote_dance_headbang_loop, op)
             "Cry" -> simpleAnim(seqs.emote_cry)
-            "Blow Kiss" -> simpleAnim(seqs.emote_blow_kiss_low_prio)
+            "Blow Kiss" -> simpleAnim(seqs.emote_blow_kiss)
             "Panic" -> simpleAnim(seqs.emote_panic)
-            "Raspberry" -> simpleAnim(seqs.emote_raspberry)
+            "Raspberry" -> simpleAnim(seqs.emote_ya_boo_sucks)
             "Clap" -> simpleAnim(seqs.emote_clap)
-            "Salute" -> simpleAnim(seqs.emote_salute)
+            "Salute" -> simpleAnim(seqs.emote_fremmenik_salute)
             "Goblin Bow" ->
                 lockedAnimDialog(
-                    seqs.emote_goblin_bow,
+                    seqs.human_cave_goblin_bow,
                     varbits.lost_tribe_progress,
                     "This emote can be unlocked during the Lost Tribe quest.",
                     varbitStateReq = 7,
                 )
             "Goblin Salute" ->
                 lockedAnimDialog(
-                    seqs.emote_goblin_salute,
+                    seqs.human_cave_goblin_dance,
                     varbits.lost_tribe_progress,
                     "This emote can be unlocked during the Lost Tribe quest.",
                     varbitStateReq = 7,
@@ -124,14 +124,14 @@ private constructor(
                 )
             "Climb Rope" ->
                 lockedAnimDialog(
-                    seqs.emote_climb_rope,
+                    seqs.emote_climbing_rope,
                     varbits.emote_climbrope,
                     "This emote can be unlocked during the mime random event.",
                 )
             "Lean" ->
                 lockedLoopAnimDialog(
-                    seqs.emote_lean,
-                    seqs.emote_lean_loop,
+                    seqs.emote_mime_lean,
+                    seqs.emote_mime_lean_loop,
                     varbits.emote_lean,
                     "This emote can be unlocked during the mime random event.",
                     op,
@@ -170,49 +170,49 @@ private constructor(
                 )
             "Zombie Walk" ->
                 lockedAnimDialog(
-                    seqs.emote_zombie_walk,
+                    seqs.zombie_walk_emote,
                     varbits.emote_zombie_walk,
                     "This emote can be unlocked during the gravedigger random event.",
                 )
             "Zombie Dance" ->
                 lockedAnimDialog(
-                    seqs.emote_zombie_dance,
+                    seqs.zombie_dance,
                     varbits.emote_zombie_dance,
                     "This emote can be unlocked during the gravedigger random event.",
                 )
             "Scared" ->
                 lockedAnimDialog(
-                    seqs.emote_scared,
+                    seqs.terrified_emote,
                     varbits.emote_terrified,
                     "This emote can be unlocked by doing a Halloween seasonal event.",
                 )
             "Rabbit Hop" ->
                 lockedAnimDialog(
-                    seqs.emote_rabbit_hop,
+                    seqs.rabbit_emote,
                     varbits.emote_bunny_hop,
                     "This emote can be unlocked by doing an Easter seasonal event.",
                 )
             "Sit up" ->
                 lockedAnimDialog(
-                    seqs.emote_sit_up,
+                    seqs.emote_situps_5,
                     varbits.emote_drilldemon,
                     "You can't use that emote yet - complete the Drill Demon event to unlock them.",
                 )
             "Push up" ->
                 lockedAnimDialog(
-                    seqs.emote_push_up,
+                    seqs.emote_pushups_5,
                     varbits.emote_drilldemon,
                     "You can't use that emote yet - complete the Drill Demon event to unlock them.",
                 )
             "Star jump" ->
                 lockedAnimDialog(
-                    seqs.emote_star_jump,
+                    seqs.emote_starjump_5,
                     varbits.emote_drilldemon,
                     "You can't use that emote yet - complete the Drill Demon event to unlock them.",
                 )
             "Jog" ->
                 lockedAnimDialog(
-                    seqs.emote_jog,
+                    seqs.emote_run_on_spot,
                     varbits.emote_drilldemon,
                     "You can't use that emote yet - complete the Drill Demon event to unlock them.",
                 )
@@ -224,13 +224,13 @@ private constructor(
                 )
             "Zombie Hand" ->
                 lockedAnimDialog(
-                    seqs.emote_zombie_hand,
+                    seqs.hw07_arm_from_the_ground_emote,
                     varbits.emote_zombie_hand,
                     "This emote can be unlocked by doing a Halloween seasonal event.",
                 )
             "Hypermobile Drinker" ->
                 lockedAnimDialog(
-                    seqs.emote_hypermobile_drinker,
+                    seqs.ash_emote,
                     varbits.emote_ash,
                     "This emote can be unlocked by doing a Halloween seasonal event.",
                 )
@@ -239,7 +239,7 @@ private constructor(
             "Uri transform" -> uriTransformEmote()
             "Smooth dance" ->
                 lockedAnimDialog(
-                    seqs.emote_smooth_dance,
+                    seqs.bday17_bling,
                     varbits.emote_hotline_bling,
                     "This emote can be unlocked by doing a birthday event.",
                 )
@@ -275,7 +275,7 @@ private constructor(
             "Crab dance" -> {
                 /* Emote is not available in the tab. */
             }
-            "Sit down" -> loopAnim(seqs.emote_sit_down_loop, seqs.emote_sit_down, op)
+            "Sit down" -> loopAnim(seqs.emote_sit_loop, seqs.emote_sit, op)
             else -> throw NotImplementedError("Emote not implemented: $emote")
         }
     }
@@ -339,7 +339,7 @@ private constructor(
         }
 
         if (ocIsType(player.back, objs.quest_point_cape, objs.quest_point_cape_t)) {
-            masteryCapeEmote(seqs.quest_point_cape, spotanims.quest_point_cape)
+            masteryCapeEmote(seqs.skillcapes_player_quest_cape, spotanims.quest_point_cape)
             return
         }
 
@@ -349,7 +349,7 @@ private constructor(
         }
 
         if (ocIsContentType(player.back, content.max_cape)) {
-            masteryCapeEmote(seqs.max_cape, spotanims.max_cape)
+            masteryCapeEmote(seqs.max_cape_player_anim, spotanims.max_cape)
             return
         }
 
@@ -397,10 +397,10 @@ private constructor(
             return
         }
 
-        anim(seqs.emote_achievement_diary)
+        anim(seqs.diary_emote_playeranim)
         faceEntitySquare(npc)
         npcRepo.add(npc, duration = 30)
-        npc.anim(seqs.achievement_diary_cape_npc_anim)
+        npc.anim(seqs.diary_emote_spotanim)
         delay(31)
         rebuildAppearance()
     }
@@ -441,18 +441,18 @@ private constructor(
         transmog(npcs.uri_emote_1)
         delay(1)
         spotanim(spotanims.uri_emote_start)
-        anim(seqs.emote_uri_start)
+        anim(seqs.emote_uri_briefcase)
         transmog(npcs.uri_emote_2)
         delay(9)
-        anim(seqs.human_throwtab)
+        anim(seqs.poh_smash_magic_tablet)
         delay(1)
         spotanim(spotanims.teletab_suck_in)
-        anim(seqs.human_tabtele)
+        anim(seqs.poh_absorb_tablet_teleport)
         delay(1)
         spotanim(spotanims.poof_disappear, height = 92)
         resetAnim()
         resetTransmog()
-        publishEmoteEvent(seqs.emote_uri_start)
+        publishEmoteEvent(seqs.emote_uri_briefcase)
     }
 
     private suspend fun ProtectedAccess.premierShieldEmote() {
@@ -476,7 +476,7 @@ private constructor(
 
         player.premierShieldCount = (player.premierShieldCount + 1) % 3
         player.premierShieldClock = mapClock
-        playAnim(seqs.emote_premier_shield, spot)
+        playAnim(seqs.premier_club_emote, spot)
     }
 
     private suspend fun ProtectedAccess.relicUnlockEmote() {
@@ -494,14 +494,14 @@ private constructor(
             mes("You can't perform that emote now.")
             return
         }
-        anim(seqs.emote_relic_unlock)
+        anim(seqs.human_relic_unlock)
         if (vars[varbits.poh_leaguehall_outfitstand_relichunter_type] == 3) {
             spotanim(spotanims.twisted_relic_unlock, height = 92)
         } else {
             spotanim(spotanims.trailblazer_relic_unlock, height = 92)
         }
         delay(4)
-        publishEmoteEvent(seqs.emote_relic_unlock)
+        publishEmoteEvent(seqs.human_relic_unlock)
     }
 
     private suspend fun ProtectedAccess.fortisSaluteEmote(loop: Boolean) {
@@ -514,7 +514,7 @@ private constructor(
             )
             return
         }
-        val seq = if (loop) seqs.emote_fortis_salute_loop else seqs.emote_fortis_salute
+        val seq = if (loop) seqs.emote_varlamore_salute_loop else seqs.emote_varlamore_salute
         simpleAnim(seq)
     }
 
@@ -536,29 +536,29 @@ private constructor(
     private fun ProtectedAccess.flapEmoteSelector(): SeqType {
         val chickenPieces = invTotal(worn, content.chicken_outfit)
         return if (chickenPieces >= 4) {
-            seqs.emote_flap_chicken_outfit
+            seqs.vm_natural_historian_monkey_hop
         } else {
-            seqs.emote_flap
+            seqs.emote_panic_flap
         }
     }
 
     private fun ProtectedAccess.crazyDanceEmoteSelector(): SeqType {
         player.crazyDanceCount = (player.crazyDanceCount + 1) % 2
         return if (player.crazyDanceCount == 0) {
-            seqs.emote_crazy_dance1
+            seqs.bday17_style
         } else {
-            seqs.emote_crazy_dance2
+            seqs.bday17_lasso
         }
     }
 
     private fun SeqType.requiresWalkTrigger(): Boolean =
         when (this) {
             seqs.emote_dance_loop,
-            seqs.emote_fortis_salute_loop,
-            seqs.emote_headbang_loop,
-            seqs.emote_jig_loop,
-            seqs.emote_lean_loop,
-            seqs.emote_sit_down_loop -> true
+            seqs.emote_varlamore_salute_loop,
+            seqs.emote_dance_headbang_loop,
+            seqs.emote_dance_scottish_loop,
+            seqs.emote_mime_lean_loop,
+            seqs.emote_sit_loop -> true
             else -> false
         }
 }

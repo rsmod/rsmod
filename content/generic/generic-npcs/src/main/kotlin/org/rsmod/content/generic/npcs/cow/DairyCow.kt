@@ -45,7 +45,7 @@ class DairyCow : PluginScript() {
             return
         }
         spam("You milk the cow.")
-        anim(seqs.human_milk_cow)
+        anim(seqs.milkit)
         soundSynth(synths.milk_cow)
         weakQueue(cow_queues.milk, 8)
     }

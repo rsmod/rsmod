@@ -57,7 +57,7 @@ class TumekensShadowWeapons @Inject constructor(private val charges: CombatCharg
             // typically have a rate of 4.
             manager.setNextAttackDelay(this, 5)
 
-            anim(seqs.tumekens_shadow_cast)
+            anim(seqs.toa_sot_cast_b)
             spotanim(spotanims.tumekens_shadow_launch)
 
             val proj =

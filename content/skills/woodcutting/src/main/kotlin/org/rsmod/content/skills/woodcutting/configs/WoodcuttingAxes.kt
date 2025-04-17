@@ -60,7 +60,7 @@ internal object WoodcuttingAxes : ObjEditor() {
 
         edit("dragon_axe_or") {
             contentGroup = content.woodcutting_axe
-            param[params.skill_anim] = seqs.human_woodcutting_dragon_axe_or
+            param[params.skill_anim] = seqs.human_woodcutting_trailblazer_axe_no_infernal
         }
 
         edit("3rd_age_axe") {
@@ -75,7 +75,7 @@ internal object WoodcuttingAxes : ObjEditor() {
 
         edit("infernal_axe_or") {
             contentGroup = content.woodcutting_axe
-            param[params.skill_anim] = seqs.human_woodcutting_infernal_axe_or
+            param[params.skill_anim] = seqs.human_woodcutting_trailblazer_axe
         }
 
         edit("crystal_axe") {

@@ -120,7 +120,7 @@ internal object ParamBuilds : ParamBuilder() {
         build<LocType>("next_loc_stage")
         build<SynthType>("opensound") { default = synths.door_open }
         build<SynthType>("closesound") { default = synths.door_close }
-        build<SeqType>("climb_anim") { default = seqs.human_reachforladddertop }
+        build<SeqType>("climb_anim") { default = seqs.human_reachforladder }
 
         build<Boolean>("shop_sale_restricted") { default = false }
 

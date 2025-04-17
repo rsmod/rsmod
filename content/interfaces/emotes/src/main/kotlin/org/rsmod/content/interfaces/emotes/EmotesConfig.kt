@@ -53,29 +53,29 @@ internal object EmoteWalkTriggers : WalkTriggerReferences() {
 internal object EmoteEnumBuilds : EnumBuilder() {
     init {
         build<StatType, SeqType>("skill_cape_anims") {
-            this[stats.attack] = seqs.attack_skillcape
-            this[stats.defence] = seqs.defence_skillcape
-            this[stats.strength] = seqs.strength_skillcape
-            this[stats.hitpoints] = seqs.hitpoints_skillcape
-            this[stats.ranged] = seqs.ranged_skillcape
-            this[stats.prayer] = seqs.prayer_skillcape
-            this[stats.magic] = seqs.magic_skillcape
-            this[stats.cooking] = seqs.cooking_skillcape
-            this[stats.woodcutting] = seqs.woodcutting_skillcape
-            this[stats.fletching] = seqs.fletching_skillcape
-            this[stats.fishing] = seqs.fishing_skillcape
-            this[stats.firemaking] = seqs.firemaking_skillcape
-            this[stats.crafting] = seqs.crafting_skillcape
-            this[stats.smithing] = seqs.smithing_skillcape
-            this[stats.mining] = seqs.mining_skillcape
-            this[stats.herblore] = seqs.herblore_skillcape
-            this[stats.agility] = seqs.agility_skillcape
-            this[stats.thieving] = seqs.thieving_skillcape
-            this[stats.slayer] = seqs.slayer_skillcape
-            this[stats.farming] = seqs.farming_skillcape
-            this[stats.runecrafting] = seqs.runecrafting_skillcape
-            this[stats.hunter] = seqs.hunter_skillcape
-            this[stats.construction] = seqs.construction_skillcape
+            this[stats.attack] = seqs.skill_cape_attack
+            this[stats.defence] = seqs.skill_cape_defend
+            this[stats.strength] = seqs.skillcapes_human_strength
+            this[stats.hitpoints] = seqs.skillcapes_human_hitpoints
+            this[stats.ranged] = seqs.skillcapes_human_range
+            this[stats.prayer] = seqs.skillcapes_human_prayer
+            this[stats.magic] = seqs.skillcapes_player_magic
+            this[stats.cooking] = seqs.skillcapes_cooking_player_anim
+            this[stats.woodcutting] = seqs.skillcapes_woodcutting_player_anim
+            this[stats.fletching] = seqs.skillcapes_player_fletching_bow
+            this[stats.fishing] = seqs.skillcapes_fishing_player_anim
+            this[stats.firemaking] = seqs.skillcapes_human_firemaking
+            this[stats.crafting] = seqs.skillcapes_crafting_player_anim
+            this[stats.smithing] = seqs.skillcapes_player_smithing
+            this[stats.mining] = seqs.skillcapes_player_mining
+            this[stats.herblore] = seqs.skillcapes_human_herblore
+            this[stats.agility] = seqs.skillcapes_human_agility
+            this[stats.thieving] = seqs.skill_cape_thieving
+            this[stats.slayer] = seqs.skill_cape_slayer
+            this[stats.farming] = seqs.skillcape_farming
+            this[stats.runecrafting] = seqs.skillcapes_player_runecrafting
+            this[stats.hunter] = seqs.skillcapes_human_hunting
+            this[stats.construction] = seqs.skillcapes_construction_player_anim
         }
 
         build<StatType, SpotanimType>("skill_cape_spots") {

@@ -99,7 +99,7 @@ constructor(private val objTypes: ObjTypeList, private val ammunition: RangedAmm
             launchSpot: SpotanimType?,
             travelSpot: SpotanimType,
         ) {
-            anim(seqs.human_bow_attack)
+            anim(seqs.human_bow)
             soundSynth(synths.darkbow_fire)
             spotanim(launchSpot, height = 96, slot = constants.spotanim_slot_combat)
 
@@ -125,7 +125,7 @@ constructor(private val objTypes: ObjTypeList, private val ammunition: RangedAmm
             launchSpot: SpotanimType?,
             travelSpot: SpotanimType,
         ) {
-            anim(seqs.human_bow_attack)
+            anim(seqs.human_bow)
             soundSynth(synths.darkbow_doublefire)
             spotanim(launchSpot, height = 96, slot = constants.spotanim_slot_combat)
 
