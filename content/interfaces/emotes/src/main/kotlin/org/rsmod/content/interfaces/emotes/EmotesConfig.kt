@@ -27,7 +27,7 @@ internal typealias emote_varbits = EmoteVarBits
 internal typealias emote_walktriggers = EmoteWalkTriggers
 
 object EmoteComponents : ComponentReferences() {
-    val emote_list = find("emote_tab:contents", 904485991309646478)
+    val emote_list = find("emote:contents", 904485991309646478)
 }
 
 object EmoteEnums : EnumReferences() {

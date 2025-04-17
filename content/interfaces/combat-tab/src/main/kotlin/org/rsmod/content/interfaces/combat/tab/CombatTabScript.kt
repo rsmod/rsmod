@@ -80,7 +80,7 @@ constructor(
     override fun ScriptContext.startUp() {
         stanceSaveVarBits = enumResolver[combat_enums.weapons_last_stance].filterValuesNotNull()
 
-        onIfOpen(interfaces.combat_tab) { player.updateCombatTab() }
+        onIfOpen(interfaces.combat_interface) { player.updateCombatTab() }
         onWearposChange { player.onWearposChange(wearpos) }
 
         onIfOverlayButton(combat_components.auto_retaliate) { player.selectAutoRetaliate() }

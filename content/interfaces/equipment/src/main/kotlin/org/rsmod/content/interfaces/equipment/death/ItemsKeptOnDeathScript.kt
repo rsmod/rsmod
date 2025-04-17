@@ -38,7 +38,7 @@ constructor(
 ) : PluginScript() {
     override fun ScriptContext.startUp() {
         onIfOverlayButton(equip_components.items_kept_on_death) { player.selectKeptOnDeath() }
-        onIfClose(equip_interfaces.items_kept_on_death) { player.closeKeptOnDeath() }
+        onIfClose(equip_interfaces.deathkeep) { player.closeKeptOnDeath() }
     }
 
     private fun Player.selectKeptOnDeath() {
@@ -70,7 +70,7 @@ constructor(
         deathInventory: DeathInventory,
         deathSettings: DeathSettings,
     ) {
-        ifOpenMainModal(equip_interfaces.items_kept_on_death)
+        ifOpenMainModal(equip_interfaces.deathkeep)
         deathKeepInit(deathInventory, deathSettings)
         ifSetEvents(equip_components.items_kept_on_death_pbutton, 0..3, IfEvent.PauseButton)
         updateDeathRisk(deathInventory)

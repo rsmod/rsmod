@@ -21,7 +21,7 @@ class ProtectedAccessPlayerMoveTest {
             player.opNpc1(npc)
 
             advance(ticks = 1)
-            assertModalNotOpen(interfaces.npc_dialogue)
+            assertModalNotOpen(interfaces.chat_left)
 
             advance(ticks = 1)
             val expectedPath = start.translate(3, -1)
@@ -29,7 +29,7 @@ class ProtectedAccessPlayerMoveTest {
                 "Unexpected player coords after test script 1-cycle delay: " +
                     "expected=$expectedPath, actual=${player.coords}"
             }
-            assertModalOpen(interfaces.npc_dialogue)
+            assertModalOpen(interfaces.chat_left)
 
             advance(ticks = 1)
             val expectedDest = start.translate(4, -1)
@@ -49,7 +49,7 @@ class ProtectedAccessPlayerMoveTest {
                 check(player.coords == expected) {
                     "Unexpected player coords: expected=$expected, actual=${player.coords}"
                 }
-                assertModalNotOpen(interfaces.npc_dialogue)
+                assertModalNotOpen(interfaces.chat_left)
             }
 
             // This portion happens while player does not have LOS to npc, which means the ap
@@ -68,7 +68,7 @@ class ProtectedAccessPlayerMoveTest {
 
             advance(ticks = 1)
             assertEquals(start.translate(4, -1), player.coords)
-            assertModalOpen(interfaces.npc_dialogue)
+            assertModalOpen(interfaces.chat_left)
         }
 
     @Test
@@ -81,7 +81,7 @@ class ProtectedAccessPlayerMoveTest {
             player.opNpc1(npc)
 
             advance(ticks = 1)
-            assertModalNotOpen(interfaces.npc_dialogue)
+            assertModalNotOpen(interfaces.chat_left)
 
             advance(ticks = 1)
             val expectedPath = start.translate(1, 0)
@@ -89,11 +89,11 @@ class ProtectedAccessPlayerMoveTest {
                 "Unexpected player coords after test script 1-cycle delay: " +
                     "expected=$expectedPath, actual=${player.coords}"
             }
-            assertModalNotOpen(interfaces.npc_dialogue)
+            assertModalNotOpen(interfaces.chat_left)
 
             advance(ticks = 1)
             assertEquals(expectedPath, player.coords)
-            assertModalOpen(interfaces.npc_dialogue)
+            assertModalOpen(interfaces.chat_left)
         }
 
     @Test
@@ -106,11 +106,11 @@ class ProtectedAccessPlayerMoveTest {
             player.opNpc1(npc)
 
             advance(ticks = 1)
-            assertModalNotOpen(interfaces.npc_dialogue)
+            assertModalNotOpen(interfaces.chat_left)
 
             advance(ticks = 1)
             assertEquals(start, player.coords)
-            assertModalOpen(interfaces.npc_dialogue)
+            assertModalOpen(interfaces.chat_left)
         }
 
     @Test
@@ -123,17 +123,17 @@ class ProtectedAccessPlayerMoveTest {
             player.opNpc1(npc)
 
             advance(ticks = 1)
-            assertModalNotOpen(interfaces.npc_dialogue)
+            assertModalNotOpen(interfaces.chat_left)
 
             advance(ticks = 1)
             check(player.coords == start) {
                 "Unexpected player coords: expected=$start, actual=${player.coords}"
             }
-            assertModalNotOpen(interfaces.npc_dialogue)
+            assertModalNotOpen(interfaces.chat_left)
 
             advance(ticks = 1)
             assertEquals(start, player.coords)
-            assertModalOpen(interfaces.npc_dialogue)
+            assertModalOpen(interfaces.chat_left)
         }
 
     private class BartenderTestScript : PluginScript() {

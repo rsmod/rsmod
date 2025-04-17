@@ -200,7 +200,7 @@ private constructor(
     }
 
     private fun ProtectedAccess.openPin() {
-        ifOpenMainModal(interfaces.bank_pin_settings)
+        ifOpenMainModal(interfaces.bankpin_settings)
     }
 
     private fun ProtectedAccess.openCollectionBox() {
@@ -214,7 +214,7 @@ private constructor(
         val blocks = access.vars[banker_varbits.blocks_purchased]
         val costs = spaceShop.listCosts(blocks)
         if (costs.isEmpty()) {
-            // Note: Not sure if this is allowed, or if the option to buy more bank slots is
+            // Note: Not sure if this is allowed or if the option to buy more bank slots is
             // completely removed once you have purchased them all. Either way, this dialogue
             // is not official.
             chatNpc(quiz, "I can't sell you any more bank slots.")

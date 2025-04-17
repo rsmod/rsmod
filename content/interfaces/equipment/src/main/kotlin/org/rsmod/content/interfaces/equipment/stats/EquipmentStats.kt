@@ -40,7 +40,7 @@ constructor(
     private val marketPrices: MarketPrices,
 ) : PluginScript() {
     override fun ScriptContext.startUp() {
-        onIfOverlayButton(equip_components.equipment_stats) { player.selectStats() }
+        onIfOverlayButton(equip_components.equipment) { player.selectStats() }
 
         val componentWornSlots = enumResolver[equip_enums.mapped_wearpos].filterValuesNotNull()
         for ((slot, component) in componentWornSlots) {

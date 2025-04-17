@@ -56,7 +56,7 @@ private constructor(
     override fun ScriptContext.startUp() {
         loadEmotesEnum()
         loadSkillCapeEmotes()
-        onIfOpen(interfaces.emote_tab) { player.onTabOpen() }
+        onIfOpen(interfaces.emote) { player.onTabOpen() }
         onIfOverlayButton(emote_components.emote_list) { player.selectEmote(comsub, op) }
         onPlayerWalkTrigger(emote_walktriggers.cancelanim) { player.resetAnim() }
     }

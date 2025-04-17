@@ -12,7 +12,7 @@ import org.rsmod.game.type.interf.InterfaceType
 
 class SidePanelsResizablePane @Inject constructor(private val enums: EnumTypeList) : Gameframe {
     override val topLevel: InterfaceType
-        get() = BaseInterfaces.side_panels_resizable_pane
+        get() = BaseInterfaces.toplevel_pre_eoc
 
     override val mappings: Map<EnumComp, EnumComp?>
         get() = enums[GameframeEnums.side_panels_resizable_pane_redirect]

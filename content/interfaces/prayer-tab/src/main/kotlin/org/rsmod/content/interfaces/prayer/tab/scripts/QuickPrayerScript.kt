@@ -43,8 +43,8 @@ constructor(
     override fun ScriptContext.startUp() {
         onIfOverlayButton(prayer_components.quick_prayers_orb) { player.selectQuickPrayerOrb(op) }
         onPlayerQueue(prayer_queues.quick_prayer) { toggleQuickPrayers() }
-        onIfOpen(prayer_interfaces.quick_prayers) { player.onOpenQuickPrayerSetUp() }
-        onIfClose(prayer_interfaces.quick_prayers) { player.onCloseQuickPrayerSetUp() }
+        onIfOpen(prayer_interfaces.quickprayer) { player.onOpenQuickPrayerSetUp() }
+        onIfClose(prayer_interfaces.quickprayer) { player.onCloseQuickPrayerSetUp() }
         onIfOverlayButton(prayer_components.quick_prayers_setup) {
             player.toggleQuickPrayer(comsub)
         }
@@ -127,7 +127,7 @@ constructor(
     }
 
     private fun ProtectedAccess.setUpQuickPrayers() {
-        ifOpenSub(prayer_interfaces.quick_prayers, components.prayer_tab_target, IfSubType.Overlay)
+        ifOpenOverlay(prayer_interfaces.quickprayer, components.toplevel_target_prayerbook)
         toplevelSidebuttonSwitch(constants.toplevel_prayer)
     }
 
@@ -171,11 +171,16 @@ constructor(
     }
 
     private fun Player.closeQuickPrayerSetUp() {
-        ifCloseOverlay(prayer_interfaces.quick_prayers, eventBus)
+        ifCloseOverlay(prayer_interfaces.quickprayer, eventBus)
     }
 
     private fun Player.onCloseQuickPrayerSetUp() {
-        ifOpenSub(interfaces.prayer_tab, components.prayer_tab_target, IfSubType.Overlay, eventBus)
+        ifOpenSub(
+            interfaces.prayerbook,
+            components.toplevel_target_prayerbook,
+            IfSubType.Overlay,
+            eventBus,
+        )
     }
 
     private fun Player.failedRequirementMessage(prayer: Prayer): String =

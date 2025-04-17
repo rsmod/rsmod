@@ -99,48 +99,53 @@ public object Cinematic {
 
     public fun closeToplevelTabs(player: Player, eventBus: EventBus) {
         player.ifCloseOverlay(interfaces.orbs, eventBus)
-        player.ifCloseOverlay(interfaces.experience_drops_window, eventBus)
-        player.ifCloseOverlay(interfaces.combat_tab, eventBus)
-        player.ifCloseOverlay(interfaces.skills_tab, eventBus)
-        player.ifCloseOverlay(interfaces.journal_header_tab, eventBus)
-        player.ifCloseOverlay(interfaces.inventory_tab, eventBus)
-        player.ifCloseOverlay(interfaces.equipment_tab, eventBus)
-        player.ifCloseOverlay(interfaces.prayer_tab, eventBus)
-        player.ifCloseOverlay(interfaces.spellbook_tab, eventBus)
-        player.ifCloseOverlay(interfaces.friend_list_tab, eventBus)
-        player.ifCloseOverlay(interfaces.account_management_tab, eventBus)
-        player.ifCloseOverlay(interfaces.settings_tab, eventBus)
-        player.ifCloseOverlay(interfaces.emote_tab, eventBus)
-        player.ifCloseOverlay(interfaces.music_tab, eventBus)
+        player.ifCloseOverlay(interfaces.xp_drops, eventBus)
+        player.ifCloseOverlay(interfaces.combat_interface, eventBus)
+        player.ifCloseOverlay(interfaces.stats, eventBus)
+        player.ifCloseOverlay(interfaces.side_journal, eventBus)
+        player.ifCloseOverlay(interfaces.inventory, eventBus)
+        player.ifCloseOverlay(interfaces.wornitems, eventBus)
+        player.ifCloseOverlay(interfaces.prayerbook, eventBus)
+        player.ifCloseOverlay(interfaces.magic_spellbook, eventBus)
+        player.ifCloseOverlay(interfaces.friends, eventBus)
+        player.ifCloseOverlay(interfaces.account, eventBus)
+        player.ifCloseOverlay(interfaces.settings_side, eventBus)
+        player.ifCloseOverlay(interfaces.emote, eventBus)
+        player.ifCloseOverlay(interfaces.music, eventBus)
     }
 
     public fun closeToplevelTabsLenient(player: Player, eventBus: EventBus) {
-        player.ifOpenSub(interfaces.orbs, components.orbs_target, IfSubType.Overlay, eventBus)
-        player.ifCloseOverlay(interfaces.experience_drops_window, eventBus)
-        player.ifCloseOverlay(interfaces.combat_tab, eventBus)
-        player.ifCloseOverlay(interfaces.skills_tab, eventBus)
-        player.ifCloseOverlay(interfaces.journal_header_tab, eventBus)
-        player.ifCloseOverlay(interfaces.inventory_tab, eventBus)
-        player.ifCloseOverlay(interfaces.equipment_tab, eventBus)
-        player.ifCloseOverlay(interfaces.prayer_tab, eventBus)
-        player.ifCloseOverlay(interfaces.spellbook_tab, eventBus)
         player.ifOpenSub(
-            interfaces.friend_list_tab,
-            components.friend_list_tab_target,
+            interfaces.orbs,
+            components.toplevel_target_orbs,
+            IfSubType.Overlay,
+            eventBus,
+        )
+        player.ifCloseOverlay(interfaces.xp_drops, eventBus)
+        player.ifCloseOverlay(interfaces.combat_interface, eventBus)
+        player.ifCloseOverlay(interfaces.stats, eventBus)
+        player.ifCloseOverlay(interfaces.side_journal, eventBus)
+        player.ifCloseOverlay(interfaces.inventory, eventBus)
+        player.ifCloseOverlay(interfaces.wornitems, eventBus)
+        player.ifCloseOverlay(interfaces.prayerbook, eventBus)
+        player.ifCloseOverlay(interfaces.magic_spellbook, eventBus)
+        player.ifOpenSub(
+            interfaces.friends,
+            components.toplevel_target_friends,
             IfSubType.Overlay,
             eventBus,
         )
         player.ifOpenSub(
-            interfaces.account_management_tab,
-            components.account_management_tab_target,
+            interfaces.account,
+            components.toplevel_target_account,
             IfSubType.Overlay,
             eventBus,
         )
-        player.ifCloseOverlay(interfaces.settings_tab, eventBus)
-        player.ifCloseOverlay(interfaces.emote_tab, eventBus)
+        player.ifCloseOverlay(interfaces.settings_side, eventBus)
+        player.ifCloseOverlay(interfaces.emote, eventBus)
         player.ifOpenSub(
-            interfaces.music_tab,
-            components.music_tab_target,
+            interfaces.music,
+            components.toplevel_target_music,
             IfSubType.Overlay,
             eventBus,
         )
@@ -148,92 +153,92 @@ public object Cinematic {
 
     public fun openTopLevelTabs(player: Player, eventBus: EventBus) {
         player.ifOpenSub(
-            interfaces.experience_drops_window,
-            components.xp_drops_target,
+            interfaces.xp_drops,
+            components.toplevel_target_xpdrops,
             IfSubType.Overlay,
             eventBus,
         )
 
         player.ifOpenSub(
-            interfaces.combat_tab,
-            components.combat_tab_target,
+            interfaces.combat_interface,
+            components.toplevel_target_combat,
             IfSubType.Overlay,
             eventBus,
         )
 
         player.ifOpenSub(
-            interfaces.skills_tab,
-            components.skills_tab_target,
+            interfaces.stats,
+            components.toplevel_target_stats,
             IfSubType.Overlay,
             eventBus,
         )
 
         player.ifOpenSub(
-            interfaces.journal_header_tab,
-            components.journal_header_tab_target,
+            interfaces.side_journal,
+            components.toplevel_target_sidejournal,
             IfSubType.Overlay,
             eventBus,
         )
 
         player.ifOpenSub(
-            interfaces.inventory_tab,
-            components.inventory_tab_target,
+            interfaces.inventory,
+            components.toplevel_target_inventory,
             IfSubType.Overlay,
             eventBus,
         )
 
         player.ifOpenSub(
-            interfaces.equipment_tab,
-            components.equipment_tab_target,
+            interfaces.wornitems,
+            components.toplevel_target_wornitems,
             IfSubType.Overlay,
             eventBus,
         )
 
         player.ifOpenSub(
-            interfaces.prayer_tab,
-            components.prayer_tab_target,
+            interfaces.prayerbook,
+            components.toplevel_target_prayerbook,
             IfSubType.Overlay,
             eventBus,
         )
 
         player.ifOpenSub(
-            interfaces.spellbook_tab,
-            components.spellbook_tab_target,
+            interfaces.magic_spellbook,
+            components.toplevel_target_magicspellbook,
             IfSubType.Overlay,
             eventBus,
         )
 
         player.ifOpenSub(
-            interfaces.friend_list_tab,
-            components.friend_list_tab_target,
+            interfaces.friends,
+            components.toplevel_target_friends,
             IfSubType.Overlay,
             eventBus,
         )
 
         player.ifOpenSub(
-            interfaces.account_management_tab,
-            components.account_management_tab_target,
+            interfaces.account,
+            components.toplevel_target_account,
             IfSubType.Overlay,
             eventBus,
         )
 
         player.ifOpenSub(
-            interfaces.settings_tab,
-            components.settings_tab_target,
+            interfaces.settings_side,
+            components.toplevel_target_settingsside,
             IfSubType.Overlay,
             eventBus,
         )
 
         player.ifOpenSub(
-            interfaces.emote_tab,
-            components.emote_tab_target,
+            interfaces.emote,
+            components.toplevel_target_emote,
             IfSubType.Overlay,
             eventBus,
         )
 
         player.ifOpenSub(
-            interfaces.music_tab,
-            components.music_tab_target,
+            interfaces.music,
+            components.toplevel_target_music,
             IfSubType.Overlay,
             eventBus,
         )

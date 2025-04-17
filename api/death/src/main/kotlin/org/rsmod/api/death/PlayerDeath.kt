@@ -41,19 +41,19 @@ public class PlayerDeath @Inject constructor(private val statTypes: StatTypeList
         // TODO: Drop death invs, etc.
         resetPlayerState(statTypes)
         restoreToplevelTabs(
-            components.pvp_icons_target,
-            components.skills_tab_target,
-            components.journal_header_tab_target,
-            components.equipment_tab_target,
-            components.prayer_tab_target,
-            components.spellbook_tab_target,
-            components.friend_list_tab_target,
-            components.account_management_tab_target,
-            components.chat_header_target,
+            components.toplevel_target_pvpicons,
+            components.toplevel_target_stats,
+            components.toplevel_target_sidejournal,
+            components.toplevel_target_wornitems,
+            components.toplevel_target_prayerbook,
+            components.toplevel_target_magicspellbook,
+            components.toplevel_target_friends,
+            components.toplevel_target_account,
+            components.toplevel_target_sidechannels,
             // components.logout_tab_target, // TODO
-            components.settings_tab_target,
-            components.emote_tab_target,
-            components.music_tab_target,
+            components.toplevel_target_settingsside,
+            components.toplevel_target_emote,
+            components.toplevel_target_music,
         )
     }
 

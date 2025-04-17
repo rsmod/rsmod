@@ -12,7 +12,7 @@ import org.rsmod.game.type.interf.InterfaceType
 
 class ResizablePane @Inject constructor(private val enums: EnumTypeList) : Gameframe {
     override val topLevel: InterfaceType
-        get() = BaseInterfaces.resizable_pane
+        get() = BaseInterfaces.toplevel_osrs_stretch
 
     override val mappings: Map<EnumComp, EnumComp?>
         get() = enums[GameframeEnums.resizable_basic_pane_redirect]

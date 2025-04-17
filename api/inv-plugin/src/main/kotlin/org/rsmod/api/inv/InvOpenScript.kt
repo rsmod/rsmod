@@ -11,7 +11,7 @@ import org.rsmod.plugin.scripts.ScriptContext
 
 public class InvOpenScript : PluginScript() {
     override fun ScriptContext.startUp() {
-        onIfOpen(interfaces.inventory_tab) { player.onInvOpen() }
+        onIfOpen(interfaces.inventory) { player.onInvOpen() }
     }
 
     private fun Player.onInvOpen() {

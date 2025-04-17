@@ -181,10 +181,10 @@ class PlayerInteractionProcessorTest {
         checkNotNull(player.interaction)
 
         // Open a modal for `player.isBusy` condition to return true.
-        player.ifOpenMain(interfaces.hp_hud)
+        player.ifOpenMain(interfaces.hpbar_hud)
 
-        // Replace original loc. This would normally cancel the interaction and movement, however
-        // this won't be the case while player is busy.
+        // Replace original loc. This would normally cancel the interaction and movement, however,
+        // this won't be the case while the player is busy.
         placeMapLoc(CoordGrid(0, 50, 50, 22, 43), locTypes.getValue(1274))
 
         advance(ticks = 1)
@@ -192,13 +192,13 @@ class PlayerInteractionProcessorTest {
         assertTrue(route.isNotEmpty())
         assertNotNull(player.interaction)
 
-        // Wait until player's route has been fully consumed.
+        // Wait until the player's route has been fully consumed.
         advanceUntil(route::isEmpty) {
             "Could not reach destination: coords=${player.coords}, dest=$dest"
         }
 
-        // Player should be still, however the interaction is not cleared until player is no longer
-        // flagged as busy.
+        // Player should be still; however, the interaction is not cleared until the player is no
+        // longer flagged as busy.
         assertTrue(route.isEmpty())
         assertNotNull(player.interaction)
 

@@ -11,14 +11,15 @@ import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.interf.InterfaceType
 
 public object ShopInterfaces : InterfaceReferences() {
-    public val shop_main: InterfaceType = find("shop", 1596431697)
-    public val shop_side: InterfaceType = find("shop_inventory", 9223372034793400280)
+    public val shop_main: InterfaceType = find("shopmain", 1596431697)
+    public val shop_side: InterfaceType = find("shopside", 9223372034793400280)
 }
 
 public object ShopComponents : ComponentReferences() {
-    public val shop_subtext: ComponentType = find("shop:desktop_instructions", 1009675651464801228)
-    public val shop_side_inv: ComponentType = find("shop_inventory:items", 5117171527864918016)
-    public val shop_inv: ComponentType = find("shop:items", 7875443253800243706)
+    public val shop_subtext: ComponentType =
+        find("shopmain:desktop_instructions", 1009675651464801228)
+    public val shop_side_inv: ComponentType = find("shopside:items", 5117171527864918016)
+    public val shop_inv: ComponentType = find("shopmain:items", 7875443253800243706)
 }
 
 public object ShopParams : ParamReferences() {

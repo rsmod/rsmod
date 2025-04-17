@@ -112,10 +112,10 @@ public fun Player.ifOpenMainSidePair(
 }
 
 public fun Player.ifOpenOverlay(interf: InterfaceType, eventBus: EventBus): Unit =
-    ifOpenSub(interf, components.floater, IfSubType.Overlay, eventBus)
+    ifOpenSub(interf, components.toplevel_target_floater, IfSubType.Overlay, eventBus)
 
 public fun Player.ifOpenFullOverlay(interf: InterfaceType, eventBus: EventBus): Unit =
-    ifOpenSub(interf, components.overlay_atmosphere, IfSubType.Overlay, eventBus)
+    ifOpenSub(interf, components.toplevel_target_overlayatmosphere, IfSubType.Overlay, eventBus)
 
 /**
  * Difference from [ifCloseModals]: this function clears all weak queues for the player and closes
@@ -407,11 +407,11 @@ private fun UserInterfaceMap.translate(component: Component): Component =
 
 internal fun Player.ifMesbox(text: String, pauseText: String, lineHeight: Int, eventBus: EventBus) {
     mes(text, ChatType.Mesbox)
-    openModal(interfaces.text_dialogue, components.chat_chatmodal, eventBus)
-    ifSetText(components.text_dialogue_text, text)
-    ifSetTextAlign(this, components.text_dialogue_text, alignH = 1, alignV = 1, lineHeight)
-    ifSetEvents(components.text_dialogue_pbutton, -1..-1, IfEvent.PauseButton)
-    ifSetText(components.text_dialogue_pbutton, pauseText)
+    openModal(interfaces.messagebox, components.chatbox_chatmodal, eventBus)
+    ifSetText(components.messagebox_text, text)
+    ifSetTextAlign(this, components.messagebox_text, alignH = 1, alignV = 1, lineHeight)
+    ifSetEvents(components.messagebox_pbutton, -1..-1, IfEvent.PauseButton)
+    ifSetText(components.messagebox_pbutton, pauseText)
     // TODO: Look into clientscript to name property and place in clientscript utility class.
     runClientScript(1508, "0")
 }
@@ -426,9 +426,9 @@ internal fun Player.ifObjbox(
     mes(text, ChatType.Mesbox)
     ifOpenChat(interfaces.obj_dialogue, constants.modal_infinitewidthandheight, eventBus)
     objboxSetButtons(this, pauseText)
-    ifSetEvents(components.obj_dialogue_pbutton, 0..1, IfEvent.PauseButton)
-    ifSetObj(components.obj_dialogue_item, obj, zoom)
-    ifSetText(components.obj_dialogue_text, text)
+    ifSetEvents(components.objectbox_pbutton, 0..1, IfEvent.PauseButton)
+    ifSetObj(components.objectbox_item, obj, zoom)
+    ifSetText(components.objectbox_text, text)
 }
 
 internal fun Player.ifDoubleobjbox(
@@ -442,11 +442,11 @@ internal fun Player.ifDoubleobjbox(
 ) {
     mes(text, ChatType.Mesbox)
     ifOpenChat(interfaces.double_obj_dialogue, constants.modal_infinitewidthandheight, eventBus)
-    ifSetEvents(components.double_obj_dialogue_pbutton, -1..-1, IfEvent.PauseButton)
-    ifSetText(components.double_obj_dialogue_pbutton, pauseText)
-    ifSetObj(components.double_obj_dialogue_model1, obj1, zoom1)
-    ifSetObj(components.double_obj_dialogue_model2, obj2, zoom2)
-    ifSetText(components.double_obj_dialogue_text, text)
+    ifSetEvents(components.objectbox_double_pbutton, -1..-1, IfEvent.PauseButton)
+    ifSetText(components.objectbox_double_pbutton, pauseText)
+    ifSetObj(components.objectbox_double_model1, obj1, zoom1)
+    ifSetObj(components.objectbox_doublee_model2, obj2, zoom2)
+    ifSetText(components.objectbox_double_text, text)
 }
 
 internal fun Player.ifConfirmDestroy(
@@ -458,7 +458,7 @@ internal fun Player.ifConfirmDestroy(
 ) {
     ifOpenChat(interfaces.destroy_obj_dialogue, constants.modal_fixedwidthandheight, eventBus)
     confirmDestroyInit(this, header, text, obj, count)
-    ifSetEvents(components.destroy_obj_dialogue_pbutton, 0..1, IfEvent.PauseButton)
+    ifSetEvents(components.confirmdestroy_pbutton, 0..1, IfEvent.PauseButton)
 }
 
 internal fun Player.ifConfirmOverlay(
@@ -469,12 +469,12 @@ internal fun Player.ifConfirmOverlay(
     confirm: String,
     eventBus: EventBus,
 ) {
-    ifOpenSub(interfaces.overlay_confirmation, target, IfSubType.Overlay, eventBus)
+    ifOpenSub(interfaces.popupoverlay, target, IfSubType.Overlay, eventBus)
     confirmOverlayInit(this, target, title, text, cancel, confirm)
 }
 
 internal fun Player.ifConfirmOverlayClose(eventBus: EventBus): Unit =
-    ifCloseOverlay(interfaces.overlay_confirmation, eventBus)
+    ifCloseOverlay(interfaces.popupoverlay, eventBus)
 
 internal fun Player.ifMenu(
     title: String,
@@ -494,9 +494,9 @@ internal fun Player.ifChoice(
     choiceCountInclusive: Int,
     eventBus: EventBus,
 ) {
-    ifOpenChat(interfaces.options_dialogue, constants.modal_infinitewidthandheight, eventBus)
+    ifOpenChat(interfaces.chatmenu, constants.modal_infinitewidthandheight, eventBus)
     chatboxMultiInit(this, title, joinedChoices)
-    ifSetEvents(components.options_dialogue_pbutton, 1..choiceCountInclusive, IfEvent.PauseButton)
+    ifSetEvents(components.chatmenu_pbutton, 1..choiceCountInclusive, IfEvent.PauseButton)
 }
 
 internal fun Player.ifChatPlayer(
@@ -508,14 +508,14 @@ internal fun Player.ifChatPlayer(
     eventBus: EventBus,
 ) {
     mes("$title|$text", ChatType.Dialogue)
-    ifOpenChat(interfaces.player_dialogue, constants.modal_fixedwidthandheight, eventBus)
-    ifSetPlayerHead(components.player_dialogue_head)
-    ifSetAnim(components.player_dialogue_head, expression)
-    ifSetText(components.player_dialogue_name, title)
-    ifSetText(components.player_dialogue_text, text)
-    ifSetTextAlign(this, components.player_dialogue_text, alignH = 1, alignV = 1, lineHeight)
-    ifSetEvents(components.player_dialogue_pbutton, -1..-1, IfEvent.PauseButton)
-    ifSetText(components.player_dialogue_pbutton, pauseText)
+    ifOpenChat(interfaces.chat_right, constants.modal_fixedwidthandheight, eventBus)
+    ifSetPlayerHead(components.chat_right_head)
+    ifSetAnim(components.chat_right_head, expression)
+    ifSetText(components.chat_right_name, title)
+    ifSetText(components.chat_right_text, text)
+    ifSetTextAlign(this, components.chat_right_text, alignH = 1, alignV = 1, lineHeight)
+    ifSetEvents(components.chat_right_pbutton, -1..-1, IfEvent.PauseButton)
+    ifSetText(components.chat_right_pbutton, pauseText)
 }
 
 internal fun Player.ifChatNpcActive(
@@ -528,14 +528,14 @@ internal fun Player.ifChatNpcActive(
     eventBus: EventBus,
 ) {
     mes("$title|$text", ChatType.Dialogue)
-    ifOpenChat(interfaces.npc_dialogue, constants.modal_fixedwidthandheight, eventBus)
-    ifSetNpcHeadActive(components.npc_dialogue_head, npcSlotId)
-    ifSetAnim(components.npc_dialogue_head, chatanim)
-    ifSetText(components.npc_dialogue_name, title)
-    ifSetText(components.npc_dialogue_text, text)
-    ifSetTextAlign(this, components.npc_dialogue_text, alignH = 1, alignV = 1, lineHeight)
-    ifSetEvents(components.npc_dialogue_pbutton, -1..-1, IfEvent.PauseButton)
-    ifSetText(components.npc_dialogue_pbutton, pauseText)
+    ifOpenChat(interfaces.chat_left, constants.modal_fixedwidthandheight, eventBus)
+    ifSetNpcHeadActive(components.chat_left_head, npcSlotId)
+    ifSetAnim(components.chat_left_head, chatanim)
+    ifSetText(components.chat_left_name, title)
+    ifSetText(components.chat_left_text, text)
+    ifSetTextAlign(this, components.chat_left_text, alignH = 1, alignV = 1, lineHeight)
+    ifSetEvents(components.chat_left_pbutton, -1..-1, IfEvent.PauseButton)
+    ifSetText(components.chat_left_pbutton, pauseText)
 }
 
 internal fun Player.ifChatNpcSpecific(
@@ -548,20 +548,20 @@ internal fun Player.ifChatNpcSpecific(
     eventBus: EventBus,
 ) {
     mes("$title|$text", ChatType.Dialogue)
-    ifOpenChat(interfaces.npc_dialogue, constants.modal_fixedwidthandheight, eventBus)
-    ifSetNpcHead(components.npc_dialogue_head, type)
-    ifSetAnim(components.npc_dialogue_head, chatanim)
-    ifSetText(components.npc_dialogue_name, title)
-    ifSetText(components.npc_dialogue_text, text)
-    ifSetTextAlign(this, components.npc_dialogue_text, alignH = 1, alignV = 1, lineHeight)
-    ifSetEvents(components.npc_dialogue_pbutton, -1..-1, IfEvent.PauseButton)
-    ifSetText(components.npc_dialogue_pbutton, pauseText)
+    ifOpenChat(interfaces.chat_left, constants.modal_fixedwidthandheight, eventBus)
+    ifSetNpcHead(components.chat_left_head, type)
+    ifSetAnim(components.chat_left_head, chatanim)
+    ifSetText(components.chat_left_name, title)
+    ifSetText(components.chat_left_text, text)
+    ifSetTextAlign(this, components.chat_left_text, alignH = 1, alignV = 1, lineHeight)
+    ifSetEvents(components.chat_left_pbutton, -1..-1, IfEvent.PauseButton)
+    ifSetText(components.chat_left_pbutton, pauseText)
 }
 
 internal fun Player.ifOpenChat(interf: InterfaceType, widthAndHeightMode: Int, eventBus: EventBus) {
     chatModalUnclamp = widthAndHeightMode
     topLevelChatboxResetBackground(this)
-    openModal(interf, components.chat_chatmodal, eventBus)
+    openModal(interf, components.chatbox_chatmodal, eventBus)
 }
 
 private fun Player.ifSetObj(target: ComponentType, obj: Int, zoomOrCount: Int) {

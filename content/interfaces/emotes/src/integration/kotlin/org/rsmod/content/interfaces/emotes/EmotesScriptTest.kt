@@ -10,7 +10,7 @@ class EmotesScriptTest {
     fun GameTestState.`validate all emotes`() =
         runGameTest(EmotesScript::class) {
             // Open emotes tab, otherwise button clicks would be discarded.
-            player.ifOpenOverlay(interfaces.emote_tab, components.emote_tab_target)
+            player.ifOpenOverlay(interfaces.emote, components.toplevel_target_emote)
 
             // Ensure that buttons are actually reaching the emote code.
             val error =
