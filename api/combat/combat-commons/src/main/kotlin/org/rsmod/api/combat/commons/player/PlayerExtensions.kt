@@ -93,7 +93,7 @@ public fun Player.combatPlayDefendSpot(objTypes: ObjTypeList, ammo: ObjType?, cl
     if (!type.isCategoryType(categories.javelin)) {
         return
     }
-    spotanim(spotanims.javelin_hit, delay = clientDelay, height = 146)
+    spotanim(spotanims.ballista_special, delay = clientDelay, height = 146)
 }
 
 public fun Player.resolveCombatXpMultiplier(): Double = min(1.125, 1 + (0.025 * (combatLevel / 20)))

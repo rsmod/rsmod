@@ -81,7 +81,7 @@ constructor(
         }
         onCommand("anim", "Play animation", ::anim)
         onCommand("spot", "Play spotanim", ::spotanim) {
-            invalidArgs = "Use as ::spot spotanimDebugNameOrId (ex: emote_party)"
+            invalidArgs = "Use as ::spot spotanimDebugNameOrId (ex: fx_emote_party01_active)"
         }
         onCommand("locadd", "Spawn loc", ::locAdd) {
             invalidArgs = "Use as ::locadd duration locDebugNameOrId (ex: 100 bookcase)"

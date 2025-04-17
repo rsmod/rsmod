@@ -104,8 +104,8 @@ constructor(private val objTypes: ObjTypeList, private val ammunition: RangedAmm
             soundSynth(synths.darkbow_shadow_attack)
             spotanim(launchSpot, height = 96, slot = constants.spotanim_slot_combat)
 
-            val descentTravel = spotanims.darkbow_shadow_travel
-            val descentImpact = spotanims.darkbow_shadow_impact
+            val descentTravel = spotanims.darkbow_generic_smoke_arrow_flight
+            val descentImpact = spotanims.darkbow_smoke_arrow_impact
             val impactSynth = synths.darkbow_shadow_impact
 
             manager.spawnProjectile(this, target, descentTravel, projanims.doublearrow_one)
@@ -162,8 +162,8 @@ constructor(private val objTypes: ObjTypeList, private val ammunition: RangedAmm
             soundSynth(synths.darkbow_dragon_attack)
             spotanim(launchSpot, height = 96, slot = constants.spotanim_slot_combat)
 
-            val descentTravel = spotanims.darkbow_dragon_travel
-            val descentImpact = spotanims.darkbow_dragon_impact
+            val descentTravel = spotanims.darkbow_dragon_head_flying_projanim
+            val descentImpact = spotanims.darkbow_dragon_head_flying_impact_anim
             val impactSynth = synths.darkbow_shadow_impact
 
             manager.spawnProjectile(this, target, descentTravel, projanims.doublearrow_one)

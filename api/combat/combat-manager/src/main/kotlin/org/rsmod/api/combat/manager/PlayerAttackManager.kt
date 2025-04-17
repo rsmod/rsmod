@@ -1671,7 +1671,7 @@ constructor(
         if (castSound != null) {
             source.soundSynth(castSound)
         }
-        target.spotanim(spotanims.splash, delay = clientDelay, height = 124)
+        target.spotanim(spotanims.failedspell_impact, delay = clientDelay, height = 124)
         soundArea(
             source = target.coords,
             synth = synths.spellfail,
@@ -1699,7 +1699,7 @@ constructor(
                 size = 0,
             )
         }
-        target.spotanim(spotanims.splash, delay = clientDelay, height = 124)
+        target.spotanim(spotanims.failedspell_impact, delay = clientDelay, height = 124)
         soundArea(
             source = target.coords,
             synth = synths.spellfail,

@@ -79,29 +79,29 @@ internal object EmoteEnumBuilds : EnumBuilder() {
         }
 
         build<StatType, SpotanimType>("skill_cape_spots") {
-            this[stats.attack] = spotanims.attack_skillcape
-            this[stats.defence] = spotanims.defence_skillcape
-            this[stats.strength] = spotanims.strength_skillcape
-            this[stats.hitpoints] = spotanims.hitpoints_skillcape
-            this[stats.ranged] = spotanims.ranged_skillcape
-            this[stats.prayer] = spotanims.prayer_skillcape
-            this[stats.magic] = spotanims.magic_skillcape
-            this[stats.cooking] = spotanims.cooking_skillcape
-            this[stats.woodcutting] = spotanims.woodcutting_skillcape
-            this[stats.fletching] = spotanims.fletching_skillcape
-            this[stats.fishing] = spotanims.fishing_skillcape
-            this[stats.firemaking] = spotanims.firemaking_skillcape
-            this[stats.crafting] = spotanims.crafting_skillcape
-            this[stats.smithing] = spotanims.smithing_skillcape
-            this[stats.mining] = spotanims.mining_skillcape
-            this[stats.herblore] = spotanims.herblore_skillcape
-            this[stats.agility] = spotanims.agility_skillcape
-            this[stats.thieving] = spotanims.thieving_skillcape
-            this[stats.slayer] = spotanims.slayer_skillcape
-            this[stats.farming] = spotanims.farming_skillcape
-            this[stats.runecrafting] = spotanims.runecrafting_skillcape
-            this[stats.hunter] = spotanims.hunter_skillcape
-            this[stats.construction] = spotanims.construction_skillcape
+            this[stats.attack] = spotanims.skillcape_attack_spotanim
+            this[stats.defence] = spotanims.skillcape_defend_spotanim
+            this[stats.strength] = spotanims.skillcapes_strength
+            this[stats.hitpoints] = spotanims.skillcapes_hitpoints
+            this[stats.ranged] = spotanims.skillcapes_range
+            this[stats.prayer] = spotanims.skillcapes_prayer
+            this[stats.magic] = spotanims.skillcapes_magic_spotanim
+            this[stats.cooking] = spotanims.skillcapes_cooking_spotanim
+            this[stats.woodcutting] = spotanims.skillcapes_woodcutting_spotanim
+            this[stats.fletching] = spotanims.skillcapes_fletching_bow_spotanim
+            this[stats.fishing] = spotanims.skillcapes_fishing_spotanim
+            this[stats.firemaking] = spotanims.skillcapes_firemaking
+            this[stats.crafting] = spotanims.skillcapes_crafting_spotanim
+            this[stats.smithing] = spotanims.skillcapes_smithing_spotanim
+            this[stats.mining] = spotanims.skillcapes_mining_spotanim
+            this[stats.herblore] = spotanims.skillcapes_herblore
+            this[stats.agility] = spotanims.skillcapes_agility
+            this[stats.thieving] = spotanims.skillcape_thieving_spotanim
+            this[stats.slayer] = spotanims.skillcape_slayer_spotanim
+            this[stats.farming] = spotanims.skillcape_farming_spotanim
+            this[stats.runecrafting] = spotanims.skillcapes_runecrafting_spotanim
+            this[stats.hunter] = spotanims.skillcapes_hunting
+            this[stats.construction] = spotanims.skillcapes_construction_spotanim
         }
     }
 }

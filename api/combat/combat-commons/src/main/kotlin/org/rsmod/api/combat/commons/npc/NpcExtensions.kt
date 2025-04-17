@@ -93,7 +93,7 @@ public fun Npc.combatPlayDefendSpot(objTypes: ObjTypeList, ammo: ObjType?, clien
     if (!type.isCategoryType(categories.javelin)) {
         return
     }
-    spotanim(spotanims.javelin_hit, delay = clientDelay, height = 146)
+    spotanim(spotanims.ballista_special, delay = clientDelay, height = 146)
 }
 
 public fun Npc.attackRate(): Int = visType.param(params.attackrate)

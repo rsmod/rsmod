@@ -27,7 +27,7 @@ public class DinhsBulwarkScript : PluginScript() {
 
         val equipped = righthand.isType(obj)
         if (equipped) {
-            spotanim(spotanims.dinhs_bulwark_eye)
+            spotanim(spotanims.dinhs_bulwark_glow_idle)
             passiveDelay = currentMapClock + 8
             return
         }

@@ -147,14 +147,14 @@ private constructor(
                     seqs.emote_lightbulb,
                     varbits.sos_emote_idea,
                     "You can't use that emote yet - visit the Stronghold of Security to unlock it.",
-                    spot = spotanims.idea_emote,
+                    spot = spotanims.emote_lightbulb_spot,
                 )
             "Stamp" ->
                 lockedAnimDialog(
                     seqs.emote_stampfeet,
                     varbits.sos_emote_stamp,
                     "You can't use that emote yet - visit the Stronghold of Security to unlock it.",
-                    spot = spotanims.stampfeet_emote,
+                    spot = spotanims.emote_duststamp_spot,
                 )
             "Flap" ->
                 lockedAnimDialog(
@@ -262,14 +262,14 @@ private constructor(
                     seqs.emote_party,
                     varbits.emote_party,
                     "This emote can be unlocked by doing a birthday event.",
-                    spot = spotanims.emote_party,
+                    spot = spotanims.fx_emote_party01_active,
                 )
             "Trick" ->
                 lockedAnimDialog(
                     seqs.emote_trick,
                     varbits.emote_trick,
                     "This emote can be unlocked by doing a Halloween event.",
-                    spot = spotanims.emote_trick,
+                    spot = spotanims.hw23_emote_bat_spotanim,
                 )
             "Fortis Salute" -> fortisSaluteEmote(loop = op == IfButtonOp.Op2)
             "Crab dance" -> {
@@ -334,12 +334,14 @@ private constructor(
         stopAction()
 
         if (ocIsType(player.back, objs.music_cape, objs.music_cape_t)) {
-            masteryCapeEmote(seqs.emote_air_guitar, spotanims.air_guitar_emote)
+            masteryCapeEmote(seqs.emote_air_guitar, spotanims.air_guitar_spotanim)
             return
         }
 
         if (ocIsType(player.back, objs.quest_point_cape, objs.quest_point_cape_t)) {
-            masteryCapeEmote(seqs.skillcapes_player_quest_cape, spotanims.quest_point_cape)
+            val seq = seqs.skillcapes_player_quest_cape
+            val spot = spotanims.skillcapes_quest_cape_spotanim
+            masteryCapeEmote(seq, spot)
             return
         }
 
@@ -420,7 +422,7 @@ private constructor(
             return
         }
         midiJingle(jingles.emote_air_guitar)
-        playAnim(seqs.emote_air_guitar, spotanims.air_guitar_emote)
+        playAnim(seqs.emote_air_guitar, spotanims.air_guitar_spotanim)
     }
 
     private suspend fun ProtectedAccess.uriTransformEmote() {
@@ -437,19 +439,19 @@ private constructor(
             mes("You can't perform that emote now.")
             return
         }
-        spotanim(spotanims.poof_disappear, height = 92)
+        spotanim(spotanims.smokepuff, height = 92)
         transmog(npcs.uri_emote_1)
         delay(1)
-        spotanim(spotanims.uri_emote_start)
+        spotanim(spotanims.briefcase_spotanim)
         anim(seqs.emote_uri_briefcase)
         transmog(npcs.uri_emote_2)
         delay(9)
         anim(seqs.poh_smash_magic_tablet)
         delay(1)
-        spotanim(spotanims.teletab_suck_in)
+        spotanim(spotanims.poh_absorb_tablet_magic)
         anim(seqs.poh_absorb_tablet_teleport)
         delay(1)
-        spotanim(spotanims.poof_disappear, height = 92)
+        spotanim(spotanims.smokepuff, height = 92)
         resetAnim()
         resetTransmog()
         publishEmoteEvent(seqs.emote_uri_briefcase)
@@ -469,9 +471,9 @@ private constructor(
 
         val spot =
             when (player.premierShieldCount) {
-                1 -> spotanims.premier_shield_emote_silver
-                2 -> spotanims.premier_shield_emote_gold
-                else -> spotanims.premier_shield_emote_bronze
+                1 -> spotanims.premier_club_emote_spotanim_silver
+                2 -> spotanims.premier_club_emote_spotanim_gold
+                else -> spotanims.premier_club_emote_spotanim_bronze
             }
 
         player.premierShieldCount = (player.premierShieldCount + 1) % 3
@@ -496,9 +498,9 @@ private constructor(
         }
         anim(seqs.human_relic_unlock)
         if (vars[varbits.poh_leaguehall_outfitstand_relichunter_type] == 3) {
-            spotanim(spotanims.twisted_relic_unlock, height = 92)
+            spotanim(spotanims.league_twisted_relic_unlock_spot, height = 92)
         } else {
-            spotanim(spotanims.trailblazer_relic_unlock, height = 92)
+            spotanim(spotanims.league_trailblazer_relic_unlock_spot, height = 92)
         }
         delay(4)
         publishEmoteEvent(seqs.human_relic_unlock)

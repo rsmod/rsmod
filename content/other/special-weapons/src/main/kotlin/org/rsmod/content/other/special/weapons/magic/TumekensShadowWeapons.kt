@@ -58,7 +58,7 @@ class TumekensShadowWeapons @Inject constructor(private val charges: CombatCharg
             manager.setNextAttackDelay(this, 5)
 
             anim(seqs.toa_sot_cast_b)
-            spotanim(spotanims.tumekens_shadow_launch)
+            spotanim(spotanims.tumekens_shadow_casting)
 
             val proj =
                 manager.spawnProjectile(
@@ -83,7 +83,7 @@ class TumekensShadowWeapons @Inject constructor(private val charges: CombatCharg
                     clientDelay = clientDelay,
                     castSound = castSound,
                     soundRadius = 10,
-                    hitSpot = spotanims.tumekens_shadow_hit,
+                    hitSpot = spotanims.tumekens_shadow_impact,
                     hitSpotHeight = 124,
                     hitSound = synths.contact_darkness_impact,
                 )

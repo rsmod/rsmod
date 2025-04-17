@@ -63,25 +63,31 @@ class StatBoostSpecialAttacks @Inject constructor(private val worldRepo: WorldRe
     }
 
     private fun fishstabberDragonHarpoon(access: ProtectedAccess): Boolean {
-        return access.fishstabber(special_seqs.fishstabber_dragon_harpoon, spotanims.portal_red)
+        return access.fishstabber(
+            special_seqs.fishstabber_dragon_harpoon,
+            spotanims.sp_attackglow_red,
+        )
     }
 
     private fun fishstabberDragonHarpoonOr(access: ProtectedAccess): Boolean {
-        // Uses same seq as Infernal harpoon (or).
+        // Uses the same seq as Infernal harpoon (or).
         return access.fishstabber(
             special_seqs.fishstabber_infernal_harpoon_or,
-            spotanims.portal_red,
+            spotanims.sp_attackglow_red,
         )
     }
 
     private fun fishstabberInfernalHarpoon(access: ProtectedAccess): Boolean {
-        return access.fishstabber(special_seqs.fishstabber_infernal_harpoon, spotanims.portal_red)
+        return access.fishstabber(
+            special_seqs.fishstabber_infernal_harpoon,
+            spotanims.sp_attackglow_red,
+        )
     }
 
     private fun fishstabberInfernalHarpoonOr(access: ProtectedAccess): Boolean {
         return access.fishstabber(
             special_seqs.fishstabber_infernal_harpoon_or,
-            spotanims.portal_red,
+            spotanims.sp_attackglow_red,
         )
     }
 

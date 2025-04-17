@@ -39,7 +39,7 @@ class ArthurTheClueHunter @Inject constructor(private val random: GameRandom) : 
             3 -> {
                 say("I've got it!")
                 anim(seqs.emote_lightbulb)
-                spotanim(spotanims.idea_emote)
+                spotanim(spotanims.emote_lightbulb_spot)
             }
             4 -> {
                 say("Why is this so hard...")
