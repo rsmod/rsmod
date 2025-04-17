@@ -18,4 +18,8 @@ object BaseNpcs : NpcReferences() {
     val uri_emote_2 = find("uri_emote", 507070735729125592)
     val diary_emote_npc = find("diary_emote_npc", 873924466076745435)
     val corp_beast = find("corp_beast", 638886739118650468)
+    val imp = find("imp", 3767496500470452575)
+    val farming_tools_leprechaun = find("farming_tools_leprechaun", 8336094501992769580)
+    val rod_fishing_spot_1527 = find("0_50_50_freshfish", 9103723619528693433)
+    val fishing_spot_1530 = find("0_50_49_saltfish", 1344609226224172796)
 }

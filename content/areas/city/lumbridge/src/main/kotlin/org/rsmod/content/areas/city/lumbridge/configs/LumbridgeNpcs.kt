@@ -26,19 +26,35 @@ object LumbridgeNpcs : NpcReferences() {
     val bob = find("bob", 5887098795660136180)
     val woodsman_tutor = find("aide_tutor_woodsman", 3633313576151598194)
     val smithing_apprentice = find("aide_tutor_smithing_apprentice", 857616158419739967)
+    val father_aereck = find("father_aereck", 2458602357142569756)
+    val cook = find("cook", 3737636038939424319)
+    val perdu = find("lost_property_merchant_standard", 361155506698743338)
+    val guide = find("lumbridge_guide", 5317197919161804353)
+    val doomsayer = find("cws_doomsayer", 7027711953079293399)
+    val abigaila = find("tob_spectator_misthalin", 5506442100218713377)
+    val count_check = find("count_check", 2233208351397563395)
+    val veos = find("veos_lumbridge", 4215600836046426988)
+    val adventurer_jon = find("ap_guide_parent", 2190791507308492530)
+    val hewey = find("mistmyst_hewey", 7247092703186427097)
+    val fishing_tutor = find("aide_tutor_fishing", 6240639608569249075)
+    val millie = find("millie_the_miller", 5433484057267480234)
 }
 
 internal object LumbridgeNpcEditor : NpcEditor() {
     init {
-        edit("deadman_banker_blue_south") { contentGroup = content.banker }
+        edit(lumbridge_npcs.shop_keeper) { moveRestrict = indoors }
 
-        edit("aide_tutor_banker") { contentGroup = content.banker_tutor }
+        edit(lumbridge_npcs.shop_assistant) { moveRestrict = indoors }
 
-        edit("aide_tutor_prayer") { moveRestrict = indoors }
+        edit(lumbridge_npcs.banker) { contentGroup = content.banker }
 
-        edit("father_aereck") { moveRestrict = indoors }
+        edit(lumbridge_npcs.banker_tutor) { contentGroup = content.banker_tutor }
 
-        edit("hans") {
+        edit(lumbridge_npcs.prayer_tutor) { moveRestrict = indoors }
+
+        edit(lumbridge_npcs.father_aereck) { moveRestrict = indoors }
+
+        edit(lumbridge_npcs.hans) {
             defaultMode = patrol
             patrol1 = patrol(CoordGrid(0, 50, 50, 7, 33), 0)
             patrol2 = patrol(CoordGrid(0, 50, 50, 11, 30), 0)
@@ -53,73 +69,73 @@ internal object LumbridgeNpcEditor : NpcEditor() {
             maxRange = 40
         }
 
-        edit("cook") { moveRestrict = indoors }
+        edit(lumbridge_npcs.cook) { moveRestrict = indoors }
 
-        edit("lost_property_merchant_standard") {
+        edit(lumbridge_npcs.perdu) {
             respawnDir = west
             wanderRange = 0
         }
 
-        edit("lumbridge_guide") {
+        edit(lumbridge_npcs.guide) {
             respawnDir = west
             wanderRange = 0
         }
 
-        edit("cws_doomsayer") {
+        edit(lumbridge_npcs.doomsayer) {
             respawnDir = east
             wanderRange = 0
         }
 
-        edit("tob_spectator_misthalin") {
+        edit(lumbridge_npcs.abigaila) {
             respawnDir = south
             wanderRange = 0
         }
 
-        edit("count_check") {
+        edit(lumbridge_npcs.count_check) {
             respawnDir = east
             wanderRange = 0
         }
 
-        edit("aide_tutor_clues") {
+        edit(lumbridge_npcs.arthur_the_clue_hunter) {
             respawnDir = north
             wanderRange = 0
             timer = 20
         }
 
-        edit("ram_bartender") {
+        edit(lumbridge_npcs.bartender) {
             respawnDir = west
             wanderRange = 0
         }
 
-        edit("aide_tutor_smithing_apprentice") { moveRestrict = indoors }
+        edit(lumbridge_npcs.smithing_apprentice) { moveRestrict = indoors }
 
-        edit("veos_lumbridge") {
+        edit(lumbridge_npcs.veos) {
             respawnDir = south
             wanderRange = 0
         }
 
-        edit("ap_guide_parent") {
+        edit(lumbridge_npcs.adventurer_jon) {
             respawnDir = south
             wanderRange = 0
         }
 
-        edit("mistmyst_hewey") {
+        edit(lumbridge_npcs.hewey) {
             respawnDir = east
             wanderRange = 0
         }
 
-        edit("aide_tutor_fishing") {
+        edit(lumbridge_npcs.fishing_tutor) {
             respawnDir = east
             wanderRange = 0
         }
 
-        edit("bob") {
+        edit(lumbridge_npcs.bob) {
             moveRestrict = indoors
             param[ShopParams.shop_sell_percentage] = 1000
             param[ShopParams.shop_buy_percentage] = 600
             param[ShopParams.shop_change_percentage] = 20
         }
 
-        edit("millie_the_miller") { wanderRange = 1 }
+        edit(lumbridge_npcs.millie) { wanderRange = 1 }
     }
 }

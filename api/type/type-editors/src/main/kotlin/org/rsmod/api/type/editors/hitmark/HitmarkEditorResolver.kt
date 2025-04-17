@@ -20,13 +20,12 @@ import org.rsmod.game.type.hitmark.UnpackedHitmarkType
 public class HitmarkEditorResolver
 @Inject
 constructor(private val types: HitmarkTypeList, private val nameMapping: NameMapping) :
-    TypeEditorResolver<HitmarkTypeBuilder, UnpackedHitmarkType> {
+    TypeEditorResolver<UnpackedHitmarkType> {
     private val names: Map<String, Int>
         get() = nameMapping.hitmarks
 
-    override fun resolve(
-        editors: TypeEditor<HitmarkTypeBuilder, UnpackedHitmarkType>
-    ): List<TypeEditorResult> = editors.cache.map { it.resolve() }
+    override fun resolve(editors: TypeEditor<UnpackedHitmarkType>): List<TypeEditorResult> =
+        editors.cache.map { it.resolve() }
 
     private fun UnpackedHitmarkType.resolve(): TypeEditorResult {
         val internalId = names[internalName] ?: return err(NameNotFound(internalName))

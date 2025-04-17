@@ -20,13 +20,12 @@ import org.rsmod.game.type.inv.UnpackedInvType
 public class InvEditorResolver
 @Inject
 constructor(private val types: InvTypeList, private val nameMapping: NameMapping) :
-    TypeEditorResolver<InvTypeBuilder, UnpackedInvType> {
+    TypeEditorResolver<UnpackedInvType> {
     private val names: Map<String, Int>
         get() = nameMapping.invs
 
-    override fun resolve(
-        editors: TypeEditor<InvTypeBuilder, UnpackedInvType>
-    ): List<TypeEditorResult> = editors.cache.map { it.resolve() }
+    override fun resolve(editors: TypeEditor<UnpackedInvType>): List<TypeEditorResult> =
+        editors.cache.map { it.resolve() }
 
     private fun UnpackedInvType.resolve(): TypeEditorResult {
         val internalId = names[internalName] ?: return err(NameNotFound(internalName))

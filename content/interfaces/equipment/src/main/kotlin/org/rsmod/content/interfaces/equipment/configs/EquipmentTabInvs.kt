@@ -15,6 +15,6 @@ object EquipmentTabInvs : InvReferences() {
 
 internal object EquipmentTabInvEdit : InvEditor() {
     init {
-        edit("skill_guide_hunting_tracking") { stack = InvStackType.Never }
+        edit(equip_invs.kept) { stack = InvStackType.Never }
     }
 }

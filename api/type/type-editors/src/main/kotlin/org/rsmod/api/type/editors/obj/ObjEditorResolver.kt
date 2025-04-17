@@ -11,7 +11,6 @@ import org.rsmod.api.type.editors.resolver.TypeEditorResult.NameNotFound
 import org.rsmod.api.type.editors.resolver.err
 import org.rsmod.api.type.editors.resolver.ok
 import org.rsmod.api.type.editors.resolver.update
-import org.rsmod.api.type.script.dsl.ObjPluginBuilder
 import org.rsmod.api.type.symbols.name.NameMapping
 import org.rsmod.game.type.TypeResolver
 import org.rsmod.game.type.obj.ObjTypeBuilder
@@ -21,13 +20,12 @@ import org.rsmod.game.type.obj.UnpackedObjType
 public class ObjEditorResolver
 @Inject
 constructor(private val types: ObjTypeList, private val nameMapping: NameMapping) :
-    TypeEditorResolver<ObjPluginBuilder, UnpackedObjType> {
+    TypeEditorResolver<UnpackedObjType> {
     private val names: Map<String, Int>
         get() = nameMapping.objs
 
-    override fun resolve(
-        editors: TypeEditor<ObjPluginBuilder, UnpackedObjType>
-    ): List<TypeEditorResult> = editors.cache.map { it.resolve() }
+    override fun resolve(editors: TypeEditor<UnpackedObjType>): List<TypeEditorResult> =
+        editors.cache.map { it.resolve() }
 
     private fun UnpackedObjType.resolve(): TypeEditorResult {
         val internalId = names[internalName] ?: return err(NameNotFound(internalName))

@@ -30,25 +30,25 @@ object CanoeLocs : LocReferences() {
 
 object CanoeLocEditor : LocEditor() {
     init {
-        edit("canoestation_log") {
+        edit(canoe_locs.ready_log) {
             param[params.skill_xp] = 30
             param[params.levelrequire] = 12
             param[params.next_loc_stage] = canoe_locs.sinking_log
         }
 
-        edit("canoestation_dugout") {
+        edit(canoe_locs.ready_dugout) {
             param[params.skill_xp] = 60
             param[params.levelrequire] = 27
             param[params.next_loc_stage] = canoe_locs.sinking_dugout
         }
 
-        edit("canoestation_stabledugout") {
+        edit(canoe_locs.ready_stable_dugout) {
             param[params.skill_xp] = 90
             param[params.levelrequire] = 42
             param[params.next_loc_stage] = canoe_locs.sinking_stable_dugout
         }
 
-        edit("canoestation_waka") {
+        edit(canoe_locs.ready_waka) {
             param[params.skill_xp] = 150
             param[params.levelrequire] = 57
             param[params.next_loc_stage] = canoe_locs.sinking_waka

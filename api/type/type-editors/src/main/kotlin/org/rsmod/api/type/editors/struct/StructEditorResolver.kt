@@ -11,7 +11,6 @@ import org.rsmod.api.type.editors.resolver.TypeEditorResult.NameNotFound
 import org.rsmod.api.type.editors.resolver.err
 import org.rsmod.api.type.editors.resolver.ok
 import org.rsmod.api.type.editors.resolver.update
-import org.rsmod.api.type.script.dsl.StructPluginBuilder
 import org.rsmod.api.type.symbols.name.NameMapping
 import org.rsmod.game.type.TypeResolver
 import org.rsmod.game.type.struct.StructTypeBuilder
@@ -21,13 +20,12 @@ import org.rsmod.game.type.struct.UnpackedStructType
 public class StructEditorResolver
 @Inject
 constructor(private val types: StructTypeList, private val nameMapping: NameMapping) :
-    TypeEditorResolver<StructPluginBuilder, UnpackedStructType> {
+    TypeEditorResolver<UnpackedStructType> {
     private val names: Map<String, Int>
         get() = nameMapping.structs
 
-    override fun resolve(
-        editors: TypeEditor<StructPluginBuilder, UnpackedStructType>
-    ): List<TypeEditorResult> = editors.cache.map { it.resolve() }
+    override fun resolve(editors: TypeEditor<UnpackedStructType>): List<TypeEditorResult> =
+        editors.cache.map { it.resolve() }
 
     private fun UnpackedStructType.resolve(): TypeEditorResult {
         val internalId = names[internalName] ?: return err(NameNotFound(internalName))

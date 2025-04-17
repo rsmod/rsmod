@@ -20,13 +20,12 @@ import org.rsmod.game.type.headbar.UnpackedHeadbarType
 public class HeadbarEditorResolver
 @Inject
 constructor(private val types: HeadbarTypeList, private val nameMapping: NameMapping) :
-    TypeEditorResolver<HeadbarTypeBuilder, UnpackedHeadbarType> {
+    TypeEditorResolver<UnpackedHeadbarType> {
     private val names: Map<String, Int>
         get() = nameMapping.headbars
 
-    override fun resolve(
-        editors: TypeEditor<HeadbarTypeBuilder, UnpackedHeadbarType>
-    ): List<TypeEditorResult> = editors.cache.map { it.resolve() }
+    override fun resolve(editors: TypeEditor<UnpackedHeadbarType>): List<TypeEditorResult> =
+        editors.cache.map { it.resolve() }
 
     private fun UnpackedHeadbarType.resolve(): TypeEditorResult {
         val internalId = names[internalName] ?: return err(NameNotFound(internalName))

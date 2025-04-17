@@ -31,73 +31,73 @@ internal object GateLocs : LocReferences() {
 
 internal object GateLocEditor : LocEditor() {
     init {
-        edit("fencegate_l") {
+        edit(gate_locs.picketgate_left_closed) {
             param[params.opensound] = synths.picketgate_open
             param[params.next_loc_stage] = gate_locs.picketgate_left_opened
             contentGroup = content.closed_left_picketgate
         }
 
-        edit("fencegate_r") {
+        edit(gate_locs.picketgate_right_closed) {
             param[params.opensound] = synths.picketgate_open
             param[params.next_loc_stage] = gate_locs.picketgate_right_opened
             contentGroup = content.closed_right_picketgate
         }
 
-        edit("openfencegate_l") {
+        edit(gate_locs.picketgate_left_opened) {
             param[params.closesound] = synths.picketgate_close
             param[params.next_loc_stage] = gate_locs.picketgate_left_closed
             contentGroup = content.opened_left_picketgate
         }
 
-        edit("openfencegate_r") {
+        edit(gate_locs.picketgate_right_opened) {
             param[params.closesound] = synths.picketgate_close
             param[params.next_loc_stage] = gate_locs.picketgate_right_closed
             contentGroup = content.opened_right_picketgate
         }
 
-        edit("rustic_fencegate_l") {
+        edit(gate_locs.nicepicketgate_left_closed) {
             param[params.opensound] = synths.picketgate_open
             param[params.next_loc_stage] = gate_locs.nicepicketgate_left_opened
             contentGroup = content.closed_left_picketgate
         }
 
-        edit("rustic_fencegate_r") {
+        edit(gate_locs.nicepicketgate_right_closed) {
             param[params.opensound] = synths.picketgate_open
             param[params.next_loc_stage] = gate_locs.nicepicketgate_right_opened
             contentGroup = content.closed_right_picketgate
         }
 
-        edit("rustic_openfencegate_l") {
+        edit(gate_locs.nicepicketgate_left_opened) {
             param[params.closesound] = synths.door_close
             param[params.next_loc_stage] = gate_locs.nicepicketgate_left_closed
             contentGroup = content.opened_left_picketgate
         }
 
-        edit("rustic_openfencegate_r") {
+        edit(gate_locs.nicepicketgate_right_opened) {
             param[params.closesound] = synths.door_close
             param[params.next_loc_stage] = gate_locs.nicepicketgate_right_closed
             contentGroup = content.opened_right_picketgate
         }
 
-        edit("qip_sheep_shearer_fencegate_l") {
+        edit(gate_locs.farmerfred_gate_left_closed) {
             param[params.opensound] = synths.picketgate_open
             param[params.next_loc_stage] = gate_locs.farmerfred_gate_left_opened
             contentGroup = content.closed_left_picketgate
         }
 
-        edit("qip_sheep_shearer_fencegate_r") {
+        edit(gate_locs.farmerfred_gate_right_closed) {
             param[params.opensound] = synths.picketgate_open
             param[params.next_loc_stage] = gate_locs.farmerfred_gate_right_opened
             contentGroup = content.closed_right_picketgate
         }
 
-        edit("qip_sheep_shearer_openfencegate_l") {
+        edit(gate_locs.farmerfred_gate_left_opened) {
             param[params.closesound] = synths.door_close
             param[params.next_loc_stage] = gate_locs.farmerfred_gate_left_closed
             contentGroup = content.opened_left_picketgate
         }
 
-        edit("qip_sheep_shearer_openfencegate_r") {
+        edit(gate_locs.farmerfred_gate_right_opened) {
             param[params.closesound] = synths.door_close
             param[params.next_loc_stage] = gate_locs.farmerfred_gate_right_closed
             contentGroup = content.opened_right_picketgate

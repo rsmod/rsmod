@@ -11,21 +11,21 @@ import org.rsmod.game.type.stat.StatType
 
 internal object ObjEdits : ObjEditor() {
     init {
-        edit("coins") { param[params.shop_sale_restricted] = true }
-        edit("platinum") { param[params.shop_sale_restricted] = true }
-        edit("chinchompa_captured") {
+        edit(objs.coins) { param[params.shop_sale_restricted] = true }
+        edit(objs.platinum_tokens) { param[params.shop_sale_restricted] = true }
+        edit(objs.chinchoma) {
             param[params.release_note_title] = "Drop all of your chinchompas?"
             param[params.release_note_message] = "You release the chinchompa and it bounds away."
         }
-        edit("chinchompa_big_captured") {
+        edit(objs.red_chinchoma) {
             param[params.release_note_title] = "Drop all of your red chinchompas?"
             param[params.release_note_message] = "You release the chinchompa and it bounds away."
         }
-        edit("chinchompa_black") {
+        edit(objs.black_chinchompa) {
             param[params.release_note_title] = "Drop all of your black chinchompas?"
             param[params.release_note_message] = "You release the chinchompa and it bounds away."
         }
-        edit("gublinch_snowball") { param[params.player_op5_text] = "Pelt" }
+        edit(objs.snowball) { param[params.player_op5_text] = "Pelt" }
 
         editSkillCapes()
         editMaxCapes()
@@ -34,142 +34,112 @@ internal object ObjEdits : ObjEditor() {
     }
 
     private fun editSkillCapes() {
-        skillCape(
-            stats.attack,
-            "skillcape_attack_hood",
-            "skillcape_attack",
-            "skillcape_attack_trimmed",
-        )
-        skillCape(
+        skillcape(stats.attack, objs.attack_hood, objs.attack_skillcape, objs.attack_skillcape_t)
+        skillcape(
             stats.defence,
-            "skillcape_defence_hood",
-            "skillcape_defence",
-            "skillcape_defence_trimmed",
+            objs.defence_hood,
+            objs.defence_skillcape,
+            objs.defence_skillcape_t,
         )
-        skillCape(
+        skillcape(
             stats.strength,
-            "skillcape_strength_hood",
-            "skillcape_strength",
-            "skillcape_strength_trimmed",
+            objs.strength_hood,
+            objs.strength_skillcape,
+            objs.strength_skillcape_t,
         )
-        skillCape(
+        skillcape(
             stats.hitpoints,
-            "skillcape_hitpoints_hood",
-            "skillcape_hitpoints",
-            "skillcape_hitpoints_trimmed",
+            objs.hitpoints_hood,
+            objs.hitpoints_skillcape,
+            objs.hitpoints_skillcape_t,
         )
-        skillCape(
-            stats.ranged,
-            "skillcape_ranging_hood",
-            "skillcape_ranging",
-            "skillcape_ranging_trimmed",
-        )
-        skillCape(
-            stats.prayer,
-            "skillcape_prayer_hood",
-            "skillcape_prayer",
-            "skillcape_prayer_trimmed",
-        )
-        skillCape(stats.magic, "skillcape_magic_hood", "skillcape_magic", "skillcape_magic_trimmed")
-        skillCape(
+        skillcape(stats.ranged, objs.ranged_hood, objs.ranged_skillcape, objs.ranged_skillcape_t)
+        skillcape(stats.prayer, objs.prayer_hood, objs.prayer_skillcape, objs.prayer_skillcape_t)
+        skillcape(stats.magic, objs.magic_hood, objs.magic_skillcape, objs.magic_skillcape_t)
+        skillcape(
             stats.cooking,
-            "skillcape_cooking_hood",
-            "skillcape_cooking",
-            "skillcape_cooking_trimmed",
+            objs.cooking_hood,
+            objs.cooking_skillcape,
+            objs.cooking_skillcape_t,
         )
-        skillCape(
+        skillcape(
             stats.woodcutting,
-            "skillcape_woodcutting_hood",
-            "skillcape_woodcutting",
-            "skillcape_woodcutting_trimmed",
+            objs.woodcutting_hood,
+            objs.woodcutting_skillcape,
+            objs.woodcutting_skillcape_t,
         )
-        skillCape(
+        skillcape(
             stats.fletching,
-            "skillcape_fletching_hood",
-            "skillcape_fletching",
-            "skillcape_fletching_trimmed",
+            objs.fletching_hood,
+            objs.fletching_skillcape,
+            objs.fletching_skillcape_t,
         )
-        skillCape(
+        skillcape(
             stats.fishing,
-            "skillcape_fishing_hood",
-            "skillcape_fishing",
-            "skillcape_fishing_trimmed",
+            objs.fishing_hood,
+            objs.fishing_skillcape,
+            objs.fishing_skillcape_t,
         )
-        skillCape(
+        skillcape(
             stats.firemaking,
-            "skillcape_firemaking_hood",
-            "skillcape_firemaking",
-            "skillcape_firemaking_trimmed",
+            objs.firemaking_hood,
+            objs.firemaking_skillcape,
+            objs.firemaking_skillcape_t,
         )
-        skillCape(
+        skillcape(
             stats.crafting,
-            "skillcape_crafting_hood",
-            "skillcape_crafting",
-            "skillcape_crafting_trimmed",
+            objs.crafting_hood,
+            objs.crafting_skillcape,
+            objs.crafting_skillcape_t,
         )
-        skillCape(
+        skillcape(
             stats.smithing,
-            "skillcape_smithing_hood",
-            "skillcape_smithing",
-            "skillcape_smithing_trimmed",
+            objs.smithing_hood,
+            objs.smithing_skillcape,
+            objs.smithing_skillcape_t,
         )
-        skillCape(
-            stats.mining,
-            "skillcape_mining_hood",
-            "skillcape_mining",
-            "skillcape_mining_trimmed",
-        )
-        skillCape(
+        skillcape(stats.mining, objs.mining_hood, objs.mining_skillcape, objs.mining_skillcape_t)
+        skillcape(
             stats.herblore,
-            "skillcape_herblore_hood",
-            "skillcape_herblore",
-            "skillcape_herblore_trimmed",
+            objs.herblore_hood,
+            objs.herblore_skillcape,
+            objs.herblore_skillcape_t,
         )
-        skillCape(
+        skillcape(
             stats.agility,
-            "skillcape_agility_hood",
-            "skillcape_agility",
-            "skillcape_agility_trimmed",
+            objs.agility_hood,
+            objs.agility_skillcape,
+            objs.agility_skillcape_t,
         )
-        skillCape(
+        skillcape(
             stats.thieving,
-            "skillcape_thieving_hood",
-            "skillcape_thieving",
-            "skillcape_thieving_trimmed",
+            objs.thieving_hood,
+            objs.thieving_skillcape,
+            objs.thieving_skillcape_t,
         )
-        skillCape(
-            stats.slayer,
-            "skillcape_slayer_hood",
-            "skillcape_slayer",
-            "skillcape_slayer_trimmed",
-        )
-        skillCape(
+        skillcape(stats.slayer, objs.slayer_hood, objs.slayer_skillcape, objs.slayer_skillcape_t)
+        skillcape(
             stats.farming,
-            "skillcape_farming_hood",
-            "skillcape_farming",
-            "skillcape_farming_trimmed",
+            objs.farming_hood,
+            objs.farming_skillcape,
+            objs.farming_skillcape_t,
         )
-        skillCape(
+        skillcape(
             stats.runecrafting,
-            "skillcape_runecrafting_hood",
-            "skillcape_runecrafting",
-            "skillcape_runecrafting_trimmed",
+            objs.runecrafting_hood,
+            objs.runecrafting_skillcape,
+            objs.runecrafting_skillcape_t,
         )
-        skillCape(
-            stats.hunter,
-            "skillcape_hunting_hood",
-            "skillcape_hunting",
-            "skillcape_hunting_trimmed",
-        )
-        skillCape(
+        skillcape(stats.hunter, objs.hunter_hood, objs.hunter_skillcape, objs.hunter_skillcape_t)
+        skillcape(
             stats.construction,
-            "skillcape_construction_hood",
-            "skillcape_construction",
-            "skillcape_construction_trimmed",
+            objs.construction_hood,
+            objs.construction_skillcape,
+            objs.construction_skillcape_t,
         )
     }
 
-    private fun skillCape(stat: StatType, hood: String, untrimmed: String, trimmed: String) {
+    private fun skillcape(stat: StatType, hood: ObjType, untrimmed: ObjType, trimmed: ObjType) {
         edit(hood) {
             param[params.statreq1_skill] = stat
             param[params.statreq1_level] = stat.maxLevel
@@ -194,66 +164,66 @@ internal object ObjEdits : ObjEditor() {
     }
 
     private fun maxCape(hood: ObjType, wornCape: ObjType, invCape: ObjType) {
-        edit(invCape.internalNameValue) {
+        edit(invCape) {
             contentGroup = content.max_cape
             transformlink = wornCape
         }
-        edit(wornCape.internalNameValue) {
+        edit(wornCape) {
             contentGroup = content.max_cape
             transformlink = invCape
             transformtemplate = objs.template_for_transform
         }
-        edit(hood.internalNameValue) { contentGroup = content.max_hood }
+        edit(hood) { contentGroup = content.max_hood }
     }
 
     private fun editGeneralStorage() {
-        edit("rcu_pouch_small") {
+        edit(objs.rcu_pouch_small) {
             param[params.bankside_extraop_bit] = 0
             param[params.bankside_extraop_varbit] = varbits.small_pouch_storage_count
         }
 
-        edit("rcu_pouch_medium") {
+        edit(objs.rcu_pouch_medium) {
             param[params.bankside_extraop_bit] = 1
             param[params.bankside_extraop_varbit] = varbits.medium_pouch_storage_count
         }
-        edit("rcu_pouch_medium_degrade") {
+        edit(objs.rcu_pouch_medium_degrade) {
             param[params.bankside_extraop_bit] = 1
             param[params.bankside_extraop_varbit] = varbits.medium_pouch_storage_count
         }
 
-        edit("rcu_pouch_large") {
+        edit(objs.rcu_pouch_large) {
             param[params.bankside_extraop_bit] = 2
             param[params.bankside_extraop_varbit] = varbits.large_pouch_storage_count
         }
-        edit("rcu_pouch_large_degrade") {
+        edit(objs.rcu_pouch_large_degrade) {
             param[params.bankside_extraop_bit] = 2
             param[params.bankside_extraop_varbit] = varbits.large_pouch_storage_count
         }
 
-        edit("rcu_pouch_giant") {
+        edit(objs.rcu_pouch_giant) {
             param[params.bankside_extraop_bit] = 3
             param[params.bankside_extraop_varbit] = varbits.giant_pouch_storage_count
         }
-        edit("rcu_pouch_giant_degrade") {
+        edit(objs.rcu_pouch_giant_degrade) {
             param[params.bankside_extraop_bit] = 3
             param[params.bankside_extraop_varbit] = varbits.giant_pouch_storage_count
         }
 
-        edit("rcu_pouch_colossal") {
+        edit(objs.rcu_pouch_colossal) {
             param[params.bankside_extraop_bit] = 4
             param[params.bankside_extraop_varbit] = varbits.colossal_pouch_storage_count
         }
-        edit("rcu_pouch_colossal_degrade") {
+        edit(objs.rcu_pouch_colossal_degrade) {
             param[params.bankside_extraop_bit] = 4
             param[params.bankside_extraop_varbit] = varbits.colossal_pouch_storage_count
         }
 
-        edit("coal_bag") {
+        edit(objs.coal_bag) {
             param[params.bankside_extraop_bit] = 5
             param[params.bankside_extraop_varbit] = varbits.coal_bag_storage_count
             param[params.bankside_extraop_flip] = true
         }
-        edit("coal_bag_open") {
+        edit(objs.coal_bag_open) {
             param[params.bankside_extraop_bit] = 5
             param[params.bankside_extraop_varbit] = varbits.coal_bag_storage_count
             param[params.bankside_extraop_flip] = true
@@ -261,17 +231,17 @@ internal object ObjEdits : ObjEditor() {
     }
 
     private fun editBoneWeapons() {
-        boneWeapon("dttd_bone_dagger")
-        boneWeapon("dttd_bone_dagger_p")
-        boneWeapon("dttd_bone_dagger_p+")
-        boneWeapon("dttd_bone_dagger_p++")
-        boneWeapon("cave_goblin_bone_spear")
-        boneWeapon("cave_goblin_bone_club")
-        boneWeapon("dttd_bone_crossbow")
-        boneWeapon("dttd_bone_crossbow_bolt")
+        boneWeapon(objs.bone_dagger)
+        boneWeapon(objs.bone_dagger_poison)
+        boneWeapon(objs.bone_dagger_poison_plus)
+        boneWeapon(objs.bone_dagger_poison_plus_plus)
+        boneWeapon(objs.bone_spear)
+        boneWeapon(objs.bone_club)
+        boneWeapon(objs.bone_crossbow)
+        boneWeapon(objs.bone_bolts)
     }
 
-    private fun boneWeapon(internal: String) {
-        edit(internal) { param[params.bone_weapon] = 1 }
+    private fun boneWeapon(type: ObjType) {
+        edit(type) { param[params.bone_weapon] = 1 }
     }
 }

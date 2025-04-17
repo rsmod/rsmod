@@ -32,7 +32,7 @@ constructor(
         this.builders += builders
     }
 
-    public fun appendEditors(editors: Collection<TypeEditor<*, *>>) {
+    public fun appendEditors(editors: Collection<TypeEditor<*>>) {
         this.editors += editors
     }
 

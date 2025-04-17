@@ -11,7 +11,6 @@ import org.rsmod.api.type.editors.resolver.TypeEditorResult.NameNotFound
 import org.rsmod.api.type.editors.resolver.err
 import org.rsmod.api.type.editors.resolver.ok
 import org.rsmod.api.type.editors.resolver.update
-import org.rsmod.api.type.script.dsl.VarpPluginBuilder
 import org.rsmod.api.type.symbols.name.NameMapping
 import org.rsmod.game.type.TypeResolver
 import org.rsmod.game.type.varp.UnpackedVarpType
@@ -21,13 +20,12 @@ import org.rsmod.game.type.varp.VarpTypeList
 public class VarpEditorResolver
 @Inject
 constructor(private val types: VarpTypeList, private val nameMapping: NameMapping) :
-    TypeEditorResolver<VarpPluginBuilder, UnpackedVarpType> {
+    TypeEditorResolver<UnpackedVarpType> {
     private val names: Map<String, Int>
         get() = nameMapping.varps
 
-    override fun resolve(
-        editors: TypeEditor<VarpPluginBuilder, UnpackedVarpType>
-    ): List<TypeEditorResult> = editors.cache.map { it.resolve() }
+    override fun resolve(editors: TypeEditor<UnpackedVarpType>): List<TypeEditorResult> =
+        editors.cache.map { it.resolve() }
 
     private fun UnpackedVarpType.resolve(): TypeEditorResult {
         val internalId = names[internalName] ?: return err(NameNotFound(internalName))

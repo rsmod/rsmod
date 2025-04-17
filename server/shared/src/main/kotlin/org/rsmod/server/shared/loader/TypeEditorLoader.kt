@@ -9,8 +9,8 @@ import org.rsmod.api.type.editors.TypeEditor
 import org.rsmod.server.shared.util.use
 
 class TypeEditorLoader @Inject constructor(@PluginGraph private val scanner: ClassGraph) {
-    fun load(): Collection<TypeEditor<*, *>> {
-        val editors = mutableListOf<TypeEditor<*, *>>()
+    fun load(): Collection<TypeEditor<*>> {
+        val editors = mutableListOf<TypeEditor<*>>()
         val parallelism = Runtime.getRuntime().availableProcessors()
         val threadPool = Executors.newFixedThreadPool(parallelism)
         val scan = threadPool.use { scanner.scan(it, parallelism) }

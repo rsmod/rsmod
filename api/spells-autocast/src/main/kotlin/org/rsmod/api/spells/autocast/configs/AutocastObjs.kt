@@ -47,18 +47,18 @@ internal object AutocastObjEditor : ObjEditor() {
     }
 
     private fun addAutocast(staff: ObjType, spell: ObjType) {
-        edit(staff.internalNameValue) { param[autocast_params.additional_spell_autocast1] = spell }
+        edit(staff) { param[autocast_params.additional_spell_autocast1] = spell }
     }
 
     private fun addAutocast(staff: ObjType, spell1: ObjType, spell2: ObjType) {
-        edit(staff.internalNameValue) {
+        edit(staff) {
             param[autocast_params.additional_spell_autocast1] = spell1
             param[autocast_params.additional_spell_autocast2] = spell2
         }
     }
 
     private fun addAutocast(staff: ObjType, spell1: ObjType, spell2: ObjType, spell3: ObjType) {
-        edit(staff.internalNameValue) {
+        edit(staff) {
             param[autocast_params.additional_spell_autocast1] = spell1
             param[autocast_params.additional_spell_autocast2] = spell2
             param[autocast_params.additional_spell_autocast3] = spell3

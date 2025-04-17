@@ -11,7 +11,6 @@ import org.rsmod.api.type.editors.resolver.TypeEditorResult.NameNotFound
 import org.rsmod.api.type.editors.resolver.err
 import org.rsmod.api.type.editors.resolver.ok
 import org.rsmod.api.type.editors.resolver.update
-import org.rsmod.api.type.script.dsl.NpcPluginBuilder
 import org.rsmod.api.type.symbols.name.NameMapping
 import org.rsmod.game.type.TypeResolver
 import org.rsmod.game.type.npc.NpcTypeBuilder
@@ -21,13 +20,12 @@ import org.rsmod.game.type.npc.UnpackedNpcType
 public class NpcEditorResolver
 @Inject
 constructor(private val types: NpcTypeList, private val nameMapping: NameMapping) :
-    TypeEditorResolver<NpcPluginBuilder, UnpackedNpcType> {
+    TypeEditorResolver<UnpackedNpcType> {
     private val names: Map<String, Int>
         get() = nameMapping.npcs
 
-    override fun resolve(
-        editors: TypeEditor<NpcPluginBuilder, UnpackedNpcType>
-    ): List<TypeEditorResult> = editors.cache.map { it.resolve() }
+    override fun resolve(editors: TypeEditor<UnpackedNpcType>): List<TypeEditorResult> =
+        editors.cache.map { it.resolve() }
 
     private fun UnpackedNpcType.resolve(): TypeEditorResult {
         val internalId = names[internalName] ?: return err(NameNotFound(internalName))

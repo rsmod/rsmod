@@ -24,12 +24,12 @@ internal object SheepNpcEditor : NpcEditor() {
     }
 
     private fun sheep(unsheared: NpcType, sheared: NpcType) {
-        edit(unsheared.internalNameValue) {
+        edit(unsheared) {
             contentGroup = content.sheep
             param[params.next_npc_stage] = sheared
             timer = 1
         }
-        edit(sheared.internalNameValue) {
+        edit(sheared) {
             contentGroup = content.sheared_sheep
             timer = 1
         }

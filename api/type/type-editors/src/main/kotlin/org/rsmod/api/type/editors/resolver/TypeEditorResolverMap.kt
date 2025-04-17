@@ -31,7 +31,7 @@ constructor(
     private val structResolver: StructEditorResolver,
     private val varpResolver: VarpEditorResolver,
 ) {
-    private val editors = mutableListOf<TypeEditor<*, *>>()
+    private val editors = mutableListOf<TypeEditor<*>>()
 
     private val _resultValues = mutableListOf<Any>()
     private val _updates = mutableListOf<TypeEditorResult.Update<*>>()
@@ -53,7 +53,7 @@ constructor(
     public val symbolErrors: List<TypeEditorResult.Error<*>>
         get() = _symbolErrors
 
-    public operator fun plusAssign(editors: Collection<TypeEditor<*, *>>) {
+    public operator fun plusAssign(editors: Collection<TypeEditor<*>>) {
         this.editors += editors
     }
 
@@ -63,9 +63,9 @@ constructor(
         }
     }
 
-    public fun <B, T> resolve(
-        editors: TypeEditor<B, T>,
-        res: TypeEditorResolver<B, T> = editors.resolver(),
+    public fun <T> resolve(
+        editors: TypeEditor<T>,
+        res: TypeEditorResolver<T> = editors.resolver(),
     ) {
         val resolved = res.resolve(editors)
 
@@ -96,7 +96,7 @@ constructor(
     }
 
     @Suppress("UNCHECKED_CAST")
-    private fun <B, T> TypeEditor<B, T>.resolver(): TypeEditorResolver<B, T> {
+    private fun <T> TypeEditor<T>.resolver(): TypeEditorResolver<T> {
         val resolver =
             when (this) {
                 is HeadbarEditor -> headbarResolver
@@ -109,6 +109,6 @@ constructor(
                 is VarpEditor -> varpResolver
                 else -> throw NotImplementedError("Resolver not defined for type-editor: $this")
             }
-        return resolver as TypeEditorResolver<B, T>
+        return resolver as TypeEditorResolver<T>
     }
 }

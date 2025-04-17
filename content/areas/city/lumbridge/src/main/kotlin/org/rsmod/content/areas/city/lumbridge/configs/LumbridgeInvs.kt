@@ -14,7 +14,7 @@ object LumbridgeInvs : InvReferences() {
 
 object LumbridgeInvBuilder : InvEditor() {
     init {
-        edit("axeshop") {
+        edit(lumbridge_invs.axeshop) {
             scope = InvScope.Shared
             stack = InvStackType.Always
             autoSize = true

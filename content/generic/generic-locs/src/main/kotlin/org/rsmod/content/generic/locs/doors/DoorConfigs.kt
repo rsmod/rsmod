@@ -26,44 +26,44 @@ internal object DoorLocs : LocReferences() {
 
 internal object DoorLocEdits : LocEditor() {
     init {
-        edit("poordooropen") {
+        edit(door_locs.door_opened) {
             param[params.next_loc_stage] = door_locs.door_closed
             contentGroup = content.opened_single_door
         }
 
-        edit("poordoor") {
+        edit(door_locs.door_closed) {
             param[params.next_loc_stage] = door_locs.door_opened
             contentGroup = content.closed_single_door
         }
 
-        edit("poshdooropen") {
+        edit(door_locs.poshdoor_opened) {
             param[params.next_loc_stage] = door_locs.poshdoor_closed
             param[params.closesound] = synths.nicedoor_close
             contentGroup = content.opened_single_door
         }
 
-        edit("poshdoor") {
+        edit(door_locs.poshdoor_closed) {
             param[params.next_loc_stage] = door_locs.poshdoor_opened
             param[params.opensound] = synths.nicedoor_open
             contentGroup = content.closed_single_door
         }
 
-        edit("castledoubledoorl") {
+        edit(door_locs.door_left_closed) {
             param[params.next_loc_stage] = door_locs.door_left_opened
             contentGroup = content.closed_left_door
         }
 
-        edit("opencastledoubledoorl") {
+        edit(door_locs.door_left_opened) {
             param[params.next_loc_stage] = door_locs.door_left_closed
             contentGroup = content.opened_left_door
         }
 
-        edit("castledoubledoorr") {
+        edit(door_locs.door_right_closed) {
             param[params.next_loc_stage] = door_locs.door_right_opened
             contentGroup = content.closed_right_door
         }
 
-        edit("opencastledoubledoorr") {
+        edit(door_locs.door_right_opened) {
             param[params.next_loc_stage] = door_locs.door_right_closed
             contentGroup = content.opened_right_door
         }
