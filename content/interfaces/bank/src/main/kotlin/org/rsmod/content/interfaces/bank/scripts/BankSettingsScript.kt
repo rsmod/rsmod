@@ -10,7 +10,6 @@ import org.rsmod.content.interfaces.bank.alwaysPlacehold
 import org.rsmod.content.interfaces.bank.bankFillerMode
 import org.rsmod.content.interfaces.bank.configs.bank_components
 import org.rsmod.content.interfaces.bank.depositInvButton
-import org.rsmod.content.interfaces.bank.depositToPotionStore
 import org.rsmod.content.interfaces.bank.depositWornButton
 import org.rsmod.content.interfaces.bank.incinerator
 import org.rsmod.content.interfaces.bank.insertMode
@@ -50,7 +49,6 @@ constructor(private val bankScript: BankInvScript, private val objTypes: ObjType
         onIfModalButton(comps.inventory_item_options_toggle) { toggleInvItemOptions() }
         onIfModalButton(comps.deposit_inv_toggle) { depositInvButton = !depositInvButton }
         onIfModalButton(comps.deposit_worn_toggle) { depositWornButton = !depositWornButton }
-        onIfModalButton(comps.potion_store_toggle) { depositToPotionStore = !depositToPotionStore }
         onIfModalButton(comps.release_placehold) { selectReleasePlaceholders() }
         onIfModalButton(comps.bank_fillers_1) { bankFillerMode = BankFillerMode.One }
         onIfModalButton(comps.bank_fillers_10) { bankFillerMode = BankFillerMode.Ten }

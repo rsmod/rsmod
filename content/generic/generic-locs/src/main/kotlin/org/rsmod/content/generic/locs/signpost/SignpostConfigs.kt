@@ -16,10 +16,10 @@ internal object SignpostInterfaces : InterfaceReferences() {
 }
 
 internal object SignpostComponents : ComponentReferences() {
-    val signpost_north = find("signpost_com2", 3633456669255458235)
-    val signpost_east = find("signpost_com7", 6865859231034431206)
-    val signpost_south = find("signpost_com8", 3946237333876253083)
-    val signpost_west = find("signpost_com11", 2578427790880957538)
+    val signpost_north = find("signpost:aide_north_text_2", 3633456669255458235)
+    val signpost_east = find("signpost:aide_east_text_2", 6865859231034431206)
+    val signpost_south = find("signpost:aide_south_text_2", 3946237333876253083)
+    val signpost_west = find("signpost:aide_west_text_2", 2578427790880957538)
 }
 
 internal object SignpostEnums : EnumReferences() {

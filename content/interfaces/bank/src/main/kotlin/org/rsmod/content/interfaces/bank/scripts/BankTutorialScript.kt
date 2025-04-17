@@ -102,7 +102,7 @@ class BankTutorialScript @Inject constructor(private val eventBus: EventBus) : P
     }
 
     private fun Player.highlightNoClick() {
-        runClientScript(3406, bank_components.side_com40.packed)
+        runClientScript(3406, bank_components.bankside_highlight.packed)
     }
 
     private fun Player.highlightStart() {

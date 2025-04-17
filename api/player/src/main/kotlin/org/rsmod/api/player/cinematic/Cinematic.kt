@@ -41,8 +41,8 @@ public object Cinematic {
     }
 
     public fun clearHealthHud(player: Player) {
-        player.ifSetHide(components.hp_hud_com5, hide = true)
-        ccDeleteAll(player, components.hp_hud_com1)
+        player.ifSetHide(components.hp_hud_hp, hide = true)
+        ccDeleteAll(player, components.hp_hud_container)
     }
 
     public fun setHideHealthHud(player: Player, hide: Boolean) {
@@ -78,7 +78,7 @@ public object Cinematic {
         clientDuration: Int,
         eventBus: EventBus,
     ) {
-        player.ifSetText(components.fade_overlay_text, "")
+        player.ifSetText(components.fade_overlay_message, "")
         player.ifOpenFullOverlay(interfaces.fade_overlay, eventBus)
         player.runClientScript(
             948,
@@ -149,7 +149,7 @@ public object Cinematic {
     public fun openTopLevelTabs(player: Player, eventBus: EventBus) {
         player.ifOpenSub(
             interfaces.experience_drops_window,
-            components.experience_drops_window_target,
+            components.xp_drops_target,
             IfSubType.Overlay,
             eventBus,
         )

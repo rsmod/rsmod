@@ -16,9 +16,9 @@ public object ShopInterfaces : InterfaceReferences() {
 }
 
 public object ShopComponents : ComponentReferences() {
-    public val shop_subtext: ComponentType = find("shop_com19", 1009675651464801228)
-    public val shop_side_inv: ComponentType = find("shop_inventory_com0", 5117171527864918016)
-    public val shop_inv: ComponentType = find("shop_com16", 7875443253800243706)
+    public val shop_subtext: ComponentType = find("shop:desktop_instructions", 1009675651464801228)
+    public val shop_side_inv: ComponentType = find("shop_inventory:items", 5117171527864918016)
+    public val shop_inv: ComponentType = find("shop:items", 7875443253800243706)
 }
 
 public object ShopParams : ParamReferences() {

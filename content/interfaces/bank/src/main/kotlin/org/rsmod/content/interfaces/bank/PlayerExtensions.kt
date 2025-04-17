@@ -32,7 +32,7 @@ fun Player.openBankWithoutEvents(eventBus: EventBus) {
 }
 
 internal fun Player.highlightNoClickClear() {
-    runClientScript(3407, bank_components.side_com40.packed)
+    runClientScript(3407, bank_components.bankside_highlight.packed)
 }
 
 internal fun Player.setBanksideExtraOps(objTypes: ObjTypeList) {

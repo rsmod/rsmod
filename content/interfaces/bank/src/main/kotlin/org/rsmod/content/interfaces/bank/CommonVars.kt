@@ -22,7 +22,6 @@ var ProtectedAccess.tutorialButton by boolVarBit(bank_varbits.tutorial_button)
 var ProtectedAccess.invItemOptions by boolVarBit(bank_varbits.inventory_item_options)
 var ProtectedAccess.depositInvButton by boolVarBit(bank_varbits.deposit_inventory_button)
 var ProtectedAccess.depositWornButton by boolVarBit(bank_varbits.deposit_worn_items_button)
-var ProtectedAccess.depositToPotionStore by boolVarBit(bank_varbits.always_deposit_to_potion_store)
 var ProtectedAccess.bankFillerMode by enumVarBit<BankFillerMode>(bank_varbits.bank_filler_quantity)
 
 internal var Player.disableIfEvents by boolVarBit(bank_varbits.disable_ifevents)

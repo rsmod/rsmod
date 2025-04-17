@@ -96,7 +96,7 @@ public fun Player.ifOpenMainModal(
 }
 
 public fun Player.ifOpenMain(interf: InterfaceType, eventBus: EventBus) {
-    openModal(interf, components.main_modal, eventBus)
+    openModal(interf, components.mainmodal, eventBus)
 }
 
 public fun Player.ifOpenMainSidePair(
@@ -107,15 +107,15 @@ public fun Player.ifOpenMainSidePair(
     eventBus: EventBus,
 ) {
     topLevelMainModalBackground(this, colour, transparency)
-    openModal(main, components.main_modal, eventBus)
-    openModal(side, components.side_modal, eventBus)
+    openModal(main, components.mainmodal, eventBus)
+    openModal(side, components.sidemodal, eventBus)
 }
 
 public fun Player.ifOpenOverlay(interf: InterfaceType, eventBus: EventBus): Unit =
-    ifOpenSub(interf, components.overlay_target, IfSubType.Overlay, eventBus)
+    ifOpenSub(interf, components.floater, IfSubType.Overlay, eventBus)
 
 public fun Player.ifOpenFullOverlay(interf: InterfaceType, eventBus: EventBus): Unit =
-    ifOpenSub(interf, components.fullscreen_overlay_target, IfSubType.Overlay, eventBus)
+    ifOpenSub(interf, components.overlay_atmosphere, IfSubType.Overlay, eventBus)
 
 /**
  * Difference from [ifCloseModals]: this function clears all weak queues for the player and closes
@@ -407,7 +407,7 @@ private fun UserInterfaceMap.translate(component: Component): Component =
 
 internal fun Player.ifMesbox(text: String, pauseText: String, lineHeight: Int, eventBus: EventBus) {
     mes(text, ChatType.Mesbox)
-    openModal(interfaces.text_dialogue, components.chat_dialogue_target, eventBus)
+    openModal(interfaces.text_dialogue, components.chat_chatmodal, eventBus)
     ifSetText(components.text_dialogue_text, text)
     ifSetTextAlign(this, components.text_dialogue_text, alignH = 1, alignV = 1, lineHeight)
     ifSetEvents(components.text_dialogue_pbutton, -1..-1, IfEvent.PauseButton)
@@ -427,7 +427,7 @@ internal fun Player.ifObjbox(
     ifOpenChat(interfaces.obj_dialogue, constants.modal_infinitewidthandheight, eventBus)
     objboxSetButtons(this, pauseText)
     ifSetEvents(components.obj_dialogue_pbutton, 0..1, IfEvent.PauseButton)
-    ifSetObj(components.obj_dialogue_obj, obj, zoom)
+    ifSetObj(components.obj_dialogue_item, obj, zoom)
     ifSetText(components.obj_dialogue_text, text)
 }
 
@@ -444,8 +444,8 @@ internal fun Player.ifDoubleobjbox(
     ifOpenChat(interfaces.double_obj_dialogue, constants.modal_infinitewidthandheight, eventBus)
     ifSetEvents(components.double_obj_dialogue_pbutton, -1..-1, IfEvent.PauseButton)
     ifSetText(components.double_obj_dialogue_pbutton, pauseText)
-    ifSetObj(components.double_obj_dialogue_obj1, obj1, zoom1)
-    ifSetObj(components.double_obj_dialogue_obj2, obj2, zoom2)
+    ifSetObj(components.double_obj_dialogue_model1, obj1, zoom1)
+    ifSetObj(components.double_obj_dialogue_model2, obj2, zoom2)
     ifSetText(components.double_obj_dialogue_text, text)
 }
 
@@ -511,7 +511,7 @@ internal fun Player.ifChatPlayer(
     ifOpenChat(interfaces.player_dialogue, constants.modal_fixedwidthandheight, eventBus)
     ifSetPlayerHead(components.player_dialogue_head)
     ifSetAnim(components.player_dialogue_head, expression)
-    ifSetText(components.player_dialogue_title, title)
+    ifSetText(components.player_dialogue_name, title)
     ifSetText(components.player_dialogue_text, text)
     ifSetTextAlign(this, components.player_dialogue_text, alignH = 1, alignV = 1, lineHeight)
     ifSetEvents(components.player_dialogue_pbutton, -1..-1, IfEvent.PauseButton)
@@ -531,7 +531,7 @@ internal fun Player.ifChatNpcActive(
     ifOpenChat(interfaces.npc_dialogue, constants.modal_fixedwidthandheight, eventBus)
     ifSetNpcHeadActive(components.npc_dialogue_head, npcSlotId)
     ifSetAnim(components.npc_dialogue_head, chatanim)
-    ifSetText(components.npc_dialogue_title, title)
+    ifSetText(components.npc_dialogue_name, title)
     ifSetText(components.npc_dialogue_text, text)
     ifSetTextAlign(this, components.npc_dialogue_text, alignH = 1, alignV = 1, lineHeight)
     ifSetEvents(components.npc_dialogue_pbutton, -1..-1, IfEvent.PauseButton)
@@ -551,7 +551,7 @@ internal fun Player.ifChatNpcSpecific(
     ifOpenChat(interfaces.npc_dialogue, constants.modal_fixedwidthandheight, eventBus)
     ifSetNpcHead(components.npc_dialogue_head, type)
     ifSetAnim(components.npc_dialogue_head, chatanim)
-    ifSetText(components.npc_dialogue_title, title)
+    ifSetText(components.npc_dialogue_name, title)
     ifSetText(components.npc_dialogue_text, text)
     ifSetTextAlign(this, components.npc_dialogue_text, alignH = 1, alignV = 1, lineHeight)
     ifSetEvents(components.npc_dialogue_pbutton, -1..-1, IfEvent.PauseButton)
@@ -561,7 +561,7 @@ internal fun Player.ifChatNpcSpecific(
 internal fun Player.ifOpenChat(interf: InterfaceType, widthAndHeightMode: Int, eventBus: EventBus) {
     chatModalUnclamp = widthAndHeightMode
     topLevelChatboxResetBackground(this)
-    openModal(interf, components.chat_dialogue_target, eventBus)
+    openModal(interf, components.chat_chatmodal, eventBus)
 }
 
 private fun Player.ifSetObj(target: ComponentType, obj: Int, zoomOrCount: Int) {

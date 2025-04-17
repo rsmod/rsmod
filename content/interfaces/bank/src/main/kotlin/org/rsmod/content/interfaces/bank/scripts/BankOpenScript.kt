@@ -142,7 +142,7 @@ constructor(
             IfEvent.DragTarget,
         )
         ifSetEvents(
-            bank_components.side_com11,
+            bank_components.lootingbag_inventory,
             inv.indices,
             IfEvent.Op1,
             IfEvent.Op2,
@@ -154,7 +154,7 @@ constructor(
             IfEvent.Op10,
         )
         ifSetEvents(
-            bank_components.side_com18,
+            bank_components.league_inventory,
             inv.indices,
             IfEvent.Op1,
             IfEvent.Op2,

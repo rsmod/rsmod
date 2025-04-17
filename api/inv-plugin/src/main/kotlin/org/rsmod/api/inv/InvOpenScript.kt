@@ -16,7 +16,7 @@ public class InvOpenScript : PluginScript() {
 
     private fun Player.onInvOpen() {
         ifSetEvents(
-            components.inv_inv,
+            components.inv_items,
             inv.indices,
             IfEvent.Op2,
             IfEvent.Op3,

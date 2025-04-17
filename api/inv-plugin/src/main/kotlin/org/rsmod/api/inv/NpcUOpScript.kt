@@ -16,7 +16,7 @@ public class NpcUOpScript
 private constructor(private val interactions: NpcUInteractions, private val objTypes: ObjTypeList) :
     PluginScript() {
     override fun ScriptContext.startUp() {
-        onOpNpcT(components.inv_inv) { opNpcU(it) }
+        onOpNpcT(components.inv_items) { opNpcU(it) }
     }
 
     private suspend fun ProtectedAccess.opNpcU(op: NpcTDefaultEvents.Op) {

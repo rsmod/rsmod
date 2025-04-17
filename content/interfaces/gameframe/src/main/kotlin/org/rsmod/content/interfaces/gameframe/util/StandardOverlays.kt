@@ -8,13 +8,13 @@ import org.rsmod.game.type.interf.InterfaceType
 object StandardOverlays {
     fun create(): List<Pair<InterfaceType, ComponentType>> =
         listOf(
-            BaseInterfaces.steam_side_panel to BaseComponents.steam_side_panel_target,
+            BaseInterfaces.steam_side_panel to BaseComponents.popout,
             BaseInterfaces.skills_tab to BaseComponents.skills_tab_target,
             BaseInterfaces.emote_tab to BaseComponents.emote_tab_target,
             BaseInterfaces.orbs to BaseComponents.orbs_target,
             BaseInterfaces.combat_tab to BaseComponents.combat_tab_target,
             BaseInterfaces.chat to BaseComponents.chat_target,
-            BaseInterfaces.experience_drops_window to BaseComponents.experience_drops_window_target,
+            BaseInterfaces.experience_drops_window to BaseComponents.xp_drops_target,
             BaseInterfaces.spellbook_tab to BaseComponents.spellbook_tab_target,
             BaseInterfaces.private_chat to BaseComponents.private_chat_target,
             BaseInterfaces.equipment_tab to BaseComponents.equipment_tab_target,

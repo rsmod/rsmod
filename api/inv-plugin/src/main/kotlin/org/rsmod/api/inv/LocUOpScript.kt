@@ -16,7 +16,7 @@ public class LocUOpScript
 private constructor(private val interactions: LocUInteractions, private val objTypes: ObjTypeList) :
     PluginScript() {
     override fun ScriptContext.startUp() {
-        onOpLocT(components.inv_inv) { opLocU(it) }
+        onOpLocT(components.inv_items) { opLocU(it) }
     }
 
     private suspend fun ProtectedAccess.opLocU(op: LocTDefaultEvents.Op) {

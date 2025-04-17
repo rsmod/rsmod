@@ -80,7 +80,7 @@ constructor(
         ifSetEvents(canoe_components.shape_dugout, 0..0, IfEvent.Op1)
         ifSetEvents(canoe_components.shape_stable_dugout, 0..0, IfEvent.Op1)
         ifSetEvents(canoe_components.shape_waka, 0..0, IfEvent.Op1)
-        ifSetEvents(canoe_components.shape_com9, 0..0, IfEvent.Op1)
+        ifSetEvents(canoe_components.shape_close, 0..0, IfEvent.Op1)
     }
 
     private fun ProtectedAccess.selectCanoe(canoe: Canoe) {

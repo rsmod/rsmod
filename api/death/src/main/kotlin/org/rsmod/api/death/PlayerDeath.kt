@@ -41,7 +41,7 @@ public class PlayerDeath @Inject constructor(private val statTypes: StatTypeList
         // TODO: Drop death invs, etc.
         resetPlayerState(statTypes)
         restoreToplevelTabs(
-            components.wilderness_overlay_target,
+            components.pvp_icons_target,
             components.skills_tab_target,
             components.journal_header_tab_target,
             components.equipment_tab_target,

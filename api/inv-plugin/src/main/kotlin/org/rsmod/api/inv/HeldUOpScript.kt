@@ -22,7 +22,7 @@ constructor(
     private val protectedAccess: ProtectedAccessLauncher,
 ) : PluginScript() {
     override fun ScriptContext.startUp() {
-        onIfOverlayButtonT(components.inv_inv) { opHeldU() }
+        onIfOverlayButtonT(components.inv_items) { opHeldU() }
     }
 
     private fun IfOverlayButtonT.opHeldU() {
