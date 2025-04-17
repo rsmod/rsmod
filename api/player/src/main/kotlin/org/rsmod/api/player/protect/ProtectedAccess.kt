@@ -365,6 +365,12 @@ public class ProtectedAccess(
         player.rebuildAppearance()
     }
 
+    public fun isBodyType(type: Int): Boolean = player.appearance.bodyType == type
+
+    public fun isBodyTypeA(): Boolean = isBodyType(constants.bodytype_a)
+
+    public fun isBodyTypeB(): Boolean = isBodyType(constants.bodytype_b)
+
     public fun isWithinDistance(
         target: CoordGrid,
         distance: Int,
