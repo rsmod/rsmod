@@ -78,8 +78,8 @@ RS Mod is available under the terms of the ISC license, which is similar to the 
 [license-badge]: https://img.shields.io/badge/license-ISC-informational
 [discord]: https://discord.gg/UznZnZR
 [discord-badge]: https://img.shields.io/discord/550024461626114053?color=%237289da&logo=discord
-[patch]: https://oldschool.runescape.wiki/w/Update:Royal_Titans
-[rev-badge]: https://img.shields.io/badge/revision-229-important
+[patch]: https://oldschool.runescape.wiki/w/Update:Easter_Event
+[rev-badge]: https://img.shields.io/badge/revision-230-important
 [core-ci]: https://github.com/rsmod/rsmod/actions/workflows/core-ci.yml
 [core-ci-badge]: https://github.com/rsmod/rsmod/actions/workflows/core-ci.yml/badge.svg?branch=main
 [nightly-ci]: https://github.com/rsmod/rsmod/actions/workflows/nightly-ci.yml
