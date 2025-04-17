@@ -37,7 +37,7 @@ internal object WoodcuttingAxes : ObjEditor() {
             param[params.skill_anim] = seqs.human_woodcutting_adamant_axe
         }
 
-        edit("blessed_axe") {
+        edit("anma_axe") {
             param[params.skill_anim] = seqs.human_woodcutting_blessed_axe
             // Blessed axe does not have its `levelrequire` param defined by default.
             param[params.levelrequire] = 35
@@ -48,7 +48,7 @@ internal object WoodcuttingAxes : ObjEditor() {
             param[params.skill_anim] = seqs.human_woodcutting_rune_axe
         }
 
-        edit("gilded_axe") {
+        edit("trail_gilded_axe") {
             contentGroup = content.woodcutting_axe
             param[params.skill_anim] = seqs.human_woodcutting_gilded_axe
         }
@@ -58,12 +58,12 @@ internal object WoodcuttingAxes : ObjEditor() {
             param[params.skill_anim] = seqs.human_woodcutting_dragon_axe
         }
 
-        edit("dragon_axe_or") {
+        edit("trailblazer_axe_no_infernal") {
             contentGroup = content.woodcutting_axe
             param[params.skill_anim] = seqs.human_woodcutting_trailblazer_axe_no_infernal
         }
 
-        edit("3rd_age_axe") {
+        edit("3a_axe") {
             contentGroup = content.woodcutting_axe
             param[params.skill_anim] = seqs.human_woodcutting_3a_axe
         }
@@ -73,7 +73,7 @@ internal object WoodcuttingAxes : ObjEditor() {
             param[params.skill_anim] = seqs.human_woodcutting_infernal_axe
         }
 
-        edit("infernal_axe_or") {
+        edit("trailblazer_axe") {
             contentGroup = content.woodcutting_axe
             param[params.skill_anim] = seqs.human_woodcutting_trailblazer_axe
         }

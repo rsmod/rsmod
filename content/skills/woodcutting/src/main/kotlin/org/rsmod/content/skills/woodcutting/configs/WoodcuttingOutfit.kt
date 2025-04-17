@@ -6,17 +6,17 @@ import org.rsmod.api.type.editors.obj.ObjEditor
 
 internal object WoodcuttingOutfit : ObjEditor() {
     init {
-        outfitXpMod("lumberjack_hat", percent = 4)
-        outfitXpMod("forestry_hat", percent = 4)
+        outfitXpMod("ramble_lumberjack_hat", percent = 4)
+        outfitXpMod("forestry_lumberjack_hat", percent = 4)
 
-        outfitXpMod("lumberjack_top", percent = 8)
-        outfitXpMod("forestry_top", percent = 8)
+        outfitXpMod("ramble_lumberjack_top", percent = 8)
+        outfitXpMod("forestry_lumberjack_top", percent = 8)
 
-        outfitXpMod("lumberjack_legs", percent = 6)
-        outfitXpMod("forestry_legs", percent = 6)
+        outfitXpMod("ramble_lumberjack_legs", percent = 6)
+        outfitXpMod("forestry_lumberjack_legs", percent = 6)
 
-        outfitXpMod("lumberjack_boots", percent = 2)
-        outfitXpMod("forestry_boots", percent = 2)
+        outfitXpMod("ramble_lumberjack_boots", percent = 2)
+        outfitXpMod("forestry_lumberjack_boots", percent = 2)
     }
 
     private fun outfitXpMod(internal: String, percent: Int) {
