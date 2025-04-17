@@ -20,9 +20,9 @@ class SignpostScript @Inject constructor(private val enums: EnumTypeMapResolver)
 
     override fun ScriptContext.startUp() {
         signposts = enums[SignpostEnums.signpost_directions]
-        onApLoc1(SignpostLocs.signpost) { apReadSignpost(it.loc) }
-        onOpLoc1(SignpostLocs.signpost) { readSignpost(it.loc) }
-        onIfClose(SignpostInterfaces.signpost) { player.exitSignpost() }
+        onApLoc1(signpost_locs.signpost) { apReadSignpost(it.loc) }
+        onOpLoc1(signpost_locs.signpost) { readSignpost(it.loc) }
+        onIfClose(signpost_interfaces.signpost) { player.exitSignpost() }
     }
 
     private fun ProtectedAccess.apReadSignpost(loc: BoundLocInfo) {
@@ -42,11 +42,11 @@ class SignpostScript @Inject constructor(private val enums: EnumTypeMapResolver)
 
         val directions = signposts.getValue(loc.coords).split("|")
         val (west, south, north, east) = directions
-        ifSetText(SignpostComponents.signpost_west, west)
-        ifSetText(SignpostComponents.signpost_south, south)
-        ifSetText(SignpostComponents.signpost_north, north)
-        ifSetText(SignpostComponents.signpost_east, east)
-        ifOpenMainModal(SignpostInterfaces.signpost)
+        ifSetText(signpost_components.signpost_west, west)
+        ifSetText(signpost_components.signpost_south, south)
+        ifSetText(signpost_components.signpost_north, north)
+        ifSetText(signpost_components.signpost_east, east)
+        ifOpenMainModal(signpost_interfaces.signpost)
 
         faceDirection(Direction.North)
     }

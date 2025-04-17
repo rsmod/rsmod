@@ -12,8 +12,8 @@ class WoodcuttingEasterEgg : PluginScript() {
     override fun ScriptContext.startUp() {
         onOpLocU(content.tree, objs.herring) { treeHerring() }
         onOpLocU(content.tree, objs.raw_herring) { treeHerring() }
-        onOpLocU(woodcutting_locs.redwood_tree_29668, objs.herring) { redwoodTreeHerring() }
-        onOpLocU(woodcutting_locs.redwood_tree_29670, objs.raw_herring) { redwoodTreeHerring() }
+        onOpLocU(woodcutting_locs.redwoodtree_l, objs.herring) { redwoodTreeHerring() }
+        onOpLocU(woodcutting_locs.redwoodtree_r, objs.raw_herring) { redwoodTreeHerring() }
     }
 
     private fun ProtectedAccess.treeHerring() {

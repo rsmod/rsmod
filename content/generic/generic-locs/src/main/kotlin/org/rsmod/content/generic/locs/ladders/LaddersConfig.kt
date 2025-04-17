@@ -7,20 +7,20 @@ import org.rsmod.api.type.editors.loc.LocEditor
 
 internal object LadderLocsEdits : LocEditor() {
     init {
-        edit("ladder_down") {
+        edit("laddertop") {
             param[params.climb_anim] = seqs.human_pickupfloor
             contentGroup = content.ladder_down
         }
 
-        edit("ladder_up") { contentGroup = content.ladder_up }
+        edit("ladder") { contentGroup = content.ladder_up }
 
-        edit("ladder_option") { contentGroup = content.ladder_option }
+        edit("laddermiddle") { contentGroup = content.ladder_option }
 
-        edit("lumbridge_kitchen_dungeonladder") {
+        edit("qip_cook_trapdoor_open") {
             param[params.climb_anim] = seqs.human_pickupfloor
             contentGroup = content.dungeonladder_down
         }
 
-        edit("lumbridge_cellar_dungeonladder") { contentGroup = content.dungeonladder_up }
+        edit("ladder_from_cellar") { contentGroup = content.dungeonladder_up }
     }
 }

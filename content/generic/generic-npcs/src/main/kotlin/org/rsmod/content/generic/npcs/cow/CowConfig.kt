@@ -20,7 +20,7 @@ object CowQueues : QueueReferences() {
 
 internal object CowLocEdits : LocEditor() {
     init {
-        edit("dairy_cow") { contentGroup = content.dairy_cow }
+        edit("fat_cow") { contentGroup = content.dairy_cow }
     }
 }
 

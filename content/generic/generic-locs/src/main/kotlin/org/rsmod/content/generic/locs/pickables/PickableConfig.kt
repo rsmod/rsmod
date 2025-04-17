@@ -10,26 +10,26 @@ internal typealias pickable_locs = PickableLocs
 
 object PickableLocs : LocReferences() {
     init {
-        verify("crop_onion", 3040472638361972606)
-        verify("crop_potato", 6619139296550516438)
-        verify("crop_grain_15506", 7022213377670558384)
-        verify("crop_grain_15507", 7022213377670558385)
-        verify("crop_grain_15508", 7022213377670558386)
+        verify("onion", 3040472638361972606)
+        verify("potato", 6619139296550516438)
+        verify("fai_varrock_wheat", 7022213377670558384)
+        verify("fai_varrock_wheat_corner", 7022213377670558385)
+        verify("fai_varrock_wheat_small", 7022213377670558386)
     }
 
-    val cabbage = find("crop_cabbage", 1496620632455889241)
+    val cabbage = find("cabbage", 1496620632455889241)
 }
 
 internal object PickableLocEditor : LocEditor() {
     init {
         // Cabbage is handled explicitly as it randomly gives cabbage seed.
-        edit("crop_cabbage") {
+        edit("cabbage") {
             param[params.game_message] = "You pick a cabbage."
             param[params.game_message2] = "You don't have room for this cabbage."
             param[params.respawn_time] = 75
         }
 
-        edit("crop_onion") {
+        edit("onion") {
             contentGroup = content.pickable_crop
             param[params.game_message] = "You pick an onion."
             param[params.game_message2] = "You don't have room for this onion."
@@ -37,7 +37,7 @@ internal object PickableLocEditor : LocEditor() {
             param[params.respawn_time] = 50
         }
 
-        edit("crop_potato") {
+        edit("potato") {
             contentGroup = content.pickable_crop
             param[params.game_message] = "You pick a potato."
             param[params.game_message2] = "You don't have room for this potato."
@@ -45,9 +45,9 @@ internal object PickableLocEditor : LocEditor() {
             param[params.respawn_time] = 50
         }
 
-        grain("crop_grain_15506")
-        grain("crop_grain_15507")
-        grain("crop_grain_15508")
+        grain("fai_varrock_wheat")
+        grain("fai_varrock_wheat_corner")
+        grain("fai_varrock_wheat_small")
     }
 
     private fun grain(internal: String) {

@@ -10,11 +10,11 @@ import org.rsmod.plugin.scripts.ScriptContext
 
 class WindmillLadderScript : PluginScript() {
     override fun ScriptContext.startUp() {
-        onOpLoc1(WindmillLocs.ladder_down) { climbDown() }
-        onOpLoc1(WindmillLocs.ladder_up) { climbUp() }
-        onOpLoc1(WindmillLocs.ladder_option) { climbOption() }
-        onOpLoc2(WindmillLocs.ladder_option) { climbUp() }
-        onOpLoc3(WindmillLocs.ladder_option) { climbDown() }
+        onOpLoc1(windmill_locs.ladder_down) { climbDown() }
+        onOpLoc1(windmill_locs.ladder_up) { climbUp() }
+        onOpLoc1(windmill_locs.ladder_option) { climbOption() }
+        onOpLoc2(windmill_locs.ladder_option) { climbUp() }
+        onOpLoc3(windmill_locs.ladder_option) { climbDown() }
     }
 
     private suspend fun ProtectedAccess.climbUp(): Unit = climb(1)

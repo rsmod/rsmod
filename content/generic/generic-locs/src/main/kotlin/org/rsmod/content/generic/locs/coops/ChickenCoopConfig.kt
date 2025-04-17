@@ -5,9 +5,9 @@ import org.rsmod.api.type.editors.loc.LocEditor
 
 object ChickenCoopLocEditor : LocEditor() {
     init {
-        coop("chicken_coop_5571")
-        coop("chicken_coop_5572")
-        coop("chicken_coop_5573")
+        coop("chicken_coop_empty")
+        coop("chicken_coop_bare")
+        coop("chicken_coop_bare2")
     }
 
     private fun coop(internal: String) {

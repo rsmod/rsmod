@@ -13,9 +13,9 @@ internal object StaircaseLocs : LocReferences() {
 
 internal object StaircaseLocEdits : LocEditor() {
     init {
-        edit("spiralstaircase_down") { contentGroup = content.spiralstaircase_down }
-        edit("spiralstaircase_up") { contentGroup = content.spiralstaircase_up }
-        edit("spiralstaircase_option") { contentGroup = content.spiralstaircase_option }
+        edit("spiralstairstop") { contentGroup = content.spiralstaircase_down }
+        edit("spiralstairs") { contentGroup = content.spiralstaircase_up }
+        edit("spiralstairsmiddle") { contentGroup = content.spiralstaircase_option }
 
         edit("spiralstairsbottom_3") { contentGroup = content.spiralstaircase_up }
         edit("spiralstairstop_3") { contentGroup = content.spiralstaircase_down }

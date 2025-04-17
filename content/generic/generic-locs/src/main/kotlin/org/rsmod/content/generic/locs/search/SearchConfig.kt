@@ -6,15 +6,15 @@ import org.rsmod.api.type.editors.loc.LocEditor
 
 internal object SearchLocEdits : LocEditor() {
     init {
-        crate("stack_crate_355")
-        crate("big_crate_357")
-        crate("stack_crate")
-        crate("big_crate")
-        crate("stack_nicecrate")
+        crate("crate3")
+        crate("crate2_old")
+        crate("crate3_old")
+        crate("crate")
+        crate("qip_cook_crate_stacked")
 
         sack("sacks")
 
-        boxes("stack_smallboxes_359")
+        boxes("boxes")
     }
 
     private fun crate(internal: String) {

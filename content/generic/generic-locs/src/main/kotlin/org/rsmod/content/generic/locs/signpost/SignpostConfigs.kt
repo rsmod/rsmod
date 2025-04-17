@@ -7,8 +7,14 @@ import org.rsmod.api.type.refs.interf.InterfaceReferences
 import org.rsmod.api.type.refs.loc.LocReferences
 import org.rsmod.map.CoordGrid
 
+internal typealias signpost_locs = SignpostLocs
+
+internal typealias signpost_interfaces = SignpostInterfaces
+
+internal typealias signpost_components = SignpostComponents
+
 internal object SignpostLocs : LocReferences() {
-    val signpost = find("signpost", 5944252288185964868)
+    val signpost = find("aide_signpost_1", 5944252288185964868)
 }
 
 internal object SignpostInterfaces : InterfaceReferences() {

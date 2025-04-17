@@ -5,8 +5,8 @@ import org.rsmod.api.type.editors.loc.LocEditor
 
 internal object BankLocEditor : LocEditor() {
     init {
-        booth("lumbridge_bank_booth_18491")
-        booth("lumbridge_bank_booth_27291")
+        booth("aide_bankbooth")
+        booth("aide_bankbooth_multi")
     }
 
     private fun booth(internal: String) {
