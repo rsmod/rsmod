@@ -2569,14 +2569,14 @@ public class ProtectedAccess(
         eventBus: EventBus = context.eventBus,
     ): Unit = player.ifOpenMainModal(interf, eventBus, colour, transparency)
 
-    public fun ifOpenOverlay(interf: InterfaceType, eventBus: EventBus = context.eventBus): Unit =
-        player.ifOpenOverlay(interf, eventBus)
-
     public fun ifOpenOverlay(
         interf: InterfaceType,
         target: ComponentType,
         eventBus: EventBus = context.eventBus,
-    ): Unit = player.ifOpenSub(interf, target, IfSubType.Overlay, eventBus)
+    ): Unit = player.ifOpenOverlay(interf, target, eventBus)
+
+    public fun ifOpenOverlay(interf: InterfaceType, eventBus: EventBus = context.eventBus): Unit =
+        player.ifOpenOverlay(interf, eventBus)
 
     public fun ifOpenFullOverlay(
         interf: InterfaceType,

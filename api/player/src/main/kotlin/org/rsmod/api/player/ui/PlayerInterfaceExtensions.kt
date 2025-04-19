@@ -111,11 +111,17 @@ public fun Player.ifOpenMainSidePair(
     openModal(side, components.sidemodal, eventBus)
 }
 
-public fun Player.ifOpenOverlay(interf: InterfaceType, eventBus: EventBus): Unit =
-    ifOpenSub(interf, components.toplevel_target_floater, IfSubType.Overlay, eventBus)
+public fun Player.ifOpenOverlay(interf: InterfaceType, target: ComponentType, eventBus: EventBus) {
+    ifOpenSub(interf, target, IfSubType.Overlay, eventBus)
+}
 
-public fun Player.ifOpenFullOverlay(interf: InterfaceType, eventBus: EventBus): Unit =
-    ifOpenSub(interf, components.toplevel_target_overlayatmosphere, IfSubType.Overlay, eventBus)
+public fun Player.ifOpenOverlay(interf: InterfaceType, eventBus: EventBus) {
+    ifOpenOverlay(interf, components.toplevel_target_floater, eventBus)
+}
+
+public fun Player.ifOpenFullOverlay(interf: InterfaceType, eventBus: EventBus) {
+    ifOpenOverlay(interf, components.toplevel_target_overlayatmosphere, eventBus)
+}
 
 /**
  * Difference from [ifCloseModals]: this function clears all weak queues for the player and closes
