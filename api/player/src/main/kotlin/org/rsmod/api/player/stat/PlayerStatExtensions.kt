@@ -5,6 +5,9 @@ import kotlin.math.max
 import kotlin.math.min
 import org.rsmod.annotations.InternalApi
 import org.rsmod.api.config.refs.stats
+import org.rsmod.api.random.GameRandom
+import org.rsmod.api.stats.levelmod.InvisibleLevels
+import org.rsmod.api.utils.skills.SkillingSuccessRate
 import org.rsmod.game.entity.Player
 import org.rsmod.game.type.stat.StatType
 
@@ -233,3 +236,37 @@ public fun Player.statHeal(stat: StatType, constant: Int, percent: Int) {
 }
 
 @OptIn(InternalApi::class) internal fun Player.updateStat(stat: StatType) = markStatUpdate(stat)
+
+public fun Player.statRandom(
+    random: GameRandom,
+    stat: StatType,
+    low: Int,
+    high: Int,
+    invisibleLevels: InvisibleLevels,
+): Boolean {
+    val invisibleBoost = invisibleLevels.get(this, stat)
+    return statRandom(random, stat, low, high, invisibleBoost)
+}
+
+public fun Player.statRandom(
+    random: GameRandom,
+    stat: StatType,
+    low: Int,
+    high: Int,
+    invisibleBoost: Int,
+): Boolean {
+    val visibleLevel = stat(stat)
+    val effectiveLevel = visibleLevel.coerceIn(1, stat.maxLevel) + invisibleBoost
+    return statRandomRoll(random, low, high, effectiveLevel, stat.maxLevel)
+}
+
+private fun statRandomRoll(
+    random: GameRandom,
+    low: Int,
+    high: Int,
+    effectiveLevel: Int,
+    maxLevel: Int,
+): Boolean {
+    val rate = SkillingSuccessRate.successRate(low, high, effectiveLevel, maxLevel)
+    return rate > random.randomDouble()
+}

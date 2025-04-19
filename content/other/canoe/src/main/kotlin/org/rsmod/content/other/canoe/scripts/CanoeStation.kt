@@ -134,7 +134,7 @@ constructor(
             faceSquare(path.face)
         } else if (actionDelay == mapClock) {
             val (low, high) = axeSuccessRates(axe, canoe_enums.station_axe_rates, enumTypes)
-            cutCanoe = rollSuccessRate(low, high, stats.woodcutting, invisibleLvls)
+            cutCanoe = statRandom(stats.woodcutting, low, high, invisibleLvls)
         }
 
         if (!cutCanoe) {

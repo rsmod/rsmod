@@ -131,7 +131,7 @@ constructor(
             actionDelay = mapClock + 3
         } else if (actionDelay == mapClock) {
             val (low, high) = cutSuccessRates(type, axe, enumTypes)
-            cutLogs = rollSuccessRate(low, high, stats.woodcutting, invisibleLvls)
+            cutLogs = statRandom(stats.woodcutting, low, high, invisibleLvls)
         }
 
         if (type.hasDespawnTimer) {

@@ -148,7 +148,7 @@ constructor(
             faceSquare(loc.adjustedCentre)
         } else if (actionDelay == mapClock) {
             val (low, high) = axeSuccessRates(axe, canoe_enums.shaping_axe_rates, enumTypes)
-            finishShape = rollSuccessRate(low, high, stats.woodcutting, invisibleLvls)
+            finishShape = statRandom(stats.woodcutting, low, high, invisibleLvls)
         }
 
         if (finishShape) {

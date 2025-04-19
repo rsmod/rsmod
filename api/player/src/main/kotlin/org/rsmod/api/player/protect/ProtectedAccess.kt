@@ -78,6 +78,7 @@ import org.rsmod.api.player.stat.statBase
 import org.rsmod.api.player.stat.statBoost
 import org.rsmod.api.player.stat.statDrain
 import org.rsmod.api.player.stat.statHeal
+import org.rsmod.api.player.stat.statRandom
 import org.rsmod.api.player.stat.statRestore
 import org.rsmod.api.player.stat.statRestoreAll
 import org.rsmod.api.player.stat.statSub
@@ -118,7 +119,6 @@ import org.rsmod.api.repo.world.WorldRepository
 import org.rsmod.api.route.RayCastValidator
 import org.rsmod.api.stats.levelmod.InvisibleLevels
 import org.rsmod.api.utils.map.BuildAreaUtils
-import org.rsmod.api.utils.skills.SkillingSuccessRate
 import org.rsmod.coroutine.GameCoroutine
 import org.rsmod.events.EventBus
 import org.rsmod.events.KeyedEvent
@@ -1146,26 +1146,17 @@ public class ProtectedAccess(
     public fun statHeal(stat: StatType, constant: Int, percent: Int): Unit =
         player.statHeal(stat, constant, percent)
 
-    public fun rollSuccessRate(low: Int, high: Int, level: Int, maxLevel: Int): Boolean {
-        val rate = SkillingSuccessRate.successRate(low, high, level, maxLevel)
-        return rate > random.randomDouble()
-    }
+    /** @see [org.rsmod.api.player.stat.statRandom] */
+    public fun statRandom(stat: StatType, low: Int, high: Int, invisibleBoost: Int): Boolean =
+        player.statRandom(random, stat, low, high, invisibleBoost)
 
-    public fun rollSuccessRate(low: Int, high: Int, stat: StatType, invisibleBoost: Int): Boolean {
-        val visibleLevel = player.stat(stat)
-        val level = visibleLevel.coerceIn(1, stat.maxLevel) + invisibleBoost
-        return rollSuccessRate(low, high, level, stat.maxLevel)
-    }
-
-    public fun rollSuccessRate(
+    /** @see [org.rsmod.api.player.stat.statRandom] */
+    public fun statRandom(
+        stat: StatType,
         low: Int,
         high: Int,
-        stat: StatType,
         invisibleLevels: InvisibleLevels,
-    ): Boolean {
-        val invisibleBoost = invisibleLevels.get(player, stat)
-        return rollSuccessRate(low, high, stat, invisibleBoost)
-    }
+    ): Boolean = player.statRandom(random, stat, low, high, invisibleLevels)
 
     public fun isInCombat(): Boolean = player.isInCombat()
 
