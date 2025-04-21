@@ -153,7 +153,7 @@ public class Player(
     public var characterId: Int by Delegates.notNull()
 
     // Currently unsure of the exact requirements for this value's use case, however, it should
-    // **always** be set on log in (like the other player identifiers).
+    // **always** be set on login (like the other player identifiers).
     /** _This value is **always** expected to be set on login._ */
     public var userHash: Long by Delegates.notNull()
 
@@ -161,11 +161,6 @@ public class Player(
     public var displayName: String by avatar::name
     public var members: Boolean = false
     public var lastKnownDevice: Int? = null
-
-    public val disconnected: AtomicBoolean = AtomicBoolean(false)
-    public var disconnectedCycles: Int = 0
-    public var forceDisconnect: Boolean = false
-    public var pendingLogout: Boolean = false
 
     public var buildArea: CoordGrid = CoordGrid.NULL
     public val visibleZoneKeys: IntList = IntArrayList()
@@ -196,8 +191,35 @@ public class Player(
 
     public var lastLogin: LocalDateTime = LocalDateTime.now()
 
+    /*
+     * There are various ways a player can be removed from the game:
+     * - Client disconnection: when the player x-logs out of their client. This results in the
+     *   player not being immediately removed from the world, giving them a grace period to
+     *   reconnect.
+     * - Forced disconnect: when the player is forcefully disconnected due to an error during
+     *   processing in the game loop. This immediately attempts to log the player out.
+     * - Manual logout: when the player clicks the logout button. This checks for and sends the
+     *   `preventLogoutMessage`, when applicable.
+     */
+    public val clientDisconnected: AtomicBoolean = AtomicBoolean(false)
+    public var clientDisconnectedCycles: Int = 0
+    public var forceDisconnect: Boolean = false
+    public var manualLogout: Boolean = false
+    public var pendingLogout: Boolean = false
+    public var loggingOut: Boolean = false
+    public var pendingCloseClient: Boolean = false
+    public var closeClient: Boolean = false
+
     public var preventLogoutMessage: String? = null
-    public var preventLogoutUntil: Int? = null
+    public var preventLogoutUntil: Int = Int.MIN_VALUE
+
+    /**
+     * Counts the number of consecutive attempts to log out while logout prevention is active. If
+     * this exceeds the configured hard cap, the player will be forcefully disconnected.
+     *
+     * This prevents players from being permanently stuck online during extended combat scenarios.
+     */
+    public var preventLogoutCounter: Int = 0
 
     public var actionDelay: Int = -1
     public var skillAnimDelay: Int = -1

@@ -7,7 +7,6 @@ import kotlinx.coroutines.supervisorScope
 import org.rsmod.api.game.process.GameLifecycle
 import org.rsmod.api.player.forceDisconnect
 import org.rsmod.api.player.output.MiscOutput
-import org.rsmod.api.registry.account.AccountRegistry
 import org.rsmod.api.utils.logging.GameExceptionHandler
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
@@ -20,7 +19,6 @@ public class PlayerPostTickProcess
 constructor(
     private val eventBus: EventBus,
     private val playerList: PlayerList,
-    private val accountRegistry: AccountRegistry,
     private val zoneUpdates: PlayerZoneUpdateProcessor,
     private val buildAreas: PlayerBuildAreaProcessor,
     private val regions: PlayerRegionProcessor,
@@ -75,7 +73,6 @@ constructor(
     private fun processPostTick() {
         for (player in playerList) {
             player.tryOrDisconnect {
-                processDisconnection()
                 processMapChanges()
                 processInvUpdates()
                 processStatUpdates()
@@ -83,42 +80,6 @@ constructor(
                 cleanUpPendingUpdates()
             }
         }
-    }
-
-    private fun Player.processDisconnection() {
-        checkForcedDisconnect()
-        if (!disconnected.get()) {
-            disconnectedCycles = 0
-            return
-        }
-        countDisconnectedCycle()
-    }
-
-    private fun Player.checkForcedDisconnect() {
-        if (forceDisconnect && !pendingLogout) {
-            queueLogout()
-            closeClient()
-            forceDisconnect = false
-        }
-    }
-
-    private fun Player.countDisconnectedCycle() {
-        if (!pendingLogout) {
-            if (disconnectedCycles == RECONNECT_GRACE_PERIOD) {
-                queueLogout()
-            }
-            disconnectedCycles++
-        }
-    }
-
-    private fun Player.queueLogout() {
-        pendingLogout = true
-        accountRegistry.queueLogout(this)
-    }
-
-    private fun Player.closeClient() {
-        MiscOutput.logout(this)
-        client.close()
     }
 
     private fun Player.processMapChanges() {
@@ -136,6 +97,10 @@ constructor(
     private fun Player.flushClient() {
         MiscOutput.serverTickEnd(this)
         client.flush()
+        if (closeClient) {
+            closeClient = false
+            client.close()
+        }
     }
 
     private fun Player.cleanUpPendingUpdates() {
@@ -166,13 +131,4 @@ constructor(
             forceDisconnect()
             exceptionHandler.handle(e) { "Error processing post-tick for player: $this." }
         }
-
-    private companion object {
-        /**
-         * The grace period (in server cycles) during which a disconnected player is allowed to
-         * remain in the world before their logout is queued. This gives them a chance to reconnect
-         * in time, based on this constant.
-         */
-        private const val RECONNECT_GRACE_PERIOD: Int = 10
-    }
 }

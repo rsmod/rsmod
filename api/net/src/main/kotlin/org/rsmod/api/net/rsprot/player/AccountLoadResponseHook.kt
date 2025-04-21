@@ -199,13 +199,13 @@ class AccountLoadResponseHook(
         val response = player.createLoginResponse(slotId, loadResponse.auth)
         val session = channelResponses.writeSuccessfulResponse(response, loginBlock)
 
-        val disconnectionHook = Runnable { player.disconnected.set(true) }
+        val disconnectionHook = Runnable { player.clientDisconnected.set(true) }
         session.setDisconnectionHook(disconnectionHook)
 
         // `setDisconnectionHook` will invoke the disconnection hook instantly if the session
         // is not active at this point. Since the channel is no longer connected, we can no-op
         // and return early.
-        if (player.disconnected.get()) {
+        if (player.clientDisconnected.get()) {
             return
         }
 

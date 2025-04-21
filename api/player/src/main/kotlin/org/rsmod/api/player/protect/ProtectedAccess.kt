@@ -1705,10 +1705,19 @@ public class ProtectedAccess(
     ): Boolean = eventBus.publish(this, event)
 
     public fun logOut() {
-        // TODO: impl
+        assertLogoutState()
+        player.manualLogout = true
     }
 
-    // TODO: Make use of these values when log out handling is implemented.
+    // The player should not be able to trigger a manual logout (e.g., by clicking the logout
+    // button) if the server has already initiated a logout through other means.
+    private fun assertLogoutState() {
+        check(!player.loggingOut) { "Player already logging out." }
+        check(!player.pendingLogout) { "Player already marked for pending logout." }
+        check(!player.clientDisconnected.get()) { "Client already marked as disconnected." }
+        check(!player.forceDisconnect) { "Player already marked for forced disconnection." }
+    }
+
     public fun preventLogout(message: String, cycles: Int) {
         player.preventLogoutMessage = message
         player.preventLogoutUntil = mapClock + cycles

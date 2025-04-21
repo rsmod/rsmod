@@ -37,6 +37,11 @@ constructor(private val eventBus: EventBus, private val protectedAccess: Protect
                     queue.remainingCycles--
                 }
 
+                val accelerate = pendingLogout && queue.category == QueueCategory.LongAccelerate.id
+                if (accelerate) {
+                    queue.remainingCycles = 0
+                }
+
                 if (queue.remainingCycles > 0) {
                     continue
                 }

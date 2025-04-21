@@ -31,6 +31,8 @@ public object StandardPlayerHitProcessor : QueuedPlayerHitProcessor {
         if (!hit.isValid(this)) {
             return
         }
+        preventLogout("You can't log out until 10 seconds after the end of combat.", 16)
+
         // TODO(combat): Process degradation, ring of recoil, retribution, etc.
 
         val damage = min(player.hitpoints, hit.damage)

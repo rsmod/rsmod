@@ -33,7 +33,7 @@ public fun Player.combatClearQueue() {
 }
 
 public fun Player.isValidTarget(): Boolean {
-    return isSlotAssigned && isVisible && hitpoints > 0
+    return isSlotAssigned && isVisible && !loggingOut && hitpoints > 0
 }
 
 public fun Player.isOutOfCombat(): Boolean = !isInCombat()

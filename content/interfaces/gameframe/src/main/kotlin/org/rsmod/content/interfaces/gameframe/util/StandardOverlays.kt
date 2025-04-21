@@ -25,7 +25,7 @@ object StandardOverlays {
             interfaces.prayerbook to components.toplevel_target_prayerbook,
             interfaces.friends to components.toplevel_target_friends,
             interfaces.account to components.toplevel_target_account,
-            interfaces.worldswitcher to components.toplevel_target_worldswitcher,
+            interfaces.logout to components.toplevel_target_logout,
             interfaces.hpbar_hud to components.toplevel_target_hpbarhud,
             interfaces.music to components.toplevel_target_music,
         )

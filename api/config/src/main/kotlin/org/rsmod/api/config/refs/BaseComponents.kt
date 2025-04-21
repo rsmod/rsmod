@@ -30,7 +30,7 @@ object BaseComponents : ComponentReferences() {
     val toplevel_target_prayerbook = find("toplevel_osrs_stretch:side5", 3182435415241880450)
     val toplevel_target_friends = find("toplevel_osrs_stretch:side9", 3182435415241880454)
     val toplevel_target_account = find("toplevel_osrs_stretch:side8", 3182435415241880453)
-    val toplevel_target_worldswitcher = find("toplevel_osrs_stretch:side10", 3182435415241880455)
+    val toplevel_target_logout = find("toplevel_osrs_stretch:side10", 3182435415241880455)
     val toplevel_target_hpbarhud = find("toplevel_osrs_stretch:hpbar_hud", 4026873813368753075)
     val toplevel_target_music = find("toplevel_osrs_stretch:side13", 3182435415241880458)
     val toplevel_target_floater = find("toplevel_osrs_stretch:floater", 7699969845154582066)
