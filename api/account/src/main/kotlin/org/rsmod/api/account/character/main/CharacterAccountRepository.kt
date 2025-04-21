@@ -8,6 +8,7 @@ import org.rsmod.api.db.Database
 import org.rsmod.api.db.util.getLocalDateTime
 import org.rsmod.api.db.util.prepareStatement
 import org.rsmod.api.db.util.setNullableInt
+import org.rsmod.api.db.util.setNullableString
 import org.rsmod.api.db.util.setSqliteTimestamp
 import org.rsmod.api.parsers.jackson.readReifiedValue
 import org.rsmod.api.parsers.json.Json
@@ -223,24 +224,21 @@ constructor(
             it.executeUpdate()
         }
 
-        // Note: This update is intentionally done at the "account" level. Logging into a different
-        // "realm" (e.g., main -> dmm) should not trigger a new 2fa prompt - the known device should
-        // persist across realms.
-        // It might be worth marking the player as needing their `known_device` updated and only
-        // executing this query when it is set, but for now, we are keeping it simple.
         val updateAccount =
             database.prepareStatement(
                 """
                     UPDATE accounts
-                    SET known_device = ?
+                    SET display_name = ?, known_device = ?, mod_group = ?
                     WHERE id = ?
                 """
                     .trimIndent()
             )
 
         updateAccount.use {
-            it.setNullableInt(1, player.lastKnownDevice)
-            it.setInt(2, accountId)
+            it.setNullableString(1, player.displayName.takeIf(String::isNotBlank))
+            it.setNullableInt(2, player.lastKnownDevice)
+            it.setNullableInt(3, player.modGroup?.id)
+            it.setInt(4, accountId)
             it.executeUpdate()
         }
     }

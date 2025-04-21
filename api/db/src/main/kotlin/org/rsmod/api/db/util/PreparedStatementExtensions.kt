@@ -9,6 +9,14 @@ public fun PreparedStatement.setSqliteTimestamp(index: Int, time: LocalDateTime)
     setString(index, formatted)
 }
 
+public fun PreparedStatement.setNullableString(index: Int, value: String?) {
+    if (value != null) {
+        setString(index, value)
+    } else {
+        setNull(index, Types.VARCHAR)
+    }
+}
+
 public fun PreparedStatement.setNullableInt(index: Int, value: Int?) {
     if (value != null) {
         setInt(index, value)
