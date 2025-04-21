@@ -10,9 +10,11 @@ import org.rsmod.api.invtx.invAdd
 import org.rsmod.api.invtx.invClear
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.protect.ProtectedAccessLauncher
+import org.rsmod.api.player.stat.PlayerSkillXP
 import org.rsmod.api.player.stat.stat
 import org.rsmod.api.player.stat.statAdvance
 import org.rsmod.api.player.stat.statSub
+import org.rsmod.api.player.ui.PlayerInterfaceUpdates
 import org.rsmod.api.player.vars.VarPlayerIntMapSetter
 import org.rsmod.api.player.vars.resyncVar
 import org.rsmod.api.repo.loc.LocRepository
@@ -336,6 +338,8 @@ constructor(
         statMap.setXP(stat, targetXp)
         statMap.setBaseLevel(stat, targetLevel.toByte())
         statSub(stat, constant = levelDelta, percent = 0)
+        appearance.combatLevel = PlayerSkillXP.calculateCombatLevel(this)
+        PlayerInterfaceUpdates.updateCombatLevel(this)
     }
 
     private fun resolveArgTypeId(arg: String, names: Map<String, Int>): Int? {

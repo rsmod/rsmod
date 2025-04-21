@@ -2,6 +2,8 @@ package org.rsmod.api.player.stat
 
 import kotlin.math.min
 import org.rsmod.annotations.InternalApi
+import org.rsmod.api.player.ui.PlayerInterfaceUpdates
+import org.rsmod.api.utils.skills.CombatLevel
 import org.rsmod.game.entity.Player
 import org.rsmod.game.stat.PlayerSkillXPTable
 import org.rsmod.game.stat.PlayerStatMap
@@ -57,5 +59,23 @@ public object PlayerSkillXP {
             engineQueueChangeStat(stat)
             engineQueueAdvanceStat(stat)
         }
+
+        val combatLevel = calculateCombatLevel(this)
+        if (combatLevel != this.combatLevel) {
+            appearance.combatLevel = combatLevel
+            // TODO: Should this update the entire combat tab or just the combat level vars?
+            PlayerInterfaceUpdates.updateCombatLevel(this)
+        }
     }
+
+    public fun calculateCombatLevel(player: Player): Int =
+        CombatLevel.calculate(
+            attack = player.baseAttackLvl,
+            strength = player.baseStrengthLvl,
+            defence = player.baseDefenceLvl,
+            hitpoints = player.baseHitpointsLvl,
+            ranged = player.baseRangedLvl,
+            magic = player.baseMagicLvl,
+            prayer = player.basePrayerLvl,
+        )
 }
