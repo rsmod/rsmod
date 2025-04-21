@@ -3,7 +3,6 @@ package org.rsmod.api.game.process.player
 import jakarta.inject.Inject
 import org.rsmod.api.player.forceDisconnect
 import org.rsmod.api.player.output.ChatType
-import org.rsmod.api.player.output.MiscOutput
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.ui.ifCloseModals
 import org.rsmod.api.registry.account.AccountRegistry
@@ -125,7 +124,6 @@ constructor(
         if (pendingCloseClient) {
             pendingCloseClient = false
             closeClient = true
-            MiscOutput.logout(this)
         }
     }
 

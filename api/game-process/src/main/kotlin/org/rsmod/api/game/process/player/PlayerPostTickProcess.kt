@@ -76,7 +76,7 @@ constructor(
                 processMapChanges()
                 processInvUpdates()
                 processStatUpdates()
-                flushClient()
+                processClientState()
                 cleanUpPendingUpdates()
             }
         }
@@ -94,13 +94,24 @@ constructor(
         statUpdates.process(this)
     }
 
+    private fun Player.processClientState() {
+        if (closeClient) {
+            closeClient = false
+            closeClient()
+            return
+        }
+        flushClient()
+    }
+
+    private fun Player.closeClient() {
+        MiscOutput.logout(this)
+        flushClient()
+        client.close()
+    }
+
     private fun Player.flushClient() {
         MiscOutput.serverTickEnd(this)
         client.flush()
-        if (closeClient) {
-            closeClient = false
-            client.close()
-        }
     }
 
     private fun Player.cleanUpPendingUpdates() {
