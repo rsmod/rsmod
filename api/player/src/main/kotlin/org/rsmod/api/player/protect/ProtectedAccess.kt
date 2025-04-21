@@ -303,6 +303,12 @@ public class ProtectedAccess(
         delay(max(1, distanceDelay))
     }
 
+    public fun toggleRun() {
+        val speed = if (player.varMoveSpeed == MoveSpeed.Run) MoveSpeed.Walk else MoveSpeed.Run
+        player.varMoveSpeed = speed
+        player.moveSpeed = speed
+    }
+
     public fun telejump(dest: CoordGrid, collision: CollisionFlagMap) {
         if (!collision.isZoneValid(dest)) {
             player.clearMapFlag()
