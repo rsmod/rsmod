@@ -25,12 +25,15 @@ public data class ServerConfig(
  * @param ignorePasswords If `true`, any password will be accepted for any account without
  *   verification. Note: This flag may only take effect in certain environments (e.g., when [realm]
  *   is [Realm.Dev]), depending on the login server's safeguards.
+ * @param autoAssignDisplayName If `true`, player display names will be automatically assigned based
+ *   on their login name.
  */
 public data class WorldConfig(
     val realm: Realm,
     val worldId: Int,
     val requireRegistration: Boolean,
     val ignorePasswords: Boolean,
+    val autoAssignDisplayName: Boolean,
 )
 
 public data class GameConfig(val xpRate: Int, val spawn: CoordGrid, val respawn: CoordGrid)

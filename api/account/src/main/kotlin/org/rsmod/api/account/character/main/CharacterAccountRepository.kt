@@ -33,8 +33,10 @@ constructor(
         loginName: String,
         hashedPassword: String,
     ): Int? {
+        val lowercaseName = loginName.lowercase()
+
         // Note: Not all database engines support `ON CONFLICT`. This syntax works with our current
-        // database setup (sqlite), but may need to be adapted for others (e.g., mysql uses
+        // database setup (sqlite) but may need to be adapted for others (e.g., mysql uses
         // `INSERT IGNORE`).
         val insert =
             database.prepareStatement(
@@ -46,7 +48,7 @@ constructor(
                     .trimIndent()
             )
         insert.use {
-            it.setString(1, loginName)
+            it.setString(1, lowercaseName)
             it.setString(2, hashedPassword)
             it.executeUpdate()
         }
@@ -54,7 +56,7 @@ constructor(
         val select = database.prepareStatement("SELECT id FROM accounts WHERE login_username = ?")
         val accountId =
             select.use {
-                it.setString(1, loginName)
+                it.setString(1, lowercaseName)
                 it.executeQuery().use { resultSet ->
                     if (resultSet.next()) {
                         resultSet.getInt("id").takeUnless { resultSet.wasNull() }
@@ -101,6 +103,8 @@ constructor(
         database: Database,
         loginName: String,
     ): CharacterMetadataList? {
+        val lowercaseName = loginName.lowercase()
+
         val select =
             database.prepareStatement(
                 """
@@ -137,7 +141,7 @@ constructor(
 
         select.use {
             it.setInt(1, realm)
-            it.setString(2, loginName)
+            it.setString(2, lowercaseName)
             it.executeQuery().use { resultSet ->
                 if (resultSet.next()) {
                     val accountId = resultSet.getInt("account_id")

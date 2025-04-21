@@ -92,7 +92,7 @@ private constructor(
         //  cpu cores.
         val requestSubmitted =
             if (worldConfig.requireRegistration) {
-                accountManager.load(loadAuth, block.username, responseHook)
+                accountManager.load(loadAuth, username, responseHook)
             } else {
                 val hashedPassword = computePasswordHash(auth.password)
                 if (hashedPassword == null) {

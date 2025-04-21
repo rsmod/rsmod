@@ -42,6 +42,7 @@ public class ServerConfigLoader @Inject constructor(@Toml private val objectMapp
                     worldId = DEFAULT_WORLD,
                     requireRegistration = false,
                     ignorePasswords = true,
+                    autoAssignDisplayName = true,
                 ),
             game =
                 GameConfig(

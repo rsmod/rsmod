@@ -20,7 +20,6 @@ import org.rsmod.api.player.output.runClientScript
 import org.rsmod.api.player.startInvTransmit
 import org.rsmod.api.player.stat.stat
 import org.rsmod.api.player.vars.boolVarBit
-import org.rsmod.api.player.vars.chatboxUnlocked
 import org.rsmod.api.player.vars.resyncVar
 import org.rsmod.api.script.onPlayerLogIn
 import org.rsmod.api.stats.levelmod.InvisibleLevels
@@ -39,6 +38,7 @@ constructor(
     private val statTypes: StatTypeList,
     private val invisibleLevels: InvisibleLevels,
 ) : PluginScript() {
+    private var Player.chatboxUnlocked: Boolean by boolVarBit(varbits.has_displayname_transmitter)
     private var Player.hideRoofs by boolVarBit(varbits.option_hide_rooftops)
 
     override fun ScriptContext.startUp() {
@@ -73,7 +73,7 @@ constructor(
 
     private fun Player.sendVars() {
         client.write(VarpReset)
-        chatboxUnlocked = true
+        chatboxUnlocked = displayName.isNotBlank()
         hideRoofs = true
         for ((varp, _) in vars) {
             val type = varpTypes[varp] ?: continue

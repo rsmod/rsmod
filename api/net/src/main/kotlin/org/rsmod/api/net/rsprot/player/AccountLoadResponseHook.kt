@@ -144,7 +144,7 @@ class AccountLoadResponseHook(
 
     private fun safeQueueLogin(response: AccountLoadResponse.Ok) {
         try {
-            val player = createPlayer(response).applyRealmTransforms()
+            val player = createPlayer(response).applyConfigTransforms()
             accountRegistry.queueLogin(player, response, ::safeHandleGameLogin)
         } catch (e: Exception) {
             writeErrorResponse(LoginResponse.ConnectFail)
@@ -162,11 +162,12 @@ class AccountLoadResponseHook(
         return player
     }
 
-    private fun Player.applyRealmTransforms(): Player {
-        // This is done here (rather than in a plugin) so that the login response can include the
-        // correct staffmodlevel and moderator flags.
+    private fun Player.applyConfigTransforms(): Player {
         if (config.isDevRealm && newAccount) {
             modGroup = modgroups.owner
+        }
+        if (config.autoAssignDisplayName && newAccount) {
+            displayName = username.toDisplayName()
         }
         return this
     }
@@ -267,6 +268,13 @@ class AccountLoadResponseHook(
                 isClientAdmin -> 2
                 else -> 0
             }
+
+        // TODO: Decide how to deal with email login usernames.
+        private fun String.toDisplayName(): String {
+            return trim().split(Regex(" +")).joinToString(" ") { word ->
+                word.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
+            }
+        }
 
         @Suppress("konsist.avoid usage of stdlib Random in functions")
         private fun randomInt(): Int = java.util.concurrent.ThreadLocalRandom.current().nextInt()
