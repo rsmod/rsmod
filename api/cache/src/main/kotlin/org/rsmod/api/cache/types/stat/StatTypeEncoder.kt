@@ -56,5 +56,10 @@ public object StatTypeEncoder {
                 data.writeByte(3)
                 data.writeByte(maxLevel)
             }
+
+            if (minLevel != 1) {
+                data.writeByte(4)
+                data.writeByte(minLevel)
+            }
         }
 }

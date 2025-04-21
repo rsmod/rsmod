@@ -46,6 +46,7 @@ public data class HashedStatType(
 
 public data class UnpackedStatType(
     public val unreleased: Boolean,
+    public val minLevel: Int,
     override var internalMaxLevel: Int?,
     override var internalDisplayName: String?,
     override var internalId: Int?,
@@ -73,6 +74,7 @@ public data class UnpackedStatType(
             "internalId=$internalId, " +
             "internalHash=${computeIdentityHash()}, " +
             "displayName='$displayName', " +
+            "minLevel=$minLevel, " +
             "maxLevel=$maxLevel, " +
             "unreleased=$unreleased" +
             ")"
@@ -81,6 +83,7 @@ public data class UnpackedStatType(
         if (this === other) return true
         if (other !is UnpackedStatType) return false
         if (unreleased != other.unreleased) return false
+        if (minLevel != other.minLevel) return false
         if (maxLevel != other.maxLevel) return false
         if (displayName != other.displayName) return false
         if (internalId != other.internalId) return false

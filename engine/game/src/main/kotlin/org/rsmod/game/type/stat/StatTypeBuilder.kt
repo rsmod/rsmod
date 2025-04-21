@@ -7,17 +7,20 @@ import org.rsmod.game.type.util.MergeableCacheBuilder
 
 @StatBuilderDsl
 public class StatTypeBuilder(public var internalName: String? = null) {
+    public var minLevel: Int? = null
     public var maxLevel: Int? = null
     public var displayName: String? = null
     public var unreleased: Boolean? = null
 
     public fun build(id: Int): UnpackedStatType {
         val internalName = checkNotNull(internalName) { "`internalName` must be set." }
+        val minLevel = minLevel ?: 1
         val maxLevel = maxLevel ?: DEFAULT_MAX_LEVEL
         val displayName = displayName ?: internalName.toDisplayName()
         val unreleased = unreleased ?: false
         return UnpackedStatType(
             unreleased = unreleased,
+            minLevel = minLevel,
             internalMaxLevel = maxLevel,
             internalDisplayName = displayName,
             internalId = id,
@@ -31,6 +34,7 @@ public class StatTypeBuilder(public var internalName: String? = null) {
         public const val DEFAULT_MAX_LEVEL: Int = 99
 
         override fun merge(edit: UnpackedStatType, base: UnpackedStatType): UnpackedStatType {
+            val minLevel = select(edit, base, default = 1) { minLevel }
             val maxLevel = select(edit, base, DEFAULT_MAX_LEVEL) { maxLevel }
             val displayName = select(edit, base, default = null) { displayName }
             val unreleased = select(edit, base, default = false) { unreleased }
@@ -38,6 +42,7 @@ public class StatTypeBuilder(public var internalName: String? = null) {
             val internalName = select(edit, base, default = null) { internalName }
             return UnpackedStatType(
                 unreleased = unreleased,
+                minLevel = minLevel,
                 internalMaxLevel = maxLevel,
                 internalDisplayName = displayName,
                 internalId = internalId,

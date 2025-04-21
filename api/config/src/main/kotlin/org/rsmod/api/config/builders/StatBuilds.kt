@@ -7,7 +7,7 @@ object StatBuilds : StatBuilder() {
         build("attack")
         build("defence")
         build("strength")
-        build("hitpoints")
+        build("hitpoints") { minLevel = 10 }
         build("ranged")
         build("prayer")
         build("magic")

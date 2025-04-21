@@ -2,6 +2,7 @@ package org.rsmod.api.cache.types.stat
 
 import io.netty.buffer.ByteBuf
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap
+import java.io.IOException
 import org.openrs2.buffer.readString
 import org.openrs2.buffer.use
 import org.openrs2.cache.Cache
@@ -50,6 +51,8 @@ public object StatTypeDecoder {
                 1 -> displayName = data.readString()
                 2 -> unreleased = true
                 3 -> maxLevel = data.readUnsignedByte().toInt()
+                4 -> minLevel = data.readUnsignedByte().toInt()
+                else -> throw IOException("Error unrecognised .stat config code: $code")
             }
         }
 
