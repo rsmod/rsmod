@@ -264,8 +264,8 @@ class AccountLoadResponseHook(
 
         private fun ModGroup.toStaffModLevel(): Int =
             when {
-                isClientMod -> 1
                 isClientAdmin -> 2
+                isClientMod -> 1
                 else -> 0
             }
 
