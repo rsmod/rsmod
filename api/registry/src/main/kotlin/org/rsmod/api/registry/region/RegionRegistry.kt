@@ -399,12 +399,12 @@ constructor(
             // handles validation for locs in deleted regions.
             locZones.spawnedLocs.clearZone(zone)
 
-            val controllers = conRegistry.findAll(zone)
+            val controllers = conRegistry.findAll(zone).toList()
             for (controller in controllers) {
                 deleteCon(controller)
             }
 
-            val npcs = npcRegistry.findAll(zone)
+            val npcs = npcRegistry.findAll(zone).toList()
             for (npc in npcs) {
                 deleteNpc(npc)
             }
