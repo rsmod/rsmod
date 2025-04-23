@@ -56,13 +56,11 @@ constructor(
 
     public fun hide(player: Player) {
         player.removeBlockWalkCollision(collision, player.coords)
-        zoneDel(player, ZoneKey.from(player.coords))
         player.hidden = true
     }
 
     public fun reveal(player: Player) {
         player.addBlockWalkCollision(collision, player.coords)
-        zoneAdd(player, ZoneKey.from(player.coords))
         player.hidden = false
     }
 
@@ -71,6 +69,13 @@ constructor(
         zoneAdd(player, to)
     }
 
+    /**
+     * Returns a sequence of all [Player]s in the given [zone].
+     *
+     * _Note: This function does **not** filter out "hidden" players, or those in the process of
+     * dying or logging out. If you want to exclude these, filter the result using
+     * `Player.isValidTarget`._
+     */
     public fun findAll(zone: ZoneKey): Sequence<Player> {
         val entries = zones[zone] ?: return emptySequence()
         return entries.entries.asSequence()

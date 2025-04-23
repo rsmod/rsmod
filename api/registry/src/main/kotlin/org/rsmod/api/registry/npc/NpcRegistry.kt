@@ -53,56 +53,36 @@ constructor(
     }
 
     public fun hide(npc: Npc) {
-        // Note that the event is published _before_ the npc is fully removed from the zone, in case
-        // said information is required by the listeners.
         eventBus.publish(NpcStateEvents.Hide(npc))
-
-        // Remove the npc from their respective zone.
         npc.removeBlockWalkCollision(collision, npc.coords)
-        zoneDel(npc, npc.lastProcessedZone)
-
-        // Hide the npc client avatar.
         npc.hidden = true
         npc.hideAvatar()
     }
 
     public fun reveal(npc: Npc) {
-        // Add the npc to the corresponding zone.
-        npc.addBlockWalkCollision(collision, npc.coords)
-        zoneAdd(npc, npc.lastProcessedZone)
-
-        // Note that the event is published _after_ the npc is registered to the zone, in case said
-        // information is required by the listeners.
         eventBus.publish(NpcStateEvents.Reveal(npc))
-
-        // Reveal the npc client avatar.
+        npc.addBlockWalkCollision(collision, npc.coords)
         npc.hidden = false
         npc.revealAvatar()
     }
 
     public fun despawn(npc: Npc) {
-        // Remove the npc from their respective zone.
         npc.removeBlockWalkCollision(collision, npc.coords)
-        zoneDel(npc, npc.lastProcessedZone)
-
-        // Hide the npc client avatar.
         npc.hidden = true
         npc.hideAvatar()
     }
 
     public fun respawn(npc: Npc) {
-        npc.coords = npc.spawnCoords
-        npc.lastProcessedZone = ZoneKey.from(npc.coords)
+        val deathZone = npc.lastProcessedZone
+        val respawnCoords = npc.spawnCoords
+        val respawnZone = ZoneKey.from(respawnCoords)
 
-        // Add the npc to the corresponding zone.
+        change(npc, from = deathZone, to = respawnZone)
+        npc.coords = respawnCoords
+        npc.lastProcessedZone = respawnZone
+
         npc.addBlockWalkCollision(collision, npc.coords)
-        zoneAdd(npc, npc.lastProcessedZone)
-
-        // Note that the event is published _after_ the npc is registered to the zone, in case said
-        // information is required by the listeners.
         eventBus.publish(NpcStateEvents.Respawn(npc))
-
-        // Reveal the npc client avatar.
         npc.hidden = false
         npc.revealAvatar()
     }
@@ -112,11 +92,23 @@ constructor(
         zoneAdd(npc, to)
     }
 
+    /**
+     * Returns a sequence of all [Npc]s in the given [zone].
+     *
+     * _Note: This function does **not** filter out "hidden" npcs (e.g., those that are respawning).
+     * If you want to exclude these, filter the result using `Npc.isValidTarget`._
+     */
     public fun findAll(zone: ZoneKey): Sequence<Npc> {
         val entries = zones[zone] ?: return emptySequence()
         return entries.entries.asSequence()
     }
 
+    /**
+     * Returns a sequence of all [Npc]s in the given [coords].
+     *
+     * _Note: This function does **not** filter out "hidden" npcs (e.g., those that are respawning).
+     * If you want to exclude these, filter the result using `Npc.isValidTarget`._
+     */
     public fun findAll(coords: CoordGrid): Sequence<Npc> =
         findAll(ZoneKey.from(coords)).filter { it.coords == coords }
 
