@@ -21,7 +21,7 @@ public class RayCastValidator @Inject constructor(flags: CollisionFlagMap) {
         extraFlag: Int = 0,
     ): Boolean {
         require(source.level == destination.level) {
-            "`source` and `destination` must be on same level."
+            "`source` and `destination` must be on same level. (source=$source, dest=$destination)"
         }
         require(destWidth > 0 && destLength > 0) {
             "Dest width and length should always be > 0. (dimensions=${destWidth}x${destLength})"
@@ -48,7 +48,7 @@ public class RayCastValidator @Inject constructor(flags: CollisionFlagMap) {
         extraFlag: Int = 0,
     ): Boolean {
         require(source.level == destination.level) {
-            "`source` and `destination` must be on same level."
+            "`source` and `destination` must be on same level. (source=$source, dest=$destination)"
         }
         require(destWidth > 0 && destLength > 0) {
             "Dest width and length should always be > 0. (dimensions=${destWidth}x${destLength})"

@@ -105,7 +105,9 @@ public class BoundValidator @Inject constructor(private val flags: CollisionFlag
     private companion object {
         @Suppress("NOTHING_TO_INLINE")
         private inline fun assertLevels(source: CoordGrid, target: CoordGrid) {
-            require(source.level == target.level) { "`source` and `target` must be on same level." }
+            require(source.level == target.level) {
+                "`source` and `target` must be on same level. (source=$source, target=$target)"
+            }
         }
     }
 }

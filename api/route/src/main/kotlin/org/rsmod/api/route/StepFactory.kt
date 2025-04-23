@@ -59,7 +59,7 @@ public class StepFactory @Inject constructor(flags: CollisionFlagMap) {
         extraFlag: Int = 0,
         collision: CollisionStrategy = CollisionStrategy.Normal,
     ): CoordGrid {
-        require(source != dest) { "`source` must not be equal to `dest`." }
+        require(source != dest) { "`source` must not be equal to `dest`. ($source)" }
         val level = source.level
         val signX = (dest.x - source.x).sign
         val signZ = (dest.z - source.z).sign
