@@ -71,6 +71,7 @@ import org.rsmod.api.repo.npc.NpcRepository
 import org.rsmod.api.repo.obj.ObjRepository
 import org.rsmod.api.repo.player.PlayerRepository
 import org.rsmod.api.repo.region.RegionRepository
+import org.rsmod.api.repo.region.RegionTemplate
 import org.rsmod.api.repo.world.WorldRepository
 import org.rsmod.api.route.BoundValidator
 import org.rsmod.api.route.RayCastFactory
@@ -112,6 +113,7 @@ import org.rsmod.game.map.collision.addLoc
 import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.obj.InvObj
 import org.rsmod.game.queue.EngineQueueCache
+import org.rsmod.game.region.Region
 import org.rsmod.game.region.RegionListLarge
 import org.rsmod.game.region.RegionListSmall
 import org.rsmod.game.stat.PlayerSkillXPTable
@@ -167,6 +169,7 @@ constructor(
     public val locTypes: LocTypeList,
     public val npcTypes: NpcTypeList,
     public val conRepo: ControllerRepository,
+    public val npcRepo: NpcRepository,
     private val gameCycle: GameCycle,
     private val collision: CollisionFlagMap,
     private val locZoneStorage: LocZoneStorage,
@@ -185,6 +188,8 @@ constructor(
     private val opNpcHandler: OpNpcHandler,
     private val aiPlayerInteractions: AiPlayerInteractions,
     private val npcHitModifier: NpcHitModifier,
+    private val regionRegistry: RegionRegistry,
+    private val regionRepo: RegionRepository,
 ) {
     init {
         registerPlayer()
@@ -462,6 +467,11 @@ constructor(
         protectedAccess.launch(this) { action() }
     }
 
+    public fun Npc.telejump(dest: CoordGrid) {
+        allocZoneCollision(dest)
+        PathingEntityCommon.telejump(this, collision, dest)
+    }
+
     public fun Npc.opPlayer2(target: Player) {
         opPlayer2(target, aiPlayerInteractions)
     }
@@ -563,6 +573,19 @@ constructor(
         val filtered = findObjType(predicate)
         return filtered.firstOrNull()
             ?: throw NoSuchElementException("No ObjType found with given predicate.")
+    }
+
+    public fun createRegionOrNull(template: RegionTemplate): Region? {
+        return regionRepo.add(template)
+    }
+
+    public fun createRegion(template: RegionTemplate): Region {
+        return createRegionOrNull(template) ?: error("Could not create region.")
+    }
+
+    public fun removeInactiveRegions() {
+        regionRegistry.removeInactiveSmallRegions()
+        regionRegistry.removeInactiveLargeRegions()
     }
 
     public fun CaptureClient.clear() {
