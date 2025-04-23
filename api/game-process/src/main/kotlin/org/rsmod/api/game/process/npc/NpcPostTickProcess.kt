@@ -20,9 +20,7 @@ constructor(
     public fun process() {
         for (npc in npcList) {
             npc.tryOrDespawn {
-                if (hasMovedThisCycle) {
-                    processZoneUpdates()
-                }
+                processZoneUpdates()
                 updateMovementInfo()
                 cleanUpPendingUpdates()
             }
@@ -30,6 +28,9 @@ constructor(
     }
 
     private fun Npc.processZoneUpdates() {
+        if (!hasMovedThisCycle && !pendingTelejump && !pendingTeleport) {
+            return
+        }
         val oldZone = lastProcessedZone
         val newZone = ZoneKey.from(coords)
         if (oldZone == newZone) {
