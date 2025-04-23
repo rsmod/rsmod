@@ -41,7 +41,7 @@ public class NpcPluginBuilder(public var internal: String? = null) {
     public var contrast: Int? by backing::contrast
     // TODO: private and use a more plugin-esque approach with graphic types and such
     public var headIconGraphic: CompactableIntArray by backing::headIconGraphic
-    public var headIconIndex: CompactableIntArray by backing::headIconGraphic
+    public var headIconIndex: CompactableIntArray by backing::headIconIndex
     public var turnSpeed: Int? by backing::turnSpeed
     // TODO: switch to varp and varbit type
     public var multiVarp: Int? by backing::multiVarp

@@ -203,7 +203,7 @@ public object NpcTypeEncoder {
             }
 
             if (headIconGraphic.isNotEmpty()) {
-                val enabledBits = headIconGraphic.fold(0) { sum, _ -> sum or 1 }
+                val enabledBits = headIconGraphic.indices.fold(0) { acc, i -> acc or (1 shl i) }
                 data.writeByte(102)
                 data.writeByte(enabledBits)
                 for (i in headIconGraphic.indices) {
