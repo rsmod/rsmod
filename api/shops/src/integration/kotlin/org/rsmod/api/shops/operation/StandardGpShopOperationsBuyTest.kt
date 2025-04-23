@@ -1,6 +1,5 @@
 package org.rsmod.api.shops.operation
 
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.rsmod.api.config.Constants
 import org.rsmod.api.config.refs.currencies
