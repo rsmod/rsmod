@@ -63,6 +63,10 @@ class RspNpcInfo(val rspAvatar: NpcAvatar) : NpcInfoProtocol {
         rspAvatar.extendedInfo.setVisibleOps(ops.packed)
     }
 
+    override fun setHeadIcon(slot: Int, graphic: Int, index: Int) {
+        rspAvatar.extendedInfo.setHeadIconChange(slot, graphic, index)
+    }
+
     override fun crawl(deltaX: Int, deltaZ: Int) {
         rspAvatar.crawl(deltaX, deltaZ)
     }

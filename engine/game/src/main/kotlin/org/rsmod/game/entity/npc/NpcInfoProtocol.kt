@@ -24,6 +24,8 @@ public interface NpcInfoProtocol {
 
     public fun toggleOps(ops: OpVisibility)
 
+    public fun setHeadIcon(slot: Int, graphic: Int, index: Int)
+
     public fun crawl(deltaX: Int, deltaZ: Int)
 
     public fun walk(deltaX: Int, deltaZ: Int)
@@ -59,6 +61,8 @@ public data object NoopNpcInfo : NpcInfoProtocol {
     override fun showHitmark(hitmark: Hitmark) {}
 
     override fun toggleOps(ops: OpVisibility) {}
+
+    override fun setHeadIcon(slot: Int, graphic: Int, index: Int) {}
 
     override fun crawl(deltaX: Int, deltaZ: Int) {}
 
