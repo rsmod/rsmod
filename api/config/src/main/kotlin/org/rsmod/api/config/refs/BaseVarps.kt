@@ -47,7 +47,21 @@ object BaseVarps : VarpReferences() {
 
     val colosseum_glory = find("colosseum_glory", 937435372)
 
+    val collection_count_other_max = find("collection_count_other_max", 1049110024)
+    val collection_count_other = find("collection_count_other", 1048883043)
+    val collection_count_minigames_max = find("collection_count_minigames_max", 1048656062)
+    val collection_count_minigames = find("collection_count_minigames", 1048429081)
+    val collection_count_clues_max = find("collection_count_clues_max", 1048202100)
+    val collection_count_clues = find("collection_count_clues", 1047975119)
+    val collection_count_raids_max = find("collection_count_raids_max", 1047748138)
+    val collection_count_raids = find("collection_count_raids", 1047521157)
+    val collection_count_bosses_max = find("collection_count_bosses_max", 1047294176)
+    val collection_count_bosses = find("collection_count_bosses", 1047067195)
+    val collection_count_max = find("collection_count_max", 668235906)
+    val collection_count = find("collection_count", 668008925)
+
     /* Server-side-only types */
+    val playtime = find("playtime")
     val generic_temp_state_65516 = find("generic_temp_state_65516")
     val dinhs_passive_delay = find("dinhs_passive_delay")
     val com_maxhit = find("com_maxhit")

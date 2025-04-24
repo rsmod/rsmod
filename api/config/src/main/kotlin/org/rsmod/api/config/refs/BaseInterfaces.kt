@@ -41,6 +41,9 @@ object BaseInterfaces : InterfaceReferences() {
     val combat_interface = find("combat_interface", 1281353796)
     val hpbar_hud = find("hpbar_hud", 9223372036744970435)
 
+    val account_summary_sidepanel = find("account_summary_sidepanel", 1142196774)
+    val area_task = find("area_task", 1628778927)
+
     val chat_right = find("chat_right", 1128178504)
     val chat_left = find("chat_left", 430345552)
     val chatmenu = find("chatmenu", 151753214)
@@ -52,4 +55,8 @@ object BaseInterfaces : InterfaceReferences() {
 
     val popupoverlay = find("popupoverlay", 9223372035707796330)
     val ge_collection_box = find("ge_collect", 9223372036801773648)
+
+    val ca_overview = find("ca_overview", 9223372035062537910)
+
+    val collection = find("collection", 1925563159)
 }

@@ -20,6 +20,9 @@ public fun Player.runClientScript(id: Int, args: List<Any>) {
 }
 
 public object ClientScripts {
+    public fun playerMember(player: Player, member: Boolean = player.members): Unit =
+        player.runClientScript(828, if (member) 1 else 0)
+
     public fun ccDeleteAll(player: Player, component: ComponentType): Unit =
         player.runClientScript(2249, component.packed)
 

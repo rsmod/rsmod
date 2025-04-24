@@ -7,6 +7,8 @@ import org.rsmod.api.type.refs.varbit.VarBitReferences
 typealias varbits = BaseVarBits
 
 object BaseVarBits : VarBitReferences() {
+    val side_journal_tab = find("side_journal_tab", 58785619230382)
+
     val rune_pouch_type_1 = find("rune_pouch_type_1", 58682578458515)
     val rune_pouch_quantity_1 = find("rune_pouch_quantity_1", 58682578528674)
     val rune_pouch_type_2 = find("rune_pouch_type_2", 58682578482800)
