@@ -124,6 +124,9 @@ object BaseVarBits : VarBitReferences() {
 
     val settings_hitsplat_threshold = find("settings_hitsplat_threshold", 183001241817303)
 
+    val date_ms_past_minute = find("date_milliseconds_past_minute", 158529050136898)
+    val date_secs_past_minute = find("date_seconds_past_minute", 158529050174475)
+
     /* Server-side-only types */
     val new_player_account = find("new_player_account")
     val saved_autocast_spell_staff = find("saved_autocast_spell_staff")

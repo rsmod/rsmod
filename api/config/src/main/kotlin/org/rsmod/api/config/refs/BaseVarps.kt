@@ -60,6 +60,9 @@ object BaseVarps : VarpReferences() {
     val collection_count_max = find("collection_count_max", 668235906)
     val collection_count = find("collection_count", 668008925)
 
+    val map_clock = find("map_clock", 698878341)
+    val date_vars = find("date_vars", 698424318)
+
     /* Server-side-only types */
     val playtime = find("playtime")
     val generic_temp_state_65516 = find("generic_temp_state_65516")
