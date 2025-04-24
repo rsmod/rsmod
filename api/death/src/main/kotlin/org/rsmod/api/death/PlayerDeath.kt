@@ -50,7 +50,7 @@ public class PlayerDeath @Inject constructor(private val statTypes: StatTypeList
             components.toplevel_target_friends,
             components.toplevel_target_account,
             components.toplevel_target_sidechannels,
-            // components.logout_tab_target, // TODO
+            components.toplevel_target_logout,
             components.toplevel_target_settingsside,
             components.toplevel_target_emote,
             components.toplevel_target_music,
