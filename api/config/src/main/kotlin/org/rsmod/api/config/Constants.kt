@@ -67,6 +67,22 @@ object Constants {
     const val skullicon_highrisk_world = 2
     const val skullicon_forinthry_surge = 3
 
+    const val overhead_protect_from_melee = 0
+    const val overhead_protect_from_missiles = 1
+    const val overhead_protect_from_magic = 2
+    const val overhead_retribution = 3
+    const val overhead_smite = 4
+    const val overhead_redemption = 5
+    const val overhead_protect_from_magic_melee = 6
+    const val overhead_protect_from_melee_missiles = 7
+    const val overhead_protect_from_melee_magic = 8
+    const val overhead_protect_from_all_styles = 9
+    const val overhead_wrath = 10
+    const val overhead_soulsplit = 11
+    const val overhead_deflect_melee = 12
+    const val overhead_deflect_missiles = 13
+    const val overhead_deflect_magic = 14
+
     const val dinhs_attackstyle_pummel = 0
     const val dinhs_attackstyle_block = 3
 
@@ -92,4 +108,7 @@ object Constants {
     const val settextalign_centre = 1
     const val settextalign_bottom = 2
     const val settextalign_right = 2
+
+    fun isOverhead(icon: Int?): Boolean =
+        icon in overhead_protect_from_melee..overhead_deflect_magic
 }

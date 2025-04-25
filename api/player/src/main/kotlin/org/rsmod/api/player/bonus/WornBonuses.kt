@@ -93,6 +93,11 @@ public class WornBonuses @Inject constructor(private val objTypes: ObjTypeList) 
         return bonuses.defRange
     }
 
+    public fun prayerBonus(player: Player): Int {
+        val bonuses = calculate(player)
+        return bonuses.prayer
+    }
+
     public fun calculate(player: Player): Bonuses {
         var offStab = 0
         var offSlash = 0

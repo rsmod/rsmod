@@ -12,6 +12,7 @@ data class Prayer(
     val level: Int,
     val sound: SynthType,
     val enabled: VarBitType,
+    val drainEffect: Int,
     val overhead: Int?,
     val unlocked: VarBitType?,
     val unlockState: Int,

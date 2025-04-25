@@ -9,6 +9,7 @@ import org.rsmod.api.player.output.UpdateInventory
 import org.rsmod.api.player.output.clearMapFlag
 import org.rsmod.api.player.stat.hitpoints
 import org.rsmod.api.player.vars.enabledPrayers
+import org.rsmod.api.player.vars.prayerDrainCounter
 import org.rsmod.api.player.vars.usingQuickPrayers
 import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.Inventory
@@ -37,9 +38,18 @@ public fun Player.combatClearQueue() {
 
 public fun Player.disablePrayers() {
     enabledPrayers = 0
-    usingQuickPrayers = false
+    prayerDrainCounter = 0
+
+    if (usingQuickPrayers) {
+        usingQuickPrayers = false
+    }
+
+    if (constants.isOverhead(appearance.overheadIcon)) {
+        appearance.overheadIcon = null
+    }
 
     clearQueue(queues.preserve_activation)
+    clearSoftTimer(timers.prayer_drain)
     clearSoftTimer(timers.rapidrestore_regen)
 }
 

@@ -22,6 +22,8 @@ class PrayerRepository(
     lateinit var prayerList: List<Prayer>
         private set
 
+    fun toPrayerList(packed: Int) = prayerList.filter { packed and (1 shl it.id) != 0 }
+
     fun load() {
         val components = loadMappedComponents()
         val collisions = loadMappedCollisions(components.values)
@@ -44,6 +46,7 @@ class PrayerRepository(
             val level = config.param(prayer_params.level)
             val sound = config.param(prayer_params.sound)
             val enabled = config.param(prayer_params.varbit)
+            val drain = config.param(prayer_params.drain_effect)
             val overhead = config.paramOrNull(prayer_params.overhead)
             val unlockVar = config.paramOrNull(prayer_params.unlock_varbit)
             val unlockState = config.param(prayer_params.unlock_state)
@@ -60,6 +63,7 @@ class PrayerRepository(
                     level = level,
                     sound = sound,
                     enabled = enabled,
+                    drainEffect = drain,
                     overhead = overhead,
                     unlocked = unlockVar,
                     unlockState = unlockState,

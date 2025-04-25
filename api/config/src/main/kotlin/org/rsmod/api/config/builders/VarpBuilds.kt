@@ -4,6 +4,7 @@ import org.rsmod.api.type.builders.varp.VarpBuilder
 
 internal object VarpBuilds : VarpBuilder() {
     init {
+        build("prayer_drain") { temporary = true }
         build("playtime")
         build("generic_temp_state_65516") { temporary = true }
         build("dinhs_passive_delay") { temporary = true }

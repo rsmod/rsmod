@@ -1,5 +1,6 @@
 package org.rsmod.content.interfaces.prayer.tab.configs
 
+import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.config.refs.stats
 import org.rsmod.api.config.refs.varbits
@@ -45,45 +46,54 @@ internal object PrayerTabObjs : ObjReferences() {
 @Suppress("SameParameterValue")
 internal object PrayerTabObjEditor : ObjEditor() {
     init {
-        prayer(prayer_objs.thick_skin, varbits.thick_skin)
-        prayer(prayer_objs.burst_of_strength, varbits.burst_of_strength)
-        prayer(prayer_objs.clarity_of_thought, varbits.clarity_of_thought)
-        prayer(prayer_objs.rock_skin, varbits.rock_skin)
-        prayer(prayer_objs.superhuman_strength, varbits.superhuman_strength)
-        prayer(prayer_objs.improved_reflexes, varbits.improved_reflexes)
-        prayer(prayer_objs.rapid_restore, varbits.rapid_restore)
-        prayer(prayer_objs.rapid_heal, varbits.rapid_heal)
-        prayer(prayer_objs.protect_item, varbits.protect_item)
-        prayer(prayer_objs.steel_skin, varbits.steel_skin)
-        prayer(prayer_objs.ultimate_strength, varbits.ultimate_strength)
-        prayer(prayer_objs.incredible_reflexes, varbits.incredible_reflexes)
+        prayer(prayer_objs.thick_skin, varbits.thick_skin, drain = 3)
+        prayer(prayer_objs.burst_of_strength, varbits.burst_of_strength, drain = 3)
+        prayer(prayer_objs.clarity_of_thought, varbits.clarity_of_thought, drain = 3)
+        prayer(prayer_objs.rock_skin, varbits.rock_skin, drain = 6)
+        prayer(prayer_objs.superhuman_strength, varbits.superhuman_strength, drain = 6)
+        prayer(prayer_objs.improved_reflexes, varbits.improved_reflexes, drain = 6)
+        prayer(prayer_objs.rapid_restore, varbits.rapid_restore, drain = 1)
+        prayer(prayer_objs.rapid_heal, varbits.rapid_heal, drain = 2)
+        prayer(prayer_objs.protect_item, varbits.protect_item, drain = 2)
+        prayer(prayer_objs.steel_skin, varbits.steel_skin, drain = 12)
+        prayer(prayer_objs.ultimate_strength, varbits.ultimate_strength, drain = 12)
+        prayer(prayer_objs.incredible_reflexes, varbits.incredible_reflexes, drain = 12)
         prayer(
             prayer_objs.protect_from_magic,
             varbits.protect_from_magic,
-            prayer_constants.overhead_protect_from_magic,
+            constants.overhead_protect_from_magic,
+            drain = 12,
         )
         prayer(
             prayer_objs.protect_from_missiles,
             varbits.protect_from_missiles,
-            prayer_constants.overhead_protect_from_missiles,
+            constants.overhead_protect_from_missiles,
+            drain = 12,
         )
         prayer(
             prayer_objs.protect_from_melee,
             varbits.protect_from_melee,
-            prayer_constants.overhead_protect_from_melee,
+            constants.overhead_protect_from_melee,
+            drain = 12,
         )
-        prayer(prayer_objs.retribution, varbits.retribution, prayer_constants.overhead_retribution)
-        prayer(prayer_objs.redemption, varbits.redemption, prayer_constants.overhead_redemption)
-        prayer(prayer_objs.smite, varbits.smite, prayer_constants.overhead_smite)
-        prayer(prayer_objs.sharp_eye, varbits.sharp_eye)
-        prayer(prayer_objs.mystic_will, varbits.mystic_will)
-        prayer(prayer_objs.hawk_eye, varbits.hawk_eye)
-        prayer(prayer_objs.mystic_lore, varbits.mystic_lore)
-        prayer(prayer_objs.eagle_eye, varbits.eagle_eye)
-        prayer(prayer_objs.mystic_might, varbits.mystic_might)
+        prayer(
+            prayer_objs.retribution,
+            varbits.retribution,
+            constants.overhead_retribution,
+            drain = 3,
+        )
+        prayer(prayer_objs.redemption, varbits.redemption, constants.overhead_redemption, drain = 6)
+        prayer(prayer_objs.smite, varbits.smite, constants.overhead_smite, drain = 18)
+        prayer(prayer_objs.sharp_eye, varbits.sharp_eye, drain = 3)
+        prayer(prayer_objs.mystic_will, varbits.mystic_will, drain = 3)
+        prayer(prayer_objs.hawk_eye, varbits.hawk_eye, drain = 6)
+        prayer(prayer_objs.mystic_lore, varbits.mystic_lore, drain = 6)
+        prayer(prayer_objs.eagle_eye, varbits.eagle_eye, drain = 12)
+        prayer(prayer_objs.mystic_might, varbits.mystic_might, drain = 12)
         prayer(
             prayer_objs.preserve,
             varbits.preserve,
+            drain = 2,
             unlock = varbits.preserve_unlocked,
             "You need a <col=000080>Prayer</col> level of 55 and to have " +
                 "learnt the prayer in<br>order to use <col=000080>Preserve</col>.",
@@ -91,6 +101,7 @@ internal object PrayerTabObjEditor : ObjEditor() {
         prayer(
             prayer_objs.chivalry,
             varbits.chivalry,
+            drain = 24,
             unlock = varbits.kr_knightwaves_state,
             unlockState = 8,
             defenceReq = 65,
@@ -102,6 +113,7 @@ internal object PrayerTabObjEditor : ObjEditor() {
         prayer(
             prayer_objs.piety,
             varbits.piety,
+            drain = 24,
             unlock = varbits.kr_knightwaves_state,
             unlockState = 8,
             defenceReq = 70,
@@ -113,6 +125,7 @@ internal object PrayerTabObjEditor : ObjEditor() {
         prayer(
             prayer_objs.rigour,
             varbits.rigour,
+            drain = 24,
             unlock = varbits.rigour_unlocked,
             defenceReq = 70,
             "You need a <col=000080>Prayer</col> level of 74, a " +
@@ -122,6 +135,7 @@ internal object PrayerTabObjEditor : ObjEditor() {
         prayer(
             prayer_objs.augury,
             varbits.augury,
+            drain = 24,
             unlock = varbits.augury_unlocked,
             defenceReq = 70,
             "You need a <col=000080>Prayer</col> level of 77, a " +
@@ -130,25 +144,31 @@ internal object PrayerTabObjEditor : ObjEditor() {
         )
     }
 
-    private fun prayer(type: ObjType, varbit: VarBitType) {
-        edit(type) { param[prayer_params.varbit] = varbit }
+    private fun prayer(type: ObjType, varbit: VarBitType, drain: Int) {
+        edit(type) {
+            param[prayer_params.varbit] = varbit
+            param[prayer_params.drain_effect] = drain
+        }
     }
 
-    private fun prayer(type: ObjType, varbit: VarBitType, overhead: Int) {
+    private fun prayer(type: ObjType, varbit: VarBitType, overhead: Int, drain: Int) {
         edit(type) {
             param[prayer_params.varbit] = varbit
             param[prayer_params.overhead] = overhead
+            param[prayer_params.drain_effect] = drain
         }
     }
 
     private fun prayer(
         type: ObjType,
         varbit: VarBitType,
+        drain: Int,
         unlock: VarBitType,
         lockedMessage: String,
     ) {
         edit(type) {
             param[prayer_params.varbit] = varbit
+            param[prayer_params.drain_effect] = drain
             param[prayer_params.unlock_varbit] = unlock
             param[prayer_params.locked_message] = lockedMessage
         }
@@ -157,12 +177,14 @@ internal object PrayerTabObjEditor : ObjEditor() {
     private fun prayer(
         type: ObjType,
         varbit: VarBitType,
+        drain: Int,
         unlock: VarBitType,
         defenceReq: Int,
         lockedMessage: String,
     ) {
         edit(type) {
             param[prayer_params.varbit] = varbit
+            param[prayer_params.drain_effect] = drain
             param[prayer_params.unlock_varbit] = unlock
             param[prayer_params.locked_message] = lockedMessage
             param[params.statreq1_skill] = stats.defence
@@ -173,6 +195,7 @@ internal object PrayerTabObjEditor : ObjEditor() {
     private fun prayer(
         type: ObjType,
         varbit: VarBitType,
+        drain: Int,
         unlock: VarBitType,
         unlockState: Int,
         defenceReq: Int,
@@ -180,6 +203,7 @@ internal object PrayerTabObjEditor : ObjEditor() {
     ) {
         edit(type) {
             param[prayer_params.varbit] = varbit
+            param[prayer_params.drain_effect] = drain
             param[prayer_params.unlock_varbit] = unlock
             param[prayer_params.unlock_state] = unlockState
             param[prayer_params.locked_message] = lockedMessage

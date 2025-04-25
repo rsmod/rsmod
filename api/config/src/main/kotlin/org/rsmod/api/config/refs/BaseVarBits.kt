@@ -128,6 +128,8 @@ object BaseVarBits : VarBitReferences() {
     val date_secs_past_minute = find("date_seconds_past_minute", 158529050174475)
 
     /* Server-side-only types */
+    val prayer_drain_counter = find("prayer_drain_counter")
+    val prayer_drain_resistance = find("prayer_drain_resistance")
     val new_player_account = find("new_player_account")
     val saved_autocast_spell_staff = find("saved_autocast_spell_staff")
     val saved_defensive_casting_staff = find("saved_defensive_casting_staff")

@@ -8,25 +8,28 @@ import org.rsmod.api.config.refs.varbits
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.protect.ProtectedAccessLauncher
+import org.rsmod.api.player.stat.prayerLvl
 import org.rsmod.api.player.ui.ifClose
 import org.rsmod.api.player.ui.ifCloseOverlay
 import org.rsmod.api.player.ui.ifOpenSub
 import org.rsmod.api.player.ui.ifSetEvents
 import org.rsmod.api.player.vars.intVarBit
+import org.rsmod.api.player.vars.resyncVar
 import org.rsmod.api.script.onIfClose
 import org.rsmod.api.script.onIfOpen
 import org.rsmod.api.script.onIfOverlayButton
 import org.rsmod.api.script.onPlayerQueue
 import org.rsmod.content.interfaces.prayer.tab.Prayer
 import org.rsmod.content.interfaces.prayer.tab.PrayerRepository
-import org.rsmod.content.interfaces.prayer.tab.configs.PrayerTabConstants
 import org.rsmod.content.interfaces.prayer.tab.configs.prayer_components
 import org.rsmod.content.interfaces.prayer.tab.configs.prayer_interfaces
 import org.rsmod.content.interfaces.prayer.tab.configs.prayer_queues
 import org.rsmod.content.interfaces.prayer.tab.configs.prayer_sounds
 import org.rsmod.content.interfaces.prayer.tab.configs.prayer_varbits
-import org.rsmod.content.interfaces.prayer.tab.util.disablePrayerStatDrain
-import org.rsmod.content.interfaces.prayer.tab.util.enablePrayerStatDrain
+import org.rsmod.content.interfaces.prayer.tab.util.disablePrayerDrain
+import org.rsmod.content.interfaces.prayer.tab.util.disablePrayerStatRegen
+import org.rsmod.content.interfaces.prayer.tab.util.enablePrayerDrain
+import org.rsmod.content.interfaces.prayer.tab.util.enablePrayerStatRegen
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.type.interf.IfButtonOp
@@ -85,34 +88,42 @@ constructor(
 
         if (quickPrayerVars == 0) {
             mes("You haven't selected any quick-prayers.")
-            vars[varbits.quickprayer_active] = 0
+            player.resyncVar(varbits.quickprayer_active)
             return
         }
 
-        val enabledPrayers = vars[varbits.enabled_prayers].toPrayerList()
+        if (player.prayerLvl == 0) {
+            mes("You've run out of prayer points.")
+            player.resyncVar(varbits.quickprayer_active)
+            return
+        }
+
+        val enabledPrayers = repo.toPrayerList(vars[varbits.enabled_prayers])
         for (prayer in enabledPrayers) {
-            disablePrayerStatDrain(prayer)
+            disablePrayerStatRegen(prayer)
         }
         disableOverhead()
         vars[varbits.enabled_prayers] = quickPrayerVars
         vars[varbits.quickprayer_active] = 1
 
-        val quickPrayers = quickPrayerVars.toPrayerList()
+        val quickPrayers = repo.toPrayerList(quickPrayerVars)
         for (prayer in quickPrayers) {
             vars[prayer.enabled] = 1
             soundSynth(prayer.sound)
-            enablePrayerStatDrain(prayer)
+            enablePrayerStatRegen(prayer)
             if (prayer.overhead != null) {
                 player.overheadIcon = prayer.overhead
             }
         }
+        enablePrayerDrain()
     }
 
     private fun ProtectedAccess.disableQuickPrayers() {
-        val enabledPrayers = vars[varbits.enabled_prayers].toPrayerList()
+        val enabledPrayers = repo.toPrayerList(vars[varbits.enabled_prayers])
         for (prayer in enabledPrayers) {
-            disablePrayerStatDrain(prayer)
+            disablePrayerStatRegen(prayer)
         }
+        disablePrayerDrain()
         disableOverhead()
         vars[varbits.enabled_prayers] = 0
         vars[varbits.quickprayer_active] = 0
@@ -121,13 +132,10 @@ constructor(
 
     private fun ProtectedAccess.disableOverhead() {
         val overhead = player.overheadIcon ?: return
-        if (PrayerTabConstants.isOverhead(overhead)) {
+        if (constants.isOverhead(overhead)) {
             player.overheadIcon = null
         }
     }
-
-    private fun Int.toPrayerList(): List<Prayer> =
-        repo.prayerList.filter { this and (1 shl it.id) != 0 }
 
     private fun Player.selectSetUpQuickPrayers() {
         val setUp = protectedAccess.launch(this) { setUpQuickPrayers() }

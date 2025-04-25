@@ -159,6 +159,7 @@
 1802	slayer_task_boss_location
 1935	spell_maxhit
 
+65387	prayer_drain_effect
 65388	charged_variant
 65389	uncharged_variant
 65390	spell_telecoord

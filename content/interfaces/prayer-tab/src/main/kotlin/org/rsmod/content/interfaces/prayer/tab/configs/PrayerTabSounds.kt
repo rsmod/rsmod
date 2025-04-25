@@ -6,4 +6,5 @@ internal typealias prayer_sounds = PrayerTabSounds
 
 object PrayerTabSounds : SynthReferences() {
     val disable = find("prayer_disable")
+    val drain = find("prayer_drain")
 }

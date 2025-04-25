@@ -5,6 +5,18 @@ import org.rsmod.api.type.builders.varbit.VarBitBuilder
 
 internal object VarBitBuilds : VarBitBuilder() {
     init {
+        build("prayer_drain_counter") {
+            baseVar = varps.prayer_drain
+            startBit = 0
+            endBit = 15
+        }
+
+        build("prayer_drain_resistance") {
+            baseVar = varps.prayer_drain
+            startBit = 16
+            endBit = 31
+        }
+
         build("new_player_account") {
             baseVar = varps.generic_temp_state_65516
             startBit = 0

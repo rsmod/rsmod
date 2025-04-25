@@ -10,6 +10,7 @@ import org.rsmod.game.type.varp.VarpType
 
 internal var Player.enabledPrayers by intVarBit(varbits.enabled_prayers)
 internal var Player.usingQuickPrayers by boolVarBit(varbits.quickprayer_active)
+internal var Player.prayerDrainCounter by intVarBit(varbits.prayer_drain_counter)
 
 private var Player.varSpeed: MoveSpeed by typeIntVarp(varps.option_run, ::getSpeed, ::getSpeedId)
 

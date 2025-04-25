@@ -19,6 +19,7 @@ object PrayerTabParams : ParamReferences() {
     val unlock_varbit = find<VarBitType>("prayer_unlock_varbit")
     val unlock_state = find<Int>("prayer_unlock_state")
     val locked_message = find<String>("prayer_locked_message")
+    val drain_effect = find<Int>("prayer_drain_effect")
 }
 
 internal object PrayerTabParamBuilder : ParamBuilder() {
@@ -28,5 +29,6 @@ internal object PrayerTabParamBuilder : ParamBuilder() {
         build<VarBitType>("prayer_unlock_varbit")
         build<Int>("prayer_unlock_state") { default = 1 }
         build<String>("prayer_locked_message")
+        build<Int>("prayer_drain_effect")
     }
 }

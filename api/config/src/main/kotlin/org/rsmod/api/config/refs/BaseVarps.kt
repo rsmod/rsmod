@@ -64,6 +64,7 @@ object BaseVarps : VarpReferences() {
     val date_vars = find("date_vars", 698424318)
 
     /* Server-side-only types */
+    val prayer_drain = find("prayer_drain")
     val playtime = find("playtime")
     val generic_temp_state_65516 = find("generic_temp_state_65516")
     val dinhs_passive_delay = find("dinhs_passive_delay")
