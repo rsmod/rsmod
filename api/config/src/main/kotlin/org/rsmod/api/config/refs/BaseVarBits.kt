@@ -7,6 +7,11 @@ import org.rsmod.api.type.refs.varbit.VarBitReferences
 typealias varbits = BaseVarBits
 
 object BaseVarBits : VarBitReferences() {
+    val stamina_active = find("stamina_active", 81145461762806)
+    val stamina_duration = find("stamina_duration", 14272015789523)
+    val stamina_duration_extra = find("stamina_duration_extra", 14272015867960)
+    val buff_stamina_duration_disabled = find("buff_stamina_duration_disabled", 158374502904462)
+
     val side_journal_tab = find("side_journal_tab", 58785619230382)
 
     val rune_pouch_type_1 = find("rune_pouch_type_1", 58682578458515)
@@ -128,6 +133,7 @@ object BaseVarBits : VarBitReferences() {
     val date_secs_past_minute = find("date_seconds_past_minute", 158529050174475)
 
     /* Server-side-only types */
+    val improved_stamina_passive = find("improved_stamina_passive")
     val prayer_drain_counter = find("prayer_drain_counter")
     val prayer_drain_resistance = find("prayer_drain_resistance")
     val new_player_account = find("new_player_account")

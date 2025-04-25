@@ -23,6 +23,12 @@ internal object VarBitBuilds : VarBitBuilder() {
             endBit = 0
         }
 
+        build("improved_stamina_passive") {
+            baseVar = varps.generic_temp_state_65516
+            startBit = 1
+            endBit = 1
+        }
+
         build("saved_defensive_casting_staff") {
             baseVar = varps.saved_autocast_state_staff
             startBit = 0

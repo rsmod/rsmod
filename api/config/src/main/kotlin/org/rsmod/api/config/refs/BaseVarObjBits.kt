@@ -19,6 +19,12 @@ object BaseVarObjBits : VarObjBitBuilder() {
             endBit = 14
         }
 
+    val stamina_charges =
+        build("stamina_charges") {
+            startBit = 0
+            endBit = 10
+        }
+
     val snakeboss_blowpipe_darrtype =
         build("snakeboss_blowpipe_darttype") {
             startBit = 0

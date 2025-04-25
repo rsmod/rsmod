@@ -24,6 +24,8 @@ import org.rsmod.map.CoordGrid
 
 internal object ParamBuilds : ParamBuilder() {
     init {
+        build<Int>("graceful_restore_rate")
+
         build<ObjType>("charged_variant")
         build<ObjType>("uncharged_variant")
 

@@ -31,6 +31,7 @@ internal object ObjEdits : ObjEditor() {
         editMaxCapes()
         editGeneralStorage()
         editBoneWeapons()
+        editGracefulSets()
     }
 
     private fun editSkillCapes() {
@@ -243,5 +244,124 @@ internal object ObjEdits : ObjEditor() {
 
     private fun boneWeapon(type: ObjType) {
         edit(type) { param[params.bone_weapon] = 1 }
+    }
+
+    private fun editGracefulSets() {
+        gracefulHood(objs.graceful_hood_inv, objs.graceful_hood_worn)
+        gracefulCape(objs.graceful_cape_inv, objs.graceful_cape_worn)
+        gracefulTop(objs.graceful_top_inv, objs.graceful_top_worn)
+        gracefulLegs(objs.graceful_legs_inv, objs.graceful_legs_worn)
+        gracefulGloves(objs.graceful_gloves_inv, objs.graceful_gloves_worn)
+        gracefulBoots(objs.graceful_boots_inv, objs.graceful_boots_worn)
+
+        gracefulHood(objs.arceuus_graceful_hood_inv, objs.arceuus_graceful_hood_worn)
+        gracefulCape(objs.arceuus_graceful_cape_inv, objs.arceuus_graceful_cape_worn)
+        gracefulTop(objs.arceuus_graceful_top_inv, objs.arceuus_graceful_top_worn)
+        gracefulLegs(objs.arceuus_graceful_legs_inv, objs.arceuus_graceful_legs_worn)
+        gracefulGloves(objs.arceuus_graceful_gloves_inv, objs.arceuus_graceful_gloves_worn)
+        gracefulBoots(objs.arceuus_graceful_boots_inv, objs.arceuus_graceful_boots_worn)
+
+        gracefulHood(objs.piscarilius_graceful_hood_inv, objs.piscarilius_graceful_hood_worn)
+        gracefulCape(objs.piscarilius_graceful_cape_inv, objs.piscarilius_graceful_cape_worn)
+        gracefulTop(objs.piscarilius_graceful_top_inv, objs.piscarilius_graceful_top_worn)
+        gracefulLegs(objs.piscarilius_graceful_legs_inv, objs.piscarilius_graceful_legs_worn)
+        gracefulGloves(objs.piscarilius_graceful_gloves_inv, objs.piscarilius_graceful_gloves_worn)
+        gracefulBoots(objs.piscarilius_graceful_boots_inv, objs.piscarilius_graceful_boots_worn)
+
+        gracefulHood(objs.lovakengj_graceful_hood_inv, objs.lovakengj_graceful_hood_worn)
+        gracefulCape(objs.lovakengj_graceful_cape_inv, objs.lovakengj_graceful_cape_worn)
+        gracefulTop(objs.lovakengj_graceful_top_inv, objs.lovakengj_graceful_top_worn)
+        gracefulLegs(objs.lovakengj_graceful_legs_inv, objs.lovakengj_graceful_legs_worn)
+        gracefulGloves(objs.lovakengj_graceful_gloves_inv, objs.lovakengj_graceful_gloves_worn)
+        gracefulBoots(objs.lovakengj_graceful_boots_inv, objs.lovakengj_graceful_boots_worn)
+
+        gracefulHood(objs.shayzien_graceful_hood_inv, objs.shayzien_graceful_hood_worn)
+        gracefulCape(objs.shayzien_graceful_cape_inv, objs.shayzien_graceful_cape_worn)
+        gracefulTop(objs.shayzien_graceful_top_inv, objs.shayzien_graceful_top_worn)
+        gracefulLegs(objs.shayzien_graceful_legs_inv, objs.shayzien_graceful_legs_worn)
+        gracefulGloves(objs.shayzien_graceful_gloves_inv, objs.shayzien_graceful_gloves_worn)
+        gracefulBoots(objs.shayzien_graceful_boots_inv, objs.shayzien_graceful_boots_worn)
+
+        gracefulHood(objs.hosidius_graceful_hood_inv, objs.hosidius_graceful_hood_worn)
+        gracefulCape(objs.hosidius_graceful_cape_inv, objs.hosidius_graceful_cape_worn)
+        gracefulTop(objs.hosidius_graceful_top_inv, objs.hosidius_graceful_top_worn)
+        gracefulLegs(objs.hosidius_graceful_legs_inv, objs.hosidius_graceful_legs_worn)
+        gracefulGloves(objs.hosidius_graceful_gloves_inv, objs.hosidius_graceful_gloves_worn)
+        gracefulBoots(objs.hosidius_graceful_boots_inv, objs.hosidius_graceful_boots_worn)
+
+        gracefulHood(objs.kourend_graceful_hood_inv, objs.kourend_graceful_hood_worn)
+        gracefulCape(objs.kourend_graceful_cape_inv, objs.kourend_graceful_cape_worn)
+        gracefulTop(objs.kourend_graceful_top_inv, objs.kourend_graceful_top_worn)
+        gracefulLegs(objs.kourend_graceful_legs_inv, objs.kourend_graceful_legs_worn)
+        gracefulGloves(objs.kourend_graceful_gloves_inv, objs.kourend_graceful_gloves_worn)
+        gracefulBoots(objs.kourend_graceful_boots_inv, objs.kourend_graceful_boots_worn)
+
+        gracefulHood(objs.skillcape_graceful_hood_inv, objs.skillcape_graceful_hood_worn)
+        gracefulCape(objs.skillcape_graceful_cape_inv, objs.skillcape_graceful_cape_worn)
+        gracefulTop(objs.skillcape_graceful_top_inv, objs.skillcape_graceful_top_worn)
+        gracefulLegs(objs.skillcape_graceful_legs_inv, objs.skillcape_graceful_legs_worn)
+        gracefulGloves(objs.skillcape_graceful_gloves_inv, objs.skillcape_graceful_gloves_worn)
+        gracefulBoots(objs.skillcape_graceful_boots_inv, objs.skillcape_graceful_boots_worn)
+
+        gracefulHood(objs.hallowed_graceful_hood_inv, objs.hallowed_graceful_hood_worn)
+        gracefulCape(objs.hallowed_graceful_cape_inv, objs.hallowed_graceful_cape_worn)
+        gracefulTop(objs.hallowed_graceful_top_inv, objs.hallowed_graceful_top_worn)
+        gracefulLegs(objs.hallowed_graceful_legs_inv, objs.hallowed_graceful_legs_worn)
+        gracefulGloves(objs.hallowed_graceful_gloves_inv, objs.hallowed_graceful_gloves_worn)
+        gracefulBoots(objs.hallowed_graceful_boots_inv, objs.hallowed_graceful_boots_worn)
+
+        gracefulHood(objs.trailblazer_graceful_hood_inv, objs.trailblazer_graceful_hood_worn)
+        gracefulCape(objs.trailblazer_graceful_cape_inv, objs.trailblazer_graceful_cape_worn)
+        gracefulTop(objs.trailblazer_graceful_top_inv, objs.trailblazer_graceful_top_worn)
+        gracefulLegs(objs.trailblazer_graceful_legs_inv, objs.trailblazer_graceful_legs_worn)
+        gracefulGloves(objs.trailblazer_graceful_gloves_inv, objs.trailblazer_graceful_gloves_worn)
+        gracefulBoots(objs.trailblazer_graceful_boots_inv, objs.trailblazer_graceful_boots_worn)
+
+        gracefulHood(objs.adventurer_graceful_hood_inv, objs.adventurer_graceful_hood_worn)
+        gracefulCape(objs.adventurer_graceful_cape_inv, objs.adventurer_graceful_cape_worn)
+        gracefulTop(objs.adventurer_graceful_top_inv, objs.adventurer_graceful_top_worn)
+        gracefulLegs(objs.adventurer_graceful_legs_inv, objs.adventurer_graceful_legs_worn)
+        gracefulGloves(objs.adventurer_graceful_gloves_inv, objs.adventurer_graceful_gloves_worn)
+        gracefulBoots(objs.adventurer_graceful_boots_inv, objs.adventurer_graceful_boots_worn)
+
+        gracefulHood(objs.wyrm_graceful_hood_inv, objs.wyrm_graceful_hood_worn)
+        gracefulCape(objs.wyrm_graceful_cape_inv, objs.wyrm_graceful_cape_worn)
+        gracefulTop(objs.wyrm_graceful_top_inv, objs.wyrm_graceful_top_worn)
+        gracefulLegs(objs.wyrm_graceful_legs_inv, objs.wyrm_graceful_legs_worn)
+        gracefulGloves(objs.wyrm_graceful_gloves_inv, objs.wyrm_graceful_gloves_worn)
+        gracefulBoots(objs.wyrm_graceful_boots_inv, objs.wyrm_graceful_boots_worn)
+    }
+
+    private fun gracefulHood(inv: ObjType, worn: ObjType) {
+        gracefulPiece(inv, worn, restoreRate = 300)
+    }
+
+    private fun gracefulTop(inv: ObjType, worn: ObjType) {
+        gracefulPiece(inv, worn, restoreRate = 400)
+    }
+
+    private fun gracefulLegs(inv: ObjType, worn: ObjType) {
+        gracefulPiece(inv, worn, restoreRate = 400)
+    }
+
+    private fun gracefulGloves(inv: ObjType, worn: ObjType) {
+        gracefulPiece(inv, worn, restoreRate = 300)
+    }
+
+    private fun gracefulBoots(inv: ObjType, worn: ObjType) {
+        gracefulPiece(inv, worn, restoreRate = 300)
+    }
+
+    private fun gracefulCape(inv: ObjType, worn: ObjType) {
+        gracefulPiece(inv, worn, restoreRate = 300)
+    }
+
+    private fun gracefulPiece(inv: ObjType, worn: ObjType, restoreRate: Int) {
+        edit(inv) { transformlink = worn }
+        edit(worn) {
+            param[params.graceful_restore_rate] = restoreRate
+            transformlink = inv
+            transformtemplate = objs.template_for_transform
+        }
     }
 }

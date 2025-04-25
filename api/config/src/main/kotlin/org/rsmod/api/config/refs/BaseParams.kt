@@ -86,6 +86,8 @@ object BaseParams : ParamReferences() {
     val kalphite: ParamInt = find("kalphite", 88687193509)
 
     /* Server-side only types */
+    /** Run restoration rate from values 0 to 10,000 (where 10,000 = +100%) */
+    val graceful_restore_rate: ParamInt = find("graceful_restore_rate")
     val charged_variant: ParamObj = find("charged_variant")
     val uncharged_variant: ParamObj = find("uncharged_variant")
     val spell_telecoord: ParamCoord = find("spell_telecoord")
