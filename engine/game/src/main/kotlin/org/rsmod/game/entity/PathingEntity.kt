@@ -32,7 +32,6 @@ import org.rsmod.utils.sorting.QuickSort
 @OptIn(InternalApi::class)
 public sealed class PathingEntity {
     public abstract val avatar: PathingEntityAvatar
-    public abstract val isBusy: Boolean
 
     public abstract val collisionStrategy: CollisionStrategy?
     public abstract val blockWalkCollisionFlag: Int?
@@ -141,15 +140,6 @@ public sealed class PathingEntity {
     public val size: Int
         get() = avatar.size
 
-    public val isDelayed: Boolean
-        get() = delay > processedMapClock
-
-    public val isNotDelayed: Boolean
-        get() = !isDelayed
-
-    public val canProcess: Boolean
-        get() = isNotDelayed && !hidden
-
     public val hasMovedThisCycle: Boolean
         get() = lastMovement >= processedMapClock
 
@@ -158,21 +148,6 @@ public sealed class PathingEntity {
 
     public val cyclesWithoutMovement: Int
         get() = processedMapClock - lastMovement
-
-    /**
-     * Returns `true` if the entity has a pending interaction or active route waypoint.
-     *
-     * _Note: Terrible name, but used for consistency with official naming._
-     */
-    public val isBusy2: Boolean
-        get() = interaction != null || routeDestination.isNotEmpty()
-
-    /**
-     * Returns `true` if the entity does not have a pending interaction or an active route waypoint.
-     * In other words, returns the inverse of [isBusy2].
-     */
-    public val isIdle: Boolean
-        get() = !isBusy2
 
     public val isFacingEntity: Boolean
         get() = faceEntity != EntityFaceTarget.NULL

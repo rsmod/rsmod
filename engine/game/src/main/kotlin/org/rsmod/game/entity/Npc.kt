@@ -41,9 +41,6 @@ public class Npc(
         this.spawnCoords = coords
     }
 
-    override val isBusy: Boolean
-        get() = isDelayed
-
     override val blockWalkCollisionFlag: Int?
         get() = blockWalk.collisionFlag
 
@@ -112,6 +109,18 @@ public class Npc(
         private set
 
     public var cachedHitmark: HitmarkTypeGroup? = null
+
+    public val isDelayed: Boolean
+        get() = delay > processedMapClock
+
+    public val isNotDelayed: Boolean
+        get() = !isDelayed
+
+    public val isBusy: Boolean
+        get() = isDelayed
+
+    public val canProcess: Boolean
+        get() = isNotDelayed && isVisible
 
     public val id: Int
         get() = type.id

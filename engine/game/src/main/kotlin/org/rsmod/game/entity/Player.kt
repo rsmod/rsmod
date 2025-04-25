@@ -61,9 +61,6 @@ public class Player(
         pendingSequence = EntitySeq.ZERO
     }
 
-    public override val isBusy: Boolean
-        get() = isDelayed || ui.modals.isNotEmpty()
-
     override val collisionStrategy: CollisionStrategy = CollisionStrategy.Normal
 
     override val blockWalkCollisionFlag: Int = CollisionFlag.BLOCK_NPCS
@@ -256,8 +253,22 @@ public class Player(
     public var dropTrigger: DropTriggerType? = null
         private set
 
+    public val isDelayed: Boolean
+        get() = delay > processedMapClock
+
+    public val isNotDelayed: Boolean
+        get() = !isDelayed
+
+    public val isBusy: Boolean
+        get() = isDelayed || ui.modals.isNotEmpty()
+
+    /** Returns `true` if the entity has a pending interaction or active route waypoint. */
+    // Note: Terrible name, but used for consistency with official naming.
+    public val isBusy2: Boolean
+        get() = interaction != null || routeDestination.isNotEmpty()
+
     public val isAccessProtected: Boolean
-        get() = isBusy || activeCoroutine?.isSuspended == true
+        get() = (isBusy || activeCoroutine?.isSuspended == true)
 
     public val isModalButtonProtected: Boolean
         get() = isDelayed || activeCoroutine?.isSuspended == true
