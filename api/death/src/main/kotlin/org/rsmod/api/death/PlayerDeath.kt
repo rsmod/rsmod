@@ -2,7 +2,6 @@ package org.rsmod.api.death
 
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
-import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.components
 import org.rsmod.api.config.refs.jingles
 import org.rsmod.api.config.refs.midis
@@ -19,7 +18,6 @@ import org.rsmod.map.CoordGrid
 
 @Singleton
 public class PlayerDeath @Inject constructor(private val statTypes: StatTypeList) {
-    private var Player.specialAttackEnergy by intVarp(varps.sa_energy)
     private var Player.specialAttackType by intVarp(varps.sa_attack)
 
     public suspend fun death(access: ProtectedAccess) {
@@ -64,7 +62,6 @@ public class PlayerDeath @Inject constructor(private val statTypes: StatTypeList
         player.deathResetTimers()
 
         player.specialAttackType = 0
-        player.specialAttackEnergy = constants.sa_max_energy
         player.skullIcon = null
 
         rebuildAppearance()
