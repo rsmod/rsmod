@@ -12,6 +12,7 @@ import org.rsmod.api.config.refs.hitmark_groups
 import org.rsmod.api.config.refs.invs
 import org.rsmod.api.config.refs.objs
 import org.rsmod.api.config.refs.queues
+import org.rsmod.api.config.refs.varps
 import org.rsmod.api.invtx.invAdd
 import org.rsmod.api.invtx.invAddAll
 import org.rsmod.api.invtx.invAddOrDrop
@@ -108,6 +109,7 @@ import org.rsmod.api.player.ui.ifSetObj
 import org.rsmod.api.player.ui.ifSetPlayerHead
 import org.rsmod.api.player.ui.ifSetText
 import org.rsmod.api.player.vars.VarPlayerIntMapDelegate
+import org.rsmod.api.player.vars.resyncVar
 import org.rsmod.api.player.vars.setActiveMoveSpeed
 import org.rsmod.api.player.vars.varMoveSpeed
 import org.rsmod.api.player.worn.HeldEquipResult
@@ -303,6 +305,11 @@ public class ProtectedAccess(
     }
 
     public fun toggleRun() {
+        if (player.runEnergy < 100) {
+            spam("You don't have enough energy left to run!")
+            player.resyncVar(varps.option_run)
+            return
+        }
         val speed = if (player.varMoveSpeed == MoveSpeed.Run) MoveSpeed.Walk else MoveSpeed.Run
         player.setActiveMoveSpeed(speed)
     }

@@ -35,6 +35,7 @@ public fun Player.resyncVar(varBit: VarBitType): Unit = resyncVar(varBit.baseVar
 public fun Player.setActiveMoveSpeed(speed: MoveSpeed) {
     varMoveSpeed = speed
     moveSpeed = varMoveSpeed
+    tempMoveSpeed = varMoveSpeed
 }
 
 private fun getSpeed(id: Int): MoveSpeed =
@@ -53,7 +54,7 @@ private fun getSpeedId(speed: MoveSpeed): Int =
 
 // TODO: invert run mode setting to disable this
 public fun Player.ctrlMoveSpeed(): MoveSpeed =
-    if (varMoveSpeed == MoveSpeed.Run) {
+    if (varMoveSpeed == MoveSpeed.Run || runEnergy < 100) {
         MoveSpeed.Walk
     } else {
         MoveSpeed.Run
