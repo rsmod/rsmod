@@ -201,6 +201,8 @@ public class Player(
      *   processing in the game loop. This immediately attempts to log the player out.
      * - Manual logout: when the player clicks the logout button. This checks for and sends the
      *   `preventLogoutMessage`, when applicable.
+     * - Shutdown: when the server is shutting down. This bypasses busy and delay conditions
+     *   and will keep attempting to log the player out in a tight loop.
      */
     public val clientDisconnected: AtomicBoolean = AtomicBoolean(false)
     public var clientDisconnectedCycles: Int = 0
@@ -210,6 +212,8 @@ public class Player(
     public var loggingOut: Boolean = false
     public var pendingCloseClient: Boolean = false
     public var closeClient: Boolean = false
+    /** This flag should only be set when the game server is in the process of shutting down. */
+    public var pendingShutdown: Boolean = false
 
     public var preventLogoutMessage: String? = null
     public var preventLogoutUntil: Int = Int.MIN_VALUE
@@ -254,7 +258,7 @@ public class Player(
         private set
 
     public val isDelayed: Boolean
-        get() = delay > processedMapClock
+        get() = delay > processedMapClock && !pendingShutdown
 
     public val isNotDelayed: Boolean
         get() = !isDelayed
@@ -268,7 +272,7 @@ public class Player(
         get() = interaction != null || routeDestination.isNotEmpty()
 
     public val isAccessProtected: Boolean
-        get() = (isBusy || activeCoroutine?.isSuspended == true)
+        get() = (isBusy || activeCoroutine?.isSuspended == true) && !pendingShutdown
 
     public val isModalButtonProtected: Boolean
         get() = isDelayed || activeCoroutine?.isSuspended == true

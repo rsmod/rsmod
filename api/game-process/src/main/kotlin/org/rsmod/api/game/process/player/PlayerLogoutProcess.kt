@@ -30,11 +30,21 @@ constructor(
     private fun processPendingLogouts() {
         for (player in playerList) {
             player.tryOrDisconnect {
+                processServerShutdown()
                 processForcedDisconnect()
                 processClientDisconnect()
                 processManualLogout()
                 processPendingLogout()
             }
+        }
+    }
+
+    private fun Player.processServerShutdown() {
+        if (pendingShutdown && !loggingOut && !pendingLogout) {
+            queueLogout()
+            closeClient()
+            forceDisconnect = false
+            clientDisconnected.set(false)
         }
     }
 

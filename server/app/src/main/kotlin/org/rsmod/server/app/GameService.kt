@@ -6,16 +6,24 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.ThreadFactory
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.system.measureNanoTime
 import kotlinx.coroutines.delay
 import org.rsmod.game.GameProcess
-import org.rsmod.server.services.concurrent.ScheduledService
+import org.rsmod.server.services.concurrent.ScheduledListenerService
 
-class GameService @Inject constructor(private val process: GameProcess) : ScheduledService {
+class GameService @Inject constructor(private val process: GameProcess) : ScheduledListenerService {
     private val logger = InlineLogger()
+
     private var excessCycleNanos = 0L
+    private val shutdownSignaled = AtomicBoolean(false)
 
     override suspend fun run() {
+        // After `signalShutdown`, `run` may be invoked one final time - return early to avoid
+        // redundant processing.
+        if (shutdownSignaled.get()) {
+            return
+        }
         val elapsedNanos = measureNanoTime { process.cycle() } + excessCycleNanos
         val elapsedMillis = TimeUnit.NANOSECONDS.toMillis(elapsedNanos)
         val overdue = elapsedMillis > GAME_TICK_INTERVAL
@@ -51,6 +59,11 @@ class GameService @Inject constructor(private val process: GameProcess) : Schedu
         process.startup()
     }
 
+    override suspend fun signalShutdown() {
+        shutdownSignaled.set(true)
+        process.preShutdown()
+    }
+
     override suspend fun startup() {}
 
     override suspend fun shutdown() {
@@ -64,7 +77,7 @@ class GameService @Inject constructor(private val process: GameProcess) : Schedu
     }
 
     private companion object {
-        private const val GAME_TICK_INTERVAL = 600
+        private const val GAME_TICK_INTERVAL = 600L
         private const val GAME_THREAD_NAME = "game"
     }
 }

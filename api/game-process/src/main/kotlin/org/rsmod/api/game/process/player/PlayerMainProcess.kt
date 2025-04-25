@@ -119,7 +119,9 @@ constructor(
         }
     }
 
-    private fun Player.isPendingDisconnect(): Boolean = clientDisconnected.get() || forceDisconnect
+    private fun Player.isPendingDisconnect(): Boolean {
+        return clientDisconnected.get() || forceDisconnect || pendingShutdown
+    }
 
     private inline fun Player.tryOrDisconnect(block: Player.() -> Unit) =
         try {
