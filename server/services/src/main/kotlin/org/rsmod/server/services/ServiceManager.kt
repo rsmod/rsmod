@@ -20,6 +20,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.withTimeout
+import org.rsmod.server.services.concurrent.ScheduledListenerService
 import org.rsmod.server.services.concurrent.ScheduledService
 
 /**
@@ -48,9 +49,10 @@ public class ServiceManager
 private constructor(
     private val services: List<Service>,
     private val scheduled: List<ScheduledService>,
+    private val listeners: List<ScheduledListenerService>,
 ) {
     private val activeExecutors = mutableListOf<ExecutorService>()
-    private val activeCoroutineJobs = mutableListOf<Job>()
+    private val activeScopes = mutableMapOf<ScheduledService, CoroutineScope>()
     private val scheduledErrors = ConcurrentLinkedQueue<Throwable>()
 
     private val shutdownLatch = CountDownLatch(1)
@@ -125,14 +127,21 @@ private constructor(
      * _This method may only be executed once. Subsequent calls will return
      * [ShutdownResult.AlreadyShutDown]._
      *
-     * @param timeoutSecs the number of seconds to wait for coroutine cleanup and service shutdown.
-     *   The timeout is applied separately to each phase: first to the cancellation and joining of
-     *   all active [ScheduledService] coroutines and shutdown of their executors, and then to the
-     *   shutdown of all registered services. If either phase exceeds its timeout, the failure will
-     *   be recorded.
+     * @param signalTimeoutSecs the maximum time to wait for active [ScheduledListenerService] to
+     *   acknowledge a shutdown signal. This phase allows services to perform immediate preparations
+     *   (e.g., a game service fast-forwarding player processing before disconnecting players,
+     *   allowing a player-saving service to persist their data).
+     * @param cleanupTimeoutSecs the maximum time to wait for active [ScheduledService] coroutine
+     *   jobs to be canceled and their executors to be shut down.
+     * @param shutdownTimeoutSecs the maximum time to wait for all registered services to complete
+     *   their [Service.shutdown] logic.
      * @return [ShutdownResult] representing the outcome of the shutdown process.
      */
-    public fun awaitShutdown(timeoutSecs: Int = 30): ShutdownResult {
+    public fun awaitShutdown(
+        signalTimeoutSecs: Int = 30,
+        cleanupTimeoutSecs: Int = 30,
+        shutdownTimeoutSecs: Int = 30,
+    ): ShutdownResult {
         shutdownLatch.await()
 
         val canShutdown = shutdownInProgress.compareAndSet(false, true)
@@ -140,9 +149,14 @@ private constructor(
             return ShutdownResult.AlreadyShutDown
         }
 
-        val timeoutMillis = timeoutSecs * 1000L
-        cleanupThreads(timeoutMillis)
-        shutdownServices(timeoutMillis)
+        val signalTimeout = signalTimeoutSecs * 1000L
+        signalServices(signalTimeout)
+
+        val cleanupTimeout = cleanupTimeoutSecs * 1000L
+        cleanupThreads(cleanupTimeout)
+
+        val shutdownTimeout = shutdownTimeoutSecs * 1000L
+        shutdownServices(shutdownTimeout)
 
         val errors = scheduledErrors
         return if (errors.isNotEmpty()) {
@@ -184,28 +198,50 @@ private constructor(
 
     private fun scheduleService(service: ScheduledService, executor: ExecutorService) {
         val coroutineScope = CoroutineScope(SupervisorJob() + executor.asCoroutineDispatcher())
-        activeCoroutineJobs +=
-            coroutineScope.launch {
-                try {
-                    service.setup()
-                    while (isActive && !shutdownRequest.get()) {
-                        service.run()
+        activeScopes[service] = coroutineScope
+        coroutineScope.launch {
+            try {
+                service.setup()
+                while (isActive && !shutdownRequest.get()) {
+                    service.run()
+                }
+            } catch (_: CleanupException) {
+                // Noop - This is a controlled shutdown signal.
+            } catch (t: Throwable) {
+                scheduledErrors += t
+                shutdown()
+            }
+        }
+    }
+
+    private fun signalServices(timeoutMillis: Long) = runBlocking {
+        try {
+            withTimeout(timeoutMillis) {
+                supervisorScope {
+                    try {
+                        val signalJobs =
+                            listeners.map { service ->
+                                val serviceScope = activeScopes.getValue(service)
+                                serviceScope.async { service.signalShutdown() }
+                            }
+                        signalJobs.awaitAll()
+                    } catch (t: Throwable) {
+                        scheduledErrors += t
                     }
-                } catch (_: CleanupException) {
-                    // Noop - This is a controlled shutdown signal.
-                } catch (t: Throwable) {
-                    scheduledErrors += t
-                    shutdown()
                 }
             }
+        } catch (t: TimeoutCancellationException) {
+            scheduledErrors += t
+        }
     }
 
     private fun cleanupThreads(timeoutMillis: Long) = runBlocking {
-        val activeJobs = activeCoroutineJobs.filter(Job::isActive)
+        val activeScopes = activeScopes.values
+        val activeJobs = activeScopes.mapNotNull { it.coroutineContext[Job] }.filter(Job::isActive)
         activeJobs.forEach(::safeCancel)
         activeExecutors.forEach(::safeShutdown)
         try {
-            withTimeout(timeoutMillis) { activeCoroutineJobs.joinAll() }
+            withTimeout(timeoutMillis) { activeJobs.joinAll() }
         } catch (t: TimeoutCancellationException) {
             scheduledErrors += t
         }
@@ -276,9 +312,6 @@ private constructor(
         /**
          * Creates a new [ServiceManager] with the provided set of [Service] instances.
          *
-         * This function automatically extracts any [ScheduledService] implementations from the
-         * input set and manages them accordingly.
-         *
          * @param services the complete set of services to manage. May include both regular and
          *   scheduled services.
          * @return a configured [ServiceManager] instance ready for startup and shutdown
@@ -286,7 +319,8 @@ private constructor(
          */
         public fun create(services: Set<Service>): ServiceManager {
             val scheduled = services.filterIsInstance<ScheduledService>()
-            return ServiceManager(services.toList(), scheduled)
+            val listeners = services.filterIsInstance<ScheduledListenerService>()
+            return ServiceManager(services.toList(), scheduled, listeners)
         }
     }
 }
