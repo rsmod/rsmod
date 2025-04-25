@@ -24,7 +24,7 @@ import org.rsmod.api.player.worn.WornUnequipOp
 import org.rsmod.api.player.worn.WornUnequipResult
 import org.rsmod.api.script.onIfModalButton
 import org.rsmod.api.script.onIfModalDrag
-import org.rsmod.api.script.onPlayerLogIn
+import org.rsmod.api.script.onPlayerLogin
 import org.rsmod.api.script.onPlayerQueue
 import org.rsmod.content.interfaces.bank.BankTab
 import org.rsmod.content.interfaces.bank.QuantityMode
@@ -87,7 +87,7 @@ constructor(
     private val enumResolver: EnumTypeMapResolver,
 ) : PluginScript() {
     override fun ScriptContext.startUp() {
-        onPlayerLogIn { player.setDefaultCapacity() }
+        onPlayerLogin { player.setDefaultCapacity() }
 
         onIfModalButton(bank_components.side_inventory) { sideInvOp(it.comsub, it.op) }
         onIfModalButton(bank_components.main_inventory) { mainInvOp(it.comsub, it.op) }

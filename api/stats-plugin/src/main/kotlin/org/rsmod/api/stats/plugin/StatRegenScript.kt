@@ -13,7 +13,7 @@ import org.rsmod.api.player.stat.statAdd
 import org.rsmod.api.player.stat.statBase
 import org.rsmod.api.player.stat.statHeal
 import org.rsmod.api.player.stat.statSub
-import org.rsmod.api.script.onPlayerLogIn
+import org.rsmod.api.script.onPlayerLogin
 import org.rsmod.api.script.onPlayerSoftTimer
 import org.rsmod.game.entity.Player
 import org.rsmod.game.obj.isType
@@ -27,7 +27,7 @@ public class StatRegenScript @Inject constructor(private val statTypes: StatType
     private val regenStats by lazy { statTypes.values.toRegenStats() }
 
     override fun ScriptContext.startUp() {
-        onPlayerLogIn { player.initRegenTimers() }
+        onPlayerLogin { player.initRegenTimers() }
 
         onPlayerSoftTimer(timers.stat_regen) { player.statRegen() }
         onPlayerSoftTimer(timers.stat_boost_restore) { player.statBoostRestore() }

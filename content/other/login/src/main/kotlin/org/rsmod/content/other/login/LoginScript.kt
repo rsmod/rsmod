@@ -21,7 +21,7 @@ import org.rsmod.api.player.startInvTransmit
 import org.rsmod.api.player.stat.stat
 import org.rsmod.api.player.vars.boolVarBit
 import org.rsmod.api.player.vars.resyncVar
-import org.rsmod.api.script.onPlayerLogIn
+import org.rsmod.api.script.onPlayerLogin
 import org.rsmod.api.stats.levelmod.InvisibleLevels
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Player
@@ -44,10 +44,10 @@ constructor(
     private var Player.hideRoofs by boolVarBit(varbits.option_hide_rooftops)
 
     override fun ScriptContext.startUp() {
-        onPlayerLogIn { player.defaultLogIn() }
+        onPlayerLogin { player.initialLogin() }
     }
 
-    private fun Player.defaultLogIn() {
+    private fun Player.initialLogin() {
         sendHighPriority()
         sendLowPriority()
     }

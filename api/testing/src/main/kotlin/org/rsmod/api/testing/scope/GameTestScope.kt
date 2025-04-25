@@ -252,7 +252,7 @@ constructor(
         if (player.invMap.isEmpty()) {
             invMapInit.init(player)
         }
-        eventBus.publish(SessionStateEvent.LogIn(player))
+        eventBus.publish(SessionStateEvent.Login(player))
         return player
     }
 

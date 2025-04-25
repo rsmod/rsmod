@@ -44,7 +44,7 @@ public class BasicGameTestScope(private val eventBus: EventBus) {
         player.slotId = slot
         playerList[slot] = player
         eventBus.publish(SessionStateEvent.Initialize(player))
-        eventBus.publish(SessionStateEvent.LogIn(player))
+        eventBus.publish(SessionStateEvent.Login(player))
         action(player)
         player.slotId = -1
         player.destroy()
@@ -53,8 +53,8 @@ public class BasicGameTestScope(private val eventBus: EventBus) {
 
     /**
      * Differs from [withPlayer] in that this function only publishes the necessary
-     * [SessionStateEvent.Initialize] event, and not [SessionStateEvent.LogIn] or
-     * [SessionStateEvent.LogOut].
+     * [SessionStateEvent.Initialize] event, and not [SessionStateEvent.Login] or
+     * [SessionStateEvent.Logout].
      */
     public fun withPlayerInit(
         coords: CoordGrid = CoordGrid.ZERO,

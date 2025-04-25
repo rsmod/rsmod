@@ -5,7 +5,7 @@ import org.rsmod.api.config.refs.varbits
 import org.rsmod.api.config.refs.varps
 import org.rsmod.api.player.vars.intVarBit
 import org.rsmod.api.player.vars.intVarp
-import org.rsmod.api.script.onPlayerLogIn
+import org.rsmod.api.script.onPlayerLogin
 import org.rsmod.api.script.onPlayerSoftTimer
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Player
@@ -19,7 +19,7 @@ class MapClockScript @Inject constructor(private val clock: MapClock) : PluginSc
     private var Player.secsPastMinute by intVarBit(varbits.date_secs_past_minute)
 
     override fun ScriptContext.startUp() {
-        onPlayerLogIn { player.initClockTimer() }
+        onPlayerLogin { player.initClockTimer() }
         onPlayerSoftTimer(clock_timers.map_clock) { player.incrementClock() }
     }
 

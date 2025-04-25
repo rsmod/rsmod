@@ -13,7 +13,7 @@ import org.rsmod.plugin.scripts.ScriptContext
 public fun ScriptContext.onPlayerInit(action: SessionStateEvent.Initialize.() -> Unit): Unit =
     onEvent(action)
 
-public fun ScriptContext.onPlayerLogIn(action: SessionStateEvent.LogIn.() -> Unit): Unit =
+public fun ScriptContext.onPlayerLogin(action: SessionStateEvent.Login.() -> Unit): Unit =
     onEvent(action)
 
 /* Timer functions */

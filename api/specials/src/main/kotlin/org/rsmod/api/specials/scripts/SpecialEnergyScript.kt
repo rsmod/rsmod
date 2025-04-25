@@ -7,7 +7,7 @@ import org.rsmod.api.config.refs.varbits
 import org.rsmod.api.config.refs.varps
 import org.rsmod.api.player.vars.boolVarBit
 import org.rsmod.api.player.vars.intVarp
-import org.rsmod.api.script.onPlayerLogIn
+import org.rsmod.api.script.onPlayerLogin
 import org.rsmod.api.script.onPlayerSoftTimer
 import org.rsmod.game.entity.Player
 import org.rsmod.plugin.scripts.PluginScript
@@ -18,7 +18,7 @@ public class SpecialEnergyScript : PluginScript() {
     private var Player.specialAttackEnergy by intVarp(varps.sa_energy)
 
     override fun ScriptContext.startUp() {
-        onPlayerLogIn { player.initRegenTimer() }
+        onPlayerLogin { player.initRegenTimer() }
         onPlayerSoftTimer(timers.spec_regen) { player.specRegen() }
     }
 

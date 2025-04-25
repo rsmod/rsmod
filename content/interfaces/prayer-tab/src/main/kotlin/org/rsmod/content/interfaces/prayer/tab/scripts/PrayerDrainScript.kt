@@ -14,7 +14,7 @@ import org.rsmod.api.player.stat.prayerLvl
 import org.rsmod.api.player.stat.statSub
 import org.rsmod.api.player.vars.intVarBit
 import org.rsmod.api.script.advanced.onWearposChange
-import org.rsmod.api.script.onPlayerLogIn
+import org.rsmod.api.script.onPlayerLogin
 import org.rsmod.api.script.onPlayerSoftTimer
 import org.rsmod.content.interfaces.prayer.tab.PrayerRepository
 import org.rsmod.content.interfaces.prayer.tab.configs.prayer_sounds
@@ -31,7 +31,7 @@ constructor(private val repo: PrayerRepository, private val bonuses: WornBonuses
     override fun ScriptContext.startUp() {
         onPlayerSoftTimer(timers.prayer_drain) { player.drainPrayer() }
 
-        onPlayerLogIn { player.updateDrainResistance() }
+        onPlayerLogin { player.updateDrainResistance() }
         onWearposChange { player.updateDrainResistance() }
     }
 

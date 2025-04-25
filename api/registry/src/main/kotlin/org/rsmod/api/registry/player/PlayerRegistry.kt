@@ -33,7 +33,7 @@ constructor(
         player.slotId = slot
         player.assignUid()
         eventBus.publish(SessionStateEvent.Initialize(player))
-        eventBus.publish(SessionStateEvent.LogIn(player))
+        eventBus.publish(SessionStateEvent.Login(player))
         return PlayerRegistryResult.Add.Success
     }
 
@@ -45,7 +45,7 @@ constructor(
             return PlayerRegistryResult.Delete.ListSlotMismatch(playerList[slot])
         }
         playerList.remove(slot)
-        eventBus.publish(SessionStateEvent.LogOut(player))
+        eventBus.publish(SessionStateEvent.Logout(player))
         player.removeBlockWalkCollision(collision, player.coords)
         zoneDel(player, ZoneKey.from(player.coords))
         player.slotId = INVALID_SLOT
