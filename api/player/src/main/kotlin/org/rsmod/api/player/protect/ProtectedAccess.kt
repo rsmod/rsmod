@@ -108,6 +108,7 @@ import org.rsmod.api.player.ui.ifSetObj
 import org.rsmod.api.player.ui.ifSetPlayerHead
 import org.rsmod.api.player.ui.ifSetText
 import org.rsmod.api.player.vars.VarPlayerIntMapDelegate
+import org.rsmod.api.player.vars.setActiveMoveSpeed
 import org.rsmod.api.player.vars.varMoveSpeed
 import org.rsmod.api.player.worn.HeldEquipResult
 import org.rsmod.api.player.worn.WornUnequipResult
@@ -303,8 +304,7 @@ public class ProtectedAccess(
 
     public fun toggleRun() {
         val speed = if (player.varMoveSpeed == MoveSpeed.Run) MoveSpeed.Walk else MoveSpeed.Run
-        player.varMoveSpeed = speed
-        player.moveSpeed = speed
+        player.setActiveMoveSpeed(speed)
     }
 
     public fun telejump(dest: CoordGrid, collision: CollisionFlagMap) {

@@ -1,16 +1,26 @@
 package org.rsmod.api.inv.weight
 
-import jakarta.inject.Inject
-import org.rsmod.game.inv.Inventory
+import kotlin.collections.iterator
+import org.rsmod.game.entity.Player
 import org.rsmod.game.type.obj.ObjTypeList
 
-public class InvWeight @Inject constructor(objTypes: ObjTypeList) {
-    private val weights = objTypes.values.associate { it.id to it.weight }
+public object InvWeight {
+    public fun calculateWeightInGrams(player: Player, objTypes: ObjTypeList): Int {
+        var grams = 0
+        for (transmitted in player.transmittedInvs.intIterator()) {
+            val inv = player.invMap.backing[transmitted]
+            checkNotNull(inv) { "Inv expected in `invMap`: $transmitted (invMap=${player.invMap})" }
 
-    public fun sumOf(invs: Iterable<Inventory>): Int =
-        invs.sumOf { if (it.type.runWeight) sum(it) else 0 }
+            val affectsWeight = inv.type.runWeight
+            if (!affectsWeight) {
+                continue
+            }
 
-    public fun sum(inv: Inventory): Int = inv.objs.sumOf { if (it != null) get(it.id) else 0 }
-
-    private operator fun get(obj: Int): Int = weights[obj] ?: 0
+            for (i in inv.indices) {
+                val obj = inv[i] ?: continue
+                grams += objTypes[obj].weight
+            }
+        }
+        return grams
+    }
 }

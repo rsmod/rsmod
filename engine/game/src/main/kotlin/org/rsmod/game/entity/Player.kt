@@ -166,11 +166,15 @@ public class Player(
     public val visibleZoneKeys: IntList = IntArrayList()
     public var lastMapBuildComplete: Int = Int.MIN_VALUE
 
+    public var runEnergy: Int = 0
+    public var runWeight: Int = 0
+
     public var modGroup: ModGroup? = null
     public var xpRate: Double = 1.0
 
     public var publicMessage: PublicMessage? = null
     public var pendingSay: String? = null
+    public var pendingRunWeight: Boolean = false
     public val pendingStatUpdates: BitSet = BitSet()
     public val activeHitmarks: LongArrayList = LongArrayList()
     public val activeHeadbars: LongArrayList = LongArrayList()

@@ -60,6 +60,7 @@ object Constants {
     const val elemental_weakness_earth = 2
     const val elemental_weakness_fire = 3
 
+    const val run_max_energy = 10_000
     const val sa_max_energy = 1000
 
     const val skullicon_default = 0

@@ -7,13 +7,13 @@ import net.rsprot.protocol.game.outgoing.misc.client.HideObjOps
 import net.rsprot.protocol.game.outgoing.misc.client.MinimapToggle
 import net.rsprot.protocol.game.outgoing.misc.client.ResetAnims
 import net.rsprot.protocol.game.outgoing.misc.player.ChatFilterSettings
-import net.rsprot.protocol.game.outgoing.misc.player.UpdateRunEnergy
-import net.rsprot.protocol.game.outgoing.misc.player.UpdateRunWeight
 import net.rsprot.protocol.game.outgoing.varp.VarpReset
 import org.rsmod.api.config.refs.varbits
+import org.rsmod.api.inv.weight.InvWeight
 import org.rsmod.api.player.output.Camera
 import org.rsmod.api.player.output.ChatType
 import org.rsmod.api.player.output.MiscOutput
+import org.rsmod.api.player.output.UpdateRun
 import org.rsmod.api.player.output.UpdateStat
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.output.runClientScript
@@ -25,6 +25,7 @@ import org.rsmod.api.script.onPlayerLogIn
 import org.rsmod.api.stats.levelmod.InvisibleLevels
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Player
+import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.stat.StatTypeList
 import org.rsmod.game.type.varp.VarpTypeList
 import org.rsmod.plugin.scripts.PluginScript
@@ -34,6 +35,7 @@ class LoginScript
 @Inject
 constructor(
     private val mapClock: MapClock,
+    private val objTypes: ObjTypeList,
     private val varpTypes: VarpTypeList,
     private val statTypes: StatTypeList,
     private val invisibleLevels: InvisibleLevels,
@@ -114,8 +116,10 @@ constructor(
     }
 
     private fun Player.sendRun() {
-        client.write(UpdateRunWeight(0))
-        client.write(UpdateRunEnergy(10_000))
+        val weightInGrams = InvWeight.calculateWeightInGrams(this, objTypes)
+        runWeight = weightInGrams
+        UpdateRun.updateRunWeight(this, kg = weightInGrams / 1000)
+        UpdateRun.updateRunEnergy(this, runEnergy)
     }
 
     private fun Player.sendPlayerOps() {

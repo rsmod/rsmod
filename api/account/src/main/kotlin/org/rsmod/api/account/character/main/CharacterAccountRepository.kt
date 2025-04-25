@@ -130,7 +130,8 @@ constructor(
                         c.last_login,
                         c.last_logout,
                         c.muted_until,
-                        c.banned_until
+                        c.banned_until,
+                        c.run_energy
                     FROM accounts a
                     JOIN characters c ON c.account_id = a.id
                     WHERE c.realm_id = ?
@@ -166,6 +167,7 @@ constructor(
                     val lastLogout = resultSet.getLocalDateTime("last_logout")
                     val mutedUntil = resultSet.getLocalDateTime("muted_until")
                     val bannedUntil = resultSet.getLocalDateTime("banned_until")
+                    val runEnergy = resultSet.getInt("run_energy")
                     val varps = objectMapper.readReifiedValue<Map<Int, Int>>(varpsText)
                     val characterData =
                         CharacterAccountData(
@@ -192,6 +194,7 @@ constructor(
                             lastLogout = lastLogout,
                             mutedUntil = mutedUntil,
                             bannedUntil = bannedUntil,
+                            runEnergy = runEnergy,
                         )
                     val metadataList = CharacterMetadataList(characterData, mutableListOf())
                     metadataList.add(applier, characterData)
@@ -208,7 +211,7 @@ constructor(
             database.prepareStatement(
                 """
                     UPDATE characters
-                    SET x = ?, z = ?, level = ?, varps = ?, last_login = ?,
+                    SET x = ?, z = ?, level = ?, varps = ?, last_login = ?, run_energy = ?,
                         last_logout = CURRENT_TIMESTAMP
                     WHERE id = ?
                 """
@@ -224,7 +227,8 @@ constructor(
             it.setInt(3, player.level)
             it.setString(4, varpsJson)
             it.setSqliteTimestamp(5, player.lastLogin)
-            it.setInt(6, characterId)
+            it.setInt(6, player.runEnergy)
+            it.setInt(7, characterId)
             it.executeUpdate()
         }
 

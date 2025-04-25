@@ -24,6 +24,7 @@ constructor(
     private val regions: PlayerRegionProcessor,
     private val facing: PlayerFaceSquareProcessor,
     private val mapUpdates: PlayerMapUpdateProcessor,
+    private val runUpdates: PlayerRunUpdateProcessor,
     private val invUpdates: PlayerInvUpdateProcessor,
     private val statUpdates: PlayerStatUpdateProcessor,
     private val exceptionHandler: GameExceptionHandler,
@@ -76,6 +77,7 @@ constructor(
                 processMapChanges()
                 processInvUpdates()
                 processStatUpdates()
+                processRunUpdates()
                 processClientState()
                 cleanUpPendingUpdates()
             }
@@ -92,6 +94,10 @@ constructor(
 
     private fun Player.processStatUpdates() {
         statUpdates.process(this)
+    }
+
+    private fun Player.processRunUpdates() {
+        runUpdates.process(this)
     }
 
     private fun Player.processClientState() {
@@ -118,6 +124,7 @@ constructor(
         pendingStepCount = 0
         pendingTeleport = false
         pendingTelejump = false
+        pendingRunWeight = false
         pendingFaceAngle = EntityFaceAngle.NULL
         pendingSequence = EntitySeq.NULL
         pendingSpotanims.clear()

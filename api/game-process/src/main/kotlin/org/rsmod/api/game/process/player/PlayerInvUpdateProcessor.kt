@@ -31,6 +31,7 @@ constructor(private val players: PlayerList, private val exceptionHandler: GameE
                 continue
             }
             UpdateInventory.updateInvPartial(this, inv)
+            updatePendingRunWeight(inv)
             processedInvs += inv
         }
     }
@@ -40,9 +41,17 @@ constructor(private val players: PlayerList, private val exceptionHandler: GameE
             val inv = invMap.backing[add]
             checkNotNull(inv) { "Inv expected in `invMap`: $add (invMap=${invMap})" }
             UpdateInventory.updateInvFull(this, inv)
+            updatePendingRunWeight(inv)
             transmittedInvs.add(add)
             processedInvs += inv
         }
         transmittedInvAddQueue.clear()
+    }
+
+    private fun Player.updatePendingRunWeight(inventory: Inventory) {
+        val updateRunWeight = inventory.type.runWeight
+        if (updateRunWeight) {
+            pendingRunWeight = true
+        }
     }
 }

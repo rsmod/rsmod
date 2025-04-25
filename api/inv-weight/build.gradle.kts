@@ -7,8 +7,6 @@ kotlin {
 }
 
 dependencies {
-    implementation(libs.guice)
-    implementation(projects.api.cache)
+    implementation(libs.fastutil)
     implementation(projects.engine.game)
-    implementation(projects.engine.plugin)
 }

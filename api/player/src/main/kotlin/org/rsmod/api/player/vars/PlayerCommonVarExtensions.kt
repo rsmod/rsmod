@@ -32,6 +32,11 @@ public fun Player.resyncVar(varp: VarpType) {
 
 public fun Player.resyncVar(varBit: VarBitType): Unit = resyncVar(varBit.baseVar)
 
+public fun Player.setActiveMoveSpeed(speed: MoveSpeed) {
+    varMoveSpeed = speed
+    moveSpeed = varMoveSpeed
+}
+
 private fun getSpeed(id: Int): MoveSpeed =
     when (id) {
         2 -> MoveSpeed.Crawl
