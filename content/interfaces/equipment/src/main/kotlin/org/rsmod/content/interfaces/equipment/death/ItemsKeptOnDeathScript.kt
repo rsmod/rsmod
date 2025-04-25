@@ -7,6 +7,7 @@ import org.rsmod.api.config.refs.params
 import org.rsmod.api.config.refs.synths
 import org.rsmod.api.market.MarketPrices
 import org.rsmod.api.player.input.ResumePauseButtonInput
+import org.rsmod.api.player.isInCombat
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.output.soundSynth
 import org.rsmod.api.player.protect.ProtectedAccess
@@ -42,6 +43,10 @@ constructor(
     }
 
     private fun Player.selectKeptOnDeath() {
+        if (isInCombat()) {
+            mes("You cannot view items kept on death while in combat.")
+            return
+        }
         if (isAccessProtected) {
             mes("Please finish what you're doing before opening this menu.")
             soundSynth(synths.pillory_wrong)
