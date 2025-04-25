@@ -90,7 +90,6 @@ public object EnumTypeEncoder {
             }
         }
 
-    @Suppress("unused")
     public fun encodeGame(type: UnpackedEnumType<*, *>, data: ByteBuf): Unit =
         with(type) {
             if (!transmit) {

@@ -99,7 +99,7 @@ public object ObjTypeDecoder {
                 43 -> {
                     val op = data.readUnsignedByte().toInt() + 1
                     var subop = data.readUnsignedByte().toInt()
-                    val isubop = Array<String>(20) { "" }
+                    val isubop = Array(20) { "" }
                     while (subop != 0) {
                         isubop[subop - 1] = data.readString()
                         subop = data.readUnsignedByte().toInt()

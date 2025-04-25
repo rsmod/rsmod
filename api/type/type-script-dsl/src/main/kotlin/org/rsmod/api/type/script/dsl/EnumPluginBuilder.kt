@@ -69,7 +69,7 @@ public class EnumPluginBuilder<K : Any, V : Any>(
                     "CacheVarTypeMap.classedLiterals: ${expectedValType.simpleName}"
             }
         val internal = checkNotNull(internal) { "`internal` must be set." }
-        val backing = EnumTypeBuilder<K, V>(expectedKeyType, expectedValType, internal)
+        val backing = EnumTypeBuilder(expectedKeyType, expectedValType, internal)
         val primitiveMap = vals.toPrimitiveMap(key, value)
         val primitiveDefault = default?.toPrimitive(value)
         backing.keyCharId = key.char

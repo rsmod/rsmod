@@ -27,7 +27,7 @@ public object EnumTypeDecoder {
     }
 
     public fun decode(data: ByteBuf): EnumTypeBuilder<Any, Any> {
-        val builder = EnumTypeBuilder<Any, Any>(Any::class, Any::class)
+        val builder = EnumTypeBuilder(Any::class, Any::class)
         builder.internal = TextUtil.NULL
         while (data.isReadable) {
             val code = data.readUnsignedByte().toInt()

@@ -33,7 +33,7 @@ public class TypedParamPluginBuilder<T : Any>(
                 "`${type.simpleName}` types are not defined in `CacheVarTypeMap`."
             )
         }
-        val backing = ParamTypeBuilder<T>(type, internal)
+        val backing = ParamTypeBuilder(type, internal)
         val default = default
         if (default != null && literal != null) {
             val codec = CacheVarTypeMap.findCodec<Any, Any>(type)

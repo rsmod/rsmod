@@ -25,7 +25,7 @@ import org.rsmod.game.type.inv.InvTypeList
 public class Shops
 @Inject
 constructor(private val invTypes: InvTypeList, private val eventBus: EventBus) {
-    public val globalInvs: MutableMap<InvType, Inventory> = mutableMapOf<InvType, Inventory>()
+    public val globalInvs: MutableMap<InvType, Inventory> = mutableMapOf()
 
     public fun open(
         player: Player,
