@@ -108,8 +108,6 @@ import org.rsmod.api.player.ui.ifSetObj
 import org.rsmod.api.player.ui.ifSetPlayerHead
 import org.rsmod.api.player.ui.ifSetText
 import org.rsmod.api.player.vars.VarPlayerIntMapDelegate
-import org.rsmod.api.player.vars.enabledPrayers
-import org.rsmod.api.player.vars.usingQuickPrayers
 import org.rsmod.api.player.vars.varMoveSpeed
 import org.rsmod.api.player.worn.HeldEquipResult
 import org.rsmod.api.player.worn.WornUnequipResult
@@ -1562,11 +1560,6 @@ public class ProtectedAccess(
     @InternalApi
     public fun processQueuedHit(builder: HitBuilder, modifier: PlayerHitModifier): Unit =
         processQueuedHit(builder, modifier, StandardPlayerHitProcessor)
-
-    public fun disablePrayers() {
-        player.enabledPrayers = 0
-        player.usingQuickPrayers = false
-    }
 
     public fun restoreToplevelTabs(tabTargets: Iterable<ComponentType>) {
         // TODO(combat): Publish gameframe-related event for `restoretabs`.

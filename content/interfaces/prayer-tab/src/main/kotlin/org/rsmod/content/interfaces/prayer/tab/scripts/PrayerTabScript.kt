@@ -14,6 +14,8 @@ import org.rsmod.content.interfaces.prayer.tab.Prayer
 import org.rsmod.content.interfaces.prayer.tab.PrayerRepository
 import org.rsmod.content.interfaces.prayer.tab.configs.prayer_queues
 import org.rsmod.content.interfaces.prayer.tab.configs.prayer_sounds
+import org.rsmod.content.interfaces.prayer.tab.util.disablePrayerStatDrain
+import org.rsmod.content.interfaces.prayer.tab.util.enablePrayerStatDrain
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.plugin.scripts.PluginScript
@@ -67,6 +69,7 @@ private constructor(
         disableCollisions(prayer)
         vars[prayer.enabled] = 1
         soundSynth(prayer.sound)
+        enablePrayerStatDrain(prayer)
         if (prayer.overhead != null) {
             player.overheadIcon = prayer.overhead
         }
@@ -75,6 +78,7 @@ private constructor(
     private fun ProtectedAccess.disablePrayer(prayer: Prayer) {
         vars[prayer.enabled] = 0
         soundSynth(prayer_sounds.disable)
+        disablePrayerStatDrain(prayer)
         if (prayer.overhead != null && player.overheadIcon == prayer.overhead) {
             player.overheadIcon = null
         }
@@ -91,6 +95,7 @@ private constructor(
                 continue
             }
             vars[collision.enabled] = 0
+            disablePrayerStatDrain(collision)
         }
     }
 

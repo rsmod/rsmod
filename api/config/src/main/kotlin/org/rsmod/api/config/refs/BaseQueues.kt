@@ -22,4 +22,5 @@ object BaseQueues : QueueReferences() {
     val com_retaliate_npc = find("com_retaliate_npc")
     val com_retaliate_player = find("com_retaliate_player")
     val dinhs_combat_delay = find("dinhs_combat_delay")
+    val preserve_activation = find("preserve_activation")
 }

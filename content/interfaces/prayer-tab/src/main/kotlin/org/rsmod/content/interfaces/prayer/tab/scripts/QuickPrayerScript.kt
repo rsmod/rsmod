@@ -25,6 +25,8 @@ import org.rsmod.content.interfaces.prayer.tab.configs.prayer_interfaces
 import org.rsmod.content.interfaces.prayer.tab.configs.prayer_queues
 import org.rsmod.content.interfaces.prayer.tab.configs.prayer_sounds
 import org.rsmod.content.interfaces.prayer.tab.configs.prayer_varbits
+import org.rsmod.content.interfaces.prayer.tab.util.disablePrayerStatDrain
+import org.rsmod.content.interfaces.prayer.tab.util.enablePrayerStatDrain
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.type.interf.IfButtonOp
@@ -87,15 +89,19 @@ constructor(
             return
         }
 
-        vars[varbits.enabled_prayers] = quickPrayerVars
+        val enabledPrayers = vars[varbits.enabled_prayers].toPrayerList()
+        for (prayer in enabledPrayers) {
+            disablePrayerStatDrain(prayer)
+        }
         disableOverhead()
-
+        vars[varbits.enabled_prayers] = quickPrayerVars
         vars[varbits.quickprayer_active] = 1
 
         val quickPrayers = quickPrayerVars.toPrayerList()
         for (prayer in quickPrayers) {
             vars[prayer.enabled] = 1
             soundSynth(prayer.sound)
+            enablePrayerStatDrain(prayer)
             if (prayer.overhead != null) {
                 player.overheadIcon = prayer.overhead
             }
@@ -103,6 +109,10 @@ constructor(
     }
 
     private fun ProtectedAccess.disableQuickPrayers() {
+        val enabledPrayers = vars[varbits.enabled_prayers].toPrayerList()
+        for (prayer in enabledPrayers) {
+            disablePrayerStatDrain(prayer)
+        }
         disableOverhead()
         vars[varbits.enabled_prayers] = 0
         vars[varbits.quickprayer_active] = 0

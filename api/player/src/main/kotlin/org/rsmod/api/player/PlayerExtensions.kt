@@ -2,11 +2,14 @@ package org.rsmod.api.player
 
 import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.queues
+import org.rsmod.api.config.refs.timers
 import org.rsmod.api.config.refs.varps
 import org.rsmod.api.player.hit.configs.hit_queues
 import org.rsmod.api.player.output.UpdateInventory
 import org.rsmod.api.player.output.clearMapFlag
 import org.rsmod.api.player.stat.hitpoints
+import org.rsmod.api.player.vars.enabledPrayers
+import org.rsmod.api.player.vars.usingQuickPrayers
 import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.type.inv.InvScope
@@ -30,6 +33,20 @@ public fun Player.combatClearQueue() {
     clearQueue(queues.com_retaliate_player)
     clearQueue(hit_queues.standard)
     clearQueue(hit_queues.impact)
+}
+
+public fun Player.disablePrayers() {
+    enabledPrayers = 0
+    usingQuickPrayers = false
+
+    clearQueue(queues.preserve_activation)
+    clearSoftTimer(timers.rapidrestore_regen)
+}
+
+public fun Player.resetRegenTimers() {
+    softTimer(timers.stat_regen, constants.stat_regen_interval)
+    softTimer(timers.stat_boost_restore, constants.stat_boost_restore_interval)
+    softTimer(timers.health_regen, constants.health_regen_interval)
 }
 
 public fun Player.isValidTarget(): Boolean {

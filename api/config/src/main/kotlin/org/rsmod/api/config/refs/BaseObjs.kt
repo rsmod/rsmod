@@ -600,6 +600,7 @@ object BaseObjs : ObjReferences() {
     val amulet_of_glory_4 = find("amulet_of_glory_4")
 
     val tormented_bracelet = find("zenyte_bracelet_enchanted")
+    val regen_bracelet = find("jewl_bracelet_regen")
 
     val imbued_saradomin_cape = find("ma2_saradomin_cape")
     val infinity_boots = find("magictraining_infinityboots")

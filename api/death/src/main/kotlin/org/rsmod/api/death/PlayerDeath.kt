@@ -9,7 +9,9 @@ import org.rsmod.api.config.refs.midis
 import org.rsmod.api.config.refs.queues
 import org.rsmod.api.config.refs.seqs
 import org.rsmod.api.config.refs.varps
+import org.rsmod.api.player.disablePrayers
 import org.rsmod.api.player.protect.ProtectedAccess
+import org.rsmod.api.player.resetRegenTimers
 import org.rsmod.api.player.vars.intVarp
 import org.rsmod.game.entity.Player
 import org.rsmod.game.type.stat.StatTypeList
@@ -58,6 +60,9 @@ public class PlayerDeath @Inject constructor(private val statTypes: StatTypeList
     }
 
     private fun ProtectedAccess.resetPlayerState(stats: StatTypeList) {
+        player.disablePrayers()
+        player.resetRegenTimers()
+
         player.specialAttackType = 0
         player.specialAttackEnergy = constants.sa_default_energy
         player.skullIcon = null

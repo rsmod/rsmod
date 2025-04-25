@@ -20,6 +20,8 @@ public sealed class VarBitType : CacheType() {
 
     public val bits: IntRange
         get() = lsb..msb
+
+    public fun isType(other: VarBitType): Boolean = other.internalId == internalId
 }
 
 public data class HashedVarBitType(

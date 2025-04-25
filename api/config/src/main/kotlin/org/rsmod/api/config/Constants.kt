@@ -70,6 +70,10 @@ object Constants {
     const val dinhs_attackstyle_pummel = 0
     const val dinhs_attackstyle_block = 3
 
+    const val stat_regen_interval = 100
+    const val stat_boost_restore_interval = 100
+    const val health_regen_interval = 100
+
     const val bodytype_a = 0
     const val bodytype_b = 1
 
