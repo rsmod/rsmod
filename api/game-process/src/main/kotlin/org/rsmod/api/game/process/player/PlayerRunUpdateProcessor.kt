@@ -60,7 +60,7 @@ public class PlayerRunUpdateProcessor @Inject constructor(private val objTypes: 
     }
 
     private fun Player.hasImprovedStaminaEffect(): Boolean {
-        return vars[varbits.stamina_active] == 1
+        return vars[varbits.improved_stamina_passive] == 1
     }
 
     private fun Player.hasStaminaEffect(): Boolean {
