@@ -31,10 +31,7 @@ class MapClockScript @Inject constructor(private val clock: MapClock) : PluginSc
         val now = System.currentTimeMillis()
         msPastMinute = (now % 1000).toInt()
         secsPastMinute = ((now / 1000) % 60).toInt()
-
         mapClock = clock.cycle
         playtime++
-
-        softTimer(clock_timers.map_clock, 1)
     }
 }

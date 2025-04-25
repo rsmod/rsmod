@@ -1,43 +1,65 @@
 package org.rsmod.game.timer
 
-import it.unimi.dsi.fastutil.shorts.Short2IntOpenHashMap
-import java.util.Collections
+import it.unimi.dsi.fastutil.objects.ObjectIterator
+import it.unimi.dsi.fastutil.objects.ObjectIterators
+import it.unimi.dsi.fastutil.shorts.Short2LongMap
+import it.unimi.dsi.fastutil.shorts.Short2LongOpenHashMap
+import it.unimi.dsi.fastutil.shorts.ShortArraySet
 import org.rsmod.annotations.InternalApi
 import org.rsmod.game.type.timer.TimerType
 
-public class NpcTimerMap(private var timers: Short2IntOpenHashMap? = null) :
-    Iterable<Map.Entry<Short, Int>> {
+public class NpcTimerMap(private var timers: Short2LongOpenHashMap? = null) :
+    Iterable<Short2LongMap.Entry> {
+    @InternalApi
+    public val expiredKeysBuffer: MutableSet<Short> by
+        lazy(LazyThreadSafetyMode.NONE) { ShortArraySet() }
+
     public val isNotEmpty: Boolean
-        get() = !isEmpty
+        get() = timers?.isNotEmpty() == true
 
-    public val isEmpty: Boolean
-        get() = timers.isNullOrEmpty()
-
-    public fun getOrDefault(timer: TimerType, default: Int): Int =
-        timers?.getOrDefault(timer.id.toShort(), default) ?: default
-
-    @InternalApi(
-        "Should only be used internally by the system responsible for executing expired timers."
-    )
-    public operator fun minusAssign(id: Short) {
-        timers?.remove(id)
+    public fun remove(timer: TimerType) {
+        timers?.remove(timer.id.toShort())
     }
 
-    public operator fun set(timer: TimerType, value: Int) {
+    @OptIn(InternalApi::class)
+    public fun schedule(timer: TimerType, interval: Int) {
+        put(timer.id.toShort(), clockCounter = 0, interval = interval)
+    }
+
+    @InternalApi
+    public fun put(timerType: Short, clockCounter: Int, interval: Int) {
         val timers = getOrCreate()
-        timers[timer.id.toShort()] = value
+        timers[timerType] = packValues(clockCounter, interval)
     }
 
-    private fun getOrCreate(): Short2IntOpenHashMap {
-        val timers = timers ?: Short2IntOpenHashMap()
+    @OptIn(InternalApi::class)
+    private fun getOrCreate(): Short2LongOpenHashMap {
+        val timers = timers ?: Short2LongOpenHashMap()
         if (this.timers == null) {
             this.timers = timers
         }
         return timers
     }
 
-    override fun iterator(): Iterator<Map.Entry<Short, Int>> =
-        timers?.iterator() ?: Collections.emptyIterator()
+    @InternalApi public fun extractClockCounter(packed: Long): Int = (packed shr 32).toInt()
+
+    @InternalApi public fun extractInterval(packed: Long): Int = packed.toInt()
+
+    @InternalApi
+    public fun packValues(clockCounter: Int, interval: Int): Long {
+        return (clockCounter.toLong() shl 32) or interval.toLong()
+    }
+
+    @InternalApi
+    public operator fun get(timerType: Short): Long? {
+        val timers = this.timers ?: return null
+        val value = timers.get(timerType)
+        return value.takeIf { it != timers.defaultReturnValue() }
+    }
+
+    override fun iterator(): ObjectIterator<Short2LongMap.Entry> {
+        return timers?.short2LongEntrySet()?.fastIterator() ?: ObjectIterators.emptyIterator()
+    }
 
     override fun toString(): String = timers?.toString() ?: "null"
 }

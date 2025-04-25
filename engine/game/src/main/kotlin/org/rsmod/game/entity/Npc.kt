@@ -167,7 +167,11 @@ public class Npc(
 
     public fun timer(timer: TimerType, cycles: Int) {
         require(cycles > 0) { "`cycles` must be greater than 0. (cycles=$cycles)" }
-        timerMap[timer] = currentMapClock + cycles
+        timerMap.schedule(timer, interval = cycles)
+    }
+
+    public fun clearTimer(timer: TimerType) {
+        timerMap.remove(timer)
     }
 
     public fun queue(queue: QueueType, cycles: Int, args: Any? = null) {

@@ -56,7 +56,11 @@ public class Controller(public val coords: CoordGrid, public val type: Controlle
 
     public fun timer(timer: TimerType, cycles: Int) {
         require(cycles > 0) { "`cycles` must be greater than 0. (cycles=$cycles)" }
-        timerMap[timer] = currentMapClock + cycles
+        timerMap.schedule(timer, interval = cycles)
+    }
+
+    public fun clearTimer(timer: TimerType) {
+        timerMap.remove(timer)
     }
 
     public fun aiQueue(type: QueueType, cycles: Int, args: Any? = null) {

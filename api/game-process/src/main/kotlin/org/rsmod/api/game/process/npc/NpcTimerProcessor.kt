@@ -17,23 +17,32 @@ constructor(
     private val accessLauncher: StandardNpcAccessLauncher,
 ) {
     public fun process(npc: Npc) {
-        if (npc.timerMap.isEmpty) {
-            return
+        if (npc.timerMap.isNotEmpty) {
+            npc.processTimers()
         }
-        npc.processTimers()
     }
 
     private fun Npc.processTimers() {
-        val expired = timerMap.toExpiredList()
-        for (entry in expired) {
-            val timerType = entry.key
-            timerMap -= timerType
+        val expired = timerMap.incrementCountersAndGetExpiredKeys()
+        for (timerType in expired) {
             publishEvent(timerType.toInt())
         }
     }
 
-    private fun NpcTimerMap.toExpiredList(): List<Map.Entry<Short, Int>> = filter {
-        mapClock >= it.value
+    private fun NpcTimerMap.incrementCountersAndGetExpiredKeys(): Set<Short> {
+        expiredKeysBuffer.clear()
+        for (entry in this) {
+            // Note: Counter is incremented _before_ being checked against its interval.
+            var counter = extractClockCounter(entry.longValue) + 1
+            val interval = extractInterval(entry.longValue)
+            if (counter >= interval) {
+                expiredKeysBuffer.add(entry.shortKey)
+                counter = 0
+            }
+            val packed = packValues(clockCounter = counter, interval = interval)
+            entry.setValue(packed)
+        }
+        return expiredKeysBuffer
     }
 
     private fun Npc.publishEvent(timer: Int, type: UnpackedNpcType = visType) {

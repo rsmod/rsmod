@@ -1579,8 +1579,16 @@ public class ProtectedAccess(
         player.timer(timerType, cycles)
     }
 
+    public fun clearTimer(timerType: TimerType) {
+        player.clearTimer(timerType)
+    }
+
     public fun softTimer(timerType: TimerType, cycles: Int) {
         player.softTimer(timerType, cycles)
+    }
+
+    public fun clearSoftTimer(timerType: TimerType) {
+        player.clearSoftTimer(timerType)
     }
 
     public fun weakQueue(queue: QueueType, cycles: Int, args: Any? = null) {

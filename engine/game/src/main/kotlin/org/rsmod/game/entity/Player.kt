@@ -294,12 +294,22 @@ public class Player(
 
     public fun timer(timer: TimerType, cycles: Int) {
         require(cycles > 0) { "`cycles` must be greater than 0. (cycles=$cycles)" }
-        timerMap[timer] = currentMapClock + cycles
+        timerMap.schedule(timer, mapClock = currentMapClock, interval = cycles)
+    }
+
+    @OptIn(InternalApi::class)
+    public fun clearTimer(timerType: TimerType) {
+        timerMap.remove(timerType)
     }
 
     public fun softTimer(timer: TimerType, cycles: Int) {
         require(cycles > 0) { "`cycles` must be greater than 0. (cycles=$cycles)" }
-        softTimerMap[timer] = currentMapClock + cycles
+        softTimerMap.schedule(timer, mapClock = currentMapClock, interval = cycles)
+    }
+
+    @OptIn(InternalApi::class)
+    public fun clearSoftTimer(timerType: TimerType) {
+        softTimerMap.remove(timerType)
     }
 
     public fun weakQueue(queue: QueueType, cycles: Int, args: Any? = null) {

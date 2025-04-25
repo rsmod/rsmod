@@ -16,23 +16,32 @@ constructor(
     private val accessLauncher: StandardConAccessLauncher,
 ) {
     public fun process(controller: Controller) {
-        if (controller.timerMap.isEmpty) {
-            return
+        if (controller.timerMap.isNotEmpty) {
+            controller.processTimers()
         }
-        controller.processTimers()
     }
 
     private fun Controller.processTimers() {
-        val expired = timerMap.toExpiredList()
-        for (entry in expired) {
-            val timerType = entry.key
-            timerMap -= timerType
+        val expired = timerMap.incrementCountersAndGetExpiredKeys()
+        for (timerType in expired) {
             publishEvent(timerType.toInt())
         }
     }
 
-    private fun NpcTimerMap.toExpiredList(): List<Map.Entry<Short, Int>> = filter {
-        mapClock >= it.value
+    private fun NpcTimerMap.incrementCountersAndGetExpiredKeys(): Set<Short> {
+        expiredKeysBuffer.clear()
+        for (entry in this) {
+            // Note: Counter is incremented _before_ being checked against its interval.
+            var counter = extractClockCounter(entry.longValue) + 1
+            val interval = extractInterval(entry.longValue)
+            if (counter >= interval) {
+                expiredKeysBuffer.add(entry.shortKey)
+                counter = 0
+            }
+            val packed = packValues(clockCounter = counter, interval = interval)
+            entry.setValue(packed)
+        }
+        return expiredKeysBuffer
     }
 
     private fun Controller.publishEvent(timer: Int) {
