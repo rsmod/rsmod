@@ -9,7 +9,7 @@ public class ComboRuneScript
 @Inject
 constructor(private val repo: ComboRuneRepository, private val enumResolver: EnumTypeMapResolver) :
     PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         repo.init(enumResolver)
     }
 }

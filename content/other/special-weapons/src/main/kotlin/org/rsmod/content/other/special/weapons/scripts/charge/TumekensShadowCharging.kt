@@ -26,7 +26,7 @@ class TumekensShadowCharging
 @Inject
 constructor(private val charges: ObjChargeManager, private val objRepo: ObjRepository) :
     PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onOpHeld2(objs.tumekens_shadow_uncharged) { wieldUncharged() }
         onOpHeld3(objs.tumekens_shadow_uncharged) { charge(it.inventory, it.slot, it.type) }
         onOpHeld4(objs.tumekens_shadow) { charge(it.inventory, it.slot, it.type) }

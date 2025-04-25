@@ -9,7 +9,7 @@ import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
 class PreservePrayerScript : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onPlayerQueue(queues.preserve_activation) { player.activatePreserveEffect() }
     }
 

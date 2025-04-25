@@ -779,7 +779,7 @@ constructor(
             val context = injector.getInstance(ScriptContext::class.java)
             for (clazz in scripts) {
                 val script = injector.getInstance(clazz.java)
-                with(script) { context.startUp() }
+                with(script) { context.startup() }
             }
         }
     }

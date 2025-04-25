@@ -2,7 +2,7 @@ package org.rsmod.api.obj.spawns
 
 import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
-import org.rsmod.api.script.onBootUp
+import org.rsmod.api.script.onGameStartup
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 import org.rsmod.scheduler.TaskScheduler
@@ -15,9 +15,9 @@ constructor(private val spawner: ParsedObjSpawner, private val scheduler: TaskSc
 
     private lateinit var staticSpawns: Collection<ParsedObjSpawn>
 
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         scheduler.scheduleStaticSpawns()
-        onBootUp { spawnStaticSpawns() }
+        onGameStartup { spawnStaticSpawns() }
     }
 
     private fun spawnStaticSpawns() {

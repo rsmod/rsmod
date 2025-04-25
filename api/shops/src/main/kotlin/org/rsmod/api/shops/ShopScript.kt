@@ -29,7 +29,7 @@ constructor(
 ) : PluginScript() {
     private val logger = InlineLogger()
 
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         registerDefaultCurrency()
         onIfModalButton(ShopComponents.shop_inv) { shopInvButton(it.comsub, it.op, it.obj) }
         onIfModalButton(ShopComponents.shop_side_inv) {

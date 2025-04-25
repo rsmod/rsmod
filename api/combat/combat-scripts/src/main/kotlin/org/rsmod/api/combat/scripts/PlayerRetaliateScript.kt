@@ -27,7 +27,7 @@ constructor(
     private val npcInteractions: NpcInteractions,
     private val playerInteractions: PlayerInteractions,
 ) : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onPlayerQueueWithArgs(queues.com_retaliate_npc) { autoRetaliateNpc(it.args) }
         onPlayerQueueWithArgs(queues.com_retaliate_player) { autoRetaliatePlayer(it.args) }
     }

@@ -10,7 +10,7 @@ import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
 public class InvOpenScript : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onIfOpen(interfaces.inventory) { player.onInvOpen() }
     }
 

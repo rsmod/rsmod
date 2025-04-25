@@ -1,9 +1,9 @@
 package org.rsmod.game
 
 public interface GameProcess {
-    public fun startUp()
+    public fun startup()
 
-    public fun shutDown()
+    public fun shutdown()
 
     public fun cycle()
 }

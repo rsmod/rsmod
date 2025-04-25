@@ -11,7 +11,7 @@ import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
 public class NpcDeathScript @Inject constructor(private val death: NpcDeath) : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onNpcQueue(queues.death) { death.deathWithDrops(this) }
         onEvent<NpcStateEvents.Respawn> { npc.respawn() }
     }

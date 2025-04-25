@@ -7,7 +7,7 @@ import org.rsmod.plugin.scripts.ScriptContext
 
 public class InvMapInitScript @Inject constructor(private val invMapInit: InvMapInit) :
     PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onPlayerInit { invMapInit.init(player) }
     }
 }

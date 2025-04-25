@@ -55,7 +55,7 @@ private constructor(
     private lateinit var emoteSlots: EnumTypeMap<Int, String>
     private lateinit var emoteSlotRange: IntRange
 
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         loadEmotesEnum()
         loadSkillCapeEmotes()
         onIfOpen(interfaces.emote) { player.onTabOpen() }
@@ -71,7 +71,7 @@ private constructor(
     }
 
     private fun loadSkillCapeEmotes() {
-        skillCapeEmotes.startUp()
+        skillCapeEmotes.startup()
     }
 
     private fun Player.selectEmote(emoteSlot: Int, op: IfButtonOp) {
@@ -611,7 +611,7 @@ constructor(private val enumResolver: EnumTypeMapResolver) {
     private lateinit var skillCapeAnims: EnumTypeMap<StatType, SeqType>
     private lateinit var skillCapeSpots: EnumTypeMap<StatType, SpotanimType>
 
-    fun startUp() {
+    fun startup() {
         skillCapeAnims = enumResolver[emote_enums.skill_cape_anims]
         skillCapeSpots = enumResolver[emote_enums.skill_cape_spots]
     }

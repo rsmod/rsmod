@@ -46,9 +46,9 @@ class GameService @Inject constructor(private val process: GameProcess) : Schedu
     }
 
     override suspend fun setup() {
-        // Intentionally call `process.startUp` on the game thread instead of in `startup`,
+        // Intentionally call `process.startup` on the game thread instead of in `startup`,
         // which runs on the main application thread.
-        process.startUp()
+        process.startup()
     }
 
     override suspend fun startup() {}
@@ -56,7 +56,7 @@ class GameService @Inject constructor(private val process: GameProcess) : Schedu
     override suspend fun shutdown() {
         logger.info { "Attempting to shut down game service." }
         try {
-            process.shutDown()
+            process.shutdown()
             logger.info { "Game service successfully shut down." }
         } catch (t: Throwable) {
             logger.error(t) { "Game service failed to shut down." }

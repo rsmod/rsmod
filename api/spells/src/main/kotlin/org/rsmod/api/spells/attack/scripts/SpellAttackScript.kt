@@ -14,7 +14,7 @@ constructor(
     private val manager: SpellAttackManager,
     private val attacks: Set<SpellAttackMap>,
 ) : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         attacks.registerAll()
     }
 

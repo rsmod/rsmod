@@ -12,45 +12,45 @@ class UnboundEventMapTest {
         val map = UnboundEventMap()
         check(map.isEmpty())
 
-        val func0: (BootUp) -> Unit = { /* no-op */ }
-        val func1: (ShutDown) -> Unit = { /* no-op */ }
+        val func0: (Startup) -> Unit = { /* no-op */ }
+        val func1: (Shutdown) -> Unit = { /* no-op */ }
         val func2: (Cycle) -> Unit = { /* no-op */ }
 
         map += func0
         assertEquals(1, map.size())
-        assertEquals(1, map[BootUp::class.java]?.size)
+        assertEquals(1, map[Startup::class.java]?.size)
 
         map += func1
         assertEquals(2, map.size())
-        assertEquals(1, map[ShutDown::class.java]?.size)
+        assertEquals(1, map[Shutdown::class.java]?.size)
         // Previous event type list should stay the same.
-        assertEquals(1, map[BootUp::class.java]?.size)
+        assertEquals(1, map[Startup::class.java]?.size)
 
         map += func2
         assertEquals(3, map.size())
         assertEquals(1, map[Cycle::class.java]?.size)
         // Previous event type list should stay the same.
-        assertEquals(1, map[BootUp::class.java]?.size)
-        assertEquals(1, map[ShutDown::class.java]?.size)
+        assertEquals(1, map[Startup::class.java]?.size)
+        assertEquals(1, map[Shutdown::class.java]?.size)
     }
 
     @Test
     fun `check contains`() {
         val map = UnboundEventMap()
-        val func0: (BootUp) -> Unit = {}
+        val func0: (Startup) -> Unit = {}
         val func1: (CycleEnd) -> Unit = {}
 
-        assertFalse(BootUp::class.java in map)
+        assertFalse(Startup::class.java in map)
         assertFalse(Cycle::class.java in map)
         assertFalse(CycleEnd::class.java in map)
 
         map += func0
-        assertTrue(BootUp::class.java in map)
+        assertTrue(Startup::class.java in map)
         assertFalse(Cycle::class.java in map)
         assertFalse(CycleEnd::class.java in map)
 
         map += func1
-        assertTrue(BootUp::class.java in map)
+        assertTrue(Startup::class.java in map)
         assertTrue(CycleEnd::class.java in map)
         assertFalse(Cycle::class.java in map)
     }
@@ -60,30 +60,30 @@ class UnboundEventMapTest {
         val map = UnboundEventMap()
         check(map.isEmpty())
 
-        val func0: (BootUp) -> Unit = { /* no-op */ }
-        val func1: (ShutDown) -> Unit = { /* no-op */ }
+        val func0: (Startup) -> Unit = { /* no-op */ }
+        val func1: (Shutdown) -> Unit = { /* no-op */ }
         val func2: (Cycle) -> Unit = { /* no-op */ }
 
-        assertNull(map[BootUp::class.java])
-        assertNull(map[ShutDown::class.java])
+        assertNull(map[Startup::class.java])
+        assertNull(map[Shutdown::class.java])
         assertNull(map[Cycle::class.java])
 
         map += func0
-        assertEquals(1, map[BootUp::class.java]?.size)
-        assertNull(map[ShutDown::class.java])
+        assertEquals(1, map[Startup::class.java]?.size)
+        assertNull(map[Shutdown::class.java])
         assertNull(map[Cycle::class.java])
         assertEquals(1, map.size())
 
         map += func1
-        assertEquals(1, map[ShutDown::class.java]?.size)
-        assertEquals(1, map[BootUp::class.java]?.size)
+        assertEquals(1, map[Shutdown::class.java]?.size)
+        assertEquals(1, map[Startup::class.java]?.size)
         assertNull(map[Cycle::class.java])
         assertEquals(2, map.size())
 
         map += func2
         assertEquals(1, map[Cycle::class.java]?.size)
-        assertEquals(1, map[BootUp::class.java]?.size)
-        assertEquals(1, map[ShutDown::class.java]?.size)
+        assertEquals(1, map[Startup::class.java]?.size)
+        assertEquals(1, map[Shutdown::class.java]?.size)
         assertEquals(3, map.size())
     }
 
@@ -140,18 +140,18 @@ class UnboundEventMapTest {
     @Test
     fun `add and execute all events of type`() {
         var executionCount = 0
-        val bootFunc0: BootUp.() -> Unit = { executionCount++ }
-        val bootFunc1: BootUp.() -> Unit = { executionCount++ }
-        val bootFunc2: BootUp.() -> Unit = { executionCount++ }
-        val otherFunc: ShutDown.() -> Unit = { executionCount++ }
+        val bootFunc0: Startup.() -> Unit = { executionCount++ }
+        val bootFunc1: Startup.() -> Unit = { executionCount++ }
+        val bootFunc2: Startup.() -> Unit = { executionCount++ }
+        val otherFunc: Shutdown.() -> Unit = { executionCount++ }
         val events = eventMap {
             this += bootFunc0
             this += bootFunc1
             this += bootFunc2
             this += otherFunc
         }
-        val event = BootUp()
-        val funcList = checkNotNull(events[BootUp::class.java])
+        val event = Startup()
+        val funcList = checkNotNull(events[Startup::class.java])
         assertEquals(3, funcList.size)
         assertEquals(0, executionCount)
         funcList.forEach { it.invoke(event) }
@@ -162,9 +162,9 @@ class UnboundEventMapTest {
         return UnboundEventMap().apply(init)
     }
 
-    private class BootUp : UnboundEvent
+    private class Startup : UnboundEvent
 
-    private class ShutDown : UnboundEvent
+    private class Shutdown : UnboundEvent
 
     private open class Cycle : UnboundEvent
 

@@ -28,7 +28,7 @@ class PrayerDrainScript
 constructor(private val repo: PrayerRepository, private val bonuses: WornBonuses) : PluginScript() {
     private var Player.drainResistance by intVarBit(varbits.prayer_drain_resistance)
 
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onPlayerSoftTimer(timers.prayer_drain) { player.drainPrayer() }
 
         onPlayerLogin { player.updateDrainResistance() }

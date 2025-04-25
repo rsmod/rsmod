@@ -11,7 +11,7 @@ constructor(
     private val repo: StaffSubstituteRepository,
     private val enumResolver: EnumTypeMapResolver,
 ) : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         repo.init(enumResolver)
     }
 }

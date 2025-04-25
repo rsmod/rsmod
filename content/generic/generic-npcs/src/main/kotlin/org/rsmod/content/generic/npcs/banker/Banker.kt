@@ -34,7 +34,7 @@ private constructor(
 ) : PluginScript() {
     // TODO(content): Bank Tutor dialogue variation when player has a bank PIN set up.
 
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onApNpc4(content.banker) { apOpenCollectionBox(it.npc) }
         onOpNpc4(content.banker) { openCollectionBox() }
         onApNpc3(content.banker) { apOpenBank(it.npc) }
@@ -53,7 +53,7 @@ private constructor(
         onApNpcU(content.banker_tutor) { apBanknote(it.npc, it.invSlot, it.objType) }
         onOpNpcU(content.banker_tutor) { banknote(it.npc, it.invSlot, it.objType) }
 
-        spaceShop.startUp()
+        spaceShop.startup()
     }
 
     private fun ProtectedAccess.apOpenCollectionBox(npc: Npc) {
@@ -638,7 +638,7 @@ private constructor(
 private class BankSpaceShop @Inject constructor(private val enumResolver: EnumTypeMapResolver) {
     private lateinit var blockCosts: List<Int>
 
-    fun startUp() {
+    fun startup() {
         val costs = enumResolver[banker_enums.block_costs].filterValuesNotNull()
         val maxBlock = costs.keys.maxOrNull() ?: error("`block_costs` enum should not be empty.")
         val blockCosts = MutableList(maxBlock) { 0 }

@@ -8,7 +8,7 @@ import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
 class MenuCloseScript : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onIfClose(interfaces.menu) { player.onMenuClose() }
     }
 

@@ -77,7 +77,7 @@ constructor(
 
     private lateinit var stanceSaveVarBits: EnumTypeNonNullMap<Int, VarBitType>
 
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         stanceSaveVarBits = enumResolver[combat_enums.weapons_last_stance].filterValuesNotNull()
 
         onIfOpen(interfaces.combat_interface) { player.updateCombatTab() }

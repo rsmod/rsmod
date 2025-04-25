@@ -18,7 +18,7 @@ class MapClockScript @Inject constructor(private val clock: MapClock) : PluginSc
     private var Player.msPastMinute by intVarBit(varbits.date_ms_past_minute)
     private var Player.secsPastMinute by intVarBit(varbits.date_secs_past_minute)
 
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onPlayerLogin { player.initClockTimer() }
         onPlayerSoftTimer(clock_timers.map_clock) { player.incrementClock() }
     }

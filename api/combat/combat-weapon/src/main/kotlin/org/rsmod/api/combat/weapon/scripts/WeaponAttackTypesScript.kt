@@ -7,7 +7,7 @@ import org.rsmod.plugin.scripts.ScriptContext
 
 public class WeaponAttackTypesScript @Inject constructor(private val attackTypes: AttackTypes) :
     PluginScript() {
-    override fun ScriptContext.startUp() {
-        attackTypes.startUp()
+    override fun ScriptContext.startup() {
+        attackTypes.startup()
     }
 }

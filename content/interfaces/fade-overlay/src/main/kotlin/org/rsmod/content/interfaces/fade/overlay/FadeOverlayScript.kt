@@ -10,7 +10,7 @@ import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
 class FadeOverlayScript @Inject constructor(private val eventBus: EventBus) : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onPlayerQueue(queues.fade_overlay_close) { onCloseQueue() }
     }
 

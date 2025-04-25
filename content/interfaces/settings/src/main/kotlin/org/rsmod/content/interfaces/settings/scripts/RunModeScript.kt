@@ -16,7 +16,7 @@ class RunModeScript
 @Inject
 constructor(private val eventBus: EventBus, private val protectedAccess: ProtectedAccessLauncher) :
     PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onIfOverlayButton(setting_components.runbutton_orb) { player.selectRunToggle() }
         onIfOverlayButton(setting_components.runmode) { player.selectRunToggle() }
         onPlayerQueue(setting_queues.runmode_toggle) { toggleRun() }

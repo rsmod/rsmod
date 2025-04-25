@@ -9,7 +9,7 @@ import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
 class WoodcuttingEasterEgg : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onOpLocU(content.tree, objs.herring) { treeHerring() }
         onOpLocU(content.tree, objs.raw_herring) { treeHerring() }
         onOpLocU(trees.redwoodtree_l, objs.herring) { redwoodTreeHerring() }

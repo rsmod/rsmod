@@ -37,7 +37,7 @@ constructor(
     private val objTypes: ObjTypeList,
     private val marketPrices: MarketPrices,
 ) : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onIfOverlayButton(equip_components.items_kept_on_death) { player.selectKeptOnDeath() }
         onIfClose(equip_interfaces.deathkeep) { player.closeKeptOnDeath() }
     }

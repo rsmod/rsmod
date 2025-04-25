@@ -12,7 +12,7 @@ import org.rsmod.plugin.scripts.ScriptContext
 internal class NpcRetaliateScript
 @Inject
 constructor(private val interactions: AiPlayerInteractions) : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onNpcQueue(queues.com_retaliate_player) { autoRetaliatePlayer() }
     }
 

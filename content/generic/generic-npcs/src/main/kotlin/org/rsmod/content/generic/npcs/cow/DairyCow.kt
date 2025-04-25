@@ -16,7 +16,7 @@ import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
 class DairyCow : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onOpLoc1(content.dairy_cow) { attemptMilkingCow(it.loc) }
         onOpLoc2(content.dairy_cow) { stealCowbell(it.loc) }
         onOpLocU(content.dairy_cow) { mes("The cow doesn't want that.") }

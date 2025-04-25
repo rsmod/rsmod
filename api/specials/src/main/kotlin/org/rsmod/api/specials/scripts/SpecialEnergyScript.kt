@@ -17,7 +17,7 @@ public class SpecialEnergyScript : PluginScript() {
     private val Player.newAccount by boolVarBit(varbits.new_player_account)
     private var Player.specialAttackEnergy by intVarp(varps.sa_energy)
 
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onPlayerLogin { player.initRegenTimer() }
         onPlayerSoftTimer(timers.spec_regen) { player.specRegen() }
     }

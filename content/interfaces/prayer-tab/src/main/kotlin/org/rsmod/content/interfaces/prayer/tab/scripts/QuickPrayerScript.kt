@@ -45,7 +45,7 @@ constructor(
     private val eventBus: EventBus,
     private val protectedAccess: ProtectedAccessLauncher,
 ) : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onIfOverlayButton(prayer_components.quick_prayers_orb) { player.selectQuickPrayerOrb(op) }
         onPlayerQueue(prayer_queues.quick_prayer) { toggleQuickPrayers() }
         onIfOpen(prayer_interfaces.quickprayer) { player.onOpenQuickPrayerSetUp() }

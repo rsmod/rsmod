@@ -15,7 +15,7 @@ public class LocUOpScript
 @Inject
 private constructor(private val interactions: LocUInteractions, private val objTypes: ObjTypeList) :
     PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onOpLocT(components.inv_items) { opLocU(it) }
     }
 

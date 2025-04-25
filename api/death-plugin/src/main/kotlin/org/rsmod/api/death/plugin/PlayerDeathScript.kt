@@ -9,7 +9,7 @@ import org.rsmod.plugin.scripts.ScriptContext
 
 public class PlayerDeathScript @Inject constructor(private val death: PlayerDeath) :
     PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onPlayerQueue(queues.death) { death.death(this) }
     }
 }

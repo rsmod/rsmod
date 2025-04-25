@@ -62,7 +62,7 @@ constructor(
     private val invisibleLvls: InvisibleLevels,
     private val mapClock: MapClock,
 ) : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onOpLoc1(content.tree) { attempt(it.loc, it.type) }
         onOpLoc3(content.tree) { cut(it.loc, it.type) }
         onOpLocU(content.tree, content.woodcutting_axe) { cut(it.loc, it.type) }

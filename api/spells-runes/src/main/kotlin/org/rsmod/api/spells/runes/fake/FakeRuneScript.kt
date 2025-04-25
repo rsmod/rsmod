@@ -9,7 +9,7 @@ public class FakeRuneScript
 @Inject
 constructor(private val repo: FakeRuneRepository, private val enumResolver: EnumTypeMapResolver) :
     PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         repo.init(enumResolver)
     }
 }

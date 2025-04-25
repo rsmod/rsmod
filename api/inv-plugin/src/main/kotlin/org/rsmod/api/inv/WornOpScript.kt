@@ -25,7 +25,7 @@ constructor(
     private val interactions: WornInteractions,
     private val protectedAccess: ProtectedAccessLauncher,
 ) : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         val mappedComponents = mappedComponents()
         for ((wearpos, component) in mappedComponents) {
             onIfOverlayButton(component) { opWornButton(wearpos.slot, op) }

@@ -17,7 +17,7 @@ import org.rsmod.plugin.scripts.ScriptContext
 
 class Bob @Inject constructor(private val shops: Shops, private val dialogues: Dialogues) :
     PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onOpNpc1(lumbridge_npcs.bob) { startDialogue(it.npc) }
         onOpNpc3(lumbridge_npcs.bob) { player.openShop(it.npc) }
         onUnimplementedOpNpc4(lumbridge_npcs.bob) { repairOp(it.npc) }

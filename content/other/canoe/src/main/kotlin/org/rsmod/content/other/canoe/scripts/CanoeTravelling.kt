@@ -37,8 +37,8 @@ class CanoeTravelling @Inject private constructor(private val cutscene: CanoeCut
     PluginScript() {
     var ProtectedAccess.disabledPondWarning by boolVarBit(canoe_varbits.disable_wild_pond_warning)
 
-    override fun ScriptContext.startUp() {
-        cutscene.startUp(this)
+    override fun ScriptContext.startup() {
+        cutscene.startup(this)
 
         onOpLoc1(canoe_locs.floating_log) { openDestinationModal(Canoe.Log) }
         onOpLoc1(canoe_locs.floating_dugout) { openDestinationModal(Canoe.Dugout) }
@@ -199,7 +199,7 @@ constructor(
     private val npcRepo: NpcRepository,
     private val npcTypes: NpcTypeList,
 ) {
-    fun startUp(ctx: ScriptContext) {
+    fun startup(ctx: ScriptContext) {
         ctx.onAiTimer(canoe_npcs.cave_scenery_1) { npc.onSceneryTimer() }
         ctx.onAiTimer(canoe_npcs.cave_scenery_2) { npc.onSceneryTimer() }
         ctx.onAiTimer(canoe_npcs.cave_scenery_3) { npc.onSceneryTimer() }

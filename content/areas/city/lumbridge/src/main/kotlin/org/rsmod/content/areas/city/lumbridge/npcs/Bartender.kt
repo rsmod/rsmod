@@ -17,7 +17,7 @@ import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
 class Bartender @Inject constructor(private val objRepo: ObjRepository) : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onApNpc1(lumbridge_npcs.bartender) { apDialogue(it.npc) }
         onOpNpc1(lumbridge_npcs.bartender) { startDialogue(it.npc) }
     }

@@ -11,7 +11,7 @@ import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
 class DonieAndGee : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onOpNpc1(lumbridge_npcs.gee) { startDialogue(it.npc) }
         onOpNpc1(lumbridge_npcs.donie) { startDialogue(it.npc) }
     }

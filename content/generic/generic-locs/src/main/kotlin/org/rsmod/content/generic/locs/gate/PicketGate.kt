@@ -17,7 +17,7 @@ import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
 class PicketGate @Inject constructor(private val locRepo: LocRepository) : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onOpLoc1(content.closed_left_picketgate) { openLeftGate(it.loc, it.type) }
         onOpLoc1(content.closed_right_picketgate) { openRightGate(it.loc, it.type) }
         onOpLoc1(content.opened_left_picketgate) { closeLeftGate(it.loc, it.type) }

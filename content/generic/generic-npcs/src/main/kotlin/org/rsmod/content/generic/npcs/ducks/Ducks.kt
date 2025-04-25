@@ -21,7 +21,7 @@ constructor(
     private val npcList: NpcList,
     private val worldRepo: WorldRepository,
 ) : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onAiTimer(content.duck) { npc.duckTimer() }
         onAiTimer(content.duckling) { npc.ducklingTimer() }
         onNpcQueue(content.duck, queues.generic_queue1) { duckSay() }

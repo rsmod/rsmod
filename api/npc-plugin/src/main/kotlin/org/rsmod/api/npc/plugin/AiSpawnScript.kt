@@ -10,7 +10,7 @@ import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
 public class AiSpawnScript : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         // Note: This behavior changed at some point - it previously used `ai_spawn` events to set
         // npc combat xp multipliers, which introduced a one-cycle delay before the multiplier was
         // applied. This behavior was eventually abused and subsequently patched. It's unclear

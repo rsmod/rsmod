@@ -14,7 +14,7 @@ import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
 class DoubleDoorScript @Inject constructor(private val locRepo: LocRepository) : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onOpLoc1(content.closed_left_door) { openLeftDoor(it.loc, it.type) }
         onOpLoc1(content.closed_right_door) { openRightDoor(it.loc, it.type) }
         onOpLoc1(content.opened_left_door) { closeLeftDoor(it.loc, it.type) }

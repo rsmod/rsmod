@@ -13,7 +13,7 @@ import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
 class PrayerTabFilterScript : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onIfOpen(interfaces.prayerbook) { player.onTabOpen() }
         onIfOverlayButton(prayer_components.filters) { player.toggleFilter(comsub) }
     }

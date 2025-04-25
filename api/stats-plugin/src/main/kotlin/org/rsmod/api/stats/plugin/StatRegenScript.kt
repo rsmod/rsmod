@@ -26,7 +26,7 @@ public class StatRegenScript @Inject constructor(private val statTypes: StatType
     PluginScript() {
     private val regenStats by lazy { statTypes.values.toRegenStats() }
 
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onPlayerLogin { player.initRegenTimers() }
 
         onPlayerSoftTimer(timers.stat_regen) { player.statRegen() }

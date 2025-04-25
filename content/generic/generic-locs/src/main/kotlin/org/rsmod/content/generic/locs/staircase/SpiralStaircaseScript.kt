@@ -12,7 +12,7 @@ import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
 class SpiralStaircaseScript : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onOpLoc1(content.spiralstaircase_down) { climbDown(it.loc) }
         onOpLoc1(content.spiralstaircase_up) { climbUp(it.loc) }
         onOpLoc1(content.spiralstaircase_option) { climOption(it.loc) }

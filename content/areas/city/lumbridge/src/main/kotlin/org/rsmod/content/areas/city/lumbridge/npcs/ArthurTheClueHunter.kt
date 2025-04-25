@@ -16,7 +16,7 @@ import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
 class ArthurTheClueHunter @Inject constructor(private val random: GameRandom) : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onAiTimer(lumbridge_npcs.arthur_the_clue_hunter) { npc.shout() }
         onOpNpc1(lumbridge_npcs.arthur_the_clue_hunter) { startDialogue(it.npc) }
     }

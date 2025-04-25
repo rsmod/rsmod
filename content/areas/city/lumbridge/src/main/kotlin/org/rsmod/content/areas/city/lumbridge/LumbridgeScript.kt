@@ -24,7 +24,7 @@ constructor(
     private val locRepo: LocRepository,
     private val objRepo: ObjRepository,
 ) : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onOpLoc1(lumbridge_locs.winch) { operateWinch() }
         onOpLoc1(lumbridge_locs.farmerfred_axe_logs) { takeAxeFromLogs(it.loc) }
         addSpawns()

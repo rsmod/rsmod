@@ -25,7 +25,7 @@ class BankTutorialScript @Inject constructor(private val eventBus: EventBus) : P
     private var Player.tutorialPage by intVarBit(bank_varbits.tutorial_current_page)
     private var Player.tutorialTotalPages by intVarBit(bank_varbits.tutorial_total_pages)
 
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onIfModalButton(bank_components.tutorial_button) { selectTutorial() }
         onIfOverlayButton(bank_components.tutorial_prev_page) { player.previousPage() }
         onIfOverlayButton(bank_components.tutorial_next_page) { player.nextPage() }

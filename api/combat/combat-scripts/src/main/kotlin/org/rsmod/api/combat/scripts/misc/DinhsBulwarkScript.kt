@@ -16,7 +16,7 @@ import org.rsmod.plugin.scripts.ScriptContext
 public class DinhsBulwarkScript : PluginScript() {
     private var Player.passiveDelay by intVarp(varps.dinhs_passive_delay)
 
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onWearposChange { player.wearposChange(wearpos, objType) }
     }
 

@@ -21,7 +21,7 @@ class Pickable
 @Inject
 constructor(private val objRepo: ObjRepository, private val locRepo: LocRepository) :
     PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onOpLoc2(content.pickable_crop) { pickCrop(it.loc, it.type) }
         onOpLoc2(pickable_locs.cabbage) { pickCabbage(it.loc, it.type) }
     }

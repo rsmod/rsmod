@@ -7,12 +7,12 @@ import org.rsmod.game.GameProcess
 public class MainGameProcess
 @Inject
 constructor(private val gameCycle: GameCycle, private val eventBus: EventBus) : GameProcess {
-    override fun startUp() {
-        eventBus.publish(GameLifecycle.BootUp)
+    override fun startup() {
+        eventBus.publish(GameLifecycle.Startup)
     }
 
-    override fun shutDown() {
-        eventBus.publish(GameLifecycle.ShutDown)
+    override fun shutdown() {
+        eventBus.publish(GameLifecycle.Shutdown)
     }
 
     override fun cycle() {

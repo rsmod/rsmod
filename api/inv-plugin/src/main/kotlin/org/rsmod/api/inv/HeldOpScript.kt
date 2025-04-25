@@ -25,7 +25,7 @@ private constructor(
     private val interactions: HeldInteractions,
     private val protectedAccess: ProtectedAccessLauncher,
 ) : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onIfOverlayButton(components.inv_items) { opHeldButton() }
         onIfOverlayDrag(components.inv_items) { dragHeldButton() }
     }

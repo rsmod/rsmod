@@ -30,7 +30,7 @@ constructor(private val eventBus: EventBus, private val protectedAccess: Protect
     private var ProtectedAccess.displayPlaytimeReminderDisabled by
         boolVarBit(journal_varbits.display_playtime_remind_disable)
 
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onIfOpen(interfaces.account_summary_sidepanel) { player.onSummarySideOpen() }
         onIfOverlayButton(journal_components.summary_click_layer) {
             player.clickSummaryLayer(comsub)

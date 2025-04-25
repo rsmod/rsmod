@@ -36,7 +36,7 @@ constructor(
     private val invisibleLvls: InvisibleLevels,
     private val xpMods: XpModifiers,
 ) : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onOpLoc1(canoe_locs.ready_to_shape) { walkToAndShapeCanoe(it.base) }
         onOpLoc3(canoe_locs.ready_to_shape) { cutShape(it.base, canoeType ?: return@onOpLoc3) }
         onIfModalButton(canoe_components.shape_log) { selectCanoe(Canoe.Log) }

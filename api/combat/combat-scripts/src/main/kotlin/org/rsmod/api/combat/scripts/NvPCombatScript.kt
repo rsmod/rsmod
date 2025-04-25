@@ -19,7 +19,7 @@ import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
 internal class NvPCombatScript @Inject constructor(private val combat: NvPCombat) : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onDefaultAiOpPlayer2 { attemptCombatOp(it.target) }
     }
 

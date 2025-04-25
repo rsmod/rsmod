@@ -15,7 +15,7 @@ public class NpcUOpScript
 @Inject
 private constructor(private val interactions: NpcUInteractions, private val objTypes: ObjTypeList) :
     PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onOpNpcT(components.inv_items) { opNpcU(it) }
     }
 

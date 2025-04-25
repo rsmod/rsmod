@@ -32,7 +32,7 @@ private constructor(
     private val eventBus: EventBus,
     private val protectedAccess: ProtectedAccessLauncher,
 ) : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         for ((component, prayer) in repo.prayerComponents) {
             onIfOverlayButton(component) { player.selectPrayer(prayer) }
         }

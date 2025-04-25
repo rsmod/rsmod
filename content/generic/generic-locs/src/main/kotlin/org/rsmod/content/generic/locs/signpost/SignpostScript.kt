@@ -18,7 +18,7 @@ import org.rsmod.plugin.scripts.ScriptContext
 class SignpostScript @Inject constructor(private val enums: EnumTypeMapResolver) : PluginScript() {
     private lateinit var signposts: EnumTypeMap<CoordGrid, String>
 
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         signposts = enums[SignpostEnums.signpost_directions]
         onApLoc1(signpost_locs.signpost) { apReadSignpost(it.loc) }
         onOpLoc1(signpost_locs.signpost) { readSignpost(it.loc) }

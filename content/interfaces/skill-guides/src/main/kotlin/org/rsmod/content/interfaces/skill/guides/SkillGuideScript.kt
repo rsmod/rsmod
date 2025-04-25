@@ -25,7 +25,7 @@ constructor(
     private val enumResolver: EnumTypeMapResolver,
     private val protectedAccess: ProtectedAccessLauncher,
 ) : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         val mappedTabButtons = enumResolver[guide_enums.open_buttons].filterValuesNotNull()
         for ((button, varbit) in mappedTabButtons) {
             onIfOverlayButton(button) { player.selectGuide(varbit) }

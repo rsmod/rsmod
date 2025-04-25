@@ -41,7 +41,7 @@ constructor(
     private val UnpackedObjType.price: Int
         get() = marketPrices[this] ?: 1
 
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onIfOverlayButton(equip_components.guide_prices) { player.selectGuidePrices() }
         onIfModalButton(equip_components.guide_prices_add_all) { addAllFromInv() }
         onIfModalButton(equip_components.guide_prices_side_inv) { addFromSlot(it.comsub, it.op) }

@@ -5,7 +5,7 @@ import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
 public class NpcHitScript : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onNpcQueueWithArgs(hit_queues.standard) { processQueuedHit(it.args) }
     }
 }

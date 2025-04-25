@@ -12,7 +12,7 @@ public class InvTransactionsScript @Inject constructor(private val objTypes: Obj
     PluginScript() {
     public lateinit var transactions: InvTransactions
 
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         val create = InvTransactions.from(objTypes)
         transactions = create
         cachedInventoryTransactions = create

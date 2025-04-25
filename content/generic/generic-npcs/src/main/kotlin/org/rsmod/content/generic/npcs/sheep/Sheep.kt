@@ -27,7 +27,7 @@ constructor(
     private val worldRepo: WorldRepository,
     private val random: GameRandom,
 ) : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onAiTimer(content.sheep) { npc.sheepTimer() }
         onOpNpc1(content.sheep) { shearSheep(it.npc) }
         onOpNpcU(content.sheep, objs.shears) { shearSheep(it.npc) }

@@ -99,7 +99,7 @@ class ProtectedAccessPlayerMoveWithMinDelayTest {
     @Inject
     constructor(private val locRepo: LocRepository, private val objRepo: ObjRepository) :
         PluginScript() {
-        override fun ScriptContext.startUp() {
+        override fun ScriptContext.startup() {
             onOpLoc2(wheat) { pickCrop(it.loc) }
         }
 

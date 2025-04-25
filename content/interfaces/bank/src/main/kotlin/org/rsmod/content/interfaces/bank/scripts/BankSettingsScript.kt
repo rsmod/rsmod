@@ -29,7 +29,7 @@ class BankSettingsScript
 @Inject
 constructor(private val bankScript: BankInvScript, private val objTypes: ObjTypeList) :
     PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         val comps = bank_components
 
         onIfModalButton(comps.rearrange_mode_swap) { insertMode = false }

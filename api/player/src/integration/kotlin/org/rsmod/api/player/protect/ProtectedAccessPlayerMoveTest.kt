@@ -137,7 +137,7 @@ class ProtectedAccessPlayerMoveTest {
         }
 
     private class BartenderTestScript : PluginScript() {
-        override fun ScriptContext.startUp() {
+        override fun ScriptContext.startup() {
             onApNpc1(bartender) { apDialogue(it.npc) }
         }
 

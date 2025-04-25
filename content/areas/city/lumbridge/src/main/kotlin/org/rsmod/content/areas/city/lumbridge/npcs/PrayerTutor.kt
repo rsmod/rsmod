@@ -11,7 +11,7 @@ import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
 class PrayerTutor : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onOpNpc1(lumbridge_npcs.prayer_tutor) { startDialogue(it.npc) }
     }
 

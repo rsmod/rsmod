@@ -32,7 +32,7 @@ public class WearposScript @Inject constructor(private val objTypes: ObjTypeList
     private val Player.shieldSpecialActive: Boolean
         get() = specialType == SpecialAttackType.Shield
 
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onWearposChange { player.disableSpecialAttack(wearpos) }
 
         // Note: At this point, the official game sends a few content-specific vars. While we

@@ -10,7 +10,7 @@ import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
 class DungeonLadderScript : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onOpLoc1(content.dungeonladder_down) { climbDown(it.type) }
         onOpLoc1(content.dungeonladder_up) { climbUp(it.type) }
     }

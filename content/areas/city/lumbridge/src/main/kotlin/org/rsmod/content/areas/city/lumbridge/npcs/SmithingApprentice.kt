@@ -14,7 +14,7 @@ import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
 class SmithingApprentice @Inject constructor(private val dialogues: Dialogues) : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onOpNpc1(lumbridge_npcs.smithing_apprentice) { startDialogue(it.npc) }
     }
 

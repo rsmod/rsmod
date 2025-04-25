@@ -84,7 +84,7 @@ class GameServer(private val skipTypeVerificationOverride: Boolean? = null) :
         val injector = createInjector()
         try {
             prepareGame(injector)
-            startUpGame(injector)
+            startupGame(injector)
         } catch (_: ServerRestartException) {}
     }
 
@@ -257,22 +257,22 @@ class GameServer(private val skipTypeVerificationOverride: Boolean? = null) :
             scripts = scriptLoader.load(PluginScript::class.java, injector)
         }
         val scriptContext = injector.getInstance(ScriptContext::class.java)
-        val startUpDuration = measureTime {
-            scripts.forEach { startUpPluginScript(it, scriptContext) }
+        val startupDuration = measureTime {
+            scripts.forEach { startupPluginScript(it, scriptContext) }
         }
         reportDuration {
             "Loaded ${scripts.size} script${if (scripts.size == 1) "" else "s"} in " +
-                "${loadDuration + startUpDuration}. " +
-                "(loading took $loadDuration, startup took $startUpDuration)"
+                "${loadDuration + startupDuration}. " +
+                "(loading took $loadDuration, startup took $startupDuration)"
         }
     }
 
-    private fun startUpGame(injector: Injector) {
+    private fun startupGame(injector: Injector) {
         logger.info { "Loading server bootstrap..." }
         val bootstrap: GameBootstrap
         val duration = measureTime { bootstrap = injector.getInstance(GameBootstrap::class.java) }
         reportDuration { "Loaded server bootstrap in $duration." }
-        bootstrap.startUp()
+        bootstrap.startup()
     }
 
     private fun reportDuration(msg: () -> String) {
@@ -283,8 +283,8 @@ class GameServer(private val skipTypeVerificationOverride: Boolean? = null) :
         logger.debug { msg() }
     }
 
-    private fun startUpPluginScript(script: PluginScript, context: ScriptContext) {
-        with(script) { context.startUp() }
+    private fun startupPluginScript(script: PluginScript, context: ScriptContext) {
+        with(script) { context.startup() }
     }
 
     /**

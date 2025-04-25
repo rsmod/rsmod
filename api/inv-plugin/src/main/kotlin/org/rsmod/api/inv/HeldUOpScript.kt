@@ -21,7 +21,7 @@ constructor(
     private val interactions: HeldUInteractions,
     private val protectedAccess: ProtectedAccessLauncher,
 ) : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onIfOverlayButtonT(components.inv_items) { opHeldU() }
     }
 

@@ -17,7 +17,7 @@ class CowCalf
 @Inject
 constructor(private val worldRepo: WorldRepository, private val random: GameRandom) :
     PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onAiTimer(content.cow_calf) { npc.calfTimer() }
         onOpNpcU(content.cow_calf) { mes("The calf doesn't want that.") }
         onOpNpcU(content.cow_calf, objs.bucket_empty) { mes("Calves are too young to be milked.") }

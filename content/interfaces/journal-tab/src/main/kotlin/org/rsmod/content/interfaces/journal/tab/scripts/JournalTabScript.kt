@@ -15,7 +15,7 @@ import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
 class JournalTabScript @Inject constructor(private val eventBus: EventBus) : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onIfOpen(interfaces.side_journal) { player.openActiveJournal() }
 
         onIfOverlayButton(journal_components.summary_list) {

@@ -43,7 +43,7 @@ constructor(
     private var Player.chatboxUnlocked: Boolean by boolVarBit(varbits.has_displayname_transmitter)
     private var Player.hideRoofs by boolVarBit(varbits.option_hide_rooftops)
 
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onPlayerLogin { player.initialLogin() }
     }
 

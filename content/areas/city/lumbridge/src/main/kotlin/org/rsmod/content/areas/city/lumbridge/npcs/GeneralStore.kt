@@ -14,7 +14,7 @@ import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
 class GeneralStore @Inject constructor(private val shops: Shops) : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onOpNpc1(lumbridge_npcs.shop_keeper) { shopDialogue(it.npc) }
         onOpNpc3(lumbridge_npcs.shop_keeper) { player.openGeneralStore(it.npc) }
         onOpNpc1(lumbridge_npcs.shop_assistant) { shopDialogue(it.npc) }

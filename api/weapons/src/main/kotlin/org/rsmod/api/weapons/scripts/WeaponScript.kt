@@ -14,7 +14,7 @@ constructor(
     private val manager: WeaponAttackManager,
     private val weapons: Set<WeaponMap>,
 ) : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         weapons.registerAll()
     }
 

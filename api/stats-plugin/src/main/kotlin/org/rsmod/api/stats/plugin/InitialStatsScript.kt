@@ -20,7 +20,7 @@ public class InitialStatsScript @Inject constructor(private val statTypes: StatT
 
     private val Player.newAccount by boolVarBit(varbits.new_player_account)
 
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onPlayerInit { player.setInitialStats() }
     }
 

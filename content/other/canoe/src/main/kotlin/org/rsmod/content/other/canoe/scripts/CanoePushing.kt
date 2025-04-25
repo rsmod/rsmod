@@ -13,7 +13,7 @@ import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
 class CanoePushing @Inject constructor(private val worldRepo: WorldRepository) : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onOpLoc1(canoe_locs.ready_log) { pushCanoe(it.loc, Canoe.Log) }
         onOpLoc1(canoe_locs.ready_dugout) { pushCanoe(it.loc, Canoe.Dugout) }
         onOpLoc1(canoe_locs.ready_stable_dugout) { pushCanoe(it.loc, Canoe.StableDugout) }

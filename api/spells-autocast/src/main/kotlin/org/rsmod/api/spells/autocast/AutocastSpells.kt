@@ -18,7 +18,7 @@ constructor(private val enumResolver: EnumTypeMapResolver, private val objTypes:
 
     public fun isRestrictedSpell(spell: ObjType): Boolean = spell.id in restricted
 
-    internal fun startUp() {
+    internal fun startup() {
         val spells = loadAutocastSpells()
         this.spells = spells
 

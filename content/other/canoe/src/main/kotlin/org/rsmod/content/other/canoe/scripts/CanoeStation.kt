@@ -29,7 +29,7 @@ constructor(
     private val invisibleLvls: InvisibleLevels,
     private val worldRepo: WorldRepository,
 ) : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onOpLoc1(canoe_locs.station_lumbridge) { pathTo(it.loc, Path.Lumbridge) }
         onOpLoc3(canoe_locs.station_lumbridge) { cut(it.loc, Path.Lumbridge) }
 

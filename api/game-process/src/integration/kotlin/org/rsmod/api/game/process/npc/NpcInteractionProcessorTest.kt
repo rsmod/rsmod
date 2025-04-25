@@ -106,7 +106,7 @@ class NpcInteractionProcessorTest {
 
     private class ApRerouteTestScript @Inject constructor(private val playerList: PlayerList) :
         PluginScript() {
-        override fun ScriptContext.startUp() {
+        override fun ScriptContext.startup() {
             onAiApPlayer2(man) { combatAp() }
         }
 

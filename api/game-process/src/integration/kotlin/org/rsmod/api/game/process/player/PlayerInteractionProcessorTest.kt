@@ -273,7 +273,7 @@ class PlayerInteractionProcessorTest {
         }
 
     private class ApTestScript : PluginScript() {
-        override fun ScriptContext.startUp() {
+        override fun ScriptContext.startup() {
             onApLoc1(signpost) { apReadSignpost(it.loc) }
             onOpLoc1(signpost) { readSignpost() }
         }
@@ -372,7 +372,7 @@ class PlayerInteractionProcessorTest {
         }
 
     private class ApRerouteTestScript : PluginScript() {
-        override fun ScriptContext.startUp() {
+        override fun ScriptContext.startup() {
             onApNpc2(man) { combatAp(it.npc) }
         }
 

@@ -10,7 +10,7 @@ import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
 class SearchPlugin : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onOpLoc1(content.empty_crate) { player.search(it.type) }
         onOpLoc1(content.empty_sacks) { player.search(it.type) }
         onOpLoc1(content.empty_boxes) { player.search(it.type) }

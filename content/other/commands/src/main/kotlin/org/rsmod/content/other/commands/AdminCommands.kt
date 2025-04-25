@@ -71,7 +71,7 @@ constructor(
 
     private val levenshteinMetric = StringMetrics.levenshtein()
 
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onCommand("master", "Max out all stats", ::master)
         onCommand("reset", "Reset all stats", ::reset)
         onCommand("mypos", "Get current coordinates", ::mypos)
@@ -122,8 +122,8 @@ constructor(
             val level = args[0].toInt()
             val mx = args[1].toInt()
             val mz = args[2].toInt()
-            val lx = args[3].toInt()
-            val lz = args[4].toInt()
+            val lx = args.getOrNull(3)?.toInt() ?: 0
+            val lz = args.getOrNull(4)?.toInt() ?: 0
             val coords = CoordGrid(level, mx, mz, lx, lz)
             protectedAccess.launch(player) {
                 player.mes("Teleported to $coords.")
@@ -343,6 +343,10 @@ constructor(
     }
 
     private fun resolveArgTypeId(arg: String, names: Map<String, Int>): Int? {
+        val argAsInt = arg.toIntOrNull()
+        if (argAsInt != null) {
+            return argAsInt
+        }
         val sanitized = arg.replace("-", "_")
         return names[sanitized]
     }

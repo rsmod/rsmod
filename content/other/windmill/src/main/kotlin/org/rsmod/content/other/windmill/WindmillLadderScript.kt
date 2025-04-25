@@ -9,7 +9,7 @@ import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
 class WindmillLadderScript : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onOpLoc1(windmill_locs.ladder_down) { climbDown() }
         onOpLoc1(windmill_locs.ladder_up) { climbUp() }
         onOpLoc1(windmill_locs.ladder_option) { climbOption() }

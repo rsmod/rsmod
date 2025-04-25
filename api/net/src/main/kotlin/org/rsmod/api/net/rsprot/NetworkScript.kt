@@ -30,12 +30,12 @@ constructor(
     private val objTypes: ObjTypeList,
     private val regionReg: RegionRegistry,
 ) : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         check(RSProtConstants.REVISION == Build.MAJOR) {
             "RSProt and RSMod have mismatching revision builds! " +
                 "(rsmod=${Build.MAJOR}, rsprot=${RSProtConstants.REVISION})"
         }
-        onEvent<GameLifecycle.BootUp> { initService() }
+        onEvent<GameLifecycle.Startup> { initService() }
         onEvent<GameLifecycle.UpdateInfo> { updateService() }
         onEvent<SessionStart> { startSession() }
         onEvent<SessionStateEvent.Logout> { closeSession() }

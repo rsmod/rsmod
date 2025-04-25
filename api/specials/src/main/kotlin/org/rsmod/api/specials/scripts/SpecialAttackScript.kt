@@ -16,8 +16,8 @@ constructor(
     private val weapons: SpecialAttackWeapons,
     private val specials: Set<SpecialAttackMap>,
 ) : PluginScript() {
-    override fun ScriptContext.startUp() {
-        weapons.startUp()
+    override fun ScriptContext.startup() {
+        weapons.startup()
         specials.registerAll()
     }
 

@@ -40,7 +40,7 @@ constructor(
     private val runes: MagicRuneManager,
     private val autocast: AutocastWeapons,
 ) : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onDefaultApNpc2 { attemptCombatAp(it.npc) }
         onDefaultOpNpc2 { attemptCombatOp(it.npc) }
         for (spell in spells.combatSpells()) {

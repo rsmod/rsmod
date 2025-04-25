@@ -10,7 +10,7 @@ import org.rsmod.plugin.scripts.ScriptContext
 class GameframeScript
 @Inject
 constructor(private val sidePanelsResizable: SidePanelsResizablePane) : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onPlayerInit { player.openGameframe(sidePanelsResizable, eventBus) }
     }
 }

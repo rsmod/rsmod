@@ -17,7 +17,7 @@ import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
 public class ObjTakePlugin @Inject constructor(private val repo: ObjRepository) : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onDefaultOpObj3 { triggerTake(it.obj) }
     }
 

@@ -7,7 +7,7 @@ import org.rsmod.plugin.scripts.ScriptContext
 
 public class AutocastScript @Inject constructor(private val spells: AutocastSpells) :
     PluginScript() {
-    override fun ScriptContext.startUp() {
-        spells.startUp()
+    override fun ScriptContext.startup() {
+        spells.startup()
     }
 }

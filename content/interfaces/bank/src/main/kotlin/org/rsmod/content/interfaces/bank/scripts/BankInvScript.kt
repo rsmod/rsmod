@@ -86,7 +86,7 @@ constructor(
     private val weaponSpeeds: WeaponSpeeds,
     private val enumResolver: EnumTypeMapResolver,
 ) : PluginScript() {
-    override fun ScriptContext.startUp() {
+    override fun ScriptContext.startup() {
         onPlayerLogin { player.setDefaultCapacity() }
 
         onIfModalButton(bank_components.side_inventory) { sideInvOp(it.comsub, it.op) }

@@ -34,7 +34,7 @@ constructor(private val objTypes: ObjTypeList, private val enumResolver: EnumTyp
         return styles[combatStance]
     }
 
-    internal fun startUp() {
+    internal fun startup() {
         val weaponStyles = loadWeaponStylesMap()
         this.weaponStyles = weaponStyles
     }

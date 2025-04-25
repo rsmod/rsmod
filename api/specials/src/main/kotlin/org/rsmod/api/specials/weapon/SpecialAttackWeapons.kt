@@ -24,7 +24,7 @@ constructor(private val enumResolver: EnumTypeMapResolver) {
 
     public fun getSpecialDescription(objType: ObjType): String? = descriptions[objType.id]
 
-    internal fun startUp() {
+    internal fun startup() {
         val energyRequirements = loadEnergyRequirements()
         this.energyRequirements = energyRequirements
 
