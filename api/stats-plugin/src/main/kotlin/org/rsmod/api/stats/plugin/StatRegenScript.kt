@@ -6,6 +6,8 @@ import org.rsmod.api.config.refs.objs
 import org.rsmod.api.config.refs.stats
 import org.rsmod.api.config.refs.timers
 import org.rsmod.api.player.hands
+import org.rsmod.api.player.stat.baseHitpointsLvl
+import org.rsmod.api.player.stat.hitpoints
 import org.rsmod.api.player.stat.stat
 import org.rsmod.api.player.stat.statAdd
 import org.rsmod.api.player.stat.statBase
@@ -61,6 +63,9 @@ public class StatRegenScript @Inject constructor(private val statTypes: StatType
     }
 
     private fun Player.healthRegen() {
+        if (hitpoints >= baseHitpointsLvl) {
+            return
+        }
         val amount = if (hands.isType(objs.regen_bracelet)) 2 else 1
         statHeal(stats.hitpoints, constant = amount, percent = 0)
     }
