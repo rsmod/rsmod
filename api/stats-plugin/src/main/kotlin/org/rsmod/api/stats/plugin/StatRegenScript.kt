@@ -1,11 +1,11 @@
 package org.rsmod.api.stats.plugin
 
 import jakarta.inject.Inject
+import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.objs
 import org.rsmod.api.config.refs.stats
 import org.rsmod.api.config.refs.timers
 import org.rsmod.api.player.hands
-import org.rsmod.api.player.resetRegenTimers
 import org.rsmod.api.player.stat.stat
 import org.rsmod.api.player.stat.statAdd
 import org.rsmod.api.player.stat.statBase
@@ -25,13 +25,19 @@ public class StatRegenScript @Inject constructor(private val statTypes: StatType
     private val regenStats by lazy { statTypes.values.toRegenStats() }
 
     override fun ScriptContext.startUp() {
-        onPlayerLogIn { player.resetRegenTimers() }
+        onPlayerLogIn { player.initRegenTimers() }
 
         onPlayerSoftTimer(timers.stat_regen) { player.statRegen() }
         onPlayerSoftTimer(timers.stat_boost_restore) { player.statBoostRestore() }
         onPlayerSoftTimer(timers.health_regen) { player.healthRegen() }
 
         onPlayerSoftTimer(timers.rapidrestore_regen) { player.statRegen() }
+    }
+
+    private fun Player.initRegenTimers() {
+        softTimer(timers.stat_regen, constants.stat_regen_interval)
+        softTimer(timers.stat_boost_restore, constants.stat_boost_restore_interval)
+        softTimer(timers.health_regen, constants.health_regen_interval)
     }
 
     private fun Player.statRegen() {

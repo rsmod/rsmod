@@ -60,7 +60,7 @@ object Constants {
     const val elemental_weakness_earth = 2
     const val elemental_weakness_fire = 3
 
-    const val sa_default_energy = 1000
+    const val sa_max_energy = 1000
 
     const val skullicon_default = 0
     const val skullicon_red = 1
@@ -73,6 +73,7 @@ object Constants {
     const val stat_regen_interval = 100
     const val stat_boost_restore_interval = 100
     const val health_regen_interval = 100
+    const val spec_regen_interval = 50
 
     const val bodytype_a = 0
     const val bodytype_b = 1

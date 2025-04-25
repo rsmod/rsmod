@@ -43,10 +43,14 @@ public fun Player.disablePrayers() {
     clearSoftTimer(timers.rapidrestore_regen)
 }
 
-public fun Player.resetRegenTimers() {
+public fun Player.deathResetTimers() {
     softTimer(timers.stat_regen, constants.stat_regen_interval)
     softTimer(timers.stat_boost_restore, constants.stat_boost_restore_interval)
     softTimer(timers.health_regen, constants.health_regen_interval)
+
+    // Note: RL regeneration meter plugin does not reset on death. This can lead to de-sync, but
+    // it is (currently) the official behavior.
+    softTimer(timers.spec_regen, constants.spec_regen_interval)
 }
 
 public fun Player.isValidTarget(): Boolean {
