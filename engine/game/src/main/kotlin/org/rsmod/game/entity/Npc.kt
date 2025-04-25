@@ -254,13 +254,17 @@ public class Npc(
     }
 
     public fun facePlayer(target: Player) {
-        PathingEntityCommon.facePlayer(this, target)
-        infoProtocol.setFacePathingEntity(faceEntity.entitySlot)
+        if (faceEntity.playerSlot != target.slotId) {
+            PathingEntityCommon.facePlayer(this, target)
+            infoProtocol.setFacePathingEntity(faceEntity.entitySlot)
+        }
     }
 
     public fun faceNpc(target: Npc) {
-        PathingEntityCommon.faceNpc(this, target)
-        infoProtocol.setFacePathingEntity(faceEntity.entitySlot)
+        if (faceEntity.npcSlot != target.slotId) {
+            PathingEntityCommon.faceNpc(this, target)
+            infoProtocol.setFacePathingEntity(faceEntity.entitySlot)
+        }
     }
 
     public fun resetFaceEntity() {
