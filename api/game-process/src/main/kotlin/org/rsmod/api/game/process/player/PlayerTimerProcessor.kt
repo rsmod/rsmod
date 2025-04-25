@@ -67,9 +67,9 @@ constructor(
     private fun PlayerTimerMap.toExpiredKeys(): Set<Short> {
         expiredKeysBuffer.clear()
         for (entry in this) {
-            val expiry = extractExpiry(entry.value)
+            val expiry = extractExpiry(entry.longValue)
             if (mapClock >= expiry) {
-                expiredKeysBuffer.add(entry.key)
+                expiredKeysBuffer.add(entry.shortKey)
             }
         }
         return expiredKeysBuffer
