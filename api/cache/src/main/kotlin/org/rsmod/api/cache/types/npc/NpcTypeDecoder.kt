@@ -214,6 +214,7 @@ public object NpcTypeDecoder {
                 }
                 213 -> contentGroup = data.readUnsignedShort()
                 214 -> heroCount = data.readUnsignedShort()
+                215 -> regenRate = data.readUnsignedShort()
                 249 -> paramMap = ParamMap(data.readRawParams())
                 else -> throw IOException("Error unrecognised .npc config code: $code")
             }

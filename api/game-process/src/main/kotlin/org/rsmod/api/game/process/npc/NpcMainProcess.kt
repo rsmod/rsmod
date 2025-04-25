@@ -16,6 +16,7 @@ constructor(
     private val npcList: NpcList,
     private val registry: NpcRegistry,
     private val reveal: NpcRevealProcessor,
+    private val regen: NpcRegenProcessor,
     private val aiTimers: AiTimerProcessor,
     private val timers: NpcTimerProcessor,
     private val queues: NpcQueueProcessor,
@@ -33,6 +34,7 @@ constructor(
             npc.tryOrDespawn {
                 resumePausedProcess()
                 revealProcess()
+                regenProcess()
                 aiTimerProcess()
                 queueProcess()
                 timerProcess()
@@ -51,6 +53,12 @@ constructor(
 
     private fun Npc.revealProcess() {
         reveal.process(this)
+    }
+
+    private fun Npc.regenProcess() {
+        if (canProcess) {
+            regen.process(this)
+        }
     }
 
     private fun Npc.aiTimerProcess() {

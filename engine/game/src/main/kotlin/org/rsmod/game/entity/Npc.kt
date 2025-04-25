@@ -91,6 +91,9 @@ public class Npc(
     public var baseRangedLvl: Int = type.ranged
     public var baseMagicLvl: Int = type.magic
 
+    public var regenClock: Int = 0
+    public val regenRate: Int = type.regenRate
+
     /**
      * The combat xp multiplier stored as an integer, with the decimal value scaled by `1000`. For
      * example, a value of `1075` represents a `1.075x` multiplier (`+7.5%`).

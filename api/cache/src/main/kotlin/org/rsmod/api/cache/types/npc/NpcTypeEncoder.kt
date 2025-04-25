@@ -386,5 +386,10 @@ public object NpcTypeEncoder {
                 data.writeByte(214)
                 data.writeShort(heroCount)
             }
+
+            if (regenRate != NpcTypeBuilder.DEFAULT_REGEN_RATE) {
+                data.writeByte(215)
+                data.writeShort(regenRate)
+            }
         }
 }

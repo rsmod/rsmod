@@ -107,6 +107,7 @@ public data class UnpackedNpcType(
     public val patrol: NpcPatrol?,
     public val contentGroup: Int,
     public val heroCount: Int,
+    public val regenRate: Int,
     override var internalId: Int?,
     override var internalName: String?,
 ) : NpcType() {
@@ -238,7 +239,8 @@ public data class UnpackedNpcType(
             "timer=$timer, " +
             "respawnDir=$respawnDir, " +
             "patrol=${patrol?.coordList()}, " +
-            "heroCount=$heroCount" +
+            "heroCount=$heroCount, " +
+            "regenRate=$regenRate" +
             ")"
 
     override fun equals(other: Any?): Boolean {
@@ -312,6 +314,7 @@ public data class UnpackedNpcType(
             if (patrol != other.patrol) return false
         } else if (other.patrol != null) return false
         if (heroCount != other.heroCount) return false
+        if (regenRate != other.regenRate) return false
         if (contentGroup != other.contentGroup) return false
         if (internalId != other.internalId) return false
 
@@ -384,6 +387,7 @@ public data class UnpackedNpcType(
         result = 31 * result + (patrol?.hashCode() ?: 0)
         result = 31 * result + contentGroup
         result = 31 * result + heroCount
+        result = 31 * result + regenRate
         result = 31 * result + (internalId ?: 0)
         return result
     }
