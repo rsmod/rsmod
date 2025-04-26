@@ -45,12 +45,12 @@ public class GameUpdate {
      * external systems are responsible for notifying players and managing the countdown
      * progression.
      *
-     * @param cycles the number of game cycles to count down from. Must be positive or zero.
-     * @throws IllegalArgumentException if [cycles] is negative.
+     * @param cycles the number of game cycles to count down from. Must be greater than zero.
+     * @throws IllegalArgumentException if [cycles] is less than or equal to zero.
      * @throws IllegalStateException if the server has already entered the [State.Updating] state.
      */
     public fun setCountdown(cycles: Int) {
-        require(cycles >= 0) { "Countdown cycles must be positive: $cycles" }
+        require(cycles > 0) { "Countdown cycles must be greater than zero: $cycles" }
         check(state != State.Updating) { "Game has already signaled for shutdown." }
         state = State.Countdown(cycles)
     }
