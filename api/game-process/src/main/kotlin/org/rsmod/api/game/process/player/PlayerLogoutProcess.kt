@@ -41,10 +41,13 @@ constructor(
 
     private fun Player.processServerShutdown() {
         if (pendingShutdown && !loggingOut && !pendingLogout) {
+            val closeClient = !clientDisconnected.get()
+            if (closeClient) {
+                closeClient()
+            }
             queueLogout()
-            closeClient()
-            forceDisconnect = false
             clientDisconnected.set(false)
+            forceDisconnect = false
         }
     }
 
@@ -77,7 +80,7 @@ constructor(
             val bypassPrevention = preventLogoutCounter++ >= PREVENT_LOGOUT_HARD_CAP_PERIOD
             if (!preventLogout || bypassPrevention) {
                 queueLogout()
-                clientDisconnectedCycles++
+                clientDisconnectedCycles = RECONNECT_GRACE_PERIOD + 1
             }
             return
         }

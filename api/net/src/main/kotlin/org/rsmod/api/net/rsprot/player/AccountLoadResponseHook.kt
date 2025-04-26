@@ -21,11 +21,15 @@ import org.rsmod.api.registry.player.isSuccess
 import org.rsmod.api.server.config.WorldConfig
 import org.rsmod.api.server.config.isDevRealm
 import org.rsmod.events.EventBus
+import org.rsmod.game.GameUpdate
+import org.rsmod.game.GameUpdate.Companion.isCountdown
+import org.rsmod.game.GameUpdate.Companion.isUpdating
 import org.rsmod.game.entity.Player
 import org.rsmod.game.type.mod.ModGroup
 
 class AccountLoadResponseHook(
     private val config: WorldConfig,
+    private val update: GameUpdate,
     private val eventBus: EventBus,
     private val accountRegistry: AccountRegistry,
     private val playerRegistry: PlayerRegistry,
@@ -197,6 +201,17 @@ class AccountLoadResponseHook(
             return
         }
 
+        val updateState = update.state
+        if (updateState.isUpdating()) {
+            writeErrorResponse(LoginResponse.UpdateInProgress)
+            return
+        }
+
+        if (updateState.isCountdown() && updateState.current <= UPDATE_TIMER_REJECT_BUFFER) {
+            writeErrorResponse(LoginResponse.UpdateInProgress)
+            return
+        }
+
         val response = player.createLoginResponse(slotId, loadResponse.auth)
         val session = channelResponses.writeSuccessfulResponse(response, loginBlock)
 
@@ -257,6 +272,9 @@ class AccountLoadResponseHook(
 
     private companion object {
         private const val DAYS_BETWEEN_2FA_VERIFICATION = 30
+
+        /** Once the game update timer hits this value, we reject any further login requests. */
+        private const val UPDATE_TIMER_REJECT_BUFFER = 25
 
         private val logger = InlineLogger()
 

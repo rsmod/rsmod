@@ -8,6 +8,7 @@ import org.rsmod.api.cheat.CheatHandlerBuilder
 import org.rsmod.api.config.refs.modlevels
 import org.rsmod.api.invtx.invAdd
 import org.rsmod.api.invtx.invClear
+import org.rsmod.api.player.output.MiscOutput
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.protect.ProtectedAccessLauncher
 import org.rsmod.api.player.stat.PlayerSkillXP
@@ -22,9 +23,12 @@ import org.rsmod.api.repo.npc.NpcRepository
 import org.rsmod.api.script.onCommand
 import org.rsmod.api.type.symbols.name.NameMapping
 import org.rsmod.api.utils.format.formatAmount
+import org.rsmod.api.utils.system.SafeServiceExit
+import org.rsmod.game.GameUpdate
 import org.rsmod.game.cheat.Cheat
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
+import org.rsmod.game.entity.PlayerList
 import org.rsmod.game.entity.npc.NpcMode
 import org.rsmod.game.loc.LocAngle
 import org.rsmod.game.loc.LocEntity
@@ -55,6 +59,7 @@ class AdminCommands
 @Inject
 constructor(
     private val protectedAccess: ProtectedAccessLauncher,
+    private val playerList: PlayerList,
     private val statTypes: StatTypeList,
     private val seqTypes: SeqTypeList,
     private val spotTypes: SpotanimTypeList,
@@ -66,6 +71,7 @@ constructor(
     private val locRepo: LocRepository,
     private val npcRepo: NpcRepository,
     private val names: NameMapping,
+    private val update: GameUpdate,
 ) : PluginScript() {
     private val logger = InlineLogger()
 
@@ -100,6 +106,8 @@ constructor(
         onCommand("varbit", "Set varbit value", ::setVarBit) {
             invalidArgs = "Use as ::varbit debugNameOrId value (ex: emote_hotline_bling 1)"
         }
+        onCommand("reboot", "Reboots the game world, applying packed changes", ::reboot)
+        onCommand("slowreboot", "Reboots the game world, with a timer", ::slowReboot)
     }
 
     private fun master(cheat: Cheat) = with(cheat) { player.setStatLevels(level = 99) }
@@ -341,6 +349,24 @@ constructor(
         appearance.combatLevel = PlayerSkillXP.calculateCombatLevel(this)
         PlayerInterfaceUpdates.updateCombatLevel(this)
     }
+
+    private fun reboot(cheat: Cheat) {
+        logger.info { "Reboot initiated by '${cheat.player.username}'." }
+        SafeServiceExit.terminate()
+    }
+
+    private fun slowReboot(cheat: Cheat) =
+        with(cheat) {
+            val cycles = min(args[0].toInt(), 65535)
+            if (cycles <= 0) {
+                update.clear()
+                return@with
+            }
+            update.setCountdown(cycles)
+            for (p in playerList) {
+                MiscOutput.updateRebootTimer(p, cycles)
+            }
+        }
 
     private fun resolveArgTypeId(arg: String, names: Map<String, Int>): Int? {
         val argAsInt = arg.toIntOrNull()

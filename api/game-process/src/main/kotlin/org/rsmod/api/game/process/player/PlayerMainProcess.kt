@@ -34,6 +34,11 @@ constructor(
 
     private fun processAll() = runBlocking {
         for (player in players) {
+            // Skip players who are no longer considered online. They remain in the player list
+            // temporarily until their account data has been saved.
+            if (!player.canProcess) {
+                continue
+            }
             player.processedMapClock = mapClock.cycle
             player.tryOrDisconnect {
                 resumePausedProcess()
@@ -90,6 +95,10 @@ constructor(
     }
 
     private fun Player.processMovementSequence() {
+        // Do not process interactions/movement while "fake-logged."
+        if (pendingLogout) {
+            return
+        }
         // Store the current interaction at this stage to ensure that if an interaction triggers a
         // new one (e.g., combat calling `opnpc2`), the original interaction completes before the
         // new one is processed.

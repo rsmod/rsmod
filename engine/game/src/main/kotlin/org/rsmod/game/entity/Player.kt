@@ -257,6 +257,15 @@ public class Player(
     public var dropTrigger: DropTriggerType? = null
         private set
 
+    /**
+     * Returns whether the player is eligible to be processed by the game loop.
+     *
+     * Players who are logging out are excluded from processing but remain in the player list until
+     * their account has been fully saved.
+     */
+    public val canProcess: Boolean
+        get() = !loggingOut
+
     public val isDelayed: Boolean
         get() = delay > processedMapClock && !pendingShutdown
 

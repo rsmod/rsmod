@@ -89,6 +89,7 @@ import org.rsmod.api.testing.factory.collisionFactory
 import org.rsmod.api.testing.random.SequenceRandom
 import org.rsmod.api.utils.logging.GameExceptionHandler
 import org.rsmod.events.EventBus
+import org.rsmod.game.GameUpdate
 import org.rsmod.game.MapClock
 import org.rsmod.game.cheat.CheatCommandMap
 import org.rsmod.game.client.Client
@@ -815,6 +816,7 @@ constructor(
             }
 
             bind(EventBus::class.java).`in`(Scopes.SINGLETON)
+            bind(GameUpdate::class.java).`in`(Scopes.SINGLETON)
             bind(MapClock::class.java).`in`(Scopes.SINGLETON)
             bind(LocZoneStorage::class.java).`in`(Scopes.SINGLETON)
 

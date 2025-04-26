@@ -20,12 +20,14 @@ import org.rsmod.api.server.config.WorldConfig
 import org.rsmod.api.totp.TotpManager
 import org.rsmod.api.totp.useSecret
 import org.rsmod.events.EventBus
+import org.rsmod.game.GameUpdate
 import org.rsmod.game.entity.Player
 
 class ConnectionHandler
 @Inject
 private constructor(
     private val worldConfig: WorldConfig,
+    private val update: GameUpdate,
     private val eventBus: EventBus,
     private val playerReg: PlayerRegistry,
     private val accountReg: AccountRegistry,
@@ -70,6 +72,7 @@ private constructor(
         val responseHook =
             AccountLoadResponseHook(
                 config = worldConfig,
+                update = update,
                 eventBus = eventBus,
                 accountRegistry = accountReg,
                 playerRegistry = playerReg,

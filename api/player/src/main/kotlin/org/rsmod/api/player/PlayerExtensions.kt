@@ -64,7 +64,11 @@ public fun Player.deathResetTimers() {
 }
 
 public fun Player.isValidTarget(): Boolean {
-    return isSlotAssigned && isVisible && !loggingOut && hitpoints > 0
+    val isLoggingOut = pendingLogout || loggingOut
+    if (isLoggingOut) {
+        return false
+    }
+    return isSlotAssigned && isVisible && hitpoints > 0
 }
 
 public fun Player.isOutOfCombat(): Boolean = !isInCombat()
