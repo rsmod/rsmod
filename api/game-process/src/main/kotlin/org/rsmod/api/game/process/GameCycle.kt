@@ -18,19 +18,19 @@ import org.rsmod.game.MapClock
 public data class GameCycle
 @Inject
 constructor(
-    public val eventBus: EventBus,
-    public val mapClock: MapClock,
-    public val playerLogin: PlayerLoginProcess,
-    public val worldQueue: WorldQueueListProcess,
-    public val npcPreTick: NpcPreTickProcess,
-    public val playerInput: PlayerInputProcess,
-    public val playerRouteRequest: PlayerRouteRequestProcess,
-    public val npcMain: NpcMainProcess,
-    public val controllerMain: ControllerMainProcess,
-    public val playerMain: PlayerMainProcess,
-    public val playerLogout: PlayerLogoutProcess,
-    public val worldPostTick: WorldPostTickProcess,
-    public val playerPostTick: PlayerPostTickProcess,
+    private val eventBus: EventBus,
+    private val mapClock: MapClock,
+    private val playerLogin: PlayerLoginProcess,
+    private val worldQueue: WorldQueueListProcess,
+    private val npcPreTick: NpcPreTickProcess,
+    private val playerInput: PlayerInputProcess,
+    private val playerRouteRequest: PlayerRouteRequestProcess,
+    private val npcMain: NpcMainProcess,
+    private val controllerMain: ControllerMainProcess,
+    private val playerMain: PlayerMainProcess,
+    private val playerLogout: PlayerLogoutProcess,
+    private val worldPostTick: WorldPostTickProcess,
+    private val playerPostTick: PlayerPostTickProcess,
 ) {
     public fun tick() {
         eventBus.publish(GameLifecycle.StartCycle)

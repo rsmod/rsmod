@@ -33,7 +33,7 @@ import org.rsmod.map.square.MapSquareKey
 import org.rsmod.map.zone.ZoneKey
 
 class RspCycle(
-    val session: Session<Player>,
+    private val session: Session<Player>,
     private val playerInfo: PlayerInfo,
     private val npcInfo: NpcInfo,
     private val xteaProvider: XteaProvider,
