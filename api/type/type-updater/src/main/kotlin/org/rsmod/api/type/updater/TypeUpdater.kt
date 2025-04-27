@@ -57,13 +57,16 @@ import org.rsmod.game.type.stat.StatTypeBuilder
 import org.rsmod.game.type.stat.UnpackedStatType
 import org.rsmod.game.type.util.MergeableCacheBuilder
 import org.rsmod.game.type.varbit.UnpackedVarBitType
+import org.rsmod.game.type.varbit.VarBitType
 import org.rsmod.game.type.varbit.VarBitTypeBuilder
 import org.rsmod.game.type.varn.UnpackedVarnType
 import org.rsmod.game.type.varn.VarnTypeBuilder
 import org.rsmod.game.type.varnbit.UnpackedVarnBitType
 import org.rsmod.game.type.varnbit.VarnBitTypeBuilder
 import org.rsmod.game.type.varp.UnpackedVarpType
+import org.rsmod.game.type.varp.VarpTransmitLevel
 import org.rsmod.game.type.varp.VarpTypeBuilder
+import org.rsmod.game.type.varp.VarpTypeList
 import org.rsmod.game.type.walktrig.WalkTriggerType
 import org.rsmod.game.type.walktrig.WalkTriggerTypeBuilder
 
@@ -107,21 +110,24 @@ constructor(
         val configs = TypeListMapDecoder.ofParallel(enrichedCache, names)
         val updates = collectUpdateMap(configs)
         val params = transmitParamKeys(configs.params, updates.params)
-        encodeCacheTypes(updates, gameCachePath, EncoderContext(encodeFull = true, params))
-        encodeCacheTypes(updates, js5CachePath, EncoderContext(encodeFull = false, params))
+        val varps = transmitVarpKeys(configs.varps, updates.varps)
+        encodeCacheTypes(updates, gameCachePath, EncoderContext.server(params, varps))
+        encodeCacheTypes(updates, js5CachePath, EncoderContext.client(params, varps))
     }
 
     /**
      * Combines and returns a set of all unique [UnpackedParamType.id] values where the
-     * [UnpackedParamType.transmit] flag is `true`. This ensures only relevant parameters are
-     * included for client cache packing, filtering out server-side parameters.
+     * [UnpackedParamType.transmit] flag is `true`.
+     *
+     * This ensures only relevant parameters are included for client cache packing, filtering out
+     * server-side parameters.
      *
      * Discrepancies between the existing [cache] and [updates] are resolved by:
      * - Removing outdated `transmit` flags from [cache] that are overridden by [updates].
      * - Including only updated or valid `transmit` keys from [updates].
      *
      * This guarantees that parameters marked with `transmit` in [cache] but later updated to
-     * `false` in [updates] are excluded, avoiding incorrect inclusion in the transmit keys.
+     * `false` in [updates] are excluded, avoiding incorrect inclusion in the `transmit` keys.
      */
     private fun transmitParamKeys(
         cache: ParamTypeList,
@@ -131,6 +137,29 @@ constructor(
         val cacheTransmitKeys = cache.filterTransmitKeys().filterNot(updateParamKeys::contains)
         val updateTransmitKeys =
             updates.filter(UnpackedParamType<*>::transmit).map(UnpackedParamType<*>::id)
+        return IntOpenHashSet(cacheTransmitKeys + updateTransmitKeys)
+    }
+
+    /**
+     * Combines and returns a set of all unique [UnpackedVarpType.id] values where the
+     * [UnpackedVarpType.transmit] level is **not** [VarpTransmitLevel.Never].
+     *
+     * This key set is primarily used for validating varbits, which reference their parent varp via
+     * [VarBitType.baseVar]. Varbits may reference newly built or edited varps whose transmission
+     * levels are not yet finalized in the [cache], requiring an up-to-date set.
+     *
+     * Discrepancies between the existing [cache] and [updates] are resolved by:
+     * - Removing outdated transmit flags from [cache] that are overridden by [updates].
+     * - Including only updated or valid transmit keys from [updates].
+     *
+     * This ensures that varps marked as transmissible in [cache] but later updated to
+     * [VarpTransmitLevel.Never] in [updates] are excluded, avoiding incorrect inclusion in the
+     * final `transmit` keys.
+     */
+    private fun transmitVarpKeys(cache: VarpTypeList, updates: List<UnpackedVarpType>): Set<Int> {
+        val updateVarpKeys = IntOpenHashSet(updates.map(UnpackedVarpType::id))
+        val cacheTransmitKeys = cache.filterTransmitKeys().filterNot(updateVarpKeys::contains)
+        val updateTransmitKeys = updates.filterNot { it.transmit.never }.map(UnpackedVarpType::id)
         return IntOpenHashSet(cacheTransmitKeys + updateTransmitKeys)
     }
 

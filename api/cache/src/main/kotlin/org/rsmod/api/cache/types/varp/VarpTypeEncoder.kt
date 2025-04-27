@@ -22,7 +22,7 @@ public object VarpTypeEncoder {
         val packed = mutableListOf<UnpackedVarpType>()
         for (type in types) {
             // Skip server-side varps when packing into the client cache.
-            if (type.transmit.never && ctx.clientOnly) {
+            if (ctx.clientOnly && type.transmit.never) {
                 continue
             }
 

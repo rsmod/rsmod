@@ -18,6 +18,7 @@ import org.rsmod.game.type.obj.ObjTypeBuilder
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.param.ParamTypeList
 import org.rsmod.game.type.util.MergeableCacheBuilder
+import org.rsmod.game.type.varp.VarpTypeList
 
 public class CacheEnrichment
 @Inject
@@ -29,9 +30,11 @@ constructor(
     private val objTypes: ObjTypeList,
     private val objEnrichments: Set<ObjCacheEnricher>,
     private val paramTypes: ParamTypeList,
+    private val varpTypes: VarpTypeList,
 ) {
     public fun encodeAll(dest: Cache) {
-        val encoderContext = EncoderContext(encodeFull = true, paramTypes.filterTransmitKeys())
+        val encoderContext =
+            EncoderContext.server(paramTypes.filterTransmitKeys(), varpTypes.filterTransmitKeys())
         dest.use { cache ->
             val locs = locEnrichments.collect(locTypes, LocTypeBuilder).asIterable()
             val npcs = npcEnrichments.collect(npcTypes, NpcTypeBuilder).asIterable()
@@ -51,7 +54,7 @@ constructor(
         val merged = mutableMapOf<Int, T>()
         for ((id, types) in grouped) {
             check(types.isNotEmpty()) { "Grouped types for enricher must not be empty." }
-            val cacheType = cacheTypes[id] ?: continue // Skip types not in cache.
+            val cacheType = cacheTypes[id] ?: continue // Skip types not in the cache.
             if (types.size == 1) {
                 merged[id] = merger.merge(cacheType, types[0])
                 continue

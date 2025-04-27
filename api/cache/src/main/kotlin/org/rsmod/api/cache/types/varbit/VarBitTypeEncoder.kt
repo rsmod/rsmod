@@ -20,6 +20,10 @@ public object VarBitTypeEncoder {
         val config = Js5Configs.VARBIT
         val packed = mutableListOf<UnpackedVarBitType>()
         for (type in types) {
+            // Skip server-side varps when packing into the client cache.
+            if (ctx.clientOnly && type.varpId !in ctx.clientVarps) {
+                continue
+            }
             val oldBuf =
                 if (cache.exists(archive, config, type.id)) {
                     cache.read(archive, config, type.id)
