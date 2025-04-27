@@ -248,10 +248,8 @@ public class ProtectedAccess(
      *   the coroutine suspension.
      */
     public suspend fun playerMove(dest: CoordGrid, moveSpeed: MoveSpeed = player.varMoveSpeed) {
-        if (coords != dest) {
-            walk(dest)
-            player.moveSpeed = moveSpeed
-        }
+        walk(dest)
+        player.moveSpeed = moveSpeed
 
         val distance = coords.chebyshevDistance(dest)
         if (moveSpeed == MoveSpeed.Run && distance <= 3) {
@@ -295,10 +293,8 @@ public class ProtectedAccess(
         dest: CoordGrid,
         moveSpeed: MoveSpeed = player.varMoveSpeed,
     ) {
-        if (coords != dest) {
-            walk(dest)
-            player.moveSpeed = moveSpeed
-        }
+        walk(dest)
+        player.moveSpeed = moveSpeed
 
         val distanceDelay = (coords.chebyshevDistance(dest) - 1) / max(1, moveSpeed.steps)
         delay(max(1, distanceDelay))
