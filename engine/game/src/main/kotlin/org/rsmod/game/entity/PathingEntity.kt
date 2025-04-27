@@ -233,7 +233,6 @@ public sealed class PathingEntity {
     }
 
     public fun abortRoute() {
-        pendingStepCount = 0
         routeRequest = null
         tempMoveSpeed = null
         routeDestination.clear()
