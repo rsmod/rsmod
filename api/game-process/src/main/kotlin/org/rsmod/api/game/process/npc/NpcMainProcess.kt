@@ -8,7 +8,6 @@ import org.rsmod.api.utils.logging.GameExceptionHandler
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.NpcList
-import org.rsmod.game.entity.util.EntityFaceAngle
 
 public class NpcMainProcess
 @Inject
@@ -22,7 +21,6 @@ constructor(
     private val queues: NpcQueueProcessor,
     private val modes: NpcModeProcessor,
     private val interactions: NpcInteractionProcessor,
-    private val facing: NpcFaceSquareProcessor,
     private val mapClock: MapClock,
     private val exceptionHandler: GameExceptionHandler,
 ) {
@@ -33,13 +31,12 @@ constructor(
             npc.tryOrDespawn {
                 resumePausedProcess()
                 revealProcess()
-                regenProcess()
-                aiTimerProcess()
-                queueProcess()
-                timerProcess()
-                modeProcess()
+                processRegen()
+                processAiTimer()
+                processQueues()
+                processTimers()
+                processModes()
                 processInteractions()
-                faceSquareProcess()
             }
         }
     }
@@ -54,31 +51,31 @@ constructor(
         reveal.process(this)
     }
 
-    private fun Npc.regenProcess() {
+    private fun Npc.processRegen() {
         if (canProcess) {
             regen.process(this)
         }
     }
 
-    private fun Npc.aiTimerProcess() {
+    private fun Npc.processAiTimer() {
         if (canProcess) {
             aiTimers.process(this)
         }
     }
 
-    private fun Npc.queueProcess() {
+    private fun Npc.processQueues() {
         if (canProcess) {
             queues.process(this)
         }
     }
 
-    private fun Npc.timerProcess() {
+    private fun Npc.processTimers() {
         if (canProcess) {
             timers.process(this)
         }
     }
 
-    private fun Npc.modeProcess() {
+    private fun Npc.processModes() {
         if (canProcess) {
             modes.process(this)
         }
@@ -87,16 +84,6 @@ constructor(
     private fun Npc.processInteractions() {
         if (canProcess) {
             interactions.process(this)
-        }
-    }
-
-    private fun Npc.faceSquareProcess() {
-        if (canProcess) {
-            val pending = pendingFaceSquare
-            facing.process(this)
-            if (pendingFaceAngle != EntityFaceAngle.NULL) {
-                infoProtocol.setFaceSquare(pending.x, pending.z, instant = false)
-            }
         }
     }
 

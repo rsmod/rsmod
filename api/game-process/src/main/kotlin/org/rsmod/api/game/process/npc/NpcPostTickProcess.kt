@@ -15,13 +15,14 @@ public class NpcPostTickProcess
 constructor(
     private val npcList: NpcList,
     private val registry: NpcRegistry,
+    private val facing: NpcFaceSquareProcessor,
     private val exceptionHandler: GameExceptionHandler,
 ) {
     public fun process() {
         for (npc in npcList) {
             npc.tryOrDespawn {
                 processZoneUpdates()
-                updateMovementInfo()
+                updateProtocolInfo()
                 cleanUpPendingUpdates()
             }
         }
@@ -38,6 +39,11 @@ constructor(
         }
         registry.change(this, oldZone, newZone)
         lastProcessedZone = newZone
+    }
+
+    private fun Npc.updateProtocolInfo() {
+        updateMovementInfo()
+        updateFaceAngleInfo()
     }
 
     private fun Npc.updateMovementInfo() {
@@ -108,6 +114,14 @@ constructor(
 
     private fun Npc.updateTelejump() {
         infoProtocol.teleport(x, z, level, jump = true)
+    }
+
+    private fun Npc.updateFaceAngleInfo() {
+        val pending = pendingFaceSquare
+        facing.process(this)
+        if (pendingFaceAngle != EntityFaceAngle.NULL) {
+            infoProtocol.setFaceSquare(pending.x, pending.z, instant = false)
+        }
     }
 
     private fun Npc.cleanUpPendingUpdates() {
