@@ -101,11 +101,20 @@ class RspCycle(
             extendedInfo.setMoveSpeed(cachedMoveSpeed.steps)
             knownCachedSpeed = cachedMoveSpeed
         }
+        val moveSpeed = resolvePendingMoveSpeed()
         if (moveSpeed != cachedMoveSpeed && coords != knownCoords) {
             val extendedInfo = playerInfo.avatar.extendedInfo
             extendedInfo.setTempMoveSpeed(moveSpeed.steps)
         }
     }
+
+    private fun Player.resolvePendingMoveSpeed(): MoveSpeed =
+        when {
+            pendingTelejump || pendingTeleport -> MoveSpeed.Stationary
+            pendingStepCount == 1 -> MoveSpeed.Walk
+            pendingStepCount == 2 -> MoveSpeed.Run
+            else -> moveSpeed
+        }
 
     private fun Player.updateCoords() {
         npcInfo.updateCoord(worldId, level, x, z)
