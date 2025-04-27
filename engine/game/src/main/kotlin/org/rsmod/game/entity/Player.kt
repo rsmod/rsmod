@@ -163,7 +163,7 @@ public class Player(
     public val visibleZoneKeys: IntList = IntArrayList()
     public var lastMapBuildComplete: Int = Int.MIN_VALUE
 
-    public var runEnergy: Int = 0
+    public var runEnergy: Int = 1000
     public var runWeight: Int = 0
 
     public var modGroup: ModGroup? = null

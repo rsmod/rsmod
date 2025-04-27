@@ -247,6 +247,7 @@ constructor(
         player.characterId = resolvedUuid.toInt()
         player.accountHash = resolvedUuid
         player.userId = resolvedUuid
+        player.runEnergy = Int.MAX_VALUE
         player.assignUid()
         players[slot] = player
         eventBus.publish(SessionStateEvent.Initialize(player))
