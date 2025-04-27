@@ -53,42 +53,41 @@ constructor(
     private val objInteractions: ObjInteractions,
     private val playerInteractions: PlayerInteractions,
     private val protectedAccess: ProtectedAccessLauncher,
+    private val movement: PlayerMovementProcessor,
 ) {
-    public fun processPreMovement(player: Player, interaction: Interaction) {
-        // If the player is busy, interactions should not be canceled by [shouldCancelInteraction].
-        if (player.isAccessProtected) {
-            return
+    public fun process(player: Player) {
+        // Store the current interaction at this stage to ensure that if an interaction triggers a
+        // new one (e.g., combat calling `opnpc2`), the original interaction completes before the
+        // new one is processed.
+        val interaction = player.interaction
+        var interacted = false
+
+        if (interaction != null && !player.isAccessProtected) {
+            val cancel = player.shouldCancelInteraction(interaction)
+            if (cancel) {
+                player.clearInteractionRoute()
+                return
+            }
+            player.preMovementInteraction(interaction)
+            interacted = interaction.interacted
         }
 
-        // Ensure the interaction target is still valid before proceeding.
-        if (player.shouldCancelInteraction(interaction)) {
-            player.clearInteractionRoute()
-            return
+        if (!interacted) {
+            val reroute = interaction != null && player.routeDestination.size <= 1
+            if (reroute) {
+                player.routeToPathingTarget(interaction)
+            }
+
+            movement.process(player)
+
+            if (interaction != null && !player.isAccessProtected) {
+                player.postMovementInteraction(interaction)
+            }
         }
 
-        player.preMovementInteraction(interaction)
-    }
-
-    public fun processPostMovement(player: Player, interaction: Interaction) {
-        // If the player is busy, interactions should not be canceled by [shouldCancelInteraction].
-        // However, if an interaction was completed during the pre-movement step, clear it.
-        if (player.isAccessProtected) {
-            player.clearFinishedInteraction()
-            return
-        }
-
-        // Ensure the interaction target is still valid before proceeding.
-        if (player.shouldCancelInteraction(interaction)) {
-            return
-        }
-
-        // If the interaction did not go through during pre-movement, attempt to complete it now
-        // after the player's movement has been processed.
-        if (!interaction.interacted) {
-            player.postMovementInteraction(interaction)
-        }
-
-        // Clear the interaction if it's deemed "completed."
+        // Important that this uses the most up-to-date `interaction` reference and not the one
+        // stored locally in this function. This allows for newly set interactions to not get
+        // cleared if the local reference has "completed."
         player.clearFinishedInteraction()
     }
 
@@ -96,15 +95,8 @@ constructor(
         with(interaction) {
             interacted = false
             apRangeCalled = false
-
             val step = determinePreMovementStep(this)
             processInteractionStep(interaction, step)
-
-            // Interaction routes are recalculated during their last waypoint when targeting
-            // pathing entities.
-            if (!interacted && routeDestination.size <= 1) {
-                routeToPathingTarget(interaction)
-            }
         }
 
     private fun Player.postMovementInteraction(interaction: Interaction): Unit =

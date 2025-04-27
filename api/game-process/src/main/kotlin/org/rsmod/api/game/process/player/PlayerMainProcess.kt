@@ -10,7 +10,6 @@ import org.rsmod.events.EventBus
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.PlayerList
-import org.rsmod.game.interact.Interaction
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.ui.Component
 
@@ -25,7 +24,6 @@ constructor(
     private val timers: PlayerTimerProcessor,
     private val engineQueues: PlayerEngineQueueProcessor,
     private val interact: PlayerInteractionProcessor,
-    private val movement: PlayerMovementProcessor,
     private val exceptionHandler: GameExceptionHandler,
 ) {
     public fun process() {
@@ -48,7 +46,7 @@ constructor(
                 processQueues()
                 processTimers()
                 processEngineQueues()
-                processMovementSequence()
+                processInteractions()
                 processIfCloseDisconnect()
             }
         }
@@ -94,32 +92,14 @@ constructor(
         engineQueues.process(this)
     }
 
-    private fun Player.processMovementSequence() {
-        // Do not process interactions/movement while "fake-logged."
+    // Interactions implicitly handle movement processing as well.
+    private fun Player.processInteractions() {
+        // Do not process interactions while "fake-logged."
         if (pendingLogout) {
+            clearInteraction()
             return
         }
-        // Store the current interaction at this stage to ensure that if an interaction triggers a
-        // new one (e.g., combat calling `opnpc2`), the original interaction completes before the
-        // new one is processed.
-        val interaction = interaction
-        preMovementInteraction(interaction)
-        movementProcess()
-        postMovementInteraction(interaction)
-    }
-
-    private fun Player.preMovementInteraction(interaction: Interaction?) {
-        val interaction = interaction ?: return
-        interact.processPreMovement(this, interaction)
-    }
-
-    private fun Player.movementProcess() {
-        movement.process(this)
-    }
-
-    private fun Player.postMovementInteraction(interaction: Interaction?) {
-        val interaction = interaction ?: return
-        interact.processPostMovement(this, interaction)
+        interact.process(this)
     }
 
     private fun Player.processIfCloseDisconnect() {
