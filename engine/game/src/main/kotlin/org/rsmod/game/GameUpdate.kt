@@ -49,7 +49,7 @@ public class GameUpdate {
      * @throws IllegalArgumentException if [cycles] is less than or equal to zero.
      * @throws IllegalStateException if the server has already entered the [State.Updating] state.
      */
-    public fun setCountdown(cycles: Int) {
+    public fun startCountdown(cycles: Int) {
         require(cycles > 0) { "Countdown cycles must be greater than zero: $cycles" }
         check(state != State.Updating) { "Game has already signaled for shutdown." }
         state = State.Countdown(cycles)

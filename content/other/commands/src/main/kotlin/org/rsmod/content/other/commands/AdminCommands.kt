@@ -362,7 +362,7 @@ constructor(
                 update.clear()
                 return@with
             }
-            update.setCountdown(cycles)
+            update.startCountdown(cycles)
             for (p in playerList) {
                 MiscOutput.updateRebootTimer(p, cycles)
             }
