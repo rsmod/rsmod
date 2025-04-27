@@ -110,7 +110,8 @@ class RspCycle(
 
     private fun Player.resolvePendingMoveSpeed(): MoveSpeed =
         when {
-            pendingTelejump || pendingTeleport -> MoveSpeed.Stationary
+            pendingTelejump -> MoveSpeed.Stationary
+            pendingTeleport -> MoveSpeed.Walk
             pendingStepCount == 1 -> MoveSpeed.Walk
             pendingStepCount == 2 -> MoveSpeed.Run
             else -> moveSpeed
