@@ -8,7 +8,6 @@ import net.rsprot.protocol.api.login.GameLoginResponseHandler
 import net.rsprot.protocol.loginprot.incoming.util.AuthenticationType
 import net.rsprot.protocol.loginprot.incoming.util.LoginBlock
 import net.rsprot.protocol.loginprot.incoming.util.OtpAuthenticationType
-import net.rsprot.protocol.loginprot.incoming.util.Password
 import net.rsprot.protocol.loginprot.outgoing.LoginResponse
 import org.rsmod.api.account.AccountManager
 import org.rsmod.api.account.loader.request.AccountLoadAuth
@@ -62,10 +61,10 @@ private constructor(
         block: LoginBlock<AuthenticationType>,
         auth: AuthenticationType.PasswordAuthentication,
     ) {
+        val passwordText = auth.password.asString().also { auth.password.clear() }
         // This may be filtered earlier at the protocol layer (e.g., rsprot), but we defensively
         // check again to ensure the password is not empty.
-        val inputPassword = auth.password.asString().toCharArray()
-        if (inputPassword.isEmpty()) {
+        if (passwordText.isEmpty()) {
             responseHandler.writeFailedResponse(LoginResponse.InvalidUsernameOrPassword)
             return
         }
@@ -78,7 +77,7 @@ private constructor(
                 playerRegistry = playerReg,
                 loginBlock = block,
                 channelResponses = responseHandler,
-                inputPassword = inputPassword,
+                inputPassword = passwordText.toCharArray(),
                 verifyPassword = ::verifyPassword,
                 verifyTotp = ::verifyTotp,
             )
@@ -97,7 +96,7 @@ private constructor(
             if (worldConfig.requireRegistration) {
                 accountManager.load(loadAuth, username, responseHook)
             } else {
-                val hashedPassword = computePasswordHash(auth.password)
+                val hashedPassword = computePasswordHash(passwordText.toCharArray())
                 if (hashedPassword == null) {
                     responseHandler.writeFailedResponse(LoginResponse.InvalidUsernameOrPassword)
                     return
@@ -110,9 +109,9 @@ private constructor(
         }
     }
 
-    private fun computePasswordHash(pass: Password): String? {
+    private fun computePasswordHash(password: CharArray): String? {
         return try {
-            passwordHashing.hash(pass.asString().toCharArray())
+            passwordHashing.hash(password)
         } catch (e: Exception) {
             logger.error { "Password hashing error: ${e::class.simpleName}" }
             null
