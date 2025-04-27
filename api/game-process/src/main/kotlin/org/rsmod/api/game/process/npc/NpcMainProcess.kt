@@ -20,7 +20,6 @@ constructor(
     private val aiTimers: AiTimerProcessor,
     private val timers: NpcTimerProcessor,
     private val queues: NpcQueueProcessor,
-    private val movement: NpcMovementProcessor,
     private val modes: NpcModeProcessor,
     private val interactions: NpcInteractionProcessor,
     private val facing: NpcFaceSquareProcessor,
@@ -39,7 +38,7 @@ constructor(
                 queueProcess()
                 timerProcess()
                 modeProcess()
-                movementSequence()
+                processInteractions()
                 faceSquareProcess()
             }
         }
@@ -85,20 +84,9 @@ constructor(
         }
     }
 
-    private fun Npc.movementSequence() {
+    private fun Npc.processInteractions() {
         if (canProcess) {
-            // Store the current interaction at this stage to ensure that if an interaction triggers
-            // a new one, the original interaction completes before the new one is processed.
-            val interaction = interaction
-            if (interaction != null) {
-                interactions.processPreMovement(this, interaction)
-            }
-
-            movement.process(this)
-
-            if (interaction != null) {
-                interactions.processPostMovement(this, interaction)
-            }
+            interactions.process(this)
         }
     }
 

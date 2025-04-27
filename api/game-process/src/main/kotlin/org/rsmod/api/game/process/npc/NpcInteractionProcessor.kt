@@ -49,45 +49,38 @@ constructor(
     private val objInteractions: AiObjInteractions,
     private val playerInteractions: AiPlayerInteractions,
     private val accessLauncher: StandardNpcAccessLauncher,
+    private val movement: NpcMovementProcessor,
 ) {
-    public fun processPreMovement(npc: Npc, interaction: Interaction) {
-        // If the npc is busy, interactions should not be canceled by [shouldCancelInteraction].
-        if (npc.isBusy) {
-            return
+    public fun process(npc: Npc) {
+        // Store the current interaction at this stage to ensure that if an interaction triggers
+        // a new one, the original interaction completes before the new one is processed.
+        val interaction = npc.interaction
+        var interacted = false
+
+        if (interaction != null && !npc.isBusy) {
+            val cancel = npc.shouldCancelInteraction(interaction)
+            if (cancel) {
+                npc.clearInteractionRoute()
+                npc.defaultMode()
+                return
+            }
+            npc.preMovementInteraction(interaction)
+            interacted = interaction.interacted
         }
 
-        // Ensure the interaction target is still valid before proceeding.
-        if (npc.shouldCancelInteraction(interaction)) {
-            npc.clearInteractionRoute()
-            npc.defaultMode()
-            return
-        }
+        if (!interacted) {
+            // Note: Rerouting to target is handled via the npc's ai mode as it gets re-applied
+            // implicitly every cycle.
+            movement.process(npc)
 
-        npc.preMovementInteraction(interaction)
-    }
+            if (npc.shouldCancelChase()) {
+                npc.defaultMode()
+                return
+            }
 
-    public fun processPostMovement(npc: Npc, interaction: Interaction) {
-        // If the npc is busy, interactions should not be canceled by [shouldCancelInteraction].
-        if (npc.isBusy) {
-            return
-        }
-
-        // Ensure the interaction target is still valid before proceeding.
-        if (npc.shouldCancelInteraction(interaction)) {
-            npc.defaultMode()
-            return
-        }
-
-        // Npcs that have `givechase = no` should cancel any interaction if they have moved.
-        if (npc.shouldCancelChase()) {
-            npc.defaultMode()
-            return
-        }
-
-        // If the interaction did not go through during pre-movement, attempt to complete it now
-        // after the npc's movement has been processed.
-        if (!interaction.interacted) {
-            npc.postMovementInteraction(interaction)
+            if (interaction != null && !npc.isBusy) {
+                npc.postMovementInteraction(interaction)
+            }
         }
     }
 
