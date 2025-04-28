@@ -5,7 +5,6 @@ import java.util.concurrent.CancellationException
 import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.ExecutorService
-import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
@@ -23,6 +22,7 @@ import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.withTimeout
 import org.rsmod.server.services.concurrent.ScheduledListenerService
 import org.rsmod.server.services.concurrent.ScheduledService
+import org.rsmod.server.services.util.safeShutdown
 
 /**
  * Manages the lifecycle of a collection of [Service] and [ScheduledService] instances.
@@ -337,15 +337,7 @@ private constructor(
     }
 
     private fun safeShutdown(executor: ExecutorService, timeoutSecs: Long = 15L) {
-        executor.shutdown()
-        try {
-            if (!executor.awaitTermination(timeoutSecs, TimeUnit.SECONDS)) {
-                executor.shutdownNow()
-            }
-        } catch (_: InterruptedException) {
-            executor.shutdownNow()
-            Thread.currentThread().interrupt()
-        }
+        executor.safeShutdown(timeoutSecs)
     }
 
     public sealed class StartResult {
