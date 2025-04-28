@@ -3,8 +3,7 @@ package org.rsmod.api.account.character.stats
 import jakarta.inject.Inject
 import org.rsmod.api.account.character.CharacterDataStage
 import org.rsmod.api.account.character.CharacterMetadataList
-import org.rsmod.api.db.Database
-import org.rsmod.api.db.util.prepareStatement
+import org.rsmod.api.db.DatabaseConnection
 import org.rsmod.game.entity.Player
 import org.rsmod.game.type.stat.StatTypeList
 
@@ -14,9 +13,9 @@ public class CharacterStatPipeline
 @Inject
 constructor(private val applier: CharacterStatApplier, private val statTypes: StatTypeList) :
     CharacterDataStage.Pipeline {
-    override suspend fun append(database: Database, metadata: CharacterMetadataList) {
+    override fun append(connection: DatabaseConnection, metadata: CharacterMetadataList) {
         val select =
-            database.prepareStatement(
+            connection.prepareStatement(
                 """
                     SELECT stat_id, vis_level, base_level, fine_xp
                     FROM stats
@@ -44,9 +43,9 @@ constructor(private val applier: CharacterStatApplier, private val statTypes: St
         metadata.add(applier, CharacterStatData(stats))
     }
 
-    override suspend fun save(database: Database, player: Player, characterId: Int) {
+    override fun save(connection: DatabaseConnection, player: Player, characterId: Int) {
         val upsert =
-            database.prepareStatement(
+            connection.prepareStatement(
                 """
                     INSERT INTO stats (character_id, stat_id, vis_level, base_level, fine_xp)
                     VALUES (?, ?, ?, ?, ?)

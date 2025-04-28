@@ -4,9 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.inject.Inject
 import java.sql.Statement
 import org.rsmod.api.account.character.CharacterMetadataList
-import org.rsmod.api.db.Database
+import org.rsmod.api.db.DatabaseConnection
 import org.rsmod.api.db.util.getLocalDateTime
-import org.rsmod.api.db.util.prepareStatement
 import org.rsmod.api.db.util.setNullableInt
 import org.rsmod.api.db.util.setNullableString
 import org.rsmod.api.db.util.setSqliteTimestamp
@@ -28,8 +27,8 @@ constructor(
     private val realm: Int
         get() = worldConfig.realm.id
 
-    public suspend fun insertOrSelectAccountId(
-        database: Database,
+    public fun insertOrSelectAccountId(
+        connection: DatabaseConnection,
         loginName: String,
         hashedPassword: String,
     ): Int? {
@@ -39,7 +38,7 @@ constructor(
         // database setup (sqlite) but may need to be adapted for others (e.g., mysql uses
         // `INSERT IGNORE`).
         val insert =
-            database.prepareStatement(
+            connection.prepareStatement(
                 """
                     INSERT INTO accounts (login_username, password_hash)
                     VALUES (?, ?)
@@ -53,7 +52,7 @@ constructor(
             it.executeUpdate()
         }
 
-        val select = database.prepareStatement("SELECT id FROM accounts WHERE login_username = ?")
+        val select = connection.prepareStatement("SELECT id FROM accounts WHERE login_username = ?")
         val accountId =
             select.use {
                 it.setString(1, lowercaseName)
@@ -68,9 +67,9 @@ constructor(
         return accountId
     }
 
-    public suspend fun insertAndSelectCharacterId(database: Database, accountId: Int): Int? {
+    public fun insertAndSelectCharacterId(connection: DatabaseConnection, accountId: Int): Int? {
         val insert =
-            database.prepareStatement(
+            connection.prepareStatement(
                 """
                     INSERT INTO characters (account_id, realm_id)
                     VALUES (?, ?)
@@ -99,14 +98,14 @@ constructor(
         }
     }
 
-    public suspend fun selectAndCreateMetadataList(
-        database: Database,
+    public fun selectAndCreateMetadataList(
+        connection: DatabaseConnection,
         loginName: String,
     ): CharacterMetadataList? {
         val lowercaseName = loginName.lowercase()
 
         val select =
-            database.prepareStatement(
+            connection.prepareStatement(
                 """
                     SELECT
                         a.id AS account_id,
@@ -206,9 +205,14 @@ constructor(
         return null
     }
 
-    public suspend fun save(database: Database, player: Player, accountId: Int, characterId: Int) {
+    public fun save(
+        connection: DatabaseConnection,
+        player: Player,
+        accountId: Int,
+        characterId: Int,
+    ) {
         val updateCharacter =
-            database.prepareStatement(
+            connection.prepareStatement(
                 """
                     UPDATE characters
                     SET x = ?, z = ?, level = ?, varps = ?, last_login = ?, run_energy = ?,
@@ -233,7 +237,7 @@ constructor(
         }
 
         val updateAccount =
-            database.prepareStatement(
+            connection.prepareStatement(
                 """
                     UPDATE accounts
                     SET display_name = ?, known_device = ?, mod_group = ?

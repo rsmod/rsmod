@@ -3,8 +3,7 @@ package org.rsmod.api.account.character.inv
 import jakarta.inject.Inject
 import org.rsmod.api.account.character.CharacterDataStage
 import org.rsmod.api.account.character.CharacterMetadataList
-import org.rsmod.api.db.Database
-import org.rsmod.api.db.util.prepareStatement
+import org.rsmod.api.db.DatabaseConnection
 import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.type.inv.InvScope
@@ -16,10 +15,10 @@ private typealias CharacterObj = CharacterInventoryData.Obj
 public class CharacterInventoryPipeline
 @Inject
 constructor(private val applier: CharacterInventoryApplier) : CharacterDataStage.Pipeline {
-    override suspend fun append(database: Database, metadata: CharacterMetadataList) {
-        val inventories = selectInventories(database, metadata)
+    override fun append(connection: DatabaseConnection, metadata: CharacterMetadataList) {
+        val inventories = selectInventories(connection, metadata)
 
-        // Avoid malformed query if no inventories exist.
+        // Avoid a malformed query if no inventories exist.
         if (inventories.isEmpty()) {
             metadata.add(applier, CharacterInventoryData(inventories))
             return
@@ -29,7 +28,7 @@ constructor(private val applier: CharacterInventoryApplier) : CharacterDataStage
 
         val placeholders = (0 until inventories.size).joinToString(",") { "?" }
         val select =
-            database.prepareStatement(
+            connection.prepareStatement(
                 """
                     SELECT inventories_id, slot, obj, count, vars
                     FROM inventory_objs
@@ -57,14 +56,14 @@ constructor(private val applier: CharacterInventoryApplier) : CharacterDataStage
         metadata.add(applier, CharacterInventoryData(inventories))
     }
 
-    private suspend fun selectInventories(
-        database: Database,
+    private fun selectInventories(
+        connection: DatabaseConnection,
         metadata: CharacterMetadataList,
     ): List<CharacterInventory> {
         val inventories = ArrayList<CharacterInventory>(4)
 
         val select =
-            database.prepareStatement(
+            connection.prepareStatement(
                 """
                     SELECT id, inv_type
                     FROM inventories
@@ -87,12 +86,12 @@ constructor(private val applier: CharacterInventoryApplier) : CharacterDataStage
         return inventories
     }
 
-    override suspend fun save(database: Database, player: Player, characterId: Int) {
+    override fun save(connection: DatabaseConnection, player: Player, characterId: Int) {
         val persistentInvs = player.invMap.values.filter { it.type.scope == InvScope.Perm }
-        deleteStaleInventories(database, characterId, persistentInvs)
+        deleteStaleInventories(connection, characterId, persistentInvs)
 
         val delete =
-            database.prepareStatement(
+            connection.prepareStatement(
                 """
                     DELETE FROM inventory_objs
                     WHERE inventories_id = ? AND slot = ?
@@ -104,7 +103,7 @@ constructor(private val applier: CharacterInventoryApplier) : CharacterDataStage
         // database setup (sqlite), but may need to be adapted for others (e.g., mysql uses
         // `ON DUPLICATE KEY UPDATE` for similar functionality).
         val upsert =
-            database.prepareStatement(
+            connection.prepareStatement(
                 """
                     INSERT INTO inventory_objs (inventories_id, slot, obj, count, vars)
                     VALUES (?, ?, ?, ?, ?)
@@ -121,7 +120,7 @@ constructor(private val applier: CharacterInventoryApplier) : CharacterDataStage
                 for (inventory in persistentInvs) {
                     val type = inventory.type
 
-                    val inventoryRowId = getOrInsertInventoryRowId(database, characterId, type.id)
+                    val inventoryRowId = getOrInsertInventoryRowId(connection, characterId, type.id)
                     if (inventoryRowId == null) {
                         val message =
                             "Fatal error fetching inventory row for: $type (player=$player)"
@@ -154,8 +153,8 @@ constructor(private val applier: CharacterInventoryApplier) : CharacterDataStage
         }
     }
 
-    private suspend fun deleteStaleInventories(
-        database: Database,
+    private fun deleteStaleInventories(
+        connection: DatabaseConnection,
         characterId: Int,
         inventories: Collection<Inventory>,
     ) {
@@ -165,7 +164,7 @@ constructor(private val applier: CharacterInventoryApplier) : CharacterDataStage
         if (inventories.isNotEmpty()) {
             val activeInvPlaceholders = (0 until inventories.size).joinToString(",") { "?" }
             val deleteStaleInventories =
-                database.prepareStatement(
+                connection.prepareStatement(
                     """
                         DELETE FROM inventories
                         WHERE character_id = ? AND inv_type NOT IN ($activeInvPlaceholders)
@@ -180,7 +179,7 @@ constructor(private val applier: CharacterInventoryApplier) : CharacterDataStage
             }
         } else {
             val deleteAllInventories =
-                database.prepareStatement("DELETE FROM inventories WHERE character_id = ?")
+                connection.prepareStatement("DELETE FROM inventories WHERE character_id = ?")
 
             deleteAllInventories.use {
                 it.setInt(1, characterId)
@@ -189,8 +188,8 @@ constructor(private val applier: CharacterInventoryApplier) : CharacterDataStage
         }
     }
 
-    private suspend fun getOrInsertInventoryRowId(
-        database: Database,
+    private fun getOrInsertInventoryRowId(
+        connection: DatabaseConnection,
         characterId: Int,
         invType: Int,
     ): Int? {
@@ -198,7 +197,7 @@ constructor(private val applier: CharacterInventoryApplier) : CharacterDataStage
         // database setup (sqlite), but may need to be adapted for others (e.g., mysql uses
         // `INSERT IGNORE`).
         val insert =
-            database.prepareStatement(
+            connection.prepareStatement(
                 """
                     INSERT INTO inventories (character_id, inv_type)
                     VALUES (?, ?)
@@ -214,7 +213,7 @@ constructor(private val applier: CharacterInventoryApplier) : CharacterDataStage
         }
 
         val select =
-            database.prepareStatement(
+            connection.prepareStatement(
                 """
                     SELECT id FROM inventories
                     WHERE character_id = ? AND inv_type = ?

@@ -19,6 +19,7 @@ import org.rsmod.api.account.character.CharacterMetadataList
 import org.rsmod.api.account.character.main.CharacterAccountRepository
 import org.rsmod.api.account.loader.request.AccountLoadRequest
 import org.rsmod.api.account.loader.request.AccountLoadResponse
+import org.rsmod.api.db.DatabaseConnection
 import org.rsmod.api.db.sqlite.SqliteDatabase
 import org.rsmod.server.services.concurrent.ScheduledService
 
@@ -187,27 +188,31 @@ constructor(
     }
 
     private suspend fun handleRequest(request: AccountLoadRequest) {
-        val metadataList = repository.selectAndCreateMetadataList(database, request.loginName)
-        if (metadataList == null) {
-            val response = accountNotFoundResponse(request)
-            request.callback(response)
-            return
-        }
-        for (pipeline in pipelines) {
-            pipeline.append(database, metadataList)
-        }
-        val response =
-            AccountLoadResponse.Ok.LoadAccount(request.auth, metadataList.accountData, metadataList)
+        val response = database.withTransaction { connection -> connection.handleRequest(request) }
         request.callback(response)
     }
 
-    private suspend fun accountNotFoundResponse(request: AccountLoadRequest) =
+    private fun DatabaseConnection.handleRequest(request: AccountLoadRequest): AccountLoadResponse {
+        val metadataList = repository.selectAndCreateMetadataList(this, request.loginName)
+        if (metadataList == null) {
+            val response = accountNotFoundResponse(request)
+            return response
+        }
+        for (pipeline in pipelines) {
+            pipeline.append(this, metadataList)
+        }
+        val response =
+            AccountLoadResponse.Ok.LoadAccount(request.auth, metadataList.accountData, metadataList)
+        return response
+    }
+
+    private fun DatabaseConnection.accountNotFoundResponse(request: AccountLoadRequest) =
         when (request) {
             is AccountLoadRequest.StrictSearch -> AccountLoadResponse.Err.AccountNotFound
             is AccountLoadRequest.SearchOrCreateWithPassword -> createAccountResponse(request)
         }
 
-    private suspend fun createAccountResponse(
+    private fun DatabaseConnection.createAccountResponse(
         request: AccountLoadRequest.SearchOrCreateWithPassword
     ): AccountLoadResponse =
         try {
@@ -217,21 +222,21 @@ constructor(
             AccountLoadResponse.Err.Exception(e)
         }
 
-    private suspend fun createMetadataList(
+    private fun DatabaseConnection.createMetadataList(
         loginName: String,
         hashedPassword: String,
     ): CharacterMetadataList {
-        val accountId = repository.insertOrSelectAccountId(database, loginName, hashedPassword)
+        val accountId = repository.insertOrSelectAccountId(this, loginName, hashedPassword)
         if (accountId == null) {
             throw IllegalStateException("Could not insert or select account id for: '$loginName'")
         }
 
-        val characterId = repository.insertAndSelectCharacterId(database, accountId)
+        val characterId = repository.insertAndSelectCharacterId(this, accountId)
         if (characterId == null) {
             throw IllegalStateException("Could not insert character for: '$loginName' ($accountId)")
         }
 
-        val metadataList = repository.selectAndCreateMetadataList(database, loginName)
+        val metadataList = repository.selectAndCreateMetadataList(this, loginName)
         if (metadataList == null) {
             throw IllegalStateException("Could not select character after creation: '$loginName'")
         }

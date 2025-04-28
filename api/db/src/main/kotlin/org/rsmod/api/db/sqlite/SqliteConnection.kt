@@ -12,6 +12,7 @@ public class SqliteConnection @Inject constructor(private val config: DatabaseCo
             statement.execute("PRAGMA foreign_keys = ON;")
             statement.execute("PRAGMA journal_mode = WAL;")
         }
+        connection.autoCommit = false
         return connection
     }
 }

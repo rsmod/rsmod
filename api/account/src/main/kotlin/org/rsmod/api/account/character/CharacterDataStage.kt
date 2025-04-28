@@ -1,7 +1,7 @@
 package org.rsmod.api.account.character
 
 import org.rsmod.api.account.loader.AccountLoaderService
-import org.rsmod.api.db.Database
+import org.rsmod.api.db.DatabaseConnection
 import org.rsmod.game.entity.Player
 import org.rsmod.module.ExtendedModule
 
@@ -30,12 +30,12 @@ public class CharacterDataStage {
         /**
          * Called when an existing character is being loaded from the database.
          *
-         * Implementations should query the [database] for related data and append the resulting
+         * Implementations should query the [connection] for related data and append the resulting
          * [Segment]s to the provided [metadata] list.
          *
          * This is typically used to load persisted state (inventory, stats, etc.) during login.
          */
-        public suspend fun append(database: Database, metadata: CharacterMetadataList)
+        public fun append(connection: DatabaseConnection, metadata: CharacterMetadataList)
 
         /**
          * Called when a character is being saved to the database.
@@ -46,7 +46,7 @@ public class CharacterDataStage {
          * This is typically used during logout or periodic save events to write back any modified
          * data (such as inventories, stats, etc.).
          */
-        public suspend fun save(database: Database, player: Player, characterId: Int)
+        public fun save(connection: DatabaseConnection, player: Player, characterId: Int)
     }
 
     /**
