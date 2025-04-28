@@ -8,12 +8,13 @@ import org.rsmod.api.db.Database
 public class SqliteDatabase : Database {
     private lateinit var connection: Connection
 
-    public fun setupConnection(connection: Connection) {
+    public fun connect(connector: SqliteConnection) {
         check(!::connection.isInitialized) { "Connection already initialized." }
+        val connection = connector.connect()
         this.connection = connection
     }
 
-    public fun closeConnection() {
+    public fun close() {
         assertValidConnection()
         this.connection.close()
     }

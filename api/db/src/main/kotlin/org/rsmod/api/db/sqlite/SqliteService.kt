@@ -13,10 +13,12 @@ public class SqliteService
 constructor(
     private val config: DatabaseConfig,
     private val migration: FlywayMigration,
-    private val connection: SqliteConnection,
+    private val connector: SqliteConnection,
     private val database: SqliteDatabase,
 ) : Service {
     private val logger = InlineLogger()
+
+    private var databaseConnected = false
 
     override suspend fun startup() {
         createNecessaryPaths()
@@ -29,14 +31,16 @@ constructor(
     }
 
     private fun connectDataSource() {
-        val connection = connection.connect()
-        database.setupConnection(connection)
+        database.connect(connector)
+        databaseConnected = true
     }
 
     override suspend fun shutdown() {
         logger.info { "Attempting to shut down sqlite service." }
         try {
-            database.closeConnection()
+            if (databaseConnected) {
+                database.close()
+            }
             logger.info { "Sqlite service successfully shut down." }
         } catch (t: Throwable) {
             logger.error(t) { "Sqlite service failed to shut down." }
