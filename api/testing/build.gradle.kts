@@ -42,6 +42,7 @@ dependencies {
     implementation(projects.api.invPlugin)
     implementation(projects.api.market)
     implementation(projects.api.net)
+    implementation(projects.api.realm)
     implementation(projects.api.registry)
     implementation(projects.api.serverConfig)
     implementation(projects.api.stats.levelmod)

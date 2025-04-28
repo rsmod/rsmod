@@ -54,6 +54,8 @@ import org.rsmod.api.player.vars.varMoveSpeed
 import org.rsmod.api.random.CoreRandom
 import org.rsmod.api.random.DefaultGameRandom
 import org.rsmod.api.random.GameRandom
+import org.rsmod.api.realm.Realm
+import org.rsmod.api.realm.RealmConfig
 import org.rsmod.api.registry.account.AccountRegistry
 import org.rsmod.api.registry.controller.ControllerRegistry
 import org.rsmod.api.registry.loc.LocRegistry
@@ -816,6 +818,8 @@ constructor(
                 bind(VariableGameRandom::class.java).toInstance(random)
             }
 
+            bind(Realm::class.java).toInstance(createTestRealm())
+
             bind(EventBus::class.java).`in`(Scopes.SINGLETON)
             bind(GameUpdate::class.java).`in`(Scopes.SINGLETON)
             bind(MapClock::class.java).`in`(Scopes.SINGLETON)
@@ -910,6 +914,24 @@ constructor(
         private fun installModules() {
             install(ParserModule)
             install(ServerConfigModule)
+        }
+
+        private fun createTestRealm(): Realm {
+            val config =
+                RealmConfig(
+                    id = 0,
+                    loginMessage = null,
+                    xpRate = 1,
+                    spawnCoord = CoordGrid(0, 50, 50, 0, 0),
+                    respawnCoord = CoordGrid(0, 50, 50, 0, 0),
+                    devMode = false,
+                    requireRegistration = false,
+                    ignorePasswords = true,
+                    autoAssignDisplayNames = true,
+                )
+            val realm = Realm(name = "test-suite")
+            realm.updateConfig(config)
+            return realm
         }
 
         private class EnumTypeMapResolverProvider

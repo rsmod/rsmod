@@ -13,9 +13,10 @@ import org.rsmod.api.account.AccountManager
 import org.rsmod.api.account.loader.request.AccountLoadAuth
 import org.rsmod.api.net.rsprot.player.AccountLoadResponseHook
 import org.rsmod.api.pw.hash.PasswordHashing
+import org.rsmod.api.realm.Realm
 import org.rsmod.api.registry.account.AccountRegistry
 import org.rsmod.api.registry.player.PlayerRegistry
-import org.rsmod.api.server.config.WorldConfig
+import org.rsmod.api.server.config.ServerConfig
 import org.rsmod.api.totp.TotpManager
 import org.rsmod.api.totp.useSecret
 import org.rsmod.events.EventBus
@@ -25,7 +26,8 @@ import org.rsmod.game.entity.Player
 class ConnectionHandler
 @Inject
 private constructor(
-    private val worldConfig: WorldConfig,
+    private val realm: Realm,
+    private val config: ServerConfig,
     private val update: GameUpdate,
     private val eventBus: EventBus,
     private val playerReg: PlayerRegistry,
@@ -35,6 +37,9 @@ private constructor(
     private val totpManager: TotpManager,
 ) : GameConnectionHandler<Player> {
     private val logger = InlineLogger()
+
+    private val world: Int
+        get() = config.world
 
     override fun onLogin(
         responseHandler: GameLoginResponseHandler<Player>,
@@ -68,9 +73,12 @@ private constructor(
             responseHandler.writeFailedResponse(LoginResponse.InvalidUsernameOrPassword)
             return
         }
+        // Capture a local snapshot, as `realm.config` is mutable and may change.
+        val realmConfig = realm.config
         val responseHook =
             AccountLoadResponseHook(
-                config = worldConfig,
+                world = world,
+                config = realmConfig,
                 update = update,
                 eventBus = eventBus,
                 accountRegistry = accountReg,
@@ -93,7 +101,7 @@ private constructor(
         //  Use a thread pool with `(cores - 1) * 2` threads to prevent hashing from monopolizing
         //  cpu cores.
         val requestSubmitted =
-            if (worldConfig.requireRegistration) {
+            if (realmConfig.requireRegistration) {
                 accountManager.load(loadAuth, username, responseHook)
             } else {
                 val hashedPassword = computePasswordHash(passwordText.toCharArray())

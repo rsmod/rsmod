@@ -15,11 +15,10 @@ import org.rsmod.api.account.loader.request.AccountLoadResponse
 import org.rsmod.api.config.refs.modgroups
 import org.rsmod.api.config.refs.varbits
 import org.rsmod.api.player.vars.boolVarBit
+import org.rsmod.api.realm.RealmConfig
 import org.rsmod.api.registry.account.AccountRegistry
 import org.rsmod.api.registry.player.PlayerRegistry
 import org.rsmod.api.registry.player.isSuccess
-import org.rsmod.api.server.config.WorldConfig
-import org.rsmod.api.server.config.isDevRealm
 import org.rsmod.events.EventBus
 import org.rsmod.game.GameUpdate
 import org.rsmod.game.GameUpdate.Companion.isCountdown
@@ -28,7 +27,8 @@ import org.rsmod.game.entity.Player
 import org.rsmod.game.type.mod.ModGroup
 
 class AccountLoadResponseHook(
-    private val config: WorldConfig,
+    private val world: Int,
+    private val config: RealmConfig,
     private val update: GameUpdate,
     private val eventBus: EventBus,
     private val accountRegistry: AccountRegistry,
@@ -70,8 +70,8 @@ class AccountLoadResponseHook(
 
     private fun validateAndQueueLogin(response: AccountLoadResponse.Ok.LoadAccount) {
         // Note: We could move this branch to `handleLoadResponse`, but we intentionally keep it
-        // here to mirror production login flow.
-        val ignoreAuthentication = config.ignorePasswords && config.isDevRealm
+        // here to mirror the production login flow.
+        val ignoreAuthentication = config.ignorePasswords && config.devMode
         if (ignoreAuthentication) {
             logger.debug { "Bypass password and two-factor authentication: enabled" }
         }
@@ -167,10 +167,10 @@ class AccountLoadResponseHook(
     }
 
     private fun Player.applyConfigTransforms(): Player {
-        if (config.isDevRealm && newAccount) {
+        if (config.devMode && newAccount) {
             modGroup = modgroups.owner
         }
-        if (config.autoAssignDisplayName && newAccount) {
+        if (config.autoAssignDisplayNames && newAccount) {
             displayName = username.toDisplayName()
         }
         return this
@@ -235,7 +235,7 @@ class AccountLoadResponseHook(
     }
 
     private fun Player.isOnline(lastKnownWorld: Int?): Boolean {
-        val loggedInAnotherWorld = lastKnownWorld != null && lastKnownWorld != config.worldId
+        val loggedInAnotherWorld = lastKnownWorld != null && lastKnownWorld != world
         if (loggedInAnotherWorld) {
             return true
         }

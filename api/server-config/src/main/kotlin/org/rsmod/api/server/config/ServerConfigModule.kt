@@ -1,7 +1,6 @@
 package org.rsmod.api.server.config
 
 import com.google.inject.Provider
-import com.google.inject.Provides
 import jakarta.inject.Inject
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -15,12 +14,6 @@ public object ServerConfigModule : ExtendedModule() {
         bindInstance<ServerConfigLoader>()
         bindProvider(ServerConfigProvider::class.java)
     }
-
-    @Provides public fun provideWorldConfig(parent: ServerConfig): WorldConfig = parent.world
-
-    @Provides public fun provideGameConfig(parent: ServerConfig): GameConfig = parent.game
-
-    @Provides public fun provideMetaConfig(parent: ServerConfig): MetaConfig = parent.meta
 
     private class ServerConfigProvider @Inject constructor(private val loader: ServerConfigLoader) :
         Provider<ServerConfig> {

@@ -21,6 +21,7 @@ dependencies {
     implementation(projects.api.player)
     implementation(projects.api.playerOutput)
     implementation(projects.api.pwHash)
+    implementation(projects.api.realm)
     implementation(projects.api.registry)
     implementation(projects.api.script)
     implementation(projects.api.serverConfig)

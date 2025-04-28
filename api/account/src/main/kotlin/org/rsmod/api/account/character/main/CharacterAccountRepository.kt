@@ -11,7 +11,7 @@ import org.rsmod.api.db.util.setNullableString
 import org.rsmod.api.db.util.setSqliteTimestamp
 import org.rsmod.api.parsers.jackson.readReifiedValue
 import org.rsmod.api.parsers.json.Json
-import org.rsmod.api.server.config.WorldConfig
+import org.rsmod.api.realm.Realm
 import org.rsmod.game.entity.Player
 import org.rsmod.game.type.varp.VarpLifetime
 import org.rsmod.game.type.varp.VarpTypeList
@@ -20,12 +20,12 @@ public class CharacterAccountRepository
 @Inject
 constructor(
     @Json private val objectMapper: ObjectMapper,
-    private val worldConfig: WorldConfig,
+    private val realm: Realm,
     private val applier: CharacterAccountApplier,
     private val varpTypes: VarpTypeList,
 ) {
-    private val realm: Int
-        get() = worldConfig.realm.id
+    private val realmId: Int
+        get() = realm.config.id
 
     public fun insertOrSelectAccountId(
         connection: DatabaseConnection,
@@ -79,7 +79,7 @@ constructor(
             )
         insert.use {
             it.setInt(1, accountId)
-            it.setInt(2, realm)
+            it.setInt(2, realmId)
 
             val updateCount = it.executeUpdate()
             if (updateCount == 0) {
@@ -140,7 +140,7 @@ constructor(
             )
 
         select.use {
-            it.setInt(1, realm)
+            it.setInt(1, realmId)
             it.setString(2, lowercaseName)
             it.executeQuery().use { resultSet ->
                 if (resultSet.next()) {
@@ -170,7 +170,7 @@ constructor(
                     val varps = objectMapper.readReifiedValue<Map<Int, Int>>(varpsText)
                     val characterData =
                         CharacterAccountData(
-                            realm = realm,
+                            realm = realmId,
                             accountId = accountId,
                             characterId = characterId,
                             loginName = username,

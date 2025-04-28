@@ -7,8 +7,7 @@ import org.rsmod.api.net.rsprot.player.protectedTelejump
 import org.rsmod.api.player.output.clearMapFlag
 import org.rsmod.api.player.protect.clearPendingAction
 import org.rsmod.api.player.vars.ctrlMoveSpeed
-import org.rsmod.api.server.config.WorldConfig
-import org.rsmod.api.server.config.isDevRealm
+import org.rsmod.api.realm.Realm
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.movement.MoveSpeed
@@ -19,7 +18,7 @@ import org.rsmod.routefinder.collision.CollisionFlagMap
 class MoveMinimapClickHandler
 @Inject
 constructor(
-    private val config: WorldConfig,
+    private val realm: Realm,
     private val eventBus: EventBus,
     private val collision: CollisionFlagMap,
 ) : MessageHandler<MoveMinimapClick> {
@@ -32,7 +31,7 @@ constructor(
         val speed =
             when (message.keyCombination) {
                 1 -> player.ctrlMoveSpeed()
-                2 -> player.modLevelTeleMoveSpeed(developmentMode = config.isDevRealm)
+                2 -> player.modLevelTeleMoveSpeed(developmentMode = realm.config.devMode)
                 else -> null
             }
         player.clearPendingAction(eventBus)
