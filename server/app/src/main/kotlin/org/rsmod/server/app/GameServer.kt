@@ -15,6 +15,7 @@ import java.text.DecimalFormat
 import kotlin.io.path.isDirectory
 import kotlin.io.path.isRegularFile
 import kotlin.time.measureTime
+import kotlinx.coroutines.runBlocking
 import org.openrs2.cache.Cache
 import org.openrs2.cache.Store
 import org.rsmod.annotations.GameCache
@@ -272,7 +273,7 @@ class GameServer(private val skipTypeVerificationOverride: Boolean? = null) :
         val bootstrap: GameBootstrap
         val duration = measureTime { bootstrap = injector.getInstance(GameBootstrap::class.java) }
         reportDuration { "Loaded server bootstrap in $duration." }
-        bootstrap.startup()
+        runBlocking { bootstrap.startup() }
     }
 
     private fun reportDuration(msg: () -> String) {

@@ -7,7 +7,7 @@ import org.rsmod.server.services.ServiceManager
 class GameBootstrap @Inject constructor(services: Set<Service>) {
     private val serviceManager = ServiceManager.create(services)
 
-    fun startup() {
+    suspend fun startup() {
         val startupResult = serviceManager.awaitStartup()
         if (startupResult is ServiceManager.StartResult.Error) {
             throw startupResult.throwable

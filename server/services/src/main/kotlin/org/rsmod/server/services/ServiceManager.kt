@@ -8,6 +8,7 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.TimeoutCancellationException
@@ -48,8 +49,9 @@ import org.rsmod.server.services.concurrent.ScheduledService
 public class ServiceManager
 private constructor(
     private val services: List<Service>,
+    private val listeners: List<ListenerService>,
     private val scheduled: List<ScheduledService>,
-    private val listeners: List<ScheduledListenerService>,
+    private val scheduledListeners: List<ScheduledListenerService>,
 ) {
     private val activeExecutors = mutableListOf<ExecutorService>()
     private val activeScopes = mutableMapOf<ScheduledService, CoroutineScope>()
@@ -62,15 +64,15 @@ private constructor(
     /**
      * Starts all registered [Service] and [ScheduledService] instances.
      *
-     * This method blocks the current thread until all services have either:
-     * - Successfully started, in which case it returns [StartResult.Healthy], or
-     * - Encountered an error during startup, in which case it returns an appropriate
-     *   [StartResult.Error].
+     * This method blocks the current thread until startup has either:
+     * - Completed successfully, in which case it returns [StartResult.Healthy], or
+     * - Failed during service startup, scheduled service initialization, startup signaling, or
+     *   service scheduling, in which case it returns an appropriate [StartResult.Error].
      *
      * Services are started concurrently using coroutines. If any service throws during its
-     * [Service.startup] call, all services whose [Service.startup] was invoked will have their
-     * [Service.shutdown] method called to ensure proper cleanup. Any failure in the cleanup step
-     * will be captured and reported as part of [StartResult.Error.Lingering].
+     * [Service.startup] call, all previously started services will be shut down to ensure proper
+     * cleanup. Any failure during shutdown will be captured and reported as part of
+     * [StartResult.Error.Lingering].
      *
      * If all services start successfully, [ScheduledService] instances will be scheduled on their
      * dedicated [ExecutorService] instances as returned by [ScheduledService.createExecutor]. These
@@ -78,13 +80,10 @@ private constructor(
      *
      * @return [StartResult] indicating whether startup completed successfully or failed.
      */
-    public fun awaitStartup(): StartResult = runBlocking {
+    public suspend fun awaitStartup(): StartResult {
         val started = ConcurrentLinkedQueue<Service>()
 
-        val startupJobs = supervisorScope { services.map { startService(it, started) } }
-        try {
-            startupJobs.awaitAll()
-        } catch (t: Throwable) {
+        suspend fun safeShutdownResult(t: Throwable): StartResult.Error {
             val startedCopy = started.toList()
             val shutdownJobs = supervisorScope { startedCopy.map { stopService(it, started) } }
             val shutdownResult =
@@ -94,23 +93,64 @@ private constructor(
                 } catch (shutdownEx: Throwable) {
                     StartResult.Error.Lingering(t, shutdownEx, started)
                 }
-            return@runBlocking shutdownResult
+            return shutdownResult
         }
 
-        val executors = mutableListOf<ExecutorService>()
+        // Start all core services.
+        val startupJobs = supervisorScope { services.map { startService(it, started) } }
+        try {
+            startupJobs.awaitAll()
+        } catch (t: Throwable) {
+            val shutdownResult = safeShutdownResult(t)
+            return shutdownResult
+        }
+
+        // Send the startup signal to all standard listener services.
+        val listenerSignals = supervisorScope { listeners.map { signalStartup(it) } }
+        try {
+            listenerSignals.awaitAll()
+        } catch (t: Throwable) {
+            val shutdownResult = safeShutdownResult(t)
+            return shutdownResult
+        }
+
+        // Create and cache executor services and coroutine scopes for scheduled services.
+        val tmpExecutors = mutableListOf<ExecutorService>()
         try {
             for (service in scheduled) {
                 val executor = service.createExecutor()
-                scheduleService(service, executor)
-                executors += executor
+                tmpExecutors += executor
+                cacheCoroutineScope(service, executor)
             }
-            activeExecutors += executors
+            activeExecutors += tmpExecutors
         } catch (t: Throwable) {
-            executors.forEach(::safeShutdown)
-            return@runBlocking StartResult.Error.CouldNotSchedule(t)
+            tmpExecutors.forEach(::safeShutdown)
+            val shutdownResult = safeShutdownResult(t)
+            return shutdownResult
         }
 
-        StartResult.Healthy
+        // Send the startup signal to all scheduled listener services.
+        val scheduledSignals = supervisorScope { scheduledListeners.map { signalStartup(it) } }
+        try {
+            scheduledSignals.awaitAll()
+        } catch (t: Throwable) {
+            activeExecutors.forEach(::safeShutdown)
+            val shutdownResult = safeShutdownResult(t)
+            return shutdownResult
+        }
+
+        // Finally, schedule the main `run` loops for scheduled services.
+        try {
+            for (service in scheduled) {
+                scheduleService(service)
+            }
+        } catch (t: Throwable) {
+            activeExecutors.forEach(::safeShutdown)
+            val shutdownResult = safeShutdownResult(t)
+            return shutdownResult
+        }
+
+        return StartResult.Healthy
     }
 
     /**
@@ -119,18 +159,19 @@ private constructor(
      * Once triggered, this method will:
      * - Cancel all active [ScheduledService] coroutine jobs.
      * - Shut down all [ScheduledService] executors.
+     * - Send the shutdown signal to [ScheduledListenerService] and [ListenerService].
      * - Call [Service.shutdown] on all registered services concurrently.
      *
-     * If any service throws an exception during its shutdown call, the error will be captured and
+     * If any service throws an exception during its shutdown calls, the error will be captured and
      * returned as part of the resulting [ShutdownResult.Report].
      *
      * _This method may only be executed once. Subsequent calls will return
      * [ShutdownResult.AlreadyShutDown]._
      *
-     * @param signalTimeoutSecs the maximum time to wait for active [ScheduledListenerService] to
-     *   acknowledge a shutdown signal. This phase allows services to perform immediate preparations
-     *   (e.g., a game service fast-forwarding player processing before disconnecting players,
-     *   allowing a player-saving service to persist their data).
+     * @param signalTimeoutSecs the maximum time to wait for active listener services to acknowledge
+     *   a shutdown signal. This phase allows services to perform immediate preparations (e.g., a
+     *   game service fast-forwarding player processing before disconnecting players, allowing a
+     *   player-saving service to persist their data).
      * @param cleanupTimeoutSecs the maximum time to wait for active [ScheduledService] coroutine
      *   jobs to be canceled and their executors to be shut down.
      * @param shutdownTimeoutSecs the maximum time to wait for all registered services to complete
@@ -150,7 +191,7 @@ private constructor(
         }
 
         val signalTimeout = signalTimeoutSecs * 1000L
-        signalServices(signalTimeout)
+        signalShutdown(signalTimeout)
 
         val cleanupTimeout = cleanupTimeoutSecs * 1000L
         cleanupThreads(cleanupTimeout)
@@ -196,9 +237,22 @@ private constructor(
         started.remove(service)
     }
 
-    private fun scheduleService(service: ScheduledService, executor: ExecutorService) {
+    private fun CoroutineScope.signalStartup(service: ListenerService) = async {
+        service.signalStartup()
+    }
+
+    private fun cacheCoroutineScope(service: ScheduledService, executor: ExecutorService) {
         val coroutineScope = CoroutineScope(SupervisorJob() + executor.asCoroutineDispatcher())
         activeScopes[service] = coroutineScope
+    }
+
+    private fun signalStartup(service: ScheduledListenerService): Deferred<Unit> {
+        val coroutineScope = activeScopes.getValue(service)
+        return coroutineScope.async { service.signalStartup() }
+    }
+
+    private fun scheduleService(service: ScheduledService) {
+        val coroutineScope = activeScopes.getValue(service)
         coroutineScope.launch {
             try {
                 service.setup()
@@ -214,17 +268,17 @@ private constructor(
         }
     }
 
-    private fun signalServices(timeoutMillis: Long) = runBlocking {
+    private fun signalShutdown(timeoutMillis: Long) = runBlocking {
         try {
             withTimeout(timeoutMillis) {
                 supervisorScope {
                     try {
-                        val signalJobs =
-                            listeners.map { service ->
-                                val serviceScope = activeScopes.getValue(service)
-                                serviceScope.async { service.signalShutdown() }
-                            }
-                        signalJobs.awaitAll()
+                        signalListenerShutdown()
+                    } catch (t: Throwable) {
+                        scheduledErrors += t
+                    }
+                    try {
+                        signalScheduledShutdown()
                     } catch (t: Throwable) {
                         scheduledErrors += t
                     }
@@ -233,6 +287,20 @@ private constructor(
         } catch (t: TimeoutCancellationException) {
             scheduledErrors += t
         }
+    }
+
+    private suspend fun CoroutineScope.signalListenerShutdown() {
+        val signalJobs = listeners.map { service -> async { service.signalShutdown() } }
+        signalJobs.awaitAll()
+    }
+
+    private suspend fun signalScheduledShutdown() {
+        val signalJobs =
+            scheduledListeners.map { service ->
+                val serviceScope = activeScopes.getValue(service)
+                serviceScope.async { service.signalShutdown() }
+            }
+        signalJobs.awaitAll()
     }
 
     private fun cleanupThreads(timeoutMillis: Long) = runBlocking {
@@ -293,8 +361,6 @@ private constructor(
                 val shutdownEx: Throwable,
                 val pending: Collection<Service>,
             ) : Error()
-
-            public data class CouldNotSchedule(override val throwable: Throwable) : Error()
         }
     }
 
@@ -318,9 +384,10 @@ private constructor(
          *   orchestration.
          */
         public fun create(services: Set<Service>): ServiceManager {
+            val listeners = services.filterIsInstance<ListenerService>()
             val scheduled = services.filterIsInstance<ScheduledService>()
-            val listeners = services.filterIsInstance<ScheduledListenerService>()
-            return ServiceManager(services.toList(), scheduled, listeners)
+            val scheduledListeners = services.filterIsInstance<ScheduledListenerService>()
+            return ServiceManager(services.toList(), listeners, scheduled, scheduledListeners)
         }
     }
 }

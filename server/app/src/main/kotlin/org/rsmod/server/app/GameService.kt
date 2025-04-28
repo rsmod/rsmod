@@ -59,6 +59,8 @@ class GameService @Inject constructor(private val process: GameProcess) : Schedu
         process.startup()
     }
 
+    override suspend fun signalStartup() {}
+
     override suspend fun signalShutdown() {
         shutdownSignaled.set(true)
         process.preShutdown()
