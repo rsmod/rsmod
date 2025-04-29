@@ -31,3 +31,9 @@ public fun <T> GameDbResult<T>.isErr(): Boolean {
     }
     return this is Err
 }
+
+public inline fun <T, R> GameDbResult<T>.fold(onOk: (T) -> R, onErr: (Err) -> R): R =
+    when (this) {
+        is Ok -> onOk(value)
+        is Err -> onErr(this)
+    }
