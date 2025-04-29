@@ -18,6 +18,7 @@ dependencies {
     implementation(projects.api.player)
     implementation(projects.api.pwHash)
     implementation(projects.api.random)
+    implementation(projects.api.realm)
     implementation(projects.api.registry)
     implementation(projects.api.repo)
     implementation(projects.api.route)

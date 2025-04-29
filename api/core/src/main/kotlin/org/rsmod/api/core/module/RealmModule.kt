@@ -1,11 +1,12 @@
-package org.rsmod.api.realm
+package org.rsmod.api.core.module
 
 import com.google.inject.Provider
 import jakarta.inject.Inject
+import org.rsmod.api.realm.Realm
 import org.rsmod.api.server.config.ServerConfig
-import org.rsmod.plugin.module.PluginModule
+import org.rsmod.module.ExtendedModule
 
-internal class RealmModule : PluginModule() {
+public object RealmModule : ExtendedModule() {
     override fun bind() {
         bindProvider(RealmProvider::class.java)
     }

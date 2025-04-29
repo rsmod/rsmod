@@ -7,6 +7,7 @@ import org.rsmod.api.cache.CacheModule
 import org.rsmod.api.core.module.EntityHitModule
 import org.rsmod.api.core.module.GameMapModule
 import org.rsmod.api.core.module.PlayerModule
+import org.rsmod.api.core.module.RealmModule
 import org.rsmod.api.core.module.RegistryModule
 import org.rsmod.api.core.module.StatModModule
 import org.rsmod.api.core.module.TypeModule
@@ -36,6 +37,7 @@ public object CoreModule : ExtendedModule() {
         install(PlayerModule)
         install(PasswordHashModule)
         install(RandomModule)
+        install(RealmModule)
         install(RegistryModule)
         install(RouteModule)
         install(ServerConfigModule)
