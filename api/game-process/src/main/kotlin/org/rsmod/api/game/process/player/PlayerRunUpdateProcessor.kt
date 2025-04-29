@@ -72,6 +72,9 @@ public class PlayerRunUpdateProcessor @Inject constructor(private val objTypes: 
     }
 
     private fun Player.restoreRunEnergy() {
+        if (runEnergy >= constants.run_max_energy) {
+            return
+        }
         val baseRecover = 15 + (agilityLvl / 10)
         val recover = (restorationRateMod() * baseRecover).toInt()
         runEnergy = min(constants.run_max_energy, runEnergy + recover)
