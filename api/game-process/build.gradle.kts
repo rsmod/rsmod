@@ -15,6 +15,7 @@ dependencies {
     implementation(libs.rsprot.api)
     implementation(projects.api.config)
     implementation(projects.api.controller)
+    implementation(projects.api.dbGateway)
     implementation(projects.api.invWeight)
     implementation(projects.api.npc)
     implementation(projects.api.player)

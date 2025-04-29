@@ -21,6 +21,8 @@ import org.junit.jupiter.api.Assertions
 import org.rsmod.annotations.InternalApi
 import org.rsmod.api.account.character.CharacterDataStage
 import org.rsmod.api.config.refs.objs
+import org.rsmod.api.db.Database
+import org.rsmod.api.db.DatabaseConnection
 import org.rsmod.api.game.process.GameCycle
 import org.rsmod.api.inv.map.InvMapInit
 import org.rsmod.api.market.DefaultMarketPrices
@@ -819,6 +821,7 @@ constructor(
             }
 
             bind(Realm::class.java).toInstance(createTestRealm())
+            bind(Database::class.java).to(ThrowDatabase::class.java).`in`(Scopes.SINGLETON)
 
             bind(EventBus::class.java).`in`(Scopes.SINGLETON)
             bind(GameUpdate::class.java).`in`(Scopes.SINGLETON)
@@ -938,6 +941,18 @@ constructor(
         @Inject
         constructor(private val enums: EnumTypeList) : Provider<EnumTypeMapResolver> {
             override fun get(): EnumTypeMapResolver = EnumTypeMapResolver(enums)
+        }
+
+        private class ThrowDatabase : Database {
+            override suspend fun <T> withTransaction(
+                attempts: Int,
+                backoff: Long,
+                block: (DatabaseConnection) -> T,
+            ): T =
+                error(
+                    "ThrowDatabase was used: no real Database is available. " +
+                        "If your test needs database access, bind a test-specific Database."
+                )
         }
     }
 
