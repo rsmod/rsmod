@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.ThreadFactory
+import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.math.min
 import kotlinx.coroutines.CoroutineScope
@@ -78,7 +79,8 @@ public class ResponseDbGatewayService @Inject constructor(private val database: 
     private val pendingRequests = ConcurrentLinkedQueue<PendingRequest<*>>()
     private val pendingCallbacks = ConcurrentLinkedQueue<PendingCallback<*>>()
 
-    private var consecutiveFailureCount = AtomicInteger(0)
+    private val consecutiveFailureCount = AtomicInteger(0)
+    private val shutdownInProgress = AtomicBoolean(false)
 
     private lateinit var workerExecutor: ExecutorService
     private lateinit var workerScope: CoroutineScope
@@ -96,6 +98,9 @@ public class ResponseDbGatewayService @Inject constructor(private val database: 
     }
 
     override suspend fun run() {
+        if (shutdownInProgress.get()) {
+            return
+        }
         val failureBackoffEnabled = consecutiveFailureCount.get() >= MAX_CONSECUTIVE_FAILURES
         val batchPollCount = if (failureBackoffEnabled) 1 else REQUESTS_PER_BATCH
 
@@ -132,7 +137,38 @@ public class ResponseDbGatewayService @Inject constructor(private val database: 
         workerScope = CoroutineScope(SupervisorJob() + workerExecutor.asCoroutineDispatcher())
     }
 
+    /**
+     * Prepares the service for a fast-forward shutdown phase.
+     *
+     * This function must be invoked before starting the game's fast-forwarded loop during
+     * pre-shutdown. It ensures that all pending database requests are processed (or rejected) and
+     * that their responses are safely queued while the game thread is still active and able to
+     * dispatch them.
+     *
+     * If this method is not called, pending database responses may be queued too late to be
+     * processed by the game thread, leading to orphaned responses.
+     *
+     * @throws IllegalStateException if the service is already shutting down when called.
+     */
+    public suspend fun fastForwardShutdown() {
+        val alreadyShuttingDown = shutdownInProgress.getAndSet(true)
+        check(!alreadyShuttingDown) { "Response db gateway service is already shutting down." }
+        logger.info { "Attempting to shutdown response db gateway service." }
+        try {
+            handleShutdownRequests()
+            workerExecutor.safeShutdown()
+            logger.info { "Response db gateway service successfully shut down." }
+        } catch (e: Exception) {
+            logger.error(e) { "Error occurred while fast-forwarding shutdown." }
+        }
+    }
+
     override suspend fun shutdown() {
+        // Gracefully decline shutdown requests if the service has started a fast-forward shutdown.
+        val alreadyShuttingDown = shutdownInProgress.getAndSet(true)
+        if (alreadyShuttingDown) {
+            return
+        }
         logger.info { "Attempting to shutdown response db gateway service." }
         handleShutdownRequests()
         workerExecutor.safeShutdown()
