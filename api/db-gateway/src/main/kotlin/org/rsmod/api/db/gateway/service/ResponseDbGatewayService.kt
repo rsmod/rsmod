@@ -99,6 +99,7 @@ public class ResponseDbGatewayService @Inject constructor(private val database: 
 
     override suspend fun run() {
         if (shutdownInProgress.get()) {
+            delay(IDLE_LOOP_DELAY_MS)
             return
         }
         val failureBackoffEnabled = consecutiveFailureCount.get() >= MAX_CONSECUTIVE_FAILURES
@@ -329,5 +330,17 @@ public class ResponseDbGatewayService @Inject constructor(private val database: 
          * unresponsive.
          */
         private const val SHUTDOWN_TIMEOUT_MS = 30_000L
+
+        /**
+         * The delay duration (in ms) between run-loop iterations after [fastForwardShutdown] has
+         * been called.
+         *
+         * This prevents the service from entering a tight loop once fast-forward shutdown has been
+         * initiated. The delay allows the scheduler to yield and conserve cpu resources during this
+         * idle phase.
+         */
+        // Required because fast-forward shutdowns occur before the main service executor is shut
+        // down. As a result, `run` may still be invoked after `fastForwardShutdown` is called.
+        private const val IDLE_LOOP_DELAY_MS = 250L
     }
 }
