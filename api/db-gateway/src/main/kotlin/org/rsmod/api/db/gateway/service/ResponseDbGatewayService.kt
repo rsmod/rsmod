@@ -164,16 +164,17 @@ public class ResponseDbGatewayService @Inject constructor(private val database: 
         }
     }
 
+    /**
+     * Note: It is expected that [fastForwardShutdown] is invoked before this function is called. If
+     * [fastForwardShutdown] has not been called, an [IllegalStateException] will be thrown to
+     * indicate a violation of the shutdown contract.
+     */
     override suspend fun shutdown() {
-        // Gracefully decline shutdown requests if the service has started a fast-forward shutdown.
         val alreadyShuttingDown = shutdownInProgress.getAndSet(true)
         if (alreadyShuttingDown) {
             return
         }
-        logger.info { "Attempting to shutdown response db gateway service." }
-        handleShutdownRequests()
-        workerExecutor.safeShutdown()
-        logger.info { "Response db gateway service successfully shut down." }
+        error("Expected shutdown via [fastForwardShutdown]; direct [shutdown] call is invalid.")
     }
 
     private fun handlePendingBatch(count: Int) {
