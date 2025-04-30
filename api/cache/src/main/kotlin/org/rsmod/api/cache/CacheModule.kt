@@ -99,5 +99,5 @@ private class ConfigTypeListMapProvider
 @Inject
 constructor(@GameCache private val cache: Cache, private val names: NameMapping) :
     Provider<TypeListMap> {
-    override fun get(): TypeListMap = TypeListMapDecoder.ofParallel(cache, names)
+    override fun get(): TypeListMap = TypeListMapDecoder.from(cache, names)
 }

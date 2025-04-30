@@ -107,7 +107,7 @@ constructor(
     }
 
     private fun encodeAllCacheTypes() {
-        val configs = TypeListMapDecoder.ofParallel(enrichedCache, names)
+        val configs = TypeListMapDecoder.from(enrichedCache, names)
         val updates = collectUpdateMap(configs)
         val params = transmitParamKeys(configs.params, updates.params)
         val varps = transmitVarpKeys(configs.varps, updates.varps)
