@@ -4,9 +4,9 @@ import dev.turingcomplete.kotlinonetimepassword.GoogleAuthenticator
 import java.time.Instant
 import java.util.Date
 import org.apache.commons.codec.binary.Base32
-import org.rsmod.api.totp.TotpManager
+import org.rsmod.api.totp.Totp
 
-public class GoogleTotpManager : TotpManager {
+public class GoogleTotp : Totp {
     override fun verifyCode(secret: CharArray, code: String, now: Instant): Boolean {
         val decodedSecret = Base32().decode(String(secret))
         val authenticator = GoogleAuthenticator(decodedSecret)

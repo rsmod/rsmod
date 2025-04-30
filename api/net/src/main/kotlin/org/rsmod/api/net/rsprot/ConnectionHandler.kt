@@ -17,7 +17,7 @@ import org.rsmod.api.realm.Realm
 import org.rsmod.api.registry.account.AccountRegistry
 import org.rsmod.api.registry.player.PlayerRegistry
 import org.rsmod.api.server.config.ServerConfig
-import org.rsmod.api.totp.TotpManager
+import org.rsmod.api.totp.Totp
 import org.rsmod.api.totp.useSecret
 import org.rsmod.events.EventBus
 import org.rsmod.game.GameUpdate
@@ -34,7 +34,7 @@ private constructor(
     private val accountReg: AccountRegistry,
     private val accountManager: AccountManager,
     private val passwordHashing: PasswordHashing,
-    private val totpManager: TotpManager,
+    private val totp: Totp,
 ) : GameConnectionHandler<Player> {
     private val logger = InlineLogger()
 
@@ -137,7 +137,7 @@ private constructor(
 
     private fun verifyTotp(secret: CharArray, code: String): Boolean {
         return try {
-            useSecret(secret) { totpManager.verifyCode(it, code) }
+            useSecret(secret) { totp.verifyCode(it, code) }
         } catch (e: Exception) {
             logger.error { "Totp verification error: ${e::class.simpleName}" }
             false

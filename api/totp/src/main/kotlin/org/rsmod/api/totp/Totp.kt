@@ -2,7 +2,7 @@ package org.rsmod.api.totp
 
 import java.time.Instant
 
-public interface TotpManager {
+public interface Totp {
     /**
      * Verifies that the provided [code] is valid for the given [secret] at the specified [now]
      * timestamp.
@@ -40,9 +40,9 @@ public inline fun <R> useSecret(secret: CharArray, block: (CharArray) -> R): R {
 /**
  * Generates a new TOTP secret, passes it to [block], then wipes the secret after execution.
  *
- * This is a convenience wrapper around [TotpManager.generateSecret] and [useSecret].
+ * This is a convenience wrapper around [Totp.generateSecret] and [useSecret].
  */
-public inline fun <R> TotpManager.useGeneratedSecret(block: (CharArray) -> R): R {
+public inline fun <R> Totp.useGeneratedSecret(block: (CharArray) -> R): R {
     val secret = generateSecret()
     return useSecret(secret, block)
 }
