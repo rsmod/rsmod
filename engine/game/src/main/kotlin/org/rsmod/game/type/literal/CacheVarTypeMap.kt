@@ -1,6 +1,8 @@
 package org.rsmod.game.type.literal
 
 import kotlin.reflect.KClass
+import org.rsmod.game.type.area.AreaType
+import org.rsmod.game.type.area.HashedAreaType
 import org.rsmod.game.type.category.CategoryType
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.comp.HashedComponentType
@@ -35,6 +37,8 @@ import org.rsmod.map.CoordGrid
 public object CacheVarTypeMap {
     public val classedLiterals: Map<KClass<*>, CacheVarLiteral> =
         hashMapOf(
+            AreaType::class to CacheVarLiteral.AREA,
+            HashedAreaType::class to CacheVarLiteral.AREA,
             Boolean::class to CacheVarLiteral.BOOL,
             ComponentType::class to CacheVarLiteral.COMPONENT,
             HashedComponentType::class to CacheVarLiteral.COMPONENT,
@@ -72,6 +76,8 @@ public object CacheVarTypeMap {
 
     public val codecMap: Map<KClass<*>, CacheVarCodec<*, *>> =
         hashMapOf(
+            AreaType::class to CacheVarAreaCodec,
+            HashedAreaType::class to CacheVarAreaCodec,
             Boolean::class to CacheVarBoolCodec,
             CategoryType::class to CacheVarCategoryCodec,
             ComponentType::class to CacheVarComponentCodec,
@@ -124,7 +130,7 @@ public object CacheVarTypeMap {
                 CacheVarLiteral.NPCMODE -> Int::class
                 CacheVarLiteral.NAMEDOBJ -> UnpackedObjType::class
                 CacheVarLiteral.SYNTH -> SynthType::class
-                CacheVarLiteral.AREA -> Int::class
+                CacheVarLiteral.AREA -> AreaType::class
                 CacheVarLiteral.STAT -> StatType::class
                 CacheVarLiteral.NPCSTAT -> Int::class
                 CacheVarLiteral.MAPAREA -> Int::class

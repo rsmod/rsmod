@@ -2,6 +2,8 @@ package org.rsmod.api.type.refs.resolver
 
 import jakarta.inject.Inject
 import org.rsmod.api.type.refs.TypeReferences
+import org.rsmod.api.type.refs.area.AreaReferenceResolver
+import org.rsmod.api.type.refs.area.AreaReferences
 import org.rsmod.api.type.refs.category.CategoryReferenceResolver
 import org.rsmod.api.type.refs.category.CategoryReferences
 import org.rsmod.api.type.refs.comp.ComponentReferenceResolver
@@ -66,6 +68,7 @@ import org.rsmod.api.type.refs.walktrig.WalkTriggerReferences
 public class TypeReferenceResolverMap
 @Inject
 constructor(
+    private val areaResolver: AreaReferenceResolver,
     private val categoryResolver: CategoryReferenceResolver,
     private val componentResolver: ComponentReferenceResolver,
     private val contentResolver: ContentReferenceResolver,
@@ -155,6 +158,7 @@ constructor(
     private fun <T, I> TypeReferences<T, I>.resolver(): TypeReferenceResolver<T, I> {
         val resolver =
             when (this) {
+                is AreaReferences -> areaResolver
                 is CategoryReferences -> categoryResolver
                 is ComponentReferences -> componentResolver
                 is ContentReferences -> contentResolver

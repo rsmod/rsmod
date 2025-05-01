@@ -1,6 +1,7 @@
 package org.rsmod.api.type.symbols.name
 
 public data class NameMapping(
+    public val areas: Map<String, Int> = mutableMapOf(),
     public val bas: Map<String, Int> = mutableMapOf(),
     public val categories: Map<String, Int> = mutableMapOf(),
     public val clientscripts: Map<String, Int> = mutableMapOf(),

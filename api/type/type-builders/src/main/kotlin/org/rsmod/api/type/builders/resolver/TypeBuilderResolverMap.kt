@@ -2,6 +2,8 @@ package org.rsmod.api.type.builders.resolver
 
 import jakarta.inject.Inject
 import org.rsmod.api.type.builders.TypeBuilder
+import org.rsmod.api.type.builders.area.AreaBuilder
+import org.rsmod.api.type.builders.area.AreaBuilderResolver
 import org.rsmod.api.type.builders.bas.BasBuilder
 import org.rsmod.api.type.builders.bas.BasBuilderResolver
 import org.rsmod.api.type.builders.controller.ControllerBuilder
@@ -54,6 +56,7 @@ import org.rsmod.api.type.builders.walktrig.WalkTriggerBuilderResolver
 public class TypeBuilderResolverMap
 @Inject
 constructor(
+    private val areaResolver: AreaBuilderResolver,
     private val basResolver: BasBuilderResolver,
     private val conResolver: ControllerBuilderResolver,
     private val dropTriggerResolver: DropTriggerBuilderResolver,
@@ -147,6 +150,7 @@ constructor(
     private fun <B, T> TypeBuilder<B, T>.resolver(): TypeBuilderResolver<B, T> {
         val resolver =
             when (this) {
+                is AreaBuilder -> areaResolver
                 is BasBuilder -> basResolver
                 is ControllerBuilder -> conResolver
                 is DropTriggerBuilder -> dropTriggerResolver

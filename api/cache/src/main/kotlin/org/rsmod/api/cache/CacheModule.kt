@@ -8,6 +8,7 @@ import org.rsmod.annotations.GameCache
 import org.rsmod.api.cache.types.TypeListMapDecoder
 import org.rsmod.api.type.symbols.name.NameMapping
 import org.rsmod.game.type.TypeListMap
+import org.rsmod.game.type.area.AreaTypeList
 import org.rsmod.game.type.category.CategoryTypeList
 import org.rsmod.game.type.comp.ComponentTypeList
 import org.rsmod.game.type.enums.EnumTypeList
@@ -93,6 +94,8 @@ public object CacheModule : ExtendedModule() {
     @Provides public fun midiTypeList(map: TypeListMap): MidiTypeList = map.midis
 
     @Provides public fun gameValNameMap(map: TypeListMap): GameValNameMap = map.gameVals
+
+    @Provides public fun areaTypeList(map: TypeListMap): AreaTypeList = map.areas
 }
 
 private class ConfigTypeListMapProvider
