@@ -5,7 +5,7 @@ import java.io.FileNotFoundException
 import org.openrs2.cache.Cache
 import org.openrs2.crypto.SymmetricKey
 
-public fun Cache.readOrNull(archive: Int, group: Int, file: Int): ByteBuf? =
+public fun Cache.readOrNull(archive: Int, group: Int, file: Int = 0): ByteBuf? =
     try {
         read(archive, group, file)
     } catch (_: FileNotFoundException) {
@@ -15,7 +15,7 @@ public fun Cache.readOrNull(archive: Int, group: Int, file: Int): ByteBuf? =
 public fun Cache.readOrNull(
     archive: Int,
     group: String,
-    file: Int,
+    file: Int = 0,
     key: SymmetricKey = SymmetricKey.ZERO,
 ): ByteBuf? =
     try {

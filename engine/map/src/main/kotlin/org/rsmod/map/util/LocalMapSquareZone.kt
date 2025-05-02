@@ -1,5 +1,7 @@
 package org.rsmod.map.util
 
+import org.rsmod.map.CoordGrid
+
 /**
  * [LocalMapSquareZone] represents a local 8x8 zone index within a single 64x64 map square.
  *
@@ -26,6 +28,9 @@ public value class LocalMapSquareZone(public val packed: Int) {
         get() = (packed shr LEVEL_BIT_OFFSET) and LEVEL_BIT_MASK
 
     public constructor(x: Int, z: Int, level: Int) : this(pack(x, z, level))
+
+    public fun toCoords(baseX: Int, baseZ: Int, level: Int = this.level): CoordGrid =
+        CoordGrid(x = baseX + (x * LENGTH), z = baseZ + (z * LENGTH), level = level)
 
     public override fun toString(): String = "LocalMapSquareZone(x=$x, z=$z, level=$level)"
 
