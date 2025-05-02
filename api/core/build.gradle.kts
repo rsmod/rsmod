@@ -14,6 +14,7 @@ dependencies {
     implementation(projects.api.db)
     implementation(projects.api.gameProcess)
     implementation(projects.api.market)
+    implementation(projects.api.multiway)
     implementation(projects.api.npc)
     implementation(projects.api.player)
     implementation(projects.api.pwHash)

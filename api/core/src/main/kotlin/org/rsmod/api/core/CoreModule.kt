@@ -14,6 +14,7 @@ import org.rsmod.api.core.module.TypeModule
 import org.rsmod.api.db.DatabaseModule
 import org.rsmod.api.game.process.GameCycle
 import org.rsmod.api.market.MarketModule
+import org.rsmod.api.multiway.MultiwayModule
 import org.rsmod.api.pw.hash.PasswordHashModule
 import org.rsmod.api.random.RandomModule
 import org.rsmod.api.route.RouteModule
@@ -34,6 +35,7 @@ public object CoreModule : ExtendedModule() {
         install(ExceptionHandlerModule)
         install(GameMapModule)
         install(MarketModule)
+        install(MultiwayModule)
         install(PlayerModule)
         install(PasswordHashModule)
         install(RandomModule)

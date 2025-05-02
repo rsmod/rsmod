@@ -26,6 +26,7 @@ import org.rsmod.api.invtx.invTransaction
 import org.rsmod.api.invtx.invTransfer
 import org.rsmod.api.invtx.select
 import org.rsmod.api.market.MarketPrices
+import org.rsmod.api.multiway.MultiwayChecker
 import org.rsmod.api.player.cinematic.CameraMode
 import org.rsmod.api.player.cinematic.Cinematic
 import org.rsmod.api.player.cinematic.CompassState
@@ -55,6 +56,7 @@ import org.rsmod.api.player.isInCombat
 import org.rsmod.api.player.isInPvnCombat
 import org.rsmod.api.player.isInPvpCombat
 import org.rsmod.api.player.isOutOfCombat
+import org.rsmod.api.player.mapMultiway
 import org.rsmod.api.player.output.Camera
 import org.rsmod.api.player.output.ChatType
 import org.rsmod.api.player.output.ClientScripts
@@ -1639,6 +1641,9 @@ public class ProtectedAccess(
     public fun findHero(playerList: PlayerList): Player? {
         return player.findHero(playerList)
     }
+
+    /** @see [org.rsmod.api.player.mapMultiway] */
+    public fun mapMultiway(multiway: MultiwayChecker): Boolean = player.mapMultiway(multiway)
 
     public fun combatClearQueue() {
         player.combatClearQueue()

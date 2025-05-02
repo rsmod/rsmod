@@ -16,6 +16,7 @@ dependencies {
     implementation(projects.api.playerOutput)
     implementation(projects.api.invtx)
     implementation(projects.api.market)
+    implementation(projects.api.multiway)
     implementation(projects.api.random)
     implementation(projects.api.repo)
     implementation(projects.api.route)

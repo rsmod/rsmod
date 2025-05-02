@@ -7,6 +7,9 @@ import org.rsmod.api.type.refs.varbit.VarBitReferences
 typealias varbits = BaseVarBits
 
 object BaseVarBits : VarBitReferences() {
+    val multiway_indicator = find("multiway_indicator", 52603174307098)
+    val singleway_plus_indicator = find("singleway_plus_indicator", 52603174350056)
+
     val stamina_active = find("stamina_active", 81145461762806)
     val stamina_duration = find("stamina_duration", 14272015789523)
     val stamina_duration_extra = find("stamina_duration_extra", 14272015867960)
