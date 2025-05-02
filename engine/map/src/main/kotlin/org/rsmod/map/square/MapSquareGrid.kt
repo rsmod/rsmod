@@ -48,6 +48,9 @@ public value class MapSquareGrid(public val packed: Int) {
 
     public constructor(x: Int, z: Int, level: Int = 0) : this(pack(x, z, level))
 
+    public fun copy(x: Int = this.x, z: Int = this.z, level: Int = this.level): MapSquareGrid =
+        MapSquareGrid(x, z, level)
+
     public fun translate(xOffset: Int, zOffset: Int, levelOffset: Int = 0): MapSquareGrid =
         MapSquareGrid(x = x + xOffset, z = z + zOffset, level = level + levelOffset)
 
@@ -77,6 +80,7 @@ public value class MapSquareGrid(public val packed: Int) {
 
     public companion object {
         public val ZERO: MapSquareGrid = MapSquareGrid(0)
+        public val NULL: MapSquareGrid = MapSquareGrid(-1)
 
         /**
          * This value represents the length of one side of a map square. Therefore, a map square
