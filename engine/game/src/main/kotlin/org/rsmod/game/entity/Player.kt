@@ -168,6 +168,7 @@ public class Player(
 
     public val activeAreas: ShortArraySet = ShortArraySet()
     public val pendingAreas: ShortArrayList = ShortArrayList()
+    public var lastProcessedAreaCoord: CoordGrid = CoordGrid.NULL
 
     public var runEnergy: Int = 1000
     public var runWeight: Int = 0
