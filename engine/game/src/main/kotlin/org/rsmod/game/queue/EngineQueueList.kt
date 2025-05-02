@@ -14,7 +14,7 @@ public class EngineQueueList {
     public val isNotEmpty: Boolean
         get() = size > 0
 
-    internal fun add(type: EngineQueueType, args: Any, label: Int) {
+    internal fun add(type: EngineQueueType, args: Any?, label: Int) {
         val queue = Queue(type = type.id, args = args, label = label)
         val node = Node(queue, prev = last)
         add(node)
@@ -64,7 +64,7 @@ public class EngineQueueList {
 
     internal data class Node(val queue: Queue, var prev: Node?, var next: Node? = null)
 
-    public data class Queue(public val type: Int, public val args: Any, public val label: Int)
+    public data class Queue(public val type: Int, public val args: Any?, public val label: Int)
 
     public fun iterator(): QueueIterator? {
         if (isEmpty) {

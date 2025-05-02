@@ -7,4 +7,6 @@ public enum class EngineQueueType(public val id: Int) {
     MapzoneExit(4),
     Zone(5),
     ZoneExit(6),
+    Area(7),
+    AreaExit(8),
 }
