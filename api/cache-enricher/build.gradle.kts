@@ -11,6 +11,7 @@ dependencies {
     implementation(libs.openrs2.cache)
     implementation(projects.api.cache)
     implementation(projects.api.config)
+    implementation(projects.api.parsers.json)
     implementation(projects.api.parsers.toml)
     implementation(projects.api.type.typeBuilders)
     implementation(projects.api.type.typeReferences)
@@ -19,5 +20,6 @@ dependencies {
     implementation(projects.api.utils.utilsIo)
     implementation(projects.engine.annotations)
     implementation(projects.engine.game)
+    implementation(projects.engine.map)
     implementation(projects.engine.module)
 }

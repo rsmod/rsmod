@@ -46,5 +46,39 @@ public data class MapAreaDefinition(
                 coordAreas = flippedCoordAreas,
             )
         }
+
+        public fun merge(edit: MapAreaDefinition, base: MapAreaDefinition): MapAreaDefinition {
+            // TODO: Ensure area count doesn't go over 5 for coords (including zones+entire square).
+            val mergedMapSquares =
+                ShortArraySet(base.mapSquareAreas.size + edit.mapSquareAreas.size)
+            mergedMapSquares.addAll(base.mapSquareAreas)
+            mergedMapSquares.addAll(edit.mapSquareAreas)
+
+            val mergedZoneAreas =
+                Byte2ObjectOpenHashMap<ShortSet>(base.zoneAreas.size + edit.zoneAreas.size)
+            for ((zone, areas) in base.zoneAreas) {
+                mergedZoneAreas[zone] = ShortArraySet(areas)
+            }
+            for ((zone, areas) in edit.zoneAreas) {
+                val mergedSet = mergedZoneAreas.getOrPut(zone) { ShortArraySet() }
+                mergedSet.addAll(areas)
+            }
+
+            val mergedCoordAreas =
+                Short2ObjectOpenHashMap<ShortSet>(base.coordAreas.size + edit.coordAreas.size)
+            for ((coord, areas) in base.coordAreas) {
+                mergedCoordAreas[coord] = ShortArraySet(areas)
+            }
+            for ((coord, areas) in edit.coordAreas) {
+                val mergedSet = mergedCoordAreas.getOrPut(coord) { ShortArraySet() }
+                mergedSet.addAll(areas)
+            }
+
+            return MapAreaDefinition(
+                mapSquareAreas = mergedMapSquares,
+                zoneAreas = mergedZoneAreas,
+                coordAreas = mergedCoordAreas,
+            )
+        }
     }
 }
