@@ -411,6 +411,23 @@ class PolygonMapSquareBuilderTest {
     }
 
     @Test
+    fun `negative slope diagonal fills expected tiles`() {
+        val area: Short = 15
+        val builder = PolygonMapSquareBuilder()
+        builder.polygon(area, levels = setOf(0)) {
+            vertex(10, 20)
+            vertex(15, 15)
+        }
+        val result = builder.build()
+        for (off in 0..5) {
+            val tile = MapSquareGrid(10 + off, 20 - off)
+            assertTrue(result.containsArea(area, tile)) {
+                "Expected tile at ($tile) to be part of filled area"
+            }
+        }
+    }
+
+    @Test
     fun `horizontal line with multiple vertices fills expected tiles`() {
         val area: Short = 12
         val builder = PolygonMapSquareBuilder()
@@ -423,6 +440,44 @@ class PolygonMapSquareBuilderTest {
         val result = builder.build()
         for (x in 10..15) {
             val tile = MapSquareGrid(x, 10)
+            assertTrue(result.containsArea(area, tile)) {
+                "Expected tile at ($tile) to be part of filled area"
+            }
+        }
+    }
+
+    @Test
+    fun `vertical line with multiple vertices fills expected tiles`() {
+        val area: Short = 13
+        val builder = PolygonMapSquareBuilder()
+        builder.polygon(area, levels = setOf(0)) {
+            vertex(20, 10)
+            vertex(20, 12)
+            vertex(20, 14)
+            vertex(20, 16)
+        }
+        val result = builder.build()
+        for (z in 10..16) {
+            val tile = MapSquareGrid(20, z)
+            assertTrue(result.containsArea(area, tile)) {
+                "Expected tile at ($tile) to be part of filled area"
+            }
+        }
+    }
+
+    @Test
+    fun `diagonal line with multiple vertices fills expected tiles`() {
+        val area: Short = 14
+        val builder = PolygonMapSquareBuilder()
+        builder.polygon(area, levels = setOf(0)) {
+            vertex(30, 30)
+            vertex(32, 32)
+            vertex(34, 34)
+            vertex(36, 36)
+        }
+        val result = builder.build()
+        for (off in 30..36) {
+            val tile = MapSquareGrid(off, off)
             assertTrue(result.containsArea(area, tile)) {
                 "Expected tile at ($tile) to be part of filled area"
             }

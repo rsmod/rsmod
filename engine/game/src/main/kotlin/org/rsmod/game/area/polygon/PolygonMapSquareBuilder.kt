@@ -118,25 +118,26 @@ public class PolygonMapSquareBuilder {
     public class PolygonBuilder(
         public val area: Short,
         levels: Iterable<Int>,
-        private val coordAreas: Short2ObjectOpenHashMap<BitSet> = Short2ObjectOpenHashMap(),
+        private val coordAreas: Short2ObjectOpenHashMap<BitSet>,
     ) {
         private val levelList = levels.distinct().sorted()
-        private var anchor = MapSquareGrid.NULL
-        private var lastTile = MapSquareGrid.NULL
-
         private val vertices = IntArrayList()
-        private var lastVertexWasHorizontal = false
+        private var anchor = MapSquareGrid.NULL
+
+        private var lastVertex = MapSquareGrid.NULL
+        private var lastDeltaSignX = Int.MIN_VALUE
+        private var lastDeltaSignZ = Int.MIN_VALUE
 
         init {
             require(levelList.isNotEmpty()) { "List of levels must not be empty." }
 
-            val validLevels = levels.all { it in 0 until CoordGrid.LEVEL_COUNT }
-            require(validLevels) { "Invalid level(s) specified: $levels" }
+            val validLevels = levelList.all { it in 0 until CoordGrid.LEVEL_COUNT }
+            require(validLevels) { "Invalid level(s) specified: $levelList" }
         }
 
         private fun anchor(anchor: MapSquareGrid) {
             this.anchor = anchor
-            this.lastTile = anchor
+            this.lastVertex = anchor
         }
 
         public fun vertex(tileX: Int, tileZ: Int) {
@@ -149,32 +150,45 @@ public class PolygonMapSquareBuilder {
                 anchor(tile)
                 return
             }
-            connect(lastTile, tile)
+            connect(lastVertex, tile)
         }
 
         private fun connect(from: MapSquareGrid, to: MapSquareGrid) {
-            val isHorizontal = from.z == to.z
-            if (isHorizontal && lastVertexWasHorizontal) {
+            val dx = to.x - from.x
+            val dz = to.z - from.z
+            val sx = dx.sign
+            val sz = dz.sign
+
+            val straightOr45 = (sx == 0 || sz == 0) || (abs(dx) == abs(dz))
+            if (straightOr45 && sx == lastDeltaSignX && sz == lastDeltaSignZ) {
                 replaceLastVertex(to)
-                return
+            } else {
+                vertices.add(to.packed)
             }
-            vertices.add(to.packed)
-            lastTile = to
-            lastVertexWasHorizontal = isHorizontal
+
+            if (straightOr45) {
+                lastDeltaSignX = sx
+                lastDeltaSignZ = sz
+            } else {
+                lastDeltaSignX = Int.MIN_VALUE
+                lastDeltaSignZ = Int.MIN_VALUE
+            }
+
+            lastVertex = to
         }
 
         private fun replaceLastVertex(newVertex: MapSquareGrid) {
             check(vertices.isNotEmpty())
             vertices.removeInt(vertices.lastIndex)
             vertices.add(newVertex.packed)
-            lastTile = newVertex
+            lastVertex = newVertex
         }
 
         internal fun close() {
             check(anchor != MapSquareGrid.NULL) { "No vertices defined for polygon (area=$area)" }
-            val connectLastVertex = vertices.size > 1 && lastTile != anchor
+            val connectLastVertex = vertices.size > 1 && lastVertex != anchor
             if (connectLastVertex) {
-                connect(from = lastTile, to = anchor)
+                connect(from = lastVertex, to = anchor)
             }
 
             val singleTilePolygon = vertices.isEmpty()
