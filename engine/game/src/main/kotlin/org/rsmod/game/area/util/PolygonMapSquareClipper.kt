@@ -11,20 +11,20 @@ public object PolygonMapSquareClipper {
     /**
      * Calls [clip] after ensuring the input polygon is explicitly closed.
      *
-     * If the first and last point in [points] are not equal, the first coordinate is appended to
+     * If the first and last vertex in [vertices] are not equal, the first coordinate is appended to
      * close the polygon before clipping.
      *
      * @see [clip]
      */
-    public fun closeAndClip(points: List<CoordGrid>): Map<MapSquareKey, List<CoordGrid>> {
-        require(points.isNotEmpty()) { "List of points must not be empty." }
-        val implicitClose = points.size > 1 && points.first() != points.last()
-        val closed = if (implicitClose) points + points.first() else points
+    public fun closeAndClip(vertices: List<CoordGrid>): Map<MapSquareKey, List<CoordGrid>> {
+        require(vertices.isNotEmpty()) { "List of vertices must not be empty." }
+        val implicitClose = vertices.size > 1 && vertices.first() != vertices.last()
+        val closed = if (implicitClose) vertices + vertices.first() else vertices
         return clip(closed)
     }
 
     /**
-     * Given a list of polygon vertex points, returns a map of clipped polygon segments, one per
+     * Given a list of polygon vertices, returns a map of clipped polygon segments, one per
      * intersected [MapSquareKey].
      *
      * This function is primarily used to convert multi-map-square polygons into a form that can be
@@ -32,29 +32,29 @@ public object PolygonMapSquareClipper {
      * square.
      *
      * The polygon is clipped using the Sutherland-Hodgman algorithm against the boundaries of each
-     * relevant map square. For each intersected square, a list of vertex points is returned
-     * representing the clipped sub-polygon that lies entirely within it.
+     * relevant map square. For each intersected square, a list of vertices is returned representing
+     * the clipped sub-polygon that lies entirely within it.
      *
-     * If all input points lie within a single [MapSquareKey], the original [points] list is
-     * returned under that key. The polygon is treated as closed - the first and last point will be
+     * If all input vertices lie within a single [MapSquareKey], the original [vertices] list is
+     * returned under that key. The polygon is treated as closed - the first and last vertex will be
      * connected even if not explicitly closed in the input.
      *
-     * @param points the polygon vertex coordinates as [CoordGrid]s.
+     * @param vertices the polygon vertex coordinates as [CoordGrid]s.
      * @return map of [MapSquareKey] to clipped polygon segments within that square.
-     * @throws IllegalArgumentException if [points] is empty.
+     * @throws IllegalArgumentException if [vertices] is empty.
      */
-    public fun clip(points: List<CoordGrid>): Map<MapSquareKey, List<CoordGrid>> {
-        require(points.isNotEmpty()) { "List of points must not be empty." }
-        val bounds = resolveBoundsOrNull(points)
+    public fun clip(vertices: List<CoordGrid>): Map<MapSquareKey, List<CoordGrid>> {
+        require(vertices.isNotEmpty()) { "List of vertices must not be empty." }
+        val bounds = resolveBoundsOrNull(vertices)
         if (bounds == null) {
-            val singleKey = MapSquareKey.from(points.first())
-            return mapOf(singleKey to points)
+            val singleKey = MapSquareKey.from(vertices.first())
+            return mapOf(singleKey to vertices)
         }
         val length = MapSquareGrid.LENGTH
         val result = mutableMapOf<MapSquareKey, List<CoordGrid>>()
         for (squareX in bounds.minX..bounds.maxX) {
             for (squareZ in bounds.minZ..bounds.maxZ) {
-                var subject = points
+                var subject = vertices
 
                 subject = clip(subject, Axis.X, squareX * length, keepGE = true)
                 if (subject.isEmpty()) {
@@ -132,8 +132,8 @@ public object PolygonMapSquareClipper {
             CoordGrid(x, boundary, p1.level)
         }
 
-    private fun resolveBoundsOrNull(points: List<CoordGrid>): Bound? {
-        val mapSquares = points.asSequence().map(MapSquareKey::from).distinct().toList()
+    private fun resolveBoundsOrNull(vertices: List<CoordGrid>): Bound? {
+        val mapSquares = vertices.asSequence().map(MapSquareKey::from).distinct().toList()
         return if (mapSquares.size == 1) {
             null
         } else {

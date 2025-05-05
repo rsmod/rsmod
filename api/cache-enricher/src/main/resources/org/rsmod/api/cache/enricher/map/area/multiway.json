@@ -2,7 +2,7 @@
   "name" : "Temple of Ikov Multiway",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2625,
       "z" : 9919
     }, {
@@ -32,7 +32,7 @@
   "name" : "Bryophyta",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3200,
       "z" : 9920
     }, {
@@ -50,7 +50,7 @@
   "name" : "Chambers of Xeric",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3201,
       "z" : 5759
     }, {
@@ -68,7 +68,7 @@
   "name" : "Demonic gorillas",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2090,
       "z" : 5633
     }, {
@@ -98,7 +98,7 @@
   "name" : "Grotesque Guardians",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1664,
       "z" : 4544
     }, {
@@ -116,7 +116,7 @@
   "name" : "Hespori",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1235,
       "z" : 10076
     }, {
@@ -134,7 +134,7 @@
   "name" : "The Mimic",
   "levels" : [ 1 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2710,
       "z" : 4311
     }, {
@@ -152,7 +152,7 @@
   "name" : "Inferno",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2244,
       "z" : 5371
     }, {
@@ -170,7 +170,7 @@
   "name" : "Prifddinas Teaks",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3290,
       "z" : 6135
     }, {
@@ -254,7 +254,7 @@
   "name" : "Skotizo",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2241,
       "z" : 5695
     }, {
@@ -272,7 +272,7 @@
   "name" : "Stronghold of Player Safety",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1153,
       "z" : 6463
     }, {
@@ -290,7 +290,7 @@
   "name" : "Revenant caves singles-plus",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3136,
       "z" : 10048
     }, {
@@ -308,7 +308,7 @@
   "name" : "Hosidius ruins",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1767,
       "z" : 3502
     }, {
@@ -392,7 +392,7 @@
   "name" : "Hosidius Town Square",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1770,
       "z" : 3606
     }, {
@@ -410,7 +410,7 @@
   "name" : "Arceuus Tower of Magic",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1564,
       "z" : 3816
     }, {
@@ -476,7 +476,7 @@
   "name" : "South of chambers of xeric",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1260,
       "z" : 3490
     }, {
@@ -596,7 +596,7 @@
   "name" : "Hosidius monk camp",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1740,
       "z" : 3503
     }, {
@@ -695,7 +695,7 @@
   "name" : "Kourend castle",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1615,
       "z" : 3690
     }, {
@@ -893,7 +893,7 @@
   "name" : "Hosidius Onion field",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1747,
       "z" : 3521
     }, {
@@ -926,7 +926,7 @@
   "name" : "Hosidius shoreline",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1709,
       "z" : 3486
     }, {
@@ -1136,7 +1136,7 @@
   "name" : "Hosidius cabbage field",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1746,
       "z" : 3556
     }, {
@@ -1175,7 +1175,7 @@
   "name" : "Hosidius Cow Pen",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1743,
       "z" : 3642
     }, {
@@ -1253,7 +1253,7 @@
   "name" : "Hosidius Pub",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1747,
       "z" : 3618
     }, {
@@ -1307,7 +1307,7 @@
   "name" : "Woodcutting guild and saltpetre",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1563,
       "z" : 3478
     }, {
@@ -1487,7 +1487,7 @@
   "name" : "Barbarian house",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1582,
       "z" : 3438
     }, {
@@ -1520,7 +1520,7 @@
   "name" : "Land's end",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1502,
       "z" : 3444
     }, {
@@ -1583,7 +1583,7 @@
   "name" : "Field under mess hall",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1634,
       "z" : 3606
     }, {
@@ -1601,7 +1601,7 @@
   "name" : "Arceuus",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1655,
       "z" : 3787
     }, {
@@ -1802,7 +1802,7 @@
   "name" : "Settlement ruins",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1601,
       "z" : 3905
     }, {
@@ -1862,7 +1862,7 @@
   "name" : "Port piscarilius",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1795,
       "z" : 3673
     }, {
@@ -1958,7 +1958,7 @@
   "name" : "Lovakengj mining house",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1513,
       "z" : 3829
     }, {
@@ -1976,7 +1976,7 @@
   "name" : "Lovakengj furnace house",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1501,
       "z" : 3751
     }, {
@@ -2018,7 +2018,7 @@
   "name" : "Lovakengj pub",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1564,
       "z" : 3751
     }, {
@@ -2060,7 +2060,7 @@
   "name" : "Graveyard of heroes",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1475,
       "z" : 3545
     }, {
@@ -2174,7 +2174,7 @@
   "name" : "South of giant pit",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1425,
       "z" : 3592
     }, {
@@ -2246,7 +2246,7 @@
   "name" : "Shayziens' wall",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1341,
       "z" : 3603
     }, {
@@ -2402,7 +2402,7 @@
   "name" : "The stranglewood",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1200,
       "z" : 3454
     }, {
@@ -2486,7 +2486,7 @@
   "name" : "Colossal wyrm remains",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1760,
       "z" : 2933
     }, {
@@ -2546,7 +2546,7 @@
   "name" : "Sunset coast",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1494,
       "z" : 2997
     }, {
@@ -2582,7 +2582,7 @@
   "name" : "Fortis colosseum",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1807,
       "z" : 3109
     }, {
@@ -2720,7 +2720,7 @@
   "name" : "Direwolf den",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1492,
       "z" : 3125
     }, {
@@ -2771,7 +2771,7 @@
   "name" : "Civitas Illa Fortis",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1632,
       "z" : 3157
     }, {
@@ -2843,7 +2843,7 @@
   "name" : "Ralos' Rise",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1431,
       "z" : 3210
     }, {
@@ -2984,7 +2984,7 @@
   "name" : "Lizardman canyons",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1474,
       "z" : 3687
     }, {
@@ -3064,7 +3064,7 @@
       "z" : 3687
     } ]
   }, {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1415,
       "z" : 3690
     }, {
@@ -3100,7 +3100,7 @@
   "name" : "Lovakengj eastern houses",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1550,
       "z" : 3793
     }, {
@@ -3126,7 +3126,7 @@
       "z" : 3794
     } ]
   }, {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1552,
       "z" : 3779
     }, {
@@ -3140,7 +3140,7 @@
       "z" : 3780
     } ]
   }, {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1539,
       "z" : 3779
     }, {
@@ -3158,7 +3158,7 @@
   "name" : "South of wildy agility training arena",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2985,
       "z" : 3927
     }, {
@@ -3176,7 +3176,7 @@
   "name" : "Main Wilderness",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3201,
       "z" : 3967
     }, {
@@ -3299,7 +3299,7 @@
   "name" : "Chaos Temple Hut Multiway",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2945,
       "z" : 3831
     }, {
@@ -3317,7 +3317,7 @@
   "name" : "Wildy bandit camp",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3009,
       "z" : 3711
     }, {
@@ -3335,7 +3335,7 @@
   "name" : "Chaos temple north of Falador",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2929,
       "z" : 3519
     }, {
@@ -3353,7 +3353,7 @@
   "name" : "Burthorpe",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2881,
       "z" : 3543
     }, {
@@ -3371,7 +3371,7 @@
   "name" : "White Wolf Mountain",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2879,
       "z" : 3519
     }, {
@@ -3389,7 +3389,7 @@
   "name" : "Death Plateu",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2849,
       "z" : 3607
     }, {
@@ -3407,7 +3407,7 @@
   "name" : "Trollheim",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2881,
       "z" : 3775
     }, {
@@ -3449,7 +3449,7 @@
   "name" : "Northen Rellekka",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2657,
       "z" : 3735
     }, {
@@ -3479,7 +3479,7 @@
   "name" : "Northen Fremennik Isles",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2305,
       "z" : 3903
     }, {
@@ -3509,7 +3509,7 @@
   "name" : "Pirates Cove",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2177,
       "z" : 3839
     }, {
@@ -3527,7 +3527,7 @@
   "name" : "Lunar Isle",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2049,
       "z" : 3967
     }, {
@@ -3545,7 +3545,7 @@
   "name" : "Piscatoris Fishing Colony",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2305,
       "z" : 3711
     }, {
@@ -3563,7 +3563,7 @@
   "name" : "Ranging Guild",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2657,
       "z" : 3447
     }, {
@@ -3605,7 +3605,7 @@
   "name" : "Necromancer house",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2657,
       "z" : 3255
     }, {
@@ -3629,7 +3629,7 @@
   "name" : "Battlefield noth of Tree Gnome Village",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2505,
       "z" : 3247
     }, {
@@ -3653,7 +3653,7 @@
   "name" : "Castle Wars",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2369,
       "z" : 3135
     }, {
@@ -3671,7 +3671,7 @@
   "name" : "Jiggig",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2457,
       "z" : 3055
     }, {
@@ -3689,7 +3689,7 @@
   "name" : "Ape Atoll",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2689,
       "z" : 2815
     }, {
@@ -3707,7 +3707,7 @@
   "name" : "East feldip hills",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2649,
       "z" : 2975
     }, {
@@ -3725,7 +3725,7 @@
   "name" : "Pest Control",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2625,
       "z" : 2623
     }, {
@@ -3743,7 +3743,7 @@
   "name" : "Desert Bandit Camp",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3136,
       "z" : 2958
     }, {
@@ -3794,7 +3794,7 @@
   "name" : "Al Kharid",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3265,
       "z" : 3199
     }, {
@@ -3812,7 +3812,7 @@
   "name" : "Wizards Tower",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3095,
       "z" : 3175
     }, {
@@ -3830,7 +3830,7 @@
   "name" : "Draynor Village",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3105,
       "z" : 3236
     }, {
@@ -3953,7 +3953,7 @@
   "name" : "Falador",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2945,
       "z" : 3455
     }, {
@@ -3977,7 +3977,7 @@
   "name" : "Southwest fally castle isn",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2967,
       "z" : 3335
     }, {
@@ -3995,7 +3995,7 @@
   "name" : "Barbarian Village",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3073,
       "z" : 3455
     }, {
@@ -4031,7 +4031,7 @@
   "name" : "Zeah dungeon with sand crabs",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1632,
       "z" : 9792
     }, {
@@ -4049,7 +4049,7 @@
   "name" : "Catacombs",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1600,
       "z" : 9984
     }, {
@@ -4079,7 +4079,7 @@
   "name" : "Ammoniate crabs at north fossil island",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3681,
       "z" : 3903
     }, {
@@ -4337,7 +4337,7 @@
   "name" : "Ammonite crabs at southeast Fossil Island",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3801,
       "z" : 3760
     }, {
@@ -4427,7 +4427,7 @@
   "name" : "Waterbirth island near the doors where people use rune throwing axes",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2536,
       "z" : 10136
     }, {
@@ -4445,7 +4445,7 @@
   "name" : "Ammoniate crabs at northwest fossil island",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3649,
       "z" : 3884
     }, {
@@ -4475,7 +4475,7 @@
   "name" : "Waterbirth island dungeon",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1792,
       "z" : 4352
     }, {
@@ -4493,7 +4493,7 @@
   "name" : "Dagannoths in lighthouse",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2497,
       "z" : 10047
     }, {
@@ -4511,7 +4511,7 @@
   "name" : "Dagannoth kings",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2943,
       "z" : 4353
     }, {
@@ -4529,7 +4529,7 @@
   "name" : "White wolf mountain dungeon at ice queen",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2856,
       "z" : 9928
     }, {
@@ -4547,7 +4547,7 @@
   "name" : "Kharazi jungle dungeon",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2817,
       "z" : 9295
     }, {
@@ -4565,7 +4565,7 @@
   "name" : "Tzhaar",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2369,
       "z" : 5183
     }, {
@@ -4583,7 +4583,7 @@
   "name" : "Smoke devils",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2431,
       "z" : 9409
     }, {
@@ -4601,7 +4601,7 @@
   "name" : "Kraken",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2271,
       "z" : 10044
     }, {
@@ -4619,7 +4619,7 @@
   "name" : "Giant mole",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1729,
       "z" : 5239
     }, {
@@ -4637,7 +4637,7 @@
   "name" : "Kalphite slayer area",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3265,
       "z" : 9543
     }, {
@@ -4655,7 +4655,7 @@
   "name" : "Desert treasure shadow diamond area",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2751,
       "z" : 5065
     }, {
@@ -4691,7 +4691,7 @@
   "name" : "Godwars dungeon",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2817,
       "z" : 5375
     }, {
@@ -4709,7 +4709,7 @@
   "name" : "Normal kalphite area including kalphite queen",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3457,
       "z" : 9535
     }, {
@@ -4727,7 +4727,7 @@
   "name" : "Tarns lair",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3137,
       "z" : 4663
     }, {
@@ -4745,7 +4745,7 @@
   "name" : "Entrance to dorgesh kaan",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3327,
       "z" : 9601
     }, {
@@ -4769,7 +4769,7 @@
   "name" : "Haunted mine boss area",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2752,
       "z" : 4416
     }, {
@@ -4787,7 +4787,7 @@
   "name" : "South East of Gnome Stronghold",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2305,
       "z" : 3391
     }, {
@@ -4805,7 +4805,7 @@
   "name" : "Fremennik isles dungeon",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2431,
       "z" : 10303
     }, {
@@ -4823,7 +4823,7 @@
   "name" : "Hammerspikes hangout in dwarven mines",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2961,
       "z" : 9823
     }, {
@@ -4841,7 +4841,7 @@
   "name" : "Varrock sewers",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3153,
       "z" : 9919
     }, {
@@ -4859,7 +4859,7 @@
   "name" : "Stronghold of security 1st floor",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1857,
       "z" : 5247
     }, {
@@ -4877,7 +4877,7 @@
   "name" : "ZMI altar area",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3009,
       "z" : 5631
     }, {
@@ -4895,7 +4895,7 @@
   "name" : "Dragon slayer 2 zeah underground puzzle",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1473,
       "z" : 9983
     }, {
@@ -4913,7 +4913,7 @@
   "name" : "King black dragon",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2240,
       "z" : 4672
     }, {
@@ -4931,7 +4931,7 @@
   "name" : "Scorpia",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3247,
       "z" : 10351
     }, {
@@ -4949,7 +4949,7 @@
   "name" : "Inside mage bank",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2496,
       "z" : 4672
     }, {
@@ -4967,7 +4967,7 @@
   "name" : "Soul Wars Arena",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2113,
       "z" : 2943
     }, {
@@ -4981,7 +4981,7 @@
       "z" : 2943
     } ]
   }, {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2177,
       "z" : 2943
     }, {
@@ -4995,7 +4995,7 @@
       "z" : 2943
     } ]
   }, {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2241,
       "z" : 2943
     }, {
@@ -5013,7 +5013,7 @@
   "name" : "Zemouregals base",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3521,
       "z" : 4607
     }, {
@@ -5027,7 +5027,7 @@
       "z" : 4607
     } ]
   }, {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3585,
       "z" : 4607
     }, {
@@ -5045,7 +5045,7 @@
   "name" : "Poison waste dungeon",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1473,
       "z" : 4351
     }, {
@@ -5059,7 +5059,7 @@
       "z" : 4351
     } ]
   }, {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1473,
       "z" : 4287
     }, {
@@ -5073,7 +5073,7 @@
       "z" : 4287
     } ]
   }, {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1345,
       "z" : 4415
     }, {
@@ -5087,7 +5087,7 @@
       "z" : 4415
     } ]
   }, {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1345,
       "z" : 4287
     }, {
@@ -5105,7 +5105,7 @@
   "name" : "Wildy godwars dungeon",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3071,
       "z" : 10113
     }, {
@@ -5141,7 +5141,7 @@
   "name" : "Enchanted valley",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3008,
       "z" : 4480
     }, {
@@ -5159,7 +5159,7 @@
   "name" : "Zulrah",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2257,
       "z" : 3100
     }, {
@@ -5177,7 +5177,7 @@
   "name" : "Abyssal sire and abyss",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3007,
       "z" : 4737
     }, {
@@ -5207,7 +5207,7 @@
   "name" : "Weiss",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2860,
       "z" : 3948
     }, {
@@ -5381,7 +5381,7 @@
   "name" : "Isle of Souls northern rare trees",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2177,
       "z" : 3007
     }, {
@@ -5516,7 +5516,7 @@
   "name" : "Arandar",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2385,
       "z" : 3327
     }, {
@@ -5534,7 +5534,7 @@
   "name" : "South East of Port Phasmatys",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3707,
       "z" : 3454
     }, {
@@ -5606,7 +5606,7 @@
   "name" : "South West of Port Phasmatys",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3645,
       "z" : 3450
     }, {
@@ -5792,7 +5792,7 @@
   "name" : "East of Nature Grotto",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3457,
       "z" : 3391
     }, {
@@ -5810,7 +5810,7 @@
   "name" : "Burgh de Rott general store roof",
   "levels" : [ 2 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3519,
       "z" : 3247
     }, {
@@ -5828,7 +5828,7 @@
   "name" : "Burgh de Rott docks",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3521,
       "z" : 3199
     }, {
@@ -5846,7 +5846,7 @@
   "name" : "Corp cave",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2961,
       "z" : 4399
     }, {
@@ -5860,7 +5860,7 @@
       "z" : 4368
     } ]
   }, {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2961,
       "z" : 4271
     }, {
@@ -5874,7 +5874,7 @@
       "z" : 4240
     } ]
   }, {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1793,
       "z" : 7615
     }, {
@@ -5888,7 +5888,7 @@
       "z" : 7615
     } ]
   }, {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1857,
       "z" : 7615
     }, {
@@ -5906,7 +5906,7 @@
   "name" : "Burgh de rott general store",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3512,
       "z" : 3232
     }, {
@@ -5924,7 +5924,7 @@
   "name" : "Falador farm",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3014,
       "z" : 3299
     }, {
@@ -5972,7 +5972,7 @@
   "name" : "Kharazi Jungle",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2752,
       "z" : 2880
     }, {
@@ -6083,7 +6083,7 @@
   "name" : "Grand tree demonics",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2432,
       "z" : 3520
     }, {
@@ -6107,7 +6107,7 @@
   "name" : "Soul wars corner",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 2297,
       "z" : 2880
     }, {
@@ -6125,7 +6125,7 @@
   "name" : "Morytania spider nest",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3659,
       "z" : 9850
     }, {
@@ -6167,7 +6167,7 @@
   "name" : "Sarachnis Lair Multiway",
   "levels" : [ 0 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 1831,
       "z" : 9911
     }, {
@@ -6185,7 +6185,7 @@
   "name" : "Meiyerditch Laboratories",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3556,
       "z" : 9728
     }, {
@@ -6221,7 +6221,7 @@
   "name" : "Tombs of Amascut: Multiway",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3520,
       "z" : 5120
     }, {
@@ -6239,7 +6239,7 @@
   "name" : "Wilderness: Slayer Cave",
   "levels" : [ 0, 1, 2, 3 ],
   "polygons" : [ {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3329,
       "z" : 10111
     }, {
@@ -6253,7 +6253,7 @@
       "z" : 10111
     } ]
   }, {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3329,
       "z" : 10175
     }, {
@@ -6267,7 +6267,7 @@
       "z" : 10175
     } ]
   }, {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3393,
       "z" : 10111
     }, {
@@ -6281,7 +6281,7 @@
       "z" : 10111
     } ]
   }, {
-    "points" : [ {
+    "vertices" : [ {
       "x" : 3393,
       "z" : 10175
     }, {

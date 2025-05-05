@@ -14,11 +14,11 @@ class MapAreaDefinitionPolygonTest {
         val area: Short = 5
         val builder = PolygonMapSquareBuilder()
         builder.polygon(area, levels = setOf(0)) {
-            point(10, 10)
-            point(11, 10)
-            point(11, 11)
-            point(10, 11)
-            point(10, 10)
+            vertex(10, 10)
+            vertex(11, 10)
+            vertex(11, 11)
+            vertex(10, 11)
+            vertex(10, 10)
         }
         val polygon = builder.build()
         val areaDef = MapAreaDefinition.from(polygon)
@@ -42,11 +42,11 @@ class MapAreaDefinitionPolygonTest {
 
         val builder = PolygonMapSquareBuilder()
         builder.polygon(area, levels = setOf(level)) {
-            point(baseX, baseZ)
-            point(baseX + 7, baseZ)
-            point(baseX + 7, baseZ + 7)
-            point(baseX, baseZ + 7)
-            point(baseX, baseZ)
+            vertex(baseX, baseZ)
+            vertex(baseX + 7, baseZ)
+            vertex(baseX + 7, baseZ + 7)
+            vertex(baseX, baseZ + 7)
+            vertex(baseX, baseZ)
         }
         val polygon = builder.build()
         val areaDef = MapAreaDefinition.from(polygon)
@@ -65,11 +65,11 @@ class MapAreaDefinitionPolygonTest {
 
         val builder = PolygonMapSquareBuilder()
         builder.polygon(area, levels = setOf(0, 1, 2, 3)) {
-            point(0, 0)
-            point(63, 0)
-            point(63, 63)
-            point(0, 63)
-            point(0, 0)
+            vertex(0, 0)
+            vertex(63, 0)
+            vertex(63, 63)
+            vertex(0, 63)
+            vertex(0, 0)
         }
 
         val polygon = builder.build()
@@ -90,18 +90,18 @@ class MapAreaDefinitionPolygonTest {
 
         val builder = PolygonMapSquareBuilder()
         builder.polygon(area1, levels = setOf(level)) {
-            point(tileX, tileZ)
-            point(tileX + 1, tileZ)
-            point(tileX + 1, tileZ + 1)
-            point(tileX, tileZ + 1)
-            point(tileX, tileZ)
+            vertex(tileX, tileZ)
+            vertex(tileX + 1, tileZ)
+            vertex(tileX + 1, tileZ + 1)
+            vertex(tileX, tileZ + 1)
+            vertex(tileX, tileZ)
         }
         builder.polygon(area2, levels = setOf(level)) {
-            point(tileX, tileZ)
-            point(tileX + 2, tileZ)
-            point(tileX + 2, tileZ + 2)
-            point(tileX, tileZ + 2)
-            point(tileX, tileZ)
+            vertex(tileX, tileZ)
+            vertex(tileX + 2, tileZ)
+            vertex(tileX + 2, tileZ + 2)
+            vertex(tileX, tileZ + 2)
+            vertex(tileX, tileZ)
         }
 
         val polygon = builder.build()
@@ -121,11 +121,11 @@ class MapAreaDefinitionPolygonTest {
         val builder = PolygonMapSquareBuilder()
 
         builder.polygon(coordArea, levels = setOf(0)) {
-            point(10, 10)
-            point(11, 10)
-            point(11, 11)
-            point(10, 11)
-            point(10, 10)
+            vertex(10, 10)
+            vertex(11, 10)
+            vertex(11, 11)
+            vertex(10, 11)
+            vertex(10, 10)
         }
 
         val zoneX = 2
@@ -133,19 +133,19 @@ class MapAreaDefinitionPolygonTest {
         val baseX = zoneX * 8
         val baseZ = zoneZ * 8
         builder.polygon(zoneArea, levels = setOf(0)) {
-            point(baseX, baseZ)
-            point(baseX + 7, baseZ)
-            point(baseX + 7, baseZ + 7)
-            point(baseX, baseZ + 7)
-            point(baseX, baseZ)
+            vertex(baseX, baseZ)
+            vertex(baseX + 7, baseZ)
+            vertex(baseX + 7, baseZ + 7)
+            vertex(baseX, baseZ + 7)
+            vertex(baseX, baseZ)
         }
 
         builder.polygon(mapSquareArea, levels = setOf(0, 1, 2, 3)) {
-            point(0, 0)
-            point(63, 0)
-            point(63, 63)
-            point(0, 63)
-            point(0, 0)
+            vertex(0, 0)
+            vertex(63, 0)
+            vertex(63, 63)
+            vertex(0, 63)
+            vertex(0, 0)
         }
 
         val polygon = builder.build()

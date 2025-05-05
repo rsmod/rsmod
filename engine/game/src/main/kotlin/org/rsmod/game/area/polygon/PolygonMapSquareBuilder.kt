@@ -21,11 +21,11 @@ import org.rsmod.map.zone.ZoneGrid
  * Builder for registering polygon-based area data within a single 64x64 map square.
  *
  * ## Usage
- * Call [polygon] to define the corners of an area. Points do not need to be adjacent; edge lines
+ * Call [polygon] to define the corners of an area. Vertices do not need to be adjacent; edge lines
  * are automatically interpolated.
  *
- * For example, `point(0, 0)` followed by `point(3, 0)` is valid and preferred. By contrast,
- * `point(0, 0)`, `point(1, 0)`, and `point(3, 0)` will result in redundant workload.
+ * For example, `vertex(0, 0)` followed by `vertex(3, 0)` is valid and preferred. By contrast,
+ * `vertex(0, 0)`, `vertex(1, 0)`, and `vertex(3, 0)` will result in redundant workload.
  *
  * _Successive calls to [polygon] with the same `area` id on a single builder will be `OR`'d
  * together, forming a union of all the sub-polygons._
@@ -124,11 +124,13 @@ public class PolygonMapSquareBuilder {
         private var anchor = MapSquareGrid.NULL
         private var lastTile = MapSquareGrid.NULL
 
-        private val points = IntArrayList()
-        private var lastPointWasHorizontal = false
+        private val vertices = IntArrayList()
+        private var lastVertexWasHorizontal = false
 
         init {
-            val validLevels = levels.any() && levels.all { it in 0 until CoordGrid.LEVEL_COUNT }
+            require(levelList.isNotEmpty()) { "List of levels must not be empty." }
+
+            val validLevels = levels.all { it in 0 until CoordGrid.LEVEL_COUNT }
             require(validLevels) { "Invalid level(s) specified: $levels" }
         }
 
@@ -137,12 +139,12 @@ public class PolygonMapSquareBuilder {
             this.lastTile = anchor
         }
 
-        public fun point(tileX: Int, tileZ: Int) {
+        public fun vertex(tileX: Int, tileZ: Int) {
             val tile = MapSquareGrid(tileX, tileZ)
-            point(tile)
+            vertex(tile)
         }
 
-        public fun point(tile: MapSquareGrid) {
+        public fun vertex(tile: MapSquareGrid) {
             if (anchor == MapSquareGrid.NULL) {
                 anchor(tile)
                 return
@@ -152,30 +154,30 @@ public class PolygonMapSquareBuilder {
 
         private fun connect(from: MapSquareGrid, to: MapSquareGrid) {
             val isHorizontal = from.z == to.z
-            if (isHorizontal && lastPointWasHorizontal) {
-                replaceLastPoint(to)
+            if (isHorizontal && lastVertexWasHorizontal) {
+                replaceLastVertex(to)
                 return
             }
-            points.add(to.packed)
+            vertices.add(to.packed)
             lastTile = to
-            lastPointWasHorizontal = isHorizontal
+            lastVertexWasHorizontal = isHorizontal
         }
 
-        private fun replaceLastPoint(newPoint: MapSquareGrid) {
-            check(points.isNotEmpty())
-            points.removeInt(points.lastIndex)
-            points.add(newPoint.packed)
-            lastTile = newPoint
+        private fun replaceLastVertex(newVertex: MapSquareGrid) {
+            check(vertices.isNotEmpty())
+            vertices.removeInt(vertices.lastIndex)
+            vertices.add(newVertex.packed)
+            lastTile = newVertex
         }
 
         internal fun close() {
-            check(anchor != MapSquareGrid.NULL) { "No points defined for polygon (area=$area)" }
-            val connectLastVertex = points.size > 1 && lastTile != anchor
+            check(anchor != MapSquareGrid.NULL) { "No vertices defined for polygon (area=$area)" }
+            val connectLastVertex = vertices.size > 1 && lastTile != anchor
             if (connectLastVertex) {
                 connect(from = lastTile, to = anchor)
             }
 
-            val singleTilePolygon = points.isEmpty()
+            val singleTilePolygon = vertices.isEmpty()
             if (singleTilePolygon) {
                 closeSingleTilePolygon(anchor)
                 return
@@ -191,11 +193,11 @@ public class PolygonMapSquareBuilder {
         }
 
         private fun closeSingleTilePolygon(tile: MapSquareGrid) {
-            points.add(tile.packed)
+            vertices.add(tile.packed)
         }
 
         private fun isFullMapSquare(): Boolean {
-            if (points.size != 4) {
+            if (vertices.size != 4) {
                 return false
             }
 
@@ -204,16 +206,21 @@ public class PolygonMapSquareBuilder {
                 return false
             }
 
-            val points =
-                intArrayOf(points.getInt(0), points.getInt(1), points.getInt(2), points.getInt(3))
+            val vertexList =
+                intArrayOf(
+                    vertices.getInt(0),
+                    vertices.getInt(1),
+                    vertices.getInt(2),
+                    vertices.getInt(3),
+                )
 
             var corner1 = false
             var corner2 = false
             var corner3 = false
             var corner4 = false
 
-            for (point in points) {
-                val grid = MapSquareGrid(point)
+            for (vertex in vertexList) {
+                val grid = MapSquareGrid(vertex)
                 when {
                     grid.x == 0 && grid.z == 0 -> corner1 = true
                     grid.x == 63 && grid.z == 0 -> corner2 = true
@@ -235,17 +242,17 @@ public class PolygonMapSquareBuilder {
         private fun replaceWithFilledPolygon() {
             val filled = BitSet()
             /*
-             * Note: this "one-point" line check works because the current system collapses any
+             * Note: this "one-vertex" line check works because the current system collapses any
              * series of collinear intermediate vertices along a straight line into a single
-             * endpoint. If `replaceLastPoint` is ever removed or altered, you must reintroduce
-             * equivalent sanitization (e.g., remove the last point inserted in the straight
-             * segment) so that `points.size == 1` continues to reliably indicate a single straight
-             * line.
+             * endpoint. If `replaceLastVertex` is ever removed or altered, you must reintroduce
+             * equivalent sanitization (e.g., remove the last vertex inserted in the straight
+             * segment) so that `vertices.size == 1` continues to reliably indicate a single
+             * straight line.
              */
-            val isLinePolygon = points.size == 1
+            val isLinePolygon = vertices.size == 1
             if (isLinePolygon) {
-                val endPoint = MapSquareGrid(points.last())
-                fillLine(filled, anchor, endPoint)
+                val endVertex = MapSquareGrid(vertices.last())
+                fillLine(filled, anchor, endVertex)
             } else {
                 fillPolygon(filled)
             }
@@ -323,11 +330,11 @@ public class PolygonMapSquareBuilder {
             val buckets = Array(MapSquareGrid.LENGTH) { mutableListOf<Edge>() }
             val edges = mutableListOf<Edge>()
 
-            val vertexCount = points.size
-            val startPoint = anchor.packed
+            val vertexCount = vertices.size
+            val startVertex = anchor.packed
             for (i in 0 until vertexCount) {
-                val packed1 = if (i == 0) startPoint else points.getInt(i - 1)
-                val packed2 = points.getInt(i)
+                val packed1 = if (i == 0) startVertex else vertices.getInt(i - 1)
+                val packed2 = vertices.getInt(i)
 
                 val grid1 = MapSquareGrid(packed1)
                 val x1 = grid1.x
@@ -398,12 +405,12 @@ public class PolygonMapSquareBuilder {
                 }
             }
 
-            // "Stroke" the outline segments so that every vertex tile specified via `point(...)`
+            // "Stroke" the outline segments so that every vertex tile specified via `vertex(...)`
             // is guaranteed to be filled, even if it spans only one scanline.
             for (i in 0 until vertexCount) {
-                val prevPacked = if (i == 0) startPoint else points.getInt(i - 1)
+                val prevPacked = if (i == 0) startVertex else vertices.getInt(i - 1)
                 val prev = MapSquareGrid(prevPacked)
-                val curr = MapSquareGrid(points.getInt(i))
+                val curr = MapSquareGrid(vertices.getInt(i))
                 fillLine(filled, prev, curr)
             }
         }

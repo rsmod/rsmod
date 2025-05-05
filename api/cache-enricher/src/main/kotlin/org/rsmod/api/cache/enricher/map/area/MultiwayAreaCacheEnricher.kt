@@ -50,12 +50,12 @@ public class MultiwayAreaCacheEnricher @Inject constructor(@Json private val map
                         continue
                     }
                     val clipped = PolygonMapSquareClipper.closeAndClip(polygon.coords)
-                    val polygonPoints = clipped[mapSquare] ?: continue
+                    val polygonVertices = clipped[mapSquare] ?: continue
                     builder.polygon(multiwayArea, levels) {
-                        for (point in polygonPoints) {
-                            val localX = point.x % MapSquareGrid.LENGTH
-                            val localZ = point.z % MapSquareGrid.LENGTH
-                            point(localX, localZ)
+                        for (vertex in polygonVertices) {
+                            val localX = vertex.x % MapSquareGrid.LENGTH
+                            val localZ = vertex.z % MapSquareGrid.LENGTH
+                            vertex(localX, localZ)
                         }
                     }
                 }
@@ -81,9 +81,9 @@ private data class MultiwayArea(
     }
 }
 
-private data class MultiwayPolygon(val points: List<Point>) {
-    val coords = points.map { CoordGrid(it.x, it.z) }
-    val mapSquares = points.asSequence().map { MapSquareKey.fromAbsolute(it.x, it.z) }.toSet()
+private data class MultiwayPolygon(val vertices: List<Point>) {
+    val coords = vertices.map { CoordGrid(it.x, it.z) }
+    val mapSquares = vertices.asSequence().map { MapSquareKey.fromAbsolute(it.x, it.z) }.toSet()
 }
 
 private data class Point(val x: Int, val z: Int)

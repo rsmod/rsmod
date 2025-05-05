@@ -9,7 +9,7 @@ import org.rsmod.map.square.MapSquareKey
 
 class PolygonMapSquareClipperTest {
     @Test
-    fun `clip returns 4 points when horizontal line crosses map square boundary`() {
+    fun `clip returns 4 vertices when horizontal line crosses map square boundary`() {
         val input = listOf(CoordGrid(60, 10), CoordGrid(68, 10))
         val result = PolygonMapSquareClipper.clip(input)
 
@@ -21,7 +21,7 @@ class PolygonMapSquareClipperTest {
     }
 
     @Test
-    fun `clip returns 4 points when vertical line crosses map square boundary`() {
+    fun `clip returns 4 vertices when vertical line crosses map square boundary`() {
         val input = listOf(CoordGrid(10, 60), CoordGrid(10, 68))
         val result = PolygonMapSquareClipper.clip(input)
 
@@ -33,7 +33,7 @@ class PolygonMapSquareClipperTest {
     }
 
     @Test
-    fun `clip returns 4 points when diagonal line crosses into corner map square`() {
+    fun `clip returns 4 vertices when diagonal line crosses into corner map square`() {
         val input = listOf(CoordGrid(60, 60), CoordGrid(68, 68))
         val result = PolygonMapSquareClipper.clip(input)
 
@@ -45,7 +45,7 @@ class PolygonMapSquareClipperTest {
     }
 
     @Test
-    fun `clip closes 3-point polygon correctly`() {
+    fun `clip closes 3-vertex polygon correctly`() {
         val input = listOf(CoordGrid(60, 60), CoordGrid(68, 60), CoordGrid(68, 68))
         val result = PolygonMapSquareClipper.clip(input)
 
@@ -78,7 +78,7 @@ class PolygonMapSquareClipperTest {
     }
 
     @Test
-    fun `clip returns 9 points for polygon spanning 4 map squares`() {
+    fun `clip returns 9 vertices for polygon spanning 4 map squares`() {
         val input =
             listOf(CoordGrid(60, 60), CoordGrid(68, 60), CoordGrid(68, 68), CoordGrid(60, 68))
         val result = PolygonMapSquareClipper.clip(input)
@@ -158,7 +158,7 @@ class PolygonMapSquareClipperTest {
     }
 
     @Test
-    fun `clip returns original points when all in same map square`() {
+    fun `clip returns original vertices when all in same map square`() {
         val input =
             listOf(CoordGrid(10, 10), CoordGrid(20, 10), CoordGrid(20, 20), CoordGrid(10, 20))
         val result = PolygonMapSquareClipper.clip(input)
@@ -166,7 +166,7 @@ class PolygonMapSquareClipperTest {
     }
 
     @Test
-    fun `clip correctly includes corner point when it lies on map square boundary`() {
+    fun `clip correctly includes corner vertex when it lies on map square boundary`() {
         val input = listOf(CoordGrid(63, 50), CoordGrid(64, 50), CoordGrid(64, 56))
         val result = PolygonMapSquareClipper.closeAndClip(input)
 
@@ -283,16 +283,16 @@ class PolygonMapSquareClipperTest {
             )
 
         for (key in expectedSquares) {
-            val points = result[key]?.size
-            assertNotNull(points) { "Expected polygon to intersect $key" }
-            assertTrue(checkNotNull(points) >= 2) {
-                "Expected clipped polygon in $key to have at least 3 points: $points"
+            val vertices = result[key]?.size
+            assertNotNull(vertices) { "Expected polygon to intersect $key" }
+            assertTrue(checkNotNull(vertices) >= 2) {
+                "Expected clipped polygon in $key to have at least 3 vertices: $vertices"
             }
         }
 
         val expectedKey = MapSquareKey(2, 1)
-        val expectedPoints =
+        val expectedVertices =
             setOf(CoordGrid(0, 2, 1, 0, 0), CoordGrid(0, 2, 1, 63, 0), CoordGrid(0, 2, 1, 0, 63))
-        assertEquals(expectedPoints, result[expectedKey]?.toSet())
+        assertEquals(expectedVertices, result[expectedKey]?.toSet())
     }
 }
