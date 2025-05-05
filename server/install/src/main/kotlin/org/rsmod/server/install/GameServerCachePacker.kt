@@ -20,12 +20,14 @@ import org.rsmod.api.core.CoreModule
 import org.rsmod.api.parsers.jackson.JacksonModule
 import org.rsmod.api.parsers.json.JsonModule
 import org.rsmod.api.parsers.toml.TomlModule
+import org.rsmod.api.type.builders.map.MapUpdateList
 import org.rsmod.api.type.resolver.TypeResolver
 import org.rsmod.api.type.updater.TypeUpdater
 import org.rsmod.api.type.verifier.TypeVerifier
 import org.rsmod.api.type.verifier.isCacheUpdateRequired
 import org.rsmod.api.type.verifier.isFailure
 import org.rsmod.server.shared.DirectoryConstants
+import org.rsmod.server.shared.loader.MapTypeBuilderLoader
 import org.rsmod.server.shared.loader.TypeBuilderLoader
 import org.rsmod.server.shared.loader.TypeEditorLoader
 import org.rsmod.server.shared.loader.TypeReferencesLoader
@@ -33,6 +35,7 @@ import org.rsmod.server.shared.module.CacheStoreModule
 import org.rsmod.server.shared.module.EventModule
 import org.rsmod.server.shared.module.ScannerModule
 import org.rsmod.server.shared.module.SymbolModule
+import org.rsmod.server.shared.util.MapUpdateListLoader
 
 fun main(args: Array<String>): Unit = GameServerCachePacker().main(args)
 
@@ -92,7 +95,8 @@ class GameServerCachePacker : CliktCommand(name = "cache-pack") {
         val verification = verifier.verifyAll(verifyIdentityHashes = false)
         if (verification.isCacheUpdateRequired()) {
             val updater = injector.getInstance(TypeUpdater::class.java)
-            updater.updateAll()
+            val mapUpdates = createMapUpdateList(injector)
+            updater.updateAll(mapUpdates)
             closeCaches(injector)
             packEnrichedTypes()
             return false
@@ -100,6 +104,11 @@ class GameServerCachePacker : CliktCommand(name = "cache-pack") {
             throw RuntimeException(verification.formatError())
         }
         return true
+    }
+
+    private fun createMapUpdateList(injector: Injector): MapUpdateList {
+        val loader = injector.getInstance(MapTypeBuilderLoader::class.java)
+        return MapUpdateListLoader.load(loader)
     }
 
     private fun copyEnrichedCache(injector: Injector) {

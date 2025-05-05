@@ -11,5 +11,6 @@ dependencies {
     implementation(projects.api.type.typeScriptDsl)
     implementation(projects.api.type.typeSymbols)
     implementation(projects.engine.game)
+    implementation(projects.engine.map)
     implementation(projects.engine.module)
 }

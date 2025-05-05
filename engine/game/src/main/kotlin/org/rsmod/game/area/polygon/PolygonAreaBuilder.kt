@@ -4,6 +4,7 @@ import it.unimi.dsi.fastutil.ints.IntArrayList
 import it.unimi.dsi.fastutil.ints.IntArraySet
 import org.rsmod.game.area.util.PolygonMapSquareClipper
 import org.rsmod.map.CoordGrid
+import org.rsmod.map.square.MapSquareGrid
 import org.rsmod.map.square.MapSquareKey
 import org.rsmod.map.util.FastPack
 
@@ -86,7 +87,7 @@ public class PolygonAreaBuilder(public val area: Short) {
 
     private fun createSingleVertex(vertex: CoordGrid): PolygonArea {
         val builder = PolygonMapSquareBuilder()
-        builder.polygon(area, levels) { vertex(vertex) }
+        builder.polygon(area, levels) { vertex(vertex.toMapSquareGrid()) }
 
         val polygon = builder.build()
         val mapSquare = MapSquareKey.from(vertex)
@@ -98,7 +99,7 @@ public class PolygonAreaBuilder(public val area: Short) {
         vertices: List<CoordGrid>,
     ): PolygonArea {
         val builder = PolygonMapSquareBuilder()
-        builder.polygon(area, levels) { vertices.forEach { p -> vertex(p) } }
+        builder.polygon(area, levels) { vertices.forEach { p -> vertex(p.toMapSquareGrid()) } }
 
         val polygon = builder.build()
         return PolygonArea(mapSquare, polygon)
@@ -110,9 +111,11 @@ public class PolygonAreaBuilder(public val area: Short) {
         val mapSquares = mutableMapOf<MapSquareKey, PolygonMapSquare>()
         for ((mapSquare, vertices) in partitioned) {
             val builder = PolygonMapSquareBuilder()
-            builder.polygon(area, levels) { vertices.forEach { p -> vertex(p) } }
+            builder.polygon(area, levels) { vertices.forEach { p -> vertex(p.toMapSquareGrid()) } }
             mapSquares[mapSquare] = builder.build()
         }
         return PolygonArea(mapSquares)
     }
+
+    private fun CoordGrid.toMapSquareGrid(): MapSquareGrid = MapSquareGrid.from(this)
 }
