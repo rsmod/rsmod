@@ -7,6 +7,11 @@ public value class InlineByteBuf(public val backing: ByteArray) {
         return Cursor(value, cursor.pos + Byte.SIZE_BYTES)
     }
 
+    public fun readUnsignedByte(cursor: Cursor): Cursor {
+        val value = backing[cursor.pos].toInt()
+        return Cursor(value and 0xFF, cursor.pos + Byte.SIZE_BYTES)
+    }
+
     public fun readShort(cursor: Cursor): Cursor {
         val value = backing[cursor.pos].toInt() shl 8 or (backing[cursor.pos + 1].toInt() and 0xFF)
         return Cursor(value, cursor.pos + Short.SIZE_BYTES)

@@ -2,7 +2,6 @@ package org.rsmod.api.game.process.player
 
 import jakarta.inject.Inject
 import org.rsmod.api.registry.player.PlayerRegistry
-import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.queue.EngineQueueCache
 import org.rsmod.game.queue.EngineQueueType
@@ -11,11 +10,7 @@ import org.rsmod.map.zone.ZoneKey
 
 public class PlayerMapUpdateProcessor
 @Inject
-constructor(
-    private val eventBus: EventBus,
-    private val playerRegistry: PlayerRegistry,
-    private val queueCache: EngineQueueCache,
-) {
+constructor(private val queueCache: EngineQueueCache, private val playerRegistry: PlayerRegistry) {
     public fun process(player: Player) {
         player.processMapSquareChange()
         player.processZoneChange()

@@ -2,6 +2,7 @@ package org.rsmod.game.type.literal
 
 import kotlin.reflect.KClass
 import org.rsmod.game.type.TypeListMap
+import org.rsmod.game.type.area.AreaType
 import org.rsmod.game.type.category.CategoryType
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.enums.EnumType
@@ -45,6 +46,13 @@ public object CacheVarBoolCodec : BaseIntVarCodec<Boolean>(Boolean::class) {
     override fun decode(types: TypeListMap, value: Int): Boolean = value == 1
 
     override fun encode(value: Boolean): Int = if (value) 1 else 0
+}
+
+public object CacheVarAreaCodec : BaseIntVarCodec<AreaType>(AreaType::class) {
+    override fun decode(types: TypeListMap, value: Int): AreaType? =
+        types.areas[value]?.toHashedType()
+
+    override fun encode(value: AreaType): Int = value.id
 }
 
 public object CacheVarCategoryCodec : BaseIntVarCodec<CategoryType>(CategoryType::class) {

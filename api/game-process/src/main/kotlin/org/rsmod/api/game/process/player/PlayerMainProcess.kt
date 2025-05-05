@@ -22,6 +22,7 @@ constructor(
     private val players: PlayerList,
     private val queues: PlayerQueueProcessor,
     private val timers: PlayerTimerProcessor,
+    private val areas: PlayerAreaProcessor,
     private val engineQueues: PlayerEngineQueueProcessor,
     private val interact: PlayerInteractionProcessor,
     private val exceptionHandler: GameExceptionHandler,
@@ -45,6 +46,7 @@ constructor(
                 processIfCloseModal()
                 processQueues()
                 processTimers()
+                processAreas()
                 processEngineQueues()
                 processInteractions()
                 processIfCloseDisconnect()
@@ -86,6 +88,10 @@ constructor(
 
     private fun Player.processTimers() {
         timers.process(this)
+    }
+
+    private fun Player.processAreas() {
+        areas.process(this)
     }
 
     private fun Player.processEngineQueues() {

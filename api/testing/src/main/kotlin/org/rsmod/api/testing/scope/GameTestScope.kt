@@ -95,6 +95,7 @@ import org.rsmod.api.utils.logging.GameExceptionHandler
 import org.rsmod.events.EventBus
 import org.rsmod.game.GameUpdate
 import org.rsmod.game.MapClock
+import org.rsmod.game.area.AreaIndex
 import org.rsmod.game.cheat.CheatCommandMap
 import org.rsmod.game.client.Client
 import org.rsmod.game.entity.ControllerList
@@ -806,6 +807,8 @@ constructor(
                 gameCollisionMap.flags.copyInto(collision.flags)
                 bind(CollisionFlagMap::class.java).toInstance(collision)
             }
+
+            bind(AreaIndex::class.java).`in`(Scopes.SINGLETON)
 
             bind(GameExceptionHandler::class.java)
                 .to(TestExceptionHandler::class.java)

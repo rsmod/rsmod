@@ -75,8 +75,8 @@ public value class ZoneGrid(public val packed: Int) {
         public val ZERO: ZoneGrid = ZoneGrid(0)
 
         /**
-         * This value represents the length of one side of a zone. Therefore, a zone covers a total
-         * area of 8x8 tiles in the x and z directions.
+         * This value represents the number of tiles per side of a zone. Therefore, a zone covers an
+         * `8 x 8` tile area in the x and z directions.
          */
         public const val LENGTH: Int = 8
 

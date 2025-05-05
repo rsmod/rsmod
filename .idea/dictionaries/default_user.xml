@@ -94,6 +94,7 @@
       <w>lastcombat</w>
       <w>lefthand</w>
       <w>levelrequire</w>
+      <w>locs</w>
       <w>longrange</w>
       <w>lumbridge</w>
       <w>lunars</w>
@@ -121,6 +122,7 @@
       <w>npcmode</w>
       <w>npcs</w>
       <w>objbox</w>
+      <w>objs</w>
       <w>objvar</w>
       <w>objvars</w>
       <w>oddenstein</w>

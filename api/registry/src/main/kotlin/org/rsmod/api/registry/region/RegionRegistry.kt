@@ -440,6 +440,40 @@ constructor(
         check(delete.isSuccess()) { "Could not delete controller: $controller (result=$delete)" }
     }
 
+    /**
+     * Converts a coordinate in a region to its corresponding coordinate in the copied normal zone.
+     *
+     * If the provided [regionCoords] does not belong to a valid region zone, [CoordGrid.NULL] is
+     * returned.
+     *
+     * The mapping accounts for both the region's origin offset and any rotation applied to the
+     * copy.
+     *
+     * @param regionCoords the absolute coordinate within the copied region space.
+     * @return the equivalent coordinate in the normal zone, or [CoordGrid.NULL] if the region is
+     *   not a valid copy.
+     */
+    public fun normalizeCoords(regionCoords: CoordGrid): CoordGrid {
+        val key = ZoneKey.from(regionCoords)
+        val zone = zones[key]
+        if (zone == RegionZoneCopy.NULL) {
+            return CoordGrid.NULL
+        }
+        val regionBase = key.toCoords()
+        val regionDelta = regionCoords - regionBase
+
+        val normalBase = zone.normalZone().toCoords()
+        val normalCoords = normalBase + regionDelta
+
+        if (zone.rotation == 0) {
+            return normalCoords
+        }
+
+        val regionGrid = ZoneGrid.from(regionCoords)
+        val translation = RegionRotations.translateCoords(zone.inverseRotation, regionGrid)
+        return normalBase.translate(translation)
+    }
+
     public data class WorkingArea(
         val horizontalRegionCap: Int,
         val verticalRegionCap: Int,

@@ -4,6 +4,8 @@ import it.unimi.dsi.fastutil.ints.IntArrayList
 import it.unimi.dsi.fastutil.ints.IntArraySet
 import it.unimi.dsi.fastutil.ints.IntList
 import it.unimi.dsi.fastutil.longs.LongArrayList
+import it.unimi.dsi.fastutil.shorts.ShortArrayList
+import it.unimi.dsi.fastutil.shorts.ShortArraySet
 import java.time.LocalDateTime
 import java.util.BitSet
 import java.util.concurrent.atomic.AtomicBoolean
@@ -33,6 +35,7 @@ import org.rsmod.game.shop.Shop
 import org.rsmod.game.spot.EntitySpotanim
 import org.rsmod.game.stat.PlayerStatMap
 import org.rsmod.game.timer.PlayerTimerMap
+import org.rsmod.game.type.area.AreaType
 import org.rsmod.game.type.bas.UnpackedBasType
 import org.rsmod.game.type.droptrig.DropTriggerType
 import org.rsmod.game.type.mod.ModGroup
@@ -162,6 +165,10 @@ public class Player(
     public var buildArea: CoordGrid = CoordGrid.NULL
     public val visibleZoneKeys: IntList = IntArrayList()
     public var lastMapBuildComplete: Int = Int.MIN_VALUE
+
+    public val activeAreas: ShortArraySet = ShortArraySet()
+    public val pendingAreas: ShortArrayList = ShortArrayList()
+    public var lastProcessedAreaCoord: CoordGrid = CoordGrid.NULL
 
     public var runEnergy: Int = 1000
     public var runWeight: Int = 0
@@ -409,6 +416,18 @@ public class Player(
     }
 
     @InternalApi
+    public fun engineQueueArea(area: Short) {
+        // We do not support "default" area engine queues - `args` not required.
+        engineQueueList.add(EngineQueueType.Area, args = null, label = area.toInt())
+    }
+
+    @InternalApi
+    public fun engineQueueAreaExit(area: Short) {
+        // We do not support "default" area engine queues - `args` not required.
+        engineQueueList.add(EngineQueueType.AreaExit, args = null, label = area.toInt())
+    }
+
+    @InternalApi
     public fun markStatUpdate(stat: StatType) {
         pendingStatUpdates.set(stat.id)
     }
@@ -453,6 +472,8 @@ public class Player(
     public fun rebuildAppearance() {
         appearance.rebuild = true
     }
+
+    public fun inArea(area: AreaType): Boolean = area.id.toShort() in activeAreas
 
     /**
      * @throws [IllegalStateException] if a [dropTrigger] is already set. This ensures that

@@ -4,6 +4,7 @@ import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.queues
 import org.rsmod.api.config.refs.timers
 import org.rsmod.api.config.refs.varps
+import org.rsmod.api.multiway.MultiwayChecker
 import org.rsmod.api.player.hit.configs.hit_queues
 import org.rsmod.api.player.output.UpdateInventory
 import org.rsmod.api.player.output.clearMapFlag
@@ -82,6 +83,9 @@ public fun Player.isInPvpCombat(): Boolean {
 public fun Player.isInPvnCombat(): Boolean {
     return vars[varps.lastcombat] + constants.combat_activecombat_delay >= currentMapClock
 }
+
+/** @return `true` if the player is **currently** in a multi-combat area. */
+public fun Player.mapMultiway(multiway: MultiwayChecker): Boolean = this in multiway
 
 public fun Player.startInvTransmit(inv: Inventory) {
     check(inv.type.scope != InvScope.Shared || !invMap.contains(inv.type)) {

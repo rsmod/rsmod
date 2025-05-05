@@ -1,10 +1,7 @@
 package org.rsmod.api.cache.types
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.async
-import kotlinx.coroutines.runBlocking
 import org.openrs2.cache.Cache
+import org.rsmod.api.cache.types.area.AreaTypeDecoder
 import org.rsmod.api.cache.types.category.CategoryTypeDecoder
 import org.rsmod.api.cache.types.comp.ComponentTypeDecoder
 import org.rsmod.api.cache.types.enums.EnumTypeDecoder
@@ -38,94 +35,95 @@ import org.rsmod.game.type.TypeResolver
 import org.rsmod.game.type.interf.InterfaceTypeList
 
 public object TypeListMapDecoder {
-    public fun ofParallel(cache: Cache, names: NameMapping): TypeListMap = runBlocking {
-        val locs = decode { LocTypeDecoder.decodeAll(cache) }
-        val objs = decode { ObjTypeDecoder.decodeAll(cache) }
-        val npcs = decode { NpcTypeDecoder.decodeAll(cache) }
-        val params = decode { ParamTypeDecoder.decodeAll(cache) }
-        val enums = decode { EnumTypeDecoder.decodeAll(cache) }
-        val varps = decode { VarpTypeDecoder.decodeAll(cache) }
-        val varbits = decode { VarBitTypeDecoder.decodeAll(cache) }
-        val components = decode { ComponentTypeDecoder.decodeAll(cache) }
-        val interfaces = decode {
-            val componentList = components.await()
-            InterfaceTypeList.from(componentList.values)
-        }
-        val invs = decode { InvTypeDecoder.decodeAll(cache) }
-        val seqs = decode { SeqTypeDecoder.decodeAll(cache) }
-        val fonts = decode { FontMetricsDecoder.decodeAll(cache) }
-        val stats = decode { StatTypeDecoder.decodeAll(cache, names.stats) }
+    public fun from(cache: Cache, names: NameMapping): TypeListMap {
+        val locs = LocTypeDecoder.decodeAll(cache)
+        val objs = ObjTypeDecoder.decodeAll(cache)
+        val npcs = NpcTypeDecoder.decodeAll(cache)
+        val params = ParamTypeDecoder.decodeAll(cache)
+        val enums = EnumTypeDecoder.decodeAll(cache)
+        val varps = VarpTypeDecoder.decodeAll(cache)
+        val varbits = VarBitTypeDecoder.decodeAll(cache)
+        val components = ComponentTypeDecoder.decodeAll(cache)
+        val interfaces = InterfaceTypeList.from(components.values)
+        val invs = InvTypeDecoder.decodeAll(cache)
+        val seqs = SeqTypeDecoder.decodeAll(cache)
+        val fonts = FontMetricsDecoder.decodeAll(cache)
+        val stats = StatTypeDecoder.decodeAll(cache, names.stats)
         val synths = SynthTypeDecoder.decodeAll(names)
-        val structs = decode { StructTypeDecoder.decodeAll(cache) }
-        val spotanims = decode { SpotanimTypeDecoder.decodeAll(cache) }
+        val structs = StructTypeDecoder.decodeAll(cache)
+        val spotanims = SpotanimTypeDecoder.decodeAll(cache)
         val jingles = JingleTypeDecoder.decodeAll(names)
-        val walkTriggers = decode { WalkTriggerTypeDecoder.decodeAll(cache, names.walkTriggers) }
-        val varns = decode { VarnTypeDecoder.decodeAll(cache, names.varns) }
-        val varnbits = decode { VarnBitTypeDecoder.decodeAll(cache) }
-        val hitmarks = decode { HitmarkTypeDecoder.decodeAll(cache) }
-        val headbars = decode { HeadbarTypeDecoder.decodeAll(cache) }
+        val walkTriggers = WalkTriggerTypeDecoder.decodeAll(cache, names.walkTriggers)
+        val varns = VarnTypeDecoder.decodeAll(cache, names.varns)
+        val varnbits = VarnBitTypeDecoder.decodeAll(cache)
+        val hitmarks = HitmarkTypeDecoder.decodeAll(cache)
+        val headbars = HeadbarTypeDecoder.decodeAll(cache)
         val categories = CategoryTypeDecoder.decodeAll(names)
-        val projanims = decode { ProjAnimTypeDecoder.decodeAll(cache) }
+        val projanims = ProjAnimTypeDecoder.decodeAll(cache)
         val midis = MidiTypeDecoder.decodeAll(names)
         val gameVals = GameValDecoder.decodeAll(cache)
-        TypeListMap(
-                locs = locs.await(),
-                objs = objs.await(),
-                npcs = npcs.await(),
-                params = params.await(),
-                enums = enums.await(),
-                components = components.await(),
-                interfaces = interfaces.await(),
-                varps = varps.await(),
-                varbits = varbits.await(),
-                invs = invs.await(),
-                seqs = seqs.await(),
-                fonts = fonts.await(),
-                stats = stats.await(),
-                spotanims = spotanims.await(),
+        val areas = AreaTypeDecoder.decodeAll(cache)
+
+        val typeList =
+            TypeListMap(
+                locs = locs,
+                objs = objs,
+                npcs = npcs,
+                params = params,
+                enums = enums,
+                components = components,
+                interfaces = interfaces,
+                varps = varps,
+                varbits = varbits,
+                invs = invs,
+                seqs = seqs,
+                fonts = fonts,
+                stats = stats,
+                spotanims = spotanims,
                 synths = synths,
-                structs = structs.await(),
+                structs = structs,
                 jingles = jingles,
-                walkTriggers = walkTriggers.await(),
-                varns = varns.await(),
-                varnbits = varnbits.await(),
-                hitmarks = hitmarks.await(),
-                headbars = headbars.await(),
+                walkTriggers = walkTriggers,
+                varns = varns,
+                varnbits = varnbits,
+                hitmarks = hitmarks,
+                headbars = headbars,
                 categories = categories,
-                projanims = projanims.await(),
+                projanims = projanims,
                 midis = midis,
                 gameVals = gameVals,
+                areas = areas,
             )
-            .apply {
-                assignInternal(this.objs, names.objs)
-                assignInternal(this.locs, names.locs)
-                assignInternal(this.npcs, names.npcs)
-                assignInternal(this.params, names.params)
-                assignInternal(this.enums, names.enums)
-                assignInternal(this.components, names.components)
-                assignInternal(this.interfaces, names.interfaces)
-                assignInternal(this.invs, names.invs)
-                assignInternal(this.varps, names.varps)
-                assignInternal(this.varbits, names.varbits)
-                VarBitTypeDecoder.assignBaseVars(this.varbits, this.varps)
-                assignInternal(this.seqs, names.seqs)
-                assignInternal(this.spotanims, names.spotanims)
-                assignInternal(this.stats, names.stats)
-                assignInternal(this.structs, names.structs)
-                assignInternal(this.fonts, names.fonts)
-                assignInternal(this.walkTriggers, names.walkTriggers)
-                assignInternal(this.varns, names.varns)
-                assignInternal(this.varnbits, names.varnbits)
-                VarnBitTypeDecoder.assignBaseVars(this.varnbits, this.varns)
-                assignInternal(this.hitmarks, names.hitmarks)
-                assignInternal(this.headbars, names.headbars)
-                assignInternal(this.projanims, names.projanims)
-                assignInternal(this.midis, names.midis)
-                ComplexTypeDecoder.decodeAll(this)
-            }
-    }
 
-    private fun <T> CoroutineScope.decode(decode: suspend () -> T): Deferred<T> = async { decode() }
+        return typeList.apply {
+            assignInternal(this.objs, names.objs)
+            assignInternal(this.locs, names.locs)
+            assignInternal(this.npcs, names.npcs)
+            assignInternal(this.params, names.params)
+            assignInternal(this.enums, names.enums)
+            assignInternal(this.components, names.components)
+            assignInternal(this.interfaces, names.interfaces)
+            assignInternal(this.invs, names.invs)
+            assignInternal(this.varps, names.varps)
+            assignInternal(this.varbits, names.varbits)
+            VarBitTypeDecoder.assignBaseVars(this.varbits, this.varps)
+            assignInternal(this.seqs, names.seqs)
+            assignInternal(this.spotanims, names.spotanims)
+            assignInternal(this.stats, names.stats)
+            assignInternal(this.structs, names.structs)
+            assignInternal(this.fonts, names.fonts)
+            assignInternal(this.walkTriggers, names.walkTriggers)
+            assignInternal(this.varns, names.varns)
+            assignInternal(this.varnbits, names.varnbits)
+            VarnBitTypeDecoder.assignBaseVars(this.varnbits, this.varns)
+            assignInternal(this.hitmarks, names.hitmarks)
+            assignInternal(this.headbars, names.headbars)
+            assignInternal(this.projanims, names.projanims)
+            assignInternal(this.midis, names.midis)
+            assignInternal(this.areas, names.areas)
+            ComplexTypeDecoder.decodeAll(this)
+        }
+    }
 
     private fun assignInternal(list: Map<Int, CacheType>, names: Map<String, Int>) {
         val reversedLookup = names.entries.associate { it.value to it.key }

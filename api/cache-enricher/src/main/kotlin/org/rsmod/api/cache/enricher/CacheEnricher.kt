@@ -1,7 +1,5 @@
 package org.rsmod.api.cache.enricher
 
-import org.rsmod.game.type.CacheType
-
-public interface CacheEnricher<T : CacheType> {
+public interface CacheEnricher<T> {
     public fun generate(): List<T>
 }

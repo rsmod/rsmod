@@ -1,24 +1,29 @@
 package org.rsmod.api.cache.map
 
+import io.netty.buffer.ByteBuf
 import jakarta.inject.Inject
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.supervisorScope
 import org.openrs2.buffer.use
 import org.openrs2.cache.Cache
 import org.openrs2.crypto.SymmetricKey
 import org.rsmod.annotations.GameCache
+import org.rsmod.annotations.InternalApi
 import org.rsmod.api.cache.Js5Archives
 import org.rsmod.api.cache.map.MapDefinition.Companion.LINK_BELOW
+import org.rsmod.api.cache.map.area.MapAreaDecoder
+import org.rsmod.api.cache.map.area.MapAreaDefinition
 import org.rsmod.api.cache.map.loc.MapLoc
+import org.rsmod.api.cache.map.loc.MapLocDecoder
 import org.rsmod.api.cache.map.loc.MapLocDefinition
+import org.rsmod.api.cache.map.tile.MapTileDecoder
 import org.rsmod.api.cache.util.InlineByteBuf
+import org.rsmod.api.cache.util.readOrNull
 import org.rsmod.api.cache.util.toInlineBuf
+import org.rsmod.game.area.AreaIndex
 import org.rsmod.game.loc.LocEntity
 import org.rsmod.game.map.LocZoneStorage
 import org.rsmod.game.map.collision.toggleLoc
@@ -27,6 +32,7 @@ import org.rsmod.game.type.loc.LocTypeList
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.square.MapSquareGrid
 import org.rsmod.map.square.MapSquareKey
+import org.rsmod.map.util.LocalMapSquareZone
 import org.rsmod.map.zone.ZoneGrid
 import org.rsmod.map.zone.ZoneKey
 import org.rsmod.routefinder.collision.CollisionFlagMap
@@ -40,58 +46,56 @@ constructor(
     private val collision: CollisionFlagMap,
     private val locZones: LocZoneStorage,
     private val locTypes: LocTypeList,
+    private val areaIndex: AreaIndex,
     private val xteaMap: XteaMap,
 ) {
-    public fun decodeAll(): Unit = runBlocking { launchDecodeAll() }
-
-    private fun CoroutineScope.launchDecodeAll() =
-        launch(Dispatchers.IO) {
+    public fun decodeAll(): Unit =
+        runBlocking(Dispatchers.IO) {
             val mapBuffers = gameCache.readMapBuffers(xteaMap)
-            val decodedMaps = mapBuffers.decodeAll()
-            decodedMaps.putMapCollision()
-            val locBuilders = decodedMaps.computeLocBuilders()
-            for (builder in locBuilders) {
-                locZones.putAll(builder)
-            }
+            val decodedMaps = decodeAll(mapBuffers)
+
+            putMapCollision(decodedMaps)
+            putAreas(decodedMaps)
+
+            val mapBuilder = GameMapBuilder()
+            putSpawns(mapBuilder, decodedMaps)
+            cacheLocs(mapBuilder)
         }
 
     private fun Cache.readMapBuffers(xteaMap: XteaMap): List<MapBuffer> =
         xteaMap.map { (mapSquareKey, keyArray) ->
             val name = "${mapSquareKey.x}_${mapSquareKey.z}"
             val key = SymmetricKey.fromIntArray(keyArray)
-            val map = read(Js5Archives.MAPS, "m$name", file = 0).use { it.toInlineBuf() }
-            val loc = read(Js5Archives.MAPS, "l$name", file = 0, key).use { it.toInlineBuf() }
-            MapBuffer(mapSquareKey, map, loc)
+            val map = read(Js5Archives.MAPS, "m$name", file = 0).use(ByteBuf::toInlineBuf)
+            val loc = read(Js5Archives.MAPS, "l$name", file = 0, key).use(ByteBuf::toInlineBuf)
+            val areas = readOrNull(Js5Archives.MAPS, "a$name")?.use(ByteBuf::toInlineBuf)
+            MapBuffer(mapSquareKey, map, loc, areas)
         }
 
-    private suspend fun List<MapBuffer>.decodeAll() = supervisorScope {
-        val decoded = ArrayList<Deferred<DecodedMap>>(size)
-        for (buffer in this@decodeAll) {
-            decoded += async { buffer.decode() }
+    private suspend fun decodeAll(buffers: List<MapBuffer>): List<DecodedMap> = coroutineScope {
+        buffers.map { buffer -> async { buffer.decode() } }.awaitAll()
+    }
+
+    private suspend fun putMapCollision(maps: List<DecodedMap>): Unit = coroutineScope {
+        maps.map { decoded -> async { putMaps(collision, decoded.key, decoded.map) } }.awaitAll()
+    }
+
+    private fun putAreas(maps: List<DecodedMap>) {
+        for (map in maps) {
+            val areas = map.areas ?: continue
+            putAreas(areaIndex, map.key, areas)
         }
-        decoded.awaitAll()
     }
 
-    private suspend fun List<DecodedMap>.putMapCollision() = supervisorScope {
-        for (decoded in this@putMapCollision) {
-            async { putMaps(collision, decoded.key, decoded.map) }
-        }
-    }
-
-    private fun List<DecodedMap>.computeLocBuilders(): Iterable<GameMapBuilder> {
-        val builder = GameMapBuilder().apply { putLocs(this@computeLocBuilders) }
-        return listOf(builder)
-    }
-
-    private fun GameMapBuilder.putLocs(decodedMaps: List<DecodedMap>) {
+    private fun putSpawns(builder: GameMapBuilder, decodedMaps: List<DecodedMap>) {
         for (decoded in decodedMaps) {
-            putLocs(this, collision, locTypes, decoded.key, decoded.map, decoded.locs)
+            putLocs(builder, collision, locTypes, decoded.key, decoded.map, decoded.locs)
         }
     }
 
-    private fun LocZoneStorage.putAll(builder: GameMapBuilder) {
+    private fun cacheLocs(builder: GameMapBuilder) {
         for ((zoneKey, zoneBuilder) in builder.zoneBuilders) {
-            mapLocs[zoneKey] = zoneBuilder.build()
+            locZones.mapLocs[zoneKey] = zoneBuilder.build()
         }
     }
 
@@ -125,6 +129,32 @@ constructor(
                             collision.allocateIfAbsent(absX, absZ, level)
                         }
                     }
+                }
+            }
+        }
+
+        @OptIn(InternalApi::class)
+        public fun putAreas(index: AreaIndex, square: MapSquareKey, areaDef: MapAreaDefinition) {
+            val squareBase = square.toCoords(level = 0)
+
+            if (areaDef.mapSquareAreas.isNotEmpty()) {
+                index.registerAll(square, areaDef.mapSquareAreas.iterator())
+            }
+
+            if (areaDef.zoneAreas.isNotEmpty()) {
+                for ((packedZone, areas) in areaDef.zoneAreas.byte2ObjectEntrySet()) {
+                    val localZone = LocalMapSquareZone(packedZone.toInt())
+                    val zoneBase = localZone.toCoords(baseX = squareBase.x, baseZ = squareBase.z)
+                    val zoneKey = ZoneKey.from(zoneBase)
+                    index.registerAll(zoneKey, areas.iterator())
+                }
+            }
+
+            if (areaDef.coordAreas.isNotEmpty()) {
+                for ((packedGrid, areas) in areaDef.coordAreas.short2ObjectEntrySet()) {
+                    val grid = MapSquareGrid(packedGrid.toInt())
+                    val coord = squareBase.translate(grid.x, grid.z, grid.level)
+                    index.registerAll(coord, areas.iterator())
                 }
             }
         }
@@ -193,11 +223,17 @@ constructor(
     }
 }
 
-private class MapBuffer(val key: MapSquareKey, val map: InlineByteBuf, val locs: InlineByteBuf) {
-    fun decode(): DecodedMap {
-        val mapDef = MapDefinitionDecoder.decodeMap(map)
-        val locDef = MapDefinitionDecoder.decodeLocs(locs)
-        return DecodedMap(key, mapDef, locDef)
+private class MapBuffer(
+    val key: MapSquareKey,
+    val map: InlineByteBuf,
+    val locs: InlineByteBuf,
+    val areas: InlineByteBuf?,
+) {
+    suspend fun decode(): DecodedMap = coroutineScope {
+        val mapDef = async { MapTileDecoder.decode(map) }
+        val locDef = async { MapLocDecoder.decode(locs) }
+        val areaDef = async { areas?.let(MapAreaDecoder::decode) }
+        DecodedMap(key, mapDef.await(), locDef.await(), areaDef.await())
     }
 }
 
@@ -205,4 +241,5 @@ private data class DecodedMap(
     val key: MapSquareKey,
     val map: SimpleMapDefinition,
     val locs: MapLocDefinition,
+    val areas: MapAreaDefinition?,
 )

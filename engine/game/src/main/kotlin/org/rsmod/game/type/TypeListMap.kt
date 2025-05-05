@@ -1,5 +1,6 @@
 package org.rsmod.game.type
 
+import org.rsmod.game.type.area.AreaTypeList
 import org.rsmod.game.type.category.CategoryTypeList
 import org.rsmod.game.type.comp.ComponentTypeList
 import org.rsmod.game.type.enums.EnumTypeList
@@ -54,4 +55,5 @@ public data class TypeListMap(
     public val projanims: ProjAnimTypeList,
     public val midis: MidiTypeList,
     public val gameVals: GameValNameMap,
+    public val areas: AreaTypeList,
 )

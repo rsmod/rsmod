@@ -12,7 +12,10 @@ import org.rsmod.annotations.EnrichedCache
 import org.rsmod.annotations.GameCache
 import org.rsmod.annotations.Js5Cache
 import org.rsmod.annotations.VanillaCache
+import org.rsmod.api.cache.map.area.MapAreaDefinition
+import org.rsmod.api.cache.map.area.MapAreaEncoder
 import org.rsmod.api.cache.types.TypeListMapDecoder
+import org.rsmod.api.cache.types.area.AreaTypeEncoder
 import org.rsmod.api.cache.types.enums.EnumTypeEncoder
 import org.rsmod.api.cache.types.headbar.HeadbarTypeEncoder
 import org.rsmod.api.cache.types.hitmark.HitmarkTypeEncoder
@@ -29,11 +32,17 @@ import org.rsmod.api.cache.types.varnbit.VarnBitTypeEncoder
 import org.rsmod.api.cache.types.varp.VarpTypeEncoder
 import org.rsmod.api.cache.types.walktrig.WalkTriggerTypeEncoder
 import org.rsmod.api.cache.util.EncoderContext
+import org.rsmod.api.type.builders.map.MapTypeCollector
+import org.rsmod.api.type.builders.map.MapUpdateList
+import org.rsmod.api.type.builders.map.area.MapAreaBuilder
 import org.rsmod.api.type.builders.resolver.TypeBuilderResolverMap
 import org.rsmod.api.type.editors.resolver.TypeEditorResolverMap
 import org.rsmod.api.type.symbols.name.NameMapping
+import org.rsmod.game.area.polygon.PolygonArea
 import org.rsmod.game.type.CacheType
 import org.rsmod.game.type.TypeListMap
+import org.rsmod.game.type.area.AreaTypeBuilder
+import org.rsmod.game.type.area.UnpackedAreaType
 import org.rsmod.game.type.enums.EnumTypeBuilder
 import org.rsmod.game.type.enums.UnpackedEnumType
 import org.rsmod.game.type.headbar.HeadbarTypeBuilder
@@ -69,6 +78,7 @@ import org.rsmod.game.type.varp.VarpTypeBuilder
 import org.rsmod.game.type.varp.VarpTypeList
 import org.rsmod.game.type.walktrig.WalkTriggerType
 import org.rsmod.game.type.walktrig.WalkTriggerTypeBuilder
+import org.rsmod.map.square.MapSquareKey
 
 public class TypeUpdater
 @Inject
@@ -82,9 +92,19 @@ constructor(
     private val builders: TypeBuilderResolverMap,
     private val editors: TypeEditorResolverMap,
 ) {
-    public fun updateAll() {
+    public fun updateAll(mapUpdates: MapUpdateList) {
         overwriteCachePaths()
-        encodeAllCacheTypes()
+        encodeAllConfigTypes()
+        encodeAllMapTypes(mapUpdates)
+    }
+
+    public fun updateConfigs() {
+        overwriteCachePaths()
+        encodeAllConfigTypes()
+    }
+
+    public fun updateMaps(updates: MapUpdateList) {
+        encodeAllMapTypes(updates)
     }
 
     private fun overwriteCachePaths() {
@@ -106,8 +126,8 @@ constructor(
         from.copyToRecursively(target = dest, followLinks = true, overwrite = false)
     }
 
-    private fun encodeAllCacheTypes() {
-        val configs = TypeListMapDecoder.ofParallel(enrichedCache, names)
+    private fun encodeAllConfigTypes() {
+        val configs = TypeListMapDecoder.from(enrichedCache, names)
         val updates = collectUpdateMap(configs)
         val params = transmitParamKeys(configs.params, updates.params)
         val varps = transmitVarpKeys(configs.varps, updates.varps)
@@ -171,6 +191,7 @@ constructor(
         val locs = merge(build.locs, edit.locs, vanilla.locs, LocTypeBuilder)
         val npcs = merge(build.npcs, edit.npcs, vanilla.npcs, NpcTypeBuilder)
         val objs = merge(build.objs, edit.objs, vanilla.objs, ObjTypeBuilder)
+        val areas = merge(build.areas, edit.areas, vanilla.areas, AreaTypeBuilder)
         val enums = merge(build.enums, edit.enums, vanilla.enums, EnumTypeBuilder)
         val stats = merge(build.stats, edit.stats, vanilla.stats, StatTypeBuilder)
         val varns = merge(build.varns, edit.varns, vanilla.varns, VarnTypeBuilder)
@@ -198,8 +219,9 @@ constructor(
             npcs = npcs,
             objs = objs,
             stats = stats,
-            params = params,
+            areas = areas,
             enums = enums,
+            params = params,
             varps = varps,
             varbits = varbits,
             varns = varns,
@@ -217,8 +239,9 @@ constructor(
         val npcs: List<UnpackedNpcType>,
         val objs: List<UnpackedObjType>,
         val stats: List<UnpackedStatType>,
-        val params: List<UnpackedParamType<*>>,
+        val areas: List<UnpackedAreaType>,
         val enums: List<UnpackedEnumType<*, *>>,
+        val params: List<UnpackedParamType<*>>,
         val varps: List<UnpackedVarpType>,
         val varbits: List<UnpackedVarBitType>,
         val varns: List<UnpackedVarnType>,
@@ -235,8 +258,9 @@ constructor(
         val npcs = filterIsInstance<UnpackedNpcType>()
         val objs = filterIsInstance<UnpackedObjType>()
         val stats = filterIsInstance<UnpackedStatType>()
-        val params = filterIsInstance<UnpackedParamType<*>>()
+        val areas = filterIsInstance<UnpackedAreaType>()
         val enums = filterIsInstance<UnpackedEnumType<*, *>>()
+        val params = filterIsInstance<UnpackedParamType<*>>()
         val varps = filterIsInstance<UnpackedVarpType>()
         val varbits = filterIsInstance<UnpackedVarBitType>()
         val varns = filterIsInstance<UnpackedVarnType>()
@@ -252,8 +276,9 @@ constructor(
             npcs = npcs,
             objs = objs,
             stats = stats,
-            params = params,
+            areas = areas,
             enums = enums,
+            params = params,
             varps = varps,
             varbits = varbits,
             varns = varns,
@@ -286,6 +311,7 @@ constructor(
     private fun encodeCacheTypes(updates: UpdateMap, cachePath: Path, ctx: EncoderContext) {
         Cache.open(cachePath).use { cache ->
             ParamTypeEncoder.encodeAll(cache, updates.params, ctx)
+            AreaTypeEncoder.encodeAll(cache, updates.areas, ctx)
             EnumTypeEncoder.encodeAll(cache, updates.enums, ctx)
             InvTypeEncoder.encodeAll(cache, updates.invs, ctx)
             LocTypeEncoder.encodeAll(cache, updates.locs, ctx)
@@ -301,5 +327,37 @@ constructor(
             ProjAnimTypeEncoder.encodeAll(cache, updates.projanims, ctx)
             WalkTriggerTypeEncoder.encodeAll(cache, updates.walkTriggers, ctx)
         }
+    }
+
+    private fun encodeAllMapTypes(updates: MapUpdateList) {
+        val areas = updates.areas.toMapDefinitions()
+        val updates = MapUpdates(areas)
+        encodeCacheMaps(updates, gameCachePath, EncoderContext.server(emptySet(), emptySet()))
+    }
+
+    private fun Iterable<MapAreaBuilder>.toMapDefinitions(): Map<MapSquareKey, MapAreaDefinition> {
+        val polygons = flatMap(MapTypeCollector::loadAndCollect)
+        return polygons.toMergedDefinitions()
+    }
+
+    private fun Iterable<PolygonArea>.toMergedDefinitions(): Map<MapSquareKey, MapAreaDefinition> {
+        val grouped = flatMap { it.mapSquares.entries }.groupBy({ it.key }, { it.value })
+        val merged = mutableMapOf<MapSquareKey, MapAreaDefinition>()
+        for ((mapSquare, polygons) in grouped) {
+            val definitions = polygons.map(MapAreaDefinition::from)
+            if (definitions.size == 1) {
+                merged[mapSquare] = definitions.single()
+                continue
+            }
+            val combined = definitions.reduce(MapAreaDefinition::merge)
+            merged[mapSquare] = combined
+        }
+        return merged
+    }
+
+    private data class MapUpdates(val areas: Map<MapSquareKey, MapAreaDefinition>)
+
+    private fun encodeCacheMaps(updates: MapUpdates, cachePath: Path, ctx: EncoderContext) {
+        Cache.open(cachePath).use { cache -> MapAreaEncoder.encodeAll(cache, updates.areas, ctx) }
     }
 }

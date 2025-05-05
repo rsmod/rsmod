@@ -229,7 +229,7 @@ class GameServer(private val skipTypeVerificationOverride: Boolean? = null) :
             logger.debug { verification.formatError() }
             logger.info { "Packing latest cache additions and restarting server..." }
             val updater = injector.getInstance(TypeUpdater::class.java)
-            updater.updateAll()
+            updater.updateConfigs()
             logger.info { "Now restarting game server..." }
             startApplication()
             throw ServerRestartException()
