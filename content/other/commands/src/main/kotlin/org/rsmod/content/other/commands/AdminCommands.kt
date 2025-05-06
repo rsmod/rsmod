@@ -4,8 +4,6 @@ import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
 import kotlin.math.min
 import org.rsmod.annotations.InternalApi
-import org.rsmod.api.cheat.CheatHandlerBuilder
-import org.rsmod.api.config.refs.modlevels
 import org.rsmod.api.invtx.invAdd
 import org.rsmod.api.invtx.invClear
 import org.rsmod.api.player.output.MiscOutput
@@ -20,7 +18,6 @@ import org.rsmod.api.player.vars.VarPlayerIntMapSetter
 import org.rsmod.api.player.vars.resyncVar
 import org.rsmod.api.repo.loc.LocRepository
 import org.rsmod.api.repo.npc.NpcRepository
-import org.rsmod.api.script.onCommand
 import org.rsmod.api.type.symbols.name.NameMapping
 import org.rsmod.api.utils.format.formatAmount
 import org.rsmod.api.utils.system.SafeServiceExit
@@ -407,19 +404,5 @@ constructor(
         }
 
         return if (bestMatchScore >= 0.5) bestMatchName else null
-    }
-
-    private fun ScriptContext.onCommand(
-        command: String,
-        desc: String,
-        cheat: Cheat.() -> Unit,
-        init: CheatHandlerBuilder.() -> Unit = {},
-    ) {
-        onCommand(command) {
-            this.modLevel = modlevels.admin
-            this.desc = desc
-            this.cheat(cheat)
-            init()
-        }
     }
 }

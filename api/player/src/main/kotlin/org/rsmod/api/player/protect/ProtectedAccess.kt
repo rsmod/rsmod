@@ -46,6 +46,7 @@ import org.rsmod.api.player.hit.queueImpactHit
 import org.rsmod.api.player.hit.takeInstantHit
 import org.rsmod.api.player.input.ResumePCountDialogInput
 import org.rsmod.api.player.input.ResumePObjDialogInput
+import org.rsmod.api.player.input.ResumePStringDialogInput
 import org.rsmod.api.player.input.ResumePauseButtonInput
 import org.rsmod.api.player.interact.HeldInteractions
 import org.rsmod.api.player.interact.LocInteractions
@@ -63,6 +64,7 @@ import org.rsmod.api.player.output.ClientScripts
 import org.rsmod.api.player.output.ClientScripts.chatDefaultRestoreInput
 import org.rsmod.api.player.output.ClientScripts.mesLayerMode14
 import org.rsmod.api.player.output.ClientScripts.mesLayerMode7
+import org.rsmod.api.player.output.ClientScripts.mesLayerMode9
 import org.rsmod.api.player.output.UpdateInventory.resendSlot
 import org.rsmod.api.player.output.clearMapFlag
 import org.rsmod.api.player.output.mes
@@ -2158,6 +2160,18 @@ public class ProtectedAccess(
         val modal = player.ui.getModalOrNull(components.chatbox_chatmodal)
         val input = coroutine.pause(ResumePauseButtonInput::class)
         resumePauseButtonWithProtectedAccess(input, modal, components.chat_left_pbutton)
+    }
+
+    /**
+     * @throws ProtectedAccessLostException if the player could not retain protected access after
+     *   the coroutine suspension.
+     * @see [resumeWithMainModalProtectedAccess]
+     */
+    public suspend fun stringDialog(title: String): String {
+        mesLayerMode9(player, title)
+        val modal = player.ui.getModalOrNull(components.mainmodal)
+        val input = coroutine.pause(ResumePStringDialogInput::class)
+        return resumeWithMainModalProtectedAccess(input.text, modal)
     }
 
     /**

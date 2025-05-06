@@ -58,6 +58,9 @@ public object ClientScripts {
     public fun mesLayerMode7(player: Player, title: String): Unit =
         player.runClientScript(108, title)
 
+    public fun mesLayerMode9(player: Player, title: String, mode: Int = 0): Unit =
+        player.runClientScript(110, title, mode)
+
     public fun mesLayerMode14(
         player: Player,
         title: String,
