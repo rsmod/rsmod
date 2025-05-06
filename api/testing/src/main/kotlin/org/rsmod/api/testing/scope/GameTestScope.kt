@@ -927,7 +927,9 @@ constructor(
                 RealmConfig(
                     id = 0,
                     loginMessage = null,
-                    xpRate = 1,
+                    loginBroadcast = null,
+                    baseXpRate = 1.0,
+                    globalXpRate = 1.0,
                     spawnCoord = CoordGrid(0, 50, 50, 0, 0),
                     respawnCoord = CoordGrid(0, 50, 50, 0, 0),
                     devMode = false,

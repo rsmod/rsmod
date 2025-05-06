@@ -19,8 +19,14 @@ public class Realm(public val name: String) {
     public val config: RealmConfig
         get() = getConfigOrThrow()
 
-    private lateinit var mutableConfig: RealmConfig
+    @Volatile private lateinit var mutableConfig: RealmConfig
 
+    /**
+     * Updates the current [RealmConfig] associated with this realm.
+     *
+     * This method must only be called from the game thread to avoid race conditions with concurrent
+     * readers.
+     */
     public fun updateConfig(config: RealmConfig) {
         this.mutableConfig = config
     }
@@ -32,6 +38,9 @@ public class Realm(public val name: String) {
 }
 
 /**
+ * @param baseXpRate The base xp rate assigned to new players during registration.
+ * @param globalXpRate The global xp modifier typically used for events like Double XP Weekends.
+ *   This is usually compounded with each player's personal xp rate.
  * @param requireRegistration If `true`, players must have a pre-registered account in the database
  *   to log in. If `false`, new accounts will be automatically created on first login.
  * @param ignorePasswords If `true`, any password will be accepted for any account without
@@ -43,7 +52,9 @@ public class Realm(public val name: String) {
 public data class RealmConfig(
     val id: Int,
     val loginMessage: String?,
-    val xpRate: Int,
+    val loginBroadcast: String?,
+    val baseXpRate: Double,
+    val globalXpRate: Double,
     val spawnCoord: CoordGrid,
     val respawnCoord: CoordGrid,
     val devMode: Boolean,

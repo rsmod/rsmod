@@ -174,7 +174,9 @@ public class Player(
     public var runWeight: Int = 0
 
     public var modGroup: ModGroup? = null
+
     public var xpRate: Double = 1.0
+    public var globalXpRate: Double = 1.0
 
     public var publicMessage: PublicMessage? = null
     public var pendingSay: String? = null

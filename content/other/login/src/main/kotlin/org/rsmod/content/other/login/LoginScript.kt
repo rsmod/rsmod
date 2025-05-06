@@ -21,6 +21,7 @@ import org.rsmod.api.player.startInvTransmit
 import org.rsmod.api.player.stat.stat
 import org.rsmod.api.player.vars.boolVarBit
 import org.rsmod.api.player.vars.resyncVar
+import org.rsmod.api.realm.Realm
 import org.rsmod.api.script.onPlayerLogin
 import org.rsmod.api.stats.levelmod.InvisibleLevels
 import org.rsmod.game.MapClock
@@ -34,6 +35,7 @@ import org.rsmod.plugin.scripts.ScriptContext
 class LoginScript
 @Inject
 constructor(
+    private val realm: Realm,
     private val mapClock: MapClock,
     private val objTypes: ObjTypeList,
     private val varpTypes: VarpTypeList,
@@ -70,7 +72,11 @@ constructor(
     }
 
     private fun Player.sendWelcomeMessage() {
-        mes("Welcome to RS Mod.", ChatType.Welcome)
+        val message = realm.config.loginMessage
+        message?.let { mes(it, ChatType.Welcome) }
+
+        val broadcast = realm.config.loginBroadcast
+        broadcast?.let { mes(it, ChatType.Broadcast) }
     }
 
     private fun Player.sendVars() {

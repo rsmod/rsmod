@@ -1,5 +1,6 @@
 package org.rsmod.api.account.loader.request
 
+import kotlin.contracts.contract
 import org.rsmod.api.account.character.CharacterDataTransformer
 import org.rsmod.api.account.character.main.CharacterAccountData
 
@@ -33,4 +34,9 @@ public sealed class AccountLoadResponse {
 
         public data class Exception(val reason: Throwable) : Err()
     }
+}
+
+public fun AccountLoadResponse.Ok.isNewAccount(): Boolean {
+    contract { returns(true) implies (this@isNewAccount is AccountLoadResponse.Ok.NewAccount) }
+    return this is AccountLoadResponse.Ok.NewAccount
 }

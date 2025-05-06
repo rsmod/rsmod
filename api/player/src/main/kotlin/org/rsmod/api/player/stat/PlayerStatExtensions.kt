@@ -52,9 +52,22 @@ public fun Player.statRestoreAll(stats: Iterable<StatType>) {
     }
 }
 
-public fun Player.statAdvance(stat: StatType, xp: Double, rate: Double = xpRate): Int {
-    return PlayerSkillXP.internalAddXP(this, stat, xp, rate)
-}
+/**
+ * Increases the player's current [stat] experience.
+ *
+ * @param rate The xp multiplier applied to [xp]. Defaults to the player's [Player.xpRate].
+ * @param globalRate A global xp multiplier applied alongside [rate]. This is separated for
+ *   convenience - for example, if the caller wants to ignore the player's personal xp rate but
+ *   still apply global modifiers like Double XP Weekends. Defaults to the player's
+ *   [Player.globalXpRate].
+ * @return The total amount of experience successfully added to the player's stat.
+ */
+public fun Player.statAdvance(
+    stat: StatType,
+    xp: Double,
+    rate: Double = xpRate,
+    globalRate: Double = globalXpRate,
+): Int = PlayerSkillXP.internalAddXP(this, stat, xp, rate = rate * globalRate)
 
 /**
  * Increases the player's current [stat] level.

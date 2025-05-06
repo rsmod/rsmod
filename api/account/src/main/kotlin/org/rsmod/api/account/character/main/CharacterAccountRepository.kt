@@ -3,6 +3,7 @@ package org.rsmod.api.account.character.main
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.inject.Inject
 import java.sql.Statement
+import kotlin.math.roundToInt
 import org.rsmod.api.account.character.CharacterMetadataList
 import org.rsmod.api.db.DatabaseConnection
 import org.rsmod.api.db.util.getLocalDateTime
@@ -130,7 +131,8 @@ constructor(
                         c.last_logout,
                         c.muted_until,
                         c.banned_until,
-                        c.run_energy
+                        c.run_energy,
+                        c.xp_rate_in_hundreds
                     FROM accounts a
                     JOIN characters c ON c.account_id = a.id
                     WHERE c.realm_id = ?
@@ -167,6 +169,7 @@ constructor(
                     val mutedUntil = resultSet.getLocalDateTime("muted_until")
                     val bannedUntil = resultSet.getLocalDateTime("banned_until")
                     val runEnergy = resultSet.getInt("run_energy")
+                    val xpRateInHundreds = resultSet.getInt("xp_rate_in_hundreds")
                     val varps = objectMapper.readReifiedValue<Map<Int, Int>>(varpsText)
                     val characterData =
                         CharacterAccountData(
@@ -194,6 +197,7 @@ constructor(
                             mutedUntil = mutedUntil,
                             bannedUntil = bannedUntil,
                             runEnergy = runEnergy,
+                            xpRate = xpRateInHundreds / 100.0,
                         )
                     val metadataList = CharacterMetadataList(characterData, mutableListOf())
                     metadataList.add(applier, characterData)
@@ -216,7 +220,7 @@ constructor(
                 """
                     UPDATE characters
                     SET x = ?, z = ?, level = ?, varps = ?, last_login = ?, run_energy = ?,
-                        last_logout = CURRENT_TIMESTAMP
+                        xp_rate_in_hundreds = ?, last_logout = CURRENT_TIMESTAMP
                     WHERE id = ?
                 """
                     .trimIndent()
@@ -232,7 +236,8 @@ constructor(
             it.setString(4, varpsJson)
             it.setSqliteTimestamp(5, player.lastLogin)
             it.setInt(6, player.runEnergy)
-            it.setInt(7, characterId)
+            it.setInt(7, (player.xpRate * 100).roundToInt())
+            it.setInt(8, characterId)
             it.executeUpdate()
         }
 

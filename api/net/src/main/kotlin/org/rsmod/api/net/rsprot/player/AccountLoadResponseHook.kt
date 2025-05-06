@@ -12,6 +12,7 @@ import org.rsmod.api.account.character.main.CharacterAccountData
 import org.rsmod.api.account.loader.request.AccountLoadAuth
 import org.rsmod.api.account.loader.request.AccountLoadCallback
 import org.rsmod.api.account.loader.request.AccountLoadResponse
+import org.rsmod.api.account.loader.request.isNewAccount
 import org.rsmod.api.config.refs.modgroups
 import org.rsmod.api.config.refs.varbits
 import org.rsmod.api.player.vars.boolVarBit
@@ -148,7 +149,7 @@ class AccountLoadResponseHook(
 
     private fun safeQueueLogin(response: AccountLoadResponse.Ok) {
         try {
-            val player = createPlayer(response).applyConfigTransforms()
+            val player = createPlayer(response).apply { applyConfigTransforms(config) }
             accountRegistry.queueLogin(player, response, ::safeHandleGameLogin)
         } catch (e: Exception) {
             writeErrorResponse(LoginResponse.ConnectFail)
@@ -161,19 +162,22 @@ class AccountLoadResponseHook(
         for (transform in fromResponse.transforms) {
             transform.apply(player)
         }
-        val newAccount = fromResponse is AccountLoadResponse.Ok.NewAccount
-        player.newAccount = newAccount
+        player.newAccount = fromResponse.isNewAccount()
         return player
     }
 
-    private fun Player.applyConfigTransforms(): Player {
-        if (config.devMode && newAccount) {
-            modGroup = modgroups.owner
+    private fun Player.applyConfigTransforms(config: RealmConfig) {
+        if (!newAccount) {
+            return
         }
-        if (config.autoAssignDisplayNames && newAccount) {
+        coords = config.spawnCoord
+        xpRate = config.baseXpRate
+        if (config.autoAssignDisplayNames) {
             displayName = username.toDisplayName()
         }
-        return this
+        if (config.devMode) {
+            modGroup = modgroups.owner
+        }
     }
 
     // Since logins are processed on the game thread, we isolate player-specific failures to prevent

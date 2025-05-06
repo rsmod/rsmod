@@ -19,8 +19,9 @@ constructor(private val database: Database, @Json private val objectMapper: Obje
         val select =
             connection.prepareStatement(
                 """
-                    SELECT id, login_message, xp_rate, spawn_coord, respawn_coord, dev_mode,
-                        require_registration, ignore_passwords, auto_assign_display_names
+                    SELECT id, login_message, login_broadcast, spawn_coord, respawn_coord,
+                        dev_mode, require_registration, ignore_passwords, auto_assign_display_names,
+                        player_xp_rate_in_hundreds, global_xp_rate_in_hundreds
                         FROM realms WHERE name = ?
                 """
                     .trimIndent()
@@ -33,7 +34,10 @@ constructor(private val database: Database, @Json private val objectMapper: Obje
                     val id = resultSet.getInt("id")
                     val loginMessage =
                         resultSet.getString("login_message").takeUnless { resultSet.wasNull() }
-                    val xpRate = resultSet.getInt("xp_rate")
+                    val loginBroadcast =
+                        resultSet.getString("login_broadcast").takeUnless { resultSet.wasNull() }
+                    val baseXpRateInHundreds = resultSet.getInt("player_xp_rate_in_hundreds")
+                    val globalXpRateInHundreds = resultSet.getInt("global_xp_rate_in_hundreds")
                     val spawnCoord = resultSet.getString("spawn_coord")
                     val respawnCoord = resultSet.getString("respawn_coord")
                     val devMode = resultSet.getBoolean("dev_mode")
@@ -43,7 +47,9 @@ constructor(private val database: Database, @Json private val objectMapper: Obje
                     return RealmConfig(
                         id = id,
                         loginMessage = loginMessage,
-                        xpRate = xpRate,
+                        loginBroadcast = loginBroadcast?.takeUnless(String::isBlank),
+                        baseXpRate = baseXpRateInHundreds / 100.0,
+                        globalXpRate = globalXpRateInHundreds / 100.0,
                         spawnCoord = spawnCoord.toCoordGrid(),
                         respawnCoord = respawnCoord.toCoordGrid(),
                         devMode = devMode,

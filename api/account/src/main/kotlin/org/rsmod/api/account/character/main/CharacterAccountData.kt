@@ -28,6 +28,7 @@ public data class CharacterAccountData(
     val mutedUntil: LocalDateTime?,
     val bannedUntil: LocalDateTime?,
     val runEnergy: Int,
+    val xpRate: Double,
 ) : CharacterDataStage.Segment {
     // Do not include sensitive fields (e.g., password hash, 2fa secret, known device).
     override fun toString(): String =
@@ -51,5 +52,6 @@ public data class CharacterAccountData(
             "lastLogout=$lastLogout, " +
             "mutedUntil=$mutedUntil, " +
             "bannedUntil=$bannedUntil, " +
+            "xpRate=$xpRate" +
             ")"
 }

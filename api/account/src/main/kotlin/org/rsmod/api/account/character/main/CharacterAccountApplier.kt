@@ -30,6 +30,7 @@ public class CharacterAccountApplier : CharacterDataStage.Applier<CharacterAccou
         player.displayName = data.displayName ?: ""
         player.coords = CoordGrid(data.coordX, data.coordZ, data.coordLevel)
         player.runEnergy = data.runEnergy
+        player.xpRate = data.xpRate
         player.lastLogin = LocalDateTime.now()
         player.vars.backing.putAll(data.varps)
     }

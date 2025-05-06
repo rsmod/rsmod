@@ -1132,8 +1132,12 @@ public class ProtectedAccess(
     public fun statRestoreAll(stats: Iterable<StatType>): Unit = player.statRestoreAll(stats)
 
     /** @see [org.rsmod.api.player.stat.statAdvance] */
-    public fun statAdvance(stat: StatType, xp: Double, rate: Double = player.xpRate): Int =
-        player.statAdvance(stat, xp, rate)
+    public fun statAdvance(
+        stat: StatType,
+        xp: Double,
+        rate: Double = player.xpRate,
+        globalRate: Double = player.globalXpRate,
+    ): Int = player.statAdvance(stat, xp, rate, globalRate)
 
     /** @see [org.rsmod.api.player.stat.statAdd] */
     public fun statAdd(stat: StatType, constant: Int, percent: Int): Unit =
