@@ -46,9 +46,9 @@ internal object PrayerTabObjs : ObjReferences() {
 @Suppress("SameParameterValue")
 internal object PrayerTabObjEditor : ObjEditor() {
     init {
-        prayer(prayer_objs.thick_skin, varbits.thick_skin, drain = 3)
-        prayer(prayer_objs.burst_of_strength, varbits.burst_of_strength, drain = 3)
-        prayer(prayer_objs.clarity_of_thought, varbits.clarity_of_thought, drain = 3)
+        prayer(prayer_objs.thick_skin, varbits.thick_skin, drain = 1)
+        prayer(prayer_objs.burst_of_strength, varbits.burst_of_strength, drain = 1)
+        prayer(prayer_objs.clarity_of_thought, varbits.clarity_of_thought, drain = 1)
         prayer(prayer_objs.rock_skin, varbits.rock_skin, drain = 6)
         prayer(prayer_objs.superhuman_strength, varbits.superhuman_strength, drain = 6)
         prayer(prayer_objs.improved_reflexes, varbits.improved_reflexes, drain = 6)
@@ -84,8 +84,8 @@ internal object PrayerTabObjEditor : ObjEditor() {
         )
         prayer(prayer_objs.redemption, varbits.redemption, constants.overhead_redemption, drain = 6)
         prayer(prayer_objs.smite, varbits.smite, constants.overhead_smite, drain = 18)
-        prayer(prayer_objs.sharp_eye, varbits.sharp_eye, drain = 3)
-        prayer(prayer_objs.mystic_will, varbits.mystic_will, drain = 3)
+        prayer(prayer_objs.sharp_eye, varbits.sharp_eye, drain = 1)
+        prayer(prayer_objs.mystic_will, varbits.mystic_will, drain = 1)
         prayer(prayer_objs.hawk_eye, varbits.hawk_eye, drain = 6)
         prayer(prayer_objs.mystic_lore, varbits.mystic_lore, drain = 6)
         prayer(prayer_objs.eagle_eye, varbits.eagle_eye, drain = 12)
