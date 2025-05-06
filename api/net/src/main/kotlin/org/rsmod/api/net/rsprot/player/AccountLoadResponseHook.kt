@@ -216,6 +216,18 @@ class AccountLoadResponseHook(
             return
         }
 
+        // This can occur under extreme circumstances (e.g., power outage) where a new player's
+        // character row was created, but their game state was never saved - either via logout or
+        // another persistence mechanism - due to a crash before the save could occur.
+        val isPartialSave = !player.newAccount && loadResponse.account.lastLogout == null
+        if (isPartialSave) {
+            logger.error {
+                "Player has never logged out properly - login aborted: ${loadResponse.account}"
+            }
+            writeErrorResponse(LoginResponse.InvalidSave)
+            return
+        }
+
         val response = player.createLoginResponse(slotId, loadResponse.auth)
         val session = channelResponses.writeSuccessfulResponse(response, loginBlock)
 
