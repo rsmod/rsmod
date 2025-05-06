@@ -57,7 +57,6 @@ import org.rsmod.api.random.CoreRandom
 import org.rsmod.api.random.DefaultGameRandom
 import org.rsmod.api.random.GameRandom
 import org.rsmod.api.realm.Realm
-import org.rsmod.api.realm.RealmConfig
 import org.rsmod.api.registry.account.AccountRegistry
 import org.rsmod.api.registry.controller.ControllerRegistry
 import org.rsmod.api.registry.loc.LocRegistry
@@ -91,6 +90,7 @@ import org.rsmod.api.testing.GameTestState
 import org.rsmod.api.testing.capture.CaptureClient
 import org.rsmod.api.testing.factory.collisionFactory
 import org.rsmod.api.testing.random.SequenceRandom
+import org.rsmod.api.testing.util.TestRealmConfig
 import org.rsmod.api.utils.logging.GameExceptionHandler
 import org.rsmod.events.EventBus
 import org.rsmod.game.GameUpdate
@@ -923,22 +923,8 @@ constructor(
         }
 
         private fun createTestRealm(): Realm {
-            val config =
-                RealmConfig(
-                    id = 0,
-                    loginMessage = null,
-                    loginBroadcast = null,
-                    baseXpRate = 1.0,
-                    globalXpRate = 1.0,
-                    spawnCoord = CoordGrid(0, 50, 50, 0, 0),
-                    respawnCoord = CoordGrid(0, 50, 50, 0, 0),
-                    devMode = false,
-                    requireRegistration = false,
-                    ignorePasswords = true,
-                    autoAssignDisplayNames = true,
-                )
             val realm = Realm(name = "test-suite")
-            realm.updateConfig(config)
+            realm.updateConfig(TestRealmConfig.create())
             return realm
         }
 

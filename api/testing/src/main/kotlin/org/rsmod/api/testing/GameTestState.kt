@@ -7,6 +7,7 @@ import kotlin.jvm.optionals.getOrNull
 import kotlin.reflect.KClass
 import kotlin.time.measureTime
 import org.junit.jupiter.api.extension.ExtensionContext
+import org.rsmod.api.realm.Realm
 import org.rsmod.api.route.BoundValidator
 import org.rsmod.api.route.RayCastFactory
 import org.rsmod.api.route.RayCastValidator
@@ -16,6 +17,7 @@ import org.rsmod.api.testing.scope.AdvancedGameTestScope
 import org.rsmod.api.testing.scope.AdvancedReadOnly
 import org.rsmod.api.testing.scope.BasicGameTestScope
 import org.rsmod.api.testing.scope.GameTestScope
+import org.rsmod.api.testing.util.TestRealmConfig
 import org.rsmod.events.EventBus
 import org.rsmod.game.map.xtea.XteaMap
 import org.rsmod.game.type.TypeListMap
@@ -184,6 +186,9 @@ public class GameTestState {
             val injector = initializeGameInjector(server)
             injected = injector.getInstance(GameTestInjected::class.java)
             readOnly = injector.getInstance(AdvancedReadOnly::class.java)
+
+            val realm = injector.getInstance(Realm::class.java)
+            realm.updateConfig(TestRealmConfig.create())
         }
         logger.info { "Set up game-test state in $duration." }
     }
