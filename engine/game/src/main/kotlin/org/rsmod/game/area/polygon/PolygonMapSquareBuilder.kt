@@ -207,7 +207,12 @@ public class PolygonMapSquareBuilder {
         }
 
         private fun closeSingleTilePolygon(tile: MapSquareGrid) {
-            vertices.add(tile.packed)
+            vertices.add(tile.packed) // Not required, but maintains logical consistency.
+            val bitSet = coordAreas.getOrPut(area) { BitSet() }
+            for (level in levelList) {
+                val grid = MapSquareGrid(tile.x, tile.z, level)
+                bitSet.set(grid.packed)
+            }
         }
 
         private fun isFullMapSquare(): Boolean {

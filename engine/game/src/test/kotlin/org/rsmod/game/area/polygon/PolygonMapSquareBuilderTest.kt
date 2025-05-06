@@ -12,6 +12,17 @@ class PolygonMapSquareBuilderTest {
     fun `single tile polygon is registered as coord area`() {
         val area: Short = 2
         val builder = PolygonMapSquareBuilder()
+        builder.polygon(area, levels = setOf(0)) { vertex(10, 10) }
+        val result = builder.build()
+        assertTrue(result.containsArea(area, MapSquareGrid(10, 10)))
+        assertFalse(result.hasMapSquareArea(area))
+        assertFalse(result.hasZoneArea(area))
+    }
+
+    @Test
+    fun `2x2 tile polygon is registered as coord area`() {
+        val area: Short = 2
+        val builder = PolygonMapSquareBuilder()
         builder.polygon(area, levels = setOf(1)) {
             vertex(10, 10)
             vertex(11, 10)
