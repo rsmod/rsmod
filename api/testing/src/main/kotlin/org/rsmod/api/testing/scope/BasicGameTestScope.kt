@@ -54,7 +54,7 @@ public class BasicGameTestScope(private val eventBus: EventBus) {
     /**
      * Differs from [withPlayer] in that this function only publishes the necessary
      * [SessionStateEvent.Initialize] event, and not [SessionStateEvent.Login] or
-     * [SessionStateEvent.Logout].
+     * [SessionStateEvent.Delete].
      */
     public fun withPlayerInit(
         coords: CoordGrid = CoordGrid.ZERO,

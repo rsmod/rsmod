@@ -16,6 +16,9 @@ public fun ScriptContext.onPlayerInit(action: SessionStateEvent.Initialize.() ->
 public fun ScriptContext.onPlayerLogin(action: SessionStateEvent.Login.() -> Unit): Unit =
     onEvent(action)
 
+public fun ScriptContext.onPlayerLogout(action: SessionStateEvent.Logout.() -> Unit): Unit =
+    onEvent(action)
+
 /* Timer functions */
 public fun ScriptContext.onPlayerTimer(
     timer: TimerType,

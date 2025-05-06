@@ -21,6 +21,7 @@ constructor(
     private val playerList: PlayerList,
     private val accountRegistry: AccountRegistry,
     private val exceptionHandler: GameExceptionHandler,
+    private val logoutProcessor: PlayerLogoutProcessor,
 ) {
     public fun process() {
         processPendingLogouts()
@@ -121,23 +122,27 @@ constructor(
             return
         }
         ifCloseModals(eventBus)
+        forceExitAreas()
 
         if (isAccessProtected || engineQueueList.isNotEmpty || hasNonDiscardableQueue()) {
             return
         }
 
-        // TODO: Should we make the player "invisible" at this point to prevent targeting? The
-        //  combat system should already block interactions if `loggingOut` is true, but it might
-        //  be better to also visually remove them from the world. However, we should not remove
-        //  them from the player registry until their account is fully saved.
         pendingLogout = false
         loggingOut = true
-        accountRegistry.queueLogout(this)
+        logoutProcessor.process(this)
 
         if (pendingCloseClient) {
             pendingCloseClient = false
             closeClient = true
         }
+    }
+
+    private fun Player.forceExitAreas() {
+        for (area in activeAreas.iterator()) {
+            engineQueueAreaExit(area)
+        }
+        activeAreas.clear()
     }
 
     private fun Player.hasNonDiscardableQueue(): Boolean {

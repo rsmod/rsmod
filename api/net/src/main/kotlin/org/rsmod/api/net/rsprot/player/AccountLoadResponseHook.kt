@@ -25,6 +25,7 @@ import org.rsmod.game.GameUpdate
 import org.rsmod.game.GameUpdate.Companion.isCountdown
 import org.rsmod.game.GameUpdate.Companion.isUpdating
 import org.rsmod.game.entity.Player
+import org.rsmod.game.entity.player.SessionStateEvent
 import org.rsmod.game.type.mod.ModGroup
 
 class AccountLoadResponseHook(
@@ -244,10 +245,12 @@ class AccountLoadResponseHook(
         player.slotId = slotId
         eventBus.publish(SessionStart(player, session))
         val register = playerRegistry.add(player)
-        if (!register.isSuccess()) {
-            logger.warn { "Failed to register player: $register (player=$player)" }
-            session.requestClose()
+        if (register.isSuccess()) {
+            eventBus.publish(SessionStateEvent.Login(player))
+            return
         }
+        logger.warn { "Failed to register player: $register (player=$player)" }
+        session.requestClose()
     }
 
     private fun Player.isOnline(lastKnownWorld: Int?): Boolean {

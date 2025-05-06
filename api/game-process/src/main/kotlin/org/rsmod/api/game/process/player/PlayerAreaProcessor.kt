@@ -15,14 +15,21 @@ constructor(private val index: AreaIndex, private val regions: RegionRegistry) {
     }
 
     private fun Player.processAreaChange() {
-        if (coords == lastProcessedAreaCoord) {
+        // Area exit queues must be sent on the same cycle the player is queued to log out -
+        // either via manual logout or forced disconnect.
+        val forceExitAreas = pendingLogout || forceDisconnect
+
+        val processAreas = forceExitAreas || coords != lastProcessedAreaCoord
+        if (!processAreas) {
             return
         }
         lastProcessedAreaCoord = coords
 
         val normalizedCoords = normalizedCoords()
         pendingAreas.clear()
-        index.putAreas(normalizedCoords, pendingAreas)
+        if (!forceExitAreas) {
+            index.putAreas(normalizedCoords, pendingAreas)
+        }
 
         for (area in activeAreas.iterator()) {
             if (area in pendingAreas) {

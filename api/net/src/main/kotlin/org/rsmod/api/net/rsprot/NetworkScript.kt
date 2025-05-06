@@ -38,7 +38,7 @@ constructor(
         onEvent<GameLifecycle.Startup> { initService() }
         onEvent<GameLifecycle.UpdateInfo> { updateService() }
         onEvent<SessionStart> { startSession() }
-        onEvent<SessionStateEvent.Logout> { closeSession() }
+        onEvent<SessionStateEvent.Delete> { closeSession() }
         onEvent<NpcStateEvents.Create> { createNpcAvatar(npc) }
         onEvent<NpcStateEvents.Delete> { deleteNpcAvatar(npc) }
     }
@@ -68,7 +68,7 @@ constructor(
         cycle.init(player)
     }
 
-    private fun SessionStateEvent.Logout.closeSession() {
+    private fun SessionStateEvent.Delete.closeSession() {
         val client = player.client as? RspClient ?: return
         client.unregister(service, player)
     }
