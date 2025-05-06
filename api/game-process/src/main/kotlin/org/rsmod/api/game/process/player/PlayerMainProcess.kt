@@ -109,13 +109,13 @@ constructor(
     }
 
     private fun Player.processIfCloseDisconnect() {
-        if (isPendingDisconnect()) {
+        if (isPendingLogout()) {
             ifClose(eventBus)
         }
     }
 
-    private fun Player.isPendingDisconnect(): Boolean {
-        return clientDisconnected.get() || forceDisconnect || pendingShutdown
+    private fun Player.isPendingLogout(): Boolean {
+        return pendingShutdown || forceDisconnect || manualLogout || clientDisconnected.get()
     }
 
     private inline fun Player.tryOrDisconnect(block: Player.() -> Unit) =
