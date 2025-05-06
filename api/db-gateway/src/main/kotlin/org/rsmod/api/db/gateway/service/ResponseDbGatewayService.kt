@@ -211,7 +211,11 @@ public class ResponseDbGatewayService @Inject constructor(private val database: 
             return
         }
         pendingCallbacks.add(PendingCallback(request.response, err))
-        logger.error { "Reached max retry attempts for database request: $request (err=$err)" }
+        if (err is GameDbResult.Err.Exception) {
+            logger.error(err.cause) { "Reached max retry attempts for database request: $request" }
+        } else {
+            logger.error { "Reached max retry attempts for database request: $request (err=$err)" }
+        }
     }
 
     private fun incrementConsecutiveFailures() {
