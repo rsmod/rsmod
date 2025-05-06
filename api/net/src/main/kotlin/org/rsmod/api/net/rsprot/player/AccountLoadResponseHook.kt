@@ -101,6 +101,18 @@ class AccountLoadResponseHook(
             return
         }
 
+        // This can occur under extreme circumstances (e.g., power outage) where a new player's
+        // character row was created, but their game state was never saved due to a crash before
+        // the save could occur (either via logout or another persistence mechanism).
+        val isPartialSave = response.account.lastLogout == null
+        if (isPartialSave) {
+            logger.error {
+                "Player has never logged out properly - login aborted: ${response.account}"
+            }
+            writeErrorResponse(LoginResponse.InvalidSave)
+            return
+        }
+
         safeQueueLogin(response)
     }
 
@@ -213,18 +225,6 @@ class AccountLoadResponseHook(
 
         if (updateState.isCountdown() && updateState.current <= UPDATE_TIMER_REJECT_BUFFER) {
             writeErrorResponse(LoginResponse.UpdateInProgress)
-            return
-        }
-
-        // This can occur under extreme circumstances (e.g., power outage) where a new player's
-        // character row was created, but their game state was never saved - either via logout or
-        // another persistence mechanism - due to a crash before the save could occur.
-        val isPartialSave = !player.newAccount && loadResponse.account.lastLogout == null
-        if (isPartialSave) {
-            logger.error {
-                "Player has never logged out properly - login aborted: ${loadResponse.account}"
-            }
-            writeErrorResponse(LoginResponse.InvalidSave)
             return
         }
 
