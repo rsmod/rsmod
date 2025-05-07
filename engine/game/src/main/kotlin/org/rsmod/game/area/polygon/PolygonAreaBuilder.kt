@@ -6,76 +6,34 @@ import org.rsmod.game.area.util.PolygonMapSquareClipper
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.square.MapSquareGrid
 import org.rsmod.map.square.MapSquareKey
-import org.rsmod.map.util.FastPack
 
 @DslMarker private annotation class AreaBuilderDsl
 
 @AreaBuilderDsl
-public class PolygonAreaBuilder(public val area: Short) {
-    private val vertices = IntArrayList()
+public class PolygonAreaBuilder(private val area: Short, private val levels: IntArraySet) {
+    private val packedVertices = IntArrayList()
     private val mapSquareKeys = IntArraySet()
-    private val levels = IntArraySet().apply { add(0) }
 
-    public var allLevels: Boolean
-        get() = levels.size == CoordGrid.LEVEL_COUNT
-        set(value) {
-            if (value) levels += 0 until CoordGrid.LEVEL_COUNT else levels.clear()
-        }
+    init {
+        require(levels.isNotEmpty()) { "Set of levels must not be empty." }
 
-    public var level0: Boolean
-        get() = levels.contains(0)
-        set(value) {
-            if (value) levels += 0
-        }
-
-    public var level1: Boolean
-        get() = levels.contains(1)
-        set(value) {
-            if (value) levels += 1
-        }
-
-    public var level2: Boolean
-        get() = levels.contains(2)
-        set(value) {
-            if (value) levels += 2
-        }
-
-    public var level3: Boolean
-        get() = levels.contains(3)
-        set(value) {
-            if (value) levels += 3
-        }
-
-    public fun vertex(coords: CoordGrid) {
-        vertices += coords.packed
-        mapSquareKeys += FastPack.mapSquareKey(coords)
+        val validLevels = levels.all { it in 0 until CoordGrid.LEVEL_COUNT }
+        require(validLevels) { "Invalid level(s) specified: $levels" }
     }
 
-    public fun mapSquare(mapSquare: MapSquareKey) {
-        val base = mapSquare.toCoords(0)
-        for (level in 0 until CoordGrid.LEVEL_COUNT) {
-            val sw = base.translateLevel(level)
-            vertex(sw)
-
-            val se = sw.translate(63, 0)
-            vertex(se)
-
-            val ne = sw.translate(63, 63)
-            vertex(ne)
-
-            val nw = sw.translate(0, 63)
-            vertex(nw)
-        }
+    public fun vertex(vertex: VertexCoord) {
+        packedVertices += vertex.packed
+        mapSquareKeys += vertex.mapSquareKey()
     }
 
     public fun build(): PolygonArea {
-        check(vertices.isNotEmpty()) { "Polygon area must have at least one vertex." }
-        if (vertices.size == 1) {
-            val singleCoord = CoordGrid(vertices.single())
+        check(packedVertices.isNotEmpty()) { "Polygon area must have at least one vertex." }
+        if (packedVertices.size == 1) {
+            val singleCoord = CoordGrid(packedVertices.single())
             return createSingleVertex(singleCoord)
         }
 
-        val coordList = vertices.map(::CoordGrid)
+        val coordList = packedVertices.map { VertexCoord(it).toCoords() }
         if (mapSquareKeys.size == 1) {
             val singleMapSquare = MapSquareKey(mapSquareKeys.single())
             return createSingleSquare(singleMapSquare, coordList)
@@ -85,12 +43,12 @@ public class PolygonAreaBuilder(public val area: Short) {
         return createMultiSquareClipped(clipped)
     }
 
-    private fun createSingleVertex(vertex: CoordGrid): PolygonArea {
+    private fun createSingleVertex(coord: CoordGrid): PolygonArea {
         val builder = PolygonMapSquareBuilder()
-        builder.polygon(area, levels) { vertex(vertex.toMapSquareGrid()) }
+        builder.polygon(area, levels) { coord(coord) }
 
         val polygon = builder.build()
-        val mapSquare = MapSquareKey.from(vertex)
+        val mapSquare = MapSquareKey.from(coord)
         return PolygonArea(mapSquare, polygon)
     }
 
@@ -99,7 +57,7 @@ public class PolygonAreaBuilder(public val area: Short) {
         vertices: List<CoordGrid>,
     ): PolygonArea {
         val builder = PolygonMapSquareBuilder()
-        builder.polygon(area, levels) { vertices.forEach { p -> vertex(p.toMapSquareGrid()) } }
+        builder.polygon(area, levels) { vertices.forEach { coord -> coord(coord) } }
 
         val polygon = builder.build()
         return PolygonArea(mapSquare, polygon)
@@ -111,11 +69,25 @@ public class PolygonAreaBuilder(public val area: Short) {
         val mapSquares = mutableMapOf<MapSquareKey, PolygonMapSquare>()
         for ((mapSquare, vertices) in partitioned) {
             val builder = PolygonMapSquareBuilder()
-            builder.polygon(area, levels) { vertices.forEach { p -> vertex(p.toMapSquareGrid()) } }
+            builder.polygon(area, levels) { vertices.forEach { coord -> coord(coord) } }
             mapSquares[mapSquare] = builder.build()
         }
         return PolygonArea(mapSquares)
     }
 
-    private fun CoordGrid.toMapSquareGrid(): MapSquareGrid = MapSquareGrid.from(this)
+    private fun PolygonMapSquareBuilder.PolygonBuilder.coord(coord: CoordGrid) {
+        val grid = MapSquareGrid.from(coord)
+        vertex(grid.x, grid.z)
+    }
+
+    public companion object {
+        public fun withLevels(area: Short, levels: Iterable<Int>): PolygonAreaBuilder {
+            val levels = IntArraySet().apply { addAll(levels) }
+            return PolygonAreaBuilder(area, levels)
+        }
+
+        public fun withAllLevels(area: Short): PolygonAreaBuilder {
+            return withLevels(area, 0 until CoordGrid.LEVEL_COUNT)
+        }
+    }
 }

@@ -145,7 +145,7 @@ public class PolygonMapSquareBuilder {
             vertex(tile)
         }
 
-        public fun vertex(tile: MapSquareGrid) {
+        private fun vertex(tile: MapSquareGrid) {
             if (anchor == MapSquareGrid.NULL) {
                 anchor(tile)
                 return
