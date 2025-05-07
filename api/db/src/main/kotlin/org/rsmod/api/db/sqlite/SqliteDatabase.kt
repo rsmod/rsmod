@@ -21,12 +21,8 @@ public class SqliteDatabase : Database {
         this.connection.close()
     }
 
-    override suspend fun <T> withTransaction(
-        attempts: Int,
-        backoff: Long,
-        block: (DatabaseConnection) -> T,
-    ): T =
-        withConnection(attempts, backoff) { connection ->
+    override suspend fun <T> withTransaction(block: (DatabaseConnection) -> T): T =
+        withConnection { connection ->
             val wrapped = DatabaseConnection(connection)
             try {
                 val result = block(wrapped)
@@ -42,19 +38,13 @@ public class SqliteDatabase : Database {
             }
         }
 
-    private suspend fun <T> withConnection(
-        attempts: Int,
-        backoff: Long,
-        block: (Connection) -> T,
-    ): T {
+    private suspend fun <T> withConnection(block: (Connection) -> T): T {
         assertValidConnection()
-        repeat(attempts - 1) {
+        repeat(MAX_ATTEMPTS - 1) {
             try {
                 return block(connection)
             } catch (_: SQLException) {
-                if (backoff > 0) {
-                    delay(backoff)
-                }
+                delay(BACKOFF_MILLIS)
             }
         }
         return block(connection)
@@ -63,5 +53,10 @@ public class SqliteDatabase : Database {
     private fun assertValidConnection() {
         check(::connection.isInitialized) { "Connection was not initialized." }
         check(!connection.isClosed) { "Connection is closed." }
+    }
+
+    private companion object {
+        private const val MAX_ATTEMPTS = 3
+        private const val BACKOFF_MILLIS = 10L
     }
 }
