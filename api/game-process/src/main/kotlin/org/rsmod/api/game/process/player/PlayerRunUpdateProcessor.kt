@@ -38,7 +38,7 @@ public class PlayerRunUpdateProcessor @Inject constructor(private val objTypes: 
         }
 
         if (runEnergy != startRunEnergy) {
-            UpdateRun.updateRunEnergy(this, runEnergy)
+            UpdateRun.energy(this, runEnergy)
         }
     }
 
@@ -109,7 +109,7 @@ public class PlayerRunUpdateProcessor @Inject constructor(private val objTypes: 
         val currentKg = currentGrams / 1000
         val previousKg = previousGrams / 1000
         if (previousKg != currentKg) {
-            UpdateRun.updateRunWeight(this, kg = currentKg)
+            UpdateRun.weight(this, kg = currentKg)
         }
     }
 

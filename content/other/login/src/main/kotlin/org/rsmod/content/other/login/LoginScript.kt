@@ -124,8 +124,8 @@ constructor(
     private fun Player.sendRun() {
         val weightInGrams = InvWeight.calculateWeightInGrams(this, objTypes)
         runWeight = weightInGrams
-        UpdateRun.updateRunWeight(this, kg = weightInGrams / 1000)
-        UpdateRun.updateRunEnergy(this, runEnergy)
+        UpdateRun.weight(this, kg = weightInGrams / 1000)
+        UpdateRun.energy(this, runEnergy)
     }
 
     private fun Player.sendPlayerOps() {

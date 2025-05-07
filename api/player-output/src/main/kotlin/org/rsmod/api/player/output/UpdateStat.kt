@@ -5,6 +5,7 @@ import org.rsmod.game.entity.Player
 import org.rsmod.game.type.stat.StatType
 
 public object UpdateStat {
+    /** @see [UpdateStatV2] */
     public fun update(player: Player, stat: StatType, currXp: Int, currLvl: Int, hiddenLvl: Int) {
         val message = UpdateStatV2(stat.id, currLvl, hiddenLvl, currXp)
         player.client.write(message)

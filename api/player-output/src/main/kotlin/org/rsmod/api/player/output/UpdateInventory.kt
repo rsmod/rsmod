@@ -32,8 +32,7 @@ public object UpdateInventory {
     }
 
     /**
-     * Mostly used for emulations purposes when re-syncing an inventory. [slot] is usually sent as
-     * value `0`.
+     * Mostly used for emulation when re-syncing an inventory. [slot] is usually sent as value `0`.
      */
     public fun resendSlot(inv: Inventory, slot: Int) {
         inv.modifiedSlots.set(slot)
