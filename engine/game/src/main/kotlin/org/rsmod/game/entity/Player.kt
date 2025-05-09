@@ -195,7 +195,7 @@ public class Player(
     public val transmittedInvAddQueue: IntArraySet = IntArraySet()
     public var openedShop: Shop? = null
 
-    /* Cache for commonly-accessed Invs */
+    // Cache for commonly accessed inventories
     public lateinit var inv: Inventory
     public lateinit var worn: Inventory
 
@@ -460,7 +460,7 @@ public class Player(
     public fun resetFaceEntity(): Unit = PathingEntityCommon.resetFaceEntity(this)
 
     public fun say(text: String) {
-        this.pendingSay = text
+        pendingSay = text
     }
 
     public fun showHeadbar(headbar: Headbar) {

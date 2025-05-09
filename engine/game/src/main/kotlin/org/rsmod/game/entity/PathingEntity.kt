@@ -6,6 +6,7 @@ import org.rsmod.annotations.InternalApi
 import org.rsmod.coroutine.GameCoroutine
 import org.rsmod.coroutine.suspension.GameCoroutineSimpleCompletion
 import org.rsmod.game.entity.player.ProtectedAccessLostException
+import org.rsmod.game.entity.util.EntityExactMove
 import org.rsmod.game.entity.util.EntityFaceAngle
 import org.rsmod.game.entity.util.EntityFaceTarget
 import org.rsmod.game.hero.HeroPoints
@@ -103,6 +104,8 @@ public sealed class PathingEntity {
     public var pendingTeleport: Boolean = false
     public var pendingTelejump: Boolean = false
     public var pendingStepCount: Int = 0
+
+    public var pendingExactMove: EntityExactMove? = null
 
     public var faceEntity: EntityFaceTarget = EntityFaceTarget.NULL
     public var lastFaceEntity: Int = Int.MIN_VALUE

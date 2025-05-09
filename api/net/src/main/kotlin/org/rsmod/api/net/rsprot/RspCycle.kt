@@ -72,6 +72,7 @@ class RspCycle(
         player.updateMoveSpeed()
         player.updateCoords()
         player.rebuildArea()
+        player.applyExactMove()
         player.applyPublicMessage()
         player.applyFacePathingEntity()
         player.applyFaceAngle()
@@ -145,10 +146,10 @@ class RspCycle(
 
         if (regionUid == null) {
             val rebuild = RebuildNormal(x shr 3, z shr 3, worldId, xteaProvider)
-            session.queue(rebuild)
             knownBuildArea = buildArea
             knownRegionUid = null
             cachedRegionZoneProvider = null
+            session.queue(rebuild)
             return
         }
 
@@ -169,9 +170,9 @@ class RspCycle(
 
         val zoneProvider = cachedRegionZoneProvider ?: createRegionZoneProvider(region)
         val rebuild = RebuildRegion(x shr 3, z shr 3, true, zoneProvider)
-        session.queue(rebuild)
         knownBuildArea = buildArea
         cachedRegionZoneProvider = zoneProvider
+        session.queue(rebuild)
     }
 
     private fun createRegionZoneProvider(region: Region): RebuildRegion.RebuildRegionZoneProvider {
@@ -249,8 +250,20 @@ class RspCycle(
 
     private fun Player.applySay() {
         val text = pendingSay ?: return
-        pendingSay = null
         playerExtendedInfo.setSay(text)
+    }
+
+    private fun Player.applyExactMove() {
+        val move = pendingExactMove ?: return
+        playerExtendedInfo.setExactMove(
+            deltaX1 = move.deltaX1,
+            deltaZ1 = move.deltaZ1,
+            delay1 = move.clientDelay1,
+            deltaX2 = move.deltaX2,
+            deltaZ2 = move.deltaZ2,
+            delay2 = move.clientDelay2,
+            angle = move.direction,
+        )
     }
 
     private fun Player.applyHeadbars() {

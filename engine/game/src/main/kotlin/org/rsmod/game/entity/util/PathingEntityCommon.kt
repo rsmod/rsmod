@@ -9,6 +9,7 @@ import org.rsmod.game.seq.EntitySeq
 import org.rsmod.game.spot.EntitySpotanim
 import org.rsmod.game.type.seq.SeqType
 import org.rsmod.map.CoordGrid
+import org.rsmod.map.util.Translation
 import org.rsmod.routefinder.collision.CollisionFlagMap
 
 /**
@@ -70,6 +71,31 @@ public object PathingEntityCommon {
     private fun CollisionFlagMap.move(entity: PathingEntity, from: CoordGrid, to: CoordGrid) {
         entity.removeBlockWalkCollision(this, from)
         entity.addBlockWalkCollision(this, to)
+    }
+
+    public fun exactMove(
+        entity: PathingEntity,
+        start: CoordGrid,
+        end: CoordGrid,
+        delay1: Int,
+        delay2: Int,
+        dir: Int,
+        collision: CollisionFlagMap,
+    ) {
+        telejump(entity, collision, end)
+        val delta1 = Translation.between(start, end)
+        val delta2 = Translation.between(end, entity.coords)
+        val exactMove =
+            EntityExactMove(
+                deltaX1 = delta1.x,
+                deltaZ1 = delta1.z,
+                clientDelay1 = delay1,
+                deltaX2 = delta2.x,
+                deltaZ2 = delta2.z,
+                clientDelay2 = delay2,
+                direction = dir,
+            )
+        entity.pendingExactMove = exactMove
     }
 
     public fun facePlayer(entity: PathingEntity, target: Player) {

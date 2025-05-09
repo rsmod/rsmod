@@ -42,11 +42,12 @@ constructor(
     }
 
     private fun Npc.updateProtocolInfo() {
-        updateMovementInfo()
-        updateFaceAngleInfo()
+        updateMovement()
+        updateExactMove()
+        updateFaceAngle()
     }
 
-    private fun Npc.updateMovementInfo() {
+    private fun Npc.updateMovement() {
         if (pendingTelejump) {
             updateTelejump()
             return
@@ -116,7 +117,20 @@ constructor(
         infoProtocol.teleport(x, z, level, jump = true)
     }
 
-    private fun Npc.updateFaceAngleInfo() {
+    private fun Npc.updateExactMove() {
+        val pending = pendingExactMove ?: return
+        infoProtocol.exactMove(
+            deltaX1 = pending.deltaX1,
+            deltaZ1 = pending.deltaZ1,
+            deltaX2 = pending.deltaX2,
+            deltaZ2 = pending.deltaZ2,
+            delay1 = pending.clientDelay1,
+            delay2 = pending.clientDelay2,
+            direction = pending.direction,
+        )
+    }
+
+    private fun Npc.updateFaceAngle() {
         val pending = pendingFaceSquare
         facing.process(this)
         if (pendingFaceAngle != EntityFaceAngle.NULL) {
@@ -128,6 +142,7 @@ constructor(
         pendingStepCount = 0
         pendingTeleport = false
         pendingTelejump = false
+        pendingExactMove = null
         pendingFaceAngle = EntityFaceAngle.NULL
         pendingSequence = EntitySeq.NULL
         pendingSpotanims.clear()

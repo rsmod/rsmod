@@ -1,6 +1,7 @@
 package org.rsmod.map.util
 
 import kotlin.math.abs
+import org.rsmod.map.CoordGrid
 
 /**
  * Represents a translation vector that can be applied to a [org.rsmod.map.CoordGrid] for operations
@@ -74,6 +75,9 @@ public value class Translation(public val packed: Int) {
         private const val MIN_Z: Int = -(1 shl (Z_BIT_COUNT - 1))
         private const val MAX_LEVEL: Int = (1 shl (LEVEL_BIT_COUNT - 1)) - 1
         private const val MIN_LEVEL: Int = -(1 shl (LEVEL_BIT_COUNT - 1))
+
+        public fun between(from: CoordGrid, to: CoordGrid): Translation =
+            Translation(x = from.x - to.x, z = from.z - to.z, level = from.level - to.level)
 
         private fun pack(x: Int, z: Int, level: Int): Int {
             require(x in MIN_X..MAX_X) { "`x` value must be within range [$MIN_X..$MAX_X]. (x=$x)" }

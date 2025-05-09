@@ -21,6 +21,16 @@ object Constants {
     const val lootdrop_duration: Int = 200
     const val shop_default_size: Int = 40
 
+    // Common direction angles for `exactmove`.
+    const val em_face_south = 0
+    const val em_face_southwest = 256
+    const val em_face_west = 512
+    const val em_face_northwest = 768
+    const val em_face_north = 1024
+    const val em_face_northeast = 1280
+    const val em_face_east = 1536
+    const val em_face_southeast = 1792
+
     // Common designated spotanim slots.
     const val spotanim_slot_combat: Int = 1
 

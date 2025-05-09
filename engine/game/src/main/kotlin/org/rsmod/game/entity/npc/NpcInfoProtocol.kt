@@ -26,6 +26,16 @@ public interface NpcInfoProtocol {
 
     public fun setHeadIcon(slot: Int, graphic: Int, index: Int)
 
+    public fun exactMove(
+        deltaX1: Int,
+        deltaZ1: Int,
+        deltaX2: Int,
+        deltaZ2: Int,
+        delay1: Int,
+        delay2: Int,
+        direction: Int,
+    )
+
     public fun crawl(deltaX: Int, deltaZ: Int)
 
     public fun walk(deltaX: Int, deltaZ: Int)
@@ -63,6 +73,16 @@ public data object NoopNpcInfo : NpcInfoProtocol {
     override fun toggleOps(ops: OpVisibility) {}
 
     override fun setHeadIcon(slot: Int, graphic: Int, index: Int) {}
+
+    override fun exactMove(
+        deltaX1: Int,
+        deltaZ1: Int,
+        deltaX2: Int,
+        deltaZ2: Int,
+        delay1: Int,
+        delay2: Int,
+        direction: Int,
+    ) {}
 
     override fun crawl(deltaX: Int, deltaZ: Int) {}
 

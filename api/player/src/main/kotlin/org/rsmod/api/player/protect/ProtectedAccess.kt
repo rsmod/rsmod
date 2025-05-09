@@ -336,6 +336,34 @@ public class ProtectedAccess(
 
     public fun teleport(dest: CoordGrid): Unit = teleport(dest, context.collision)
 
+    /**
+     * Starts an `exactmove` sequence from [start] to [end].
+     *
+     * @param start The starting coordinates, typically the current [Player.coords].
+     * @param end The destination coordinates where the player will appear after [delay2] client
+     *   cycles.
+     * @param delay1 The number of client cycles before the player visually appears at [start].
+     * @param delay2 The number of client cycles before the player visually appears at [end].
+     * @param dir A value in the range `[0..2047]` representing the direction the player will face
+     *   upon reaching [end]. Common values can be found in the `constants` file, prefixed with
+     *   "em_face_" (e.g. `em_face_north`).
+     */
+    public fun exactMove(
+        start: CoordGrid,
+        end: CoordGrid,
+        delay1: Int,
+        delay2: Int,
+        dir: Int,
+        collision: CollisionFlagMap = context.collision,
+    ) {
+        if (!collision.isZoneValid(end)) {
+            player.clearMapFlag()
+            mes("Invalid teleport!", ChatType.Engine)
+            return
+        }
+        PathingEntityCommon.exactMove(player, start, end, delay1, delay2, dir, collision)
+    }
+
     public fun anim(seq: SeqType, delay: Int = 0) {
         player.anim(seq, delay)
     }

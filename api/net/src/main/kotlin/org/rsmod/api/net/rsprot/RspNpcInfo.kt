@@ -67,6 +67,26 @@ class RspNpcInfo(val rspAvatar: NpcAvatar) : NpcInfoProtocol {
         rspAvatar.extendedInfo.setHeadIconChange(slot, graphic, index)
     }
 
+    override fun exactMove(
+        deltaX1: Int,
+        deltaZ1: Int,
+        deltaX2: Int,
+        deltaZ2: Int,
+        delay1: Int,
+        delay2: Int,
+        direction: Int,
+    ) {
+        rspAvatar.extendedInfo.setExactMove(
+            deltaX1 = deltaX1,
+            deltaZ1 = deltaZ1,
+            delay1 = delay1,
+            deltaX2 = deltaX2,
+            deltaZ2 = deltaZ2,
+            delay2 = delay2,
+            angle = direction,
+        )
+    }
+
     override fun crawl(deltaX: Int, deltaZ: Int) {
         rspAvatar.crawl(deltaX, deltaZ)
     }
