@@ -89,6 +89,8 @@ public class CaptureClient : Client<Any, Any> {
 
     override fun flush() {}
 
+    override fun flushLowPriority() {}
+
     override fun unregister(service: Any, player: Player) {}
 
     private data class IncomingHandlerMessage<T : IncomingGameMessage>(
