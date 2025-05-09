@@ -40,7 +40,7 @@ class RspNpcInfo(val rspAvatar: NpcAvatar) : NpcInfoProtocol {
     override fun showHeadbar(headbar: Headbar) {
         rspAvatar.extendedInfo.addHeadBar(
             sourceIndex = if (headbar.isNoSource) -1 else headbar.sourceSlot,
-            selfType = headbar.self,
+            sourceType = headbar.self,
             otherType = if (headbar.isPrivate) -1 else headbar.public,
             startFill = headbar.startFill,
             endFill = headbar.endFill,
@@ -52,7 +52,7 @@ class RspNpcInfo(val rspAvatar: NpcAvatar) : NpcInfoProtocol {
     override fun showHitmark(hitmark: Hitmark) {
         rspAvatar.extendedInfo.addHitMark(
             sourceIndex = if (hitmark.isNoSource) -1 else hitmark.sourceSlot,
-            selfType = hitmark.source,
+            sourceType = hitmark.source,
             otherType = if (hitmark.isPrivate) -1 else hitmark.public,
             value = hitmark.damage,
             delay = hitmark.delay,
