@@ -24,6 +24,7 @@ constructor(
 ) {
     private val addDurations = ArrayDeque<ObjAddDuration>()
     private val delDurations = ArrayDeque<ObjDelDuration>()
+    private val addDelayed = ArrayDeque<ObjAddDelayed>()
 
     public fun add(
         obj: Obj,
@@ -105,6 +106,12 @@ constructor(
 
     private fun Obj.canRespawn(): Boolean = scope == ObjScope.Perm
 
+    public fun addDelayed(obj: Obj, spawnDelay: Int, duration: Int) {
+        val spawnCycle = mapClock + spawnDelay
+        val objDuration = ObjAddDelayed(obj, spawnCycle, duration = duration)
+        addDelayed.add(objDuration)
+    }
+
     public fun findAll(zone: ZoneKey): Sequence<Obj> = registry.findAll(zone)
 
     public fun findAll(coords: CoordGrid): Sequence<Obj> = registry.findAll(coords)
@@ -170,16 +177,34 @@ constructor(
         }
     }
 
+    internal fun processDelayedAdd() {
+        if (addDelayed.isNotEmpty()) {
+            processAddDelayed()
+        }
+    }
+
+    private fun processAddDelayed() {
+        val iterator = addDelayed.iterator()
+        while (iterator.hasNext()) {
+            val duration = iterator.next()
+            if (duration.shouldTrigger()) {
+                add(duration.obj, duration = duration.duration)
+                iterator.remove()
+            }
+        }
+    }
+
     private fun ObjCycleDuration.shouldTrigger(): Boolean = mapClock >= triggerCycle
 
-    private sealed class ObjCycleDuration(val obj: Obj, var triggerCycle: Int) {
-        override fun toString(): String = "ObjCycleDuration($obj=$obj, triggerCycle=$triggerCycle)"
-    }
+    private sealed class ObjCycleDuration(val obj: Obj, var triggerCycle: Int)
 
     private class ObjAddDuration(obj: Obj, triggerCycle: Int, var revealCycle: Int) :
         ObjCycleDuration(obj, triggerCycle)
 
     private class ObjDelDuration(obj: Obj, triggerCycle: Int) : ObjCycleDuration(obj, triggerCycle)
+
+    private class ObjAddDelayed(obj: Obj, triggerCycle: Int, val duration: Int) :
+        ObjCycleDuration(obj, triggerCycle)
 
     public companion object {
         public const val DEFAULT_REVEAL_DELTA: Int = 100

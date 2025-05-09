@@ -11,6 +11,7 @@ import org.rsmod.api.game.process.player.PlayerMainProcess
 import org.rsmod.api.game.process.player.PlayerPostTickProcess
 import org.rsmod.api.game.process.player.PlayerRouteRequestProcess
 import org.rsmod.api.game.process.world.WorldDbSyncProcess
+import org.rsmod.api.game.process.world.WorldDelayedProcess
 import org.rsmod.api.game.process.world.WorldPostTickProcess
 import org.rsmod.api.game.process.world.WorldQueueListProcess
 import org.rsmod.events.EventBus
@@ -23,6 +24,7 @@ constructor(
     private val mapClock: MapClock,
     private val worldDbSync: WorldDbSyncProcess,
     private val worldQueue: WorldQueueListProcess,
+    private val worldDelayed: WorldDelayedProcess,
     private val npcPreTick: NpcPreTickProcess,
     private val playerInput: PlayerInputProcess,
     private val playerRouteRequest: PlayerRouteRequestProcess,
@@ -46,6 +48,7 @@ constructor(
     private fun preTick() {
         worldDbSync.process()
         worldQueue.process()
+        worldDelayed.process()
         npcPreTick.process()
         playerInput.process()
         playerRouteRequest.process()

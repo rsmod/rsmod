@@ -9,6 +9,7 @@ import org.rsmod.api.registry.npc.NpcRegistry
 import org.rsmod.api.registry.obj.ObjRegistry
 import org.rsmod.api.registry.player.PlayerRegistry
 import org.rsmod.api.registry.region.RegionRegistry
+import org.rsmod.api.repo.EntityDelayedProcess
 import org.rsmod.api.repo.EntityLifecycleProcess
 import org.rsmod.api.repo.controller.ControllerRepository
 import org.rsmod.api.repo.loc.LocRepository
@@ -44,6 +45,7 @@ public object RegistryModule : ExtendedModule() {
         bindInstance<RegionRepository>()
 
         bindInstance<WorldRepository>()
+        bindInstance<EntityDelayedProcess>()
         bindInstance<EntityLifecycleProcess>()
     }
 }
