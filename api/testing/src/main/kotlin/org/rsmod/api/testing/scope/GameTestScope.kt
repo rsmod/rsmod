@@ -935,11 +935,7 @@ constructor(
         }
 
         private class ThrowDatabase : Database {
-            override suspend fun <T> withTransaction(
-                attempts: Int,
-                backoff: Long,
-                block: (DatabaseConnection) -> T,
-            ): T =
+            override suspend fun <T> withTransaction(block: (DatabaseConnection) -> T): T =
                 error(
                     "ThrowDatabase was used: no real Database is available. " +
                         "If your test needs database access, bind a test-specific Database."
