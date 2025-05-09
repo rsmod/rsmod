@@ -11,6 +11,8 @@ public object NoopClient : Client<Any, Any> {
 
     override fun flush() {}
 
+    override fun flushLowPriority() {}
+
     override fun unregister(service: Any, player: Player) {}
 }
 

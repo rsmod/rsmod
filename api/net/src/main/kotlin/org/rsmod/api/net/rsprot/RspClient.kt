@@ -33,6 +33,11 @@ class RspClient(
         session.flush()
     }
 
+    override fun flushLowPriority() {
+        session.discardLowPriorityCategoryPackets()
+        session.flush()
+    }
+
     override fun unregister(service: Service, player: Player) {
         service.playerInfoProtocol.dealloc(playerInfo)
         service.npcInfoProtocol.dealloc(npcInfo)
