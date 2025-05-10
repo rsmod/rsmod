@@ -4,7 +4,6 @@ import org.rsmod.module.ExtendedModule
 import org.rsmod.server.app.modules.GameModule
 import org.rsmod.server.app.modules.ParserModule
 import org.rsmod.server.app.modules.ServiceModule
-import org.rsmod.server.app.modules.TaskModule
 import org.rsmod.server.shared.module.CacheStoreModule
 import org.rsmod.server.shared.module.ScannerModule
 import org.rsmod.server.shared.module.SymbolModule
@@ -17,6 +16,5 @@ object GameServerModule : ExtendedModule() {
         install(ScannerModule)
         install(ServiceModule)
         install(SymbolModule)
-        install(TaskModule)
     }
 }

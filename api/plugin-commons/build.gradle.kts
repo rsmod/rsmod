@@ -43,5 +43,4 @@ dependencies {
     api(projects.engine.objtx)
     api(projects.engine.routefinder)
     api(projects.engine.plugin)
-    api(projects.engine.scheduler)
 }

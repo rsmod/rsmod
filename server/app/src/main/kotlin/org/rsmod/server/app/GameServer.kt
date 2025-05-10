@@ -33,7 +33,6 @@ import org.rsmod.game.type.TypeListMap
 import org.rsmod.plugin.module.PluginModule
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
-import org.rsmod.scheduler.TaskScheduler
 import org.rsmod.server.install.GameNetworkRsaGenerator
 import org.rsmod.server.install.GameServerCachePacker
 import org.rsmod.server.install.GameServerInstall
@@ -102,18 +101,6 @@ class GameServer(private val skipTypeVerificationOverride: Boolean? = null) :
         loadTypeResolver(injector)
         loadConfig(injector)
         loadScripts(injector)
-        executeScheduledIO(injector)
-    }
-
-    private fun executeScheduledIO(injector: Injector) {
-        logger.info { "Joining scheduled IO tasks..." }
-        val scheduler = injector.getInstance(TaskScheduler::class.java)
-        val count = scheduler.size
-        val duration = measureTime {
-            scheduler.joinAll()
-            scheduler.clear()
-        }
-        reportDuration { "Executed $count IO task${if (count == 1) "" else "s"} in $duration." }
     }
 
     private fun loadModules(): Collection<AbstractModule> {
