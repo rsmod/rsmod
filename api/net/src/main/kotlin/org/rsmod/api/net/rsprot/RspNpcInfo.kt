@@ -60,7 +60,7 @@ class RspNpcInfo(val rspAvatar: NpcAvatar) : NpcInfoProtocol {
     }
 
     override fun toggleOps(ops: OpVisibility) {
-        rspAvatar.extendedInfo.setVisibleOps(ops.packed)
+        rspAvatar.extendedInfo.setVisibleOps(ops.packed.toByte())
     }
 
     override fun setHeadIcon(slot: Int, graphic: Int, index: Int) {
