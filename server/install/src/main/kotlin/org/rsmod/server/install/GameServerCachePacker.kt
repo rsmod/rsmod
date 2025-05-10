@@ -15,14 +15,17 @@ import org.rsmod.annotations.EnrichedCache
 import org.rsmod.annotations.GameCache
 import org.rsmod.api.cache.CacheModule
 import org.rsmod.api.cache.enricher.CacheEnricherModule
-import org.rsmod.api.cache.enricher.CacheEnrichment
+import org.rsmod.api.cache.enricher.CacheEnrichmentConfigs
+import org.rsmod.api.cache.enricher.CacheEnrichmentMaps
 import org.rsmod.api.core.CoreModule
 import org.rsmod.api.parsers.jackson.JacksonModule
 import org.rsmod.api.parsers.json.JsonModule
 import org.rsmod.api.parsers.toml.TomlModule
-import org.rsmod.api.type.builders.map.MapUpdateList
+import org.rsmod.api.type.builders.map.MapBuilderList
 import org.rsmod.api.type.resolver.TypeResolver
-import org.rsmod.api.type.updater.TypeUpdater
+import org.rsmod.api.type.updater.TypeUpdaterCacheSync
+import org.rsmod.api.type.updater.TypeUpdaterConfigs
+import org.rsmod.api.type.updater.TypeUpdaterMaps
 import org.rsmod.api.type.verifier.TypeVerifier
 import org.rsmod.api.type.verifier.isCacheUpdateRequired
 import org.rsmod.api.type.verifier.isFailure
@@ -35,7 +38,7 @@ import org.rsmod.server.shared.module.CacheStoreModule
 import org.rsmod.server.shared.module.EventModule
 import org.rsmod.server.shared.module.ScannerModule
 import org.rsmod.server.shared.module.SymbolModule
-import org.rsmod.server.shared.util.MapUpdateListLoader
+import org.rsmod.server.shared.util.MapBuilderListLoader
 
 fun main(args: Array<String>): Unit = GameServerCachePacker().main(args)
 
@@ -69,10 +72,8 @@ class GameServerCachePacker : CliktCommand(name = "cache-pack") {
             )
         val resolved = resolveAllTypes(injector)
         if (resolved) {
-            val enricher = injector.getInstance(CacheEnrichment::class.java)
-            val target = injector.getInstance(Key.get(Cache::class.java, GameCache::class.java))
-            enricher.encodeAll(target)
-            copyEnrichedCache(injector)
+            enrichGameCache(injector)
+            copyGameCache(injector)
         }
     }
 
@@ -94,9 +95,7 @@ class GameServerCachePacker : CliktCommand(name = "cache-pack") {
         val verifier = injector.getInstance(TypeVerifier::class.java)
         val verification = verifier.verifyAll(verifyIdentityHashes = false)
         if (verification.isCacheUpdateRequired()) {
-            val updater = injector.getInstance(TypeUpdater::class.java)
-            val mapUpdates = createMapUpdateList(injector)
-            updater.updateAll(mapUpdates)
+            updateCaches(injector)
             closeCaches(injector)
             packEnrichedTypes()
             return false
@@ -106,12 +105,33 @@ class GameServerCachePacker : CliktCommand(name = "cache-pack") {
         return true
     }
 
-    private fun createMapUpdateList(injector: Injector): MapUpdateList {
-        val loader = injector.getInstance(MapTypeBuilderLoader::class.java)
-        return MapUpdateListLoader.load(loader)
+    private fun updateCaches(injector: Injector) {
+        val sync = injector.getInstance(TypeUpdaterCacheSync::class.java)
+        sync.syncFromBaseCaches()
+
+        val configs = injector.getInstance(TypeUpdaterConfigs::class.java)
+        configs.updateAll()
+
+        val maps = injector.getInstance(TypeUpdaterMaps::class.java)
+        maps.updateAll(createMapBuilderList(injector))
     }
 
-    private fun copyEnrichedCache(injector: Injector) {
+    private fun createMapBuilderList(injector: Injector): MapBuilderList {
+        val loader = injector.getInstance(MapTypeBuilderLoader::class.java)
+        return MapBuilderListLoader.load(loader)
+    }
+
+    private fun enrichGameCache(injector: Injector) {
+        val configs = injector.getInstance(CacheEnrichmentConfigs::class.java)
+        val maps = injector.getInstance(CacheEnrichmentMaps::class.java)
+        val dest = injector.getInstance(Key.get(Cache::class.java, GameCache::class.java))
+        dest.use {
+            configs.encodeAll(it)
+            maps.encodeAll(it)
+        }
+    }
+
+    private fun copyGameCache(injector: Injector) {
         val source = injector.getInstance(Key.get(Path::class.java, GameCache::class.java))
         val dest = injector.getInstance(Key.get(Path::class.java, EnrichedCache::class.java))
         dest.deleteRecursively()

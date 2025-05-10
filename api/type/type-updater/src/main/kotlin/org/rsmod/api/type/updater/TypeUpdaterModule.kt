@@ -4,6 +4,8 @@ import org.rsmod.module.ExtendedModule
 
 public object TypeUpdaterModule : ExtendedModule() {
     override fun bind() {
-        bindInstance<TypeUpdater>()
+        bindInstance<TypeUpdaterCacheSync>()
+        bindInstance<TypeUpdaterConfigs>()
+        bindInstance<TypeUpdaterMaps>()
     }
 }

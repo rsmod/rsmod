@@ -11,7 +11,8 @@ import org.rsmod.module.ExtendedModule
 
 public object CacheEnricherModule : ExtendedModule() {
     override fun bind() {
-        bindInstance<CacheEnrichment>()
+        bindInstance<CacheEnrichmentConfigs>()
+        bindInstance<CacheEnrichmentMaps>()
 
         // Define set bindings for currently supported cache enrichers. These sets allow multiple
         // enrichers to be registered and later processed by [CacheEnricher].

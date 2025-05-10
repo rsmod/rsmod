@@ -23,7 +23,8 @@ import org.rsmod.api.cache.map.GameMapDecoder
 import org.rsmod.api.server.config.ServerConfig
 import org.rsmod.api.type.resolver.TypeCleanup
 import org.rsmod.api.type.resolver.TypeResolver
-import org.rsmod.api.type.updater.TypeUpdater
+import org.rsmod.api.type.updater.TypeUpdaterCacheSync
+import org.rsmod.api.type.updater.TypeUpdaterConfigs
 import org.rsmod.api.type.verifier.TypeVerifier
 import org.rsmod.api.type.verifier.isCacheUpdateRequired
 import org.rsmod.api.type.verifier.isFailure
@@ -228,14 +229,21 @@ class GameServer(private val skipTypeVerificationOverride: Boolean? = null) :
         if (verification.isCacheUpdateRequired()) {
             logger.debug { verification.formatError() }
             logger.info { "Packing latest cache additions and restarting server..." }
-            val updater = injector.getInstance(TypeUpdater::class.java)
-            updater.updateConfigs()
+            updateCacheConfigs(injector)
             logger.info { "Now restarting game server..." }
             startApplication()
             throw ServerRestartException()
         } else if (verification.isFailure()) {
             throw RuntimeException(verification.formatError())
         }
+    }
+
+    private fun updateCacheConfigs(injector: Injector) {
+        val sync = injector.getInstance(TypeUpdaterCacheSync::class.java)
+        sync.syncFromBaseCaches()
+
+        val updater = injector.getInstance(TypeUpdaterConfigs::class.java)
+        updater.updateAll()
     }
 
     private fun cleanUpTypeResolver(injector: Injector) {

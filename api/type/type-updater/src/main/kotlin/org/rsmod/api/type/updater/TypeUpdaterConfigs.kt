@@ -3,17 +3,10 @@ package org.rsmod.api.type.updater
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet
 import jakarta.inject.Inject
 import java.nio.file.Path
-import kotlin.io.path.ExperimentalPathApi
-import kotlin.io.path.copyToRecursively
-import kotlin.io.path.deleteRecursively
-import kotlin.io.path.exists
 import org.openrs2.cache.Cache
 import org.rsmod.annotations.EnrichedCache
 import org.rsmod.annotations.GameCache
 import org.rsmod.annotations.Js5Cache
-import org.rsmod.annotations.VanillaCache
-import org.rsmod.api.cache.map.area.MapAreaDefinition
-import org.rsmod.api.cache.map.area.MapAreaEncoder
 import org.rsmod.api.cache.types.TypeListMapDecoder
 import org.rsmod.api.cache.types.area.AreaTypeEncoder
 import org.rsmod.api.cache.types.enums.EnumTypeEncoder
@@ -32,8 +25,6 @@ import org.rsmod.api.cache.types.varnbit.VarnBitTypeEncoder
 import org.rsmod.api.cache.types.varp.VarpTypeEncoder
 import org.rsmod.api.cache.types.walktrig.WalkTriggerTypeEncoder
 import org.rsmod.api.cache.util.EncoderContext
-import org.rsmod.api.type.builders.map.MapTypeCollector
-import org.rsmod.api.type.builders.map.MapUpdateList
 import org.rsmod.api.type.builders.resolver.TypeBuilderResolverMap
 import org.rsmod.api.type.editors.resolver.TypeEditorResolverMap
 import org.rsmod.api.type.symbols.name.NameMapping
@@ -76,56 +67,22 @@ import org.rsmod.game.type.varp.VarpTypeBuilder
 import org.rsmod.game.type.varp.VarpTypeList
 import org.rsmod.game.type.walktrig.WalkTriggerType
 import org.rsmod.game.type.walktrig.WalkTriggerTypeBuilder
-import org.rsmod.map.square.MapSquareKey
 
-public class TypeUpdater
+public class TypeUpdaterConfigs
 @Inject
 constructor(
-    @EnrichedCache private val enrichedCache: Cache,
-    @EnrichedCache private val enrichedCachePath: Path,
-    @VanillaCache private val vanillaCachePath: Path,
-    @GameCache private val gameCachePath: Path,
     @Js5Cache private val js5CachePath: Path,
+    @GameCache private val gameCachePath: Path,
+    @EnrichedCache private val enrichedCache: Cache,
     private val names: NameMapping,
     private val builders: TypeBuilderResolverMap,
     private val editors: TypeEditorResolverMap,
-    private val mapCollector: MapTypeCollector,
 ) {
-    public fun updateAll(mapUpdates: MapUpdateList) {
-        overwriteCachePaths()
-        encodeAllConfigTypes()
-        encodeAllMapTypes(mapUpdates)
+    public fun updateAll() {
+        encodeAll()
     }
 
-    public fun updateConfigs() {
-        overwriteCachePaths()
-        encodeAllConfigTypes()
-    }
-
-    public fun updateMaps(updates: MapUpdateList) {
-        encodeAllMapTypes(updates)
-    }
-
-    private fun overwriteCachePaths() {
-        deleteExistingCache(gameCachePath)
-        copyCache(enrichedCachePath, gameCachePath)
-
-        deleteExistingCache(js5CachePath)
-        copyCache(vanillaCachePath, js5CachePath)
-    }
-
-    @OptIn(ExperimentalPathApi::class)
-    private fun deleteExistingCache(cachePath: Path) {
-        cachePath.deleteRecursively()
-        check(!cachePath.exists())
-    }
-
-    @OptIn(ExperimentalPathApi::class)
-    private fun copyCache(from: Path, dest: Path) {
-        from.copyToRecursively(target = dest, followLinks = true, overwrite = false)
-    }
-
-    private fun encodeAllConfigTypes() {
+    private fun encodeAll() {
         val configs = TypeListMapDecoder.from(enrichedCache, names)
         val updates = collectUpdateMap(configs)
         val params = transmitParamKeys(configs.params, updates.params)
@@ -326,17 +283,5 @@ constructor(
             ProjAnimTypeEncoder.encodeAll(cache, updates.projanims, ctx)
             WalkTriggerTypeEncoder.encodeAll(cache, updates.walkTriggers, ctx)
         }
-    }
-
-    private fun encodeAllMapTypes(builders: MapUpdateList) {
-        val areas = mapCollector.areas(builders.areas)
-        val updates = MapUpdates(areas)
-        encodeCacheMaps(updates, gameCachePath, EncoderContext.server(emptySet(), emptySet()))
-    }
-
-    private data class MapUpdates(val areas: Map<MapSquareKey, MapAreaDefinition>)
-
-    private fun encodeCacheMaps(updates: MapUpdates, cachePath: Path, ctx: EncoderContext) {
-        Cache.open(cachePath).use { cache -> MapAreaEncoder.encodeAll(cache, updates.areas, ctx) }
     }
 }
