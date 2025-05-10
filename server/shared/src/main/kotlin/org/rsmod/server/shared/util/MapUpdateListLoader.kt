@@ -11,7 +11,7 @@ object MapUpdateListLoader {
         return create(builders)
     }
 
-    private fun create(builders: Collection<MapTypeBuilder<*>>): MapUpdateList {
+    private fun create(builders: Collection<MapTypeBuilder>): MapUpdateList {
         val areas = builders.filterIsInstance<MapAreaBuilder>()
         return MapUpdateList(areas)
     }

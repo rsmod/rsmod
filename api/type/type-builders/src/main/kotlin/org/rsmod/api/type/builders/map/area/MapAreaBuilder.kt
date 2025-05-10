@@ -1,5 +1,6 @@
 package org.rsmod.api.type.builders.map.area
 
+import org.rsmod.api.type.builders.map.MapResourceFile
 import org.rsmod.api.type.builders.map.MapTypeBuilder
 import org.rsmod.game.area.polygon.PolygonArea
 import org.rsmod.game.area.polygon.PolygonAreaBuilder
@@ -11,7 +12,10 @@ import org.rsmod.map.square.MapSquareKey
 @DslMarker private annotation class BuilderDslMarker
 
 @BuilderDslMarker
-public abstract class MapAreaBuilder : MapTypeBuilder<PolygonArea>() {
+public abstract class MapAreaBuilder : MapTypeBuilder() {
+    @PublishedApi internal val resources: MutableList<MapResourceFile> = mutableListOf()
+    internal val polygons = mutableListOf<PolygonArea>()
+
     /**
      * Registers area polygons to pack during the map-packing task.
      *
@@ -41,6 +45,12 @@ public abstract class MapAreaBuilder : MapTypeBuilder<PolygonArea>() {
      *          vertex(VertexCoord(50, 50, 4, 0))
      *      }
      *    }
+     *
+     *    // Packs a binary area file from a resource path. The file name must start with 'a' and
+     *    // follow the format `a[x]_[z]` (e.g., `a50_50`, with no extension), where the numbers
+     *    // correspond to the map square key's x and z values.
+     *    // The file content must match the structure expected by [MapAreaDecoder].
+     *    resourceFile<MyAreaBuilder>("map/areas/a50_50")
      * }
      * ```
      *
@@ -49,13 +59,18 @@ public abstract class MapAreaBuilder : MapTypeBuilder<PolygonArea>() {
      */
     abstract override fun onPackMapTask()
 
+    public inline fun <reified T> resourceFile(path: String) {
+        val file = MapResourceFile(T::class.java, path)
+        resources += file
+    }
+
     public fun area(area: AreaType, init: AreaBuilder.() -> Unit) {
-        AreaBuilder(area.id.toShort(), cache).apply(init)
+        AreaBuilder(area.id.toShort(), polygons).apply(init)
     }
 
     @BuilderDslMarker
     public class AreaBuilder
-    internal constructor(private val area: Short, private val cache: MutableList<PolygonArea>) {
+    internal constructor(private val area: Short, private val polygons: MutableList<PolygonArea>) {
         private var setMapSquare = false
         private var setPolygon = false
 
@@ -109,7 +124,7 @@ public abstract class MapAreaBuilder : MapTypeBuilder<PolygonArea>() {
             builder.apply(init)
             setPolygon = true
 
-            cache += builder.build()
+            polygons += builder.build()
         }
 
         /**
@@ -149,7 +164,7 @@ public abstract class MapAreaBuilder : MapTypeBuilder<PolygonArea>() {
          *
          * This method accepts an [Iterable] of height levels, and will apply the given vertices to
          * each level in the list. If you only need to set a single level, use the `polygon(level =
-         * 1)` overload instead.
+         * 1) {}` overload instead.
          *
          * @throws IllegalArgumentException if [levels] is empty or contains any value outside
          *   `[0-3]`.
@@ -164,7 +179,7 @@ public abstract class MapAreaBuilder : MapTypeBuilder<PolygonArea>() {
             builder.apply(init)
             setPolygon = true
 
-            cache += builder.build()
+            polygons += builder.build()
         }
 
         /**
@@ -191,7 +206,7 @@ public abstract class MapAreaBuilder : MapTypeBuilder<PolygonArea>() {
             }
             setMapSquare = true
 
-            cache += builder.build()
+            polygons += builder.build()
         }
 
         private fun requireLevel(level: Int) {

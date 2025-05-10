@@ -1,10 +1,13 @@
 package org.rsmod.api.type.builders.map
 
-public object MapTypeCollector {
-    public fun <T> loadAndCollect(builder: MapTypeBuilder<T>): Collection<T> {
-        builder.onPackMapTask()
-        return collect(builder)
-    }
+import jakarta.inject.Inject
+import org.rsmod.api.cache.map.area.MapAreaDefinition
+import org.rsmod.api.type.builders.map.area.MapAreaBuilder
+import org.rsmod.api.type.builders.map.area.MapAreaCollector
+import org.rsmod.map.square.MapSquareKey
 
-    public fun <T> collect(builder: MapTypeBuilder<T>): Collection<T> = builder.cache
+public class MapTypeCollector @Inject constructor(private val areas: MapAreaCollector) {
+    public fun areas(builders: Iterable<MapAreaBuilder>): Map<MapSquareKey, MapAreaDefinition> {
+        return areas.loadAndCollect(builders)
+    }
 }

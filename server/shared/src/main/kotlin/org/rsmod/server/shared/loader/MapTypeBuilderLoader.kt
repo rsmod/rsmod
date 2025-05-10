@@ -9,8 +9,8 @@ import org.rsmod.api.type.builders.map.MapTypeBuilder
 import org.rsmod.server.shared.util.use
 
 class MapTypeBuilderLoader @Inject constructor(@PluginGraph private val scanner: ClassGraph) {
-    fun load(): Collection<MapTypeBuilder<*>> {
-        val builders = mutableListOf<MapTypeBuilder<*>>()
+    fun load(): Collection<MapTypeBuilder> {
+        val builders = mutableListOf<MapTypeBuilder>()
         val parallelism = Runtime.getRuntime().availableProcessors()
         val threadPool = Executors.newFixedThreadPool(parallelism)
         val scan = threadPool.use { scanner.scan(it, parallelism) }

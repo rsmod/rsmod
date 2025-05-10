@@ -34,11 +34,9 @@ import org.rsmod.api.cache.types.walktrig.WalkTriggerTypeEncoder
 import org.rsmod.api.cache.util.EncoderContext
 import org.rsmod.api.type.builders.map.MapTypeCollector
 import org.rsmod.api.type.builders.map.MapUpdateList
-import org.rsmod.api.type.builders.map.area.MapAreaBuilder
 import org.rsmod.api.type.builders.resolver.TypeBuilderResolverMap
 import org.rsmod.api.type.editors.resolver.TypeEditorResolverMap
 import org.rsmod.api.type.symbols.name.NameMapping
-import org.rsmod.game.area.polygon.PolygonArea
 import org.rsmod.game.type.CacheType
 import org.rsmod.game.type.TypeListMap
 import org.rsmod.game.type.area.AreaTypeBuilder
@@ -91,6 +89,7 @@ constructor(
     private val names: NameMapping,
     private val builders: TypeBuilderResolverMap,
     private val editors: TypeEditorResolverMap,
+    private val mapCollector: MapTypeCollector,
 ) {
     public fun updateAll(mapUpdates: MapUpdateList) {
         overwriteCachePaths()
@@ -329,30 +328,10 @@ constructor(
         }
     }
 
-    private fun encodeAllMapTypes(updates: MapUpdateList) {
-        val areas = updates.areas.toMapDefinitions()
+    private fun encodeAllMapTypes(builders: MapUpdateList) {
+        val areas = mapCollector.areas(builders.areas)
         val updates = MapUpdates(areas)
         encodeCacheMaps(updates, gameCachePath, EncoderContext.server(emptySet(), emptySet()))
-    }
-
-    private fun Iterable<MapAreaBuilder>.toMapDefinitions(): Map<MapSquareKey, MapAreaDefinition> {
-        val polygons = flatMap(MapTypeCollector::loadAndCollect)
-        return polygons.toMergedDefinitions()
-    }
-
-    private fun Iterable<PolygonArea>.toMergedDefinitions(): Map<MapSquareKey, MapAreaDefinition> {
-        val grouped = flatMap { it.mapSquares.entries }.groupBy({ it.key }, { it.value })
-        val merged = mutableMapOf<MapSquareKey, MapAreaDefinition>()
-        for ((mapSquare, polygons) in grouped) {
-            val definitions = polygons.map(MapAreaDefinition::from)
-            if (definitions.size == 1) {
-                merged[mapSquare] = definitions.single()
-                continue
-            }
-            val combined = definitions.reduce(MapAreaDefinition::merge)
-            merged[mapSquare] = combined
-        }
-        return merged
     }
 
     private data class MapUpdates(val areas: Map<MapSquareKey, MapAreaDefinition>)
