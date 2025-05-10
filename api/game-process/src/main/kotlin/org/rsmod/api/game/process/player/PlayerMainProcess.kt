@@ -1,7 +1,6 @@
 package org.rsmod.api.game.process.player
 
 import jakarta.inject.Inject
-import kotlinx.coroutines.runBlocking
 import org.rsmod.api.player.forceDisconnect
 import org.rsmod.api.player.ui.closeSubs
 import org.rsmod.api.player.ui.ifClose
@@ -31,7 +30,7 @@ constructor(
         processAll()
     }
 
-    private fun processAll() = runBlocking {
+    private fun processAll() {
         for (player in players) {
             // Skip players who are no longer considered online. They remain in the player list
             // temporarily until their account data has been saved.
