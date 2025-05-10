@@ -14,7 +14,7 @@ import org.rsmod.game.type.varp.VarpType
  *   into the client-only cache. This is done to respect the transmission flag:
  *   [VarpTransmitLevel.Never].
  */
-public data class EncoderContext
+public class EncoderContext
 private constructor(
     public val encodeFull: Boolean,
     public val clientParams: Set<Int>,
