@@ -111,7 +111,7 @@ constructor(
 
     private fun Player.closeClient() {
         MiscOutput.logout(this)
-        client.flushLowPriority()
+        client.flushHighPriority()
         client.close()
     }
 

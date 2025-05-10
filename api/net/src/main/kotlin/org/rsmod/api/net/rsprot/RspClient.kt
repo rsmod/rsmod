@@ -33,7 +33,7 @@ class RspClient(
         session.flush()
     }
 
-    override fun flushLowPriority() {
+    override fun flushHighPriority() {
         session.discardLowPriorityCategoryPackets()
         session.flush()
     }
