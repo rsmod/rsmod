@@ -35,6 +35,14 @@ public value class InlineByteBuf(public val backing: ByteArray) {
         return Cursor(value, curr.pos)
     }
 
+    public fun readInt(cursor: Cursor): Cursor {
+        val byte1 = (backing[cursor.pos].toInt() and 0xFF) shl 24
+        val byte2 = (backing[cursor.pos + 1].toInt() and 0xFF) shl 16
+        val byte3 = (backing[cursor.pos + 2].toInt() and 0xFF) shl 8
+        val byte4 = (backing[cursor.pos + 3].toInt() and 0xFF)
+        return Cursor(byte1 or byte2 or byte3 or byte4, cursor.pos + Int.SIZE_BYTES)
+    }
+
     public fun isReadable(cursor: Cursor): Boolean = cursor.pos < backing.size
 
     public fun newCursor(): Cursor = Cursor(0)

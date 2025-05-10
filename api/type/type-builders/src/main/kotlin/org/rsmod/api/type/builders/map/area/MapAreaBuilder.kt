@@ -50,7 +50,7 @@ public abstract class MapAreaBuilder : MapTypeBuilder() {
      *    // follow the format `a[x]_[z]` (e.g., `a50_50`, with no extension), where the numbers
      *    // correspond to the map square key's x and z values.
      *    // The file content must match the structure expected by [MapAreaDecoder].
-     *    resourceFile<MyAreaBuilder>("map/areas/a50_50")
+     *    resourceFile<MyAreaBuilder>("map/a50_50")
      * }
      * ```
      *

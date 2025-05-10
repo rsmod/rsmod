@@ -20,7 +20,6 @@ dependencies {
     implementation(projects.api.invPlugin)
     implementation(projects.api.net)
     implementation(projects.api.objPlugin)
-    implementation(projects.api.objSpawns)
     implementation(projects.api.parsers.jackson)
     implementation(projects.api.parsers.json)
     implementation(projects.api.parsers.toml)

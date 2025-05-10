@@ -1,5 +1,11 @@
 package org.rsmod.api.type.builders.map
 
 import org.rsmod.api.type.builders.map.area.MapAreaBuilder
+import org.rsmod.api.type.builders.map.npc.MapNpcSpawnBuilder
+import org.rsmod.api.type.builders.map.obj.MapObjSpawnBuilder
 
-public data class MapBuilderList(public val areas: Collection<MapAreaBuilder>)
+public data class MapBuilderList(
+    val areas: Collection<MapAreaBuilder>,
+    val npcs: Collection<MapNpcSpawnBuilder>,
+    val objs: Collection<MapObjSpawnBuilder>,
+)

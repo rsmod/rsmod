@@ -19,16 +19,32 @@ import org.rsmod.api.cache.map.area.MapAreaDefinition
 import org.rsmod.api.cache.map.loc.MapLoc
 import org.rsmod.api.cache.map.loc.MapLocDecoder
 import org.rsmod.api.cache.map.loc.MapLocDefinition
+import org.rsmod.api.cache.map.npc.MapNpcDefinition
+import org.rsmod.api.cache.map.npc.MapNpcListDecoder
+import org.rsmod.api.cache.map.npc.MapNpcListDefinition
+import org.rsmod.api.cache.map.obj.MapObjDefinition
+import org.rsmod.api.cache.map.obj.MapObjListDecoder
+import org.rsmod.api.cache.map.obj.MapObjListDefinition
 import org.rsmod.api.cache.map.tile.MapTileDecoder
 import org.rsmod.api.cache.util.InlineByteBuf
 import org.rsmod.api.cache.util.readOrNull
 import org.rsmod.api.cache.util.toInlineBuf
+import org.rsmod.api.registry.npc.NpcRegistry
+import org.rsmod.api.registry.npc.isSuccess
+import org.rsmod.api.registry.obj.ObjRegistry
+import org.rsmod.api.registry.obj.isSuccess
 import org.rsmod.game.area.AreaIndex
+import org.rsmod.game.entity.Npc
 import org.rsmod.game.loc.LocEntity
 import org.rsmod.game.map.LocZoneStorage
 import org.rsmod.game.map.collision.toggleLoc
 import org.rsmod.game.map.xtea.XteaMap
+import org.rsmod.game.obj.Obj
+import org.rsmod.game.obj.ObjEntity
+import org.rsmod.game.obj.ObjScope
 import org.rsmod.game.type.loc.LocTypeList
+import org.rsmod.game.type.npc.NpcTypeList
+import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.square.MapSquareGrid
 import org.rsmod.map.square.MapSquareKey
@@ -47,6 +63,10 @@ constructor(
     private val locZones: LocZoneStorage,
     private val locTypes: LocTypeList,
     private val areaIndex: AreaIndex,
+    private val npcTypes: NpcTypeList,
+    private val npcRegistry: NpcRegistry,
+    private val objTypes: ObjTypeList,
+    private val objRegistry: ObjRegistry,
     private val xteaMap: XteaMap,
 ) {
     public fun decodeAll(): Unit =
@@ -67,9 +87,11 @@ constructor(
             val name = "${mapSquareKey.x}_${mapSquareKey.z}"
             val key = SymmetricKey.fromIntArray(keyArray)
             val map = read(Js5Archives.MAPS, "m$name", file = 0).use(ByteBuf::toInlineBuf)
-            val loc = read(Js5Archives.MAPS, "l$name", file = 0, key).use(ByteBuf::toInlineBuf)
+            val locs = read(Js5Archives.MAPS, "l$name", file = 0, key).use(ByteBuf::toInlineBuf)
+            val npcs = readOrNull(Js5Archives.MAPS, "n$name")?.use(ByteBuf::toInlineBuf)
+            val objs = readOrNull(Js5Archives.MAPS, "o$name")?.use(ByteBuf::toInlineBuf)
             val areas = readOrNull(Js5Archives.MAPS, "a$name")?.use(ByteBuf::toInlineBuf)
-            MapBuffer(mapSquareKey, map, loc, areas)
+            MapBuffer(mapSquareKey, map, locs, npcs, objs, areas)
         }
 
     private suspend fun decodeAll(buffers: List<MapBuffer>): List<DecodedMap> = coroutineScope {
@@ -90,6 +112,8 @@ constructor(
     private fun putSpawns(builder: GameMapBuilder, decodedMaps: List<DecodedMap>) {
         for (decoded in decodedMaps) {
             putLocs(builder, collision, locTypes, decoded.key, decoded.map, decoded.locs)
+            decoded.npcs?.let { putNpcs(npcRegistry, npcTypes, decoded.key, it) }
+            decoded.objs?.let { putObjs(objRegistry, objTypes, decoded.key, it) }
         }
     }
 
@@ -220,6 +244,41 @@ constructor(
                 }
             }
         }
+
+        public fun putNpcs(
+            registry: NpcRegistry,
+            types: NpcTypeList,
+            square: MapSquareKey,
+            npcs: MapNpcListDefinition,
+        ) {
+            val base = square.toCoords(level = 0)
+            for (packed in npcs.packedSpawns.intIterator()) {
+                val def = MapNpcDefinition(packed)
+                val coords = base.translate(def.localX, def.localZ, def.level)
+                val type = types[def.id] ?: error("Invalid npc type: $def ($square)")
+                val npc = Npc(type, coords).apply { respawns = true }
+                val add = registry.add(npc)
+                check(add.isSuccess()) { "Could not spawn npc: $npc" }
+            }
+        }
+
+        public fun putObjs(
+            registry: ObjRegistry,
+            types: ObjTypeList,
+            square: MapSquareKey,
+            objs: MapObjListDefinition,
+        ) {
+            val base = square.toCoords(level = 0)
+            for (packed in objs.packedSpawns.longIterator()) {
+                val def = MapObjDefinition(packed)
+                val coords = base.translate(def.localX, def.localZ, def.level)
+                val type = types[def.id] ?: error("Invalid obj type: $def ($square)")
+                val entity = ObjEntity(type.id, count = def.count, scope = ObjScope.Perm.id)
+                val obj = Obj(coords, entity, creationCycle = 0, receiverId = Obj.NULL_RECEIVER_ID)
+                val add = registry.add(obj)
+                check(add.isSuccess()) { "Could not spawn obj: $obj" }
+            }
+        }
     }
 }
 
@@ -227,13 +286,24 @@ private class MapBuffer(
     val key: MapSquareKey,
     val map: InlineByteBuf,
     val locs: InlineByteBuf,
+    val npcs: InlineByteBuf?,
+    val objs: InlineByteBuf?,
     val areas: InlineByteBuf?,
 ) {
     suspend fun decode(): DecodedMap = coroutineScope {
         val mapDef = async { MapTileDecoder.decode(map) }
         val locDef = async { MapLocDecoder.decode(locs) }
-        val areaDef = async { areas?.let(MapAreaDecoder::decode) }
-        DecodedMap(key, mapDef.await(), locDef.await(), areaDef.await())
+        val npcDef = if (npcs != null) async { MapNpcListDecoder.decode(npcs) } else null
+        val objDef = if (objs != null) async { MapObjListDecoder.decode(objs) } else null
+        val areaDef = if (areas != null) async { MapAreaDecoder.decode(areas) } else null
+        DecodedMap(
+            key = key,
+            map = mapDef.await(),
+            locs = locDef.await(),
+            npcs = npcDef?.await(),
+            objs = objDef?.await(),
+            areas = areaDef?.await(),
+        )
     }
 }
 
@@ -241,5 +311,7 @@ private data class DecodedMap(
     val key: MapSquareKey,
     val map: SimpleMapDefinition,
     val locs: MapLocDefinition,
+    val npcs: MapNpcListDefinition?,
+    val objs: MapObjListDefinition?,
     val areas: MapAreaDefinition?,
 )

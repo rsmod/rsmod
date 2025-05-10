@@ -13,6 +13,7 @@ import org.rsmod.api.script.onEvent
 import org.rsmod.game.MapClock
 import org.rsmod.game.client.Client
 import org.rsmod.game.entity.Npc
+import org.rsmod.game.entity.NpcList
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.npc.NpcStateEvents
 import org.rsmod.game.entity.player.SessionStateEvent
@@ -29,6 +30,7 @@ constructor(
     private val service: NetworkService<Player>,
     private val objTypes: ObjTypeList,
     private val regionReg: RegionRegistry,
+    private val npcList: NpcList,
 ) : PluginScript() {
     override fun ScriptContext.startup() {
         check(RSProtConstants.REVISION == Build.MAJOR) {
@@ -45,6 +47,14 @@ constructor(
 
     private fun initService() {
         service.setCommunicationThread(Thread.currentThread())
+        allocateExistingNpcs()
+    }
+
+    // Allocate avatars for npcs that were spawned before the plugin or service was available.
+    private fun allocateExistingNpcs() {
+        for (npc in npcList) {
+            createNpcAvatar(npc)
+        }
     }
 
     private fun updateService() {
