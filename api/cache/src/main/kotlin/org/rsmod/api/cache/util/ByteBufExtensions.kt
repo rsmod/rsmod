@@ -106,7 +106,7 @@ public fun ByteBuf.readUnsignedSmallSmartPlusOne(): Int {
     return if (peak < 128) readUnsignedByte().toInt() - 1 else readUnsignedShort() - 32769
 }
 
-internal fun ByteBuf.toInlineBuf(): InlineByteBuf =
+public fun ByteBuf.toInlineBuf(): InlineByteBuf =
     if (hasArray()) {
         val bytes = array().copyOf(writerIndex())
         InlineByteBuf(bytes)
