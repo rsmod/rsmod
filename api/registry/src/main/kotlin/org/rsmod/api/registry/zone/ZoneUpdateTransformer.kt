@@ -5,6 +5,7 @@ import net.rsprot.protocol.game.outgoing.util.OpFlags
 import net.rsprot.protocol.game.outgoing.zone.payload.LocAddChangeV2
 import net.rsprot.protocol.game.outgoing.zone.payload.LocAnim
 import net.rsprot.protocol.game.outgoing.zone.payload.LocDel
+import net.rsprot.protocol.game.outgoing.zone.payload.MapAnim
 import net.rsprot.protocol.game.outgoing.zone.payload.MapProjAnim
 import net.rsprot.protocol.game.outgoing.zone.payload.ObjAdd
 import net.rsprot.protocol.game.outgoing.zone.payload.ObjCount
@@ -113,7 +114,12 @@ public object ZoneUpdateTransformer {
         return SoundArea(synth, delay, loops, radius, size, zoneGrid.x, zoneGrid.z)
     }
 
-    public fun toMapProjAnim(projAnim: ProjAnim): ZoneProt {
+    public fun toMapAnimProt(spotanim: Int, coord: CoordGrid, height: Int, delay: Int): ZoneProt {
+        val zoneGrid = ZoneGrid.from(coord)
+        return MapAnim(spotanim, delay, height, zoneGrid.x, zoneGrid.z)
+    }
+
+    public fun toMapProjAnimProt(projAnim: ProjAnim): ZoneProt {
         return MapProjAnim(
             id = projAnim.spotanim,
             startHeight = projAnim.startHeight,

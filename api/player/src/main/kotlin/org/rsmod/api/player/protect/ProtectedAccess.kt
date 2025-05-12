@@ -2753,6 +2753,15 @@ public class ProtectedAccess(
         repo.locAnim(loc, seq)
     }
 
+    /* Map helper functions */
+    public fun spotanimMap(
+        repo: WorldRepository,
+        spotanim: SpotanimType,
+        coord: CoordGrid,
+        height: Int = 0,
+        delay: Int = 0,
+    ): Unit = repo.spotanimMap(spotanim, coord, height, delay)
+
     /* Message game helper functions */
     public fun mes(text: String): Unit = player.mes(text, ChatType.GameMessage)
 

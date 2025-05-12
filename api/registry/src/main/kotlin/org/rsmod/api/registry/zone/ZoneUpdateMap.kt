@@ -85,9 +85,15 @@ public class ZoneUpdateMap {
         updates += prot
     }
 
+    public fun mapAnim(spotanim: Int, coord: CoordGrid, height: Int, delay: Int) {
+        val updates = coord.getOrPutUpdateList()
+        val prot = ZoneUpdateTransformer.toMapAnimProt(spotanim, coord, height, delay)
+        updates += prot
+    }
+
     public fun mapProjAnim(projAnim: ProjAnim) {
         val updates = projAnim.startCoord.getOrPutUpdateList()
-        val prot = ZoneUpdateTransformer.toMapProjAnim(projAnim)
+        val prot = ZoneUpdateTransformer.toMapProjAnimProt(projAnim)
         updates += prot
     }
 

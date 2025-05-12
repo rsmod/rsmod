@@ -47,6 +47,15 @@ constructor(private val zoneUpdates: ZoneUpdateMap, private val projAnims: ProjA
         soundArea(source.coords, synth, delay, loops, radius, source.size)
     }
 
+    public fun spotanimMap(
+        spotanim: SpotanimType,
+        coord: CoordGrid,
+        height: Int = 0,
+        delay: Int = 0,
+    ) {
+        zoneUpdates.mapAnim(spotanim.id, coord, height, delay)
+    }
+
     public fun projAnim(projAnim: ProjAnim) {
         zoneUpdates.mapProjAnim(projAnim)
     }
