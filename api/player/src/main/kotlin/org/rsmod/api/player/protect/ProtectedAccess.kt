@@ -2863,6 +2863,9 @@ public class ProtectedAccess(
     public fun ocUncert(type: ObjType, objTypes: ObjTypeList = context.objTypes): UnpackedObjType =
         objTypes.uncert(objTypes[type])
 
+    public fun ocName(type: ObjType, objTypes: ObjTypeList = context.objTypes): String =
+        objTypes[type].name
+
     public fun <T : Any> ocParam(
         obj: InvObj,
         type: ParamType<T>,
