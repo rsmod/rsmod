@@ -4,6 +4,7 @@ import kotlin.math.abs
 import kotlin.math.max
 import org.rsmod.map.square.MapSquareGrid
 import org.rsmod.map.square.MapSquareKey
+import org.rsmod.map.util.Bounds
 import org.rsmod.map.util.Translation
 
 @JvmInline
@@ -39,11 +40,13 @@ public value class CoordGrid(public val packed: Int) {
         lz: Int,
     ) : this(pack(level, mx, mz, lx, lz))
 
-    public fun copy(x: Int = this.x, z: Int = this.z, level: Int = this.level): CoordGrid =
-        CoordGrid(x, z, level)
+    public fun copy(x: Int = this.x, z: Int = this.z, level: Int = this.level): CoordGrid {
+        return CoordGrid(x, z, level)
+    }
 
-    public fun translate(xOffset: Int, zOffset: Int, levelOffset: Int = 0): CoordGrid =
-        CoordGrid(x = x + xOffset, z = z + zOffset, level = level + levelOffset)
+    public fun translate(xOffset: Int, zOffset: Int, levelOffset: Int = 0): CoordGrid {
+        return CoordGrid(x = x + xOffset, z = z + zOffset, level = level + levelOffset)
+    }
 
     public fun translateX(offset: Int): CoordGrid = translate(offset, 0, 0)
 
@@ -51,8 +54,27 @@ public value class CoordGrid(public val packed: Int) {
 
     public fun translateLevel(offset: Int): CoordGrid = translate(0, 0, offset)
 
-    public fun translate(translation: Translation): CoordGrid =
-        translate(translation.x, translation.z, translation.level)
+    public fun translate(translation: Translation): CoordGrid {
+        return translate(translation.x, translation.z, translation.level)
+    }
+
+    /**
+     * Returns a new [CoordGrid] whose `x` and `z` coordinates are clamped within the given
+     * [bounds].
+     *
+     * If this coordinate lies outside the [bounds] on the X or Z axis, the resulting coordinate
+     * will be shifted to the nearest edge within those dimensions.
+     *
+     * @throws IllegalArgumentException if [level] does not match [Bounds.level].
+     */
+    public fun coerceIn(bounds: Bounds): CoordGrid {
+        require(level == bounds.level) {
+            "Coord and bounds must be on same level. (coord=$this, bounds=$bounds)"
+        }
+        val coercedX = x.coerceIn(bounds.x, bounds.x + bounds.width - 1)
+        val coercedZ = z.coerceIn(bounds.z, bounds.z + bounds.length - 1)
+        return CoordGrid(coercedX, coercedZ, level)
+    }
 
     /**
      * Chebyshev distance between two [org.rsmod.map.CoordGrid]s is used for specific scenarios. For
