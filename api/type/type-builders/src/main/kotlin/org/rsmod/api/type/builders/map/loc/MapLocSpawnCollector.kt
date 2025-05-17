@@ -20,7 +20,7 @@ public class MapLocSpawnCollector {
     private fun Iterable<MapLocSpawnBuilder>.toMapDefinitions():
         Map<MapSquareKey, MapLocListDefinition> {
         val resources = flatMap(MapLocSpawnBuilder::resources).resourceSpawnTypes()
-        return resources.mergeToMap()
+        return resources.groupDistinctKeys()
     }
 
     private fun Iterable<MapResourceFile>.resourceSpawnTypes(): List<MapSpawnType> {
@@ -62,12 +62,17 @@ public class MapLocSpawnCollector {
         return MapSquareKey(x, z)
     }
 
-    private fun List<MapSpawnType>.mergeToMap(): Map<MapSquareKey, MapLocListDefinition> {
-        val merged = mutableMapOf<MapSquareKey, MapLocListDefinition>()
-        for ((mapSquare, def) in this) {
-            merged.merge(mapSquare, def, MapLocListDefinition::merge)
+    private fun List<MapSpawnType>.groupDistinctKeys(): Map<MapSquareKey, MapLocListDefinition> {
+        val grouped = groupBy { it.mapSquare }
+
+        val duplicates = grouped.filterValues { it.size > 1 }
+        if (duplicates.isNotEmpty()) {
+            val duplicateKeys = duplicates.keys.joinToString(", ")
+            val message = "Duplicate MapSquareKeys found for loc spawn files: $duplicateKeys"
+            throw IllegalStateException(message)
         }
-        return merged
+
+        return grouped.mapValues { (_, entries) -> entries.single().spawns }
     }
 
     private data class MapSpawnType(val mapSquare: MapSquareKey, val spawns: MapLocListDefinition)
