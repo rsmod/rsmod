@@ -1869,11 +1869,26 @@ public class ProtectedAccess(
      *   the coroutine suspension.
      * @see [resumeWithMainModalProtectedAccess]
      */
-    public suspend fun <T : Any> await(input: KClass<T>): T {
+    private suspend fun <T : Any> await(input: KClass<T>): T {
         val modal = player.ui.getModalOrNull(components.mainmodal)
         val value = coroutine.pause(input)
         return resumeWithMainModalProtectedAccess(value, modal)
     }
+
+    /**
+     * Suspends the coroutine until a [ResumePauseButtonInput] is received.
+     *
+     * This function is used in specific scenarios where the player must wait for a non-standard
+     * input - such as a button click from an interface like the bank tutorial or items kept on
+     * death. It ensures that the player's current modal remains unchanged during the suspension to
+     * maintain protected access.
+     *
+     * @return the received [ResumePauseButtonInput] instance.
+     * @throws ProtectedAccessLostException if the player could not retain protected access after
+     *   the coroutine suspension.
+     * @see await
+     */
+    public suspend fun pauseButton(): ResumePauseButtonInput = await(ResumePauseButtonInput::class)
 
     /**
      * @throws ProtectedAccessLostException if the player could not retain protected access after

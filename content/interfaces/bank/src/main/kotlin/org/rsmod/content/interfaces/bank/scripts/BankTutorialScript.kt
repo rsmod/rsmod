@@ -2,7 +2,6 @@ package org.rsmod.content.interfaces.bank.scripts
 
 import jakarta.inject.Inject
 import org.rsmod.api.config.constants
-import org.rsmod.api.player.input.ResumePauseButtonInput
 import org.rsmod.api.player.output.runClientScript
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.vars.intVarBit
@@ -50,7 +49,7 @@ class BankTutorialScript @Inject constructor(private val eventBus: EventBus) : P
         player.showPage(0)
         access.ifSetEvents(bank_components.tutorial_close_button, -1..-1, IfEvent.PauseButton)
 
-        access.await(ResumePauseButtonInput::class)
+        access.pauseButton()
     }
 
     private suspend fun ProtectedAccess.selectTutorial() {

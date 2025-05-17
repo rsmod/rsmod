@@ -6,7 +6,6 @@ import kotlin.math.abs
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.config.refs.synths
 import org.rsmod.api.market.MarketPrices
-import org.rsmod.api.player.input.ResumePauseButtonInput
 import org.rsmod.api.player.isInCombat
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.output.soundSynth
@@ -90,7 +89,7 @@ constructor(
     }
 
     private suspend fun ProtectedAccess.initChangeListener(settings: DeathSettings) {
-        val update = await(ResumePauseButtonInput::class)
+        val update = pauseButton()
 
         ifClose()
 
