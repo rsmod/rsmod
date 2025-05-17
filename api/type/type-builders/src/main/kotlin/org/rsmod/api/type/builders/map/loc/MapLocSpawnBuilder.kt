@@ -21,7 +21,7 @@ public abstract class MapLocSpawnBuilder : MapTypeBuilder() {
      *    // and follow the format `l[x]_[z]` (e.g., `l50_50`, with no extension), where the numbers
      *    // correspond to the map square key's x and z values.
      *    // The file content must match the structure expected by [MapLocListDecoder].
-     *    resourceFile<MyNpcSpawns>("map/l50_50")
+     *    resourceFile<MyLocSpawns>("map/l50_50")
      * }
      * ```
      */
