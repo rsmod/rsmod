@@ -116,11 +116,11 @@ public fun ByteBuf.writeIntSmart(value: Int): ByteBuf {
     return this
 }
 
-public fun ByteBuf.writeUnsignedSmartInt(v: Int): ByteBuf =
-    if (v > Short.MAX_VALUE) {
-        writeIntSmart(v)
+public fun ByteBuf.writeUnsignedSmartInt(value: Int): ByteBuf =
+    if (value > Short.MAX_VALUE) {
+        writeIntSmart(value)
     } else {
-        writeUnsignedShortSmart(v)
+        writeUnsignedShortSmart(value)
     }
 
 public fun ByteBuf.toInlineBuf(): InlineByteBuf =
