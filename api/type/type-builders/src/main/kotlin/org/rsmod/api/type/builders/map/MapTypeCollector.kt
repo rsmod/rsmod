@@ -2,10 +2,13 @@ package org.rsmod.api.type.builders.map
 
 import jakarta.inject.Inject
 import org.rsmod.api.cache.map.area.MapAreaDefinition
+import org.rsmod.api.cache.map.loc.MapLocListDefinition
 import org.rsmod.api.cache.map.npc.MapNpcListDefinition
 import org.rsmod.api.cache.map.obj.MapObjListDefinition
 import org.rsmod.api.type.builders.map.area.MapAreaBuilder
 import org.rsmod.api.type.builders.map.area.MapAreaCollector
+import org.rsmod.api.type.builders.map.loc.MapLocSpawnBuilder
+import org.rsmod.api.type.builders.map.loc.MapLocSpawnCollector
 import org.rsmod.api.type.builders.map.npc.MapNpcSpawnBuilder
 import org.rsmod.api.type.builders.map.npc.MapNpcSpawnCollector
 import org.rsmod.api.type.builders.map.obj.MapObjSpawnBuilder
@@ -16,11 +19,18 @@ public class MapTypeCollector
 @Inject
 constructor(
     private val areas: MapAreaCollector,
+    private val locs: MapLocSpawnCollector,
     private val npcs: MapNpcSpawnCollector,
     private val objs: MapObjSpawnCollector,
 ) {
     public fun areas(builders: Iterable<MapAreaBuilder>): Map<MapSquareKey, MapAreaDefinition> {
         return areas.loadAndCollect(builders)
+    }
+
+    public fun locs(
+        builders: Iterable<MapLocSpawnBuilder>
+    ): Map<MapSquareKey, MapLocListDefinition> {
+        return locs.loadAndCollect(builders)
     }
 
     public fun npcs(

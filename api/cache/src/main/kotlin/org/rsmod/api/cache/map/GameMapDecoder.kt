@@ -16,9 +16,9 @@ import org.rsmod.api.cache.Js5Archives
 import org.rsmod.api.cache.map.MapDefinition.Companion.LINK_BELOW
 import org.rsmod.api.cache.map.area.MapAreaDecoder
 import org.rsmod.api.cache.map.area.MapAreaDefinition
-import org.rsmod.api.cache.map.loc.MapLoc
-import org.rsmod.api.cache.map.loc.MapLocDecoder
 import org.rsmod.api.cache.map.loc.MapLocDefinition
+import org.rsmod.api.cache.map.loc.MapLocListDecoder
+import org.rsmod.api.cache.map.loc.MapLocListDefinition
 import org.rsmod.api.cache.map.npc.MapNpcDefinition
 import org.rsmod.api.cache.map.npc.MapNpcListDecoder
 import org.rsmod.api.cache.map.npc.MapNpcListDefinition
@@ -189,11 +189,11 @@ constructor(
             locTypes: LocTypeList,
             square: MapSquareKey,
             mapDef: SimpleMapDefinition,
-            locDef: MapLocDefinition,
+            locDef: MapLocListDefinition,
         ) {
             with(mapBuilder) {
-                for (packedLoc in locDef.locs.longIterator()) {
-                    val loc = MapLoc(packedLoc)
+                for (packedLoc in locDef.spawns.longIterator()) {
+                    val loc = MapLocDefinition(packedLoc)
                     val local = MapSquareGrid(loc.localX, loc.localZ, loc.level)
                     val tileFlags = mapDef[local.x, local.z, local.level].toInt()
                     val tileAboveFlags =
@@ -292,7 +292,7 @@ private class MapBuffer(
 ) {
     suspend fun decode(): DecodedMap = coroutineScope {
         val mapDef = async { MapTileDecoder.decode(map) }
-        val locDef = async { MapLocDecoder.decode(locs) }
+        val locDef = async { MapLocListDecoder.decode(locs) }
         val npcDef = if (npcs != null) async { MapNpcListDecoder.decode(npcs) } else null
         val objDef = if (objs != null) async { MapObjListDecoder.decode(objs) } else null
         val areaDef = if (areas != null) async { MapAreaDecoder.decode(areas) } else null
@@ -310,7 +310,7 @@ private class MapBuffer(
 private data class DecodedMap(
     val key: MapSquareKey,
     val map: SimpleMapDefinition,
-    val locs: MapLocDefinition,
+    val locs: MapLocListDefinition,
     val npcs: MapNpcListDefinition?,
     val objs: MapObjListDefinition?,
     val areas: MapAreaDefinition?,

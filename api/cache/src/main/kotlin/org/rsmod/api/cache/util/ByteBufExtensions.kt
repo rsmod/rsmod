@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf
 import org.openrs2.buffer.readString
 import org.openrs2.buffer.readUnsignedShortSmart
 import org.openrs2.buffer.writeString
+import org.openrs2.buffer.writeUnsignedShortSmart
 import org.rsmod.map.CoordGrid
 
 public fun ByteBuf.encodeConfig(encode: ByteBuf.() -> Unit): ByteBuf = apply {
@@ -105,6 +106,22 @@ public fun ByteBuf.readUnsignedSmallSmartPlusOne(): Int {
     val peak = getUnsignedByte(readerIndex())
     return if (peak < 128) readUnsignedByte().toInt() - 1 else readUnsignedShort() - 32769
 }
+
+public fun ByteBuf.writeIntSmart(value: Int): ByteBuf {
+    require(value > Short.MAX_VALUE)
+    require(value < (Int.MAX_VALUE - Short.MAX_VALUE))
+    val diff = value - Short.MAX_VALUE
+    writeShort(0xFFFF)
+    writeUnsignedShortSmart(diff)
+    return this
+}
+
+public fun ByteBuf.writeUnsignedSmartInt(v: Int): ByteBuf =
+    if (v > Short.MAX_VALUE) {
+        writeIntSmart(v)
+    } else {
+        writeUnsignedShortSmart(v)
+    }
 
 public fun ByteBuf.toInlineBuf(): InlineByteBuf =
     if (hasArray()) {
