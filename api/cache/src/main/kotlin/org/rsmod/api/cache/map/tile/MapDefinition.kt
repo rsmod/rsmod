@@ -1,7 +1,5 @@
-package org.rsmod.api.cache.map
+package org.rsmod.api.cache.map.tile
 
-import org.rsmod.api.cache.map.tile.TileOverlay
-import org.rsmod.api.cache.map.tile.TileUnderlay
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.square.MapSquareGrid
 

@@ -13,7 +13,6 @@ import org.openrs2.crypto.SymmetricKey
 import org.rsmod.annotations.GameCache
 import org.rsmod.annotations.InternalApi
 import org.rsmod.api.cache.Js5Archives
-import org.rsmod.api.cache.map.MapDefinition.Companion.LINK_BELOW
 import org.rsmod.api.cache.map.area.MapAreaDecoder
 import org.rsmod.api.cache.map.area.MapAreaDefinition
 import org.rsmod.api.cache.map.loc.MapLocDefinition
@@ -25,7 +24,9 @@ import org.rsmod.api.cache.map.npc.MapNpcListDefinition
 import org.rsmod.api.cache.map.obj.MapObjDefinition
 import org.rsmod.api.cache.map.obj.MapObjListDecoder
 import org.rsmod.api.cache.map.obj.MapObjListDefinition
+import org.rsmod.api.cache.map.tile.MapDefinition.Companion.LINK_BELOW
 import org.rsmod.api.cache.map.tile.MapTileDecoder
+import org.rsmod.api.cache.map.tile.SimpleMapDefinition
 import org.rsmod.api.cache.util.InlineByteBuf
 import org.rsmod.api.cache.util.readOrNull
 import org.rsmod.api.cache.util.toInlineBuf

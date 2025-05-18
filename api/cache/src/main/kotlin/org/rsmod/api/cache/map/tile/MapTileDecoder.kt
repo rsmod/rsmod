@@ -1,8 +1,6 @@
 package org.rsmod.api.cache.map.tile
 
 import io.netty.buffer.ByteBuf
-import org.rsmod.api.cache.map.MapDefinition
-import org.rsmod.api.cache.map.SimpleMapDefinition
 import org.rsmod.api.cache.util.InlineByteBuf
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.square.MapSquareGrid
