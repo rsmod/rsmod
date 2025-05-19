@@ -13,8 +13,6 @@ import net.rsprot.protocol.api.suppliers.NpcInfoSupplier
 import net.rsprot.protocol.api.suppliers.WorldEntityInfoSupplier
 import net.rsprot.protocol.common.client.OldSchoolClientType
 import net.rsprot.protocol.message.codec.incoming.provider.GameMessageConsumerRepositoryProvider
-import org.openrs2.cache.Store
-import org.rsmod.annotations.Js5Cache
 import org.rsmod.api.net.rsprot.provider.ExceptionHandlersProvider
 import org.rsmod.api.net.rsprot.provider.HuffmanProvider
 import org.rsmod.api.net.rsprot.provider.Js5GroupResponseProvider
@@ -30,13 +28,12 @@ import org.rsmod.game.entity.Player
 class NetworkFactory
 @Inject
 constructor(
-    @Js5Cache private val store: Store,
     private val messageConsumerProvider: MessageConsumerProvider,
     private val huffmanProvider: HuffmanProvider,
     private val connectionHandler: ConnectionHandler,
+    store: Js5Store,
 ) : AbstractNetworkServiceFactory<Player>() {
-    private val js5Store = Js5Store.from(store)
-    private val js5Groups = Js5GroupResponseProvider(js5Store)
+    private val js5Groups = Js5GroupResponseProvider(store)
     private val npcSupplier = NpcSupplier.provide()
 
     override val ports: List<Int> = listOf(43594)

@@ -12,6 +12,7 @@ import net.rsprot.protocol.loginprot.outgoing.LoginResponse
 import org.rsmod.api.account.AccountManager
 import org.rsmod.api.account.loader.request.AccountLoadAuth
 import org.rsmod.api.net.rsprot.player.AccountLoadResponseHook
+import org.rsmod.api.net.rsprot.provider.Js5Store
 import org.rsmod.api.pw.hash.PasswordHashing
 import org.rsmod.api.realm.Realm
 import org.rsmod.api.registry.account.AccountRegistry
@@ -35,8 +36,10 @@ private constructor(
     private val accountManager: AccountManager,
     private val passwordHashing: PasswordHashing,
     private val totp: Totp,
+    js5: Js5Store,
 ) : GameConnectionHandler<Player> {
     private val logger = InlineLogger()
+    private val js5Crc = js5.crc
 
     private val world: Int
         get() = config.world
@@ -52,6 +55,11 @@ private constructor(
 
         if (accountManager.isLoaderRejectingRequests()) {
             responseHandler.writeFailedResponse(LoginResponse.LoginServerNoReply)
+            return
+        }
+
+        if (!block.crc.validate(js5Crc)) {
+            responseHandler.writeFailedResponse(LoginResponse.OutOfDateReload)
             return
         }
 
