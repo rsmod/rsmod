@@ -40,7 +40,7 @@ public class Dialogue(
         val pages = alignment.generatePageList(text)
         for (page in pages) {
             val (pgText, lineCount) = page
-            val lineHeight = lineHeight(lineCount)
+            val lineHeight = mesLineHeight(lineCount)
             access.mesbox(pgText, lineHeight)
         }
     }
@@ -99,7 +99,7 @@ public class Dialogue(
         val pages = alignment.generatePageList(text)
         for (page in pages) {
             val (pgText, lineCount) = page
-            val lineHeight = lineHeight(lineCount)
+            val lineHeight = chatLineHeight(lineCount)
             access.chatPlayer(pgText, mesanim, lineCount, lineHeight)
         }
     }
@@ -108,7 +108,7 @@ public class Dialogue(
         val pages = alignment.generatePageList(text)
         for (page in pages) {
             val (pgText, lineCount) = page
-            val lineHeight = lineHeight(lineCount)
+            val lineHeight = chatLineHeight(lineCount)
             access.chatPlayer(pgText, mesanim = null, lineCount, lineHeight)
         }
     }
@@ -117,7 +117,7 @@ public class Dialogue(
         val pages = alignment.generatePageList(text)
         for (page in pages) {
             val (pgText, lineCount) = page
-            val lineHeight = lineHeight(lineCount)
+            val lineHeight = chatLineHeight(lineCount)
             access.chatNpc(
                 title = npcVisName,
                 npc = resolvedNpc,
@@ -134,7 +134,7 @@ public class Dialogue(
         val pages = alignment.generatePageList(text)
         for (page in pages) {
             val (pgText, lineCount) = page
-            val lineHeight = lineHeight(lineCount)
+            val lineHeight = chatLineHeight(lineCount)
             access.chatNpcNoTurn(
                 title = npcVisName,
                 npc = resolvedNpc,
@@ -150,7 +150,7 @@ public class Dialogue(
         val pages = alignment.generatePageList(text)
         for (page in pages) {
             val (pgText, lineCount) = page
-            val lineHeight = lineHeight(lineCount)
+            val lineHeight = chatLineHeight(lineCount)
             access.chatNpc(
                 title = npcVisName,
                 npc = resolvedNpc,
@@ -171,7 +171,7 @@ public class Dialogue(
         val pages = alignment.generatePageList(text)
         for (page in pages) {
             val (pgText, lineCount) = page
-            val lineHeight = lineHeight(lineCount)
+            val lineHeight = chatLineHeight(lineCount)
             access.chatNpcSpecific(
                 type.name,
                 resolvedNpc.type,
@@ -192,7 +192,7 @@ public class Dialogue(
         val pages = alignment.generatePageList(text)
         for (page in pages) {
             val (pgText, lineCount) = page
-            val lineHeight = lineHeight(lineCount)
+            val lineHeight = chatLineHeight(lineCount)
             access.chatNpcSpecific(title, type, pgText, mesanim, lineCount, lineHeight)
         }
     }
@@ -300,7 +300,9 @@ public class Dialogue(
 
     public fun ocUncert(type: ObjType): UnpackedObjType = access.ocUncert(type)
 
-    private fun lineHeight(lineCount: Int): Int = alignment.lineHeight(lineCount)
+    private fun chatLineHeight(lineCount: Int): Int = alignment.chatLineHeight(lineCount)
+
+    private fun mesLineHeight(lineCount: Int): Int = alignment.mesLineHeight(lineCount)
 
     private fun resolveNpcVisName(): String {
         val type = resolvedNpc.type
