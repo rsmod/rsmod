@@ -1886,7 +1886,7 @@ public class ProtectedAccess(
      * @return the received [ResumePauseButtonInput] instance.
      * @throws ProtectedAccessLostException if the player could not retain protected access after
      *   the coroutine suspension.
-     * @see await
+     * @see [await]
      */
     public suspend fun pauseButton(): ResumePauseButtonInput = await(ResumePauseButtonInput::class)
 
