@@ -394,6 +394,10 @@ public class Npc(
         patrolIdleCycles = -1
     }
 
+    public fun isType(type: UnpackedNpcType): Boolean = this.type.isType(type)
+
+    public fun isVisType(type: UnpackedNpcType): Boolean = this.visType.isType(type)
+
     /**
      * Returns the headbar associated with [headbar] param for the **current** npc [visType].
      *
