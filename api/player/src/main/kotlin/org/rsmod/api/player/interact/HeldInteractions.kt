@@ -456,7 +456,7 @@ constructor(
         slot: Int,
         count: Int = Int.MAX_VALUE,
         duration: Int = this.lootDropDuration ?: constants.lootdrop_duration,
-        reveal: Int = duration - ObjRepository.DEFAULT_REVEAL_DELTA,
+        reveal: Int = ObjRepository.DEFAULT_REVEAL_DELAY,
         coords: CoordGrid = this.coords,
     ): Boolean {
         val invObj = inventory[slot] ?: return false

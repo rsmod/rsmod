@@ -26,11 +26,7 @@ constructor(
     private val delDurations = ArrayDeque<ObjDelDuration>()
     private val addDelayed = ArrayDeque<ObjAddDelayed>()
 
-    public fun add(
-        obj: Obj,
-        duration: Int,
-        reveal: Int = duration - DEFAULT_REVEAL_DELTA,
-    ): Boolean {
+    public fun add(obj: Obj, duration: Int, reveal: Int = DEFAULT_REVEAL_DELAY): Boolean {
         val register = register(obj, duration, reveal)
         return register.isSuccess()
     }
@@ -58,7 +54,7 @@ constructor(
         duration: Int,
         receiver: Player? = null,
         count: Int = 1,
-        reveal: Int = duration - DEFAULT_REVEAL_DELTA,
+        reveal: Int = duration - DEFAULT_REVEAL_DELAY,
     ): Obj {
         val obj =
             if (receiver != null) {
@@ -75,7 +71,7 @@ constructor(
         coords: CoordGrid,
         duration: Int,
         receiver: Player? = null,
-        reveal: Int = duration - DEFAULT_REVEAL_DELTA,
+        reveal: Int = duration - DEFAULT_REVEAL_DELAY,
     ): Obj {
         val obj =
             if (receiver != null) {
@@ -207,6 +203,6 @@ constructor(
         ObjCycleDuration(obj, triggerCycle)
 
     public companion object {
-        public const val DEFAULT_REVEAL_DELTA: Int = 100
+        public const val DEFAULT_REVEAL_DELAY: Int = 100
     }
 }
