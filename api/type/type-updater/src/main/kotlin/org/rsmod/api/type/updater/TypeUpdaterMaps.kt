@@ -14,6 +14,8 @@ import org.rsmod.api.cache.map.npc.MapNpcListDefinition
 import org.rsmod.api.cache.map.npc.MapNpcListEncoder
 import org.rsmod.api.cache.map.obj.MapObjListDefinition
 import org.rsmod.api.cache.map.obj.MapObjListEncoder
+import org.rsmod.api.cache.map.tile.MapTileByteDefinition
+import org.rsmod.api.cache.map.tile.MapTileByteEncoder
 import org.rsmod.api.cache.util.EncoderContext
 import org.rsmod.api.type.builders.map.MapBuilderList
 import org.rsmod.api.type.builders.map.MapTypeCollector
@@ -36,9 +38,10 @@ constructor(
     private fun encodeAll(builders: MapBuilderList) {
         val areas = collector.areas(builders.areas)
         val locs = collector.locs(builders.locs)
+        val maps = collector.maps(builders.maps)
         val npcs = collector.npcs(builders.npcs)
         val objs = collector.objs(builders.objs)
-        val updates = MapUpdates(areas, locs, npcs, objs)
+        val updates = MapUpdates(areas, locs, maps, npcs, objs)
         encodeCacheMaps(updates, gameCachePath, EncoderContext.server(emptySet(), emptySet()))
         encodeCacheMaps(updates, js5CachePath, EncoderContext.client(emptySet(), emptySet()))
     }
@@ -46,6 +49,7 @@ constructor(
     private data class MapUpdates(
         val areas: Map<MapSquareKey, MapAreaDefinition>,
         val locs: Map<MapSquareKey, MapLocListDefinition>,
+        val maps: Map<MapSquareKey, MapTileByteDefinition>,
         val npcs: Map<MapSquareKey, MapNpcListDefinition>,
         val objs: Map<MapSquareKey, MapObjListDefinition>,
     )
@@ -53,7 +57,8 @@ constructor(
     private fun encodeCacheMaps(updates: MapUpdates, cachePath: Path, ctx: EncoderContext) {
         Cache.open(cachePath).use { cache ->
             MapAreaEncoder.encodeAll(cache, updates.areas, ctx)
-            MapLocListEncoder.encodeAll(cache, updates.locs, xteaMap, ctx)
+            MapLocListEncoder.encodeAll(cache, updates.locs, xteaMap)
+            MapTileByteEncoder.encodeAll(cache, updates.maps)
             MapNpcListEncoder.encodeAll(cache, updates.npcs, ctx)
             MapObjListEncoder.encodeAll(cache, updates.objs, ctx)
         }

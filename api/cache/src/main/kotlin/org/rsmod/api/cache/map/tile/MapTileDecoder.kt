@@ -6,9 +6,9 @@ import org.rsmod.map.CoordGrid
 import org.rsmod.map.square.MapSquareGrid
 
 public object MapTileDecoder {
-    public fun decode(buf: InlineByteBuf): SimpleMapDefinition {
+    public fun decode(buf: InlineByteBuf): MapTileSimpleDefinition {
         var cursor = buf.newCursor()
-        val def = SimpleMapDefinition()
+        val def = MapTileSimpleDefinition()
         for (level in 0 until CoordGrid.LEVEL_COUNT) {
             for (x in 0 until MapSquareGrid.LENGTH) {
                 for (z in 0 until MapSquareGrid.LENGTH) {
@@ -27,28 +27,28 @@ public object MapTileDecoder {
                                 cursor = buf.readShort(cursor)
                                 val id = cursor.value.toShort().toInt()
                                 if (id != 0) {
-                                    def[x, z, level] = SimpleMapDefinition.COLOURED
+                                    def[x, z, level] = MapTileSimpleDefinition.COLOURED
                                 }
                             }
                             opcode <= 81 -> {
                                 val rule = (opcode - 49).toByte().toInt()
-                                if ((rule and MapDefinition.BLOCK_MAP_SQUARE) != 0) {
-                                    def[x, z, level] = SimpleMapDefinition.BLOCK_MAP_SQUARE
+                                if ((rule and MapTileDefinition.BLOCK_MAP_SQUARE) != 0) {
+                                    def[x, z, level] = MapTileSimpleDefinition.BLOCK_MAP_SQUARE
                                 }
-                                if ((rule and MapDefinition.LINK_BELOW) != 0) {
-                                    def[x, z, level] = SimpleMapDefinition.LINK_BELOW
+                                if ((rule and MapTileDefinition.LINK_BELOW) != 0) {
+                                    def[x, z, level] = MapTileSimpleDefinition.LINK_BELOW
                                     if (level == 1) {
-                                        def[x, z, 0] = SimpleMapDefinition.BRIDGE
+                                        def[x, z, 0] = MapTileSimpleDefinition.BRIDGE
                                     }
                                 }
-                                if ((rule and MapDefinition.REMOVE_ROOFS) != 0) {
-                                    def[x, z, level] = SimpleMapDefinition.REMOVE_ROOFS
+                                if ((rule and MapTileDefinition.REMOVE_ROOFS) != 0) {
+                                    def[x, z, level] = MapTileSimpleDefinition.REMOVE_ROOFS
                                 }
                             }
                             else -> {
                                 val id = (opcode - 81).toShort().toInt()
                                 if (id != 0) {
-                                    def[x, z, level] = SimpleMapDefinition.COLOURED
+                                    def[x, z, level] = MapTileSimpleDefinition.COLOURED
                                 }
                             }
                         }
@@ -60,7 +60,7 @@ public object MapTileDecoder {
     }
 
     // This provides a more detailed view of all the configs per tile.
-    public fun decode(buf: ByteBuf): MapDefinition {
+    public fun decode(buf: ByteBuf): MapTileDefinition {
         val tileHeights = hashMapOf<MapSquareGrid, Int>()
         val overlays = hashMapOf<MapSquareGrid, TileOverlay>()
         val underlays = hashMapOf<MapSquareGrid, TileUnderlay>()
@@ -104,6 +104,6 @@ public object MapTileDecoder {
                 }
             }
         }
-        return MapDefinition(tileHeights, rules, overlays, underlays)
+        return MapTileDefinition(tileHeights, rules, overlays, underlays)
     }
 }

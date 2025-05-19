@@ -24,9 +24,8 @@ import org.rsmod.api.cache.map.npc.MapNpcListDefinition
 import org.rsmod.api.cache.map.obj.MapObjDefinition
 import org.rsmod.api.cache.map.obj.MapObjListDecoder
 import org.rsmod.api.cache.map.obj.MapObjListDefinition
-import org.rsmod.api.cache.map.tile.MapDefinition.Companion.LINK_BELOW
 import org.rsmod.api.cache.map.tile.MapTileDecoder
-import org.rsmod.api.cache.map.tile.SimpleMapDefinition
+import org.rsmod.api.cache.map.tile.MapTileSimpleDefinition
 import org.rsmod.api.cache.util.InlineByteBuf
 import org.rsmod.api.cache.util.readOrNull
 import org.rsmod.api.cache.util.toInlineBuf
@@ -126,7 +125,7 @@ constructor(
         public fun putMaps(
             collision: CollisionFlagMap,
             square: MapSquareKey,
-            mapDef: SimpleMapDefinition,
+            mapDef: MapTileSimpleDefinition,
         ) {
             val baseX = square.x * MapSquareGrid.LENGTH
             val baseZ = square.z * MapSquareGrid.LENGTH
@@ -139,16 +138,16 @@ constructor(
                         }
                         val absX = baseX + x
                         val absZ = baseZ + z
-                        if (level == 0 && (flags and SimpleMapDefinition.BRIDGE) != 0) {
+                        if (level == 0 && (flags and MapTileSimpleDefinition.BRIDGE) != 0) {
                             continue
                         }
-                        if ((flags and SimpleMapDefinition.BLOCK_MAP_SQUARE) != 0) {
+                        if ((flags and MapTileSimpleDefinition.BLOCK_MAP_SQUARE) != 0) {
                             collision.add(absX, absZ, level, CollisionFlag.BLOCK_WALK)
                         }
-                        if ((flags and SimpleMapDefinition.REMOVE_ROOFS) != 0) {
+                        if ((flags and MapTileSimpleDefinition.REMOVE_ROOFS) != 0) {
                             collision.add(absX, absZ, level, CollisionFlag.ROOF)
                         }
-                        if ((flags and SimpleMapDefinition.COLOURED) != 0) {
+                        if ((flags and MapTileSimpleDefinition.COLOURED) != 0) {
                             collision.allocateIfAbsent(absX, absZ, level)
                         }
                     }
@@ -187,7 +186,7 @@ constructor(
             collision: CollisionFlagMap,
             locTypes: LocTypeList,
             square: MapSquareKey,
-            mapDef: SimpleMapDefinition,
+            mapDef: MapTileSimpleDefinition,
             locDef: MapLocListDefinition,
         ) {
             with(mapBuilder) {
@@ -202,7 +201,7 @@ constructor(
                             mapDef[local.x, local.z, local.level + 1].toInt()
                         }
                     val resolvedTileFlags =
-                        if ((tileAboveFlags and LINK_BELOW) != 0) {
+                        if ((tileAboveFlags and MapTileSimpleDefinition.LINK_BELOW) != 0) {
                             tileAboveFlags
                         } else {
                             tileFlags
@@ -210,7 +209,7 @@ constructor(
                     // Take into account that any tile that has this bit flag will cause locs below
                     // it to "visually" go one level down.
                     val visualLevel =
-                        if ((resolvedTileFlags and SimpleMapDefinition.LINK_BELOW) != 0) {
+                        if ((resolvedTileFlags and MapTileSimpleDefinition.LINK_BELOW) != 0) {
                             loc.level - 1
                         } else {
                             loc.level
@@ -227,7 +226,7 @@ constructor(
                     val zone = computeIfAbsent(ZoneKey.from(coords)) { ZoneBuilder() }
                     val layer = LocLayerConstants.of(loc.shape)
                     val entity = LocEntity(loc.id, loc.shape, loc.angle)
-                    val type = locTypes.getValue(loc.id)
+                    val type = locTypes[loc.id] ?: error("Invalid loc type: $loc ($square)")
                     zone.add(zoneGridX, zoneGridZ, layer, entity)
                     collision.toggleLoc(
                         coords = coords,
@@ -306,7 +305,7 @@ private class MapBuffer(
 
 private data class DecodedMap(
     val key: MapSquareKey,
-    val map: SimpleMapDefinition,
+    val map: MapTileSimpleDefinition,
     val locs: MapLocListDefinition,
     val npcs: MapNpcListDefinition?,
     val objs: MapObjListDefinition?,

@@ -3,7 +3,7 @@ package org.rsmod.api.cache.map.tile
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.square.MapSquareGrid
 
-public data class MapDefinition(
+public data class MapTileDefinition(
     public val tileHeights: Map<MapSquareGrid, Int>,
     public val rules: Map<MapSquareGrid, Byte>,
     public val overlays: Map<MapSquareGrid, TileOverlay>,
@@ -18,7 +18,7 @@ public data class MapDefinition(
     }
 }
 
-public class SimpleMapDefinition(private val packed: ByteArray = ByteArray(TOTAL_SIZE)) {
+public class MapTileSimpleDefinition(private val packed: ByteArray = ByteArray(TOTAL_SIZE)) {
     public operator fun set(x: Int, z: Int, level: Int, flag: Int) {
         val index = (z and 0x3F) or ((x and 0x3F) shl 6) or ((level and 0x3) shl 12)
         packed[index] = (packed[index].toInt() or flag).toByte()

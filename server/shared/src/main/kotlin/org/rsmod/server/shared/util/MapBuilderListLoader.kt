@@ -6,6 +6,7 @@ import org.rsmod.api.type.builders.map.area.MapAreaBuilder
 import org.rsmod.api.type.builders.map.loc.MapLocSpawnBuilder
 import org.rsmod.api.type.builders.map.npc.MapNpcSpawnBuilder
 import org.rsmod.api.type.builders.map.obj.MapObjSpawnBuilder
+import org.rsmod.api.type.builders.map.tile.MapTileBuilder
 import org.rsmod.server.shared.loader.MapTypeBuilderLoader
 
 object MapBuilderListLoader {
@@ -17,8 +18,9 @@ object MapBuilderListLoader {
     private fun create(builders: Collection<MapTypeBuilder>): MapBuilderList {
         val areas = builders.filterIsInstance<MapAreaBuilder>()
         val locs = builders.filterIsInstance<MapLocSpawnBuilder>()
+        val maps = builders.filterIsInstance<MapTileBuilder>()
         val npcs = builders.filterIsInstance<MapNpcSpawnBuilder>()
         val objs = builders.filterIsInstance<MapObjSpawnBuilder>()
-        return MapBuilderList(areas, locs, npcs, objs)
+        return MapBuilderList(areas, locs, maps, npcs, objs)
     }
 }

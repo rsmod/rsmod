@@ -30,6 +30,16 @@ public value class MapLocDefinition(public val packed: Long) {
 
     public fun packedAttributes(): Int = (shape shl 2) or angle
 
+    override fun toString(): String =
+        "MapLocDefinition(" +
+            "id=$id, " +
+            "shape=$shape, " +
+            "angle=$angle, " +
+            "localX=$localX, " +
+            "localZ=$localZ, " +
+            "level=$level" +
+            ")"
+
     public companion object {
         public const val ID_BIT_COUNT: Int = 17
         public const val SHAPE_BIT_COUNT: Int = 5
