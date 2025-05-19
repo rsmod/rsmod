@@ -73,6 +73,8 @@ public class Npc(
     public var lifecycleRevealCycle: Int = -1
     public var lifecycleRespawnCycle: Int = -1
     public var lifecycleChangeCycle: Int = -1
+    public var lifecycleDelayedAddCycle: Int = -1
+    public var lifecycleDelayedAddDuration: Int = -1
 
     public var attackLvl: Int = type.attack
     public var strengthLvl: Int = type.strength

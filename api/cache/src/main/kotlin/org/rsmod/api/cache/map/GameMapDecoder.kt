@@ -30,10 +30,8 @@ import org.rsmod.api.cache.map.tile.SimpleMapDefinition
 import org.rsmod.api.cache.util.InlineByteBuf
 import org.rsmod.api.cache.util.readOrNull
 import org.rsmod.api.cache.util.toInlineBuf
-import org.rsmod.api.registry.npc.NpcRegistry
-import org.rsmod.api.registry.npc.isSuccess
-import org.rsmod.api.registry.obj.ObjRegistry
-import org.rsmod.api.registry.obj.isSuccess
+import org.rsmod.api.repo.npc.NpcRepository
+import org.rsmod.api.repo.obj.ObjRepository
 import org.rsmod.game.area.AreaIndex
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.loc.LocEntity
@@ -65,9 +63,9 @@ constructor(
     private val locTypes: LocTypeList,
     private val areaIndex: AreaIndex,
     private val npcTypes: NpcTypeList,
-    private val npcRegistry: NpcRegistry,
+    private val npcRepo: NpcRepository,
     private val objTypes: ObjTypeList,
-    private val objRegistry: ObjRegistry,
+    private val objRepo: ObjRepository,
     private val xteaMap: XteaMap,
 ) {
     public fun decodeAll(): Unit =
@@ -113,8 +111,8 @@ constructor(
     private fun putSpawns(builder: GameMapBuilder, decodedMaps: List<DecodedMap>) {
         for (decoded in decodedMaps) {
             putLocs(builder, collision, locTypes, decoded.key, decoded.map, decoded.locs)
-            decoded.npcs?.let { putNpcs(npcRegistry, npcTypes, decoded.key, it) }
-            decoded.objs?.let { putObjs(objRegistry, objTypes, decoded.key, it) }
+            decoded.npcs?.let { putNpcs(npcRepo, npcTypes, decoded.key, it) }
+            decoded.objs?.let { putObjs(objRepo, objTypes, decoded.key, it) }
         }
     }
 
@@ -247,7 +245,7 @@ constructor(
         }
 
         public fun putNpcs(
-            registry: NpcRegistry,
+            repo: NpcRepository,
             types: NpcTypeList,
             square: MapSquareKey,
             npcs: MapNpcListDefinition,
@@ -257,14 +255,13 @@ constructor(
                 val def = MapNpcDefinition(packed)
                 val coords = base.translate(def.localX, def.localZ, def.level)
                 val type = types[def.id] ?: error("Invalid npc type: $def ($square)")
-                val npc = Npc(type, coords).apply { respawns = true }
-                val add = registry.add(npc)
-                check(add.isSuccess()) { "Could not spawn npc: $npc" }
+                val npc = Npc(type, coords)
+                repo.addDelayed(npc, spawnDelay = 0, duration = Int.MAX_VALUE)
             }
         }
 
         public fun putObjs(
-            registry: ObjRegistry,
+            repo: ObjRepository,
             types: ObjTypeList,
             square: MapSquareKey,
             objs: MapObjListDefinition,
@@ -276,8 +273,7 @@ constructor(
                 val type = types[def.id] ?: error("Invalid obj type: $def ($square)")
                 val entity = ObjEntity(type.id, count = def.count, scope = ObjScope.Perm.id)
                 val obj = Obj(coords, entity, creationCycle = 0, receiverId = Obj.NULL_RECEIVER_ID)
-                val add = registry.add(obj)
-                check(add.isSuccess()) { "Could not spawn obj: $obj" }
+                repo.addDelayed(obj, spawnDelay = 0, duration = Int.MAX_VALUE)
             }
         }
     }

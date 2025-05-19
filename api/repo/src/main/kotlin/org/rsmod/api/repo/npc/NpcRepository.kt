@@ -4,6 +4,7 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList
 import jakarta.inject.Inject
 import org.rsmod.api.registry.npc.NpcRegistry
 import org.rsmod.api.registry.npc.isSuccess
+import org.rsmod.api.registry.region.RegionRegistry
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.NpcList
@@ -20,9 +21,10 @@ constructor(
 ) {
     private val addNpcs = ObjectArrayList<Npc>()
     private val delNpcs = ObjectArrayList<Npc>()
+    private val addDelayedNpcs = ArrayDeque<Npc>()
 
     /**
-     * **Note:** If [duration] is equal to [Int.MAX_VALUE], the [npc] will have its `respawn` flag
+     * **Note**: If [duration] is equal to [Int.MAX_VALUE], the [npc] will have its `respawn` flag
      * set to `true` and will respawn on death.
      */
     public fun add(npc: Npc, duration: Int) {
@@ -39,7 +41,7 @@ constructor(
     }
 
     /**
-     * **Note:** This function will implicitly call [Npc.destroy] which will cancel any ongoing
+     * **Note**: This function will implicitly call [Npc.destroy] which will cancel any ongoing
      * coroutine attached to the [npc].
      *
      * @see [Npc.activeCoroutine]
@@ -53,7 +55,7 @@ constructor(
         }
     }
 
-    /** **Note:** Unlike [del], this function does **not** call [Npc.cancelActiveCoroutine]. */
+    /** **Note**: Unlike [del], this function does **not** call [Npc.cancelActiveCoroutine]. */
     public fun hide(npc: Npc, duration: Int) {
         check(mapClock > npc.lifecycleRespawnCycle) {
             "Cannot hide npc while it is respawning. (npc=$npc)"
@@ -73,10 +75,10 @@ constructor(
      * - Publishes the [NpcStateEvents.Respawn] event.
      * - Resets the npc's [Npc.coords] to its original [Npc.spawnCoords].
      *
-     * **Note:** Unlike [del], this function does **not** call [Npc.cancelActiveCoroutine].
+     * **Note**: Unlike [del], this function does **not** call [Npc.cancelActiveCoroutine].
      */
     public fun despawn(npc: Npc, duration: Int) {
-        // We do not want previously-queued `hide` operations to go through in the
+        // We do not want previously queued `hide` operations to go through in the
         // middle of the respawn.
         npc.lifecycleRevealCycle = 0
 
@@ -85,6 +87,32 @@ constructor(
             val revealCycle = mapClock + duration
             npc.lifecycleRespawnCycle = revealCycle
         }
+    }
+
+    /**
+     * Schedules the npc to spawn after a specified delay.
+     *
+     * This function is inspired by a similar system used for obj spawns. Its primary use case is to
+     * delay the initial npc spawns during startup to ensure that scripts like `onNpcSpawn` are
+     * present for npcs that are spawned early during the map-loading phase of cache loading.
+     *
+     * _**Note**: It is not confirmed that this exact system exists in the original game. Content
+     * should avoid calling this function until such a system's existence and usage in the original
+     * game are suspected or verified._
+     *
+     * @param spawnDelay The number of cycles to wait before spawning the npc.
+     * @param duration The duration that the npc should remain active after spawning. Set to
+     *   [Int.MAX_VALUE] for permanent spawn.
+     * @throws IllegalStateException if the npc coords are within a region (instance).
+     */
+    public fun addDelayed(npc: Npc, spawnDelay: Int, duration: Int) {
+        check(!RegionRegistry.inWorkingArea(npc.coords)) {
+            "Cannot schedule npc spawn with `addDelayed` in regions."
+        }
+        val spawnCycle = mapClock + spawnDelay
+        npc.lifecycleDelayedAddCycle = spawnCycle
+        npc.lifecycleDelayedAddDuration = duration
+        addDelayedNpcs.add(npc)
     }
 
     public fun findAll(zone: ZoneKey): Sequence<Npc> = registry.findAll(zone)
@@ -144,6 +172,23 @@ constructor(
             registry.add(npc)
         }
         addNpcs.clear()
+    }
+
+    internal fun processDelayedAdd() {
+        if (addDelayedNpcs.isNotEmpty()) {
+            processAddDelayed()
+        }
+    }
+
+    private fun processAddDelayed() {
+        val iterator = addDelayedNpcs.iterator()
+        while (iterator.hasNext()) {
+            val npc = iterator.next()
+            if (shouldTrigger(npc.lifecycleDelayedAddCycle)) {
+                add(npc, duration = npc.lifecycleDelayedAddDuration)
+                iterator.remove()
+            }
+        }
     }
 
     private fun shouldTrigger(triggerCycle: Int): Boolean = mapClock.cycle == triggerCycle

@@ -12,7 +12,7 @@ dependencies {
     implementation(libs.fastutil)
     implementation(libs.openrs2.buffer)
     implementation(libs.openrs2.cache)
-    implementation(projects.api.registry)
+    implementation(projects.api.repo)
     implementation(projects.api.type.typeSymbols)
     implementation(projects.engine.annotations)
     implementation(projects.engine.game)
