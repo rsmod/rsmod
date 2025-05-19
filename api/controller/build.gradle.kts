@@ -12,5 +12,4 @@ dependencies {
     implementation(projects.engine.game)
     implementation(projects.engine.map)
     implementation(projects.engine.utilsBits)
-    implementation(projects.engine.utilsTime)
 }

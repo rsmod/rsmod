@@ -34,6 +34,7 @@ dependencies {
     api(projects.api.type.typeScriptDsl)
     api(projects.api.utils.utilsFormat)
     api(projects.api.utils.utilsIo)
+    api(projects.api.utils.utilsTime)
     api(projects.api.utils.utilsVars)
     api(projects.engine.annotations)
     api(projects.engine.coroutine)

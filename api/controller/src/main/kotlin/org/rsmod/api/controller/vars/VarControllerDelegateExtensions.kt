@@ -4,7 +4,6 @@ import kotlin.reflect.KProperty
 import org.rsmod.game.entity.Controller
 import org.rsmod.game.type.varcon.VarConType
 import org.rsmod.game.type.varconbit.VarConBitType
-import org.rsmod.utils.time.InlineLocalDateTime
 
 /* Varcon delegates */
 public fun intVarCon(varcon: VarConType): ControllerVariableIntDelegate =
@@ -12,15 +11,6 @@ public fun intVarCon(varcon: VarConType): ControllerVariableIntDelegate =
 
 public fun boolVarCon(varcon: VarConType): ControllerVariableTypeIntDelegate<Boolean> =
     typeIntVarCon(varcon, ::boolFromInt, ::boolToInt)
-
-/**
- * Important to note that this local date time variant does not allow for years before
- * [InlineLocalDateTime.YEAR_OFFSET].
- *
- * @see [InlineLocalDateTime.YEAR_OFFSET]
- */
-public fun dateVarCon(varcon: VarConType): ControllerVariableLocalDateTimeDelegate =
-    ControllerVariableLocalDateTimeDelegate(varcon)
 
 public fun <T> typeIntVarCon(
     varcon: VarConType,
@@ -97,25 +87,6 @@ public class ControllerVariableTypeIntBitsDelegate<T>(
     public operator fun setValue(thisRef: Controller, property: KProperty<*>, value: T?) {
         val varValue = value?.let(fromType) ?: 0
         thisRef.vars[varconbit] = varValue
-    }
-}
-
-public class ControllerVariableLocalDateTimeDelegate(private val varcon: VarConType) {
-    public operator fun getValue(thisRef: Controller, property: KProperty<*>): InlineLocalDateTime {
-        val packed = thisRef.vars[varcon]
-        return InlineLocalDateTime(packed)
-    }
-
-    public operator fun setValue(
-        thisRef: Controller,
-        property: KProperty<*>,
-        value: InlineLocalDateTime,
-    ) {
-        if (value == InlineLocalDateTime.NULL) {
-            thisRef.vars[varcon] = 0
-        } else {
-            thisRef.vars[varcon] = value.packed
-        }
     }
 }
 

@@ -13,7 +13,6 @@ import org.rsmod.game.type.varp.VarpType
 import org.rsmod.game.vars.VarPlayerIntMap
 import org.rsmod.map.CoordGrid
 import org.rsmod.utils.bits.withBits
-import org.rsmod.utils.time.InlineLocalDateTime
 
 /* Varplayer delegates */
 public fun intVarp(varp: VarpType): VariableIntDelegate = VariableIntDelegate(varp)
@@ -22,15 +21,6 @@ public fun strVarp(varp: VarpType): VariableStringDelegate = VariableStringDeleg
 
 public fun boolVarp(varp: VarpType): VariableTypeIntDelegate<Boolean> =
     typeIntVarp(varp, ::boolFromInt, ::boolToInt)
-
-/**
- * Important to note that this local date time variant does not allow for years before
- * [org.rsmod.utils.time.InlineLocalDateTime.YEAR_OFFSET].
- *
- * @see [org.rsmod.utils.time.InlineLocalDateTime.YEAR_OFFSET]
- */
-public fun dateVarp(varp: VarpType): VariableLocalDateTimeDelegate =
-    VariableLocalDateTimeDelegate(varp)
 
 public fun typeCoordVarp(varp: VarpType): VariableTypeIntDelegate<CoordGrid?> {
     val fromType: (CoordGrid?) -> Int = { typed -> typed?.packed ?: CoordGrid.NULL.packed }
@@ -255,45 +245,6 @@ public class VariableTypeIntBitsDelegate<T>(
         val mappedValue = thisRef.player.vars[baseVar]
         val packedValue = mappedValue.withBits(bitRange, varValue)
         thisRef.syncVarp(baseVar, packedValue)
-    }
-}
-
-public class VariableLocalDateTimeDelegate(private val varp: VarpType) {
-    public operator fun getValue(thisRef: Player, property: KProperty<*>): InlineLocalDateTime {
-        val packed = thisRef.vars[varp]
-        return InlineLocalDateTime(packed)
-    }
-
-    public operator fun setValue(
-        thisRef: Player,
-        property: KProperty<*>,
-        value: InlineLocalDateTime,
-    ) {
-        if (value == InlineLocalDateTime.NULL) {
-            thisRef.syncVarp(varp, 0)
-        } else {
-            thisRef.syncVarp(varp, value.packed)
-        }
-    }
-
-    public operator fun getValue(
-        thisRef: ProtectedAccess,
-        property: KProperty<*>,
-    ): InlineLocalDateTime {
-        val packed = thisRef.player.vars[varp]
-        return InlineLocalDateTime(packed)
-    }
-
-    public operator fun setValue(
-        thisRef: ProtectedAccess,
-        property: KProperty<*>,
-        value: InlineLocalDateTime,
-    ) {
-        if (value == InlineLocalDateTime.NULL) {
-            thisRef.syncVarp(varp, 0)
-        } else {
-            thisRef.syncVarp(varp, value.packed)
-        }
     }
 }
 
