@@ -66,7 +66,7 @@ constructor(
         manager.setNextAttackDelay(player, attackRate)
 
         // Important: Special attack handlers are responsible for explicitly calling `opnpc2` (or a
-        // helper function that does so) to re-engage combat after performing the special attack.
+        // helper function that does so) to re-engage in combat after performing the special attack.
         if (specialAttackType == SpecialAttackType.Weapon) {
             specialAttackType = SpecialAttackType.None
             val activatedSpec = activateMeleeSpecial(npc, attack, specialsReg, specialEnergy)
@@ -84,7 +84,7 @@ constructor(
         }
 
         // Important: Weapon attack handlers are responsible for explicitly calling `opnpc2` (or a
-        // helper function that does so) to re-engage combat after performing their attack.
+        // helper function that does so) to re-engage in combat after performing their attack.
         val specializedWeapon = weaponsReg.getMelee(attack.weapon)
         if (specializedWeapon != null) {
             val attackHandled = specializedWeapon.attack(this, npc, attack)
@@ -116,7 +116,7 @@ constructor(
         manager.setNextAttackDelay(player, attackRate)
 
         // Important: Special attack handlers are responsible for explicitly calling `opnpc2` (or a
-        // helper function that does so) to re-engage combat after performing the special attack.
+        // helper function that does so) to re-engage in combat after performing the special attack.
         if (specialAttackType == SpecialAttackType.Weapon) {
             specialAttackType = SpecialAttackType.None
             val activatedSpec = activateRangedSpecial(npc, attack, specialsReg, specialEnergy)
@@ -136,7 +136,7 @@ constructor(
         val righthandType = objTypes[attack.weapon]
 
         // Important: Weapon attack handlers are responsible for explicitly calling `opnpc2` (or a
-        // helper function that does so) to re-engage combat after performing their attack.
+        // helper function that does so) to re-engage in combat after performing their attack.
         val specializedWeapon = weaponsReg.getRanged(attack.weapon)
         if (specializedWeapon != null) {
             val attackHandled = specializedWeapon.attack(this, npc, attack)
@@ -147,7 +147,7 @@ constructor(
 
         // `chargebows` are specialized and not worth trying to have as a generic system. As such,
         // they are required to be registered in `WeaponRegistry` and will return early if they
-        // have reached this point (not handled by previous `specializedWeapon` block).
+        // have reached this point (not handled by the previous `specializedWeapon` block).
         val usingChargeBow = righthandType.isCategoryType(categories.chargebow)
         if (usingChargeBow) {
             manager.stopCombat(player)
@@ -186,8 +186,8 @@ constructor(
             return
         }
 
-        // All valid ranged weapons require a `attack_anim_stance1` seq type param in order to be
-        // used in combat.
+        // All valid ranged weapons require an `attack_anim_stance1` seq type param to be used in
+        // combat.
         val playedAnim = manager.playWeaponFx(player, attack)
         if (!playedAnim) {
             manager.stopCombat(player)
@@ -195,9 +195,9 @@ constructor(
             return
         }
 
-        // Official behavior: If the weapon (quiver or righthand, based on thrown weapon flag) has
-        // no `proj_launch` param, a "null" (-1) spotanim will still be sent in the same slot and
-        // height as usual.
+        // Official behavior: If the weapon (quiver or righthand, based on the thrown weapon flag)
+        // has no `proj_launch` param, a "null" (-1) spotanim will still be sent in the same slot
+        // and height as usual.
         val launchSpotanim = weaponType.paramOrNull(params.proj_launch)
         spotanim(launchSpotanim, height = 96, slot = constants.spotanim_slot_combat)
 
@@ -264,7 +264,7 @@ constructor(
         manager.setNextAttackDelay(player, attackRate)
 
         // Important: Special attack handlers are responsible for explicitly calling `opnpc2` (or a
-        // helper function that does so) to re-engage combat after performing the special attack.
+        // helper function that does so) to re-engage in combat after performing the special attack.
         if (specialAttackType == SpecialAttackType.Weapon) {
             specialAttackType = SpecialAttackType.None
             val activatedSpec = activateMagicSpecial(npc, attack, specialsReg, specialEnergy)
@@ -282,7 +282,7 @@ constructor(
         }
 
         // Important: Weapon attack handlers are responsible for explicitly calling `opnpc2` (or a
-        // helper function that does so) to re-engage combat after performing their attack.
+        // helper function that does so) to re-engage in combat after performing their attack.
         val specializedWeapon = weaponsReg.getMagic(attack.weapon)
         if (specializedWeapon != null) {
             val attackHandled = specializedWeapon.attack(this, npc, attack)

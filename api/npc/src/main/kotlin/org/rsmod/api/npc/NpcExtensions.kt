@@ -1,6 +1,8 @@
 package org.rsmod.api.npc
 
+import org.rsmod.api.area.checker.AreaChecker
 import org.rsmod.api.config.constants
+import org.rsmod.api.config.refs.areas
 import org.rsmod.api.config.refs.queues
 import org.rsmod.api.config.refs.varns
 import org.rsmod.api.npc.interact.AiPlayerInteractions
@@ -29,6 +31,11 @@ public fun Npc.isInCombat(): Boolean {
         return true
     }
     return mode == NpcMode.OpPlayer2 || mode == NpcMode.ApPlayer2 || mode == NpcMode.PlayerEscape
+}
+
+/** @return `true` if the npc is **currently** in a multi-combat area. */
+public fun Npc.mapMultiway(checker: AreaChecker): Boolean {
+    return checker.inArea(areas.multiway, coords)
 }
 
 public fun Npc.opPlayer2(target: Player, interactions: AiPlayerInteractions) {

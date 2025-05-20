@@ -5,7 +5,6 @@ import org.rsmod.api.combat.ACTIVE_COMBAT_DELAY
 import org.rsmod.api.combat.PvNCombat
 import org.rsmod.api.combat.commons.magic.MagicSpell
 import org.rsmod.api.combat.commons.styles.AttackStyle
-import org.rsmod.api.combat.inMultiCombatArea
 import org.rsmod.api.combat.manager.MagicRuneManager
 import org.rsmod.api.combat.npc.aggressivePlayer
 import org.rsmod.api.combat.npc.lastCombat
@@ -132,7 +131,7 @@ constructor(
             return false
         }
 
-        val singleCombat = !inMultiCombatArea()
+        val singleCombat = !mapMultiway()
         if (singleCombat) {
             if (isInPvpCombat()) {
                 spam("I'm already under attack.")

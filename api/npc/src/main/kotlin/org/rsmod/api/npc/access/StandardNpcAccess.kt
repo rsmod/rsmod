@@ -3,6 +3,7 @@ package org.rsmod.api.npc.access
 import kotlin.getValue
 import kotlin.setValue
 import org.rsmod.annotations.InternalApi
+import org.rsmod.api.area.checker.AreaChecker
 import org.rsmod.api.config.refs.BaseHitmarkGroups
 import org.rsmod.api.config.refs.hitmark_groups
 import org.rsmod.api.npc.hit.modifier.NpcHitModifier
@@ -12,6 +13,7 @@ import org.rsmod.api.npc.hit.processor.NpcHitProcessor
 import org.rsmod.api.npc.hit.processor.StandardNpcHitProcessor
 import org.rsmod.api.npc.hit.queueHit
 import org.rsmod.api.npc.interact.AiPlayerInteractions
+import org.rsmod.api.npc.mapMultiway
 import org.rsmod.api.npc.opPlayer2
 import org.rsmod.api.npc.queueDeath
 import org.rsmod.api.random.GameRandom
@@ -25,6 +27,7 @@ import org.rsmod.game.hit.Hit
 import org.rsmod.game.hit.HitType
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.map.collision.isZoneValid
+import org.rsmod.game.type.area.AreaType
 import org.rsmod.game.type.hitmark.HitmarkTypeGroup
 import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.npc.NpcTypeList
@@ -319,6 +322,14 @@ public class StandardNpcAccess(
      */
     public fun findHero(playerList: PlayerList): Player? {
         return npc.findHero(playerList)
+    }
+
+    public fun inArea(area: AreaType, coords: CoordGrid, checker: AreaChecker): Boolean {
+        return checker.inArea(area, coords)
+    }
+
+    public fun mapMultiway(checker: AreaChecker): Boolean {
+        return npc.mapMultiway(checker)
     }
 
     public fun say(text: String) {

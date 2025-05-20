@@ -1,10 +1,10 @@
 package org.rsmod.api.combat.scripts
 
 import jakarta.inject.Inject
+import org.rsmod.api.area.checker.AreaChecker
 import org.rsmod.api.combat.NvPCombat
 import org.rsmod.api.combat.commons.CombatAttack
 import org.rsmod.api.combat.commons.types.MeleeAttackType
-import org.rsmod.api.combat.inMultiCombatArea
 import org.rsmod.api.combat.player.aggressiveNpc
 import org.rsmod.api.config.refs.categories
 import org.rsmod.api.config.refs.params
@@ -18,7 +18,9 @@ import org.rsmod.game.type.category.isType
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-internal class NvPCombatScript @Inject constructor(private val combat: NvPCombat) : PluginScript() {
+internal class NvPCombatScript
+@Inject
+constructor(private val combat: NvPCombat, private val areaChecker: AreaChecker) : PluginScript() {
     override fun ScriptContext.startup() {
         onDefaultAiOpPlayer2 { attemptCombatOp(it.target) }
     }
@@ -34,7 +36,7 @@ internal class NvPCombatScript @Inject constructor(private val combat: NvPCombat
     }
 
     private fun StandardNpcAccess.canAttack(target: Player): Boolean {
-        val singleCombat = !inMultiCombatArea()
+        val singleCombat = !mapMultiway(areaChecker)
         if (singleCombat) {
             if (target.isInPvpCombat()) {
                 return false

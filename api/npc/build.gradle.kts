@@ -9,6 +9,7 @@ kotlin {
 dependencies {
     implementation(libs.bundles.logging)
     implementation(libs.guice)
+    implementation(projects.api.areaChecker)
     implementation(projects.api.config)
     implementation(projects.api.playerOutput)
     implementation(projects.api.random)
