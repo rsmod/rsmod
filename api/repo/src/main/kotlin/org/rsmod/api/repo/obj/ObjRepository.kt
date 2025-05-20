@@ -54,7 +54,7 @@ constructor(
         duration: Int,
         receiver: Player? = null,
         count: Int = 1,
-        reveal: Int = duration - DEFAULT_REVEAL_DELAY,
+        reveal: Int = DEFAULT_REVEAL_DELAY,
     ): Obj {
         val obj =
             if (receiver != null) {
@@ -71,7 +71,7 @@ constructor(
         coords: CoordGrid,
         duration: Int,
         receiver: Player? = null,
-        reveal: Int = duration - DEFAULT_REVEAL_DELAY,
+        reveal: Int = DEFAULT_REVEAL_DELAY,
     ): Obj {
         val obj =
             if (receiver != null) {
