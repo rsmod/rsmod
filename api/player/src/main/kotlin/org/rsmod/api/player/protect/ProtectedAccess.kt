@@ -224,7 +224,9 @@ public class ProtectedAccess(
      * @throws ProtectedAccessLostException if the player could not retain protected access after
      *   the coroutine suspension.
      */
-    public suspend fun playerWalk(dest: CoordGrid): Unit = playerMove(dest, MoveSpeed.Walk)
+    public suspend fun playerWalk(dest: CoordGrid) {
+        playerMove(dest, MoveSpeed.Walk)
+    }
 
     /**
      * Queues a route towards [dest] and delays the player (suspending this call-site) based on the
@@ -233,7 +235,9 @@ public class ProtectedAccess(
      * @throws ProtectedAccessLostException if the player could not retain protected access after
      *   the coroutine suspension.
      */
-    public suspend fun playerRun(dest: CoordGrid): Unit = playerMove(dest, MoveSpeed.Run)
+    public suspend fun playerRun(dest: CoordGrid) {
+        playerMove(dest, MoveSpeed.Run)
+    }
 
     /**
      * Queues a route to [dest] and delays the player (suspending this call-site) based on the
@@ -264,8 +268,9 @@ public class ProtectedAccess(
      *   the coroutine suspension.
      * @see [playerWalk]
      */
-    public suspend fun playerWalkWithMinDelay(dest: CoordGrid): Unit =
+    public suspend fun playerWalkWithMinDelay(dest: CoordGrid) {
         playerMoveWithMinDelay(dest, MoveSpeed.Walk)
+    }
 
     /**
      * Similar to [playerRun], but ensures a minimum delay of 1 cycle, regardless of distance.
@@ -274,8 +279,9 @@ public class ProtectedAccess(
      *   the coroutine suspension.
      * @see [playerRun]
      */
-    public suspend fun playerRunWithMinDelay(dest: CoordGrid): Unit =
+    public suspend fun playerRunWithMinDelay(dest: CoordGrid) {
         playerMoveWithMinDelay(dest, MoveSpeed.Run)
+    }
 
     /**
      * Similar to [playerMove], but ensures a minimum delay of 1 cycle, regardless of distance.
@@ -314,7 +320,9 @@ public class ProtectedAccess(
         PathingEntityCommon.telejump(player, collision, dest)
     }
 
-    public fun telejump(dest: CoordGrid): Unit = telejump(dest, context.collision)
+    public fun telejump(dest: CoordGrid) {
+        telejump(dest, context.collision)
+    }
 
     public fun teleport(dest: CoordGrid, collision: CollisionFlagMap) {
         if (!collision.isZoneValid(dest)) {
@@ -325,7 +333,9 @@ public class ProtectedAccess(
         PathingEntityCommon.teleport(player, collision, dest)
     }
 
-    public fun teleport(dest: CoordGrid): Unit = teleport(dest, context.collision)
+    public fun teleport(dest: CoordGrid) {
+        teleport(dest, context.collision)
+    }
 
     /**
      * Starts an `exactmove` sequence from [start] to [end].
@@ -389,34 +399,50 @@ public class ProtectedAccess(
         player.rebuildAppearance()
     }
 
-    public fun isBodyType(type: Int): Boolean = player.appearance.bodyType == type
+    public fun isBodyType(type: Int): Boolean {
+        return player.appearance.bodyType == type
+    }
 
-    public fun isBodyTypeA(): Boolean = isBodyType(constants.bodytype_a)
+    public fun isBodyTypeA(): Boolean {
+        return isBodyType(constants.bodytype_a)
+    }
 
-    public fun isBodyTypeB(): Boolean = isBodyType(constants.bodytype_b)
+    public fun isBodyTypeB(): Boolean {
+        return isBodyType(constants.bodytype_b)
+    }
 
     public fun isWithinDistance(
         target: CoordGrid,
         distance: Int,
         width: Int = 1,
         length: Int = 1,
-    ): Boolean = player.isWithinDistance(target, distance, width, length)
+    ): Boolean {
+        return player.isWithinDistance(target, distance, width, length)
+    }
 
-    public fun isWithinDistance(other: PathingEntity, distance: Int): Boolean =
-        player.isWithinDistance(other, distance)
+    public fun isWithinDistance(other: PathingEntity, distance: Int): Boolean {
+        return player.isWithinDistance(other, distance)
+    }
 
-    public fun isWithinDistance(loc: BoundLocInfo, distance: Int): Boolean =
-        player.isWithinDistance(loc, distance)
+    public fun isWithinDistance(loc: BoundLocInfo, distance: Int): Boolean {
+        return player.isWithinDistance(loc, distance)
+    }
 
-    public fun isWithinArea(southWest: CoordGrid, northEast: CoordGrid): Boolean =
-        player.isWithinArea(southWest, northEast)
+    public fun isWithinArea(southWest: CoordGrid, northEast: CoordGrid): Boolean {
+        return player.isWithinArea(southWest, northEast)
+    }
 
-    public fun distanceTo(target: CoordGrid, width: Int = 1, length: Int = 1): Int =
-        player.distanceTo(target, width, length)
+    public fun distanceTo(target: CoordGrid, width: Int = 1, length: Int = 1): Int {
+        return player.distanceTo(target, width, length)
+    }
 
-    public fun distanceTo(other: PathingEntity): Int = player.distanceTo(other)
+    public fun distanceTo(other: PathingEntity): Int {
+        return player.distanceTo(other)
+    }
 
-    public fun distanceTo(loc: BoundLocInfo): Int = player.distanceTo(loc)
+    public fun distanceTo(loc: BoundLocInfo): Int {
+        return player.distanceTo(loc)
+    }
 
     public fun apRange(distance: Int) {
         val interaction = player.interaction ?: return
@@ -756,14 +782,21 @@ public class ProtectedAccess(
         return context.wornInteractions.unequip(this, from, wornSlot, into)
     }
 
-    public fun faceSquare(target: CoordGrid): Unit = player.faceSquare(target)
+    public fun faceSquare(target: CoordGrid) {
+        player.faceSquare(target)
+    }
 
-    public fun faceDirection(direction: Direction): Unit = player.faceDirection(direction)
+    public fun faceDirection(direction: Direction) {
+        player.faceDirection(direction)
+    }
 
-    public fun faceLoc(loc: BoundLocInfo): Unit = player.faceLoc(loc)
+    public fun faceLoc(loc: BoundLocInfo) {
+        player.faceLoc(loc)
+    }
 
-    public fun faceEntitySquare(target: PathingEntity): Unit =
+    public fun faceEntitySquare(target: PathingEntity) {
         player.facePathingEntitySquare(target)
+    }
 
     public fun stopAction() {
         player.clearPendingAction(context.eventBus)
@@ -772,9 +805,13 @@ public class ProtectedAccess(
         player.abortRoute()
     }
 
-    public fun invTransmit(inv: Inventory): Unit = player.startInvTransmit(inv)
+    public fun invTransmit(inv: Inventory) {
+        player.startInvTransmit(inv)
+    }
 
-    public fun invStopTransmit(inv: Inventory): Unit = player.stopInvTransmit(inv)
+    public fun invStopTransmit(inv: Inventory) {
+        player.stopInvTransmit(inv)
+    }
 
     public fun invAdd(
         inv: Inventory,
@@ -784,8 +821,8 @@ public class ProtectedAccess(
         cert: Boolean = false,
         uncert: Boolean = false,
         autoCommit: Boolean = true,
-    ): TransactionResultList<InvObj> =
-        player.invAdd(
+    ): TransactionResultList<InvObj> {
+        return player.invAdd(
             inv = inv,
             obj = obj.id,
             count = obj.count,
@@ -796,6 +833,7 @@ public class ProtectedAccess(
             uncert = uncert,
             autoCommit = autoCommit,
         )
+    }
 
     public fun invAdd(
         inv: Inventory,
@@ -807,8 +845,8 @@ public class ProtectedAccess(
         cert: Boolean = false,
         uncert: Boolean = false,
         autoCommit: Boolean = true,
-    ): TransactionResultList<InvObj> =
-        player.invAdd(
+    ): TransactionResultList<InvObj> {
+        return player.invAdd(
             inv = inv,
             type = type,
             count = count,
@@ -819,6 +857,7 @@ public class ProtectedAccess(
             uncert = uncert,
             autoCommit = autoCommit,
         )
+    }
 
     /**
      * Attempts to add exactly [count] of [obj] into [inv]. If the inventory cannot fit the items,
@@ -831,7 +870,9 @@ public class ProtectedAccess(
         count: Int = 1,
         coords: CoordGrid = this.coords,
         inv: Inventory = this.inv,
-    ): Boolean = player.invAddOrDrop(repo, obj, count, coords = coords, inv = inv)
+    ): Boolean {
+        return player.invAddOrDrop(repo, obj, count, coords = coords, inv = inv)
+    }
 
     public fun invDel(
         inv: Inventory,
@@ -840,8 +881,8 @@ public class ProtectedAccess(
         slot: Int? = null,
         strict: Boolean = true,
         autoCommit: Boolean = true,
-    ): TransactionResultList<InvObj> =
-        player.invDel(
+    ): TransactionResultList<InvObj> {
+        return player.invDel(
             inv = inv,
             type = type,
             count = count,
@@ -849,6 +890,7 @@ public class ProtectedAccess(
             strict = strict,
             autoCommit = autoCommit,
         )
+    }
 
     public fun invDel(
         inv: Inventory,
@@ -858,8 +900,8 @@ public class ProtectedAccess(
         count2: Int,
         strict: Boolean = true,
         autoCommit: Boolean = true,
-    ): TransactionResultList<InvObj> =
-        player.invDel(
+    ): TransactionResultList<InvObj> {
+        return player.invDel(
             inv = inv,
             type1 = type1,
             count1 = count1,
@@ -868,6 +910,7 @@ public class ProtectedAccess(
             strict = strict,
             autoCommit = autoCommit,
         )
+    }
 
     public fun invDel(
         inv: Inventory,
@@ -879,8 +922,8 @@ public class ProtectedAccess(
         count3: Int,
         strict: Boolean = true,
         autoCommit: Boolean = true,
-    ): TransactionResultList<InvObj> =
-        player.invDel(
+    ): TransactionResultList<InvObj> {
+        return player.invDel(
             inv = inv,
             type1 = type1,
             count1 = count1,
@@ -891,6 +934,7 @@ public class ProtectedAccess(
             strict = strict,
             autoCommit = autoCommit,
         )
+    }
 
     /**
      * This transaction will remove the first found inv obj associated with [replace] based on their
@@ -1026,8 +1070,8 @@ public class ProtectedAccess(
         cert: Boolean = false,
         uncert: Boolean = false,
         placehold: Boolean = false,
-    ): TransactionResultList<InvObj> =
-        player.invTransfer(
+    ): TransactionResultList<InvObj> {
+        return player.invTransfer(
             from = from,
             into = into,
             count = count,
@@ -1038,6 +1082,7 @@ public class ProtectedAccess(
             uncert = uncert,
             placehold = placehold,
         )
+    }
 
     public fun invMoveInv(
         from: Inventory,
@@ -1046,8 +1091,8 @@ public class ProtectedAccess(
         intoStartSlot: Int = 0,
         intoCapacity: Int? = null,
         keepSlots: Set<Int>? = null,
-    ): TransactionResultList<InvObj> =
-        player.invMoveAll(
+    ): TransactionResultList<InvObj> {
+        return player.invMoveAll(
             from = from,
             into = into,
             untransform = untransform,
@@ -1055,6 +1100,7 @@ public class ProtectedAccess(
             intoCapacity = intoCapacity,
             keepSlots = keepSlots,
         )
+    }
 
     public fun invMoveAll(
         into: Inventory,
@@ -1064,8 +1110,8 @@ public class ProtectedAccess(
         cert: Boolean = false,
         uncert: Boolean = false,
         autoCommit: Boolean = true,
-    ): TransactionResultList<InvObj> =
-        player.invAddAll(
+    ): TransactionResultList<InvObj> {
+        return player.invAddAll(
             inv = into,
             objs = objs,
             startSlot = startSlot,
@@ -1074,9 +1120,11 @@ public class ProtectedAccess(
             uncert = uncert,
             autoCommit = autoCommit,
         )
+    }
 
-    public fun invCompress(inventory: Inventory): TransactionResultList<InvObj> =
-        player.invCompress(inventory)
+    public fun invCompress(inventory: Inventory): TransactionResultList<InvObj> {
+        return player.invCompress(inventory)
+    }
 
     public fun invClear(inventory: Inventory) {
         player.invClear(inventory)
@@ -1103,10 +1151,14 @@ public class ProtectedAccess(
     }
 
     /** @see [org.rsmod.api.player.stat.statRestore] */
-    public fun statRestore(stat: StatType): Unit = player.statRestore(stat)
+    public fun statRestore(stat: StatType) {
+        player.statRestore(stat)
+    }
 
     /** @see [org.rsmod.api.player.stat.statRestoreAll] */
-    public fun statRestoreAll(stats: Iterable<StatType>): Unit = player.statRestoreAll(stats)
+    public fun statRestoreAll(stats: Iterable<StatType>) {
+        player.statRestoreAll(stats)
+    }
 
     /** @see [org.rsmod.api.player.stat.statAdvance] */
     public fun statAdvance(
@@ -1114,31 +1166,39 @@ public class ProtectedAccess(
         xp: Double,
         rate: Double = player.xpRate,
         globalRate: Double = player.globalXpRate,
-    ): Int = player.statAdvance(stat, xp, rate, globalRate)
+    ): Int {
+        return player.statAdvance(stat, xp, rate, globalRate)
+    }
 
     /** @see [org.rsmod.api.player.stat.statAdd] */
-    public fun statAdd(stat: StatType, constant: Int, percent: Int): Unit =
+    public fun statAdd(stat: StatType, constant: Int, percent: Int) {
         player.statAdd(stat, constant, percent)
+    }
 
     /** @see [org.rsmod.api.player.stat.statBoost] */
-    public fun statBoost(stat: StatType, constant: Int, percent: Int): Unit =
+    public fun statBoost(stat: StatType, constant: Int, percent: Int) {
         player.statBoost(stat, constant, percent)
+    }
 
     /** @see [org.rsmod.api.player.stat.statSub] */
-    public fun statSub(stat: StatType, constant: Int, percent: Int): Unit =
+    public fun statSub(stat: StatType, constant: Int, percent: Int) {
         player.statSub(stat, constant, percent)
+    }
 
     /** @see [org.rsmod.api.player.stat.statDrain] */
-    public fun statDrain(stat: StatType, constant: Int, percent: Int): Unit =
+    public fun statDrain(stat: StatType, constant: Int, percent: Int) {
         player.statDrain(stat, constant, percent)
+    }
 
     /** @see [org.rsmod.api.player.stat.statHeal] */
-    public fun statHeal(stat: StatType, constant: Int, percent: Int): Unit =
+    public fun statHeal(stat: StatType, constant: Int, percent: Int) {
         player.statHeal(stat, constant, percent)
+    }
 
     /** @see [org.rsmod.api.player.stat.statRandom] */
-    public fun statRandom(stat: StatType, low: Int, high: Int, invisibleBoost: Int): Boolean =
-        player.statRandom(random, stat, low, high, invisibleBoost)
+    public fun statRandom(stat: StatType, low: Int, high: Int, invisibleBoost: Int): Boolean {
+        return player.statRandom(random, stat, low, high, invisibleBoost)
+    }
 
     /** @see [org.rsmod.api.player.stat.statRandom] */
     public fun statRandom(
@@ -1146,15 +1206,25 @@ public class ProtectedAccess(
         low: Int,
         high: Int,
         invisibleLevels: InvisibleLevels,
-    ): Boolean = player.statRandom(random, stat, low, high, invisibleLevels)
+    ): Boolean {
+        return player.statRandom(random, stat, low, high, invisibleLevels)
+    }
 
-    public fun isInCombat(): Boolean = player.isInCombat()
+    public fun isInCombat(): Boolean {
+        return player.isInCombat()
+    }
 
-    public fun isInPvpCombat(): Boolean = player.isInPvpCombat()
+    public fun isInPvpCombat(): Boolean {
+        return player.isInPvpCombat()
+    }
 
-    public fun isInPvnCombat(): Boolean = player.isInPvnCombat()
+    public fun isInPvnCombat(): Boolean {
+        return player.isInPvnCombat()
+    }
 
-    public fun isOutOfCombat(): Boolean = player.isOutOfCombat()
+    public fun isOutOfCombat(): Boolean {
+        return player.isOutOfCombat()
+    }
 
     public fun queueDeath() {
         player.queueDeath()
@@ -1209,8 +1279,8 @@ public class ProtectedAccess(
         sourceWeapon: ObjType? = null,
         sourceSecondary: ObjType? = null,
         modifier: PlayerHitModifier = StandardPlayerHitModifier,
-    ): Hit =
-        player.queueHit(
+    ): Hit {
+        return player.queueHit(
             source = source,
             delay = delay,
             type = type,
@@ -1221,6 +1291,7 @@ public class ProtectedAccess(
             sourceSecondary = sourceSecondary,
             modifier = modifier,
         )
+    }
 
     /**
      * Queues a hit dealt by [source] with an impact cycle delay of [delay] before the hit is
@@ -1266,8 +1337,8 @@ public class ProtectedAccess(
         hitmark: HitmarkTypeGroup = hitmark_groups.regular_damage,
         sourceSecondary: ObjType? = null,
         modifier: PlayerHitModifier = StandardPlayerHitModifier,
-    ): Hit =
-        player.queueHit(
+    ): Hit {
+        return player.queueHit(
             source = source,
             delay = delay,
             type = type,
@@ -1276,6 +1347,7 @@ public class ProtectedAccess(
             sourceSecondary = sourceSecondary,
             modifier = modifier,
         )
+    }
 
     /**
      * Queues a hit that does not originate from either a [Player] or an [Npc], with an impact cycle
@@ -1320,8 +1392,8 @@ public class ProtectedAccess(
         specific: Boolean = false,
         modifier: PlayerHitModifier = StandardPlayerHitModifier,
         strongQueue: Boolean = true,
-    ): Hit =
-        player.queueHit(
+    ): Hit {
+        return player.queueHit(
             delay = delay,
             type = type,
             damage = damage,
@@ -1330,6 +1402,7 @@ public class ProtectedAccess(
             modifier = modifier,
             strongQueue = strongQueue,
         )
+    }
 
     /**
      * Instantly applies [damage] to [player]. By default, this function applies no modification to
@@ -1353,8 +1426,8 @@ public class ProtectedAccess(
         specific: Boolean = false,
         modifier: PlayerHitModifier = NoopPlayerHitModifier,
         processor: InstantPlayerHitProcessor = context.instantHitProcessor,
-    ): Hit =
-        player.takeInstantHit(
+    ): Hit {
+        return player.takeInstantHit(
             type = type,
             damage = damage,
             hitmark = hitmark,
@@ -1362,6 +1435,7 @@ public class ProtectedAccess(
             modifier = modifier,
             processor = processor,
         )
+    }
 
     /**
      * Queues a hit dealt by [source] with an impact cycle delay of [delay] before the hit is
@@ -1412,7 +1486,7 @@ public class ProtectedAccess(
         sourceWeapon: ObjType? = null,
         sourceSecondary: ObjType? = null,
         modifier: PlayerHitModifier = StandardPlayerHitModifier,
-    ): Unit =
+    ) {
         player.queueImpactHit(
             source = source,
             delay = delay,
@@ -1424,6 +1498,7 @@ public class ProtectedAccess(
             sourceSecondary = sourceSecondary,
             modifier = modifier,
         )
+    }
 
     /**
      * Queues a hit dealt by [source] with an impact cycle delay of [delay] before the hit is
@@ -1470,7 +1545,7 @@ public class ProtectedAccess(
         hitmark: HitmarkTypeGroup = hitmark_groups.regular_damage,
         sourceSecondary: ObjType? = null,
         modifier: PlayerHitModifier = StandardPlayerHitModifier,
-    ): Unit =
+    ) {
         player.queueImpactHit(
             source = source,
             delay = delay,
@@ -1480,6 +1555,7 @@ public class ProtectedAccess(
             sourceSecondary = sourceSecondary,
             modifier = modifier,
         )
+    }
 
     /**
      * Queues a hit that does not originate from either a [Player] or an [Npc], with an impact cycle
@@ -1521,7 +1597,7 @@ public class ProtectedAccess(
         hitmark: HitmarkTypeGroup = hitmark_groups.regular_damage,
         specific: Boolean = false,
         modifier: PlayerHitModifier = StandardPlayerHitModifier,
-    ): Unit =
+    ) {
         player.queueImpactHit(
             delay = delay,
             type = type,
@@ -1531,6 +1607,7 @@ public class ProtectedAccess(
             modifier = modifier,
             strongQueue = true,
         )
+    }
 
     internal fun findHitNpcSource(hit: Hit): Npc? {
         return hit.resolveNpcSource(context.npcList)
@@ -1541,18 +1618,22 @@ public class ProtectedAccess(
     }
 
     @InternalApi
-    public fun processQueuedHit(hit: Hit): Unit = processQueuedHit(hit, StandardPlayerHitProcessor)
+    public fun processQueuedHit(hit: Hit) {
+        processQueuedHit(hit, StandardPlayerHitProcessor)
+    }
 
     @InternalApi
-    public fun processQueuedHit(builder: HitBuilder, modifier: PlayerHitModifier): Unit =
+    public fun processQueuedHit(builder: HitBuilder, modifier: PlayerHitModifier) {
         processQueuedHit(builder, modifier, StandardPlayerHitProcessor)
+    }
 
     public fun restoreToplevelTabs(tabTargets: Iterable<ComponentType>) {
         // TODO(combat): Publish gameframe-related event for `restoretabs`.
     }
 
-    public fun restoreToplevelTabs(vararg tabTarget: ComponentType): Unit =
+    public fun restoreToplevelTabs(vararg tabTarget: ComponentType) {
         restoreToplevelTabs(tabTarget.toList())
+    }
 
     public fun timer(timerType: TimerType, cycles: Int) {
         player.timer(timerType, cycles)
@@ -1619,13 +1700,19 @@ public class ProtectedAccess(
      *   no additional players can accrue kill credit (hero points) for this [player] until their
      *   hero points are cleared.
      */
-    public fun findHero(): Player? = player.findHero(context.playerList)
+    public fun findHero(): Player? {
+        return player.findHero(context.playerList)
+    }
 
     /** @see [org.rsmod.api.player.inArea] */
-    public fun inArea(area: AreaType): Boolean = player.inArea(context.areaChecker, area)
+    public fun inArea(area: AreaType): Boolean {
+        return player.inArea(context.areaChecker, area)
+    }
 
     /** @see [org.rsmod.api.player.mapMultiway] */
-    public fun mapMultiway(): Boolean = player.mapMultiway(context.areaChecker)
+    public fun mapMultiway(): Boolean {
+        return player.mapMultiway(context.areaChecker)
+    }
 
     public fun combatClearQueue() {
         player.combatClearQueue()
@@ -2675,74 +2762,123 @@ public class ProtectedAccess(
             op5 = op5,
         )
 
-    public fun toplevelSidebuttonSwitch(side: Int): Unit =
+    public fun toplevelSidebuttonSwitch(side: Int) {
         ClientScripts.toplevelSidebuttonSwitch(player, side)
+    }
 
     /* Cam helper functions */
-    public fun camLookAt(dest: CoordGrid, height: Int, rate: Int, rate2: Int): Unit =
+    public fun camLookAt(dest: CoordGrid, height: Int, rate: Int, rate2: Int) {
         Camera.camLookAt(player, dest, height, rate, rate2)
+    }
 
-    public fun camMoveTo(dest: CoordGrid, height: Int, rate: Int, rate2: Int): Unit =
+    public fun camMoveTo(dest: CoordGrid, height: Int, rate: Int, rate2: Int) {
         Camera.camMoveTo(player, dest, height, rate, rate2)
+    }
 
-    public fun camReset(): Unit = Camera.camReset(player)
+    public fun camReset() {
+        Camera.camReset(player)
+    }
 
     /* Cinematic helper functions */
-    public fun camModeClose(): Unit = Cinematic.setCameraMode(player, CameraMode.Close)
+    public fun camModeClose() {
+        Cinematic.setCameraMode(player, CameraMode.Close)
+    }
 
-    public fun camModeFar(): Unit = Cinematic.setCameraMode(player, CameraMode.Far)
+    public fun camModeFar() {
+        Cinematic.setCameraMode(player, CameraMode.Far)
+    }
 
-    public fun camModeFixed(): Unit = Cinematic.setCameraMode(player, CameraMode.Fixed)
+    public fun camModeFixed() {
+        Cinematic.setCameraMode(player, CameraMode.Fixed)
+    }
 
-    public fun camModeReset(): Unit = Cinematic.setCameraMode(player, CameraMode.Normal)
+    public fun camModeReset() {
+        Cinematic.setCameraMode(player, CameraMode.Normal)
+    }
 
-    public fun compassHideOps(): Unit = Cinematic.setCompassState(player, CompassState.HideOps)
+    public fun compassHideOps() {
+        Cinematic.setCompassState(player, CompassState.HideOps)
+    }
 
-    public fun compassUnknown2(): Unit = Cinematic.setCompassState(player, CompassState.Unknown2)
+    public fun compassUnknown2() {
+        Cinematic.setCompassState(player, CompassState.Unknown2)
+    }
 
-    public fun compassReset(): Unit = Cinematic.setCompassState(player, CompassState.Normal)
+    public fun compassReset() {
+        Cinematic.setCompassState(player, CompassState.Normal)
+    }
 
-    public fun minimapHideFull(): Unit = Cinematic.setMinimapState(player, MinimapState.Disabled)
+    public fun minimapHideFull() {
+        Cinematic.setMinimapState(player, MinimapState.Disabled)
+    }
 
-    public fun minimapNoOps(): Unit = Cinematic.setMinimapState(player, MinimapState.MinimapNoOp)
+    public fun minimapNoOps() {
+        Cinematic.setMinimapState(player, MinimapState.MinimapNoOp)
+    }
 
-    public fun minimapHideMap(): Unit =
+    public fun minimapHideMap() {
         Cinematic.setMinimapState(player, MinimapState.MinimapHidden)
+    }
 
-    public fun minimapHideCompass(): Unit =
+    public fun minimapHideCompass() {
         Cinematic.setMinimapState(player, MinimapState.CompassHidden)
+    }
 
-    public fun minimapNoOpsHideCompass(): Unit =
+    public fun minimapNoOpsHideCompass() {
         Cinematic.setMinimapState(player, MinimapState.MinimapNoOpCompassHidden)
+    }
 
-    public fun minimapReset(): Unit = Cinematic.setMinimapState(player, MinimapState.Normal)
+    public fun minimapReset() {
+        Cinematic.setMinimapState(player, MinimapState.Normal)
+    }
 
-    public fun hideTopLevel(): Unit = Cinematic.setHideToplevel(player, hide = true)
+    public fun hideTopLevel() {
+        Cinematic.setHideToplevel(player, hide = true)
+    }
 
-    public fun showTopLevel(): Unit = Cinematic.setHideToplevel(player, hide = false)
+    public fun showTopLevel() {
+        Cinematic.setHideToplevel(player, hide = false)
+    }
 
-    public fun clearHealthHud(): Unit = Cinematic.clearHealthHud(player)
+    public fun clearHealthHud() {
+        Cinematic.clearHealthHud(player)
+    }
 
-    public fun hideHealthHud(): Unit = Cinematic.setHideHealthHud(player, hide = true)
+    public fun hideHealthHud() {
+        Cinematic.setHideHealthHud(player, hide = true)
+    }
 
-    public fun showHealthHud(): Unit = Cinematic.setHideHealthHud(player, hide = false)
+    public fun showHealthHud() {
+        Cinematic.setHideHealthHud(player, hide = false)
+    }
 
-    public fun tempDisableAcceptAid(): Unit = Cinematic.disableAcceptAid(player)
+    public fun tempDisableAcceptAid() {
+        Cinematic.disableAcceptAid(player)
+    }
 
-    public fun restoreLastAcceptAid(): Unit = Cinematic.restoreAcceptAid(player)
+    public fun restoreLastAcceptAid() {
+        Cinematic.restoreAcceptAid(player)
+    }
 
-    public fun hideEntityOps(): Unit = Cinematic.setHideEntityOps(player, hide = true)
+    public fun hideEntityOps() {
+        Cinematic.setHideEntityOps(player, hide = true)
+    }
 
-    public fun showEntityOps(): Unit = Cinematic.setHideEntityOps(player, hide = false)
+    public fun showEntityOps() {
+        Cinematic.setHideEntityOps(player, hide = false)
+    }
 
-    public fun closeTopLevelTabs(eventBus: EventBus = context.eventBus): Unit =
-        Cinematic.closeToplevelTabs(player, eventBus)
+    public fun closeTopLevelTabs() {
+        Cinematic.closeToplevelTabs(player, context.eventBus)
+    }
 
-    public fun closeTopLevelTabsLenient(eventBus: EventBus = context.eventBus): Unit =
-        Cinematic.closeToplevelTabsLenient(player, eventBus)
+    public fun closeTopLevelTabsLenient() {
+        Cinematic.closeToplevelTabsLenient(player, context.eventBus)
+    }
 
-    public fun openTopLevelTabs(eventBus: EventBus = context.eventBus): Unit =
-        Cinematic.openTopLevelTabs(player, eventBus)
+    public fun openTopLevelTabs() {
+        Cinematic.openTopLevelTabs(player, context.eventBus)
+    }
 
     public fun fadeOverlay(
         startColour: Int,
@@ -2750,7 +2886,7 @@ public class ProtectedAccess(
         endColour: Int,
         endTransparency: Int,
         clientDuration: Int,
-    ): Unit =
+    ) {
         Cinematic.fadeOverlay(
             player,
             startColour,
@@ -2760,13 +2896,16 @@ public class ProtectedAccess(
             clientDuration,
             context.eventBus,
         )
+    }
 
     public fun closeFadeOverlay(cycles: Int = 3) {
         longQueueDiscard(queues.fade_overlay_close, cycles)
     }
 
     /* Interface helper functions */
-    public fun ifClose(): Unit = player.ifClose(context.eventBus)
+    public fun ifClose() {
+        player.ifClose(context.eventBus)
+    }
 
     public fun ifCloseSub(interf: InterfaceType) {
         player.ifCloseSub(interf, context.eventBus)
@@ -2813,29 +2952,42 @@ public class ProtectedAccess(
         player.ifOpenSub(interf, target, type, context.eventBus)
     }
 
-    public fun ifSetAnim(target: ComponentType, seq: SeqType?): Unit = player.ifSetAnim(target, seq)
+    public fun ifSetAnim(target: ComponentType, seq: SeqType?) {
+        player.ifSetAnim(target, seq)
+    }
 
-    public fun ifSetEvents(target: ComponentType, range: IntRange, vararg event: IfEvent): Unit =
+    public fun ifSetEvents(target: ComponentType, range: IntRange, vararg event: IfEvent) {
         player.ifSetEvents(target, range, *event)
+    }
 
-    public fun ifSetNpcHead(target: ComponentType, npc: NpcType): Unit =
+    public fun ifSetNpcHead(target: ComponentType, npc: NpcType) {
         player.ifSetNpcHead(target, npc)
+    }
 
-    public fun ifSetPlayerHead(target: ComponentType): Unit = player.ifSetPlayerHead(target)
+    public fun ifSetPlayerHead(target: ComponentType) {
+        player.ifSetPlayerHead(target)
+    }
 
-    public fun ifSetText(target: ComponentType, text: String): Unit = player.ifSetText(target, text)
+    public fun ifSetText(target: ComponentType, text: String) {
+        player.ifSetText(target, text)
+    }
 
-    public fun ifSetObj(target: ComponentType, obj: ObjType, zoom: Int): Unit =
+    public fun ifSetObj(target: ComponentType, obj: ObjType, zoom: Int) {
         player.ifSetObj(target, obj, zoom)
+    }
 
-    public fun ifSetHide(target: ComponentType, hide: Boolean): Unit =
+    public fun ifSetHide(target: ComponentType, hide: Boolean) {
         player.ifSetHide(target, hide)
+    }
 
     /* Inventory helper functions */
-    public fun invTakeFee(fee: Int, inv: Inventory = this.inv): Boolean =
-        player.invTakeFee(fee, inv)
+    public fun invTakeFee(fee: Int, inv: Inventory = this.inv): Boolean {
+        return player.invTakeFee(fee, inv)
+    }
 
-    public fun invCoinTotal(inv: Inventory = this.inv): Int = invTotal(inv, objs.coins)
+    public fun invCoinTotal(inv: Inventory = this.inv): Int {
+        return invTotal(inv, objs.coins)
+    }
 
     public fun invTotal(inv: Inventory, content: ContentGroupType): Int {
         val types = context.objTypes
@@ -2908,19 +3060,31 @@ public class ProtectedAccess(
         coord: CoordGrid,
         height: Int = 0,
         delay: Int = 0,
-    ): Unit = repo.spotanimMap(spotanim, coord, height, delay)
+    ) {
+        repo.spotanimMap(spotanim, coord, height, delay)
+    }
 
     /* Message game helper functions */
-    public fun mes(text: String): Unit = player.mes(text, ChatType.GameMessage)
+    public fun mes(text: String) {
+        player.mes(text, ChatType.GameMessage)
+    }
 
-    public fun mes(text: String, type: ChatType): Unit = player.mes(text, type)
+    public fun mes(text: String, type: ChatType) {
+        player.mes(text, type)
+    }
 
-    public fun spam(text: String): Unit = player.spam(text)
+    public fun spam(text: String) {
+        player.spam(text)
+    }
 
     /* Midi helper functions */
-    public fun midiJingle(jingle: JingleType): Unit = player.midiJingle(jingle)
+    public fun midiJingle(jingle: JingleType) {
+        player.midiJingle(jingle)
+    }
 
-    public fun midiSong(midi: MidiType): Unit = player.midiSong(midi)
+    public fun midiSong(midi: MidiType) {
+        player.midiSong(midi)
+    }
 
     /* Npc helper functions (nc=npc config) */
     public fun <T : Any> ncParam(type: NpcType, param: ParamType<T>): T {
@@ -2980,7 +3144,9 @@ public class ProtectedAccess(
      * @throws IllegalStateException if npc type does not have an associated value for [param] and
      *   [param] does not have a [ParamType.default] value.
      */
-    public fun <T : Any> npcParam(npc: Npc, param: ParamType<T>): T = npc.type.param(param)
+    public fun <T : Any> npcParam(npc: Npc, param: ParamType<T>): T {
+        return npc.type.param(param)
+    }
 
     /**
      * Retrieves the [param] value for the base [npc], or returns `null` if the npc's type lacks an
@@ -2989,8 +3155,9 @@ public class ProtectedAccess(
      * _Note: This retrieves the parameter from the npc's **base** type, ignoring any `multinpc` or
      * transmogrification effects._
      */
-    public fun <T : Any> npcParamOrNull(npc: Npc, param: ParamType<T>): T? =
-        npc.type.paramOrNull(param)
+    public fun <T : Any> npcParamOrNull(npc: Npc, param: ParamType<T>): T? {
+        return npc.type.paramOrNull(param)
+    }
 
     /* Obj helper functions (oc=obj config) */
     public fun ocCert(type: ObjType): UnpackedObjType {
@@ -3019,22 +3186,27 @@ public class ProtectedAccess(
         return obj != null && context.objTypes[obj].contentGroup == content.id
     }
 
-    public fun ocIsType(obj: InvObj?, type: ObjType): Boolean = obj.isType(type)
+    public fun ocIsType(obj: InvObj?, type: ObjType): Boolean {
+        return obj.isType(type)
+    }
 
-    public fun ocIsType(obj: InvObj?, type: ObjType, vararg others: ObjType): Boolean =
-        obj.isType(type) || others.any(obj::isType)
+    public fun ocIsType(obj: InvObj?, type: ObjType, vararg others: ObjType): Boolean {
+        return obj.isType(type) || others.any(obj::isType)
+    }
 
     public fun ocTradable(obj: InvObj): Boolean {
         return context.objTypes[obj].tradeable
     }
 
-    public fun ocCategory(type: UnpackedObjType?, catTypes: CategoryTypeList): CategoryType? =
-        if (type == null) null else catTypes[type.category]
+    public fun ocCategory(type: UnpackedObjType?, catTypes: CategoryTypeList): CategoryType? {
+        return if (type == null) null else catTypes[type.category]
+    }
 
     // TODO: Decide if we either want to keep this and make it public; or remove it and refactor
     //  its usage (only called in one place as of now due to laziness).
-    internal fun ocType(obj: InvObj?): UnpackedObjType? =
-        if (obj == null) null else context.objTypes[obj]
+    internal fun ocType(obj: InvObj?): UnpackedObjType? {
+        return if (obj == null) null else context.objTypes[obj]
+    }
 
     /* Seq helper functions */
     /** Returns the total time duration of [seq] in _**client frames**_. */
@@ -3048,8 +3220,9 @@ public class ProtectedAccess(
     }
 
     /* Sound helper functions */
-    public fun soundSynth(synth: SynthType, loops: Int = 1, delay: Int = 0): Unit =
+    public fun soundSynth(synth: SynthType, loops: Int = 1, delay: Int = 0) {
         player.soundSynth(synth, loops, delay)
+    }
 
     public fun soundArea(
         repo: WorldRepository,
@@ -3102,7 +3275,9 @@ public class ProtectedAccess(
         return visType.name
     }
 
-    override fun toString(): String = "ProtectedAccess(player=$player, coroutine=$coroutine)"
+    override fun toString(): String {
+        return "ProtectedAccess(player=$player, coroutine=$coroutine)"
+    }
 }
 
 private fun <T> lazy(init: () -> T): Lazy<T> = lazy(LazyThreadSafetyMode.NONE, init)
