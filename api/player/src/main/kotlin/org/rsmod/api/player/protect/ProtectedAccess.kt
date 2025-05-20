@@ -107,6 +107,7 @@ import org.rsmod.api.player.ui.ifOpenOverlay
 import org.rsmod.api.player.ui.ifOpenSub
 import org.rsmod.api.player.ui.ifSetAnim
 import org.rsmod.api.player.ui.ifSetEvents
+import org.rsmod.api.player.ui.ifSetHide
 import org.rsmod.api.player.ui.ifSetNpcHead
 import org.rsmod.api.player.ui.ifSetObj
 import org.rsmod.api.player.ui.ifSetPlayerHead
@@ -2895,6 +2896,9 @@ public class ProtectedAccess(
 
     public fun ifSetObj(target: ComponentType, obj: ObjType, zoom: Int): Unit =
         player.ifSetObj(target, obj, zoom)
+
+    public fun ifSetHide(target: ComponentType, hide: Boolean): Unit =
+        player.ifSetHide(target, hide)
 
     /* Inventory helper functions */
     public fun invTakeFee(fee: Int, inv: Inventory = this.inv): Boolean =
