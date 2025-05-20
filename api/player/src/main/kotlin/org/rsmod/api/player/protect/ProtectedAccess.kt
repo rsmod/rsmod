@@ -48,9 +48,6 @@ import org.rsmod.api.player.input.ResumePObjDialogInput
 import org.rsmod.api.player.input.ResumePStringDialogInput
 import org.rsmod.api.player.input.ResumePauseButtonInput
 import org.rsmod.api.player.interact.HeldInteractions
-import org.rsmod.api.player.interact.LocInteractions
-import org.rsmod.api.player.interact.NpcInteractions
-import org.rsmod.api.player.interact.PlayerInteractions
 import org.rsmod.api.player.interact.WornInteractions
 import org.rsmod.api.player.isInCombat
 import org.rsmod.api.player.isInPvnCombat
@@ -130,10 +127,8 @@ import org.rsmod.events.KeyedEvent
 import org.rsmod.events.SuspendEvent
 import org.rsmod.events.UnboundEvent
 import org.rsmod.game.entity.Npc
-import org.rsmod.game.entity.NpcList
 import org.rsmod.game.entity.PathingEntity
 import org.rsmod.game.entity.Player
-import org.rsmod.game.entity.PlayerList
 import org.rsmod.game.entity.npc.NpcMode
 import org.rsmod.game.entity.npc.NpcUid
 import org.rsmod.game.entity.player.PlayerUid
@@ -165,22 +160,17 @@ import org.rsmod.game.type.interf.IfEvent
 import org.rsmod.game.type.interf.IfSubType
 import org.rsmod.game.type.interf.InterfaceType
 import org.rsmod.game.type.inv.InvType
-import org.rsmod.game.type.inv.InvTypeList
 import org.rsmod.game.type.jingle.JingleType
 import org.rsmod.game.type.loc.LocType
-import org.rsmod.game.type.loc.LocTypeList
 import org.rsmod.game.type.mesanim.UnpackedMesAnimType
 import org.rsmod.game.type.midi.MidiType
 import org.rsmod.game.type.npc.NpcType
-import org.rsmod.game.type.npc.NpcTypeList
 import org.rsmod.game.type.npc.UnpackedNpcType
 import org.rsmod.game.type.obj.ObjType
-import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.type.param.ParamType
 import org.rsmod.game.type.queue.QueueType
 import org.rsmod.game.type.seq.SeqType
-import org.rsmod.game.type.seq.SeqTypeList
 import org.rsmod.game.type.seq.UnpackedSeqType
 import org.rsmod.game.type.spot.SpotanimType
 import org.rsmod.game.type.stat.StatType
@@ -349,14 +339,8 @@ public class ProtectedAccess(
      *   upon reaching [end]. Common values can be found in the `constants` file, prefixed with
      *   "em_face_" (e.g. `em_face_north`).
      */
-    public fun exactMove(
-        start: CoordGrid,
-        end: CoordGrid,
-        delay1: Int,
-        delay2: Int,
-        dir: Int,
-        collision: CollisionFlagMap = context.collision,
-    ) {
+    public fun exactMove(start: CoordGrid, end: CoordGrid, delay1: Int, delay2: Int, dir: Int) {
+        val collision = context.collision
         if (!collision.isZoneValid(end)) {
             player.clearMapFlag()
             mes("Invalid teleport!", ChatType.Engine)
@@ -393,8 +377,8 @@ public class ProtectedAccess(
         player.say(text)
     }
 
-    public fun transmog(npcType: NpcType, npcTypeList: NpcTypeList = context.npcTypes) {
-        player.transmog = npcTypeList[npcType]
+    public fun transmog(npcType: NpcType) {
+        player.transmog = context.npcTypes[npcType]
     }
 
     public fun resetTransmog() {
@@ -457,19 +441,19 @@ public class ProtectedAccess(
     }
 
     /**
-     * Returns a [Player] from [playerList] whose [Player.uid] matches [uid], or `null` if no match
-     * is found.
+     * Returns a [Player] from the active player list whose [Player.uid] matches [uid], or `null` if
+     * no match is found.
      */
-    public fun findUid(uid: PlayerUid, playerList: PlayerList): Player? {
-        return uid.resolve(playerList)
+    public fun findUid(uid: PlayerUid): Player? {
+        return uid.resolve(context.playerList)
     }
 
     /**
-     * Returns an [Npc] from [npcList] whose [Npc.uid] matches [uid], or `null` if no match is
-     * found.
+     * Returns an [Npc] from the active npc list whose [Npc.uid] matches [uid], or `null` if no
+     * match is found.
      */
-    public fun findUid(uid: NpcUid, npcList: NpcList = context.npcList): Npc? {
-        return uid.resolve(npcList)
+    public fun findUid(uid: NpcUid): Npc? {
+        return uid.resolve(context.npcList)
     }
 
     /**
@@ -491,9 +475,8 @@ public class ProtectedAccess(
         centre: CoordGrid,
         minRadius: Int,
         maxRadius: Int,
-        validator: RayCastValidator = RayCastValidator(context.collision),
     ): CoordGrid? {
-        val squares = validatedLineOfWalkSquares(centre, minRadius, maxRadius, validator)
+        val squares = validatedLineOfWalkSquares(centre, minRadius, maxRadius)
         return squares.firstOrNull()
     }
 
@@ -516,9 +499,8 @@ public class ProtectedAccess(
         centre: CoordGrid,
         minRadius: Int,
         maxRadius: Int,
-        validator: RayCastValidator = RayCastValidator(context.collision),
     ): CoordGrid? {
-        val squares = validatedLineOfSightSquares(centre, minRadius, maxRadius, validator)
+        val squares = validatedLineOfSightSquares(centre, minRadius, maxRadius)
         return squares.firstOrNull()
     }
 
@@ -537,8 +519,8 @@ public class ProtectedAccess(
         centre: CoordGrid,
         minRadius: Int,
         maxRadius: Int,
-        validator: RayCastValidator = RayCastValidator(context.collision),
     ): Sequence<CoordGrid> {
+        val validator = RayCastValidator(context.collision)
         val squares = shuffledSquares(centre, minRadius, maxRadius)
         return squares.filter {
             validator.hasLineOfWalk(centre, it, extraFlag = CollisionFlag.BLOCK_PLAYERS)
@@ -560,8 +542,8 @@ public class ProtectedAccess(
         centre: CoordGrid,
         minRadius: Int,
         maxRadius: Int,
-        validator: RayCastValidator = RayCastValidator(context.collision),
     ): Sequence<CoordGrid> {
+        val validator = RayCastValidator(context.collision)
         val squares = shuffledSquares(centre, minRadius, maxRadius)
         return squares.filter {
             validator.hasLineOfSight(centre, it, extraFlag = CollisionFlag.BLOCK_PLAYERS)
@@ -581,8 +563,8 @@ public class ProtectedAccess(
         centre: CoordGrid,
         minRadius: Int,
         maxRadius: Int,
-        collision: CollisionFlagMap = context.collision,
     ): Sequence<CoordGrid> {
+        val collision = context.collision
         val squares = shuffledSquares(centre, minRadius, maxRadius)
         return squares.filter {
             val flag = collision[coords]
@@ -605,28 +587,23 @@ public class ProtectedAccess(
     }
 
     /** Returns `true` if there is a valid line-of-walk from [from] to [to] */
-    public fun lineOfWalk(
-        from: CoordGrid,
-        to: CoordGrid,
-        validator: RayCastValidator = RayCastValidator(context.collision),
-    ): Boolean = validator.hasLineOfWalk(from, to, extraFlag = CollisionFlag.BLOCK_PLAYERS)
+    public fun lineOfWalk(from: CoordGrid, to: CoordGrid): Boolean {
+        val validator = RayCastValidator(context.collision)
+        return validator.hasLineOfWalk(from, to, extraFlag = CollisionFlag.BLOCK_PLAYERS)
+    }
 
     /** Returns `true` if there is a valid line-of-sight from [from] to [to] */
-    public fun lineOfSight(
-        from: CoordGrid,
-        to: CoordGrid,
-        validator: RayCastValidator = RayCastValidator(context.collision),
-    ): Boolean = validator.hasLineOfSight(from, to, extraFlag = CollisionFlag.BLOCK_PLAYERS)
+    public fun lineOfSight(from: CoordGrid, to: CoordGrid): Boolean {
+        val validator = RayCastValidator(context.collision)
+        return validator.hasLineOfSight(from, to, extraFlag = CollisionFlag.BLOCK_PLAYERS)
+    }
 
     /**
      * Returns `true` if there is a valid line-of-walk from [from] to **every** coordinate occupied
      * by [bounds].
      */
-    public fun lineOfWalk(
-        from: CoordGrid,
-        bounds: Bounds,
-        validator: RayCastValidator = RayCastValidator(context.collision),
-    ): Boolean {
+    public fun lineOfWalk(from: CoordGrid, bounds: Bounds): Boolean {
+        val validator = RayCastValidator(context.collision)
         val squares = bounds.asSequence()
         return squares.all {
             validator.hasLineOfWalk(from, it, extraFlag = CollisionFlag.BLOCK_PLAYERS)
@@ -637,11 +614,8 @@ public class ProtectedAccess(
      * Returns `true` if there is a valid line-of-sight from [from] to **every** coordinate occupied
      * by [bounds].
      */
-    public fun lineOfSight(
-        from: CoordGrid,
-        bounds: Bounds,
-        validator: RayCastValidator = RayCastValidator(context.collision),
-    ): Boolean {
+    public fun lineOfSight(from: CoordGrid, bounds: Bounds): Boolean {
+        val validator = RayCastValidator(context.collision)
         val squares = bounds.asSequence()
         return squares.all {
             validator.hasLineOfSight(from, it, extraFlag = CollisionFlag.BLOCK_PLAYERS)
@@ -649,57 +623,53 @@ public class ProtectedAccess(
     }
 
     /** Returns `true` if [coord] has the [CollisionFlag.BLOCK_WALK] collision flag set. */
-    public fun mapBlocked(
-        coord: CoordGrid,
-        collision: CollisionFlagMap = context.collision,
-    ): Boolean = collision.isWalkBlocked(coord)
+    public fun mapBlocked(coord: CoordGrid): Boolean {
+        return context.collision.isWalkBlocked(coord)
+    }
 
-    public fun opLoc1(
-        loc: BoundLocInfo,
-        interactions: LocInteractions = context.locInteractions,
-    ): Unit = interactions.interact(player, loc, InteractionOp.Op1)
+    public fun opLoc1(loc: BoundLocInfo) {
+        context.locInteractions.interact(player, loc, InteractionOp.Op1)
+    }
 
-    public fun opLoc2(
-        loc: BoundLocInfo,
-        interactions: LocInteractions = context.locInteractions,
-    ): Unit = interactions.interact(player, loc, InteractionOp.Op2)
+    public fun opLoc2(loc: BoundLocInfo) {
+        context.locInteractions.interact(player, loc, InteractionOp.Op2)
+    }
 
-    public fun opLoc3(
-        loc: BoundLocInfo,
-        interactions: LocInteractions = context.locInteractions,
-    ): Unit = interactions.interact(player, loc, InteractionOp.Op3)
+    public fun opLoc3(loc: BoundLocInfo) {
+        context.locInteractions.interact(player, loc, InteractionOp.Op3)
+    }
 
-    public fun opLoc4(
-        loc: BoundLocInfo,
-        interactions: LocInteractions = context.locInteractions,
-    ): Unit = interactions.interact(player, loc, InteractionOp.Op4)
+    public fun opLoc4(loc: BoundLocInfo) {
+        context.locInteractions.interact(player, loc, InteractionOp.Op4)
+    }
 
-    public fun opNpc1(npc: Npc, interactions: NpcInteractions = context.npcInteractions): Unit =
-        interactions.interact(player, npc, InteractionOp.Op1)
+    public fun opNpc1(npc: Npc) {
+        context.npcInteractions.interact(player, npc, InteractionOp.Op1)
+    }
 
-    public fun opNpc2(npc: Npc, interactions: NpcInteractions = context.npcInteractions): Unit =
-        interactions.interact(player, npc, InteractionOp.Op2)
+    public fun opNpc2(npc: Npc) {
+        context.npcInteractions.interact(player, npc, InteractionOp.Op2)
+    }
 
-    public fun opNpc3(npc: Npc, interactions: NpcInteractions = context.npcInteractions): Unit =
-        interactions.interact(player, npc, InteractionOp.Op3)
+    public fun opNpc3(npc: Npc) {
+        context.npcInteractions.interact(player, npc, InteractionOp.Op3)
+    }
 
-    public fun opNpc4(npc: Npc, interactions: NpcInteractions = context.npcInteractions): Unit =
-        interactions.interact(player, npc, InteractionOp.Op4)
+    public fun opNpc4(npc: Npc) {
+        context.npcInteractions.interact(player, npc, InteractionOp.Op4)
+    }
 
-    public fun opPlayer2(target: Player, interactions: PlayerInteractions): Unit =
-        interactions.interact(player, target, InteractionOp.Op2)
+    public fun opPlayer2(target: Player) {
+        context.playerInteractions.interact(player, target, InteractionOp.Op2)
+    }
 
     /**
      * @throws IllegalStateException if [checkOpHeldCallLimit] exceeds the safety net threshold.
      * @see [checkOpHeldCallLimit]
      */
-    public suspend fun opHeld1(
-        invSlot: Int,
-        inv: Inventory = player.inv,
-        interactions: HeldInteractions = context.heldInteractions,
-    ) {
+    public suspend fun opHeld1(invSlot: Int, inv: Inventory = player.inv) {
         checkOpHeldCallLimit()
-        interactions.interact(this, inv, invSlot, HeldOp.Op1)
+        context.heldInteractions.interact(this, inv, invSlot, HeldOp.Op1)
     }
 
     /**
@@ -711,39 +681,27 @@ public class ProtectedAccess(
      * @see [HeldOp.Op2]
      */
     // TODO: Add specialized `HeldInteractions.opHeld2` function that returns a result type.
-    public suspend fun opHeld2(
-        invSlot: Int,
-        inv: Inventory = player.inv,
-        interactions: HeldInteractions = context.heldInteractions,
-    ) {
+    public suspend fun opHeld2(invSlot: Int, inv: Inventory = player.inv) {
         checkOpHeldCallLimit()
-        interactions.interact(this, inv, invSlot, HeldOp.Op2)
+        context.heldInteractions.interact(this, inv, invSlot, HeldOp.Op2)
     }
 
     /**
      * @throws IllegalStateException if [checkOpHeldCallLimit] exceeds the safety net threshold.
      * @see [checkOpHeldCallLimit]
      */
-    public suspend fun opHeld3(
-        invSlot: Int,
-        inv: Inventory = player.inv,
-        interactions: HeldInteractions = context.heldInteractions,
-    ) {
+    public suspend fun opHeld3(invSlot: Int, inv: Inventory = player.inv) {
         checkOpHeldCallLimit()
-        interactions.interact(this, inv, invSlot, HeldOp.Op3)
+        context.heldInteractions.interact(this, inv, invSlot, HeldOp.Op3)
     }
 
     /**
      * @throws IllegalStateException if [checkOpHeldCallLimit] exceeds the safety net threshold.
      * @see [checkOpHeldCallLimit]
      */
-    public suspend fun opHeld4(
-        invSlot: Int,
-        inv: Inventory = player.inv,
-        interactions: HeldInteractions = context.heldInteractions,
-    ) {
+    public suspend fun opHeld4(invSlot: Int, inv: Inventory = player.inv) {
         checkOpHeldCallLimit()
-        interactions.interact(this, inv, invSlot, HeldOp.Op4)
+        context.heldInteractions.interact(this, inv, invSlot, HeldOp.Op4)
     }
 
     /**
@@ -754,13 +712,9 @@ public class ProtectedAccess(
      * @see [HeldOp.Op5]
      * @see [checkOpHeldCallLimit]
      */
-    public suspend fun opHeld5(
-        invSlot: Int,
-        inv: Inventory = player.inv,
-        interactions: HeldInteractions = context.heldInteractions,
-    ) {
+    public suspend fun opHeld5(invSlot: Int, inv: Inventory = player.inv) {
         checkOpHeldCallLimit()
-        interactions.interact(this, inv, invSlot, HeldOp.Op5)
+        context.heldInteractions.interact(this, inv, invSlot, HeldOp.Op5)
     }
 
     /**
@@ -770,11 +724,9 @@ public class ProtectedAccess(
      * @return [HeldEquipResult] with result of the attempt to equip respective obj.
      * @see [HeldInteractions.equip]
      */
-    public fun invEquip(
-        invSlot: Int,
-        inv: Inventory = player.inv,
-        interactions: HeldInteractions = context.heldInteractions,
-    ): HeldEquipResult = interactions.equip(this, inv, invSlot)
+    public fun invEquip(invSlot: Int, inv: Inventory = player.inv): HeldEquipResult {
+        return context.heldInteractions.equip(this, inv, invSlot)
+    }
 
     /**
      * Note: This function will bypass any `onOpHeld5` scripts attached to the respective obj and
@@ -782,13 +734,9 @@ public class ProtectedAccess(
      *
      * @see [HeldInteractions.drop]
      */
-    public suspend fun invDrop(
-        invSlot: Int,
-        inv: Inventory = player.inv,
-        interactions: HeldInteractions = context.heldInteractions,
-    ) {
+    public suspend fun invDrop(invSlot: Int, inv: Inventory = player.inv) {
         checkOpHeldCallLimit()
-        interactions.drop(this, inv, invSlot)
+        context.heldInteractions.drop(this, inv, invSlot)
     }
 
     /**
@@ -798,12 +746,15 @@ public class ProtectedAccess(
      * @return [WornUnequipResult] with result of the attempt to unequip respective obj.
      * @see [WornInteractions.unequip]
      */
+    // TODO: This function needs to be removed and any calls should be replaced with a new
+    //  `opWorn1`.
     public fun wornUnequip(
         wornSlot: Int,
         into: Inventory = player.inv,
         from: Inventory = player.worn,
-        interactions: WornInteractions = context.wornInteractions,
-    ): WornUnequipResult = interactions.unequip(this, from, wornSlot, into)
+    ): WornUnequipResult {
+        return context.wornInteractions.unequip(this, from, wornSlot, into)
+    }
 
     public fun faceSquare(target: CoordGrid): Unit = player.faceSquare(target)
 
@@ -815,11 +766,7 @@ public class ProtectedAccess(
         player.facePathingEntitySquare(target)
 
     public fun stopAction() {
-        stopAction(context.eventBus)
-    }
-
-    public fun stopAction(eventBus: EventBus) {
-        player.clearPendingAction(eventBus)
+        player.clearPendingAction(context.eventBus)
         player.resetFaceEntity()
         player.clearMapFlag()
         player.abortRoute()
@@ -1139,10 +1086,9 @@ public class ProtectedAccess(
         inventory: Inventory,
         slot: Int,
         marketPrices: MarketPrices = context.marketPrices,
-        objTypes: ObjTypeList = context.objTypes,
     ) {
         val obj = inventory[slot] ?: return resendSlot(inventory, 0)
-        val normalized = objTypes.normalize(objTypes[obj])
+        val normalized = context.objTypes.normalize(context.objTypes[obj])
         player.objExamine(normalized, obj.count, marketPrices[normalized] ?: 0)
     }
 
@@ -1586,13 +1532,13 @@ public class ProtectedAccess(
             strongQueue = true,
         )
 
-    internal fun findHitNpcSource(hit: Hit, npcList: NpcList = context.npcList): Npc? =
-        hit.resolveNpcSource(npcList)
+    internal fun findHitNpcSource(hit: Hit): Npc? {
+        return hit.resolveNpcSource(context.npcList)
+    }
 
-    internal fun findHitPlayerSource(
-        hit: Hit,
-        playerList: PlayerList = context.playerList,
-    ): Player? = hit.resolvePlayerSource(playerList)
+    internal fun findHitPlayerSource(hit: Hit): Player? {
+        return hit.resolvePlayerSource(context.playerList)
+    }
 
     @InternalApi
     public fun processQueuedHit(hit: Hit): Unit = processQueuedHit(hit, StandardPlayerHitProcessor)
@@ -1673,9 +1619,7 @@ public class ProtectedAccess(
      *   no additional players can accrue kill credit (hero points) for this [player] until their
      *   hero points are cleared.
      */
-    public fun findHero(playerList: PlayerList): Player? {
-        return player.findHero(playerList)
-    }
+    public fun findHero(): Player? = player.findHero(context.playerList)
 
     /** @see [org.rsmod.api.player.inArea] */
     public fun inArea(area: AreaType): Boolean = player.inArea(context.areaChecker, area)
@@ -1687,8 +1631,8 @@ public class ProtectedAccess(
         player.combatClearQueue()
     }
 
-    public fun clearPendingAction(eventBus: EventBus = context.eventBus) {
-        player.clearPendingAction(eventBus)
+    public fun clearPendingAction() {
+        player.clearPendingAction(context.eventBus)
     }
 
     /**
@@ -1744,18 +1688,17 @@ public class ProtectedAccess(
         return player.walkTrigger(trigger)
     }
 
-    public fun publish(event: UnboundEvent, eventBus: EventBus = context.eventBus) {
-        eventBus.publish(event)
+    public fun publish(event: UnboundEvent) {
+        context.eventBus.publish(event)
     }
 
-    public fun publish(event: KeyedEvent, eventBus: EventBus = context.eventBus) {
-        eventBus.publish(event)
+    public fun publish(event: KeyedEvent) {
+        context.eventBus.publish(event)
     }
 
-    public suspend fun <T : SuspendEvent<ProtectedAccess>> publish(
-        event: T,
-        eventBus: EventBus = context.eventBus,
-    ): Boolean = eventBus.publish(this, event)
+    public suspend fun <T : SuspendEvent<ProtectedAccess>> publish(event: T): Boolean {
+        return context.eventBus.publish(this, event)
+    }
 
     public fun logOut() {
         assertLogoutState()
@@ -1826,9 +1769,9 @@ public class ProtectedAccess(
      *   suspension resumes.
      * @see [regainProtectedAccess]
      */
-    public suspend fun delay(seq: SeqType, seqTypes: SeqTypeList = context.seqTypes) {
-        val ticks = seqTypes[seq].tickDuration
-        check(ticks > 0) { "Seq tick duration must be positive: ${seqTypes[seq]}" }
+    public suspend fun delay(seq: SeqType) {
+        val ticks = context.seqTypes[seq].tickDuration
+        check(ticks > 0) { "Seq tick duration must be positive: ${context.seqTypes[seq]}" }
         delay(cycles = ticks)
     }
 
@@ -2500,9 +2443,8 @@ public class ProtectedAccess(
         count: Int,
         header: String,
         text: String,
-        eventBus: EventBus = context.eventBus,
     ): Boolean {
-        player.ifConfirmDestroy(header, text, obj.id, count, eventBus)
+        player.ifConfirmDestroy(header, text, obj.id, count, context.eventBus)
         val modal = player.ui.getModalOrNull(components.chatbox_chatmodal)
         val input = coroutine.pause(ResumePauseButtonInput::class)
         resumePauseButtonWithProtectedAccess(input, modal, components.confirmdestroy_pbutton)
@@ -2526,13 +2468,12 @@ public class ProtectedAccess(
         text: String,
         cancel: String,
         confirm: String,
-        eventBus: EventBus = context.eventBus,
     ): Boolean {
-        player.ifConfirmOverlay(target, title, text, cancel, confirm, eventBus)
+        player.ifConfirmOverlay(target, title, text, cancel, confirm, context.eventBus)
         val modal = player.ui.getModalOrNull(components.mainmodal)
         val input = coroutine.pause(ResumePCountDialogInput::class)
         val confirmed = resumeWithMainModalProtectedAccess(input.count != 0, modal)
-        player.ifConfirmOverlayClose(eventBus)
+        player.ifConfirmOverlayClose(context.eventBus)
         return confirmed
     }
 
@@ -2547,14 +2488,9 @@ public class ProtectedAccess(
      * @throws IllegalArgumentException if [choices] has more than `127` elements.
      * @see [resumeWithMainModalProtectedAccess]
      */
-    public suspend fun menu(
-        title: String,
-        hotkeys: Boolean,
-        choices: List<String>,
-        eventBus: EventBus = context.eventBus,
-    ): Int {
+    public suspend fun menu(title: String, hotkeys: Boolean, choices: List<String>): Int {
         require(choices.size < 128) { "Can only have up to 127 `choices`. (size=${choices.size})" }
-        player.ifMenu(title, choices.joinToString("|"), hotkeys, eventBus)
+        player.ifMenu(title, choices.joinToString("|"), hotkeys, context.eventBus)
         val modal = player.ui.getModalOrNull(components.mainmodal)
         val input = coroutine.pause(ResumePauseButtonInput::class)
         chatDefaultRestoreInput(player)
@@ -2572,12 +2508,9 @@ public class ProtectedAccess(
      * @throws IllegalArgumentException if [choices] has more than `127` elements.
      * @see [resumeWithMainModalProtectedAccess]
      */
-    public suspend fun menu(
-        title: String,
-        vararg choices: String,
-        hotkeys: Boolean = false,
-        eventBus: EventBus = context.eventBus,
-    ): Int = menu(title, hotkeys, choices.toList(), eventBus)
+    public suspend fun menu(title: String, vararg choices: String, hotkeys: Boolean = false): Int {
+        return menu(title, hotkeys, choices.toList())
+    }
 
     /**
      * Ensures we can still obtain protected access for [player]. If protected access cannot be
@@ -2817,7 +2750,6 @@ public class ProtectedAccess(
         endColour: Int,
         endTransparency: Int,
         clientDuration: Int,
-        eventBus: EventBus = context.eventBus,
     ): Unit =
         Cinematic.fadeOverlay(
             player,
@@ -2826,7 +2758,7 @@ public class ProtectedAccess(
             endColour,
             endTransparency,
             clientDuration,
-            eventBus,
+            context.eventBus,
         )
 
     public fun closeFadeOverlay(cycles: Int = 3) {
@@ -2834,57 +2766,52 @@ public class ProtectedAccess(
     }
 
     /* Interface helper functions */
-    public fun ifClose(eventBus: EventBus = context.eventBus): Unit = player.ifClose(eventBus)
+    public fun ifClose(): Unit = player.ifClose(context.eventBus)
 
-    public fun ifCloseSub(interf: InterfaceType, eventBus: EventBus = context.eventBus): Unit =
-        player.ifCloseSub(interf, eventBus)
+    public fun ifCloseSub(interf: InterfaceType) {
+        player.ifCloseSub(interf, context.eventBus)
+    }
 
     /**
      * Difference with [ifOpenMainModal] is that this function will **not** send
      * `toplevel_mainmodal_open` (script 2524) before opening the interface.
      */
-    public fun ifOpenMain(interf: InterfaceType, eventBus: EventBus = context.eventBus): Unit =
-        player.ifOpenMain(interf, eventBus)
+    public fun ifOpenMain(interf: InterfaceType) {
+        player.ifOpenMain(interf, context.eventBus)
+    }
 
     public fun ifOpenMainSidePair(
         main: InterfaceType,
         side: InterfaceType,
         colour: Int = -1,
         transparency: Int = -1,
-        eventBus: EventBus = context.eventBus,
-    ): Unit = player.ifOpenMainSidePair(main, side, colour, transparency, eventBus)
+    ) {
+        player.ifOpenMainSidePair(main, side, colour, transparency, context.eventBus)
+    }
 
     /**
      * Difference with [ifOpenMain] is that this function will send `toplevel_mainmodal_open`
      * (script 2524) before opening the interface in the main modal position.
      */
-    public fun ifOpenMainModal(
-        interf: InterfaceType,
-        colour: Int = -1,
-        transparency: Int = -1,
-        eventBus: EventBus = context.eventBus,
-    ): Unit = player.ifOpenMainModal(interf, eventBus, colour, transparency)
+    public fun ifOpenMainModal(interf: InterfaceType, colour: Int = -1, transparency: Int = -1) {
+        player.ifOpenMainModal(interf, context.eventBus, colour, transparency)
+    }
 
-    public fun ifOpenOverlay(
-        interf: InterfaceType,
-        target: ComponentType,
-        eventBus: EventBus = context.eventBus,
-    ): Unit = player.ifOpenOverlay(interf, target, eventBus)
+    public fun ifOpenOverlay(interf: InterfaceType, target: ComponentType) {
+        player.ifOpenOverlay(interf, target, context.eventBus)
+    }
 
-    public fun ifOpenOverlay(interf: InterfaceType, eventBus: EventBus = context.eventBus): Unit =
-        player.ifOpenOverlay(interf, eventBus)
+    public fun ifOpenOverlay(interf: InterfaceType) {
+        player.ifOpenOverlay(interf, context.eventBus)
+    }
 
-    public fun ifOpenFullOverlay(
-        interf: InterfaceType,
-        eventBus: EventBus = context.eventBus,
-    ): Unit = player.ifOpenFullOverlay(interf, eventBus)
+    public fun ifOpenFullOverlay(interf: InterfaceType) {
+        player.ifOpenFullOverlay(interf, context.eventBus)
+    }
 
-    public fun ifOpenSub(
-        interf: InterfaceType,
-        target: ComponentType,
-        type: IfSubType,
-        eventBus: EventBus = context.eventBus,
-    ): Unit = player.ifOpenSub(interf, target, type, eventBus)
+    public fun ifOpenSub(interf: InterfaceType, target: ComponentType, type: IfSubType) {
+        player.ifOpenSub(interf, target, type, context.eventBus)
+    }
 
     public fun ifSetAnim(target: ComponentType, seq: SeqType?): Unit = player.ifSetAnim(target, seq)
 
@@ -2910,15 +2837,12 @@ public class ProtectedAccess(
 
     public fun invCoinTotal(inv: Inventory = this.inv): Int = invTotal(inv, objs.coins)
 
-    public fun invTotal(
-        inv: Inventory,
-        content: ContentGroupType,
-        objTypes: ObjTypeList = context.objTypes,
-    ): Int {
+    public fun invTotal(inv: Inventory, content: ContentGroupType): Int {
+        val types = context.objTypes
         var count = 0
         for (obj in inv) {
             val filtered = obj ?: continue
-            val type = objTypes[filtered]
+            val type = types[filtered]
             if (type.isContentType(content)) {
                 count += filtered.count
             }
@@ -2926,62 +2850,48 @@ public class ProtectedAccess(
         return count
     }
 
-    public fun invTotal(
-        inv: Inventory,
-        obj: ObjType,
-        objTypes: ObjTypeList = context.objTypes,
-    ): Int = inv.count(objTypes[obj])
+    public fun invTotal(inv: Inventory, obj: ObjType): Int {
+        return inv.count(context.objTypes[obj])
+    }
 
-    public fun invContains(
-        inv: Inventory,
-        content: ContentGroupType,
-        objTypes: ObjTypeList = context.objTypes,
-    ): Boolean = inv.any { it != null && objTypes[it].contentGroup == content.id }
+    public fun invContains(inv: Inventory, content: ContentGroupType): Boolean {
+        val types = context.objTypes
+        return inv.any { it != null && types[it].contentGroup == content.id }
+    }
 
-    public fun inv(inv: InvType, invTypes: InvTypeList = context.invTypes): Inventory {
-        val type = invTypes[inv]
+    public fun inv(inv: InvType): Inventory {
+        val type = context.invTypes[inv]
         return player.invMap.getOrPut(type)
     }
 
-    public operator fun Inventory.contains(content: ContentGroupType): Boolean =
-        invContains(this, content)
+    public operator fun Inventory.contains(content: ContentGroupType): Boolean {
+        return invContains(this, content)
+    }
 
     /* Loc helper functions (lc=loc config) */
-    public fun <T : Any> lcParam(
-        type: LocType,
-        param: ParamType<T>,
-        locTypes: LocTypeList = context.locTypes,
-    ): T = locTypes[type].param(param)
+    public fun <T : Any> lcParam(type: LocType, param: ParamType<T>): T {
+        return context.locTypes[type].param(param)
+    }
 
-    public fun <T : Any> lcParamOrNull(
-        type: LocType,
-        param: ParamType<T>,
-        locTypes: LocTypeList = context.locTypes,
-    ): T? = locTypes[type].paramOrNull(param)
+    public fun <T : Any> lcParamOrNull(type: LocType, param: ParamType<T>): T? {
+        return context.locTypes[type].paramOrNull(param)
+    }
 
-    public fun <T : Any> locParam(
-        loc: LocInfo,
-        param: ParamType<T>,
-        locTypes: LocTypeList = context.locTypes,
-    ): T = locTypes[loc].param(param)
+    public fun <T : Any> locParam(loc: LocInfo, param: ParamType<T>): T {
+        return context.locTypes[loc].param(param)
+    }
 
-    public fun <T : Any> locParamOrNull(
-        loc: LocInfo,
-        param: ParamType<T>,
-        locTypes: LocTypeList = context.locTypes,
-    ): T? = locTypes[loc].paramOrNull(param)
+    public fun <T : Any> locParamOrNull(loc: LocInfo, param: ParamType<T>): T? {
+        return context.locTypes[loc].paramOrNull(param)
+    }
 
-    public fun <T : Any> locParam(
-        loc: BoundLocInfo,
-        param: ParamType<T>,
-        locTypes: LocTypeList = context.locTypes,
-    ): T = locTypes[loc].param(param)
+    public fun <T : Any> locParam(loc: BoundLocInfo, param: ParamType<T>): T {
+        return context.locTypes[loc].param(param)
+    }
 
-    public fun <T : Any> locParamOrNull(
-        loc: BoundLocInfo,
-        param: ParamType<T>,
-        locTypes: LocTypeList = context.locTypes,
-    ): T? = locTypes[loc].paramOrNull(param)
+    public fun <T : Any> locParamOrNull(loc: BoundLocInfo, param: ParamType<T>): T? {
+        return context.locTypes[loc].paramOrNull(param)
+    }
 
     public fun locAnim(repo: WorldRepository, loc: LocInfo, seq: SeqType) {
         repo.locAnim(loc, seq)
@@ -3013,17 +2923,13 @@ public class ProtectedAccess(
     public fun midiSong(midi: MidiType): Unit = player.midiSong(midi)
 
     /* Npc helper functions (nc=npc config) */
-    public fun <T : Any> ncParam(
-        type: NpcType,
-        param: ParamType<T>,
-        npcTypes: NpcTypeList = context.npcTypes,
-    ): T = npcTypes[type].param(param)
+    public fun <T : Any> ncParam(type: NpcType, param: ParamType<T>): T {
+        return context.npcTypes[type].param(param)
+    }
 
-    public fun <T : Any> ncParamOrNull(
-        type: NpcType,
-        param: ParamType<T>,
-        npcTypes: NpcTypeList = context.npcTypes,
-    ): T? = npcTypes[type].paramOrNull(param)
+    public fun <T : Any> ncParamOrNull(type: NpcType, param: ParamType<T>): T? {
+        return context.npcTypes[type].paramOrNull(param)
+    }
 
     public fun npcPlayerFaceClose(npc: Npc, target: Player = this.player) {
         npc.playerFaceClose(target)
@@ -3050,13 +2956,9 @@ public class ProtectedAccess(
      *   changing back to its original type. Set to `Int.MAX_VALUE` to bypass this behavior.
      */
     @OptIn(InternalApi::class)
-    public fun npcChangeType(
-        npc: Npc,
-        into: NpcType,
-        duration: Int,
-        npcTypes: NpcTypeList = context.npcTypes,
-    ) {
-        npc.transmog(npcTypes[into], duration)
+    public fun npcChangeType(npc: Npc, into: NpcType, duration: Int) {
+        val type = context.npcTypes[into]
+        npc.transmog(type, duration)
         npc.assignUid()
     }
 
@@ -3064,13 +2966,9 @@ public class ProtectedAccess(
      * Returns the current npc type for [npc], considering `multinpc` from the [player]'s vars and
      * any transmogrification the npc may have undergone.
      */
-    public fun npcVisType(
-        npc: Npc,
-        interactions: NpcInteractions = context.npcInteractions,
-    ): UnpackedNpcType {
-        val currentType = npc.visType
-        val multiNpc = interactions.multiNpc(currentType, player.vars)
-        return multiNpc ?: currentType
+    public fun npcVisType(npc: Npc): UnpackedNpcType {
+        val multiNpc = context.npcInteractions.multiNpc(npc.visType, player.vars)
+        return multiNpc ?: npc.visType
     }
 
     /**
@@ -3095,40 +2993,40 @@ public class ProtectedAccess(
         npc.type.paramOrNull(param)
 
     /* Obj helper functions (oc=obj config) */
-    public fun ocCert(type: ObjType, objTypes: ObjTypeList = context.objTypes): UnpackedObjType =
-        objTypes.cert(objTypes[type])
+    public fun ocCert(type: ObjType): UnpackedObjType {
+        val types = context.objTypes
+        return types.cert(types[type])
+    }
 
-    public fun ocUncert(type: ObjType, objTypes: ObjTypeList = context.objTypes): UnpackedObjType =
-        objTypes.uncert(objTypes[type])
+    public fun ocUncert(type: ObjType): UnpackedObjType {
+        val types = context.objTypes
+        return types.uncert(types[type])
+    }
 
-    public fun ocName(type: ObjType, objTypes: ObjTypeList = context.objTypes): String =
-        objTypes[type].name
+    public fun ocName(type: ObjType): String {
+        return context.objTypes[type].name
+    }
 
-    public fun <T : Any> ocParam(
-        obj: InvObj,
-        type: ParamType<T>,
-        objTypes: ObjTypeList = context.objTypes,
-    ): T = objTypes[obj].param(type)
+    public fun <T : Any> ocParam(obj: InvObj, type: ParamType<T>): T {
+        return context.objTypes[obj].param(type)
+    }
 
-    public fun <T : Any> ocParamOrNull(
-        obj: InvObj?,
-        type: ParamType<T>,
-        objTypes: ObjTypeList = context.objTypes,
-    ): T? = if (obj == null) null else objTypes[obj].paramOrNull(type)
+    public fun <T : Any> ocParamOrNull(obj: InvObj?, type: ParamType<T>): T? {
+        return if (obj == null) null else context.objTypes[obj].paramOrNull(type)
+    }
 
-    public fun ocIsContentType(
-        obj: InvObj?,
-        content: ContentGroupType,
-        objTypes: ObjTypeList = context.objTypes,
-    ): Boolean = obj != null && objTypes[obj].contentGroup == content.id
+    public fun ocIsContentType(obj: InvObj?, content: ContentGroupType): Boolean {
+        return obj != null && context.objTypes[obj].contentGroup == content.id
+    }
 
     public fun ocIsType(obj: InvObj?, type: ObjType): Boolean = obj.isType(type)
 
     public fun ocIsType(obj: InvObj?, type: ObjType, vararg others: ObjType): Boolean =
         obj.isType(type) || others.any(obj::isType)
 
-    public fun ocTradable(obj: InvObj, objTypes: ObjTypeList = context.objTypes): Boolean =
-        objTypes[obj].tradeable
+    public fun ocTradable(obj: InvObj): Boolean {
+        return context.objTypes[obj].tradeable
+    }
 
     public fun ocCategory(type: UnpackedObjType?, catTypes: CategoryTypeList): CategoryType? =
         if (type == null) null else catTypes[type.category]
@@ -3140,12 +3038,14 @@ public class ProtectedAccess(
 
     /* Seq helper functions */
     /** Returns the total time duration of [seq] in _**client frames**_. */
-    public fun seqLength(seq: SeqType, seqTypes: SeqTypeList = context.seqTypes): Int =
-        seqTypes[seq].totalDelay
+    public fun seqLength(seq: SeqType): Int {
+        return context.seqTypes[seq].totalDelay
+    }
 
     /** Returns the total time duration of [seq] in _**server ticks**_. */
-    public fun seqTicks(seq: SeqType, seqTypes: SeqTypeList = context.seqTypes): Int =
-        seqTypes[seq].tickDuration
+    public fun seqTicks(seq: SeqType): Int {
+        return context.seqTypes[seq].tickDuration
+    }
 
     /* Sound helper functions */
     public fun soundSynth(synth: SynthType, loops: Int = 1, delay: Int = 0): Unit =

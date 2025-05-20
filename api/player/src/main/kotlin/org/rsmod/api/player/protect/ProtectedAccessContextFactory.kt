@@ -8,6 +8,7 @@ import org.rsmod.api.player.hit.processor.InstantPlayerHitProcessor
 import org.rsmod.api.player.interact.HeldInteractions
 import org.rsmod.api.player.interact.LocInteractions
 import org.rsmod.api.player.interact.NpcInteractions
+import org.rsmod.api.player.interact.PlayerInteractions
 import org.rsmod.api.player.interact.WornInteractions
 import org.rsmod.api.random.GameRandom
 import org.rsmod.events.EventBus
@@ -37,6 +38,7 @@ constructor(
     private val seqTypes: SeqTypeList,
     private val locInteractions: LocInteractions,
     private val npcInteractions: NpcInteractions,
+    private val playerInteractions: PlayerInteractions,
     private val heldInteractions: HeldInteractions,
     private val wornInteractions: WornInteractions,
     private val marketPrices: MarketPrices,
@@ -58,6 +60,7 @@ constructor(
             getSeqTypes = { seqTypes },
             getLocInteractions = { locInteractions },
             getNpcInteractions = { npcInteractions },
+            getPlayerInteractions = { playerInteractions },
             getHeldInteractions = { heldInteractions },
             getWornInteractions = { wornInteractions },
             getMarketPrices = { marketPrices },
@@ -81,6 +84,7 @@ constructor(
                 getSeqTypes = { error("No seq type list provided.") },
                 getLocInteractions = { error("No loc interactions provided.") },
                 getNpcInteractions = { error("No npc interactions provided.") },
+                getPlayerInteractions = { error("No player interactions provided.") },
                 getHeldInteractions = { error("No held interactions provided.") },
                 getWornInteractions = { error("No worn interactions provided.") },
                 getMarketPrices = { error("No market prices provided.") },

@@ -53,9 +53,9 @@ class BankTutorialScript @Inject constructor(private val eventBus: EventBus) : P
     }
 
     private suspend fun ProtectedAccess.selectTutorial() {
-        ifClose(eventBus)
+        ifClose()
         begin(this)
-        ifClose(eventBus)
+        ifClose()
         player.openBank(eventBus)
     }
 

@@ -7,16 +7,12 @@ import org.rsmod.api.config.refs.queues
 import org.rsmod.api.config.refs.seqs
 import org.rsmod.api.config.refs.spotanims
 import org.rsmod.api.config.refs.varps
-import org.rsmod.api.player.interact.NpcInteractions
-import org.rsmod.api.player.interact.PlayerInteractions
 import org.rsmod.api.player.lefthand
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.righthand
 import org.rsmod.api.player.vars.boolVarp
 import org.rsmod.game.entity.Npc
-import org.rsmod.game.entity.NpcList
 import org.rsmod.game.entity.Player
-import org.rsmod.game.entity.PlayerList
 import org.rsmod.game.entity.npc.NpcUid
 import org.rsmod.game.entity.player.PlayerUid
 import org.rsmod.game.type.obj.ObjType
@@ -30,45 +26,35 @@ public fun Player.queueCombatRetaliate(source: Npc, delay: Int = 1) {
     strongQueue(queues.com_retaliate_npc, delay, source.uid)
 }
 
-public fun ProtectedAccess.combatRetaliate(
-    uid: NpcUid,
-    flinchDelay: Int,
-    npcList: NpcList,
-    interactions: NpcInteractions,
-) {
+public fun ProtectedAccess.combatRetaliate(uid: NpcUid, flinchDelay: Int) {
     if (autoRetaliateDisabled || isBusy2) {
         return
     }
-    val source = uid.resolve(npcList) ?: return
+    val source = findUid(uid) ?: return
 
     if (actionDelay < mapClock) {
         actionDelay = mapClock + flinchDelay
     }
 
-    opNpc2(source, interactions)
+    opNpc2(source)
 }
 
 public fun Player.queueCombatRetaliate(source: Player, delay: Int = 1) {
     strongQueue(queues.com_retaliate_player, delay, source.uid)
 }
 
-public fun ProtectedAccess.combatRetaliate(
-    uid: PlayerUid,
-    flinchDelay: Int,
-    playerList: PlayerList,
-    interactions: PlayerInteractions,
-) {
+public fun ProtectedAccess.combatRetaliate(uid: PlayerUid, flinchDelay: Int) {
     preventLogout("You can't log out until 10 seconds after the end of combat.", 16)
     if (autoRetaliateDisabled || isBusy2) {
         return
     }
-    val source = uid.resolve(playerList) ?: return
+    val source = findUid(uid) ?: return
 
     if (actionDelay < mapClock) {
         actionDelay = mapClock + flinchDelay
     }
 
-    opPlayer2(source, interactions)
+    opPlayer2(source)
 }
 
 public fun Player.combatPlayDefendAnim(objTypes: ObjTypeList, clientDelay: Int = 0) {
