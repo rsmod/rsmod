@@ -71,9 +71,8 @@ private constructor(
         }
         if (!prayer.hasAllRequirements(player)) {
             val message = player.failedRequirementMessage(prayer)
-            val lineHeight = if (message.contains("<br>")) 31 else 0
             player.resyncVar(prayer.enabled)
-            mesbox(message, lineHeight)
+            mesbox(message)
             return
         }
         disableCollisions(prayer)

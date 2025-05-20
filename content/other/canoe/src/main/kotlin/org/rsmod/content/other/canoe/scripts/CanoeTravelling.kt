@@ -90,8 +90,7 @@ class CanoeTravelling @Inject private constructor(private val cutscene: CanoeCut
             "<col=7f0000>Warning!</col> " +
                 "This canoe will take you deep into the <col=7f0000>Wilderness</col>. " +
                 "There are no trees suitable to make a canoe there. " +
-                "You will have to walk back.",
-            lineHeight = 24,
+                "You will have to walk back."
         )
 
         val confirmation =

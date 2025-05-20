@@ -9,12 +9,21 @@ import org.rsmod.game.type.font.UnpackedFontMetricsType
 public class TextAlignment @Inject constructor(fonts: FontMetricsTypeList) {
     private val dialogueFont by lazy { fonts[fontmetrics.q8_full] }
 
+    public fun generateChatPageList(text: String): List<Page> {
+        return generatePageList(text, CHAT_MAX_LINE_PIXEL_WIDTH, dialogueFont)
+    }
+
+    public fun generateMesPageList(text: String): List<Page> {
+        return generatePageList(text, MESBOX_MAX_LINE_PIXEL_WIDTH, dialogueFont)
+    }
+
     public fun generatePageList(
         text: String,
-        font: UnpackedFontMetricsType = dialogueFont,
+        lineWidth: Int,
+        font: UnpackedFontMetricsType,
     ): List<Page> {
         val lineBuffers = Array(MAX_TOTAL_LINE_COUNT) { "" }
-        val lineCount = font.splitText(text, MAX_LINE_PIXEL_WIDTH, lineBuffers)
+        val lineCount = font.splitText(text, lineWidth, lineBuffers)
         val pageCount = ceil(lineCount.toDouble() / LINES_PER_PAGE).toInt()
         return when (pageCount) {
             1 -> {
@@ -172,7 +181,8 @@ public class TextAlignment @Inject constructor(fonts: FontMetricsTypeList) {
         private const val MAX_PAGE_COUNT: Int = 2
         private const val MAX_TOTAL_LINE_COUNT: Int = LINES_PER_PAGE * MAX_PAGE_COUNT
 
-        private const val MAX_LINE_PIXEL_WIDTH: Int = 380
+        private const val CHAT_MAX_LINE_PIXEL_WIDTH: Int = 380
+        private const val MESBOX_MAX_LINE_PIXEL_WIDTH: Int = 470
 
         private const val CHAT_DEFAULT_LINE_HEIGHT: Int = 16
         private const val CHAT_TWO_LINE_LINE_HEIGHT: Int = 28

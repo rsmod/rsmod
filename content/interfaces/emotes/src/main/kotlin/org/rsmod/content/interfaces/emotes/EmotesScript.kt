@@ -355,7 +355,7 @@ private constructor(
     ) {
         val state = vars[varbit]
         if (state < varbitStateReq) {
-            mesbox(text, lineHeight = 31)
+            mesbox(text)
             return
         }
         simpleAnim(seq, spot)
@@ -372,7 +372,7 @@ private constructor(
     ) {
         val state = vars[varbit]
         if (state < varbitStateReq) {
-            mesbox(text, lineHeight = 31)
+            mesbox(text)
             return
         }
         loopAnim(seqOp1, seqOp2, op, spot)
@@ -477,10 +477,7 @@ private constructor(
         stopAction()
         val unlocked = vars[varbits.emote_uri_transform] != 0
         if (!unlocked) {
-            mesbox(
-                "This emote can be unlocked by completing at least 300 hard clue scrolls.",
-                lineHeight = 31,
-            )
+            mesbox("This emote can be unlocked by completing at least 300 hard clue scrolls.")
             return
         }
         if (isInCombat()) {
@@ -508,7 +505,7 @@ private constructor(
     private suspend fun ProtectedAccess.premierShieldEmote() {
         stopAction()
         if (vars[varbits.emote_premier_club_2018] < 1) {
-            mesbox("This emote is unlocked upon creating an account.", lineHeight = 31)
+            mesbox("This emote is unlocked upon creating an account.")
             return
         }
 
@@ -533,7 +530,7 @@ private constructor(
         stopAction()
         val unlocked = vars[varbits.poh_leaguehall_outfitstand_relichunter_type] != 0
         if (!unlocked) {
-            mes(
+            mesbox(
                 "You can't use that emote unless you have stored a " +
                     "tier 3 relichunter outfit on the outfitstand in your " +
                     "player owned house League Hall."
@@ -560,8 +557,7 @@ private constructor(
         if (!unlocked) {
             mesbox(
                 "This emote is unlocked by reaching <col=ff0000>" +
-                    "Grand Champion</col> status in the Fortis Colosseum.",
-                lineHeight = 31,
+                    "Grand Champion</col> status in the Fortis Colosseum."
             )
             return
         }

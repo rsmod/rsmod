@@ -29,12 +29,12 @@ constructor(private val locRepo: LocRepository, private val objRepo: ObjReposito
 
     private suspend fun ProtectedAccess.takeAxeFromLogs(loc: BoundLocInfo) {
         if (content.woodcutting_axe in inv) {
-            mesbox("You already have an axe.", lineHeight = 0)
+            mesbox("You already have an axe.")
             return
         }
 
         if (inv.isFull()) {
-            mesbox("You don't have enough room for the axe.", lineHeight = 0)
+            mesbox("You don't have enough room for the axe.")
             return
         }
 

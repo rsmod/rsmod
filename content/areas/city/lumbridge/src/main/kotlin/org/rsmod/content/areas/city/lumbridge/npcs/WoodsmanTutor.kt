@@ -1,11 +1,9 @@
 package org.rsmod.content.areas.city.lumbridge.npcs
 
-import jakarta.inject.Inject
 import org.rsmod.api.config.refs.content
 import org.rsmod.api.config.refs.objs
 import org.rsmod.api.invtx.invAdd
 import org.rsmod.api.player.dialogue.Dialogue
-import org.rsmod.api.player.dialogue.Dialogues
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.stat.baseWoodcuttingLvl
 import org.rsmod.api.script.advanced.onUnimplementedOpNpc1
@@ -14,13 +12,13 @@ import org.rsmod.game.entity.Npc
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-class WoodsmanTutor @Inject constructor(private val dialogues: Dialogues) : PluginScript() {
+class WoodsmanTutor : PluginScript() {
     override fun ScriptContext.startup() {
         onUnimplementedOpNpc1(lumbridge_npcs.woodsman_tutor) { startDialogue(it.npc) }
     }
 
     private suspend fun ProtectedAccess.startDialogue(npc: Npc) {
-        dialogues.start(this, npc) { woodsmanDialogue() }
+        startDialogue(npc) { woodsmanDialogue() }
     }
 
     private suspend fun Dialogue.woodsmanDialogue() {

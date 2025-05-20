@@ -79,7 +79,7 @@ class DairyCow : PluginScript() {
         // TODO(content): Should be different actions based on cold war quest progress.
         arriveDelay()
         faceSquare(loc.coords)
-        mesbox("You need to have started the Cold War quest to attempt this.", lineHeight = 0)
+        mesbox("You need to have started the Cold War quest to attempt this.")
     }
 
     private fun CoordGrid.isNearGillie(): Boolean {

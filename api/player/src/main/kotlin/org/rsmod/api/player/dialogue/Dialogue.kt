@@ -1,10 +1,7 @@
-@file:Suppress("konsist.properties are declared before functions")
-
 package org.rsmod.api.player.dialogue
 
 import org.rsmod.api.config.Constants
-import org.rsmod.api.config.refs.BaseMesAnims
-import org.rsmod.api.player.dialogue.align.TextAlignment
+import org.rsmod.api.config.refs.mesanims
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.vars.VarPlayerIntMapDelegate
 import org.rsmod.game.entity.Npc
@@ -20,51 +17,86 @@ import org.rsmod.game.type.obj.UnpackedObjType
 
 public class Dialogue(
     public val access: ProtectedAccess,
-    private val alignment: TextAlignment,
-    public val npc: Npc? = null,
-    public val faceFar: Boolean = false,
+    public val npc: Npc?,
+    public val faceFar: Boolean,
 ) {
     public val player: Player by access::player
     public val vars: VarPlayerIntMapDelegate by access::vars
 
+    public val quiz: UnpackedMesAnimType
+        get() = mesanims.quiz
+
+    public val bored: UnpackedMesAnimType
+        get() = mesanims.bored
+
+    public val short: UnpackedMesAnimType
+        get() = mesanims.short
+
+    public val happy: UnpackedMesAnimType
+        get() = mesanims.happy
+
+    public val shocked: UnpackedMesAnimType
+        get() = mesanims.shocked
+
+    public val confused: UnpackedMesAnimType
+        get() = mesanims.confused
+
+    public val silent: UnpackedMesAnimType
+        get() = mesanims.silent
+
+    public val neutral: UnpackedMesAnimType
+        get() = mesanims.neutral
+
+    public val shifty: UnpackedMesAnimType
+        get() = mesanims.shifty
+
+    public val worried: UnpackedMesAnimType
+        get() = mesanims.worried
+
+    public val drunk: UnpackedMesAnimType
+        get() = mesanims.drunk
+
+    public val verymad: UnpackedMesAnimType
+        get() = mesanims.very_mad
+
+    public val laugh: UnpackedMesAnimType
+        get() = mesanims.laugh
+
+    public val madlaugh: UnpackedMesAnimType
+        get() = mesanims.mad_laugh
+
+    public val sad: UnpackedMesAnimType
+        get() = mesanims.sad
+
+    public val angry: UnpackedMesAnimType
+        get() = mesanims.angry
+
     public val npcVisType: UnpackedNpcType
-        get() = access.npcVisType(resolvedNpc)
-
-    private val resolvedNpc: Npc
-        get() = npc ?: error("`npc` must be set. Use `Dialogues.start(player, npc)` instead.")
-
-    private val npcVisName: String
-        get() = resolveNpcVisName()
+        get() = access.npcVisType(npcOrThrow())
 
     public suspend fun mesbox(text: String) {
-        val pages = alignment.generatePageList(text)
-        for (page in pages) {
-            val (pgText, lineCount) = page
-            val lineHeight = mesLineHeight(lineCount)
-            access.mesbox(pgText, lineHeight)
-        }
+        access.mesbox(text)
     }
 
-    public suspend fun objbox(obj: ObjType, text: String): Unit = objbox(obj, zoom = 400, text)
+    public suspend fun objbox(obj: ObjType, text: String) {
+        access.objbox(obj, text)
+    }
 
     public suspend fun objbox(obj: ObjType, zoom: Int, text: String) {
-        val pages = alignment.generatePageList(text)
-        for (page in pages) {
-            access.objbox(obj, zoom, page.text)
-        }
+        access.objbox(obj, zoom, text)
     }
 
-    public suspend fun objbox(obj: InvObj, text: String): Unit = objbox(obj, 1, text)
+    public suspend fun objbox(obj: InvObj, text: String) {
+        access.objbox(obj, text)
+    }
 
     public suspend fun objbox(obj: InvObj, zoom: Int, text: String) {
-        val pages = alignment.generatePageList(text)
-        for (page in pages) {
-            access.objbox(obj, zoom, page.text)
-        }
+        access.objbox(obj, zoom, text)
     }
 
-    public suspend fun doubleobjbox(obj1: ObjType, obj2: ObjType, text: String): Unit =
-        doubleobjbox(obj1, zoom1 = 400, obj2, zoom2 = 400, text)
+    public suspend fun doubleobjbox(obj1: ObjType, obj2: ObjType, text: String) {
+        access.doubleobjbox(obj1, obj2, text)
+    }
 
     public suspend fun doubleobjbox(
         obj1: ObjType,
@@ -73,14 +105,12 @@ public class Dialogue(
         zoom2: Int,
         text: String,
     ) {
-        val pages = alignment.generatePageList(text)
-        for (page in pages) {
-            access.doubleobjbox(obj1, zoom1, obj2, zoom2, page.text)
-        }
+        access.doubleobjbox(obj1, zoom1, obj2, zoom2, text)
     }
 
-    public suspend fun doubleobjbox(obj1: InvObj, obj2: InvObj, text: String): Unit =
-        doubleobjbox(obj1, zoom1 = 400, obj2, zoom2 = 400, text)
+    public suspend fun doubleobjbox(obj1: InvObj, obj2: InvObj, text: String) {
+        access.doubleobjbox(obj1, obj2, text)
+    }
 
     public suspend fun doubleobjbox(
         obj1: InvObj,
@@ -89,98 +119,27 @@ public class Dialogue(
         zoom2: Int,
         text: String,
     ) {
-        val pages = alignment.generatePageList(text)
-        for (page in pages) {
-            access.doubleobjbox(obj1, zoom1, obj2, zoom2, page.text)
-        }
-    }
-
-    public suspend fun chatPlayer(mesanim: UnpackedMesAnimType, text: String) {
-        val pages = alignment.generatePageList(text)
-        for (page in pages) {
-            val (pgText, lineCount) = page
-            val lineHeight = chatLineHeight(lineCount)
-            access.chatPlayer(pgText, mesanim, lineCount, lineHeight)
-        }
+        access.doubleobjbox(obj1, zoom1, obj2, zoom2, text)
     }
 
     public suspend fun chatPlayerNoAnim(text: String) {
-        val pages = alignment.generatePageList(text)
-        for (page in pages) {
-            val (pgText, lineCount) = page
-            val lineHeight = chatLineHeight(lineCount)
-            access.chatPlayer(pgText, mesanim = null, lineCount, lineHeight)
-        }
+        access.chatPlayer(null, text)
+    }
+
+    public suspend fun chatPlayer(mesanim: UnpackedMesAnimType, text: String) {
+        access.chatPlayer(mesanim, text)
     }
 
     public suspend fun chatNpc(mesanim: UnpackedMesAnimType, text: String) {
-        val pages = alignment.generatePageList(text)
-        for (page in pages) {
-            val (pgText, lineCount) = page
-            val lineHeight = chatLineHeight(lineCount)
-            access.chatNpc(
-                title = npcVisName,
-                npc = resolvedNpc,
-                text = pgText,
-                mesanim = mesanim,
-                lineCount = lineCount,
-                lineHeight = lineHeight,
-                faceFar = faceFar,
-            )
-        }
+        access.chatNpc(npcOrThrow(), mesanim, text, faceFar = faceFar)
     }
 
     public suspend fun chatNpcNoTurn(mesanim: UnpackedMesAnimType, text: String) {
-        val pages = alignment.generatePageList(text)
-        for (page in pages) {
-            val (pgText, lineCount) = page
-            val lineHeight = chatLineHeight(lineCount)
-            access.chatNpcNoTurn(
-                title = npcVisName,
-                npc = resolvedNpc,
-                text = pgText,
-                mesanim = mesanim,
-                lineCount = lineCount,
-                lineHeight = lineHeight,
-            )
-        }
+        access.chatNpcNoTurn(npcOrThrow(), mesanim, text)
     }
 
     public suspend fun chatNpcNoAnim(text: String) {
-        val pages = alignment.generatePageList(text)
-        for (page in pages) {
-            val (pgText, lineCount) = page
-            val lineHeight = chatLineHeight(lineCount)
-            access.chatNpc(
-                title = npcVisName,
-                npc = resolvedNpc,
-                text = pgText,
-                mesanim = null,
-                lineCount = lineCount,
-                lineHeight = lineHeight,
-                faceFar = faceFar,
-            )
-        }
-    }
-
-    public suspend fun chatNpcSpecific(
-        type: UnpackedNpcType,
-        mesanim: UnpackedMesAnimType,
-        text: String,
-    ) {
-        val pages = alignment.generatePageList(text)
-        for (page in pages) {
-            val (pgText, lineCount) = page
-            val lineHeight = chatLineHeight(lineCount)
-            access.chatNpcSpecific(
-                type.name,
-                resolvedNpc.type,
-                pgText,
-                mesanim,
-                lineCount,
-                lineHeight,
-            )
-        }
+        access.chatNpcNoAnim(npcOrThrow(), text, faceFar = faceFar)
     }
 
     public suspend fun chatNpcSpecific(
@@ -189,12 +148,7 @@ public class Dialogue(
         mesanim: UnpackedMesAnimType,
         text: String,
     ) {
-        val pages = alignment.generatePageList(text)
-        for (page in pages) {
-            val (pgText, lineCount) = page
-            val lineHeight = chatLineHeight(lineCount)
-            access.chatNpcSpecific(title, type, pgText, mesanim, lineCount, lineHeight)
-        }
+        access.chatNpcSpecific(title, type, mesanim, text)
     }
 
     public suspend fun <T> choice2(
@@ -300,33 +254,7 @@ public class Dialogue(
 
     public fun ocUncert(type: ObjType): UnpackedObjType = access.ocUncert(type)
 
-    private fun chatLineHeight(lineCount: Int): Int = alignment.chatLineHeight(lineCount)
-
-    private fun mesLineHeight(lineCount: Int): Int = alignment.mesLineHeight(lineCount)
-
-    private fun resolveNpcVisName(): String {
-        val type = resolvedNpc.type
-        if (!type.isMultiNpc) {
-            return type.name
-        }
-        val visType = access.npcVisType(resolvedNpc)
-        return visType.name
+    private fun npcOrThrow(): Npc {
+        return npc ?: error("`npc` must be set. Use `startDialogue(npc) { ... }` instead.")
     }
-
-    public val quiz: UnpackedMesAnimType = BaseMesAnims.quiz
-    public val bored: UnpackedMesAnimType = BaseMesAnims.bored
-    public val short: UnpackedMesAnimType = BaseMesAnims.short
-    public val happy: UnpackedMesAnimType = BaseMesAnims.happy
-    public val shocked: UnpackedMesAnimType = BaseMesAnims.shocked
-    public val confused: UnpackedMesAnimType = BaseMesAnims.confused
-    public val silent: UnpackedMesAnimType = BaseMesAnims.silent
-    public val neutral: UnpackedMesAnimType = BaseMesAnims.neutral
-    public val shifty: UnpackedMesAnimType = BaseMesAnims.shifty
-    public val worried: UnpackedMesAnimType = BaseMesAnims.worried
-    public val drunk: UnpackedMesAnimType = BaseMesAnims.drunk
-    public val verymad: UnpackedMesAnimType = BaseMesAnims.very_mad
-    public val laugh: UnpackedMesAnimType = BaseMesAnims.laugh
-    public val madlaugh: UnpackedMesAnimType = BaseMesAnims.mad_laugh
-    public val sad: UnpackedMesAnimType = BaseMesAnims.sad
-    public val angry: UnpackedMesAnimType = BaseMesAnims.angry
 }

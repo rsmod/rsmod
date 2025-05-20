@@ -33,7 +33,6 @@ import org.rsmod.api.player.cinematic.CompassState
 import org.rsmod.api.player.cinematic.MinimapState
 import org.rsmod.api.player.combatClearQueue
 import org.rsmod.api.player.dialogue.Dialogue
-import org.rsmod.api.player.dialogue.Dialogues
 import org.rsmod.api.player.hit.modifier.NoopPlayerHitModifier
 import org.rsmod.api.player.hit.modifier.PlayerHitModifier
 import org.rsmod.api.player.hit.modifier.StandardPlayerHitModifier
@@ -1772,17 +1771,19 @@ public class ProtectedAccess(
         player.preventLogoutUntil = mapClock + cycles
     }
 
+    public suspend fun startDialogue(conversation: suspend Dialogue.() -> Unit) {
+        val dialogue = Dialogue(this, npc = null, faceFar = false)
+        conversation(dialogue)
+    }
+
     public suspend fun startDialogue(
         npc: Npc,
         faceFar: Boolean = false,
-        dialogues: Dialogues = context.dialogues,
         conversation: suspend Dialogue.() -> Unit,
-    ): Unit = dialogues.start(this, npc, faceFar, conversation)
-
-    public suspend fun startDialogue(
-        dialogues: Dialogues = context.dialogues,
-        conversation: suspend Dialogue.() -> Unit,
-    ): Unit = dialogues.start(this, conversation)
+    ) {
+        val dialogue = Dialogue(this, npc, faceFar)
+        conversation(dialogue)
+    }
 
     /**
      * @throws ProtectedAccessLostException if [regainProtectedAccess] returns false after
@@ -1895,11 +1896,21 @@ public class ProtectedAccess(
      *   the coroutine suspension.
      * @see [resumePauseButtonWithProtectedAccess]
      */
-    public suspend fun mesbox(
+    public suspend fun mesbox(text: String) {
+        val alignment = context.alignment
+        val pages = alignment.generateMesPageList(text)
+        for (page in pages) {
+            val (pgText, lineCount) = page
+            val lineHeight = alignment.mesLineHeight(lineCount)
+            mesboxPage(pgText, lineHeight, constants.cm_pausebutton, context.eventBus)
+        }
+    }
+
+    private suspend fun mesboxPage(
         text: String,
         lineHeight: Int,
-        pauseText: String = constants.cm_pausebutton,
-        eventBus: EventBus = context.eventBus,
+        pauseText: String,
+        eventBus: EventBus,
     ) {
         player.ifMesbox(text, pauseText, lineHeight, eventBus)
         val modal = player.ui.getModalOrNull(components.chatbox_chatmodal)
@@ -1912,8 +1923,60 @@ public class ProtectedAccess(
      *   the coroutine suspension.
      * @see [resumePauseButtonWithProtectedAccess]
      */
-    public suspend fun objbox(
+    public suspend fun objbox(obj: ObjType, text: String) {
+        objbox(obj, zoom = 400, text)
+    }
+
+    /**
+     * @throws ProtectedAccessLostException if the player could not retain protected access after
+     *   the coroutine suspension.
+     * @see [resumePauseButtonWithProtectedAccess]
+     */
+    public suspend fun objbox(obj: ObjType, zoom: Int, text: String) {
+        val alignment = context.alignment
+        val pages = alignment.generateChatPageList(text)
+        for (page in pages) {
+            objboxPage(obj, zoom, page.text, constants.cm_pausebutton, context.eventBus)
+        }
+    }
+
+    private suspend fun objboxPage(
         obj: ObjType,
+        zoom: Int,
+        text: String,
+        pauseText: String,
+        eventBus: EventBus,
+    ) {
+        player.ifObjbox(text, obj.id, zoom, pauseText, eventBus)
+        val modal = player.ui.getModalOrNull(components.chatbox_chatmodal)
+        val input = coroutine.pause(ResumePauseButtonInput::class)
+        resumePauseButtonWithProtectedAccess(input, modal, components.objectbox_pbutton)
+    }
+
+    /**
+     * @throws ProtectedAccessLostException if the player could not retain protected access after
+     *   the coroutine suspension.
+     * @see [resumePauseButtonWithProtectedAccess]
+     */
+    public suspend fun objbox(obj: InvObj, text: String) {
+        objbox(obj, zoom = 400, text)
+    }
+
+    /**
+     * @throws ProtectedAccessLostException if the player could not retain protected access after
+     *   the coroutine suspension.
+     * @see [resumePauseButtonWithProtectedAccess]
+     */
+    public suspend fun objbox(obj: InvObj, zoom: Int, text: String) {
+        val alignment = context.alignment
+        val pages = alignment.generateChatPageList(text)
+        for (page in pages) {
+            objboxPage(obj, zoom, page.text, constants.cm_pausebutton, context.eventBus)
+        }
+    }
+
+    private suspend fun objboxPage(
+        obj: InvObj,
         zoom: Int,
         text: String,
         pauseText: String = constants.cm_pausebutton,
@@ -1930,17 +1993,8 @@ public class ProtectedAccess(
      *   the coroutine suspension.
      * @see [resumePauseButtonWithProtectedAccess]
      */
-    public suspend fun objbox(
-        obj: InvObj,
-        zoomOrCount: Int,
-        text: String,
-        pauseText: String = constants.cm_pausebutton,
-        eventBus: EventBus = context.eventBus,
-    ) {
-        player.ifObjbox(text, obj.id, zoomOrCount, pauseText, eventBus)
-        val modal = player.ui.getModalOrNull(components.chatbox_chatmodal)
-        val input = coroutine.pause(ResumePauseButtonInput::class)
-        resumePauseButtonWithProtectedAccess(input, modal, components.objectbox_pbutton)
+    public suspend fun doubleobjbox(obj1: ObjType, obj2: ObjType, text: String) {
+        doubleobjbox(obj1, zoom1 = 400, obj2, zoom2 = 400, text)
     }
 
     /**
@@ -1954,13 +2008,44 @@ public class ProtectedAccess(
         obj2: ObjType,
         zoom2: Int,
         text: String,
-        pauseText: String = constants.cm_pausebutton,
-        eventBus: EventBus = context.eventBus,
+    ) {
+        val alignment = context.alignment
+        val pages = alignment.generateChatPageList(text)
+        for (page in pages) {
+            doubleobjboxPage(
+                obj1 = obj1,
+                zoom1 = zoom1,
+                obj2 = obj2,
+                zoom2 = zoom2,
+                text = page.text,
+                pauseText = constants.cm_pausebutton,
+                eventBus = context.eventBus,
+            )
+        }
+    }
+
+    private suspend fun doubleobjboxPage(
+        obj1: ObjType,
+        zoom1: Int,
+        obj2: ObjType,
+        zoom2: Int,
+        text: String,
+        pauseText: String,
+        eventBus: EventBus,
     ) {
         player.ifDoubleobjbox(text, obj1.id, zoom1, obj2.id, zoom2, pauseText, eventBus)
         val modal = player.ui.getModalOrNull(components.chatbox_chatmodal)
         val input = coroutine.pause(ResumePauseButtonInput::class)
         resumePauseButtonWithProtectedAccess(input, modal, components.objectbox_double_pbutton)
+    }
+
+    /**
+     * @throws ProtectedAccessLostException if the player could not retain protected access after
+     *   the coroutine suspension.
+     * @see [resumePauseButtonWithProtectedAccess]
+     */
+    public suspend fun doubleobjbox(obj1: InvObj, obj2: InvObj, text: String) {
+        doubleobjbox(obj1, zoom1 = 400, obj2, zoom2 = 400, text)
     }
 
     /**
@@ -1974,8 +2059,30 @@ public class ProtectedAccess(
         obj2: InvObj,
         zoom2: Int,
         text: String,
-        pauseText: String = constants.cm_pausebutton,
-        eventBus: EventBus = context.eventBus,
+    ) {
+        val alignment = context.alignment
+        val pages = alignment.generateChatPageList(text)
+        for (page in pages) {
+            doubleobjboxPage(
+                obj1 = obj1,
+                zoom1 = zoom1,
+                obj2 = obj2,
+                zoom2 = zoom2,
+                text = page.text,
+                pauseText = constants.cm_pausebutton,
+                eventBus = context.eventBus,
+            )
+        }
+    }
+
+    private suspend fun doubleobjboxPage(
+        obj1: InvObj,
+        zoom1: Int,
+        obj2: InvObj,
+        zoom2: Int,
+        text: String,
+        pauseText: String,
+        eventBus: EventBus,
     ) {
         player.ifDoubleobjbox(text, obj1.id, zoom1, obj2.id, zoom2, pauseText, eventBus)
         val modal = player.ui.getModalOrNull(components.chatbox_chatmodal)
@@ -1994,9 +2101,8 @@ public class ProtectedAccess(
         choice2: String,
         result2: T,
         title: String = constants.cm_options,
-        eventBus: EventBus = context.eventBus,
     ): T {
-        player.ifChoice(title, "$choice1|$choice2", choiceCountInclusive = 2, eventBus)
+        player.ifChoice(title, "$choice1|$choice2", choiceCountInclusive = 2, context.eventBus)
         val modal = player.ui.getModalOrNull(components.chatbox_chatmodal)
         val input = coroutine.pause(ResumePauseButtonInput::class)
         resumePauseButtonWithProtectedAccess(input, modal, components.chatmenu_pbutton)
@@ -2020,9 +2126,13 @@ public class ProtectedAccess(
         choice3: String,
         result3: T,
         title: String = constants.cm_options,
-        eventBus: EventBus = context.eventBus,
     ): T {
-        player.ifChoice(title, "$choice1|$choice2|$choice3", choiceCountInclusive = 3, eventBus)
+        player.ifChoice(
+            title,
+            "$choice1|$choice2|$choice3",
+            choiceCountInclusive = 3,
+            context.eventBus,
+        )
         val modal = player.ui.getModalOrNull(components.chatbox_chatmodal)
         val input = coroutine.pause(ResumePauseButtonInput::class)
         resumePauseButtonWithProtectedAccess(input, modal, components.chatmenu_pbutton)
@@ -2049,13 +2159,12 @@ public class ProtectedAccess(
         choice4: String,
         result4: T,
         title: String = constants.cm_options,
-        eventBus: EventBus = context.eventBus,
     ): T {
         player.ifChoice(
             title,
             "$choice1|$choice2|$choice3|$choice4",
             choiceCountInclusive = 4,
-            eventBus,
+            context.eventBus,
         )
         val modal = player.ui.getModalOrNull(components.chatbox_chatmodal)
         val input = coroutine.pause(ResumePauseButtonInput::class)
@@ -2086,13 +2195,12 @@ public class ProtectedAccess(
         choice5: String,
         result5: T,
         title: String = constants.cm_options,
-        eventBus: EventBus = context.eventBus,
     ): T {
         player.ifChoice(
             title,
             "$choice1|$choice2|$choice3|$choice4|$choice5",
             choiceCountInclusive = 5,
-            eventBus,
+            context.eventBus,
         )
         val modal = player.ui.getModalOrNull(components.chatbox_chatmodal)
         val input = coroutine.pause(ResumePauseButtonInput::class)
@@ -2112,16 +2220,45 @@ public class ProtectedAccess(
      *   the coroutine suspension.
      * @see [resumePauseButtonWithProtectedAccess]
      */
+    public suspend fun chatPlayerNoAnim(text: String) {
+        chatPlayer(null, text)
+    }
+
+    /**
+     * @throws ProtectedAccessLostException if the player could not retain protected access after
+     *   the coroutine suspension.
+     * @see [resumePauseButtonWithProtectedAccess]
+     */
     public suspend fun chatPlayer(
-        text: String,
         mesanim: UnpackedMesAnimType?,
-        lineCount: Int,
-        lineHeight: Int,
+        text: String,
         title: String = player.displayName,
-        pauseText: String = constants.cm_pausebutton,
-        eventBus: EventBus = context.eventBus,
     ) {
-        val chatanim = mesanim?.splitGetAnim(lineCount)
+        val alignment = context.alignment
+        val pages = alignment.generateChatPageList(text)
+        for (page in pages) {
+            val (pgText, lineCount) = page
+            val lineHeight = alignment.chatLineHeight(lineCount)
+            val chatanim = mesanim?.splitGetAnim(lineCount)
+            chatPlayerPage(
+                text = pgText,
+                chatanim = chatanim,
+                lineHeight = lineHeight,
+                title = title,
+                pauseText = constants.cm_pausebutton,
+                eventBus = context.eventBus,
+            )
+        }
+    }
+
+    private suspend fun chatPlayerPage(
+        text: String,
+        chatanim: SeqType?,
+        lineHeight: Int,
+        title: String,
+        pauseText: String,
+        eventBus: EventBus,
+    ) {
         player.ifChatPlayer(title, text, chatanim, pauseText, lineHeight, eventBus)
         val modal = player.ui.getModalOrNull(components.chatbox_chatmodal)
         val input = coroutine.pause(ResumePauseButtonInput::class)
@@ -2133,26 +2270,62 @@ public class ProtectedAccess(
      *   the coroutine suspension.
      * @see [resumePauseButtonWithProtectedAccess]
      */
+    public suspend fun chatNpcNoAnim(
+        npc: Npc,
+        text: String,
+        title: String = npc.resolveVisName(),
+        faceFar: Boolean = false,
+    ) {
+        chatNpc(npc, mesanim = null, text = text, title = title, faceFar = faceFar)
+    }
+
+    /**
+     * @throws ProtectedAccessLostException if the player could not retain protected access after
+     *   the coroutine suspension.
+     * @see [resumePauseButtonWithProtectedAccess]
+     */
     public suspend fun chatNpc(
+        npc: Npc,
+        mesanim: UnpackedMesAnimType?,
+        text: String,
+        title: String = npc.resolveVisName(),
+        faceFar: Boolean = false,
+    ) {
+        val alignment = context.alignment
+        val pages = alignment.generateChatPageList(text)
+        for (page in pages) {
+            val (pgText, lineCount) = page
+            val lineHeight = alignment.chatLineHeight(lineCount)
+            val chatanim = mesanim?.splitGetAnim(lineCount)
+            chatNpcPage(
+                title = title,
+                npc = npc,
+                text = pgText,
+                chatanim = chatanim,
+                lineHeight = lineHeight,
+                faceFar = faceFar,
+                pauseText = constants.cm_pausebutton,
+                eventBus = context.eventBus,
+            )
+        }
+    }
+
+    private suspend fun chatNpcPage(
         title: String,
         npc: Npc,
         text: String,
-        mesanim: UnpackedMesAnimType?,
-        lineCount: Int,
+        chatanim: SeqType?,
         lineHeight: Int,
-        faceFar: Boolean = false,
-        pauseText: String = constants.cm_pausebutton,
-        eventBus: EventBus = context.eventBus,
+        faceFar: Boolean,
+        pauseText: String,
+        eventBus: EventBus,
     ) {
         val inCombatMode = npc.mode == NpcMode.OpPlayer2 || npc.mode == NpcMode.ApPlayer2
         if (!inCombatMode) {
             npc.playerFace(player, faceFar = faceFar)
         }
         player.facePathingEntitySquare(npc)
-
-        val chatanim = mesanim?.splitGetAnim(lineCount)
         player.ifChatNpcSpecific(title, npc.type, text, chatanim, pauseText, lineHeight, eventBus)
-
         val modal = player.ui.getModalOrNull(components.chatbox_chatmodal)
         val input = coroutine.pause(ResumePauseButtonInput::class)
         resumePauseButtonWithProtectedAccess(input, modal, components.chat_left_pbutton)
@@ -2164,20 +2337,40 @@ public class ProtectedAccess(
      * @see [resumePauseButtonWithProtectedAccess]
      */
     public suspend fun chatNpcNoTurn(
+        npc: Npc,
+        mesanim: UnpackedMesAnimType?,
+        text: String,
+        title: String = npc.resolveVisName(),
+    ) {
+        val alignment = context.alignment
+        val pages = alignment.generateChatPageList(text)
+        for (page in pages) {
+            val (pgText, lineCount) = page
+            val lineHeight = alignment.chatLineHeight(lineCount)
+            val chatanim = mesanim?.splitGetAnim(lineCount)
+            chatNpcNoTurnPage(
+                title = title,
+                npc = npc,
+                text = pgText,
+                chatanim = chatanim,
+                lineHeight = lineHeight,
+                pauseText = constants.cm_pausebutton,
+                eventBus = context.eventBus,
+            )
+        }
+    }
+
+    private suspend fun chatNpcNoTurnPage(
         title: String,
         npc: Npc,
         text: String,
-        mesanim: UnpackedMesAnimType?,
-        lineCount: Int,
+        chatanim: SeqType?,
         lineHeight: Int,
-        pauseText: String = constants.cm_pausebutton,
-        eventBus: EventBus = context.eventBus,
+        pauseText: String,
+        eventBus: EventBus,
     ) {
         player.facePathingEntitySquare(npc)
-
-        val chatanim = mesanim?.splitGetAnim(lineCount)
         player.ifChatNpcSpecific(title, npc.type, text, chatanim, pauseText, lineHeight, eventBus)
-
         val modal = player.ui.getModalOrNull(components.chatbox_chatmodal)
         val input = coroutine.pause(ResumePauseButtonInput::class)
         resumePauseButtonWithProtectedAccess(input, modal, components.chat_left_pbutton)
@@ -2191,14 +2384,36 @@ public class ProtectedAccess(
     public suspend fun chatNpcSpecific(
         title: String,
         type: NpcType,
+        mesanim: UnpackedMesAnimType,
         text: String,
-        mesanim: UnpackedMesAnimType?,
-        lineCount: Int,
-        lineHeight: Int,
-        pauseText: String = constants.cm_pausebutton,
-        eventBus: EventBus = context.eventBus,
     ) {
-        val chatanim = mesanim?.splitGetAnim(lineCount)
+        val alignment = context.alignment
+        val pages = alignment.generateChatPageList(text)
+        for (page in pages) {
+            val (pgText, lineCount) = page
+            val lineHeight = alignment.chatLineHeight(lineCount)
+            val chatanim = mesanim.splitGetAnim(lineCount)
+            chatNpcSpecificPage(
+                title = title,
+                type = type,
+                text = pgText,
+                chatanim = chatanim,
+                lineHeight = lineHeight,
+                pauseText = constants.cm_pausebutton,
+                eventBus = context.eventBus,
+            )
+        }
+    }
+
+    private suspend fun chatNpcSpecificPage(
+        title: String,
+        type: NpcType,
+        text: String,
+        chatanim: SeqType,
+        lineHeight: Int,
+        pauseText: String,
+        eventBus: EventBus,
+    ) {
         player.ifChatNpcSpecific(title, type, text, chatanim, pauseText, lineHeight, eventBus)
         val modal = player.ui.getModalOrNull(components.chatbox_chatmodal)
         val input = coroutine.pause(ResumePauseButtonInput::class)
@@ -2969,6 +3184,14 @@ public class ProtectedAccess(
         if (opHeldCallCount++ >= 25) {
             throw IllegalStateException("Detected `opHeld` infinite recursion: $this")
         }
+    }
+
+    private fun Npc.resolveVisName(): String {
+        if (!type.isMultiNpc) {
+            return type.name
+        }
+        val visType = npcVisType(this)
+        return visType.name
     }
 
     override fun toString(): String = "ProtectedAccess(player=$player, coroutine=$coroutine)"

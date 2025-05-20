@@ -1,8 +1,8 @@
 package org.rsmod.content.areas.city.lumbridge.npcs
 
 import jakarta.inject.Inject
+import org.rsmod.api.config.refs.mesanims
 import org.rsmod.api.player.dialogue.Dialogue
-import org.rsmod.api.player.dialogue.Dialogues
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.script.advanced.onUnimplementedOpNpc4
 import org.rsmod.api.script.onOpNpc1
@@ -15,8 +15,7 @@ import org.rsmod.game.entity.Player
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-class Bob @Inject constructor(private val shops: Shops, private val dialogues: Dialogues) :
-    PluginScript() {
+class Bob @Inject constructor(private val shops: Shops) : PluginScript() {
     override fun ScriptContext.startup() {
         onOpNpc1(lumbridge_npcs.bob) { startDialogue(it.npc) }
         onOpNpc3(lumbridge_npcs.bob) { player.openShop(it.npc) }
@@ -28,7 +27,7 @@ class Bob @Inject constructor(private val shops: Shops, private val dialogues: D
     }
 
     private suspend fun ProtectedAccess.startDialogue(npc: Npc) {
-        dialogues.start(this, npc) { bobDialogue(npc) }
+        startDialogue(npc) { bobDialogue(npc) }
     }
 
     private suspend fun Dialogue.bobDialogue(npc: Npc) {
@@ -69,6 +68,6 @@ class Bob @Inject constructor(private val shops: Shops, private val dialogues: D
     }
 
     private suspend fun ProtectedAccess.repairOp(npc: Npc) {
-        dialogues.start(this, npc) { chatNpc(confused, "You don't have anything I can repair.") }
+        chatNpc(npc, mesanims.confused, "You don't have anything I can repair.")
     }
 }

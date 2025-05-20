@@ -12,7 +12,7 @@ class TextAlignmentTest {
         val fontList = fontTypeList()
         val alignment = TextAlignment(fontList)
         val text = """Advanced clues have tiers between easy and master.""".trimDialogue()
-        val pageList = alignment.generatePageList(text, fontList.q8Full())
+        val pageList = alignment.generatePageList(text, TEXT_WIDTH, fontList.q8Full())
         assertEquals(text, pageList[0].text)
         assertEquals(1, pageList[0].lineCount)
         assertEquals(1, pageList.size)
@@ -34,7 +34,7 @@ class TextAlignmentTest {
                 using the shift cipher method.
             """
                 .trimDialogue()
-        val pageList = alignment.generatePageList(text, fontList.q8Full())
+        val pageList = alignment.generatePageList(text, TEXT_WIDTH, fontList.q8Full())
         assertEquals(expectedText, pageList[0].text)
         assertEquals(2, pageList[0].lineCount)
         assertEquals(1, pageList.size)
@@ -58,7 +58,7 @@ class TextAlignmentTest {
                 will need to defeat more powerful foes.
             """
                 .trimDialogue()
-        val pageList = alignment.generatePageList(text, fontList.q8Full())
+        val pageList = alignment.generatePageList(text, TEXT_WIDTH, fontList.q8Full())
         assertEquals(expectedText, pageList[0].text)
         assertEquals(3, pageList[0].lineCount)
         assertEquals(1, pageList.size)
@@ -84,7 +84,7 @@ class TextAlignmentTest {
                 problems.
             """
                 .trimDialogue()
-        val pageList = alignment.generatePageList(text, fontList.q8Full())
+        val pageList = alignment.generatePageList(text, TEXT_WIDTH, fontList.q8Full())
         assertEquals(expectedText, pageList[0].text)
         assertEquals(4, pageList[0].lineCount)
         assertEquals(1, pageList.size)
@@ -118,7 +118,7 @@ class TextAlignmentTest {
                 ingredients for the Duke's birthday cake.
             """
                 .trimDialogue()
-        val pageList = alignment.generatePageList(text, fontList.q8Full())
+        val pageList = alignment.generatePageList(text, TEXT_WIDTH, fontList.q8Full())
         assertEquals(expectedTextPg1, pageList[0].text)
         assertEquals(4, pageList[0].lineCount)
         assertEquals(2, pageList.size)
@@ -131,4 +131,8 @@ class TextAlignmentTest {
 
     // Removes implicit newline characters from multi-line string templates.
     private fun String.trimDialogue(): String = trimIndent().replace("\n", "")
+
+    private companion object {
+        private const val TEXT_WIDTH = 380
+    }
 }

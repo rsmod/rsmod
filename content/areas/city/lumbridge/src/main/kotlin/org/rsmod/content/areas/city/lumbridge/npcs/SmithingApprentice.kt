@@ -1,10 +1,8 @@
 package org.rsmod.content.areas.city.lumbridge.npcs
 
-import jakarta.inject.Inject
 import org.rsmod.api.config.refs.content
 import org.rsmod.api.config.refs.objs
 import org.rsmod.api.player.dialogue.Dialogue
-import org.rsmod.api.player.dialogue.Dialogues
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.stat.baseSmithingLvl
 import org.rsmod.api.script.onOpNpc1
@@ -13,13 +11,13 @@ import org.rsmod.game.entity.Npc
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-class SmithingApprentice @Inject constructor(private val dialogues: Dialogues) : PluginScript() {
+class SmithingApprentice : PluginScript() {
     override fun ScriptContext.startup() {
         onOpNpc1(lumbridge_npcs.smithing_apprentice) { startDialogue(it.npc) }
     }
 
     private suspend fun ProtectedAccess.startDialogue(npc: Npc) {
-        dialogues.start(this, npc) { smithingApprenticeDialogue() }
+        startDialogue(npc) { smithingApprenticeDialogue() }
     }
 
     private suspend fun Dialogue.smithingApprenticeDialogue() {
