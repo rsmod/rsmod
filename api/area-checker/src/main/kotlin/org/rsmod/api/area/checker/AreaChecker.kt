@@ -12,7 +12,7 @@ public class AreaChecker
 constructor(private val areaIndex: AreaIndex, private val regions: RegionRegistry) {
     private val areaBuffer = ShortArrayList()
 
-    public fun inArea(coords: CoordGrid, area: AreaType): Boolean {
+    public fun inArea(area: AreaType, coords: CoordGrid): Boolean {
         areaBuffer.clear()
         val normalized = coords.normalized()
         areaIndex.putAreas(normalized, areaBuffer)

@@ -15,7 +15,6 @@ import org.rsmod.api.player.vars.prayerDrainCounter
 import org.rsmod.api.player.vars.usingQuickPrayers
 import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.Inventory
-import org.rsmod.game.type.area.AreaType
 import org.rsmod.game.type.inv.InvScope
 
 public fun Player.forceDisconnect() {
@@ -86,14 +85,9 @@ public fun Player.isInPvnCombat(): Boolean {
     return vars[varps.lastcombat] + constants.combat_activecombat_delay >= currentMapClock
 }
 
-/** @return `true` if the player is **currently** in the [area]. */
-public fun Player.inArea(checker: AreaChecker, area: AreaType): Boolean {
-    return checker.inArea(coords, area)
-}
-
 /** @return `true` if the player is **currently** in a multi-combat area. */
 public fun Player.mapMultiway(checker: AreaChecker): Boolean {
-    return checker.inArea(coords, areas.multiway)
+    return checker.inArea(areas.multiway, coords)
 }
 
 public fun Player.startInvTransmit(inv: Inventory) {

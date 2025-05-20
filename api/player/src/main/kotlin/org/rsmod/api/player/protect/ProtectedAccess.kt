@@ -42,7 +42,6 @@ import org.rsmod.api.player.hit.processor.StandardPlayerHitProcessor
 import org.rsmod.api.player.hit.queueHit
 import org.rsmod.api.player.hit.queueImpactHit
 import org.rsmod.api.player.hit.takeInstantHit
-import org.rsmod.api.player.inArea
 import org.rsmod.api.player.input.ResumePCountDialogInput
 import org.rsmod.api.player.input.ResumePObjDialogInput
 import org.rsmod.api.player.input.ResumePStringDialogInput
@@ -1704,9 +1703,9 @@ public class ProtectedAccess(
         return player.findHero(context.playerList)
     }
 
-    /** @see [org.rsmod.api.player.inArea] */
-    public fun inArea(area: AreaType): Boolean {
-        return player.inArea(context.areaChecker, area)
+    /** Returns `true` if [coords] is within [area]. */
+    public fun inArea(area: AreaType, coords: CoordGrid): Boolean {
+        return context.areaChecker.inArea(area, coords)
     }
 
     /** @see [org.rsmod.api.player.mapMultiway] */
