@@ -12,7 +12,7 @@ public class ControllerMainProcess
 constructor(
     private val controllerList: ControllerList,
     private val conRepo: ControllerRepository,
-    private val aiTimers: AIConTimerProcessor,
+    private val aiTimers: AiConTimerProcessor,
     private val queues: ControllerQueueProcessor,
     private val timers: ControllerTimerProcessor,
     private val mapClock: MapClock,

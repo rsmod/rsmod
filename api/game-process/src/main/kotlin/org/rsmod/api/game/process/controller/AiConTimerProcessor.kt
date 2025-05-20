@@ -5,7 +5,7 @@ import org.rsmod.api.controller.events.ControllerAIEvents
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Controller
 
-public class AIConTimerProcessor @Inject constructor(private val eventBus: EventBus) {
+public class AiConTimerProcessor @Inject constructor(private val eventBus: EventBus) {
     public fun process(controller: Controller) {
         if (controller.aiTimer <= 0) {
             return
