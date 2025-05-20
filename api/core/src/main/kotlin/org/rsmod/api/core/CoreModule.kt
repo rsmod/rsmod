@@ -3,6 +3,7 @@ package org.rsmod.api.core
 import com.google.inject.Provider
 import jakarta.inject.Inject
 import org.rsmod.api.account.AccountModule
+import org.rsmod.api.area.checker.AreaCheckerModule
 import org.rsmod.api.cache.CacheModule
 import org.rsmod.api.core.module.EntityHitModule
 import org.rsmod.api.core.module.GameMapModule
@@ -14,7 +15,6 @@ import org.rsmod.api.core.module.TypeModule
 import org.rsmod.api.db.DatabaseModule
 import org.rsmod.api.game.process.GameCycle
 import org.rsmod.api.market.MarketModule
-import org.rsmod.api.multiway.MultiwayModule
 import org.rsmod.api.pw.hash.PasswordHashModule
 import org.rsmod.api.random.RandomModule
 import org.rsmod.api.route.RouteModule
@@ -29,13 +29,13 @@ import org.rsmod.module.ExtendedModule
 public object CoreModule : ExtendedModule() {
     override fun bind() {
         install(AccountModule)
+        install(AreaCheckerModule)
         install(CacheModule)
         install(DatabaseModule)
         install(EntityHitModule)
         install(ExceptionHandlerModule)
         install(GameMapModule)
         install(MarketModule)
-        install(MultiwayModule)
         install(PlayerModule)
         install(PasswordHashModule)
         install(RandomModule)

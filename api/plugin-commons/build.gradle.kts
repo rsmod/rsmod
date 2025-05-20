@@ -5,6 +5,7 @@ plugins {
 dependencies {
     api(libs.guice)
     api(libs.bundles.logging)
+    api(projects.api.areaChecker)
     api(projects.api.cache)
     api(projects.api.cheat)
     api(projects.api.combat.combatCommons)

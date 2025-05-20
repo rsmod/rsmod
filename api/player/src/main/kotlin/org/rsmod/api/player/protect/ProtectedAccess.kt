@@ -26,7 +26,6 @@ import org.rsmod.api.invtx.invTransaction
 import org.rsmod.api.invtx.invTransfer
 import org.rsmod.api.invtx.select
 import org.rsmod.api.market.MarketPrices
-import org.rsmod.api.multiway.MultiwayChecker
 import org.rsmod.api.player.cinematic.CameraMode
 import org.rsmod.api.player.cinematic.Cinematic
 import org.rsmod.api.player.cinematic.CompassState
@@ -43,6 +42,7 @@ import org.rsmod.api.player.hit.processor.StandardPlayerHitProcessor
 import org.rsmod.api.player.hit.queueHit
 import org.rsmod.api.player.hit.queueImpactHit
 import org.rsmod.api.player.hit.takeInstantHit
+import org.rsmod.api.player.inArea
 import org.rsmod.api.player.input.ResumePCountDialogInput
 import org.rsmod.api.player.input.ResumePObjDialogInput
 import org.rsmod.api.player.input.ResumePStringDialogInput
@@ -154,6 +154,7 @@ import org.rsmod.game.map.collision.isZoneValid
 import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.obj.InvObj
 import org.rsmod.game.obj.isType
+import org.rsmod.game.type.area.AreaType
 import org.rsmod.game.type.category.CategoryType
 import org.rsmod.game.type.category.CategoryTypeList
 import org.rsmod.game.type.comp.ComponentType
@@ -1676,8 +1677,11 @@ public class ProtectedAccess(
         return player.findHero(playerList)
     }
 
+    /** @see [org.rsmod.api.player.inArea] */
+    public fun inArea(area: AreaType): Boolean = player.inArea(context.areaChecker, area)
+
     /** @see [org.rsmod.api.player.mapMultiway] */
-    public fun mapMultiway(multiway: MultiwayChecker): Boolean = player.mapMultiway(multiway)
+    public fun mapMultiway(): Boolean = player.mapMultiway(context.areaChecker)
 
     public fun combatClearQueue() {
         player.combatClearQueue()

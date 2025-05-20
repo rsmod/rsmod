@@ -1,5 +1,6 @@
 package org.rsmod.api.player.protect
 
+import org.rsmod.api.area.checker.AreaChecker
 import org.rsmod.api.market.MarketPrices
 import org.rsmod.api.player.dialogue.align.TextAlignment
 import org.rsmod.api.player.hit.processor.InstantPlayerHitProcessor
@@ -74,6 +75,7 @@ public data class ProtectedAccessContext(
     private val getNpcList: () -> NpcList,
     private val getPlayerList: () -> PlayerList,
     private val getCollision: () -> CollisionFlagMap,
+    private val getAreaChecker: () -> AreaChecker,
     private val getAlignment: () -> TextAlignment,
     private val getInvTypes: () -> InvTypeList,
     private val getLocTypes: () -> LocTypeList,
@@ -92,6 +94,7 @@ public data class ProtectedAccessContext(
     public val npcList: NpcList by lazyLoad { getNpcList() }
     public val playerList: PlayerList by lazyLoad { getPlayerList() }
     public val collision: CollisionFlagMap by lazyLoad { getCollision() }
+    public val areaChecker: AreaChecker by lazyLoad { getAreaChecker() }
     public val alignment: TextAlignment by lazyLoad { getAlignment() }
     public val invTypes: InvTypeList by lazyLoad { getInvTypes() }
     public val locTypes: LocTypeList by lazyLoad { getLocTypes() }

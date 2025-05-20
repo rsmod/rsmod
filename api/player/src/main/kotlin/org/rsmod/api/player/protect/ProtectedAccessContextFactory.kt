@@ -1,6 +1,7 @@
 package org.rsmod.api.player.protect
 
 import jakarta.inject.Inject
+import org.rsmod.api.area.checker.AreaChecker
 import org.rsmod.api.market.MarketPrices
 import org.rsmod.api.player.dialogue.align.TextAlignment
 import org.rsmod.api.player.hit.processor.InstantPlayerHitProcessor
@@ -27,6 +28,7 @@ constructor(
     private val npcList: NpcList,
     private val playerList: PlayerList,
     private val collision: CollisionFlagMap,
+    private val areaChecker: AreaChecker,
     private val alignment: TextAlignment,
     private val invTypes: InvTypeList,
     private val locTypes: LocTypeList,
@@ -47,6 +49,7 @@ constructor(
             getNpcList = { npcList },
             getPlayerList = { playerList },
             getCollision = { collision },
+            getAreaChecker = { areaChecker },
             getAlignment = { alignment },
             getInvTypes = { invTypes },
             getLocTypes = { locTypes },
@@ -69,6 +72,7 @@ constructor(
                 getNpcList = { error("No npc list provided.") },
                 getPlayerList = { error("No player list provided.") },
                 getCollision = { error("No collision map provided.") },
+                getAreaChecker = { error("No area checker provided.") },
                 getAlignment = { error("No text alignment provided.") },
                 getInvTypes = { error("No inv type list provided.") },
                 getLocTypes = { error("No loc type list provided.") },

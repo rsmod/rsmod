@@ -1,10 +1,11 @@
 package org.rsmod.api.player
 
+import org.rsmod.api.area.checker.AreaChecker
 import org.rsmod.api.config.constants
+import org.rsmod.api.config.refs.areas
 import org.rsmod.api.config.refs.queues
 import org.rsmod.api.config.refs.timers
 import org.rsmod.api.config.refs.varps
-import org.rsmod.api.multiway.MultiwayChecker
 import org.rsmod.api.player.hit.configs.hit_queues
 import org.rsmod.api.player.output.UpdateInventory
 import org.rsmod.api.player.output.clearMapFlag
@@ -14,6 +15,7 @@ import org.rsmod.api.player.vars.prayerDrainCounter
 import org.rsmod.api.player.vars.usingQuickPrayers
 import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.Inventory
+import org.rsmod.game.type.area.AreaType
 import org.rsmod.game.type.inv.InvScope
 
 public fun Player.forceDisconnect() {
@@ -84,8 +86,15 @@ public fun Player.isInPvnCombat(): Boolean {
     return vars[varps.lastcombat] + constants.combat_activecombat_delay >= currentMapClock
 }
 
+/** @return `true` if the player is **currently** in the [area]. */
+public fun Player.inArea(checker: AreaChecker, area: AreaType): Boolean {
+    return checker.inArea(coords, area)
+}
+
 /** @return `true` if the player is **currently** in a multi-combat area. */
-public fun Player.mapMultiway(multiway: MultiwayChecker): Boolean = this in multiway
+public fun Player.mapMultiway(checker: AreaChecker): Boolean {
+    return checker.inArea(coords, areas.multiway)
+}
 
 public fun Player.startInvTransmit(inv: Inventory) {
     check(inv.type.scope != InvScope.Shared || !invMap.contains(inv.type)) {
@@ -94,7 +103,7 @@ public fun Player.startInvTransmit(inv: Inventory) {
     /*
      * Reorders the given `inv` in the list of transmitted inventories. This ensures that updates
      * for inventories are sent in the order they were added when this function was called, even if
-     * they were first added during log in (e.g., `worn` and `inv`).
+     * they were first added during login (e.g., `worn` and `inv`).
      *
      * This is done to emulate the behavior observed in os, where the transmitted inventory order
      * can change dynamically. For example, equipping an item will have the update order of `inv`

@@ -35,7 +35,6 @@ import org.rsmod.game.shop.Shop
 import org.rsmod.game.spot.EntitySpotanim
 import org.rsmod.game.stat.PlayerStatMap
 import org.rsmod.game.timer.PlayerTimerMap
-import org.rsmod.game.type.area.AreaType
 import org.rsmod.game.type.bas.UnpackedBasType
 import org.rsmod.game.type.droptrig.DropTriggerType
 import org.rsmod.game.type.mod.ModGroup
@@ -474,8 +473,6 @@ public class Player(
     public fun rebuildAppearance() {
         appearance.rebuild = true
     }
-
-    public fun inArea(area: AreaType): Boolean = area.id.toShort() in activeAreas
 
     /**
      * @throws [IllegalStateException] if a [dropTrigger] is already set. This ensures that
