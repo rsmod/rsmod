@@ -2,6 +2,7 @@ package org.rsmod.game.type.comp
 
 import org.rsmod.game.type.CacheType
 import org.rsmod.game.type.HashedCacheType
+import org.rsmod.game.type.interf.IfEvent
 import org.rsmod.game.ui.Component.Companion.CHILD_BIT_MASK
 import org.rsmod.game.ui.Component.Companion.CHILD_BIT_OFFSET
 import org.rsmod.game.ui.Component.Companion.PARENT_BIT_MASK
@@ -143,6 +144,10 @@ public data class UnpackedComponentType(
     override var internalName: String?,
 ) : ComponentType() {
     private val identityHash by lazy { computeIdentityHash() }
+
+    public fun hasEvent(event: IfEvent): Boolean {
+        return (events and event.bitmask) != 0
+    }
 
     public fun toHashedType(): HashedComponentType =
         HashedComponentType(

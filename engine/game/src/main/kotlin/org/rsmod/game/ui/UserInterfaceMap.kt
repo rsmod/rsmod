@@ -3,6 +3,7 @@ package org.rsmod.game.ui
 import it.unimi.dsi.fastutil.ints.Int2IntMap
 import it.unimi.dsi.fastutil.ints.IntArraySet
 import org.rsmod.game.type.comp.ComponentType
+import org.rsmod.game.type.interf.IfEvent
 import org.rsmod.game.type.interf.InterfaceType
 import org.rsmod.game.ui.collection.ComponentEventMap
 import org.rsmod.game.ui.collection.ComponentTargetMap
@@ -55,6 +56,11 @@ public data class UserInterfaceMap(
     public fun getGameframe(key: ComponentType): Component = gameframe.backing.get(key)
 
     public fun getGameframeOrNull(key: ComponentType): Component? = getGameframe(key).orNull()
+
+    public fun hasEvent(component: ComponentType, slot: Int, event: IfEvent): Boolean {
+        val events = events[component, slot]
+        return (events and event.bitmask) != 0
+    }
 
     private fun Component.orNull(): Component? = if (this == Component.NULL) null else this
 

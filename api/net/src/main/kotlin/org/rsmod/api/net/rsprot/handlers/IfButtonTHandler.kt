@@ -4,16 +4,21 @@ import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
 import net.rsprot.protocol.game.incoming.buttons.IfButtonT
 import org.rsmod.annotations.InternalApi
+import org.rsmod.api.net.rsprot.player.InterfaceEvents
 import org.rsmod.api.player.protect.ProtectedAccessLauncher
 import org.rsmod.api.player.ui.IfModalButtonT
 import org.rsmod.api.player.ui.IfOverlayButtonT
 import org.rsmod.api.player.ui.ifCloseInputDialog
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
+import org.rsmod.game.type.comp.ComponentTypeList
+import org.rsmod.game.type.comp.UnpackedComponentType
+import org.rsmod.game.type.interf.IfEvent
 import org.rsmod.game.type.interf.InterfaceTypeList
 import org.rsmod.game.type.interf.isType
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.ui.Component
+import org.rsmod.game.ui.UserInterfaceMap
 
 class IfButtonTHandler
 @Inject
@@ -21,6 +26,7 @@ constructor(
     private val eventBus: EventBus,
     private val objTypes: ObjTypeList,
     private val interfaceTypes: InterfaceTypeList,
+    private val componentTypes: ComponentTypeList,
     private val protectedAccess: ProtectedAccessLauncher,
 ) : MessageHandler<IfButtonT> {
     private val logger = InlineLogger()
@@ -28,8 +34,10 @@ constructor(
     @OptIn(InternalApi::class)
     override fun handle(player: Player, message: IfButtonT) {
         val selectedComponent = Component(message.selectedInterfaceId, message.selectedComponentId)
+        val selectedComponentType = componentTypes[selectedComponent]
         val selectedInterface = interfaceTypes[selectedComponent]
         val targetComponent = Component(message.targetInterfaceId, message.targetComponentId)
+        val targetComponentType = componentTypes[targetComponent]
         val targetInterface = interfaceTypes[targetComponent]
         val ui = player.ui
 
@@ -51,8 +59,14 @@ constructor(
             }
         }
 
-        // TODO: Verify `IfSetEvent` for the respective targeting has been enabled for the
-        //  components. This requires us to store the state of IfSetEvents for the player.
+        val selectedSub = message.selectedSub
+        val targetSub = message.targetSub
+
+        val targetEnabled =
+            isTargetEnabled(ui, selectedComponentType, selectedSub, targetComponentType, targetSub)
+        if (!targetEnabled) {
+            return
+        }
 
         val selectedObjType = objTypes[message.selectedObj]
         val targetObjType = objTypes[message.targetObj]
@@ -62,9 +76,9 @@ constructor(
             val overlayButton =
                 IfOverlayButtonT(
                     player = player,
-                    selectedSlot = message.selectedSub,
+                    selectedSlot = selectedSub,
                     selectedObj = selectedObjType,
-                    targetSlot = message.targetSub,
+                    targetSlot = targetSub,
                     targetObj = targetObjType,
                     selectedComponent = selectedComponent,
                     targetComponent = targetComponent,
@@ -76,9 +90,9 @@ constructor(
 
         val modalButton =
             IfModalButtonT(
-                selectedSlot = message.selectedSub,
+                selectedSlot = selectedSub,
                 selectedObj = selectedObjType,
-                targetSlot = message.targetSub,
+                targetSlot = targetSub,
                 targetObj = targetObjType,
                 selectedComponent = selectedComponent,
                 targetComponent = targetComponent,
@@ -90,5 +104,20 @@ constructor(
         }
         logger.debug { "[Modal] IfButtonT: $message (modalButton=$modalButton)" }
         protectedAccess.launchLenient(player) { eventBus.publish(this, modalButton) }
+    }
+
+    private fun isTargetEnabled(
+        ui: UserInterfaceMap,
+        from: UnpackedComponentType,
+        fromComsub: Int,
+        target: UnpackedComponentType,
+        targetComsub: Int,
+    ): Boolean {
+        val targetFromEnabled = InterfaceEvents.isEnabled(ui, from, fromComsub, IfEvent.TgtCom)
+        if (!targetFromEnabled) {
+            return false
+        }
+        val targetToEnabled = InterfaceEvents.isEnabled(ui, target, targetComsub, IfEvent.Target)
+        return targetToEnabled
     }
 }

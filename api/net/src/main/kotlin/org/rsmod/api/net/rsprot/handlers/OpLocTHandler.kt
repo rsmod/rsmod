@@ -3,6 +3,7 @@ package org.rsmod.api.net.rsprot.handlers
 import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
 import net.rsprot.protocol.game.incoming.locs.OpLocT
+import org.rsmod.api.net.rsprot.player.InterfaceEvents
 import org.rsmod.api.player.interact.LocTInteractions
 import org.rsmod.api.player.output.clearMapFlag
 import org.rsmod.api.player.protect.clearPendingAction
@@ -14,6 +15,7 @@ import org.rsmod.game.interact.InteractionLocT
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.movement.RouteRequestLoc
 import org.rsmod.game.type.comp.ComponentTypeList
+import org.rsmod.game.type.interf.IfEvent
 import org.rsmod.game.type.interf.InterfaceTypeList
 import org.rsmod.game.type.loc.LocTypeList
 import org.rsmod.game.type.obj.ObjTypeList
@@ -58,10 +60,14 @@ constructor(
             return
         }
 
-        // TODO: Once `if_setevent`s are tracked properly, we can ensure the component has the
-        // appropriate ifevent set for targeting.
-
         val comsub = message.selectedSub
+
+        val targetEnabled =
+            InterfaceEvents.isEnabled(player.ui, componentType, comsub, IfEvent.TgtLoc)
+        if (!targetEnabled) {
+            return
+        }
+
         val speed = if (message.controlKey) player.ctrlMoveSpeed() else null
         val boundLoc = BoundLocInfo(loc, type)
         val opTrigger =

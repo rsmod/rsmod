@@ -1,29 +1,101 @@
 package org.rsmod.game.ui.collection
 
-import it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap
-import org.rsmod.game.ui.Component
-import org.rsmod.game.ui.ComponentEvents
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap
+import it.unimi.dsi.fastutil.longs.LongArrayList
+import it.unimi.dsi.fastutil.longs.LongList
+import org.rsmod.game.type.comp.ComponentType
+import org.rsmod.game.ui.UserInterface
 
-@JvmInline
-public value class ComponentEventMap(
-    public val backing: Int2ObjectMap<ComponentEvents> = Int2ObjectLinkedOpenHashMap()
-) : Iterable<Map.Entry<Int, ComponentEvents>> {
-    public fun isEmpty(): Boolean = backing.isEmpty()
-
-    public fun isNotEmpty(): Boolean = !isEmpty()
-
-    public operator fun set(key: Component, event: ComponentEvents) {
-        backing[key.packed] = event
+public class ComponentEventMap(
+    private val interfaces: Int2ObjectMap<LongList> = Int2ObjectOpenHashMap()
+) {
+    public operator fun get(type: ComponentType, slot: Int): Int {
+        val eventList = interfaces[type.interfaceId]
+        if (eventList == interfaces.defaultReturnValue()) {
+            return 0
+        }
+        var events = 0
+        for (i in 0 until eventList.size) {
+            val event = Event(eventList.getLong(i))
+            if (event.component == type.component && slot >= event.start && slot <= event.end) {
+                events = event.events
+            }
+        }
+        return events
     }
 
-    public operator fun get(key: Component): ComponentEvents? =
-        backing.getOrDefault(key.packed, null)
+    public fun add(type: ComponentType, range: IntRange, events: Int) {
+        val eventList = interfaces.computeIfAbsent(type.interfaceId) { LongArrayList() }
+        val event = Event(type.component, range.first, range.last, events)
+        eventList.add(event.packed)
+    }
 
-    public operator fun contains(key: Component): Boolean = backing.containsKey(key.packed)
+    public fun clear(interf: UserInterface) {
+        interfaces.remove(interf.id)
+    }
 
-    // NOTE: we use the default entrySet, which is deprecated in fastutil collections.
-    // Doing this to avoid using their default Entry pair implementation, which developers may feel
-    // inclined to specify in their code such as: val iterator: Iterator<Int2ObjectMap.Entry<V>>
-    override fun iterator(): Iterator<Map.Entry<Int, ComponentEvents>> = backing.iterator()
+    @JvmInline
+    private value class Event(val packed: Long) {
+        val component: Int
+            get() = ((packed shr COMPONENT_BIT_OFFSET) and COMPONENT_BIT_MASK).toInt()
+
+        val start: Int
+            get() = ((packed shr START_BIT_OFFSET) and START_BIT_MASK).toInt()
+
+        val end: Int
+            get() = ((packed shr END_BIT_OFFSET) and END_BIT_MASK).toInt()
+
+        val events: Int
+            get() = ((packed shr EVENTS_BIT_OFFSET) and EVENTS_BIT_MASK).toInt()
+
+        constructor(
+            component: Int,
+            start: Int,
+            end: Int,
+            events: Int,
+        ) : this(pack(component, start, end, events))
+
+        override fun toString(): String {
+            return "Event(component=$component, range=$start..$end, events=$events)"
+        }
+
+        companion object {
+            const val COMPONENT_BIT_COUNT = 13
+            const val START_BIT_COUNT = 14
+            const val END_BIT_COUNT = 14
+            const val EVENTS_BIT_COUNT = 23
+
+            const val COMPONENT_BIT_OFFSET = 0
+            const val START_BIT_OFFSET = COMPONENT_BIT_OFFSET + COMPONENT_BIT_COUNT
+            const val END_BIT_OFFSET = START_BIT_OFFSET + START_BIT_COUNT
+            const val EVENTS_BIT_OFFSET = END_BIT_OFFSET + END_BIT_COUNT
+
+            const val COMPONENT_BIT_MASK = (1L shl COMPONENT_BIT_COUNT) - 1
+            const val START_BIT_MASK = (1L shl START_BIT_COUNT) - 1
+            const val END_BIT_MASK = (1L shl END_BIT_COUNT) - 1
+            const val EVENTS_BIT_MASK = (1L shl EVENTS_BIT_COUNT) - 1
+
+            private fun pack(component: Int, start: Int, end: Int, events: Int): Long {
+                val clampedStart = if (start == -1) 0 else start
+                val clampedEnd = if (end == -1) END_BIT_MASK.toInt() else end
+                require(component in 0..COMPONENT_BIT_MASK) {
+                    "`component` must be in range [0..$COMPONENT_BIT_MASK]"
+                }
+                require(clampedStart in 0..START_BIT_MASK) {
+                    "`start` must be in range [-1..$START_BIT_MASK]"
+                }
+                require(clampedEnd in 0..END_BIT_MASK) {
+                    "`end` must be in range [-1..$END_BIT_MASK]"
+                }
+                require(events in 0..EVENTS_BIT_MASK) {
+                    "`events` must be in range [0..$EVENTS_BIT_MASK]"
+                }
+                return ((component.toLong() and COMPONENT_BIT_MASK) shl COMPONENT_BIT_OFFSET) or
+                    ((clampedStart.toLong() and START_BIT_MASK) shl START_BIT_OFFSET) or
+                    ((clampedEnd.toLong() and END_BIT_MASK) shl END_BIT_OFFSET) or
+                    ((events.toLong() and EVENTS_BIT_MASK) shl EVENTS_BIT_OFFSET)
+            }
+        }
+    }
 }

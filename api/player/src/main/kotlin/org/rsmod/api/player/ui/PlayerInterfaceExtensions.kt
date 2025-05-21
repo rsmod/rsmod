@@ -205,8 +205,8 @@ public fun Player.ifCloseModals(eventBus: EventBus) {
 }
 
 public fun Player.ifSetEvents(target: ComponentType, range: IntRange, vararg event: IfEvent) {
-    // TODO: keep track of these and clear them when closing their respective interface
     val packed = event.fold(0) { sum, element -> sum or element.bitmask }
+    ui.events.add(target, range, packed)
     client.write(IfSetEvents(target.interfaceId, target.component, range.first, range.last, packed))
 }
 
@@ -290,6 +290,7 @@ private fun Player.closeModal(interf: InterfaceType, eventBus: EventBus) {
 
 private fun Player.closeModal(interf: UserInterface, target: Component, eventBus: EventBus) {
     ui.modals.remove(target)
+    ui.events.clear(interf)
 
     // Translate any gameframe target component when sent to the client. As far as the server
     // is aware, the interface was open on the "base" target component. (when applicable)
@@ -311,6 +312,7 @@ private fun Player.closeOverlay(interf: InterfaceType, eventBus: EventBus) {
 
 private fun Player.closeOverlay(interf: UserInterface, target: Component, eventBus: EventBus) {
     ui.overlays.remove(target)
+    ui.events.clear(interf)
 
     // Translate any gameframe target component when sent to the client. As far as the server
     // is aware, the interface was open on the "base" target component. (when applicable)
@@ -339,6 +341,8 @@ private fun Player.closeOverlayChildren(parent: UserInterface, eventBus: EventBu
 public fun Player.closeSubs(from: Component, eventBus: EventBus) {
     val remove = ui.modals.remove(from) ?: ui.overlays.remove(from)
     if (remove != null) {
+        ui.events.clear(remove)
+
         // Translate any gameframe target component when sent to the client. As far as the server
         // is aware, the interface was open on the "base" target component. (when applicable)
         val translated = ui.translate(from)
@@ -357,6 +361,7 @@ public fun Player.closeSubs(from: Component, eventBus: EventBus) {
 private fun Player.triggerCloseSubs(from: Component, eventBus: EventBus) {
     val remove = ui.modals.remove(from) ?: ui.overlays.remove(from)
     if (remove != null) {
+        ui.events.clear(remove)
         eventBus.publish(CloseSub(this, remove, from))
         triggerCloseOverlayChildren(remove, eventBus)
     }
@@ -389,6 +394,7 @@ private fun Player.triggerCloseOverlay(
     eventBus: EventBus,
 ) {
     ui.overlays.remove(target)
+    ui.events.clear(interf)
     eventBus.publish(CloseSub(this, interf, target))
     triggerCloseOverlayChildren(interf, eventBus)
 }
@@ -403,7 +409,7 @@ private fun UserInterfaceMap.translate(component: Component): Component =
 /*
  * Dialogue helper functions
  *
- * These functions are intended to assist with displaying various dialogue interfaces to the player.
+ * These functions are intended to help with displaying various dialogue interfaces to the player.
  * However, they do _not_ properly handle state suspension or resuming from player input.
  *
  * Important: These functions should only be used internally within systems that properly manage

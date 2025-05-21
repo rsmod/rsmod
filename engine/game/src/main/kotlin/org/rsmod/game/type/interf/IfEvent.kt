@@ -30,15 +30,6 @@ public enum class IfEvent(public val bitmask: Int) {
     DragTarget(1 shl 20),
     Target(1 shl 21),
     CrmTarget(1 shl 22),
-    Bit23(1 shl 23),
-    Bit24(1 shl 24),
-    Bit25(1 shl 25),
-    Bit26(1 shl 26),
-    Bit27(1 shl 27),
-    Bit28(1 shl 28),
-    Bit29(1 shl 29),
-    Bit30(1 shl 30),
-    Bit31(1 shl 31),
 
     /*
      * Some of the Depth entries can in-fact overlap. Below is a list of their occupying bits.

@@ -3,6 +3,7 @@ package org.rsmod.api.net.rsprot.handlers
 import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
 import net.rsprot.protocol.game.incoming.npcs.OpNpcT
+import org.rsmod.api.net.rsprot.player.InterfaceEvents
 import org.rsmod.api.player.interact.NpcTInteractions
 import org.rsmod.api.player.output.clearMapFlag
 import org.rsmod.api.player.protect.clearPendingAction
@@ -13,6 +14,7 @@ import org.rsmod.game.entity.Player
 import org.rsmod.game.interact.InteractionNpcT
 import org.rsmod.game.movement.RouteRequestPathingEntity
 import org.rsmod.game.type.comp.ComponentTypeList
+import org.rsmod.game.type.interf.IfEvent
 import org.rsmod.game.type.interf.InterfaceTypeList
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.ui.Component
@@ -54,10 +56,14 @@ constructor(
             return
         }
 
-        // TODO: Once `if_setevent`s are tracked properly, we can ensure the component has the
-        // appropriate ifevent set for targeting.
-
         val comsub = message.selectedSub
+
+        val targetEnabled =
+            InterfaceEvents.isEnabled(player.ui, componentType, comsub, IfEvent.TgtNpc)
+        if (!targetEnabled) {
+            return
+        }
+
         val speed = if (message.controlKey) player.ctrlMoveSpeed() else null
         val opTrigger = npcInteractions.hasOpTrigger(player, npc, componentType, comsub, objType)
         val apTrigger = npcInteractions.hasApTrigger(player, npc, componentType, comsub, objType)
