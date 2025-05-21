@@ -194,7 +194,7 @@ constructor(
             is InteractionNpcOp -> triggerOp(this, interaction)
             is InteractionNpcT -> triggerOp(this, interaction)
             is InteractionObj -> triggerOp(this, interaction)
-            is InteractionPlayerOp -> triggerAp(this, interaction)
+            is InteractionPlayerOp -> triggerOp(this, interaction)
         }
 
     private fun Player.triggerAp(interaction: Interaction): Unit =
