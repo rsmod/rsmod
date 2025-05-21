@@ -64,6 +64,11 @@ object BaseVarps : VarpReferences() {
     val date_vars = find("date_vars", 698424318)
 
     /* Server-side-only types */
+    val pk_prey1 = find("pk_prey1")
+    val pk_prey2 = find("pk_prey2")
+    val pk_predator1 = find("pk_predator1")
+    val pk_predator2 = find("pk_predator2")
+    val pk_predator3 = find("pk_predator3")
     val prayer_drain = find("prayer_drain")
     val playtime = find("playtime")
     val generic_temp_state_65516 = find("generic_temp_state_65516")

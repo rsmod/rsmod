@@ -22,6 +22,7 @@ import org.rsmod.api.specials.energy.SpecialAttackEnergy
 import org.rsmod.api.spells.MagicSpellRegistry
 import org.rsmod.api.spells.autocast.AutocastWeapons
 import org.rsmod.game.entity.PathingEntity
+import org.rsmod.game.entity.Player
 import org.rsmod.game.obj.InvObj
 import org.rsmod.game.type.obj.ObjTypeList
 
@@ -100,11 +101,7 @@ internal fun ProtectedAccess.resolveAutocastSpell(
         return null
     }
     val weapon = player.righthand ?: return null
-
-    val spell = spells.getAutocastSpell(autocastSpell)
-    if (spell == null) {
-        return null
-    }
+    val spell = spells.getAutocastSpell(autocastSpell) ?: return null
 
     val weaponType = objTypes[weapon]
 
@@ -230,3 +227,17 @@ internal suspend fun ProtectedAccess.activateShieldSpecial(
     shield: InvObj?,
     specials: SpecialAttackRegistry,
 ): Boolean = TODO()
+
+internal fun ProtectedAccess.setPkVars(target: Player) {
+    // TODO(combat): Set pk skull when applicable.
+    pkPrey2 = pkPrey1
+    pkPrey1 = target.uid
+
+    target.pkPredator3 = target.pkPredator2
+    target.pkPredator2 = target.pkPredator1
+    target.pkPredator1 = player.uid
+
+    target.lastCombat = mapClock
+    target.lastCombatPvp = mapClock
+    target.aggressiveNpc = null
+}

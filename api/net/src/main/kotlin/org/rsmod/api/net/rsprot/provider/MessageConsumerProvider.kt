@@ -2,6 +2,7 @@ package org.rsmod.api.net.rsprot.provider
 
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
+import kotlin.jvm.java
 import net.rsprot.protocol.game.incoming.buttons.If3Button
 import net.rsprot.protocol.game.incoming.buttons.IfButtonD
 import net.rsprot.protocol.game.incoming.buttons.IfButtonT
@@ -19,6 +20,7 @@ import net.rsprot.protocol.game.incoming.npcs.OpNpc6
 import net.rsprot.protocol.game.incoming.npcs.OpNpcT
 import net.rsprot.protocol.game.incoming.objs.OpObj
 import net.rsprot.protocol.game.incoming.objs.OpObj6
+import net.rsprot.protocol.game.incoming.players.OpPlayer
 import net.rsprot.protocol.game.incoming.resumed.ResumePCountDialog
 import net.rsprot.protocol.game.incoming.resumed.ResumePNameDialog
 import net.rsprot.protocol.game.incoming.resumed.ResumePObjDialog
@@ -43,6 +45,7 @@ import org.rsmod.api.net.rsprot.handlers.OpNpcHandler
 import org.rsmod.api.net.rsprot.handlers.OpNpcTHandler
 import org.rsmod.api.net.rsprot.handlers.OpObj6Handler
 import org.rsmod.api.net.rsprot.handlers.OpObjHandler
+import org.rsmod.api.net.rsprot.handlers.OpPlayerHandler
 import org.rsmod.api.net.rsprot.handlers.ResumePCountDialogHandler
 import org.rsmod.api.net.rsprot.handlers.ResumePNameDialogHandler
 import org.rsmod.api.net.rsprot.handlers.ResumePObjDialogHandler
@@ -63,6 +66,7 @@ constructor(
     private val opNpc: OpNpcHandler,
     private val opNpcT: OpNpcTHandler,
     private val opNpc6: OpNpc6Handler,
+    private val opPlayer: OpPlayerHandler,
     private val messagePublic: MessagePublicHandler,
     private val if3Button: If3ButtonHandler,
     private val closeModal: CloseModalHandler,
@@ -88,6 +92,7 @@ constructor(
         builder.addListener(OpNpc::class.java, opNpc)
         builder.addListener(OpNpcT::class.java, opNpcT)
         builder.addListener(OpNpc6::class.java, opNpc6)
+        builder.addListener(OpPlayer::class.java, opPlayer)
         builder.addListener(MessagePublic::class.java, messagePublic)
         builder.addListener(If3Button::class.java, if3Button)
         builder.addListener(CloseModal::class.java, closeModal)

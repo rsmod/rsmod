@@ -2179,6 +2179,11 @@
 4692	castlewars_extra
 4693	castlewars_plaudits
 
+65509	pk_prey1
+65510	pk_prey2
+65511	pk_predator1
+65512	pk_predator2
+65513	pk_predator3
 65514	prayer_drain
 65515	playtime
 65516	generic_temp_state_65516

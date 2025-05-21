@@ -1,53 +1,49 @@
 package org.rsmod.api.combat.scripts
 
 import jakarta.inject.Inject
-import org.rsmod.api.combat.ACTIVE_COMBAT_DELAY
-import org.rsmod.api.combat.PvNCombat
+import org.rsmod.api.combat.PvPCombat
 import org.rsmod.api.combat.commons.magic.MagicSpell
 import org.rsmod.api.combat.commons.styles.AttackStyle
 import org.rsmod.api.combat.manager.MagicRuneManager
-import org.rsmod.api.combat.npc.aggressivePlayer
-import org.rsmod.api.combat.npc.lastCombat
 import org.rsmod.api.combat.player.aggressiveNpc
 import org.rsmod.api.combat.player.attackRange
+import org.rsmod.api.combat.player.pkPredator1
 import org.rsmod.api.combat.player.resolveAutocastSpell
 import org.rsmod.api.combat.player.resolveCombatAttack
 import org.rsmod.api.combat.weapon.styles.AttackStyles
 import org.rsmod.api.combat.weapon.types.AttackTypes
 import org.rsmod.api.config.refs.categories
 import org.rsmod.api.config.refs.queues
+import org.rsmod.api.player.isInPvpCombat
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.righthand
-import org.rsmod.api.script.advanced.onDefaultApNpc2
-import org.rsmod.api.script.advanced.onDefaultOpNpc2
-import org.rsmod.api.script.onApNpcT
+import org.rsmod.api.script.advanced.onApPlayer2
+import org.rsmod.api.script.advanced.onOpPlayer2
 import org.rsmod.api.spells.MagicSpellRegistry
 import org.rsmod.api.spells.autocast.AutocastWeapons
-import org.rsmod.game.entity.Npc
+import org.rsmod.game.entity.Player
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-internal class PvNCombatScript
+internal class PvPCombatScript
 @Inject
 constructor(
     private val objTypes: ObjTypeList,
     private val styles: AttackStyles,
     private val types: AttackTypes,
-    private val combat: PvNCombat,
+    private val combat: PvPCombat,
     private val spells: MagicSpellRegistry,
     private val runes: MagicRuneManager,
     private val autocast: AutocastWeapons,
 ) : PluginScript() {
     override fun ScriptContext.startup() {
-        onDefaultApNpc2 { attemptCombatAp(it.npc) }
-        onDefaultOpNpc2 { attemptCombatOp(it.npc) }
-        for (spell in spells.combatSpells()) {
-            onApNpcT(spell.component) { attemptCombatSpell(it.npc, spell) }
-        }
+        onApPlayer2 { attemptCombatAp(it.target) }
+        onOpPlayer2 { attemptCombatOp(it.target) }
+        // TODO(combat): onApPlayerT for combat spells.
     }
 
-    private suspend fun ProtectedAccess.attemptCombatAp(target: Npc) {
+    private suspend fun ProtectedAccess.attemptCombatAp(target: Player) {
         val type = types.get(player)
         val style = styles.get(player)
         val attackRange = attackRange(style)
@@ -75,7 +71,7 @@ constructor(
         combat.attack(this, target, attack)
     }
 
-    private suspend fun ProtectedAccess.attemptCombatOp(target: Npc) {
+    private suspend fun ProtectedAccess.attemptCombatOp(target: Player) {
         if (!canAttack(target)) {
             return
         }
@@ -87,7 +83,7 @@ constructor(
         combat.attack(this, target, attack)
     }
 
-    private suspend fun ProtectedAccess.attemptCombatSpell(target: Npc, spell: MagicSpell) {
+    private suspend fun ProtectedAccess.attemptCombatSpell(target: Player, spell: MagicSpell) {
         val canCast = runes.canCastSpell(player, spell)
         if (!canCast) {
             return
@@ -103,15 +99,7 @@ constructor(
         combat.attack(this, target, attack)
     }
 
-    private fun ProtectedAccess.canAttack(npc: Npc): Boolean {
-        // TODO(combat): Handle "can attack hooks" here. Seems like the ones that give dialogues
-        //  have a cool-down period, but it's more than likely something hardcoded into
-        //  their specific conditions. Some npcs like the mage arena (wilderness) npcs
-        //  don't give any sort of message, but simply won't allow players to melee them.
-        //  (Will stop at ap range, doesn't drag you into melee range)
-
-        // Note: Dinh's bulwark conditions occur _before_ multi-combat area checks and _after_
-        // "can attack" hooks.
+    private fun ProtectedAccess.canAttack(target: Player): Boolean {
         val weapon = objTypes.getOrNull(player.righthand)
         if (weapon != null && weapon.isCategoryType(categories.dinhs_bulwark)) {
             val attackStyle = styles.get(player)
@@ -133,27 +121,26 @@ constructor(
 
         val singleCombat = !mapMultiway()
         if (singleCombat) {
-            if (isInPvpCombat()) {
-                spam("I'm already under attack.")
-                return false
-            }
+            if (isInCombat()) {
+                if (pkPredator1 != null && pkPredator1 != target.uid) {
+                    spam("I'm already under attack.")
+                    return false
+                }
 
-            if (isInPvnCombat()) {
-                if (aggressiveNpc != null && aggressiveNpc != npc.uid) {
+                val aggressiveNpc = aggressiveNpc
+                if (aggressiveNpc != null && findUid(aggressiveNpc) != null) {
                     spam("I'm already under attack.")
                     return false
                 }
             }
 
-            // TODO(combat): Support for npcs that only target a single player, such as barrows.
-            if (npc.lastCombat + ACTIVE_COMBAT_DELAY > mapClock) {
-                if (npc.aggressivePlayer != null && npc.aggressivePlayer != player.uid) {
-                    mes("Someone else is fighting that.")
+            if (target.isInPvpCombat()) {
+                if (target.pkPredator1 != null && target.pkPredator1 != player.uid) {
+                    mes("${target.displayName} is fighting another player.")
                     return false
                 }
             }
         }
-
         return true
     }
 }

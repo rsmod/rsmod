@@ -142,6 +142,17 @@ constructor(
     }
 
     /**
+     * Maintains combat engagement with the given [Player] by invoking `opplayert` using the
+     * [MagicSpell.component] as the interaction component.
+     *
+     * This ensures that the combat interaction between [source] and [target] remains active. If not
+     * called, [source] may unintentionally break off combat engagement with the npc.
+     */
+    public fun continueCombat(source: Player, target: Player, spell: MagicSpell) {
+        TODO()
+    }
+
+    /**
      * Cancels the combat interaction while keeping the associated [Player.actionDelay] set to the
      * preset delay determined by the combat weapon's attack rate.
      *
