@@ -4,11 +4,11 @@ import org.rsmod.api.type.builders.varp.VarpBuilder
 
 internal object VarpBuilds : VarpBuilder() {
     init {
-        build("pk_prey1")
-        build("pk_prey2")
-        build("pk_predator1")
-        build("pk_predator2")
-        build("pk_predator3")
+        build("pk_prey1") { temporary = true }
+        build("pk_prey2") { temporary = true }
+        build("pk_predator1") { temporary = true }
+        build("pk_predator2") { temporary = true }
+        build("pk_predator3") { temporary = true }
 
         build("prayer_drain") { temporary = true }
         build("playtime")
