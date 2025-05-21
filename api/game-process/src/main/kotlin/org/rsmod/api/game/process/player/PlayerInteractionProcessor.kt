@@ -344,14 +344,25 @@ constructor(
         if (isUnderTarget) {
             return false
         }
-        val isWithinApRange =
+        val distance = interaction.apRange
+        val isSourceWithinApRange =
             isValidApRange(
                 target = interaction.target.coords,
                 width = interaction.target.size,
                 length = interaction.target.size,
-                distance = interaction.apRange,
+                distance = distance,
             )
-        return isWithinApRange
+        if (!isSourceWithinApRange) {
+            return false
+        }
+        val isTargetWithinApRange =
+            interaction.target.isValidApRange(
+                target = coords,
+                width = size,
+                length = size,
+                distance = distance,
+            )
+        return isTargetWithinApRange
     }
 
     private fun Player.routeTo(interaction: InteractionPlayer) {
