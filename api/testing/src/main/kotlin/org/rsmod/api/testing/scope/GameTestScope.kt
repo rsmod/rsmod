@@ -618,6 +618,11 @@ constructor(
         Assertions.assertTrue(condition)
     }
 
+    public fun assertTrue(condition: Boolean, message: () -> String) {
+        contract { returns() implies condition }
+        Assertions.assertTrue(condition, message)
+    }
+
     public fun assertFalse(condition: Boolean) {
         contract { returns() implies !condition }
         Assertions.assertFalse(condition)
