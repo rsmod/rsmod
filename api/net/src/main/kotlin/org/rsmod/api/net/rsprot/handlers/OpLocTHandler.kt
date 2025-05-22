@@ -47,6 +47,7 @@ constructor(
         val loc = locRegistry.findType(coords, message.id)
         if (loc == null) {
             player.clearMapFlag()
+            player.clearPendingAction(eventBus)
             return
         }
         val type = locTypes[message.id] ?: return
@@ -57,6 +58,8 @@ constructor(
         val isValidInterface =
             player.ui.containsOverlay(interfaceType) || player.ui.containsModal(interfaceType)
         if (!isValidInterface) {
+            player.clearMapFlag()
+            player.clearPendingAction(eventBus)
             return
         }
 
@@ -65,6 +68,8 @@ constructor(
         val targetEnabled =
             InterfaceEvents.isEnabled(player.ui, componentType, comsub, IfEvent.TgtLoc)
         if (!targetEnabled) {
+            player.clearMapFlag()
+            player.clearPendingAction(eventBus)
             return
         }
 

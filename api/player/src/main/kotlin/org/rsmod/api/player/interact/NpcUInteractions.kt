@@ -18,7 +18,6 @@ import org.rsmod.game.obj.InvObj
 import org.rsmod.game.obj.isType
 import org.rsmod.game.type.npc.NpcTypeList
 import org.rsmod.game.type.npc.UnpackedNpcType
-import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.type.varbit.VarBitTypeList
 import org.rsmod.game.type.varp.VarpTypeList
@@ -29,7 +28,6 @@ public class NpcUInteractions
 @Inject
 private constructor(
     private val eventBus: EventBus,
-    private val objTypes: ObjTypeList,
     private val npcTypes: NpcTypeList,
     private val varpTypes: VarpTypeList,
     private val varBitTypes: VarBitTypeList,

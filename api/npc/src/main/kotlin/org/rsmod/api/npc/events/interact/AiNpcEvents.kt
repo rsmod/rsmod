@@ -2,6 +2,7 @@ package org.rsmod.api.npc.events.interact
 
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Npc
+import org.rsmod.game.entity.Player
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.npc.UnpackedNpcType
 import org.rsmod.game.type.obj.ObjType
@@ -215,4 +216,68 @@ public class AiNpcUDefaultEvents {
         public val objType: UnpackedObjType,
         content: Int,
     ) : ApEvent(content.toLong())
+}
+
+public class AiPlayerTEvents {
+    public class Op(
+        public val target: Player,
+        public val comsub: Int,
+        public val objType: ObjType?,
+        component: ComponentType,
+    ) : OpEvent(component.packed.toLong())
+
+    public class Ap(
+        public val target: Player,
+        public val comsub: Int,
+        public val objType: ObjType?,
+        component: ComponentType,
+    ) : ApEvent(component.packed.toLong())
+}
+
+public class AiPlayerTContentEvents {
+    public class Op(
+        public val target: Player,
+        public val comsub: Int,
+        public val objType: ObjType?,
+        component: ComponentType,
+        content: Int,
+    ) : OpEvent(EventBus.composeLongKey(content, component.packed))
+
+    public class Ap(
+        public val target: Player,
+        public val comsub: Int,
+        public val objType: ObjType?,
+        component: ComponentType,
+        content: Int,
+    ) : ApEvent(EventBus.composeLongKey(content, component.packed))
+}
+
+public class AiPlayerUEvents {
+    public class Op(
+        public val target: Player,
+        public val invSlot: Int,
+        public val objType: UnpackedObjType,
+    ) : OpEvent(objType.id.toLong())
+
+    public class Ap(
+        public val target: Player,
+        public val invSlot: Int,
+        public val objType: UnpackedObjType,
+    ) : ApEvent(objType.id.toLong())
+}
+
+public class AiPlayerUContentEvents {
+    public class Op(
+        public val target: Player,
+        public val invSlot: Int,
+        public val objType: UnpackedObjType,
+        npcContent: Int,
+    ) : OpEvent(EventBus.composeLongKey(npcContent, objType.id))
+
+    public class Ap(
+        public val target: Player,
+        public val invSlot: Int,
+        public val objType: UnpackedObjType,
+        npcContent: Int,
+    ) : ApEvent(EventBus.composeLongKey(npcContent, objType.id))
 }

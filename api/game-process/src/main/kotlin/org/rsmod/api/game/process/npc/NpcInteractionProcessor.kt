@@ -9,6 +9,7 @@ import org.rsmod.api.npc.interact.AiNpcInteractions
 import org.rsmod.api.npc.interact.AiNpcTInteractions
 import org.rsmod.api.npc.interact.AiObjInteractions
 import org.rsmod.api.npc.interact.AiPlayerInteractions
+import org.rsmod.api.npc.interact.AiPlayerTInteractions
 import org.rsmod.api.npc.isValidTarget
 import org.rsmod.api.player.isValidTarget
 import org.rsmod.api.registry.loc.LocRegistry
@@ -28,6 +29,7 @@ import org.rsmod.game.interact.InteractionNpcT
 import org.rsmod.game.interact.InteractionObj
 import org.rsmod.game.interact.InteractionPlayer
 import org.rsmod.game.interact.InteractionPlayerOp
+import org.rsmod.game.interact.InteractionPlayerT
 import org.rsmod.interact.InteractionStep
 import org.rsmod.interact.InteractionTarget
 import org.rsmod.interact.Interactions
@@ -48,6 +50,7 @@ constructor(
     private val npcTInteractions: AiNpcTInteractions,
     private val objInteractions: AiObjInteractions,
     private val playerInteractions: AiPlayerInteractions,
+    private val playerTInteractions: AiPlayerTInteractions,
     private val accessLauncher: StandardNpcAccessLauncher,
     private val movement: NpcMovementProcessor,
 ) {
@@ -148,6 +151,7 @@ constructor(
             is InteractionNpcT -> triggerOp(this, interaction)
             is InteractionObj -> triggerOp(this, interaction)
             is InteractionPlayerOp -> triggerOp(this, interaction)
+            is InteractionPlayerT -> triggerOp(this, interaction)
         }
 
     private fun Npc.triggerAp(interaction: Interaction): Unit =
@@ -158,6 +162,7 @@ constructor(
             is InteractionNpcT -> triggerAp(this, interaction)
             is InteractionObj -> triggerAp(this, interaction)
             is InteractionPlayerOp -> triggerAp(this, interaction)
+            is InteractionPlayerT -> triggerAp(this, interaction)
         }
 
     /* Loc interactions */
@@ -473,6 +478,28 @@ constructor(
 
     public fun triggerAp(npc: Npc, interaction: InteractionPlayerOp) {
         val ap = playerInteractions.apTrigger(npc, interaction.target, interaction.op)
+        if (ap != null) {
+            accessLauncher.launch(npc) { eventBus.publish(this, ap) }
+        }
+    }
+
+    public fun triggerOp(npc: Npc, interaction: InteractionPlayerT) {
+        val target = interaction.target
+        val comsub = interaction.comsub
+        val component = interaction.component
+        val objType = interaction.objType
+        val op = playerTInteractions.opTrigger(npc, target, component, comsub, objType)
+        if (op != null) {
+            accessLauncher.launch(npc) { eventBus.publish(this, op) }
+        }
+    }
+
+    public fun triggerAp(npc: Npc, interaction: InteractionPlayerT) {
+        val target = interaction.target
+        val comsub = interaction.comsub
+        val component = interaction.component
+        val objType = interaction.objType
+        val ap = playerTInteractions.apTrigger(npc, target, component, comsub, objType)
         if (ap != null) {
             accessLauncher.launch(npc) { eventBus.publish(this, ap) }
         }

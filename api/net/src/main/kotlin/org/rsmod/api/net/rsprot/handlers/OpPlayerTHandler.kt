@@ -2,16 +2,16 @@ package org.rsmod.api.net.rsprot.handlers
 
 import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
-import net.rsprot.protocol.game.incoming.npcs.OpNpcT
+import net.rsprot.protocol.game.incoming.players.OpPlayerT
 import org.rsmod.api.net.rsprot.player.InterfaceEvents
-import org.rsmod.api.player.interact.NpcTInteractions
+import org.rsmod.api.player.interact.PlayerTInteractions
 import org.rsmod.api.player.output.clearMapFlag
 import org.rsmod.api.player.protect.clearPendingAction
 import org.rsmod.api.player.vars.ctrlMoveSpeed
 import org.rsmod.events.EventBus
-import org.rsmod.game.entity.NpcList
 import org.rsmod.game.entity.Player
-import org.rsmod.game.interact.InteractionNpcT
+import org.rsmod.game.entity.PlayerList
+import org.rsmod.game.interact.InteractionPlayerT
 import org.rsmod.game.movement.RouteRequestPathingEntity
 import org.rsmod.game.type.comp.ComponentTypeList
 import org.rsmod.game.type.interf.IfEvent
@@ -19,30 +19,29 @@ import org.rsmod.game.type.interf.InterfaceTypeList
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.ui.Component
 
-class OpNpcTHandler
+class OpPlayerTHandler
 @Inject
 constructor(
     private val eventBus: EventBus,
-    private val npcList: NpcList,
+    private val playerList: PlayerList,
     private val objTypes: ObjTypeList,
     private val componentTypes: ComponentTypeList,
     private val interfaceTypes: InterfaceTypeList,
-    private val npcInteractions: NpcTInteractions,
-) : MessageHandler<OpNpcT> {
+    private val playerInteractions: PlayerTInteractions,
+) : MessageHandler<OpPlayerT> {
     private val logger = InlineLogger()
 
-    private val OpNpcT.asComponent: Component
+    private val OpPlayerT.asComponent: Component
         get() = Component(selectedInterfaceId, selectedComponentId)
 
-    override fun handle(player: Player, message: OpNpcT) {
+    override fun handle(player: Player, message: OpPlayerT) {
         if (player.isDelayed) {
             player.clearMapFlag()
             return
         }
 
-        val npc = npcList[message.index]
-
-        if (npc == null || npc.isDelayed) {
+        val target = playerList[message.index]
+        if (target == null) {
             player.clearMapFlag()
             player.clearPendingAction(eventBus)
             return
@@ -63,7 +62,7 @@ constructor(
         val comsub = message.selectedSub
 
         val targetEnabled =
-            InterfaceEvents.isEnabled(player.ui, componentType, comsub, IfEvent.TgtNpc)
+            InterfaceEvents.isEnabled(player.ui, componentType, comsub, IfEvent.TgtPlayer)
         if (!targetEnabled) {
             player.clearMapFlag()
             player.clearPendingAction(eventBus)
@@ -71,23 +70,26 @@ constructor(
         }
 
         val speed = if (message.controlKey) player.ctrlMoveSpeed() else null
-        val opTrigger = npcInteractions.hasOpTrigger(player, npc, componentType, comsub, objType)
-        val apTrigger = npcInteractions.hasApTrigger(player, npc, componentType, comsub, objType)
+        val opTrigger = playerInteractions.hasOpTrigger(target, componentType, comsub, objType)
+        val apTrigger = playerInteractions.hasApTrigger(target, componentType, comsub, objType)
         val interaction =
-            InteractionNpcT(
-                target = npc,
+            InteractionPlayerT(
+                target = target,
                 comsub = comsub,
                 objType = objType,
                 component = componentType,
                 hasOpTrigger = opTrigger,
                 hasApTrigger = apTrigger,
             )
-        val routeRequest = RouteRequestPathingEntity(npc.avatar)
+        val routeRequest = RouteRequestPathingEntity(target.avatar)
         player.clearPendingAction(eventBus)
-        player.faceNpc(npc)
+        player.facePlayer(target)
         player.interaction = interaction
         player.routeRequest = routeRequest
         player.tempMoveSpeed = speed
-        logger.debug { "OpNpcT: npc=$npc, comsub=$comsub, component=$componentType, obj=$objType" }
+        logger.debug {
+            "OpPlayerT: target=${target.displayName}, comsub=$comsub, " +
+                "component=$componentType, obj=$objType"
+        }
     }
 }

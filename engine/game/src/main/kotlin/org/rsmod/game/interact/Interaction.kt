@@ -151,3 +151,13 @@ public class InteractionPlayerOp(
     hasApTrigger: Boolean,
     startApRange: Int = PathingEntity.DEFAULT_AP_RANGE,
 ) : InteractionPlayer(target, hasOpTrigger, hasApTrigger, startApRange)
+
+public class InteractionPlayerT(
+    public val objType: ObjType?,
+    public val component: ComponentType,
+    public val comsub: Int,
+    target: Player,
+    hasOpTrigger: Boolean,
+    hasApTrigger: Boolean,
+    startApRange: Int = PathingEntity.DEFAULT_AP_RANGE,
+) : InteractionPlayer(target, hasOpTrigger, hasApTrigger, startApRange)
