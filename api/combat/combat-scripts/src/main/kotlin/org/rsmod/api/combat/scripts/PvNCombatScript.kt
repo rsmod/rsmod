@@ -131,6 +131,7 @@ constructor(
             return false
         }
 
+        // TODO(combat): Add singles plus support.
         val singleCombat = !mapMultiway()
         if (singleCombat) {
             if (isInPvpCombat()) {

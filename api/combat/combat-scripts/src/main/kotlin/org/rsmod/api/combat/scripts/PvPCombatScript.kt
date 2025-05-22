@@ -19,6 +19,7 @@ import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.righthand
 import org.rsmod.api.script.advanced.onApPlayer2
 import org.rsmod.api.script.advanced.onOpPlayer2
+import org.rsmod.api.script.onApPlayerT
 import org.rsmod.api.spells.MagicSpellRegistry
 import org.rsmod.api.spells.autocast.AutocastWeapons
 import org.rsmod.game.entity.Player
@@ -40,7 +41,9 @@ constructor(
     override fun ScriptContext.startup() {
         onApPlayer2 { attemptCombatAp(it.target) }
         onOpPlayer2 { attemptCombatOp(it.target) }
-        // TODO(combat): onApPlayerT for combat spells.
+        for (spell in spells.combatSpells()) {
+            onApPlayerT(spell.component) { attemptCombatSpell(it.target, spell) }
+        }
     }
 
     private suspend fun ProtectedAccess.attemptCombatAp(target: Player) {
@@ -119,6 +122,8 @@ constructor(
             return false
         }
 
+        // TODO(combat): Updated multiway logic.
+        // TODO(combat): Add singles plus support.
         val singleCombat = !mapMultiway()
         if (singleCombat) {
             if (isInCombat()) {

@@ -31,6 +31,7 @@ import org.rsmod.api.player.hit.queueHit
 import org.rsmod.api.player.interact.NpcInteractions
 import org.rsmod.api.player.interact.NpcTInteractions
 import org.rsmod.api.player.interact.PlayerInteractions
+import org.rsmod.api.player.interact.PlayerTInteractions
 import org.rsmod.api.player.output.soundSynth
 import org.rsmod.api.player.protect.clearPendingAction
 import org.rsmod.api.player.stat.hitpoints
@@ -66,6 +67,7 @@ constructor(
     private val npcInteractions: NpcInteractions,
     private val npcTInteractions: NpcTInteractions,
     private val playerInteractions: PlayerInteractions,
+    private val playerTInteractions: PlayerTInteractions,
 ) {
     /**
      * Determines if the player is still under an active attack delay.
@@ -97,7 +99,7 @@ constructor(
      * function.
      *
      * If [target] is an [Npc], this calls `opnpc2`; if [target] is a [Player], it calls
-     * `opplayer2`. These interaction functions are responsible for keeping combat state active
+     * `opplayer2`. These interaction functions are responsible for keeping the combat state active
      * between attacks.
      *
      * This function should be invoked after each successful attack. Failure to do so will result in
@@ -131,6 +133,22 @@ constructor(
     }
 
     /**
+     * Maintains combat engagement with the given [target] by invoking the appropriate interaction
+     * function using the [MagicSpell.component] as the interaction component.
+     *
+     * If [target] is an [Npc], this calls `opnpct`; if [target] is a [Player], it calls
+     * `opplayert`. This ensures that the combat interaction between [source] and [target] remains
+     * active. If not called, [source] may unintentionally break off combat engagement with the
+     * target.
+     */
+    public fun continueCombat(source: Player, target: PathingEntity, spell: MagicSpell) {
+        when (target) {
+            is Npc -> continueCombat(source, target, spell)
+            is Player -> continueCombat(source, target, spell)
+        }
+    }
+
+    /**
      * Maintains combat engagement with the given [Npc] by invoking `opnpct` using the
      * [MagicSpell.component] as the interaction component.
      *
@@ -146,10 +164,10 @@ constructor(
      * [MagicSpell.component] as the interaction component.
      *
      * This ensures that the combat interaction between [source] and [target] remains active. If not
-     * called, [source] may unintentionally break off combat engagement with the npc.
+     * called, [source] may unintentionally break off combat engagement with the target.
      */
     public fun continueCombat(source: Player, target: Player, spell: MagicSpell) {
-        TODO()
+        playerTInteractions.interact(source, target, spell.component, comsub = -1, null)
     }
 
     /**
