@@ -64,20 +64,37 @@ private constructor(
         }
 
         when (val auth = block.authentication) {
-            is AuthenticationType.PasswordAuthentication -> authLogin(responseHandler, block, auth)
-            is AuthenticationType.TokenAuthentication -> authLogin(responseHandler, block, auth)
+            is AuthenticationType.PasswordAuthentication -> passLogin(responseHandler, block, auth)
+            is AuthenticationType.TokenAuthentication -> tokenLogin(responseHandler, block, auth)
         }
     }
 
-    private fun authLogin(
+    private fun passLogin(
         responseHandler: GameLoginResponseHandler<Player>,
         block: LoginBlock<AuthenticationType>,
         auth: AuthenticationType.PasswordAuthentication,
     ) {
-        val passwordText = auth.password.asString().also { auth.password.clear() }
+        val password = auth.password.asCharArray()
+        try {
+            passLogin(responseHandler, block, auth, password)
+        } finally {
+            // `password` char array is already cleared during `computePasswordHash`, but that is
+            // an implementation detail in the password hashing interface; we ensure to clear it
+            // after usage regardless.
+            password.fill('\u0000')
+            auth.password.clear()
+        }
+    }
+
+    private fun passLogin(
+        responseHandler: GameLoginResponseHandler<Player>,
+        block: LoginBlock<AuthenticationType>,
+        auth: AuthenticationType.PasswordAuthentication,
+        password: CharArray,
+    ) {
         // This may be filtered earlier at the protocol layer (e.g., rsprot), but we defensively
         // check again to ensure the password is not empty.
-        if (passwordText.isEmpty()) {
+        if (password.isEmpty()) {
             responseHandler.writeFailedResponse(LoginResponse.InvalidUsernameOrPassword)
             return
         }
@@ -93,7 +110,7 @@ private constructor(
                 playerRegistry = playerReg,
                 loginBlock = block,
                 channelResponses = responseHandler,
-                inputPassword = passwordText.toCharArray(),
+                inputPassword = password.copyOf(),
                 verifyPassword = ::verifyPassword,
                 verifyTotp = ::verifyTotp,
             )
@@ -112,7 +129,7 @@ private constructor(
             if (realmConfig.requireRegistration) {
                 accountManager.load(loadAuth, username, responseHook)
             } else {
-                val hashedPassword = computePasswordHash(passwordText.toCharArray())
+                val hashedPassword = computePasswordHash(password)
                 if (hashedPassword == null) {
                     responseHandler.writeFailedResponse(LoginResponse.InvalidUsernameOrPassword)
                     return
@@ -153,7 +170,7 @@ private constructor(
     }
 
     // TODO: Token authentication handling.
-    private fun authLogin(
+    private fun tokenLogin(
         responseHandler: GameLoginResponseHandler<Player>,
         block: LoginBlock<AuthenticationType>,
         @Suppress("unused") auth: AuthenticationType.TokenAuthentication,

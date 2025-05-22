@@ -42,7 +42,11 @@ class AccountLoadResponseHook(
     private val verifyTotp: (CharArray, String) -> Boolean,
 ) : AccountLoadCallback {
     override fun invoke(response: AccountLoadResponse) {
-        handleLoadResponse(response)
+        try {
+            handleLoadResponse(response)
+        } finally {
+            inputPassword.fill('\u0000')
+        }
     }
 
     private fun handleLoadResponse(response: AccountLoadResponse) =
