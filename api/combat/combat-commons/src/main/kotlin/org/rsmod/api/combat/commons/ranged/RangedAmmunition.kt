@@ -182,7 +182,7 @@ public object RangedAmmunition {
             return
         }
 
-        val obj = Obj(dropCoord, ammoType, ammoCount, player.currentMapClock, player)
+        val obj = Obj.fromOwner(player, dropCoord, ammoType, ammoCount)
         worldQueues.add(delay) { objRepo.add(obj, dropDuration) }
     }
 

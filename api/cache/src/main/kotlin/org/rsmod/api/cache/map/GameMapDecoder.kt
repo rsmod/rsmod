@@ -271,7 +271,7 @@ constructor(
                 val coords = base.translate(def.localX, def.localZ, def.level)
                 val type = types[def.id] ?: error("Invalid obj type: $def ($square)")
                 val entity = ObjEntity(type.id, count = def.count, scope = ObjScope.Perm.id)
-                val obj = Obj(coords, entity, creationCycle = 0, receiverId = Obj.NULL_RECEIVER_ID)
+                val obj = Obj(coords, entity, creationCycle = 0, receiverId = Obj.NULL_OBSERVER_ID)
                 repo.addDelayed(obj, spawnDelay = 0, duration = Int.MAX_VALUE)
             }
         }

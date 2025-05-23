@@ -8,7 +8,6 @@ import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Player
 import org.rsmod.game.obj.InvObj
 import org.rsmod.game.obj.Obj
-import org.rsmod.game.obj.ObjEntity
 import org.rsmod.game.obj.ObjScope
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.ObjTypeList
@@ -58,9 +57,9 @@ constructor(
     ): Obj {
         val obj =
             if (receiver != null) {
-                Obj(coords, type, count, mapClock.cycle, receiver)
+                Obj.fromOwner(receiver, coords, type, count)
             } else {
-                Obj(coords, type, count, mapClock.cycle)
+                Obj.fromServer(mapClock, coords, type, count)
             }
         register(obj, duration, reveal)
         return obj
@@ -75,11 +74,9 @@ constructor(
     ): Obj {
         val obj =
             if (receiver != null) {
-                val entity = ObjEntity(invObj.id, invObj.count, ObjScope.Private.id)
-                Obj(coords, entity, mapClock.cycle, receiver)
+                Obj.fromOwner(receiver, coords, invObj)
             } else {
-                val entity = ObjEntity(invObj.id, invObj.count, ObjScope.Temp.id)
-                Obj(coords, entity, mapClock.cycle, Obj.NULL_RECEIVER_ID)
+                Obj.fromServer(mapClock, coords, invObj)
             }
         register(obj, duration, reveal)
         return obj

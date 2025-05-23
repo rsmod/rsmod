@@ -27,7 +27,7 @@ public fun Player.invAddOrDrop(
     if (transaction.success) {
         return true
     }
-    val obj = Obj(coords, type, count, currentMapClock, this)
+    val obj = Obj.fromOwner(this, coords, type, count)
     val result = repo.add(obj, duration)
     check(result) { "Obj could not be dropped: coords=$coords, obj=$obj, type=$type, inv=$inv" }
     return false
