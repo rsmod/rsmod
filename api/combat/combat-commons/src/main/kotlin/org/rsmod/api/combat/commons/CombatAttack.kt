@@ -6,7 +6,7 @@ import org.rsmod.api.combat.commons.styles.MeleeAttackStyle
 import org.rsmod.api.combat.commons.styles.RangedAttackStyle
 import org.rsmod.api.combat.commons.types.MeleeAttackType
 import org.rsmod.api.combat.commons.types.RangedAttackType
-import org.rsmod.game.obj.InvObj
+import org.rsmod.game.inv.InvObj
 
 public sealed class CombatAttack {
     public sealed class PlayerAttack : CombatAttack()

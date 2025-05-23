@@ -3,7 +3,7 @@ package org.rsmod.game.type.obj
 import kotlin.contracts.contract
 import org.rsmod.game.interact.HeldOp
 import org.rsmod.game.interact.InteractionOp
-import org.rsmod.game.obj.InvObj
+import org.rsmod.game.inv.InvObj
 import org.rsmod.game.type.CacheType
 import org.rsmod.game.type.HashedCacheType
 import org.rsmod.game.type.category.CategoryType

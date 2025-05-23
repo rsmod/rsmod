@@ -4,8 +4,8 @@ import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.objs
 import org.rsmod.api.repo.obj.ObjRepository
 import org.rsmod.game.entity.Player
+import org.rsmod.game.inv.InvObj
 import org.rsmod.game.inv.Inventory
-import org.rsmod.game.obj.InvObj
 import org.rsmod.game.obj.Obj
 import org.rsmod.game.type.inv.InvStackType
 import org.rsmod.game.type.obj.ObjType

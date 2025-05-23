@@ -10,9 +10,9 @@ import org.rsmod.api.npc.events.interact.ApEvent
 import org.rsmod.api.npc.events.interact.OpEvent
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Npc
+import org.rsmod.game.inv.InvObj
 import org.rsmod.game.inv.Inventory
-import org.rsmod.game.obj.InvObj
-import org.rsmod.game.obj.isType
+import org.rsmod.game.inv.isType
 import org.rsmod.game.type.npc.NpcTypeList
 import org.rsmod.game.type.npc.UnpackedNpcType
 import org.rsmod.game.type.obj.UnpackedObjType

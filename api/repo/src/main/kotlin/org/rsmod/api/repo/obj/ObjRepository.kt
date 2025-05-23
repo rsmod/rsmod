@@ -6,7 +6,7 @@ import org.rsmod.api.registry.obj.ObjRegistryResult
 import org.rsmod.api.registry.obj.isSuccess
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Player
-import org.rsmod.game.obj.InvObj
+import org.rsmod.game.inv.InvObj
 import org.rsmod.game.obj.Obj
 import org.rsmod.game.obj.ObjScope
 import org.rsmod.game.type.obj.ObjType

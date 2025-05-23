@@ -32,7 +32,7 @@ import org.rsmod.api.testing.params.TestWithArgs
 import org.rsmod.api.testing.params.testArgsOfSingleParam
 import org.rsmod.api.testing.scope.GameTestScope
 import org.rsmod.game.entity.Player
-import org.rsmod.game.obj.InvObj
+import org.rsmod.game.inv.InvObj
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.Wearpos
 import org.rsmod.game.type.varbit.VarBitType

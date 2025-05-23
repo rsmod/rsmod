@@ -52,9 +52,9 @@ import org.rsmod.content.interfaces.bank.withdrawCert
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.enums.EnumTypeMapResolver
+import org.rsmod.game.inv.InvObj
 import org.rsmod.game.inv.Inventory
-import org.rsmod.game.obj.InvObj
-import org.rsmod.game.obj.isType
+import org.rsmod.game.inv.isType
 import org.rsmod.game.type.interf.IfButtonOp
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.obj.UnpackedObjType

@@ -1,7 +1,7 @@
 package org.rsmod.game.type.category
 
 import kotlin.contracts.contract
-import org.rsmod.game.obj.InvObj
+import org.rsmod.game.inv.InvObj
 import org.rsmod.game.type.CacheType
 
 public data class CategoryType(override var internalId: Int?, override var internalName: String?) :

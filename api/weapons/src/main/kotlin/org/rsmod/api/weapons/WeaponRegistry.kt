@@ -1,6 +1,6 @@
 package org.rsmod.api.weapons
 
-import org.rsmod.game.obj.InvObj
+import org.rsmod.game.inv.InvObj
 import org.rsmod.game.type.obj.ObjType
 
 public class WeaponRegistry {

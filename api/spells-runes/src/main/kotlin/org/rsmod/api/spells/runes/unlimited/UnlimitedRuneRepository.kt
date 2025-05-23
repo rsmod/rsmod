@@ -2,7 +2,7 @@ package org.rsmod.api.spells.runes.unlimited
 
 import org.rsmod.api.spells.runes.unlimited.configs.unlimited_enums
 import org.rsmod.game.enums.EnumTypeMapResolver
-import org.rsmod.game.obj.InvObj
+import org.rsmod.game.inv.InvObj
 import org.rsmod.game.type.obj.ObjType
 
 public class UnlimitedRuneRepository {

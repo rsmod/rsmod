@@ -21,7 +21,7 @@ import org.rsmod.api.utils.format.formatAmount
 import org.rsmod.content.interfaces.bank.scripts.BankTutorialScript
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.enums.EnumTypeMapResolver
-import org.rsmod.game.obj.isType
+import org.rsmod.game.inv.isType
 import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext

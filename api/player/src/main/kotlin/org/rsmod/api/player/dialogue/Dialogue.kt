@@ -6,8 +6,8 @@ import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.vars.VarPlayerIntMapDelegate
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
+import org.rsmod.game.inv.InvObj
 import org.rsmod.game.inv.Inventory
-import org.rsmod.game.obj.InvObj
 import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.mesanim.UnpackedMesAnimType
 import org.rsmod.game.type.npc.NpcType

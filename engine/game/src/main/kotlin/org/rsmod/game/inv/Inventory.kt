@@ -2,7 +2,6 @@ package org.rsmod.game.inv
 
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet
 import java.util.BitSet
-import org.rsmod.game.obj.InvObj
 import org.rsmod.game.type.inv.InvStackType
 import org.rsmod.game.type.inv.UnpackedInvType
 import org.rsmod.game.type.obj.ObjType

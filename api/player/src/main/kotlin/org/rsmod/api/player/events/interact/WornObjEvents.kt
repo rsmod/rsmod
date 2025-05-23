@@ -1,6 +1,6 @@
 package org.rsmod.api.player.events.interact
 
-import org.rsmod.game.obj.InvObj
+import org.rsmod.game.inv.InvObj
 import org.rsmod.game.type.obj.UnpackedObjType
 
 public sealed class WornObjEvents(id: Int) : OpEvent(id.toLong()) {

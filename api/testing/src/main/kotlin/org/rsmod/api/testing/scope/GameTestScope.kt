@@ -109,6 +109,7 @@ import org.rsmod.game.entity.player.SessionStateEvent
 import org.rsmod.game.entity.util.PathingEntityCommon
 import org.rsmod.game.enums.EnumTypeMapResolver
 import org.rsmod.game.hit.HitType
+import org.rsmod.game.inv.InvObj
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.loc.LocAngle
@@ -119,7 +120,6 @@ import org.rsmod.game.loc.LocZoneKey
 import org.rsmod.game.map.LocZoneStorage
 import org.rsmod.game.map.collision.addLoc
 import org.rsmod.game.movement.MoveSpeed
-import org.rsmod.game.obj.InvObj
 import org.rsmod.game.queue.EngineQueueCache
 import org.rsmod.game.region.Region
 import org.rsmod.game.region.RegionListLarge

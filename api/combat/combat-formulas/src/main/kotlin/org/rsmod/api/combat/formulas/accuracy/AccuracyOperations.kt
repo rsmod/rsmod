@@ -18,7 +18,7 @@ import org.rsmod.api.player.stat.hitpoints
 import org.rsmod.api.player.torso
 import org.rsmod.api.player.worn.EquipmentChecks
 import org.rsmod.game.entity.Player
-import org.rsmod.game.obj.isType
+import org.rsmod.game.inv.isType
 import org.rsmod.game.vars.VarPlayerIntMap
 
 private typealias NpcAttr = CombatNpcAttributes

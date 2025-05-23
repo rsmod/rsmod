@@ -3,6 +3,7 @@ package org.rsmod.game.obj
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
+import org.rsmod.game.inv.InvObj
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.map.CoordGrid
 

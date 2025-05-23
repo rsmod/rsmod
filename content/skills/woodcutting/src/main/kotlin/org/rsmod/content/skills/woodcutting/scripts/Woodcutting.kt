@@ -31,8 +31,8 @@ import org.rsmod.events.UnboundEvent
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Controller
 import org.rsmod.game.entity.Player
+import org.rsmod.game.inv.InvObj
 import org.rsmod.game.loc.BoundLocInfo
-import org.rsmod.game.obj.InvObj
 import org.rsmod.game.type.enums.EnumTypeList
 import org.rsmod.game.type.enums.find
 import org.rsmod.game.type.loc.LocType

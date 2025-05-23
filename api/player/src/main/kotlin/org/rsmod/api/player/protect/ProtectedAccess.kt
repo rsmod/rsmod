@@ -138,7 +138,9 @@ import org.rsmod.game.hit.HitBuilder
 import org.rsmod.game.hit.HitType
 import org.rsmod.game.interact.HeldOp
 import org.rsmod.game.interact.InteractionOp
+import org.rsmod.game.inv.InvObj
 import org.rsmod.game.inv.Inventory
+import org.rsmod.game.inv.isType
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.loc.LocInfo
 import org.rsmod.game.map.Direction
@@ -146,8 +148,6 @@ import org.rsmod.game.map.collision.get
 import org.rsmod.game.map.collision.isWalkBlocked
 import org.rsmod.game.map.collision.isZoneValid
 import org.rsmod.game.movement.MoveSpeed
-import org.rsmod.game.obj.InvObj
-import org.rsmod.game.obj.isType
 import org.rsmod.game.type.area.AreaType
 import org.rsmod.game.type.category.CategoryType
 import org.rsmod.game.type.category.CategoryTypeList

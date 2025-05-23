@@ -7,7 +7,7 @@ import org.rsmod.api.player.righthand
 import org.rsmod.api.player.vars.intVarp
 import org.rsmod.api.script.advanced.onWearposChange
 import org.rsmod.game.entity.Player
-import org.rsmod.game.obj.isType
+import org.rsmod.game.inv.isType
 import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.type.obj.Wearpos
 import org.rsmod.plugin.scripts.PluginScript
