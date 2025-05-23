@@ -1,8 +1,8 @@
 package org.rsmod.api.spells.runes.compact
 
 import org.rsmod.api.spells.runes.compact.configs.compact_enums
+import org.rsmod.game.enums.EnumTypeMapResolver
 import org.rsmod.game.type.obj.ObjType
-import org.rsmod.game.type.util.EnumTypeMapResolver
 
 /**
  * Rune objs have a "compact id" used in places where storage needs to be efficient, such as rune

@@ -1,7 +1,7 @@
 package org.rsmod.api.spells.runes.unlimited
 
 import jakarta.inject.Inject
-import org.rsmod.game.type.util.EnumTypeMapResolver
+import org.rsmod.game.enums.EnumTypeMapResolver
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 

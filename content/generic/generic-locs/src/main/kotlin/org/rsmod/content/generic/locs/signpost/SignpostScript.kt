@@ -7,10 +7,10 @@ import org.rsmod.api.script.onApLoc1
 import org.rsmod.api.script.onIfClose
 import org.rsmod.api.script.onOpLoc1
 import org.rsmod.game.entity.Player
+import org.rsmod.game.enums.EnumTypeMap
+import org.rsmod.game.enums.EnumTypeMapResolver
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.map.Direction
-import org.rsmod.game.type.util.EnumTypeMap
-import org.rsmod.game.type.util.EnumTypeMapResolver
 import org.rsmod.map.CoordGrid
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext

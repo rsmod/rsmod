@@ -1,8 +1,8 @@
 package org.rsmod.api.spells.runes.fake
 
 import org.rsmod.api.spells.runes.fake.configs.fake_enums
+import org.rsmod.game.enums.EnumTypeMapResolver
 import org.rsmod.game.type.obj.ObjType
-import org.rsmod.game.type.util.EnumTypeMapResolver
 
 /**
  * Some features in the game use "fake" runes to ensure that, if players manage to smuggle them

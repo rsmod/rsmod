@@ -9,10 +9,10 @@ import org.rsmod.api.config.aliases.ParamObj
 import org.rsmod.api.config.refs.objs
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.spells.configs.spell_enums
+import org.rsmod.game.enums.EnumTypeMapResolver
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.obj.isType
-import org.rsmod.game.type.util.EnumTypeMapResolver
 
 public class MagicSpellRegistry
 @Inject

@@ -4,10 +4,10 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap
 import org.rsmod.api.config.refs.params
 import org.rsmod.content.interfaces.prayer.tab.configs.prayer_enums
 import org.rsmod.content.interfaces.prayer.tab.configs.prayer_params
+import org.rsmod.game.enums.EnumTypeMapResolver
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.enums.EnumType
 import org.rsmod.game.type.obj.ObjTypeList
-import org.rsmod.game.type.util.EnumTypeMapResolver
 
 class PrayerRepository(
     private val enumResolver: EnumTypeMapResolver,

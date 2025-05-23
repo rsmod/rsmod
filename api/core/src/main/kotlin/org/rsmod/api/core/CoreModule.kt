@@ -22,10 +22,10 @@ import org.rsmod.api.server.config.ServerConfigModule
 import org.rsmod.api.totp.TotpModule
 import org.rsmod.api.utils.logging.ExceptionHandlerModule
 import org.rsmod.game.dbtable.DbRowResolver
+import org.rsmod.game.enums.EnumTypeMapResolver
 import org.rsmod.game.queue.WorldQueueList
 import org.rsmod.game.type.TypeListMap
 import org.rsmod.game.type.enums.EnumTypeList
-import org.rsmod.game.type.util.EnumTypeMapResolver
 import org.rsmod.module.ExtendedModule
 
 public object CoreModule : ExtendedModule() {

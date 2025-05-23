@@ -14,7 +14,7 @@ import org.rsmod.content.interfaces.skill.guides.configs.guide_interfaces
 import org.rsmod.content.interfaces.skill.guides.configs.guide_varbits
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
-import org.rsmod.game.type.util.EnumTypeMapResolver
+import org.rsmod.game.enums.EnumTypeMapResolver
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 

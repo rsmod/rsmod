@@ -2,8 +2,8 @@ package org.rsmod.api.spells
 
 import com.google.inject.Provider
 import jakarta.inject.Inject
+import org.rsmod.game.enums.EnumTypeMapResolver
 import org.rsmod.game.type.obj.ObjTypeList
-import org.rsmod.game.type.util.EnumTypeMapResolver
 import org.rsmod.plugin.module.PluginModule
 
 public class MagicSpellModule : PluginModule() {

@@ -1,8 +1,8 @@
 package org.rsmod.api.spells.runes.subs
 
 import org.rsmod.api.spells.runes.subs.configs.runesub_enums
+import org.rsmod.game.enums.EnumTypeMapResolver
 import org.rsmod.game.type.obj.ObjType
-import org.rsmod.game.type.util.EnumTypeMapResolver
 
 public class RuneSubstituteRepository {
     private lateinit var subs: Map<Int, List<ObjType>>

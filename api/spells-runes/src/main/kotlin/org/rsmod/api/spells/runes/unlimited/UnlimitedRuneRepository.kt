@@ -1,9 +1,9 @@
 package org.rsmod.api.spells.runes.unlimited
 
 import org.rsmod.api.spells.runes.unlimited.configs.unlimited_enums
+import org.rsmod.game.enums.EnumTypeMapResolver
 import org.rsmod.game.obj.InvObj
 import org.rsmod.game.type.obj.ObjType
-import org.rsmod.game.type.util.EnumTypeMapResolver
 
 public class UnlimitedRuneRepository {
     // Magic rune validation has a subtle distinction involving certain "unlimited source" objs

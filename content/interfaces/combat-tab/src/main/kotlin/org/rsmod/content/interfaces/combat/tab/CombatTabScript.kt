@@ -37,12 +37,12 @@ import org.rsmod.content.interfaces.combat.tab.configs.combat_enums
 import org.rsmod.content.interfaces.combat.tab.configs.combat_queues
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
+import org.rsmod.game.enums.EnumTypeMapResolver
+import org.rsmod.game.enums.EnumTypeNonNullMap
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.type.obj.WeaponCategory
 import org.rsmod.game.type.obj.Wearpos
-import org.rsmod.game.type.util.EnumTypeMapResolver
-import org.rsmod.game.type.util.EnumTypeNonNullMap
 import org.rsmod.game.type.varbit.VarBitType
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext

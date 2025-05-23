@@ -107,6 +107,7 @@ import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.PlayerList
 import org.rsmod.game.entity.player.SessionStateEvent
 import org.rsmod.game.entity.util.PathingEntityCommon
+import org.rsmod.game.enums.EnumTypeMapResolver
 import org.rsmod.game.hit.HitType
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.loc.BoundLocInfo
@@ -152,7 +153,6 @@ import org.rsmod.game.type.seq.SeqTypeList
 import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.stat.StatTypeList
 import org.rsmod.game.type.synth.SynthTypeList
-import org.rsmod.game.type.util.EnumTypeMapResolver
 import org.rsmod.game.type.varbit.VarBitType
 import org.rsmod.game.type.varbit.VarBitTypeList
 import org.rsmod.game.type.varp.VarpType
