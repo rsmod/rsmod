@@ -3,6 +3,7 @@ package org.rsmod.api.cache.types.gameval
 import java.nio.charset.StandardCharsets
 import kotlin.collections.iterator
 import org.openrs2.buffer.readString
+import org.openrs2.buffer.use
 import org.openrs2.cache.Cache
 import org.openrs2.cache.Js5Index
 import org.rsmod.api.cache.Js5Archives
@@ -34,19 +35,21 @@ public object GameValDecoder {
         val tableNames = mutableMapOf<Int, String>()
         for (file in files) {
             val data = cache.read(Js5Archives.GAMEVALS, group, file.id)
-            data.readUnsignedByte() // Always 1.
+            data.use {
+                it.readUnsignedByte() // Always 1.
 
-            val tableName = data.readString()
-            tableNames[file.id] = tableName
+                val tableName = it.readString()
+                tableNames[file.id] = tableName
 
-            var columnId = 0
-            while (true) {
-                val check = data.readUnsignedByte().toInt()
-                if (check == 0) {
-                    break
+                var columnId = 0
+                while (true) {
+                    val check = it.readUnsignedByte().toInt()
+                    if (check == 0) {
+                        break
+                    }
+                    val columnName = it.readString()
+                    builder.putDbColumn(file.id, columnId++, columnName)
                 }
-                val columnName = data.readString()
-                builder.putDbColumn(file.id, columnId++, columnName)
             }
         }
         builder.putNames(group, tableNames)
@@ -61,23 +64,26 @@ public object GameValDecoder {
         val interfaceNames = mutableMapOf<Int, String>()
         for (file in files) {
             val data = cache.read(Js5Archives.GAMEVALS, group, file.id)
-            val interfaceName = data.readString()
-            interfaceNames[file.id] = interfaceName
+            data.use {
+                val interfaceName = it.readString()
+                interfaceNames[file.id] = interfaceName
 
-            var componentId = 0
-            while (true) {
-                // The client stops reading at 255, even though some interfaces contain more
-                // components. However, the buffer still includes names for components beyond 255.
-                val check = data.readUnsignedByte().toInt()
-                if (check == 0xFF) {
-                    data.markReaderIndex()
-                    if (data.readUnsignedShort() == 0) {
-                        break
+                var componentId = 0
+                while (true) {
+                    // The client stops reading at 255, even though some interfaces contain more
+                    // components. However, the buffer still includes names for components beyond
+                    // 255.
+                    val check = it.readUnsignedByte().toInt()
+                    if (check == 0xFF) {
+                        it.markReaderIndex()
+                        if (it.readUnsignedShort() == 0) {
+                            break
+                        }
+                        it.resetReaderIndex()
                     }
-                    data.resetReaderIndex()
+                    val componentName = it.readString()
+                    builder.putComponent(file.id, componentId++, componentName)
                 }
-                val componentName = data.readString()
-                builder.putComponent(file.id, componentId++, componentName)
             }
         }
         builder.putNames(group, interfaceNames)
@@ -92,7 +98,7 @@ public object GameValDecoder {
         val names = mutableMapOf<Int, String>()
         for (file in files) {
             val data = cache.read(Js5Archives.GAMEVALS, group, file.id)
-            val name = data.toString(StandardCharsets.UTF_8)
+            val name = data.use { it.toString(StandardCharsets.UTF_8) }
             names[file.id] = name
         }
         builder.putNames(group, names)
