@@ -61,6 +61,8 @@ public data class UnpackedEnumType<K : Any, V : Any>(
     override var internalId: Int?,
     override var internalName: String?,
 ) : EnumType<K, V>(), Map<K, V?> {
+    private val identityHash by lazy { computeIdentityHash() }
+
     override val entries: Set<Map.Entry<K, V?>>
         get() = typedMap.entries
 
@@ -88,6 +90,15 @@ public data class UnpackedEnumType<K : Any, V : Any>(
     override fun containsValue(value: V?): Boolean = typedMap.containsValue(value)
 
     override fun containsKey(key: K): Boolean = typedMap.containsKey(key)
+
+    public fun toHashedType(): HashedEnumType<K, V> =
+        HashedEnumType(
+            keyType = keyType,
+            valType = valType,
+            startHash = identityHash,
+            internalName = internalName,
+            internalId = internalId,
+        )
 
     public fun computeIdentityHash(): Long {
         var result = internalId?.hashCode()?.toLong() ?: 0L

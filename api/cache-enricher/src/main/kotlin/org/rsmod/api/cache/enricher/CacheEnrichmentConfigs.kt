@@ -10,6 +10,7 @@ import org.rsmod.api.cache.types.npc.NpcTypeEncoder
 import org.rsmod.api.cache.types.obj.ObjTypeEncoder
 import org.rsmod.api.cache.util.EncoderContext
 import org.rsmod.game.type.CacheType
+import org.rsmod.game.type.dbtable.DbTableTypeList
 import org.rsmod.game.type.loc.LocTypeBuilder
 import org.rsmod.game.type.loc.LocTypeList
 import org.rsmod.game.type.npc.NpcTypeBuilder
@@ -31,16 +32,16 @@ constructor(
     private val objEnrichments: Set<ObjCacheEnricher>,
     private val paramTypes: ParamTypeList,
     private val varpTypes: VarpTypeList,
+    private val dbTableTypes: DbTableTypeList,
 ) {
     public fun encodeAll(dest: Cache) {
-        val encoderContext =
-            EncoderContext.server(paramTypes.filterTransmitKeys(), varpTypes.filterTransmitKeys())
+        val ctx = encoderContext()
         val locs = locEnrichments.collect(locTypes, LocTypeBuilder).asIterable()
         val npcs = npcEnrichments.collect(npcTypes, NpcTypeBuilder).asIterable()
         val objs = objEnrichments.collect(objTypes, ObjTypeBuilder).asIterable()
-        LocTypeEncoder.encodeAll(dest, locs, encoderContext)
-        NpcTypeEncoder.encodeAll(dest, npcs, encoderContext)
-        ObjTypeEncoder.encodeAll(dest, objs, encoderContext)
+        LocTypeEncoder.encodeAll(dest, locs, ctx)
+        NpcTypeEncoder.encodeAll(dest, npcs, ctx)
+        ObjTypeEncoder.encodeAll(dest, objs, ctx)
     }
 
     private fun <T : CacheType, E : CacheEnricher<T>> Set<E>.collect(
@@ -64,4 +65,12 @@ constructor(
     }
 
     private fun <T> Map<Int, T>.asIterable(): Iterable<T> = values
+
+    private fun encoderContext(): EncoderContext {
+        return EncoderContext.server(
+            params = paramTypes.filterTransmitKeys(),
+            varps = varpTypes.filterTransmitKeys(),
+            tables = dbTableTypes.filterTransmitKeys(),
+        )
+    }
 }

@@ -12,6 +12,12 @@ import org.rsmod.api.type.refs.content.ContentReferenceResolver
 import org.rsmod.api.type.refs.content.ContentReferences
 import org.rsmod.api.type.refs.currency.CurrencyReferenceResolver
 import org.rsmod.api.type.refs.currency.CurrencyReferences
+import org.rsmod.api.type.refs.dbcol.DbColumnReferenceResolver
+import org.rsmod.api.type.refs.dbcol.DbColumnReferences
+import org.rsmod.api.type.refs.dbrow.DbRowReferenceResolver
+import org.rsmod.api.type.refs.dbrow.DbRowReferences
+import org.rsmod.api.type.refs.dbtable.DbTableReferenceResolver
+import org.rsmod.api.type.refs.dbtable.DbTableReferences
 import org.rsmod.api.type.refs.enums.EnumReferenceResolver
 import org.rsmod.api.type.refs.enums.EnumReferences
 import org.rsmod.api.type.refs.font.FontMetricsReferenceResolver
@@ -73,6 +79,9 @@ constructor(
     private val componentResolver: ComponentReferenceResolver,
     private val contentResolver: ContentReferenceResolver,
     private val currencyResolver: CurrencyReferenceResolver,
+    private val dbColumnResolver: DbColumnReferenceResolver,
+    private val dbRowResolver: DbRowReferenceResolver,
+    private val dbTableResolver: DbTableReferenceResolver,
     private val enumResolver: EnumReferenceResolver,
     private val fontMetricsResolver: FontMetricsReferenceResolver,
     private val headbarResolver: HeadbarReferenceResolver,
@@ -163,6 +172,9 @@ constructor(
                 is ComponentReferences -> componentResolver
                 is ContentReferences -> contentResolver
                 is CurrencyReferences -> currencyResolver
+                is DbColumnReferences -> dbColumnResolver
+                is DbRowReferences -> dbRowResolver
+                is DbTableReferences -> dbTableResolver
                 is EnumReferences -> enumResolver
                 is FontMetricsReferences -> fontMetricsResolver
                 is HeadbarReferences -> headbarResolver

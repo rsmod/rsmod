@@ -1,5 +1,6 @@
 package org.rsmod.game.type
 
+import org.rsmod.game.dbtable.DbColumn
 import org.rsmod.game.type.enums.UnpackedEnumType
 import org.rsmod.game.type.headbar.HeadbarType
 import org.rsmod.game.type.param.ParamType
@@ -27,6 +28,14 @@ public object TypeResolver {
 
     public operator fun set(type: HashedCacheType, identityHash: Long) {
         type.startHash = identityHash
+    }
+
+    public operator fun set(column: DbColumn<*, *>, internalId: Int) {
+        column.internalId = internalId
+    }
+
+    public operator fun set(column: DbColumn<*, *>, internalName: String) {
+        column.internalName = internalName
     }
 
     public fun <K : Any, V : Any> setTypedMap(type: UnpackedEnumType<K, V>, map: Map<K, V?>) {

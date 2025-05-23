@@ -76,14 +76,21 @@ public class BuilderVerifier @Inject constructor(private val builders: TypeBuild
     private fun TypeBuilderResult.StatusErr.toHeader(count: Int): String =
         when (this) {
             is TypeBuilderResult.NameNotFound -> {
-                "The following cache builders use names that are not defined in a names.sym " +
+                "The following cache builders use names that are not defined in a .sym " +
                     "file ($count found)"
+            }
+
+            is TypeBuilderResult.DbTableColumnMismatch -> {
+                "The following DbTable builders have a mismatch in columns ($count found)"
             }
         }
 
     private fun <T> TypeBuilderResult.StatusErr.toMessage(value: T): String =
         when (this) {
             is TypeBuilderResult.NameNotFound -> "Name: \"$name\"\t| Build: $value"
+            is TypeBuilderResult.DbTableColumnMismatch -> {
+                "Expected Table: '$expected'\t| Actual Table(s): $actual"
+            }
         }
 
     private companion object {

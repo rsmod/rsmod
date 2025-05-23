@@ -5,6 +5,7 @@ import org.openrs2.buffer.readString
 import org.openrs2.buffer.readUnsignedShortSmart
 import org.openrs2.buffer.writeString
 import org.openrs2.buffer.writeUnsignedShortSmart
+import org.rsmod.game.type.literal.CacheVarLiteral
 import org.rsmod.map.CoordGrid
 
 public fun ByteBuf.encodeConfig(encode: ByteBuf.() -> Unit): ByteBuf = apply {
@@ -132,3 +133,30 @@ public fun ByteBuf.toInlineBuf(): InlineByteBuf =
         readBytes(bytes)
         InlineByteBuf(bytes)
     }
+
+public fun ByteBuf.readColumnValues(types: List<Int>): List<Any> {
+    val groupCount = readUnsignedShortSmart()
+    val allValues = ArrayList<Any>(groupCount * types.size)
+    repeat(groupCount) {
+        for (typeIndex in types.indices) {
+            val type = types[typeIndex]
+            val value = if (type == CacheVarLiteral.STRING.id) readString() else readInt()
+            allValues += value
+        }
+    }
+    return allValues
+}
+
+public fun ByteBuf.writeColumnValues(values: List<Any>, types: List<Int>) {
+    val groupCount = if (types.isEmpty()) 0 else values.size / types.size
+    writeUnsignedShortSmart(groupCount)
+    for (i in values.indices) {
+        val type = types[i % types.size]
+        val value = values[i]
+        if (type == CacheVarLiteral.STRING.id) {
+            writeString(value as String)
+        } else {
+            writeInt(value as Int)
+        }
+    }
+}

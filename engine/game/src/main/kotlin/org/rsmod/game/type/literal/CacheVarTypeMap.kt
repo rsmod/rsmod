@@ -6,6 +6,10 @@ import org.rsmod.game.type.area.HashedAreaType
 import org.rsmod.game.type.category.CategoryType
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.comp.HashedComponentType
+import org.rsmod.game.type.dbrow.DbRowType
+import org.rsmod.game.type.dbrow.HashedDbRowType
+import org.rsmod.game.type.dbtable.DbTableType
+import org.rsmod.game.type.dbtable.HashedDbTableType
 import org.rsmod.game.type.enums.EnumType
 import org.rsmod.game.type.enums.HashedEnumType
 import org.rsmod.game.type.headbar.HashedHeadbarType
@@ -45,6 +49,10 @@ public object CacheVarTypeMap {
             Int::class to CacheVarLiteral.INT,
             CategoryType::class to CacheVarLiteral.CATEGORY,
             CoordGrid::class to CacheVarLiteral.COORDGRID,
+            DbRowType::class to CacheVarLiteral.DBROW,
+            HashedDbRowType::class to CacheVarLiteral.DBROW,
+            DbTableType::class to CacheVarLiteral.DBTABLE,
+            HashedDbTableType::class to CacheVarLiteral.DBTABLE,
             EnumType::class to CacheVarLiteral.ENUM,
             HashedEnumType::class to CacheVarLiteral.ENUM,
             HeadbarType::class to CacheVarLiteral.HEADBAR,
@@ -82,6 +90,10 @@ public object CacheVarTypeMap {
             CategoryType::class to CacheVarCategoryCodec,
             ComponentType::class to CacheVarComponentCodec,
             HashedComponentType::class to CacheVarComponentCodec,
+            DbRowType::class to CacheVarDbRowCodec,
+            HashedDbRowType::class to CacheVarDbRowCodec,
+            DbTableType::class to CacheVarDbTableCodec,
+            HashedDbTableType::class to CacheVarDbTableCodec,
             Int::class to CacheVarIntCodec,
             CoordGrid::class to CacheVarCoordGridCodec,
             EnumType::class to CacheVarEnumCodec,
@@ -157,8 +169,8 @@ public object CacheVarTypeMap {
                 CacheVarLiteral.HITMARK -> HitmarkType::class
                 CacheVarLiteral.HEADBAR -> HeadbarType::class
                 CacheVarLiteral.STRINGVECTOR -> Int::class
-                CacheVarLiteral.DBTABLE -> Int::class
-                CacheVarLiteral.DBROW -> Int::class
+                CacheVarLiteral.DBTABLE -> DbTableType::class
+                CacheVarLiteral.DBROW -> DbRowType::class
                 CacheVarLiteral.MOVESPEED -> Int::class
                 CacheVarLiteral.VARBIT -> VarBitType::class
                 CacheVarLiteral.VARP -> VarpType::class

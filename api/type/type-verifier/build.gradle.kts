@@ -11,5 +11,6 @@ dependencies {
     implementation(projects.api.type.typeBuilders)
     implementation(projects.api.type.typeEditors)
     implementation(projects.api.type.typeReferences)
+    implementation(projects.engine.game)
     implementation(projects.engine.module)
 }

@@ -4,6 +4,8 @@ import org.openrs2.cache.Cache
 import org.rsmod.api.cache.types.area.AreaTypeDecoder
 import org.rsmod.api.cache.types.category.CategoryTypeDecoder
 import org.rsmod.api.cache.types.comp.ComponentTypeDecoder
+import org.rsmod.api.cache.types.dbrow.DbRowTypeDecoder
+import org.rsmod.api.cache.types.dbtable.DbTableTypeDecoder
 import org.rsmod.api.cache.types.enums.EnumTypeDecoder
 import org.rsmod.api.cache.types.font.FontMetricsDecoder
 import org.rsmod.api.cache.types.gameval.GameValDecoder
@@ -63,6 +65,8 @@ public object TypeListMapDecoder {
         val midis = MidiTypeDecoder.decodeAll(names)
         val gameVals = GameValDecoder.decodeAll(cache)
         val areas = AreaTypeDecoder.decodeAll(cache)
+        val dbTables = DbTableTypeDecoder.decodeAll(cache)
+        val dbRows = DbRowTypeDecoder.decodeAll(cache)
 
         val typeList =
             TypeListMap(
@@ -93,6 +97,8 @@ public object TypeListMapDecoder {
                 midis = midis,
                 gameVals = gameVals,
                 areas = areas,
+                dbTables = dbTables,
+                dbRows = dbRows,
             )
 
         return typeList.apply {
@@ -121,6 +127,8 @@ public object TypeListMapDecoder {
             assignInternal(this.projanims, names.projanims)
             assignInternal(this.midis, names.midis)
             assignInternal(this.areas, names.areas)
+            assignInternal(this.dbTables, names.dbTables)
+            assignInternal(this.dbRows, names.dbRows)
             ComplexTypeDecoder.decodeAll(this)
         }
     }

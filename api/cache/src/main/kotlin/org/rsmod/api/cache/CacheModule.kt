@@ -11,6 +11,8 @@ import org.rsmod.game.type.TypeListMap
 import org.rsmod.game.type.area.AreaTypeList
 import org.rsmod.game.type.category.CategoryTypeList
 import org.rsmod.game.type.comp.ComponentTypeList
+import org.rsmod.game.type.dbrow.DbRowTypeList
+import org.rsmod.game.type.dbtable.DbTableTypeList
 import org.rsmod.game.type.enums.EnumTypeList
 import org.rsmod.game.type.font.FontMetricsTypeList
 import org.rsmod.game.type.gameval.GameValNameMap
@@ -96,6 +98,10 @@ public object CacheModule : ExtendedModule() {
     @Provides public fun gameValNameMap(map: TypeListMap): GameValNameMap = map.gameVals
 
     @Provides public fun areaTypeList(map: TypeListMap): AreaTypeList = map.areas
+
+    @Provides public fun dbRowsTypeList(map: TypeListMap): DbRowTypeList = map.dbRows
+
+    @Provides public fun dbTablesTypeList(map: TypeListMap): DbTableTypeList = map.dbTables
 }
 
 private class ConfigTypeListMapProvider

@@ -15,6 +15,9 @@ public sealed class TypeBuilderResult {
 
     public data class NameNotFound(val name: String?) : StatusErr()
 
+    public data class DbTableColumnMismatch(val expected: String?, val actual: List<String?>) :
+        StatusErr()
+
     public object CachePackRequired : StatusUpdate()
 
     public object FullSuccess : StatusOk()

@@ -11,6 +11,7 @@ import org.rsmod.api.cache.map.area.MapAreaEncoder
 import org.rsmod.api.cache.util.EncoderContext
 import org.rsmod.api.cache.util.readOrNull
 import org.rsmod.api.cache.util.toInlineBuf
+import org.rsmod.game.type.dbtable.DbTableTypeList
 import org.rsmod.game.type.param.ParamTypeList
 import org.rsmod.game.type.varp.VarpTypeList
 import org.rsmod.map.square.MapSquareKey
@@ -20,13 +21,13 @@ public class CacheEnrichmentMaps
 constructor(
     private val paramTypes: ParamTypeList,
     private val varpTypes: VarpTypeList,
+    private val dbTableTypes: DbTableTypeList,
     private val areaEnrichments: Set<AreaCacheEnricher>,
 ) {
     public fun encodeAll(dest: Cache) {
-        val encoderContext =
-            EncoderContext.server(paramTypes.filterTransmitKeys(), varpTypes.filterTransmitKeys())
+        val ctx = encoderContext()
         val areas = areaEnrichments.flatMap(AreaCacheEnricher::generate).collect(dest)
-        MapAreaEncoder.encodeAll(dest, areas, encoderContext)
+        MapAreaEncoder.encodeAll(dest, areas, ctx)
     }
 
     private fun Iterable<EnrichedAreaConfig>.collect(
@@ -50,5 +51,13 @@ constructor(
             areas[config.square] = area
         }
         return areas
+    }
+
+    private fun encoderContext(): EncoderContext {
+        return EncoderContext.server(
+            params = paramTypes.filterTransmitKeys(),
+            varps = varpTypes.filterTransmitKeys(),
+            tables = dbTableTypes.filterTransmitKeys(),
+        )
     }
 }

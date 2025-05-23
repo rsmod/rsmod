@@ -3,6 +3,8 @@ package org.rsmod.game.type
 import org.rsmod.game.type.area.AreaTypeList
 import org.rsmod.game.type.category.CategoryTypeList
 import org.rsmod.game.type.comp.ComponentTypeList
+import org.rsmod.game.type.dbrow.DbRowTypeList
+import org.rsmod.game.type.dbtable.DbTableTypeList
 import org.rsmod.game.type.enums.EnumTypeList
 import org.rsmod.game.type.font.FontMetricsTypeList
 import org.rsmod.game.type.gameval.GameValNameMap
@@ -56,4 +58,6 @@ public data class TypeListMap(
     public val midis: MidiTypeList,
     public val gameVals: GameValNameMap,
     public val areas: AreaTypeList,
+    public val dbTables: DbTableTypeList,
+    public val dbRows: DbRowTypeList,
 )

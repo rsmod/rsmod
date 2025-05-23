@@ -16,8 +16,12 @@ public object NameLoader {
 
     public fun readComponents(file: Path, interfaces: Map<String, Int>): Map<String, Int> {
         val lines = Files.readAllLines(file)
-        val transformer = interfaces.componentNameTransformer()
-        return read(lines, transformer)
+        return read(lines, interfaces.componentNameTransformer())
+    }
+
+    public fun readDbColumns(file: Path, tables: Map<String, Int>): Map<String, Int> {
+        val lines = Files.readAllLines(file)
+        return read(lines, tables.dbColumnNameTransformer())
     }
 
     public fun read(lines: Iterable<String>, transform: NameTransform? = null): Map<String, Int> {
@@ -61,6 +65,23 @@ public object NameLoader {
         }
         return NameTransform(id)
     }
+
+    private fun Map<String, Int>.dbColumnNameTransformer(): NameTransform {
+        val id: (String) -> Int = { name ->
+            val split = name.split(":", limit = 2)
+            if (split.size != 2) {
+                error(
+                    "DbColumn id must be lead by its table parent name such as " +
+                        "`quest:0`. (name=$name)"
+                )
+            }
+            val parentName = split[0]
+            val column = split[1].toColumn()
+            val table = parentName.toDbTable(this, name)
+            (table shl 16) or column
+        }
+        return NameTransform(id)
+    }
 }
 
 public data class NameTransform(
@@ -84,4 +105,15 @@ private fun String.toInterfaceId(interfaces: Map<String, Int>, component: String
         ?: error(
             "Interface `$this` does not exist. " +
                 "Cannot reference it as a parent for component `$component`."
+        )
+
+private fun String.toColumn(): Int =
+    toIntOrNull()
+        ?: error("DbColumn id must be suffixed after db table name " + "such as `quest:0`")
+
+private fun String.toDbTable(tables: Map<String, Int>, line: String): Int =
+    tables[this]
+        ?: error(
+            "DbTable `$this` does not exist. " +
+                "Cannot reference it as a parent for column `$line`."
         )

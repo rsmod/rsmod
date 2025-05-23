@@ -1,6 +1,7 @@
 package org.rsmod.api.type.refs.resolver
 
 import kotlin.reflect.KClass
+import org.rsmod.game.type.literal.CacheVarLiteral
 
 public sealed class TypeReferenceResult {
     public data class Success<T>(val value: T, val status: StatusOk) : TypeReferenceResult()
@@ -32,6 +33,13 @@ public sealed class TypeReferenceResult {
         val actualKey: KClass<*>?,
         val expectedVal: KClass<*>?,
         val actualVal: KClass<*>?,
+    ) : StatusErr()
+
+    public data class DbColumnTypeMismatch(
+        val column: String,
+        val index: Int,
+        val expected: List<CacheVarLiteral?>,
+        val actual: List<CacheVarLiteral>,
     ) : StatusErr()
 
     public data object InvalidImplicitName : StatusErr()

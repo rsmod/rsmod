@@ -8,62 +8,64 @@ package org.rsmod.game.type.literal
 @Suppress("konsist.enum entries require PascalCase")
 public enum class CacheVarLiteral(
     public val char: Char,
+    public val id: Int,
     public val type: BaseCacheVarType = BaseCacheVarType.Integer,
 ) {
-    BOOL('1'),
-    ENTITY_OVERLAY('-'),
-    SEQ('A'),
-    COLOUR('C'),
-    TOPLEVEL_INTERFACE('F'),
-    LOC_SHAPE('H'),
-    COMPONENT('I'),
-    STRUCT('J'),
-    IDKIT('K'),
-    OVERLAY_INTERFACE('L'),
-    MIDI('M'),
-    NPCMODE('N'),
-    NAMEDOBJ('O'),
-    SYNTH('P'),
-    AREA('R'),
-    STAT('S'),
-    NPCSTAT('T'),
-    MAPAREA('`'),
-    INTERFACE('a'),
-    COORDGRID('c'),
-    GRAPHIC('d'),
-    FONTMETRICS('f'),
-    ENUM('g'),
-    JINGLE('j'),
-    INT('i'),
-    LOC('l'),
-    MODEL('m'),
-    NPC('n'),
-    OBJ('o'),
-    PLAYERUID('p'),
-    STRING('s', type = BaseCacheVarType.String),
-    SPOTANIM('t'),
-    NPCUID('u'),
-    INV('v'),
-    TEXTURE('x'),
-    CATEGORY('y'),
-    CHAR('z'),
-    MAPELEMENT('µ'),
-    HITMARK('×'),
-    HEADBAR('¯'),
-    STRINGVECTOR('¸'),
-    DBTABLE('Ø'),
-    DBROW('Ð'),
-    MOVESPEED('Ý'),
-    VARP('7'),
-    VARBIT(']'),
-    PROJANIM('[');
+    BOOL('1', id = 1),
+    ENTITY_OVERLAY('-', id = 117),
+    SEQ('A', id = 6),
+    COLOUR('C', id = 7),
+    TOPLEVEL_INTERFACE('F', id = 98),
+    LOC_SHAPE('H', id = 8),
+    COMPONENT('I', id = 9),
+    STRUCT('J', id = 73),
+    IDKIT('K', id = 10),
+    OVERLAY_INTERFACE('L', id = 99),
+    MIDI('M', id = 11),
+    NPCMODE('N', id = 12),
+    NAMEDOBJ('O', id = 13),
+    SYNTH('P', id = 14),
+    AREA('R', id = 16),
+    STAT('S', id = 17),
+    NPCSTAT('T', id = 18),
+    MAPAREA('`', id = 21),
+    INTERFACE('a', id = 97),
+    COORDGRID('c', id = 22),
+    GRAPHIC('d', id = 23),
+    FONTMETRICS('f', id = 25),
+    ENUM('g', id = 26),
+    JINGLE('j', id = 28),
+    INT('i', id = 0),
+    LOC('l', id = 30),
+    MODEL('m', id = 31),
+    NPC('n', id = 32),
+    OBJ('o', id = 33),
+    PLAYERUID('p', id = 34),
+    STRING('s', id = 36, type = BaseCacheVarType.String),
+    SPOTANIM('t', id = 37),
+    NPCUID('u', id = 38),
+    INV('v', id = 39),
+    TEXTURE('x', id = 40),
+    CATEGORY('y', id = 41),
+    CHAR('z', id = 42),
+    MAPELEMENT('µ', id = 59),
+    HITMARK('×', id = 62),
+    HEADBAR('¯', id = 93),
+    STRINGVECTOR('¸', id = -1),
+    DBTABLE('Ø', id = 118),
+    DBROW('Ð', id = 74),
+    MOVESPEED('Ý', id = 101),
+    VARP('7', id = 209),
+    VARBIT(']', id = 254),
+    PROJANIM('[', id = 253);
 
     public companion object {
-        public fun forCharId(char: Char?): CacheVarLiteral? =
-            if (char != null) {
-                CacheVarLiteral.entries.firstOrNull { it.char == char }
-            } else {
-                null
-            }
+        public val mappedChars: Map<Char, CacheVarLiteral> = entries.associateBy { it.char }
+
+        public val mappedIds: Map<Int, CacheVarLiteral> = entries.associateBy { it.id }
+
+        public fun forCharId(char: Char?): CacheVarLiteral? = mappedChars[char]
+
+        public operator fun get(id: Int): CacheVarLiteral? = mappedIds[id]
     }
 }

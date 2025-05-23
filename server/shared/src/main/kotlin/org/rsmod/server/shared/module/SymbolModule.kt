@@ -32,6 +32,9 @@ private class NameMappingProvider : Provider<NameMapping> {
         val content = dirs.readSymbols("content")
         val controllers = dirs.readSymbols("controller")
         val currencies = dirs.readSymbols("currency")
+        val dbRows = dirs.readSymbols("dbrow")
+        val dbTables = dirs.readSymbols("dbtable")
+        val dbCols = dirs.readDbColumns("dbcol", dbTables = dbTables)
         val dropTriggers = dirs.readSymbols("droptrigger")
         val enums = dirs.readSymbols("enum")
         val fonts = dirs.readSymbols("font")
@@ -103,6 +106,9 @@ private class NameMappingProvider : Provider<NameMapping> {
             headbars = headbars,
             projanims = projanims,
             midis = midis,
+            dbTables = dbTables,
+            dbRows = dbRows,
+            dbColumns = dbCols,
         )
     }
 
@@ -125,6 +131,17 @@ private class NameMappingProvider : Provider<NameMapping> {
         return merged
     }
 
+    private fun List<ShallowDirectoryMap>.readDbColumns(
+        fileName: String,
+        dbTables: Map<String, Int>,
+    ): Map<String, Int> {
+        val merged = mutableMapOf<String, Int>()
+        for (entry in this) {
+            merged += entry.readDbColumns(DEFAULT_FILE_DIR, fileName, dbTables)
+        }
+        return merged
+    }
+
     private fun ShallowDirectoryMap.readSymbols(
         directory: String,
         fileName: String,
@@ -140,6 +157,15 @@ private class NameMappingProvider : Provider<NameMapping> {
     ): Map<String, Int> {
         val file = find(directory, fileName) ?: return emptyMap()
         return NameLoader.readComponents(file, interfaces)
+    }
+
+    private fun ShallowDirectoryMap.readDbColumns(
+        directory: String,
+        fileName: String,
+        interfaces: Map<String, Int>,
+    ): Map<String, Int> {
+        val file = find(directory, fileName) ?: return emptyMap()
+        return NameLoader.readDbColumns(file, interfaces)
     }
 
     private companion object {

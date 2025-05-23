@@ -21,6 +21,8 @@ public object Js5Configs {
     public const val HEADBAR: Int = 33
     public const val STRUCT: Int = 34
     public const val MAPELEMENT: Int = 35
+    public const val DBROWTYPE: Int = 38
+    public const val DBTABLETYPE: Int = 39
     public const val GAMELOGEVENT: Int = 70
 
     /* Custom server-side configs */

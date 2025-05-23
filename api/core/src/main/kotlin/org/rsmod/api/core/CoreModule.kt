@@ -21,7 +21,9 @@ import org.rsmod.api.route.RouteModule
 import org.rsmod.api.server.config.ServerConfigModule
 import org.rsmod.api.totp.TotpModule
 import org.rsmod.api.utils.logging.ExceptionHandlerModule
+import org.rsmod.game.dbtable.DbRowResolver
 import org.rsmod.game.queue.WorldQueueList
+import org.rsmod.game.type.TypeListMap
 import org.rsmod.game.type.enums.EnumTypeList
 import org.rsmod.game.type.util.EnumTypeMapResolver
 import org.rsmod.module.ExtendedModule
@@ -48,7 +50,13 @@ public object CoreModule : ExtendedModule() {
         install(TypeModule)
         bindInstance<GameCycle>()
         bindInstance<WorldQueueList>()
+        bindProvider(DbRowResolverProvider::class.java)
         bindProvider(EnumTypeMapResolverProvider::class.java)
+    }
+
+    private class DbRowResolverProvider @Inject constructor(private val types: TypeListMap) :
+        Provider<DbRowResolver> {
+        override fun get(): DbRowResolver = DbRowResolver(types)
     }
 
     private class EnumTypeMapResolverProvider @Inject constructor(private val enums: EnumTypeList) :

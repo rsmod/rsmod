@@ -5,6 +5,8 @@ import org.rsmod.game.type.TypeListMap
 import org.rsmod.game.type.area.AreaType
 import org.rsmod.game.type.category.CategoryType
 import org.rsmod.game.type.comp.ComponentType
+import org.rsmod.game.type.dbrow.DbRowType
+import org.rsmod.game.type.dbtable.DbTableType
 import org.rsmod.game.type.enums.EnumType
 import org.rsmod.game.type.headbar.HeadbarType
 import org.rsmod.game.type.hitmark.HitmarkType
@@ -60,7 +62,7 @@ public object CacheVarCategoryCodec : BaseIntVarCodec<CategoryType>(CategoryType
     // found in the predefined list, we create a new `CategoryType`.
     // This behavior may change in the future if we decide to enforce that every referenced
     // category (e.g., in enum or param types) must have a defined symbol.
-    override fun decode(types: TypeListMap, value: Int): CategoryType? =
+    override fun decode(types: TypeListMap, value: Int): CategoryType =
         types.categories[value] ?: CategoryType(value, "unnamed_category_$value")
 
     override fun encode(value: CategoryType): Int = value.id
@@ -77,6 +79,20 @@ public object CacheVarComponentCodec : BaseIntVarCodec<ComponentType>(ComponentT
         types.components[value]?.toHashedType()
 
     override fun encode(value: ComponentType): Int = value.packed
+}
+
+public object CacheVarDbRowCodec : BaseIntVarCodec<DbRowType>(DbRowType::class) {
+    override fun decode(types: TypeListMap, value: Int): DbRowType? =
+        types.dbRows[value]?.toHashedType()
+
+    override fun encode(value: DbRowType): Int = value.id
+}
+
+public object CacheVarDbTableCodec : BaseIntVarCodec<DbTableType>(DbTableType::class) {
+    override fun decode(types: TypeListMap, value: Int): DbTableType? =
+        types.dbTables[value]?.toHashedType()
+
+    override fun encode(value: DbTableType): Int = value.id
 }
 
 public object CacheVarHeadbarCodec : BaseIntVarCodec<HeadbarType>(HeadbarType::class) {
@@ -135,7 +151,8 @@ public object CacheVarNpcCodec : BaseIntVarCodec<NpcType>(NpcType::class) {
 }
 
 public object CacheVarEnumCodec : BaseIntVarCodec<EnumType<*, *>>(EnumType::class) {
-    override fun decode(types: TypeListMap, value: Int): EnumType<Any, Any>? = types.enums[value]
+    override fun decode(types: TypeListMap, value: Int): EnumType<Any, Any>? =
+        types.enums[value]?.toHashedType()
 
     override fun encode(value: EnumType<*, *>): Int = value.id
 }

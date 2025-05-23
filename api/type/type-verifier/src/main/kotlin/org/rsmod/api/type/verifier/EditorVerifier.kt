@@ -76,12 +76,16 @@ public class EditorVerifier @Inject constructor(private val editors: TypeEditorR
     private fun TypeEditorResult.StatusErr.toHeader(count: Int): String =
         when (this) {
             is TypeEditorResult.NameNotFound -> {
-                "The following cache edits use names that are not defined in a names.sym " +
+                "The following cache edits use names that are not defined in a .sym " +
                     "file ($count found)"
             }
             TypeEditorResult.CacheTypeDoesNotExit -> {
                 "The following cache edits are trying to modify a type not found " +
                     "in cache ($count found)"
+            }
+            is TypeEditorResult.DbTableColumnMismatch -> {
+                "The following DbTable cache edits are trying to use a mismatching column " +
+                    "($count found)"
             }
         }
 
@@ -89,6 +93,9 @@ public class EditorVerifier @Inject constructor(private val editors: TypeEditorR
         when (this) {
             is TypeEditorResult.NameNotFound -> "Name: \"$name\"\t| Edit: $value"
             TypeEditorResult.CacheTypeDoesNotExit -> "Edit: $value"
+            is TypeEditorResult.DbTableColumnMismatch -> {
+                "Expected Table: '$expected'\t| Actual Table(s): $actual"
+            }
         }
 
     private companion object {

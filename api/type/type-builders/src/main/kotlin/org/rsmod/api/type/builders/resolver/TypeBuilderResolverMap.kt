@@ -8,6 +8,10 @@ import org.rsmod.api.type.builders.bas.BasBuilder
 import org.rsmod.api.type.builders.bas.BasBuilderResolver
 import org.rsmod.api.type.builders.controller.ControllerBuilder
 import org.rsmod.api.type.builders.controller.ControllerBuilderResolver
+import org.rsmod.api.type.builders.dbrow.DbRowBuilder
+import org.rsmod.api.type.builders.dbrow.DbRowBuilderResolver
+import org.rsmod.api.type.builders.dbtable.DbTableBuilder
+import org.rsmod.api.type.builders.dbtable.DbTableBuilderResolver
 import org.rsmod.api.type.builders.droptrig.DropTriggerBuilder
 import org.rsmod.api.type.builders.droptrig.DropTriggerBuilderResolver
 import org.rsmod.api.type.builders.enums.EnumBuilder
@@ -59,6 +63,8 @@ constructor(
     private val areaResolver: AreaBuilderResolver,
     private val basResolver: BasBuilderResolver,
     private val conResolver: ControllerBuilderResolver,
+    private val dbRowResolver: DbRowBuilderResolver,
+    private val dbTableResolver: DbTableBuilderResolver,
     private val dropTriggerResolver: DropTriggerBuilderResolver,
     private val enumResolver: EnumBuilderResolver,
     private val headbarResolver: HeadbarBuilderResolver,
@@ -153,6 +159,8 @@ constructor(
                 is AreaBuilder -> areaResolver
                 is BasBuilder -> basResolver
                 is ControllerBuilder -> conResolver
+                is DbRowBuilder -> dbRowResolver
+                is DbTableBuilder -> dbTableResolver
                 is DropTriggerBuilder -> dropTriggerResolver
                 is EnumBuilder -> enumResolver
                 is HeadbarBuilder -> headbarResolver

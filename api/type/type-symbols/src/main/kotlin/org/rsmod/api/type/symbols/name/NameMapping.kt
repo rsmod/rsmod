@@ -42,4 +42,7 @@ public data class NameMapping(
     public val headbars: Map<String, Int> = mutableMapOf(),
     public val projanims: Map<String, Int> = mutableMapOf(),
     public val midis: Map<String, Int> = mutableMapOf(),
+    public val dbTables: Map<String, Int> = mutableMapOf(),
+    public val dbRows: Map<String, Int> = mutableMapOf(),
+    public val dbColumns: Map<String, Int> = mutableMapOf(),
 )

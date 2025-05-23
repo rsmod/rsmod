@@ -9,6 +9,8 @@ import org.rsmod.annotations.GameCache
 import org.rsmod.annotations.Js5Cache
 import org.rsmod.api.cache.types.TypeListMapDecoder
 import org.rsmod.api.cache.types.area.AreaTypeEncoder
+import org.rsmod.api.cache.types.dbrow.DbRowTypeEncoder
+import org.rsmod.api.cache.types.dbtable.DbTableTypeEncoder
 import org.rsmod.api.cache.types.enums.EnumTypeEncoder
 import org.rsmod.api.cache.types.headbar.HeadbarTypeEncoder
 import org.rsmod.api.cache.types.hitmark.HitmarkTypeEncoder
@@ -32,6 +34,11 @@ import org.rsmod.game.type.CacheType
 import org.rsmod.game.type.TypeListMap
 import org.rsmod.game.type.area.AreaTypeBuilder
 import org.rsmod.game.type.area.UnpackedAreaType
+import org.rsmod.game.type.dbrow.DbRowTypeBuilder
+import org.rsmod.game.type.dbrow.UnpackedDbRowType
+import org.rsmod.game.type.dbtable.DbTableTypeBuilder
+import org.rsmod.game.type.dbtable.DbTableTypeList
+import org.rsmod.game.type.dbtable.UnpackedDbTableType
 import org.rsmod.game.type.enums.EnumTypeBuilder
 import org.rsmod.game.type.enums.UnpackedEnumType
 import org.rsmod.game.type.headbar.HeadbarTypeBuilder
@@ -87,8 +94,9 @@ constructor(
         val updates = collectUpdateMap(configs)
         val params = transmitParamKeys(configs.params, updates.params)
         val varps = transmitVarpKeys(configs.varps, updates.varps)
-        encodeCacheTypes(updates, gameCachePath, EncoderContext.server(params, varps))
-        encodeCacheTypes(updates, js5CachePath, EncoderContext.client(params, varps))
+        val tables = transmitTableKeys(configs.dbTables, updates.dbTables)
+        encodeCacheTypes(updates, gameCachePath, EncoderContext.server(params, varps, tables))
+        encodeCacheTypes(updates, js5CachePath, EncoderContext.client(params, varps, tables))
     }
 
     /**
@@ -139,6 +147,32 @@ constructor(
         return IntOpenHashSet(cacheTransmitKeys + updateTransmitKeys)
     }
 
+    /**
+     * Combines and returns a set of all unique [UnpackedDbTableType.id] values where the
+     * [UnpackedDbTableType.clientSide] flag is `true`.
+     *
+     * This ensures only client-accessible db tables are included for client cache packing,
+     * filtering out server-only tables that should not be transmitted to clients.
+     *
+     * Discrepancies between the existing [cache] and [updates] are resolved by:
+     * - Removing outdated `clientSide` flags from [cache] that are overridden by [updates].
+     * - Including only updated or valid `clientSide` keys from [updates].
+     *
+     * This guarantees that db tables marked as `clientSide` in [cache] but later updated to `false`
+     * in [updates] are excluded, avoiding incorrect inclusion in the client-transmittable db table
+     * keys.
+     */
+    private fun transmitTableKeys(
+        cache: DbTableTypeList,
+        updates: List<UnpackedDbTableType>,
+    ): Set<Int> {
+        val updateTableKeys = IntOpenHashSet(updates.map(UnpackedDbTableType::id))
+        val cacheTransmitKeys = cache.filterTransmitKeys().filterNot(updateTableKeys::contains)
+        val updateTransmitKeys =
+            updates.filter(UnpackedDbTableType::clientSide).map(UnpackedDbTableType::id)
+        return IntOpenHashSet(cacheTransmitKeys + updateTransmitKeys)
+    }
+
     private fun collectUpdateMap(vanilla: TypeListMap): UpdateMap {
         val build = builders.resultValues.toUpdateMap()
         val edit = editors.resultValues.toUpdateMap()
@@ -152,8 +186,10 @@ constructor(
         val stats = merge(build.stats, edit.stats, vanilla.stats, StatTypeBuilder)
         val varns = merge(build.varns, edit.varns, vanilla.varns, VarnTypeBuilder)
         val varps = merge(build.varps, edit.varps, vanilla.varps, VarpTypeBuilder)
+        val dbRows = merge(build.dbRows, edit.dbRows, vanilla.dbRows, DbRowTypeBuilder)
         val params = merge(build.params, edit.params, vanilla.params, ParamTypeBuilder)
         val varbits = merge(build.varbits, edit.varbits, vanilla.varbits, VarBitTypeBuilder)
+        val dbTables = merge(build.dbTables, edit.dbTables, vanilla.dbTables, DbTableTypeBuilder)
         val varnbits = merge(build.varnbits, edit.varnbits, vanilla.varnbits, VarnBitTypeBuilder)
         val headbars = merge(build.headbars, edit.headbars, vanilla.headbars, HeadbarTypeBuilder)
         val hitmarks = merge(build.hitmarks, edit.hitmarks, vanilla.hitmarks, HitmarkTypeBuilder)
@@ -186,6 +222,8 @@ constructor(
             hitmarks = hitmarks,
             projanims = projanims,
             walkTriggers = walkTriggers,
+            dbRows = dbRows,
+            dbTables = dbTables,
         )
     }
 
@@ -206,6 +244,8 @@ constructor(
         val hitmarks: List<UnpackedHitmarkType>,
         val projanims: List<UnpackedProjAnimType>,
         val walkTriggers: List<WalkTriggerType>,
+        val dbRows: List<UnpackedDbRowType>,
+        val dbTables: List<UnpackedDbTableType>,
     )
 
     private fun List<*>.toUpdateMap(): UpdateMap {
@@ -225,6 +265,8 @@ constructor(
         val hitmarks = filterIsInstance<UnpackedHitmarkType>()
         val projanims = filterIsInstance<UnpackedProjAnimType>()
         val walkTrig = filterIsInstance<WalkTriggerType>()
+        val dbRows = filterIsInstance<UnpackedDbRowType>()
+        val dbTables = filterIsInstance<UnpackedDbTableType>()
 
         return UpdateMap(
             invs = invs,
@@ -243,6 +285,8 @@ constructor(
             hitmarks = hitmarks,
             projanims = projanims,
             walkTriggers = walkTrig,
+            dbRows = dbRows,
+            dbTables = dbTables,
         )
     }
 
@@ -282,6 +326,8 @@ constructor(
             HitmarkTypeEncoder.encodeAll(cache, updates.hitmarks)
             ProjAnimTypeEncoder.encodeAll(cache, updates.projanims, ctx)
             WalkTriggerTypeEncoder.encodeAll(cache, updates.walkTriggers, ctx)
+            DbTableTypeEncoder.encodeAll(cache, updates.dbTables, ctx)
+            DbRowTypeEncoder.encodeAll(cache, updates.dbRows, ctx)
         }
     }
 }

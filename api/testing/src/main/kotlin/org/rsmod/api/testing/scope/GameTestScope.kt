@@ -98,6 +98,7 @@ import org.rsmod.game.MapClock
 import org.rsmod.game.area.AreaIndex
 import org.rsmod.game.cheat.CheatCommandMap
 import org.rsmod.game.client.Client
+import org.rsmod.game.dbtable.DbRowResolver
 import org.rsmod.game.entity.ControllerList
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.NpcList
@@ -128,6 +129,8 @@ import org.rsmod.game.type.TypeListMap
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.comp.ComponentTypeList
 import org.rsmod.game.type.content.ContentGroupType
+import org.rsmod.game.type.dbrow.DbRowTypeList
+import org.rsmod.game.type.dbtable.DbTableTypeList
 import org.rsmod.game.type.enums.EnumTypeList
 import org.rsmod.game.type.font.FontMetricsTypeList
 import org.rsmod.game.type.interf.IfButtonOp
@@ -886,6 +889,8 @@ constructor(
             // Currently, there is no need to mutate the following type lists.
             // Therefore, we can reuse their shared instance across test scopes.
             bind(ComponentTypeList::class.java).toInstance(cacheTypes.components)
+            bind(DbRowTypeList::class.java).toInstance(cacheTypes.dbRows)
+            bind(DbTableTypeList::class.java).toInstance(cacheTypes.dbTables)
             bind(EnumTypeList::class.java).toInstance(cacheTypes.enums)
             bind(FontMetricsTypeList::class.java).toInstance(cacheTypes.fonts)
             bind(InterfaceTypeList::class.java).toInstance(cacheTypes.interfaces)
@@ -898,6 +903,8 @@ constructor(
             bind(VarBitTypeList::class.java).toInstance(cacheTypes.varbits)
             bind(VarpTypeList::class.java).toInstance(cacheTypes.varps)
 
+            bind(TypeListMap::class.java).toInstance(cacheTypes)
+
             bind(CheatCommandMap::class.java).`in`(Scopes.SINGLETON)
             bind(EngineQueueCache::class.java).`in`(Scopes.SINGLETON)
 
@@ -909,6 +916,10 @@ constructor(
 
             bind(MarketPrices::class.java)
                 .to(DefaultMarketPrices::class.java)
+                .`in`(Scopes.SINGLETON)
+
+            bind(DbRowResolver::class.java)
+                .toProvider(DbRowResolverProvider::class.java)
                 .`in`(Scopes.SINGLETON)
 
             bind(EnumTypeMapResolver::class.java)
@@ -931,6 +942,11 @@ constructor(
             val realm = Realm(name = "test-suite")
             realm.updateConfig(TestRealmConfig.create())
             return realm
+        }
+
+        private class DbRowResolverProvider @Inject constructor(private val types: TypeListMap) :
+            Provider<DbRowResolver> {
+            override fun get(): DbRowResolver = DbRowResolver(types)
         }
 
         private class EnumTypeMapResolverProvider

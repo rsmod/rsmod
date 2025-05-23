@@ -123,19 +123,23 @@ constructor(private val references: TypeReferenceResolverMap) {
                     "type pair ($count found)"
             }
             is TypeReferenceResult.NameNotFound -> {
-                "The following references use names that are not defined in a names.sym " +
+                "The following references use names that are not defined in a .sym " +
                     "file ($count found)"
             }
             is TypeReferenceResult.InvalidImplicitName -> {
-                "The following references use names that are not defined in a names.sym " +
+                "The following references use names that are not defined in a .sym " +
                     "file ($count found)"
             }
             is TypeReferenceResult.ImplicitNameNotFound -> {
-                "The following references use names that are not defined in a names.sym " +
+                "The following references use names that are not defined in a .sym " +
                     "file ($count found)"
             }
             is TypeReferenceResult.ValTypeMismatch -> {
                 "The following references have an unexpected generic value type ($count found)"
+            }
+            is TypeReferenceResult.DbColumnTypeMismatch -> {
+                "The following DbColumn references do not match their parent DbTable column " +
+                    "types ($count found)"
             }
         }
 
@@ -158,6 +162,15 @@ constructor(private val references: TypeReferenceResolverMap) {
                 "Expected: ${expected?.simpleName}\t| " +
                     "Actual: ${actual?.simpleName}\t| " +
                     "Reference: $value"
+            }
+            is TypeReferenceResult.DbColumnTypeMismatch -> {
+                val table = column.substringBefore(':')
+                val column = column.substringAfter(':')
+                "Table: '$table'\t| " +
+                    "Column: '$column'\t| " +
+                    "Index: $index\t| " +
+                    "Expected: $expected\t| " +
+                    "Actual: $actual"
             }
         }
 

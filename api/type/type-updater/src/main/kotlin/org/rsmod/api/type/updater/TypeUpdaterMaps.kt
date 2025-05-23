@@ -42,8 +42,12 @@ constructor(
         val npcs = collector.npcs(builders.npcs)
         val objs = collector.objs(builders.objs)
         val updates = MapUpdates(areas, locs, maps, npcs, objs)
-        encodeCacheMaps(updates, gameCachePath, EncoderContext.server(emptySet(), emptySet()))
-        encodeCacheMaps(updates, js5CachePath, EncoderContext.client(emptySet(), emptySet()))
+
+        val serverCtx = EncoderContext.server(emptySet(), emptySet(), emptySet())
+        encodeCacheMaps(updates, gameCachePath, serverCtx)
+
+        val clientCtx = EncoderContext.client(emptySet(), emptySet(), emptySet())
+        encodeCacheMaps(updates, js5CachePath, clientCtx)
     }
 
     private data class MapUpdates(
