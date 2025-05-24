@@ -14,6 +14,7 @@ import org.rsmod.api.cache.types.dbtable.DbTableTypeEncoder
 import org.rsmod.api.cache.types.enums.EnumTypeEncoder
 import org.rsmod.api.cache.types.headbar.HeadbarTypeEncoder
 import org.rsmod.api.cache.types.hitmark.HitmarkTypeEncoder
+import org.rsmod.api.cache.types.hunt.HuntModeTypeEncoder
 import org.rsmod.api.cache.types.inv.InvTypeEncoder
 import org.rsmod.api.cache.types.loc.LocTypeEncoder
 import org.rsmod.api.cache.types.npc.NpcTypeEncoder
@@ -45,6 +46,8 @@ import org.rsmod.game.type.headbar.HeadbarTypeBuilder
 import org.rsmod.game.type.headbar.UnpackedHeadbarType
 import org.rsmod.game.type.hitmark.HitmarkTypeBuilder
 import org.rsmod.game.type.hitmark.UnpackedHitmarkType
+import org.rsmod.game.type.hunt.HuntModeTypeBuilder
+import org.rsmod.game.type.hunt.UnpackedHuntModeType
 import org.rsmod.game.type.inv.InvTypeBuilder
 import org.rsmod.game.type.inv.UnpackedInvType
 import org.rsmod.game.type.loc.LocTypeBuilder
@@ -181,6 +184,7 @@ constructor(
         val locs = merge(build.locs, edit.locs, vanilla.locs, LocTypeBuilder)
         val npcs = merge(build.npcs, edit.npcs, vanilla.npcs, NpcTypeBuilder)
         val objs = merge(build.objs, edit.objs, vanilla.objs, ObjTypeBuilder)
+        val hunt = merge(build.hunt, edit.hunt, vanilla.hunt, HuntModeTypeBuilder)
         val areas = merge(build.areas, edit.areas, vanilla.areas, AreaTypeBuilder)
         val enums = merge(build.enums, edit.enums, vanilla.enums, EnumTypeBuilder)
         val stats = merge(build.stats, edit.stats, vanilla.stats, StatTypeBuilder)
@@ -210,6 +214,7 @@ constructor(
             locs = locs,
             npcs = npcs,
             objs = objs,
+            hunt = hunt,
             stats = stats,
             areas = areas,
             enums = enums,
@@ -234,6 +239,7 @@ constructor(
         val objs: List<UnpackedObjType>,
         val stats: List<UnpackedStatType>,
         val areas: List<UnpackedAreaType>,
+        val hunt: List<UnpackedHuntModeType>,
         val enums: List<UnpackedEnumType<*, *>>,
         val params: List<UnpackedParamType<*>>,
         val varps: List<UnpackedVarpType>,
@@ -255,6 +261,7 @@ constructor(
         val objs = filterIsInstance<UnpackedObjType>()
         val stats = filterIsInstance<UnpackedStatType>()
         val areas = filterIsInstance<UnpackedAreaType>()
+        val hunt = filterIsInstance<UnpackedHuntModeType>()
         val enums = filterIsInstance<UnpackedEnumType<*, *>>()
         val params = filterIsInstance<UnpackedParamType<*>>()
         val varps = filterIsInstance<UnpackedVarpType>()
@@ -273,6 +280,7 @@ constructor(
             locs = locs,
             npcs = npcs,
             objs = objs,
+            hunt = hunt,
             stats = stats,
             areas = areas,
             enums = enums,
@@ -328,6 +336,7 @@ constructor(
             WalkTriggerTypeEncoder.encodeAll(cache, updates.walkTriggers, ctx)
             DbTableTypeEncoder.encodeAll(cache, updates.dbTables, ctx)
             DbRowTypeEncoder.encodeAll(cache, updates.dbRows, ctx)
+            HuntModeTypeEncoder.encodeAll(cache, updates.hunt, ctx)
         }
     }
 }

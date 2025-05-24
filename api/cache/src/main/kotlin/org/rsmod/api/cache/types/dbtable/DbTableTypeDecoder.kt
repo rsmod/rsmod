@@ -19,9 +19,9 @@ import org.rsmod.game.type.dbtable.UnpackedDbTableType
 public object DbTableTypeDecoder {
     public fun decodeAll(cache: Cache): DbTableTypeList {
         val types = Int2ObjectOpenHashMap<UnpackedDbTableType>()
-        val files = cache.list(Js5Archives.CONFIG, Js5Configs.DBTABLETYPE)
+        val files = cache.list(Js5Archives.CONFIG, Js5Configs.DBTABLE)
         for (file in files) {
-            val data = cache.read(Js5Archives.CONFIG, Js5Configs.DBTABLETYPE, file.id)
+            val data = cache.read(Js5Archives.CONFIG, Js5Configs.DBTABLE, file.id)
             val type = data.use { decode(it).build(file.id) }
             types[file.id] = type.apply { TypeResolver[this] = file.id }
         }

@@ -53,5 +53,9 @@ public enum class NpcMode(public val id: Int) {
     ApObj2(49),
     ApObj3(50),
     ApObj4(51),
-    ApObj5(52),
+    ApObj5(52);
+
+    public companion object {
+        public operator fun get(id: Int): NpcMode? = entries.firstOrNull { it.id == id }
+    }
 }

@@ -4,7 +4,7 @@ package org.rsmod.api.config.builders
 
 import org.rsmod.api.type.builders.proj.ProjAnimBuilder
 
-object ProjAnimBuilds : ProjAnimBuilder() {
+internal object ProjAnimBuilds : ProjAnimBuilder() {
     init {
         build("arrow") {
             startHeight = 40

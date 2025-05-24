@@ -16,7 +16,7 @@ public object DbTableTypeEncoder {
     public fun encodeAll(cache: Cache, types: Iterable<UnpackedDbTableType>, ctx: EncoderContext) {
         val buffer = PooledByteBufAllocator.DEFAULT.buffer()
         val archive = Js5Archives.CONFIG
-        val config = Js5Configs.DBTABLETYPE
+        val config = Js5Configs.DBTABLE
         for (type in types) {
             // Skip server-side db tables when packing into the client cache.
             val skipWrite = ctx.clientOnly && type.id !in ctx.clientTables

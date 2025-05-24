@@ -19,9 +19,9 @@ import org.rsmod.game.type.dbrow.UnpackedDbRowType
 public object DbRowTypeDecoder {
     public fun decodeAll(cache: Cache): DbRowTypeList {
         val types = Int2ObjectOpenHashMap<UnpackedDbRowType>()
-        val files = cache.list(Js5Archives.CONFIG, Js5Configs.DBROWTYPE)
+        val files = cache.list(Js5Archives.CONFIG, Js5Configs.DBROW)
         for (file in files) {
-            val data = cache.read(Js5Archives.CONFIG, Js5Configs.DBROWTYPE, file.id)
+            val data = cache.read(Js5Archives.CONFIG, Js5Configs.DBROW, file.id)
             val type = data.use { decode(it).build(file.id) }
             types[file.id] = type.apply { TypeResolver[this] = file.id }
         }
