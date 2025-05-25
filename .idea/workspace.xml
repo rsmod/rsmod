@@ -566,21 +566,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d0a5f4dc-42be-4d65-930d-5e9377798732" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/content/items/food/src/main/kotlin/org/rsmod/content/items/food/configs/FishConfigs.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/content/items/food/src/main/kotlin/org/rsmod/content/items/food/configs/FoodConstants.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/content/items/food/src/main/kotlin/org/rsmod/content/items/food/scripts/EatFood.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.data/symbols/param.sym" beforeDir="false" afterPath="$PROJECT_DIR$/.data/symbols/param.sym" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.data/symbols/varp.sym" beforeDir="false" afterPath="$PROJECT_DIR$/.data/symbols/varp.sym" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/builders/ParamBuilds.kt" beforeDir="false" afterPath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/builders/ParamBuilds.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/builders/VarpBuilds.kt" beforeDir="false" afterPath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/builders/VarpBuilds.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseObjs.kt" beforeDir="false" afterPath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseObjs.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseParams.kt" beforeDir="false" afterPath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseParams.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseSeqs.kt" beforeDir="false" afterPath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseSeqs.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseVarps.kt" beforeDir="false" afterPath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseVarps.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/player/src/main/kotlin/org/rsmod/api/player/protect/ProtectedAccess.kt" beforeDir="false" afterPath="$PROJECT_DIR$/api/player/src/main/kotlin/org/rsmod/api/player/protect/ProtectedAccess.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/content/other/login/src/main/kotlin/org/rsmod/content/other/login/LoginScript.kt" beforeDir="false" afterPath="$PROJECT_DIR$/content/other/login/src/main/kotlin/org/rsmod/content/other/login/LoginScript.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/content/items/food/src/main/kotlin/org/rsmod/content/items/food/scripts/EatFood.kt" beforeDir="false" afterPath="$PROJECT_DIR$/content/items/food/src/main/kotlin/org/rsmod/content/items/food/scripts/EatFood.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
