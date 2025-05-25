@@ -9,15 +9,15 @@ import org.rsmod.game.type.npc.UnpackedNpcType
 
 public class AiQueueProcessor @Inject constructor(private val eventBus: EventBus) {
     public fun process(npc: Npc) {
-        if (npc.pendingAiCycle <= 0) {
+        if (npc.pendingAiQueueCycle <= 0) {
             return
         }
         npc.processQueue()
     }
 
     private fun Npc.processQueue() {
-        pendingAiCycle--
-        if (pendingAiCycle > 0) {
+        pendingAiQueueCycle--
+        if (pendingAiQueueCycle > 0) {
             return
         }
         val aiQueue = checkNotNull(pendingAiQueue)

@@ -63,7 +63,7 @@ public class Npc(
     public var pendingAiQueue: AiQueueType? = null
         private set
 
-    public var pendingAiCycle: Int = 0
+    public var pendingAiQueueCycle: Int = 0
 
     public var uid: NpcUid = NpcUid.NULL
         private set
@@ -213,7 +213,7 @@ public class Npc(
     public fun aiQueue(queue: AiQueueType, cycles: Int) {
         require(cycles > 0) { "`cycles` must be greater than 0. (cycles=$cycles)" }
         pendingAiQueue = queue
-        pendingAiCycle = cycles
+        pendingAiQueueCycle = cycles
     }
 
     @InternalApi
