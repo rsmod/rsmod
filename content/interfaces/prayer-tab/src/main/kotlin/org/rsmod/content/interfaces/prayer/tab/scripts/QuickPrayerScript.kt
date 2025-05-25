@@ -13,11 +13,13 @@ import org.rsmod.api.player.ui.ifClose
 import org.rsmod.api.player.ui.ifCloseOverlay
 import org.rsmod.api.player.ui.ifOpenSub
 import org.rsmod.api.player.ui.ifSetEvents
+import org.rsmod.api.player.vars.boolVarBit
 import org.rsmod.api.player.vars.intVarBit
 import org.rsmod.api.player.vars.resyncVar
 import org.rsmod.api.script.onIfClose
 import org.rsmod.api.script.onIfOpen
 import org.rsmod.api.script.onIfOverlayButton
+import org.rsmod.api.script.onPlayerLogin
 import org.rsmod.api.script.onPlayerQueue
 import org.rsmod.content.interfaces.prayer.tab.Prayer
 import org.rsmod.content.interfaces.prayer.tab.PrayerRepository
@@ -46,6 +48,7 @@ constructor(
     private val protectedAccess: ProtectedAccessLauncher,
 ) : PluginScript() {
     override fun ScriptContext.startup() {
+        onPlayerLogin { player.disableQuickPrayers() }
         onIfOverlayButton(prayer_components.quick_prayers_orb) { player.selectQuickPrayerOrb(op) }
         onPlayerQueue(prayer_queues.quick_prayer) { toggleQuickPrayers() }
         onIfOpen(prayer_interfaces.quickprayer) { player.onOpenQuickPrayerSetUp() }
@@ -54,6 +57,10 @@ constructor(
             player.toggleQuickPrayer(comsub)
         }
         onIfOverlayButton(prayer_components.quick_prayers_close) { player.closeQuickPrayerSetUp() }
+    }
+
+    private fun Player.disableQuickPrayers() {
+        usingQuickPrayers = false
     }
 
     private fun Player.selectQuickPrayerOrb(op: IfButtonOp) {
@@ -214,3 +221,4 @@ constructor(
 }
 
 private var Player.selectedQuickPrayers by intVarBit(prayer_varbits.quickprayer_selected)
+private var Player.usingQuickPrayers by boolVarBit(varbits.quickprayer_active)

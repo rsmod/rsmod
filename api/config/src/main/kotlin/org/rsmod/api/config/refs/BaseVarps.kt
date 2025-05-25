@@ -70,6 +70,7 @@ object BaseVarps : VarpReferences() {
     val pk_predator2 = find("pk_predator2")
     val pk_predator3 = find("pk_predator3")
     val prayer_drain = find("prayer_drain")
+    val prayer0 = find("prayer0")
     val playtime = find("playtime")
     val generic_temp_state_65516 = find("generic_temp_state_65516")
     val dinhs_passive_delay = find("dinhs_passive_delay")
