@@ -1004,6 +1004,34 @@ public class ProtectedAccess(
         }
     }
 
+    public fun invReplace(
+        inv: Inventory,
+        slot: Int,
+        count: Int,
+        replacement: Int,
+        vars: Int = 0,
+        autoCommit: Boolean = true,
+    ): TransactionResultList<InvObj> {
+        // The transaction will implicitly fail if the obj is null - no verification is required
+        // at this level.
+        val deleteObj = inv[slot]
+        return player.invTransaction(inv, autoCommit) {
+            val fromInv = select(inv)
+            delete {
+                this.from = fromInv
+                this.obj = deleteObj?.id
+                this.strictCount = count
+                this.strictSlot = slot
+            }
+            insert {
+                this.into = fromInv
+                this.obj = replacement
+                this.strictCount = count
+                this.vars = vars
+            }
+        }
+    }
+
     /**
      * This transaction will remove the inv obj occupying slot [slot], resulting in failure if there
      * is no obj in said `slot`, or if there are any other implicit transaction errors.

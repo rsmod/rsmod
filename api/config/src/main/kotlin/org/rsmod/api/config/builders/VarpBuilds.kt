@@ -26,5 +26,9 @@ internal object VarpBuilds : VarpBuilder() {
         build("generic_temp_coords_65529") { temporary = true }
         build("inv_capacity_65530")
         build("generic_storage_65531")
+
+        build("tracking_food_eaten") { temporary = true }
+        build("tracking_potions_sipped") { temporary = true }
+
     }
 }

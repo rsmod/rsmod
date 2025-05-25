@@ -137,6 +137,12 @@ internal object ParamBuilds : ParamBuilder() {
         build<Int>("respawn_time_low")
         build<Int>("respawn_time_high")
 
+        build<Int>("food_heal_value") { default = 0 }
+        build<Boolean>("food_is_combo") { default = false }
+        build<Boolean>("food_overheal") { default = false }
+        build<Boolean>("food_requires_replacement") { default = false }
+        build<Int>("food_replacement") { default = -1 }
+
         build<StatType>("xpmod_stat")
         build<Int>("xpmod_percent")
 

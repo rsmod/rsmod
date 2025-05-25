@@ -83,6 +83,8 @@ object BaseVarps : VarpReferences() {
     val generic_temp_coords_65529 = find("generic_temp_coords_65529")
     val inv_capacity_65530 = find("inv_capacity_65530")
     val generic_storage_65531 = find("generic_storage_65531")
+    val tracking_food_eaten = find("tracking_food_eaten")
+    val tracking_potions_sipped = find("tracking_potions_sipped")
 
     /*
      * "Restore" varps serve as temporary storage for varps that are modified temporarily and need

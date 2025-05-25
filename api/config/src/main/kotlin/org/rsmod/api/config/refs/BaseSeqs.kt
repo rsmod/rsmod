@@ -12,6 +12,7 @@ object BaseSeqs : SeqReferences() {
     val human_unarmedblock = find("human_unarmedblock", 3547443896181896144)
     val human_bow = find("human_bow", 49237839055975291)
     val human_death = find("human_death", 5503685917421173262)
+    val human_eat = find("human_eat")
 
     val human_ready = find("human_ready", 4127162069539886750)
     val human_walk_f = find("human_walk_f", 1752230606361787679)

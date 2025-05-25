@@ -298,3 +298,8 @@
 65532	closesound
 65533	next_loc_stage
 65534	opensound
+65535	food_heal_value
+65536	food_is_combo
+65537	food_overheal
+65538	food_requires_replacement
+65539	food_replacement

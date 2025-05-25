@@ -1,0 +1,703 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="AutomaticModuleUnloader">
+    <loaded-modules>
+      <module name="rsmod" />
+      <module name="rsmod.content.items.consumables" />
+      <module name="rsmod.api.utils.utils-time.test" />
+      <module name="rsmod.api.area-checker" />
+      <module name="rsmod.api.area-checker.test" />
+      <module name="rsmod.api.utils.utils-time.main" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\area-checker\build.gradle.kts" />
+      <module name="rsmod.content.items.consumables.main" />
+      <module name="rsmod.api.area-checker.main" />
+      <module name="rsmod.api.utils.utils-time" />
+      <module name="rsmod.content.items" />
+      <module name="rsmod.content.items.consumables.test" />
+      <module name="Kotlin Scripts.KotlinBuildScript.content\items\consumables\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\utils\utils-time\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.content\interfaces\gameframe\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.content\interfaces\journal-tab\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.content\interfaces\logout-tab\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.content\interfaces\menu\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.content\interfaces\prayer-tab\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.content\interfaces\settings\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.content\interfaces\skill-guides\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.content\other\canoe\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.content\other\commands\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.content\other\login\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.content\other\mapclock\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.content\other\special-attacks\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.content\other\special-weapons\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.content\other\windmill\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.content\skills\cooking\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.content\skills\fishing\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.content\skills\woodcutting\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.content\areas\city\lumbridge\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.content\areas\misc\multiways\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.content\skills\magic\spell-attacks\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinSettingsScript.build-logic\settings.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.build-logic\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinSettingsScript.settings.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.build-logic\src\main\kotlin\base-conventions.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.build-logic\src\main\kotlin\benchmark-suite.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.build-logic\src\main\kotlin\formatter-conventions.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.build-logic\src\main\kotlin\integration-test-suite.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.build-logic\src\main\kotlin\kotlin-conventions.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\account\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.build-logic\src\main\kotlin\meta-test-suite.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.build-logic\src\main\kotlin\publish-conventions.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.build-logic\src\main\kotlin\test-conventions.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\cache\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\cache-enricher\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\cheat\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\combat-accuracy\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\combat-maxhit\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\config\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\controller\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\core\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\db\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\db-gateway\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\death\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\death-plugin\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\game-process\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\hit-plugin\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\inv-plugin\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\inv-weight\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\invtx\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\market\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\meta\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\net\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\npc\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\npc-plugin\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\obj-charges\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\obj-plugin\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\player\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\player-output\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\plugin-commons\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\pw-hash\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\random\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\realm\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\realm-config\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\registry\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\repo\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\route\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\script\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\script-advanced\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\server-config\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\shops\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\specials\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\spells\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\spells-autocast\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\spells-runes\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\stats-plugin\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\testing\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\totp\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\weapons\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.engine\annotations\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.engine\coroutine\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.engine\events\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.engine\game\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.engine\interact\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.engine\map\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.engine\module\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.engine\objtx\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.engine\plugin\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.engine\routefinder\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.engine\utils-bits\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.engine\utils-sorting\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.server\app\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.server\install\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.server\logging\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.server\services\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.server\shared\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\combat\combat-commons\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\combat\combat-formulas\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\combat\combat-manager\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\combat\combat-scripts\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\combat\combat-weapon\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\parsers\jackson\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\parsers\json\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\parsers\toml\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\stats\levelmod\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\stats\xpmod\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\testing\test-assertions\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\testing\test-capture\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\testing\test-factory\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\testing\test-params\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\testing\test-random\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\type\type-builders\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\type\type-editors\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\type\type-references\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\type\type-resolver\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\type\type-script-dsl\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\type\type-symbols\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\type\type-updater\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\type\type-verifier\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\utils\utils-format\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\utils\utils-io\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\utils\utils-logging\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\utils\utils-map\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\utils\utils-skills\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\utils\utils-system\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\utils\utils-vars\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.api\utils\utils-zone\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.content\generic\generic-locs\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.content\generic\generic-npcs\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.content\interfaces\bank\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.content\interfaces\combat-tab\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.content\interfaces\emotes\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.content\interfaces\equipment\build.gradle.kts" />
+      <module name="Kotlin Scripts.KotlinBuildScript.content\interfaces\fade-overlay\build.gradle.kts" />
+      <module name="rsmod.api" />
+      <module name="rsmod.content" />
+      <module name="rsmod.engine" />
+      <module name="rsmod.server" />
+      <module name="rsmod.api.account" />
+      <module name="rsmod.api.cache" />
+      <module name="rsmod.api.cache-enricher" />
+      <module name="rsmod.api.cheat" />
+      <module name="rsmod.api.combat" />
+      <module name="rsmod.api.combat-accuracy" />
+      <module name="rsmod.api.combat-maxhit" />
+      <module name="rsmod.api.config" />
+      <module name="rsmod.api.controller" />
+      <module name="rsmod.api.core" />
+      <module name="rsmod.api.db" />
+      <module name="rsmod.api.db-gateway" />
+      <module name="rsmod.api.death" />
+      <module name="rsmod.api.death-plugin" />
+      <module name="rsmod.api.game-process" />
+      <module name="rsmod.api.hit-plugin" />
+      <module name="rsmod.api.inv-plugin" />
+      <module name="rsmod.api.inv-weight" />
+      <module name="rsmod.api.invtx" />
+      <module name="rsmod.api.market" />
+      <module name="rsmod.api.meta" />
+      <module name="rsmod.api.net" />
+      <module name="rsmod.api.npc" />
+      <module name="rsmod.api.npc-plugin" />
+      <module name="rsmod.api.obj-charges" />
+      <module name="rsmod.api.obj-plugin" />
+      <module name="rsmod.api.parsers" />
+      <module name="rsmod.api.player" />
+      <module name="rsmod.api.player-output" />
+      <module name="rsmod.api.plugin-commons" />
+      <module name="rsmod.api.pw-hash" />
+      <module name="rsmod.api.random" />
+      <module name="rsmod.api.realm" />
+      <module name="rsmod.api.realm-config" />
+      <module name="rsmod.api.registry" />
+      <module name="rsmod.api.repo" />
+      <module name="rsmod.api.route" />
+      <module name="rsmod.api.script" />
+      <module name="rsmod.api.script-advanced" />
+      <module name="rsmod.api.server-config" />
+      <module name="rsmod.api.shops" />
+      <module name="rsmod.api.specials" />
+      <module name="rsmod.api.spells" />
+      <module name="rsmod.api.spells-autocast" />
+      <module name="rsmod.api.spells-runes" />
+      <module name="rsmod.api.stats" />
+      <module name="rsmod.api.stats-plugin" />
+      <module name="rsmod.api.testing" />
+      <module name="rsmod.api.totp" />
+      <module name="rsmod.api.type" />
+      <module name="rsmod.api.utils" />
+      <module name="rsmod.api.weapons" />
+      <module name="rsmod.content.areas" />
+      <module name="rsmod.content.generic" />
+      <module name="rsmod.content.interfaces" />
+      <module name="rsmod.content.other" />
+      <module name="rsmod.content.skills" />
+      <module name="rsmod.engine.annotations" />
+      <module name="rsmod.engine.coroutine" />
+      <module name="rsmod.engine.events" />
+      <module name="rsmod.engine.game" />
+      <module name="rsmod.engine.interact" />
+      <module name="rsmod.engine.map" />
+      <module name="rsmod.engine.module" />
+      <module name="rsmod.engine.objtx" />
+      <module name="rsmod.engine.plugin" />
+      <module name="rsmod.engine.routefinder" />
+      <module name="rsmod.engine.utils-bits" />
+      <module name="rsmod.engine.utils-sorting" />
+      <module name="rsmod.server.app" />
+      <module name="rsmod.server.install" />
+      <module name="rsmod.server.logging" />
+      <module name="rsmod.server.services" />
+      <module name="rsmod.server.shared" />
+      <module name="rsmod.api.combat.combat-commons" />
+      <module name="rsmod.api.combat.combat-formulas" />
+      <module name="rsmod.api.combat.combat-manager" />
+      <module name="rsmod.api.combat.combat-scripts" />
+      <module name="rsmod.api.combat.combat-weapon" />
+      <module name="rsmod.api.parsers.jackson" />
+      <module name="rsmod.api.parsers.json" />
+      <module name="rsmod.api.parsers.toml" />
+      <module name="rsmod.api.stats.levelmod" />
+      <module name="rsmod.api.stats.xpmod" />
+      <module name="rsmod.api.testing.test-assertions" />
+      <module name="rsmod.api.testing.test-capture" />
+      <module name="rsmod.api.testing.test-factory" />
+      <module name="rsmod.api.testing.test-params" />
+      <module name="rsmod.api.testing.test-random" />
+      <module name="rsmod.api.type.type-builders" />
+      <module name="rsmod.api.type.type-editors" />
+      <module name="rsmod.api.type.type-references" />
+      <module name="rsmod.api.type.type-resolver" />
+      <module name="rsmod.api.type.type-script-dsl" />
+      <module name="rsmod.api.type.type-symbols" />
+      <module name="rsmod.api.type.type-updater" />
+      <module name="rsmod.api.type.type-verifier" />
+      <module name="rsmod.api.utils.utils-format" />
+      <module name="rsmod.api.utils.utils-io" />
+      <module name="rsmod.api.utils.utils-logging" />
+      <module name="rsmod.api.utils.utils-map" />
+      <module name="rsmod.api.utils.utils-skills" />
+      <module name="rsmod.api.utils.utils-system" />
+      <module name="rsmod.api.utils.utils-vars" />
+      <module name="rsmod.api.utils.utils-zone" />
+      <module name="rsmod.content.areas.city" />
+      <module name="rsmod.content.areas.misc" />
+      <module name="rsmod.content.generic.generic-locs" />
+      <module name="rsmod.content.generic.generic-npcs" />
+      <module name="rsmod.content.interfaces.bank" />
+      <module name="rsmod.content.interfaces.combat-tab" />
+      <module name="rsmod.content.interfaces.emotes" />
+      <module name="rsmod.content.interfaces.equipment" />
+      <module name="rsmod.content.interfaces.fade-overlay" />
+      <module name="rsmod.content.interfaces.gameframe" />
+      <module name="rsmod.content.interfaces.journal-tab" />
+      <module name="rsmod.content.interfaces.logout-tab" />
+      <module name="rsmod.content.interfaces.menu" />
+      <module name="rsmod.content.interfaces.prayer-tab" />
+      <module name="rsmod.content.interfaces.settings" />
+      <module name="rsmod.content.interfaces.skill-guides" />
+      <module name="rsmod.content.other.canoe" />
+      <module name="rsmod.content.other.commands" />
+      <module name="rsmod.content.other.login" />
+      <module name="rsmod.content.other.mapclock" />
+      <module name="rsmod.content.other.special-attacks" />
+      <module name="rsmod.content.other.special-weapons" />
+      <module name="rsmod.content.other.windmill" />
+      <module name="rsmod.content.skills.cooking" />
+      <module name="rsmod.content.skills.fishing" />
+      <module name="rsmod.content.skills.magic" />
+      <module name="rsmod.content.skills.woodcutting" />
+      <module name="rsmod.content.areas.city.lumbridge" />
+      <module name="rsmod.content.areas.misc.multiways" />
+      <module name="rsmod.content.skills.magic.spell-attacks" />
+      <module name="build-logic" />
+      <module name="rsmod.main" />
+      <module name="rsmod.test" />
+      <module name="rsmod.api.account.main" />
+      <module name="rsmod.api.account.test" />
+      <module name="rsmod.api.cache.integration" />
+      <module name="rsmod.api.cache.main" />
+      <module name="rsmod.api.cache.test" />
+      <module name="rsmod.api.cache-enricher.main" />
+      <module name="rsmod.api.cache-enricher.test" />
+      <module name="rsmod.api.cheat.main" />
+      <module name="rsmod.api.cheat.test" />
+      <module name="rsmod.api.combat-accuracy.main" />
+      <module name="rsmod.api.combat-accuracy.test" />
+      <module name="rsmod.api.combat-maxhit.main" />
+      <module name="rsmod.api.combat-maxhit.test" />
+      <module name="rsmod.api.config.main" />
+      <module name="rsmod.api.config.test" />
+      <module name="rsmod.api.controller.main" />
+      <module name="rsmod.api.controller.test" />
+      <module name="rsmod.api.core.main" />
+      <module name="rsmod.api.core.test" />
+      <module name="rsmod.api.db.main" />
+      <module name="rsmod.api.db.test" />
+      <module name="rsmod.api.db-gateway.main" />
+      <module name="rsmod.api.db-gateway.test" />
+      <module name="rsmod.api.death.main" />
+      <module name="rsmod.api.death.test" />
+      <module name="rsmod.api.death-plugin.main" />
+      <module name="rsmod.api.death-plugin.test" />
+      <module name="rsmod.api.game-process.integration" />
+      <module name="rsmod.api.game-process.main" />
+      <module name="rsmod.api.game-process.test" />
+      <module name="rsmod.api.hit-plugin.main" />
+      <module name="rsmod.api.hit-plugin.test" />
+      <module name="rsmod.api.inv-plugin.integration" />
+      <module name="rsmod.api.inv-plugin.main" />
+      <module name="rsmod.api.inv-plugin.test" />
+      <module name="rsmod.api.inv-weight.main" />
+      <module name="rsmod.api.inv-weight.test" />
+      <module name="rsmod.api.invtx.integration" />
+      <module name="rsmod.api.invtx.main" />
+      <module name="rsmod.api.invtx.test" />
+      <module name="rsmod.api.market.main" />
+      <module name="rsmod.api.market.test" />
+      <module name="rsmod.api.meta.docTest" />
+      <module name="rsmod.api.meta.konsistTest" />
+      <module name="rsmod.api.meta.main" />
+      <module name="rsmod.api.meta.test" />
+      <module name="rsmod.api.net.main" />
+      <module name="rsmod.api.net.test" />
+      <module name="rsmod.api.npc.main" />
+      <module name="rsmod.api.npc.test" />
+      <module name="rsmod.api.npc-plugin.main" />
+      <module name="rsmod.api.npc-plugin.test" />
+      <module name="rsmod.api.obj-charges.main" />
+      <module name="rsmod.api.obj-charges.test" />
+      <module name="rsmod.api.obj-plugin.main" />
+      <module name="rsmod.api.obj-plugin.test" />
+      <module name="rsmod.api.player.integration" />
+      <module name="rsmod.api.player.main" />
+      <module name="rsmod.api.player.test" />
+      <module name="rsmod.api.player-output.main" />
+      <module name="rsmod.api.player-output.test" />
+      <module name="rsmod.api.plugin-commons.main" />
+      <module name="rsmod.api.plugin-commons.test" />
+      <module name="rsmod.api.pw-hash.main" />
+      <module name="rsmod.api.pw-hash.test" />
+      <module name="rsmod.api.random.main" />
+      <module name="rsmod.api.random.test" />
+      <module name="rsmod.api.realm.main" />
+      <module name="rsmod.api.realm.test" />
+      <module name="rsmod.api.realm-config.main" />
+      <module name="rsmod.api.realm-config.test" />
+      <module name="rsmod.api.registry.main" />
+      <module name="rsmod.api.registry.test" />
+      <module name="rsmod.api.repo.integration" />
+      <module name="rsmod.api.repo.main" />
+      <module name="rsmod.api.repo.test" />
+      <module name="rsmod.api.route.main" />
+      <module name="rsmod.api.route.test" />
+      <module name="rsmod.api.script.main" />
+      <module name="rsmod.api.script.test" />
+      <module name="rsmod.api.script-advanced.main" />
+      <module name="rsmod.api.script-advanced.test" />
+      <module name="rsmod.api.server-config.main" />
+      <module name="rsmod.api.server-config.test" />
+      <module name="rsmod.api.shops.integration" />
+      <module name="rsmod.api.shops.main" />
+      <module name="rsmod.api.shops.test" />
+      <module name="rsmod.api.specials.main" />
+      <module name="rsmod.api.specials.test" />
+      <module name="rsmod.api.spells.main" />
+      <module name="rsmod.api.spells.test" />
+      <module name="rsmod.api.spells-autocast.main" />
+      <module name="rsmod.api.spells-autocast.test" />
+      <module name="rsmod.api.spells-runes.main" />
+      <module name="rsmod.api.spells-runes.test" />
+      <module name="rsmod.api.stats-plugin.main" />
+      <module name="rsmod.api.stats-plugin.test" />
+      <module name="rsmod.api.testing.main" />
+      <module name="rsmod.api.testing.test" />
+      <module name="rsmod.api.totp.main" />
+      <module name="rsmod.api.totp.test" />
+      <module name="rsmod.api.weapons.main" />
+      <module name="rsmod.api.weapons.test" />
+      <module name="rsmod.engine.annotations.main" />
+      <module name="rsmod.engine.annotations.test" />
+      <module name="rsmod.engine.coroutine.main" />
+      <module name="rsmod.engine.coroutine.test" />
+      <module name="rsmod.engine.events.main" />
+      <module name="rsmod.engine.events.test" />
+      <module name="rsmod.engine.game.main" />
+      <module name="rsmod.engine.game.test" />
+      <module name="rsmod.engine.interact.main" />
+      <module name="rsmod.engine.interact.test" />
+      <module name="rsmod.engine.map.docTest" />
+      <module name="rsmod.engine.map.konsistTest" />
+      <module name="rsmod.engine.map.main" />
+      <module name="rsmod.engine.map.test" />
+      <module name="rsmod.engine.module.main" />
+      <module name="rsmod.engine.module.test" />
+      <module name="rsmod.engine.objtx.jmh" />
+      <module name="rsmod.engine.objtx.main" />
+      <module name="rsmod.engine.objtx.test" />
+      <module name="rsmod.engine.plugin.main" />
+      <module name="rsmod.engine.plugin.test" />
+      <module name="rsmod.engine.routefinder.jmh" />
+      <module name="rsmod.engine.routefinder.main" />
+      <module name="rsmod.engine.routefinder.test" />
+      <module name="rsmod.engine.utils-bits.main" />
+      <module name="rsmod.engine.utils-bits.test" />
+      <module name="rsmod.engine.utils-sorting.main" />
+      <module name="rsmod.engine.utils-sorting.test" />
+      <module name="rsmod.server.app.main" />
+      <module name="rsmod.server.app.test" />
+      <module name="rsmod.server.install.main" />
+      <module name="rsmod.server.install.test" />
+      <module name="rsmod.server.logging.main" />
+      <module name="rsmod.server.logging.test" />
+      <module name="rsmod.server.services.main" />
+      <module name="rsmod.server.services.test" />
+      <module name="rsmod.server.shared.main" />
+      <module name="rsmod.server.shared.test" />
+      <module name="rsmod.api.combat.combat-commons.main" />
+      <module name="rsmod.api.combat.combat-commons.test" />
+      <module name="rsmod.api.combat.combat-formulas.integration" />
+      <module name="rsmod.api.combat.combat-formulas.main" />
+      <module name="rsmod.api.combat.combat-formulas.test" />
+      <module name="rsmod.api.combat.combat-manager.main" />
+      <module name="rsmod.api.combat.combat-manager.test" />
+      <module name="rsmod.api.combat.combat-scripts.integration" />
+      <module name="rsmod.api.combat.combat-scripts.main" />
+      <module name="rsmod.api.combat.combat-scripts.test" />
+      <module name="rsmod.api.combat.combat-weapon.main" />
+      <module name="rsmod.api.combat.combat-weapon.test" />
+      <module name="rsmod.api.parsers.jackson.main" />
+      <module name="rsmod.api.parsers.jackson.test" />
+      <module name="rsmod.api.parsers.json.main" />
+      <module name="rsmod.api.parsers.json.test" />
+      <module name="rsmod.api.parsers.toml.main" />
+      <module name="rsmod.api.parsers.toml.test" />
+      <module name="rsmod.api.stats.levelmod.main" />
+      <module name="rsmod.api.stats.levelmod.test" />
+      <module name="rsmod.api.stats.xpmod.integration" />
+      <module name="rsmod.api.stats.xpmod.main" />
+      <module name="rsmod.api.stats.xpmod.test" />
+      <module name="rsmod.api.testing.test-assertions.main" />
+      <module name="rsmod.api.testing.test-assertions.test" />
+      <module name="rsmod.api.testing.test-capture.main" />
+      <module name="rsmod.api.testing.test-capture.test" />
+      <module name="rsmod.api.testing.test-factory.main" />
+      <module name="rsmod.api.testing.test-factory.test" />
+      <module name="rsmod.api.testing.test-params.main" />
+      <module name="rsmod.api.testing.test-params.test" />
+      <module name="rsmod.api.testing.test-random.main" />
+      <module name="rsmod.api.testing.test-random.test" />
+      <module name="rsmod.api.type.type-builders.main" />
+      <module name="rsmod.api.type.type-builders.test" />
+      <module name="rsmod.api.type.type-editors.main" />
+      <module name="rsmod.api.type.type-editors.test" />
+      <module name="rsmod.api.type.type-references.main" />
+      <module name="rsmod.api.type.type-references.test" />
+      <module name="rsmod.api.type.type-resolver.main" />
+      <module name="rsmod.api.type.type-resolver.test" />
+      <module name="rsmod.api.type.type-script-dsl.main" />
+      <module name="rsmod.api.type.type-script-dsl.test" />
+      <module name="rsmod.api.type.type-symbols.main" />
+      <module name="rsmod.api.type.type-symbols.test" />
+      <module name="rsmod.api.type.type-updater.main" />
+      <module name="rsmod.api.type.type-updater.test" />
+      <module name="rsmod.api.type.type-verifier.main" />
+      <module name="rsmod.api.type.type-verifier.test" />
+      <module name="rsmod.api.utils.utils-format.main" />
+      <module name="rsmod.api.utils.utils-format.test" />
+      <module name="rsmod.api.utils.utils-io.main" />
+      <module name="rsmod.api.utils.utils-io.test" />
+      <module name="rsmod.api.utils.utils-logging.main" />
+      <module name="rsmod.api.utils.utils-logging.test" />
+      <module name="rsmod.api.utils.utils-map.main" />
+      <module name="rsmod.api.utils.utils-map.test" />
+      <module name="rsmod.api.utils.utils-skills.main" />
+      <module name="rsmod.api.utils.utils-skills.test" />
+      <module name="rsmod.api.utils.utils-system.main" />
+      <module name="rsmod.api.utils.utils-system.test" />
+      <module name="rsmod.api.utils.utils-vars.main" />
+      <module name="rsmod.api.utils.utils-vars.test" />
+      <module name="rsmod.api.utils.utils-zone.main" />
+      <module name="rsmod.api.utils.utils-zone.test" />
+      <module name="rsmod.content.generic.generic-locs.main" />
+      <module name="rsmod.content.generic.generic-locs.test" />
+      <module name="rsmod.content.generic.generic-npcs.main" />
+      <module name="rsmod.content.generic.generic-npcs.test" />
+      <module name="rsmod.content.interfaces.bank.integration" />
+      <module name="rsmod.content.interfaces.bank.main" />
+      <module name="rsmod.content.interfaces.bank.test" />
+      <module name="rsmod.content.interfaces.combat-tab.integration" />
+      <module name="rsmod.content.interfaces.combat-tab.main" />
+      <module name="rsmod.content.interfaces.combat-tab.test" />
+      <module name="rsmod.content.interfaces.emotes.integration" />
+      <module name="rsmod.content.interfaces.emotes.main" />
+      <module name="rsmod.content.interfaces.emotes.test" />
+      <module name="rsmod.content.interfaces.equipment.main" />
+      <module name="rsmod.content.interfaces.equipment.test" />
+      <module name="rsmod.content.interfaces.fade-overlay.main" />
+      <module name="rsmod.content.interfaces.fade-overlay.test" />
+      <module name="rsmod.content.interfaces.gameframe.main" />
+      <module name="rsmod.content.interfaces.gameframe.test" />
+      <module name="rsmod.content.interfaces.journal-tab.main" />
+      <module name="rsmod.content.interfaces.journal-tab.test" />
+      <module name="rsmod.content.interfaces.logout-tab.main" />
+      <module name="rsmod.content.interfaces.logout-tab.test" />
+      <module name="rsmod.content.interfaces.menu.main" />
+      <module name="rsmod.content.interfaces.menu.test" />
+      <module name="rsmod.content.interfaces.prayer-tab.main" />
+      <module name="rsmod.content.interfaces.prayer-tab.test" />
+      <module name="rsmod.content.interfaces.settings.main" />
+      <module name="rsmod.content.interfaces.settings.test" />
+      <module name="rsmod.content.interfaces.skill-guides.main" />
+      <module name="rsmod.content.interfaces.skill-guides.test" />
+      <module name="rsmod.content.other.canoe.integration" />
+      <module name="rsmod.content.other.canoe.main" />
+      <module name="rsmod.content.other.canoe.test" />
+      <module name="rsmod.content.other.commands.main" />
+      <module name="rsmod.content.other.commands.test" />
+      <module name="rsmod.content.other.login.main" />
+      <module name="rsmod.content.other.login.test" />
+      <module name="rsmod.content.other.mapclock.main" />
+      <module name="rsmod.content.other.mapclock.test" />
+      <module name="rsmod.content.other.special-attacks.main" />
+      <module name="rsmod.content.other.special-attacks.test" />
+      <module name="rsmod.content.other.special-weapons.main" />
+      <module name="rsmod.content.other.special-weapons.test" />
+      <module name="rsmod.content.other.windmill.main" />
+      <module name="rsmod.content.other.windmill.test" />
+      <module name="rsmod.content.skills.cooking.main" />
+      <module name="rsmod.content.skills.cooking.test" />
+      <module name="rsmod.content.skills.fishing.main" />
+      <module name="rsmod.content.skills.fishing.test" />
+      <module name="rsmod.content.skills.woodcutting.integration" />
+      <module name="rsmod.content.skills.woodcutting.main" />
+      <module name="rsmod.content.skills.woodcutting.test" />
+      <module name="rsmod.content.areas.city.lumbridge.main" />
+      <module name="rsmod.content.areas.city.lumbridge.test" />
+      <module name="rsmod.content.areas.misc.multiways.main" />
+      <module name="rsmod.content.areas.misc.multiways.test" />
+      <module name="rsmod.content.skills.magic.spell-attacks.main" />
+      <module name="rsmod.content.skills.magic.spell-attacks.test" />
+      <module name="build-logic.main" />
+      <module name="build-logic.test" />
+    </loaded-modules>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d0a5f4dc-42be-4d65-930d-5e9377798732" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/content/items/food/src/main/kotlin/org/rsmod/content/items/food/configs/FishConfigs.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/content/items/food/src/main/kotlin/org/rsmod/content/items/food/configs/FoodConstants.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/content/items/food/src/main/kotlin/org/rsmod/content/items/food/scripts/EatFood.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.data/symbols/param.sym" beforeDir="false" afterPath="$PROJECT_DIR$/.data/symbols/param.sym" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.data/symbols/varp.sym" beforeDir="false" afterPath="$PROJECT_DIR$/.data/symbols/varp.sym" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/builders/ParamBuilds.kt" beforeDir="false" afterPath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/builders/ParamBuilds.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/builders/VarpBuilds.kt" beforeDir="false" afterPath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/builders/VarpBuilds.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseObjs.kt" beforeDir="false" afterPath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseObjs.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseParams.kt" beforeDir="false" afterPath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseParams.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseSeqs.kt" beforeDir="false" afterPath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseSeqs.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseVarps.kt" beforeDir="false" afterPath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseVarps.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/player/src/main/kotlin/org/rsmod/api/player/protect/ProtectedAccess.kt" beforeDir="false" afterPath="$PROJECT_DIR$/api/player/src/main/kotlin/org/rsmod/api/player/protect/ProtectedAccess.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/content/other/login/src/main/kotlin/org/rsmod/content/other/login/LoginScript.kt" beforeDir="false" afterPath="$PROJECT_DIR$/content/other/login/src/main/kotlin/org/rsmod/content/other/login/LoginScript.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="rsmod" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="rsmod" type="f1a62948:ProjectNode" />
+                <item name="rsmod" type="2d1252cf:ModuleNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="rsmod" type="f1a62948:ProjectNode" />
+                <item name="rsmod" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="rsmod" type="f1a62948:ProjectNode" />
+                <item name="rsmod" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="application" type="c8890929:TasksNode$1" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Kotlin Class" />
+        <option value="Kotlin File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;ffde005d&quot;
+}</component>
+  <component name="ProjectId" id="2xZaFzCqscBVQii8TKGorogfpm6" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.Build rsmod.executor": "Run",
+    "Gradle.rsmod [run].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true"
+  }
+}]]></component>
+  <component name="RunManager" selected="Gradle.rsmod [run]">
+    <configuration name="rsmod [run]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="run" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.rsmod [run]" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="project-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d0a5f4dc-42be-4d65-930d-5e9377798732" name="Changes" comment="" />
+      <created>1748147949973</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1748147949973</updated>
+    </task>
+    <servers />
+  </component>
+</project>
