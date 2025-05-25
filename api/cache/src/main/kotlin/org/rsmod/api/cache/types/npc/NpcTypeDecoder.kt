@@ -204,6 +204,7 @@ public object NpcTypeDecoder {
                 206 -> wanderRange = data.readUnsignedByte().toInt()
                 207 -> attackRange = data.readUnsignedByte().toInt()
                 208 -> huntRange = data.readUnsignedByte().toInt()
+                // TODO: Opcode 209 Deprecated - remove in the future.
                 209 -> huntMode = data.readUnsignedByte().toInt()
                 210 -> giveChase = false
                 211 -> timer = data.readUnsignedShort()
@@ -215,6 +216,7 @@ public object NpcTypeDecoder {
                 213 -> contentGroup = data.readUnsignedShort()
                 214 -> heroCount = data.readUnsignedShort()
                 215 -> regenRate = data.readUnsignedShort()
+                216 -> huntMode = data.readUnsignedShortOrNull()
                 249 -> paramMap = ParamMap(data.readRawParams())
                 else -> throw IOException("Error unrecognised .npc config code: $code")
             }

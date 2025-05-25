@@ -11,6 +11,7 @@ dependencies {
     implementation(libs.guice)
     implementation(projects.api.areaChecker)
     implementation(projects.api.config)
+    implementation(projects.api.hunt)
     implementation(projects.api.playerOutput)
     implementation(projects.api.random)
     implementation(projects.api.route)

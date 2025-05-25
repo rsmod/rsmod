@@ -6,6 +6,8 @@ import org.rsmod.annotations.InternalApi
 import org.rsmod.api.area.checker.AreaChecker
 import org.rsmod.api.config.refs.BaseHitmarkGroups
 import org.rsmod.api.config.refs.hitmark_groups
+import org.rsmod.api.hunt.NpcSearch
+import org.rsmod.api.hunt.PlayerSearch
 import org.rsmod.api.npc.hit.modifier.NpcHitModifier
 import org.rsmod.api.npc.hit.modifier.StandardNpcHitModifier
 import org.rsmod.api.npc.hit.process
@@ -28,7 +30,9 @@ import org.rsmod.game.hit.HitType
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.map.collision.isZoneValid
 import org.rsmod.game.type.area.AreaType
+import org.rsmod.game.type.category.CategoryType
 import org.rsmod.game.type.hitmark.HitmarkTypeGroup
+import org.rsmod.game.type.hunt.HuntVis
 import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.npc.NpcTypeList
 import org.rsmod.game.type.npc.UnpackedNpcType
@@ -438,6 +442,90 @@ public class StandardNpcAccess(
     public fun distanceTo(other: PathingEntity): Int = npc.distanceTo(other)
 
     public fun distanceTo(loc: BoundLocInfo): Int = npc.distanceTo(loc)
+
+    /** @see [NpcSearch.find] */
+    public fun npcFind(
+        coord: CoordGrid,
+        npc: NpcType,
+        distance: Int,
+        checkVis: HuntVis,
+        search: NpcSearch,
+    ): Npc? {
+        return search.find(coord, npc, distance, checkVis)
+    }
+
+    /** @see [NpcSearch.findCat] */
+    public fun npcFindCat(
+        coord: CoordGrid,
+        category: CategoryType,
+        distance: Int,
+        checkVis: HuntVis,
+        search: NpcSearch,
+    ): Npc? {
+        return search.findCat(coord, category, distance, checkVis)
+    }
+
+    /** @see [NpcSearch.findAllAny] */
+    public fun npcFindAllAny(
+        coord: CoordGrid,
+        distance: Int,
+        checkVis: HuntVis,
+        search: NpcSearch,
+    ): Sequence<Npc> {
+        return search.findAllAny(coord, distance, checkVis)
+    }
+
+    /** @see [NpcSearch.findAll] */
+    public fun npcFindAll(
+        coord: CoordGrid,
+        npc: NpcType,
+        distance: Int,
+        checkVis: HuntVis,
+        search: NpcSearch,
+    ): Sequence<Npc> {
+        return search.findAll(coord, npc, distance, checkVis)
+    }
+
+    /** @see [NpcSearch.findAllZone] */
+    public fun npcFindAllZone(
+        coord: CoordGrid,
+        distance: Int,
+        checkVis: HuntVis,
+        search: NpcSearch,
+    ): Sequence<Npc> {
+        return search.findAllZone(coord, distance, checkVis)
+    }
+
+    /** @see [PlayerSearch.findAll] */
+    public fun huntAll(
+        coord: CoordGrid,
+        distance: Int,
+        checkVis: HuntVis,
+        search: PlayerSearch,
+    ): Sequence<Player> {
+        return search.findAll(coord, distance, checkVis)
+    }
+
+    /** @see [NpcSearch.hunt] */
+    public fun npcHunt(
+        coord: CoordGrid,
+        distance: Int,
+        checkVis: HuntVis,
+        search: NpcSearch,
+    ): Npc? {
+        return search.hunt(coord, distance, checkVis)
+    }
+
+    /** @see [NpcSearch.huntAll] */
+    public fun npcHuntAll(
+        coord: CoordGrid,
+        npc: NpcType,
+        distance: Int,
+        checkVis: HuntVis,
+        search: NpcSearch,
+    ): Sequence<Npc> {
+        return search.huntAll(coord, npc, distance, checkVis)
+    }
 
     /**
      * Returns the param value associated with [param] from the **base** `npc` [Npc.type], or `null`

@@ -462,10 +462,15 @@ public sealed class PathingEntity {
         heroPoints.clear()
     }
 
+    @InternalApi
+    public fun hasInteraction(): Boolean {
+        return interaction != null
+    }
+
     /**
      * This method is responsible for cleaning up any ongoing tasks that the entity may be
      * responsible for. This includes things such as coroutines; ex: [activeCoroutine]. If these
-     * coroutines are not cancelled properly they may linger in memory and run indefinitely.
+     * coroutines are not canceled properly, they may linger in memory and run indefinitely.
      */
     public fun destroy() {
         cancelActiveCoroutine()

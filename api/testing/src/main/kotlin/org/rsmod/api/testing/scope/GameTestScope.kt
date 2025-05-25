@@ -156,6 +156,7 @@ import org.rsmod.game.type.stat.StatTypeList
 import org.rsmod.game.type.synth.SynthTypeList
 import org.rsmod.game.type.varbit.VarBitType
 import org.rsmod.game.type.varbit.VarBitTypeList
+import org.rsmod.game.type.varn.VarnTypeList
 import org.rsmod.game.type.varp.VarpType
 import org.rsmod.game.type.varp.VarpTypeList
 import org.rsmod.game.ui.UserInterface
@@ -904,6 +905,7 @@ constructor(
             bind(SynthTypeList::class.java).toInstance(cacheTypes.synths)
             bind(VarBitTypeList::class.java).toInstance(cacheTypes.varbits)
             bind(VarpTypeList::class.java).toInstance(cacheTypes.varps)
+            bind(VarnTypeList::class.java).toInstance(cacheTypes.varns)
 
             bind(TypeListMap::class.java).toInstance(cacheTypes)
 

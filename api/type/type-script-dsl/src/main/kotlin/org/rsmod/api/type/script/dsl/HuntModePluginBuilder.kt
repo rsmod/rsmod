@@ -45,14 +45,14 @@ public class HuntModePluginBuilder(public var internal: String? = null) {
             backing.checkNotCombatSelf = value?.id
         }
 
-    private var checkInvObj: HuntCondition.Inv? by backing::checkInvObj
-    private var checkInvParam: HuntCondition.Inv? by backing::checkInvParam
-    private var checkLoc: HuntCondition.Loc? by backing::checkLoc
-    private var checkNpc: HuntCondition.Npc? by backing::checkNpc
-    private var checkObj: HuntCondition.Obj? by backing::checkObj
-    private var checkVar1: HuntCondition.Var? by backing::checkVar1
-    private var checkVar2: HuntCondition.Var? by backing::checkVar2
-    private var checkVar3: HuntCondition.Var? by backing::checkVar3
+    private var checkInvObj: HuntCondition.InvCondition? by backing::checkInvObj
+    private var checkInvParam: HuntCondition.InvCondition? by backing::checkInvParam
+    private var checkLoc: HuntCondition.LocCondition? by backing::checkLoc
+    private var checkNpc: HuntCondition.NpcCondition? by backing::checkNpc
+    private var checkObj: HuntCondition.ObjCondition? by backing::checkObj
+    private var checkVar1: HuntCondition.VarCondition? by backing::checkVar1
+    private var checkVar2: HuntCondition.VarCondition? by backing::checkVar2
+    private var checkVar3: HuntCondition.VarCondition? by backing::checkVar3
 
     public fun checkInvObj(init: ConditionInvObj.() -> Unit) {
         val builder = ConditionInvObj().apply(init)
@@ -110,7 +110,7 @@ public class HuntModePluginBuilder(public var internal: String? = null) {
         check(rate >= min) { "`rate` cannot be lower than `$min` for hunt type: $type" }
     }
 
-    private fun getMinRate(): Int = if (type == HuntType.Player) 1 else 5
+    private fun getMinRate(): Int = if (type == HuntType.Player) 1 else 3
 
     @HuntModeBuilderDsl
     public class ConditionInvObj {
@@ -131,12 +131,12 @@ public class HuntModePluginBuilder(public var internal: String? = null) {
         public val notEquals: HuntCondition.Operator
             get() = HuntCondition.Operator.NotEquals
 
-        internal fun build(): HuntCondition.Inv {
+        internal fun build(): HuntCondition.InvCondition {
             check(::inv.isInitialized) { "`inv` must be set." }
             check(::obj.isInitialized) { "`obj` must be set." }
             check(::operator.isInitialized) { "`operator` must be set." }
             val required = checkNotNull(required) { "`required` must be set." }
-            return HuntCondition.Inv(inv.id, obj.id, operator, required)
+            return HuntCondition.InvCondition(inv.id, obj.id, operator, required)
         }
     }
 
@@ -159,45 +159,51 @@ public class HuntModePluginBuilder(public var internal: String? = null) {
         public val notEquals: HuntCondition.Operator
             get() = HuntCondition.Operator.NotEquals
 
-        internal fun build(): HuntCondition.Inv {
+        internal fun build(): HuntCondition.InvCondition {
             check(::inv.isInitialized) { "`inv` must be set." }
             check(::param.isInitialized) { "`param` must be set." }
             check(::operator.isInitialized) { "`operator` must be set." }
             val required = checkNotNull(required) { "`required` must be set." }
-            return HuntCondition.Inv(inv.id, param.id, operator, required)
+            return HuntCondition.InvCondition(inv.id, param.id, operator, required)
         }
     }
 
     @HuntModeBuilderDsl
     public class ConditionLoc {
-        public lateinit var loc: LocType
+        public var loc: LocType? = null
         public var category: CategoryType? = null
 
-        internal fun build(): HuntCondition.Loc {
-            check(::loc.isInitialized) { "`loc` must be set." }
-            return HuntCondition.Loc(loc.id, category?.id)
+        internal fun build(): HuntCondition.LocCondition {
+            if (loc == null && category == null) {
+                throw IllegalStateException("`loc` or `category` must be set.")
+            }
+            return HuntCondition.LocCondition(loc?.id, category?.id)
         }
     }
 
     @HuntModeBuilderDsl
     public class ConditionNpc {
-        public lateinit var npc: NpcType
+        public var npc: NpcType? = null
         public var category: CategoryType? = null
 
-        internal fun build(): HuntCondition.Npc {
-            check(::npc.isInitialized) { "`npc` must be set." }
-            return HuntCondition.Npc(npc.id, category?.id)
+        internal fun build(): HuntCondition.NpcCondition {
+            if (npc == null && category == null) {
+                throw IllegalStateException("`npc` or `category` must be set.")
+            }
+            return HuntCondition.NpcCondition(npc?.id, category?.id)
         }
     }
 
     @HuntModeBuilderDsl
     public class ConditionObj {
-        public lateinit var obj: ObjType
+        public var obj: ObjType? = null
         public var category: CategoryType? = null
 
-        internal fun build(): HuntCondition.Obj {
-            check(::obj.isInitialized) { "`obj` must be set." }
-            return HuntCondition.Obj(obj.id, category?.id)
+        internal fun build(): HuntCondition.ObjCondition {
+            if (obj == null && category == null) {
+                throw IllegalStateException("`obj` or `category` must be set.")
+            }
+            return HuntCondition.ObjCondition(obj?.id, category?.id)
         }
     }
 
@@ -219,11 +225,11 @@ public class HuntModePluginBuilder(public var internal: String? = null) {
         public val notEquals: HuntCondition.Operator
             get() = HuntCondition.Operator.NotEquals
 
-        internal fun build(): HuntCondition.Var {
+        internal fun build(): HuntCondition.VarCondition {
             check(::varp.isInitialized) { "`varp` must be set." }
             check(::operator.isInitialized) { "`operator` must be set." }
             val required = checkNotNull(required) { "`required` must be set." }
-            return HuntCondition.Var(varp.id, operator, required)
+            return HuntCondition.VarCondition(varp.id, operator, required)
         }
     }
 }

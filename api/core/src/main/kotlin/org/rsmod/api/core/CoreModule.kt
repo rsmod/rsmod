@@ -14,6 +14,7 @@ import org.rsmod.api.core.module.StatModModule
 import org.rsmod.api.core.module.TypeModule
 import org.rsmod.api.db.DatabaseModule
 import org.rsmod.api.game.process.GameCycle
+import org.rsmod.api.hunt.HuntModule
 import org.rsmod.api.market.MarketModule
 import org.rsmod.api.pw.hash.PasswordHashModule
 import org.rsmod.api.random.RandomModule
@@ -37,6 +38,7 @@ public object CoreModule : ExtendedModule() {
         install(EntityHitModule)
         install(ExceptionHandlerModule)
         install(GameMapModule)
+        install(HuntModule)
         install(MarketModule)
         install(PlayerModule)
         install(PasswordHashModule)

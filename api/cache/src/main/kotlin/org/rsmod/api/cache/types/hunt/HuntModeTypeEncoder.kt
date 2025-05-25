@@ -89,19 +89,19 @@ public object HuntModeTypeEncoder {
 
             checkNpc?.let {
                 data.writeByte(12)
-                data.writeShort(it.npc)
+                data.writeNullableShort(it.npc)
                 data.writeNullableShort(it.category)
             }
 
             checkObj?.let {
                 data.writeByte(13)
-                data.writeShort(it.obj)
+                data.writeNullableShort(it.obj)
                 data.writeNullableShort(it.category)
             }
 
             checkLoc?.let {
                 data.writeByte(14)
-                data.writeShort(it.loc)
+                data.writeNullableShort(it.loc)
                 data.writeNullableShort(it.category)
             }
 

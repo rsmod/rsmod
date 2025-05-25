@@ -79,21 +79,21 @@ public object HuntModeTypeDecoder {
                 10 -> checkAfk = false
                 11 -> rate = data.readUnsignedShort()
                 12 -> {
-                    val type = data.readUnsignedShort()
+                    val type = data.readUnsignedShortOrNull()
                     val category = data.readUnsignedShortOrNull()
-                    val condition = HuntCondition.Npc(type, category)
+                    val condition = HuntCondition.NpcCondition(type, category)
                     this.checkNpc = condition
                 }
                 13 -> {
-                    val type = data.readUnsignedShort()
+                    val type = data.readUnsignedShortOrNull()
                     val category = data.readUnsignedShortOrNull()
-                    val condition = HuntCondition.Obj(type, category)
+                    val condition = HuntCondition.ObjCondition(type, category)
                     this.checkObj = condition
                 }
                 14 -> {
-                    val type = data.readUnsignedShort()
+                    val type = data.readUnsignedShortOrNull()
                     val category = data.readUnsignedShortOrNull()
-                    val condition = HuntCondition.Loc(type, category)
+                    val condition = HuntCondition.LocCondition(type, category)
                     this.checkLoc = condition
                 }
                 15 -> {
@@ -102,7 +102,7 @@ public object HuntModeTypeDecoder {
                     val op = data.readUnsignedByte().toInt()
                     val value = data.readInt()
                     val operator = HuntCondition.Operator[op] ?: error("Invalid Operator: $op")
-                    this.checkInvObj = HuntCondition.Inv(inv, obj, operator, value)
+                    this.checkInvObj = HuntCondition.InvCondition(inv, obj, operator, value)
                 }
                 16 -> {
                     val inv = data.readUnsignedShort()
@@ -110,7 +110,7 @@ public object HuntModeTypeDecoder {
                     val op = data.readUnsignedByte().toInt()
                     val value = data.readInt()
                     val operator = HuntCondition.Operator[op] ?: error("Invalid Operator: $op")
-                    this.checkInvParam = HuntCondition.Inv(inv, param, operator, value)
+                    this.checkInvParam = HuntCondition.InvCondition(inv, param, operator, value)
                 }
                 17,
                 18,
@@ -119,7 +119,7 @@ public object HuntModeTypeDecoder {
                     val op = data.readUnsignedByte().toInt()
                     val value = data.readInt()
                     val operator = HuntCondition.Operator[op] ?: error("Invalid Operator: $op")
-                    val condition = HuntCondition.Var(varp, operator, value)
+                    val condition = HuntCondition.VarCondition(varp, operator, value)
                     when (code) {
                         17 -> checkVar1 = condition
                         18 -> checkVar2 = condition

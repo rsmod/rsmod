@@ -15,7 +15,7 @@ internal typealias cow_queues = CowQueues
 internal typealias cow_locs = CowLocs
 
 object CowNpcs : NpcReferences() {
-    val gillie_the_milkmaid = find("gillie_the_milkmaid", 5923782005100507456)
+    val gillie_the_milkmaid = find("gillie_the_milkmaid", 8262063475332109549)
     val cow = find("cow")
     val cow2 = find("cow2")
     val cow3 = find("cow3")

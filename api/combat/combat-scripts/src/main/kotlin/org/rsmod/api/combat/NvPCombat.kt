@@ -13,6 +13,7 @@ import org.rsmod.api.combat.player.aggressiveNpc
 import org.rsmod.api.combat.player.lastCombat
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.npc.access.StandardNpcAccess
+import org.rsmod.api.npc.isInCombat
 import org.rsmod.api.player.hit.queueHit
 import org.rsmod.api.player.isValidTarget
 import org.rsmod.api.player.output.soundSynth
@@ -40,6 +41,11 @@ constructor(
         // Note: We do not need to explicitly call `opplayer2` because npcs will automatically
         // repeat their last interaction until it is canceled (e.g., by changing their `npcmode`).
         if (actionDelay > mapClock) {
+            return
+        }
+
+        if (!npc.isInCombat()) {
+            resetMode()
             return
         }
 

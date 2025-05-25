@@ -11,6 +11,7 @@ import org.rsmod.api.cache.util.encodeConfig
 import org.rsmod.api.cache.util.filterTransmit
 import org.rsmod.api.cache.util.writeCoordGrid
 import org.rsmod.api.cache.util.writeNullableLargeSmart
+import org.rsmod.api.cache.util.writeNullableShort
 import org.rsmod.api.cache.util.writeRawParams
 import org.rsmod.api.cache.util.writeSmallSmartPlusOne
 import org.rsmod.game.type.npc.NpcTypeBuilder
@@ -357,10 +358,7 @@ public object NpcTypeEncoder {
                 data.writeByte(huntRange)
             }
 
-            if (huntMode != NpcTypeBuilder.DEFAULT_HUNT_MODE) {
-                data.writeByte(209)
-                data.writeByte(huntMode)
-            }
+            // Note: Opcode 209 is free to use in the future.
 
             @Suppress("KotlinConstantConditions", "SimplifyBooleanWithConstants")
             if (giveChase != NpcTypeBuilder.DEFAULT_GIVE_CHASE) {
@@ -390,6 +388,11 @@ public object NpcTypeEncoder {
             if (regenRate != NpcTypeBuilder.DEFAULT_REGEN_RATE) {
                 data.writeByte(215)
                 data.writeShort(regenRate)
+            }
+
+            if (huntMode != null) {
+                data.writeByte(216)
+                data.writeNullableShort(huntMode)
             }
         }
 }

@@ -115,4 +115,8 @@ class RspNpcInfo(val rspAvatar: NpcAvatar) : NpcInfoProtocol {
     override fun reveal() {
         rspAvatar.setInaccessible(false)
     }
+
+    override fun isActive(): Boolean {
+        return rspAvatar.isActive()
+    }
 }

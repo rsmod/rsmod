@@ -1,16 +1,12 @@
 package org.rsmod.api.route
 
 import jakarta.inject.Inject
-import org.rsmod.game.map.Direction
 import org.rsmod.map.CoordGrid
 import org.rsmod.routefinder.LineValidator
-import org.rsmod.routefinder.StepValidator
 import org.rsmod.routefinder.collision.CollisionFlagMap
-import org.rsmod.routefinder.collision.CollisionStrategy
 
 public class RayCastValidator @Inject constructor(flags: CollisionFlagMap) {
     private val lineValidator: LineValidator = LineValidator(flags)
-    private val stepValidator: StepValidator = StepValidator(flags)
 
     public fun hasLineOfSight(
         source: CoordGrid,
@@ -63,25 +59,6 @@ public class RayCastValidator @Inject constructor(flags: CollisionFlagMap) {
             destWidth = destWidth,
             destLength = destLength,
             extraFlag = extraFlag,
-        )
-    }
-
-    public fun canStep(
-        source: CoordGrid,
-        direction: Direction,
-        extraFlag: Int,
-        srcSize: Int = 1,
-        collision: CollisionStrategy = CollisionStrategy.Normal,
-    ): Boolean {
-        return stepValidator.canTravel(
-            level = source.level,
-            x = source.x,
-            z = source.z,
-            offsetX = direction.xOff,
-            offsetZ = direction.zOff,
-            size = srcSize,
-            extraFlag = extraFlag,
-            collision = collision,
         )
     }
 }

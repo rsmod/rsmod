@@ -13,6 +13,8 @@ import org.rsmod.api.config.refs.invs
 import org.rsmod.api.config.refs.objs
 import org.rsmod.api.config.refs.queues
 import org.rsmod.api.config.refs.varps
+import org.rsmod.api.hunt.NpcSearch
+import org.rsmod.api.hunt.PlayerSearch
 import org.rsmod.api.invtx.invAdd
 import org.rsmod.api.invtx.invAddAll
 import org.rsmod.api.invtx.invAddOrDrop
@@ -155,6 +157,7 @@ import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.enums.EnumType
 import org.rsmod.game.type.hitmark.HitmarkTypeGroup
+import org.rsmod.game.type.hunt.HuntVis
 import org.rsmod.game.type.interf.IfEvent
 import org.rsmod.game.type.interf.IfSubType
 import org.rsmod.game.type.interf.InterfaceType
@@ -650,6 +653,90 @@ public class ProtectedAccess(
     /** Returns `true` if [coord] has the [CollisionFlag.BLOCK_WALK] collision flag set. */
     public fun mapBlocked(coord: CoordGrid): Boolean {
         return context.collision.isWalkBlocked(coord)
+    }
+
+    /** @see [NpcSearch.find] */
+    public fun npcFind(
+        coord: CoordGrid,
+        npc: NpcType,
+        distance: Int,
+        checkVis: HuntVis,
+        search: NpcSearch,
+    ): Npc? {
+        return search.find(coord, npc, distance, checkVis)
+    }
+
+    /** @see [NpcSearch.findCat] */
+    public fun npcFindCat(
+        coord: CoordGrid,
+        category: CategoryType,
+        distance: Int,
+        checkVis: HuntVis,
+        search: NpcSearch,
+    ): Npc? {
+        return search.findCat(coord, category, distance, checkVis)
+    }
+
+    /** @see [NpcSearch.findAllAny] */
+    public fun npcFindAllAny(
+        coord: CoordGrid,
+        distance: Int,
+        checkVis: HuntVis,
+        search: NpcSearch,
+    ): Sequence<Npc> {
+        return search.findAllAny(coord, distance, checkVis)
+    }
+
+    /** @see [NpcSearch.findAll] */
+    public fun npcFindAll(
+        coord: CoordGrid,
+        npc: NpcType,
+        distance: Int,
+        checkVis: HuntVis,
+        search: NpcSearch,
+    ): Sequence<Npc> {
+        return search.findAll(coord, npc, distance, checkVis)
+    }
+
+    /** @see [NpcSearch.findAllZone] */
+    public fun npcFindAllZone(
+        coord: CoordGrid,
+        distance: Int,
+        checkVis: HuntVis,
+        search: NpcSearch,
+    ): Sequence<Npc> {
+        return search.findAllZone(coord, distance, checkVis)
+    }
+
+    /** @see [PlayerSearch.findAll] */
+    public fun huntAll(
+        coord: CoordGrid,
+        distance: Int,
+        checkVis: HuntVis,
+        search: PlayerSearch,
+    ): Sequence<Player> {
+        return search.findAll(coord, distance, checkVis)
+    }
+
+    /** @see [NpcSearch.hunt] */
+    public fun npcHunt(
+        coord: CoordGrid,
+        distance: Int,
+        checkVis: HuntVis,
+        search: NpcSearch,
+    ): Npc? {
+        return search.hunt(coord, distance, checkVis)
+    }
+
+    /** @see [NpcSearch.huntAll] */
+    public fun npcHuntAll(
+        coord: CoordGrid,
+        npc: NpcType,
+        distance: Int,
+        checkVis: HuntVis,
+        search: NpcSearch,
+    ): Sequence<Npc> {
+        return search.huntAll(coord, npc, distance, checkVis)
     }
 
     public fun opLoc1(loc: BoundLocInfo) {

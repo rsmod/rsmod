@@ -19,14 +19,14 @@ public class HuntModeTypeBuilder(public var internal: String? = null) {
     public var findNewMode: NpcMode? = null
     public var nobodyNear: HuntNobodyNear? = null
     public var rate: Int? = null
-    public var checkInvObj: HuntCondition.Inv? = null
-    public var checkInvParam: HuntCondition.Inv? = null
-    public var checkLoc: HuntCondition.Loc? = null
-    public var checkNpc: HuntCondition.Npc? = null
-    public var checkObj: HuntCondition.Obj? = null
-    public var checkVar1: HuntCondition.Var? = null
-    public var checkVar2: HuntCondition.Var? = null
-    public var checkVar3: HuntCondition.Var? = null
+    public var checkInvObj: HuntCondition.InvCondition? = null
+    public var checkInvParam: HuntCondition.InvCondition? = null
+    public var checkLoc: HuntCondition.LocCondition? = null
+    public var checkNpc: HuntCondition.NpcCondition? = null
+    public var checkObj: HuntCondition.ObjCondition? = null
+    public var checkVar1: HuntCondition.VarCondition? = null
+    public var checkVar2: HuntCondition.VarCondition? = null
+    public var checkVar3: HuntCondition.VarCondition? = null
 
     public fun build(id: Int): UnpackedHuntModeType {
         val internal = checkNotNull(internal) { "`internal` must be set." }
