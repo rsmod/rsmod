@@ -8,12 +8,10 @@ import org.rsmod.api.config.refs.seqs
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.stat.baseHitpointsLvl
 import org.rsmod.api.player.stat.hitpoints
-import org.rsmod.api.player.stat.statAdd
 import org.rsmod.api.player.stat.statBoost
 import org.rsmod.api.player.stat.statHeal
 import org.rsmod.api.player.vars.intVarp
 import org.rsmod.api.script.onOpHeld1
-import org.rsmod.content.items.food.configs.COMBO_FOOD_DELAY
 import org.rsmod.content.items.food.configs.FOOD_DELAY
 import org.rsmod.game.entity.Player
 import org.rsmod.game.obj.InvObj
@@ -32,15 +30,15 @@ class EatFood : PluginScript() {
     var Player.potionClock: Int by intVarp(varps.tracking_potions_sipped)
 
     private fun ProtectedAccess.eatFood(item: InvObj, type: UnpackedObjType, slot: Int) {
-        if (!canEat(item, type, player)) {
+        if (!canEat(type, player)) {
             return
         }
 
         eat(item, type, slot)
-        heal(item, type, player)
+        heal(type, player)
     }
 
-    private fun ProtectedAccess.canEat(item: InvObj, type: UnpackedObjType, player: Player) : Boolean {
+    private fun ProtectedAccess.canEat(type: UnpackedObjType, player: Player) : Boolean {
         return if (type.param(params.food_is_combo) == true && player.potionClock <= mapClock) {
             true
         } else player.foodClock <= mapClock
@@ -69,7 +67,7 @@ class EatFood : PluginScript() {
         spam("You eat the $name.")
     }
 
-    private fun ProtectedAccess.heal(item: InvObj, type: UnpackedObjType, player: Player) {
+    private fun ProtectedAccess.heal(type: UnpackedObjType, player: Player) {
         val healAmount = when (type.param(params.food_overheal) == true) {
             true -> anglerOverHeal(player)
             false -> type.param(params.food_heal_value)
