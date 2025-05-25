@@ -1,9 +1,6 @@
 package org.rsmod.api.game.process.player
 
 import jakarta.inject.Inject
-import kotlinx.coroutines.async
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.supervisorScope
 import org.rsmod.api.player.forceDisconnect
 import org.rsmod.api.utils.logging.GameExceptionHandler
 import org.rsmod.game.entity.Player
@@ -12,23 +9,16 @@ import org.rsmod.game.entity.PlayerList
 public class PlayerRouteRequestProcess
 @Inject
 constructor(
-    private val players: PlayerList,
+    private val playerList: PlayerList,
     private val movement: PlayerMovementProcessor,
     private val exceptionHandler: GameExceptionHandler,
 ) {
     public fun process() {
-        players.process()
-    }
-
-    @Suppress("DeferredResultUnused")
-    private fun PlayerList.process() = runBlocking {
-        supervisorScope {
-            for (player in this@process) {
-                val request = player.routeRequest
-                if (request != null) {
-                    player.routeRequest = null
-                    async { player.tryOrDisconnect { movement.consumeRequest(this, request) } }
-                }
+        for (player in playerList) {
+            val request = player.routeRequest
+            if (request != null) {
+                player.routeRequest = null
+                player.tryOrDisconnect { movement.consumeRequest(this, request) }
             }
         }
     }
