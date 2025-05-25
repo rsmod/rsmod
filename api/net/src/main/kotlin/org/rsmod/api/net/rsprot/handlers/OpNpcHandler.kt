@@ -57,7 +57,7 @@ constructor(
                 hasOpTrigger = opTrigger,
                 hasApTrigger = apTrigger,
             )
-        val routeRequest = RouteRequestPathingEntity(npc.avatar)
+        val routeRequest = RouteRequestPathingEntity(npc.avatar, clientRequest = true)
 
         if (npc.isDelayed) {
             return

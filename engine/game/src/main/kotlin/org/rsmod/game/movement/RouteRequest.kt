@@ -5,12 +5,15 @@ import org.rsmod.game.loc.LocInfo
 import org.rsmod.game.type.loc.UnpackedLocType
 import org.rsmod.map.CoordGrid
 
-public sealed class RouteRequest
+public sealed class RouteRequest(public val clientRequest: Boolean)
 
-public class RouteRequestCoord(public val destination: CoordGrid) : RouteRequest()
+public class RouteRequestPathingEntity(
+    public val destination: PathingEntityAvatar,
+    clientRequest: Boolean = false,
+) : RouteRequest(clientRequest)
 
-public class RouteRequestPathingEntity(public val destination: PathingEntityAvatar) :
-    RouteRequest()
+public class RouteRequestCoord(public val destination: CoordGrid, clientRequest: Boolean = false) :
+    RouteRequest(clientRequest)
 
 public class RouteRequestLoc(
     public val destination: CoordGrid,
@@ -19,7 +22,8 @@ public class RouteRequestLoc(
     public val shape: Int,
     public val angle: Int,
     public val forceApproachFlags: Int,
-) : RouteRequest() {
+    clientRequest: Boolean = false,
+) : RouteRequest(clientRequest) {
     public constructor(
         loc: LocInfo,
         width: Int,

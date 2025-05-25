@@ -57,7 +57,7 @@ constructor(
                 hasOpTrigger = opTrigger,
                 hasApTrigger = apTrigger,
             )
-        val routeRequest = RouteRequestPathingEntity(target.avatar)
+        val routeRequest = RouteRequestPathingEntity(target.avatar, clientRequest = true)
 
         player.clearPendingAction(eventBus)
         player.facePlayer(target)

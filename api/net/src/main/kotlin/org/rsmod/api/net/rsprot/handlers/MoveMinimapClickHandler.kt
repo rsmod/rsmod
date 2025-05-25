@@ -39,7 +39,7 @@ constructor(
         if (speed == MoveSpeed.Stationary) {
             player.protectedTelejump(collision, dest)
         } else {
-            val request = RouteRequestCoord(dest)
+            val request = RouteRequestCoord(dest, clientRequest = true)
             player.routeRequest = request
             player.tempMoveSpeed = speed
         }

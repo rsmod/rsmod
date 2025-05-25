@@ -16,7 +16,7 @@ constructor(
     public fun process() {
         for (player in playerList) {
             val request = player.routeRequest
-            if (request != null) {
+            if (request != null && request.clientRequest) {
                 player.routeRequest = null
                 player.tryOrDisconnect { movement.consumeRequest(this, request) }
             }
