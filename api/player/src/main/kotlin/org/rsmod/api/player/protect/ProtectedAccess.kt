@@ -489,6 +489,24 @@ public class ProtectedAccess(
      * radius of [centre].
      *
      * A coordinate is considered valid if:
+     * - It does **not** have the [CollisionFlag.BLOCK_WALK] collision flags set.
+     *
+     * This function calls [validatedSquares], which **randomizes** the order of candidate
+     * coordinates before validation. The first valid coordinate from the shuffled list is returned.
+     *
+     * @return A randomly selected, **validated** coordinate within range, or `null` if none are
+     *   found.
+     */
+    public fun mapFindSquareNone(centre: CoordGrid, minRadius: Int, maxRadius: Int): CoordGrid? {
+        val squares = validatedSquares(centre, minRadius, maxRadius)
+        return squares.firstOrNull()
+    }
+
+    /**
+     * Searches for and returns a validated coordinate within a [minRadius] to [maxRadius] tile
+     * radius of [centre].
+     *
+     * A coordinate is considered valid if:
      * - It has a valid line-of-walk from [centre].
      * - It does **not** have the [CollisionFlag.BLOCK_PLAYERS] or [CollisionFlag.BLOCK_WALK]
      *   collision flags set.
@@ -595,7 +613,7 @@ public class ProtectedAccess(
         val collision = context.collision
         val squares = shuffledSquares(centre, minRadius, maxRadius)
         return squares.filter {
-            val flag = collision[coords]
+            val flag = collision[it]
             flag and CollisionFlag.BLOCK_WALK == 0
         }
     }
