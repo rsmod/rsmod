@@ -19,6 +19,11 @@ import org.rsmod.api.cache.map.tile.MapTileByteEncoder
 import org.rsmod.api.cache.util.EncoderContext
 import org.rsmod.api.type.builders.map.MapBuilderList
 import org.rsmod.api.type.builders.map.MapTypeCollector
+import org.rsmod.api.type.builders.map.area.MapAreaBuilder
+import org.rsmod.api.type.builders.map.loc.MapLocSpawnBuilder
+import org.rsmod.api.type.builders.map.npc.MapNpcSpawnBuilder
+import org.rsmod.api.type.builders.map.obj.MapObjSpawnBuilder
+import org.rsmod.api.type.builders.map.tile.MapTileBuilder
 import org.rsmod.game.map.xtea.XteaMap
 import org.rsmod.map.square.MapSquareKey
 
@@ -33,6 +38,7 @@ constructor(
 ) {
     public fun updateAll(builders: MapBuilderList) {
         encodeAll(builders)
+        cleanupAll(builders)
     }
 
     private fun encodeAll(builders: MapBuilderList) {
@@ -48,6 +54,14 @@ constructor(
 
         val clientCtx = EncoderContext.client(emptySet(), emptySet(), emptySet())
         encodeCacheMaps(updates, js5CachePath, clientCtx)
+    }
+
+    private fun cleanupAll(builders: MapBuilderList) {
+        builders.areas.forEach(MapAreaBuilder::cleanup)
+        builders.locs.forEach(MapLocSpawnBuilder::cleanup)
+        builders.maps.forEach(MapTileBuilder::cleanup)
+        builders.npcs.forEach(MapNpcSpawnBuilder::cleanup)
+        builders.objs.forEach(MapObjSpawnBuilder::cleanup)
     }
 
     private data class MapUpdates(
