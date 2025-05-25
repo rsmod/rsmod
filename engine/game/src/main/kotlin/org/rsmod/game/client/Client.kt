@@ -20,4 +20,6 @@ public interface ClientCycle {
     public fun update(player: Player)
 
     public fun flush(player: Player)
+
+    public fun release()
 }

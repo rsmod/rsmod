@@ -96,6 +96,11 @@ class RspCycle(
         session.queue(npcInfo.toPacket(worldId))
     }
 
+    override fun release() {
+        playerInfo.toPacket().safeRelease()
+        npcInfo.toPacket(worldId).safeRelease()
+    }
+
     private fun Player.updateMoveSpeed() {
         if (knownCachedSpeed != cachedMoveSpeed) {
             val extendedInfo = playerInfo.avatar.extendedInfo

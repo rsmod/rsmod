@@ -69,6 +69,10 @@ constructor(
     }
 
     private fun Player.processClientCycle() {
+        if (loggingOut) {
+            clientCycle.release()
+            return
+        }
         clientCycle.flush(this)
     }
 
