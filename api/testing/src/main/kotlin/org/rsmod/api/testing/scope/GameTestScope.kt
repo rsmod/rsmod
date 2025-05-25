@@ -265,6 +265,7 @@ constructor(
             invMapInit.init(player)
         }
         eventBus.publish(SessionStateEvent.Login(player))
+        eventBus.publish(SessionStateEvent.EngineLogin(player))
         return player
     }
 

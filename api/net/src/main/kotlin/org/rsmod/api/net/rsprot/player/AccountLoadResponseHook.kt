@@ -251,6 +251,7 @@ class AccountLoadResponseHook(
         val register = playerRegistry.add(player)
         if (register.isSuccess()) {
             eventBus.publish(SessionStateEvent.Login(player))
+            eventBus.publish(SessionStateEvent.EngineLogin(player))
             return
         }
         logger.warn { "Failed to register player: $register (player=$player)" }
