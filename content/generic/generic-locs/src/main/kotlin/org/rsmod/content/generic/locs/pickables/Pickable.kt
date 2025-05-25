@@ -51,7 +51,7 @@ constructor(private val objRepo: ObjRepository, private val locRepo: LocReposito
     }
 
     private suspend fun ProtectedAccess.pickCabbage(loc: BoundLocInfo, type: UnpackedLocType) {
-        // Rate for cabbage seed is currently unknown.
+        // The rate for cabbage seed is currently unknown.
         if (random.randomBoolean(25)) {
             pickCrop(loc, type, objs.cabbage_seed, "You pick a cabbage seed.")
         } else {

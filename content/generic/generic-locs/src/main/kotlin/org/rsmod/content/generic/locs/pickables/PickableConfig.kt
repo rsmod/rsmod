@@ -20,10 +20,10 @@ object PickableLocs : LocReferences() {
 
 internal object PickableLocEditor : LocEditor() {
     init {
-        // Cabbage is handled explicitly as it randomly gives cabbage seed.
         edit(pickable_locs.cabbage) {
             param[params.game_message] = "You pick a cabbage."
             param[params.game_message2] = "You don't have room for this cabbage."
+            param[params.rewarditem] = objs.cabbage
             param[params.respawn_time] = 75
         }
 
