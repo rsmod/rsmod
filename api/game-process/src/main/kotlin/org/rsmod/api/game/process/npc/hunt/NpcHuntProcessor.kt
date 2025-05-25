@@ -59,6 +59,7 @@ import org.rsmod.game.entity.npc.NpcUid
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.loc.LocInfo
 import org.rsmod.game.obj.Obj
+import org.rsmod.game.queue.AiQueueType
 import org.rsmod.game.type.hunt.HuntModeTypeList
 import org.rsmod.game.type.hunt.HuntNobodyNear
 import org.rsmod.game.type.hunt.HuntType
@@ -280,6 +281,9 @@ constructor(
     }
 
     private fun Npc.consumePlayerTarget(target: Player, mode: NpcMode) {
+        if (consumeHuntQueue(mode)) {
+            return
+        }
         when (mode) {
             NpcMode.OpPlayer1 -> opPlayer1(target, playerInteractions)
             NpcMode.OpPlayer2 -> opPlayer2(target, playerInteractions)
@@ -296,6 +300,9 @@ constructor(
     }
 
     private fun Npc.consumeNpcTarget(target: Npc, mode: NpcMode) {
+        if (consumeHuntQueue(mode)) {
+            return
+        }
         when (mode) {
             NpcMode.OpNpc1 -> opNpc1(target, npcInteractions)
             NpcMode.OpNpc2 -> opNpc2(target, npcInteractions)
@@ -312,6 +319,9 @@ constructor(
     }
 
     private fun Npc.consumeObjTarget(target: Obj, mode: NpcMode) {
+        if (consumeHuntQueue(mode)) {
+            return
+        }
         when (mode) {
             NpcMode.OpObj1 -> opObj1(target, objInteractions)
             NpcMode.OpObj2 -> opObj2(target, objInteractions)
@@ -328,6 +338,9 @@ constructor(
     }
 
     private fun Npc.consumeLocTarget(target: BoundLocInfo, mode: NpcMode) {
+        if (consumeHuntQueue(mode)) {
+            return
+        }
         when (mode) {
             NpcMode.OpLoc1 -> opLoc1(target, locInteractions)
             NpcMode.OpLoc2 -> opLoc2(target, locInteractions)
@@ -340,6 +353,38 @@ constructor(
             NpcMode.ApLoc4 -> apLoc4(target, locInteractions)
             NpcMode.ApLoc5 -> apLoc5(target, locInteractions)
             else -> throw NotImplementedError("Unhandled npc mode hunt: $mode")
+        }
+    }
+
+    private fun Npc.consumeHuntQueue(mode: NpcMode): Boolean {
+        val queue = mode.toAiQueue() ?: return false
+        aiQueue(queue, cycles = 1)
+        return true
+    }
+
+    private fun NpcMode.toAiQueue(): AiQueueType? {
+        return when (this) {
+            NpcMode.Queue1 -> AiQueueType.Queue1
+            NpcMode.Queue2 -> AiQueueType.Queue2
+            NpcMode.Queue3 -> AiQueueType.Queue3
+            NpcMode.Queue4 -> AiQueueType.Queue4
+            NpcMode.Queue5 -> AiQueueType.Queue5
+            NpcMode.Queue6 -> AiQueueType.Queue6
+            NpcMode.Queue7 -> AiQueueType.Queue7
+            NpcMode.Queue8 -> AiQueueType.Queue8
+            NpcMode.Queue9 -> AiQueueType.Queue9
+            NpcMode.Queue10 -> AiQueueType.Queue10
+            NpcMode.Queue11 -> AiQueueType.Queue11
+            NpcMode.Queue12 -> AiQueueType.Queue12
+            NpcMode.Queue13 -> AiQueueType.Queue13
+            NpcMode.Queue14 -> AiQueueType.Queue14
+            NpcMode.Queue15 -> AiQueueType.Queue15
+            NpcMode.Queue16 -> AiQueueType.Queue16
+            NpcMode.Queue17 -> AiQueueType.Queue17
+            NpcMode.Queue18 -> AiQueueType.Queue18
+            NpcMode.Queue19 -> AiQueueType.Queue19
+            NpcMode.Queue20 -> AiQueueType.Queue20
+            else -> null
         }
     }
 }

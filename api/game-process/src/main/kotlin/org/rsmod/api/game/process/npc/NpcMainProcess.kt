@@ -20,6 +20,7 @@ constructor(
     private val regen: NpcRegenProcessor,
     private val aiTimers: AiTimerProcessor,
     private val timers: NpcTimerProcessor,
+    private val aiQueues: AiQueueProcessor,
     private val queues: NpcQueueProcessor,
     private val modes: NpcModeProcessor,
     private val interactions: NpcInteractionProcessor,
@@ -36,6 +37,7 @@ constructor(
                 processHunt()
                 processRegen()
                 processAiTimer()
+                processAiQueues()
                 processQueues()
                 processTimers()
                 processModes()
@@ -69,6 +71,12 @@ constructor(
     private fun Npc.processAiTimer() {
         if (canProcess) {
             aiTimers.process(this)
+        }
+    }
+
+    private fun Npc.processAiQueues() {
+        if (canProcess) {
+            aiQueues.process(this)
         }
     }
 

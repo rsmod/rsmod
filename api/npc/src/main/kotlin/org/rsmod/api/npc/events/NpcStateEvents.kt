@@ -7,7 +7,7 @@ import org.rsmod.events.SuspendEvent
 import org.rsmod.events.UnboundEvent
 import org.rsmod.game.entity.Npc
 
-public class NpcAIEvents {
+public class AiTimerEvents {
     public class Default(public val npc: Npc) : UnboundEvent
 
     public class Type(public val npc: Npc) : KeyedEvent {
@@ -16,6 +16,20 @@ public class NpcAIEvents {
 
     public class Content(public val npc: Npc, contentGroup: Int) : KeyedEvent {
         override val id: Long = contentGroup.toLong()
+    }
+}
+
+public class AiQueueEvents {
+    public class Default(public val npc: Npc, queueType: Int) : KeyedEvent {
+        override val id: Long = queueType.toLong()
+    }
+
+    public class Type(public val npc: Npc, queueType: Int) : KeyedEvent {
+        override val id: Long = EventBus.composeLongKey(npc.id, queueType)
+    }
+
+    public class Content(public val npc: Npc, queueType: Int, contentGroup: Int) : KeyedEvent {
+        override val id: Long = EventBus.composeLongKey(contentGroup, queueType)
     }
 }
 

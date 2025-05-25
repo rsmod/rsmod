@@ -53,7 +53,27 @@ public enum class NpcMode(public val id: Int) {
     ApObj2(49),
     ApObj3(50),
     ApObj4(51),
-    ApObj5(52);
+    ApObj5(52),
+    Queue1(53),
+    Queue2(54),
+    Queue3(55),
+    Queue4(56),
+    Queue5(57),
+    Queue6(58),
+    Queue7(59),
+    Queue8(60),
+    Queue9(61),
+    Queue10(62),
+    Queue11(63),
+    Queue12(64),
+    Queue13(65),
+    Queue14(66),
+    Queue15(67),
+    Queue16(68),
+    Queue17(69),
+    Queue18(70),
+    Queue19(71),
+    Queue20(72);
 
     public companion object {
         public operator fun get(id: Int): NpcMode? = entries.firstOrNull { it.id == id }

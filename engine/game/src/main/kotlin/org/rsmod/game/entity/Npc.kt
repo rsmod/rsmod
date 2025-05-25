@@ -17,6 +17,7 @@ import org.rsmod.game.movement.BlockWalk
 import org.rsmod.game.movement.MoveRestrict
 import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.obj.Obj
+import org.rsmod.game.queue.AiQueueType
 import org.rsmod.game.queue.NpcQueueList
 import org.rsmod.game.seq.EntitySeq
 import org.rsmod.game.timer.NpcTimerMap
@@ -58,6 +59,11 @@ public class Npc(
 
     public val timerMap: NpcTimerMap = NpcTimerMap()
     public val queueList: NpcQueueList = NpcQueueList()
+
+    public var pendingAiQueue: AiQueueType? = null
+        private set
+
+    public var pendingAiCycle: Int = 0
 
     public var uid: NpcUid = NpcUid.NULL
         private set
@@ -202,6 +208,17 @@ public class Npc(
 
     public fun clearTimer(timer: TimerType) {
         timerMap.remove(timer)
+    }
+
+    public fun aiQueue(queue: AiQueueType, cycles: Int) {
+        require(cycles > 0) { "`cycles` must be greater than 0. (cycles=$cycles)" }
+        pendingAiQueue = queue
+        pendingAiCycle = cycles
+    }
+
+    @InternalApi
+    public fun clearPendingAiQueue() {
+        pendingAiQueue = null
     }
 
     public fun queue(queue: QueueType, cycles: Int, args: Any? = null) {

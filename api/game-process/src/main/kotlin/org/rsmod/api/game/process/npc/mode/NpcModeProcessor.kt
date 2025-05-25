@@ -80,5 +80,31 @@ constructor(
             NpcMode.ApObj3 -> aiObjMode.processAp(this, InteractionOp.Op3)
             NpcMode.ApObj4 -> aiObjMode.processAp(this, InteractionOp.Op4)
             NpcMode.ApObj5 -> aiObjMode.processAp(this, InteractionOp.Op5)
+            NpcMode.Queue1 -> queueMode(mode)
+            NpcMode.Queue2 -> queueMode(mode)
+            NpcMode.Queue3 -> queueMode(mode)
+            NpcMode.Queue4 -> queueMode(mode)
+            NpcMode.Queue5 -> queueMode(mode)
+            NpcMode.Queue6 -> queueMode(mode)
+            NpcMode.Queue7 -> queueMode(mode)
+            NpcMode.Queue8 -> queueMode(mode)
+            NpcMode.Queue9 -> queueMode(mode)
+            NpcMode.Queue10 -> queueMode(mode)
+            NpcMode.Queue11 -> queueMode(mode)
+            NpcMode.Queue12 -> queueMode(mode)
+            NpcMode.Queue13 -> queueMode(mode)
+            NpcMode.Queue14 -> queueMode(mode)
+            NpcMode.Queue15 -> queueMode(mode)
+            NpcMode.Queue16 -> queueMode(mode)
+            NpcMode.Queue17 -> queueMode(mode)
+            NpcMode.Queue18 -> queueMode(mode)
+            NpcMode.Queue19 -> queueMode(mode)
+            NpcMode.Queue20 -> queueMode(mode)
         }
+
+    // As far as I can tell, `ai_queue` can only be triggered through hunt, not by manually calling
+    // `npc_setmode`. Will need to verify this in the future.
+    private fun queueMode(mode: NpcMode) {
+        throw IllegalStateException("`$mode` cannot be set on npc via `setmode`.")
+    }
 }
