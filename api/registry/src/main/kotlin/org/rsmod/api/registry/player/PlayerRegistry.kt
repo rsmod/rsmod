@@ -32,7 +32,6 @@ constructor(
         playerList[slot] = player
         player.slotId = slot
         player.assignUid()
-        zoneAdd(player, ZoneKey.from(player.coords))
         eventBus.publish(SessionStateEvent.Initialize(player))
         return PlayerRegistryResult.Add.Success
     }

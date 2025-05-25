@@ -52,9 +52,9 @@ constructor(
     private fun processPostTick() {
         for (player in playerList) {
             player.tryOrDisconnect {
+                processMapChanges()
                 processClientCycle()
                 processZoneUpdates()
-                processMapChanges()
                 processInvUpdates()
                 processStatUpdates()
                 processRunUpdates()
@@ -64,16 +64,16 @@ constructor(
         }
     }
 
+    private fun Player.processMapChanges() {
+        mapUpdates.process(this)
+    }
+
     private fun Player.processClientCycle() {
         clientCycle.flush(this)
     }
 
     private fun Player.processZoneUpdates() {
         zoneUpdates.process(this)
-    }
-
-    private fun Player.processMapChanges() {
-        mapUpdates.process(this)
     }
 
     private fun Player.processInvUpdates() {
