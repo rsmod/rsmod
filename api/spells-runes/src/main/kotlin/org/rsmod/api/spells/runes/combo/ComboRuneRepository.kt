@@ -1,8 +1,8 @@
 package org.rsmod.api.spells.runes.combo
 
 import org.rsmod.api.spells.runes.combo.configs.combo_enums
+import org.rsmod.game.enums.EnumTypeMapResolver
 import org.rsmod.game.type.obj.ObjType
-import org.rsmod.game.type.util.EnumTypeMapResolver
 
 public class ComboRuneRepository {
     private lateinit var combos: Map<Int, ComboRune>

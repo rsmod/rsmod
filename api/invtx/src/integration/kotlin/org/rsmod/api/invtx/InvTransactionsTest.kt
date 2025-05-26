@@ -16,7 +16,7 @@ import org.rsmod.api.testing.assertions.assertTrueContract
 import org.rsmod.api.testing.params.TestArgs
 import org.rsmod.api.testing.params.TestArgsProvider
 import org.rsmod.api.testing.params.TestWithArgs
-import org.rsmod.game.obj.InvObj
+import org.rsmod.game.inv.InvObj
 import org.rsmod.game.type.obj.Dummyitem
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.Wearpos

@@ -9,6 +9,7 @@ import org.rsmod.game.map.Direction
 import org.rsmod.game.movement.BlockWalk
 import org.rsmod.game.movement.MoveRestrict
 import org.rsmod.game.type.content.ContentGroupType
+import org.rsmod.game.type.hunt.HuntModeType
 import org.rsmod.game.type.npc.NpcTypeBuilder
 import org.rsmod.game.type.npc.UnpackedNpcType
 import org.rsmod.game.type.util.CompactableIntArray
@@ -71,8 +72,6 @@ public class NpcPluginBuilder(public var internal: String? = null) {
     public var maxRange: Int? by backing::maxRange
     public var wanderRange: Int? by backing::wanderRange
     public var attackRange: Int? by backing::attackRange
-    public var huntRange: Int? by backing::huntRange
-    public var huntMode: Int? by backing::huntMode
     public var giveChase: Boolean? by backing::giveChase
     public var attack: Int? by backing::attack
     public var strength: Int? by backing::strength
@@ -84,6 +83,13 @@ public class NpcPluginBuilder(public var internal: String? = null) {
     public var respawnDir: Direction? by backing::respawnDir
     public var heroCount: Int? by backing::heroCount
     public var regenRate: Int? by backing::regenRate
+
+    public var huntRange: Int? by backing::huntRange
+    public var huntMode: HuntModeType? = null
+        set(value) {
+            field = value
+            backing.huntMode = value?.id
+        }
 
     private var contentGroupId: Int? by backing::contentGroup
 

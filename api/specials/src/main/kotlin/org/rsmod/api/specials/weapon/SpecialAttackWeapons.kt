@@ -3,8 +3,8 @@ package org.rsmod.api.specials.weapon
 import jakarta.inject.Inject
 import org.rsmod.api.specials.configs.energy_enums
 import org.rsmod.api.specials.energy.SpecialAttackEnergy
+import org.rsmod.game.enums.EnumTypeMapResolver
 import org.rsmod.game.type.obj.ObjType
-import org.rsmod.game.type.util.EnumTypeMapResolver
 
 public class SpecialAttackWeapons
 @Inject

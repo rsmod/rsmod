@@ -45,6 +45,7 @@ public class BasicGameTestScope(private val eventBus: EventBus) {
         playerList[slot] = player
         eventBus.publish(SessionStateEvent.Initialize(player))
         eventBus.publish(SessionStateEvent.Login(player))
+        eventBus.publish(SessionStateEvent.EngineLogin(player))
         action(player)
         player.slotId = -1
         player.destroy()

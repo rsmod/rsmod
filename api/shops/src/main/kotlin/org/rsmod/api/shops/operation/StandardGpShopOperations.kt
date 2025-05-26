@@ -14,8 +14,8 @@ import org.rsmod.api.shops.cost.StandardGpCostCalculations
 import org.rsmod.api.shops.restock.ShopRestockProcess
 import org.rsmod.api.utils.format.formatAmount
 import org.rsmod.game.entity.Player
+import org.rsmod.game.inv.InvObj
 import org.rsmod.game.inv.Inventory
-import org.rsmod.game.obj.InvObj
 import org.rsmod.game.shop.Shop
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.ObjTypeList

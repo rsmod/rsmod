@@ -2,6 +2,7 @@ package org.rsmod.content.other.commands
 
 import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
+import kotlin.math.max
 import kotlin.math.min
 import org.rsmod.annotations.InternalApi
 import org.rsmod.api.invtx.invAdd
@@ -323,12 +324,13 @@ constructor(
         val xp = PlayerSkillXPTable.getXPFromLevel(level)
         for (stat in statTypes.values) {
             val baseLevel = statMap.getBaseLevel(stat)
-            if (baseLevel > level) {
-                statRevert(stat, level, xp)
+            val targetLevel = max(stat.minLevel, level)
+            if (baseLevel > targetLevel) {
+                statRevert(stat, targetLevel, xp)
                 continue
             }
             val xpDelta = xp - statMap.getXP(stat)
-            statMap.setCurrentLevel(stat, level.toByte())
+            statMap.setCurrentLevel(stat, targetLevel.toByte())
             statAdvance(stat, xpDelta.toDouble(), rate = 1.0)
         }
     }

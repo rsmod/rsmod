@@ -6,6 +6,8 @@ import org.rsmod.annotations.InternalApi
 import org.rsmod.api.area.checker.AreaChecker
 import org.rsmod.api.config.refs.BaseHitmarkGroups
 import org.rsmod.api.config.refs.hitmark_groups
+import org.rsmod.api.hunt.NpcSearch
+import org.rsmod.api.hunt.PlayerSearch
 import org.rsmod.api.npc.hit.modifier.NpcHitModifier
 import org.rsmod.api.npc.hit.modifier.StandardNpcHitModifier
 import org.rsmod.api.npc.hit.process
@@ -17,6 +19,7 @@ import org.rsmod.api.npc.mapMultiway
 import org.rsmod.api.npc.opPlayer2
 import org.rsmod.api.npc.queueDeath
 import org.rsmod.api.random.GameRandom
+import org.rsmod.api.route.RayCastValidator
 import org.rsmod.coroutine.GameCoroutine
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.PathingEntity
@@ -26,9 +29,12 @@ import org.rsmod.game.entity.util.PathingEntityCommon
 import org.rsmod.game.hit.Hit
 import org.rsmod.game.hit.HitType
 import org.rsmod.game.loc.BoundLocInfo
+import org.rsmod.game.map.collision.get
 import org.rsmod.game.map.collision.isZoneValid
 import org.rsmod.game.type.area.AreaType
+import org.rsmod.game.type.category.CategoryType
 import org.rsmod.game.type.hitmark.HitmarkTypeGroup
+import org.rsmod.game.type.hunt.HuntVis
 import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.npc.NpcTypeList
 import org.rsmod.game.type.npc.UnpackedNpcType
@@ -41,7 +47,9 @@ import org.rsmod.game.type.seq.UnpackedSeqType
 import org.rsmod.game.type.spot.SpotanimType
 import org.rsmod.game.type.timer.TimerType
 import org.rsmod.map.CoordGrid
+import org.rsmod.map.util.Bounds
 import org.rsmod.routefinder.collision.CollisionFlagMap
+import org.rsmod.routefinder.flag.CollisionFlag
 
 /**
  * Manages scoped actions for npcs that implicitly launch a coroutine, allowing functions such as
@@ -438,6 +446,283 @@ public class StandardNpcAccess(
     public fun distanceTo(other: PathingEntity): Int = npc.distanceTo(other)
 
     public fun distanceTo(loc: BoundLocInfo): Int = npc.distanceTo(loc)
+
+    /**
+     * Searches for and returns a validated coordinate within a [minRadius] to [maxRadius] tile
+     * radius of [centre].
+     *
+     * A coordinate is considered valid if:
+     * - It does **not** have the [CollisionFlag.BLOCK_WALK] collision flags set.
+     *
+     * This function calls [validatedSquares], which **randomizes** the order of candidate
+     * coordinates before validation. The first valid coordinate from the shuffled list is returned.
+     *
+     * @return A randomly selected, **validated** coordinate within range, or `null` if none are
+     *   found.
+     */
+    public fun mapFindSquareNone(
+        centre: CoordGrid,
+        minRadius: Int,
+        maxRadius: Int,
+        collision: CollisionFlagMap,
+    ): CoordGrid? {
+        val squares = validatedSquares(centre, minRadius, maxRadius, collision)
+        return squares.firstOrNull()
+    }
+
+    /**
+     * Searches for and returns a validated coordinate within a [minRadius] to [maxRadius] tile
+     * radius of [centre].
+     *
+     * A coordinate is considered valid if:
+     * - It has a valid line-of-walk from [centre].
+     * - It does **not** have the [CollisionFlag.BLOCK_PLAYERS] or [CollisionFlag.BLOCK_WALK]
+     *   collision flags set.
+     *
+     * This function calls [validatedLineOfWalkSquares], which **randomizes** the order of candidate
+     * coordinates before validation. The first valid coordinate from the shuffled list is returned.
+     *
+     * @return A randomly selected, **validated** coordinate within range, or `null` if none are
+     *   found.
+     */
+    public fun mapFindSquareLineOfWalk(
+        centre: CoordGrid,
+        minRadius: Int,
+        maxRadius: Int,
+        collision: CollisionFlagMap,
+    ): CoordGrid? {
+        val squares = validatedLineOfWalkSquares(centre, minRadius, maxRadius, collision)
+        return squares.firstOrNull()
+    }
+
+    /**
+     * Searches for and returns a validated coordinate within a [minRadius] to [maxRadius] tile
+     * radius of [centre].
+     *
+     * A coordinate is considered valid if:
+     * - It has a valid line-of-sight from [centre].
+     * - It does **not** have the [CollisionFlag.BLOCK_PLAYERS] or [CollisionFlag.BLOCK_WALK]
+     *   collision flags set.
+     *
+     * This function calls [validatedLineOfWalkSquares], which **randomizes** the order of candidate
+     * coordinates before validation. The first valid coordinate from the shuffled list is returned.
+     *
+     * @return A randomly selected, **validated** coordinate within range, or `null` if none are
+     *   found.
+     */
+    public fun mapFindSquareLineOfSight(
+        centre: CoordGrid,
+        minRadius: Int,
+        maxRadius: Int,
+        collision: CollisionFlagMap,
+    ): CoordGrid? {
+        val squares = validatedLineOfSightSquares(centre, minRadius, maxRadius, collision)
+        return squares.firstOrNull()
+    }
+
+    /**
+     * Returns a sequence of **shuffled** and **validated** coordinates centered around [centre],
+     * within a radius of [minRadius] to [maxRadius] tiles.
+     *
+     * A coordinate is considered valid if:
+     * - It has a valid line-of-walk from [centre].
+     * - It does **not** have the [CollisionFlag.BLOCK_PLAYERS] or [CollisionFlag.BLOCK_WALK]
+     *   collision flags set.
+     *
+     * @return A **shuffled** and **validated** [Sequence] of coordinates within range.
+     */
+    public fun validatedLineOfWalkSquares(
+        centre: CoordGrid,
+        minRadius: Int,
+        maxRadius: Int,
+        collision: CollisionFlagMap,
+    ): Sequence<CoordGrid> {
+        val validator = RayCastValidator(collision)
+        val squares = shuffledSquares(centre, minRadius, maxRadius)
+        return squares.filter {
+            validator.hasLineOfWalk(centre, it, extraFlag = CollisionFlag.BLOCK_PLAYERS)
+        }
+    }
+
+    /**
+     * Returns a sequence of **shuffled** and **validated** coordinates centered around [centre],
+     * within a radius of [minRadius] to [maxRadius] tiles.
+     *
+     * A coordinate is considered valid if:
+     * - It has a valid line-of-sight from [centre].
+     * - It does **not** have the [CollisionFlag.BLOCK_PLAYERS] or [CollisionFlag.BLOCK_WALK]
+     *   collision flags set.
+     *
+     * @return A **shuffled** and **validated** [Sequence] of coordinates within range.
+     */
+    public fun validatedLineOfSightSquares(
+        centre: CoordGrid,
+        minRadius: Int,
+        maxRadius: Int,
+        collision: CollisionFlagMap,
+    ): Sequence<CoordGrid> {
+        val validator = RayCastValidator(collision)
+        val squares = shuffledSquares(centre, minRadius, maxRadius)
+        return squares.filter {
+            validator.hasLineOfSight(centre, it, extraFlag = CollisionFlag.BLOCK_PLAYERS)
+        }
+    }
+
+    /**
+     * Returns a sequence of **shuffled** and **validated** coordinates centered around [centre],
+     * within a radius of [minRadius] to [maxRadius] tiles.
+     *
+     * A coordinate is considered valid if it does **not** have the [CollisionFlag.BLOCK_WALK]
+     * collision flag set.
+     *
+     * @return A **shuffled** and **validated** [Sequence] of coordinates within range.
+     */
+    public fun validatedSquares(
+        centre: CoordGrid,
+        minRadius: Int,
+        maxRadius: Int,
+        collision: CollisionFlagMap,
+    ): Sequence<CoordGrid> {
+        val squares = shuffledSquares(centre, minRadius, maxRadius)
+        return squares.filter {
+            val flag = collision[it]
+            flag and CollisionFlag.BLOCK_WALK == 0
+        }
+    }
+
+    private fun shuffledSquares(
+        centre: CoordGrid,
+        minRadius: Int,
+        maxRadius: Int,
+    ): Sequence<CoordGrid> {
+        require(minRadius <= maxRadius) {
+            "`minRadius` must be less than or equal to `maxRadius`. " +
+                "(centre=$centre, minRadius=$minRadius, maxRadius=$maxRadius)"
+        }
+        val base = centre.translate(-maxRadius, -maxRadius)
+        val bounds = Bounds(base, 2 * maxRadius + 1, 2 * maxRadius + 1)
+        return bounds.shuffled().filter { centre.chebyshevDistance(it) >= minRadius }
+    }
+
+    /** Returns `true` if there is a valid line-of-walk from [from] to [to] */
+    public fun lineOfWalk(from: CoordGrid, to: CoordGrid, collision: CollisionFlagMap): Boolean {
+        val validator = RayCastValidator(collision)
+        return validator.hasLineOfWalk(from, to, extraFlag = CollisionFlag.BLOCK_PLAYERS)
+    }
+
+    /** Returns `true` if there is a valid line-of-sight from [from] to [to] */
+    public fun lineOfSight(from: CoordGrid, to: CoordGrid, collision: CollisionFlagMap): Boolean {
+        val validator = RayCastValidator(collision)
+        return validator.hasLineOfSight(from, to, extraFlag = CollisionFlag.BLOCK_PLAYERS)
+    }
+
+    /**
+     * Returns `true` if there is a valid line-of-walk from [from] to **every** coordinate occupied
+     * by [bounds].
+     */
+    public fun lineOfWalk(from: CoordGrid, bounds: Bounds, collision: CollisionFlagMap): Boolean {
+        val validator = RayCastValidator(collision)
+        val squares = bounds.asSequence()
+        return squares.all {
+            validator.hasLineOfWalk(from, it, extraFlag = CollisionFlag.BLOCK_PLAYERS)
+        }
+    }
+
+    /**
+     * Returns `true` if there is a valid line-of-sight from [from] to **every** coordinate occupied
+     * by [bounds].
+     */
+    public fun lineOfSight(from: CoordGrid, bounds: Bounds, collision: CollisionFlagMap): Boolean {
+        val validator = RayCastValidator(collision)
+        val squares = bounds.asSequence()
+        return squares.all {
+            validator.hasLineOfSight(from, it, extraFlag = CollisionFlag.BLOCK_PLAYERS)
+        }
+    }
+
+    /** @see [NpcSearch.find] */
+    public fun npcFind(
+        coord: CoordGrid,
+        npc: NpcType,
+        distance: Int,
+        checkVis: HuntVis,
+        search: NpcSearch,
+    ): Npc? {
+        return search.find(coord, npc, distance, checkVis)
+    }
+
+    /** @see [NpcSearch.findCat] */
+    public fun npcFindCat(
+        coord: CoordGrid,
+        category: CategoryType,
+        distance: Int,
+        checkVis: HuntVis,
+        search: NpcSearch,
+    ): Npc? {
+        return search.findCat(coord, category, distance, checkVis)
+    }
+
+    /** @see [NpcSearch.findAllAny] */
+    public fun npcFindAllAny(
+        coord: CoordGrid,
+        distance: Int,
+        checkVis: HuntVis,
+        search: NpcSearch,
+    ): Sequence<Npc> {
+        return search.findAllAny(coord, distance, checkVis)
+    }
+
+    /** @see [NpcSearch.findAll] */
+    public fun npcFindAll(
+        coord: CoordGrid,
+        npc: NpcType,
+        distance: Int,
+        checkVis: HuntVis,
+        search: NpcSearch,
+    ): Sequence<Npc> {
+        return search.findAll(coord, npc, distance, checkVis)
+    }
+
+    /** @see [NpcSearch.findAllZone] */
+    public fun npcFindAllZone(
+        coord: CoordGrid,
+        distance: Int,
+        checkVis: HuntVis,
+        search: NpcSearch,
+    ): Sequence<Npc> {
+        return search.findAllZone(coord, distance, checkVis)
+    }
+
+    /** @see [PlayerSearch.findAll] */
+    public fun huntAll(
+        coord: CoordGrid,
+        distance: Int,
+        checkVis: HuntVis,
+        search: PlayerSearch,
+    ): Sequence<Player> {
+        return search.findAll(coord, distance, checkVis)
+    }
+
+    /** @see [NpcSearch.hunt] */
+    public fun npcHunt(
+        coord: CoordGrid,
+        distance: Int,
+        checkVis: HuntVis,
+        search: NpcSearch,
+    ): Npc? {
+        return search.hunt(coord, distance, checkVis)
+    }
+
+    /** @see [NpcSearch.huntAll] */
+    public fun npcHuntAll(
+        coord: CoordGrid,
+        npc: NpcType,
+        distance: Int,
+        checkVis: HuntVis,
+        search: NpcSearch,
+    ): Sequence<Npc> {
+        return search.huntAll(coord, npc, distance, checkVis)
+    }
 
     /**
      * Returns the param value associated with [param] from the **base** `npc` [Npc.type], or `null`

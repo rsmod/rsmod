@@ -49,6 +49,8 @@ public interface NpcInfoProtocol {
     public fun hide()
 
     public fun reveal()
+
+    public fun isActive(): Boolean
 }
 
 public data object NoopNpcInfo : NpcInfoProtocol {
@@ -97,4 +99,6 @@ public data object NoopNpcInfo : NpcInfoProtocol {
     override fun hide() {}
 
     override fun reveal() {}
+
+    override fun isActive(): Boolean = false
 }

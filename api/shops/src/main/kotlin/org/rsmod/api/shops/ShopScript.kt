@@ -13,7 +13,7 @@ import org.rsmod.api.shops.operation.ShopOperationMap
 import org.rsmod.api.shops.operation.ShopOperations
 import org.rsmod.api.shops.operation.StandardGpShopOperations
 import org.rsmod.game.entity.Player
-import org.rsmod.game.obj.InvObj
+import org.rsmod.game.inv.InvObj
 import org.rsmod.game.shop.Shop
 import org.rsmod.game.type.interf.IfButtonOp
 import org.rsmod.game.type.obj.ObjType

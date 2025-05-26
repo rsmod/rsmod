@@ -35,6 +35,11 @@ public object VarPlayerIntMapSetter {
 
         player.vars.backing[varp.id] = value
 
+        val engineLoggedIn = player.processedMapClock > 0
+        if (!engineLoggedIn) {
+            return
+        }
+
         val transmit = varp.transmit
         if (transmit.always) {
             VarpSync.writeVarp(player, varp, value)

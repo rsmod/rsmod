@@ -96,6 +96,7 @@ constructor(
                 shape = loc.entity.shape,
                 angle = loc.entity.angle,
                 forceApproachFlags = type.forceApproachFlags,
+                clientRequest = true,
             )
         player.clearPendingAction(eventBus)
         player.resetFaceEntity()

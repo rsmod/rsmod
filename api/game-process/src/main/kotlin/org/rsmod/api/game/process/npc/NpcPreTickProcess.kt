@@ -1,6 +1,7 @@
 package org.rsmod.api.game.process.npc
 
 import jakarta.inject.Inject
+import org.rsmod.api.game.process.npc.hunt.NpcPlayerHuntProcessor
 import org.rsmod.api.registry.npc.NpcRegistry
 import org.rsmod.api.utils.logging.GameExceptionHandler
 import org.rsmod.game.MapClock
@@ -12,9 +13,9 @@ public class NpcPreTickProcess
 @Inject
 constructor(
     private val npcList: NpcList,
-    private val registry: NpcRegistry,
-    private val hunt: NpcHuntProcessor,
     private val mapClock: MapClock,
+    private val registry: NpcRegistry,
+    private val playerHunt: NpcPlayerHuntProcessor,
     private val exceptionHandler: GameExceptionHandler,
 ) {
     public fun process() {
@@ -40,7 +41,7 @@ constructor(
     }
 
     private fun Npc.huntProcess() {
-        hunt.process(this)
+        playerHunt.process(this)
     }
 
     private inline fun Npc.tryOrDespawn(block: Npc.() -> Unit) =

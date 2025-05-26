@@ -4,7 +4,7 @@ import jakarta.inject.Inject
 import kotlin.collections.iterator
 import org.rsmod.api.account.character.CharacterDataStage
 import org.rsmod.game.entity.Player
-import org.rsmod.game.obj.InvObj
+import org.rsmod.game.inv.InvObj
 import org.rsmod.game.type.inv.InvTypeList
 import org.rsmod.game.type.util.UncheckedType
 

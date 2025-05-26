@@ -1,5 +1,6 @@
 package org.rsmod.game.entity.player
 
+import org.rsmod.events.KeyedEvent
 import org.rsmod.events.UnboundEvent
 import org.rsmod.game.entity.Player
 
@@ -9,6 +10,9 @@ public class SessionStateEvent {
 
     /** Fired after [Initialize] during the player login sequence. */
     public data class Login(val player: Player) : UnboundEvent
+
+    /** Fired after [Login] during the player login sequence. */
+    public data class EngineLogin(val player: Player, override val id: Long = 0L) : KeyedEvent
 
     /** Fired before the player's account data is queued for saving. */
     public data class Logout(val player: Player) : UnboundEvent

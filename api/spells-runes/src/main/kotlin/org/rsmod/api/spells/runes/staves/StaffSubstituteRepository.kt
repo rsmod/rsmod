@@ -1,9 +1,9 @@
 package org.rsmod.api.spells.runes.staves
 
 import org.rsmod.api.spells.runes.staves.configs.staff_enums
-import org.rsmod.game.obj.InvObj
+import org.rsmod.game.enums.EnumTypeMapResolver
+import org.rsmod.game.inv.InvObj
 import org.rsmod.game.type.obj.ObjType
-import org.rsmod.game.type.util.EnumTypeMapResolver
 
 public class StaffSubstituteRepository {
     private lateinit var subs: Map<Int, Set<Int>>

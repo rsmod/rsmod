@@ -1,6 +1,6 @@
 package org.rsmod.content.interfaces.bank.util
 
-import org.rsmod.game.obj.InvObj
+import org.rsmod.game.inv.InvObj
 import org.rsmod.objtx.Transaction
 
 internal inline fun Transaction<InvObj>.leftShift(

@@ -23,12 +23,14 @@ import org.rsmod.api.player.stat.stat
 import org.rsmod.api.player.vars.boolVarBit
 import org.rsmod.api.player.vars.resyncVar
 import org.rsmod.api.realm.Realm
-import org.rsmod.api.script.onPlayerLogin
+import org.rsmod.api.script.onEvent
 import org.rsmod.api.stats.levelmod.InvisibleLevels
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Player
+import org.rsmod.game.entity.player.SessionStateEvent
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.stat.StatTypeList
+import org.rsmod.game.type.varp.UnpackedVarpType
 import org.rsmod.game.type.varp.VarpTypeList
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
@@ -43,14 +45,16 @@ constructor(
     private val statTypes: StatTypeList,
     private val invisibleLevels: InvisibleLevels,
 ) : PluginScript() {
+    private val transmitVars by lazy { transmitVars() }
+
     private var Player.chatboxUnlocked: Boolean by boolVarBit(varbits.has_displayname_transmitter)
     private var Player.hideRoofs by boolVarBit(varbits.option_hide_rooftops)
 
     override fun ScriptContext.startup() {
-        onPlayerLogin { player.initialLogin() }
+        onEvent<SessionStateEvent.EngineLogin>(0L) { player.engineLogin() }
     }
 
-    private fun Player.initialLogin() {
+    private fun Player.engineLogin() {
         sendHighPriority()
         sendLowPriority()
     }
@@ -86,9 +90,11 @@ constructor(
         client.write(VarpReset)
         chatboxUnlocked = displayName.isNotBlank()
         hideRoofs = true
-        for ((varp, _) in vars) {
-            val type = varpTypes[varp] ?: continue
-            resyncVar(type)
+        for (varp in transmitVars) {
+            val value = vars.getOrNull(varp) ?: continue
+            if (value != 0 || varp.transmit.always) {
+                resyncVar(varp)
+            }
         }
     }
 
@@ -137,5 +143,9 @@ constructor(
         MiscOutput.setPlayerOp(this, slot = 4, op = "Trade with")
         MiscOutput.setPlayerOp(this, slot = 5, op = null)
         MiscOutput.setPlayerOp(this, slot = 8, op = "Report")
+    }
+
+    private fun transmitVars(): List<UnpackedVarpType> {
+        return varpTypes.filterTransmitKeys().sorted().map(varpTypes::getValue)
     }
 }

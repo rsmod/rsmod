@@ -2,7 +2,7 @@ package org.rsmod.api.config.builders
 
 import org.rsmod.api.type.builders.stat.StatBuilder
 
-object StatBuilds : StatBuilder() {
+internal object StatBuilds : StatBuilder() {
     init {
         build("attack")
         build("defence")

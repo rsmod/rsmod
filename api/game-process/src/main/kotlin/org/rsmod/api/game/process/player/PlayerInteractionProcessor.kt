@@ -81,11 +81,28 @@ constructor(
                 player.routeToPathingTarget(interaction)
             }
 
+            val routeRequest = player.routeRequest
+            val pendingLogout = player.isPendingLogout()
+            if (routeRequest != null && !pendingLogout) {
+                movement.consumeRequest(player, routeRequest)
+            }
+
+            if (pendingLogout) {
+                player.abortRoute()
+            }
+
             movement.process(player)
+
+            val didNotMove = !player.hasMovedThisCycle && interaction != null
+            if (didNotMove && player.routeDestination.isEmpty()) {
+                player.clearMapFlag()
+            }
 
             if (interaction != null && !player.isAccessProtected) {
                 player.postMovementInteraction(interaction)
             }
+        } else if (!player.hasMovedThisCycle && player.routeDestination.isEmpty()) {
+            player.clearMapFlag()
         }
 
         // Important that this uses the most up-to-date `interaction` reference and not the one
@@ -108,8 +125,8 @@ constructor(
             processInteractionStep(this, step)
 
             if (!interaction.interacted && routeDestination.isEmpty() && !hasMovedThisCycle) {
-                mes(Constants.dm_reach, ChatType.Engine)
                 clearInteractionRoute()
+                mes(Constants.dm_reach, ChatType.Engine)
             }
         }
 
@@ -162,17 +179,19 @@ constructor(
 
     private fun Interaction.isCompleted(): Boolean = interacted && !apRangeCalled
 
-    private fun Player.routeToPathingTarget(interaction: Interaction): Unit =
+    private fun Player.routeToPathingTarget(interaction: Interaction) {
         when (interaction) {
             is InteractionNpc -> routeTo(interaction)
             is InteractionPlayer -> routeTo(interaction)
             is InteractionLoc -> {
                 /* no-op */
             }
+
             is InteractionObj -> {
                 /* no-op */
             }
         }
+    }
 
     private fun Player.determinePreMovementStep(interaction: Interaction): InteractionStep =
         when (interaction) {

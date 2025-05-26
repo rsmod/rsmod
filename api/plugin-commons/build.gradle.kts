@@ -15,6 +15,7 @@ dependencies {
     api(projects.api.controller)
     api(projects.api.death)
     api(projects.api.gameProcess)
+    api(projects.api.hunt)
     api(projects.api.invtx)
     api(projects.api.market)
     api(projects.api.npc)

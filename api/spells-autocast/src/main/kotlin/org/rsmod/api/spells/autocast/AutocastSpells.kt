@@ -3,9 +3,9 @@ package org.rsmod.api.spells.autocast
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
 import org.rsmod.api.spells.autocast.configs.autocast_enums
+import org.rsmod.game.enums.EnumTypeMapResolver
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.ObjTypeList
-import org.rsmod.game.type.util.EnumTypeMapResolver
 
 @Singleton
 public class AutocastSpells

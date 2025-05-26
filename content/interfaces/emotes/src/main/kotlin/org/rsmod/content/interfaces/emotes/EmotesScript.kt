@@ -26,6 +26,8 @@ import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.npc.NpcMode
+import org.rsmod.game.enums.EnumTypeMap
+import org.rsmod.game.enums.EnumTypeMapResolver
 import org.rsmod.game.map.Direction
 import org.rsmod.game.map.translate
 import org.rsmod.game.type.interf.IfButtonOp
@@ -35,8 +37,6 @@ import org.rsmod.game.type.seq.SeqType
 import org.rsmod.game.type.seq.SeqTypeList
 import org.rsmod.game.type.spot.SpotanimType
 import org.rsmod.game.type.stat.StatType
-import org.rsmod.game.type.util.EnumTypeMap
-import org.rsmod.game.type.util.EnumTypeMapResolver
 import org.rsmod.game.type.varbit.VarBitType
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext

@@ -94,7 +94,7 @@ public data class UnpackedNpcType(
     public val wanderRange: Int,
     public val attackRange: Int,
     public val huntRange: Int,
-    public val huntMode: Int,
+    public val huntMode: Int?,
     public val giveChase: Boolean,
     public val attack: Int,
     public val strength: Int,
@@ -164,7 +164,6 @@ public data class UnpackedNpcType(
         result = 61 * result + moveRestrict.id
         result = 61 * result + defaultMode.id
         result = 61 * result + blockWalk.id
-        result = 61 * result + huntMode
         result = 61 * result + (patrol?.hashCode() ?: 0)
         result = 61 * result + (internalId?.hashCode() ?: 0)
         return result and 0x7FFFFFFFFFFFFFFF
@@ -246,7 +245,7 @@ public data class UnpackedNpcType(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is UnpackedNpcType) return false
-
+        if (internalId != other.internalId) return false
         if (name != other.name) return false
         if (desc != other.desc) return false
         if (!models.contentEquals(other.models)) return false
@@ -316,8 +315,6 @@ public data class UnpackedNpcType(
         if (heroCount != other.heroCount) return false
         if (regenRate != other.regenRate) return false
         if (contentGroup != other.contentGroup) return false
-        if (internalId != other.internalId) return false
-
         return true
     }
 
@@ -374,7 +371,7 @@ public data class UnpackedNpcType(
         result = 31 * result + wanderRange
         result = 31 * result + attackRange
         result = 31 * result + huntRange
-        result = 31 * result + huntMode
+        result = 31 * result + (huntMode ?: 0)
         result = 31 * result + giveChase.hashCode()
         result = 31 * result + attack
         result = 31 * result + strength

@@ -59,6 +59,11 @@ public abstract class MapAreaBuilder : MapTypeBuilder() {
      */
     abstract override fun onPackMapTask()
 
+    override fun cleanup() {
+        resources.clear()
+        polygons.clear()
+    }
+
     public inline fun <reified T> resourceFile(path: String) {
         val file = MapResourceFile(T::class.java, path)
         resources += file

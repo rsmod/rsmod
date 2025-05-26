@@ -7,10 +7,10 @@ import org.rsmod.api.combat.weapon.righthand
 import org.rsmod.api.combat.weapon.styles.configs.style_enums
 import org.rsmod.api.config.refs.varps
 import org.rsmod.game.entity.Player
+import org.rsmod.game.enums.EnumTypeMapResolver
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.type.obj.WeaponCategory
-import org.rsmod.game.type.util.EnumTypeMapResolver
 
 public class AttackStyles
 @Inject

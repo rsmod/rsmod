@@ -19,6 +19,11 @@ import org.rsmod.utils.bits.getBits
  */
 @JvmInline
 public value class VarPlayerIntMap(public val backing: Int2IntMap = Int2IntOpenHashMap()) {
+    public fun getOrNull(key: VarpType): Int? {
+        val value = backing[key.id]
+        return if (value == backing.defaultReturnValue()) null else value
+    }
+
     public operator fun get(key: VarpType): Int = backing.getOrDefault(key.id, 0)
 
     public operator fun get(varp: VarBitType): Int {

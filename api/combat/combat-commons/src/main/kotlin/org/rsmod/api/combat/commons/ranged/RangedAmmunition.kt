@@ -10,9 +10,9 @@ import org.rsmod.api.random.GameRandom
 import org.rsmod.api.repo.obj.ObjRepository
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
+import org.rsmod.game.inv.isType
 import org.rsmod.game.map.collision.isWalkBlocked
 import org.rsmod.game.obj.Obj
-import org.rsmod.game.obj.isType
 import org.rsmod.game.queue.WorldQueueList
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.ObjTypeList
@@ -182,7 +182,7 @@ public object RangedAmmunition {
             return
         }
 
-        val obj = Obj(dropCoord, ammoType, ammoCount, player.currentMapClock, player)
+        val obj = Obj.fromOwner(player, dropCoord, ammoType, ammoCount)
         worldQueues.add(delay) { objRepo.add(obj, dropDuration) }
     }
 

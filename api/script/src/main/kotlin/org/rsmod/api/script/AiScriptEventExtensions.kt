@@ -1,19 +1,19 @@
 package org.rsmod.api.script
 
 import org.rsmod.api.npc.access.StandardNpcAccess
-import org.rsmod.api.npc.events.NpcAIEvents
+import org.rsmod.api.npc.events.AiTimerEvents
 import org.rsmod.api.npc.events.interact.AiPlayerEvents
 import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.npc.NpcType
 import org.rsmod.plugin.scripts.ScriptContext
 
 /* Timer functions */
-public fun ScriptContext.onAiTimer(type: NpcType, action: NpcAIEvents.Type.() -> Unit): Unit =
+public fun ScriptContext.onAiTimer(type: NpcType, action: AiTimerEvents.Type.() -> Unit): Unit =
     onEvent(type.id, action)
 
 public fun ScriptContext.onAiTimer(
     content: ContentGroupType,
-    action: NpcAIEvents.Content.() -> Unit,
+    action: AiTimerEvents.Content.() -> Unit,
 ): Unit = onEvent(content.id, action)
 
 /* Player op functions */

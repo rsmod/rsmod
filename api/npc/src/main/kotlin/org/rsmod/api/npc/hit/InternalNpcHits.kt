@@ -9,7 +9,7 @@ import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.game.hit.HitBuilder
 import org.rsmod.game.hit.HitType
-import org.rsmod.game.obj.InvObj
+import org.rsmod.game.inv.InvObj
 import org.rsmod.game.type.hitmark.HitmarkTypeGroup
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.obj.Wearpos

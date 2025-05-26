@@ -107,7 +107,9 @@ import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.PlayerList
 import org.rsmod.game.entity.player.SessionStateEvent
 import org.rsmod.game.entity.util.PathingEntityCommon
+import org.rsmod.game.enums.EnumTypeMapResolver
 import org.rsmod.game.hit.HitType
+import org.rsmod.game.inv.InvObj
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.loc.LocAngle
@@ -118,7 +120,6 @@ import org.rsmod.game.loc.LocZoneKey
 import org.rsmod.game.map.LocZoneStorage
 import org.rsmod.game.map.collision.addLoc
 import org.rsmod.game.movement.MoveSpeed
-import org.rsmod.game.obj.InvObj
 import org.rsmod.game.queue.EngineQueueCache
 import org.rsmod.game.region.Region
 import org.rsmod.game.region.RegionListLarge
@@ -133,6 +134,7 @@ import org.rsmod.game.type.dbrow.DbRowTypeList
 import org.rsmod.game.type.dbtable.DbTableTypeList
 import org.rsmod.game.type.enums.EnumTypeList
 import org.rsmod.game.type.font.FontMetricsTypeList
+import org.rsmod.game.type.hunt.HuntModeTypeList
 import org.rsmod.game.type.interf.IfButtonOp
 import org.rsmod.game.type.interf.IfSubType
 import org.rsmod.game.type.interf.InterfaceType
@@ -152,9 +154,9 @@ import org.rsmod.game.type.seq.SeqTypeList
 import org.rsmod.game.type.stat.StatType
 import org.rsmod.game.type.stat.StatTypeList
 import org.rsmod.game.type.synth.SynthTypeList
-import org.rsmod.game.type.util.EnumTypeMapResolver
 import org.rsmod.game.type.varbit.VarBitType
 import org.rsmod.game.type.varbit.VarBitTypeList
+import org.rsmod.game.type.varn.VarnTypeList
 import org.rsmod.game.type.varp.VarpType
 import org.rsmod.game.type.varp.VarpTypeList
 import org.rsmod.game.ui.UserInterface
@@ -263,6 +265,7 @@ constructor(
             invMapInit.init(player)
         }
         eventBus.publish(SessionStateEvent.Login(player))
+        eventBus.publish(SessionStateEvent.EngineLogin(player))
         return player
     }
 
@@ -892,6 +895,7 @@ constructor(
             bind(DbRowTypeList::class.java).toInstance(cacheTypes.dbRows)
             bind(DbTableTypeList::class.java).toInstance(cacheTypes.dbTables)
             bind(EnumTypeList::class.java).toInstance(cacheTypes.enums)
+            bind(HuntModeTypeList::class.java).toInstance(cacheTypes.hunt)
             bind(FontMetricsTypeList::class.java).toInstance(cacheTypes.fonts)
             bind(InterfaceTypeList::class.java).toInstance(cacheTypes.interfaces)
             bind(InvTypeList::class.java).toInstance(cacheTypes.invs)
@@ -902,6 +906,7 @@ constructor(
             bind(SynthTypeList::class.java).toInstance(cacheTypes.synths)
             bind(VarBitTypeList::class.java).toInstance(cacheTypes.varbits)
             bind(VarpTypeList::class.java).toInstance(cacheTypes.varps)
+            bind(VarnTypeList::class.java).toInstance(cacheTypes.varns)
 
             bind(TypeListMap::class.java).toInstance(cacheTypes)
 

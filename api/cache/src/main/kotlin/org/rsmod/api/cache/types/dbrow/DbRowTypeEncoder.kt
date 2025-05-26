@@ -17,7 +17,7 @@ public object DbRowTypeEncoder {
     public fun encodeAll(cache: Cache, types: Iterable<UnpackedDbRowType>, ctx: EncoderContext) {
         val buffer = PooledByteBufAllocator.DEFAULT.buffer()
         val archive = Js5Archives.CONFIG
-        val config = Js5Configs.DBROWTYPE
+        val config = Js5Configs.DBROW
         for (type in types) {
             // Skip db rows when their parent tables are server-side only.
             if (ctx.clientOnly && type.table !in ctx.clientTables) {

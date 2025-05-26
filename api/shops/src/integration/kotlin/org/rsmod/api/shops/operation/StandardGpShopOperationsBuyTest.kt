@@ -11,8 +11,8 @@ import org.rsmod.api.shops.config.ShopInterfaces
 import org.rsmod.api.testing.GameTestState
 import org.rsmod.api.testing.scope.GameTestScope
 import org.rsmod.api.type.script.dsl.InvPluginBuilder
+import org.rsmod.game.inv.InvObj
 import org.rsmod.game.inv.Inventory
-import org.rsmod.game.obj.InvObj
 import org.rsmod.game.shop.Shop
 import org.rsmod.game.type.interf.IfButtonOp
 import org.rsmod.game.type.inv.InvScope

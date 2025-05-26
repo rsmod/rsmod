@@ -5,21 +5,26 @@ import org.rsmod.game.entity.npc.NpcInfoProtocol
 import org.rsmod.game.entity.npc.NpcMode
 import org.rsmod.game.entity.npc.NpcUid
 import org.rsmod.game.entity.npc.OpVisibility
+import org.rsmod.game.entity.player.PlayerUid
 import org.rsmod.game.entity.util.EntityFaceTarget
 import org.rsmod.game.entity.util.PathingEntityCommon
 import org.rsmod.game.headbar.Headbar
 import org.rsmod.game.hero.HeroPoints
 import org.rsmod.game.hit.Hitmark
+import org.rsmod.game.loc.LocInfo
 import org.rsmod.game.map.Direction
 import org.rsmod.game.movement.BlockWalk
 import org.rsmod.game.movement.MoveRestrict
 import org.rsmod.game.movement.MoveSpeed
+import org.rsmod.game.obj.Obj
+import org.rsmod.game.queue.AiQueueType
 import org.rsmod.game.queue.NpcQueueList
 import org.rsmod.game.seq.EntitySeq
 import org.rsmod.game.timer.NpcTimerMap
 import org.rsmod.game.type.content.ContentGroupType
 import org.rsmod.game.type.headbar.HeadbarType
 import org.rsmod.game.type.hitmark.HitmarkTypeGroup
+import org.rsmod.game.type.hunt.HuntModeType
 import org.rsmod.game.type.npc.UnpackedNpcType
 import org.rsmod.game.type.param.ParamType
 import org.rsmod.game.type.queue.QueueType
@@ -54,6 +59,11 @@ public class Npc(
 
     public val timerMap: NpcTimerMap = NpcTimerMap()
     public val queueList: NpcQueueList = NpcQueueList()
+
+    public var pendingAiQueue: AiQueueType? = null
+        private set
+
+    public var pendingAiQueueCycle: Int = 0
 
     public var uid: NpcUid = NpcUid.NULL
         private set
@@ -92,6 +102,18 @@ public class Npc(
 
     public var regenClock: Int = 0
     public val regenRate: Int = type.regenRate
+
+    public var huntClock: Int = 0
+    // `Obj` and `LocInfo` are lightweight, otherwise we would wrap them in `WeakReference`.
+    public var huntObj: Obj? = null
+    public var huntLoc: LocInfo? = null
+    public var huntNpc: NpcUid = NpcUid.NULL
+    public var huntPlayer: PlayerUid = PlayerUid.NULL
+    public var huntRange: Int = type.huntRange
+        private set
+
+    public var huntMode: Int? = type.huntMode
+        private set
 
     /**
      * The combat xp multiplier stored as an integer, with the decimal value scaled by `1000`. For
@@ -188,6 +210,17 @@ public class Npc(
         timerMap.remove(timer)
     }
 
+    public fun aiQueue(queue: AiQueueType, cycles: Int) {
+        require(cycles > 0) { "`cycles` must be greater than 0. (cycles=$cycles)" }
+        pendingAiQueue = queue
+        pendingAiQueueCycle = cycles
+    }
+
+    @InternalApi
+    public fun clearPendingAiQueue() {
+        pendingAiQueue = null
+    }
+
     public fun queue(queue: QueueType, cycles: Int, args: Any? = null) {
         require(cycles > 0) { "`cycles` must be greater than 0. (cycles=$cycles)" }
         queueList.add(queue, cycles, args)
@@ -195,6 +228,34 @@ public class Npc(
 
     public fun clearQueue(queue: QueueType) {
         queueList.removeAll(queue)
+    }
+
+    public fun setHunt(range: Int) {
+        require(range >= 0) { "`range` must be positive. (range=$range)" }
+        huntRange = range
+    }
+
+    public fun setHuntMode(mode: HuntModeType) {
+        huntMode = mode.id
+    }
+
+    @InternalApi
+    public fun resetHunt() {
+        huntClock = 0
+        huntObj = null
+        huntLoc = null
+        huntNpc = NpcUid.NULL
+        huntPlayer = PlayerUid.NULL
+        huntRange = type.huntRange
+        huntMode = type.huntMode
+    }
+
+    @InternalApi
+    public fun resetDefaults() {
+        clearInteraction()
+        resetFaceEntity()
+        resetHunt()
+        aiTimer = type.timer
     }
 
     @InternalApi
@@ -207,6 +268,7 @@ public class Npc(
         clearInteraction()
         clearFaceEntity()
         resetPendingFaceSquare()
+        resetHunt()
         resetAnim()
         showAllOps()
         copyStats(type)
@@ -394,6 +456,11 @@ public class Npc(
     public fun clearIdleCycles() {
         wanderIdleCycles = -1
         patrolIdleCycles = -1
+    }
+
+    @InternalApi
+    public fun isAnyoneNear(): Boolean {
+        return infoProtocol.isActive()
     }
 
     public fun isType(type: UnpackedNpcType): Boolean = this.type.isType(type)

@@ -40,6 +40,7 @@ private class NameMappingProvider : Provider<NameMapping> {
         val fonts = dirs.readSymbols("font")
         val headbars = dirs.readSymbols("headbar")
         val hitmarks = dirs.readSymbols("hitmark")
+        val hunt = dirs.readSymbols("hunt")
         val invs = dirs.readSymbols("inv")
         val jingles = dirs.readSymbols("jingle")
         val locs = dirs.readSymbols("loc")
@@ -109,6 +110,7 @@ private class NameMappingProvider : Provider<NameMapping> {
             dbTables = dbTables,
             dbRows = dbRows,
             dbColumns = dbCols,
+            hunt = hunt,
         )
     }
 

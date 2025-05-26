@@ -10,10 +10,10 @@ import org.rsmod.api.player.ui.ifClose
 import org.rsmod.api.script.onIfOverlayButton
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
+import org.rsmod.game.enums.EnumTypeMapResolver
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.interf.IfButtonOp
 import org.rsmod.game.type.obj.Wearpos
-import org.rsmod.game.type.util.EnumTypeMapResolver
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 

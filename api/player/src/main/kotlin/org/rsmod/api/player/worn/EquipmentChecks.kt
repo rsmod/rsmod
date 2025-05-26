@@ -1,9 +1,9 @@
 package org.rsmod.api.player.worn
 
 import org.rsmod.api.config.refs.objs
-import org.rsmod.game.obj.InvObj
-import org.rsmod.game.obj.isAnyType
-import org.rsmod.game.obj.isType
+import org.rsmod.game.inv.InvObj
+import org.rsmod.game.inv.isAnyType
+import org.rsmod.game.inv.isType
 
 public object EquipmentChecks {
     public fun isSmokeStaff(obj: InvObj?): Boolean =

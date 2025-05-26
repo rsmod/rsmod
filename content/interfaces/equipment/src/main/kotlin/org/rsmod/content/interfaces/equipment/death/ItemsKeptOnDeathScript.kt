@@ -20,8 +20,8 @@ import org.rsmod.content.interfaces.equipment.configs.equip_interfaces
 import org.rsmod.content.interfaces.equipment.configs.equip_invs
 import org.rsmod.content.interfaces.equipment.configs.equip_objs
 import org.rsmod.game.entity.Player
+import org.rsmod.game.inv.InvObj
 import org.rsmod.game.inv.Inventory
-import org.rsmod.game.obj.InvObj
 import org.rsmod.game.type.interf.IfEvent
 import org.rsmod.game.type.inv.InvTypeList
 import org.rsmod.game.type.obj.ObjTypeList

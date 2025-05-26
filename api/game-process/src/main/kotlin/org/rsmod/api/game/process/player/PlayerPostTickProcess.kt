@@ -1,9 +1,6 @@
 package org.rsmod.api.game.process.player
 
 import jakarta.inject.Inject
-import kotlinx.coroutines.async
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.supervisorScope
 import org.rsmod.api.game.process.GameLifecycle
 import org.rsmod.api.player.forceDisconnect
 import org.rsmod.api.player.output.MiscOutput
@@ -32,7 +29,6 @@ constructor(
     public fun process() {
         computeSharedBuffers()
         updateProtocolInfo()
-        processClientOutAsync()
         processPostTick()
         finalizePostTick()
     }
@@ -53,28 +49,12 @@ constructor(
         eventBus.publish(GameLifecycle.UpdateInfo)
     }
 
-    private fun processClientOutAsync() = runBlocking {
-        supervisorScope {
-            for (player in playerList) {
-                async {
-                    player.tryOrDisconnect {
-                        clientCycle.flush(this)
-                        zoneUpdates.process(this)
-                    }
-                }
-            }
-        }
-    }
-
-    // Ideally, this entire loop would be part of `processClientOutAsync`, but inventory updates
-    // are currently not thread-safe. This is due to shared inventories requiring mutation: they
-    // must be added to a collection and have their "modified slots" cleared afterward.
-    // It is not a major issue for now, but we should eventually resolve this so the two loops
-    // can be combined under the async processing phase.
     private fun processPostTick() {
         for (player in playerList) {
             player.tryOrDisconnect {
                 processMapChanges()
+                processClientCycle()
+                processZoneUpdates()
                 processInvUpdates()
                 processStatUpdates()
                 processRunUpdates()
@@ -86,6 +66,18 @@ constructor(
 
     private fun Player.processMapChanges() {
         mapUpdates.process(this)
+    }
+
+    private fun Player.processClientCycle() {
+        if (loggingOut) {
+            clientCycle.release()
+            return
+        }
+        clientCycle.flush(this)
+    }
+
+    private fun Player.processZoneUpdates() {
+        zoneUpdates.process(this)
     }
 
     private fun Player.processInvUpdates() {

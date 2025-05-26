@@ -2,7 +2,7 @@ package org.rsmod.api.player
 
 import kotlin.reflect.KProperty
 import org.rsmod.game.entity.Player
-import org.rsmod.game.obj.InvObj
+import org.rsmod.game.inv.InvObj
 import org.rsmod.game.type.obj.Wearpos
 
 /*

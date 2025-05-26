@@ -68,6 +68,7 @@ constructor(
                 shape = loc.entity.shape,
                 angle = loc.entity.angle,
                 forceApproachFlags = type.forceApproachFlags,
+                clientRequest = true,
             )
         if (!locInteractions.hasOp(boundLoc, type, player.vars, message.interactionOp)) {
             logger.debug { "OpLoc invalid op blocked: op=${message.op}, loc=$boundLoc type=$type" }

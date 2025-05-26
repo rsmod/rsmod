@@ -1,6 +1,6 @@
 package org.rsmod.game.type.obj
 
-import org.rsmod.game.obj.InvObj
+import org.rsmod.game.inv.InvObj
 import org.rsmod.game.obj.Obj
 import org.rsmod.game.type.TypeResolver
 

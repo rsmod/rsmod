@@ -110,6 +110,7 @@ public class LocTypeBuilder(public var internal: String? = null) {
         val randomAnimFrame = randomAnimFrame ?: DEFAULT_RANDOM_ANIM_FRAME
         val fixLocAnimAfterLocChange = fixLocAnimAfterLocChange == true
         val contentGroup = contentGroup ?: DEFAULT_CONTENT_GROUP
+        assertBlockWalkRange(blockWalk, blockRange)
         return UnpackedLocType(
             models = model.toIntArray(),
             shapes = modelShape.toByteArray(),
@@ -165,6 +166,13 @@ public class LocTypeBuilder(public var internal: String? = null) {
             internalId = id,
             internalName = internal,
         )
+    }
+
+    private fun assertBlockWalkRange(blockWalk: Int, blockRange: Boolean) {
+        if (blockWalk == 0 && blockRange) {
+            val message = "`blockRange` must always be false when `blockWalk` is 0."
+            throw IllegalArgumentException(message)
+        }
     }
 
     public companion object : MergeableCacheBuilder<UnpackedLocType> {

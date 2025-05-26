@@ -10,7 +10,7 @@ import org.rsmod.api.config.refs.params
 import org.rsmod.api.testing.GameTestState
 import org.rsmod.api.testing.assertions.assertNotNullContract
 import org.rsmod.content.skills.woodcutting.scripts.Woodcutting.Companion.cutSuccessRates
-import org.rsmod.game.obj.InvObj
+import org.rsmod.game.inv.InvObj
 
 class WoodcuttingConfigTest {
     @Test

@@ -26,6 +26,8 @@ import org.rsmod.api.type.refs.headbar.HeadbarReferenceResolver
 import org.rsmod.api.type.refs.headbar.HeadbarReferences
 import org.rsmod.api.type.refs.hitmark.HitmarkReferenceResolver
 import org.rsmod.api.type.refs.hitmark.HitmarkReferences
+import org.rsmod.api.type.refs.hunt.HuntModeReferenceResolver
+import org.rsmod.api.type.refs.hunt.HuntModeReferences
 import org.rsmod.api.type.refs.interf.InterfaceReferenceResolver
 import org.rsmod.api.type.refs.interf.InterfaceReferences
 import org.rsmod.api.type.refs.inv.InvReferenceResolver
@@ -86,6 +88,7 @@ constructor(
     private val fontMetricsResolver: FontMetricsReferenceResolver,
     private val headbarResolver: HeadbarReferenceResolver,
     private val hitmarkResolver: HitmarkReferenceResolver,
+    private val huntResolver: HuntModeReferenceResolver,
     private val interfaceResolver: InterfaceReferenceResolver,
     private val invResolver: InvReferenceResolver,
     private val jingleResolver: JingleReferenceResolver,
@@ -179,6 +182,7 @@ constructor(
                 is FontMetricsReferences -> fontMetricsResolver
                 is HeadbarReferences -> headbarResolver
                 is HitmarkReferences -> hitmarkResolver
+                is HuntModeReferences -> huntResolver
                 is InterfaceReferences -> interfaceResolver
                 is InvReferences -> invResolver
                 is JingleReferences -> jingleResolver

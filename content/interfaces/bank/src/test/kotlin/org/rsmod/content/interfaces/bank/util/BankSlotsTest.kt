@@ -7,8 +7,8 @@ import org.rsmod.api.testing.params.TestArgs
 import org.rsmod.api.testing.params.TestArgsProvider
 import org.rsmod.api.testing.params.TestWithArgs
 import org.rsmod.content.interfaces.bank.util.BankSlots.shiftLeadingGapsToTail
+import org.rsmod.game.inv.InvObj
 import org.rsmod.game.inv.Inventory
-import org.rsmod.game.obj.InvObj
 import org.rsmod.game.type.inv.InvScope
 import org.rsmod.game.type.inv.InvStackType
 import org.rsmod.game.type.inv.InvTypeBuilder

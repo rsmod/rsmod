@@ -1,6 +1,7 @@
 package org.rsmod.api.game.process.npc
 
 import jakarta.inject.Inject
+import org.rsmod.api.game.process.npc.hunt.NpcHuntProcessor
 import org.rsmod.api.game.process.npc.mode.NpcModeProcessor
 import org.rsmod.api.registry.npc.NpcRegistry
 import org.rsmod.api.repo.NpcRevealProcessor
@@ -15,9 +16,11 @@ constructor(
     private val npcList: NpcList,
     private val registry: NpcRegistry,
     private val reveal: NpcRevealProcessor,
+    private val hunt: NpcHuntProcessor,
     private val regen: NpcRegenProcessor,
     private val aiTimers: AiTimerProcessor,
     private val timers: NpcTimerProcessor,
+    private val aiQueues: AiQueueProcessor,
     private val queues: NpcQueueProcessor,
     private val modes: NpcModeProcessor,
     private val interactions: NpcInteractionProcessor,
@@ -31,8 +34,10 @@ constructor(
             npc.tryOrDespawn {
                 resumePausedProcess()
                 revealProcess()
+                processHunt()
                 processRegen()
                 processAiTimer()
+                processAiQueues()
                 processQueues()
                 processTimers()
                 processModes()
@@ -51,6 +56,12 @@ constructor(
         reveal.process(this)
     }
 
+    private fun Npc.processHunt() {
+        if (canProcess) {
+            hunt.process(this)
+        }
+    }
+
     private fun Npc.processRegen() {
         if (canProcess) {
             regen.process(this)
@@ -60,6 +71,12 @@ constructor(
     private fun Npc.processAiTimer() {
         if (canProcess) {
             aiTimers.process(this)
+        }
+    }
+
+    private fun Npc.processAiQueues() {
+        if (canProcess) {
+            aiQueues.process(this)
         }
     }
 

@@ -1,4 +1,4 @@
-package org.rsmod.game.type.util
+package org.rsmod.game.enums
 
 import org.rsmod.game.type.enums.EnumType
 import org.rsmod.game.type.enums.EnumTypeList

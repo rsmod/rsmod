@@ -11,6 +11,7 @@ import org.rsmod.utils.bits.withBits
 public class VarPlayerIntMapDelegate(
     private val client: Client<Any, Any>,
     private val vars: VarPlayerIntMap,
+    private val engineLoggedIn: Boolean,
 ) {
     public operator fun get(varp: VarpType): Int = vars[varp]
 
@@ -18,6 +19,10 @@ public class VarPlayerIntMapDelegate(
         val previous = vars.backing[varp.id]
 
         vars.backing[varp.id] = value
+
+        if (!engineLoggedIn) {
+            return
+        }
 
         val transmit = varp.transmit
         if (transmit.always) {
@@ -38,7 +43,12 @@ public class VarPlayerIntMapDelegate(
 
     internal companion object {
         fun from(player: Player): VarPlayerIntMapDelegate {
-            return VarPlayerIntMapDelegate(client = player.client, vars = player.vars)
+            val engineLoggedIn = player.processedMapClock > 0
+            return VarPlayerIntMapDelegate(
+                client = player.client,
+                vars = player.vars,
+                engineLoggedIn = engineLoggedIn,
+            )
         }
     }
 }

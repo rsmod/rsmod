@@ -20,6 +20,8 @@ import org.rsmod.api.type.builders.headbar.HeadbarBuilder
 import org.rsmod.api.type.builders.headbar.HeadbarBuilderResolver
 import org.rsmod.api.type.builders.hitmark.HitmarkBuilder
 import org.rsmod.api.type.builders.hitmark.HitmarkBuilderResolver
+import org.rsmod.api.type.builders.hunt.HuntModeBuilder
+import org.rsmod.api.type.builders.hunt.HuntModeBuilderResolver
 import org.rsmod.api.type.builders.inv.InvBuilder
 import org.rsmod.api.type.builders.inv.InvBuilderResolver
 import org.rsmod.api.type.builders.loc.LocBuilder
@@ -69,6 +71,7 @@ constructor(
     private val enumResolver: EnumBuilderResolver,
     private val headbarResolver: HeadbarBuilderResolver,
     private val hitmarkResolver: HitmarkBuilderResolver,
+    private val huntResolver: HuntModeBuilderResolver,
     private val invResolver: InvBuilderResolver,
     private val locResolver: LocBuilderResolver,
     private val mesAnimResolver: MesAnimBuilderResolver,
@@ -165,6 +168,7 @@ constructor(
                 is EnumBuilder -> enumResolver
                 is HeadbarBuilder -> headbarResolver
                 is HitmarkBuilder -> hitmarkResolver
+                is HuntModeBuilder -> huntResolver
                 is InvBuilder -> invResolver
                 is LocBuilder -> locResolver
                 is MesAnimBuilder -> mesAnimResolver

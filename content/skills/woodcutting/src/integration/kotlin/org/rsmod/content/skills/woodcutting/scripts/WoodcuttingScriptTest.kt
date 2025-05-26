@@ -1,6 +1,5 @@
 package org.rsmod.content.skills.woodcutting.scripts
 
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.rsmod.api.config.refs.content
 import org.rsmod.api.config.refs.objs
@@ -13,7 +12,7 @@ import org.rsmod.content.skills.woodcutting.scripts.Woodcutting.Companion.treeLo
 import org.rsmod.content.skills.woodcutting.scripts.Woodcutting.Companion.treeRespawnTime
 import org.rsmod.content.skills.woodcutting.scripts.Woodcutting.Companion.treeRespawnTimeHigh
 import org.rsmod.content.skills.woodcutting.scripts.Woodcutting.Companion.treeStump
-import org.rsmod.game.obj.InvObj
+import org.rsmod.game.inv.InvObj
 import org.rsmod.map.CoordGrid
 
 class WoodcuttingScriptTest {

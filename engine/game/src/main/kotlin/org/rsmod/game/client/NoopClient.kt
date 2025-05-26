@@ -20,4 +20,6 @@ public object NoopClientCycle : ClientCycle {
     override fun update(player: Player) {}
 
     override fun flush(player: Player) {}
+
+    override fun release() {}
 }

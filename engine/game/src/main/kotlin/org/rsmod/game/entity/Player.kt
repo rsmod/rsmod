@@ -323,9 +323,12 @@ public class Player(
     }
 
     public fun walk(dest: CoordGrid) {
-        abortRoute()
         moveSpeed = MoveSpeed.Walk
-        routeDestination.add(dest)
+        tempMoveSpeed = null
+        routeDestination.clear()
+        if (dest != coords) {
+            routeDestination.add(dest)
+        }
     }
 
     public fun timer(timer: TimerType, cycles: Int) {
@@ -505,6 +508,11 @@ public class Player(
 
     public fun clearAnyDropTrigger() {
         dropTrigger = null
+    }
+
+    @InternalApi
+    public fun isPendingLogout(): Boolean {
+        return pendingShutdown || forceDisconnect || manualLogout || clientDisconnected.get()
     }
 
     override fun toString(): String =

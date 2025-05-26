@@ -12,7 +12,7 @@ import org.rsmod.api.player.quiver
 import org.rsmod.api.player.righthand
 import org.rsmod.api.testing.GameTestState
 import org.rsmod.events.EventBus
-import org.rsmod.game.obj.InvObj
+import org.rsmod.game.inv.InvObj
 import org.rsmod.game.type.obj.Wearpos
 
 /* Obj transaction system is not thread-safe. */

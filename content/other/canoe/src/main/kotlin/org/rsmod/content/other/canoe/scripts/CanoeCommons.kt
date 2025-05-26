@@ -14,7 +14,7 @@ import org.rsmod.content.other.canoe.configs.canoe_locs
 import org.rsmod.content.other.canoe.configs.canoe_varbits
 import org.rsmod.content.other.canoe.configs.canoe_varps
 import org.rsmod.game.entity.Player
-import org.rsmod.game.obj.InvObj
+import org.rsmod.game.inv.InvObj
 import org.rsmod.game.type.enums.EnumType
 import org.rsmod.game.type.enums.EnumTypeList
 import org.rsmod.game.type.enums.find

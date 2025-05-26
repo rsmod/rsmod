@@ -131,6 +131,7 @@ class ProtectedAccessPlayerMoveWithMinDelayTest {
                 width = 1
                 length = 1
                 blockWalk = 0
+                blockRange = false
             }
     }
 }

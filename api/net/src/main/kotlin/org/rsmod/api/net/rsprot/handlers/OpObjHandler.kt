@@ -54,7 +54,7 @@ constructor(
                 hasOpTrigger = opTrigger,
                 hasApTrigger = apTrigger,
             )
-        val routeRequest = RouteRequestCoord(coords)
+        val routeRequest = RouteRequestCoord(coords, clientRequest = true)
         if (!type.hasOp(message.interactionOp) && message.interactionOp != InteractionOp.Op3) {
             logger.debug { "OpObj: invalid op blocked: op=${message.op}, obj=$obj, type=$type" }
             return

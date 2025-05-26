@@ -6,8 +6,8 @@ import org.rsmod.events.KeyedEvent
 import org.rsmod.events.SuspendEvent
 import org.rsmod.events.UnboundEvent
 import org.rsmod.game.entity.Player
+import org.rsmod.game.inv.InvObj
 import org.rsmod.game.inv.Inventory
-import org.rsmod.game.obj.InvObj
 import org.rsmod.game.type.droptrig.DropTriggerType
 import org.rsmod.game.type.inv.InvType
 import org.rsmod.game.type.obj.UnpackedObjType

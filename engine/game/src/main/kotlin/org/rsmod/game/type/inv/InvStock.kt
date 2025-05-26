@@ -1,3 +1,5 @@
+@file:OptIn(UncheckedType::class)
+
 package org.rsmod.game.type.inv
 
 import org.rsmod.game.type.obj.ObjType

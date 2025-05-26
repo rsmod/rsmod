@@ -20,7 +20,9 @@ constructor(private val eventBus: EventBus, private val protectedAccess: Protect
     private fun Player.requestLogout() {
         ifClose(eventBus)
         protectedAccess.launch(this) {
-            playerWalk(coords)
+            if (isBusy2) {
+                playerWalk(coords)
+            }
             logOut()
         }
     }

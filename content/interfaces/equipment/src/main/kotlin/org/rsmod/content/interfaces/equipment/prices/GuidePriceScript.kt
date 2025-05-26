@@ -22,7 +22,7 @@ import org.rsmod.content.interfaces.equipment.configs.equip_components
 import org.rsmod.content.interfaces.equipment.configs.equip_interfaces
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
-import org.rsmod.game.obj.InvObj
+import org.rsmod.game.inv.InvObj
 import org.rsmod.game.type.interf.IfButtonOp
 import org.rsmod.game.type.interf.IfEvent
 import org.rsmod.game.type.obj.ObjTypeList

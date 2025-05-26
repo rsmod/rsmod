@@ -11,6 +11,7 @@ import org.rsmod.api.cache.types.font.FontMetricsDecoder
 import org.rsmod.api.cache.types.gameval.GameValDecoder
 import org.rsmod.api.cache.types.headbar.HeadbarTypeDecoder
 import org.rsmod.api.cache.types.hitmark.HitmarkTypeDecoder
+import org.rsmod.api.cache.types.hunt.HuntModeTypeDecoder
 import org.rsmod.api.cache.types.inv.InvTypeDecoder
 import org.rsmod.api.cache.types.jingle.JingleTypeDecoder
 import org.rsmod.api.cache.types.loc.LocTypeDecoder
@@ -67,6 +68,7 @@ public object TypeListMapDecoder {
         val areas = AreaTypeDecoder.decodeAll(cache)
         val dbTables = DbTableTypeDecoder.decodeAll(cache)
         val dbRows = DbRowTypeDecoder.decodeAll(cache)
+        val hunt = HuntModeTypeDecoder.decodeAll(cache)
 
         val typeList =
             TypeListMap(
@@ -99,6 +101,7 @@ public object TypeListMapDecoder {
                 areas = areas,
                 dbTables = dbTables,
                 dbRows = dbRows,
+                hunt = hunt,
             )
 
         return typeList.apply {
@@ -129,6 +132,7 @@ public object TypeListMapDecoder {
             assignInternal(this.areas, names.areas)
             assignInternal(this.dbTables, names.dbTables)
             assignInternal(this.dbRows, names.dbRows)
+            assignInternal(this.hunt, names.hunt)
             ComplexTypeDecoder.decodeAll(this)
         }
     }

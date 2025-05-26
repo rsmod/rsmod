@@ -81,7 +81,9 @@ public object LocTypeEncoder {
                 data.writeByte(length)
             }
 
-            if (blockWalk == 0 && !blockRange) {
+            if (blockWalk == 0) {
+                // `blockRange` must always be false when `blockWalk` is 0.
+                check(!blockRange)
                 data.writeByte(17)
             } else if (!blockRange) {
                 data.writeByte(18)
