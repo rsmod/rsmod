@@ -10385,24 +10385,6 @@
     } ]
   } ]
 }, {
-  "name" : "Southwest fally castle isn",
-  "levels" : [ 0 ],
-  "polygons" : [ {
-    "vertices" : [ {
-      "x" : 2960,
-      "z" : 3328
-    }, {
-      "x" : 2967,
-      "z" : 3328
-    }, {
-      "x" : 2967,
-      "z" : 3335
-    }, {
-      "x" : 2960,
-      "z" : 3335
-    } ]
-  } ]
-}, {
   "name" : "Barbarian Village",
   "levels" : [ 0 ],
   "polygons" : [ {
