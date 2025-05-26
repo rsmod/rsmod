@@ -14,4 +14,5 @@ object BaseTimers : TimerReferences() {
     val rapidrestore_regen = find("rapidrestore_regen")
     val spec_regen = find("spec_regen")
     val prayer_drain = find("prayer_drain")
+    val secondary_heal = find("secondary_heal")
 }

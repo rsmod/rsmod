@@ -423,6 +423,16 @@ object BaseObjs : ObjReferences() {
     val anglerfish = find("anglerfish")
     val dark_crab = find("dark_crab")
 
+    val cooked_kebbit = find("wildkebbit_cooked")
+    val cooked_larupia = find("larupia_cooked")
+    val cooked_barb_kebbit = find("barbkebbit_cooked")
+    val cooked_graahk = find("graahk_cooked")
+    val cooked_kyatt = find("kyatt_cooked")
+    val cooked_pyre_fox = find("fennecfox_cooked")
+    val cooked_sunlight_antelope= find("antelopesun_cooked")
+    val cooked_dashing_kebbit = find("dashingkebbit_cooked")
+    val cooked_moonlight_antelope = find("antelopemoon_cooked")
+
     val nose_peg = find("slayer_nosepeg")
     val facemask = find("slayer_facemask")
     val earmuffs = find("slayer_earmuffs")

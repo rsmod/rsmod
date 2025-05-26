@@ -1,4 +1,4 @@
-package org.rsmod.content.items.food.configs
+package org.rsmod.content.items.food.configs.foods
 
 import org.rsmod.api.config.refs.content
 import org.rsmod.api.config.refs.objs

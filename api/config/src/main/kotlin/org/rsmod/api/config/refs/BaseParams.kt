@@ -203,6 +203,7 @@ object BaseParams : ParamReferences() {
     val shop_sale_restricted: ParamBool = find("shop_sale_restricted")
 
     val food_heal_value: ParamInt = find("food_heal_value")
+    val food_secondary_heal: ParamInt = find("food_secondary_heal")
     val food_is_combo: ParamBool = find("food_is_combo")
     val food_overheal: ParamBool = find("food_overheal")
     val food_requires_replacement: ParamBool = find("food_requires_replacement")

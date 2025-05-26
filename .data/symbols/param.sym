@@ -303,3 +303,4 @@
 65537	food_overheal
 65538	food_requires_replacement
 65539	food_replacement
+65540	food_secondary_heal

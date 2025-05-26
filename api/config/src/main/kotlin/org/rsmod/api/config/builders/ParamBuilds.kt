@@ -138,6 +138,7 @@ internal object ParamBuilds : ParamBuilder() {
         build<Int>("respawn_time_high")
 
         build<Int>("food_heal_value") { default = 0 }
+        build<Int>("food_secondary_heal") { default = 0 }
         build<Boolean>("food_is_combo") { default = false }
         build<Boolean>("food_overheal") { default = false }
         build<Boolean>("food_requires_replacement") { default = false }
