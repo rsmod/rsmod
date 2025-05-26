@@ -137,7 +137,10 @@ public fun Player.statBoost(stat: StatType, constant: Int, percent: Int) {
     val current = stat(stat)
     val cappedBoost = min(base + boost, current + boost) - current
 
-    statAdd(stat, cappedBoost, 0)
+    // Can be negative when the current stat is higher than the calculated boost.
+    if (cappedBoost > 0) {
+        statAdd(stat, cappedBoost, 0)
+    }
 }
 
 /**
@@ -197,9 +200,12 @@ public fun Player.statDrain(stat: StatType, constant: Int, percent: Int) {
     val drain = constant + (base * percent) / 100
 
     val current = stat(stat)
-    val cappedDrain = current - min(base - drain, current - drain)
+    val cappedDrain = current - max(base - drain, current - drain)
 
-    statSub(stat, cappedDrain, 0)
+    // Can be negative when the current stat is lower than the calculated drain.
+    if (cappedDrain > 0) {
+        statSub(stat, cappedDrain, 0)
+    }
 }
 
 /**

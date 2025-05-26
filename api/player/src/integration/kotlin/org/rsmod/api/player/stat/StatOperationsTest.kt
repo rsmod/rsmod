@@ -99,6 +99,54 @@ class StatOperationsTest {
     }
 
     @Test
+    fun GameTestState.`statBoost ignores subsequent lower-level boosts`() = runGameTest {
+        player.setBaseLevel(stats.hitpoints, 99)
+        player.setCurrentLevel(stats.hitpoints, 99)
+
+        player.statBoost(stats.hitpoints, constant = 6, percent = 0)
+        assertEquals(105, player.hitpoints)
+
+        player.statBoost(stats.hitpoints, constant = 3, percent = 0)
+        assertEquals(105, player.hitpoints)
+    }
+
+    @Test
+    fun GameTestState.`statBoost maintains highest threshold from multiple calls`() = runGameTest {
+        player.setBaseLevel(stats.hitpoints, 99)
+        player.setCurrentLevel(stats.hitpoints, 99)
+
+        player.statBoost(stats.hitpoints, constant = 3, percent = 0)
+        assertEquals(102, player.hitpoints)
+
+        player.statBoost(stats.hitpoints, constant = 6, percent = 0)
+        assertEquals(105, player.hitpoints)
+    }
+
+    @Test
+    fun GameTestState.`statDrain ignores subsequent lower-level drains`() = runGameTest {
+        player.setBaseLevel(stats.hitpoints, 80)
+        player.setCurrentLevel(stats.hitpoints, 80)
+
+        player.statDrain(stats.hitpoints, constant = 40, percent = 0)
+        assertEquals(40, player.hitpoints)
+
+        player.statDrain(stats.hitpoints, constant = 30, percent = 0)
+        assertEquals(40, player.hitpoints)
+    }
+
+    @Test
+    fun GameTestState.`statDrain maintains lowest threshold from multiple calls`() = runGameTest {
+        player.setBaseLevel(stats.hitpoints, 80)
+        player.setCurrentLevel(stats.hitpoints, 80)
+
+        player.statDrain(stats.hitpoints, constant = 30, percent = 0)
+        assertEquals(50, player.hitpoints)
+
+        player.statDrain(stats.hitpoints, constant = 40, percent = 0)
+        assertEquals(40, player.hitpoints)
+    }
+
+    @Test
     fun GameTestState.`statHeal uses base stat level for percent boost`() = runGameTest {
         player.setBaseLevel(stats.hitpoints, 99)
         player.setCurrentLevel(stats.hitpoints, 1)
