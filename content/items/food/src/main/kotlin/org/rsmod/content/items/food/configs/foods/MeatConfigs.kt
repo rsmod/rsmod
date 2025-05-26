@@ -14,7 +14,7 @@ internal object MeatObjs : ObjReferences() {
     val cooked_graahk = find("graahk_cooked")
     val cooked_kyatt = find("kyatt_cooked")
     val cooked_pyre_fox = find("fennecfox_cooked")
-    val cooked_sunlight_antelope= find("antelopesun_cooked")
+    val cooked_sunlight_antelope = find("antelopesun_cooked")
     val cooked_dashing_kebbit = find("dashingkebbit_cooked")
     val cooked_moonlight_antelope = find("antelopemoon_cooked")
 }

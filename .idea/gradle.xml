@@ -42,6 +42,7 @@
             <option value="$PROJECT_DIR$/api/death-plugin" />
             <option value="$PROJECT_DIR$/api/game-process" />
             <option value="$PROJECT_DIR$/api/hit-plugin" />
+            <option value="$PROJECT_DIR$/api/hunt" />
             <option value="$PROJECT_DIR$/api/inv-plugin" />
             <option value="$PROJECT_DIR$/api/inv-weight" />
             <option value="$PROJECT_DIR$/api/invtx" />

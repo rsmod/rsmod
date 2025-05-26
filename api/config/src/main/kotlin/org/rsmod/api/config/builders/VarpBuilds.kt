@@ -1,6 +1,5 @@
 package org.rsmod.api.config.builders
 
-import org.rsmod.api.config.refs.BaseVarps.tracking_secondary_heal
 import org.rsmod.api.type.builders.varp.VarpBuilder
 
 internal object VarpBuilds : VarpBuilder() {
@@ -31,6 +30,5 @@ internal object VarpBuilds : VarpBuilder() {
         build("tracking_food_eaten") { temporary = true }
         build("tracking_potions_sipped") { temporary = true }
         build("tracking_secondary_heal") { temporary = true }
-
     }
 }

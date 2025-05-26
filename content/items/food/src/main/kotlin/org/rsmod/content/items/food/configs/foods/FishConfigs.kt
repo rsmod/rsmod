@@ -64,9 +64,7 @@ internal object FishObjEdits : ObjEditor() {
             param[params.food_heal_value] = 7
         }
 
-        edit(fish_objs.bream) {
-            contentGroup = content.food
-        }
+        edit(fish_objs.bream) { contentGroup = content.food }
 
         edit(fish_objs.cod) {
             contentGroup = content.food
@@ -138,6 +136,5 @@ internal object FishObjEdits : ObjEditor() {
             contentGroup = content.food
             param[params.food_heal_value] = 22
         }
-
     }
 }

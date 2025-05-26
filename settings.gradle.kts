@@ -54,3 +54,5 @@ include("content:items")
 findProject(":content:items")?.name = "items"
 include("content:items:food")
 findProject(":content:items:food")?.name = "food"
+include("content:skills:smithing")
+findProject(":content:skills:smithing")?.name = "smithing"
