@@ -24,6 +24,7 @@ import org.rsmod.game.type.inv.InvTypeList
 import org.rsmod.game.type.jingle.JingleTypeList
 import org.rsmod.game.type.loc.LocTypeList
 import org.rsmod.game.type.midi.MidiTypeList
+import org.rsmod.game.type.mod.ModLevelTypeList
 import org.rsmod.game.type.npc.NpcTypeList
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.param.ParamTypeList
@@ -105,6 +106,8 @@ public object CacheModule : ExtendedModule() {
     @Provides public fun dbTablesTypeList(map: TypeListMap): DbTableTypeList = map.dbTables
 
     @Provides public fun huntModeTypeList(map: TypeListMap): HuntModeTypeList = map.hunt
+
+    @Provides public fun modLevelTypeList(map: TypeListMap): ModLevelTypeList = map.modLevels
 }
 
 private class ConfigTypeListMapProvider

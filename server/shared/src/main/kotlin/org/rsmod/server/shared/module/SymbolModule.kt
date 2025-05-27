@@ -47,7 +47,6 @@ private class NameMappingProvider : Provider<NameMapping> {
         val midis = dirs.readSymbols("midi")
         val mesanims = dirs.readSymbols("mesanim")
         val modLevels = dirs.readSymbols("modlevel")
-        val modGroups = dirs.readSymbols("modgroup")
         val npcs = dirs.readSymbols("npc")
         val objs = dirs.readSymbols("obj")
         val params = dirs.readSymbols("param")
@@ -82,7 +81,6 @@ private class NameMappingProvider : Provider<NameMapping> {
             enums = enums,
             invs = invs,
             modLevels = modLevels,
-            modGroups = modGroups,
             seqs = seqs,
             mesanims = mesanims,
             content = content,

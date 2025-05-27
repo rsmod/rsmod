@@ -32,4 +32,5 @@ public object Js5Configs {
     public const val VARNPC: Int = 202
     public const val VARNBIT: Int = 203
     public const val PROJANIM: Int = 204
+    public const val MODLEVEL: Int = 205
 }

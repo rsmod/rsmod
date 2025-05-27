@@ -1,11 +1,16 @@
 package org.rsmod.api.account.character.main
 
+import jakarta.inject.Inject
 import java.time.LocalDateTime
 import org.rsmod.api.account.character.CharacterDataStage
 import org.rsmod.game.entity.Player
+import org.rsmod.game.type.mod.ModLevelTypeList
 import org.rsmod.map.CoordGrid
 
-public class CharacterAccountApplier : CharacterDataStage.Applier<CharacterAccountData> {
+public class CharacterAccountApplier
+@Inject
+constructor(private val modLevelTypes: ModLevelTypeList) :
+    CharacterDataStage.Applier<CharacterAccountData> {
     override fun apply(player: Player, data: CharacterAccountData) {
         player.accountId = data.accountId
         player.characterId = data.characterId
@@ -22,9 +27,6 @@ public class CharacterAccountApplier : CharacterDataStage.Applier<CharacterAccou
 
         val device = data.knownDevice
         player.lastKnownDevice = device
-
-        // TODO: Assign mod group based on data.modGroup once we rework modgroup types.
-
         player.members = data.members
         player.username = data.loginName
         player.displayName = data.displayName ?: ""
@@ -33,5 +35,16 @@ public class CharacterAccountApplier : CharacterDataStage.Applier<CharacterAccou
         player.xpRate = data.xpRate
         player.lastLogin = LocalDateTime.now()
         player.vars.backing.putAll(data.varps)
+        player.assignModLevel(data.modLevel)
+    }
+
+    private fun Player.assignModLevel(modLevelName: String?) {
+        val match =
+            if (modLevelName != null) {
+                modLevelTypes.values.firstOrNull { it.internalName == modLevelName }
+            } else {
+                null
+            }
+        modLevel = match ?: modLevelTypes.default()
     }
 }

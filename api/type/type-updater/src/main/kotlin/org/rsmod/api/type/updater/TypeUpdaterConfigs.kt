@@ -17,6 +17,7 @@ import org.rsmod.api.cache.types.hitmark.HitmarkTypeEncoder
 import org.rsmod.api.cache.types.hunt.HuntModeTypeEncoder
 import org.rsmod.api.cache.types.inv.InvTypeEncoder
 import org.rsmod.api.cache.types.loc.LocTypeEncoder
+import org.rsmod.api.cache.types.mod.ModLevelTypeEncoder
 import org.rsmod.api.cache.types.npc.NpcTypeEncoder
 import org.rsmod.api.cache.types.obj.ObjTypeEncoder
 import org.rsmod.api.cache.types.param.ParamTypeEncoder
@@ -52,6 +53,8 @@ import org.rsmod.game.type.inv.InvTypeBuilder
 import org.rsmod.game.type.inv.UnpackedInvType
 import org.rsmod.game.type.loc.LocTypeBuilder
 import org.rsmod.game.type.loc.UnpackedLocType
+import org.rsmod.game.type.mod.ModLevelTypeBuilder
+import org.rsmod.game.type.mod.UnpackedModLevelType
 import org.rsmod.game.type.npc.NpcTypeBuilder
 import org.rsmod.game.type.npc.UnpackedNpcType
 import org.rsmod.game.type.obj.ObjTypeBuilder
@@ -198,6 +201,9 @@ constructor(
         val headbars = merge(build.headbars, edit.headbars, vanilla.headbars, HeadbarTypeBuilder)
         val hitmarks = merge(build.hitmarks, edit.hitmarks, vanilla.hitmarks, HitmarkTypeBuilder)
 
+        val modLevels =
+            merge(build.modLevels, edit.modLevels, vanilla.modLevels, ModLevelTypeBuilder)
+
         val projanims =
             merge(build.projanims, edit.projanims, vanilla.projanims, ProjAnimTypeBuilder)
 
@@ -229,6 +235,7 @@ constructor(
             walkTriggers = walkTriggers,
             dbRows = dbRows,
             dbTables = dbTables,
+            modLevels = modLevels,
         )
     }
 
@@ -252,6 +259,7 @@ constructor(
         val walkTriggers: List<WalkTriggerType>,
         val dbRows: List<UnpackedDbRowType>,
         val dbTables: List<UnpackedDbTableType>,
+        val modLevels: List<UnpackedModLevelType>,
     )
 
     private fun List<*>.toUpdateMap(): UpdateMap {
@@ -274,6 +282,7 @@ constructor(
         val walkTrig = filterIsInstance<WalkTriggerType>()
         val dbRows = filterIsInstance<UnpackedDbRowType>()
         val dbTables = filterIsInstance<UnpackedDbTableType>()
+        val modLevels = filterIsInstance<UnpackedModLevelType>()
 
         return UpdateMap(
             invs = invs,
@@ -295,6 +304,7 @@ constructor(
             walkTriggers = walkTrig,
             dbRows = dbRows,
             dbTables = dbTables,
+            modLevels = modLevels,
         )
     }
 
@@ -337,6 +347,7 @@ constructor(
             DbTableTypeEncoder.encodeAll(cache, updates.dbTables, ctx)
             DbRowTypeEncoder.encodeAll(cache, updates.dbRows, ctx)
             HuntModeTypeEncoder.encodeAll(cache, updates.hunt, ctx)
+            ModLevelTypeEncoder.encodeAll(cache, updates.modLevels, ctx)
         }
     }
 }

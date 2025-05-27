@@ -11,6 +11,7 @@ import net.rsprot.protocol.loginprot.incoming.util.OtpAuthenticationType
 import net.rsprot.protocol.loginprot.outgoing.LoginResponse
 import org.rsmod.api.account.AccountManager
 import org.rsmod.api.account.loader.request.AccountLoadAuth
+import org.rsmod.api.config.refs.modlevels
 import org.rsmod.api.net.rsprot.player.AccountLoadResponseHook
 import org.rsmod.api.net.rsprot.provider.Js5Store
 import org.rsmod.api.pw.hash.PasswordHashing
@@ -23,6 +24,7 @@ import org.rsmod.api.totp.useSecret
 import org.rsmod.events.EventBus
 import org.rsmod.game.GameUpdate
 import org.rsmod.game.entity.Player
+import org.rsmod.game.type.mod.ModLevelTypeList
 
 class ConnectionHandler
 @Inject
@@ -36,10 +38,13 @@ private constructor(
     private val accountManager: AccountManager,
     private val passwordHashing: PasswordHashing,
     private val totp: Totp,
+    modLevelTypes: ModLevelTypeList,
     js5: Js5Store,
 ) : GameConnectionHandler<Player> {
     private val logger = InlineLogger()
     private val js5Crc = js5.crc
+
+    private val devModeModLevel by lazy { modLevelTypes[modlevels.owner] }
 
     private val world: Int
         get() = config.world
@@ -108,6 +113,7 @@ private constructor(
                 eventBus = eventBus,
                 accountRegistry = accountReg,
                 playerRegistry = playerReg,
+                devModeModLevel = devModeModLevel,
                 loginBlock = block,
                 channelResponses = responseHandler,
                 inputPassword = password.copyOf(),
