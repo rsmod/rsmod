@@ -20,6 +20,14 @@ public fun Player.runClientScript(id: Int, args: List<Any>) {
 }
 
 public object ClientScripts {
+    public fun settingsInterfaceScaling(player: Player, scale: Int) {
+        player.runClientScript(2358, scale)
+    }
+
+    public fun buffBarLayoutRedraw(player: Player) {
+        player.runClientScript(5937)
+    }
+
     public fun playerMember(player: Player, member: Boolean = player.members): Unit =
         player.runClientScript(828, if (member) 1 else 0)
 

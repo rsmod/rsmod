@@ -1,5 +1,6 @@
 package org.rsmod.api.type.refs.dbcol
 
+import kotlin.reflect.KClass
 import org.rsmod.api.type.refs.TypeReferences
 import org.rsmod.game.dbtable.DbColumnCodec
 import org.rsmod.game.dbtable.DbGroupColumn
@@ -9,6 +10,7 @@ import org.rsmod.game.stat.StatRequirement
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.dbrow.DbRowType
 import org.rsmod.game.type.enums.EnumType
+import org.rsmod.game.type.interf.InterfaceType
 import org.rsmod.game.type.loc.LocType
 import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.obj.ObjType
@@ -54,12 +56,20 @@ public abstract class DbColumnReferences :
         return single(internal, DbColumnCodec.DbRowTypeCodec)
     }
 
-    public fun enum(internal: String): DbSingleColumn<Int, EnumType<*, *>> {
-        return single(internal, DbColumnCodec.EnumTypeCodec)
+    public fun <K : Any, V : Any> enum(
+        internal: String,
+        key: KClass<K>,
+        value: KClass<V>,
+    ): DbSingleColumn<Int, EnumType<K, V>> {
+        return single(internal, DbColumnCodec.EnumTypeCodec(key, value))
     }
 
     public fun int(internal: String): DbSingleColumn<Int, Int> {
         return single(internal, DbColumnCodec.IntCodec)
+    }
+
+    public fun interf(internal: String): DbSingleColumn<Int, InterfaceType> {
+        return single(internal, DbColumnCodec.InterfaceTypeCodec)
     }
 
     public fun loc(internal: String): DbSingleColumn<Int, LocType> {

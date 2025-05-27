@@ -91,8 +91,7 @@ constructor(
         chatboxUnlocked = displayName.isNotBlank()
         hideRoofs = true
         for (varp in transmitVars) {
-            val value = vars.getOrNull(varp) ?: continue
-            if (value != 0 || varp.transmit.always) {
+            if (varp in vars) {
                 resyncVar(varp)
             }
         }

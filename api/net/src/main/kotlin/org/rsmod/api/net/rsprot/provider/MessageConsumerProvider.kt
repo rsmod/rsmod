@@ -11,6 +11,7 @@ import net.rsprot.protocol.game.incoming.locs.OpLoc6
 import net.rsprot.protocol.game.incoming.locs.OpLocT
 import net.rsprot.protocol.game.incoming.messaging.MessagePublic
 import net.rsprot.protocol.game.incoming.misc.client.MapBuildComplete
+import net.rsprot.protocol.game.incoming.misc.client.WindowStatus
 import net.rsprot.protocol.game.incoming.misc.user.ClientCheat
 import net.rsprot.protocol.game.incoming.misc.user.CloseModal
 import net.rsprot.protocol.game.incoming.misc.user.MoveGameClick
@@ -53,12 +54,14 @@ import org.rsmod.api.net.rsprot.handlers.ResumePNameDialogHandler
 import org.rsmod.api.net.rsprot.handlers.ResumePObjDialogHandler
 import org.rsmod.api.net.rsprot.handlers.ResumePStringDialogHandler
 import org.rsmod.api.net.rsprot.handlers.ResumePauseButtonHandler
+import org.rsmod.api.net.rsprot.handlers.WindowStatusHandler
 import org.rsmod.game.entity.Player
 
 @Singleton
 class MessageConsumerProvider
 @Inject
 constructor(
+    private val windowStatus: WindowStatusHandler,
     private val moveGameClick: MoveGameClickHandler,
     private val moveMinimapClick: MoveMinimapClickHandler,
     private val opLoc: OpLocHandler,
@@ -86,6 +89,7 @@ constructor(
 ) {
     fun get(): DefaultGameMessageConsumerRepositoryProvider<Player> {
         val builder = GameMessageConsumerRepositoryBuilder<Player>()
+        builder.addListener(WindowStatus::class.java, windowStatus)
         builder.addListener(MoveGameClick::class.java, moveGameClick)
         builder.addListener(MoveMinimapClick::class.java, moveMinimapClick)
         builder.addListener(OpLoc::class.java, opLoc)

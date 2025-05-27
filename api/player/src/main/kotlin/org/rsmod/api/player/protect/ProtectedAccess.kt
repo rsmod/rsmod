@@ -30,7 +30,6 @@ import org.rsmod.api.invtx.select
 import org.rsmod.api.market.MarketPrices
 import org.rsmod.api.player.cinematic.CameraMode
 import org.rsmod.api.player.cinematic.Cinematic
-import org.rsmod.api.player.cinematic.CompassState
 import org.rsmod.api.player.cinematic.MinimapState
 import org.rsmod.api.player.combatClearQueue
 import org.rsmod.api.player.dialogue.Dialogue
@@ -102,6 +101,7 @@ import org.rsmod.api.player.ui.ifOpenMain
 import org.rsmod.api.player.ui.ifOpenMainModal
 import org.rsmod.api.player.ui.ifOpenMainSidePair
 import org.rsmod.api.player.ui.ifOpenOverlay
+import org.rsmod.api.player.ui.ifOpenSide
 import org.rsmod.api.player.ui.ifOpenSub
 import org.rsmod.api.player.ui.ifSetAnim
 import org.rsmod.api.player.ui.ifSetEvents
@@ -2928,18 +2928,6 @@ public class ProtectedAccess(
         Cinematic.setCameraMode(player, CameraMode.Normal)
     }
 
-    public fun compassHideOps() {
-        Cinematic.setCompassState(player, CompassState.HideOps)
-    }
-
-    public fun compassUnknown2() {
-        Cinematic.setCompassState(player, CompassState.Unknown2)
-    }
-
-    public fun compassReset() {
-        Cinematic.setCompassState(player, CompassState.Normal)
-    }
-
     public fun minimapHideFull() {
         Cinematic.setMinimapState(player, MinimapState.Disabled)
     }
@@ -3041,6 +3029,10 @@ public class ProtectedAccess(
 
     public fun ifCloseSub(interf: InterfaceType) {
         player.ifCloseSub(interf, context.eventBus)
+    }
+
+    public fun ifOpenSide(interf: InterfaceType) {
+        player.ifOpenSide(interf, context.eventBus)
     }
 
     /**

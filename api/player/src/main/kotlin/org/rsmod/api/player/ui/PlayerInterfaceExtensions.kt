@@ -1,6 +1,7 @@
 package org.rsmod.api.player.ui
 
 import net.rsprot.protocol.game.outgoing.interfaces.IfCloseSub
+import net.rsprot.protocol.game.outgoing.interfaces.IfMoveSub
 import net.rsprot.protocol.game.outgoing.interfaces.IfOpenSub
 import net.rsprot.protocol.game.outgoing.interfaces.IfOpenTop
 import net.rsprot.protocol.game.outgoing.interfaces.IfSetAnim
@@ -51,11 +52,11 @@ import org.rsmod.game.ui.Component
 import org.rsmod.game.ui.UserInterface
 import org.rsmod.game.ui.UserInterfaceMap
 
-private typealias OpenTop = org.rsmod.api.player.ui.IfOpenTop
-
 private typealias OpenSub = org.rsmod.api.player.ui.IfOpenSub
 
 private typealias CloseSub = org.rsmod.api.player.ui.IfCloseSub
+
+private typealias MoveSub = org.rsmod.api.player.ui.IfMoveSub
 
 private var Player.chatModalUnclamp: Int by intVarBit(varbits.chatmodal_unclamp)
 
@@ -83,6 +84,10 @@ public fun Player.ifSetNpcHead(target: ComponentType, npc: NpcType) {
 /** @see [IfSetNpcHeadActive] */
 public fun Player.ifSetNpcHeadActive(target: ComponentType, npcSlotId: Int) {
     client.write(IfSetNpcHeadActive(target.interfaceId, target.component, npcSlotId))
+}
+
+public fun Player.ifOpenSide(interf: InterfaceType, eventBus: EventBus) {
+    openModal(interf, components.sidemodal, eventBus)
 }
 
 public fun Player.ifOpenMainModal(
@@ -120,7 +125,7 @@ public fun Player.ifOpenOverlay(interf: InterfaceType, eventBus: EventBus) {
 }
 
 public fun Player.ifOpenFullOverlay(interf: InterfaceType, eventBus: EventBus) {
-    ifOpenOverlay(interf, components.toplevel_target_overlayatmosphere, eventBus)
+    ifOpenOverlay(interf, components.toplevel_target_overlay_atmosphere, eventBus)
 }
 
 /**
@@ -218,12 +223,18 @@ public fun Player.ifSetHide(target: ComponentType, hide: Boolean) {
     client.write(IfSetHide(target.interfaceId, target.component, hide))
 }
 
-public fun Player.ifOpenTop(topLevel: InterfaceType, eventBus: EventBus) {
+public fun Player.ifOpenTop(topLevel: InterfaceType) {
     val userInterface = UserInterface(topLevel.id)
-    ui.topLevels.clear()
-    ui.topLevels += userInterface
+    ui.topLevel = userInterface
     client.write(IfOpenTop(topLevel.id))
-    eventBus.publish(OpenTop(this, topLevel.toIdInterface()))
+}
+
+public fun Player.ifMoveTop(dest: InterfaceType, eventBus: EventBus) {
+    check(ui.topLevel != UserInterface.NULL) {
+        "This function can only be used after `ifOpenTop` has been called. " +
+            "Use `ifOpenTop` instead."
+    }
+    eventBus.publish(IfMoveTop(this, dest))
 }
 
 public fun Player.ifOpenSub(
@@ -397,6 +408,16 @@ private fun Player.triggerCloseOverlay(
     ui.events.clear(interf)
     eventBus.publish(CloseSub(this, interf, target))
     triggerCloseOverlayChildren(interf, eventBus)
+}
+
+public fun Player.ifMoveSub(
+    source: Component,
+    dest: Component,
+    base: Component,
+    eventBus: EventBus,
+) {
+    client.write(IfMoveSub(source.packed, dest.packed))
+    eventBus.publish(MoveSub(this, base.packed))
 }
 
 private fun InterfaceType.toIdInterface() = UserInterface(id)

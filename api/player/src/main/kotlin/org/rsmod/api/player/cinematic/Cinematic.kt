@@ -22,7 +22,7 @@ import org.rsmod.game.type.interf.IfSubType
 
 public object Cinematic {
     private var Player.camMode by enumVarBit<CameraMode>(varbits.fov_clamp)
-    private var Player.compass by enumVarBit<CompassState>(varbits.minimap_state)
+    private var Player.minimap by enumVarBit<MinimapState>(varbits.minimap_state)
     private var Player.hideTop by boolVarBit(varbits.cutscene_status)
     private var Player.hideHud by boolVarBit(varbits.gravestone_tli_hide)
     private var Player.acceptAid by boolVarBit(varbits.option_acceptaid)
@@ -30,10 +30,6 @@ public object Cinematic {
 
     public fun setCameraMode(player: Player, mode: CameraMode) {
         player.camMode = mode
-    }
-
-    public fun setCompassState(player: Player, compass: CompassState) {
-        player.compass = compass
     }
 
     public fun setHideToplevel(player: Player, hide: Boolean) {
@@ -60,7 +56,13 @@ public object Cinematic {
     }
 
     public fun setMinimapState(player: Player, state: MinimapState) {
-        player.client.write(MinimapToggle(state.id))
+        player.minimap = state
+        player.client.write(MinimapToggle(state.varValue))
+    }
+
+    public fun syncMinimapState(player: Player) {
+        val state = player.minimap
+        player.client.write(MinimapToggle(state.varValue))
     }
 
     public fun setHideEntityOps(player: Player, hide: Boolean) {
@@ -131,13 +133,13 @@ public object Cinematic {
         player.ifCloseOverlay(interfaces.magic_spellbook, eventBus)
         player.ifOpenSub(
             interfaces.friends,
-            components.toplevel_target_friends,
+            components.toplevel_target_side9,
             IfSubType.Overlay,
             eventBus,
         )
         player.ifOpenSub(
             interfaces.account,
-            components.toplevel_target_account,
+            components.toplevel_target_side8,
             IfSubType.Overlay,
             eventBus,
         )
@@ -145,7 +147,7 @@ public object Cinematic {
         player.ifCloseOverlay(interfaces.emote, eventBus)
         player.ifOpenSub(
             interfaces.music,
-            components.toplevel_target_music,
+            components.toplevel_target_side13,
             IfSubType.Overlay,
             eventBus,
         )
@@ -154,91 +156,91 @@ public object Cinematic {
     public fun openTopLevelTabs(player: Player, eventBus: EventBus) {
         player.ifOpenSub(
             interfaces.xp_drops,
-            components.toplevel_target_xpdrops,
+            components.toplevel_target_xp_drops,
             IfSubType.Overlay,
             eventBus,
         )
 
         player.ifOpenSub(
             interfaces.combat_interface,
-            components.toplevel_target_combat,
+            components.toplevel_target_side0,
             IfSubType.Overlay,
             eventBus,
         )
 
         player.ifOpenSub(
             interfaces.stats,
-            components.toplevel_target_stats,
+            components.toplevel_target_side1,
             IfSubType.Overlay,
             eventBus,
         )
 
         player.ifOpenSub(
             interfaces.side_journal,
-            components.toplevel_target_sidejournal,
+            components.toplevel_target_side2,
             IfSubType.Overlay,
             eventBus,
         )
 
         player.ifOpenSub(
             interfaces.inventory,
-            components.toplevel_target_inventory,
+            components.toplevel_target_side3,
             IfSubType.Overlay,
             eventBus,
         )
 
         player.ifOpenSub(
             interfaces.wornitems,
-            components.toplevel_target_wornitems,
+            components.toplevel_target_side4,
             IfSubType.Overlay,
             eventBus,
         )
 
         player.ifOpenSub(
             interfaces.prayerbook,
-            components.toplevel_target_prayerbook,
+            components.toplevel_target_side5,
             IfSubType.Overlay,
             eventBus,
         )
 
         player.ifOpenSub(
             interfaces.magic_spellbook,
-            components.toplevel_target_magicspellbook,
+            components.toplevel_target_side6,
             IfSubType.Overlay,
             eventBus,
         )
 
         player.ifOpenSub(
             interfaces.friends,
-            components.toplevel_target_friends,
+            components.toplevel_target_side9,
             IfSubType.Overlay,
             eventBus,
         )
 
         player.ifOpenSub(
             interfaces.account,
-            components.toplevel_target_account,
+            components.toplevel_target_side8,
             IfSubType.Overlay,
             eventBus,
         )
 
         player.ifOpenSub(
             interfaces.settings_side,
-            components.toplevel_target_settingsside,
+            components.toplevel_target_side11,
             IfSubType.Overlay,
             eventBus,
         )
 
         player.ifOpenSub(
             interfaces.emote,
-            components.toplevel_target_emote,
+            components.toplevel_target_side12,
             IfSubType.Overlay,
             eventBus,
         )
 
         player.ifOpenSub(
             interfaces.music,
-            components.toplevel_target_music,
+            components.toplevel_target_side13,
             IfSubType.Overlay,
             eventBus,
         )

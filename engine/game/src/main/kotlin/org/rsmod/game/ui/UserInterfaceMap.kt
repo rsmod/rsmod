@@ -2,23 +2,32 @@ package org.rsmod.game.ui
 
 import it.unimi.dsi.fastutil.ints.Int2IntMap
 import it.unimi.dsi.fastutil.ints.IntArraySet
+import org.rsmod.annotations.InternalApi
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.interf.IfEvent
 import org.rsmod.game.type.interf.InterfaceType
 import org.rsmod.game.ui.collection.ComponentEventMap
 import org.rsmod.game.ui.collection.ComponentTargetMap
 import org.rsmod.game.ui.collection.ComponentTranslationMap
-import org.rsmod.game.ui.collection.UserInterfaceSet
 
-public data class UserInterfaceMap(
-    public val topLevels: UserInterfaceSet = UserInterfaceSet(),
+public class UserInterfaceMap(
+    public var topLevel: UserInterface = UserInterface.NULL,
     public val overlays: ComponentTargetMap = ComponentTargetMap(),
     public val modals: ComponentTargetMap = ComponentTargetMap(),
     public val events: ComponentEventMap = ComponentEventMap(),
     public val gameframe: ComponentTranslationMap = ComponentTranslationMap(),
     public val closeQueue: IntArraySet = IntArraySet(),
-    public var closeModal: Boolean = false,
 ) {
+    @InternalApi public var closeModal: Boolean = false
+
+    public var windowMode: Int = 0
+
+    public var frameWidth: Int = 0
+        private set
+
+    public var frameHeight: Int = 0
+        private set
+
     public fun queueClose(target: Component) {
         closeQueue.add(target.packed)
     }
@@ -34,8 +43,7 @@ public data class UserInterfaceMap(
             containsGameframe(type)
     }
 
-    public fun containsTopLevel(topLevel: InterfaceType): Boolean =
-        topLevels.backing.contains(topLevel.id)
+    public fun containsTopLevel(topLevel: InterfaceType): Boolean = this.topLevel.id == topLevel.id
 
     public fun containsOverlay(overlay: InterfaceType): Boolean =
         overlays.backing.containsValue(overlay.id)
@@ -67,5 +75,12 @@ public data class UserInterfaceMap(
     private fun Int2IntMap.get(key: ComponentType): Component {
         val packed = getOrDefault(key.packed, null) ?: return Component.NULL
         return Component(packed)
+    }
+
+    @InternalApi
+    public fun setWindowStatus(mode: Int, width: Int, height: Int) {
+        this.windowMode = mode
+        this.frameWidth = width
+        this.frameHeight = height
     }
 }

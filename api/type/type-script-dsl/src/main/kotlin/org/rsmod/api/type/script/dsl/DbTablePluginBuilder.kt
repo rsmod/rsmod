@@ -28,19 +28,22 @@ public class DbTablePluginBuilder(public var internal: String? = null) {
         return backing.build(id)
     }
 
-    public fun <T, R> column(type: DbSingleColumn<T, R>, init: SingleColumn<T, R>.() -> Unit) {
+    public fun <T, R> column(type: DbSingleColumn<T, R>, init: SingleColumn<T, R>.() -> Unit = {}) {
         val builder = SingleColumn(type).apply(init)
         builder.apply(this)
     }
 
-    public fun <T, R> columnGroup(type: DbGroupColumn<T, R>, init: GroupColumn<T, R>.() -> Unit) {
+    public fun <T, R> columnGroup(
+        type: DbGroupColumn<T, R>,
+        init: GroupColumn<T, R>.() -> Unit = {},
+    ) {
         val builder = GroupColumn(type).apply(init)
         builder.apply(this)
     }
 
     public fun <T, R> columnGroupList(
         type: DbGroupListColumn<T, R>,
-        init: GroupListColumn<T, R>.() -> Unit,
+        init: GroupListColumn<T, R>.() -> Unit = {},
     ) {
         val builder = GroupListColumn(type).apply(init)
         builder.apply(this)
@@ -135,7 +138,7 @@ public class DbTablePluginBuilder(public var internal: String? = null) {
 
     @DbTableBuilderDsl
     public class GroupListColumn<T, R>(private val column: DbGroupListColumn<T, R>) {
-        public var default: R? = null
+        public var default: List<R>? = null
         public var clientside: Boolean = false
 
         internal fun apply(builder: DbTablePluginBuilder) {
@@ -169,7 +172,7 @@ public class DbTablePluginBuilder(public var internal: String? = null) {
 
             val default = this.default
             if (default != null) {
-                val encoded = column.encode(default)
+                val encoded = default.flatMap(column::encode)
                 builder.defaults[columnId] = encoded
                 attributes = attributes or UnpackedDbTableType.REQUIRED
             }

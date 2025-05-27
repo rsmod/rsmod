@@ -31,7 +31,11 @@ object BaseVarps : VarpReferences() {
     val option_run = find("option_run", 39271563)
     val option_attackpriority = find("option_attackpriority", 251271828)
     val option_attackpriority_npc = find("option_attackpriority_npc", 296441051)
+
+    val option_master_volume = find("option_master_volume", 861623718)
+    val option_music = find("option_music", 38136650)
     val option_sounds = find("option_sounds", 38363631)
+    val option_areasounds = find("option_areasounds", 197931274)
 
     val cookquest = find("cookquest", 6586291)
     val doricquest = find("doricquest", 7040253)
@@ -64,6 +68,7 @@ object BaseVarps : VarpReferences() {
     val date_vars = find("date_vars", 698424318)
 
     /* Server-side-only types */
+    val gameframe = find("gameframe")
     val pk_prey1 = find("pk_prey1")
     val pk_prey2 = find("pk_prey2")
     val pk_predator1 = find("pk_predator1")

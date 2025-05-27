@@ -179,19 +179,17 @@ constructor(
 
     private fun Interaction.isCompleted(): Boolean = interacted && !apRangeCalled
 
-    private fun Player.routeToPathingTarget(interaction: Interaction) {
+    private fun Player.routeToPathingTarget(interaction: Interaction) =
         when (interaction) {
             is InteractionNpc -> routeTo(interaction)
             is InteractionPlayer -> routeTo(interaction)
             is InteractionLoc -> {
                 /* no-op */
             }
-
             is InteractionObj -> {
                 /* no-op */
             }
         }
-    }
 
     private fun Player.determinePreMovementStep(interaction: Interaction): InteractionStep =
         when (interaction) {
