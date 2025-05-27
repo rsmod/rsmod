@@ -50,6 +50,7 @@ fun main(args: Array<String>): Unit = GameServer().main(args)
 class GameServer(private val skipTypeVerificationOverride: Boolean? = null) :
     CliktCommand(name = "server") {
     private val logger = InlineLogger()
+    private var packedCache = false
 
     private val pluginPackages: Array<String>
         get() = PluginConstants.searchPackages
@@ -214,10 +215,14 @@ class GameServer(private val skipTypeVerificationOverride: Boolean? = null) :
         val verifier = injector.getInstance(TypeVerifier::class.java)
         val verification = verifier.verifyAll(verifyIdentityHashes = !skipTypeVerification)
         if (verification.isCacheUpdateRequired()) {
+            if (packedCache) {
+                throw RuntimeException(verification.formatError())
+            }
             logger.debug { verification.formatError() }
             logger.info { "Packing latest cache additions and restarting server..." }
             updateCacheConfigs(injector)
             logger.info { "Now restarting game server..." }
+            packedCache = true
             startApplication()
             throw ServerRestartException()
         } else if (verification.isFailure()) {
