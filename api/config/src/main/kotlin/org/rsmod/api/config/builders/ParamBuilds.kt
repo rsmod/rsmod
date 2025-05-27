@@ -142,7 +142,15 @@ internal object ParamBuilds : ParamBuilder() {
         build<Boolean>("food_is_combo") { default = false }
         build<Boolean>("food_overheal") { default = false }
         build<Boolean>("food_requires_replacement") { default = false }
-        build<Int>("food_replacement") { default = -1 }
+        build<ObjType>("food_replacement") { default = null }
+
+        build<StatType>("boosted_skill1")
+        build<StatType>("boosted_skill2")
+        build<StatType>("boosted_skill3")
+        build<Int>("boosted_skill1_value")
+        build<Int>("boosted_skill2_value")
+        build<Int>("boosted_skill3_value")
+
 
         build<StatType>("xpmod_stat")
         build<Int>("xpmod_percent")

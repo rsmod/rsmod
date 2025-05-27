@@ -207,5 +207,12 @@ object BaseParams : ParamReferences() {
     val food_is_combo: ParamBool = find("food_is_combo")
     val food_overheal: ParamBool = find("food_overheal")
     val food_requires_replacement: ParamBool = find("food_requires_replacement")
-    val food_replacement: ParamInt = find("food_replacement")
+    val food_replacement: ParamObj = find("food_replacement")
+
+    val boosted_skill1: ParamStat = find("boosted_skill1")
+    val boosted_skill2: ParamStat = find("boosted_skill2")
+    val boosted_skill3: ParamStat = find("boosted_skill3")
+    val boosted_skill1_value: ParamInt = find("boosted_skill1_value")
+    val boosted_skill2_value: ParamInt = find("boosted_skill2_value")
+    val boosted_skill3_value: ParamInt = find("boosted_skill3_value")
 }

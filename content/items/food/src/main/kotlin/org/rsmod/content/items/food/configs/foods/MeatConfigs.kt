@@ -17,10 +17,21 @@ internal object MeatObjs : ObjReferences() {
     val cooked_sunlight_antelope = find("antelopesun_cooked")
     val cooked_dashing_kebbit = find("dashingkebbit_cooked")
     val cooked_moonlight_antelope = find("antelopemoon_cooked")
+    val cooked_chicken = find("cooked_chicken")
+    val cooked_meat = find("cooked_meat")
 }
 
 internal object MeatObjEdits : ObjEditor() {
     init {
+        edit (meat_objs.cooked_chicken) {
+            contentGroup = content.food
+            param[params.food_heal_value] = 3
+        }
+
+        edit (meat_objs.cooked_meat) {
+            contentGroup = content.food
+            param[params.food_heal_value] = 3
+        }
         edit(meat_objs.cooked_kebbit) {
             contentGroup = content.food
             param[params.food_heal_value] = 4

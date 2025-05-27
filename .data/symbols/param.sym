@@ -304,3 +304,9 @@
 65538	food_requires_replacement
 65539	food_replacement
 65540	food_secondary_heal
+65541	boosted_skill1
+65542	boosted_skill2
+65543	boosted_skill3
+65544	boosted_skill1_value
+65545	boosted_skill2_value
+65546	boosted_skill3_value

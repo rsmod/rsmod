@@ -566,18 +566,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d0a5f4dc-42be-4d65-930d-5e9377798732" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/content/items/food/src/main/kotlin/org/rsmod/content/items/potions/configs/PotionBoosting.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/content/items/food/src/main/kotlin/org/rsmod/content/items/potions/scripts/DrinkPotion.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.data/symbols/queue.sym" beforeDir="false" afterPath="$PROJECT_DIR$/.data/symbols/queue.sym" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.data/symbols/param.sym" beforeDir="false" afterPath="$PROJECT_DIR$/.data/symbols/param.sym" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/builders/VarpBuilds.kt" beforeDir="false" afterPath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/builders/VarpBuilds.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/builders/ParamBuilds.kt" beforeDir="false" afterPath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/builders/ParamBuilds.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseObjs.kt" beforeDir="false" afterPath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseObjs.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseQueues.kt" beforeDir="false" afterPath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseQueues.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseParams.kt" beforeDir="false" afterPath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseParams.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/content/items/food/src/main/kotlin/org/rsmod/content/items/food/configs/FoodConstants.kt" beforeDir="false" afterPath="$PROJECT_DIR$/content/items/food/src/main/kotlin/org/rsmod/content/items/food/configs/FoodConstants.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/content/items/food/src/main/kotlin/org/rsmod/content/items/food/configs/FoodConsume.kt" beforeDir="false" afterPath="$PROJECT_DIR$/content/items/food/src/main/kotlin/org/rsmod/content/items/food/configs/FoodConsume.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/content/items/food/src/main/kotlin/org/rsmod/content/items/food/configs/FoodHealing.kt" beforeDir="false" afterPath="$PROJECT_DIR$/content/items/food/src/main/kotlin/org/rsmod/content/items/food/configs/FoodHealing.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/content/items/food/src/main/kotlin/org/rsmod/content/items/food/configs/foods/FishConfigs.kt" beforeDir="false" afterPath="$PROJECT_DIR$/content/items/food/src/main/kotlin/org/rsmod/content/items/food/configs/foods/FishConfigs.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/content/items/food/src/main/kotlin/org/rsmod/content/items/food/configs/foods/MeatConfigs.kt" beforeDir="false" afterPath="$PROJECT_DIR$/content/items/food/src/main/kotlin/org/rsmod/content/items/food/configs/foods/MeatConfigs.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/content/items/food/src/main/kotlin/org/rsmod/content/items/food/scripts/EatFood.kt" beforeDir="false" afterPath="$PROJECT_DIR$/content/items/food/src/main/kotlin/org/rsmod/content/items/food/scripts/EatFood.kt" afterDir="false" />
     </list>
@@ -668,29 +664,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.Build rsmod.executor": "Run",
-    "Gradle.rsmod [downloadCache].executor": "Run",
-    "Gradle.rsmod [formatCode].executor": "Run",
-    "Gradle.rsmod [packCache].executor": "Run",
-    "Gradle.rsmod [run].executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.Build rsmod.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.rsmod [downloadCache].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.rsmod [formatCode].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.rsmod [packCache].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.rsmod [run].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="K2MoveDeclarationsDialog.RECENT_PACKAGE_KEY">
       <recent name="org.rsmod.content.items.food.configs.foods" />
@@ -772,6 +768,14 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.23774.435" />
+        <option value="bundled-js-predefined-d6986cc7102b-f27c65a3e318-JavaScript-IU-251.23774.435" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="project-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -781,6 +785,7 @@
       <option name="presentableId" value="Default" />
       <updated>1748147949973</updated>
       <workItem from="1748205734828" duration="9325000" />
+      <workItem from="1748304379211" duration="4968000" />
     </task>
     <servers />
   </component>
