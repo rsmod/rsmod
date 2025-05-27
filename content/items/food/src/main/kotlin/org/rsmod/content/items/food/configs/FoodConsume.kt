@@ -23,7 +23,7 @@ fun ProtectedAccess.eat(item: InvObj, type: UnpackedObjType, slot: Int) {
     } else player.foodClock = mapClock + FOOD_DELAY
 
     if (type.param(params.food_requires_replacement)) {
-        invReplace(inv, item.id, 1, replacement)
+        invReplace(inv, slot, 1, replacement)
     } else invDel(inv, type, 1, slot)
 
     anim(seqs.human_eat)

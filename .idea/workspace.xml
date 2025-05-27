@@ -566,16 +566,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d0a5f4dc-42be-4d65-930d-5e9377798732" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.data/symbols/param.sym" beforeDir="false" afterPath="$PROJECT_DIR$/.data/symbols/param.sym" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/builders/ParamBuilds.kt" beforeDir="false" afterPath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/builders/ParamBuilds.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseObjs.kt" beforeDir="false" afterPath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseObjs.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseParams.kt" beforeDir="false" afterPath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseParams.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/content/items/food/src/main/kotlin/org/rsmod/content/items/food/configs/FoodConstants.kt" beforeDir="false" afterPath="$PROJECT_DIR$/content/items/food/src/main/kotlin/org/rsmod/content/items/food/configs/FoodConstants.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/content/items/food/src/main/kotlin/org/rsmod/content/items/food/configs/FoodConsume.kt" beforeDir="false" afterPath="$PROJECT_DIR$/content/items/food/src/main/kotlin/org/rsmod/content/items/food/configs/FoodConsume.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/content/items/food/src/main/kotlin/org/rsmod/content/items/food/configs/foods/MeatConfigs.kt" beforeDir="false" afterPath="$PROJECT_DIR$/content/items/food/src/main/kotlin/org/rsmod/content/items/food/configs/foods/MeatConfigs.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/content/items/food/src/main/kotlin/org/rsmod/content/items/food/scripts/EatFood.kt" beforeDir="false" afterPath="$PROJECT_DIR$/content/items/food/src/main/kotlin/org/rsmod/content/items/food/scripts/EatFood.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/content/items/food/src/main/kotlin/org/rsmod/content/items/food/configs/foods/PieConfigs.kt" beforeDir="false" afterPath="$PROJECT_DIR$/content/items/food/src/main/kotlin/org/rsmod/content/items/food/configs/foods/PieConfigs.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -767,14 +760,6 @@
         <item itemvalue="Gradle.rsmod [downloadCache]" />
       </list>
     </recent_temporary>
-  </component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.23774.435" />
-        <option value="bundled-js-predefined-d6986cc7102b-f27c65a3e318-JavaScript-IU-251.23774.435" />
-      </set>
-    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="project-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
