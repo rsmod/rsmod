@@ -8,6 +8,7 @@ import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.stat.statHeal
 import org.rsmod.api.script.onOpHeld1
 import org.rsmod.api.script.onPlayerQueueWithArgs
+import org.rsmod.content.items.food.configs.boost
 import org.rsmod.content.items.food.configs.canEat
 import org.rsmod.content.items.food.configs.eat
 import org.rsmod.content.items.food.configs.heal
@@ -31,10 +32,15 @@ class EatFood : PluginScript() {
             return
         }
         eat(item, type, slot)
+
         if (type.hasParam(params.food_secondary_heal)) {
             healOverTime(type, player)
         } else {
             heal(type, player)
+        }
+
+        if (type.hasParam(params.boosted_skill1)) {
+            boost(type, player)
         }
     }
 }

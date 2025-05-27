@@ -35,3 +35,17 @@ fun ProtectedAccess.canEat(type: UnpackedObjType, player: Player): Boolean {
         true
     } else player.foodClock <= mapClock
 }
+
+fun ProtectedAccess.boost(type: UnpackedObjType, player: Player) {
+    if (type.hasParam(params.boosted_skill1)) {
+        statBoost(type.param(params.boosted_skill1), type.param(params.boosted_skill1_value), 0)
+    }
+
+    if (type.hasParam(params.boosted_skill2)) {
+        statBoost(type.param(params.boosted_skill2), type.param(params.boosted_skill2_value), 0)
+    }
+
+    if (type.hasParam(params.boosted_skill3)) {
+        statBoost(type.param(params.boosted_skill3), type.param(params.boosted_skill3_value), 0)
+    }
+}
