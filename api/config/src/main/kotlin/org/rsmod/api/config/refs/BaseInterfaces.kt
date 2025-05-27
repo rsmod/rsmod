@@ -59,8 +59,9 @@ object BaseInterfaces : InterfaceReferences() {
 
     val popupoverlay = find("popupoverlay", 9223372035707796330)
     val ge_collection_box = find("ge_collect", 9223372036801773648)
-
     val ca_overview = find("ca_overview", 9223372035062537910)
-
     val collection = find("collection", 1925563159)
+    val bond_main = find("bond_main", 9223372036023293853)
+    val poh_options = find("poh_options", 9223372035476859568)
+    val settings = find("settings", 75958970)
 }

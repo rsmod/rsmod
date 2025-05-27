@@ -46,6 +46,17 @@ object BaseVarBits : VarBitReferences() {
     val minimap_state = find("minimap_state", 52603174339590)
     val gravestone_tli_hide = find("gravestone_tli_hide", 87430947458308)
 
+    val option_master_volume_saved = find("option_master_volume_saved", 195623733524963)
+    val option_music_saved = find("option_music_saved", 160177715962204)
+    val option_sounds_saved = find("option_sounds_saved", 160177715992400)
+    val option_areasounds_saved = find("option_areasounds_saved", 160177716018875)
+    val music_unlock_text_toggle = find("music_unlock_text_toggle", 979759217977)
+
+    val option_brightness_remember = find("option_brightness_remember", 147143061250651)
+    val camera_zoom_mouse_disabled = find("camera_zoom_mouse_disabled", 54354867127892)
+
+    val resizable_stone_arrangement = find("resizable_stone_arrangement", 54354867046720)
+    val skull_prevent = find("skull_prevent_enabled", 158426023294720)
     val option_acceptaid = find("option_acceptaid", 22000071917329)
     val has_displayname_transmitter = find("has_displayname_transmitter", 89491762451420)
     val chatmodal_unclamp = find("chatmodal_unclamp", 52603174328291)
@@ -58,7 +69,6 @@ object BaseVarBits : VarBitReferences() {
     val option_dropwarning_value = find("option_dropwarning_value", 14632658390428)
     val combat_weapon_category = find("combat_weapon_category", 43432547647987)
     val keybinding_esc_to_close = find("keybinding_esc_to_close", 63061810400789)
-    val resizable_stone_arrangement = find("resizable_stone_arrangement", 54354867046720)
 
     val demonslayer_main = find("demonslayer_main", 11438395171949)
     val lost_tribe_progress = find("lost_tribe_quest", 23957846140009)
