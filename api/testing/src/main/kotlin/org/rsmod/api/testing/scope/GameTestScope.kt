@@ -143,6 +143,7 @@ import org.rsmod.game.type.inv.InvTypeList
 import org.rsmod.game.type.loc.LocType
 import org.rsmod.game.type.loc.LocTypeList
 import org.rsmod.game.type.loc.UnpackedLocType
+import org.rsmod.game.type.mod.ModLevelTypeList
 import org.rsmod.game.type.npc.NpcTypeList
 import org.rsmod.game.type.npc.UnpackedNpcType
 import org.rsmod.game.type.obj.ObjType
@@ -899,6 +900,7 @@ constructor(
             bind(FontMetricsTypeList::class.java).toInstance(cacheTypes.fonts)
             bind(InterfaceTypeList::class.java).toInstance(cacheTypes.interfaces)
             bind(InvTypeList::class.java).toInstance(cacheTypes.invs)
+            bind(ModLevelTypeList::class.java).toInstance(cacheTypes.modLevels)
             bind(ProjAnimTypeList::class.java).toInstance(cacheTypes.projanims)
             bind(ParamTypeList::class.java).toInstance(cacheTypes.params)
             bind(SeqTypeList::class.java).toInstance(cacheTypes.seqs)
