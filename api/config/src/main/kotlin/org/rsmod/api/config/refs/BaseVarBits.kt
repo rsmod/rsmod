@@ -58,6 +58,7 @@ object BaseVarBits : VarBitReferences() {
     val option_dropwarning_value = find("option_dropwarning_value", 14632658390428)
     val combat_weapon_category = find("combat_weapon_category", 43432547647987)
     val keybinding_esc_to_close = find("keybinding_esc_to_close", 63061810400789)
+    val resizable_stone_arrangement = find("resizable_stone_arrangement", 54354867046720)
 
     val demonslayer_main = find("demonslayer_main", 11438395171949)
     val lost_tribe_progress = find("lost_tribe_quest", 23957846140009)
@@ -136,6 +137,7 @@ object BaseVarBits : VarBitReferences() {
     val date_secs_past_minute = find("date_seconds_past_minute", 158529050174475)
 
     /* Server-side-only types */
+    val gameframe_toplevel = find("gameframe_toplevel")
     val improved_stamina_passive = find("improved_stamina_passive")
     val prayer_drain_counter = find("prayer_drain_counter")
     val prayer_drain_resistance = find("prayer_drain_resistance")

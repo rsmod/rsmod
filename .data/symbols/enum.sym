@@ -79,6 +79,8 @@
 4664	toa_invocations
 4956	prayer_oc
 
+65476	toplevel_move_events
+65477	gameframe_dbrows
 65478	blood_rune_substitutes
 65479	death_rune_substitutes
 65480	chaos_rune_substitutes

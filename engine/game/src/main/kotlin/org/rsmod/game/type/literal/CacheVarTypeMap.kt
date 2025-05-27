@@ -16,6 +16,8 @@ import org.rsmod.game.type.headbar.HashedHeadbarType
 import org.rsmod.game.type.headbar.HeadbarType
 import org.rsmod.game.type.hitmark.HashedHitmarkType
 import org.rsmod.game.type.hitmark.HitmarkType
+import org.rsmod.game.type.interf.HashedInterfaceType
+import org.rsmod.game.type.interf.InterfaceType
 import org.rsmod.game.type.loc.HashedLocType
 import org.rsmod.game.type.loc.LocType
 import org.rsmod.game.type.npc.HashedNpcType
@@ -59,6 +61,8 @@ public object CacheVarTypeMap {
             HashedHeadbarType::class to CacheVarLiteral.HEADBAR,
             HitmarkType::class to CacheVarLiteral.HITMARK,
             HashedHitmarkType::class to CacheVarLiteral.HITMARK,
+            InterfaceType::class to CacheVarLiteral.INTERFACE,
+            HashedInterfaceType::class to CacheVarLiteral.INTERFACE,
             LocType::class to CacheVarLiteral.LOC,
             HashedLocType::class to CacheVarLiteral.LOC,
             NpcType::class to CacheVarLiteral.NPC,
@@ -102,6 +106,8 @@ public object CacheVarTypeMap {
             HashedHeadbarType::class to CacheVarHeadbarCodec,
             HitmarkType::class to CacheVarHitmarkCodec,
             HashedHitmarkType::class to CacheVarHitmarkCodec,
+            InterfaceType::class to CacheVarInterfaceCodec,
+            HashedInterfaceType::class to CacheVarInterfaceCodec,
             LocType::class to CacheVarLocCodec,
             HashedLocType::class to CacheVarLocCodec,
             NpcType::class to CacheVarNpcCodec,
@@ -146,7 +152,7 @@ public object CacheVarTypeMap {
                 CacheVarLiteral.STAT -> StatType::class
                 CacheVarLiteral.NPCSTAT -> Int::class
                 CacheVarLiteral.MAPAREA -> Int::class
-                CacheVarLiteral.INTERFACE -> Int::class
+                CacheVarLiteral.INTERFACE -> InterfaceType::class
                 CacheVarLiteral.COORDGRID -> CoordGrid::class
                 CacheVarLiteral.GRAPHIC -> Int::class
                 CacheVarLiteral.FONTMETRICS -> Int::class

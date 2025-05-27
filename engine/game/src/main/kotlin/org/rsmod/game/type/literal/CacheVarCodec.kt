@@ -10,6 +10,7 @@ import org.rsmod.game.type.dbtable.DbTableType
 import org.rsmod.game.type.enums.EnumType
 import org.rsmod.game.type.headbar.HeadbarType
 import org.rsmod.game.type.hitmark.HitmarkType
+import org.rsmod.game.type.interf.InterfaceType
 import org.rsmod.game.type.loc.LocType
 import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.obj.ObjType
@@ -107,6 +108,13 @@ public object CacheVarHitmarkCodec : BaseIntVarCodec<HitmarkType>(HitmarkType::c
         types.hitmarks[value]?.toHashedType()
 
     override fun encode(value: HitmarkType): Int = value.id
+}
+
+public object CacheVarInterfaceCodec : BaseIntVarCodec<InterfaceType>(InterfaceType::class) {
+    override fun decode(types: TypeListMap, value: Int): InterfaceType? =
+        types.interfaces[value]?.toHashedType()
+
+    override fun encode(value: InterfaceType): Int = value.id
 }
 
 public object CacheVarNamedObjCodec : BaseIntVarCodec<ObjType>(ObjType::class) {

@@ -17,8 +17,12 @@ object BaseInterfaces : InterfaceReferences() {
     val toplevel_osrs_stretch = find("toplevel_osrs_stretch", 9223372036366731764)
     val toplevel_pre_eoc = find("toplevel_pre_eoc", 1080365065)
 
-    val popout = find("popout", 9223372036050024336)
+    val buff_bar = find("buff_bar", 9223372034871751765)
+    val stat_boosts_hud = find("stat_boosts_hud", 1593617132)
+    val pvp_icons = find("pvp_icons", 947251801)
+    val ehc_worldhop = find("ehc_worldhop", 9223372036687970629)
     val chatbox = find("chatbox", 9223372035380135649)
+    val popout = find("popout", 9223372036050024336)
     val pm_chat = find("pm_chat", 9223372036709596550)
     val orbs = find("orbs", 9223372034748519799)
     val xp_drops = find("xp_drops", 9223372035590703519)

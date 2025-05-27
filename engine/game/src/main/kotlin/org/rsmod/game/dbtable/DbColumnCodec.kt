@@ -1,11 +1,14 @@
 package org.rsmod.game.dbtable
 
+import kotlin.reflect.KClass
 import org.rsmod.game.stat.StatRequirement
 import org.rsmod.game.type.TypeListMap
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.dbrow.DbRowType
 import org.rsmod.game.type.enums.EnumType
+import org.rsmod.game.type.interf.InterfaceType
 import org.rsmod.game.type.literal.CacheVarLiteral
+import org.rsmod.game.type.literal.CacheVarTypeMap.codecOut
 import org.rsmod.game.type.loc.LocType
 import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.obj.ObjType
@@ -109,18 +112,31 @@ public interface DbColumnCodec<T, R> {
         }
     }
 
-    public object EnumTypeCodec : BaseIntCodec<EnumType<*, *>> {
+    public class EnumTypeCodec<K : Any, V : Any>(
+        private val keyType: KClass<K>,
+        private val valType: KClass<V>,
+    ) : BaseIntCodec<EnumType<K, V>> {
         override val types: List<CacheVarLiteral> = listOf(CacheVarLiteral.ENUM)
 
         override fun decode(
-            iterator: Iterator<Int, EnumType<*, *>>,
+            iterator: Iterator<Int, EnumType<K, V>>,
             types: TypeListMap,
-        ): EnumType<Any, Any> {
-            val type = iterator.next()
-            return types.enums.getValue(type).toHashedType()
+        ): EnumType<K, V> {
+            val cacheType = types.enums.getValue(iterator.next())
+            val typeKey = cacheType.keyLiteral.codecOut
+            val typeVal = cacheType.valLiteral.codecOut
+            if (typeKey != keyType || typeVal != valType) {
+                val message =
+                    "Unexpected enum types: enum='${cacheType.internalName}', " +
+                        "expected=<${typeKey.simpleName}, ${typeVal.simpleName}>, " +
+                        "actual=<${keyType.simpleName}, ${valType.simpleName}>"
+                throw IllegalArgumentException(message)
+            }
+            @Suppress("UNCHECKED_CAST")
+            return cacheType.toHashedType() as EnumType<K, V>
         }
 
-        override fun encode(value: EnumType<*, *>): Int {
+        override fun encode(value: EnumType<K, V>): Int {
             return value.id
         }
     }
@@ -134,6 +150,22 @@ public interface DbColumnCodec<T, R> {
 
         override fun encode(value: Int): Int {
             return value
+        }
+    }
+
+    public object InterfaceTypeCodec : BaseIntCodec<InterfaceType> {
+        override val types: List<CacheVarLiteral> = listOf(CacheVarLiteral.INTERFACE)
+
+        override fun decode(
+            iterator: Iterator<Int, InterfaceType>,
+            types: TypeListMap,
+        ): InterfaceType {
+            val type = iterator.next()
+            return types.interfaces.getValue(type).toHashedType()
+        }
+
+        override fun encode(value: InterfaceType): Int {
+            return value.id
         }
     }
 

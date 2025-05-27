@@ -4,6 +4,8 @@ import org.rsmod.api.type.builders.varp.VarpBuilder
 
 internal object VarpBuilds : VarpBuilder() {
     init {
+        build("gameframe")
+
         build("pk_prey1") { temporary = true }
         build("pk_prey2") { temporary = true }
         build("pk_predator1") { temporary = true }

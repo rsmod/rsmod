@@ -5,6 +5,12 @@ import org.rsmod.api.type.builders.varbit.VarBitBuilder
 
 internal object VarBitBuilds : VarBitBuilder() {
     init {
+        build("gameframe_toplevel") {
+            baseVar = varps.gameframe
+            startBit = 0
+            endBit = 15
+        }
+
         build("prayer_drain_counter") {
             baseVar = varps.prayer_drain
             startBit = 0

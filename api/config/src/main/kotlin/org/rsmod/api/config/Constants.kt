@@ -105,6 +105,9 @@ object Constants {
     const val bodytype_a = 0
     const val bodytype_b = 1
 
+    const val windowmode_fixed = 1
+    const val windowmode_resizable = 2
+
     const val setpos_abs_top = 0
     const val setpos_abs_left = 0
     const val setpos_abs_centre = 1

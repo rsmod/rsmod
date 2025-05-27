@@ -41,6 +41,15 @@ public data class UnpackedInterfaceType(
     override var internalId: Int?,
     override var internalName: String?,
 ) : InterfaceType() {
+    private val identityHash by lazy { computeIdentityHash() }
+
+    public fun toHashedType(): HashedInterfaceType =
+        HashedInterfaceType(
+            startHash = identityHash,
+            internalName = internalName,
+            internalId = internalId,
+        )
+
     public fun computeIdentityHash(): Long {
         var result = internalId?.hashCode()?.toLong() ?: 0
         result = 61 * result + components.hashCode()

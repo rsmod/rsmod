@@ -8,11 +8,12 @@ import org.rsmod.game.entity.Player
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.interf.IfButtonOp
 import org.rsmod.game.type.interf.IfSubType
+import org.rsmod.game.type.interf.InterfaceType
 import org.rsmod.game.type.obj.UnpackedObjType
 import org.rsmod.game.ui.Component
 import org.rsmod.game.ui.UserInterface
 
-public data class IfOpenTop(val player: Player, val interf: UserInterface) : KeyedEvent {
+public class IfMoveTop(public val player: Player, interf: InterfaceType) : KeyedEvent {
     override val id: Long = interf.id.toLong()
 }
 
@@ -28,6 +29,10 @@ public data class IfOpenSub(
 public data class IfCloseSub(val player: Player, val interf: UserInterface, val from: Component) :
     KeyedEvent {
     override val id: Long = interf.id.toLong()
+}
+
+public class IfMoveSub(public val player: Player, destComponent: Int) : KeyedEvent {
+    override val id: Long = destComponent.toLong()
 }
 
 public data class IfModalButton(

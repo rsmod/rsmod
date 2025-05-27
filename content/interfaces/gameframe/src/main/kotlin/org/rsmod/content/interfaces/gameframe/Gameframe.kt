@@ -1,17 +1,17 @@
 package org.rsmod.content.interfaces.gameframe
 
-import org.rsmod.api.config.aliases.EnumComp
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.interf.InterfaceType
+import org.rsmod.game.ui.Component
 
-interface Gameframe {
-    val topLevel: InterfaceType
-    val mappings: Map<EnumComp, EnumComp?>
-    val overlays: List<Pair<InterfaceType, ComponentType>>
+data class Gameframe(
+    val topLevel: InterfaceType,
+    val overlays: List<GameframeOverlay>,
+    val mappings: Map<Component, Component>,
+    val windowMode: Int,
+    val clientMode: Int,
+    val isDefault: Boolean,
+    val stoneArrangement: Boolean,
+)
 
-    operator fun component1(): InterfaceType = topLevel
-
-    operator fun component2(): Map<EnumComp, EnumComp?> = mappings
-
-    operator fun component3(): List<Pair<InterfaceType, ComponentType>> = overlays
-}
+data class GameframeOverlay(val interf: InterfaceType, val target: ComponentType)

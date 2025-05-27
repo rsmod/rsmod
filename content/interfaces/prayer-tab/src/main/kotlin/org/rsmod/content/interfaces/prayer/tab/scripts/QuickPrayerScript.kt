@@ -152,7 +152,7 @@ constructor(
     }
 
     private fun ProtectedAccess.setUpQuickPrayers() {
-        ifOpenOverlay(prayer_interfaces.quickprayer, components.toplevel_target_prayerbook)
+        ifOpenOverlay(prayer_interfaces.quickprayer, components.toplevel_target_side5)
         toplevelSidebuttonSwitch(constants.toplevel_prayer)
     }
 
@@ -202,7 +202,7 @@ constructor(
     private fun Player.onCloseQuickPrayerSetUp() {
         ifOpenSub(
             interfaces.prayerbook,
-            components.toplevel_target_prayerbook,
+            components.toplevel_target_side5,
             IfSubType.Overlay,
             eventBus,
         )

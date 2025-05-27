@@ -213,7 +213,6 @@ constructor(
         val region = createRegion(type)
         if (region == null) {
             access.closeCutscene()
-            access.minimapReset()
             access.mes("Could not create region. Try again in a few seconds.")
             return
         }
@@ -247,18 +246,17 @@ constructor(
         camModeClose()
         hideTopLevel()
         hideEntityOps()
-        compassUnknown2()
+        minimapHideMap()
         hideHealthHud()
         tempDisableAcceptAid()
         closeTopLevelTabsLenient()
         highlightingOff(player)
-        minimapHideMap()
     }
 
     private fun ProtectedAccess.closeCutscene() {
         showEntityOps()
         restoreLastAcceptAid()
-        compassReset()
+        minimapReset()
         camModeReset()
         showTopLevel()
         showHealthHud()

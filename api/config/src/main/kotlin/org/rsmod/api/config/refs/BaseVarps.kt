@@ -64,6 +64,7 @@ object BaseVarps : VarpReferences() {
     val date_vars = find("date_vars", 698424318)
 
     /* Server-side-only types */
+    val gameframe = find("gameframe")
     val pk_prey1 = find("pk_prey1")
     val pk_prey2 = find("pk_prey2")
     val pk_predator1 = find("pk_predator1")
