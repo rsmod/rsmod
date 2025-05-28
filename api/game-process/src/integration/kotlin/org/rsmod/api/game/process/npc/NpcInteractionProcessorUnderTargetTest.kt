@@ -1,9 +1,7 @@
 package org.rsmod.api.game.process.npc
 
 import jakarta.inject.Inject
-import kotlin.collections.set
 import org.junit.jupiter.api.Test
-import org.rsmod.api.npc.access.StandardNpcAccess
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.random.CoreRandom
 import org.rsmod.api.random.GameRandom
@@ -12,14 +10,14 @@ import org.rsmod.api.testing.GameTestState
 import org.rsmod.api.testing.factory.locTypeFactory
 import org.rsmod.api.testing.factory.npcTypeFactory
 import org.rsmod.api.testing.random.FixedRandom
-import org.rsmod.game.entity.PlayerList
+import org.rsmod.game.entity.Player
 import org.rsmod.game.map.Direction
 import org.rsmod.game.map.translate
 import org.rsmod.map.CoordGrid
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-class NpcUnderTargetInteractionProcessorTest {
+class NpcInteractionProcessorUnderTargetTest {
     @Test
     fun GameTestState.`step away when under target and skip interaction turn`() =
         runInjectedGameTest(
@@ -50,8 +48,6 @@ class NpcUnderTargetInteractionProcessorTest {
             player.placeAt(playerCoord)
 
             val npc = spawnNpc(npcCoord, man)
-            // Easy way of keeping track of target player for npc op script.
-            npc.vars.backing[0] = player.slotId
             npc.opPlayer2(player)
             advance(ticks = 1)
             assertMessageSent("Receive attack.")
@@ -122,8 +118,6 @@ class NpcUnderTargetInteractionProcessorTest {
             player.placeAt(playerCoord)
 
             val npc = spawnNpc(npcCoord, man)
-            // Easy way of keeping track of target player for npc op script.
-            npc.vars.backing[0] = player.slotId
             npc.opPlayer2(player)
             advance(ticks = 1)
             assertMessageSent("Receive attack.")
@@ -165,16 +159,12 @@ class NpcUnderTargetInteractionProcessorTest {
             assertMessageSent("Receive attack.")
         }
 
-    private class OpTestScript @Inject constructor(private val playerList: PlayerList) :
-        PluginScript() {
+    private class OpTestScript : PluginScript() {
         override fun ScriptContext.startup() {
-            onAiOpPlayer2(man) { combatAp() }
+            onAiOpPlayer2(man) { combatOp(it.target) }
         }
 
-        private fun StandardNpcAccess.combatAp() {
-            val targetSlot = npc.vars.backing[0]
-            val target = playerList[targetSlot]
-            checkNotNull(target) { "Invalid target with assigned target slot: $targetSlot" }
+        private fun combatOp(target: Player) {
             // Npc interactions automatically persist and repeat without `opX` calls.
             target.mes("Receive attack.")
         }

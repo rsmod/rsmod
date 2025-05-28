@@ -1,21 +1,17 @@
 package org.rsmod.api.game.process.npc
 
-import jakarta.inject.Inject
-import kotlin.collections.set
 import org.junit.jupiter.api.Test
 import org.rsmod.api.npc.access.StandardNpcAccess
 import org.rsmod.api.player.output.mes
-import org.rsmod.api.player.vars.varMoveSpeed
 import org.rsmod.api.script.onAiApPlayer2
 import org.rsmod.api.testing.GameTestState
 import org.rsmod.api.testing.factory.npcTypeFactory
-import org.rsmod.game.entity.PlayerList
-import org.rsmod.game.movement.MoveSpeed
+import org.rsmod.game.entity.Player
 import org.rsmod.map.CoordGrid
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-class NpcApInteractionProcessorTest {
+class NpcInteractionProcessorApRerouteTest {
     /**
      * For interactions targeting pathing entities (`Player`s and `Npc`s), the interaction model is
      * responsible for recalculating the route after the initial interaction step and before
@@ -36,12 +32,9 @@ class NpcApInteractionProcessorTest {
 
             val playerCoord = npcCoord.translateX(5)
             val npc = spawnNpc(npcCoord, man)
-            player.varMoveSpeed = MoveSpeed.Walk
+            player.enableWalk()
             player.teleport(playerCoord)
             npc.apPlayer2(player)
-
-            // Easy way of keeping track of target player for npc ap script.
-            npc.vars.backing[0] = player.slotId
 
             advance(ticks = 1)
             assertMessageSent("Receive attack.")
@@ -104,19 +97,13 @@ class NpcApInteractionProcessorTest {
             assertMessageSent("Receive attack.")
         }
 
-    private class ApRerouteTestScript @Inject constructor(private val playerList: PlayerList) :
-        PluginScript() {
+    private class ApRerouteTestScript : PluginScript() {
         override fun ScriptContext.startup() {
-            onAiApPlayer2(man) { combatAp() }
+            onAiApPlayer2(man) { combatAp(it.target) }
         }
 
-        private fun StandardNpcAccess.combatAp() {
-            val targetSlot = npc.vars.backing[0]
-            val target = playerList[targetSlot]
-
-            checkNotNull(target) { "Invalid target with assigned target slot: $targetSlot" }
+        private fun StandardNpcAccess.combatAp(target: Player) {
             check(isWithinDistance(target, 7)) { "Expected ap distance to be 7." }
-
             // Npc interactions automatically persist and repeat without `opX` calls.
             target.mes("Receive attack.")
         }
