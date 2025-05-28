@@ -15,3 +15,5 @@ data class Gameframe(
 )
 
 data class GameframeOverlay(val interf: InterfaceType, val target: ComponentType)
+
+data class GameframeMove(val from: Gameframe, val dest: Gameframe, val intermediate: Gameframe?)
