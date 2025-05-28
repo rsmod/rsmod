@@ -46,6 +46,9 @@ fun main(args: Array<String>): Unit = GameServerCachePacker().main(args)
 class GameServerCachePacker : CliktCommand(name = "cache-pack") {
     private var packedCache = false
 
+    private val enrichedCacheDir: Path
+        get() = DirectoryConstants.CACHE_PATH.resolve("enriched")
+
     private val gameCacheDir: Path
         get() = DirectoryConstants.CACHE_PATH.resolve("game")
 
@@ -53,6 +56,7 @@ class GameServerCachePacker : CliktCommand(name = "cache-pack") {
         get() = DirectoryConstants.CACHE_PATH.resolve("js5")
 
     override fun run() {
+        enrichedCacheDir.deleteRecursively()
         gameCacheDir.deleteRecursively()
         js5CacheDir.deleteRecursively()
         packEnrichedTypes()
