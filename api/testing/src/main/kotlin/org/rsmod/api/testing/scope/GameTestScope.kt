@@ -548,12 +548,12 @@ constructor(
         angle: LocAngle = LocAngle.West,
     ): BoundLocInfo = placeMapLoc(coords, locTypes[type], shape, angle)
 
-    public fun delLoc(bound: BoundLocInfo) {
+    public fun locDel(bound: BoundLocInfo) {
         val locInfo = LocInfo(bound.layer, bound.coords, bound.entity)
-        delLoc(locInfo)
+        locDel(locInfo)
     }
 
-    public fun delLoc(loc: LocInfo) {
+    public fun locDel(loc: LocInfo) {
         locRegistry.del(loc)
     }
 

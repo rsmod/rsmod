@@ -63,7 +63,7 @@ class NpcUnderTargetInteractionProcessorTest {
             assertMessageNotSent("Receive attack.")
 
             // Delete one of the blocking locs so that the npc can step away from under target.
-            delLoc(deleteCrate)
+            locDel(deleteCrate)
             // Set the random direction pick to an unexpected value to verify that the npc does
             // not move when choosing a random, blocked destination.
             it.setStaticRandom(expectedDirRandom + 1)
@@ -136,7 +136,7 @@ class NpcUnderTargetInteractionProcessorTest {
 
             // Delete one of the blocking locs so that the npc could step away from under target
             // if they were not busy.
-            delLoc(deleteCrate)
+            locDel(deleteCrate)
             player.opLoc1(northCrate)
             advance(ticks = 1)
             assertEquals(npcCoord, npc.coords)
