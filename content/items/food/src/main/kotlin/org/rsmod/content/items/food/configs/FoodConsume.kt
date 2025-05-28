@@ -15,12 +15,13 @@ var Player.potionClock: Int by intVarp(varps.tracking_potions_sipped)
 fun ProtectedAccess.eat(item: InvObj, type: UnpackedObjType, slot: Int) {
 
     val replacement = type.param(params.food_replacement)
-    val name = ocName(type)
+    val name = ocName(type).lowercase()
+    val delay = mapClock + FOOD_DELAY
 
     if (type.param(params.food_is_combo)) {
-        player.potionClock = mapClock + FOOD_DELAY
-        player.foodClock = mapClock + FOOD_DELAY
-    } else player.foodClock = mapClock + FOOD_DELAY
+        player.potionClock = delay
+    }
+    player.foodClock = delay
 
     if (type.param(params.food_requires_replacement)) {
         invReplace(inv, slot, 1, replacement)
