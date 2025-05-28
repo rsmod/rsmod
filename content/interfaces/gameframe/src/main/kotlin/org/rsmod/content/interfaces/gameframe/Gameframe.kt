@@ -8,8 +8,8 @@ data class Gameframe(
     val topLevel: InterfaceType,
     val overlays: List<GameframeOverlay>,
     val mappings: Map<Component, Component>,
-    val windowMode: Int,
     val clientMode: Int,
+    val resizable: Boolean,
     val isDefault: Boolean,
     val stoneArrangement: Boolean,
 )

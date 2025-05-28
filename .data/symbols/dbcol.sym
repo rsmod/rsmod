@@ -588,7 +588,7 @@ fairyring:11	fairyring:no_staff_return
 gameframe:0	gameframe:toplevel
 gameframe:1	gameframe:mappings
 gameframe:2	gameframe:open_overlays
-gameframe:3	gameframe:windowmode
+gameframe:3	gameframe:resizable
 gameframe:4	gameframe:clientmode
 gameframe:5	gameframe:is_default
 gameframe:6	gameframe:stone_arrangement

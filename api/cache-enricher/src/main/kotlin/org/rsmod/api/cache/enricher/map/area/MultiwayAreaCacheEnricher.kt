@@ -42,15 +42,10 @@ public class MultiwayAreaCacheEnricher @Inject constructor(@Json private val map
         for (multiway in multiwayAreas) {
             val levels = multiway.levels.toSet()
 
-            val mapSquares = multiway.collectMapSquareKeys()
-            for (mapSquare in mapSquares) {
-                val builder = builderLists.getOrPut(mapSquare) { PolygonMapSquareBuilder() }
-                for (polygon in multiway.polygons) {
-                    if (polygon !in mapSquare) {
-                        continue
-                    }
-                    val clipped = PolygonMapSquareClipper.closeAndClip(polygon.coords)
-                    val polygonVertices = clipped[mapSquare] ?: continue
+            for (polygon in multiway.polygons) {
+                val clipped = PolygonMapSquareClipper.closeAndClip(polygon.coords)
+                for ((mapSquare, polygonVertices) in clipped) {
+                    val builder = builderLists.getOrPut(mapSquare) { PolygonMapSquareBuilder() }
                     builder.polygon(multiwayArea, levels) {
                         for (vertex in polygonVertices) {
                             val localX = vertex.x % MapSquareGrid.LENGTH
@@ -66,23 +61,14 @@ public class MultiwayAreaCacheEnricher @Inject constructor(@Json private val map
         return PolygonArea(groupedSquares)
     }
 
-    private operator fun MapSquareKey.contains(polygon: MultiwayPolygon): Boolean {
-        return this in polygon.mapSquares
-    }
-
     private data class MultiwayArea(
         val name: String,
         val levels: List<Int>,
         val polygons: List<MultiwayPolygon>,
-    ) {
-        fun collectMapSquareKeys(): Set<MapSquareKey> {
-            return polygons.asSequence().flatMap(MultiwayPolygon::mapSquares).toSet()
-        }
-    }
+    )
 
     private data class MultiwayPolygon(val vertices: List<Point>) {
         val coords = vertices.map { CoordGrid(it.x, it.z) }
-        val mapSquares = vertices.asSequence().map { MapSquareKey.fromAbsolute(it.x, it.z) }.toSet()
     }
 
     private data class Point(val x: Int, val z: Int)

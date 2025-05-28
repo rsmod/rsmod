@@ -68,22 +68,29 @@ internal constructor(
     }
 
     private fun Player.openLoginGameframe() {
-        val saved = vars[varbits.gameframe_toplevel]
-        val gameframe = gameframes[saved] ?: default
-        ifOpenTop(gameframe.topLevel)
-        openGameframe(gameframe, eventBus)
+        val gameframe = gameframes[gameframeTopLevel]
+        if (gameframe != null && gameframe.resizable == ui.frameResizable) {
+            ifOpenTop(gameframe.topLevel)
+            openGameframe(gameframe, eventBus)
+            return
+        }
+        val fallback = selectFallback(ui.frameResizable) ?: default
+        ui.frameResizable = fallback.resizable
+        gameframeTopLevel = fallback.topLevel.id
+        ifOpenTop(fallback.topLevel)
+        openGameframe(fallback, eventBus)
     }
 
     private fun Player.queueGameframeMove(gameframe: Gameframe) {
         if (gameframeTopLevel == gameframe.topLevel.id) {
             return
         }
-        val settingsClientMode = ui.windowMode != gameframe.windowMode
+        val settingsClientMode = ui.frameResizable != gameframe.resizable
         if (settingsClientMode) {
             runClientScript(3998, gameframe.clientMode)
         }
 
-        ui.windowMode = gameframe.windowMode
+        ui.frameResizable = gameframe.resizable
         gameframeTopLevel = gameframe.topLevel.id
 
         val queueDelay = if (settingsClientMode) 2 else 1
@@ -110,6 +117,10 @@ internal constructor(
 
     private fun selectDefault(from: Iterable<Gameframe>): Gameframe {
         return from.single(Gameframe::isDefault)
+    }
+
+    private fun selectFallback(resizable: Boolean): Gameframe? {
+        return gameframes.values.firstOrNull { it.resizable == resizable }
     }
 
     private data class MoveEvent(val target: ComponentType, val event: ComponentType)

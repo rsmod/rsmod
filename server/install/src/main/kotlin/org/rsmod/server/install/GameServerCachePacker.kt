@@ -44,6 +44,11 @@ fun main(args: Array<String>): Unit = GameServerCachePacker().main(args)
 
 @OptIn(ExperimentalPathApi::class)
 class GameServerCachePacker : CliktCommand(name = "cache-pack") {
+    private var packedCache = false
+
+    private val enrichedCacheDir: Path
+        get() = DirectoryConstants.CACHE_PATH.resolve("enriched")
+
     private val gameCacheDir: Path
         get() = DirectoryConstants.CACHE_PATH.resolve("game")
 
@@ -51,6 +56,7 @@ class GameServerCachePacker : CliktCommand(name = "cache-pack") {
         get() = DirectoryConstants.CACHE_PATH.resolve("js5")
 
     override fun run() {
+        enrichedCacheDir.deleteRecursively()
         gameCacheDir.deleteRecursively()
         js5CacheDir.deleteRecursively()
         packEnrichedTypes()
@@ -95,8 +101,12 @@ class GameServerCachePacker : CliktCommand(name = "cache-pack") {
         val verifier = injector.getInstance(TypeVerifier::class.java)
         val verification = verifier.verifyAll(verifyIdentityHashes = false)
         if (verification.isCacheUpdateRequired()) {
+            if (packedCache) {
+                throw RuntimeException(verification.formatError())
+            }
             updateCaches(injector)
             closeCaches(injector)
+            packedCache = true
             packEnrichedTypes()
             return false
         } else if (verification.isFailure()) {
