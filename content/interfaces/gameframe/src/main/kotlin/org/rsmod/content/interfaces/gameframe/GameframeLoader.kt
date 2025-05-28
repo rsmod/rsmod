@@ -38,8 +38,8 @@ constructor(private val rows: DbRowResolver, private val enums: EnumTypeMapResol
     private fun loadGameframe(row: DbRow): Gameframe {
         val topLevel = row[gameframe_columns.toplevel]
         val overlays = row[gameframe_columns.overlays]
-        val windowMode = row[gameframe_columns.windowmode]
         val clientMode = row[gameframe_columns.clientmode]
+        val resizable = row[gameframe_columns.resizable]
         val isDefault = row[gameframe_columns.is_default]
         val stoneArrangement = row[gameframe_columns.stone_arrangement]
         val mappings = linkedMapOf<Component, Component>()
@@ -51,13 +51,13 @@ constructor(private val rows: DbRowResolver, private val enums: EnumTypeMapResol
         }
 
         return Gameframe(
-            topLevel,
-            overlays,
-            mappings,
-            windowMode,
-            clientMode,
-            isDefault,
-            stoneArrangement,
+            topLevel = topLevel,
+            overlays = overlays,
+            mappings = mappings,
+            clientMode = clientMode,
+            resizable = resizable,
+            isDefault = isDefault,
+            stoneArrangement = stoneArrangement,
         )
     }
 

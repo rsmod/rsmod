@@ -180,6 +180,11 @@ class AccountLoadResponseHook(
         for (transform in fromResponse.transforms) {
             transform.apply(player)
         }
+        player.ui.setWindowStatus(
+            width = loginBlock.width,
+            height = loginBlock.height,
+            resizable = loginBlock.resizable,
+        )
         player.newAccount = fromResponse.isNewAccount()
         return player
     }

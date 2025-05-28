@@ -20,7 +20,7 @@ public class UserInterfaceMap(
 ) {
     @InternalApi public var closeModal: Boolean = false
 
-    public var windowMode: Int = 0
+    public var frameResizable: Boolean = false
 
     public var frameWidth: Int = 0
         private set
@@ -77,10 +77,9 @@ public class UserInterfaceMap(
         return Component(packed)
     }
 
-    @InternalApi
-    public fun setWindowStatus(mode: Int, width: Int, height: Int) {
-        this.windowMode = mode
+    public fun setWindowStatus(width: Int, height: Int, resizable: Boolean) {
         this.frameWidth = width
         this.frameHeight = height
+        this.frameResizable = resizable
     }
 }

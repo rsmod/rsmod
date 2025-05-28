@@ -1,6 +1,5 @@
 package org.rsmod.content.interfaces.gameframe.config
 
-import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.interfaces
 import org.rsmod.api.type.builders.dbrow.DbRowBuilder
 import org.rsmod.api.type.builders.dbtable.DbTableBuilder
@@ -24,8 +23,8 @@ object GameframeDbColumns : DbColumnReferences() {
     val toplevel = interf("gameframe:toplevel")
     val mappings = enum("gameframe:mappings", ComponentType::class, ComponentType::class)
     val overlays = groupList("gameframe:open_overlays", GameframeOverlayCodec)
-    val windowmode = int("gameframe:windowmode")
     val clientmode = int("gameframe:clientmode")
+    val resizable = boolean("gameframe:resizable")
     val is_default = boolean("gameframe:is_default")
     val stone_arrangement = boolean("gameframe:stone_arrangement")
 }
@@ -46,8 +45,8 @@ object GameframeDbRowBuilder : DbRowBuilder() {
             table = gameframe_tables.gameframe
             column(gameframe_columns.toplevel) { value = interfaces.toplevel }
             column(gameframe_columns.mappings) { value = gameframe_enums.toplevel }
-            column(gameframe_columns.windowmode) { value = constants.windowmode_fixed }
             column(gameframe_columns.clientmode) { value = 0 }
+            column(gameframe_columns.resizable) { value = false }
             column(gameframe_columns.is_default) { value = true }
         }
 
@@ -55,7 +54,6 @@ object GameframeDbRowBuilder : DbRowBuilder() {
             table = gameframe_tables.gameframe
             column(gameframe_columns.toplevel) { value = interfaces.toplevel_osrs_stretch }
             column(gameframe_columns.mappings) { value = gameframe_enums.toplevel_osrs_stretch }
-            column(gameframe_columns.windowmode) { value = constants.windowmode_resizable }
             column(gameframe_columns.clientmode) { value = 1 }
         }
 
@@ -63,7 +61,6 @@ object GameframeDbRowBuilder : DbRowBuilder() {
             table = gameframe_tables.gameframe
             column(gameframe_columns.toplevel) { value = interfaces.toplevel_pre_eoc }
             column(gameframe_columns.mappings) { value = gameframe_enums.toplevel_pre_eoc }
-            column(gameframe_columns.windowmode) { value = constants.windowmode_resizable }
             column(gameframe_columns.clientmode) { value = 2 }
             column(gameframe_columns.stone_arrangement) { value = true }
         }
@@ -76,8 +73,8 @@ object GameframeDbTableBuilder : DbTableBuilder() {
             column(gameframe_columns.toplevel)
             column(gameframe_columns.mappings)
             columnGroupList(gameframe_columns.overlays) { default = StandardOverlays.open }
-            column(gameframe_columns.windowmode)
             column(gameframe_columns.clientmode)
+            column(gameframe_columns.resizable) { default = true }
             column(gameframe_columns.is_default) { default = false }
             column(gameframe_columns.stone_arrangement) { default = false }
         }
