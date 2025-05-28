@@ -12,6 +12,8 @@ import org.rsmod.api.npc.interact.AiPlayerInteractions
 import org.rsmod.api.npc.interact.AiPlayerTInteractions
 import org.rsmod.api.npc.isValidTarget
 import org.rsmod.api.player.isValidTarget
+import org.rsmod.api.random.CoreRandom
+import org.rsmod.api.random.GameRandom
 import org.rsmod.api.registry.loc.LocRegistry
 import org.rsmod.api.registry.obj.ObjRegistry
 import org.rsmod.api.route.BoundValidator
@@ -30,6 +32,8 @@ import org.rsmod.game.interact.InteractionObj
 import org.rsmod.game.interact.InteractionPlayer
 import org.rsmod.game.interact.InteractionPlayerOp
 import org.rsmod.game.interact.InteractionPlayerT
+import org.rsmod.game.map.Direction
+import org.rsmod.game.map.translate
 import org.rsmod.interact.InteractionStep
 import org.rsmod.interact.InteractionTarget
 import org.rsmod.interact.Interactions
@@ -39,6 +43,7 @@ import org.rsmod.routefinder.flag.CollisionFlag
 public class NpcInteractionProcessor
 @Inject
 constructor(
+    @CoreRandom private val random: GameRandom,
     private val eventBus: EventBus,
     private val locRegistry: LocRegistry,
     private val objRegistry: ObjRegistry,
@@ -59,6 +64,20 @@ constructor(
         // a new one, the original interaction completes before the new one is processed.
         val interaction = npc.interaction
         var interacted = false
+
+        val isUnderTarget = interaction != null && npc.isUnderTarget(interaction)
+        if (isUnderTarget) {
+            // TODO(engine): Red-X has changed a bit over the past revisions. Exceptions have been
+            //  added to the condition; will need to test and investigate further.
+            // Allows for "Red-X" mechanic when player target is interacting with something.
+            val isTargetBusy = isTargetBusy(interaction)
+            if (isTargetBusy) {
+                return
+            }
+            npc.stepAwayFromTarget()
+            movement.process(npc)
+            return
+        }
 
         if (interaction != null && !npc.isBusy) {
             val cancel = npc.shouldCancelInteraction(interaction)
@@ -165,6 +184,25 @@ constructor(
             is InteractionPlayerT -> triggerAp(this, interaction)
         }
 
+    private fun Npc.isUnderTarget(interaction: Interaction): Boolean =
+        when (interaction) {
+            is InteractionPlayer -> isUnderTarget(interaction)
+            is InteractionNpc -> isUnderTarget(interaction)
+            else -> false
+        }
+
+    private fun isTargetBusy(interaction: Interaction): Boolean =
+        when (interaction) {
+            is InteractionPlayer -> interaction.target.interaction != null
+            else -> false
+        }
+
+    private fun Npc.stepAwayFromTarget() {
+        val direction = random.pick(Direction.CARDINAL)
+        val dest = coords.translate(direction)
+        walk(dest)
+    }
+
     /* Loc interactions */
     private fun Npc.preMovementStep(interaction: InteractionLoc): InteractionStep =
         Interactions.earlyStep(
@@ -221,7 +259,7 @@ constructor(
         boundValidator.touches(source = avatar, target = interaction.target.avatar)
 
     private fun Npc.isWithinApRange(interaction: InteractionNpc): Boolean {
-        val isUnderTarget = boundValidator.collides(avatar, interaction.target.avatar)
+        val isUnderTarget = isUnderTarget(interaction)
         if (isUnderTarget) {
             return false
         }
@@ -233,6 +271,10 @@ constructor(
                 distance = interaction.apRange,
             )
         return isWithinApRange
+    }
+
+    private fun Npc.isUnderTarget(interaction: InteractionNpc): Boolean {
+        return boundValidator.collides(avatar, interaction.target.avatar)
     }
 
     /* Obj interactions */
@@ -290,7 +332,7 @@ constructor(
         boundValidator.touches(source = avatar, target = interaction.target.avatar)
 
     private fun Npc.isWithinApRange(interaction: InteractionPlayer): Boolean {
-        val isUnderTarget = boundValidator.collides(avatar, interaction.target.avatar)
+        val isUnderTarget = isUnderTarget(interaction)
         if (isUnderTarget) {
             return false
         }
@@ -302,6 +344,10 @@ constructor(
                 distance = interaction.apRange,
             )
         return isWithinApRange
+    }
+
+    private fun Npc.isUnderTarget(interaction: InteractionPlayer): Boolean {
+        return boundValidator.collides(avatar, interaction.target.avatar)
     }
 
     /* Utility functions */
