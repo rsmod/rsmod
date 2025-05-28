@@ -12,7 +12,7 @@ class MessagePublicHandler : MessageHandler<MessagePublic> {
                 colour = message.colour,
                 effect = message.effect,
                 clanType = if (message.clanType == -1) null else message.clanType,
-                modIcon = player.modGroup?.id ?: 0,
+                modIcon = player.modLevel.clientCode,
                 autoTyper = false,
                 pattern = message.pattern?.asByteArray(),
             )

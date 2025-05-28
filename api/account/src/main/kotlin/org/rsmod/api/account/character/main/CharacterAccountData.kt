@@ -12,7 +12,7 @@ public data class CharacterAccountData(
     val hashedPassword: String,
     val email: String?,
     val members: Boolean,
-    val modGroup: Int?,
+    val modLevel: String?,
     val twofaEnabled: Boolean,
     val twofaSecret: String?,
     val twofaLastVerified: LocalDateTime?,
@@ -40,7 +40,7 @@ public data class CharacterAccountData(
             "displayName=$displayName, " +
             "email=$email, " +
             "members=$members, " +
-            "modGroup=$modGroup, " +
+            "modLevel='$modLevel', " +
             "twofaEnabled=$twofaEnabled, " +
             "twofaLastVerified=$twofaLastVerified, " +
             "worldId=$worldId, " +

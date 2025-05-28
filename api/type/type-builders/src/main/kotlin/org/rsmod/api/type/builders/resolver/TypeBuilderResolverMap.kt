@@ -28,8 +28,8 @@ import org.rsmod.api.type.builders.loc.LocBuilder
 import org.rsmod.api.type.builders.loc.LocBuilderResolver
 import org.rsmod.api.type.builders.mesanim.MesAnimBuilder
 import org.rsmod.api.type.builders.mesanim.MesAnimBuilderResolver
-import org.rsmod.api.type.builders.mod.ModGroupBuilder
-import org.rsmod.api.type.builders.mod.ModGroupBuilderResolver
+import org.rsmod.api.type.builders.mod.ModLevelBuilder
+import org.rsmod.api.type.builders.mod.ModLevelBuilderResolver
 import org.rsmod.api.type.builders.npc.NpcBuilder
 import org.rsmod.api.type.builders.npc.NpcBuilderResolver
 import org.rsmod.api.type.builders.obj.ObjBuilder
@@ -75,7 +75,7 @@ constructor(
     private val invResolver: InvBuilderResolver,
     private val locResolver: LocBuilderResolver,
     private val mesAnimResolver: MesAnimBuilderResolver,
-    private val modGroupResolver: ModGroupBuilderResolver,
+    private val modLevelResolver: ModLevelBuilderResolver,
     private val npcResolver: NpcBuilderResolver,
     private val objResolver: ObjBuilderResolver,
     private val paramResolver: ParamBuilderResolver,
@@ -172,7 +172,7 @@ constructor(
                 is InvBuilder -> invResolver
                 is LocBuilder -> locResolver
                 is MesAnimBuilder -> mesAnimResolver
-                is ModGroupBuilder -> modGroupResolver
+                is ModLevelBuilder -> modLevelResolver
                 is NpcBuilder -> npcResolver
                 is ObjBuilder -> objResolver
                 is ParamBuilder -> paramResolver

@@ -1,5 +1,6 @@
 package org.rsmod.api.net.rsprot.player
 
+import org.rsmod.api.config.constants
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.protect.ProtectedAccessContextFactory
 import org.rsmod.game.entity.Player
@@ -20,7 +21,7 @@ internal fun Player.protectedTelejump(collision: CollisionFlagMap, dest: CoordGr
 }
 
 internal fun Player.modLevelTeleMoveSpeed(developmentMode: Boolean): MoveSpeed? =
-    if (modGroup?.isClientAdmin == true || developmentMode) {
+    if (modLevel.clientCode == constants.mod_clientcode_jmod || developmentMode) {
         MoveSpeed.Stationary
     } else {
         null

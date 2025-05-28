@@ -115,7 +115,7 @@ constructor(
                         a.password_hash,
                         a.email,
                         a.members,
-                        a.mod_group,
+                        a.modlevel,
                         a.twofa_enabled,
                         a.twofa_secret,
                         a.twofa_last_verified,
@@ -153,7 +153,7 @@ constructor(
                     val hashedPassword = resultSet.getString("password_hash")
                     val email = resultSet.getString("email")
                     val members = resultSet.getBoolean("members")
-                    val modGroup = resultSet.getInt("mod_group").takeUnless { resultSet.wasNull() }
+                    val modLevel = resultSet.getString("modlevel")
                     val twofaEnabled = resultSet.getBoolean("twofa_enabled")
                     val twofaSecret = resultSet.getString("twofa_secret")
                     val twofaLastVerified = resultSet.getLocalDateTime("twofa_last_verified")
@@ -181,7 +181,7 @@ constructor(
                             hashedPassword = hashedPassword,
                             email = email,
                             members = members,
-                            modGroup = modGroup,
+                            modLevel = modLevel,
                             twofaEnabled = twofaEnabled,
                             twofaSecret = twofaSecret,
                             twofaLastVerified = twofaLastVerified,
@@ -245,7 +245,7 @@ constructor(
             connection.prepareStatement(
                 """
                     UPDATE accounts
-                    SET display_name = ?, known_device = ?, mod_group = ?
+                    SET display_name = ?, known_device = ?, modlevel = ?
                     WHERE id = ?
                 """
                     .trimIndent()
@@ -254,7 +254,7 @@ constructor(
         updateAccount.use {
             it.setNullableString(1, player.displayName.takeIf(String::isNotBlank))
             it.setNullableInt(2, player.lastKnownDevice)
-            it.setNullableInt(3, player.modGroup?.id)
+            it.setNullableString(3, player.modLevel.internalName)
             it.setInt(4, accountId)
             it.executeUpdate()
         }

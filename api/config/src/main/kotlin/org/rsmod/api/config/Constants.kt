@@ -123,6 +123,10 @@ object Constants {
     const val settextalign_bottom = 2
     const val settextalign_right = 2
 
+    const val mod_clientcode_player = 0
+    const val mod_clientcode_pmod = 1
+    const val mod_clientcode_jmod = 2
+
     fun isOverhead(icon: Int?): Boolean =
         icon in overhead_protect_from_melee..overhead_deflect_magic
 }

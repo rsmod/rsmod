@@ -16,6 +16,7 @@ import org.rsmod.api.cache.types.inv.InvTypeDecoder
 import org.rsmod.api.cache.types.jingle.JingleTypeDecoder
 import org.rsmod.api.cache.types.loc.LocTypeDecoder
 import org.rsmod.api.cache.types.midi.MidiTypeDecoder
+import org.rsmod.api.cache.types.mod.ModLevelTypeDecoder
 import org.rsmod.api.cache.types.npc.NpcTypeDecoder
 import org.rsmod.api.cache.types.obj.ObjTypeDecoder
 import org.rsmod.api.cache.types.param.ParamTypeDecoder
@@ -69,6 +70,7 @@ public object TypeListMapDecoder {
         val dbTables = DbTableTypeDecoder.decodeAll(cache)
         val dbRows = DbRowTypeDecoder.decodeAll(cache)
         val hunt = HuntModeTypeDecoder.decodeAll(cache)
+        val modLevels = ModLevelTypeDecoder.decodeAll(cache)
 
         val typeList =
             TypeListMap(
@@ -102,6 +104,7 @@ public object TypeListMapDecoder {
                 dbTables = dbTables,
                 dbRows = dbRows,
                 hunt = hunt,
+                modLevels = modLevels,
             )
 
         return typeList.apply {
@@ -133,6 +136,7 @@ public object TypeListMapDecoder {
             assignInternal(this.dbTables, names.dbTables)
             assignInternal(this.dbRows, names.dbRows)
             assignInternal(this.hunt, names.hunt)
+            assignInternal(this.modLevels, names.modLevels)
             ComplexTypeDecoder.decodeAll(this)
         }
     }

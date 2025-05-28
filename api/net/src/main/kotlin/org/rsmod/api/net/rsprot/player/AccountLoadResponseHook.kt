@@ -13,7 +13,7 @@ import org.rsmod.api.account.loader.request.AccountLoadAuth
 import org.rsmod.api.account.loader.request.AccountLoadCallback
 import org.rsmod.api.account.loader.request.AccountLoadResponse
 import org.rsmod.api.account.loader.request.isNewAccount
-import org.rsmod.api.config.refs.modgroups
+import org.rsmod.api.config.refs.modlevels
 import org.rsmod.api.config.refs.varbits
 import org.rsmod.api.player.vars.boolVarBit
 import org.rsmod.api.realm.RealmConfig
@@ -26,7 +26,7 @@ import org.rsmod.game.GameUpdate.Companion.isCountdown
 import org.rsmod.game.GameUpdate.Companion.isUpdating
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.player.SessionStateEvent
-import org.rsmod.game.type.mod.ModGroup
+import org.rsmod.game.type.mod.UnpackedModLevelType
 
 class AccountLoadResponseHook(
     private val world: Int,
@@ -35,6 +35,7 @@ class AccountLoadResponseHook(
     private val eventBus: EventBus,
     private val accountRegistry: AccountRegistry,
     private val playerRegistry: PlayerRegistry,
+    private val devModeModLevel: UnpackedModLevelType,
     private val loginBlock: LoginBlock<AuthenticationType>,
     private val channelResponses: GameLoginResponseHandler<Player>,
     private val inputPassword: CharArray,
@@ -193,7 +194,7 @@ class AccountLoadResponseHook(
             displayName = username.toDisplayName()
         }
         if (config.devMode) {
-            modGroup = modgroups.owner
+            modLevel = devModeModLevel
         }
     }
 
@@ -269,8 +270,8 @@ class AccountLoadResponseHook(
     private fun Player.createLoginResponse(slotId: Int, auth: AccountLoadAuth) =
         LoginResponse.Ok(
             authenticatorResponse = authenticatorResponse(auth),
-            staffModLevel = modGroup?.toStaffModLevel() ?: 0,
-            playerMod = modGroup?.isClientMod == true,
+            staffModLevel = modLevel.clientCode,
+            playerMod = modLevel.hasAccessTo(modlevels.moderator),
             index = slotId,
             member = members,
             accountHash = accountHash,
@@ -303,13 +304,6 @@ class AccountLoadResponseHook(
         private val logger = InlineLogger()
 
         private var Player.newAccount by boolVarBit(varbits.new_player_account)
-
-        private fun ModGroup.toStaffModLevel(): Int =
-            when {
-                isClientAdmin -> 2
-                isClientMod -> 1
-                else -> 0
-            }
 
         // TODO: Decide how to deal with email login usernames.
         private fun String.toDisplayName(): String {

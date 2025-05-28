@@ -4,8 +4,7 @@ import com.github.michaelbull.logging.InlineLogger
 import org.rsmod.api.player.output.mes
 import org.rsmod.game.cheat.Cheat
 import org.rsmod.game.cheat.CheatHandler
-import org.rsmod.game.type.mod.ModLevel
-import org.rsmod.game.type.mod.hasAccessTo
+import org.rsmod.game.type.mod.ModLevelType
 
 private val logger = InlineLogger()
 
@@ -14,7 +13,7 @@ private val logger = InlineLogger()
 @CheatBuilderDsl
 public class CheatHandlerBuilder(public val command: String) {
     public var desc: String? = null
-    public var modLevel: ModLevel? = null
+    public var modLevel: ModLevelType? = null
     public var invalidArgs: String? = null
     public var invalidModLevel: String? = null
     public var exception: String? = DEFAULT_EXCEPTION
@@ -37,10 +36,10 @@ public class CheatHandlerBuilder(public val command: String) {
         invalidArgsMsg: String,
         modLevelMsg: String?,
         exceptionMsg: String?,
-        modLevel: ModLevel?,
+        modLevel: ModLevelType?,
         cheat: Cheat.() -> Unit,
     ): Cheat.() -> Unit = action@{
-        if (modLevel != null && !player.modGroup.hasAccessTo(modLevel)) {
+        if (modLevel != null && !player.modLevel.hasAccessTo(modLevel)) {
             modLevelMsg?.let(player::mes)
             return@action
         }
