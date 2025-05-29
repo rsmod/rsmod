@@ -1,7 +1,7 @@
 package org.rsmod.game.type.dbrow
 
+import org.rsmod.game.type.util.GenericPropertySelector.mergeMap
 import org.rsmod.game.type.util.GenericPropertySelector.select
-import org.rsmod.game.type.util.GenericPropertySelector.selectMap
 import org.rsmod.game.type.util.MergeableCacheBuilder
 
 public class DbRowTypeBuilder(public var internal: String? = null) {
@@ -28,8 +28,8 @@ public class DbRowTypeBuilder(public var internal: String? = null) {
     public companion object : MergeableCacheBuilder<UnpackedDbRowType> {
         override fun merge(edit: UnpackedDbRowType, base: UnpackedDbRowType): UnpackedDbRowType {
             val table = select(edit, base, default = null) { table }
-            val data = selectMap(edit, base) { data }
-            val types = selectMap(edit, base) { types }
+            val data = mergeMap(edit, base) { data }
+            val types = mergeMap(edit, base) { types }
             val columnCount = select(edit, base, default = 0) { columnCount }
             val internalId = select(edit, base, default = null) { internalId }
             val internalName = select(edit, base, default = null) { internalName }

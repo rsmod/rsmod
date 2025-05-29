@@ -47,4 +47,10 @@ public object GenericPropertySelector {
             else -> otherParamMap
         }
     }
+
+    public fun <T, K, V> mergeMap(priority: T, other: T, getValue: T.() -> Map<K, V>): Map<K, V> {
+        val priorityMap = getValue(priority)
+        val otherMap = getValue(other)
+        return otherMap + priorityMap
+    }
 }
