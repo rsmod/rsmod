@@ -23,6 +23,7 @@ import org.rsmod.api.server.config.ServerConfigModule
 import org.rsmod.api.totp.TotpModule
 import org.rsmod.api.utils.logging.ExceptionHandlerModule
 import org.rsmod.game.dbtable.DbRowResolver
+import org.rsmod.game.dbtable.DbTableResolver
 import org.rsmod.game.enums.EnumTypeMapResolver
 import org.rsmod.game.queue.WorldQueueList
 import org.rsmod.game.type.TypeListMap
@@ -53,12 +54,18 @@ public object CoreModule : ExtendedModule() {
         bindInstance<GameCycle>()
         bindInstance<WorldQueueList>()
         bindProvider(DbRowResolverProvider::class.java)
+        bindProvider(DbTableResolverProvider::class.java)
         bindProvider(EnumTypeMapResolverProvider::class.java)
     }
 
     private class DbRowResolverProvider @Inject constructor(private val types: TypeListMap) :
         Provider<DbRowResolver> {
         override fun get(): DbRowResolver = DbRowResolver(types)
+    }
+
+    private class DbTableResolverProvider @Inject constructor(private val types: TypeListMap) :
+        Provider<DbTableResolver> {
+        override fun get(): DbTableResolver = DbTableResolver(types)
     }
 
     private class EnumTypeMapResolverProvider @Inject constructor(private val enums: EnumTypeList) :

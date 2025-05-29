@@ -100,6 +100,7 @@ import org.rsmod.game.area.AreaIndex
 import org.rsmod.game.cheat.CheatCommandMap
 import org.rsmod.game.client.Client
 import org.rsmod.game.dbtable.DbRowResolver
+import org.rsmod.game.dbtable.DbTableResolver
 import org.rsmod.game.entity.ControllerList
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.NpcList
@@ -939,6 +940,10 @@ constructor(
                 .toProvider(DbRowResolverProvider::class.java)
                 .`in`(Scopes.SINGLETON)
 
+            bind(DbTableResolver::class.java)
+                .toProvider(DbTableResolverProvider::class.java)
+                .`in`(Scopes.SINGLETON)
+
             bind(EnumTypeMapResolver::class.java)
                 .toProvider(EnumTypeMapResolverProvider::class.java)
                 .`in`(Scopes.SINGLETON)
@@ -964,6 +969,11 @@ constructor(
         private class DbRowResolverProvider @Inject constructor(private val types: TypeListMap) :
             Provider<DbRowResolver> {
             override fun get(): DbRowResolver = DbRowResolver(types)
+        }
+
+        private class DbTableResolverProvider @Inject constructor(private val types: TypeListMap) :
+            Provider<DbTableResolver> {
+            override fun get(): DbTableResolver = DbTableResolver(types)
         }
 
         private class EnumTypeMapResolverProvider
