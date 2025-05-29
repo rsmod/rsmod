@@ -89,6 +89,7 @@ import org.rsmod.api.stats.xpmod.XpModifiers
 import org.rsmod.api.testing.GameTestState
 import org.rsmod.api.testing.capture.CaptureClient
 import org.rsmod.api.testing.factory.collisionFactory
+import org.rsmod.api.testing.random.FixedRandom
 import org.rsmod.api.testing.random.SequenceRandom
 import org.rsmod.api.testing.util.TestRealmConfig
 import org.rsmod.api.utils.logging.GameExceptionHandler
@@ -547,6 +548,15 @@ constructor(
         angle: LocAngle = LocAngle.West,
     ): BoundLocInfo = placeMapLoc(coords, locTypes[type], shape, angle)
 
+    public fun delLoc(bound: BoundLocInfo) {
+        val locInfo = LocInfo(bound.layer, bound.coords, bound.entity)
+        delLoc(locInfo)
+    }
+
+    public fun delLoc(loc: LocInfo) {
+        locRegistry.del(loc)
+    }
+
     public fun findLocs(coords: CoordGrid): Sequence<LocInfo> =
         locRegistry.findAll(ZoneKey.from(coords))
 
@@ -828,7 +838,7 @@ constructor(
 
             bind(GameRandom::class.java)
                 .annotatedWith(CoreRandom::class.java)
-                .toInstance(DefaultGameRandom(seed = 123456))
+                .toInstance(FixedRandom(start = 0))
 
             VariableGameRandom().let { random ->
                 bind(GameRandom::class.java).toInstance(random.impl)

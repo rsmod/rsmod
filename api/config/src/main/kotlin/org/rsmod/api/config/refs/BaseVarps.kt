@@ -37,6 +37,9 @@ object BaseVarps : VarpReferences() {
     val option_sounds = find("option_sounds", 38363631)
     val option_areasounds = find("option_areasounds", 197931274)
 
+    val settings_tracking = find("settings_tracking", 648034597)
+    val chat_filter_assist = find("chat_filter_assist", 239468797)
+
     val cookquest = find("cookquest", 6586291)
     val doricquest = find("doricquest", 7040253)
     val haunted = find("haunted", 7267234)

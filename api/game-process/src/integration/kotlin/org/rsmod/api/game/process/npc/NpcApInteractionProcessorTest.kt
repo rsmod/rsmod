@@ -15,7 +15,7 @@ import org.rsmod.map.CoordGrid
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-class NpcInteractionProcessorTest {
+class NpcApInteractionProcessorTest {
     /**
      * For interactions targeting pathing entities (`Player`s and `Npc`s), the interaction model is
      * responsible for recalculating the route after the initial interaction step and before
