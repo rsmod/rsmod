@@ -132,7 +132,6 @@
             <option value="$PROJECT_DIR$/content/items" />
             <option value="$PROJECT_DIR$/content/items/food" />
             <option value="$PROJECT_DIR$/content/other" />
-            <option value="$PROJECT_DIR$/content/other/canoe" />
             <option value="$PROJECT_DIR$/content/other/commands" />
             <option value="$PROJECT_DIR$/content/other/login" />
             <option value="$PROJECT_DIR$/content/other/mapclock" />
@@ -144,8 +143,13 @@
             <option value="$PROJECT_DIR$/content/skills/fishing" />
             <option value="$PROJECT_DIR$/content/skills/magic" />
             <option value="$PROJECT_DIR$/content/skills/magic/spell-attacks" />
+            <option value="$PROJECT_DIR$/content/skills/mining" />
             <option value="$PROJECT_DIR$/content/skills/smithing" />
             <option value="$PROJECT_DIR$/content/skills/woodcutting" />
+            <option value="$PROJECT_DIR$/content/travel" />
+            <option value="$PROJECT_DIR$/content/travel/canoe" />
+            <option value="$PROJECT_DIR$/content/travel/canoe/spirittree" />
+            <option value="$PROJECT_DIR$/content/travel/spirittree" />
             <option value="$PROJECT_DIR$/engine" />
             <option value="$PROJECT_DIR$/engine/annotations" />
             <option value="$PROJECT_DIR$/engine/coroutine" />

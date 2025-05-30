@@ -566,9 +566,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d0a5f4dc-42be-4d65-930d-5e9377798732" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/content/travel/spirittree/src/main/kotlin/org/rsmod/content/travel/spirittree/configs/SpiritTreeLocs.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/content/travel/spirittree/src/main/kotlin/org/rsmod/content/travel/spirittree/scripts/SpiritTree.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.data/symbols/content.sym" beforeDir="false" afterPath="$PROJECT_DIR$/.data/symbols/content.sym" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.data/symbols/dbcol.sym" beforeDir="false" afterPath="$PROJECT_DIR$/.data/symbols/dbcol.sym" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.data/symbols/dbrow.sym" beforeDir="false" afterPath="$PROJECT_DIR$/.data/symbols/dbrow.sym" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.data/symbols/dbtable.sym" beforeDir="false" afterPath="$PROJECT_DIR$/.data/symbols/dbtable.sym" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseObjs.kt" beforeDir="false" afterPath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseObjs.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/content/items/food/src/main/kotlin/org/rsmod/content/items/food/configs/foods/PieConfigs.kt" beforeDir="false" afterPath="$PROJECT_DIR$/content/items/food/src/main/kotlin/org/rsmod/content/items/food/configs/foods/PieConfigs.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseContent.kt" beforeDir="false" afterPath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseContent.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseInterfaces.kt" beforeDir="false" afterPath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseInterfaces.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseNpcs.kt" beforeDir="false" afterPath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseNpcs.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/content/other/login/src/main/kotlin/org/rsmod/content/other/login/LoginScript.kt" beforeDir="false" afterPath="$PROJECT_DIR$/content/other/login/src/main/kotlin/org/rsmod/content/other/login/LoginScript.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -635,8 +647,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="package-info" />
-        <option value="Kotlin Class" />
         <option value="Kotlin File" />
+        <option value="Kotlin Class" />
       </list>
     </option>
   </component>

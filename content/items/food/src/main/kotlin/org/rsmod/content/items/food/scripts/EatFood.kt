@@ -27,7 +27,7 @@ class EatFood : PluginScript() {
         }
     }
 
-    private suspend fun ProtectedAccess.eatFood(item: InvObj, type: UnpackedObjType, slot: Int) {
+    private fun ProtectedAccess.eatFood(item: InvObj, type: UnpackedObjType, slot: Int) {
         if (!canEat(type, player)) {
             return
         }

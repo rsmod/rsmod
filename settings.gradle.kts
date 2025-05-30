@@ -56,3 +56,9 @@ include("content:items:food")
 findProject(":content:items:food")?.name = "food"
 include("content:skills:smithing")
 findProject(":content:skills:smithing")?.name = "smithing"
+include("content:skills:mining")
+findProject(":content:skills:mining")?.name = "mining"
+include("content:travel:canoe:spirittree")
+findProject(":content:travel:canoe:spirittree")?.name = "spirittree"
+include("content:travel:spirittree")
+findProject(":content:travel:spirittree")?.name = "spirittree"

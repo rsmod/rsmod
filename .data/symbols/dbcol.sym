@@ -592,3 +592,10 @@ gameframe:3	gameframe:resizable
 gameframe:4	gameframe:clientmode
 gameframe:5	gameframe:is_default
 gameframe:6	gameframe:stone_arrangement
+
+mining_resource:0	mining_resource:stat_requirement
+mining_resource:1	mining_resource:action_delay
+mining_resource:2	mining_resource:base_gather_chance
+mining_resource:3	mining_resource:min_anim_enum
+mining_resource:4	mining_resource:gather_sound
+mining_resource:5	mining_resource:mining_resource_product
