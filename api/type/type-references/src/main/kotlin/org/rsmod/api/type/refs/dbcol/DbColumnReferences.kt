@@ -7,11 +7,13 @@ import org.rsmod.game.dbtable.DbGroupColumn
 import org.rsmod.game.dbtable.DbGroupListColumn
 import org.rsmod.game.dbtable.DbSingleColumn
 import org.rsmod.game.stat.StatRequirement
+import org.rsmod.game.type.area.AreaType
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.dbrow.DbRowType
 import org.rsmod.game.type.enums.EnumType
 import org.rsmod.game.type.interf.InterfaceType
 import org.rsmod.game.type.loc.LocType
+import org.rsmod.game.type.midi.MidiType
 import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.stat.StatType
@@ -38,6 +40,10 @@ public abstract class DbColumnReferences :
         val column = DbGroupListColumn(decoder)
         cache += NamedDbColumn(internal, column, decoder.types)
         return column
+    }
+
+    public fun area(internal: String): DbSingleColumn<Int, AreaType> {
+        return single(internal, DbColumnCodec.AreaTypeCodec)
     }
 
     public fun boolean(internal: String): DbSingleColumn<Int, Boolean> {
@@ -74,6 +80,10 @@ public abstract class DbColumnReferences :
 
     public fun loc(internal: String): DbSingleColumn<Int, LocType> {
         return single(internal, DbColumnCodec.LocTypeCodec)
+    }
+
+    public fun midi(internal: String): DbSingleColumn<Int, MidiType> {
+        return single(internal, DbColumnCodec.MidiTypeCodec)
     }
 
     public fun npc(internal: String): DbSingleColumn<Int, NpcType> {

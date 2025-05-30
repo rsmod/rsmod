@@ -3,6 +3,7 @@ package org.rsmod.game.dbtable
 import kotlin.reflect.KClass
 import org.rsmod.game.stat.StatRequirement
 import org.rsmod.game.type.TypeListMap
+import org.rsmod.game.type.area.AreaType
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.dbrow.DbRowType
 import org.rsmod.game.type.enums.EnumType
@@ -10,6 +11,7 @@ import org.rsmod.game.type.interf.InterfaceType
 import org.rsmod.game.type.literal.CacheVarLiteral
 import org.rsmod.game.type.literal.CacheVarTypeMap.codecOut
 import org.rsmod.game.type.loc.LocType
+import org.rsmod.game.type.midi.MidiType
 import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.stat.StatType
@@ -53,6 +55,19 @@ public interface DbColumnCodec<T, R> {
                     this += codec.decode(this@Iterator, types)
                 }
             }
+        }
+    }
+
+    public object AreaTypeCodec : BaseIntCodec<AreaType> {
+        override val types: List<CacheVarLiteral> = listOf(CacheVarLiteral.AREA)
+
+        override fun decode(iterator: Iterator<Int, AreaType>, types: TypeListMap): AreaType {
+            val type = iterator.next()
+            return types.areas.getValue(type).toHashedType()
+        }
+
+        override fun encode(value: AreaType): Int {
+            return value.id
         }
     }
 
@@ -178,6 +193,19 @@ public interface DbColumnCodec<T, R> {
         }
 
         override fun encode(value: LocType): Int {
+            return value.id
+        }
+    }
+
+    public object MidiTypeCodec : BaseIntCodec<MidiType> {
+        override val types: List<CacheVarLiteral> = listOf(CacheVarLiteral.MIDI)
+
+        override fun decode(iterator: Iterator<Int, MidiType>, types: TypeListMap): MidiType {
+            val type = iterator.next()
+            return types.midis.getValue(type).toHashedType()
+        }
+
+        override fun encode(value: MidiType): Int {
             return value.id
         }
     }
