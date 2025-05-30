@@ -5109,3 +5109,25 @@
 65532	gameframe_pre_eoc
 65533	gameframe_osrs_stretch
 65534	gameframe_toplevel
+
+65535	mining_resource_copper
+65536	mining_resource_tin
+65537	mining_resource_iron
+65538	mining_resource_coal
+65539	mining_resource_mithril
+65540	mining_resource_adamantite
+65541	mining_resource_runite
+65542	mining_resource_clay
+65543	mining_resource_silver
+65544	mining_resource_gold
+65545	mining_resource_lovakite
+65546	mining_resource_blurite
+65547	mining_resource_ash_pile
+65548	mining_resource_daeyalt
+65549	mining_resource_sandstone
+65550	mining_resource_granite
+65551	mining_resource_salt
+65552	mining_resource_amethyst
+65553	mining_resource_daealt_essence
+65554	mining_resource_essence
+

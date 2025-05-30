@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.manes.versions)
     alias(libs.plugins.gradle.download)
     id("kotlin-conventions")
+    kotlin("jvm") version "2.1.21"
 }
 
 allprojects {
@@ -11,6 +12,7 @@ allprojects {
 
 dependencies {
     implementation(projects.server.install)
+    implementation(kotlin("stdlib-jdk8"))
 }
 
 tasks.register("run") {
@@ -102,4 +104,10 @@ tasks.register<JavaExec>("setupLogbackAdvanced") {
 fun getArgsFromProperty(propertyName: String): List<String> {
     val argsProp = project.findProperty(propertyName)
     return argsProp?.toString()?.split(" ") ?: emptyList()
+}
+repositories {
+    mavenCentral()
+}
+kotlin {
+    jvmToolchain(11)
 }
