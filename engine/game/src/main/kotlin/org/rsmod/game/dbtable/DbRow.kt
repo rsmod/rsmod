@@ -9,6 +9,9 @@ public class DbRow(
     private val table: UnpackedDbTableType,
     private val row: UnpackedDbRowType,
 ) {
+    public val type: UnpackedDbRowType
+        get() = row
+
     public operator fun <T, R> get(column: DbSingleColumn<T, R>): R {
         val single = getOrNull(column)
         if (single == null) {
@@ -68,5 +71,9 @@ public class DbRow(
 
     private fun <T, R> getOrDefault(column: DbColumn<T, R>): List<Any>? {
         return row.data[column.columnId] ?: table.defaults[column.columnId]
+    }
+
+    override fun toString(): String {
+        return "DbRow(${table.internalName}:${row.internalName})"
     }
 }
