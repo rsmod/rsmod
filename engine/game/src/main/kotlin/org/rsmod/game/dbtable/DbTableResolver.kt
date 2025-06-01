@@ -17,7 +17,7 @@ public class DbTableResolver(private val cacheTypes: TypeListMap) {
 
     public operator fun get(table: DbTableType): List<DbRow> {
         val table = tables[table]
-        val rowList = tableRows.getValue(table.id)
+        val rowList = tableRows[table.id] ?: return emptyList()
         return rowList.map { DbRow(cacheTypes, table, rows.getValue(it)) }
     }
 

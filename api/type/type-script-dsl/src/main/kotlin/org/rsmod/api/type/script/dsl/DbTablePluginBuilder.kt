@@ -142,14 +142,6 @@ public class DbTablePluginBuilder(public var internal: String? = null) {
         public var clientside: Boolean = false
 
         internal fun apply(builder: DbTablePluginBuilder) {
-            val types = column.types
-            if (types.size < 2) {
-                val message =
-                    "Group list columns can only support columns with more " +
-                        "than one type: actual=$types"
-                throw IllegalArgumentException(message)
-            }
-
             val columnId = column.columnId
             if (columnId !in 0..127) {
                 val message = "Column id must be within range [0..127]: $columnId"
@@ -161,7 +153,7 @@ public class DbTablePluginBuilder(public var internal: String? = null) {
             }
 
             builder.tables += column.table
-            builder.types[columnId] = types.map(CacheVarLiteral::id)
+            builder.types[columnId] = column.types.map(CacheVarLiteral::id)
 
             var attributes = builder.attributes[columnId] ?: 0
             attributes = (attributes and 0x80.inv()) or (columnId and 0x7F)

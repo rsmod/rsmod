@@ -87,4 +87,6 @@ object BaseComponents : ComponentReferences() {
     val combat_tab_category = find("combat_interface:category", 311653829278247768)
 
     val fade_overlay_message = find("fade_overlay:message", 9045250929562636923)
+
+    val music_now_playing_text = find("music:now_playing_text", 7229867128976358672)
 }

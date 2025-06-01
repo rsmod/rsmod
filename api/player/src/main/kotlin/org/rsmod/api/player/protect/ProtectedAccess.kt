@@ -54,6 +54,8 @@ import org.rsmod.api.player.isInPvnCombat
 import org.rsmod.api.player.isInPvpCombat
 import org.rsmod.api.player.isOutOfCombat
 import org.rsmod.api.player.mapMultiway
+import org.rsmod.api.player.midiJingle
+import org.rsmod.api.player.midiSong
 import org.rsmod.api.player.output.Camera
 import org.rsmod.api.player.output.ChatType
 import org.rsmod.api.player.output.ClientScripts
@@ -64,8 +66,6 @@ import org.rsmod.api.player.output.ClientScripts.mesLayerMode9
 import org.rsmod.api.player.output.UpdateInventory.resendSlot
 import org.rsmod.api.player.output.clearMapFlag
 import org.rsmod.api.player.output.mes
-import org.rsmod.api.player.output.midiJingle
-import org.rsmod.api.player.output.midiSong
 import org.rsmod.api.player.output.objExamine
 import org.rsmod.api.player.output.runClientScript
 import org.rsmod.api.player.output.soundSynth
@@ -155,6 +155,7 @@ import org.rsmod.game.type.category.CategoryType
 import org.rsmod.game.type.category.CategoryTypeList
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.content.ContentGroupType
+import org.rsmod.game.type.dbrow.DbRowType
 import org.rsmod.game.type.enums.EnumType
 import org.rsmod.game.type.hitmark.HitmarkTypeGroup
 import org.rsmod.game.type.hunt.HuntVis
@@ -1816,6 +1817,11 @@ public class ProtectedAccess(
     /** @see [org.rsmod.api.player.mapMultiway] */
     public fun mapMultiway(): Boolean {
         return player.mapMultiway(context.areaChecker)
+    }
+
+    /** @see [org.rsmod.api.player.music.MusicPlayer.unlockAndPlay] */
+    public fun musicPlay(musicRow: DbRowType) {
+        context.musicPlayer.unlockAndPlay(player, musicRow)
     }
 
     public fun combatClearQueue() {

@@ -9,6 +9,7 @@ import org.rsmod.api.player.interact.LocInteractions
 import org.rsmod.api.player.interact.NpcInteractions
 import org.rsmod.api.player.interact.PlayerInteractions
 import org.rsmod.api.player.interact.WornInteractions
+import org.rsmod.api.player.music.MusicPlayer
 import org.rsmod.api.random.GameRandom
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.NpcList
@@ -88,6 +89,7 @@ public data class ProtectedAccessContext(
     private val getPlayerInteractions: () -> PlayerInteractions,
     private val getHeldInteractions: () -> HeldInteractions,
     private val getWornInteractions: () -> WornInteractions,
+    private val getMusicPlayer: () -> MusicPlayer,
     private val getMarketPrices: () -> MarketPrices,
     private val getInstantHitProcessor: () -> InstantPlayerHitProcessor,
 ) {
@@ -108,6 +110,7 @@ public data class ProtectedAccessContext(
     public val playerInteractions: PlayerInteractions by lazyLoad { getPlayerInteractions() }
     public val heldInteractions: HeldInteractions by lazyLoad { getHeldInteractions() }
     public val wornInteractions: WornInteractions by lazyLoad { getWornInteractions() }
+    public val musicPlayer: MusicPlayer by lazyLoad { getMusicPlayer() }
     public val marketPrices: MarketPrices by lazyLoad { getMarketPrices() }
     public val instantHitProcessor: InstantPlayerHitProcessor by lazyLoad {
         getInstantHitProcessor()

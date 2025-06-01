@@ -37,6 +37,7 @@ object BaseVarps : VarpReferences() {
     val option_sounds = find("option_sounds", 38363631)
     val option_areasounds = find("option_areasounds", 197931274)
 
+    val musicplay = find("musicplay", 4089500)
     val settings_tracking = find("settings_tracking", 648034597)
     val chat_filter_assist = find("chat_filter_assist", 239468797)
 
@@ -71,6 +72,10 @@ object BaseVarps : VarpReferences() {
     val date_vars = find("date_vars", 698424318)
 
     /* Server-side-only types */
+    val music_playlist = find("music_playlist")
+    val music_temp_state_3 = find("music_temp_state_3")
+    val music_temp_state_2 = find("music_temp_state_2")
+    val music_temp_state_1 = find("music_temp_state_1")
     val gameframe = find("gameframe")
     val pk_prey1 = find("pk_prey1")
     val pk_prey2 = find("pk_prey2")

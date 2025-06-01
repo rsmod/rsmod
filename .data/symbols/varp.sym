@@ -2179,6 +2179,10 @@
 4692	castlewars_extra
 4693	castlewars_plaudits
 
+65504	music_playlist
+65505	music_temp_state_3
+65506	music_temp_state_2
+65507	music_temp_state_1
 65508	gameframe
 65509	pk_prey1
 65510	pk_prey2

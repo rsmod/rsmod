@@ -87,7 +87,7 @@ public class DbRowPluginBuilder(public var internal: String? = null) {
 
             builder.types[columnId] = types.map(CacheVarLiteral::id)
 
-            val value = value ?: error("`value` must not be null.")
+            val value = value ?: error("`value` must not be null. (column='${column.name}')")
             val encoded = column.encode(value) as Any
             builder.data[columnId] = listOf(encoded)
         }
@@ -126,7 +126,7 @@ public class DbRowPluginBuilder(public var internal: String? = null) {
 
             builder.types[columnId] = types.map(CacheVarLiteral::id)
 
-            val value = value ?: error("`value` must not be null.")
+            val value = value ?: error("`value` must not be null. (column='${column.name}')")
             val encoded = column.encode(value)
             builder.data[columnId] = encoded
         }
@@ -137,13 +137,6 @@ public class DbRowPluginBuilder(public var internal: String? = null) {
         public var values: List<R>? = null
 
         internal fun apply(builder: DbRowPluginBuilder) {
-            val types = column.types
-            if (types.size < 2) {
-                val message =
-                    "Group columns can only support columns with more than one type: actual=$types"
-                throw IllegalArgumentException(message)
-            }
-
             val columnId = column.columnId
             if (columnId !in 0..127) {
                 val message = "Column id must be within range [0..127]: $columnId"
@@ -163,9 +156,9 @@ public class DbRowPluginBuilder(public var internal: String? = null) {
                 throw IllegalStateException(message)
             }
 
-            builder.types[columnId] = types.map(CacheVarLiteral::id)
+            builder.types[columnId] = column.types.map(CacheVarLiteral::id)
 
-            val values = values ?: error("`values` must not be null.")
+            val values = values ?: error("`values` must not be null. (column='${column.name}')")
             val encoded = values.flatMap(column::encode)
             builder.data[columnId] = encoded
         }

@@ -10,6 +10,7 @@ import org.rsmod.api.player.interact.LocInteractions
 import org.rsmod.api.player.interact.NpcInteractions
 import org.rsmod.api.player.interact.PlayerInteractions
 import org.rsmod.api.player.interact.WornInteractions
+import org.rsmod.api.player.music.MusicPlayer
 import org.rsmod.api.random.GameRandom
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.NpcList
@@ -41,6 +42,7 @@ constructor(
     private val playerInteractions: PlayerInteractions,
     private val heldInteractions: HeldInteractions,
     private val wornInteractions: WornInteractions,
+    private val musicPlayer: MusicPlayer,
     private val marketPrices: MarketPrices,
     private val instantHitProcessor: InstantPlayerHitProcessor,
 ) {
@@ -63,6 +65,7 @@ constructor(
             getPlayerInteractions = { playerInteractions },
             getHeldInteractions = { heldInteractions },
             getWornInteractions = { wornInteractions },
+            getMusicPlayer = { musicPlayer },
             getMarketPrices = { marketPrices },
             getInstantHitProcessor = { instantHitProcessor },
         )
@@ -87,6 +90,7 @@ constructor(
                 getPlayerInteractions = { error("No player interactions provided.") },
                 getHeldInteractions = { error("No held interactions provided.") },
                 getWornInteractions = { error("No worn interactions provided.") },
+                getMusicPlayer = { error("No music player provided.") },
                 getMarketPrices = { error("No market prices provided.") },
                 getInstantHitProcessor = { error("No instant hit processor provided.") },
             )

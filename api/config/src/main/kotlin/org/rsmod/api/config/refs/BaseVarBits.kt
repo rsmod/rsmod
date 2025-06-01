@@ -52,9 +52,13 @@ object BaseVarBits : VarBitReferences() {
     val option_areasounds_saved = find("option_areasounds_saved", 160177716018875)
     val music_unlock_text_toggle = find("music_unlock_text_toggle", 979759217977)
 
+    val music_area_mode = find("music_area_mode", 979759223975)
+    val music_enableloop = find("music_enableloop", 979759177998)
+
     val option_brightness_remember = find("option_brightness_remember", 147143061250651)
     val camera_zoom_mouse_disabled = find("camera_zoom_mouse_disabled", 54354867127892)
 
+    val chatbox_transparency = find("chatbox_transparency", 54354867050503)
     val resizable_stone_arrangement = find("resizable_stone_arrangement", 54354867046720)
     val skull_prevent = find("skull_prevent_enabled", 158426023294720)
     val option_acceptaid = find("option_acceptaid", 22000071917329)
@@ -147,6 +151,11 @@ object BaseVarBits : VarBitReferences() {
     val date_secs_past_minute = find("date_seconds_past_minute", 158529050174475)
 
     /* Server-side-only types */
+    val music_last_id = find("music_last_id")
+    val music_curr_area = find("music_curr_area")
+    val music_curr_id = find("music_curr_id")
+    val music_curr_clocks = find("music_curr_clocks")
+    val music_curr_duration = find("music_curr_duration")
     val gameframe_toplevel = find("gameframe_toplevel")
     val improved_stamina_passive = find("improved_stamina_passive")
     val prayer_drain_counter = find("prayer_drain_counter")

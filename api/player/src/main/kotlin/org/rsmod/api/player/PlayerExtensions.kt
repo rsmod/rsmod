@@ -5,6 +5,7 @@ import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.areas
 import org.rsmod.api.config.refs.queues
 import org.rsmod.api.config.refs.timers
+import org.rsmod.api.config.refs.varbits
 import org.rsmod.api.config.refs.varps
 import org.rsmod.api.player.hit.configs.hit_queues
 import org.rsmod.api.player.output.UpdateInventory
@@ -88,6 +89,35 @@ public fun Player.isInPvnCombat(): Boolean {
 /** @return `true` if the player is **currently** in a multi-combat area. */
 public fun Player.mapMultiway(checker: AreaChecker): Boolean {
     return checker.inArea(areas.multiway, coords)
+}
+
+/**
+ * Selects the proper hexadecimal color based on the player's client mode and chatbox transparency.
+ *
+ * _Note: The returned value is automatically wrapped with the `<col=>` tag._
+ *
+ * @param opaque The hexadecimal color (6 characters, no # symbol) to use when chatbox transparency
+ *   is disabled.
+ * @param transparent The hexadecimal color (6 characters, no # symbol) to use when chatbox
+ *   transparency is enabled.
+ * @return The transparent color if the client is in resizable mode and chatbox transparency is
+ *   enabled; the opaque color otherwise.
+ * @throws IllegalArgumentException if either [opaque] or [transparent] is not exactly 6 characters.
+ */
+public fun Player.chatMesColorTag(opaque: String, transparent: String): String {
+    return "<col=${chatMesColor(opaque, transparent)}>"
+}
+
+private fun Player.chatMesColor(opaque: String, transparent: String): String {
+    require(opaque.length == 6 && transparent.length == 6) {
+        "Color tags must be exactly 6 hexadecimal characters without the # symbol (e.g., 'FF0000')."
+    }
+    val transparentChatbox = ui.frameResizable && vars[varbits.chatbox_transparency] == 1
+    return if (transparentChatbox) {
+        transparent
+    } else {
+        opaque
+    }
 }
 
 public fun Player.startInvTransmit(inv: Inventory) {

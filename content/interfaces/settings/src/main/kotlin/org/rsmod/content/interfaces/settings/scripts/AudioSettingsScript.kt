@@ -1,8 +1,10 @@
 package org.rsmod.content.interfaces.settings.scripts
 
+import jakarta.inject.Inject
 import kotlin.math.min
 import org.rsmod.api.config.refs.varbits
 import org.rsmod.api.config.refs.varps
+import org.rsmod.api.player.music.MusicPlayer
 import org.rsmod.api.player.vars.boolVarBit
 import org.rsmod.api.player.vars.intVarBit
 import org.rsmod.api.player.vars.intVarp
@@ -12,7 +14,8 @@ import org.rsmod.game.entity.Player
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-class AudioSettingsScript : PluginScript() {
+class AudioSettingsScript @Inject constructor(private val musicPlayer: MusicPlayer) :
+    PluginScript() {
     private var Player.optionMaster by intVarp(varps.option_master_volume)
     private var Player.optionMasterSaved by intVarBit(varbits.option_master_volume_saved)
 
@@ -151,6 +154,7 @@ class AudioSettingsScript : PluginScript() {
         unlockMessage = !unlockMessage
     }
 
-    // TODO(content): Play current music track.
-    private fun Player.enableMusic() {}
+    private fun Player.enableMusic() {
+        musicPlayer.resume(this)
+    }
 }

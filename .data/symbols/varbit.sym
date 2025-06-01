@@ -11843,6 +11843,11 @@
 17603	league_morph_save_squirrel_dark
 17604	league_morph_save_hunllef
 
+65476	music_last_id
+65477	music_curr_area
+65478	music_curr_id
+65479	music_curr_clocks
+65480	music_curr_duration
 65481	gameframe_toplevel
 65482	improved_stamina_passive
 65483	prayer_drain_resistance
