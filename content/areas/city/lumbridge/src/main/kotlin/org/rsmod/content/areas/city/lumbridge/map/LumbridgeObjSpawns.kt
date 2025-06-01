@@ -1,4 +1,4 @@
-package org.rsmod.content.areas.city.lumbridge.spawns
+package org.rsmod.content.areas.city.lumbridge.map
 
 import org.rsmod.api.type.builders.map.obj.MapObjSpawnBuilder
 import org.rsmod.content.areas.city.lumbridge.LumbridgeScript

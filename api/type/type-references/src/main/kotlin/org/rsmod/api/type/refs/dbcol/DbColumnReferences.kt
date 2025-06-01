@@ -3,15 +3,16 @@ package org.rsmod.api.type.refs.dbcol
 import kotlin.reflect.KClass
 import org.rsmod.api.type.refs.TypeReferences
 import org.rsmod.game.dbtable.DbColumnCodec
-import org.rsmod.game.dbtable.DbGroupColumn
-import org.rsmod.game.dbtable.DbGroupListColumn
-import org.rsmod.game.dbtable.DbSingleColumn
+import org.rsmod.game.dbtable.DbListColumn
+import org.rsmod.game.dbtable.DbValueColumn
 import org.rsmod.game.stat.StatRequirement
+import org.rsmod.game.type.area.AreaType
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.dbrow.DbRowType
 import org.rsmod.game.type.enums.EnumType
 import org.rsmod.game.type.interf.InterfaceType
 import org.rsmod.game.type.loc.LocType
+import org.rsmod.game.type.midi.MidiType
 import org.rsmod.game.type.npc.NpcType
 import org.rsmod.game.type.obj.ObjType
 import org.rsmod.game.type.stat.StatType
@@ -19,84 +20,79 @@ import org.rsmod.map.CoordGrid
 
 public abstract class DbColumnReferences :
     TypeReferences<NamedDbColumn, Nothing>(NamedDbColumn::class.java) {
-    public fun <T, R> single(internal: String, decoder: DbColumnCodec<T, R>): DbSingleColumn<T, R> {
-        val column = DbSingleColumn(decoder)
+    public fun <T, R> value(internal: String, decoder: DbColumnCodec<T, R>): DbValueColumn<T, R> {
+        val column = DbValueColumn(decoder)
         cache += NamedDbColumn(internal, column, decoder.types)
         return column
     }
 
-    public fun <T, R> group(internal: String, decoder: DbColumnCodec<T, R>): DbGroupColumn<T, R> {
-        val column = DbGroupColumn(decoder)
+    public fun <T, R> list(internal: String, decoder: DbColumnCodec<T, R>): DbListColumn<T, R> {
+        val column = DbListColumn(decoder)
         cache += NamedDbColumn(internal, column, decoder.types)
         return column
     }
 
-    public fun <T, R> groupList(
-        internal: String,
-        decoder: DbColumnCodec<T, R>,
-    ): DbGroupListColumn<T, R> {
-        val column = DbGroupListColumn(decoder)
-        cache += NamedDbColumn(internal, column, decoder.types)
-        return column
+    public fun area(internal: String): DbValueColumn<Int, AreaType> {
+        return value(internal, DbColumnCodec.AreaTypeCodec)
     }
 
-    public fun boolean(internal: String): DbSingleColumn<Int, Boolean> {
-        return single(internal, DbColumnCodec.BooleanCodec)
+    public fun boolean(internal: String): DbValueColumn<Int, Boolean> {
+        return value(internal, DbColumnCodec.BooleanCodec)
     }
 
-    public fun component(internal: String): DbSingleColumn<Int, ComponentType> {
-        return single(internal, DbColumnCodec.ComponentTypeCodec)
+    public fun component(internal: String): DbValueColumn<Int, ComponentType> {
+        return value(internal, DbColumnCodec.ComponentTypeCodec)
     }
 
-    public fun coord(internal: String): DbSingleColumn<Int, CoordGrid> {
-        return single(internal, DbColumnCodec.CoordGridCodec)
+    public fun coord(internal: String): DbValueColumn<Int, CoordGrid> {
+        return value(internal, DbColumnCodec.CoordGridCodec)
     }
 
-    public fun dbRow(internal: String): DbSingleColumn<Int, DbRowType> {
-        return single(internal, DbColumnCodec.DbRowTypeCodec)
+    public fun dbRow(internal: String): DbValueColumn<Int, DbRowType> {
+        return value(internal, DbColumnCodec.DbRowTypeCodec)
     }
 
     public fun <K : Any, V : Any> enum(
         internal: String,
         key: KClass<K>,
         value: KClass<V>,
-    ): DbSingleColumn<Int, EnumType<K, V>> {
-        return single(internal, DbColumnCodec.EnumTypeCodec(key, value))
+    ): DbValueColumn<Int, EnumType<K, V>> {
+        return value(internal, DbColumnCodec.EnumTypeCodec(key, value))
     }
 
-    public fun int(internal: String): DbSingleColumn<Int, Int> {
-        return single(internal, DbColumnCodec.IntCodec)
+    public fun int(internal: String): DbValueColumn<Int, Int> {
+        return value(internal, DbColumnCodec.IntCodec)
     }
 
-    public fun interf(internal: String): DbSingleColumn<Int, InterfaceType> {
-        return single(internal, DbColumnCodec.InterfaceTypeCodec)
+    public fun interf(internal: String): DbValueColumn<Int, InterfaceType> {
+        return value(internal, DbColumnCodec.InterfaceTypeCodec)
     }
 
-    public fun loc(internal: String): DbSingleColumn<Int, LocType> {
-        return single(internal, DbColumnCodec.LocTypeCodec)
+    public fun loc(internal: String): DbValueColumn<Int, LocType> {
+        return value(internal, DbColumnCodec.LocTypeCodec)
     }
 
-    public fun npc(internal: String): DbSingleColumn<Int, NpcType> {
-        return single(internal, DbColumnCodec.NpcTypeCodec)
+    public fun midi(internal: String): DbValueColumn<Int, MidiType> {
+        return value(internal, DbColumnCodec.MidiTypeCodec)
     }
 
-    public fun obj(internal: String): DbSingleColumn<Int, ObjType> {
-        return single(internal, DbColumnCodec.ObjTypeCodec)
+    public fun npc(internal: String): DbValueColumn<Int, NpcType> {
+        return value(internal, DbColumnCodec.NpcTypeCodec)
     }
 
-    public fun stat(internal: String): DbSingleColumn<Int, StatType> {
-        return single(internal, DbColumnCodec.StatTypeCodec)
+    public fun obj(internal: String): DbValueColumn<Int, ObjType> {
+        return value(internal, DbColumnCodec.ObjTypeCodec)
     }
 
-    public fun statReq(internal: String): DbGroupColumn<Any, StatRequirement> {
-        return group(internal, DbColumnCodec.StatReqCodec)
+    public fun stat(internal: String): DbValueColumn<Int, StatType> {
+        return value(internal, DbColumnCodec.StatTypeCodec)
     }
 
-    public fun statReqList(internal: String): DbGroupListColumn<Any, StatRequirement> {
-        return groupList(internal, DbColumnCodec.StatReqCodec)
+    public fun statReq(internal: String): DbValueColumn<Int, StatRequirement> {
+        return value(internal, DbColumnCodec.StatReqCodec)
     }
 
-    public fun string(internal: String): DbSingleColumn<String, String> {
-        return single(internal, DbColumnCodec.StringCodec)
+    public fun string(internal: String): DbValueColumn<String, String> {
+        return value(internal, DbColumnCodec.StringCodec)
     }
 }

@@ -19,51 +19,36 @@ public abstract class DbColumn<T, R> {
 
     public val name: String
         get() = internalName ?: error("`internalName` must not be null.")
-
-    public abstract fun decode(types: TypeListMap, value: T): R
 }
 
-/** A column that stores a single value. */
-public class DbSingleColumn<T, R>(private val codec: DbColumnCodec<T, R>) : DbColumn<T, R>() {
+/**
+ * A column that stores a single decoded value, which can be made up of one or more
+ * [CacheVarLiteral] values as listed by [types].
+ */
+public class DbValueColumn<T, R>(private val codec: DbColumnCodec<T, R>) : DbColumn<List<T>, R>() {
     public val types: List<CacheVarLiteral> by codec::types
 
-    override fun decode(types: TypeListMap, value: T): R {
-        val iterator = DbColumnCodec.Iterator(codec, listOf(value), types)
+    public fun decode(types: TypeListMap, values: List<T>): R {
+        val iterator = DbColumnCodec.Iterator(codec, values, types)
         return iterator.single()
     }
 
-    public fun encode(value: R): T {
+    public fun encode(value: R): List<T> {
         return codec.encode(value)
     }
 }
 
-/** A column that stores multiple values used to construct a single decoded result. */
-public class DbGroupColumn<T, R>(private val codec: DbColumnCodec<T, R>) : DbColumn<List<T>, R>() {
-    public val types: List<CacheVarLiteral> by codec::types
-
-    override fun decode(types: TypeListMap, value: List<T>): R {
-        val iterator = DbColumnCodec.Iterator(codec, value, types)
-        return iterator.single()
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    public fun encode(value: R): List<Any> {
-        return codec.encode(value) as List<Any>
-    }
-}
-
-/** A column that stores multiple groups of values, each used to construct a decoded result. */
-public class DbGroupListColumn<T, R>(private val codec: DbColumnCodec<T, R>) :
+/** A column that stores multiple values, each used to construct a decoded result. */
+public class DbListColumn<T, R>(private val codec: DbColumnCodec<T, R>) :
     DbColumn<List<T>, List<R>>() {
     public val types: List<CacheVarLiteral> by codec::types
 
-    override fun decode(types: TypeListMap, value: List<T>): List<R> {
+    public fun decode(types: TypeListMap, value: List<T>): List<R> {
         val iterator = DbColumnCodec.Iterator(codec, value, types)
         return iterator.toList()
     }
 
-    @Suppress("UNCHECKED_CAST")
-    public fun encode(value: R): List<Any> {
-        return codec.encode(value) as List<Any>
+    public fun encode(value: R): List<T> {
+        return codec.encode(value)
     }
 }

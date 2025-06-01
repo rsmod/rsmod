@@ -17,6 +17,7 @@ dependencies {
     implementation(projects.api.hunt)
     implementation(projects.api.invtx)
     implementation(projects.api.market)
+    implementation(projects.api.music)
     implementation(projects.api.playerOutput)
     implementation(projects.api.random)
     implementation(projects.api.repo)

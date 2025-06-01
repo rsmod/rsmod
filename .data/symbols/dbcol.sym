@@ -585,6 +585,7 @@ fairyring:8	fairyring:desc
 fairyring:9	fairyring:apparition_npc
 fairyring:10	fairyring:show_apparition
 fairyring:11	fairyring:no_staff_return
+
 gameframe:0	gameframe:toplevel
 gameframe:1	gameframe:mappings
 gameframe:2	gameframe:open_overlays
@@ -593,6 +594,12 @@ gameframe:4	gameframe:clientmode
 gameframe:5	gameframe:is_default
 gameframe:6	gameframe:stone_arrangement
 
+music_classic:0	music_classic:area
+music_classic:2	music_classic:track
+music_classic:3	music_classic:auto_script
+music_modern:0	music_modern:area
+music_modern:1	music_modern:tracks
+music_modern:2	music_modern:auto_script
 mining_resource:0	mining_resource:stat_requirement
 mining_resource:1	mining_resource:action_delay
 mining_resource:2	mining_resource:base_gather_chance

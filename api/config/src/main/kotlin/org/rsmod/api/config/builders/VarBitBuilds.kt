@@ -5,6 +5,36 @@ import org.rsmod.api.type.builders.varbit.VarBitBuilder
 
 internal object VarBitBuilds : VarBitBuilder() {
     init {
+        build("music_last_id") {
+            baseVar = varps.music_temp_state_3
+            startBit = 0
+            endBit = 15
+        }
+
+        build("music_curr_duration") {
+            baseVar = varps.music_temp_state_2
+            startBit = 0
+            endBit = 10
+        }
+
+        build("music_curr_clocks") {
+            baseVar = varps.music_temp_state_2
+            startBit = 11
+            endBit = 21
+        }
+
+        build("music_curr_id") {
+            baseVar = varps.music_temp_state_1
+            startBit = 0
+            endBit = 15
+        }
+
+        build("music_curr_area") {
+            baseVar = varps.music_temp_state_1
+            startBit = 16
+            endBit = 31
+        }
+
         build("gameframe_toplevel") {
             baseVar = varps.gameframe
             startBit = 0

@@ -65,10 +65,6 @@ example, if `zone(0, 1, 0)` receives a `soundarea` update first and
 `zone(0, 0, 0)` receives one afterward, the latter will still be sent first due
 to fixed iteration order; whereas the official game would send `zone(0, 1, 0)`
 first since it was the earliest update.
-- When referencing `DbGroupListColumn`, it is valid to declare it as a
-`DbGroupColumn`. However, as `DbGroupColumn` returns a single decoded value
-from the group of values, only the first-decoded group will be viewable from
-said column.
 
 ## Types
 ```

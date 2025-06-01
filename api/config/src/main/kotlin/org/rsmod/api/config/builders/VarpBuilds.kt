@@ -4,6 +4,11 @@ import org.rsmod.api.type.builders.varp.VarpBuilder
 
 internal object VarpBuilds : VarpBuilder() {
     init {
+        build("music_playlist") { temporary = true }
+        build("music_temp_state_3") { temporary = true }
+        build("music_temp_state_2") { temporary = true }
+        build("music_temp_state_1") { temporary = true }
+
         build("gameframe")
 
         build("pk_prey1") { temporary = true }

@@ -1,7 +1,7 @@
 package org.rsmod.game.type.dbtable
 
+import org.rsmod.game.type.util.GenericPropertySelector.mergeMap
 import org.rsmod.game.type.util.GenericPropertySelector.select
-import org.rsmod.game.type.util.GenericPropertySelector.selectMap
 import org.rsmod.game.type.util.GenericPropertySelector.selectPredicate
 import org.rsmod.game.type.util.MergeableCacheBuilder
 
@@ -36,9 +36,9 @@ public class DbTableTypeBuilder(public var internal: String? = null) {
             edit: UnpackedDbTableType,
             base: UnpackedDbTableType,
         ): UnpackedDbTableType {
-            val types = selectMap(edit, base) { types }
-            val defaults = selectMap(edit, base) { defaults }
-            val attributes = selectMap(edit, base) { attributes }
+            val types = mergeMap(edit, base) { types }
+            val defaults = mergeMap(edit, base) { defaults }
+            val attributes = mergeMap(edit, base) { attributes }
             val tables =
                 selectPredicate(edit.columnTables, base.columnTables) {
                     edit.columnTables.isNotEmpty()
