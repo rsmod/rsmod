@@ -201,6 +201,7 @@ object BaseParams : ParamReferences() {
     val opensound: ParamSynth = find("opensound")
     val next_loc_stage: ParamLoc = find("next_loc_stage")
     val shop_sale_restricted: ParamBool = find("shop_sale_restricted")
+    val coord_grid_general: ParamCoord = find("coord_grid_general")
 
     val food_heal_value: ParamInt = find("food_heal_value")
     val food_secondary_heal: ParamInt = find("food_secondary_heal")

@@ -24,4 +24,9 @@
 23	runmode_toggle
 24	preserve_activation
 25	client_mode
-26	food_secondary_heal_delay
+
+
+32000	food_secondary_heal_delay
+32001	spirit_tree_teleport
+
+

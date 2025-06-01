@@ -64,6 +64,4 @@ object BaseInterfaces : InterfaceReferences() {
     val bond_main = find("bond_main", 9223372036023293853)
     val poh_options = find("poh_options", 9223372035476859568)
     val settings = find("settings", 75958970)
-
-    val spirit_tree = find("eyeglo_spirit_tree")
 }

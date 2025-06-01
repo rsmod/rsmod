@@ -23,5 +23,7 @@ object BaseNpcs : NpcReferences() {
     val rod_fishing_spot_1527 = find("0_50_50_freshfish", 1358863933022409758)
     val fishing_spot_1530 = find("0_50_49_saltfish", 8943009170502558049)
 
-    val spirit_tree_chathead = find("pog_spirit_tree_healthy_dummy")
+    val spirit_tree_chathead_small = find("treevillage_small_spirittree")
+    val spirit_tree_chathead_big = find("treevillage_spirittree")
+    val spirit_tree_chathead_pog = find("pog_spirit_tree_healthy_dummy")
 }

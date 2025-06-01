@@ -103,6 +103,8 @@ internal object ParamBuilds : ParamBuilder() {
 
         build<HeadbarType>("headbar") { default = headbars.health_30 }
 
+        build<CoordGrid>("coord_grid_general")
+
         build<ObjType>("rewarditem")
         build<NpcType>("next_npc_stage")
         build<Boolean>("bankside_extraop_conditional_flip") { default = false }

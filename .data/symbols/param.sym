@@ -159,6 +159,8 @@
 1802	slayer_task_boss_location
 1935	spell_maxhit
 
+32000	coord_grid_general
+
 65386	graceful_restore_rate
 65387	prayer_drain_effect
 65388	charged_variant

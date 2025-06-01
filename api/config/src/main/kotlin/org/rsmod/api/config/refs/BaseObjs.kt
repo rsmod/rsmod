@@ -11,6 +11,7 @@ object BaseObjs : ObjReferences() {
     val template_for_transform = find("template_for_transform")
     val template_for_placeholder = find("template_for_placeholder")
     val null_item_placeholder = find("blankobject")
+    val spirit_tree_dummy = find("spirit_tree_dummy")
 
     val coins = find("coins")
     val platinum_tokens = find("platinum")

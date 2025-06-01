@@ -15,6 +15,7 @@ object SpiritTreeLocs : LocReferences() {
     val spirittree_prif_1op = find("spirittree_prif_1op")
     val spirittree_prif_2ops = find("spirittree_prif_2ops")
     val spirittree_prif = find("spirittree_prif")
+    val spirittree_pog = find("pog_spirit_tree_alive_static")
 }
 
 object SpiritTree : LocEditor() {
@@ -51,6 +52,9 @@ object SpiritTree : LocEditor() {
             contentGroup = content.spirit_tree
         }
         edit(spirit_tree_locs.spirittree_prif) {
+            contentGroup = content.spirit_tree
+        }
+        edit(spirit_tree_locs.spirittree_pog) {
             contentGroup = content.spirit_tree
         }
     }

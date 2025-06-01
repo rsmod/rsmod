@@ -565,23 +565,7 @@
     </loaded-modules>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0a5f4dc-42be-4d65-930d-5e9377798732" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/content/travel/spirittree/src/main/kotlin/org/rsmod/content/travel/spirittree/configs/SpiritTreeLocs.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/content/travel/spirittree/src/main/kotlin/org/rsmod/content/travel/spirittree/scripts/SpiritTree.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.data/symbols/content.sym" beforeDir="false" afterPath="$PROJECT_DIR$/.data/symbols/content.sym" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.data/symbols/dbcol.sym" beforeDir="false" afterPath="$PROJECT_DIR$/.data/symbols/dbcol.sym" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.data/symbols/dbrow.sym" beforeDir="false" afterPath="$PROJECT_DIR$/.data/symbols/dbrow.sym" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.data/symbols/dbtable.sym" beforeDir="false" afterPath="$PROJECT_DIR$/.data/symbols/dbtable.sym" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseContent.kt" beforeDir="false" afterPath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseContent.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseInterfaces.kt" beforeDir="false" afterPath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseInterfaces.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseNpcs.kt" beforeDir="false" afterPath="$PROJECT_DIR$/api/config/src/main/kotlin/org/rsmod/api/config/refs/BaseNpcs.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/content/other/login/src/main/kotlin/org/rsmod/content/other/login/LoginScript.kt" beforeDir="false" afterPath="$PROJECT_DIR$/content/other/login/src/main/kotlin/org/rsmod/content/other/login/LoginScript.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
-    </list>
+    <list default="true" id="d0a5f4dc-42be-4d65-930d-5e9377798732" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -647,8 +631,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="package-info" />
-        <option value="Kotlin File" />
         <option value="Kotlin Class" />
+        <option value="Kotlin File" />
       </list>
     </option>
   </component>
@@ -669,29 +653,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Gradle.Build rsmod.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.rsmod [downloadCache].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.rsmod [formatCode].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.rsmod [packCache].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.rsmod [run].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.Build rsmod.executor": "Run",
+    "Gradle.rsmod [downloadCache].executor": "Run",
+    "Gradle.rsmod [formatCode].executor": "Run",
+    "Gradle.rsmod [packCache].executor": "Run",
+    "Gradle.rsmod [run].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "dev",
+    "ignore.virus.scanning.warn.message": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="K2MoveDeclarationsDialog.RECENT_PACKAGE_KEY">
       <recent name="org.rsmod.content.items.food.configs.foods" />

@@ -9,6 +9,7 @@ typealias components = BaseComponents
 object BaseComponents : ComponentReferences() {
     val mainmodal = find("toplevel_osrs_stretch:mainmodal", 5905850806851984360)
     val sidemodal = find("toplevel_osrs_stretch:sidemodal", 8719636644635355055)
+    val mainmodal_pre_eoc = find("toplevel_pre_eoc:mainmodal")
 
     val hp_hud_container = find("hpbar_hud:container", 2519922490370555174)
     val hp_hud_hp = find("hpbar_hud:hp", 7938046680512023329)
