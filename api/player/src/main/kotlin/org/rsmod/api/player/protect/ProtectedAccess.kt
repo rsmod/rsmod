@@ -1898,17 +1898,10 @@ public class ProtectedAccess(
     }
 
     public fun logOut() {
-        assertLogoutState()
-        player.manualLogout = true
-    }
-
-    // The player should not be able to trigger a manual logout (e.g., by clicking the logout
-    // button) if the server has already initiated a logout through other means.
-    private fun assertLogoutState() {
-        check(!player.loggingOut) { "Player already logging out." }
-        check(!player.pendingLogout) { "Player already marked for pending logout." }
-        check(!player.clientDisconnected.get()) { "Client already marked as disconnected." }
-        check(!player.forceDisconnect) { "Player already marked for forced disconnection." }
+        if (canLogout()) {
+            assertLogoutState()
+            player.manualLogout = true
+        }
     }
 
     public fun preventLogout(message: String, cycles: Int) {
@@ -3375,6 +3368,20 @@ public class ProtectedAccess(
         }
         val visType = npcVisType(this)
         return visType.name
+    }
+
+    // The player should not be able to trigger a manual logout (e.g., by clicking the logout
+    // button) if the server has already initiated a logout through other means.
+    private fun assertLogoutState() {
+        check(!player.loggingOut) { "Player already logging out." }
+        check(!player.pendingLogout) { "Player already marked for pending logout." }
+        check(!player.clientDisconnected.get()) { "Client already marked as disconnected." }
+        check(!player.forceDisconnect) { "Player already marked for forced disconnection." }
+    }
+
+    @OptIn(InternalApi::class)
+    private fun canLogout(): Boolean {
+        return !player.isPendingLogout() && !player.pendingLogout && !player.loggingOut
     }
 
     override fun toString(): String {
