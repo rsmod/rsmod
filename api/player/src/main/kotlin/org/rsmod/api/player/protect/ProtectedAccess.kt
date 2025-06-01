@@ -1924,15 +1924,16 @@ public class ProtectedAccess(
     }
 
     /**
-     * @throws ProtectedAccessLostException if [regainProtectedAccess] returns false after
-     *   suspension resumes.
-     * @see [regainProtectedAccess]
+     * @throws ProtectedAccessLostException if the player could not retain protected access after
+     *   the coroutine suspension.
+     * @see [resumeWithMainModalProtectedAccess]
      */
     public suspend fun delay(cycles: Int = 1) {
         require(cycles > 0) { "`cycles` must be greater than 0. (cycles=$cycles)" }
+        val modal = player.ui.getModalOrNull(components.mainmodal)
         player.delay(cycles)
         coroutine.pause { player.isNotDelayed }
-        regainProtectedAccess()
+        resumeWithMainModalProtectedAccess(Unit, modal)
     }
 
     /**
@@ -1947,7 +1948,6 @@ public class ProtectedAccess(
             return
         }
         delay()
-        regainProtectedAccess()
     }
 
     /**
@@ -2057,6 +2057,24 @@ public class ProtectedAccess(
     }
 
     /**
+     * Similar to [mesbox], but does **not** suspend nor show a `Click here to continue` pause
+     * button.
+     *
+     * This dialogue is meant to be used in a script sequence where the script itself will replace
+     * or close the dialogue after a certain number of cycles.
+     */
+    public fun mesboxNp(text: String) {
+        val alignment = context.alignment
+        val pages = alignment.generateMesPageList(text)
+        if (pages.size > 1) {
+            throw IllegalStateException("Text too long: $text")
+        }
+        val (pgText, lineCount) = pages.first()
+        val lineHeight = alignment.mesLineHeight(lineCount)
+        player.ifMesbox(pgText, pauseText = "", lineHeight, context.eventBus)
+    }
+
+    /**
      * @throws ProtectedAccessLostException if the player could not retain protected access after
      *   the coroutine suspension.
      * @see [resumePauseButtonWithProtectedAccess]
@@ -2092,6 +2110,34 @@ public class ProtectedAccess(
     }
 
     /**
+     * Similar to [objbox], but does **not** suspend nor show a `Click here to continue` pause
+     * button.
+     *
+     * This dialogue is meant to be used in a script sequence where the script itself will replace
+     * or close the dialogue after a certain number of cycles.
+     */
+    public fun objboxNp(obj: ObjType, text: String) {
+        objboxNp(obj, zoom = 400, text)
+    }
+
+    /**
+     * Similar to [objbox], but does **not** suspend nor show a `Click here to continue` pause
+     * button.
+     *
+     * This dialogue is meant to be used in a script sequence where the script itself will replace
+     * or close the dialogue after a certain number of cycles.
+     */
+    public fun objboxNp(obj: ObjType, zoom: Int, text: String) {
+        val alignment = context.alignment
+        val pages = alignment.generateChatPageList(text)
+        if (pages.size > 1) {
+            throw IllegalStateException("Text too long: $text")
+        }
+        val page = pages.first()
+        player.ifObjbox(page.text, obj.id, zoom, pauseText = "", context.eventBus)
+    }
+
+    /**
      * @throws ProtectedAccessLostException if the player could not retain protected access after
      *   the coroutine suspension.
      * @see [resumePauseButtonWithProtectedAccess]
@@ -2124,6 +2170,34 @@ public class ProtectedAccess(
         val modal = player.ui.getModalOrNull(components.chatbox_chatmodal)
         val input = coroutine.pause(ResumePauseButtonInput::class)
         resumePauseButtonWithProtectedAccess(input, modal, components.objectbox_pbutton)
+    }
+
+    /**
+     * Similar to [objbox], but does **not** suspend nor show a `Click here to continue` pause
+     * button.
+     *
+     * This dialogue is meant to be used in a script sequence where the script itself will replace
+     * or close the dialogue after a certain number of cycles.
+     */
+    public fun objboxNp(obj: InvObj, text: String) {
+        objboxNp(obj, zoom = 400, text)
+    }
+
+    /**
+     * Similar to [objbox], but does **not** suspend nor show a `Click here to continue` pause
+     * button.
+     *
+     * This dialogue is meant to be used in a script sequence where the script itself will replace
+     * or close the dialogue after a certain number of cycles.
+     */
+    public fun objboxNp(obj: InvObj, zoom: Int, text: String) {
+        val alignment = context.alignment
+        val pages = alignment.generateChatPageList(text)
+        if (pages.size > 1) {
+            throw IllegalStateException("Text too long: $text")
+        }
+        val page = pages.first()
+        player.ifObjbox(page.text, obj.id, zoom, pauseText = "", context.eventBus)
     }
 
     /**
@@ -2178,6 +2252,34 @@ public class ProtectedAccess(
     }
 
     /**
+     * Similar to [doubleobjbox], but does **not** suspend nor show a `Click here to continue` pause
+     * button.
+     *
+     * This dialogue is meant to be used in a script sequence where the script itself will replace
+     * or close the dialogue after a certain number of cycles.
+     */
+    public fun doubleobjboxNp(obj1: ObjType, obj2: ObjType, text: String) {
+        doubleobjboxNp(obj1, zoom1 = 400, obj2, zoom2 = 400, text)
+    }
+
+    /**
+     * Similar to [doubleobjbox], but does **not** suspend nor show a `Click here to continue` pause
+     * button.
+     *
+     * This dialogue is meant to be used in a script sequence where the script itself will replace
+     * or close the dialogue after a certain number of cycles.
+     */
+    public fun doubleobjboxNp(obj1: ObjType, zoom1: Int, obj2: ObjType, zoom2: Int, text: String) {
+        val alignment = context.alignment
+        val pages = alignment.generateChatPageList(text)
+        if (pages.size > 1) {
+            throw IllegalStateException("Text too long: $text")
+        }
+        val page = pages.first()
+        player.ifDoubleobjbox(page.text, obj1.id, zoom1, obj2.id, zoom2, "", context.eventBus)
+    }
+
+    /**
      * @throws ProtectedAccessLostException if the player could not retain protected access after
      *   the coroutine suspension.
      * @see [resumePauseButtonWithProtectedAccess]
@@ -2226,6 +2328,34 @@ public class ProtectedAccess(
         val modal = player.ui.getModalOrNull(components.chatbox_chatmodal)
         val input = coroutine.pause(ResumePauseButtonInput::class)
         resumePauseButtonWithProtectedAccess(input, modal, components.objectbox_double_pbutton)
+    }
+
+    /**
+     * Similar to [doubleobjbox], but does **not** suspend nor show a `Click here to continue` pause
+     * button.
+     *
+     * This dialogue is meant to be used in a script sequence where the script itself will replace
+     * or close the dialogue after a certain number of cycles.
+     */
+    public fun doubleobjboxNp(obj1: InvObj, obj2: InvObj, text: String) {
+        doubleobjboxNp(obj1, zoom1 = 400, obj2, zoom2 = 400, text)
+    }
+
+    /**
+     * Similar to [doubleobjbox], but does **not** suspend nor show a `Click here to continue` pause
+     * button.
+     *
+     * This dialogue is meant to be used in a script sequence where the script itself will replace
+     * or close the dialogue after a certain number of cycles.
+     */
+    public fun doubleobjboxNp(obj1: InvObj, zoom1: Int, obj2: InvObj, zoom2: Int, text: String) {
+        val alignment = context.alignment
+        val pages = alignment.generateChatPageList(text)
+        if (pages.size > 1) {
+            throw IllegalStateException("Text too long: $text")
+        }
+        val page = pages.first()
+        player.ifDoubleobjbox(page.text, obj1.id, zoom1, obj2.id, zoom2, "", context.eventBus)
     }
 
     /**
@@ -2556,6 +2686,30 @@ public class ProtectedAccess(
         val modal = player.ui.getModalOrNull(components.chatbox_chatmodal)
         val input = coroutine.pause(ResumePauseButtonInput::class)
         resumePauseButtonWithProtectedAccess(input, modal, components.chat_left_pbutton)
+    }
+
+    /**
+     * Similar to [chatNpcSpecific], but does **not** suspend nor show a `Click here to continue`
+     * pause button.
+     *
+     * This dialogue is meant to be used in a script sequence where the script itself will replace
+     * or close the dialogue after a certain number of cycles.
+     */
+    public fun chatNpcSpecificNp(
+        title: String,
+        type: NpcType,
+        mesanim: UnpackedMesAnimType,
+        text: String,
+    ) {
+        val alignment = context.alignment
+        val pages = alignment.generateChatPageList(text)
+        if (pages.size > 1) {
+            throw IllegalStateException("Text too long: $text")
+        }
+        val (pgText, lineCount) = pages.first()
+        val lineHeight = alignment.chatLineHeight(lineCount)
+        val chatanim = mesanim.splitGetAnim(lineCount)
+        player.ifChatNpcSpecific(title, type, pgText, chatanim, "", lineHeight, context.eventBus)
     }
 
     /**

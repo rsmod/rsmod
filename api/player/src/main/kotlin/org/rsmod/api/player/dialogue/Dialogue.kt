@@ -74,30 +74,67 @@ public class Dialogue(
     public val npcVisType: UnpackedNpcType
         get() = access.npcVisType(npcOrThrow())
 
+    /** @see [ProtectedAccess.mesbox] */
     public suspend fun mesbox(text: String) {
         access.mesbox(text)
     }
 
+    /** @see [ProtectedAccess.mesboxNp] */
+    public fun mesboxNp(text: String) {
+        access.mesboxNp(text)
+    }
+
+    /** @see [ProtectedAccess.objbox] */
     public suspend fun objbox(obj: ObjType, text: String) {
         access.objbox(obj, text)
     }
 
+    /** @see [ProtectedAccess.objboxNp] */
+    public fun objboxNp(obj: ObjType, text: String) {
+        access.objboxNp(obj, text)
+    }
+
+    /** @see [ProtectedAccess.objbox] */
     public suspend fun objbox(obj: ObjType, zoom: Int, text: String) {
         access.objbox(obj, zoom, text)
     }
 
+    /** @see [ProtectedAccess.objboxNp] */
+    public fun objboxNp(obj: ObjType, zoom: Int, text: String) {
+        access.objboxNp(obj, zoom, text)
+    }
+
+    /** @see [ProtectedAccess.objbox] */
     public suspend fun objbox(obj: InvObj, text: String) {
         access.objbox(obj, text)
     }
 
+    /** @see [ProtectedAccess.objboxNp] */
+    public fun objboxNp(obj: InvObj, text: String) {
+        access.objboxNp(obj, text)
+    }
+
+    /** @see [ProtectedAccess.objbox] */
     public suspend fun objbox(obj: InvObj, zoom: Int, text: String) {
         access.objbox(obj, zoom, text)
     }
 
+    /** @see [ProtectedAccess.objboxNp] */
+    public fun objboxNp(obj: InvObj, zoom: Int, text: String) {
+        access.objboxNp(obj, zoom, text)
+    }
+
+    /** @see [ProtectedAccess.doubleobjbox] */
     public suspend fun doubleobjbox(obj1: ObjType, obj2: ObjType, text: String) {
         access.doubleobjbox(obj1, obj2, text)
     }
 
+    /** @see [ProtectedAccess.doubleobjboxNp] */
+    public fun doubleobjboxNp(obj1: ObjType, obj2: ObjType, text: String) {
+        access.doubleobjboxNp(obj1, obj2, text)
+    }
+
+    /** @see [ProtectedAccess.doubleobjbox] */
     public suspend fun doubleobjbox(
         obj1: ObjType,
         zoom1: Int,
@@ -108,10 +145,22 @@ public class Dialogue(
         access.doubleobjbox(obj1, zoom1, obj2, zoom2, text)
     }
 
+    /** @see [ProtectedAccess.doubleobjboxNp] */
+    public fun doubleobjboxNp(obj1: ObjType, zoom1: Int, obj2: ObjType, zoom2: Int, text: String) {
+        access.doubleobjboxNp(obj1, zoom1, obj2, zoom2, text)
+    }
+
+    /** @see [ProtectedAccess.doubleobjbox] */
     public suspend fun doubleobjbox(obj1: InvObj, obj2: InvObj, text: String) {
         access.doubleobjbox(obj1, obj2, text)
     }
 
+    /** @see [ProtectedAccess.doubleobjboxNp] */
+    public fun doubleobjboxNp(obj1: InvObj, obj2: InvObj, text: String) {
+        access.doubleobjboxNp(obj1, obj2, text)
+    }
+
+    /** @see [ProtectedAccess.doubleobjbox] */
     public suspend fun doubleobjbox(
         obj1: InvObj,
         zoom1: Int,
@@ -122,26 +171,37 @@ public class Dialogue(
         access.doubleobjbox(obj1, zoom1, obj2, zoom2, text)
     }
 
+    /** @see [ProtectedAccess.doubleobjboxNp] */
+    public fun doubleobjboxNp(obj1: InvObj, zoom1: Int, obj2: InvObj, zoom2: Int, text: String) {
+        access.doubleobjboxNp(obj1, zoom1, obj2, zoom2, text)
+    }
+
+    /** @see [ProtectedAccess.chatPlayer] */
     public suspend fun chatPlayerNoAnim(text: String) {
         access.chatPlayer(null, text)
     }
 
+    /** @see [ProtectedAccess.chatPlayer] */
     public suspend fun chatPlayer(mesanim: UnpackedMesAnimType, text: String) {
         access.chatPlayer(mesanim, text)
     }
 
+    /** @see [ProtectedAccess.chatNpc] */
     public suspend fun chatNpc(mesanim: UnpackedMesAnimType, text: String) {
         access.chatNpc(npcOrThrow(), mesanim, text, faceFar = faceFar)
     }
 
+    /** @see [ProtectedAccess.chatNpcNoTurn] */
     public suspend fun chatNpcNoTurn(mesanim: UnpackedMesAnimType, text: String) {
         access.chatNpcNoTurn(npcOrThrow(), mesanim, text)
     }
 
+    /** @see [ProtectedAccess.chatNpcNoAnim] */
     public suspend fun chatNpcNoAnim(text: String) {
         access.chatNpcNoAnim(npcOrThrow(), text, faceFar = faceFar)
     }
 
+    /** @see [ProtectedAccess.chatNpcSpecific] */
     public suspend fun chatNpcSpecific(
         title: String,
         type: NpcType,
@@ -151,6 +211,17 @@ public class Dialogue(
         access.chatNpcSpecific(title, type, mesanim, text)
     }
 
+    /** @see [ProtectedAccess.chatNpcSpecificNp] */
+    public fun chatNpcSpecificNp(
+        title: String,
+        type: NpcType,
+        mesanim: UnpackedMesAnimType,
+        text: String,
+    ) {
+        access.chatNpcSpecificNp(title, type, mesanim, text)
+    }
+
+    /** @see [ProtectedAccess.choice2] */
     public suspend fun <T> choice2(
         choice1: String,
         result1: T,
@@ -166,6 +237,7 @@ public class Dialogue(
             title = title,
         )
 
+    /** @see [ProtectedAccess.choice3] */
     public suspend fun <T> choice3(
         choice1: String,
         result1: T,
@@ -185,6 +257,7 @@ public class Dialogue(
             title = title,
         )
 
+    /** @see [ProtectedAccess.choice4] */
     public suspend fun <T> choice4(
         choice1: String,
         result1: T,
@@ -208,6 +281,7 @@ public class Dialogue(
             title = title,
         )
 
+    /** @see [ProtectedAccess.choice5] */
     public suspend fun <T> choice5(
         choice1: String,
         result1: T,
@@ -235,6 +309,7 @@ public class Dialogue(
             title = title,
         )
 
+    /** @see [ProtectedAccess.confirmDestroy] */
     public suspend fun confirmDestroy(
         obj: ObjType,
         count: Int,
@@ -242,16 +317,21 @@ public class Dialogue(
         text: String,
     ): Boolean = access.confirmDestroy(obj, count, header, text)
 
+    /** @see [ProtectedAccess.delay] */
     public suspend fun delay(cycles: Int = 1): Unit = access.delay(cycles)
 
+    /** @see [ProtectedAccess.invTotal] */
     public fun invTotal(inv: Inventory, content: ContentGroupType): Int =
         access.invTotal(inv, content)
 
+    /** @see [ProtectedAccess.invContains] */
     public operator fun Inventory.contains(content: ContentGroupType): Boolean =
         access.invContains(this, content)
 
+    /** @see [ProtectedAccess.ocCert] */
     public fun ocCert(type: ObjType): UnpackedObjType = access.ocCert(type)
 
+    /** @see [ProtectedAccess.ocUncert] */
     public fun ocUncert(type: ObjType): UnpackedObjType = access.ocUncert(type)
 
     private fun npcOrThrow(): Npc {
