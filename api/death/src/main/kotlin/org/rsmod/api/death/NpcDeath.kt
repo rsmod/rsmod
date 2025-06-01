@@ -10,6 +10,7 @@ import org.rsmod.api.config.refs.varps
 import org.rsmod.api.npc.access.StandardNpcAccess
 import org.rsmod.api.npc.vars.typePlayerUidVarn
 import org.rsmod.api.player.output.soundSynth
+import org.rsmod.api.player.vars.intVarp
 import org.rsmod.api.player.vars.typeNpcUidVarp
 import org.rsmod.api.repo.npc.NpcRepository
 import org.rsmod.api.repo.obj.ObjRepository
@@ -58,6 +59,7 @@ constructor(
     }
 }
 
+private var Player.lastCombat: Int by intVarp(varps.lastcombat)
 private var Player.aggressiveNpc: NpcUid? by typeNpcUidVarp(varps.aggressive_npc)
 private var Npc.aggressivePlayer by typePlayerUidVarn(varns.aggressive_player)
 
@@ -99,7 +101,7 @@ public suspend fun StandardNpcAccess.death(
         // this point?
 
         if (player != null && player.aggressiveNpc == npc.uid) {
-            player.aggressiveNpc = null
+            player.lastCombat = 0
         }
     }
 
