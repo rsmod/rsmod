@@ -581,7 +581,7 @@ internal fun Player.ifChatNpcSpecific(
     eventBus: EventBus,
 ) {
     mes("$title|$text", ChatType.Dialogue)
-    ifOpenChat(interfaces.chat_left, constants.modal_fixedwidthandheight, eventBus)
+    ifOpenChat(interfaces.chat_left, constants.modal_infinitewidthandheight, eventBus)
     ifSetNpcHead(components.chat_left_head, type)
     ifSetAnim(components.chat_left_head, chatanim)
     ifSetText(components.chat_left_name, title)
