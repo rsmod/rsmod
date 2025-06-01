@@ -32,6 +32,7 @@ public value class MusicPlaylist(public val packed: Int) {
         return shuffled[position]
     }
 
+    @Suppress("konsist.avoid usage of stdlib Random in functions")
     public fun toShuffledList(tracks: List<Music>): List<Music> {
         require(tracks.isNotEmpty()) { "Track list must not be empty." }
         val random = DefaultGameRandom(shuffleSeed.toLong())
