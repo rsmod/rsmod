@@ -22,7 +22,7 @@ typealias gameframe_tables = GameframeDbTables
 object GameframeDbColumns : DbColumnReferences() {
     val toplevel = interf("gameframe:toplevel")
     val mappings = enum("gameframe:mappings", ComponentType::class, ComponentType::class)
-    val overlays = groupList("gameframe:open_overlays", GameframeOverlayCodec)
+    val overlays = list("gameframe:open_overlays", GameframeOverlayCodec)
     val clientmode = int("gameframe:clientmode")
     val resizable = boolean("gameframe:resizable")
     val is_default = boolean("gameframe:is_default")
@@ -72,7 +72,7 @@ object GameframeDbTableBuilder : DbTableBuilder() {
         build("gameframe") {
             column(gameframe_columns.toplevel)
             column(gameframe_columns.mappings)
-            columnGroupList(gameframe_columns.overlays) { default = StandardOverlays.open }
+            columnList(gameframe_columns.overlays) { default = StandardOverlays.open }
             column(gameframe_columns.clientmode)
             column(gameframe_columns.resizable) { default = true }
             column(gameframe_columns.is_default) { default = false }

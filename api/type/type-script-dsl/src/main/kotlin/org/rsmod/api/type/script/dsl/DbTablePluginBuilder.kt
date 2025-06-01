@@ -1,7 +1,7 @@
 package org.rsmod.api.type.script.dsl
 
 import org.rsmod.game.dbtable.DbGroupColumn
-import org.rsmod.game.dbtable.DbGroupListColumn
+import org.rsmod.game.dbtable.DbListColumn
 import org.rsmod.game.dbtable.DbSingleColumn
 import org.rsmod.game.type.dbtable.DbTableTypeBuilder
 import org.rsmod.game.type.dbtable.UnpackedDbTableType
@@ -41,11 +41,8 @@ public class DbTablePluginBuilder(public var internal: String? = null) {
         builder.apply(this)
     }
 
-    public fun <T, R> columnGroupList(
-        type: DbGroupListColumn<T, R>,
-        init: GroupListColumn<T, R>.() -> Unit = {},
-    ) {
-        val builder = GroupListColumn(type).apply(init)
+    public fun <T, R> columnList(type: DbListColumn<T, R>, init: ListColumn<T, R>.() -> Unit = {}) {
+        val builder = ListColumn(type).apply(init)
         builder.apply(this)
     }
 
@@ -137,7 +134,7 @@ public class DbTablePluginBuilder(public var internal: String? = null) {
     }
 
     @DbTableBuilderDsl
-    public class GroupListColumn<T, R>(private val column: DbGroupListColumn<T, R>) {
+    public class ListColumn<T, R>(private val column: DbListColumn<T, R>) {
         public var default: List<R>? = null
         public var clientside: Boolean = false
 

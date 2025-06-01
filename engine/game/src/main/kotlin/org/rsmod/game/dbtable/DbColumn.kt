@@ -52,8 +52,8 @@ public class DbGroupColumn<T, R>(private val codec: DbColumnCodec<T, R>) : DbCol
     }
 }
 
-/** A column that stores multiple groups of values, each used to construct a decoded result. */
-public class DbGroupListColumn<T, R>(private val codec: DbColumnCodec<T, R>) :
+/** A column that stores multiple values, each used to construct a decoded result. */
+public class DbListColumn<T, R>(private val codec: DbColumnCodec<T, R>) :
     DbColumn<List<T>, List<R>>() {
     public val types: List<CacheVarLiteral> by codec::types
 

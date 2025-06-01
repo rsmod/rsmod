@@ -13,7 +13,7 @@ object BaseDbColumns : DbColumnReferences() {
     val music_classic_track = dbRow("music_classic:track")
     val music_classic_auto_script = boolean("music_classic:auto_script")
     val music_modern_area = area("music_modern:area")
-    val music_modern_tracks = groupList("music_modern:tracks", DbRowListTypeCodec)
+    val music_modern_tracks = list("music_modern:tracks", DbRowListTypeCodec)
     val music_modern_auto_script = boolean("music_modern:auto_script")
 }
 

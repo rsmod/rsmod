@@ -34,7 +34,7 @@ public class DbRow(
         return single
     }
 
-    public operator fun <T, R> get(column: DbGroupListColumn<T, R>): List<R> {
+    public operator fun <T, R> get(column: DbListColumn<T, R>): List<R> {
         val values = getOrNull(column)
         if (values == null) {
             val message =
@@ -64,7 +64,7 @@ public class DbRow(
     }
 
     @Suppress("UNCHECKED_CAST")
-    public fun <T, R> getOrNull(column: DbGroupListColumn<T, R>): List<R>? {
+    public fun <T, R> getOrNull(column: DbListColumn<T, R>): List<R>? {
         val values = getOrDefault(column) ?: return null
         return column.decode(cacheTypes, values as List<T>)
     }

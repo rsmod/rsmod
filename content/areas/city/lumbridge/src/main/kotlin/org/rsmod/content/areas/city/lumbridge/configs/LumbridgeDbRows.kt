@@ -22,7 +22,7 @@ object LumbridgeDbRowBuilder : DbRowBuilder() {
         build("music_modern_lumbridge") {
             table = dbtables.music_modern
             column(dbcolumns.music_modern_area) { value = areas.lumbridge }
-            columnGroupList(dbcolumns.music_modern_tracks) {
+            columnList(dbcolumns.music_modern_tracks) {
                 values =
                     listOf(
                         lumbridge_rows.music_autumn_voyage,

@@ -13,7 +13,7 @@ internal object DbTableBuilds : DbTableBuilder() {
 
         build("music_modern") {
             column(dbcolumns.music_modern_area)
-            columnGroupList(dbcolumns.music_modern_tracks)
+            columnList(dbcolumns.music_modern_tracks)
             column(dbcolumns.music_modern_auto_script) { default = true }
         }
     }

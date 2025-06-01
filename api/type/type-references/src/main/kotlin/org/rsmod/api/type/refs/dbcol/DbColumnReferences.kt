@@ -4,7 +4,7 @@ import kotlin.reflect.KClass
 import org.rsmod.api.type.refs.TypeReferences
 import org.rsmod.game.dbtable.DbColumnCodec
 import org.rsmod.game.dbtable.DbGroupColumn
-import org.rsmod.game.dbtable.DbGroupListColumn
+import org.rsmod.game.dbtable.DbListColumn
 import org.rsmod.game.dbtable.DbSingleColumn
 import org.rsmod.game.stat.StatRequirement
 import org.rsmod.game.type.area.AreaType
@@ -33,11 +33,8 @@ public abstract class DbColumnReferences :
         return column
     }
 
-    public fun <T, R> groupList(
-        internal: String,
-        decoder: DbColumnCodec<T, R>,
-    ): DbGroupListColumn<T, R> {
-        val column = DbGroupListColumn(decoder)
+    public fun <T, R> list(internal: String, decoder: DbColumnCodec<T, R>): DbListColumn<T, R> {
+        val column = DbListColumn(decoder)
         cache += NamedDbColumn(internal, column, decoder.types)
         return column
     }
@@ -102,8 +99,8 @@ public abstract class DbColumnReferences :
         return group(internal, DbColumnCodec.StatReqCodec)
     }
 
-    public fun statReqList(internal: String): DbGroupListColumn<Any, StatRequirement> {
-        return groupList(internal, DbColumnCodec.StatReqCodec)
+    public fun statReqList(internal: String): DbListColumn<Any, StatRequirement> {
+        return list(internal, DbColumnCodec.StatReqCodec)
     }
 
     public fun string(internal: String): DbSingleColumn<String, String> {
