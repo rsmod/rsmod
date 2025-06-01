@@ -129,6 +129,7 @@ import org.rsmod.game.region.RegionListSmall
 import org.rsmod.game.stat.PlayerSkillXPTable
 import org.rsmod.game.stat.PlayerStatMap
 import org.rsmod.game.type.TypeListMap
+import org.rsmod.game.type.area.AreaTypeList
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.comp.ComponentTypeList
 import org.rsmod.game.type.content.ContentGroupType
@@ -903,6 +904,7 @@ constructor(
 
             // Currently, there is no need to mutate the following type lists.
             // Therefore, we can reuse their shared instance across test scopes.
+            bind(AreaTypeList::class.java).toInstance(cacheTypes.areas)
             bind(ComponentTypeList::class.java).toInstance(cacheTypes.components)
             bind(DbRowTypeList::class.java).toInstance(cacheTypes.dbRows)
             bind(DbTableTypeList::class.java).toInstance(cacheTypes.dbTables)
