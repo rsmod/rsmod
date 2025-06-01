@@ -22,7 +22,7 @@ public interface DbColumnCodec<T, R> {
 
     public fun decode(iterator: Iterator<T, R>, types: TypeListMap): R
 
-    public fun encode(value: R): T
+    public fun encode(value: R): List<T>
 
     public class Iterator<T, R>(
         private val codec: DbColumnCodec<T, R>,
@@ -33,14 +33,6 @@ public interface DbColumnCodec<T, R> {
 
         public fun next(): T {
             return values[position++]
-        }
-
-        public fun nextInt(): Int {
-            return next() as Int
-        }
-
-        public fun nextString(): String {
-            return next() as String
         }
 
         public fun hasNext(): Boolean {
@@ -66,8 +58,8 @@ public interface DbColumnCodec<T, R> {
             return types.areas.getValue(type).toHashedType()
         }
 
-        override fun encode(value: AreaType): Int {
-            return value.id
+        override fun encode(value: AreaType): List<Int> {
+            return listOf(value.id)
         }
     }
 
@@ -80,8 +72,8 @@ public interface DbColumnCodec<T, R> {
             return iterator.next() == 1
         }
 
-        override fun encode(value: Boolean): Int {
-            return if (value) 1 else 0
+        override fun encode(value: Boolean): List<Int> {
+            return listOf(if (value) 1 else 0)
         }
     }
 
@@ -96,8 +88,8 @@ public interface DbColumnCodec<T, R> {
             return types.components.getValue(type).toHashedType()
         }
 
-        override fun encode(value: ComponentType): Int {
-            return value.packed
+        override fun encode(value: ComponentType): List<Int> {
+            return listOf(value.packed)
         }
     }
 
@@ -109,8 +101,8 @@ public interface DbColumnCodec<T, R> {
             return CoordGrid(packed)
         }
 
-        override fun encode(value: CoordGrid): Int {
-            return value.packed
+        override fun encode(value: CoordGrid): List<Int> {
+            return listOf(value.packed)
         }
     }
 
@@ -122,8 +114,8 @@ public interface DbColumnCodec<T, R> {
             return types.dbRows.getValue(type).toHashedType()
         }
 
-        override fun encode(value: DbRowType): Int {
-            return value.id
+        override fun encode(value: DbRowType): List<Int> {
+            return listOf(value.id)
         }
     }
 
@@ -151,8 +143,8 @@ public interface DbColumnCodec<T, R> {
             return cacheType.toHashedType() as EnumType<K, V>
         }
 
-        override fun encode(value: EnumType<K, V>): Int {
-            return value.id
+        override fun encode(value: EnumType<K, V>): List<Int> {
+            return listOf(value.id)
         }
     }
 
@@ -163,8 +155,8 @@ public interface DbColumnCodec<T, R> {
             return iterator.next()
         }
 
-        override fun encode(value: Int): Int {
-            return value
+        override fun encode(value: Int): List<Int> {
+            return listOf(value)
         }
     }
 
@@ -179,8 +171,8 @@ public interface DbColumnCodec<T, R> {
             return types.interfaces.getValue(type).toHashedType()
         }
 
-        override fun encode(value: InterfaceType): Int {
-            return value.id
+        override fun encode(value: InterfaceType): List<Int> {
+            return listOf(value.id)
         }
     }
 
@@ -192,8 +184,8 @@ public interface DbColumnCodec<T, R> {
             return types.locs.getValue(type).toHashedType()
         }
 
-        override fun encode(value: LocType): Int {
-            return value.id
+        override fun encode(value: LocType): List<Int> {
+            return listOf(value.id)
         }
     }
 
@@ -205,8 +197,8 @@ public interface DbColumnCodec<T, R> {
             return types.midis.getValue(type).toHashedType()
         }
 
-        override fun encode(value: MidiType): Int {
-            return value.id
+        override fun encode(value: MidiType): List<Int> {
+            return listOf(value.id)
         }
     }
 
@@ -218,8 +210,8 @@ public interface DbColumnCodec<T, R> {
             return types.npcs.getValue(type).toHashedType()
         }
 
-        override fun encode(value: NpcType): Int {
-            return value.id
+        override fun encode(value: NpcType): List<Int> {
+            return listOf(value.id)
         }
     }
 
@@ -231,26 +223,26 @@ public interface DbColumnCodec<T, R> {
             return types.objs.getValue(type).toHashedType()
         }
 
-        override fun encode(value: ObjType): Int {
-            return value.id
+        override fun encode(value: ObjType): List<Int> {
+            return listOf(value.id)
         }
     }
 
-    public object StatReqCodec : DbColumnCodec<Any, StatRequirement> {
+    public object StatReqCodec : DbColumnCodec<Int, StatRequirement> {
         override val types: List<CacheVarLiteral> =
             listOf(CacheVarLiteral.STAT, CacheVarLiteral.INT)
 
         override fun decode(
-            iterator: Iterator<Any, StatRequirement>,
+            iterator: Iterator<Int, StatRequirement>,
             types: TypeListMap,
         ): StatRequirement {
-            val stat = iterator.nextInt()
-            val req = iterator.nextInt()
+            val stat = iterator.next()
+            val req = iterator.next()
             val type = types.stats.getValue(stat).toHashedType()
             return StatRequirement(type, req)
         }
 
-        override fun encode(value: StatRequirement): Any {
+        override fun encode(value: StatRequirement): List<Int> {
             return listOf(value.stat.id, value.level)
         }
     }
@@ -263,8 +255,8 @@ public interface DbColumnCodec<T, R> {
             return types.stats.getValue(type).toHashedType()
         }
 
-        override fun encode(value: StatType): Int {
-            return value.id
+        override fun encode(value: StatType): List<Int> {
+            return listOf(value.id)
         }
     }
 
@@ -275,8 +267,8 @@ public interface DbColumnCodec<T, R> {
             return iterator.next()
         }
 
-        override fun encode(value: String): String {
-            return value
+        override fun encode(value: String): List<String> {
+            return listOf(value)
         }
     }
 }

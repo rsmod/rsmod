@@ -81,20 +81,20 @@ object GameframeDbTableBuilder : DbTableBuilder() {
     }
 }
 
-private object GameframeOverlayCodec : DbColumnCodec<Any, GameframeOverlay> {
+private object GameframeOverlayCodec : DbColumnCodec<Int, GameframeOverlay> {
     override val types: List<CacheVarLiteral>
         get() = listOf(CacheVarLiteral.INTERFACE, CacheVarLiteral.COMPONENT)
 
     override fun decode(
-        iterator: DbColumnCodec.Iterator<Any, GameframeOverlay>,
+        iterator: DbColumnCodec.Iterator<Int, GameframeOverlay>,
         types: TypeListMap,
     ): GameframeOverlay {
-        val interf = types.interfaces.getValue(iterator.nextInt())
-        val target = types.components.getValue(iterator.nextInt())
+        val interf = types.interfaces.getValue(iterator.next())
+        val target = types.components.getValue(iterator.next())
         return GameframeOverlay(interf.toHashedType(), target.toHashedType())
     }
 
-    override fun encode(value: GameframeOverlay): Any {
+    override fun encode(value: GameframeOverlay): List<Int> {
         return listOf(value.interf.id, value.target.packed)
     }
 }

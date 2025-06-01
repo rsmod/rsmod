@@ -1,8 +1,7 @@
 package org.rsmod.api.type.script.dsl
 
-import org.rsmod.game.dbtable.DbGroupColumn
 import org.rsmod.game.dbtable.DbListColumn
-import org.rsmod.game.dbtable.DbSingleColumn
+import org.rsmod.game.dbtable.DbValueColumn
 import org.rsmod.game.type.dbrow.DbRowTypeBuilder
 import org.rsmod.game.type.dbrow.UnpackedDbRowType
 import org.rsmod.game.type.dbtable.DbTableType
@@ -30,15 +29,9 @@ public class DbRowPluginBuilder(public var internal: String? = null) {
         return backing.build(id)
     }
 
-    public fun <T, R> column(type: DbSingleColumn<T, R>, init: SingleColumn<T, R>.() -> Unit) {
+    public fun <T, R> column(type: DbValueColumn<T, R>, init: ValueColumn<T, R>.() -> Unit) {
         assertTable()
-        val builder = SingleColumn(type).apply(init)
-        builder.apply(this)
-    }
-
-    public fun <T, R> columnGroup(type: DbGroupColumn<T, R>, init: GroupColumn<T, R>.() -> Unit) {
-        assertTable()
-        val builder = GroupColumn(type).apply(init)
+        val builder = ValueColumn(type).apply(init)
         builder.apply(this)
     }
 
@@ -53,16 +46,11 @@ public class DbRowPluginBuilder(public var internal: String? = null) {
     }
 
     @DbRowBuilderDsl
-    public class SingleColumn<T, R>(private val column: DbSingleColumn<T, R>) {
+    public class ValueColumn<T, R>(private val column: DbValueColumn<T, R>) {
         public var value: R? = null
 
+        @Suppress("UNCHECKED_CAST")
         internal fun apply(builder: DbRowPluginBuilder) {
-            val types = column.types
-            if (types.size != 1) {
-                val message = "Single columns can only support columns of one type: actual=$types"
-                throw IllegalArgumentException(message)
-            }
-
             val columnId = column.columnId
             if (columnId !in 0..127) {
                 val message = "Column id must be within range [0..127]: $columnId"
@@ -82,50 +70,11 @@ public class DbRowPluginBuilder(public var internal: String? = null) {
                 throw IllegalStateException(message)
             }
 
-            builder.types[columnId] = types.map(CacheVarLiteral::id)
-
-            val value = value ?: error("`value` must not be null. (column='${column.name}')")
-            val encoded = column.encode(value) as Any
-            builder.data[columnId] = listOf(encoded)
-        }
-    }
-
-    @DbRowBuilderDsl
-    public class GroupColumn<T, R>(private val column: DbGroupColumn<T, R>) {
-        public var value: R? = null
-
-        internal fun apply(builder: DbRowPluginBuilder) {
-            val types = column.types
-            if (types.size < 2) {
-                val message =
-                    "Group columns can only support columns with more than one type: actual=$types"
-                throw IllegalArgumentException(message)
-            }
-
-            val columnId = column.columnId
-            if (columnId !in 0..127) {
-                val message = "Column id must be within range [0..127]: $columnId"
-                throw IllegalArgumentException(message)
-            }
-
-            if (builder.types.containsKey(columnId)) {
-                throw IllegalStateException("Column already defined: '${column.name}'")
-            }
-
-            val actualTable = column.table
-            val expectedTable = builder.backing.table
-            if (actualTable != expectedTable) {
-                val message =
-                    "Row and column table must match: " +
-                        "expected=$expectedTable, actual=$actualTable, column='${column.name}'"
-                throw IllegalStateException(message)
-            }
-
-            builder.types[columnId] = types.map(CacheVarLiteral::id)
+            builder.types[columnId] = column.types.map(CacheVarLiteral::id)
 
             val value = value ?: error("`value` must not be null. (column='${column.name}')")
             val encoded = column.encode(value)
-            builder.data[columnId] = encoded
+            builder.data[columnId] = encoded as List<Any>
         }
     }
 
@@ -133,6 +82,7 @@ public class DbRowPluginBuilder(public var internal: String? = null) {
     public class ListColumn<T, R>(private val column: DbListColumn<T, R>) {
         public var values: List<R>? = null
 
+        @Suppress("UNCHECKED_CAST")
         internal fun apply(builder: DbRowPluginBuilder) {
             val columnId = column.columnId
             if (columnId !in 0..127) {
@@ -157,7 +107,7 @@ public class DbRowPluginBuilder(public var internal: String? = null) {
 
             val values = values ?: error("`values` must not be null. (column='${column.name}')")
             val encoded = values.flatMap(column::encode)
-            builder.data[columnId] = encoded
+            builder.data[columnId] = encoded as List<Any>
         }
     }
 }
