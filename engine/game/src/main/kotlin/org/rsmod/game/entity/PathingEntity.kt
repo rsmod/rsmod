@@ -13,7 +13,9 @@ import org.rsmod.game.hero.HeroPoints
 import org.rsmod.game.interact.Interaction
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.loc.LocInfo
+import org.rsmod.game.map.CardinalDirection
 import org.rsmod.game.map.Direction
+import org.rsmod.game.map.OrdinalDirection
 import org.rsmod.game.movement.MoveSpeed
 import org.rsmod.game.movement.RouteDestination
 import org.rsmod.game.movement.RouteRequest
@@ -378,6 +380,18 @@ public sealed class PathingEntity {
     public fun isWithinArea(southWest: CoordGrid, northEast: CoordGrid): Boolean {
         require(southWest.level == northEast.level && southWest.level == level)
         return x in southWest.x..northEast.x && z in southWest.z..northEast.z
+    }
+
+    public fun calculateDirection(target: PathingEntity): Direction {
+        return Direction.between(bounds(), target.bounds())
+    }
+
+    public fun calculateCardinalDirection(target: PathingEntity): CardinalDirection {
+        return Direction.cardinalBetween(bounds(), target.bounds())
+    }
+
+    public fun calculateOrdinalDirection(target: PathingEntity): OrdinalDirection {
+        return Direction.ordinalBetween(bounds(), target.bounds())
     }
 
     public fun calculateAngle(target: CoordGrid, width: Int, length: Int): Int? =
