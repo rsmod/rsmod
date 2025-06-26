@@ -9,13 +9,11 @@ import net.rsprot.protocol.api.util.ZonePartialEnclosedCacheBuffer
 import net.rsprot.protocol.common.client.OldSchoolClientType
 import org.rsmod.api.registry.zone.ZoneUpdateMap
 import org.rsmod.api.registry.zone.ZoneUpdateTransformer
-import org.rsmod.game.entity.PlayerList
 import org.rsmod.map.zone.ZoneKey
 
 public class SharedZoneEnclosedBuffers
 @Inject
 constructor(
-    private val players: PlayerList,
     private val zoneUpdates: ZoneUpdateMap,
     private val enclosedCache: ZonePartialEnclosedCacheBuffer,
 ) {

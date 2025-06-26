@@ -274,7 +274,7 @@ class PlayerZoneUpdateProcessorTest {
                 locTypes,
             )
         val enclosedCache = ZonePartialEnclosedCacheBuffer()
-        val sharedEnclosed = SharedZoneEnclosedBuffers(playerList, zoneUpdates, enclosedCache)
+        val sharedEnclosed = SharedZoneEnclosedBuffers(zoneUpdates, enclosedCache)
         val locRegistry = LocRegistry(locZones, normalLocReg, regionLocReg)
         val processor =
             PlayerZoneUpdateProcessor(zoneUpdates, locRegistry, objRegistry, sharedEnclosed)
