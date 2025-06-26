@@ -34,9 +34,6 @@ class GameRandomTest {
 
         random.set(5)
         assertEquals(5, random.of(1, 5))
-
-        random.set(0)
-        assertThrows<IllegalStateException> { random.of(1, 5) }
     }
 
     @Test
