@@ -4,6 +4,7 @@ import jakarta.inject.Inject
 import org.rsmod.api.game.process.controller.ControllerMainProcess
 import org.rsmod.api.game.process.npc.NpcMainProcess
 import org.rsmod.api.game.process.npc.NpcPreTickProcess
+import org.rsmod.api.game.process.player.PlayerIdShuffleProcess
 import org.rsmod.api.game.process.player.PlayerInputProcess
 import org.rsmod.api.game.process.player.PlayerLoginProcess
 import org.rsmod.api.game.process.player.PlayerLogoutProcess
@@ -22,6 +23,7 @@ constructor(
     private val mapClock: MapClock,
     private val worldMain: WorldMainTickProcess,
     private val npcPreTick: NpcPreTickProcess,
+    private val playerShuffle: PlayerIdShuffleProcess,
     private val playerInput: PlayerInputProcess,
     private val playerRouteRequest: PlayerRouteRequestProcess,
     private val npcMain: NpcMainProcess,
@@ -44,6 +46,7 @@ constructor(
     private fun preTick() {
         worldMain.process()
         npcPreTick.process()
+        playerShuffle.process()
         playerInput.process()
         playerRouteRequest.process()
         npcMain.process()

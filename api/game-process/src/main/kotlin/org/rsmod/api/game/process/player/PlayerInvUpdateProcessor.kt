@@ -5,12 +5,15 @@ import kotlin.collections.iterator
 import org.rsmod.api.player.output.UpdateInventory
 import org.rsmod.api.utils.logging.GameExceptionHandler
 import org.rsmod.game.entity.Player
-import org.rsmod.game.entity.PlayerList
+import org.rsmod.game.entity.util.ShuffledPlayerList
 import org.rsmod.game.inv.Inventory
 
 public class PlayerInvUpdateProcessor
 @Inject
-constructor(private val players: PlayerList, private val exceptionHandler: GameExceptionHandler) {
+constructor(
+    private val players: ShuffledPlayerList,
+    private val exceptionHandler: GameExceptionHandler,
+) {
     private val processedInvs = hashSetOf<Inventory>()
 
     public fun process(player: Player) {

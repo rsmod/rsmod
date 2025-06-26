@@ -109,6 +109,7 @@ import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.PlayerList
 import org.rsmod.game.entity.player.SessionStateEvent
 import org.rsmod.game.entity.util.PathingEntityCommon
+import org.rsmod.game.entity.util.ShuffledPlayerList
 import org.rsmod.game.enums.EnumTypeMapResolver
 import org.rsmod.game.hit.HitType
 import org.rsmod.game.inv.InvObj
@@ -950,6 +951,10 @@ constructor(
                 .toProvider(EnumTypeMapResolverProvider::class.java)
                 .`in`(Scopes.SINGLETON)
 
+            bind(ShuffledPlayerList::class.java)
+                .toProvider(ShuffledPlayerListProvider::class.java)
+                .`in`(Scopes.SINGLETON)
+
             bind(NpcHitModifier::class.java).to(StandardNpcHitModifier::class.java)
             bind(NpcHitProcessor::class.java).to(StandardNpcHitProcessor::class.java)
             bind(InstantPlayerHitProcessor::class.java).to(DamageOnlyPlayerHitProcessor::class.java)
@@ -982,6 +987,12 @@ constructor(
         @Inject
         constructor(private val enums: EnumTypeList) : Provider<EnumTypeMapResolver> {
             override fun get(): EnumTypeMapResolver = EnumTypeMapResolver(enums)
+        }
+
+        private class ShuffledPlayerListProvider
+        @Inject
+        constructor(private val playerList: PlayerList) : Provider<ShuffledPlayerList> {
+            override fun get(): ShuffledPlayerList = ShuffledPlayerList(playerList)
         }
 
         private class ThrowDatabase : Database {

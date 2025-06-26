@@ -4,12 +4,12 @@ import jakarta.inject.Inject
 import org.rsmod.api.player.forceDisconnect
 import org.rsmod.api.utils.logging.GameExceptionHandler
 import org.rsmod.game.entity.Player
-import org.rsmod.game.entity.PlayerList
+import org.rsmod.game.entity.util.ShuffledPlayerList
 
 public class PlayerRouteRequestProcess
 @Inject
 constructor(
-    private val playerList: PlayerList,
+    private val playerList: ShuffledPlayerList,
     private val movement: PlayerMovementProcessor,
     private val exceptionHandler: GameExceptionHandler,
 ) {

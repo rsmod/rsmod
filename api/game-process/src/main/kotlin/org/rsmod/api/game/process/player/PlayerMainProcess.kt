@@ -8,7 +8,7 @@ import org.rsmod.api.utils.logging.GameExceptionHandler
 import org.rsmod.events.EventBus
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Player
-import org.rsmod.game.entity.PlayerList
+import org.rsmod.game.entity.util.ShuffledPlayerList
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.ui.Component
 
@@ -18,7 +18,7 @@ constructor(
     private val mapClock: MapClock,
     private val eventBus: EventBus,
     private val objTypes: ObjTypeList,
-    private val players: PlayerList,
+    private val players: ShuffledPlayerList,
     private val queues: PlayerQueueProcessor,
     private val timers: PlayerTimerProcessor,
     private val areas: PlayerAreaProcessor,

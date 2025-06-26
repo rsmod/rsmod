@@ -7,15 +7,15 @@ import org.rsmod.api.player.output.MiscOutput
 import org.rsmod.api.utils.logging.GameExceptionHandler
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
-import org.rsmod.game.entity.PlayerList
 import org.rsmod.game.entity.util.EntityFaceAngle
+import org.rsmod.game.entity.util.ShuffledPlayerList
 import org.rsmod.game.seq.EntitySeq
 
 public class PlayerPostTickProcess
 @Inject
 constructor(
     private val eventBus: EventBus,
-    private val playerList: PlayerList,
+    private val playerList: ShuffledPlayerList,
     private val zoneUpdates: PlayerZoneUpdateProcessor,
     private val buildAreas: PlayerBuildAreaProcessor,
     private val regions: PlayerRegionProcessor,

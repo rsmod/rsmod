@@ -66,15 +66,7 @@ public class FixedRandom(start: Int? = null) : GameRandom {
 
     override fun of(maxExclusive: Int): Int = expected()
 
-    override fun of(minInclusive: Int, maxInclusive: Int): Int {
-        val expected = expected()
-        if (expected !in minInclusive..maxInclusive) {
-            throw IllegalStateException(
-                "The set expected value `$expected` is not between $minInclusive-$maxInclusive."
-            )
-        }
-        return expected
-    }
+    override fun of(minInclusive: Int, maxInclusive: Int): Int = expected()
 
     override fun randomDouble(): Double = expected() / 100.0
 

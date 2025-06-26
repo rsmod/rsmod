@@ -10,7 +10,7 @@ import org.rsmod.api.utils.logging.GameExceptionHandler
 import org.rsmod.events.EventBus
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Player
-import org.rsmod.game.entity.PlayerList
+import org.rsmod.game.entity.util.ShuffledPlayerList
 import org.rsmod.game.queue.QueueCategory
 
 public class PlayerLogoutProcess
@@ -18,7 +18,7 @@ public class PlayerLogoutProcess
 constructor(
     private val eventBus: EventBus,
     private val mapClock: MapClock,
-    private val playerList: PlayerList,
+    private val playerList: ShuffledPlayerList,
     private val accountRegistry: AccountRegistry,
     private val exceptionHandler: GameExceptionHandler,
     private val logoutProcessor: PlayerLogoutProcessor,

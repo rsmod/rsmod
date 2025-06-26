@@ -6,13 +6,13 @@ import org.rsmod.api.utils.logging.GameExceptionHandler
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.PathingEntity
 import org.rsmod.game.entity.Player
-import org.rsmod.game.entity.PlayerList
+import org.rsmod.game.entity.util.ShuffledPlayerList
 
 public class PlayerInputProcess
 @Inject
 constructor(
     private val mapClock: MapClock,
-    private val players: PlayerList,
+    private val players: ShuffledPlayerList,
     private val exceptionHandler: GameExceptionHandler,
 ) {
     public fun process() {
