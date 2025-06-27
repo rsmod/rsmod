@@ -24,7 +24,7 @@ otp-kotlin = "2.4.1"
 openrs2 = "0.1.0-SNAPSHOT"
 rsprot = "1.0.0-ALPHA-20250509"
 simmetrics = "4.1.1"
-spotless = "7.0.2"
+spotless = "7.0.4"
 sqlite = "3.50.1.0"
 
 [libraries]
