@@ -33,6 +33,9 @@ constructor(
                     val zone = centerZone.translate(x, z)
                     val players = playerRegistry.findAll(zone)
                     for (player in players) {
+                        if (player.isInvisible) {
+                            continue
+                        }
                         val inRange = inHuntRange(center, player.coords, maxDistance, vis)
                         if (inRange) {
                             yield(player)
@@ -71,6 +74,9 @@ constructor(
                     val zone = centerZone.translate(x, z)
                     val npcs = npcRegistry.findAll(zone)
                     for (npc in npcs) {
+                        if (npc.isInvisible) {
+                            continue
+                        }
                         val inRange = inHuntRange(center, npc.coords, maxDistance, vis)
                         if (inRange) {
                             yield(npc)
