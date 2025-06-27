@@ -16,5 +16,6 @@ kotlin {
 
     compilerOptions {
         optIn = listOf("kotlin.contracts.ExperimentalContracts")
+        freeCompilerArgs = listOf("-Xnested-type-aliases")
     }
 }
