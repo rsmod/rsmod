@@ -1,7 +1,7 @@
 [versions]
 apache-commons = "1.18.0"
 argon2-jvm = "2.12"
-bouncycastle = "1.80"
+bouncycastle = "1.81"
 classgraph = "4.8.180"
 clikt = "5.0.3"
 fastutil = "8.5.16"
