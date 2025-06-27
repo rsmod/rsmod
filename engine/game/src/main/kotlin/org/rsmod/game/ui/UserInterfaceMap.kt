@@ -67,7 +67,7 @@ public class UserInterfaceMap(
 
     public fun hasEvent(component: ComponentType, slot: Int, event: IfEvent): Boolean {
         val events = events[component, slot]
-        return (events and event.bitmask) != 0
+        return (events and event.bitmask) != 0L
     }
 
     private fun Component.orNull(): Component? = if (this == Component.NULL) null else this

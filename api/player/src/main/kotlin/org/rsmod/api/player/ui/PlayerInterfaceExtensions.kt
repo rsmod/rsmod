@@ -5,7 +5,7 @@ import net.rsprot.protocol.game.outgoing.interfaces.IfMoveSub
 import net.rsprot.protocol.game.outgoing.interfaces.IfOpenSub
 import net.rsprot.protocol.game.outgoing.interfaces.IfOpenTop
 import net.rsprot.protocol.game.outgoing.interfaces.IfSetAnim
-import net.rsprot.protocol.game.outgoing.interfaces.IfSetEvents
+import net.rsprot.protocol.game.outgoing.interfaces.IfSetEventsV2
 import net.rsprot.protocol.game.outgoing.interfaces.IfSetHide
 import net.rsprot.protocol.game.outgoing.interfaces.IfSetNpcHead
 import net.rsprot.protocol.game.outgoing.interfaces.IfSetNpcHeadActive
@@ -210,9 +210,21 @@ public fun Player.ifCloseModals(eventBus: EventBus) {
 }
 
 public fun Player.ifSetEvents(target: ComponentType, range: IntRange, vararg event: IfEvent) {
-    val packed = event.fold(0) { sum, element -> sum or element.bitmask }
+    val packed = event.fold(0L) { sum, element -> sum or element.bitmask }
     ui.events.add(target, range, packed)
-    client.write(IfSetEvents(target.interfaceId, target.component, range.first, range.last, packed))
+
+    val packedHigh = (packed shr 32).toInt()
+    val packedLow = packed.toInt()
+    val prot =
+        IfSetEventsV2(
+            interfaceId = target.interfaceId,
+            componentId = target.component,
+            start = range.first,
+            end = range.last,
+            events1 = packedLow,
+            events2 = packedHigh,
+        )
+    client.write(prot)
 }
 
 public fun Player.ifSetText(target: ComponentType, text: String) {
