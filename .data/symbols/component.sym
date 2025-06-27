@@ -1910,7 +1910,7 @@ canoe_stations_map:25	canoe_stations_map:lumbridge canoe station_text
 canoe_stations_map:26	canoe_stations_map:champions canoe station_text
 canoe_stations_map:27	canoe_stations_map:barbarian village canoe station
 canoe_stations_map:28	canoe_stations_map:edgeville canoe station_text
-canoe_stations_map:29	canoe_stations_map:wilderness pond_text
+canoe_stations_map:29	canoe_stations_map:wilderness pond_text 
 canoe_stations_map:30	canoe_stations_map:canoeing_danger_wilderness_skul
 canoe_stations_map:31	canoe_stations_map:canoeing_wilderness_layer
 canoe_stations_map:32	canoe_stations_map:canoeing_lumbridge_button
@@ -2915,7 +2915,7 @@ chatchannel_setup:0	chatchannel_setup:universe
 chatchannel_setup:1	chatchannel_setup:com_1
 chatchannel_setup:2	chatchannel_setup:container
 chatchannel_setup:3	chatchannel_setup:frame
-chatchannel_setup:4	chatchannel_setup:
+chatchannel_setup:4	chatchannel_setup: 
 chatchannel_setup:5	chatchannel_setup:com_5
 chatchannel_setup:6	chatchannel_setup:com_6
 chatchannel_setup:7	chatchannel_setup:left
@@ -6989,16 +6989,17 @@ magic_spellbook:189	magic_spellbook:resurrect_superior_zombie
 magic_spellbook:190	magic_spellbook:resurrect_greater_ghost
 magic_spellbook:191	magic_spellbook:resurrect_greater_skeleton
 magic_spellbook:192	magic_spellbook:resurrect_greater_zombie
-magic_spellbook:193	magic_spellbook:infolayer
-magic_spellbook:194	magic_spellbook:com_194
-magic_spellbook:195	magic_spellbook:filtermenu_container
-magic_spellbook:196	magic_spellbook:com_196
+magic_spellbook:193	magic_spellbook:monster_inspect
+magic_spellbook:194	magic_spellbook:infolayer
+magic_spellbook:195	magic_spellbook:com_195
+magic_spellbook:196	magic_spellbook:filtermenu_container
 magic_spellbook:197	magic_spellbook:com_197
-magic_spellbook:198	magic_spellbook:filtermenu
-magic_spellbook:199	magic_spellbook:bottom
-magic_spellbook:200	magic_spellbook:infobutton
-magic_spellbook:201	magic_spellbook:filterbutton
-magic_spellbook:202	magic_spellbook:tooltip
+magic_spellbook:198	magic_spellbook:com_198
+magic_spellbook:199	magic_spellbook:filtermenu
+magic_spellbook:200	magic_spellbook:bottom
+magic_spellbook:201	magic_spellbook:infobutton
+magic_spellbook:202	magic_spellbook:filterbutton
+magic_spellbook:203	magic_spellbook:tooltip
 chatmenu:0	chatmenu:universe
 chatmenu:1	chatmenu:options
 messagescroll:0	messagescroll:com_0
@@ -8879,7 +8880,7 @@ cws_warning_25:7	cws_warning_25:com_7
 cws_warning_25:8	cws_warning_25:com_8
 cws_warning_25:9	cws_warning_25:com_9
 cws_warning_25:10	cws_warning_25:com_10
-cws_warning_25:11	cws_warning_25:
+cws_warning_25:11	cws_warning_25: 
 cws_warning_25:12	cws_warning_25:cws_close
 cws_warning_25:13	cws_warning_25:warning text
 cws_warning_25:14	cws_warning_25:cws_test_warning
@@ -9358,7 +9359,7 @@ cws_warning_11:7	cws_warning_11:com_7
 cws_warning_11:8	cws_warning_11:com_8
 cws_warning_11:9	cws_warning_11:com_9
 cws_warning_11:10	cws_warning_11:com_10
-cws_warning_11:11	cws_warning_11:
+cws_warning_11:11	cws_warning_11: 
 cws_warning_11:12	cws_warning_11:cws_close
 cws_warning_11:13	cws_warning_11:warning text
 cws_warning_11:14	cws_warning_11:cws_test_warning
@@ -9513,7 +9514,7 @@ tradeconfirm:11	tradeconfirm:com_11
 tradeconfirm:12	tradeconfirm:com_12
 tradeconfirm:13	tradeconfirm:trade2accept
 tradeconfirm:14	tradeconfirm:trade2decline
-tradeconfirm:15	tradeconfirm:
+tradeconfirm:15	tradeconfirm: 
 tradeconfirm:16	tradeconfirm:com_16
 tradeconfirm:17	tradeconfirm:com_17
 tradeconfirm:18	tradeconfirm:com_18
@@ -13993,14 +13994,15 @@ ge_offers:21	ge_offers:com_21
 ge_offers:22	ge_offers:com_22
 ge_offers:23	ge_offers:details_status
 ge_offers:24	ge_offers:details_collect
-ge_offers:25	ge_offers:setup
-ge_offers:26	ge_offers:setup_desc
-ge_offers:27	ge_offers:setup_marketprice
-ge_offers:28	ge_offers:setup_fee
-ge_offers:29	ge_offers:setup_confirm
-ge_offers:30	ge_offers:com_30
-ge_offers:31	ge_offers:popup
-ge_offers:32	ge_offers:tooltip
+ge_offers:25	ge_offers:details_modify
+ge_offers:26	ge_offers:setup
+ge_offers:27	ge_offers:setup_desc
+ge_offers:28	ge_offers:setup_marketprice
+ge_offers:29	ge_offers:setup_fee
+ge_offers:30	ge_offers:setup_confirm
+ge_offers:31	ge_offers:com_31
+ge_offers:32	ge_offers:popup
+ge_offers:33	ge_offers:tooltip
 elem2_maintenance_scroll:0	elem2_maintenance_scroll:king_letter
 elem2_maintenance_scroll:1	elem2_maintenance_scroll:com_1
 elem2_maintenance_scroll:2	elem2_maintenance_scroll:com_2
@@ -14756,7 +14758,7 @@ barbassault_over_recruit:23	barbassault_over_recruit:barbassault_any_arrow_layer
 barbassault_playerstat:0	barbassault_playerstat:com_0
 barbassault_playerstat:1	barbassault_playerstat:com_1
 barbassault_playerstat:2	barbassault_playerstat:com_2
-barbassault_playerstat:3	barbassault_playerstat:
+barbassault_playerstat:3	barbassault_playerstat:       
 barbassault_playerstat:4	barbassault_playerstat:com_4
 barbassault_playerstat:5	barbassault_playerstat:com_5
 barbassault_playerstat:6	barbassault_playerstat:com_6
@@ -15067,7 +15069,7 @@ raids_sidepanel:12	raids_sidepanel:bottom
 raids_sidepanel:13	raids_sidepanel:com_13
 raids_sidepanel:14	raids_sidepanel:start
 raids_sidepanel:15	raids_sidepanel:tooltip
-quest_fever_gun_locker:0	quest_fever_gun_locker:back_ground
+quest_fever_gun_locker:0	quest_fever_gun_locker:back_ground            
 quest_fever_gun_locker:1	quest_fever_gun_locker:gun_locker
 quest_fever_gun_locker:2	quest_fever_gun_locker:cannon barrel
 quest_fever_gun_locker:3	quest_fever_gun_locker:fuse
@@ -15098,7 +15100,7 @@ quest_fever_gun_locker:27	quest_fever_gun_locker:cannon_cannister_text
 quest_fever_gun_locker:28	quest_fever_gun_locker:com_28
 quest_fever_gun_locker:29	quest_fever_gun_locker:com_29
 quest_fever_gun_locker:30	quest_fever_gun_locker:gun_locker_close
-quest_fever_repair_locker:0	quest_fever_repair_locker:back_ground
+quest_fever_repair_locker:0	quest_fever_repair_locker:back_ground            
 quest_fever_repair_locker:1	quest_fever_repair_locker:repair locker
 quest_fever_repair_locker:2	quest_fever_repair_locker:rope
 quest_fever_repair_locker:3	quest_fever_repair_locker:hammer
@@ -15226,10 +15228,9 @@ raids_lobby_partydetails:41	raids_lobby_partydetails:challenge_checkbox
 raids_lobby_partydetails:42	raids_lobby_partydetails:com_42
 raids_lobby_partydetails:43	raids_lobby_partydetails:com_43
 raids_lobby_partydetails:44	raids_lobby_partydetails:com_44
-raids_lobby_partydetails:45	raids_lobby_partydetails:mappool_checkbox
+raids_lobby_partydetails:45	raids_lobby_partydetails:com_45
 raids_lobby_partydetails:46	raids_lobby_partydetails:com_46
 raids_lobby_partydetails:47	raids_lobby_partydetails:com_47
-raids_lobby_partydetails:48	raids_lobby_partydetails:com_48
 tol_homonculus_overlay:0	tol_homonculus_overlay:universe
 tol_homonculus_overlay:1	tol_homonculus_overlay:dodger
 tol_homonculus_overlay:2	tol_homonculus_overlay:container
@@ -16935,7 +16936,7 @@ cws_warning_9:7	cws_warning_9:com_7
 cws_warning_9:8	cws_warning_9:com_8
 cws_warning_9:9	cws_warning_9:com_9
 cws_warning_9:10	cws_warning_9:com_10
-cws_warning_9:11	cws_warning_9:
+cws_warning_9:11	cws_warning_9: 
 cws_warning_9:12	cws_warning_9:cws_close
 cws_warning_9:13	cws_warning_9:warning text
 cws_warning_9:14	cws_warning_9:cws_test_warning
@@ -16957,7 +16958,7 @@ cws_warning_21:7	cws_warning_21:com_7
 cws_warning_21:8	cws_warning_21:com_8
 cws_warning_21:9	cws_warning_21:com_9
 cws_warning_21:10	cws_warning_21:com_10
-cws_warning_21:11	cws_warning_21:
+cws_warning_21:11	cws_warning_21: 
 cws_warning_21:12	cws_warning_21:cws_close
 cws_warning_21:13	cws_warning_21:warning text
 cws_warning_21:14	cws_warning_21:cws_test_warning
@@ -16979,7 +16980,7 @@ cws_warning_2:7	cws_warning_2:com_7
 cws_warning_2:8	cws_warning_2:com_8
 cws_warning_2:9	cws_warning_2:com_9
 cws_warning_2:10	cws_warning_2:com_10
-cws_warning_2:11	cws_warning_2:
+cws_warning_2:11	cws_warning_2: 
 cws_warning_2:12	cws_warning_2:cws_close
 cws_warning_2:13	cws_warning_2:warning text
 cws_warning_2:14	cws_warning_2:cws_test_warning
@@ -17001,7 +17002,7 @@ cws_warning_5:7	cws_warning_5:com_7
 cws_warning_5:8	cws_warning_5:com_8
 cws_warning_5:9	cws_warning_5:com_9
 cws_warning_5:10	cws_warning_5:com_10
-cws_warning_5:11	cws_warning_5:
+cws_warning_5:11	cws_warning_5: 
 cws_warning_5:12	cws_warning_5:cws_close
 cws_warning_5:13	cws_warning_5:warning text
 cws_warning_5:14	cws_warning_5:cws_test_warning
@@ -17023,7 +17024,7 @@ cws_warning_23:7	cws_warning_23:com_7
 cws_warning_23:8	cws_warning_23:com_8
 cws_warning_23:9	cws_warning_23:com_9
 cws_warning_23:10	cws_warning_23:com_10
-cws_warning_23:11	cws_warning_23:
+cws_warning_23:11	cws_warning_23: 
 cws_warning_23:12	cws_warning_23:cws_close
 cws_warning_23:13	cws_warning_23:warning text
 cws_warning_23:14	cws_warning_23:cws_test_warning
@@ -17045,7 +17046,7 @@ cws_warning_10:7	cws_warning_10:com_7
 cws_warning_10:8	cws_warning_10:com_8
 cws_warning_10:9	cws_warning_10:com_9
 cws_warning_10:10	cws_warning_10:com_10
-cws_warning_10:11	cws_warning_10:
+cws_warning_10:11	cws_warning_10: 
 cws_warning_10:12	cws_warning_10:cws_close
 cws_warning_10:13	cws_warning_10:warning text
 cws_warning_10:14	cws_warning_10:cws_test_warning
@@ -17067,7 +17068,7 @@ cws_warning_6:7	cws_warning_6:com_7
 cws_warning_6:8	cws_warning_6:com_8
 cws_warning_6:9	cws_warning_6:com_9
 cws_warning_6:10	cws_warning_6:com_10
-cws_warning_6:11	cws_warning_6:
+cws_warning_6:11	cws_warning_6: 
 cws_warning_6:12	cws_warning_6:cws_close
 cws_warning_6:13	cws_warning_6:warning text
 cws_warning_6:14	cws_warning_6:cws_test_warning
@@ -17089,7 +17090,7 @@ cws_warning_14:7	cws_warning_14:com_7
 cws_warning_14:8	cws_warning_14:com_8
 cws_warning_14:9	cws_warning_14:com_9
 cws_warning_14:10	cws_warning_14:com_10
-cws_warning_14:11	cws_warning_14:
+cws_warning_14:11	cws_warning_14: 
 cws_warning_14:12	cws_warning_14:cws_close
 cws_warning_14:13	cws_warning_14:warning text
 cws_warning_14:14	cws_warning_14:cws_test_warning
@@ -17111,7 +17112,7 @@ cws_warning_3:7	cws_warning_3:com_7
 cws_warning_3:8	cws_warning_3:com_8
 cws_warning_3:9	cws_warning_3:com_9
 cws_warning_3:10	cws_warning_3:com_10
-cws_warning_3:11	cws_warning_3:
+cws_warning_3:11	cws_warning_3: 
 cws_warning_3:12	cws_warning_3:cws_close
 cws_warning_3:13	cws_warning_3:warning text
 cws_warning_3:14	cws_warning_3:cws_test_warning
@@ -17133,7 +17134,7 @@ cws_warning_16:7	cws_warning_16:com_7
 cws_warning_16:8	cws_warning_16:com_8
 cws_warning_16:9	cws_warning_16:com_9
 cws_warning_16:10	cws_warning_16:com_10
-cws_warning_16:11	cws_warning_16:
+cws_warning_16:11	cws_warning_16: 
 cws_warning_16:12	cws_warning_16:cws_close
 cws_warning_16:13	cws_warning_16:warning text
 cws_warning_16:14	cws_warning_16:cws_test_warning
@@ -17155,7 +17156,7 @@ cws_warning_17:7	cws_warning_17:com_7
 cws_warning_17:8	cws_warning_17:com_8
 cws_warning_17:9	cws_warning_17:com_9
 cws_warning_17:10	cws_warning_17:com_10
-cws_warning_17:11	cws_warning_17:
+cws_warning_17:11	cws_warning_17: 
 cws_warning_17:12	cws_warning_17:cws_close
 cws_warning_17:13	cws_warning_17:warning text
 cws_warning_17:14	cws_warning_17:cws_test_warning
@@ -17177,7 +17178,7 @@ cws_warning_19:7	cws_warning_19:com_7
 cws_warning_19:8	cws_warning_19:com_8
 cws_warning_19:9	cws_warning_19:com_9
 cws_warning_19:10	cws_warning_19:com_10
-cws_warning_19:11	cws_warning_19:
+cws_warning_19:11	cws_warning_19: 
 cws_warning_19:12	cws_warning_19:cws_close
 cws_warning_19:13	cws_warning_19:warning text
 cws_warning_19:14	cws_warning_19:cws_test_warning
@@ -17199,7 +17200,7 @@ cws_warning_13:7	cws_warning_13:com_7
 cws_warning_13:8	cws_warning_13:com_8
 cws_warning_13:9	cws_warning_13:com_9
 cws_warning_13:10	cws_warning_13:com_10
-cws_warning_13:11	cws_warning_13:
+cws_warning_13:11	cws_warning_13: 
 cws_warning_13:12	cws_warning_13:cws_close
 cws_warning_13:13	cws_warning_13:warning text
 cws_warning_13:14	cws_warning_13:cws_test_warning
@@ -17221,7 +17222,7 @@ cws_warning_12:7	cws_warning_12:com_7
 cws_warning_12:8	cws_warning_12:com_8
 cws_warning_12:9	cws_warning_12:com_9
 cws_warning_12:10	cws_warning_12:com_10
-cws_warning_12:11	cws_warning_12:
+cws_warning_12:11	cws_warning_12: 
 cws_warning_12:12	cws_warning_12:cws_close
 cws_warning_12:13	cws_warning_12:warning text
 cws_warning_12:14	cws_warning_12:cws_test_warning
@@ -17243,7 +17244,7 @@ cws_warning_1:7	cws_warning_1:com_7
 cws_warning_1:8	cws_warning_1:com_8
 cws_warning_1:9	cws_warning_1:com_9
 cws_warning_1:10	cws_warning_1:com_10
-cws_warning_1:11	cws_warning_1:
+cws_warning_1:11	cws_warning_1: 
 cws_warning_1:12	cws_warning_1:cws_close
 cws_warning_1:13	cws_warning_1:warning text
 cws_warning_1:14	cws_warning_1:cws_test_warning
@@ -17265,7 +17266,7 @@ cws_warning_22:7	cws_warning_22:com_7
 cws_warning_22:8	cws_warning_22:com_8
 cws_warning_22:9	cws_warning_22:com_9
 cws_warning_22:10	cws_warning_22:com_10
-cws_warning_22:11	cws_warning_22:
+cws_warning_22:11	cws_warning_22: 
 cws_warning_22:12	cws_warning_22:cws_close
 cws_warning_22:13	cws_warning_22:warning text
 cws_warning_22:14	cws_warning_22:cws_test_warning
@@ -17287,7 +17288,7 @@ cws_warning_8:7	cws_warning_8:com_7
 cws_warning_8:8	cws_warning_8:com_8
 cws_warning_8:9	cws_warning_8:com_9
 cws_warning_8:10	cws_warning_8:com_10
-cws_warning_8:11	cws_warning_8:
+cws_warning_8:11	cws_warning_8: 
 cws_warning_8:12	cws_warning_8:cws_close
 cws_warning_8:13	cws_warning_8:warning text
 cws_warning_8:14	cws_warning_8:cws_test_warning
@@ -17309,7 +17310,7 @@ cws_warning_18:7	cws_warning_18:com_7
 cws_warning_18:8	cws_warning_18:com_8
 cws_warning_18:9	cws_warning_18:com_9
 cws_warning_18:10	cws_warning_18:com_10
-cws_warning_18:11	cws_warning_18:
+cws_warning_18:11	cws_warning_18: 
 cws_warning_18:12	cws_warning_18:cws_close
 cws_warning_18:13	cws_warning_18:warning text
 cws_warning_18:14	cws_warning_18:cws_test_warning
@@ -17331,7 +17332,7 @@ cws_warning_15:7	cws_warning_15:com_7
 cws_warning_15:8	cws_warning_15:com_8
 cws_warning_15:9	cws_warning_15:com_9
 cws_warning_15:10	cws_warning_15:com_10
-cws_warning_15:11	cws_warning_15:
+cws_warning_15:11	cws_warning_15: 
 cws_warning_15:12	cws_warning_15:cws_close
 cws_warning_15:13	cws_warning_15:warning text
 cws_warning_15:14	cws_warning_15:cws_test_warning
@@ -17353,7 +17354,7 @@ cws_warning_4:7	cws_warning_4:com_7
 cws_warning_4:8	cws_warning_4:com_8
 cws_warning_4:9	cws_warning_4:com_9
 cws_warning_4:10	cws_warning_4:com_10
-cws_warning_4:11	cws_warning_4:
+cws_warning_4:11	cws_warning_4: 
 cws_warning_4:12	cws_warning_4:cws_close
 cws_warning_4:13	cws_warning_4:warning text
 cws_warning_4:14	cws_warning_4:cws_test_warning
@@ -17375,7 +17376,7 @@ cws_warning_20:7	cws_warning_20:com_7
 cws_warning_20:8	cws_warning_20:com_8
 cws_warning_20:9	cws_warning_20:com_9
 cws_warning_20:10	cws_warning_20:com_10
-cws_warning_20:11	cws_warning_20:
+cws_warning_20:11	cws_warning_20: 
 cws_warning_20:12	cws_warning_20:cws_close
 cws_warning_20:13	cws_warning_20:warning text
 cws_warning_20:14	cws_warning_20:cws_test_warning
@@ -17397,7 +17398,7 @@ cws_warning_24:7	cws_warning_24:com_7
 cws_warning_24:8	cws_warning_24:com_8
 cws_warning_24:9	cws_warning_24:com_9
 cws_warning_24:10	cws_warning_24:com_10
-cws_warning_24:11	cws_warning_24:
+cws_warning_24:11	cws_warning_24: 
 cws_warning_24:12	cws_warning_24:cws_close
 cws_warning_24:13	cws_warning_24:warning text
 cws_warning_24:14	cws_warning_24:cws_test_warning
@@ -17791,15 +17792,15 @@ bookofscrolls:49	bookofscrolls:teleportscroll_zulandra
 bookofscrolls:50	bookofscrolls:gfx_zulandra
 bookofscrolls:51	bookofscrolls:text_zulandra
 bookofscrolls:52	bookofscrolls:title_zulandra
-bookofscrolls:53	bookofscrolls:teleportscroll_cerberus
-bookofscrolls:54	bookofscrolls:gfx_cerberus
-bookofscrolls:55	bookofscrolls:text_cerberus
-bookofscrolls:56	bookofscrolls:title_cerberus
+bookofscrolls:53	bookofscrolls:gfx_cerberus
+bookofscrolls:54	bookofscrolls:text_cerberus
+bookofscrolls:55	bookofscrolls:title_cerberus
+bookofscrolls:56	bookofscrolls:teleportscroll_cerberus
 bookofscrolls:57	bookofscrolls:teleportscroll_revenants
-bookofscrolls:58	bookofscrolls:gfx_revenants
-bookofscrolls:59	bookofscrolls:text_revenants
-bookofscrolls:60	bookofscrolls:title_revenants
-bookofscrolls:61	bookofscrolls:teleportscroll_watson
+bookofscrolls:58	bookofscrolls:teleportscroll_watson
+bookofscrolls:59	bookofscrolls:gfx_revenants
+bookofscrolls:60	bookofscrolls:text_revenants
+bookofscrolls:61	bookofscrolls:title_revenants
 bookofscrolls:62	bookofscrolls:teleportscroll_guthixian_temple
 bookofscrolls:63	bookofscrolls:teleportscroll_spidercave
 bookofscrolls:64	bookofscrolls:gfx_watson
@@ -17812,9 +17813,13 @@ bookofscrolls:70	bookofscrolls:gfx_spidercave
 bookofscrolls:71	bookofscrolls:text_spidercave
 bookofscrolls:72	bookofscrolls:title_spidercave
 bookofscrolls:73	bookofscrolls:teleportscroll_colossal_wyrm
-bookofscrolls:74	bookofscrolls:gfx_colossal_wyrm
-bookofscrolls:75	bookofscrolls:text_colossal_wyrm
-bookofscrolls:76	bookofscrolls:title_colossal_wyrm
+bookofscrolls:74	bookofscrolls:teleportscroll_chasmoffire
+bookofscrolls:75	bookofscrolls:gfx_colossal_wyrm
+bookofscrolls:76	bookofscrolls:text_colossal_wyrm
+bookofscrolls:77	bookofscrolls:title_colossal_wyrm
+bookofscrolls:78	bookofscrolls:gfx_chasmoffire
+bookofscrolls:79	bookofscrolls:text_chasmoffire
+bookofscrolls:80	bookofscrolls:title_chasmoffire
 lovakengj_blast_mining_hud:0	lovakengj_blast_mining_hud:universe
 lovakengj_blast_mining_hud:1	lovakengj_blast_mining_hud:dodger
 lovakengj_blast_mining_hud:2	lovakengj_blast_mining_hud:data
@@ -20641,7 +20646,7 @@ wilderness_cave_mid_warning:7	wilderness_cave_mid_warning:com_7
 wilderness_cave_mid_warning:8	wilderness_cave_mid_warning:com_8
 wilderness_cave_mid_warning:9	wilderness_cave_mid_warning:com_9
 wilderness_cave_mid_warning:10	wilderness_cave_mid_warning:com_10
-wilderness_cave_mid_warning:11	wilderness_cave_mid_warning:
+wilderness_cave_mid_warning:11	wilderness_cave_mid_warning: 
 wilderness_cave_mid_warning:12	wilderness_cave_mid_warning:cws_close
 wilderness_cave_mid_warning:13	wilderness_cave_mid_warning:warning text
 wilderness_cave_mid_warning:14	wilderness_cave_mid_warning:cws_test_warning
@@ -25252,3 +25257,55 @@ poh_trophy_menu:3	poh_trophy_menu:contents
 poh_trophy_menu:4	poh_trophy_menu:tier1
 poh_trophy_menu:5	poh_trophy_menu:tier2
 poh_trophy_menu:6	poh_trophy_menu:tier3
+yama_scoreboard:0	yama_scoreboard:universe
+yama_scoreboard:1	yama_scoreboard:background
+yama_scoreboard:2	yama_scoreboard:close
+yama_scoreboard:3	yama_scoreboard:close_icon
+yama_scoreboard:4	yama_scoreboard:content
+yama_scoreboard:5	yama_scoreboard:title
+yama_scoreboard:6	yama_scoreboard:title_text
+yama_scoreboard:7	yama_scoreboard:stats
+yama_scoreboard:8	yama_scoreboard:pkc
+yama_scoreboard:9	yama_scoreboard:pkc_content
+yama_scoreboard:10	yama_scoreboard:pd
+yama_scoreboard:11	yama_scoreboard:pd_content
+yama_scoreboard:12	yama_scoreboard:pbt
+yama_scoreboard:13	yama_scoreboard:pbt_content
+yama_scoreboard:14	yama_scoreboard:gkc
+yama_scoreboard:15	yama_scoreboard:gkc_content
+yama_scoreboard:16	yama_scoreboard:gd
+yama_scoreboard:17	yama_scoreboard:gd_content
+yama_scoreboard:18	yama_scoreboard:gbt
+yama_scoreboard:19	yama_scoreboard:gbt_content
+yama_scoreboard:20	yama_scoreboard:subheader_text
+yama_contract_fight:0	yama_contract_fight:universe
+yama_contract_fight:1	yama_contract_fight:dodger
+yama_contract_fight:2	yama_contract_fight:contents
+yama_contract_fight:3	yama_contract_fight:contract_name
+yama_contract_fight:4	yama_contract_fight:contract_model
+yama_contract:0	yama_contract:universe
+yama_contract:1	yama_contract:background
+yama_contract:2	yama_contract:close
+yama_contract:3	yama_contract:close_icon
+yama_contract:4	yama_contract:content
+yama_contract:5	yama_contract:title
+yama_contract:6	yama_contract:terms
+yama_contract:7	yama_contract:rewards
+yama_contract:8	yama_contract:reward
+yama_contract:9	yama_contract:title_1
+yama_contract:10	yama_contract:term_text1
+yama_contract:11	yama_contract:term_text2
+yama_contract:12	yama_contract:term_text3
+yama_contract:13	yama_contract:term_text4
+yama_contract:14	yama_contract:term_text5
+yama_contract:15	yama_contract:term_text6
+yama_contract:16	yama_contract:title_3
+yama_contract:17	yama_contract:reward_text
+popuploading:0	popuploading:universe
+popuploading:1	popuploading:clamp
+popuploading:2	popuploading:fader
+popuploading:3	popuploading:window
+popuploading:4	popuploading:frame
+popuploading:5	popuploading:container
+popuploading:6	popuploading:body
+popuploading:7	popuploading:text

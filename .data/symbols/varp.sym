@@ -2178,6 +2178,24 @@
 4691	charges_toggle_quantity_19
 4692	castlewars_extra
 4693	castlewars_plaudits
+4695	easter25_main
+4696	easter25_dance_choices
+4697	option_chat_colour_didyouknow_opaque
+4698	option_chat_colour_didyouknow_transparent
+4699	bookofscrolls7
+4700	potionstore_surge_potion
+4701	total_yama_kills
+4711	yama_rewards
+4715	chasm_temp_transmit_1
+4716	chasm_perm_transmit_1
+4718	menagerie_contents3
+4719	pet_insurance3
+4720	autocast_spell_obj
+4721	ca_task_completed_19
+4725	ge_last_offer_item
+4726	ge_last_offer_quantity
+4727	ge_last_offer_price
+4728	ge_last_offer_type
 
 65504	music_playlist
 65505	music_temp_state_3
