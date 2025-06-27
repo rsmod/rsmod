@@ -66,15 +66,11 @@ private constructor(
 
     private fun IfButtonOp.toHeldOp(): HeldOp? =
         when (this) {
-            IfButtonOp.Op1 -> null
             IfButtonOp.Op2 -> HeldOp.Op1
             IfButtonOp.Op3 -> HeldOp.Op2
             IfButtonOp.Op4 -> HeldOp.Op3
-            IfButtonOp.Op5 -> null
             IfButtonOp.Op6 -> HeldOp.Op4
             IfButtonOp.Op7 -> HeldOp.Op5
-            IfButtonOp.Op8 -> null
-            IfButtonOp.Op9 -> null
-            IfButtonOp.Op10 -> null
+            else -> null
         }
 }

@@ -6,7 +6,7 @@ import net.rsprot.protocol.game.outgoing.zone.payload.LocAddChangeV2
 import net.rsprot.protocol.game.outgoing.zone.payload.LocAnim
 import net.rsprot.protocol.game.outgoing.zone.payload.LocDel
 import net.rsprot.protocol.game.outgoing.zone.payload.MapAnim
-import net.rsprot.protocol.game.outgoing.zone.payload.MapProjAnim
+import net.rsprot.protocol.game.outgoing.zone.payload.MapProjAnimV2
 import net.rsprot.protocol.game.outgoing.zone.payload.ObjAdd
 import net.rsprot.protocol.game.outgoing.zone.payload.ObjCount
 import net.rsprot.protocol.game.outgoing.zone.payload.ObjDel
@@ -120,7 +120,7 @@ public object ZoneUpdateTransformer {
     }
 
     public fun toMapProjAnimProt(projAnim: ProjAnim): ZoneProt {
-        return MapProjAnim(
+        return MapProjAnimV2(
             id = projAnim.spotanim,
             startHeight = projAnim.startHeight,
             endHeight = projAnim.endHeight,
@@ -132,8 +132,9 @@ public object ZoneUpdateTransformer {
             targetIndex = projAnim.targetIndex,
             xInZone = projAnim.zoneGridX,
             zInZone = projAnim.zoneGridZ,
-            deltaX = projAnim.deltaX,
-            deltaZ = projAnim.deltaZ,
+            endX = projAnim.endCoord.x,
+            endZ = projAnim.endCoord.z,
+            endLevel = projAnim.endCoord.level,
         )
     }
 

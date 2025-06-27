@@ -23,8 +23,8 @@ class RspNpcInfo(val rspAvatar: NpcAvatar) : NpcInfoProtocol {
         rspAvatar.extendedInfo.setFacePathingEntity(slot)
     }
 
-    override fun setFaceSquare(x: Int, z: Int, instant: Boolean) {
-        rspAvatar.extendedInfo.setFaceCoord(x, z, instant)
+    override fun setFaceAngle(angle: Int, instant: Boolean) {
+        rspAvatar.extendedInfo.setFaceAngle(angle, instant)
     }
 
     override fun setTransmog(type: Int) {

@@ -12,7 +12,7 @@ public interface NpcInfoProtocol {
 
     public fun setFacePathingEntity(slot: Int)
 
-    public fun setFaceSquare(x: Int, z: Int, instant: Boolean)
+    public fun setFaceAngle(angle: Int, instant: Boolean)
 
     public fun setTransmog(type: Int)
 
@@ -62,7 +62,7 @@ public data object NoopNpcInfo : NpcInfoProtocol {
 
     override fun setFacePathingEntity(slot: Int) {}
 
-    override fun setFaceSquare(x: Int, z: Int, instant: Boolean) {}
+    override fun setFaceAngle(angle: Int, instant: Boolean) {}
 
     override fun setTransmog(type: Int) {}
 

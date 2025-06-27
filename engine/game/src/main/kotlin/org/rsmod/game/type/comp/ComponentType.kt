@@ -146,7 +146,8 @@ public data class UnpackedComponentType(
     private val identityHash by lazy { computeIdentityHash() }
 
     public fun hasEvent(event: IfEvent): Boolean {
-        return (events and event.bitmask) != 0
+        val v1Event = event.toV1Event()
+        return (events.toLong() and v1Event.bitmask) != 0L
     }
 
     public fun toHashedType(): HashedComponentType =
@@ -518,5 +519,20 @@ public data class UnpackedComponentType(
     private fun Array<IntArray>.contentsFormat() =
         joinToString(separator = ", ", prefix = "[", postfix = "]") {
             it.joinToString(separator = ", ", prefix = "[", postfix = "]")
+        }
+
+    private fun IfEvent.toV1Event(): IfEvent =
+        when (this) {
+            IfEvent.Op1 -> IfEvent.DeprecatedOp1
+            IfEvent.Op2 -> IfEvent.DeprecatedOp2
+            IfEvent.Op3 -> IfEvent.DeprecatedOp3
+            IfEvent.Op4 -> IfEvent.DeprecatedOp4
+            IfEvent.Op5 -> IfEvent.DeprecatedOp5
+            IfEvent.Op6 -> IfEvent.DeprecatedOp6
+            IfEvent.Op7 -> IfEvent.DeprecatedOp7
+            IfEvent.Op8 -> IfEvent.DeprecatedOp8
+            IfEvent.Op9 -> IfEvent.DeprecatedOp9
+            IfEvent.Op10 -> IfEvent.DeprecatedOp10
+            else -> this
         }
 }

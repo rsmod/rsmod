@@ -93,5 +93,27 @@ constructor(
             IfButtonOp.Op8 -> IfEvent.Op8
             IfButtonOp.Op9 -> IfEvent.Op9
             IfButtonOp.Op10 -> IfEvent.Op10
+            IfButtonOp.Op11 -> IfEvent.Op11
+            IfButtonOp.Op12 -> IfEvent.Op12
+            IfButtonOp.Op13 -> IfEvent.Op13
+            IfButtonOp.Op14 -> IfEvent.Op14
+            IfButtonOp.Op15 -> IfEvent.Op15
+            IfButtonOp.Op16 -> IfEvent.Op16
+            IfButtonOp.Op17 -> IfEvent.Op17
+            IfButtonOp.Op18 -> IfEvent.Op18
+            IfButtonOp.Op19 -> IfEvent.Op19
+            IfButtonOp.Op20 -> IfEvent.Op20
+            IfButtonOp.Op21 -> IfEvent.Op21
+            IfButtonOp.Op22 -> IfEvent.Op22
+            IfButtonOp.Op23 -> IfEvent.Op23
+            IfButtonOp.Op24 -> IfEvent.Op24
+            IfButtonOp.Op25 -> IfEvent.Op25
+            IfButtonOp.Op26 -> IfEvent.Op26
+            IfButtonOp.Op27 -> IfEvent.Op27
+            IfButtonOp.Op28 -> IfEvent.Op28
+            IfButtonOp.Op29 -> IfEvent.Op29
+            IfButtonOp.Op30 -> IfEvent.Op30
+            IfButtonOp.Op31 -> IfEvent.Op31
+            IfButtonOp.Op32 -> IfEvent.Op32
         }
 }

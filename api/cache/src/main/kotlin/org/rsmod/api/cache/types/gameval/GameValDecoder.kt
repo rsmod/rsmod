@@ -42,7 +42,7 @@ public object GameValDecoder {
                 tableNames[file.id] = tableName
 
                 var columnId = 0
-                while (true) {
+                while (it.isReadable) {
                     val check = it.readUnsignedByte().toInt()
                     if (check == 0) {
                         break
@@ -69,12 +69,15 @@ public object GameValDecoder {
                 interfaceNames[file.id] = interfaceName
 
                 var componentId = 0
-                while (true) {
+                while (it.isReadable) {
                     // The client stops reading at 255, even though some interfaces contain more
                     // components. However, the buffer still includes names for components beyond
                     // 255.
                     val check = it.readUnsignedByte().toInt()
                     if (check == 0xFF) {
+                        if (it.readableBytes() < Short.SIZE_BYTES) {
+                            break
+                        }
                         it.markReaderIndex()
                         if (it.readUnsignedShort() == 0) {
                             break

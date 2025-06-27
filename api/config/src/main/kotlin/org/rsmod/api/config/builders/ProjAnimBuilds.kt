@@ -7,8 +7,8 @@ import org.rsmod.api.type.builders.proj.ProjAnimBuilder
 internal object ProjAnimBuilds : ProjAnimBuilder() {
     init {
         build("arrow") {
-            startHeight = 40
-            endHeight = 36
+            startHeight = 163
+            endHeight = 146
             delay = 41
             angle = 15
             lengthAdjustment = 5
@@ -17,8 +17,8 @@ internal object ProjAnimBuilds : ProjAnimBuilder() {
         }
 
         build("bolt") {
-            startHeight = 38
-            endHeight = 36
+            startHeight = 155
+            endHeight = 146
             delay = 41
             angle = 5
             lengthAdjustment = 5
@@ -27,8 +27,8 @@ internal object ProjAnimBuilds : ProjAnimBuilder() {
         }
 
         build("chinchompa") {
-            startHeight = 40
-            endHeight = 36
+            startHeight = 163
+            endHeight = 146
             delay = 21
             angle = 15
             lengthAdjustment = 11
@@ -37,8 +37,8 @@ internal object ProjAnimBuilds : ProjAnimBuilder() {
         }
 
         build("thrown") {
-            startHeight = 40
-            endHeight = 36
+            startHeight = 163
+            endHeight = 146
             delay = 32
             angle = 15
             lengthAdjustment = 0
@@ -47,8 +47,8 @@ internal object ProjAnimBuilds : ProjAnimBuilder() {
         }
 
         build("doublearrow_one") {
-            startHeight = 40
-            endHeight = 36
+            startHeight = 163
+            endHeight = 146
             delay = 41
             angle = 5
             lengthAdjustment = 5
@@ -57,8 +57,8 @@ internal object ProjAnimBuilds : ProjAnimBuilder() {
         }
 
         build("doublearrow_two") {
-            startHeight = 40
-            endHeight = 36
+            startHeight = 163
+            endHeight = 146
             delay = 41
             angle = 25
             lengthAdjustment = 14
@@ -67,8 +67,8 @@ internal object ProjAnimBuilds : ProjAnimBuilder() {
         }
 
         build("magic_spell") {
-            startHeight = 43
-            endHeight = 31
+            startHeight = 172
+            endHeight = 124
             delay = 51
             angle = 16
             lengthAdjustment = -5
@@ -77,7 +77,7 @@ internal object ProjAnimBuilds : ProjAnimBuilder() {
         }
 
         build("magic_spell_low") {
-            startHeight = 43
+            startHeight = 172
             endHeight = 0
             delay = 51
             angle = 16
@@ -87,8 +87,8 @@ internal object ProjAnimBuilds : ProjAnimBuilder() {
         }
 
         build("iban_blast") {
-            startHeight = 36
-            endHeight = 31
+            startHeight = 144
+            endHeight = 124
             delay = 60
             angle = 16
             lengthAdjustment = -14
@@ -97,8 +97,8 @@ internal object ProjAnimBuilds : ProjAnimBuilder() {
         }
 
         build("vulnerability") {
-            startHeight = 31
-            endHeight = 31
+            startHeight = 144
+            endHeight = 124
             delay = 34
             angle = 16
             lengthAdjustment = 12
@@ -107,8 +107,8 @@ internal object ProjAnimBuilds : ProjAnimBuilder() {
         }
 
         build("stun") {
-            startHeight = 31
-            endHeight = 31
+            startHeight = 144
+            endHeight = 124
             delay = 52
             angle = 16
             lengthAdjustment = -6
@@ -117,8 +117,8 @@ internal object ProjAnimBuilds : ProjAnimBuilder() {
         }
 
         build("crumble_undead") {
-            startHeight = 31
-            endHeight = 31
+            startHeight = 124
+            endHeight = 124
             delay = 46
             angle = 16
             lengthAdjustment = 0
@@ -127,8 +127,8 @@ internal object ProjAnimBuilds : ProjAnimBuilder() {
         }
 
         build("enfeeble") {
-            startHeight = 31
-            endHeight = 31
+            startHeight = 144
+            endHeight = 124
             delay = 48
             angle = 16
             lengthAdjustment = -2
@@ -137,8 +137,8 @@ internal object ProjAnimBuilds : ProjAnimBuilder() {
         }
 
         build("confuse") {
-            startHeight = 36
-            endHeight = 31
+            startHeight = 144
+            endHeight = 124
             delay = 61
             angle = 16
             lengthAdjustment = -15
@@ -147,7 +147,7 @@ internal object ProjAnimBuilds : ProjAnimBuilder() {
         }
 
         build("bind") {
-            startHeight = 45
+            startHeight = 180
             endHeight = 0
             delay = 75
             angle = 16
@@ -157,8 +157,8 @@ internal object ProjAnimBuilds : ProjAnimBuilder() {
         }
 
         build("tumekens_shadow") {
-            startHeight = 62
-            endHeight = 31
+            startHeight = 250
+            endHeight = 124
             delay = 56
             angle = 32
             lengthAdjustment = 16

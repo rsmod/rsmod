@@ -131,10 +131,9 @@ constructor(
     }
 
     private fun Npc.updateFaceAngle() {
-        val pending = pendingFaceSquare
         facing.process(this)
         if (pendingFaceAngle != EntityFaceAngle.NULL) {
-            infoProtocol.setFaceSquare(pending.x, pending.z, instant = false)
+            infoProtocol.setFaceAngle(pendingFaceAngle.intValue, instant = false)
         }
     }
 

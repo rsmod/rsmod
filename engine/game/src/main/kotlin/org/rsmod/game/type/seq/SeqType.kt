@@ -61,6 +61,7 @@ public data class UnpackedSeqType(
     public val keyframeRangeEnd: Int,
     public val keyframeWalkMerge: BooleanArray,
     public val debugName: String?,
+    public val crossWorldSound: Boolean,
     public val totalDelay: Int = delay.sum(),
     public val tickDuration: Int = delay.tickDuration(),
     override var internalPriority: Int,
@@ -110,6 +111,7 @@ public data class UnpackedSeqType(
             "preanimMove=$preanimMove, " +
             "postanimMove=$postanimMove, " +
             "replaceMode=$replaceMode, " +
+            "crossWorldSound=$crossWorldSound, " +
             "iframeGroup=${iframeGroup.contentToString()}, " +
             "iframeIndex=${iframeIndex.contentToString()}, " +
             "sounds=${sounds.contentToString()}, " +
@@ -123,7 +125,7 @@ public data class UnpackedSeqType(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is UnpackedSeqType) return false
-
+        if (internalId != other.internalId) return false
         if (!frameGroup.contentEquals(other.frameGroup)) return false
         if (!frameIndex.contentEquals(other.frameIndex)) return false
         if (!delay.contentEquals(other.delay)) return false
@@ -137,6 +139,7 @@ public data class UnpackedSeqType(
         if (preanimMove != other.preanimMove) return false
         if (postanimMove != other.postanimMove) return false
         if (replaceMode != other.replaceMode) return false
+        if (crossWorldSound != other.crossWorldSound) return false
         if (!iframeGroup.contentEquals(other.iframeGroup)) return false
         if (!iframeIndex.contentEquals(other.iframeIndex)) return false
         if (!sounds.contentEquals(other.sounds)) return false
@@ -145,8 +148,6 @@ public data class UnpackedSeqType(
         if (keyframeRangeStart != other.keyframeRangeStart) return false
         if (keyframeRangeEnd != other.keyframeRangeEnd) return false
         if (!keyframeWalkMerge.contentEquals(other.keyframeWalkMerge)) return false
-        if (internalId != other.internalId) return false
-
         return true
     }
 

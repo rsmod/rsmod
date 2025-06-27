@@ -44,11 +44,17 @@ public object ProjAnimTypeEncoder {
 
     public fun encodeGame(type: UnpackedProjAnimType, data: ByteBuf): Unit =
         with(type) {
-            data.writeByte(1)
-            data.writeByte(startHeight)
+            val extendedStartHeight = startHeight > 255
+            if (!extendedStartHeight) {
+                data.writeByte(1)
+                data.writeByte(startHeight)
+            }
 
-            data.writeByte(2)
-            data.writeByte(endHeight)
+            val extendedEndHeight = endHeight > 255
+            if (!extendedEndHeight) {
+                data.writeByte(2)
+                data.writeByte(endHeight)
+            }
 
             data.writeByte(3)
             data.writeByte(delay)
@@ -69,6 +75,16 @@ public object ProjAnimTypeEncoder {
             if (stepMultiplier != ProjAnimTypeBuilder.DEFAULT_STEP_MULTIPLIER) {
                 data.writeByte(7)
                 data.writeByte(stepMultiplier)
+            }
+
+            if (extendedStartHeight) {
+                data.writeByte(8)
+                data.writeShort(startHeight)
+            }
+
+            if (extendedEndHeight) {
+                data.writeByte(9)
+                data.writeShort(endHeight)
             }
         }
 }

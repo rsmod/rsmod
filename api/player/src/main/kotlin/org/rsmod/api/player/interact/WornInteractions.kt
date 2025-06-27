@@ -103,6 +103,7 @@ constructor(
             IfButtonOp.Op8 -> access.opWorn8(obj, type, wornSlot)
             IfButtonOp.Op9 -> access.opWorn9(obj, type, wornSlot)
             IfButtonOp.Op10 -> examine(access.player, worn, wornSlot)
+            else -> error("Unhandled opworn ($op) for: $type")
         }
     }
 
@@ -283,6 +284,28 @@ constructor(
             IfButtonOp.Op8 -> params.wear_op7
             IfButtonOp.Op9 -> params.wear_op8
             IfButtonOp.Op10 -> null
+            IfButtonOp.Op11 -> null
+            IfButtonOp.Op12 -> null
+            IfButtonOp.Op13 -> null
+            IfButtonOp.Op14 -> null
+            IfButtonOp.Op15 -> null
+            IfButtonOp.Op16 -> null
+            IfButtonOp.Op17 -> null
+            IfButtonOp.Op18 -> null
+            IfButtonOp.Op19 -> null
+            IfButtonOp.Op20 -> null
+            IfButtonOp.Op21 -> null
+            IfButtonOp.Op22 -> null
+            IfButtonOp.Op23 -> null
+            IfButtonOp.Op24 -> null
+            IfButtonOp.Op25 -> null
+            IfButtonOp.Op26 -> null
+            IfButtonOp.Op27 -> null
+            IfButtonOp.Op28 -> null
+            IfButtonOp.Op29 -> null
+            IfButtonOp.Op30 -> null
+            IfButtonOp.Op31 -> null
+            IfButtonOp.Op32 -> null
         }
 
     private fun objExamine(player: Player, obj: InvObj, type: UnpackedObjType) {
