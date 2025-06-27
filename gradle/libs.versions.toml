@@ -25,7 +25,7 @@ openrs2 = "0.1.0-SNAPSHOT"
 rsprot = "1.0.0-ALPHA-20250509"
 simmetrics = "4.1.1"
 spotless = "7.0.2"
-sqlite = "3.49.1.0"
+sqlite = "3.50.1.0"
 
 [libraries]
 apache-commons = { module = "commons-codec:commons-codec", version.ref = "apache-commons" }
