@@ -4,7 +4,7 @@
 RS Mod is a RuneScape game-server emulator that aims to be as mechanically accurate to the original as possible.
 
 ## Requirements
-This project requires **[Java 11][java] or later**.
+This project requires **[Java 21][java] or later**.
 
 _Check out the [Installing Java](#installing-java) section for setup instructions._
 
@@ -33,23 +33,23 @@ _RS Mod is compatible with [RSProx][rsprox]. It is the most readily-available cl
 _Check out the [Compatible Clients](#compatible-clients) section for more information._
 
 ## Installing Java
-#### Where to download Java 11:
-- **[Adoptium OpenJDK 11 LTS][adoptium-download]** _Recommended option (free & open-source)_
-- **[OpenJDK 11][openjdk-download]**
-- **[Oracle JDK 11][oracle-download]** _Requires Login_
+#### Where to download Java 21:
+- **[Adoptium OpenJDK 21 LTS][adoptium-download]** _Recommended option (free & open-source)_
+- **[OpenJDK 21][openjdk-download]**
+- **[Oracle JDK 21][oracle-download]** _Requires Login_
 
 #### Installing via Package Manager:
 - **Linux/macOS:** Using [SDKMAN!][sdkman]
   ```sh
-  sdk install java 11.0.20-tem
+  sdk install java 21.0.7-tem
   ```
 - **macOS:** Using [Homebrew][homebrew]
   ```sh
-  brew install openjdk@11
+  brew install openjdk@21
   ```
 - **Windows**: Using [WinGet][winget]
   ```sh
-  winget install --id EclipseAdoptium.Temurin.11.JDK
+  winget install --id=EclipseAdoptium.Temurin.21.JDK  -e
   ```
 
 ## Compatible Clients
@@ -84,10 +84,10 @@ RS Mod is available under the terms of the ISC license, which is similar to the 
 [core-ci-badge]: https://github.com/rsmod/rsmod/actions/workflows/core-ci.yml/badge.svg?branch=main
 [nightly-ci]: https://github.com/rsmod/rsmod/actions/workflows/nightly-ci.yml
 [nightly-ci-badge]: https://github.com/rsmod/rsmod/actions/workflows/nightly-ci.yml/badge.svg?branch=main
-[java]: https://openjdk.java.net/projects/jdk/11/
-[adoptium-download]: https://adoptium.net/temurin/releases/?version=11
+[java]: https://openjdk.java.net/projects/jdk/21/
+[adoptium-download]: https://adoptium.net/temurin/releases/?version=21
 [openjdk-download]: https://jdk.java.net/archive/
-[oracle-download]: https://www.oracle.com/java/technologies/javase/jdk11-archive-downloads.html
+[oracle-download]: https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html
 [sdkman]: https://sdkman.io/
 [homebrew]: https://brew.sh/
 [winget]: https://learn.microsoft.com/en-us/windows/package-manager/winget/
