@@ -14,8 +14,8 @@ object BaseInterfaces : InterfaceReferences() {
     val bankpin_settings = find("bankpin_settings", 642937557)
 
     val toplevel = find("toplevel", 9223372034726091525)
-    val toplevel_osrs_stretch = find("toplevel_osrs_stretch", 9223372036366731764)
-    val toplevel_pre_eoc = find("toplevel_pre_eoc", 1080365065)
+    val toplevel_osrs_stretch = find("toplevel_osrs_stretch", 9223372035990794041)
+    val toplevel_pre_eoc = find("toplevel_pre_eoc", 9223372034871006052)
 
     val buff_bar = find("buff_bar", 9223372034871751765)
     val stat_boosts_hud = find("stat_boosts_hud", 1593617132)
@@ -34,7 +34,7 @@ object BaseInterfaces : InterfaceReferences() {
     val side_channels = find("side_channels", 1832628328)
     val settings_side = find("settings_side", 1694635289)
     val prayerbook = find("prayerbook", 9223372034905333594)
-    val magic_spellbook = find("magic_spellbook", 643013118)
+    val magic_spellbook = find("magic_spellbook", 2027746394)
     val friends = find("friends", 149140580)
     val account = find("account", 9223372036045351858)
     val logout = find("logout", 2003439444)
