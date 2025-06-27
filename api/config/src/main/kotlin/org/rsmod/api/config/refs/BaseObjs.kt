@@ -511,6 +511,7 @@ object BaseObjs : ObjReferences() {
     val spell_high_alchemy = find("55_high_alchemy")
     val spell_superheat = find("43_superheat_item")
     val spell_tele_grab = find("33_tele_grab")
+    val spell_monster_inspect = find("placeholder_gathering_event_leprechaun_charm")
     val spell_chargeorb_water = find("56_charge_water_orb")
     val spell_chargeorb_earth = find("60_charge_earth_orb")
     val spell_chargeorb_fire = find("63_charge_fire_orb")

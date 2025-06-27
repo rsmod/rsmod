@@ -41,6 +41,7 @@ internal object SpellObjEditor : ObjEditor() {
         spell(objs.spell_crumble_undead, 24.5)
         spell(objs.spell_poh_teleport, 30.0)
         spell(objs.spell_wind_blast, 25.5)
+        spell(objs.spell_monster_inspect, 30.5)
         spell(objs.spell_superheat, 53.0)
         tele(objs.spell_camelot_teleport, 55.5, CoordGrid(0, 43, 54, 5, 22))
         spell(objs.spell_water_blast, 28.5)
