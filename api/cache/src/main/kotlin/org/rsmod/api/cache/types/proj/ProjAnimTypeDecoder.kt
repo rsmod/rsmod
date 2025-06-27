@@ -50,6 +50,8 @@ public object ProjAnimTypeDecoder {
                 5 -> lengthAdjustment = data.readByte().toInt()
                 6 -> progress = data.readUnsignedByte().toInt()
                 7 -> stepMultiplier = data.readUnsignedByte().toInt()
+                8 -> startHeight = data.readUnsignedShort()
+                9 -> endHeight = data.readUnsignedShort()
                 else -> throw IOException("Error unrecognised .projanim config code: $code")
             }
         }

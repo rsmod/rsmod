@@ -27,12 +27,6 @@ public data class ProjAnim(
     public val zoneGridZ: Int
         get() = startCoord.z and ZoneGrid.Z_BIT_MASK
 
-    public val deltaX: Int
-        get() = endCoord.x - startCoord.x
-
-    public val deltaZ: Int
-        get() = endCoord.z - startCoord.z
-
     public val clientCycles: Int
         get() = endTime
 
