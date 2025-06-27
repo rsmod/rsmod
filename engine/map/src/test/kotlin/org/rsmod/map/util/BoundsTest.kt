@@ -12,6 +12,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.ArgumentsProvider
 import org.junit.jupiter.params.provider.ArgumentsSource
+import org.junit.jupiter.params.support.ParameterDeclarations
 
 class BoundsTest {
     @Test
@@ -162,7 +163,10 @@ class BoundsTest {
     }
 
     private object VaryingRangesProvider : ArgumentsProvider {
-        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> =
+        override fun provideArguments(
+            parameters: ParameterDeclarations,
+            context: ExtensionContext,
+        ): Stream<out Arguments> =
             Stream.of(
                 Arguments.of(0, 3210, 3210, 1, 1, 3210, 3210, 1, 1),
                 Arguments.of(1, 3210, 3210, 1, 1, 3211, 3210, 1, 1),
@@ -202,7 +206,10 @@ class BoundsTest {
     }
 
     private object VaryingBoundsProvider : ArgumentsProvider {
-        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> =
+        override fun provideArguments(
+            parameters: ParameterDeclarations,
+            context: ExtensionContext,
+        ): Stream<out Arguments> =
             Stream.of(
                 Arguments.of(0, 3208, 3212, 1, 1, 3208, 3212, 1, 1, true),
                 Arguments.of(0, 3208, 3212, 1, 1, 3208, 3212, 2, 2, true),

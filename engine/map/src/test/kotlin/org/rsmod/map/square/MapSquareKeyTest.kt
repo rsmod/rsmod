@@ -9,6 +9,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.ArgumentsProvider
 import org.junit.jupiter.params.provider.ArgumentsSource
+import org.junit.jupiter.params.support.ParameterDeclarations
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.square.MapSquareKey.Companion.X_BIT_MASK
 import org.rsmod.map.square.MapSquareKey.Companion.Z_BIT_MASK
@@ -81,7 +82,10 @@ class MapSquareKeyTest {
     }
 
     private object MapSquareRelativeCoordGridProvider : ArgumentsProvider {
-        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> {
+        override fun provideArguments(
+            parameters: ParameterDeclarations,
+            context: ExtensionContext,
+        ): Stream<out Arguments> {
             return Stream.of(
                 Arguments.of(LUMBRIDGE_MAP_SQUARE, 50, 50),
                 Arguments.of(EDGEVILLE_MAP_SQUARE, 48, 54),
@@ -91,7 +95,10 @@ class MapSquareKeyTest {
     }
 
     private object MapSquareAbsoluteCoordGridProvider : ArgumentsProvider {
-        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> {
+        override fun provideArguments(
+            parameters: ParameterDeclarations,
+            context: ExtensionContext,
+        ): Stream<out Arguments> {
             return Stream.of(
                 Arguments.of(LUMBRIDGE_MAP_SQUARE, 3200, 3200),
                 Arguments.of(EDGEVILLE_MAP_SQUARE, 3072, 3456),

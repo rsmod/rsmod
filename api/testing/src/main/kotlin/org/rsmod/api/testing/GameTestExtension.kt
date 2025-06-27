@@ -22,15 +22,12 @@ import org.junit.jupiter.api.extension.ParameterResolver
  * - [AfterAllCallback]: Cleans up and unregisters the shared game test state after all tests have
  *   completed.
  * - [ParameterResolver]: Resolves instances of [GameTestState] for test methods that require it.
- * - [ExtensionContext.Store.CloseableResource]: Ensures proper cleanup of the shared state.
+ * - [AutoCloseable]: Ensures proper cleanup of the shared state.
  *
  * @see [GameTestState]
  */
 public class GameTestExtension :
-    BeforeAllCallback,
-    AfterAllCallback,
-    ParameterResolver,
-    ExtensionContext.Store.CloseableResource {
+    BeforeAllCallback, AfterAllCallback, ParameterResolver, AutoCloseable {
     private val lock = ReentrantLock()
     private val namespace = ExtensionContext.Namespace.create("game-tests")
 

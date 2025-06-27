@@ -4,6 +4,7 @@ import java.util.stream.Stream
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.ArgumentsProvider
+import org.junit.jupiter.params.support.ParameterDeclarations
 
 object BitMaskProvider : ArgumentsProvider {
     // 32nd bit should be tested separately due to integer overflow on max expected value.
@@ -42,7 +43,10 @@ object BitMaskProvider : ArgumentsProvider {
             2147483647,
         )
 
-    override fun provideArguments(context: ExtensionContext): Stream<out Arguments> {
+    override fun provideArguments(
+        parameters: ParameterDeclarations,
+        context: ExtensionContext,
+    ): Stream<out Arguments> {
         val combinations =
             i32BitValues.mapIndexed { index, maxValue -> Arguments.of(0..index, maxValue) }
         return Stream.of(*combinations.toTypedArray())

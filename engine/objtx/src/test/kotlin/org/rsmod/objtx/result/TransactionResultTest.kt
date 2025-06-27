@@ -13,6 +13,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.ArgumentsProvider
 import org.junit.jupiter.params.provider.ArgumentsSource
+import org.junit.jupiter.params.support.ParameterDeclarations
 import org.rsmod.objtx.Inventory
 import org.rsmod.objtx.Obj
 import org.rsmod.objtx.TransactionInventory
@@ -127,7 +128,10 @@ class TransactionResultTest {
     private object InvPartialRangeProvider : ArgumentsProvider {
         private val dummyInv = Inventory(TransactionInventory.NormalStack, arrayOfNulls(28))
 
-        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> {
+        override fun provideArguments(
+            parameters: ParameterDeclarations,
+            context: ExtensionContext,
+        ): Stream<out Arguments> {
             val args = (1 until dummyInv.size).map { Arguments.of(dummyInv.size, it) }
             return Stream.of(*args.toTypedArray())
         }
