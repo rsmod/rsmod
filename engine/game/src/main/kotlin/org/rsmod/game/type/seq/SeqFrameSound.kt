@@ -23,7 +23,7 @@ public value class SeqFrameSound(public val packed: Long) {
         loops: Int,
         range: Int,
         size: Int,
-    ) : this(pack(type, loops, range, size, weight))
+    ) : this(pack(type = type, weight = weight, loops = loops, range = range, size = size))
 
     public companion object {
         public val NULL: SeqFrameSound = SeqFrameSound(-1)
