@@ -112,15 +112,22 @@ public object SeqTypeDecoder {
                     val count = data.readUnsignedShort()
                     val mayaAnimationSounds = HashMap<Int, SeqFrameSound>(count)
                     repeat(count) {
-                        val id = data.readUnsignedShort()
+                        val index = data.readUnsignedShort()
                         val type = data.readUnsignedShort()
-                        // TODO: Find usage of unknown value.
-                        val unknown = data.readUnsignedByte().toInt()
+                        val weight = data.readUnsignedByte().toInt()
                         val loops = data.readUnsignedByte().toInt()
                         val range = data.readUnsignedByte().toInt()
                         val size = data.readUnsignedByte().toInt()
                         if (type >= 1 && loops >= 1) {
-                            mayaAnimationSounds[id] = SeqFrameSound(type, loops, range, size)
+                            val sound =
+                                SeqFrameSound(
+                                    type = type,
+                                    weight = weight,
+                                    loops = loops,
+                                    range = range,
+                                    size = size,
+                                )
+                            mayaAnimationSounds[index] = sound
                         }
                     }
                     this.mayaAnimationSounds = mayaAnimationSounds
@@ -139,6 +146,7 @@ public object SeqTypeDecoder {
                     this.keyframeWalkMerge = keyframeWalkMerge
                 }
                 18 -> debugName = data.readString()
+                19 -> crossWorldSound = true
                 else -> throw IOException("Error unrecognised .seq config code: $code")
             }
         }
