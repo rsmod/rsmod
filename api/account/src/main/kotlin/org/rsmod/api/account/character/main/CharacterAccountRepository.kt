@@ -6,6 +6,7 @@ import java.sql.Statement
 import kotlin.math.roundToInt
 import org.rsmod.api.account.character.CharacterMetadataList
 import org.rsmod.api.db.DatabaseConnection
+import org.rsmod.api.db.util.getIntOrNull
 import org.rsmod.api.db.util.getLocalDateTime
 import org.rsmod.api.db.util.setNullableInt
 import org.rsmod.api.db.util.setNullableString
@@ -59,7 +60,7 @@ constructor(
                 it.setString(1, lowercaseName)
                 it.executeQuery().use { resultSet ->
                     if (resultSet.next()) {
-                        resultSet.getInt("id").takeUnless { resultSet.wasNull() }
+                        resultSet.getIntOrNull("id")
                     } else {
                         null
                     }
@@ -157,8 +158,8 @@ constructor(
                     val twofaEnabled = resultSet.getBoolean("twofa_enabled")
                     val twofaSecret = resultSet.getString("twofa_secret")
                     val twofaLastVerified = resultSet.getLocalDateTime("twofa_last_verified")
-                    val device = resultSet.getInt("known_device").takeUnless { resultSet.wasNull() }
-                    val worldId = resultSet.getInt("world_id").takeUnless { resultSet.wasNull() }
+                    val device = resultSet.getIntOrNull("known_device")
+                    val worldId = resultSet.getIntOrNull("world_id")
                     val coordX = resultSet.getInt("x")
                     val coordZ = resultSet.getInt("z")
                     val coordLevel = resultSet.getInt("level")

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.inject.Inject
 import org.rsmod.api.db.Database
 import org.rsmod.api.db.DatabaseConnection
+import org.rsmod.api.db.util.getStringOrNull
 import org.rsmod.api.parsers.json.Json
 import org.rsmod.api.realm.RealmConfig
 import org.rsmod.map.CoordGrid
@@ -32,10 +33,8 @@ constructor(private val database: Database, @Json private val objectMapper: Obje
             it.executeQuery().use { resultSet ->
                 if (resultSet.next()) {
                     val id = resultSet.getInt("id")
-                    val loginMessage =
-                        resultSet.getString("login_message").takeUnless { resultSet.wasNull() }
-                    val loginBroadcast =
-                        resultSet.getString("login_broadcast").takeUnless { resultSet.wasNull() }
+                    val loginMessage = resultSet.getStringOrNull("login_message")
+                    val loginBroadcast = resultSet.getStringOrNull("login_broadcast")
                     val baseXpRateInHundreds = resultSet.getInt("player_xp_rate_in_hundreds")
                     val globalXpRateInHundreds = resultSet.getInt("global_xp_rate_in_hundreds")
                     val spawnCoord = resultSet.getString("spawn_coord")
