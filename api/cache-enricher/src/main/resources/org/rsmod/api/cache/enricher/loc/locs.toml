@@ -5179,7 +5179,7 @@ loc = 'wizards_tower_ladder'
 examine = 'Going up?'
 
 [[config]]
-loc = 'obelisk'
+loc = 'garden_trellis_concave_shortcut'
 examine = 'An imposing stone structure.'
 
 [[config]]
@@ -5208,15 +5208,15 @@ examine = 'A wrought iron gate.'
 
 [[config]]
 loc = 'wiztowerportal'
-examine = 'A magical portal of teleportation.'
+examine = "A magical portal of teleportation, leading to the Wizards' Tower."
 
 [[config]]
 loc = 'darkwizportal'
-examine = 'A magical portal of teleportation.'
+examine = "A magical portal of teleportation, leading to the Dark Wizards' Tower."
 
 [[config]]
 loc = 'thormacportal'
-examine = 'A magical portal of teleportation.'
+examine = "A magical portal of teleportation, leading to the Sorcerer's Tower."
 
 [[config]]
 loc = 'slayertower_pile_bicks'
@@ -7455,7 +7455,7 @@ loc = 'alidoor'
 examine = "It's closed."
 
 [[config]]
-id = 2884
+loc = 'easter25_carrot_scraps_no_trail'
 examine = 'I can climb this.'
 
 [[config]]
@@ -10989,10 +10989,6 @@ examine = 'A solid stone staircase.'
 [[config]]
 loc = 'castlewars_areana_stairentrance_mirror_saradomin'
 examine = 'A solid stone staircase.'
-
-[[config]]
-loc = 'grandtree_ladderbottom'
-examine = 'There are some bandages on this table.'
 
 [[config]]
 loc = 'castlewars_table_toolbox'
@@ -25319,10 +25315,6 @@ loc = 'mourning_temple_way_down'
 examine = 'A way down.'
 
 [[config]]
-loc = 'mourning_temple_way_bit'
-examine = 'A way down.'
-
-[[config]]
 loc = 'mourning_temple_way_rope'
 examine = 'A way up.'
 
@@ -30472,7 +30464,7 @@ examine = "It's open."
 
 [[config]]
 loc = 'raids_vasanistirio_book_vis'
-examine = 'Someone should be sitting here.'
+examine = 'The ancient writings of a crazed mage.'
 
 [[config]]
 loc = '100_cutscene_chair_man'
@@ -33236,43 +33228,23 @@ examine = 'I can see fish swimming in the water.'
 
 [[config]]
 loc = '100_cutscene_chair_gnome'
-examine = 'A trophy of a mighty slayer!'
+examine = 'Someone should be sitting here.'
 
 [[config]]
 loc = 'raids_tekton_book_vis'
-examine = 'A trophy of a mighty slayer!'
+examine = 'Scrawled jottings of a diminished mind.'
 
 [[config]]
 loc = 'raids_vespula_book_vis'
-examine = 'A trophy of a mighty slayer!'
+examine = 'Ancient notes on transdimensional travel.'
 
 [[config]]
 loc = 'raids_vanguard_book_vis'
-examine = 'A trophy of a mighty slayer!'
+examine = 'Judgement of the Vanguard.'
 
 [[config]]
 loc = 'raids_houndmaster_book_vis'
-examine = 'A trophy of a mighty slayer!'
-
-[[config]]
-loc = 'transportation_icon_aip'
-examine = 'A trophy of a mighty dragon-slayer!'
-
-[[config]]
-loc = 'transportation_icon_ais'
-examine = 'A trophy of a mighty kalphite slayer!'
-
-[[config]]
-loc = 'transportation_icon_air'
-examine = 'A trophy of a master fisher.'
-
-[[config]]
-loc = 'transportation_icon_aiq'
-examine = 'A trophy of a master fisher.'
-
-[[config]]
-loc = 'transportation_icon_alp'
-examine = 'A trophy of a master fisher.'
+examine = 'Confessions of a troubled soul.'
 
 [[config]]
 loc = 'poh_armour_mithril_5'
@@ -41031,10 +41003,6 @@ loc = 'cosmic_fairy_shelves_broken'
 examine = 'Broken shelves of colourful potion gourds!'
 
 [[config]]
-loc = 'birthday_party_room_curtains_big'
-examine = 'Broken shelves of colourful potion gourds!'
-
-[[config]]
 loc = 'cosmic_fairy_shelf_broken'
 examine = 'A broken shelf of colourful potion gourds!'
 
@@ -47987,10 +47955,6 @@ loc = 'zep_basket'
 examine = 'An air balloon basket.'
 
 [[config]]
-loc = 'zep_balloon'
-examine = 'An air balloon.'
-
-[[config]]
 loc = 'zep_pre_quest_rock'
 examine = 'A big rock.'
 
@@ -48575,11 +48539,39 @@ loc = 'hunting_trail_spawn1'
 examine = 'Looks like the home of some small mammal.'
 
 [[config]]
-loc = 'eaglepeak_hunting_trail_visible_corner'
-examine = 'Looks like the home of some small mammal.'
+loc = 'eaglepeak_kebbit_cavemid'
+examine = "It looks like it gets thin quite quick.  I wouldn't want to go down there myself."
 
 [[config]]
-loc = 'eaglepeak_hunting_trail_visible180_corner'
+loc = 'eaglepeak_hunting_trail_spawn1'
+examine = 'Some small pieces of rock seem to have broken off and fallen into the corridor.'
+
+[[config]]
+loc = 'eaglepeak_hunting_trail_spawn2'
+examine = 'Some small pieces of rock seem to have broken off and fallen into the corridor.'
+
+[[config]]
+loc = 'eaglepeak_hunting_trail_spawn_dummy'
+examine = 'Some small pieces of rock seem to have broken off and fallen into the corridor.'
+
+[[config]]
+loc = 'eaglepeak_hunting_trail_spawn_dummy2'
+examine = 'Some small pieces of rock seem to have broken off and fallen into the corridor.'
+
+[[config]]
+loc = 'eaglepeak_hunting_trail_spawn_dummy3'
+examine = 'Some small pieces of rock seem to have broken off and fallen into the corridor.'
+
+[[config]]
+loc = 'eaglepeak_dungeon_pedestal_puzzle2'
+examine = 'It looks like there should be something sitting on top of this.'
+
+[[config]]
+loc = 'eaglepeak_dungeon_pedestal_puzzle2_complete'
+examine = 'There seems to be some kind of feather sitting on top of the pedestal.'
+
+[[config]]
+loc = 'hunting_trail_spawn_jungle2'
 examine = 'Looks like the home of some small mammal.'
 
 [[config]]
@@ -48587,11 +48579,7 @@ loc = 'hunting_trail_spawn4'
 examine = 'Looks like the home of some small mammal.'
 
 [[config]]
-loc = 'hunting_trail6_7l'
-examine = 'Looks like the home of some small mammal.'
-
-[[config]]
-loc = 'hunting_trail6_8l'
+loc = 'hunting_trail_spawn_desert2'
 examine = 'Looks like the home of some small mammal.'
 
 [[config]]
@@ -48599,15 +48587,15 @@ loc = 'hunting_trail_spawn_desert1'
 examine = 'Looks like the home of some small mammal.'
 
 [[config]]
-loc = 'hunting_trail5_2l'
+loc = 'hunting_trail_spawn2'
+examine = 'Looks like the home of some small mammal.'
+
+[[config]]
+loc = 'hunting_trail_spawn3'
 examine = 'Looks like the home of some small mammal.'
 
 [[config]]
 loc = 'hunting_trail_spawn_jungle1'
-examine = 'Looks like the home of some small mammal.'
-
-[[config]]
-loc = 'hunting_trail1_5l'
 examine = 'Looks like the home of some small mammal.'
 
 [[config]]
@@ -48693,6 +48681,14 @@ examine = 'Useful for storing items.'
 [[config]]
 loc = 'hunting_shop_shelves3_yanille'
 examine = 'Useful for storing items.'
+
+[[config]]
+loc = 'hunting_trail_spawn5'
+examine = 'Looks like the home of some small mammal.'
+
+[[config]]
+loc = 'hunting_trail_spawn6'
+examine = 'Looks like the home of some small mammal.'
 
 [[config]]
 loc = 'eaglepeak_rockslide'
@@ -49104,38 +49100,6 @@ examine = "The word 'reset' seems to be inscribed on the handle, I wonder what t
 
 [[config]]
 loc = 'eaglepeak_dungeon_pedestal_puzzle1'
-examine = 'There seems to be some kind of feather sitting on top of the pedestal.'
-
-[[config]]
-loc = 'hunting_trail3_9l'
-examine = "It looks like it gets thin quite quick.  I wouldn't want to go down there myself."
-
-[[config]]
-loc = 'hunting_trail4_1l'
-examine = 'Some small pieces of rock seem to have broken off and fallen into the corridor.'
-
-[[config]]
-loc = 'hunting_trail4_2l'
-examine = 'Some small pieces of rock seem to have broken off and fallen into the corridor.'
-
-[[config]]
-loc = 'hunting_trail4_3'
-examine = 'Some small pieces of rock seem to have broken off and fallen into the corridor.'
-
-[[config]]
-loc = 'hunting_trail4_3l'
-examine = 'Some small pieces of rock seem to have broken off and fallen into the corridor.'
-
-[[config]]
-loc = 'hunting_trail4_4l'
-examine = 'Some small pieces of rock seem to have broken off and fallen into the corridor.'
-
-[[config]]
-loc = 'hunting_trail4_5l'
-examine = 'It looks like there should be something sitting on top of this.'
-
-[[config]]
-loc = 'hunting_trail4_6l'
 examine = 'There seems to be some kind of feather sitting on top of the pedestal.'
 
 [[config]]
@@ -54361,10 +54325,6 @@ examine = 'A plank.'
 [[config]]
 loc = 'brain_fenk_crate'
 examine = 'Crate-like.'
-
-[[config]]
-loc = 'brain_harmless_crate'
-examine = 'Seems to have been looted.'
 
 [[config]]
 loc = 'brain_multi_fuse_1'
@@ -64571,10 +64531,6 @@ loc = 'zeah_travel_kourend_shipplank_off'
 examine = 'Handy for boarding boats.'
 
 [[config]]
-loc = 'transportation_icon_als'
-examine = 'A trophy of a mighty hydra slayer!'
-
-[[config]]
 loc = 'pest_scores'
 examine = 'See your scores here.'
 
@@ -66984,10 +66940,6 @@ examine = 'A ladder constructed from bamboo.'
 
 [[config]]
 loc = 'mm2_monkey_boat'
-examine = 'An empty rowboat.'
-
-[[config]]
-loc = 'birthday_party_room_curtains'
 examine = 'An empty rowboat.'
 
 [[config]]
@@ -70475,10 +70427,6 @@ loc = 'raids_reward_chest'
 examine = 'Someone must have really wanted to protect whatever they kept in here.'
 
 [[config]]
-loc = 'raids_houndmaster_book'
-examine = 'Confessions of a troubled soul.'
-
-[[config]]
 loc = 'olm_acid_pool'
 examine = "I really shouldn't stand in that."
 
@@ -72744,7 +72692,7 @@ examine = 'Not such a giant boulder anymore.'
 
 [[config]]
 loc = 'fossil_mining_boulder_medium'
-examine = "It's getting smaller, maybe there are goodies in the middle, like a piñata."
+examine = "It's getting smaller, maybe there are goodies in the middle, like a pi�ata."
 
 [[config]]
 loc = 'fossil_mining_boulder_small'
@@ -74885,10 +74833,6 @@ examine = "Something's burning here."
 [[config]]
 loc = 'shayzienquest_plant_fixed'
 examine = 'Yellow blossom, lovely.'
-
-[[config]]
-loc = 'transportation_icon_alr'
-examine = 'A trophy of a mighty dragon slayer!'
 
 [[config]]
 loc = 'poh_display_vorkath'
@@ -80872,7 +80816,7 @@ examine = 'Conveniently just the right height to climb over!'
 
 [[config]]
 loc = 'karuulm_hydra_room_entrance_climb'
-examine = "Igneous rock is formed when magma cools and solidifies, it may do this above or below the Earth's surface."
+examine = 'Igneous rock is formed when magma cools and solidifies. It may do this underground or above the surface.'
 
 [[config]]
 loc = 'karuulm_hydra_room_door'
@@ -84997,6 +84941,14 @@ examine = 'An ornate steel box featuring many enchanted sapphire, emerald and dr
 [[config]]
 loc = 'league_5_poh_spirit_ring_last_bjq'
 examine = 'A young sentient tree, imbued with raging spirits and surrounded by a fairy ring.'
+
+[[config]]
+loc = 'bh_supply_crate_stack'
+examine = 'A special crate that can be filled with supplies.'
+
+[[config]]
+loc = 'dt2_lassar_remnant_postquest'
+examine = 'A remnant of the distant past.'
 
 [[config]]
 loc = 'garden_roses_pink_dummy'
@@ -89551,10 +89503,6 @@ loc = 'porcine_skeleton_visible_noop'
 examine = 'He looks hungry!'
 
 [[config]]
-loc = 'porcine_skeleton_note_visible'
-examine = 'Someone was in a hurry writing this.'
-
-[[config]]
 loc = 'porcine_fallen_rope_visible'
 examine = 'A loose pile of rope'
 
@@ -90877,10 +90825,6 @@ examine = "It's a rope."
 [[config]]
 loc = 'viyeldi_shortcut_rope_base'
 examine = 'You can scale the cliff with this.'
-
-[[config]]
-loc = 'transportation_icon_alq'
-examine = 'A trophy of a master fisher.'
 
 [[config]]
 loc = 'tempoross_crate_hammer'
@@ -104028,27 +103972,27 @@ examine = 'A decaying bushy plant.'
 
 [[config]]
 loc = 'plant_strangler_default07'
-examine = 'A decaying leafy shrub.'
+examine = 'Not to be confused with one of those strangled plants.'
 
 [[config]]
 loc = 'plant_strangler_default07_dead01'
-examine = 'A decaying leafy shrub.'
+examine = 'Not to be confused with one of those strangled plants.'
 
 [[config]]
 loc = 'plant_strangler_default07_dead02'
-examine = 'A decaying leafy shrub.'
+examine = 'Not to be confused with one of those strangled plants.'
 
 [[config]]
 loc = 'plant_strangler_default08'
-examine = 'A decaying leafy shrub.'
+examine = 'Not to be confused with one of those strangled plants.'
 
 [[config]]
 loc = 'plant_strangler_default07_decayed01'
-examine = 'A decaying leafy shrub.'
+examine = 'Not to be confused with one of those strangled plants.'
 
 [[config]]
 loc = 'plant_strangler_default08_decayed01'
-examine = 'A decaying leafy shrub.'
+examine = 'Not to be confused with one of those strangled plants.'
 
 [[config]]
 loc = 'rockslide_strangler_small01'
@@ -106684,11 +106628,11 @@ examine = 'Must have been laid by a huge bird.'
 
 [[config]]
 loc = 'birthday_banner01_year'
-examine = 'A banner in celebration of the 11th year of OSRS.'
+examine = 'A banner in celebration of the 12th year of OSRS.'
 
 [[config]]
 loc = 'birthday_banner01_year_raised01'
-examine = 'A banner in celebration of the 11th year of OSRS.'
+examine = 'A banner in celebration of the 12th year of OSRS.'
 
 [[config]]
 loc = 'xmas18_snowy_tree'
@@ -117299,6 +117243,110 @@ loc = 'xmas22_decoration_hollywreath01_offset02'
 examine = 'Festive Holly.'
 
 [[config]]
+loc = 'throne_ice01_eldric01'
+examine = "I don't want it."
+
+[[config]]
+loc = 'throne_ice01_spikes01'
+examine = "I don't want it."
+
+[[config]]
+loc = 'throne_ice01_spikes02'
+examine = "I don't want it."
+
+[[config]]
+loc = 'throne_ice01_spikes03'
+examine = "I don't want it."
+
+[[config]]
+loc = 'throne_ice01_spikes04'
+examine = "I don't want it."
+
+[[config]]
+loc = 'throne_ice01_spikes05'
+examine = "I don't want it."
+
+[[config]]
+loc = 'throne_ice01_spikes06'
+examine = "I don't want it."
+
+[[config]]
+loc = 'royal_titans_entrance'
+examine = 'I could probably climb through this!'
+
+[[config]]
+loc = 'royal_titans_exit'
+examine = 'This place looks very high.'
+
+[[config]]
+loc = 'cavewall_shortcut_royal_titans_east'
+examine = 'I could probably climb through this!'
+
+[[config]]
+loc = 'cavewall_shortcut_royal_titans_west'
+examine = 'I could probably climb through this!'
+
+[[config]]
+loc = 'ever_burning_wint_brazier'
+examine = 'A magnificent heat emanates from the ancient book that rests upon the plinth.'
+
+[[config]]
+loc = 'soiled_page_huey_brazier'
+examine = 'A rumbling power emanates from the ancient book that rests upon the plinth.'
+
+[[config]]
+loc = 'soaked_page_tempoross_brazier'
+examine = 'A howling wind emanates from the ancient book that rests upon the plinth.'
+
+[[config]]
+loc = 'fire_giant_branda_queen_spawn01_floor01'
+examine = 'Molten hot.'
+
+[[config]]
+loc = 'fire_giant_branda_queen_spawn01_floor02'
+examine = 'Molten hot.'
+
+[[config]]
+loc = 'fire_giant_branda_queen_death01_floor01'
+examine = 'Molten hot.'
+
+[[config]]
+loc = 'fire_giant_branda_queen_death01_floor02'
+examine = 'Molten hot.'
+
+[[config]]
+loc = 'ice_giant_eldric_king_spawn01_floor01'
+examine = 'Ice cold.'
+
+[[config]]
+loc = 'ice_giant_eldric_king_spawn01_floor02'
+examine = 'Ice cold.'
+
+[[config]]
+loc = 'ice_giant_eldric_king_death01_floor01'
+examine = 'Ice cold.'
+
+[[config]]
+loc = 'ice_giant_eldric_king_death01_floor02'
+examine = 'Ice cold.'
+
+[[config]]
+loc = 'vfx_branda_queen_loc01_idle01'
+examine = 'Rages fiercely.'
+
+[[config]]
+loc = 'vfx_eldric_king_loc01_idle01'
+examine = 'Razor sharp.'
+
+[[config]]
+loc = 'vfx_giant_attack_aoe_protection01'
+examine = 'Perfectly balanced.'
+
+[[config]]
+loc = 'royal_titans_scoreboard'
+examine = 'Details some interesting statistics.'
+
+[[config]]
 loc = 'poh_portal_league_5_varrock_varrock1st'
 examine = 'A gateway to Varrock.'
 
@@ -117457,4 +117505,328 @@ examine = 'A fearsome yet stylish souvenir from Leagues V: Raging Echoes.'
 [[config]]
 loc = 'poh_curtains_league5'
 examine = 'The curtain is open.'
+
+[[config]]
+loc = 'birthday_balloons01'
+examine = "There's a theme going on."
+
+[[config]]
+loc = 'birthday_balloons02'
+examine = 'Not for popping.'
+
+[[config]]
+loc = 'birthday_table01_food01'
+examine = "Biscuits and Party Pete's famous deviled eggs."
+
+[[config]]
+loc = 'birthday_table01_food02'
+examine = "Biscuits and Party Pete's famous deviled eggs."
+
+[[config]]
+loc = 'poh_civitas_window_shutters'
+examine = 'A basic chapel window.'
+
+[[config]]
+loc = 'poh_civitas_window_bob'
+examine = 'What nice shapes you can make out of glass!'
+
+[[config]]
+loc = 'poh_civitas_window_bob2'
+examine = 'It fills the room with coloured light.'
+
+[[config]]
+loc = 'poh_civitas_window_guthix'
+examine = 'What nice shapes you can make out of glass!'
+
+[[config]]
+loc = 'poh_civitas_window_guthix2'
+examine = 'It fills the room with coloured light.'
+
+[[config]]
+loc = 'poh_civitas_window_saradomin'
+examine = 'What nice shapes you can make out of glass!'
+
+[[config]]
+loc = 'poh_civitas_window_saradomin2'
+examine = 'It fills the room with coloured light.'
+
+[[config]]
+loc = 'poh_civitas_window_zamorak'
+examine = 'What nice shapes you can make out of glass!'
+
+[[config]]
+loc = 'poh_civitas_window_zamorak2'
+examine = 'It fills the room with coloured light.'
+
+[[config]]
+loc = 'poh_civitas_window_gnomechild'
+examine = 'What nice shapes you can make out of glass!'
+
+[[config]]
+loc = 'poh_civitas_window_gnomechild2'
+examine = 'It fills the room with coloured light.'
+
+[[config]]
+loc = 'poh_canifis_window_shutters'
+examine = 'A basic chapel window.'
+
+[[config]]
+loc = 'poh_canifis_window_bob'
+examine = 'What nice shapes you can make out of glass!'
+
+[[config]]
+loc = 'poh_canifis_window_bob2'
+examine = 'It fills the room with coloured light.'
+
+[[config]]
+loc = 'poh_canifis_window_guthix'
+examine = 'What nice shapes you can make out of glass!'
+
+[[config]]
+loc = 'poh_canifis_window_guthix2'
+examine = 'It fills the room with coloured light.'
+
+[[config]]
+loc = 'poh_canifis_window_saradomin'
+examine = 'What nice shapes you can make out of glass!'
+
+[[config]]
+loc = 'poh_canifis_window_saradomin2'
+examine = 'It fills the room with coloured light.'
+
+[[config]]
+loc = 'poh_canifis_window_zamorak'
+examine = 'What nice shapes you can make out of glass!'
+
+[[config]]
+loc = 'poh_canifis_window_zamorak2'
+examine = 'It fills the room with coloured light.'
+
+[[config]]
+loc = 'poh_canifis_window_gnomechild'
+examine = 'What nice shapes you can make out of glass!'
+
+[[config]]
+loc = 'poh_canifis_window_gnomechild2'
+examine = 'It fills the room with coloured light.'
+
+[[config]]
+loc = 'poh_trophy_head_blank_teak'
+examine = 'A place for mounting the stuffed heads of your defeated foes!'
+
+[[config]]
+loc = 'poh_trophy_head_blank_mahogany'
+examine = 'A place for mounting the stuffed heads of your defeated foes!'
+
+[[config]]
+loc = 'poh_trophy_head_blank_gilded'
+examine = 'A place for mounting the stuffed heads of your defeated foes!'
+
+[[config]]
+loc = 'poh_trophy_crawlinghand_teak'
+examine = 'A trophy of a mighty slayer!'
+
+[[config]]
+loc = 'poh_trophy_crawlinghand_mahogany'
+examine = 'A trophy of a mighty slayer!'
+
+[[config]]
+loc = 'poh_trophy_crawlinghand_gilded'
+examine = 'A trophy of a mighty slayer!'
+
+[[config]]
+loc = 'poh_trophy_cockatrice_teak'
+examine = 'A trophy of a mighty slayer!'
+
+[[config]]
+loc = 'poh_trophy_cockatrice_mahogany'
+examine = 'A trophy of a mighty slayer!'
+
+[[config]]
+loc = 'poh_trophy_cockatrice_gilded'
+examine = 'A trophy of a mighty slayer!'
+
+[[config]]
+loc = 'poh_trophy_basilisk_teak'
+examine = 'A trophy of a mighty slayer!'
+
+[[config]]
+loc = 'poh_trophy_basilisk_mahogany'
+examine = 'A trophy of a mighty slayer!'
+
+[[config]]
+loc = 'poh_trophy_basilisk_gilded'
+examine = 'A trophy of a mighty slayer!'
+
+[[config]]
+loc = 'poh_trophy_kurask_mahogany'
+examine = 'A trophy of a mighty slayer!'
+
+[[config]]
+loc = 'poh_trophy_kurask_gilded'
+examine = 'A trophy of a mighty slayer!'
+
+[[config]]
+loc = 'poh_trophy_abyssal_mahogany'
+examine = 'A trophy of a mighty slayer!'
+
+[[config]]
+loc = 'poh_trophy_abyssal_gilded'
+examine = 'A trophy of a mighty slayer!'
+
+[[config]]
+loc = 'poh_trophy_kbd_gilded'
+examine = 'A trophy of a mighty dragon-slayer!'
+
+[[config]]
+loc = 'poh_trophy_kalphitequeen_gilded'
+examine = 'A trophy of a mighty kalphite slayer!'
+
+[[config]]
+loc = 'poh_trophy_vorkath_gilded'
+examine = 'A trophy of a mighty dragon slayer!'
+
+[[config]]
+loc = 'poh_trophy_alchemical_hydra_gilded'
+examine = 'A trophy of a mighty hydra slayer!'
+
+[[config]]
+loc = 'poh_trophy_fish_blank_oak'
+examine = 'A place for mounting stuffed fish.'
+
+[[config]]
+loc = 'poh_trophy_fish_blank_teak'
+examine = 'A place for mounting stuffed fish.'
+
+[[config]]
+loc = 'poh_trophy_fish_blank_mahogany'
+examine = 'A place for mounting stuffed fish.'
+
+[[config]]
+loc = 'poh_trophy_bass_oak'
+examine = 'A trophy of a master fisher.'
+
+[[config]]
+loc = 'poh_trophy_bass_teak'
+examine = 'A trophy of a master fisher.'
+
+[[config]]
+loc = 'poh_trophy_bass_mahogany'
+examine = 'A trophy of a master fisher.'
+
+[[config]]
+loc = 'poh_trophy_swordfish_teak'
+examine = 'A trophy of a master fisher.'
+
+[[config]]
+loc = 'poh_trophy_swordfish_mahogany'
+examine = 'A trophy of a master fisher.'
+
+[[config]]
+loc = 'poh_trophy_shark_mahogany'
+examine = 'A trophy of a master fisher.'
+
+[[config]]
+loc = 'poh_trophy_harpoonfish_teak'
+examine = 'A trophy of a master fisher.'
+
+[[config]]
+loc = 'poh_trophy_harpoonfish_mahogany'
+examine = 'A trophy of a master fisher.'
+
+[[config]]
+loc = 'poh_chapelwindow_hotspot_civitas'
+examine = 'You can build a chapel window here.'
+
+[[config]]
+loc = 'poh_chapelwindow_hotspot_canifis'
+examine = 'You can build a chapel window here.'
+
+[[config]]
+loc = 'poh_hotspot_doorl_civitas'
+examine = 'You can use this to add or remove rooms.'
+
+[[config]]
+loc = 'poh_hotspot_doorr_civitas'
+examine = 'You can use this to add or remove rooms.'
+
+[[config]]
+loc = 'poh_hotspot_doorl_canifis'
+examine = 'You can use this to add or remove rooms.'
+
+[[config]]
+loc = 'poh_hotspot_doorr_canifis'
+examine = 'You can use this to add or remove rooms.'
+
+[[config]]
+loc = 'canifis_poh_doubledoor'
+examine = "I'm sure the tree is glad its wood was put to good use."
+
+[[config]]
+loc = 'canifis_poh_doubledoor_open'
+examine = "I'm sure the tree is glad its wood was put to good use."
+
+[[config]]
+loc = 'canifis_poh_doubledoorl'
+examine = "I'm sure the tree is glad its wood was put to good use."
+
+[[config]]
+loc = 'canifis_poh_doubledoorl_open'
+examine = "I'm sure the tree is glad its wood was put to good use."
+
+[[config]]
+loc = 'civitas_poh_door_l'
+examine = 'A way in to the house.'
+
+[[config]]
+loc = 'civitas_poh_door_r'
+examine = 'A way in to the house.'
+
+[[config]]
+loc = 'civitas_poh_door_l_open'
+examine = 'A way in to the house.'
+
+[[config]]
+loc = 'civitas_poh_door_r_open'
+examine = 'A way in to the house.'
+
+[[config]]
+loc = 'crate_old_zamorak'
+examine = 'An old crate for storage.'
+
+[[config]]
+loc = 'boxes2_zamorak'
+examine = 'A pile of boxes for storage.'
+
+[[config]]
+loc = 'crate_saradomin'
+examine = 'Useful for transportation of delicate items.'
+
+[[config]]
+loc = 'castlewars_table_bandages_saradomin'
+examine = 'There are some bandages on this table.'
+
+[[config]]
+loc = 'castlewars_table_bandages_zamorak'
+examine = 'There are some bandages on this table.'
+
+[[config]]
+loc = 'castlewars_table_skill_potion_saradomin'
+examine = 'There are some castlewars brews here.'
+
+[[config]]
+loc = 'castlewars_table_skill_potion_zamorak'
+examine = 'There are some castlewars brews here.'
+
+[[config]]
+loc = 'castlewars_table_buckets'
+examine = 'There are some buckets on this table.'
+
+[[config]]
+loc = 'castlewars_table_runepouch_saradomin'
+examine = 'There are some rune pouches here.'
+
+[[config]]
+loc = 'castlewars_table_runepouch_zamorak'
+examine = 'There are some rune pouches here.'
 

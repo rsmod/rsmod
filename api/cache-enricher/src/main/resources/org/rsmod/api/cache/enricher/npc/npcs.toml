@@ -464,23 +464,11 @@ examine = 'The Master of Fire!'
 
 [[config]]
 npc = 'aggie_1op'
-examine = 'And with its head he came galumphing back.'
+examine = 'A witch.'
 
 [[config]]
 npc = 'aggie_2ops'
-examine = 'And with its head he came galumphing back.'
-
-[[config]]
-npc = 'grandtree_charlie_multi'
-examine = 'And with its head he came galumphing back.'
-
-[[config]]
-npc = 'myarm_leprechaun_rocks'
-examine = 'And with its head he came galumphing back.'
-
-[[config]]
-npc = 'myarm_leprechaun_vis'
-examine = 'And with its head he came galumphing back.'
+examine = 'A witch.'
 
 [[config]]
 npc = 'poh_mounted_kbd_left'
@@ -16562,10 +16550,6 @@ npc = 'ned'
 examine = 'An old sailor.'
 
 [[config]]
-npc = 'aggie'
-examine = 'A witch.'
-
-[[config]]
 npc = 'hassan'
 examine = 'Chancellor to the Emir.'
 
@@ -28952,7 +28936,7 @@ examine = "It's breaking down!"
 
 [[config]]
 npc = 'fossil_mining_boulder_medium_floating'
-examine = "It's getting smaller, maybe there are goodies in the middle, like a piñata."
+examine = "It's getting smaller, maybe there are goodies in the middle, like a pi�ata."
 
 [[config]]
 npc = 'fossil_mining_boulder_medium_breaking'
@@ -36229,6 +36213,10 @@ examine = 'Up up and away!'
 [[config]]
 npc = 'pilot_grand_tree_ape'
 examine = 'Up up and away!'
+
+[[config]]
+npc = 'poh_rtbranda_pet'
+examine = 'Might have a short temper.'
 
 [[config]]
 npc = 'thessalia_normal'
@@ -43519,8 +43507,24 @@ npc = 'leviathan_transmog'
 examine = 'An unfathomably huge sea creature.'
 
 [[config]]
+npc = 'poh_rteldric_pet'
+examine = 'Looks like a chill guy.'
+
+[[config]]
+npc = 'rtbranda_pet'
+examine = 'Might have a short temper.'
+
+[[config]]
 npc = 'inferno_creature_melee_small'
 examine = 'Those are some powerful claws.'
+
+[[config]]
+npc = 'rteldric_pet'
+examine = 'Looks like a chill guy.'
+
+[[config]]
+npc = 'rt_fire_queen'
+examine = 'Wields the primal force of fire. Majestic and fearsome.'
 
 [[config]]
 npc = 'goose_transmog'
@@ -49083,20 +49087,96 @@ npc = 'black_dragon_echokbd'
 examine = 'A fierce dragon with black scales!'
 
 [[config]]
+npc = 'rt_ice_king'
+examine = 'Wields the primal force of ice. Kingly and formidable.'
+
+[[config]]
+npc = 'rt_fire_queen_inactive'
+examine = 'She lies defeated, drained and silent... but still faintly alive.'
+
+[[config]]
+npc = 'rt_ice_king_inactive'
+examine = 'He lies defeated, drained and silent... but still faintly alive.'
+
+[[config]]
+npc = 'rt_summon_elemental_fire'
+examine = 'A fire elemental.'
+
+[[config]]
+npc = 'rt_summon_elemental_ice'
+examine = 'An ice elemental.'
+
+[[config]]
+npc = 'rs_loc_attack_fire_hitbox'
+examine = 'Burning fiercely.'
+
+[[config]]
+npc = 'rs_loc_attack_ice_hitbox'
+examine = 'Razor sharp.'
+
+[[config]]
+npc = 'royal_titans_area_attack_timer_handler'
+examine = 'This looks like a safe spot.'
+
+[[config]]
+npc = 'pirate2_aggressive'
+examine = 'Yar! Shiver me timbers!'
+
+[[config]]
+npc = 'pirate3_aggressive'
+examine = "A fine example of piracy's equal opportunities program."
+
+[[config]]
+npc = 'poh_mounted_crawlinghand_teak'
+examine = 'And with its head he came galumphing back.'
+
+[[config]]
+npc = 'poh_mounted_crawlinghand_mahogany'
+examine = 'And with its head he came galumphing back.'
+
+[[config]]
+npc = 'poh_mounted_crawlinghand_gilded'
+examine = 'And with its head he came galumphing back.'
+
+[[config]]
+npc = 'poh_mounted_cockatrice_teak'
+examine = 'And with its head he came galumphing back.'
+
+[[config]]
+npc = 'poh_mounted_cockatrice_mahogany'
+examine = 'And with its head he came galumphing back.'
+
+[[config]]
 npc = 'xmas24_shepherd_final'
 examine = 'A large herding dog from a far off place.'
+
+[[config]]
+npc = 'poh_mounted_cockatrice_gilded'
+examine = 'And with its head he came galumphing back.'
 
 [[config]]
 npc = 'xmas24_corgi_final'
 examine = 'A regal little fellow.'
 
 [[config]]
+npc = 'poh_mounted_basilisk_teak'
+examine = 'And with its head he came galumphing back.'
+
+[[config]]
 npc = 'xmas24_yorkie_final'
 examine = 'A sweet little dog with a great hairdo!'
 
 [[config]]
+npc = 'poh_mounted_basilisk_mahogany'
+examine = 'And with its head he came galumphing back.'
+
+[[config]]
 npc = 'xmas24_straydog_final'
 examine = "Charlie's best friend!"
+
+[[config]]
+npc = 'poh_mounted_basilisk_gilded'
+examine = 'And with its head he came galumphing back.'
 
 [[config]]
 npc = 'xmas24_cat_final'
@@ -49104,89 +49184,17 @@ examine = 'Would you believe it, that dog was a cat all along!'
 
 [[config]]
 npc = 'poh_mounted_kurask_mahogany'
-examine = "She's an aesthete."
+examine = 'And with its head he came galumphing back.'
 
 [[config]]
 npc = 'poh_mounted_kurask_gilded'
-examine = "She's an aesthete."
+examine = 'And with its head he came galumphing back.'
 
 [[config]]
 npc = 'poh_mounted_abyssaldemon_mahogany'
-examine = 'A busy housewife.'
+examine = 'And with its head he came galumphing back.'
 
 [[config]]
 npc = 'poh_mounted_abyssaldemon_gilded'
-examine = 'A busy housewife.'
-
-[[config]]
-npc = 'myarm_leprechaun_rocks_vis'
-examine = 'Anyone fancy a trim?'
-
-[[config]]
-npc = 'wildy_zombie_pirate_friendly_1op'
-examine = 'Anyone fancy a trim?'
-
-[[config]]
-npc = 'wildy_zombie_pirate_friendly_2ops'
-examine = 'Leader of the White Knights.'
-
-[[config]]
-id = 14179
-examine = 'Leader of the White Knights.'
-
-[[config]]
-id = 14180
-examine = 'She sells farming equipment.'
-
-[[config]]
-id = 14181
-examine = 'She sells farming equipment.'
-
-[[config]]
-id = 14182
-examine = 'A large herding dog from a far off place.'
-
-[[config]]
-id = 14183
-examine = 'A regal little fellow.'
-
-[[config]]
-id = 14184
-examine = 'A sweet little dog with a great hairdo!'
-
-[[config]]
-id = 14185
-examine = 'A lonely stray in need of a friend.'
-
-[[config]]
-id = 14186
-examine = "It's hard to see what animal it actually is underneath that box..."
-
-[[config]]
-id = 14187
-examine = "She's an aesthete."
-
-[[config]]
-id = 14188
-examine = 'A busy housewife.'
-
-[[config]]
-id = 14189
-examine = 'Anyone fancy a trim?'
-
-[[config]]
-id = 14190
-examine = 'Leader of the White Knights.'
-
-[[config]]
-id = 14191
-examine = 'She sells farming equipment.'
-
-[[config]]
-id = 14192
-examine = 'He likes to paaaarty!'
-
-[[config]]
-id = 14193
-examine = 'Looks down on his luck.'
+examine = 'And with its head he came galumphing back.'
 
