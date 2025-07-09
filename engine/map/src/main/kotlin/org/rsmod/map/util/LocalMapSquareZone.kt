@@ -1,6 +1,7 @@
 package org.rsmod.map.util
 
 import org.rsmod.map.CoordGrid
+import org.rsmod.map.zone.ZoneKey
 
 /**
  * [LocalMapSquareZone] represents a local 8x8 zone index within a single 64x64 map square.
@@ -52,6 +53,13 @@ public value class LocalMapSquareZone(public val packed: Int) {
         public const val Z_BIT_MASK: Int = (1 shl Z_BIT_COUNT) - 1
         public const val X_BIT_MASK: Int = (1 shl X_BIT_COUNT) - 1
         public const val LEVEL_BIT_MASK: Int = (1 shl LEVEL_BIT_COUNT) - 1
+
+        public fun from(zone: ZoneKey): LocalMapSquareZone =
+            LocalMapSquareZone(
+                x = zone.x and X_BIT_MASK,
+                z = zone.z and Z_BIT_MASK,
+                level = zone.level and LEVEL_BIT_MASK,
+            )
 
         private fun pack(x: Int, z: Int, level: Int): Int {
             require(x in 0..X_BIT_MASK) { "`x` value must be within range [0..$X_BIT_MASK]." }

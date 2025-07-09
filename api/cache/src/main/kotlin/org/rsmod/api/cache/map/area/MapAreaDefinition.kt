@@ -48,7 +48,6 @@ public data class MapAreaDefinition(
         }
 
         public fun merge(edit: MapAreaDefinition, base: MapAreaDefinition): MapAreaDefinition {
-            // TODO: Ensure area count doesn't go over 5 for coords (including zones+entire square).
             val mergedMapSquares =
                 ShortArraySet(base.mapSquareAreas.size + edit.mapSquareAreas.size)
             mergedMapSquares.addAll(base.mapSquareAreas)
