@@ -45,4 +45,5 @@ public data class NameMapping(
     public val dbRows: Map<String, Int> = mutableMapOf(),
     public val dbColumns: Map<String, Int> = mutableMapOf(),
     public val hunt: Map<String, Int> = mutableMapOf(),
+    public val clientScripts: Map<String, Int> = mutableMapOf(),
 )
