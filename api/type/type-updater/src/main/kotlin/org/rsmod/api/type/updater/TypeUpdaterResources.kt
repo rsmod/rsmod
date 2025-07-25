@@ -27,27 +27,27 @@ import org.rsmod.api.type.builders.map.tile.MapTileBuilder
 import org.rsmod.game.map.xtea.XteaMap
 import org.rsmod.map.square.MapSquareKey
 
-public class TypeUpdaterMaps
+public class TypeUpdaterResources
 @Inject
 constructor(
     @Js5Cache private val js5CachePath: Path,
     @GameCache private val gameCachePath: Path,
     @EnrichedCache private val enrichedCache: Cache,
-    private val collector: MapTypeCollector,
+    private val map: MapTypeCollector,
     private val xteaMap: XteaMap,
 ) {
-    public fun updateAll(builders: MapBuilderList) {
+    public fun updateMaps(builders: MapBuilderList) {
         encodeAll(builders)
         cleanupAll(builders)
     }
 
     private fun encodeAll(builders: MapBuilderList) {
-        val areas = collector.areas(builders.areas)
-        val locs = collector.locs(builders.locs)
-        val maps = collector.maps(builders.maps)
-        val npcs = collector.npcs(builders.npcs)
-        val objs = collector.objs(builders.objs)
-        val updates = MapUpdates(areas, locs, maps, npcs, objs)
+        val areas = map.areas(builders.areas)
+        val locs = map.locs(builders.locs)
+        val npcs = map.npcs(builders.npcs)
+        val objs = map.objs(builders.objs)
+        val tiles = map.tiles(builders.tiles)
+        val updates = MapUpdates(areas, locs, tiles, npcs, objs)
 
         val serverCtx = EncoderContext.server(emptySet(), emptySet(), emptySet())
         encodeCacheMaps(updates, gameCachePath, serverCtx)
@@ -59,7 +59,7 @@ constructor(
     private fun cleanupAll(builders: MapBuilderList) {
         builders.areas.forEach(MapAreaBuilder::cleanup)
         builders.locs.forEach(MapLocSpawnBuilder::cleanup)
-        builders.maps.forEach(MapTileBuilder::cleanup)
+        builders.tiles.forEach(MapTileBuilder::cleanup)
         builders.npcs.forEach(MapNpcSpawnBuilder::cleanup)
         builders.objs.forEach(MapObjSpawnBuilder::cleanup)
     }
@@ -73,12 +73,14 @@ constructor(
     )
 
     private fun encodeCacheMaps(updates: MapUpdates, cachePath: Path, ctx: EncoderContext) {
-        Cache.open(cachePath).use { cache ->
-            MapAreaEncoder.encodeAll(cache, updates.areas, ctx)
-            MapLocListEncoder.encodeAll(cache, updates.locs, xteaMap)
-            MapTileByteEncoder.encodeAll(cache, updates.maps)
-            MapNpcListEncoder.encodeAll(cache, updates.npcs, ctx)
-            MapObjListEncoder.encodeAll(cache, updates.objs, ctx)
-        }
+        Cache.open(cachePath).use { cache -> encodeCacheMaps(updates, cache, ctx) }
+    }
+
+    private fun encodeCacheMaps(updates: MapUpdates, cache: Cache, ctx: EncoderContext) {
+        MapAreaEncoder.encodeAll(cache, updates.areas, ctx)
+        MapLocListEncoder.encodeAll(cache, updates.locs, xteaMap)
+        MapTileByteEncoder.encodeAll(cache, updates.maps)
+        MapNpcListEncoder.encodeAll(cache, updates.npcs, ctx)
+        MapObjListEncoder.encodeAll(cache, updates.objs, ctx)
     }
 }

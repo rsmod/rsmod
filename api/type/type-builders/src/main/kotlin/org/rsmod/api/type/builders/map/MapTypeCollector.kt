@@ -37,7 +37,7 @@ constructor(
         return locs.loadAndCollect(builders)
     }
 
-    public fun maps(builders: Iterable<MapTileBuilder>): Map<MapSquareKey, MapTileByteDefinition> {
+    public fun tiles(builders: Iterable<MapTileBuilder>): Map<MapSquareKey, MapTileByteDefinition> {
         return maps.loadAndCollect(builders)
     }
 

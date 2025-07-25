@@ -25,7 +25,7 @@ import org.rsmod.api.type.builders.map.MapBuilderList
 import org.rsmod.api.type.resolver.TypeResolver
 import org.rsmod.api.type.updater.TypeUpdaterCacheSync
 import org.rsmod.api.type.updater.TypeUpdaterConfigs
-import org.rsmod.api.type.updater.TypeUpdaterMaps
+import org.rsmod.api.type.updater.TypeUpdaterResources
 import org.rsmod.api.type.verifier.TypeVerifier
 import org.rsmod.api.type.verifier.isCacheUpdateRequired
 import org.rsmod.api.type.verifier.isFailure
@@ -122,8 +122,8 @@ class GameServerCachePacker : CliktCommand(name = "cache-pack") {
         val configs = injector.getInstance(TypeUpdaterConfigs::class.java)
         configs.updateAll()
 
-        val maps = injector.getInstance(TypeUpdaterMaps::class.java)
-        maps.updateAll(createMapBuilderList(injector))
+        val resources = injector.getInstance(TypeUpdaterResources::class.java)
+        resources.updateMaps(createMapBuilderList(injector))
     }
 
     private fun createMapBuilderList(injector: Injector): MapBuilderList {
