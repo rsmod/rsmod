@@ -6,7 +6,7 @@ import java.io.InputStream
 import org.rsmod.api.cache.map.loc.MapLocListDecoder
 import org.rsmod.api.cache.map.loc.MapLocListDefinition
 import org.rsmod.api.cache.util.InlineByteBuf
-import org.rsmod.api.type.builders.map.MapResourceFile
+import org.rsmod.api.type.builders.resource.TypeResourceFile
 import org.rsmod.map.square.MapSquareKey
 
 public class MapLocSpawnCollector {
@@ -23,11 +23,11 @@ public class MapLocSpawnCollector {
         return resources.groupDistinctKeys()
     }
 
-    private fun Iterable<MapResourceFile>.resourceSpawnTypes(): List<MapSpawnType> {
+    private fun Iterable<TypeResourceFile>.resourceSpawnTypes(): List<MapSpawnType> {
         return map { it.mapSpawnType() }
     }
 
-    private fun MapResourceFile.mapSpawnType(): MapSpawnType {
+    private fun TypeResourceFile.mapSpawnType(): MapSpawnType {
         val fileName = relativePath.substringAfterLast('/')
         if (!fileName.startsWith('l')) {
             val message = "Loc file name must be in format `l[x]_[z]` (e.g., `l50_50`): $fileName"
