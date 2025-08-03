@@ -14,6 +14,14 @@ import org.rsmod.game.type.clientscript.ClientScriptTypeList
 import org.rsmod.game.type.clientscript.UnpackedClientScriptType
 
 public object ClientScriptTypeDecoder {
+    private const val OPCODE_PUSH_CONSTANT_STRING = 3
+    private const val OPCODE_RETURN = 21
+    private const val OPCODE_POP_INT_DISCARD = 38
+    private const val OPCODE_POP_STRING_DISCARD = 39
+    private const val OPCODE_PUSH_CONSTANT_NULL = 63
+
+    private const val CORE_OPCODE_LIMIT = 100
+
     public fun decodeAll(cache: Cache): ClientScriptTypeList {
         val types = Int2ObjectOpenHashMap<UnpackedClientScriptType>()
         val groups = cache.list(Js5Archives.CLIENTSCRIPTS)
@@ -87,17 +95,17 @@ public object ClientScriptTypeDecoder {
                 while (data.readerIndex() < commandEndPosition) {
                     val command = data.readUnsignedShort()
                     when (command) {
-                        3 -> {
+                        OPCODE_PUSH_CONSTANT_STRING -> {
                             stringOperands[index] = data.readString()
                         }
-                        21,
-                        38,
-                        39,
-                        63 -> {
+                        OPCODE_RETURN,
+                        OPCODE_POP_INT_DISCARD,
+                        OPCODE_POP_STRING_DISCARD,
+                        OPCODE_PUSH_CONSTANT_NULL -> {
                             intOperands[index] = data.readUnsignedByte().toInt()
                         }
                         else -> {
-                            if (command <= 99) {
+                            if (command < CORE_OPCODE_LIMIT) {
                                 intOperands[index] = data.readInt()
                             } else {
                                 intOperands[index] = data.readUnsignedByte().toInt()
