@@ -3,6 +3,7 @@ package org.rsmod.api.cache.types
 import org.openrs2.cache.Cache
 import org.rsmod.api.cache.types.area.AreaTypeDecoder
 import org.rsmod.api.cache.types.category.CategoryTypeDecoder
+import org.rsmod.api.cache.types.clientscript.ClientScriptTypeDecoder
 import org.rsmod.api.cache.types.comp.ComponentTypeDecoder
 import org.rsmod.api.cache.types.dbrow.DbRowTypeDecoder
 import org.rsmod.api.cache.types.dbtable.DbTableTypeDecoder
@@ -71,6 +72,7 @@ public object TypeListMapDecoder {
         val dbRows = DbRowTypeDecoder.decodeAll(cache)
         val hunt = HuntModeTypeDecoder.decodeAll(cache)
         val modLevels = ModLevelTypeDecoder.decodeAll(cache)
+        val clientScripts = ClientScriptTypeDecoder.decodeAll(cache)
 
         val typeList =
             TypeListMap(
@@ -105,6 +107,7 @@ public object TypeListMapDecoder {
                 dbRows = dbRows,
                 hunt = hunt,
                 modLevels = modLevels,
+                clientscripts = clientScripts,
             )
 
         return typeList.apply {
@@ -137,6 +140,7 @@ public object TypeListMapDecoder {
             assignInternal(this.dbRows, names.dbRows)
             assignInternal(this.hunt, names.hunt)
             assignInternal(this.modLevels, names.modLevels)
+            assignInternal(this.clientscripts, names.clientscripts)
             ComplexTypeDecoder.decodeAll(this)
         }
     }

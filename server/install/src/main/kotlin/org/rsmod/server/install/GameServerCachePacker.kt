@@ -21,16 +21,16 @@ import org.rsmod.api.core.CoreModule
 import org.rsmod.api.parsers.jackson.JacksonModule
 import org.rsmod.api.parsers.json.JsonModule
 import org.rsmod.api.parsers.toml.TomlModule
-import org.rsmod.api.type.builders.map.MapBuilderList
+import org.rsmod.api.type.builders.resource.TypeResourcePack
 import org.rsmod.api.type.resolver.TypeResolver
 import org.rsmod.api.type.updater.TypeUpdaterCacheSync
 import org.rsmod.api.type.updater.TypeUpdaterConfigs
-import org.rsmod.api.type.updater.TypeUpdaterMaps
+import org.rsmod.api.type.updater.TypeUpdaterResources
 import org.rsmod.api.type.verifier.TypeVerifier
 import org.rsmod.api.type.verifier.isCacheUpdateRequired
 import org.rsmod.api.type.verifier.isFailure
 import org.rsmod.server.shared.DirectoryConstants
-import org.rsmod.server.shared.loader.MapTypeBuilderLoader
+import org.rsmod.server.shared.loader.ResourceTypeBuilderLoader
 import org.rsmod.server.shared.loader.TypeBuilderLoader
 import org.rsmod.server.shared.loader.TypeEditorLoader
 import org.rsmod.server.shared.loader.TypeReferencesLoader
@@ -38,7 +38,7 @@ import org.rsmod.server.shared.module.CacheStoreModule
 import org.rsmod.server.shared.module.EventModule
 import org.rsmod.server.shared.module.ScannerModule
 import org.rsmod.server.shared.module.SymbolModule
-import org.rsmod.server.shared.util.MapBuilderListLoader
+import org.rsmod.server.shared.util.ResourceBuilderListLoader
 
 fun main(args: Array<String>): Unit = GameServerCachePacker().main(args)
 
@@ -122,13 +122,13 @@ class GameServerCachePacker : CliktCommand(name = "cache-pack") {
         val configs = injector.getInstance(TypeUpdaterConfigs::class.java)
         configs.updateAll()
 
-        val maps = injector.getInstance(TypeUpdaterMaps::class.java)
-        maps.updateAll(createMapBuilderList(injector))
+        val resources = injector.getInstance(TypeUpdaterResources::class.java)
+        resources.updateAll(createTypeResourcePack(injector))
     }
 
-    private fun createMapBuilderList(injector: Injector): MapBuilderList {
-        val loader = injector.getInstance(MapTypeBuilderLoader::class.java)
-        return MapBuilderListLoader.load(loader)
+    private fun createTypeResourcePack(injector: Injector): TypeResourcePack {
+        val loader = injector.getInstance(ResourceTypeBuilderLoader::class.java)
+        return ResourceBuilderListLoader.load(loader)
     }
 
     private fun enrichGameCache(injector: Injector) {

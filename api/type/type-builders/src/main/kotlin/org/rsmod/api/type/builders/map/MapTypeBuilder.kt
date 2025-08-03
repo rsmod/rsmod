@@ -1,6 +1,8 @@
 package org.rsmod.api.type.builders.map
 
-public abstract class MapTypeBuilder {
+import org.rsmod.api.type.builders.resource.ResourceTypeBuilder
+
+public abstract class MapTypeBuilder : ResourceTypeBuilder {
     public abstract fun onPackMapTask()
 
     public abstract fun cleanup()

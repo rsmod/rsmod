@@ -2,6 +2,7 @@ package org.rsmod.game.type
 
 import org.rsmod.game.type.area.AreaTypeList
 import org.rsmod.game.type.category.CategoryTypeList
+import org.rsmod.game.type.clientscript.ClientScriptTypeList
 import org.rsmod.game.type.comp.ComponentTypeList
 import org.rsmod.game.type.dbrow.DbRowTypeList
 import org.rsmod.game.type.dbtable.DbTableTypeList
@@ -64,4 +65,5 @@ public data class TypeListMap(
     public val dbRows: DbRowTypeList,
     public val hunt: HuntModeTypeList,
     public val modLevels: ModLevelTypeList,
+    public val clientscripts: ClientScriptTypeList,
 )

@@ -13,7 +13,7 @@ import org.rsmod.api.cache.map.obj.MapObjListDecoder
 import org.rsmod.api.cache.map.obj.MapObjListDefinition
 import org.rsmod.api.cache.util.InlineByteBuf
 import org.rsmod.api.parsers.toml.Toml
-import org.rsmod.api.type.builders.map.MapResourceFile
+import org.rsmod.api.type.builders.resource.TypeResourceFile
 import org.rsmod.api.type.symbols.name.NameMapping
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.square.MapSquareGrid
@@ -35,11 +35,11 @@ constructor(@Toml private val objectMapper: ObjectMapper, private val nameMappin
         return resources.mergeToMap()
     }
 
-    private fun Iterable<MapResourceFile>.resourceSpawnTypes(): List<MapSpawnType> {
+    private fun Iterable<TypeResourceFile>.resourceSpawnTypes(): List<MapSpawnType> {
         return flatMap { it.mapSpawnType() }
     }
 
-    private fun MapResourceFile.mapSpawnType(): List<MapSpawnType> {
+    private fun TypeResourceFile.mapSpawnType(): List<MapSpawnType> {
         val fileName = relativePath.substringAfterLast('/')
         val input = clazz.getResourceAsStream(relativePath)
         if (input == null) {

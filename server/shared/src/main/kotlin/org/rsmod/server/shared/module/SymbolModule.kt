@@ -9,7 +9,6 @@ import kotlin.io.path.name
 import kotlin.io.path.nameWithoutExtension
 import kotlin.io.path.relativeTo
 import kotlin.io.path.walk
-import kotlin.streams.toList
 import org.rsmod.api.type.symbols.name.NameLoader
 import org.rsmod.api.type.symbols.name.NameMapping
 import org.rsmod.module.ExtendedModule
@@ -28,6 +27,7 @@ private class NameMappingProvider : Provider<NameMapping> {
         val bas = dirs.readSymbols("bas")
         val categories = dirs.readSymbols("category")
         val interfaces = dirs.readSymbols("interface")
+        val clientScripts = dirs.readSymbols("clientscript")
         val components = dirs.readComps("component", interfaces = interfaces)
         val content = dirs.readSymbols("content")
         val controllers = dirs.readSymbols("controller")
@@ -109,6 +109,7 @@ private class NameMappingProvider : Provider<NameMapping> {
             dbRows = dbRows,
             dbColumns = dbCols,
             hunt = hunt,
+            clientscripts = clientScripts,
         )
     }
 

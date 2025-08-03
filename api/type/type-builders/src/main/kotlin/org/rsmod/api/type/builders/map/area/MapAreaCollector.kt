@@ -6,7 +6,7 @@ import java.io.InputStream
 import org.rsmod.api.cache.map.area.MapAreaDecoder
 import org.rsmod.api.cache.map.area.MapAreaDefinition
 import org.rsmod.api.cache.util.InlineByteBuf
-import org.rsmod.api.type.builders.map.MapResourceFile
+import org.rsmod.api.type.builders.resource.TypeResourceFile
 import org.rsmod.game.area.polygon.PolygonArea
 import org.rsmod.map.square.MapSquareKey
 
@@ -32,11 +32,11 @@ public class MapAreaCollector {
         return mapSquares.map { MapAreaType(it.key, MapAreaDefinition.from(it.value)) }
     }
 
-    private fun Iterable<MapResourceFile>.resourceAreaTypes(): List<MapAreaType> {
+    private fun Iterable<TypeResourceFile>.resourceAreaTypes(): List<MapAreaType> {
         return map { it.mapAreaType() }
     }
 
-    private fun MapResourceFile.mapAreaType(): MapAreaType {
+    private fun TypeResourceFile.mapAreaType(): MapAreaType {
         val fileName = relativePath.substringAfterLast('/')
         if (!fileName.startsWith('a')) {
             val message = "Area file name must be in format `a[x]_[z]` (e.g., `a50_50`): $fileName"

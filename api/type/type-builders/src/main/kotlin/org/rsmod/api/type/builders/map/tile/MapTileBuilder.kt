@@ -1,10 +1,10 @@
 package org.rsmod.api.type.builders.map.tile
 
-import org.rsmod.api.type.builders.map.MapResourceFile
 import org.rsmod.api.type.builders.map.MapTypeBuilder
+import org.rsmod.api.type.builders.resource.TypeResourceFile
 
 public abstract class MapTileBuilder : MapTypeBuilder() {
-    @PublishedApi internal val resources: MutableList<MapResourceFile> = mutableListOf()
+    @PublishedApi internal val resources: MutableList<TypeResourceFile> = mutableListOf()
 
     /**
      * Registers map terrain data to pack during the map-packing task.
@@ -32,7 +32,7 @@ public abstract class MapTileBuilder : MapTypeBuilder() {
     }
 
     public inline fun <reified T> resourceFile(path: String) {
-        val file = MapResourceFile(T::class.java, path)
+        val file = TypeResourceFile(T::class.java, path)
         resources += file
     }
 }

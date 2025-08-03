@@ -4,7 +4,7 @@ import java.io.FileNotFoundException
 import java.io.IOException
 import java.io.InputStream
 import org.rsmod.api.cache.map.tile.MapTileByteDefinition
-import org.rsmod.api.type.builders.map.MapResourceFile
+import org.rsmod.api.type.builders.resource.TypeResourceFile
 import org.rsmod.map.square.MapSquareKey
 
 public class MapTileCollector {
@@ -21,11 +21,11 @@ public class MapTileCollector {
         return resources.groupDistinctKeys()
     }
 
-    private fun Iterable<MapResourceFile>.resourceTerrainTypes(): List<MapTerrainType> {
+    private fun Iterable<TypeResourceFile>.resourceTerrainTypes(): List<MapTerrainType> {
         return map { it.mapTerrainType() }
     }
 
-    private fun MapResourceFile.mapTerrainType(): MapTerrainType {
+    private fun TypeResourceFile.mapTerrainType(): MapTerrainType {
         val fileName = relativePath.substringAfterLast('/')
         if (!fileName.startsWith('m')) {
             val message =

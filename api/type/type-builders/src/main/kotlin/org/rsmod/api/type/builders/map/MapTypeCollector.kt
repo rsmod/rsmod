@@ -23,7 +23,7 @@ public class MapTypeCollector
 constructor(
     private val areas: MapAreaCollector,
     private val locs: MapLocSpawnCollector,
-    private val maps: MapTileCollector,
+    private val tiles: MapTileCollector,
     private val npcs: MapNpcSpawnCollector,
     private val objs: MapObjSpawnCollector,
 ) {
@@ -37,8 +37,8 @@ constructor(
         return locs.loadAndCollect(builders)
     }
 
-    public fun maps(builders: Iterable<MapTileBuilder>): Map<MapSquareKey, MapTileByteDefinition> {
-        return maps.loadAndCollect(builders)
+    public fun tiles(builders: Iterable<MapTileBuilder>): Map<MapSquareKey, MapTileByteDefinition> {
+        return tiles.loadAndCollect(builders)
     }
 
     public fun npcs(

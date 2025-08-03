@@ -9,7 +9,7 @@ import org.rsmod.api.type.builders.map.tile.MapTileBuilder
 public data class MapBuilderList(
     val areas: Collection<MapAreaBuilder>,
     val locs: Collection<MapLocSpawnBuilder>,
-    val maps: Collection<MapTileBuilder>,
+    val tiles: Collection<MapTileBuilder>,
     val npcs: Collection<MapNpcSpawnBuilder>,
     val objs: Collection<MapObjSpawnBuilder>,
 )

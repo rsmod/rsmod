@@ -6,6 +6,6 @@ public object TypeUpdaterModule : ExtendedModule() {
     override fun bind() {
         bindInstance<TypeUpdaterCacheSync>()
         bindInstance<TypeUpdaterConfigs>()
-        bindInstance<TypeUpdaterMaps>()
+        bindInstance<TypeUpdaterResources>()
     }
 }
