@@ -107,7 +107,7 @@ public object TypeListMapDecoder {
                 dbRows = dbRows,
                 hunt = hunt,
                 modLevels = modLevels,
-                clientScripts = clientScripts,
+                clientscripts = clientScripts,
             )
 
         return typeList.apply {
@@ -140,7 +140,7 @@ public object TypeListMapDecoder {
             assignInternal(this.dbRows, names.dbRows)
             assignInternal(this.hunt, names.hunt)
             assignInternal(this.modLevels, names.modLevels)
-            assignInternal(this.clientScripts, names.clientScripts)
+            assignInternal(this.clientscripts, names.clientscripts)
             ComplexTypeDecoder.decodeAll(this)
         }
     }

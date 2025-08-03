@@ -109,7 +109,7 @@ private class NameMappingProvider : Provider<NameMapping> {
             dbRows = dbRows,
             dbColumns = dbCols,
             hunt = hunt,
-            clientScripts = clientScripts,
+            clientscripts = clientScripts,
         )
     }
 

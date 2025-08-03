@@ -65,5 +65,5 @@ public data class TypeListMap(
     public val dbRows: DbRowTypeList,
     public val hunt: HuntModeTypeList,
     public val modLevels: ModLevelTypeList,
-    public val clientScripts: ClientScriptTypeList,
+    public val clientscripts: ClientScriptTypeList,
 )
