@@ -1,11 +1,8 @@
 package org.rsmod.api.type.builders.clientscript
 
 import org.rsmod.api.type.builders.resource.ResourceTypeBuilder
-import org.rsmod.api.type.builders.resource.TypeResourceFile
 
-public abstract class ClientScriptBuilder : ResourceTypeBuilder {
-    @PublishedApi internal val resources: MutableList<TypeResourceFile> = mutableListOf()
-
+public abstract class ClientScriptBuilder : ResourceTypeBuilder() {
     /**
      * Registers clientscript data to pack during the cs2-packing task.
      *
@@ -26,12 +23,7 @@ public abstract class ClientScriptBuilder : ResourceTypeBuilder {
      */
     public abstract fun onPackCs2Task()
 
-    public fun cleanup() {
+    override fun cleanup() {
         resources.clear()
-    }
-
-    public inline fun <reified T> resourceFile(scriptName: String) {
-        val file = TypeResourceFile(T::class.java, scriptName)
-        resources += file
     }
 }

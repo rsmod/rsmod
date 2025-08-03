@@ -1,7 +1,6 @@
 package org.rsmod.api.type.builders.map.area
 
 import org.rsmod.api.type.builders.map.MapTypeBuilder
-import org.rsmod.api.type.builders.resource.TypeResourceFile
 import org.rsmod.game.area.polygon.PolygonArea
 import org.rsmod.game.area.polygon.PolygonAreaBuilder
 import org.rsmod.game.area.polygon.VertexCoord
@@ -13,7 +12,6 @@ import org.rsmod.map.square.MapSquareKey
 
 @BuilderDslMarker
 public abstract class MapAreaBuilder : MapTypeBuilder() {
-    @PublishedApi internal val resources: MutableList<TypeResourceFile> = mutableListOf()
     internal val polygons = mutableListOf<PolygonArea>()
 
     /**
@@ -62,11 +60,6 @@ public abstract class MapAreaBuilder : MapTypeBuilder() {
     override fun cleanup() {
         resources.clear()
         polygons.clear()
-    }
-
-    public inline fun <reified T> resourceFile(path: String) {
-        val file = TypeResourceFile(T::class.java, path)
-        resources += file
     }
 
     public fun area(area: AreaType, init: AreaBuilder.() -> Unit) {

@@ -1,11 +1,8 @@
 package org.rsmod.api.type.builders.map.npc
 
 import org.rsmod.api.type.builders.map.MapTypeBuilder
-import org.rsmod.api.type.builders.resource.TypeResourceFile
 
 public abstract class MapNpcSpawnBuilder : MapTypeBuilder() {
-    @PublishedApi internal val resources: MutableList<TypeResourceFile> = mutableListOf()
-
     /**
      * Registers npc spawns to pack during the map-packing task.
      *
@@ -34,10 +31,5 @@ public abstract class MapNpcSpawnBuilder : MapTypeBuilder() {
 
     override fun cleanup() {
         resources.clear()
-    }
-
-    public inline fun <reified T> resourceFile(path: String) {
-        val file = TypeResourceFile(T::class.java, path)
-        resources += file
     }
 }
