@@ -97,7 +97,7 @@ public object MapAreaEncoder {
             ByteArray(LocalMapSquareZone.LENGTH * LocalMapSquareZone.LENGTH * CoordGrid.LEVEL_COUNT)
         for ((packed, areas) in area.zoneAreas) {
             val localZone = LocalMapSquareZone(packed.toInt())
-            cachedZoneAreaCounts[localZone.packed] = areas.size.toByte()
+            cachedZoneAreaCounts[localZone.packed and 0xFF] = areas.size.toByte()
 
             val totalAreas = mapSquareAreaCount + areas.size
             if (totalAreas > MAX_AREAS_PER_COORD) {
@@ -116,7 +116,7 @@ public object MapAreaEncoder {
             val coord = mapSquareCoord.translate(grid.x, grid.z, grid.level)
             val coordZoneKey = ZoneKey.from(coord)
             val localZone = LocalMapSquareZone.from(coordZoneKey)
-            val zoneAreaCount = cachedZoneAreaCounts[localZone.packed]
+            val zoneAreaCount = cachedZoneAreaCounts[localZone.packed and 0xFF]
 
             val totalAreas = mapSquareAreaCount + zoneAreaCount + areas.size
             if (totalAreas > MAX_AREAS_PER_COORD) {
