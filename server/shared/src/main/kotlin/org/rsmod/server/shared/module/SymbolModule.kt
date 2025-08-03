@@ -27,7 +27,7 @@ private class NameMappingProvider : Provider<NameMapping> {
         val bas = dirs.readSymbols("bas")
         val categories = dirs.readSymbols("category")
         val interfaces = dirs.readSymbols("interface")
-        val clientScripts = dirs.readSymbols("clientscript")
+        val clientscripts = dirs.readSymbols("clientscript")
         val components = dirs.readComps("component", interfaces = interfaces)
         val content = dirs.readSymbols("content")
         val controllers = dirs.readSymbols("controller")
@@ -109,7 +109,7 @@ private class NameMappingProvider : Provider<NameMapping> {
             dbRows = dbRows,
             dbColumns = dbCols,
             hunt = hunt,
-            clientscripts = clientScripts,
+            clientscripts = clientscripts,
         )
     }
 

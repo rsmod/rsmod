@@ -72,7 +72,7 @@ public object TypeListMapDecoder {
         val dbRows = DbRowTypeDecoder.decodeAll(cache)
         val hunt = HuntModeTypeDecoder.decodeAll(cache)
         val modLevels = ModLevelTypeDecoder.decodeAll(cache)
-        val clientScripts = ClientScriptTypeDecoder.decodeAll(cache)
+        val clientscripts = ClientScriptTypeDecoder.decodeAll(cache)
 
         val typeList =
             TypeListMap(
@@ -107,7 +107,7 @@ public object TypeListMapDecoder {
                 dbRows = dbRows,
                 hunt = hunt,
                 modLevels = modLevels,
-                clientscripts = clientScripts,
+                clientscripts = clientscripts,
             )
 
         return typeList.apply {
