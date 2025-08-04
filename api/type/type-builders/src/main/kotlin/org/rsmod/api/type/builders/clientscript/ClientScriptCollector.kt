@@ -43,7 +43,7 @@ public class ClientScriptCollector @Inject constructor(private val names: NameMa
 
         val id = names.clientscripts[fileName]
         if (id == null) {
-            val message = "ClientScript with name not found in `clientscript.sym`: $fileName"
+            val message = "ClientScript name not found in `clientscript.sym`: $fileName"
             throw IllegalStateException(message)
         }
 
