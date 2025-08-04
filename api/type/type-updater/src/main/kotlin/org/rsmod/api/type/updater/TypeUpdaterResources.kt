@@ -18,6 +18,8 @@ import org.rsmod.api.cache.map.tile.MapTileByteDefinition
 import org.rsmod.api.cache.map.tile.MapTileByteEncoder
 import org.rsmod.api.cache.types.clientscript.ClientScriptByteDefinition
 import org.rsmod.api.cache.types.clientscript.ClientScriptByteEncoder
+import org.rsmod.api.cache.types.model.ModelByteDefinition
+import org.rsmod.api.cache.types.model.ModelByteEncoder
 import org.rsmod.api.cache.util.EncoderContext
 import org.rsmod.api.type.builders.clientscript.ClientScriptBuilder
 import org.rsmod.api.type.builders.clientscript.ClientScriptCollector
@@ -28,6 +30,8 @@ import org.rsmod.api.type.builders.map.loc.MapLocSpawnBuilder
 import org.rsmod.api.type.builders.map.npc.MapNpcSpawnBuilder
 import org.rsmod.api.type.builders.map.obj.MapObjSpawnBuilder
 import org.rsmod.api.type.builders.map.tile.MapTileBuilder
+import org.rsmod.api.type.builders.model.ModelBuilder
+import org.rsmod.api.type.builders.model.ModelCollector
 import org.rsmod.api.type.builders.resource.TypeResourcePack
 import org.rsmod.game.map.xtea.XteaMap
 import org.rsmod.map.square.MapSquareKey
@@ -41,25 +45,30 @@ constructor(
     private val xteaMap: XteaMap,
     private val map: MapTypeCollector,
     private val clientscripts: ClientScriptCollector,
+    private val models: ModelCollector,
 ) {
     public fun updateAll(resources: TypeResourcePack) {
         val mapUpdates = toMapUpdates(resources.maps)
         val clientscriptUpdates = toClientScriptUpdate(resources.clientscripts)
+        val modelUpdates = toModelUpdate(resources.models)
 
         val serverCtx = EncoderContext.server(emptySet(), emptySet(), emptySet())
         Cache.open(gameCachePath).use { cache ->
             encodeCacheMaps(mapUpdates, cache, serverCtx)
             encodeCacheClientScripts(clientscriptUpdates, cache)
+            encodeCacheModels(modelUpdates, cache)
         }
 
         val clientCtx = EncoderContext.client(emptySet(), emptySet(), emptySet())
         Cache.open(js5CachePath).use { cache ->
             encodeCacheMaps(mapUpdates, cache, clientCtx)
             encodeCacheClientScripts(clientscriptUpdates, cache)
+            encodeCacheModels(modelUpdates, cache)
         }
 
         cleanupMaps(resources.maps)
         cleanupClientScripts(resources.clientscripts)
+        cleanupModels(resources.models)
     }
 
     private fun toMapUpdates(builders: MapBuilderList): MapUpdates {
@@ -110,5 +119,20 @@ constructor(
 
     private fun encodeCacheClientScripts(update: ClientScriptUpdate, cache: Cache) {
         ClientScriptByteEncoder.encodeAll(cache, update.definitions)
+    }
+
+    private fun toModelUpdate(builders: Collection<ModelBuilder>): ModelUpdate {
+        val definitions = models.loadAndCollect(builders)
+        return ModelUpdate(definitions)
+    }
+
+    private fun cleanupModels(builders: Collection<ModelBuilder>) {
+        builders.forEach(ModelBuilder::cleanup)
+    }
+
+    private data class ModelUpdate(val definitions: List<ModelByteDefinition>)
+
+    private fun encodeCacheModels(update: ModelUpdate, cache: Cache) {
+        ModelByteEncoder.encodeAll(cache, update.definitions)
     }
 }
