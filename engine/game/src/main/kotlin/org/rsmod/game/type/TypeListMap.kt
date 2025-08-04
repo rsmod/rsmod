@@ -18,6 +18,7 @@ import org.rsmod.game.type.jingle.JingleTypeList
 import org.rsmod.game.type.loc.LocTypeList
 import org.rsmod.game.type.midi.MidiTypeList
 import org.rsmod.game.type.mod.ModLevelTypeList
+import org.rsmod.game.type.model.ModelTypeList
 import org.rsmod.game.type.npc.NpcTypeList
 import org.rsmod.game.type.obj.ObjTypeList
 import org.rsmod.game.type.param.ParamTypeList
@@ -66,4 +67,5 @@ public data class TypeListMap(
     public val hunt: HuntModeTypeList,
     public val modLevels: ModLevelTypeList,
     public val clientscripts: ClientScriptTypeList,
+    public val models: ModelTypeList,
 )

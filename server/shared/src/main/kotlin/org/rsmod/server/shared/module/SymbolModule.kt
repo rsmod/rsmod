@@ -46,6 +46,7 @@ private class NameMappingProvider : Provider<NameMapping> {
         val locs = dirs.readSymbols("loc")
         val midis = dirs.readSymbols("midi")
         val mesanims = dirs.readSymbols("mesanim")
+        val models = dirs.readSymbols("model")
         val modLevels = dirs.readSymbols("modlevel")
         val npcs = dirs.readSymbols("npc")
         val objs = dirs.readSymbols("obj")
@@ -110,6 +111,7 @@ private class NameMappingProvider : Provider<NameMapping> {
             dbColumns = dbCols,
             hunt = hunt,
             clientscripts = clientscripts,
+            models = models,
         )
     }
 

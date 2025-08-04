@@ -18,6 +18,7 @@ import org.rsmod.api.cache.types.jingle.JingleTypeDecoder
 import org.rsmod.api.cache.types.loc.LocTypeDecoder
 import org.rsmod.api.cache.types.midi.MidiTypeDecoder
 import org.rsmod.api.cache.types.mod.ModLevelTypeDecoder
+import org.rsmod.api.cache.types.model.ModelTypeSimpleDecoder
 import org.rsmod.api.cache.types.npc.NpcTypeDecoder
 import org.rsmod.api.cache.types.obj.ObjTypeDecoder
 import org.rsmod.api.cache.types.param.ParamTypeDecoder
@@ -73,6 +74,7 @@ public object TypeListMapDecoder {
         val hunt = HuntModeTypeDecoder.decodeAll(cache)
         val modLevels = ModLevelTypeDecoder.decodeAll(cache)
         val clientscripts = ClientScriptTypeDecoder.decodeAll(cache)
+        val models = ModelTypeSimpleDecoder.decodeAll(cache)
 
         val typeList =
             TypeListMap(
@@ -108,6 +110,7 @@ public object TypeListMapDecoder {
                 hunt = hunt,
                 modLevels = modLevels,
                 clientscripts = clientscripts,
+                models = models,
             )
 
         return typeList.apply {
@@ -141,6 +144,7 @@ public object TypeListMapDecoder {
             assignInternal(this.hunt, names.hunt)
             assignInternal(this.modLevels, names.modLevels)
             assignInternal(this.clientscripts, names.clientscripts)
+            assignInternal(this.models, names.models)
             ComplexTypeDecoder.decodeAll(this)
         }
     }
