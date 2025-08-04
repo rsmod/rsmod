@@ -34,7 +34,6 @@ public class MapTileSimpleDefinition(private val packed: ByteArray = ByteArray(T
         public const val LINK_BELOW: Int = 0x2
         public const val REMOVE_ROOFS: Int = 0x4
         public const val COLOURED: Int = 0x8
-        public const val BRIDGE: Int = 0x10
 
         private const val TOTAL_SIZE: Int =
             CoordGrid.LEVEL_COUNT * MapSquareGrid.LENGTH * MapSquareGrid.LENGTH

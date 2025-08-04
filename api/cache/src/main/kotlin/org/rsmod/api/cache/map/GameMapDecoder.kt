@@ -136,47 +136,25 @@ constructor(
                         if (flags == 0) {
                             continue
                         }
-                        val absX = baseX + x
-                        val absZ = baseZ + z
-                        if (level == 0 && (flags and MapTileSimpleDefinition.BRIDGE) != 0) {
-                            continue
-                        }
+
+                        var mask = 0
                         if ((flags and MapTileSimpleDefinition.BLOCK_MAP_SQUARE) != 0) {
-                            collision.add(absX, absZ, level, CollisionFlag.BLOCK_WALK)
+                            mask = mask or CollisionFlag.BLOCK_WALK
                         }
                         if ((flags and MapTileSimpleDefinition.REMOVE_ROOFS) != 0) {
-                            collision.add(absX, absZ, level, CollisionFlag.ROOF)
+                            mask = mask or CollisionFlag.ROOF
                         }
-                        if ((flags and MapTileSimpleDefinition.COLOURED) != 0) {
-                            collision.allocateIfAbsent(absX, absZ, level)
-                        }
+
+                        val absX = baseX + x
+                        val absZ = baseZ + z
+                        val resolvedLevel =
+                            if ((flags and MapTileSimpleDefinition.LINK_BELOW) != 0) {
+                                level - 1
+                            } else {
+                                level
+                            }
+                        collision[absX, absZ, resolvedLevel] = mask
                     }
-                }
-            }
-        }
-
-        @OptIn(InternalApi::class)
-        public fun putAreas(index: AreaIndex, square: MapSquareKey, areaDef: MapAreaDefinition) {
-            val squareBase = square.toCoords(level = 0)
-
-            if (areaDef.mapSquareAreas.isNotEmpty()) {
-                index.registerAll(square, areaDef.mapSquareAreas.iterator())
-            }
-
-            if (areaDef.zoneAreas.isNotEmpty()) {
-                for ((packedZone, areas) in areaDef.zoneAreas.byte2ObjectEntrySet()) {
-                    val localZone = LocalMapSquareZone(packedZone.toInt())
-                    val zoneBase = localZone.toCoords(baseX = squareBase.x, baseZ = squareBase.z)
-                    val zoneKey = ZoneKey.from(zoneBase)
-                    index.registerAll(zoneKey, areas.iterator())
-                }
-            }
-
-            if (areaDef.coordAreas.isNotEmpty()) {
-                for ((packedGrid, areas) in areaDef.coordAreas.short2ObjectEntrySet()) {
-                    val grid = MapSquareGrid(packedGrid.toInt())
-                    val coord = squareBase.translate(grid.x, grid.z, grid.level)
-                    index.registerAll(coord, areas.iterator())
                 }
             }
         }
@@ -239,6 +217,32 @@ constructor(
                         breakRouteFinding = type.breakRouteFinding,
                         add = true,
                     )
+                }
+            }
+        }
+
+        @OptIn(InternalApi::class)
+        public fun putAreas(index: AreaIndex, square: MapSquareKey, areaDef: MapAreaDefinition) {
+            val squareBase = square.toCoords(level = 0)
+
+            if (areaDef.mapSquareAreas.isNotEmpty()) {
+                index.registerAll(square, areaDef.mapSquareAreas.iterator())
+            }
+
+            if (areaDef.zoneAreas.isNotEmpty()) {
+                for ((packedZone, areas) in areaDef.zoneAreas.byte2ObjectEntrySet()) {
+                    val localZone = LocalMapSquareZone(packedZone.toInt())
+                    val zoneBase = localZone.toCoords(baseX = squareBase.x, baseZ = squareBase.z)
+                    val zoneKey = ZoneKey.from(zoneBase)
+                    index.registerAll(zoneKey, areas.iterator())
+                }
+            }
+
+            if (areaDef.coordAreas.isNotEmpty()) {
+                for ((packedGrid, areas) in areaDef.coordAreas.short2ObjectEntrySet()) {
+                    val grid = MapSquareGrid(packedGrid.toInt())
+                    val coord = squareBase.translate(grid.x, grid.z, grid.level)
+                    index.registerAll(coord, areas.iterator())
                 }
             }
         }

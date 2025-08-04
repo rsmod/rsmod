@@ -37,9 +37,6 @@ public object MapTileDecoder {
                                 }
                                 if ((rule and MapTileDefinition.LINK_BELOW) != 0) {
                                     def[x, z, level] = MapTileSimpleDefinition.LINK_BELOW
-                                    if (level == 1) {
-                                        def[x, z, 0] = MapTileSimpleDefinition.BRIDGE
-                                    }
                                 }
                                 if ((rule and MapTileDefinition.REMOVE_ROOFS) != 0) {
                                     def[x, z, level] = MapTileSimpleDefinition.REMOVE_ROOFS
