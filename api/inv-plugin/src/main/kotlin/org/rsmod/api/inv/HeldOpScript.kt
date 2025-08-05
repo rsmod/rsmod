@@ -40,13 +40,15 @@ private constructor(
     }
 
     private fun Player.opHeld(invSlot: Int, op: HeldOp) {
-        clearPendingAction(eventBus)
-        resetFaceEntity()
+        ifClose(eventBus)
         if (isAccessProtected) {
             resendSlot(inv, 0)
             return
         }
-        protectedAccess.launch(this) { interactions.interact(this, inv, invSlot, op) }
+        protectedAccess.launch(this) {
+            clearPendingAction()
+            interactions.interact(this, inv, invSlot, op)
+        }
     }
 
     private fun IfOverlayDrag.dragHeldButton() {
