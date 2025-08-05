@@ -3558,6 +3558,7 @@ private fun UnpackedMesAnimType.splitGetAnim(lines: Int) =
  * [org.rsmod.api.player.protect.ProtectedAccess.clearPendingAction] instead.
  */
 public fun Player.clearPendingAction(eventBus: EventBus) {
+    check(!isDelayed) { "`clearpendingaction` should never be called while player is delayed." }
     ifClose(eventBus)
     cancelActiveCoroutine()
     clearInteraction()
