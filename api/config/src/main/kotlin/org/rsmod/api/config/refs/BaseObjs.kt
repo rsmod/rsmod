@@ -18,6 +18,36 @@ object BaseObjs : ObjReferences() {
     val bones = find("bones")
     val snowball = find("gublinch_snowball")
 
+    val mithril_seed = find("mithril_seed")
+
+    /**
+     * Herbs
+     */
+    val grimy_guam = find("unidentified_guam")
+    val grimy_marentill = find("unidentified_marentill")
+    val grimy_tarromin = find("unidentified_tarromin")
+    val grimy_harralander = find("unidentified_harralander")
+    val grimy_ranarr = find("unidentified_ranarr")
+    val grimy_irit = find("unidentified_irit")
+    val grimy_avantoe = find("unidentified_avantoe")
+    val grimy_kwuarm = find("unidentified_kwuarm")
+    val grimy_cadantine = find("unidentified_cadantine")
+    val grimy_dwarf_weed = find("unidentified_dwarf_weed")
+    val grimy_torstol = find("unidentified_torstol")
+    val clean_guam = find("guam_leaf")
+    val clean_marentill = find("marentill")
+    val clean_tarromin = find("tarromin")
+    val clean_harralander = find("harralander")
+    val clean_ranarr = find("ranarr_weed")
+    val clean_irit = find("irit_leaf")
+    val clean_avantoe = find("avantoe")
+    val clean_kwuarm = find("kwuarm")
+    val clean_cadantine = find("cadantine")
+    val clean_dwarf_weed = find("dwarf_weed")
+    val clean_torstol = find("torstol")
+
+    val vial_water = find("vial_water")
+    val vial_empty = find("vial_empty")
     val pot_empty = find("pot_empty")
     val jug_empty = find("jug_empty")
     val pack_jug_empty = find("pack_jug_empty")
