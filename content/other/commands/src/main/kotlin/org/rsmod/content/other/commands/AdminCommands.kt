@@ -7,6 +7,8 @@ import kotlin.math.min
 import org.rsmod.annotations.InternalApi
 import org.rsmod.api.invtx.invAdd
 import org.rsmod.api.invtx.invClear
+import org.rsmod.api.invtx.invDel
+import org.rsmod.api.invtx.invDelAll
 import org.rsmod.api.player.output.MiscOutput
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.protect.ProtectedAccessLauncher
@@ -79,6 +81,7 @@ constructor(
         onCommand("master", "Max out all stats", ::master)
         onCommand("reset", "Reset all stats", ::reset)
         onCommand("mypos", "Get current coordinates", ::mypos)
+        onCommand("empty", "Remove all items from inventory", ::empty)
         onCommand("tele", "Teleport to coordgrid", ::tele) {
             invalidArgs = "Use as ::tele level mx mz lx lz (ex: 0 50 50 0 0)"
         }
@@ -117,10 +120,21 @@ constructor(
             player.mes("${player.coords}:")
             player.mes("  ${ZoneKey.from(player.coords)} - ${ZoneGrid.from(player.coords)}")
             player.mes(
-                "  ${MapSquareKey.from(player.coords)} - ${MapSquareGrid.from(player.coords)}"
+                "  ${MapSquareKey.from(player.coords)} - ${MapSquareGrid.from(player.coords)}",
             )
             player.mes("  BuildArea(${player.buildArea})")
         }
+
+    private fun empty(cheat: Cheat) {
+        with(cheat) {
+            for (i in 0..27) {
+                val item = player.inv.objs[i]
+                if (item == null)
+                    continue
+                player.invDel(inv = player.inv, obj = item.id, count = item.count)
+            }
+        }
+    }
 
     private fun tele(cheat: Cheat) =
         with(cheat) {
