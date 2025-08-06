@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <compositeConfiguration>
+          <compositeBuild compositeDefinitionSource="SCRIPT">
+            <builds>
+              <build path="$PROJECT_DIR$/build-logic" name="build-logic">
+                <projects>
+                  <project path="$PROJECT_DIR$/build-logic" />
+                </projects>
+              </build>
+            </builds>
+          </compositeBuild>
+        </compositeConfiguration>
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/api" />
+            <option value="$PROJECT_DIR$/api/account" />
+            <option value="$PROJECT_DIR$/api/area-checker" />
+            <option value="$PROJECT_DIR$/api/cache" />
+            <option value="$PROJECT_DIR$/api/cache-enricher" />
+            <option value="$PROJECT_DIR$/api/cheat" />
+            <option value="$PROJECT_DIR$/api/combat" />
+            <option value="$PROJECT_DIR$/api/combat-accuracy" />
+            <option value="$PROJECT_DIR$/api/combat-maxhit" />
+            <option value="$PROJECT_DIR$/api/combat/combat-commons" />
+            <option value="$PROJECT_DIR$/api/combat/combat-formulas" />
+            <option value="$PROJECT_DIR$/api/combat/combat-manager" />
+            <option value="$PROJECT_DIR$/api/combat/combat-scripts" />
+            <option value="$PROJECT_DIR$/api/combat/combat-weapon" />
+            <option value="$PROJECT_DIR$/api/config" />
+            <option value="$PROJECT_DIR$/api/controller" />
+            <option value="$PROJECT_DIR$/api/core" />
+            <option value="$PROJECT_DIR$/api/db" />
+            <option value="$PROJECT_DIR$/api/db-gateway" />
+            <option value="$PROJECT_DIR$/api/death" />
+            <option value="$PROJECT_DIR$/api/death-plugin" />
+            <option value="$PROJECT_DIR$/api/game-process" />
+            <option value="$PROJECT_DIR$/api/hit-plugin" />
+            <option value="$PROJECT_DIR$/api/hunt" />
+            <option value="$PROJECT_DIR$/api/inv-plugin" />
+            <option value="$PROJECT_DIR$/api/inv-weight" />
+            <option value="$PROJECT_DIR$/api/invtx" />
+            <option value="$PROJECT_DIR$/api/market" />
+            <option value="$PROJECT_DIR$/api/meta" />
+            <option value="$PROJECT_DIR$/api/music" />
+            <option value="$PROJECT_DIR$/api/music-plugin" />
+            <option value="$PROJECT_DIR$/api/net" />
+            <option value="$PROJECT_DIR$/api/npc" />
+            <option value="$PROJECT_DIR$/api/npc-plugin" />
+            <option value="$PROJECT_DIR$/api/obj-charges" />
+            <option value="$PROJECT_DIR$/api/obj-plugin" />
+            <option value="$PROJECT_DIR$/api/parsers" />
+            <option value="$PROJECT_DIR$/api/parsers/jackson" />
+            <option value="$PROJECT_DIR$/api/parsers/json" />
+            <option value="$PROJECT_DIR$/api/parsers/toml" />
+            <option value="$PROJECT_DIR$/api/player" />
+            <option value="$PROJECT_DIR$/api/player-output" />
+            <option value="$PROJECT_DIR$/api/plugin-commons" />
+            <option value="$PROJECT_DIR$/api/pw-hash" />
+            <option value="$PROJECT_DIR$/api/random" />
+            <option value="$PROJECT_DIR$/api/realm" />
+            <option value="$PROJECT_DIR$/api/realm-config" />
+            <option value="$PROJECT_DIR$/api/registry" />
+            <option value="$PROJECT_DIR$/api/repo" />
+            <option value="$PROJECT_DIR$/api/route" />
+            <option value="$PROJECT_DIR$/api/script" />
+            <option value="$PROJECT_DIR$/api/script-advanced" />
+            <option value="$PROJECT_DIR$/api/server-config" />
+            <option value="$PROJECT_DIR$/api/shops" />
+            <option value="$PROJECT_DIR$/api/specials" />
+            <option value="$PROJECT_DIR$/api/spells" />
+            <option value="$PROJECT_DIR$/api/spells-autocast" />
+            <option value="$PROJECT_DIR$/api/spells-runes" />
+            <option value="$PROJECT_DIR$/api/stats" />
+            <option value="$PROJECT_DIR$/api/stats-plugin" />
+            <option value="$PROJECT_DIR$/api/stats/levelmod" />
+            <option value="$PROJECT_DIR$/api/stats/xpmod" />
+            <option value="$PROJECT_DIR$/api/testing" />
+            <option value="$PROJECT_DIR$/api/testing/test-assertions" />
+            <option value="$PROJECT_DIR$/api/testing/test-capture" />
+            <option value="$PROJECT_DIR$/api/testing/test-factory" />
+            <option value="$PROJECT_DIR$/api/testing/test-params" />
+            <option value="$PROJECT_DIR$/api/testing/test-random" />
+            <option value="$PROJECT_DIR$/api/totp" />
+            <option value="$PROJECT_DIR$/api/type" />
+            <option value="$PROJECT_DIR$/api/type/type-builders" />
+            <option value="$PROJECT_DIR$/api/type/type-editors" />
+            <option value="$PROJECT_DIR$/api/type/type-references" />
+            <option value="$PROJECT_DIR$/api/type/type-resolver" />
+            <option value="$PROJECT_DIR$/api/type/type-script-dsl" />
+            <option value="$PROJECT_DIR$/api/type/type-symbols" />
+            <option value="$PROJECT_DIR$/api/type/type-updater" />
+            <option value="$PROJECT_DIR$/api/type/type-verifier" />
+            <option value="$PROJECT_DIR$/api/utils" />
+            <option value="$PROJECT_DIR$/api/utils/utils-format" />
+            <option value="$PROJECT_DIR$/api/utils/utils-io" />
+            <option value="$PROJECT_DIR$/api/utils/utils-logging" />
+            <option value="$PROJECT_DIR$/api/utils/utils-map" />
+            <option value="$PROJECT_DIR$/api/utils/utils-skills" />
+            <option value="$PROJECT_DIR$/api/utils/utils-system" />
+            <option value="$PROJECT_DIR$/api/utils/utils-time" />
+            <option value="$PROJECT_DIR$/api/utils/utils-vars" />
+            <option value="$PROJECT_DIR$/api/utils/utils-zone" />
+            <option value="$PROJECT_DIR$/api/weapons" />
+            <option value="$PROJECT_DIR$/build-logic" />
+            <option value="$PROJECT_DIR$/content" />
+            <option value="$PROJECT_DIR$/content/areas" />
+            <option value="$PROJECT_DIR$/content/areas/city" />
+            <option value="$PROJECT_DIR$/content/areas/city/lumbridge" />
+            <option value="$PROJECT_DIR$/content/areas/misc" />
+            <option value="$PROJECT_DIR$/content/areas/misc/multiways" />
+            <option value="$PROJECT_DIR$/content/generic" />
+            <option value="$PROJECT_DIR$/content/generic/generic-locs" />
+            <option value="$PROJECT_DIR$/content/generic/generic-npcs" />
+            <option value="$PROJECT_DIR$/content/interfaces" />
+            <option value="$PROJECT_DIR$/content/interfaces/bank" />
+            <option value="$PROJECT_DIR$/content/interfaces/combat-tab" />
+            <option value="$PROJECT_DIR$/content/interfaces/emotes" />
+            <option value="$PROJECT_DIR$/content/interfaces/equipment" />
+            <option value="$PROJECT_DIR$/content/interfaces/fade-overlay" />
+            <option value="$PROJECT_DIR$/content/interfaces/gameframe" />
+            <option value="$PROJECT_DIR$/content/interfaces/journal-tab" />
+            <option value="$PROJECT_DIR$/content/interfaces/logout-tab" />
+            <option value="$PROJECT_DIR$/content/interfaces/menu" />
+            <option value="$PROJECT_DIR$/content/interfaces/prayer-tab" />
+            <option value="$PROJECT_DIR$/content/interfaces/settings" />
+            <option value="$PROJECT_DIR$/content/interfaces/skill-guides" />
+            <option value="$PROJECT_DIR$/content/other" />
+            <option value="$PROJECT_DIR$/content/other/commands" />
+            <option value="$PROJECT_DIR$/content/other/login" />
+            <option value="$PROJECT_DIR$/content/other/mapclock" />
+            <option value="$PROJECT_DIR$/content/other/special-attacks" />
+            <option value="$PROJECT_DIR$/content/other/special-weapons" />
+            <option value="$PROJECT_DIR$/content/other/windmill" />
+            <option value="$PROJECT_DIR$/content/skills" />
+            <option value="$PROJECT_DIR$/content/skills/cooking" />
+            <option value="$PROJECT_DIR$/content/skills/fishing" />
+            <option value="$PROJECT_DIR$/content/skills/magic" />
+            <option value="$PROJECT_DIR$/content/skills/magic/spell-attacks" />
+            <option value="$PROJECT_DIR$/content/skills/woodcutting" />
+            <option value="$PROJECT_DIR$/content/travel" />
+            <option value="$PROJECT_DIR$/content/travel/canoe" />
+            <option value="$PROJECT_DIR$/engine" />
+            <option value="$PROJECT_DIR$/engine/annotations" />
+            <option value="$PROJECT_DIR$/engine/coroutine" />
+            <option value="$PROJECT_DIR$/engine/events" />
+            <option value="$PROJECT_DIR$/engine/game" />
+            <option value="$PROJECT_DIR$/engine/interact" />
+            <option value="$PROJECT_DIR$/engine/map" />
+            <option value="$PROJECT_DIR$/engine/module" />
+            <option value="$PROJECT_DIR$/engine/objtx" />
+            <option value="$PROJECT_DIR$/engine/plugin" />
+            <option value="$PROJECT_DIR$/engine/routefinder" />
+            <option value="$PROJECT_DIR$/engine/utils-bits" />
+            <option value="$PROJECT_DIR$/engine/utils-sorting" />
+            <option value="$PROJECT_DIR$/server" />
+            <option value="$PROJECT_DIR$/server/app" />
+            <option value="$PROJECT_DIR$/server/install" />
+            <option value="$PROJECT_DIR$/server/logging" />
+            <option value="$PROJECT_DIR$/server/services" />
+            <option value="$PROJECT_DIR$/server/shared" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>
