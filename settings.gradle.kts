@@ -50,3 +50,5 @@ fun searchProject(parentName: String, root: Path, currentPath: Path) {
     val projectName = relativePath.toString().replace(File.separator, ":")
     include("$parentName:$projectName")
 }
+
+include("content:minigame")
