@@ -80,17 +80,17 @@ constructor(
             }
         }
 
-        val typeEvent = LocTEvents.Op(loc, type, base, objType, comsub, component)
+        val typeEvent = LocTEvents.Op(base, loc, type, objType, comsub, component)
         if (eventBus.contains(typeEvent::class.java, typeEvent.id)) {
             return typeEvent
         }
 
-        val contentEvent = LocTContentEvents.Op(loc, type, base, objType, comsub, component)
+        val contentEvent = LocTContentEvents.Op(base, loc, type, objType, comsub, component)
         if (eventBus.contains(contentEvent::class.java, contentEvent.id)) {
             return contentEvent
         }
 
-        val defaultEvent = LocTDefaultEvents.Op(loc, type, base, objType, comsub, component)
+        val defaultEvent = LocTDefaultEvents.Op(base, loc, type, objType, comsub, component)
         if (eventBus.contains(defaultEvent::class.java, defaultEvent.id)) {
             return defaultEvent
         }
@@ -126,17 +126,17 @@ constructor(
             }
         }
 
-        val typeEvent = LocTEvents.Ap(loc, type, base, objType, comsub, component)
+        val typeEvent = LocTEvents.Ap(base, loc, type, objType, comsub, component)
         if (eventBus.contains(typeEvent::class.java, typeEvent.id)) {
             return typeEvent
         }
 
-        val contentEvent = LocTContentEvents.Ap(loc, type, base, objType, comsub, component)
+        val contentEvent = LocTContentEvents.Ap(base, loc, type, objType, comsub, component)
         if (eventBus.contains(contentEvent::class.java, contentEvent.id)) {
             return contentEvent
         }
 
-        val defaultEvent = LocTDefaultEvents.Ap(loc, type, base, objType, comsub, component)
+        val defaultEvent = LocTDefaultEvents.Ap(base, loc, type, objType, comsub, component)
         if (eventBus.contains(defaultEvent::class.java, defaultEvent.id)) {
             return defaultEvent
         }

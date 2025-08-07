@@ -87,27 +87,27 @@ private constructor(
             }
         }
 
-        val typeEvent = LocUEvents.Op(target, locType, base, objType, invSlot)
+        val typeEvent = LocUEvents.Op(base, target, locType, objType, invSlot)
         if (eventBus.contains(typeEvent::class.java, typeEvent.id)) {
             return typeEvent
         }
 
-        val typeContentEvent = LocUContentEvents.OpType(target, locType, base, objType, invSlot)
+        val typeContentEvent = LocUContentEvents.OpType(base, target, locType, objType, invSlot)
         if (eventBus.contains(typeContentEvent::class.java, typeContentEvent.id)) {
             return typeContentEvent
         }
 
-        val defaultTypeScript = LocUDefaultEvents.OpType(target, locType, base, objType, invSlot)
+        val defaultTypeScript = LocUDefaultEvents.OpType(base, target, locType, objType, invSlot)
         if (eventBus.contains(defaultTypeScript::class.java, defaultTypeScript.id)) {
             return defaultTypeScript
         }
 
-        val objContentEvent = LocUContentEvents.OpContent(target, locType, base, objType, invSlot)
+        val objContentEvent = LocUContentEvents.OpContent(base, target, locType, objType, invSlot)
         if (eventBus.contains(objContentEvent::class.java, objContentEvent.id)) {
             return objContentEvent
         }
 
-        val defGroupScript = LocUDefaultEvents.OpContent(target, locType, base, objType, invSlot)
+        val defGroupScript = LocUDefaultEvents.OpContent(base, target, locType, objType, invSlot)
         if (eventBus.contains(defGroupScript::class.java, defGroupScript.id)) {
             return defGroupScript
         }
@@ -161,27 +161,27 @@ private constructor(
             }
         }
 
-        val typeEvent = LocUEvents.Ap(target, locType, base, objType, invSlot)
+        val typeEvent = LocUEvents.Ap(base, target, locType, objType, invSlot)
         if (eventBus.contains(typeEvent::class.java, typeEvent.id)) {
             return typeEvent
         }
 
-        val locContentEvent = LocUContentEvents.ApType(target, locType, base, objType, invSlot)
+        val locContentEvent = LocUContentEvents.ApType(base, target, locType, objType, invSlot)
         if (eventBus.contains(locContentEvent::class.java, locContentEvent.id)) {
             return locContentEvent
         }
 
-        val defaultTypeScript = LocUDefaultEvents.ApType(target, locType, base, objType, invSlot)
+        val defaultTypeScript = LocUDefaultEvents.ApType(base, target, locType, objType, invSlot)
         if (eventBus.contains(defaultTypeScript::class.java, defaultTypeScript.id)) {
             return defaultTypeScript
         }
 
-        val objContentEvent = LocUContentEvents.ApContent(target, locType, base, objType, invSlot)
+        val objContentEvent = LocUContentEvents.ApContent(base, target, locType, objType, invSlot)
         if (eventBus.contains(objContentEvent::class.java, objContentEvent.id)) {
             return objContentEvent
         }
 
-        val defGroupScript = LocUDefaultEvents.ApContent(target, locType, base, objType, invSlot)
+        val defGroupScript = LocUDefaultEvents.ApContent(base, target, locType, objType, invSlot)
         if (eventBus.contains(defGroupScript::class.java, defGroupScript.id)) {
             return defGroupScript
         }

@@ -75,22 +75,22 @@ constructor(
             }
         }
 
-        val typeEvent = loc.toOp(type, base, op)
+        val typeEvent = toOp(base, loc, type, op)
         if (eventBus.contains(typeEvent::class.java, typeEvent.id)) {
             return typeEvent
         }
 
-        val contentEvent = loc.toContentOp(type, base, type.contentGroup, op)
+        val contentEvent = toContentOp(base, loc, type, type.contentGroup, op)
         if (eventBus.contains(contentEvent::class.java, contentEvent.id)) {
             return contentEvent
         }
 
-        val unimplEvent = loc.toUnimplementedOp(type, base, op)
+        val unimplEvent = toUnimplementedOp(base, loc, type, op)
         if (eventBus.contains(unimplEvent::class.java, unimplEvent.id)) {
             return unimplEvent
         }
 
-        val defaultEvent = loc.toDefaultOp(type, base, op)
+        val defaultEvent = toDefaultOp(base, loc, type, op)
         if (eventBus.contains(defaultEvent::class.java, defaultEvent.id)) {
             return defaultEvent
         }
@@ -120,17 +120,17 @@ constructor(
             }
         }
 
-        val typeEvent = loc.toAp(type, base, op)
+        val typeEvent = toAp(base, loc, type, op)
         if (eventBus.contains(typeEvent::class.java, typeEvent.id)) {
             return typeEvent
         }
 
-        val contentEvent = loc.toContentAp(type, base, type.contentGroup, op)
+        val contentEvent = toContentAp(base, loc, type, type.contentGroup, op)
         if (eventBus.contains(contentEvent::class.java, contentEvent.id)) {
             return contentEvent
         }
 
-        val defaultEvent = loc.toDefaultAp(type, base, op)
+        val defaultEvent = toDefaultAp(base, loc, type, op)
         if (eventBus.contains(defaultEvent::class.java, defaultEvent.id)) {
             return defaultEvent
         }
@@ -167,97 +167,104 @@ constructor(
         }
     }
 
-    private fun BoundLocInfo.toOp(
-        type: UnpackedLocType,
+    private fun toOp(
         base: BoundLocInfo,
+        vis: BoundLocInfo,
+        type: UnpackedLocType,
         op: InteractionOp,
     ): LocEvents.Op =
         when (op) {
-            InteractionOp.Op1 -> LocEvents.Op1(this, type, base)
-            InteractionOp.Op2 -> LocEvents.Op2(this, type, base)
-            InteractionOp.Op3 -> LocEvents.Op3(this, type, base)
-            InteractionOp.Op4 -> LocEvents.Op4(this, type, base)
-            InteractionOp.Op5 -> LocEvents.Op5(this, type, base)
+            InteractionOp.Op1 -> LocEvents.Op1(base, vis, type)
+            InteractionOp.Op2 -> LocEvents.Op2(base, vis, type)
+            InteractionOp.Op3 -> LocEvents.Op3(base, vis, type)
+            InteractionOp.Op4 -> LocEvents.Op4(base, vis, type)
+            InteractionOp.Op5 -> LocEvents.Op5(base, vis, type)
         }
 
-    private fun BoundLocInfo.toContentOp(
-        type: UnpackedLocType,
+    private fun toContentOp(
         base: BoundLocInfo,
+        vis: BoundLocInfo,
+        type: UnpackedLocType,
         contentGroup: Int,
         op: InteractionOp,
     ): LocContentEvents.Op =
         when (op) {
-            InteractionOp.Op1 -> LocContentEvents.Op1(this, type, base, contentGroup)
-            InteractionOp.Op2 -> LocContentEvents.Op2(this, type, base, contentGroup)
-            InteractionOp.Op3 -> LocContentEvents.Op3(this, type, base, contentGroup)
-            InteractionOp.Op4 -> LocContentEvents.Op4(this, type, base, contentGroup)
-            InteractionOp.Op5 -> LocContentEvents.Op5(this, type, base, contentGroup)
+            InteractionOp.Op1 -> LocContentEvents.Op1(base, vis, type, contentGroup)
+            InteractionOp.Op2 -> LocContentEvents.Op2(base, vis, type, contentGroup)
+            InteractionOp.Op3 -> LocContentEvents.Op3(base, vis, type, contentGroup)
+            InteractionOp.Op4 -> LocContentEvents.Op4(base, vis, type, contentGroup)
+            InteractionOp.Op5 -> LocContentEvents.Op5(base, vis, type, contentGroup)
         }
 
-    private fun BoundLocInfo.toUnimplementedOp(
-        type: UnpackedLocType,
+    private fun toUnimplementedOp(
         base: BoundLocInfo,
+        vis: BoundLocInfo,
+        type: UnpackedLocType,
         op: InteractionOp,
     ): LocUnimplementedEvents.Op =
         when (op) {
-            InteractionOp.Op1 -> LocUnimplementedEvents.Op1(this, type, base)
-            InteractionOp.Op2 -> LocUnimplementedEvents.Op2(this, type, base)
-            InteractionOp.Op3 -> LocUnimplementedEvents.Op3(this, type, base)
-            InteractionOp.Op4 -> LocUnimplementedEvents.Op4(this, type, base)
-            InteractionOp.Op5 -> LocUnimplementedEvents.Op5(this, type, base)
+            InteractionOp.Op1 -> LocUnimplementedEvents.Op1(base, vis, type)
+            InteractionOp.Op2 -> LocUnimplementedEvents.Op2(base, vis, type)
+            InteractionOp.Op3 -> LocUnimplementedEvents.Op3(base, vis, type)
+            InteractionOp.Op4 -> LocUnimplementedEvents.Op4(base, vis, type)
+            InteractionOp.Op5 -> LocUnimplementedEvents.Op5(base, vis, type)
         }
 
-    private fun BoundLocInfo.toDefaultOp(
-        type: UnpackedLocType,
+    private fun toDefaultOp(
         base: BoundLocInfo,
+        vis: BoundLocInfo,
+        type: UnpackedLocType,
         op: InteractionOp,
     ): LocDefaultEvents.Op =
         when (op) {
-            InteractionOp.Op1 -> LocDefaultEvents.Op1(this, type, base)
-            InteractionOp.Op2 -> LocDefaultEvents.Op2(this, type, base)
-            InteractionOp.Op3 -> LocDefaultEvents.Op3(this, type, base)
-            InteractionOp.Op4 -> LocDefaultEvents.Op4(this, type, base)
-            InteractionOp.Op5 -> LocDefaultEvents.Op5(this, type, base)
+            InteractionOp.Op1 -> LocDefaultEvents.Op1(base, vis, type)
+            InteractionOp.Op2 -> LocDefaultEvents.Op2(base, vis, type)
+            InteractionOp.Op3 -> LocDefaultEvents.Op3(base, vis, type)
+            InteractionOp.Op4 -> LocDefaultEvents.Op4(base, vis, type)
+            InteractionOp.Op5 -> LocDefaultEvents.Op5(base, vis, type)
         }
 
-    private fun BoundLocInfo.toAp(
-        type: UnpackedLocType,
+    private fun toAp(
         base: BoundLocInfo,
+        vis: BoundLocInfo,
+        type: UnpackedLocType,
         op: InteractionOp,
     ): LocEvents.Ap =
         when (op) {
-            InteractionOp.Op1 -> LocEvents.Ap1(this, type, base)
-            InteractionOp.Op2 -> LocEvents.Ap2(this, type, base)
-            InteractionOp.Op3 -> LocEvents.Ap3(this, type, base)
-            InteractionOp.Op4 -> LocEvents.Ap4(this, type, base)
-            InteractionOp.Op5 -> LocEvents.Ap5(this, type, base)
+            InteractionOp.Op1 -> LocEvents.Ap1(base, vis, type)
+            InteractionOp.Op2 -> LocEvents.Ap2(base, vis, type)
+            InteractionOp.Op3 -> LocEvents.Ap3(base, vis, type)
+            InteractionOp.Op4 -> LocEvents.Ap4(base, vis, type)
+            InteractionOp.Op5 -> LocEvents.Ap5(base, vis, type)
         }
 
-    private fun BoundLocInfo.toContentAp(
-        type: UnpackedLocType,
+    private fun toContentAp(
         base: BoundLocInfo,
+        vis: BoundLocInfo,
+        type: UnpackedLocType,
         contentGroup: Int,
         op: InteractionOp,
     ): LocContentEvents.Ap =
         when (op) {
-            InteractionOp.Op1 -> LocContentEvents.Ap1(this, type, base, contentGroup)
-            InteractionOp.Op2 -> LocContentEvents.Ap2(this, type, base, contentGroup)
-            InteractionOp.Op3 -> LocContentEvents.Ap3(this, type, base, contentGroup)
-            InteractionOp.Op4 -> LocContentEvents.Ap4(this, type, base, contentGroup)
-            InteractionOp.Op5 -> LocContentEvents.Ap5(this, type, base, contentGroup)
+            InteractionOp.Op1 -> LocContentEvents.Ap1(base, vis, type, contentGroup)
+            InteractionOp.Op2 -> LocContentEvents.Ap2(base, vis, type, contentGroup)
+            InteractionOp.Op3 -> LocContentEvents.Ap3(base, vis, type, contentGroup)
+            InteractionOp.Op4 -> LocContentEvents.Ap4(base, vis, type, contentGroup)
+            InteractionOp.Op5 -> LocContentEvents.Ap5(base, vis, type, contentGroup)
         }
 
-    private fun BoundLocInfo.toDefaultAp(
-        type: UnpackedLocType,
+    private fun toDefaultAp(
         base: BoundLocInfo,
+        vis: BoundLocInfo,
+        type: UnpackedLocType,
         op: InteractionOp,
     ): LocDefaultEvents.Ap =
         when (op) {
-            InteractionOp.Op1 -> LocDefaultEvents.Ap1(this, type, base)
-            InteractionOp.Op2 -> LocDefaultEvents.Ap2(this, type, base)
-            InteractionOp.Op3 -> LocDefaultEvents.Ap3(this, type, base)
-            InteractionOp.Op4 -> LocDefaultEvents.Ap4(this, type, base)
-            InteractionOp.Op5 -> LocDefaultEvents.Ap5(this, type, base)
+            InteractionOp.Op1 -> LocDefaultEvents.Ap1(base, vis, type)
+            InteractionOp.Op2 -> LocDefaultEvents.Ap2(base, vis, type)
+            InteractionOp.Op3 -> LocDefaultEvents.Ap3(base, vis, type)
+            InteractionOp.Op4 -> LocDefaultEvents.Ap4(base, vis, type)
+            InteractionOp.Op5 -> LocDefaultEvents.Ap5(base, vis, type)
         }
 
     private fun UnpackedLocType.multiVarValue(vars: VarPlayerIntMap): Int? {

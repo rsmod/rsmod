@@ -21,6 +21,6 @@ private constructor(private val interactions: LocUInteractions, private val objT
 
     private suspend fun ProtectedAccess.opLocU(op: LocTDefaultEvents.Op) {
         val objType = op.objType?.let(objTypes::get) ?: return resendSlot(inv, 0)
-        interactions.interactOp(this, op.loc, op.base, op.type, objType, inv, op.comsub)
+        interactions.interactOp(this, op.vis, op.loc, op.type, objType, inv, op.comsub)
     }
 }

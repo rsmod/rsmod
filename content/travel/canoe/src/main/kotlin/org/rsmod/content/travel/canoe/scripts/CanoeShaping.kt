@@ -37,8 +37,8 @@ constructor(
     private val xpMods: XpModifiers,
 ) : PluginScript() {
     override fun ScriptContext.startup() {
-        onOpLoc1(canoe_locs.ready_to_shape) { walkToAndShapeCanoe(it.base) }
-        onOpLoc3(canoe_locs.ready_to_shape) { cutShape(it.base, canoeType ?: return@onOpLoc3) }
+        onOpLoc1(canoe_locs.ready_to_shape) { walkToAndShapeCanoe(it.loc) }
+        onOpLoc3(canoe_locs.ready_to_shape) { cutShape(it.loc, canoeType ?: return@onOpLoc3) }
         onIfModalButton(canoe_components.shape_log) { selectCanoe(Canoe.Log) }
         onIfModalButton(canoe_components.shape_dugout) { selectCanoe(Canoe.Dugout) }
         onIfModalButton(canoe_components.shape_stable_dugout) { selectCanoe(Canoe.StableDugout) }
