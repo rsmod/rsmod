@@ -71,7 +71,7 @@ private constructor(
         }
 
         val type = objTypes[obj]
-        if (!objectVerify(access.player, inventory, obj, type, HeldOp.Op5)) {
+        if (!objectVerify(access.player, inventory, obj, type)) {
             return
         }
 
@@ -98,7 +98,7 @@ private constructor(
         }
 
         val type = objTypes[obj]
-        if (!objectVerify(access.player, inventory, obj, type, HeldOp.Op2)) {
+        if (!objectVerify(access.player, inventory, obj, type)) {
             return HeldEquipResult.Fail.InvalidObj
         }
 
@@ -121,7 +121,9 @@ private constructor(
         type: UnpackedObjType,
         op: HeldOp,
     ) {
-        if (!objectVerify(access.player, inventory, obj, type, op)) {
+        if (!objectVerify(access.player, inventory, obj, type)) {
+            return
+        } else if (!hasOp(inventory, obj, type, op)) {
             return
         }
         when (op) {
@@ -244,20 +246,26 @@ private constructor(
         inventory: Inventory,
         obj: InvObj?,
         type: UnpackedObjType,
-        op: HeldOp,
     ): Boolean {
         if (player.isDelayed || !obj.isType(type)) {
             resendSlot(inventory, 0)
             return false
         }
+        return true
+    }
 
+    private fun hasOp(
+        inventory: Inventory,
+        obj: InvObj,
+        type: UnpackedObjType,
+        op: HeldOp,
+    ): Boolean {
         // Op5 (`Drop`) always exists as a fallback.
         if (!type.hasInvOp(op) && op != HeldOp.Op5) {
             logger.debug { "OpHeld invalid op blocked: op=$op, obj=$obj, type=$type" }
             resendSlot(inventory, 0)
             return false
         }
-
         return true
     }
 }
