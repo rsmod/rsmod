@@ -3278,6 +3278,10 @@ public class ProtectedAccess(
         return context.locTypes[type].paramOrNull(param)
     }
 
+    public fun lcIsContentType(loc: LocType, content: ContentGroupType): Boolean {
+        return context.locTypes[loc].isContentType(content)
+    }
+
     public fun <T : Any> locParam(loc: LocInfo, param: ParamType<T>): T {
         return context.locTypes[loc].param(param)
     }
@@ -3292,6 +3296,22 @@ public class ProtectedAccess(
 
     public fun <T : Any> locParamOrNull(loc: BoundLocInfo, param: ParamType<T>): T? {
         return context.locTypes[loc].paramOrNull(param)
+    }
+
+    public fun locIsContentType(loc: LocInfo, content: ContentGroupType): Boolean {
+        return context.locTypes[loc].isContentType(content)
+    }
+
+    public fun locIsContentType(loc: BoundLocInfo, content: ContentGroupType): Boolean {
+        return context.locTypes[loc].isContentType(content)
+    }
+
+    public fun locIsType(loc: LocInfo, type: LocType): Boolean {
+        return loc.isType(type)
+    }
+
+    public fun locIsType(loc: BoundLocInfo, type: LocType): Boolean {
+        return loc.isType(type)
     }
 
     public fun locAnim(repo: WorldRepository, loc: LocInfo, seq: SeqType) {

@@ -1,5 +1,6 @@
 package org.rsmod.game.loc
 
+import org.rsmod.game.type.loc.LocType
 import org.rsmod.game.type.loc.UnpackedLocType
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.util.Bounds
@@ -102,6 +103,8 @@ public data class BoundLocInfo(
     public fun bounds(): Bounds = Bounds(coords, adjustedWidth, adjustedLength)
 
     public fun turnAngle(rotations: Int = 1): LocAngle = angle.turn(rotations)
+
+    public fun isType(type: LocType): Boolean = type.internalId == id
 
     override fun toString(): String =
         "BoundLocInfo(" +
