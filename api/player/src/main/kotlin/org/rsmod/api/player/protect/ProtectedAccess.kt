@@ -3364,6 +3364,10 @@ public class ProtectedAccess(
         return context.npcTypes[type].paramOrNull(param)
     }
 
+    public fun ncIsContentType(type: NpcType, content: ContentGroupType): Boolean {
+        return context.npcTypes[type].isContentType(content)
+    }
+
     public fun npcPlayerFaceClose(npc: Npc, target: Player = this.player) {
         npc.playerFaceClose(target)
     }
