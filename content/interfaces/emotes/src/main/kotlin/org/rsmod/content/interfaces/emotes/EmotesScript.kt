@@ -598,7 +598,7 @@ private constructor(
         }
     }
 
-    private fun SeqType.requiresWalkTrigger(): Boolean = seqTypes[this].replayCount == 255
+    private fun SeqType.requiresWalkTrigger(): Boolean = seqTypes[this].maxLoops == 255
 }
 
 private class SkillCapeEmoteResolver

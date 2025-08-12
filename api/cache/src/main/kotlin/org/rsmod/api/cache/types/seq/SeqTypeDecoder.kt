@@ -62,7 +62,7 @@ public object SeqTypeDecoder {
                     this.frameGroup = groups
                     this.frameIndex = files
                 }
-                2 -> replayOff = data.readUnsignedShort()
+                2 -> loops = data.readUnsignedShort()
                 3 -> {
                     val count = data.readUnsignedByte().toInt()
                     val walkMerge = IntArray(count + 1)
@@ -74,9 +74,9 @@ public object SeqTypeDecoder {
                 }
                 4 -> stretches = true
                 5 -> priority = data.readUnsignedByte().toInt()
-                6 -> offhand = data.readUnsignedShort()
-                7 -> mainhand = data.readUnsignedShort()
-                8 -> replayCount = data.readUnsignedByte().toInt()
+                6 -> replaceHeldLeft = data.readUnsignedShort()
+                7 -> replaceHeldRight = data.readUnsignedShort()
+                8 -> maxLoops = data.readUnsignedByte().toInt()
                 9 -> {
                     val id = data.readUnsignedByte().toInt()
                     val preanimMove = PreanimMove.entries.firstOrNull { it.id == id }
@@ -93,7 +93,7 @@ public object SeqTypeDecoder {
                             "`id` $id is not associated with a Postanimmove type."
                         }
                 }
-                11 -> replaceMode = data.readUnsignedByte().toInt()
+                11 -> duplicateBehaviour = data.readUnsignedByte().toInt()
                 12 -> {
                     val count = data.readUnsignedByte().toInt()
                     val groups = ShortArray(count)

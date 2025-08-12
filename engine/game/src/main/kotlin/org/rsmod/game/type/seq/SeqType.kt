@@ -43,15 +43,15 @@ public data class UnpackedSeqType(
     public val frameGroup: ShortArray,
     public val frameIndex: ShortArray,
     public val delay: ShortArray,
-    public val replayOff: Int,
+    public val loops: Int,
     public val walkMerge: IntArray,
     public val stretches: Boolean,
-    public val mainhand: Int,
-    public val offhand: Int,
-    public val replayCount: Int,
+    public val replaceHeldRight: Int,
+    public val replaceHeldLeft: Int,
+    public val maxLoops: Int,
     public val preanimMove: PreanimMove?,
     public val postanimMove: PostanimMove?,
-    public val replaceMode: Int,
+    public val duplicateBehaviour: Int,
     public val iframeGroup: ShortArray,
     public val iframeIndex: ShortArray,
     public val sounds: Array<SeqFrameSound>,
@@ -82,14 +82,14 @@ public data class UnpackedSeqType(
         var result = frameGroup.contentHashCode().toLong()
         result = 61 * result + frameIndex.contentHashCode()
         result = 61 * result + delay.contentHashCode()
-        result = 61 * result + replayOff
+        result = 61 * result + loops
         result = 61 * result + walkMerge.contentHashCode()
-        result = 61 * result + mainhand
-        result = 61 * result + offhand
-        result = 61 * result + replayCount
+        result = 61 * result + replaceHeldRight
+        result = 61 * result + replaceHeldLeft
+        result = 61 * result + maxLoops
         result = 61 * result + (preanimMove?.id ?: -1)
         result = 61 * result + (postanimMove?.id ?: -1)
-        result = 61 * result + replaceMode
+        result = 61 * result + duplicateBehaviour
         result = 61 * result + (internalId?.hashCode() ?: 0)
         return result and 0x7FFFFFFFFFFFFFFF
     }
@@ -101,16 +101,16 @@ public data class UnpackedSeqType(
             "frameGroup=${frameGroup.contentToString()}, " +
             "frameIndex=${frameIndex.contentToString()}, " +
             "delay=${delay.contentToString()}, " +
-            "replayOff=$replayOff, " +
+            "loops=$loops, " +
             "walkMerge=${walkMerge.contentToString()}, " +
             "stretches=$stretches, " +
             "priority=$priority, " +
-            "mainhand=$mainhand, " +
-            "offhand=$offhand, " +
-            "replayCount=$replayCount, " +
+            "replaceHeldRight=$replaceHeldRight, " +
+            "replaceHeldLeft=$replaceHeldLeft, " +
+            "maxLoops=$maxLoops, " +
             "preanimMove=$preanimMove, " +
             "postanimMove=$postanimMove, " +
-            "replaceMode=$replaceMode, " +
+            "duplicateBehaviour=$duplicateBehaviour, " +
             "crossWorldSound=$crossWorldSound, " +
             "iframeGroup=${iframeGroup.contentToString()}, " +
             "iframeIndex=${iframeIndex.contentToString()}, " +
@@ -129,16 +129,16 @@ public data class UnpackedSeqType(
         if (!frameGroup.contentEquals(other.frameGroup)) return false
         if (!frameIndex.contentEquals(other.frameIndex)) return false
         if (!delay.contentEquals(other.delay)) return false
-        if (replayOff != other.replayOff) return false
+        if (loops != other.loops) return false
         if (!walkMerge.contentEquals(other.walkMerge)) return false
         if (stretches != other.stretches) return false
         if (priority != other.priority) return false
-        if (mainhand != other.mainhand) return false
-        if (offhand != other.offhand) return false
-        if (replayCount != other.replayCount) return false
+        if (replaceHeldRight != other.replaceHeldRight) return false
+        if (replaceHeldLeft != other.replaceHeldLeft) return false
+        if (maxLoops != other.maxLoops) return false
         if (preanimMove != other.preanimMove) return false
         if (postanimMove != other.postanimMove) return false
-        if (replaceMode != other.replaceMode) return false
+        if (duplicateBehaviour != other.duplicateBehaviour) return false
         if (crossWorldSound != other.crossWorldSound) return false
         if (!iframeGroup.contentEquals(other.iframeGroup)) return false
         if (!iframeIndex.contentEquals(other.iframeIndex)) return false

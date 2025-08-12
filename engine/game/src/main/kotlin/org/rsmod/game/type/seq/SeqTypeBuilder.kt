@@ -7,17 +7,17 @@ public class SeqTypeBuilder(public var internal: String? = null) {
     public var frameGroup: ShortArray? = null
     public var frameIndex: ShortArray? = null
     public var delay: ShortArray? = null
-    public var replayOff: Int? = null
+    public var loops: Int? = null
     // NOTE(optimization): can use a smaller data type array - either a short or byte array.
     public var walkMerge: IntArray? = null
     public var stretches: Boolean? = null
     public var priority: Int? = null
-    public var mainhand: Int? = null
-    public var offhand: Int? = null
-    public var replayCount: Int? = null
+    public var replaceHeldRight: Int? = null
+    public var replaceHeldLeft: Int? = null
+    public var maxLoops: Int? = null
     public var preanimMove: PreanimMove? = null
     public var postanimMove: PostanimMove? = null
-    public var replaceMode: Int? = null
+    public var duplicateBehaviour: Int? = null
     public var iframeGroup: ShortArray? = null
     public var iframeIndex: ShortArray? = null
     public var sounds: Array<SeqFrameSound>? = null
@@ -34,16 +34,16 @@ public class SeqTypeBuilder(public var internal: String? = null) {
         val frameGroup = checkNotNull(frameGroup) { "`frameGroup` must be set. (id=$id)" }
         val frameIndex = checkNotNull(frameIndex) { "`frameIndex` must be set. (id=$id)" }
         val delay = checkNotNull(delay) { "`delay` must be set. (id=$id)" }
-        val replayOff = replayOff ?: DEFAULT_REPLAY_OFF
+        val loops = loops ?: DEFAULT_LOOPS
         val walkMerge = walkMerge ?: IntArray(0)
         val stretches = stretches == true
         val priority = priority ?: DEFAULT_PRIORITY
-        val mainhand = mainhand ?: DEFAULT_MAINHAND
-        val offhand = offhand ?: DEFAULT_OFFHAND
-        val replayCount = replayCount ?: DEFAULT_REPLAY_COUNT
+        val replaceHeldRight = replaceHeldRight ?: DEFAULT_REPLACE_HELD_RIGHT
+        val replaceHeldLeft = replaceHeldLeft ?: DEFAULT_REPLACE_HELD_LEFT
+        val maxLoops = maxLoops ?: DEFAULT_MAX_LOOPS
         val preanimMove = preanimMove
         val postanimMove = postanimMove
-        val replaceMode = replaceMode ?: DEFAULT_REPLACE_MODE
+        val duplicateBehaviour = duplicateBehaviour ?: DEFAULT_DUPLICATE_BEHAVIOUR
         val iframeGroup = iframeGroup ?: ShortArray(0)
         val iframeIndex = iframeIndex ?: ShortArray(0)
         val sounds = sounds ?: emptyArray()
@@ -57,15 +57,15 @@ public class SeqTypeBuilder(public var internal: String? = null) {
             frameGroup = frameGroup,
             frameIndex = frameIndex,
             delay = delay,
-            replayOff = replayOff,
+            loops = loops,
             walkMerge = walkMerge,
             stretches = stretches,
-            mainhand = mainhand,
-            offhand = offhand,
-            replayCount = replayCount,
+            replaceHeldRight = replaceHeldRight,
+            replaceHeldLeft = replaceHeldLeft,
+            maxLoops = maxLoops,
             preanimMove = preanimMove,
             postanimMove = postanimMove,
-            replaceMode = replaceMode,
+            duplicateBehaviour = duplicateBehaviour,
             iframeGroup = iframeGroup,
             iframeIndex = iframeIndex,
             sounds = sounds,
@@ -83,12 +83,12 @@ public class SeqTypeBuilder(public var internal: String? = null) {
     }
 
     public companion object {
-        public const val DEFAULT_REPLAY_OFF: Int = -1
+        public const val DEFAULT_LOOPS: Int = -1
         public const val DEFAULT_PRIORITY: Int = 5
-        public const val DEFAULT_MAINHAND: Int = -1
-        public const val DEFAULT_OFFHAND: Int = -1
-        public const val DEFAULT_REPLAY_COUNT: Int = 99
-        public const val DEFAULT_REPLACE_MODE: Int = 2
+        public const val DEFAULT_REPLACE_HELD_RIGHT: Int = -1
+        public const val DEFAULT_REPLACE_HELD_LEFT: Int = -1
+        public const val DEFAULT_MAX_LOOPS: Int = 99
+        public const val DEFAULT_DUPLICATE_BEHAVIOUR: Int = 2
         public const val DEFAULT_KEYFRAME_SET: Int = -1
     }
 }
