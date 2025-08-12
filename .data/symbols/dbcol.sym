@@ -585,6 +585,25 @@ fairyring:8	fairyring:desc
 fairyring:9	fairyring:apparition_npc
 fairyring:10	fairyring:show_apparition
 fairyring:11	fairyring:no_staff_return
+didyouknow:0	didyouknow:istip
+didyouknow:1	didyouknow:tip
+didyouknow:2	didyouknow:membersonly
+didyouknow:3	didyouknow:onmobile
+didyouknow:4	didyouknow:mobileonly
+didyouknow:5	didyouknow:extrareq
+multirunes:0	multirunes:base_rune
+multirunes:1	multirunes:combo_and_alternative_runes
+comborune_recipe:0	comborune_recipe:levelreq
+comborune_recipe:1	comborune_recipe:combo_rune
+comborune_recipe:2	comborune_recipe:fail_chance
+comborune_recipe:3	comborune_recipe:scar_essence_type_and_bonus
+comborune_recipe:4	comborune_recipe:item_required_per_craft
+comborune_recipe:5	comborune_recipe:item_required_per_essence
+comborune_recipe:6	comborune_recipe:item_required_per_rune
+comborune_recipe:7	comborune_recipe:multiple_rune_threshold
+comborune_recipe:8	comborune_recipe:multiple_rune_xp_scaling
+comborune_recipe:9	comborune_recipe:gotr_essence_given
+comborune_recipe:10	comborune_recipe:gotr_talisman_given
 
 gameframe:0	gameframe:toplevel
 gameframe:1	gameframe:mappings
