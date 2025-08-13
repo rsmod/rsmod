@@ -321,6 +321,33 @@ object FormulaTestNpcs {
             }
         }
 
+    val general_graardor =
+        npcTypeFactory.create {
+            name = "General Graardor"
+            size = 4
+            hitpoints = 255
+            attack = 280
+            strength = 350
+            defence = 250
+            magic = 80
+            ranged = 350
+            paramMap = buildParams {
+                this[params.attack_melee] = 120
+                this[params.melee_strength] = 43
+                this[params.attack_magic] = 0
+                this[params.npc_magic_damage_bonus] = 0
+                this[params.attack_ranged] = 100
+                this[params.ranged_strength] = 40
+                this[params.defence_stab] = 90
+                this[params.defence_slash] = 90
+                this[params.defence_crush] = 90
+                this[params.defence_magic] = 298
+                this[params.defence_light] = 90
+                this[params.defence_standard] = 90
+                this[params.defence_heavy] = 90
+            }
+        }
+
     private fun buildParams(init: ParamMapBuilder.() -> Unit): ParamMap {
         return ParamMapBuilder().apply(init).toParamMap()
     }

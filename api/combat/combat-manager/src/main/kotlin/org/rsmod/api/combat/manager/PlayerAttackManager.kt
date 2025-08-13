@@ -1739,6 +1739,261 @@ constructor(
         )
     }
 
+    /**
+     * Determines whether a magical-melee attack from [source] will successfully hit [target].
+     *
+     * This function performs an accuracy roll by comparing [source]'s melee attack roll with the
+     * [target]'s magic defence roll, applying any specified accuracy boosts.
+     *
+     * @param attackType The [MeleeAttackType] used for the [source]'s accuracy calculation.
+     * @param attackStyle The [MeleeAttackStyle] used for the [source]'s accuracy calculation.
+     * @param percentBoost Percentage boost to accuracy (`0` = `+0%` boost, `100` = `+100%` boost).
+     * @return `true` if the accuracy roll succeeds (the hit will "land"), `false` otherwise.
+     */
+    public fun rollMagicalMeleeAccuracy(
+        source: Player,
+        target: PathingEntity,
+        attackType: MeleeAttackType?,
+        attackStyle: MeleeAttackStyle?,
+        percentBoost: Int,
+    ): Boolean {
+        val multiplier = 1 + (percentBoost / 100.0)
+        return when (target) {
+            is Npc -> {
+                rollMagicalMeleeAccuracy(source, target, attackType, attackStyle, multiplier)
+            }
+            is Player -> {
+                rollMagicalMeleeAccuracy(source, target, attackType, attackStyle, multiplier)
+            }
+        }
+    }
+
+    private fun rollMagicalMeleeAccuracy(
+        source: Player,
+        target: Npc,
+        attackType: MeleeAttackType?,
+        attackStyle: MeleeAttackStyle?,
+        specMultiplier: Double,
+    ): Boolean =
+        accuracy.rollMagicalMeleeAccuracy(
+            player = source,
+            target = target,
+            attackType = attackType,
+            attackStyle = attackStyle,
+            specMultiplier = specMultiplier,
+            random = random,
+        )
+
+    private fun rollMagicalMeleeAccuracy(
+        source: Player,
+        target: Player,
+        attackType: MeleeAttackType?,
+        attackStyle: MeleeAttackStyle?,
+        specMultiplier: Double,
+    ): Boolean =
+        accuracy.rollMagicalMeleeAccuracy(
+            player = source,
+            target = target,
+            attackType = attackType,
+            attackStyle = attackStyle,
+            specMultiplier = specMultiplier,
+            random = random,
+        )
+
+    /**
+     * Determines whether a ranged-melee attack from [source] will successfully hit [target].
+     *
+     * This function performs an accuracy roll by comparing [source]'s melee attack roll with the
+     * [target]'s ranged defence roll, applying any specified accuracy boosts.
+     *
+     * @param attackType The [MeleeAttackType] used for the [source]'s accuracy calculation.
+     * @param attackStyle The [MeleeAttackStyle] used for the [source]'s accuracy calculation.
+     * @param blockType The [RangedAttackType] used for the [target]'s defensive roll.
+     * @param percentBoost Percentage boost to accuracy (`0` = `+0%` boost, `100` = `+100%` boost).
+     * @return `true` if the accuracy roll succeeds (the hit will "land"), `false` otherwise.
+     */
+    public fun rollRangedMeleeAccuracy(
+        source: Player,
+        target: PathingEntity,
+        attackType: MeleeAttackType?,
+        attackStyle: MeleeAttackStyle?,
+        blockType: RangedAttackType?,
+        percentBoost: Int,
+    ): Boolean {
+        val multiplier = 1 + (percentBoost / 100.0)
+        return when (target) {
+            is Npc -> {
+                rollRangedMeleeAccuracy(
+                    source = source,
+                    target = target,
+                    attackType = attackType,
+                    attackStyle = attackStyle,
+                    blockType = blockType,
+                    specMultiplier = multiplier,
+                )
+            }
+            is Player -> {
+                rollRangedMeleeAccuracy(
+                    source = source,
+                    target = target,
+                    attackType = attackType,
+                    attackStyle = attackStyle,
+                    specMultiplier = multiplier,
+                )
+            }
+        }
+    }
+
+    private fun rollRangedMeleeAccuracy(
+        source: Player,
+        target: Npc,
+        attackType: MeleeAttackType?,
+        attackStyle: MeleeAttackStyle?,
+        blockType: RangedAttackType?,
+        specMultiplier: Double,
+    ): Boolean =
+        accuracy.rollRangedMeleeAccuracy(
+            player = source,
+            target = target,
+            attackType = attackType,
+            attackStyle = attackStyle,
+            blockType = blockType,
+            specMultiplier = specMultiplier,
+            random = random,
+        )
+
+    private fun rollRangedMeleeAccuracy(
+        source: Player,
+        target: Player,
+        attackType: MeleeAttackType?,
+        attackStyle: MeleeAttackStyle?,
+        specMultiplier: Double,
+    ): Boolean =
+        accuracy.rollRangedMeleeAccuracy(
+            player = source,
+            target = target,
+            attackType = attackType,
+            attackStyle = attackStyle,
+            specMultiplier = specMultiplier,
+            random = random,
+        )
+
+    /**
+     * Determines whether a ranged-magic attack from [source] will successfully hit [target].
+     *
+     * This function performs an accuracy roll by comparing [source]'s magic attack roll with the
+     * [target]'s ranged defence roll, applying any specified accuracy boosts.
+     *
+     * @param attackStyle The [MagicAttackStyle] used for the [source]'s accuracy calculation.
+     * @param blockType The [RangedAttackType] used for the [target]'s defensive roll.
+     * @param percentBoost Percentage boost to accuracy (`0` = `+0%` boost, `100` = `+100%` boost).
+     * @return `true` if the accuracy roll succeeds (the hit will "land"), `false` otherwise.
+     */
+    public fun rollRangedMagicAccuracy(
+        source: Player,
+        target: PathingEntity,
+        attackStyle: MagicAttackStyle?,
+        blockType: RangedAttackType?,
+        percentBoost: Int,
+    ): Boolean {
+        val multiplier = 1 + (percentBoost / 100.0)
+        return when (target) {
+            is Npc -> rollRangedMagicAccuracy(source, target, attackStyle, blockType, multiplier)
+            is Player -> rollRangedMagicAccuracy(source, target, attackStyle, multiplier)
+        }
+    }
+
+    private fun rollRangedMagicAccuracy(
+        source: Player,
+        target: Npc,
+        attackStyle: MagicAttackStyle?,
+        blockType: RangedAttackType?,
+        specMultiplier: Double,
+    ): Boolean =
+        accuracy.rollRangedMagicAccuracy(
+            player = source,
+            target = target,
+            attackStyle = attackStyle,
+            blockType = blockType,
+            specMultiplier = specMultiplier,
+            random = random,
+        )
+
+    private fun rollRangedMagicAccuracy(
+        source: Player,
+        target: Player,
+        attackStyle: MagicAttackStyle?,
+        specMultiplier: Double,
+    ): Boolean =
+        accuracy.rollRangedMagicAccuracy(
+            player = source,
+            target = target,
+            attackStyle = attackStyle,
+            specMultiplier = specMultiplier,
+            random = random,
+        )
+
+    /**
+     * Determines whether a magical-ranged attack from [source] will successfully hit [target].
+     *
+     * This function performs an accuracy roll by comparing [source]'s ranged attack roll with the
+     * [target]'s magic defence roll, applying any specified accuracy boosts.
+     *
+     * @param attackType The [RangedAttackType] used for the [source]'s accuracy calculation.
+     * @param attackStyle The [RangedAttackStyle] used for the [source]'s accuracy calculation.
+     * @param percentBoost Percentage boost to accuracy (`0` = `+0%` boost, `100` = `+100%` boost).
+     * @return `true` if the accuracy roll succeeds (the hit will "land"), `false` otherwise.
+     */
+    public fun rollMagicalRangedAccuracy(
+        source: Player,
+        target: PathingEntity,
+        attackType: RangedAttackType?,
+        attackStyle: RangedAttackStyle?,
+        percentBoost: Int,
+    ): Boolean {
+        val multiplier = 1 + (percentBoost / 100.0)
+        return when (target) {
+            is Npc -> {
+                rollMagicalRangedAccuracy(source, target, attackType, attackStyle, multiplier)
+            }
+            is Player -> {
+                rollMagicalRangedAccuracy(source, target, attackType, attackStyle, multiplier)
+            }
+        }
+    }
+
+    private fun rollMagicalRangedAccuracy(
+        source: Player,
+        target: Npc,
+        attackType: RangedAttackType?,
+        attackStyle: RangedAttackStyle?,
+        specMultiplier: Double,
+    ): Boolean =
+        accuracy.rollMagicalRangedAccuracy(
+            player = source,
+            target = target,
+            attackType = attackType,
+            attackStyle = attackStyle,
+            specMultiplier = specMultiplier,
+            random = random,
+        )
+
+    private fun rollMagicalRangedAccuracy(
+        source: Player,
+        target: Player,
+        attackType: RangedAttackType?,
+        attackStyle: RangedAttackStyle?,
+        specMultiplier: Double,
+    ): Boolean =
+        accuracy.rollMagicalRangedAccuracy(
+            player = source,
+            target = target,
+            attackType = attackType,
+            attackStyle = attackStyle,
+            specMultiplier = specMultiplier,
+            random = random,
+        )
+
     public fun spawnProjectile(
         source: Player,
         target: PathingEntity,

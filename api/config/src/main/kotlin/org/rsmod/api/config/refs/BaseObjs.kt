@@ -793,6 +793,7 @@ object BaseObjs : ObjReferences() {
     val rune_kiteshield = find("rune_kiteshield")
     val dragon_claws = find("dragon_claws")
     val dragon_longsword = find("dragon_longsword")
+    val saradomin_blessed_sword = find("blessed_saradomin_sword")
     val crystal_shield = find("crystal_shield")
 
     val crystal_bow = find("crystal_bow")
