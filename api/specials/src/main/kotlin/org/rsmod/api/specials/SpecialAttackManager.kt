@@ -111,8 +111,8 @@ constructor(
         source: ProtectedAccess,
         target: PathingEntity,
         attack: CombatAttack.Melee,
-        accuracyBoost: Int,
-        maxHitBoost: Int,
+        accuracyMultiplier: Double,
+        maxHitMultiplier: Double,
         attackType: MeleeAttackType? = attack.type,
         attackStyle: MeleeAttackStyle? = attack.style,
         blockType: MeleeAttackType? = attack.type,
@@ -121,8 +121,8 @@ constructor(
             source = source.player,
             target = target,
             attack = attack,
-            accuracyBoost = accuracyBoost,
-            maxHitBoost = maxHitBoost,
+            accuracyMultiplier = accuracyMultiplier,
+            maxHitMultiplier = maxHitMultiplier,
             attackType = attackType,
             attackStyle = attackStyle,
             blockType = blockType,
@@ -135,7 +135,7 @@ constructor(
         attackType: MeleeAttackType?,
         attackStyle: MeleeAttackStyle?,
         blockType: MeleeAttackType?,
-        percentBoost: Int,
+        multiplier: Double,
     ): Boolean =
         manager.rollMeleeAccuracy(
             source = source.player,
@@ -143,7 +143,7 @@ constructor(
             attackType = attackType,
             attackStyle = attackStyle,
             blockType = blockType,
-            percentBoost = percentBoost,
+            multiplier = multiplier,
         )
 
     /** @see [PlayerAttackManager.rollMeleeMaxHit] */
@@ -152,8 +152,8 @@ constructor(
         target: PathingEntity,
         attackType: MeleeAttackType?,
         attackStyle: MeleeAttackStyle?,
-        percentBoost: Int,
-    ): Int = manager.rollMeleeMaxHit(source.player, target, attackType, attackStyle, percentBoost)
+        multiplier: Double,
+    ): Int = manager.rollMeleeMaxHit(source.player, target, attackType, attackStyle, multiplier)
 
     /** @see [PlayerAttackManager.calculateMeleeMaxHit] */
     public fun calculateMeleeMaxHit(
@@ -161,9 +161,9 @@ constructor(
         target: PathingEntity,
         attackType: MeleeAttackType?,
         attackStyle: MeleeAttackStyle?,
-        percentBoost: Int,
+        multiplier: Double,
     ): Int =
-        manager.calculateMeleeMaxHit(source.player, target, attackType, attackStyle, percentBoost)
+        manager.calculateMeleeMaxHit(source.player, target, attackType, attackStyle, multiplier)
 
     /** @see [PlayerAttackManager.queueMeleeHit] */
     public fun queueMeleeHit(
@@ -178,8 +178,8 @@ constructor(
         source: ProtectedAccess,
         target: PathingEntity,
         attack: CombatAttack.Ranged,
-        accuracyBoost: Int = 0,
-        maxHitBoost: Int = 0,
+        accuracyMultiplier: Double = 1.0,
+        maxHitMultiplier: Double = 1.0,
         attackType: RangedAttackType? = attack.type,
         attackStyle: RangedAttackStyle? = attack.style,
         blockType: RangedAttackType? = attack.type,
@@ -189,8 +189,8 @@ constructor(
             source = source.player,
             target = target,
             attack = attack,
-            accuracyBoost = accuracyBoost,
-            maxHitBoost = maxHitBoost,
+            accuracyMultiplier = accuracyMultiplier,
+            maxHitMultiplier = maxHitMultiplier,
             attackType = attackType,
             attackStyle = attackStyle,
             blockType = blockType,
@@ -204,7 +204,7 @@ constructor(
         attackType: RangedAttackType?,
         attackStyle: RangedAttackStyle?,
         blockType: RangedAttackType?,
-        percentBoost: Int,
+        multiplier: Double,
     ): Boolean =
         manager.rollRangedAccuracy(
             source = source.player,
@@ -212,7 +212,7 @@ constructor(
             attackType = attackType,
             attackStyle = attackStyle,
             blockType = blockType,
-            percentBoost = percentBoost,
+            multiplier = multiplier,
         )
 
     /** @see [PlayerAttackManager.rollRangedMaxHit] */
@@ -221,7 +221,7 @@ constructor(
         target: PathingEntity,
         attackType: RangedAttackType?,
         attackStyle: RangedAttackStyle?,
-        percentBoost: Int,
+        multiplier: Double,
         boltSpecDamage: Int,
     ): Int =
         manager.rollRangedMaxHit(
@@ -229,7 +229,7 @@ constructor(
             target = target,
             attackType = attackType,
             attackStyle = attackStyle,
-            percentBoost = percentBoost,
+            multiplier = multiplier,
             boltSpecDamage = boltSpecDamage,
         )
 
@@ -239,7 +239,7 @@ constructor(
         target: PathingEntity,
         attackType: RangedAttackType?,
         attackStyle: RangedAttackStyle?,
-        percentBoost: Int,
+        multiplier: Double,
         boltSpecDamage: Int,
     ): Int =
         manager.calculateRangedMaxHit(
@@ -247,7 +247,7 @@ constructor(
             target = target,
             attackType = attackType,
             attackStyle = attackStyle,
-            percentBoost = percentBoost,
+            multiplier = multiplier,
             boltSpecDamage = boltSpecDamage,
         )
 
@@ -290,13 +290,13 @@ constructor(
         source: ProtectedAccess,
         target: PathingEntity,
         attackStyle: MagicAttackStyle?,
-        percentBoost: Int,
+        multiplier: Double,
     ): Boolean =
         manager.rollStaffAccuracy(
             source = source.player,
             target = target,
             attackStyle = attackStyle,
-            percentBoost = percentBoost,
+            multiplier = multiplier,
         )
 
     /** @see [PlayerAttackManager.rollStaffMaxHit] */
@@ -304,13 +304,13 @@ constructor(
         source: ProtectedAccess,
         target: PathingEntity,
         baseMaxHit: Int,
-        percentBoost: Int,
+        multiplier: Double,
     ): Int =
         manager.rollStaffMaxHit(
             source = source.player,
             target = target,
             baseMaxHit = baseMaxHit,
-            percentBoost = percentBoost,
+            multiplier = multiplier,
         )
 
     /** @see [PlayerAttackManager.calculateStaffMaxHit] */
@@ -318,13 +318,13 @@ constructor(
         source: ProtectedAccess,
         target: PathingEntity,
         baseMaxHit: Int,
-        percentBoost: Int,
+        multiplier: Double,
     ): Int =
         manager.calculateStaffMaxHit(
             source = source.player,
             target = target,
             baseMaxHit = baseMaxHit,
-            percentBoost = percentBoost,
+            multiplier = multiplier,
         )
 
     /** @see [PlayerAttackManager.queueMagicHit] */

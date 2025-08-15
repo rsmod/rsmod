@@ -121,7 +121,7 @@ constructor(private val objTypes: ObjTypeList, private val ammunition: RangedAmm
             target.spotanim(descentImpact, height = 96, delay = clientDelay2)
 
             val damage =
-                calculateDamage(target, attack, damageRange = 5..Int.MAX_VALUE, maxHitBoost = 30)
+                calculateDamage(target, attack, damageRange = 5..Int.MAX_VALUE, multiplier = 1.3)
             val hitDelay1 = proj1.serverCycles
             val hitDelay2 = proj2.serverCycles
 
@@ -178,7 +178,7 @@ constructor(private val objTypes: ObjTypeList, private val ammunition: RangedAmm
 
             target.spotanim(descentImpact, height = 96, delay = clientDelay2)
 
-            val damage = calculateDamage(target, attack, damageRange = 8..48, maxHitBoost = 50)
+            val damage = calculateDamage(target, attack, damageRange = 8..48, multiplier = 1.5)
             val hitDelay1 = proj1.serverCycles
             val hitDelay2 = proj2.serverCycles
 
@@ -211,7 +211,7 @@ constructor(private val objTypes: ObjTypeList, private val ammunition: RangedAmm
             target: PathingEntity,
             attack: CombatAttack.Ranged,
             damageRange: IntRange,
-            maxHitBoost: Int,
+            multiplier: Double,
         ): DescentHit {
             val damage =
                 manager.calculateRangedMaxHit(
@@ -219,7 +219,7 @@ constructor(private val objTypes: ObjTypeList, private val ammunition: RangedAmm
                     target = target,
                     attackType = attack.type,
                     attackStyle = attack.style,
-                    percentBoost = maxHitBoost,
+                    multiplier = multiplier,
                     boltSpecDamage = 0,
                 )
             val first = random.of(0..damage).coerceIn(damageRange)

@@ -50,8 +50,8 @@ class DragonLongswordSpecialAttack : SpecialAttackMap {
                     source = this,
                     target = target,
                     attack = attack,
-                    accuracyBoost = 25,
-                    maxHitBoost = 25,
+                    accuracyMultiplier = 1.25,
+                    maxHitMultiplier = 1.25,
                     blockType = MeleeAttackType.Slash,
                 )
             manager.giveCombatXp(this, target, attack, damage)

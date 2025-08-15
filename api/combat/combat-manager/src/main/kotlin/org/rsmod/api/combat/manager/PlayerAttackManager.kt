@@ -451,8 +451,10 @@ constructor(
      *
      * Note: Even if the accuracy roll succeeds, [rollMeleeMaxHit] can still return `0`.
      *
-     * @param accuracyBoost Percentage boost to accuracy (`0` = `+0%` boost, `100` = `+100%` boost).
-     * @param maxHitBoost Percentage boost to max hit (`0` = `+0%` boost, `100` = `+100%` boost).
+     * @param accuracyMultiplier Multiplier to apply to accuracy (`1.0` = no change, `1.1` = +10%
+     *   boost, `0.9` = -10% penalty).
+     * @param maxHitMultiplier Multiplier to apply to max hit (`1.0` = no change, `1.1` = +10%
+     *   boost, `0.9` = -10% penalty).
      * @param attackType The [MeleeAttackType] used for the [source]'s accuracy and max hit rolls.
      *   Usually based on the current `CombatAttack.Melee` attack but can be overridden.
      * @param attackStyle The [MeleeAttackStyle] used for the [source]'s accuracy and max hit rolls.
@@ -468,8 +470,8 @@ constructor(
         source: Player,
         target: PathingEntity,
         attack: CombatAttack.Melee,
-        accuracyBoost: Int = 0,
-        maxHitBoost: Int = 0,
+        accuracyMultiplier: Double = 1.0,
+        maxHitMultiplier: Double = 1.0,
         attackType: MeleeAttackType? = attack.type,
         attackStyle: MeleeAttackStyle? = attack.style,
         blockType: MeleeAttackType? = attack.type,
@@ -478,7 +480,7 @@ constructor(
             rollMeleeAccuracy(
                 source = source,
                 target = target,
-                percentBoost = accuracyBoost,
+                multiplier = accuracyMultiplier,
                 attackType = attackType,
                 attackStyle = attackStyle,
                 blockType = blockType,
@@ -486,7 +488,7 @@ constructor(
         if (!successfulAccuracyRoll) {
             return 0
         }
-        return rollMeleeMaxHit(source, target, attackType, attackStyle, maxHitBoost)
+        return rollMeleeMaxHit(source, target, attackType, attackStyle, maxHitMultiplier)
     }
 
     /**
@@ -503,7 +505,8 @@ constructor(
      *   same as [attackType], but certain scenarios override this with a fixed value. For example,
      *   a Dragon longsword special attack always uses `Slash` for [blockType], even though
      *   [attackType] remains dynamic.
-     * @param percentBoost Percentage boost to accuracy (`0` = `+0%` boost, `100` = `+100%` boost).
+     * @param multiplier Multiplier to apply to accuracy (`1.0` = no change, `1.1` = +10% boost,
+     *   `0.9` = -10% penalty).
      * @return `true` if the accuracy roll succeeds (the hit will "land"), `false` otherwise.
      */
     public fun rollMeleeAccuracy(
@@ -512,9 +515,8 @@ constructor(
         attackType: MeleeAttackType?,
         attackStyle: MeleeAttackStyle?,
         blockType: MeleeAttackType?,
-        percentBoost: Int,
+        multiplier: Double,
     ): Boolean {
-        val multiplier = 1 + (percentBoost / 100.0)
         return when (target) {
             is Npc -> {
                 rollMeleeAccuracy(source, target, attackType, attackStyle, blockType, multiplier)
@@ -571,7 +573,8 @@ constructor(
      *   based on the current `CombatAttack.Melee` attack but can be overridden.
      * @param attackStyle The [MeleeAttackStyle] used for the [source]'s max hit calculation.
      *   Usually based on the current `CombatAttack.Melee` attack but can be overridden.
-     * @param percentBoost Percentage boost to max hit (`0` = `+0%` boost, `100` = `+100%` boost).
+     * @param multiplier Multiplier to apply to max hit (`1.0` = no change, `1.1` = +10% boost,
+     *   `0.9` = -10% penalty).
      * @return A random damage value between `0` and the calculated max hit.
      */
     public fun rollMeleeMaxHit(
@@ -579,9 +582,9 @@ constructor(
         target: PathingEntity,
         attackType: MeleeAttackType?,
         attackStyle: MeleeAttackStyle?,
-        percentBoost: Int,
+        multiplier: Double,
     ): Int {
-        val maxHit = calculateMeleeMaxHit(source, target, attackType, attackStyle, percentBoost)
+        val maxHit = calculateMeleeMaxHit(source, target, attackType, attackStyle, multiplier)
         return random.of(0..maxHit)
     }
 
@@ -595,7 +598,8 @@ constructor(
      *   based on the current `CombatAttack.Melee` attack but can be overridden.
      * @param attackStyle The [MeleeAttackStyle] used for the [source]'s max hit calculation.
      *   Usually based on the current `CombatAttack.Melee` attack but can be overridden.
-     * @param percentBoost Percentage boost to max hit (`0` = `+0%` boost, `100` = `+100%` boost).
+     * @param multiplier Multiplier to apply to max hit (`1.0` = no change, `1.1` = +10% boost,
+     *   `0.9` = -10% penalty).
      * @return The calculated maximum possible hit.
      */
     public fun calculateMeleeMaxHit(
@@ -603,9 +607,8 @@ constructor(
         target: PathingEntity,
         attackType: MeleeAttackType?,
         attackStyle: MeleeAttackStyle?,
-        percentBoost: Int,
+        multiplier: Double,
     ): Int {
-        val multiplier = 1 + (percentBoost / 100.0)
         return when (target) {
             is Npc -> calculateMeleeMaxHit(source, target, attackType, attackStyle, multiplier)
             is Player -> calculateMeleeMaxHit(source, target, attackType, attackStyle, multiplier)
@@ -693,8 +696,10 @@ constructor(
      *
      * Note: Even if the accuracy roll succeeds, [rollRangedMaxHit] can still return `0`.
      *
-     * @param accuracyBoost Percentage boost to accuracy (`0` = `+0%` boost, `100` = `+100%` boost).
-     * @param maxHitBoost Percentage boost to max hit (`0` = `+0%` boost, `100` = `+100%` boost).
+     * @param accuracyMultiplier Multiplier to apply to accuracy (`1.0` = no change, `1.1` = +10%
+     *   boost, `0.9` = -10% penalty).
+     * @param maxHitMultiplier Multiplier to apply to max hit (`1.0` = no change, `1.1` = +10%
+     *   boost, `0.9` = -10% penalty).
      * @param attackType The [RangedAttackType] used for the [source]'s accuracy and max hit rolls.
      *   Usually based on the current `CombatAttack.Ranged` attack but can be overridden.
      * @param attackStyle The [RangedAttackStyle] used for the [source]'s accuracy and max hit
@@ -710,8 +715,8 @@ constructor(
         source: Player,
         target: PathingEntity,
         attack: CombatAttack.Ranged,
-        accuracyBoost: Int = 0,
-        maxHitBoost: Int = 0,
+        accuracyMultiplier: Double = 1.0,
+        maxHitMultiplier: Double = 1.0,
         attackType: RangedAttackType? = attack.type,
         attackStyle: RangedAttackStyle? = attack.style,
         blockType: RangedAttackType? = attack.type,
@@ -721,7 +726,7 @@ constructor(
             rollRangedAccuracy(
                 source = source,
                 target = target,
-                percentBoost = accuracyBoost,
+                multiplier = accuracyMultiplier,
                 attackType = attackType,
                 attackStyle = attackStyle,
                 blockType = blockType,
@@ -734,7 +739,7 @@ constructor(
             target = target,
             attackType = attackType,
             attackStyle = attackStyle,
-            percentBoost = maxHitBoost,
+            multiplier = maxHitMultiplier,
             boltSpecDamage = boltSpecDamage,
         )
     }
@@ -751,7 +756,8 @@ constructor(
      *   Usually based on the current `CombatAttack.Ranged` attack but can be overridden.
      * @param blockType The [RangedAttackType] used for the [target]'s defensive roll. Usually the
      *   same as [attackType], but certain scenarios override this with a fixed value.
-     * @param percentBoost Percentage boost to accuracy (`0` = `+0%` boost, `100` = `+100%` boost).
+     * @param multiplier Multiplier to apply to accuracy (`1.0` = no change, `1.1` = +10% boost,
+     *   `0.9` = -10% penalty).
      * @return `true` if the accuracy roll succeeds (the hit will "land"), `false` otherwise.
      */
     public fun rollRangedAccuracy(
@@ -760,9 +766,8 @@ constructor(
         attackType: RangedAttackType?,
         attackStyle: RangedAttackStyle?,
         blockType: RangedAttackType?,
-        percentBoost: Int,
+        multiplier: Double,
     ): Boolean {
-        val multiplier = 1 + (percentBoost / 100.0)
         return when (target) {
             is Npc -> {
                 rollRangedAccuracy(source, target, attackType, attackStyle, blockType, multiplier)
@@ -815,7 +820,8 @@ constructor(
      *   based on the current `CombatAttack.Ranged` attack but can be overridden.
      * @param attackStyle The [RangedAttackStyle] used for the [source]'s max hit calculation.
      *   Usually based on the current `CombatAttack.Ranged` attack but can be overridden.
-     * @param percentBoost Percentage boost to max hit (`0` = `+0%` boost, `100` = `+100%` boost).
+     * @param multiplier Multiplier to apply to max hit (`1.0` = no change, `1.1` = +10% boost,
+     *   `0.9` = -10% penalty).
      * @param boltSpecDamage The additive bonus damage from bolt special attacks. For example, Opal
      *   bolts (e) special should set this value to `visible ranged level * 10%, rounded down`.
      * @return A random damage value between `0` and the calculated max hit.
@@ -825,7 +831,7 @@ constructor(
         target: PathingEntity,
         attackType: RangedAttackType?,
         attackStyle: RangedAttackStyle?,
-        percentBoost: Int,
+        multiplier: Double,
         boltSpecDamage: Int,
     ): Int {
         val maxHit =
@@ -834,7 +840,7 @@ constructor(
                 target = target,
                 attackType = attackType,
                 attackStyle = attackStyle,
-                percentBoost = percentBoost,
+                multiplier = multiplier,
                 boltSpecDamage = boltSpecDamage,
             )
         return random.of(0..maxHit)
@@ -851,7 +857,8 @@ constructor(
      *   based on the current `CombatAttack.Ranged` attack but can be overridden.
      * @param attackStyle The [RangedAttackStyle] used for the [source]'s max hit calculation.
      *   Usually based on the current `CombatAttack.Ranged` attack but can be overridden.
-     * @param percentBoost Percentage boost to max hit (`0` = `+0%` boost, `100` = `+100%` boost).
+     * @param multiplier Multiplier to apply to max hit (`1.0` = no change, `1.1` = +10% boost,
+     *   `0.9` = -10% penalty).
      * @param boltSpecDamage The additive bonus damage from bolt special attacks. For example, Opal
      *   bolts (e) special should set this value to `visible ranged level * 10%, rounded down`.
      * @return The calculated maximum possible hit.
@@ -861,10 +868,9 @@ constructor(
         target: PathingEntity,
         attackType: RangedAttackType?,
         attackStyle: RangedAttackStyle?,
-        percentBoost: Int,
+        multiplier: Double,
         boltSpecDamage: Int,
     ): Int {
-        val multiplier = 1 + (percentBoost / 100.0)
         return when (target) {
             is Npc ->
                 calculateRangedMaxHit(
@@ -1277,16 +1283,16 @@ constructor(
      *
      * @param attackStyle The [MagicAttackStyle] used for the [source]'s accuracy calculation.
      *   Usually based on the current `CombatAttack.Staff` attack but can be overridden.
-     * @param percentBoost Percentage boost to accuracy (`0` = `+0%` boost, `100` = `+100%` boost).
+     * @param multiplier Multiplier to apply to accuracy (`1.0` = no change, `1.1` = +10% boost,
+     *   `0.9` = -10% penalty).
      * @return `true` if the accuracy roll succeeds (the spell will "land"), `false` otherwise.
      */
     public fun rollStaffAccuracy(
         source: Player,
         target: PathingEntity,
         attackStyle: MagicAttackStyle?,
-        percentBoost: Int,
+        multiplier: Double,
     ): Boolean {
-        val multiplier = 1 + (percentBoost / 100.0)
         return when (target) {
             is Npc -> rollStaffAccuracy(source, target, attackStyle, multiplier)
             is Player -> rollStaffAccuracy(source, target, attackStyle, multiplier)
@@ -1330,16 +1336,17 @@ constructor(
      *
      * @param baseMaxHit The base max hit of the powered staff's built-in spell before any modifiers
      *   are applied.
-     * @param percentBoost Percentage boost to max hit (`0` = `+0%` boost, `100` = `+100%` boost).
+     * @param multiplier Multiplier to apply to max hit (`1.0` = no change, `1.1` = +10% boost,
+     *   `0.9` = -10% penalty).
      * @return A random damage value between `0` and the calculated max hit.
      */
     public fun rollStaffMaxHit(
         source: Player,
         target: PathingEntity,
         baseMaxHit: Int,
-        percentBoost: Int,
+        multiplier: Double,
     ): Int {
-        val maxHit = calculateStaffMaxHit(source, target, baseMaxHit, percentBoost = percentBoost)
+        val maxHit = calculateStaffMaxHit(source, target, baseMaxHit, multiplier)
         return random.of(0..maxHit)
     }
 
@@ -1352,16 +1359,16 @@ constructor(
      *
      * @param baseMaxHit The base max hit of the powered staff's built-in spell before any modifiers
      *   are applied.
-     * @param percentBoost Percentage boost to max hit (`0` = `+0%` boost, `100` = `+100%` boost).
+     * @param multiplier Multiplier to apply to max hit (`1.0` = no change, `1.1` = +10% boost,
+     *   `0.9` = -10% penalty).
      * @return The calculated maximum possible hit.
      */
     public fun calculateStaffMaxHit(
         source: Player,
         target: PathingEntity,
         baseMaxHit: Int,
-        percentBoost: Int,
+        multiplier: Double,
     ): Int {
-        val multiplier = 1 + (percentBoost / 100.0)
         return when (target) {
             is Npc -> calculateSpellMaxHit(source, target, baseMaxHit, multiplier)
             is Player -> calculateSpellMaxHit(source, target, baseMaxHit, multiplier)
@@ -1747,7 +1754,8 @@ constructor(
      *
      * @param attackType The [MeleeAttackType] used for the [source]'s accuracy calculation.
      * @param attackStyle The [MeleeAttackStyle] used for the [source]'s accuracy calculation.
-     * @param percentBoost Percentage boost to accuracy (`0` = `+0%` boost, `100` = `+100%` boost).
+     * @param multiplier Multiplier to apply to accuracy (`1.0` = no change, `1.1` = +10% boost,
+     *   `0.9` = -10% penalty).
      * @return `true` if the accuracy roll succeeds (the hit will "land"), `false` otherwise.
      */
     public fun rollMagicalMeleeAccuracy(
@@ -1755,9 +1763,8 @@ constructor(
         target: PathingEntity,
         attackType: MeleeAttackType?,
         attackStyle: MeleeAttackStyle?,
-        percentBoost: Int,
+        multiplier: Double,
     ): Boolean {
-        val multiplier = 1 + (percentBoost / 100.0)
         return when (target) {
             is Npc -> {
                 rollMagicalMeleeAccuracy(source, target, attackType, attackStyle, multiplier)
@@ -1809,7 +1816,8 @@ constructor(
      * @param attackType The [MeleeAttackType] used for the [source]'s accuracy calculation.
      * @param attackStyle The [MeleeAttackStyle] used for the [source]'s accuracy calculation.
      * @param blockType The [RangedAttackType] used for the [target]'s defensive roll.
-     * @param percentBoost Percentage boost to accuracy (`0` = `+0%` boost, `100` = `+100%` boost).
+     * @param multiplier Multiplier to apply to accuracy (`1.0` = no change, `1.1` = +10% boost,
+     *   `0.9` = -10% penalty).
      * @return `true` if the accuracy roll succeeds (the hit will "land"), `false` otherwise.
      */
     public fun rollRangedMeleeAccuracy(
@@ -1818,9 +1826,8 @@ constructor(
         attackType: MeleeAttackType?,
         attackStyle: MeleeAttackStyle?,
         blockType: RangedAttackType?,
-        percentBoost: Int,
+        multiplier: Double,
     ): Boolean {
-        val multiplier = 1 + (percentBoost / 100.0)
         return when (target) {
             is Npc -> {
                 rollRangedMeleeAccuracy(
@@ -1886,7 +1893,8 @@ constructor(
      *
      * @param attackStyle The [MagicAttackStyle] used for the [source]'s accuracy calculation.
      * @param blockType The [RangedAttackType] used for the [target]'s defensive roll.
-     * @param percentBoost Percentage boost to accuracy (`0` = `+0%` boost, `100` = `+100%` boost).
+     * @param multiplier Multiplier to apply to accuracy (`1.0` = no change, `1.1` = +10% boost,
+     *   `0.9` = -10% penalty).
      * @return `true` if the accuracy roll succeeds (the hit will "land"), `false` otherwise.
      */
     public fun rollRangedMagicAccuracy(
@@ -1894,9 +1902,8 @@ constructor(
         target: PathingEntity,
         attackStyle: MagicAttackStyle?,
         blockType: RangedAttackType?,
-        percentBoost: Int,
+        multiplier: Double,
     ): Boolean {
-        val multiplier = 1 + (percentBoost / 100.0)
         return when (target) {
             is Npc -> rollRangedMagicAccuracy(source, target, attackStyle, blockType, multiplier)
             is Player -> rollRangedMagicAccuracy(source, target, attackStyle, multiplier)
@@ -1941,7 +1948,8 @@ constructor(
      *
      * @param attackType The [RangedAttackType] used for the [source]'s accuracy calculation.
      * @param attackStyle The [RangedAttackStyle] used for the [source]'s accuracy calculation.
-     * @param percentBoost Percentage boost to accuracy (`0` = `+0%` boost, `100` = `+100%` boost).
+     * @param multiplier Multiplier to apply to accuracy (`1.0` = no change, `1.1` = +10% boost,
+     *   `0.9` = -10% penalty).
      * @return `true` if the accuracy roll succeeds (the hit will "land"), `false` otherwise.
      */
     public fun rollMagicalRangedAccuracy(
@@ -1949,9 +1957,8 @@ constructor(
         target: PathingEntity,
         attackType: RangedAttackType?,
         attackStyle: RangedAttackStyle?,
-        percentBoost: Int,
+        multiplier: Double,
     ): Boolean {
-        val multiplier = 1 + (percentBoost / 100.0)
         return when (target) {
             is Npc -> {
                 rollMagicalRangedAccuracy(source, target, attackType, attackStyle, multiplier)
