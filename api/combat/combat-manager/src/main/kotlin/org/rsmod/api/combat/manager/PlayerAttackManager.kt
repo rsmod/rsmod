@@ -585,7 +585,7 @@ constructor(
         multiplier: Double,
     ): Int {
         val maxHit = calculateMeleeMaxHit(source, target, attackType, attackStyle, multiplier)
-        return random.of(0..maxHit)
+        return random.of(1..maxHit)
     }
 
     /**
@@ -843,7 +843,7 @@ constructor(
                 multiplier = multiplier,
                 boltSpecDamage = boltSpecDamage,
             )
-        return random.of(0..maxHit)
+        return random.of(1..maxHit)
     }
 
     /**
@@ -1347,7 +1347,7 @@ constructor(
         multiplier: Double,
     ): Int {
         val maxHit = calculateStaffMaxHit(source, target, baseMaxHit, multiplier)
-        return random.of(0..maxHit)
+        return random.of(1..maxHit)
     }
 
     /**
