@@ -213,6 +213,16 @@ constructor(private val objTypes: ObjTypeList, private val ammunition: RangedAmm
             damageRange: IntRange,
             multiplier: Double,
         ): DescentHit {
+            fun accuracySuccess(): Boolean {
+                return manager.rollRangedAccuracy(
+                    source = this,
+                    target = target,
+                    attackType = attack.type,
+                    attackStyle = attack.style,
+                    blockType = attack.type,
+                    multiplier = 1.0,
+                )
+            }
             val damage =
                 manager.calculateRangedMaxHit(
                     source = this,
@@ -222,8 +232,8 @@ constructor(private val objTypes: ObjTypeList, private val ammunition: RangedAmm
                     multiplier = multiplier,
                     boltSpecDamage = 0,
                 )
-            val first = random.of(0..damage).coerceIn(damageRange)
-            val second = random.of(0..damage).coerceIn(damageRange)
+            val first = if (!accuracySuccess()) 0 else random.of(0..damage).coerceIn(damageRange)
+            val second = if (!accuracySuccess()) 0 else random.of(0..damage).coerceIn(damageRange)
             return DescentHit(first, second)
         }
 
