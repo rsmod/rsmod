@@ -32,7 +32,11 @@ public class NpcPatrolModeProcessor @Inject constructor(private val collision: C
             } else {
                 patrolPauseCycles = 0
                 val nextWaypoint = patrol[++patrolWaypointIndex % patrol.size]
-                walk(nextWaypoint.destination)
+                if (nextWaypoint.destination.level != level) {
+                    teleport(collision, nextWaypoint.destination)
+                } else {
+                    walk(nextWaypoint.destination)
+                }
             }
         } else {
             walk(waypoint.destination)
