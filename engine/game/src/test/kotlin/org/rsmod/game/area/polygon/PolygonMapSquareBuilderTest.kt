@@ -849,7 +849,7 @@ class PolygonMapSquareBuilderTest {
         val result = builder.build()
         val tile = MapSquareGrid(10, 10)
         assertTrue(result.containsArea(area, tile)) {
-            "Expected tile at ($tile) to not be part of filled area"
+            "Expected tile at ($tile) to be part of filled area"
         }
     }
 
