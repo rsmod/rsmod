@@ -32,7 +32,7 @@ object BaseInterfaces : InterfaceReferences() {
     val inventory = find("inventory", 9223372035777930389)
     val wornitems = find("wornitems", 9223372035270475546)
     val side_channels = find("side_channels", 1832628328)
-    val settings_side = find("settings_side", 1694635289)
+    val settings_side = find("settings_side", 657569579)
     val prayerbook = find("prayerbook", 9223372034905333594)
     val magic_spellbook = find("magic_spellbook", 2027746394)
     val friends = find("friends", 149140580)
@@ -42,7 +42,7 @@ object BaseInterfaces : InterfaceReferences() {
     val music = find("music", 9223372035640978172)
     val chatchannel_current = find("chatchannel_current", 555490233)
     val worldswitcher = find("worldswitcher", 770239458)
-    val combat_interface = find("combat_interface", 1281353796)
+    val combat_interface = find("combat_interface", 1846453943)
     val hpbar_hud = find("hpbar_hud", 9223372036744970435)
 
     val account_summary_sidepanel = find("account_summary_sidepanel", 1142196774)
@@ -51,7 +51,7 @@ object BaseInterfaces : InterfaceReferences() {
     val chat_right = find("chat_right", 1128178504)
     val chat_left = find("chat_left", 430345552)
     val chatmenu = find("chatmenu", 151753214)
-    val messagebox = find("messagebox", 9223372035695642409)
+    val messagebox = find("messagebox", 1781919053)
     val obj_dialogue = find("objectbox", 1639203600)
     val double_obj_dialogue = find("objectbox_double", 9223372035376440778)
     val destroy_obj_dialogue = find("confirmdestroy", 923450919)
@@ -63,5 +63,5 @@ object BaseInterfaces : InterfaceReferences() {
     val collection = find("collection", 1925563159)
     val bond_main = find("bond_main", 9223372036023293853)
     val poh_options = find("poh_options", 9223372035476859568)
-    val settings = find("settings", 75958970)
+    val settings = find("settings", 1605189305)
 }

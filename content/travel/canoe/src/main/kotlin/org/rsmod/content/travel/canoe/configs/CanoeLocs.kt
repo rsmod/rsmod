@@ -7,11 +7,11 @@ import org.rsmod.api.type.refs.loc.LocReferences
 typealias canoe_locs = CanoeLocs
 
 object CanoeLocs : LocReferences() {
-    val station_lumbridge = find("canoeing_canoestation_lumbridge", 7518291836939615271)
-    val station_champs_guild = find("canoeing_canoestation_championsguild", 7518291836953461113)
-    val station_barb_village = find("canoeing_canoestation_barbarianvillage", 7518291836967306955)
-    val station_edgeville = find("canoeing_canoestation_edgeville", 7518291836981152797)
-    val station_ferox_enclave = find("canoeing_canoestation_sanctuary", 7518291957232309354)
+    val station_lumbridge = find("canoeing_canoestation_lumbridge", 7518292661265605047)
+    val station_champs_guild = find("canoeing_canoestation_championsguild", 7518292661279450889)
+    val station_barb_village = find("canoeing_canoestation_barbarianvillage", 7518292661293296731)
+    val station_edgeville = find("canoeing_canoestation_edgeville", 7518292661307142573)
+    val station_ferox_enclave = find("canoeing_canoestation_sanctuary", 7518292781558299130)
     val ready_to_shape = find("canoestation_fallen_tree", 3482919538715667463)
     val ready_log = find("canoestation_log", 2191318268562489158)
     val ready_dugout = find("canoestation_dugout", 2921309672170420703)

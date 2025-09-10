@@ -14,4 +14,6 @@ public object Js5GameValGroup {
     public const val SOUNDTYPES: Int = 11
     public const val SPRITETYPES: Int = 12
     public const val IFTYPES: Int = 13
+    public const val IFTYPES_V2: Int = 14
+    public const val VARC: Int = 15
 }

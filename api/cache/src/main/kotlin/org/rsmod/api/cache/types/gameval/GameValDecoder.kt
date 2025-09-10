@@ -19,7 +19,7 @@ public object GameValDecoder {
             val files = cache.list(Js5Archives.GAMEVALS, group.id)
             when (group.id) {
                 Js5GameValGroup.TABLETYPES -> decodeTables(cache, builder, group.id, files)
-                Js5GameValGroup.IFTYPES -> decodeInterfaces(cache, builder, group.id, files)
+                Js5GameValGroup.IFTYPES_V2 -> decodeInterfaces(cache, builder, group.id, files)
                 else -> decodeFiles(cache, builder, group.id, files)
             }
         }
@@ -68,24 +68,13 @@ public object GameValDecoder {
                 val interfaceName = it.readString()
                 interfaceNames[file.id] = interfaceName
 
-                var componentId = 0
                 while (it.isReadable) {
-                    // The client stops reading at 255, even though some interfaces contain more
-                    // components. However, the buffer still includes names for components beyond
-                    // 255.
-                    val check = it.readUnsignedByte().toInt()
-                    if (check == 0xFF) {
-                        if (it.readableBytes() < Short.SIZE_BYTES) {
-                            break
-                        }
-                        it.markReaderIndex()
-                        if (it.readUnsignedShort() == 0) {
-                            break
-                        }
-                        it.resetReaderIndex()
+                    val componentId = it.readUnsignedShort()
+                    if (componentId == 0xFFFF) {
+                        break
                     }
                     val componentName = it.readString()
-                    builder.putComponent(file.id, componentId++, componentName)
+                    builder.putComponent(file.id, componentId, componentName)
                 }
             }
         }

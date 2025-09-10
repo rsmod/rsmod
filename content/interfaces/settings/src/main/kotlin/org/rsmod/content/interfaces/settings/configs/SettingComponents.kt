@@ -32,5 +32,5 @@ object SettingComponents : ComponentReferences() {
 
     val brightness_bobble_container = find("settings_side:brightness_bobble_container")
     val zoom_toggle = find("settings_side:zoom_toggle")
-    val client_type_buttons = find("settings_side:client_type_buttons")
+    val client_type_buttons = find("settings_side:display_dynamic_setting_1_buttons")
 }

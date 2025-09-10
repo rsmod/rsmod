@@ -65,8 +65,8 @@ object BaseComponents : ComponentReferences() {
 
     val chatmenu_pbutton = find("chatmenu:options", 2354058583546775614)
 
-    val messagebox_text = find("messagebox:text", 428946190838703861)
-    val messagebox_pbutton = find("messagebox:continue", 2586163870891555941)
+    val messagebox_text = find("messagebox:text", 4817549332312421939)
+    val messagebox_pbutton = find("messagebox:continue", 1367557556890583596)
 
     val objectbox_pbutton = find("objectbox:universe", 5529957094503964265)
     val objectbox_text = find("objectbox:text", 2524578908064496713)
@@ -83,7 +83,7 @@ object BaseComponents : ComponentReferences() {
 
     val inv_items = find("inventory:items", 2716382361977651445)
 
-    val combat_tab_title = find("combat_interface:title", 8061099330540068392)
+    val combat_tab_title = find("combat_interface:title", 7028397761873724972)
     val combat_tab_category = find("combat_interface:category", 311653829278247768)
 
     val fade_overlay_message = find("fade_overlay:message", 9045250929562636923)
