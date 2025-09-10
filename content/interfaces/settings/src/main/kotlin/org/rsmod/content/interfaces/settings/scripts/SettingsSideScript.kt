@@ -38,8 +38,6 @@ class SettingsSideScript @Inject constructor(private val protectedAccess: Protec
         ifSetEvents(setting_components.master_bobble_container, 0..21, IfEvent.Op1)
         ifSetEvents(setting_components.attack_priority_player_buttons, 1..5, IfEvent.Op1)
         ifSetEvents(setting_components.attack_priority_npc_buttons, 1..4, IfEvent.Op1)
-        // if_setevents_v2	com=settings_side:display_dynamic_setting_1_buttons (116:40), start=1,
-        // end=3, events=[OP1]
         ifSetEvents(setting_components.client_type_buttons, 1..3, IfEvent.Op1)
         ifSetEvents(setting_components.brightness_bobble_container, 0..21, IfEvent.Op1)
     }
