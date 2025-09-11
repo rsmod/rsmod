@@ -471,6 +471,14 @@ npc = 'aggie_2ops'
 examine = 'A witch.'
 
 [[config]]
+npc = 'yama_throne'
+examine = 'A demon of unfathomable power. The confident smile rarely leaves his face.'
+
+[[config]]
+npc = 'yama_throne_occupied'
+examine = 'Atop his throne, always looking down on others.'
+
+[[config]]
 npc = 'poh_mounted_kbd_left'
 examine = 'And with its head he came galumphing back.'
 
@@ -28936,7 +28944,7 @@ examine = "It's breaking down!"
 
 [[config]]
 npc = 'fossil_mining_boulder_medium_floating'
-examine = "It's getting smaller, maybe there are goodies in the middle, like a pi�ata."
+examine = "It's getting smaller, maybe there are goodies in the middle, like a piñata."
 
 [[config]]
 npc = 'fossil_mining_boulder_medium_breaking'
@@ -45707,8 +45715,8 @@ npc = 'avium_savannah_worker_f_4'
 examine = 'Working hard, or hardly working?'
 
 [[config]]
-npc = 'avium_savannah_gem_collector'
-examine = 'I wonder what his siblings are called...'
+npc = 'viking_ant_hambling'
+examine = 'Radiating mental toughness and determination.'
 
 [[config]]
 npc = 'sunset_coast_fishing_shop'
@@ -46781,10 +46789,6 @@ examine = 'Aaaargh, me hearty!'
 [[config]]
 npc = 'wildy_zombie_pirate_5'
 examine = 'Aaaargh, me hearty!'
-
-[[config]]
-npc = 'wildy_zombie_pirate_friendly'
-examine = 'Remarkably friendly, for a zombie.'
 
 [[config]]
 npc = 'wildy_agility_skeleton_1'
@@ -48508,7 +48512,7 @@ examine = 'So small it could fit in your pocket!'
 
 [[config]]
 npc = 'varlamore_dog_techichi_2'
-examine = 'He seems to be keeping a watchful eye on something happening in the distance...'
+examine = 'So small it could fit in your pocket!'
 
 [[config]]
 npc = 'varlamore_dog_chiribaya_1'
@@ -48563,8 +48567,8 @@ npc = 'varlamore_salvager_m_3'
 examine = 'As the name suggests, they like collecting salvage.'
 
 [[config]]
-npc = 'varlamore_salvager_m_4'
-examine = 'As the name suggests, they like collecting salvage.'
+npc = 'viking_ant_hambling_noop'
+examine = 'Radiating mental toughness and determination.'
 
 [[config]]
 npc = 'varlamore_salvager_f_1'
@@ -49127,6 +49131,10 @@ npc = 'pirate3_aggressive'
 examine = "A fine example of piracy's equal opportunities program."
 
 [[config]]
+npc = 'yama_throne_unoccupied'
+examine = 'A fiery throne, fit for only the strongest demons.'
+
+[[config]]
 npc = 'poh_mounted_crawlinghand_teak'
 examine = 'And with its head he came galumphing back.'
 
@@ -49197,4 +49205,1944 @@ examine = 'And with its head he came galumphing back.'
 [[config]]
 npc = 'poh_mounted_abyssaldemon_gilded'
 examine = 'And with its head he came galumphing back.'
+
+[[config]]
+npc = 'yama'
+examine = 'A demon of quite obviously fathomable power. The vicious grin rarely leaves his face.'
+
+[[config]]
+npc = 'wildy_zombie_pirate_friendly_1op'
+examine = 'Remarkably friendly, for a zombie.'
+
+[[config]]
+npc = 'wildy_zombie_pirate_friendly_2ops'
+examine = 'Remarkably friendly, for a zombie.'
+
+[[config]]
+npc = 'yama_voidflare'
+examine = "An explosive demonic spell churns inside it. It looks like it's about to burst!"
+
+[[config]]
+npc = 'yama_judge_of_yama'
+examine = 'In the name of Yama, you will be judged.'
+
+[[config]]
+npc = 'yama_imp'
+examine = "Yama's personal mail-imp."
+
+[[config]]
+npc = 'voice_of_yama_1op'
+examine = 'An Ox headed creature that speaks for Yama.'
+
+[[config]]
+npc = 'voice_of_yama_2op'
+examine = 'An Ox headed creature that speaks for Yama.'
+
+[[config]]
+npc = 'voice_of_yama_3op'
+examine = 'An Ox headed creature that speaks for Yama.'
+
+[[config]]
+npc = 'disciple_of_yama_entrance_1op'
+examine = 'Sold his soul to Yama.'
+
+[[config]]
+npc = 'disciple_of_yama_entrance_2op'
+examine = 'Sold his soul to Yama.'
+
+[[config]]
+npc = 'shayzien_chasm_guard_hammer_vis'
+examine = 'Not a very high rank.'
+
+[[config]]
+npc = 'shayzien_chasm_guard_scim_vis'
+examine = 'Ready to defend Kourend.'
+
+[[config]]
+npc = 'shayzien_chasm_guard_dds_vis'
+examine = 'A calm looking soldier.'
+
+[[config]]
+npc = 'shayzien_chasm_guard_dlong_vis'
+examine = "The other soldiers won't be messing around with her about."
+
+[[config]]
+npc = 'shayzien_chasm_guard_axe_vis'
+examine = "So stoic you could swear he doesn't move unless prompted."
+
+[[config]]
+npc = 'chasm_smithing_imp'
+examine = 'Looks a little older than most imps.'
+
+[[config]]
+npc = 'chasm_smithing_imp_noname'
+examine = 'Looks a little older than most imps.'
+
+[[config]]
+npc = 'chasm_smithing_imp_named'
+examine = 'A wizened old imp.'
+
+[[config]]
+npc = 'chasm_smithing_imp_cloth'
+examine = 'A wizened old imp.'
+
+[[config]]
+npc = 'poh_yama_pet'
+examine = 'Small, but somehow still looks down on me.'
+
+[[config]]
+npc = 'yama_pet'
+examine = 'Small, but somehow still looks down on me.'
+
+[[config]]
+npc = 'magic_hunter_npc'
+examine = 'And they just keep coming and they just keep coming...'
+
+[[config]]
+npc = 'magic_hunter_wizard_dwarf'
+examine = 'A dwarven seer with a bit of an imp problem.'
+
+[[config]]
+npc = 'imp_notele'
+examine = 'A cheeky little imp.'
+
+[[config]]
+npc = 'soc_citizen'
+examine = 'Likes spending time in the pub.'
+
+[[config]]
+npc = 'soc_antos'
+examine = 'He seems to be in a spot of bother.'
+
+[[config]]
+npc = 'soc_antos_postquest_vis'
+examine = 'No longer in a spot of bother.'
+
+[[config]]
+npc = 'soc_sillyman'
+examine = 'A curious fellow.'
+
+[[config]]
+npc = 'soc_parent'
+examine = 'A local mother.'
+
+[[config]]
+npc = 'soc_parent_2'
+examine = 'A local father.'
+
+[[config]]
+npc = 'soc_injured_person'
+examine = 'He looks a bit worse for wear.'
+
+[[config]]
+npc = 'soc_injured_person_upright'
+examine = 'He looks a little better now.'
+
+[[config]]
+npc = 'auburnvale_guard_captain'
+examine = "She's in charge of the guards here."
+
+[[config]]
+npc = 'soc_etz'
+examine = 'He looks a little better now.'
+
+[[config]]
+npc = 'soc_etz_cave'
+examine = 'He looks a bit worse for wear.'
+
+[[config]]
+npc = 'stag'
+examine = 'A noble creature!'
+
+[[config]]
+npc = 'aluinus_dead_vis'
+examine = 'A strange man in a moon helmet.'
+
+[[config]]
+npc = 'aluinus_combat'
+examine = 'A strange man in a moon helmet.'
+
+[[config]]
+npc = 'fisherman_hugh_up'
+examine = "He's looking a bit better now."
+
+[[config]]
+npc = 'fisherman_hugh_noop'
+examine = "He's not looking so great."
+
+[[config]]
+npc = 'fisherman_hugh_op'
+examine = "He's not looking so great."
+
+[[config]]
+npc = 'fisherman_hugh_up_vis'
+examine = "He's looking a bit better now."
+
+[[config]]
+npc = 'menaphos_faaid'
+examine = 'He looks a bit lonely.'
+
+[[config]]
+npc = 'ic_citlalli'
+examine = "One of Gielinor's many citizens."
+
+[[config]]
+npc = 'ic_ecatl'
+examine = 'A retired mage who now runs the local mill.'
+
+[[config]]
+npc = 'ic_basement_imp'
+examine = 'A cheeky little imp.'
+
+[[config]]
+npc = 'vmq4_janus_guard_dog'
+examine = "Doesn't seem friendly."
+
+[[config]]
+npc = 'vmq4_janus_guard_dog_visible'
+examine = "Doesn't seem friendly."
+
+[[config]]
+npc = 'vmq4_janus_dog_alert'
+examine = 'Seems to be alert.'
+
+[[config]]
+npc = 'vmq4_janus_dog_calm'
+examine = 'Seems to have calmed down.'
+
+[[config]]
+npc = 'npc_dog_gus'
+examine = 'Seems to be alert and full of energy.'
+
+[[config]]
+npc = 'npc_dog_gus_vis'
+examine = 'Seems to be alert and full of energy.'
+
+[[config]]
+npc = 'vmq4_janus_house_janus'
+examine = 'A leading member of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_janus_house_janus_sack'
+examine = 'A leading member of the Twilight Emissaries, now with a sack over his head.'
+
+[[config]]
+npc = 'vmq4_janus_house_janus_unconscious'
+examine = 'A leading member of the Twilight Emissaries, now with a sack over his head.'
+
+[[config]]
+npc = 'vmq4_janus_house_unconscious_cs'
+examine = 'A leading member of the Twilight Emissaries, now with a sack over his head.'
+
+[[config]]
+npc = 'vmq4_janus_basement_cs'
+examine = 'A leading member of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_janus_house_janus_dead_vis'
+examine = 'A dead member of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_janus_house_janus_dead_vis_size1'
+examine = 'A dead member of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_janus_guard_dog_cs'
+examine = "Doesn't seem friendly."
+
+[[config]]
+npc = 'vmq4_queen_basement'
+examine = 'The Sun Queen of Varlamore.'
+
+[[config]]
+npc = 'vmq4_queen_cam_torum_entrance'
+examine = 'The Sun Queen of Varlamore.'
+
+[[config]]
+npc = 'vmq4_servius_cam_torum_entrance'
+examine = 'Leader of the Church of Ralos.'
+
+[[config]]
+npc = 'vmq4_temple_guard_stairs'
+examine = 'A highly experienced member of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_temple_guard_boss_patrol'
+examine = 'Not the kind of person you want to get on the wrong side of.'
+
+[[config]]
+npc = 'vmq4_temple_guard_boss_fight_dummy'
+examine = 'Not the kind of person you want to get on the wrong side of.'
+
+[[config]]
+npc = 'vmq4_temple_guard_boss_fight'
+examine = 'Not the kind of person you want to get on the wrong side of.'
+
+[[config]]
+npc = 'vmq4_temple_guard_prisoner_cutscene'
+examine = 'A highly experienced member of the Twilight Emissaries.'
+
+[[config]]
+npc = 'twilight_cultist_acolyte_cutscene_1'
+examine = 'A newly-initiated member of the Twilight Emissaries.'
+
+[[config]]
+npc = 'twilight_cultist_acolyte_cutscene_2'
+examine = 'A newly-initiated member of the Twilight Emissaries.'
+
+[[config]]
+npc = 'twilight_cultist_acolyte_cutscene_3'
+examine = 'A newly-initiated member of the Twilight Emissaries.'
+
+[[config]]
+npc = 'twilight_cultist_chosen_cutscene_1'
+examine = 'An experienced member of the Twilight Emissaries.'
+
+[[config]]
+npc = 'twilight_cultist_chosen_cutscene_2'
+examine = 'An experienced member of the Twilight Emissaries.'
+
+[[config]]
+npc = 'twilight_cultist_chosen_cutscene_3'
+examine = 'An experienced member of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_itzla_prisoner_cs'
+examine = "He's not looking so good."
+
+[[config]]
+npc = 'vmq4_itzla_combat'
+examine = 'Heir to the throne of Varlamore.'
+
+[[config]]
+npc = 'vmq4_itzla_combat_cs'
+examine = 'Heir to the throne of Varlamore.'
+
+[[config]]
+npc = 'vmq4_itzla_crypt'
+examine = 'Heir to the throne of Varlamore.'
+
+[[config]]
+npc = 'vmq4_itzla_crypt_done'
+examine = 'Heir to the throne of Varlamore.'
+
+[[config]]
+npc = 'vmq4_itzla_crypt_puzzle_moon'
+examine = 'Heir to the throne of Varlamore.'
+
+[[config]]
+npc = 'vmq4_itzla_crypt_puzzle_sun'
+examine = 'Heir to the throne of Varlamore.'
+
+[[config]]
+npc = 'vmq4_itzla_crypt_puzzle_sun_1op'
+examine = 'Heir to the throne of Varlamore.'
+
+[[config]]
+npc = 'vmq4_itzla_crypt_puzzle_sun_3op'
+examine = 'Heir to the throne of Varlamore.'
+
+[[config]]
+npc = 'vmq4_itzla_palace'
+examine = 'Heir to the throne of Varlamore.'
+
+[[config]]
+npc = 'vmq4_itzla_palace_vis'
+examine = 'Heir to the throne of Varlamore.'
+
+[[config]]
+npc = 'vmq4_queen_cs'
+examine = 'The Sun Queen of Varlamore.'
+
+[[config]]
+npc = 'vmq4_queen_cs_2'
+examine = 'The Sun Queen of Varlamore.'
+
+[[config]]
+npc = 'vmq4_queen_crypt'
+examine = 'The Sun Queen of Varlamore.'
+
+[[config]]
+npc = 'vmq4_queen_crypt_done'
+examine = 'The Sun Queen of Varlamore.'
+
+[[config]]
+npc = 'vmq4_queen_crypt_combat'
+examine = 'The Sun Queen of Varlamore.'
+
+[[config]]
+npc = 'vmq4_queen_crypt_cs'
+examine = 'The Sun Queen of Varlamore.'
+
+[[config]]
+npc = 'vmq4_queen_palace'
+examine = 'The Sun Queen of Varlamore.'
+
+[[config]]
+npc = 'vmq4_queen_palace_vis'
+examine = 'The Sun Queen of Varlamore.'
+
+[[config]]
+npc = 'vmq4_queen_palace_throne_vis'
+examine = 'The Sun Queen of Varlamore.'
+
+[[config]]
+npc = 'vmq4_queen_walk_away'
+examine = 'The Sun Queen of Varlamore.'
+
+[[config]]
+npc = 'vmq4_captain_vibia_unarmed_cs'
+examine = 'A senior Knight of Varlamore.'
+
+[[config]]
+npc = 'vmq4_captain_vibia_cs'
+examine = 'A senior Knight of Varlamore.'
+
+[[config]]
+npc = 'vmq4_captain_vibia_visible'
+examine = 'A senior Knight of Varlamore.'
+
+[[config]]
+npc = 'vmq4_captain_vibia_inside_house'
+examine = 'A senior Knight of Varlamore.'
+
+[[config]]
+npc = 'vmq4_captain_vibia_walk_away'
+examine = 'A senior Knight of Varlamore.'
+
+[[config]]
+npc = 'vmq4_vibia_crypt'
+examine = 'A senior Knight of Varlamore.'
+
+[[config]]
+npc = 'vmq4_vibia_crypt_done'
+examine = 'A senior Knight of Varlamore.'
+
+[[config]]
+npc = 'vmq4_servius_cs'
+examine = 'Leader of the Church of Ralos.'
+
+[[config]]
+npc = 'vmq4_servius_cam_torum_market'
+examine = 'Leader of the Church of Ralos.'
+
+[[config]]
+npc = 'vmq4_servius_tal_teklan'
+examine = 'Leader of the Church of Ralos.'
+
+[[config]]
+npc = 'vmq4_servius_teumo_house'
+examine = 'Leader of the Church of Ralos.'
+
+[[config]]
+npc = 'vmq4_servius_teumo_house_downstairs'
+examine = 'Leader of the Church of Ralos.'
+
+[[config]]
+npc = 'vmq4_metzli_boss'
+examine = 'Leader of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_metzli_boss_done'
+examine = 'Leader of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_moki_metzli_fight_started_noops'
+examine = 'Leader of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_moki_metzli_fight_defeated_noops'
+examine = 'Leader of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_moki_metzli_fight_defeated_noops_alt'
+examine = 'Leader of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_crypt_metzli_noops'
+examine = 'Leader of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_metzli_cs'
+examine = 'Leader of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_metzli_cs_nostaff'
+examine = 'Leader of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_metzli_cs_nostaff_dead'
+examine = 'Leader of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_metzli_nostaff_dead'
+examine = 'The dead leader of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_metzli_boss_cs'
+examine = 'Leader of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_furia_civilian_cs'
+examine = 'Ranul reborn... apparently.'
+
+[[config]]
+npc = 'vmq4_furia_cs'
+examine = 'Ranul reborn... apparently.'
+
+[[config]]
+npc = 'vmq4_furia_cs_knife'
+examine = 'Not actually Ranul reborn after all.'
+
+[[config]]
+npc = 'vmq4_furia_cs_alt'
+examine = 'Not actually Ranul reborn after all.'
+
+[[config]]
+npc = 'vmq4_crypt_furia_captured'
+examine = 'Not actually Ranul reborn after all.'
+
+[[config]]
+npc = 'vmq4_furia_prisoner_vis'
+examine = "Well, well, well, if it isn't the consequences of her own actions."
+
+[[config]]
+npc = 'vmq4_crypt_ennius_boss'
+examine = 'Convinced of his own transcendence.'
+
+[[config]]
+npc = 'vmq4_crypt_ennius_boss_noops'
+examine = 'Convinced of his own transcendence.'
+
+[[config]]
+npc = 'vmq4_crypt_ennius_noops'
+examine = 'Ralos reborn... apparently.'
+
+[[config]]
+npc = 'vmq4_ennius_civilian_cs'
+examine = 'Ralos reborn... apparently.'
+
+[[config]]
+npc = 'vmq4_ennius_cs'
+examine = 'Ralos reborn... apparently.'
+
+[[config]]
+npc = 'vmq4_attala_cs'
+examine = 'An affluent looking dwarf.'
+
+[[config]]
+npc = 'vmq4_attala_vis'
+examine = 'An affluent looking dwarf.'
+
+[[config]]
+npc = 'vmq4_teumo_wife'
+examine = 'A resident of Cam Torum.'
+
+[[config]]
+npc = 'vmq4_teumo_wife_vis'
+examine = 'A resident of Cam Torum.'
+
+[[config]]
+npc = 'vmq4_teumo_cs'
+examine = 'A resident of Cam Torum.'
+
+[[config]]
+npc = 'vmq4_teumo_cs_2'
+examine = 'A resident of Cam Torum.'
+
+[[config]]
+npc = 'vmq4_highlord_katlo_vis'
+examine = 'Highlord of the Dwarves of Cam Torum.'
+
+[[config]]
+npc = 'vmq4_highlord_katlo_cs'
+examine = 'Highlord of the Dwarves of Cam Torum.'
+
+[[config]]
+npc = 'vmq4_highlord_katlo_cs_2'
+examine = 'Highlord of the Dwarves of Cam Torum.'
+
+[[config]]
+npc = 'vmq4_metzli_fire_wave'
+examine = 'Burning with the heat of the sun.'
+
+[[config]]
+npc = 'vmq4_metzli_fire_wave_withsound'
+examine = 'Burning with the heat of the sun.'
+
+[[config]]
+npc = 'vmq4_metzli_moon_wave'
+examine = 'An icy tornado.'
+
+[[config]]
+npc = 'vmq4_metzli_moon_wave_withsound'
+examine = 'An icy tornado.'
+
+[[config]]
+npc = 'vmq4_eyatlalli'
+examine = 'Streams animate across her softened clay skin.'
+
+[[config]]
+npc = 'vmq4_eyatlalli_vis'
+examine = 'Streams animate across her softened clay skin.'
+
+[[config]]
+npc = 'vmq4_keystone_chamber_guard_1'
+examine = 'A defender of Cam Torum.'
+
+[[config]]
+npc = 'vmq4_keystone_chamber_guard_1_vis'
+examine = 'A defender of Cam Torum.'
+
+[[config]]
+npc = 'vmq4_keystone_chamber_guard_2'
+examine = 'A defender of Cam Torum.'
+
+[[config]]
+npc = 'vmq4_keystone_chamber_guard_2_vis'
+examine = 'A defender of Cam Torum.'
+
+[[config]]
+npc = 'vmq4_keystone_chamber_guard_3'
+examine = 'A defender of Cam Torum.'
+
+[[config]]
+npc = 'vmq4_keystone_chamber_guard_3_vis'
+examine = 'A defender of Cam Torum.'
+
+[[config]]
+npc = 'vmq4_keystone_chamber_boss_ranged'
+examine = 'A fierce ranger of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_keystone_chamber_boss_magic'
+examine = 'A fierce mage of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_keystone_chamber_boss_ranged_cs'
+examine = 'A fierce ranger of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_keystone_chamber_boss_magic_cs'
+examine = 'A fierce mage of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_kualti_warhammer'
+examine = 'Guardian to the Sun Queen.'
+
+[[config]]
+npc = 'vmq4_kualti_scimitar'
+examine = 'Guardian to the Sun Queen.'
+
+[[config]]
+npc = 'vmq4_kualti_flail'
+examine = 'Guardian to the Sun Queen.'
+
+[[config]]
+npc = 'vmq4_kualti_longsword'
+examine = 'Guardian to the Sun Queen.'
+
+[[config]]
+npc = 'vmq4_kualti_hasta'
+examine = 'Guardian to the Sun Queen.'
+
+[[config]]
+npc = 'vmq4_kualti_battleaxe'
+examine = 'Guardian to the Sun Queen.'
+
+[[config]]
+npc = 'vmq4_queen_cutscene'
+examine = 'The Sun Queen of Varlamore.'
+
+[[config]]
+npc = 'vmq4_servius_cutscene'
+examine = 'Leader of the Church of Ralos.'
+
+[[config]]
+npc = 'vmq4_ikniu_cutscene'
+examine = 'The pet snake of the Sun Queen, curled up tight.'
+
+[[config]]
+npc = 'vmq4_servius_vis'
+examine = 'Leader of the Church of Ralos.'
+
+[[config]]
+npc = 'vmq4_ikniu_vis'
+examine = 'The pet snake of the Sun Queen, curled up tight.'
+
+[[config]]
+npc = 'vmq4_crypt_barricade_zyanyi_cs'
+examine = 'The Sun Queen of Varlamore.'
+
+[[config]]
+npc = 'vmq4_crypt_barricade_vibia_cs'
+examine = 'A senior Knight of Varlamore.'
+
+[[config]]
+npc = 'vmq4_crypt_assault_defender_ranged_m_cs'
+examine = 'Here to defend the crypt.'
+
+[[config]]
+npc = 'vmq4_crypt_assault_defender_ranged_f_cs'
+examine = 'Here to defend the crypt.'
+
+[[config]]
+npc = 'vmq4_crypt_assault_defender_melee_m_cs'
+examine = 'Here to defend the crypt.'
+
+[[config]]
+npc = 'vmq4_crypt_assault_defender_melee_f_cs'
+examine = 'Here to defend the crypt.'
+
+[[config]]
+npc = 'vmq4_crypt_assault_vibia'
+examine = 'A senior Knight of Varlamore.'
+
+[[config]]
+npc = 'vmq4_crypt_assault_queen'
+examine = 'The Sun Queen of Varlamore.'
+
+[[config]]
+npc = 'vmq4_crypt_assault_defender_ranged_m'
+examine = 'Here to defend the crypt.'
+
+[[config]]
+npc = 'vmq4_crypt_assault_defender_ranged_f'
+examine = 'Here to defend the crypt.'
+
+[[config]]
+npc = 'vmq4_crypt_assault_defender_melee_m'
+examine = 'Here to defend the crypt.'
+
+[[config]]
+npc = 'vmq4_crypt_assault_defender_melee_f'
+examine = 'Here to defend the crypt.'
+
+[[config]]
+npc = 'vmq4_crypt_attacker_melee_variant_1a'
+examine = 'A fierce fighter of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_crypt_attacker_melee_variant_1b'
+examine = 'A fierce fighter of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_crypt_attacker_melee_variant_2a'
+examine = 'A fierce fighter of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_crypt_attacker_melee_variant_2b'
+examine = 'A fierce fighter of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_crypt_attacker_magic_variant_1'
+examine = 'A fierce mage of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_crypt_attacker_magic_variant_2'
+examine = 'A fierce mage of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_crypt_attacker_ranged_variant_1'
+examine = 'A fierce archer of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_crypt_attacker_ranged_variant_2'
+examine = 'A fierce archer of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_conjurer_cutscene'
+examine = 'A fierce mage of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_ennius_dead_vis'
+examine = "Clearly he wasn't actually Ralos reborn."
+
+[[config]]
+npc = 'vmq4_crypt_defender_ranged_m'
+examine = 'Here to defend the crypt.'
+
+[[config]]
+npc = 'vmq4_crypt_defender_ranged_f'
+examine = 'Here to defend the crypt.'
+
+[[config]]
+npc = 'vmq4_crypt_defender_melee_m'
+examine = 'Here to defend the crypt.'
+
+[[config]]
+npc = 'vmq4_crypt_defender_melee_f'
+examine = 'Here to defend the crypt.'
+
+[[config]]
+npc = 'vmq4_crypt_defender_ranged_m_vis'
+examine = 'Here to defend the crypt.'
+
+[[config]]
+npc = 'vmq4_crypt_defender_ranged_f_vis'
+examine = 'Here to defend the crypt.'
+
+[[config]]
+npc = 'vmq4_crypt_defender_melee_m_vis'
+examine = 'Here to defend the crypt.'
+
+[[config]]
+npc = 'vmq4_crypt_defender_melee_f_vis'
+examine = 'Here to defend the crypt.'
+
+[[config]]
+npc = 'tonali_portable_teleporter'
+examine = 'A portable teleporter.'
+
+[[config]]
+npc = 'earth_nagua'
+examine = 'Strong, sharp and dangerous.'
+
+[[config]]
+npc = 'earth_nagua_reinforced'
+examine = 'Strong, sharp and dangerous.'
+
+[[config]]
+npc = 'crypt_of_tonali_mossgiant'
+examine = 'His beard seems to have a life of its own.'
+
+[[config]]
+npc = 'slayer_rockslug_crypt_of_tonali'
+examine = 'The slime of evil.'
+
+[[config]]
+npc = 'giant_rockcrab_crypt_of_tonali'
+examine = 'No one likes crabs... especially really big ones!'
+
+[[config]]
+npc = 'giant_rockcrab_crypt_of_tonali_hidden'
+examine = 'Heavy rock!'
+
+[[config]]
+npc = 'crypt_of_tonali_skeleton_1'
+examine = 'Could do with gaining a few pounds.'
+
+[[config]]
+npc = 'crypt_of_tonali_skeleton_2'
+examine = 'Could do with gaining a few pounds.'
+
+[[config]]
+npc = 'crypt_of_tonali_skeleton_3'
+examine = 'Could do with gaining a few pounds.'
+
+[[config]]
+npc = 'crypt_of_tonali_moss_lizard'
+examine = 'A small reptile.'
+
+[[config]]
+npc = 'crypt_of_tonali_grimy_lizard'
+examine = 'An ecosystem of a creature.'
+
+[[config]]
+npc = 'vmq4_crypt_defender_ranged_m_fake_combat'
+examine = 'Here to defend the crypt.'
+
+[[config]]
+npc = 'vmq4_crypt_defender_ranged_f_fake_combat'
+examine = 'Here to defend the crypt.'
+
+[[config]]
+npc = 'vmq4_crypt_defender_melee_m_fake_combat'
+examine = 'Here to defend the crypt.'
+
+[[config]]
+npc = 'vmq4_crypt_defender_melee_f_fake_combat'
+examine = 'Here to defend the crypt.'
+
+[[config]]
+npc = 'vmq4_crypt_defender_ranged_m_fake_combat_vis'
+examine = 'Here to defend the crypt.'
+
+[[config]]
+npc = 'vmq4_crypt_defender_ranged_f_fake_combat_vis'
+examine = 'Here to defend the crypt.'
+
+[[config]]
+npc = 'vmq4_crypt_defender_melee_m_fake_combat_vis'
+examine = 'Here to defend the crypt.'
+
+[[config]]
+npc = 'vmq4_crypt_defender_melee_f_fake_combat_vis'
+examine = 'Here to defend the crypt.'
+
+[[config]]
+npc = 'vmq4_crypt_attacker_melee_variant_1a_fake_combat'
+examine = 'A fierce fighter of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_crypt_attacker_melee_variant_1b_fake_combat'
+examine = 'A fierce fighter of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_crypt_attacker_melee_variant_2a_fake_combat'
+examine = 'A fierce fighter of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_crypt_attacker_melee_variant_2b_fake_combat'
+examine = 'A fierce fighter of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_crypt_attacker_magic_variant_1_fake_combat'
+examine = 'A fierce mage of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_crypt_attacker_magic_variant_2_fake_combat'
+examine = 'A fierce mage of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_crypt_attacker_ranged_variant_1_fake_combat'
+examine = 'A fierce archer of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_crypt_attacker_ranged_variant_2_fake_combat'
+examine = 'A fierce archer of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_crypt_attacker_melee_variant_1a_fake_combat_vis'
+examine = 'A fierce fighter of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_crypt_attacker_melee_variant_1b_fake_combat_vis'
+examine = 'A fierce fighter of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_crypt_attacker_melee_variant_2a_fake_combat_vis'
+examine = 'A fierce fighter of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_crypt_attacker_melee_variant_2b_fake_combat_vis'
+examine = 'A fierce fighter of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_crypt_attacker_magic_variant_1_fake_combat_vis'
+examine = 'A fierce mage of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_crypt_attacker_magic_variant_2_fake_combat_vis'
+examine = 'A fierce mage of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_crypt_attacker_ranged_variant_1_fake_combat_vis'
+examine = 'A fierce archer of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_crypt_attacker_ranged_variant_2_fake_combat_vis'
+examine = 'A fierce archer of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_crypt_assault_ambient_defender_injured_f'
+examine = "They've been injured."
+
+[[config]]
+npc = 'vmq4_crypt_assault_ambient_defender_injured_m'
+examine = "They've been injured."
+
+[[config]]
+npc = 'vmq4_crypt_defender_kualti_longsword'
+examine = 'Guardian to the Sun Queen.'
+
+[[config]]
+npc = 'vmq4_crypt_defender_kualti_hasta'
+examine = 'Guardian to the Sun Queen.'
+
+[[config]]
+npc = 'vmq4_crypt_defender_kualti_battleaxe'
+examine = 'Guardian to the Sun Queen.'
+
+[[config]]
+npc = 'vmq4_crypt_defender_kualti_longsword_done'
+examine = 'Guardian to the Sun Queen.'
+
+[[config]]
+npc = 'vmq4_crypt_defender_kualti_hasta_done'
+examine = 'Guardian to the Sun Queen.'
+
+[[config]]
+npc = 'vmq4_crypt_defender_kualti_battleaxe_done'
+examine = 'Guardian to the Sun Queen.'
+
+[[config]]
+npc = 'vmq4_crypt_attacker_melee_variant_1a_fake_combat_cs'
+examine = 'A fierce fighter of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_crypt_attacker_melee_variant_1b_fake_combat_cs'
+examine = 'A fierce fighter of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_crypt_attacker_melee_variant_2a_fake_combat_cs'
+examine = 'A fierce fighter of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_crypt_attacker_melee_variant_2b_fake_combat_cs'
+examine = 'A fierce fighter of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq4_furia_fake_combat'
+examine = 'Maybe not Ranul reborn.'
+
+[[config]]
+npc = 'vmq4_vibia_fake_combat'
+examine = 'A senior Knight of Varlamore.'
+
+[[config]]
+npc = 'vmq4_queen_fake_combat'
+examine = 'The Sun Queen of Varlamore.'
+
+[[config]]
+npc = 'twilight_cultist_spectator_1_vis'
+examine = 'A newly-initiated member of the Twilight Emissaries.'
+
+[[config]]
+npc = 'twilight_cultist_spectator_2_vis'
+examine = 'An experienced member of the Twilight Emissaries.'
+
+[[config]]
+npc = 'twilight_cultist_spectator_3_vis'
+examine = 'A newly-initiated member of the Twilight Emissaries.'
+
+[[config]]
+npc = 'vmq3_temple_cultist_pedestal_vis'
+examine = 'A leading member of the Twilight Emissaries.'
+
+[[config]]
+npc = 'scrambled_alan'
+examine = 'He looks a little out of place here.'
+
+[[config]]
+npc = 'scrambled_alan_cutscene'
+examine = 'He looks a little out of place here.'
+
+[[config]]
+npc = 'scrambled_alan_cutscene_alt'
+examine = 'He looks a little out of place here.'
+
+[[config]]
+npc = 'scrambled_egg_visible'
+examine = 'An egg. Sat on a wall.'
+
+[[config]]
+npc = 'scrambled_egg_dead'
+examine = "He's had a great fall."
+
+[[config]]
+npc = 'scrambled_egg_fix'
+examine = "He's had a great fall."
+
+[[config]]
+npc = 'scrambled_chicken_egg_visible'
+examine = 'An egg. Sat on a wall.'
+
+[[config]]
+npc = 'scrambled_chicken_egg_dead'
+examine = "It's had a great fall."
+
+[[config]]
+npc = 'scrambled_dragon_egg_visible'
+examine = 'An egg. Sat on a wall.'
+
+[[config]]
+npc = 'scrambled_dragon_egg_dead'
+examine = "It's had a great fall."
+
+[[config]]
+npc = 'scrambled_jaguar_egg_visible'
+examine = 'An egg. Sat on a wall.'
+
+[[config]]
+npc = 'scrambled_jaguar_egg_dead'
+examine = "It's had a great fall."
+
+[[config]]
+npc = 'scrambled_king'
+examine = 'A street smart bartender.'
+
+[[config]]
+npc = 'scrambled_kings_man_1'
+examine = "He's here to drink tea and do something... and he's all out of tea."
+
+[[config]]
+npc = 'scrambled_kings_man_2'
+examine = 'He looks like a man who can get things done.'
+
+[[config]]
+npc = 'scrambled_kings_man_3'
+examine = 'A man on a mission.'
+
+[[config]]
+npc = 'scrambled_kings_man_1_cutscene'
+examine = "He's here to drink tea and do something... and he's all out of tea."
+
+[[config]]
+npc = 'scrambled_kings_man_2_cutscene'
+examine = 'He looks like a man who can get things done.'
+
+[[config]]
+npc = 'scrambled_kings_man_3_cutscene'
+examine = 'A man on a mission.'
+
+[[config]]
+npc = 'scrambled_blacksmith'
+examine = 'The local blacksmith. He seems quite busy.'
+
+[[config]]
+npc = 'scrambled_chicken'
+examine = "That's a big one!"
+
+[[config]]
+npc = 'scrambled_dragon'
+examine = 'Not fully grown, but still rather dangerous.'
+
+[[config]]
+npc = 'scrambled_jaguar'
+examine = 'The most intimidating cat in all of Varlamore.'
+
+[[config]]
+npc = 'scrambled_egg_transmog'
+examine = 'He looks a little out of place here.'
+
+[[config]]
+npc = 'farming_gardener_tree_7'
+examine = 'Perhaps this gardener might look after your crops for you.'
+
+[[config]]
+npc = 'farming_gardener_calquat_2'
+examine = 'Perhaps this gardener might look after your crops for you.'
+
+[[config]]
+npc = 'farming_gardener_fruit_7'
+examine = 'Perhaps this gardener might look after your crops for you.'
+
+[[config]]
+npc = 'poh_egg'
+examine = 'An egg.'
+
+[[config]]
+npc = 'dagannoth_dungeon_pressure_pet_egg'
+examine = 'An egg.'
+
+[[config]]
+npc = 'poh_dom_pet'
+examine = 'Doom on a small scale.'
+
+[[config]]
+npc = 'superior_custodian'
+examine = 'Old as...'
+
+[[config]]
+npc = '0_19_48_freshfish'
+examine = 'I can see fish swimming in the water.'
+
+[[config]]
+npc = '0_20_152_freshfish'
+examine = 'I can see fish swimming in the water.'
+
+[[config]]
+npc = '0_19_49_memberfish'
+examine = 'I can see fish swimming in the water.'
+
+[[config]]
+npc = '0_20_47_saltfish'
+examine = 'I can see fish swimming in the water.'
+
+[[config]]
+npc = '0_19_53_freshfish'
+examine = 'I can see fish swimming in the water.'
+
+[[config]]
+npc = '0_20_52_freshfish'
+examine = 'I can see fish swimming in the water.'
+
+[[config]]
+npc = '0_21_51_freshfish'
+examine = 'I can see fish swimming in the water.'
+
+[[config]]
+npc = '0_22_52_freshfish'
+examine = 'I can see fish swimming in the water.'
+
+[[config]]
+npc = 'quetzacalli_mountain_guide_auburnvale'
+examine = 'Knows their way around the mountains.'
+
+[[config]]
+npc = 'cam_torum_guard_1_cs'
+examine = 'A defender of Cam Torum.'
+
+[[config]]
+npc = 'cam_torum_guard_2_cs'
+examine = 'A defender of Cam Torum.'
+
+[[config]]
+npc = 'cam_torum_guard_3_cs'
+examine = 'A defender of Cam Torum.'
+
+[[config]]
+npc = 'varlamore_capybara_orange_picnic'
+examine = 'Where did he learn mixology?!'
+
+[[config]]
+npc = 'varlamore_alpaca_1_noop'
+examine = 'A fluffy alpaca.'
+
+[[config]]
+npc = 'varlamore_alpaca_2_noop'
+examine = 'A fluffy alpaca.'
+
+[[config]]
+npc = 'varlamore_dog_techichi_aldarin_villa'
+examine = 'He seems to be keeping a watchful eye on something happening in the distance...'
+
+[[config]]
+npc = 'varlamore_dog_techichi_kastori'
+examine = 'He seems to be keeping a watchful eye on something...'
+
+[[config]]
+npc = 'varlamore_dog_chiribaya_corn'
+examine = 'Inspecting the local produce.'
+
+[[config]]
+npc = 'varlamore_dog_ziggy_broccoli'
+examine = 'A good boy with big loving eyes... Wait, where did he get that broccoli from?!'
+
+[[config]]
+npc = 'varlamore_bees'
+examine = 'Buzzing around.'
+
+[[config]]
+npc = 'varlamore_bees_low_wander'
+examine = 'Buzzing around.'
+
+[[config]]
+npc = 'varlamore_squirrel_flying_1'
+examine = 'Weeeeeeeee!'
+
+[[config]]
+npc = 'varlamore_squirrel_flying_2'
+examine = 'Weeeeeeeee!'
+
+[[config]]
+npc = 'varlamore_squirrel_flying_3'
+examine = 'Weeeeeeeee!'
+
+[[config]]
+npc = 'varlamore_ocelot_1'
+examine = 'Its intricate patterns make it the most beautiful cat in all of Varlamore.'
+
+[[config]]
+npc = 'varlamore_ocelot_2'
+examine = 'Its intricate patterns make it the most beautiful cat in all of Varlamore.'
+
+[[config]]
+npc = 'varlamore_ocelot_3'
+examine = 'Its intricate patterns make it the most beautiful cat in all of Varlamore.'
+
+[[config]]
+npc = 'varlamore_ocelot_kitten_1'
+examine = 'Kitttyyyyyyyyyyyuhh!!!'
+
+[[config]]
+npc = 'varlamore_ocelot_kitten_2'
+examine = 'Kitttyyyyyyyyyyyuhh!!!'
+
+[[config]]
+npc = 'varlamore_hippo_1'
+examine = 'They enjoy the slower lifestyle.'
+
+[[config]]
+npc = 'varlamore_hippo_2'
+examine = 'They enjoy the slower lifestyle.'
+
+[[config]]
+npc = 'varlamore_hippo_calf'
+examine = 'This little piggy is angry!'
+
+[[config]]
+npc = 'varlamore_hippo_submerged_north'
+examine = 'Bobbing along.'
+
+[[config]]
+npc = 'varlamore_hippo_submerged_south'
+examine = 'Bobbing along.'
+
+[[config]]
+npc = 'varlamore_hippo_submerged_east'
+examine = 'Bobbing along.'
+
+[[config]]
+npc = 'varlamore_hippo_submerged_west'
+examine = 'Bobbing along.'
+
+[[config]]
+npc = 'varlamore_hippo_calf_submerged_north'
+examine = 'Bobbing along.'
+
+[[config]]
+npc = 'varlamore_hippo_calf_submerged_south'
+examine = 'Bobbing along.'
+
+[[config]]
+npc = 'varlamore_hippo_calf_submerged_east'
+examine = 'Bobbing along.'
+
+[[config]]
+npc = 'varlamore_hippo_calf_submerged_west'
+examine = 'Bobbing along.'
+
+[[config]]
+npc = 'varlamore_hippo_calf_picnic'
+examine = "She's following the fruit-hat trend."
+
+[[config]]
+npc = 'varlamore_tapir_1'
+examine = 'What a nose!'
+
+[[config]]
+npc = 'varlamore_tapir_2'
+examine = 'What a nose!'
+
+[[config]]
+npc = 'varlamore_tapir_calf'
+examine = 'Their little stripes act as camouflage!'
+
+[[config]]
+npc = 'varlamore_anteater'
+examine = 'Clearing any ants in its path.'
+
+[[config]]
+npc = 'varlamore_squirrel_monkey'
+examine = 'Monkey-ing around.'
+
+[[config]]
+npc = 'varlamore_parrot_macaw'
+examine = 'A large and colourful bird.'
+
+[[config]]
+npc = 'varlamore_parrot_caique'
+examine = 'A large and colourful bird.'
+
+[[config]]
+npc = 'varlamore_parrot_caique_rock_north'
+examine = 'Minding their own business...'
+
+[[config]]
+npc = 'varlamore_parrot_caique_rock_south'
+examine = 'Minding their own business...'
+
+[[config]]
+npc = 'varlamore_parrot_caique_rock_east'
+examine = 'Minding their own business...'
+
+[[config]]
+npc = 'varlamore_parrot_caique_rock_west'
+examine = 'Minding their own business...'
+
+[[config]]
+npc = 'varlamore_parrot_ulama01'
+examine = 'A large and colourful bird.'
+
+[[config]]
+npc = 'varlamore_parrot_ulama02'
+examine = 'A large and colourful bird.'
+
+[[config]]
+npc = 'varlamore_parrot_ulama03'
+examine = 'A large and colourful bird.'
+
+[[config]]
+npc = 'ent_totems_intro_ranulph_1op'
+examine = 'Lost in thought.'
+
+[[config]]
+npc = 'ent_totems_intro_ranulph_2op'
+examine = 'Lost in thought.'
+
+[[config]]
+npc = 'ent_totems_intro_child_vis'
+examine = 'An inquisitive child.'
+
+[[config]]
+npc = 'ent_totems_intro_child_cutscene'
+examine = 'An inquisitive child.'
+
+[[config]]
+npc = 'ent_totems_intro_ranulph_cs'
+examine = 'Lost in thought.'
+
+[[config]]
+npc = 'ent_totems_ent_cs'
+examine = 'He ent such a bad guy.'
+
+[[config]]
+npc = 'ent_totems_animal_a_cs'
+examine = 'The spirit of a buffalo.'
+
+[[config]]
+npc = 'ent_totems_animal_b_cs'
+examine = 'The spirit of a jaguar.'
+
+[[config]]
+npc = 'ent_totems_animal_c_cs'
+examine = 'The spirit of an eagle.'
+
+[[config]]
+npc = 'ent_totems_animal_d_cs'
+examine = 'The spirit of a snake.'
+
+[[config]]
+npc = 'ent_totems_animal_e_cs'
+examine = 'The spirit of a scorpion.'
+
+[[config]]
+npc = 'ent_totems_animal_a'
+examine = 'The spirit of a buffalo.'
+
+[[config]]
+npc = 'ent_totems_animal_b'
+examine = 'The spirit of a jaguar.'
+
+[[config]]
+npc = 'ent_totems_animal_c'
+examine = 'The spirit of an eagle.'
+
+[[config]]
+npc = 'ent_totems_animal_d'
+examine = 'The spirit of a snake.'
+
+[[config]]
+npc = 'ent_totems_animal_e'
+examine = 'The spirit of a scorpion.'
+
+[[config]]
+npc = 'ent_totems_ent'
+examine = 'He ent such a bad guy.'
+
+[[config]]
+npc = 'ent_totems_ent_buffed'
+examine = 'He ent such a bad guy.'
+
+[[config]]
+npc = 'ent_totems_entling'
+examine = 'The joyful spawn of an ent.'
+
+[[config]]
+npc = 'auburn_citizen_normal_m_1'
+examine = "One of Gielinor's many citizens."
+
+[[config]]
+npc = 'auburn_citizen_normal_m_2'
+examine = "One of Gielinor's many citizens."
+
+[[config]]
+npc = 'auburn_citizen_normal_m_3'
+examine = "One of Gielinor's many citizens."
+
+[[config]]
+npc = 'auburn_citizen_normal_f_1'
+examine = "One of Gielinor's many citizens."
+
+[[config]]
+npc = 'auburn_citizen_normal_f_2'
+examine = "One of Gielinor's many citizens."
+
+[[config]]
+npc = 'auburn_citizen_normal_f_3'
+examine = "One of Gielinor's many citizens."
+
+[[config]]
+npc = 'auburn_citizen_rich_m_1'
+examine = "One of Gielinor's many citizens."
+
+[[config]]
+npc = 'auburn_citizen_rich_f_1'
+examine = "One of Gielinor's many citizens."
+
+[[config]]
+npc = 'auburn_child_f_1'
+examine = "One of Gielinor's many children."
+
+[[config]]
+npc = 'auburn_child_m_1'
+examine = "One of Gielinor's many children."
+
+[[config]]
+npc = 'auburn_general_store'
+examine = 'He can sell you a thing or two.'
+
+[[config]]
+npc = 'auburn_axe_store'
+examine = 'She owns a lot of axes.'
+
+[[config]]
+npc = 'auburn_staff_store'
+examine = 'Apparently he gives people a lot of stick.'
+
+[[config]]
+npc = 'auburn_sawmill_operator'
+examine = 'He changes the shape of wood.'
+
+[[config]]
+npc = 'auburn_bartender'
+examine = 'He can serve you a drink.'
+
+[[config]]
+npc = 'nemus_retreat_bartender'
+examine = 'He can serve you a drink.'
+
+[[config]]
+npc = 'auburn_tanner'
+examine = 'Has a faint smell of chemicals about her.'
+
+[[config]]
+npc = 'auburnvale_guard_m_1'
+examine = 'He tries to keep order around here.'
+
+[[config]]
+npc = 'auburnvale_guard_m_2'
+examine = 'He tries to keep order around here.'
+
+[[config]]
+npc = 'auburnvale_guard_m_3'
+examine = 'He tries to keep order around here.'
+
+[[config]]
+npc = 'auburnvale_guard_m_4'
+examine = 'He tries to keep order around here.'
+
+[[config]]
+npc = 'auburnvale_guard_f_1'
+examine = 'She tries to keep order around here.'
+
+[[config]]
+npc = 'auburnvale_guard_f_2'
+examine = 'She tries to keep order around here.'
+
+[[config]]
+npc = 'auburnvale_guard_f_3'
+examine = 'She tries to keep order around here.'
+
+[[config]]
+npc = 'auburnvale_guard_f_4'
+examine = 'She tries to keep order around here.'
+
+[[config]]
+npc = 'auburnvale_banker_west_1'
+examine = 'They can look after my money.'
+
+[[config]]
+npc = 'auburnvale_banker_east_1'
+examine = 'He can look after my money.'
+
+[[config]]
+npc = 'auburnvale_banker_south_1'
+examine = 'They can look after my money.'
+
+[[config]]
+npc = 'auburnvale_banker_north_1'
+examine = 'She can look after my money.'
+
+[[config]]
+npc = 'auburn_teoki_ranul'
+examine = 'A teoki in service to Ranul.'
+
+[[config]]
+npc = 'auburn_teoki_ralos'
+examine = 'A teoki in service to Ralos.'
+
+[[config]]
+npc = 'hunter_diana'
+examine = 'An expert amongst the foliage.'
+
+[[config]]
+npc = 'ent_enjoyer_1'
+examine = "One of Gielinor's many citizens."
+
+[[config]]
+npc = 'ent_enjoyer_2'
+examine = "One of Gielinor's many citizens."
+
+[[config]]
+npc = 'ent_enjoyer_3'
+examine = "One of Gielinor's many children."
+
+[[config]]
+npc = 'spiritofadventure_bernina_vis'
+examine = 'Blimey! A ghost!'
+
+[[config]]
+npc = 'spiritofadventure_jasper'
+examine = 'Likes to collect shiny stuff.'
+
+[[config]]
+npc = 'spiritofadventure_bernard_vis'
+examine = "He's on an adventure!"
+
+[[config]]
+npc = 'auburn_grave_watcher'
+examine = 'A solemn looking man.'
+
+[[config]]
+npc = 'varlamore_border_guard_m_1'
+examine = "He's here to guard the border."
+
+[[config]]
+npc = 'varlamore_border_guard_m_2'
+examine = "He's here to guard the border."
+
+[[config]]
+npc = 'varlamore_border_guard_m_3'
+examine = "He's here to guard the border."
+
+[[config]]
+npc = 'varlamore_border_guard_m_4'
+examine = "He's here to guard the border."
+
+[[config]]
+npc = 'varlamore_border_guard_m_5'
+examine = "He's here to guard the border."
+
+[[config]]
+npc = 'varlamore_border_guard_f_1'
+examine = "She's here to guard the border."
+
+[[config]]
+npc = 'varlamore_border_guard_f_2'
+examine = "She's here to guard the border."
+
+[[config]]
+npc = 'varlamore_border_guard_f_3'
+examine = "She's here to guard the border."
+
+[[config]]
+npc = 'varlamore_border_guard_f_4'
+examine = "She's here to guard the border."
+
+[[config]]
+npc = 'varlamore_border_guard_f_5'
+examine = "She's here to guard the border."
+
+[[config]]
+npc = 'juvenile_custodian_stalker'
+examine = 'Not fully grown.'
+
+[[config]]
+npc = 'mature_custodian_stalker'
+examine = 'Grown just enough.'
+
+[[config]]
+npc = 'elder_custodian_stalker'
+examine = 'Overgrown.'
+
+[[config]]
+npc = 'baby_custodian_stalker'
+examine = 'Barely grown at all.'
+
+[[config]]
+npc = 'soc_quest_juvenile'
+examine = 'What is that?'
+
+[[config]]
+npc = 'dom_boss'
+examine = 'A demonic digger.'
+
+[[config]]
+npc = 'dom_boss_shielded'
+examine = "It's protecting itself with a demonic shield!"
+
+[[config]]
+npc = 'dom_boss_burrowed'
+examine = 'You can run, but it can dig.'
+
+[[config]]
+npc = 'dom_demonic_energy'
+examine = 'Larva of pure evil.'
+
+[[config]]
+npc = 'dom_demonic_energy_range'
+examine = 'Larva of pure evil.'
+
+[[config]]
+npc = 'dom_demonic_energy_mage'
+examine = 'Larva of pure evil.'
+
+[[config]]
+npc = 'dom_demonic_energy_melee'
+examine = 'Larva of pure evil.'
+
+[[config]]
+npc = 'dom_shockwave_path_node'
+examine = 'Its being manipulated by some magical force.'
+
+[[config]]
+npc = 'dom_shockwave_shield'
+examine = 'Earth magic manipulated into a protective barrier.'
+
+[[config]]
+npc = 'tlati_guard_m_1'
+examine = 'He tries to keep order around here.'
+
+[[config]]
+npc = 'tlati_guard_m_2'
+examine = 'He tries to keep order around here.'
+
+[[config]]
+npc = 'tlati_guard_m_3'
+examine = 'He tries to keep order around here.'
+
+[[config]]
+npc = 'tlati_guard_m_4'
+examine = 'He tries to keep order around here.'
+
+[[config]]
+npc = 'tlati_guard_f_1'
+examine = 'She tries to keep order around here.'
+
+[[config]]
+npc = 'tlati_guard_f_2'
+examine = 'She tries to keep order around here.'
+
+[[config]]
+npc = 'tlati_guard_f_3'
+examine = 'She tries to keep order around here.'
+
+[[config]]
+npc = 'tlati_guard_f_4'
+examine = 'She tries to keep order around here.'
+
+[[config]]
+npc = 'tonali_teoki_ralos'
+examine = 'A teoki in service to Ralos.'
+
+[[config]]
+npc = 'tonali_teoki_ranul'
+examine = 'A teoki in service to Ranul.'
+
+[[config]]
+npc = 'tal_teok_teoki_ralos'
+examine = 'A teoki in service to Ralos.'
+
+[[config]]
+npc = 'tlati_riverboat_owner_south'
+examine = "One of Gielinor's many citizens."
+
+[[config]]
+npc = 'tlati_riverboat_owner_west'
+examine = "One of Gielinor's many citizens."
+
+[[config]]
+npc = 'tlati_riverboat_owner_north'
+examine = "One of Gielinor's many citizens."
+
+[[config]]
+npc = 'tlati_stranded_man'
+examine = "Don't mention his situation."
+
+[[config]]
+npc = 'tlati_lost_lover_xilo_vis'
+examine = 'Love leads her to places less explored.'
+
+[[config]]
+npc = 'tlati_lost_lover_fabia_vis'
+examine = 'Love leads her to places less explored.'
+
+[[config]]
+npc = 'rainforest_troupe_singer_1'
+examine = 'Maybe they take requests.'
+
+[[config]]
+npc = 'rainforest_troupe_singer_2'
+examine = 'Maybe they take requests.'
+
+[[config]]
+npc = 'rainforest_troupe_singer_3'
+examine = 'Maybe they take requests.'
+
+[[config]]
+npc = 'kiyahtla'
+examine = 'Familiar with a more pared-back living arrangement.'
+
+[[config]]
+npc = 'kastori_citizen_normal_m_1'
+examine = "One of Gielinor's many citizens."
+
+[[config]]
+npc = 'kastori_citizen_normal_m_2'
+examine = "One of Gielinor's many citizens."
+
+[[config]]
+npc = 'kastori_citizen_normal_m_3'
+examine = "One of Gielinor's many citizens."
+
+[[config]]
+npc = 'kastori_citizen_normal_f_1'
+examine = "One of Gielinor's many citizens."
+
+[[config]]
+npc = 'kastori_citizen_normal_f_2'
+examine = "One of Gielinor's many citizens."
+
+[[config]]
+npc = 'kastori_citizen_normal_f_3'
+examine = "One of Gielinor's many citizens."
+
+[[config]]
+npc = 'kastori_citizen_rich_m_1'
+examine = "One of Gielinor's many citizens."
+
+[[config]]
+npc = 'kastori_citizen_rich_f_1'
+examine = "One of Gielinor's many citizens."
+
+[[config]]
+npc = 'kastori_child_m_1'
+examine = "One of Gielinor's many children."
+
+[[config]]
+npc = 'kastori_child_f_1'
+examine = "One of Gielinor's many children."
+
+[[config]]
+npc = 'kastori_farmer_m_1'
+examine = 'A local farmer.'
+
+[[config]]
+npc = 'kastori_farmer_m_2'
+examine = 'A local farmer.'
+
+[[config]]
+npc = 'kastori_farmer_f_1'
+examine = 'A local farmer.'
+
+[[config]]
+npc = 'kastori_farmer_f_2'
+examine = 'A local farmer.'
+
+[[config]]
+npc = 'kastori_master_farmer_m_1'
+examine = 'An expert in farming.'
+
+[[config]]
+npc = 'kastori_master_farmer_m_2'
+examine = 'An expert in farming.'
+
+[[config]]
+npc = 'kastori_master_farmer_f_1'
+examine = 'An expert in farming.'
+
+[[config]]
+npc = 'kastori_master_farmer_f_2'
+examine = 'An expert in farming.'
+
+[[config]]
+npc = 'kastori_fisher_m_1'
+examine = 'They have the distinct scent of fish to them.'
+
+[[config]]
+npc = 'kastori_general_store'
+examine = 'She can sell you a thing or two.'
+
+[[config]]
+npc = 'kastori_farming_trader'
+examine = 'A local seller of farming supplies.'
+
+[[config]]
+npc = 'kastori_fishing_trader'
+examine = 'His goods might help you if you fancy a day of fishing.'
+
+[[config]]
+npc = 'tal_teklan_citizen_normal_m_1'
+examine = "One of Gielinor's many citizens."
+
+[[config]]
+npc = 'tal_teklan_citizen_normal_m_2'
+examine = "One of Gielinor's many citizens."
+
+[[config]]
+npc = 'tal_teklan_citizen_normal_m_3'
+examine = "One of Gielinor's many citizens."
+
+[[config]]
+npc = 'tal_teklan_citizen_normal_f_1'
+examine = "One of Gielinor's many citizens."
+
+[[config]]
+npc = 'tal_teklan_citizen_normal_f_2'
+examine = "One of Gielinor's many citizens."
+
+[[config]]
+npc = 'tal_teklan_citizen_normal_f_3'
+examine = "One of Gielinor's many citizens."
+
+[[config]]
+npc = 'tal_teklan_citizen_rich_m_1'
+examine = "One of Gielinor's many citizens."
+
+[[config]]
+npc = 'tal_teklan_citizen_rich_f_1'
+examine = "One of Gielinor's many citizens."
+
+[[config]]
+npc = 'tal_teklan_child_m_1'
+examine = "One of Gielinor's many children."
+
+[[config]]
+npc = 'tal_teklan_child_f_1'
+examine = "One of Gielinor's many children."
+
+[[config]]
+npc = 'tal_teklan_farmer'
+examine = 'A local farmer.'
+
+[[config]]
+npc = 'tal_teklan_dye_trader'
+examine = 'A colector of dyes.'
+
+[[config]]
+npc = 'tal_teklan_rune_trader'
+examine = "She clearly hasn't used any fire spells around here."
+
+[[config]]
+npc = 'tal_teklan_archery_trader'
+examine = 'Likes a good bow and arrow.'
+
+[[config]]
+npc = 'tal_teklan_general_store'
+examine = 'He can sell you a thing or two.'
+
+[[config]]
+npc = 'tal_teklan_banker'
+examine = 'She can look after my money.'
+
+[[config]]
+npc = 'gemstone_crab'
+examine = 'The shiniest crustacean this side of the shoreline.'
+
+[[config]]
+npc = 'gemstone_crab_remains'
+examine = 'The sparkling shell of a giant crab.'
+
+[[config]]
+npc = 'gemstone_crab_director'
+examine = 'I wonder what his siblings are called...'
+
+[[config]]
+npc = 'gemstone_crab_director_notimer'
+examine = 'I wonder what his siblings are called...'
+
+[[config]]
+npc = 'varlamore_knight_f_2_noop'
+examine = 'A knight in fancy armour.'
+
+[[config]]
+npc = 'varlamore_knight_m_3_noop'
+examine = 'A knight in fancy armour.'
+
+[[config]]
+npc = 'dom_pet'
+examine = 'Doom on a small scale.'
 

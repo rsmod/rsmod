@@ -3764,7 +3764,7 @@ examine = "They're just waiting to trip someone up."
 
 [[config]]
 loc = 'jungle2'
-examine = 'Commonly found in these parts.'
+examine = 'A tropical plant.'
 
 [[config]]
 loc = 'plant1'
@@ -5136,7 +5136,7 @@ examine = 'A nice selection of staves.'
 
 [[config]]
 loc = 'fai_varrock_varrock_barrel_of_staffs'
-examine = 'Staves in a Barrel.'
+examine = 'Staves in a barrel.'
 
 [[config]]
 loc = 'fai_varrock_staff_table'
@@ -5180,7 +5180,7 @@ examine = 'Going up?'
 
 [[config]]
 loc = 'garden_trellis_concave_shortcut'
-examine = 'An imposing stone structure.'
+examine = 'I might be able to climb this, if Queen Ellamaria lets me.'
 
 [[config]]
 loc = 'obelisk_earth'
@@ -7456,7 +7456,7 @@ examine = "It's closed."
 
 [[config]]
 loc = 'easter25_carrot_scraps_no_trail'
-examine = 'I can climb this.'
+examine = 'Manky leftovers.'
 
 [[config]]
 loc = 'legends_cupboard'
@@ -10989,6 +10989,10 @@ examine = 'A solid stone staircase.'
 [[config]]
 loc = 'castlewars_areana_stairentrance_mirror_saradomin'
 examine = 'A solid stone staircase.'
+
+[[config]]
+loc = 'grandtree_ladderbottom'
+examine = 'I can climb this.'
 
 [[config]]
 loc = 'castlewars_table_toolbox'
@@ -72692,7 +72696,7 @@ examine = 'Not such a giant boulder anymore.'
 
 [[config]]
 loc = 'fossil_mining_boulder_medium'
-examine = "It's getting smaller, maybe there are goodies in the middle, like a pi�ata."
+examine = "It's getting smaller, maybe there are goodies in the middle, like a piñata."
 
 [[config]]
 loc = 'fossil_mining_boulder_small'
@@ -89444,7 +89448,7 @@ examine = 'Small wooden boxes.'
 
 [[config]]
 loc = 'porcine_noticeboard'
-examine = 'A public noticeboard for Draynor Village.'
+examine = 'A public notice board for Draynor Village.'
 
 [[config]]
 loc = 'porcine_hole_norope'
@@ -94564,11 +94568,11 @@ examine = 'Welcome to the SEMI-FINALS of the DMM21 tournement!'
 
 [[config]]
 loc = 'deadman_flag_stage09'
-examine = 'Welcome to the FINAL of the DMM21 tournement!'
+examine = 'Welcome to the finale.'
 
 [[config]]
 loc = 'deadman_flag_stage09_bright'
-examine = 'Welcome to the FINAL of the DMM21 tournement!'
+examine = 'Welcome to the finale.'
 
 [[config]]
 loc = 'mguild_mining_stone_pickaxe'
@@ -96420,7 +96424,7 @@ examine = 'Watch your step!'
 
 [[config]]
 loc = 'cavekit_rock01_entrance01'
-examine = 'An escape back to the surface.'
+examine = 'Where could it go?'
 
 [[config]]
 loc = 'invisible_type8_blocking_active'
@@ -101388,15 +101392,15 @@ examine = 'A leafy shrub.'
 
 [[config]]
 loc = 'tree_redwood_default01'
-examine = 'A Redwood tree.'
+examine = "This would be considered a small redwood, but it's still huge!"
 
 [[config]]
 loc = 'tree_redwood_default02'
-examine = 'A Redwood tree.'
+examine = "This would be considered a small redwood, but it's still huge!"
 
 [[config]]
 loc = 'tree_redwood_default03'
-examine = 'A Redwood tree.'
+examine = "This would be considered a small redwood, but it's still huge!"
 
 [[config]]
 loc = 'greybox_seating_chair01'
@@ -108171,20 +108175,8 @@ loc = 'tlati_tree_top01'
 examine = 'A terribly tall tropical tree.'
 
 [[config]]
-loc = 'tlati_tree_canopy01'
-examine = 'Leaves of a tropical tree.'
-
-[[config]]
 loc = 'tlati_plant_fern01'
 examine = 'A large fern.'
-
-[[config]]
-loc = 'tlati_tree_small01'
-examine = 'An unusual tree grows here.'
-
-[[config]]
-loc = 'tlati_tree_small02'
-examine = 'A tree found in tropical areas.'
 
 [[config]]
 loc = 'tlati_mushroom01_large01'
@@ -114752,15 +114744,15 @@ examine = 'It seems as though this cabbage was ditched in a hurry...'
 
 [[config]]
 loc = 'mound_termite01_small01'
-examine = 'The termites scurry within.'
+examine = 'Termites scurry within.'
 
 [[config]]
 loc = 'mound_termite01_medium01'
-examine = 'The termites scurry within.'
+examine = 'Termites scurry within.'
 
 [[config]]
 loc = 'mound_termite01_large01'
-examine = 'The termites scurry within.'
+examine = 'Termites scurry within.'
 
 [[config]]
 loc = 'cart_avium01_digsite01'
@@ -117829,4 +117821,3020 @@ examine = 'There are some rune pouches here.'
 [[config]]
 loc = 'castlewars_table_runepouch_zamorak'
 examine = 'There are some rune pouches here.'
+
+[[config]]
+loc = 'grandtree_laddertop'
+examine = 'I can climb down this.'
+
+[[config]]
+loc = 'spiralstairsbottom_3'
+examine = 'I can climb up these stairs.'
+
+[[config]]
+loc = 'spiralstairstop_3'
+examine = 'I can climb down these stairs.'
+
+[[config]]
+loc = 'grandtree_laddermiddle_top'
+examine = 'I can climb this.'
+
+[[config]]
+loc = 'grandtree_laddermiddle_bottom'
+examine = 'I can climb this.'
+
+[[config]]
+loc = 'cof_shortcut_bottom'
+examine = 'A tragic story of how creations degrade. Time is cruel.'
+
+[[config]]
+loc = 'easter25_carrot_crate_trail_1'
+examine = 'Why would this be here?'
+
+[[config]]
+loc = 'easter25_carrot_crate_investigated_1'
+examine = 'A trail of carrots leads off from this crate...'
+
+[[config]]
+loc = 'easter25_carrot_crate_noop_1'
+examine = 'Why would this be here?'
+
+[[config]]
+loc = 'cof_shortcut_middle'
+examine = 'Rough on the hands.'
+
+[[config]]
+loc = 'easter25_carrot_scraps_trail_2'
+examine = 'I wonder why these are here?'
+
+[[config]]
+loc = 'easter25_carrot_scraps_trail_investigated_2'
+examine = 'Hmm yes, these carrots are made out of carrot.'
+
+[[config]]
+loc = 'easter25_carrot_scraps_trail_noop_2'
+examine = 'Manky leftovers.'
+
+[[config]]
+loc = 'cof_shortcut_top'
+examine = 'Spiky and loose. Descending it would be challenging.'
+
+[[config]]
+loc = 'easter25_carrot_scraps_trail_3'
+examine = 'Suspicious indeed!'
+
+[[config]]
+loc = 'easter25_carrot_scraps_trail_investigated_3'
+examine = 'More carrots... Hmm...'
+
+[[config]]
+loc = 'easter25_carrot_scraps_trail_noop_3'
+examine = 'Manky leftovers.'
+
+[[config]]
+loc = 'yama_steppingstone'
+examine = 'Made of lava.'
+
+[[config]]
+loc = 'yama_portal'
+examine = 'A mysterious portal.'
+
+[[config]]
+loc = 'yama_pedestal'
+examine = "That's one ominous looking pedestal."
+
+[[config]]
+loc = 'yama_exit'
+examine = 'Leaving already?'
+
+[[config]]
+loc = 'easter25_rabbithole_bush'
+examine = 'A regular bush. Mind your own business!'
+
+[[config]]
+loc = 'easter25_rabbithole_entrance_bush'
+examine = 'A regular bush. Mind your own business!'
+
+[[config]]
+loc = 'easter25_rabbithole_entrance_hole'
+examine = 'Looks like a very large rabbit could get inside.'
+
+[[config]]
+loc = 'easter25_rabbithole_exit_ladder'
+examine = 'Goes up AND down!'
+
+[[config]]
+loc = 'easter25_crate01_carrot01'
+examine = 'Why are these carrots so big?'
+
+[[config]]
+loc = 'yama_firewall'
+examine = 'A wall of fire. Crossable... but painful.'
+
+[[config]]
+loc = 'throne_demonic01_stone01'
+examine = 'A fiery throne, fit for only the strongest demons.'
+
+[[config]]
+loc = 'rock_skulls01_large01'
+examine = 'Proudly displaying his previous victims...'
+
+[[config]]
+loc = 'easter25_stall01_default01'
+examine = "It's empty."
+
+[[config]]
+loc = 'easter25_stall01_broken01'
+examine = "It's not fully assembled yet."
+
+[[config]]
+loc = 'easter25_stall01_incomplete01'
+examine = "It's empty."
+
+[[config]]
+loc = 'easter25_stall01_complete01'
+examine = 'Full of fresh produce.'
+
+[[config]]
+loc = 'easter25_stall01_complete02'
+examine = 'Full of fresh produce.'
+
+[[config]]
+loc = 'easter25_stall01_complete03'
+examine = 'Full of big eggs.'
+
+[[config]]
+loc = 'rock_skulls01_large02'
+examine = 'Proudly displaying his previous victims...'
+
+[[config]]
+loc = 'easter25_crate01'
+examine = 'Presumably full of eggs.'
+
+[[config]]
+loc = 'easter25_juice_press'
+examine = 'Great for squashing juice out of things.'
+
+[[config]]
+loc = 'easter25_mushroom01_crypt01'
+examine = 'Is it safe to eat?'
+
+[[config]]
+loc = 'easter25_mushroom01_crypt02'
+examine = 'Is it safe to eat?'
+
+[[config]]
+loc = 'easter25_mushroom01_crypt03'
+examine = 'Is it safe to eat?'
+
+[[config]]
+loc = 'easter25_grape_sack'
+examine = 'Squishy!'
+
+[[config]]
+loc = 'easter25_raisin_sack'
+examine = 'Full of dried fruit.'
+
+[[config]]
+loc = 'easter25_performance_bookcase'
+examine = 'Full of old books and papers.'
+
+[[config]]
+loc = 'easter25_performance_wardrobe'
+examine = 'It smells funny in there.'
+
+[[config]]
+loc = 'easter25_carrot_bowlingpin01'
+examine = 'Bowling for carrot soup.'
+
+[[config]]
+loc = 'pillar_demonic01_spike'
+examine = 'Weird looking pillar.'
+
+[[config]]
+loc = 'pillar_demonic01_spike01'
+examine = 'Weird looking pillar.'
+
+[[config]]
+loc = 'pillar_demonic01_spike02'
+examine = 'Weird looking pillar.'
+
+[[config]]
+loc = 'pillar_demonic01_spike03'
+examine = 'Weird looking pillar.'
+
+[[config]]
+loc = 'pillar_demonic01_spike04'
+examine = 'Weird looking pillar.'
+
+[[config]]
+loc = 'skulls_human01_pile01'
+examine = "It's not quite the same as flower arranging."
+
+[[config]]
+loc = 'fx_fire_tall01'
+examine = 'Burning with infernal energy.'
+
+[[config]]
+loc = 'fx_fire_tall02'
+examine = 'Burning with infernal energy.'
+
+[[config]]
+loc = 'fx_fire_tall03'
+examine = 'Burning with infernal energy.'
+
+[[config]]
+loc = 'floorkit_summoning03_full01'
+examine = 'A demonic glyph.'
+
+[[config]]
+loc = 'floorkit_summoning03_full02'
+examine = 'A demonic glyph.'
+
+[[config]]
+loc = 'floorkit_summoning03_inactive'
+examine = 'A demonic glyph.'
+
+[[config]]
+loc = 'floorkit_summoning03_full01_deactivate'
+examine = 'Depleted of shadowy energy.'
+
+[[config]]
+loc = 'floorkit_summoning03_full02_deactivate'
+examine = 'Depleted of fiery energy.'
+
+[[config]]
+loc = 'yama_shadow_pool'
+examine = 'A puddle of endless shadows.'
+
+[[config]]
+loc = 'crimson_lovakite1'
+examine = 'A rocky outcrop.'
+
+[[config]]
+loc = 'crimson_lovakite2'
+examine = 'A rocky outcrop.'
+
+[[config]]
+loc = 'crimson_lovakite_large_active'
+examine = 'A bunch of rocks.'
+
+[[config]]
+loc = 'crimson_lovakite_large_inactive'
+examine = "A bunch of rocks. There doesn't look to be anything left in them."
+
+[[config]]
+loc = 'cof_furnace'
+examine = 'A hot furnace.'
+
+[[config]]
+loc = 'pool_of_ichor'
+examine = 'Viscous and shiny.'
+
+[[config]]
+loc = 'chasm_anvil'
+examine = 'Used for forging infernal metals.'
+
+[[config]]
+loc = 'cof_firewall'
+examine = 'Very hot!'
+
+[[config]]
+loc = 'cof_firewall_active'
+examine = 'Very hot!'
+
+[[config]]
+loc = 'cof_agility_lip'
+examine = 'It looks like I could probably drop on to the platform below.'
+
+[[config]]
+loc = 'cof_agility_jump'
+examine = 'If I fell through that gap it would be pretty bad.'
+
+[[config]]
+loc = 'deadman_allstars_portal'
+examine = 'A magical portal.'
+
+[[config]]
+loc = 'deadman_allstars_portal_exit'
+examine = 'A magical portal.'
+
+[[config]]
+loc = 'deadman_allstars_finale_barrier'
+examine = 'I might be able to jump over this.'
+
+[[config]]
+loc = 'poordoor_m'
+examine = 'The door is closed.'
+
+[[config]]
+loc = 'poordooropen_m'
+examine = 'The door is open.'
+
+[[config]]
+loc = 'mossykey_chest_closed'
+examine = 'Probably where Bryophyta keeps all of her valuables.'
+
+[[config]]
+loc = 'mossykey_chest_open'
+examine = 'Probably where Bryophyta keeps all of her valuables.'
+
+[[config]]
+loc = 'giantkey_chest_closed'
+examine = 'Probably where Obor keeps all of his valuables.'
+
+[[config]]
+loc = 'giantkey_chest_open'
+examine = 'Probably where Obor keeps all of his valuables.'
+
+[[config]]
+loc = 'shayzien_flag_agility01_offset'
+examine = 'A banner of the Shayzien military.'
+
+[[config]]
+loc = 'shayzien_flag_agility01_offset2'
+examine = 'A banner of the Shayzien military.'
+
+[[config]]
+loc = 'shayzien_flag_arrows01_offset'
+examine = 'A banner of the Shayzien military.'
+
+[[config]]
+loc = 'shayzien_flag_arrows01_offset2'
+examine = 'A banner of the Shayzien military.'
+
+[[config]]
+loc = 'shayzien_flag_arrows02_offset'
+examine = 'A banner of the Shayzien military.'
+
+[[config]]
+loc = 'shayzien_flag_arrows02_offset2'
+examine = 'A banner of the Shayzien military.'
+
+[[config]]
+loc = 'cof_over_falloff_bottom_filler'
+examine = 'Should I go down there?'
+
+[[config]]
+loc = 'bed_aldarin01_bunkbed01_small'
+examine = 'Neatly made up.'
+
+[[config]]
+loc = 'bed_aldarin01_bunkbed01_small2'
+examine = 'Neatly made up.'
+
+[[config]]
+loc = 'magic_hunter_exit'
+examine = 'The way out.'
+
+[[config]]
+loc = 'magic_hunter_rune_inactive'
+examine = 'An unstable portal across the dimensions...'
+
+[[config]]
+loc = 'magic_hunter_rune_active'
+examine = 'Where might it go?'
+
+[[config]]
+loc = 'magic_hunter_rune_activating'
+examine = 'Where might it go?'
+
+[[config]]
+loc = 'magic_hunter_start'
+examine = 'A magical lectern.'
+
+[[config]]
+loc = 'magic_hunter_infernal_rift'
+examine = 'I can see into another dimension!'
+
+[[config]]
+loc = 'magic_hunter_infernal_torch'
+examine = 'Lightning is burtsting forth from the infernal portal!'
+
+[[config]]
+loc = 'magic_hunter_lightning_flicker'
+examine = 'Lightning is burtsting forth from the infernal portal!'
+
+[[config]]
+loc = 'magic_hunter_lightning_flicker_offset01'
+examine = 'Lightning is burtsting forth from the infernal portal!'
+
+[[config]]
+loc = 'magic_hunter_lightning_flicker_offset02'
+examine = 'The smoke goes up to the gods.'
+
+[[config]]
+loc = 'mdaughter_tent_door_open_noop'
+examine = "It's barely a door, really."
+
+[[config]]
+loc = 'mdaughter_tent_door_openl_noop'
+examine = "It's barely a door, really."
+
+[[config]]
+loc = 'soc_missing_persons'
+examine = 'A notice board covered in posters.'
+
+[[config]]
+loc = 'soc_log_op'
+examine = 'A floating wooden plank.'
+
+[[config]]
+loc = 'soc_log_noop'
+examine = 'A floating wooden plank.'
+
+[[config]]
+loc = 'soc_puddle'
+examine = 'What could have left this?'
+
+[[config]]
+loc = 'soc_puddle_noop'
+examine = 'What could have left this?'
+
+[[config]]
+loc = 'soc_bed_noop'
+examine = 'A place to go to sleep.'
+
+[[config]]
+loc = 'soc_bed_investigate'
+examine = 'A place to go to sleep.'
+
+[[config]]
+loc = 'soc_ladder'
+examine = 'It leads up.'
+
+[[config]]
+loc = 'soc_laddertop'
+examine = 'I can climb down this.'
+
+[[config]]
+loc = 'soc_window_investigate'
+examine = 'Lets you see through walls.'
+
+[[config]]
+loc = 'soc_window_noop'
+examine = 'Lets you see through walls.'
+
+[[config]]
+loc = 'soc_wall_inspect_op'
+examine = 'The wall has some scratches on it, along with a strange substance.'
+
+[[config]]
+loc = 'soc_wall_inspect_noop'
+examine = "It's a wall."
+
+[[config]]
+loc = 'soc_wall_inspect_reinforce'
+examine = 'It could do with reinforcing.'
+
+[[config]]
+loc = 'soc_wall_inspect_reinforced'
+examine = "It's been reinforced."
+
+[[config]]
+loc = 'alchemist_signet_chest'
+examine = "I wonder what's inside..."
+
+[[config]]
+loc = 'alchemist_signet_chest_open'
+examine = "I wonder what's inside..."
+
+[[config]]
+loc = 'soc_cave_entrance'
+examine = 'Beware!'
+
+[[config]]
+loc = 'soc_cave_exit'
+examine = 'Leads back to the surface.'
+
+[[config]]
+loc = 'soc_stalker_victim_1'
+examine = 'Something strange is happening to it.'
+
+[[config]]
+loc = 'soc_stalker_victim_2'
+examine = 'Something strange is happening to it.'
+
+[[config]]
+loc = 'soc_stalker_victim_3'
+examine = 'Something strange is happening to it.'
+
+[[config]]
+loc = 'soc_stalker_victim_4'
+examine = 'Something strange is happening to it.'
+
+[[config]]
+loc = 'soc_stalker_victim_5'
+examine = 'Something strange is happening to it.'
+
+[[config]]
+loc = 'soc_stalker_victim_6'
+examine = 'Something strange is happening to it.'
+
+[[config]]
+loc = 'soc_stalker_victim_7'
+examine = 'Something strange is happening to it.'
+
+[[config]]
+loc = 'soc_stalker_victim_8'
+examine = 'Something strange is happening to it.'
+
+[[config]]
+loc = 'caerula_bush'
+examine = 'Caerula berries are growing here.'
+
+[[config]]
+loc = 'aec_illusion_debug_cube'
+examine = 'For debug.'
+
+[[config]]
+loc = 'ic_citlalli_ladder'
+examine = 'I can climb this.'
+
+[[config]]
+loc = 'ic_citlalli_ladder_top'
+examine = 'I can climb this.'
+
+[[config]]
+loc = 'vmq4_janus_house_plant'
+examine = "It doesn't look quite as healthy as the others."
+
+[[config]]
+loc = 'vmq4_janus_house_plant_noop'
+examine = "It doesn't look quite as healthy as the others."
+
+[[config]]
+loc = 'vmq4_janus_house_empty_pot'
+examine = "It's been filled with sand."
+
+[[config]]
+loc = 'vmq4_janus_house_empty_pot_noop'
+examine = "It's been filled with sand."
+
+[[config]]
+loc = 'vmq4_janus_basement_crate'
+examine = 'A crate for storing things.'
+
+[[config]]
+loc = 'vmq4_teumo_house_door'
+examine = 'A door too small for anyone but a dwarf.'
+
+[[config]]
+loc = 'vmq4_teumo_house_stairs_down'
+examine = 'A way down.'
+
+[[config]]
+loc = 'vmq4_teumo_house_stairs_up'
+examine = 'A way upwards.'
+
+[[config]]
+loc = 'vmq4_teumo_basement_secret_passage_entry'
+examine = 'Used for keeping beer or glasses.'
+
+[[config]]
+loc = 'vmq4_teumo_basement_secret_passage_opened'
+examine = 'Used for keeping beer or glasses.'
+
+[[config]]
+loc = 'vmq4_teumo_basement_secret_passage_open'
+examine = 'Dug out with an empty beer glass?'
+
+[[config]]
+loc = 'vmq4_teumo_basement_secret_passage_inspect'
+examine = 'Used for keeping beer or glasses.'
+
+[[config]]
+loc = 'vmq4_teumo_basement_secret_passage_noop'
+examine = 'Used for keeping beer or glasses.'
+
+[[config]]
+loc = 'vmq4_teumo_basement_secret_passage_exit'
+examine = 'Dug out with an empty beer glass?'
+
+[[config]]
+loc = 'vmq4_teumo_basement_secret_passage_exit_no_ops'
+examine = 'Suspicious...'
+
+[[config]]
+loc = 'vmq4_teumo_basement_secret_passage_exit_ops'
+examine = 'Dug out with an empty beer glass?'
+
+[[config]]
+loc = 'vmq4_teumo_basement_shelf'
+examine = 'Used for keeping beer or glasses.'
+
+[[config]]
+loc = 'vmq4_teumo_basement_shelf_noop'
+examine = 'Used for keeping beer or glasses.'
+
+[[config]]
+loc = 'vmq4_teumo_basement_shelf_op'
+examine = 'Used for keeping beer or glasses.'
+
+[[config]]
+loc = 'vmq4_teumo_basement_barrel_1'
+examine = 'A barrel for storing liquids.'
+
+[[config]]
+loc = 'vmq4_teumo_basement_barrel_2'
+examine = 'A barrel for storing liquids.'
+
+[[config]]
+loc = 'vmq4_teumo_basement_barrel_3'
+examine = 'A barrel for storing liquids.'
+
+[[config]]
+loc = 'vmq4_teumo_basement_barrel_4'
+examine = 'A barrel for storing liquids.'
+
+[[config]]
+loc = 'vmq4_teumo_basement_barrel_5'
+examine = 'A barrel for storing liquids.'
+
+[[config]]
+loc = 'vmq4_teumo_basement_barrel'
+examine = 'A barrel for storing liquids.'
+
+[[config]]
+loc = 'vmq4_teumo_basement_fire_out'
+examine = 'The flames have been extinguished, revealing a hidden lever.'
+
+[[config]]
+loc = 'vmq4_teumo_basement_fire_lit'
+examine = 'Nice and hot.'
+
+[[config]]
+loc = 'vmq4_civitas_janus_window_loose'
+examine = 'Would be a handy escape for someone trespassing.'
+
+[[config]]
+loc = 'vmq4_civitas_janus_window_open'
+examine = 'Would be a handy escape for someone trespassing.'
+
+[[config]]
+loc = 'vmq4_civitas_janus_window_closed'
+examine = 'A closed window.'
+
+[[config]]
+loc = 'vmq4_civitas_janus_window_decoy'
+examine = 'A closed window.'
+
+[[config]]
+loc = 'vmq4_civitas_janus_window_decoy_with_op'
+examine = 'Would be a handy escape for someone trespassing.'
+
+[[config]]
+loc = 'vmq4_janus_house_front_door_right'
+examine = 'The doors are closed.'
+
+[[config]]
+loc = 'vmq4_janus_house_front_door_right_open'
+examine = 'The doors are open.'
+
+[[config]]
+loc = 'vmq4_janus_house_front_door_left'
+examine = 'The doors are closed.'
+
+[[config]]
+loc = 'vmq4_janus_house_front_door_left_open'
+examine = 'The doors are open.'
+
+[[config]]
+loc = 'vmq4_janus_basement_stairs'
+examine = 'I can climb up these stairs.'
+
+[[config]]
+loc = 'vmq4_janus_basement_entry'
+examine = 'The way down to the basement.'
+
+[[config]]
+loc = 'vmq4_janus_house_puzzle_door'
+examine = 'The door is closed.'
+
+[[config]]
+loc = 'vmq4_janus_house_puzzle_door_open'
+examine = 'The door is open.'
+
+[[config]]
+loc = 'vmq4_potted01_fan03'
+examine = 'The leaves are glistening with luscious health.'
+
+[[config]]
+loc = 'vmq4_chair_wooden01'
+examine = 'The ideal thing to sit on.'
+
+[[config]]
+loc = 'vmq4_bucket_wooden01'
+examine = 'Fill it with things.'
+
+[[config]]
+loc = 'twilight_temple_stairs_up'
+examine = 'I can climb these stairs.'
+
+[[config]]
+loc = 'twilight_temple_metzli_painting_wall_decor_multi'
+examine = 'A colourful mural.'
+
+[[config]]
+loc = 'twilight_temple_metzli_painting_wall_decor'
+examine = 'A colourful mural.'
+
+[[config]]
+loc = 'twilight_temple_metzli_painting_wall_decor_missing'
+examine = 'A colourful mural.'
+
+[[config]]
+loc = 'twilight_temple_metzli_painting_missing_a_piece'
+examine = 'Looks to be an unfinished painting... with a slight draft coming from either side of it.'
+
+[[config]]
+loc = 'twilight_temple_metzli_painting_can_push'
+examine = 'Looks to be hiding a secret passage.'
+
+[[config]]
+loc = 'twilight_temple_metzli_painting_noop'
+examine = 'Looks to be hiding a secret passage.'
+
+[[config]]
+loc = 'twilight_temple_metzli_painting_wall_can_push'
+examine = 'Looks to be hiding a secret passage.'
+
+[[config]]
+loc = 'twilight_temple_metzli_painting_wall_noop'
+examine = 'A good old wall.'
+
+[[config]]
+loc = 'twilight_temple_metzli_chamber_entry'
+examine = 'For walking through walls.'
+
+[[config]]
+loc = 'twilight_temple_boss_exit'
+examine = 'For walking through walls.'
+
+[[config]]
+loc = 'vmq4_temple_canvas_draw_1_closed'
+examine = 'These open and close!'
+
+[[config]]
+loc = 'vmq4_temple_canvas_draw_2_closed'
+examine = 'These open and close!'
+
+[[config]]
+loc = 'vmq4_temple_canvas_draw_1_open'
+examine = 'This may be worth searching.'
+
+[[config]]
+loc = 'vmq4_temple_canvas_draw_2_open'
+examine = 'This may be worth searching.'
+
+[[config]]
+loc = 'vmq4_temple_bed_with_key_1_op'
+examine = 'A big luxurious bed.'
+
+[[config]]
+loc = 'vmq4_temple_bed_with_key_no_op'
+examine = 'A big luxurious bed.'
+
+[[config]]
+loc = 'twilight_temple_metzli_chamber_chest_closed'
+examine = "I wonder what's inside..."
+
+[[config]]
+loc = 'twilight_temple_metzli_chamber_chest_open'
+examine = "I wonder what's inside..."
+
+[[config]]
+loc = 'twilight_temple_door_closed'
+examine = 'For walking through walls.'
+
+[[config]]
+loc = 'twilight_temple_door_open'
+examine = 'For walking through walls.'
+
+[[config]]
+loc = 'twilight_temple_door_noop'
+examine = 'For walking through walls.'
+
+[[config]]
+loc = 'twilight_temple_lower_chest_closed'
+examine = "I wonder what's inside..."
+
+[[config]]
+loc = 'twilight_temple_lower_chest_open'
+examine = "I wonder what's inside..."
+
+[[config]]
+loc = 'twilight_temple_lower_chest_open_empty'
+examine = "I wonder what's inside..."
+
+[[config]]
+loc = 'twilight_temple_lower_bookcase'
+examine = 'How to be evil and influence people.'
+
+[[config]]
+loc = 'twilight_temple_lower_bookcase_empty'
+examine = 'How to be evil and influence people.'
+
+[[config]]
+loc = 'twilight_temple_lower_bookcase_noop'
+examine = 'How to be evil and influence people.'
+
+[[config]]
+loc = 'twilight_temple_lower_barrel'
+examine = 'For storing food and drink'
+
+[[config]]
+loc = 'twilight_temple_lower_barrel_empty'
+examine = 'For storing food and drink'
+
+[[config]]
+loc = 'twilight_bunk_bed'
+examine = 'The sheets are worn and tattered.'
+
+[[config]]
+loc = 'twilight_bunk_bed_mirror'
+examine = 'The sheets are worn and tattered.'
+
+[[config]]
+loc = 'twilight_table_food01'
+examine = 'Packed with crunchy nutrition.'
+
+[[config]]
+loc = 'twilight_table_default01'
+examine = 'A sturdy table'
+
+[[config]]
+loc = 'twilight_table_wine01'
+examine = 'Comes with wine!'
+
+[[config]]
+loc = 'twilight_stool01_default01'
+examine = 'A wooden stool.'
+
+[[config]]
+loc = 'twilight_shelf02_books01'
+examine = 'Shelves full of books and old scrolls.'
+
+[[config]]
+loc = 'twilight_shelf02_books02'
+examine = 'Shelves full of books and old scrolls.'
+
+[[config]]
+loc = 'twilight_chair_default01'
+examine = 'The ideal thing to sit on.'
+
+[[config]]
+loc = 'twilight_mirror_default01'
+examine = 'Looking good!'
+
+[[config]]
+loc = 'twilight_vanity_default01'
+examine = 'Helps you look good.'
+
+[[config]]
+loc = 'twilight_shelf01'
+examine = 'An assortment of items stored on shelves.'
+
+[[config]]
+loc = 'twilight_shelf02'
+examine = 'An assortment of items stored on shelves.'
+
+[[config]]
+loc = 'twilight_shelf03'
+examine = 'An assortment of items stored on shelves.'
+
+[[config]]
+loc = 'twilight_shelf04'
+examine = 'An assortment of items stored on shelves.'
+
+[[config]]
+loc = 'twilight_shackle01_default01'
+examine = 'Looks like someone has broken free...'
+
+[[config]]
+loc = 'vmq4_moki_skeleton_tablet'
+examine = "Looks like they've been dead a while now..."
+
+[[config]]
+loc = 'vmq4_moki_skeleton_tablet_op'
+examine = "Looks like they've been dead a while now..."
+
+[[config]]
+loc = 'vmq4_moki_skeleton_tablet_noop'
+examine = "Looks like they've been dead a while now..."
+
+[[config]]
+loc = 'vmq4_moki_skeleton_tablet_credits'
+examine = "Looks like they've been dead a while now..."
+
+[[config]]
+loc = 'vmq4_metzli_boss_final_section_border'
+examine = 'Hot!'
+
+[[config]]
+loc = 'vmq4_moki_memorial_ralos'
+examine = 'A very old statue.'
+
+[[config]]
+loc = 'vmq4_moki_memorial_ralos_op'
+examine = 'A very old statue.'
+
+[[config]]
+loc = 'vmq4_moki_memorial_ralos_noop'
+examine = 'A very old statue.'
+
+[[config]]
+loc = 'vmq4_moki_memorial_ranul'
+examine = 'A very old statue.'
+
+[[config]]
+loc = 'vmq4_moki_memorial_ranul_op'
+examine = 'A very old statue.'
+
+[[config]]
+loc = 'vmq4_moki_memorial_ranul_noop'
+examine = 'A very old statue.'
+
+[[config]]
+loc = 'moki_stairs'
+examine = 'I can climb these stairs.'
+
+[[config]]
+loc = 'moki_stairs_top'
+examine = 'I can climb these stairs.'
+
+[[config]]
+loc = 'moki_agil_shortcut_op'
+examine = "Don't look down."
+
+[[config]]
+loc = 'moki_agil_shortcut_noop'
+examine = "Don't look down."
+
+[[config]]
+loc = 'moki_agil_shortcut_middle'
+examine = "Don't look down."
+
+[[config]]
+loc = 'moki_entrance_to_dom_boss_noop'
+examine = 'Where could it lead?'
+
+[[config]]
+loc = 'moki_entrance_to_dom_boss_inspect'
+examine = 'Where could it lead?'
+
+[[config]]
+loc = 'moki_entrance_to_dom_boss_enter'
+examine = 'Dare to delve deeper?'
+
+[[config]]
+loc = 'moki_exit_to_dom_boss'
+examine = 'Leads to something dangerous...'
+
+[[config]]
+loc = 'moki_exit_from_dom_boss'
+examine = 'The way out of here.'
+
+[[config]]
+loc = 'moki_lore_tablet_skeleton'
+examine = "Looks like they've been dead a while now..."
+
+[[config]]
+loc = 'vmq4_keystone_chamber_entrance_open'
+examine = 'This strange marking seems to pulse with a powerful magic.'
+
+[[config]]
+loc = 'vmq4_keystone_chamber_exit'
+examine = 'This strange marking seems to pulse with a powerful magic.'
+
+[[config]]
+loc = 'vmq4_keystone_chamber_escape'
+examine = 'This strange marking seems to pulse with a powerful magic.'
+
+[[config]]
+loc = 'vmq4_keystone'
+examine = 'An ancient device built by the Old Ones.'
+
+[[config]]
+loc = 'vmq4_keystone_broken01'
+examine = 'An ancient device built by the Old Ones. Unfortunately, this one is broken.'
+
+[[config]]
+loc = 'vmq4_keystone_broken02'
+examine = 'An ancient device built by the Old Ones. Unfortunately, this one is broken.'
+
+[[config]]
+loc = 'vmq4_keystone_broken03'
+examine = 'An ancient device built by the Old Ones. Unfortunately, this one is broken.'
+
+[[config]]
+loc = 'vmq4_keystone_broken04'
+examine = 'An ancient device built by the Old Ones. Unfortunately, this one is broken.'
+
+[[config]]
+loc = 'vmq4_keystone_broken05'
+examine = 'An ancient device built by the Old Ones. Unfortunately, this one is broken.'
+
+[[config]]
+loc = 'vmq4_queen_throne_vis'
+examine = 'A sun-blessed seat, fit for royalty.'
+
+[[config]]
+loc = 'vmq4_queen_chamber_door_l'
+examine = 'Big and fancy.'
+
+[[config]]
+loc = 'vmq4_queen_chamber_door_l_open'
+examine = 'Big and fancy.'
+
+[[config]]
+loc = 'vmq4_queen_chamber_door_r'
+examine = 'Big and fancy.'
+
+[[config]]
+loc = 'vmq4_queen_chamber_door_r_open'
+examine = 'Big and fancy.'
+
+[[config]]
+loc = 'vmq4_crypt_of_tonali_entry'
+examine = 'Where might it lead?'
+
+[[config]]
+loc = 'vmq4_crypt_of_tonali_exit'
+examine = 'Leads to the surface.'
+
+[[config]]
+loc = 'vmq4_crypt_assault_fire'
+examine = 'Hot.'
+
+[[config]]
+loc = 'vmq4_crypt_of_tonali_door_1'
+examine = 'Big and imposing.'
+
+[[config]]
+loc = 'vmq4_crypt_of_tonali_door_open01'
+examine = 'Big and imposing.'
+
+[[config]]
+loc = 'vmq4_crypt_of_tonali_door_open02'
+examine = 'Big and imposing.'
+
+[[config]]
+loc = 'vmq4_crypt_door_to_moki'
+examine = 'Big and imposing.'
+
+[[config]]
+loc = 'vmq4_crypt_door_to_moki_open'
+examine = 'Big and imposing.'
+
+[[config]]
+loc = 'vmq4_crypt_door_to_moki_closed'
+examine = 'Big and imposing.'
+
+[[config]]
+loc = 'vmq4_crypt_door_out_of_moki'
+examine = 'The way out of here.'
+
+[[config]]
+loc = 'vmq4_metzli_exit'
+examine = 'What a mess!'
+
+[[config]]
+loc = 'vmq4_crypt_lift_active'
+examine = 'A way to the surface.'
+
+[[config]]
+loc = 'vmq4_crypt_lift_inactive'
+examine = 'An odd platform in the floor.'
+
+[[config]]
+loc = 'vmq4_crypt_lift_surface_op'
+examine = 'A way down below.'
+
+[[config]]
+loc = 'vmq4_crypt_lift_surface_noop'
+examine = "What's at the bottom of this?"
+
+[[config]]
+loc = 'vmq4_crypt_ennius_exit'
+examine = 'Hot.'
+
+[[config]]
+loc = 'vmq4_crypt_ennius_itzla_blockage'
+examine = 'Hot.'
+
+[[config]]
+loc = 'vmq4_crypt_stairs_top_ennius'
+examine = 'I can climb these stairs.'
+
+[[config]]
+loc = 'vmq4_crypt_stairs'
+examine = 'I can climb these stairs.'
+
+[[config]]
+loc = 'vmq4_crypt_stairs_top'
+examine = 'I can climb these stairs.'
+
+[[config]]
+loc = 'vmq4_crypt_stairs_wide'
+examine = 'I can climb these stairs.'
+
+[[config]]
+loc = 'vmq4_crypt_stairs_wide_top'
+examine = 'I can climb these stairs.'
+
+[[config]]
+loc = 'vmq4_crypt_stairs_wide_top_noop'
+examine = 'I can climb these stairs.'
+
+[[config]]
+loc = 'vmq4_sun_teleport'
+examine = 'A tile with a symbol of the sun on it.'
+
+[[config]]
+loc = 'vmq4_moon_teleport'
+examine = 'A tile with a symbol of the moon on it.'
+
+[[config]]
+loc = 'vmq4_metzli_sun_teleport'
+examine = 'A teleportation spell.'
+
+[[config]]
+loc = 'vmq4_metzli_moon_teleport'
+examine = 'A teleportation spell.'
+
+[[config]]
+loc = 'vmq4_moki_entrance_statue_sun'
+examine = 'Looks ancient.'
+
+[[config]]
+loc = 'vmq4_moki_entrance_statue_sun_inactive'
+examine = 'Looks ancient.'
+
+[[config]]
+loc = 'vmq4_moki_entrance_statue_sun_activated'
+examine = 'Looks ancient.'
+
+[[config]]
+loc = 'vmq4_moki_entrance_statue_moon'
+examine = 'Looks ancient.'
+
+[[config]]
+loc = 'vmq4_moki_entrance_statue_moon_inactive'
+examine = 'Looks ancient.'
+
+[[config]]
+loc = 'vmq4_moki_entrance_statue_moon_activated'
+examine = 'Looks ancient.'
+
+[[config]]
+loc = 'vmq4_sun_puzzle_statue'
+examine = 'An old statue that seems to represent the sun.'
+
+[[config]]
+loc = 'vmq4_sun_puzzle_statue_noops'
+examine = 'An old statue that seems to represent the sun.'
+
+[[config]]
+loc = 'vmq4_sun_puzzle_statue_ops'
+examine = 'An old statue that seems to represent the sun.'
+
+[[config]]
+loc = 'vmq4_sun_puzzle_urn'
+examine = 'Whatever is inside must be ancient.'
+
+[[config]]
+loc = 'vmq4_sun_puzzle_urn_op'
+examine = 'Whatever is inside must be ancient.'
+
+[[config]]
+loc = 'vmq4_sun_puzzle_urn_noop'
+examine = 'Whatever is inside must be ancient.'
+
+[[config]]
+loc = 'vmq4_sun_puzzle_urn_empty'
+examine = 'Whatever is inside must be ancient.'
+
+[[config]]
+loc = 'vmq4_sun_puzzle_urn_smashed'
+examine = "It's all smashed."
+
+[[config]]
+loc = 'vmq4_sun_altar'
+examine = 'A mysterious power emanates from this shrine.'
+
+[[config]]
+loc = 'vmq4_sun_altar_ops'
+examine = 'A mysterious power emanates from this shrine.'
+
+[[config]]
+loc = 'vmq4_sun_altar_noops'
+examine = 'A mysterious power emanates from this shrine.'
+
+[[config]]
+loc = 'vmq4_moon_puzzle_statue'
+examine = 'An old statue that seems to represent the moon.'
+
+[[config]]
+loc = 'vmq4_moon_puzzle_statue_noops'
+examine = 'An old statue that seems to represent the moon.'
+
+[[config]]
+loc = 'vmq4_moon_puzzle_statue_ops'
+examine = 'An old statue that seems to represent the moon.'
+
+[[config]]
+loc = 'vmq4_moon_puzzle_root'
+examine = 'Rooted in place.'
+
+[[config]]
+loc = 'vmq4_moon_puzzle_root_ops'
+examine = 'Rooted in place.'
+
+[[config]]
+loc = 'vmq4_moon_puzzle_root_noops'
+examine = 'Rooted in place.'
+
+[[config]]
+loc = 'vmq4_moon_puzzle_root_empty'
+examine = 'Rooted in place.'
+
+[[config]]
+loc = 'vmq4_moon_puzzle_old_tools_op'
+examine = 'A very old pile of tools.'
+
+[[config]]
+loc = 'vmq4_moon_puzzle_old_tools_noop'
+examine = 'A very old pile of tools.'
+
+[[config]]
+loc = 'vmq4_moon_puzzle_platform_1'
+examine = 'A pressure plate of some kind.'
+
+[[config]]
+loc = 'vmq4_moon_puzzle_platform_1_ops'
+examine = 'A pressure plate of some kind.'
+
+[[config]]
+loc = 'vmq4_moon_puzzle_platform_1_noops'
+examine = 'A pressure plate of some kind.'
+
+[[config]]
+loc = 'vmq4_moon_puzzle_platform_2'
+examine = 'A pressure plate of some kind.'
+
+[[config]]
+loc = 'vmq4_moon_puzzle_platform_2_ops'
+examine = 'A pressure plate of some kind.'
+
+[[config]]
+loc = 'vmq4_moon_puzzle_platform_2_noops'
+examine = 'A pressure plate of some kind.'
+
+[[config]]
+loc = 'vmq4_moon_puzzle_fire_1'
+examine = 'Hot.'
+
+[[config]]
+loc = 'vmq4_moon_puzzle_fire_2'
+examine = 'Hot.'
+
+[[config]]
+loc = 'vmq4_moon_puzzle_brazier_unlit'
+examine = 'A very old brazier.'
+
+[[config]]
+loc = 'vmq4_moon_puzzle_brazier_lit'
+examine = 'A very old brazier with a magical flame burning within it.'
+
+[[config]]
+loc = 'vmq4_crypt_shortcut_1_bottom'
+examine = 'For climbing.'
+
+[[config]]
+loc = 'vmq4_crypt_shortcut_1_top'
+examine = 'For climbing.'
+
+[[config]]
+loc = 'vmq4_crypt_shortcut_2_bottom'
+examine = 'For climbing.'
+
+[[config]]
+loc = 'vmq4_crypt_shortcut_2_top'
+examine = 'For climbing.'
+
+[[config]]
+loc = 'vmq4_crypt_shortcut_3_bottom'
+examine = 'For climbing.'
+
+[[config]]
+loc = 'vmq4_crypt_shortcut_3_top'
+examine = 'For climbing.'
+
+[[config]]
+loc = 'vmq4_crypt_stepstone'
+examine = 'Try not to slip!'
+
+[[config]]
+loc = 'vmq4_crypt_log_balance_1'
+examine = 'It might be possible to walk across it.'
+
+[[config]]
+loc = 'vmq4_crypt_log_balance_2'
+examine = 'It might be possible to walk across it.'
+
+[[config]]
+loc = 'vmq4_moki_door_tile_sun_inactive'
+examine = 'A sun symbol is carved into the stone.'
+
+[[config]]
+loc = 'vmq4_moki_door_tile_sun_active'
+examine = 'A sun symbol is carved into the stone.'
+
+[[config]]
+loc = 'vmq4_moki_door_tile_sun_active_enabled'
+examine = 'A sun symbol is carved into the stone.'
+
+[[config]]
+loc = 'vmq4_moki_door_tile_moon_inactive'
+examine = 'A moon symbol is carved into the stone.'
+
+[[config]]
+loc = 'vmq4_moki_door_tile_moon_active'
+examine = 'A moon symbol is carved into the stone.'
+
+[[config]]
+loc = 'vmq4_moki_door_tile_moon_active_enabled'
+examine = 'A moon symbol is carved into the stone.'
+
+[[config]]
+loc = 'vmq4_moki_door_tile_newmoon_inactive'
+examine = 'A moon symbol is carved into the stone.'
+
+[[config]]
+loc = 'vmq4_moki_door_tile_edge_inactive'
+examine = 'A moon symbol is carved into the stone.'
+
+[[config]]
+loc = 'vmq4_moki_door_tile_corner_inactive'
+examine = 'A moon symbol is carved into the stone.'
+
+[[config]]
+loc = 'vmq4_moki_pillar01_sun01'
+examine = 'Looks ancient.'
+
+[[config]]
+loc = 'vmq4_moki_pillar01_moon01'
+examine = 'Looks ancient.'
+
+[[config]]
+loc = 'vmq4_moki_pillar01_shape01'
+examine = 'Looks ancient.'
+
+[[config]]
+loc = 'vmq4_moki_pillar02_shape01'
+examine = 'Looks ancient.'
+
+[[config]]
+loc = 'vmq4_moki_pillar03_shape01'
+examine = 'Looks ancient.'
+
+[[config]]
+loc = 'vmq4_sun_urn01'
+examine = 'An ornate urn.'
+
+[[config]]
+loc = 'vmq4_sun_urn02_broken01'
+examine = 'An ornate urn.'
+
+[[config]]
+loc = 'vmq4_sun_urn03_broken01'
+examine = "Someone's already got to this one."
+
+[[config]]
+loc = 'vmq4_sun_urn04_broken01'
+examine = "Someone's already got to this one."
+
+[[config]]
+loc = 'vmq4_sun_urn05_broken01'
+examine = "Someone's already got to this one."
+
+[[config]]
+loc = 'tonali_root_mossy01_3x3'
+examine = 'Rooted in place.'
+
+[[config]]
+loc = 'tonali_root_mossy01_2x2'
+examine = 'Rooted in place.'
+
+[[config]]
+loc = 'tonali_root_mossy01'
+examine = 'Rooted in place.'
+
+[[config]]
+loc = 'tonali_root_mossy02'
+examine = 'Rooted in place.'
+
+[[config]]
+loc = 'demon_tear_tree_3x3'
+examine = 'A root that is seeping demon tears.'
+
+[[config]]
+loc = 'demon_tear_tree_3x3_op'
+examine = 'A root that is seeping demon tears.'
+
+[[config]]
+loc = 'demon_tear_tree_3x3_noop'
+examine = 'An odd looking root.'
+
+[[config]]
+loc = 'tonali_plank01_layed01'
+examine = 'A pile of wooden planks.'
+
+[[config]]
+loc = 'tonali_rubble01_brick01'
+examine = 'A stack of bricks.'
+
+[[config]]
+loc = 'tonali_rubble02_brick01'
+examine = "They've been chipped."
+
+[[config]]
+loc = 'tonali_plank01_layed02'
+examine = 'A pile of wooden planks.'
+
+[[config]]
+loc = 'tonali_rubble01_brick02'
+examine = 'A stack of bricks.'
+
+[[config]]
+loc = 'tonali_rubble02_brick02'
+examine = "They've been chipped."
+
+[[config]]
+loc = 'tonali_tool01_hammer01'
+examine = 'Used for smashing rocks.'
+
+[[config]]
+loc = 'tonali_tool01_hammer02'
+examine = 'Used for smashing rocks.'
+
+[[config]]
+loc = 'tonali_corpse_isopods01'
+examine = 'The translucent remains of some critters.'
+
+[[config]]
+loc = 'tonali_corpse_centipede01'
+examine = 'The translucent remains of some critters.'
+
+[[config]]
+loc = 'tonali_corpse_centipede01_2x2'
+examine = 'The translucent remains of some critters.'
+
+[[config]]
+loc = 'tonali_corpse_cavebug01'
+examine = 'The translucent remains of some critters.'
+
+[[config]]
+loc = 'tonali_corpse_cavebug02'
+examine = 'The translucent remains of some critters.'
+
+[[config]]
+loc = 'tonali_corpse_cavebug03_1x2'
+examine = 'The translucent remains of some critters.'
+
+[[config]]
+loc = 'tonali_corpse_cavebug03_2x2'
+examine = 'The translucent remains of some critters.'
+
+[[config]]
+loc = 'tonali_corpse_remains01'
+examine = 'The translucent remains of some critters.'
+
+[[config]]
+loc = 'tonali_corpse_remains01_2x2'
+examine = 'The translucent remains of some critters.'
+
+[[config]]
+loc = 'tonali_corpse_remains02'
+examine = 'The translucent remains of some critters.'
+
+[[config]]
+loc = 'tonali_corpse_remains02_2x2'
+examine = 'The translucent remains of some critters.'
+
+[[config]]
+loc = 'tonali_corpse_remains03'
+examine = 'The translucent remains of some critters.'
+
+[[config]]
+loc = 'tonali_corpse_remains03_2x2'
+examine = 'The translucent remains of some critters.'
+
+[[config]]
+loc = 'tonali_debris_bricks01'
+examine = 'What a mess!'
+
+[[config]]
+loc = 'tonali_debris_bricks02'
+examine = 'What a mess!'
+
+[[config]]
+loc = 'tonali_debris_bricks03'
+examine = 'What a mess!'
+
+[[config]]
+loc = 'tonali_temple_waterfall01'
+examine = 'The lower jaw has eroded away, but the top teeth still look dangerously sharp.'
+
+[[config]]
+loc = 'tonali_temple_waterfall01_quieter'
+examine = 'The lower jaw has eroded away, but the top teeth still look dangerously sharp.'
+
+[[config]]
+loc = 'tonali_chest_portable_teleporter'
+examine = 'What could be inside?'
+
+[[config]]
+loc = 'tonali_chest_portable_teleporter_open'
+examine = 'What could be inside?'
+
+[[config]]
+loc = 'cavekit_tonali01_rock01_falloff01_ledge01_active'
+examine = "Don't fall."
+
+[[config]]
+loc = 'vmq3_temple_cultist_pedestal_vis'
+examine = 'An empty pedestal.'
+
+[[config]]
+loc = 'ates_statue_tlati_active'
+examine = 'Who put this here?'
+
+[[config]]
+loc = 'ates_statue_tlati_inactive'
+examine = 'Who put this here?'
+
+[[config]]
+loc = 'ates_statue_auburn_active'
+examine = 'Who put this here?'
+
+[[config]]
+loc = 'ates_statue_auburn_inactive'
+examine = 'Who put this here?'
+
+[[config]]
+loc = 'scrambled_chicken_eggs_op'
+examine = 'A collection of rather large chicken eggs.'
+
+[[config]]
+loc = 'scrambled_chicken_eggs_noop'
+examine = 'A collection of rather large chicken eggs.'
+
+[[config]]
+loc = 'scrambled_dragon_eggs_op'
+examine = 'A collection of dragon eggs.'
+
+[[config]]
+loc = 'scrambled_dragon_eggs_noop'
+examine = 'A collection of dragon eggs.'
+
+[[config]]
+loc = 'scrambled_jaguar_eggs_op'
+examine = 'A collection of eggs, supposedly from a jaguar.'
+
+[[config]]
+loc = 'scrambled_jaguar_eggs_noop'
+examine = 'A collection of eggs, supposedly from a jaguar.'
+
+[[config]]
+loc = 'damiana_shrub'
+examine = 'A fragrant shrub.'
+
+[[config]]
+loc = 'scrambled_whetstone_broken_noop'
+examine = "Normally used for sharpening blades, but it's unfortunately broken."
+
+[[config]]
+loc = 'scrambled_whetstone_broken_op'
+examine = "Normally used for sharpening blades, but it's unfortunately broken."
+
+[[config]]
+loc = 'scrambled_whetstone_fixed_op'
+examine = 'Used for sharpening blades.'
+
+[[config]]
+loc = 'scrambled_whetstone_fixed_noop'
+examine = 'Used for sharpening blades.'
+
+[[config]]
+loc = 'scrambled_cart_broken'
+examine = "Doesn't look very roadworthy."
+
+[[config]]
+loc = 'scrambled_cart_broken_op'
+examine = 'What pulls these?'
+
+[[config]]
+loc = 'scrambled_cart_fixed'
+examine = 'What pulls these?'
+
+[[config]]
+loc = 'scrambled_workbench'
+examine = 'Handy for a workman.'
+
+[[config]]
+loc = 'scrambled_food_1_hidden'
+examine = 'The tendrils of a creeping plant.'
+
+[[config]]
+loc = 'scrambled_food_1_vis'
+examine = 'A basket containing freshly harvested crops.'
+
+[[config]]
+loc = 'scrambled_food_2_hidden'
+examine = 'A tropical plant.'
+
+[[config]]
+loc = 'scrambled_food_2_vis'
+examine = 'A basket packed with hearty vegetables.'
+
+[[config]]
+loc = 'cacao_tree_fullygrown'
+examine = 'A beautiful cacao tree!'
+
+[[config]]
+loc = 'tlati_beehive01_full01'
+examine = 'A buzzing beehive!'
+
+[[config]]
+loc = 'tlati_vat_chocolate'
+examine = "They're making chocolate!"
+
+[[config]]
+loc = 'belladonna_patch_weeds_1_1x1'
+examine = 'You can grow Deadly Nightshade in this Farming patch.'
+
+[[config]]
+loc = 'belladonna_patch_weeds_2_1x1'
+examine = 'You can grow Deadly Nightshade in this Farming patch.'
+
+[[config]]
+loc = 'belladonna_patch_weeds_3_1x1'
+examine = 'You can grow Deadly Nightshade in this Farming patch.'
+
+[[config]]
+loc = 'spinningwheel_2'
+examine = 'Used for spinning thread.'
+
+[[config]]
+loc = 'archery_target1'
+examine = 'How good is your aim?'
+
+[[config]]
+loc = 'archery_target2'
+examine = 'How good is your aim?'
+
+[[config]]
+loc = 'quetzacalli_bookshelf'
+examine = 'Filled to the brim with knowledge.'
+
+[[config]]
+loc = 'dungeonkit_imcando01_statue01_throne01'
+examine = 'A dwarven statue.'
+
+[[config]]
+loc = 'cam_torum_banner01_large01'
+examine = 'A banner emblazoned with the symbol of the Dwarves of Cam Torum.'
+
+[[config]]
+loc = 'cam_torum_banner01_large01_odd'
+examine = 'A banner emblazoned with the symbol of the Dwarves of Cam Torum.'
+
+[[config]]
+loc = 'cam_torum_throne01'
+examine = "That's one mighty seat!"
+
+[[config]]
+loc = 'cam_torum_highlord_throne_vis'
+examine = "That's one mighty seat!"
+
+[[config]]
+loc = 'brazier_camtorum01_default01_2x2'
+examine = 'Hot!'
+
+[[config]]
+loc = 'proudspire_climbing_rocks_grey01'
+examine = 'To save myself from a long walk round a tall mountain.'
+
+[[config]]
+loc = 'proudspire_climbing_rocks_grey01_op'
+examine = 'To save myself from a long walk round a tall mountain.'
+
+[[config]]
+loc = 'proudspire_climbing_rocks_grey02'
+examine = 'To save myself from a long walk round a tall mountain.'
+
+[[config]]
+loc = 'proudspire_climbing_rocks_grey03_op'
+examine = 'To save myself from a long walk round a tall mountain.'
+
+[[config]]
+loc = 'proudspire_climbing_rocks_grey03'
+examine = 'To save myself from a long walk round a tall mountain.'
+
+[[config]]
+loc = 'proudspire_climbing_rocks_dark01'
+examine = 'To save myself from a long walk round a tall mountain.'
+
+[[config]]
+loc = 'proudspire_climbing_rocks_dark01_op'
+examine = 'To save myself from a long walk round a tall mountain.'
+
+[[config]]
+loc = 'proudspire_climbing_rocks_dark02'
+examine = 'To save myself from a long walk round a tall mountain.'
+
+[[config]]
+loc = 'darkfrost_shortcut_top'
+examine = 'With skill, someone could probably climb these.'
+
+[[config]]
+loc = 'darkfrost_shortcut_bottom'
+examine = 'With skill, someone could probably climb these.'
+
+[[config]]
+loc = 'av_stepstone_1'
+examine = 'Try not to slip!'
+
+[[config]]
+loc = 'av_tunnel_1'
+examine = 'A tunnel under the ground.'
+
+[[config]]
+loc = 'av_balance_1'
+examine = 'It might be possible to walk across it.'
+
+[[config]]
+loc = 'av_balance_2'
+examine = 'It might be possible to walk across it.'
+
+[[config]]
+loc = 'av_balance_inner_a'
+examine = 'It might be possible to walk across it.'
+
+[[config]]
+loc = 'av_balance_inner_b'
+examine = 'It might be possible to walk across it.'
+
+[[config]]
+loc = 'av_scramble_1'
+examine = 'With skill, someone could probably climb these.'
+
+[[config]]
+loc = 'av_scramble_1_noop'
+examine = 'With skill, someone could probably climb these.'
+
+[[config]]
+loc = 'av_lowwall_climb_1'
+examine = 'With skill, someone could probably climb this.'
+
+[[config]]
+loc = 'av_lowwall_climb_2'
+examine = 'With skill, someone could probably climb this.'
+
+[[config]]
+loc = 'poh_greenman_wall_decoration'
+examine = 'A carving of a woodland spirit.'
+
+[[config]]
+loc = 'poh_greenman_statue_rot0'
+examine = 'A statue of a woodland spirit.'
+
+[[config]]
+loc = 'poh_greenman_statue_rot2'
+examine = 'A statue of a woodland spirit.'
+
+[[config]]
+loc = 'poh_greenman_statue_rot3'
+examine = 'A statue of a woodland spirit.'
+
+[[config]]
+loc = 'ent_totems_base_none'
+examine = 'A good place to build a totem.'
+
+[[config]]
+loc = 'ent_totems_carved_base_oak'
+examine = 'A totem made from oak.'
+
+[[config]]
+loc = 'ent_totems_base_oak'
+examine = 'A totem made from oak.'
+
+[[config]]
+loc = 'ent_totems_low_oak'
+examine = 'A totem made from oak.'
+
+[[config]]
+loc = 'ent_totems_mid_oak'
+examine = 'A totem made from oak.'
+
+[[config]]
+loc = 'ent_totems_top_oak'
+examine = 'A totem made from oak.'
+
+[[config]]
+loc = 'ent_totems_base_willow'
+examine = 'A totem made from willow.'
+
+[[config]]
+loc = 'ent_totems_carved_base_willow'
+examine = 'A totem made from willow.'
+
+[[config]]
+loc = 'ent_totems_low_willow'
+examine = 'A totem made from willow.'
+
+[[config]]
+loc = 'ent_totems_mid_willow'
+examine = 'A totem made from willow.'
+
+[[config]]
+loc = 'ent_totems_top_willow'
+examine = 'A totem made from willow.'
+
+[[config]]
+loc = 'ent_totems_base_maple'
+examine = 'A totem made from maple.'
+
+[[config]]
+loc = 'ent_totems_carved_base_maple'
+examine = 'A totem made from maple.'
+
+[[config]]
+loc = 'ent_totems_low_maple'
+examine = 'A totem made from maple.'
+
+[[config]]
+loc = 'ent_totems_mid_maple'
+examine = 'A totem made from maple.'
+
+[[config]]
+loc = 'ent_totems_top_maple'
+examine = 'A totem made from maple.'
+
+[[config]]
+loc = 'ent_totems_base_yew'
+examine = 'A totem made from yew.'
+
+[[config]]
+loc = 'ent_totems_carved_base_yew'
+examine = 'A totem made from yew.'
+
+[[config]]
+loc = 'ent_totems_low_yew'
+examine = 'A totem made from yew.'
+
+[[config]]
+loc = 'ent_totems_mid_yew'
+examine = 'A totem made from yew.'
+
+[[config]]
+loc = 'ent_totems_top_yew'
+examine = 'A totem made from yew.'
+
+[[config]]
+loc = 'ent_totems_base_magic'
+examine = 'A totem made from magic wood.'
+
+[[config]]
+loc = 'ent_totems_carved_base_magic'
+examine = 'A totem made from magic wood.'
+
+[[config]]
+loc = 'ent_totems_low_magic'
+examine = 'A totem made from magic wood.'
+
+[[config]]
+loc = 'ent_totems_mid_magic'
+examine = 'A totem made from magic wood.'
+
+[[config]]
+loc = 'ent_totems_top_magic'
+examine = 'A totem made from magic wood.'
+
+[[config]]
+loc = 'ent_totems_base_redwood'
+examine = 'A totem made from redwood.'
+
+[[config]]
+loc = 'ent_totems_carved_base_redwood'
+examine = 'A totem made from redwood.'
+
+[[config]]
+loc = 'ent_totems_low_redwood'
+examine = 'A totem made from redwood.'
+
+[[config]]
+loc = 'ent_totems_mid_redwood'
+examine = 'A totem made from redwood.'
+
+[[config]]
+loc = 'ent_totems_top_redwood'
+examine = 'A totem made from redwood.'
+
+[[config]]
+loc = 'ent_totems_offerings_none'
+examine = 'A place for ents to leave offerings.'
+
+[[config]]
+loc = 'ent_totems_offerings_a'
+examine = 'A pile of offerings to the totem builder.'
+
+[[config]]
+loc = 'ent_totems_offerings_b'
+examine = 'A pile of offerings to the totem builder.'
+
+[[config]]
+loc = 'ent_totems_offerings_c'
+examine = 'A pile of offerings to the totem builder.'
+
+[[config]]
+loc = 'ent_totems_offerings_d'
+examine = 'A pile of offerings to the totem builder.'
+
+[[config]]
+loc = 'ent_totems_spirit_offerings'
+examine = 'A shrine to leave offerings to the spirits.'
+
+[[config]]
+loc = 'ent_totems_spirit_offerings02'
+examine = 'A shrine to leave offerings to the spirits.'
+
+[[config]]
+loc = 'ent_totems_spirit_offerings03'
+examine = 'A shrine to leave offerings to the spirits.'
+
+[[config]]
+loc = 'ent_totems_animal_a'
+examine = 'A totem.'
+
+[[config]]
+loc = 'ent_totems_animal_b'
+examine = 'A totem.'
+
+[[config]]
+loc = 'ent_totems_animal_c'
+examine = 'A totem.'
+
+[[config]]
+loc = 'ent_totems_animal_d'
+examine = 'A totem.'
+
+[[config]]
+loc = 'ent_totems_animal_e'
+examine = 'A totem.'
+
+[[config]]
+loc = 'ent_totems_decor_01'
+examine = 'A totem decoration.'
+
+[[config]]
+loc = 'ent_totems_decor_02'
+examine = 'A totem decoration.'
+
+[[config]]
+loc = 'ent_totems_decor_03'
+examine = 'A totem decoration.'
+
+[[config]]
+loc = 'ent_totems_decor_04'
+examine = 'A totem decoration.'
+
+[[config]]
+loc = 'ent_totems_admire_loc_1'
+examine = 'An outstandingly beautiful log.'
+
+[[config]]
+loc = 'ent_totems_admire_loc_2'
+examine = 'An outstandingly beautiful tree stump.'
+
+[[config]]
+loc = 'ent_totems_admire_loc_3'
+examine = 'An outstandingly beautiful rock.'
+
+[[config]]
+loc = 'ent_totems_trail_part_0'
+examine = 'An enchanted patch of foliage left by a passing ent.'
+
+[[config]]
+loc = 'ent_totems_trail_part_1'
+examine = 'An enchanted patch of foliage left by a passing ent.'
+
+[[config]]
+loc = 'ent_totems_entling_test'
+examine = 'The joyful spawn of an ent.'
+
+[[config]]
+loc = 'tree_pine_brackentop01_stump01'
+examine = 'A pine stump.'
+
+[[config]]
+loc = 'tree_pine_brackentop02'
+examine = 'A beautiful pine tree.'
+
+[[config]]
+loc = 'tree_pine_brackentop03'
+examine = 'A beautiful pine tree.'
+
+[[config]]
+loc = 'fungi_shelf01_default01'
+examine = "Nature's shelf."
+
+[[config]]
+loc = 'fungi_shelf01_cluster01'
+examine = "Nature's shelf."
+
+[[config]]
+loc = 'barrel_wooden01_staffs01_auburn01'
+examine = 'A sturdy barrel repurposed for storing various staffs.'
+
+[[config]]
+loc = 'archway_auburn01_wood01'
+examine = 'Looks like a wooden arch to me.'
+
+[[config]]
+loc = 'archway_auburn02_wood01'
+examine = 'Looks like a wooden arch to me.'
+
+[[config]]
+loc = 'bundle01_auburn01_logs01_leaning01'
+examine = 'Freshly prepared logs.'
+
+[[config]]
+loc = 'bundle01_auburn01_logs01_stack01'
+examine = 'Freshly prepared logs.'
+
+[[config]]
+loc = 'bundle01_auburn01_slices01_redwood01'
+examine = 'Freshly chopped up slices.'
+
+[[config]]
+loc = 'bundle01_auburn01_lumber01_pine01'
+examine = 'A stack of chopped down trees.'
+
+[[config]]
+loc = 'bundle01_auburn01_lumber02_pine01'
+examine = 'A stack of chopped down trees.'
+
+[[config]]
+loc = 'bundle01_auburn01_lumber01_transport01'
+examine = 'Planks ready for transport!'
+
+[[config]]
+loc = 'bundle01_auburn01_planks01_stack01'
+examine = 'Freshly prepared planks.'
+
+[[config]]
+loc = 'debris01_auburn01_lumber01_bark01'
+examine = 'Bark debris.'
+
+[[config]]
+loc = 'debris01_auburn01_lumber01_sawdust01'
+examine = 'Dusty!'
+
+[[config]]
+loc = 'debris01_auburn01_lumber02_sawdust01'
+examine = 'Dusty!'
+
+[[config]]
+loc = 'tools_sawmill01_log01_auburn01'
+examine = 'A place to saw logs into planks! Genius!'
+
+[[config]]
+loc = 'auburn_lone_grave'
+examine = 'A single solitary gravestone.'
+
+[[config]]
+loc = 'auburn_monument'
+examine = 'A memorial to all in the Auburn Valley who died in the War of Betrayal.'
+
+[[config]]
+loc = 'civitas_shelf01_books01_alt01'
+examine = 'Shelves full of books and old scrolls.'
+
+[[config]]
+loc = 'civitas_shelf01_books02_alt01'
+examine = 'Shelves full of books and old scrolls.'
+
+[[config]]
+loc = 'civitas_shelf01_bow01_alt01'
+examine = 'Shelves full of books and old scrolls.'
+
+[[config]]
+loc = 'civitas_shelf01_skull01_alt01'
+examine = 'Shelves full of books and old scrolls.'
+
+[[config]]
+loc = 'barrel_wooden01_civitas02'
+examine = 'A sturdy barrel used for storing various things.'
+
+[[config]]
+loc = 'pillow_varlamore01_blue01'
+examine = 'Comfy and soft!'
+
+[[config]]
+loc = 'pillow_varlamore01_stack01_blue01'
+examine = 'Lets see... Yep, those are indeed pillows.'
+
+[[config]]
+loc = 'pillow_varlamore01_orange01'
+examine = 'Comfy and soft!'
+
+[[config]]
+loc = 'pillow_varlamore01_stack01_orange01'
+examine = 'Lets see... Yep, those are indeed pillows.'
+
+[[config]]
+loc = 'tree_cypress01_small01'
+examine = 'An impressively tall tree, native to Varlamore.'
+
+[[config]]
+loc = 'chair_civitas01_wood01_orange01'
+examine = 'Looks quite supportive.'
+
+[[config]]
+loc = 'civitas_potted01_fan02_fallen'
+examine = 'Looks to have been knocked over in haste.'
+
+[[config]]
+loc = 'varlamore_buffalo_dairy_flipped'
+examine = 'Fit for milking.'
+
+[[config]]
+loc = 'cave_rock01_entrance01_colosseum'
+examine = "I wonder what's inside!"
+
+[[config]]
+loc = 'avium_corn01_noop'
+examine = 'The sweetest corn in all the land!'
+
+[[config]]
+loc = 'avium_corn02_noop'
+examine = 'The sweetest corn in all the land!'
+
+[[config]]
+loc = 'custodia_pass_north_cave_out'
+examine = 'Beware!'
+
+[[config]]
+loc = 'custodia_pass_north_cave_in'
+examine = 'Beware!'
+
+[[config]]
+loc = 'root_custodia01_large01'
+examine = 'Large growing roots.'
+
+[[config]]
+loc = 'root_custodia01_large02'
+examine = 'Large growing roots.'
+
+[[config]]
+loc = 'root_custodia01_medium01'
+examine = 'Growing roots.'
+
+[[config]]
+loc = 'root_custodia01_medium01_mirror'
+examine = 'Growing roots.'
+
+[[config]]
+loc = 'root_custodia01_medium02'
+examine = 'Growing roots.'
+
+[[config]]
+loc = 'root_custodia01_medium02_mirror'
+examine = 'Growing roots.'
+
+[[config]]
+loc = 'root_custodia01_open01'
+examine = 'Flowering roots.'
+
+[[config]]
+loc = 'root_custodia01_open02'
+examine = 'Almost flowering roots.'
+
+[[config]]
+loc = 'root_custodia01_tree01'
+examine = 'Roots protruding from the cave ceiling.'
+
+[[config]]
+loc = 'custodia_pass_skeleton01'
+examine = "I wonder how long they've been there."
+
+[[config]]
+loc = 'custodia_pass_skeleton02'
+examine = 'Such a shame.'
+
+[[config]]
+loc = 'custodia_rockslide03'
+examine = 'A deposit of rocks.'
+
+[[config]]
+loc = 'custodia_rockslide04'
+examine = 'A deposit of rocks.'
+
+[[config]]
+loc = 'custodia_debris_mud02'
+examine = 'What a mess!'
+
+[[config]]
+loc = 'custodia_debris_mud03'
+examine = 'What a mess!'
+
+[[config]]
+loc = 'custodia_rock01_1x1a'
+examine = 'Rocky.'
+
+[[config]]
+loc = 'custodia_rock02_1x1a'
+examine = 'Rocky.'
+
+[[config]]
+loc = 'custodia_rock02_2x2a'
+examine = 'Rocky.'
+
+[[config]]
+loc = 'custodia_pub_sign'
+examine = 'A pub sign.'
+
+[[config]]
+loc = 'custodia_portcullis'
+examine = 'A defence against deadly threats.'
+
+[[config]]
+loc = 'custodia_rowboat_south'
+examine = 'A wooden rowboat.'
+
+[[config]]
+loc = 'custodia_rowboat_west'
+examine = 'A wooden rowboat.'
+
+[[config]]
+loc = 'stalker_den_shortcut_cave_1'
+examine = 'Where could it lead?'
+
+[[config]]
+loc = 'stalker_den_shortcut_cave_2'
+examine = 'Where could it lead?'
+
+[[config]]
+loc = 'stalker_den_shortcut_rope_top'
+examine = 'For climbing.'
+
+[[config]]
+loc = 'stalker_den_shortcut_rope_bottom'
+examine = 'For climbing.'
+
+[[config]]
+loc = 'stalker_den_stepping_stone'
+examine = 'Try not to slip!'
+
+[[config]]
+loc = 'stalker_den_external_shortcut_inside'
+examine = 'Beware!'
+
+[[config]]
+loc = 'stalker_den_external_shortcut_outside'
+examine = 'Beware!'
+
+[[config]]
+loc = 'aldarin_potted01_fan03_rotting01'
+examine = 'Seen better days.'
+
+[[config]]
+loc = 'dom_acidpool'
+examine = 'Must be some kind of molecular acid...'
+
+[[config]]
+loc = 'dom_acidpool_diagonal'
+examine = 'Must be some kind of molecular acid...'
+
+[[config]]
+loc = 'dom_descend_hole'
+examine = 'Going down!'
+
+[[config]]
+loc = 'dom_rock_blockrange'
+examine = 'Rubble.'
+
+[[config]]
+loc = 'dom_scoreboard'
+examine = 'Details some interesting statistics.'
+
+[[config]]
+loc = 'dom_entrance'
+examine = 'Take the leap.'
+
+[[config]]
+loc = 'dom_entrance_exit'
+examine = 'Take the leap.'
+
+[[config]]
+loc = 'dom_playtester_bones_1'
+examine = 'The remains of someone who came before.'
+
+[[config]]
+loc = 'dom_playtester_bones_2'
+examine = 'The remains of someone who came before.'
+
+[[config]]
+loc = 'dom_playtester_bones_3'
+examine = 'The remains of someone who came before.'
+
+[[config]]
+loc = 'dom_playtester_bones_4'
+examine = 'The remains of someone who came before.'
+
+[[config]]
+loc = 'dom_playtester_bones_5'
+examine = 'The remains of someone who came before.'
+
+[[config]]
+loc = 'dom_playtester_bones_6'
+examine = 'The remains of someone who came before.'
+
+[[config]]
+loc = 'dom_playtester_bones_7'
+examine = 'The remains of someone who came before.'
+
+[[config]]
+loc = 'dom_playtester_bones_8'
+examine = 'The remains of someone who came before.'
+
+[[config]]
+loc = 'dom_playtester_bones_9'
+examine = 'The remains of someone who came before.'
+
+[[config]]
+loc = 'boat_wood03_canal01'
+examine = 'A small boat for transporting various goods.'
+
+[[config]]
+loc = 'boat_wood03_canal02'
+examine = 'A small boat for transporting various goods.'
+
+[[config]]
+loc = 'boat_wood03_canal03'
+examine = 'A small boat for transporting various goods.'
+
+[[config]]
+loc = 'tlati_kastori_riverboat'
+examine = 'A small boat for transporting various goods.'
+
+[[config]]
+loc = 'basket_produce01_default01'
+examine = 'A basket for carrying produce.'
+
+[[config]]
+loc = 'basket_produce01_default02'
+examine = 'A basket for carrying produce.'
+
+[[config]]
+loc = 'basket_produce01_group01'
+examine = 'Baskets for carrying produce.'
+
+[[config]]
+loc = 'basket_produce01_cocoa01'
+examine = 'A basket of cocoa.'
+
+[[config]]
+loc = 'basket_produce01_corn01'
+examine = 'A basket of corn.'
+
+[[config]]
+loc = 'shelf_herblore01_equipment01'
+examine = 'Shelves full of herblore equipment.'
+
+[[config]]
+loc = 'shelf_herblore01_equipment02'
+examine = 'Shelves full of herblore equipment.'
+
+[[config]]
+loc = 'fire_camp_trivet02'
+examine = 'Smells delicious.'
+
+[[config]]
+loc = 'kastori_waterwheel_centre'
+examine = 'The river makes it spin.'
+
+[[config]]
+loc = 'kastori_waterwheel_left'
+examine = 'The river makes it spin.'
+
+[[config]]
+loc = 'kastori_waterwheel_right'
+examine = 'The river makes it spin.'
+
+[[config]]
+loc = 'kastori_waterwheel_engine_center'
+examine = 'These huge stone discs grind corn to make cornflour.'
+
+[[config]]
+loc = 'kastori_watermill_millstone'
+examine = 'These huge stone discs grind corn to make cornflour.'
+
+[[config]]
+loc = 'kastori_bench_wooden01'
+examine = 'Sit back and relax...'
+
+[[config]]
+loc = 'kastori_vase_snake'
+examine = 'It seems to have an occupant.'
+
+[[config]]
+loc = 'altar_talkasti01'
+examine = 'Praise the sun.'
+
+[[config]]
+loc = 'booth_bank01_talkasti01'
+examine = 'The bank teller will serve you from here.'
+
+[[config]]
+loc = 'storage_postbox01_talkasti01'
+examine = 'Lets you put items into your bank.'
+
+[[config]]
+loc = 'stove_clay01_talkasti01'
+examine = 'Ideal for cooking things.'
+
+[[config]]
+loc = 'stove_clay01_talkasti01_noop'
+examine = 'Ideal for cooking things.'
+
+[[config]]
+loc = 'table_clay01_talkasti01'
+examine = "Someone's been busy here."
+
+[[config]]
+loc = 'talkasti01_potted01_plant01'
+examine = 'The leaves wibble and wobble in the wind.'
+
+[[config]]
+loc = 'talkasti01_potted01_plant02'
+examine = 'The leaves wibble and wobble in the wind.'
+
+[[config]]
+loc = 'talkasti01_table01_long01'
+examine = 'Sturdy.'
+
+[[config]]
+loc = 'talkasti01_table01_long01_alt01'
+examine = 'Sturdy.'
+
+[[config]]
+loc = 'talkasti01_table01_shrine01'
+examine = 'A place to pay respects.'
+
+[[config]]
+loc = 'talkasti01_fountain01_default01'
+examine = 'A well-decorated fountain with carvings of a snake and an eagle.'
+
+[[config]]
+loc = 'talkasti01_pottery01_hanging01'
+examine = 'A pair of hanging pots used for various purposes.'
+
+[[config]]
+loc = 'talkasti01_pottery01_hanging02'
+examine = 'A pair of hanging pots used for various purposes.'
+
+[[config]]
+loc = 'talkasti01_ornament01_hanging01'
+examine = 'A hanging ornament.'
+
+[[config]]
+loc = 'talkasti01_ornament01_tools01'
+examine = 'A hanging ornament.'
+
+[[config]]
+loc = 'talkasti01_bundle_rug01'
+examine = 'Lots of reeds.'
+
+[[config]]
+loc = 'talkasti01_bundle_rug02'
+examine = 'A rolled up rug.'
+
+[[config]]
+loc = 'talkasti01_bundle_rug03'
+examine = "Someone's making a rug out of reeds."
+
+[[config]]
+loc = 'tal_teklan_ladder_tall_bottom'
+examine = 'I can climb this.'
+
+[[config]]
+loc = 'tal_teklan_ladder_tall_top'
+examine = 'I can climb this.'
+
+[[config]]
+loc = 'talkasti01_pottery01_default01'
+examine = 'It could do with some water.'
+
+[[config]]
+loc = 'talkasti01_pottery01_default01a'
+examine = 'It could do with some water.'
+
+[[config]]
+loc = 'talkasti01_pottery01_default01b'
+examine = 'It could do with some water.'
+
+[[config]]
+loc = 'talkasti01_pottery01_default01c'
+examine = 'It could do with some water.'
+
+[[config]]
+loc = 'talkasti01_pottery01_default01d'
+examine = 'It could do with some water.'
+
+[[config]]
+loc = 'talkasti01_pottery01_default02'
+examine = 'It could do with some water.'
+
+[[config]]
+loc = 'talkasti01_pottery01_default02a'
+examine = 'It could do with some water.'
+
+[[config]]
+loc = 'talkasti01_pottery01_default02b'
+examine = 'It could do with some water.'
+
+[[config]]
+loc = 'talkasti01_pottery01_default02c'
+examine = 'It could do with some water.'
+
+[[config]]
+loc = 'talkasti01_pottery01_default02d'
+examine = 'It could do with some water.'
+
+[[config]]
+loc = 'talkasti01_pottery01_default03'
+examine = 'It could do with some water.'
+
+[[config]]
+loc = 'talkasti01_pottery01_default03a'
+examine = 'It could do with some water.'
+
+[[config]]
+loc = 'talkasti01_pottery01_default03b'
+examine = 'It could do with some water.'
+
+[[config]]
+loc = 'talkasti01_pottery01_default03c'
+examine = 'It could do with some water.'
+
+[[config]]
+loc = 'talkasti01_pottery01_default03d'
+examine = 'It could do with some water.'
+
+[[config]]
+loc = 'talkasti01_pottery01_group01'
+examine = 'They could do with some water.'
+
+[[config]]
+loc = 'talkasti01_pottery01_group02'
+examine = 'They could do with some water.'
+
+[[config]]
+loc = 'talkasti01_target01'
+examine = 'How good is your aim?'
+
+[[config]]
+loc = 'wallkit_ulama01_hoop01'
+examine = 'Used for some sort of sport.'
+
+[[config]]
+loc = 'tlati_tree_base02'
+examine = 'A terribly tall tropical tree.'
+
+[[config]]
+loc = 'tlati_tree_base03'
+examine = 'A terribly tall tropical tree.'
+
+[[config]]
+loc = 'tlati_tree_base04'
+examine = 'A terribly tall tropical tree.'
+
+[[config]]
+loc = 'tlati_tree_middle02'
+examine = 'A terribly tall tropical tree.'
+
+[[config]]
+loc = 'tlati_tree_middle03'
+examine = 'A terribly tall tropical tree.'
+
+[[config]]
+loc = 'tlati_tree_middle04'
+examine = 'A terribly tall tropical tree.'
+
+[[config]]
+loc = 'tlati_tree_top02'
+examine = 'A terribly tall tropical tree.'
+
+[[config]]
+loc = 'tlati_tree_small01_default01'
+examine = 'A tree found in tropical areas.'
+
+[[config]]
+loc = 'tlati_tree_small01_default02'
+examine = 'A tree found in tropical areas.'
+
+[[config]]
+loc = 'tlati_tree_small01_default03'
+examine = 'A tree found in tropical areas.'
+
+[[config]]
+loc = 'tlati_tree_small02_default01'
+examine = 'A tree found in tropical areas.'
+
+[[config]]
+loc = 'tlati_tree_small02_default02'
+examine = 'A tree found in tropical areas.'
+
+[[config]]
+loc = 'tlati_stump_default01'
+examine = 'Not much left of it.'
+
+[[config]]
+loc = 'tlati_stump_default02'
+examine = 'Not much left of it.'
+
+[[config]]
+loc = 'tlati_stump_default02_3x3'
+examine = 'Not much left of it.'
+
+[[config]]
+loc = 'tlati_stump_rock01'
+examine = 'Not much left of it.'
+
+[[config]]
+loc = 'tlati_stump_rock02'
+examine = 'Not much left of it.'
+
+[[config]]
+loc = 'tlati_root_default01'
+examine = 'A large tree root.'
+
+[[config]]
+loc = 'tlati_root_small01'
+examine = 'A large tree root.'
+
+[[config]]
+loc = 'tlati_root_large01'
+examine = 'A large tree root.'
+
+[[config]]
+loc = 'tlati_root_large01_3x3'
+examine = 'A large tree root.'
+
+[[config]]
+loc = 'tlati_root_large02'
+examine = 'A large tree root.'
+
+[[config]]
+loc = 'tlati_root_large02_3x3'
+examine = 'A large tree root.'
+
+[[config]]
+loc = 'tlati_rock01_1x1a'
+examine = 'A rock found in tropical areas.'
+
+[[config]]
+loc = 'tlati_rock01_2x2a'
+examine = 'A rock found in tropical areas.'
+
+[[config]]
+loc = 'tlati_rock01_2x2a_m'
+examine = 'A rock found in tropical areas.'
+
+[[config]]
+loc = 'tlati_rock02_1x1a'
+examine = 'A rock found in tropical areas.'
+
+[[config]]
+loc = 'tlati_rock02_2x2a'
+examine = 'A rock found in tropical areas.'
+
+[[config]]
+loc = 'tlati_rock02_2x2b'
+examine = 'A rock found in tropical areas.'
+
+[[config]]
+loc = 'tlati_rock02_2x2b_m'
+examine = 'A rock found in tropical areas.'
+
+[[config]]
+loc = 'tlati_plant_cluster01_default01'
+examine = 'Plants found in tropical areas.'
+
+[[config]]
+loc = 'tlati_plant_cluster01_default02'
+examine = 'Plants found in tropical areas.'
+
+[[config]]
+loc = 'tlati_plant_cluster01_default03'
+examine = 'Plants found in tropical areas.'
+
+[[config]]
+loc = 'tlati_plant_cluster02_default01'
+examine = 'Plants found in tropical areas.'
+
+[[config]]
+loc = 'tlati_plant_cluster02_default02'
+examine = 'Plants found in tropical areas.'
+
+[[config]]
+loc = 'tlati_plant_cluster02_default03'
+examine = 'Plants found in tropical areas.'
+
+[[config]]
+loc = 'tlati_bush01_orange'
+examine = 'Fragrant flowers.'
+
+[[config]]
+loc = 'tlati_bush02_orange'
+examine = 'Fragrant flowers.'
+
+[[config]]
+loc = 'tlati_bush01_red'
+examine = 'Fragrant flowers.'
+
+[[config]]
+loc = 'tlati_bush02_red'
+examine = 'Fragrant flowers.'
+
+[[config]]
+loc = 'tlati_orange_scatter'
+examine = 'Fragrant flower.'
+
+[[config]]
+loc = 'tlati_hibiscus_orange'
+examine = 'Fragrant flower.'
+
+[[config]]
+loc = 'tlati_hibiscus_red'
+examine = 'Fragrant flower.'
+
+[[config]]
+loc = 'tlati_hibiscus01_petals'
+examine = 'Fragrant flower petals.'
+
+[[config]]
+loc = 'tlati_hibiscus02_petals'
+examine = 'Fragrant flower petals.'
+
+[[config]]
+loc = 'tlati_hibiscus03_petals'
+examine = 'Fragrant flower petals.'
+
+[[config]]
+loc = 'tlati_hibiscus04_petals'
+examine = 'Fragrant flower petals.'
+
+[[config]]
+loc = 'tlati_tiger_plant'
+examine = 'Can you count the stripes?'
+
+[[config]]
+loc = 'tlati_spiky_plant'
+examine = 'Ouch!'
+
+[[config]]
+loc = 'tlati_paradise_plant'
+examine = "That's pretty."
+
+[[config]]
+loc = 'tlati_pitcher01_plant'
+examine = 'A perfect insect trap.'
+
+[[config]]
+loc = 'tlati_pitcher02_plant'
+examine = 'A perfect insect trap.'
+
+[[config]]
+loc = 'tlati_plant_talteklan01'
+examine = 'A large fern.'
+
+[[config]]
+loc = 'tlati_plant_talteklan02'
+examine = 'A large fern.'
+
+[[config]]
+loc = 'tlati_plant_talteklan03'
+examine = 'A large fern.'
+
+[[config]]
+loc = 'tlati_plant_talteklan04'
+examine = 'A large fern.'
+
+[[config]]
+loc = 'sign_post01_tlati01'
+examine = 'Where to next?'
+
+[[config]]
+loc = 'sign_post01_tlati02'
+examine = 'Vibrant post.'
+
+[[config]]
+loc = 'sign_post01_tlati03'
+examine = 'A perfect perch.'
+
+[[config]]
+loc = 'pillar_zema01_overgrown01'
+examine = 'What a mossy mess!'
+
+[[config]]
+loc = 'pillar_zema01_overgrown02'
+examine = 'What a mossy mess!'
+
+[[config]]
+loc = 'pillar_zema01_overgrown001_3x3'
+examine = 'What a mossy mess!'
+
+[[config]]
+loc = 'pillar_zema01_overgrown02_3x3'
+examine = 'What a mossy mess!'
+
+[[config]]
+loc = 'pillar_zema01_trunk01'
+examine = 'A trunk on a pillar?'
+
+[[config]]
+loc = 'pillar_zema01_trunk02'
+examine = 'A trunk on a pillar?'
+
+[[config]]
+loc = 'statue_zema01_head01'
+examine = 'How unusual.'
+
+[[config]]
+loc = 'statue_zema01_head02'
+examine = 'How unusual.'
+
+[[config]]
+loc = 'food_group02_juices01'
+examine = 'A colorful spread of various fruits, fresh orange juice, and a nojito!'
+
+[[config]]
+loc = 'plant_flower_tlati01'
+examine = 'Very nice.'
+
+[[config]]
+loc = 'tlati_crate_01_dark'
+examine = 'A crate for storing things.'
+
+[[config]]
+loc = 'tlati_crate_01_dark_clue'
+examine = 'A crate for storing things.'
+
+[[config]]
+loc = 'tlati_crate_02_dark'
+examine = 'A wooden crate.'
+
+[[config]]
+loc = 'tlati_dragon_nest_cave_entry'
+examine = 'I wonder where this could lead to?'
+
+[[config]]
+loc = 'tlati_dragon_nest_cave_exit'
+examine = 'Leads back to the surface.'
+
+[[config]]
+loc = 'tlati_north_river_log_balance_1'
+examine = 'It might be possible to walk across it.'
+
+[[config]]
+loc = 'tlati_north_river_log_balance_2'
+examine = 'It might be possible to walk across it.'
+
+[[config]]
+loc = 'tlati_north_river_log_balance_3'
+examine = 'It might be possible to walk across it.'
+
+[[config]]
+loc = 'tlati_root_temple01'
+examine = 'A large tree root.'
+
+[[config]]
+loc = 'tlati_root_temple02'
+examine = 'A large tree root.'
+
+[[config]]
+loc = 'mound_termite01_small01_tlati01'
+examine = 'Termites scurry within.'
+
+[[config]]
+loc = 'mound_termite01_medium01_tlati01'
+examine = 'Termites scurry within.'
+
+[[config]]
+loc = 'mound_termite01_large01_tlati01'
+examine = 'Termites scurry within.'
+
+[[config]]
+loc = 'tlati_plant01_grapevine01'
+examine = 'Lots of grapes.'
+
+[[config]]
+loc = 'tlati_plant01_grapevine02'
+examine = 'Lots of grapes.'
+
+[[config]]
+loc = 'tlati_grape01_barrel01'
+examine = 'Lots of grapes.'
+
+[[config]]
+loc = 'tlati_tree_area_shortcut_top'
+examine = 'With skill, someone could probably climb these.'
+
+[[config]]
+loc = 'tlati_tree_area_shortcut_bottom'
+examine = 'With skill, someone could probably climb these.'
+
+[[config]]
+loc = 'rock_gemstone01_large01'
+examine = 'Shiny!'
+
+[[config]]
+loc = 'rock_gemstone01_medium01'
+examine = 'Shiny!'
+
+[[config]]
+loc = 'rock_gemstone01_medium02'
+examine = 'Shiny!'
+
+[[config]]
+loc = 'rock_gemstone01_long01'
+examine = 'Shiny!'
+
+[[config]]
+loc = 'rock_gemstone01_small01'
+examine = 'Shiny!'
+
+[[config]]
+loc = 'rock_gemstone01_small02'
+examine = 'Shiny!'
+
+[[config]]
+loc = 'cave_rock02_entrance01_gemstone'
+examine = 'I wonder where this could lead to...'
+
+[[config]]
+loc = 'cavekit_rock01_entrance02'
+examine = 'Where could it go?'
+
+[[config]]
+loc = 'hanging_vine_noop'
+examine = 'I can climb my way back out of these catacombs using this.'
+
+[[config]]
+loc = 'shayzien_clothesshop_table_alt01'
+examine = 'Odd bits of fabric lie on this table.'
+
+[[config]]
+loc = 'cave_mountain01_default03'
+examine = 'Beware!'
+
+[[config]]
+loc = 'rockslide_grey_small'
+examine = 'A lump of rock.'
+
+[[config]]
+loc = 'rockslide_grey_small1'
+examine = 'A lump of rock.'
+
+[[config]]
+loc = 'rockslide_grey_small2'
+examine = 'A lump of rock.'
+
+[[config]]
+loc = 'rockslide_grey_small3'
+examine = 'A lump of rock.'
+
+[[config]]
+loc = 'fai_varrock_staff_rack_alt01'
+examine = 'A nice selection of staves.'
+
+[[config]]
+loc = 'fai_varrock_battlestaff_barrel_full_alt01'
+examine = 'Staves in a barrel.'
+
+[[config]]
+loc = 'fai_varrock_staff_table_alt01'
+examine = 'A nice selection of staves.'
+
+[[config]]
+loc = 'fai_varrock_staff_rack_02_alt01'
+examine = 'A selection of staves.'
+
+[[config]]
+loc = 'debug_wall'
+examine = 'For debug.'
 
