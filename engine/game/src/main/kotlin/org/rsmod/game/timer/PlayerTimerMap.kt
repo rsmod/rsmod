@@ -1,14 +1,15 @@
 package org.rsmod.game.timer
 
 import it.unimi.dsi.fastutil.objects.ObjectIterator
+import it.unimi.dsi.fastutil.shorts.Short2LongLinkedOpenHashMap
 import it.unimi.dsi.fastutil.shorts.Short2LongMap
-import it.unimi.dsi.fastutil.shorts.Short2LongOpenHashMap
 import it.unimi.dsi.fastutil.shorts.ShortArraySet
 import org.rsmod.annotations.InternalApi
 import org.rsmod.game.type.timer.TimerType
 
-public class PlayerTimerMap(private val timers: Short2LongOpenHashMap = Short2LongOpenHashMap()) :
-    Iterable<Short2LongMap.Entry> {
+public class PlayerTimerMap(
+    private val timers: Short2LongLinkedOpenHashMap = Short2LongLinkedOpenHashMap()
+) : Iterable<Short2LongMap.Entry> {
     @InternalApi public val expiredKeysBuffer: ShortArraySet = ShortArraySet()
 
     public val isNotEmpty: Boolean
