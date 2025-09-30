@@ -361,14 +361,15 @@ constructor(
         if (!withinDistance) {
             return false
         }
-        // Note: We intentionally use the same line-of-sight validation that player -> npc
-        // interactions use. This avoids possible one-way safe-spots for npcs targeting players.
+        // Line-of-sight for npcs is always calculated in "reverse."
         val hasLos =
             rayCastValidator.hasLineOfSight(
                 source = target,
                 destination = coords,
-                destWidth = width,
-                destLength = length,
+                srcWidth = width,
+                srcLength = length,
+                destWidth = size,
+                destLength = size,
                 extraFlag = CollisionFlag.BLOCK_PLAYERS,
             )
         return hasLos
