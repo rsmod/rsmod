@@ -1,5 +1,6 @@
 package org.rsmod.api.testing.factory
 
+import org.rsmod.api.testing.factory.controller.TestControllerTypeFactory
 import org.rsmod.api.testing.factory.entity.TestPathingEntityFactory
 import org.rsmod.api.testing.factory.inv.TestInvFactory
 import org.rsmod.api.testing.factory.inv.TestInvTypeFactory
@@ -18,6 +19,10 @@ import org.rsmod.api.testing.factory.player.TestPlayerFactory
 import org.rsmod.api.testing.factory.region.TestRegionRegistryFactory
 import org.rsmod.api.testing.factory.timer.TestTimerTypeFactory
 import org.rsmod.api.testing.factory.varbit.TestVarBitTypeFactory
+
+/* Controller factory properties */
+public val controllerTypeFactory: TestControllerTypeFactory
+    get() = TestControllerTypeFactory()
 
 /* Entity factory properties */
 public val entityFactory: TestPathingEntityFactory
