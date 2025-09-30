@@ -12,7 +12,7 @@ import org.rsmod.game.vars.VarConIntMap
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.util.Bounds
 
-public class Controller(public val coords: CoordGrid, public val type: ControllerType) {
+public class Controller(public val type: ControllerType, public val coords: CoordGrid) {
     public val id: Int = type.id
     public val timerMap: NpcTimerMap = NpcTimerMap()
     public val queueList: NpcQueueList = NpcQueueList()

@@ -205,7 +205,7 @@ constructor(
             return
         }
 
-        val spawn = Controller(tree.coords, controllers.woodcutting_tree_duration)
+        val spawn = Controller(controllers.woodcutting_tree_duration, tree.coords)
         conRepo.add(spawn, type.treeDespawnTime)
 
         spawn.treeLocId = tree.id
