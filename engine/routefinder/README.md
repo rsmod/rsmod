@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.rsmod:rsmod-routefinder:6.0.0")
+    implementation("org.rsmod:rsmod-routefinder:6.1.0")
 }
 ```
 
