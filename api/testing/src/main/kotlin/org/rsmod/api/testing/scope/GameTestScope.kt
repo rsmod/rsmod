@@ -59,6 +59,7 @@ import org.rsmod.api.random.GameRandom
 import org.rsmod.api.realm.Realm
 import org.rsmod.api.registry.account.AccountRegistry
 import org.rsmod.api.registry.controller.ControllerRegistry
+import org.rsmod.api.registry.controller.isSuccess
 import org.rsmod.api.registry.loc.LocRegistry
 import org.rsmod.api.registry.loc.LocRegistryNormal
 import org.rsmod.api.registry.loc.LocRegistryRegion
@@ -101,6 +102,7 @@ import org.rsmod.game.cheat.CheatCommandMap
 import org.rsmod.game.client.Client
 import org.rsmod.game.dbtable.DbRowResolver
 import org.rsmod.game.dbtable.DbTableResolver
+import org.rsmod.game.entity.Controller
 import org.rsmod.game.entity.ControllerList
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.NpcList
@@ -134,6 +136,7 @@ import org.rsmod.game.type.area.AreaTypeList
 import org.rsmod.game.type.comp.ComponentType
 import org.rsmod.game.type.comp.ComponentTypeList
 import org.rsmod.game.type.content.ContentGroupType
+import org.rsmod.game.type.controller.ControllerType
 import org.rsmod.game.type.dbrow.DbRowTypeList
 import org.rsmod.game.type.dbtable.DbTableTypeList
 import org.rsmod.game.type.enums.EnumTypeList
@@ -191,6 +194,7 @@ constructor(
     private val locZoneStorage: LocZoneStorage,
     private val locRegistry: LocRegistry,
     private val locInteractions: LocInteractions,
+    private val conRegistry: ControllerRegistry,
     private val npcRegistry: NpcRegistry,
     private val npcInteractions: NpcInteractions,
     private val interfaceTypes: InterfaceTypeList,
@@ -515,6 +519,18 @@ constructor(
         val add = npcRegistry.add(npc)
         check(add.isSuccess()) { "Could not add npc: result=$add, npc=$npc" }
         return npc
+    }
+
+    public fun spawnController(
+        coords: CoordGrid,
+        type: ControllerType,
+        duration: Int = Int.MAX_VALUE,
+        init: Controller.() -> Unit = {},
+    ): Controller {
+        val controller = Controller(type, coords).apply { duration(duration) }.apply(init)
+        val add = conRegistry.add(controller)
+        check(add.isSuccess()) { "Could not add controller: result=$add, controller=$controller" }
+        return controller
     }
 
     public fun placeMapLoc(
