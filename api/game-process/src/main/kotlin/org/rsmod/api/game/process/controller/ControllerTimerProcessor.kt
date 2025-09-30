@@ -6,7 +6,6 @@ import org.rsmod.api.controller.events.ControllerTimerEvents
 import org.rsmod.events.EventBus
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Controller
-import org.rsmod.game.timer.NpcTimerMap
 
 public class ControllerTimerProcessor
 @Inject
@@ -22,26 +21,24 @@ constructor(
     }
 
     private fun Controller.processTimers() {
-        val expired = timerMap.incrementCountersAndGetExpiredKeys()
-        for (timerType in expired) {
-            publishEvent(timerType.toInt())
-        }
-    }
-
-    private fun NpcTimerMap.incrementCountersAndGetExpiredKeys(): Set<Short> {
-        expiredKeysBuffer.clear()
-        for (entry in this) {
+        for (entry in timerMap) {
+            if (isDelayed) {
+                break
+            }
+            val timerType = entry.shortKey
             // Note: Counter is incremented _before_ being checked against its interval.
-            var counter = extractClockCounter(entry.longValue) + 1
-            val interval = extractInterval(entry.longValue)
-            if (counter >= interval) {
-                expiredKeysBuffer.add(entry.shortKey)
+            var counter = timerMap.extractClockCounter(entry.longValue) + 1
+            val interval = timerMap.extractInterval(entry.longValue)
+            val publish = counter >= interval
+            if (publish) {
                 counter = 0
             }
-            val packed = packValues(clockCounter = counter, interval = interval)
+            val packed = timerMap.packValues(clockCounter = counter, interval = interval)
             entry.setValue(packed)
+            if (publish) {
+                publishEvent(timerType.toInt())
+            }
         }
-        return expiredKeysBuffer
     }
 
     private fun Controller.publishEvent(timer: Int) {
