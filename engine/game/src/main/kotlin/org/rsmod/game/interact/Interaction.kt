@@ -150,7 +150,11 @@ public class InteractionPlayerOp(
     hasOpTrigger: Boolean,
     hasApTrigger: Boolean,
     startApRange: Int = PathingEntity.DEFAULT_AP_RANGE,
-) : InteractionPlayer(target, hasOpTrigger, hasApTrigger, startApRange)
+) : InteractionPlayer(target, hasOpTrigger, hasApTrigger, startApRange) {
+    public fun isFollowOp(): Boolean {
+        return op == InteractionOp.Op3
+    }
+}
 
 public class InteractionPlayerT(
     public val objType: ObjType?,

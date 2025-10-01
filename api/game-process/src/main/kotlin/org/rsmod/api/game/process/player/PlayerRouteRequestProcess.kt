@@ -5,6 +5,7 @@ import org.rsmod.api.player.forceDisconnect
 import org.rsmod.api.utils.logging.GameExceptionHandler
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.util.ShuffledPlayerList
+import org.rsmod.map.CoordGrid
 
 public class PlayerRouteRequestProcess
 @Inject
@@ -15,12 +16,23 @@ constructor(
 ) {
     public fun process() {
         for (player in playerList) {
+            player.cacheFollowCoord()
             val request = player.routeRequest
             if (request != null && request.clientRequest) {
                 player.routeRequest = null
                 player.tryOrDisconnect { movement.consumeRequest(this, request) }
             }
         }
+    }
+
+    private fun Player.cacheFollowCoord() {
+        val followCoord =
+            if (lastProcessedCoord != CoordGrid.NULL) {
+                lastProcessedCoord
+            } else {
+                coords.translateX(-1)
+            }
+        this.followCoord = followCoord
     }
 
     private inline fun Player.tryOrDisconnect(block: Player.() -> Unit) =

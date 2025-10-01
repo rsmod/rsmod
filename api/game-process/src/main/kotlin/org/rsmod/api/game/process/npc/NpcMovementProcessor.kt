@@ -69,13 +69,8 @@ constructor(
         var current = start
         var target = waypoint
         var stepCount = 0
-        lastProcessedCoord = start
         removeBlockWalkCollision(current)
         for (i in 0 until steps) {
-            // Important to set this before `current` is assigned for this iteration. This serves
-            // as a way to track the intermediate coord when running.
-            lastProcessedCoord = current
-
             if (current == target) {
                 target = destination.pollFirst() ?: break
                 if (current == target) {
@@ -87,6 +82,9 @@ constructor(
             if (step == CoordGrid.NULL) {
                 break
             }
+            // Important to set this before `current` is assigned for this iteration. This serves
+            // as a way to track the intermediate coord when running.
+            lastProcessedCoord = current
             current = step
             stepCount++
         }

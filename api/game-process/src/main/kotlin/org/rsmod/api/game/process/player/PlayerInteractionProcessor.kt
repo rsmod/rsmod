@@ -16,6 +16,7 @@ import org.rsmod.api.player.output.ChatType
 import org.rsmod.api.player.output.clearMapFlag
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.protect.ProtectedAccessLauncher
+import org.rsmod.api.player.vars.varMoveSpeed
 import org.rsmod.api.registry.loc.LocRegistry
 import org.rsmod.api.registry.obj.ObjRegistry
 import org.rsmod.api.route.BoundValidator
@@ -63,6 +64,7 @@ constructor(
         // new one (e.g., combat calling `opnpc2`), the original interaction completes before the
         // new one is processed.
         val interaction = player.interaction
+        val followOp = interaction is InteractionPlayerOp && interaction.isFollowOp()
         var interacted = false
 
         if (interaction != null && !player.isAccessProtected) {
@@ -71,14 +73,20 @@ constructor(
                 player.clearInteractionRoute()
                 return
             }
-            player.preMovementInteraction(interaction)
-            interacted = interaction.interacted
+            if (!followOp) {
+                player.preMovementInteraction(interaction)
+                interacted = interaction.interacted
+            }
         }
 
         if (!interacted) {
             val reroute = interaction != null && player.routeDestination.size <= 1
             if (reroute) {
-                player.routeToPathingTarget(interaction)
+                if (followOp) {
+                    player.follow(interaction)
+                } else {
+                    player.routeToPathingTarget(interaction)
+                }
             }
 
             val routeRequest = player.routeRequest
@@ -98,7 +106,7 @@ constructor(
                 player.clearMapFlag()
             }
 
-            if (interaction != null && !player.isAccessProtected) {
+            if (interaction != null && !player.isAccessProtected && !followOp) {
                 player.postMovementInteraction(interaction)
             }
         } else if (!player.hasMovedThisCycle && player.routeDestination.isEmpty()) {
@@ -385,6 +393,15 @@ constructor(
                 distance = distance,
             )
         return isTargetWithinApRange
+    }
+
+    private fun Player.follow(interaction: InteractionPlayerOp) {
+        val dest = interaction.target.followCoord
+        routeDestination.clear()
+        if (coords != dest) {
+            moveSpeed = varMoveSpeed
+            routeDestination.add(dest)
+        }
     }
 
     private fun Player.routeTo(interaction: InteractionPlayer) {

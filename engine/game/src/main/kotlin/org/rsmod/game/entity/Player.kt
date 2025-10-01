@@ -161,6 +161,7 @@ public class Player(
     public var members: Boolean = false
     public var lastKnownDevice: Int? = null
 
+    public var followCoord: CoordGrid = CoordGrid.NULL
     public var buildArea: CoordGrid = CoordGrid.NULL
     public val visibleZoneKeys: IntList = IntArrayList()
     public var lastMapBuildComplete: Int = Int.MIN_VALUE

@@ -59,6 +59,7 @@ public object PathingEntityCommon {
 
         val start = entity.coords
         entity.coords = dest
+        entity.lastProcessedCoord = CoordGrid.NULL
         // Reset any ongoing movement and/or interaction.
         entity.abortRoute()
         entity.clearInteraction()
