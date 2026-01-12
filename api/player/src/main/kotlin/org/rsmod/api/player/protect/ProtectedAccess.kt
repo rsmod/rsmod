@@ -1740,50 +1740,258 @@ public class ProtectedAccess(
         restoreToplevelTabs(tabTarget.toList())
     }
 
+    /**
+     * Schedules a **normal timer** for [timerType] that publishes [PlayerTimerEvent.Normal] every
+     * [cycles] game cycles.
+     *
+     * Normal timers are processed only while `player.isAccessProtected == false`. The handler
+     * runs in [ProtectedAccess] via [ProtectedAccessLauncher].
+     *
+     * **Notes:**
+     * - [cycles] must be greater than `0`.
+     * - If the handler clears [timerType] (via [clearTimer]), it is not rescheduled.
+     *
+     * @param timerType The type of timer to schedule.
+     * @param cycles The interval in game cycles (ticks) between executions.
+     * @throws IllegalArgumentException if [cycles] is not greater than `0`.
+     * @see softTimer To schedule a timer that is processed while `player.isAccessProtected == true`.
+     * @see clearTimer To stop the timer.
+     *
+     * ```kotlin
+     * timer(timers.poison, cycles = 30)
+     * ```
+     */
     public fun timer(timerType: TimerType, cycles: Int) {
         player.timer(timerType, cycles)
     }
 
+    /**
+     * Clears a previously scheduled **normal timer**.
+     *
+     * @param timerType The type of timer to clear.
+     * @see timer To schedule a timer.
+     */
     public fun clearTimer(timerType: TimerType) {
         player.clearTimer(timerType)
     }
 
+    /**
+     * Schedules a **soft timer** for [timerType] that publishes [PlayerTimerEvent.Soft] every
+     * [cycles] game cycles.
+     *
+     * Soft timers are processed even while `player.isAccessProtected == true`. The handler does
+     * not run in [ProtectedAccess]; it runs as a plain event.
+     *
+     * **Notes:**
+     * - [cycles] must be greater than `0`.
+     * - If the handler clears [timerType] (via [clearSoftTimer]), it is not rescheduled.
+     *
+     * @param timerType The type of timer to schedule.
+     * @param cycles The interval in game cycles (ticks) between executions.
+     * @throws IllegalArgumentException if [cycles] is not greater than `0`.
+     * @see timer To schedule a timer that runs in [ProtectedAccess].
+     * @see clearSoftTimer To stop the soft timer.
+     *
+     * ```kotlin
+     * softTimer(timers.freeze_immunity, cycles = 50)
+     * ```
+     */
     public fun softTimer(timerType: TimerType, cycles: Int) {
         player.softTimer(timerType, cycles)
     }
 
+    /**
+     * Clears a previously scheduled **soft timer**.
+     *
+     * @param timerType The type of soft timer to clear.
+     * @see softTimer To schedule a soft timer.
+     */
     public fun clearSoftTimer(timerType: TimerType) {
         player.clearSoftTimer(timerType)
     }
 
+    /**
+     * Schedules a **weak queue** for [queue] that publishes [PlayerQueueEvents.Protected] after
+     * [cycles] game cycles.
+     *
+     * Weak queues are stored in `player.weakQueueList`.
+     *
+     * **Notes:**
+     * - [cycles] must be greater than `0`.
+     * - Weak queues are published only when `player.isAccessProtected == false`.
+     * - `player.ifClose(eventBus)` clears `player.weakQueueList`.
+     * - `PlayerQueueProcessor` invokes `player.ifClose(eventBus)` at the start of queue processing
+     *   when `player.queueList.strongQueues > 0`.
+     *
+     * @param queue The queue type to schedule.
+     * @param cycles Number of game cycles (ticks) to wait before execution.
+     * @param args Optional arguments to pass to the queue script.
+     * @throws IllegalArgumentException if [cycles] is not greater than `0`.
+     * @see queue To schedule a normal queue.
+     * @see strongQueue To schedule a strong queue.
+     * @see softQueue To schedule a soft queue.
+     * @see clearWeakQueue To remove the queue.
+     *
+     * ```kotlin
+     * weakQueue(queues.fletch_logs, cycles = 3, args = logType)
+     * ```
+     */
     public fun weakQueue(queue: QueueType, cycles: Int, args: Any? = null) {
         player.weakQueue(queue, cycles, args)
     }
 
+    /**
+     * Clears all weak queues of the specified type.
+     *
+     * @param queue The queue type to clear.
+     * @see weakQueue To schedule a weak queue.
+     */
     public fun clearWeakQueue(queue: QueueType) {
         player.clearWeakQueue(queue)
     }
 
+    /**
+     * Schedules a **soft queue** for [queue] that publishes [PlayerQueueEvents.Soft] after
+     * [cycles] game cycles.
+     *
+     * Soft queues can be launched even while `player.isAccessProtected == true`. The handler does
+     * not run in [ProtectedAccess]; it runs as a plain event.
+     *
+     * **Notes:**
+     * - [cycles] must be greater than `0`.
+     * - When processed, `player.ifClose(eventBus)` is invoked, which closes modal interfaces and
+     *   clears `player.weakQueueList`.
+     *
+     * @param queue The queue type to schedule.
+     * @param cycles Number of game cycles (ticks) to wait before execution.
+     * @param args Optional arguments to pass to the queue script.
+     * @throws IllegalArgumentException if [cycles] is not greater than `0`.
+     * @see queue To schedule a normal queue.
+     * @see weakQueue To schedule a weak queue.
+     * @see strongQueue To schedule a strong queue.
+     *
+     * ```kotlin
+     * softQueue(queues.change_window_mode, cycles = 1, args = windowMode)
+     * ```
+     */
     public fun softQueue(queue: QueueType, cycles: Int, args: Any? = null) {
         player.softQueue(queue, cycles, args)
     }
 
+    /**
+     * Schedules a **normal queue** for [queue] that publishes [PlayerQueueEvents.Protected] after
+     * [cycles] game cycles.
+     *
+     * Normal queues are published only when `player.isAccessProtected == false`. The handler runs
+     * in [ProtectedAccess] via [ProtectedAccessLauncher].
+     *
+     * **Notes:**
+     * - [cycles] must be greater than `0`.
+     * - The queue remains pending while `player.isAccessProtected == true`.
+     *
+     * @param queue The queue type to schedule.
+     * @param cycles Number of game cycles (ticks) to wait before execution.
+     * @param args Optional arguments to pass to the queue script.
+     * @throws IllegalArgumentException if [cycles] is not greater than `0`.
+     * @see weakQueue To schedule a weak queue.
+     * @see strongQueue To schedule a strong queue.
+     * @see softQueue To schedule a soft queue.
+     * @see clearQueue To remove the queue.
+     *
+     * ```kotlin
+     * queue(queues.dialogue_sequence, cycles = 1, args = dialogueId)
+     * ```
+     */
     public fun queue(queue: QueueType, cycles: Int, args: Any? = null) {
         player.queue(queue, cycles, args)
     }
 
+    /**
+     * Schedules a **strong queue** for [queue] that publishes [PlayerQueueEvents.Protected] after
+     * [cycles] game cycles.
+     *
+     * **Notes:**
+     * - [cycles] must be greater than `0`.
+     * - `PlayerQueueProcessor` invokes `player.ifClose(eventBus)` at the start of queue processing
+     *   when `player.queueList.strongQueues > 0`. This clears `player.weakQueueList`.
+     * - When processed, `player.ifClose(eventBus)` is invoked again (strong and soft categories),
+     *   which closes modal interfaces and clears `player.weakQueueList`.
+     *
+     * @param queue The queue type to schedule.
+     * @param cycles Number of game cycles (ticks) to wait before execution.
+     * @param args Optional arguments to pass to the queue script.
+     * @throws IllegalArgumentException if [cycles] is not greater than `0`.
+     * @see queue To schedule a normal queue.
+     * @see weakQueue To schedule a weak queue.
+     * @see softQueue To schedule a soft queue.
+     * @see clearQueue To remove the queue.
+     *
+     * ```kotlin
+     * strongQueue(queues.apply_damage, cycles = 2, args = damageAmount)
+     * ```
+     */
     public fun strongQueue(queue: QueueType, cycles: Int, args: Any? = null) {
         player.strongQueue(queue, cycles, args)
     }
 
+    /**
+     * Schedules a **long queue (accelerate)** for [queue] that publishes
+     * [PlayerQueueEvents.Protected] after [cycles] game cycles.
+     *
+     * **Notes:**
+     * - [cycles] must be greater than `0`.
+     * - While `player.pendingLogout == true`, `PlayerQueueProcessor` forces the remaining delay to
+     *   `0` for queues in [QueueCategory.LongAccelerate].
+     * - Pending logout does not proceed while the player has a non-discardable queue.
+     *
+     * @param queue The queue type to schedule.
+     * @param cycles Number of game cycles (ticks) to wait before execution.
+     * @param args Optional arguments to pass to the queue script.
+     * @throws IllegalArgumentException if [cycles] is not greater than `0`.
+     * @see longQueueDiscard To schedule a queue that does not block pending logout.
+     * @see queue To schedule a normal queue.
+     *
+     * ```kotlin
+     * longQueueAccelerate(queues.cutscene_end, cycles = 100)
+     * ```
+     */
     public fun longQueueAccelerate(queue: QueueType, cycles: Int, args: Any? = null) {
         player.longQueueAccelerate(queue, cycles, args)
     }
 
+    /**
+     * Schedules a **long queue (discard)** for [queue] that publishes [PlayerQueueEvents.Protected]
+     * after [cycles] game cycles.
+     *
+     * **Notes:**
+     * - [cycles] must be greater than `0`.
+     * - While `player.pendingLogout == true`, pending logout does not proceed if the player has a
+     *   queue that is not in [QueueCategory.LongDiscard].
+     * - Long discard queues do not block pending logout and may be discarded before executing.
+     *
+     * @param queue The queue type to schedule.
+     * @param cycles Number of game cycles (ticks) to wait before execution.
+     * @param args Optional arguments to pass to the queue script.
+     * @throws IllegalArgumentException if [cycles] is not greater than `0`.
+     * @see longQueueAccelerate To schedule a queue that accelerates while pending logout.
+     * @see queue To schedule a normal queue.
+     *
+     * ```kotlin
+     * longQueueDiscard(queues.reset_camera, cycles = 100)
+     * ```
+     */
     public fun longQueueDiscard(queue: QueueType, cycles: Int, args: Any? = null) {
         player.longQueueDiscard(queue, cycles, args)
     }
 
+    /**
+     * Clears all queues of the specified type (normal, strong, or weak).
+     *
+     * @param queue The queue type to clear
+     * @see queue To schedule a normal queue
+     * @see strongQueue To schedule a strong queue
+     * @see weakQueue To schedule a weak queue
+     */
     public fun clearQueue(queue: QueueType) {
         player.clearQueue(queue)
     }
