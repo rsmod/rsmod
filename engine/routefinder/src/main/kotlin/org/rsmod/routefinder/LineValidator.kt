@@ -35,8 +35,8 @@ import org.rsmod.routefinder.LineRouteFinding.Companion.coordinate
 import org.rsmod.routefinder.LineRouteFinding.Companion.scaleDown
 import org.rsmod.routefinder.LineRouteFinding.Companion.scaleUp
 import org.rsmod.routefinder.collision.CollisionFlagMap
-import org.rsmod.routefinder.flag.CollisionFlag.WALK_SCENARY
 import org.rsmod.routefinder.flag.CollisionFlag.VIS_SCENARY
+import org.rsmod.routefinder.flag.CollisionFlag.WALK_SCENARY
 
 public class LineValidator(private val flags: CollisionFlagMap) {
     public fun hasLineOfSight(

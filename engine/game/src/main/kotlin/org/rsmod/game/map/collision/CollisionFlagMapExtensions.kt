@@ -187,11 +187,7 @@ private fun CollisionFlagMap.toggleWall(
                 toggle(coords.translate(-1, -1), CollisionFlag.W_NE, add)
                 if (blockRange) {
                     toggle(coords, CollisionFlag.V_SW, add)
-                    toggle(
-                        coords.translate(-1, -1),
-                        CollisionFlag.V_NE,
-                        add,
-                    )
+                    toggle(coords.translate(-1, -1), CollisionFlag.V_NE, add)
                 }
             }
         }
@@ -202,9 +198,7 @@ private fun CollisionFlagMap.toggleWall(
                 toggle(coords.translate(-1, 0), CollisionFlag.W_E, add)
                 toggle(coords.translate(0, 1), CollisionFlag.W_S, add)
                 if (blockRange) {
-                    val flag =
-                        CollisionFlag.V_W or
-                            CollisionFlag.V_N
+                    val flag = CollisionFlag.V_W or CollisionFlag.V_N
                     toggle(coords, flag, add)
                     toggle(coords.translate(-1, 0), CollisionFlag.V_E, add)
                     toggle(coords.translate(0, 1), CollisionFlag.V_S, add)
@@ -215,9 +209,7 @@ private fun CollisionFlagMap.toggleWall(
                 toggle(coords.translate(0, 1), CollisionFlag.W_S, add)
                 toggle(coords.translate(1, 0), CollisionFlag.W_W, add)
                 if (blockRange) {
-                    val flag =
-                        CollisionFlag.V_N or
-                            CollisionFlag.V_E
+                    val flag = CollisionFlag.V_N or CollisionFlag.V_E
                     toggle(coords, flag, add)
                     toggle(coords.translate(0, 1), CollisionFlag.V_S, add)
                     toggle(coords.translate(1, 0), CollisionFlag.V_W, add)
@@ -228,9 +220,7 @@ private fun CollisionFlagMap.toggleWall(
                 toggle(coords.translate(1, 0), CollisionFlag.W_W, add)
                 toggle(coords.translate(0, -1), CollisionFlag.W_N, add)
                 if (blockRange) {
-                    val flag =
-                        CollisionFlag.V_E or
-                            CollisionFlag.V_S
+                    val flag = CollisionFlag.V_E or CollisionFlag.V_S
                     toggle(coords, flag, add)
                     toggle(coords.translate(1, 0), CollisionFlag.V_W, add)
                     toggle(coords.translate(0, -1), CollisionFlag.V_N, add)
@@ -241,9 +231,7 @@ private fun CollisionFlagMap.toggleWall(
                 toggle(coords.translate(0, -1), CollisionFlag.W_N, add)
                 toggle(coords.translate(-1, 0), CollisionFlag.W_E, add)
                 if (blockRange) {
-                    val flag =
-                        CollisionFlag.V_S or
-                            CollisionFlag.V_W
+                    val flag = CollisionFlag.V_S or CollisionFlag.V_W
                     toggle(coords, flag, add)
                     toggle(coords.translate(0, -1), CollisionFlag.V_N, add)
                     toggle(coords.translate(-1, 0), CollisionFlag.V_E, add)

@@ -10,8 +10,8 @@ import org.junit.jupiter.params.provider.EnumSource
 import org.rsmod.routefinder.collision.CollisionFlagMap
 import org.rsmod.routefinder.collision.CollisionStrategy
 import org.rsmod.routefinder.flag.CollisionFlag
-import org.rsmod.routefinder.flag.CollisionFlag.WALK_SCENARY
 import org.rsmod.routefinder.flag.CollisionFlag.VIS_SCENARY
+import org.rsmod.routefinder.flag.CollisionFlag.WALK_SCENARY
 
 class StepValidatorTest {
     @ParameterizedTest

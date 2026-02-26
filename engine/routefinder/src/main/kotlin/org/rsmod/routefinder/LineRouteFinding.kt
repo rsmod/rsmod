@@ -23,18 +23,18 @@ package org.rsmod.routefinder
 
 import kotlin.math.abs
 import org.rsmod.routefinder.collision.CollisionFlagMap
+import org.rsmod.routefinder.flag.CollisionFlag.VIS_SCENARY
+import org.rsmod.routefinder.flag.CollisionFlag.V_E
+import org.rsmod.routefinder.flag.CollisionFlag.V_N
+import org.rsmod.routefinder.flag.CollisionFlag.V_S
+import org.rsmod.routefinder.flag.CollisionFlag.V_W
+import org.rsmod.routefinder.flag.CollisionFlag.WALK_SCENARY
 import org.rsmod.routefinder.flag.CollisionFlag.WR_GRND
 import org.rsmod.routefinder.flag.CollisionFlag.WR_GROUND_DECOR
-import org.rsmod.routefinder.flag.CollisionFlag.WALK_SCENARY
-import org.rsmod.routefinder.flag.CollisionFlag.VIS_SCENARY
 import org.rsmod.routefinder.flag.CollisionFlag.W_E
-import org.rsmod.routefinder.flag.CollisionFlag.V_E
 import org.rsmod.routefinder.flag.CollisionFlag.W_N
-import org.rsmod.routefinder.flag.CollisionFlag.V_N
 import org.rsmod.routefinder.flag.CollisionFlag.W_S
-import org.rsmod.routefinder.flag.CollisionFlag.V_S
 import org.rsmod.routefinder.flag.CollisionFlag.W_W
-import org.rsmod.routefinder.flag.CollisionFlag.V_W
 
 public class LineRouteFinding(private val flags: CollisionFlagMap) {
     public fun lineOfSight(

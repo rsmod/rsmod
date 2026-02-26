@@ -53,50 +53,22 @@ public object CollisionFlag {
     public const val BLOCK_EAST: Int = W_W or WALK_SCENARY or FLOOR_BLOCKED
     public const val BLOCK_SOUTH: Int = W_N or WALK_SCENARY or FLOOR_BLOCKED
     public const val BLOCK_NORTH: Int = W_S or WALK_SCENARY or FLOOR_BLOCKED
-    public const val BLOCK_SOUTH_WEST: Int =
-        W_N or W_NE or W_E or WALK_SCENARY or FLOOR_BLOCKED
-    public const val BLOCK_SOUTH_EAST: Int =
-        W_NW or W_N or W_W or WALK_SCENARY or FLOOR_BLOCKED
-    public const val BLOCK_NORTH_WEST: Int =
-        W_E or W_SE or W_S or WALK_SCENARY or FLOOR_BLOCKED
-    public const val BLOCK_NORTH_EAST: Int =
-        W_S or W_SW or W_W or WALK_SCENARY or FLOOR_BLOCKED
+    public const val BLOCK_SOUTH_WEST: Int = W_N or W_NE or W_E or WALK_SCENARY or FLOOR_BLOCKED
+    public const val BLOCK_SOUTH_EAST: Int = W_NW or W_N or W_W or WALK_SCENARY or FLOOR_BLOCKED
+    public const val BLOCK_NORTH_WEST: Int = W_E or W_SE or W_S or WALK_SCENARY or FLOOR_BLOCKED
+    public const val BLOCK_NORTH_EAST: Int = W_S or W_SW or W_W or WALK_SCENARY or FLOOR_BLOCKED
 
     public const val BLOCK_NORTH_AND_SOUTH_EAST: Int =
-        W_N or
-            W_NE or
-            W_E or
-            W_SE or
-            W_S or
-            WALK_SCENARY or
-            FLOOR_BLOCKED
+        W_N or W_NE or W_E or W_SE or W_S or WALK_SCENARY or FLOOR_BLOCKED
 
     public const val BLOCK_NORTH_AND_SOUTH_WEST: Int =
-        W_NW or
-            W_N or
-            W_S or
-            W_SW or
-            W_W or
-            WALK_SCENARY or
-            FLOOR_BLOCKED
+        W_NW or W_N or W_S or W_SW or W_W or WALK_SCENARY or FLOOR_BLOCKED
 
     public const val BLOCK_NORTH_EAST_AND_WEST: Int =
-        W_NW or
-            W_N or
-            W_NE or
-            W_E or
-            W_W or
-            WALK_SCENARY or
-            FLOOR_BLOCKED
+        W_NW or W_N or W_NE or W_E or W_W or WALK_SCENARY or FLOOR_BLOCKED
 
     public const val BLOCK_SOUTH_EAST_AND_WEST: Int =
-        W_E or
-            W_SE or
-            W_S or
-            W_SW or
-            W_W or
-            WALK_SCENARY or
-            FLOOR_BLOCKED
+        W_E or W_SE or W_S or W_SW or W_W or WALK_SCENARY or FLOOR_BLOCKED
 
     /* Route blocker flags. These are used in ~550+ clients to generate paths through bankers and such. */
 

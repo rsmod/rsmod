@@ -509,8 +509,8 @@ public class ProtectedAccess(
      *
      * A coordinate is considered valid if:
      * - It has a valid line-of-walk from [centre].
-     * - It does **not** have the [CollisionFlag.BLOCK_PLAYERS] or [CollisionFlag.WR_GRND]
-     *   collision flags set.
+     * - It does **not** have the [CollisionFlag.BLOCK_PLAYERS] or [CollisionFlag.WR_GRND] collision
+     *   flags set.
      *
      * This function calls [validatedLineOfWalkSquares], which **randomizes** the order of candidate
      * coordinates before validation. The first valid coordinate from the shuffled list is returned.
@@ -533,8 +533,8 @@ public class ProtectedAccess(
      *
      * A coordinate is considered valid if:
      * - It has a valid line-of-sight from [centre].
-     * - It does **not** have the [CollisionFlag.BLOCK_PLAYERS] or [CollisionFlag.WR_GRND]
-     *   collision flags set.
+     * - It does **not** have the [CollisionFlag.BLOCK_PLAYERS] or [CollisionFlag.WR_GRND] collision
+     *   flags set.
      *
      * This function calls [validatedLineOfWalkSquares], which **randomizes** the order of candidate
      * coordinates before validation. The first valid coordinate from the shuffled list is returned.
@@ -557,8 +557,8 @@ public class ProtectedAccess(
      *
      * A coordinate is considered valid if:
      * - It has a valid line-of-walk from [centre].
-     * - It does **not** have the [CollisionFlag.BLOCK_PLAYERS] or [CollisionFlag.WR_GRND]
-     *   collision flags set.
+     * - It does **not** have the [CollisionFlag.BLOCK_PLAYERS] or [CollisionFlag.WR_GRND] collision
+     *   flags set.
      *
      * @return A **shuffled** and **validated** [Sequence] of coordinates within range.
      */
@@ -580,8 +580,8 @@ public class ProtectedAccess(
      *
      * A coordinate is considered valid if:
      * - It has a valid line-of-sight from [centre].
-     * - It does **not** have the [CollisionFlag.BLOCK_PLAYERS] or [CollisionFlag.WR_GRND]
-     *   collision flags set.
+     * - It does **not** have the [CollisionFlag.BLOCK_PLAYERS] or [CollisionFlag.WR_GRND] collision
+     *   flags set.
      *
      * @return A **shuffled** and **validated** [Sequence] of coordinates within range.
      */
