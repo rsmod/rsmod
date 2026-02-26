@@ -10,8 +10,8 @@ import org.junit.jupiter.params.provider.EnumSource
 import org.rsmod.routefinder.collision.CollisionFlagMap
 import org.rsmod.routefinder.collision.CollisionStrategy
 import org.rsmod.routefinder.flag.CollisionFlag
-import org.rsmod.routefinder.flag.CollisionFlag.LOC
-import org.rsmod.routefinder.flag.CollisionFlag.LOC_PROJ_BLOCKER
+import org.rsmod.routefinder.flag.CollisionFlag.WALK_SCENARY
+import org.rsmod.routefinder.flag.CollisionFlag.VIS_SCENARY
 
 class StepValidatorTest {
     @ParameterizedTest
@@ -57,7 +57,7 @@ class StepValidatorTest {
             }
         }
         for (level in 0 until 4) {
-            map[destX, destZ, level] = LOC
+            map[destX, destZ, level] = WALK_SCENARY
         }
         with(StepValidator(map)) {
             assertFalse(canTravel(level = 0, srcX, srcZ, dir.offX, dir.offZ))
@@ -109,7 +109,7 @@ class StepValidatorTest {
         for (level in 0 until 4) {
             for (z in min(srcZ, destZ)..max(srcZ, destZ)) {
                 for (x in min(srcX, destX)..max(srcX, destX)) {
-                    map[x, z, level] = CollisionFlag.BLOCK_WALK
+                    map[x, z, level] = CollisionFlag.WR_GRND
                 }
             }
         }
@@ -235,7 +235,7 @@ class StepValidatorTest {
             }
         }
         for (level in 0 until 4) {
-            map[blockedX, blockedZ, level] = LOC_PROJ_BLOCKER
+            map[blockedX, blockedZ, level] = VIS_SCENARY
         }
         with(StepValidator(map)) {
             val strategy = CollisionStrategy.LineOfSight

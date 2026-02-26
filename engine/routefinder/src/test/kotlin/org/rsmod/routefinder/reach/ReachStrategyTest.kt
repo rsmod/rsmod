@@ -49,7 +49,7 @@ class ReachStrategyTest {
         val (maxX, maxZ) = locX + 16 to locZ + 16
         val map =
             buildCollisionMap(minX, minZ, maxX, maxZ)
-                .flag(locX, locZ, width = width, length = length, mask = CollisionFlag.LOC)
+                .flag(locX, locZ, width = width, length = length, mask = CollisionFlag.WALK_SCENARY)
         fun reached(srcX: Int, srcZ: Int, angle: Int, blockAccessFlags: Int = 0): Boolean {
             return ReachStrategy.reached(
                 flags = map,
@@ -130,7 +130,7 @@ class ReachStrategyTest {
         val (maxX, maxZ) = locX + 16 to locZ + 16
         val map =
             buildCollisionMap(minX, minZ, maxX, maxZ)
-                .flag(locX, locZ, width = length, length = width, mask = CollisionFlag.LOC)
+                .flag(locX, locZ, width = length, length = width, mask = CollisionFlag.WALK_SCENARY)
         fun reached(srcX: Int, srcZ: Int, angle: Int, blockAccessFlags: Int = 0): Boolean {
             return ReachStrategy.reached(
                 flags = map,

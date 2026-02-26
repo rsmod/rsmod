@@ -29,7 +29,7 @@ class NpcPatrolModeProcessorTest {
             val type = npcTypeFactory.create { this.patrol = patrol }
             val hans = npcFactory.create(type, start) { patrolWaypointIndex = 0 }
             it.allocateCollision(MapSquareKey(50, 50))
-            it.collision.add(patrol[0].destination, CollisionFlag.LOC)
+            it.collision.add(patrol[0].destination, CollisionFlag.WALK_SCENARY)
             withNpc(hans) {
                 val movement = NpcMovementProcessor(it.collision, it.stepFactory, eventBus)
                 val mode = NpcPatrolModeProcessor(it.collision)
@@ -84,7 +84,7 @@ class NpcPatrolModeProcessorTest {
             val type = npcTypeFactory.create { this.patrol = patrol }
             val hans = npcFactory.create(type, start) { patrolWaypointIndex = 2 }
             it.allocateCollision(MapSquareKey(50, 50))
-            it.collision.add(blocked, CollisionFlag.LOC)
+            it.collision.add(blocked, CollisionFlag.WALK_SCENARY)
             withNpc(hans) {
                 val movement = NpcMovementProcessor(it.collision, it.stepFactory, eventBus)
                 val mode = NpcPatrolModeProcessor(it.collision)
@@ -217,7 +217,7 @@ class NpcPatrolModeProcessorTest {
             val type = npcTypeFactory.create { this.patrol = patrol }
             val hans = npcFactory.create(type, start) { patrolWaypointIndex = 2 }
             it.allocateCollision(MapSquareKey(50, 50))
-            it.collision.add(start.translateZ(-3), CollisionFlag.LOC)
+            it.collision.add(start.translateZ(-3), CollisionFlag.WALK_SCENARY)
             withNpc(hans) {
                 val movement = NpcMovementProcessor(it.collision, it.stepFactory, eventBus)
                 val mode = NpcPatrolModeProcessor(it.collision)

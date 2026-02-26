@@ -139,7 +139,7 @@ constructor(
 
                         var mask = 0
                         if ((flags and MapTileSimpleDefinition.BLOCK_MAP_SQUARE) != 0) {
-                            mask = mask or CollisionFlag.BLOCK_WALK
+                            mask = mask or CollisionFlag.WR_GRND
                         }
                         if ((flags and MapTileSimpleDefinition.REMOVE_ROOFS) != 0) {
                             mask = mask or CollisionFlag.ROOF

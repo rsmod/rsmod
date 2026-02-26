@@ -50,7 +50,7 @@ public data class GameCollisionState(
     public fun blockDirections(centre: CoordGrid, directions: Iterable<Direction>) {
         directions.forEach { dir ->
             val offset = centre.translate(dir)
-            collision.add(offset, CollisionFlag.LOC)
+            collision.add(offset, CollisionFlag.WALK_SCENARY)
         }
     }
 }

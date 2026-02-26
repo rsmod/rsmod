@@ -23,18 +23,18 @@ package org.rsmod.routefinder
 
 import kotlin.math.abs
 import org.rsmod.routefinder.collision.CollisionFlagMap
-import org.rsmod.routefinder.flag.CollisionFlag.BLOCK_WALK
-import org.rsmod.routefinder.flag.CollisionFlag.GROUND_DECOR
-import org.rsmod.routefinder.flag.CollisionFlag.LOC
-import org.rsmod.routefinder.flag.CollisionFlag.LOC_PROJ_BLOCKER
-import org.rsmod.routefinder.flag.CollisionFlag.WALL_EAST
-import org.rsmod.routefinder.flag.CollisionFlag.WALL_EAST_PROJ_BLOCKER
-import org.rsmod.routefinder.flag.CollisionFlag.WALL_NORTH
-import org.rsmod.routefinder.flag.CollisionFlag.WALL_NORTH_PROJ_BLOCKER
-import org.rsmod.routefinder.flag.CollisionFlag.WALL_SOUTH
-import org.rsmod.routefinder.flag.CollisionFlag.WALL_SOUTH_PROJ_BLOCKER
-import org.rsmod.routefinder.flag.CollisionFlag.WALL_WEST
-import org.rsmod.routefinder.flag.CollisionFlag.WALL_WEST_PROJ_BLOCKER
+import org.rsmod.routefinder.flag.CollisionFlag.WR_GRND
+import org.rsmod.routefinder.flag.CollisionFlag.WR_GROUND_DECOR
+import org.rsmod.routefinder.flag.CollisionFlag.WALK_SCENARY
+import org.rsmod.routefinder.flag.CollisionFlag.VIS_SCENARY
+import org.rsmod.routefinder.flag.CollisionFlag.W_E
+import org.rsmod.routefinder.flag.CollisionFlag.V_E
+import org.rsmod.routefinder.flag.CollisionFlag.W_N
+import org.rsmod.routefinder.flag.CollisionFlag.V_N
+import org.rsmod.routefinder.flag.CollisionFlag.W_S
+import org.rsmod.routefinder.flag.CollisionFlag.V_S
+import org.rsmod.routefinder.flag.CollisionFlag.W_W
+import org.rsmod.routefinder.flag.CollisionFlag.V_W
 
 public class LineRouteFinding(private val flags: CollisionFlagMap) {
     public fun lineOfSight(
@@ -63,8 +63,8 @@ public class LineRouteFinding(private val flags: CollisionFlagMap) {
             flagEast = SIGHT_BLOCKED_EAST or extraFlag,
             flagSouth = SIGHT_BLOCKED_SOUTH or extraFlag,
             flagNorth = SIGHT_BLOCKED_NORTH or extraFlag,
-            flagLocation = LOC or extraFlag,
-            flagProjectileBlocker = LOC_PROJ_BLOCKER or extraFlag,
+            flagLocation = WALK_SCENARY or extraFlag,
+            flagProjectileBlocker = VIS_SCENARY or extraFlag,
             los = true,
         )
 
@@ -94,8 +94,8 @@ public class LineRouteFinding(private val flags: CollisionFlagMap) {
             flagEast = WALK_BLOCKED_EAST or extraFlag,
             flagSouth = WALK_BLOCKED_SOUTH or extraFlag,
             flagNorth = WALK_BLOCKED_NORTH or extraFlag,
-            flagLocation = LOC or extraFlag,
-            flagProjectileBlocker = LOC_PROJ_BLOCKER or extraFlag,
+            flagLocation = WALK_SCENARY or extraFlag,
+            flagProjectileBlocker = VIS_SCENARY or extraFlag,
             los = false,
         )
 
@@ -224,15 +224,15 @@ public class LineRouteFinding(private val flags: CollisionFlagMap) {
     }
 
     public companion object {
-        public const val WALK_BLOCKED_NORTH: Int = WALL_NORTH or LOC or GROUND_DECOR or BLOCK_WALK
-        public const val WALK_BLOCKED_EAST: Int = WALL_EAST or LOC or GROUND_DECOR or BLOCK_WALK
-        public const val WALK_BLOCKED_SOUTH: Int = WALL_SOUTH or LOC or GROUND_DECOR or BLOCK_WALK
-        public const val WALK_BLOCKED_WEST: Int = WALL_WEST or LOC or GROUND_DECOR or BLOCK_WALK
+        public const val WALK_BLOCKED_NORTH: Int = W_N or WALK_SCENARY or WR_GROUND_DECOR or WR_GRND
+        public const val WALK_BLOCKED_EAST: Int = W_E or WALK_SCENARY or WR_GROUND_DECOR or WR_GRND
+        public const val WALK_BLOCKED_SOUTH: Int = W_S or WALK_SCENARY or WR_GROUND_DECOR or WR_GRND
+        public const val WALK_BLOCKED_WEST: Int = W_W or WALK_SCENARY or WR_GROUND_DECOR or WR_GRND
 
-        public const val SIGHT_BLOCKED_NORTH: Int = LOC_PROJ_BLOCKER or WALL_NORTH_PROJ_BLOCKER
-        public const val SIGHT_BLOCKED_EAST: Int = LOC_PROJ_BLOCKER or WALL_EAST_PROJ_BLOCKER
-        public const val SIGHT_BLOCKED_SOUTH: Int = LOC_PROJ_BLOCKER or WALL_SOUTH_PROJ_BLOCKER
-        public const val SIGHT_BLOCKED_WEST: Int = LOC_PROJ_BLOCKER or WALL_WEST_PROJ_BLOCKER
+        public const val SIGHT_BLOCKED_NORTH: Int = VIS_SCENARY or V_N
+        public const val SIGHT_BLOCKED_EAST: Int = VIS_SCENARY or V_E
+        public const val SIGHT_BLOCKED_SOUTH: Int = VIS_SCENARY or V_S
+        public const val SIGHT_BLOCKED_WEST: Int = VIS_SCENARY or V_W
 
         internal const val SCALE: Int = 16
         internal val HALF_TILE: Int = scaleUp(tiles = 1) / 2

@@ -9,7 +9,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ArgumentsSource
 import org.junit.jupiter.params.provider.EnumSource
 import org.rsmod.routefinder.collision.CollisionFlagMap
-import org.rsmod.routefinder.flag.CollisionFlag.LOC
+import org.rsmod.routefinder.flag.CollisionFlag.WALK_SCENARY
 
 class LineValidatorLineOfWalkTest {
     @Test
@@ -51,7 +51,7 @@ class LineValidatorLineOfWalkTest {
         val destX = srcX + (dir.offX * 3)
         val destZ = srcZ + (dir.offZ * 3)
         for (level in 0 until 4) {
-            map[srcX + dir.offX, srcZ + dir.offZ, level] = LOC
+            map[srcX + dir.offX, srcZ + dir.offZ, level] = WALK_SCENARY
         }
         with(LineValidator(map)) {
             assertFalse(hasLineOfWalk(level = 0, srcX, srcZ, destX, destZ))

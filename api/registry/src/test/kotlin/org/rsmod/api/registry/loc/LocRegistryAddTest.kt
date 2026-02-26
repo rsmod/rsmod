@@ -40,7 +40,7 @@ class LocRegistryAddTest {
         assertEquals(1, registry.findAll(ZoneKey.from(loc.coords)).count())
         assertEquals(loc, registry.findAll(ZoneKey.from(loc.coords)).single())
 
-        assertNotEquals(0, collision[loc.coords] and CollisionFlag.LOC)
+        assertNotEquals(0, collision[loc.coords] and CollisionFlag.WALK_SCENARY)
     }
 
     @Test
@@ -62,8 +62,8 @@ class LocRegistryAddTest {
         assertEquals(2, registry.findAll(ZoneKey.from(loc1.coords)).count())
         assertEquals(setOf(loc1, loc2), registry.findAll(ZoneKey.from(loc1.coords)).toSet())
 
-        assertNotEquals(0, collision[loc1.coords] and CollisionFlag.LOC)
-        assertNotEquals(0, collision[loc2.coords] and CollisionFlag.LOC)
+        assertNotEquals(0, collision[loc1.coords] and CollisionFlag.WALK_SCENARY)
+        assertNotEquals(0, collision[loc2.coords] and CollisionFlag.WALK_SCENARY)
     }
 
     @Test
@@ -86,7 +86,7 @@ class LocRegistryAddTest {
         assertEquals(1, registry.findAll(ZoneKey.from(loc2.coords)).count())
         assertEquals(loc2, registry.findAll(ZoneKey.from(loc2.coords)).single())
 
-        assertNotEquals(0, collision[loc2.coords] and CollisionFlag.LOC)
+        assertNotEquals(0, collision[loc2.coords] and CollisionFlag.WALK_SCENARY)
     }
 
     @Test
@@ -128,7 +128,7 @@ class LocRegistryAddTest {
         val zoneKey = ZoneKey.from(mapLoc.coords)
         val locZoneKey = LocZoneKey(ZoneGrid.from(mapLoc.coords), mapLoc.layer)
         locZones.mapLocs[zoneKey, locZoneKey] = LocEntity(mapLoc.id, mapLoc.shapeId, mapLoc.angleId)
-        check(collision[mapLoc.coords] and CollisionFlag.LOC == 0)
+        check(collision[mapLoc.coords] and CollisionFlag.WALK_SCENARY == 0)
 
         registry.add(spawnLoc)
 
@@ -159,7 +159,7 @@ class LocRegistryAddTest {
         val zoneKey = ZoneKey.from(mapLoc.coords)
         val locZoneKey = LocZoneKey(ZoneGrid.from(mapLoc.coords), mapLoc.layer)
         locZones.mapLocs[zoneKey, locZoneKey] = LocEntity(mapLoc.id, mapLoc.shapeId, mapLoc.angleId)
-        check(collision[mapLoc.coords] and CollisionFlag.LOC == 0)
+        check(collision[mapLoc.coords] and CollisionFlag.WALK_SCENARY == 0)
 
         registry.add(spawnLoc)
 
@@ -167,7 +167,7 @@ class LocRegistryAddTest {
         // we don't want to add it to spawned locs. Though we will still perform other logic, such
         // as applying its collision data.
         assertEquals(0, locZones.spawnedLocCount())
-        assertNotEquals(0, collision[mapLoc.coords] and CollisionFlag.LOC)
+        assertNotEquals(0, collision[mapLoc.coords] and CollisionFlag.WALK_SCENARY)
     }
 
     @Test
@@ -188,14 +188,14 @@ class LocRegistryAddTest {
         val locZoneKey = LocZoneKey(ZoneGrid.from(mapLoc.coords), mapLoc.layer)
         locZones.mapLocs[zoneKey, locZoneKey] = LocEntity(mapLoc.id, mapLoc.shapeId, mapLoc.angleId)
 
-        check(collision[mapLoc.coords] and CollisionFlag.LOC == 0)
+        check(collision[mapLoc.coords] and CollisionFlag.WALK_SCENARY == 0)
         check(locZones.spawnedLocCount() == 0)
         check(registry.findAll(zoneKey).single() == mapLoc)
 
         registry.add(spawnLoc)
 
         assertEquals(1, locZones.spawnedLocCount())
-        assertNotEquals(0, collision[mapLoc.coords] and CollisionFlag.LOC)
+        assertNotEquals(0, collision[mapLoc.coords] and CollisionFlag.WALK_SCENARY)
 
         // Map loc should be masked by newly-spawned loc and be ignored during find lookups.
         assertEquals(setOf(spawnLoc), registry.findAll(zoneKey).toSet())

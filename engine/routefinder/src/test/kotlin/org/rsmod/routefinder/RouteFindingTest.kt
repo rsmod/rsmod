@@ -15,10 +15,10 @@ import org.rsmod.routefinder.flag.BlockAccessFlag.NORTH
 import org.rsmod.routefinder.flag.BlockAccessFlag.SOUTH
 import org.rsmod.routefinder.flag.BlockAccessFlag.WEST
 import org.rsmod.routefinder.flag.CollisionFlag
-import org.rsmod.routefinder.flag.CollisionFlag.WALL_EAST
-import org.rsmod.routefinder.flag.CollisionFlag.WALL_NORTH
-import org.rsmod.routefinder.flag.CollisionFlag.WALL_SOUTH
-import org.rsmod.routefinder.flag.CollisionFlag.WALL_WEST
+import org.rsmod.routefinder.flag.CollisionFlag.W_E
+import org.rsmod.routefinder.flag.CollisionFlag.W_N
+import org.rsmod.routefinder.flag.CollisionFlag.W_S
+import org.rsmod.routefinder.flag.CollisionFlag.W_W
 
 class RouteFindingTest {
     @Test
@@ -51,7 +51,7 @@ class RouteFindingTest {
         val (destX, destZ) = 3205 to 3200
         val map =
             buildCollisionMap(srcX, srcZ, destX, destZ)
-                .flag(srcX - 1, srcZ - 1, width = 3, length = 3, CollisionFlag.LOC)
+                .flag(srcX - 1, srcZ - 1, width = 3, length = 3, CollisionFlag.WALK_SCENARY)
         map[srcX, srcZ, 0] = 0 // Remove collision flag from source tile
         val routeFinding = RouteFinding(map)
         routeFinding.findRoute(level = 0, srcX, srcZ, destX, destZ, moveNear = true).let { route ->
@@ -66,7 +66,7 @@ class RouteFindingTest {
         val (destX, destZ) = 3205 to 3200
         val map =
             buildCollisionMap(srcX, srcZ, destX, destZ)
-                .flag(srcX - 1, srcZ - 1, width = 3, length = 3, CollisionFlag.LOC)
+                .flag(srcX - 1, srcZ - 1, width = 3, length = 3, CollisionFlag.WALK_SCENARY)
         map[srcX, srcZ, 0] = 0 // Remove collision flag from source tile
         val routeFinding = RouteFinding(map)
         routeFinding.findRoute(level = 0, srcX, srcZ, destX, destZ, moveNear = false).let { route ->
@@ -81,7 +81,7 @@ class RouteFindingTest {
         val (destX, destZ) = 3200 to 3205
         val map =
             buildCollisionMap(srcX, srcZ, destX, destZ)
-                .flag(srcX - 1, srcZ - 1, width = 3, length = 3, CollisionFlag.LOC)
+                .flag(srcX - 1, srcZ - 1, width = 3, length = 3, CollisionFlag.WALK_SCENARY)
         map[srcX, srcZ, 0] = 0 // Remove collision flag from source tile
         map[srcX, srcZ - 1, 0] = 0 // Remove collision flag from tile south of source tile.
         val routeFinding = RouteFinding(map)
@@ -101,7 +101,7 @@ class RouteFindingTest {
         val (locX, locZ) = 3200 to 3201
         val map = buildCollisionMap(srcX, srcZ, locX, locZ)
         val routeFinding = RouteFinding(map)
-        map[locX, locZ, 0] = WALL_NORTH or WALL_SOUTH or WALL_WEST or WALL_EAST
+        map[locX, locZ, 0] = W_N or W_S or W_W or W_E
         routeFinding.findRoute(level = 0, srcX, srcZ, locX, locZ).let { route ->
             assertTrue(route.success)
             assertTrue(route.alternative)
@@ -145,7 +145,7 @@ class RouteFindingTest {
         val (destX, destZ) = (srcX + dir.offX) to (srcZ + dir.offZ)
         val map =
             buildCollisionMap(srcX, srcZ, destX, destZ)
-                .flag(destX, destZ, width = 1, length = 1, mask = CollisionFlag.BLOCK_WALK)
+                .flag(destX, destZ, width = 1, length = 1, mask = CollisionFlag.WR_GRND)
         val routeFinding = RouteFinding(map)
         routeFinding.findRoute(level = 0, srcX, srcZ, destX, destZ, moveNear = false).let { route ->
             assertTrue(route.failed)
@@ -207,7 +207,7 @@ class RouteFindingTest {
         val (maxX, maxZ) = RouteCoordinates(locX + 16, locZ + 16)
         val map =
             buildCollisionMap(minX, minZ, maxX, maxZ)
-                .flag(locX, locZ, width = width, length = length, mask = CollisionFlag.LOC)
+                .flag(locX, locZ, width = width, length = length, mask = CollisionFlag.WALK_SCENARY)
         val routeFinding = RouteFinding(map)
         fun route(srcX: Int, srcZ: Int, angle: Int, blockAccessFlags: Int = 0): Route {
             return routeFinding.findRoute(
@@ -363,7 +363,7 @@ class RouteFindingTest {
         val (maxX, maxZ) = RouteCoordinates(locX + 16, locZ + 16)
         val map =
             buildCollisionMap(minX, minZ, maxX, maxZ)
-                .flag(locX, locZ, width = length, length = width, mask = CollisionFlag.LOC)
+                .flag(locX, locZ, width = length, length = width, mask = CollisionFlag.WALK_SCENARY)
         val routeFinding = RouteFinding(map)
         fun route(srcX: Int, srcZ: Int, angle: Int, blockAccessFlags: Int = 0): Route {
             return routeFinding.findRoute(

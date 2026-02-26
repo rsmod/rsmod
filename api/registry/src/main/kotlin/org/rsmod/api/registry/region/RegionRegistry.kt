@@ -218,7 +218,7 @@ constructor(
                 val coordLevel = normalBase.level
 
                 val fullFlags = collision[coordX, coordZ, coordLevel]
-                val extractedFlags = fullFlags and (CollisionFlag.ROOF or CollisionFlag.BLOCK_WALK)
+                val extractedFlags = fullFlags and (CollisionFlag.ROOF or CollisionFlag.WR_GRND)
 
                 if (extractedFlags == 0) {
                     continue
