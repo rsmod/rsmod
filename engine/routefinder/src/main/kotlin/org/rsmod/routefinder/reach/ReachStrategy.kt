@@ -473,25 +473,25 @@ public object ReachStrategy {
                 if (
                     srcX == destX &&
                         srcZ == destZ + 1 &&
-                        (flags[srcX, srcZ, level] and CollisionFlag.WALL_SOUTH) == 0
+                        (flags[srcX, srcZ, level] and CollisionFlag.W_S) == 0
                 ) {
                     return true
                 } else if (
                     srcX == destX &&
                         srcZ == destZ - 1 &&
-                        (flags[srcX, srcZ, level] and CollisionFlag.WALL_NORTH) == 0
+                        (flags[srcX, srcZ, level] and CollisionFlag.W_N) == 0
                 ) {
                     return true
                 } else if (
                     srcX == destX - 1 &&
                         srcZ == destZ &&
-                        (flags[srcX, srcZ, level] and CollisionFlag.WALL_EAST) == 0
+                        (flags[srcX, srcZ, level] and CollisionFlag.W_E) == 0
                 ) {
                     return true
                 }
                 return srcX == destX + 1 &&
                     srcZ == destZ &&
-                    (flags[srcX, srcZ, level] and CollisionFlag.WALL_WEST) == 0
+                    (flags[srcX, srcZ, level] and CollisionFlag.W_W) == 0
             }
         }
         return false
@@ -717,13 +717,13 @@ public object ReachStrategy {
                     if (
                         srcX == destX + 1 &&
                             srcZ == destZ &&
-                            (flags[srcX, srcZ, level] and CollisionFlag.WALL_WEST) == 0
+                            (flags[srcX, srcZ, level] and CollisionFlag.W_W) == 0
                     ) {
                         return true
                     } else if (
                         srcX == destX &&
                             srcZ == destZ - 1 &&
-                            (flags[srcX, srcZ, level] and CollisionFlag.WALL_NORTH) == 0
+                            (flags[srcX, srcZ, level] and CollisionFlag.W_N) == 0
                     ) {
                         return true
                     }
@@ -732,13 +732,13 @@ public object ReachStrategy {
                     if (
                         srcX == destX - 1 &&
                             srcZ == destZ &&
-                            (flags[srcX, srcZ, level] and CollisionFlag.WALL_EAST) == 0
+                            (flags[srcX, srcZ, level] and CollisionFlag.W_E) == 0
                     ) {
                         return true
                     } else if (
                         srcX == destX &&
                             srcZ == destZ - 1 &&
-                            (flags[srcX, srcZ, level] and CollisionFlag.WALL_NORTH) == 0
+                            (flags[srcX, srcZ, level] and CollisionFlag.W_N) == 0
                     ) {
                         return true
                     }
@@ -747,13 +747,13 @@ public object ReachStrategy {
                     if (
                         srcX == destX - 1 &&
                             srcZ == destZ &&
-                            (flags[srcX, srcZ, level] and CollisionFlag.WALL_EAST) == 0
+                            (flags[srcX, srcZ, level] and CollisionFlag.W_E) == 0
                     ) {
                         return true
                     } else if (
                         srcX == destX &&
                             srcZ == destZ + 1 &&
-                            (flags[srcX, srcZ, level] and CollisionFlag.WALL_SOUTH) == 0
+                            (flags[srcX, srcZ, level] and CollisionFlag.W_S) == 0
                     ) {
                         return true
                     }
@@ -762,13 +762,13 @@ public object ReachStrategy {
                     if (
                         srcX == destX + 1 &&
                             srcZ == destZ &&
-                            (flags[srcX, srcZ, level] and CollisionFlag.WALL_WEST) == 0
+                            (flags[srcX, srcZ, level] and CollisionFlag.W_W) == 0
                     ) {
                         return true
                     } else if (
                         srcX == destX &&
                             srcZ == destZ + 1 &&
-                            (flags[srcX, srcZ, level] and CollisionFlag.WALL_SOUTH) == 0
+                            (flags[srcX, srcZ, level] and CollisionFlag.W_S) == 0
                     ) {
                         return true
                     }
@@ -778,25 +778,25 @@ public object ReachStrategy {
             if (
                 srcX == destX &&
                     srcZ == destZ + 1 &&
-                    (flags[srcX, srcZ, level] and CollisionFlag.WALL_SOUTH) == 0
+                    (flags[srcX, srcZ, level] and CollisionFlag.W_S) == 0
             ) {
                 return true
             } else if (
                 srcX == destX &&
                     srcZ == destZ - 1 &&
-                    (flags[srcX, srcZ, level] and CollisionFlag.WALL_NORTH) == 0
+                    (flags[srcX, srcZ, level] and CollisionFlag.W_N) == 0
             ) {
                 return true
             } else if (
                 srcX == destX - 1 &&
                     srcZ == destZ &&
-                    (flags[srcX, srcZ, level] and CollisionFlag.WALL_EAST) == 0
+                    (flags[srcX, srcZ, level] and CollisionFlag.W_E) == 0
             ) {
                 return true
             }
             return srcX == destX + 1 &&
                 srcZ == destZ &&
-                (flags[srcX, srcZ, level] and CollisionFlag.WALL_WEST) == 0
+                (flags[srcX, srcZ, level] and CollisionFlag.W_W) == 0
         }
         return false
     }
@@ -821,14 +821,14 @@ public object ReachStrategy {
                         srcX == destX + 1 &&
                             srcZ <= destZ &&
                             north >= destZ &&
-                            (flags[srcX, destZ, level] and CollisionFlag.WALL_WEST) == 0
+                            (flags[srcX, destZ, level] and CollisionFlag.W_W) == 0
                     ) {
                         return true
                     } else if (
                         srcX <= destX &&
                             srcZ == destZ - srcSize &&
                             east >= destX &&
-                            (flags[destX, north, level] and CollisionFlag.WALL_NORTH) == 0
+                            (flags[destX, north, level] and CollisionFlag.W_N) == 0
                     ) {
                         return true
                     }
@@ -838,14 +838,14 @@ public object ReachStrategy {
                         srcX == destX - srcSize &&
                             srcZ <= destZ &&
                             north >= destZ &&
-                            (flags[east, destZ, level] and CollisionFlag.WALL_EAST) == 0
+                            (flags[east, destZ, level] and CollisionFlag.W_E) == 0
                     ) {
                         return true
                     } else if (
                         srcX <= destX &&
                             srcZ == destZ - srcSize &&
                             east >= destX &&
-                            (flags[destX, north, level] and CollisionFlag.WALL_NORTH) == 0
+                            (flags[destX, north, level] and CollisionFlag.W_N) == 0
                     ) {
                         return true
                     }
@@ -855,14 +855,14 @@ public object ReachStrategy {
                         srcX == destX - srcSize &&
                             srcZ <= destZ &&
                             north >= destZ &&
-                            (flags[east, destZ, level] and CollisionFlag.WALL_EAST) == 0
+                            (flags[east, destZ, level] and CollisionFlag.W_E) == 0
                     ) {
                         return true
                     } else if (
                         srcX <= destX &&
                             srcZ == destZ + 1 &&
                             east >= destX &&
-                            (flags[destX, srcZ, level] and CollisionFlag.WALL_SOUTH) == 0
+                            (flags[destX, srcZ, level] and CollisionFlag.W_S) == 0
                     ) {
                         return true
                     }
@@ -872,14 +872,14 @@ public object ReachStrategy {
                         srcX == destX + 1 &&
                             srcZ <= destZ &&
                             north >= destZ &&
-                            (flags[srcX, destZ, level] and CollisionFlag.WALL_WEST) == 0
+                            (flags[srcX, destZ, level] and CollisionFlag.W_W) == 0
                     ) {
                         return true
                     } else if (
                         srcX <= destX &&
                             srcZ == destZ + 1 &&
                             east >= destX &&
-                            (flags[destX, srcZ, level] and CollisionFlag.WALL_SOUTH) == 0
+                            (flags[destX, srcZ, level] and CollisionFlag.W_S) == 0
                     ) {
                         return true
                     }
@@ -890,28 +890,28 @@ public object ReachStrategy {
                 srcX <= destX &&
                     srcZ == destZ + 1 &&
                     east >= destX &&
-                    (flags[destX, srcZ, level] and CollisionFlag.WALL_SOUTH) == 0
+                    (flags[destX, srcZ, level] and CollisionFlag.W_S) == 0
             ) {
                 return true
             } else if (
                 srcX <= destX &&
                     srcZ == destZ - srcSize &&
                     east >= destX &&
-                    (flags[destX, north, level] and CollisionFlag.WALL_NORTH) == 0
+                    (flags[destX, north, level] and CollisionFlag.W_N) == 0
             ) {
                 return true
             } else if (
                 srcX == destX - srcSize &&
                     srcZ <= destZ &&
                     north >= destZ &&
-                    (flags[east, destZ, level] and CollisionFlag.WALL_EAST) == 0
+                    (flags[east, destZ, level] and CollisionFlag.W_E) == 0
             ) {
                 return true
             }
             return srcX == destX + 1 &&
                 srcZ <= destZ &&
                 north >= destZ &&
-                (flags[srcX, destZ, level] and CollisionFlag.WALL_WEST) == 0
+                (flags[srcX, destZ, level] and CollisionFlag.W_W) == 0
         }
         return false
     }

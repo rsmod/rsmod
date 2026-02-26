@@ -10,7 +10,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ArgumentsSource
 import org.junit.jupiter.params.provider.EnumSource
 import org.rsmod.routefinder.collision.CollisionFlagMap
-import org.rsmod.routefinder.flag.CollisionFlag.LOC
+import org.rsmod.routefinder.flag.CollisionFlag.WALK_SCENARY
 
 class LineRouteFindingLineOfWalkTest {
     @Test
@@ -23,7 +23,7 @@ class LineRouteFindingLineOfWalkTest {
     @Test
     fun `partial ray-cast when blocked`() {
         val map = CollisionFlagMap()
-        map[3200, 3205, 0] = LOC
+        map[3200, 3205, 0] = WALK_SCENARY
         with(LineRouteFinding(map)) {
             val rayCast = lineOfWalk(0, 3200, 3200, 3200, 3207)
             assertEquals(4, rayCast.size)
@@ -80,7 +80,7 @@ class LineRouteFindingLineOfWalkTest {
         val destX = srcX + (dir.offX * 3)
         val destZ = srcZ + (dir.offZ * 3)
         for (level in 0 until 4) {
-            map[srcX + dir.offX, srcZ + dir.offZ, level] = LOC
+            map[srcX + dir.offX, srcZ + dir.offZ, level] = WALK_SCENARY
         }
         with(LineRouteFinding(map)) {
             assertFalse(lineOfWalk(0, srcX, srcZ, destX, destZ).success)

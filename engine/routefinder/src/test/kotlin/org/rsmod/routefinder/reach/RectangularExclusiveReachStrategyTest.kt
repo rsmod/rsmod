@@ -22,7 +22,7 @@ class RectangularExclusiveReachStrategyTest {
         val (locX, locZ) = 3205 to 3205
         val map =
             buildCollisionMap(locX, locZ, locX, locZ)
-                .flag(locX, locZ, width = 1, length = 1, mask = CollisionFlag.LOC)
+                .flag(locX, locZ, width = 1, length = 1, mask = CollisionFlag.WALK_SCENARY)
         Direction.cardinal.forEach { dir ->
             val (srcX, srcZ) = (locX + dir.offX) to (locZ + dir.offZ)
             map.allocateIfAbsent(srcX, srcZ, 0)
@@ -62,7 +62,7 @@ class RectangularExclusiveReachStrategyTest {
         val (locX, locZ) = 3202 + width to 3202
         val map =
             buildCollisionMap(locX, locZ, locX + width + 1, locZ + length + 1)
-                .flag(locX, locZ, width, length, CollisionFlag.LOC)
+                .flag(locX, locZ, width, length, CollisionFlag.WALK_SCENARY)
         fun reached(srcX: Int, srcZ: Int, destX: Int, destZ: Int): Boolean {
             return reachExclusiveRectangle(
                 flags = map,

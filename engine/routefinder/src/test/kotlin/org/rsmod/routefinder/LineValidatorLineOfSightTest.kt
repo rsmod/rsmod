@@ -10,8 +10,8 @@ import org.junit.jupiter.params.provider.ArgumentsSource
 import org.junit.jupiter.params.provider.EnumSource
 import org.rsmod.routefinder.collision.CollisionFlagMap
 import org.rsmod.routefinder.flag.CollisionFlag.BLOCK_PLAYERS
-import org.rsmod.routefinder.flag.CollisionFlag.LOC
-import org.rsmod.routefinder.flag.CollisionFlag.LOC_PROJ_BLOCKER
+import org.rsmod.routefinder.flag.CollisionFlag.VIS_SCENARY
+import org.rsmod.routefinder.flag.CollisionFlag.WALK_SCENARY
 
 class LineValidatorLineOfSightTest {
     @Test
@@ -19,7 +19,7 @@ class LineValidatorLineOfSightTest {
         val map = CollisionFlagMap()
         val (x, z) = 3200 to 3200
         for (level in 0 until 4) {
-            map[x, z, level] = LOC
+            map[x, z, level] = WALK_SCENARY
         }
         with(LineValidator(map)) {
             assertTrue(hasLineOfSight(level = 0, x, z, x, z))
@@ -72,7 +72,7 @@ class LineValidatorLineOfSightTest {
     @Test
     fun `fail when on top of blocking collision flag`() {
         val map = CollisionFlagMap()
-        map.add(3200, 3200, 0, LOC)
+        map.add(3200, 3200, 0, WALK_SCENARY)
         with(LineValidator(map)) { assertFalse(hasLineOfSight(0, 3200, 3200, 3200, 3201)) }
     }
 
@@ -130,7 +130,7 @@ class LineValidatorLineOfSightTest {
         val destX = srcX + (dir.offX * 3)
         val destZ = srcZ + (dir.offZ * 3)
         for (level in 0 until 4) {
-            map[srcX + dir.offX, srcZ + dir.offZ, level] = LOC_PROJ_BLOCKER
+            map[srcX + dir.offX, srcZ + dir.offZ, level] = VIS_SCENARY
         }
         with(LineValidator(map)) {
             assertFalse(hasLineOfSight(level = 0, srcX, srcZ, destX, destZ))

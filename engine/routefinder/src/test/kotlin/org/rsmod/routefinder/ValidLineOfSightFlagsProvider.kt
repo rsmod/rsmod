@@ -5,11 +5,11 @@ import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.ArgumentsProvider
 import org.junit.jupiter.params.support.ParameterDeclarations
-import org.rsmod.routefinder.flag.CollisionFlag.BLOCK_WALK
-import org.rsmod.routefinder.flag.CollisionFlag.GROUND_DECOR
+import org.rsmod.routefinder.flag.CollisionFlag.WR_GRND
+import org.rsmod.routefinder.flag.CollisionFlag.WR_GROUND_DECOR
 
 object ValidLineOfSightFlagsProvider : ArgumentsProvider {
-    private val VALID_FLAGS = intArrayOf(0, BLOCK_WALK, GROUND_DECOR, BLOCK_WALK or GROUND_DECOR)
+    private val VALID_FLAGS = intArrayOf(0, WR_GRND, WR_GROUND_DECOR, WR_GRND or WR_GROUND_DECOR)
 
     override fun provideArguments(
         parameters: ParameterDeclarations,

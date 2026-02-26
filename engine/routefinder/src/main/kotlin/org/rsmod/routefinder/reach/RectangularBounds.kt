@@ -42,7 +42,7 @@ public object RectangularBounds {
             srcX == destX - 1 &&
                 srcZ >= destZ &&
                 srcZ <= north &&
-                (flags[srcX, srcZ, level] and CollisionFlag.WALL_EAST) == 0 &&
+                (flags[srcX, srcZ, level] and CollisionFlag.W_E) == 0 &&
                 (blockAccessFlags and BlockAccessFlag.WEST) == 0
         ) {
             return true
@@ -52,7 +52,7 @@ public object RectangularBounds {
             srcX == east + 1 &&
                 srcZ >= destZ &&
                 srcZ <= north &&
-                (flags[srcX, srcZ, level] and CollisionFlag.WALL_WEST) == 0 &&
+                (flags[srcX, srcZ, level] and CollisionFlag.W_W) == 0 &&
                 (blockAccessFlags and BlockAccessFlag.EAST) == 0
         ) {
             return true
@@ -62,7 +62,7 @@ public object RectangularBounds {
             srcZ + 1 == destZ &&
                 srcX >= destX &&
                 srcX <= east &&
-                (flags[srcX, srcZ, level] and CollisionFlag.WALL_NORTH) == 0 &&
+                (flags[srcX, srcZ, level] and CollisionFlag.W_N) == 0 &&
                 (blockAccessFlags and BlockAccessFlag.SOUTH) == 0
         ) {
 
@@ -72,7 +72,7 @@ public object RectangularBounds {
         return srcZ == north + 1 &&
             srcX >= destX &&
             srcX <= east &&
-            (flags[srcX, srcZ, level] and CollisionFlag.WALL_SOUTH) == 0 &&
+            (flags[srcX, srcZ, level] and CollisionFlag.W_S) == 0 &&
             (blockAccessFlags and BlockAccessFlag.NORTH) == 0
     }
 
@@ -97,7 +97,7 @@ public object RectangularBounds {
             val fromZ = max(srcZ, destZ)
             val toZ = min(srcNorth, destNorth)
             for (sideZ in fromZ until toZ) {
-                if (flags[destEast - 1, sideZ, level] and CollisionFlag.WALL_EAST == 0) {
+                if (flags[destEast - 1, sideZ, level] and CollisionFlag.W_E == 0) {
                     return true
                 }
             }
@@ -105,7 +105,7 @@ public object RectangularBounds {
             val fromZ = max(srcZ, destZ)
             val toZ = min(srcNorth, destNorth)
             for (sideZ in fromZ until toZ) {
-                if (flags[destX, sideZ, level] and CollisionFlag.WALL_WEST == 0) {
+                if (flags[destX, sideZ, level] and CollisionFlag.W_W == 0) {
                     return true
                 }
             }
@@ -113,7 +113,7 @@ public object RectangularBounds {
             val fromX = max(srcX, destX)
             val toX = min(srcEast, destEast)
             for (sideX in fromX until toX) {
-                if (flags[sideX, destNorth - 1, level] and CollisionFlag.WALL_NORTH == 0) {
+                if (flags[sideX, destNorth - 1, level] and CollisionFlag.W_N == 0) {
                     return true
                 }
             }
@@ -121,7 +121,7 @@ public object RectangularBounds {
             val fromX = max(srcX, destX)
             val toX = min(srcEast, destEast)
             for (sideX in fromX until toX) {
-                if (flags[sideX, destZ, level] and CollisionFlag.WALL_SOUTH == 0) {
+                if (flags[sideX, destZ, level] and CollisionFlag.W_S == 0) {
                     return true
                 }
             }

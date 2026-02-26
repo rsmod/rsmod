@@ -35,8 +35,8 @@ import org.rsmod.routefinder.LineRouteFinding.Companion.coordinate
 import org.rsmod.routefinder.LineRouteFinding.Companion.scaleDown
 import org.rsmod.routefinder.LineRouteFinding.Companion.scaleUp
 import org.rsmod.routefinder.collision.CollisionFlagMap
-import org.rsmod.routefinder.flag.CollisionFlag.LOC
-import org.rsmod.routefinder.flag.CollisionFlag.LOC_PROJ_BLOCKER
+import org.rsmod.routefinder.flag.CollisionFlag.VIS_SCENARY
+import org.rsmod.routefinder.flag.CollisionFlag.WALK_SCENARY
 
 public class LineValidator(private val flags: CollisionFlagMap) {
     public fun hasLineOfSight(
@@ -65,8 +65,8 @@ public class LineValidator(private val flags: CollisionFlagMap) {
             flagEast = SIGHT_BLOCKED_EAST or extraFlag,
             flagSouth = SIGHT_BLOCKED_SOUTH or extraFlag,
             flagNorth = SIGHT_BLOCKED_NORTH or extraFlag,
-            flagLocation = LOC or extraFlag,
-            flagProjectileBlocker = LOC_PROJ_BLOCKER or extraFlag,
+            flagLocation = WALK_SCENARY or extraFlag,
+            flagProjectileBlocker = VIS_SCENARY or extraFlag,
             los = true,
         )
     }
@@ -97,8 +97,8 @@ public class LineValidator(private val flags: CollisionFlagMap) {
             flagEast = WALK_BLOCKED_EAST or extraFlag,
             flagSouth = WALK_BLOCKED_SOUTH or extraFlag,
             flagNorth = WALK_BLOCKED_NORTH or extraFlag,
-            flagLocation = LOC or extraFlag,
-            flagProjectileBlocker = LOC_PROJ_BLOCKER or extraFlag,
+            flagLocation = WALK_SCENARY or extraFlag,
+            flagProjectileBlocker = VIS_SCENARY or extraFlag,
             los = false,
         )
     }

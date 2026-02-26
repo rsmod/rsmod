@@ -1,25 +1,25 @@
 package org.rsmod.routefinder.flag
 
 public object CollisionFlag {
-    public const val WALL_NORTH_WEST: Int = 0x1
-    public const val WALL_NORTH: Int = 0x2
-    public const val WALL_NORTH_EAST: Int = 0x4
-    public const val WALL_EAST: Int = 0x8
-    public const val WALL_SOUTH_EAST: Int = 0x10
-    public const val WALL_SOUTH: Int = 0x20
-    public const val WALL_SOUTH_WEST: Int = 0x40
-    public const val WALL_WEST: Int = 0x80
-    public const val LOC: Int = 0x100
-    public const val WALL_NORTH_WEST_PROJ_BLOCKER: Int = 0x200
-    public const val WALL_NORTH_PROJ_BLOCKER: Int = 0x400
-    public const val WALL_NORTH_EAST_PROJ_BLOCKER: Int = 0x800
-    public const val WALL_EAST_PROJ_BLOCKER: Int = 0x1000
-    public const val WALL_SOUTH_EAST_PROJ_BLOCKER: Int = 0x2000
-    public const val WALL_SOUTH_PROJ_BLOCKER: Int = 0x4000
-    public const val WALL_SOUTH_WEST_PROJ_BLOCKER: Int = 0x8000
-    public const val WALL_WEST_PROJ_BLOCKER: Int = 0x10000
-    public const val LOC_PROJ_BLOCKER: Int = 0x20000
-    public const val GROUND_DECOR: Int = 0x40000
+    public const val W_NW: Int = 0x1
+    public const val W_N: Int = 0x2
+    public const val W_NE: Int = 0x4
+    public const val W_E: Int = 0x8
+    public const val W_SE: Int = 0x10
+    public const val W_S: Int = 0x20
+    public const val W_SW: Int = 0x40
+    public const val W_W: Int = 0x80
+    public const val WALK_SCENARY: Int = 0x100
+    public const val V_NW: Int = 0x200
+    public const val V_N: Int = 0x400
+    public const val V_NE: Int = 0x800
+    public const val V_E: Int = 0x1000
+    public const val V_SE: Int = 0x2000
+    public const val V_S: Int = 0x4000
+    public const val V_SW: Int = 0x8000
+    public const val V_W: Int = 0x10000
+    public const val VIS_SCENARY: Int = 0x20000
+    public const val WR_GROUND_DECOR: Int = 0x40000
     /**
      * Custom flag dedicated to blocking NPCs. It should be noted that this is a custom flag, and
      * you do not need to use this. The pathfinder takes the flag as a custom option, so you may use
@@ -33,7 +33,7 @@ public object CollisionFlag {
      * strictly for NPCs.
      */
     public const val BLOCK_PLAYERS: Int = 0x100000
-    public const val BLOCK_WALK: Int = 0x200000
+    public const val WR_GRND: Int = 0x200000
     public const val WALL_NORTH_WEST_ROUTE_BLOCKER: Int = 0x400000
     public const val WALL_NORTH_ROUTE_BLOCKER: Int = 0x800000
     public const val WALL_NORTH_EAST_ROUTE_BLOCKER: Int = 0x1000000
@@ -48,55 +48,27 @@ public object CollisionFlag {
      */
     public const val ROOF: Int = 0x80000000.toInt()
 
-    private const val FLOOR_BLOCKED = BLOCK_WALK or GROUND_DECOR
-    public const val BLOCK_WEST: Int = WALL_EAST or LOC or FLOOR_BLOCKED
-    public const val BLOCK_EAST: Int = WALL_WEST or LOC or FLOOR_BLOCKED
-    public const val BLOCK_SOUTH: Int = WALL_NORTH or LOC or FLOOR_BLOCKED
-    public const val BLOCK_NORTH: Int = WALL_SOUTH or LOC or FLOOR_BLOCKED
-    public const val BLOCK_SOUTH_WEST: Int =
-        WALL_NORTH or WALL_NORTH_EAST or WALL_EAST or LOC or FLOOR_BLOCKED
-    public const val BLOCK_SOUTH_EAST: Int =
-        WALL_NORTH_WEST or WALL_NORTH or WALL_WEST or LOC or FLOOR_BLOCKED
-    public const val BLOCK_NORTH_WEST: Int =
-        WALL_EAST or WALL_SOUTH_EAST or WALL_SOUTH or LOC or FLOOR_BLOCKED
-    public const val BLOCK_NORTH_EAST: Int =
-        WALL_SOUTH or WALL_SOUTH_WEST or WALL_WEST or LOC or FLOOR_BLOCKED
+    private const val FLOOR_BLOCKED = WR_GRND or WR_GROUND_DECOR
+    public const val BLOCK_WEST: Int = W_E or WALK_SCENARY or FLOOR_BLOCKED
+    public const val BLOCK_EAST: Int = W_W or WALK_SCENARY or FLOOR_BLOCKED
+    public const val BLOCK_SOUTH: Int = W_N or WALK_SCENARY or FLOOR_BLOCKED
+    public const val BLOCK_NORTH: Int = W_S or WALK_SCENARY or FLOOR_BLOCKED
+    public const val BLOCK_SOUTH_WEST: Int = W_N or W_NE or W_E or WALK_SCENARY or FLOOR_BLOCKED
+    public const val BLOCK_SOUTH_EAST: Int = W_NW or W_N or W_W or WALK_SCENARY or FLOOR_BLOCKED
+    public const val BLOCK_NORTH_WEST: Int = W_E or W_SE or W_S or WALK_SCENARY or FLOOR_BLOCKED
+    public const val BLOCK_NORTH_EAST: Int = W_S or W_SW or W_W or WALK_SCENARY or FLOOR_BLOCKED
 
     public const val BLOCK_NORTH_AND_SOUTH_EAST: Int =
-        WALL_NORTH or
-            WALL_NORTH_EAST or
-            WALL_EAST or
-            WALL_SOUTH_EAST or
-            WALL_SOUTH or
-            LOC or
-            FLOOR_BLOCKED
+        W_N or W_NE or W_E or W_SE or W_S or WALK_SCENARY or FLOOR_BLOCKED
 
     public const val BLOCK_NORTH_AND_SOUTH_WEST: Int =
-        WALL_NORTH_WEST or
-            WALL_NORTH or
-            WALL_SOUTH or
-            WALL_SOUTH_WEST or
-            WALL_WEST or
-            LOC or
-            FLOOR_BLOCKED
+        W_NW or W_N or W_S or W_SW or W_W or WALK_SCENARY or FLOOR_BLOCKED
 
     public const val BLOCK_NORTH_EAST_AND_WEST: Int =
-        WALL_NORTH_WEST or
-            WALL_NORTH or
-            WALL_NORTH_EAST or
-            WALL_EAST or
-            WALL_WEST or
-            LOC or
-            FLOOR_BLOCKED
+        W_NW or W_N or W_NE or W_E or W_W or WALK_SCENARY or FLOOR_BLOCKED
 
     public const val BLOCK_SOUTH_EAST_AND_WEST: Int =
-        WALL_EAST or
-            WALL_SOUTH_EAST or
-            WALL_SOUTH or
-            WALL_SOUTH_WEST or
-            WALL_WEST or
-            LOC or
-            FLOOR_BLOCKED
+        W_E or W_SE or W_S or W_SW or W_W or WALK_SCENARY or FLOOR_BLOCKED
 
     /* Route blocker flags. These are used in ~550+ clients to generate paths through bankers and such. */
 

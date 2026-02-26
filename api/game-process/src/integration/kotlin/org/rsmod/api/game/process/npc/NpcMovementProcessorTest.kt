@@ -35,7 +35,7 @@ class NpcMovementProcessorTest {
                 val npc = npcFactory.create(type, startCoords)
                 val target = entityFactory.createAvatar(targetCoords)
                 it.allocateCollision(ZoneKey(0, 0, 0))
-                it.collision.add(CoordGrid(0, 0, 0, 0, 3), CollisionFlag.LOC)
+                it.collision.add(CoordGrid(0, 0, 0, 0, 3), CollisionFlag.WALK_SCENARY)
                 withNpc(npc) {
                     val movement = NpcMovementProcessor(it.collision, it.stepFactory, eventBus)
                     check(target.coords == targetCoords)

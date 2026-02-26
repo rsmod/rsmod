@@ -20,7 +20,7 @@ class RectangularReachStrategyTest {
         val (locX, locZ) = 3200 to 3201
         val map = buildCollisionMap(srcX, srcZ, locX, locZ)
         // Wall is located on same tile as source and flagged north.
-        map[srcX, srcZ, 0] = CollisionFlag.WALL_NORTH
+        map[srcX, srcZ, 0] = CollisionFlag.W_N
         assertFalse(
             reachRectangle(
                 flags = map,
@@ -37,13 +37,13 @@ class RectangularReachStrategyTest {
         // Wall in every other direction should allow reach rectangle
         // to return true.
         listOf(
-                CollisionFlag.WALL_EAST,
-                CollisionFlag.WALL_SOUTH,
-                CollisionFlag.WALL_WEST,
-                CollisionFlag.WALL_NORTH_WEST,
-                CollisionFlag.WALL_NORTH_EAST,
-                CollisionFlag.WALL_SOUTH_EAST,
-                CollisionFlag.WALL_SOUTH_WEST,
+                CollisionFlag.W_E,
+                CollisionFlag.W_S,
+                CollisionFlag.W_W,
+                CollisionFlag.W_NW,
+                CollisionFlag.W_NE,
+                CollisionFlag.W_SE,
+                CollisionFlag.W_SW,
             )
             .forEach { flag ->
                 map[srcX, srcZ, 0] = flag
@@ -74,7 +74,7 @@ class RectangularReachStrategyTest {
         val (locX, locZ) = 3205 to 3205
         val map =
             buildCollisionMap(locX, locZ, locX, locZ)
-                .flag(locX, locZ, width = 1, length = 1, mask = CollisionFlag.LOC)
+                .flag(locX, locZ, width = 1, length = 1, mask = CollisionFlag.WALK_SCENARY)
         Direction.cardinal.forEach { dir ->
             val (srcX, srcZ) = (locX + dir.offX) to (locZ + dir.offZ)
             map.allocateIfAbsent(srcX, srcZ, 0)
@@ -114,7 +114,7 @@ class RectangularReachStrategyTest {
         val (locX, locZ) = 3202 + width to 3202
         val map =
             buildCollisionMap(locX - 1, locZ - 1, locX + width, locZ + length)
-                .flag(locX, locZ, width, length, CollisionFlag.LOC)
+                .flag(locX, locZ, width, length, CollisionFlag.WALK_SCENARY)
         fun reached(srcX: Int, srcZ: Int, destX: Int, destZ: Int): Boolean {
             return reachRectangle(
                 flags = map,

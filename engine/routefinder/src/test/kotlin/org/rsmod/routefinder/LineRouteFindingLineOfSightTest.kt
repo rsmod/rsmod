@@ -11,8 +11,8 @@ import org.junit.jupiter.params.provider.ArgumentsSource
 import org.junit.jupiter.params.provider.EnumSource
 import org.rsmod.routefinder.collision.CollisionFlagMap
 import org.rsmod.routefinder.flag.CollisionFlag.BLOCK_PLAYERS
-import org.rsmod.routefinder.flag.CollisionFlag.LOC
-import org.rsmod.routefinder.flag.CollisionFlag.LOC_PROJ_BLOCKER
+import org.rsmod.routefinder.flag.CollisionFlag.VIS_SCENARY
+import org.rsmod.routefinder.flag.CollisionFlag.WALK_SCENARY
 
 class LineRouteFindingLineOfSightTest {
     @Test
@@ -20,7 +20,7 @@ class LineRouteFindingLineOfSightTest {
         val map = CollisionFlagMap()
         val (x, z) = 3200 to 3200
         for (level in 0 until 4) {
-            map[x, z, level] = LOC
+            map[x, z, level] = WALK_SCENARY
         }
         with(LineRouteFinding(map)) {
             assertTrue(lineOfSight(level = 0, x, z, x, z).success)
@@ -80,7 +80,7 @@ class LineRouteFindingLineOfSightTest {
     @Test
     fun `fail when on top of blocking collision flag`() {
         val map = CollisionFlagMap()
-        map.add(3200, 3200, 0, LOC)
+        map.add(3200, 3200, 0, WALK_SCENARY)
         with(LineRouteFinding(map)) {
             val rayCast = lineOfSight(0, 3200, 3200, 3200, 3201)
             assertTrue(rayCast.isEmpty())
@@ -116,7 +116,7 @@ class LineRouteFindingLineOfSightTest {
     @Test
     fun `partial ray-cast when blocked`() {
         val map = CollisionFlagMap()
-        map[3200, 3205, 0] = LOC_PROJ_BLOCKER
+        map[3200, 3205, 0] = VIS_SCENARY
         with(LineRouteFinding(map)) {
             val rayCast = lineOfSight(0, 3200, 3200, 3200, 3207)
             assertEquals(4, rayCast.size)
@@ -186,7 +186,7 @@ class LineRouteFindingLineOfSightTest {
             }
         }
         for (level in 0 until 4) {
-            map[srcX + dir.offX, srcZ + dir.offZ, level] = LOC_PROJ_BLOCKER
+            map[srcX + dir.offX, srcZ + dir.offZ, level] = VIS_SCENARY
         }
         with(LineRouteFinding(map)) {
             assertFalse(lineOfSight(level = 0, srcX, srcZ, destX, destZ).success)

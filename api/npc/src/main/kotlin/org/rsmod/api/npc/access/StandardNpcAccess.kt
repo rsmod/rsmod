@@ -452,7 +452,7 @@ public class StandardNpcAccess(
      * radius of [centre].
      *
      * A coordinate is considered valid if:
-     * - It does **not** have the [CollisionFlag.BLOCK_WALK] collision flags set.
+     * - It does **not** have the [CollisionFlag.WR_GRND] collision flags set.
      *
      * This function calls [validatedSquares], which **randomizes** the order of candidate
      * coordinates before validation. The first valid coordinate from the shuffled list is returned.
@@ -476,8 +476,8 @@ public class StandardNpcAccess(
      *
      * A coordinate is considered valid if:
      * - It has a valid line-of-walk from [centre].
-     * - It does **not** have the [CollisionFlag.BLOCK_PLAYERS] or [CollisionFlag.BLOCK_WALK]
-     *   collision flags set.
+     * - It does **not** have the [CollisionFlag.BLOCK_PLAYERS] or [CollisionFlag.WR_GRND] collision
+     *   flags set.
      *
      * This function calls [validatedLineOfWalkSquares], which **randomizes** the order of candidate
      * coordinates before validation. The first valid coordinate from the shuffled list is returned.
@@ -501,8 +501,8 @@ public class StandardNpcAccess(
      *
      * A coordinate is considered valid if:
      * - It has a valid line-of-sight from [centre].
-     * - It does **not** have the [CollisionFlag.BLOCK_PLAYERS] or [CollisionFlag.BLOCK_WALK]
-     *   collision flags set.
+     * - It does **not** have the [CollisionFlag.BLOCK_PLAYERS] or [CollisionFlag.WR_GRND] collision
+     *   flags set.
      *
      * This function calls [validatedLineOfWalkSquares], which **randomizes** the order of candidate
      * coordinates before validation. The first valid coordinate from the shuffled list is returned.
@@ -526,8 +526,8 @@ public class StandardNpcAccess(
      *
      * A coordinate is considered valid if:
      * - It has a valid line-of-walk from [centre].
-     * - It does **not** have the [CollisionFlag.BLOCK_PLAYERS] or [CollisionFlag.BLOCK_WALK]
-     *   collision flags set.
+     * - It does **not** have the [CollisionFlag.BLOCK_PLAYERS] or [CollisionFlag.WR_GRND] collision
+     *   flags set.
      *
      * @return A **shuffled** and **validated** [Sequence] of coordinates within range.
      */
@@ -550,8 +550,8 @@ public class StandardNpcAccess(
      *
      * A coordinate is considered valid if:
      * - It has a valid line-of-sight from [centre].
-     * - It does **not** have the [CollisionFlag.BLOCK_PLAYERS] or [CollisionFlag.BLOCK_WALK]
-     *   collision flags set.
+     * - It does **not** have the [CollisionFlag.BLOCK_PLAYERS] or [CollisionFlag.WR_GRND] collision
+     *   flags set.
      *
      * @return A **shuffled** and **validated** [Sequence] of coordinates within range.
      */
@@ -572,7 +572,7 @@ public class StandardNpcAccess(
      * Returns a sequence of **shuffled** and **validated** coordinates centered around [centre],
      * within a radius of [minRadius] to [maxRadius] tiles.
      *
-     * A coordinate is considered valid if it does **not** have the [CollisionFlag.BLOCK_WALK]
+     * A coordinate is considered valid if it does **not** have the [CollisionFlag.WR_GRND]
      * collision flag set.
      *
      * @return A **shuffled** and **validated** [Sequence] of coordinates within range.
@@ -586,7 +586,7 @@ public class StandardNpcAccess(
         val squares = shuffledSquares(centre, minRadius, maxRadius)
         return squares.filter {
             val flag = collision[it]
-            flag and CollisionFlag.BLOCK_WALK == 0
+            flag and CollisionFlag.WR_GRND == 0
         }
     }
 
