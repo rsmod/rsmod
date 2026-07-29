@@ -52,6 +52,7 @@ import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 import org.rsmod.routefinder.loc.LocLayerConstants
 import org.simmetrics.metrics.StringMetrics
+import org.rsmod.api.config.refs.interfaces
 
 class AdminCommands
 @Inject
@@ -76,9 +77,11 @@ constructor(
     private val levenshteinMetric = StringMetrics.levenshtein()
 
     override fun ScriptContext.startup() {
+
         onCommand("master", "Max out all stats", ::master)
         onCommand("reset", "Reset all stats", ::reset)
         onCommand("mypos", "Get current coordinates", ::mypos)
+        onCommand("bank", "Open the bank", ::bank)
         onCommand("tele", "Teleport to coordgrid", ::tele) {
             invalidArgs = "Use as ::tele level mx mz lx lz (ex: 0 50 50 0 0)"
         }
@@ -121,6 +124,13 @@ constructor(
             )
             player.mes("  BuildArea(${player.buildArea})")
         }
+    private fun bank(cheat: Cheat) =
+        with(cheat) {
+            protectedAccess.launch(player) {
+                ifOpenMainSidePair(interfaces.bank_main, interfaces.bank_side)
+            }
+        }
+
 
     private fun tele(cheat: Cheat) =
         with(cheat) {
