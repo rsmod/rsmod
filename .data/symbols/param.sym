@@ -169,6 +169,14 @@
 1802	slayer_task_boss_location
 1935	spell_maxhit
 
+65378	death_pvm_keep
+65379	death_pvp_drop_as
+65380	death_pvp_coins
+65381	death_lost_above_20
+65382	death_pvp_repair_cost
+65383	death_pvp_broken
+65384	death_delete
+65385	death_keep
 65386	graceful_restore_rate
 65387	prayer_drain_effect
 65388	charged_variant

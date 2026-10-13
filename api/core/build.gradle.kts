@@ -13,6 +13,7 @@ dependencies {
     implementation(projects.api.areaChecker)
     implementation(projects.api.cache)
     implementation(projects.api.db)
+    implementation(projects.api.dropTable)
     implementation(projects.api.gameProcess)
     implementation(projects.api.hunt)
     implementation(projects.api.market)

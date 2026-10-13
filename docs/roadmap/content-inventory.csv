@@ -1,0 +1,25 @@
+Domain,Inventory slice,Priority,Phase,Dependencies,Acceptance criteria,OSRS Wiki reference
+Engine,Protocol/login/session/packet parity,P0,1,Project baseline,"Core sessions stable; packet tests and login/logout edge cases pass",https://oldschool.runescape.wiki/
+Engine,Tick scheduler/events/queues/timers,P0,1,Project baseline,"Deterministic tick ordering and cancellation tests",https://oldschool.runescape.wiki/
+Engine,Entities/movement/collision/pathfinding,P0,1,Tick scheduler,"Players/NPCs/objects move and interact with collision correctly",https://oldschool.runescape.wiki/
+Runtime,Interactions/dialogue/rewards/variables,P0,2,Entity model,"All interaction types dispatch; requirements/rewards and state persistence tested",https://oldschool.runescape.wiki/
+Combat,Core combat formulas and status effects,P0,3,Runtime; entity model,"Melee/ranged/magic/prayer/status/death edge cases tested",https://oldschool.runescape.wiki/w/Combat
+World,Regions/instances/spawns/transport,P1,4,Movement; definition loader,"Region and spawn inventory audited; transitions and collision verified",https://oldschool.runescape.wiki/w/Locations
+Items,Item definitions/interactions/containers,P1,4,Runtime; persistence,"IDs, variants, actions, requirements, item transforms and edge cases audited",https://oldschool.runescape.wiki/w/Items
+Economy,Banks/shops/trading/Grand Exchange,P1,4,Containers; persistence,"Transactions are persistent and duplication-safe; exact scope documented",https://oldschool.runescape.wiki/w/Grand_Exchange
+Skill,All 23 skills individually audited,P1,5,Runtime; XP; items; world,"Each skill has an entity-level action inventory, requirements, products, XP and tests",https://oldschool.runescape.wiki/w/Skills
+Quest,All quests and miniquests individually audited,P1,6,Dialogue; variables; items; NPCs; combat,"Every current Wiki-listed quest has stages, prerequisites, rewards, flags and regression tests",https://oldschool.runescape.wiki/w/Quests
+Progression,Achievement Diaries and Combat Achievements,P2,6,Skills; quests; combat; regions,"All tasks, tiers, unlocks and rewards enumerated and tested",https://oldschool.runescape.wiki/w/Achievement_Diary
+Combat,Bosses and variants individually audited,P1,7,Combat; NPC definitions; drops; instancing,"Every current boss/variant has mechanics, phases, drops, respawns and tests",https://oldschool.runescape.wiki/w/Boss
+Endgame,All three raids individually audited,P2,7,Combat; party; instancing; puzzles,"Rooms, mechanics, scaling, rewards, reconnect and completion states verified",https://oldschool.runescape.wiki/w/Raids
+Activities,All minigames individually audited,P2,8,Skills; combat; runtime; rewards,"Every current Wiki-listed minigame has entry/round/scoring/reward/exit tests",https://oldschool.runescape.wiki/w/Minigames
+Activities,Clue scrolls and Treasure Trails,P2,8,Items; world; dialogue; puzzles,"All clue tiers/steps/rewards and special clue interactions enumerated",https://oldschool.runescape.wiki/w/Clue_scroll
+PvP,Wilderness and PvP rules,P2,8,Combat; world regions; death handling,"Skulls, wilderness levels, safe zones, multi-combat and death drops tested",https://oldschool.runescape.wiki/w/Wilderness
+Entities,All NPC definitions/dialogue/shops/drops,P1,9,Definition loader; runtime; combat,"All NPC IDs and variants have actions, spawns, dialogue, drops and review state",https://oldschool.runescape.wiki/w/NPC
+Entities,All object definitions/actions/states,P1,9,Definition loader; world regions,"All object IDs/actions/state transitions/collision and spawns audited",https://oldschool.runescape.wiki/w/Objects
+Entities,All animations/graphics/projectiles used by server,P2,9,Definitions; combat; interactions,"References resolve; timings and effects verified where behavior matters",https://oldschool.runescape.wiki/
+Spells,All spellbooks and spells,P1,9,Magic; combat; items; quests,"Requirements, rune costs, target rules, effects and unlocks tested",https://oldschool.runescape.wiki/w/Spells
+Prayer,All prayers and effects,P1,9,Prayer; combat,"Drain rates, activation conflicts, overheads, protection and unlocks tested",https://oldschool.runescape.wiki/w/Prayer
+Drops,All drop tables and reward rolls,P1,9,NPCs; bosses; minigames,"Rates, unique/tertiary/pet rolls and ownership rules recorded and tested",https://oldschool.runescape.wiki/w/Drop_table
+Modes,Leagues/Deadman/seasonal/holiday content,P3,9,Core systems,"Each mode/event explicitly supported or documented as excluded",https://oldschool.runescape.wiki/w/Game_modes
+QA,Parity report and release gate,P0,10,All implemented domains,"Coverage report includes audited/implemented/tested/verified/excluded counts and known differences",https://oldschool.runescape.wiki/

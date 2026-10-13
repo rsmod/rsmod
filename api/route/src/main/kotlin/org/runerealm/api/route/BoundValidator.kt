@@ -1,0 +1,113 @@
+package org.runerealm.api.route
+
+import jakarta.inject.Inject
+import org.runerealm.game.entity.PathingEntityAvatar
+import org.runerealm.game.loc.BoundLocInfo
+import org.runerealm.game.loc.LocInfo
+import org.runerealm.game.obj.Obj
+import org.runerealm.game.type.loc.UnpackedLocType
+import org.runerealm.map.CoordGrid
+import org.runerealm.routefinder.collision.CollisionFlagMap
+import org.runerealm.routefinder.loc.LocShapeConstants
+import org.runerealm.routefinder.reach.ReachStrategy
+import org.runerealm.routefinder.reach.RectangularBounds
+
+public class BoundValidator @Inject constructor(private val flags: CollisionFlagMap) {
+    public fun touches(source: PathingEntityAvatar, target: PathingEntityAvatar): Boolean {
+        assertLevels(source.coords, target.coords)
+        return ReachStrategy.reachExclusiveRectangle(
+            flags = flags,
+            level = source.coords.level,
+            srcX = source.coords.x,
+            srcZ = source.coords.z,
+            destX = target.coords.x,
+            destZ = target.coords.z,
+            destWidth = target.size,
+            destLength = target.size,
+            srcSize = source.size,
+        )
+    }
+
+    public fun touches(source: PathingEntityAvatar, target: BoundLocInfo): Boolean {
+        assertLevels(source.coords, target.coords)
+        return ReachStrategy.reached(
+            flags = flags,
+            level = source.coords.level,
+            srcX = source.coords.x,
+            srcZ = source.coords.z,
+            destX = target.coords.x,
+            destZ = target.coords.z,
+            destWidth = target.width,
+            destLength = target.length,
+            srcSize = source.size,
+            locAngle = target.angleId,
+            locShape = target.shapeId,
+            blockAccessFlags = target.forceApproachFlags,
+        )
+    }
+
+    public fun collides(source: PathingEntityAvatar, target: PathingEntityAvatar): Boolean {
+        assertLevels(source.coords, target.coords)
+        return RectangularBounds.collides(
+            srcX = source.coords.x,
+            srcZ = source.coords.z,
+            destX = target.coords.x,
+            destZ = target.coords.z,
+            srcWidth = source.size,
+            srcLength = source.size,
+            destWidth = target.size,
+            destLength = target.size,
+        )
+    }
+
+    public fun collides(source: PathingEntityAvatar, target: BoundLocInfo): Boolean {
+        assertLevels(source.coords, target.coords)
+        return RectangularBounds.collides(
+            srcX = source.coords.x,
+            srcZ = source.coords.z,
+            destX = target.coords.x,
+            destZ = target.coords.z,
+            srcWidth = source.size,
+            srcLength = source.size,
+            destWidth = target.adjustedWidth,
+            destLength = target.adjustedLength,
+        )
+    }
+
+    public fun collides(
+        source: PathingEntityAvatar,
+        target: LocInfo,
+        type: UnpackedLocType,
+    ): Boolean = collides(source, BoundLocInfo(target, type))
+
+    public fun touches(
+        source: PathingEntityAvatar,
+        target: LocInfo,
+        type: UnpackedLocType,
+    ): Boolean = touches(source, BoundLocInfo(target, type))
+
+    public fun touches(source: PathingEntityAvatar, target: Obj): Boolean {
+        assertLevels(source.coords, target.coords)
+        return ReachStrategy.reached(
+            flags = flags,
+            level = source.coords.level,
+            srcX = source.coords.x,
+            srcZ = source.coords.z,
+            destX = target.coords.x,
+            destZ = target.coords.z,
+            destWidth = 1,
+            destLength = 1,
+            srcSize = source.size,
+            locShape = LocShapeConstants.CENTREPIECE_STRAIGHT,
+        )
+    }
+
+    private companion object {
+        @Suppress("NOTHING_TO_INLINE")
+        private inline fun assertLevels(source: CoordGrid, target: CoordGrid) {
+            require(source.level == target.level) {
+                "`source` and `target` must be on same level. (source=$source, target=$target)"
+            }
+        }
+    }
+}

@@ -1,0 +1,55 @@
+package org.runerealm.content.areas.city.lumbridge
+
+import kotlin.reflect.KClass
+import org.runerealm.content.areas.city.lumbridge.npcs.*
+import org.runerealm.plugin.scripts.PluginScript
+
+/** Every Lumbridge npc script. */
+internal val LUMBRIDGE_NPC_SCRIPTS: Array<KClass<out PluginScript>> =
+    arrayOf(
+        Abigaila::class,
+        AbigaleAndHewey::class,
+        ArthurTheClueHunter::class,
+        BarfyBill::class,
+        Bartender::class,
+        Bob::class,
+        CandleSeller::class,
+        Cook::class,
+        CookingTutor::class,
+        CountCheck::class,
+        CraftingTutor::class,
+        DonieAndGee::class,
+        Doomsayer::class,
+        DukeHoracio::class,
+        FatherAereck::class,
+        FatherUrhney::class,
+        Fayeth::class,
+        FishingTutor::class,
+        FredTheFarmer::class,
+        GeneralStore::class,
+        GillieGroats::class,
+        Hans::class,
+        HatiusCosaintus::class,
+        Larry::class,
+        LostCityArcher::class,
+        LostCityMonk::class,
+        LostCityWarrior::class,
+        LostCityWizard::class,
+        LumbridgeGuide::class,
+        MagicCombatTutor::class,
+        MeleeCombatTutor::class,
+        MillieMiller::class,
+        MiningTutor::class,
+        Nigel::class,
+        PenguinSheep::class,
+        Perdu::class,
+        PrayerTutor::class,
+        RangedCombatTutor::class,
+        SethGroats::class,
+        Sigmund::class,
+        SmithingApprentice::class,
+        ToolLeprechaun::class,
+        Vasquen::class,
+        Veos::class,
+        WoodsmanTutor::class,
+    )

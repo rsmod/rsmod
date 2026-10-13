@@ -24,3 +24,9 @@
 23	runmode_toggle
 24	preserve_activation
 25	client_mode
+26	cooking
+27	home_teleport
+28	smelting
+29	smithing
+30	fletching
+31	crafting

@@ -1,0 +1,21 @@
+package org.runerealm.api.registry.player
+
+import org.runerealm.game.entity.Player
+
+@JvmInline
+public value class ZonePlayerEntryList(public val entries: ArrayDeque<Player>) {
+    public val size: Int
+        get() = entries.size
+
+    public constructor() : this(ArrayDeque())
+
+    public fun add(entry: Player) {
+        entries.addLast(entry)
+    }
+
+    public fun remove(entry: Player): Boolean = entries.remove(entry)
+
+    public operator fun contains(entry: Player): Boolean = entry in entries
+
+    public fun isEmpty(): Boolean = entries.isEmpty()
+}

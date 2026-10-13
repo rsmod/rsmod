@@ -1,0 +1,223 @@
+package org.runerealm.api.player.interact
+
+import jakarta.inject.Inject
+import org.runerealm.api.player.events.interact.ApEvent
+import org.runerealm.api.player.events.interact.NpcContentEvents
+import org.runerealm.api.player.events.interact.NpcDefaultEvents
+import org.runerealm.api.player.events.interact.NpcEvents
+import org.runerealm.api.player.events.interact.NpcUnimplementedEvents
+import org.runerealm.api.player.events.interact.OpEvent
+import org.runerealm.events.EventBus
+import org.runerealm.game.entity.Npc
+import org.runerealm.game.entity.Player
+import org.runerealm.game.interact.InteractionNpcOp
+import org.runerealm.game.interact.InteractionOp
+import org.runerealm.game.movement.RouteRequestPathingEntity
+import org.runerealm.game.type.npc.NpcTypeList
+import org.runerealm.game.type.npc.UnpackedNpcType
+import org.runerealm.game.type.varbit.VarBitTypeList
+import org.runerealm.game.type.varp.VarpTypeList
+import org.runerealm.game.vars.VarPlayerIntMap
+import org.runerealm.utils.bits.getBits
+
+public class NpcInteractions
+@Inject
+constructor(
+    private val npcTypes: NpcTypeList,
+    private val varpTypes: VarpTypeList,
+    private val varBitTypes: VarBitTypeList,
+    private val eventBus: EventBus,
+) {
+    public fun interact(player: Player, npc: Npc, op: InteractionOp) {
+        val opTrigger = hasOpTrigger(player, npc, op)
+        val apTrigger = hasApTrigger(player, npc, op)
+        val interaction =
+            InteractionNpcOp(
+                target = npc,
+                op = op,
+                hasOpTrigger = opTrigger,
+                hasApTrigger = apTrigger,
+            )
+        val routeRequest = RouteRequestPathingEntity(npc.avatar)
+        player.faceNpc(npc)
+        player.interaction = interaction
+        player.routeRequest = routeRequest
+    }
+
+    public fun opTrigger(
+        player: Player,
+        npc: Npc,
+        op: InteractionOp,
+        type: UnpackedNpcType = npc.visType,
+    ): OpEvent? {
+        val multiNpcType = multiNpc(type, player.vars)
+        if (multiNpcType != null) {
+            val multiNpcTrigger = opTrigger(player, npc, op, multiNpcType)
+            if (multiNpcTrigger != null) {
+                return multiNpcTrigger
+            }
+        }
+
+        val typeEvent = npc.toOp(op)
+        if (eventBus.contains(typeEvent::class.java, type.id)) {
+            return typeEvent
+        }
+
+        val contentEvent = npc.toContentOp(type.contentGroup, op)
+        if (eventBus.contains(contentEvent::class.java, type.contentGroup)) {
+            return contentEvent
+        }
+
+        val unimplEvent = npc.toUnimplementedOp(op)
+        if (eventBus.contains(unimplEvent::class.java, type.id)) {
+            return unimplEvent
+        }
+
+        val defaultEvent = npc.toDefaultOp(op)
+        if (eventBus.contains(defaultEvent::class.java, defaultEvent.id)) {
+            return defaultEvent
+        }
+
+        return null
+    }
+
+    public fun hasOpTrigger(player: Player, npc: Npc, op: InteractionOp): Boolean =
+        opTrigger(player, npc, op) != null
+
+    public fun apTrigger(
+        player: Player,
+        npc: Npc,
+        op: InteractionOp,
+        type: UnpackedNpcType = npc.visType,
+    ): ApEvent? {
+        val multiNpcType = multiNpc(type, player.vars)
+        if (multiNpcType != null) {
+            val multiNpcTrigger = apTrigger(player, npc, op, multiNpcType)
+            if (multiNpcTrigger != null) {
+                return multiNpcTrigger
+            }
+        }
+
+        val typeEvent = npc.toAp(op)
+        if (eventBus.contains(typeEvent::class.java, type.id)) {
+            return typeEvent
+        }
+
+        val contentEvent = npc.toContentAp(type.contentGroup, op)
+        if (eventBus.contains(contentEvent::class.java, type.contentGroup)) {
+            return contentEvent
+        }
+
+        val defaultEvent = npc.toDefaultAp(op)
+        if (eventBus.contains(defaultEvent::class.java, defaultEvent.id)) {
+            return defaultEvent
+        }
+
+        return null
+    }
+
+    public fun hasApTrigger(player: Player, npc: Npc, op: InteractionOp): Boolean =
+        apTrigger(player, npc, op) != null
+
+    public fun multiNpc(type: UnpackedNpcType, vars: VarPlayerIntMap): UnpackedNpcType? {
+        if (type.multiNpc.isEmpty() && type.multiNpcDefault <= 0) {
+            return null
+        }
+        val varValue = type.multiVarValue(vars) ?: 0
+        val multiNpc =
+            if (varValue in type.multiNpc.indices) {
+                type.multiNpc[varValue].toInt() and 0xFFFF
+            } else {
+                type.multiNpcDefault
+            }
+        return if (!npcTypes.containsKey(multiNpc)) {
+            null
+        } else {
+            npcTypes.getOrDefault(multiNpc, null)
+        }
+    }
+
+    private fun Npc.toOp(op: InteractionOp): NpcEvents.Op =
+        when (op) {
+            InteractionOp.Op1 -> NpcEvents.Op1(this)
+            InteractionOp.Op2 -> NpcEvents.Op2(this)
+            InteractionOp.Op3 -> NpcEvents.Op3(this)
+            InteractionOp.Op4 -> NpcEvents.Op4(this)
+            InteractionOp.Op5 -> NpcEvents.Op5(this)
+        }
+
+    private fun Npc.toContentOp(contentGroup: Int, op: InteractionOp): NpcContentEvents.Op =
+        when (op) {
+            InteractionOp.Op1 -> NpcContentEvents.Op1(this, contentGroup)
+            InteractionOp.Op2 -> NpcContentEvents.Op2(this, contentGroup)
+            InteractionOp.Op3 -> NpcContentEvents.Op3(this, contentGroup)
+            InteractionOp.Op4 -> NpcContentEvents.Op4(this, contentGroup)
+            InteractionOp.Op5 -> NpcContentEvents.Op5(this, contentGroup)
+        }
+
+    private fun Npc.toUnimplementedOp(op: InteractionOp): NpcUnimplementedEvents.Op =
+        when (op) {
+            InteractionOp.Op1 -> NpcUnimplementedEvents.Op1(this)
+            InteractionOp.Op2 -> NpcUnimplementedEvents.Op2(this)
+            InteractionOp.Op3 -> NpcUnimplementedEvents.Op3(this)
+            InteractionOp.Op4 -> NpcUnimplementedEvents.Op4(this)
+            InteractionOp.Op5 -> NpcUnimplementedEvents.Op5(this)
+        }
+
+    private fun Npc.toDefaultOp(op: InteractionOp): NpcDefaultEvents.Op =
+        when (op) {
+            InteractionOp.Op1 -> NpcDefaultEvents.Op1(this)
+            InteractionOp.Op2 -> NpcDefaultEvents.Op2(this)
+            InteractionOp.Op3 -> NpcDefaultEvents.Op3(this)
+            InteractionOp.Op4 -> NpcDefaultEvents.Op4(this)
+            InteractionOp.Op5 -> NpcDefaultEvents.Op5(this)
+        }
+
+    private fun Npc.toAp(op: InteractionOp): NpcEvents.Ap =
+        when (op) {
+            InteractionOp.Op1 -> NpcEvents.Ap1(this)
+            InteractionOp.Op2 -> NpcEvents.Ap2(this)
+            InteractionOp.Op3 -> NpcEvents.Ap3(this)
+            InteractionOp.Op4 -> NpcEvents.Ap4(this)
+            InteractionOp.Op5 -> NpcEvents.Ap5(this)
+        }
+
+    private fun Npc.toContentAp(contentGroup: Int, op: InteractionOp): NpcContentEvents.Ap =
+        when (op) {
+            InteractionOp.Op1 -> NpcContentEvents.Ap1(this, contentGroup)
+            InteractionOp.Op2 -> NpcContentEvents.Ap2(this, contentGroup)
+            InteractionOp.Op3 -> NpcContentEvents.Ap3(this, contentGroup)
+            InteractionOp.Op4 -> NpcContentEvents.Ap4(this, contentGroup)
+            InteractionOp.Op5 -> NpcContentEvents.Ap5(this, contentGroup)
+        }
+
+    private fun Npc.toDefaultAp(op: InteractionOp): NpcDefaultEvents.Ap =
+        when (op) {
+            InteractionOp.Op1 -> NpcDefaultEvents.Ap1(this)
+            InteractionOp.Op2 -> NpcDefaultEvents.Ap2(this)
+            InteractionOp.Op3 -> NpcDefaultEvents.Ap3(this)
+            InteractionOp.Op4 -> NpcDefaultEvents.Ap4(this)
+            InteractionOp.Op5 -> NpcDefaultEvents.Ap5(this)
+        }
+
+    private fun UnpackedNpcType.multiVarValue(vars: VarPlayerIntMap): Int? {
+        if (multiVarp > 0) {
+            val varp = varpTypes[multiVarp] ?: return null
+            return vars[varp]
+        } else if (multiVarBit > 0) {
+            val varBit = varBitTypes[multiVarBit] ?: return null
+            val packed = vars[varBit.baseVar]
+            return packed.getBits(varBit.bits)
+        }
+        return null
+    }
+
+    public fun hasOp(npc: Npc, vars: VarPlayerIntMap, op: InteractionOp): Boolean {
+        val multiNpc = multiNpc(npc.visType, vars)
+        if (multiNpc != null) {
+            val multiNpcType = npcTypes[multiNpc]
+            return multiNpcType.hasOp(op)
+        }
+        return npc.visType.hasOp(op)
+    }
+}

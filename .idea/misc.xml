@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="EntryPointsManager">
-    <pattern value="org.rsmod.plugin.scripts.PluginScript" hierarchically="true" />
+    <pattern value="org.runerealm.plugin.scripts.PluginScript" hierarchically="true" />
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">

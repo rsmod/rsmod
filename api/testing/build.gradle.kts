@@ -40,6 +40,7 @@ dependencies {
     implementation(projects.api.account)
     implementation(projects.api.cache)
     implementation(projects.api.db)
+    implementation(projects.api.dropTable)
     implementation(projects.api.gameProcess)
     implementation(projects.api.invPlugin)
     implementation(projects.api.market)

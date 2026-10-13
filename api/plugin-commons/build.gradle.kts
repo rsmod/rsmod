@@ -14,6 +14,7 @@ dependencies {
     api(projects.api.config)
     api(projects.api.controller)
     api(projects.api.death)
+    api(projects.api.freeze)
     api(projects.api.gameProcess)
     api(projects.api.hunt)
     api(projects.api.invtx)

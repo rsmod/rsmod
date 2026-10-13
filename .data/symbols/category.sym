@@ -24,8 +24,20 @@
 106	chargebow
 149	rune
 152	cooking_fire
+163	gem_rocks
 189	regular_cut_tree
+196	copper_rocks
+197	adamantite_rocks
+198	tin_rocks
+199	gold_rocks
+200	coal_rocks
+201	clay_rocks
 202	runite_rocks
+215	furnace
+218	iron_rocks
+227	depleted_rocks
+252	mithril_rocks
+285	silver_rocks
 408	vampyres
 555	arrows_training
 567	ballista
@@ -34,8 +46,13 @@
 601	javelin
 687	cooking_range
 701	dragon_arrow
+749	blurite_rocks
+772	anvil
+918	lovakite_rocks
+967	amethyst_rocks
 1014	dinhs_bulwark
 1176	cannonball
+1342	soft_clay_rocks
 1582	araxyte
 1915	atlatl_dart
 

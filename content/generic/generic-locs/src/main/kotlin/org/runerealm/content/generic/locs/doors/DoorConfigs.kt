@@ -1,0 +1,83 @@
+package org.runerealm.content.generic.locs.doors
+
+import org.runerealm.api.config.refs.content
+import org.runerealm.api.config.refs.params
+import org.runerealm.api.config.refs.synths
+import org.runerealm.api.type.editors.loc.LocEditor
+import org.runerealm.api.type.refs.loc.LocReferences
+
+internal typealias door_locs = DoorLocs
+
+internal object DoorConstants {
+    /** The (cycle) duration that a door remains changed before reverting to its original state. */
+    const val DURATION = 500
+}
+
+internal object DoorLocs : LocReferences() {
+    val door_opened = find("poordooropen", 5065226005806317467)
+    val door_closed = find("poordoor", 1827052337340400340)
+    val poordoor_closed = find("poordoor_m", 1827052337340455181)
+    val poordoor_opened = find("poordooropen_m", 5065226005806372308)
+    val poshdoor_closed = find("poshdoor", 1827052337340400345)
+    val poshdoor_opened = find("poshdooropen", 5065226005806317472)
+    val door_left_closed = find("castledoubledoorl", 8682664997836417386)
+    val door_left_opened = find("opencastledoubledoorl", 2697466629447558705)
+    val door_right_closed = find("castledoubledoorr", 8682664997836417389)
+    val door_right_opened = find("opencastledoubledoorr", 2697466629447558708)
+}
+
+internal object DoorLocEdits : LocEditor() {
+    init {
+        edit(door_locs.door_opened) {
+            param[params.next_loc_stage] = door_locs.door_closed
+            contentGroup = content.opened_single_door
+        }
+
+        edit(door_locs.door_closed) {
+            param[params.next_loc_stage] = door_locs.door_opened
+            contentGroup = content.closed_single_door
+        }
+
+        edit(door_locs.poordoor_opened) {
+            param[params.next_loc_stage] = door_locs.poordoor_closed
+            contentGroup = content.opened_single_door
+        }
+
+        edit(door_locs.poordoor_closed) {
+            param[params.next_loc_stage] = door_locs.poordoor_opened
+            contentGroup = content.closed_single_door
+        }
+
+        edit(door_locs.poshdoor_opened) {
+            param[params.next_loc_stage] = door_locs.poshdoor_closed
+            param[params.closesound] = synths.nicedoor_close
+            contentGroup = content.opened_single_door
+        }
+
+        edit(door_locs.poshdoor_closed) {
+            param[params.next_loc_stage] = door_locs.poshdoor_opened
+            param[params.opensound] = synths.nicedoor_open
+            contentGroup = content.closed_single_door
+        }
+
+        edit(door_locs.door_left_closed) {
+            param[params.next_loc_stage] = door_locs.door_left_opened
+            contentGroup = content.closed_left_door
+        }
+
+        edit(door_locs.door_left_opened) {
+            param[params.next_loc_stage] = door_locs.door_left_closed
+            contentGroup = content.opened_left_door
+        }
+
+        edit(door_locs.door_right_closed) {
+            param[params.next_loc_stage] = door_locs.door_right_opened
+            contentGroup = content.closed_right_door
+        }
+
+        edit(door_locs.door_right_opened) {
+            param[params.next_loc_stage] = door_locs.door_right_closed
+            contentGroup = content.opened_right_door
+        }
+    }
+}

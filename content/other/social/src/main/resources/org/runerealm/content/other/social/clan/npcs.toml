@@ -1,0 +1,4 @@
+# The Clerk in the Clan Hub, south-east corner of the Grand Exchange (3182, 3471).
+[[spawn]]
+npc = 'clan_clerk'
+coords = '0_49_54_46_15'

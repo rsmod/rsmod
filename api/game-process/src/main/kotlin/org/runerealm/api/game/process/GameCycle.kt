@@ -1,0 +1,68 @@
+package org.runerealm.api.game.process
+
+import jakarta.inject.Inject
+import org.runerealm.api.game.process.controller.ControllerMainProcess
+import org.runerealm.api.game.process.npc.NpcMainProcess
+import org.runerealm.api.game.process.npc.NpcPreTickProcess
+import org.runerealm.api.game.process.player.PlayerIdShuffleProcess
+import org.runerealm.api.game.process.player.PlayerInputProcess
+import org.runerealm.api.game.process.player.PlayerLoginProcess
+import org.runerealm.api.game.process.player.PlayerLogoutProcess
+import org.runerealm.api.game.process.player.PlayerMainProcess
+import org.runerealm.api.game.process.player.PlayerPostTickProcess
+import org.runerealm.api.game.process.player.PlayerRouteRequestProcess
+import org.runerealm.api.game.process.world.WorldMainTickProcess
+import org.runerealm.api.game.process.world.WorldPostTickProcess
+import org.runerealm.events.EventBus
+import org.runerealm.game.MapClock
+
+public data class GameCycle
+@Inject
+constructor(
+    private val eventBus: EventBus,
+    private val mapClock: MapClock,
+    private val worldMain: WorldMainTickProcess,
+    private val npcPreTick: NpcPreTickProcess,
+    private val playerShuffle: PlayerIdShuffleProcess,
+    private val playerInput: PlayerInputProcess,
+    private val playerRouteRequest: PlayerRouteRequestProcess,
+    private val npcMain: NpcMainProcess,
+    private val controllerMain: ControllerMainProcess,
+    private val playerMain: PlayerMainProcess,
+    private val playerLogout: PlayerLogoutProcess,
+    private val playerLogin: PlayerLoginProcess,
+    private val worldPostTick: WorldPostTickProcess,
+    private val playerPostTick: PlayerPostTickProcess,
+) {
+    public fun tick() {
+        eventBus.publish(GameLifecycle.StartCycle)
+        preTick()
+        mapClock.tick()
+        eventBus.publish(GameLifecycle.LateCycle)
+        postTick()
+        eventBus.publish(GameLifecycle.EndCycle)
+    }
+
+    private fun preTick() {
+        worldMain.process()
+        npcPreTick.process()
+        playerShuffle.process()
+        playerInput.process()
+        playerRouteRequest.process()
+        npcMain.process()
+        controllerMain.process()
+        playerMain.process()
+        playerLogout.process()
+        playerLogin.process()
+    }
+
+    /*
+     * Making an educated guess that these processes occur _after_ the map clock cycles. Drew this
+     * conclusion due to some clues, like `loc_del`. i.e., `loc_del(100)` will actually trigger
+     * after 99 cycles, not 100.
+     */
+    private fun postTick() {
+        worldPostTick.process()
+        playerPostTick.process()
+    }
+}

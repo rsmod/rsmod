@@ -1,0 +1,53 @@
+package org.runerealm.api.cache.types.param
+
+import io.netty.buffer.ByteBuf
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap
+import java.io.IOException
+import org.openrs2.buffer.readString
+import org.openrs2.buffer.use
+import org.openrs2.cache.Cache
+import org.runerealm.api.cache.Js5Archives
+import org.runerealm.api.cache.Js5Configs
+import org.runerealm.api.cache.util.TextUtil
+import org.runerealm.game.type.TypeResolver
+import org.runerealm.game.type.param.ParamTypeBuilder
+import org.runerealm.game.type.param.ParamTypeList
+import org.runerealm.game.type.param.UnpackedParamType
+
+public object ParamTypeDecoder {
+    public fun decodeAll(cache: Cache): ParamTypeList {
+        val types = Int2ObjectOpenHashMap<UnpackedParamType<Any>>()
+        val files = cache.list(Js5Archives.CONFIG, Js5Configs.PARAM)
+        for (file in files) {
+            val data = cache.read(Js5Archives.CONFIG, Js5Configs.PARAM, file.id)
+            val type = data.use { decode(it).build(file.id) }
+            types[file.id] = type.apply { TypeResolver[this] = file.id }
+        }
+        return ParamTypeList(types)
+    }
+
+    public fun decode(data: ByteBuf): ParamTypeBuilder<Any> {
+        val builder = ParamTypeBuilder(Any::class)
+        builder.internal = TextUtil.NULL
+        while (data.isReadable) {
+            val code = data.readUnsignedByte().toInt()
+            if (code == 0) {
+                break
+            }
+            decode(builder, data, code)
+        }
+        return builder
+    }
+
+    public fun decode(builder: ParamTypeBuilder<Any>, data: ByteBuf, code: Int): Unit =
+        with(builder) {
+            when (code) {
+                1 -> typeCharId = data.readUnsignedByte().toInt().toChar()
+                2 -> defaultInt = data.readInt()
+                4 -> autoDisable = false
+                5 -> defaultStr = data.readString()
+                200 -> transmit = false
+                else -> throw IOException("Error unrecognised .param config code: $code")
+            }
+        }
+}

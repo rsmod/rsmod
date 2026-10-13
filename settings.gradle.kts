@@ -1,7 +1,7 @@
 import java.nio.file.Files
 import java.nio.file.Path
 
-rootProject.name = "rsmod"
+rootProject.name = "runerealm"
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 

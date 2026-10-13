@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="RuneRealm Classes" pattern="src:org.runerealm..*||test:org.runerealm..*" />
+</component>

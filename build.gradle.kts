@@ -5,7 +5,7 @@ plugins {
 }
 
 allprojects {
-    group = "org.rsmod"
+    group = "org.runerealm"
     version = "0.0.1"
 }
 
@@ -15,16 +15,16 @@ dependencies {
 
 tasks.register("run") {
     group = "application"
-    description = "Runs the RS Mod game server"
+    description = "Runs the RuneRealm game server"
 
     dependsOn(":server:app:run")
 }
 
 tasks.register<JavaExec>("install") {
     group = "installation"
-    description = "Runs the complete RS Mod server installation task."
+    description = "Runs the complete RuneRealm server installation task."
 
-    mainClass.set("org.rsmod.server.install.GameServerInstallKt")
+    mainClass.set("org.runerealm.server.install.GameServerInstallKt")
     classpath = sourceSets["main"].runtimeClasspath
 
     doLast { logger.lifecycle("Installation process completed.") }
@@ -32,10 +32,10 @@ tasks.register<JavaExec>("install") {
 
 tasks.register<JavaExec>("cleanInstall") {
     group = "installation"
-    description = "Cleans up any partial or corrupted artifacts from previous RS Mod installations."
+    description = "Cleans up any partial or corrupted artifacts from previous RuneRealm installations."
 
-    args = getArgsFromProperty("rsmodInstallClean")
-    mainClass.set("org.rsmod.server.install.GameServerCleanInstallKt")
+    args = getArgsFromProperty("runerealmInstallClean")
+    mainClass.set("org.runerealm.server.install.GameServerCleanInstallKt")
     classpath = sourceSets["main"].runtimeClasspath
 
     doFirst { logger.lifecycle("Starting clean up of any previous installation attempts...") }
@@ -47,7 +47,7 @@ tasks.register<JavaExec>("downloadCache") {
     description = "Runs the cache download & extract task."
 
     args = getArgsFromProperty("cacheDownload")
-    mainClass.set("org.rsmod.server.install.GameServerCacheDownloaderKt")
+    mainClass.set("org.runerealm.server.install.GameServerCacheDownloaderKt")
     classpath = sourceSets["main"].runtimeClasspath
 
     doFirst { logger.lifecycle("Starting the cache download process...") }
@@ -59,7 +59,7 @@ tasks.register<JavaExec>("packCache") {
     description = "Runs the cache packer task."
 
     args = getArgsFromProperty("cachePack")
-    mainClass.set("org.rsmod.server.install.GameServerCachePackerKt")
+    mainClass.set("org.runerealm.server.install.GameServerCachePackerKt")
     classpath = sourceSets["main"].runtimeClasspath
 
     doFirst { logger.lifecycle("Starting the cache-packing process...") }
@@ -71,7 +71,7 @@ tasks.register<JavaExec>("generateRsa") {
     description = "Runs the rsa-key generation task."
 
     args = getArgsFromProperty("rsa")
-    mainClass.set("org.rsmod.server.install.GameNetworkRsaGeneratorKt")
+    mainClass.set("org.runerealm.server.install.GameNetworkRsaGeneratorKt")
     classpath = sourceSets["main"].runtimeClasspath
 
     doFirst { logger.lifecycle("Starting the rsa-key generation process...") }
@@ -81,7 +81,7 @@ tasks.register<JavaExec>("generateRsa") {
 tasks.register<JavaExec>("setupLogbackNovice") {
     description = "Copies the novice logback configuration."
 
-    mainClass.set("org.rsmod.server.install.GameServerLogbackCopyKt")
+    mainClass.set("org.runerealm.server.install.GameServerLogbackCopyKt")
     classpath = sourceSets["main"].runtimeClasspath
 
     doFirst { logger.lifecycle("Starting logback copy for novice configuration...") }
@@ -91,7 +91,7 @@ tasks.register<JavaExec>("setupLogbackNovice") {
 tasks.register<JavaExec>("setupLogbackAdvanced") {
     description = "Copies the novice logback configuration."
 
-    mainClass.set("org.rsmod.server.install.GameServerLogbackCopyKt")
+    mainClass.set("org.runerealm.server.install.GameServerLogbackCopyKt")
     classpath = sourceSets["main"].runtimeClasspath
     args = listOf("--advanced-logback")
 

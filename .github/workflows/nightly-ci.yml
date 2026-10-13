@@ -27,7 +27,7 @@ jobs:
         with:
           validate-wrappers: true
 
-      - name: Set up RS Mod
+      - name: Set up RuneRealm
         run: ./gradlew install
 
       - name: Run Integration Tests

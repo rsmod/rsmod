@@ -1,0 +1,72 @@
+package org.runerealm.api.game.process.npc
+
+import jakarta.inject.Inject
+import org.runerealm.api.npc.access.StandardNpcAccessLauncher
+import org.runerealm.api.npc.events.NpcQueueEvents
+import org.runerealm.events.EventBus
+import org.runerealm.game.entity.Npc
+import org.runerealm.game.queue.NpcQueueList
+import org.runerealm.game.type.npc.UnpackedNpcType
+
+public class NpcQueueProcessor
+@Inject
+constructor(private val eventBus: EventBus, private val accessLauncher: StandardNpcAccessLauncher) {
+    public fun process(npc: Npc) {
+        npc.publishExpiredQueues()
+    }
+
+    private fun Npc.publishExpiredQueues() {
+        while (queueList.isNotEmpty) {
+            var processedNone = true
+
+            val iterator = queueList.iterator() ?: break
+            while (iterator.hasNext()) {
+                val queue = iterator.next()
+
+                if (queue.processedCycle != currentMapClock) {
+                    queue.processedCycle = currentMapClock
+                    queue.remainingCycles--
+                }
+
+                if (queue.remainingCycles > 0) {
+                    continue
+                }
+
+                if (!isBusy) {
+                    processedNone = false
+                    iterator.remove()
+                    publishEvent(queue)
+                }
+            }
+            iterator.cleanUp()
+
+            if (processedNone || queueList.size == 1) {
+                break
+            }
+        }
+    }
+
+    private fun Npc.publishEvent(queue: NpcQueueList.Queue, type: UnpackedNpcType = visType) {
+        val packedType = EventBus.composeLongKey(type.id, queue.id)
+        val typeTrigger = eventBus.suspend[NpcQueueEvents.Type::class.java, packedType]
+        if (typeTrigger != null) {
+            val event = NpcQueueEvents.Type(this, queue.args, queue.id)
+            accessLauncher.launch(this) { typeTrigger(event) }
+            return
+        }
+
+        if (type.contentGroup != -1) {
+            val packedContentGroup = EventBus.composeLongKey(type.contentGroup, queue.id)
+            val contentTrigger =
+                eventBus.suspend[NpcQueueEvents.Content::class.java, packedContentGroup]
+            if (contentTrigger != null) {
+                val event = NpcQueueEvents.Content(this, queue.args, type.contentGroup, queue.id)
+                accessLauncher.launch(this) { contentTrigger(event) }
+                return
+            }
+        }
+
+        val event = NpcQueueEvents.Default(this, queue.args, queue.id)
+        accessLauncher.launch(this) { eventBus.publish(this, event) }
+    }
+}

@@ -1,0 +1,75 @@
+package org.runerealm.content.generic.npcs.sheep
+
+import jakarta.inject.Inject
+import org.runerealm.api.config.refs.content
+import org.runerealm.api.config.refs.objs
+import org.runerealm.api.config.refs.params
+import org.runerealm.api.config.refs.queues
+import org.runerealm.api.config.refs.seqs
+import org.runerealm.api.config.refs.synths
+import org.runerealm.api.npc.access.StandardNpcAccess
+import org.runerealm.api.player.protect.ProtectedAccess
+import org.runerealm.api.random.GameRandom
+import org.runerealm.api.repo.obj.ObjRepository
+import org.runerealm.api.repo.world.WorldRepository
+import org.runerealm.api.script.onAiTimer
+import org.runerealm.api.script.onNpcQueue
+import org.runerealm.api.script.onOpNpc1
+import org.runerealm.api.script.onOpNpcU
+import org.runerealm.game.entity.Npc
+import org.runerealm.plugin.scripts.PluginScript
+import org.runerealm.plugin.scripts.ScriptContext
+
+class Sheep
+@Inject
+constructor(
+    private val objRepo: ObjRepository,
+    private val worldRepo: WorldRepository,
+    private val random: GameRandom,
+) : PluginScript() {
+    override fun ScriptContext.startup() {
+        onAiTimer(content.sheep) { npc.sheepTimer() }
+        onOpNpc1(content.sheep) { shearSheep(it.npc) }
+        onOpNpcU(content.sheep, objs.shears) { shearSheep(it.npc) }
+
+        onAiTimer(content.sheared_sheep) { npc.sheepTimer() }
+        onNpcQueue(content.sheared_sheep, queues.generic_queue1) { queueTransmogReset() }
+    }
+
+    private fun Npc.sheepTimer() {
+        val next = random.of(15..34)
+        aiTimer(next)
+
+        if (random.randomBoolean(4)) {
+            sayFlavourText()
+        }
+    }
+
+    private fun Npc.sayFlavourText() {
+        worldRepo.soundArea(coords, synths.sheep_atmospheric1)
+        say("Baa!")
+    }
+
+    private suspend fun ProtectedAccess.shearSheep(npc: Npc) {
+        if (objs.shears !in inv) {
+            mes("You need a set of shears to do this.")
+            return
+        }
+        val sheared = npcParam(npc, params.next_npc_stage)
+        anim(seqs.human_shearing)
+        soundSynth(synths.shear_sheep, delay = 10)
+        faceEntitySquare(npc)
+        delay(1)
+        npcPlayerFaceClose(npc)
+        delay(1)
+        npcChangeType(npc, sheared, duration = 50)
+        mes("You get some wool.")
+        invAddOrDrop(objRepo, objs.wool)
+        npc.queue(queues.generic_queue1, cycles = 1)
+    }
+
+    private fun StandardNpcAccess.queueTransmogReset() {
+        resetMode()
+        npc.sayFlavourText()
+    }
+}

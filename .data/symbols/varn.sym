@@ -4,3 +4,5 @@
 3	attacking_player
 4	lastattack
 5	flat_armour
+6	freeze_end
+7	freeze_immunity_end

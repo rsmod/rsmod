@@ -23,7 +23,7 @@ publishing {
         version = project.version.toString()
         pom {
             packaging = "jar"
-            name.set("RS Mod Routefinder")
+            name.set("RuneRealm Routefinder")
             description.set("A custom BFS pathfinder implementation to emulate RS.")
         }
     }

@@ -2278,6 +2278,19 @@
 4846	dom_previous_deepest_level
 4848	collection_count_unsynced
 
+65491	gravestone_ticks_left
+65492	ring_of_forging_charges
+65493	freeze_source
+65494	freeze_immunity_end
+65495	freeze_end
+65496	protect_prayers_disabled_end
+65497	esc_closes_default_applied
+65498	wilderness_inside
+65499	aide_tutor_last_claim
+65500	prayer_bury_delay
+65501	consumable_combo_delay
+65502	consumable_potion_delay
+65503	consumable_food_delay
 65504	music_playlist
 65505	music_temp_state_3
 65506	music_temp_state_2

@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.rsmod:rsmod-routefinder:6.1.0")
+    implementation("org.runerealm:runerealm-routefinder:6.1.0")
 }
 ```
 
@@ -41,7 +41,7 @@ as roofs and bridges - should call the helper functions:
 in order to add or remove, respectively, the `mask` flag data.
 
 ## Performance
-**Benchmark sources:** [org/rsmod/routefinder/benchmarks/][benchmark]
+**Benchmark sources:** [org/runerealm/routefinder/benchmarks/][benchmark]
 
 ### Machine Specs
 - **OS:** Windows 10 Pro (64-bit)
@@ -81,8 +81,8 @@ This project is available under the terms of the ISC license, which is similar t
 [isc]: https://opensource.org/licenses/ISC
 [license]: https://github.com/rsmod/rsmod/blob/main/LICENSE.md
 [license-badge]: https://img.shields.io/badge/license-ISC-informational
-[maven]: https://maven-badges.herokuapp.com/maven-central/org.rsmod/rsmod-routefinder
-[maven-badge]: https://maven-badges.herokuapp.com/maven-central/org.rsmod/rsmod-routefinder/badge.svg
+[maven]: https://maven-badges.herokuapp.com/maven-central/org.runerealm/runerealm-routefinder
+[maven-badge]: https://maven-badges.herokuapp.com/maven-central/org.runerealm/runerealm-routefinder/badge.svg
 [bfs]: https://en.wikipedia.org/wiki/Breadth-first_search
 [github]: https://github.com/rsmod/rsmod
-[benchmark]: https://github.com/rsmod/rsmod/tree/main/engine/routefinder/src/jmh/kotlin/org/rsmod/routefinder/benchmarks
+[benchmark]: https://github.com/rsmod/rsmod/tree/main/engine/routefinder/src/jmh/kotlin/org/runerealm/routefinder/benchmarks

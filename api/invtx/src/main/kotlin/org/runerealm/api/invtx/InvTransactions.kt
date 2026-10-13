@@ -1,0 +1,105 @@
+package org.runerealm.api.invtx
+
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
+import org.runerealm.game.inv.InvObj
+import org.runerealm.game.type.obj.Dummyitem
+import org.runerealm.game.type.obj.ObjTypeList
+import org.runerealm.game.type.obj.UnpackedObjType
+import org.runerealm.game.type.util.UncheckedType
+import org.runerealm.objtx.Transaction
+import org.runerealm.objtx.TransactionCancellation
+import org.runerealm.objtx.TransactionObj
+import org.runerealm.objtx.TransactionObjTemplate
+import org.runerealm.objtx.TransactionResultList
+
+public class InvTransactions(
+    public val certLookup: Map<Int, TransactionObjTemplate>,
+    public val transformLookup: Map<Int, TransactionObjTemplate>,
+    public val placeholderLookup: Map<Int, TransactionObjTemplate>,
+    public val stackableLookup: Set<Int>,
+    public val dummyitemLookup: Set<Int>,
+) {
+    public fun transaction(
+        autoCommit: Boolean,
+        init: Transaction<InvObj>.() -> Unit,
+    ): TransactionResultList<InvObj> {
+        contract { callsInPlace(init, InvocationKind.AT_MOST_ONCE) }
+        val transaction =
+            Transaction(input = InvObj?::toTransactionObj, output = TransactionObj?::toObj)
+        transaction.autoCommit = autoCommit
+        transaction.certLookup = certLookup
+        transaction.transformLookup = transformLookup
+        transaction.placeholderLookup = placeholderLookup
+        transaction.stackableLookup = stackableLookup
+        transaction.dummyitemLookup = dummyitemLookup
+        try {
+            transaction.apply(init)
+        } catch (_: TransactionCancellation) {
+            /* cancellation is normal */
+        }
+        val results = transaction.results()
+        if (results.success && transaction.autoCommit) {
+            results.commitAll()
+        }
+        return results
+    }
+
+    public companion object {
+        public fun from(types: ObjTypeList): InvTransactions {
+            val certLookup = types.values.toCertLookup()
+            val transformLookup = types.values.toTransformLookup()
+            val placeholderLookup = types.values.toPlaceholderLookup()
+            val stackableLookup = types.values.toStackableLookup()
+            val dummyitemLookup = types.values.toDummyitemLookup()
+            return InvTransactions(
+                certLookup = Int2ObjectOpenHashMap(certLookup),
+                transformLookup = Int2ObjectOpenHashMap(transformLookup),
+                placeholderLookup = Int2ObjectOpenHashMap(placeholderLookup),
+                stackableLookup = IntOpenHashSet(stackableLookup),
+                dummyitemLookup = IntOpenHashSet(dummyitemLookup),
+            )
+        }
+
+        private fun Iterable<UnpackedObjType>.toCertLookup(): Map<Int, TransactionObjTemplate> =
+            filter { it.certlink != 0 }
+                .associate { it.id to TransactionObjTemplate(it.certlink, it.certtemplate) }
+
+        private fun Iterable<UnpackedObjType>.toTransformLookup():
+            Map<Int, TransactionObjTemplate> =
+            filter { it.transformlink != 0 }
+                .associate {
+                    it.id to TransactionObjTemplate(it.transformlink, it.transformtemplate)
+                }
+
+        private fun Iterable<UnpackedObjType>.toPlaceholderLookup():
+            Map<Int, TransactionObjTemplate> =
+            filter { it.placeholderlink != 0 }
+                .associate {
+                    it.id to TransactionObjTemplate(it.placeholderlink, it.placeholdertemplate)
+                }
+
+        private fun Iterable<UnpackedObjType>.toStackableLookup(): List<Int> =
+            filter(UnpackedObjType::stackable).map(UnpackedObjType::id)
+
+        private fun Iterable<UnpackedObjType>.toDummyitemLookup(): List<Int> =
+            filter { it.resolvedDummyitem == Dummyitem.GraphicOnly }.map(UnpackedObjType::id)
+    }
+}
+
+private fun InvObj?.toTransactionObj(): TransactionObj? =
+    if (this != null) {
+        TransactionObj(id, count, vars)
+    } else {
+        null
+    }
+
+@OptIn(UncheckedType::class)
+private fun TransactionObj?.toObj(): InvObj? =
+    if (this != null) {
+        InvObj(id, count, vars)
+    } else {
+        null
+    }

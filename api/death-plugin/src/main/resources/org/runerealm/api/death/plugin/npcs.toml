@@ -1,0 +1,4 @@
+# Death, at his desk in Death's Office (wiki map: 3180, 5727).
+[[spawn]]
+npc = 'death_office_death'
+coords = '0_49_89_44_31'

@@ -1,0 +1,236 @@
+package org.runerealm.content.interfaces.equipment.prices
+
+import jakarta.inject.Inject
+import org.runerealm.api.config.refs.invs
+import org.runerealm.api.config.refs.objs
+import org.runerealm.api.config.refs.synths
+import org.runerealm.api.invtx.invCompress
+import org.runerealm.api.invtx.invMoveAll
+import org.runerealm.api.market.MarketPrices
+import org.runerealm.api.player.output.ClientScripts.ifSetTextAlign
+import org.runerealm.api.player.output.objExamine
+import org.runerealm.api.player.output.runClientScript
+import org.runerealm.api.player.protect.ProtectedAccess
+import org.runerealm.api.player.protect.ProtectedAccessLauncher
+import org.runerealm.api.player.ui.ifClose
+import org.runerealm.api.player.ui.ifSetText
+import org.runerealm.api.script.onIfClose
+import org.runerealm.api.script.onIfModalButton
+import org.runerealm.api.script.onIfOverlayButton
+import org.runerealm.api.utils.format.formatAmount
+import org.runerealm.content.interfaces.equipment.configs.equip_components
+import org.runerealm.content.interfaces.equipment.configs.equip_interfaces
+import org.runerealm.events.EventBus
+import org.runerealm.game.entity.Player
+import org.runerealm.game.inv.InvObj
+import org.runerealm.game.type.interf.IfButtonOp
+import org.runerealm.game.type.interf.IfEvent
+import org.runerealm.game.type.obj.ObjTypeList
+import org.runerealm.game.type.obj.UnpackedObjType
+import org.runerealm.plugin.scripts.PluginScript
+import org.runerealm.plugin.scripts.ScriptContext
+
+class GuidePriceScript
+@Inject
+constructor(
+    private val objTypes: ObjTypeList,
+    private val eventBus: EventBus,
+    private val protectedAccess: ProtectedAccessLauncher,
+    private val marketPrices: MarketPrices,
+) : PluginScript() {
+    private val UnpackedObjType.price: Int
+        get() = marketPrices[this] ?: 1
+
+    override fun ScriptContext.startup() {
+        onIfOverlayButton(equip_components.guide_prices) { player.selectGuidePrices() }
+        onIfModalButton(equip_components.guide_prices_add_all) { addAllFromInv() }
+        onIfModalButton(equip_components.guide_prices_side_inv) { addFromSlot(it.comsub, it.op) }
+        onIfModalButton(equip_components.guide_prices_main_inv) { takeFromSlot(it.comsub, it.op) }
+        onIfModalButton(equip_components.guide_prices_search) { searchObj() }
+        onIfClose(equip_interfaces.guide_prices_main) { player.closeGuide() }
+    }
+
+    private fun Player.selectGuidePrices() {
+        ifClose(eventBus)
+        protectedAccess.launch(this) { openGuide() }
+    }
+
+    private fun ProtectedAccess.openGuide() {
+        invClear(tempInv)
+        invTransmit(tempInv)
+        invTransmit(inv)
+        ifOpenMainSidePair(
+            main = equip_interfaces.guide_prices_main,
+            side = equip_interfaces.guide_prices_side,
+        )
+        player.updateGuidePrices()
+        ifSetObj(equip_components.guide_prices_search_obj, objs.null_item_placeholder, zoom = 1)
+        ifSetEvents(
+            target = equip_components.guide_prices_main_inv,
+            range = tempInv.indices,
+            IfEvent.Op1,
+            IfEvent.Op2,
+            IfEvent.Op3,
+            IfEvent.Op4,
+            IfEvent.Op5,
+            IfEvent.Op10,
+        )
+        interfaceInvInit(
+            inv = inv,
+            target = equip_components.guide_prices_side_inv,
+            objRowCount = 4,
+            objColCount = 7,
+            op1 = "Add<col=ff9040>",
+            op2 = "Add-5<col=ff9040>",
+            op3 = "Add-10<col=ff9040>",
+            op4 = "Add-All<col=ff9040>",
+            op5 = "Add-X<col=ff9040>",
+        )
+        ifSetEvents(
+            target = equip_components.guide_prices_side_inv,
+            range = inv.indices,
+            IfEvent.Op1,
+            IfEvent.Op2,
+            IfEvent.Op3,
+            IfEvent.Op4,
+            IfEvent.Op5,
+            IfEvent.Op10,
+        )
+    }
+
+    private fun Player.updateGuidePrices() {
+        val tempInv =
+            checkNotNull(invMap[invs.tradeoffer]) {
+                "`tempInv` must be transmitted. (`startInvTransmit`)"
+            }
+        val priceList = tempInv.toPriceList()
+        updatePrices(priceList.prices)
+        updateTotalPrice(priceList.totalPrice)
+    }
+
+    private fun Player.updateTotalPrice(totalPrice: Long) {
+        val total = totalPrice.formatAmount
+        ifSetTextAlign(
+            player = this,
+            target = equip_components.guide_prices_total_price_text,
+            alignH = 1,
+            alignV = 1,
+            lineHeight = 15,
+        )
+        ifSetText(
+            target = equip_components.guide_prices_total_price_text,
+            text = "Total guide price:<br><col=ffffff>$total</col>",
+        )
+    }
+
+    private fun Player.updateSearchPrice(type: UnpackedObjType) {
+        ifSetTextAlign(
+            player = this,
+            target = equip_components.guide_prices_total_price_text,
+            alignH = 1,
+            alignV = 1,
+            lineHeight = 15,
+        )
+        ifSetText(
+            target = equip_components.guide_prices_total_price_text,
+            text = "${type.name}:<br><col=ffffff>${type.price.formatAmount} coins</col>",
+        )
+    }
+
+    private fun Player.updatePrices(priceList: List<Int>) {
+        check(priceList.size == 28) { "ClientScript takes 28 exact prices." }
+        runClientScript(785, *priceList.toTypedArray())
+    }
+
+    private fun Iterable<InvObj?>.toPriceList(): PriceList {
+        var total = 0L
+        val prices = mutableListOf<Int>()
+        for (obj in this) {
+            if (obj == null) {
+                prices += 0
+                continue
+            }
+            val type = objTypes[obj]
+            val price = type.price
+            total += price * obj.count.toLong()
+            prices += price
+        }
+        return PriceList(prices, total)
+    }
+
+    private suspend fun ProtectedAccess.searchObj() {
+        val search = objDialog("Select an item to ask about its price:")
+        ifSetObj(equip_components.guide_prices_search_obj, search, zoom = 1)
+        player.updateSearchPrice(search)
+    }
+
+    private fun ProtectedAccess.addAllFromInv() {
+        if (inv.isEmpty()) {
+            mes("You have no items that can be checked.")
+            soundSynth(synths.pillory_wrong)
+            return
+        }
+        val untradableSlots = inv.mapSlots { slot, obj -> obj != null && !ocTradable(obj) }
+        val transaction = invMoveInv(inv, tempInv, keepSlots = untradableSlots)
+
+        if (transaction.noneCompleted()) {
+            mes("You have items that cannot be traded.")
+            soundSynth(synths.pillory_wrong)
+            return
+        }
+
+        player.updateGuidePrices()
+    }
+
+    private suspend fun ProtectedAccess.addFromSlot(fromSlot: Int, op: IfButtonOp) {
+        val obj = inv[fromSlot] ?: return
+        if (op == IfButtonOp.Op10) {
+            player.examine(obj)
+            return
+        }
+
+        if (!ocTradable(obj)) {
+            mes("You cannot trade that item.")
+            return
+        }
+
+        val count = resolveCount(op) ?: error("Invalid op: $op (slot=$fromSlot)")
+        invMoveFromSlot(from = inv, into = tempInv, fromSlot = fromSlot, count = count)
+        player.updateGuidePrices()
+    }
+
+    private suspend fun ProtectedAccess.takeFromSlot(fromSlot: Int, op: IfButtonOp) {
+        if (op == IfButtonOp.Op10) {
+            val obj = tempInv[fromSlot] ?: return
+            player.examine(obj)
+            return
+        }
+        val count = resolveCount(op) ?: error("Invalid op: $op (slot=$fromSlot)")
+        invMoveFromSlot(from = tempInv, into = inv, fromSlot = fromSlot, count = count)
+        player.invCompress(tempInv)
+        player.updateGuidePrices()
+    }
+
+    private suspend fun ProtectedAccess.resolveCount(op: IfButtonOp): Int? =
+        when (op) {
+            IfButtonOp.Op1 -> 1
+            IfButtonOp.Op2 -> 5
+            IfButtonOp.Op3 -> 10
+            IfButtonOp.Op4 -> Int.MAX_VALUE
+            IfButtonOp.Op5 -> countDialog()
+            else -> null
+        }
+
+    private fun Player.closeGuide() {
+        val tempInv = invMap[invs.tradeoffer] ?: return
+        val result = invMoveAll(from = tempInv, into = inv)
+        check(result.success) { "Could not move `tempInv` into `inv`: $tempInv" }
+    }
+
+    private fun Player.examine(obj: InvObj) {
+        val type = objTypes[obj]
+        objExamine(type, obj.count, type.price)
+    }
+
+    private data class PriceList(val prices: List<Int>, val totalPrice: Long)
+}
